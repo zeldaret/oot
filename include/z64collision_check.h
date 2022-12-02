@@ -190,33 +190,27 @@ typedef struct {
  */
 
 typedef struct {
-    /* 0x00 */ ColliderElement base;
-    /* 0x28 */ Cylinder16 dim;
-} ColliderCylinderElement; // size = 0x34
-
-typedef struct {
-    /* 0x00 */ ColliderElementInit base;
-    /* 0x18 */ Cylinder16 dim;
-} ColliderCylinderElementInit; // size = 0x24
-
-typedef struct {
     /* 0x00 */ Collider base;
-    /* 0x18 */ ColliderCylinderElement element;
+    /* 0x18 */ ColliderElement elem;
+    /* 0x40 */ Cylinder16 dim;
 } ColliderCylinder; // size = 0x4C
 
 typedef struct {
     /* 0x00 */ ColliderInit base;
-    /* 0x08 */ ColliderCylinderElementInit element;
+    /* 0x08 */ ColliderElementInit elem;
+    /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInit; // size = 0x2C
 
 typedef struct {
     /* 0x00 */ ColliderInitType1 base;
-    /* 0x08 */ ColliderCylinderElementInit element;
+    /* 0x08 */ ColliderElementInit elem;
+    /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInitType1; // size = 0x2C
 
 typedef struct {
     /* 0x00 */ ColliderInitToActor base;
-    /* 0x08 */ ColliderCylinderElementInit element;
+    /* 0x08 */ ColliderElementInit elem;
+    /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInitToActor; // size = 0x2C
 
 /*

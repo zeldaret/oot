@@ -496,8 +496,8 @@ s32 Collider_SetCylinderDim(PlayState* play, Cylinder16* dest, Cylinder16* src) 
  */
 s32 Collider_InitCylinder(PlayState* play, ColliderCylinder* cyl) {
     Collider_InitBase(play, &cyl->base);
-    Collider_InitElement(play, &cyl->element.base);
-    Collider_InitCylinderDim(play, &cyl->element.dim);
+    Collider_InitElement(play, &cyl->elem);
+    Collider_InitCylinderDim(play, &cyl->dim);
     return true;
 }
 
@@ -506,8 +506,8 @@ s32 Collider_InitCylinder(PlayState* play, ColliderCylinder* cyl) {
  */
 s32 Collider_DestroyCylinder(PlayState* play, ColliderCylinder* cyl) {
     Collider_DestroyBase(play, &cyl->base);
-    Collider_DestroyElement(play, &cyl->element.base);
-    Collider_DestroyCylinderDim(play, &cyl->element.dim);
+    Collider_DestroyElement(play, &cyl->elem);
+    Collider_DestroyCylinderDim(play, &cyl->dim);
     return true;
 }
 
@@ -517,8 +517,8 @@ s32 Collider_DestroyCylinder(PlayState* play, ColliderCylinder* cyl) {
  */
 s32 Collider_SetCylinderToActor(PlayState* play, ColliderCylinder* dest, ColliderCylinderInitToActor* src) {
     Collider_SetBaseToActor(play, &dest->base, &src->base);
-    Collider_SetElement(play, &dest->element.base, &src->element.base);
-    Collider_SetCylinderDim(play, &dest->element.dim, &src->element.dim);
+    Collider_SetElement(play, &dest->elem, &src->elem);
+    Collider_SetCylinderDim(play, &dest->dim, &src->dim);
     return true;
 }
 
@@ -527,8 +527,8 @@ s32 Collider_SetCylinderToActor(PlayState* play, ColliderCylinder* dest, Collide
  */
 s32 Collider_SetCylinderType1(PlayState* play, ColliderCylinder* dest, Actor* actor, ColliderCylinderInitType1* src) {
     Collider_SetBaseType1(play, &dest->base, actor, &src->base);
-    Collider_SetElement(play, &dest->element.base, &src->element.base);
-    Collider_SetCylinderDim(play, &dest->element.dim, &src->element.dim);
+    Collider_SetElement(play, &dest->elem, &src->elem);
+    Collider_SetCylinderDim(play, &dest->dim, &src->dim);
     return true;
 }
 
@@ -537,8 +537,8 @@ s32 Collider_SetCylinderType1(PlayState* play, ColliderCylinder* dest, Actor* ac
  */
 s32 Collider_SetCylinder(PlayState* play, ColliderCylinder* dest, Actor* actor, ColliderCylinderInit* src) {
     Collider_SetBase(play, &dest->base, actor, &src->base);
-    Collider_SetElement(play, &dest->element.base, &src->element.base);
-    Collider_SetCylinderDim(play, &dest->element.dim, &src->element.dim);
+    Collider_SetElement(play, &dest->elem, &src->elem);
+    Collider_SetCylinderDim(play, &dest->dim, &src->dim);
     return true;
 }
 
@@ -549,7 +549,7 @@ s32 Collider_ResetCylinderAT(PlayState* play, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
     Collider_ResetATBase(play, &cyl->base);
-    Collider_ResetATElement(play, &cyl->element.base);
+    Collider_ResetATElement(play, &cyl->elem);
     return true;
 }
 
@@ -560,7 +560,7 @@ s32 Collider_ResetCylinderAC(PlayState* play, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
     Collider_ResetACBase(play, &cyl->base);
-    Collider_ResetACElement(play, &cyl->element.base);
+    Collider_ResetACElement(play, &cyl->elem);
     return true;
 }
 
@@ -571,7 +571,7 @@ s32 Collider_ResetCylinderOC(PlayState* play, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
     Collider_ResetOCBase(play, &cyl->base);
-    Collider_ResetOCElement(play, &cyl->element.base);
+    Collider_ResetOCElement(play, &cyl->elem);
     return true;
 }
 
@@ -1076,7 +1076,7 @@ void Collider_Draw(PlayState* play, Collider* col) {
 
         case COLSHAPE_CYLINDER:
             cyl = (ColliderCylinder*)col;
-            Math3D_DrawCylinder(play, &cyl->element.dim);
+            Math3D_DrawCylinder(play, &cyl->dim);
             break;
 
         case COLSHAPE_TRIS:
@@ -1795,19 +1795,18 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
     f32 overlapSize;
     f32 centerDist;
 
-    if (atJntSph->count > 0 && atJntSph->elements != NULL && acCyl->element.dim.radius > 0 &&
-        acCyl->element.dim.height > 0) {
-        if (CollisionCheck_SkipElementBump(&acCyl->element.base) == true) {
+    if (atJntSph->count > 0 && atJntSph->elements != NULL && acCyl->dim.radius > 0 && acCyl->dim.height > 0) {
+        if (CollisionCheck_SkipElementBump(&acCyl->elem) == true) {
             return;
         }
         for (atJntSphElem = atJntSph->elements; atJntSphElem < atJntSph->elements + atJntSph->count; atJntSphElem++) {
             if (CollisionCheck_SkipElementTouch(&atJntSphElem->base) == true) {
                 continue;
             }
-            if (CollisionCheck_NoSharedFlags(&atJntSphElem->base, &acCyl->element.base) == true) {
+            if (CollisionCheck_NoSharedFlags(&atJntSphElem->base, &acCyl->elem) == true) {
                 continue;
             }
-            if (Math3D_SphVsCylOverlapCenterDist(&atJntSphElem->dim.worldSphere, &acCyl->element.dim, &overlapSize,
+            if (Math3D_SphVsCylOverlapCenterDist(&atJntSphElem->dim.worldSphere, &acCyl->dim, &overlapSize,
                                                  &centerDist)) {
                 Vec3f hitPos;
                 Vec3f atPos;
@@ -1817,11 +1816,11 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 atPos.x = atJntSphElem->dim.worldSphere.center.x;
                 atPos.y = atJntSphElem->dim.worldSphere.center.y;
                 atPos.z = atJntSphElem->dim.worldSphere.center.z;
-                acPos.x = acCyl->element.dim.pos.x;
-                acPos.y = acCyl->element.dim.pos.y;
-                acPos.z = acCyl->element.dim.pos.z;
+                acPos.x = acCyl->dim.pos.x;
+                acPos.y = acCyl->dim.pos.y;
+                acPos.z = acCyl->dim.pos.z;
                 if (!IS_ZERO(centerDist)) {
-                    acToHit = acCyl->element.dim.radius / centerDist;
+                    acToHit = acCyl->dim.radius / centerDist;
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1832,8 +1831,8 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 } else {
                     Math_Vec3f_Copy(&hitPos, &atPos);
                 }
-                CollisionCheck_SetATvsAC(play, &atJntSph->base, &atJntSphElem->base, &atPos, &acCyl->base,
-                                         &acCyl->element.base, &acPos, &hitPos);
+                CollisionCheck_SetATvsAC(play, &atJntSph->base, &atJntSphElem->base, &atPos, &acCyl->base, &acCyl->elem,
+                                         &acPos, &hitPos);
                 return;
             }
         }
@@ -1848,28 +1847,27 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
     f32 centerDist;
     ColliderJntSphElement* acJntSphElem;
 
-    if (acJntSph->count > 0 && acJntSph->elements != NULL && atCyl->element.dim.radius > 0 &&
-        atCyl->element.dim.height > 0) {
-        if (CollisionCheck_SkipElementTouch(&atCyl->element.base) == true) {
+    if (acJntSph->count > 0 && acJntSph->elements != NULL && atCyl->dim.radius > 0 && atCyl->dim.height > 0) {
+        if (CollisionCheck_SkipElementTouch(&atCyl->elem) == true) {
             return;
         }
         for (acJntSphElem = acJntSph->elements; acJntSphElem < acJntSph->elements + acJntSph->count; acJntSphElem++) {
             if (CollisionCheck_SkipElementBump(&acJntSphElem->base) == true) {
                 continue;
             }
-            if (CollisionCheck_NoSharedFlags(&atCyl->element.base, &acJntSphElem->base) == true) {
+            if (CollisionCheck_NoSharedFlags(&atCyl->elem, &acJntSphElem->base) == true) {
                 continue;
             }
-            if (Math3D_SphVsCylOverlapCenterDist(&acJntSphElem->dim.worldSphere, &atCyl->element.dim, &overlapSize,
+            if (Math3D_SphVsCylOverlapCenterDist(&acJntSphElem->dim.worldSphere, &atCyl->dim, &overlapSize,
                                                  &centerDist)) {
                 Vec3f hitPos;
                 Vec3f atPos;
                 Vec3f acPos;
                 f32 acToHit;
 
-                atPos.x = atCyl->element.dim.pos.x;
-                atPos.y = atCyl->element.dim.pos.y;
-                atPos.z = atCyl->element.dim.pos.z;
+                atPos.x = atCyl->dim.pos.x;
+                atPos.y = atCyl->dim.pos.y;
+                atPos.z = atCyl->dim.pos.z;
                 acPos.x = acJntSphElem->dim.worldSphere.center.x;
                 acPos.y = acJntSphElem->dim.worldSphere.center.y;
                 acPos.z = acJntSphElem->dim.worldSphere.center.z;
@@ -1885,8 +1883,8 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                 } else {
                     Math_Vec3f_Copy(&hitPos, &atPos);
                 }
-                CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->element.base, &atPos, &acJntSph->base,
-                                         &acJntSphElem->base, &acPos, &hitPos);
+                CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->elem, &atPos, &acJntSph->base, &acJntSphElem->base,
+                                         &acPos, &hitPos);
                 if (!(acJntSph->base.ocFlags2 & OC2_FIRST_ONLY)) {
                     break;
                 }
@@ -2085,36 +2083,33 @@ void CollisionCheck_ATCylVsACCyl(PlayState* play, CollisionCheckContext* colChkC
     f32 centerDistXZ;
     Vec3f hitPos;
 
-    if (atCyl->element.dim.radius > 0 && atCyl->element.dim.height > 0 && acCyl->element.dim.radius > 0 &&
-        acCyl->element.dim.height > 0) {
-        if (CollisionCheck_SkipElementBump(&acCyl->element.base) == true) {
+    if (atCyl->dim.radius > 0 && atCyl->dim.height > 0 && acCyl->dim.radius > 0 && acCyl->dim.height > 0) {
+        if (CollisionCheck_SkipElementBump(&acCyl->elem) == true) {
             return;
         }
-        if (CollisionCheck_SkipElementTouch(&atCyl->element.base) == true) {
+        if (CollisionCheck_SkipElementTouch(&atCyl->elem) == true) {
             return;
         }
-        if (CollisionCheck_NoSharedFlags(&atCyl->element.base, &acCyl->element.base) == true) {
+        if (CollisionCheck_NoSharedFlags(&atCyl->elem, &acCyl->elem) == true) {
             return;
         }
-        if (Math3D_CylOutsideCylDist(&atCyl->element.dim, &acCyl->element.dim, &deadSpace, &centerDistXZ) == true) {
+        if (Math3D_CylOutsideCylDist(&atCyl->dim, &acCyl->dim, &deadSpace, &centerDistXZ) == true) {
             Vec3f atPos;
             Vec3f acPos;
             f32 acToHit;
 
-            Math_Vec3s_ToVec3f(&atPos, &atCyl->element.dim.pos);
-            Math_Vec3s_ToVec3f(&acPos, &acCyl->element.dim.pos);
+            Math_Vec3s_ToVec3f(&atPos, &atCyl->dim.pos);
+            Math_Vec3s_ToVec3f(&acPos, &acCyl->dim.pos);
             if (!IS_ZERO(centerDistXZ)) {
-                acToHit = acCyl->element.dim.radius / centerDistXZ;
-                hitPos.y = (f32)acCyl->element.dim.pos.y + acCyl->element.dim.yShift + acCyl->element.dim.height * 0.5f;
-                hitPos.x =
-                    ((f32)atCyl->element.dim.pos.x - acCyl->element.dim.pos.x) * acToHit + acCyl->element.dim.pos.x;
-                hitPos.z =
-                    ((f32)atCyl->element.dim.pos.z - acCyl->element.dim.pos.z) * acToHit + acCyl->element.dim.pos.z;
+                acToHit = acCyl->dim.radius / centerDistXZ;
+                hitPos.y = (f32)acCyl->dim.pos.y + acCyl->dim.yShift + acCyl->dim.height * 0.5f;
+                hitPos.x = ((f32)atCyl->dim.pos.x - acCyl->dim.pos.x) * acToHit + acCyl->dim.pos.x;
+                hitPos.z = ((f32)atCyl->dim.pos.z - acCyl->dim.pos.z) * acToHit + acCyl->dim.pos.z;
             } else {
-                Math_Vec3s_ToVec3f(&hitPos, &acCyl->element.dim.pos);
+                Math_Vec3s_ToVec3f(&hitPos, &acCyl->dim.pos);
             }
-            CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->element.base, &atPos, &acCyl->base,
-                                     &acCyl->element.base, &acPos, &hitPos);
+            CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->elem, &atPos, &acCyl->base, &acCyl->elem, &acPos,
+                                     &hitPos);
         }
     }
 }
@@ -2125,29 +2120,28 @@ void CollisionCheck_ATCylVsACTris(PlayState* play, CollisionCheckContext* colChk
     ColliderTrisElement* acTrisElem;
     Vec3f hitPos;
 
-    if (atCyl->element.dim.radius > 0 && atCyl->element.dim.height > 0 && acTris->count > 0 &&
-        acTris->elements != NULL) {
-        if (CollisionCheck_SkipElementTouch(&atCyl->element.base) == true) {
+    if (atCyl->dim.radius > 0 && atCyl->dim.height > 0 && acTris->count > 0 && acTris->elements != NULL) {
+        if (CollisionCheck_SkipElementTouch(&atCyl->elem) == true) {
             return;
         }
         for (acTrisElem = acTris->elements; acTrisElem < acTris->elements + acTris->count; acTrisElem++) {
             if (CollisionCheck_SkipElementBump(&acTrisElem->base) == true) {
                 continue;
             }
-            if (CollisionCheck_NoSharedFlags(&atCyl->element.base, &acTrisElem->base) == true) {
+            if (CollisionCheck_NoSharedFlags(&atCyl->elem, &acTrisElem->base) == true) {
                 continue;
             }
-            if (Math3D_CylTriVsIntersect(&atCyl->element.dim, &acTrisElem->dim, &hitPos) == true) {
+            if (Math3D_CylTriVsIntersect(&atCyl->dim, &acTrisElem->dim, &hitPos) == true) {
                 Vec3f atPos;
                 Vec3f acPos;
 
-                Math_Vec3s_ToVec3f(&atPos, &atCyl->element.dim.pos);
+                Math_Vec3s_ToVec3f(&atPos, &atCyl->dim.pos);
 
                 acPos.x = (acTrisElem->dim.vtx[0].x + acTrisElem->dim.vtx[1].x + acTrisElem->dim.vtx[2].x) * (1.0f / 3);
                 acPos.y = (acTrisElem->dim.vtx[0].y + acTrisElem->dim.vtx[1].y + acTrisElem->dim.vtx[2].y) * (1.0f / 3);
                 acPos.z = (acTrisElem->dim.vtx[0].z + acTrisElem->dim.vtx[1].z + acTrisElem->dim.vtx[2].z) * (1.0f / 3);
-                CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->element.base, &atPos, &acTris->base,
-                                         &acTrisElem->base, &acPos, &hitPos);
+                CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->elem, &atPos, &acTris->base, &acTrisElem->base,
+                                         &acPos, &hitPos);
                 return;
             }
         }
@@ -2162,26 +2156,25 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
     Vec3f atPos;
     Vec3f acPos;
 
-    if (acCyl->element.dim.radius > 0 && acCyl->element.dim.height > 0 && atTris->count > 0 &&
-        atTris->elements != NULL) {
-        if (CollisionCheck_SkipElementBump(&acCyl->element.base) == true) {
+    if (acCyl->dim.radius > 0 && acCyl->dim.height > 0 && atTris->count > 0 && atTris->elements != NULL) {
+        if (CollisionCheck_SkipElementBump(&acCyl->elem) == true) {
             return;
         }
         for (atTrisElem = atTris->elements; atTrisElem < atTris->elements + atTris->count; atTrisElem++) {
             if (CollisionCheck_SkipElementTouch(&atTrisElem->base) == true) {
                 continue;
             }
-            if (CollisionCheck_NoSharedFlags(&atTrisElem->base, &acCyl->element.base) == true) {
+            if (CollisionCheck_NoSharedFlags(&atTrisElem->base, &acCyl->elem) == true) {
                 continue;
             }
 
-            if (Math3D_CylTriVsIntersect(&acCyl->element.dim, &atTrisElem->dim, &hitPos) == true) {
+            if (Math3D_CylTriVsIntersect(&acCyl->dim, &atTrisElem->dim, &hitPos) == true) {
                 atPos.x = (atTrisElem->dim.vtx[0].x + atTrisElem->dim.vtx[1].x + atTrisElem->dim.vtx[2].x) * (1.0f / 3);
                 atPos.y = (atTrisElem->dim.vtx[0].y + atTrisElem->dim.vtx[1].y + atTrisElem->dim.vtx[2].y) * (1.0f / 3);
                 atPos.z = (atTrisElem->dim.vtx[0].z + atTrisElem->dim.vtx[1].z + atTrisElem->dim.vtx[2].z) * (1.0f / 3);
-                Math_Vec3s_ToVec3f(&acPos, &acCyl->element.dim.pos);
-                CollisionCheck_SetATvsAC(play, &atTris->base, &atTrisElem->base, &atPos, &acCyl->base,
-                                         &acCyl->element.base, &acPos, &hitPos);
+                Math_Vec3s_ToVec3f(&acPos, &acCyl->dim.pos);
+                CollisionCheck_SetATvsAC(play, &atTris->base, &atTrisElem->base, &atPos, &acCyl->base, &acCyl->elem,
+                                         &acPos, &hitPos);
                 return;
             }
         }
@@ -2195,21 +2188,21 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
     ColliderCylinder* atCyl = (ColliderCylinder*)atCol;
     ColliderQuad* acQuad = (ColliderQuad*)acCol;
 
-    if (atCyl->element.dim.height > 0 && atCyl->element.dim.radius > 0) {
-        if (CollisionCheck_SkipElementTouch(&atCyl->element.base) == true ||
+    if (atCyl->dim.height > 0 && atCyl->dim.radius > 0) {
+        if (CollisionCheck_SkipElementTouch(&atCyl->elem) == true ||
             CollisionCheck_SkipElementBump(&acQuad->elem) == true) {
             return;
         }
-        if (CollisionCheck_NoSharedFlags(&atCyl->element.base, &acQuad->elem) == true) {
+        if (CollisionCheck_NoSharedFlags(&atCyl->elem, &acQuad->elem) == true) {
             return;
         }
         Math3D_TriNorm(&tri1, &acQuad->dim.quad[2], &acQuad->dim.quad[3], &acQuad->dim.quad[1]);
         Math3D_TriNorm(&tri2, &acQuad->dim.quad[1], &acQuad->dim.quad[0], &acQuad->dim.quad[2]);
-        if (Math3D_CylTriVsIntersect(&atCyl->element.dim, &tri1, &hitPos) == true) {
+        if (Math3D_CylTriVsIntersect(&atCyl->dim, &tri1, &hitPos) == true) {
             Vec3f atPos1;
             Vec3f acPos1;
 
-            Math_Vec3s_ToVec3f(&atPos1, &atCyl->element.dim.pos);
+            Math_Vec3s_ToVec3f(&atPos1, &atCyl->dim.pos);
             acPos1.x =
                 (acQuad->dim.quad[0].x + (acQuad->dim.quad[1].x + (acQuad->dim.quad[3].x + acQuad->dim.quad[2].x))) /
                 4.0f;
@@ -2219,13 +2212,13 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
             acPos1.z =
                 (acQuad->dim.quad[0].z + (acQuad->dim.quad[1].z + (acQuad->dim.quad[3].z + acQuad->dim.quad[2].z))) /
                 4.0f;
-            CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->element.base, &atPos1, &acQuad->base, &acQuad->elem,
-                                     &acPos1, &hitPos);
-        } else if (Math3D_CylTriVsIntersect(&atCyl->element.dim, &tri2, &hitPos) == true) {
+            CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->elem, &atPos1, &acQuad->base, &acQuad->elem, &acPos1,
+                                     &hitPos);
+        } else if (Math3D_CylTriVsIntersect(&atCyl->dim, &tri2, &hitPos) == true) {
             Vec3f atPos2;
             Vec3f acPos2;
 
-            Math_Vec3s_ToVec3f(&atPos2, &atCyl->element.dim.pos);
+            Math_Vec3s_ToVec3f(&atPos2, &atCyl->dim.pos);
             acPos2.x =
                 (acQuad->dim.quad[0].x + (acQuad->dim.quad[1].x + (acQuad->dim.quad[3].x + acQuad->dim.quad[2].x))) /
                 4.0f;
@@ -2235,8 +2228,8 @@ void CollisionCheck_ATCylVsACQuad(PlayState* play, CollisionCheckContext* colChk
             acPos2.z =
                 (acQuad->dim.quad[0].z + (acQuad->dim.quad[1].z + (acQuad->dim.quad[3].z + acQuad->dim.quad[2].z))) /
                 4.0f;
-            CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->element.base, &atPos2, &acQuad->base, &acQuad->elem,
-                                     &acPos2, &hitPos);
+            CollisionCheck_SetATvsAC(play, &atCyl->base, &atCyl->elem, &atPos2, &acQuad->base, &acQuad->elem, &acPos2,
+                                     &hitPos);
         }
     }
 }
@@ -2251,17 +2244,17 @@ void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChk
     ColliderQuad* atQuad = (ColliderQuad*)atCol;
     ColliderCylinder* acCyl = (ColliderCylinder*)acCol;
 
-    if (acCyl->element.dim.height > 0 && acCyl->element.dim.radius > 0) {
-        if (CollisionCheck_SkipElementBump(&acCyl->element.base) == true ||
+    if (acCyl->dim.height > 0 && acCyl->dim.radius > 0) {
+        if (CollisionCheck_SkipElementBump(&acCyl->elem) == true ||
             CollisionCheck_SkipElementTouch(&atQuad->elem) == true) {
             return;
         }
-        if (CollisionCheck_NoSharedFlags(&atQuad->elem, &acCyl->element.base) == true) {
+        if (CollisionCheck_NoSharedFlags(&atQuad->elem, &acCyl->elem) == true) {
             return;
         }
         Math3D_TriNorm(&tri1, &atQuad->dim.quad[2], &atQuad->dim.quad[3], &atQuad->dim.quad[1]);
         Math3D_TriNorm(&tri2, &atQuad->dim.quad[2], &atQuad->dim.quad[1], &atQuad->dim.quad[0]);
-        if (Math3D_CylTriVsIntersect(&acCyl->element.dim, &tri1, &hitPos) == true) {
+        if (Math3D_CylTriVsIntersect(&acCyl->dim, &tri1, &hitPos) == true) {
             if (Collider_QuadSetNearestAC(play, atQuad, &hitPos)) {
                 Vec3f atPos1;
                 Vec3f acPos1;
@@ -2275,13 +2268,13 @@ void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChk
                 atPos1.z = (atQuad->dim.quad[0].z +
                             (atQuad->dim.quad[1].z + (atQuad->dim.quad[3].z + atQuad->dim.quad[2].z))) /
                            4.0f;
-                Math_Vec3s_ToVec3f(&acPos1, &acCyl->element.dim.pos);
-                CollisionCheck_SetATvsAC(play, &atQuad->base, &atQuad->elem, &atPos1, &acCyl->base,
-                                         &acCyl->element.base, &acPos1, &hitPos);
+                Math_Vec3s_ToVec3f(&acPos1, &acCyl->dim.pos);
+                CollisionCheck_SetATvsAC(play, &atQuad->base, &atQuad->elem, &atPos1, &acCyl->base, &acCyl->elem,
+                                         &acPos1, &hitPos);
                 return;
             }
         }
-        if (Math3D_CylTriVsIntersect(&acCyl->element.dim, &tri2, &hitPos) == true) {
+        if (Math3D_CylTriVsIntersect(&acCyl->dim, &tri2, &hitPos) == true) {
             if (Collider_QuadSetNearestAC(play, atQuad, &hitPos)) {
                 Vec3f atPos2;
                 Vec3f acPos2;
@@ -2295,9 +2288,9 @@ void CollisionCheck_ATQuadVsACCyl(PlayState* play, CollisionCheckContext* colChk
                 atPos2.z = (atQuad->dim.quad[0].z +
                             (atQuad->dim.quad[1].z + (atQuad->dim.quad[3].z + atQuad->dim.quad[2].z))) /
                            4.0f;
-                Math_Vec3s_ToVec3f(&acPos2, &acCyl->element.dim.pos);
-                CollisionCheck_SetATvsAC(play, &atQuad->base, &atQuad->elem, &atPos2, &acCyl->base,
-                                         &acCyl->element.base, &acPos2, &hitPos);
+                Math_Vec3s_ToVec3f(&acPos2, &acCyl->dim.pos);
+                CollisionCheck_SetATvsAC(play, &atQuad->base, &atQuad->elem, &atPos2, &acCyl->base, &acCyl->elem,
+                                         &acPos2, &hitPos);
             }
         }
     }
@@ -2537,12 +2530,11 @@ void CollisionCheck_SetCylHitFX(PlayState* play, CollisionCheckContext* colChkCt
     ColliderCylinder* cyl = (ColliderCylinder*)col;
     Vec3f hitPos;
 
-    if ((cyl->element.base.bumperFlags & BUMP_DRAW_HITMARK) && (cyl->element.base.acHitInfo != NULL) &&
-        !(cyl->element.base.acHitInfo->toucherFlags & TOUCH_DREW_HITMARK)) {
-        Math_Vec3s_ToVec3f(&hitPos, &cyl->element.base.bumper.hitPos);
-        CollisionCheck_HitEffects(play, cyl->element.base.acHit, cyl->element.base.acHitInfo, &cyl->base,
-                                  &cyl->element.base, &hitPos);
-        cyl->element.base.acHitInfo->toucherFlags |= TOUCH_DREW_HITMARK;
+    if ((cyl->elem.bumperFlags & BUMP_DRAW_HITMARK) && (cyl->elem.acHitInfo != NULL) &&
+        !(cyl->elem.acHitInfo->toucherFlags & TOUCH_DREW_HITMARK)) {
+        Math_Vec3s_ToVec3f(&hitPos, &cyl->elem.bumper.hitPos);
+        CollisionCheck_HitEffects(play, cyl->elem.acHit, cyl->elem.acHitInfo, &cyl->base, &cyl->elem, &hitPos);
+        cyl->elem.acHitInfo->toucherFlags |= TOUCH_DREW_HITMARK;
     }
 }
 
@@ -2837,21 +2829,20 @@ void CollisionCheck_OC_JntSphVsCyl(PlayState* play, CollisionCheckContext* colCh
     f32 overlap;
 
     if (leftJntSph->count > 0 && leftJntSph->elements != NULL) {
-        if ((rightCyl->base.ocFlags1 & OC1_ON) && (rightCyl->element.base.ocElemFlags & OCELEM_ON)) {
+        if ((rightCyl->base.ocFlags1 & OC1_ON) && (rightCyl->elem.ocElemFlags & OCELEM_ON)) {
             for (leftJntSphElem = leftJntSph->elements; leftJntSphElem < leftJntSph->elements + leftJntSph->count;
                  leftJntSphElem++) {
                 if (!(leftJntSphElem->base.ocElemFlags & OCELEM_ON)) {
                     continue;
                 }
-                if (Math3D_SphVsCylOverlapDist(&leftJntSphElem->dim.worldSphere, &rightCyl->element.dim, &overlap) ==
-                    true) {
+                if (Math3D_SphVsCylOverlapDist(&leftJntSphElem->dim.worldSphere, &rightCyl->dim, &overlap) == true) {
                     Vec3f leftPos;
                     Vec3f rightPos;
 
                     Math_Vec3s_ToVec3f(&leftPos, &leftJntSphElem->dim.worldSphere.center);
-                    Math_Vec3s_ToVec3f(&rightPos, &rightCyl->element.dim.pos);
+                    Math_Vec3s_ToVec3f(&rightPos, &rightCyl->dim.pos);
                     CollisionCheck_SetOCvsOC(&leftJntSph->base, &leftJntSphElem->base, &leftPos, &rightCyl->base,
-                                             &rightCyl->element.base, &rightPos, overlap);
+                                             &rightCyl->elem, &rightPos, overlap);
                 }
             }
         }
@@ -2870,15 +2861,15 @@ void CollisionCheck_OC_CylVsCyl(PlayState* play, CollisionCheckContext* colChkCt
     f32 deadSpace;
 
     if ((leftCyl->base.ocFlags1 & OC1_ON) && (rightCyl->base.ocFlags1 & OC1_ON)) {
-        if ((leftCyl->element.base.ocElemFlags & OCELEM_ON) && (rightCyl->element.base.ocElemFlags & OCELEM_ON)) {
-            if (Math3D_CylOutsideCyl(&leftCyl->element.dim, &rightCyl->element.dim, &deadSpace) == true) {
+        if ((leftCyl->elem.ocElemFlags & OCELEM_ON) && (rightCyl->elem.ocElemFlags & OCELEM_ON)) {
+            if (Math3D_CylOutsideCyl(&leftCyl->dim, &rightCyl->dim, &deadSpace) == true) {
                 Vec3f leftPos;
                 Vec3f rightPos;
 
-                Math_Vec3s_ToVec3f(&leftPos, &leftCyl->element.dim.pos);
-                Math_Vec3s_ToVec3f(&rightPos, &rightCyl->element.dim.pos);
-                CollisionCheck_SetOCvsOC(&leftCyl->base, &leftCyl->element.base, &leftPos, &rightCyl->base,
-                                         &rightCyl->element.base, &rightPos, deadSpace);
+                Math_Vec3s_ToVec3f(&leftPos, &leftCyl->dim.pos);
+                Math_Vec3s_ToVec3f(&rightPos, &rightCyl->dim.pos);
+                CollisionCheck_SetOCvsOC(&leftCyl->base, &leftCyl->elem, &leftPos, &rightCyl->base, &rightCyl->elem,
+                                         &rightPos, deadSpace);
             }
         }
     }
@@ -3099,7 +3090,7 @@ void CollisionCheck_ApplyDamageJntSph(PlayState* play, CollisionCheckContext* co
 void CollisionCheck_ApplyDamageCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* col) {
     ColliderCylinder* cyl = (ColliderCylinder*)col;
 
-    CollisionCheck_ApplyDamage(play, colChkCtx, &cyl->base, &cyl->element.base);
+    CollisionCheck_ApplyDamage(play, colChkCtx, &cyl->base, &cyl->elem);
 }
 
 /**
@@ -3183,10 +3174,10 @@ s32 CollisionCheck_LineOC_Cyl(PlayState* play, CollisionCheckContext* colChkCtx,
     static Vec3f intersectB;
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
 
-    if (!(cylinder->element.base.ocElemFlags & OCELEM_ON)) {
+    if (!(cylinder->elem.ocElemFlags & OCELEM_ON)) {
         return false;
     }
-    if (Math3D_CylVsLineSeg(&cylinder->element.dim, a, b, &intersectA, &intersectB) != 0) {
+    if (Math3D_CylVsLineSeg(&cylinder->dim, a, b, &intersectA, &intersectB) != 0) {
         return true;
     }
     return false;
@@ -3260,18 +3251,18 @@ s32 CollisionCheck_LineOCCheck(PlayState* play, CollisionCheckContext* colChkCtx
  * Moves the ColliderCylinder's position to the actor's position
  */
 void Collider_UpdateCylinder(Actor* actor, ColliderCylinder* cyl) {
-    cyl->element.dim.pos.x = actor->world.pos.x;
-    cyl->element.dim.pos.y = actor->world.pos.y;
-    cyl->element.dim.pos.z = actor->world.pos.z;
+    cyl->dim.pos.x = actor->world.pos.x;
+    cyl->dim.pos.y = actor->world.pos.y;
+    cyl->dim.pos.z = actor->world.pos.z;
 }
 
 /**
  * Sets the ColliderCylinder's position
  */
 void Collider_SetCylinderPosition(ColliderCylinder* cyl, Vec3s* pos) {
-    cyl->element.dim.pos.x = pos->x;
-    cyl->element.dim.pos.y = pos->y;
-    cyl->element.dim.pos.z = pos->z;
+    cyl->dim.pos.x = pos->x;
+    cyl->dim.pos.y = pos->y;
+    cyl->dim.pos.z = pos->z;
 }
 
 /**
