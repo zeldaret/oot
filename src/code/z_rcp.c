@@ -1472,14 +1472,16 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     if ((R_PAUSE_MENU_MODE < 2) && (gTrnsnUnkState < 2)) {
         s32 letterboxSize = Letterbox_GetSize();
 
-        if (HREG(80) == 16) {
-            if (HREG(95) != 16) {
-                HREG(81) = 3;
-                HREG(82) = 3;
-                HREG(83) = 0;
-                HREG(84) = 0;
-                HREG(85) = 0;
-                HREG(86) = 0;
+        if (R_HREG_MODE == HREG_MODE_SETUP_FRAME) {
+            if (R_SETUP_FRAME_INIT != HREG_MODE_SETUP_FRAME) {
+                R_SETUP_FRAME_GET = (SETUP_FRAME_LETTERBOX_SIZE_FLAG | SETUP_FRAME_BASE_COLOR_FLAG);
+                R_SETUP_FRAME_SET = (SETUP_FRAME_LETTERBOX_SIZE_FLAG | SETUP_FRAME_BASE_COLOR_FLAG);
+                R_SETUP_FRAME_LETTERBOX_SIZE = 0;
+                R_SETUP_FRAME_BASE_COLOR_R = 0;
+                R_SETUP_FRAME_BASE_COLOR_G = 0;
+                R_SETUP_FRAME_BASE_COLOR_B = 0;
+
+                // these regs are not used in this mode
                 HREG(87) = 0;
                 HREG(88) = 0;
                 HREG(89) = 0;
@@ -1488,27 +1490,28 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
                 HREG(92) = 0;
                 HREG(93) = 0;
                 HREG(94) = 0;
-                HREG(95) = 16;
+
+                R_SETUP_FRAME_INIT = HREG_MODE_SETUP_FRAME;
             }
 
-            if (HREG(81) & 1) {
-                HREG(83) = letterboxSize;
+            if (R_SETUP_FRAME_GET & SETUP_FRAME_LETTERBOX_SIZE_FLAG) {
+                R_SETUP_FRAME_LETTERBOX_SIZE = letterboxSize;
             }
 
-            if (HREG(81) & 2) {
-                HREG(84) = r;
-                HREG(85) = g;
-                HREG(86) = b;
+            if (R_SETUP_FRAME_GET & SETUP_FRAME_BASE_COLOR_FLAG) {
+                R_SETUP_FRAME_BASE_COLOR_R = r;
+                R_SETUP_FRAME_BASE_COLOR_G = g;
+                R_SETUP_FRAME_BASE_COLOR_B = b;
             }
 
-            if (HREG(82) & 1) {
-                letterboxSize = HREG(83);
+            if (R_SETUP_FRAME_SET & SETUP_FRAME_LETTERBOX_SIZE_FLAG) {
+                letterboxSize = R_SETUP_FRAME_LETTERBOX_SIZE;
             }
 
-            if (HREG(82) & 2) {
-                r = HREG(84);
-                g = HREG(85);
-                b = HREG(86);
+            if (R_SETUP_FRAME_SET & SETUP_FRAME_BASE_COLOR_FLAG) {
+                r = R_SETUP_FRAME_BASE_COLOR_R;
+                g = R_SETUP_FRAME_BASE_COLOR_G;
+                b = R_SETUP_FRAME_BASE_COLOR_B;
             }
         }
 

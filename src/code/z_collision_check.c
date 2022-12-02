@@ -1582,11 +1582,11 @@ s32 CollisionCheck_SwordHitAudio(Collider* atCol, ColliderElement* acElem) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &atCol->actor->projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acElem->elemType == ELEMTYPE_UNK2) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &atCol->actor->projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acElem->elemType == ELEMTYPE_UNK3) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &atCol->actor->projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_NONE, &atCol->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
     return true;

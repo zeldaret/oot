@@ -364,8 +364,9 @@ void BossGanon_Init(Actor* thisx, PlayState* play2) {
             this->organAlpha = 255;
         } else {
             cond = Flags_GetSwitch(play, 0x37) &&
-                   ((play->sceneId == SCENE_GANON_DEMO) || (play->sceneId == SCENE_GANON_FINAL) ||
-                    (play->sceneId == SCENE_GANON_SONOGO) || (play->sceneId == SCENE_GANONTIKA_SONOGO));
+                   ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+                    (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+                    (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE));
 
             if (!cond) {
                 BossGanon_SetupTowerCutscene(this, play);
@@ -785,7 +786,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
 
             if (this->csTimer == 20) {
                 func_8002DF54(play, &this->actor, 0x17);
-                Interface_ChangeAlpha(11); // show hearts only
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS);
             }
 
             if (this->csTimer == 25) {
@@ -793,7 +794,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             }
 
             if (this->csTimer == 100) {
-                Interface_ChangeAlpha(1);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
             }
 
             if (this->csTimer == 120) {
@@ -1497,7 +1498,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
 
             if (this->csTimer == 180) {
                 play->transitionTrigger = TRANS_TRIGGER_START;
-                play->nextEntranceIndex = ENTR_GANON_FINAL_0;
+                play->nextEntranceIndex = ENTR_GANONS_TOWER_COLLAPSE_EXTERIOR_0;
                 play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
             }
             break;
@@ -2464,7 +2465,7 @@ void BossGanon_HitByLightBall(BossGanon* this, PlayState* play) {
                 BossGanonEff_SpawnSparkle(play, &this->unk_1FC, &sp50, &sZeroVec, Rand_ZeroFloat(200.0f) + 500.0f,
                                           0x14);
             }
-            Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_WATER2);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_TALL_GRASS);
         }
 
         if (Animation_OnFrame(&this->skelAnime, this->fwork[GDF_FWORK_1])) {
@@ -2646,7 +2647,7 @@ void BossGanon_Vulnerable(BossGanon* this, PlayState* play) {
                                               0x14);
                 }
 
-                Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_WATER2);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_TALL_GRASS);
                 this->timers[3] = 50;
             }
 
