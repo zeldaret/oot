@@ -18,7 +18,7 @@ void func_808B4930(BgSpot15Saku* this, PlayState* play);
 void func_808B4978(BgSpot15Saku* this, PlayState* play);
 void func_808B4A04(BgSpot15Saku* this, PlayState* play);
 
-const ActorInit Bg_Spot15_Saku_InitVars = {
+ActorInit Bg_Spot15_Saku_InitVars = {
     ACTOR_BG_SPOT15_SAKU,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -36,7 +36,7 @@ void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gLonLonCorralFenceCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.scale.x = 0.1f;
@@ -66,10 +66,10 @@ void func_808B4930(BgSpot15Saku* this, PlayState* play) {
 
 void func_808B4978(BgSpot15Saku* this, PlayState* play) {
     if (this->timer == 0) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         this->dyna.actor.world.pos.z -= 2.0f;
         if (this->dyna.actor.world.pos.z < 2660.0f) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->timer = 30;
             this->actionFunc = func_808B4A04;
         }

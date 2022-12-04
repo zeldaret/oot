@@ -4,6 +4,28 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+// `_FORCE` means that this request will respond to `forceRisingButtonAlphas`.
+// If set, the buttons will also raise alphas but will also account for disabled buttons
+
+typedef enum {
+    /*  0 */ HUD_VISIBILITY_NO_CHANGE,
+    /*  1 */ HUD_VISIBILITY_NOTHING,
+    /*  2 */ HUD_VISIBILITY_NOTHING_ALT, // Identical to HUD_VISIBILITY_NOTHING
+    /*  3 */ HUD_VISIBILITY_HEARTS_FORCE, // See above
+    /*  4 */ HUD_VISIBILITY_A,
+    /*  5 */ HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, // See above
+    /*  6 */ HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE, // See above
+    /*  7 */ HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS, // Only raises button alphas if not disabled
+    /*  8 */ HUD_VISIBILITY_B,
+    /*  9 */ HUD_VISIBILITY_HEARTS_MAGIC,
+    /* 10 */ HUD_VISIBILITY_B_ALT, // Identical to HUD_VISIBILITY_B
+    /* 11 */ HUD_VISIBILITY_HEARTS,
+    /* 12 */ HUD_VISIBILITY_A_B_MINIMAP,
+    /* 13 */ HUD_VISIBILITY_HEARTS_MAGIC_FORCE, // See above
+    /* 50 */ HUD_VISIBILITY_ALL = 50, // Only raises button alphas if not disabled
+    /* 52 */ HUD_VISIBILITY_NOTHING_INSTANT = 52
+} HudVisibilityMode;
+
 typedef enum {
     /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
     /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed at which magic border flashes
@@ -12,7 +34,7 @@ typedef enum {
     /* 0x4 */ MAGIC_STATE_METER_FLASH_2, // Flashes border and draws yellow magic to preview target consumption
     /* 0x5 */ MAGIC_STATE_RESET, // Reset colors and return to idle
     /* 0x6 */ MAGIC_STATE_METER_FLASH_3, // Flashes border with no additional behaviour
-    /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens. 
+    /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens.
     /* 0x8 */ MAGIC_STATE_STEP_CAPACITY, // Step `magicCapacity` to full capacity
     /* 0x9 */ MAGIC_STATE_FILL, // Add magic until magicFillTarget is reached.
     /* 0xA */ MAGIC_STATE_ADD // Add requested magic
@@ -59,7 +81,7 @@ typedef struct {
 } SavedSceneFlags; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ s16 scene;
+    /* 0x00 */ s16 sceneId;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ s16 angle;
 } HorseData; // size = 0x0A
@@ -99,6 +121,49 @@ typedef struct {
     /* 0x24 */ s32 tempCollectFlags;
 } FaroresWindData; // size = 0x28
 
+typedef enum {
+    /* 0x0 */ TIMER_STATE_OFF,
+    /* 0x1 */ TIMER_STATE_ENV_HAZARD_INIT, // Init env timer that counts down, total time based on health, resets on void-out, kills at 0
+    /* 0x2 */ TIMER_STATE_ENV_HAZARD_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x3 */ TIMER_STATE_ENV_HAZARD_MOVE, // Move to top-left corner
+    /* 0x4 */ TIMER_STATE_ENV_HAZARD_TICK, // Counting down
+    /* 0x5 */ TIMER_STATE_DOWN_INIT, // Init timer that counts down
+    /* 0x6 */ TIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x7 */ TIMER_STATE_DOWN_MOVE, // Move to top-left corner
+    /* 0x8 */ TIMER_STATE_DOWN_TICK, // Counting down
+    /* 0xA */ TIMER_STATE_STOP = 10,
+    /* 0xB */ TIMER_STATE_UP_INIT, // Init timer that counts up
+    /* 0xC */ TIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0xD */ TIMER_STATE_UP_MOVE, // Move to top-left corner
+    /* 0xE */ TIMER_STATE_UP_TICK, // Counting up
+    /* 0xF */ TIMER_STATE_UP_FREEZE  // Stop counting the timer
+} TimerState;
+
+typedef enum {
+    /* 0x0 */ SUBTIMER_STATE_OFF,
+    /* 0x1 */ SUBTIMER_STATE_DOWN_INIT, // Init timer that counts down
+    /* 0x2 */ SUBTIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x3 */ SUBTIMER_STATE_DOWN_MOVE, // Move to top-left corner
+    /* 0x4 */ SUBTIMER_STATE_DOWN_TICK, // Counting down
+    /* 0x5 */ SUBTIMER_STATE_RESPAWN, // Time is up, trigger a transition, reset button items, spoil trade quest items
+    /* 0x6 */ SUBTIMER_STATE_STOP, // Time is up, stop counting
+    /* 0x7 */ SUBTIMER_STATE_UP_INIT, // Init timer that counts up
+    /* 0x8 */ SUBTIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x9 */ SUBTIMER_STATE_UP_MOVE, // Move to top-left corner
+    /* 0xA */ SUBTIMER_STATE_UP_TICK // Counting up
+} SubTimerState;
+
+typedef enum {
+    /* 0 */ TIMER_ID_MAIN, // Takes priority in both counting and drawing. See `timerState` and `timerSeconds`
+    /* 1 */ TIMER_ID_SUB, // See `subTimerState` and `subTimerSeconds`
+    /* 2 */ TIMER_ID_MAX
+} TimerId;
+
+#define MARATHON_TIME_LIMIT 240 // 4 minutes
+
+#define ENV_HAZARD_TEXT_TRIGGER_HOTROOM (1 << 0)
+#define ENV_HAZARD_TEXT_TRIGGER_UNDERWATER (1 << 1)
+
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child (see enum `LinkAge`)
@@ -121,14 +186,14 @@ typedef struct {
     /* 0x003A */ u8 isMagicAcquired;
     /* 0x003B */ char unk_3B[0x01];
     /* 0x003C */ u8 isDoubleMagicAcquired;
-    /* 0x003D */ u8 doubleDefense;
+    /* 0x003D */ u8 isDoubleDefenseAcquired;
     /* 0x003E */ u8 bgsFlag;
     /* 0x003F */ u8 ocarinaGameRoundNum;
     /* 0x0040 */ ItemEquips childEquips;
     /* 0x004A */ ItemEquips adultEquips;
     /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignment
     /* 0x0058 */ char unk_58[0x0E];
-    /* 0x0066 */ s16 savedSceneNum;
+    /* 0x0066 */ s16 savedSceneId;
     /* 0x0068 */ ItemEquips equips;
     /* 0x0074 */ Inventory inventory;
     /* 0x00D4 */ SavedSceneFlags sceneFlags[124];
@@ -154,7 +219,7 @@ typedef struct {
     /* 0x1354 */ s32 fileNum; // "file_no"
     /* 0x1358 */ char unk_1358[0x0004];
     /* 0x135C */ s32 gameMode;
-    /* 0x1360 */ s32 sceneSetupIndex;
+    /* 0x1360 */ s32 sceneLayer; // "counter"
     /* 0x1364 */ s32 respawnFlag; // "restart_flag"
     /* 0x1368 */ RespawnData respawn[RESPAWN_MODE_MAX]; // "restart_data"
     /* 0x13BC */ f32 entranceSpeed;
@@ -162,26 +227,26 @@ typedef struct {
     /* 0x13C2 */ char unk_13C2[0x0001];
     /* 0x13C3 */ u8 retainWeatherMode;
     /* 0x13C4 */ s16 dogParams;
-    /* 0x13C6 */ u8 textTriggerFlags;
+    /* 0x13C6 */ u8 envHazardTextTriggerFlags;
     /* 0x13C7 */ u8 showTitleCard;
     /* 0x13C8 */ s16 nayrusLoveTimer;
     /* 0x13CA */ char unk_13CA[0x0002];
     /* 0x13CC */ s16 rupeeAccumulator;
-    /* 0x13CE */ s16 timer1State;
-    /* 0x13D0 */ s16 timer1Value;
-    /* 0x13D2 */ s16 timer2State;
-    /* 0x13D4 */ s16 timer2Value;
-    /* 0x13D6 */ s16 timerX[2];
-    /* 0x13DA */ s16 timerY[2];
+    /* 0x13CE */ s16 timerState; // See `TimerState`
+    /* 0x13D0 */ s16 timerSeconds;
+    /* 0x13D2 */ s16 subTimerState; // See `SubTimerState`
+    /* 0x13D4 */ s16 subTimerSeconds;
+    /* 0x13D6 */ s16 timerX[TIMER_ID_MAX];
+    /* 0x13DA */ s16 timerY[TIMER_ID_MAX];
     /* 0x13DE */ char unk_13DE[0x0002];
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
-    /* 0x13E7 */ u8 unk_13E7; // alpha related
-    /* 0x13E8 */ u16 unk_13E8; // alpha type?
-    /* 0x13EA */ u16 unk_13EA; // also alpha type?
-    /* 0x13EC */ u16 unk_13EC; // alpha type counter?
-    /* 0x13EE */ u16 unk_13EE; // previous alpha type?
+    /* 0x13E7 */ u8 forceRisingButtonAlphas; // if btn alphas are updated through Interface_DimButtonAlphas, instead update them through Interface_RaiseButtonAlphas
+    /* 0x13E8 */ u16 nextHudVisibilityMode; // triggers the hud to change visibility mode to the requested value. Reset to HUD_VISIBILITY_NO_CHANGE when target is reached
+    /* 0x13EA */ u16 hudVisibilityMode; // current hud visibility mode
+    /* 0x13EC */ u16 hudVisibilityModeTimer; // number of frames in the transition to a new hud visibility mode. Used to step alpha
+    /* 0x13EE */ u16 prevHudVisibilityMode; // used to store and recover hud visibility mode for pause menu and text boxes
     /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
     /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
     /* 0x13F4 */ s16 magicCapacity; // maximum magic available
@@ -253,6 +318,16 @@ typedef enum {
 } GameMode;
 
 typedef enum {
+    /* 0 */ SCENE_LAYER_CHILD_DAY,
+    /* 1 */ SCENE_LAYER_CHILD_NIGHT,
+    /* 2 */ SCENE_LAYER_ADULT_DAY,
+    /* 3 */ SCENE_LAYER_ADULT_NIGHT,
+    /* 4 */ SCENE_LAYER_CUTSCENE_FIRST
+} SceneLayer;
+
+#define IS_CUTSCENE_LAYER (gSaveContext.sceneLayer >= SCENE_LAYER_CUTSCENE_FIRST)
+
+typedef enum {
     /* 0 */ LINK_AGE_ADULT,
     /* 1 */ LINK_AGE_CHILD
 } LinkAge;
@@ -283,11 +358,11 @@ typedef enum {
 #define EVENTCHKINF_10 0x10
 #define EVENTCHKINF_11 0x11
 #define EVENTCHKINF_12 0x12
-#define EVENTCHKINF_13 0x13
-#define EVENTCHKINF_14 0x14
+#define EVENTCHKINF_TALON_WOKEN_IN_CASTLE 0x13
+#define EVENTCHKINF_TALON_RETURNED_FROM_CASTLE 0x14
 #define EVENTCHKINF_15 0x15
 #define EVENTCHKINF_16 0x16
-#define EVENTCHKINF_18 0x18
+#define EVENTCHKINF_EPONA_OBTAINED 0x18
 #define EVENTCHKINF_1B 0x1B
 #define EVENTCHKINF_1C 0x1C
 #define EVENTCHKINF_1D 0x1D
@@ -344,13 +419,13 @@ typedef enum {
 #define EVENTCHKINF_67 0x67
 #define EVENTCHKINF_68 0x68
 #define EVENTCHKINF_69 0x69
-#define EVENTCHKINF_6A 0x6A
+#define EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO 0x6A
 
 // 0x6B
-#define EVENTCHKINF_6B_INDEX 6
-#define EVENTCHKINF_6B_SHIFT 11
-#define EVENTCHKINF_6B_MASK (1 << EVENTCHKINF_6B_SHIFT)
-#define EVENTCHKINF_6B ((EVENTCHKINF_6B_INDEX << 4) | EVENTCHKINF_6B_SHIFT)
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX 6
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT 11
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK (1 << EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
+#define EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO ((EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX << 4) | EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_SHIFT)
 
 #define EVENTCHKINF_6E 0x6E
 #define EVENTCHKINF_6F 0x6F
@@ -463,7 +538,7 @@ typedef enum {
  * SaveContext.itemGetInf
  */
 
-#define ITEMGETINF_02 0x02
+#define ITEMGETINF_TALON_BOTTLE 0x02
 #define ITEMGETINF_03 0x03
 #define ITEMGETINF_04 0x04
 #define ITEMGETINF_05 0x05
@@ -553,7 +628,7 @@ typedef enum {
 #define INFTABLE_71 0x71
 #define INFTABLE_76 0x76
 #define INFTABLE_77 0x77
-#define INFTABLE_7E 0x7E
+#define INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE 0x7E
 #define INFTABLE_84 0x84
 #define INFTABLE_85 0x85
 #define INFTABLE_8B 0x8B
@@ -699,8 +774,13 @@ typedef enum {
 #define EVENTINF_HORSES_0F_MASK (1 << EVENTINF_HORSES_0F_SHIFT)
 #define EVENTINF_HORSES_05 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_05_SHIFT)
 #define EVENTINF_HORSES_06 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_06_SHIFT)
+// Used in z_en_ta (Talon) to store Cucco game winning status
+// and in z_en_ge1 (Gerudo) to store archery in-progress status
 #define EVENTINF_HORSES_08 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
+#define EVENTINF_CUCCO_GAME_WON EVENTINF_HORSES_08
+// Used in z_en_ta (Talon) and z_en_ma3 (Malon) to store minigame finishing status
 #define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
+#define EVENTINF_CUCCO_GAME_FINISHED EVENTINF_HORSES_0A
 
 typedef enum {
     /* 0 */ EVENTINF_HORSES_STATE_0,
@@ -733,7 +813,8 @@ typedef enum {
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_0F_MASK) | ((v) << EVENTINF_HORSES_0F_SHIFT)
 
 
-#define EVENTINF_10 0x10
+// Is the running man race active
+#define EVENTINF_MARATHON_ACTIVE 0x10
 
 // 0x20-0x24
 #define EVENTINF_20_21_22_23_24_INDEX 2

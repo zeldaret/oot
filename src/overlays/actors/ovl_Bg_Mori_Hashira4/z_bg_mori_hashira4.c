@@ -21,7 +21,7 @@ void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, PlayState* play);
 
-const ActorInit Bg_Mori_Hashira4_InitVars = {
+ActorInit Bg_Mori_Hashira4_InitVars = {
     ACTOR_BG_MORI_HASHIRA4,
     ACTORCAT_BG,
     FLAGS,
@@ -73,9 +73,9 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.params &= 0xFF;
 
     if (this->dyna.actor.params == 0) {
-        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira1Col, DPM_UNK3);
+        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira1Col, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     } else {
-        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira2Col, DPM_UNK);
+        BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira2Col, 0);
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
@@ -126,14 +126,14 @@ void BgMoriHashira4_SetupPillarsRotate(BgMoriHashira4* this) {
 
 void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, PlayState* play) {
     this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y += 0x96;
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
 }
 
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag) || (this->gateTimer != 0)) {
         this->gateTimer++;
         if (this->gateTimer > 30) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
             BgMoriHashira4_SetupAction(this, BgMoriHashira4_GateOpen);
             OnePointCutscene_Init(play, 6010, 20, &this->dyna.actor, CAM_ID_MAIN);
             sUnkTimer++;

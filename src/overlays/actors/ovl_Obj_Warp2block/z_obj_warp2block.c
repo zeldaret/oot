@@ -6,7 +6,7 @@
 
 #include "z_obj_warp2block.h"
 #include "assets/objects/object_timeblock/object_timeblock.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
@@ -28,7 +28,7 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play);
 void func_80BA2600(ObjWarp2block* this);
 void func_80BA2610(ObjWarp2block* this, PlayState* play);
 
-const ActorInit Obj_Warp2block_InitVars = {
+ActorInit Obj_Warp2block_InitVars = {
     ACTOR_OBJ_WARP2BLOCK,
     ACTORCAT_ITEMACTION,
     FLAGS,

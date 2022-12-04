@@ -5,7 +5,7 @@
  */
 
 #include "z_en_insect.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0
@@ -42,7 +42,7 @@ static s16 sCaughtCount = 0;
  */
 static s16 sDroppedCount = 0;
 
-const ActorInit En_Insect_InitVars = {
+ActorInit En_Insect_InitVars = {
     ACTOR_EN_INSECT,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -161,7 +161,7 @@ s32 EnInsect_TryFindNearbySoil(EnInsect* this, PlayState* play) {
 }
 
 /**
- * Update the crawl sound timer, and play the crawling sound when it reaches 0.
+ * Update the crawl sound timer, and play the crawling sound effect when it reaches 0.
  */
 void EnInsect_UpdateCrawlSfx(EnInsect* this) {
     if (this->crawlSoundDelay > 0) {
@@ -169,7 +169,7 @@ void EnInsect_UpdateCrawlSfx(EnInsect* this) {
         return;
     }
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_WALK);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MUSI_WALK);
 
     this->crawlSoundDelay = 3.0f / CLAMP_MIN(this->skelAnime.playSpeed, 0.1f);
     if (this->crawlSoundDelay < 2) {
@@ -413,7 +413,7 @@ void EnInsect_SetupDig(EnInsect* this) {
     this->actionTimer = 60;
     EnInsect_SetCrawlAnim(this);
     this->skelAnime.playSpeed = 1.9f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_SINK);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MUSI_SINK);
     Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
     this->actionFunc = EnInsect_Dig;
     this->insectFlags &= ~INSECT_FLAG_CRAWLING;
@@ -664,7 +664,7 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (!(this->insectFlags & INSECT_FLAG_DROPPED_HAS_LANDED) && (this->insectFlags & INSECT_FLAG_0) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MUSI_LAND);
         this->insectFlags |= INSECT_FLAG_DROPPED_HAS_LANDED;
     }
 

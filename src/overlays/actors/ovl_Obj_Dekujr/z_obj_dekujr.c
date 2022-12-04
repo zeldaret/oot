@@ -16,7 +16,7 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play);
 
 void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play);
 
-const ActorInit Obj_Dekujr_InitVars = {
+ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORCAT_NPC,
     FLAGS,
@@ -96,7 +96,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play) {
         this->unk_19B = 0;
     } else {
         if (play->csCtx.frames == 351) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
         }
         csCmdNPCAction = play->csCtx.npcActions[1];
         if (csCmdNPCAction != NULL) {
@@ -160,7 +160,8 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play) {
 
     frameCount = play->state.frames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, frameCount % 128, 0, 32, 32, 1, frameCount % 128, 0, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frameCount % 128, 0, 32, 32, 1, frameCount % 128,
+                                0, 32, 32));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_dekujr.c", 399),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_dekujr_DL_0032D8);

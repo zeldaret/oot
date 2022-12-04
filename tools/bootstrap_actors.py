@@ -154,7 +154,7 @@ def bootstrap(ovl_path, ovl_text):
     if draw_func != "0x00000000" and draw_func != "Actor_Noop":
         decs += "void " + draw_func_name + "(" + struct_name + "* this, PlayState* play);\n"
 
-    init_vars = "const ActorInit " + init_vars_name + " =\n{\n"
+    init_vars = "ActorInit " + init_vars_name + " =\n{\n"
     init_vars += indent + actor_id_name + ",\n"
     init_vars += indent + actor_type_name + ",\n"
     init_vars += indent + "ROOM,\n" + indent + "FLAGS,\n"

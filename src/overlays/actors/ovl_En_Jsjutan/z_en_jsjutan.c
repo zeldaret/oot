@@ -14,7 +14,7 @@ void EnJsjutan_Destroy(Actor* thisx, PlayState* play);
 void EnJsjutan_Update(Actor* thisx, PlayState* play2);
 void EnJsjutan_Draw(Actor* thisx, PlayState* play2);
 
-const ActorInit En_Jsjutan_InitVars = {
+ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,
     ACTORCAT_NPC,
     FLAGS,
@@ -41,7 +41,7 @@ void EnJsjutan_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* header = NULL;
 
     this->dyna.actor.flags &= ~ACTOR_FLAG_0;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&sCol, &header);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, header);
     Actor_SetScale(thisx, 0.02f);
@@ -147,7 +147,7 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
     i = 1;
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
-    if ((gSaveContext.entranceIndex == ENTR_SPOT20_0) && (gSaveContext.sceneSetupIndex == 8)) {
+    if ((gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_0) && (gSaveContext.sceneLayer == 8)) {
         isInCreditsScene = true;
 
         actorProfessor = play->actorCtx.actorLists[ACTORCAT_NPC].head;

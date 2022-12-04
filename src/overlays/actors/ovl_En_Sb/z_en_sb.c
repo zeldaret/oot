@@ -5,7 +5,7 @@
  */
 
 #include "z_en_sb.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_sb/object_sb.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
@@ -25,7 +25,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play);
 void EnSb_Bounce(EnSb* this, PlayState* play);
 void EnSb_Cooldown(EnSb* this, PlayState* play);
 
-const ActorInit En_Sb_InitVars = {
+ActorInit En_Sb_InitVars = {
     ACTOR_EN_SB,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -154,7 +154,7 @@ void EnSb_SetupOpen(EnSb* this) {
                      ANIMMODE_ONCE, 0.0f);
     this->behavior = SHELLBLADE_OPEN;
     this->actionFunc = EnSb_Open;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
 
 void EnSb_SetupWaitOpen(EnSb* this) {
@@ -171,7 +171,7 @@ void EnSb_SetupLunge(EnSb* this) {
     Animation_Change(&this->skelAnime, &object_sb_Anim_000124, playbackSpeed, 0.0f, frameCount, ANIMMODE_ONCE, 0);
     this->behavior = SHELLBLADE_LUNGE;
     this->actionFunc = EnSb_Lunge;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
 
 void EnSb_SetupBounce(EnSb* this) {
@@ -275,7 +275,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH)) {
         if (!(this->actor.yDistToWater > 0.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         EnSb_SetupBounce(this);
@@ -424,11 +424,11 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
             BodyBreak_Alloc(&this->bodyBreak, 8, play);
             this->isDead = true;
             Enemy_StartFinishingBlow(play, &this->actor);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
             return 1;
         }
 
-        // if player attack didn't do damage, play recoil sound and spawn sparks
+        // if player attack didn't do damage, play recoil sound effect and spawn sparks
         if (!tookDamage) {
             hitPoint.x = this->collider.info.bumper.hitPos.x;
             hitPoint.y = this->collider.info.bumper.hitPos.y;

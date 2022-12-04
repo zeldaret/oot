@@ -22,7 +22,7 @@ void func_80B864EC(ItemOcarina* this, PlayState* play);
 void func_80B865E0(ItemOcarina* this, PlayState* play);
 void ItemOcarina_DoNothing(ItemOcarina* this, PlayState* play);
 
-const ActorInit Item_Ocarina_InitVars = {
+ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -42,7 +42,7 @@ void ItemOcarina_Init(Actor* thisx, PlayState* play) {
     ItemOcarina* this = (ItemOcarina*)thisx;
     s32 params = thisx->params;
 
-    ActorShape_Init(&this->actor.shape, 0, 0, 0);
+    ActorShape_Init(&this->actor.shape, 0, NULL, 0);
     Actor_SetScale(&this->actor, 0.1f);
 
     switch (params) {
@@ -101,14 +101,14 @@ void ItemOcarina_Fly(ItemOcarina* this, PlayState* play) {
 
     if (play->csCtx.frames == 897) {
         EffectSsGRipple_Spawn(play, &this->actor.world.pos, 100, 500, 0);
-        EffectSsGSplash_Spawn(play, &this->actor.world.pos, 0, 0, 1, 0);
+        EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 0);
         this->actor.velocity.x = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.velocity.z = 0.0f;
         this->actor.gravity = -0.1f;
         this->actor.minVelocityY = -0.5f;
         this->spinRotOffset = 0;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
     }
 
     // landed in water
@@ -180,7 +180,7 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, PlayState* play) {
         this->actionFunc = ItemOcarina_StartSoTCutscene;
         this->actor.draw = NULL;
     } else {
-        func_8002F434(&this->actor, play, GI_OCARINA_OOT, 30.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_OCARINA_OF_TIME, 30.0f, 50.0f);
 
         if ((play->gameplayFrames & 13) == 0) {
             EffectSsBubble_Spawn(play, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
@@ -199,5 +199,5 @@ void ItemOcarina_Draw(Actor* thisx, PlayState* play) {
 
     func_8002EBCC(thisx, play, 0);
     func_8002ED80(thisx, play, 0);
-    GetItem_Draw(play, GID_OCARINA_TIME);
+    GetItem_Draw(play, GID_OCARINA_OF_TIME);
 }

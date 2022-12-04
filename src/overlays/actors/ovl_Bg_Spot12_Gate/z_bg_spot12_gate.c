@@ -6,6 +6,7 @@
 
 #include "z_bg_spot12_gate.h"
 #include "assets/objects/object_spot12_obj/object_spot12_obj.h"
+#include "quake.h"
 
 #define FLAGS 0
 
@@ -23,7 +24,7 @@ void func_808B318C(BgSpot12Gate* this, PlayState* play);
 void func_808B3274(BgSpot12Gate* this);
 void func_808B3298(BgSpot12Gate* this, PlayState* play);
 
-const ActorInit Bg_Spot12_Gate_InitVars = {
+ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
     ACTORCAT_BG,
     FLAGS,
@@ -59,7 +60,7 @@ void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHea
 void BgSpot12Gate_Init(Actor* thisx, PlayState* play) {
     BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
-    BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, DPM_UNK);
+    BgSpot12Gate_InitDynaPoly(this, play, &gGerudoFortressWastelandGateCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
@@ -104,17 +105,19 @@ void func_808B317C(BgSpot12Gate* this) {
 
 void func_808B318C(BgSpot12Gate* this, PlayState* play) {
     s32 pad;
-    s32 var;
+    s32 quakeIndex;
 
     Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f,
                      this->dyna.actor.velocity.y)) {
         func_808B3274(this);
-        var = Quake_Add(GET_ACTIVE_CAM(play), 3);
-        Quake_SetSpeed(var, -0x3CB0);
-        Quake_SetQuakeValues(var, 3, 0, 0, 0);
-        Quake_SetCountdown(var, 0xC);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+        Quake_SetSpeed(quakeIndex, -0x3CB0);
+        Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 12);
+
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }

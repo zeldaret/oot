@@ -19,8 +19,8 @@ struct Lights;
 
 typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
 typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*);
-typedef u16 (*callback1_800343CC)(struct PlayState*, struct Actor*);
-typedef s16 (*callback2_800343CC)(struct PlayState*, struct Actor*);
+typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
+typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
 
 typedef struct {
     Vec3f pos;
@@ -85,8 +85,8 @@ typedef struct {
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
+    /* 0x00 */ uintptr_t vromStart;
+    /* 0x04 */ uintptr_t vromEnd;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
@@ -151,7 +151,7 @@ typedef struct {
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
-#define ACTOR_FLAG_12 (1 << 12)
+#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12) // actor will not shake when a quake occurs
 #define ACTOR_FLAG_13 (1 << 13)
 #define ACTOR_FLAG_14 (1 << 14)
 #define ACTOR_FLAG_15 (1 << 15)
@@ -189,7 +189,7 @@ typedef struct Actor {
     /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data"
     /* 0x01E */ s8 objBankIndex; // Object bank index of the actor's object dependency; original name: "bank"
     /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked on
-    /* 0x020 */ u16 sfx; // SFX ID to play. Sound plays when value is set, then is cleared the following update cycle
+    /* 0x020 */ u16 sfx; // SFX ID to play. Sfx plays when value is set, then is cleared the following update cycle
     /* 0x024 */ PosRot world; // Position/rotation in the world
     /* 0x038 */ PosRot focus; // Target reticle focuses on this position. For player this represents head pos and rot
     /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `focus` position
@@ -220,7 +220,7 @@ typedef struct Actor {
     /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
     /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player
     /* 0x10D */ u8 targetPriority; // Lower values have higher priority. Resets to 0 when player stops targeting
-    /* 0x10E */ u16 textId; // Text ID to pass to link/display when interacting with the actor
+    /* 0x10E */ u16 textId; // Text ID to pass to player/display when interacting with the actor
     /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
     /* 0x112 */ u16 colorFilterParams; // Set color filter to red, blue, or white. Toggle opa or xlu
     /* 0x114 */ u8 colorFilterTimer; // A non-zero value enables the color filter. Decrements automatically
@@ -254,6 +254,9 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
+#define DYNA_TRANSFORM_POS (1 << 0) // Position of the actors on top follows the dynapoly actor's movement.
+#define DYNA_TRANSFORM_ROT_Y (1 << 1) // The Y rotation of the actors on top follows the dynapoly actor's Y rotation.
+
 #define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
@@ -265,8 +268,7 @@ typedef struct DynaPolyActor {
     /* 0x150 */ f32 unk_150;
     /* 0x154 */ f32 unk_154;
     /* 0x158 */ s16 unk_158; // y rotation?
-    /* 0x15A */ u16 unk_15A;
-    /* 0x15C */ u32 unk_15C;
+    /* 0x15C */ u32 transformFlags;
     /* 0x160 */ u8 interactFlags;
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
@@ -498,6 +500,29 @@ typedef enum {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
+#define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
+#define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)
+
+// EnDoor and DoorKiller share openAnim and playerIsOpening
+// Due to alignment, a substruct cannot be used in the structs of these actors.
+#define DOOR_ACTOR_BASE               \
+    /* 0x0000 */ Actor actor;         \
+    /* 0x014C */ SkelAnime skelAnime; \
+    /* 0x0190 */ u8 openAnim;         \
+    /* 0x0191 */ u8 playerIsOpening
+
+typedef struct DoorActorBase {
+    /* 0x0000 */ DOOR_ACTOR_BASE;
+} DoorActorBase;
+
+typedef enum {
+    /* 0x00 */ DOOR_OPEN_ANIM_ADULT_L,
+    /* 0x01 */ DOOR_OPEN_ANIM_CHILD_L,
+    /* 0x02 */ DOOR_OPEN_ANIM_ADULT_R,
+    /* 0x03 */ DOOR_OPEN_ANIM_CHILD_R,
+    /* 0x04 */ DOOR_OPEN_ANIM_MAX
+} DoorOpenAnim;
+
 #define UPDBGCHECKINFO_FLAG_0 (1 << 0) // check wall
 #define UPDBGCHECKINFO_FLAG_1 (1 << 1) // check ceiling
 #define UPDBGCHECKINFO_FLAG_2 (1 << 2) // check floor and water
@@ -506,5 +531,32 @@ typedef enum {
 #define UPDBGCHECKINFO_FLAG_5 (1 << 5) // unused
 #define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
 #define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
+
+typedef enum {
+    /* 0x0 */ NPC_TALK_STATE_IDLE, // NPC not currently talking to player
+    /* 0x1 */ NPC_TALK_STATE_TALKING, // NPC is currently talking to player
+    /* 0x2 */ NPC_TALK_STATE_ACTION, // An NPC-defined action triggered in the conversation
+    /* 0x3 */ NPC_TALK_STATE_ITEM_GIVEN // NPC finished giving an item and text box is done
+} NpcTalkState;
+
+typedef enum {
+    /* 0x0 */ NPC_TRACKING_PLAYER_AUTO_TURN, // Determine tracking mode based on player position, see Npc_UpdateAutoTurn
+    /* 0x1 */ NPC_TRACKING_NONE, // Don't track the target (usually the player)
+    /* 0x2 */ NPC_TRACKING_HEAD_AND_TORSO, // Track target by turning the head and the torso
+    /* 0x3 */ NPC_TRACKING_HEAD, // Track target by turning the head
+    /* 0x4 */ NPC_TRACKING_FULL_BODY // Track target by turning the body, torso and head
+} NpcTrackingMode;
+
+typedef struct {
+    /* 0x00 */ s16 talkState;
+    /* 0x02 */ s16 trackingMode;
+    /* 0x04 */ s16 autoTurnTimer;
+    /* 0x06 */ s16 autoTurnState;
+    /* 0x08 */ Vec3s headRot;
+    /* 0x0E */ Vec3s torsoRot;
+    /* 0x14 */ f32 yOffset; // Y position offset to add to actor position when calculating angle to target
+    /* 0x18 */ Vec3f trackPos;
+    /* 0x24 */ char unk_24[0x4];
+} NpcInteractInfo; // size = 0x28
 
 #endif

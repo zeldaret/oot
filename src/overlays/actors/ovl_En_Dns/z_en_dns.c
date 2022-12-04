@@ -6,7 +6,7 @@
 
 #include "z_en_dns.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
@@ -43,7 +43,7 @@ void func_809F008C(EnDns* this, PlayState* play);
 void EnDns_SetupBurrow(EnDns* this, PlayState* play);
 void EnDns_Burrow(EnDns* this, PlayState* play);
 
-const ActorInit En_Dns_InitVars = {
+ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
     ACTORCAT_BG,
     FLAGS,
@@ -87,27 +87,27 @@ static char* D_809F0424[] = {
     "緑のくすり売り          ", "デクの棒持てる数を増やす", "デクの実持てる数を増やす",
 };
 
-static DnsItemEntry D_809F0450 = { 20, 5, GI_NUTS_5_2, func_809EF5A4, func_809EFA28 };
+static DnsItemEntry D_809F0450 = { 20, 5, GI_DEKU_NUTS_5_2, func_809EF5A4, func_809EFA28 };
 
-static DnsItemEntry D_809F0460 = { 15, 1, GI_STICKS_1, func_809EF658, func_809EF9F8 };
+static DnsItemEntry D_809F0460 = { 15, 1, GI_DEKU_STICKS_1, func_809EF658, func_809EF9F8 };
 
 static DnsItemEntry D_809F0470 = { 10, 1, GI_HEART_PIECE, func_809EF70C, func_809EFA58 };
 
-static DnsItemEntry D_809F0480 = { 40, 30, GI_SEEDS_30, func_809EF73C, func_809EF9F8 };
+static DnsItemEntry D_809F0480 = { 40, 30, GI_DEKU_SEEDS_30, func_809EF73C, func_809EF9F8 };
 
 static DnsItemEntry D_809F0490 = { 50, 1, GI_SHIELD_DEKU, func_809EF800, func_809EF9F8 };
 
 static DnsItemEntry D_809F04A0 = { 40, 5, GI_BOMBS_5, func_809EF854, func_809EFA9C };
 
-static DnsItemEntry D_809F04B0 = { 70, 20, GI_ARROWS_LARGE, func_809EF8F4, func_809EFACC };
+static DnsItemEntry D_809F04B0 = { 70, 20, GI_ARROWS_30, func_809EF8F4, func_809EFACC };
 
-static DnsItemEntry D_809F04C0 = { 40, 1, GI_POTION_RED, func_809EF9A4, func_809EF9F8 };
+static DnsItemEntry D_809F04C0 = { 40, 1, GI_BOTTLE_POTION_RED, func_809EF9A4, func_809EF9F8 };
 
-static DnsItemEntry D_809F04D0 = { 40, 1, GI_POTION_GREEN, func_809EF9A4, func_809EF9F8 };
+static DnsItemEntry D_809F04D0 = { 40, 1, GI_BOTTLE_POTION_GREEN, func_809EF9A4, func_809EF9F8 };
 
-static DnsItemEntry D_809F04E0 = { 40, 1, GI_STICK_UPGRADE_20, func_809EF70C, func_809EFAFC };
+static DnsItemEntry D_809F04E0 = { 40, 1, GI_DEKU_STICK_UPGRADE_20, func_809EF70C, func_809EFAFC };
 
-static DnsItemEntry D_809F04F0 = { 40, 1, GI_NUT_UPGRADE_30, func_809EF70C, func_809EFB40 };
+static DnsItemEntry D_809F04F0 = { 40, 1, GI_DEKU_NUT_UPGRADE_30, func_809EF70C, func_809EFB40 };
 
 static DnsItemEntry* sItemEntries[] = {
     &D_809F0450, &D_809F0460, &D_809F0470, &D_809F0480, &D_809F0490, &D_809F04A0,
@@ -185,26 +185,26 @@ void EnDns_ChangeAnim(EnDns* this, u8 index) {
 /* Item give checking functions */
 
 u32 func_809EF5A4(EnDns* this) {
-    if ((CUR_CAPACITY(UPG_NUTS) != 0) && (AMMO(ITEM_NUT) >= CUR_CAPACITY(UPG_NUTS))) {
+    if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS))) {
         return 1;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
-    if (Item_CheckObtainability(ITEM_NUT) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
         return 2;
     }
     return 4;
 }
 
 u32 func_809EF658(EnDns* this) {
-    if ((CUR_CAPACITY(UPG_STICKS) != 0) && (AMMO(ITEM_STICK) >= CUR_CAPACITY(UPG_STICKS))) {
+    if ((CUR_CAPACITY(UPG_DEKU_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS))) {
         return 1;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
-    if (Item_CheckObtainability(ITEM_STICK) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
         return 2;
     }
     return 4;
@@ -227,7 +227,7 @@ u32 func_809EF73C(EnDns* this) {
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
-    if (Item_CheckObtainability(ITEM_SEEDS) == ITEM_NONE) {
+    if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
         return 2;
     }
     return 4;
@@ -369,16 +369,16 @@ void EnDns_Talk(EnDns* this, PlayState* play) {
 
 void func_809EFDD0(EnDns* this, PlayState* play) {
     if (this->actor.params == 0x9) {
-        if (CUR_UPG_VALUE(UPG_STICKS) < 2) {
-            func_8002F434(&this->actor, play, GI_STICK_UPGRADE_20, 130.0f, 100.0f);
+        if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < 2) {
+            func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, play, GI_STICK_UPGRADE_30, 130.0f, 100.0f);
+            func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
     } else if (this->actor.params == 0xA) {
-        if (CUR_UPG_VALUE(UPG_NUTS) < 2) {
-            func_8002F434(&this->actor, play, GI_NUT_UPGRADE_30, 130.0f, 100.0f);
+        if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < 2) {
+            func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, play, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
+            func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_40, 130.0f, 100.0f);
         }
     } else {
         func_8002F434(&this->actor, play, this->dnsItemEntry->getItemId, 130.0f, 100.0f);
@@ -437,7 +437,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->skelAnime.curFrame == frameCount) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->actionFunc = EnDns_Burrow;
         this->standOnGround = 0;
         this->yInitPos = this->actor.world.pos.y;

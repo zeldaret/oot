@@ -12,7 +12,7 @@
 #include "assets/scenes/overworld/spot17/spot17_scene.h"
 #include "assets/scenes/indoors/tokinoma/tokinoma_scene.h"
 #include "assets/scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -78,9 +78,9 @@ void EnXc_Destroy(Actor* thisx, PlayState* play) {
 void EnXc_CalculateHeadTurn(EnXc* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->npcInfo.unk_18 = player->actor.world.pos;
-    this->npcInfo.unk_14 = kREG(16) - 3.0f;
-    func_80034A14(&this->actor, &this->npcInfo, kREG(17) + 0xC, 2);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) - 3.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void EnXc_SetEyePattern(EnXc* this) {
@@ -287,7 +287,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
 
         if (z < -2225.0f) {
             if (!Play_InCsMode(play)) {
-                play->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gMinuetCs);
+                play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_50);
                 Item_Give(play, ITEM_SONG_MINUET);
@@ -318,7 +318,7 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
             !Play_InCsMode(play)) {
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gDeathMountainCraterBoleroCs);
+            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_51);
             Item_Give(play, ITEM_SONG_BOLERO);
@@ -348,7 +348,7 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
 
         if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
             !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
-            Cutscene_SetSegment(play, &gIceCavernSerenadeCs);
+            Cutscene_SetSegment(play, gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
             Item_Give(play, ITEM_SONG_SERENADE);
@@ -371,8 +371,8 @@ void EnXc_SetWalkingSFX(EnXc* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelAnime, 11.0f) || Animation_OnFrame(&this->skelAnime, 23.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-            sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId = NA_SE_PL_WALK_GROUND;
+            sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -385,8 +385,8 @@ void EnXc_SetNutThrowSFX(EnXc* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelAnime, 7.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-            sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId = NA_SE_PL_WALK_GROUND;
+            sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -397,12 +397,12 @@ void EnXc_SetNutThrowSFX(EnXc* this, PlayState* play) {
 
 void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
     u32 sfxId;
-    s16 sceneNum = play->sceneNum;
+    s16 sceneId = play->sceneId;
 
-    if ((gSaveContext.sceneSetupIndex != 4) || (sceneNum != SCENE_SPOT11)) {
+    if ((gSaveContext.sceneLayer != 4) || (sceneId != SCENE_DESERT_COLOSSUS)) {
         if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
-            sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId = NA_SE_PL_WALK_GROUND;
+            sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -410,11 +410,11 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
 
 void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
     static Vec3f sXyzDist;
-    s16 sceneNum;
+    s16 sceneId;
 
-    if (gSaveContext.sceneSetupIndex == 4) {
-        sceneNum = play->sceneNum;
-        if (sceneNum == SCENE_SPOT11) {
+    if (gSaveContext.sceneLayer == 4) {
+        sceneId = play->sceneId;
+        if (sceneId == SCENE_DESERT_COLOSSUS) {
             CutsceneContext* csCtx = &play->csCtx;
             u16 frameCount = csCtx->frames;
             f32 wDest[2];
@@ -429,16 +429,16 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
                 s32 pad;
 
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sXyzDist, wDest);
-                func_80078914(&sXyzDist, NA_SE_PL_WALK_CONCRETE);
+                func_80078914(&sXyzDist, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
             }
         }
     }
 }
 
 void func_80B3D118(PlayState* play) {
-    s16 sceneNum;
+    s16 sceneId;
 
-    if ((gSaveContext.sceneSetupIndex != 4) || (sceneNum = play->sceneNum, sceneNum != SCENE_SPOT11)) {
+    if ((gSaveContext.sceneLayer != 4) || (sceneId = play->sceneId, sceneId != SCENE_DESERT_COLOSSUS)) {
         func_800788CC(NA_SE_PL_SKIP);
     }
 }
@@ -446,15 +446,15 @@ void func_80B3D118(PlayState* play) {
 static Vec3f D_80B42DA0;
 
 void EnXc_SetColossusWindSFX(PlayState* play) {
-    if (gSaveContext.sceneSetupIndex == 4) {
+    if (gSaveContext.sceneLayer == 4) {
         static s32 D_80B41D90 = 0;
         static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
         static f32 sMaxSpeed = 0.0f;
         static Vec3f D_80B42DB0;
         s32 pad;
-        s16 sceneNum = play->sceneNum;
+        s16 sceneId = play->sceneId;
 
-        if (sceneNum == SCENE_SPOT11) {
+        if (sceneId == SCENE_DESERT_COLOSSUS) {
             CutsceneContext* csCtx = &play->csCtx;
             u16 frameCount = csCtx->frames;
 
@@ -520,9 +520,9 @@ void EnXc_DestroyFlame(EnXc* this) {
 void EnXc_InitFlame(EnXc* this, PlayState* play) {
     static s32 D_80B41DA8 = 1;
     s32 pad;
-    s16 sceneNum = play->sceneNum;
+    s16 sceneId = play->sceneId;
 
-    if (sceneNum == SCENE_SPOT17) {
+    if (sceneId == SCENE_DEATH_MOUNTAIN_CRATER) {
         CsCmdActorAction* npcAction = EnXc_GetCsCmd(play, 0);
         if (npcAction != NULL) {
             s32 action = npcAction->action;
@@ -861,10 +861,10 @@ void EnXc_SetupDisappear(EnXc* this, PlayState* play) {
         CsCmdActorAction* npcAction = play->csCtx.npcActions[4];
 
         if (npcAction != NULL && npcAction->action == 9) {
-            s16 sceneNum = play->sceneNum;
+            s16 sceneId = play->sceneId;
 
             // Sheik fades away if end of Bolero CS, kill actor otherwise
-            if (sceneNum == SCENE_SPOT17) {
+            if (sceneId == SCENE_DEATH_MOUNTAIN_CRATER) {
                 this->action = SHEIK_ACTION_FADE;
                 this->drawMode = SHEIK_DRAW_NOTHING;
                 this->actor.shape.shadowAlpha = 0;
@@ -1537,7 +1537,7 @@ void EnXc_PlayTriforceSFX(Actor* thisx, PlayState* play) {
 
         Matrix_MultVec3f(&sp1C, &src);
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &src, &pos, &wDest);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
         this->unk_2A8 = 0;
     }
 }
@@ -1746,14 +1746,14 @@ void EnXc_SetThrownAroundSFX(EnXc* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (Animation_OnFrame(skelAnime, 9.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS);
         func_80078914(&this->actor.projectedPos, NA_SE_VO_SK_CRASH);
     } else if (Animation_OnFrame(skelAnime, 26.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS);
     } else if (Animation_OnFrame(skelAnime, 28.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS);
     } else if (Animation_OnFrame(skelAnime, 34.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GRASS);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS);
     }
 }
 
@@ -2345,11 +2345,11 @@ s32 EnXc_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (this->unk_30C != 0) {
         if (limbIndex == 9) {
-            rot->x += this->npcInfo.unk_0E.y;
-            rot->y -= this->npcInfo.unk_0E.x;
+            rot->x += this->interactInfo.torsoRot.y;
+            rot->y -= this->interactInfo.torsoRot.x;
         } else if (limbIndex == 16) {
-            rot->x += this->npcInfo.unk_08.y;
-            rot->z += this->npcInfo.unk_08.x;
+            rot->x += this->interactInfo.headRot.y;
+            rot->z += this->interactInfo.headRot.x;
         }
     }
     return 0;
@@ -2409,7 +2409,7 @@ void EnXc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit En_Xc_InitVars = {
+ActorInit En_Xc_InitVars = {
     ACTOR_EN_XC,
     ACTORCAT_NPC,
     FLAGS,

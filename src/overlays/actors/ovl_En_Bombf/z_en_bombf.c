@@ -21,7 +21,7 @@ void EnBombf_WaitForRelease(EnBombf* this, PlayState* play);
 void EnBombf_Explode(EnBombf* this, PlayState* play);
 void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 
-const ActorInit En_Bombf_InitVars = {
+ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
     ACTORCAT_PROP,
     FLAGS,
@@ -90,7 +90,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
     EnBombf* this = (EnBombf*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
-    this->unk_200 = 1;
+    this->isFuseEnabled = true;
     Collider_InitCylinder(play, &this->bombCollider);
     Collider_InitJntSph(play, &this->explosionCollider);
     Collider_SetCylinder(play, &this->bombCollider, thisx, &sCylinderInit);
@@ -156,7 +156,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 func_8002F5C4(&this->actor, &bombFlower->actor, play);
                 this->timer = 180;
                 this->flowerBombScale = 0.0f;
-                Audio_PlayActorSound2(&this->actor, NA_SE_PL_PULL_UP_ROCK);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_PL_PULL_UP_ROCK);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
                 player->actor.child = NULL;
@@ -172,7 +172,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 bombFlower = (EnBombf*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOMBF, this->actor.world.pos.x,
                                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 if (bombFlower != NULL) {
-                    bombFlower->unk_200 = 1;
+                    bombFlower->isFuseEnabled = true;
                     bombFlower->timer = 0;
                     this->timer = 180;
                     this->actor.flags &= ~ACTOR_FLAG_0;
@@ -261,7 +261,7 @@ void EnBombf_Explode(EnBombf* this, PlayState* play) {
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
         this->actor.flags |= ACTOR_FLAG_5;
-        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
+        Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
     }
 
     this->explosionCollider.elements[0].dim.modelSphere.radius += 8;
@@ -320,7 +320,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
     s32 pad[2];
     EnBombf* this = (EnBombf*)thisx;
 
-    if ((this->unk_200 != 0) && (this->timer != 0)) {
+    if ((this->isFuseEnabled) && (this->timer != 0)) {
         this->timer--;
     }
 
@@ -356,7 +356,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 if (1) {}
                 thisx->world.rot.y = ((thisx->wallYaw - thisx->world.rot.y) + thisx->wallYaw) - 0x8000;
             }
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BOMB_BOUND);
+            Audio_PlayActorSfx2(thisx, NA_SE_EV_BOMB_BOUND);
             Actor_MoveForward(thisx);
             DREG(6) = 1;
             Actor_UpdateBgCheckInfo(play, thisx, 5.0f, 10.0f, 0.0f,
@@ -369,7 +369,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
 
         if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
                                                            (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
-            this->unk_200 = 1;
+            this->isFuseEnabled = true;
             this->timer = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
@@ -378,7 +378,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
             }
         }
 
-        if (this->unk_200 != 0) {
+        if (this->isFuseEnabled) {
             dustAccel.y = 0.2f;
             effPos = thisx->world.pos;
             effPos.y += 25.0f;
@@ -387,7 +387,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 if ((play->gameplayFrames % 2) == 0) {
                     EffectSsGSpk_SpawnFuse(play, thisx, &effPos, &effVelocity, &effAccel);
                 }
-                Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
+                Audio_PlayActorSfx2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
                 effPos.y += 3.0f;
                 func_8002829C(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
@@ -424,11 +424,11 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                     EffectSsBlast_SpawnWhiteShockwave(play, &effPos, &effVelocity, &effAccel);
                 }
 
-                Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
+                Audio_PlayActorSfx2(thisx, NA_SE_IT_BOMB_EXPLOSION);
                 play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = 250;
                 play->envCtx.adjAmbientColor[0] = play->envCtx.adjAmbientColor[1] = play->envCtx.adjAmbientColor[2] =
                     250;
-                Camera_AddQuake(&play->mainCamera, 2, 0xB, 8);
+                Camera_RequestQuake(&play->mainCamera, 2, 11, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
                 thisx->flags |= ACTOR_FLAG_5;
@@ -460,7 +460,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
         }
         if (thisx->bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
             thisx->bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BOMB_DROP_WATER);
+            Audio_PlayActorSfx2(thisx, NA_SE_EV_BOMB_DROP_WATER);
         }
     }
 }

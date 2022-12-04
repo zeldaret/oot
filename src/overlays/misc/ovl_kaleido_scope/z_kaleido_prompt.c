@@ -5,17 +5,17 @@ static s16 D_8082A6E0[] = { 100, 255 };
 void KaleidoScope_UpdatePrompt(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     Input* input = &play->state.input[0];
-    s8 relStickX = input->rel.stick_x;
+    s8 stickAdjX = input->rel.stick_x;
     s16 step;
 
     if (((pauseCtx->state == 7) && (pauseCtx->unk_1EC == 1)) || (pauseCtx->state == 0xE) || (pauseCtx->state == 0x10)) {
-        if ((pauseCtx->promptChoice == 0) && (relStickX >= 30)) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        if ((pauseCtx->promptChoice == 0) && (stickAdjX >= 30)) {
+            Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             pauseCtx->promptChoice = 4;
-        } else if ((pauseCtx->promptChoice != 0) && (relStickX <= -30)) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        } else if ((pauseCtx->promptChoice != 0) && (stickAdjX <= -30)) {
+            Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             pauseCtx->promptChoice = 0;
         }
 

@@ -6,7 +6,7 @@
 
 #include "z_en_ru1.h"
 #include "assets/objects/object_ru1/object_ru1.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
@@ -106,7 +106,7 @@ static void* sMouthTextures[] = {
 static s32 sUnused = 0;
 
 #pragma asmproc recurse
-#include "z_en_ru1_cutscene_data.c"
+#include "z_en_ru1_cutscene_data.inc.c"
 
 static u32 D_80AF1938 = 0;
 
@@ -132,7 +132,7 @@ static EnRu1DrawFunc sDrawFuncs[] = {
     EnRu1_DrawXlu,
 };
 
-const ActorInit En_Ru1_InitVars = {
+ActorInit En_Ru1_InitVars = {
     ACTOR_EN_RU1,
     ACTORCAT_NPC,
     FLAGS,
@@ -453,7 +453,7 @@ void EnRu1_SpawnSplash(EnRu1* this, PlayState* play) {
     pos.y = this->actor.world.pos.y + this->actor.yDistToWater;
     pos.z = this->actor.world.pos.z;
 
-    EffectSsGSplash_Spawn(play, &pos, 0, 0, 1, 0);
+    EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 1, 0);
 }
 
 void func_80AEB6E0(EnRu1* this, PlayState* play) {
@@ -592,8 +592,8 @@ void func_80AEBC30(PlayState* play) {
 
     if (play->csCtx.frames == 0xCD) {
         player = GET_PLAYER(play);
-        Audio_PlaySoundGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -833,7 +833,7 @@ void func_80AEC650(EnRu1* this) {
 
     if (this->unk_280 == 0) {
         if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
-            func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
+            func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
         }
     }
 }
@@ -860,7 +860,7 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
         (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
-        play->csCtx.segment = &D_80AF0880;
+        play->csCtx.segment = D_80AF0880;
         gSaveContext.cutsceneTrigger = 1;
         player->linearVelocity = 0.0f;
         this->action = 8;
@@ -1197,8 +1197,8 @@ void func_80AED4FC(EnRu1* this) {
 void func_80AED520(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    Audio_PlaySoundGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
 }
 
@@ -1274,10 +1274,10 @@ void func_80AED83C(EnRu1* this) {
     Vec3s* tempPtr;
     Vec3s* tempPtr2;
 
-    tempPtr = &this->unk_374.unk_08;
+    tempPtr = &this->interactInfo.headRot;
     Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
-    tempPtr2 = &this->unk_374.unk_0E;
+    tempPtr2 = &this->interactInfo.torsoRot;
     Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
     Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
 }
@@ -1285,7 +1285,7 @@ void func_80AED83C(EnRu1* this) {
 void func_80AED8DC(EnRu1* this) {
     s32 temp_hi;
     s16* unk_2AC = &this->unk_2AC;
-    s16* someY = &this->unk_374.unk_08.y;
+    s16* someY = &this->interactInfo.headRot.y;
     s16* unk_29E = &this->unk_29E;
     s32 pad[2];
 
@@ -1542,7 +1542,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
             dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
             func_80AEE02C(this);
-            play->csCtx.segment = &D_80AF10A4;
+            play->csCtx.segment = D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
@@ -1601,14 +1601,14 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
     s32 pad;
     s8 curRoomNum = play->roomCtx.curRoom.num;
 
-    if (!GET_INFTABLE(INFTABLE_144) && (func_80AEB124(play) != 0)) {
+    if (!GET_INFTABLE(INFTABLE_144) && (func_80AEB124(play) != NULL)) {
         if (!Player_InCsMode(play)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
             func_80AED600(this);
             this->action = 34;
             this->unk_26C = 0.0f;
-            play->csCtx.segment = &D_80AF1728;
+            play->csCtx.segment = D_80AF1728;
             gSaveContext.cutsceneTrigger = 1;
         }
         this->roomNum3 = curRoomNum;
@@ -1787,20 +1787,20 @@ void func_80AEEF68(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 something;
 
-    this->unk_374.unk_18 = player->actor.world.pos;
-    this->unk_374.unk_14 = kREG(16) - 3.0f;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    func_80034A14(&this->actor, &this->unk_374, something, 2);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, something, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80AEEFEC(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 something;
 
-    this->unk_374.unk_18 = player->actor.world.pos;
-    this->unk_374.unk_14 = kREG(16) - 3.0f;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) - 3.0f;
     something = kREG(17) + 0xC;
-    func_80034A14(&this->actor, &this->unk_374, something, 4);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, something, NPC_TRACKING_FULL_BODY);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 
@@ -1899,12 +1899,12 @@ void func_80AEF40C(EnRu1* this) {
     if (Animation_OnFrame(skelAnime, 2.0f) || Animation_OnFrame(skelAnime, 7.0f) ||
         Animation_OnFrame(skelAnime, 12.0f) || Animation_OnFrame(skelAnime, 18.0f) ||
         Animation_OnFrame(skelAnime, 25.0f) || Animation_OnFrame(skelAnime, 33.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
     }
 }
 
 void func_80AEF4A8(EnRu1* this, PlayState* play) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.projectedPos, 20, NA_SE_VO_RT_FALL);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.projectedPos, 20, NA_SE_VO_RT_FALL);
 }
 
 void func_80AEF4E0(EnRu1* this) {
@@ -2003,7 +2003,7 @@ void func_80AEF890(EnRu1* this, PlayState* play) {
     s32 pad[2];
     s8 curRoomNum;
 
-    if ((gSaveContext.sceneSetupIndex < 4) && (EnRu1_IsCsStateIdle(play))) {
+    if (!IS_CUTSCENE_LAYER && (EnRu1_IsCsStateIdle(play))) {
         curRoomNum = play->roomCtx.curRoom.num;
         SET_INFTABLE(INFTABLE_145);
         Flags_SetSwitch(play, func_80AEADE0(this));
@@ -2260,8 +2260,8 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 }
 
 void func_80AF0278(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot) {
-    Vec3s* vec1 = &this->unk_374.unk_0E;
-    Vec3s* vec2 = &this->unk_374.unk_08;
+    Vec3s* vec1 = &this->interactInfo.torsoRot;
+    Vec3s* vec2 = &this->interactInfo.headRot;
 
     switch (limbIndex) {
         case RUTO_CHILD_LEFT_UPPER_ARM:
@@ -2361,7 +2361,7 @@ void EnRu1_DrawXlu(EnRu1* this, PlayState* play) {
 void EnRu1_Draw(Actor* thisx, PlayState* play) {
     EnRu1* this = (EnRu1*)thisx;
 
-    if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == 0) {
+    if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
         // "Draw mode is improper!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

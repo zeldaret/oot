@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_ext.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_fhg/object_fhg.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -45,8 +45,8 @@ void DemoExt_Init(Actor* thisx, PlayState* play) {
 
 void DemoExt_PlayVortexSFX(DemoExt* this) {
     if (this->alphaTimer <= (kREG(35) + 40.0f) - 15.0f) {
-        Audio_PlaySoundGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -233,7 +233,7 @@ void DemoExt_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit Demo_Ext_InitVars = {
+ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
     ACTORCAT_NPC,
     FLAGS,

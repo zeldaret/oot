@@ -23,7 +23,7 @@ void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, PlayState* play);
 void EnDha_UpdateHealth(EnDha* this, PlayState* play);
 
-const ActorInit En_Dha_InitVars = {
+ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -221,7 +221,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
                         this->actor.parent->params = ENDH_START_ATTACK_GRAB;
                     }
 
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
             } else {
                 this->timer += 0x1194;
@@ -234,7 +234,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
                 }
 
                 if (this->timer < -0x6E6B) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
             }
 
@@ -249,7 +249,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
             }
 
             if (this->actor.home.rot.z != 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HAND_AT);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HAND_AT);
                 this->actor.home.rot.z = 0;
             }
         }
@@ -326,7 +326,7 @@ void EnDha_SetupDeath(EnDha* this) {
 
     if (this->actor.parent != NULL) {
         if (this->actor.parent->params != ENDH_DEATH) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
         }
         if (this->actor.parent->params <= ENDH_WAIT_UNDERGROUND) {
             this->actor.parent->params--;
@@ -389,7 +389,7 @@ void EnDha_UpdateHealth(EnDha* this, PlayState* play) {
                 this->actor.colChkInfo.health = 8;
                 Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
             } else {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
                 this->unk_1C0 = 9;
                 EnDha_SetupTakeDamage(this);
             }

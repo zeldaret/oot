@@ -5,37 +5,37 @@
     { importance, ((((distParam) << SFX_PARAM_01_SHIFT) & SFX_PARAM_01_MASK) | \
                    (((randParam) << SFX_PARAM_67_SHIFT) & SFX_PARAM_67_MASK) | (flags)) },
 
-SoundParams sEnemyBankParams[] = {
+SfxParams sEnemyBankParams[] = {
 #include "tables/sfx/enemybank_table.h"
 };
 
-SoundParams sPlayerBankParams[] = {
+SfxParams sPlayerBankParams[] = {
 #include "tables/sfx/playerbank_table.h"
 };
 
-SoundParams sItemBankParams[] = {
+SfxParams sItemBankParams[] = {
 #include "tables/sfx/itembank_table.h"
 };
 
-SoundParams sEnvBankParams[] = {
+SfxParams sEnvBankParams[] = {
 #include "tables/sfx/environmentbank_table.h"
 };
 
-SoundParams sSystemBankParams[] = {
+SfxParams sSystemBankParams[] = {
 #include "tables/sfx/systembank_table.h"
 };
 
-SoundParams sOcarinaBankParams[] = {
+SfxParams sOcarinaBankParams[] = {
 #include "tables/sfx/ocarinabank_table.h"
 };
 
-SoundParams sVoiceBankParams[] = {
+SfxParams sVoiceBankParams[] = {
 #include "tables/sfx/voicebank_table.h"
 };
 
 #undef DEFINE_SFX
 
-SoundParams* gSoundParams[7] = {
+SfxParams* gSfxParams[7] = {
     sPlayerBankParams, sItemBankParams,    sEnvBankParams,   sEnemyBankParams,
     sSystemBankParams, sOcarinaBankParams, sVoiceBankParams,
 };

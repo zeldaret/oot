@@ -9,7 +9,7 @@
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_km1/object_km1.h"
 #include "assets/objects/object_kw1/object_kw1.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -30,7 +30,7 @@ void func_80A99560(EnKo* this, PlayState* play);
 
 s32 func_80A98ECC(EnKo* this, PlayState* play);
 
-const ActorInit En_Ko_InitVars = {
+ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
     ACTORCAT_NPC,
     FLAGS,
@@ -90,93 +90,116 @@ static EnKoSkeleton sSkeleton[2] = {
 };
 
 typedef enum {
-    /*  0 */ ENKO_ANIM_0,
-    /*  1 */ ENKO_ANIM_1,
-    /*  2 */ ENKO_ANIM_2,
-    /*  3 */ ENKO_ANIM_3,
-    /*  4 */ ENKO_ANIM_4,
-    /*  5 */ ENKO_ANIM_5,
-    /*  6 */ ENKO_ANIM_6,
-    /*  7 */ ENKO_ANIM_7,
-    /*  8 */ ENKO_ANIM_8,
-    /*  9 */ ENKO_ANIM_9,
-    /* 10 */ ENKO_ANIM_10,
-    /* 11 */ ENKO_ANIM_11,
-    /* 12 */ ENKO_ANIM_12,
-    /* 13 */ ENKO_ANIM_13,
-    /* 14 */ ENKO_ANIM_14,
-    /* 15 */ ENKO_ANIM_15,
-    /* 16 */ ENKO_ANIM_16,
-    /* 17 */ ENKO_ANIM_17,
-    /* 18 */ ENKO_ANIM_18,
-    /* 19 */ ENKO_ANIM_19,
-    /* 20 */ ENKO_ANIM_20,
-    /* 21 */ ENKO_ANIM_21,
-    /* 22 */ ENKO_ANIM_22,
-    /* 23 */ ENKO_ANIM_23,
-    /* 24 */ ENKO_ANIM_24,
-    /* 25 */ ENKO_ANIM_25,
-    /* 26 */ ENKO_ANIM_26,
-    /* 27 */ ENKO_ANIM_27,
-    /* 28 */ ENKO_ANIM_28,
-    /* 29 */ ENKO_ANIM_29,
-    /* 30 */ ENKO_ANIM_30,
-    /* 31 */ ENKO_ANIM_31,
-    /* 32 */ ENKO_ANIM_32,
-    /* 33 */ ENKO_ANIM_33
+    /*  0 */ ENKO_ANIM_BLOCKING_NOMORPH,
+    /*  1 */ ENKO_ANIM_BLOCKING_NOMORPH_STATIC,
+    /*  2 */ ENKO_ANIM_STANDUP_1,
+    /*  3 */ ENKO_ANIM_STANDUP_2,
+    /*  4 */ ENKO_ANIM_STANDUP_3,
+    /*  5 */ ENKO_ANIM_IDLE_NOMORPH,
+    /*  6 */ ENKO_ANIM_IDLE,
+    /*  7 */ ENKO_ANIM_LAUGHING,
+    /*  8 */ ENKO_ANIM_LIFTING_ROCK_NOMORPH,
+    /*  9 */ ENKO_ANIM_RECLINED_STANDING,
+    /* 10 */ ENKO_ANIM_RECLINED_SITTING_UP,
+    /* 11 */ ENKO_ANIM_PUNCHING_NOMORPH,
+    /* 12 */ ENKO_ANIM_STANDING_HAND_ON_CHEST,
+    /* 13 */ ENKO_ANIM_STANDING_HANDS_ON_HIPS,
+    /* 14 */ ENKO_ANIM_SITTING,
+    /* 15 */ ENKO_ANIM_SITTING_CROSSED_ARMS_LEGS,
+    /* 16 */ ENKO_ANIM_STANDING_APPREHENSIVE,
+    /* 17 */ ENKO_ANIM_LEANING_ON_ARMS,
+    /* 18 */ ENKO_ANIM_RECLINED_LEANING_BACK,
+    /* 19 */ ENKO_ANIM_CUTTING_GRASS_NOMORPH,
+    /* 20 */ ENKO_ANIM_BACKFLIP,
+    /* 21 */ ENKO_ANIM_LEANING_FORWARD,
+    /* 22 */ ENKO_ANIM_STANDING_RIGHT_ARM_UP,
+    /* 23 */ ENKO_ANIM_STANDING_ARMS_BEHIND_BACK,
+    /* 24 */ ENKO_ANIM_STANDING,
+    /* 25 */ ENKO_ANIM_SITTING_CROSSED_LEGS,
+    /* 26 */ ENKO_ANIM_SITTING_ARMS_UP,
+    /* 27 */ ENKO_ANIM_SITTING_HEAD_ON_HAND,
+    /* 28 */ ENKO_ANIM_SITTING_DIGGING,
+    /* 29 */ ENKO_ANIM_BLOCKING_STATIC,
+    /* 30 */ ENKO_ANIM_CUTTING_GRASS,
+    /* 31 */ ENKO_ANIM_PUNCHING,
+    /* 32 */ ENKO_ANIM_WIPING_FOREHEAD,
+    /* 33 */ ENKO_ANIM_LIFTING_ROCK
 } EnKoAnimation;
 
 static AnimationInfo sAnimationInfo[] = {
-    { &gObjOsAnim_8F6C, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
-    { &gObjOsAnim_8F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
-    { &gObjOsAnim_9B64, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
-    { &gObjOsAnim_9B64, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
-    { &gObjOsAnim_9B64, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
-    { &gObjOsAnim_62DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_62DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gObjOsAnim_5808, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gObjOsAnim_7830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_8178, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_65E0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_7FFC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_80B4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_91AC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_6F9C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_7064, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_7120, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_7F38, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_7D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_6EE0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_98EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_90EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_982C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_9274, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_99A4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_9028, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_7E64, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_7454, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &gObjOsAnim_8F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
-    { &gObjOsAnim_7D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &gObjOsAnim_879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &gObjOsAnim_6A60, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { &gObjOsAnim_7830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gKokiriBlockingAnim, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+    { &gKokiriBlockingAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+    { &gKokiriStandUpAnim, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
+    { &gKokiriStandUpAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gKokiriStandUpAnim, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
+    { &gKokiriIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKokiriLaughingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKokiriLiftingRockAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriRecliningStandingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriRecliningSittingUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriPunchingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingHandOnChestAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingHandsOnHipsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSittingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSittingCrossedArmsLegsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingApprehensiveAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriLeaningOnArmsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriRecliningLeaningBackAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriCuttingGrassAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriBackflipAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriLeaningForwardAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingRightArmUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingArmsBehindBackAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriStandingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSittingCrossedLegsAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSittingArmsUpAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSittingHeadOnHandAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriSittingDiggingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKokiriBlockingAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
+    { &gKokiriCuttingGrassAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gKokiriPunchingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gKokiriWipingForeheadAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gKokiriLiftingRockAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
 static u8 sOsAnimeLookup[13][5] = {
-    /* ENKO_TYPE_CHILD_0    */ { ENKO_ANIM_8, ENKO_ANIM_9, ENKO_ANIM_9, ENKO_ANIM_14, ENKO_ANIM_11 },
-    /* ENKO_TYPE_CHILD_1    */ { ENKO_ANIM_2, ENKO_ANIM_12, ENKO_ANIM_2, ENKO_ANIM_13, ENKO_ANIM_13 },
-    /* ENKO_TYPE_CHILD_2    */ { ENKO_ANIM_11, ENKO_ANIM_11, ENKO_ANIM_11, ENKO_ANIM_15, ENKO_ANIM_9 },
-    /* ENKO_TYPE_CHILD_3    */ { ENKO_ANIM_0, ENKO_ANIM_16, ENKO_ANIM_16, ENKO_ANIM_17, ENKO_ANIM_18 },
-    /* ENKO_TYPE_CHILD_4    */ { ENKO_ANIM_19, ENKO_ANIM_19, ENKO_ANIM_20, ENKO_ANIM_10, ENKO_ANIM_9 },
-    /* ENKO_TYPE_CHILD_5    */ { ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3 },
-    /* ENKO_TYPE_CHILD_6    */ { ENKO_ANIM_4, ENKO_ANIM_22, ENKO_ANIM_22, ENKO_ANIM_4, ENKO_ANIM_23 },
-    /* ENKO_TYPE_CHILD_7    */ { ENKO_ANIM_24, ENKO_ANIM_16, ENKO_ANIM_16, ENKO_ANIM_25, ENKO_ANIM_16 },
-    /* ENKO_TYPE_CHILD_8    */ { ENKO_ANIM_26, ENKO_ANIM_15, ENKO_ANIM_15, ENKO_ANIM_26, ENKO_ANIM_15 },
-    /* ENKO_TYPE_CHILD_9    */ { ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_27, ENKO_ANIM_27 },
-    /* ENKO_TYPE_CHILD_10   */ { ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_22 },
-    /* ENKO_TYPE_CHILD_11   */ { ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14 },
-    /* ENKO_TYPE_CHILD_FADO */ { ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5 },
+    /* ENKO_TYPE_CHILD_0    */ { ENKO_ANIM_LIFTING_ROCK_NOMORPH, ENKO_ANIM_RECLINED_STANDING,
+                                 ENKO_ANIM_RECLINED_STANDING, ENKO_ANIM_SITTING, ENKO_ANIM_PUNCHING_NOMORPH },
+    /* ENKO_TYPE_CHILD_1    */
+    { ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDING_HAND_ON_CHEST, ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDING_HANDS_ON_HIPS,
+      ENKO_ANIM_STANDING_HANDS_ON_HIPS },
+    /* ENKO_TYPE_CHILD_2    */
+    { ENKO_ANIM_PUNCHING_NOMORPH, ENKO_ANIM_PUNCHING_NOMORPH, ENKO_ANIM_PUNCHING_NOMORPH,
+      ENKO_ANIM_SITTING_CROSSED_ARMS_LEGS, ENKO_ANIM_RECLINED_STANDING },
+    /* ENKO_TYPE_CHILD_3    */
+    { ENKO_ANIM_BLOCKING_NOMORPH, ENKO_ANIM_STANDING_APPREHENSIVE, ENKO_ANIM_STANDING_APPREHENSIVE,
+      ENKO_ANIM_LEANING_ON_ARMS, ENKO_ANIM_RECLINED_LEANING_BACK },
+    /* ENKO_TYPE_CHILD_4    */
+    { ENKO_ANIM_CUTTING_GRASS_NOMORPH, ENKO_ANIM_CUTTING_GRASS_NOMORPH, ENKO_ANIM_BACKFLIP,
+      ENKO_ANIM_RECLINED_SITTING_UP, ENKO_ANIM_RECLINED_STANDING },
+    /* ENKO_TYPE_CHILD_5    */
+    { ENKO_ANIM_STANDUP_2, ENKO_ANIM_STANDUP_2, ENKO_ANIM_STANDUP_2, ENKO_ANIM_STANDUP_2, ENKO_ANIM_STANDUP_2 },
+    /* ENKO_TYPE_CHILD_6    */
+    { ENKO_ANIM_STANDUP_3, ENKO_ANIM_STANDING_RIGHT_ARM_UP, ENKO_ANIM_STANDING_RIGHT_ARM_UP, ENKO_ANIM_STANDUP_3,
+      ENKO_ANIM_STANDING_ARMS_BEHIND_BACK },
+    /* ENKO_TYPE_CHILD_7    */
+    { ENKO_ANIM_STANDING, ENKO_ANIM_STANDING_APPREHENSIVE, ENKO_ANIM_STANDING_APPREHENSIVE,
+      ENKO_ANIM_SITTING_CROSSED_LEGS, ENKO_ANIM_STANDING_APPREHENSIVE },
+    /* ENKO_TYPE_CHILD_8    */
+    { ENKO_ANIM_SITTING_ARMS_UP, ENKO_ANIM_SITTING_CROSSED_ARMS_LEGS, ENKO_ANIM_SITTING_CROSSED_ARMS_LEGS,
+      ENKO_ANIM_SITTING_ARMS_UP, ENKO_ANIM_SITTING_CROSSED_ARMS_LEGS },
+    /* ENKO_TYPE_CHILD_9    */
+    { ENKO_ANIM_STANDUP_2, ENKO_ANIM_STANDUP_2, ENKO_ANIM_STANDUP_2, ENKO_ANIM_SITTING_HEAD_ON_HAND,
+      ENKO_ANIM_SITTING_HEAD_ON_HAND },
+    /* ENKO_TYPE_CHILD_10   */
+    { ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDUP_1, ENKO_ANIM_STANDUP_1,
+      ENKO_ANIM_STANDING_RIGHT_ARM_UP },
+    /* ENKO_TYPE_CHILD_11   */
+    { ENKO_ANIM_SITTING, ENKO_ANIM_SITTING, ENKO_ANIM_SITTING, ENKO_ANIM_SITTING, ENKO_ANIM_SITTING },
+    /* ENKO_TYPE_CHILD_FADO */
+    { ENKO_ANIM_IDLE_NOMORPH, ENKO_ANIM_IDLE_NOMORPH, ENKO_ANIM_IDLE_NOMORPH, ENKO_ANIM_IDLE_NOMORPH,
+      ENKO_ANIM_IDLE_NOMORPH },
 };
 
 typedef struct {
@@ -530,20 +553,20 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
                     SET_INFTABLE(INFTABLE_B7);
                     break;
                 case 0x10BA:
-                    return 1;
+                    return NPC_TALK_STATE_TALKING;
             }
-            return 0;
+            return NPC_TALK_STATE_IDLE;
         case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x10B7:
                 case 0x10B8:
                     if (this->unk_210 == 0) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->unk_210 = 1;
                     }
             }
-            return 1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(play)) {
                 switch (this->actor.textId) {
@@ -566,17 +589,17 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
                         FALLTHROUGH;
                     case 0x10B8:
                         this->actor.textId = (play->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
-                        return (play->msgCtx.choiceIndex == 0) ? 2 : 1;
+                        return (play->msgCtx.choiceIndex == 0) ? NPC_TALK_STATE_ACTION : NPC_TALK_STATE_TALKING;
                 }
-                return 1;
+                return NPC_TALK_STATE_TALKING;
             }
             break;
         case TEXT_STATE_DONE:
             if (Message_ShouldAdvance(play)) {
-                return 3;
+                return NPC_TALK_STATE_ITEM_GIVEN;
             }
     }
-    return 1;
+    return NPC_TALK_STATE_TALKING;
 }
 
 s32 EnKo_GetForestQuestState(EnKo* this) {
@@ -661,108 +684,108 @@ s32 EnKo_IsWithinTalkAngle(EnKo* this) {
 }
 
 s32 func_80A97D68(EnKo* this, PlayState* play) {
-    s16 arg3;
+    s16 trackingMode;
 
-    if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &gObjOsAnim_6A60) == false) {
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_32);
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        if ((this->skelAnime.animation == &gKokiriWipingForeheadAnim) == false) {
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_WIPING_FOREHEAD);
         }
-        arg3 = 2;
+        trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
-        if ((this->skelAnime.animation == &gObjOsAnim_7830) == false) {
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_33);
+        if ((this->skelAnime.animation == &gKokiriLiftingRockAnim) == false) {
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_LIFTING_ROCK);
         }
-        arg3 = 1;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    func_80034A14(&this->actor, &this->unk_1E8, 2, arg3);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     return EnKo_IsWithinTalkAngle(this);
 }
 
 s32 func_80A97E18(EnKo* this, PlayState* play) {
-    s16 arg3;
+    s16 trackingMode;
 
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
     if (EnKo_IsWithinTalkAngle(this) == true) {
-        arg3 = 2;
+        trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
-        arg3 = 1;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    if (this->unk_1E8.unk_00 != 0) {
-        arg3 = 4;
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        trackingMode = NPC_TRACKING_FULL_BODY;
     } else if (this->lookDist < this->actor.xzDistToPlayer) {
-        arg3 = 1;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    func_80034A14(&this->actor, &this->unk_1E8, 2, arg3);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     return 1;
 }
 
 s32 func_80A97EB0(EnKo* this, PlayState* play) {
-    s16 arg3;
+    s16 trackingMode;
     s32 result;
 
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
     result = EnKo_IsWithinTalkAngle(this);
-    arg3 = (result == true) ? 2 : 1;
-    func_80034A14(&this->actor, &this->unk_1E8, 2, arg3);
+    trackingMode = (result == true) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
     return result;
 }
 
 s32 func_80A97F20(EnKo* this, PlayState* play) {
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
-    func_80034A14(&this->actor, &this->unk_1E8, 2, 4);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
     return 1;
 }
 
 s32 func_80A97F70(EnKo* this, PlayState* play) {
-    s16 arg3;
+    s16 trackingMode;
 
-    if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        if ((this->skelAnime.animation == &gKokiriBlockingAnim) == false) {
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_BLOCKING_STATIC);
         }
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
-        arg3 = 2;
+        trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
-        if ((this->skelAnime.animation == &gObjOsAnim_7D94) == false) {
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_30);
+        if ((this->skelAnime.animation == &gKokiriCuttingGrassAnim) == false) {
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_CUTTING_GRASS);
         }
-        arg3 = 1;
+        trackingMode = NPC_TRACKING_NONE;
     }
-    func_80034A14(&this->actor, &this->unk_1E8, 5, arg3);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 5, trackingMode);
     return EnKo_IsWithinTalkAngle(this);
 }
 
 s32 func_80A98034(EnKo* this, PlayState* play) {
-    s16 arg3;
+    s16 trackingMode;
     s32 result;
 
-    if (this->unk_1E8.unk_00 != 0) {
-        if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
+        if ((this->skelAnime.animation == &gKokiriBlockingAnim) == false) {
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_BLOCKING_STATIC);
         }
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
         result = EnKo_IsWithinTalkAngle(this);
-        arg3 = (result == true) ? 2 : 1;
+        trackingMode = (result == true) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
     } else {
-        if ((this->skelAnime.animation == &gObjOsAnim_879C) == false) {
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_31);
+        if ((this->skelAnime.animation == &gKokiriPunchingAnim) == false) {
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_PUNCHING);
         }
-        arg3 = 1;
+        trackingMode = NPC_TRACKING_NONE;
         result = EnKo_IsWithinTalkAngle(this);
     }
-    func_80034A14(&this->actor, &this->unk_1E8, 5, arg3);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 5, trackingMode);
     return result;
 }
 
 // Same as func_80A97F20
 s32 func_80A98124(EnKo* this, PlayState* play) {
     func_80034F54(play, this->unk_2E4, this->unk_304, 16);
-    func_80034A14(&this->actor, &this->unk_1E8, 2, 4);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
     return 1;
 }
 
 s32 func_80A98174(EnKo* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (Animation_OnFrame(&this->skelAnime, 18.0f)) {
             this->skelAnime.playSpeed = 0.0f;
         }
@@ -772,7 +795,8 @@ s32 func_80A98174(EnKo* this, PlayState* play) {
     if (this->skelAnime.playSpeed == 0.0f) {
         func_80034F54(play, this->unk_2E4, this->unk_304, 16);
     }
-    func_80034A14(&this->actor, &this->unk_1E8, 2, (this->skelAnime.playSpeed == 0.0f) ? 2 : 1);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2,
+                   (this->skelAnime.playSpeed == 0.0f) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE);
     return EnKo_IsWithinTalkAngle(this);
 }
 
@@ -934,23 +958,24 @@ void func_80A9877C(EnKo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((play->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
-        this->unk_1E8.unk_18 = play->view.eye;
-        this->unk_1E8.unk_14 = 40.0f;
+        this->interactInfo.trackPos = play->view.eye;
+        this->interactInfo.yOffset = 40.0f;
         if (ENKO_TYPE != ENKO_TYPE_CHILD_0) {
-            func_80034A14(&this->actor, &this->unk_1E8, 2, 2);
+            Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_HEAD_AND_TORSO);
         }
     } else {
-        this->unk_1E8.unk_18 = player->actor.world.pos;
-        this->unk_1E8.unk_14 = func_80A97BC0(this);
-        if ((func_80A98ECC(this, play) == 0) && (this->unk_1E8.unk_00 == 0)) {
+        this->interactInfo.trackPos = player->actor.world.pos;
+        this->interactInfo.yOffset = func_80A97BC0(this);
+        if ((func_80A98ECC(this, play) == 0) && (this->interactInfo.talkState == NPC_TALK_STATE_IDLE)) {
             return;
         }
     }
-    if (func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, this->lookDist, func_80A97610, func_80A97738) &&
-        ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneNum == SCENE_SPOT10) {
+    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->lookDist, func_80A97610,
+                          func_80A97738) &&
+        ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_LOST_WOODS) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
-        if (func_8002F368(play) == ENKO_TYPE_CHILD_9) {
+        if (func_8002F368(play) == EXCH_ITEM_ODD_POTION) {
             this->actor.textId = GET_INFTABLE(INFTABLE_BC) ? 0x10B8 : 0x10B7;
             this->unk_210 = 0;
         }
@@ -960,8 +985,8 @@ void func_80A9877C(EnKo* this, PlayState* play) {
 
 // Checks if the Kokiri should spawn based on quest progress
 s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
-    switch (play->sceneNum) {
-        case SCENE_SPOT04:
+    switch (play->sceneId) {
+        case SCENE_KOKIRI_FOREST:
             if (ENKO_TYPE >= ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_FADO) {
                 return false;
             }
@@ -969,13 +994,13 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
                 return false;
             }
             return true;
-        case SCENE_KOKIRI_HOME:
+        case SCENE_KNOW_IT_ALL_BROS_HOUSE:
             if (ENKO_TYPE != ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_8 && ENKO_TYPE != ENKO_TYPE_CHILD_11) {
                 return false;
             } else {
                 return true;
             }
-        case SCENE_KOKIRI_HOME3:
+        case SCENE_TWINS_HOUSE:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (ENKO_TYPE != ENKO_TYPE_CHILD_1 && ENKO_TYPE != ENKO_TYPE_CHILD_9) {
                     return false;
@@ -988,7 +1013,7 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_KOKIRI_HOME4:
+        case SCENE_MIDOS_HOUSE:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (ENKO_TYPE != ENKO_TYPE_CHILD_0 && ENKO_TYPE != ENKO_TYPE_CHILD_4) {
                     return false;
@@ -998,7 +1023,7 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
             } else {
                 return false;
             }
-        case SCENE_KOKIRI_HOME5:
+        case SCENE_SARIAS_HOUSE:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (ENKO_TYPE != ENKO_TYPE_CHILD_6) {
                     return false;
@@ -1022,7 +1047,7 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
                 return true;
             }
 
-        case SCENE_SPOT10:
+        case SCENE_LOST_WOODS:
             return (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_ODD_POTION) ? true : false;
         default:
             return false;
@@ -1068,7 +1093,7 @@ s32 EnKo_GetForestQuestState2(EnKo* this) {
 void func_80A98DB4(EnKo* this, PlayState* play) {
     f32 dist;
 
-    if (play->sceneNum != SCENE_SPOT10 && play->sceneNum != SCENE_SPOT04) {
+    if (play->sceneId != SCENE_LOST_WOODS && play->sceneId != SCENE_KOKIRI_FOREST) {
         this->modelAlpha = 255.0f;
         return;
     }
@@ -1087,7 +1112,7 @@ void func_80A98DB4(EnKo* this, PlayState* play) {
 }
 
 s32 func_80A98ECC(EnKo* this, PlayState* play) {
-    if (play->sceneNum == SCENE_SPOT10 && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
+    if (play->sceneId == SCENE_LOST_WOODS && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
         return func_80A97E18(this, play);
     }
     switch (EnKo_GetForestQuestState(this)) {
@@ -1171,10 +1196,11 @@ void func_80A99048(EnKo* this, PlayState* play) {
 }
 
 void func_80A99384(EnKo* this, PlayState* play) {
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 != 0 && this->actor.textId == 0x10B9) {
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_7);
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState != NPC_TALK_STATE_IDLE &&
+        this->actor.textId == 0x10B9) {
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_LAUGHING);
         this->actionFunc = func_80A99438;
-    } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
+    } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         this->actionFunc = func_80A99504;
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -1182,13 +1208,13 @@ void func_80A99384(EnKo* this, PlayState* play) {
 }
 
 void func_80A99438(EnKo* this, PlayState* play) {
-    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
+    if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_IDLE);
         this->actionFunc = func_80A99504;
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-    } else if (this->unk_1E8.unk_00 == 0 || this->actor.textId != 0x10B9) {
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
+    } else if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE || this->actor.textId != 0x10B9) {
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_IDLE);
         this->actionFunc = func_80A99384;
     }
 }
@@ -1198,15 +1224,15 @@ void func_80A99504(EnKo* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = func_80A99560;
     } else {
-        func_8002F434(&this->actor, play, GI_SAW, 120.0f, 10.0f);
+        func_8002F434(&this->actor, play, GI_POACHERS_SAW, 120.0f, 10.0f);
     }
 }
 
 void func_80A99560(EnKo* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 == 3) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         this->actor.textId = 0x10B9;
         Message_ContinueTextbox(play, this->actor.textId);
-        this->unk_1E8.unk_00 = 1;
+        this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
         SET_ITEMGETINF(ITEMGETINF_31);
         this->actionFunc = func_80A99384;
     }
@@ -1224,7 +1250,7 @@ void func_80A995CC(EnKo* this, PlayState* play) {
     this->actor.world.pos.z += 80.0f * Math_CosS(homeYawToPlayer);
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-    if (this->unk_1E8.unk_00 == 0 || !this->actor.isTargeted) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE || !this->actor.isTargeted) {
         temp_f2 = fabsf((f32)this->actor.yawTowardsPlayer - homeYawToPlayer) * 0.001f * 3.0f;
         if (temp_f2 < 1.0f) {
             this->skelAnime.playSpeed = 1.0f;
@@ -1252,7 +1278,7 @@ void EnKo_Update(Actor* thisx, PlayState* play) {
             func_80A98DB4(this, play);
         }
     }
-    if (this->unk_1E8.unk_00 == 0) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         Actor_MoveForward(&this->actor);
     }
     if (func_80A97C7C(this)) {
@@ -1288,13 +1314,13 @@ s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->legsObjectBankIdx].segment);
     }
     if (limbIndex == 8) {
-        sp40 = this->unk_1E8.unk_0E;
+        sp40 = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-sp40.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp40.x), MTXMODE_APPLY);
     }
     if (limbIndex == 15) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp40 = this->unk_1E8.unk_08;
+        sp40 = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp40.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp40.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);

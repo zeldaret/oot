@@ -23,7 +23,7 @@ void EnTr_UpdateRotation(EnTr* this, PlayState* play, s32 actionIndex);
 void func_80B24038(EnTr* this, PlayState* play, s32 actionIndex);
 void EnTr_SetStartPosRot(EnTr* this, PlayState* play, s32 actionIndex);
 
-const ActorInit En_Tr_InitVars = {
+ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
     ACTORCAT_NPC,
     FLAGS,
@@ -38,28 +38,28 @@ const ActorInit En_Tr_InitVars = {
 // The first elements of these animation arrays are for Koume, the second for Kotake
 
 static AnimationHeader* unused[] = {
-    &object_tr_Anim_003FC8,
-    &object_tr_Anim_001CDC,
+    &gKotakeKoumeStandingBroomOverRightShoulderAnim,
+    &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
 };
 
 static AnimationHeader* D_80B24368[] = {
-    &object_tr_Anim_002BC4,
-    &object_tr_Anim_000BFC,
+    &gKotakeKoumeLookOverLeftShoulderAnim,
+    &gKotakeKoumeLookOverRightShoulderAnim,
 };
 
 static AnimationHeader* D_80B24370[] = {
-    &object_tr_Anim_0035CC,
-    &object_tr_Anim_0013CC,
+    &gKotakeKoumeLookingOverLeftShoulderAnim,
+    &gKotakeKoumeLookingOverRightShoulderAnim,
 };
 
 static AnimationHeader* D_80B24378[] = {
-    &object_tr_Anim_0049C8,
-    &object_tr_Anim_0049C8,
+    &gKotakeKoumeFlyAnim,
+    &gKotakeKoumeFlyAnim,
 };
 
 static AnimationHeader* D_80B24380[] = {
-    &object_tr_Anim_012E1C,
-    &object_tr_Anim_012E1C,
+    &gKotakeKoumeCastMagicAnim,
+    &gKotakeKoumeCastMagicAnim,
 };
 
 static f32 D_80B24388[] = { 0.0f, 20.0f, -30.0f, 20.0f, -20.0f, -20.0f, 30.0f };
@@ -75,9 +75,9 @@ static Color_RGBA8 D_80B243C0[4] = {
 };
 
 static void* sEyeTextures[] = {
-    object_tr_Tex_0086D8,
-    object_tr_Tex_0094D8,
-    object_tr_Tex_0098D8,
+    gKotakeKoumeEyeOpenTex,
+    gKotakeKoumeEyeHalfTex,
+    gKotakeKoumeEyeClosedTex,
 };
 
 void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
@@ -95,18 +95,18 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
 
     switch (this->actor.params) {
         case TR_KOUME:
-            SkelAnime_InitFlex(play, &this->skelAnime, &object_tr_Skel_011688, &object_tr_Anim_003FC8, this->jointTable,
-                               this->morphTable, 27);
-            Animation_PlayOnce(&this->skelAnime, &object_tr_Anim_003FC8);
+            SkelAnime_InitFlex(play, &this->skelAnime, &gKoumeSkel, &gKotakeKoumeStandingBroomOverRightShoulderAnim,
+                               this->jointTable, this->morphTable, KOTAKE_KOUME_LIMB_MAX);
+            Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverRightShoulderAnim);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
             this->actionIndex = 3;
             break;
 
         case TR_KOTAKE:
-            SkelAnime_InitFlex(play, &this->skelAnime, &object_tr_Skel_00C530, &object_tr_Anim_001CDC, this->jointTable,
-                               this->morphTable, 27);
-            Animation_PlayOnce(&this->skelAnime, &object_tr_Anim_001CDC);
+            SkelAnime_InitFlex(play, &this->skelAnime, &gKotakeSkel, &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
+                               this->jointTable, this->morphTable, KOTAKE_KOUME_LIMB_MAX);
+            Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverLeftShoulderAnim);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
             this->actionIndex = 2;
@@ -124,9 +124,9 @@ void EnTr_Destroy(Actor* thisx, PlayState* play) {
 void EnTr_CrySpellcast(EnTr* this, PlayState* play) {
     if (this->timer == 11) {
         // Both cry in the title screen cutscene, but only Kotake in the in-game cutscene
-        if ((this->actor.params != TR_KOUME) || (gSaveContext.sceneSetupIndex == 6)) {
-            Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_VOICE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        if ((this->actor.params != TR_KOUME) || (gSaveContext.sceneLayer == 6)) {
+            Audio_PlaySfxGeneral(NA_SE_EN_TWINROBA_SHOOT_VOICE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
 
@@ -150,7 +150,7 @@ void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
                     Actor_SetScale(&this->actor, 0.01f);
                     EnTr_SetupAction(this, EnTr_ShrinkVanish);
                     this->timer = 24;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DEAD2);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DEAD2);
                     break;
 
                 case 6:
@@ -162,7 +162,7 @@ void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                        this->actor.params + 9);
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
                     break;
 
                 default:
@@ -261,7 +261,7 @@ void EnTr_ShrinkVanish(EnTr* this, PlayState* play) {
     }
 
     if (this->timer == 4) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_DOWN);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLE_DOWN);
     }
 
     if (this->timer > 0) {
@@ -297,11 +297,11 @@ void EnTr_WaitToReappear(EnTr* this, PlayState* play) {
         if ((play->csCtx.npcActions[this->actionIndex] != NULL) &&
             ((play->csCtx.npcActions[this->actionIndex]->action == 3) ||
              (play->csCtx.npcActions[this->actionIndex]->action == 5))) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
             this->timer = 34;
             EnTr_SetStartPosRot(this, play, this->actionIndex);
             EnTr_SetupAction(this, EnTr_Reappear);
-            Animation_PlayLoop(&this->skelAnime, &object_tr_Anim_0049C8);
+            Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
             this->animation = NULL;
             Actor_SetScale(&this->actor, 0.003f);
         }
@@ -350,7 +350,7 @@ void EnTr_ChooseAction1(EnTr* this, PlayState* play) {
                 case 3:
                     EnTr_SetStartPosRot(this, play, this->actionIndex);
                     EnTr_SetupAction(this, EnTr_ChooseAction2);
-                    Animation_PlayLoop(&this->skelAnime, &object_tr_Anim_0049C8);
+                    Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
                     this->animation = NULL;
                     break;
 
@@ -361,7 +361,7 @@ void EnTr_ChooseAction1(EnTr* this, PlayState* play) {
 
                 case 7:
                     EnTr_SetupAction(this, EnTr_FlyKidnapCutscene);
-                    Animation_PlayLoop(&this->skelAnime, &object_tr_Anim_0049C8);
+                    Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
                     this->animation = NULL;
                     this->timer =
                         ((this->actor.params != TR_KOUME) ? ((u8)frames * 0x400) + 0x8000 : (u8)frames * 0x400);
@@ -378,19 +378,20 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->animation != NULL) {
-            if ((this->animation == &object_tr_Anim_0035CC) || (this->animation == &object_tr_Anim_0013CC)) {
+            if ((this->animation == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
+                (this->animation == &gKotakeKoumeLookingOverRightShoulderAnim)) {
                 if (this->actor.params != TR_KOUME) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
                 } else {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
                 }
                 Animation_PlayLoop(&this->skelAnime, this->animation);
-            } else if (this->animation == &object_tr_Anim_0049C8) {
+            } else if (this->animation == &gKotakeKoumeFlyAnim) {
                 EnTr_SetupAction(this, EnTr_ChooseAction2);
-                Animation_Change(&this->skelAnime, &object_tr_Anim_0049C8, 1.0f, 0.0f,
-                                 Animation_GetLastFrame(&object_tr_Anim_0049C8), ANIMMODE_LOOP, -5.0f);
+                Animation_Change(&this->skelAnime, &gKotakeKoumeFlyAnim, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&gKotakeKoumeFlyAnim), ANIMMODE_LOOP, -5.0f);
             } else {
                 Animation_PlayLoop(&this->skelAnime, this->animation);
             }
@@ -416,7 +417,7 @@ s32 EnTr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     EnTr* this = (EnTr*)thisx;
     Actor* child = this->actor.child;
 
-    if ((child != NULL) && (limbIndex == 19)) {
+    if ((child != NULL) && (limbIndex == KOTAKE_KOUME_LIMB_RIGHT_HAND)) {
         Matrix_MultVec3f(&src, &dest);
         dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))));
         dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play))));
@@ -431,7 +432,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->actionIndex] == 0)) {
+    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->actionIndex] == NULL)) {
         this->actor.shape.shadowDraw = NULL;
     } else {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;

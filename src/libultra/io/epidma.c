@@ -4,7 +4,7 @@
 s32 osEPiStartDma(OSPiHandle* handle, OSIoMesg* mb, s32 direction) {
     s32 ret;
 
-    if (!__osPiDevMgr.initialized) {
+    if (!__osPiDevMgr.active) {
         return -1;
     }
 

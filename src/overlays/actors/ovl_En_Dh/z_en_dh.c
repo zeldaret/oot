@@ -31,7 +31,7 @@ void EnDh_Burrow(EnDh* this, PlayState* play);
 void EnDh_Damage(EnDh* this, PlayState* play);
 void EnDh_Death(EnDh* this, PlayState* play);
 
-const ActorInit En_Dh_InitVars = {
+ActorInit En_Dh_InitVars = {
     ACTOR_EN_DH,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -211,7 +211,7 @@ void EnDh_Wait(EnDh* this, PlayState* play) {
                 this->actor.flags &= ~ACTOR_FLAG_7;
                 this->actionState++;
                 this->drawDirtWave++;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
                 FALLTHROUGH;
             case 1:
                 this->dirtWavePhase += 0x3A7;
@@ -252,10 +252,10 @@ void EnDh_Walk(EnDh* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
     if (((s32)this->skelAnime.curFrame % 8) == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_WALK);
     }
     if ((play->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_LAUGH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_LAUGH);
     }
     if (this->actor.xzDistToPlayer <= 100.0f) {
         this->actor.speedXZ = 0.0f;
@@ -311,7 +311,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
         case 1:
             Animation_PlayOnce(&this->skelAnime, &object_dh_Anim_001A3C);
             this->actionState++;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_BITE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_BITE);
             FALLTHROUGH;
         case 0:
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
@@ -365,7 +365,7 @@ void EnDh_SetupBurrow(EnDh* this) {
     this->dirtWavePhase = 0;
     this->actionState = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
     EnDh_SetupAction(this, EnDh_Burrow);
 }
 
@@ -405,7 +405,7 @@ void EnDh_SetupDamage(EnDh* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -1.0f;
     }
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
     this->curAction = DH_DAMAGE;
     EnDh_SetupAction(this, EnDh_Damage);
 }
@@ -439,7 +439,7 @@ void EnDh_SetupDeath(EnDh* this) {
     this->actor.speedXZ = 0.0f;
     func_800F5B58();
     this->actor.params = ENDH_DEATH;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_DEAD);
     EnDh_SetupAction(this, EnDh_Death);
 }
 
@@ -461,7 +461,7 @@ void EnDh_Death(EnDh* this, PlayState* play) {
     } else {
         if (((s32)this->skelAnime.curFrame == 53) || ((s32)this->skelAnime.curFrame == 56) ||
             ((s32)this->skelAnime.curFrame == 61)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
         if ((s32)this->skelAnime.curFrame == 61) {
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
@@ -569,8 +569,9 @@ void EnDh_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 85, 55, 0, 130);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->state.frames * -3) % 0x80, 0, 0x20, 0x40, 1,
-                                    (play->state.frames * -10) % 0x80, (play->state.frames * -20) % 0x100, 0x20, 0x40));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->state.frames * -3) % 0x80, 0, 0x20,
+                                    0x40, 1, (play->state.frames * -10) % 0x80, (play->state.frames * -20) % 0x100,
+                                    0x20, 0x40));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->dirtWaveAlpha);
 
         Matrix_Translate(0.0f, -this->actor.shape.yOffset, 0.0f, MTXMODE_APPLY);

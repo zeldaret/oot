@@ -3,46 +3,46 @@
 import struct, sys
 
 item_ids = {
-    0x00 : "ITEM_STICK",
-    0x01 : "ITEM_NUT",
+    0x00 : "ITEM_DEKU_STICK",
+    0x01 : "ITEM_DEKU_NUT",
     0x02 : "ITEM_BOMB",
     0x03 : "ITEM_BOW",
     0x04 : "ITEM_ARROW_FIRE",
     0x05 : "ITEM_DINS_FIRE",
     0x06 : "ITEM_SLINGSHOT",
     0x07 : "ITEM_OCARINA_FAIRY",
-    0x08 : "ITEM_OCARINA_TIME",
+    0x08 : "ITEM_OCARINA_OF_TIME",
     0x09 : "ITEM_BOMBCHU",
     0x0A : "ITEM_HOOKSHOT",
     0x0B : "ITEM_LONGSHOT",
     0x0C : "ITEM_ARROW_ICE",
     0x0D : "ITEM_FARORES_WIND",
     0x0E : "ITEM_BOOMERANG",
-    0x0F : "ITEM_LENS",
-    0x10 : "ITEM_BEAN",
+    0x0F : "ITEM_LENS_OF_TRUTH",
+    0x10 : "ITEM_MAGIC_BEAN",
     0x11 : "ITEM_HAMMER",
     0x12 : "ITEM_ARROW_LIGHT",
     0x13 : "ITEM_NAYRUS_LOVE",
-    0x14 : "ITEM_BOTTLE",
-    0x15 : "ITEM_POTION_RED",
-    0x16 : "ITEM_POTION_GREEN",
-    0x17 : "ITEM_POTION_BLUE",
-    0x18 : "ITEM_FAIRY",
-    0x19 : "ITEM_FISH",
-    0x1A : "ITEM_MILK_BOTTLE",
-    0x1B : "ITEM_LETTER_RUTO",
-    0x1C : "ITEM_BLUE_FIRE",
-    0x1D : "ITEM_BUG",
-    0x1E : "ITEM_BIG_POE",
-    0x1F : "ITEM_MILK_HALF",
-    0x20 : "ITEM_POE",
+    0x14 : "ITEM_BOTTLE_EMPTY",
+    0x15 : "ITEM_BOTTLE_POTION_RED",
+    0x16 : "ITEM_BOTTLE_POTION_GREEN",
+    0x17 : "ITEM_BOTTLE_POTION_BLUE",
+    0x18 : "ITEM_BOTTLE_FAIRY",
+    0x19 : "ITEM_BOTTLE_FISH",
+    0x1A : "ITEM_BOTTLE_MILK_FULL",
+    0x1B : "ITEM_BOTTLE_RUTOS_LETTER",
+    0x1C : "ITEM_BOTTLE_BLUE_FIRE",
+    0x1D : "ITEM_BOTTLE_BUG",
+    0x1E : "ITEM_BOTTLE_BIG_POE",
+    0x1F : "ITEM_BOTTLE_MILK_HALF",
+    0x20 : "ITEM_BOTTLE_POE",
     0x21 : "ITEM_WEIRD_EGG",
     0x22 : "ITEM_CHICKEN",
-    0x23 : "ITEM_LETTER_ZELDA",
+    0x23 : "ITEM_ZELDAS_LETTER",
     0x24 : "ITEM_MASK_KEATON",
     0x25 : "ITEM_MASK_SKULL",
     0x26 : "ITEM_MASK_SPOOKY",
-    0x27 : "ITEM_MASK_BUNNY",
+    0x27 : "ITEM_MASK_BUNNY_HOOD",
     0x28 : "ITEM_MASK_GORON",
     0x29 : "ITEM_MASK_ZORA",
     0x2A : "ITEM_MASK_GERUDO",
@@ -53,18 +53,18 @@ item_ids = {
     0x2F : "ITEM_COJIRO",
     0x30 : "ITEM_ODD_MUSHROOM",
     0x31 : "ITEM_ODD_POTION",
-    0x32 : "ITEM_SAW",
-    0x33 : "ITEM_SWORD_BROKEN",
+    0x32 : "ITEM_POACHERS_SAW",
+    0x33 : "ITEM_BROKEN_GORONS_SWORD",
     0x34 : "ITEM_PRESCRIPTION",
-    0x35 : "ITEM_FROG",
-    0x36 : "ITEM_EYEDROPS",
+    0x35 : "ITEM_EYEBALL_FROG",
+    0x36 : "ITEM_EYE_DROPS",
     0x37 : "ITEM_CLAIM_CHECK",
-    0x38 : "ITEM_BOW_ARROW_FIRE",
-    0x39 : "ITEM_BOW_ARROW_ICE",
-    0x3A : "ITEM_BOW_ARROW_LIGHT",
+    0x38 : "ITEM_BOW_FIRE",
+    0x39 : "ITEM_BOW_ICE",
+    0x3A : "ITEM_BOW_LIGHT",
     0x3B : "ITEM_SWORD_KOKIRI",
     0x3C : "ITEM_SWORD_MASTER",
-    0x3D : "ITEM_SWORD_BGS",
+    0x3D : "ITEM_SWORD_BIGGORON",
     0x3E : "ITEM_SHIELD_DEKU",
     0x3F : "ITEM_SHIELD_HYLIAN",
     0x40 : "ITEM_SHIELD_MIRROR",
@@ -83,15 +83,15 @@ item_ids = {
     0x4D : "ITEM_BOMB_BAG_20",
     0x4E : "ITEM_BOMB_BAG_30",
     0x4F : "ITEM_BOMB_BAG_40",
-    0x50 : "ITEM_BRACELET",
-    0x51 : "ITEM_GAUNTLETS_SILVER",
-    0x52 : "ITEM_GAUNTLETS_GOLD",
+    0x50 : "ITEM_STRENGTH_GORONS_BRACELET",
+    0x51 : "ITEM_STRENGTH_SILVER_GAUNTLETS",
+    0x52 : "ITEM_STRENGTH_GOLD_GAUNTLETS",
     0x53 : "ITEM_SCALE_SILVER",
     0x54 : "ITEM_SCALE_GOLDEN",
-    0x55 : "ITEM_SWORD_KNIFE",
-    0x56 : "ITEM_WALLET_ADULT",
-    0x57 : "ITEM_WALLET_GIANT",
-    0x58 : "ITEM_SEEDS",
+    0x55 : "ITEM_GIANTS_KNIFE",
+    0x56 : "ITEM_ADULTS_WALLET",
+    0x57 : "ITEM_GIANTS_WALLET",
+    0x58 : "ITEM_DEKU_SEEDS",
     0x59 : "ITEM_FISHING_POLE",
     0x5A : "ITEM_SONG_MINUET",
     0x5B : "ITEM_SONG_BOLERO",
@@ -115,16 +115,16 @@ item_ids = {
     0x6D : "ITEM_GORON_RUBY",
     0x6E : "ITEM_ZORA_SAPPHIRE",
     0x6F : "ITEM_STONE_OF_AGONY",
-    0x70 : "ITEM_GERUDO_CARD",
+    0x70 : "ITEM_GERUDOS_CARD",
     0x71 : "ITEM_SKULL_TOKEN",
     0x72 : "ITEM_HEART_CONTAINER",
     0x73 : "ITEM_HEART_PIECE",
-    0x74 : "ITEM_KEY_BOSS",
-    0x75 : "ITEM_COMPASS",
+    0x74 : "ITEM_DUNGEON_BOSS_KEY",
+    0x75 : "ITEM_DUNGEON_COMPASS",
     0x76 : "ITEM_DUNGEON_MAP",
-    0x77 : "ITEM_KEY_SMALL",
-    0x78 : "ITEM_MAGIC_SMALL",
-    0x79 : "ITEM_MAGIC_LARGE",
+    0x77 : "ITEM_SMALL_KEY",
+    0x78 : "ITEM_MAGIC_JAR_SMALL",
+    0x79 : "ITEM_MAGIC_JAR_BIG",
     0x7A : "ITEM_HEART_PIECE_2",
     0x7B : "ITEM_INVALID_1",
     0x7C : "ITEM_INVALID_2",
@@ -141,24 +141,24 @@ item_ids = {
     0x87 : "ITEM_RUPEE_PURPLE",
     0x88 : "ITEM_RUPEE_GOLD",
     0x89 : "ITEM_INVALID_8",
-    0x8A : "ITEM_STICKS_5",
-    0x8B : "ITEM_STICKS_10",
-    0x8C : "ITEM_NUTS_5",
-    0x8D : "ITEM_NUTS_10",
+    0x8A : "ITEM_DEKU_STICKS_5",
+    0x8B : "ITEM_DEKU_STICKS_10",
+    0x8C : "ITEM_DEKU_NUTS_5",
+    0x8D : "ITEM_DEKU_NUTS_10",
     0x8E : "ITEM_BOMBS_5",
     0x8F : "ITEM_BOMBS_10",
     0x90 : "ITEM_BOMBS_20",
     0x91 : "ITEM_BOMBS_30",
-    0x92 : "ITEM_ARROWS_SMALL",
-    0x93 : "ITEM_ARROWS_MEDIUM",
-    0x94 : "ITEM_ARROWS_LARGE",
-    0x95 : "ITEM_SEEDS_30",
+    0x92 : "ITEM_ARROWS_5",
+    0x93 : "ITEM_ARROWS_10",
+    0x94 : "ITEM_ARROWS_30",
+    0x95 : "ITEM_DEKU_SEEDS_30",
     0x96 : "ITEM_BOMBCHUS_5",
     0x97 : "ITEM_BOMBCHUS_20",
-    0x98 : "ITEM_STICK_UPGRADE_20",
-    0x99 : "ITEM_STICK_UPGRADE_30",
-    0x9A : "ITEM_NUT_UPGRADE_30",
-    0x9B : "ITEM_NUT_UPGRADE_40",
+    0x98 : "ITEM_DEKU_STICK_UPGRADE_20",
+    0x99 : "ITEM_DEKU_STICK_UPGRADE_30",
+    0x9A : "ITEM_DEKU_NUT_UPGRADE_30",
+    0x9B : "ITEM_DEKU_NUT_UPGRADE_40",
     0xFC : "ITEM_LAST_USED",
     0xFE : "ITEM_NONE_FE",
     0xFF : "ITEM_NONE",
@@ -210,32 +210,32 @@ def disas_elfmsgs(start):
 
         if condition_type == 0:
             if elf_message_type == 0xE0 and b1 == 0 and not (b0 & 1):
-                print(f"ELF_MSG_END({ARG_1}),")
+                print(f"QUEST_HINT_END({ARG_1}),")
             else:
-                print(f"ELF_MSG_FLAG({ARG_0}, {ARG_1}, {ARG_2}, 0x{b1:02X}), /* eventChkInf[{(b1 >> 4) & 0xF}] & 0x{1 << (b1 & 0xF):X} */")
+                print(f"QUEST_HINT_FLAG({ARG_0}, {ARG_1}, {ARG_2}, 0x{b1:02X}), /* eventChkInf[{(b1 >> 4) & 0xF}] & 0x{1 << (b1 & 0xF):X} */")
             assert b3 == 0
         elif condition_type == 2:
-            print(f"ELF_MSG_DUNGEON_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}),")
+            print(f"QUEST_HINT_DUNGEON_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}),")
             assert b3 == 0
         elif condition_type == 4:
-            print(f"ELF_MSG_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}, {item_ids[b3]}),")
+            print(f"QUEST_HINT_ITEM({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b1]}, {item_ids[b3]}),")
         elif condition_type == 6:
             condition_other_type = b1 & 0xF0
 
             if condition_other_type == 0:
-                print(f"ELF_MSG_STRENGTH_UPG({ARG_0}, {ARG_1}, {ARG_2}, {b1 & 0xF}),")
+                print(f"QUEST_HINT_STRENGTH_UPG({ARG_0}, {ARG_1}, {ARG_2}, {b1 & 0xF}),")
                 assert b3 == 0
             elif condition_other_type == 0x10:
-                print(f"ELF_MSG_BOOTS({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"QUEST_HINT_BOOTS({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x20:
-                print(f"ELF_MSG_SONG({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"QUEST_HINT_SONG({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x30:
-                print(f"ELF_MSG_MEDALLION({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
+                print(f"QUEST_HINT_MEDALLION({ARG_0}, {ARG_1}, {ARG_2}, {item_ids[b3]}),")
                 assert (b1 & 0xF) == 0
             elif condition_other_type == 0x40:
-                print(f"ELF_MSG_MAGIC({ARG_0}, {ARG_1}, {ARG_2}),")
+                print(f"QUEST_HINT_MAGIC({ARG_0}, {ARG_1}, {ARG_2}),")
                 assert (b1 & 0xF) == 0
                 assert b3 == 0
             else:

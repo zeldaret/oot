@@ -15,10 +15,10 @@ s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern) {
     do {
         __osPfsRequestData(CONT_CMD_REQUEST_STATUS);
 
-        ret = __osSiRawStartDma(OS_WRITE, &gPifMempakBuf);
+        ret = __osSiRawStartDma(OS_WRITE, &__osPfsPifRam);
         osRecvMesg(mq, &msg, OS_MESG_BLOCK);
 
-        ret = __osSiRawStartDma(OS_READ, &gPifMempakBuf);
+        ret = __osSiRawStartDma(OS_READ, &__osPfsPifRam);
         osRecvMesg(mq, &msg, OS_MESG_BLOCK);
 
         __osPfsGetInitData(&bitpattern, &contData[0]);
@@ -44,42 +44,42 @@ s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern) {
     return ret;
 }
 
-void __osPfsRequestData(u8 poll) {
-    u8* bufPtr = (u8*)&gPifMempakBuf;
-    __OSContRequestHeader req;
+void __osPfsRequestData(u8 cmd) {
+    u8* ptr = (u8*)&__osPfsPifRam;
+    __OSContRequesFormat req;
     s32 i;
 
-    __osContLastPoll = poll;
+    __osContLastCmd = cmd;
 
-    gPifMempakBuf.status = 1;
+    __osPfsPifRam.status = CONT_CMD_EXE;
 
-    req.align = 0xFF;
-    req.txsize = 1;
-    req.rxsize = 3;
-    req.poll = poll;
-    req.typeh = 0xFF;
-    req.typel = 0xFF;
-    req.status = 0xFF;
-    req.align1 = 0xFF;
+    req.align = CONT_CMD_NOP;
+    req.txsize = CONT_CMD_REQUEST_STATUS_TX;
+    req.rxsize = CONT_CMD_REQUEST_STATUS_RX;
+    req.cmd = cmd;
+    req.typeh = CONT_CMD_NOP;
+    req.typel = CONT_CMD_NOP;
+    req.status = CONT_CMD_NOP;
+    req.align1 = CONT_CMD_NOP;
 
     for (i = 0; i < __osMaxControllers; i++) {
-        *((__OSContRequestHeader*)bufPtr) = req;
-        bufPtr += sizeof(req);
+        *((__OSContRequesFormat*)ptr) = req;
+        ptr += sizeof(req);
     }
-    *((u8*)bufPtr) = CONT_CMD_END;
+    *ptr = CONT_CMD_END;
 }
 
 void __osPfsGetInitData(u8* pattern, OSContStatus* contData) {
-    u8* bufptr;
-    __OSContRequestHeader req;
+    u8* ptr;
+    __OSContRequesFormat req;
     s32 i;
     u8 bits = 0;
 
-    bufptr = (u8*)&gPifMempakBuf;
+    ptr = (u8*)&__osPfsPifRam;
 
-    for (i = 0; i < __osMaxControllers; i++, bufptr += sizeof(req), contData++) {
-        req = *((__OSContRequestHeader*)bufptr);
-        contData->errno = ((req.rxsize & 0xC0) >> 4);
+    for (i = 0; i < __osMaxControllers; i++, ptr += sizeof(req), contData++) {
+        req = *((__OSContRequesFormat*)ptr);
+        contData->errno = CHNL_ERR(req);
 
         if (contData->errno) {
             continue;

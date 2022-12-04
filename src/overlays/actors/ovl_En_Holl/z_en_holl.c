@@ -23,7 +23,7 @@ void func_80A593A4(EnHoll* this, PlayState* play);
 void func_80A59520(EnHoll* this, PlayState* play);
 void func_80A59618(EnHoll* this, PlayState* play);
 
-const ActorInit En_Holl_InitVars = {
+ActorInit En_Holl_InitVars = {
     ACTOR_EN_HOLL,
     ACTORCAT_DOOR,
     FLAGS,
@@ -75,8 +75,8 @@ void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
     this->actionFunc = func;
 }
 
-s32 EnHoll_IsKokiriSetup8(void) {
-    return gSaveContext.entranceIndex == ENTR_SPOT04_0 && gSaveContext.sceneSetupIndex == 8;
+s32 EnHoll_IsKokiriLayer8(void) {
+    return gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0 && gSaveContext.sceneLayer == 8;
 }
 
 void EnHoll_ChooseAction(EnHoll* this) {
@@ -100,7 +100,7 @@ void EnHoll_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnHoll_Destroy(Actor* thisx, PlayState* play) {
-    s32 transitionActorIdx = (u16)thisx->params >> 0xA;
+    s32 transitionActorIdx = GET_TRANSITION_ACTOR_INDEX(thisx);
     TransitionActorEntry* transitionEntry = &play->transiActorCtx.list[transitionActorIdx];
 
     transitionEntry->id = -transitionEntry->id;
@@ -119,7 +119,7 @@ void EnHoll_SwapRooms(PlayState* play) {
 // Horizontal Planes
 void func_80A58DD4(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 phi_t0 = ((play->sceneNum == SCENE_JYASINZOU) ? 1 : 0) & 0xFFFFFFFF;
+    s32 phi_t0 = ((play->sceneId == SCENE_SPIRIT_TEMPLE) ? 1 : 0) & 0xFFFFFFFF;
     Vec3f vec;
     f32 absZ;
     s32 transitionActorIdx;
@@ -129,7 +129,7 @@ void func_80A58DD4(EnHoll* this, PlayState* play) {
     absZ = fabsf(vec.z);
     if (vec.y > PLANE_Y_MIN && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH &&
         absZ < sHorizTriggerDists[phi_t0][0]) {
-        transitionActorIdx = (u16)this->actor.params >> 0xA;
+        transitionActorIdx = GET_TRANSITION_ACTOR_INDEX(&this->actor);
         if (absZ > sHorizTriggerDists[phi_t0][1]) {
             if (play->roomCtx.prevRoom.num >= 0 && play->roomCtx.status == 0) {
                 this->actor.room = play->transiActorCtx.list[transitionActorIdx].sides[this->side].room;
@@ -164,10 +164,10 @@ void func_80A59014(EnHoll* this, PlayState* play) {
     func_8002DBD0(&this->actor, &vec, (useViewEye) ? &play->view.eye : &player->actor.world.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
 
-    temp = EnHoll_IsKokiriSetup8();
+    temp = EnHoll_IsKokiriLayer8();
     if (temp || (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
                  (absZ = fabsf(vec.z), 100.0f > absZ && absZ > 50.0f))) {
-        s32 transitionActorIdx = (u16)this->actor.params >> 0xA;
+        s32 transitionActorIdx = GET_TRANSITION_ACTOR_INDEX(&this->actor);
         s32 side = (vec.z < 0.0f) ? 0 : 1;
         TransitionActorEntry* transitionEntry = &play->transiActorCtx.list[transitionActorIdx];
         s32 room = transitionEntry->sides[side].room;
@@ -190,7 +190,7 @@ void func_80A591C0(EnHoll* this, PlayState* play) {
     s32 transitionActorIdx;
 
     if (this->actor.xzDistToPlayer < 500.0f && absY < 700.0f) {
-        transitionActorIdx = (u16)this->actor.params >> 0xA;
+        transitionActorIdx = GET_TRANSITION_ACTOR_INDEX(&this->actor);
         if (absY < 95.0f) {
             play->unk_11E18 = 0xFF;
         } else if (absY > 605.0f) {
@@ -228,7 +228,7 @@ void func_80A593A4(EnHoll* this, PlayState* play) {
             play->unk_11E18 = (200.0f - absY) * 1.7f;
         }
         if (absY > 50.0f) {
-            transitionActorIdx = (u16)this->actor.params >> 0xA;
+            transitionActorIdx = GET_TRANSITION_ACTOR_INDEX(&this->actor);
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
             this->actor.room = play->transiActorCtx.list[transitionActorIdx].sides[side].room;
             if (this->actor.room != play->roomCtx.curRoom.num &&
@@ -252,7 +252,7 @@ void func_80A59520(EnHoll* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 120.0f) {
         absY = fabsf(this->actor.yDistToPlayer);
         if (absY < 200.0f && absY > 50.0f) {
-            transitionActorIdx = (u16)this->actor.params >> 0xA;
+            transitionActorIdx = GET_TRANSITION_ACTOR_INDEX(&this->actor);
             side = (0.0f < this->actor.yDistToPlayer) ? 0 : 1;
             this->actor.room = play->transiActorCtx.list[transitionActorIdx].sides[side].room;
             if (this->actor.room != play->roomCtx.curRoom.num &&
@@ -281,7 +281,7 @@ void func_80A59618(EnHoll* this, PlayState* play) {
         absZ = fabsf(vec.z);
         if (PLANE_Y_MIN < vec.y && vec.y < PLANE_Y_MAX && fabsf(vec.x) < PLANE_HALFWIDTH_2 && absZ < 100.0f) {
             this->unk_14F = 1;
-            transitionActorIdx = (u16)this->actor.params >> 0xA;
+            transitionActorIdx = GET_TRANSITION_ACTOR_INDEX(&this->actor);
             play->unk_11E18 = 0xFF - (s32)((absZ - 50.0f) * 5.9f);
             if (play->unk_11E18 >= 0x100) {
                 play->unk_11E18 = 0xFF;
@@ -304,7 +304,7 @@ void func_80A59618(EnHoll* this, PlayState* play) {
 }
 
 void EnHoll_NextAction(EnHoll* this, PlayState* play) {
-    if (!EnHoll_IsKokiriSetup8() && play->roomCtx.status == 0) {
+    if (!EnHoll_IsKokiriLayer8() && play->roomCtx.status == 0) {
         func_80097534(play, &play->roomCtx);
         if (play->unk_11E18 == 0) {
             this->unk_14F = 0;

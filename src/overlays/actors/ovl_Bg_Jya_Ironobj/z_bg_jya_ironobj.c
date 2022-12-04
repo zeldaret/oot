@@ -24,7 +24,7 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 static int sUnused = 0;
 
-const ActorInit Bg_Jya_Ironobj_InitVars = {
+ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,
     ACTORCAT_PROP,
     FLAGS,
@@ -248,7 +248,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play) {
         this->colCylinder.base.acFlags &= ~AC_HIT;
         if (actor != NULL && actor->id == ACTOR_EN_IK) {
             particleFunc[this->dyna.actor.params & 1](this, play, (EnIk*)actor);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR);
             dropPos.x = this->dyna.actor.world.pos.x;
             dropPos.y = this->dyna.actor.world.pos.y + 20.0f;
             dropPos.z = this->dyna.actor.world.pos.z;

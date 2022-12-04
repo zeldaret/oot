@@ -23,7 +23,7 @@ void func_80889D28(BgHidanKousi* this, PlayState* play);
 
 static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
-const ActorInit Bg_Hidan_Kousi_InitVars = {
+ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
     ACTORCAT_PROP,
     FLAGS,
@@ -67,7 +67,7 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     Actor_SetFocus(thisx, 50.0f);
     osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, thisx->params & 0xFF,
                  ((s32)thisx->params >> 8) & 0xFF);
@@ -134,7 +134,7 @@ void func_80889C90(BgHidanKousi* this, PlayState* play) {
         Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &this->dyna.actor.world.pos)) {
         func_80889ACC(this);
         BgHidanKousi_SetupAction(this, func_80889D28);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }

@@ -20,7 +20,7 @@ void EnMs_Talk(EnMs* this, PlayState* play);
 void EnMs_Sell(EnMs* this, PlayState* play);
 void EnMs_TalkAfterPurchase(EnMs* this, PlayState* play);
 
-const ActorInit En_Ms_InitVars = {
+ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
     ACTORCAT_NPC,
     FLAGS,
@@ -128,7 +128,7 @@ void EnMs_Talk(EnMs* this, PlayState* play) {
                     Message_ContinueTextbox(play, 0x4069); // not enough rupees text
                     return;
                 }
-                func_8002F434(&this->actor, play, GI_BEAN, 90.0f, 10.0f);
+                func_8002F434(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
                 this->actionFunc = EnMs_Sell;
                 return;
             case 1: // no
@@ -145,7 +145,7 @@ void EnMs_Sell(EnMs* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
     } else {
-        func_8002F434(&this->actor, play, GI_BEAN, 90.0f, 10.0f);
+        func_8002F434(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
     }
 }
 
@@ -168,7 +168,8 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);
 
-    if (gSaveContext.entranceIndex == ENTR_SPOT20_0 && gSaveContext.sceneSetupIndex == 8) { // ride carpet if in credits
+    if (gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_0 &&
+        gSaveContext.sceneLayer == 8) { // ride carpet if in credits
         Actor_MoveForward(&this->actor);
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

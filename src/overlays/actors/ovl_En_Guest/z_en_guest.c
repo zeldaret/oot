@@ -7,7 +7,7 @@
 #include "z_en_guest.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "assets/objects/object_boj/object_boj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -20,7 +20,7 @@ void func_80A50518(EnGuest* this, PlayState* play);
 void func_80A5057C(EnGuest* this, PlayState* play);
 void func_80A505CC(Actor* thisx, PlayState* play);
 
-const ActorInit En_Guest_InitVars = {
+ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
     ACTORCAT_NPC,
     FLAGS,
@@ -150,13 +150,13 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
     func_80A5046C(this);
     this->actionFunc(this, play);
 
-    this->unk_2A0.unk_18 = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     if (LINK_IS_ADULT) {
-        this->unk_2A0.unk_14 = 10.0f;
+        this->interactInfo.yOffset = 10.0f;
     } else {
-        this->unk_2A0.unk_14 = 20.0f;
+        this->interactInfo.yOffset = 20.0f;
     }
-    func_80034A14(&this->actor, &this->unk_2A0, 6, 2);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 6, NPC_TRACKING_HEAD_AND_TORSO);
 
     func_80034F54(play, this->unk_2CC, this->unk_2EC, 16);
 
@@ -188,14 +188,14 @@ s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
     if (limbIndex == 15) {
         *dList = object_boj_DL_0059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp3C = this->unk_2A0.unk_08;
+        sp3C = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp3C.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp3C = this->unk_2A0.unk_0E;
+        sp3C = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-sp3C.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
     }

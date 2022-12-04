@@ -27,7 +27,7 @@ u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
     s32 pad;
     s32 objBankIndex;
-    u32 oldSeg6;
+    uintptr_t oldSeg6;
 
     objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_YABUSAME_POINT);
 

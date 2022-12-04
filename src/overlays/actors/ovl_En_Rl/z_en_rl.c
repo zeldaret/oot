@@ -5,7 +5,7 @@
  */
 
 #include "z_en_rl.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_rl/object_rl.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -116,9 +116,9 @@ void func_80AE7590(EnRl* this, PlayState* play) {
     s32 pad;
     Player* player;
     Vec3f pos;
-    s16 sceneNum = play->sceneNum;
+    s16 sceneId = play->sceneId;
 
-    if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && play->csCtx.state != CS_STATE_IDLE &&
+    if (gSaveContext.sceneLayer == 4 && sceneId == SCENE_CHAMBER_OF_THE_SAGES && play->csCtx.state != CS_STATE_IDLE &&
         play->csCtx.npcActions[6] != NULL && play->csCtx.npcActions[6]->action == 2 && !this->lightMedallionGiven) {
         player = GET_PLAYER(play);
         pos.x = player->actor.world.pos.x;
@@ -379,7 +379,7 @@ void EnRl_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-const ActorInit En_Rl_InitVars = {
+ActorInit En_Rl_InitVars = {
     ACTOR_EN_RL,
     ACTORCAT_NPC,
     FLAGS,

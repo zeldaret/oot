@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define ANIM_INTERP 1
 
@@ -208,7 +208,7 @@ void SkelAnime_DrawFlexLod(PlayState* play, void** skeleton, Vec3s* jointTable, 
 
     newDList = limbDList = rootLimb->dLists[lod];
 
-    if ((overrideLimbDraw == 0) || !overrideLimbDraw(play, 1, &newDList, &pos, &rot, arg)) {
+    if ((overrideLimbDraw == NULL) || !overrideLimbDraw(play, 1, &newDList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
             Matrix_ToMtx(mtx, "../z_skelanime.c", 1033);
@@ -841,7 +841,7 @@ void AnimationContext_SetLoadFrame(PlayState* play, LinkAnimationHeader* animati
         s32 pad;
 
         osCreateMesgQueue(&entry->data.load.msgQueue, &entry->data.load.msg, 1);
-        DmaMgr_SendRequest2(&entry->data.load.req, frameTable,
+        DmaMgr_RequestAsync(&entry->data.load.req, frameTable,
                             LINK_ANIMATION_OFFSET(linkAnimHeader->segment, ((sizeof(Vec3s) * limbCount + 2) * frame)),
                             sizeof(Vec3s) * limbCount + 2, 0, &entry->data.load.msgQueue, NULL, "../z_skelanime.c",
                             2004);

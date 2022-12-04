@@ -1,10 +1,10 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
-#define KALEIDO_OVERLAY(name, nameString)                                                                    \
-    {                                                                                                        \
-        NULL, (u32)_ovl_##name##SegmentRomStart, (u32)_ovl_##name##SegmentRomEnd, _ovl_##name##SegmentStart, \
-            _ovl_##name##SegmentEnd, 0, nameString,                                                          \
+#define KALEIDO_OVERLAY(name, nameString)                                                     \
+    {                                                                                         \
+        NULL, (uintptr_t)_ovl_##name##SegmentRomStart, (uintptr_t)_ovl_##name##SegmentRomEnd, \
+            _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, nameString,                \
     }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
@@ -64,7 +64,7 @@ void KaleidoManager_Init(PlayState* play) {
     osSyncPrintf("KaleidoArea %08x - %08x\n", sKaleidoAreaPtr, (u32)sKaleidoAreaPtr + largestSize);
     osSyncPrintf(VT_RST);
 
-    gKaleidoMgrCurOvl = 0;
+    gKaleidoMgrCurOvl = NULL;
 }
 
 void KaleidoManager_Destroy(void) {

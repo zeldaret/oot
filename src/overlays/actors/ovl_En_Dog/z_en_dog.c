@@ -21,7 +21,7 @@ void EnDog_RunAway(EnDog* this, PlayState* play);
 void EnDog_FaceLink(EnDog* this, PlayState* play);
 void EnDog_Wait(EnDog* this, PlayState* play);
 
-const ActorInit En_Dog_InitVars = {
+ActorInit En_Dog_InitVars = {
     ACTOR_EN_DOG,
     ACTORCAT_NPC,
     FLAGS,
@@ -92,7 +92,7 @@ void EnDog_PlayWalkSFX(EnDog* this) {
 
     if (this->skelAnime.animation == walk) {
         if ((this->skelAnime.curFrame == 1.0f) || (this->skelAnime.curFrame == 7.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     }
 }
@@ -102,7 +102,7 @@ void EnDog_PlayRunSFX(EnDog* this) {
 
     if (this->skelAnime.animation == run) {
         if ((this->skelAnime.curFrame == 2.0f) || (this->skelAnime.curFrame == 4.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     }
 }
@@ -112,7 +112,7 @@ void EnDog_PlayBarkSFX(EnDog* this) {
 
     if (this->skelAnime.animation == bark) {
         if ((this->skelAnime.curFrame == 13.0f) || (this->skelAnime.curFrame == 19.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
         }
     }
 }
@@ -181,7 +181,7 @@ s8 EnDog_CanFollow(EnDog* this, PlayState* play) {
         return 2;
     }
 
-    if (play->sceneNum == SCENE_MARKET_DAY) {
+    if (play->sceneId == SCENE_MARKET_DAY) {
         return 0;
     }
 
@@ -260,19 +260,19 @@ void EnDog_Init(Actor* thisx, PlayState* play) {
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;
     this->path = Path_GetByIndex(play, (this->actor.params & 0x00F0) >> 4, 0xF);
 
-    switch (play->sceneNum) {
+    switch (play->sceneId) {
         case SCENE_MARKET_NIGHT:
             if ((!gSaveContext.dogIsLost) && (((this->actor.params & 0x0F00) >> 8) == 1)) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case SCENE_IMPA: // Richard's Home
+        case SCENE_DOG_LADY_HOUSE: // Richard's Home
             if (!(this->actor.params & 0x8000)) {
                 if (!gSaveContext.dogIsLost) {
                     this->nextBehavior = DOG_SIT;

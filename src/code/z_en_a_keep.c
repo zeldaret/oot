@@ -1,5 +1,4 @@
 #include "global.h"
-#include "vt.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
@@ -21,7 +20,7 @@ void EnAObj_SetupBlockRot(EnAObj* this, s16 type);
 void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
 void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
-const ActorInit En_A_Obj_InitVars = {
+ActorInit En_A_Obj_InitVars = {
     ACTOR_EN_A_OBJ,
     ACTORCAT_PROP,
     FLAGS,
@@ -114,7 +113,7 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
     thisx->focus.pos = thisx->world.pos;
     this->dyna.bgId = BGACTOR_NEG_ONE;
     this->dyna.interactFlags = 0;
-    this->dyna.unk_15C = DPM_UNK;
+    this->dyna.transformFlags = 0;
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 200.0f;
 
@@ -302,7 +301,7 @@ void EnAObj_Block(EnAObj* this, PlayState* play) {
     Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 
     if (this->dyna.actor.speedXZ != 0.0f) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 
     this->dyna.unk_154 = 0.0f;

@@ -1365,7 +1365,7 @@ Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
     Gfx* displayList = Graph_DlistAlloc(gfxp, 3 * sizeof(Gfx));
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, 0, x, y, (x + ((width - 1) << 2)), (y + ((height - 1) << 2)));
+    gDPSetTileSize(displayList + 1, G_TX_RENDERTILE, x, y, x + ((width - 1) << 2), y + ((height - 1) << 2));
     gSPEndDisplayList(displayList + 2);
 
     return displayList;
@@ -1382,11 +1382,11 @@ Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 3 * sizeof(Gfx));
 
-    x %= 2048;
-    y %= 2048;
+    x %= 512 << 2;
+    y %= 512 << 2;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, 0, x, y, (x + ((width - 1) << 2)), (y + ((height - 1) << 2)));
+    gDPSetTileSize(displayList + 1, G_TX_RENDERTILE, x, y, x + ((width - 1) << 2), y + ((height - 1) << 2));
     gSPEndDisplayList(displayList + 2);
 
     return displayList;
@@ -1396,15 +1396,15 @@ Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 wi
                       u32 y2, s32 width2, s32 height2) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 5 * sizeof(Gfx));
 
-    x1 %= 2048;
-    y1 %= 2048;
-    x2 %= 2048;
-    y2 %= 2048;
+    x1 %= 512 << 2;
+    y1 %= 512 << 2;
+    x2 %= 512 << 2;
+    y2 %= 512 << 2;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, tile1, x1, y1, (x1 + ((width1 - 1) << 2)), (y1 + ((height1 - 1) << 2)));
+    gDPSetTileSize(displayList + 1, tile1, x1, y1, x1 + ((width1 - 1) << 2), y1 + ((height1 - 1) << 2));
     gDPTileSync(displayList + 2);
-    gDPSetTileSize(displayList + 3, tile2, x2, y2, (x2 + ((width2 - 1) << 2)), (y2 + ((height2 - 1) << 2)));
+    gDPSetTileSize(displayList + 3, tile2, x2, y2, x2 + ((width2 - 1) << 2), y2 + ((height2 - 1) << 2));
     gSPEndDisplayList(displayList + 4);
 
     return displayList;
@@ -1414,15 +1414,15 @@ Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 6 * sizeof(Gfx));
 
-    x1 %= 2048;
-    y1 %= 2048;
-    x2 %= 2048;
-    y2 %= 2048;
+    x1 %= 512 << 2;
+    y1 %= 512 << 2;
+    x2 %= 512 << 2;
+    y2 %= 512 << 2;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, tile1, x1, y1, (x1 + ((width1 - 1) << 2)), (y1 + ((height1 - 1) << 2)));
+    gDPSetTileSize(displayList + 1, tile1, x1, y1, x1 + ((width1 - 1) << 2), y1 + ((height1 - 1) << 2));
     gDPTileSync(displayList + 2);
-    gDPSetTileSize(displayList + 3, tile2, x2, y2, (x2 + ((width2 - 1) << 2)), (y2 + ((height2 - 1) << 2)));
+    gDPSetTileSize(displayList + 3, tile2, x2, y2, x2 + ((width2 - 1) << 2), y2 + ((height2 - 1) << 2));
     gDPSetEnvColor(displayList + 4, r, g, b, a);
     gSPEndDisplayList(displayList + 5);
 
@@ -1438,37 +1438,50 @@ Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a) {
     return displayList;
 }
 
-void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
+/**
+ * Sets up the frame for drawing.
+ * Initializes the scissor region to full screen.
+ * Set up the framebuffer and z-buffer.
+ * The whole screen is filled with the color supplied as arguments.
+ * Letterbox is also applied here, and will share the color of the screen base.
+ */
+void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2386);
 
+    // Set up the RDP render state for rectangles in FILL mode
     gSPDisplayList(POLY_OPA_DISP++, sFillSetupDL);
     gSPDisplayList(POLY_XLU_DISP++, sFillSetupDL);
     gSPDisplayList(OVERLAY_DISP++, sFillSetupDL);
 
+    // Set the scissor region to the full screen
     gDPSetScissor(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
     gDPSetScissor(POLY_XLU_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
     gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth, gScreenHeight);
 
+    // Set up the framebuffer, primitives will be drawn here
     gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
     gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
     gDPSetColorImage(POLY_XLU_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
     gDPSetColorImage(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
 
+    // Set up the z-buffer
     gDPSetDepthImage(POLY_OPA_DISP++, gZBuffer);
     gDPSetDepthImage(POLY_XLU_DISP++, gZBuffer);
     gDPSetDepthImage(OVERLAY_DISP++, gZBuffer);
 
     if ((R_PAUSE_MENU_MODE < 2) && (gTrnsnUnkState < 2)) {
-        s32 ret = ShrinkWindow_GetCurrentVal();
+        s32 letterboxSize = Letterbox_GetSize();
 
-        if (HREG(80) == 16) {
-            if (HREG(95) != 16) {
-                HREG(81) = 3;
-                HREG(82) = 3;
-                HREG(83) = 0;
-                HREG(84) = 0;
-                HREG(85) = 0;
-                HREG(86) = 0;
+        if (R_HREG_MODE == HREG_MODE_SETUP_FRAME) {
+            if (R_SETUP_FRAME_INIT != HREG_MODE_SETUP_FRAME) {
+                R_SETUP_FRAME_GET = (SETUP_FRAME_LETTERBOX_SIZE_FLAG | SETUP_FRAME_BASE_COLOR_FLAG);
+                R_SETUP_FRAME_SET = (SETUP_FRAME_LETTERBOX_SIZE_FLAG | SETUP_FRAME_BASE_COLOR_FLAG);
+                R_SETUP_FRAME_LETTERBOX_SIZE = 0;
+                R_SETUP_FRAME_BASE_COLOR_R = 0;
+                R_SETUP_FRAME_BASE_COLOR_G = 0;
+                R_SETUP_FRAME_BASE_COLOR_B = 0;
+
+                // these regs are not used in this mode
                 HREG(87) = 0;
                 HREG(88) = 0;
                 HREG(89) = 0;
@@ -1477,51 +1490,57 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
                 HREG(92) = 0;
                 HREG(93) = 0;
                 HREG(94) = 0;
-                HREG(95) = 16;
+
+                R_SETUP_FRAME_INIT = HREG_MODE_SETUP_FRAME;
             }
 
-            if (HREG(81) & 1) {
-                HREG(83) = ret;
+            if (R_SETUP_FRAME_GET & SETUP_FRAME_LETTERBOX_SIZE_FLAG) {
+                R_SETUP_FRAME_LETTERBOX_SIZE = letterboxSize;
             }
 
-            if (HREG(81) & 2) {
-                HREG(84) = r;
-                HREG(85) = g;
-                HREG(86) = b;
+            if (R_SETUP_FRAME_GET & SETUP_FRAME_BASE_COLOR_FLAG) {
+                R_SETUP_FRAME_BASE_COLOR_R = r;
+                R_SETUP_FRAME_BASE_COLOR_G = g;
+                R_SETUP_FRAME_BASE_COLOR_B = b;
             }
 
-            if (HREG(82) & 1) {
-                ret = HREG(83);
+            if (R_SETUP_FRAME_SET & SETUP_FRAME_LETTERBOX_SIZE_FLAG) {
+                letterboxSize = R_SETUP_FRAME_LETTERBOX_SIZE;
             }
 
-            if (HREG(82) & 2) {
-                r = HREG(84);
-                g = HREG(85);
-                b = HREG(86);
+            if (R_SETUP_FRAME_SET & SETUP_FRAME_BASE_COLOR_FLAG) {
+                r = R_SETUP_FRAME_BASE_COLOR_R;
+                g = R_SETUP_FRAME_BASE_COLOR_G;
+                b = R_SETUP_FRAME_BASE_COLOR_B;
             }
         }
 
+        // Set the whole z buffer to maximum depth
+        // Don't bother with pixels that are being covered by the letterbox
         gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gZBuffer);
         gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
         gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetFillColor(POLY_OPA_DISP++, (GPACK_ZDZ(G_MAXFBZ, 0) << 16) | GPACK_ZDZ(G_MAXFBZ, 0));
-        gDPFillRectangle(POLY_OPA_DISP++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
+        gDPFillRectangle(POLY_OPA_DISP++, 0, letterboxSize, gScreenWidth - 1, gScreenHeight - letterboxSize - 1);
         gDPPipeSync(POLY_OPA_DISP++);
 
+        // Fill the whole screen with the base color
+        // Don't bother with pixels that are being covered by the letterbox
         gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
         gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
         gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
-        gDPFillRectangle(POLY_OPA_DISP++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
+        gDPFillRectangle(POLY_OPA_DISP++, 0, letterboxSize, gScreenWidth - 1, gScreenHeight - letterboxSize - 1);
         gDPPipeSync(POLY_OPA_DISP++);
 
-        if (ret > 0) {
+        // Draw the letterbox if applicable (uses the same color as the screen base)
+        if (letterboxSize > 0) {
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCycleType(OVERLAY_DISP++, G_CYC_FILL);
             gDPSetRenderMode(OVERLAY_DISP++, G_RM_NOOP, G_RM_NOOP2);
             gDPSetFillColor(OVERLAY_DISP++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
-            gDPFillRectangle(OVERLAY_DISP++, 0, 0, gScreenWidth - 1, ret - 1);
-            gDPFillRectangle(OVERLAY_DISP++, 0, gScreenHeight - ret, gScreenWidth - 1, gScreenHeight - 1);
+            gDPFillRectangle(OVERLAY_DISP++, 0, 0, gScreenWidth - 1, letterboxSize - 1);
+            gDPFillRectangle(OVERLAY_DISP++, 0, gScreenHeight - letterboxSize, gScreenWidth - 1, gScreenHeight - 1);
             gDPPipeSync(OVERLAY_DISP++);
         }
     }

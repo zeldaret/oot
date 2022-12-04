@@ -16,7 +16,7 @@ void BgSpot01Idomizu_Draw(Actor* thisx, PlayState* play);
 
 void func_808ABB84(BgSpot01Idomizu* this, PlayState* play);
 
-const ActorInit Bg_Spot01_Idomizu_InitVars = {
+ActorInit Bg_Spot01_Idomizu_InitVars = {
     ACTOR_BG_SPOT01_IDOMIZU,
     ACTORCAT_BG,
     FLAGS,
@@ -54,8 +54,8 @@ void func_808ABB84(BgSpot01Idomizu* this, PlayState* play) {
     }
     play->colCtx.colHeader->waterBoxes[0].ySurface = this->actor.world.pos.y;
     if (this->waterHeight < this->actor.world.pos.y) {
-        Audio_PlaySoundGeneral(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     Math_ApproachF(&this->actor.world.pos.y, this->waterHeight, 1.0f, 2.0f);
 }
@@ -78,8 +78,8 @@ void BgSpot01Idomizu_Draw(Actor* thisx, PlayState* play) {
 
     frames = play->state.frames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - frames % 128, frames & 0x7F, 32, 32, 1, frames % 128,
-                                frames & 0x7F, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - frames % 128, frames & 0x7F, 32, 32, 1,
+                                frames % 128, frames & 0x7F, 32, 32));
 
     gSPDisplayList(POLY_XLU_DISP++, gKakarikoWellWaterDL);
 

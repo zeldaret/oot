@@ -2,9 +2,9 @@
 
 void* osViGetCurrentFramebuffer(void) {
     register u32 prevInt = __osDisableInt();
-    void* buffer = __osViCurr->buffer;
+    void* framep = __osViCurr->framep;
 
     __osRestoreInt(prevInt);
 
-    return buffer;
+    return framep;
 }

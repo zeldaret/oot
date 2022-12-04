@@ -26,7 +26,7 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, PlayState* play);
 void BgBreakwall_Wait(BgBreakwall* this, PlayState* play);
 void BgBreakwall_LavaCoverMove(BgBreakwall* this, PlayState* play);
 
-const ActorInit Bg_Breakwall_InitVars = {
+ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
     ACTORCAT_BG,
     FLAGS,
@@ -82,7 +82,7 @@ void BgBreakwall_Init(Actor* thisx, PlayState* play) {
     s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     this->bombableWallDList = sBombableWallInfo[wallType].dList;
     this->colType = sBombableWallInfo[wallType].colType;
 
@@ -243,23 +243,23 @@ void BgBreakwall_Wait(BgBreakwall* this, PlayState* play) {
         Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
 
         if (wallType == BWALL_KD_FLOOR) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
         } else {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         }
 
         if ((wallType == BWALL_DC_ENTRANCE) && !Flags_GetEventChkInf(EVENTCHKINF_B0)) {
             Flags_SetEventChkInf(EVENTCHKINF_B0);
             Cutscene_SetSegment(play, gDcOpeningCs);
             gSaveContext.cutsceneTrigger = 1;
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             func_8002DF54(play, NULL, 0x31);
         }
 
         if (this->dyna.actor.params < 0) {
-            Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
 
         Actor_Kill(&this->dyna.actor);

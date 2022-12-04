@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 #include "assets/objects/object_tk/object_tk.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_12 | ACTOR_FLAG_16)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_16)
 
 void EnPoRelay_Init(Actor* thisx, PlayState* play);
 void EnPoRelay_Destroy(Actor* thisx, PlayState* play);
@@ -33,7 +33,7 @@ static Vec3s D_80AD8C30[] = {
     { 0x0B4E, 0xFE66, 0xF87E }, { 0x0B4A, 0xFE66, 0xF97A }, { 0x0B4A, 0xFE98, 0xF9FC }, { 0x0BAE, 0xFE98, 0xF9FC },
 };
 
-const ActorInit En_Po_Relay_InitVars = {
+ActorInit En_Po_Relay_InitVars = {
     ACTOR_EN_PO_RELAY,
     ACTORCAT_NPC,
     FLAGS,
@@ -137,11 +137,11 @@ void EnPoRelay_SetupRace(EnPoRelay* this) {
 
     EnPoRelay_Vec3sToVec3f(&vec, &D_80AD8C30[this->pathIndex]);
     this->actionTimer = ((s16)(this->actor.shape.rot.y - this->actor.world.rot.y - 0x8000) >> 0xB) % 32U;
-    func_80088B34(0);
+    Interface_SetTimer(0);
     this->hookshotSlotFull = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
     this->actor.flags |= ACTOR_FLAG_27;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoRelay_Race;
 }
 
@@ -258,7 +258,7 @@ void EnPoRelay_EndRace(EnPoRelay* this, PlayState* play) {
         this->actionFunc = EnPoRelay_Talk2;
     } else if (play->roomCtx.curRoom.num == 5) {
         Actor_Kill(&this->actor);
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
     } else if (Actor_IsFacingAndNearPlayer(&this->actor, 150.0f, 0x3000)) {
         this->actor.textId = this->textId;
         func_8002F2CC(&this->actor, play, 250.0f);
@@ -279,7 +279,7 @@ void EnPoRelay_Talk2(EnPoRelay* this, PlayState* play) {
             Message_ContinueTextbox(play, this->actor.textId);
         }
     } else if (Actor_TextboxIsClosing(&this->actor, play)) {
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
         this->actionTimer = 0;
         this->actionFunc = EnPoRelay_DisappearAndReward;
     }
@@ -318,7 +318,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
         EffectSsDeadDb_Spawn(play, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
                              0, 0, 255, 1, 9, true);
         if (this->actionTimer == 1) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EXTINCT);
         }
     }
     if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.001f) != 0) {
@@ -326,17 +326,17 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, PlayState* play) {
             sp60.x = this->actor.world.pos.x;
             sp60.y = this->actor.floorHeight;
             sp60.z = this->actor.world.pos.z;
-            if (gSaveContext.timer1Value < HIGH_SCORE(HS_DAMPE_RACE)) {
-                HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;
+            if (gSaveContext.timerSeconds < HIGH_SCORE(HS_DAMPE_RACE)) {
+                HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timerSeconds;
             }
-            if (Flags_GetCollectible(play, this->actor.params) == 0 && gSaveContext.timer1Value <= 60) {
+            if (!Flags_GetCollectible(play, this->actor.params) && (gSaveContext.timerSeconds <= 60)) {
                 Item_DropCollectible2(play, &sp60, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
             } else {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, sp60.x, sp60.y, sp60.z, 0, 0, 0, 2);
             }
         } else {
             Flags_SetTempClear(play, 4);
-            HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timer1Value;
+            HIGH_SCORE(HS_DAMPE_RACE) = gSaveContext.timerSeconds;
         }
         Actor_Kill(&this->actor);
     }

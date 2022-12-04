@@ -21,13 +21,13 @@
 
         <!-- 32-bit aligned textures. -->
         <Texture Name="gCneTLUT" OutName="cne_tlut" Format="rgba16" Width="16" Height="16" Offset="0xFC"/>
-        <Texture Name="gCneSkinTex" OutName="cne_skin" Format="ci8" Width="8" Height="8" Offset="0x2FC"/>
-        <Texture Name="gCneBrownHairTex" OutName="cne_brown_hair" Format="ci8" Width="8" Height="8" Offset="0x33C"/>
-        <Texture Name="gCneHandTex" OutName="cne_hand" Format="ci8" Width="8" Height="8" Offset="0x37C"/>
-        <Texture Name="gCneBrownHairSkinTex" OutName="cne_brown_hair_skin" Format="ci8" Width="8" Height="8" Offset="0x3BC"/>
-        <Texture Name="gCneBrownHairFaceTex" OutName="cne_brown_hair_face" Format="ci8" Width="8" Height="16" Offset="0x3FC"/>
+        <Texture Name="gCneSkinTex" OutName="cne_skin" Format="ci8" Width="8" Height="8" Offset="0x2FC" TlutOffset="0xFC"/>
+        <Texture Name="gCneBrownHairTex" OutName="cne_brown_hair" Format="ci8" Width="8" Height="8" Offset="0x33C" TlutOffset="0xFC"/>
+        <Texture Name="gCneHandTex" OutName="cne_hand" Format="ci8" Width="8" Height="8" Offset="0x37C" TlutOffset="0xFC"/>
+        <Texture Name="gCneBrownHairSkinTex" OutName="cne_brown_hair_skin" Format="ci8" Width="8" Height="8" Offset="0x3BC" TlutOffset="0xFC"/>
+        <Texture Name="gCneBrownHairFaceTex" OutName="cne_brown_hair_face" Format="ci8" Width="8" Height="16" Offset="0x3FC" TlutOffset="0xFC"/>
         <Texture Name="gCneDressTex" OutName="cne_dress" Format="i8" Width="8" Height="8" Offset="0x47C"/>
-        <Texture Name="gCneDressNeckTex" OutName="cne_dress_neck" Format="ci8" Width="8" Height="8" Offset="0x4BC"/>
+        <Texture Name="gCneDressNeckTex" OutName="cne_dress_neck" Format="ci8" Width="8" Height="8" Offset="0x4BC" TlutOffset="0xFC"/>
 
         <DList Name="gCneHeadBrownHairDL" Offset="0x1300"/>
         <DList Name="gCneRightHandDL" Offset="0x1608"/>

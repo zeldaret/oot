@@ -20,7 +20,7 @@ void EnItem00_DrawCollectible(EnItem00* this, PlayState* play);
 void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play);
 void EnItem00_DrawHeartPiece(EnItem00* this, PlayState* play);
 
-const ActorInit En_Item00_InitVars = {
+ActorInit En_Item00_InitVars = {
     ACTOR_EN_ITEM00,
     ACTORCAT_MISC,
     FLAGS,
@@ -314,31 +314,31 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             Item_Give(play, ITEM_BOW);
             break;
         case ITEM00_ARROWS_SMALL:
-            Item_Give(play, ITEM_ARROWS_SMALL);
+            Item_Give(play, ITEM_ARROWS_5);
             break;
         case ITEM00_ARROWS_MEDIUM:
-            Item_Give(play, ITEM_ARROWS_MEDIUM);
+            Item_Give(play, ITEM_ARROWS_10);
             break;
         case ITEM00_ARROWS_LARGE:
-            Item_Give(play, ITEM_ARROWS_LARGE);
+            Item_Give(play, ITEM_ARROWS_30);
             break;
         case ITEM00_MAGIC_LARGE:
-            getItemId = GI_MAGIC_SMALL;
+            getItemId = GI_MAGIC_JAR_SMALL;
             break;
         case ITEM00_MAGIC_SMALL:
-            getItemId = GI_MAGIC_LARGE;
+            getItemId = GI_MAGIC_JAR_LARGE;
             break;
         case ITEM00_SMALL_KEY:
-            Item_Give(play, ITEM_KEY_SMALL);
+            Item_Give(play, ITEM_SMALL_KEY);
             break;
         case ITEM00_SEEDS:
-            getItemId = GI_SEEDS_5;
+            getItemId = GI_DEKU_SEEDS_5;
             break;
         case ITEM00_NUTS:
-            getItemId = GI_NUTS_5;
+            getItemId = GI_DEKU_NUTS_5;
             break;
         case ITEM00_STICK:
-            getItemId = GI_STICKS_1;
+            getItemId = GI_DEKU_STICKS_1;
             break;
         case ITEM00_HEART_PIECE:
         case ITEM00_HEART_CONTAINER:
@@ -632,10 +632,10 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             Item_Give(play, ITEM_RUPEE_GOLD);
             break;
         case ITEM00_STICK:
-            getItemId = GI_STICKS_1;
+            getItemId = GI_DEKU_STICKS_1;
             break;
         case ITEM00_NUTS:
-            getItemId = GI_NUTS_5;
+            getItemId = GI_DEKU_NUTS_5;
             break;
         case ITEM00_RECOVERY_HEART:
             Item_Give(play, ITEM_RECOVERY_HEART);
@@ -651,19 +651,19 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             Item_Give(play, ITEM_BOW);
             break;
         case ITEM00_ARROWS_SMALL:
-            Item_Give(play, ITEM_ARROWS_SMALL);
+            Item_Give(play, ITEM_ARROWS_5);
             break;
         case ITEM00_ARROWS_MEDIUM:
-            Item_Give(play, ITEM_ARROWS_MEDIUM);
+            Item_Give(play, ITEM_ARROWS_10);
             break;
         case ITEM00_ARROWS_LARGE:
-            Item_Give(play, ITEM_ARROWS_LARGE);
+            Item_Give(play, ITEM_ARROWS_30);
             break;
         case ITEM00_SEEDS:
-            getItemId = GI_SEEDS_5;
+            getItemId = GI_DEKU_SEEDS_5;
             break;
         case ITEM00_SMALL_KEY:
-            getItemId = GI_KEY_SMALL;
+            getItemId = GI_SMALL_KEY;
             break;
         case ITEM00_HEART_PIECE:
             getItemId = GI_HEART_PIECE;
@@ -672,10 +672,10 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
             getItemId = GI_HEART_CONTAINER;
             break;
         case ITEM00_MAGIC_LARGE:
-            getItemId = GI_MAGIC_LARGE;
+            getItemId = GI_MAGIC_JAR_LARGE;
             break;
         case ITEM00_MAGIC_SMALL:
-            getItemId = GI_MAGIC_SMALL;
+            getItemId = GI_MAGIC_JAR_SMALL;
             break;
         case ITEM00_SHIELD_DEKU:
             getItemId = GI_SHIELD_DEKU;
@@ -715,8 +715,8 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     }
 
     if ((*params <= ITEM00_RUPEE_RED) || (*params == ITEM00_RUPEE_ORANGE)) {
-        Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (getItemId != GI_NONE) {
         if (Actor_HasParent(&this->actor, play)) {
             Flags_SetCollectible(play, this->collectibleFlag);
@@ -724,8 +724,8 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
         }
         return;
     } else {
-        Audio_PlaySoundGeneral(NA_SE_SY_GET_ITEM, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_GET_ITEM, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 
     Flags_SetCollectible(play, this->collectibleFlag);

@@ -22,7 +22,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-const ActorInit Bg_Jya_Lift_InitVars = {
+ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
     ACTORCAT_BG,
     FLAGS,
@@ -61,7 +61,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
 
     // "Goddess lift CT"
     osSyncPrintf("女神リフト CT\n");
-    BgJyaLift_InitDynapoly(this, play, &gLiftCol, DPM_UNK);
+    BgJyaLift_InitDynapoly(this, play, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
         BgJyaLift_SetFinalPosY(this);
@@ -117,7 +117,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play) {
     }
     if (fabsf(distFromBottom) < 0.001f) {
         BgJyaLift_SetFinalPosY(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
     }

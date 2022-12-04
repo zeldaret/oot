@@ -5,7 +5,7 @@
  */
 
 #include "z_en_kakasi2.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ka/object_ka.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
@@ -41,7 +41,7 @@ void func_80A904D8(EnKakasi2* this, PlayState* play);
 void func_80A90578(EnKakasi2* this, PlayState* play);
 void func_80A906C4(EnKakasi2* this, PlayState* play);
 
-const ActorInit En_Kakasi2_InitVars = {
+ActorInit En_Kakasi2_InitVars = {
     ACTOR_EN_KAKASI2,
     ACTORCAT_PROP,
     FLAGS,
@@ -161,7 +161,7 @@ void func_80A904D8(EnKakasi2* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&object_ka_Anim_000214);
 
     Animation_Change(&this->skelAnime, &object_ka_Anim_000214, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
     this->actionFunc = func_80A90578;
 }
 
@@ -172,7 +172,7 @@ void func_80A90578(EnKakasi2* this, PlayState* play) {
 
     currentFrame = this->skelAnime.curFrame;
     if (currentFrame == 11 || currentFrame == 17) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_KAKASHI_SWING);
     }
 
     this->actor.shape.rot.y += 0x800;
