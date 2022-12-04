@@ -7860,7 +7860,7 @@ s32 func_8005A02C(Camera* camera) {
 #define CAM_CHANGE_MODE_5 (1 << 5)
 
 s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
-    static s32 modeChangeFlags = 0;
+    static s32 sModeChangeFlags = 0;
 
     if (QREG(89)) {
         osSyncPrintf("+=+(%d)+=+ recive request -> %s\n", camera->play->state.frames, sCameraModeNames[mode]);
@@ -7884,14 +7884,14 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
             Camera_CopyDataToRegs(camera, camera->mode);
             func_8005A02C(camera);
             return 0xC0000000 | mode;
-        } else {
-            camera->behaviorFlags |= CAM_BEHAVIOR_MODE_2;
-            camera->behaviorFlags |= CAM_BEHAVIOR_MODE_1;
-            return 0;
         }
+
+        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_2;
+        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_1;
+        return 0;
     }
 
-    if (mode == camera->mode && !flags) {
+    if ((mode == camera->mode) && !flags) {
         camera->behaviorFlags |= CAM_BEHAVIOR_MODE_2;
         camera->behaviorFlags |= CAM_BEHAVIOR_MODE_1;
         return -1;
@@ -7902,20 +7902,20 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
 
     Camera_CopyDataToRegs(camera, mode);
 
-    modeChangeFlags = 0;
+    sModeChangeFlags = 0;
 
     switch (mode) {
         case CAM_MODE_FIRSTPERSON:
-            modeChangeFlags = CAM_CHANGE_MODE_5;
+            sModeChangeFlags = CAM_CHANGE_MODE_5;
             break;
 
         case CAM_MODE_BATTLE:
-            modeChangeFlags = CAM_CHANGE_MODE_2;
+            sModeChangeFlags = CAM_CHANGE_MODE_2;
             break;
 
         case CAM_MODE_FOLLOWTARGET:
             if (camera->target != NULL && camera->target->id != ACTOR_EN_BOOM) {
-                modeChangeFlags = CAM_CHANGE_MODE_3;
+                sModeChangeFlags = CAM_CHANGE_MODE_3;
             }
             break;
 
@@ -7924,59 +7924,65 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
         case CAM_MODE_BOWARROWZ:
         case CAM_MODE_HANGZ:
         case CAM_MODE_PUSHPULL:
-            modeChangeFlags = CAM_CHANGE_MODE_1;
+            sModeChangeFlags = CAM_CHANGE_MODE_1;
+            break;
+
+        default:
             break;
     }
 
     switch (camera->mode) {
         case CAM_MODE_FIRSTPERSON:
-            if (modeChangeFlags & CAM_CHANGE_MODE_5) {
+            if (sModeChangeFlags & CAM_CHANGE_MODE_5) {
                 camera->animState = 10;
             }
             break;
 
         case CAM_MODE_TARGET:
-            if (modeChangeFlags & CAM_CHANGE_MODE_4) {
+            if (sModeChangeFlags & CAM_CHANGE_MODE_4) {
                 camera->animState = 10;
             }
-            modeChangeFlags |= CAM_CHANGE_MODE_0;
+            sModeChangeFlags |= CAM_CHANGE_MODE_0;
             break;
 
         case CAM_MODE_CHARGE:
-            modeChangeFlags |= CAM_CHANGE_MODE_0;
+            sModeChangeFlags |= CAM_CHANGE_MODE_0;
             break;
 
         case CAM_MODE_FOLLOWTARGET:
-            if (modeChangeFlags & CAM_CHANGE_MODE_3) {
+            if (sModeChangeFlags & CAM_CHANGE_MODE_3) {
                 camera->animState = 10;
             }
-            modeChangeFlags |= CAM_CHANGE_MODE_0;
+            sModeChangeFlags |= CAM_CHANGE_MODE_0;
             break;
 
         case CAM_MODE_BATTLE:
-            if (modeChangeFlags & CAM_CHANGE_MODE_2) {
+            if (sModeChangeFlags & CAM_CHANGE_MODE_2) {
                 camera->animState = 10;
             }
-            modeChangeFlags |= CAM_CHANGE_MODE_0;
+            sModeChangeFlags |= CAM_CHANGE_MODE_0;
             break;
 
         case CAM_MODE_BOWARROWZ:
         case CAM_MODE_HANGZ:
         case CAM_MODE_PUSHPULL:
-            modeChangeFlags |= CAM_CHANGE_MODE_0;
+            sModeChangeFlags |= CAM_CHANGE_MODE_0;
             break;
 
         case CAM_MODE_NORMAL:
-            if (modeChangeFlags & CAM_CHANGE_MODE_4) {
+            if (sModeChangeFlags & CAM_CHANGE_MODE_4) {
                 camera->animState = 10;
             }
             break;
+
+        default:
+            break;
     }
 
-    modeChangeFlags &= ~CAM_CHANGE_MODE_4;
+    sModeChangeFlags &= ~CAM_CHANGE_MODE_4;
 
     if (camera->status == CAM_STAT_ACTIVE) {
-        switch (modeChangeFlags) {
+        switch (sModeChangeFlags) {
             case CAM_CHANGE_MODE_0:
                 func_80078884(0);
                 break;
@@ -7995,6 +8001,9 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
 
             case CAM_CHANGE_MODE_3:
                 func_80078884(NA_SE_SY_ATTENTION_ON);
+                break;
+
+            default:
                 break;
         }
     }
@@ -8037,7 +8046,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
         return -5;
     }
 
-    if (setting == CAM_SET_NONE || setting >= CAM_SET_MAX) {
+    if ((setting == CAM_SET_NONE) || (setting >= CAM_SET_MAX)) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera set (%d) !!!!\n" VT_RST, setting);
         return -99;
     }
