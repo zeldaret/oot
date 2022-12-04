@@ -46,7 +46,7 @@
 #define CAM_HUD_VISIBILITY_MASK (0xF << CAM_HUD_VISIBILITY_SHIFT)
 #define CAM_HUD_VISIBILITY(hudVisibility) (((hudVisibility) & 0xF) << CAM_HUD_VISIBILITY_SHIFT)
 
-//! @note: since `propsField` can only have `0 - 0xF` values,
+//! @note: since `interfaceField` can only have `0 - 0xF` values,
 //! there is no cam value mapped to `HUD_VISIBILITY_NOTHING_INSTANT`.
 //! @note: since 0 means `HUD_VISIBILITY_ALL`,
 //! there is no cam value mapped to `HUD_VISIBILITY_NO_CHANGE`.
