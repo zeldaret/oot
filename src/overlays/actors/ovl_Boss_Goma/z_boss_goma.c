@@ -1807,7 +1807,7 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
     if (this->invincibilityFrames != 0) {
         this->invincibilityFrames--;
     } else {
-        ColliderElement* acHitInfo = this->collider.elements[0].base.acHitInfo;
+        ColliderElement* acHitElem = this->collider.elements[0].base.acHitElem;
         s32 damage;
 
         if (this->eyeClosedTimer == 0 && this->actionFunc != BossGoma_CeilingSpawnGohmas &&
@@ -1819,7 +1819,7 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
                 BossGoma_SetupFallStruckDown(this);
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_DAM2);
             } else if (this->actionFunc == BossGoma_FloorStunned &&
-                       (damage = CollisionCheck_GetSwordDamage(acHitInfo->toucher.dmgFlags)) != 0) {
+                       (damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags)) != 0) {
                 this->actor.colChkInfo.health -= damage;
 
                 if ((s8)this->actor.colChkInfo.health > 0) {
@@ -1833,14 +1833,14 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
 
                 this->invincibilityFrames = 10;
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
-                       (acHitInfo->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
+                       (acHitElem->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_DAM2);
                 Audio_StopSfxById(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
                 BossGoma_SetupFloorStunned(this);
                 this->sfxFaintTimer = 100;
 
-                if (acHitInfo->toucher.dmgFlags & DMG_DEKU_NUT) {
+                if (acHitElem->toucher.dmgFlags & DMG_DEKU_NUT) {
                     this->framesUntilNextAction = 40;
                 } else {
                     this->framesUntilNextAction = 90;

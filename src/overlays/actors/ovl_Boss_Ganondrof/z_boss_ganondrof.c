@@ -1235,7 +1235,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
         if ((acHit && ((s8)this->actor.colChkInfo.health > 0)) || (this->returnCount != 0)) {
             if (acHit) {
                 this->colliderBody.base.acFlags &= ~AC_HIT;
-                hurtbox = this->colliderBody.elem.acHitInfo;
+                hurtbox = this->colliderBody.elem.acHitElem;
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {

@@ -283,7 +283,7 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
             return false;
         }
         info = &this->collider.elements[0].base;
-        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
+        if (info->acHitElem != NULL && (info->acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
             return false;
         }
 

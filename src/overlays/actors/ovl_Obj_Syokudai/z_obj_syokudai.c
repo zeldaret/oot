@@ -171,7 +171,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
             }
         }
         if (this->colliderFlame.base.acFlags & AC_HIT) {
-            dmgFlags = this->colliderFlame.elem.acHitInfo->toucher.dmgFlags;
+            dmgFlags = this->colliderFlame.elem.acHitElem->toucher.dmgFlags;
             if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }

@@ -301,7 +301,7 @@ void func_80AD9568(EnPoSisters* this) {
 void func_80AD95D8(EnPoSisters* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeSistersDamagedAnim, -3.0f);
     if (this->collider.base.ac != NULL) {
-        this->actor.world.rot.y = (this->collider.elem.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT))
+        this->actor.world.rot.y = (this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT))
                                       ? this->collider.base.ac->world.rot.y
                                       : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }

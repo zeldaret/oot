@@ -1242,7 +1242,7 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
         if (this->actionFunc == BossDodongo_Inhale) {
             for (i = 0; i < 19; i++) {
                 if (this->collider.elements[i].base.bumperFlags & BUMP_HIT) {
-                    item1 = this->collider.elements[i].base.acHitInfo;
+                    item1 = this->collider.elements[i].base.acHitElem;
                     item2 = item1;
 
                     if ((item2->toucher.dmgFlags & DMG_BOOMERANG) || (item2->toucher.dmgFlags & DMG_SLINGSHOT)) {
@@ -1258,7 +1258,7 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
 
         if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
             this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
-            item1 = this->collider.elements[0].base.acHitInfo;
+            item1 = this->collider.elements[0].base.acHitElem;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
                 swordDamage = damage = CollisionCheck_GetSwordDamage(item1->toucher.dmgFlags);
 

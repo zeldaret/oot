@@ -431,14 +431,14 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->elem.acHitInfo->toucher.dmgFlags;
+        flags |= cyl->elem.acHitElem->toucher.dmgFlags;
     }
 
     cyl = &this->colCylinder[1];
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->elem.acHitInfo->toucher.dmgFlags;
+        flags |= cyl->elem.acHitElem->toucher.dmgFlags;
     }
 
     if (!hit) {

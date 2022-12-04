@@ -4136,7 +4136,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.elem.acHitInfo->toucher.effect == 1)) {
+                if (sp64 && (this->shieldQuad.elem.acHitElem->toucher.effect == 1)) {
                     func_8083819C(this, play);
                 }
 

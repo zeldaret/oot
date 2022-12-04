@@ -121,8 +121,8 @@ typedef struct ColliderElement {
     /* 0x17 */ u8 ocElemFlags; // Information flags for OC collisions
     /* 0x18 */ Collider* atHit; // object touching this element's AT collider
     /* 0x1C */ Collider* acHit; // object touching this element's AC collider
-    /* 0x20 */ struct ColliderElement* atHitInfo; // element that hit the AT collider
-    /* 0x24 */ struct ColliderElement* acHitInfo; // element that hit the AC collider
+    /* 0x20 */ struct ColliderElement* atHitElem; // element that hit the AT collider
+    /* 0x24 */ struct ColliderElement* acHitElem; // element that hit the AC collider
 } ColliderElement; // size = 0x28
 
 typedef struct {

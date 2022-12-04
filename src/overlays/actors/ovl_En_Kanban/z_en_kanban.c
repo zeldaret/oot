@@ -295,7 +295,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                                                       this->actor.world.pos.z, this->actor.shape.rot.x,
                                                       this->actor.shape.rot.y, this->actor.shape.rot.z, ENKANBAN_PIECE);
                 if (piece != NULL) {
-                    ColliderElement* hitItem = this->collider.elem.acHitInfo;
+                    ColliderElement* hitItem = this->collider.elem.acHitElem;
                     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     u8 i;
 

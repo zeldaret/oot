@@ -586,7 +586,7 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
                 EnBili_SetupBurnt(this);
             }
 
-            if (this->collider.elem.acHitInfo->toucher.dmgFlags & DMG_ARROW) {
+            if (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_4;
             }
         }
