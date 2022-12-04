@@ -29,19 +29,22 @@
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
 // Shrinking the window from the top and bottom with black borders (letterboxing)
-#define CAM_LETTERBOX_MASK 0xF000
+#define CAM_LETTERBOX_SHIFT 12
+#define CAM_LETTERBOX_MASK (0xF << CAM_LETTERBOX_SHIFT)
+#define CAM_LETTERBOX_SIZE_MASK (0x7 << CAM_LETTERBOX_SHIFT)
 
-#define CAM_LETTERBOX_SIZE_MASK 0x7000
-#define CAM_LETTERBOX_NONE 0x0000
+#define CAM_LETTERBOX(letterBoxFlag) (((letterBoxFlag) & 0xF) << CAM_LETTERBOX_SHIFT)
+
 // small/medium/large black borders
-#define CAM_LETTERBOX_SMALL 0x1000
-#define CAM_LETTERBOX_MEDIUM 0x2000
-#define CAM_LETTERBOX_LARGE 0x3000
+#define CAM_LETTERBOX_NONE   CAM_LETTERBOX(0)
+#define CAM_LETTERBOX_SMALL  CAM_LETTERBOX(1)
+#define CAM_LETTERBOX_MEDIUM CAM_LETTERBOX(2)
+#define CAM_LETTERBOX_LARGE  CAM_LETTERBOX(3)
 
-#define CAM_LETTERBOX_INSTANT 0x8000 // Bit to determine whether to set the current value directly (on), or to set the size target (off) 
+#define CAM_LETTERBOX_INSTANT CAM_LETTERBOX(8) // Bit to determine whether to set the current value directly (on), or to set the size target (off) 
+#define CAM_LETTERBOX_IGNORE  CAM_LETTERBOX(0xF) // No change in letterbox size, keep the previous size
 
-#define CAM_LETTERBOX_IGNORE 0xF000 // No change in letterbox size, keep the previous size
-
+// Camera-unique hud visibility mode macros
 #define CAM_HUD_VISIBILITY_SHIFT 8
 #define CAM_HUD_VISIBILITY_MASK (0xF << CAM_HUD_VISIBILITY_SHIFT)
 #define CAM_HUD_VISIBILITY(hudVisibility) (((hudVisibility) & 0xF) << CAM_HUD_VISIBILITY_SHIFT)
