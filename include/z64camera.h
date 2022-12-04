@@ -332,8 +332,8 @@ typedef enum {
     /* 0x1B */ CAM_DATA_MAX
 } CameraDataType;
 
-#define CAM_FUNCDATA_INTERFACE_FIELD(flags) \
-    { flags, CAM_DATA_INTERFACE_FIELD }
+#define CAM_FUNCDATA_INTERFACE_FIELD(interfaceField) \
+    { interfaceField, CAM_DATA_INTERFACE_FIELD }
 
 typedef struct {
     /* 0x00 */ Vec3f collisionClosePoint;
