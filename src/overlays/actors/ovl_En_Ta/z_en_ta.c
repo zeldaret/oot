@@ -184,7 +184,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (play->sceneId == SCENE_MALON_STABLE && !IS_DAY) {
+            } else if (play->sceneId == SCENE_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
@@ -198,7 +198,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
         default: // Child era Talon
             // "Other Talon"
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
-            if (play->sceneId == SCENE_SPOT15) {
+            if (play->sceneId == SCENE_HYRULE_CASTLE) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_CASTLE)) {
@@ -213,7 +213,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
                     this->currentAnimation = &gTalonSleepAnim;
                     this->actor.shape.shadowScale = 54.0f;
                 }
-            } else if (play->sceneId == SCENE_SOUKO) {
+            } else if (play->sceneId == SCENE_LON_LON_BUILDINGS) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
                 if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                     Actor_Kill(&this->actor);
@@ -277,8 +277,8 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 
     if (this->actor.params != ENTA_IN_KAKARIKO && this->actor.params != ENTA_RETURNED_FROM_KAKARIKO &&
-        play->sceneId == SCENE_SOUKO) {
-        gSaveContext.timer1State = 0;
+        play->sceneId == SCENE_LON_LON_BUILDINGS) {
+        gSaveContext.timerState = TIMER_STATE_OFF;
     }
 
     if (this->stateFlags & TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY) {
@@ -431,7 +431,7 @@ void EnTa_RunWithAccelerationAndSfx(EnTa* this, PlayState* play) {
     s32 framesMod12 = (s32)play->state.frames % 12;
 
     if (framesMod12 == 0 || framesMod12 == 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT);
     }
     if (this->actor.speedXZ < 6.0f) {
         this->actor.speedXZ += 0.4f;
@@ -717,7 +717,7 @@ void EnTa_TalkCuccoGameEnd(EnTa* this, PlayState* play) {
     EnTa_AnimateHandsUpDown(this);
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        play->nextEntranceIndex = ENTR_SOUKO_2;
+        play->nextEntranceIndex = ENTR_LON_LON_BUILDINGS_2;
 
         if (GET_EVENTINF(EVENTINF_CUCCO_GAME_WON)) {
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
@@ -756,7 +756,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                     switch (EnTa_GetSuperCuccosCount(this, play)) {
                         case 1:
                             // Last cucco found, end the game
-                            gSaveContext.timer1State = 0;
+                            gSaveContext.timerState = TIMER_STATE_OFF;
                             func_8002DF54(play, &this->actor, 1);
 
                             Message_StartTextbox(play, 0x2084, &this->actor);
@@ -796,15 +796,15 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
         }
     }
 
-    if (gSaveContext.timer1Value == 10) {
+    if (gSaveContext.timerSeconds == 10) {
         Audio_SetFastTempoForTimedMinigame();
     }
 
-    if (gSaveContext.timer1Value == 0 && !Play_InCsMode(play)) {
+    if ((gSaveContext.timerSeconds == 0) && !Play_InCsMode(play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         func_80078884(NA_SE_SY_FOUND);
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
         func_8002DF54(play, &this->actor, 1);
 
         // Time's up text
@@ -881,7 +881,7 @@ void EnTa_StartingCuccoGame3(EnTa* this, PlayState* play) {
                          Animation_GetLastFrame(&gTalonSitHandsUpAnim), ANIMMODE_ONCE, 0.0f);
         this->timer = 50;
 
-        func_80088B34(30);
+        Interface_SetTimer(30);
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         this->stateFlags |= TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         Message_CloseTextbox(play);
@@ -947,7 +947,7 @@ void EnTa_GiveItemInLonLonHouse(EnTa* this, PlayState* play) {
     } else if (this->stateFlags & TALON_STATE_FLAG_GIVING_MILK_REFILL) {
         func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
     } else {
-        func_8002F434(&this->actor, play, GI_MILK_BOTTLE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
@@ -957,7 +957,7 @@ void EnTa_TalkAfterCuccoGameFirstWon(EnTa* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->stateFlags &= ~TALON_STATE_FLAG_GIVING_MILK_REFILL;
         EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
-        func_8002F434(&this->actor, play, GI_MILK_BOTTLE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
     }
 }
 

@@ -482,7 +482,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
         case 3120:
             csInfo->keyFrames = D_80121954[-(timer + 101)];
             subCam->timer = 100;
-            subCam->unk_14C |= 2;
+            subCam->stateFlags |= CAM_STATE_1;
             csInfo->keyFrameCnt = 2;
 
             func_8002DF54(play, NULL, 8);
@@ -494,7 +494,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             func_8002DF54(play, NULL, 8);
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
-            subCam->unk_14C |= 2;
+            subCam->stateFlags |= CAM_STATE_1;
             break;
         case 3140:
             D_80121C24[0].atTargetInit = play->view.at;
@@ -1176,7 +1176,7 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
         OnePointCutscene_SetAsChild(play, vChildCamId, subCamId);
         vSubCamStatus = CAM_STAT_WAIT;
     } else {
-        Interface_ChangeAlpha(2);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
     }
     OnePointCutscene_SetAsChild(play, subCamId, parentCamId);
 

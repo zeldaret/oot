@@ -126,7 +126,7 @@ static SavePlayerData sNewSavePlayerData = {
     },                                                  // adultEquips
     0,                                                  // unk_38
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },       // unk_3C
-    SCENE_LINK_HOME,                                    // savedSceneId
+    SCENE_LINKS_HOUSE,                                  // savedSceneId
 };
 
 static ItemEquips sNewSaveEquips = {
@@ -138,8 +138,8 @@ static ItemEquips sNewSaveEquips = {
 static Inventory sNewSaveInventory = {
     // items
     {
-        ITEM_NONE, // SLOT_STICK
-        ITEM_NONE, // SLOT_NUT
+        ITEM_NONE, // SLOT_DEKU_STICK
+        ITEM_NONE, // SLOT_DEKU_NUT
         ITEM_NONE, // SLOT_BOMB
         ITEM_NONE, // SLOT_BOW
         ITEM_NONE, // SLOT_ARROW_FIRE
@@ -151,8 +151,8 @@ static Inventory sNewSaveInventory = {
         ITEM_NONE, // SLOT_ARROW_ICE
         ITEM_NONE, // SLOT_FARORES_WIND
         ITEM_NONE, // SLOT_BOOMERANG
-        ITEM_NONE, // SLOT_LENS
-        ITEM_NONE, // SLOT_BEAN
+        ITEM_NONE, // SLOT_LENS_OF_TRUTH
+        ITEM_NONE, // SLOT_MAGIC_BEAN
         ITEM_NONE, // SLOT_HAMMER
         ITEM_NONE, // SLOT_ARROW_LIGHT
         ITEM_NONE, // SLOT_NAYRUS_LOVE
@@ -165,8 +165,8 @@ static Inventory sNewSaveInventory = {
     },
     // ammo
     {
-        0, // SLOT_STICK
-        0, // SLOT_NUT
+        0, // SLOT_DEKU_STICK
+        0, // SLOT_DEKU_NUT
         0, // SLOT_BOMB
         0, // SLOT_BOW
         0, // SLOT_ARROW_FIRE
@@ -178,8 +178,8 @@ static Inventory sNewSaveInventory = {
         0, // SLOT_ARROW_ICE
         0, // SLOT_FARORES_WIND
         0, // SLOT_BOOMERANG
-        0, // SLOT_LENS
-        0, // SLOT_BEAN
+        0, // SLOT_LENS_OF_TRUTH
+        0, // SLOT_MAGIC_BEAN
         0, // SLOT_HAMMER
     },
     // equipment
@@ -214,7 +214,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.inventory = sNewSaveInventory;
 
     temp->checksum = sNewSaveChecksum;
-    gSaveContext.horseData.sceneId = SCENE_SPOT00;
+    gSaveContext.horseData.sceneId = SCENE_HYRULE_FIELD;
     gSaveContext.horseData.pos.x = -1840;
     gSaveContext.horseData.pos.y = 72;
     gSaveContext.horseData.pos.z = 5497;
@@ -254,7 +254,7 @@ static SavePlayerData sDebugSavePlayerData = {
     },                                                  // adultEquips
     0,                                                  // unk_38
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },       // unk_3C
-    SCENE_SPOT00,                                       // savedSceneId
+    SCENE_HYRULE_FIELD,                                 // savedSceneId
 };
 
 static ItemEquips sDebugSaveEquips = {
@@ -268,35 +268,35 @@ static ItemEquips sDebugSaveEquips = {
 static Inventory sDebugSaveInventory = {
     // items
     {
-        ITEM_STICK,         // SLOT_STICK
-        ITEM_NUT,           // SLOT_NUT
-        ITEM_BOMB,          // SLOT_BOMB
-        ITEM_BOW,           // SLOT_BOW
-        ITEM_ARROW_FIRE,    // SLOT_ARROW_FIRE
-        ITEM_DINS_FIRE,     // SLOT_DINS_FIRE
-        ITEM_SLINGSHOT,     // SLOT_SLINGSHOT
-        ITEM_OCARINA_FAIRY, // SLOT_OCARINA
-        ITEM_BOMBCHU,       // SLOT_BOMBCHU
-        ITEM_HOOKSHOT,      // SLOT_HOOKSHOT
-        ITEM_ARROW_ICE,     // SLOT_ARROW_ICE
-        ITEM_FARORES_WIND,  // SLOT_FARORES_WIND
-        ITEM_BOOMERANG,     // SLOT_BOOMERANG
-        ITEM_LENS,          // SLOT_LENS
-        ITEM_BEAN,          // SLOT_BEAN
-        ITEM_HAMMER,        // SLOT_HAMMER
-        ITEM_ARROW_LIGHT,   // SLOT_ARROW_LIGHT
-        ITEM_NAYRUS_LOVE,   // SLOT_NAYRUS_LOVE
-        ITEM_BOTTLE,        // SLOT_BOTTLE_1
-        ITEM_POTION_RED,    // SLOT_BOTTLE_2
-        ITEM_POTION_GREEN,  // SLOT_BOTTLE_3
-        ITEM_POTION_BLUE,   // SLOT_BOTTLE_4
-        ITEM_POCKET_EGG,    // SLOT_TRADE_ADULT
-        ITEM_WEIRD_EGG,     // SLOT_TRADE_CHILD
+        ITEM_DEKU_STICK,          // SLOT_DEKU_STICK
+        ITEM_DEKU_NUT,            // SLOT_DEKU_NUT
+        ITEM_BOMB,                // SLOT_BOMB
+        ITEM_BOW,                 // SLOT_BOW
+        ITEM_ARROW_FIRE,          // SLOT_ARROW_FIRE
+        ITEM_DINS_FIRE,           // SLOT_DINS_FIRE
+        ITEM_SLINGSHOT,           // SLOT_SLINGSHOT
+        ITEM_OCARINA_FAIRY,       // SLOT_OCARINA
+        ITEM_BOMBCHU,             // SLOT_BOMBCHU
+        ITEM_HOOKSHOT,            // SLOT_HOOKSHOT
+        ITEM_ARROW_ICE,           // SLOT_ARROW_ICE
+        ITEM_FARORES_WIND,        // SLOT_FARORES_WIND
+        ITEM_BOOMERANG,           // SLOT_BOOMERANG
+        ITEM_LENS_OF_TRUTH,       // SLOT_LENS_OF_TRUTH
+        ITEM_MAGIC_BEAN,          // SLOT_MAGIC_BEAN
+        ITEM_HAMMER,              // SLOT_HAMMER
+        ITEM_ARROW_LIGHT,         // SLOT_ARROW_LIGHT
+        ITEM_NAYRUS_LOVE,         // SLOT_NAYRUS_LOVE
+        ITEM_BOTTLE_EMPTY,        // SLOT_BOTTLE_1
+        ITEM_BOTTLE_POTION_RED,   // SLOT_BOTTLE_2
+        ITEM_BOTTLE_POTION_GREEN, // SLOT_BOTTLE_3
+        ITEM_BOTTLE_POTION_BLUE,  // SLOT_BOTTLE_4
+        ITEM_POCKET_EGG,          // SLOT_TRADE_ADULT
+        ITEM_WEIRD_EGG,           // SLOT_TRADE_CHILD
     },
     // ammo
     {
-        50, // SLOT_STICK
-        50, // SLOT_NUT
+        50, // SLOT_DEKU_STICK
+        50, // SLOT_DEKU_NUT
         10, // SLOT_BOMB
         30, // SLOT_BOW
         1,  // SLOT_ARROW_FIRE
@@ -308,8 +308,8 @@ static Inventory sDebugSaveInventory = {
         1,  // SLOT_ARROW_ICE
         1,  // SLOT_FARORES_WIND
         1,  // SLOT_BOOMERANG
-        1,  // SLOT_LENS
-        1,  // SLOT_BEAN
+        1,  // SLOT_LENS_OF_TRUTH
+        1,  // SLOT_MAGIC_BEAN
         1   // SLOT_HAMMER
     },
     // equipment
@@ -356,7 +356,7 @@ void Sram_InitDebugSave(void) {
     gSaveContext.inventory = sDebugSaveInventory;
 
     temp->checksum = sDebugSaveChecksum;
-    gSaveContext.horseData.sceneId = SCENE_SPOT00;
+    gSaveContext.horseData.sceneId = SCENE_HYRULE_FIELD;
     gSaveContext.horseData.pos.x = -1840;
     gSaveContext.horseData.pos.y = 72;
     gSaveContext.horseData.pos.z = 5497;
@@ -376,28 +376,28 @@ void Sram_InitDebugSave(void) {
         }
     }
 
-    gSaveContext.entranceIndex = ENTR_SPOT00_0;
+    gSaveContext.entranceIndex = ENTR_HYRULE_FIELD_0;
     gSaveContext.magicLevel = 0;
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
 
 static s16 sDungeonEntrances[] = {
-    ENTR_YDAN_0,             // SCENE_YDAN
-    ENTR_DDAN_0,             // SCENE_DDAN
-    ENTR_BDAN_0,             // SCENE_BDAN
-    ENTR_BMORI1_0,           // SCENE_BMORI1
-    ENTR_HIDAN_0,            // SCENE_HIDAN
-    ENTR_MIZUSIN_0,          // SCENE_MIZUSIN
-    ENTR_JYASINZOU_0,        // SCENE_JYASINZOU
-    ENTR_HAKADAN_0,          // SCENE_HAKADAN
-    ENTR_HAKADANCH_0,        // SCENE_HAKADANCH
-    ENTR_ICE_DOUKUTO_0,      // SCENE_ICE_DOUKUTO
-    ENTR_GANON_0,            // SCENE_GANON
-    ENTR_MEN_0,              // SCENE_MEN
-    ENTR_GERUDOWAY_0,        // SCENE_GERUDOWAY
-    ENTR_GANONTIKA_0,        // SCENE_GANONTIKA
-    ENTR_GANON_SONOGO_0,     // SCENE_GANON_SONOGO
-    ENTR_GANONTIKA_SONOGO_0, // SCENE_GANONTIKA_SONOGO
+    ENTR_DEKU_TREE_0,                      // SCENE_DEKU_TREE
+    ENTR_DODONGOS_CAVERN_0,                // SCENE_DODONGOS_CAVERN
+    ENTR_JABU_JABU_0,                      // SCENE_JABU_JABU
+    ENTR_FOREST_TEMPLE_0,                  // SCENE_FOREST_TEMPLE
+    ENTR_FIRE_TEMPLE_0,                    // SCENE_FIRE_TEMPLE
+    ENTR_WATER_TEMPLE_0,                   // SCENE_WATER_TEMPLE
+    ENTR_SPIRIT_TEMPLE_0,                  // SCENE_SPIRIT_TEMPLE
+    ENTR_SHADOW_TEMPLE_0,                  // SCENE_SHADOW_TEMPLE
+    ENTR_BOTTOM_OF_THE_WELL_0,             // SCENE_BOTTOM_OF_THE_WELL
+    ENTR_ICE_CAVERN_0,                     // SCENE_ICE_CAVERN
+    ENTR_GANONS_TOWER_0,                   // SCENE_GANONS_TOWER
+    ENTR_GERUDO_TRAINING_GROUND_0,         // SCENE_GERUDO_TRAINING_GROUND
+    ENTR_THIEVES_HIDEOUT_0,                // SCENE_THIEVES_HIDEOUT
+    ENTR_INSIDE_GANONS_CASTLE_0,           // SCENE_INSIDE_GANONS_CASTLE
+    ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_0, // SCENE_GANONS_TOWER_COLLAPSE_INTERIOR
+    ENTR_INSIDE_GANONS_CASTLE_COLLAPSE_0,  // SCENE_INSIDE_GANONS_CASTLE_COLLAPSE
 };
 
 /**
@@ -426,68 +426,69 @@ void Sram_OpenSave(SramContext* sramCtx) {
                  ((void)0, gSaveContext.entranceIndex));
 
     switch (gSaveContext.savedSceneId) {
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_HAKADANCH:
-        case SCENE_ICE_DOUKUTO:
-        case SCENE_GANON:
-        case SCENE_MEN:
-        case SCENE_GERUDOWAY:
-        case SCENE_GANONTIKA:
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_JABU_JABU:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_BOTTOM_OF_THE_WELL:
+        case SCENE_ICE_CAVERN:
+        case SCENE_GANONS_TOWER:
+        case SCENE_GERUDO_TRAINING_GROUND:
+        case SCENE_THIEVES_HIDEOUT:
+        case SCENE_INSIDE_GANONS_CASTLE:
             gSaveContext.entranceIndex = sDungeonEntrances[gSaveContext.savedSceneId];
             break;
 
-        case SCENE_YDAN_BOSS:
-            gSaveContext.entranceIndex = ENTR_YDAN_0;
+        case SCENE_DEKU_TREE_BOSS:
+            gSaveContext.entranceIndex = ENTR_DEKU_TREE_0;
             break;
 
-        case SCENE_DDAN_BOSS:
-            gSaveContext.entranceIndex = ENTR_DDAN_0;
+        case SCENE_DODONGOS_CAVERN_BOSS:
+            gSaveContext.entranceIndex = ENTR_DODONGOS_CAVERN_0;
             break;
 
-        case SCENE_BDAN_BOSS:
-            gSaveContext.entranceIndex = ENTR_BDAN_0;
+        case SCENE_JABU_JABU_BOSS:
+            gSaveContext.entranceIndex = ENTR_JABU_JABU_0;
             break;
 
-        case SCENE_MORIBOSSROOM:
-            gSaveContext.entranceIndex = ENTR_BMORI1_0;
+        case SCENE_FOREST_TEMPLE_BOSS:
+            gSaveContext.entranceIndex = ENTR_FOREST_TEMPLE_0;
             break;
 
-        case SCENE_FIRE_BS:
-            gSaveContext.entranceIndex = ENTR_HIDAN_0;
+        case SCENE_FIRE_TEMPLE_BOSS:
+            gSaveContext.entranceIndex = ENTR_FIRE_TEMPLE_0;
             break;
 
-        case SCENE_MIZUSIN_BS:
-            gSaveContext.entranceIndex = ENTR_MIZUSIN_0;
+        case SCENE_WATER_TEMPLE_BOSS:
+            gSaveContext.entranceIndex = ENTR_WATER_TEMPLE_0;
             break;
 
-        case SCENE_JYASINBOSS:
-            gSaveContext.entranceIndex = ENTR_JYASINZOU_0;
+        case SCENE_SPIRIT_TEMPLE_BOSS:
+            gSaveContext.entranceIndex = ENTR_SPIRIT_TEMPLE_0;
             break;
 
-        case SCENE_HAKADAN_BS:
-            gSaveContext.entranceIndex = ENTR_HAKADAN_0;
+        case SCENE_SHADOW_TEMPLE_BOSS:
+            gSaveContext.entranceIndex = ENTR_SHADOW_TEMPLE_0;
             break;
 
-        case SCENE_GANON_SONOGO:
-        case SCENE_GANONTIKA_SONOGO:
+        case SCENE_GANONS_TOWER_COLLAPSE_INTERIOR:
+        case SCENE_INSIDE_GANONS_CASTLE_COLLAPSE:
+        case SCENE_GANONDORF_BOSS:
+        case SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR:
         case SCENE_GANON_BOSS:
-        case SCENE_GANON_FINAL:
-        case SCENE_GANON_DEMO:
-            gSaveContext.entranceIndex = ENTR_GANON_0;
+            gSaveContext.entranceIndex = ENTR_GANONS_TOWER_0;
             break;
 
         default:
-            if (gSaveContext.savedSceneId != SCENE_LINK_HOME) {
-                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINK_HOME_0 : ENTR_TOKINOMA_7;
+            if (gSaveContext.savedSceneId != SCENE_LINKS_HOUSE) {
+                gSaveContext.entranceIndex =
+                    (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINKS_HOUSE_0 : ENTR_TEMPLE_OF_TIME_7;
             } else {
-                gSaveContext.entranceIndex = ENTR_LINK_HOME_0;
+                gSaveContext.entranceIndex = ENTR_LINKS_HOUSE_0;
             }
             break;
     }
@@ -534,10 +535,10 @@ void Sram_OpenSave(SramContext* sramCtx) {
         i = gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] & ~EVENTCHKINF_40_MASK;
         gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] = i;
 
-        INV_CONTENT(ITEM_LETTER_ZELDA) = ITEM_CHICKEN;
+        INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CHICKEN;
 
         for (j = 1; j < 4; j++) {
-            if (gSaveContext.equips.buttonItems[j] == ITEM_LETTER_ZELDA) {
+            if (gSaveContext.equips.buttonItems[j] == ITEM_ZELDAS_LETTER) {
                 gSaveContext.equips.buttonItems[j] = ITEM_CHICKEN;
             }
         }
@@ -789,7 +790,7 @@ void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx) {
         Sram_InitDebugSave();
     }
 
-    gSaveContext.entranceIndex = ENTR_LINK_HOME_0;
+    gSaveContext.entranceIndex = ENTR_LINKS_HOUSE_0;
     gSaveContext.linkAge = LINK_AGE_CHILD;
     gSaveContext.dayTime = CLOCK_TIME(10, 0);
     gSaveContext.cutsceneIndex = 0xFFF1;

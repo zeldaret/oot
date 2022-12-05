@@ -13,8 +13,6 @@ extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
 extern s8 D_80009430;
-extern u32 gDmaMgrVerbose;
-extern u32 gDmaMgrDmaBuffSize;
 extern vu8 gViConfigBlack;
 extern u8 gViConfigAdditionalScanLines;
 extern u32 gViConfigFeatures;
@@ -53,7 +51,6 @@ extern OSTime __osCurrentTime;
 extern u32 __osBaseCounter;
 extern u32 __osViIntrCount;
 extern u32 __osTimerCounter;
-extern DmaEntry gDmaDataTable[0x60C];
 extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
 extern Gfx D_80116280[];
 extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
@@ -63,10 +60,7 @@ extern GameStateOverlay gGameStateOverlayTable[6];
 extern u8 gWeatherMode;
 extern u8 gLightConfigAfterUnderwater;
 extern u8 gInterruptSongOfStorms;
-extern u8 gSkyboxIsChanging;
 extern u16 gTimeSpeed;
-extern TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9];
-extern SkyboxFile gNormalSkyFiles[];
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];

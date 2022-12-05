@@ -77,7 +77,7 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
         return;
     }
     this->unk_278 = 0;
-    if (play->sceneId == SCENE_LABO) {
+    if (play->sceneId == SCENE_IMPAS_HOUSE) {
         this->unk_278 = 1;
     }
     if ((this->unk_278 != 0) && IS_DAY) {
@@ -308,8 +308,8 @@ void func_80ABA654(EnNiwLady* this, PlayState* play) {
         this->unk_26E = 0xB;
         if (!GET_ITEMGETINF(ITEMGETINF_0C)) {
             this->actor.parent = NULL;
-            this->getItemId = GI_BOTTLE;
-            func_8002F434(&this->actor, play, GI_BOTTLE, 100.0f, 50.0f);
+            this->getItemId = GI_BOTTLE_EMPTY;
+            func_8002F434(&this->actor, play, GI_BOTTLE_EMPTY, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }
@@ -496,13 +496,13 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Actor_SetFocus(thisx, 60.0f);
-    this->unk_288.unk_18 = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     if (!LINK_IS_ADULT) {
-        this->unk_288.unk_18.y = player->actor.world.pos.y - 10.0f;
+        this->interactInfo.trackPos.y = player->actor.world.pos.y - 10.0f;
     }
-    func_80034A14(thisx, &this->unk_288, 2, 4);
-    this->unk_254 = this->unk_288.unk_08;
-    this->unk_25A = this->unk_288.unk_0E;
+    Npc_TrackPoint(thisx, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
+    this->unk_254 = this->interactInfo.headRot;
+    this->unk_25A = this->interactInfo.torsoRot;
     if (this->unk_276 == 0) {
         Math_SmoothStepToS(&this->unk_254.y, 0, 5, 3000, 0);
     }
