@@ -826,7 +826,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
 }
 
 /**
- * The door is being closed, by sliding downwards to its initial position.
+ * The door is being closed by sliding downwards to its initial position.
  */
 void DoorShutter_Close(DoorShutter* this, PlayState* play) {
     s32 quakeIndex;
