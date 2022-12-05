@@ -8010,6 +8010,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
 
     func_8005A02C(camera);
     camera->mode = mode;
+
     return 0x80000000 | mode;
 }
 
