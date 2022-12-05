@@ -221,7 +221,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.horseData.angle = -0x6AD9;
     gSaveContext.magicLevel = 0;
     gSaveContext.infTable[INFTABLE_1DX_INDEX] = 1;
-    gSaveContext.sceneFlags[5].swch = 0x40000000;
+    gSaveContext.sceneFlags[SCENE_WATER_TEMPLE].swch = 0x40000000;
 }
 
 static SavePlayerData sDebugSavePlayerData = {
@@ -378,7 +378,7 @@ void Sram_InitDebugSave(void) {
 
     gSaveContext.entranceIndex = ENTR_HYRULE_FIELD_0;
     gSaveContext.magicLevel = 0;
-    gSaveContext.sceneFlags[5].swch = 0x40000000;
+    gSaveContext.sceneFlags[SCENE_WATER_TEMPLE].swch = 0x40000000;
 }
 
 static s16 sDungeonEntrances[] = {

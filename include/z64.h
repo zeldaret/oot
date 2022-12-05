@@ -20,6 +20,7 @@
 #include "z64effect.h"
 #include "z64item.h"
 #include "z64animation.h"
+#include "z64animation_legacy.h"
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
@@ -1257,36 +1258,6 @@ typedef struct {
     /* 0x1CAD4 */ s16 newFileNameCharCount;
     /* 0x1CAD6 */ s16 unk_1CAD6[5];
 } FileSelectState; // size = 0x1CAE0
-
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              playSpeed;
-    /* 0x08 */ f32              startFrame;
-    /* 0x0C */ f32              frameCount;
-    /* 0x10 */ u8               mode;
-    /* 0x14 */ f32              morphFrames;
-} AnimationInfo; // size = 0x18
-
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              frameCount;
-    /* 0x08 */ u8               mode;
-    /* 0x0C */ f32              morphFrames;
-} AnimationFrameCountInfo; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32 playSpeed;
-    /* 0x08 */ u8 mode;
-    /* 0x0C */ f32 morphFrames;
-} AnimationSpeedInfo; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ u8 mode;
-    /* 0x08 */ f32 morphFrames;
-} AnimationMinimalInfo; // size = 0xC
-
 
 // Macros for `EntranceInfo.field`
 #define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
