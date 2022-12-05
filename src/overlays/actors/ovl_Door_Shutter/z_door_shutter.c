@@ -43,7 +43,7 @@ void DoorShutter_Open(DoorShutter* this, PlayState* play);
 void DoorShutter_Unbar(DoorShutter* this, PlayState* play);
 void DoorShutter_Close(DoorShutter* this, PlayState* play);
 void DoorShutter_JabuDoorClose(DoorShutter* this, PlayState* play);
-void DoorShutter_WaitPlayerShock(DoorShutter* this, PlayState* play);
+void DoorShutter_WaitPlayerSurprised(DoorShutter* this, PlayState* play);
 void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play);
 void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play);
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play);
@@ -820,7 +820,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
     this->dyna.actor.velocity.y = 0.0f;
     if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_11)) {
         // The door is barred behind the player
-        DoorShutter_SetupAction(this, DoorShutter_WaitPlayerShock);
+        DoorShutter_SetupAction(this, DoorShutter_WaitPlayerSurprised);
         func_8002DF54(play, NULL, 2);
     }
 }
@@ -859,7 +859,7 @@ void DoorShutter_JabuDoorClose(DoorShutter* this, PlayState* play) {
     }
 }
 
-void DoorShutter_WaitPlayerShock(DoorShutter* this, PlayState* play) {
+void DoorShutter_WaitPlayerSurprised(DoorShutter* this, PlayState* play) {
     if (this->actionTimer++ > 30) {
         func_8002DF54(play, NULL, 7);
         DoorShutter_SetupDoor(this, play);
