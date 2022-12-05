@@ -4364,43 +4364,43 @@ s32 func_80838FB8(PlayState* play, Player* this) {
  * Note: grottos and normal fairy fountains use `ENTR_RETURN_GROTTO`
  */
 s16 sReturnEntranceGroupData[] = {
-    // ENTR_RETURN_DAIYOUSEI_IZUMI
-    /*  0 */ ENTR_DEATH_MOUNTAIN_TRAIL_4,  // DMT from Magic Fairy Fountain
-    /*  1 */ ENTR_DEATH_MOUNTAIN_CRATER_3, // DMC from Double Defense Fairy Fountain
-    /*  2 */ ENTR_HYRULE_CASTLE_2,         // Hyrule Castle from Dins Fire Fairy Fountain
+    // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_MAGIC
+    /*  0 */ ENTR_DEATH_MOUNTAIN_TRAIL_4,  // from Magic Fairy Fountain
+    /*  1 */ ENTR_DEATH_MOUNTAIN_CRATER_3, // from Double Magic Fairy Fountain
+    /*  2 */ ENTR_HYRULE_CASTLE_2,         // from Double Defense Fairy Fountain (as adult)
 
     // ENTR_RETURN_2
-    /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // Kakariko from Potion Shop
-    /*  4 */ ENTR_MARKET_DAY_5,       // Market (child day) from Potion Shop
+    /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // from Potion Shop in Kakariko
+    /*  4 */ ENTR_MARKET_DAY_5,       // from Potion Shop in Market
 
-    // ENTR_RETURN_SHOP1
-    /*  5 */ ENTR_KAKARIKO_VILLAGE_3, // Kakariko from Bazaar
-    /*  6 */ ENTR_MARKET_DAY_6,       // Market (child day) from Bazaar
+    // ENTR_RETURN_BAZAAR
+    /*  5 */ ENTR_KAKARIKO_VILLAGE_3,
+    /*  6 */ ENTR_MARKET_DAY_6,
 
     // ENTR_RETURN_4
-    /*  7 */ ENTR_KAKARIKO_VILLAGE_11, // Kakariko from House of Skulltulas
-    /*  8 */ ENTR_BACK_ALLEY_DAY_2,    // Back Alley (day) from Bombchu Shop
+    /*  7 */ ENTR_KAKARIKO_VILLAGE_11, // from House of Skulltulas
+    /*  8 */ ENTR_BACK_ALLEY_DAY_2,    // from Bombchu Shop
 
-    // ENTR_RETURN_SYATEKIJYOU
-    /*  9 */ ENTR_KAKARIKO_VILLAGE_10, // Kakariko from Shooting Gallery
-    /* 10 */ ENTR_MARKET_DAY_8,        // Market (child day) from Shooting Gallery
+    // ENTR_RETURN_SHOOTING_GALLERY
+    /*  9 */ ENTR_KAKARIKO_VILLAGE_10,
+    /* 10 */ ENTR_MARKET_DAY_8,
 
-    // ENTR_RETURN_YOUSEI_IZUMI_YOKO
-    /* 11 */ ENTR_ZORAS_FOUNTAIN_5,  // Zoras Fountain from Farores Wind Fairy Fountain
-    /* 12 */ ENTR_HYRULE_CASTLE_2,   // Hyrule Castle from Dins Fire Fairy Fountain
-    /* 13 */ ENTR_DESERT_COLOSSUS_7, // Desert Colossus from Nayrus Love Fairy Fountain
+    // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS
+    /* 11 */ ENTR_ZORAS_FOUNTAIN_5,  // from Farores Wind Fairy Fountain
+    /* 12 */ ENTR_HYRULE_CASTLE_2,   // from Dins Fire Fairy Fountain (as child)
+    /* 13 */ ENTR_DESERT_COLOSSUS_7, // from Nayrus Love Fairy Fountain
 };
 
 /**
  * The values are indices into `sReturnEntranceGroupData` marking the start of each group
  */
 u8 sReturnEntranceGroupIndices[] = {
-    11, // ENTR_RETURN_YOUSEI_IZUMI_YOKO
-    9,  // ENTR_RETURN_SYATEKIJYOU
+    11, // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS
+    9,  // ENTR_RETURN_SHOOTING_GALLERY
     3,  // ENTR_RETURN_2
-    5,  // ENTR_RETURN_SHOP1
+    5,  // ENTR_RETURN_BAZAAR
     7,  // ENTR_RETURN_4
-    0,  // ENTR_RETURN_DAIYOUSEI_IZUMI
+    0,  // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_MAGIC
 };
 
 s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) {
@@ -4436,10 +4436,10 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                     play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
                     play->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
-                } else if (play->nextEntranceIndex >= ENTR_RETURN_YOUSEI_IZUMI_YOKO) {
+                } else if (play->nextEntranceIndex >= ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS) {
                     play->nextEntranceIndex =
                         sReturnEntranceGroupData[sReturnEntranceGroupIndices[play->nextEntranceIndex -
-                                                                             ENTR_RETURN_YOUSEI_IZUMI_YOKO] +
+                                                                             ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS] +
                                                  play->spawn];
                     Scene_SetTransitionForNextEntrance(play);
                 } else {

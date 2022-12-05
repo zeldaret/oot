@@ -154,7 +154,6 @@ typedef struct {
 } EnHorseSpawnpoint;
 
 static EnHorseSpawnpoint sHorseSpawns[] = {
-    // Hyrule Field
     { SCENE_HYRULE_FIELD, 16, 0, 1341, 0 },
     { SCENE_HYRULE_FIELD, -1297, 0, 1459, 0 },
     { SCENE_HYRULE_FIELD, -5416, -300, 1296, 0 },
@@ -296,12 +295,10 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_HYRULE_FIELD, -2915, -435, 11334, 0 },
     { SCENE_HYRULE_FIELD, 165, -278, 3352, 0 },
 
-    // Lake Hylia
     { SCENE_LAKE_HYLIA, -2109, -882, 1724, 0 },
     { SCENE_LAKE_HYLIA, -328, -1238, 2705, 0 },
     { SCENE_LAKE_HYLIA, -3092, -1033, 3527, 0 },
 
-    // Gerudo Valley
     { SCENE_GERUDO_VALLEY, 2687, -269, 753, 0 },
     { SCENE_GERUDO_VALLEY, 2066, -132, 317, 0 },
     { SCENE_GERUDO_VALLEY, 523, -8, 635, 0 },
@@ -313,7 +310,6 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_GERUDO_VALLEY, -1666, 58, 378, 0 },
     { SCENE_GERUDO_VALLEY, -3044, 210, -648, 0 },
 
-    // Gerudo's Fortress
     { SCENE_GERUDOS_FORTRESS, -678, 21, -623, 0 },
     { SCENE_GERUDOS_FORTRESS, 149, 333, -2499, 0 },
     { SCENE_GERUDOS_FORTRESS, 499, 581, -547, 0 },
@@ -324,7 +320,6 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_GERUDOS_FORTRESS, -966, 24, -761, 0 },
     { SCENE_GERUDOS_FORTRESS, -694, 174, -2820, 0 },
 
-    // Lon Lon Ranch
     { SCENE_LON_LON_RANCH, 1039, 0, 2051, 0 },
     { SCENE_LON_LON_RANCH, -1443, 0, 1429, 0 },
     { SCENE_LON_LON_RANCH, 856, 0, -918, 0 }, // Hardcoded to always load in lon lon
