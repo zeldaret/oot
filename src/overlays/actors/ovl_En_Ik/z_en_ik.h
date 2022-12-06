@@ -8,6 +8,51 @@ struct EnIk;
 
 typedef void (*EnIkActionFunc)(struct EnIk*, PlayState*);
 
+#define IK_GET_PARAMS(thisx) ((thisx)->params & 0xFF00)
+#define IK_GET_ARMOR_TYPE(thisx) ((thisx)->params & 0xFF)
+#define IK_GET_FLAGS(thisx) (((thisx)->params >> 8) & 0xFF)
+
+typedef enum {
+    /* 0 */ IK_TYPE_NABOORU,
+    /* 1 */ IK_TYPE_SILVER,
+    /* 2 */ IK_TYPE_BLACK,
+    /* 3 */ IK_TYPE_WHITE
+} EnIkType;
+
+typedef enum IronKnuckleLimb {
+    /* 0x00 */ IRON_KNUCKLE_LIMB_NONE,
+    /* 0x01 */ IRON_KNUCKLE_LIMB_ROOT,
+    /* 0x02 */ IRON_KNUCKLE_LIMB_TASSET_CENTER,
+    /* 0x03 */ IRON_KNUCKLE_LIMB_TASSET_RIGHT,
+    /* 0x04 */ IRON_KNUCKLE_LIMB_RIGHT_LEG,
+    /* 0x05 */ IRON_KNUCKLE_LIMB_RIGHT_FOOT,
+    /* 0x06 */ IRON_KNUCKLE_LIMB_TASSET_LEFT,
+    /* 0x07 */ IRON_KNUCKLE_LIMB_LEFT_LEG,
+    /* 0x08 */ IRON_KNUCKLE_LIMB_LEFT_FOOT,
+    /* 0x09 */ IRON_KNUCKLE_LIMB_UPPER_BODY_ROOT,
+    /* 0x0A */ IRON_KNUCKLE_LIMB_UNK_ROOT,
+    /* 0x0B */ IRON_KNUCKLE_LIMB_HEAD_ROOT,
+    /* 0x0C */ IRON_KNUCKLE_LIMB_HELMET_ARMOR,
+    /* 0x0D */ IRON_KNUCKLE_LIMB_HEAD,
+    /* 0x0E */ IRON_KNUCKLE_LIMB_RIGHT_UPPER_ARM,
+    /* 0x0F */ IRON_KNUCKLE_LIMB_RIGHT_FOREARM,
+    /* 0x10 */ IRON_KNUCKLE_LIMB_AXE_ROOT,
+    /* 0x11 */ IRON_KNUCKLE_LIMB_AXE,
+    /* 0x12 */ IRON_KNUCKLE_LIMB_RIGHT_HAND,
+    /* 0x13 */ IRON_KNUCKLE_LIMB_LEFT_UPPER_ARM,
+    /* 0x14 */ IRON_KNUCKLE_LIMB_LEFT_FOREARM,
+    /* 0x15 */ IRON_KNUCKLE_LIMB_LEFT_HAND,
+    /* 0x16 */ IRON_KNUCKLE_LIMB_UPPER_LEFT_PAULDRON,
+    /* 0x17 */ IRON_KNUCKLE_LIMB_LOWER_LEFT_PAULDRON,
+    /* 0x18 */ IRON_KNUCKLE_LIMB_UPPER_RIGHT_PAULDRON,
+    /* 0x19 */ IRON_KNUCKLE_LIMB_LOWER_RIGHT_PAULDRON,
+    /* 0x1A */ IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT,
+    /* 0x1B */ IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK,
+    /* 0x1C */ IRON_KNUCKLE_LIMB_TORSO,
+    /* 0x1D */ IRON_KNUCKLE_LIMB_WAIST,
+    /* 0x1E */ IRON_KNUCKLE_LIMB_MAX
+} IronKnuckleLimb;
+
 typedef struct EnIk {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
