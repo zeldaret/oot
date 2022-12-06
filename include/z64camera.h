@@ -203,26 +203,26 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ CAM_MODE_NORMAL,
-    /* 0x01 */ CAM_MODE_TARGET, // "PARALLEL"
-    /* 0x02 */ CAM_MODE_FOLLOWTARGET, // "KEEPON"
+    /* 0x01 */ CAM_MODE_Z_PARALLEL, // "PARALLEL"
+    /* 0x02 */ CAM_MODE_Z_TARGET_FRIENDLY, // "KEEPON"
     /* 0x03 */ CAM_MODE_TALK,
-    /* 0x04 */ CAM_MODE_BATTLE,
+    /* 0x04 */ CAM_MODE_Z_TARGET_UNFRIENDLY,
     /* 0x05 */ CAM_MODE_CLIMB,
-    /* 0x06 */ CAM_MODE_FIRSTPERSON, // "SUBJECT"
-    /* 0x07 */ CAM_MODE_BOWARROW,
-    /* 0x08 */ CAM_MODE_BOWARROWZ,
-    /* 0x09 */ CAM_MODE_HOOKSHOT, // "FOOKSHOT"
-    /* 0x0A */ CAM_MODE_BOOMERANG,
-    /* 0x0B */ CAM_MODE_SLINGSHOT, // "PACHINCO"
-    /* 0x0C */ CAM_MODE_CLIMBZ,
+    /* 0x06 */ CAM_MODE_FIRST_PERSON, // "SUBJECT"
+    /* 0x07 */ CAM_MODE_AIM_BOW,
+    /* 0x08 */ CAM_MODE_Z_AIM_BOW,
+    /* 0x09 */ CAM_MODE_HOOKSHOT, // Moving along hookshot path "FOOKSHOT"
+    /* 0x0A */ CAM_MODE_AIM_BOOMERANG,
+    /* 0x0B */ CAM_MODE_AIM_SLINGSHOT, // "PACHINCO"
+    /* 0x0C */ CAM_MODE_Z_CLIMB,
     /* 0x0D */ CAM_MODE_JUMP,
     /* 0x0E */ CAM_MODE_HANG,
-    /* 0x0F */ CAM_MODE_HANGZ,
-    /* 0x10 */ CAM_MODE_FREEFALL,
+    /* 0x0F */ CAM_MODE_Z_HANG,
+    /* 0x10 */ CAM_MODE_FREE_FALL,
     /* 0x11 */ CAM_MODE_CHARGE,
-    /* 0x12 */ CAM_MODE_STILL,
-    /* 0x13 */ CAM_MODE_PUSHPULL,
-    /* 0x14 */ CAM_MODE_FOLLOWBOOMERANG, // "BOOKEEPON"
+    /* 0x12 */ CAM_MODE_ATTACK,
+    /* 0x13 */ CAM_MODE_PUSH_PULL,
+    /* 0x14 */ CAM_MODE_FOLLOW_BOOMERANG, // "BOOKEEPON"
     /* 0x15 */ CAM_MODE_MAX
 } CameraModeType;
 
