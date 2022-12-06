@@ -222,7 +222,7 @@ typedef enum {
     /* 0x11 */ CAM_MODE_CHARGE,
     /* 0x12 */ CAM_MODE_ATTACK,
     /* 0x13 */ CAM_MODE_PUSH_PULL,
-    /* 0x14 */ CAM_MODE_FOLLOW_BOOMERANG, // "BOOKEEPON"
+    /* 0x14 */ CAM_MODE_FOLLOW_BOOMERANG, // Boomerang has been thrown, force-target the boomerang as it flies "BOOKEEPON"
     /* 0x15 */ CAM_MODE_MAX
 } CameraModeType;
 
