@@ -8,9 +8,9 @@ struct EnIk;
 
 typedef void (*EnIkActionFunc)(struct EnIk*, PlayState*);
 
-#define IK_GET_PARAMS(thisx) ((thisx)->params & 0xFF00)
+#define IK_GET_UPPER_PARAMS(thisx) ((thisx)->params & 0xFF00)
 #define IK_GET_ARMOR_TYPE(thisx) ((thisx)->params & 0xFF)
-#define IK_GET_FLAGS(thisx) (((thisx)->params >> 8) & 0xFF)
+#define IK_GET_SWITCH_FLAG(thisx) (((thisx)->params >> 8) & 0xFF)
 
 typedef enum {
     /* 0 */ IK_TYPE_NABOORU,
@@ -56,18 +56,18 @@ typedef enum IronKnuckleLimb {
 typedef struct EnIk {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTable[30];
-    /* 0x0244 */ Vec3s morphTable[30];
+    /* 0x0190 */ Vec3s jointTable[IRON_KNUCKLE_LIMB_MAX];
+    /* 0x0244 */ Vec3s morphTable[IRON_KNUCKLE_LIMB_MAX];
     /* 0x02F8 */ u8 unk_2F8;
     /* 0x02F9 */ u8 animationTimer;
     /* 0x02FA */ u8 drawArmorFlag;
     /* 0x02FB */ u8 armorStatusFlag;
-    /* 0x02FC */ u8 isDestroyingBgJyaIronObj;
+    /* 0x02FC */ u8 isBreakingProp;
     /* 0x02FD */ u8 damageEffect;
     /* 0x02FE */ s8 unk_2FE;
     /* 0x02FF */ s8 unk_2FF;
     /* 0x0300 */ s16 unk_300;
-    /* 0x0302 */ s16 switchFlags;
+    /* 0x0302 */ s16 switchFlag;
     /* 0x0304 */ EnIkActionFunc actionFunc;
     /* 0x0308 */ BodyBreak bodyBreak;
     /* 0x0320 */ ColliderCylinder bodyCollider;
@@ -75,8 +75,8 @@ typedef struct EnIk {
     /* 0x03EC */ ColliderTris shieldCollider;
     /* 0x040C */ ColliderTrisElement shieldColliderItems[2];
     /* 0x04C4 */ s32 blureIdx;
-    /* 0x04C8 */ s32 action;
-    /* 0x04CC */ s32 drawMode;
+    /* 0x04C8 */ s32 csAction;
+    /* 0x04CC */ s32 csDrawMode;
     /* 0x04D0 */ u32 npcAction;
     /* 0x04D4 */ s32 isAxeSummoned;
     /* 0x04D8 */ char unk_4D8[0x04];
