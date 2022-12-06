@@ -140,6 +140,12 @@ typedef enum {
     /* 0x43 */ PLAYER_IA_MAX
 } PlayerItemAction;
 
+#define PLAYER_MAGIC_SPELL(playerItemActionMagicSpell) ((playerItemActionMagicSpell) - PLAYER_IA_MAGIC_SPELL_15)
+#define PLAYER_MAGIC_SPELL_MAX (1 + PLAYER_MAGIC_SPELL(PLAYER_IA_DINS_FIRE))
+
+#define PLAYER_BOTTLE(playerItemActionBottle) ((playerItemActionBottle) - PLAYER_IA_BOTTLE)
+#define PLAYER_BOTTLE_MAX (1 + PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FAIRY))
+
 typedef enum {
     /* 0x00 */ PLAYER_LIMB_NONE,
     /* 0x01 */ PLAYER_LIMB_ROOT,

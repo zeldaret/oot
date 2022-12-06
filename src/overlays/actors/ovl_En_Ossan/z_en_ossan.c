@@ -544,7 +544,8 @@ void EnOssan_TalkHappyMaskShopkeeper(PlayState* play) {
 
 void EnOssan_UpdateCameraDirection(EnOssan* this, PlayState* play, f32 cameraFaceAngle) {
     this->cameraFaceAngle = cameraFaceAngle;
-    Camera_SetCameraData(GET_ACTIVE_CAM(play), 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
+    Camera_SetCameraData(GET_ACTIVE_CAM(play), CAM_SET_CAMERA_DATA_3 | CAM_SET_CAMERA_DATA_2, NULL, NULL,
+                         cameraFaceAngle, 0, 0);
 }
 
 s32 EnOssan_TryGetObjBankIndices(EnOssan* this, PlayState* play, s16* objectIds) {
