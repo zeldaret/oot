@@ -5,7 +5,7 @@
  */
 
 #include "z_en_sb.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_sb/object_sb.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
@@ -25,7 +25,7 @@ void EnSb_Lunge(EnSb* this, PlayState* play);
 void EnSb_Bounce(EnSb* this, PlayState* play);
 void EnSb_Cooldown(EnSb* this, PlayState* play);
 
-const ActorInit En_Sb_InitVars = {
+ActorInit En_Sb_InitVars = {
     ACTOR_EN_SB,
     ACTORCAT_ENEMY,
     FLAGS,

@@ -33,7 +33,7 @@ void EnPoField_SoulDisappear(EnPoField* this, PlayState* play);
 void EnPoField_SoulInteract(EnPoField* this, PlayState* play);
 void EnPoField_SpawnFlame(EnPoField* this);
 
-const ActorInit En_Po_Field_InitVars = {
+ActorInit En_Po_Field_InitVars = {
     ACTOR_EN_PO_FIELD,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -698,11 +698,11 @@ void EnPoField_SoulInteract(EnPoField* this, PlayState* play) {
                 if (Inventory_HasEmptyBottle()) {
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_BIG_GET);
                     if (this->actor.params == 0) {
-                        Item_Give(play, ITEM_POE);
+                        Item_Give(play, ITEM_BOTTLE_POE);
                         this->actor.textId = 0x5008;
                     } else {
                         this->actor.textId = 0x508F;
-                        Item_Give(play, ITEM_BIG_POE);
+                        Item_Give(play, ITEM_BOTTLE_BIG_POE);
                         Flags_SetSwitch(play, sSpawnSwitchFlags[this->spawnFlagIndex]);
                     }
                 } else {

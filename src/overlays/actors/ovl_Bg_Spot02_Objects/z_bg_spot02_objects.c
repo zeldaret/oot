@@ -31,7 +31,7 @@ static void* D_808AD850[] = {
     object_spot02_objects_Tex_0102B0, object_spot02_objects_Tex_010EB0, object_spot02_objects_Tex_011AB0,
 };
 
-const ActorInit Bg_Spot02_Objects_InitVars = {
+ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,
     ACTORCAT_BG,
     FLAGS,
@@ -76,7 +76,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0128D8, &colHeader);
                 thisx->flags |= ACTOR_FLAG_22;
             } else {
-                if (play->sceneId == SCENE_SPOT02) {
+                if (play->sceneId == SCENE_GRAVEYARD) {
                     this->actionFunc = func_808AC908;
                 } else {
                     this->actionFunc = func_808AC8FC;
@@ -87,7 +87,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
 
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
-            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (play->sceneId == SCENE_SPOT02) && (thisx->params == 2)) ||
+            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (play->sceneId == SCENE_GRAVEYARD) && (thisx->params == 2)) ||
                 (LINK_IS_ADULT && (thisx->params == 1))) {
                 Actor_Kill(thisx);
             }

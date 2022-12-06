@@ -21,24 +21,10 @@ void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
 void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
-s32 DmaMgr_CompareName(const char* name1, const char* name2);
-s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, u32 size);
-s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction);
-void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc);
-const char* DmaMgr_GetFileNameImpl(uintptr_t vrom);
-const char* DmaMgr_GetFileName(uintptr_t vrom);
-void DmaMgr_ProcessMsg(DmaRequest* req);
-void DmaMgr_ThreadEntry(void* arg);
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
-s32 DmaMgr_SendRequest0(void* ram, uintptr_t vrom, u32 size);
-void DmaMgr_Init(void);
-s32 DmaMgr_SendRequest2(DmaRequest* req, void* ram, uintptr_t vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
-                        const char* file, s32 line);
-s32 DmaMgr_SendRequest1(void* ram, uintptr_t vrom, u32 size, const char* file, s32 line);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
 void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
-void Yaz0_Decompress(uintptr_t romStart, u8* dst, u32 size);
+void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 u32 func_80001F48(void);
@@ -78,7 +64,7 @@ void __osPiGetAccess(void);
 void __osPiRelAccess(void);
 s32 osSendMesg(OSMesgQueue* mq, OSMesg msg, s32 flag);
 void osStopThread(OSThread* thread);
-void osViExtendVStart(u32 arg0);
+void osViExtendVStart(u32 value);
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag);
 void __osInitialize_common(void);
 void __osInitialize_autodetect(void);
@@ -120,7 +106,7 @@ s32 osJamMesg(OSMesgQueue* mq, OSMesg msg, s32 flag);
 void osSetThreadPri(OSThread* thread, OSPri pri);
 OSPri osGetThreadPri(OSThread* thread);
 s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
-void osViSwapBuffer(void* vaddr);
+void osViSwapBuffer(void* frameBufPtr);
 s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dramAddr, size_t size);
 u32 bcmp(void* __sl, void* __s2, u32 __n);
 OSTime osGetTime(void);
@@ -386,7 +372,7 @@ s16 Actor_WorldPitchTowardActor(Actor* actorA, Actor* actorB);
 s16 Actor_WorldPitchTowardPoint(Actor* actor, Vec3f* refPoint);
 f32 Actor_WorldDistXZToActor(Actor* actorA, Actor* actorB);
 f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint);
-void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2);
+void func_8002DBD0(Actor* actor, Vec3f* dest, Vec3f* pos);
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB);
 f32 Player_GetHeight(Player* player);
 f32 func_8002DCE4(Player* player);
@@ -449,7 +435,7 @@ void func_8002F8F0(Actor* actor, u16 sfxId);
 void func_8002F91C(Actor* actor, u16 sfxId);
 void func_8002F948(Actor* actor, u16 sfxId);
 void func_8002F974(Actor* actor, u16 sfxId);
-void func_8002F994(Actor* actor, s32 arg1);
+void func_8002F994(Actor* actor, s32 timer);
 s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos);
 void Actor_DisableLens(PlayState* play);
 void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* playerEntry);
@@ -498,16 +484,16 @@ void func_8003424C(PlayState* play, Vec3f* arg1);
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, PlayState* play);
 Hilite* func_8003435C(Vec3f* object, PlayState* play);
-s32 func_800343CC(PlayState* play, Actor* actor, s16* arg2, f32 interactRange,
-                  u16 (*unkFunc1)(PlayState*, Actor*), s16 (*unkFunc2)(PlayState*, Actor*));
-s16 func_800347E8(s16 arg0);
-void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
+s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
+                      NpcGetTextIdFunc getTextId, NpcUpdateTalkStateFunc updateTalkState);
+s16 Npc_GetTrackingPresetMaxPlayerYaw(s16 presetIndex);
+void Npc_TrackPoint(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex,
+                    s16 trackingMode);
 void func_80034BA0(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(PlayState* play, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 s16 func_80034DD4(Actor* actor, PlayState* play, s16 arg2, f32 arg3);
-void Animation_ChangeByInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, s32 index);
 void func_80034F54(PlayState* play, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, PlayState* play);
 void Gfx_DrawDListOpa(PlayState* play, Gfx* dlist);
@@ -615,8 +601,8 @@ s32 SurfaceType_CheckWallFlag2(CollisionContext* colCtx, CollisionPoly* poly, s3
 u32 SurfaceType_GetFloorProperty(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsSoft(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u32 SurfaceType_GetSfxType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetMaterial(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 SurfaceType_GetSfxOffset(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetFloorEffect(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetLightSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetEcho(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
@@ -667,10 +653,10 @@ Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera);
 s16 Camera_GetCamDirPitch(Camera* camera);
 s16 Camera_GetCamDirYaw(Camera* camera);
 s32 Camera_RequestQuake(Camera* camera, s32 unused, s16 y, s32 duration);
-s32 Camera_SetParam(Camera* camera, s32 param, void* value);
-s32 func_8005AC48(Camera* camera, s16 arg1);
-s16 func_8005ACFC(Camera* camera, s16 arg1);
-s16 func_8005AD1C(Camera* camera, s16 arg1);
+s32 Camera_SetViewParam(Camera* camera, s32 viewFlag, void* param);
+s32 Camera_OverwriteStateFlags(Camera* camera, s16 stateFlags);
+s16 Camera_SetStateFlag(Camera* camera, s16 stateFlag);
+s16 Camera_UnsetStateFlag(Camera* camera, s16 stateFlag);
 s32 Camera_ResetAnim(Camera* camera);
 s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints, Player* player,
                        s16 relativeToPlayer);
@@ -827,7 +813,6 @@ u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minSt
 u8 Environment_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep);
 f32 Environment_LerpWeight(u16 max, u16 min, u16 val);
 f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame, u16 accelDuration, u16 decelDuration);
-void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx);
 void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex);
 void Environment_DisableUnderwaterLights(PlayState* play);
 void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContext* lightCtx,
@@ -841,7 +826,6 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
                                s16 glareStrength, u8 isSun);
 void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx);
 void Environment_ChangeLightSetting(PlayState* play, u32 lightSetting);
-void Environment_DrawSkyboxFilters(PlayState* play);
 void Environment_UpdateLightningStrike(PlayState* play);
 void Environment_AddLightningBolts(PlayState* play, u8 num);
 void Environment_DrawLightning(PlayState* play, s32 unused);
@@ -911,7 +895,7 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx);
 void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec);
 void LightContext_Init(PlayState* play, LightContext* lightCtx);
 void LightContext_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b);
-void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 fogFar);
+void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 zFar);
 Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx);
 void LightContext_InitList(PlayState* play, LightContext* lightCtx);
 void LightContext_DestroyList(PlayState* play, LightContext* lightCtx);
@@ -971,7 +955,7 @@ void Map_Destroy(PlayState* play);
 void Map_Init(PlayState* play);
 void Minimap_Draw(PlayState* play);
 void Map_Update(PlayState* play);
-void Interface_ChangeAlpha(u16 alphaType);
+void Interface_ChangeHudVisibilityMode(u16 hudVisibilityMode);
 void Interface_SetSceneRestrictions(PlayState* play);
 void Inventory_SwapAgeEquipment(void);
 void Interface_InitHorsebackArchery(PlayState* play);
@@ -996,9 +980,9 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
 void Magic_Fill(PlayState* play);
 void Magic_Reset(PlayState* play);
 s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type);
-void func_80088AA0(s16 arg0);
-void func_80088AF0(PlayState* play);
-void func_80088B34(s16 arg0);
+void Interface_SetSubTimer(s16 seconds);
+void Interface_SetSubTimerToFinalSecond(PlayState* play);
+void Interface_SetTimer(s16 seconds);
 void Interface_Draw(PlayState* play);
 void Interface_Update(PlayState* play);
 Path* Path_GetByIndex(PlayState* play, s16 index, s16 max);
@@ -1040,7 +1024,7 @@ s32 Player_GetBottleHeld(Player* this);
 s32 Player_ActionToExplosive(Player* this, s32 itemAction);
 s32 Player_GetExplosiveHeld(Player* this);
 s32 func_8008F2BC(Player* this, s32 itemAction);
-s32 func_8008F2F8(PlayState* play);
+s32 Player_GetEnvironmentalHazard(PlayState* play);
 void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
                      s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
                      void* data);
@@ -1050,8 +1034,8 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
                                            void* thisx);
 s32 Player_OverrideLimbDrawGameplayFirstPerson(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                                void* thisx);
-s32 Player_OverrideLimbDrawGameplay_80090440(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                             void* thisx);
+s32 Player_OverrideLimbDrawGameplayCrawling(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                            void* thisx);
 u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
 void Player_DrawGetItem(PlayState* play, Player* this);
 void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
@@ -1132,91 +1116,6 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd);
 void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx);
 void Scene_SetTransitionForNextEntrance(PlayState* play);
 void Scene_Draw(PlayState* play);
-void SkelAnime_DrawLod(PlayState* play, void** skeleton, Vec3s* jointTable,
-                       OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, s32 lod);
-void SkelAnime_DrawFlexLod(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
-                           OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, s32 lod);
-void SkelAnime_DrawOpa(PlayState* play, void** skeleton, Vec3s* jointTable,
-                       OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
-void SkelAnime_DrawFlexOpa(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
-                           OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
-s16 Animation_GetLength(void* animation);
-s16 Animation_GetLastFrame(void* animation);
-s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Vec3s* frameTable);
-s16 Animation_GetLimbCountLegacy(LegacyAnimationHeader* animation);
-s16 Animation_GetLengthLegacy(LegacyAnimationHeader* animation);
-s16 Animation_GetLastFrameLegacy(LegacyAnimationHeader* animation);
-Gfx* SkelAnime_Draw(PlayState* play, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw,
-                    PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
-Gfx* SkelAnime_DrawFlex(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
-                        OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
-void SkelAnime_InterpFrameTable(s32 limbCount, Vec3s* dst, Vec3s* start, Vec3s* target, f32 weight);
-void AnimationContext_Reset(AnimationContext* animationCtx);
-void AnimationContext_SetNextQueue(PlayState* play);
-void AnimationContext_DisableQueue(PlayState* play);
-void AnimationContext_SetLoadFrame(PlayState* play, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
-                                   Vec3s* frameTable);
-void AnimationContext_SetCopyAll(PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src);
-void AnimationContext_SetInterp(PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
-void AnimationContext_SetCopyTrue(PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
-void AnimationContext_SetCopyFalse(PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
-void AnimationContext_SetMoveActor(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 arg3);
-void AnimationContext_Update(PlayState* play, AnimationContext* animationCtx);
-void SkelAnime_InitLink(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                        LinkAnimationHeader* animation, s32 flags, Vec3s* jointTable, Vec3s* morphTable,
-                        s32 limbBufCount);
-void LinkAnimation_SetUpdateFunction(SkelAnime* skelAnime);
-s32 LinkAnimation_Update(PlayState* play, SkelAnime* skelAnime);
-void LinkAnimation_AnimateFrame(PlayState* play, SkelAnime* skelAnime);
-void Animation_SetMorph(PlayState* play, SkelAnime* skelAnime, f32 morphFrames);
-void LinkAnimation_Change(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation, f32 playSpeed,
-                          f32 startFrame, f32 endFrame, u8 mode, f32 morphFrames);
-void LinkAnimation_PlayOnce(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation);
-void LinkAnimation_PlayOnceSetSpeed(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation,
-                                    f32 playSpeed);
-void LinkAnimation_PlayLoop(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation);
-void LinkAnimation_PlayLoopSetSpeed(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation,
-                                    f32 playSpeed);
-void LinkAnimation_CopyJointToMorph(PlayState* play, SkelAnime* skelAnime);
-void LinkAnimation_CopyMorphToJoint(PlayState* play, SkelAnime* skelAnime);
-void LinkAnimation_LoadToMorph(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation,
-                               f32 frame);
-void LinkAnimation_LoadToJoint(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation,
-                               f32 frame);
-void LinkAnimation_InterpJointMorph(PlayState* play, SkelAnime* skelAnime, f32 weight);
-void LinkAnimation_BlendToJoint(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation1,
-                                f32 frame1, LinkAnimationHeader* animation2, f32 frame2, f32 blendWeight,
-                                Vec3s* blendTable);
-void LinkAnimation_BlendToMorph(PlayState* play, SkelAnime* skelAnime, LinkAnimationHeader* animation1,
-                                f32 frame1, LinkAnimationHeader* animation2, f32 frame2, f32 blendWeight,
-                                Vec3s* blendTable);
-void LinkAnimation_EndLoop(SkelAnime* skelAnime);
-s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame);
-BAD_RETURN(s32) SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-BAD_RETURN(s32) SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-BAD_RETURN(s32) SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                                   AnimationHeader* animation);
-s32 SkelAnime_Update(SkelAnime* skelAnime);
-void Animation_ChangeImpl(SkelAnime* skelAnime, AnimationHeader* animation, f32 playSpeed, f32 startFrame, f32 endFrame,
-                          u8 mode, f32 morphFrames, s8 taper);
-void Animation_Change(SkelAnime* skelAnime, AnimationHeader* animation, f32 playSpeed, f32 startFrame, f32 endFrame,
-                      u8 mode, f32 morphFrames);
-void Animation_PlayOnce(SkelAnime* skelAnime, AnimationHeader* animation);
-void Animation_MorphToPlayOnce(SkelAnime* skelAnime, AnimationHeader* animation, f32 morphFrames);
-void Animation_PlayOnceSetSpeed(SkelAnime* skelAnime, AnimationHeader* animation, f32 playSpeed);
-void Animation_PlayLoop(SkelAnime* skelAnime, AnimationHeader* animation);
-void Animation_MorphToLoop(SkelAnime* skelAnime, AnimationHeader* animation, f32 morphFrames);
-void Animation_PlayLoopSetSpeed(SkelAnime* skelAnime, AnimationHeader* animation, f32 playSpeed);
-void Animation_EndLoop(SkelAnime* skelAnime);
-void Animation_Reverse(SkelAnime* skelAnime);
-void SkelAnime_CopyFrameTableTrue(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* copyFlag);
-void SkelAnime_CopyFrameTableFalse(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* copyFlag);
-void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle);
-s32 Animation_OnFrame(SkelAnime* skelAnime, f32 frame);
-void SkelAnime_Free(SkelAnime* skelAnime, PlayState* play);
-void SkelAnime_CopyFrameTable(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src);
 
 void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos);
 void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3, s32 drawFlags);
@@ -1291,8 +1190,8 @@ s32 View_UpdateViewingMatrix(View* view);
 s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp);
 s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
 void ViMode_LogPrint(OSViMode* osViMode);
-void ViMode_Configure(ViMode* viMode, s32 mode, s32 type, s32 unk_70, s32 unk_74, s32 unk_78, s32 unk_7C, s32 width,
-                      s32 height, s32 unk_left, s32 unk_right, s32 unk_top, s32 unk_bottom);
+void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
+                      s32 width, s32 height, s32 leftAdjust, s32 rightAdjust, s32 upperAdjust, s32 lowerAdjust);
 void ViMode_Save(ViMode* viMode);
 void ViMode_Load(ViMode* viMode);
 void ViMode_Init(ViMode* viMode);
@@ -1308,10 +1207,6 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp);
 void func_800AD920(struct_80166500* this);
 void func_800AD950(struct_80166500* this);
 void func_800AD958(struct_80166500* this, Gfx** gfxp);
-void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
-Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
-void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z);
-void SkyboxDraw_Update(SkyboxContext* skyboxCtx);
 void PlayerCall_InitFuncPtrs(void);
 void TransitionUnk_InitGraphics(TransitionUnk* this);
 void TransitionUnk_InitData(TransitionUnk* this);
@@ -1395,14 +1290,6 @@ void DbCamera_Reset(Camera* cam, DbCamera* dbCam);
 // ? DbCamera_UpdateDemoControl(?);
 void func_800BB0A0(f32 u, Vec3f* pos, f32* roll, f32* viewAngle, f32* point0, f32* point1, f32* point2, f32* point3);
 s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s16* keyFrame, f32* curFrame);
-s32 Mempak_Init(s32 controllerNb);
-s32 Mempak_GetFreeBytes(s32 controllerNb);
-s32 Mempak_FindFile(s32 controllerNb, char start, char end);
-s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size);
-s32 Mempak_Read(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size);
-s32 Mempak_Alloc(s32 controllerNb, char* idx, s32 size);
-s32 Mempak_DeleteFile(s32 controllerNb, char idx);
-s32 Mempak_GetFileSize(s32 controllerNb, char idx);
 void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl);
 void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl);
 void KaleidoManager_Init(PlayState* play);
@@ -1460,35 +1347,6 @@ void func_800C213C(PreRender* this, Gfx** gfxp);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxp);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp);
 void PreRender_ApplyFilters(PreRender* this);
-void THGA_Ct(TwoHeadGfxArena* thga, Gfx* start, u32 size);
-void THGA_Dt(TwoHeadGfxArena* thga);
-u32 THGA_IsCrash(TwoHeadGfxArena* thga);
-void THGA_Init(TwoHeadGfxArena* thga);
-s32 THGA_GetSize(TwoHeadGfxArena* thga);
-Gfx* THGA_GetHead(TwoHeadGfxArena* thga);
-void THGA_SetHead(TwoHeadGfxArena* thga, Gfx* start);
-Gfx* THGA_GetTail(TwoHeadGfxArena* thga);
-Gfx* THGA_AllocStartArray8(TwoHeadGfxArena* thga, u32 count);
-Gfx* THGA_AllocStart8(TwoHeadGfxArena* thga);
-Gfx* THGA_AllocStart8Wrapper(TwoHeadGfxArena* thga);
-Gfx* THGA_AllocEnd(TwoHeadGfxArena* thga, u32 size);
-Gfx* THGA_AllocEndArray64(TwoHeadGfxArena* thga, u32 count);
-Gfx* THGA_AllocEnd64(TwoHeadGfxArena* thga);
-Gfx* THGA_AllocEndArray16(TwoHeadGfxArena* thga, u32 count);
-Gfx* THGA_AllocEnd16(TwoHeadGfxArena* thga);
-void* THA_GetHead(TwoHeadArena* tha);
-void THA_SetHead(TwoHeadArena* tha, void* start);
-void* THA_GetTail(TwoHeadArena* tha);
-void* THA_AllocStart(TwoHeadArena* tha, u32 size);
-void* THA_AllocStart1(TwoHeadArena* tha);
-void* THA_AllocEnd(TwoHeadArena* tha, u32 size);
-void* THA_AllocEndAlign16(TwoHeadArena* tha, u32 size);
-void* THA_AllocEndAlign(TwoHeadArena* tha, u32 size, u32 mask);
-s32 THA_GetSize(TwoHeadArena* tha);
-u32 THA_IsCrash(TwoHeadArena* tha);
-void THA_Init(TwoHeadArena* tha);
-void THA_Ct(TwoHeadArena* tha, void* ptr, u32 size);
-void THA_Dt(TwoHeadArena* tha);
 void AudioMgr_StopAllSfx(void);
 void func_800C3C80(AudioMgr* audioMgr);
 void AudioMgr_HandleRetrace(AudioMgr* audioMgr);

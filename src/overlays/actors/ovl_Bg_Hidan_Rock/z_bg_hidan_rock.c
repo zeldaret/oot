@@ -29,7 +29,7 @@ void func_8088BC40(PlayState* play, BgHidanRock* this);
 
 static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 
-const ActorInit Bg_Hidan_Rock_InitVars = {
+ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,
     ACTORCAT_BG,
     FLAGS,
@@ -251,9 +251,9 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
         }
 
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSfx2(
-            &this->dyna.actor,
-            SurfaceType_GetSfxId(&play->colCtx, this->dyna.actor.floorPoly, this->dyna.actor.floorBgId) + SFX_FLAG);
+        Audio_PlayActorSfx2(&this->dyna.actor,
+                            NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(&play->colCtx, this->dyna.actor.floorPoly,
+                                                                            this->dyna.actor.floorBgId));
     }
 
     this->unk_16C -= 0.5f;
@@ -264,7 +264,7 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
+            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
         } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
@@ -317,7 +317,7 @@ void func_8088B990(BgHidanRock* this, PlayState* play) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
+            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
         } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);

@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-const ActorInit En_Tg_InitVars = {
+ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
     ACTORCAT_NPC,
     FLAGS,
@@ -60,8 +60,7 @@ u16 EnTg_GetTextId(PlayState* play, Actor* thisx) {
     if (temp != 0) {
         return temp;
     }
-    // Use a different set of dialogue in Kakariko Village (Adult)
-    if (play->sceneId == SCENE_SPOT01) {
+    if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
         if (this->nextDialogue % 2 != 0) {
             phi = 0x5089;
         } else {
@@ -78,7 +77,7 @@ u16 EnTg_GetTextId(PlayState* play, Actor* thisx) {
     }
 }
 
-s16 EnTg_OnTextComplete(PlayState* play, Actor* thisx) {
+s16 EnTg_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnTg* this = (EnTg*)thisx;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -132,7 +131,7 @@ void EnTg_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnTg_SpinIfNotTalking(EnTg* this, PlayState* play) {
-    if (!this->isTalking) {
+    if (!this->interactInfo.talkState) {
         this->actor.shape.rot.y += 0x800;
     }
 }
@@ -152,7 +151,7 @@ void EnTg_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
     temp = this->collider.dim.radius + 30.0f;
-    func_800343CC(play, &this->actor, &this->isTalking, temp, EnTg_GetTextId, EnTg_OnTextComplete);
+    Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, temp, EnTg_GetTextId, EnTg_UpdateTalkState);
 }
 
 s32 EnTg_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

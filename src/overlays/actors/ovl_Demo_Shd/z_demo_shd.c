@@ -15,7 +15,7 @@ void DemoShd_Draw(Actor* thisx, PlayState* play);
 
 void func_80991298(DemoShd* this, PlayState* play);
 
-const ActorInit Demo_Shd_InitVars = {
+ActorInit Demo_Shd_InitVars = {
     ACTOR_DEMO_SHD,
     ACTORCAT_ITEMACTION,
     FLAGS,

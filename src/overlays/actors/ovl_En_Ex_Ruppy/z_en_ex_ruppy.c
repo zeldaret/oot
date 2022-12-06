@@ -1,5 +1,5 @@
 #include "z_en_ex_ruppy.h"
-#include "vt.h"
+#include "terminal.h"
 #include "../ovl_En_Diving_Game/z_en_diving_game.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
@@ -28,7 +28,7 @@ static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
-const ActorInit En_Ex_Ruppy_InitVars = {
+ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
     ACTORCAT_PROP,
     FLAGS,

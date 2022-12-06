@@ -1,6 +1,6 @@
 #include "global.h"
 #include "ultra64.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
@@ -319,7 +319,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     envCtx->adjAmbientColor[0] = envCtx->adjAmbientColor[1] = envCtx->adjAmbientColor[2] = envCtx->adjLight1Color[0] =
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
-            envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjFogFar = 0;
+            envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjZFar = 0;
 
     envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
     envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
@@ -708,7 +708,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             size = gNormalSkyFiles[newSkybox1Index].file.vromEnd - gNormalSkyFiles[newSkybox1Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_SendRequest2(&envCtx->dmaRequest, skyboxCtx->staticSegments[0],
+            DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->staticSegments[0],
                                 gNormalSkyFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                 "../z_kankyo.c", 1264);
             envCtx->skybox1Index = newSkybox1Index;
@@ -719,7 +719,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             size = gNormalSkyFiles[newSkybox2Index].file.vromEnd - gNormalSkyFiles[newSkybox2Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_SendRequest2(&envCtx->dmaRequest, skyboxCtx->staticSegments[1],
+            DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->staticSegments[1],
                                 gNormalSkyFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
                                 "../z_kankyo.c", 1281);
             envCtx->skybox2Index = newSkybox2Index;
@@ -733,14 +733,14 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, skyboxCtx->palettes,
+                DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->palettes,
                                     gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
                                     NULL, "../z_kankyo.c", 1307);
             } else {
                 size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
+                DmaMgr_RequestAsync(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
                                     gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
                                     NULL, "../z_kankyo.c", 1320);
             }
@@ -754,14 +754,14 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, skyboxCtx->palettes,
+                DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->palettes,
                                     gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
                                     NULL, "../z_kankyo.c", 1342);
             } else {
                 size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
+                DmaMgr_RequestAsync(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
                                     gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
                                     NULL, "../z_kankyo.c", 1355);
             }
@@ -873,8 +873,8 @@ void Environment_UpdateRain(PlayState* play);
 
 void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
                         MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
-    f32 sp8C;
-    f32 sp88 = 0.0f;
+    f32 timeChangeBlend;
+    f32 configChangeBlend = 0.0f;
     u16 i;
     u16 j;
     u16 time;
@@ -949,7 +949,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSaveContext.nightFlag = 0;
         }
 
-        if (SREG(0) != 0 || CREG(2) != 0) {
+        if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
 
@@ -986,16 +986,18 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         u8 blend8[2];
                         s16 blend16[2];
 
-                        sp8C = Environment_LerpWeight(sTimeBasedLightConfigs[envCtx->lightConfig][i].endTime,
-                                                      sTimeBasedLightConfigs[envCtx->lightConfig][i].startTime,
-                                                      ((void)0, gSaveContext.skyboxTime));
+                        timeChangeBlend =
+                            Environment_LerpWeight(sTimeBasedLightConfigs[envCtx->lightConfig][i].endTime,
+                                                   sTimeBasedLightConfigs[envCtx->lightConfig][i].startTime,
+                                                   ((void)0, gSaveContext.skyboxTime));
 
                         sSandstormColorIndex = sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting & 3;
                         sNextSandstormColorIndex = sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting & 3;
-                        sSandstormLerpScale = sp8C;
+                        sSandstormLerpScale = timeChangeBlend;
 
                         if (envCtx->changeLightEnabled) {
-                            sp88 = ((f32)envCtx->changeDuration - envCtx->changeLightTimer) / envCtx->changeDuration;
+                            configChangeBlend =
+                                ((f32)envCtx->changeDuration - envCtx->changeLightTimer) / envCtx->changeDuration;
                             envCtx->changeLightTimer--;
 
                             if (envCtx->changeLightTimer <= 0) {
@@ -1011,15 +1013,15 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                          .ambientColor[j],
                                      lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting]
                                          .ambientColor[j],
-                                     sp8C);
+                                     timeChangeBlend);
                             blend8[1] = LERP(
                                 lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
                                     .ambientColor[j],
                                 lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
                                                       .nextLightSetting]
                                     .ambientColor[j],
-                                sp8C);
-                            *(envCtx->lightSettings.ambientColor + j) = LERP(blend8[0], blend8[1], sp88);
+                                timeChangeBlend);
+                            *(envCtx->lightSettings.ambientColor + j) = LERP(blend8[0], blend8[1], configChangeBlend);
                         }
 
                         // set light1 direction for the sun
@@ -1042,15 +1044,15 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                          .light1Color[j],
                                      lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting]
                                          .light1Color[j],
-                                     sp8C);
+                                     timeChangeBlend);
                             blend8[1] = LERP(
                                 lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
                                     .light1Color[j],
                                 lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
                                                       .nextLightSetting]
                                     .light1Color[j],
-                                sp8C);
-                            *(envCtx->lightSettings.light1Color + j) = LERP(blend8[0], blend8[1], sp88);
+                                timeChangeBlend);
+                            *(envCtx->lightSettings.light1Color + j) = LERP(blend8[0], blend8[1], configChangeBlend);
 
                             // blend light2Color
                             blend8[0] =
@@ -1058,15 +1060,15 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                          .light2Color[j],
                                      lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting]
                                          .light2Color[j],
-                                     sp8C);
+                                     timeChangeBlend);
                             blend8[1] = LERP(
                                 lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
                                     .light2Color[j],
                                 lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
                                                       .nextLightSetting]
                                     .light2Color[j],
-                                sp8C);
-                            *(envCtx->lightSettings.light2Color + j) = LERP(blend8[0], blend8[1], sp88);
+                                timeChangeBlend);
+                            *(envCtx->lightSettings.light2Color + j) = LERP(blend8[0], blend8[1], configChangeBlend);
                         }
 
                         // blend fogColor
@@ -1076,47 +1078,49 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                          .fogColor[j],
                                      lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting]
                                          .fogColor[j],
-                                     sp8C);
+                                     timeChangeBlend);
                             blend8[1] = LERP(
                                 lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
                                     .fogColor[j],
                                 lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
                                                       .nextLightSetting]
                                     .fogColor[j],
-                                sp8C);
-                            *(envCtx->lightSettings.fogColor + j) = LERP(blend8[0], blend8[1], sp88);
+                                timeChangeBlend);
+                            *(envCtx->lightSettings.fogColor + j) = LERP(blend8[0], blend8[1], configChangeBlend);
                         }
 
                         blend16[0] = LERP16(
-                            (lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting].fogNear &
-                             0x3FF),
-                            (lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting]
-                                 .fogNear &
-                             0x3FF),
-                            sp8C);
+                            ENV_LIGHT_SETTINGS_FOG_NEAR(
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting]
+                                    .blendRateAndFogNear),
+                            ENV_LIGHT_SETTINGS_FOG_NEAR(
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting]
+                                    .blendRateAndFogNear),
+                            timeChangeBlend);
                         blend16[1] = LERP16(
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
-                                    .fogNear &
-                                0x3FF,
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
-                                    .fogNear &
-                                0x3FF,
-                            sp8C);
+                            ENV_LIGHT_SETTINGS_FOG_NEAR(
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
+                                    .blendRateAndFogNear),
+                            ENV_LIGHT_SETTINGS_FOG_NEAR(
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
+                                                      .nextLightSetting]
+                                    .blendRateAndFogNear),
+                            timeChangeBlend);
 
-                        envCtx->lightSettings.fogNear = LERP16(blend16[0], blend16[1], sp88);
+                        envCtx->lightSettings.fogNear = LERP16(blend16[0], blend16[1], configChangeBlend);
 
                         blend16[0] = LERP16(
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting].fogFar,
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting].fogFar,
-                            sp8C);
+                            lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting].zFar,
+                            lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting].zFar,
+                            timeChangeBlend);
                         blend16[1] = LERP16(
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
-                                .fogFar,
+                                .zFar,
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
-                                .fogFar,
-                            sp8C);
+                                .zFar,
+                            timeChangeBlend);
 
-                        envCtx->lightSettings.fogFar = LERP16(blend16[0], blend16[1], sp88);
+                        envCtx->lightSettings.zFar = LERP16(blend16[0], blend16[1], configChangeBlend);
 
                         if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
@@ -1142,11 +1146,13 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         envCtx->lightSettings.fogColor[i] = lightSettingsList[envCtx->lightSetting].fogColor[i];
                     }
 
-                    envCtx->lightSettings.fogNear = lightSettingsList[envCtx->lightSetting].fogNear & 0x3FF;
-                    envCtx->lightSettings.fogFar = lightSettingsList[envCtx->lightSetting].fogFar;
+                    envCtx->lightSettings.fogNear =
+                        ENV_LIGHT_SETTINGS_FOG_NEAR(lightSettingsList[envCtx->lightSetting].blendRateAndFogNear);
+                    envCtx->lightSettings.zFar = lightSettingsList[envCtx->lightSetting].zFar;
                     envCtx->lightBlend = 1.0f;
                 } else {
-                    u8 blendRate = (lightSettingsList[envCtx->lightSetting].fogNear >> 0xA) * 4;
+                    u8 blendRate =
+                        ENV_LIGHT_SETTINGS_BLEND_RATE_U8(lightSettingsList[envCtx->lightSetting].blendRateAndFogNear);
 
                     if (blendRate == 0) {
                         blendRate++;
@@ -1184,12 +1190,13 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                             LERP(lightSettingsList[envCtx->prevLightSetting].fogColor[i],
                                  lightSettingsList[envCtx->lightSetting].fogColor[i], envCtx->lightBlend);
                     }
-                    envCtx->lightSettings.fogNear =
-                        LERP16(lightSettingsList[envCtx->prevLightSetting].fogNear & 0x3FF,
-                               lightSettingsList[envCtx->lightSetting].fogNear & 0x3FF, envCtx->lightBlend);
-                    envCtx->lightSettings.fogFar =
-                        LERP16(lightSettingsList[envCtx->prevLightSetting].fogFar,
-                               lightSettingsList[envCtx->lightSetting].fogFar, envCtx->lightBlend);
+                    envCtx->lightSettings.fogNear = LERP16(
+                        ENV_LIGHT_SETTINGS_FOG_NEAR(lightSettingsList[envCtx->prevLightSetting].blendRateAndFogNear),
+                        ENV_LIGHT_SETTINGS_FOG_NEAR(lightSettingsList[envCtx->lightSetting].blendRateAndFogNear),
+                        envCtx->lightBlend);
+                    envCtx->lightSettings.zFar =
+                        LERP16(lightSettingsList[envCtx->prevLightSetting].zFar,
+                               lightSettingsList[envCtx->lightSetting].zFar, envCtx->lightBlend);
                 }
 
                 if (envCtx->lightSetting >= envCtx->numLightSettings) {
@@ -1254,18 +1261,18 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         // Adjust fog near and far if necessary
         adjustment = envCtx->lightSettings.fogNear + envCtx->adjFogNear;
 
-        if (adjustment <= 996) {
+        if (adjustment <= ENV_FOGNEAR_MAX) {
             lightCtx->fogNear = adjustment;
         } else {
-            lightCtx->fogNear = 996;
+            lightCtx->fogNear = ENV_FOGNEAR_MAX;
         }
 
-        adjustment = envCtx->lightSettings.fogFar + envCtx->adjFogFar;
+        adjustment = envCtx->lightSettings.zFar + envCtx->adjZFar;
 
-        if (adjustment <= 12800) {
-            lightCtx->fogFar = adjustment;
+        if (adjustment <= ENV_ZFAR_MAX) {
+            lightCtx->zFar = adjustment;
         } else {
-            lightCtx->fogFar = 12800;
+            lightCtx->zFar = ENV_ZFAR_MAX;
         }
 
         // When environment debug is enabled, various environment related variables can be configured via the reg editor
@@ -1286,7 +1293,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             R_ENV_FOG_COLOR(1) = lightCtx->fogColor[1];
             R_ENV_FOG_COLOR(2) = lightCtx->fogColor[2];
 
-            R_ENV_FOG_FAR = lightCtx->fogFar;
+            R_ENV_Z_FAR = lightCtx->zFar;
             R_ENV_FOG_NEAR = lightCtx->fogNear;
 
             R_ENV_LIGHT1_DIR(0) = envCtx->dirLight1.params.dir.x;
@@ -1317,7 +1324,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             lightCtx->fogColor[1] = R_ENV_FOG_COLOR(1);
             lightCtx->fogColor[2] = R_ENV_FOG_COLOR(2);
             lightCtx->fogNear = R_ENV_FOG_NEAR;
-            lightCtx->fogFar = R_ENV_FOG_FAR;
+            lightCtx->zFar = R_ENV_Z_FAR;
 
             if (cREG(14)) {
                 R_ENV_LIGHT1_DIR(0) = Math_CosS(cREG(10)) * Math_CosS(cREG(11)) * 120.0f;
@@ -1387,7 +1394,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
+    if (gSaveContext.entranceIndex != ENTR_HYRULE_FIELD_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
         Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 
@@ -1593,7 +1600,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
             alpha = alpha * lensFlareAlphas[i];
             alpha = CLAMP_MIN(alpha, 0.0f);
 
-            fogInfluence = (996 - play->lightCtx.fogNear) / 50.0f;
+            fogInfluence = (ENV_FOGNEAR_MAX - play->lightCtx.fogNear) / 50.0f;
 
             fogInfluence = CLAMP_MAX(fogInfluence, 1.0f);
 
@@ -1640,7 +1647,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
                 alpha = alpha * glareStrength;
                 alpha = CLAMP_MIN(alpha, 0.0f);
 
-                fogInfluence = (996 - play->lightCtx.fogNear) / 50.0f;
+                fogInfluence = (ENV_FOGNEAR_MAX - play->lightCtx.fogNear) / 50.0f;
 
                 fogInfluence = CLAMP_MAX(fogInfluence, 1.0f);
 
@@ -1693,7 +1700,8 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(play);
 
-    if (!(play->cameraPtrs[0]->unk_14C & 0x100) && (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_8) &&
+        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
         vec.x = view->at.x - view->eye.x;
@@ -2030,8 +2038,8 @@ void Environment_PlaySceneSequence(PlayState* play) {
     play->envCtx.timeSeqState = TIMESEQ_DISABLED;
 
     // both lost woods exits on the bridge from kokiri to hyrule field
-    if (((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_8 ||
-        ((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_9) {
+    if (((void)0, gSaveContext.entranceIndex) == ENTR_LOST_WOODS_8 ||
+        ((void)0, gSaveContext.entranceIndex) == ENTR_LOST_WOODS_9) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
@@ -2233,8 +2241,8 @@ void Environment_FadeInGameOverLights(PlayState* play) {
             play->envCtx.adjFogColor[i] = -255;
         }
 
-        if (play->envCtx.lightSettings.fogFar + play->envCtx.adjFogFar > 900) {
-            play->envCtx.adjFogFar -= 100;
+        if (play->envCtx.lightSettings.zFar + play->envCtx.adjZFar > 900) {
+            play->envCtx.adjZFar -= 100;
         }
 
         if (play->envCtx.lightSettings.fogNear + play->envCtx.adjFogNear > 950) {
@@ -2277,7 +2285,7 @@ void Environment_FadeOutGameOverLights(PlayState* play) {
             Math_SmoothStepToS(&play->envCtx.adjLight1Color[i], 0, 5, 12, 1);
             play->envCtx.adjFogColor[i] = 0;
         }
-        play->envCtx.adjFogFar = 0;
+        play->envCtx.adjZFar = 0;
         play->envCtx.adjFogNear = 0;
     } else {
         play->envCtx.fillScreen = true;
@@ -2361,7 +2369,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
 
     switch (sandstormState) {
         case SANDSTORM_ACTIVE:
-            if ((play->sceneId == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
+            if ((play->sceneId == SCENE_HAUNTED_WASTELAND) && (play->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (play->envCtx.sandstormEnvA > 128) ? 255 : play->envCtx.sandstormEnvA >> 1;
             } else {
@@ -2586,27 +2594,27 @@ void Environment_WarpSongLeave(PlayState* play) {
     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 
     switch (play->nextEntranceIndex) {
-        case ENTR_SPOT17_0:
+        case ENTR_DEATH_MOUNTAIN_CRATER_0:
             Flags_SetEventChkInf(EVENTCHKINF_B9);
             break;
 
-        case ENTR_SPOT06_0:
+        case ENTR_LAKE_HYLIA_0:
             Flags_SetEventChkInf(EVENTCHKINF_B1);
             break;
 
-        case ENTR_SPOT11_0:
+        case ENTR_DESERT_COLOSSUS_0:
             Flags_SetEventChkInf(EVENTCHKINF_B8);
             break;
 
-        case ENTR_SPOT02_0:
+        case ENTR_GRAVEYARD_0:
             Flags_SetEventChkInf(EVENTCHKINF_B6);
             break;
 
-        case ENTR_TOKINOMA_0:
+        case ENTR_TEMPLE_OF_TIME_0:
             Flags_SetEventChkInf(EVENTCHKINF_A7);
             break;
 
-        case ENTR_SPOT05_0:
+        case ENTR_SACRED_FOREST_MEADOW_0:
             break;
     }
 }

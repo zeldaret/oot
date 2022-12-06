@@ -1,6 +1,6 @@
 #include "global.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
 static s16 sDisableAttention = false;
@@ -331,14 +331,18 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             Play_SetCameraRoll(play, subCamId, childCam->roll);
             break;
         case 9601:
+            // Leaving a crawlspace forwards
             Play_CameraChangeSetting(play, subCamId, CAM_SET_CS_3);
             Play_CameraChangeSetting(play, CAM_ID_MAIN, mainCam->prevSetting);
-            OnePointCutscene_SetCsCamPoints(subCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
+            OnePointCutscene_SetCsCamPoints(subCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
+                                            sCrawlspaceAtPoints, sCrawlspaceForwardsEyePoints);
             break;
         case 9602:
+            // Leaving a crawlspace backwards
             Play_CameraChangeSetting(play, subCamId, CAM_SET_CS_3);
             Play_CameraChangeSetting(play, CAM_ID_MAIN, mainCam->prevSetting);
-            OnePointCutscene_SetCsCamPoints(subCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);
+            OnePointCutscene_SetCsCamPoints(subCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
+                                            sCrawlspaceAtPoints, sCrawlspaceBackwardsEyePoints);
             break;
         case 4175:
             csInfo->keyFrames = D_8012147C;
@@ -478,7 +482,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
         case 3120:
             csInfo->keyFrames = D_80121954[-(timer + 101)];
             subCam->timer = 100;
-            subCam->unk_14C |= 2;
+            subCam->stateFlags |= CAM_STATE_1;
             csInfo->keyFrameCnt = 2;
 
             func_8002DF54(play, NULL, 8);
@@ -490,7 +494,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             func_8002DF54(play, NULL, 8);
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
-            subCam->unk_14C |= 2;
+            subCam->stateFlags |= CAM_STATE_1;
             break;
         case 3140:
             D_80121C24[0].atTargetInit = play->view.at;
@@ -1172,7 +1176,7 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
         OnePointCutscene_SetAsChild(play, vChildCamId, subCamId);
         vSubCamStatus = CAM_STAT_WAIT;
     } else {
-        Interface_ChangeAlpha(2);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
     }
     OnePointCutscene_SetAsChild(play, subCamId, parentCamId);
 

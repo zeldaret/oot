@@ -1,5 +1,5 @@
 #include "z_en_syateki_man.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 
@@ -42,7 +42,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
 void EnSyatekiMan_SetBgm(void);
 
-const ActorInit En_Syateki_Man_InitVars = {
+ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
     ACTORCAT_NPC,
     FLAGS,

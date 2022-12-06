@@ -29,15 +29,15 @@
  * done while waiting for this operation to complete.
  */
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
-#define PADMGR_LOG(controllerNo, msg)                                    \
-    if (1) {                                                             \
-        osSyncPrintf(VT_FGCOL(YELLOW));                                  \
-        /* padmgr: Controller %d: %s */                                  \
-        osSyncPrintf("padmgr: %dコン: %s\n", (controllerNo) + 1, (msg)); \
-        osSyncPrintf(VT_RST);                                            \
-    }                                                                    \
+#define PADMGR_LOG(controllerNum, msg)                                    \
+    if (1) {                                                              \
+        osSyncPrintf(VT_FGCOL(YELLOW));                                   \
+        /* padmgr: Controller %d: %s */                                   \
+        osSyncPrintf("padmgr: %dコン: %s\n", (controllerNum) + 1, (msg)); \
+        osSyncPrintf(VT_RST);                                             \
+    }                                                                     \
     (void)0
 
 #define LOG_SEVERITY_NOLOG 0

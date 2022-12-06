@@ -32,7 +32,7 @@ void BossGanon2_DrawEffects(PlayState* play);
 void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, PlayState* play);
 void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, PlayState* play);
 
-const ActorInit Boss_Ganon2_InitVars = {
+ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
     ACTORCAT_BOSS,
     FLAGS,
@@ -1805,7 +1805,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             }
             FALLTHROUGH;
         case 20:
-            play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+            play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
             gSaveContext.nextCutsceneIndex = 0xFFF2;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_FADE_WHITE;

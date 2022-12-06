@@ -7,7 +7,7 @@
 #include "z_en_ik.h"
 #include "assets/scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "assets/objects/object_ik/object_ik.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -1514,7 +1514,7 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit En_Ik_InitVars = {
+ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORCAT_BOSS,
     FLAGS,

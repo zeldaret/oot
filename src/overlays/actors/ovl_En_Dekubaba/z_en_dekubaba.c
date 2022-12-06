@@ -29,7 +29,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, PlayState* play);
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit En_Dekubaba_InitVars = {
+ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -1020,7 +1020,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, PlayState* play) {
         return;
     }
 
-    func_8002F554(&this->actor, play, GI_STICKS_1);
+    func_8002F554(&this->actor, play, GI_DEKU_STICKS_1);
 }
 
 // Update and associated functions

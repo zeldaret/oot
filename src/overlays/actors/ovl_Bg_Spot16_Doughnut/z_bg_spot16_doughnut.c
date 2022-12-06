@@ -6,7 +6,7 @@
 
 #include "z_bg_spot16_doughnut.h"
 #include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -18,7 +18,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot16_Doughnut_InitVars = {
+ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORCAT_PROP,
     FLAGS,
@@ -57,12 +57,12 @@ void BgSpot16Doughnut_Init(Actor* thisx, PlayState* play) {
         // Scales this actor for scenes where it is featured in the background,
         // Death Mountain itself falls into the default case.
         switch (play->sceneId) {
-            case SCENE_SPOT01:
+            case SCENE_KAKARIKO_VILLAGE:
                 Actor_SetScale(&this->actor, 0.04f);
                 break;
-            case SCENE_SHRINE:
-            case SCENE_SHRINE_N:
-            case SCENE_SHRINE_R:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_DAY:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_NIGHT:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS:
                 Actor_SetScale(&this->actor, 0.018f);
                 break;
             default:

@@ -55,7 +55,9 @@ typedef struct {
     /* 0x4 */ Vec3s* bgCamFuncData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamFuncData`, but can be a list of points of type `Vec3s` for crawlspaces
 } BgCamInfo; // size = 0x8
 
-typedef BgCamInfo CamData; // Todo: Zapd compatibility
+// ZAPD compatibility typedefs
+// TODO: Remove when ZAPD adds support for them
+typedef BgCamInfo CamData;
 
 // The structure used for all instances of s16 data from `BgCamInfo` with the exception of crawlspaces.
 // See `Camera_Subj4` for Vec3s data usage in crawlspaces
@@ -143,9 +145,10 @@ typedef enum {
 #define WALL_FLAG_1 (1 << 1)
 #define WALL_FLAG_2 (1 << 2)
 #define WALL_FLAG_3 (1 << 3)
-#define WALL_FLAG_4 (1 << 4)
-#define WALL_FLAG_5 (1 << 5)
+#define WALL_FLAG_CRAWLSPACE_1 (1 << 4)
+#define WALL_FLAG_CRAWLSPACE_2 (1 << 5)
 #define WALL_FLAG_6 (1 << 6)
+#define WALL_FLAG_CRAWLSPACE (WALL_FLAG_CRAWLSPACE_1 | WALL_FLAG_CRAWLSPACE_2)
 
 typedef enum {
     /*  0 */ FLOOR_PROPERTY_0,
@@ -159,22 +162,41 @@ typedef enum {
 } FloorProperty;
 
 typedef enum {
-    /*  0 */ SURFACE_SFX_TYPE_0,
-    /*  1 */ SURFACE_SFX_TYPE_1,
-    /*  2 */ SURFACE_SFX_TYPE_2,
-    /*  3 */ SURFACE_SFX_TYPE_3,
-    /*  4 */ SURFACE_SFX_TYPE_4,
-    /*  5 */ SURFACE_SFX_TYPE_5,
-    /*  6 */ SURFACE_SFX_TYPE_6,
-    /*  7 */ SURFACE_SFX_TYPE_7,
-    /*  8 */ SURFACE_SFX_TYPE_8,
-    /*  9 */ SURFACE_SFX_TYPE_9,
-    /* 10 */ SURFACE_SFX_TYPE_10,
-    /* 11 */ SURFACE_SFX_TYPE_11,
-    /* 12 */ SURFACE_SFX_TYPE_12,
-    /* 13 */ SURFACE_SFX_TYPE_13,
-    /* 14 */ SURFACE_SFX_TYPE_MAX
-} SurfaceSfxType;
+    /*  0 */ SURFACE_SFX_OFFSET_DIRT,
+    /*  1 */ SURFACE_SFX_OFFSET_SAND,
+    /*  2 */ SURFACE_SFX_OFFSET_STONE,
+    /*  3 */ SURFACE_SFX_OFFSET_JABU,
+    /*  4 */ SURFACE_SFX_OFFSET_WATER_SHALLOW,
+    /*  5 */ SURFACE_SFX_OFFSET_WATER_DEEP,
+    /*  6 */ SURFACE_SFX_OFFSET_TALL_GRASS,
+    /*  7 */ SURFACE_SFX_OFFSET_LAVA, // MAGMA?
+    /*  8 */ SURFACE_SFX_OFFSET_GRASS,
+    /*  9 */ SURFACE_SFX_OFFSET_CARPET,
+    /* 10 */ SURFACE_SFX_OFFSET_WOOD,
+    /* 11 */ SURFACE_SFX_OFFSET_BRIDGE, // WOOD_PLANK?
+    /* 12 */ SURFACE_SFX_OFFSET_VINE,
+    /* 13 */ SURFACE_SFX_OFFSET_IRON_BOOTS,
+    /* 14 */ SURFACE_SFX_OFFSET_UNUSED,
+    /* 15 */ SURFACE_SFX_OFFSET_ICE
+} SurfaceSfxOffset;
+
+typedef enum {
+    /*  0 */ SURFACE_MATERIAL_DIRT,
+    /*  1 */ SURFACE_MATERIAL_SAND,
+    /*  2 */ SURFACE_MATERIAL_STONE,
+    /*  3 */ SURFACE_MATERIAL_JABU,
+    /*  4 */ SURFACE_MATERIAL_WATER_SHALLOW,
+    /*  5 */ SURFACE_MATERIAL_WATER_DEEP,
+    /*  6 */ SURFACE_MATERIAL_TALL_GRASS,
+    /*  7 */ SURFACE_MATERIAL_LAVA, // MAGMA?
+    /*  8 */ SURFACE_MATERIAL_GRASS,
+    /*  9 */ SURFACE_MATERIAL_BRIDGE, // WOOD_PLANK?
+    /* 10 */ SURFACE_MATERIAL_WOOD,
+    /* 11 */ SURFACE_MATERIAL_DIRT_SOFT,
+    /* 12 */ SURFACE_MATERIAL_ICE,
+    /* 13 */ SURFACE_MATERIAL_CARPET,
+    /* 14 */ SURFACE_MATERIAL_MAX
+} SurfaceMaterial;
 
 typedef enum {
     /*  0 */ FLOOR_EFFECT_0,

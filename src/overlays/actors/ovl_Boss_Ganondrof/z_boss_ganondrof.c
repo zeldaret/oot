@@ -69,7 +69,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Stunned(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Death(BossGanondrof* this, PlayState* play);
 
-const ActorInit Boss_Ganondrof_InitVars = {
+ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
     ACTORCAT_BOSS,
     FLAGS,
@@ -1239,7 +1239,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_NONE);
                     osSyncPrintf("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
                     if (this->returnCount == 0) {
@@ -1270,7 +1270,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                     horse->hitTimer = 20;
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_DAMAGE);
                 } else {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_NONE);
                 }
             } else if (acHit && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {
                 this->work[GND_INVINC_TIMER] = 10;

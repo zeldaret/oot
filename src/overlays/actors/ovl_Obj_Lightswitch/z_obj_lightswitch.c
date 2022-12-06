@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_lightswitch.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 #include "assets/objects/object_lightswitch/object_lightswitch.h"
 
@@ -35,7 +35,7 @@ void ObjLightswitch_DisappearDelay(ObjLightswitch* this, PlayState* play);
 void ObjLightswitch_SetupDisappear(ObjLightswitch* this);
 void ObjLightswitch_Disappear(ObjLightswitch* this, PlayState* play);
 
-const ActorInit Obj_Lightswitch_InitVars = {
+ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
     ACTORCAT_SWITCH,
     FLAGS,

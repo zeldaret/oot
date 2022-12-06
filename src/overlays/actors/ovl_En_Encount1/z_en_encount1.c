@@ -1,5 +1,5 @@
 #include "z_en_encount1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
@@ -14,7 +14,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play);
 static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
-const ActorInit En_Encount1_InitVars = {
+ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
     ACTORCAT_PROP,
     FLAGS,
@@ -69,7 +69,7 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
         case SPAWNER_LEEVER:
             this->timer = 30;
             this->maxCurSpawns = 5;
-            if (play->sceneId == SCENE_SPOT13) { // Haunted Wasteland
+            if (play->sceneId == SCENE_HAUNTED_WASTELAND) {
                 this->reduceLeevers = true;
                 this->maxCurSpawns = 3;
             }
@@ -81,7 +81,7 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
             break;
         case SPAWNER_STALCHILDREN:
         case SPAWNER_WOLFOS:
-            if (play->sceneId == SCENE_SPOT00) { // Hyrule Field
+            if (play->sceneId == SCENE_HYRULE_FIELD) {
                 this->maxTotalSpawns = 10000;
             }
             this->updateFunc = EnEncount1_SpawnStalchildOrWolfos;
@@ -225,7 +225,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     s32 bgId;
     f32 floorY;
 
-    if (play->sceneId != SCENE_SPOT00) {
+    if (play->sceneId != SCENE_HYRULE_FIELD) {
         if ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f) ||
             (this->actor.xzDistToPlayer > this->spawnRange)) {
             this->outOfRangeTimer++;
@@ -240,8 +240,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     spawnPos = this->actor.world.pos;
     if ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
         while ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
-            if (play->sceneId == SCENE_SPOT00) {
-                if ((player->unk_89E == SURFACE_SFX_TYPE_0) || (player->actor.floorBgId != BGCHECK_SCENE) ||
+            if (play->sceneId == SCENE_HYRULE_FIELD) {
+                if ((player->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (player->actor.floorBgId != BGCHECK_SCENE) ||
                     !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (player->stateFlags1 & PLAYER_STATE1_27)) {
 
                     this->fieldSpawnTimer = 60;
@@ -298,7 +298,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 if (this->curNumSpawn >= this->maxCurSpawns) {
                     this->fieldSpawnTimer = 100;
                 }
-                if (play->sceneId != SCENE_SPOT00) {
+                if (play->sceneId != SCENE_HYRULE_FIELD) {
                     this->totalNumSpawn++;
                 }
             } else {
