@@ -7901,7 +7901,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
                 break;
             case CAM_MODE_Z_PARALLEL:
             case CAM_MODE_TALK:
-            case CAM_MODE_Z_AIM_BOW:
+            case CAM_MODE_Z_AIM:
             case CAM_MODE_Z_HANG:
             case CAM_MODE_PUSH_PULL:
                 modeChangeFlags = 2;
@@ -7935,7 +7935,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
                 }
                 modeChangeFlags |= 1;
                 break;
-            case CAM_MODE_Z_AIM_BOW:
+            case CAM_MODE_Z_AIM:
             case CAM_MODE_Z_HANG:
             case CAM_MODE_PUSH_PULL:
                 modeChangeFlags |= 1;

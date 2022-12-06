@@ -209,11 +209,11 @@ typedef enum {
     /* 0x04 */ CAM_MODE_Z_TARGET_UNFRIENDLY,
     /* 0x05 */ CAM_MODE_CLIMB,
     /* 0x06 */ CAM_MODE_FIRST_PERSON, // "SUBJECT"
-    /* 0x07 */ CAM_MODE_AIM_BOW,
-    /* 0x08 */ CAM_MODE_Z_AIM_BOW,
-    /* 0x09 */ CAM_MODE_HOOKSHOT, // Moving along the hookshot path "FOOKSHOT"
-    /* 0x0A */ CAM_MODE_AIM_BOOMERANG,
-    /* 0x0B */ CAM_MODE_AIM_SLINGSHOT, // "PACHINCO"
+    /* 0x07 */ CAM_MODE_AIM_ADULT, // First person aiming as adult: bow and hookshot
+    /* 0x08 */ CAM_MODE_Z_AIM, // Third person aiming for all items, child and adult
+    /* 0x09 */ CAM_MODE_HOOKSHOT, // Player being pulled by the hookshot to a target "FOOKSHOT"
+    /* 0x0A */ CAM_MODE_AIM_BOOMERANG, // Aiming the boomerang
+    /* 0x0B */ CAM_MODE_AIM_CHILD, // First person aiming as child: slingshot "PACHINCO"
     /* 0x0C */ CAM_MODE_Z_CLIMB,
     /* 0x0D */ CAM_MODE_JUMP,
     /* 0x0E */ CAM_MODE_HANG,
