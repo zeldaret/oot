@@ -203,7 +203,7 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ CAM_MODE_NORMAL,
-    /* 0x01 */ CAM_MODE_Z_PARALLEL, // "PARALLEL"
+    /* 0x01 */ CAM_MODE_Z_PARALLEL, // Holding Z but with no target, keeps the camera aligned. "PARALLEL"
     /* 0x02 */ CAM_MODE_Z_TARGET_FRIENDLY, // "KEEPON"
     /* 0x03 */ CAM_MODE_TALK,
     /* 0x04 */ CAM_MODE_Z_TARGET_UNFRIENDLY,
@@ -211,7 +211,7 @@ typedef enum {
     /* 0x06 */ CAM_MODE_FIRST_PERSON, // "SUBJECT"
     /* 0x07 */ CAM_MODE_AIM_BOW,
     /* 0x08 */ CAM_MODE_Z_AIM_BOW,
-    /* 0x09 */ CAM_MODE_HOOKSHOT, // Moving along hookshot path "FOOKSHOT"
+    /* 0x09 */ CAM_MODE_HOOKSHOT, // Moving along the hookshot path "FOOKSHOT"
     /* 0x0A */ CAM_MODE_AIM_BOOMERANG,
     /* 0x0B */ CAM_MODE_AIM_SLINGSHOT, // "PACHINCO"
     /* 0x0C */ CAM_MODE_Z_CLIMB,
