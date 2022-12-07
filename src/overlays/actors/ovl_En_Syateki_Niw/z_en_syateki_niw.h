@@ -46,9 +46,9 @@ typedef struct EnSyatekiNiw {
     /* 0x0280 */ f32 limb7RotZTarget;
     /* 0x0288 */ f32 unkArcheryFloat; // set, but never used.
     /* 0x028C */ s16 lifetime; // always ticks up, never read
-    /* 0x028E */ s16 limbDRotXTimer;
+    /* 0x028E */ s16 limbDRotXState;
     /* 0x0290 */ s16 unk_290; // set to 0, never read.
-    /* 0x0292 */ s16 limb7BRotTimer;
+    /* 0x0292 */ s16 limb7BRotState;
     /* 0x0294 */ s16 targetPosTimer;
     /* 0x0296 */ s16 archeryAnimationType;
     /* 0x0298 */ s16 rotYFlip;
