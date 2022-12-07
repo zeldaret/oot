@@ -387,8 +387,8 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
 
     osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
-    gSaveContext.unk_13EA = 0;
-    Interface_ChangeAlpha(50);
+    gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
 }
 
 void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
@@ -2464,14 +2464,14 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
     KaleidoScope_LoadDungeonMap(play);
     Map_SetFloorPalettesData(play, pauseCtx->dungeonMapSlot - 3);
 
-    if ((play->sceneId >= SCENE_YDAN) && (play->sceneId <= SCENE_TAKARAYA)) {
+    if ((play->sceneId >= SCENE_DEKU_TREE) && (play->sceneId <= SCENE_TREASURE_BOX_SHOP)) {
         if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
             KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment, MAP_48x85_TEX_SIZE,
                                              interfaceCtx->mapPaletteIndex, 14);
         }
     }
 
-    if ((play->sceneId >= SCENE_YDAN) && (play->sceneId <= SCENE_TAKARAYA)) {
+    if ((play->sceneId >= SCENE_DEKU_TREE) && (play->sceneId <= SCENE_TREASURE_BOX_SHOP)) {
         if ((VREG(30) + 3) == pauseCtx->cursorPoint[PAUSE_MAP]) {
             KaleidoScope_OverridePalIndexCI4(interfaceCtx->mapSegment + ALIGN16(MAP_48x85_TEX_SIZE), MAP_48x85_TEX_SIZE,
                                              interfaceCtx->mapPaletteIndex, 14);
@@ -2564,24 +2564,24 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->iconItemAltSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItem24Segment + size);
 
             switch (play->sceneId) {
-                case SCENE_YDAN:
-                case SCENE_DDAN:
-                case SCENE_BDAN:
-                case SCENE_BMORI1:
-                case SCENE_HIDAN:
-                case SCENE_MIZUSIN:
-                case SCENE_JYASINZOU:
-                case SCENE_HAKADAN:
-                case SCENE_HAKADANCH:
-                case SCENE_ICE_DOUKUTO:
-                case SCENE_YDAN_BOSS:
-                case SCENE_DDAN_BOSS:
-                case SCENE_BDAN_BOSS:
-                case SCENE_MORIBOSSROOM:
-                case SCENE_FIRE_BS:
-                case SCENE_MIZUSIN_BS:
-                case SCENE_JYASINBOSS:
-                case SCENE_HAKADAN_BS:
+                case SCENE_DEKU_TREE:
+                case SCENE_DODONGOS_CAVERN:
+                case SCENE_JABU_JABU:
+                case SCENE_FOREST_TEMPLE:
+                case SCENE_FIRE_TEMPLE:
+                case SCENE_WATER_TEMPLE:
+                case SCENE_SPIRIT_TEMPLE:
+                case SCENE_SHADOW_TEMPLE:
+                case SCENE_BOTTOM_OF_THE_WELL:
+                case SCENE_ICE_CAVERN:
+                case SCENE_DEKU_TREE_BOSS:
+                case SCENE_DODONGOS_CAVERN_BOSS:
+                case SCENE_JABU_JABU_BOSS:
+                case SCENE_FOREST_TEMPLE_BOSS:
+                case SCENE_FIRE_TEMPLE_BOSS:
+                case SCENE_WATER_TEMPLE_BOSS:
+                case SCENE_SPIRIT_TEMPLE_BOSS:
+                case SCENE_SHADOW_TEMPLE_BOSS:
                     sInDungeonScene = true;
                     size2 = (uintptr_t)_icon_item_dungeon_staticSegmentRomEnd -
                             (uintptr_t)_icon_item_dungeon_staticSegmentRomStart;
@@ -2935,8 +2935,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
                     }
@@ -2982,8 +2982,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
                     } else if (pauseCtx->ocarinaStaff->state == pauseCtx->ocarinaSongIdx) {
@@ -3032,8 +3032,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
                     }
@@ -3066,8 +3066,8 @@ void KaleidoScope_Update(PlayState* play) {
                             Interface_SetDoAction(play, DO_ACTION_NONE);
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                            gSaveContext.unk_13EA = 0;
-                            Interface_ChangeAlpha(50);
+                            gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                             pauseCtx->unk_1EC = 2;
                             WREG(2) = -6240;
                             YREG(8) = pauseCtx->unk_204;
@@ -3091,8 +3091,8 @@ void KaleidoScope_Update(PlayState* play) {
                         func_800F64E0(0);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                     }
                     break;
 
@@ -3102,8 +3102,8 @@ void KaleidoScope_Update(PlayState* play) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                         pauseCtx->unk_1EC = 5;
                         WREG(2) = -6240;
                         YREG(8) = pauseCtx->unk_204;
@@ -3156,7 +3156,7 @@ void KaleidoScope_Update(PlayState* play) {
             WREG(16) = -175;
             WREG(17) = 155;
             pauseCtx->unk_204 = -434.0f;
-            Interface_ChangeAlpha(1);
+            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
             //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->iconItemSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
@@ -3345,57 +3345,57 @@ void KaleidoScope_Update(PlayState* play) {
                     Play_SaveSceneFlags(play);
 
                     switch (gSaveContext.entranceIndex) {
-                        case ENTR_YDAN_0:
-                        case ENTR_DDAN_0:
-                        case ENTR_BDAN_0:
-                        case ENTR_BMORI1_0:
-                        case ENTR_HIDAN_0:
-                        case ENTR_MIZUSIN_0:
-                        case ENTR_JYASINZOU_0:
-                        case ENTR_HAKADAN_0:
-                        case ENTR_GANON_0:
-                        case ENTR_MEN_0:
-                        case ENTR_ICE_DOUKUTO_0:
-                        case ENTR_GERUDOWAY_0:
-                        case ENTR_HAKADANCH_0:
-                        case ENTR_GANONTIKA_0:
-                        case ENTR_GANON_SONOGO_0:
+                        case ENTR_DEKU_TREE_0:
+                        case ENTR_DODONGOS_CAVERN_0:
+                        case ENTR_JABU_JABU_0:
+                        case ENTR_FOREST_TEMPLE_0:
+                        case ENTR_FIRE_TEMPLE_0:
+                        case ENTR_WATER_TEMPLE_0:
+                        case ENTR_SPIRIT_TEMPLE_0:
+                        case ENTR_SHADOW_TEMPLE_0:
+                        case ENTR_GANONS_TOWER_0:
+                        case ENTR_GERUDO_TRAINING_GROUND_0:
+                        case ENTR_ICE_CAVERN_0:
+                        case ENTR_THIEVES_HIDEOUT_0:
+                        case ENTR_BOTTOM_OF_THE_WELL_0:
+                        case ENTR_INSIDE_GANONS_CASTLE_0:
+                        case ENTR_GANONS_TOWER_COLLAPSE_INTERIOR_0:
                             break;
 
-                        case ENTR_YDAN_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_YDAN_0;
+                        case ENTR_DEKU_TREE_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_DEKU_TREE_0;
                             break;
 
-                        case ENTR_DDAN_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_DDAN_0;
+                        case ENTR_DODONGOS_CAVERN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_DODONGOS_CAVERN_0;
                             break;
 
-                        case ENTR_BDAN_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_BDAN_0;
+                        case ENTR_JABU_JABU_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_JABU_JABU_0;
                             break;
 
-                        case ENTR_MORIBOSSROOM_0:
-                            gSaveContext.entranceIndex = ENTR_BMORI1_0;
+                        case ENTR_FOREST_TEMPLE_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_FOREST_TEMPLE_0;
                             break;
 
-                        case ENTR_FIRE_BS_0:
-                            gSaveContext.entranceIndex = ENTR_HIDAN_0;
+                        case ENTR_FIRE_TEMPLE_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_FIRE_TEMPLE_0;
                             break;
 
-                        case ENTR_MIZUSIN_BS_0:
-                            gSaveContext.entranceIndex = ENTR_MIZUSIN_0;
+                        case ENTR_WATER_TEMPLE_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_WATER_TEMPLE_0;
                             break;
 
-                        case ENTR_JYASINBOSS_0:
-                            gSaveContext.entranceIndex = ENTR_JYASINZOU_0;
+                        case ENTR_SPIRIT_TEMPLE_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_SPIRIT_TEMPLE_0;
                             break;
 
-                        case ENTR_HAKADAN_BS_0:
-                            gSaveContext.entranceIndex = ENTR_HAKADAN_0;
+                        case ENTR_SHADOW_TEMPLE_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_SHADOW_TEMPLE_0;
                             break;
 
-                        case ENTR_GANON_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_GANON_0;
+                        case ENTR_GANONDORF_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_GANONS_TOWER_0;
                             break;
                     }
                 } else {
@@ -3478,24 +3478,24 @@ void KaleidoScope_Update(PlayState* play) {
             func_800418D0(&play->colCtx, play);
 
             switch (play->sceneId) {
-                case SCENE_YDAN:
-                case SCENE_DDAN:
-                case SCENE_BDAN:
-                case SCENE_BMORI1:
-                case SCENE_HIDAN:
-                case SCENE_MIZUSIN:
-                case SCENE_JYASINZOU:
-                case SCENE_HAKADAN:
-                case SCENE_HAKADANCH:
-                case SCENE_ICE_DOUKUTO:
-                case SCENE_YDAN_BOSS:
-                case SCENE_DDAN_BOSS:
-                case SCENE_BDAN_BOSS:
-                case SCENE_MORIBOSSROOM:
-                case SCENE_FIRE_BS:
-                case SCENE_MIZUSIN_BS:
-                case SCENE_JYASINBOSS:
-                case SCENE_HAKADAN_BS:
+                case SCENE_DEKU_TREE:
+                case SCENE_DODONGOS_CAVERN:
+                case SCENE_JABU_JABU:
+                case SCENE_FOREST_TEMPLE:
+                case SCENE_FIRE_TEMPLE:
+                case SCENE_WATER_TEMPLE:
+                case SCENE_SPIRIT_TEMPLE:
+                case SCENE_SHADOW_TEMPLE:
+                case SCENE_BOTTOM_OF_THE_WELL:
+                case SCENE_ICE_CAVERN:
+                case SCENE_DEKU_TREE_BOSS:
+                case SCENE_DODONGOS_CAVERN_BOSS:
+                case SCENE_JABU_JABU_BOSS:
+                case SCENE_FOREST_TEMPLE_BOSS:
+                case SCENE_FIRE_TEMPLE_BOSS:
+                case SCENE_WATER_TEMPLE_BOSS:
+                case SCENE_SPIRIT_TEMPLE_BOSS:
+                case SCENE_SHADOW_TEMPLE_BOSS:
                     Map_InitData(play, play->interfaceCtx.mapRoomNum);
                     break;
             }
@@ -3507,9 +3507,9 @@ void KaleidoScope_Update(PlayState* play) {
             gSaveContext.buttonStatus[4] = D_808321A8[4];
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
             osSyncPrintf(VT_FGCOL(YELLOW));
-            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.unk_13EE);
-            gSaveContext.unk_13EA = 0;
-            Interface_ChangeAlpha(gSaveContext.unk_13EE);
+            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.prevHudVisibilityMode);
+            gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
+            Interface_ChangeHudVisibilityMode(gSaveContext.prevHudVisibilityMode);
             player->targetActor = NULL;
             Player_SetEquipmentData(play, player);
             osSyncPrintf(VT_RST);
