@@ -2490,9 +2490,10 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                     spDC = 0x500;
                     sLureWiggleRotYTarget = sReelLineRot[LINE_SEG_COUNT - 2].y + M_PI;
                     sLureRot.x = 0.0f;
+
                     if (CHECK_BTN_ALL(input->press.button, BTN_B)) { // lure hopping on land
                         sRodLineSpooled += 6.0f;
-                        func_80078914(&sSoundPos, NA_SE_PL_WALK_SAND);
+                        func_80078914(&sSoundPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_SAND);
                     }
                 } else {
                     if (sRodLineSpooled > 150.0f) {
