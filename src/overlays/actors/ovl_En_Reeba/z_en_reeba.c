@@ -245,7 +245,7 @@ void EnReeba_Surface(EnReeba* this, PlayState* play) {
             if (this->isBig) {
                 this->actionfunc = EnReeba_SetupMoveBig;
             } else {
-                this->surfaceTimer = 130;
+                this->moveTimer = 130;
                 this->actor.speedXZ = Rand_ZeroFloat(4.0f) + 6.0f;
                 this->actionfunc = EnReeba_Move;
             }
@@ -267,7 +267,7 @@ void EnReeba_Move(EnReeba* this, PlayState* play) {
     if ((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) {
         this->actor.speedXZ = 0.0f;
         this->actionfunc = EnReeba_SetupSink;
-    } else if ((this->surfaceTimer == 0) || (this->actor.xzDistToPlayer < 30.0f) ||
+    } else if ((this->moveTimer == 0) || (this->actor.xzDistToPlayer < 30.0f) ||
                (this->actor.xzDistToPlayer > 400.0f) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = EnReeba_SetupSink;
     } else if (this->sfxTimer == 0) {
@@ -327,7 +327,7 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
 void EnReeba_Bumped(EnReeba* this, PlayState* play) {
     Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.3f);
 
-    if (this->surfaceTimer == 0) {
+    if (this->moveTimer == 0) {
         if (this->isBig) {
             this->actionfunc = EnReeba_SetupMoveBig;
         } else {
@@ -363,7 +363,7 @@ void EnReeba_Sink(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_SetupDamaged(EnReeba* this, PlayState* play) {
-    this->painTimer = 14;
+    this->damagedTimer = 14;
     this->actor.speedXZ = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
@@ -377,7 +377,7 @@ void EnReeba_Damaged(EnReeba* this, PlayState* play) {
         this->actor.speedXZ += 1.0f;
     }
 
-    if (this->painTimer == 0) {
+    if (this->damagedTimer == 0) {
         if (this->isBig) {
             this->bigLeeverTimer = 30;
             this->actionfunc = EnReeba_SetupMoveBig;
@@ -534,8 +534,8 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
             this->stunType = LEEVER_STUN_NONE;
 
             switch (this->actor.colChkInfo.damageEffect) {
-                case LEEVER_DMGEFF_UNUSED: 
-                case LEEVER_DMGEFF_BOOMERANG: 
+                case LEEVER_DMGEFF_UNUSED:
+                case LEEVER_DMGEFF_BOOMERANG:
                     if ((this->actor.colChkInfo.health > 1) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -544,7 +544,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         break;
                     }
                     FALLTHROUGH;
-                case LEEVER_DMGEFF_HOOKSHOT: 
+                case LEEVER_DMGEFF_HOOKSHOT:
                     if ((this->actor.colChkInfo.health > 2) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
                         Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
@@ -582,6 +582,8 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         this->actionfunc = EnReeba_SetupStunned;
                     }
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -600,8 +602,8 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
         this->bigLeeverTimer--;
     }
 
-    if (this->surfaceTimer != 0) {
-        this->surfaceTimer--;
+    if (this->moveTimer != 0) {
+        this->moveTimer--;
     }
 
     if (this->waitTimer != 0) {
@@ -612,8 +614,8 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
         this->sfxTimer--;
     }
 
-    if (this->painTimer != 0) {
-        this->painTimer--;
+    if (this->damagedTimer != 0) {
+        this->damagedTimer--;
     }
 
     Actor_MoveForward(&this->actor);
@@ -627,7 +629,7 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
         if ((this->actionfunc == EnReeba_Move) || (this->actionfunc == EnReeba_MoveBig)) {
             this->actor.speedXZ = 8.0f;
             this->actor.world.rot.y *= -1.0f;
-            this->surfaceTimer = 14;
+            this->moveTimer = 14;
             this->actionfunc = EnReeba_Bumped;
             return;
         }
