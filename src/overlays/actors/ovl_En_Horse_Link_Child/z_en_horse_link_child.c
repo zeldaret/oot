@@ -164,7 +164,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
 
     if (IS_CUTSCENE_LAYER) {
         func_80A69EC0(this);
-    } else if (play->sceneId == SCENE_SPOT20) {
+    } else if (play->sceneId == SCENE_LON_LON_RANCH) {
         if (!Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
             Actor_Kill(&this->actor);
             return;
@@ -351,7 +351,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     player = GET_PLAYER(play);
     distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
-    if (gSaveContext.entranceIndex == ENTR_SPOT20_1) {
+    if (gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_1) {
         Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);
@@ -359,7 +359,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     }
 
     if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
-        ((play->sceneId == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
+        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {
         this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);
@@ -559,7 +559,7 @@ void EnHorseLinkChild_Update(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 
-    if ((play->sceneId == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {
+    if ((play->sceneId == SCENE_LON_LON_RANCH) && (this->actor.world.pos.z < -2400.0f)) {
         this->actor.world.pos.z = -2400.0f;
     }
 

@@ -3099,7 +3099,8 @@ void Message_Update(PlayState* play) {
                 if (D_8014B2F4 >= 4) {
                     var = true;
                 }
-            } else if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneId == SCENE_HAIRAL_NIWA) {
+            } else if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT ||
+                       play->sceneId == SCENE_CASTLE_COURTYARD_GUARDS_DAY) {
                 var = true;
             } else if (D_8014B2F4 >= 4 || msgCtx->talkActor == NULL) {
                 var = true;
@@ -3125,7 +3126,8 @@ void Message_Update(PlayState* play) {
                 var = msgCtx->textBoxType;
 
                 if (!msgCtx->textBoxPos) { // variable position
-                    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT || play->sceneId == SCENE_HAIRAL_NIWA) {
+                    if (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_DEFAULT ||
+                        play->sceneId == SCENE_CASTLE_COURTYARD_GUARDS_DAY) {
                         if (averageY < XREG(92)) {
                             R_TEXTBOX_Y_TARGET = sTextboxLowerYPositions[var];
                         } else {
@@ -3170,8 +3172,7 @@ void Message_Update(PlayState* play) {
                     R_TEXTBOX_TEXHEIGHT = 512;
                 } else {
                     Message_GrowTextbox(msgCtx);
-                    // TODO: this may be NA_SE_PL_WALK_GROUND - SFX_FLAG, or not, investigate sfxId=0
-                    Audio_PlaySfxIfNotInCutscene(0);
+                    Audio_PlaySfxIfNotInCutscene(NA_SE_NONE);
                     msgCtx->stateTimer = 0;
                     msgCtx->msgMode = MSGMODE_TEXT_BOX_GROWING;
                 }

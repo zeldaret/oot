@@ -5,6 +5,9 @@
 #include "z64light.h"
 #include "z64dma.h"
 
+struct PlayState;
+struct SkyboxContext;
+
 #define FILL_SCREEN_OPA (1 << 0)
 #define FILL_SCREEN_XLU (1 << 1)
 
@@ -230,5 +233,11 @@ typedef struct {
     /* 0xEE */ u8 precipitation[PRECIP_MAX];
     /* 0xF3 */ char unk_F3[0x09];
 } EnvironmentContext; // size = 0xFC
+
+extern u8 gSkyboxIsChanging;
+extern TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9];
+
+void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, struct SkyboxContext* skyboxCtx);
+void Environment_DrawSkyboxFilters(struct PlayState* play);
 
 #endif

@@ -1573,11 +1573,11 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
             this->timer--;
             if (this->timer == 0) {
                 if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-                    play->nextEntranceIndex = ENTR_SPOT09_1;
+                    play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
-                    play->nextEntranceIndex = ENTR_SPOT12_18;
+                    play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
                 } else {
-                    play->nextEntranceIndex = ENTR_SPOT12_17;
+                    play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
                 }
                 play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                 play->transitionTrigger = TRANS_TRIGGER_START;
