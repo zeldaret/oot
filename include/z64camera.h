@@ -844,8 +844,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 eyeDist;
-    /* 0x08 */ f32 unk_08; // pitch related, angle in degrees
-    /* 0x0C */ f32 unk_0C; // yaw related, angle in degrees
+    /* 0x08 */ f32 pitchTarget; // degrees
+    /* 0x0C */ f32 yawTarget; // degrees
     /* 0x10 */ f32 atOffsetPlayerForwards; // distance to offset at by in the player's forwards direction
     /* 0x14 */ f32 unk_14; // scale for stepping yaw and pitch of "at to eye" to target
     /* 0x18 */ f32 fovTarget;
@@ -877,7 +877,7 @@ typedef struct {
     /* 0x0E */ s16 atToEyeTargetPitch;
     /* 0x10 */ s16 animTimer;
     /* 0x12 */ s16 unk_12; // unused
-    /* 0x14 */ s16 keepOn4_rw_item_type_;
+    /* 0x14 */ s16 itemType;
 } KeepOn4ReadWriteData; // size = 0x18
 
 typedef struct {
@@ -886,8 +886,8 @@ typedef struct {
 } KeepOn4; // size = 0x38
 
 #define KEEPON4_FLAG_0 (1 << 0)
-#define KEEPON4_FLAG_1 (1 << 1)
-#define KEEPON4_FLAG_2 (1 << 2)
+#define KEEPON4_FLAG_1 (1 << 1) // pitch: provided, yaw: facing player's front + offset away
+#define KEEPON4_FLAG_2 (1 << 2) // pitch: provided, yaw: provided
 #define KEEPON4_FLAG_3 (1 << 3)
 #define KEEPON4_FLAG_4 (1 << 4)
 #define KEEPON4_FLAG_5 (1 << 5)
