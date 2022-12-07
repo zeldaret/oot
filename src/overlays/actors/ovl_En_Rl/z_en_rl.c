@@ -118,7 +118,7 @@ void func_80AE7590(EnRl* this, PlayState* play) {
     Vec3f pos;
     s16 sceneId = play->sceneId;
 
-    if (gSaveContext.sceneLayer == 4 && sceneId == SCENE_KENJYANOMA && play->csCtx.state != CS_STATE_IDLE &&
+    if (gSaveContext.sceneLayer == 4 && sceneId == SCENE_CHAMBER_OF_THE_SAGES && play->csCtx.state != CS_STATE_IDLE &&
         play->csCtx.npcActions[6] != NULL && play->csCtx.npcActions[6]->action == 2 && !this->lightMedallionGiven) {
         player = GET_PLAYER(play);
         pos.x = player->actor.world.pos.x;

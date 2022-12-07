@@ -202,7 +202,7 @@ void func_80A55D00(EnHeishi3* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play) &&
         (this->respawnFlag == 0)) {
         SET_EVENTCHKINF(EVENTCHKINF_4E);
-        play->nextEntranceIndex = ENTR_SPOT15_4;
+        play->nextEntranceIndex = ENTR_HYRULE_CASTLE_4;
         play->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
