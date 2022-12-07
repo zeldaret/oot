@@ -194,7 +194,7 @@ void EnIk_SetupAction(EnIk* this, EnIkActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnIk_MoreInit(Actor* thisx, PlayState* play) {
+void EnIk_InitImpl(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
     s32 pad;
     EffectBlureInit1 blureInit;
@@ -857,7 +857,7 @@ void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
     }
 }
 
-Gfx* EnIk_SetColors(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 envR, u8 envG, u8 envB) {
+Gfx* EnIk_SetPrimEnvColors(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 envR, u8 envG, u8 envB) {
     Gfx* displayList;
     Gfx* displayListHead;
 
@@ -1010,21 +1010,21 @@ void EnIk_DrawEnemy(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     if (this->actor.params == IK_TYPE_NABOORU) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetColors(play->state.gfxCtx, 245, 225, 155, 30, 30, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetColors(play->state.gfxCtx, 255, 40, 0, 40, 0, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetColors(play->state.gfxCtx, 255, 255, 255, 20, 40, 30));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimEnvColors(play->state.gfxCtx, 245, 225, 155, 30, 30, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimEnvColors(play->state.gfxCtx, 255, 40, 0, 40, 0, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimEnvColors(play->state.gfxCtx, 255, 255, 255, 20, 40, 30));
     } else if (this->actor.params == IK_TYPE_SILVER) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetColors(play->state.gfxCtx, 245, 255, 205, 30, 35, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetColors(play->state.gfxCtx, 185, 135, 25, 20, 20, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetColors(play->state.gfxCtx, 255, 255, 255, 30, 40, 20));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimEnvColors(play->state.gfxCtx, 245, 255, 205, 30, 35, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimEnvColors(play->state.gfxCtx, 185, 135, 25, 20, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimEnvColors(play->state.gfxCtx, 255, 255, 255, 30, 40, 20));
     } else if (this->actor.params == IK_TYPE_BLACK) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetColors(play->state.gfxCtx, 55, 65, 55, 0, 0, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetColors(play->state.gfxCtx, 205, 165, 75, 25, 20, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetColors(play->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimEnvColors(play->state.gfxCtx, 55, 65, 55, 0, 0, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimEnvColors(play->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimEnvColors(play->state.gfxCtx, 205, 165, 75, 25, 20, 0));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetColors(play->state.gfxCtx, 255, 255, 255, 180, 180, 180));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetColors(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetColors(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimEnvColors(play->state.gfxCtx, 255, 255, 255, 180, 180, 180));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimEnvColors(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimEnvColors(play->state.gfxCtx, 225, 205, 115, 25, 20, 0));
     }
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
@@ -1195,7 +1195,7 @@ void EnIk_SetupCsAction3(EnIk* this, PlayState* play) {
     s32 pad[3];
     f32 endFrame = Animation_GetLastFrame(&gIronKnuckleNabooruDeathAnim);
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_ik_Skel_0205C0, NULL, this->jointTable, this->morphTable,
+    SkelAnime_InitFlex(play, &this->skelAnime, &gIronKnuckleDefeatSkel, NULL, this->jointTable, this->morphTable,
                        IRON_KNUCKLE_LIMB_MAX);
     Animation_Change(&this->skelAnime, &gIronKnuckleNabooruDeathAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, 0.0f);
     this->csAction = IK_CS_ACTION_3;
@@ -1238,8 +1238,8 @@ void EnIk_CsAction5(EnIk* this, PlayState* play) {
 }
 
 s32 EnIk_OverrideLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    if ((limbIndex == IRON_KNUCKLE_LIMB_HEAD) || (limbIndex == IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT) ||
-        (limbIndex == IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK)) {
+    if ((limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_HELMET_ARMOR) || (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_FRONT) ||
+        (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_BACK)) {
         if (EnIk_GetAnimCurFrame(thisx) >= 30.0f) {
             *dList = NULL;
         }
@@ -1254,7 +1254,7 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
     OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 207);
 
     switch (limbIndex) {
-        case IRON_KNUCKLE_LIMB_HEAD: {
+        case IRON_KNUCKLE_DEFEAT_LIMB_HELMET_ARMOR: {
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
@@ -1264,20 +1264,19 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             }
         } break;
 
-        case IRON_KNUCKLE_LIMB_UPPER_LEFT_PAULDRON:
-
+        case IRON_KNUCKLE_DEFEAT_LIMB_UPPER_LEFT_PAULDRON:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 274),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
 
-        case IRON_KNUCKLE_LIMB_UPPER_RIGHT_PAULDRON:
+        case IRON_KNUCKLE_DEFEAT_LIMB_UPPER_RIGHT_PAULDRON:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 280),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
 
-        case IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT: {
+        case IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_FRONT: {
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
@@ -1287,7 +1286,7 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             }
         } break;
 
-        case IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK: {
+        case IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_BACK: {
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
@@ -1297,6 +1296,7 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             }
         } break;
     }
+
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 304);
 }
 
@@ -1310,9 +1310,9 @@ void EnIk_CsDrawDefeat(EnIk* this, PlayState* play) {
     func_8002EBCC(&this->actor, play, 0);
     Gfx_SetupDL_25Opa(gfxCtx);
     Gfx_SetupDL_25Xlu(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetColors(gfxCtx, 245, 225, 155, 30, 30, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetColors(gfxCtx, 255, 40, 0, 40, 0, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetColors(gfxCtx, 255, 255, 255, 20, 40, 30));
+    gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimEnvColors(gfxCtx, 245, 225, 155, 30, 30, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimEnvColors(gfxCtx, 255, 40, 0, 40, 0, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimEnvColors(gfxCtx, 255, 255, 255, 20, 40, 30));
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           EnIk_OverrideLimbDrawDefeat, EnIk_PostLimbDrawDefeat, this);
 
@@ -1475,9 +1475,9 @@ void EnIk_CsDrawIntro(EnIk* this, PlayState* play) {
     func_8002EBCC(&this->actor, play, 0);
     Gfx_SetupDL_25Opa(gfxCtx);
     Gfx_SetupDL_25Xlu(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetColors(gfxCtx, 245, 225, 155, 30, 30, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetColors(gfxCtx, 255, 40, 0, 40, 0, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetColors(gfxCtx, 255, 255, 255, 20, 40, 30));
+    gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimEnvColors(gfxCtx, 245, 225, 155, 30, 30, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimEnvColors(gfxCtx, 255, 40, 0, 40, 0, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimEnvColors(gfxCtx, 255, 255, 255, 20, 40, 30));
     SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           EnIk_OverrideLimbDrawIntro, EnIk_PostLimbDrawIntro, this);
 
@@ -1545,9 +1545,9 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-        SkelAnime_InitFlex(play, &this->skelAnime, &object_ik_Skel_01E178, &gIronKnuckleNabooruSummonAxeAnim,
+        SkelAnime_InitFlex(play, &this->skelAnime, &gIronKnuckleSkel, &gIronKnuckleNabooruSummonAxeAnim,
                            this->jointTable, this->morphTable, IRON_KNUCKLE_LIMB_MAX);
-        EnIk_MoreInit(&this->actor, play);
+        EnIk_InitImpl(&this->actor, play);
         EnIk_CsInit(this, play);
     }
 }
