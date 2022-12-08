@@ -10256,21 +10256,21 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                 Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->boomerangActor);
             } else if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                 if (func_80833B2C(this)) {
-                    camMode = CAM_MODE_Z_HANG;
+                    camMode = CAM_MODE_Z_LEDGE_HANG;
                 } else {
-                    camMode = CAM_MODE_HANG;
+                    camMode = CAM_MODE_LEDGE_HANG;
                 }
             } else if (this->stateFlags1 & (PLAYER_STATE1_17 | PLAYER_STATE1_30)) {
                 if (func_8002DD78(this) || func_808334B4(this)) {
                     camMode = CAM_MODE_Z_AIM;
                 } else if (this->stateFlags1 & PLAYER_STATE1_21) {
-                    camMode = CAM_MODE_Z_CLIMB;
+                    camMode = CAM_MODE_Z_WALL_CLIMB;
                 } else {
                     camMode = CAM_MODE_Z_PARALLEL;
                 }
             } else if (this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_21)) {
                 if ((func_80845668 == this->func_674) || (this->stateFlags1 & PLAYER_STATE1_21)) {
-                    camMode = CAM_MODE_CLIMB;
+                    camMode = CAM_MODE_WALL_CLIMB;
                 } else {
                     camMode = CAM_MODE_JUMP;
                 }
