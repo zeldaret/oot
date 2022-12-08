@@ -752,7 +752,7 @@ void ObjBean_SetupWaitForPlayer(ObjBean* this) {
 void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         ObjBean_SetupFly(this);
-        if (play->sceneId == SCENE_LOST_WOODS) { // Lost woods
+        if (play->sceneId == SCENE_LOST_WOODS) {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
