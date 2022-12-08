@@ -4364,43 +4364,43 @@ s32 func_80838FB8(PlayState* play, Player* this) {
  * Note: grottos and normal fairy fountains use `ENTR_RETURN_GROTTO`
  */
 s16 sReturnEntranceGroupData[] = {
-    // ENTR_RETURN_DAIYOUSEI_IZUMI
-    /*  0 */ ENTR_DEATH_MOUNTAIN_TRAIL_4,  // DMT from Magic Fairy Fountain
-    /*  1 */ ENTR_DEATH_MOUNTAIN_CRATER_3, // DMC from Double Defense Fairy Fountain
-    /*  2 */ ENTR_HYRULE_CASTLE_2,         // Hyrule Castle from Dins Fire Fairy Fountain
+    // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_MAGIC
+    /*  0 */ ENTR_DEATH_MOUNTAIN_TRAIL_4,  // from Magic Fairy Fountain
+    /*  1 */ ENTR_DEATH_MOUNTAIN_CRATER_3, // from Double Magic Fairy Fountain
+    /*  2 */ ENTR_HYRULE_CASTLE_2,         // from Double Defense Fairy Fountain (as adult)
 
     // ENTR_RETURN_2
-    /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // Kakariko from Potion Shop
-    /*  4 */ ENTR_MARKET_DAY_5,       // Market (child day) from Potion Shop
+    /*  3 */ ENTR_KAKARIKO_VILLAGE_9, // from Potion Shop in Kakariko
+    /*  4 */ ENTR_MARKET_DAY_5,       // from Potion Shop in Market
 
-    // ENTR_RETURN_SHOP1
-    /*  5 */ ENTR_KAKARIKO_VILLAGE_3, // Kakariko from Bazaar
-    /*  6 */ ENTR_MARKET_DAY_6,       // Market (child day) from Bazaar
+    // ENTR_RETURN_BAZAAR
+    /*  5 */ ENTR_KAKARIKO_VILLAGE_3,
+    /*  6 */ ENTR_MARKET_DAY_6,
 
     // ENTR_RETURN_4
-    /*  7 */ ENTR_KAKARIKO_VILLAGE_11, // Kakariko from House of Skulltulas
-    /*  8 */ ENTR_BACK_ALLEY_DAY_2,    // Back Alley (day) from Bombchu Shop
+    /*  7 */ ENTR_KAKARIKO_VILLAGE_11, // from House of Skulltulas
+    /*  8 */ ENTR_BACK_ALLEY_DAY_2,    // from Bombchu Shop
 
-    // ENTR_RETURN_SYATEKIJYOU
-    /*  9 */ ENTR_KAKARIKO_VILLAGE_10, // Kakariko from Shooting Gallery
-    /* 10 */ ENTR_MARKET_DAY_8,        // Market (child day) from Shooting Gallery
+    // ENTR_RETURN_SHOOTING_GALLERY
+    /*  9 */ ENTR_KAKARIKO_VILLAGE_10,
+    /* 10 */ ENTR_MARKET_DAY_8,
 
-    // ENTR_RETURN_YOUSEI_IZUMI_YOKO
-    /* 11 */ ENTR_ZORAS_FOUNTAIN_5,  // Zoras Fountain from Farores Wind Fairy Fountain
-    /* 12 */ ENTR_HYRULE_CASTLE_2,   // Hyrule Castle from Dins Fire Fairy Fountain
-    /* 13 */ ENTR_DESERT_COLOSSUS_7, // Desert Colossus from Nayrus Love Fairy Fountain
+    // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS
+    /* 11 */ ENTR_ZORAS_FOUNTAIN_5,  // from Farores Wind Fairy Fountain
+    /* 12 */ ENTR_HYRULE_CASTLE_2,   // from Dins Fire Fairy Fountain (as child)
+    /* 13 */ ENTR_DESERT_COLOSSUS_7, // from Nayrus Love Fairy Fountain
 };
 
 /**
  * The values are indices into `sReturnEntranceGroupData` marking the start of each group
  */
 u8 sReturnEntranceGroupIndices[] = {
-    11, // ENTR_RETURN_YOUSEI_IZUMI_YOKO
-    9,  // ENTR_RETURN_SYATEKIJYOU
+    11, // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS
+    9,  // ENTR_RETURN_SHOOTING_GALLERY
     3,  // ENTR_RETURN_2
-    5,  // ENTR_RETURN_SHOP1
+    5,  // ENTR_RETURN_BAZAAR
     7,  // ENTR_RETURN_4
-    0,  // ENTR_RETURN_DAIYOUSEI_IZUMI
+    0,  // ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_MAGIC
 };
 
 s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) {
@@ -4436,10 +4436,10 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                     play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
                     play->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
-                } else if (play->nextEntranceIndex >= ENTR_RETURN_YOUSEI_IZUMI_YOKO) {
+                } else if (play->nextEntranceIndex >= ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS) {
                     play->nextEntranceIndex =
                         sReturnEntranceGroupData[sReturnEntranceGroupIndices[play->nextEntranceIndex -
-                                                                             ENTR_RETURN_YOUSEI_IZUMI_YOKO] +
+                                                                             ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS] +
                                                  play->spawn];
                     Scene_SetTransitionForNextEntrance(play);
                 } else {
@@ -5321,7 +5321,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
                     func_80835EA4(play, (this->unk_6A8 != NULL) ? 0x5B : 0x5A);
                     if (this->unk_6A8 != NULL) {
                         this->stateFlags2 |= PLAYER_STATE2_25;
-                        Camera_SetParam(Play_GetCamera(play, CAM_ID_MAIN), 8, this->unk_6A8);
+                        Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->unk_6A8);
                     }
                 }
             } else if (func_8083AD4C(play, this)) {
@@ -9206,7 +9206,7 @@ void func_80845CA4(Player* this, PlayState* play) {
             temp = func_80845BA0(play, this, &sp34, sp30);
 
             if ((this->unk_850 == 0) || ((temp == 0) && (this->linearVelocity == 0.0f) &&
-                                         (Play_GetCamera(play, CAM_ID_MAIN)->unk_14C & 0x10))) {
+                                         (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_4))) {
 
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
                 func_80845C68(play, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
@@ -10230,7 +10230,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
         } else if (!(this->stateFlags1 & PLAYER_STATE1_20)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & PLAYER_STATE3_7)) {
                 camMode = CAM_MODE_HOOKSHOT;
-                Camera_SetParam(Play_GetCamera(play, CAM_ID_MAIN), 8, this->actor.parent);
+                Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->actor.parent);
             } else if (func_8084377C == this->func_674) {
                 camMode = CAM_MODE_STILL;
             } else if (this->stateFlags2 & PLAYER_STATE2_8) {
@@ -10247,12 +10247,12 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                 } else {
                     camMode = CAM_MODE_BATTLE;
                 }
-                Camera_SetParam(Play_GetCamera(play, CAM_ID_MAIN), 8, unk_664);
+                Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, unk_664);
             } else if (this->stateFlags1 & PLAYER_STATE1_12) {
                 camMode = CAM_MODE_CHARGE;
             } else if (this->stateFlags1 & PLAYER_STATE1_25) {
                 camMode = CAM_MODE_FOLLOWBOOMERANG;
-                Camera_SetParam(Play_GetCamera(play, CAM_ID_MAIN), 8, this->boomerangActor);
+                Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->boomerangActor);
             } else if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                 if (func_80833B2C(this)) {
                     camMode = CAM_MODE_HANGZ;
@@ -12549,7 +12549,7 @@ void func_8084E3C4(Player* this, PlayState* play) {
         this->stateFlags1 &= ~PLAYER_STATE1_29;
 
         func_80852FFC(play, NULL, 8);
-        play->mainCamera.unk_14C &= ~8;
+        play->mainCamera.stateFlags &= ~CAM_STATE_3;
 
         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
         this->stateFlags2 |= PLAYER_STATE2_27;

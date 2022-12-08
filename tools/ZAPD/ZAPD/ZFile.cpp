@@ -213,7 +213,14 @@ void ZFile::ParseXML(tinyxml2::XMLElement* reader, const std::string& filename)
 		// Check for repeated attributes.
 		if (offsetXml != nullptr)
 		{
-			rawDataIndex = strtol(StringHelper::Split(offsetXml, "0x")[1].c_str(), NULL, 16);
+			std::string offsetStr = StringHelper::Split(offsetXml, "0x")[1];
+			if (!StringHelper::HasOnlyHexDigits(offsetStr))
+			{
+				HANDLE_ERROR(WarningType::InvalidXML,
+				             StringHelper::Sprintf("Invalid offset %s entered", offsetStr.c_str()),
+				             "");
+			}
+			rawDataIndex = strtol(offsetStr.c_str(), NULL, 16);
 
 			if (offsetSet.find(offsetXml) != offsetSet.end())
 			{
@@ -420,6 +427,7 @@ ZResource* ZFile::FindResource(offset_t rawDataIndex)
 std::vector<ZResource*> ZFile::GetResourcesOfType(ZResourceType resType)
 {
 	std::vector<ZResource*> resList;
+	resList.reserve(resources.size());
 
 	for (ZResource* res : resources)
 	{
@@ -776,10 +784,10 @@ void ZFile::GenerateSourceHeaderFiles()
 {
 	OutputFormatter formatter;
 
-	std::string objectNameUpper = StringHelper::ToUpper(GetName());
+	std::string guard = StringHelper::ToUpper(outName.stem().string());
 
-	formatter.Write(StringHelper::Sprintf("#ifndef %s_H\n#define %s_H 1\n\n",
-	                                      objectNameUpper.c_str(), objectNameUpper.c_str()));
+	formatter.Write(
+		StringHelper::Sprintf("#ifndef %s_H\n#define %s_H 1\n\n", guard.c_str(), guard.c_str()));
 
 	for (ZResource* res : resources)
 	{
@@ -1169,6 +1177,7 @@ void ZFile::HandleUnaccountedData()
 	uint32_t lastSize = 0;
 	std::vector<offset_t> declsAddresses;
 
+	declsAddresses.reserve(declarations.size());
 	for (const auto& item : declarations)
 	{
 		declsAddresses.push_back(item.first);

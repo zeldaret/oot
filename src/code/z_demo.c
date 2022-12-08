@@ -1430,7 +1430,7 @@ s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unu
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
                 sp28 = csCtx->subCamLookAtPoints->cameraRoll * 1.40625f;
-                Camera_SetParam(subCam, 64, &sp28);
+                Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &sp28);
                 sp3C.x = csCtx->subCamLookAtPoints->pos.x;
                 sp3C.y = csCtx->subCamLookAtPoints->pos.y;
                 sp3C.z = csCtx->subCamLookAtPoints->pos.z;
