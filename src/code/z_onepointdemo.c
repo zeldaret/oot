@@ -963,7 +963,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             subCam->timer = -99;
             if (Play_CamIsNotFixed(play)) {
                 func_800C0808(play, subCamId, player, CAM_SET_TURN_AROUND);
-                subCam->data2 = KEEPON4_ITEM_TYPE_12;
+                subCam->data2 = KEEPON4_ITEM_TYPE_ONEPOINTDEMO9806;
             } else {
                 Play_CopyCamera(play, subCamId, CAM_ID_MAIN);
                 Play_CameraChangeSetting(play, subCamId, CAM_SET_FREE2);
