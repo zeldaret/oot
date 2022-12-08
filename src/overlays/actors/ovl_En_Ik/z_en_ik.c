@@ -216,7 +216,7 @@ void EnIk_InitImpl(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.health = 30;
     thisx->gravity = -1.0f;
     this->switchFlag = IK_GET_SWITCH_FLAG(thisx);
-    thisx->params &= 0xFF;
+    thisx->params = IK_GET_ARMOR_TYPE(thisx);
 
     if (thisx->params == IK_TYPE_NABOORU) {
         thisx->colChkInfo.health += 20;
@@ -738,8 +738,8 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
 
         if ((this->damageEffect == EN_IK_DMGEFF_NONE) || (this->damageEffect == EN_IK_DMGEFF_SPARKS_NO_DMG) ||
             ((this->armorStatusFlag == 0) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
-            if (this->damageEffect != 0) {
-                // spawn sparks and dont damage
+            if (this->damageEffect != EN_IK_DMGEFF_NONE) {
+                // spawn sparks and don't damage
                 CollisionCheck_SpawnShieldParticlesMetal(play, &sparksPos);
             }
             return;
