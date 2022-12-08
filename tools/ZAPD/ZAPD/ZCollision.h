@@ -4,19 +4,8 @@
 #include "ZFile.h"
 #include "ZResource.h"
 #include "ZRoom/ZRoom.h"
+#include "ZSurfaceType.h"
 #include "ZVector.h"
-
-#if 0
-class PolygonEntry
-{
-public:
-	uint16_t type;
-	uint16_t vtxA, vtxB, vtxC;
-	uint16_t a, b, c, d;
-
-	PolygonEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
-};
-#endif
 
 class WaterBoxHeader
 {
@@ -82,7 +71,7 @@ public:
 
 	std::vector<ZVector> vertices;
 	std::vector<ZCollisionPoly> polygons;
-	std::vector<uint64_t> polygonTypes;
+	std::vector<ZSurfaceType> polygonTypes;
 	std::vector<WaterBoxHeader> waterBoxes;
 	CameraDataList* camData = nullptr;
 
