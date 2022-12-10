@@ -25,6 +25,7 @@ class ZFile;
 enum class ZResourceType
 {
 	Error,
+	ActorList,
 	Animation,
 	Array,
 	AltHeader,
@@ -46,6 +47,7 @@ enum class ZResourceType
 	Scene,
 	Skeleton,
 	String,
+	SurfaceType,
 	Symbol,
 	Texture,
 	TextureAnimation,

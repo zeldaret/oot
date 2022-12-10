@@ -388,12 +388,12 @@ typedef enum {
 #define ENTR_LOAD_OPENING -1
 
 typedef enum {
-    /* 0x7FF9 */ ENTR_RETURN_YOUSEI_IZUMI_YOKO = 0x7FF9, // Great Fairy Fountain (spells)
-    /* 0x7FFA */ ENTR_RETURN_SYATEKIJYOU, // Shooting gallery
+    /* 0x7FF9 */ ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_SPELLS = 0x7FF9,
+    /* 0x7FFA */ ENTR_RETURN_SHOOTING_GALLERY,
     /* 0x7FFB */ ENTR_RETURN_2, // unused
-    /* 0x7FFC */ ENTR_RETURN_SHOP1, // Bazaar
+    /* 0x7FFC */ ENTR_RETURN_BAZAAR,
     /* 0x7FFD */ ENTR_RETURN_4, // unused
-    /* 0x7FFE */ ENTR_RETURN_DAIYOUSEI_IZUMI, // Great Fairy Fountain (magic, double magic, double defense)
+    /* 0x7FFE */ ENTR_RETURN_GREAT_FAIRYS_FOUNTAIN_MAGIC,
     /* 0x7FFF */ ENTR_RETURN_GROTTO // Grottos and normal Fairy Fountain
 } ReturnEntranceIndex;
 
@@ -416,13 +416,13 @@ typedef enum {
     /* 15 */ SDC_DEATH_MOUNTAIN_CRATER,
     /* 16 */ SDC_GORON_CITY,
     /* 17 */ SDC_LON_LON_RANCH,
-    /* 18 */ SDC_FIRE_TEMPLE, // used for Fire Temple and its boss scene
+    /* 18 */ SDC_FIRE_TEMPLE,
     /* 19 */ SDC_DEKU_TREE,
     /* 20 */ SDC_DODONGOS_CAVERN,
-    /* 21 */ SDC_JABU_JABU, // used for Jabu-Jabu and its boss scene
+    /* 21 */ SDC_JABU_JABU,
     /* 22 */ SDC_FOREST_TEMPLE,
     /* 23 */ SDC_WATER_TEMPLE,
-    /* 24 */ SDC_SHADOW_TEMPLE, // used for Bottom Of The Well, Shadow Temple and its boss scene
+    /* 24 */ SDC_SHADOW_TEMPLE_AND_WELL,
     /* 25 */ SDC_SPIRIT_TEMPLE,
     /* 26 */ SDC_INSIDE_GANONS_CASTLE,
     /* 27 */ SDC_GERUDO_TRAINING_GROUND,
@@ -431,13 +431,13 @@ typedef enum {
     /* 30 */ SDC_TEMPLE_OF_TIME,
     /* 31 */ SDC_GROTTOS,
     /* 32 */ SDC_CHAMBER_OF_THE_SAGES,
-    /* 33 */ SDC_GREAT_FAIRYS_FOUNTAIN, // used for both Great Fairy Fountains scenes
+    /* 33 */ SDC_GREAT_FAIRYS_FOUNTAIN,
     /* 34 */ SDC_SHOOTING_GALLERY,
-    /* 35 */ SDC_CASTLE_COURTYARD_GUARDS, // used for Castle Courtyard (with the hedges) (day, night and debug scenes)
-    /* 36 */ SDC_OUTSIDE_GANONS_CASTLE, // used for two scenes
+    /* 35 */ SDC_CASTLE_COURTYARD_GUARDS,
+    /* 36 */ SDC_OUTSIDE_GANONS_CASTLE,
     /* 37 */ SDC_ICE_CAVERN,
     /* 38 */ SDC_GANONS_TOWER_COLLAPSE_EXTERIOR,
-    /* 39 */ SDC_FAIRYS_FOUNTAIN, // used for both Fairy Fountains scenes
+    /* 39 */ SDC_FAIRYS_FOUNTAIN,
     /* 40 */ SDC_THIEVES_HIDEOUT,
     /* 41 */ SDC_BOMBCHU_BOWLING_ALLEY,
     /* 42 */ SDC_ROYAL_FAMILYS_TOMB,
@@ -445,8 +445,8 @@ typedef enum {
     /* 44 */ SDC_LON_LON_BUILDINGS,
     /* 45 */ SDC_MARKET_GUARD_HOUSE,
     /* 46 */ SDC_POTION_SHOP_GRANNY,
-    /* 47 */ SDC_CALM_WATER, // used for Castle Courtyard (with Zelda), Sacred Forest Meadow, and debug Jungle Gym
-    /* 48 */ SDC_GRAVE_EXIT_LIGHT_SHINING, // used for one grave scene and the Dampé race scene
+    /* 47 */ SDC_CALM_WATER,
+    /* 48 */ SDC_GRAVE_EXIT_LIGHT_SHINING,
     /* 49 */ SDC_BESITU,
     /* 50 */ SDC_FISHING_POND,
     /* 51 */ SDC_GANONS_TOWER_COLLAPSE_INTERIOR,
