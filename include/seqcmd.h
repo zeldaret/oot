@@ -81,7 +81,7 @@ typedef enum {
 /**
  * Stop a sequence on a given seqPlayer
  *
- * @param seqPlayerIndex the index of the seqPlayer to play the sequence
+ * @param seqPlayerIndex the index of the seqPlayer to stop the sequence
  * @param fadeOutDuration duration the sequence will fade out over
  *
  * @note the 0xFF in the command is not read from at all, but is common in all Stop SeqPlayer Commands
