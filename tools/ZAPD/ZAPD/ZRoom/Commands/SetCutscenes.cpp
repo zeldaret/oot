@@ -20,6 +20,7 @@ void SetCutscenes::ParseRawData()
 	{
 		int32_t currentPtr = segmentOffset;
 
+		cutsceneEntries.reserve(numCutscenes);
 		for (uint8_t i = 0; i < numCutscenes; i++)
 		{
 			CutsceneEntry entry(parent->GetRawData(), currentPtr);
