@@ -6,8 +6,8 @@ void (*gAudioCustomUpdateFunction)(void);
 s32 D_801755D8[3]; // unused
 
 const TempoData gTempoData = {
-    0x1C00,         // unk_00
-    TICKS_PER_BEAT, // ticksPerBeat
+    0x1C00,            // unk_00
+    SEQTICKS_PER_BEAT, // seqticksPerBeat
 };
 
 // TODO: Extract from table?

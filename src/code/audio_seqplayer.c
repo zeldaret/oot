@@ -908,7 +908,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                         speed = speed * 0x100 / (layer->delay * layer->portamentoTime);
                     }
                 } else {
-                    speed = 0x20000 / (layer->portamentoTime * gAudioCtx.audioBufferParameters.updatesPerFrame);
+                    speed = 0x20000 / (layer->portamentoTime * gAudioCtx.audioBufferParameters.ticksPerUpdate);
                 }
 
                 if (speed >= 0x7FFF) {
@@ -1083,7 +1083,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
         return PROCESS_SCRIPT_END;
     }
 
-    if (seqPlayer->skipTicks != 0) {
+    if (seqPlayer->skipSeqTicks != 0) {
         layer->muted = true;
         return PROCESS_SCRIPT_END;
     }
@@ -1814,7 +1814,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         break;
 
                     case 0xDD:
-                        seqPlayer->tempo = AudioSeq_ScriptReadU8(seqScript) * TICKS_PER_BEAT;
+                        seqPlayer->tempo = AudioSeq_ScriptReadU8(seqScript) * SEQTICKS_PER_BEAT;
                         if (seqPlayer->tempo > gAudioCtx.maxTempo) {
                             seqPlayer->tempo = (u16)gAudioCtx.maxTempo;
                         }
@@ -1825,7 +1825,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         break;
 
                     case 0xDC:
-                        seqPlayer->tempoChange = (s8)AudioSeq_ScriptReadU8(seqScript) * TICKS_PER_BEAT;
+                        seqPlayer->tempoChange = (s8)AudioSeq_ScriptReadU8(seqScript) * SEQTICKS_PER_BEAT;
                         break;
 
                     case 0xDA:
@@ -2042,7 +2042,7 @@ void AudioSeq_ProcessSequences(s32 arg0) {
     SequencePlayer* seqPlayer;
     u32 i;
 
-    gAudioCtx.noteSubEuOffset = (gAudioCtx.audioBufferParameters.updatesPerFrame - arg0 - 1) * gAudioCtx.numNotes;
+    gAudioCtx.noteSubEuOffset = (gAudioCtx.audioBufferParameters.ticksPerUpdate - arg0 - 1) * gAudioCtx.numNotes;
 
     for (i = 0; i < (u32)gAudioCtx.audioBufferParameters.numSequencePlayers; i++) {
         seqPlayer = &gAudioCtx.seqPlayers[i];
@@ -2056,10 +2056,10 @@ void AudioSeq_ProcessSequences(s32 arg0) {
 }
 
 void AudioSeq_SkipForwardSequence(SequencePlayer* seqPlayer) {
-    while (seqPlayer->skipTicks > 0) {
+    while (seqPlayer->skipSeqTicks > 0) {
         AudioSeq_SequencePlayerProcessSequence(seqPlayer);
         Audio_SequencePlayerProcessSound(seqPlayer);
-        seqPlayer->skipTicks--;
+        seqPlayer->skipSeqTicks--;
     }
 }
 
@@ -2073,7 +2073,7 @@ void AudioSeq_ResetSequencePlayer(SequencePlayer* seqPlayer) {
     seqPlayer->fadeTimer = 0;
     seqPlayer->fadeTimerUnkEu = 0;
     seqPlayer->tempoAcc = 0;
-    seqPlayer->tempo = 120 * TICKS_PER_BEAT; // 120 BPM
+    seqPlayer->tempo = 120 * SEQTICKS_PER_BEAT; // 120 BPM
     seqPlayer->tempoChange = 0;
     seqPlayer->transposition = 0;
     seqPlayer->noteAllocPolicy = 0;

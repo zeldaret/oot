@@ -38,19 +38,19 @@ ActiveSequence gActiveSeqs[4];
 
 void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDuration) {
     u8 channelIndex;
-    u16 skipTicks;
+    u16 skipSeqTicks;
     s32 pad;
 
     if (!gStartSeqDisabled || (seqPlayerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
         if (seqArgs == 0x7F) {
             // `fadeInDuration` interpreted as seconds, 60 is refresh rate and does not account for PAL
-            skipTicks = (fadeInDuration >> 3) * 60 * gAudioCtx.audioBufferParameters.updatesPerFrame;
-            AUDIOCMD_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS((u32)seqPlayerIndex, (u32)seqId, skipTicks);
+            skipSeqTicks = (fadeInDuration >> 3) * 60 * gAudioCtx.audioBufferParameters.ticksPerUpdate;
+            AUDIOCMD_GLOBAL_INIT_SEQPLAYER_SKIP_SEQTICKS((u32)seqPlayerIndex, (u32)seqId, skipSeqTicks);
         } else {
             // `fadeInDuration` interpreted as 1/30th of a second, does not account for change in refresh rate for PAL
             AUDIOCMD_GLOBAL_INIT_SEQPLAYER((u32)seqPlayerIndex, (u32)seqId,
-                                           (fadeInDuration * (u16)gAudioCtx.audioBufferParameters.updatesPerFrame) / 4);
+                                           (fadeInDuration * (u16)gAudioCtx.audioBufferParameters.ticksPerUpdate) / 4);
         }
 
         gActiveSeqs[seqPlayerIndex].seqId = seqId | (seqArgs << 8);
@@ -78,7 +78,7 @@ void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDura
 
 void Audio_StopSequence(u8 seqPlayerIndex, u16 fadeOutDuration) {
     AUDIOCMD_GLOBAL_DISABLE_SEQPLAYER(seqPlayerIndex,
-                                      (fadeOutDuration * (u16)gAudioCtx.audioBufferParameters.updatesPerFrame) / 4);
+                                      (fadeOutDuration * (u16)gAudioCtx.audioBufferParameters.ticksPerUpdate) / 4);
     gActiveSeqs[seqPlayerIndex].seqId = NA_BGM_DISABLED;
 }
 
@@ -541,7 +541,7 @@ void Audio_UpdateActiveSequences(void) {
 
             // Process tempo commands
             if (gAudioCtx.seqPlayers[seqPlayerIndex].enabled) {
-                tempoPrev = gAudioCtx.seqPlayers[seqPlayerIndex].tempo / TICKS_PER_BEAT;
+                tempoPrev = gAudioCtx.seqPlayers[seqPlayerIndex].tempo / SEQTICKS_PER_BEAT;
                 tempoOp = (tempoCmd & 0xF000) >> 12;
                 switch (tempoOp) {
                     case SEQCMD_SUB_OP_TEMPO_SPEED_UP:
@@ -582,7 +582,7 @@ void Audio_UpdateActiveSequences(void) {
                 }
 
                 gActiveSeqs[seqPlayerIndex].tempoTarget = tempoTarget;
-                gActiveSeqs[seqPlayerIndex].tempoCur = gAudioCtx.seqPlayers[seqPlayerIndex].tempo / TICKS_PER_BEAT;
+                gActiveSeqs[seqPlayerIndex].tempoCur = gAudioCtx.seqPlayers[seqPlayerIndex].tempo / SEQTICKS_PER_BEAT;
                 gActiveSeqs[seqPlayerIndex].tempoStep =
                     (gActiveSeqs[seqPlayerIndex].tempoCur - gActiveSeqs[seqPlayerIndex].tempoTarget) / tempoTimer;
                 gActiveSeqs[seqPlayerIndex].tempoTimer = tempoTimer;

@@ -174,7 +174,7 @@ void Audio_ProcessNotes(void) {
 
             if (note != playbackState->parentLayer->note && playbackState->unk_04 == 0) {
                 playbackState->adsr.action.s.release = true;
-                playbackState->adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+                playbackState->adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
                 playbackState->priority = 1;
                 playbackState->unk_04 = 2;
                 goto out;
@@ -456,7 +456,7 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
     if (note->playbackState.parentLayer != layer) {
         if (note->playbackState.parentLayer == NO_LAYER && note->playbackState.wantedParentLayer == NO_LAYER &&
             note->playbackState.prevParentLayer == layer && target != ADSR_STATE_DECAY) {
-            note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+            note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
             note->playbackState.adsr.action.s.release = true;
         }
         return;
@@ -500,7 +500,7 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
         note->playbackState.prevParentLayer = note->playbackState.parentLayer;
         note->playbackState.parentLayer = NO_LAYER;
         if (target == ADSR_STATE_RELEASE) {
-            note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+            note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
             note->playbackState.adsr.action.s.release = true;
             note->playbackState.unk_04 = 2;
         } else {
@@ -805,7 +805,7 @@ void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceLayer* layer) {
     note->playbackState.wantedParentLayer = layer;
     note->playbackState.priority = layer->channel->notePriority;
 
-    note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+    note->playbackState.adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
     note->playbackState.adsr.action.s.release = true;
 }
 

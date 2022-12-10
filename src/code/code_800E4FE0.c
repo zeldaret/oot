@@ -204,8 +204,8 @@ void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
             AudioThread_SetFadeInTimer(cmd->arg0, cmd->asInt);
             break;
 
-        case AUDIOCMD_OP_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS:
-            AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->asInt);
+        case AUDIOCMD_OP_GLOBAL_INIT_SEQPLAYER_SKIP_SEQTICKS:
+            AudioLoad_SyncInitSeqPlayerSkipSeqTicks(cmd->arg0, cmd->arg1, cmd->asInt);
             break;
 
         case AUDIOCMD_OP_GLOBAL_DISABLE_SEQPLAYER:
@@ -586,11 +586,11 @@ void AudioThread_ProcessSeqPlayerCmd(SequencePlayer* seqPlayer, AudioCmd* cmd) {
             break;
 
         case AUDIOCMD_OP_SEQPLAYER_SET_TEMPO:
-            seqPlayer->tempo = cmd->asInt * TICKS_PER_BEAT;
+            seqPlayer->tempo = cmd->asInt * SEQTICKS_PER_BEAT;
             break;
 
         case AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO:
-            seqPlayer->tempoChange = cmd->asInt * TICKS_PER_BEAT;
+            seqPlayer->tempoChange = cmd->asInt * SEQTICKS_PER_BEAT;
             break;
 
         case AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO_TICKS:
@@ -839,7 +839,7 @@ s32 func_800E66C0(s32 flags) {
 
                 phi_v1++;
                 if ((flags & 1) == 1) {
-                    playbackState->adsr.fadeOutVel = gAudioCtx.audioBufferParameters.updatesPerFrameInv;
+                    playbackState->adsr.fadeOutVel = gAudioCtx.audioBufferParameters.ticksPerUpdateInv;
                     playbackState->adsr.action.s.release = 1;
                 }
             }

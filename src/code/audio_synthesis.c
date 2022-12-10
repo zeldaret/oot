@@ -158,32 +158,32 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
     SynthesisReverb* reverb;
 
     cmdP = cmdStart;
-    for (i = gAudioCtx.audioBufferParameters.updatesPerFrame; i > 0; i--) {
+    for (i = gAudioCtx.audioBufferParameters.ticksPerUpdate; i > 0; i--) {
         AudioSeq_ProcessSequences(i - 1);
-        func_800DB03C(gAudioCtx.audioBufferParameters.updatesPerFrame - i);
+        func_800DB03C(gAudioCtx.audioBufferParameters.ticksPerUpdate - i);
     }
 
     aiBufP = aiStart;
     gAudioCtx.curLoadedBook = NULL;
 
-    for (i = gAudioCtx.audioBufferParameters.updatesPerFrame; i > 0; i--) {
+    for (i = gAudioCtx.audioBufferParameters.ticksPerUpdate; i > 0; i--) {
         if (i == 1) {
             chunkLen = aiBufLen;
-        } else if ((aiBufLen / i) >= gAudioCtx.audioBufferParameters.samplesPerUpdateMax) {
-            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdateMax;
-        } else if (gAudioCtx.audioBufferParameters.samplesPerUpdateMin >= (aiBufLen / i)) {
-            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdateMin;
+        } else if ((aiBufLen / i) >= gAudioCtx.audioBufferParameters.samplesPerTickMax) {
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerTickMax;
+        } else if (gAudioCtx.audioBufferParameters.samplesPerTickMin >= (aiBufLen / i)) {
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerTickMin;
         } else {
-            chunkLen = gAudioCtx.audioBufferParameters.samplesPerUpdate;
+            chunkLen = gAudioCtx.audioBufferParameters.samplesPerTick;
         }
 
         for (j = 0; j < gAudioCtx.numSynthesisReverbs; j++) {
             if (gAudioCtx.synthesisReverbs[j].useReverb) {
-                AudioSynth_InitNextRingBuf(chunkLen, gAudioCtx.audioBufferParameters.updatesPerFrame - i, j);
+                AudioSynth_InitNextRingBuf(chunkLen, gAudioCtx.audioBufferParameters.ticksPerUpdate - i, j);
             }
         }
 
-        cmdP = AudioSynth_DoOneAudioUpdate(aiBufP, chunkLen, cmdP, gAudioCtx.audioBufferParameters.updatesPerFrame - i);
+        cmdP = AudioSynth_DoOneAudioUpdate(aiBufP, chunkLen, cmdP, gAudioCtx.audioBufferParameters.ticksPerUpdate - i);
         aiBufLen -= chunkLen;
         aiBufP += 2 * chunkLen;
     }
@@ -203,7 +203,7 @@ void func_800DB2C0(s32 updateIndex, s32 noteIndex) {
     NoteSubEu* noteSubEu;
     s32 i;
 
-    for (i = updateIndex + 1; i < gAudioCtx.audioBufferParameters.updatesPerFrame; i++) {
+    for (i = updateIndex + 1; i < gAudioCtx.audioBufferParameters.ticksPerUpdate; i++) {
         noteSubEu = &gAudioCtx.noteSubsEu[(gAudioCtx.numNotes * i) + noteIndex];
         if (!noteSubEu->bitField0.needsInit) {
             noteSubEu->bitField0.enabled = false;

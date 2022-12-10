@@ -18,7 +18,7 @@ typedef void (*AudioCustomUpdateFunction)(void);
 #define NO_LAYER ((SequenceLayer*)(-1))
 
 // Also known as "Pulses Per Quarter Note" or "Tatums Per Beat"
-#define TICKS_PER_BEAT 48
+#define SEQTICKS_PER_BEAT 48
 
 #define IS_SEQUENCE_CHANNEL_VALID(ptr) ((u32)(ptr) != (u32)&gAudioCtx.sequenceChannelNone)
 #define SEQ_NUM_CHANNELS 16
@@ -310,7 +310,7 @@ typedef struct {
     /* 0x005 */ u8 defaultFont;
     /* 0x006 */ u8 unk_06[1];
     /* 0x007 */ s8 playerIdx;
-    /* 0x008 */ u16 tempo; // ticks per minute
+    /* 0x008 */ u16 tempo; // seqTicks per minute
     /* 0x00A */ u16 tempoAcc; // tempo accumulation, used in a discretized algorithm to apply tempo.
     /* 0x00C */ u16 tempoChange; // Used to adjust the tempo without altering the base tempo.
     /* 0x00E */ s16 transposition;
@@ -330,7 +330,7 @@ typedef struct {
     /* 0x094 */ u8* shortNoteVelocityTable;
     /* 0x098 */ u8* shortNoteGateTimeTable;
     /* 0x09C */ NotePool notePool;
-    /* 0x0DC */ s32 skipTicks;
+    /* 0x0DC */ s32 skipSeqTicks;
     /* 0x0E0 */ u32 scriptCounter;
     /* 0x0E4 */ char unk_E4[0x74]; // unused struct members for sequence/sound font dma management, according to sm64 decomp
     /* 0x158 */ s8 seqScriptIO[8];
@@ -652,15 +652,15 @@ typedef struct {
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
-    /* 0x0C */ s16 updatesPerFrame; // for each frame of the audio thread (default 60 fps), number of updates to process audio
-    /* 0x0E */ s16 samplesPerUpdate;
-    /* 0x10 */ s16 samplesPerUpdateMax;
-    /* 0x12 */ s16 samplesPerUpdateMin;
+    /* 0x0C */ s16 ticksPerUpdate; // for each frame of the audio thread (default 60 fps), number of updates to process audio
+    /* 0x0E */ s16 samplesPerTick;
+    /* 0x10 */ s16 samplesPerTickMax;
+    /* 0x12 */ s16 samplesPerTickMin;
     /* 0x14 */ s16 numSequencePlayers;
     /* 0x18 */ f32 resampleRate;
-    /* 0x1C */ f32 updatesPerFrameInv; // inverse (reciprocal) of updatesPerFrame
-    /* 0x20 */ f32 updatesPerFrameInvScaled; // updatesPerFrameInv scaled down by a factor of 256
-    /* 0x24 */ f32 updatesPerFrameScaled; // updatesPerFrame scaled down by a factor of 4
+    /* 0x1C */ f32 ticksPerUpdateInv; // inverse (reciprocal) of ticksPerUpdate
+    /* 0x20 */ f32 ticksPerUpdateInvScaled; // ticksPerUpdateInv scaled down by a factor of 256
+    /* 0x24 */ f32 ticksPerUpdateScaled; // ticksPerUpdate scaled down by a factor of 4
 } AudioBufferParameters; // size = 0x28
 
 /**
@@ -908,7 +908,7 @@ typedef struct {
     /* 0x28B8 */ AudioTask* curTask;
     /* 0x28BC */ char unk_28BC[0x4];
     /* 0x28C0 */ AudioTask rspTask[2];
-    /* 0x2960 */ f32 maxTempoTvTypeFactors;
+    /* 0x2960 */ f32 maxTempoTvTypeFactors; // tvType factors that impact maxTempo, in units of frames/millisecond
     /* 0x2964 */ s32 refreshRate;
     /* 0x2968 */ s16* aiBuffers[3];
     /* 0x2974 */ s16 aiBufLengths[3];
@@ -982,7 +982,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0 */ s16 unk_00; // set to 0x1C00, unused
-    /* 0x2 */ s16 ticksPerBeat;
+    /* 0x2 */ s16 seqticksPerBeat;
 } TempoData; // size = 0x4
 
 typedef struct {

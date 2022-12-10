@@ -505,7 +505,7 @@ s32 AudioLoad_SyncInitSeqPlayer(s32 playerIdx, s32 seqId, s32 arg2) {
         return 0;
     }
 
-    gAudioCtx.seqPlayers[playerIdx].skipTicks = 0;
+    gAudioCtx.seqPlayers[playerIdx].skipSeqTicks = 0;
     AudioLoad_SyncInitSeqPlayerInternal(playerIdx, seqId, arg2);
     // Intentionally missing return. Returning the result of the above function
     // call matches but is UB because it too is missing a return, and using the
@@ -513,12 +513,12 @@ s32 AudioLoad_SyncInitSeqPlayer(s32 playerIdx, s32 seqId, s32 arg2) {
     // The callers of this function do not use the return value, so it's fine.
 }
 
-s32 AudioLoad_SyncInitSeqPlayerSkipTicks(s32 playerIdx, s32 seqId, s32 skipTicks) {
+s32 AudioLoad_SyncInitSeqPlayerSkipSeqTicks(s32 playerIdx, s32 seqId, s32 skipSeqTicks) {
     if (gAudioCtx.resetTimer != 0) {
         return 0;
     }
 
-    gAudioCtx.seqPlayers[playerIdx].skipTicks = skipTicks;
+    gAudioCtx.seqPlayers[playerIdx].skipSeqTicks = skipSeqTicks;
     AudioLoad_SyncInitSeqPlayerInternal(playerIdx, seqId, 0);
     // Missing return, see above.
 }
@@ -1134,6 +1134,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
         }
     }
 
+    // 1000 is a conversion from seconds to milliseconds
     switch (osTvType) {
         case OS_TV_PAL:
             gAudioCtx.maxTempoTvTypeFactors = 1000 * REFRESH_RATE_DEVIATION_PAL / REFRESH_RATE_PAL;
