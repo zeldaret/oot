@@ -211,16 +211,16 @@ typedef enum {
     /* 0x06 */ CAM_MODE_FIRST_PERSON,
     /* 0x07 */ CAM_MODE_AIM_ADULT, // First person aiming as adult: bow and hookshot
     /* 0x08 */ CAM_MODE_Z_AIM, // Third person aiming for all items, child and adult
-    /* 0x09 */ CAM_MODE_HOOKSHOT, // Player being pulled by the hookshot to a target
+    /* 0x09 */ CAM_MODE_HOOKSHOT_FLY, // Player being pulled by the hookshot to a target
     /* 0x0A */ CAM_MODE_AIM_BOOMERANG, // Aiming the boomerang
     /* 0x0B */ CAM_MODE_AIM_CHILD, // First person aiming as child: slingshot
-    /* 0x0C */ CAM_MODE_Z_WALL_CLIMB, // Climbing a wall with BTN_Z pressed: ladders and vines
+    /* 0x0C */ CAM_MODE_Z_WALL_CLIMB, // Climbing a wall with Z pressed: ladders and vines
     /* 0x0D */ CAM_MODE_JUMP, // Falling in air from a ledge jump
     /* 0x0E */ CAM_MODE_LEDGE_HANG, // Hanging from and climbing a ledge
-    /* 0x0F */ CAM_MODE_Z_LEDGE_HANG, // Hanging from and climbing a ledge with BTN_Z pressed
+    /* 0x0F */ CAM_MODE_Z_LEDGE_HANG, // Hanging from and climbing a ledge with Z pressed
     /* 0x10 */ CAM_MODE_FREE_FALL, // Falling in air except for a ledge jump or knockback
     /* 0x11 */ CAM_MODE_CHARGE, // Charging a spin attack
-    /* 0x12 */ CAM_MODE_ATTACK, // Attacks with no BTN_Z press, falling in air from knockback
+    /* 0x12 */ CAM_MODE_STILL, // Attacks without Z pressed, falling in air from knockback
     /* 0x13 */ CAM_MODE_PUSH_PULL,
     /* 0x14 */ CAM_MODE_FOLLOW_BOOMERANG, // Boomerang has been thrown, force-target the boomerang as it flies
     /* 0x15 */ CAM_MODE_MAX
