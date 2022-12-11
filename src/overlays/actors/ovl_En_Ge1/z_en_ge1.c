@@ -101,7 +101,6 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
 
-    // In Gerudo Valley
     this->actor.uncullZoneForward = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
 
     switch (this->actor.params & 0xFF) {

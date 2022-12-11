@@ -1,5 +1,4 @@
 #include "Globals.h"
-#include "Overlays/ZOverlay.h"
 #include "Utils/Directory.h"
 #include "Utils/File.h"
 #include "Utils/Path.h"
@@ -10,21 +9,11 @@
 #include "ZFile.h"
 #include "ZTexture.h"
 
-#if !defined(_MSC_VER) && !defined(__CYGWIN__)
-#include <csignal>
-#include <cstdlib>
-#include <ctime>
-#include <cxxabi.h>  // for __cxa_demangle
-#include <dlfcn.h>   // for dladdr
-#include <execinfo.h>
-#include <unistd.h>
-#endif
+#include "CrashHandler.h"
 
 #include <string>
 #include <string_view>
 #include "tinyxml2.h"
-
-extern const char gBuildHash[];
 
 bool Parse(const fs::path& xmlFilePath, const fs::path& basePath, const fs::path& outPath,
            ZFileMode fileMode);
@@ -33,61 +22,7 @@ void BuildAssetTexture(const fs::path& pngFilePath, TextureType texType, const f
 void BuildAssetBackground(const fs::path& imageFilePath, const fs::path& outPath);
 void BuildAssetBlob(const fs::path& blobFilePath, const fs::path& outPath);
 
-#if !defined(_MSC_VER) && !defined(__CYGWIN__)
-#define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
-void ErrorHandler(int sig)
-{
-	void* array[4096];
-	const size_t nMaxFrames = sizeof(array) / sizeof(array[0]);
-	size_t size = backtrace(array, nMaxFrames);
-	char** symbols = backtrace_symbols(array, nMaxFrames);
-
-	fprintf(stderr, "\nZAPD crashed. (Signal: %i)\n", sig);
-
-	// Feel free to add more crash messages.
-	const char* crashEasterEgg[] = {
-		"\tYou've met with a terrible fate, haven't you?",
-		"\tSEA BEARS FOAM. SLEEP BEARS DREAMS. \n\tBOTH END IN THE SAME WAY: CRASSSH!",
-		"\tZAPD has fallen and cannot get up.",
-	};
-
-	srand(time(nullptr));
-	auto easterIndex = rand() % ARRAY_COUNT(crashEasterEgg);
-
-	fprintf(stderr, "\n%s\n\n", crashEasterEgg[easterIndex]);
-
-	fprintf(stderr, "Traceback:\n");
-	for (size_t i = 1; i < size; i++)
-	{
-		Dl_info info;
-		uint32_t gotAddress = dladdr(array[i], &info);
-		std::string functionName(symbols[i]);
-
-		if (gotAddress != 0 && info.dli_sname != nullptr)
-		{
-			int32_t status;
-			char* demangled = abi::__cxa_demangle(info.dli_sname, nullptr, nullptr, &status);
-			const char* nameFound = info.dli_sname;
-
-			if (status == 0)
-			{
-				nameFound = demangled;
-			}
-
-			functionName = StringHelper::Sprintf("%s (+0x%X)", nameFound,
-			                                     (char*)array[i] - (char*)info.dli_saddr);
-			free(demangled);
-		}
-
-		fprintf(stderr, "%-3zd %s\n", i, functionName.c_str());
-	}
-
-	fprintf(stderr, "\n");
-
-	free(symbols);
-	exit(1);
-}
-#endif
+extern const char gBuildHash[];
 
 int main(int argc, char* argv[])
 {
@@ -175,26 +110,13 @@ int main(int argc, char* argv[])
 		{
 			Globals::Instance->texType = ZTexture::GetTextureTypeFromString(argv[++i]);
 		}
-		else if (arg == "-cfg")  // Set cfg path (for overlays)
-		                         // TODO: Change the name of this to something else so it doesn't
-		                         // get confused with XML config files.
-		{
-			Globals::Instance->cfgPath = argv[++i];
-		}
 		else if (arg == "-rconf")  // Read Config File
 		{
 			Globals::Instance->cfg.ReadConfigFile(argv[++i]);
 		}
 		else if (arg == "-eh")  // Enable Error Handler
 		{
-#if !defined(_MSC_VER) && !defined(__CYGWIN__)
-			signal(SIGSEGV, ErrorHandler);
-			signal(SIGABRT, ErrorHandler);
-#else
-			HANDLE_WARNING(WarningType::Always,
-			               "tried to set error handler, but this ZAPD build lacks support for one",
-			               "");
-#endif
+			CrashHandler_Init();
 		}
 		else if (arg == "-v")  // Verbose
 		{
@@ -231,8 +153,6 @@ int main(int argc, char* argv[])
 		fileMode = ZFileMode::BuildTexture;
 	else if (buildMode == "bren")
 		fileMode = ZFileMode::BuildBackground;
-	else if (buildMode == "bovl")
-		fileMode = ZFileMode::BuildOverlay;
 	else if (buildMode == "bsf")
 		fileMode = ZFileMode::BuildSourceFile;
 	else if (buildMode == "bblb")
@@ -313,16 +233,6 @@ int main(int argc, char* argv[])
 	else if (fileMode == ZFileMode::BuildBlob)
 	{
 		BuildAssetBlob(Globals::Instance->inputPath, Globals::Instance->outputPath);
-	}
-	else if (fileMode == ZFileMode::BuildOverlay)
-	{
-		ZOverlay* overlay =
-			ZOverlay::FromBuild(Path::GetDirectoryName(Globals::Instance->inputPath),
-		                        Path::GetDirectoryName(Globals::Instance->cfgPath));
-
-		if (overlay != nullptr)
-			File::WriteAllText(Globals::Instance->outputPath.string(),
-			                   overlay->GetSourceOutputCode(""));
 	}
 
 	delete g;
