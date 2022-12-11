@@ -1125,7 +1125,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 mainCam->eye = this->csCamEye;
                 mainCam->eyeNext = this->csCamEye;
                 mainCam->at = this->csCamAt;
-                func_800C08AC(play, this->csCamIndex, 0);
+                Play_ReturnToMainCam(play, this->csCamIndex, 0);
                 this->csState = this->csCamIndex = 0;
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
@@ -1788,7 +1788,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
                 mainCam->eyeNext = this->csCamEye;
                 mainCam->at = this->csCamAt;
 
-                func_800C08AC(play, this->csCamIndex, 0);
+                Play_ReturnToMainCam(play, this->csCamIndex, 0);
                 this->csState = 109;
                 this->csCamIndex = 0;
                 func_80064534(play, &play->csCtx);

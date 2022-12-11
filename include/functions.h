@@ -1322,9 +1322,9 @@ s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec
 s32 Play_SetCameraFov(PlayState* this, s16 camId, f32 fov);
 s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll);
 void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId);
-s32 func_800C0808(PlayState* this, s16 camId, Player* player, s16 setting);
+s32 Play_InitCameraSettings(PlayState* this, s16 camId, Player* player, s16 setting);
 s32 Play_ChangeCameraSetting(PlayState* this, s16 camId, s16 setting);
-void func_800C08AC(PlayState* this, s16 camId, s16 arg2);
+void Play_ReturnToMainCam(PlayState* this, s16 camId, s16 timer);
 void Play_SaveSceneFlags(PlayState* this);
 void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams);
 void Play_TriggerVoidOut(PlayState* this);

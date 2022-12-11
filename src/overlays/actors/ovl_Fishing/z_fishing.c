@@ -5343,7 +5343,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             mainCam->eye = sSubCamEye;
             mainCam->eyeNext = sSubCamEye;
             mainCam->at = sSubCamAt;
-            func_800C08AC(play, sSubCamId, 0);
+            Play_ReturnToMainCam(play, sSubCamId, 0);
             func_80064534(play, &play->csCtx);
             D_80B7A6CC = 0;
             sSubCamId = SUB_CAM_ID_DONE;
@@ -5385,7 +5385,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 mainCam->eye = sSubCamEye;
                 mainCam->eyeNext = sSubCamEye;
                 mainCam->at = sSubCamAt;
-                func_800C08AC(play, sSubCamId, 0);
+                Play_ReturnToMainCam(play, sSubCamId, 0);
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
                 D_80B7A6CC = 0;
@@ -5489,7 +5489,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                         mainCam->eye = sSubCamEye;
                         mainCam->eyeNext = sSubCamEye;
                         mainCam->at = sSubCamAt;
-                        func_800C08AC(play, sSubCamId, 0);
+                        Play_ReturnToMainCam(play, sSubCamId, 0);
                         func_80064534(play, &play->csCtx);
                         func_8002DF54(play, &this->actor, 7);
                         D_80B7A6CC = 0;

@@ -1611,8 +1611,10 @@ void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId) {
     Camera_Copy(this->cameraPtrs[destCamId1], this->cameraPtrs[srcCamId2]);
 }
 
-// Same as Play_ChangeCameraSetting but also calls Camera_InitPlayerSettings
-s32 func_800C0808(PlayState* this, s16 camId, Player* player, s16 setting) {
+/**
+ * Initializes the CamPlayer settings and changes the camera setting
+ */
+s32 Play_InitCameraSettings(PlayState* this, s16 camId, Player* player, s16 setting) {
     Camera* camera;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
@@ -1625,9 +1627,12 @@ s32 Play_ChangeCameraSetting(PlayState* this, s16 camId, s16 setting) {
     return Camera_ChangeSetting(Play_GetCamera(this, camId), setting);
 }
 
-// Related to bosses and fishing
-// Name should relate to one-point cs 1020
-void func_800C08AC(PlayState* this, s16 camId, s16 timer) {
+/**
+ * Smoothly return control from a sub camera to the main camera by moving the subCamera's eye, at, fov through
+ * interpolation from the initial subCam viewParams to the target mainCam viewParams over the duration `timer`.
+ * Setting the timer to 0 or less will instantly return control to the main camera.
+ */
+void Play_ReturnToMainCam(PlayState* this, s16 camId, s16 timer) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     s16 i;
 
@@ -1660,13 +1665,17 @@ s16 Play_GetCameraUID(PlayState* this, s16 camId) {
     }
 }
 
-// Unused, purpose is very unclear (also unused and unclear in MM)
+// Unused, purpose is unclear (also unused and unclear in MM)
 s16 func_800C09D8(PlayState* this, s16 camId, s16 uid) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
         return 0;
-    } else if (camera->uid != uid) {
+    }
+
+    //! @bug this code is only reached if `camera` is NULL.
+    //! Therefore, these checks would be reading garbage data.
+    if (camera->uid != uid) {
         return 0;
     } else if (camera->status != CAM_STAT_ACTIVE) {
         return 2;

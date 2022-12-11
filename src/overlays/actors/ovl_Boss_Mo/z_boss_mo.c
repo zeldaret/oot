@@ -899,7 +899,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     mainCam2->eye = this->subCamEye;
                     mainCam2->eyeNext = this->subCamEye;
                     mainCam2->at = this->subCamAt;
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
                     func_80064534(play, &play->csCtx);
                 }
@@ -1442,7 +1442,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 mainCam2->eye = this->subCamEye;
                 mainCam2->eyeNext = this->subCamEye;
                 mainCam2->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 // MO_BATTLE / SUB_CAM_ID_DONE
                 this->csState = this->subCamId = 0;
                 func_80064534(play, &play->csCtx);
@@ -1678,7 +1678,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
                     mainCam->eye = this->subCamEye;
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
                     func_80064534(play, &play->csCtx);
                     func_8002DF54(play, &this->actor, 7);

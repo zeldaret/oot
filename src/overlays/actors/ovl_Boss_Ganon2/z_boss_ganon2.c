@@ -321,7 +321,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 camera->eye = this->subCamEye;
                 camera->eyeNext = this->subCamEye;
                 camera->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
@@ -874,7 +874,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 camera->eye = this->subCamEye;
                 camera->eyeNext = this->subCamEye;
                 camera->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
@@ -1345,7 +1345,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
                 mainCam2->eye = this->subCamEye;
                 mainCam2->eyeNext = this->subCamEye;
                 mainCam2->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
@@ -1378,7 +1378,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
                 mainCam3->eyeNext = this->subCamEye;
                 mainCam3->at = this->subCamAt;
                 this->unk_39C = 3;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
@@ -1623,7 +1623,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);

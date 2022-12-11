@@ -172,7 +172,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         this->subCamId = Play_CreateSubCamera(play);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
         Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
-        func_800C0808(play, this->subCamId, player, CAM_SET_FREE0);
+        Play_InitCameraSettings(play, this->subCamId, player, CAM_SET_FREE0);
         play->envCtx.screenFillColor[0] = 255;
         play->envCtx.screenFillColor[1] = 255;
         play->envCtx.screenFillColor[2] = 255;
