@@ -38,19 +38,19 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
     u32 spaceSize;
     s32 i;
 
-    if (play2->sceneId == SCENE_SPOT00) {
+    if (play2->sceneId == SCENE_HYRULE_FIELD) {
         spaceSize = 1024000;
-    } else if (play2->sceneId == SCENE_GANON_DEMO) {
+    } else if (play2->sceneId == SCENE_GANON_BOSS) {
         if (gSaveContext.sceneLayer != 4) {
             spaceSize = 1177600;
         } else {
             spaceSize = 1024000;
         }
-    } else if (play2->sceneId == SCENE_JYASINBOSS) {
+    } else if (play2->sceneId == SCENE_SPIRIT_TEMPLE_BOSS) {
         spaceSize = 1075200;
-    } else if (play2->sceneId == SCENE_KENJYANOMA) {
+    } else if (play2->sceneId == SCENE_CHAMBER_OF_THE_SAGES) {
         spaceSize = 1075200;
-    } else if (play2->sceneId == SCENE_GANON_BOSS) {
+    } else if (play2->sceneId == SCENE_GANONDORF_BOSS) {
         spaceSize = 1075200;
     } else {
         spaceSize = 1024000;
@@ -356,7 +356,7 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     play->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
     if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
-        (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
+        (gSaveContext.entranceIndex == ENTR_LAKE_HYLIA_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
 
         if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
@@ -452,14 +452,14 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     R_SCENE_CAM_TYPE = cmd->miscSettings.sceneCamType;
     gSaveContext.worldMapArea = cmd->miscSettings.area;
 
-    if ((play->sceneId == SCENE_SHOP1) || (play->sceneId == SCENE_SYATEKIJYOU)) {
+    if ((play->sceneId == SCENE_BAZAAR) || (play->sceneId == SCENE_SHOOTING_GALLERY)) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
             gSaveContext.worldMapArea = 1;
         }
     }
 
-    if (((play->sceneId >= SCENE_SPOT00) && (play->sceneId <= SCENE_GANON_TOU)) ||
-        ((play->sceneId >= SCENE_ENTRA) && (play->sceneId <= SCENE_SHRINE_R))) {
+    if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE)) ||
+        ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
         if (gSaveContext.cutsceneIndex < 0xFFF0) {
             gSaveContext.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
             osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.worldMapAreaData,

@@ -363,15 +363,15 @@ s32 func_80A7975C(EnIn* this, PlayState* play) {
 }
 
 s32 func_80A79830(EnIn* this, PlayState* play) {
-    if (play->sceneId == SCENE_SPOT20 && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
+    if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
         !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
-    if (play->sceneId == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
+    if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
         GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 1;
     }
-    if (play->sceneId == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_NIGHT) {
+    if (play->sceneId == SCENE_STABLE && LINK_IS_CHILD && IS_NIGHT) {
         if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
             return 1;
         }
@@ -379,7 +379,7 @@ s32 func_80A79830(EnIn* this, PlayState* play) {
             return 1;
         }
     }
-    if (play->sceneId == SCENE_SPOT20 && LINK_IS_ADULT && IS_DAY) {
+    if (play->sceneId == SCENE_LON_LON_RANCH && LINK_IS_ADULT && IS_DAY) {
         if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 2;
         }
@@ -387,7 +387,7 @@ s32 func_80A79830(EnIn* this, PlayState* play) {
             return 4;
         }
     }
-    if (play->sceneId == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT) {
+    if (play->sceneId == SCENE_LON_LON_BUILDINGS && LINK_IS_ADULT && IS_NIGHT) {
         if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
             return 3;
         }
@@ -424,7 +424,7 @@ void func_80A79AB4(EnIn* this, PlayState* play) {
 }
 
 void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
-    s16 entrances[] = { ENTR_SPOT20_8, ENTR_SPOT20_6, ENTR_SPOT20_0 };
+    s16 entrances[] = { ENTR_LON_LON_RANCH_8, ENTR_LON_LON_RANCH_6, ENTR_LON_LON_RANCH_0 };
 
     play->nextEntranceIndex = entrances[index];
     if (index == 2) {
@@ -870,7 +870,7 @@ void func_80A7AEF0(EnIn* this, PlayState* play) {
     pos.z += 90.0f * Math_CosS(this->actor.shape.rot.y);
     yaw = Math_Vec3f_Yaw(&pos, &player->actor.world.pos);
     if (ABS(yaw) > 0x4000) {
-        play->nextEntranceIndex = ENTR_SPOT00_15;
+        play->nextEntranceIndex = ENTR_HYRULE_FIELD_15;
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
         this->actionFunc = func_80A7B018;
