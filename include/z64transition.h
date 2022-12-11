@@ -23,6 +23,11 @@ typedef struct {
     /* 0xDC */ u16* zBuffer;
 } TransitionUnk; // size = 0xE0
 
+typedef enum {
+    /* 1 */ TRANS_TYPE_FADE_IN = 1,
+    /* 2 */ TRANS_TYPE_FADE_OUT
+} TransitionTypeFade;
+
 typedef struct {
     /* 0x000 */ Color_RGBA8_u32 color;
     /* 0x004 */ Color_RGBA8_u32 envColor;
@@ -36,6 +41,8 @@ typedef struct {
     /* 0x058 */ Mtx lookAt;
     /* 0x098 */ Mtx modelView[2][3];
 } TransitionWipe; // size = 0x218
+
+#define TRANS_FADE_TYPE_FLASH 3
 
 typedef struct {
     /* 0x000 */ u8 fadeType;

@@ -1,7 +1,7 @@
 #include "global.h"
 #include "terminal.h"
 
-static Gfx sRCPSetupFade[] = {
+static Gfx sFadeSetupDL[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
                           G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
@@ -18,10 +18,12 @@ void TransitionFade_Start(void* thisx) {
     switch (this->fadeType) {
         case 0:
             break;
+
         case 1:
             this->fadeTimer = 0;
-            this->fadeColor.a = this->fadeDirection != 0 ? 0xFF : 0;
+            this->fadeColor.a = this->fadeDirection != 0 ? 255 : 0;
             break;
+
         case 2:
             this->fadeColor.a = 0;
             break;
@@ -32,7 +34,7 @@ void TransitionFade_Start(void* thisx) {
 void* TransitionFade_Init(void* thisx) {
     TransitionFade* this = (TransitionFade*)thisx;
 
-    bzero(this, sizeof(*this));
+    bzero(this, sizeof(TransitionFade));
     return this;
 }
 
@@ -47,13 +49,14 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
     switch (this->fadeType) {
         case 0:
             break;
+
         case 1:
             this->fadeTimer += updateRate;
             if (this->fadeTimer >= gSaveContext.transFadeDuration) {
                 this->fadeTimer = gSaveContext.transFadeDuration;
                 this->isDone = true;
             }
-            if (!gSaveContext.transFadeDuration) {
+            if ((u32)gSaveContext.transFadeDuration == 0) {
                 // "Divide by 0! Zero is included in ZCommonGet fade_speed"
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
@@ -61,17 +64,18 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
             alpha = (255.0f * this->fadeTimer) / ((void)0, gSaveContext.transFadeDuration);
             this->fadeColor.a = (this->fadeDirection != 0) ? 255 - alpha : alpha;
             break;
+
         case 2:
             newAlpha = this->fadeColor.a;
-            if (iREG(50) != 0) {
-                if (iREG(50) < 0) {
+            if (R_TRANS_FADE_FLASH_ALPHA_STEP != 0) {
+                if (R_TRANS_FADE_FLASH_ALPHA_STEP < 0) {
                     if (Math_StepToS(&newAlpha, 255, 255)) {
-                        iREG(50) = 150;
+                        R_TRANS_FADE_FLASH_ALPHA_STEP = 150;
                     }
                 } else {
-                    Math_StepToS(&iREG(50), 20, 60);
-                    if (Math_StepToS(&newAlpha, 0, iREG(50))) {
-                        iREG(50) = 0;
+                    Math_StepToS(&R_TRANS_FADE_FLASH_ALPHA_STEP, 20, 60);
+                    if (Math_StepToS(&newAlpha, 0, R_TRANS_FADE_FLASH_ALPHA_STEP)) {
+                        R_TRANS_FADE_FLASH_ALPHA_STEP = 0;
                         this->isDone = true;
                     }
                 }
@@ -88,7 +92,7 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
 
     if (color->a > 0) {
         gfx = *gfxP;
-        gSPDisplayList(gfx++, sRCPSetupFade);
+        gSPDisplayList(gfx++, sFadeSetupDL);
         gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, color->a);
         gDPFillRectangle(gfx++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
         gDPPipeSync(gfx++);
@@ -111,13 +115,13 @@ void TransitionFade_SetColor(void* thisx, u32 color) {
 void TransitionFade_SetType(void* thisx, s32 type) {
     TransitionFade* this = (TransitionFade*)thisx;
 
-    if (type == 1) {
+    if (type == TRANS_TYPE_FADE_IN) {
         this->fadeType = 1;
         this->fadeDirection = 1;
-    } else if (type == 2) {
+    } else if (type == TRANS_TYPE_FADE_OUT) {
         this->fadeType = 1;
         this->fadeDirection = 0;
-    } else if (type == 3) {
+    } else if (type == TRANS_FADE_TYPE_FLASH) {
         this->fadeType = 2;
     } else {
         this->fadeType = 0;

@@ -116,7 +116,7 @@ s32 TransitionWipe_IsDone(void* thisx) {
 void TransitionWipe_SetType(void* thisx, s32 type) {
     TransitionWipe* this = (TransitionWipe*)thisx;
 
-    if (type == 1) {
+    if (type == TRANS_TYPE_FADE_IN) {
         this->direction = 1;
     } else {
         this->direction = 0;
