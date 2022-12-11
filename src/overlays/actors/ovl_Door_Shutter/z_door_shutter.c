@@ -717,7 +717,6 @@ void DoorShutter_BarAndWaitSwitchFlag(DoorShutter* this, PlayState* play) {
             if (DoorShutter_GetPlayerSide(this, play) != 0) {
                 Player* player = GET_PLAYER(play);
 
-                // Jabu navi text for switch doors is different
                 player->naviTextId = (play->sceneId == SCENE_JABU_JABU) ? -0x20B : -0x202;
             }
         }

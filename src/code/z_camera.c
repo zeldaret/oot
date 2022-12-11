@@ -2589,8 +2589,8 @@ s32 Camera_Jump3(Camera* camera) {
             rwData->mode = CAM_MODE_NORMAL;
             modeSwitch = true;
         }
-    } else if (((camera->waterYPos - eye->y) > OREG(45)) && (rwData->mode != CAM_MODE_BOOMERANG)) {
-        rwData->mode = CAM_MODE_BOOMERANG;
+    } else if (((camera->waterYPos - eye->y) > OREG(45)) && (rwData->mode != CAM_MODE_AIM_BOOMERANG)) {
+        rwData->mode = CAM_MODE_AIM_BOOMERANG;
         modeSwitch = true;
     }
 
@@ -2864,7 +2864,7 @@ s32 Camera_Battle1(Camera* camera) {
                 VT_COL(YELLOW, BLACK) "camera: warning: battle: target is not valid, change parallel\n" VT_RST);
         }
         camera->target = NULL;
-        Camera_ChangeMode(camera, CAM_MODE_TARGET);
+        Camera_ChangeMode(camera, CAM_MODE_Z_PARALLEL);
         return true;
     }
 
@@ -2880,7 +2880,7 @@ s32 Camera_Battle1(Camera* camera) {
         } else {
             osSyncPrintf("camera: battle: target actor name " VT_COL(RED, WHITE) "%d" VT_RST "\n", rwData->target->id);
             camera->target = NULL;
-            Camera_ChangeMode(camera, CAM_MODE_TARGET);
+            Camera_ChangeMode(camera, CAM_MODE_Z_PARALLEL);
             return true;
         }
         rwData->animTimer = R_CAM_DEFAULT_ANIM_TIME + OREG(24);
@@ -3147,7 +3147,7 @@ s32 Camera_KeepOn1(Camera* camera) {
                 VT_COL(YELLOW, BLACK) "camera: warning: keepon: target is not valid, change parallel\n" VT_RST);
         }
         camera->target = NULL;
-        Camera_ChangeMode(camera, CAM_MODE_TARGET);
+        Camera_ChangeMode(camera, CAM_MODE_Z_PARALLEL);
         return 1;
     }
 
@@ -3385,7 +3385,7 @@ s32 Camera_KeepOn3(Camera* camera) {
             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: talk: target is not valid, change parallel\n" VT_RST);
         }
         camera->target = NULL;
-        Camera_ChangeMode(camera, CAM_MODE_TARGET);
+        Camera_ChangeMode(camera, CAM_MODE_Z_PARALLEL);
         return 1;
     }
     if (RELOAD_PARAMS(camera)) {
@@ -7860,7 +7860,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
     }
 
     if (!((sCameraSettings[camera->setting].unk_00 & 0x3FFFFFFF) & (1 << mode))) {
-        if (mode == CAM_MODE_FIRSTPERSON) {
+        if (mode == CAM_MODE_FIRST_PERSON) {
             osSyncPrintf("camera: error sound\n");
             func_80078884(NA_SE_SY_ERROR);
         }
@@ -7888,33 +7888,33 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
         Camera_CopyDataToRegs(camera, mode);
         modeChangeFlags = 0;
         switch (mode) {
-            case CAM_MODE_FIRSTPERSON:
+            case CAM_MODE_FIRST_PERSON:
                 modeChangeFlags = 0x20;
                 break;
-            case CAM_MODE_BATTLE:
+            case CAM_MODE_Z_TARGET_UNFRIENDLY:
                 modeChangeFlags = 4;
                 break;
-            case CAM_MODE_FOLLOWTARGET:
+            case CAM_MODE_Z_TARGET_FRIENDLY:
                 if (camera->target != NULL && camera->target->id != ACTOR_EN_BOOM) {
                     modeChangeFlags = 8;
                 }
                 break;
-            case CAM_MODE_TARGET:
+            case CAM_MODE_Z_PARALLEL:
             case CAM_MODE_TALK:
-            case CAM_MODE_BOWARROWZ:
-            case CAM_MODE_HANGZ:
-            case CAM_MODE_PUSHPULL:
+            case CAM_MODE_Z_AIM:
+            case CAM_MODE_Z_LEDGE_HANG:
+            case CAM_MODE_PUSH_PULL:
                 modeChangeFlags = 2;
                 break;
         }
 
         switch (camera->mode) {
-            case CAM_MODE_FIRSTPERSON:
+            case CAM_MODE_FIRST_PERSON:
                 if (modeChangeFlags & 0x20) {
                     camera->animState = 10;
                 }
                 break;
-            case CAM_MODE_TARGET:
+            case CAM_MODE_Z_PARALLEL:
                 if (modeChangeFlags & 0x10) {
                     camera->animState = 10;
                 }
@@ -7923,21 +7923,21 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
             case CAM_MODE_CHARGE:
                 modeChangeFlags |= 1;
                 break;
-            case CAM_MODE_FOLLOWTARGET:
+            case CAM_MODE_Z_TARGET_FRIENDLY:
                 if (modeChangeFlags & 8) {
                     camera->animState = 10;
                 }
                 modeChangeFlags |= 1;
                 break;
-            case CAM_MODE_BATTLE:
+            case CAM_MODE_Z_TARGET_UNFRIENDLY:
                 if (modeChangeFlags & 4) {
                     camera->animState = 10;
                 }
                 modeChangeFlags |= 1;
                 break;
-            case CAM_MODE_BOWARROWZ:
-            case CAM_MODE_HANGZ:
-            case CAM_MODE_PUSHPULL:
+            case CAM_MODE_Z_AIM:
+            case CAM_MODE_Z_LEDGE_HANG:
+            case CAM_MODE_PUSH_PULL:
                 modeChangeFlags |= 1;
                 break;
             case CAM_MODE_NORMAL:

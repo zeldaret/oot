@@ -435,7 +435,7 @@ void func_8002F8F0(Actor* actor, u16 sfxId);
 void func_8002F91C(Actor* actor, u16 sfxId);
 void func_8002F948(Actor* actor, u16 sfxId);
 void func_8002F974(Actor* actor, u16 sfxId);
-void func_8002F994(Actor* actor, s32 arg1);
+void func_8002F994(Actor* actor, s32 timer);
 s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos);
 void Actor_DisableLens(PlayState* play);
 void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* playerEntry);
