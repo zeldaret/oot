@@ -54,6 +54,7 @@ CutsceneMMCommand_GenericCmd::CutsceneMMCommand_GenericCmd(const std::vector<uin
 
 	commandID = static_cast<uint32_t>(cmdId);
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_GenericMMCmd(rawData, rawDataIndex, cmdId);
@@ -96,6 +97,7 @@ CutsceneMMCommand_Camera::CutsceneMMCommand_Camera(const std::vector<uint8_t>& r
 {
 	rawDataIndex += 4;
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries / 4; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_Camera(rawData, rawDataIndex);
@@ -138,6 +140,7 @@ CutsceneMMCommand_FadeScreen::CutsceneMMCommand_FadeScreen(const std::vector<uin
 {
 	rawDataIndex += 4;
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_FadeScreen(rawData, rawDataIndex);
@@ -174,6 +177,7 @@ CutsceneMMCommand_FadeSeq::CutsceneMMCommand_FadeSeq(const std::vector<uint8_t>&
 {
 	rawDataIndex += 4;
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_FadeSeq(rawData, rawDataIndex);
@@ -199,6 +203,7 @@ CutsceneMMCommand_NonImplemented::CutsceneMMCommand_NonImplemented(
 {
 	rawDataIndex += 4;
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_NonImplemented(rawData, rawDataIndex);
