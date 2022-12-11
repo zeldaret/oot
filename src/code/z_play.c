@@ -1535,14 +1535,14 @@ Camera* Play_GetCamera(PlayState* this, s16 camId) {
 }
 
 s32 Play_SetCameraAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
-    s32 successfullySet = 0;
+    s32 successBits = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
     Player* player;
 
-    successfullySet |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
-    successfullySet <<= 1;
-    successfullySet |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1557,20 +1557,20 @@ s32 Play_SetCameraAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
 
     camera->atLERPStepScale = 0.01f;
 
-    return successfullySet;
+    return successBits;
 }
 
 s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
-    s32 successfullySet = 0;
+    s32 successBits = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
     Player* player;
 
-    successfullySet |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
-    successfullySet <<= 1;
-    successfullySet |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
-    successfullySet <<= 1;
-    successfullySet |= Camera_SetViewParam(camera, CAM_VIEW_UP, up);
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_UP, up);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1585,14 +1585,14 @@ s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec
 
     camera->atLERPStepScale = 0.01f;
 
-    return successfullySet;
+    return successBits;
 }
 
 s32 Play_SetCameraFov(PlayState* this, s16 camId, f32 fov) {
-    s32 successfullySet = Camera_SetViewParam(this->cameraPtrs[camId], CAM_VIEW_FOV, &fov) & 1;
+    s32 successBits = Camera_SetViewParam(this->cameraPtrs[camId], CAM_VIEW_FOV, &fov) & 1;
 
     if (1) {}
-    return successfullySet;
+    return successBits;
 }
 
 s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll) {
@@ -1675,7 +1675,6 @@ s16 func_800C09D8(PlayState* this, s16 camId, s16 uid) {
     }
 
     //! @bug this code is only reached if `camera` is NULL.
-    //! Therefore, these checks would be reading garbage data.
     if (camera->uid != uid) {
         return 0;
     } else if (camera->status != CAM_STAT_ACTIVE) {

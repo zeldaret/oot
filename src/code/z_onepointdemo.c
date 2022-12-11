@@ -74,7 +74,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
     OnePointCsInfo* csInfo = &subCam->paramData.uniq9.csInfo;
 
     switch (csId) {
-        case 1020:
+        case 1020: // smoothly return to main camera from current view
             if (timer < 20) {
                 timer = 20;
             }
