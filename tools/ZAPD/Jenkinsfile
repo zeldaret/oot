@@ -68,6 +68,15 @@ pipeline {
             }
         }
 
+        // INSTALL PYTHON DEPENDENCIES, currently MM only
+        stage('Install Python dependencies') {
+            steps {
+                dir('mm') {
+                    sh 'python3 -m pip install -r requirements.txt'
+                }
+            }
+        }
+
         // BUILD THE REPOS
         stage('Build repos') {
             parallel {
@@ -82,7 +91,7 @@ pipeline {
                     steps {
                         dir('mm') {
                             sh 'make -j disasm'
-                            sh 'make -j all'
+                            sh 'make -j'
                         }
                     }
                 }
