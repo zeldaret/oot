@@ -30,26 +30,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -95,6 +95,7 @@
     </ClCompile>
     <Link>
       <Profile>true</Profile>
+      <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
       <Command>cd ..
@@ -119,6 +120,7 @@ mkdir build\ZAPD
       <Profile>true</Profile>
       <AdditionalDependencies>ZAPDUtils.lib;/WHOLEARCHIVE:ExporterExample.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <SubSystem>Console</SubSystem>
     </Link>
     <PreBuildEvent>
       <Command>cd ..
@@ -177,6 +179,7 @@ mkdir build\ZAPD
     <ClCompile Include="..\lib\libgfxd\uc_f3dex.c" />
     <ClCompile Include="..\lib\libgfxd\uc_f3dex2.c" />
     <ClCompile Include="..\lib\libgfxd\uc_f3dexb.c" />
+    <ClCompile Include="CrashHandler.cpp" />
     <ClCompile Include="Declaration.cpp" />
     <ClCompile Include="GameConfig.cpp" />
     <ClCompile Include="Globals.cpp" />
@@ -186,8 +189,8 @@ mkdir build\ZAPD
     <ClCompile Include="OtherStructs\Cutscene_Commands.cpp" />
     <ClCompile Include="OtherStructs\SkinLimbStructs.cpp" />
     <ClCompile Include="OutputFormatter.cpp" />
-    <ClCompile Include="Overlays\ZOverlay.cpp" />
     <ClCompile Include="WarningHandler.cpp" />
+    <ClCompile Include="ZActorList.cpp" />
     <ClCompile Include="ZArray.cpp" />
     <ClCompile Include="ZBackground.cpp" />
     <ClCompile Include="ZCollisionPoly.cpp" />
@@ -240,6 +243,7 @@ mkdir build\ZAPD
     <ClCompile Include="ZRoom\ZRoom.cpp" />
     <ClCompile Include="ZRoom\ZRoomCommand.cpp" />
     <ClCompile Include="ZString.cpp" />
+    <ClCompile Include="ZSurfaceType.cpp" />
     <ClCompile Include="ZSymbol.cpp" />
     <ClCompile Include="ZTexture.cpp" />
     <ClCompile Include="ZTextureAnimation.cpp" />
@@ -265,6 +269,7 @@ mkdir build\ZAPD
     <ClInclude Include="..\lib\stb\stb_image.h" />
     <ClInclude Include="..\lib\stb\stb_image_write.h" />
     <ClInclude Include="..\lib\stb\tinyxml2.h" />
+    <ClInclude Include="CrashHandler.h" />
     <ClInclude Include="CRC32.h" />
     <ClInclude Include="Declaration.h" />
     <ClInclude Include="GameConfig.h" />
@@ -274,8 +279,8 @@ mkdir build\ZAPD
     <ClInclude Include="OtherStructs\Cutscene_Commands.h" />
     <ClInclude Include="OtherStructs\SkinLimbStructs.h" />
     <ClInclude Include="OutputFormatter.h" />
-    <ClInclude Include="Overlays\ZOverlay.h" />
     <ClInclude Include="WarningHandler.h" />
+    <ClInclude Include="ZActorList.h" />
     <ClInclude Include="ZAnimation.h" />
     <ClInclude Include="ZArray.h" />
     <ClInclude Include="ZBackground.h" />
@@ -328,6 +333,7 @@ mkdir build\ZAPD
     <ClInclude Include="ZRoom\ZRoom.h" />
     <ClInclude Include="ZRoom\ZRoomCommand.h" />
     <ClInclude Include="ZString.h" />
+    <ClInclude Include="ZSurfaceType.h" />
     <ClInclude Include="ZSymbol.h" />
     <ClInclude Include="ZTexture.h" />
     <ClInclude Include="ZTextureAnimation.h" />
