@@ -414,7 +414,7 @@ u16 EnMd_GetTextIdKokiriForest(PlayState* play, EnMd* this) {
     return 0x102F;
 }
 
-u16 EnMd_GetTextIdKokiriHome(PlayState* play, EnMd* this) {
+u16 EnMd_GetTextIdMidosHouse(PlayState* play, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = TEXT_STATE_NONE;
 
@@ -454,7 +454,7 @@ u16 EnMd_GetTextId(PlayState* play, Actor* thisx) {
         case SCENE_KOKIRI_FOREST:
             return EnMd_GetTextIdKokiriForest(play, this);
         case SCENE_MIDOS_HOUSE:
-            return EnMd_GetTextIdKokiriHome(play, this);
+            return EnMd_GetTextIdMidosHouse(play, this);
         case SCENE_LOST_WOODS:
             return EnMd_GetTextIdLostWoods(play, this);
         default:

@@ -14,9 +14,6 @@ void EnMa1_Destroy(Actor* thisx, PlayState* play);
 void EnMa1_Update(Actor* thisx, PlayState* play);
 void EnMa1_Draw(Actor* thisx, PlayState* play);
 
-u16 EnMa1_GetTextId(PlayState* play, Actor* thisx);
-s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx);
-
 void func_80AA0D88(EnMa1* this, PlayState* play);
 void func_80AA0EA0(EnMa1* this, PlayState* play);
 void func_80AA0EFC(EnMa1* this, PlayState* play);

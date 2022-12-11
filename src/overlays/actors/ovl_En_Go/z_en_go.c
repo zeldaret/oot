@@ -1082,31 +1082,24 @@ void EnGo_DrawRolling(EnGo* this, PlayState* play) {
 s32 EnGo_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnGo* this = (EnGo*)thisx;
     Vec3s limbRot;
-    f32 temp;
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
-        temp = BINANG_TO_RAD_ALT(limbRot.y);
-        Matrix_RotateX(temp, MTXMODE_APPLY);
-        temp = BINANG_TO_RAD_ALT(limbRot.x);
-        Matrix_RotateZ(temp, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limb == 10) {
         limbRot = this->interactInfo.torsoRot;
-        temp = BINANG_TO_RAD_ALT(limbRot.y);
-        Matrix_RotateY(temp, MTXMODE_APPLY);
-        temp = BINANG_TO_RAD_ALT(limbRot.x);
-        Matrix_RotateX(temp, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
 
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        temp = Math_SinS(this->jointTable[limb]);
-        rot->y += temp * 200.0f;
-        temp = Math_CosS(this->morphTable[limb]);
-        rot->z += temp * 200.0f;
+        rot->y += Math_SinS(this->jointTable[limb]) * 200.0f;
+        rot->z += Math_CosS(this->morphTable[limb]) * 200.0f;
     }
 
     return 0;

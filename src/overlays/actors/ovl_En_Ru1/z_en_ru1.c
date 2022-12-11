@@ -1271,21 +1271,21 @@ void func_80AED738(EnRu1* this, PlayState* play) {
 
 void func_80AED83C(EnRu1* this) {
     s32 pad[2];
-    Vec3s* headRotPtr;
-    Vec3s* torsoRotPtr;
+    Vec3s* headRot;
+    Vec3s* torsoRot;
 
-    headRotPtr = &this->interactInfo.headRot;
-    Math_SmoothStepToS(&headRotPtr->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothStepToS(&headRotPtr->y, 0, 0x14, 0x1838, 0x64);
-    torsoRotPtr = &this->interactInfo.torsoRot;
-    Math_SmoothStepToS(&torsoRotPtr->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothStepToS(&torsoRotPtr->y, 0, 0x14, 0x1838, 0x64);
+    headRot = &this->interactInfo.headRot;
+    Math_SmoothStepToS(&headRot->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&headRot->y, 0, 0x14, 0x1838, 0x64);
+    torsoRot = &this->interactInfo.torsoRot;
+    Math_SmoothStepToS(&torsoRot->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&torsoRot->y, 0, 0x14, 0x1838, 0x64);
 }
 
 void func_80AED8DC(EnRu1* this) {
     s32 temp_hi;
     s16* unk_2AC = &this->unk_2AC;
-    s16* headRotYPtr = &this->interactInfo.headRot.y;
+    s16* headRotY = &this->interactInfo.headRot.y;
     s16* unk_29E = &this->unk_29E;
     s32 pad[2];
 
@@ -1303,14 +1303,14 @@ void func_80AED8DC(EnRu1* this) {
     }
 
     if (this->unk_2B0 == 0) {
-        Math_SmoothStepToS(unk_29E, 0 - *headRotYPtr, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotYPtr, 0, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0 - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0, 3, ABS(*unk_29E), 0x64);
     } else if (this->unk_2B0 == 1) {
-        Math_SmoothStepToS(unk_29E, -0x2AAA - *headRotYPtr, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotYPtr, -0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, -0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
     } else {
-        Math_SmoothStepToS(unk_29E, 0x2AAA - *headRotYPtr, 1, 0x190, 0x190);
-        Math_SmoothStepToS(headRotYPtr, 0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
     }
 }
 

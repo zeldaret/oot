@@ -68,7 +68,7 @@ static AnimationInfo sAnimationInfo[] = {
     { &gKzMweepAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-u16 EnKz_GetTextIdNoMaskChild(PlayState* play, EnKz* this) {
+u16 EnKz_GetTextIdChild(PlayState* play, EnKz* this) {
     Player* player = GET_PLAYER(play);
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -81,7 +81,7 @@ u16 EnKz_GetTextIdNoMaskChild(PlayState* play, EnKz* this) {
     }
 }
 
-u16 EnKz_GetTextIdNoMaskAdult(PlayState* play, EnKz* this) {
+u16 EnKz_GetTextIdAdult(PlayState* play, EnKz* this) {
     Player* player = GET_PLAYER(play);
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_EYEBALL_FROG) {
@@ -109,9 +109,9 @@ u16 EnKz_GetTextId(PlayState* play, Actor* thisx) {
     }
 
     if (LINK_IS_ADULT) {
-        return EnKz_GetTextIdNoMaskAdult(play, this);
+        return EnKz_GetTextIdAdult(play, this);
     } else {
-        return EnKz_GetTextIdNoMaskChild(play, this);
+        return EnKz_GetTextIdChild(play, this);
     }
 }
 
