@@ -2701,7 +2701,8 @@ s32 func_80834E7C(PlayState* play) {
 
 s32 func_80834EB8(Player* this, PlayState* play) {
     if ((this->unk_6AD == 0) || (this->unk_6AD == 2)) {
-        if (func_80833BCC(this) || (Camera_CheckValidMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_BOWARROW) == 0)) {
+        if (func_80833BCC(this) ||
+            (Camera_CheckValidMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_AIM_ADULT) == 0)) {
             return 1;
         }
         this->unk_6AD = 2;
@@ -5100,15 +5101,15 @@ s32 func_8083AD4C(PlayState* play, Player* this) {
     if (this->unk_6AD == 2) {
         if (func_8002DD6C(this)) {
             if (LINK_IS_ADULT) {
-                cameraMode = CAM_MODE_BOWARROW;
+                cameraMode = CAM_MODE_AIM_ADULT;
             } else {
-                cameraMode = CAM_MODE_SLINGSHOT;
+                cameraMode = CAM_MODE_AIM_CHILD;
             }
         } else {
-            cameraMode = CAM_MODE_BOOMERANG;
+            cameraMode = CAM_MODE_AIM_BOOMERANG;
         }
     } else {
-        cameraMode = CAM_MODE_FIRSTPERSON;
+        cameraMode = CAM_MODE_FIRST_PERSON;
     }
 
     return Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), cameraMode);
@@ -5424,7 +5425,7 @@ s32 func_8083B644(Player* this, PlayState* play) {
 
 s32 func_8083B8F4(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_23)) &&
-        Camera_CheckValidMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_FIRSTPERSON)) {
+        Camera_CheckValidMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_FIRST_PERSON)) {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
             (func_808332B8(this) && (this->actor.yDistToWater < this->ageProperties->unk_2C))) {
             this->unk_6AD = 1;
@@ -10229,52 +10230,52 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
             Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & PLAYER_STATE1_20)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & PLAYER_STATE3_7)) {
-                camMode = CAM_MODE_HOOKSHOT;
+                camMode = CAM_MODE_HOOKSHOT_FLY;
                 Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->actor.parent);
             } else if (func_8084377C == this->func_674) {
                 camMode = CAM_MODE_STILL;
             } else if (this->stateFlags2 & PLAYER_STATE2_8) {
-                camMode = CAM_MODE_PUSHPULL;
+                camMode = CAM_MODE_PUSH_PULL;
             } else if ((unk_664 = this->unk_664) != NULL) {
                 if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_8)) {
                     camMode = CAM_MODE_TALK;
                 } else if (this->stateFlags1 & PLAYER_STATE1_16) {
                     if (this->stateFlags1 & PLAYER_STATE1_25) {
-                        camMode = CAM_MODE_FOLLOWBOOMERANG;
+                        camMode = CAM_MODE_FOLLOW_BOOMERANG;
                     } else {
-                        camMode = CAM_MODE_FOLLOWTARGET;
+                        camMode = CAM_MODE_Z_TARGET_FRIENDLY;
                     }
                 } else {
-                    camMode = CAM_MODE_BATTLE;
+                    camMode = CAM_MODE_Z_TARGET_UNFRIENDLY;
                 }
                 Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, unk_664);
             } else if (this->stateFlags1 & PLAYER_STATE1_12) {
                 camMode = CAM_MODE_CHARGE;
             } else if (this->stateFlags1 & PLAYER_STATE1_25) {
-                camMode = CAM_MODE_FOLLOWBOOMERANG;
+                camMode = CAM_MODE_FOLLOW_BOOMERANG;
                 Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->boomerangActor);
             } else if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                 if (func_80833B2C(this)) {
-                    camMode = CAM_MODE_HANGZ;
+                    camMode = CAM_MODE_Z_LEDGE_HANG;
                 } else {
-                    camMode = CAM_MODE_HANG;
+                    camMode = CAM_MODE_LEDGE_HANG;
                 }
             } else if (this->stateFlags1 & (PLAYER_STATE1_17 | PLAYER_STATE1_30)) {
                 if (func_8002DD78(this) || func_808334B4(this)) {
-                    camMode = CAM_MODE_BOWARROWZ;
+                    camMode = CAM_MODE_Z_AIM;
                 } else if (this->stateFlags1 & PLAYER_STATE1_21) {
-                    camMode = CAM_MODE_CLIMBZ;
+                    camMode = CAM_MODE_Z_WALL_CLIMB;
                 } else {
-                    camMode = CAM_MODE_TARGET;
+                    camMode = CAM_MODE_Z_PARALLEL;
                 }
             } else if (this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_21)) {
                 if ((func_80845668 == this->func_674) || (this->stateFlags1 & PLAYER_STATE1_21)) {
-                    camMode = CAM_MODE_CLIMB;
+                    camMode = CAM_MODE_WALL_CLIMB;
                 } else {
                     camMode = CAM_MODE_JUMP;
                 }
             } else if (this->stateFlags1 & PLAYER_STATE1_19) {
-                camMode = CAM_MODE_FREEFALL;
+                camMode = CAM_MODE_FREE_FALL;
             } else if ((this->meleeWeaponState != 0) && (this->meleeWeaponAnimation >= PLAYER_MWA_FORWARD_SLASH_1H) &&
                        (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H)) {
                 camMode = CAM_MODE_STILL;
@@ -13169,7 +13170,7 @@ s32 func_8084FCAC(Player* this, PlayState* play) {
         D_808535D0 ^= 1;
 
         if (D_808535D0) {
-            Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_BOWARROWZ);
+            Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_AIM);
         }
     }
 

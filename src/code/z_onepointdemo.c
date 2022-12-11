@@ -1266,7 +1266,7 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
     sUnused = -1;
 
     parentCam = play->cameraPtrs[CAM_ID_MAIN];
-    if (parentCam->mode == CAM_MODE_FOLLOWBOOMERANG) {
+    if (parentCam->mode == CAM_MODE_FOLLOW_BOOMERANG) {
         osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: change mode BOOKEEPON -> NORMAL\n" VT_RST);
         Camera_ChangeMode(parentCam, CAM_MODE_NORMAL);
     }
