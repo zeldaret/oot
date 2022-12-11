@@ -1163,10 +1163,10 @@ s32 EnGo2_IsCameraModified(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if (EnGo2_IsWakingUp(this)) {
             Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
-            func_8005AD1C(mainCam, 4);
+            Camera_UnsetStateFlag(mainCam, CAM_STATE_2);
         } else if (!EnGo2_IsWakingUp(this) && (mainCam->setting == CAM_SET_DIRECTED_YAW)) {
             Camera_ChangeSetting(mainCam, CAM_SET_DUNGEON1);
-            func_8005ACFC(mainCam, 4);
+            Camera_SetStateFlag(mainCam, CAM_STATE_2);
         }
     }
 
