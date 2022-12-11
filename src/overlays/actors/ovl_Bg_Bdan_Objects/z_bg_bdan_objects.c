@@ -355,7 +355,7 @@ void func_8086C874(BgBdanObjects* this, PlayState* play) {
         if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             this->cameraSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
-            func_8005AD1C(play->cameraPtrs[CAM_ID_MAIN], 4);
+            Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_2);
             this->switchFlag = 10;
         }
     } else {
@@ -368,7 +368,7 @@ void func_8086C874(BgBdanObjects* this, PlayState* play) {
         if (this->switchFlag == 0) {
             if (1) {}
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], this->cameraSetting);
-            func_8005ACFC(play->cameraPtrs[CAM_ID_MAIN], 4);
+            Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_2);
         }
     }
     this->dyna.actor.world.pos.y =
