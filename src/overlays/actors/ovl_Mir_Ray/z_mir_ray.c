@@ -30,7 +30,7 @@ typedef enum {
     /* 9 */ MIRRAY_GANONSCASTLE_SPIRITTRIAL_DOWNLIGHT
 } MirRayBeamLocations;
 
-const ActorInit Mir_Ray_InitVars = {
+ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -375,7 +375,6 @@ void MirRay_ReflectedBeam(MirRay* this, PlayState* play, MirRayShieldReflection*
     MtxF* shieldMtx;
     Vec3f vecA;
     Vec3f vecC;
-    MirRayShieldReflection* currentReflection;
 
     shieldMtx = &player->shieldMf;
 
@@ -402,25 +401,24 @@ void MirRay_ReflectedBeam(MirRay* this, PlayState* play, MirRayShieldReflection*
     Collider_SetQuadVertices(&this->shieldRay, &vecA, &vecB, &vecC, &vecD);
 
     for (i = 0; i < 6; i++) {
-        currentReflection = &reflection[i];
-        if (currentReflection->reflectionPoly != NULL) {
-            polyNormal[0] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.x);
-            polyNormal[1] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.y);
-            polyNormal[2] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.z);
+        if (reflection[i].reflectionPoly != NULL) {
+            polyNormal[0] = COLPOLY_GET_NORMAL(reflection[i].reflectionPoly->normal.x);
+            polyNormal[1] = COLPOLY_GET_NORMAL(reflection[i].reflectionPoly->normal.y);
+            polyNormal[2] = COLPOLY_GET_NORMAL(reflection[i].reflectionPoly->normal.z);
 
-            if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
-                                      currentReflection->reflectionPoly->dist, &vecB, &vecD, &sp118, 1)) {
+            if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2], reflection[i].reflectionPoly->dist,
+                                      &vecB, &vecD, &sp118, 1)) {
 
-                currentReflection->pos.x = sp118.x;
-                currentReflection->pos.y = sp118.y;
-                currentReflection->pos.z = sp118.z;
+                reflection[i].pos.x = sp118.x;
+                reflection[i].pos.y = sp118.y;
+                reflection[i].pos.z = sp118.z;
 
                 temp_f0 = sqrtf(SQ(sp118.x - vecB.x) + SQ(sp118.y - vecB.y) + SQ(sp118.z - vecB.z));
 
                 if (temp_f0 < (this->reflectIntensity * 600.0f)) {
-                    currentReflection->opacity = 200;
+                    reflection[i].opacity = 200;
                 } else {
-                    currentReflection->opacity = (s32)(800.0f - temp_f0);
+                    reflection[i].opacity = (s32)(800.0f - temp_f0);
                 }
 
                 sp10C.x = (shieldMtx->xx * 100.0f) + vecB.x;
@@ -431,25 +429,18 @@ void MirRay_ReflectedBeam(MirRay* this, PlayState* play, MirRayShieldReflection*
                 sp100.y = (spE8[1] * 4.0f) + sp10C.y;
                 sp100.z = (spE8[2] * 4.0f) + sp10C.z;
 
-                currentReflection->mtx.zw = 0.0f;
+                reflection[i].mtx.zw = 0.0f;
 
-                if (1) {}
-                if (1) {}
-                if (1) {}
-                if (1) {} // All four required to match
-
-                currentReflection->mtx.xx = currentReflection->mtx.yy = currentReflection->mtx.zz =
-                    currentReflection->mtx.ww = 1.0f;
-                currentReflection->mtx.yx = currentReflection->mtx.zx = currentReflection->mtx.wx =
-                    currentReflection->mtx.xy = currentReflection->mtx.zy = currentReflection->mtx.wy =
-                        currentReflection->mtx.xz = currentReflection->mtx.yz = currentReflection->mtx.wz =
-                            currentReflection->mtx.xw = currentReflection->mtx.yw = currentReflection->mtx.zw;
+                reflection[i].mtx.xx = reflection[i].mtx.yy = reflection[i].mtx.zz = reflection[i].mtx.ww = 1.0f;
+                reflection[i].mtx.yx = reflection[i].mtx.zx = reflection[i].mtx.wx = reflection[i].mtx.xy =
+                    reflection[i].mtx.zy = reflection[i].mtx.wy = reflection[i].mtx.xz = reflection[i].mtx.yz =
+                        reflection[i].mtx.wz = reflection[i].mtx.xw = reflection[i].mtx.yw = reflection[i].mtx.zw;
 
                 if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
-                                          currentReflection->reflectionPoly->dist, &sp10C, &sp100, &intersection, 1)) {
-                    currentReflection->mtx.xx = intersection.x - sp118.x;
-                    currentReflection->mtx.yx = intersection.y - sp118.y;
-                    currentReflection->mtx.zx = intersection.z - sp118.z;
+                                          reflection[i].reflectionPoly->dist, &sp10C, &sp100, &intersection, 1)) {
+                    reflection[i].mtx.xx = intersection.x - sp118.x;
+                    reflection[i].mtx.yx = intersection.y - sp118.y;
+                    reflection[i].mtx.zx = intersection.z - sp118.z;
                 }
 
                 sp10C.x = (shieldMtx->xy * 100.0f) + vecB.x;
@@ -461,13 +452,13 @@ void MirRay_ReflectedBeam(MirRay* this, PlayState* play, MirRayShieldReflection*
                 sp100.z = (spE8[2] * 4.0f) + sp10C.z;
 
                 if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
-                                          currentReflection->reflectionPoly->dist, &sp10C, &sp100, &intersection, 1)) {
-                    currentReflection->mtx.xy = intersection.x - sp118.x;
-                    currentReflection->mtx.yy = intersection.y - sp118.y;
-                    currentReflection->mtx.zy = intersection.z - sp118.z;
+                                          reflection[i].reflectionPoly->dist, &sp10C, &sp100, &intersection, 1)) {
+                    reflection[i].mtx.xy = intersection.x - sp118.x;
+                    reflection[i].mtx.yy = intersection.y - sp118.y;
+                    reflection[i].mtx.zy = intersection.z - sp118.z;
                 }
             } else {
-                currentReflection->reflectionPoly = NULL;
+                reflection[i].reflectionPoly = NULL;
             }
         }
     }
@@ -543,7 +534,7 @@ s32 MirRay_CheckInFrustum(Vec3f* vecA, Vec3f* vecB, f32 pointx, f32 pointy, f32 
     vecdiff.x = vecB->x - vecA->x;
     vecdiff.y = vecB->y - vecA->y;
     vecdiff.z = vecB->z - vecA->z;
-    if (1) {}
+
     dist = SQ(vecdiff.x) + SQ(vecdiff.y) + SQ(vecdiff.z);
 
     if (dist == 0.0f) {
@@ -564,7 +555,6 @@ s32 MirRay_CheckInFrustum(Vec3f* vecA, Vec3f* vecB, f32 pointx, f32 pointy, f32 
     // If the Point is within the bounding double cone, check if it is in the frustum by checking whether it is between
     // the bounding planes
     if ((SQ(closestPtx - pointx) + SQ(closestPty - pointy) + SQ(closestPtz - pointz)) <= SQ(coneRadius)) {
-        if (1) {}
 
         // Stores the vector difference again
         Math_Vec3f_Diff(vecB, vecA, &sp5C);

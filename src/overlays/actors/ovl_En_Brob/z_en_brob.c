@@ -22,7 +22,7 @@ void func_809CB2B8(EnBrob* this, PlayState* play);
 void func_809CB354(EnBrob* this, PlayState* play);
 void func_809CB458(EnBrob* this, PlayState* play);
 
-const ActorInit En_Brob_InitVars = {
+ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -63,7 +63,7 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
 
     SkelAnime_InitFlex(play, &this->skelAnime, &object_brob_Skel_0015D8, &object_brob_Anim_001750, this->jointTable,
                        this->morphTable, 10);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_brob_Col_001A70, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     Collider_InitCylinder(play, &this->colliders[0]);
@@ -128,7 +128,7 @@ void func_809CAEF4(EnBrob* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_brob_Anim_000290, -5.0f);
     this->unk_1AE -= 125.0f;
     Actor_SetColorFilter(&this->dyna.actor, 0, 0xFF, 0, 0x50);
-    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_809CB2B8;
 }
 
@@ -181,7 +181,7 @@ void func_809CB114(EnBrob* this, PlayState* play) {
 void func_809CB218(EnBrob* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 6.0f) || Animation_OnFrame(&this->skelAnime, 15.0f)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_BROB_WAVE);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_BROB_WAVE);
     }
     if (this->timer != 0) {
         this->timer--;

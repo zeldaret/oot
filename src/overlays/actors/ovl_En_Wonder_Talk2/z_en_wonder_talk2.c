@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wonder_talk2.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
 
@@ -19,7 +19,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play);
 void func_80B3A3D4(EnWonderTalk2* this, PlayState* play);
 void EnWonderTalk2_DoNothing(EnWonderTalk2* this, PlayState* play);
 
-const ActorInit En_Wonder_Talk2_InitVars = {
+ActorInit En_Wonder_Talk2_InitVars = {
     ACTOR_EN_WONDER_TALK2,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -84,7 +84,7 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    if ((this->talkMode == 1) && (play->sceneNum == SCENE_MEN) && (this->switchFlag != 0x08) &&
+    if ((this->talkMode == 1) && (play->sceneId == SCENE_GERUDO_TRAINING_GROUND) && (this->switchFlag != 0x08) &&
         (this->switchFlag != 0x16) && (this->switchFlag != 0x2F)) {
 
         this->unk_15A = false;

@@ -18,7 +18,7 @@ void MagicDark_DiamondDraw(Actor* thisx, PlayState* play);
 
 void MagicDark_DimLighting(PlayState* play, f32 intensity);
 
-const ActorInit Magic_Dark_InitVars = {
+ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -230,8 +230,9 @@ void MagicDark_DiamondDraw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s32)(this->primAlpha * 0.6f) & 0xFF);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
         gSPDisplayList(POLY_XLU_DISP++, sDiamondMaterialDL);
-        gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, gameplayFrames * 2, gameplayFrames * -4,
-                                                         32, 32, 1, 0, gameplayFrames * -16, 64, 32));
+        gSPDisplayList(POLY_XLU_DISP++,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 2, gameplayFrames * -4,
+                                        32, 32, 1, 0, gameplayFrames * -16, 64, 32));
         gSPDisplayList(POLY_XLU_DISP++, sDiamondModelDL);
     }
 

@@ -9,7 +9,7 @@ typedef enum {
     /* 4 */ BANK_SYSTEM,
     /* 5 */ BANK_OCARINA,
     /* 6 */ BANK_VOICE
-} SoundBankType;
+} SfxBankType;
 
 typedef enum {
     /* 0 */ SFX_STATE_EMPTY,
@@ -39,7 +39,7 @@ typedef struct {
     /* 0x2D */ u8       next;
     /* 0x2E */ u8       channelIdx;
     /* 0x2F */ u8       unk_2F;
-} SoundBankEntry; // size = 0x30
+} SfxBankEntry; // size = 0x30
 
 /*
  * SFX IDs
@@ -58,6 +58,7 @@ typedef struct {
 #define DEFINE_SFX(enum, _1, _2, _3, _4) enum,
 
 typedef enum {
+    NA_SE_NONE, // Requesting a sfx with this id will play no sound
     NA_SE_PL_BASE = 0x7FF,
     #include "tables/sfx/playerbank_table.h"
     NA_SE_IT_BASE = 0x17FF,
@@ -89,9 +90,9 @@ typedef enum {
 typedef struct {
     u32 priority; // lower is more prioritized
     u8 entryIndex;
-} ActiveSound;
+} ActiveSfx;
 
-// SoundParams bit-packing
+// SfxParams bit-packing
 
 #define SFX_PARAM_01_SHIFT 0
 #define SFX_PARAM_01_MASK (3 << SFX_PARAM_01_SHIFT)
@@ -116,6 +117,6 @@ typedef struct {
 typedef struct {
     u8 importance;
     u16 params;
-} SoundParams;
+} SfxParams;
 
 #endif

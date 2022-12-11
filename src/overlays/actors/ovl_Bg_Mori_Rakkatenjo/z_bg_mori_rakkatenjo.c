@@ -6,6 +6,7 @@
 
 #include "z_bg_mori_rakkatenjo.h"
 #include "assets/objects/object_mori_objects/object_mori_objects.h"
+#include "quake.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -27,7 +28,7 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play);
 
 static s16 sCamSetting = CAM_SET_NONE;
 
-const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
+ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     ACTOR_BG_MORI_RAKKATENJO,
     ACTORCAT_BG,
     FLAGS,
@@ -50,7 +51,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     // "Forest Temple obj. Falling Ceiling"
     osSyncPrintf("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
@@ -146,7 +147,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, PlayState* play) {
     static f32 bounceVel[] = { 4.0f, 1.5f, 0.4f, 0.1f };
     s32 pad;
     Actor* thisx = &this->dyna.actor;
-    s32 quake;
+    s32 quakeIndex;
 
     Actor_MoveForward(thisx);
     if ((thisx->velocity.y < 0.0f) && (thisx->world.pos.y <= 403.0f)) {
@@ -156,16 +157,17 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, PlayState* play) {
             if (this->bounceCount == 0) {
                 this->fallCount++;
                 func_800788CC(NA_SE_EV_STONE_BOUND);
-                func_800AA000(SQ(thisx->yDistToPlayer), 0xFF, 0x14, 0x96);
+                Rumble_Request(SQ(thisx->yDistToPlayer), 255, 20, 150);
             }
             thisx->world.pos.y =
                 403.0f - (thisx->world.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
             thisx->velocity.y = bounceVel[this->bounceCount];
             this->bounceCount++;
-            quake = Quake_Add(GET_ACTIVE_CAM(play), 3);
-            Quake_SetSpeed(quake, 50000);
-            Quake_SetQuakeValues(quake, 5, 0, 0, 0);
-            Quake_SetCountdown(quake, 5);
+
+            quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+            Quake_SetSpeed(quakeIndex, 50000);
+            Quake_SetPerturbations(quakeIndex, 5, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 5);
         }
     }
 }

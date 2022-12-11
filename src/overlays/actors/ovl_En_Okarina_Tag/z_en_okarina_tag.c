@@ -7,7 +7,7 @@
 #include "z_en_okarina_tag.h"
 #include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -22,7 +22,7 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play);
 void func_80ABF4C8(EnOkarinaTag* this, PlayState* play);
 void func_80ABF7CC(EnOkarinaTag* this, PlayState* play);
 
-const ActorInit En_Okarina_Tag_InitVars = {
+ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
     ACTORCAT_PROP,
     FLAGS,
@@ -149,10 +149,11 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
             if (this->switchFlag >= 0) {
                 Flags_SetSwitch(play, this->switchFlag);
             }
-            if (play->sceneNum == SCENE_MIZUSIN) {
+            if (play->sceneId == SCENE_WATER_TEMPLE) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
             }
-            if ((play->sceneNum != SCENE_DAIYOUSEI_IZUMI) && (play->sceneNum != SCENE_YOUSEI_IZUMI_YOKO)) {
+            if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) &&
+                (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS)) {
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -243,15 +244,17 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
             case 2:
                 play->csCtx.segment = D_80ABF9D0;
                 gSaveContext.cutsceneTrigger = 1;
-                func_800F574C(1.18921f, 0x5A);
+                // Increase pitch by 3 semitones i.e. 2^(3/12), scale tempo by same ratio
+                // Applies to the windmill bgm once the song of storms fanfare is complete
+                Audio_SetMainBgmTempoFreqAfterFanfare(1.18921f, 90);
                 break;
             case 4:
                 play->csCtx.segment = D_80ABFB40;
                 gSaveContext.cutsceneTrigger = 1;
                 break;
             case 6:
-                play->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_003C80)
-                                                    : SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_005020);
+                play->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
+                                                    : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -304,7 +307,7 @@ void func_80ABF7CC(EnOkarinaTag* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (!CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gSunSongGraveSunSongTeachCs);
+            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSunSongGraveSunSongTeachCs);
             gSaveContext.cutsceneTrigger = 1;
         }
         this->actionFunc = func_80ABF708;

@@ -6,7 +6,7 @@
 
 #include "z_demo_gj.h"
 #include "assets/objects/object_gj/object_gj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -137,7 +137,7 @@ void DemoGj_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DemoGj_PlayExplosionSfx(DemoGj* this, PlayState* play) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGj_SpawnSmoke(PlayState* play, Vec3f* pos, f32 arg2) {
@@ -202,8 +202,8 @@ void DemoGj_Explode(DemoGj* this, PlayState* play, Vec3f* initialPos, Vec3f* dir
     DemoGj_PlayExplosionSfx(this, play);
 }
 
-s32 DemoGj_IsSceneInvalid(void) {
-    if (gSaveContext.sceneSetupIndex < 4) {
+s32 DemoGj_IsCutsceneLayer(void) {
+    if (!IS_CUTSCENE_LAYER) {
         return false;
     }
     return true;
@@ -243,7 +243,7 @@ void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
 
     if (header != NULL) {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, 0);
         newHeader = NULL;
         CollisionHeader_GetVirtual(header, &newHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, newHeader);
@@ -252,7 +252,7 @@ void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
 
 // TODO: find a better name
 s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 drawConfig, CollisionHeader* header) {
-    if (!DemoGj_IsSceneInvalid()) {
+    if (!DemoGj_IsCutsceneLayer()) {
         this->updateMode = updateMode;
         this->drawConfig = drawConfig;
         DemoGj_InitCommon(this, play, header);
@@ -1444,7 +1444,7 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawConfig](this, play);
 }
 
-const ActorInit Demo_Gj_InitVars = {
+ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
     ACTORCAT_PROP,
     FLAGS,

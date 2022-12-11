@@ -6,7 +6,7 @@
 
 #include "z_demo_go.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -37,7 +37,7 @@ static DemoGoDrawFunc D_8097D468[] = {
     func_8097D29C,
 };
 
-const ActorInit Demo_Go_InitVars = {
+ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
     ACTORCAT_NPC,
     FLAGS,
@@ -75,7 +75,7 @@ void func_8097C8A8(DemoGo* this, PlayState* play) {
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
         SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &thisx->world.pos, &sp20, &sp1C);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &sp20, 20, NA_SE_EV_OBJECT_FALL);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
 
@@ -303,7 +303,7 @@ void func_8097D130(DemoGo* this, PlayState* play) {
 void DemoGo_Update(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
 
-    if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == 0) {
+    if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

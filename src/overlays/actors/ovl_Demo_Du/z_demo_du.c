@@ -2,7 +2,7 @@
 #include "assets/objects/object_du/object_du.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -17,7 +17,7 @@ void DemoDu_Draw(Actor* thisx, PlayState* play);
 static s32 sUnused = 0;
 
 #pragma asmproc recurse
-#include "z_demo_du_cutscene_data.c"
+#include "z_demo_du_cutscene_data.inc.c"
 
 static void* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
 static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinningTex, gDaruniaMouthOpenTex,
@@ -194,7 +194,7 @@ void func_80969FB4(DemoDu* this, PlayState* play) {
 void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 1) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((gSaveContext.chamberCutsceneNum == 1) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(1);
@@ -320,8 +320,8 @@ void DemoDu_CsPlaySfx_DaruniaHitsLink(PlayState* play) {
     s32 pad;
 
     func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
-    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    Audio_PlaySfxGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
@@ -335,8 +335,8 @@ void DemoDu_CsPlaySfx_LinkEscapeFromGorons(PlayState* play) {
     if (play->csCtx.frames == 1400) {
         Player* player = GET_PLAYER(play);
 
-        Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -346,8 +346,8 @@ void DemoDu_CsPlaySfx_LinkSurprised(PlayState* play) {
     if (play->csCtx.frames == 174) {
         Player* player = GET_PLAYER(play);
 
-        Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -454,9 +454,9 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, PlayState* play) {
             endPos.y = npcAction->endPos.y;
             endPos.z = npcAction->endPos.z;
 
-            pos->x = ((endPos.x - startPos.x) * traveledPercent) + startPos.x;
-            pos->y = ((endPos.y - startPos.y) * traveledPercent) + startPos.y;
-            pos->z = ((endPos.z - startPos.z) * traveledPercent) + startPos.z;
+            pos->x = LERP(startPos.x, endPos.x, traveledPercent);
+            pos->y = LERP(startPos.y, endPos.y, traveledPercent);
+            pos->z = LERP(startPos.z, endPos.z, traveledPercent);
         }
     }
 }
@@ -1033,7 +1033,7 @@ void DemoDu_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawIndex](thisx, play);
 }
 
-const ActorInit Demo_Du_InitVars = {
+ActorInit Demo_Du_InitVars = {
     ACTOR_DEMO_DU,
     ACTORCAT_NPC,
     FLAGS,

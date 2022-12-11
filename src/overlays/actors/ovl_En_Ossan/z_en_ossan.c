@@ -1,5 +1,5 @@
 #include "z_en_ossan.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
@@ -100,7 +100,7 @@ void EnOssan_SetStateGiveDiscountDialog(PlayState* play, EnOssan* this);
 
 #define CURSOR_INVALID 0xFF
 
-const ActorInit En_Ossan_InitVars = {
+ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
     ACTORCAT_NPC,
     FLAGS,
@@ -201,7 +201,7 @@ static ShopItem sShopkeeperStores[][8] = {
       { SI_DEKU_SEEDS_30, -50, 52, -20 },
       { SI_ARROWS_10, -50, 76, -20 },
       { SI_ARROWS_30, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_GREEN_POTION, 50, 52, -20 },
       { SI_BLUE_FIRE, 50, 76, -20 },
@@ -233,7 +233,7 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_HYLIAN_SHIELD, 50, 52, -20 },
       { SI_BOMBS_5_R35, 50, 76, -20 },
       { SI_DEKU_NUTS_5, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_ARROWS_10, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
       { SI_DEKU_STICK, -80, 52, -3 },
@@ -242,7 +242,7 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_HYLIAN_SHIELD, 50, 52, -20 },
       { SI_BOMBS_5_R25, 50, 76, -20 },
       { SI_DEKU_NUTS_5, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_ARROWS_10, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
       { SI_DEKU_STICK, -80, 52, -3 },
@@ -251,15 +251,15 @@ static ShopItem sShopkeeperStores[][8] = {
     { { SI_MILK_BOTTLE, 50, 52, -20 },
       { SI_DEKU_NUTS_5, 50, 76, -20 },
       { SI_DEKU_NUTS_10, 80, 52, -3 },
-      { SI_HEART, 80, 76, -3 },
+      { SI_RECOVERY_HEART, 80, 76, -3 },
       { SI_WEIRD_EGG, -50, 52, -20 },
       { SI_DEKU_STICK, -50, 76, -20 },
-      { SI_HEART, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 52, -3 },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_ZORA_TUNIC, 50, 52, -20 },
       { SI_ARROWS_10, 50, 76, -20 },
-      { SI_HEART, 80, 52, -3 },
+      { SI_RECOVERY_HEART, 80, 52, -3 },
       { SI_ARROWS_30, 80, 76, -3 },
       { SI_DEKU_NUTS_5, -50, 52, -20 },
       { SI_ARROWS_50, -50, 76, -20 },
@@ -271,9 +271,9 @@ static ShopItem sShopkeeperStores[][8] = {
       { SI_BOMBS_20, 80, 52, -3 },
       { SI_BOMBS_30, 80, 76, -3 },
       { SI_GORON_TUNIC, -50, 52, -20 },
-      { SI_HEART, -50, 76, -20 },
+      { SI_RECOVERY_HEART, -50, 76, -20 },
       { SI_RED_POTION_R40, -80, 52, -3 },
-      { SI_HEART, -80, 76, -3 } },
+      { SI_RECOVERY_HEART, -80, 76, -3 } },
 
     { { SI_19, 50, 52, -20 },
       { SI_19, 50, 76, -20 },
@@ -471,7 +471,7 @@ void EnOssan_TalkDefaultShopkeeper(PlayState* play) {
 }
 
 void EnOssan_TalkKakarikoPotionShopkeeper(PlayState* play) {
-    if (play->curSpawn == 0) {
+    if (play->spawn == 0) {
         Message_ContinueTextbox(play, 0x5046);
     } else {
         Message_ContinueTextbox(play, 0x504E);
@@ -487,7 +487,7 @@ void EnOssan_TalkKokiriShopkeeper(PlayState* play) {
 }
 
 void EnOssan_TalkBazaarShopkeeper(PlayState* play) {
-    if (play->curSpawn == 0) {
+    if (play->spawn == 0) {
         Message_ContinueTextbox(play, 0x9D);
     } else {
         Message_ContinueTextbox(play, 0x9C);
@@ -654,7 +654,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
     Play_SetViewpoint(play, VIEWPOINT_LOCKED);
-    Interface_ChangeAlpha(50);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->drawCursor = 0;
     this->stickLeftPrompt.isEnabled = false;
     this->stickRightPrompt.isEnabled = false;
@@ -1323,7 +1323,7 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
     Play_SetViewpoint(play, VIEWPOINT_LOCKED);
-    Interface_ChangeAlpha(50);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->drawCursor = 0;
     EnOssan_UpdateCameraDirection(this, play, 0.0f);
     this->stateFlag = OSSAN_STATE_GIVE_ITEM_FANFARE;
@@ -2017,19 +2017,19 @@ void EnOssan_InitZoraShopkeeper(EnOssan* this, PlayState* play) {
 }
 
 void EnOssan_InitPotionShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_ds2_Skel_004258, &object_ds2_Anim_0002E4, 0, 0, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_ds2_Skel_004258, &object_ds2_Anim_0002E4, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawPotionShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }
 
 void EnOssan_InitHappyMaskShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_os_Skel_004658, &object_os_Anim_0002E4, NULL, NULL, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gHappyMaskSalesmanSkel, &gHappyMaskSalesmanIdleAnim, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawHappyMaskShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }
 
 void EnOssan_InitBombchuShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_rs_Skel_004868, &object_rs_Anim_00065C, 0, 0, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBombchuShopkeeperSkel, &gBombchuShopkeeperIdleAnim, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawBombchuShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }
@@ -2264,7 +2264,7 @@ void EnOssan_DrawCursor(PlayState* play, EnOssan* this, f32 x, f32 y, f32 z, u8 
 
 void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 dx,
                          f32 dy) {
-    f32 unk;
+    f32 texCoordScale;
     s32 ulx, uly, lrx, lry;
     f32 w, h;
     s32 dsdx, dtdy;
@@ -2275,9 +2275,9 @@ void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32
 
     w = 8.0f * z;
     h = 12.0f * z;
-    unk = (1.0f / z) * 1024;
-    dsdx = unk * dx;
-    dtdy = dy * unk;
+    texCoordScale = (1.0f / z) * 1024;
+    dsdx = texCoordScale * dx;
+    dtdy = dy * texCoordScale;
 
     ulx = (x - w) * 4.0f;
     uly = (y - h) * 4.0f;
@@ -2454,8 +2454,11 @@ void EnOssan_DrawZoraShopkeeper(Actor* thisx, PlayState* play) {
 }
 
 void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
-    static void* sPotionShopkeeperEyeTextures[] = { gPotionShopkeeperEyeOpenTex, gPotionShopkeeperEyeHalfTex,
-                                                    gPotionShopkeeperEyeClosedTex };
+    static void* sPotionShopkeeperEyeTextures[] = {
+        gPotionShopkeeperEyeOpenTex,
+        gPotionShopkeeperEyeHalfTex,
+        gPotionShopkeeperEyeClosedTex,
+    };
     EnOssan* this = (EnOssan*)thisx;
     s32 pad;
 
@@ -2472,7 +2475,7 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
 }
 
 void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
-    static void* sHappyMaskShopkeeperEyeTextures[] = { gOsEyeClosedTex, gOsEyeOpenTex };
+    static void* sHappyMaskShopkeeperEyeTextures[] = { gHappyMaskSalesmanEyeClosedTex, gHappyMaskSalesmanEyeOpenTex };
     EnOssan* this = (EnOssan*)thisx;
     s32 pad;
 
@@ -2491,8 +2494,11 @@ void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
 }
 
 void EnOssan_DrawBombchuShopkeeper(Actor* thisx, PlayState* play) {
-    static void* sBombchuShopkeeperEyeTextures[] = { gBombchuShopkeeperEyeOpenTex, gBombchuShopkeeperEyeHalfTex,
-                                                     gBombchuShopkeeperEyeClosedTex };
+    static void* sBombchuShopkeeperEyeTextures[] = {
+        gBombchuShopkeeperEyeOpenTex,
+        gBombchuShopkeeperEyeHalfTex,
+        gBombchuShopkeeperEyeClosedTex,
+    };
     EnOssan* this = (EnOssan*)thisx;
     s32 pad;
 

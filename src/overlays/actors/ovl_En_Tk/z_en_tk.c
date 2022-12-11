@@ -20,7 +20,7 @@ void EnTk_Rest(EnTk* this, PlayState* play);
 void EnTk_Walk(EnTk* this, PlayState* play);
 void EnTk_Dig(EnTk* this, PlayState* play);
 
-const ActorInit En_Tk_InitVars = {
+ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
     ACTORCAT_NPC,
     FLAGS,
@@ -277,7 +277,7 @@ f32 EnTk_Step(EnTk* this, PlayState* play) {
     s32 i;
 
     if (this->skelAnime.curFrame == 0.0f || this->skelAnime.curFrame == 25.0f) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
     }
 
     if (this->skelAnime.animation != &gDampeWalkAnim) {
@@ -308,7 +308,7 @@ s32 EnTk_Orient(EnTk* this, PlayState* play) {
         return 1;
     }
 
-    path = &play->setupPathList[0];
+    path = &play->pathList[0];
     point = SEGMENTED_TO_VIRTUAL(path->points);
     point += this->currentWaypoint;
 
@@ -348,7 +348,7 @@ u16 func_80B1C54C(PlayState* play, Actor* thisx) {
 }
 
 s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
-    s32 ret = 1;
+    s32 ret = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
@@ -359,7 +359,7 @@ s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
             if (thisx->textId == 0x5028) {
                 SET_INFTABLE(INFTABLE_D8);
             }
-            ret = 0;
+            ret = NPC_TALK_STATE_IDLE;
             break;
         case TEXT_STATE_DONE_FADING:
             break;
@@ -375,7 +375,7 @@ s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
                     play->msgCtx.msgMode = MSGMODE_PAUSED;
                     Rupees_ChangeBy(-10);
                     SET_INFTABLE(INFTABLE_D9);
-                    return 2;
+                    return NPC_TALK_STATE_ACTION;
                 }
                 Message_ContinueTextbox(play, thisx->textId);
                 SET_INFTABLE(INFTABLE_D9);
@@ -384,7 +384,7 @@ s16 func_80B1C5A0(PlayState* play, Actor* thisx) {
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
                 Message_CloseTextbox(play);
-                ret = 0;
+                ret = NPC_TALK_STATE_IDLE;
             }
             break;
         case TEXT_STATE_DONE:
@@ -492,7 +492,7 @@ void EnTk_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (gSaveContext.dayTime <= CLOCK_TIME(18, 0) || gSaveContext.dayTime >= CLOCK_TIME(21, 0) || LINK_IS_ADULT ||
-        play->sceneNum != SCENE_SPOT02) {
+        play->sceneId != SCENE_GRAVEYARD) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -516,35 +516,35 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
     s16 v1;
     s16 a1_;
 
-    if (this->h_1E0 != 0) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
-        if (this->h_1E0 == 2) {
+        if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
             EnTk_DigAnim(this, play);
-            this->h_1E0 = 0;
+            this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
             this->actionFunc = EnTk_Dig;
             return;
         }
 
-        func_800343CC(play, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
-                      func_80B1C5A0);
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
+                          func_80B1C54C, func_80B1C5A0);
     } else if (EnTk_CheckFacingPlayer(this)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
-        func_800343CC(play, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
-                      func_80B1C5A0);
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
+                          func_80B1C54C, func_80B1C5A0);
     } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
-        this->h_1E0 = 1;
+        this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
     } else if (DECR(this->actionCountdown) == 0) {
         EnTk_WalkAnim(this, play);
         this->actionFunc = EnTk_Walk;
@@ -559,9 +559,9 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
 }
 
 void EnTk_Walk(EnTk* this, PlayState* play) {
-    if (this->h_1E0 == 2) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         EnTk_DigAnim(this, play);
-        this->h_1E0 = 0;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnTk_Dig;
     } else {
         this->actor.speedXZ = EnTk_Step(this, play);
@@ -588,7 +588,7 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
 
     if (this->skelAnime.curFrame == 32.0f) {
         /* What's gonna come out? */
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIG_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_DIG_UP);
 
         this->rewardTimer = 0;
 
@@ -621,17 +621,17 @@ void EnTk_Dig(EnTk* this, PlayState* play) {
     }
 
     if (this->skelAnime.curFrame >= 32.0f && this->rewardTimer == 10) {
-        /* Play a reward sound shortly after digging */
+        /* Play a reward sound effect shortly after digging */
         if (this->validDigHere == 0) {
             /* Bad dig spot */
-            Audio_PlayActorSound2(&this->actor, NA_SE_SY_ERROR);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_SY_ERROR);
         } else if (this->currentReward == 4) {
             /* Heart piece */
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
             /* Rupee */
-            Audio_PlayActorSound2(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
     this->rewardTimer++;

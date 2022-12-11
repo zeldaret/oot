@@ -14,7 +14,7 @@ void BgHidanRsekizou_Destroy(Actor* thisx, PlayState* play);
 void BgHidanRsekizou_Update(Actor* thisx, PlayState* play);
 void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Hidan_Rsekizou_InitVars = {
+ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
     ACTORCAT_BG,
     FLAGS,
@@ -127,7 +127,7 @@ void BgHidanRsekizou_Init(Actor* thisx, PlayState* play) {
 
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gFireTempleSpinningFlamethrowerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(play, &this->collider);

@@ -20,17 +20,17 @@ void GameOver_Update(PlayState* play) {
     GameOverContext* gameOverCtx = &play->gameOverCtx;
     s16 i;
     s16 j;
-    s32 v90;
-    s32 v91;
-    s32 v92;
+    s32 rumbleStrength;
+    s32 rumbleDuration;
+    s32 rumbleDecreaseRate;
 
     switch (gameOverCtx->state) {
         case GAMEOVER_DEATH_START:
             Message_CloseTextbox(play);
 
-            gSaveContext.timer1State = 0;
-            gSaveContext.timer2State = 0;
-            CLEAR_EVENTINF(EVENTINF_10);
+            gSaveContext.timerState = TIMER_STATE_OFF;
+            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
+            CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
 
             // search inventory for spoiling items and revert if necessary
             for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {
@@ -50,8 +50,8 @@ void GameOver_Update(PlayState* play) {
             // restore "temporary B" to the B Button if not a sword item
             if (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI &&
                 gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE) {
+                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON &&
+                gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE) {
 
                 if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
                     gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
@@ -70,17 +70,20 @@ void GameOver_Update(PlayState* play) {
             gSaveContext.eventInf[3] = 0;
             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                 gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
-            gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
+            gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
+                gSaveContext.hudVisibilityModeTimer = 0; // false, HUD_VISIBILITY_NO_CHANGE
 
             Environment_InitGameOverLights(play);
             gGameOverTimer = 20;
-            if (1) {}
-            v90 = VREG(90);
-            v91 = VREG(91);
-            v92 = VREG(92);
 
-            func_800AA000(0.0f, ((v90 > 0x64) ? 0xFF : (v90 * 0xFF) / 0x64), (CLAMP_MAX(v91 * 3, 0xFF)),
-                          ((v92 > 0x64) ? 0xFF : (v92 * 0xFF) / 0x64));
+            if (1) {}
+            rumbleStrength = R_GAME_OVER_RUMBLE_STRENGTH;
+            rumbleDuration = R_GAME_OVER_RUMBLE_DURATION;
+            rumbleDecreaseRate = R_GAME_OVER_RUMBLE_DECREASE_RATE;
+
+            Rumble_Request(0.0f, ((rumbleStrength > 100) ? 255 : (rumbleStrength * 255) / 100),
+                           (CLAMP_MAX(rumbleDuration * 3, 255)),
+                           ((rumbleDecreaseRate > 100) ? 255 : (rumbleDecreaseRate * 255) / 100));
 
             gameOverCtx->state = GAMEOVER_DEATH_WAIT_GROUND;
             break;
@@ -94,7 +97,7 @@ void GameOver_Update(PlayState* play) {
             if (gGameOverTimer == 0) {
                 play->pauseCtx.state = 8;
                 gameOverCtx->state++;
-                func_800AA15C();
+                Rumble_Reset();
             }
             break;
 
@@ -102,20 +105,21 @@ void GameOver_Update(PlayState* play) {
             gameOverCtx->state++;
             gGameOverTimer = 0;
             Environment_InitGameOverLights(play);
-            ShrinkWindow_SetVal(0x20);
+            Letterbox_SetSizeTarget(32);
             return;
 
         case GAMEOVER_REVIVE_RUMBLE:
             gGameOverTimer = 50;
             gameOverCtx->state++;
+
             if (1) {}
+            rumbleStrength = R_GAME_OVER_RUMBLE_STRENGTH;
+            rumbleDuration = R_GAME_OVER_RUMBLE_DURATION;
+            rumbleDecreaseRate = R_GAME_OVER_RUMBLE_DECREASE_RATE;
 
-            v90 = VREG(90);
-            v91 = VREG(91);
-            v92 = VREG(92);
-
-            func_800AA000(0.0f, ((v90 > 0x64) ? 0xFF : (v90 * 0xFF) / 0x64), (CLAMP_MAX(v91 * 3, 0xFF)),
-                          ((v92 > 0x64) ? 0xFF : (v92 * 0xFF) / 0x64));
+            Rumble_Request(0.0f, ((rumbleStrength > 100) ? 255 : (rumbleStrength * 255) / 100),
+                           (CLAMP_MAX(rumbleDuration * 3, 255)),
+                           ((rumbleDecreaseRate > 100) ? 255 : (rumbleDecreaseRate * 255) / 100));
             break;
 
         case GAMEOVER_REVIVE_WAIT_GROUND:

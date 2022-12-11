@@ -15,7 +15,7 @@ void ObjRoomtimer_Update(Actor* thisx, PlayState* play);
 void func_80B9D054(ObjRoomtimer* this, PlayState* play);
 void func_80B9D0B0(ObjRoomtimer* this, PlayState* play);
 
-const ActorInit Obj_Roomtimer_InitVars = {
+ActorInit Obj_Roomtimer_InitVars = {
     ACTOR_OBJ_ROOMTIMER,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -49,14 +49,14 @@ void ObjRoomtimer_Init(Actor* thisx, PlayState* play) {
 void ObjRoomtimer_Destroy(Actor* thisx, PlayState* play) {
     ObjRoomtimer* this = (ObjRoomtimer*)thisx;
 
-    if ((this->actor.params != 0x3FF) && (gSaveContext.timer1Value > 0)) {
-        gSaveContext.timer1State = 10;
+    if ((this->actor.params != 0x3FF) && (gSaveContext.timerSeconds > 0)) {
+        gSaveContext.timerState = TIMER_STATE_STOP;
     }
 }
 
 void func_80B9D054(ObjRoomtimer* this, PlayState* play) {
     if (this->actor.params != 0x3FF) {
-        func_80088B34(this->actor.params);
+        Interface_SetTimer(this->actor.params);
     }
 
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
@@ -66,19 +66,20 @@ void func_80B9D054(ObjRoomtimer* this, PlayState* play) {
 void func_80B9D0B0(ObjRoomtimer* this, PlayState* play) {
     if (Flags_GetTempClear(play, this->actor.room)) {
         if (this->actor.params != 0x3FF) {
-            gSaveContext.timer1State = 10;
+            gSaveContext.timerState = TIMER_STATE_STOP;
         }
         Flags_SetClear(play, this->actor.room);
         Flags_SetSwitch(play, this->switchFlag);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->actor);
-    } else {
-        if ((this->actor.params != 0x3FF) && (gSaveContext.timer1Value == 0)) {
-            Audio_PlaySoundGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            Play_TriggerVoidOut(play);
-            Actor_Kill(&this->actor);
-        }
+        return;
+    }
+
+    if ((this->actor.params != 0x3FF) && (gSaveContext.timerSeconds == 0)) {
+        Audio_PlaySfxGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Play_TriggerVoidOut(play);
+        Actor_Kill(&this->actor);
     }
 }
 

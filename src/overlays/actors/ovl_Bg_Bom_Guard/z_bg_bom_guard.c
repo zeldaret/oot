@@ -7,7 +7,7 @@
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 #include "assets/objects/object_bowl/object_bowl.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -17,7 +17,7 @@ void BgBomGuard_Update(Actor* thisx, PlayState* play);
 
 void func_8086E638(BgBomGuard* this, PlayState* play);
 
-const ActorInit Bg_Bom_Guard_InitVars = {
+ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
     ACTORCAT_PROP,
     FLAGS,
@@ -38,7 +38,7 @@ void BgBomGuard_Init(Actor* thisx, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gBowlingDefaultCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
@@ -64,7 +64,7 @@ void func_8086E638(BgBomGuard* this, PlayState* play) {
 
     this->unk_168 = 0;
 
-    while (it != 0) {
+    while (it != NULL) {
         if (it->id == ACTOR_EN_BOM_BOWL_MAN) {
             if ((((EnBomBowlMan*)it)->minigamePlayStatus != 0) && (fabsf(play->view.eye.x) > -20.0f) &&
                 (fabsf(play->view.eye.y) > 110.0f)) {

@@ -14,11 +14,11 @@ void EnHorseZelda_Destroy(Actor* thisx, PlayState* play);
 void EnHorseZelda_Update(Actor* thisx, PlayState* play);
 void EnHorseZelda_Draw(Actor* thisx, PlayState* play);
 
-void func_80A6DCCC(EnHorseZelda* this, PlayState* play);
-void func_80A6DDFC(EnHorseZelda* this, PlayState* play);
-void func_80A6DC7C(EnHorseZelda* this);
+void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play);
+void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play);
+void EnHorseZelda_SetupStop(EnHorseZelda* this);
 
-const ActorInit En_Horse_Zelda_InitVars = {
+ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
     ACTORCAT_BG,
     FLAGS,
@@ -83,16 +83,17 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 typedef struct {
-    /* 0x0 */ Vec3s unk_0;
-    /* 0x6 */ u8 unk_6;
-} unknownStruct; // size = 0x8
+    /* 0x0 */ Vec3s pos;
+    /* 0x6 */ u8 speed;
+} HorsePosSpeed; // size = 0x8
 
-static unknownStruct D_80A6E240[] = {
-    { -1682, -500, 12578, 0x07 }, { -3288, -500, 13013, 0x07 }, { -5142, -417, 11630, 0x07 },
-    { -5794, -473, 9573, 0x07 },  { -6765, -500, 8364, 0x07 },  { -6619, -393, 6919, 0x07 },
-    { -5193, 124, 5433, 0x07 },   { -2970, 2, 4537, 0x07 },     { -2949, -35, 4527, 0x07 },
-    { -1907, -47, 2978, 0x07 },   { 2488, 294, 3628, 0x07 },    { 3089, 378, 4713, 0x07 },
-    { 1614, -261, 7596, 0x07 },   { 754, -187, 9295, 0x07 },
+// these seem to be valid coords on Hyrule field, along with target speeds
+static HorsePosSpeed sHorseFieldPositions[] = {
+    { { -1682, -500, 12578 }, 7 }, { { -3288, -500, 13013 }, 7 }, { { -5142, -417, 11630 }, 7 },
+    { { -5794, -473, 9573 }, 7 },  { { -6765, -500, 8364 }, 7 },  { { -6619, -393, 6919 }, 7 },
+    { { -5193, 124, 5433 }, 7 },   { { -2970, 2, 4537 }, 7 },     { { -2949, -35, 4527 }, 7 },
+    { { -1907, -47, 2978 }, 7 },   { { 2488, 294, 3628 }, 7 },    { { 3089, 378, 4713 }, 7 },
+    { { 1614, -261, 7596 }, 7 },   { { 754, -187, 9295 }, 7 },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -100,34 +101,34 @@ static InitChainEntry sInitChain[] = {
 };
 
 static EnHorseZeldaActionFunc sActionFuncs[] = {
-    func_80A6DCCC,
-    func_80A6DDFC,
+    EnHorseZelda_Stop,
+    EnHorseZelda_Gallop,
 };
 
-void func_80A6D8D0(unknownStruct* data, s32 index, Vec3f* vec) {
-    vec->x = data[index].unk_0.x;
-    vec->y = data[index].unk_0.y;
-    vec->z = data[index].unk_0.z;
+void EnHorseZelda_GetFieldPosition(HorsePosSpeed* data, s32 index, Vec3f* fieldPos) {
+    fieldPos->x = data[index].pos.x;
+    fieldPos->y = data[index].pos.y;
+    fieldPos->z = data[index].pos.z;
 }
 
-void func_80A6D918(EnHorseZelda* this, PlayState* play) {
+void EnHorseZelda_Move(EnHorseZelda* this, PlayState* play) {
     s32 pad;
-    Vec3f sp28;
+    Vec3f fieldPos;
     s16 yawDiff;
 
-    func_80A6D8D0(D_80A6E240, this->unk_1EC, &sp28);
-    if (Math3D_Vec3f_DistXYZ(&sp28, &this->actor.world.pos) <= 400.0f) {
-        this->unk_1EC++;
-        if (this->unk_1EC >= 14) {
-            this->unk_1EC = 0;
-            func_80A6D8D0(D_80A6E240, 0, &sp28);
+    EnHorseZelda_GetFieldPosition(sHorseFieldPositions, this->fieldPosIndex, &fieldPos);
+    if (Math3D_Vec3f_DistXYZ(&fieldPos, &this->actor.world.pos) <= 400.0f) {
+        this->fieldPosIndex++;
+        if (this->fieldPosIndex >= ARRAY_COUNT(sHorseFieldPositions)) {
+            this->fieldPosIndex = 0;
+            EnHorseZelda_GetFieldPosition(sHorseFieldPositions, 0, &fieldPos);
         }
     }
-    yawDiff = Math_Vec3f_Yaw(&this->actor.world.pos, &sp28) - this->actor.world.rot.y;
-    if (yawDiff >= 0x12D) {
-        this->actor.world.rot.y += 0x12C;
-    } else if (yawDiff < -0x12C) {
-        this->actor.world.rot.y -= 0x12C;
+    yawDiff = Math_Vec3f_Yaw(&this->actor.world.pos, &fieldPos) - this->actor.world.rot.y;
+    if (yawDiff > 300) {
+        this->actor.world.rot.y += 300;
+    } else if (yawDiff < -300) {
+        this->actor.world.rot.y -= 300;
     } else {
         this->actor.world.rot.y += yawDiff;
     }
@@ -139,7 +140,7 @@ void func_80A6D918(EnHorseZelda* this, PlayState* play) {
         } else {
             this->actor.speedXZ -= 1.0f;
         }
-    } else if (this->actor.speedXZ < D_80A6E240[this->unk_1EC].unk_6) {
+    } else if (this->actor.speedXZ < sHorseFieldPositions[this->fieldPosIndex].speed) {
         this->actor.speedXZ += 0.5f;
     } else {
         this->actor.speedXZ -= 0.5f;
@@ -166,7 +167,7 @@ void EnHorseZelda_Init(Actor* thisx, PlayState* play) {
     Collider_SetJntSph(play, &this->colliderSphere, &this->actor, &sJntSphInit, &this->colliderSphereItem);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->animationIndex = 0;
-    func_80A6DC7C(this);
+    EnHorseZelda_SetupStop(this);
 }
 
 void EnHorseZelda_Destroy(Actor* thisx, PlayState* play) {
@@ -177,7 +178,7 @@ void EnHorseZelda_Destroy(Actor* thisx, PlayState* play) {
     Skin_Free(play, &this->skin);
 }
 
-void func_80A6DC7C(EnHorseZelda* this) {
+void EnHorseZelda_SetupStop(EnHorseZelda* this) {
     this->action = 0;
     this->animationIndex++;
     if (this->animationIndex > 0) {
@@ -186,45 +187,45 @@ void func_80A6DC7C(EnHorseZelda* this) {
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex]);
 }
 
-void func_80A6DCCC(EnHorseZelda* this, PlayState* play) {
+void EnHorseZelda_Stop(EnHorseZelda* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        func_80A6DC7C(this);
+        EnHorseZelda_SetupStop(this);
     }
 }
 
-void func_80A6DD14(EnHorseZelda* this) {
-    f32 sp34;
+void EnHorseZelda_Spur(EnHorseZelda* this) {
+    f32 speedMod;
 
     this->action = 1;
     this->animationIndex = 0;
-    sp34 = this->actor.speedXZ / 6.0f;
-    Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    speedMod = this->actor.speedXZ / 6.0f;
+    Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     Animation_Change(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex],
-                     splaySpeeds[this->animationIndex] * sp34 * 1.5f, 0.0f,
+                     splaySpeeds[this->animationIndex] * speedMod * 1.5f, 0.0f,
                      Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), ANIMMODE_ONCE, 0.0f);
 }
 
-void func_80A6DDFC(EnHorseZelda* this, PlayState* play) {
-    func_80A6D918(this, play);
+void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play) {
+    EnHorseZelda_Move(this, play);
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        func_80A6DD14(this);
+        EnHorseZelda_Spur(this);
     }
 }
 
-void func_80A6DE38(EnHorseZelda* this, PlayState* play) {
+void EnHorseZelda_SetRotate(EnHorseZelda* this, PlayState* play) {
     s32 pad;
     CollisionPoly* poly;
     s32 pad2;
-    Vec3f pos;
+    Vec3f checkPos;
     s32 bgId;
 
-    pos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + 60.0f;
-    pos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
-    this->unk_1F4 = BgCheck_EntityRaycastFloor3(&play->colCtx, &poly, &bgId, &pos);
-    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_1F4, 30.0f));
+    checkPos.x = (Math_SinS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 60.0f;
+    checkPos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
+    this->floorYForwards = BgCheck_EntityRaycastDown3(&play->colCtx, &poly, &bgId, &checkPos);
+    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->floorYForwards, 30.0f));
 }
 
 void EnHorseZelda_Update(Actor* thisx, PlayState* play) {
@@ -244,21 +245,21 @@ void EnHorseZelda_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnHorseZelda_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
-    Vec3f sp4C;
-    Vec3f sp40;
+    Vec3f offset;
+    Vec3f dst;
     EnHorseZelda* this = (EnHorseZelda*)thisx;
     s32 i;
 
     for (i = 0; i < this->colliderSphere.count; i++) {
-        sp4C.x = this->colliderSphere.elements[i].dim.modelSphere.center.x;
-        sp4C.y = this->colliderSphere.elements[i].dim.modelSphere.center.y;
-        sp4C.z = this->colliderSphere.elements[i].dim.modelSphere.center.z;
+        offset.x = this->colliderSphere.elements[i].dim.modelSphere.center.x;
+        offset.y = this->colliderSphere.elements[i].dim.modelSphere.center.y;
+        offset.z = this->colliderSphere.elements[i].dim.modelSphere.center.z;
 
-        Skin_GetLimbPos(skin, this->colliderSphere.elements[i].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->colliderSphere.elements[i].dim.limb, &offset, &dst);
 
-        this->colliderSphere.elements[i].dim.worldSphere.center.x = sp40.x;
-        this->colliderSphere.elements[i].dim.worldSphere.center.y = sp40.y;
-        this->colliderSphere.elements[i].dim.worldSphere.center.z = sp40.z;
+        this->colliderSphere.elements[i].dim.worldSphere.center.x = dst.x;
+        this->colliderSphere.elements[i].dim.worldSphere.center.y = dst.y;
+        this->colliderSphere.elements[i].dim.worldSphere.center.z = dst.z;
 
         this->colliderSphere.elements[i].dim.worldSphere.radius =
             this->colliderSphere.elements[i].dim.modelSphere.radius * this->colliderSphere.elements[i].dim.scale;
@@ -271,7 +272,7 @@ void EnHorseZelda_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
 void EnHorseZelda_Draw(Actor* thisx, PlayState* play) {
     EnHorseZelda* this = (EnHorseZelda*)thisx;
 
-    func_80A6DE38(this, play);
+    EnHorseZelda_SetRotate(this, play);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     func_800A6330(&this->actor, play, &this->skin, EnHorseZelda_PostDraw, true);
 }

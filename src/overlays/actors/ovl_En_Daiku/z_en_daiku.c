@@ -41,7 +41,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play);
 s32 EnDaiku_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnDaiku_PostLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3s* rot, void* thisx);
 
-const ActorInit En_Daiku_InitVars = {
+ActorInit En_Daiku_InitVars = {
     ACTOR_EN_DAIKU,
     ACTORCAT_NPC,
     FLAGS,
@@ -162,9 +162,9 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
         isFree = true;
     }
 
-    if (isFree == true && play->sceneNum == SCENE_GERUDOWAY) {
+    if (isFree == true && play->sceneId == SCENE_THIEVES_HIDEOUT) {
         noKill = false;
-    } else if (isFree == false && play->sceneNum == SCENE_TENT) {
+    } else if (isFree == false && play->sceneId == SCENE_CARPENTERS_TENT) {
         noKill = false;
     }
 
@@ -195,7 +195,7 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
     this->initRot = this->actor.world.rot;
     this->initPos = this->actor.world.pos;
 
-    if (play->sceneNum == SCENE_GERUDOWAY) {
+    if (play->sceneId == SCENE_THIEVES_HIDEOUT) {
         EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_STAND, &this->currentAnimIndex);
         this->stateFlags |= ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2;
         this->actionFunc = EnDaiku_Jailed;
@@ -223,7 +223,7 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, PlayState* play) {
     s32 newTalkState = ENDAIKU_STATE_TALKING;
 
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) {
-        if (play->sceneNum == SCENE_GERUDOWAY) {
+        if (play->sceneId == SCENE_THIEVES_HIDEOUT) {
             if (Message_ShouldAdvance(play)) {
                 if (this->actor.textId == 0x6007) {
                     Flags_SetSwitch(play, this->startFightSwitchFlag);
@@ -233,7 +233,7 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, PlayState* play) {
                     newTalkState = ENDAIKU_STATE_NO_TALK;
                 }
             }
-        } else if (play->sceneNum == SCENE_TENT) {
+        } else if (play->sceneId == SCENE_CARPENTERS_TENT) {
             if (Message_ShouldAdvance(play)) {
                 switch (this->actor.textId) {
                     case 0x6061:
@@ -266,7 +266,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &sp2E, &sp2C);
         if (sp2E >= 0 && sp2E <= 320 && sp2C >= 0 && sp2C <= 240 && this->talkState == ENDAIKU_STATE_CAN_TALK &&
             func_8002F2CC(&this->actor, play, 100.0f) == 1) {
-            if (play->sceneNum == SCENE_GERUDOWAY) {
+            if (play->sceneId == SCENE_THIEVES_HIDEOUT) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
@@ -294,7 +294,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                              (ENDAIKU_STATEFLAG_GERUDOFIGHTING | ENDAIKU_STATEFLAG_GERUDODEFEATED))) {
                     this->actor.textId = 0x6007;
                 }
-            } else if (play->sceneNum == SCENE_TENT) {
+            } else if (play->sceneId == SCENE_CARPENTERS_TENT) {
                 switch (this->actor.params & 3) {
                     case 0:
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
@@ -407,7 +407,7 @@ void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     EnDaiku_InitSubCamera(this, play);
 
     exitLoop = false;
-    path = &play->setupPathList[this->actor.params >> 4 & 0xF];
+    path = &play->pathList[this->actor.params >> 4 & 0xF];
     while (!exitLoop) {
         pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
         dx = pointPos->x - this->actor.world.pos.x;
@@ -522,7 +522,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play) {
     f32 dxz;
     Vec3s* pointPos;
 
-    path = &play->setupPathList[this->actor.params >> 4 & 0xF];
+    path = &play->pathList[this->actor.params >> 4 & 0xF];
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
     dx = pointPos->x - this->actor.world.pos.x;
     dz = pointPos->z - this->actor.world.pos.z;
@@ -563,7 +563,7 @@ void EnDaiku_Update(Actor* thisx, PlayState* play) {
     if (this->currentAnimIndex == ENDAIKU_ANIM_RUN) {
         curFrame = this->skelAnime.curFrame;
         if (curFrame == 6 || curFrame == 15) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 
@@ -573,14 +573,14 @@ void EnDaiku_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->stateFlags & ENDAIKU_STATEFLAG_1) {
-        this->unk_244.unk_18.x = player->actor.focus.pos.x;
-        this->unk_244.unk_18.y = player->actor.focus.pos.y;
-        this->unk_244.unk_18.z = player->actor.focus.pos.z;
+        this->interactInfo.trackPos.x = player->actor.focus.pos.x;
+        this->interactInfo.trackPos.y = player->actor.focus.pos.y;
+        this->interactInfo.trackPos.z = player->actor.focus.pos.z;
 
         if (this->stateFlags & ENDAIKU_STATEFLAG_2) {
-            func_80034A14(&this->actor, &this->unk_244, 0, 4);
+            Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_FULL_BODY);
         } else {
-            func_80034A14(&this->actor, &this->unk_244, 0, 2);
+            Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_HEAD_AND_TORSO);
         }
     }
 }
@@ -613,12 +613,12 @@ s32 EnDaiku_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos,
 
     switch (limb) {
         case 8: // torso
-            rot->x += this->unk_244.unk_0E.y;
-            rot->y -= this->unk_244.unk_0E.x;
+            rot->x += this->interactInfo.torsoRot.y;
+            rot->y -= this->interactInfo.torsoRot.x;
             break;
         case 15: // head
-            rot->x += this->unk_244.unk_08.y;
-            rot->z += this->unk_244.unk_08.x;
+            rot->x += this->interactInfo.headRot.y;
+            rot->z += this->interactInfo.headRot.x;
             break;
     }
 

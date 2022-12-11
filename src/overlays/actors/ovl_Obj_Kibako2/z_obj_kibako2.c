@@ -17,7 +17,7 @@ void ObjKibako2_Draw(Actor* thisx, PlayState* play);
 void ObjKibako2_Idle(ObjKibako2* this, PlayState* play);
 void ObjKibako2_Kill(ObjKibako2* this, PlayState* play);
 
-const ActorInit Obj_Kibako2_InitVars = {
+ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
     ACTORCAT_BG,
     FLAGS,
@@ -146,7 +146,7 @@ void ObjKibako2_Idle(ObjKibako2* this, PlayState* play) {
     if ((this->collider.base.acFlags & AC_HIT) || (this->dyna.actor.home.rot.z != 0) ||
         func_80033684(play, &this->dyna.actor) != NULL) {
         ObjKibako2_Break(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         this->dyna.actor.flags |= ACTOR_FLAG_4;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->dyna.actor.draw = NULL;

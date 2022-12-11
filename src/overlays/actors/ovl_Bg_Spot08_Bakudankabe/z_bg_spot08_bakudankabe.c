@@ -19,7 +19,7 @@ void BgSpot08Bakudankabe_Draw(Actor* thisx, PlayState* play);
 void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play);
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play);
 
-const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
+ActorInit Bg_Spot08_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT08_BAKUDANKABE,
     ACTORCAT_BG,
     FLAGS,
@@ -161,7 +161,7 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     if (Flags_GetSwitch(play, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
@@ -185,7 +185,7 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         func_808B0324(this, play);
         Flags_SetSwitch(play, (this->dyna.actor.params & 0x3F));
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
     } else if (this->dyna.actor.xzDistToPlayer < 800.0f) {

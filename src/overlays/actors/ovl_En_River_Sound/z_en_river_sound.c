@@ -13,7 +13,7 @@ void EnRiverSound_Destroy(Actor* thisx, PlayState* play);
 void EnRiverSound_Update(Actor* thisx, PlayState* play);
 void EnRiverSound_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_River_Sound_InitVars = {
+ActorInit En_River_Sound_InitVars = {
     ACTOR_EN_RIVER_SOUND,
     ACTORCAT_BG,
     FLAGS,
@@ -28,7 +28,7 @@ const ActorInit En_River_Sound_InitVars = {
 void EnRiverSound_Init(Actor* thisx, PlayState* play) {
     EnRiverSound* this = (EnRiverSound*)thisx;
 
-    this->playSound = false;
+    this->playSfx = false;
     this->pathIndex = (this->actor.params >> 8) & 0xFF;
     this->actor.params = this->actor.params & 0xFF;
 
@@ -108,11 +108,11 @@ s32 EnRiverSound_FindClosestPointOnLineSegment(Vec3f* pointA, Vec3f* pointB, Vec
 }
 
 /**
- * Writes the position along the river path to `soundPos` based on the `hearPos`, which is usually the position of the
+ * Writes the position along the river path to `sfxPos` based on the `hearPos`, which is usually the position of the
  * player.
- * Returns true if the distance between the `hearPos` and `soundPos` is less than 10000, false if not.
+ * Returns true if the distance between the `hearPos` and `sfxPos` is less than 10000, false if not.
  */
-s32 EnRiverSound_GetSoundPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f* soundPos) {
+s32 EnRiverSound_GetSfxPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f* sfxPos) {
     s32 i;
     s32 closestPointIdx;
     s32 useAdjacentPoints[2] = {
@@ -169,23 +169,23 @@ s32 EnRiverSound_GetSoundPos(Vec3s* points, s32 numPoints, Vec3f* hearPos, Vec3f
 
     if (useAdjacentPoints[0] && useAdjacentPoints[1]) {
         if (!EnRiverSound_FindClosestPointOnLineSegment(&prevLineSegClosestPos, &nextLineSegClosestPos, hearPos,
-                                                        soundPos)) {
-            soundPos->x = (prevLineSegClosestPos.x + nextLineSegClosestPos.x) * 0.5f;
-            soundPos->y = (prevLineSegClosestPos.y + nextLineSegClosestPos.y) * 0.5f;
-            soundPos->z = (prevLineSegClosestPos.z + nextLineSegClosestPos.z) * 0.5f;
+                                                        sfxPos)) {
+            sfxPos->x = (prevLineSegClosestPos.x + nextLineSegClosestPos.x) * 0.5f;
+            sfxPos->y = (prevLineSegClosestPos.y + nextLineSegClosestPos.y) * 0.5f;
+            sfxPos->z = (prevLineSegClosestPos.z + nextLineSegClosestPos.z) * 0.5f;
         }
     } else if (useAdjacentPoints[0]) {
-        soundPos->x = prevLineSegClosestPos.x;
-        soundPos->y = prevLineSegClosestPos.y;
-        soundPos->z = prevLineSegClosestPos.z;
+        sfxPos->x = prevLineSegClosestPos.x;
+        sfxPos->y = prevLineSegClosestPos.y;
+        sfxPos->z = prevLineSegClosestPos.z;
     } else if (useAdjacentPoints[1]) {
-        soundPos->x = nextLineSegClosestPos.x;
-        soundPos->y = nextLineSegClosestPos.y;
-        soundPos->z = nextLineSegClosestPos.z;
+        sfxPos->x = nextLineSegClosestPos.x;
+        sfxPos->y = nextLineSegClosestPos.y;
+        sfxPos->z = nextLineSegClosestPos.z;
     } else {
-        soundPos->x = closestPointPos.x;
-        soundPos->y = closestPointPos.y;
-        soundPos->z = closestPointPos.z;
+        sfxPos->x = closestPointPos.x;
+        sfxPos->y = closestPointPos.y;
+        sfxPos->z = closestPointPos.z;
     }
 
     return true;
@@ -200,34 +200,34 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
 
     if ((thisx->params == RS_RIVER_DEFAULT_LOW_FREQ) || (thisx->params == RS_RIVER_DEFAULT_MEDIUM_FREQ) ||
         (thisx->params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
-        path = &play->setupPathList[this->pathIndex];
+        path = &play->pathList[this->pathIndex];
         pos = &thisx->world.pos;
 
-        if (EnRiverSound_GetSoundPos(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
-            if (BgCheck_EntityRaycastFloor4(&play->colCtx, &thisx->floorPoly, &bgId, thisx, pos) != BGCHECK_Y_MIN) {
+        if (EnRiverSound_GetSfxPos(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
+            if (BgCheck_EntityRaycastDown4(&play->colCtx, &thisx->floorPoly, &bgId, thisx, pos) != BGCHECK_Y_MIN) {
                 // Get the river sfx frequency based on the speed of the river current under the actor
-                this->soundFreqIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, thisx->floorPoly, bgId);
+                this->sfxFreqIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, thisx->floorPoly, bgId);
             } else {
-                this->soundFreqIndex = 0;
+                this->sfxFreqIndex = CONVEYOR_SPEED_DISABLED;
             }
 
-            if (this->soundFreqIndex == 0) {
+            if (this->sfxFreqIndex == CONVEYOR_SPEED_DISABLED) {
                 if (thisx->params == RS_RIVER_DEFAULT_MEDIUM_FREQ) {
-                    this->soundFreqIndex = 0;
+                    this->sfxFreqIndex = 0;
                 } else if (thisx->params == RS_RIVER_DEFAULT_LOW_FREQ) {
-                    this->soundFreqIndex = 1;
+                    this->sfxFreqIndex = 1;
                 } else {
                     // RS_RIVER_DEFAULT_HIGH_FREQ
-                    this->soundFreqIndex = 2;
+                    this->sfxFreqIndex = 2;
                 }
             } else {
-                this->soundFreqIndex--;
-                this->soundFreqIndex = CLAMP_MAX(this->soundFreqIndex, 2);
+                this->sfxFreqIndex--;
+                this->sfxFreqIndex = CLAMP_MAX(this->sfxFreqIndex, CONVEYOR_SPEED_MAX - 2);
             }
         }
     } else if ((thisx->params == RS_GORON_CITY_SARIAS_SONG) || (thisx->params == RS_GREAT_FAIRY)) {
         func_8002DBD0(&player->actor, &thisx->home.pos, &thisx->world.pos);
-    } else if (play->sceneNum == SCENE_DDAN_BOSS && Flags_GetClear(play, thisx->room)) {
+    } else if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS && Flags_GetClear(play, thisx->room)) {
         Actor_Kill(thisx);
     }
 }
@@ -257,15 +257,19 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
         NA_SE_EV_TORCH - SFX_FLAG,
         NA_SE_EV_COW_CRY_LV - SFX_FLAG,
     };
-    static f32 soundFreq[] = { 0.7f, 1.0f, 1.4f };
+    static f32 sfxFreqs[CONVEYOR_SPEED_MAX - 1] = {
+        0.7f, // CONVEYOR_SPEED_SLOW
+        1.0f, // CONVEYOR_SPEED_MEDIUM
+        1.4f, // CONVEYOR_SPEED_FAST
+    };
     EnRiverSound* this = (EnRiverSound*)thisx;
 
-    if (!(this->playSound)) {
-        this->playSound = true;
+    if (!this->playSfx) {
+        this->playSfx = true;
     } else if ((this->actor.params == RS_RIVER_DEFAULT_LOW_FREQ) ||
                (this->actor.params == RS_RIVER_DEFAULT_MEDIUM_FREQ) ||
                (this->actor.params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
-        Audio_PlaySoundRiver(&this->actor.projectedPos, soundFreq[this->soundFreqIndex]);
+        Audio_PlaySfxRiver(&this->actor.projectedPos, sfxFreqs[this->sfxFreqIndex]);
     } else if (this->actor.params == RS_LOWER_MAIN_BGM_VOLUME) {
         // Responsible for lowering market bgm in Child Market Entrance and Child Market Back Alley
         // Lower volume from default 127 to a volume of 90
@@ -288,6 +292,6 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
         func_800788CC(soundEffects[this->actor.params]);
     } else {
         // Play sfx at the location of riverSounds projected position
-        Audio_PlayActorSound2(&this->actor, soundEffects[this->actor.params]);
+        Audio_PlayActorSfx2(&this->actor, soundEffects[this->actor.params]);
     }
 }

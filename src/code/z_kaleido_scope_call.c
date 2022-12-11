@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);
@@ -58,17 +58,17 @@ void KaleidoScopeCall_Update(PlayState* play) {
 
     if ((pauseCtx->state != 0) || (pauseCtx->debugState != 0)) {
         if (pauseCtx->state == 1) {
-            if (ShrinkWindow_GetCurrentVal() == 0) {
-                HREG(80) = 7;
-                HREG(82) = 3;
+            if (Letterbox_GetSize() == 0) {
+                R_HREG_MODE = HREG_MODE_UCODE_DISAS;
+                R_UCODE_DISAS_LOG_MODE = 3;
                 R_PAUSE_MENU_MODE = 1;
                 pauseCtx->unk_1E4 = 0;
                 pauseCtx->unk_1EC = 0;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
             }
         } else if (pauseCtx->state == 8) {
-            HREG(80) = 7;
-            HREG(82) = 3;
+            R_HREG_MODE = HREG_MODE_UCODE_DISAS;
+            R_UCODE_DISAS_LOG_MODE = 3;
             R_PAUSE_MENU_MODE = 1;
             pauseCtx->unk_1E4 = 0;
             pauseCtx->unk_1EC = 0;

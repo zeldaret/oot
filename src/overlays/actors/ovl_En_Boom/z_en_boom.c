@@ -16,7 +16,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play);
 
 void EnBoom_Fly(EnBoom* this, PlayState* play);
 
-const ActorInit En_Boom_InitVars = {
+ActorInit En_Boom_InitVars = {
     ACTOR_EN_BOOM,
     ACTORCAT_MISC,
     FLAGS,
@@ -147,7 +147,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
         }
     }
 
-    // Set xyz speed, move forward, and play the boomerang sound
+    // Set xyz speed, move forward, and play the boomerang sound effect
     func_8002D9A4(&this->actor, 12.0f);
     Actor_MoveForward(&this->actor);
     func_8002F974(&this->actor, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
@@ -202,7 +202,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
             if (collided) {
                 // If the boomerang collides with something and it's is a Jabu Object actor with params equal to 0, then
                 // set collided to 0 so that the boomerang will go through the wall.
-                // Otherwise play a clank sound and keep collided set to bounce back.
+                // Otherwise play a clank sound effect and keep collided set to bounce back.
                 if (func_8002F9EC(play, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
                     (hitDynaID != BGCHECK_SCENE && ((hitActor = DynaPoly_GetActor(&play->colCtx, hitDynaID)) != NULL) &&
                      hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS && hitActor->actor.params == 0)) {

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ge2.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_gla/object_gla.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
@@ -55,7 +55,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play);
 void EnGe2_UpdateAfterTalk(Actor* thisx, PlayState* play);
 void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
 
-const ActorInit En_Ge2_InitVars = {
+ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,
     ACTORCAT_NPC,
     FLAGS,
@@ -123,7 +123,7 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
 
-    if (play->sceneNum == SCENE_SPOT09) {
+    if (play->sceneId == SCENE_GERUDO_VALLEY) {
         this->actor.uncullZoneForward = 1000.0f;
     } else {
         this->actor.uncullZoneForward = 1200.0f;
@@ -240,11 +240,11 @@ void EnGe2_CaptureClose(EnGe2* this, PlayState* play) {
         func_8006D074(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            play->nextEntranceIndex = ENTR_SPOT09_1;
+            play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
-            play->nextEntranceIndex = ENTR_SPOT12_18;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
-            play->nextEntranceIndex = ENTR_SPOT12_17;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
         }
 
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
@@ -266,11 +266,11 @@ void EnGe2_CaptureCharge(EnGe2* this, PlayState* play) {
         func_8006D074(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            play->nextEntranceIndex = ENTR_SPOT09_1;
+            play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
-            play->nextEntranceIndex = ENTR_SPOT12_18;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
-            play->nextEntranceIndex = ENTR_SPOT12_17;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
         }
 
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
@@ -451,7 +451,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe2_SetActionAfterTalk;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -460,7 +460,7 @@ void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe2_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -471,7 +471,7 @@ void EnGe2_ForceTalk(EnGe2* this, PlayState* play) {
     } else {
         this->actor.textId = 0x6004;
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F1C4(&this->actor, play, 300.0f, 300.0f, 0);
+        func_8002F1C4(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     EnGe2_LookAtPlayer(this, play);
 }
@@ -565,7 +565,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
     } else {
         this->actionFunc(this, play);
 
@@ -611,7 +611,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_VO_SK_CRASH);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 

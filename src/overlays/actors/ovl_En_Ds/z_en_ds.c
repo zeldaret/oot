@@ -16,7 +16,7 @@ void EnDs_Draw(Actor* thisx, PlayState* play);
 
 void EnDs_Wait(EnDs* this, PlayState* play);
 
-const ActorInit En_Ds_InitVars = {
+ActorInit En_Ds_InitVars = {
     ACTOR_EN_DS,
     ACTORCAT_NPC,
     FLAGS,
@@ -88,7 +88,7 @@ void EnDs_GiveOddPotion(EnDs* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_DisplayOddPotionText;
-        gSaveContext.timer2State = 0;
+        gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
     } else {
         func_8002F434(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
     }
@@ -170,7 +170,7 @@ void EnDs_GiveBluePotion(EnDs* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_Talk;
     } else {
-        func_8002F434(&this->actor, play, GI_POTION_BLUE, 10000.0f, 50.0f);
+        func_8002F434(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
     }
 }
 
@@ -189,7 +189,7 @@ void EnDs_OfferBluePotion(EnDs* this, PlayState* play) {
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
                         this->actor.flags &= ~ACTOR_FLAG_16;
-                        func_8002F434(&this->actor, play, GI_POTION_BLUE, 10000.0f, 50.0f);
+                        func_8002F434(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }
@@ -207,8 +207,8 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
 
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         if (func_8002F368(play) == EXCH_ITEM_ODD_MUSHROOM) {
-            Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             player->actor.textId = 0x504A;
             this->actionFunc = EnDs_OfferOddPotion;
         } else if (GET_ITEMGETINF(ITEMGETINF_30)) {
@@ -236,7 +236,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
 void EnDs_Update(Actor* thisx, PlayState* play) {
     EnDs* this = (EnDs*)thisx;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
 

@@ -18,7 +18,7 @@ void DoorAna_WaitClosed(DoorAna* this, PlayState* play);
 void DoorAna_WaitOpen(DoorAna* this, PlayState* play);
 void DoorAna_GrabPlayer(DoorAna* this, PlayState* play);
 
-const ActorInit Door_Ana_InitVars = {
+ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -51,9 +51,9 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static s16 sGrottoEntrances[] = {
-    ENTR_YOUSEI_IZUMI_TATE_0, ENTR_KAKUSIANA_0,  ENTR_KAKUSIANA_1,  ENTR_KAKUSIANA_2,  ENTR_KAKUSIANA_3,
-    ENTR_KAKUSIANA_4,         ENTR_KAKUSIANA_5,  ENTR_KAKUSIANA_6,  ENTR_KAKUSIANA_7,  ENTR_KAKUSIANA_8,
-    ENTR_KAKUSIANA_9,         ENTR_KAKUSIANA_10, ENTR_KAKUSIANA_11, ENTR_KAKUSIANA_12, ENTR_KAKUSIANA_13,
+    ENTR_FAIRYS_FOUNTAIN_0, ENTR_GROTTOS_0,  ENTR_GROTTOS_1,  ENTR_GROTTOS_2,  ENTR_GROTTOS_3,
+    ENTR_GROTTOS_4,         ENTR_GROTTOS_5,  ENTR_GROTTOS_6,  ENTR_GROTTOS_7,  ENTR_GROTTOS_8,
+    ENTR_GROTTOS_9,         ENTR_GROTTOS_10, ENTR_GROTTOS_11, ENTR_GROTTOS_12, ENTR_GROTTOS_13,
 };
 
 void DoorAna_SetupAction(DoorAna* this, DoorAnaActionFunc actionFunc) {
@@ -115,8 +115,8 @@ void DoorAna_WaitClosed(DoorAna* this, PlayState* play) {
     if (openGrotto) {
         this->actor.params &= ~0x0300;
         DoorAna_SetupAction(this, DoorAna_WaitOpen);
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     func_8002F5F0(&this->actor, play);
 }

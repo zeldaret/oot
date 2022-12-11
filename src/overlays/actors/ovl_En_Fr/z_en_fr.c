@@ -1,6 +1,6 @@
 #include "z_en_fr.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_fr/object_fr.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
@@ -133,7 +133,7 @@ static s32 sSongToFrog[] = {
     FROG_PURPLE, FROG_WHITE, FROG_YELLOW, FROG_BLUE, FROG_RED,
 };
 
-const ActorInit En_Fr_InitVars = {
+ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORCAT_NPC,
     FLAGS,
@@ -353,9 +353,9 @@ void EnFr_DivingIntoWater(EnFr* this, PlayState* play) {
         EffectSsGSplash_Spawn(play, &vec, NULL, NULL, 1, 1);
 
         if (this->isBelowWaterSurfaceCurrent == false) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
         }
     }
 }
@@ -479,7 +479,7 @@ void EnFr_JumpingUp(EnFr* this, PlayState* play) {
         this->actor.velocity.y = 25.0f;
         if (this->isJumpingToFrogSong) {
             this->isJumpingToFrogSong = false;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_EAT);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_EAT);
         }
     }
 
@@ -600,7 +600,7 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
             frog->isJumpingToFrogSong = true;
         }
         frog->isJumpingUp = true;
-        Audio_PlaySoundTransposed(&frog->actor.projectedPos, NA_SE_EV_FROG_JUMP, semitone);
+        Audio_PlaySfxTransposed(&frog->actor.projectedPos, NA_SE_EV_FROG_JUMP, semitone);
         return true;
     } else {
         return false;
@@ -741,7 +741,7 @@ void EnFr_ChildSong(EnFr* this, PlayState* play) {
             if (frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
                 frog->isJumpingUp = true;
                 frog->isActive = true;
-                Audio_PlayActorSound2(&frog->actor, NA_SE_EV_FROG_GROW_UP);
+                Audio_PlayActorSfx2(&frog->actor, NA_SE_EV_FROG_GROW_UP);
                 this->actionFunc = EnFr_ChildSongFirstTime;
             } else {
                 this->jumpCounter = 48;
@@ -838,7 +838,6 @@ s32 EnFr_IsFrogSongComplete(EnFr* this, PlayState* play) {
     if (this->ocarinaNote == (*msgCtx).lastOcarinaButtonIndex) { // required to match, possibly an array?
         this->ocarinaNoteIndex++;
         ocarinaNoteIndex = this->ocarinaNoteIndex;
-        if (1) {}
         if (ocarinaNoteIndex >= 14) { // Frog Song is completed
             this->ocarinaNoteIndex = 13;
             return true;
@@ -1009,7 +1008,7 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
     }
 
     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_FROG_CRY_0);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FROG_CRY_0);
     if (this->reward == GI_NONE) {
         this->actionFunc = EnFr_Idle;
     } else {

@@ -6,7 +6,7 @@
 
 #include "z_en_heishi3.h"
 #include "assets/objects/object_sd/object_sd.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -25,7 +25,7 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play);
 
 static s16 sPlayerCaught = 0;
 
-const ActorInit En_Heishi3_InitVars = {
+ActorInit En_Heishi3_InitVars = {
     ACTOR_EN_HEISHI3,
     ACTORCAT_NPC,
     FLAGS,
@@ -179,7 +179,7 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 1.0f) || Animation_OnFrame(&this->skelAnime, 17.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_KNIGHT_WALK);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
     if (this->caughtTimer == 0) {
         this->actionFunc = EnHeishi3_ResetAnimationToIdle;
@@ -202,7 +202,7 @@ void func_80A55D00(EnHeishi3* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play) &&
         (this->respawnFlag == 0)) {
         SET_EVENTCHKINF(EVENTCHKINF_4E);
-        play->nextEntranceIndex = ENTR_SPOT15_4;
+        play->nextEntranceIndex = ENTR_HYRULE_CASTLE_4;
         play->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);

@@ -14,7 +14,7 @@ void EfcErupc_UpdateEffects(EfcErupc* this, PlayState* play);
 void EfcErupc_SpawnEffect(EfcErupcEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor);
 void EfcErupc_InitEffects(EfcErupcEffect* effect);
 
-const ActorInit Efc_Erupc_InitVars = {
+ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -119,16 +119,16 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->unk_14C * 1, this->unk_14E * -4, 32, 64, 1,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->unk_14C * 1, this->unk_14E * -4, 32, 64, 1,
                                 this->unk_14C * 4, this->unk_14E * -20, 64, 64));
 
-    gSPSegment(
-        POLY_XLU_DISP++, 0x09,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, this->unk_150 * -4, 16, 128, 1, 0, this->unk_150 * 12, 32, 32));
+    gSPSegment(POLY_XLU_DISP++, 0x09,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, this->unk_150 * -4, 16, 128, 1, 0,
+                                this->unk_150 * 12, 32, 32));
 
-    gSPSegment(
-        POLY_XLU_DISP++, 0x0A,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, this->unk_150 * -4, 16, 128, 1, 0, this->unk_150 * 12, 32, 32));
+    gSPSegment(POLY_XLU_DISP++, 0x0A,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, this->unk_150 * -4, 16, 128, 1, 0,
+                                this->unk_150 * 12, 32, 32));
 
     Matrix_Push();
     Matrix_Scale(0.8f, 0.8f, 0.8f, MTXMODE_APPLY);
@@ -136,7 +136,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (play->csCtx.state != 0) {
-        if ((play->csCtx.npcActions[1] != 0) && (play->csCtx.npcActions[1]->action == 2)) {
+        if ((play->csCtx.npcActions[1] != NULL) && (play->csCtx.npcActions[1]->action == 2)) {
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002570);
         }
     }
@@ -146,7 +146,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (play->csCtx.state != 0) {
         CsCmdActorAction* csActorAction = play->csCtx.npcActions[2];
-        if (csActorAction != 0) {
+        if (csActorAction != NULL) {
             csAction = csActorAction->action;
             if ((csAction == 2) || (csAction == 3)) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, 255);

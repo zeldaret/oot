@@ -25,7 +25,7 @@ void func_809DF8FC(EnCow* this, PlayState* play);
 void func_809DF96C(EnCow* this, PlayState* play);
 void func_809DFA84(EnCow* this, PlayState* play);
 
-const ActorInit En_Cow_InitVars = {
+ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
     ACTORCAT_NPC,
     FLAGS,
@@ -116,7 +116,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
             Collider_SetCylinder(play, &this->colliders[1], &this->actor, &sCylinderInit);
             func_809DEE9C(this);
             this->actionFunc = func_809DF96C;
-            if (play->sceneNum == SCENE_LINK_HOME) {
+            if (play->sceneId == SCENE_LINKS_HOUSE) {
                 if (!LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
                     return;
@@ -303,9 +303,9 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[1].base);
     Actor_MoveForward(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->skelAnime.animation == &gCowBodyChewAnim) {
-            Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
+            Audio_PlayActorSfx2(thisx, NA_SE_EV_COW_CRY);
             Animation_Change(&this->skelAnime, &gCowBodyMoveHeadAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gCowBodyMoveHeadAnim), ANIMMODE_ONCE, 1.0f);
         } else {
@@ -343,7 +343,7 @@ void func_809DFE98(Actor* thisx, PlayState* play) {
     EnCow* this = (EnCow*)thisx;
     s32 pad;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->skelAnime.animation == &gCowTailIdleAnim) {
             Animation_Change(&this->skelAnime, &gCowTailSwishAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gCowTailSwishAnim), ANIMMODE_ONCE, 1.0f);

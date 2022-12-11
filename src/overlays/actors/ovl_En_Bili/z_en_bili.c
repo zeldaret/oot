@@ -7,7 +7,7 @@
 #include "z_en_bili.h"
 #include "assets/objects/object_bl/object_bl.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_14)
 
 void EnBili_Init(Actor* thisx, PlayState* play);
 void EnBili_Destroy(Actor* thisx, PlayState* play);
@@ -28,7 +28,7 @@ void EnBili_Die(EnBili* this, PlayState* play);
 void EnBili_Stunned(EnBili* this, PlayState* play);
 void EnBili_Frozen(EnBili* this, PlayState* play);
 
-const ActorInit En_Bili_InitVars = {
+ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -122,7 +122,7 @@ void EnBili_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->playFlySound = false;
+    this->playFlySfx = false;
 
     if (this->actor.params == EN_BILI_TYPE_NORMAL) {
         EnBili_SetupFloatIdle(this);
@@ -241,7 +241,7 @@ void EnBili_SetupStunned(EnBili* this) {
     this->actor.gravity = -1.0f;
     this->actor.speedXZ = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 0x96, 0x2000, 0x50);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->collider.base.atFlags &= ~AT_ON;
     this->actionFunc = EnBili_Stunned;
 }
@@ -396,7 +396,7 @@ void EnBili_Climb(EnBili* this, PlayState* play) {
     f32 curFrame = this->skelAnime.curFrame;
 
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_JUMP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIRI_JUMP);
     }
 
     if (curFrame > 9.0f) {
@@ -509,7 +509,7 @@ void EnBili_Die(EnBili* this, PlayState* play) {
     }
 
     if (this->timer == 14) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_BIRI_BUBLE);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_BIRI_BUBLE);
     }
 }
 
@@ -519,7 +519,7 @@ void EnBili_Stunned(EnBili* this, PlayState* play) {
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
     if (this->timer == 0) {
@@ -553,7 +553,7 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_DEAD);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIRI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             }
@@ -610,11 +610,11 @@ void EnBili_Update(Actor* thisx, PlayState* play2) {
         if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
             if ((this->actionFunc == EnBili_FloatIdle) || (this->actionFunc == EnBili_SetNewHomeHeight) ||
                 (this->actionFunc == EnBili_ApproachPlayer) || (this->actionFunc == EnBili_Recoil)) {
-                if (this->playFlySound) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_FLY);
-                    this->playFlySound = false;
+                if (this->playFlySfx) {
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BIRI_FLY);
+                    this->playFlySfx = false;
                 } else {
-                    this->playFlySound = true;
+                    this->playFlySfx = true;
                 }
             }
         }

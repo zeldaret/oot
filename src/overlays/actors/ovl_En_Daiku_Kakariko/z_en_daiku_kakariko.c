@@ -24,7 +24,7 @@ void EnDaikuKakariko_Draw(Actor* thisx, PlayState* play);
 void EnDaikuKakariko_Wait(EnDaikuKakariko* this, PlayState* play);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play);
 
-const ActorInit En_Daiku_Kakariko_InitVars = {
+ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
     ACTORCAT_NPC,
     FLAGS,
@@ -129,19 +129,19 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        switch (play->sceneNum) {
-            case SCENE_SPOT01:
+        switch (play->sceneId) {
+            case SCENE_KAKARIKO_VILLAGE:
                 if (IS_DAY) {
                     this->flags |= 1;
                     this->flags |= initFlags[this->actor.params & 3];
                 }
                 break;
-            case SCENE_KAKARIKO:
+            case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
                 if (IS_NIGHT) {
                     this->flags |= 2;
                 }
                 break;
-            case SCENE_DRAG:
+            case SCENE_POTION_SHOP_KAKARIKO:
                 this->flags |= 4;
                 break;
         }
@@ -359,7 +359,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
     s32 run;
 
     do {
-        path = &play->setupPathList[(this->actor.params >> 8) & 0xFF];
+        path = &play->pathList[(this->actor.params >> 8) & 0xFF];
         pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
         xDist = pathPos->x - this->actor.world.pos.x;
         zDist = pathPos->z - this->actor.world.pos.z;
@@ -458,7 +458,7 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     if (this->currentAnimIndex == 3) {
         if (((s32)this->skelAnime.curFrame == 6) || ((s32)this->skelAnime.curFrame == 15)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 
@@ -474,18 +474,18 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    this->npcInfo.unk_18.x = player->actor.focus.pos.x;
-    this->npcInfo.unk_18.y = player->actor.focus.pos.y;
-    this->npcInfo.unk_18.z = player->actor.focus.pos.z;
+    this->interactInfo.trackPos.x = player->actor.focus.pos.x;
+    this->interactInfo.trackPos.y = player->actor.focus.pos.y;
+    this->interactInfo.trackPos.z = player->actor.focus.pos.z;
 
     if (this->flags & 0x100) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        func_80034A14(&this->actor, &this->npcInfo, 0, 2);
+        Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_HEAD_AND_TORSO);
     } else if (this->flags & 0x200) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        func_80034A14(&this->actor, &this->npcInfo, 0, 4);
+        Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_FULL_BODY);
     }
 
     Math_SmoothStepToS(&this->neckAngle.x, this->neckAngleTarget.x, 1, 1820, 0);
@@ -497,13 +497,13 @@ s32 EnDaikuKakariko_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList
 
     switch (limbIndex) {
         case 8:
-            angle = this->npcInfo.unk_0E;
+            angle = this->interactInfo.torsoRot;
             Matrix_RotateX(-BINANG_TO_RAD(angle.y), MTXMODE_APPLY);
             Matrix_RotateZ(-BINANG_TO_RAD(angle.x), MTXMODE_APPLY);
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            angle = this->npcInfo.unk_08;
+            angle = this->interactInfo.headRot;
 
             if (this->flags & 0x1000) {
                 osSyncPrintf("<%d>\n", this->neckAngle.x);

@@ -18,7 +18,7 @@ void OceffStorm_Draw2(Actor* thisx, PlayState* play);
 void OceffStorm_DefaultAction(OceffStorm* this, PlayState* play);
 void OceffStorm_UnkAction(OceffStorm* this, PlayState* play);
 
-const ActorInit Oceff_Storm_InitVars = {
+ActorInit Oceff_Storm_InitVars = {
     ACTOR_OCEFF_STORM,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -137,10 +137,10 @@ void OceffStorm_Draw2(Actor* thisx, PlayState* play) {
     gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 150, this->primColorAlpha);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 8, scroll * 4, 64, 64, 1,
-                                                     scroll * 4, scroll * 4, 64, 64));
-    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, (SCREEN_WIDTH << 2), (SCREEN_HEIGHT << 2), G_TX_RENDERTILE, 0, 0, 140,
-                        (1 << 15) | (31 << 10) | 884);
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 8, scroll * 4, 64,
+                                                     64, 1, scroll * 4, scroll * 4, 64, 64));
+    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH << 2, SCREEN_HEIGHT << 2, G_TX_RENDERTILE, 0, 0,
+                        (s32)(0.13671875 * (1 << 10)), (s32)(-0.13671875 * (1 << 10)));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_storm.c", 477);
 }
@@ -166,8 +166,8 @@ void OceffStorm_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 4, (0 - scroll) * 8, 32, 32, 1,
-                                                     scroll * 8, (0 - scroll) * 12, 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 4, (0 - scroll) * 8,
+                                                     32, 32, 1, scroll * 8, (0 - scroll) * 12, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sCylinderModelDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_storm.c", 512);

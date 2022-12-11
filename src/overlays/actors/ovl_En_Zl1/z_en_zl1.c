@@ -25,9 +25,9 @@ void func_80B4BF2C(EnZl1* this, PlayState* play);
 
 extern CutsceneData D_80B4C5D0[];
 
-#include "z_en_zl1_camera_data.c"
+#include "z_en_zl1_camera_data.inc.c"
 
-const ActorInit En_Zl1_InitVars = {
+ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
     ACTORCAT_NPC,
     FLAGS,
@@ -87,7 +87,7 @@ void EnZl1_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     this->actor.targetMode = 0;
 
-    if (gSaveContext.sceneSetupIndex >= 4) {
+    if (IS_CUTSCENE_LAYER) {
         frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->unk_1E6 = 0;
@@ -180,8 +180,8 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         play->envCtx.fillScreen = true;
         Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
         Play_SetCameraFov(play, this->subCamId, 30.0f);
-        ShrinkWindow_SetVal(0x20);
-        Interface_ChangeAlpha(2);
+        Letterbox_SetSizeTarget(32);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
         player->actor.world.pos = playerPos;
         player->actor.speedXZ = 0.0f;
         this->unk_1E2 = 0;
@@ -511,7 +511,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 this->actor.textId = 0xFFFF;
                 play->talkWithPlayer(play, &this->actor);
-                func_8002F434(&this->actor, play, GI_LETTER_ZELDA, 120.0f, 10.0f);
+                func_8002F434(&this->actor, play, GI_ZELDAS_LETTER, 120.0f, 10.0f);
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 play->msgCtx.stateTimer = 4;
                 this->unk_1E2++;
@@ -526,7 +526,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
                 this->actor.parent = NULL;
                 this->unk_1E2++;
             } else {
-                func_8002F434(&this->actor, play, GI_LETTER_ZELDA, 120.0f, 10.0f);
+                func_8002F434(&this->actor, play, GI_ZELDAS_LETTER, 120.0f, 10.0f);
             }
             break;
         case 3:
@@ -556,7 +556,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
         case 6:
             if (Actor_TextboxIsClosing(&this->actor, play)) {
                 func_8002DF54(play, &this->actor, 7);
-                Interface_ChangeAlpha(50);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_1E2 = 4;
             }

@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 OSThread gMainThread;
 STACK(sMainStack, 0x900);
@@ -7,7 +7,7 @@ StackEntry sMainStackInfo;
 OSMesg sPiMgrCmdBuff[50];
 OSMesgQueue gPiMgrCmdQueue;
 OSViMode gViConfigMode;
-u8 D_80013960;
+u8 gViConfigModeType;
 
 s8 D_80009430 = 1;
 vu8 gViConfigBlack = true;
@@ -23,8 +23,8 @@ void Main_ThreadEntry(void* arg) {
     DmaMgr_Init();
     osSyncPrintf("codeセグメントロード中...");
     time = osGetTime();
-    DmaMgr_SendRequest1(_codeSegmentStart, (u32)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart,
-                        "../idle.c", 238);
+    DmaMgr_RequestSyncDebug(_codeSegmentStart, (uintptr_t)_codeSegmentRomStart,
+                            _codeSegmentRomEnd - _codeSegmentRomStart, "../idle.c", 238);
     time -= osGetTime();
     osSyncPrintf("\rcodeセグメントロード中...完了\n");
     osSyncPrintf("転送時間 %6.3f\n");
@@ -46,7 +46,8 @@ void Idle_ThreadEntry(void* arg) {
     osSyncPrintf("ダイナミックバッファのサイズは %d キロバイトです\n", 0x92);
     osSyncPrintf("ＦＩＦＯバッファのサイズは %d キロバイトです\n", 0x60);
     osSyncPrintf("ＹＩＥＬＤバッファのサイズは %d キロバイトです\n", 3);
-    osSyncPrintf("オーディオヒープのサイズは %d キロバイトです\n", ((s32)gSystemHeap - (s32)gAudioHeap) / 1024);
+    osSyncPrintf("オーディオヒープのサイズは %d キロバイトです\n",
+                 ((intptr_t)gSystemHeap - (intptr_t)gAudioHeap) / 1024);
     osSyncPrintf(VT_RST);
 
     osCreateViManager(OS_PRIORITY_VIMGR);
@@ -57,17 +58,17 @@ void Idle_ThreadEntry(void* arg) {
 
     switch (osTvType) {
         case OS_TV_NTSC:
-            D_80013960 = 2;
+            gViConfigModeType = OS_VI_NTSC_LAN1;
             gViConfigMode = osViModeNtscLan1;
             break;
 
         case OS_TV_MPAL:
-            D_80013960 = 0x1E;
+            gViConfigModeType = OS_VI_MPAL_LAN1;
             gViConfigMode = osViModeMpalLan1;
             break;
 
         case OS_TV_PAL:
-            D_80013960 = 0x2C;
+            gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;
             gViConfigYScale = 0.833f;
             break;

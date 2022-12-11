@@ -14,7 +14,7 @@ void EnLightbox_Destroy(Actor* thisx, PlayState* play);
 void EnLightbox_Update(Actor* thisx, PlayState* play);
 void EnLightbox_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Lightbox_InitVars = {
+ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORCAT_PROP,
     FLAGS,
@@ -52,7 +52,7 @@ void EnLightbox_Init(Actor* thisx, PlayState* play) {
     thisx->colChkInfo.cylHeight = 50;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
     this->dyna.interactFlags = 0;
-    this->dyna.unk_15C = 0;
+    this->dyna.transformFlags = 0;
     thisx->targetMode = 0;
     thisx->gravity = -2.0f;
     CollisionHeader_GetVirtual(&object_lightbox_Col_001F10, &colHeader);
@@ -79,8 +79,8 @@ void EnLightbox_Update(Actor* thisx, PlayState* play) {
             if (thisx->speedXZ) {
                 if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
                     thisx->world.rot.y = (thisx->world.rot.y + thisx->wallYaw) - thisx->world.rot.y;
-                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     thisx->speedXZ *= 0.7f;
                     thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
                 }
@@ -91,8 +91,8 @@ void EnLightbox_Update(Actor* thisx, PlayState* play) {
             } else {
                 Math_StepToF(&thisx->speedXZ, 0, IREG(58) / 100.0f);
                 if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (thisx->velocity.y < IREG(59) / 100.0f)) {
-                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                    Audio_PlaySfxGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     thisx->velocity.y *= IREG(60) / 100.0f;
                     thisx->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 } else {

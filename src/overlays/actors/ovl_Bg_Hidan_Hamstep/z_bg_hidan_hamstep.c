@@ -6,6 +6,7 @@
 
 #include "z_bg_hidan_hamstep.h"
 #include "assets/objects/object_hidan_objects/object_hidan_objects.h"
+#include "quake.h"
 
 #define FLAGS 0
 
@@ -62,7 +63,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
-const ActorInit Bg_Hidan_Hamstep_InitVars = {
+ActorInit Bg_Hidan_Hamstep_InitVars = {
     ACTOR_BG_HIDAN_HAMSTEP,
     ACTORCAT_BG,
     FLAGS,
@@ -134,7 +135,7 @@ void BgHidanHamstep_Init(Actor* thisx, PlayState* play) {
     s32 i2;
     BgHidanHamstep* step;
 
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
@@ -279,7 +280,7 @@ void func_80888734(BgHidanHamstep* this) {
 void func_808887C4(BgHidanHamstep* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         OnePointCutscene_Init(play, 3310, 100, &this->dyna.actor, CAM_ID_MAIN);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_HAMMER_SWITCH);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_HAMMER_SWITCH);
         this->collider.base.acFlags = AC_NONE;
         BgHidanHamstep_SetupAction(this, 1);
         Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0xFF);
@@ -308,12 +309,12 @@ void func_80888860(BgHidanHamstep* this, PlayState* play) {
             if (1) {}
 
             if (this->unk_244 == 1) {
-                quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 3);
+                quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
                 Quake_SetSpeed(quakeIndex, -15536);
-                Quake_SetQuakeValues(quakeIndex, 0, 0, 500, 0);
-                Quake_SetCountdown(quakeIndex, 20);
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-                func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 255, 20, 150);
+                Quake_SetPerturbations(quakeIndex, 0, 0, 500, 0);
+                Quake_SetDuration(quakeIndex, 20);
+                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+                Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 255, 20, 150);
                 func_80888638(this, play);
                 osSyncPrintf("A(%d)\n", this->dyna.actor.params);
             }
@@ -367,13 +368,13 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
             if (1) {}
 
             if (this->unk_244 == 1) {
-                quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 3);
+                quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
                 Quake_SetSpeed(quakeIndex, -15536);
-                Quake_SetQuakeValues(quakeIndex, 20, 1, 0, 0);
-                Quake_SetCountdown(quakeIndex, 7);
+                Quake_SetPerturbations(quakeIndex, 20, 1, 0, 0);
+                Quake_SetDuration(quakeIndex, 7);
 
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-                func_800AA000(10000.0f, 255, 20, 150);
+                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+                Rumble_Request(SQ(100.0f), 255, 20, 150);
                 func_808884C8(this, play);
 
                 if ((this->dyna.actor.params & 0xFF) == 5) {

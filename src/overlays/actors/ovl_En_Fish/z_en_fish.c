@@ -6,7 +6,7 @@
 
 #include "z_en_fish.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -64,7 +64,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-const ActorInit En_Fish_InitVars = {
+ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -398,7 +398,7 @@ void EnFish_Dropped_Fall(EnFish* this, PlayState* play) {
 void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     s32 pad;
     f32 randomFloat;
-    s32 playSound;
+    s32 playSfx;
 
     this->actor.gravity = -1.0f;
     this->actor.minVelocityY = -10.0f;
@@ -406,17 +406,17 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
 
     if (randomFloat < 0.1f) {
         this->actor.velocity.y = (Rand_ZeroOne() * 3.0f) + 2.5f;
-        playSound = true;
+        playSfx = true;
     } else if (randomFloat < 0.2f) {
         this->actor.velocity.y = (Rand_ZeroOne() * 1.2f) + 0.2f;
-        playSound = true;
+        playSfx = true;
     } else {
         this->actor.velocity.y = 0.0f;
 
         if (Rand_ZeroOne() < 0.2f) {
-            playSound = true;
+            playSfx = true;
         } else {
-            playSound = false;
+            playSfx = false;
         }
     }
 
@@ -425,8 +425,8 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     this->actionFunc = EnFish_Dropped_FlopOnGround;
     this->unk_250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
 
-    if (playSound && (this->actor.draw != NULL)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
+    if (playSfx && (this->actor.draw != NULL)) {
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
     }
 }
 
@@ -591,7 +591,7 @@ void EnFish_Cutscene_FlopOnGround(EnFish* this, PlayState* play) {
 
         if (Rand_ZeroOne() < 0.1f) {
             D_80A17018 = (Rand_ZeroOne() * 3.0f) + 2.0f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
         } else {
             D_80A17018 = 0.0f;
         }
@@ -669,7 +669,7 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     this->actor.world.pos.z = (endPos.z - startPos.z) * progress + startPos.z;
 
     this->actor.floorHeight =
-        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
+        BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
 }
 
 // Update functions and Draw

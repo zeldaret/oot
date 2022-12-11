@@ -20,7 +20,7 @@ void func_8087B938(BgHaka* this, PlayState* play);
 void func_8087BAAC(BgHaka* this, PlayState* play);
 void func_8087BAE4(BgHaka* this, PlayState* play);
 
-const ActorInit Bg_Haka_InitVars = {
+ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
     ACTORCAT_BG,
     FLAGS,
@@ -43,7 +43,7 @@ void BgHaka_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gGravestoneCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8087B7E8;
@@ -68,7 +68,7 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->dyna.unk_150 != 0.0f) {
-        if (play->sceneNum == SCENE_SPOT02 && !LINK_IS_ADULT && IS_DAY) {
+        if (play->sceneId == SCENE_GRAVEYARD && !LINK_IS_ADULT && IS_DAY) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             if (!Play_InCsMode(play)) {
@@ -77,7 +77,7 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
                 this->actionFunc = func_8087BAE4;
             }
         } else if (0.0f < this->dyna.unk_150 ||
-                   (play->sceneNum == SCENE_SPOT06 && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
+                   (play->sceneId == SCENE_LAKE_HYLIA && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~PLAYER_STATE2_4;
         } else {
@@ -104,7 +104,7 @@ void func_8087B938(BgHaka* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-        } else if (!IS_DAY && play->sceneNum == SCENE_SPOT02) {
+        } else if (!IS_DAY && play->sceneId == SCENE_GRAVEYARD) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_POH, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
                         this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0, 1);
         }

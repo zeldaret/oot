@@ -31,7 +31,7 @@ static void* D_808AD850[] = {
     object_spot02_objects_Tex_0102B0, object_spot02_objects_Tex_010EB0, object_spot02_objects_Tex_011AB0,
 };
 
-const ActorInit Bg_Spot02_Objects_InitVars = {
+ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,
     ACTORCAT_BG,
     FLAGS,
@@ -76,7 +76,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0128D8, &colHeader);
                 thisx->flags |= ACTOR_FLAG_22;
             } else {
-                if (play->sceneNum == SCENE_SPOT02) {
+                if (play->sceneId == SCENE_GRAVEYARD) {
                     this->actionFunc = func_808AC908;
                 } else {
                     this->actionFunc = func_808AC8FC;
@@ -87,7 +87,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
 
             this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
-            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (play->sceneNum == SCENE_SPOT02) && (thisx->params == 2)) ||
+            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (play->sceneId == SCENE_GRAVEYARD) && (thisx->params == 2)) ||
                 (LINK_IS_ADULT && (thisx->params == 1))) {
                 Actor_Kill(thisx);
             }
@@ -129,7 +129,7 @@ void func_808AC908(BgSpot02Objects* this, PlayState* play) {
 
     if (play->csCtx.state != 0) {
         if (play->csCtx.npcActions[3] != NULL && play->csCtx.npcActions[3]->action == 2) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
             SET_EVENTCHKINF(EVENTCHKINF_1D);
             this->timer = 25;
             pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * 50.0f) + this->dyna.actor.world.pos.x;
@@ -175,7 +175,7 @@ void func_808ACAFC(BgSpot02Objects* this, PlayState* play) {
 
 void func_808ACB58(BgSpot02Objects* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 255.0f, 1.0f)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808AC8FC;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
@@ -267,7 +267,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
     if (play->csCtx.state != 0 && play->csCtx.npcActions[2] != NULL && play->csCtx.npcActions[2]->action == 2) {
         if (this->timer == 2) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
+            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
         }
 
         if (this->timer < 32) {
@@ -316,8 +316,8 @@ void func_808AD450(Actor* thisx, PlayState* play) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot02_objects.c", 795),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 2 * this->timer, -3 * this->timer, 32, 64, 1,
-                                        4 * this->timer, -6 * this->timer, 32, 64));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 2 * this->timer, -3 * this->timer, 32, 64,
+                                        1, 4 * this->timer, -6 * this->timer, 32, 64));
             gDPPipeSync(POLY_XLU_DISP++);
             gSPDisplayList(POLY_XLU_DISP++, object_spot02_objects_DL_0013F0);
             gDPPipeSync(POLY_XLU_DISP++);

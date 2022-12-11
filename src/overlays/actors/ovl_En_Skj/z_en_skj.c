@@ -159,7 +159,7 @@ typedef struct {
 static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
 static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
-const ActorInit En_Skj_InitVars = {
+ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -397,7 +397,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
         default:
             this->actor.params = type;
             if (((this->actor.params != 0) && (this->actor.params != 1)) && (this->actor.params != 2)) {
-                if (INV_CONTENT(ITEM_TRADE_ADULT) < ITEM_SAW) {
+                if (INV_CONTENT(ITEM_TRADE_ADULT) < ITEM_POACHERS_SAW) {
                     Actor_Kill(&this->actor);
                     return;
                 }
@@ -579,8 +579,8 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
 
     if (!((this->unk_2D3 == 0) || (D_80B01EA0 != 0) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0) {
-            if (this->actor.colChkInfo.damageEffect == 0xF) {
+        switch (this->actor.colChkInfo.damageEffect) {
+            case 0xF:
                 effectPos.x = this->collider.info.bumper.hitPos.x;
                 effectPos.y = this->collider.info.bumper.hitPos.y;
                 effectPos.z = this->collider.info.bumper.hitPos.z;
@@ -612,11 +612,14 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
                 }
                 EnSkj_SetupDie(this);
                 return 1;
-            }
-        } else {
-            this->backflipFlag = 1;
-            EnSkj_Backflip(this);
-            return 1;
+
+            case 0:
+                this->backflipFlag = 1;
+                EnSkj_Backflip(this);
+                return 1;
+
+            default:
+                break;
         }
     }
     return 0;
