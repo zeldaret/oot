@@ -168,7 +168,8 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);
 
-    if (gSaveContext.entranceIndex == ENTR_SPOT20_0 && gSaveContext.sceneLayer == 8) { // ride carpet if in credits
+    if (gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_0 &&
+        gSaveContext.sceneLayer == 8) { // ride carpet if in credits
         Actor_MoveForward(&this->actor);
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

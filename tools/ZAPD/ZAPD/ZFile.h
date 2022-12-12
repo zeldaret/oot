@@ -31,8 +31,8 @@ class ZFile
 {
 public:
 	std::map<offset_t, Declaration*> declarations;
-	std::string defines;
 	std::vector<ZResource*> resources;
+	std::string defines;
 
 	// Default to using virtual addresses
 	uint32_t segment = 0x80;

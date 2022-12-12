@@ -147,7 +147,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCnt = 11;
 
             for (i = 0; i < csInfo->keyFrameCnt - 3; i++) {
-                if (D_80120B94[i].actionFlags != 0x8F) {
+                if (D_80120B94[i].actionFlags != ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true)) {
                     D_80120B94[i].atTargetInit.x = Rand_ZeroOne() * 5.0f;
                     D_80120B94[i].atTargetInit.z = (Rand_ZeroOne() * 30.0f) + 10.0f;
                     D_80120B94[i].eyeTargetInit.x = (Rand_ZeroOne() * 100.0f) + 20.0f;
@@ -169,7 +169,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCnt = 7;
 
             for (i = 0; i < csInfo->keyFrameCnt - 3; i++) {
-                if (D_80120D4C[i].actionFlags != 0x8F) {
+                if (D_80120D4C[i].actionFlags != ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true)) {
                     D_80120D4C[i].atTargetInit.x = Rand_ZeroOne() * 20.0f;
                     D_80120D4C[i].atTargetInit.z = (Rand_ZeroOne() * 40.0f) + 10.0f;
                     D_80120D4C[i].eyeTargetInit.x = (Rand_ZeroOne() * 40.0f) + 60.0f;
@@ -482,7 +482,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
         case 3120:
             csInfo->keyFrames = D_80121954[-(timer + 101)];
             subCam->timer = 100;
-            subCam->unk_14C |= 2;
+            subCam->stateFlags |= CAM_STATE_1;
             csInfo->keyFrameCnt = 2;
 
             func_8002DF54(play, NULL, 8);
@@ -494,7 +494,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             func_8002DF54(play, NULL, 8);
             func_800C0808(play, subCamId, player, CAM_SET_CS_C);
-            subCam->unk_14C |= 2;
+            subCam->stateFlags |= CAM_STATE_1;
             break;
         case 3140:
             D_80121C24[0].atTargetInit = play->view.at;
@@ -1176,7 +1176,7 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
         OnePointCutscene_SetAsChild(play, vChildCamId, subCamId);
         vSubCamStatus = CAM_STAT_WAIT;
     } else {
-        Interface_ChangeAlpha(2);
+        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
     }
     OnePointCutscene_SetAsChild(play, subCamId, parentCamId);
 
@@ -1266,7 +1266,7 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
     sUnused = -1;
 
     parentCam = play->cameraPtrs[CAM_ID_MAIN];
-    if (parentCam->mode == CAM_MODE_FOLLOWBOOMERANG) {
+    if (parentCam->mode == CAM_MODE_FOLLOW_BOOMERANG) {
         osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: change mode BOOKEEPON -> NORMAL\n" VT_RST);
         Camera_ChangeMode(parentCam, CAM_MODE_NORMAL);
     }

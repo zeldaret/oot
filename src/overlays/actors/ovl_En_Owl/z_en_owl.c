@@ -1059,7 +1059,7 @@ s32 func_80ACC5CC(EnOwl* this) {
 s32 func_80ACC624(EnOwl* this, PlayState* play) {
     s32 switchFlag = (this->actor.params & 0xFC0) >> 6;
 
-    if (play->sceneId != SCENE_SPOT11) {
+    if (play->sceneId != SCENE_DESERT_COLOSSUS) {
         return true;
     } else if (switchFlag == 0xA) {
         return true;
