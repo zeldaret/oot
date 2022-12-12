@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "z64cutscene.h"
+#include "z64math.h"
 #include "z64save.h"
 
 // these two angle conversion macros are slightly inaccurate
