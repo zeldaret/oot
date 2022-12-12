@@ -950,7 +950,7 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
             magmaScale = ((s16)(Rand_ZeroOne() * 50)) - 50;
         }
 
-        if (player2->csMode >= 10) {
+        if (player2->csMode >= PLAYER_CSMODE_10) {
             phi_s0_3 = -1;
         }
 
