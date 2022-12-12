@@ -3133,7 +3133,7 @@ s32 Camera_KeepOn1(Camera* camera) {
     s32 sp88;
     f32 sp84;
     s16 sp82;
-    s16 sp80;
+    s16 isOffGround;
     KeepOn1ReadOnlyData* roData = &camera->paramData.keep1.roData;
     KeepOn1ReadWriteData* rwData = &camera->paramData.keep1.rwData;
     s16 t3;
@@ -3232,14 +3232,14 @@ s32 Camera_KeepOn1(Camera* camera) {
             if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
                 camera->player->stateFlags1 & PLAYER_STATE1_21) {
                 rwData->unk_08 = playerPosRot->pos.y;
-                sp80 = 0;
+                isOffGround = false;
             } else {
-                sp80 = 1;
+                isOffGround = true;
             }
 
-            Camera_CalcAtForLockOn(camera, &spB8, &camera->targetPosRot.pos, sp80 ? roData->unk_28 : roData->unk_00,
-                                   sp104, &rwData->unk_08, &spC8,
-                                   (sp80 ? CAM_LOCKON_AT_FLAG_OFF_GROUND : 0) | roData->interfaceField);
+            Camera_CalcAtForLockOn(camera, &spB8, &camera->targetPosRot.pos,
+                                   isOffGround ? roData->unk_28 : roData->unk_00, sp104, &rwData->unk_08, &spC8,
+                                   (isOffGround ? CAM_LOCKON_AT_FLAG_OFF_GROUND : 0) | roData->interfaceField);
             sp114 = playerPosRot->pos;
             sp114.y += playerHeight;
             OLib_Vec3fDiffToVecGeo(&spC8, &sp114, &camera->targetPosRot.pos);
@@ -3343,7 +3343,7 @@ s32 Camera_KeepOn1(Camera* camera) {
     }
     camera->fov = Camera_LERPCeilF(roData->unk_20, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
-    camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp80 ? roData->unk_2C : roData->unk_24);
+    camera->atLERPStepScale = Camera_ClampLERPScale(camera, isOffGround ? roData->unk_2C : roData->unk_24);
     return 1;
 }
 
