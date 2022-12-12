@@ -387,7 +387,7 @@ void Play_Init(GameState* thisx) {
 
     Letterbox_Init();
     TransitionFade_Init(&this->transitionFadeFlash);
-    TransitionFade_SetType(&this->transitionFadeFlash, TRANS_FADE_TYPE_FLASH);
+    TransitionFade_SetType(&this->transitionFadeFlash, TRANS_INSTANCE_TYPE_FADE_FLASH);
     TransitionFade_SetColor(&this->transitionFadeFlash, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&this->transitionFadeFlash);
     VisMono_Init(&D_80161498);
@@ -609,9 +609,9 @@ void Play_Update(PlayState* this) {
                     }
 
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
-                        this->transitionCtx.setType(&this->transitionCtx.instanceData, TRANS_TYPE_FADE_IN);
+                        this->transitionCtx.setType(&this->transitionCtx.instanceData, TRANS_INSTANCE_TYPE_END);
                     } else {
-                        this->transitionCtx.setType(&this->transitionCtx.instanceData, TRANS_TYPE_FADE_OUT);
+                        this->transitionCtx.setType(&this->transitionCtx.instanceData, TRANS_INSTANCE_TYPE_START);
                     }
 
                     this->transitionCtx.start(&this->transitionCtx.instanceData);
