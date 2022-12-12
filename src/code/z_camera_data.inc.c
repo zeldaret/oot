@@ -2691,7 +2691,7 @@ OnePointCsFull D_8011D6AC[] = {
     {
         // initFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
         // initFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
-        // action: interplate eye and at.
+        // action: interpolate eye and at.
         // result: eye and at's y interpolate to become +20 from their current location.
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
         0xFF,
