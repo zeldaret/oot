@@ -1574,28 +1574,24 @@ u32 Actor_HasParent(Actor* actor, PlayState* play) {
  * This function covers various interactions with the player actor, using Get Item IDs (see `GetItemID` enum).
  * It is typically used to give items to the player, but also has other purposes.
  *
- * This function does not perform the requested action itself, it only carries the request on to the player actor if
- * context allows it (e.g. the player is in range and not busy with certain things).
- * Hence its name using "Offer", as it is up to the player actor to honor the request.
+ * This function carries a get item request to the player actor if context allows it (e.g. the player is in range and
+ * not busy with certain things). The player actor performs the requested action itself.
  *
- * This function handles most requests the same, besides a few checks.
  * The following description of what the `getItemId` values can do is provided here for completeness, but these
- * behaviors are entirely out of the scope of this function.
- * All behavior is defined by the player actor.
+ * behaviors are entirely out of the scope of this function. All behavior is defined by the player actor.
  *
- * Positive values (`GI_NONE < getItemId < GI_MAX`):
- *   Give an item to the player. The player may not get it immediately (for example if underwater), but is expected to
- *   in the near future.
- * Negative values (`-GI_MAX < getItemId < GI_NONE`):
- *   Used by treasure chests to indicate the chest can be opened (by pressing A).
- *   The item gotten corresponds to the positive Get Item ID `abs(getItemId)`.
- * `GI_NONE`:
- *   Allows the player to pick up the actor (by pressing A), to carry it around.
- * `GI_MAX`:
- *   Allows the player to catch specific actors in a bottle.
+ * - Positive values (`GI_NONE < getItemId < GI_MAX`):
+ *    Give an item to the player. The player may not get it immediately (for example if underwater), but is expected to
+ *    in the near future.
+ * - Negative values (`-GI_MAX < getItemId < GI_NONE`):
+ *    Used by treasure chests to indicate the chest can be opened (by pressing A).
+ *    The item gotten corresponds to the positive Get Item ID `abs(getItemId)`.
+ * - `GI_NONE`:
+ *    Allows the player to pick up the actor (by pressing A), to carry it around.
+ * - `GI_MAX`:
+ *    Allows the player to catch specific actors in a bottle.
  *
- * @return true If the player actor is in range, seems in capacity of handling the offer, and the offer has been passed
- * on to it.
+ * @return true If the player actor is capable of accepting the offer.
  */
 s32 Actor_OfferGetItem(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = GET_PLAYER(play);
