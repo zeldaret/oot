@@ -854,20 +854,20 @@ typedef struct {
 } KeepOn4ReadOnlyData; // size = 0x20
 
 typedef enum {
-    /*  1 */ KEEPON4_ITEM_TYPE_1=1, // drop fish from bottle and something with ruto's letter
-    /*  2 */ KEEPON4_ITEM_TYPE_2, // drink from bottle?
-    /*  3 */ KEEPON4_ITEM_TYPE_3, // use bottled fairy
-    /*  4 */ KEEPON4_ITEM_TYPE_4, // something with farore's wind, something with exchange items, catching things into bottles
-    /*  5 */ KEEPON4_ITEM_TYPE_5, // drop bugs and blue fire from bottle
-    /*  8 */ KEEPON4_ITEM_TYPE_8=8, // ??? get item after underwater?
-    /*  9 */ KEEPON4_ITEM_TYPE_9, // get item
-    /* 10 */ KEEPON4_ITEM_TYPE_10, // used farore's wind or nayru's love
-    /* 11 */ KEEPON4_ITEM_TYPE_11, // talking to navi?
-    /* 12 */ KEEPON4_ITEM_TYPE_ONEPOINTDEMO9806,
-    /* 81 */ KEEPON4_ITEM_TYPE_HORSE=81,
-    /* 90 */ KEEPON4_ITEM_TYPE_90=90, // play ocarina (on its own)?
-    /* 91 */ KEEPON4_ITEM_TYPE_91 // play ocarina for an actor?
-} KeepOn4_item_type;
+    /*  1 */ CAM_ITEM_TYPE_1=1, // drop fish from bottle and something with ruto's letter
+    /*  2 */ CAM_ITEM_TYPE_2, // drink from bottle?
+    /*  3 */ CAM_ITEM_TYPE_3, // use bottled fairy
+    /*  4 */ CAM_ITEM_TYPE_4, // something with farore's wind, something with exchange items, catching things into bottles
+    /*  5 */ CAM_ITEM_TYPE_5, // drop bugs and blue fire from bottle
+    /*  8 */ CAM_ITEM_TYPE_8=8, // ??? get item after underwater?
+    /*  9 */ CAM_ITEM_TYPE_9, // get item
+    /* 10 */ CAM_ITEM_TYPE_10, // used farore's wind or nayru's love
+    /* 11 */ CAM_ITEM_TYPE_11, // talking to navi?
+    /* 12 */ CAM_ITEM_TYPE_ONEPOINTDEMO9806,
+    /* 81 */ CAM_ITEM_TYPE_HORSE=81,
+    /* 90 */ CAM_ITEM_TYPE_90=90, // play ocarina (on its own)?
+    /* 91 */ CAM_ITEM_TYPE_91 // play ocarina for an actor?
+} CameraItemType;
 
 typedef struct {
     /* 0x00 */ f32 atToEyeTargetStepYaw;
@@ -889,8 +889,8 @@ typedef struct {
 #define KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER (1 << 1) // pitch: provided, yaw: offset from behind player
 #define KEEPON4_FLAG_EYE_ABS (1 << 2) // pitch: provided, yaw: provided. Unused
 #define KEEPON4_FLAG_EYE_FROM_TARGET (1 << 3) // pitch and yaw: depends on x/y rotations of the camera `target`, plus offsets
-#define KEEPON4_FLAG_ONEPOINTDEMO9806 (1 << 4) // Camera timer ticks down, and other things (TODO). Only set for KEEPON4_ITEM_TYPE_ONEPOINTDEMO9806
-#define KEEPON4_FLAG_NOOP (1 << 5) // No effect. Only set for KEEPON4_ITEM_TYPE_11
+#define KEEPON4_FLAG_ONEPOINTDEMO9806 (1 << 4) // Camera timer ticks down, and other things (TODO). Only set for CAM_ITEM_TYPE_ONEPOINTDEMO9806
+#define KEEPON4_FLAG_NOOP (1 << 5) // No effect. Only set for CAM_ITEM_TYPE_11
 #define KEEPON4_FLAG_EYE_KEEP_YAW (1 << 6) // pitch: provided, yaw: retain current yaw
 #define KEEPON4_FLAG_HORSE (1 << 7) // (partly a KEEPON4_FLAG_EYE_) pitch: provided, yaw: offset from the side opposite to the camera `target` compared to player
 

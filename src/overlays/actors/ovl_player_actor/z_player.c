@@ -3122,9 +3122,9 @@ void func_80835E44(PlayState* play, s16 camSetting) {
     }
 }
 
-void func_80835EA4(PlayState* play, s32 keepOn4_item_type_) {
+void func_80835EA4(PlayState* play, s32 camItemType) {
     func_80835E44(play, CAM_SET_TURN_AROUND);
-    Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_CAMERA_DATA_2, NULL, NULL, keepOn4_item_type_, 0,
+    Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_CAMERA_DATA_2, NULL, NULL, camItemType, 0,
                          0);
 }
 
@@ -5165,7 +5165,7 @@ void func_8083AF44(PlayState* play, Player* this, s32 magicSpell) {
     if (magicSpell == PLAYER_MAGIC_SPELL(PLAYER_IA_DINS_FIRE)) {
         this->subCamId = OnePointCutscene_Init(play, 1100, -101, NULL, CAM_ID_MAIN);
     } else {
-        func_80835EA4(play, KEEPON4_ITEM_TYPE_10);
+        func_80835EA4(play, CAM_ITEM_TYPE_10);
     }
 }
 
@@ -5234,7 +5234,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
                         func_80835C58(play, this, func_8085063C, 1);
                         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                         func_80832264(play, this, func_80833338(this));
-                        func_80835EA4(play, KEEPON4_ITEM_TYPE_4);
+                        func_80835EA4(play, CAM_ITEM_TYPE_4);
                     }
 
                     func_80832224(this);
@@ -5289,11 +5289,11 @@ s32 func_8083B040(Player* this, PlayState* play) {
                         } else if (sp2C == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                             this->unk_84F = 1;
                             this->actor.textId = 0x4005;
-                            func_80835EA4(play, KEEPON4_ITEM_TYPE_1);
+                            func_80835EA4(play, CAM_ITEM_TYPE_1);
                         } else {
                             this->unk_84F = 2;
                             this->actor.textId = 0xCF;
-                            func_80835EA4(play, KEEPON4_ITEM_TYPE_4);
+                            func_80835EA4(play, CAM_ITEM_TYPE_4);
                         }
 
                         this->actor.flags |= ACTOR_FLAG_8;
@@ -5315,23 +5315,23 @@ s32 func_8083B040(Player* this, PlayState* play) {
                     if (sp2C == PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FAIRY)) {
                         func_80835DE4(play, this, func_8084EED8, 0);
                         func_808322D0(play, this, &gPlayerAnim_link_bottle_bug_out);
-                        func_80835EA4(play, KEEPON4_ITEM_TYPE_3);
+                        func_80835EA4(play, CAM_ITEM_TYPE_3);
                     } else if ((sp2C >= PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FISH)) &&
                                (sp2C <= PLAYER_BOTTLE(PLAYER_IA_BOTTLE_BUG))) {
                         func_80835DE4(play, this, func_8084EFC0, 0);
                         func_808322D0(play, this, &gPlayerAnim_link_bottle_fish_out);
-                        func_80835EA4(play, (sp2C == PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FISH)) ? KEEPON4_ITEM_TYPE_1
-                                                                                           : KEEPON4_ITEM_TYPE_5);
+                        func_80835EA4(play, (sp2C == PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FISH)) ? CAM_ITEM_TYPE_1
+                                                                                           : CAM_ITEM_TYPE_5);
                     } else {
                         func_80835DE4(play, this, func_8084EAC0, 0);
                         func_80832B78(play, this, &gPlayerAnim_link_bottle_drink_demo_start);
-                        func_80835EA4(play, KEEPON4_ITEM_TYPE_2);
+                        func_80835EA4(play, CAM_ITEM_TYPE_2);
                     }
                 } else {
                     func_80835DE4(play, this, func_8084E3C4, 0);
                     func_808322D0(play, this, &gPlayerAnim_link_normal_okarina_start);
                     this->stateFlags2 |= PLAYER_STATE2_27;
-                    func_80835EA4(play, (this->unk_6A8 != NULL) ? KEEPON4_ITEM_TYPE_91 : KEEPON4_ITEM_TYPE_90);
+                    func_80835EA4(play, (this->unk_6A8 != NULL) ? CAM_ITEM_TYPE_91 : CAM_ITEM_TYPE_90);
                     if (this->unk_6A8 != NULL) {
                         this->stateFlags2 |= PLAYER_STATE2_25;
                         Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->unk_6A8);
@@ -6444,7 +6444,7 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
                     if (!(this->stateFlags2 & PLAYER_STATE2_10) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
                         func_80836898(play, this, func_8083A434);
                         func_808322D0(play, this, &gPlayerAnim_link_demo_get_itemB);
-                        func_80835EA4(play, KEEPON4_ITEM_TYPE_9);
+                        func_80835EA4(play, CAM_ITEM_TYPE_9);
                     }
 
                     this->stateFlags1 |= PLAYER_STATE1_10 | PLAYER_STATE1_11 | PLAYER_STATE1_29;
@@ -12483,7 +12483,7 @@ void func_8084E1EC(Player* this, PlayState* play) {
         if ((this->stateFlags1 & PLAYER_STATE1_10) && LinkAnimation_OnFrame(&this->skelAnime, 10.0f)) {
             func_808332F4(this, play);
             func_80832340(play, this);
-            func_80835EA4(play, KEEPON4_ITEM_TYPE_8);
+            func_80835EA4(play, CAM_ITEM_TYPE_8);
         } else if (LinkAnimation_OnFrame(&this->skelAnime, 5.0f)) {
             func_80832698(this, NA_SE_VO_LI_BREATH_DRINK);
         }
@@ -12648,7 +12648,7 @@ void func_8084E6D4(Player* this, PlayState* play) {
             }
 
             this->unk_850 = 2;
-            func_80835EA4(play, KEEPON4_ITEM_TYPE_9);
+            func_80835EA4(play, CAM_ITEM_TYPE_9);
         }
     } else {
         if (this->unk_850 == 0) {
@@ -12819,7 +12819,7 @@ void func_8084ECA4(Player* this, PlayState* play) {
                             this->interactRangeActor->parent = &this->actor;
                             Player_UpdateBottleHeld(play, this, catchInfo->itemId, ABS(catchInfo->itemAction));
                             func_808322D0(play, this, sp24->unk_04);
-                            func_80835EA4(play, KEEPON4_ITEM_TYPE_4);
+                            func_80835EA4(play, CAM_ITEM_TYPE_4);
                         }
                     }
                 }
@@ -14814,6 +14814,6 @@ void func_80853148(PlayState* play, Actor* actor) {
 
     if ((this->naviActor == this->targetActor) && ((this->targetActor->textId & 0xFF00) != 0x200)) {
         this->naviActor->flags |= ACTOR_FLAG_8;
-        func_80835EA4(play, KEEPON4_ITEM_TYPE_11);
+        func_80835EA4(play, CAM_ITEM_TYPE_11);
     }
 }

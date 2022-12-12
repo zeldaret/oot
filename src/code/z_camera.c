@@ -3607,31 +3607,31 @@ s32 Camera_KeepOn4(Camera* camera) {
 
         osSyncPrintf("camera: item: type %d\n", *itemType);
         switch (*itemType) {
-            case KEEPON4_ITEM_TYPE_1:
+            case CAM_ITEM_TYPE_1:
                 roData->yOffset = playerHeight * -0.6f * yNormal;
                 roData->eyeDist = playerHeight * 2.0f * yNormal;
                 roData->pitchTarget = 10.0f;
                 break;
 
-            case KEEPON4_ITEM_TYPE_2:
-            case KEEPON4_ITEM_TYPE_3:
+            case CAM_ITEM_TYPE_2:
+            case CAM_ITEM_TYPE_3:
                 roData->pitchTarget = -20.0f;
                 roData->fovTarget = 80.0f;
                 break;
 
-            case KEEPON4_ITEM_TYPE_4:
+            case CAM_ITEM_TYPE_4:
                 roData->yOffset = playerHeight * -0.2f * yNormal;
                 roData->pitchTarget = 25.0f;
                 break;
 
-            case KEEPON4_ITEM_TYPE_8:
+            case CAM_ITEM_TYPE_8:
                 roData->yOffset = playerHeight * -0.2f * yNormal;
                 roData->eyeDist = playerHeight * 0.8f * yNormal;
                 roData->pitchTarget = 50.0f;
                 roData->fovTarget = 70.0f;
                 break;
 
-            case KEEPON4_ITEM_TYPE_9:
+            case CAM_ITEM_TYPE_9:
                 roData->yOffset = playerHeight * 0.1f * yNormal;
                 roData->eyeDist = playerHeight * 0.5f * yNormal;
                 roData->pitchTarget = -20.0f;
@@ -3640,7 +3640,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                     CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, KEEPON4_FLAG_EYE_KEEP_YAW);
                 break;
 
-            case KEEPON4_ITEM_TYPE_5:
+            case CAM_ITEM_TYPE_5:
                 roData->yOffset = playerHeight * -0.4f * yNormal;
                 roData->pitchTarget = -10.0f;
                 roData->yawTarget = 45.0f;
@@ -3648,7 +3648,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                                                              KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER);
                 break;
 
-            case KEEPON4_ITEM_TYPE_10:
+            case CAM_ITEM_TYPE_10:
                 roData->yOffset = playerHeight * -0.5f * yNormal;
                 roData->eyeDist = playerHeight * 1.5f * yNormal;
                 roData->pitchTarget = -15.0f;
@@ -3659,7 +3659,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->initTimer = 60;
                 break;
 
-            case KEEPON4_ITEM_TYPE_ONEPOINTDEMO9806:
+            case CAM_ITEM_TYPE_ONEPOINTDEMO9806:
                 roData->yOffset = playerHeight * -0.6f * yNormal;
                 roData->eyeDist = playerHeight * 1.6f * yNormal;
                 roData->pitchTarget = -2.0f;
@@ -3672,14 +3672,14 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->fovTarget = 50.0f;
                 break;
 
-            case KEEPON4_ITEM_TYPE_90:
+            case CAM_ITEM_TYPE_90:
                 roData->yOffset = playerHeight * -0.3f * yNormal;
                 roData->fovTarget = 45.0f;
                 roData->interfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE,
                                                              KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER);
                 break;
 
-            case KEEPON4_ITEM_TYPE_91:
+            case CAM_ITEM_TYPE_91:
                 roData->yOffset = playerHeight * -0.1f * yNormal;
                 roData->eyeDist = playerHeight * 1.5f * yNormal;
                 roData->pitchTarget = -3.0f;
@@ -3689,7 +3689,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                     CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE, KEEPON4_FLAG_EYE_FROM_TARGET);
                 break;
 
-            case KEEPON4_ITEM_TYPE_HORSE:
+            case CAM_ITEM_TYPE_HORSE:
                 roData->yOffset = playerHeight * -0.3f * yNormal;
                 roData->eyeDist = playerHeight * 1.5f * yNormal;
                 roData->pitchTarget = 2.0f;
@@ -3701,7 +3701,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 roData->fovTarget = 45.0f;
                 break;
 
-            case KEEPON4_ITEM_TYPE_11:
+            case CAM_ITEM_TYPE_11:
                 roData->yOffset = playerHeight * -0.19f * yNormal;
                 roData->eyeDist = playerHeight * 0.7f * yNormal;
                 roData->yawTarget = 130.0f;

@@ -1750,7 +1750,7 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
             Camera_SetViewParam(play->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, &this->actor);
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
             Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_CAMERA_DATA_2, NULL, NULL,
-                                 KEEPON4_ITEM_TYPE_HORSE, 0, 0);
+                                 CAM_ITEM_TYPE_HORSE, 0, 0);
         }
     }
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
@@ -1825,7 +1825,7 @@ void EnHorse_Idle(EnHorse* this, PlayState* play) {
                 Camera_SetViewParam(play->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, &this->actor);
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
                 Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_CAMERA_DATA_2, NULL, NULL,
-                                     KEEPON4_ITEM_TYPE_HORSE, 0, 0);
+                                     CAM_ITEM_TYPE_HORSE, 0, 0);
             }
         } else {
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
