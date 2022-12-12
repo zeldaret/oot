@@ -25,9 +25,6 @@ s32 Camera_UpdateWater(Camera* camera);
 // Load the next value and scale down from camera read-only data stored in CameraModeValue
 #define GET_NEXT_SCALED_RO_DATA(values) CAM_DATA_SCALED(GET_NEXT_RO_DATA(values))
 
-#define FLG_CALC_SLOPE_Y_ADJ (1 << 0)
-#define FLG_OFFGROUND (1 << 7)
-
 #define DISTORTION_HOT_ROOM (1 << 0)
 #define DISTORTION_UNDERWATER_WEAK (1 << 1)
 #define DISTORTION_UNDERWATER_MEDIUM (1 << 2)
@@ -1088,6 +1085,9 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecGeo* arg1, f32 yOffset, f32* arg
     return 1;
 }
 
+#define CAM_LOCKON_AT_FLAG_CALC_SLOPE_Y_ADJ (1 << 0)
+#define CAM_LOCKON_AT_FLAG_OFF_GROUND (1 << 7)
+
 /**
  * Adjusts at position for Camera_Battle1 and Camera_KeepOn1
  */
@@ -1110,7 +1110,7 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecGeo* eyeAtDir, Vec3f* targetPos, f
     playerToAtOffsetTarget.x = 0.0f;
     playerToAtOffsetTarget.y = playerHeight + yOffset;
     playerToAtOffsetTarget.z = 0.0f;
-    if (R_CAM_PARALLEL_LOCKON_CALC_SLOPE_Y_ADJ && (flags & FLG_CALC_SLOPE_Y_ADJ)) {
+    if (R_CAM_PARALLEL_LOCKON_CALC_SLOPE_Y_ADJ && (flags & CAM_LOCKON_AT_FLAG_CALC_SLOPE_Y_ADJ)) {
         playerToAtOffsetTarget.y -=
             Camera_CalcSlopeYAdj(floorNorm, playerPosRot->rot.y, eyeAtDir->yaw, R_CAM_SLOPE_Y_ADJ_AMOUNT);
     }
@@ -1131,7 +1131,7 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecGeo* eyeAtDir, Vec3f* targetPos, f
         playerToTargetDir.r = playerToTargetDir.r - (playerToTargetDir.r * temp_f0_2) * temp_f0_2;
     }
 
-    if (flags & FLG_OFFGROUND) {
+    if (flags & CAM_LOCKON_AT_FLAG_OFF_GROUND) {
         playerToTargetDir.r *= 0.2f;
         camera->xzOffsetUpdateRate = camera->yOffsetUpdateRate = .01f;
     }
@@ -1155,7 +1155,7 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecGeo* eyeAtDir, Vec3f* targetPos, f
         Camera_LERPCeilVec3f(&playerToAtOffsetTarget, &camera->playerToAtOffset, camera->yOffsetUpdateRate,
                              camera->xzOffsetUpdateRate, 0.1f);
     } else {
-        if (!(flags & FLG_OFFGROUND)) {
+        if (!(flags & CAM_LOCKON_AT_FLAG_OFF_GROUND)) {
             yPosDelta = playerPosRot->pos.y - *yPosOffset;
             eyeAtDistXZ = OLib_Vec3fDistXZ(at, &camera->eye);
             phi_f16 = eyeAtDistXZ;
@@ -2920,10 +2920,12 @@ s32 Camera_Battle1(Camera* camera) {
         return true;
     }
 
-    Camera_CalcAtForLockOn(
-        camera, &atToEyeNextDir, &camera->targetPosRot.pos, isOffGround ? roData->yOffsetOffGround : roData->yOffset,
-        distance, &rwData->yPosOffset, &playerToTargetDir,
-        (isOffGround ? (0x80 | FLG_CALC_SLOPE_Y_ADJ) : FLG_CALC_SLOPE_Y_ADJ) | roData->interfaceField);
+    Camera_CalcAtForLockOn(camera, &atToEyeNextDir, &camera->targetPosRot.pos,
+                           isOffGround ? roData->yOffsetOffGround : roData->yOffset, distance, &rwData->yPosOffset,
+                           &playerToTargetDir,
+                           (isOffGround ? (CAM_LOCKON_AT_FLAG_OFF_GROUND | CAM_LOCKON_AT_FLAG_CALC_SLOPE_Y_ADJ)
+                                        : CAM_LOCKON_AT_FLAG_CALC_SLOPE_Y_ADJ) |
+                               roData->interfaceField);
     tmpAng2 = playerToTargetDir.yaw;
     playerHead = playerPosRot->pos;
     playerHead.y += playerHeight;
@@ -3242,7 +3244,8 @@ s32 Camera_KeepOn1(Camera* camera) {
             }
 
             Camera_CalcAtForLockOn(camera, &spB8, &camera->targetPosRot.pos, sp80 ? roData->unk_28 : roData->unk_00,
-                                   sp104, &rwData->unk_08, &spC8, (sp80 ? 0x80 : 0) | roData->interfaceField);
+                                   sp104, &rwData->unk_08, &spC8,
+                                   (sp80 ? CAM_LOCKON_AT_FLAG_OFF_GROUND : 0) | roData->interfaceField);
             sp114 = playerPosRot->pos;
             sp114.y += playerHeight;
             OLib_Vec3fDiffToVecGeo(&spC8, &sp114, &camera->targetPosRot.pos);
