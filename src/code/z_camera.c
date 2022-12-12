@@ -907,24 +907,22 @@ f32 Camera_CalcSlopeYAdj(Vec3f* floorNorm, s16 playerYRot, s16 eyeAtYaw, f32 adj
 /**
  * Calculates new at vector for the camera pointing in `eyeAtDir`
  */
-s32 Camera_CalcAtDefault(Camera* camera, VecGeo* eyeAtDir, f32 extraYOffset, s16 calcSlopeYAdj) {
+s32 Camera_CalcAtDefault(Camera* camera, VecGeo* eyeAtDir, f32 yOffset, s16 calcSlopeYAdj) {
     Vec3f* at = &camera->at;
     Vec3f playerToAtOffsetTarget;
     Vec3f atTarget;
     s32 pad2;
     PosRot* playerPosRot = &camera->playerPosRot;
-    f32 yOffset;
-
-    yOffset = Player_GetHeight(camera->player);
+    f32 playerHeight = Player_GetHeight(camera->player);
 
     playerToAtOffsetTarget.x = 0.f;
-    playerToAtOffsetTarget.y = yOffset + extraYOffset;
+    playerToAtOffsetTarget.y = playerHeight + yOffset;
     playerToAtOffsetTarget.z = 0.f;
 
     if (calcSlopeYAdj) {
         playerToAtOffsetTarget.y -= OLib_ClampMaxDist(
             Camera_CalcSlopeYAdj(&camera->floorNorm, playerPosRot->rot.y, eyeAtDir->yaw, R_CAM_SLOPE_Y_ADJ_AMOUNT),
-            yOffset);
+            playerHeight);
     }
 
     Camera_LERPCeilVec3f(&playerToAtOffsetTarget, &camera->playerToAtOffset, camera->yOffsetUpdateRate,
@@ -982,7 +980,7 @@ s32 func_800458D4(Camera* camera, VecGeo* eyeAtDir, f32 yOffset, f32* arg3, s16 
     return 1;
 }
 
-s32 func_80045B08(Camera* camera, VecGeo* eyeAtDir, f32 yExtra, s16 arg3) {
+s32 func_80045B08(Camera* camera, VecGeo* eyeAtDir, f32 yOffset, s16 arg3) {
     f32 phi_f2;
     Vec3f playerToAtOffsetTarget;
     Vec3f atTarget;
@@ -990,7 +988,7 @@ s32 func_80045B08(Camera* camera, VecGeo* eyeAtDir, f32 yExtra, s16 arg3) {
     f32 temp_ret;
     PosRot* playerPosRot = &camera->playerPosRot;
 
-    playerToAtOffsetTarget.y = Player_GetHeight(camera->player) + yExtra;
+    playerToAtOffsetTarget.y = Player_GetHeight(camera->player) + yOffset;
     playerToAtOffsetTarget.x = 0.0f;
     playerToAtOffsetTarget.z = 0.0f;
 
@@ -1027,11 +1025,10 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecGeo* arg1, f32 yOffset, f32* arg
     f32 phi_f16;
     f32 eyeAtDistXZ;
     f32 phi_f20;
-    f32 temp_f0_4;
+    f32 playerHeight = Player_GetHeight(camera->player);
 
-    temp_f0_4 = Player_GetHeight(camera->player);
     playerToAtOffsetTarget.x = 0.0f;
-    playerToAtOffsetTarget.y = temp_f0_4 + yOffset;
+    playerToAtOffsetTarget.y = playerHeight + yOffset;
     playerToAtOffsetTarget.z = 0.0f;
 
     if (R_CAM_PARALLEL_LOCKON_CALC_SLOPE_Y_ADJ && calcSlopeYAdj) {
@@ -1104,9 +1101,8 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecGeo* eyeAtDir, Vec3f* targetPos, f
     f32 phi_f16;
     f32 eyeAtDistXZ;
     f32 temp_f0_2;
-    f32 playerHeight;
+    f32 playerHeight = Player_GetHeight(camera->player);
 
-    playerHeight = Player_GetHeight(camera->player);
     playerToAtOffsetTarget.x = 0.0f;
     playerToAtOffsetTarget.y = playerHeight + yOffset;
     playerToAtOffsetTarget.z = 0.0f;
@@ -1202,12 +1198,10 @@ s32 Camera_CalcAtForHorse(Camera* camera, VecGeo* eyeAtDir, f32 yOffset, f32* yP
     Vec3f atTarget;
     s32 pad;
     s32 pad2;
-    f32 playerHeight;
-    Player* player;
+    f32 playerHeight = Player_GetHeight(camera->player);
+    Player* player = camera->player;
     PosRot horsePosRot;
 
-    playerHeight = Player_GetHeight(camera->player);
-    player = camera->player;
     Actor_GetWorldPosShapeRot(&horsePosRot, player->rideActor);
 
     if (EN_HORSE_CHECK_JUMPING((EnHorse*)player->rideActor)) {
