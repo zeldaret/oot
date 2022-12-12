@@ -147,7 +147,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCnt = 11;
 
             for (i = 0; i < csInfo->keyFrameCnt - 3; i++) {
-                if (D_80120B94[i].actionFlags != 0x8F) {
+                if (D_80120B94[i].actionFlags != ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true)) {
                     D_80120B94[i].atTargetInit.x = Rand_ZeroOne() * 5.0f;
                     D_80120B94[i].atTargetInit.z = (Rand_ZeroOne() * 30.0f) + 10.0f;
                     D_80120B94[i].eyeTargetInit.x = (Rand_ZeroOne() * 100.0f) + 20.0f;
@@ -169,7 +169,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCnt = 7;
 
             for (i = 0; i < csInfo->keyFrameCnt - 3; i++) {
-                if (D_80120D4C[i].actionFlags != 0x8F) {
+                if (D_80120D4C[i].actionFlags != ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true)) {
                     D_80120D4C[i].atTargetInit.x = Rand_ZeroOne() * 20.0f;
                     D_80120D4C[i].atTargetInit.z = (Rand_ZeroOne() * 40.0f) + 10.0f;
                     D_80120D4C[i].eyeTargetInit.x = (Rand_ZeroOne() * 40.0f) + 60.0f;
