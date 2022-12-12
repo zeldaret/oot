@@ -2677,7 +2677,7 @@ OnePointCsFull D_8011D6AC[] = {
         // initflags & 0x00FF (at): 2, atTarget is view lookAt + atInit
         // initFlags & 0xFF00 (eye): none
         // action: 15, copy at, eye, roll, fov to camera
-        // result: eye remains in the same locaiton, at is View's lookAt
+        // result: eye remains in the same location, at is View's lookAt
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
         0xFF,
         0x0002,
