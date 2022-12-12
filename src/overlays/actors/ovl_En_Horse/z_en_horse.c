@@ -1749,8 +1749,8 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
             // Focus the camera on Epona
             Camera_SetViewParam(play->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, &this->actor);
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
-            Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_CAMERA_DATA_2, NULL, NULL,
-                                 CAM_ITEM_TYPE_HORSE, 0, 0);
+            Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_CAMERA_DATA_2, NULL, NULL, CAM_ITEM_TYPE_HORSE,
+                                 0, 0);
         }
     }
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
