@@ -939,7 +939,7 @@ s32 Camera_CalcAtDefault(Camera* camera, VecGeo* eyeAtDir, f32 extraYOffset, s16
     return true;
 }
 
-s32 func_800458D4(Camera* camera, VecGeo* eyeAtDir, f32 arg2, f32* arg3, s16 calcSlopeYAdj) {
+s32 func_800458D4(Camera* camera, VecGeo* eyeAtDir, f32 yOffset, f32* arg3, s16 calcSlopeYAdj) {
     f32 phi_f2;
     Vec3f playerToAtOffsetTarget;
     Vec3f atTarget;
@@ -948,7 +948,7 @@ s32 func_800458D4(Camera* camera, VecGeo* eyeAtDir, f32 arg2, f32* arg3, s16 cal
     f32 deltaY;
     s32 pad[2];
 
-    playerToAtOffsetTarget.y = Player_GetHeight(camera->player) + arg2;
+    playerToAtOffsetTarget.y = Player_GetHeight(camera->player) + yOffset;
     playerToAtOffsetTarget.x = 0.0f;
     playerToAtOffsetTarget.z = 0.0f;
 
