@@ -109,10 +109,10 @@ s32 EnHoll_IsKokiriLayer8(void) {
 }
 
 void EnHoll_ChooseAction(EnHoll* this) {
-    s32 action = ENHOLL_GET_TYPE(&this->actor);
+    s32 type = ENHOLL_GET_TYPE(&this->actor);
 
-    EnHoll_SetupAction(this, sActionFuncs[action]);
-    if (action != ENHOLL_H_VISIBLE_NARROW) {
+    EnHoll_SetupAction(this, sActionFuncs[type]);
+    if (type != ENHOLL_H_VISIBLE_NARROW) {
         this->actor.draw = NULL;
     } else {
         this->planeAlpha = 255;
