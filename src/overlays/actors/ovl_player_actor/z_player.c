@@ -3350,7 +3350,7 @@ s32 Player_ScaledStepBinangClamped(s16* pValue, s16 target, s16 step, s16 overfl
     s16 valueBeforeClamp;
 
     // Clamp value to [constraintMid - constraintRange , constraintMid + constraintRange]
-    // This needs to be more involved than a simple `CLAMP` to account for binang wrapping
+    // This is more involved than a simple `CLAMP`, to account for binang wrapping
     offset = clampedOffset = constraintMid - *pValue;
     clampedOffset = CLAMP(clampedOffset, -constraintRange, constraintRange);
     *pValue += (s16)(offset - clampedOffset);
