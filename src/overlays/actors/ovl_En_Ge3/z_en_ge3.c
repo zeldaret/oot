@@ -159,7 +159,7 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
         this->actionFunc = EnGe3_GiveCard;
     } else {
         if (!(this->unk_30C & 4)) {
-            func_8002DF54(play, &this->actor, 7);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
             this->unk_30C |= 4;
         }
         this->actor.textId = 0x6004;

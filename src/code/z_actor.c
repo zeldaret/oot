@@ -1025,7 +1025,7 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
 }
 
 s32 func_8002DEEC(Player* player) {
-    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csMode != 0);
+    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csMode != PLAYER_CSMODE_NONE);
 }
 
 void func_8002DF18(PlayState* play, Player* player) {

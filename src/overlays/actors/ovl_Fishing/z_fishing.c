@@ -5361,7 +5361,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, 5);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5387,7 +5387,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 mainCam->at = sSubCamAt;
                 func_800C08AC(play, sSubCamId, 0);
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 D_80B7A6CC = 0;
                 sSubCamId = SUB_CAM_ID_DONE;
                 D_80B7A6D0 = 30;
@@ -5403,7 +5403,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, 5);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5422,7 +5422,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             if ((D_80B7A6D0 == 0) && Message_ShouldAdvance(play)) {
                 D_80B7A6CC = 22;
                 D_80B7A6D0 = 40;
-                func_8002DF54(play, &this->actor, 0x1C);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_28);
                 D_80B7FEE4 = 0.0f;
             }
             break;
@@ -5491,7 +5491,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                         mainCam->at = sSubCamAt;
                         func_800C08AC(play, sSubCamId, 0);
                         func_80064534(play, &play->csCtx);
-                        func_8002DF54(play, &this->actor, 7);
+                        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                         D_80B7A6CC = 0;
                         sSubCamId = SUB_CAM_ID_DONE;
                         player->unk_860 = -5;
