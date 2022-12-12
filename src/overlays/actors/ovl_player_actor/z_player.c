@@ -10727,7 +10727,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             (this->actor.category == ACTORCAT_PLAYER)) {
             CsCmdActorAction* linkActionCsCmd = play->csCtx.linkAction;
 
-            if ((linkActionCsCmd != NULL) && (D_808547C4[linkActionCsCmd->action] != 0)) {
+            if ((linkActionCsCmd != NULL) && (D_808547C4[linkActionCsCmd->action] != PLAYER_CSMODE_NONE)) {
                 func_8002DF54(play, NULL, PLAYER_CSMODE_6);
                 func_80832210(this);
             } else if ((this->csMode == PLAYER_CSMODE_NONE) && !(this->stateFlags2 & PLAYER_STATE2_10) &&
@@ -14634,7 +14634,7 @@ void func_80852C0C(PlayState* play, Player* this, s32 csMode) {
 void func_80852C50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     CsCmdActorAction* linkCsAction = play->csCtx.linkAction;
     s32 pad;
-    s32 sp24;
+    s32 csMode;
 
     if (play->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
         func_8002DF54(play, NULL, PLAYER_CSMODE_7);
@@ -14649,9 +14649,9 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     }
 
     if (this->unk_446 != linkCsAction->action) {
-        sp24 = D_808547C4[linkCsAction->action];
-        if (sp24 >= 0) {
-            if ((sp24 == 3) || (sp24 == 4)) {
+        csMode = D_808547C4[linkCsAction->action];
+        if (csMode >= 0) {
+            if ((csMode == PLAYER_CSMODE_3) || (csMode == PLAYER_CSMODE_4)) {
                 func_80852A54(play, this, linkCsAction);
             } else {
                 func_808529D0(play, this, linkCsAction);
@@ -14661,17 +14661,17 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         D_80858AA0 = this->skelAnime.moveFlags;
 
         func_80832DBC(this);
-        osSyncPrintf("TOOL MODE=%d\n", sp24);
-        func_80852C0C(play, this, ABS(sp24));
-        func_80852B4C(play, this, linkCsAction, &D_80854B18[ABS(sp24)]);
+        osSyncPrintf("TOOL MODE=%d\n", csMode);
+        func_80852C0C(play, this, ABS(csMode));
+        func_80852B4C(play, this, linkCsAction, &D_80854B18[ABS(csMode)]);
 
         this->unk_850 = 0;
         this->unk_84F = 0;
         this->unk_446 = linkCsAction->action;
     }
 
-    sp24 = D_808547C4[this->unk_446];
-    func_80852B4C(play, this, linkCsAction, &D_80854E50[ABS(sp24)]);
+    csMode = D_808547C4[this->unk_446];
+    func_80852B4C(play, this, linkCsAction, &D_80854E50[ABS(csMode)]);
 }
 
 void func_80852E14(Player* this, PlayState* play) {
