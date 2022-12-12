@@ -198,9 +198,9 @@ void* gItemIcons[] = {
     gQuestIconHeartContainerTex,  // ITEM_HEART_CONTAINER
     gQuestIconHeartPieceTex,      // ITEM_HEART_PIECE
     gQuestIconDungeonBossKeyTex,  // ITEM_DUNGEON_BOSS_KEY
-    gQuestIconDungeonMapTex,      // ITEM_DUNGEON_COMPASS (swapped with map?)
-    gQuestIconDungeonCompassTex,  // ITEM_DUNGEON_MAP
-    gQuestIconDungeonBossKeyTex,  // ITEM_SMALL_KEY
+    gQuestIconDungeonMapTex,      // ITEM_DUNGEON_COMPASS (swapped with map (inconsequential))
+    gQuestIconDungeonCompassTex,  // ITEM_DUNGEON_MAP (swapped with compass (inconsequential))
+    gQuestIconDungeonBossKeyTex,  // ITEM_SMALL_KEY (but texture is boss key (inconsequential))
     gQuestIconMagicJarSmallTex,   // ITEM_MAGIC_JAR_SMALL
     gQuestIconMagicJarBigTex,     // ITEM_MAGIC_JAR_BIG
     // icon_item_static 48x48 ia8
