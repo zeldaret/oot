@@ -3345,29 +3345,29 @@ void func_808368EC(Player* this, PlayState* play) {
  */
 s32 Player_ScaledStepBinangClamped(s16* pValue, s16 target, s16 step, s16 overflowRange, s16 constraintMid,
                                    s16 constraintRange) {
-    s16 offset;
-    s16 clampedOffset;
-    s16 valueBeforeClamp;
+    s16 diff;
+    s16 clampedDiff;
+    s16 valueBeforeOverflowClamp;
 
     // Clamp value to [constraintMid - constraintRange , constraintMid + constraintRange]
     // This is more involved than a simple `CLAMP`, to account for binang wrapping
-    offset = clampedOffset = constraintMid - *pValue;
-    clampedOffset = CLAMP(clampedOffset, -constraintRange, constraintRange);
-    *pValue += (s16)(offset - clampedOffset);
+    diff = clampedDiff = constraintMid - *pValue;
+    clampedDiff = CLAMP(clampedDiff, -constraintRange, constraintRange);
+    *pValue += (s16)(diff - clampedDiff);
 
     Math_ScaledStepToS(pValue, target, step);
 
-    valueBeforeClamp = *pValue;
+    valueBeforeOverflowClamp = *pValue;
     if (*pValue < -overflowRange) {
         *pValue = -overflowRange;
     } else if (*pValue > overflowRange) {
         *pValue = overflowRange;
     }
-    return valueBeforeClamp - *pValue;
+    return valueBeforeOverflowClamp - *pValue;
 }
 
 s32 func_80836AB8(Player* this, s32 arg1) {
-    s16 targetBodyYaw;
+    s16 targetUpperBodyYaw;
     s16 yaw;
 
     yaw = this->actor.shape.rot.y;
@@ -3385,12 +3385,12 @@ s32 func_80836AB8(Player* this, s32 arg1) {
 
         // Step the upper body and head yaw to the focus yaw.
         // Eventually prefers turning the upper body rather than the head.
-        targetBodyYaw = this->actor.focus.rot.y - yaw;
-        Player_ScaledStepBinangClamped(&targetBodyYaw, 0, 200, 24000, this->upperLimbRot.y, 8000);
-        yaw = this->actor.focus.rot.y - targetBodyYaw;
-        Player_ScaledStepBinangClamped(&this->headLimbRot.y, targetBodyYaw - this->upperLimbRot.y, 200, 8000,
-                                       targetBodyYaw, 8000);
-        Player_ScaledStepBinangClamped(&this->upperLimbRot.y, targetBodyYaw, 200, 8000, this->headLimbRot.y, 8000);
+        targetUpperBodyYaw = this->actor.focus.rot.y - yaw;
+        Player_ScaledStepBinangClamped(&targetUpperBodyYaw, 0, 200, 24000, this->upperLimbRot.y, 8000);
+        yaw = this->actor.focus.rot.y - targetUpperBodyYaw;
+        Player_ScaledStepBinangClamped(&this->headLimbRot.y, targetUpperBodyYaw - this->upperLimbRot.y, 200, 8000,
+                                       targetUpperBodyYaw, 8000);
+        Player_ScaledStepBinangClamped(&this->upperLimbRot.y, targetUpperBodyYaw, 200, 8000, this->headLimbRot.y, 8000);
 
         this->rotsNoRestFlags |=
             NOREST_ROT_FOCUS_X | NOREST_ROT_HEAD_X | NOREST_ROT_HEAD_Y | NOREST_ROT_UPPER_X | NOREST_ROT_UPPER_Y;
