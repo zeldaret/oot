@@ -13656,7 +13656,7 @@ static struct_80832924 D_80854B14[] = {
     { 0, -0x300A },
 };
 
-static struct_80854B18 D_80854B18[] = {
+static struct_80854B18 D_80854B18[PLAYER_CSMODE_MAX] = {
     { 0, NULL },                                         // PLAYER_CSMODE_NONE
     { -1, func_808515A4 },                               // PLAYER_CSMODE_1
     { 2, &gPlayerAnim_link_demo_goma_furimuki },         // PLAYER_CSMODE_2
@@ -13762,7 +13762,7 @@ static struct_80854B18 D_80854B18[] = {
     { 3, &gPlayerAnim_link_demo_kenmiru2_modori },       // PLAYER_CSMODE_102
 };
 
-static struct_80854B18 D_80854E50[] = {
+static struct_80854B18 D_80854E50[PLAYER_CSMODE_MAX] = {
     { 0, NULL },                                          // PLAYER_CSMODE_NONE
     { -1, func_808514C0 },                                // PLAYER_CSMODE_1
     { -1, func_8085157C },                                // PLAYER_CSMODE_2
