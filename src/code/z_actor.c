@@ -1581,7 +1581,7 @@ u32 Actor_HasParent(Actor* actor, PlayState* play) {
  * behaviors are entirely out of the scope of this function. All behavior is defined by the player actor.
  *
  * - Positive values (`GI_NONE < getItemId < GI_MAX`):
- *    Give an item to the player. The player may not get it immediately (for example if underwater), but is expected to
+ *    Give an item to the player. The player may not get it immediately (for example if diving), but is expected to
  *    in the near future.
  * - Negative values (`-GI_MAX < getItemId < GI_NONE`):
  *    Used by treasure chests to indicate the chest can be opened (by pressing A).
