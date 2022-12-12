@@ -457,7 +457,7 @@ typedef enum {
     /* 0x65 */ PLAYER_CSMODE_101,
     /* 0x66 */ PLAYER_CSMODE_102,
     /* 0x67 */ PLAYER_CSMODE_MAX
-} PlayerCsMode;
+} PlayerCutsceneMode;
 
 typedef struct {
     /* 0x00 */ f32 unk_00;
