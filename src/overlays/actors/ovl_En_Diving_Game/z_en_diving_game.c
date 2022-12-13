@@ -459,7 +459,7 @@ void func_809EEA00(EnDivingGame* this, PlayState* play) {
     if ((this->unk_292 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play))) {
         Message_CloseTextbox(play);
         this->actor.parent = NULL;
-        func_8002F434(&this->actor, play, GI_SCALE_SILVER, 90.0f, 10.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_SCALE_SILVER, 90.0f, 10.0f);
         this->actionFunc = func_809EEA90;
     }
 }
@@ -469,7 +469,7 @@ void func_809EEA90(EnDivingGame* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = func_809EEAF8;
     } else {
-        func_8002F434(&this->actor, play, GI_SCALE_SILVER, 90.0f, 10.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_SCALE_SILVER, 90.0f, 10.0f);
     }
 }
 

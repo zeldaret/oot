@@ -270,7 +270,7 @@ void EnPoField_SetupDamage(EnPoField* this) {
     }
     this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
     this->actor.speedXZ = 5.0f;
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 16);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
     this->actionFunc = EnPoField_Damage;
 }
 

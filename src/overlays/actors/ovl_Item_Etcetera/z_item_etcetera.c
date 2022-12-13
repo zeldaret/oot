@@ -158,7 +158,7 @@ void func_80B85824(ItemEtcetera* this, PlayState* play) {
         }
         Actor_Kill(&this->actor);
     } else {
-        func_8002F434(&this->actor, play, this->getItemId, 30.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 30.0f, 50.0f);
     }
 }
 
@@ -171,7 +171,7 @@ void func_80B858B4(ItemEtcetera* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         if (0) {} // Necessary to match
-        func_8002F434(&this->actor, play, this->getItemId, 30.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 30.0f, 50.0f);
         if ((play->gameplayFrames & 0xD) == 0) {
             EffectSsBubble_Spawn(play, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }

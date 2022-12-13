@@ -141,7 +141,7 @@ void EnGe3_WaitTillCardGiven(EnGe3* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe3_Wait;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -150,7 +150,7 @@ void EnGe3_GiveCard(EnGe3* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe3_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
