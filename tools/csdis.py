@@ -237,8 +237,8 @@ cutscene_command_macros = {
         ("CS_STOP_SEQ_LIST(%w1:1:s)", 2, None, 0,
               "CS_STOP_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     124:
-        ("CS_FADE_SEQ_LIST(%w1:1:s)", 2, None, 0,
-              "CS_FADE_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
+        ("CS_FADE_OUT_SEQ_LIST(%w1:1:s)", 2, None, 0,
+              "CS_FADE_OUT_SEQ(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %w1:3:x, %w1:4:x, %w1:5:x, %w1:6:x, %w1:7:x, %w1:8:x, %w1:9:x)", 12),
     9:
         ("CS_RUMBLE_CONTROLLER_LIST(%w1:1:s)", 2, None, 0,
               "CS_RUMBLE_CONTROLLER(%h2:1:x, %h1:1:s, %h2:2:s, %b2:2:x, %b1:2:x, %b4:3:x, %b3:3:x, %h1:3:x)", 3),

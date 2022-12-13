@@ -82,7 +82,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
         osSyncPrintf("\nthis->timer=[%d]", this->timer);
         if (this->timer == 308) {
             osSyncPrintf("\n\n\n豆よ のびろ 指定\n\n\n"); // "Let's grow some beans"
-            CutsceneFlags_Set(play, 5);                   // set storms env flag
+            CutsceneFlags_Set(play, 5);
         }
     }
 

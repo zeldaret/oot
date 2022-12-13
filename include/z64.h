@@ -1161,7 +1161,7 @@ typedef struct PlayState {
     /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
     /* 0x11E5E */ u8 transitionType;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
-    /* 0x120FC */ u16 envFlags[20];
+    /* 0x120FC */ u16 cutsceneFlags[20];
     /* 0x12124 */ PreRender pauseBgPreRender;
     /* 0x12174 */ char unk_12174[0x53];
     /* 0x121C7 */ s8 unk_121C7;

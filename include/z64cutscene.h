@@ -25,11 +25,11 @@ typedef union CutsceneData {
 } CutsceneData;
 
 typedef enum {
-    CS_STATE_IDLE,
-    CS_STATE_START,
-    CS_STATE_RUN,
-    CS_STATE_STOP,
-    CS_STATE_RUN_UNSKIPPABLE
+    /* 0 */ CS_STATE_IDLE,
+    /* 1 */ CS_STATE_START,
+    /* 2 */ CS_STATE_RUN,
+    /* 3 */ CS_STATE_STOP,
+    /* 4 */ CS_STATE_RUN_UNSKIPPABLE
 } CutsceneState;
 
 typedef enum {
@@ -139,7 +139,7 @@ typedef enum {
     /* 0x0078 */ CS_CMD_ACTOR_CUE_1_14,
     /* 0x0079 */ CS_CMD_ACTOR_CUE_2_11,
     /* 0x007B */ CS_CMD_ACTOR_CUE_0_14 = 0x7B,
-    /* 0x007C */ CS_CMD_FADE_SEQ,
+    /* 0x007C */ CS_CMD_FADE_OUT_SEQ,
     /* 0x007D */ CS_CMD_ACTOR_CUE_1_15,
     /* 0x007E */ CS_CMD_ACTOR_CUE_2_12,
     /* 0x007F */ CS_CMD_ACTOR_CUE_3_11,
@@ -167,38 +167,17 @@ typedef enum {
 #define CS_CMD_CONTINUE 0
 #define CS_CMD_STOP -1
 
-// TODO: fix ZAPD to use new names and delete these:
-#define CS_CMD_CAM_EYE CS_CMD_CAM_EYE_POINTS
-#define CS_CMD_CAM_AT CS_CMD_CAM_AT_POINTS
-#define CS_CMD_SET_LIGHTING CS_CMD_LIGHT_SETTING
-#define CS_CMD_CAM_EYE_REL_TO_PLAYER CS_CMD_CAM_EYE_POINTS_REL_TO_PLAYER
-#define CS_CMD_CAM_AT_REL_TO_PLAYER CS_CMD_CAM_AT_POINTS_REL_TO_PLAYER
-#define CS_CMD_09 CS_CMD_RUMBLE_CONTROLLER
-#define CS_CMD_SET_PLAYER_ACTION CS_CMD_PLAYER_CUE
-#define CS_CMD_SCENE_TRANS_FX CS_CMD_TRANSITION
-#define CS_CMD_TEXTBOX CS_CMD_TEXT
-#define CS_CMD_PLAYBGM CS_CMD_PLAY_SEQ
-#define CS_CMD_STOPBGM CS_CMD_STOP_SEQ
-#define CS_CMD_FADEBGM CS_CMD_FADE_SEQ
+// // TODO: fix ZAPD to use new names and delete these:
 #define CS_CMD_SETTIME CS_CMD_TIME
-#define CS_CMD_SET_ACTOR_ACTION_1 CS_CMD_ACTOR_CUE_0_0
-#define CS_CMD_SET_ACTOR_ACTION_2 CS_CMD_ACTOR_CUE_1_0
-#define CS_CMD_SET_ACTOR_ACTION_4 CS_CMD_ACTOR_CUE_2_0
-#define CS_CMD_SET_ACTOR_ACTION_3 CS_CMD_ACTOR_CUE_3_0
-#define CS_CMD_SET_ACTOR_ACTION_5 CS_CMD_ACTOR_CUE_4_0
-#define CS_CMD_SET_ACTOR_ACTION_6 CS_CMD_ACTOR_CUE_5_0
-#define CS_CMD_SET_ACTOR_ACTION_7 CS_CMD_ACTOR_CUE_6_0
-#define CS_CMD_SET_ACTOR_ACTION_8 CS_CMD_ACTOR_CUE_7_0
-#define CS_CMD_SET_ACTOR_ACTION_9 CS_CMD_ACTOR_CUE_8_0
-#define CS_CMD_SET_ACTOR_ACTION_10 CS_CMD_ACTOR_CUE_9_0
-#define CS_CMD_TERMINATOR CS_CMD_DESTINATION
 
 typedef enum {
-    /* 0x01 */ CS_MISC_RAIN = 1,
+    /* 0x00 */ CS_MISC_UNIMPLEMENTED_0,
+    /* 0x01 */ CS_MISC_RAIN,
     /* 0x02 */ CS_MISC_LIGHTNING,
     /* 0x03 */ CS_MISC_SET_FLAG_0, // also sets flag 2 if in Temple of Time
     /* 0x04 */ CS_MISC_UNIMPLEMENTED_4,
-    /* 0x06 */ CS_MISC_LIFT_FOG = 6,
+    /* 0x05 */ CS_MISC_UNIMPLEMENTED_5,
+    /* 0x06 */ CS_MISC_LIFT_FOG,
     /* 0x07 */ CS_MISC_CLOUDY_SKY,
     /* 0x08 */ CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA,
     /* 0x09 */ CS_MISC_SNOW,
@@ -239,9 +218,9 @@ typedef enum {
 } CutsceneTextType;
 
 typedef enum {
-    /* 0x03 */ CS_FADE_FANFARE = 3, 
-    /* 0x04 */ CS_FADE_BGM
-} CutsceneFadeSeqType;
+    /* 0x03 */ CS_FADE_OUT_FANFARE = 3, 
+    /* 0x04 */ CS_FADE_OUT_BGM_MAIN
+} CutsceneFadeOutSeqPlayer;
 
 typedef enum {
     /* 0x01 */ CS_TRANS_GRAY_FILL = 1, // has hardcoded sounds for some scenes
@@ -422,7 +401,7 @@ typedef struct {
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8 unused_06[0x2A];
-} CsCmdFadeSeq; // size = 0x30
+} CsCmdFadeOutSeq; // size = 0x30
 
 typedef struct {
     /* 0x00 */ u8 unused_00[0x2];
@@ -456,7 +435,7 @@ typedef struct {
     /* 0x06 */ u16 type;
     /* 0x08 */ u16 altTextId1;
     /* 0x0A */ u16 altTextId2;
-} CsCmdTextbox; // size = 0xC
+} CsCmdText; // size = 0xC
 
 #define CS_TEXT_ID_NONE 0xFFFF
 

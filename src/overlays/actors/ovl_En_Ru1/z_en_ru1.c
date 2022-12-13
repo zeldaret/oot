@@ -481,10 +481,10 @@ void func_80AEB7D0(EnRu1* this) {
 }
 
 f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
-    s32 csCtxFrames = play->csCtx.curFrame;
+    s32 csCurFrame = play->csCtx.curFrame;
 
-    if ((csCtxFrames < cue->endFrame) && (cue->endFrame - cue->startFrame > 0)) {
-        return (Math_CosS(((csCtxFrames - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame)) * 32768.0f) *
+    if ((csCurFrame < cue->endFrame) && (cue->endFrame - cue->startFrame > 0)) {
+        return (Math_CosS(((csCurFrame - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame)) * 32768.0f) *
                 -0.5f) +
                0.5f;
     }
@@ -671,14 +671,14 @@ void func_80AEBF60(EnRu1* this, PlayState* play) {
 void func_80AEBFD8(EnRu1* this, PlayState* play) {
     CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
     f32 frameCount;
-    u16 csCtxFrames;
+    u16 csCurFrame;
     u16 endFrame;
 
     if (cue != NULL) {
-        csCtxFrames = play->csCtx.curFrame;
+        csCurFrame = play->csCtx.curFrame;
         endFrame = cue->endFrame;
 
-        if (csCtxFrames >= endFrame - 2) {
+        if (csCurFrame >= endFrame - 2) {
             frameCount = Animation_GetLastFrame(&gRutoChildTransitionFromSwimOnBackAnim);
             Animation_Change(&this->skelAnime, &gRutoChildTransitionFromSwimOnBackAnim, 1.0, 0, frameCount,
                              ANIMMODE_ONCE, -8.0f);

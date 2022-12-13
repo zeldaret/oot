@@ -482,7 +482,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 
         case CS_MISC_LONG_SCARECROW_SONG:
             AudioOcarina_PlayLongScarecrowSong();
-            csCtx->curFrame = cmd->startFrame - 1;
+            csCtx->curFrame = cmd->startFrame - 1; // the cutscene runs forever
             break;
     }
 }
@@ -506,16 +506,16 @@ void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStop
     }
 }
 
-void CutsceneCmd_FadeSequence(PlayState* play, CutsceneContext* csCtx, CsCmdFadeSeq* cmd) {
-    u8 duration;
+void CutsceneCmd_FadeOutSequence(PlayState* play, CutsceneContext* csCtx, CsCmdFadeOutSeq* cmd) {
+    u8 fadeOutDuration;
 
     if ((csCtx->curFrame == cmd->startFrame) && (csCtx->curFrame < cmd->endFrame)) {
-        duration = cmd->endFrame - cmd->startFrame;
+        fadeOutDuration = cmd->endFrame - cmd->startFrame;
 
-        if (cmd->type == CS_FADE_FANFARE) {
-            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, duration);
+        if (cmd->type == CS_FADE_OUT_FANFARE) {
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, fadeOutDuration);
         } else {
-            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, duration);
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, fadeOutDuration);
         }
     }
 }
@@ -531,8 +531,8 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
     s16 minutes;
 
     if (csCtx->curFrame == cmd->frame) {
-        hours = (cmd->hour * 60.0f) / (360.0f / 0x4000);
-        minutes = (cmd->minute + 1) / (360.0f / 0x4000);
+        hours = (cmd->hour * 60.0f) / (24.0f * 60.0f / 0x10000);
+        minutes = (cmd->minute + 1) / (24.0f * 60.0f / 0x10000);
 
         gSaveContext.dayTime = hours + minutes;
         gSaveContext.skyboxTime = hours + minutes;
@@ -1681,7 +1681,7 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* scriptPtr,
     return size;
 }
 
-void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd) {
+void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdText* cmd) {
     u8 dialogState;
     s16 initialEndingFrame;
 
@@ -1829,13 +1829,13 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 }
                 break;
 
-            case CS_CMD_FADE_SEQ:
+            case CS_CMD_FADE_OUT_SEQ:
                 MemCpy(&cmdEntries, scriptPtr, sizeof(cmdEntries));
                 scriptPtr += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    CutsceneCmd_FadeSequence(play, csCtx, (void*)scriptPtr);
-                    scriptPtr += sizeof(CsCmdFadeSeq);
+                    CutsceneCmd_FadeOutSequence(play, csCtx, (void*)scriptPtr);
+                    scriptPtr += sizeof(CsCmdFadeOutSeq);
                 }
                 break;
 
@@ -2147,11 +2147,11 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* scriptP
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdGeneric*)scriptPtr;
 
-                    if (cmd->base != CS_TEXT_ID_NONE) {
+                    if (((CsCmdText*)cmd)->textId != CS_TEXT_ID_NONE) {
                         CutsceneCmd_Text(play, csCtx, (void*)scriptPtr);
                     }
 
-                    scriptPtr += sizeof(CsCmdTextbox);
+                    scriptPtr += sizeof(CsCmdText);
                 }
                 break;
 

@@ -113,8 +113,8 @@
     CMD_W(cmdType), CMD_W(entries)
 
 /**
- * Defines a cue that an actor an actor can listen for. The actor can choose to use the position and rotation data supplied to it.
- * The cue `id` is a number that each has an actor specific meaning which will signal that it should do something.
+ * Defines a cue that an actor can listen for. The actor can choose to use the position and rotation data supplied to it.
+ * The cue `id` is a number that has an actor-specific meaning which will signal that it should do something.
  */
 #define CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2) \
     CMD_HH(id, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
@@ -171,8 +171,8 @@
  * Starts a sequence at the specified time.
  * @note The sequence ID is subtracted by 1 before being used. Add +1 to the desired sequence ID when passing it in.
  */
-#define CS_START_SEQ(seqIdPlusOne, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
-    CMD_HH(seqIdPlusOne, frame), CMD_HH(unused0, unused1), \
+#define CS_START_SEQ(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+    CMD_HH((seqId + 1), frame), CMD_HH(unused0, unused1), \
     CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
     CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
 
@@ -186,21 +186,21 @@
  * Stops a sequence at the specified time.
  * @note The sequence ID is subtracted by 1 before being used. Add +1 to the desired sequence ID when passing it in.
  */
-#define CS_STOP_SEQ(seqIdPlusOne, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
-    CMD_HH(seqIdPlusOne, frame), CMD_HH(unused0, unused1), \
+#define CS_STOP_SEQ(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+    CMD_HH((seqId + 1), frame), CMD_HH(unused0, unused1), \
     CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
     CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
 
 /**
- * Declares a list of `CS_FADE_SEQ` entries.
+ * Declares a list of `CS_FADE_OUT_SEQ` entries.
  */
-#define CS_FADE_SEQ_LIST(entries) \
-    CS_CMD_FADE_SEQ, CMD_W(entries)
+#define CS_FADE_OUT_SEQ_LIST(entries) \
+    CS_CMD_FADE_OUT_SEQ, CMD_W(entries)
 
 /**
  * Fades a sequence out over the specified duration.
  */
-#define CS_FADE_SEQ(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+#define CS_FADE_OUT_SEQ(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(fadeType, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
     CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
@@ -263,11 +263,14 @@
 #define CS_TEXT_DISPLAY_TEXTBOX        CS_TEXT
 #define CS_SCENE_TRANS_FX              CS_TRANSITION
 #define CS_PLAY_BGM_LIST               CS_START_SEQ_LIST
-#define CS_PLAY_BGM                    CS_START_SEQ
 #define CS_STOP_BGM_LIST               CS_STOP_SEQ_LIST
-#define CS_STOP_BGM                    CS_STOP_SEQ
-#define CS_FADE_BGM_LIST               CS_FADE_SEQ_LIST
-#define CS_FADE_BGM                    CS_FADE_SEQ
+#define CS_FADE_BGM_LIST               CS_FADE_OUT_SEQ_LIST
+#define CS_FADE_BGM                    CS_FADE_OUT_SEQ
 #define CS_TERMINATOR                  CS_DESTINATION
 
+#define CS_PLAY_BGM(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+CS_START_SEQ((seqId)-1, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7)
+
+#define CS_STOP_BGM(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+CS_STOP_SEQ((seqId)-1, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8)
 #endif

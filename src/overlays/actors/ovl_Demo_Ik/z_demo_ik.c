@@ -41,7 +41,7 @@ CsCmdActorCue* DemoIk_GetCue(PlayState* play, s32 cueChannel) {
     return NULL;
 }
 
-s32 DemoIk_CheckCue(PlayState* play, u16 cueId, s32 cueChannel) {
+s32 DemoIk_CheckForCue(PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue = DemoIk_GetCue(play, cueChannel);
 
     if ((cue != NULL) && (cue->id == cueId)) {
@@ -118,7 +118,7 @@ void DemoIk_SpawnDeadDb(DemoIk* this, PlayState* play) {
     s32 i;
     s32 cueChannel = DemoIk_GetCueChannel(this->actor.params);
 
-    if (DemoIk_CheckCue(play, 5, cueChannel)) {
+    if (DemoIk_CheckForCue(play, 5, cueChannel)) {
         Vec3f pos;
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         s32 startIndex;

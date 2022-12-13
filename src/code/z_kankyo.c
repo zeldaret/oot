@@ -427,7 +427,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     play->roomCtx.unk_74[1] = 0;
 
     for (i = 0; i < ARRAY_COUNT(play->csCtx.actorCues); i++) {
-        play->csCtx.actorCues[i] = 0;
+        play->csCtx.actorCues[i] = NULL;
     }
 
     if (Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
