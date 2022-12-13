@@ -99,7 +99,7 @@
 #define R_TEXTBOX_HEIGHT                         YREG(23)
 #define R_TEXTBOX_ICON_XPOS                      YREG(71)
 #define R_TEXTBOX_ICON_YPOS                      YREG(72)
-#define R_TEXTBOX_ICON_SIZE                      YREG(75)
+#define R_TEXTBOX_ICON_DIMENSION                 YREG(75)
 #define R_MESSAGE_DEBUGGER_SELECT                YREG(78)
 #define R_MESSAGE_DEBUGGER_TEXTID                YREG(79)
 #define R_C_UP_ICON_X                            YREG(88)

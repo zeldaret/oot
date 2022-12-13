@@ -2675,105 +2675,311 @@ s32 sDemo5PrevSfxFrame = -200;
 
 // target is player, far from eye
 OnePointCsFull D_8011D6AC[] = {
-    { // initflags & 0x00FF (at): 2, atTarget is view lookAt + atInit
-      // initFlags & 0xFF00 (eye): none
-      // action: 15, copy at, eye, roll, fov to camera
-      // result: eye remains in the same locaiton, at is View's lookAt
-      0x8F,
-      0xFF,
-      0x0002,
-      0x0001,
-      0x0000,
-      60.0f,
-      1.0f,
-      { 0.0f, 0.0f, 0.0f },
-      { 0.0f, 0.0f, 0.0f } },
-    { // initFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
-      // initFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
-      // action: interplate eye and at.
-      // result: eye and at's y interpolate to become +20 from their current location.
-      0x81,
-      0xFF,
-      0x0303,
-      0x0013,
-      0x0000,
-      45.0f,
-      1.0f,
-      { 0.0f, 20.0f, 0.0f },
-      { 0.0f, 20.0f, 0.0f } },
-    { // initFlags & 0x00FF (at): 0 none
-      // initFlags & 0xFF00 (eye): 0 none
-      // action: 18, copy this camera to default camera.
-      0x12,
-      0xFF,
-      0x0000,
-      0x0001,
-      0x0000,
-      60.0f,
-      1.0f,
-      { -1.0f, -1.0f, -1.0f },
-      { -1.0f, -1.0f, -1.0f } },
+    {
+        // initflags & 0x00FF (at): 2, atTarget is view lookAt + atInit
+        // initFlags & 0xFF00 (eye): none
+        // action: 15, copy at, eye, roll, fov to camera
+        // result: eye remains in the same location, at is View's lookAt
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
+        0xFF,
+        0x0002,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, 0.0f },
+    },
+    {
+        // initFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
+        // initFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
+        // action: interpolate eye and at.
+        // result: eye and at's y interpolate to become +20 from their current location.
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
+        0xFF,
+        0x0303,
+        19,
+        0,
+        45.0f,
+        1.0f,
+        { 0.0f, 20.0f, 0.0f },
+        { 0.0f, 20.0f, 0.0f },
+    },
+    {
+        // initFlags & 0x00FF (at): 0 none
+        // initFlags & 0xFF00 (eye): 0 none
+        // action: 18, copy this camera to default camera.
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+        0xFF,
+        0x0000,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { -1.0f, -1.0f, -1.0f },
+        { -1.0f, -1.0f, -1.0f },
+    },
 };
 
 // target is player close to current eye
 OnePointCsFull D_8011D724[] = {
-    { 0x8F, 0xFF, 0x2424, 0x0001, 0x0000, 60.0f, 1.0f, { 0.0f, 0.0f, 0.0f }, { 0.0f, 10.0f, -20.0f } },
-    { 0x81, 0xFF, 0x2121, 0x0013, 0x0000, 50.0f, 1.0f, { 0.0f, -10.0f, 0.0f }, { 0.0f, 0.0f, 60.0f } },
-    { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
+        0xFF,
+        0x2424,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, 10.0f, -20.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
+        0xFF,
+        0x2121,
+        19,
+        0,
+        50.0f,
+        1.0f,
+        { 0.0f, -10.0f, 0.0f },
+        { 0.0f, 0.0f, 60.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+        0xFF,
+        0x0000,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { -1.0f, -1.0f, -1.0f },
+        { -1.0f, -1.0f, -1.0f },
+    },
 };
 
 // target is close to player
 OnePointCsFull D_8011D79C[] = {
-    { 0xCF, 0xFF, 0x0002, 0x0001, 0x0000, 60.0f, 1.0f, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } },
-    { 0xC1, 0xFF, 0x0303, 0x0013, 0x0000, 45.0f, 1.0f, { 0.0f, -20.0f, 0.0f }, { 0.0f, -10.0f, 5.0f } },
     {
-        0xC1,
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, true),
+        0xFF,
+        0x0002,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, 0.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
         0xFF,
         0x0303,
-        0x0009,
-        0x0000,
+        19,
+        0,
+        45.0f,
+        1.0f,
+        { 0.0f, -20.0f, 0.0f },
+        { 0.0f, -10.0f, 5.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
+        0xFF,
+        0x0303,
+        9,
+        0,
         60.0f,
         1.0f,
         { 0.0f, 10.0f, 0.0f },
         { 0.0f, 10.0f, 0.0f },
     },
-    { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+        0xFF,
+        0x0000,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { -1.0f, -1.0f, -1.0f },
+        { -1.0f, -1.0f, -1.0f },
+    },
 };
 
 // target is within 300 units of eye, and player is within 30 units of eye
 OnePointCsFull D_8011D83C[] = {
-    { 0x83, 0xFF, 0x2141, 0x0014, 0x0000, 45.0f, 0.2f, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, 10.0f } },
-    { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
+        0xFF,
+        0x2141,
+        20,
+        0,
+        45.0f,
+        0.2f,
+        { 0.0f, 0.0f, 10.0f },
+        { 0.0f, 0.0f, 10.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+        0xFF,
+        0x0000,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { -1.0f, -1.0f, -1.0f },
+        { -1.0f, -1.0f, -1.0f },
+    },
 };
 
 // target is within 700 units of eye, angle between player/eye and target/eye is less than
 // 76.9 degrees.  The x/y coordinates of the target on screen is between (21, 41) and (300, 200),
 // and the player is farther than 30 units of the eye
 OnePointCsFull D_8011D88C[] = {
-    { 0x81, 0xFF, 0x0303, 0x0014, 0x0000, 45.0f, 1.0f, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } },
-    { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
+        0xFF,
+        0x0303,
+        20,
+        0,
+        45.0f,
+        1.0f,
+        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, 0.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+        0xFF,
+        0x0000,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { -1.0f, -1.0f, -1.0f },
+        { -1.0f, -1.0f, -1.0f },
+    },
 };
 
 // same as above, but the target is NOT within the screen area.
 OnePointCsFull D_8011D8DC[] = {
-    { 0x8F, 0xFF, 0x0404, 0x0014, 0x0001, 50.0f, 1.0f, { 0.0f, 5.0f, 10.0f }, { 0.0f, 10.0f, -80.0f } },
-    { 0x82, 0xFF, 0x2121, 0x0005, 0x0000, 60.0f, 1.0f, { 0.0f, 5.0f, 0.0f }, { 5.0f, 5.0f, -200.0f } },
-    { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
+        0xFF,
+        0x0404,
+        20,
+        1,
+        50.0f,
+        1.0f,
+        { 0.0f, 5.0f, 10.0f },
+        { 0.0f, 10.0f, -80.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
+        0xFF,
+        0x2121,
+        5,
+        0,
+        60.0f,
+        1.0f,
+        { 0.0f, 5.0f, 0.0f },
+        { 5.0f, 5.0f, -200.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+        0xFF,
+        0x0000,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { -1.0f, -1.0f, -1.0f },
+        { -1.0f, -1.0f, -1.0f },
+    },
 };
 
 // target is a door.
 OnePointCsFull D_8011D954[] = {
-    { 0x0F, 0xFF, 0xC1C1, 0x0014, 0x0000, 60.0f, 1.0f, { 0.0f, 0.0f, 50.0f }, { 0.0f, 0.0f, 250.0f } },
-    { 0x83, 0xFF, 0x05B1, 0x0005, 0x0000, 60.0f, 0.1f, { 0.0f, 10.0f, 50.0f }, { 0.0f, 10.0f, 100.0f } },
-    { 0x82, 0xFF, 0x2121, 0x0005, 0x0002, 60.0f, 1.0f, { 0.0f, 10.0f, 0.0f }, { 0.0f, 20.0f, -150.0f } },
-    { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
+        0xFF,
+        0xC1C1,
+        20,
+        0,
+        60.0f,
+        1.0f,
+        { 0.0f, 0.0f, 50.0f },
+        { 0.0f, 0.0f, 250.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
+        0xFF,
+        0x05B1,
+        5,
+        0,
+        60.0f,
+        0.1f,
+        { 0.0f, 10.0f, 50.0f },
+        { 0.0f, 10.0f, 100.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
+        0xFF,
+        0x2121,
+        5,
+        2,
+        60.0f,
+        1.0f,
+        { 0.0f, 10.0f, 0.0f },
+        { 0.0f, 20.0f, -150.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+        0xFF,
+        0x0000,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { -1.0f, -1.0f, -1.0f },
+        { -1.0f, -1.0f, -1.0f },
+    },
 };
 
 // otherwise
 OnePointCsFull D_8011D9F4[] = {
-    { 0x8F, 0xFF, 0x0504, 0x0014, 0x0002, 60.0f, 1.0f, { 0.0f, 5.0f, 50.0f }, { 0.0f, 20.0f, 300.0f } },
-    { 0x82, 0xFF, 0x2121, 0x0005, 0x0002, 60.0f, 1.0f, { 0.0f, 10.0f, 0.0f }, { 0.0f, 20.0f, -150.0f } },
-    { 0x12, 0xFF, 0x0000, 0x0001, 0x0000, 60.0f, 1.0f, { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f } },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
+        0xFF,
+        0x0504,
+        20,
+        2,
+        60.0f,
+        1.0f,
+        { 0.0f, 5.0f, 50.0f },
+        { 0.0f, 20.0f, 300.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
+        0xFF,
+        0x2121,
+        5,
+        2,
+        60.0f,
+        1.0f,
+        { 0.0f, 10.0f, 0.0f },
+        { 0.0f, 20.0f, -150.0f },
+    },
+    {
+        ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
+        0xFF,
+        0x0000,
+        1,
+        0,
+        60.0f,
+        1.0f,
+        { -1.0f, -1.0f, -1.0f },
+        { -1.0f, -1.0f, -1.0f },
+    },
 };
 
 typedef enum {

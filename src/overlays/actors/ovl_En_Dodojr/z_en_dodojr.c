@@ -91,7 +91,7 @@ void EnDodojr_Destroy(Actor* thisx, PlayState* play) {
 
 void EnDodojr_DoSwallowedBombEffects(EnDodojr* this) {
     Audio_PlayActorSfx2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
-    Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, 8);
 }
 
 void EnDodojr_SpawnLargeDust(EnDodojr* this, PlayState* play, s32 count) {
@@ -359,7 +359,7 @@ s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
             (this->actionFunc != EnDodojr_StunnedBounce)) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
-            Actor_SetColorFilter(&this->actor, 0, 200, 0, 120);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 120);
             EnDodojr_SetupFlipBounce(this);
             this->actionFunc = EnDodojr_StunnedBounce;
         }
@@ -577,7 +577,7 @@ void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play) {
 
     if (this->counter != 0) {
         if (this->actor.colorFilterTimer == 0) {
-            Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, this->counter);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, this->counter);
             this->counter--;
         }
     } else {

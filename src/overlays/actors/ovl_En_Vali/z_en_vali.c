@@ -216,7 +216,7 @@ void EnVali_SetupAttacked(EnVali* this) {
 
 void EnVali_SetupRetaliate(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariRetaliatingAnim, -5.0f);
-    Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
     this->actor.params = BARI_TYPE_NORMAL;
     this->bodyCollider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnVali_Retaliate;
@@ -230,7 +230,7 @@ void EnVali_SetupMoveArmsDown(EnVali* this) {
 void EnVali_SetupBurnt(EnVali* this) {
     this->timer = 2;
     this->bodyCollider.base.acFlags &= ~AC_ON;
-    Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
     this->actionFunc = EnVali_Burnt;
 }
 
@@ -257,7 +257,7 @@ void EnVali_SetupStunned(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariWaitingAnim, 10.0f);
     this->timer = 80;
     this->actor.velocity.y = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 80);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
     this->bodyCollider.info.bumper.effect = 0;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actor.velocity.y = 1.0f;
@@ -266,7 +266,7 @@ void EnVali_SetupStunned(EnVali* this) {
 
 void EnVali_SetupFrozen(EnVali* this) {
     this->actor.velocity.y = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 36);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 36);
     this->bodyCollider.base.acFlags &= ~AC_ON;
     this->timer = 36;
     this->actionFunc = EnVali_Frozen;
@@ -514,7 +514,7 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
                 }
             } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
                 if (this->actionFunc != EnVali_Stunned) {
-                    Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                     this->actor.params = BARI_TYPE_SWORD_DAMAGE;
                     EnVali_SetupAttacked(this);
                 } else {
