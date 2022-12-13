@@ -88,12 +88,11 @@
     CS_CMD_LIGHT_SETTING, CMD_W(entries)
 
 /**
- * Changes the lights to the specified setting.
- * @note This will only work for `LIGHT_MODE_SETTINGS`, it will not override time-based light configs.
- * @note The light setting is subtracted by 1 before being used. Add +1 to the desired setting when passing it in.
+ * Changes the environment lights to the specified setting.
+ * The lighting change will take place immediately with no blending.
  */
-#define CS_LIGHT_SETTING(settingPlusOne, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
-    CMD_HH(settingPlusOne, frame), CMD_HH(unused0, unused1), \
+#define CS_LIGHT_SETTING(lightSetting, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+    CMD_HH((lightSetting + 1), frame), CMD_HH(unused0, unused1), \
     CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
     CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
 
@@ -113,8 +112,9 @@
     CMD_W(cmdType), CMD_W(entries)
 
 /**
- * Defines a cue that an actor can listen for. The actor can choose to use the position and rotation data supplied to it.
- * The cue `id` is a number that has an actor-specific meaning which will signal that it should do something.
+ * Defines a cue that an actor can listen for. 
+ * The actor can choose whether or not to use the position and rotation data supplied to it.
+ * The cue `id` is a number that has an actor-specific meaning.
  */
 #define CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2) \
     CMD_HH(id, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
@@ -257,7 +257,6 @@
 #define CS_PLAYER_ACTION_LIST          CS_PLAYER_CUE_LIST
 #define CS_PLAYER_ACTION               CS_PLAYER_CUE
 #define CS_LIGHTING_LIST               CS_LIGHT_SETTING_LIST
-#define CS_LIGHTING                    CS_LIGHT_SETTING
 #define CS_CMD_09_LIST                 CS_RUMBLE_CONTROLLER_LIST
 #define CS_CMD_09                      CS_RUMBLE_CONTROLLER
 #define CS_TEXT_DISPLAY_TEXTBOX        CS_TEXT
@@ -274,4 +273,8 @@ CS_START_SEQ((seqId)-1, startFrame, endFrame, unused0, unused1, unused2, unused3
 
 #define CS_STOP_BGM(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
 CS_STOP_SEQ((seqId)-1, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8)
+
+#define CS_LIGHTING(lightSetting, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+CS_LIGHT_SETTING((lightSetting)-1, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8)
+
 #endif
