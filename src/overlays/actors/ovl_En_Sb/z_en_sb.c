@@ -392,7 +392,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
-                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                         tookDamage = true;
                     }
                 }
@@ -400,7 +400,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
             case 2: // fire arrow, dins fire
                 this->fire = 4;
                 Actor_ApplyDamage(&this->actor);
-                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                 tookDamage = true;
                 break;
             case 1:  // hookshot/longshot
@@ -410,7 +410,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
-                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                         tookDamage = true;
                         EnSb_SetupCooldown(this, 0);
                     }

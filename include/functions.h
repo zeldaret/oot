@@ -414,12 +414,12 @@ u32 Actor_TextboxIsClosing(Actor* actor, PlayState* play);
 s8 func_8002F368(PlayState* play);
 void Actor_GetScreenPos(PlayState* play, Actor* actor, s16* x, s16* y);
 u32 Actor_HasParent(Actor* actor, PlayState* play);
-s32 func_8002F434(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange, f32 yRange);
-void func_8002F554(Actor* actor, PlayState* play, s32 getItemId);
-void func_8002F580(Actor* actor, PlayState* play);
+s32 Actor_OfferGetItem(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange, f32 yRange);
+s32 Actor_OfferGetItemNearby(Actor* actor, PlayState* play, s32 getItemId);
+s32 Actor_OfferCarry(Actor* actor, PlayState* play);
 u32 Actor_HasNoParent(Actor* actor, PlayState* play);
 void func_8002F5C4(Actor* actorA, Actor* actorB, PlayState* play);
-void func_8002F5F0(Actor* actor, PlayState* play);
+void Actor_SetClosestSecretDistance(Actor* actor, PlayState* play);
 s32 Actor_IsMounted(PlayState* play, Actor* horse);
 u32 Actor_SetRideActor(PlayState* play, Actor* horse, s32 mountSide);
 s32 Actor_NotMounted(PlayState* play, Actor* horse);
@@ -442,7 +442,7 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
 void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx);
 s32 func_800314D4(PlayState* play, Actor* actor, Vec3f* arg2, f32 arg3);
 void func_800315AC(PlayState* play, ActorContext* actorCtx);
-void func_80031A28(PlayState* play, ActorContext* actorCtx);
+void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx);
 void func_80031B14(PlayState* play, ActorContext* actorCtx);
 void func_80031C3C(ActorContext* actorCtx, PlayState* play);
 Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ,
@@ -481,7 +481,7 @@ f32 Rand_ZeroFloat(f32 f);
 f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
 void func_8003424C(PlayState* play, Vec3f* arg1);
-void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, PlayState* play);
 Hilite* func_8003435C(Vec3f* object, PlayState* play);
 s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
