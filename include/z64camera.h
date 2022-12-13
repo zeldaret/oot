@@ -1249,21 +1249,22 @@ typedef enum {
 
 #define ONEPOINT_CS_GET_ACTION(onePointCsFull) ((onePointCsFull)->actionFlags & 0x1F)
 
-#define ONEPOINT_CS_FIELD_TYPE_NONE 0xFF
-#define ONEPOINT_CS_FIELD_TYPE_MASK 0xF0
-#define ONEPOINT_CS_FIELD_TYPE_ACTORCAT 0x80
-#define ONEPOINT_CS_FIELD_TYPE_HUD_VISIBILITY 0xC0
-#define ONEPOINT_CS_FIELD_TYPE_PLAYER_CS 0x00
+#define ONEPOINT_CS_INIT_FIELD_NONE 0xFF
+#define ONEPOINT_CS_INIT_FIELD_ACTORCAT(actorCat) (0x80 | ((actorCat) & 0x0F))
+#define ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(camHudVisibility) (0xC0 | ((camHudVisibility) & 0x0F))
+#define ONEPOINT_CS_INIT_FIELD_PLAYER_CS(csMode) ((csMode) & 0x7F)
 
-#define ONEPOINT_CS_FIELD(type, data) (((type) & ONEPOINT_CS_FIELD_TYPE_MASK) | (data))
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_ACTORCAT(field) ((field & 0xF0) == 0x80)
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_HUD_VISIBILITY(field) ((field & 0xF0) == 0xC0)
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_PLAYER_CS(field) !(field & 0x80)
 
-/** initFlags
- * & 0x00FF = atInitFlags
- * & 0xFF00 = eyeInitFlags
+/** viewFlags
+ * & 0x00FF = atFlags
+ * & 0xFF00 = eyeFlags
  * 0x1: Direct Copy of atTargetInit
- *      if initFlags & 0x6060: use head for focus point
+ *      if viewFlags & 0x6060: use head for focus point
  * 0x2: Add atTargetInit to view's lookAt
- *      if initFlags & 0x6060: use world for focus point
+ *      if viewFlags & 0x6060: use world for focus point
  * 0x3: Add atTargetInit to camera's at
  * 0x4: Don't update targets?
  * 0x8: flag to use atTagetInit as f32 pitch, yaw, r
@@ -1272,8 +1273,8 @@ typedef enum {
 */
 typedef struct {
     /* 0x00 */ u8 actionFlags;
-    /* 0x01 */ u8 field;
-    /* 0x02 */ s16 initFlags;
+    /* 0x01 */ u8 initField;
+    /* 0x02 */ s16 viewFlags;
     /* 0x04 */ s16 timerInit;
     /* 0x06 */ s16 rollTargetInit;
     /* 0x08 */ f32 fovTargetInit;
