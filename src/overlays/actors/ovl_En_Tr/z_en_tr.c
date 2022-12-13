@@ -19,9 +19,9 @@ void EnTr_ShrinkVanish(EnTr* this, PlayState* play);
 void EnTr_WaitToReappear(EnTr* this, PlayState* play);
 void EnTr_ChooseAction1(EnTr* this, PlayState* play);
 
-void EnTr_SetCueRot(EnTr* this, PlayState* play, s32 cueChannel);
+void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel);
-void EnTr_SetCueStartPosRot(EnTr* this, PlayState* play, s32 cueChannel);
+void EnTr_SetStartPosFromCueRot(EnTr* this, PlayState* play, s32 cueChannel);
 
 ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
@@ -167,7 +167,7 @@ void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
 
                 default:
                     func_80B24038(this, play, this->cueChannel);
-                    EnTr_SetCueRot(this, play, this->cueChannel);
+                    EnTr_SetRotFromCue(this, play, this->cueChannel);
                     break;
             }
             func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
@@ -186,7 +186,7 @@ void EnTr_FlyKidnapCutscene(EnTr* this, PlayState* play) {
                 Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 10, 0x400, 0x100);
                 this->actor.world.rot.y = this->actor.shape.rot.y;
             } else {
-                EnTr_SetCueStartPosRot(this, play, this->cueChannel);
+                EnTr_SetStartPosFromCueRot(this, play, this->cueChannel);
                 this->actor.world.pos.x += Math_SinS(this->timer) * 150.0f;
                 this->actor.world.pos.y += -100.0f;
                 this->actor.world.pos.z += Math_CosS(this->timer) * 150.0f;
@@ -298,7 +298,7 @@ void EnTr_WaitToReappear(EnTr* this, PlayState* play) {
                                                                   (play->csCtx.actorCues[this->cueChannel]->id == 5))) {
             Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
             this->timer = 34;
-            EnTr_SetCueStartPosRot(this, play, this->cueChannel);
+            EnTr_SetStartPosFromCueRot(this, play, this->cueChannel);
             EnTr_SetupAction(this, EnTr_Reappear);
             Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
             this->animation = NULL;
@@ -340,12 +340,12 @@ void EnTr_ChooseAction1(EnTr* this, PlayState* play) {
         if (play->csCtx.actorCues[this->cueChannel] != NULL) {
             switch (play->csCtx.actorCues[this->cueChannel]->id) {
                 case 1:
-                    EnTr_SetCueStartPosRot(this, play, this->cueChannel);
+                    EnTr_SetStartPosFromCueRot(this, play, this->cueChannel);
                     EnTr_SetupAction(this, EnTr_TurnLookOverShoulder);
                     break;
 
                 case 3:
-                    EnTr_SetCueStartPosRot(this, play, this->cueChannel);
+                    EnTr_SetStartPosFromCueRot(this, play, this->cueChannel);
                     EnTr_SetupAction(this, EnTr_ChooseAction2);
                     Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
                     this->animation = NULL;
@@ -491,7 +491,7 @@ void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel) {
     func_8002D7EC(&this->actor);
 }
 
-void EnTr_SetCueRot(EnTr* this, PlayState* play, s32 cueChannel) {
+void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel) {
     s16 rotY = play->csCtx.actorCues[cueChannel]->rot.y;
     s32 rotDiff = this->actor.world.rot.y - rotY;
     s32 rotSign;
@@ -514,7 +514,7 @@ void EnTr_SetCueRot(EnTr* this, PlayState* play, s32 cueChannel) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-void EnTr_SetCueStartPosRot(EnTr* this, PlayState* play, s32 cueChannel) {
+void EnTr_SetStartPosFromCueRot(EnTr* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
 
     startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;

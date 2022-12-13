@@ -58,8 +58,8 @@ void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play)
 void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, PlayState* play);
 
 s32 DemoEffect_CheckForCue(DemoEffect* this, PlayState* play, s32 cueId);
-void DemoEffect_SetCueStartPos(DemoEffect* this, PlayState* play, s32 cueChannel);
-void DemoEffect_SetCuePosRot(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing);
+void DemoEffect_SetStartPosFromCue(DemoEffect* this, PlayState* play, s32 cueChannel);
+void DemoEffect_SetPosRotFromCue(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing);
 void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed);
 
 ActorInit Demo_Effect_InitVars = {
@@ -600,7 +600,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
         if (this->getItem.isPositionInit) {
             DemoEffect_MoveTowardCuePos(this, play, this->cueChannel, 0.1f);
         } else {
-            DemoEffect_SetCueStartPos(this, play, this->cueChannel);
+            DemoEffect_SetStartPosFromCue(this, play, this->cueChannel);
             this->getItem.isPositionInit = 1;
         }
 
@@ -810,7 +810,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
     this->triforceSpot.rotation += 0x03E8;
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
-        DemoEffect_SetCuePosRot(this, play, this->cueChannel, 0);
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
 
         if (play->csCtx.actorCues[this->cueChannel]->id == 2) {
             if (this->primXluColor[0] < 140) {
@@ -1019,7 +1019,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
     isLargeSize = ((this->actor.params & 0x0F00) >> 8);
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
-        DemoEffect_SetCuePosRot(this, play, this->cueChannel, 0);
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
         switch (play->csCtx.actorCues[this->cueChannel]->id) {
             case 2:
                 if (this->light.rotation < 240) {
@@ -1118,7 +1118,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
     DemoEffect* fireBall;
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
-        DemoEffect_SetCuePosRot(this, play, this->cueChannel, 1);
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 1);
 
         if (play->csCtx.actorCues[this->cueChannel]->id == 3) {
             fireBall = (DemoEffect*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT,
@@ -1168,7 +1168,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
     DemoEffect* lightRing;
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
-        DemoEffect_SetCuePosRot(this, play, this->cueChannel, 1);
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 1);
 
         if (play->csCtx.actorCues[this->cueChannel]->id == 3) {
             if (this->godLgt.lightRingSpawnTimer != 0) {
@@ -1229,7 +1229,7 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
     DemoEffect* lgtShower;
 
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
-        DemoEffect_SetCuePosRot(this, play, this->cueChannel, 1);
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 1);
 
         if (play->csCtx.actorCues[this->cueChannel]->id == 3) {
             lgtShower = (DemoEffect*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT,
@@ -1540,13 +1540,13 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
                 break;
             case 4:
                 if (this->jewel.isPositionInit) {
-                    DemoEffect_SetCuePosRot(this, play, this->cueChannel, 0);
+                    DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                     if ((play->gameplayFrames & 1) == 0) {
                         DemoEffect_JewelSparkle(this, play, 1);
                     }
                 } else {
-                    DemoEffect_SetCueStartPos(this, play, this->cueChannel);
+                    DemoEffect_SetStartPosFromCue(this, play, this->cueChannel);
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                     this->jewel.isPositionInit = 1;
                 }
@@ -1555,7 +1555,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
                 Actor_Kill(thisx);
                 return;
             default:
-                DemoEffect_SetCuePosRot(this, play, this->cueChannel, 0);
+                DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
                 if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                 }
@@ -2031,7 +2031,7 @@ void DemoEffect_FaceTowardPoint(DemoEffect* this, Vec3f startPos, Vec3f endPos) 
     this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(-(endPos.y - startPos.y), xzDistance));
 }
 
-void DemoEffect_SetCuePosRot(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing) {
+void DemoEffect_SetPosRotFromCue(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing) {
     Vec3f startPos;
     Vec3f endPos;
     f32 speed;
@@ -2065,7 +2065,7 @@ void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChann
     DemoEffect_MoveTowardTarget(endPos, this, speed);
 }
 
-void DemoEffect_SetCueStartPos(DemoEffect* this, PlayState* play, s32 cueChannel) {
+void DemoEffect_SetStartPosFromCue(DemoEffect* this, PlayState* play, s32 cueChannel) {
     f32 x = play->csCtx.actorCues[cueChannel]->startPos.x;
     f32 y = play->csCtx.actorCues[cueChannel]->startPos.y;
     f32 z = play->csCtx.actorCues[cueChannel]->startPos.z;

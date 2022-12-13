@@ -370,7 +370,7 @@ void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play) {
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
 
-void DemoKankyo_SetCuePos(DemoKankyo* this, PlayState* play, s32 cueChannel) {
+void DemoKankyo_SetPosFromCue(DemoKankyo* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
     CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
@@ -393,7 +393,7 @@ void DemoKankyo_SetCuePos(DemoKankyo* this, PlayState* play, s32 cueChannel) {
 
 void DemoKankyo_UpdateRock(DemoKankyo* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
-        DemoKankyo_SetCuePos(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
+        DemoKankyo_SetPosFromCue(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
     }
 
     this->unk_150[0].unk_C.x += this->unk_150[0].unk_0.x;
