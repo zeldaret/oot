@@ -145,6 +145,24 @@ void EnHoll_SwapRooms(PlayState* play) {
 }
 
 /**
+ * These are all absolute distances in the relative z direction. That is, moving
+ *   towards or away from the "face" of the holl regardless of orientation.
+ * Moving within these distances of the holl have the following effects:
+ * [0] : Load the room on this side of the holl if not already loaded
+ * [1] : Load the room on the other side of the holl
+ * [2] : Start of fade region, where the plane is fully opaque
+ * [3] : End of fade region region, where the plane is fully transparent
+ *
+ * Within the fade region, the plane goes:
+ *   opaque -> transparent if approaching,
+ *   transparent -> opaque if receding
+ */
+static f32 sHorizontalVisibleNarrowTriggerDists[2][4] = {
+    { 200.0f, 150.0f, 100.0f, 50.0f }, // default
+    { 100.0f, 75.0f, 50.0f, 25.0f },   // SCENE_SPIRIT_TEMPLE
+};
+
+/**
  * When traversing a holl of this kind, it attempts to:
  *   Load Current Room (fails as it is already loaded)
  *   Load Next Room
@@ -158,23 +176,6 @@ void EnHoll_SwapRooms(PlayState* play) {
  *      you can load the room on the other side multiple times
  */
 void EnHoll_HorizontalVisibleNarrow(EnHoll* this, PlayState* play) {
-    /**
-     * These are all absolute distances in the relative z direction. That is, moving
-     *   towards or away from the "face" of the holl regardless of orientation.
-     * Moving within these distances of the holl have the following effects:
-     * [0] : Load the room on this side of the holl if not already loaded
-     * [1] : Load the room on the other side of the holl
-     * [2] : Start of fade region, where the plane is fully opaque
-     * [3] : End of fade region region, where the plane is fully transparent
-     *
-     * Within the fade region, the plane goes:
-     *   opaque -> transparent if approaching,
-     *   transparent -> opaque if receding
-     */
-    static f32 sTriggerDists[2][4] = {
-        { 200.0f, 150.0f, 100.0f, 50.0f }, // default
-        { 100.0f, 75.0f, 50.0f, 25.0f },   // SCENE_JYASINZOU
-    };
     Player* player = GET_PLAYER(play);
     s32 triggerDistsIndex = (u32)((play->sceneId == SCENE_SPIRIT_TEMPLE) ? 1 : 0);
     Vec3f relPlayerPos;
@@ -186,10 +187,10 @@ void EnHoll_HorizontalVisibleNarrow(EnHoll* this, PlayState* play) {
     orthogonalDistToPlayer = fabsf(relPlayerPos.z);
     if (relPlayerPos.y > ENHOLL_H_Y_MIN && relPlayerPos.y < ENHOLL_H_Y_MAX &&
         fabsf(relPlayerPos.x) < ENHOLL_H_HALFWIDTH_NARROW &&
-        orthogonalDistToPlayer < sTriggerDists[triggerDistsIndex][0]) {
+        orthogonalDistToPlayer < sHorizontalVisibleNarrowTriggerDists[triggerDistsIndex][0]) {
 
         transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
-        if (orthogonalDistToPlayer > sTriggerDists[triggerDistsIndex][1]) {
+        if (orthogonalDistToPlayer > sHorizontalVisibleNarrowTriggerDists[triggerDistsIndex][1]) {
             if (play->roomCtx.prevRoom.num >= 0 && play->roomCtx.status == 0) {
                 this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[this->side].room;
                 EnHoll_SwapRooms(play);
@@ -201,8 +202,9 @@ void EnHoll_HorizontalVisibleNarrow(EnHoll* this, PlayState* play) {
                 func_8009728C(play, &play->roomCtx, this->actor.room);
             } else {
                 this->planeAlpha =
-                    (255.0f / (sTriggerDists[triggerDistsIndex][2] - sTriggerDists[triggerDistsIndex][3])) *
-                    (orthogonalDistToPlayer - sTriggerDists[triggerDistsIndex][3]);
+                    (255.0f / (sHorizontalVisibleNarrowTriggerDists[triggerDistsIndex][2] -
+                               sHorizontalVisibleNarrowTriggerDists[triggerDistsIndex][3])) *
+                    (orthogonalDistToPlayer - sHorizontalVisibleNarrowTriggerDists[triggerDistsIndex][3]);
                 this->planeAlpha = CLAMP(this->planeAlpha, 0, 255);
 
                 if (play->roomCtx.curRoom.num != this->actor.room) {
