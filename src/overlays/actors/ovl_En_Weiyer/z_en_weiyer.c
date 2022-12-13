@@ -170,7 +170,7 @@ void func_80B325A0(EnWeiyer* this) {
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.speedXZ = 3.0f;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, 0x28);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, 40);
     this->collider.dim.height = sCylinderInit.dim.height;
     this->actionFunc = func_80B331CC;
 }
@@ -182,7 +182,7 @@ void func_80B32660(EnWeiyer* this) {
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
     this->collider.dim.height = sCylinderInit.dim.height + 15;
-    Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, 0x50);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     this->collider.base.atFlags &= ~AT_ON;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_80B333B8;
@@ -191,7 +191,7 @@ void func_80B32660(EnWeiyer* this) {
 void func_80B32724(EnWeiyer* this) {
     Animation_MorphToLoop(&this->skelAnime, &gStingerHitAnim, -5.0f);
     this->unk_194 = 20;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, 0x28);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, 40);
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.speedXZ = 3.0f;

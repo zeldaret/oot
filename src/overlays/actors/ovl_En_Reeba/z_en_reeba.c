@@ -355,7 +355,7 @@ void func_80AE57F0(EnReeba* this, PlayState* play) {
     this->unk_276 = 14;
     this->actor.speedXZ = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->actionfunc = func_80AE5854;
 }
 
@@ -446,7 +446,7 @@ void func_80AE5A9C(EnReeba* this, PlayState* play) {
 void func_80AE5BC4(EnReeba* this, PlayState* play) {
     this->actor.speedXZ = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->unk_278 = 14;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionfunc = func_80AE5C38;
@@ -528,7 +528,8 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                     if ((this->actor.colChkInfo.health > 1) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
@@ -536,7 +537,8 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                 case 13: // hookshot/longshot
                     if ((this->actor.colChkInfo.health > 2) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         this->actionfunc = func_80AE58EC;
                         break;
@@ -561,13 +563,14 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                     Actor_ApplyDamage(&this->actor);
                     this->unk_27C = 2;
                     this->unk_27E = 2;
-                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                     this->actionfunc = func_80AE58EC;
                     break;
                 case 1: // unknown
                     if (this->unk_27E != 4) {
                         this->unk_27E = 4;
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         this->actionfunc = func_80AE58EC;
                     }
                     break;

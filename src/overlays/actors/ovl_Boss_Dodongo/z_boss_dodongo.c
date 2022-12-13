@@ -269,7 +269,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             break;
         case 1:
             func_80064520(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, 1);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             Play_ClearAllSubCameras(play);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -297,11 +297,11 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             }
 
             if (this->unk_198 == 110) {
-                func_8002DF54(play, &this->actor, 9);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_9);
             }
 
             if (this->unk_198 == 5) {
-                func_8002DF54(play, &this->actor, 12);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_12);
             }
 
             if (this->unk_198 < 6) {
@@ -417,7 +417,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
                 func_800C08AC(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 BossDodongo_SetupWalk(this);
                 this->unk_1DA = 50;
                 this->unk_1BC = 0;
@@ -950,7 +950,7 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
             magmaScale = ((s16)(Rand_ZeroOne() * 50)) - 50;
         }
 
-        if (player2->csMode >= 10) {
+        if (player2->csMode >= PLAYER_CSMODE_10) {
             phi_s0_3 = -1;
         }
 
@@ -1305,7 +1305,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
         case 0:
             this->csState = 5;
             func_80064520(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, 1);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1615,7 +1615,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                 this->csState = 100;
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, -890.0f, -1523.76f, -3304.0f,
                                    0, 0, 0, WARP_DUNGEON_CHILD);
                 this->skelAnime.playSpeed = 0.0f;

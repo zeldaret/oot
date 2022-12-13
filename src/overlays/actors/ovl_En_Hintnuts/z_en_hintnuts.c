@@ -205,7 +205,7 @@ void EnHintnuts_SetupLeave(EnHintnuts* this, PlayState* play) {
 void EnHintnuts_SetupFreeze(EnHintnuts* this) {
     Animation_PlayLoop(&this->skelAnime, &gHintNutsFreezeAnim);
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 100);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 100);
     this->actor.colorFilterTimer = 1;
     this->animFlagAndTimer = 0;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_FAINT);

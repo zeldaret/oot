@@ -586,7 +586,7 @@ void EnMb_SetupClubDead(EnMb* this) {
 void EnMb_SetupStunned(EnMb* this) {
     this->state = ENMB_STATE_STUNNED;
     this->actor.speedXZ = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
     if (this->damageEffect == ENMB_DMGEFF_STUN_ICE) {
         this->iceEffectTimer = 40;
     } else {
@@ -1395,7 +1395,7 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
                 }
             } else {
                 Actor_ApplyDamage(&this->actor);
-                Actor_SetColorFilter(&this->actor, 0x4000, 0xFA, 0, 0xC);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 250, COLORFILTER_BUFFLAG_OPA, 12);
                 if (this->actor.params == ENMB_TYPE_CLUB) {
                     if (this->actor.colChkInfo.health == 0) {
                         EnMb_SetupClubDead(this);

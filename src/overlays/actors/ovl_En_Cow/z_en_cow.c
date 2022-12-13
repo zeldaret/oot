@@ -213,7 +213,7 @@ void func_809DF778(EnCow* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = func_809DF730;
     } else {
-        func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
@@ -222,7 +222,7 @@ void func_809DF7D8(EnCow* this, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         Message_CloseTextbox(play);
         this->actionFunc = func_809DF778;
-        func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
