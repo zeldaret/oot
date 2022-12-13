@@ -786,9 +786,9 @@ void Camera_UpdateInterface(s16 interfaceField) {
         }
     }
 
-    if ((interfaceField & CAM_HUD_VISIBILITY_MASK) != CAM_HUD_VISIBILITY_IGNORE) {
+    if ((interfaceField & CAM_HUD_VISIBILITY_MASK) != CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_IGNORE)) {
         hudVisibilityMode = (interfaceField & CAM_HUD_VISIBILITY_MASK) >> CAM_HUD_VISIBILITY_SHIFT;
-        if (hudVisibilityMode == (CAM_HUD_VISIBILITY_ALL >> CAM_HUD_VISIBILITY_SHIFT)) {
+        if (hudVisibilityMode == CAM_HUD_VISIBILITY_ALL) {
             hudVisibilityMode = HUD_VISIBILITY_ALL;
         }
         if (sCameraHudVisibilityMode != hudVisibilityMode) {
@@ -5252,19 +5252,19 @@ s32 Camera_Unique9(Camera* camera) {
             rwData->curKeyFrame = &ONEPOINT_CS_INFO(camera)->keyFrames[rwData->curKeyFrameIdx];
             rwData->keyFrameTimer = rwData->curKeyFrame->timerInit;
 
-            if (rwData->curKeyFrame->unk_01 != 0xFF) {
-                if ((rwData->curKeyFrame->unk_01 & 0xF0) == 0x80) {
-                    D_8011D3AC = rwData->curKeyFrame->unk_01 & 0xF;
-                } else if ((rwData->curKeyFrame->unk_01 & 0xF0) == 0xC0) {
-                    Camera_UpdateInterface(
-                        CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, CAM_HUD_VISIBILITY(rwData->curKeyFrame->unk_01), 0));
-                } else if (camera->player->stateFlags1 & PLAYER_STATE1_27 &&
-                           player->currentBoots != PLAYER_BOOTS_IRON) {
+            if (rwData->curKeyFrame->field != ONEPOINT_CS_FIELD_TYPE_NONE) {
+                if ((rwData->curKeyFrame->field & ONEPOINT_CS_FIELD_TYPE_MASK) == ONEPOINT_CS_FIELD_TYPE_ACTORCAT) {
+                    D_8011D3AC = rwData->curKeyFrame->field & 0xF;
+                } else if ((rwData->curKeyFrame->field & ONEPOINT_CS_FIELD_TYPE_MASK) ==
+                           ONEPOINT_CS_FIELD_TYPE_HUD_VISIBILITY) {
+                    Camera_UpdateInterface(CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, rwData->curKeyFrame->field, 0));
+                } else if ((camera->player->stateFlags1 & PLAYER_STATE1_27) &&
+                           (player->currentBoots != PLAYER_BOOTS_IRON)) {
                     func_8002DF38(camera->play, camera->target, PLAYER_CSMODE_8);
                     osSyncPrintf("camera: demo: player demo set WAIT\n");
                 } else {
-                    osSyncPrintf("camera: demo: player demo set %d\n", rwData->curKeyFrame->unk_01);
-                    func_8002DF38(camera->play, camera->target, rwData->curKeyFrame->unk_01);
+                    osSyncPrintf("camera: demo: player demo set %d\n", rwData->curKeyFrame->field);
+                    func_8002DF38(camera->play, camera->target, rwData->curKeyFrame->field);
                 }
             }
         } else {
@@ -6795,8 +6795,8 @@ s32 Camera_Special6(Camera* camera) {
         // Change "screens"
         camera->player->actor.freezeTimer = 12;
         // Overwrite hud visibility to CAM_HUD_VISIBILITY_HEARTS_FORCE
-        sCameraInterfaceField =
-            (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY_HEARTS_FORCE;
+        sCameraInterfaceField = (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) |
+                                CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_HEARTS_FORCE);
         rwData->initalPlayerY = playerPosRot->pos.y;
         rwData->animTimer = 12;
         *eyeNext = bgCamPos;
@@ -6832,7 +6832,8 @@ s32 Camera_Special6(Camera* camera) {
     } else {
         // Camera following player on the x axis.
         // Overwrite hud visibility to CAM_HUD_VISIBILITY_ALL
-        sCameraInterfaceField = (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY_ALL;
+        sCameraInterfaceField =
+            (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_ALL);
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
         eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;
