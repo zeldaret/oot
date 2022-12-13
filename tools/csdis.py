@@ -412,7 +412,7 @@ def format_cmd(cmd, words):
             if get_short_unsigned(words[1], 0) == 0xFFFF:
                 cmd = "CS_TEXT_NONE(%h1:1:s, %h2:2:s)"
             elif get_short(words[2], 1) == 2:
-                cmd = "CS_TEXT_LEARN_SONG(%h2:1:e2, %h1:1:s, %h2:2:s, %h2:3:x)"
+                cmd = "CS_TEXT_OCARINA_ACTION(%h2:1:e2, %h1:1:s, %h2:2:s, %h2:3:x)"
             else:
                 cmd = "CS_TEXT(%h2:1:x, %h1:1:s, %h2:2:s, %h1:2:x, %h2:3:x, %h1:3:x)"
     for arg in args_list(cmd):

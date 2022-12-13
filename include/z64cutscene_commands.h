@@ -151,8 +151,8 @@
 #define CS_TEXT_NONE(startFrame, endFrame) \
     CS_TEXT(CS_TEXT_ID_NONE, startFrame, endFrame, 0xFFFF, CS_TEXT_ID_NONE, CS_TEXT_ID_NONE)
 
-#define CS_TEXT_LEARN_SONG(ocarinaSongAction, startFrame, endFrame, messageId) \
-    CS_TEXT(ocarinaSongAction, startFrame, endFrame, CS_TEXT_OCARINA_ACTION, messageId, CS_TEXT_ID_NONE)
+#define CS_TEXT_OCARINA_ACTION(ocarinaAction, startFrame, endFrame, messageId) \
+    CS_TEXT(ocarinaAction, startFrame, endFrame, CS_TEXT_OCARINA_ACTION, messageId, CS_TEXT_ID_NONE)
 
 /**
  * Controls various types of screen transitions.
@@ -261,6 +261,7 @@
 #define CS_CMD_09_LIST                 CS_RUMBLE_CONTROLLER_LIST
 #define CS_CMD_09                      CS_RUMBLE_CONTROLLER
 #define CS_TEXT_DISPLAY_TEXTBOX        CS_TEXT
+#define CS_TEXT_LEARN_SONG             CS_TEXT_OCARINA_ACTION
 #define CS_SCENE_TRANS_FX              CS_TRANSITION
 #define CS_PLAY_BGM_LIST               CS_START_SEQ_LIST
 #define CS_STOP_BGM_LIST               CS_STOP_SEQ_LIST
