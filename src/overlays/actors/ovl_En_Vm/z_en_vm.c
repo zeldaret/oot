@@ -401,7 +401,7 @@ void EnVm_CheckHealth(EnVm* this, PlayState* play) {
     }
 
     if (this->actor.colChkInfo.health != 0) {
-        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
         EnVm_SetupStun(this);
     } else {
         bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,

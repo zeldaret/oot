@@ -340,7 +340,7 @@ void func_809BD524(EnBigokuta* this) {
         this->unk_195 = false;
         this->unk_196 = 80;
     }
-    Actor_SetColorFilter(&this->actor, 0, 255, 0, this->unk_196);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, this->unk_196);
     this->actionFunc = func_809BE058;
 }
 
@@ -349,7 +349,7 @@ void func_809BD5E0(EnBigokuta* this) {
     this->unk_196 = 24;
     this->unk_19A = 0;
     this->cylinder[0].base.atFlags &= ~AT_ON;
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 24);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 24);
     this->actionFunc = func_809BE180;
 }
 void func_809BD658(EnBigokuta* this) {
