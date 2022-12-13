@@ -397,7 +397,7 @@ typedef struct {
 } CsCmdStopSeq; // size = 0x30
 
 typedef struct {
-    /* 0x00 */ u16 type;
+    /* 0x00 */ u16 seqPlayer;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8 unused_06[0x2A];

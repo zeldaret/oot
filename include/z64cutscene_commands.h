@@ -200,8 +200,8 @@
 /**
  * Fades a sequence out over the specified duration.
  */
-#define CS_FADE_OUT_SEQ(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(fadeType, startFrame), CMD_HH(endFrame, unused0), \
+#define CS_FADE_OUT_SEQ(seqPlayer, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+    CMD_HH(seqPlayer, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
     CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 

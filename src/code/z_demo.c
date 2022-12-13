@@ -512,7 +512,7 @@ void CutsceneCmd_FadeOutSequence(PlayState* play, CutsceneContext* csCtx, CsCmdF
     if ((csCtx->curFrame == cmd->startFrame) && (csCtx->curFrame < cmd->endFrame)) {
         fadeOutDuration = cmd->endFrame - cmd->startFrame;
 
-        if (cmd->type == CS_FADE_OUT_FANFARE) {
+        if (cmd->seqPlayer == CS_FADE_OUT_FANFARE) {
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, fadeOutDuration);
         } else {
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, fadeOutDuration);
