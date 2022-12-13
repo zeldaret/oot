@@ -5258,13 +5258,15 @@ s32 Camera_Unique9(Camera* camera) {
                 } else if (ONEPOINT_CS_INIT_FIELD_IS_TYPE_HUD_VISIBILITY(rwData->curKeyFrame->initField)) {
                     Camera_UpdateInterface(
                         CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, rwData->curKeyFrame->initField, 0));
-                } else if ((camera->player->stateFlags1 & PLAYER_STATE1_27) &&
-                           (player->currentBoots != PLAYER_BOOTS_IRON)) {
-                    func_8002DF38(camera->play, camera->target, PLAYER_CSMODE_8);
-                    osSyncPrintf("camera: demo: player demo set WAIT\n");
-                } else {
-                    osSyncPrintf("camera: demo: player demo set %d\n", rwData->curKeyFrame->initField);
-                    func_8002DF38(camera->play, camera->target, rwData->curKeyFrame->initField);
+                } else { // initField is of of type PlayerCsMode
+                    if ((camera->player->stateFlags1 & PLAYER_STATE1_27) &&
+                        (player->currentBoots != PLAYER_BOOTS_IRON)) {
+                        func_8002DF38(camera->play, camera->target, PLAYER_CSMODE_8);
+                        osSyncPrintf("camera: demo: player demo set WAIT\n");
+                    } else {
+                        osSyncPrintf("camera: demo: player demo set %d\n", rwData->curKeyFrame->initField);
+                        func_8002DF38(camera->play, camera->target, rwData->curKeyFrame->initField);
+                    }
                 }
             }
         } else {
