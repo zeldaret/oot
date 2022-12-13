@@ -25,10 +25,10 @@
 #define ENHOLL_H_INVISIBLE_LOAD_DEPTH_MAX 100.0f
 #define ENHOLL_H_INVISIBLE_LOAD_DEPTH_MIN 50.0f
 
-// Defines the depth from horizontal switch flag holls (`ENHOLL_H_FADE_SWITCHFLAG`),
-//  - at which the screen starts fading black;
-#define ENHOLL_H_SWITCHFLAG_FADE_DEPTH 100.0f
-//  - at which the screen is fully faded black,
+// Defines the depth from horizontal switch flag holls (`ENHOLL_H_BGCOVER_SWITCHFLAG`),
+//  - at which the background geometry starts fading black;
+#define ENHOLL_H_SWITCHFLAG_BGCOVER_DEPTH 100.0f
+//  - at which the background geometry is fully faded black,
 //    and rooms are loaded if needed according to the side the player is on (along local z).
 #define ENHOLL_H_SWITCHFLAG_LOAD_DEPTH 50.0f
 
@@ -36,22 +36,22 @@
 // All vertical holls are cylinders which react to how far (y dist) and in which direction (side) the player is from the
 // actor, along the vertical y axis.
 
-// Vertical down holls parameters (`ENHOLL_V_DOWN_FADE_LARGE`)
+// Vertical down holls parameters (`ENHOLL_V_DOWN_BGCOVER_LARGE`)
 #define ENHOLL_V_DOWN_RADIUS 500.0f
-// Y dist at which the screen starts fading black.
-#define ENHOLL_V_DOWN_FADE_YDIST 605.0f
-// Y dist at which the screen is fully faded black, and the room down is loaded.
+// Y dist at which the background geometry starts fading black.
+#define ENHOLL_V_DOWN_BGCOVER_YDIST 605.0f
+// Y dist at which the background geometry is fully faded black, and the room down is loaded.
 #define ENHOLL_V_DOWN_LOAD_YDIST 95.0f
 
-// Radius for other vertical holls (`ENHOLL_V_FADE`, `ENHOLL_V_INVISIBLE`)
+// Radius for other vertical holls (`ENHOLL_V_BGCOVER`, `ENHOLL_V_INVISIBLE`)
 #define ENHOLL_V_RADIUS 120.0f
 
-// Vertical fade holls parameters (`ENHOLL_V_FADE`)
-// Y dist at which the screen starts fading black.
-#define ENHOLL_V_FADE_FADE_YDIST 200.0f
-// Y dist at which the screen is fully faded black,
+// Vertical bg cover holls parameters (`ENHOLL_V_BGCOVER`)
+// Y dist at which the background geometry starts fading black.
+#define ENHOLL_V_BGCOVER_BGCOVER_YDIST 200.0f
+// Y dist at which the background geometry is fully faded black,
 // and rooms are loaded if needed according to the side the player is on (along y).
-#define ENHOLL_V_FADE_LOAD_YDIST 50.0f
+#define ENHOLL_V_BGCOVER_LOAD_YDIST 50.0f
 
 // Vertical invisible holls parameters (`ENHOLL_V_INVISIBLE`)
 // Similar to the range defined by `ENHOLL_H_INVISIBLE_LOAD_DEPTH_MAX` and min above for horizontal planes,
@@ -67,10 +67,10 @@ void EnHoll_Draw(Actor* thisx, PlayState* play);
 void EnHoll_WaitRoomLoaded(EnHoll* this, PlayState* play);
 void EnHoll_HorizontalVisibleNarrow(EnHoll* this, PlayState* play);
 void EnHoll_HorizontalInvisible(EnHoll* this, PlayState* play);
-void EnHoll_VerticalDownFadeLarge(EnHoll* this, PlayState* play);
-void EnHoll_VerticalFade(EnHoll* this, PlayState* play);
+void EnHoll_VerticalDownBgCoverLarge(EnHoll* this, PlayState* play);
+void EnHoll_VerticalBgCover(EnHoll* this, PlayState* play);
 void EnHoll_VerticalInvisible(EnHoll* this, PlayState* play);
-void EnHoll_HorizontalFadeSwitchFlag(EnHoll* this, PlayState* play);
+void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play);
 
 ActorInit En_Holl_InitVars = {
     ACTOR_EN_HOLL,
@@ -85,13 +85,13 @@ ActorInit En_Holl_InitVars = {
 };
 
 static EnHollActionFunc sActionFuncs[] = {
-    EnHoll_HorizontalVisibleNarrow,  // ENHOLL_H_VISIBLE_NARROW
-    EnHoll_VerticalDownFadeLarge,    // ENHOLL_V_DOWN_FADE_LARGE
-    EnHoll_VerticalInvisible,        // ENHOLL_V_INVISIBLE
-    EnHoll_HorizontalFadeSwitchFlag, // ENHOLL_H_FADE_SWITCHFLAG
-    EnHoll_HorizontalInvisible,      // ENHOLL_H_INVISIBLE
-    EnHoll_VerticalFade,             // ENHOLL_V_FADE
-    EnHoll_HorizontalInvisible,      // ENHOLL_H_INVISIBLE_NARROW
+    EnHoll_HorizontalVisibleNarrow,     // ENHOLL_H_VISIBLE_NARROW
+    EnHoll_VerticalDownBgCoverLarge,    // ENHOLL_V_DOWN_BGCOVER_LARGE
+    EnHoll_VerticalInvisible,           // ENHOLL_V_INVISIBLE
+    EnHoll_HorizontalBgCoverSwitchFlag, // ENHOLL_H_BGCOVER_SWITCHFLAG
+    EnHoll_HorizontalInvisible,         // ENHOLL_H_INVISIBLE
+    EnHoll_VerticalBgCover,             // ENHOLL_V_BGCOVER
+    EnHoll_HorizontalInvisible,         // ENHOLL_H_INVISIBLE_NARROW
 };
 
 static InitChainEntry sInitChain[] = {
@@ -249,25 +249,25 @@ void EnHoll_HorizontalInvisible(EnHoll* this, PlayState* play) {
     }
 }
 
-void EnHoll_VerticalDownFadeLarge(EnHoll* this, PlayState* play) {
+void EnHoll_VerticalDownBgCoverLarge(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 absYDistToPlayer = fabsf(this->actor.yDistToPlayer);
     s32 transitionActorIndex;
 
     if (this->actor.xzDistToPlayer < ENHOLL_V_DOWN_RADIUS &&
-        // Nothing happens if `absYDistToPlayer > ENHOLL_V_DOWN_FADE_YDIST`,
-        // so this check may as well compare to ENHOLL_V_DOWN_FADE_YDIST
-        absYDistToPlayer < (ENHOLL_V_DOWN_FADE_YDIST + 95.0f)) {
+        // Nothing happens if `absYDistToPlayer > ENHOLL_V_DOWN_BGCOVER_YDIST`,
+        // so this check may as well compare to ENHOLL_V_DOWN_BGCOVER_YDIST
+        absYDistToPlayer < (ENHOLL_V_DOWN_BGCOVER_YDIST + 95.0f)) {
 
         transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
 
         if (absYDistToPlayer < ENHOLL_V_DOWN_LOAD_YDIST) {
             play->bgCoverAlpha = 255;
-        } else if (absYDistToPlayer > ENHOLL_V_DOWN_FADE_YDIST) {
+        } else if (absYDistToPlayer > ENHOLL_V_DOWN_BGCOVER_YDIST) {
             play->bgCoverAlpha = 0;
         } else {
-            play->bgCoverAlpha = (s16)(ENHOLL_V_DOWN_FADE_YDIST - absYDistToPlayer) *
-                                 (255 / (ENHOLL_V_DOWN_FADE_YDIST - ENHOLL_V_DOWN_LOAD_YDIST));
+            play->bgCoverAlpha = (s16)(ENHOLL_V_DOWN_BGCOVER_YDIST - absYDistToPlayer) *
+                                 (255 / (ENHOLL_V_DOWN_BGCOVER_YDIST - ENHOLL_V_DOWN_LOAD_YDIST));
         }
 
         if (absYDistToPlayer < ENHOLL_V_DOWN_LOAD_YDIST) {
@@ -289,22 +289,22 @@ void EnHoll_VerticalDownFadeLarge(EnHoll* this, PlayState* play) {
     }
 }
 
-void EnHoll_VerticalFade(EnHoll* this, PlayState* play) {
+void EnHoll_VerticalBgCover(EnHoll* this, PlayState* play) {
     f32 absYDistToPlayer;
     s32 side;
     s32 transitionActorIndex;
 
     if ((this->actor.xzDistToPlayer < ENHOLL_V_RADIUS) &&
-        (absYDistToPlayer = fabsf(this->actor.yDistToPlayer), absYDistToPlayer < ENHOLL_V_FADE_FADE_YDIST)) {
+        (absYDistToPlayer = fabsf(this->actor.yDistToPlayer), absYDistToPlayer < ENHOLL_V_BGCOVER_BGCOVER_YDIST)) {
 
-        if (absYDistToPlayer < ENHOLL_V_FADE_LOAD_YDIST) {
+        if (absYDistToPlayer < ENHOLL_V_BGCOVER_LOAD_YDIST) {
             play->bgCoverAlpha = 255;
         } else {
-            play->bgCoverAlpha = (ENHOLL_V_FADE_FADE_YDIST - absYDistToPlayer) *
-                                 (255 / (ENHOLL_V_FADE_FADE_YDIST - ENHOLL_V_FADE_LOAD_YDIST));
+            play->bgCoverAlpha = (ENHOLL_V_BGCOVER_BGCOVER_YDIST - absYDistToPlayer) *
+                                 (255 / (ENHOLL_V_BGCOVER_BGCOVER_YDIST - ENHOLL_V_BGCOVER_LOAD_YDIST));
         }
 
-        if (absYDistToPlayer > ENHOLL_V_FADE_LOAD_YDIST) {
+        if (absYDistToPlayer > ENHOLL_V_BGCOVER_LOAD_YDIST) {
             transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
             side = (this->actor.yDistToPlayer > 0.0f) ? 0 : 1;
             this->actor.room = play->transiActorCtx.list[transitionActorIndex].sides[side].room;
@@ -342,7 +342,7 @@ void EnHoll_VerticalInvisible(EnHoll* this, PlayState* play) {
     }
 }
 
-void EnHoll_HorizontalFadeSwitchFlag(EnHoll* this, PlayState* play) {
+void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     Vec3f relPlayerPos;
     f32 orthogonalDistToPlayer;
@@ -359,14 +359,14 @@ void EnHoll_HorizontalFadeSwitchFlag(EnHoll* this, PlayState* play) {
         orthogonalDistToPlayer = fabsf(relPlayerPos.z);
 
         if (ENHOLL_H_Y_MIN < relPlayerPos.y && relPlayerPos.y < ENHOLL_H_Y_MAX &&
-            fabsf(relPlayerPos.x) < ENHOLL_H_HALFWIDTH && orthogonalDistToPlayer < ENHOLL_H_SWITCHFLAG_FADE_DEPTH) {
+            fabsf(relPlayerPos.x) < ENHOLL_H_HALFWIDTH && orthogonalDistToPlayer < ENHOLL_H_SWITCHFLAG_BGCOVER_DEPTH) {
 
             this->resetBgCoverAlpha = true;
             transitionActorIndex = GET_TRANSITION_ACTOR_INDEX(&this->actor);
 
             play->bgCoverAlpha =
                 255 - (s32)((orthogonalDistToPlayer - ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) *
-                            (255 / (ENHOLL_H_SWITCHFLAG_FADE_DEPTH - ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) + 0.8f));
+                            (255 / (ENHOLL_H_SWITCHFLAG_BGCOVER_DEPTH - ENHOLL_H_SWITCHFLAG_LOAD_DEPTH) + 0.8f));
             if (play->bgCoverAlpha > 255) {
                 play->bgCoverAlpha = 255;
             } else if (play->bgCoverAlpha < 0) {

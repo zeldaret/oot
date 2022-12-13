@@ -18,16 +18,16 @@
  *
  * Three kinds of visual effects:
  *   Visible: A plane is drawn at the holl location, and fades away as the player approaches.
- *   Fade: The whole screen fades black as the player approaches.
+ *   Bg Cover: The background geometry (e.g. room geometry but not actors) fades black as the player approaches.
  *   Invisible: Approaching the holl does not cause any particular visual effect.
  */
 typedef enum {
     /* 0 */ ENHOLL_H_VISIBLE_NARROW,
-    /* 1 */ ENHOLL_V_DOWN_FADE_LARGE, // Only allows downwards transitions. 500 units radius. Used in fire temple drops.
+    /* 1 */ ENHOLL_V_DOWN_BGCOVER_LARGE, // Only allows downwards transitions. 500 units radius. Used in fire temple drops.
     /* 2 */ ENHOLL_V_INVISIBLE,
-    /* 3 */ ENHOLL_H_FADE_SWITCHFLAG, // Enabled if a switch flag is set. Used in Dampe's race.
+    /* 3 */ ENHOLL_H_BGCOVER_SWITCHFLAG, // Enabled if a switch flag is set. Used in Dampe's race.
     /* 4 */ ENHOLL_H_INVISIBLE,
-    /* 5 */ ENHOLL_V_FADE,
+    /* 5 */ ENHOLL_V_BGCOVER,
     /* 6 */ ENHOLL_H_INVISIBLE_NARROW
 } EnHollType;
 
