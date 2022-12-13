@@ -5,7 +5,7 @@
  */
 
 #include "z_en_eg.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -16,13 +16,13 @@ void EnEg_Draw(Actor* thisx, PlayState* play);
 
 void func_809FFDC8(EnEg* this, PlayState* play);
 
-static s32 voided = false;
+static s32 sVoided = false;
 
 static EnEgActionFunc sActionFuncs[] = {
     func_809FFDC8,
 };
 
-const ActorInit En_Eg_InitVars = {
+ActorInit En_Eg_InitVars = {
     ACTOR_EN_EG,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -48,14 +48,14 @@ void EnEg_Init(Actor* thisx, PlayState* play) {
 }
 
 void func_809FFDC8(EnEg* this, PlayState* play) {
-    if (!voided && (gSaveContext.timer2Value < 1) && Flags_GetSwitch(play, 0x36) && (kREG(0) == 0)) {
+    if (!sVoided && (gSaveContext.subTimerSeconds <= 0) && Flags_GetSwitch(play, 0x36) && (kREG(0) == 0)) {
         // Void the player out
         Play_TriggerRespawn(play);
         gSaveContext.respawnFlag = -2;
-        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         play->transitionType = TRANS_TYPE_FADE_BLACK;
         EnEg_PlayVoidOutSFX();
-        voided = true;
+        sVoided = true;
     }
 }
 

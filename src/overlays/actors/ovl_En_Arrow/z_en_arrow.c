@@ -19,7 +19,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play);
 void func_809B45E0(EnArrow* this, PlayState* play);
 void func_809B4640(EnArrow* this, PlayState* play);
 
-const ActorInit En_Arrow_InitVars = {
+ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -279,7 +279,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
             }
 
             EffectSsStone1_Spawn(play, &this->actor.world.pos, 0);
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, sfxId);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, sfxId);
             Actor_Kill(&this->actor);
         } else {
             EffectSsHitMark_SpawnCustomScale(play, 0, 150, &this->actor.world.pos);
@@ -307,7 +307,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     }
 
                     func_809B3CEC(play, this);
-                    Audio_PlayActorSound2(&this->actor, NA_SE_IT_ARROW_STICK_CRE);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_IT_ARROW_STICK_CRE);
                 }
             } else if (this->touchedPoly) {
                 EnArrow_SetupAction(this, func_809B45E0);
@@ -319,7 +319,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->timer = 20;
                 }
 
-                Audio_PlayActorSound2(&this->actor, NA_SE_IT_ARROW_STICK_OBJ);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_IT_ARROW_STICK_OBJ);
                 this->hitFlags |= 1;
             }
         }

@@ -7,7 +7,7 @@
 #include "z_en_gm.h"
 #include "assets/objects/object_oF1d_map/object_oF1d_map.h"
 #include "assets/objects/object_gm/object_gm.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -26,7 +26,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, PlayState* play);
 void func_80A3DF00(EnGm* this, PlayState* play);
 void func_80A3DF60(EnGm* this, PlayState* play);
 
-const ActorInit En_Gm_InitVars = {
+ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
     ACTORCAT_NPC,
     FLAGS,
@@ -245,7 +245,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, PlayState* play) {
                     Message_ContinueTextbox(play, 0xC8);
                     this->actionFunc = func_80A3DD7C;
                 } else {
-                    func_8002F434(&this->actor, play, GI_SWORD_KNIFE, 415.0f, 10.0f);
+                    Actor_OfferGetItem(&this->actor, play, GI_SWORD_KNIFE, 415.0f, 10.0f);
                     this->actionFunc = func_80A3DF00;
                 }
                 break;
@@ -262,7 +262,7 @@ void func_80A3DF00(EnGm* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = func_80A3DF60;
     } else {
-        func_8002F434(&this->actor, play, GI_SWORD_KNIFE, 415.0f, 10.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_SWORD_KNIFE, 415.0f, 10.0f);
     }
 }
 

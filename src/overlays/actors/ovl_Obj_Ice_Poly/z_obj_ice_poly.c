@@ -17,7 +17,7 @@ void ObjIcePoly_Draw(Actor* thisx, PlayState* play);
 void ObjIcePoly_Idle(ObjIcePoly* this, PlayState* play);
 void ObjIcePoly_Melt(ObjIcePoly* this, PlayState* play);
 
-const ActorInit Obj_Ice_Poly_InitVars = {
+ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
     ACTORCAT_PROP,
     FLAGS,
@@ -167,7 +167,7 @@ void ObjIcePoly_Melt(ObjIcePoly* this, PlayState* play) {
         this->meltTimer++;
         if (this->meltTimer == 0) {
             this->meltTimer = 40;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_ICE_MELT);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_ICE_MELT);
         }
     } else {
         if (this->meltTimer != 0) {
@@ -200,7 +200,7 @@ void ObjIcePoly_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_ice_poly.c", 428),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, play->gameplayFrames % 0x100, 0x20, 0x10, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play->gameplayFrames % 0x100, 0x20, 0x10, 1, 0,
                                 (play->gameplayFrames * 2) % 0x100, 0x40, 0x20));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, this->alpha);
     gSPDisplayList(POLY_XLU_DISP++, gEffIceFragment3DL);

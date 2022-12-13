@@ -93,7 +93,7 @@ s32 D_80B18910[] = { 0x0A000039, 0x20010000, 0x00000000, 0x00000000, 0x00000000,
 
 s32 D_80B1893C[] = { 0x00000000, 0x00000000, 0xFF000000 };
 
-const ActorInit En_Tg_InitVars = {
+ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
     ACTORTYPE_NPC,
     FLAGS,
@@ -489,7 +489,7 @@ To replace the `extern`, because the data is in a separate file, we include the 
 
 Lastly, uncomment the InitVars block that's been sitting there the whole time. The data section of the file now looks like
 ```C
-const ActorInit En_Jj_InitVars = {
+ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORTYPE_ITEMACTION,
     FLAGS,
@@ -566,7 +566,7 @@ In this, press `g` to open up goto position, and paste in the address `0xE3ED10`
 Notice that the numbers in the bottom pane is all shifted one word to the left. We therefore need some extra padding somewhere. The real issue is where. Thankfully the guess at the bottom gives us a hint: let's try just under `InitVars`. Just put a padding variable straight after them:
 
 ```C
-const ActorInit En_Jj_InitVars = {
+ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORTYPE_ITEMACTION,
     FLAGS,

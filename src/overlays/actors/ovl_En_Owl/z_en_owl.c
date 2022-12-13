@@ -8,7 +8,7 @@
 #include "assets/objects/object_owl/object_owl.h"
 #include "assets/scenes/overworld/spot06/spot06_scene.h"
 #include "assets/scenes/overworld/spot16/spot16_scene.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -65,7 +65,7 @@ typedef enum {
     /* 0x01 */ OWL_OK
 } EnOwlMessageChoice;
 
-const ActorInit En_Owl_InitVars = {
+ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORCAT_NPC,
     FLAGS,
@@ -249,9 +249,9 @@ void EnOwl_LookAtLink(EnOwl* this, PlayState* play) {
 }
 
 /**
- * Checks if link is within `targetDist` units, initalize the camera for the owl.
+ * Checks if link is within `targetDist` units, initialize the camera for the owl.
  * returns 0 if the link is not within `targetDistance`, returns 1 once link is within
- * the distance, and the camera has been initalized.
+ * the distance, and the camera has been initialized.
  */
 s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist, u16 flags) {
     s32 timer;
@@ -277,7 +277,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
             this->actor.flags |= ACTOR_FLAG_16;
-            func_8002F1C4(&this->actor, play, targetDist, distCheck, 0);
+            func_8002F1C4(&this->actor, play, targetDist, distCheck, EXCH_ITEM_NONE);
         }
         return false;
     }
@@ -289,7 +289,7 @@ s32 func_80ACA558(EnOwl* this, PlayState* play, u16 textId) {
     } else {
         this->actor.textId = textId;
         if (this->actor.xzDistToPlayer < 120.0f) {
-            func_8002F1C4(&this->actor, play, 350.0f, 1000.0f, 0);
+            func_8002F1C4(&this->actor, play, 350.0f, 1000.0f, EXCH_ITEM_NONE);
         }
         return false;
     }
@@ -337,20 +337,20 @@ void func_80ACA71C(EnOwl* this) {
 }
 
 void func_80ACA76C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA62C(this, play);
         this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
 void func_80ACA7E0(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, play);
         } else {
@@ -547,10 +547,10 @@ void EnOwl_WaitLakeHylia(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB03C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA62C(this, play);
         this->actor.flags &= ~ACTOR_FLAG_16;
     }
@@ -579,7 +579,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, PlayState* play) {
 
 void func_80ACB148(EnOwl* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(play, 0x23);
@@ -600,7 +600,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, PlayState* play) {
 
 void func_80ACB22C(EnOwl* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
     }
@@ -608,7 +608,7 @@ void func_80ACB22C(EnOwl* this, PlayState* play) {
 
 void func_80ACB274(EnOwl* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }
@@ -1059,7 +1059,7 @@ s32 func_80ACC5CC(EnOwl* this) {
 s32 func_80ACC624(EnOwl* this, PlayState* play) {
     s32 switchFlag = (this->actor.params & 0xFC0) >> 6;
 
-    if (play->sceneNum != SCENE_SPOT11) {
+    if (play->sceneId != SCENE_DESERT_COLOSSUS) {
         return true;
     } else if (switchFlag == 0xA) {
         return true;
@@ -1095,7 +1095,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
               this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f ||
               this->skelAnime.curFrame == 58.0f)) ||
             (this->skelAnime.animation == &gOwlFlyAnim && this->skelAnime.curFrame == 4.0f)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
 

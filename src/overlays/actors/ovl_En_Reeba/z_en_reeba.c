@@ -7,7 +7,7 @@
 
 #include "z_en_reeba.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_reeba/object_reeba.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
@@ -65,7 +65,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-const ActorInit En_Reeba_InitVars = {
+ActorInit En_Reeba_InitVars = {
     ACTOR_EN_REEBA,
     ACTORCAT_MISC,
     FLAGS,
@@ -133,9 +133,9 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
 
-    surfaceType = func_80041D4C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+    surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
-    if ((surfaceType != 4) && (surfaceType != 7)) {
+    if ((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -184,9 +184,9 @@ void func_80AE4F40(EnReeba* this, PlayState* play) {
     this->actor.world.pos.y = this->actor.floorHeight;
 
     if (this->isBig) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);
     } else {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     }
 
     this->actionfunc = func_80AE5054;
@@ -251,16 +251,16 @@ void func_80AE5270(EnReeba* this, PlayState* play) {
         Math_ApproachF(&this->actor.shape.shadowScale, 12.0f, 3.0f, 1.0f);
     }
 
-    surfaceType = func_80041D4C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+    surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
-    if ((surfaceType != 4) && (surfaceType != 7)) {
+    if ((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) {
         this->actor.speedXZ = 0.0f;
         this->actionfunc = func_80AE5688;
     } else if ((this->unk_272 == 0) || (this->actor.xzDistToPlayer < 30.0f) || (this->actor.xzDistToPlayer > 400.0f) ||
                (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = func_80AE5688;
     } else if (this->unk_274 == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_MOVE);
         this->unk_274 = 10;
     }
 }
@@ -282,9 +282,9 @@ void func_80AE53AC(EnReeba* this, PlayState* play) {
         Math_ApproachF(&this->actor.shape.shadowScale, 12.0f, 3.0f, 1.0f);
     }
 
-    surfaceType = func_80041D4C(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+    surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
-    if (((surfaceType != 4) && (surfaceType != 7)) || (this->actor.xzDistToPlayer > 400.0f) ||
+    if (((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) || (this->actor.xzDistToPlayer > 400.0f) ||
         (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = func_80AE5688;
     } else {
@@ -307,7 +307,7 @@ void func_80AE53AC(EnReeba* this, PlayState* play) {
         this->actor.world.rot.y += yaw * 2.0f;
 
         if (this->unk_274 == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_MOVE);
             this->unk_274 = 20;
         }
     }
@@ -327,7 +327,7 @@ void func_80AE561C(EnReeba* this, PlayState* play) {
 
 void func_80AE5688(EnReeba* this, PlayState* play) {
     this->unk_27E = 0;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     this->actor.flags |= ACTOR_FLAG_27;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = func_80AE56E0;
@@ -355,7 +355,7 @@ void func_80AE57F0(EnReeba* this, PlayState* play) {
     this->unk_276 = 14;
     this->actor.speedXZ = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->actionfunc = func_80AE5854;
 }
 
@@ -437,7 +437,7 @@ void func_80AE5A9C(EnReeba* this, PlayState* play) {
             EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
         }
     } else {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DEAD);
         Enemy_StartFinishingBlow(play, &this->actor);
         this->actionfunc = func_80AE5C38;
     }
@@ -446,7 +446,7 @@ void func_80AE5A9C(EnReeba* this, PlayState* play) {
 void func_80AE5BC4(EnReeba* this, PlayState* play) {
     this->actor.speedXZ = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->unk_278 = 14;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionfunc = func_80AE5C38;
@@ -527,8 +527,9 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                 case 12: // boomerang
                     if ((this->actor.colChkInfo.health > 1) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
@@ -536,8 +537,9 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                 case 13: // hookshot/longshot
                     if ((this->actor.colChkInfo.health > 2) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
@@ -546,14 +548,14 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                     this->unk_27C = 6;
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DEAD);
                         Enemy_StartFinishingBlow(play, &this->actor);
                         this->actionfunc = func_80AE5BC4;
                     } else {
                         if (this->actionfunc == func_80AE5E48) {
                             this->actor.shape.rot.x = this->actor.shape.rot.z = 0;
                         }
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DAMAGE);
+                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DAMAGE);
                         this->actionfunc = func_80AE57F0;
                     }
                     break;
@@ -561,13 +563,14 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                     Actor_ApplyDamage(&this->actor);
                     this->unk_27C = 2;
                     this->unk_27E = 2;
-                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                     this->actionfunc = func_80AE58EC;
                     break;
                 case 1: // unknown
                     if (this->unk_27E != 4) {
                         this->unk_27E = 4;
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         this->actionfunc = func_80AE58EC;
                     }
                     break;

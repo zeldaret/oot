@@ -60,8 +60,8 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
             break;
         }
 
-        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (play->sceneNum >= SCENE_YDAN_BOSS) &&
-            (play->sceneNum <= SCENE_GANON_FINAL)) {
+        if ((mapMarkData->markType == PAUSE_MAP_MARK_BOSS) && (play->sceneId >= SCENE_DEKU_TREE_BOSS) &&
+            (play->sceneId <= SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR)) {
             if (gBossMarkState == 0) {
                 Math_ApproachF(&gBossMarkScale, 1.5f, 1.0f, 0.041f);
                 if (gBossMarkScale == 1.5f) {
@@ -98,15 +98,15 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
                 if (Flags_GetTreasure(play, markPoint->chestFlag)) {
                     display = false;
                 } else {
-                    switch (play->sceneNum) {
-                        case SCENE_YDAN_BOSS:
-                        case SCENE_DDAN_BOSS:
-                        case SCENE_BDAN_BOSS:
-                        case SCENE_MORIBOSSROOM:
-                        case SCENE_FIRE_BS:
-                        case SCENE_MIZUSIN_BS:
-                        case SCENE_JYASINBOSS:
-                        case SCENE_HAKADAN_BS:
+                    switch (play->sceneId) {
+                        case SCENE_DEKU_TREE_BOSS:
+                        case SCENE_DODONGOS_CAVERN_BOSS:
+                        case SCENE_JABU_JABU_BOSS:
+                        case SCENE_FOREST_TEMPLE_BOSS:
+                        case SCENE_FIRE_TEMPLE_BOSS:
+                        case SCENE_WATER_TEMPLE_BOSS:
+                        case SCENE_SPIRIT_TEMPLE_BOSS:
+                        case SCENE_SHADOW_TEMPLE_BOSS:
                             display = false;
                             break;
                         default:
@@ -150,17 +150,17 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
 void PauseMapMark_Draw(PlayState* play) {
     PauseMapMark_Init(play);
 
-    switch (play->sceneNum) {
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_HAKADANCH:
-        case SCENE_ICE_DOUKUTO:
+    switch (play->sceneId) {
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_JABU_JABU:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_BOTTOM_OF_THE_WELL:
+        case SCENE_ICE_CAVERN:
             PauseMapMark_DrawForDungeon(play);
             break;
     }

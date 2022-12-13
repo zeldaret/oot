@@ -7,6 +7,7 @@
 #include "z_bg_haka_huta.h"
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "overlays/actors/ovl_En_Rd/z_en_rd.h"
+#include "quake.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -16,14 +17,14 @@ void BgHakaHuta_Update(Actor* thisx, PlayState* play);
 void BgHakaHuta_Draw(Actor* thisx, PlayState* play);
 
 void BgHakaHuta_SpawnDust(BgHakaHuta* this, PlayState* play);
-void BgHakaHuta_PlaySound(BgHakaHuta* this, PlayState* play, u16 sfx);
+void BgHakaHuta_PlaySfx(BgHakaHuta* this, PlayState* play, u16 sfx);
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, PlayState* play);
 void BgHakaHuta_Open(BgHakaHuta* this, PlayState* play);
 void BgHakaHuta_SlideOpen(BgHakaHuta* this, PlayState* play);
 void func_8087D720(BgHakaHuta* this, PlayState* play);
 void BgHakaHuta_DoNothing(BgHakaHuta* this, PlayState* play);
 
-const ActorInit Bg_Haka_Huta_InitVars = {
+ActorInit Bg_Haka_Huta_InitVars = {
     ACTOR_BG_HAKA_HUTA,
     ACTORCAT_BG,
     FLAGS,
@@ -45,7 +46,7 @@ void BgHakaHuta_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gBotwCoffinLidCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->unk_16A = (thisx->params >> 8) & 0xFF;
@@ -94,14 +95,14 @@ void BgHakaHuta_SpawnDust(BgHakaHuta* this, PlayState* play) {
     }
 }
 
-void BgHakaHuta_PlaySound(BgHakaHuta* this, PlayState* play, u16 sfx) {
+void BgHakaHuta_PlaySfx(BgHakaHuta* this, PlayState* play, u16 sfx) {
     Vec3f pos;
 
     pos.z = (this->dyna.actor.shape.rot.y == 0) ? this->dyna.actor.world.pos.z + 120.0f
                                                 : this->dyna.actor.world.pos.z - 120.0f;
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y;
-    SoundSource_PlaySfxAtFixedWorldPos(play, &pos, 30, sfx);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &pos, 30, sfx);
 }
 
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, PlayState* play) {
@@ -148,7 +149,7 @@ void BgHakaHuta_Open(BgHakaHuta* this, PlayState* play) {
     Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + posOffset, 2.0f);
     if (this->counter == 0) {
         this->counter = 37;
-        BgHakaHuta_PlaySound(this, play, NA_SE_EV_COFFIN_CAP_OPEN);
+        BgHakaHuta_PlaySfx(this, play, NA_SE_EV_COFFIN_CAP_OPEN);
         this->actionFunc = BgHakaHuta_SlideOpen;
     }
 }
@@ -164,7 +165,7 @@ void BgHakaHuta_SlideOpen(BgHakaHuta* this, PlayState* play) {
         BgHakaHuta_SpawnDust(this, play);
     }
     if (this->counter == 0) {
-        BgHakaHuta_PlaySound(this, play, NA_SE_EV_COFFIN_CAP_BOUND);
+        BgHakaHuta_PlaySfx(this, play, NA_SE_EV_COFFIN_CAP_BOUND);
         this->actionFunc = func_8087D720;
     }
 }
@@ -179,10 +180,10 @@ void func_8087D720(BgHakaHuta* this, PlayState* play) {
     this->counter++;
     if (this->counter == 6) {
         this->actionFunc = BgHakaHuta_DoNothing;
-        quakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 3);
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
         Quake_SetSpeed(quakeIndex, 0x7530);
-        Quake_SetQuakeValues(quakeIndex, 4, 0, 0, 0);
-        Quake_SetCountdown(quakeIndex, 2);
+        Quake_SetPerturbations(quakeIndex, 4, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 2);
     } else if (this->counter == 0) {
         this->counter = 6;
         this->actionFunc = BgHakaHuta_DoNothing;

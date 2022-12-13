@@ -6,7 +6,7 @@
 
 #include "z_bg_spot16_doughnut.h"
 #include "assets/objects/object_efc_doughnut/object_efc_doughnut.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -18,7 +18,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot16_Doughnut_InitVars = {
+ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORCAT_PROP,
     FLAGS,
@@ -56,13 +56,13 @@ void BgSpot16Doughnut_Init(Actor* thisx, PlayState* play) {
     } else {
         // Scales this actor for scenes where it is featured in the background,
         // Death Mountain itself falls into the default case.
-        switch (play->sceneNum) {
-            case SCENE_SPOT01:
+        switch (play->sceneId) {
+            case SCENE_KAKARIKO_VILLAGE:
                 Actor_SetScale(&this->actor, 0.04f);
                 break;
-            case SCENE_SHRINE:
-            case SCENE_SHRINE_N:
-            case SCENE_SHRINE_R:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_DAY:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_NIGHT:
+            case SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS:
                 Actor_SetScale(&this->actor, 0.018f);
                 break;
             default:
@@ -131,7 +131,8 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->fireFlag & 1) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * (-1), 0, 16, 32, 1, scroll, scroll * (-2), 16, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * (-1), 0, 16, 32, 1, scroll,
+                                    scroll * (-2), 16, 32));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, this->envColorAlpha);
         gSPDisplayList(POLY_XLU_DISP++, gDeathMountainCloudCircleFieryDL);
     } else {

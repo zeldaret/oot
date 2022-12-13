@@ -5,7 +5,7 @@
  */
 
 #include "z_en_zl2.h"
-#include "vt.h"
+#include "terminal.h"
 
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/objects/object_zl2/object_zl2.h"
@@ -85,7 +85,7 @@ static EnZl2DrawFunc sDrawFuncs[] = {
     func_80B525D4,
 };
 
-const ActorInit En_Zl2_InitVars = {
+ActorInit En_Zl2_InitVars = {
     ACTOR_EN_ZL2,
     ACTORCAT_NPC,
     FLAGS,
@@ -590,7 +590,7 @@ void func_80B4FD90(EnZl2* this, PlayState* play) {
 
 void func_80B4FDD4(EnZl2* this) {
     if (Animation_OnFrame(&this->skelAnime, 14.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
@@ -1444,8 +1444,8 @@ void func_80B51D24(EnZl2* this, PlayState* play) {
 
     if (Animation_OnFrame(skelAnime, 6.0f) || Animation_OnFrame(skelAnime, 0.0f)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-            sfxId = SFX_FLAG;
-            sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+            sfxId = NA_SE_PL_WALK_GROUND;
+            sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
         }
     }
@@ -1612,10 +1612,10 @@ void EnZl2_Init(Actor* thisx, PlayState* play) {
 
     switch (thisx->params) {
         case 1:
-            Audio_SetSoundBanksMute(0x6F);
+            Audio_SetSfxBanksMute(0x6F);
             break;
         case 4:
-            gSaveContext.timer2State = 0;
+            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
             break;
     }
 }

@@ -6,7 +6,7 @@
 
 #include "z_bg_gate_shutter.h"
 #include "assets/objects/object_spot01_matoyab/object_spot01_matoyab.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -20,7 +20,7 @@ void func_80878300(BgGateShutter* this, PlayState* play);
 void func_808783AC(BgGateShutter* this, PlayState* play);
 void func_808783D4(BgGateShutter* this, PlayState* play);
 
-const ActorInit Bg_Gate_Shutter_InitVars = {
+ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -37,13 +37,13 @@ void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gKakarikoGuardGateCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
-    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneNum == SCENE_SPOT01)) {
+    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneId == SCENE_KAKARIKO_VILLAGE)) {
         thisx->world.pos.x = -89.0f;
         thisx->world.pos.z = -1375.0f;
     }
@@ -78,11 +78,11 @@ void func_80878300(BgGateShutter* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->world.pos.x -= 2.0f;
         Math_ApproachF(&thisx->world.pos.z, -1375.0f, 0.8f, 0.3f);
         if (thisx->world.pos.x < -89.0f) {
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 0x1E;
             this->actionFunc = func_808783AC;
         }
@@ -100,12 +100,12 @@ void func_808783D4(BgGateShutter* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->world.pos.x += 2.0f;
         Math_ApproachF(&thisx->world.pos.z, -1350.0f, 0.8f, 0.3f);
         if (thisx->world.pos.x > 90.0f) {
             thisx->world.pos.x = 91.0f;
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 30;
             this->actionFunc = func_808783AC;
         }

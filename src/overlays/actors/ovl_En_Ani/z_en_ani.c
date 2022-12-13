@@ -26,7 +26,7 @@ void func_809B0994(EnAni* this, PlayState* play);
 void func_809B0A28(EnAni* this, PlayState* play);
 void func_809B0A6C(EnAni* this, PlayState* play);
 
-const ActorInit En_Ani_InitVars = {
+ActorInit En_Ani_InitVars = {
     ACTOR_EN_ANI,
     ACTORCAT_NPC,
     FLAGS,
@@ -125,7 +125,7 @@ void func_809B0558(EnAni* this, PlayState* play) {
         }
         SET_ITEMGETINF(ITEMGETINF_15);
     } else {
-        func_8002F434(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
     }
 }
 
@@ -133,7 +133,7 @@ void func_809B05F0(EnAni* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         EnAni_SetupAction(this, func_809B0558);
     }
-    func_8002F434(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
+    Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 200.0f);
 }
 
 void func_809B064C(EnAni* this, PlayState* play) {
@@ -263,7 +263,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
             func_800788CC(NA_SE_IT_EARTHQUAKE);
         }
     } else {
-        if (SkelAnime_Update(&this->skelAnime) != 0) {
+        if (SkelAnime_Update(&this->skelAnime)) {
             this->skelAnime.curFrame = 0.0f;
         }
         this->actionFunc(this, play);

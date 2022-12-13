@@ -23,7 +23,7 @@ s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
-const ActorInit En_Ma3_InitVars = {
+ActorInit En_Ma3_InitVars = {
     ACTOR_EN_MA3,
     ACTORCAT_NPC,
     FLAGS,
@@ -73,53 +73,58 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
 
 u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
-    s16* timer1ValuePtr; // weirdness with this necessary to match
 
     if (!GET_INFTABLE(INFTABLE_B8)) {
         return 0x2000;
     }
-    timer1ValuePtr = &gSaveContext.timer1Value;
+
     if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
-        gSaveContext.timer1Value = gSaveContext.timer1Value;
+        gSaveContext.timerSeconds = gSaveContext.timerSeconds;
         thisx->flags |= ACTOR_FLAG_16;
-        if (gSaveContext.timer1Value >= 0xD3) {
+
+        if (((void)0, gSaveContext.timerSeconds) > 210) {
             return 0x208E;
         }
-        if ((HIGH_SCORE(HS_HORSE_RACE) == 0) || (HIGH_SCORE(HS_HORSE_RACE) >= 0xB4)) {
-            HIGH_SCORE(HS_HORSE_RACE) = 0xB4;
-            gSaveContext.timer1Value = *timer1ValuePtr;
+
+        if ((HIGH_SCORE(HS_HORSE_RACE) == 0) || (HIGH_SCORE(HS_HORSE_RACE) >= 180)) {
+            HIGH_SCORE(HS_HORSE_RACE) = 180;
         }
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (gSaveContext.timer1Value < 0x32)) {
+
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (((void)0, gSaveContext.timerSeconds) < 50)) {
             return 0x208F;
-        } else if (gSaveContext.timer1Value < HIGH_SCORE(HS_HORSE_RACE)) {
-            return 0x2012;
-        } else {
-            return 0x2004;
         }
+
+        if (HIGH_SCORE(HS_HORSE_RACE) > ((void)0, gSaveContext.timerSeconds)) {
+            return 0x2012;
+        }
+
+        return 0x2004;
     }
+
     if (!(player->stateFlags1 & PLAYER_STATE1_23) &&
         (Actor_FindNearby(play, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
+
     if (!GET_INFTABLE(INFTABLE_B9)) {
         return 0x2002;
-    } else {
-        return 0x2003;
     }
+
+    return 0x2003;
 }
 
 s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
-    s16 ret = 1;
+    s16 ret = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                play->nextEntranceIndex = ENTR_SPOT20_0;
+                play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
                 play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 SET_EVENTINF(EVENTINF_HORSES_0A);
-                gSaveContext.timer1State = 0xF;
+                gSaveContext.timerState = TIMER_STATE_UP_FREEZE;
             }
             break;
         case TEXT_STATE_CHOICE:
@@ -140,33 +145,33 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
             switch (thisx->textId) {
                 case 0x2000:
                     SET_INFTABLE(INFTABLE_B8);
-                    ret = 0;
+                    ret = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x208F:
                     SET_EVENTCHKINF(EVENTCHKINF_1E);
                     FALLTHROUGH;
                 case 0x2004:
                 case 0x2012:
-                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timer1Value) {
-                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
+                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timerSeconds) {
+                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timerSeconds;
                     }
                     FALLTHROUGH;
                 case 0x208E:
                     CLEAR_EVENTINF(EVENTINF_HORSES_0A);
                     thisx->flags &= ~ACTOR_FLAG_16;
-                    ret = 0;
-                    gSaveContext.timer1State = 0xA;
+                    ret = NPC_TALK_STATE_IDLE;
+                    gSaveContext.timerState = TIMER_STATE_STOP;
                     break;
                 case 0x2002:
                     SET_INFTABLE(INFTABLE_B9);
                     FALLTHROUGH;
                 case 0x2003:
                     if (!GET_EVENTINF(EVENTINF_HORSES_0A)) {
-                        ret = 0;
+                        ret = NPC_TALK_STATE_IDLE;
                     }
                     break;
                 default:
-                    ret = 0;
+                    ret = NPC_TALK_STATE_IDLE;
                     break;
             }
             break;
@@ -184,24 +189,24 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
 
 void func_80AA2E54(EnMa3* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 phi_a3;
+    s16 trackingMode;
 
-    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
-        phi_a3 = 1;
+    if ((this->interactInfo.talkState == NPC_TALK_STATE_IDLE) && (this->skelAnime.animation == &gMalonAdultSingAnim)) {
+        trackingMode = NPC_TRACKING_NONE;
     } else {
-        phi_a3 = 0;
+        trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
     }
 
-    this->unk_1E0.unk_18 = player->actor.world.pos;
-    this->unk_1E0.unk_14 = 0.0f;
-    func_80034A14(&this->actor, &this->unk_1E0, 0, phi_a3);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = 0.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
 s32 func_80AA2EC8(EnMa3* this, PlayState* play) {
     if (LINK_IS_CHILD) {
         return 2;
     }
-    if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         return 2;
     }
     if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
@@ -214,7 +219,7 @@ s32 func_80AA2F28(EnMa3* this) {
     if (this->skelAnime.animation != &gMalonAdultSingAnim) {
         return 0;
     }
-    if (this->unk_1E0.unk_00 != 0) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         return 0;
     }
     this->blinkTimer = 0;
@@ -268,7 +273,7 @@ void EnMa3_Init(Actor* thisx, PlayState* play) {
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
-    this->unk_1E0.unk_00 = (u16)0;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 }
 
 void EnMa3_Destroy(Actor* thisx, PlayState* play) {
@@ -279,9 +284,9 @@ void EnMa3_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80AA3200(EnMa3* this, PlayState* play) {
-    if (this->unk_1E0.unk_00 == 2) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         this->actor.flags &= ~ACTOR_FLAG_16;
-        this->unk_1E0.unk_00 = 0;
+        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
 }
 
@@ -295,16 +300,18 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA2E54(this, play);
-    func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 150.0f, func_80AA2AA0,
-                  func_80AA2BD4);
-    if (this->unk_1E0.unk_00 == 0) {
-        if (this->unk_20A != 0) {
-            func_800F6584(0);
-            this->unk_20A = 0;
+    Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 150.0f,
+                      func_80AA2AA0, func_80AA2BD4);
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
+        if (this->isNotSinging) {
+            // Turn on singing
+            Audio_ToggleMalonSinging(false);
+            this->isNotSinging = false;
         }
-    } else if (this->unk_20A == 0) {
-        func_800F6584(1);
-        this->unk_20A = 1;
+    } else if (!this->isNotSinging) {
+        // Turn off singing
+        Audio_ToggleMalonSinging(true);
+        this->isNotSinging = true;
     }
 }
 
@@ -317,13 +324,13 @@ s32 EnMa3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->unk_1E0.unk_08;
+        vec = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) {
-        vec = this->unk_1E0.unk_0E;
+        vec = this->interactInfo.torsoRot;
         Matrix_RotateY(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.x), MTXMODE_APPLY);
     }
@@ -357,14 +364,14 @@ void EnMa3_Draw(Actor* thisx, PlayState* play) {
     static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
     EnMa3* this = (EnMa3*)thisx;
     Camera* activeCam;
-    f32 someFloat;
+    f32 distFromCamEye;
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ma3.c", 978);
 
     activeCam = GET_ACTIVE_CAM(play);
-    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
-    func_800F6268(someFloat, NA_BGM_LONLON);
+    distFromCamEye = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
+    Audio_UpdateMalonSinging(distFromCamEye, NA_BGM_LONLON);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));

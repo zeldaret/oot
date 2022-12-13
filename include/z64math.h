@@ -69,12 +69,19 @@ typedef struct {
     /* 0x000C */ Vec3f b;
 } Linef; // size = 0x18
 
-// Defines a point in the spherical coordinate system
 typedef struct {
-    /* 0x00 */ f32 r;      // radius
-    /* 0x04 */ s16 pitch;  // polar (zenith) angle
-    /* 0x06 */ s16 yaw;    // azimuthal angle
-} VecSph; // size = 0x08
+    /* 0x0 */ f32 r; // radius
+    /* 0x4 */ s16 pitch; // depends on coordinate system. See below.
+    /* 0x6 */ s16 yaw; // azimuthal angle
+} VecSphGeo; // size = 0x8
+
+// Defines a point in the spherical coordinate system.
+// Pitch is 0 along the positive y-axis (up)
+typedef VecSphGeo VecSph;
+
+// Defines a point in the geographic coordinate system.
+// Pitch is 0 along the xz-plane (horizon)
+typedef VecSphGeo VecGeo;
 
 #define LERP(x, y, scale) (((y) - (x)) * (scale) + (x))
 #define LERP32(x, y, scale) ((s32)(((y) - (x)) * (scale)) + (x))
@@ -93,9 +100,15 @@ typedef struct {
 
 #define IS_ZERO(f) (fabsf(f) < 0.008f)
 
+// Casting a float to an integer, when the float value is larger than what the integer type can hold,
+// leads to undefined behavior. For example (f32)0x8000 doesn't fit in a s16, so it cannot be cast to s16.
+// This isn't an issue with IDO, but is one with for example GCC.
+// A partial workaround is to cast to s32 then s16, hoping all binang values used will fit a s32.
+#define TRUNCF_BINANG(f) (s16)(s32)(f)
+
 // Angle conversion macros
-#define DEG_TO_BINANG(degrees) (s16)((degrees) * (0x8000 / 180.0f))
-#define RAD_TO_BINANG(radians) (s16)((radians) * (0x8000 / M_PI))
+#define DEG_TO_BINANG(degrees) (s16)TRUNCF_BINANG((degrees) * (0x8000 / 180.0f))
+#define RAD_TO_BINANG(radians) (s16)TRUNCF_BINANG((radians) * (0x8000 / M_PI))
 #define RAD_TO_DEG(radians) ((radians) * (180.0f / M_PI))
 #define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
 #define BINANG_TO_DEG(binang) ((f32)(binang) * (180.0f / 0x8000))
@@ -104,9 +117,9 @@ typedef struct {
 #define BINANG_TO_RAD_ALT2(binang) (((f32)(binang) * M_PI) / 0x8000)
 
 // Vector macros
-#define SQXZ(vec) ((vec.x) * (vec.x) + (vec.z) * (vec.z))
-#define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
-#define SQXYZ(vec) ((vec.x) * (vec.x) + (vec.y) * (vec.y) + (vec.z) * (vec.z))
-#define DOTXYZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.y) * (vec2.y) + (vec1.z) * (vec2.z))
+#define SQXZ(vec) ((vec).x * (vec).x + (vec).z * (vec).z)
+#define DOTXZ(vec1, vec2) ((vec1).x * (vec2).x + (vec1).z * (vec2).z)
+#define SQXYZ(vec) ((vec).x * (vec).x + (vec).y * (vec).y + (vec).z * (vec).z)
+#define DOTXYZ(vec1, vec2) ((vec1).x * (vec2).x + (vec1).y * (vec2).y + (vec1).z * (vec2).z)
 
 #endif

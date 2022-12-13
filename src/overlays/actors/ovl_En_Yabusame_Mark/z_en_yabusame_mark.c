@@ -5,7 +5,7 @@
  */
 
 #include "z_en_yabusame_mark.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -34,7 +34,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-const ActorInit En_Yabusame_Mark_InitVars = {
+ActorInit En_Yabusame_Mark_InitVars = {
     ACTOR_EN_YABUSAME_MARK,
     ACTORCAT_PROP,
     FLAGS,
@@ -105,7 +105,7 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     Collider_SetQuad(play, &this->collider, &this->actor, &sQuadInit);
     this->worldPos = this->actor.world.pos;
     this->actor.flags |= ACTOR_FLAG_4;
-    if (gSaveContext.sceneSetupIndex != 4) {
+    if (gSaveContext.sceneLayer != 4) {
         Actor_Kill(&this->actor);
         return;
     }

@@ -12,7 +12,7 @@ void EnBubble_Wait(EnBubble* this, PlayState* play);
 void EnBubble_Pop(EnBubble* this, PlayState* play);
 void EnBubble_Regrow(EnBubble* this, PlayState* play);
 
-const ActorInit En_Bubble_InitVars = {
+ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -250,7 +250,7 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
         this->velocityFromBounce.y = (this->bounceDirection.y * bounceSpeed);
         this->velocityFromBounce.z = (this->bounceDirection.z * bounceSpeed);
         this->sinkSpeed = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_AWA_BOUND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AWA_BOUND);
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && sp54.y < 0.0f) {
@@ -269,7 +269,7 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
         this->velocityFromBounce.y = (this->bounceDirection.y * bounceSpeed);
         this->velocityFromBounce.z = (this->bounceDirection.z * bounceSpeed);
         this->sinkSpeed = 0.0f;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_AWA_BOUND);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AWA_BOUND);
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
     }
@@ -369,7 +369,7 @@ void EnBubble_Wait(EnBubble* this, PlayState* play) {
 
 void EnBubble_Pop(EnBubble* this, PlayState* play) {
     if (EnBubble_Explosion(this, play) >= 0) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 60, NA_SE_EN_AWA_BREAK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 60, NA_SE_EN_AWA_BREAK);
         Actor_Kill(&this->actor);
     }
 }

@@ -1,5 +1,5 @@
 #include "z_demo_ik.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ik/object_ik.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -86,24 +86,24 @@ s32 DemoIk_GetCueChannel(s32 params) {
     return ret;
 }
 
-void DemoIk_Type1PlaySound(DemoIk* this) {
+void DemoIk_Type1PlaySfx(DemoIk* this) {
     switch (this->actor.params) {
         case 0:
             if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
-                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND1_DEMO, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND1_DEMO, &this->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, 10.0f)) {
-                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND3_DEMO, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND3_DEMO, &this->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         case 2:
             if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
-                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND2_DEMO, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND2_DEMO, &this->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
     }
@@ -248,7 +248,7 @@ void DemoIk_Type1Action1(DemoIk* this, PlayState* play) {
 
 void DemoIk_Type1Action2(DemoIk* this, PlayState* play) {
     DemoIk_UpdateSkelAnime(this);
-    DemoIk_Type1PlaySound(this);
+    DemoIk_Type1PlaySfx(this);
     DemoIk_SetMove(this, play);
     DemoIk_BgCheck(this, play);
     DemoIk_SpawnDeadDb(this, play);
@@ -265,7 +265,7 @@ void DemoIk_Type1PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
             case 0:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 390),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
                 break;
             case 2:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 396),
@@ -322,20 +322,20 @@ void DemoIk_Type2Init(DemoIk* this, PlayState* play) {
     this->drawMode = 0;
 }
 
-void DemoIk_Type2PlaySoundOnFrame(DemoIk* this, f32 frame) {
+void DemoIk_Type2PlaySfxOnFrame(DemoIk* this, f32 frame) {
     if (Animation_OnFrame(&this->skelAnime, frame)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO, &this->actor.projectedPos, 4,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO, &this->actor.projectedPos, 4,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
-void DemoIk_Type2PlaySound(DemoIk* this) {
+void DemoIk_Type2PlaySfx(DemoIk* this) {
     switch (this->actor.params) {
         case 3:
-            DemoIk_Type2PlaySoundOnFrame(this, 33.0f);
+            DemoIk_Type2PlaySfxOnFrame(this, 33.0f);
             break;
         case 5:
-            DemoIk_Type2PlaySoundOnFrame(this, 44.0f);
+            DemoIk_Type2PlaySfxOnFrame(this, 44.0f);
             break;
     }
 }
@@ -398,7 +398,7 @@ void DemoIk_Type2Action1(DemoIk* this, PlayState* play) {
 
 void DemoIk_Type2Action2(DemoIk* this, PlayState* play) {
     DemoIk_UpdateSkelAnime(this);
-    DemoIk_Type2PlaySound(this);
+    DemoIk_Type2PlaySfx(this);
     func_80984048(this, play);
 }
 
@@ -432,7 +432,7 @@ void DemoIk_Type2PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
             case 5:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 286),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
+                gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
                 break;
             default:
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 292),
@@ -500,7 +500,7 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-const ActorInit Demo_Ik_InitVars = {
+ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
     ACTORCAT_NPC,
     FLAGS,

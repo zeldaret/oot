@@ -16,7 +16,7 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, PlayState* play);
 void EnShopnuts_Burrow(EnShopnuts* this, PlayState* play);
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play);
 
-const ActorInit En_Shopnuts_InitVars = {
+ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -114,13 +114,13 @@ void EnShopnuts_SetupStand(EnShopnuts* this) {
 
 void EnShopnuts_SetupBurrow(EnShopnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBusinessScrubAnim_39C, -5.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnShopnuts_Burrow;
 }
 
 void EnShopnuts_SetupSpawnSalesman(EnShopnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBusinessScrubRotateAnim, -3.0f);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnShopnuts_SpawnSalesman;
 }
@@ -137,7 +137,7 @@ void EnShopnuts_Wait(EnShopnuts* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         this->collider.base.acFlags |= AC_ON;
     } else if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
     }
 
     this->collider.dim.height = ((CLAMP(this->skelAnime.curFrame, 9.0f, 13.0f) - 9.0f) * 9.0f) + 5.0f;
@@ -198,7 +198,7 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, PlayState* play) {
         spawnPos.z = this->actor.world.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, spawnPos.x, spawnPos.y, spawnPos.z,
                         this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 2) != NULL) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     }
 }

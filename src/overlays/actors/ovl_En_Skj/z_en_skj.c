@@ -159,7 +159,7 @@ typedef struct {
 static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
 static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
-const ActorInit En_Skj_InitVars = {
+ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -397,7 +397,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
         default:
             this->actor.params = type;
             if (((this->actor.params != 0) && (this->actor.params != 1)) && (this->actor.params != 2)) {
-                if (INV_CONTENT(ITEM_TRADE_ADULT) < ITEM_SAW) {
+                if (INV_CONTENT(ITEM_TRADE_ADULT) < ITEM_POACHERS_SAW) {
                     Actor_Kill(&this->actor);
                     return;
                 }
@@ -579,8 +579,8 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
 
     if (!((this->unk_2D3 == 0) || (D_80B01EA0 != 0) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->actor.colChkInfo.damageEffect != 0) {
-            if (this->actor.colChkInfo.damageEffect == 0xF) {
+        switch (this->actor.colChkInfo.damageEffect) {
+            case 0xF:
                 effectPos.x = this->collider.info.bumper.hitPos.x;
                 effectPos.y = this->collider.info.bumper.hitPos.y;
                 effectPos.z = this->collider.info.bumper.hitPos.z;
@@ -591,14 +591,14 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
                 yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
                 if ((this->action == 2) || (this->action == 6)) {
                     if ((yawDiff > 0x6000) || (yawDiff < -0x6000)) {
-                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                         EnSkj_SetupDie(this);
                         return 1;
                     }
                 }
 
                 Actor_ApplyDamage(&this->actor);
-                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
 
                 if (this->actor.colChkInfo.health != 0) {
                     if (this->hitsUntilDodge != 0) {
@@ -612,11 +612,14 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
                 }
                 EnSkj_SetupDie(this);
                 return 1;
-            }
-        } else {
-            this->backflipFlag = 1;
-            EnSkj_Backflip(this);
-            return 1;
+
+            case 0:
+                this->backflipFlag = 1;
+                EnSkj_Backflip(this);
+                return 1;
+
+            default:
+                break;
         }
     }
     return 0;
@@ -1033,7 +1036,8 @@ void EnSkj_SariaSongTalk(EnSkj* this, PlayState* play) {
             EnSkj_SetupWaitInRange(this);
         } else {
             func_80AFFE24(this);
-            func_8002F434(&this->actor, play, GI_HEART_PIECE, EnSkj_GetItemXzRange(this), EnSkj_GetItemYRange(this));
+            Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, EnSkj_GetItemXzRange(this),
+                               EnSkj_GetItemYRange(this));
         }
     }
 }
@@ -1047,7 +1051,7 @@ void func_80AFFE44(EnSkj* this, PlayState* play) {
         this->actor.parent = NULL;
         EnSkj_SetupPostSariasSong(this);
     } else {
-        func_8002F434(&this->actor, play, GI_HEART_PIECE, EnSkj_GetItemXzRange(this), EnSkj_GetItemYRange(this));
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, EnSkj_GetItemXzRange(this), EnSkj_GetItemYRange(this));
     }
 }
 
@@ -1070,7 +1074,7 @@ void EnSkj_SetupMaskTrade(EnSkj* this) {
 void EnSkj_StartMaskTrade(EnSkj* this, PlayState* play) {
     u8 sp1F = Message_GetState(&play->msgCtx);
 
-    func_8002DF54(play, &this->actor, 1);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
     if ((sp1F == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         EnSkj_JumpFromStump(this);
     }
@@ -1168,7 +1172,7 @@ void EnSkj_SetupWaitForMaskTextClear(EnSkj* this) {
 
 void EnSkj_WaitForMaskTextClear(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, &this->actor, 7);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
         this->backflipFlag = 1;
         EnSkj_Backflip(this);
     }
@@ -1525,7 +1529,7 @@ void EnSkj_WonOcarinaMiniGame(EnSkj* this, PlayState* play) {
 
 void EnSkj_WaitToGiveReward(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        func_8002F434(&this->actor, play, sOcarinaGameRewards[gSaveContext.ocarinaGameRoundNum], 26.0f, 26.0f);
+        Actor_OfferGetItem(&this->actor, play, sOcarinaGameRewards[gSaveContext.ocarinaGameRoundNum], 26.0f, 26.0f);
         this->actionFunc = EnSkj_GiveOcarinaGameReward;
     }
 }
@@ -1535,7 +1539,7 @@ void EnSkj_GiveOcarinaGameReward(EnSkj* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnSkj_FinishOcarinaGameRound;
     } else {
-        func_8002F434(&this->actor, play, sOcarinaGameRewards[gSaveContext.ocarinaGameRoundNum], 26.0f, 26.0f);
+        Actor_OfferGetItem(&this->actor, play, sOcarinaGameRewards[gSaveContext.ocarinaGameRoundNum], 26.0f, 26.0f);
     }
 }
 

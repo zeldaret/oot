@@ -17,7 +17,7 @@ void BgInGate_Draw(Actor* thisx, PlayState* play);
 void func_80892890(BgInGate* this, PlayState* play);
 void BgInGate_DoNothing(BgInGate* this, PlayState* play);
 
-const ActorInit Bg_Ingate_InitVars = {
+ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORCAT_PROP,
     FLAGS,
@@ -39,13 +39,13 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gIngoGateCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if ((play->sceneNum != SCENE_SPOT20 || !LINK_IS_ADULT) ||
-        (GET_EVENTCHKINF(EVENTCHKINF_18) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
+    if ((play->sceneId != SCENE_LON_LON_RANCH || !LINK_IS_ADULT) ||
+        (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

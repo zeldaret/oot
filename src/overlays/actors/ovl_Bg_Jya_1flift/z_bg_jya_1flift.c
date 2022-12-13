@@ -25,7 +25,7 @@ void BgJya1flift_DelayMove(BgJya1flift* this, PlayState* play);
 
 static u8 sIsSpawned = false;
 
-const ActorInit Bg_Jya_1flift_InitVars = {
+ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
     ACTORCAT_BG,
     FLAGS,
@@ -160,7 +160,7 @@ void BgJya1flift_Move(BgJya1flift* this, PlayState* play) {
                                  tempVelocity, 1.0f)) < 0.001f) {
         this->dyna.actor.world.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
@@ -189,7 +189,7 @@ void BgJya1flift_Update(Actor* thisx, PlayState* play2) {
         tempIsRiding = DynaPolyActor_IsPlayerOnTop(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
+                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
             } else if (!tempIsRiding && this->isLinkRiding) {
                 Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }

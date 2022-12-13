@@ -1,11 +1,19 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
-OSTime sGraphUpdateTime;
-OSTime sGraphSetTaskTime;
+/**
+ * The time at which the previous `Graph_Update` ended.
+ */
+OSTime sGraphPrevUpdateEndTime;
+
+/**
+ * The time at which the previous graphics task was scheduled to run.
+ */
+OSTime sGraphPrevTaskTimeStart;
+
 FaultClient sGraphFaultClient;
 CfbInfo sGraphCfbInfos[3];
 FaultClient sGraphUcodeFaultClient;
@@ -24,7 +32,7 @@ UCodeInfo D_8012D248[3] = {
 
 void Graph_FaultClient(void) {
     void* nextFb = osViGetNextFramebuffer();
-    void* newFb = (void*)((SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1));
+    void* newFb = (SysCfb_GetFbPtr(0) != nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
 
     osViSwapBuffer(newFb);
     Fault_WaitForInput();
@@ -37,23 +45,28 @@ void UCodeDisas_Disassemble(UCodeDisas*, Gfx*);
 void Graph_DisassembleUCode(Gfx* workBuf) {
     UCodeDisas disassembler;
 
-    if (HREG(80) == 7 && HREG(81) != 0) {
+    if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_TOGGLE != 0) {
         UCodeDisas_Init(&disassembler);
-        disassembler.enableLog = HREG(83);
+        disassembler.enableLog = R_UCODE_DISAS_LOG_LEVEL;
+
         UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D230), D_8012D230);
         UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_PosLight_fifoTextStart);
+
         UCodeDisas_Disassemble(&disassembler, workBuf);
-        HREG(93) = disassembler.dlCnt;
-        HREG(84) = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
-        HREG(85) = disassembler.vtxCnt;
-        HREG(86) = disassembler.spvtxCnt;
-        HREG(87) = disassembler.tri1Cnt;
-        HREG(88) = disassembler.tri2Cnt;
-        HREG(89) = disassembler.quadCnt;
-        HREG(90) = disassembler.lineCnt;
-        HREG(91) = disassembler.syncErr;
-        HREG(92) = disassembler.loaducodeCnt;
-        if (HREG(82) == 1 || HREG(82) == 2) {
+
+        R_UCODE_DISAS_DL_COUNT = disassembler.dlCnt;
+        R_UCODE_DISAS_TOTAL_COUNT =
+            disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
+        R_UCODE_DISAS_VTX_COUNT = disassembler.vtxCnt;
+        R_UCODE_DISAS_SPVTX_COUNT = disassembler.spvtxCnt;
+        R_UCODE_DISAS_TRI1_COUNT = disassembler.tri1Cnt;
+        R_UCODE_DISAS_TRI2_COUNT = disassembler.tri2Cnt;
+        R_UCODE_DISAS_QUAD_COUNT = disassembler.quadCnt;
+        R_UCODE_DISAS_LINE_COUNT = disassembler.lineCnt;
+        R_UCODE_DISAS_SYNC_ERROR_COUNT = disassembler.syncErr;
+        R_UCODE_DISAS_LOAD_COUNT = disassembler.loaducodeCnt;
+
+        if (R_UCODE_DISAS_LOG_MODE == 1 || R_UCODE_DISAS_LOG_MODE == 2) {
             osSyncPrintf("vtx_cnt=%d\n", disassembler.vtxCnt);
             osSyncPrintf("spvtx_cnt=%d\n", disassembler.spvtxCnt);
             osSyncPrintf("tri1_cnt=%d\n", disassembler.tri1Cnt);
@@ -65,6 +78,7 @@ void Graph_DisassembleUCode(Gfx* workBuf) {
             osSyncPrintf("dl_depth=%d\n", disassembler.dlDepth);
             osSyncPrintf("dl_cnt=%d\n", disassembler.dlCnt);
         }
+
         UCodeDisas_Destroy(&disassembler);
     }
 }
@@ -85,17 +99,17 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
 
     pool->headMagic = GFXPOOL_HEAD_MAGIC;
     pool->tailMagic = GFXPOOL_TAIL_MAGIC;
-    THGA_Ct(&gfxCtx->polyOpa, pool->polyOpaBuffer, sizeof(pool->polyOpaBuffer));
-    THGA_Ct(&gfxCtx->polyXlu, pool->polyXluBuffer, sizeof(pool->polyXluBuffer));
-    THGA_Ct(&gfxCtx->overlay, pool->overlayBuffer, sizeof(pool->overlayBuffer));
-    THGA_Ct(&gfxCtx->work, pool->workBuffer, sizeof(pool->workBuffer));
+    THGA_Init(&gfxCtx->polyOpa, pool->polyOpaBuffer, sizeof(pool->polyOpaBuffer));
+    THGA_Init(&gfxCtx->polyXlu, pool->polyXluBuffer, sizeof(pool->polyXluBuffer));
+    THGA_Init(&gfxCtx->overlay, pool->overlayBuffer, sizeof(pool->overlayBuffer));
+    THGA_Init(&gfxCtx->work, pool->workBuffer, sizeof(pool->workBuffer));
 
     gfxCtx->polyOpaBuffer = pool->polyOpaBuffer;
     gfxCtx->polyXluBuffer = pool->polyXluBuffer;
     gfxCtx->overlayBuffer = pool->overlayBuffer;
     gfxCtx->workBuffer = pool->workBuffer;
 
-    gfxCtx->curFrameBuffer = (u16*)SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
+    gfxCtx->curFrameBuffer = SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
     gfxCtx->unk_014 = 0;
 }
 
@@ -144,18 +158,18 @@ void Graph_Destroy(GraphicsContext* gfxCtx) {
 }
 
 void Graph_TaskSet00(GraphicsContext* gfxCtx) {
-    static Gfx* D_8012D260 = NULL;
+    static Gfx* sPrevTaskWorkBuffer = NULL;
     static s32 sGraphCfbInfoIdx = 0;
 
-    OSTime time;
+    OSTime timeNow;
     OSTimer timer;
     OSMesg msg;
     OSTask_t* task = &gfxCtx->task.list.t;
     OSScTask* scTask = &gfxCtx->task;
     CfbInfo* cfb;
-    s32 pad1;
 
-    D_8016A528 = osGetTime() - sGraphSetTaskTime - D_8016A558;
+    gGfxTaskSentToNextReadyMinusAudioThreadUpdateTime =
+        osGetTime() - sGraphPrevTaskTimeStart - gAudioThreadUpdateTimeAcc;
 
     osSetTimer(&timer, OS_USEC_TO_CYCLES(3000000), 0, &gfxCtx->queue, (OSMesg)666);
 
@@ -166,36 +180,42 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("RCPが帰ってきませんでした。"); // "RCP did not return."
         osSyncPrintf(VT_RST);
-        LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-        LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
+
+        LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
+        LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
-        if (D_8012D260 != NULL) {
-            HREG(80) = 7;
-            HREG(81) = 1;
-            HREG(83) = 2;
-            D_8012D260 = D_8012D260;
-            Graph_DisassembleUCode(D_8012D260);
+        if (sPrevTaskWorkBuffer != NULL) {
+            R_HREG_MODE = HREG_MODE_UCODE_DISAS;
+            R_UCODE_DISAS_TOGGLE = 1;
+            R_UCODE_DISAS_LOG_LEVEL = 2;
+            sPrevTaskWorkBuffer = sPrevTaskWorkBuffer;
+            Graph_DisassembleUCode(sPrevTaskWorkBuffer);
         }
+
         Fault_AddHungupAndCrashImpl("RCP is HUNG UP!!", "Oh! MY GOD!!");
     }
 
     osRecvMesg(&gfxCtx->queue, &msg, OS_MESG_NOBLOCK);
 
-    D_8012D260 = gfxCtx->workBuffer;
+    sPrevTaskWorkBuffer = gfxCtx->workBuffer;
     if (gfxCtx->callback != NULL) {
         gfxCtx->callback(gfxCtx, gfxCtx->callbackParam);
     }
 
-    time = osGetTime();
-    if (D_8016A550 != 0) {
-        D_8016A558 = (D_8016A558 + time) - D_8016A550;
-        D_8016A550 = time;
+    timeNow = osGetTime();
+    if (gAudioThreadUpdateTimeStart != 0) {
+        // The audio thread update is running
+        // Add the time already spent to the accumulator and leave the rest for the next cycle
+
+        gAudioThreadUpdateTimeAcc += timeNow - gAudioThreadUpdateTimeStart;
+        gAudioThreadUpdateTimeStart = timeNow;
     }
-    D_8016A520 = D_8016A558;
-    D_8016A558 = 0;
-    sGraphSetTaskTime = osGetTime();
+    gAudioThreadUpdateTimeTotalPerGfxTask = gAudioThreadUpdateTimeAcc;
+    gAudioThreadUpdateTimeAcc = 0;
+
+    sGraphPrevTaskTimeStart = osGetTime();
 
     task->type = M_GFXTASK;
     task->flags = OS_SC_DRAM_DLIST;
@@ -242,7 +262,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     cfb->updateRate = R_UPDATE_RATE;
 
     scTask->framebuffer = cfb;
-    sGraphCfbInfoIdx = sGraphCfbInfoIdx % ARRAY_COUNT(sGraphCfbInfos);
+    sGraphCfbInfoIdx %= ARRAY_COUNT(sGraphCfbInfos);
 
     if (1) {}
 
@@ -255,7 +275,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     u32 problem;
 
-    gameState->unk_A0 = 0;
+    gameState->inPreNMIState = false;
     Graph_InitTHGA(gfxCtx);
 
     OPEN_DISPS(gfxCtx, "../graph.c", 966);
@@ -290,30 +310,30 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     CLOSE_DISPS(gfxCtx, "../graph.c", 1028);
 
-    if (HREG(80) == 10 && HREG(93) == 2) {
-        HREG(80) = 7;
-        HREG(81) = -1;
-        HREG(83) = HREG(92);
+    if (R_HREG_MODE == HREG_MODE_PLAY && R_PLAY_ENABLE_UCODE_DISAS == 2) {
+        R_HREG_MODE = HREG_MODE_UCODE_DISAS;
+        R_UCODE_DISAS_TOGGLE = -1;
+        R_UCODE_DISAS_LOG_LEVEL = R_PLAY_UCODE_DISAS_LOG_LEVEL;
     }
 
-    if (HREG(80) == 7 && HREG(81) != 0) {
-        if (HREG(82) == 3) {
+    if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_TOGGLE != 0) {
+        if (R_UCODE_DISAS_LOG_MODE == 3) {
             Fault_AddClient(&sGraphUcodeFaultClient, Graph_UCodeFaultClient, gfxCtx->workBuffer, "do_count_fault");
         }
 
         Graph_DisassembleUCode(gfxCtx->workBuffer);
 
-        if (HREG(82) == 3) {
+        if (R_UCODE_DISAS_LOG_MODE == 3) {
             Fault_RemoveClient(&sGraphUcodeFaultClient);
         }
 
-        if (HREG(81) < 0) {
-            LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-            LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
+        if (R_UCODE_DISAS_TOGGLE < 0) {
+            LogUtils_LogHexDump((void*)PHYS_TO_K1(SP_BASE_REG), 0x20);
+            LogUtils_LogHexDump((void*)PHYS_TO_K1(DPC_BASE_REG), 0x20);
         }
 
-        if (HREG(81) < 0) {
-            HREG(81) = 0;
+        if (R_UCODE_DISAS_TOGGLE < 0) {
+            R_UCODE_DISAS_TOGGLE = 0;
         }
     }
 
@@ -366,20 +386,20 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     func_800F3054();
 
     {
-        OSTime time = osGetTime();
+        OSTime timeNow = osGetTime();
         s32 pad[4];
 
-        D_8016A538 = gRSPGFXTotalTime;
-        D_8016A530 = gRSPAudioTotalTime;
-        D_8016A540 = gRDPTotalTime;
-        gRSPGFXTotalTime = 0;
-        gRSPAudioTotalTime = 0;
-        gRDPTotalTime = 0;
+        gRSPGfxTimeTotal = gRSPGfxTimeAcc;
+        gRSPAudioTimeTotal = gRSPAudioTimeAcc;
+        gRDPTimeTotal = gRDPTimeAcc;
+        gRSPGfxTimeAcc = 0;
+        gRSPAudioTimeAcc = 0;
+        gRDPTimeAcc = 0;
 
-        if (sGraphUpdateTime != 0) {
-            D_8016A548 = time - sGraphUpdateTime;
+        if (sGraphPrevUpdateEndTime != 0) {
+            gGraphUpdatePeriod = timeNow - sGraphPrevUpdateEndTime;
         }
-        sGraphUpdateTime = time;
+        sGraphPrevUpdateEndTime = timeNow;
     }
 
     if (gIsCtrlr2Valid && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
@@ -389,7 +409,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         gameState->running = false;
     }
 
-    if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->unk_A0) {
+    if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->inPreNMIState) {
         // "To reset mode"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" VT_RST);
         SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIState);
@@ -419,12 +439,13 @@ void Graph_ThreadEntry(void* arg0) {
 
         gameState = SystemArena_MallocDebug(size, "../graph.c", 1196);
 
-        if (!gameState) {
+        if (gameState == NULL) {
             osSyncPrintf("確保失敗\n"); // "Failure to secure"
 
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
         }
+
         GameState_Init(gameState, ovl->init, &gfxCtx);
 
         while (GameState_IsRunning(gameState)) {
@@ -444,24 +465,24 @@ void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size) {
     TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
 
     if (HREG(59) == 1) {
-        osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->bufp,
+        osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,
                      thga->p, thga->d);
     }
-    return THGA_AllocEnd(&gfxCtx->polyOpa, ALIGN16(size));
+    return THGA_AllocTail(&gfxCtx->polyOpa, ALIGN16(size));
 }
 
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
     TwoHeadGfxArena* thga = &gfxCtx->polyOpa;
 
     if (HREG(59) == 1) {
-        osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->bufp,
+        osSyncPrintf("graph_alloc siz=%d thga size=%08x bufp=%08x head=%08x tail=%08x\n", size, thga->size, thga->start,
                      thga->p, thga->d);
     }
-    return THGA_AllocEnd(&gfxCtx->polyOpa, ALIGN16(size));
+    return THGA_AllocTail(&gfxCtx->polyOpa, ALIGN16(size));
 }
 
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {
-    if (HREG(80) == 7 && HREG(82) != 4) {
+    if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_LOG_MODE != 4) {
         dispRefs[0] = gfxCtx->polyOpa.p;
         dispRefs[1] = gfxCtx->polyXlu.p;
         dispRefs[2] = gfxCtx->overlay.p;
@@ -473,7 +494,7 @@ void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, 
 }
 
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {
-    if (HREG(80) == 7 && HREG(82) != 4) {
+    if (R_HREG_MODE == HREG_MODE_UCODE_DISAS && R_UCODE_DISAS_LOG_MODE != 4) {
         if (dispRefs[0] + 1 == gfxCtx->polyOpa.p) {
             gfxCtx->polyOpa.p = dispRefs[0];
         } else {

@@ -6,7 +6,7 @@
 
 #include "z_en_syateki_niw.h"
 #include "assets/objects/object_niw/object_niw.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -26,7 +26,7 @@ void func_80B128D8(EnSyatekiNiw* this, PlayState* play);
 
 void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4);
 
-const ActorInit En_Syateki_Niw_InitVars = {
+ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
     ACTORCAT_PROP,
     FLAGS,
@@ -437,7 +437,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
                 this->unk_27C = 0.0f;
                 this->unk_280 = 14000.0f;
                 this->unk_278 = 14000.0f;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
                 this->unk_254 = this->unk_256 = this->unk_25A = 0x1E;
                 this->unk_29A = 5;
             }
@@ -453,8 +453,8 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
             }
 
             if ((this->unk_25A == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
-                Audio_PlaySoundGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->unk_25E = 0x14;
                 this->unk_29A = 6;
                 this->actor.speedXZ = 0.0f;
@@ -489,7 +489,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
 
 void func_80B128D8(EnSyatekiNiw* this, PlayState* play) {
     if (this->unk_25E == 1) {
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
     }
 }
 
@@ -549,7 +549,7 @@ void func_80B12BA4(EnSyatekiNiw* this, PlayState* play) {
             case 0:
                 if (this->unk_29C == 0) {
                     this->unk_262 = 0x1E;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                     this->unk_29C = 1;
                     this->unk_2A0 = 1;
                     this->actionFunc = func_80B123A8;
@@ -560,7 +560,7 @@ void func_80B12BA4(EnSyatekiNiw* this, PlayState* play) {
             case 1:
                 this->unk_262 = 0x1E;
                 this->unk_2F8 = 1;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                 this->unk_260 = 100;
                 this->unk_2A0 = 1;
                 this->unk_25E = this->unk_260;
@@ -642,10 +642,10 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     if (this->unk_262 == 0) {
         if (this->actionFunc == func_80B11E78) {
             this->unk_262 = 0x12C;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
         } else {
             this->unk_262 = 0x1E;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
         }
     }
 

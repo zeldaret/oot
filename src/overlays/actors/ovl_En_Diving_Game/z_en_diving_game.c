@@ -7,7 +7,7 @@
 #include "z_en_diving_game.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "assets/objects/object_zo/object_zo.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -33,7 +33,7 @@ void func_809EEA00(EnDivingGame* this, PlayState* play);
 void func_809EEA90(EnDivingGame* this, PlayState* play);
 void func_809EEAF8(EnDivingGame* this, PlayState* play);
 
-const ActorInit En_Diving_Game_InitVars = {
+ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
     ACTORCAT_NPC,
     FLAGS,
@@ -103,7 +103,7 @@ void EnDivingGame_Destroy(Actor* thisx, PlayState* play) {
     EnDivingGame* this = (EnDivingGame*)thisx;
 
     if (this->unk_31F == 0) {
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
     }
     Collider_DestroyCylinder(play, &this->collider);
 }
@@ -125,16 +125,16 @@ void EnDivingGame_SpawnRuppy(EnDivingGame* this, PlayState* play) {
 }
 
 s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
-    if (gSaveContext.timer1State == 10 && !Play_InCsMode(play)) {
+    if ((gSaveContext.timerState == TIMER_STATE_STOP) && !Play_InCsMode(play)) {
         // Failed.
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
         func_800F5B58();
         func_80078884(NA_SE_SY_FOUND);
         this->actor.textId = 0x71AD;
         Message_StartTextbox(play, this->actor.textId, NULL);
         this->unk_292 = TEXT_STATE_EVENT;
         this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
-        func_8002DF54(play, NULL, 8);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         this->actionFunc = func_809EE048;
         return true;
     } else {
@@ -145,7 +145,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
         }
         if (this->grabbedRupeesCounter >= rupeesNeeded) {
             // Won.
-            gSaveContext.timer1State = 0;
+            gSaveContext.timerState = TIMER_STATE_OFF;
             this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = 0;
             if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
                 this->actor.textId = 0x4055;
@@ -159,7 +159,7 @@ s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, PlayState* play) {
             this->unk_292 = TEXT_STATE_EVENT;
             func_800F5B58();
             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
-            func_8002DF54(play, NULL, 8);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
                 this->actionFunc = func_809EE96C;
             } else {
@@ -187,7 +187,7 @@ void EnDivingGame_Talk(EnDivingGame* this, PlayState* play) {
             if (this->unk_292 != TEXT_STATE_DONE) {
                 switch (this->state) {
                     case ENDIVINGGAME_STATE_NOTPLAYING:
-                        func_8002DF54(play, NULL, 8);
+                        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
                         this->actionFunc = EnDivingGame_HandlePlayChoice;
                         break;
                     case ENDIVINGGAME_STATE_AWARDPRIZE:
@@ -254,7 +254,7 @@ void EnDivingGame_HandlePlayChoice(EnDivingGame* this, PlayState* play) {
             this->actionFunc = func_809EE048;
         } else {
             play->msgCtx.msgMode = MSGMODE_PAUSED;
-            func_8002DF54(play, NULL, 8);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             this->actionFunc = func_809EE0FC;
         }
     }
@@ -266,11 +266,11 @@ void func_809EE048(EnDivingGame* this, PlayState* play) {
     if (this->unk_292 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         if (this->phase == ENDIVINGGAME_PHASE_ENDED) {
             Message_CloseTextbox(play);
-            func_8002DF54(play, NULL, 7);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_7);
             this->actionFunc = func_809EDCB0;
         } else {
             play->msgCtx.msgMode = MSGMODE_PAUSED;
-            func_8002DF54(play, NULL, 8);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             this->actionFunc = func_809EE0FC;
         }
     }
@@ -418,12 +418,12 @@ void func_809EE800(EnDivingGame* this, PlayState* play) {
     if (this->unk_292 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
-            func_80088B34(BREG(2) + 50);
+            Interface_SetTimer(50 + BREG(2));
         } else {
-            func_80088B34(BREG(2) + 50);
+            Interface_SetTimer(50 + BREG(2));
         }
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actor.textId = 0x405B;
         this->unk_292 = TEXT_STATE_EVENT;
         this->state = ENDIVINGGAME_STATE_PLAYING;
@@ -446,7 +446,7 @@ void func_809EE96C(EnDivingGame* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk_292 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play))) {
         Message_CloseTextbox(play);
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actor.textId = 0x4056;
         this->unk_292 = TEXT_STATE_EVENT;
         this->state = ENDIVINGGAME_STATE_AWARDPRIZE;
@@ -459,7 +459,7 @@ void func_809EEA00(EnDivingGame* this, PlayState* play) {
     if ((this->unk_292 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play))) {
         Message_CloseTextbox(play);
         this->actor.parent = NULL;
-        func_8002F434(&this->actor, play, GI_SCALE_SILVER, 90.0f, 10.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_SCALE_SILVER, 90.0f, 10.0f);
         this->actionFunc = func_809EEA90;
     }
 }
@@ -469,7 +469,7 @@ void func_809EEA90(EnDivingGame* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = func_809EEAF8;
     } else {
-        func_8002F434(&this->actor, play, GI_SCALE_SILVER, 90.0f, 10.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_SCALE_SILVER, 90.0f, 10.0f);
     }
 }
 
@@ -506,9 +506,10 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
 
     if (1) {}
 
-    if (gSaveContext.timer1Value == 10) {
-        func_800F5918();
+    if (gSaveContext.timerSeconds == 10) {
+        Audio_SetFastTempoForTimedMinigame();
     }
+
     if (this->eyeTimer == 0) {
         this->eyeTimer = 2;
         this->eyeTexIndex++;
@@ -519,11 +520,11 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     }
     this->actionFunc(this, play);
     Actor_SetFocus(&this->actor, 80.0f);
-    this->unk_324.unk_18 = player->actor.world.pos;
-    this->unk_324.unk_18.y = player->actor.world.pos.y;
-    func_80034A14(&this->actor, &this->unk_324, 2, 4);
-    this->vec_284 = this->unk_324.unk_08;
-    this->vec_28A = this->unk_324.unk_0E;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.trackPos.y = player->actor.world.pos.y;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
+    this->vec_284 = this->interactInfo.headRot;
+    this->vec_28A = this->interactInfo.torsoRot;
     if ((play->gameplayFrames % 16) == 0) {
         pos = this->actor.world.pos;
         pos.y += 20.0f;

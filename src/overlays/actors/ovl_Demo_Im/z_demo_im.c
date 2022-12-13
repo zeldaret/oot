@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
 #include "assets/objects/object_im/object_im.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
@@ -73,7 +73,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 #pragma asmproc recurse
-#include "z_demo_im_cutscene_data.c"
+#include "z_demo_im_cutscene_data.inc.c"
 
 static DemoImActionFunc sActionFuncs[] = {
     func_809856F8, func_80985718, func_80985738, func_80985770, func_809857B0, func_809857F0, func_80985830,
@@ -91,7 +91,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
     DemoIm_DrawTranslucent,
 };
 
-const ActorInit Demo_Im_InitVars = {
+ActorInit Demo_Im_InitVars = {
     ACTOR_DEMO_IM,
     ACTORCAT_NPC,
     FLAGS,
@@ -166,44 +166,44 @@ void DemoIm_UpdateCollider(DemoIm* this, PlayState* play) {
 
 void func_80984DB8(DemoIm* this) {
     s32 pad[2];
-    Vec3s* vec1 = &this->unk_2D4.unk_08;
-    Vec3s* vec2 = &this->unk_2D4.unk_0E;
+    Vec3s* headRot = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
 
-    Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->y, 0, 20, 6200, 100);
 
-    Math_SmoothStepToS(&vec2->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 20, 6200, 100);
 }
 
 void func_80984E58(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 yawDiff;
-    s16 phi_a3;
+    s16 npcTrackingMode;
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 4.0f;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 4.0f;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    phi_a3 = (ABS(yawDiff) < 0x18E3) ? 2 : 1;
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, phi_a3);
+    npcTrackingMode = (ABS(yawDiff) < 0x18E3) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, npcTrackingMode);
 }
 
 void func_80984F10(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 12.0f;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 12.0f;
 
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 2);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80984F94(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 4.0f;
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 4);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 4.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_FULL_BODY);
 }
 
 void DemoIm_UpdateBgCheckInfo(DemoIm* this, PlayState* play) {
@@ -326,7 +326,7 @@ void func_80985430(DemoIm* this, PlayState* play) {
 void func_8098544C(DemoIm* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 4) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((gSaveContext.chamberCutsceneNum == 4) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
@@ -718,11 +718,11 @@ void func_8098652C(DemoIm* this, PlayState* play) {
 
 void func_80986570(DemoIm* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 7.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        u32 sfxId = SFX_FLAG;
+        u32 sfxId = NA_SE_PL_WALK_GROUND;
 
-        sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        Audio_PlaySoundGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+        Audio_PlaySfxGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -866,10 +866,10 @@ void func_80986B2C(PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         Player* player = GET_PLAYER(play);
 
-        play->nextEntranceIndex = ENTR_SPOT00_0;
+        play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
-        func_8002DF54(play, &player->actor, 8);
+        func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
     }
 }
 
@@ -924,7 +924,7 @@ void func_80986CFC(DemoIm* this, PlayState* play) {
 }
 
 void func_80986D40(DemoIm* this, PlayState* play) {
-    if (gSaveContext.sceneSetupIndex == 6) {
+    if (gSaveContext.sceneLayer == 6) {
         this->action = 19;
         this->drawConfig = 1;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
@@ -1138,17 +1138,17 @@ s32 DemoIm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
     s32* unk_2D0 = &this->unk_2D0;
 
     if (this->unk_280 != 0) {
-        Vec3s* unk_2D4_unk_0E = &this->unk_2D4.unk_0E;
-        Vec3s* unk_2D4_unk_08 = &this->unk_2D4.unk_08;
+        Vec3s* torsoRot = &this->interactInfo.torsoRot;
+        Vec3s* headRot = &this->interactInfo.headRot;
 
         switch (limbIndex) {
             case IMPA_LIMB_CHEST:
-                rot->x += unk_2D4_unk_0E->y;
-                rot->y -= unk_2D4_unk_0E->x;
+                rot->x += torsoRot->y;
+                rot->y -= torsoRot->x;
                 break;
             case IMPA_LIMB_HEAD:
-                rot->x += unk_2D4_unk_08->y;
-                rot->z += unk_2D4_unk_08->x;
+                rot->x += headRot->y;
+                rot->z += headRot->x;
                 break;
         }
     }

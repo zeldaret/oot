@@ -5,7 +5,7 @@
  */
 
 #include "z_oceff_wipe4.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -14,7 +14,7 @@ void OceffWipe4_Destroy(Actor* thisx, PlayState* play);
 void OceffWipe4_Update(Actor* thisx, PlayState* play);
 void OceffWipe4_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Oceff_Wipe4_InitVars = {
+ActorInit Oceff_Wipe4_InitVars = {
     ACTOR_OCEFF_WIPE4,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -65,10 +65,10 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     s32 pad[2];
     Vec3f eye;
     Vtx* vtxPtr;
-    Vec3f vec;
+    Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(play));
+    Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(play));
     if (this->timer < 16) {
         z = Math_SinS(this->timer * 1024) * 1330.0f;
     } else {
@@ -90,7 +90,7 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
+    Matrix_Translate(eye.x + quakeOffset.x, eye.y + quakeOffset.y, eye.z + quakeOffset.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
@@ -105,8 +105,8 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     }
 
     gSPDisplayList(POLY_XLU_DISP++, sMaterial2DL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
-                                                     scroll * (-1), scroll, 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * (-2), 32,
+                                                     64, 1, scroll * (-1), scroll, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, &sMaterial2DL[11]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_wipe4.c", 344);

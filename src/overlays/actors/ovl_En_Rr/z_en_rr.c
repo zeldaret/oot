@@ -6,7 +6,7 @@
 
 #include "z_en_rr.h"
 #include "assets/objects/object_rr/object_rr.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_10)
 
@@ -64,7 +64,7 @@ void EnRr_Death(EnRr* this, PlayState* play);
 void EnRr_Retreat(EnRr* this, PlayState* play);
 void EnRr_Stunned(EnRr* this, PlayState* play);
 
-const ActorInit En_Rr_InitVars = {
+ActorInit En_Rr_InitVars = {
     ACTOR_EN_RR,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -207,7 +207,7 @@ void EnRr_Destroy(Actor* thisx, PlayState* play) {
 
 void EnRr_SetSpeed(EnRr* this, f32 speed) {
     this->actor.speedXZ = speed;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_WALK);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_WALK);
 }
 
 void EnRr_SetupReach(EnRr* this) {
@@ -225,7 +225,7 @@ void EnRr_SetupReach(EnRr* this) {
         this->bodySegs[i].rotTarget.z = 0.0f;
     }
     this->actionFunc = EnRr_Reach;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_UNARI);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_UNARI);
 }
 
 void EnRr_SetupNeutral(EnRr* this) {
@@ -266,7 +266,7 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
     this->actionFunc = EnRr_GrabPlayer;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DRINK);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_DRINK);
 }
 
 u8 EnRr_GetMessage(u8 shield, u8 tunic) {
@@ -325,7 +325,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, PlayState* play) {
     func_8002F6D4(play, &this->actor, 4.0f, this->actor.shape.rot.y, 12.0f, 8);
     if (this->actor.colorFilterTimer == 0) {
         this->actionFunc = EnRr_Approach;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_THROW);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_THROW);
     } else if (this->actor.colChkInfo.health != 0) {
         EnRr_SetupDamage(this);
     } else {
@@ -348,7 +348,7 @@ void EnRr_SetupDamage(EnRr* this) {
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
     this->actionFunc = EnRr_Damage;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DAMAGE);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_DAMAGE);
 }
 
 void EnRr_SetupApproach(EnRr* this) {
@@ -378,7 +378,7 @@ void EnRr_SetupDeath(EnRr* this) {
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
     }
     this->actionFunc = EnRr_Death;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DEAD);
+    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_DEAD);
     this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
@@ -453,7 +453,8 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     this->stopScroll = false;
                     Actor_ApplyDamage(&this->actor);
                     this->invincibilityTimer = 40;
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, this->invincibilityTimer);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU,
+                                         this->invincibilityTimer);
                     if (this->hasPlayer) {
                         EnRr_SetupReleasePlayer(this, play);
                     } else if (this->actor.colChkInfo.health != 0) {
@@ -468,7 +469,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                     this->effectTimer = 20;
                     EnRr_SetupStunned(this);
                     return;
@@ -479,7 +480,8 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     }
                     if (this->actor.colorFilterTimer == 0) {
                         this->effectTimer = 20;
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                             80);
                     }
                     EnRr_SetupStunned(this);
                     return;
@@ -488,12 +490,12 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RUPEE_RED;
                     }
-                    Actor_SetColorFilter(&this->actor, -0x8000, 0xFF, 0x2000, 0x50);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 255, COLORFILTER_BUFFLAG_XLU, 80);
                     EnRr_SetupStunned(this);
                     return;
                 case RR_DMG_STUN: // Boomerang and Hookshot
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
                     EnRr_SetupStunned(this);
                     return;
             }
@@ -622,9 +624,9 @@ void EnRr_Reach(EnRr* this, PlayState* play) {
 void EnRr_GrabPlayer(EnRr* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    func_800AA000(this->actor.xyzDistToPlayerSq, 120, 2, 120);
+    Rumble_Request(this->actor.xyzDistToPlayerSq, 120, 2, 120);
     if ((this->frameCount % 8) == 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_EAT);
+        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIKE_EAT);
     }
     this->ocTimer = 8;
     if ((this->grabTimer == 0) || !(player->stateFlags2 & PLAYER_STATE2_7)) {
@@ -854,8 +856,9 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x0C, segMtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (this->scrollTimer * 0) & 0x7F, (this->scrollTimer * 0) & 0x3F,
-                                32, 16, 1, (this->scrollTimer * 0) & 0x3F, (this->scrollTimer * -6) & 0x7F, 32, 16));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (this->scrollTimer * 0) & 0x7F,
+                                (this->scrollTimer * 0) & 0x3F, 32, 16, 1, (this->scrollTimer * 0) & 0x3F,
+                                (this->scrollTimer * -6) & 0x7F, 32, 16));
     Matrix_Push();
 
     Matrix_Scale((1.0f + this->bodySegs[RR_BASE].scaleMod.x) * this->bodySegs[RR_BASE].scale.x,

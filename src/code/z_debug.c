@@ -12,7 +12,7 @@ typedef struct {
     u16 press;
 } InputCombo; // size = 0x4
 
-GameInfo* gGameInfo;
+RegEditor* gRegEditor;
 
 PrintTextBufferEntry sDebugPrintTextBuffer[22];
 s16 sDebugPrintTextBufferNumUsed = 0;
@@ -92,18 +92,17 @@ char sRegGroupChars[REG_GROUPS] = {
     'b', // bREG
 };
 
-// Initialize GameInfo
-void func_800636C0(void) {
+void Regs_Init(void) {
     s32 i;
 
-    gGameInfo = (GameInfo*)SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 260);
-    gGameInfo->regPage = 0;
-    gGameInfo->regGroup = 0;
-    gGameInfo->regCur = 0;
-    gGameInfo->dPadInputPrev = 0;
-    gGameInfo->inputRepeatTimer = 0;
-    for (i = 0; i < ARRAY_COUNT(gGameInfo->data); i++) {
-        gGameInfo->data[i] = 0;
+    gRegEditor = SystemArena_MallocDebug(sizeof(RegEditor), "../z_debug.c", 260);
+    gRegEditor->regPage = 0;
+    gRegEditor->regGroup = 0;
+    gRegEditor->regCur = 0;
+    gRegEditor->dPadInputPrev = 0;
+    gRegEditor->inputRepeatTimer = 0;
+    for (i = 0; i < ARRAY_COUNT(gRegEditor->data); i++) {
+        gRegEditor->data[i] = 0;
     }
 }
 
@@ -154,9 +153,9 @@ void func_80063828(GfxPrint* printer) {
 }
 
 // Process inputs to control the reg editor
-void func_8006390C(Input* input) {
+void Regs_UpdateEditor(Input* input) {
     s32 dPadInputCur;
-    s32 pageDataStart = ((gGameInfo->regGroup * REG_PAGES) + gGameInfo->regPage - 1) * REGS_PER_PAGE;
+    s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;
     s32 increment;
     s32 i;
 
@@ -173,16 +172,16 @@ void func_8006390C(Input* input) {
 
         // If a combo corresponding to a reg group was found
         if (i < REG_GROUPS) {
-            if (i == gGameInfo->regGroup) {
+            if (i == gRegEditor->regGroup) {
                 // Same reg group as current, advance page index
-                gGameInfo->regPage = (gGameInfo->regPage + 1) % (REG_PAGES + 1);
+                gRegEditor->regPage = (gRegEditor->regPage + 1) % (REG_PAGES + 1);
             } else {
-                gGameInfo->regGroup = i; // Switch current reg group
-                gGameInfo->regPage = 0;  // Disable reg editor
+                gRegEditor->regGroup = i; // Switch current reg group
+                gRegEditor->regPage = 0;  // Disable reg editor
             }
         }
     } else {
-        switch (gGameInfo->regPage) {
+        switch (gRegEditor->regPage) {
             case 1:
             case 2:
             case 3:
@@ -190,16 +189,16 @@ void func_8006390C(Input* input) {
             case 5:
             case 6:
 
-                if (dPadInputCur == gGameInfo->dPadInputPrev) {
-                    gGameInfo->inputRepeatTimer--;
-                    if (gGameInfo->inputRepeatTimer < 0) {
-                        gGameInfo->inputRepeatTimer = 1;
+                if (dPadInputCur == gRegEditor->dPadInputPrev) {
+                    gRegEditor->inputRepeatTimer--;
+                    if (gRegEditor->inputRepeatTimer < 0) {
+                        gRegEditor->inputRepeatTimer = 1;
                     } else {
-                        dPadInputCur ^= gGameInfo->dPadInputPrev;
+                        dPadInputCur ^= gRegEditor->dPadInputPrev;
                     }
                 } else {
-                    gGameInfo->inputRepeatTimer = 16;
-                    gGameInfo->dPadInputPrev = dPadInputCur;
+                    gRegEditor->inputRepeatTimer = 16;
+                    gRegEditor->dPadInputPrev = dPadInputCur;
                 }
 
                 increment =
@@ -213,23 +212,23 @@ void func_8006390C(Input* input) {
                                                                                                                 : -1)
                                                              : 0;
 
-                gGameInfo->data[gGameInfo->regCur + pageDataStart] += increment;
+                gRegEditor->data[gRegEditor->regCur + pageDataStart] += increment;
 
                 if (CHECK_BTN_ANY(dPadInputCur, BTN_DUP)) {
-                    gGameInfo->regCur--;
-                    if (gGameInfo->regCur < 0) {
-                        gGameInfo->regCur = REGS_PER_PAGE - 1;
+                    gRegEditor->regCur--;
+                    if (gRegEditor->regCur < 0) {
+                        gRegEditor->regCur = REGS_PER_PAGE - 1;
                     }
                 } else if (CHECK_BTN_ANY(dPadInputCur, BTN_DDOWN)) {
-                    gGameInfo->regCur++;
-                    if (gGameInfo->regCur >= REGS_PER_PAGE) {
-                        gGameInfo->regCur = 0;
+                    gRegEditor->regCur++;
+                    if (gRegEditor->regCur >= REGS_PER_PAGE) {
+                        gRegEditor->regCur = 0;
                     }
                 }
 
                 if (iREG(0)) {
                     iREG(0) = 0;
-                    func_800AA000(0, iREG(1), iREG(2), iREG(3));
+                    Rumble_Request(0.0f, iREG(1), iREG(2), iREG(3));
                 }
 
                 break;
@@ -241,28 +240,28 @@ void func_8006390C(Input* input) {
 }
 
 // Draw the reg editor
-void func_80063C04(GfxPrint* printer) {
+void Regs_DrawEditor(GfxPrint* printer) {
     s32 i;
-    s32 pageStart = (gGameInfo->regPage - 1) * REGS_PER_PAGE;
-    s32 pageDataStart = ((gGameInfo->regGroup * REG_PAGES) + gGameInfo->regPage - 1) * REGS_PER_PAGE;
+    s32 pageStart = (gRegEditor->regPage - 1) * REGS_PER_PAGE;
+    s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;
     s32 pad;
     char regGroupName[3];
 
     regGroupName[0] = 'R';
-    regGroupName[1] = sRegGroupChars[gGameInfo->regGroup];
+    regGroupName[1] = sRegGroupChars[gRegEditor->regGroup];
     regGroupName[2] = '\0';
 
     GfxPrint_SetColor(printer, 0, 128, 128, 128);
 
     for (i = 0; i < REGS_PER_PAGE; i++) {
-        if (i == gGameInfo->regCur) {
+        if (i == gRegEditor->regCur) {
             GfxPrint_SetColor(printer, 0, 255, 255, 255);
         }
 
         GfxPrint_SetPos(printer, 3, i + 5);
-        GfxPrint_Printf(printer, "%s%02d%6d", regGroupName, pageStart + i, gGameInfo->data[i + pageDataStart]);
+        GfxPrint_Printf(printer, "%s%02d%6d", regGroupName, pageStart + i, gRegEditor->data[i + pageDataStart]);
 
-        if (i == gGameInfo->regCur) {
+        if (i == gRegEditor->regCur) {
             GfxPrint_SetColor(printer, 0, 128, 128, 128);
         }
     }
@@ -286,8 +285,8 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
         func_80063828(&printer);
     }
 
-    if (gGameInfo->regPage != 0) {
-        func_80063C04(&printer);
+    if (gRegEditor->regPage != 0) {
+        Regs_DrawEditor(&printer);
     }
 
     sDebugPrintTextBufferNumUsed = 0;

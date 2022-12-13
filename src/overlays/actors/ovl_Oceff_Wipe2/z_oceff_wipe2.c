@@ -5,7 +5,7 @@
  */
 
 #include "z_oceff_wipe2.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
@@ -14,7 +14,7 @@ void OceffWipe2_Destroy(Actor* thisx, PlayState* play);
 void OceffWipe2_Update(Actor* thisx, PlayState* play);
 void OceffWipe2_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Oceff_Wipe2_InitVars = {
+ActorInit Oceff_Wipe2_InitVars = {
     ACTOR_OCEFF_WIPE2,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -66,10 +66,10 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     s32 pad[2];
     Vec3f eye;
     Vtx* vtxPtr;
-    Vec3f vec;
+    Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(play));
+    Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(play));
     if (this->timer < 32) {
         z = Math_SinS(this->timer << 9) * 1330;
     } else {
@@ -91,7 +91,7 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
+    Matrix_Translate(eye.x + quakeOffset.x, eye.y + quakeOffset.y, eye.z + quakeOffset.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
@@ -102,8 +102,8 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 100, 0, 128);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 6, scroll * (-6), 64, 64, 1,
-                                                     scroll * (-6), 0, 64, 64));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 6, scroll * (-6), 64,
+                                                     64, 1, scroll * (-6), 0, 64, 64));
     gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_wipe2.c", 417);

@@ -1,7 +1,7 @@
 #include "global.h"
 
 u8 D_8016F0E0[0xA0]; // unused
-AudioContext gAudioContext;
+AudioContext gAudioCtx;
 void (*D_801755D0)(void);
 s32 D_801755D8[3]; // unused
 
@@ -17,7 +17,7 @@ const s16 D_8014A6C0[] = {
 #define SFX_SOUNDFONT_2_SIZE 0x17B0
 
 // Sizes of everything on the init pool
-#define AI_BUFFERS_SIZE (AIBUF_LEN * sizeof(s16) * ARRAY_COUNT(gAudioContext.aiBuffers))
+#define AI_BUFFERS_SIZE (AIBUF_SIZE * ARRAY_COUNT(gAudioCtx.aiBuffers))
 #define SOUNDFONT_LIST_SIZE (NUM_SOUNDFONTS * sizeof(SoundFont))
 #define PERMANENT_POOL_SIZE (SFX_SEQ_SIZE + SFX_SOUNDFONT_1_SIZE + SFX_SOUNDFONT_2_SIZE)
 

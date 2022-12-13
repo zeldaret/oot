@@ -19,7 +19,7 @@ void func_80B92C80(ObjElevator* this, PlayState* play);
 void func_80B92D20(ObjElevator* this);
 void func_80B92D44(ObjElevator* this, PlayState* play);
 
-const ActorInit Obj_Elevator_InitVars = {
+ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
     ACTORCAT_BG,
     FLAGS,
@@ -62,7 +62,7 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
     ObjElevator* this = (ObjElevator*)thisx;
     f32 temp_f0;
 
-    func_80B92B08(this, play, &object_d_elevator_Col_000360, DPM_PLAYER);
+    func_80B92B08(this, play, &object_d_elevator_Col_000360, DYNA_TRANSFORM_POS);
     Actor_SetScale(thisx, sScales[thisx->params & 1]);
     Actor_ProcessInitChain(thisx, sInitChain);
     temp_f0 = (thisx->params >> 8) & 0xF;
@@ -104,10 +104,10 @@ void func_80B92D44(ObjElevator* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (fabsf(Math_SmoothStepToF(&thisx->world.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_FOOT_SWITCH);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_FOOT_SWITCH);
         func_80B92C5C(this);
     } else {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        Audio_PlayActorSfx2(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 
