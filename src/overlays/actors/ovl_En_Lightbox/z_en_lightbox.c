@@ -96,7 +96,7 @@ void EnLightbox_Update(Actor* thisx, PlayState* play) {
                     thisx->velocity.y *= IREG(60) / 100.0f;
                     thisx->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 } else {
-                    func_8002F580(thisx, play);
+                    Actor_OfferCarry(thisx, play);
                 }
             }
         }

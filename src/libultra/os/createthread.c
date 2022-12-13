@@ -1,12 +1,6 @@
 #include "global.h"
 #include "ultra64/asm.h"
 
-__OSThreadTail __osThreadTail = { NULL, OS_PRIORITY_THREADTAIL };
-OSThread* __osRunQueue = (OSThread*)&__osThreadTail;
-OSThread* __osActiveQueue = (OSThread*)&__osThreadTail;
-OSThread* __osRunningThread = NULL;
-OSThread* __osFaultedThread = NULL;
-
 void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri) {
     register u32 prevInt;
     OSIntMask mask;
