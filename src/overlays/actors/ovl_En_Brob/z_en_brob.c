@@ -127,7 +127,7 @@ void func_809CAEA0(EnBrob* this) {
 void func_809CAEF4(EnBrob* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_brob_Anim_000290, -5.0f);
     this->unk_1AE -= 125.0f;
-    Actor_SetColorFilter(&this->dyna.actor, 0, 0xFF, 0, 0x50);
+    Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
     Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_809CB2B8;
 }

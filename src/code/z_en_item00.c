@@ -351,7 +351,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
     }
 
     if ((getItemId != GI_NONE) && !Actor_HasParent(&this->actor, play)) {
-        func_8002F554(&this->actor, play, getItemId);
+        Actor_OfferGetItemNearby(&this->actor, play, getItemId);
     }
 
     EnItem00_SetupAction(this, EnItem00_Collected);
@@ -498,7 +498,7 @@ void EnItem00_Collected(EnItem00* this, PlayState* play) {
 
     if (this->getItemId != GI_NONE) {
         if (!Actor_HasParent(&this->actor, play)) {
-            func_8002F434(&this->actor, play, this->getItemId, 50.0f, 80.0f);
+            Actor_OfferGetItem(&this->actor, play, this->getItemId, 50.0f, 80.0f);
             this->despawnTimer++;
         } else {
             this->getItemId = GI_NONE;
@@ -696,7 +696,7 @@ void EnItem00_Update(Actor* thisx, PlayState* play) {
     params = &this->actor.params;
 
     if ((getItemId != GI_NONE) && !Actor_HasParent(&this->actor, play)) {
-        func_8002F554(&this->actor, play, getItemId);
+        Actor_OfferGetItemNearby(&this->actor, play, getItemId);
     }
 
     switch (*params) {
