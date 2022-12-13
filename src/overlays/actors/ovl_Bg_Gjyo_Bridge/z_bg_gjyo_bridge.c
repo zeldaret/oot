@@ -74,7 +74,7 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play) {
         (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) && (player->actor.world.pos.x > -70.0f) &&
         (player->actor.world.pos.x < 300.0f) && (player->actor.world.pos.y > 1340.0f) &&
         (player->actor.world.pos.z > 1340.0f) && (player->actor.world.pos.z < 1662.0f) && !Play_InCsMode(play)) {
-        play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = BgGjyoBridge_SpawnBridge;
     }

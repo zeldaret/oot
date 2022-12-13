@@ -342,7 +342,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ char  unk_00[0x4];
-    /* 0x04 */ void* scriptPtr;
+    /* 0x04 */ void* script;
     /* 0x08 */ u8 state;
     /* 0x0C */ f32 timer;
     /* 0x10 */ u16 curFrame; // current frame of the script that is running

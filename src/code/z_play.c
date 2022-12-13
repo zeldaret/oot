@@ -2,7 +2,7 @@
 #include "quake.h"
 #include "terminal.h"
 
-void* gDebugCutsceneScriptPtr = NULL;
+void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
 Input* D_8012D1F8 = NULL;
 
@@ -12,7 +12,7 @@ VisMono D_80161498;
 Color_RGBA8_u32 gVisMonoColor;
 FaultClient D_801614B8;
 s16 sTransitionFillTimer;
-u64 sDebugCutsceneScript[0xA00];
+u64 sDebugCutsceneScriptBuf[0xA00];
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
 
@@ -437,9 +437,9 @@ void Play_Init(GameState* thisx) {
     gSaveContext.respawnFlag = 0;
 
     if (R_USE_DEBUG_CUTSCENE) {
-        gDebugCutsceneScriptPtr = sDebugCutsceneScript;
-        osSyncPrintf("\nkawauso_data=[%x]", gDebugCutsceneScriptPtr);
-        DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutsceneScriptPtr, sizeof(sDebugCutsceneScript));
+        gDebugCutsceneScript = sDebugCutsceneScriptBuf;
+        osSyncPrintf("\nkawauso_data=[%x]", gDebugCutsceneScript);
+        DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutsceneScript, sizeof(sDebugCutsceneScriptBuf));
     }
 }
 

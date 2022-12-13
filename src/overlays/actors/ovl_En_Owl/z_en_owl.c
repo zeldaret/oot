@@ -935,12 +935,12 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
                     osSyncPrintf(VT_FGCOL(CYAN));
                     osSyncPrintf("SPOT 06 の デモがはしった\n"); // "Demo of SPOT 06 has been completed"
                     osSyncPrintf(VT_RST);
-                    play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
+                    play->csCtx.script = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;
                 case 8:
                 case 9:
-                    play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gDMTOwlCs);
+                    play->csCtx.script = SEGMENTED_TO_VIRTUAL(gDMTOwlCs);
                     this->actor.draw = NULL;
                     break;
                 default:

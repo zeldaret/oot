@@ -293,7 +293,7 @@ s32 EnXc_MinuetCS(EnXc* this, PlayState* play) {
 
         if (z < -2225.0f) {
             if (!Play_InCsMode(play)) {
-                play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gMinuetCs);
+                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_50);
                 Item_Give(play, ITEM_SONG_MINUET);
@@ -324,7 +324,7 @@ s32 EnXc_BoleroCS(EnXc* this, PlayState* play) {
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
             !Play_InCsMode(play)) {
-            play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_51);
             Item_Give(play, ITEM_SONG_BOLERO);
@@ -2147,13 +2147,13 @@ void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
     if (LINK_IS_ADULT) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_C5)) {
             SET_EVENTCHKINF(EVENTCHKINF_C5);
-            play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, play);
         } else if (!GET_EVENTCHKINF(EVENTCHKINF_55) && GET_EVENTCHKINF(EVENTCHKINF_48)) {
             SET_EVENTCHKINF(EVENTCHKINF_55);
             Item_Give(play, ITEM_SONG_PRELUDE);
-            play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHEIK_ACTION_30;
         } else if (!GET_EVENTCHKINF(EVENTCHKINF_55)) {

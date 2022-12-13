@@ -505,7 +505,7 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
         case 4:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
             gSaveContext.cutsceneTrigger = 1;
             EnSa_ChangeAnim(this, ENSA_ANIM1_4);
             this->actionFunc = func_80AF68E4;
@@ -625,7 +625,7 @@ void func_80AF683C(EnSa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Play_InCsMode(play)) {
-        play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
     }

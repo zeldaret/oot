@@ -330,7 +330,7 @@ void func_8098544C(DemoIm* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
-        play->csCtx.scriptPtr = D_8098786C;
+        play->csCtx.script = D_8098786C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SHADOW);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
@@ -899,7 +899,7 @@ void func_80986BF8(DemoIm* this, PlayState* play) {
 
 void func_80986C30(DemoIm* this, PlayState* play) {
     if (func_80986A5C(this, play)) {
-        play->csCtx.scriptPtr = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
         gSaveContext.cutsceneTrigger = 1;
         SET_EVENTCHKINF(EVENTCHKINF_59);
         Item_Give(play, ITEM_SONG_LULLABY);
