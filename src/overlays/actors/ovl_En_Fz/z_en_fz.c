@@ -344,7 +344,7 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
             switch (this->actor.colChkInfo.damageEffect) {
                 case 0xF:
                     Actor_ApplyDamage(&this->actor);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 8);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);
                     if (this->actor.colChkInfo.health != 0) {
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
                         vec.x = this->actor.world.pos.x;
@@ -365,7 +365,7 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
 
                 case 2:
                     Actor_ApplyDamage(&this->actor);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 8);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);
                     if (this->actor.colChkInfo.health == 0) {
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
                         EnFz_SetupMelt(this);
