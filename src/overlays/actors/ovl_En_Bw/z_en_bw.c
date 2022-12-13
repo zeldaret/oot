@@ -694,7 +694,7 @@ void func_809D0584(EnBw* this, PlayState* play) {
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);
-                    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     func_809D03CC(this);
                     this->unk_248 = 0.0f;
                 }
@@ -705,7 +705,7 @@ void func_809D0584(EnBw* this, PlayState* play) {
             }
             if (((this->unk_221 == 1) || (this->unk_221 == 4)) && (this->actor.colChkInfo.health == 0)) {
                 if (this->unk_220 != 0) {
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                     if (func_800355E4(play, &this->collider2.base)) {
                         this->unk_230 = 0;
                         this->actor.scale.y -= 0.009f;
@@ -719,7 +719,7 @@ void func_809D0584(EnBw* this, PlayState* play) {
                 }
             } else if ((this->unk_220 != 1) && (this->unk_220 != 6)) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLEWALK_DAMAGE);
-                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                 if (this->unk_220 != 5) {
                     func_809D01CC(this);
                 }
