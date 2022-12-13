@@ -1075,7 +1075,7 @@ void BossVa_BodyPhase1(BossVa* this, PlayState* play) {
 
     if (sBodyState & 0x7F) {
         this->skelAnime.curFrame = 0.0f;
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
     }
 
@@ -1126,7 +1126,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     if (this->actor.colorFilterTimer == 0) {
         sPhase2Timer++;
         if ((this->invincibilityTimer != 0) && (this->actor.colorFilterParams & 0x4000)) {
-            Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
             this->actor.colorFilterTimer = this->invincibilityTimer;
         } else {
             this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
@@ -1138,7 +1138,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 
         if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
             sPhase2Timer &= 0xFE00;
-            Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
             this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
         } else {
             sKillBari++;
@@ -1149,7 +1149,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
                 }
             }
 
-            Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
         }
 
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_FAINT);
@@ -1243,7 +1243,7 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
 
     if (this->colliderBody.base.acFlags & AC_HIT) {
         this->skelAnime.curFrame = 0.0f;
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_FAINT);
         sBodyState = 1;
         this->timer = 131;
@@ -1374,7 +1374,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 if (this->actor.colChkInfo.damageEffect != 1) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
                     sPhase4HP -= this->actor.colChkInfo.damage;
                     if (sPhase4HP <= 0) {
                         this->timer = 0;
@@ -1392,7 +1392,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                     this->timer = (s16)Rand_CenteredFloat(40.0f) + 160;
                     this->vaBodySpinRate = 0;
                     this->actor.speedXZ = 0.0f;
-                    Actor_SetColorFilter(&this->actor, 0, 125, 0, 255);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 125, COLORFILTER_BUFFLAG_OPA, 255);
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_FAINT);
                 }
             }
@@ -1718,7 +1718,7 @@ void BossVa_SetupSupportAttached(BossVa* this, PlayState* play) {
 void BossVa_SupportAttached(BossVa* this, PlayState* play) {
     this->timer++;
     if (sBodyState & 0x7F) {
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
         if (Rand_ZeroOne() > 0.5f) {
             Animation_Change(&this->skelAnime, &gBarinadeSupportDamage1Anim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gBarinadeSupportDamage1Anim), ANIMMODE_ONCE, 0.0f);
@@ -2114,7 +2114,7 @@ void BossVa_SetupZapperDamaged(BossVa* this, PlayState* play) {
                          Animation_GetLastFrame(&gBarinadeZapperDamage2Anim), ANIMMODE_ONCE_INTERP, 4.0f);
     }
 
-    Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
     this->burst = false;
     BossVa_SetupAction(this, BossVa_ZapperDamaged);
 }
@@ -2687,7 +2687,8 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
         } else {
             this->unk_1AC = 0;
             if (this->actor.colorFilterTimer == 0) {
-                Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, GET_BODY(this)->actor.colorFilterTimer);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                     GET_BODY(this)->actor.colorFilterTimer);
             }
         }
 
@@ -2722,7 +2723,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
 void BossVa_SetupBariPhase3Stunned(BossVa* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_0;
     this->timer = GET_BODY(this)->timer;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, this->timer);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, this->timer);
     BossVa_SetupAction(this, BossVa_BariPhase3Stunned);
 }
 
