@@ -1780,7 +1780,8 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gGoldSkulltulaIconTex, 24, 24, 0);
+                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gQuestIconGoldSkulltulaTex, QUEST_ICON_WIDTH,
+                                                   QUEST_ICON_HEIGHT, 0);
             }
         }
     } else if ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) /* PAUSE_MAIN_STATE_IDLE, PAUSE_MAIN_STATE_SWITCHING_PAGE,
@@ -3538,7 +3539,8 @@ void KaleidoScope_Update(PlayState* play) {
 
             for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
                 if (!CHECK_AGE_REQ_ITEM(i)) {
-                    KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]), 0x400);
+                    KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]),
+                                                      ITEM_ICON_WIDTH * ITEM_ICON_HEIGHT);
                 }
             }
 

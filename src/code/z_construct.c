@@ -4,6 +4,8 @@ void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }
 
+#define ICON_ITEM_SEGMENT_SIZE (4 * ITEM_ICON_SIZE)
+
 void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
@@ -70,10 +72,10 @@ void Interface_Init(PlayState* play) {
                             (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,
                             "../z_construct.c", 178);
 
-    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, 4 * ICON_ITEM_TEX_SIZE, "../z_construct.c", 190);
+    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
 
     // "Icon Item Texture Initialization = %x"
-    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 4 * ICON_ITEM_TEX_SIZE);
+    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", ICON_ITEM_SEGMENT_SIZE);
     osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
@@ -83,36 +85,31 @@ void Interface_Init(PlayState* play) {
                  gSaveContext.equips.buttonItems[3]);
 
     if (gSaveContext.equips.buttonItems[0] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment,
-                                (uintptr_t)_icon_item_staticSegmentRomStart +
-                                    gSaveContext.equips.buttonItems[0] * ICON_ITEM_TEX_SIZE,
-                                ICON_ITEM_TEX_SIZE, "../z_construct.c", 198);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[0]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 198);
     } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment,
-                                (uintptr_t)_icon_item_staticSegmentRomStart +
-                                    gSaveContext.equips.buttonItems[0] * ICON_ITEM_TEX_SIZE,
-                                ICON_ITEM_TEX_SIZE, "../z_construct.c", 203);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[0]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 203);
     }
 
     if (gSaveContext.equips.buttonItems[1] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + ICON_ITEM_TEX_SIZE,
-                                (uintptr_t)_icon_item_staticSegmentRomStart +
-                                    gSaveContext.equips.buttonItems[1] * ICON_ITEM_TEX_SIZE,
-                                ICON_ITEM_TEX_SIZE, "../z_construct.c", 209);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (1 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[1]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 209);
     }
 
     if (gSaveContext.equips.buttonItems[2] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + 2 * ICON_ITEM_TEX_SIZE,
-                                (uintptr_t)_icon_item_staticSegmentRomStart +
-                                    gSaveContext.equips.buttonItems[2] * ICON_ITEM_TEX_SIZE,
-                                ICON_ITEM_TEX_SIZE, "../z_construct.c", 214);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (2 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[2]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 214);
     }
 
     if (gSaveContext.equips.buttonItems[3] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + 3 * ICON_ITEM_TEX_SIZE,
-                                (uintptr_t)_icon_item_staticSegmentRomStart +
-                                    gSaveContext.equips.buttonItems[3] * ICON_ITEM_TEX_SIZE,
-                                ICON_ITEM_TEX_SIZE, "../z_construct.c", 219);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (3 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[3]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 219);
     }
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
@@ -173,6 +170,9 @@ void Interface_Init(PlayState* play) {
     R_A_BTN_COLOR(2) = 50;
 }
 
+#define TEXTBOX_SEGMENT_SIZE \
+    (MESSAGE_STATIC_TEX_SIZE + MAX(MAX(ITEM_ICON_SIZE, QUEST_ICON_SIZE), 2 * MESSAGE_TEXTURE_STATIC_TEX_SIZE))
+
 void Message_Init(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
     s32 pad;
@@ -188,15 +188,11 @@ void Message_Init(PlayState* play) {
 
     View_Init(&msgCtx->view, play->state.gfxCtx);
 
-    msgCtx->textboxSegment =
-        GameState_Alloc(&play->state,
-                        MESSAGE_STATIC_TEX_SIZE +
-                            MAX(MAX(ICON_ITEM_TEX_SIZE, ICON_ITEM_24_TEX_SIZE), 2 * MESSAGE_TEXTURE_STATIC_TEX_SIZE),
-                        "../z_construct.c", 349);
+    msgCtx->textboxSegment = GameState_Alloc(&play->state, TEXTBOX_SEGMENT_SIZE, "../z_construct.c", 349);
 
     osSyncPrintf("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 
-    osSyncPrintf("吹き出しgame_alloc=%x\n", 0x2200); // "Textbox game_alloc=%x"
+    osSyncPrintf("吹き出しgame_alloc=%x\n", TEXTBOX_SEGMENT_SIZE); // "Textbox game_alloc=%x"
     ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
     Font_LoadOrderedFont(&play->msgCtx.font);
@@ -257,7 +253,7 @@ void Regs_InitDataImpl(void) {
     R_TEXTBOX_ICON_YPOS = 10;
     YREG(73) = -8;
     YREG(74) = 8;
-    R_TEXTBOX_ICON_SIZE = 24;
+    R_TEXTBOX_ICON_DIMENSION = 24;
     YREG(76) = 32;
     YREG(77) = 0;
     R_MESSAGE_DEBUGGER_SELECT = 0;

@@ -48,11 +48,11 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     static u8 sPlayedSongBtns[SONG_MAX_LENGTH] = { 0 };
     static s32 sUnused1 = 0;
     static void* sOcarinaBtnTextures[] = {
-        gOcarinaATex,      // OCARINA_BTN_A
-        gOcarinaCDownTex,  // OCARINA_BTN_C_DOWN
-        gOcarinaCRightTex, // OCARINA_BTN_C_RIGHT
-        gOcarinaCLeftTex,  // OCARINA_BTN_C_LEFT
-        gOcarinaCUpTex,    // OCARINA_BTN_C_UP
+        gOcarinaBtnIconATex,      // OCARINA_BTN_A
+        gOcarinaBtnIconCDownTex,  // OCARINA_BTN_C_DOWN
+        gOcarinaBtnIconCRightTex, // OCARINA_BTN_C_RIGHT
+        gOcarinaBtnIconCLeftTex,  // OCARINA_BTN_C_LEFT
+        gOcarinaBtnIconCUpTex,    // OCARINA_BTN_C_UP
     };
     static u16 D_8082A144[] = {
         0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC,
@@ -472,7 +472,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             gDPSetEnvColor(POLY_OPA_DISP++, sMedEnvRed[j], sMedEnvGreen[j], sMedEnvBlue[j], 0);
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[bufI], 4, 0);
 
-            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_MEDALLION_FOREST + j], 24, 24, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_MEDALLION_FOREST + j], QUEST_ICON_WIDTH,
+                                               QUEST_ICON_HEIGHT, 0);
         }
     }
 
@@ -528,7 +529,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     for (j = 0; j < QUEST_STONE_OF_AGONY - QUEST_KOKIRI_EMERALD; j++, bufI += 4) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD + j)) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[bufI], 4, 0);
-            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_KOKIRI_EMERALD + j], 24, 24, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_KOKIRI_EMERALD + j], QUEST_ICON_WIDTH,
+                                               QUEST_ICON_HEIGHT, 0);
         }
     }
 
@@ -541,7 +543,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY + j)) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[bufI], 4, 0);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
-            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_STONE_OF_AGONY + j], 24, 24, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_STONE_OF_AGONY + j], QUEST_ICON_WIDTH,
+                                               QUEST_ICON_HEIGHT, 0);
         }
     }
 
@@ -601,7 +604,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
         POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
             POLY_OPA_DISP,
-            gItemIcons[0x79 +
+            gItemIcons[ITEM_HEART_PIECE_2 - 1 +
                        (((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT)],
             48, 48, 0);
     }

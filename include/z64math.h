@@ -100,9 +100,15 @@ typedef VecSphGeo VecGeo;
 
 #define IS_ZERO(f) (fabsf(f) < 0.008f)
 
+// Casting a float to an integer, when the float value is larger than what the integer type can hold,
+// leads to undefined behavior. For example (f32)0x8000 doesn't fit in a s16, so it cannot be cast to s16.
+// This isn't an issue with IDO, but is one with for example GCC.
+// A partial workaround is to cast to s32 then s16, hoping all binang values used will fit a s32.
+#define TRUNCF_BINANG(f) (s16)(s32)(f)
+
 // Angle conversion macros
-#define DEG_TO_BINANG(degrees) (s16)((degrees) * (0x8000 / 180.0f))
-#define RAD_TO_BINANG(radians) (s16)((radians) * (0x8000 / M_PI))
+#define DEG_TO_BINANG(degrees) (s16)TRUNCF_BINANG((degrees) * (0x8000 / 180.0f))
+#define RAD_TO_BINANG(radians) (s16)TRUNCF_BINANG((radians) * (0x8000 / M_PI))
 #define RAD_TO_DEG(radians) ((radians) * (180.0f / M_PI))
 #define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
 #define BINANG_TO_DEG(binang) ((f32)(binang) * (180.0f / 0x8000))
