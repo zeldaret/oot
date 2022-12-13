@@ -254,7 +254,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 break;
             case 6:
                 play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
-                                                      : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
+                                                   : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
