@@ -497,7 +497,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, PlayState* play) {
                                   &this->bombSmokeEnvColor, 400, 10, 10);
                 }
                 Audio_PlayActorSfx2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
-                Actor_SetColorFilter(&this->actor, 0x4000, 0x78, 0, 8);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 120, COLORFILTER_BUFFLAG_OPA, 8);
             }
         }
     }
@@ -676,7 +676,7 @@ void EnDodongo_Death(EnDodongo* this, PlayState* play) {
             EnDodongo_SpawnBombSmoke(this, play);
         }
     } else if (this->actor.colorFilterTimer == 0) {
-        Actor_SetColorFilter(&this->actor, 0x4000, 0x78, 0, 4);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 120, COLORFILTER_BUFFLAG_OPA, 4);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer == 0) {
@@ -721,12 +721,12 @@ void EnDodongo_CollisionCheck(EnDodongo* this, PlayState* play) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
                 if (this->actionState != DODONGO_STUNNED) {
-                    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(&this->actor);
                     EnDodongo_SetupStunned(this);
                 }
             } else {
-                Actor_SetColorFilter(&this->actor, 0x4000, 0x78, 0, 8);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 120, COLORFILTER_BUFFLAG_OPA, 8);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     EnDodongo_SetupDeath(this, play);
                 } else {
