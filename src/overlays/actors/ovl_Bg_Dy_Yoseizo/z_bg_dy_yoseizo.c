@@ -657,7 +657,7 @@ static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
 void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
     f32 curFrame = this->skelAnime.curFrame;
     Player* player = GET_PLAYER(play);
-    s16 actionIndex;
+    s16 cueIdTemp;
     s16 demoEffectParams;
     Vec3f itemPos;
 
@@ -688,14 +688,14 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
     }
 
     if ((play->csCtx.actorCues[0]->id >= 4) && (play->csCtx.actorCues[0]->id < 7)) {
-        actionIndex = play->csCtx.actorCues[0]->id - 4;
+        cueIdTemp = play->csCtx.actorCues[0]->id - 4;
 
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) {
-            actionIndex++;
-            BgDyYoseizo_SpawnEffects(this, play, actionIndex);
+            cueIdTemp++;
+            BgDyYoseizo_SpawnEffects(this, play, cueIdTemp);
 
         } else if (!this->lightBallSpawned) {
-            demoEffectParams = ((s16)(sDemoEffectLightColors[actionIndex] << 0xC) | DEMO_EFFECT_LIGHT);
+            demoEffectParams = ((s16)(sDemoEffectLightColors[cueIdTemp] << 0xC) | DEMO_EFFECT_LIGHT);
             Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, 0, 0, 0, (s32)demoEffectParams);
             this->lightBallSpawned = true;
@@ -706,9 +706,9 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
 
     if ((play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id >= 10) &&
         (play->csCtx.actorCues[0]->id < 13)) {
-        actionIndex = play->csCtx.actorCues[0]->id - 10;
+        cueIdTemp = play->csCtx.actorCues[0]->id - 10;
 
-        switch (actionIndex) {
+        switch (cueIdTemp) {
             case FAIRY_UPGRADE_MAGIC:
                 gSaveContext.isMagicAcquired = true;
                 gSaveContext.magicFillTarget = MAGIC_NORMAL_METER;
@@ -734,7 +734,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
         if (!this->healing) {
             gSaveContext.healthAccumulator = 0x140;
             this->healing = true;
-            if (actionIndex == 2) {
+            if (cueIdTemp == 2) {
                 Magic_Fill(play);
             }
         }
@@ -742,7 +742,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
 
     if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) && (play->csCtx.actorCues[0]->id >= 14) &&
         (play->csCtx.actorCues[0]->id < 17)) {
-        actionIndex = play->csCtx.actorCues[0]->id - 14;
+        cueIdTemp = play->csCtx.actorCues[0]->id - 14;
 
         if (!this->itemSpawned) {
             itemPos.x = player->actor.world.pos.x;
@@ -750,7 +750,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
             itemPos.z = player->actor.world.pos.z;
 
             this->item = (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, itemPos.x,
-                                                       itemPos.y, itemPos.z, 0, 0, 0, sExItemTypes[actionIndex]);
+                                                       itemPos.y, itemPos.z, 0, 0, 0, sExItemTypes[cueIdTemp]);
 
             if (this->item != NULL) {
                 if (!gSaveContext.isMagicAcquired) {
@@ -762,8 +762,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                 this->itemSpawned = true;
                 gSaveContext.healthAccumulator = 0x140;
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS_MAGIC);
-                gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= sItemGetFlags[actionIndex];
-                Item_Give(play, sItemIds[actionIndex]);
+                gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= sItemGetFlags[cueIdTemp];
+                Item_Give(play, sItemIds[cueIdTemp]);
             }
         } else {
             this->item->actor.world.pos.x = player->actor.world.pos.x;
@@ -791,9 +791,9 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
     }
 
     if ((play->csCtx.actorCues[0]->id >= 19) && (play->csCtx.actorCues[0]->id < 22) && !this->warpEffectSpawned) {
-        actionIndex = play->csCtx.actorCues[0]->id - 11;
+        cueIdTemp = play->csCtx.actorCues[0]->id - 11;
         Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x, player->actor.world.pos.y,
-                    player->actor.world.pos.z, 0, 0, 0, actionIndex);
+                    player->actor.world.pos.z, 0, 0, 0, cueIdTemp);
         this->warpEffectSpawned = true;
     }
     BgDyYoseizo_Bob(this, play);
