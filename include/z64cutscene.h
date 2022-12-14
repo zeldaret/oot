@@ -33,12 +33,12 @@ typedef enum {
 } CutsceneState;
 
 typedef enum {
-    /* 0x0001 */ CS_CMD_CAM_EYE_POINTS = 0x01,
-    /* 0x0002 */ CS_CMD_CAM_AT_POINTS,
+    /* 0x0001 */ CS_CMD_CAM_EYE_SPLINE = 0x01,
+    /* 0x0002 */ CS_CMD_CAM_AT_SPLINE,
     /* 0x0003 */ CS_CMD_MISC,
     /* 0x0004 */ CS_CMD_LIGHT_SETTING,
-    /* 0x0005 */ CS_CMD_CAM_EYE_POINTS_REL_TO_PLAYER,
-    /* 0x0006 */ CS_CMD_CAM_AT_POINTS_REL_TO_PLAYER,
+    /* 0x0005 */ CS_CMD_CAM_EYE_SPLINE_REL_TO_PLAYER,
+    /* 0x0006 */ CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER,
     /* 0x0007 */ CS_CMD_CAM_EYE_NEW, // TODO: remove _NEW after ZAP is updated
     /* 0x0008 */ CS_CMD_CAM_AT_NEW, // TODO: remove _NEW after ZAP is updated
     /* 0x0009 */ CS_CMD_RUMBLE_CONTROLLER,

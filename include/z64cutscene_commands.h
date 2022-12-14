@@ -16,55 +16,54 @@
 #define CS_BEGIN_CUTSCENE(totalEntries, duration) CMD_W(totalEntries), CMD_W(duration)
 
 /**
+ * Defines data for `CutsceneCameraPoint`, which can be used with any of the `eye` or `at` camera commands.
+ */
+#define CS_CAM_POINT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+
+/**
  * Declares a list of camera `eye` points that form a spline.
  * The points of the spline are interpolated over time to create smooth camera movements.
  */
-#define CS_CAM_EYE_POINTS_LIST(startFrame, endFrame) \
-    CS_CMD_CAM_EYE_POINTS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+#define CS_CAM_EYE_SPLINE(startFrame, endFrame) \
+    CS_CMD_CAM_EYE_SPLINE, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+
+/**
+ * Declares a list of camera `at` points that form a spline.
+ * The points of the spline are interpolated over time to create smooth camera movements.
+ */
+#define CS_CAM_AT_SPLINE(startFrame, endFrame) \
+    CS_CMD_CAM_AT_SPLINE, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
  * Declares a list of camera `eye` points that form a spline.
  * The points of the spline are interpolated over time to create smooth camera movements.
  * The camera is moved relative to player.
  */
-#define CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST(startFrame, endFrame) \
-    CS_CMD_CAM_EYE_POINTS_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+#define CS_CAM_EYE_SPLINE_REL_TO_PLAYER(startFrame, endFrame) \
+    CS_CMD_CAM_EYE_SPLINE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+
+/**
+ * Declares a list of camera `at` points that form a spline.
+ * The points of the spline are interpolated over time to create smooth camera movements.
+ * The camera is moved relative to player.
+ */
+#define CS_CAM_AT_SPLINE_REL_TO_PLAYER(startFrame, endFrame) \
+    CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
  * Declares a list of camera `eye` data that will be set on the specified frame.
- * This is a single point that will be set, the list of points are not interpolated over time.
+ * This contains a list of single points that will be set, the list of points are not interpolated over time.
  */
 #define CS_CAM_EYE_LIST(unk, startFrame, endFrame, unused) \
     CS_CMD_CAM_EYE_NEW, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
- * Declares a list of camera `at` points that form a spline.
- * The points of the spline are interpolated over time to create smooth camera movements.
- */
-#define CS_CAM_AT_POINTS_LIST(startFrame, endFrame) \
-    CS_CMD_CAM_AT_POINTS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
-
-/**
- * Declares a list of camera `at` points that form a spline.
- * The points of the spline are interpolated over time to create smooth camera movements.
- * The camera is moved relative to player.
- */
-#define CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST(startFrame, endFrame) \
-    CS_CMD_CAM_AT_POINTS_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
-
-
-/**
  * Declares a list of camera `at` data that will be set on the specified frame.
- * This is a single point that will be set, the list of points are not interpolated over time.
+ * This contains a list of single points that will be set, the list of points are not interpolated over time.
  */
 #define CS_CAM_AT_LIST(unk, startFrame, endFrame, unused) \
     CS_CMD_CAM_AT_NEW, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
-
-/**
- * Defines data for `CutsceneCameraPoint`, which can be used with any of the `eye` or `at` camera commands.
- */
-#define CS_CAM_POINT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * Declares a list of `CS_MISC` entries.
@@ -244,13 +243,13 @@
     CMD_W(unk7), CMD_W(unk8), CMD_W(unk9), CMD_W(unk10), CMD_W(unk11), CMD_W(unk12)
 
 // TODO: Fix ZAPD and delete these
-#define CS_CAM_POS_LIST                CS_CAM_EYE_POINTS_LIST
+#define CS_CAM_POS_LIST                CS_CAM_EYE_SPLINE
 #define CS_CAM_POS                     CS_CAM_POINT
-#define CS_CAM_FOCUS_POINT_LIST        CS_CAM_AT_POINTS_LIST
+#define CS_CAM_FOCUS_POINT_LIST        CS_CAM_AT_SPLINE
 #define CS_CAM_FOCUS_POINT             CS_CAM_POINT
-#define CS_CAM_POS_PLAYER_LIST         CS_CAM_EYE_POINTS_REL_TO_PLAYER_LIST
+#define CS_CAM_POS_PLAYER_LIST         CS_CAM_EYE_SPLINE_REL_TO_PLAYER
 #define CS_CAM_POS_PLAYER              CS_CAM_POINT
-#define CS_CAM_FOCUS_POINT_PLAYER_LIST CS_CAM_AT_POINTS_REL_TO_PLAYER_LIST
+#define CS_CAM_FOCUS_POINT_PLAYER_LIST CS_CAM_AT_SPLINE_REL_TO_PLAYER
 #define CS_CAM_FOCUS_POINT_PLAYER      CS_CAM_POINT
 #define CS_NPC_ACTION_LIST             CS_ACTOR_CUE_LIST
 #define CS_NPC_ACTION                  CS_ACTOR_CUE

@@ -119,6 +119,9 @@ u16 gCamEyeAppliedFrame;
 u16 gCamAtAppliedFrame;
 
 s16 sPrevCamId;
+
+// Setting this to false will skip applying changes to the camera from the current cutscene script.
+// Its set to true in most normal situations, only changed to false for debugging.
 u8 gUseCutsceneCam;
 
 s16 sQuakeIndex;
@@ -1505,7 +1508,7 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
     }
 }
 
-s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* script, u8 relativeToPlayer) {
+s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* script, u8 relativeToPlayer) {
     s32 shouldContinue = true;
     CsCmdGeneric* cmd = (CsCmdGeneric*)script;
     s32 size;
@@ -1545,7 +1548,7 @@ s32 CutsceneCmd_SetCamEyePoints(PlayState* play, CutsceneContext* csCtx, u8* scr
     return size;
 }
 
-s32 CutsceneCmd_SetCamAtPoints(PlayState* play, CutsceneContext* csCtx, u8* script, u8 relativeToPlayer) {
+s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* script, u8 relativeToPlayer) {
     s32 shouldContinue = true;
     CsCmdGeneric* cmd = (CsCmdGeneric*)script;
     s32 size;
@@ -2110,20 +2113,20 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 }
                 break;
 
-            case CS_CMD_CAM_EYE_POINTS:
-                script += CutsceneCmd_SetCamEyePoints(play, csCtx, (void*)script, false);
+            case CS_CMD_CAM_EYE_SPLINE:
+                script += CutsceneCmd_UpdateCamEyeSpline(play, csCtx, (void*)script, false);
                 break;
 
-            case CS_CMD_CAM_EYE_POINTS_REL_TO_PLAYER:
-                script += CutsceneCmd_SetCamEyePoints(play, csCtx, (void*)script, true);
+            case CS_CMD_CAM_EYE_SPLINE_REL_TO_PLAYER:
+                script += CutsceneCmd_UpdateCamEyeSpline(play, csCtx, (void*)script, true);
                 break;
 
-            case CS_CMD_CAM_AT_POINTS:
-                script += CutsceneCmd_SetCamAtPoints(play, csCtx, (void*)script, false);
+            case CS_CMD_CAM_AT_SPLINE:
+                script += CutsceneCmd_UpdateCamAtSpline(play, csCtx, (void*)script, false);
                 break;
 
-            case CS_CMD_CAM_AT_POINTS_REL_TO_PLAYER:
-                script += CutsceneCmd_SetCamAtPoints(play, csCtx, (void*)script, true);
+            case CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER:
+                script += CutsceneCmd_UpdateCamAtSpline(play, csCtx, (void*)script, true);
                 break;
 
             case CS_CMD_CAM_EYE_NEW:
