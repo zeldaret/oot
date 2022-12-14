@@ -183,7 +183,7 @@ typedef enum {
     /* 0x09 */ CS_MISC_SNOW,
     /* 0x0A */ CS_MISC_SET_FLAG_1,
     /* 0x0B */ CS_MISC_DEKU_TREE_DEATH,
-    /* 0x0C */ CS_MISC_STOP,
+    /* 0x0C */ CS_MISC_STOP_CUTSCENE,
     /* 0x0D */ CS_MISC_TRIFORCE_FLASH,
     /* 0x0E */ CS_MISC_SET_LOCKED_VIEWPOINT,
     /* 0x0F */ CS_MISC_SHOW_TITLE_CARD,

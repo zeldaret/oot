@@ -237,7 +237,7 @@ CsCmdActorCue* EnNb_GetCue(PlayState* play, s32 cueChannel) {
     return NULL;
 }
 
-void EnNb_SetStartPosFromCue(EnNb* this, PlayState* play, s32 cueChannel) {
+void EnNb_SetStartPosRotFromCue(EnNb* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = EnNb_GetCue(play, cueChannel);
     s16 newRotY;
     Actor* thisx = &this->actor;
@@ -254,20 +254,28 @@ void EnNb_SetStartPosFromCue(EnNb* this, PlayState* play, s32 cueChannel) {
 s32 func_80AB1390(EnNb* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (cue = play->csCtx.actorCues[cueChannel], cue != NULL) &&
-        (cue->id == cueId)) {
-        return true;
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        cue = play->csCtx.actorCues[cueChannel];
+
+        if ((cue != NULL) && (cue->id == cueId)) {
+            return true;
+        }
     }
+
     return false;
 }
 
-s32 func_80AB13D8(EnNb* this, PlayState* play, u16 arg2, s32 cueChannel) {
+s32 func_80AB13D8(EnNb* this, PlayState* play, u16 cueId, s32 cueChannel) {
     CsCmdActorCue* cue;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (cue = play->csCtx.actorCues[cueChannel], cue != NULL) &&
-        (cue->id != arg2)) {
-        return true;
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        cue = play->csCtx.actorCues[cueChannel];
+
+        if ((cue != NULL) && (cue->id != cueId)) {
+            return true;
+        }
     }
+
     return false;
 }
 
@@ -603,7 +611,7 @@ void EnNb_SetPosInPortal(EnNb* this, PlayState* play) {
 }
 
 void EnNb_SetupCaptureCutsceneState(EnNb* this, PlayState* play) {
-    EnNb_SetStartPosFromCue(this, play, 1);
+    EnNb_SetStartPosRotFromCue(this, play, 1);
     this->action = NB_KIDNAPPED;
     this->drawMode = NB_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
@@ -753,7 +761,7 @@ void func_80AB26DC(EnNb* this, PlayState* play) {
     AnimationHeader* animation = &gNabooruCollapseFromStandingToKneelingTransitionAnim;
     f32 lastFrame = Animation_GetLastFrame(animation);
 
-    EnNb_SetStartPosFromCue(this, play, 1);
+    EnNb_SetStartPosRotFromCue(this, play, 1);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->action = NB_ACTION_14;
     this->drawMode = NB_DRAW_KNEEL;

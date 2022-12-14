@@ -321,7 +321,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             }
             break;
 
-        case CS_MISC_STOP:
+        case CS_MISC_STOP_CUTSCENE:
             if (isFirstFrame) {
                 if (csCtx->state != CS_STATE_RUN_UNSKIPPABLE) {
                     csCtx->state = CS_STATE_STOP;
@@ -554,7 +554,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         (gSaveContext.fileNum != 0xFEDC) && (play->transitionTrigger == TRANS_TRIGGER_OFF)) {
         Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        titleDemoSkipped = 1;
+        titleDemoSkipped = true;
     }
 
     if ((csCtx->curFrame == cmd->frame) || titleDemoSkipped ||

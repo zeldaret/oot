@@ -719,13 +719,17 @@ void func_80B3DAF0(EnXc* this, PlayState* play) {
     CsCmdActorCue* cue = EnXc_GetCue(play, 4);
     u16 cueId;
 
-    if (cue && (cueId = cue->id, cueId == 3 || cueId == 11 || cueId == 12 || cueId == 13 || cueId == 23)) {
-        f32 frameCount;
+    if (cue != NULL) {
+        cueId = cue->id;
 
-        frameCount = Animation_GetLastFrame(&gSheikPullingOutHarpAnim);
-        Animation_Change(&this->skelAnime, &gSheikPullingOutHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
-        this->action = SHEIK_ACTION_7;
-        this->drawMode = SHEIK_DRAW_PULLING_OUT_HARP;
+        if (cueId == 3 || cueId == 11 || cueId == 12 || cueId == 13 || cueId == 23) {
+            f32 frameCount;
+
+            frameCount = Animation_GetLastFrame(&gSheikPullingOutHarpAnim);
+            Animation_Change(&this->skelAnime, &gSheikPullingOutHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
+            this->action = SHEIK_ACTION_7;
+            this->drawMode = SHEIK_DRAW_PULLING_OUT_HARP;
+        }
     }
 }
 

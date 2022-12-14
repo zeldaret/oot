@@ -831,10 +831,10 @@ void func_8096F2B0(DemoEc* this, PlayState* play, s32 cueChannel) {
         s32 currentCueId = this->cueId;
 
         if (nextCueId != currentCueId) {
-            if (1) {}
-
-            if (nextCueId == 2) {
-                func_8096F224(this, play);
+            switch (nextCueId) {
+                case 2:
+                    func_8096F224(this, play);
+                    break;
             }
 
             this->cueId = nextCueId;
@@ -908,10 +908,10 @@ void func_8096F578(DemoEc* this, PlayState* play, s32 cueChannel) {
         s32 currentCueId = this->cueId;
 
         if (nextCueId != currentCueId) {
-            if (1) {}
-
-            if (nextCueId == 2) {
-                func_8096F4FC(this, play);
+            switch (nextCueId) {
+                case 2:
+                    func_8096F4FC(this, play);
+                    break;
             }
 
             this->cueId = nextCueId;

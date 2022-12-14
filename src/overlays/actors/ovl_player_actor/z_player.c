@@ -14345,9 +14345,9 @@ void func_808520BC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     f32 startY = cue->startPos.y;
     f32 startZ = cue->startPos.z;
 
-    f32 distX = (cue->endPos.x - startX);
-    f32 distY = (cue->endPos.y - startY);
-    f32 distZ = (cue->endPos.z - startZ);
+    f32 distX = cue->endPos.x - startX;
+    f32 distY = cue->endPos.y - startY;
+    f32 distZ = cue->endPos.z - startZ;
 
     f32 sp4 = (f32)(play->csCtx.curFrame - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame);
 
