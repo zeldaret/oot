@@ -52,15 +52,15 @@
     CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
- * Declares a single entry of camera `eye` data that will be set on the specified frame.
- * Only the first camera point entry will be read, this is not processed as a list.
+ * Declares a single `eye` point that will be set on the specified frame, without any interpolation.
+ * Should only contain a single point, not a list.
  */
 #define CS_CAM_EYE(unk, startFrame, endFrame, unused) \
     CS_CMD_CAM_EYE, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
- * Declares a single entry of camera `at` data that will be set on the specified frame.
- * Only the first camera point entry will be read, this is not processed as a list.
+ * Declares a single `at` point that will be set on the specified frame, without any interpolation.
+ * Should only contain a single point, not a list.
  */
 #define CS_CAM_AT(unk, startFrame, endFrame, unused) \
     CS_CMD_CAM_AT, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)

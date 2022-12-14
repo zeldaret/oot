@@ -170,8 +170,8 @@ extern SaveContext gSaveContext;
 extern RegEditor* gRegEditor;
 
 extern u16 gCamAtSplinePointsAppliedFrame;
-extern u16 gCamEyeAppliedFrame;
-extern u16 gCamAtAppliedFrame;
+extern u16 gCamEyePointAppliedFrame;
+extern u16 gCamAtPointAppliedFrame;
 extern u8 gUseCutsceneCam;
 
 extern u8 gCustomLensFlareOn;

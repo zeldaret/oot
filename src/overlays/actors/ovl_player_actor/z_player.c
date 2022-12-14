@@ -9094,24 +9094,24 @@ void func_808458D0(Player* this, PlayState* play) {
     }
 }
 
-s32 func_80845964(PlayState* play, Player* this, CsCmdActorCue* arg2, f32 arg3, s16 arg4, s32 arg5) {
+s32 func_80845964(PlayState* play, Player* this, CsCmdActorCue* cue, f32 arg3, s16 arg4, s32 arg5) {
     if ((arg5 != 0) && (this->linearVelocity == 0.0f)) {
         return LinkAnimation_Update(play, &this->skelAnime);
     }
 
     if (arg5 != 2) {
         f32 sp34 = R_UPDATE_RATE * 0.5f;
-        f32 selfDistX = arg2->endPos.x - this->actor.world.pos.x;
-        f32 selfDistZ = arg2->endPos.z - this->actor.world.pos.z;
+        f32 selfDistX = cue->endPos.x - this->actor.world.pos.x;
+        f32 selfDistZ = cue->endPos.z - this->actor.world.pos.z;
         f32 sp28 = sqrtf(SQ(selfDistX) + SQ(selfDistZ)) / sp34;
-        s32 sp24 = (arg2->endFrame - play->csCtx.curFrame) + 1;
+        s32 sp24 = (cue->endFrame - play->csCtx.curFrame) + 1;
 
         arg4 = Math_Atan2S(selfDistZ, selfDistX);
 
         if (arg5 == 1) {
-            f32 distX = arg2->endPos.x - arg2->startPos.x;
-            f32 distZ = arg2->endPos.z - arg2->startPos.z;
-            s32 temp = (((sqrtf(SQ(distX) + SQ(distZ)) / sp34) / (arg2->endFrame - arg2->startFrame)) / 1.5f) * 4.0f;
+            f32 distX = cue->endPos.x - cue->startPos.x;
+            f32 distZ = cue->endPos.z - cue->startPos.z;
+            s32 temp = (((sqrtf(SQ(distX) + SQ(distZ)) / sp34) / (cue->endFrame - cue->startFrame)) / 1.5f) * 4.0f;
 
             if (temp >= sp24) {
                 arg4 = this->actor.shape.rot.y;

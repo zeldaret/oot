@@ -115,8 +115,8 @@ void* sUnusedEntranceCsList[] = {
 };
 
 u16 gCamAtSplinePointsAppliedFrame;
-u16 gCamEyeAppliedFrame;
-u16 gCamAtAppliedFrame;
+u16 gCamEyePointAppliedFrame;
+u16 gCamAtPointAppliedFrame;
 
 s16 sReturnToCamId;
 
@@ -1517,7 +1517,7 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
     size = sizeof(CsCmdGeneric);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((csCtx->camEyeSplinePointsAppliedFrame < cmd->startFrame) ||
+        ((cmd->startFrame > csCtx->camEyeSplinePointsAppliedFrame) ||
          (csCtx->camEyeSplinePointsAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)script;
@@ -1557,7 +1557,7 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
     size = sizeof(CsCmdGeneric);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((gCamAtSplinePointsAppliedFrame < cmd->startFrame) || (gCamAtSplinePointsAppliedFrame >= 0xF000))) {
+        ((cmd->startFrame > gCamAtSplinePointsAppliedFrame) || (gCamAtSplinePointsAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
         csCtx->camAtPoints = (CutsceneCameraPoint*)script;
 
@@ -1599,12 +1599,12 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
     size = sizeof(CsCmdGeneric);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((gCamEyeAppliedFrame < cmd->startFrame) || (gCamEyeAppliedFrame >= 0xF000))) {
+        ((cmd->startFrame > gCamEyePointAppliedFrame) || (gCamEyePointAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camAtReady) {
-            gCamEyeAppliedFrame = cmd->startFrame;
+            gCamEyePointAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
                 subCam = Play_GetCamera(play, csCtx->subCamId);
@@ -1617,13 +1617,13 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
                 roll = csCtx->camAtPoints->cameraRoll * 1.40625f;
                 Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &roll);
 
-                at.x = csCtx->camAtPoints[0].pos.x;
-                at.y = csCtx->camAtPoints[0].pos.y;
-                at.z = csCtx->camAtPoints[0].pos.z;
+                at.x = csCtx->camAtPoints->pos.x;
+                at.y = csCtx->camAtPoints->pos.y;
+                at.z = csCtx->camAtPoints->pos.z;
 
-                eye.x = csCtx->camEyePoints[0].pos.x;
-                eye.y = csCtx->camEyePoints[0].pos.y;
-                eye.z = csCtx->camEyePoints[0].pos.z;
+                eye.x = csCtx->camEyePoints->pos.x;
+                eye.y = csCtx->camEyePoints->pos.y;
+                eye.z = csCtx->camEyePoints->pos.z;
 
                 Play_CameraSetAtEye(play, csCtx->subCamId, &at, &eye);
                 Play_CameraSetFov(play, csCtx->subCamId, csCtx->camEyePoints->viewAngle);
@@ -1647,12 +1647,12 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
     size = sizeof(CsCmdGeneric);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((gCamAtAppliedFrame < cmd->startFrame) || (gCamAtAppliedFrame >= 0xF000))) {
+        ((cmd->startFrame > gCamAtPointAppliedFrame) || (gCamAtPointAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
         csCtx->camAtPoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camEyeReady) {
-            gCamAtAppliedFrame = cmd->startFrame;
+            gCamAtPointAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
                 subCam = Play_GetCamera(play, csCtx->subCamId);
@@ -1662,13 +1662,13 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
-                at.x = csCtx->camAtPoints[0].pos.x;
-                at.y = csCtx->camAtPoints[0].pos.y;
-                at.z = csCtx->camAtPoints[0].pos.z;
+                at.x = csCtx->camAtPoints->pos.x;
+                at.y = csCtx->camAtPoints->pos.y;
+                at.z = csCtx->camAtPoints->pos.z;
 
-                eye.x = csCtx->camEyePoints[0].pos.x;
-                eye.y = csCtx->camEyePoints[0].pos.y;
-                eye.z = csCtx->camEyePoints[0].pos.z;
+                eye.x = csCtx->camEyePoints->pos.x;
+                eye.y = csCtx->camEyePoints->pos.y;
+                eye.z = csCtx->camEyePoints->pos.z;
 
                 Play_CameraSetAtEye(play, csCtx->subCamId, &at, &eye);
                 Play_CameraSetFov(play, csCtx->subCamId, csCtx->camEyePoints->viewAngle);
@@ -2275,8 +2275,8 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
 
             csCtx->camEyeSplinePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
             gCamAtSplinePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
-            gCamEyeAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
-            gCamAtAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+            gCamEyePointAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+            gCamAtPointAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
 
             csCtx->camAtReady = false;
             csCtx->camEyeReady = false;

@@ -224,13 +224,13 @@ s32 DemoIm_IsCutsceneIdle(PlayState* play) {
 
 CsCmdActorCue* DemoIm_GetCue(PlayState* play, s32 cueChannel) {
     s32 pad[2];
-    CsCmdActorCue* ret = NULL;
+    CsCmdActorCue* cue = NULL;
 
     if (!DemoIm_IsCutsceneIdle(play)) {
-        ret = play->csCtx.actorCues[cueChannel];
+        cue = play->csCtx.actorCues[cueChannel];
     }
 
-    return ret;
+    return cue;
 }
 
 s32 func_809850E8(DemoIm* this, PlayState* play, u16 action, s32 cueChannel) {
