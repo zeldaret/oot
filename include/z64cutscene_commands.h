@@ -73,7 +73,7 @@
 
 /**
  * Various miscellaneous commands.
- * @see `CutsceneMiscCommand` enum for the different types of commands.
+ * @see `CutsceneMiscType` enum for the different types of commands.
  * @note setting `endFrame` to same value as `startFrame` will not behave as expected.
  * For commands that only need to last one frame, set `endFrame` to `startFrame + 1`.
  */

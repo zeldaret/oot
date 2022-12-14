@@ -340,7 +340,7 @@ CsCmdActorCue* DemoEc_GetCue(PlayState* play, s32 cueChannel) {
     }
 }
 
-void DemoEc_SetPosRotFromCue(DemoEc* this, PlayState* play, s32 cueChannel) {
+void DemoEc_SetStartPosRotFromCue(DemoEc* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = DemoEc_GetCue(play, cueChannel);
 
     if (cue != NULL) {
@@ -845,7 +845,7 @@ void func_8096F2B0(DemoEc* this, PlayState* play, s32 cueChannel) {
 void DemoEc_UpdateKingZora(DemoEc* this, PlayState* play) {
     DemoEc_UpdateSkelAnime(this);
     func_8096D594(this, play);
-    DemoEc_SetPosRotFromCue(this, play, 6);
+    DemoEc_SetStartPosRotFromCue(this, play, 6);
     DemoEc_UpdateBgFlags(this, play);
     func_8096F2B0(this, play, 6);
 }
@@ -922,7 +922,7 @@ void func_8096F578(DemoEc* this, PlayState* play, s32 cueChannel) {
 void DemoEc_UpdateMido(DemoEc* this, PlayState* play) {
     DemoEc_UpdateSkelAnime(this);
     func_8096D594(this, play);
-    DemoEc_SetPosRotFromCue(this, play, 7);
+    DemoEc_SetStartPosRotFromCue(this, play, 7);
     DemoEc_UpdateBgFlags(this, play);
     func_8096F578(this, play, 7);
 }

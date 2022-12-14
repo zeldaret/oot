@@ -1565,7 +1565,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
 
     if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
-            hasCue = play->csCtx.state && play->csCtx.actorCues[this->cueChannel];
+            hasCue = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[this->cueChannel] != NULL);
 
             if (!hasCue) {
                 this->effectFlags |= 0x1;

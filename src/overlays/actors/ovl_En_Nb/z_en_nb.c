@@ -237,9 +237,8 @@ CsCmdActorCue* EnNb_GetCue(PlayState* play, s32 cueChannel) {
     return NULL;
 }
 
-void EnNb_SetStartPosRotFromCue(EnNb* this, PlayState* play, s32 cueChannel) {
+void EnNb_SetStartPosRotFromCue1(EnNb* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = EnNb_GetCue(play, cueChannel);
-    s16 newRotY;
     Actor* thisx = &this->actor;
 
     if (cue != NULL) {
@@ -279,7 +278,7 @@ s32 func_80AB13D8(EnNb* this, PlayState* play, u16 cueId, s32 cueChannel) {
     return false;
 }
 
-void EnNb_SetPosRotFromCue(EnNb* this, PlayState* play, s32 cueChannel) {
+void EnNb_SetStartPosRotFromCue2(EnNb* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = EnNb_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
 
@@ -611,7 +610,7 @@ void EnNb_SetPosInPortal(EnNb* this, PlayState* play) {
 }
 
 void EnNb_SetupCaptureCutsceneState(EnNb* this, PlayState* play) {
-    EnNb_SetStartPosRotFromCue(this, play, 1);
+    EnNb_SetStartPosRotFromCue1(this, play, 1);
     this->action = NB_KIDNAPPED;
     this->drawMode = NB_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
@@ -761,7 +760,7 @@ void func_80AB26DC(EnNb* this, PlayState* play) {
     AnimationHeader* animation = &gNabooruCollapseFromStandingToKneelingTransitionAnim;
     f32 lastFrame = Animation_GetLastFrame(animation);
 
-    EnNb_SetStartPosRotFromCue(this, play, 1);
+    EnNb_SetStartPosRotFromCue1(this, play, 1);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->action = NB_ACTION_14;
     this->drawMode = NB_DRAW_KNEEL;
@@ -1032,7 +1031,7 @@ void EnNb_SetAlphaInCredits(EnNb* this) {
 }
 
 void EnNb_SetupCreditsFadeIn(EnNb* this, PlayState* play) {
-    EnNb_SetPosRotFromCue(this, play, 1);
+    EnNb_SetStartPosRotFromCue2(this, play, 1);
     this->action = NB_CREDITS_FADEIN;
     this->drawMode = NB_DRAW_HIDE;
 }

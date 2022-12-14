@@ -127,7 +127,7 @@ s32 DemoDu_CheckForNoCue(DemoDu* this, PlayState* play, u16 cueId, s32 cueChanne
     return false;
 }
 
-void DemoDu_SetPosRotFromCue(DemoDu* this, PlayState* play, s32 cueChannel) {
+void DemoDu_SetStartPosRotFromCue(DemoDu* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = DemoDu_GetCue(play, cueChannel);
     s32 pad;
 
@@ -850,7 +850,7 @@ void DemoDu_CsCredits_UpdateShadowAlpha(DemoDu* this) {
 }
 
 void DemoDu_CsCredits_AdvanceTo01(DemoDu* this, PlayState* play) {
-    DemoDu_SetPosRotFromCue(this, play, 2);
+    DemoDu_SetStartPosRotFromCue(this, play, 2);
     this->updateIndex = CS_CREDITS_SUBSCENE(1);
     this->drawIndex = 2;
 }
