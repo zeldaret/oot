@@ -407,9 +407,9 @@ typedef struct {
     /* 0x00 */ u8 unused_00[0x2];
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8  unk_06;
-    /* 0x07 */ u8  unk_07;
-    /* 0x08 */ u8  unk_08;
+    /* 0x06 */ u8  sourceStrength;
+    /* 0x07 */ u8  duration;
+    /* 0x08 */ u8  decreaseRate;
     /* 0x0A */ u8 unused_0A[0x2];
 } CsCmdRumble; // size = 0xC
 

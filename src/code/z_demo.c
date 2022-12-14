@@ -525,7 +525,7 @@ void CutsceneCmd_FadeOutSequence(PlayState* play, CutsceneContext* csCtx, CsCmdF
 
 void CutsceneCmd_RumbleController(PlayState* play, CutsceneContext* csCtx, CsCmdRumble* cmd) {
     if (csCtx->curFrame == cmd->startFrame) {
-        Rumble_Request(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
+        Rumble_Request(0.0f, cmd->sourceStrength, cmd->duration, cmd->decreaseRate);
     }
 }
 

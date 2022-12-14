@@ -103,8 +103,8 @@
 #define CS_RUMBLE_CONTROLLER_LIST(entries) \
     CS_CMD_RUMBLE_CONTROLLER, CMD_W(entries)
 
-#define CS_RUMBLE_CONTROLLER(unk, startFrame, endFrame, unk2, unk3, unk4, unused0, unused1) \
-    CMD_HH(unk, startFrame), CMD_HBB(endFrame, unk2, unk3), CMD_BBH(unk4, unused0, unused1)
+#define CS_RUMBLE_CONTROLLER(unk, startFrame, endFrame, sourceStrength, duration, decreaseRate, unused0, unused1) \
+    CMD_HH(unk, startFrame), CMD_HBB(endFrame, sourceStrength, duration), CMD_BBH(decreaseRate, unused0, unused1)
 
 /**
  * Declares a list of `CS_ACTOR_CUE` entries.
