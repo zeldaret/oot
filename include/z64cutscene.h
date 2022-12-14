@@ -39,8 +39,8 @@ typedef enum {
     /* 0x0004 */ CS_CMD_LIGHT_SETTING,
     /* 0x0005 */ CS_CMD_CAM_EYE_SPLINE_REL_TO_PLAYER,
     /* 0x0006 */ CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER,
-    /* 0x0007 */ CS_CMD_CAM_EYE, // TODO: remove _NEW after ZAP is updated
-    /* 0x0008 */ CS_CMD_CAM_AT, // TODO: remove _NEW after ZAP is updated
+    /* 0x0007 */ CS_CMD_CAM_EYE,
+    /* 0x0008 */ CS_CMD_CAM_AT,
     /* 0x0009 */ CS_CMD_RUMBLE_CONTROLLER,
     /* 0x000A */ CS_CMD_PLAYER_CUE,
     /* 0x000B */ CS_CMD_UNIMPLEMENTED_B,
