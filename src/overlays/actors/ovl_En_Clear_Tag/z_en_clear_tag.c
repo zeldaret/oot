@@ -348,7 +348,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
 
                     this->collider.base.acFlags &= ~AC_HIT;
                     this->crashingTimer = 20;
-                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 5);
                     this->acceleration.x = Rand_CenteredFloat(15.0f);
                     this->acceleration.y = Rand_CenteredFloat(15.0f);
                     this->acceleration.z = Rand_CenteredFloat(15.0f);

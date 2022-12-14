@@ -320,7 +320,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, PlayState* play) {
             if (firstFall == 0) {
                 firstFall = 1;
             } else {
-                func_8002DF54(play, &GET_PLAYER(play)->actor, 7);
+                func_8002DF54(play, &GET_PLAYER(play)->actor, PLAYER_CSMODE_7);
             }
         }
         this->direction = 0;
@@ -356,7 +356,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             if (sPuzzleState == 0x10) {
                 sPuzzleState = 0x40;
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_RISING);
-                func_8002DF54(play, &player->actor, 8);
+                func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
             }
         } else if (this->dyna.unk_150 != 0.0f) {
             if (this->direction == 0) {
@@ -449,7 +449,7 @@ void BgPoEvent_AmyWait(BgPoEvent* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         sPuzzleState |= 0x20;
         this->timer = 5;
-        Actor_SetColorFilter(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
+        Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 5);
         Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_PO_LAUGH2);
         this->actionFunc = BgPoEvent_AmyPuzzle;
     }

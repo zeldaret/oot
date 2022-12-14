@@ -451,7 +451,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe2_SetActionAfterTalk;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -460,7 +460,7 @@ void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe2_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -480,7 +480,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, PlayState* play) {
     this->stateFlags |= GE2_STATE_CAPTURING;
     this->actor.speedXZ = 0.0f;
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
-    func_8002DF54(play, &this->actor, 95);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
     func_80078884(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
@@ -556,7 +556,9 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     } else if (this->collider.base.acFlags & AC_HIT) {
         if ((this->collider.info.acHitInfo != NULL) &&
             (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
-            Actor_SetColorFilter(&this->actor, 0, 120, 0, 400);
+            //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter.
+            //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
             this->actor.update = EnGe2_UpdateStunned;
             return;
         }
