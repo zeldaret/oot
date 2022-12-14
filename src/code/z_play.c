@@ -439,6 +439,9 @@ void Play_Init(GameState* thisx) {
     if (R_USE_DEBUG_CUTSCENE) {
         gDebugCutsceneScript = sDebugCutsceneScriptBuf;
         osSyncPrintf("\nkawauso_data=[%x]", gDebugCutsceneScript);
+
+        // This hardcoded ROM address extends past the end of the ROM file. 
+        // Presumably the ROM was larger at a previous point in development when this debug feature was used.
         DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutsceneScript, sizeof(sDebugCutsceneScriptBuf));
     }
 }
