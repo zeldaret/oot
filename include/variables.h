@@ -169,7 +169,7 @@ extern u8 gSampleBankTable[];
 extern SaveContext gSaveContext;
 extern RegEditor* gRegEditor;
 
-extern u16 gCamAtPointsAppliedFrame;
+extern u16 gCamAtSplinePointsAppliedFrame;
 extern u16 gCamEyeAppliedFrame;
 extern u16 gCamAtAppliedFrame;
 extern u8 gUseCutsceneCam;

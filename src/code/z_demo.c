@@ -114,7 +114,7 @@ void* sUnusedEntranceCsList[] = {
     gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
-u16 gCamAtPointsAppliedFrame;
+u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyeAppliedFrame;
 u16 gCamAtAppliedFrame;
 
@@ -1517,20 +1517,20 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
     size = sizeof(CsCmdGeneric);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((csCtx->camEyePointsAppliedFrame < cmd->startFrame) || (csCtx->camEyePointsAppliedFrame >= 0xF000))) {
+        ((csCtx->camEyeSplinePointsAppliedFrame < cmd->startFrame) || (csCtx->camEyeSplinePointsAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camAtReady) {
             // the frame number set here isn't important, it just signals that the camera data has been applied
-            csCtx->camEyePointsAppliedFrame = cmd->startFrame;
+            csCtx->camEyeSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sPrevCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
-                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camLookAtPoints, csCtx->camEyePoints,
+                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camAtPoints, csCtx->camEyePoints,
                                    GET_PLAYER(play), relativeToPlayer);
             }
         }
@@ -1557,20 +1557,20 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
     size = sizeof(CsCmdGeneric);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((gCamAtPointsAppliedFrame < cmd->startFrame) || (gCamAtPointsAppliedFrame >= 0xF000))) {
+        ((gCamAtSplinePointsAppliedFrame < cmd->startFrame) || (gCamAtSplinePointsAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
-        csCtx->camLookAtPoints = (CutsceneCameraPoint*)script;
+        csCtx->camAtPoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camEyeReady) {
             // the frame number set here isn't important, it just signals that the camera data has been applied
-            gCamAtPointsAppliedFrame = cmd->startFrame;
+            gCamAtSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sPrevCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
-                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camLookAtPoints, csCtx->camEyePoints,
+                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camAtPoints, csCtx->camEyePoints,
                                    GET_PLAYER(play), relativeToPlayer);
             }
         }
@@ -1616,12 +1616,12 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
-                roll = csCtx->camLookAtPoints->cameraRoll * 1.40625f;
+                roll = csCtx->camAtPoints->cameraRoll * 1.40625f;
                 Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &roll);
 
-                at.x = csCtx->camLookAtPoints->pos.x;
-                at.y = csCtx->camLookAtPoints->pos.y;
-                at.z = csCtx->camLookAtPoints->pos.z;
+                at.x = csCtx->camAtPoints->pos.x;
+                at.y = csCtx->camAtPoints->pos.y;
+                at.z = csCtx->camAtPoints->pos.z;
 
                 eye.x = csCtx->camEyePoints->pos.x;
                 eye.y = csCtx->camEyePoints->pos.y;
@@ -1651,7 +1651,7 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((gCamAtAppliedFrame < cmd->startFrame) || (gCamAtAppliedFrame >= 0xF000))) {
         csCtx->camAtReady = true;
-        csCtx->camLookAtPoints = (CutsceneCameraPoint*)script;
+        csCtx->camAtPoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camEyeReady) {
             // the frame number set here isn't important, it just signals that the camera data has been applied
@@ -1665,9 +1665,9 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
-                at.x = csCtx->camLookAtPoints->pos.x;
-                at.y = csCtx->camLookAtPoints->pos.y;
-                at.z = csCtx->camLookAtPoints->pos.z;
+                at.x = csCtx->camAtPoints->pos.x;
+                at.y = csCtx->camAtPoints->pos.y;
+                at.z = csCtx->camAtPoints->pos.z;
 
                 eye.x = csCtx->camEyePoints->pos.x;
                 eye.y = csCtx->camEyePoints->pos.y;
@@ -2276,8 +2276,8 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
 
             csCtx->curFrame = 0xFFFF;
 
-            csCtx->camEyePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
-            gCamAtPointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+            csCtx->camEyeSplinePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+            gCamAtSplinePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
             gCamEyeAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
             gCamAtAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
 
