@@ -1523,7 +1523,6 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
         csCtx->camEyePoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camAtReady) {
-            // the frame number set here isn't important, it just signals that the camera data has been applied
             csCtx->camEyeSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
@@ -1563,7 +1562,6 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
         csCtx->camAtPoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camEyeReady) {
-            // the frame number set here isn't important, it just signals that the camera data has been applied
             gCamAtSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
@@ -1606,7 +1604,6 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
         csCtx->camEyePoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camAtReady) {
-            // the frame number set here isn't important, it just signals that the camera data has been applied
             gCamEyeAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
@@ -1620,13 +1617,13 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
                 roll = csCtx->camAtPoints->cameraRoll * 1.40625f;
                 Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &roll);
 
-                at.x = csCtx->camAtPoints->pos.x;
-                at.y = csCtx->camAtPoints->pos.y;
-                at.z = csCtx->camAtPoints->pos.z;
+                at.x = csCtx->camAtPoints[0].pos.x;
+                at.y = csCtx->camAtPoints[0].pos.y;
+                at.z = csCtx->camAtPoints[0].pos.z;
 
-                eye.x = csCtx->camEyePoints->pos.x;
-                eye.y = csCtx->camEyePoints->pos.y;
-                eye.z = csCtx->camEyePoints->pos.z;
+                eye.x = csCtx->camEyePoints[0].pos.x;
+                eye.y = csCtx->camEyePoints[0].pos.y;
+                eye.z = csCtx->camEyePoints[0].pos.z;
 
                 Play_CameraSetAtEye(play, csCtx->subCamId, &at, &eye);
                 Play_CameraSetFov(play, csCtx->subCamId, csCtx->camEyePoints->viewAngle);
@@ -1655,7 +1652,6 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
         csCtx->camAtPoints = (CutsceneCameraPoint*)script;
 
         if (csCtx->camEyeReady) {
-            // the frame number set here isn't important, it just signals that the camera data has been applied
             gCamAtAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
@@ -1666,13 +1662,13 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
-                at.x = csCtx->camAtPoints->pos.x;
-                at.y = csCtx->camAtPoints->pos.y;
-                at.z = csCtx->camAtPoints->pos.z;
+                at.x = csCtx->camAtPoints[0].pos.x;
+                at.y = csCtx->camAtPoints[0].pos.y;
+                at.z = csCtx->camAtPoints[0].pos.z;
 
-                eye.x = csCtx->camEyePoints->pos.x;
-                eye.y = csCtx->camEyePoints->pos.y;
-                eye.z = csCtx->camEyePoints->pos.z;
+                eye.x = csCtx->camEyePoints[0].pos.x;
+                eye.y = csCtx->camEyePoints[0].pos.y;
+                eye.z = csCtx->camEyePoints[0].pos.z;
 
                 Play_CameraSetAtEye(play, csCtx->subCamId, &at, &eye);
                 Play_CameraSetFov(play, csCtx->subCamId, csCtx->camEyePoints->viewAngle);
@@ -2130,11 +2126,11 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += CutsceneCmd_UpdateCamAtSpline(play, csCtx, (void*)script, true);
                 break;
 
-            case CS_CMD_CAM_EYE_NEW:
+            case CS_CMD_CAM_EYE:
                 script += CutsceneCmd_SetCamEye(play, csCtx, (void*)script, 0);
                 break;
 
-            case CS_CMD_CAM_AT_NEW:
+            case CS_CMD_CAM_AT:
                 script += CutsceneCmd_SetCamAt(play, csCtx, (void*)script, 0);
                 break;
 
