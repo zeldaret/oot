@@ -349,16 +349,14 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             Play_SetCameraRoll(play, subCamId, childCam->roll);
             break;
 
-        case 9601:
-            // Leaving a crawlspace forwards
+        case 9601: // Leaving a crawlspace forwards
             Play_ChangeCameraSetting(play, subCamId, CAM_SET_CS_3);
             Play_ChangeCameraSetting(play, CAM_ID_MAIN, mainCam->prevSetting);
             OnePointCutscene_SetCsCamPoints(subCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
                                             sCrawlspaceAtPoints, sCrawlspaceForwardsEyePoints);
             break;
 
-        case 9602:
-            // Leaving a crawlspace backwards
+        case 9602: // Leaving a crawlspace backwards
             Play_ChangeCameraSetting(play, subCamId, CAM_SET_CS_3);
             Play_ChangeCameraSetting(play, CAM_ID_MAIN, mainCam->prevSetting);
             OnePointCutscene_SetCsCamPoints(subCam, sCrawlspaceActionParam | 0x1000, sCrawlspaceTimer,
