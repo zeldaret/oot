@@ -29,7 +29,7 @@ typedef enum {
     /* 1 */ CS_STATE_START,
     /* 2 */ CS_STATE_RUN,
     /* 3 */ CS_STATE_STOP,
-    /* 4 */ CS_STATE_RUN_UNSKIPPABLE
+    /* 4 */ CS_STATE_RUN_UNSTOPPABLE
 } CutsceneState;
 
 typedef enum {

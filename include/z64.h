@@ -348,7 +348,7 @@ typedef struct {
     /* 0x10 */ u16 curFrame; // current frame of the script that is running
     /* 0x12 */ u16 unk_12; // set but never used
     /* 0x14 */ s32 subCamId;
-    /* 0x18 */ u16 camEyeSplinePointsAppliedFrame; // when set, indicates that the cam `eye` data was applied
+    /* 0x18 */ u16 camEyeSplinePointsAppliedFrame; // stores the frame the cam eye spline points data was last applied on
     /* 0x1A */ u8 camAtReady; // cam `at` data is ready to be applied
     /* 0x1B */ u8 camEyeReady; // cam `eye` data is ready to be applied
     /* 0x1C */ CutsceneCameraPoint* camAtPoints;

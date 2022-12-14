@@ -47,7 +47,7 @@ CutsceneHandler sManualCutsceneHandlers[] = {
     CutsceneHandler_StartManual, // CS_STATE_START
     CutsceneHandler_DoNothing,   // CS_STATE_RUN
     CutsceneHandler_StopManual,  // CS_STATE_STOP
-    CutsceneHandler_DoNothing,   // CS_STATE_RUN_UNSKIPPABLE
+    CutsceneHandler_DoNothing,   // CS_STATE_RUN_UNSTOPPABLE
 };
 
 CutsceneHandler sScriptedCutsceneHandlers[] = {
@@ -55,7 +55,7 @@ CutsceneHandler sScriptedCutsceneHandlers[] = {
     CutsceneHandler_StartScript, // CS_STATE_START
     CutsceneHandler_RunScript,   // CS_STATE_RUN
     CutsceneHandler_StopScript,  // CS_STATE_STOP
-    CutsceneHandler_RunScript,   // CS_STATE_RUN_UNSKIPPABLE
+    CutsceneHandler_RunScript,   // CS_STATE_RUN_UNSTOPPABLE
 };
 
 typedef enum {
@@ -114,14 +114,16 @@ void* sUnusedEntranceCsList[] = {
     gDekuTreeIntroCs, gJabuJabuIntroCs, gDcOpeningCs, gMinuetCs, gIceCavernSerenadeCs, gTowerBarrierCs,
 };
 
+// Stores the frame the relevant cam data was last applied on
 u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyePointAppliedFrame;
 u16 gCamAtPointAppliedFrame;
 
+// Cam ID to return to when a scripted cutscene is finished
 s16 sReturnToCamId;
 
 // Setting this to false will skip applying changes to the camera from the current cutscene script.
-// Its set to true in most normal situations, only changed to false for debugging.
+// It is set to true in most normal situations, only changed to false for debugging purposes.
 u8 gUseCutsceneCam;
 
 s16 sQuakeIndex;
@@ -159,7 +161,7 @@ void Cutscene_StartManual(PlayState* play, CutsceneContext* csCtx) {
 }
 
 void Cutscene_StopManual(PlayState* play, CutsceneContext* csCtx) {
-    if (csCtx->state != CS_STATE_RUN_UNSKIPPABLE) {
+    if (csCtx->state != CS_STATE_RUN_UNSTOPPABLE) {
         csCtx->state = CS_STATE_STOP;
     }
 }
@@ -323,7 +325,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 
         case CS_MISC_STOP_CUTSCENE:
             if (isFirstFrame) {
-                if (csCtx->state != CS_STATE_RUN_UNSKIPPABLE) {
+                if (csCtx->state != CS_STATE_RUN_UNSTOPPABLE) {
                     csCtx->state = CS_STATE_STOP;
                 }
             }
@@ -560,7 +562,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
     if ((csCtx->curFrame == cmd->frame) || titleDemoSkipped ||
         ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
-        csCtx->state = CS_STATE_RUN_UNSKIPPABLE;
+        csCtx->state = CS_STATE_RUN_UNSTOPPABLE;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
 
@@ -1770,7 +1772,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
     MemCpy(&cutsceneEndFrame, script, sizeof(cutsceneEndFrame));
     script += sizeof(cutsceneEndFrame);
 
-    if ((cutsceneEndFrame < csCtx->curFrame) && (csCtx->state != CS_STATE_RUN_UNSKIPPABLE)) {
+    if ((cutsceneEndFrame < csCtx->curFrame) && (csCtx->state != CS_STATE_RUN_UNSTOPPABLE)) {
         csCtx->state = CS_STATE_STOP;
         return;
     }
@@ -2301,7 +2303,7 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
     }
 }
 
-u16 D_8015FCCC;      // only written to, never read
+u16 D_8015FCCC;
 char D_8015FCD0[20]; // unreferenced
 u8 D_8015FCE4;       // only written to, never read
 

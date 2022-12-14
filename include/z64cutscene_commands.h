@@ -54,6 +54,7 @@
 /**
  * Declares a single `eye` point that will be set on the specified frame, without any interpolation.
  * Should only contain a single point, not a list.
+ * This feature is not used in the final game and lacks polish, it is recommended to use splines in all cases.
  */
 #define CS_CAM_EYE(unk, startFrame, endFrame, unused) \
     CS_CMD_CAM_EYE, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
@@ -61,6 +62,7 @@
 /**
  * Declares a single `at` point that will be set on the specified frame, without any interpolation.
  * Should only contain a single point, not a list.
+ * This feature is not used in the final game and lacks polish, it is recommended to use splines in all cases.
  */
 #define CS_CAM_AT(unk, startFrame, endFrame, unused) \
     CS_CMD_CAM_AT, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
