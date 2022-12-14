@@ -148,7 +148,7 @@ void Cutscene_DrawDebugInfo(PlayState* play, Gfx** dlist, CutsceneContext* csCtx
     GfxPrint_Destroy(&printer);
 }
 
-void Cutscene_Init(PlayState* play, CutsceneContext* csCtx) {
+void Cutscene_InitContext(PlayState* play, CutsceneContext* csCtx) {
     csCtx->state = CS_STATE_IDLE;
     csCtx->timer = 0.0f;
 }

@@ -770,7 +770,7 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
                                         f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha, s16 type,
                                         GraphicsContext* gfxCtx);
 void DebugDisplay_DrawObjects(PlayState* play);
-void Cutscene_Init(PlayState* play, CutsceneContext* csCtx);
+void Cutscene_InitContext(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_StartManual(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_StopManual(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_UpdateManual(PlayState* play, CutsceneContext* csCtx);
