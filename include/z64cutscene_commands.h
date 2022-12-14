@@ -74,6 +74,8 @@
 /**
  * Various miscellaneous commands.
  * @see `CutsceneMiscCommand` enum for the different types of commands.
+ * @note setting `endFrame` to same value as `startFrame` will not behave as expected.
+ * For commands that only need to last one frame, set `endFrame` to `startFrame + 1`.
  */
 #define CS_MISC(cmd, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
     CMD_HH(cmd, startFrame), CMD_HH(endFrame, unused0), \
