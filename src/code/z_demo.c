@@ -118,7 +118,7 @@ u16 gCamAtSplinePointsAppliedFrame;
 u16 gCamEyeAppliedFrame;
 u16 gCamAtAppliedFrame;
 
-s16 sPrevCamId;
+s16 sReturnToCamId;
 
 // Setting this to false will skip applying changes to the camera from the current cutscene script.
 // Its set to true in most normal situations, only changed to false for debugging.
@@ -1517,7 +1517,8 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
     size = sizeof(CsCmdGeneric);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
-        ((csCtx->camEyeSplinePointsAppliedFrame < cmd->startFrame) || (csCtx->camEyeSplinePointsAppliedFrame >= 0xF000))) {
+        ((csCtx->camEyeSplinePointsAppliedFrame < cmd->startFrame) ||
+         (csCtx->camEyeSplinePointsAppliedFrame >= 0xF000))) {
         csCtx->camEyeReady = true;
         csCtx->camEyePoints = (CutsceneCameraPoint*)script;
 
@@ -1527,7 +1528,7 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
 
             if (gUseCutsceneCam) {
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
-                Play_ChangeCameraStatus(play, sPrevCamId, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
                 Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camAtPoints, csCtx->camEyePoints,
@@ -1567,7 +1568,7 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
 
             if (gUseCutsceneCam) {
                 Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
-                Play_ChangeCameraStatus(play, sPrevCamId, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
                 Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->camAtPoints, csCtx->camEyePoints,
@@ -2237,12 +2238,12 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
                 case ENTR_HYRULE_FIELD_12:
                 case ENTR_HYRULE_FIELD_13:
                 case ENTR_HYRULE_FIELD_15:
-                    Play_CopyCamera(play, sPrevCamId, csCtx->subCamId);
+                    Play_CopyCamera(play, sReturnToCamId, csCtx->subCamId);
             }
 
-            Play_ChangeCameraStatus(play, sPrevCamId, CAM_STAT_ACTIVE);
+            Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_ACTIVE);
             Play_ClearCamera(play, csCtx->subCamId);
-            func_8005B1A4(play->cameraPtrs[sPrevCamId]);
+            func_8005B1A4(play->cameraPtrs[sReturnToCamId]);
         }
 
         Audio_SetCutsceneFlag(0);
@@ -2284,7 +2285,7 @@ void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx) {
             csCtx->camAtReady = false;
             csCtx->camEyeReady = false;
 
-            sPrevCamId = play->activeCamId;
+            sReturnToCamId = play->activeCamId;
 
             if (gUseCutsceneCam) {
                 csCtx->subCamId = Play_CreateSubCamera(play);
