@@ -465,7 +465,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             CutsceneFlags_Set(play, 4);
             break;
 
-        case CS_MISC_SANDSTORM:
+        case CS_MISC_SANDSTORM_FILL:
             if (isFirstFrame) {
                 play->envCtx.sandstormState = SANDSTORM_FILL;
             }
@@ -586,7 +586,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
 
-            case CS_DEST_CUTSCENE_MAP_THREE_GODESSES:
+            case CS_DEST_CUTSCENE_MAP_THREE_GODDESSES:
                 play->nextEntranceIndex = ENTR_CUTSCENE_MAP_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
@@ -745,7 +745,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
 
-            case CS_DEST_CUTSCENE_MAP_GANONDORF_DEFEATED:
+            case CS_DEST_CUTSCENE_MAP_GANONDORF_DEFEATED_CREDITS:
                 play->nextEntranceIndex = ENTR_CUTSCENE_MAP_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF8;
@@ -919,7 +919,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 play->transitionType = TRANS_TYPE_FADE_WHITE_INSTANT;
                 break;
 
-            case CS_DEST_HYRULE_FIELD_IMPA_ESCORT:
+            case CS_DEST_HYRULE_FIELD_FROM_ZELDAS_COURTYARD:
                 play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
                 gSaveContext.cutsceneIndex = 0xFFF8;
                 play->transitionTrigger = TRANS_TRIGGER_START;
@@ -1020,7 +1020,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
 
-            case CS_DEST_LON_LON_RANCH_CREDITS_ALT:
+            case CS_DEST_LON_LON_RANCH_CREDITS_PART_1_ALT:
                 play->linkAgeOnLoad = LINK_AGE_CHILD;
                 play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
@@ -1155,11 +1155,11 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_STONES_RESTORED_CONDITIONAL:
-                // At one point in development, Forest, Fire and Water temple blocked your ability to return to child.
+                // At one point in development, Forest, Fire and Water temple blocked the ability to return to child.
                 // Completing each dungeon would "restore" their respective stone, with the Door of Time opening after
-                // all 3 are restored. This cutscene destination sends you to the correct blue warp destination, unless
-                // all 3 dungeons have been cleared. In that case, the destination is the Temple of Time which plays a
-                // cutscene where the door opens.
+                // all 3 are restored. This cutscene destination sends the player to the correct blue warp destination,
+                // unless all 3 dungeons have been cleared. In that case, the destination is the Temple of Time which
+                // plays a cutscene where the door opens.
                 if (GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
                     GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                     play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_0;
@@ -1190,7 +1190,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 }
                 break;
 
-            case CS_DEST_DESERT_COLOSSUS_FROM_BLUE_WARP:
+            case CS_DEST_DESERT_COLOSSUS_FROM_CHAMBER_OF_SAGES:
                 if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
                     play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -1205,7 +1205,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 }
                 break;
 
-            case CS_DEST_GRAVEYARD_FROM_BLUE_WARP:
+            case CS_DEST_GRAVEYARD_FROM_CHAMBER_OF_SAGES:
                 if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                     play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -1219,21 +1219,21 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 }
                 break;
 
-            case CS_DEST_DEATH_MOUNTAIN_CRATER_FROM_BLUE_WARP:
+            case CS_DEST_DEATH_MOUNTAIN_CRATER_FROM_CHAMBER_OF_SAGES:
                 play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_CRATER_5;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_WHITE;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 break;
 
-            case CS_DEST_SACRED_FOREST_MEADOW_FROM_BLUE_WARP:
+            case CS_DEST_SACRED_FOREST_MEADOW_WARP_PAD:
                 play->nextEntranceIndex = ENTR_SACRED_FOREST_MEADOW_3;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
 
-            case CS_DEST_KOKIRI_FOREST_FROM_BLUE_WARP:
+            case CS_DEST_KOKIRI_FOREST_FROM_CHAMBER_OF_SAGES:
                 play->nextEntranceIndex = ENTR_KOKIRI_FOREST_0;
                 gSaveContext.cutsceneIndex = 0xFFF8;
                 play->transitionTrigger = TRANS_TRIGGER_START;
@@ -1352,7 +1352,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 }
                 break;
 
-            case CS_DEST_HYRULE_FIELD:
+            case CS_DEST_HYRULE_FIELD_FROM_FAIRY_OCARINA:
                 play->nextEntranceIndex = ENTR_HYRULE_FIELD_3;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_BLACK;
@@ -1365,7 +1365,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
 
-            case CS_DEST_FROM_RARU_CONDITIONAL:
+            case CS_DEST_FROM_RAURU_FINAL_MESSAGE_CONDITIONAL:
                 if (GET_EVENTCHKINF(EVENTCHKINF_C8)) {
                     play->nextEntranceIndex = ENTR_GRAVEYARD_8;
                     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -1501,7 +1501,7 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
                 gSaveContext.cutsceneTransitionControl = 255.0f - (155.0f * lerp);
                 break;
 
-            case CS_TRANS_BLACK_HALF_UNFILL:
+            case CS_TRANS_BLACK_FILL_FROM_HALF:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;
