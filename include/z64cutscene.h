@@ -365,101 +365,127 @@ typedef struct {
     /* 0x06 */ u8 unused_06[0x2];
 } CsCmdGeneric; // size = 0x8
 
-typedef struct {
-    /* 0x00 */ u16 type;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
+typedef union {
+    struct {
+        /* 0x00 */ u16 type;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame;
+    };
+    s32 _words[12];
 } CsCmdMisc; // size = 0x30
 
-typedef struct {
-    /* 0x00 */ u8 unused_00[0x1];
-    /* 0x01 */ u8 settingPlusOne;
-    /* 0x02 */ u16 frame;
-    /* 0x04 */ u8 unused_04[0x2C];
+typedef union {
+    struct {
+        /* 0x00 */ u8 unused_00[0x1];
+        /* 0x01 */ u8 settingPlusOne;
+        /* 0x02 */ u16 frame;
+    };
+    s32 _words[12];
 } CsCmdLightSetting; // size = 0x30
 
-typedef struct {
-    /* 0x00 */ u8 unused_00[0x1];
-    /* 0x01 */ u8 seqIdPlusOne;
-    /* 0x02 */ u16 frame;
-    /* 0x04 */ u8 unused_04[0x2C];
+typedef union {
+    struct {
+        /* 0x00 */ u8 unused_00[0x1];
+        /* 0x01 */ u8 seqIdPlusOne;
+        /* 0x02 */ u16 frame;
+    };
+    s32 _words[12];
 } CsCmdStartSeq; // size = 0x30
 
-typedef struct {
-    /* 0x00 */ u8 unused_00[0x1];
-    /* 0x01 */ u8 seqIdPlusOne;
-    /* 0x02 */ u16 frame;
-    /* 0x04 */ u8 unused_04[0x2C];
+typedef union {
+    struct {
+        /* 0x00 */ u8 unused_00[0x1];
+        /* 0x01 */ u8 seqIdPlusOne;
+        /* 0x02 */ u16 frame;
+    };
+    s32 _words[12];
 } CsCmdStopSeq; // size = 0x30
 
-typedef struct {
-    /* 0x00 */ u16 seqPlayer;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2A];
+typedef union {
+    struct {
+        /* 0x00 */ u16 seqPlayer;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame;
+    };
+    s32 _words[12];
 } CsCmdFadeOutSeq; // size = 0x30
 
-typedef struct {
-    /* 0x00 */ u8 unused_00[0x2];
-    /* 0x02 */ u16 frame;
-    /* 0x04 */ u8 unused_04[0x2];
-    /* 0x06 */ u8  sourceStrength;
-    /* 0x07 */ u8  duration;
-    /* 0x08 */ u8  decreaseRate;
-    /* 0x0A */ u8 unused_0A[0x2];
+typedef union {
+    struct {
+        /* 0x00 */ u8 unused_00[0x2];
+        /* 0x02 */ u16 frame;
+        /* 0x04 */ u8 unused_04[0x2];
+        /* 0x06 */ u8  sourceStrength;
+        /* 0x07 */ u8  duration;
+        /* 0x08 */ u8  decreaseRate;
+    };
+    s32 _words[3];
 } CsCmdRumble; // size = 0xC
 
-typedef struct {
-    /* 0x00 */ u8 unused_00[0x2];
-    /* 0x02 */ u16 frame;
-    /* 0x04 */ u8 unused_04[0x2];
-    /* 0x06 */ u8  hour;
-    /* 0x07 */ u8  minute;
-    /* 0x08 */ u8 unused_08[0x4];
+typedef union {
+    struct {
+        /* 0x00 */ u8 unused_00[0x2];
+        /* 0x02 */ u16 frame;
+        /* 0x04 */ u8 unused_04[0x2];
+        /* 0x06 */ u8  hour;
+        /* 0x07 */ u8  minute;
+    };
+    s32 _words[3];
 } CsCmdTime; // size = 0xC
 
-typedef struct {
-    /* 0x00 */ u16 destination;
-    /* 0x02 */ u16 frame;
-    /* 0x04 */ u8 unused_04[0x4];
+typedef union {
+    struct {
+        /* 0x00 */ u16 destination;
+        /* 0x02 */ u16 frame;
+    };
+    s32 _words[2];
 } CsCmdDestination; // size = 0x8
 
-typedef struct {
-    /* 0x00 */ u16 textId; // can also be an ocarina action for `CS_TEXT_OCARINA_ACTION`
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u16 type;
-    /* 0x08 */ u16 altTextId1;
-    /* 0x0A */ u16 altTextId2;
+typedef union {
+    struct {
+        /* 0x00 */ u16 textId; // can also be an ocarina action for `CS_TEXT_OCARINA_ACTION`
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame;
+        /* 0x06 */ u16 type;
+        /* 0x08 */ u16 altTextId1;
+        /* 0x0A */ u16 altTextId2;
+    };
+    s32 _words[3];
 } CsCmdText; // size = 0xC
 
 #define CS_TEXT_ID_NONE 0xFFFF
 
-typedef struct {
-    /* 0x00 */ u16 type;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2];
+typedef union {
+    struct {
+        /* 0x00 */ u16 type;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame;
+    };
+    s32 _words[2];
 } CsCmdTransition; // size = 0x8
 
-typedef struct {
-    /* 0x00 */ u16 id; // "dousa"
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ Vec3us rot;
-    /* 0x0C */ Vec3i startPos;
-    /* 0x18 */ Vec3i endPos;
-    /* 0x24 */ u8 unused_24[0xC];
+typedef union {
+    struct {
+        /* 0x00 */ u16 id; // "dousa"
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame;
+        /* 0x06 */ Vec3us rot;
+        /* 0x0C */ Vec3i startPos;
+        /* 0x18 */ Vec3i endPos;
+    };
+    s32 _words[12];
 } CsCmdActorCue; // size = 0x30
 
-typedef struct {
-    /* 0x00 */ s8 continueFlag;
-    /* 0x01 */ s8 cameraRoll;
-    /* 0x02 */ u16 nextPointFrame;
-    /* 0x04 */ f32 viewAngle; // in degrees
-    /* 0x08 */ Vec3s pos;
-    /* 0x0E */ u8 unused_0E[0x2];
+
+typedef union {
+    struct {
+        /* 0x00 */ s8 continueFlag;
+        /* 0x01 */ s8 cameraRoll;
+        /* 0x02 */ u16 nextPointFrame;
+        /* 0x04 */ f32 viewAngle; // in degrees
+        /* 0x08 */ Vec3s pos;
+    };
+    s32 _words[4];
 } CutsceneCameraPoint; // size = 0x10
 
 #define CS_CAM_DATA_NOT_APPLIED 0xFFFF
