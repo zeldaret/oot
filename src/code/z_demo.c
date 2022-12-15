@@ -1764,16 +1764,16 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
     s32 cmdType;
     s32 cmdEntries;
     CsCmdGeneric* cmd;
-    s32 cutsceneEndFrame;
+    s32 csFrameCount;
     s16 j;
 
     MemCpy(&totalEntries, script, sizeof(totalEntries));
     script += sizeof(totalEntries);
 
-    MemCpy(&cutsceneEndFrame, script, sizeof(cutsceneEndFrame));
-    script += sizeof(cutsceneEndFrame);
+    MemCpy(&csFrameCount, script, sizeof(csFrameCount));
+    script += sizeof(csFrameCount);
 
-    if ((csCtx->curFrame > cutsceneEndFrame) && (csCtx->state != CS_STATE_RUN_UNSTOPPABLE)) {
+    if ((csCtx->curFrame > csFrameCount) && (csCtx->state != CS_STATE_RUN_UNSTOPPABLE)) {
         csCtx->state = CS_STATE_STOP;
         return;
     }

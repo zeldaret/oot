@@ -13,7 +13,7 @@
 /**
  * Marks the beginning of a cutscene script.
  */
-#define CS_BEGIN_CUTSCENE(totalEntries, duration) CMD_W(totalEntries), CMD_W(duration)
+#define CS_BEGIN_CUTSCENE(totalEntries, frameCount) CMD_W(totalEntries), CMD_W(frameCount)
 
 /**
  * Defines data for `CutsceneCameraPoint`, which can be used with any of the `eye` or `at` camera commands.
