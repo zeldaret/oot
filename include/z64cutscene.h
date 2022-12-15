@@ -167,21 +167,18 @@ typedef enum {
 #define CS_CMD_CONTINUE 0
 #define CS_CMD_STOP -1
 
-// // TODO: fix ZAPD to use new names and delete these:
-#define CS_CMD_SETTIME CS_CMD_TIME
-
 typedef enum {
     /* 0x00 */ CS_MISC_UNIMPLEMENTED_0,
     /* 0x01 */ CS_MISC_RAIN,
     /* 0x02 */ CS_MISC_LIGHTNING,
-    /* 0x03 */ CS_MISC_SET_FLAG_0, // also sets flag 2 if in Temple of Time
+    /* 0x03 */ CS_MISC_SET_CSFLAG_0, // also sets flag 2 if in Temple of Time
     /* 0x04 */ CS_MISC_UNIMPLEMENTED_4,
     /* 0x05 */ CS_MISC_UNIMPLEMENTED_5,
     /* 0x06 */ CS_MISC_LIFT_FOG,
     /* 0x07 */ CS_MISC_CLOUDY_SKY,
     /* 0x08 */ CS_MISC_FADE_KOKIRI_GRASS_ENV_ALPHA,
     /* 0x09 */ CS_MISC_SNOW,
-    /* 0x0A */ CS_MISC_SET_FLAG_1,
+    /* 0x0A */ CS_MISC_SET_CSFLAG_1,
     /* 0x0B */ CS_MISC_DEKU_TREE_DEATH,
     /* 0x0C */ CS_MISC_STOP_CUTSCENE,
     /* 0x0D */ CS_MISC_TRIFORCE_FLASH,
@@ -201,8 +198,8 @@ typedef enum {
     /* 0x1B */ CS_MISC_RED_PULSATING_LIGHTS,
     /* 0x1C */ CS_MISC_HALT_ALL_ACTORS,
     /* 0x1D */ CS_MISC_RESUME_ALL_ACTORS,
-    /* 0x1E */ CS_MISC_SET_FLAG_3,
-    /* 0x1F */ CS_MISC_SET_FLAG_4,
+    /* 0x1E */ CS_MISC_SET_CSFLAG_3,
+    /* 0x1F */ CS_MISC_SET_CSFLAG_4,
     /* 0x20 */ CS_MISC_SANDSTORM,
     /* 0x21 */ CS_MISC_SUNSSONG_START,
     /* 0x22 */ CS_MISC_FREEZE_TIME,
@@ -225,15 +222,15 @@ typedef enum {
 typedef enum {
     /* 0x01 */ CS_TRANS_GRAY_FILL = 1, // has hardcoded sounds for some scenes
     /* 0x02 */ CS_TRANS_BLUE_FILL,
-    /* 0x03 */ CS_TRANS_RED_FILL,
-    /* 0x04 */ CS_TRANS_GREEN_FILL,
+    /* 0x03 */ CS_TRANS_RED_UNFILL,
+    /* 0x04 */ CS_TRANS_GREEN_UNFILL,
     /* 0x05 */ CS_TRANS_GRAY_UNFILL,
     /* 0x06 */ CS_TRANS_BLUE_UNFILL,
-    /* 0x07 */ CS_TRANS_RED_UNFILL,
-    /* 0x08 */ CS_TRANS_GREEN_UNFILL,
+    /* 0x07 */ CS_TRANS_RED_FILL,
+    /* 0x08 */ CS_TRANS_GREEN_FILL,
     /* 0x09 */ CS_TRANS_TRIGGER_INSTANCE, // used with `TRANS_MODE_INSTANCE_WAIT`
-    /* 0x0A */ CS_TRANS_BLACK_FILL,
-    /* 0x0B */ CS_TRANS_BLACK_UNFILL,
+    /* 0x0A */ CS_TRANS_BLACK_UNFILL,
+    /* 0x0B */ CS_TRANS_BLACK_FILL,
     /* 0x0C */ CS_TRANS_BLACK_HALF_FILL, // used with `TRANS_MODE_CS_BLACK_FILL`
     /* 0x0D */ CS_TRANS_BLACK_HALF_UNFILL
 } CutsceneTransitionType;
@@ -405,8 +402,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 unused_00[0x2];
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
+    /* 0x02 */ u16 frame;
+    /* 0x04 */ u8 unused_04[0x2];
     /* 0x06 */ u8  sourceStrength;
     /* 0x07 */ u8  duration;
     /* 0x08 */ u8  decreaseRate;

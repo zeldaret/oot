@@ -11,7 +11,7 @@
 #endif
 
 /**
- * Marks the beginning of a cutscene.
+ * Marks the beginning of a cutscene script.
  */
 #define CS_BEGIN_CUTSCENE(totalEntries, duration) CMD_W(totalEntries), CMD_W(duration)
 
@@ -38,7 +38,7 @@
 /**
  * Declares a list of camera `eye` points that form a spline.
  * The points of the spline are interpolated over time to create smooth camera movements.
- * The camera is moved relative to player.
+ * The points are relative to the player's position and yaw.
  */
 #define CS_CAM_EYE_SPLINE_REL_TO_PLAYER(startFrame, endFrame) \
     CS_CMD_CAM_EYE_SPLINE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
@@ -46,7 +46,7 @@
 /**
  * Declares a list of camera `at` points that form a spline.
  * The points of the spline are interpolated over time to create smooth camera movements.
- * The camera is moved relative to player.
+ * The points are relative to the player's position and yaw.
  */
 #define CS_CAM_AT_SPLINE_REL_TO_PLAYER(startFrame, endFrame) \
     CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
@@ -56,16 +56,16 @@
  * Should only contain a single point, not a list.
  * This feature is not used in the final game and lacks polish, it is recommended to use splines in all cases.
  */
-#define CS_CAM_EYE(unk, startFrame, endFrame, unused) \
-    CS_CMD_CAM_EYE, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
+#define CS_CAM_EYE(unused0, startFrame, endFrame, unused1) \
+    CS_CMD_CAM_EYE, CMD_HH(unused0, startFrame), CMD_HH(endFrame, unused1)
 
 /**
  * Declares a single `at` point that will be set on the specified frame, without any interpolation.
  * Should only contain a single point, not a list.
  * This feature is not used in the final game and lacks polish, it is recommended to use splines in all cases.
  */
-#define CS_CAM_AT(unk, startFrame, endFrame, unused) \
-    CS_CMD_CAM_AT, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
+#define CS_CAM_AT(unused0, startFrame, endFrame, unused1) \
+    CS_CMD_CAM_AT, CMD_HH(unused0, startFrame), CMD_HH(endFrame, unused)
 
 /**
  * Declares a list of `CS_MISC` entries.
@@ -105,8 +105,8 @@
 #define CS_RUMBLE_CONTROLLER_LIST(entries) \
     CS_CMD_RUMBLE_CONTROLLER, CMD_W(entries)
 
-#define CS_RUMBLE_CONTROLLER(unk, startFrame, endFrame, sourceStrength, duration, decreaseRate, unused0, unused1) \
-    CMD_HH(unk, startFrame), CMD_HBB(endFrame, sourceStrength, duration), CMD_BBH(decreaseRate, unused0, unused1)
+#define CS_RUMBLE_CONTROLLER(unused0, frame, unused1, sourceStrength, duration, decreaseRate, unused2, unused3) \
+    CMD_HH(unused0, frame), CMD_HBB(unused1, sourceStrength, duration), CMD_BBH(decreaseRate, unused2, unused3)
 
 /**
  * Declares a list of `CS_ACTOR_CUE` entries.
@@ -159,7 +159,7 @@
 
 /**
  * Controls various types of screen transitions.
- * @see `CutsceneTransitionTypes` for type options.
+ * @see `CutsceneTransitionType` for type options.
  */
 #define CS_TRANSITION(type, startFrame, endFrame) \
     CS_CMD_TRANSITION, 0x00000001, CMD_HH(type, startFrame), CMD_HH(endFrame, endFrame)
@@ -172,7 +172,6 @@
 
 /**
  * Starts a sequence at the specified time.
- * @note The sequence ID is subtracted by 1 before being used. Add +1 to the desired sequence ID when passing it in.
  */
 #define CS_START_SEQ(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
     CMD_HH((seqId + 1), frame), CMD_HH(unused0, unused1), \
@@ -187,7 +186,6 @@
 
 /**
  * Stops a sequence at the specified time.
- * @note The sequence ID is subtracted by 1 before being used. Add +1 to the desired sequence ID when passing it in.
  */
 #define CS_STOP_SEQ(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
     CMD_HH((seqId + 1), frame), CMD_HH(unused0, unused1), \
@@ -201,7 +199,8 @@
     CS_CMD_FADE_OUT_SEQ, CMD_W(entries)
 
 /**
- * Fades a sequence out over the specified duration.
+ * Fade out the sequence that is playing on the specified sequence player, over the specified frame range.
+ * @see `CutsceneFadeOutSeqPlayer`
  */
 #define CS_FADE_OUT_SEQ(seqPlayer, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(seqPlayer, startFrame), CMD_HH(endFrame, unused0), \
@@ -212,28 +211,30 @@
  * Declares a list of `CS_TIME` entries.
  */
 #define CS_TIME_LIST(entries) \
-    CS_CMD_SETTIME, CMD_W(entries)
+    CS_CMD_TIME, CMD_W(entries)
 
 /**
  * Sets the time of day.
  * Both the day time and skybox time are set by this command.
  */
-#define CS_TIME(unk, frame, unused0, hour, min, unused1) \
-    CMD_HH(unk, frame), \
-    CMD_HBB(unused0, hour, min), \
-    CMD_W(unused1)
+#define CS_TIME(unused0, frame, unused1, hour, min, unused2) \
+    CMD_HH(unused0, frame), \
+    CMD_HBB(unused1, hour, min), \
+    CMD_W(unused2)
 
 /**
  * Sends the player to a new destination. 
- * `destination` maps to a custom block of code that must implement the scene transitioning on its own.
+ * `destination` maps to a custom block of code that must implement the scene transition on its own.
  * This custom code can also do other tasks like changing age, setting flags, or any other setup that is needed
  * before going to the next destination.
+ * 
+ * @see `CutsceneDestination`
  */
 #define CS_DESTINATION(destination, frame, unused) \
     CS_CMD_DESTINATION, 1, CMD_HH(destination, frame), CMD_HH(unused, unused)
 
 /**
- * Marks the end of a cutscene.
+ * Marks the end of a cutscene script.
  */
 #define CS_END() 0xFFFFFFFF, 0x00000000
 

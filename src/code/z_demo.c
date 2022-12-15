@@ -265,7 +265,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             }
             break;
 
-        case CS_MISC_SET_FLAG_0:
+        case CS_MISC_SET_CSFLAG_0:
             if (isFirstFrame) {
                 CutsceneFlags_Set(play, 0);
 
@@ -307,7 +307,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             play->envCtx.precipitation[PRECIP_SNOW_MAX] = 16;
             break;
 
-        case CS_MISC_SET_FLAG_1:
+        case CS_MISC_SET_CSFLAG_1:
             CutsceneFlags_Set(play, 1);
             break;
 
@@ -457,11 +457,11 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             play->haltAllActors = false;
             break;
 
-        case CS_MISC_SET_FLAG_3:
+        case CS_MISC_SET_CSFLAG_3:
             CutsceneFlags_Set(play, 3);
             break;
 
-        case CS_MISC_SET_FLAG_4:
+        case CS_MISC_SET_CSFLAG_4:
             CutsceneFlags_Set(play, 4);
             break;
 
@@ -481,6 +481,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             if (IS_DAY) {
                 gSaveContext.dayTime -= gTimeSpeed;
             } else {
+                // doubled to compensate for time moving twice as fast at night
                 gSaveContext.dayTime -= gTimeSpeed * 2;
             }
             break;
@@ -526,7 +527,7 @@ void CutsceneCmd_FadeOutSequence(PlayState* play, CutsceneContext* csCtx, CsCmdF
 }
 
 void CutsceneCmd_RumbleController(PlayState* play, CutsceneContext* csCtx, CsCmdRumble* cmd) {
-    if (csCtx->curFrame == cmd->startFrame) {
+    if (csCtx->curFrame == cmd->frame) {
         Rumble_Request(0.0f, cmd->sourceStrength, cmd->duration, cmd->decreaseRate);
     }
 }
@@ -1453,26 +1454,26 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
                 }
                 break;
 
-            case CS_TRANS_RED_FILL:
             case CS_TRANS_RED_UNFILL:
+            case CS_TRANS_RED_FILL:
                 play->envCtx.screenFillColor[0] = 255;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->type == CS_TRANS_RED_FILL) {
+                if (cmd->type == CS_TRANS_RED_UNFILL) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
                 }
                 break;
 
-            case CS_TRANS_GREEN_FILL:
             case CS_TRANS_GREEN_UNFILL:
+            case CS_TRANS_GREEN_FILL:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 255;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->type == CS_TRANS_GREEN_FILL) {
+                if (cmd->type == CS_TRANS_GREEN_UNFILL) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
@@ -1483,13 +1484,13 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
                 gSaveContext.cutsceneTransitionControl = 1;
                 break;
 
-            case CS_TRANS_BLACK_FILL:
             case CS_TRANS_BLACK_UNFILL:
+            case CS_TRANS_BLACK_FILL:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->type == CS_TRANS_BLACK_FILL) {
+                if (cmd->type == CS_TRANS_BLACK_UNFILL) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
@@ -1772,7 +1773,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
     MemCpy(&cutsceneEndFrame, script, sizeof(cutsceneEndFrame));
     script += sizeof(cutsceneEndFrame);
 
-    if ((cutsceneEndFrame < csCtx->curFrame) && (csCtx->state != CS_STATE_RUN_UNSTOPPABLE)) {
+    if ((csCtx->curFrame > cutsceneEndFrame) && (csCtx->state != CS_STATE_RUN_UNSTOPPABLE)) {
         csCtx->state = CS_STATE_STOP;
         return;
     }
