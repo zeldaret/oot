@@ -237,8 +237,8 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
     f32 lerp;
     u8 isFirstFrame = false;
 
-    if ((csCtx->curFrame < cmd->startFrame) ||
-        ((csCtx->curFrame >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))) {
+    if (!((csCtx->curFrame >= cmd->startFrame) &&
+          ((csCtx->curFrame < cmd->endFrame) || (cmd->endFrame == cmd->startFrame)))) {
         return;
     }
 
