@@ -1415,13 +1415,13 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
         lerp = Environment_LerpWeight(cmd->endFrame, cmd->startFrame, csCtx->curFrame);
 
         switch (cmd->type) {
-            case CS_TRANS_GRAY_FILL:
-            case CS_TRANS_GRAY_UNFILL:
+            case CS_TRANS_GRAY_FILL_IN:
+            case CS_TRANS_GRAY_FILL_OUT:
                 play->envCtx.screenFillColor[0] = 160;
                 play->envCtx.screenFillColor[1] = 160;
                 play->envCtx.screenFillColor[2] = 160;
 
-                if (cmd->type == CS_TRANS_GRAY_FILL) {
+                if (cmd->type == CS_TRANS_GRAY_FILL_IN) {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
 
                     if ((lerp == 0.0f) && (gSaveContext.entranceIndex == ENTR_CHAMBER_OF_THE_SAGES_0)) {
@@ -1441,39 +1441,39 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
                 }
                 break;
 
-            case CS_TRANS_BLUE_FILL:
-            case CS_TRANS_BLUE_UNFILL:
+            case CS_TRANS_BLUE_FILL_IN:
+            case CS_TRANS_BLUE_FILL_OUT:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 255;
 
-                if (cmd->type == CS_TRANS_BLUE_FILL) {
+                if (cmd->type == CS_TRANS_BLUE_FILL_IN) {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
                 } else {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 }
                 break;
 
-            case CS_TRANS_RED_UNFILL:
-            case CS_TRANS_RED_FILL:
+            case CS_TRANS_RED_FILL_OUT:
+            case CS_TRANS_RED_FILL_IN:
                 play->envCtx.screenFillColor[0] = 255;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->type == CS_TRANS_RED_UNFILL) {
+                if (cmd->type == CS_TRANS_RED_FILL_OUT) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
                 }
                 break;
 
-            case CS_TRANS_GREEN_UNFILL:
-            case CS_TRANS_GREEN_FILL:
+            case CS_TRANS_GREEN_FILL_OUT:
+            case CS_TRANS_GREEN_FILL_IN:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 255;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->type == CS_TRANS_GREEN_UNFILL) {
+                if (cmd->type == CS_TRANS_GREEN_FILL_OUT) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
@@ -1484,24 +1484,24 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
                 gSaveContext.cutsceneTransitionControl = 1;
                 break;
 
-            case CS_TRANS_BLACK_UNFILL:
-            case CS_TRANS_BLACK_FILL:
+            case CS_TRANS_BLACK_FILL_OUT:
+            case CS_TRANS_BLACK_FILL_IN:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;
 
-                if (cmd->type == CS_TRANS_BLACK_UNFILL) {
+                if (cmd->type == CS_TRANS_BLACK_FILL_OUT) {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;
                 } else {
                     play->envCtx.screenFillColor[3] = 255.0f * lerp;
                 }
                 break;
 
-            case CS_TRANS_BLACK_HALF_FILL:
+            case CS_TRANS_BLACK_FILL_OUT_TO_HALF:
                 gSaveContext.cutsceneTransitionControl = 255.0f - (155.0f * lerp);
                 break;
 
-            case CS_TRANS_BLACK_FILL_FROM_HALF:
+            case CS_TRANS_BLACK_FILL_IN_FROM_HALF:
                 play->envCtx.screenFillColor[0] = 0;
                 play->envCtx.screenFillColor[1] = 0;
                 play->envCtx.screenFillColor[2] = 0;

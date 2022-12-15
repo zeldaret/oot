@@ -220,19 +220,19 @@ typedef enum {
 } CutsceneFadeOutSeqPlayer;
 
 typedef enum {
-    /* 0x01 */ CS_TRANS_GRAY_FILL = 1, // has hardcoded sounds for some scenes
-    /* 0x02 */ CS_TRANS_BLUE_FILL,
-    /* 0x03 */ CS_TRANS_RED_UNFILL,
-    /* 0x04 */ CS_TRANS_GREEN_UNFILL,
-    /* 0x05 */ CS_TRANS_GRAY_UNFILL,
-    /* 0x06 */ CS_TRANS_BLUE_UNFILL,
-    /* 0x07 */ CS_TRANS_RED_FILL,
-    /* 0x08 */ CS_TRANS_GREEN_FILL,
+    /* 0x01 */ CS_TRANS_GRAY_FILL_IN = 1, // has hardcoded sounds for some scenes
+    /* 0x02 */ CS_TRANS_BLUE_FILL_IN,
+    /* 0x03 */ CS_TRANS_RED_FILL_OUT,
+    /* 0x04 */ CS_TRANS_GREEN_FILL_OUT,
+    /* 0x05 */ CS_TRANS_GRAY_FILL_OUT,
+    /* 0x06 */ CS_TRANS_BLUE_FILL_OUT,
+    /* 0x07 */ CS_TRANS_RED_FILL_IN,
+    /* 0x08 */ CS_TRANS_GREEN_FILL_IN,
     /* 0x09 */ CS_TRANS_TRIGGER_INSTANCE, // used with `TRANS_MODE_INSTANCE_WAIT`
-    /* 0x0A */ CS_TRANS_BLACK_UNFILL,
-    /* 0x0B */ CS_TRANS_BLACK_FILL,
-    /* 0x0C */ CS_TRANS_BLACK_HALF_FILL, // used with `TRANS_MODE_CS_BLACK_FILL`
-    /* 0x0D */ CS_TRANS_BLACK_FILL_FROM_HALF
+    /* 0x0A */ CS_TRANS_BLACK_FILL_OUT,
+    /* 0x0B */ CS_TRANS_BLACK_FILL_IN,
+    /* 0x0C */ CS_TRANS_BLACK_FILL_OUT_TO_HALF, // used with `TRANS_MODE_CS_BLACK_FILL`
+    /* 0x0D */ CS_TRANS_BLACK_FILL_IN_FROM_HALF
 } CutsceneTransitionType;
 
 typedef enum {
