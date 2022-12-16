@@ -70,7 +70,7 @@ typedef struct {
     /* 0x00 */ u16 entrance;      // entrance index upon which the cutscene should trigger
     /* 0x02 */ u8 ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
     /* 0x03 */ u8 flag;           // eventChkInf flag bound to the entrance cutscene
-    /* 0x04 */ void* script;      // cutscene script that shuold run
+    /* 0x04 */ void* script;      // cutscene script that should run
 } EntranceCutscene;               // size = 0x8
 
 EntranceCutscene sEntranceCutsceneTable[] = {

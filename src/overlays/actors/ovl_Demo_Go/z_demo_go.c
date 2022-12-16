@@ -130,7 +130,7 @@ void func_8097CB0C(DemoGo* this, PlayState* play) {
     PosRot* world = &thisx->world;
     CutsceneContext* csCtx = &play->csCtx;
     CsCmdActorCue* cue;
-    f32 temp_ret;
+    f32 lerp;
     s32 pad;
     Vec3f startPos;
     Vec3f endPos;
@@ -139,7 +139,7 @@ void func_8097CB0C(DemoGo* this, PlayState* play) {
         cue = csCtx->actorCues[DemoGo_GetCueChannel(this)];
 
         if (cue != NULL) {
-            temp_ret = Environment_LerpWeight(cue->endFrame, cue->startFrame, csCtx->curFrame);
+            lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, csCtx->curFrame);
 
             startPos.x = cue->startPos.x;
             startPos.y = cue->startPos.y;
@@ -149,9 +149,9 @@ void func_8097CB0C(DemoGo* this, PlayState* play) {
             endPos.y = cue->endPos.y;
             endPos.z = cue->endPos.z;
 
-            world->pos.x = (endPos.x - startPos.x) * temp_ret + startPos.x;
-            world->pos.y = (endPos.y - startPos.y) * temp_ret + startPos.y;
-            world->pos.z = (endPos.z - startPos.z) * temp_ret + startPos.z;
+            world->pos.x = (endPos.x - startPos.x) * lerp + startPos.x;
+            world->pos.y = (endPos.y - startPos.y) * lerp + startPos.y;
+            world->pos.z = (endPos.z - startPos.z) * lerp + startPos.z;
 
             world->rot.y = thisx->shape.rot.y = cue->rot.y;
         }

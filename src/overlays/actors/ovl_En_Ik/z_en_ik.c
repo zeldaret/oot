@@ -1125,7 +1125,7 @@ CsCmdActorCue* EnIk_GetCue(PlayState* play, s32 cueChannel) {
     }
 }
 
-void EnIk_MoveNpcToPos(EnIk* this, PlayState* play, s32 cueChannel) {
+void EnIk_SetStartPosRotFromCue(EnIk* this, PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = EnIk_GetCue(play, cueChannel);
 
     if (cue != NULL) {
@@ -1154,7 +1154,7 @@ void EnIk_SetupCsAction0(EnIk* this) {
 void EnIk_SetupCsAction1(EnIk* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gIronKnuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gIronKnuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
-    EnIk_MoveNpcToPos(this, play, 4);
+    EnIk_SetStartPosRotFromCue(this, play, 4);
     this->csAction = IK_CS_ACTION_1;
     this->csDrawMode = IK_CS_DRAW_INTRO;
     this->actor.shape.shadowAlpha = 255;
@@ -1201,7 +1201,7 @@ void EnIk_SetupCsAction3(EnIk* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gIronKnuckleNabooruDeathAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, 0.0f);
     this->csAction = IK_CS_ACTION_3;
     this->csDrawMode = IK_CS_DRAW_DEFEAT;
-    EnIk_MoveNpcToPos(this, play, 4);
+    EnIk_SetStartPosRotFromCue(this, play, 4);
     EnIk_PlayDeathSfx(this, play);
     this->actor.shape.shadowAlpha = 255;
 }
