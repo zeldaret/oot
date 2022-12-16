@@ -1135,7 +1135,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, PlayState* play) {
                 f32 sqDistXZ;
                 f32 bottomY;
 
-                effect->scale = 0.10 * .001f;
+                effect->scale = 10 * .001f;
 
                 Math_ApproachS(&sEffOwnersHatRot.y, 0, 20, 100);
                 Math_ApproachS(&sEffOwnersHatRot.x, 0, 20, 100);
