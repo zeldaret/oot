@@ -28,37 +28,37 @@ typedef struct EnSyatekiNiw {
     /* 0x0190 */ Vec3s jointTable[16];
     /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ EnSyatekiNiwActionFunc actionFunc;
-    /* 0x0254 */ s16 timer0;
-    /* 0x0256 */ s16 timer1; // sometimes set alongside timer0, never read on its own.
-    /* 0x0258 */ s16 timer2;
+    /* 0x0254 */ s16 peckTimer;
+    /* 0x0256 */ s16 timer1; // sometimes set alongside peckTimer, never read on its own.
+    /* 0x0258 */ s16 flapTimer;
     /* 0x025A */ s16 archeryTimer;
     /* 0x025C */ s16 hopTimer;
     /* 0x025E */ s16 movementTimer;
     /* 0x0260 */ s16 sootTimer; // cuccoo is covereed in soot.
     /* 0x0262 */ s16 cluckTimer;
-    /* 0x0264 */ f32 limbDRotXTarget;
-    /* 0x0268 */ f32 limbBRotXTarget;
-    /* 0x026C */ f32 limb7RotXTarget;
+    /* 0x0264 */ f32 headRotXTarget;
+    /* 0x0268 */ f32 wingRightRotXTarget;
+    /* 0x026C */ f32 wingLeftRotXTarget;
     /* 0x0270 */ char unk_270[0x8];
-    /* 0x0278 */ f32 limbBRotYTarget;
-    /* 0x027C */ f32 limbBRotZTarget;
-    /* 0x0284 */ f32 limb7RotYTarget;
-    /* 0x0280 */ f32 limb7RotZTarget;
-    /* 0x0288 */ f32 unkArcheryFloat; // set, but never used.
+    /* 0x0278 */ f32 wingRightRotYTarget;
+    /* 0x027C */ f32 wingRightRotZTarget;
+    /* 0x0284 */ f32 wingLeftRotYTarget;
+    /* 0x0280 */ f32 wingLeftRotZTarget;
+    /* 0x0288 */ f32 unkArcheryFloat; // set, but never used. another rot target?
     /* 0x028C */ s16 lifetime; // always ticks up, never read
-    /* 0x028E */ s16 limbDRotXState;
+    /* 0x028E */ s16 headRotXState;
     /* 0x0290 */ s16 unk_290; // set to 0, never read.
-    /* 0x0292 */ s16 limb7BRotState;
+    /* 0x0292 */ s16 wingRotState;
     /* 0x0294 */ s16 targetPosTimer;
     /* 0x0296 */ s16 archeryAnimationType;
     /* 0x0298 */ s16 rotYFlip;
     /* 0x029C */ s16 archeryState; // sequence index for "Archery" action
-    /* 0x029C */ s16 unkArcheryBool;
+    /* 0x029C */ s16 isFalling; // set when hit in archery game
     /* 0x029E */ s16 minigameType;
     /* 0x02A0 */ s16 spawnFeathers;
-    /* 0x02A4 */ Vec3f limb7Rot;
-    /* 0x02B0 */ Vec3f limbBRot;
-    /* 0x02BC */ Vec3f limbDRot;
+    /* 0x02A4 */ Vec3f wingLeftRot;
+    /* 0x02B0 */ Vec3f wingRightRot;
+    /* 0x02BC */ Vec3f headRot;
     /* 0x02C8 */ Vec3f posRotStep;
     /* 0x02D4 */ f32 focusYOffset;
     /* 0x02D8 */ f32 removeStateYaw;
@@ -71,7 +71,7 @@ typedef struct EnSyatekiNiw {
 } EnSyatekiNiw; // size = 0x0460
 
 typedef enum{
-    SYATEKI_MINIGAME_ARCHERY,
+    SYATEKI_MINIGAME_ARCHERY, // unused archery game behavior
     SYATEKI_MINIGAME_ALLEY
 } EnSyatekiMinigame;
 

@@ -103,106 +103,106 @@ void EnSyatekiNiw_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnSyatekiNiw_UpdateAnimationTarget(EnSyatekiNiw* this, PlayState* play, s16 aniType) {
-    if (this->timer0 == 0) {
-        if (aniType == 0) {
-            this->limbDRotXTarget = 0.0f;
+void EnSyatekiNiw_UpdateAnimationTarget(EnSyatekiNiw* this, PlayState* play, s16 animationType) {
+    if (this->peckTimer == 0) {
+        if (animationType == 0) {
+            this->headRotXTarget = 0.0f;
         } else {
-            this->limbDRotXTarget = -10000.0f;
+            this->headRotXTarget = -10000.0f;
         }
 
-        this->limbDRotXState++;
-        this->timer0 = 3;
-        if (!(this->limbDRotXState & 1)) {
-            this->limbDRotXTarget = 0.0f;
-            if (aniType == 0) {
-                this->timer0 = Rand_ZeroFloat(30.0f);
+        this->headRotXState++;
+        this->peckTimer = 3;
+        if (!(this->headRotXState & 1)) {
+            this->headRotXTarget = 0.0f;
+            if (animationType == 0) {
+                this->peckTimer = Rand_ZeroFloat(30.0f);
             }
         }
     }
 
-    if (this->timer2 == 0) {
-        this->limb7BRotState++;
-        this->limb7BRotState &= 1;
-        switch (aniType) {
+    if (this->flapTimer == 0) {
+        this->wingRotState++;
+        this->wingRotState &= 1;
+        switch (animationType) {
             case 0:
-                this->limb7RotXTarget = 0.0f;
-                this->limbBRotXTarget = 0.0f;
+                this->wingLeftRotXTarget = 0.0f;
+                this->wingRightRotXTarget = 0.0f;
                 break;
 
             case 1:
-                this->timer2 = 3;
-                this->limb7RotXTarget = 7000.0f;
-                this->limbBRotXTarget = 7000.0f;
-                if (this->limb7BRotState == 0) {
-                    this->limb7RotXTarget = 0.0f;
-                    this->limbBRotXTarget = 0.0f;
+                this->flapTimer = 3;
+                this->wingLeftRotXTarget = 7000.0f;
+                this->wingRightRotXTarget = 7000.0f;
+                if (this->wingRotState == 0) {
+                    this->wingLeftRotXTarget = 0.0f;
+                    this->wingRightRotXTarget = 0.0f;
                 }
                 break;
 
             case 2:
-                this->timer2 = 2;
-                this->limbBRotXTarget = this->limb7RotXTarget = -10000.0f;
-                this->limb7RotYTarget = this->limbBRotYTarget = 25000.0f;
-                this->limb7RotZTarget = this->limbBRotZTarget = 6000.0f;
-                if (this->limb7BRotState == 0) {
-                    this->limbBRotYTarget = 8000.0f;
-                    this->limb7RotYTarget = 8000.0f;
+                this->flapTimer = 2;
+                this->wingRightRotXTarget = this->wingLeftRotXTarget = -10000.0f;
+                this->wingLeftRotYTarget = this->wingRightRotYTarget = 25000.0f;
+                this->wingLeftRotZTarget = this->wingRightRotZTarget = 6000.0f;
+                if (this->wingRotState == 0) {
+                    this->wingRightRotYTarget = 8000.0f;
+                    this->wingLeftRotYTarget = 8000.0f;
                 }
                 break;
 
             case 3:
-                this->timer2 = 2;
-                this->limbBRotYTarget = 10000.0f;
-                this->limb7RotYTarget = 10000.0f;
-                if (this->limb7BRotState == 0) {
-                    this->limbBRotYTarget = 3000.0f;
-                    this->limb7RotYTarget = 3000.0f;
+                this->flapTimer = 2;
+                this->wingRightRotYTarget = 10000.0f;
+                this->wingLeftRotYTarget = 10000.0f;
+                if (this->wingRotState == 0) {
+                    this->wingRightRotYTarget = 3000.0f;
+                    this->wingLeftRotYTarget = 3000.0f;
                 }
                 break;
 
             case 4:
-                this->timer0 = this->timer1 = 5;
+                this->peckTimer = this->timer1 = 5;
                 break;
 
             case 5:
-                this->timer2 = 5;
-                this->limbBRotYTarget = 14000.0f;
-                this->limb7RotYTarget = 14000.0f;
-                if (this->limb7BRotState == 0) {
-                    this->limbBRotYTarget = 10000.0f;
-                    this->limb7RotYTarget = 10000.0f;
+                this->flapTimer = 5;
+                this->wingRightRotYTarget = 14000.0f;
+                this->wingLeftRotYTarget = 14000.0f;
+                if (this->wingRotState == 0) {
+                    this->wingRightRotYTarget = 10000.0f;
+                    this->wingLeftRotYTarget = 10000.0f;
                 }
                 break;
         }
     }
 
-    if (this->limbDRotXTarget != this->limbDRot.x) {
-        Math_ApproachF(&this->limbDRot.x, this->limbDRotXTarget, 0.5f, 4000.0f);
+    if (this->headRotXTarget != this->headRot.x) {
+        Math_ApproachF(&this->headRot.x, this->headRotXTarget, 0.5f, 4000.0f);
     }
 
-    if (this->limb7RotXTarget != this->limb7Rot.x) {
-        Math_ApproachF(&this->limb7Rot.x, this->limb7RotXTarget, 0.8f, 7000.0f);
+    if (this->wingLeftRotXTarget != this->wingLeftRot.x) {
+        Math_ApproachF(&this->wingLeftRot.x, this->wingLeftRotXTarget, 0.8f, 7000.0f);
     }
 
-    if (this->limb7RotYTarget != this->limb7Rot.y) {
-        Math_ApproachF(&this->limb7Rot.y, this->limb7RotYTarget, 0.8f, 7000.0f);
+    if (this->wingLeftRotYTarget != this->wingLeftRot.y) {
+        Math_ApproachF(&this->wingLeftRot.y, this->wingLeftRotYTarget, 0.8f, 7000.0f);
     }
 
-    if (this->limb7RotZTarget != this->limb7Rot.z) {
-        Math_ApproachF(&this->limb7Rot.z, this->limb7RotZTarget, 0.8f, 7000.0f);
+    if (this->wingLeftRotZTarget != this->wingLeftRot.z) {
+        Math_ApproachF(&this->wingLeftRot.z, this->wingLeftRotZTarget, 0.8f, 7000.0f);
     }
 
-    if (this->limbBRotXTarget != this->limbBRot.x) {
-        Math_ApproachF(&this->limbBRot.x, this->limbBRotXTarget, 0.8f, 7000.0f);
+    if (this->wingRightRotXTarget != this->wingRightRot.x) {
+        Math_ApproachF(&this->wingRightRot.x, this->wingRightRotXTarget, 0.8f, 7000.0f);
     }
 
-    if (this->limbBRotYTarget != this->limbBRot.y) {
-        Math_ApproachF(&this->limbBRot.y, this->limbBRotYTarget, 0.8f, 7000.0f);
+    if (this->wingRightRotYTarget != this->wingRightRot.y) {
+        Math_ApproachF(&this->wingRightRot.y, this->wingRightRotYTarget, 0.8f, 7000.0f);
     }
 
-    if (this->limbBRotZTarget != this->limbBRot.z) {
-        Math_ApproachF(&this->limbBRot.z, this->limbBRotZTarget, 0.8f, 7000.0f);
+    if (this->wingRightRotZTarget != this->wingRightRot.z) {
+        Math_ApproachF(&this->wingRightRot.z, this->wingRightRotZTarget, 0.8f, 7000.0f);
     }
 }
 
@@ -228,9 +228,9 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
     f32 posXDiff;
     s16 animationType;
 
-    if (this->unkArcheryBool && (this->minigameType == SYATEKI_MINIGAME_ARCHERY) 
-     && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        this->unkArcheryBool = false;
+    if (this->isFalling && (this->minigameType == SYATEKI_MINIGAME_ARCHERY) &&
+        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+        this->isFalling = false;
         this->actionFunc = EnSyatekiNiw_SetupArchery;
         return;
     }
@@ -302,7 +302,7 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->actor.velocity.y = 2.5f;
                 if ((Rand_ZeroFloat(10.0f) < 1.0f) && (this->minigameType == SYATEKI_MINIGAME_ARCHERY)) {
-                    this->hopTimer = 0xC;
+                    this->hopTimer = 12;
                     this->actor.velocity.y = 10.0f;
                 }
             }
@@ -329,7 +329,8 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
             this->targetPosTimer = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(posXDiff, posZDiff)), 3, this->posRotStep.z, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(posXDiff, posZDiff)), 3,
+                           this->posRotStep.z, 0);
         Math_ApproachF(&this->posRotStep.z, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -348,18 +349,18 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
 void EnSyatekiNiw_SetupArchery(EnSyatekiNiw* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gCuccoAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCuccoAnim), ANIMMODE_LOOP,
                      -10.0f);
-    this->limbBRotZTarget = 6000.0f;
+    this->wingRightRotZTarget = 6000.0f;
     this->unkArcheryFloat = -10000.0f;
-    this->limbBRot.z = 6000.0f;
-    this->limbBRot.y = 10000.0f;
+    this->wingRightRot.z = 6000.0f;
+    this->wingRightRot.y = 10000.0f;
     this->actionFunc = EnSyatekiNiw_Archery;
-    this->limb7Rot.z = 6000.0f;
-    this->limb7RotZTarget = 6000.0f;
-    this->limbBRot.x = -10000.0f;
-    this->limbBRotXTarget = -10000.0f;
-    this->limb7Rot.y = -10000.0f;
-    this->limb7Rot.x = -10000.0f;
-    this->limb7RotXTarget = -10000.0f;
+    this->wingLeftRot.z = 6000.0f;
+    this->wingLeftRotZTarget = 6000.0f;
+    this->wingRightRot.x = -10000.0f;
+    this->wingRightRotXTarget = -10000.0f;
+    this->wingLeftRot.y = -10000.0f;
+    this->wingLeftRot.x = -10000.0f;
+    this->wingLeftRotXTarget = -10000.0f;
 }
 
 void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
@@ -404,14 +405,14 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
             if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.world.pos.z > 110.0f)) {
                 this->actor.velocity.y = 0.0f;
                 this->actor.gravity = 0.0f;
-                this->limb7RotZTarget = 0.0f;
-                this->limbBRotZTarget = 0.0f;
-                this->limbBRotYTarget = 0.0f;
-                this->limb7RotYTarget = 0.0f;
+                this->wingLeftRotZTarget = 0.0f;
+                this->wingRightRotZTarget = 0.0f;
+                this->wingRightRotYTarget = 0.0f;
+                this->wingLeftRotYTarget = 0.0f;
                 this->unkArcheryFloat = 0.0f;
                 this->actor.speedXZ = 0.5f;
-                this->timer0 = this->timer1 = 0;
-                this->limbDRotXState = this->unk_290 = 0;
+                this->peckTimer = this->timer1 = 0;
+                this->headRotXState = this->unk_290 = 0;
                 this->archeryAnimationType = 1;
                 this->archeryState = 3;
             }
@@ -422,7 +423,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
                 this->actor.speedXZ = 0.0f;
                 this->cluckTimer = 60;
                 this->archeryTimer = 20;
-                this->limbDRotXTarget = 10000.0f;
+                this->headRotXTarget = 10000.0f;
                 this->archeryState = 4;
             }
             break;
@@ -430,25 +431,25 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
         case 4:
             if (this->archeryTimer == 0) {
                 this->archeryAnimationType = 4;
-                this->limbDRotXTarget = 5000.0f;
-                this->limb7RotXTarget = 0.0f;
-                this->limbBRotXTarget = 0.0f;
-                this->limb7RotZTarget = 0.0f;
-                this->limbBRotZTarget = 0.0f;
-                this->limb7RotYTarget = 14000.0f;
-                this->limbBRotYTarget = 14000.0f;
+                this->headRotXTarget = 5000.0f;
+                this->wingLeftRotXTarget = 0.0f;
+                this->wingRightRotXTarget = 0.0f;
+                this->wingLeftRotZTarget = 0.0f;
+                this->wingRightRotZTarget = 0.0f;
+                this->wingLeftRotYTarget = 14000.0f;
+                this->wingRightRotYTarget = 14000.0f;
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
-                this->timer0 = this->timer1 = this->archeryTimer = 30;
+                this->peckTimer = this->timer1 = this->archeryTimer = 30;
                 this->archeryState = 5;
             }
             break;
 
         case 5:
             if (this->archeryTimer == 1) {
-                this->timer2 = 0;
+                this->flapTimer = 0;
                 this->archeryAnimationType = 5;
-                this->timer1 = this->timer2;
-                this->timer0 = this->timer2;
+                this->timer1 = this->flapTimer;
+                this->peckTimer = this->flapTimer;
                 this->actor.speedXZ = 1.0f;
             }
 
@@ -481,7 +482,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
     Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
     if (this->archeryAnimationType == 2) {
         this->timer1 = 10;
-        this->timer0 = this->timer1;
+        this->peckTimer = this->timer1;
     }
 
     EnSyatekiNiw_UpdateAnimationTarget(this, play, this->archeryAnimationType);
@@ -519,8 +520,8 @@ void EnSyatekiNiw_Remove(EnSyatekiNiw* this, PlayState* play) {
 
     Actor_SetFocus(&this->actor, this->focusYOffset);
     Actor_GetScreenPos(play, &this->actor, &screenX, &screenY);
-    if ((this->movementTimer == 0) || (this->actor.projectedPos.z < -70.0f) || (screenX < 0) || (screenX > SCREEN_WIDTH) ||
-        (screenY < 0) || (screenY > SCREEN_HEIGHT)) {
+    if ((this->movementTimer == 0) || (this->actor.projectedPos.z < -70.0f) || (screenX < 0) ||
+        (screenX > SCREEN_WIDTH) || (screenY < 0) || (screenY > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -547,10 +548,10 @@ void EnSyatekiNiw_CheckHit(EnSyatekiNiw* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->minigameType) {
             case SYATEKI_MINIGAME_ARCHERY:
-                if (!this->unkArcheryBool) {
+                if (!this->isFalling) {
                     this->cluckTimer = 30;
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
-                    this->unkArcheryBool = true;
+                    this->isFalling = true;
                     this->spawnFeathers = true;
                     this->actionFunc = EnSyatekiNiw_SetupArchery;
                     this->actor.gravity = -3.0f;
@@ -585,12 +586,12 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
 
     EnSyatekiNiw_UpdateEffects(this, play);
     this->lifetime++;
-    if (this->timer0 != 0) {
-        this->timer0--;
+    if (this->peckTimer != 0) {
+        this->peckTimer--;
     }
 
-    if (this->timer2 != 0) {
-        this->timer2--;
+    if (this->flapTimer != 0) {
+        this->flapTimer--;
     }
 
     if (this->archeryTimer != 0) {
@@ -674,19 +675,19 @@ s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
-        rot->y += (s16)this->limbDRot.x;
+        rot->y += (s16)this->headRot.x;
     }
 
     if (limbIndex == 11) {
-        rot->x += (s16)this->limbBRot.z;
-        rot->y += (s16)this->limbBRot.y;
-        rot->z += (s16)this->limbBRot.x;
+        rot->x += (s16)this->wingRightRot.z;
+        rot->y += (s16)this->wingRightRot.y;
+        rot->z += (s16)this->wingRightRot.x;
     }
 
     if (limbIndex == 7) {
-        rot->x += (s16)this->limb7Rot.z;
-        rot->y += (s16)this->limb7Rot.y;
-        rot->z += (s16)this->limb7Rot.x;
+        rot->x += (s16)this->wingLeftRot.z;
+        rot->y += (s16)this->wingLeftRot.y;
+        rot->z += (s16)this->wingLeftRot.x;
     }
 
     return false;
