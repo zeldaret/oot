@@ -30,23 +30,23 @@ typedef struct Fishing {
     /* 0x0174 */ s16 fishLimb89RotYDelta;
     /* 0x0176 */ s16 fishLimb4RotYDelta;
     /* 0x0178 */ s16 unk_178;
-    /* 0x017A */ s16 unk_17A[4];
+    /* 0x017A */ s16 timerArray[4];
     /* 0x0184 */ f32 unk_184;
     /* 0x0188 */ f32 speedTarget;
     /* 0x018C */ f32 fishLimbRotPhase;
-    /* 0x0190 */ f32 unk_190;
-    /* 0x0194 */ f32 unk_194;
+    /* 0x0190 */ f32 unk_190; // fishLimbRotPhaseStep target
+    /* 0x0194 */ f32 unk_194; // fishLimbRotPhaseMag target
     /* 0x0198 */ f32 fishLimbRotPhaseStep;
     /* 0x019C */ f32 fishLimbRotPhaseMag;
-    /* 0x01A0 */ s16 unk_1A0;
-    /* 0x01A2 */ s16 unk_1A2;
-    /* 0x01A4 */ s16 unk_1A4;
+    /* 0x01A0 */ s16 bumpTimer; // set when hitting a wall.
+    /* 0x01A2 */ s16 unk_1A2; // "scared" timer?
+    /* 0x01A4 */ s16 unk_1A4; // "scared" timer? set at same time as above
     /* 0x01A8 */ f32 perception; // how easily they are drawn to the lure.
     /* 0x01AC */ f32 fishLength; // fish are (x^2*.0036+.5) lbs, loach double that.
     /* 0x01B0 */ f32 rotationStep;
     /* 0x01B4 */ Vec3f fishTargetPos;
     /* 0x01C0 */ Vec3f fishMouthPos;
-    /* 0x01CC */ s16 loachRotYDelta[3]; //a dds rotation to the loach limb 3-5.
+    /* 0x01CC */ s16 loachRotYDelta[3]; // adds rotation to the loach limb 3-5.
     /* 0x01D2 */ u8 bubbleTime; // spawn bubbles while >0
     /* 0x01D3 */ u8 isAquariumMessage;
     /* 0x01D4 */ u8 aquariumWaitTimer;
