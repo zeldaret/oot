@@ -376,7 +376,7 @@ void EnKz_SetupMweep(EnKz* this, PlayState* play) {
     subCamEye.y += -100.0f;
     subCamEye.z += 260.0f;
     Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
     this->actor.speedXZ = 0.1f;
     this->actionFunc = EnKz_Mweep;
 }
@@ -408,7 +408,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
 void EnKz_StopMweep(EnKz* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
-    func_8002DF54(play, &this->actor, 7);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
     this->actionFunc = EnKz_Wait;
 }
 
@@ -434,7 +434,7 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play) {
         getItemId = this->isTrading == true ? GI_EYEBALL_FROG : GI_TUNIC_ZORA;
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, play, getItemId, xzRange, yRange);
+        Actor_OfferGetItem(&this->actor, play, getItemId, xzRange, yRange);
     }
 }
 

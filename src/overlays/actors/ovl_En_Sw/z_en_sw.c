@@ -337,7 +337,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
         if ((this->collider.base.acFlags & AC_HIT) || phi_v1) {
             this->collider.base.acFlags &= ~AC_HIT;
             this->painTimer = 0x10;
-            Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, this->painTimer);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, this->painTimer);
             if (Actor_ApplyDamage(&this->actor) != 0) {
                 Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;

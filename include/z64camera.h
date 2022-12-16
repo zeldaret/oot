@@ -3,10 +3,11 @@
 
 #include "ultra64.h"
 #include "z64cutscene.h"
+#include "z64math.h"
 #include "z64save.h"
 
 // these two angle conversion macros are slightly inaccurate
-#define CAM_DEG_TO_BINANG(degrees) (s16)((degrees) * 182.04167f + .5f)
+#define CAM_DEG_TO_BINANG(degrees) (s16)TRUNCF_BINANG((degrees) * 182.04167f + .5f)
 #define CAM_BINANG_TO_DEG(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
 
 #define CAM_STAT_CUT        0
@@ -203,26 +204,26 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ CAM_MODE_NORMAL,
-    /* 0x01 */ CAM_MODE_TARGET, // "PARALLEL"
-    /* 0x02 */ CAM_MODE_FOLLOWTARGET, // "KEEPON"
+    /* 0x01 */ CAM_MODE_Z_PARALLEL, // Holding Z but with no target, keeps the camera aligned
+    /* 0x02 */ CAM_MODE_Z_TARGET_FRIENDLY,
     /* 0x03 */ CAM_MODE_TALK,
-    /* 0x04 */ CAM_MODE_BATTLE,
-    /* 0x05 */ CAM_MODE_CLIMB,
-    /* 0x06 */ CAM_MODE_FIRSTPERSON, // "SUBJECT"
-    /* 0x07 */ CAM_MODE_BOWARROW,
-    /* 0x08 */ CAM_MODE_BOWARROWZ,
-    /* 0x09 */ CAM_MODE_HOOKSHOT, // "FOOKSHOT"
-    /* 0x0A */ CAM_MODE_BOOMERANG,
-    /* 0x0B */ CAM_MODE_SLINGSHOT, // "PACHINCO"
-    /* 0x0C */ CAM_MODE_CLIMBZ,
-    /* 0x0D */ CAM_MODE_JUMP,
-    /* 0x0E */ CAM_MODE_HANG,
-    /* 0x0F */ CAM_MODE_HANGZ,
-    /* 0x10 */ CAM_MODE_FREEFALL,
-    /* 0x11 */ CAM_MODE_CHARGE,
-    /* 0x12 */ CAM_MODE_STILL,
-    /* 0x13 */ CAM_MODE_PUSHPULL,
-    /* 0x14 */ CAM_MODE_FOLLOWBOOMERANG, // "BOOKEEPON"
+    /* 0x04 */ CAM_MODE_Z_TARGET_UNFRIENDLY,
+    /* 0x05 */ CAM_MODE_WALL_CLIMB, // Climbing a wall: ladders and vines
+    /* 0x06 */ CAM_MODE_FIRST_PERSON,
+    /* 0x07 */ CAM_MODE_AIM_ADULT, // First person aiming as adult: bow and hookshot
+    /* 0x08 */ CAM_MODE_Z_AIM, // Third person aiming for all items, child and adult
+    /* 0x09 */ CAM_MODE_HOOKSHOT_FLY, // Player being pulled by the hookshot to a target
+    /* 0x0A */ CAM_MODE_AIM_BOOMERANG, // Aiming the boomerang
+    /* 0x0B */ CAM_MODE_AIM_CHILD, // First person aiming as child: slingshot
+    /* 0x0C */ CAM_MODE_Z_WALL_CLIMB, // Climbing a wall with Z pressed: ladders and vines
+    /* 0x0D */ CAM_MODE_JUMP, // Falling in air from a ledge jump
+    /* 0x0E */ CAM_MODE_LEDGE_HANG, // Hanging from and climbing a ledge
+    /* 0x0F */ CAM_MODE_Z_LEDGE_HANG, // Hanging from and climbing a ledge with Z pressed
+    /* 0x10 */ CAM_MODE_FREE_FALL, // Falling in air except for a ledge jump or knockback
+    /* 0x11 */ CAM_MODE_CHARGE, // Charging a spin attack
+    /* 0x12 */ CAM_MODE_STILL, // Attacks without Z pressed, falling in air from knockback
+    /* 0x13 */ CAM_MODE_PUSH_PULL,
+    /* 0x14 */ CAM_MODE_FOLLOW_BOOMERANG, // Boomerang has been thrown, force-target the boomerang as it flies
     /* 0x15 */ CAM_MODE_MAX
 } CameraModeType;
 
@@ -1220,6 +1221,33 @@ typedef struct {
 #define CAM_FUNCDATA_UNIQ7(fov, interfaceField) \
     { fov, CAM_DATA_FOV }, \
     { interfaceField, CAM_DATA_INTERFACE_FIELD }
+
+typedef enum {
+    /*  0x1 */ ONEPOINT_CS_ACTION_ID_1 = 1,
+    /*  0x2 */ ONEPOINT_CS_ACTION_ID_2,
+    /*  0x3 */ ONEPOINT_CS_ACTION_ID_3,
+    /*  0x4 */ ONEPOINT_CS_ACTION_ID_4,
+    /*  0x9 */ ONEPOINT_CS_ACTION_ID_9 = 9,
+    /*  0xA */ ONEPOINT_CS_ACTION_ID_10,
+    /*  0xB */ ONEPOINT_CS_ACTION_ID_11,
+    /*  0xC */ ONEPOINT_CS_ACTION_ID_12,
+    /*  0xD */ ONEPOINT_CS_ACTION_ID_13,
+    /*  0xF */ ONEPOINT_CS_ACTION_ID_15 = 15,
+    /* 0x10 */ ONEPOINT_CS_ACTION_ID_16,
+    /* 0x11 */ ONEPOINT_CS_ACTION_ID_17,
+    /* 0x12 */ ONEPOINT_CS_ACTION_ID_18,
+    /* 0x13 */ ONEPOINT_CS_ACTION_ID_19,
+    /* 0x15 */ ONEPOINT_CS_ACTION_ID_21 = 21,
+    /* 0x18 */ ONEPOINT_CS_ACTION_ID_24 = 24
+} OnePointCsAction;
+
+#define ONEPOINT_CS_ACTION_FLAG_40 0x40
+#define ONEPOINT_CS_ACTION_FLAG_BGCHECK 0x80
+
+#define ONEPOINT_CS_ACTION(action, isBit40, checkBg) \
+    (((action) & 0x1F) | ((isBit40) ? ONEPOINT_CS_ACTION_FLAG_40 : 0) | ((checkBg) ? ONEPOINT_CS_ACTION_FLAG_BGCHECK : 0))
+
+#define ONEPOINT_CS_GET_ACTION(onePointCsFull) ((onePointCsFull)->actionFlags & 0x1F)
 
 /** initFlags
  * & 0x00FF = atInitFlags
