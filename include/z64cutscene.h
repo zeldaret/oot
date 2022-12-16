@@ -476,7 +476,6 @@ typedef union {
     s32 _words[12];
 } CsCmdActorCue; // size = 0x30
 
-
 typedef union {
     struct {
         /* 0x00 */ s8 continueFlag;

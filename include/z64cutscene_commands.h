@@ -217,10 +217,10 @@
  * Sets the time of day.
  * Both the day time and skybox time are set by this command.
  */
-#define CS_TIME(unused0, frame, unused1, hour, min, unused2) \
+#define CS_TIME(unused0, frame, unused1, hour, min) \
     CMD_HH(unused0, frame), \
     CMD_HBB(unused1, hour, min), \
-    CMD_W(unused2)
+    CMD_W(0)
 
 /**
  * Sends the player to a new destination. 
