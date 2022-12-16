@@ -546,6 +546,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         break;
                     }
                     FALLTHROUGH;
+
                 case LEEVER_DMGEFF_HOOKSHOT:
                     if ((this->actor.colChkInfo.health > 2) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
@@ -556,6 +557,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         break;
                     }
                     FALLTHROUGH;
+
                 case LEEVER_DMGEFF_OTHER:
                     this->unkDamageField = 6;
                     Actor_ApplyDamage(&this->actor);
@@ -571,6 +573,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         this->actionfunc = EnReeba_SetupDamaged;
                     }
                     break;
+
                 case LEEVER_DMGEFF_ICE:
                     Actor_ApplyDamage(&this->actor);
                     this->unkDamageField = 2;
@@ -578,6 +581,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                     this->actionfunc = EnReeba_SetupStunned;
                     break;
+
                 case LEEVER_DMGEFF_UNK:
                     if (this->stunType != LEEVER_STUN_OTHER) {
                         this->stunType = LEEVER_STUN_OTHER;
@@ -586,6 +590,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         this->actionfunc = EnReeba_SetupStunned;
                     }
                     break;
+                    
                 default:
                     break;
             }

@@ -33,7 +33,7 @@ typedef struct EnReeba {
 typedef enum {
     /* 0 */ LEEVER_TYPE_SMALL,
     /* 1 */ LEEVER_TYPE_BIG
-} LeeverParam;
+} LeeverType;
 
 #define LEEVER_STUN_NONE 0
 #define LEEVER_STUN_ICE 2
