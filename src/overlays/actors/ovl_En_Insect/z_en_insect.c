@@ -779,7 +779,7 @@ void EnInsect_Update(Actor* thisx, PlayState* play) {
             if (!(this->insectFlags & INSECT_FLAG_UNCATCHABLE) && sCaughtCount < 4 &&
                 EnInsect_InBottleRange(this, play) &&
                 // GI_MAX in this case allows the player to catch the actor in a bottle
-                func_8002F434(&this->actor, play, GI_MAX, 60.0f, 30.0f)) {
+                Actor_OfferGetItem(&this->actor, play, GI_MAX, 60.0f, 30.0f)) {
                 sCaughtCount++;
             }
         }

@@ -267,7 +267,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, PlayState* play) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
-        func_8002F5F0(&this->dyna.actor, play);
+        Actor_SetClosestSecretDistance(&this->dyna.actor, play);
     }
 
     if (this->unk_1A8 >= 0) {
@@ -287,7 +287,7 @@ void func_809C9700(EnBox* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
-        func_8002F5F0(&this->dyna.actor, play);
+        Actor_SetClosestSecretDistance(&this->dyna.actor, play);
     }
 
     if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
@@ -323,7 +323,7 @@ void EnBox_AppearOnSwitchFlag(EnBox* this, PlayState* play) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
-        func_8002F5F0(&this->dyna.actor, play);
+        Actor_SetClosestSecretDistance(&this->dyna.actor, play);
     }
 
     if (Flags_GetSwitch(play, this->switchFlag)) {
@@ -337,7 +337,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
-        func_8002F5F0(&this->dyna.actor, play);
+        Actor_SetClosestSecretDistance(&this->dyna.actor, play);
     }
 
     if (Flags_GetTempClear(play, this->dyna.actor.room) && !Player_InCsMode(play)) {
@@ -424,7 +424,7 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
         func_8002DBD0(&this->dyna.actor, &sp4C, &player->actor.world.pos);
         if (sp4C.z > -50.0f && sp4C.z < 0.0f && fabsf(sp4C.y) < 10.0f && fabsf(sp4C.x) < 20.0f &&
             Player_IsFacingActor(&this->dyna.actor, 0x3000, play)) {
-            func_8002F554(&this->dyna.actor, play, 0 - (this->dyna.actor.params >> 5 & 0x7F));
+            Actor_OfferGetItemNearby(&this->dyna.actor, play, 0 - (this->dyna.actor.params >> 5 & 0x7F));
         }
         if (Flags_GetTreasure(play, this->dyna.actor.params & 0x1F)) {
             EnBox_SetupAction(this, EnBox_Open);

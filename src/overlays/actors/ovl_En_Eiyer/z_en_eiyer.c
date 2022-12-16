@@ -281,14 +281,14 @@ void EnEiyer_SetupHurt(EnEiyer* this) {
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.speedXZ = 5.0f;
-    Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 40);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, 40);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnEiyer_Hurt;
 }
 
 void EnEiyer_SetupDie(EnEiyer* this) {
     this->timer = 20;
-    Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 40);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, 40);
 
     if (this->collider.info.bumper.dmgFlags != (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT)) {
         this->actor.speedXZ = 6.0f;
@@ -317,7 +317,7 @@ void EnEiyer_SetupStunned(EnEiyer* this) {
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
     this->collider.dim.height = sColCylInit.dim.height + 8;
-    Actor_SetColorFilter(&this->actor, 0, 200, 0, 80);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     this->collider.base.atFlags &= ~AT_ON;
     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = EnEiyer_Stunned;

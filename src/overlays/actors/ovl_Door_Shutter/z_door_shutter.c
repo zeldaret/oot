@@ -750,7 +750,7 @@ void func_80997220(DoorShutter* this, PlayState* play) {
     this->dyna.actor.velocity.y = 0.0f;
     if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_11)) {
         DoorShutter_SetupAction(this, func_80997568);
-        func_8002DF54(play, NULL, 2);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_2);
     }
 }
 
@@ -784,7 +784,7 @@ void DoorShutter_JabuDoorClose(DoorShutter* this, PlayState* play) {
 
 void func_80997568(DoorShutter* this, PlayState* play) {
     if (this->unk_16F++ > 30) {
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         DoorShutter_SetupDoor(this, play);
     }
 }

@@ -33,6 +33,8 @@ public:
 	static std::string ReadAllText(const fs::path& filePath)
 	{
 		std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
+		if (!file.is_open())
+			return "";
 		int32_t fileSize = (int32_t)file.tellg();
 		file.seekg(0);
 		char* data = new char[fileSize + 1];
