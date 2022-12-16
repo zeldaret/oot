@@ -366,8 +366,9 @@ void EnReeba_SetupDamaged(EnReeba* this, PlayState* play) {
     this->damagedTimer = 14;
     this->actor.speedXZ = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->actionfunc = EnReeba_Damaged;
+
 }
 
 void EnReeba_Damaged(EnReeba* this, PlayState* play) {
@@ -457,7 +458,7 @@ void EnReeba_StunDie(EnReeba* this, PlayState* play) {
 void EnReeba_SetupDie(EnReeba* this, PlayState* play) {
     this->actor.speedXZ = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->waitTimer = 14;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionfunc = EnReeba_Die;
@@ -539,7 +540,8 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                     if ((this->actor.colChkInfo.health > 1) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         this->actionfunc = EnReeba_SetupStunned;
                         break;
                     }
@@ -547,7 +549,8 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                 case LEEVER_DMGEFF_HOOKSHOT:
                     if ((this->actor.colChkInfo.health > 2) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         this->actionfunc = EnReeba_SetupStunned;
                         break;
@@ -572,13 +575,14 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                     Actor_ApplyDamage(&this->actor);
                     this->unkDamageField = 2;
                     this->stunType = LEEVER_STUN_ICE;
-                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                     this->actionfunc = EnReeba_SetupStunned;
                     break;
                 case LEEVER_DMGEFF_UNK:
                     if (this->stunType != LEEVER_STUN_OTHER) {
                         this->stunType = LEEVER_STUN_OTHER;
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         this->actionfunc = EnReeba_SetupStunned;
                     }
                     break;

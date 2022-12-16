@@ -607,9 +607,11 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
                     this->actor.freezeTimer = 80;
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (phi_s2 != 0) {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                     } else {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                             80);
                     }
                 }
 
@@ -621,9 +623,11 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
                         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
 
                         if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                                 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                                 80);
                         }
                     }
                 }
@@ -634,9 +638,11 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
                         now->actor.freezeTimer = 80;
 
                         if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                                 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                                 80);
                         }
                     }
                 }

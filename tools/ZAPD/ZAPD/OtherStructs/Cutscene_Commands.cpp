@@ -154,6 +154,7 @@ CutsceneCommand_GenericCmd::CutsceneCommand_GenericCmd(const std::vector<uint8_t
 	rawDataIndex += 4;
 
 	commandID = static_cast<uint32_t>(cmdId);
+	entries.reserve(numEntries);
 
 	for (size_t i = 0; i < numEntries; i++)
 	{
@@ -320,6 +321,7 @@ CutsceneCommand_Rumble::CutsceneCommand_Rumble(const std::vector<uint8_t>& rawDa
 {
 	rawDataIndex += 4;
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_Rumble(rawData, rawDataIndex);
@@ -363,6 +365,7 @@ CutsceneCommand_SetTime::CutsceneCommand_SetTime(const std::vector<uint8_t>& raw
 {
 	rawDataIndex += 4;
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_SetTime(rawData, rawDataIndex);
@@ -438,6 +441,7 @@ CutsceneCommand_TextBox::CutsceneCommand_TextBox(const std::vector<uint8_t>& raw
 {
 	rawDataIndex += 4;
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_TextBox(rawData, rawDataIndex);
@@ -516,6 +520,7 @@ CutsceneCommand_ActorAction::CutsceneCommand_ActorAction(const std::vector<uint8
 {
 	rawDataIndex += 4;
 
+	entries.reserve(numEntries);
 	for (size_t i = 0; i < numEntries; i++)
 	{
 		auto* entry = new CutsceneSubCommandEntry_ActorAction(rawData, rawDataIndex);
