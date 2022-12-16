@@ -334,7 +334,7 @@ void ExporterExample_Room::Save(ZResource* res, fs::path outPath, BinaryWriter* 
 				writer->Write(entry.rotX);
 				writer->Write(entry.rotY);
 				writer->Write(entry.rotZ);
-				writer->Write(entry.initVar);
+				writer->Write(entry.params);
 			}
 
 			writer->Seek(oldOffset, SeekOffsetType::Start);

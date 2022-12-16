@@ -180,7 +180,7 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, PlayState* play) {
         this->actionFunc = ItemOcarina_StartSoTCutscene;
         this->actor.draw = NULL;
     } else {
-        func_8002F434(&this->actor, play, GI_OCARINA_OF_TIME, 30.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_OCARINA_OF_TIME, 30.0f, 50.0f);
 
         if ((play->gameplayFrames & 13) == 0) {
             EffectSsBubble_Spawn(play, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
