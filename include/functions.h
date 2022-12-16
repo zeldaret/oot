@@ -640,7 +640,7 @@ s32 DynaPolyActor_IsPlayerAbove(DynaPolyActor* dynaActor);
 s32 func_800435B4(DynaPolyActor* dynaActor);
 s32 func_800435D8(PlayState* play, DynaPolyActor* dynaActor, s16 arg2, s16 arg3, s16 arg4);
 void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState* play);
-void Camera_InitDataWithPlayer(Camera* camera, Player* player);
+void Camera_InitDataUsingPlayer(Camera* camera, Player* player);
 s16 Camera_ChangeStatus(Camera* camera, s16 status);
 Vec3s Camera_Update(Camera* camera);
 void Camera_Finish(Camera* camera);
@@ -1322,7 +1322,7 @@ s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec
 s32 Play_SetCameraFov(PlayState* this, s16 camId, f32 fov);
 s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll);
 void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId);
-s32 Play_InitCameraDataWithPlayer(PlayState* this, s16 camId, Player* player, s16 setting);
+s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, Player* player, s16 setting);
 s32 Play_ChangeCameraSetting(PlayState* this, s16 camId, s16 setting);
 void Play_ReturnToMainCam(PlayState* this, s16 camId, s16 duration);
 void Play_SaveSceneFlags(PlayState* this);

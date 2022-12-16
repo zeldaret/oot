@@ -411,7 +411,7 @@ void Play_Init(GameState* thisx) {
     }
 
     player = GET_PLAYER(this);
-    Camera_InitDataWithPlayer(&this->mainCamera, player);
+    Camera_InitDataUsingPlayer(&this->mainCamera, player);
     Camera_ChangeMode(&this->mainCamera, CAM_MODE_NORMAL);
 
     playerStartBgCamIndex = player->actor.params & 0xFF;
@@ -1614,12 +1614,12 @@ void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId) {
 /**
  * Initializes camera data centered around Player, and applies the requested setting.
  */
-s32 Play_InitCameraDataWithPlayer(PlayState* this, s16 camId, Player* player, s16 setting) {
+s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, Player* player, s16 setting) {
     Camera* camera;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     camera = this->cameraPtrs[camIdx];
-    Camera_InitDataWithPlayer(camera, player);
+    Camera_InitDataUsingPlayer(camera, player);
     return Camera_ChangeSetting(camera, setting);
 }
 
