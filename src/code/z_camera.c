@@ -5189,6 +5189,9 @@ s32 Camera_Unique8(Camera* camera) {
     return Camera_Noop(camera);
 }
 
+/**
+ * OnePoint Cutscene
+ */
 s32 Camera_Unique9(Camera* camera) {
     Vec3f atTarget;
     Vec3f eyeTarget;
@@ -5558,7 +5561,7 @@ s32 Camera_Unique9(Camera* camera) {
             scratchGeo.yaw = Camera_LERPCeilS(rwData->atEyeOffsetTarget.yaw, eyeNextAtOffset.yaw,
                                               rwData->curKeyFrame->lerpStepScale, 1);
             Camera_AddVecGeoToVec3f(eyeNext, at, &scratchGeo);
-            goto setAtFOVRoll;
+            goto setAtFovRoll;
 
         case ONEPOINT_CS_ACTION_ID_3:
             // linear interplation of eye/at/fov/roll using the step scale using eyeTarget
@@ -5571,7 +5574,7 @@ s32 Camera_Unique9(Camera* camera) {
             FALLTHROUGH;
         case ONEPOINT_CS_ACTION_ID_11:
         case ONEPOINT_CS_ACTION_ID_12:
-        setAtFOVRoll:
+        setAtFovRoll:
             // linear interpolation of at/fov/roll using the step scale.
             camera->at.x = Camera_LERPCeilF(rwData->atTarget.x, camera->at.x, rwData->curKeyFrame->lerpStepScale, 1.0f);
             camera->at.y = Camera_LERPCeilF(rwData->atTarget.y, camera->at.y, rwData->curKeyFrame->lerpStepScale, 1.0f);
@@ -5618,15 +5621,15 @@ s32 Camera_Unique9(Camera* camera) {
 
         case ONEPOINT_CS_ACTION_ID_19: {
             // Change the parent camera (or default)'s mode to normal
-            s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
+            s32 camId = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
 
-            Camera_ChangeModeFlags(camera->play->cameraPtrs[camIdx], CAM_MODE_NORMAL, 1);
+            Camera_ChangeModeFlags(camera->play->cameraPtrs[camId], CAM_MODE_NORMAL, 1);
         }
             FALLTHROUGH;
         case ONEPOINT_CS_ACTION_ID_18: {
             // copy the current camera to the parent (or default)'s camera.
-            s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
-            Camera* cam = camera->play->cameraPtrs[camIdx];
+            s32 camId = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
+            Camera* cam = camera->play->cameraPtrs[camId];
 
             *eye = *eyeNext;
             Camera_Copy(cam, camera);
@@ -6015,7 +6018,7 @@ s32 Camera_Demo4(Camera* camera) {
 }
 
 /**
- * Sets up a cutscene for Camera_Uniq9
+ * Sets up an attention cutscene for a OnePoint Cutscene
  */
 s32 Camera_Demo5(Camera* camera) {
     f32 eyeTargetDist;
@@ -6037,6 +6040,7 @@ s32 Camera_Demo5(Camera* camera) {
     Actor_GetFocus(&playerhead, &camera->player->actor);
     player = camera->player;
     sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_NOTHING_ALT, 0);
+
     if ((camera->target == NULL) || (camera->target->update == NULL)) {
         if (camera->target == NULL) {
             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: warning: attention: target is not valid, stop!\n" VT_RST);
@@ -6044,6 +6048,7 @@ s32 Camera_Demo5(Camera* camera) {
         camera->target = NULL;
         return true;
     }
+
     Actor_GetFocus(&camera->targetPosRot, camera->target);
     OLib_Vec3fDiffToVecGeo(&playerTargetGeo, &camera->targetPosRot.pos, &camera->playerPosRot.pos);
     D_8011D3AC = camera->target->category;
@@ -6051,6 +6056,7 @@ s32 Camera_Demo5(Camera* camera) {
     eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot.pos, &camera->eye);
     OLib_Vec3fDiffToVecGeo(&eyePlayerGeo, &playerhead.pos, &camera->eyeNext);
     sp4A = eyePlayerGeo.yaw - playerTargetGeo.yaw;
+
     if (camera->target->category == ACTORCAT_PLAYER) {
         // camera is targeting a(the) player actor
         if (eyePlayerGeo.r > 30.0f) {
@@ -6079,8 +6085,8 @@ s32 Camera_Demo5(Camera* camera) {
         // distance between player and target is less than 30 units.
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D79C;
         ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
-        if ((targetScreenPosX < 0x15) || (targetScreenPosX >= 0x12C) || (targetScreenPosY < 0x29) ||
-            (targetScreenPosY >= 0xC8)) {
+        if ((targetScreenPosX <= 20) || (targetScreenPosX >= SCREEN_WIDTH - 20) || (targetScreenPosY <= 40) ||
+            (targetScreenPosY >= SCREEN_HEIGHT - 40)) {
             D_8011D79C[0].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, false);
             D_8011D79C[0].atTargetInit.y = -30.0f;
             D_8011D79C[0].atTargetInit.x = 0.0f;
@@ -6112,8 +6118,8 @@ s32 Camera_Demo5(Camera* camera) {
         // The distance between the camera's current position and the target is less than 700 units
         // and the angle between the camera's position and the player, and the player to the target
         // is less than ~76.9 degrees
-        if (targetScreenPosX >= 0x15 && targetScreenPosX < 0x12C && targetScreenPosY >= 0x29 &&
-            targetScreenPosY < 0xC8 && eyePlayerGeo.r > 30.0f) {
+        if ((targetScreenPosX > 20) && (targetScreenPosX < SCREEN_WIDTH - 20) && (targetScreenPosY > 40) &&
+            (targetScreenPosY < SCREEN_HEIGHT - 40) && (eyePlayerGeo.r > 30.0f)) {
             D_8011D88C[0].timerInit = camera->timer;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D88C;
             ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
@@ -6240,6 +6246,8 @@ s32 Camera_Demo5(Camera* camera) {
 
     sDemo5PrevAction12Frame = camera->play->state.frames;
     Camera_ChangeSettingFlags(camera, CAM_SET_CS_C, (4 | 1));
+
+    // Continue to the main OnePoint cutscene update
     Camera_Unique9(camera);
     return true;
 }
