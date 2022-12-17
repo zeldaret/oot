@@ -6247,8 +6247,8 @@ s32 Camera_Demo5(Camera* camera) {
     sDemo5PrevAction12Frame = camera->play->state.frames;
     Camera_ChangeSettingFlags(camera, CAM_SET_CS_C, (4 | 1));
 
-    // Continue to the general OnePoint cutscene update
     Camera_Unique9(camera);
+
     return true;
 }
 
