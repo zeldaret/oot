@@ -123,7 +123,8 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
-        case 5010:
+        case 5010: // attention cutscene
+            // Setup keyFrames in `Camera_Demo5`
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_ATTENTION);
             Play_SetCameraAtEye(play, subCamId, &mainCam->at, &mainCam->eye);
             subCam->roll = 0;
