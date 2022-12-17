@@ -89,7 +89,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_801208EC[1].lerpStepScale = 1.0f / (0.5f * timer);
 
             csInfo->keyFrames = D_801208EC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801208EC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801208EC);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -103,7 +103,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80120964[1].timerInit = timer - 1;
 
             csInfo->keyFrames = D_80120964;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80120964);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80120964);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -118,7 +118,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_801209B4[1].atTargetInit.y += 20.0f;
 
             csInfo->keyFrames = D_801209B4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801209B4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801209B4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -131,7 +131,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 9500:
             csInfo->keyFrames = D_80120A54;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80120A54);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80120A54);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
@@ -143,16 +143,16 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 ((mainCam->play->state.frames & 1) ? 20.0f : -20.0f) + (Rand_ZeroOne() * 5.0f);
 
             csInfo->keyFrames = D_80120ACC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80120ACC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80120ACC);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 2270:
             csInfo->keyFrames = D_80120B94;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80120B94);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80120B94);
 
-            for (i = 0; i < csInfo->keyFrameCnt - 3; i++) {
+            for (i = 0; i < csInfo->keyFrameCount - 3; i++) {
                 if (D_80120B94[i].actionFlags != ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true)) {
                     D_80120B94[i].atTargetInit.x = Rand_ZeroOne() * 5.0f;
                     D_80120B94[i].atTargetInit.z = (Rand_ZeroOne() * 30.0f) + 10.0f;
@@ -173,9 +173,9 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 2280:
             csInfo->keyFrames = D_80120D4C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80120D4C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80120D4C);
 
-            for (i = 0; i < csInfo->keyFrameCnt - 3; i++) {
+            for (i = 0; i < csInfo->keyFrameCount - 3; i++) {
                 if (D_80120D4C[i].actionFlags != ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true)) {
                     D_80120D4C[i].atTargetInit.x = Rand_ZeroOne() * 20.0f;
                     D_80120D4C[i].atTargetInit.z = (Rand_ZeroOne() * 40.0f) + 10.0f;
@@ -195,7 +195,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 2220:
             csInfo->keyFrames = D_80120E64;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80120E64);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80120E64);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
 
@@ -212,14 +212,14 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             }
 
             csInfo->keyFrames = D_80120FA4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80120FA4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80120FA4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 2340:
             csInfo->keyFrames = D_80121094;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121094);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121094);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
 
@@ -231,7 +231,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 2350:
             csInfo->keyFrames = D_8012110C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012110C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012110C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -255,7 +255,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 D_80121184[0].fovTargetInit = mainCam->fov * 0.75f;
 
                 csInfo->keyFrames = D_80121184;
-                csInfo->keyFrameCnt = ARRAY_COUNT(D_80121184);
+                csInfo->keyFrameCount = ARRAY_COUNT(D_80121184);
             } else {
                 D_801211D4[0].atTargetInit.x = actor->focus.pos.x;
                 D_801211D4[0].atTargetInit.y = actor->focus.pos.y - 5.0f;
@@ -268,7 +268,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 D_801211D4[0].eyeTargetInit.z = (actor->focus.pos.z + (120.0f * spC0.z)) - (Rand_ZeroOne() * 20.0f);
 
                 csInfo->keyFrames = D_801211D4;
-                csInfo->keyFrameCnt = ARRAY_COUNT(D_801211D4);
+                csInfo->keyFrameCount = ARRAY_COUNT(D_801211D4);
             }
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -283,7 +283,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             }
 
             csInfo->keyFrames = D_80121224;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121224);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121224);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
         } break;
@@ -292,7 +292,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
 
             csInfo->keyFrames = D_80121314;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121314);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121314);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -303,7 +303,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
 
             csInfo->keyFrames = D_8012133C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012133C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012133C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -337,7 +337,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
 
             csInfo->keyFrames = D_801213B4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801213B4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801213B4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -365,7 +365,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4175:
             csInfo->keyFrames = D_8012147C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012147C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012147C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -389,7 +389,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_8012151C[0].timerInit = timer - 1;
 
             csInfo->keyFrames = D_8012151C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012151C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012151C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -407,7 +407,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_8012156C[1].eyeTargetInit.x += tempRand;
 
             csInfo->keyFrames = D_8012156C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012156C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012156C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
@@ -417,14 +417,14 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_801215BC[0].timerInit = timer;
 
             csInfo->keyFrames = D_801215BC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801215BC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801215BC);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 3070:
             csInfo->keyFrames = D_801215E4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801215E4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801215E4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
 
@@ -436,7 +436,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3080:
             csInfo->keyFrames = D_80121774;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121774);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121774);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -445,7 +445,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
 
             csInfo->keyFrames = D_80121814;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121814);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121814);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -465,7 +465,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
         case 3380:
         case 3065:
             csInfo->keyFrames = D_801218B4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801218B4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801218B4);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -478,7 +478,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3060:
             csInfo->keyFrames = D_80121904;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121904);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121904);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -514,7 +514,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrames = D_80121954[-(timer + 101)];
             subCam->timer = 100;
             subCam->stateFlags |= CAM_STATE_1;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121954[0]);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121954[0]);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -522,7 +522,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3130:
             csInfo->keyFrames = D_80121A44;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121A44);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121A44);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -535,7 +535,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80121C24[0].fovTargetInit = play->view.fovy;
 
             csInfo->keyFrames = D_80121C24;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121C24);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121C24);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -671,7 +671,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80121D3C[2].timerInit = timer - 5;
 
             csInfo->keyFrames = D_80121D3C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121D3C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121D3C);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -710,7 +710,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = -0x3FD9;
 
             csInfo->keyFrames = D_80121DB4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121DB4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121DB4);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -735,7 +735,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = spA0.rot.y;
 
             csInfo->keyFrames = D_80121F1C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121F1C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121F1C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
 
@@ -751,7 +751,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80121FBC[0].fovTargetInit = play->view.fovy;
 
             csInfo->keyFrames = D_80121FBC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80121FBC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80121FBC);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -764,7 +764,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3360:
             csInfo->keyFrames = D_8012205C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012205C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012205C);
 
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -785,14 +785,14 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
 
             csInfo->keyFrames = D_801220D4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801220D4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801220D4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 3330:
             csInfo->keyFrames = D_8012219C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012219C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012219C);
 
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -800,7 +800,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3410:
             csInfo->keyFrames = D_801222B4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801222B4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801222B4);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -813,7 +813,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3450:
             csInfo->keyFrames = D_8012237C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012237C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012237C);
 
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -826,7 +826,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3440:
             csInfo->keyFrames = D_801223CC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801223CC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801223CC);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -841,7 +841,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3430:
             csInfo->keyFrames = D_801224BC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801224BC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801224BC);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -854,7 +854,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4100:
             csInfo->keyFrames = D_801225D4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801225D4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801225D4);
 
             player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = 0x3FFC;
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -863,7 +863,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4110:
             csInfo->keyFrames = D_8012269C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012269C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012269C);
 
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -873,14 +873,14 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             D_80122714[1].timerInit = 80;
             csInfo->keyFrames = D_80122714;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122714);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122714);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 4140:
             csInfo->keyFrames = D_801227B4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801227B4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801227B4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
@@ -888,7 +888,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4150:
             csInfo->keyFrames = D_801228A4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801228A4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801228A4);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
@@ -897,7 +897,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4160:
             csInfo->keyFrames = D_8012296C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012296C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012296C);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
@@ -906,7 +906,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4170:
             csInfo->keyFrames = D_80122A0C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122A0C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122A0C);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
@@ -915,7 +915,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4190:
             csInfo->keyFrames = D_80122A5C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122A5C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122A5C);
 
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
@@ -924,7 +924,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4200:
             csInfo->keyFrames = D_80122B9C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122B9C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122B9C);
 
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_8);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
@@ -935,7 +935,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             player->actor.freezeTimer = timer;
 
             csInfo->keyFrames = D_80122C14;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122C14);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122C14);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
 
@@ -947,7 +947,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4220:
             csInfo->keyFrames = (player->actor.world.pos.z < -15.0f) ? D_80122C3C : D_80122C64;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122C3C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122C3C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_1);
@@ -960,7 +960,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 4221:
             csInfo->keyFrames = D_80122C8C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122C8C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122C8C);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
@@ -971,7 +971,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80122CB4[1].timerInit = timer - 5;
 
             csInfo->keyFrames = D_80122CB4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122CB4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122CB4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -981,21 +981,21 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80122D04[1].timerInit = timer - 10;
 
             csInfo->keyFrames = D_80122D04;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122D04);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122D04);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 8010:
             csInfo->keyFrames = D_80122D54;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122D54);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122D54);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 8002:
             csInfo->keyFrames = D_80122DCC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122DCC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122DCC);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -1007,7 +1007,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80122E44[timer & 1][5].atTargetInit = mainCam->at;
 
             csInfo->keyFrames = D_80122E44[timer & 1];
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80122E44[0]);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80122E44[0]);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -1017,7 +1017,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
             if ((tempDiff > 3600) || (tempDiff < -3600)) {
                 csInfo->keyFrames = D_80123074;
-                csInfo->keyFrameCnt = ARRAY_COUNT(D_80123074);
+                csInfo->keyFrameCount = ARRAY_COUNT(D_80123074);
             } else {
                 if (play->state.frames & 1) {
                     D_8012313C[0].rollTargetInit = -D_8012313C[0].rollTargetInit;
@@ -1026,7 +1026,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                     D_8012313C[1].atTargetInit.y = -D_8012313C[1].atTargetInit.y;
                 }
                 csInfo->keyFrames = D_8012313C;
-                csInfo->keyFrameCnt = ARRAY_COUNT(D_8012313C);
+                csInfo->keyFrameCount = ARRAY_COUNT(D_8012313C);
             }
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             sPrevFrameCs1100 = play->state.frames;
@@ -1062,7 +1062,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 D_801231B4[3].timerInit = timer - 50;
 
                 csInfo->keyFrames = D_801231B4;
-                csInfo->keyFrameCnt = ARRAY_COUNT(D_801231B4);
+                csInfo->keyFrameCount = ARRAY_COUNT(D_801231B4);
 
                 Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             } else {
@@ -1072,7 +1072,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 D_80123254[0].eyeTargetInit = D_80123254[1].eyeTargetInit = mainCam->eye;
 
                 csInfo->keyFrames = D_80123254;
-                csInfo->keyFrameCnt = ARRAY_COUNT(D_80123254);
+                csInfo->keyFrameCount = ARRAY_COUNT(D_80123254);
 
                 Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             }
@@ -1084,56 +1084,56 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_801232A4[0].fovTargetInit = play->view.fovy;
 
             csInfo->keyFrames = D_801232A4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801232A4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801232A4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 8603:
             csInfo->keyFrames = D_801232CC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801232CC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801232CC);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 8604:
             csInfo->keyFrames = D_80123394;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80123394);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80123394);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 4000:
             csInfo->keyFrames = D_8012345C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012345C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012345C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 4010:
             csInfo->keyFrames = D_801234FC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801234FC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801234FC);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 4011:
             csInfo->keyFrames = D_801235C4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801235C4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801235C4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 4020:
             csInfo->keyFrames = D_8012368C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012368C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012368C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
         case 4021:
             csInfo->keyFrames = D_8012372C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012372C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012372C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -1143,7 +1143,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                             D_801237CC[2].timerInit + D_801237CC[4].timerInit;
 
             csInfo->keyFrames = D_801237CC;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801237CC);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801237CC);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -1158,7 +1158,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             }
 
             csInfo->keyFrames = D_80123894;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_80123894);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_80123894);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -1169,7 +1169,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_8012390C[0].fovTargetInit = play->view.fovy;
 
             csInfo->keyFrames = D_8012390C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012390C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012390C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -1180,7 +1180,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_8012395C[0].fovTargetInit = play->view.fovy;
 
             csInfo->keyFrames = D_8012395C;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_8012395C);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_8012395C);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
@@ -1189,7 +1189,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_801239D4[1].timerInit = 10;
 
             csInfo->keyFrames = D_801239D4;
-            csInfo->keyFrameCnt = ARRAY_COUNT(D_801239D4);
+            csInfo->keyFrameCount = ARRAY_COUNT(D_801239D4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, (Player*)actor, CAM_SET_CS_C);
             break;

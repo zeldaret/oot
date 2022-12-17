@@ -5251,7 +5251,7 @@ s32 Camera_Unique9(Camera* camera) {
     if (rwData->keyFrameTimer == 0) {
         rwData->isNewKeyFrame = true;
         rwData->curKeyFrameIdx++;
-        if (rwData->curKeyFrameIdx < ONEPOINT_CS_INFO(camera)->keyFrameCnt) {
+        if (rwData->curKeyFrameIdx < ONEPOINT_CS_INFO(camera)->keyFrameCount) {
             rwData->curKeyFrame = &ONEPOINT_CS_INFO(camera)->keyFrames[rwData->curKeyFrameIdx];
             rwData->keyFrameTimer = rwData->curKeyFrame->timerInit;
 
@@ -6018,7 +6018,7 @@ s32 Camera_Demo4(Camera* camera) {
 }
 
 /**
- * Sets up an attention cutscene for a OnePoint Cutscene
+ * Sets up a OnePoint attention cutscene
  */
 s32 Camera_Demo5(Camera* camera) {
     f32 eyeTargetDist;
@@ -6064,9 +6064,9 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D6AC[1].atTargetInit.z = Rand_ZeroOne() * 10.0f;
             D_8011D6AC[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D6AC;
-            ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
+            ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D6AC);
             if (camera->parentCamId != CAM_ID_MAIN) {
-                ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
+                ONEPOINT_CS_INFO(camera)->keyFrameCount--;
             } else {
                 camera->timer += D_8011D6AC[2].timerInit;
             }
@@ -6074,9 +6074,9 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D724[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             D_8011D724[1].timerInit = camera->timer - 1;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D724;
-            ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D724);
+            ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D724);
             if (camera->parentCamId != CAM_ID_MAIN) {
-                ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
+                ONEPOINT_CS_INFO(camera)->keyFrameCount--;
             } else {
                 camera->timer += D_8011D724[2].timerInit;
             }
@@ -6084,7 +6084,7 @@ s32 Camera_Demo5(Camera* camera) {
     } else if (playerTargetGeo.r < 30.0f) {
         // distance between player and target is less than 30 units.
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D79C;
-        ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
+        ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D79C);
         if ((targetScreenPosX <= 20) || (targetScreenPosX >= SCREEN_WIDTH - 20) || (targetScreenPosY <= 40) ||
             (targetScreenPosY >= SCREEN_HEIGHT - 40)) {
             D_8011D79C[0].actionFlags = ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, false);
@@ -6099,7 +6099,7 @@ s32 Camera_Demo5(Camera* camera) {
         D_8011D79C[1].timerInit = camera->timer - 1;
 
         if (camera->parentCamId != CAM_ID_MAIN) {
-            ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINT_CS_INFO(camera)->keyFrameCount -= 2;
         } else {
             camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
         }
@@ -6108,9 +6108,9 @@ s32 Camera_Demo5(Camera* camera) {
         // and the distance fromthe camera's current position to the player is less than 30 units
         D_8011D83C[0].timerInit = camera->timer;
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D83C;
-        ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
+        ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D83C);
         if (camera->parentCamId != CAM_ID_MAIN) {
-            ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
+            ONEPOINT_CS_INFO(camera)->keyFrameCount--;
         } else {
             camera->timer += D_8011D83C[1].timerInit;
         }
@@ -6122,9 +6122,9 @@ s32 Camera_Demo5(Camera* camera) {
             (targetScreenPosY < SCREEN_HEIGHT - 40) && (eyePlayerGeo.r > 30.0f)) {
             D_8011D88C[0].timerInit = camera->timer;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D88C;
-            ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
+            ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D88C);
             if (camera->parentCamId != CAM_ID_MAIN) {
-                ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
+                ONEPOINT_CS_INFO(camera)->keyFrameCount--;
             } else {
                 camera->timer += D_8011D88C[1].timerInit;
             }
@@ -6140,9 +6140,9 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D8DC[0].timerInit = camera->timer;
             D_8011D8DC[1].timerInit = (s16)(eyeTargetDist * 0.005f) + 8;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D8DC;
-            ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
+            ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D8DC);
             if (camera->parentCamId != CAM_ID_MAIN) {
-                ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
+                ONEPOINT_CS_INFO(camera)->keyFrameCount -= 2;
             } else {
                 camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
             }
@@ -6177,9 +6177,9 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D954[2].timerInit = (s16)(eyeTargetDist * 0.004f) + 6;
         }
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D954;
-        ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D954);
+        ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D954);
         if (camera->parentCamId != CAM_ID_MAIN) {
-            ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINT_CS_INFO(camera)->keyFrameCount -= 2;
         } else {
             camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
         }
@@ -6202,13 +6202,13 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D9F4[1].timerInit = t + 8;
         }
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D9F4;
-        ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
+        ONEPOINT_CS_INFO(camera)->keyFrameCount = ARRAY_COUNT(D_8011D9F4);
         if (camera->parentCamId != CAM_ID_MAIN) {
             if (camera->play->state.frames & 1) {
                 D_8011D9F4[0].rollTargetInit = -D_8011D9F4[0].rollTargetInit;
                 D_8011D9F4[1].rollTargetInit = -D_8011D9F4[1].rollTargetInit;
             }
-            ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINT_CS_INFO(camera)->keyFrameCount -= 2;
         } else {
             camera->timer += D_8011D9F4[1].timerInit + D_8011D9F4[2].timerInit;
             D_8011D9F4[0].rollTargetInit = D_8011D9F4[1].rollTargetInit = 0;
@@ -6247,7 +6247,7 @@ s32 Camera_Demo5(Camera* camera) {
     sDemo5PrevAction12Frame = camera->play->state.frames;
     Camera_ChangeSettingFlags(camera, CAM_SET_CS_C, (4 | 1));
 
-    // Continue to the main OnePoint cutscene update
+    // Continue to the general OnePoint cutscene update
     Camera_Unique9(camera);
     return true;
 }
