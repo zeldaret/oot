@@ -375,7 +375,7 @@ void EnKz_SetupMweep(EnKz* this, PlayState* play) {
     subCamAt.y += 60.0f;
     subCamEye.y += -100.0f;
     subCamEye.z += 260.0f;
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
     this->actor.speedXZ = 0.1f;
     this->actionFunc = EnKz_Mweep;
@@ -391,7 +391,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
     subCamAt.y += 60.0f;
     subCamEye.y += -100.0f;
     subCamEye.z += 260.0f;
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     if ((EnKz_FollowPath(this, play) == 1) && (this->waypoint == 0)) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(play, ITEM_BOTTLE_RUTOS_LETTER, ITEM_BOTTLE_EMPTY);

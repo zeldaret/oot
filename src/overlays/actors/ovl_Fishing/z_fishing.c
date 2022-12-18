@@ -5363,7 +5363,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             mainCam->eye = sSubCamEye;
             mainCam->eyeNext = sSubCamEye;
             mainCam->at = sSubCamAt;
-            func_800C08AC(play, sSubCamId, 0);
+            Play_ReturnToMainCam(play, sSubCamId, 0);
             func_80064534(play, &play->csCtx);
             sFishingPlayerCinematicState = 0;
             sSubCamId = SUB_CAM_ID_DONE;
@@ -5405,7 +5405,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 mainCam->eye = sSubCamEye;
                 mainCam->eyeNext = sSubCamEye;
                 mainCam->at = sSubCamAt;
-                func_800C08AC(play, sSubCamId, 0);
+                Play_ReturnToMainCam(play, sSubCamId, 0);
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 sFishingPlayerCinematicState = 0;
@@ -5510,7 +5510,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                         mainCam->eye = sSubCamEye;
                         mainCam->eyeNext = sSubCamEye;
                         mainCam->at = sSubCamAt;
-                        func_800C08AC(play, sSubCamId, 0);
+                        Play_ReturnToMainCam(play, sSubCamId, 0);
                         func_80064534(play, &play->csCtx);
                         func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                         sFishingPlayerCinematicState = 0;
@@ -5532,7 +5532,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     if (sSubCamId != SUB_CAM_ID_DONE) {
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
         Math_ApproachF(&sSubCamVelFactor, 1.0f, 1.0f, 0.02f);
 
         if (sSubCamEye.y <= (WATER_SURFACE_Y(play) + 1.0f)) {

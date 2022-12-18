@@ -380,7 +380,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
         sSubCamEye.z = ROOM_CENTER_Z - 100.0f;
     }
 
-    Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+    Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     this->actionFunc = BossSst_HeadIntro;
 }
@@ -407,7 +407,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
         func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
         sSubCamAt.y += 30.0f;
         sSubCamAt.z += 300.0f;
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
         Play_CopyCamera(play, CAM_ID_MAIN, sSubCamId);
         Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_WAIT);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
@@ -616,7 +616,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
     }
 
     if (this->actionFunc != BossSst_HeadNeutral) {
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 }
 
@@ -1003,7 +1003,7 @@ void BossSst_UpdateDeathCamera(BossSst* this, PlayState* play) {
     subCamEye.x = this->actor.world.pos.x + (sSubCamEye.z * sn) + (sSubCamEye.x * cs);
     subCamEye.y = this->actor.home.pos.y - 140.0f + sSubCamEye.y;
     subCamEye.z = this->actor.world.pos.z + (sSubCamEye.z * cs) - (sSubCamEye.x * sn);
-    Play_CameraSetAtEye(play, sSubCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, sSubCamId, &subCamAt, &subCamEye);
 }
 
 void BossSst_HeadSetupDeath(BossSst* this, PlayState* play) {
@@ -1042,7 +1042,7 @@ void BossSst_HeadDeath(BossSst* this, PlayState* play) {
         BossSst_HandSetupThrash(sHands[RIGHT]);
         BossSst_HeadSetupThrash(this);
     } else if (this->timer > 48) {
-        Play_CameraSetAtEye(play, sSubCamId, &this->actor.focus.pos, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &this->actor.focus.pos, &sSubCamEye);
         Math_StepToF(&this->radius, -350.0f, 10.0f);
     } else if (this->timer == 48) {
         Player* player = GET_PLAYER(play);

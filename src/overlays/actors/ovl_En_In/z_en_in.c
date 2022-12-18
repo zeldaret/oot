@@ -455,7 +455,7 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     subCamEye.x = subCamAt.x;
     subCamEye.y = subCamAt.y - 22.0f;
     subCamEye.z = subCamAt.z + 40.0f;
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &subCamEye);
     this->interactInfo.headRot = zeroVec;
     this->interactInfo.torsoRot = zeroVec;
@@ -785,7 +785,7 @@ void func_80A7AA40(EnIn* this, PlayState* play) {
     subCamEye.y += this->subCamEyeOffset.y;
     subCamEye.z += this->subCamEyeOffset.z;
 
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     this->actor.textId = 0x203B;
     Message_StartTextbox(play, this->actor.textId, NULL);
     this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
@@ -849,7 +849,7 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
         subCamEye.x += this->subCamEyeOffset.x;
         subCamEye.y += this->subCamEyeOffset.y;
         subCamEye.z += this->subCamEyeOffset.z;
-        Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     }
 }
 
