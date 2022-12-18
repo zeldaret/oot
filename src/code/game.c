@@ -61,26 +61,28 @@ void GameState_SetFBFilter(Gfx** gfx) {
 void func_800C4344(GameState* gameState) {
     Input* selectedInput;
     s32 hexDumpSize;
-    u16 hReg82;
+    u16 inputCompareValue;
 
-    if (HREG(80) == 0x14) {
-        __osMalloc_FreeBlockTest_Enable = HREG(82);
+    if (R_HREG_MODE == HREG_MODE_HEAP_FREE_BLOCK_TEST) {
+        __osMalloc_FreeBlockTest_Enable = R_HEAP_FREE_BLOCK_TEST_TOGGLE;
     }
 
-    if (HREG(80) == 0xC) {
-        selectedInput = &gameState->input[(u32)HREG(81) < 4U ? HREG(81) : 0];
-        hReg82 = HREG(82);
-        HREG(83) = selectedInput->cur.button;
-        HREG(84) = selectedInput->press.button;
-        HREG(85) = selectedInput->rel.stick_x;
-        HREG(86) = selectedInput->rel.stick_y;
-        HREG(87) = selectedInput->rel.stick_x;
-        HREG(88) = selectedInput->rel.stick_y;
-        HREG(89) = selectedInput->cur.stick_x;
-        HREG(90) = selectedInput->cur.stick_y;
-        HREG(93) = (selectedInput->cur.button == hReg82);
-        HREG(94) = CHECK_BTN_ALL(selectedInput->cur.button, hReg82);
-        HREG(95) = CHECK_BTN_ALL(selectedInput->press.button, hReg82);
+    if (R_HREG_MODE == HREG_MODE_INPUT_TEST) {
+        selectedInput =
+            &gameState->input[(u32)R_INPUT_TEST_CONTROLLER_PORT < MAXCONTROLLERS ? R_INPUT_TEST_CONTROLLER_PORT : 0];
+
+        inputCompareValue = R_INPUT_TEST_COMPARE_VALUE;
+        R_INPUT_TEST_BUTTON_CUR = selectedInput->cur.button;
+        R_INPUT_TEST_BUTTON_PRESS = selectedInput->press.button;
+        R_INPUT_TEST_REL_STICK_X = selectedInput->rel.stick_x;
+        R_INPUT_TEST_REL_STICK_Y = selectedInput->rel.stick_y;
+        R_INPUT_TEST_REL_STICK_X_2 = selectedInput->rel.stick_x;
+        R_INPUT_TEST_REL_STICK_Y_2 = selectedInput->rel.stick_y;
+        R_INPUT_TEST_CUR_STICK_X = selectedInput->cur.stick_x;
+        R_INPUT_TEST_CUR_STICK_Y = selectedInput->cur.stick_y;
+        R_INPUT_TEST_COMPARE_BUTTON_CUR = (selectedInput->cur.button == inputCompareValue);
+        R_INPUT_TEST_COMPARE_COMBO_CUR = CHECK_BTN_ALL(selectedInput->cur.button, inputCompareValue);
+        R_INPUT_TEST_COMPARE_COMBO_PRESS = CHECK_BTN_ALL(selectedInput->press.button, inputCompareValue);
     }
 
     if (gIsCtrlr2Valid) {
@@ -91,18 +93,19 @@ void func_800C4344(GameState* gameState) {
     gDmaMgrDmaBuffSize = SREG(21) != 0 ? ALIGN16(SREG(21)) : DMAMGR_DEFAULT_BUFSIZE;
     gSystemArenaLogSeverity = HREG(61);
     gZeldaArenaLogSeverity = HREG(62);
-    if (HREG(80) == 8) {
-        if (HREG(94) != 8) {
-            HREG(94) = 8;
-            HREG(81) = 0;
-            HREG(82) = 0;
-            HREG(83) = 0;
+
+    if (R_HREG_MODE == HREG_MODE_PRINT_MEMORY) {
+        if (R_PRINT_MEMORY_INIT != HREG_MODE_PRINT_MEMORY) {
+            R_PRINT_MEMORY_INIT = HREG_MODE_PRINT_MEMORY;
+            R_PRINT_MEMORY_TRIGGER = 0;
+            R_PRINT_MEMORY_ADDR = 0;
+            R_PRINT_MEMORY_SIZE = 0;
         }
-        if (HREG(81) < 0) {
-            HREG(81) = 0;
-            // & 0xFFFFFFFF necessary for matching.
-            hexDumpSize = (HREG(83) == 0 ? 0x100 : HREG(83) * 0x10) & 0xFFFFFFFF;
-            LogUtils_LogHexDump(PHYSICAL_TO_VIRTUAL(HREG(82) << 8), hexDumpSize);
+
+        if (R_PRINT_MEMORY_TRIGGER < 0) {
+            R_PRINT_MEMORY_TRIGGER = 0;
+            hexDumpSize = (u32)(R_PRINT_MEMORY_SIZE == 0 ? 0x100 : R_PRINT_MEMORY_SIZE * 0x10);
+            LogUtils_LogHexDump((void*)(0x80000000 + (R_PRINT_MEMORY_ADDR << 8)), hexDumpSize);
         }
     }
 }
@@ -285,28 +288,33 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->viMode = NULL;
     }
 
-    if (HREG(80) == 0x15) {
-        if (HREG(95) != 0x15) {
-            HREG(95) = 0x15;
-            HREG(81) = 0;
-            HREG(82) = gViConfigAdditionalScanLines;
-            HREG(83) = 0;
-            HREG(84) = 0;
+    if (R_HREG_MODE == HREG_MODE_VI) {
+        if (R_VI_INIT != HREG_MODE_VI) {
+            R_VI_INIT = HREG_MODE_VI;
+            R_VI_NEXT_Y_SCALE_MODE = 0;
+            R_VI_NEXT_ADDI_SCAN_LINES = gViConfigAdditionalScanLines;
+            R_VI_CUR_ADDI_SCAN_LINES = 0;
+            R_VI_CUR_Y_SCALE_MODE = 0;
         }
 
-        if (HREG(82) < 0) {
-            HREG(82) = 0;
-        }
-        if (HREG(82) > 0x30) {
-            HREG(82) = 0x30;
+        if (R_VI_NEXT_ADDI_SCAN_LINES < 0) {
+            R_VI_NEXT_ADDI_SCAN_LINES = 0;
         }
 
-        if ((HREG(83) != HREG(82)) || HREG(84) != HREG(81)) {
-            HREG(83) = HREG(82);
-            HREG(84) = HREG(81);
-            gViConfigAdditionalScanLines = HREG(82);
-            gViConfigYScale =
-                HREG(81) == 0 ? ((f32)SCREEN_HEIGHT) / (gViConfigAdditionalScanLines + (f32)SCREEN_HEIGHT) : 1.0f;
+        if (R_VI_NEXT_ADDI_SCAN_LINES > 0x30) {
+            R_VI_NEXT_ADDI_SCAN_LINES = 0x30;
+        }
+
+        if ((R_VI_CUR_ADDI_SCAN_LINES != R_VI_NEXT_ADDI_SCAN_LINES) ||
+            R_VI_CUR_Y_SCALE_MODE != R_VI_NEXT_Y_SCALE_MODE) {
+
+            R_VI_CUR_ADDI_SCAN_LINES = R_VI_NEXT_ADDI_SCAN_LINES;
+            R_VI_CUR_Y_SCALE_MODE = R_VI_NEXT_Y_SCALE_MODE;
+
+            gViConfigAdditionalScanLines = R_VI_NEXT_ADDI_SCAN_LINES;
+            gViConfigYScale = R_VI_NEXT_Y_SCALE_MODE == 0
+                                  ? ((f32)SCREEN_HEIGHT) / (gViConfigAdditionalScanLines + (f32)SCREEN_HEIGHT)
+                                  : 1.0f;
             D_80009430 = 1;
         }
     }

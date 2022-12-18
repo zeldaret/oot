@@ -12,6 +12,11 @@ s32 __osSpDeviceBusy(void);
 
 u32 __osProbeTLB(void*);
 
+typedef struct {
+    OSThread* next;
+    OSPri priority;
+} __OSThreadTail; // size = 0x8
+
 typedef struct  {
     /* 0x00 */ OSMesgQueue* queue;
     /* 0x04 */ OSMesg msg;

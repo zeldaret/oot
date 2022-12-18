@@ -255,7 +255,8 @@ void Play_Init(GameState* thisx) {
     this->cameraPtrs[CAM_ID_MAIN] = &this->mainCamera;
     this->cameraPtrs[CAM_ID_MAIN]->uid = 0;
     this->activeCamId = CAM_ID_MAIN;
-    func_8005AC48(&this->mainCamera, 0xFF);
+    Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_0 | CAM_STATE_1 | CAM_STATE_2 | CAM_STATE_3 | CAM_STATE_4 |
+                                                      CAM_STATE_5 | CAM_STATE_6 | CAM_STATE_7);
     Sram_Init(this, &this->sramCtx);
     Regs_InitData(this);
     Message_Init(this);
@@ -306,7 +307,7 @@ void Play_Init(GameState* thisx) {
     // save the base scene layer (before accounting for the special cases below) to use later for the transition type
     baseSceneLayer = gSaveContext.sceneLayer;
 
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT00) && !LINK_IS_ADULT &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_HYRULE_FIELD) && !LINK_IS_ADULT &&
         !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -314,8 +315,8 @@ void Play_Init(GameState* thisx) {
         } else {
             gSaveContext.sceneLayer = 0;
         }
-    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT04) && LINK_IS_ADULT &&
-               !IS_CUTSCENE_LAYER) {
+    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST) &&
+               LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
@@ -327,7 +328,7 @@ void Play_Init(GameState* thisx) {
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_SPOT09) &&
+    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
         gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
@@ -410,7 +411,7 @@ void Play_Init(GameState* thisx) {
     }
 
     player = GET_PLAYER(this);
-    Camera_InitPlayerSettings(&this->mainCamera, player);
+    Camera_InitDataUsingPlayer(&this->mainCamera, player);
     Camera_ChangeMode(&this->mainCamera, CAM_MODE_NORMAL);
 
     playerStartBgCamIndex = player->actor.params & 0xFF;
@@ -456,8 +457,8 @@ void Play_Update(PlayState* this) {
         ZeldaArena_Display();
     }
 
-    if ((HREG(80) == 18) && (HREG(81) < 0)) {
-        HREG(81) = 0;
+    if ((R_HREG_MODE == HREG_MODE_PRINT_OBJECT_TABLE) && (R_PRINT_OBJECT_TABLE_TRIGGER < 0)) {
+        R_PRINT_OBJECT_TABLE_TRIGGER = 0;
         osSyncPrintf("object_exchange_rom_address %u\n", gObjectTableSize);
         osSyncPrintf("RomStart RomEnd   Size\n");
 
@@ -471,6 +472,9 @@ void Play_Update(PlayState* this) {
         osSyncPrintf("\n");
     }
 
+    // HREG(81) was very likely intended to be HREG(80), which would make more sense given how the
+    // HREG debugging system works. If this condition used HREG(80) instead, `HREG_MODE_PRINT_OBJECT_TABLE`
+    // would also include the actor overlay table and HREG(82) would be used to trigger it instead.
     if ((HREG(81) == 18) && (HREG(82) < 0)) {
         HREG(82) = 0;
         ActorOverlayTable_LogPrint();
@@ -509,7 +513,7 @@ void Play_Update(PlayState* this) {
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         s16 sceneLayer = SCENE_LAYER_CHILD_DAY;
 
-                        Interface_ChangeAlpha(1);
+                        Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
                             sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.cutsceneIndex & 0xF);
@@ -936,7 +940,7 @@ void Play_Update(PlayState* this) {
             }
 
             PLAY_LOG(3708);
-            SkyboxDraw_Update(&this->skyboxCtx);
+            Skybox_Update(&this->skyboxCtx);
 
             PLAY_LOG(3716);
 
@@ -1047,7 +1051,7 @@ void Play_Draw(PlayState* this) {
 
     Gfx_SetupFrame(gfxCtx, 0, 0, 0);
 
-    if ((HREG(80) != 10) || (HREG(82) != 0)) {
+    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_RUN_DRAW) {
         POLY_OPA_DISP = Play_SetFog(this, POLY_OPA_DISP);
         POLY_XLU_DISP = Play_SetFog(this, POLY_XLU_DISP);
 
@@ -1070,7 +1074,7 @@ void Play_Draw(PlayState* this) {
 
         gSPSegment(POLY_OPA_DISP++, 0x01, this->billboardMtx);
 
-        if ((HREG(80) != 10) || (HREG(92) != 0)) {
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_COVER_ELEMENTS) {
             Gfx* gfxP;
             Gfx* sp1CC = POLY_OPA_DISP;
 
@@ -1128,46 +1132,46 @@ void Play_Draw(PlayState* this) {
             } else {
                 s32 roomDrawFlags;
 
-                if ((HREG(80) != 10) || (HREG(83) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
                     if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
                         if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
                             Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
-                            SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend,
-                                            this->view.eye.x, this->view.eye.y, this->view.eye.z);
+                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend,
+                                        this->view.eye.x, this->view.eye.y, this->view.eye.z);
                         } else if (this->skyboxCtx.unk_140 == 0) {
-                            SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x,
-                                            this->view.eye.y, this->view.eye.z);
+                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
+                                        this->view.eye.z);
                         }
                     }
                 }
 
-                if ((HREG(80) != 10) || (HREG(90) & 2)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
                     if (!this->envCtx.sunMoonDisabled) {
                         Environment_DrawSunAndMoon(this);
                     }
                 }
 
-                if ((HREG(80) != 10) || (HREG(90) & 1)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
                     Environment_DrawSkyboxFilters(this);
                 }
 
-                if ((HREG(80) != 10) || (HREG(90) & 4)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTNING)) {
                     Environment_UpdateLightningStrike(this);
                     Environment_DrawLightning(this, 0);
                 }
 
-                if ((HREG(80) != 10) || (HREG(90) & 8)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTS)) {
                     sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
                     Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
                     Lights_Draw(sp228, gfxCtx);
                 }
 
-                if ((HREG(80) != 10) || (HREG(84) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
                     if (VREG(94) == 0) {
-                        if (HREG(80) != 10) {
+                        if (R_HREG_MODE != HREG_MODE_PLAY) {
                             roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
                         } else {
-                            roomDrawFlags = HREG(84);
+                            roomDrawFlags = R_PLAY_DRAW_ROOM_FLAGS;
                         }
                         Scene_Draw(this);
                         Room_Draw(this, &this->roomCtx.curRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
@@ -1175,13 +1179,13 @@ void Play_Draw(PlayState* this) {
                     }
                 }
 
-                if ((HREG(80) != 10) || (HREG(83) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
                     if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
                         Vec3f quakeOffset;
 
                         Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
-                        SkyboxDraw_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
-                                        this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
+                        Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
+                                    this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
                     }
                 }
 
@@ -1189,15 +1193,15 @@ void Play_Draw(PlayState* this) {
                     Environment_DrawRain(this, &this->view, gfxCtx);
                 }
 
-                if ((HREG(80) != 10) || (HREG(84) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
                     Environment_FillScreen(gfxCtx, 0, 0, 0, this->unk_11E18, FILL_SCREEN_OPA);
                 }
 
-                if ((HREG(80) != 10) || (HREG(85) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
                     func_800315AC(this, &this->actorCtx);
                 }
 
-                if ((HREG(80) != 10) || (HREG(86) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
                     if (!this->envCtx.sunMoonDisabled) {
                         sp21C.x = this->view.eye.x + this->envCtx.sunPos.x;
                         sp21C.y = this->view.eye.y + this->envCtx.sunPos.y;
@@ -1207,7 +1211,7 @@ void Play_Draw(PlayState* this) {
                     Environment_DrawCustomLensFlare(this);
                 }
 
-                if ((HREG(80) != 10) || (HREG(87) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SCREEN_FILLS) {
                     if (MREG(64) != 0) {
                         Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
                                                FILL_SCREEN_OPA | FILL_SCREEN_XLU);
@@ -1224,13 +1228,13 @@ void Play_Draw(PlayState* this) {
                     }
                 }
 
-                if ((HREG(80) != 10) || (HREG(88) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SANDSTORM) {
                     if (this->envCtx.sandstormState != SANDSTORM_OFF) {
                         Environment_DrawSandstorm(this, this->envCtx.sandstormState);
                     }
                 }
 
-                if ((HREG(80) != 10) || (HREG(93) != 0)) {
+                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_DEBUG_OBJECTS) {
                     DebugDisplay_DrawObjects(this);
                 }
 
@@ -1252,7 +1256,7 @@ void Play_Draw(PlayState* this) {
                     SREG(33) |= 1;
                 } else {
                 Play_Draw_DrawOverlayElements:
-                    if ((HREG(80) != 10) || (HREG(89) != 0)) {
+                    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
                         Play_DrawOverlayElements(this);
                     }
                 }
@@ -1265,7 +1269,7 @@ void Play_Draw(PlayState* this) {
         View_UpdateViewingMatrix(&this->view);
         this->view.unk_124 = 0;
         if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
-            SkyboxDraw_UpdateMatrix(&this->skyboxCtx, this->view.eye.x, this->view.eye.y, this->view.eye.z);
+            Skybox_UpdateMatrix(&this->skyboxCtx, this->view.eye.x, this->view.eye.y, this->view.eye.z);
         }
     }
 
@@ -1283,24 +1287,25 @@ void Play_Main(GameState* thisx) {
 
     PLAY_LOG(4556);
 
-    if ((HREG(80) == 10) && (HREG(94) != 10)) {
-        HREG(81) = 1;
-        HREG(82) = 1;
-        HREG(83) = 1;
-        HREG(84) = 3;
-        HREG(85) = 1;
-        HREG(86) = 1;
-        HREG(87) = 1;
-        HREG(88) = 1;
-        HREG(89) = 1;
-        HREG(90) = 15;
-        HREG(91) = 1;
-        HREG(92) = 1;
-        HREG(93) = 1;
-        HREG(94) = 10;
+    if ((R_HREG_MODE == HREG_MODE_PLAY) && (R_PLAY_INIT != HREG_MODE_PLAY)) {
+        R_PLAY_RUN_UPDATE = true;
+        R_PLAY_RUN_DRAW = true;
+        R_PLAY_DRAW_SKYBOX = true;
+        R_PLAY_DRAW_ROOM_FLAGS = (ROOM_DRAW_OPA | ROOM_DRAW_XLU);
+        R_PLAY_DRAW_ACTORS = true;
+        R_PLAY_DRAW_LENS_FLARES = true;
+        R_PLAY_DRAW_SCREEN_FILLS = true;
+        R_PLAY_DRAW_SANDSTORM = true;
+        R_PLAY_DRAW_OVERLAY_ELEMENTS = true;
+        R_PLAY_DRAW_ENV_FLAGS = (PLAY_ENV_DRAW_SKYBOX_FILTERS | PLAY_ENV_DRAW_SUN_AND_MOON | PLAY_ENV_DRAW_LIGHTNING |
+                                 PLAY_ENV_DRAW_LIGHTS);
+        HREG(91) = 1; // reg is not used in this mode
+        R_PLAY_DRAW_COVER_ELEMENTS = true;
+        R_PLAY_DRAW_DEBUG_OBJECTS = true;
+        R_PLAY_INIT = HREG_MODE_PLAY;
     }
 
-    if ((HREG(80) != 10) || (HREG(81) != 0)) {
+    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_RUN_UPDATE) {
         Play_Update(this);
     }
 
@@ -1455,28 +1460,28 @@ void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest) {
 }
 
 s16 Play_CreateSubCamera(PlayState* this) {
-    s16 i;
+    s16 camId;
 
-    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
-        if (this->cameraPtrs[i] == NULL) {
+    for (camId = CAM_ID_SUB_FIRST; camId < NUM_CAMS; camId++) {
+        if (this->cameraPtrs[camId] == NULL) {
             break;
         }
     }
 
-    if (i == NUM_CAMS) {
+    if (camId == NUM_CAMS) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
         return CAM_ID_NONE;
     }
 
     osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
                      CYAN) " " VT_RST "\n",
-                 i);
+                 camId);
 
-    this->cameraPtrs[i] = &this->subCameras[i - CAM_ID_SUB_FIRST];
-    Camera_Init(this->cameraPtrs[i], &this->view, &this->colCtx, this);
-    this->cameraPtrs[i]->camId = i;
+    this->cameraPtrs[camId] = &this->subCameras[camId - CAM_ID_SUB_FIRST];
+    Camera_Init(this->cameraPtrs[camId], &this->view, &this->colCtx, this);
+    this->cameraPtrs[camId]->camId = camId;
 
-    return i;
+    return camId;
 }
 
 s16 Play_GetActiveCamId(PlayState* this) {
@@ -1529,15 +1534,15 @@ Camera* Play_GetCamera(PlayState* this, s16 camId) {
     return this->cameraPtrs[camIdx];
 }
 
-s32 Play_CameraSetAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
-    s32 ret = 0;
+s32 Play_SetCameraAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
+    s32 successBits = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetParam(camera, 1, at);
-    ret <<= 1;
-    ret |= Camera_SetParam(camera, 2, eye);
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1552,20 +1557,20 @@ s32 Play_CameraSetAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
 
     camera->atLERPStepScale = 0.01f;
 
-    return ret;
+    return successBits;
 }
 
-s32 Play_CameraSetAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
-    s32 ret = 0;
+s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
+    s32 successBits = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetParam(camera, 1, at);
-    ret <<= 1;
-    ret |= Camera_SetParam(camera, 2, eye);
-    ret <<= 1;
-    ret |= Camera_SetParam(camera, 4, up);
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_UP, up);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1580,14 +1585,14 @@ s32 Play_CameraSetAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec
 
     camera->atLERPStepScale = 0.01f;
 
-    return ret;
+    return successBits;
 }
 
-s32 Play_CameraSetFov(PlayState* this, s16 camId, f32 fov) {
-    s32 ret = Camera_SetParam(this->cameraPtrs[camId], 0x20, &fov) & 1;
+s32 Play_SetCameraFov(PlayState* this, s16 camId, f32 fov) {
+    s32 successBits = Camera_SetViewParam(this->cameraPtrs[camId], CAM_VIEW_FOV, &fov) & 1;
 
     if (1) {}
-    return ret;
+    return successBits;
 }
 
 s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll) {
@@ -1606,43 +1611,52 @@ void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId) {
     Camera_Copy(this->cameraPtrs[destCamId1], this->cameraPtrs[srcCamId2]);
 }
 
-s32 func_800C0808(PlayState* this, s16 camId, Player* player, s16 setting) {
+/**
+ * Initializes camera data centered around Player, and applies the requested setting.
+ */
+s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, Player* player, s16 setting) {
     Camera* camera;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     camera = this->cameraPtrs[camIdx];
-    Camera_InitPlayerSettings(camera, player);
+    Camera_InitDataUsingPlayer(camera, player);
     return Camera_ChangeSetting(camera, setting);
 }
 
-s32 Play_CameraChangeSetting(PlayState* this, s16 camId, s16 setting) {
+s32 Play_ChangeCameraSetting(PlayState* this, s16 camId, s16 setting) {
     return Camera_ChangeSetting(Play_GetCamera(this, camId), setting);
 }
 
-void func_800C08AC(PlayState* this, s16 camId, s16 arg2) {
+/**
+ * Smoothly return control from a sub camera to the main camera by moving the subCamera's eye, at, fov through
+ * interpolation from the initial subCam viewParams to the target mainCam viewParams over `duration`.
+ * Setting the `duration` to 0 or less will instantly return control to the main camera.
+ * This will also clear every sub camera.
+ */
+void Play_ReturnToMainCam(PlayState* this, s16 camId, s16 duration) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
-    s16 i;
+    s16 subCamId;
 
     Play_ClearCamera(this, camIdx);
 
-    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
-        if (this->cameraPtrs[i] != NULL) {
+    for (subCamId = CAM_ID_SUB_FIRST; subCamId < NUM_CAMS; subCamId++) {
+        if (this->cameraPtrs[subCamId] != NULL) {
             osSyncPrintf(
                 VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,
-                i);
-            Play_ClearCamera(this, i);
+                subCamId);
+            Play_ClearCamera(this, subCamId);
         }
     }
 
-    if (arg2 <= 0) {
+    if (duration <= 0) {
         Play_ChangeCameraStatus(this, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         this->cameraPtrs[CAM_ID_MAIN]->childCamId = this->cameraPtrs[CAM_ID_MAIN]->parentCamId = CAM_ID_MAIN;
     } else {
-        OnePointCutscene_Init(this, 1020, arg2, NULL, CAM_ID_MAIN);
+        OnePointCutscene_Init(this, 1020, duration, NULL, CAM_ID_MAIN);
     }
 }
 
-s16 Play_CameraGetUID(PlayState* this, s16 camId) {
+s16 Play_GetCameraUID(PlayState* this, s16 camId) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
@@ -1652,12 +1666,16 @@ s16 Play_CameraGetUID(PlayState* this, s16 camId) {
     }
 }
 
-s16 func_800C09D8(PlayState* this, s16 camId, s16 arg2) {
+// Unused, purpose is unclear (also unused and unclear in MM)
+s16 func_800C09D8(PlayState* this, s16 camId, s16 uid) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
         return 0;
-    } else if (camera->uid != arg2) {
+    }
+
+    //! @bug this code is only reached if `camera` is NULL.
+    if (camera->uid != uid) {
         return 0;
     } else if (camera->status != CAM_STAT_ACTIVE) {
         return 2;
@@ -1693,7 +1711,7 @@ void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams) 
     s32 entranceIndex;
     s8 roomIndex;
 
-    if ((this->sceneId != SCENE_YOUSEI_IZUMI_TATE) && (this->sceneId != SCENE_KAKUSIANA)) {
+    if ((this->sceneId != SCENE_FAIRYS_FOUNTAIN) && (this->sceneId != SCENE_GROTTOS)) {
         roomIndex = this->roomCtx.curRoom.num;
         entranceIndex = gSaveContext.entranceIndex;
         Play_SetRespawnData(this, respawnMode, entranceIndex, roomIndex, playerParams, &player->actor.world.pos,
@@ -1714,13 +1732,16 @@ void Play_LoadToLastEntrance(PlayState* this) {
     gSaveContext.respawnFlag = -1;
     this->transitionTrigger = TRANS_TRIGGER_START;
 
-    if ((this->sceneId == SCENE_GANON_SONOGO) || (this->sceneId == SCENE_GANON_FINAL) ||
-        (this->sceneId == SCENE_GANONTIKA_SONOGO) || (this->sceneId == SCENE_GANON_DEMO)) {
-        this->nextEntranceIndex = ENTR_GANON_FINAL_0;
+    if ((this->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+        (this->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+        (this->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE) || (this->sceneId == SCENE_GANON_BOSS)) {
+        this->nextEntranceIndex = ENTR_GANONS_TOWER_COLLAPSE_EXTERIOR_0;
         Item_Give(this, ITEM_SWORD_MASTER);
-    } else if ((gSaveContext.entranceIndex == ENTR_SPOT00_11) || (gSaveContext.entranceIndex == ENTR_SPOT00_12) ||
-               (gSaveContext.entranceIndex == ENTR_SPOT00_13) || (gSaveContext.entranceIndex == ENTR_SPOT00_15)) {
-        this->nextEntranceIndex = ENTR_SPOT00_6;
+    } else if ((gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_11) ||
+               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_12) ||
+               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_13) ||
+               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_15)) {
+        this->nextEntranceIndex = ENTR_HYRULE_FIELD_6;
     } else {
         this->nextEntranceIndex = gSaveContext.entranceIndex;
     }
@@ -1738,7 +1759,7 @@ s32 Play_CamIsNotFixed(PlayState* this) {
     // but the room shape type check handles all shop cases regardless
     return (this->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE) &&
            (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED) &&
-           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_HAIRAL_NIWA);
+           (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_CASTLE_COURTYARD_GUARDS_DAY);
 }
 
 s32 FrameAdvance_IsEnabled(PlayState* this) {

@@ -1,4 +1,10 @@
-#include "internal.h"
+#include "osint.h"
+
+__OSThreadTail __osThreadTail = { NULL, OS_PRIORITY_THREADTAIL };
+OSThread* __osRunQueue = (OSThread*)&__osThreadTail;
+OSThread* __osActiveQueue = (OSThread*)&__osThreadTail;
+OSThread* __osRunningThread = NULL;
+OSThread* __osFaultedThread = NULL;
 
 void __osDequeueThread(OSThread** queue, OSThread* thread) {
     register OSThread** a2 = queue;

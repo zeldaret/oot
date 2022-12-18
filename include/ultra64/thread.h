@@ -66,11 +66,6 @@ typedef struct OSThread {
     /* 0x20 */ __OSThreadContext context;
 } OSThread; // size = 0x1B0
 
-typedef struct {
-    OSThread* next;
-    OSPri priority;
-} __OSThreadTail; // size = 0x8
-
 void osStopThread(OSThread* thread);
 OSId osGetThreadId(OSThread* thread);
 void osSetThreadPri(OSThread* thread, OSPri pri);

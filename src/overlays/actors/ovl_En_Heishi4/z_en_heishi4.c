@@ -93,7 +93,7 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = func_80A56544;
             break;
     }
-    this->unk_27C = ((thisx->params >> 8) & 0xFF);
+    this->unk_27C = (thisx->params >> 8) & 0xFF;
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
     osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" VT_RST, this->type);
@@ -191,7 +191,7 @@ void func_80A56614(EnHeishi4* this, PlayState* play) {
         this->actionFunc = func_80A56B40;
         return;
     }
-    if (play->sceneId == SCENE_MIHARIGOYA) {
+    if (play->sceneId == SCENE_MARKET_GUARD_HOUSE) {
         if (IS_DAY) {
             this->actor.textId = 0x7004;
         } else {
@@ -266,7 +266,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play) {
     if ((this->unk_282 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_6C);
-        func_8002DF54(play, NULL, 8);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         this->actionFunc = func_80A56A50;
     }
 }
@@ -284,7 +284,7 @@ void func_80A56ACC(EnHeishi4* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_288 <= currentFrame) {
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actionFunc = func_80A5673C;
     }
 }
@@ -293,7 +293,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
     s16 reactionOffset;
 
     SkelAnime_Update(&this->skelAnime);
-    reactionOffset = (this->type - 4);
+    reactionOffset = this->type - 4;
     if (reactionOffset < 0) {
         reactionOffset = 0;
     }
@@ -347,13 +347,13 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
     thisx->world.pos.z = this->pos.z;
     Actor_SetFocus(thisx, this->height);
     if (this->type != HEISHI4_AT_MARKET_DYING) {
-        this->unk_28C.unk_18 = player->actor.world.pos;
+        this->interactInfo.trackPos = player->actor.world.pos;
         if (!LINK_IS_ADULT) {
-            this->unk_28C.unk_18.y = (player->actor.world.pos.y - 10.0f);
+            this->interactInfo.trackPos.y = player->actor.world.pos.y - 10.0f;
         }
-        func_80034A14(thisx, &this->unk_28C, 2, 4);
-        this->unk_260 = this->unk_28C.unk_08;
-        this->unk_266 = this->unk_28C.unk_0E;
+        Npc_TrackPoint(thisx, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
+        this->unk_260 = this->interactInfo.headRot;
+        this->unk_266 = this->interactInfo.torsoRot;
     }
     this->unk_27E += 1;
     this->actionFunc(this, play);

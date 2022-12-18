@@ -791,7 +791,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
         case MO_TENT_SHAKE:
             if (this->timers[0] == 138) {
                 Letterbox_SetSizeTarget(0);
-                Interface_ChangeAlpha(0xB);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_HEARTS);
             }
             if ((this->timers[0] % 8) == 0) {
                 play->damagePlayer(play, -1);
@@ -835,7 +835,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     if (&this->actor == player->actor.parent) {
                         player->unk_850 = 0x65;
                         player->actor.parent = NULL;
-                        player->csMode = 0;
+                        player->csMode = PLAYER_CSMODE_NONE;
                         if (this->timers[0] == 0) {
                             func_8002F6D4(play, &this->actor, 20.0f, this->actor.shape.rot.y + 0x8000, 10.0f, 0);
                         }
@@ -857,7 +857,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachF(&this->subCamAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
-                Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+                Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
             }
             break;
         case MO_TENT_CUT:
@@ -865,7 +865,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             if (&this->actor == player->actor.parent) {
                 player->unk_850 = 0x65;
                 player->actor.parent = NULL;
-                player->csMode = 0;
+                player->csMode = PLAYER_CSMODE_NONE;
             }
             Math_ApproachF(&this->tentRippleSize, 0.15f, 0.5f, 0.01);
             if (this->meltIndex < 41) {
@@ -893,13 +893,13 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachF(&this->subCamAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
-                Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+                Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
                 if (player->actor.world.pos.y <= 42.0f) {
                     mainCam2 = Play_GetCamera(play, CAM_ID_MAIN);
                     mainCam2->eye = this->subCamEye;
                     mainCam2->eyeNext = this->subCamEye;
                     mainCam2->at = this->subCamAt;
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
                     func_80064534(play, &play->csCtx);
                 }
@@ -1225,7 +1225,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                  (fabsf(player->actor.world.pos.x - -180.0f) < 40.0f))) {
                 // checks if Link is on one of the four platforms
                 func_80064520(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 8);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1333,11 +1333,11 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
             Math_ApproachF(&this->actor.speedXZ, sp80, 1.0f, sp78);
             Math_ApproachF(&this->subCamYawRate, sp7C, 1.0f, 128.0f);
             if (this->work[MO_TENT_MOVE_TIMER] == 525) {
-                func_8002DF54(play, &this->actor, 2);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_2);
             }
             if (this->work[MO_TENT_MOVE_TIMER] > 540) {
                 this->csState = MO_INTRO_REVEAL;
-                func_8002DF54(play, &this->actor, 1);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
                 sMorphaTent1->drawActor = true;
                 player->actor.world.pos.x = 180.0f;
                 player->actor.world.pos.z = -210.0f;
@@ -1442,11 +1442,11 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 mainCam2->eye = this->subCamEye;
                 mainCam2->eyeNext = this->subCamEye;
                 mainCam2->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 // MO_BATTLE / SUB_CAM_ID_DONE
                 this->csState = this->subCamId = 0;
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
             }
             break;
     }
@@ -1481,11 +1481,11 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
         this->subCamUp.x = this->subCamUp.z =
             sinf(this->work[MO_TENT_VAR_TIMER] * 0.03f) * this->subCamYawShake * (-2.0f);
         this->subCamUp.y = 1.0f;
-        Play_CameraSetAtEyeUp(play, this->subCamId, &this->subCamAt, &this->subCamEye, &this->subCamUp);
+        Play_SetCameraAtEyeUp(play, this->subCamId, &this->subCamAt, &this->subCamEye, &this->subCamUp);
         mainCam->eye = this->subCamEye;
         mainCam->eyeNext = this->subCamEye;
         mainCam->at = this->subCamAt;
-        Play_CameraSetFov(play, this->subCamId, this->subCamFov);
+        Play_SetCameraFov(play, this->subCamId, this->subCamFov);
     }
 
     if ((this->csState > MO_INTRO_START) && (this->work[MO_TENT_MOVE_TIMER] > 540)) {
@@ -1511,7 +1511,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
     switch (this->csState) {
         case MO_DEATH_START:
             func_80064520(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, 8);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1678,10 +1678,10 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
                     mainCam->eye = this->subCamEye;
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
                     func_80064534(play, &play->csCtx);
-                    func_8002DF54(play, &this->actor, 7);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                     sMorphaTent1->actor.world.pos.y = -1000.0f;
                 }
             } else {
@@ -1727,7 +1727,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
                            this->subCamAtVel.y * this->subCamVelFactor);
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
         }
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
@@ -1786,7 +1786,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                         if (player->actor.parent != NULL) {
                             player->unk_850 = 0x65;
                             player->actor.parent = NULL;
-                            player->csMode = 0;
+                            player->csMode = PLAYER_CSMODE_NONE;
                         }
                     } else {
                         this->actor.colChkInfo.health = 1;
@@ -1805,7 +1805,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                     if (player->actor.parent == &sMorphaTent1->actor) {
                         player->unk_850 = 0x65;
                         player->actor.parent = NULL;
-                        player->csMode = 0;
+                        player->csMode = PLAYER_CSMODE_NONE;
                     }
                 }
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_STUNNED;
@@ -3040,53 +3040,56 @@ void BossMo_Unknown(void) {
     // Appears to be a test function for sound effects.
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static u16 unkSfx[] = {
-        NA_SE_PL_WALK_GROUND,
-        NA_SE_PL_WALK_GROUND,
-        NA_SE_PL_WALK_GROUND,
-        NA_SE_PL_WALK_SAND,
-        NA_SE_PL_WALK_CONCRETE,
-        NA_SE_PL_WALK_DIRT,
-        NA_SE_PL_WALK_WATER0,
-        NA_SE_PL_WALK_WATER1,
-        NA_SE_PL_WALK_WATER2,
-        NA_SE_PL_WALK_MAGMA,
-        NA_SE_PL_WALK_GRASS,
-        NA_SE_PL_WALK_GLASS,
-        NA_SE_PL_WALK_LADDER,
-        NA_SE_PL_WALK_GLASS,
-        NA_SE_PL_WALK_WALL,
-        NA_SE_PL_WALK_HEAVYBOOTS,
-        NA_SE_PL_WALK_ICE,
-        NA_SE_PL_JUMP,
-        NA_SE_PL_JUMP,
-        NA_SE_PL_JUMP_SAND,
-        NA_SE_PL_JUMP_CONCRETE,
-        NA_SE_PL_JUMP_DIRT,
-        NA_SE_PL_JUMP_WATER0,
-        NA_SE_PL_JUMP_WATER1,
-        NA_SE_PL_JUMP_WATER2,
-        NA_SE_PL_JUMP_MAGMA,
-        NA_SE_PL_JUMP_GRASS,
-        NA_SE_PL_JUMP_GLASS,
-        NA_SE_PL_JUMP_LADDER,
-        NA_SE_PL_JUMP_GLASS,
-        NA_SE_PL_JUMP_HEAVYBOOTS,
-        NA_SE_PL_JUMP_ICE,
-        NA_SE_PL_LAND,
-        NA_SE_PL_LAND,
-        NA_SE_PL_LAND_SAND,
-        NA_SE_PL_LAND_CONCRETE,
-        NA_SE_PL_LAND_DIRT,
-        NA_SE_PL_LAND_WATER0,
-        NA_SE_PL_LAND_WATER1,
-        NA_SE_PL_LAND_WATER2,
-        NA_SE_PL_LAND_MAGMA,
-        NA_SE_PL_LAND_GRASS,
-        NA_SE_PL_LAND_GLASS,
-        NA_SE_PL_LAND_LADDER,
-        NA_SE_PL_LAND_GLASS,
-        NA_SE_PL_LAND_HEAVYBOOTS,
-        NA_SE_PL_LAND_ICE,
+        // Walking
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_SAND,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WATER_SHALLOW,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WATER_DEEP,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_TALL_GRASS,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_LAVA,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_VINE,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_IRON_BOOTS,
+        NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_ICE,
+        // Jumping
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_SAND,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_STONE,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_JABU,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_WATER_SHALLOW,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_WATER_DEEP,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_TALL_GRASS,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_LAVA,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_GRASS,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_WOOD,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_IRON_BOOTS,
+        NA_SE_PL_JUMP + SURFACE_SFX_OFFSET_ICE,
+        // Landing
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_SAND,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_STONE,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_JABU,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_WATER_SHALLOW,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_WATER_DEEP,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_TALL_GRASS,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_LAVA,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_GRASS,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_WOOD,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_IRON_BOOTS,
+        NA_SE_PL_LAND + SURFACE_SFX_OFFSET_ICE,
         NA_SE_PL_SLIPDOWN,
         NA_SE_PL_CLIMB_CLIFF,
         NA_SE_PL_CLIMB_CLIFF,
@@ -3114,37 +3117,39 @@ void BossMo_Unknown(void) {
         NA_SE_PL_SKIP,
         NA_SE_PL_BODY_HIT,
         NA_SE_PL_DAMAGE,
-        NA_SE_PL_SLIP,
-        NA_SE_PL_SLIP,
-        NA_SE_PL_SLIP,
-        NA_SE_PL_SLIP_SAND,
-        NA_SE_PL_SLIP_CONCRETE,
-        NA_SE_PL_SLIP_DIRT,
-        NA_SE_PL_SLIP_WATER0,
-        NA_SE_PL_SLIP_WATER1,
-        NA_SE_PL_SLIP_WATER2,
-        NA_SE_PL_SLIP_MAGMA,
-        NA_SE_PL_SLIP_GRASS,
-        NA_SE_PL_SLIP_GLASS,
-        NA_SE_PL_SLIP_LADDER,
-        NA_SE_PL_SLIP_GLASS,
-        NA_SE_PL_SLIP_HEAVYBOOTS,
-        NA_SE_PL_SLIP_ICE,
-        NA_SE_PL_BOUND,
-        NA_SE_PL_BOUND,
-        NA_SE_PL_BOUND_SAND,
-        NA_SE_PL_BOUND_CONCRETE,
-        NA_SE_PL_BOUND_DIRT,
-        NA_SE_PL_BOUND_WATER0,
-        NA_SE_PL_BOUND_WATER1,
-        NA_SE_PL_BOUND_WATER2,
-        NA_SE_PL_BOUND_MAGMA,
-        NA_SE_PL_BOUND_GRASS,
-        NA_SE_PL_BOUND_WOOD,
-        NA_SE_PL_BOUND_LADDER,
-        NA_SE_PL_BOUND_WOOD,
-        NA_SE_PL_BOUND_HEAVYBOOTS,
-        NA_SE_PL_BOUND_ICE,
+        // Slipping
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_SAND,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_STONE,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_JABU,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_WATER_SHALLOW,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_WATER_DEEP,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_TALL_GRASS,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_LAVA,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_GRASS,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_WOOD,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_IRON_BOOTS,
+        NA_SE_PL_SLIP + SURFACE_SFX_OFFSET_ICE,
+        // Bound
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_DIRT,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_SAND,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_STONE,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_JABU,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_WATER_SHALLOW,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_WATER_DEEP,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_TALL_GRASS,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_LAVA,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_WOOD,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_BRIDGE,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_IRON_BOOTS,
+        NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_ICE,
         NA_SE_PL_FACE_UP,
         NA_SE_PL_DIVE_BUBBLE,
         NA_SE_PL_MOVE_BUBBLE,
@@ -3175,8 +3180,8 @@ void BossMo_Unknown(void) {
         NA_SE_IT_ARROW_STICK_CRE,
         NA_SE_IT_ARROW_STICK_CRE,
         NA_SE_IT_ARROW_STICK_OBJ,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
+        NA_SE_NONE,
+        NA_SE_NONE,
         NA_SE_IT_SWORD_SWING_HARD,
         NA_SE_IT_WALL_HIT_HARD,
         NA_SE_IT_WALL_HIT_SOFT,
@@ -3289,8 +3294,8 @@ void BossMo_Unknown(void) {
         NA_SE_EV_TREE_CUT,
         NA_SE_EV_WATERDROP,
         NA_SE_EV_TORCH,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
+        NA_SE_NONE,
+        NA_SE_NONE,
         NA_SE_EN_DODO_J_WALK,
         NA_SE_EN_DODO_J_CRY,
         NA_SE_EN_DODO_J_FIRE - SFX_FLAG,
@@ -3441,13 +3446,13 @@ void BossMo_Unknown(void) {
         NA_SE_EN_OCTAROCK_LAND,
         NA_SE_EN_OCTAROCK_SINK,
         NA_SE_EN_OCTAROCK_BUBLE,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
         NA_SE_SY_WIN_OPEN,
         NA_SE_SY_WIN_CLOSE,
         NA_SE_SY_CORRECT_CHIME,
@@ -3463,7 +3468,7 @@ void BossMo_Unknown(void) {
         NA_SE_SY_HP_RECOVER,
         NA_SE_SY_ATTENTION_ON,
         NA_SE_SY_ATTENTION_ON,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
+        NA_SE_NONE,
         NA_SE_SY_LOCK_ON,
         NA_SE_SY_LOCK_ON,
         NA_SE_SY_LOCK_OFF,
@@ -3473,9 +3478,9 @@ void BossMo_Unknown(void) {
         NA_SE_SY_ATTENTION_ON_OLD,
         NA_SE_SY_ATTENTION_URGENCY,
         NA_SE_SY_MESSAGE_PASS,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
         NA_SE_SY_PIECE_OF_HEART,
         NA_SE_SY_GET_ITEM,
         NA_SE_SY_WIN_SCROLL_LEFT,
@@ -3488,7 +3493,7 @@ void BossMo_Unknown(void) {
         NA_SE_SY_ATTENTION_ON,
         NA_SE_SY_ATTENTION_URGENCY,
         NA_SE_OC_OCARINA,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
+        NA_SE_NONE,
         NA_SE_PL_LAND - SFX_FLAG,
         NA_SE_VO_LI_SWORD_N,
         NA_SE_VO_LI_SWORD_N,
@@ -3566,12 +3571,12 @@ void BossMo_Unknown(void) {
         NA_SE_EN_DEADHAND_BITE,
         NA_SE_EN_DEADHAND_WALK,
         NA_SE_EN_DEADHAND_GRIP,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
-        NA_SE_PL_WALK_GROUND - SFX_FLAG,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
+        NA_SE_NONE,
     };
 
     if (BREG(32) != 0) {

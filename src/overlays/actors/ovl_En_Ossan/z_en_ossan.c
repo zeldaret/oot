@@ -654,7 +654,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
     Play_SetViewpoint(play, VIEWPOINT_LOCKED);
-    Interface_ChangeAlpha(50);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->drawCursor = 0;
     this->stickLeftPrompt.isEnabled = false;
     this->stickRightPrompt.isEnabled = false;
@@ -1133,7 +1133,7 @@ s32 EnOssan_HasPlayerSelectedItem(PlayState* play, EnOssan* this, Input* input) 
                 case SI_MILK_BOTTLE:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->drawCursor = 0;
-                    this->stateFlag = OSSAN_STATE_SELECT_ITEM_MILK_BOTTLE;
+                    this->stateFlag = OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL;
                     return true;
                 case SI_WEIRD_EGG:
                     func_80078884(NA_SE_SY_DECIDE);
@@ -1318,12 +1318,12 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     Player* player = GET_PLAYER(play);
 
     osSyncPrintf("\n" VT_FGCOL(YELLOW) "初めて手にいれた！！" VT_RST "\n\n");
-    func_8002F434(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
+    Actor_OfferGetItem(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
     Play_SetViewpoint(play, VIEWPOINT_LOCKED);
-    Interface_ChangeAlpha(50);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->drawCursor = 0;
     EnOssan_UpdateCameraDirection(this, play, 0.0f);
     this->stateFlag = OSSAN_STATE_GIVE_ITEM_FANFARE;
@@ -1649,7 +1649,7 @@ void EnOssan_State_GiveItemWithFanfare(EnOssan* this, PlayState* play, Player* p
         this->stateFlag = OSSAN_STATE_ITEM_PURCHASED;
         return;
     }
-    func_8002F434(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
+    Actor_OfferGetItem(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
 }
 
 void EnOssan_State_ItemPurchased(EnOssan* this, PlayState* play, Player* player) {
@@ -1840,7 +1840,8 @@ void EnOssan_UpdateItemSelectedProperty(EnOssan* this) {
 
     for (i = 0; i < 8; i++) {
         if (temp_a1[0] != NULL) {
-            if (this->stateFlag != OSSAN_STATE_SELECT_ITEM && this->stateFlag != OSSAN_STATE_SELECT_ITEM_MILK_BOTTLE &&
+            if (this->stateFlag != OSSAN_STATE_SELECT_ITEM &&
+                this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_WEIRD_EGG &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOMBS && this->stateFlag != OSSAN_STATE_SELECT_ITEM_MASK &&
@@ -2029,7 +2030,7 @@ void EnOssan_InitHappyMaskShopkeeper(EnOssan* this, PlayState* play) {
 }
 
 void EnOssan_InitBombchuShopkeeper(EnOssan* this, PlayState* play) {
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_rs_Skel_004868, &object_rs_Anim_00065C, NULL, NULL, 0);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBombchuShopkeeperSkel, &gBombchuShopkeeperIdleAnim, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawBombchuShopkeeper;
     this->obj3ToSeg6Func = NULL;
 }

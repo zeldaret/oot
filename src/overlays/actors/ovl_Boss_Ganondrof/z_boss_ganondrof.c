@@ -956,7 +956,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
     switch (this->deathState) {
         case DEATH_START:
             func_80064520(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, 1);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             osSyncPrintf("7\n");
@@ -1115,10 +1115,10 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, GND_BOSSROOM_CENTER_X, GND_BOSSROOM_CENTER_Y,
                             GND_BOSSROOM_CENTER_Z + 200.0f, 0, 0, 0, 0);
                 this->actor.child = &horse->actor;
@@ -1217,7 +1217,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
         }
 
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
@@ -1239,7 +1239,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_NONE);
                     osSyncPrintf("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
                     if (this->returnCount == 0) {
@@ -1270,7 +1270,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                     horse->hitTimer = 20;
                     Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_DAMAGE);
                 } else {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
+                    Audio_PlayActorSfx2(&this->actor, NA_SE_NONE);
                 }
             } else if (acHit && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {
                 this->work[GND_INVINC_TIMER] = 10;

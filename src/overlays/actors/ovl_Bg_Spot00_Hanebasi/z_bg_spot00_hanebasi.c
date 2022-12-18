@@ -207,7 +207,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
-        if (play->sceneId == SCENE_SPOT00) {
+        if (play->sceneId == SCENE_HYRULE_FIELD) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
                 CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
                 Player* player = GET_PLAYER(play);
@@ -218,8 +218,8 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     SET_EVENTCHKINF(EVENTCHKINF_80);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
-                    func_8002DF54(play, &player->actor, 8);
-                    play->nextEntranceIndex = ENTR_SPOT00_0;
+                    func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
+                    play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;

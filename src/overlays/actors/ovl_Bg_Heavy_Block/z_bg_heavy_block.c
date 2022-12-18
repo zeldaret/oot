@@ -89,7 +89,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->pieceFlags = 0;
 
-    if (play->sceneId == SCENE_GANON_TOU) {
+    if (play->sceneId == SCENE_OUTSIDE_GANONS_CASTLE) {
         thisx->params &= 0xFF00;
         thisx->params |= 4;
     }
@@ -367,7 +367,7 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, PlayState* play) {
 
     this->timer++;
 
-    func_8002DF54(play, &player->actor, 8);
+    func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
 
     // if parent is NULL, link threw it
     if (Actor_HasNoParent(&this->dyna.actor, play)) {

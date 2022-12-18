@@ -371,7 +371,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     player->stateFlags1 |= PLAYER_STATE1_5;
 
     func_80064520(play, &play->csCtx);
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
     sSubCamId = Play_CreateSubCamera(play);
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
@@ -380,7 +380,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
         sSubCamEye.z = ROOM_CENTER_Z - 100.0f;
     }
 
-    Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+    Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     this->actionFunc = BossSst_HeadIntro;
 }
@@ -404,10 +404,10 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
         sHands[LEFT]->actor.flags |= ACTOR_FLAG_0;
         player->stateFlags1 &= ~PLAYER_STATE1_5;
         func_80064534(play, &play->csCtx);
-        func_8002DF54(play, &this->actor, 7);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
         sSubCamAt.y += 30.0f;
         sSubCamAt.z += 300.0f;
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
         Play_CopyCamera(play, CAM_ID_MAIN, sSubCamId);
         Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_WAIT);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
@@ -616,7 +616,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
     }
 
     if (this->actionFunc != BossSst_HeadNeutral) {
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 }
 
@@ -814,7 +814,8 @@ void BossSst_HeadUnfreezeHand(BossSst* this, PlayState* play) {
 
 void BossSst_HeadSetupStunned(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadKnockoutAnim, -5.0f);
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadKnockoutAnim));
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                         Animation_GetLastFrame(&gBongoHeadKnockoutAnim));
     this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
     this->colliderCyl.base.acFlags &= ~AC_ON;
     this->vVanish = false;
@@ -904,9 +905,12 @@ void BossSst_HeadVulnerable(BossSst* this, PlayState* play) {
 
 void BossSst_HeadSetupDamage(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadDamageAnim, -3.0f);
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadDamageAnim));
-    Actor_SetColorFilter(&sHands[LEFT]->actor, 0x4000, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadDamageAnim));
-    Actor_SetColorFilter(&sHands[RIGHT]->actor, 0x4000, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadDamageAnim));
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA,
+                         Animation_GetLastFrame(&gBongoHeadDamageAnim));
+    Actor_SetColorFilter(&sHands[LEFT]->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA,
+                         Animation_GetLastFrame(&gBongoHeadDamageAnim));
+    Actor_SetColorFilter(&sHands[RIGHT]->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA,
+                         Animation_GetLastFrame(&gBongoHeadDamageAnim));
     this->colliderCyl.base.acFlags &= ~AC_ON;
     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DAMAGE);
     this->actionFunc = BossSst_HeadDamage;
@@ -999,7 +1003,7 @@ void BossSst_UpdateDeathCamera(BossSst* this, PlayState* play) {
     subCamEye.x = this->actor.world.pos.x + (sSubCamEye.z * sn) + (sSubCamEye.x * cs);
     subCamEye.y = this->actor.home.pos.y - 140.0f + sSubCamEye.y;
     subCamEye.z = this->actor.world.pos.z + (sSubCamEye.z * cs) - (sSubCamEye.x * sn);
-    Play_CameraSetAtEye(play, sSubCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, sSubCamId, &subCamAt, &subCamEye);
 }
 
 void BossSst_HeadSetupDeath(BossSst* this, PlayState* play) {
@@ -1007,9 +1011,9 @@ void BossSst_HeadSetupDeath(BossSst* this, PlayState* play) {
 
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadEyeOpenIdleAnim, -5.0f);
     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DEAD);
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 60);
-    Actor_SetColorFilter(&sHands[LEFT]->actor, 0x4000, 0xFF, 0, 60);
-    Actor_SetColorFilter(&sHands[RIGHT]->actor, 0x4000, 0xFF, 0, 60);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 60);
+    Actor_SetColorFilter(&sHands[LEFT]->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 60);
+    Actor_SetColorFilter(&sHands[RIGHT]->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 60);
     this->timer = 60;
     this->colliderCyl.base.acFlags &= ~AC_ON;
     this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
@@ -1020,7 +1024,7 @@ void BossSst_HeadSetupDeath(BossSst* this, PlayState* play) {
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
     Play_CopyCamera(play, sSubCamId, CAM_ID_MAIN);
-    func_8002DF54(play, &player->actor, 8);
+    func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
     func_80064520(play, &play->csCtx);
     Math_Vec3f_Copy(&sSubCamEye, &GET_ACTIVE_CAM(play)->eye);
     this->actionFunc = BossSst_HeadDeath;
@@ -1038,7 +1042,7 @@ void BossSst_HeadDeath(BossSst* this, PlayState* play) {
         BossSst_HandSetupThrash(sHands[RIGHT]);
         BossSst_HeadSetupThrash(this);
     } else if (this->timer > 48) {
-        Play_CameraSetAtEye(play, sSubCamId, &this->actor.focus.pos, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &this->actor.focus.pos, &sSubCamEye);
         Math_StepToF(&this->radius, -350.0f, 10.0f);
     } else if (this->timer == 48) {
         Player* player = GET_PLAYER(play);
@@ -1183,7 +1187,7 @@ void BossSst_HeadFinish(BossSst* this, PlayState* play) {
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
             Play_ClearCamera(play, sSubCamId);
-            func_8002DF54(play, &GET_PLAYER(play)->actor, 7);
+            func_8002DF54(play, &GET_PLAYER(play)->actor, PLAYER_CSMODE_7);
             func_80064534(play, &play->csCtx);
             Actor_Kill(&this->actor);
             Actor_Kill(&sHands[LEFT]->actor);
@@ -1962,7 +1966,7 @@ void BossSst_HandSetupReel(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, sHandFlatPoses[this->actor.params], 4.0f);
     this->timer = 36;
     Math_Vec3f_Copy(&this->center, &this->actor.world.pos);
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 200);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 200);
     this->actionFunc = BossSst_HandReel;
 }
 
@@ -2086,7 +2090,8 @@ void BossSst_HandSetupStunned(BossSst* hand) {
     hand->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
     hand->colliderJntSph.base.acFlags |= AC_ON;
     BossSst_HandSetInvulnerable(hand, true);
-    Actor_SetColorFilter(&hand->actor, 0, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadKnockoutAnim));
+    Actor_SetColorFilter(&hand->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                         Animation_GetLastFrame(&gBongoHeadKnockoutAnim));
     hand->actionFunc = BossSst_HandStunned;
 }
 
@@ -2286,7 +2291,7 @@ void BossSst_HandSetupFrozen(BossSst* this) {
     }
 
     BossSst_SpawnIceCrystal(this, 0);
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xA);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 10);
     this->handAngSpeed = 0;
     this->actionFunc = BossSst_HandFrozen;
 }
