@@ -24,8 +24,8 @@ typedef struct {
 } TransitionUnk; // size = 0xE0
 
 typedef enum {
-    /* 1 */ TRANS_INSTANCE_TYPE_END = 1,
-    /* 2 */ TRANS_INSTANCE_TYPE_START
+    /* 1 */ TRANS_INSTANCE_TYPE_FILL_OUT = 1,
+    /* 2 */ TRANS_INSTANCE_TYPE_FILL_IN
 } TransitionInstanceType;
 
 typedef struct {

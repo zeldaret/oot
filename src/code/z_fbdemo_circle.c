@@ -191,7 +191,7 @@ void TransitionCircle_SetType(void* thisx, s32 type) {
         this->colorType = (type >> 3) & 0x3;
         this->speedType = type & 0x1;
         this->appearanceType = (type >> 1) & 0x3;
-    } else if (type == TRANS_INSTANCE_TYPE_END) {
+    } else if (type == TRANS_INSTANCE_TYPE_FILL_OUT) {
         this->direction = 1;
     } else {
         this->direction = 0;
