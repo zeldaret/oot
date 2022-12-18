@@ -39,9 +39,9 @@ extern OSIntMask __OSGlobalIntMask;
 void __osInitialize_common(void);
 void __osInitialize_autodetect(void);
 
-extern u32 osGetMemSize(void);
+u32 osGetMemSize(void);
 
-extern s32 osAfterPreNMI(void);
+s32 osAfterPreNMI(void);
 
 #endif
 
