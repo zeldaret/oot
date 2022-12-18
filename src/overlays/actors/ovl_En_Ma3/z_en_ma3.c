@@ -14,9 +14,6 @@ void EnMa3_Destroy(Actor* thisx, PlayState* play);
 void EnMa3_Update(Actor* thisx, PlayState* play);
 void EnMa3_Draw(Actor* thisx, PlayState* play);
 
-u16 EnMa3_GetTextId(PlayState* play, Actor* thisx);
-s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx);
-
 void func_80AA2E54(EnMa3* this, PlayState* play);
 s32 func_80AA2EC8(EnMa3* this, PlayState* play);
 s32 func_80AA2F28(EnMa3* this);

@@ -8,9 +8,6 @@ void EnMa2_Destroy(Actor* thisx, PlayState* play);
 void EnMa2_Update(Actor* thisx, PlayState* play);
 void EnMa2_Draw(Actor* thisx, PlayState* play);
 
-u16 EnMa2_GetTextId(PlayState* play, Actor* thisx);
-s16 EnMa2_UpdateTalkState(PlayState* play, Actor* thisx);
-
 void func_80AA1AE4(EnMa2* this, PlayState* play);
 s32 func_80AA1C68(EnMa2* this);
 void EnMa2_UpdateEyes(EnMa2* this);
