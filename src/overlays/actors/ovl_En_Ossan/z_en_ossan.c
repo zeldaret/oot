@@ -1133,7 +1133,7 @@ s32 EnOssan_HasPlayerSelectedItem(PlayState* play, EnOssan* this, Input* input) 
                 case SI_MILK_BOTTLE:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->drawCursor = 0;
-                    this->stateFlag = OSSAN_STATE_SELECT_ITEM_MILK_BOTTLE;
+                    this->stateFlag = OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL;
                     return true;
                 case SI_WEIRD_EGG:
                     func_80078884(NA_SE_SY_DECIDE);
@@ -1318,7 +1318,7 @@ void EnOssan_GiveItemWithFanfare(PlayState* play, EnOssan* this) {
     Player* player = GET_PLAYER(play);
 
     osSyncPrintf("\n" VT_FGCOL(YELLOW) "初めて手にいれた！！" VT_RST "\n\n");
-    func_8002F434(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
+    Actor_OfferGetItem(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
@@ -1649,7 +1649,7 @@ void EnOssan_State_GiveItemWithFanfare(EnOssan* this, PlayState* play, Player* p
         this->stateFlag = OSSAN_STATE_ITEM_PURCHASED;
         return;
     }
-    func_8002F434(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
+    Actor_OfferGetItem(&this->actor, play, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
 }
 
 void EnOssan_State_ItemPurchased(EnOssan* this, PlayState* play, Player* player) {
@@ -1840,7 +1840,8 @@ void EnOssan_UpdateItemSelectedProperty(EnOssan* this) {
 
     for (i = 0; i < 8; i++) {
         if (temp_a1[0] != NULL) {
-            if (this->stateFlag != OSSAN_STATE_SELECT_ITEM && this->stateFlag != OSSAN_STATE_SELECT_ITEM_MILK_BOTTLE &&
+            if (this->stateFlag != OSSAN_STATE_SELECT_ITEM &&
+                this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOTTLE_MILK_FULL &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_WEIRD_EGG &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_UNIMPLEMENTED &&
                 this->stateFlag != OSSAN_STATE_SELECT_ITEM_BOMBS && this->stateFlag != OSSAN_STATE_SELECT_ITEM_MASK &&

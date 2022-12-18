@@ -629,7 +629,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
     this->actionState = 4;
     this->actor.flags |= ACTOR_FLAG_0;
     func_80064520(play, &play->csCtx);
-    func_8002DF54(play, &this->actor, 1);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
     this->subCamId = Play_CreateSubCamera(play);
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
     Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -686,7 +686,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
                                        397.68002f, 0, -0x705C, 0, 0x180);
                 } else {
-                    func_8002DF54(play, &this->actor, 8);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                     this->actionState = 1;
                 }
             }
@@ -744,7 +744,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 this->subCamAt.z = player->actor.world.pos.z;
             }
 
-            Play_CameraSetAtEye(play, CAM_ID_MAIN, &this->subCamAt, &this->subCamEye);
+            Play_SetCameraAtEye(play, CAM_ID_MAIN, &this->subCamAt, &this->subCamEye);
 
             if (this->frameCount == 176) {
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
@@ -757,7 +757,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             }
 
             if (this->frameCount == 190) {
-                func_8002DF54(play, &this->actor, 2);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_2);
             }
 
             if (this->frameCount >= 228) {
@@ -765,10 +765,10 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->actionState = 3;
             }
             break;
@@ -958,19 +958,19 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
-                func_800C08AC(play, this->subCamId, 0);
+                Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 BossGoma_SetupFloorMain(this);
                 this->disableGameplayLogic = false;
                 this->patienceTimer = 200;
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
             }
             break;
     }
 
     if (this->subCamId != SUB_CAM_ID_DONE) {
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
@@ -1053,7 +1053,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
         case 0:
             this->actionState = 1;
             func_80064520(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, 1);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1178,10 +1178,10 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
                     mainCam->eye = this->subCamEye;
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
                     func_80064534(play, &play->csCtx);
-                    func_8002DF54(play, &this->actor, 7);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                     Actor_Kill(&this->actor);
                 }
 
@@ -1191,7 +1191,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
     }
 
     if (this->subCamId != SUB_CAM_ID_DONE) {
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 
     if (this->blinkTimer != 0) {

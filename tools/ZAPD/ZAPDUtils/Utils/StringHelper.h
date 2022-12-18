@@ -106,6 +106,11 @@ public:
 		return std::all_of(str.begin(), str.end(), ::isdigit);
 	}
 
+	static bool HasOnlyHexDigits(const std::string& str)
+	{
+		return std::all_of(str.begin(), str.end(), ::isxdigit);
+	}
+
 	static std::string ToUpper(const std::string& str)
 	{
 		std::string buff = str;

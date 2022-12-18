@@ -348,7 +348,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
 
                     this->collider.base.acFlags &= ~AC_HIT;
                     this->crashingTimer = 20;
-                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 5);
                     this->acceleration.x = Rand_CenteredFloat(15.0f);
                     this->acceleration.y = Rand_CenteredFloat(15.0f);
                     this->acceleration.z = Rand_CenteredFloat(15.0f);
@@ -612,12 +612,12 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     Math_ApproachF(&this->subCamAt.x, subCamAtNext.x, 0.2f, 500.0f);
                     Math_ApproachF(&this->subCamAt.y, subCamAtNext.y, 0.2f, 500.0f);
                     Math_ApproachF(&this->subCamAt.z, subCamAtNext.z, 0.2f, 500.0f);
-                    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+                    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
                 }
 
                 // Cutscene has finished.
                 if (this->cutsceneTimer == 1) {
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     // CLEAR_TAG_CUTSCENE_MODE_NONE / SUB_CAM_ID_DONE
                     this->cutsceneMode = this->subCamId = 0;
                     func_80064534(play, &play->csCtx);
