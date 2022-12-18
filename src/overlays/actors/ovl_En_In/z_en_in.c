@@ -109,7 +109,7 @@ static Gfx* sAdultEraDLs[] = {
     gIngoAdultEraMustacheDL,
 };
 
-u16 EnIn_GetChildTextId(PlayState* play) {
+u16 EnIn_GetTextIdChild(PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_97)) {
             return 0x2046;
@@ -124,7 +124,7 @@ u16 EnIn_GetChildTextId(PlayState* play) {
     }
 }
 
-u16 EnIn_GetAdultTextId(PlayState* play) {
+u16 EnIn_GetTextIdAdult(PlayState* play) {
     Player* player = GET_PLAYER(play);
     u16 faceReaction = Text_GetFaceReaction(play, 25);
 
@@ -184,9 +184,9 @@ u16 EnIn_GetTextId(PlayState* play, Actor* thisx) {
         return faceReaction;
     }
     if (!LINK_IS_ADULT) {
-        return EnIn_GetChildTextId(play);
+        return EnIn_GetTextIdChild(play);
     } else {
-        return EnIn_GetAdultTextId(play);
+        return EnIn_GetTextIdAdult(play);
     }
 }
 

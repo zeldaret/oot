@@ -304,7 +304,7 @@ s32 EnKo_IsOsAnimeLoaded(EnKo* this, PlayState* play) {
     return true;
 }
 
-u16 EnKo_GetChildTextId(PlayState* play, Actor* thisx) {
+u16 EnKo_GetTextIdChild(PlayState* play, Actor* thisx) {
     EnKo* this = (EnKo*)thisx;
     switch (ENKO_TYPE) {
         case ENKO_TYPE_CHILD_FADO:
@@ -403,7 +403,7 @@ u16 EnKo_GetChildTextId(PlayState* play, Actor* thisx) {
     return 0;
 }
 
-u16 EnKo_GetAdultTextId(PlayState* play, Actor* thisx) {
+u16 EnKo_GetTextIdAdult(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnKo* this = (EnKo*)thisx;
 
@@ -508,9 +508,9 @@ u16 EnKo_GetTextId(PlayState* play, Actor* thisx) {
         return faceReaction;
     }
     if (LINK_IS_ADULT) {
-        return EnKo_GetAdultTextId(play, thisx);
+        return EnKo_GetTextIdAdult(play, thisx);
     }
-    return EnKo_GetChildTextId(play, thisx);
+    return EnKo_GetTextIdChild(play, thisx);
 }
 
 s16 EnKo_UpdateTalkState(PlayState* play, Actor* thisx) {
