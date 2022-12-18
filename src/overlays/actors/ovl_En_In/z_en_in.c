@@ -615,7 +615,7 @@ void func_80A7A304(EnIn* this, PlayState* play) {
         }
     }
     if (this->skelAnime.animation == &object_in_Anim_018C38 && this->skelAnime.curFrame == 20.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_IN_CRY_0);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_IN_CRY_0);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         this->animationIdx %= 8;
@@ -741,7 +741,7 @@ void func_80A7A940(EnIn* this, PlayState* play) {
     if (this->unk_1EC != 0) {
         this->unk_1EC--;
         if (this->unk_1EC == 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_IN_LOST);
+            Actor_PlaySfx(&this->actor, NA_SE_VO_IN_LOST);
         }
     }
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
@@ -809,7 +809,7 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
         if (this->unk_1EC != 0) {
             this->unk_1EC--;
             if (this->unk_1EC == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_IN_LOST);
+                Actor_PlaySfx(&this->actor, NA_SE_VO_IN_LOST);
             }
         }
     }
@@ -831,7 +831,7 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
             return;
         }
         if (play->csCtx.frames == 44) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_RONRON_DOOR_CLOSE);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_RONRON_DOOR_CLOSE);
         }
         Math_SmoothStepToF(&this->subCamAtOffset.x, 0.0f, 0.06f, 10000.0f, 0.0f);
         Math_SmoothStepToF(&this->subCamAtOffset.y, 50.0f, 0.06f, 10000.0f, 0.0f);
