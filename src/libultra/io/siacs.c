@@ -1,4 +1,5 @@
-#include "global.h"
+#include "siint.h"
+#include "../macros.h" // TODO
 
 OSMesg siAccessBuf[1];
 OSMesgQueue __osSiAccessQueue;

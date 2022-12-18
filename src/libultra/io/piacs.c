@@ -1,4 +1,5 @@
-#include "global.h"
+#include "controller.h"
+#include "../macros.h" // TODO
 
 u32 __osPiAccessQueueEnabled = false;
 OSMesg piAccessBuf[1];

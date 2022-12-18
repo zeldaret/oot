@@ -8,8 +8,7 @@
  * N = Deinterlaced
  * 1 = 16-bit Framebuffer
  */
-#include "global.h"
-#include "ultra64/viint.h"
+#include "viint.h"
 
 OSViMode osViModeFpalLan1 = {
     OS_VI_FPAL_LAN1, // type

@@ -1,6 +1,7 @@
 #ifndef ULTRA64_VI_H
 #define ULTRA64_VI_H
 
+#include "ultratypes.h"
 #include "message.h"
 
 /* Special Features */
@@ -117,8 +118,21 @@ typedef struct {
 #define OS_VI_FPAL_HPN2     54
 #define OS_VI_FPAL_HPF2     55
 
-#define OS_TV_PAL           0
-#define OS_TV_NTSC          1
-#define OS_TV_MPAL          2
+void* osViGetCurrentFramebuffer(void);
+void* osViGetNextFramebuffer(void);
+void osViSetXScale(f32);
+void osViSetYScale(f32);
+void osViExtendVStart(u32);
+void osViSetSpecialFeatures(u32);
+void osViSetMode(OSViMode*);
+void osViSetEvent(OSMesgQueue*, OSMesg, u32);
+void osViSwapBuffer(void*);
+void osViBlack(u8);
+void osCreateViManager(OSPri);
+
+extern OSViMode osViModeNtscLan1;
+extern OSViMode osViModePalLan1;
+extern OSViMode osViModeMpalLan1;
+extern OSViMode osViModeFpalLan1;
 
 #endif

@@ -45,6 +45,15 @@ typedef struct OSMesgQueue {
 #define MQ_IS_EMPTY(mq)     (MQ_GET_COUNT(mq) == 0)
 #define MQ_IS_FULL(mq)      (MQ_GET_COUNT(mq) >= (mq)->msgCount)
 
+/* Message operations */
+void osCreateMesgQueue(OSMesgQueue*, OSMesg*, s32);
+s32 osSendMesg(OSMesgQueue*, OSMesg, s32);
+s32 osJamMesg(OSMesgQueue*, OSMesg, s32);
+s32 osRecvMesg(OSMesgQueue*, OSMesg*, s32);
+
+/* Event operations */
+void osSetEventMesg(OSEvent, OSMesgQueue*, OSMesg);
+
 #else
 
 // OSMesgQueue struct member offsets

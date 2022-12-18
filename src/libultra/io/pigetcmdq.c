@@ -1,5 +1,4 @@
-#include "global.h"
-#include "ultra64/internal.h"
+#include "piint.h"
 
 OSMesgQueue* osPiGetCmdQueue(void) {
     if (!__osPiDevMgr.active) {

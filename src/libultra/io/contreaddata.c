@@ -1,4 +1,8 @@
-#include "global.h"
+#include "controller.h"
+#include "siint.h"
+#include "../macros.h" // TODO
+
+void __osPackReadData(void);
 
 s32 osContStartReadData(OSMesgQueue* mq) {
     s32 ret;

@@ -1,5 +1,4 @@
-#include "global.h"
-#include "ultra64/viint.h"
+#include "viint.h"
 
 OSViContext vi[2] = { 0 };
 OSViContext* __osViCurr = &vi[0];

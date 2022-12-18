@@ -1,10 +1,11 @@
-#include "ultra64.h"
-#include "global.h"
-#include "ultra64/pfs.h"
+#include "controller.h"
 
 #define CHECK_IPAGE(p)                                                                                      \
     (((p).ipage >= pfs->inodeStartPage) && ((p).inode_t.bank < pfs->banks) && ((p).inode_t.page >= 0x01) && \
      ((p).inode_t.page < 0x80))
+
+s32 corrupted_init(OSPfs* pfs, __OSInodeCache* cache);
+s32 corrupted(OSPfs* pfs, __OSInodeUnit fpage, __OSInodeCache* cache);
 
 s32 osPfsChecker(OSPfs* pfs) {
     s32 j;
@@ -27,7 +28,7 @@ s32 osPfsChecker(OSPfs* pfs) {
     if (ret) {
         return ret;
     }
-    if ((ret = func_80105788(pfs, &cache)) != 0) {
+    if ((ret = corrupted_init(pfs, &cache)) != 0) {
         return ret;
     }
 
@@ -54,7 +55,7 @@ s32 osPfsChecker(OSPfs* pfs) {
                             return ret;
                         }
                     }
-                    if ((cc = func_80105A60(pfs, next, &cache) - cl) != 0) {
+                    if ((cc = corrupted(pfs, next, &cache) - cl) != 0) {
                         break;
                     }
                     cl = 1;
@@ -83,7 +84,7 @@ s32 osPfsChecker(OSPfs* pfs) {
         }
 
         if ((tempDir.company_code != 0) && (tempDir.game_code != 0) &&
-            (tempDir.start_page.ipage >= (u16)pfs->inodeStartPage)) { // cast required
+            (tempDir.start_page.ipage >= (u16)pfs->inodeStartPage)) {
             nextNodeInFile[j].ipage = tempDir.start_page.ipage;
         } else {
             nextNodeInFile[j].ipage = 0;
@@ -105,7 +106,7 @@ s32 osPfsChecker(OSPfs* pfs) {
 
         for (j = 0; j < pfs->dir_size; j++) {
             while (nextNodeInFile[j].inode_t.bank == bank &&
-                   nextNodeInFile[j].ipage >= (u16)pfs->inodeStartPage) { // cast required
+                   nextNodeInFile[j].ipage >= (u16)pfs->inodeStartPage) {
                 u8 val;
                 val = nextNodeInFile[j].inode_t.page;
                 nextNodeInFile[j] = checkedInode.inodePage[val] = tempInode.inodePage[val];
@@ -124,8 +125,7 @@ s32 osPfsChecker(OSPfs* pfs) {
     return 0;
 }
 
-// Original name: corrupted_init (probably needs better name)
-s32 func_80105788(OSPfs* pfs, __OSInodeCache* cache) {
+s32 corrupted_init(OSPfs* pfs, __OSInodeCache* cache) {
     s32 i;
     s32 n;
     s32 offset;
@@ -158,8 +158,7 @@ s32 func_80105788(OSPfs* pfs, __OSInodeCache* cache) {
     return 0;
 }
 
-// original name: corrupted (probably needs a better name)
-s32 func_80105A60(OSPfs* pfs, __OSInodeUnit fpage, __OSInodeCache* cache) {
+s32 corrupted(OSPfs* pfs, __OSInodeUnit fpage, __OSInodeCache* cache) {
     s32 j;
     s32 n;
     s32 hit = 0;

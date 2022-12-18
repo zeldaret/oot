@@ -1,4 +1,4 @@
-#include "global.h"
+#include "osint.h"
 
 void osSetThreadPri(OSThread* thread, OSPri pri) {
     register u32 prevInt = __osDisableInt();

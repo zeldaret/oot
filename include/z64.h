@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "ultra64/gs2dex.h"
+#include "stack.h"
 #include "z64save.h"
 #include "z64light.h"
 #include "z64bgcheck.h"
@@ -72,12 +73,6 @@
 #define THREAD_ID_AUDIOMGR   10
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
-
-#define STACK(stack, size) \
-    u64 stack[ALIGN8(size) / sizeof(u64)]
-
-#define STACK_TOP(stack) \
-    ((u8*)(stack) + sizeof(stack))
 
 // Texture memory size, 4 KiB
 #define TMEM_SIZE 0x1000

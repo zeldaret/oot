@@ -1,4 +1,4 @@
-#include "global.h"
+#include "piint.h"
 
 OSPiHandle __DriveRomHandle;
 

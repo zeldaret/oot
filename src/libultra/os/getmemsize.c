@@ -1,4 +1,4 @@
-#include "global.h"
+#include "internal.h"
 
 #define STEP 0x100000
 

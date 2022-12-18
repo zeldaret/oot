@@ -6,51 +6,19 @@
 
 extern Mtx D_01000000;
 
-extern u32 osTvType;
-extern u32 osRomBase;
-extern u32 osResetType;
-extern u32 osMemSize;
-extern u8 osAppNMIBuffer[0x40];
-
 extern s8 D_80009430;
+extern OSMesgQueue gPiMgrCmdQueue;
+extern OSViMode gViConfigMode;
+extern u8 gViConfigModeType;
 extern vu8 gViConfigBlack;
 extern u8 gViConfigAdditionalScanLines;
 extern u32 gViConfigFeatures;
 extern f32 gViConfigXScale;
 extern f32 gViConfigYScale;
 extern OSPiHandle* gCartHandle;
-extern u32 __osPiAccessQueueEnabled;
-extern OSViMode osViModePalLan1;
-extern s32 osViClock;
-extern u32 __osShutdown;
-extern OSHWIntr __OSGlobalIntMask;
-extern __OSThreadTail __osThreadTail;
-extern OSThread* __osRunQueue;
-extern OSThread* __osActiveQueue;
-extern OSThread* __osRunningThread;
-extern OSThread* __osFaultedThread;
-extern OSPiHandle* __osPiTable;
-extern OSPiHandle* __osCurrentHandle[];
-extern OSTimer* __osTimerList;
-extern OSViMode osViModeNtscLan1;
-extern OSViMode osViModeMpalLan1;
-extern OSViContext* __osViCurr;
-extern OSViContext* __osViNext;
-extern OSViMode osViModeFpalLan1;
-extern u32 __additional_scanline;
 extern u8 gBuildTeam[];
 extern u8 gBuildDate[];
 extern u8 gBuildMakeOption[];
-extern OSMesgQueue gPiMgrCmdQueue;
-extern OSViMode gViConfigMode;
-extern u8 gViConfigModeType;
-extern OSMesgQueue __osPiAccessQueue;
-extern OSPiHandle __Dom1SpeedParam;
-extern OSPiHandle __Dom2SpeedParam;
-extern OSTime __osCurrentTime;
-extern u32 __osBaseCounter;
-extern u32 __osViIntrCount;
-extern u32 __osTimerCounter;
 extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
 extern Gfx D_80116280[];
 extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
@@ -157,8 +125,6 @@ extern u8 D_80133418;
 extern AudioSpec gAudioSpecs[18];
 extern s32 gOverlayLogSeverity;
 extern s32 gSystemArenaLogSeverity;
-extern u8 __osPfsInodeCacheBank;
-extern s32 __osPfsLastChannel;
 
 extern const s16 D_8014A6C0[];
 #define gTatumsPerBeat (D_8014A6C0[1])
@@ -220,11 +186,7 @@ extern void(*D_801755D0)(void);
 
 extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;
-extern OSPifRam __osContPifRam;
-extern u8 __osContLastCmd;
-extern u8 __osMaxControllers;
-extern __OSInode __osPfsInodeCache;
-extern OSPifRam __osPfsPifRam;
+
 extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
 extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 bytes

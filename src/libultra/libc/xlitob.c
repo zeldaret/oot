@@ -1,22 +1,24 @@
-#include "global.h"
+#include "stdlib.h"
+#include "string.h"
+#include "xstdio.h"
 
 #define BUFF_LEN 0x18
 
-u8 D_8000AF70[] = "0123456789abcdef";
-u8 D_8000AF84[] = "0123456789ABCDEF";
+static char ldigs[] = "0123456789abcdef";
+static char udigs[] = "0123456789ABCDEF";
 
-void _Litob(_Pft* args, u8 type) {
-    u8 buff[BUFF_LEN];
-    const u8* numMap;
+void _Litob(_Pft* args, char type) {
+    char buff[BUFF_LEN];
+    const char* numMap;
     s32 base;
     s32 idx;
     u64 num;
     lldiv_t quotrem;
 
     if (type == 'X') {
-        numMap = D_8000AF84;
+        numMap = udigs;
     } else {
-        numMap = D_8000AF70;
+        numMap = ldigs;
     }
 
     base = (type == 'o') ? 8 : ((type != 'x' && type != 'X') ? 10 : 16);

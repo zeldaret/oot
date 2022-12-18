@@ -1,4 +1,6 @@
-#include "global.h"
+#include "internal.h"
+#include "sptask.h"
+#include "rcp.h"
 
 u32 osSpTaskYielded(OSTask* task) {
     u32 ret;

@@ -1,11 +1,13 @@
-#include "global.h"
+#include "stdlib.h"
+#include "string.h"
+#include "xstdio.h"
 
 #define BUFF_LEN 0x20
 
 s16 _Ldunscale(s16*, _Pft*);
-void _Genld(_Pft*, u8, u8*, s16, s16);
+void _Genld(_Pft*, char, char*, s16, s16);
 
-const f64 D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 10e127L, 10e255L };
+static const f64 pows[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 10e127L, 10e255L };
 
 /* float properties */
 #define _D0 0
@@ -40,9 +42,9 @@ const f64 D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 1
 #define _D3 3
 #endif
 
-void _Ldtob(_Pft* args, u8 type) {
-    u8 buff[BUFF_LEN];
-    u8* ptr = buff;
+void _Ldtob(_Pft* args, char type) {
+    char buff[BUFF_LEN];
+    char* ptr = buff;
     u32 sp70;
     f64 val = args->v.ld;
     /* maybe struct? */
@@ -83,7 +85,7 @@ void _Ldtob(_Pft* args, u8 type) {
             exp = -n;
             for (i = 0; n > 0; n >>= 1, i++) {
                 if ((n & 1) != 0) {
-                    val *= D_800122E0[i];
+                    val *= pows[i];
                 }
             }
         } else if (exp > 0) {
@@ -92,7 +94,7 @@ void _Ldtob(_Pft* args, u8 type) {
 
             for (n = exp, i = 0; n > 0; n >>= 1, i++) {
                 if ((n & 1) != 0) {
-                    factor *= D_800122E0[i];
+                    factor *= pows[i];
                 }
             }
             val /= factor;
@@ -170,13 +172,13 @@ s16 _Ldunscale(s16* pex, _Pft* px) {
     }
 }
 
-void _Genld(_Pft* px, u8 code, u8* p, s16 nsig, s16 xexp) {
-    u8 point = '.';
+void _Genld(_Pft* px, char code, char* p, s16 nsig, s16 xexp) {
+    const char point = '.';
 
     if (nsig <= 0) {
         nsig = 1,
 
-        p = (u8*)"0";
+        p = (char*)"0";
     }
 
     if (code == 'f' || ((code == 'g' || code == 'G') && (-4 <= xexp) && (xexp < px->prec))) { /* 'f' format */
@@ -248,7 +250,7 @@ void _Genld(_Pft* px, u8 code, u8* p, s16 nsig, s16 xexp) {
             px->n1 += nsig;
             px->nz1 = px->prec - nsig;
         }
-        p = (u8*)&px->s[px->n1]; /* put exponent */
+        p = (char*)&px->s[px->n1]; /* put exponent */
         *p++ = code;
         if (0 <= xexp) {
             *p++ = '+';
@@ -264,7 +266,7 @@ void _Genld(_Pft* px, u8 code, u8* p, s16 nsig, s16 xexp) {
         }
         *p++ = xexp / 10 + '0', xexp %= 10;
         *p++ = xexp + '0';
-        px->n2 = p - (u8*)&px->s[px->n1];
+        px->n2 = p - (char*)&px->s[px->n1];
     }
     if ((px->flags & (FLAGS_ZERO | FLAGS_MINUS)) == FLAGS_ZERO) { /* pad with leading zeros */
         s32 n = px->n0 + px->n1 + px->nz1 + px->n2 + px->nz2;

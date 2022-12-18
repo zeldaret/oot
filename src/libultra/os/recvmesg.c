@@ -1,4 +1,4 @@
-#include "global.h"
+#include "osint.h"
 
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag) {
     register u32 prevInt = __osDisableInt();
@@ -24,6 +24,5 @@ s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag) {
     }
 
     __osRestoreInt(prevInt);
-
     return 0;
 }

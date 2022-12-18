@@ -1,4 +1,7 @@
-#include "global.h"
+#include "stdarg.h"
+#include "stdio.h"
+#include "string.h"
+#include "xstdio.h"
 
 void* proutSprintf(void* dst, const char* fmt, u32 size) {
     return (void*)((u32)memcpy(dst, fmt, size) + size);

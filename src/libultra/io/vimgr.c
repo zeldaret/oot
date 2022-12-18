@@ -1,8 +1,10 @@
-#include "global.h"
-#include "ultra64/internal.h"
+#include "viint.h"
+#include "osint.h"
+#include "../stack.h" // TODO
+#include "../macros.h" // TODO
 
 OSThread viThread;
-STACK(viThreadStack, 0x1000);
+STACK(viThreadStack, OS_VIM_STACKSIZE);
 OSMesgQueue viEventQueue;
 OSMesg viEventBuf[5];
 OSIoMesg viRetraceMsg;
@@ -45,7 +47,7 @@ void osCreateViManager(OSPri pri) {
         __osViDevMgr.dma = NULL;
         __osViDevMgr.edma = NULL;
 
-        osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, STACK_TOP(viThreadStack), pri);
+        osCreateThread(&viThread, 0, viMgrMain, &__osViDevMgr, STACK_TOP(viThreadStack), pri);
         __osViInit();
         osStartThread(&viThread);
         __osRestoreInt(prevInt);

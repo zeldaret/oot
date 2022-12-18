@@ -1,5 +1,4 @@
-#include "global.h"
-#include "ultra64/viint.h"
+#include "viint.h"
 
 /**
  * Configures VI "special features" to be applied on the next context swap.

@@ -1,5 +1,6 @@
-#include "global.h"
-#include "ultra64/asm.h"
+#include "R4300.h"
+#include "internal.h"
+#include "asm.h"
 
 __OSThreadTail __osThreadTail = { NULL, OS_PRIORITY_THREADTAIL };
 OSThread* __osRunQueue = (OSThread*)&__osThreadTail;

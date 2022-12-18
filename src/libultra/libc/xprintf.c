@@ -1,4 +1,8 @@
-#include "global.h"
+#include "stdarg.h"
+#include "stdbool.h"
+#include "stdlib.h"
+#include "string.h"
+#include "xstdio.h"
 
 #define ATOI(i, a)                           \
     for (i = 0; *a >= '0' && *a <= '9'; a++) \

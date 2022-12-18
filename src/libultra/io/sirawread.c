@@ -1,6 +1,6 @@
-#include "global.h"
+#include "siint.h"
 
-s32 __osSiRawReadIo(void* devAddr, u32* dst) {
+s32 __osSiRawReadIo(u32 devAddr, u32* dst) {
     if (__osSiDeviceBusy()) {
         return -1;
     }

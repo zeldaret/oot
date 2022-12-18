@@ -1,5 +1,4 @@
-#include "global.h"
-#include "ultra64/viint.h"
+#include "viint.h"
 
 void osViSetXScale(f32 value) {
     register u32 nomValue;

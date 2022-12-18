@@ -1,6 +1,8 @@
 #ifndef ULTRA64_CONVERT_H
 #define ULTRA64_CONVERT_H
 
+#include "ultratypes.h"
+
 #define OS_CLOCK_RATE           62500000LL
 #define OS_CPU_COUNTER          (OS_CLOCK_RATE*3/4)
 
@@ -17,5 +19,7 @@
 
 #define OS_MSEC_TO_CYCLES(n)    OS_USEC_TO_CYCLES((n) * 1000)
 #define OS_SEC_TO_CYCLES(n)     OS_MSEC_TO_CYCLES((n) * 1000)
+
+u32 osVirtualToPhysical(void* vaddr);
 
 #endif

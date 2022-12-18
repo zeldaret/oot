@@ -1,5 +1,4 @@
-#include "global.h"
-#include "ultra64/internal.h"
+#include "piint.h"
 
 s32 osEPiStartDma(OSPiHandle* handle, OSIoMesg* mb, s32 direction) {
     s32 ret;
@@ -10,9 +9,9 @@ s32 osEPiStartDma(OSPiHandle* handle, OSIoMesg* mb, s32 direction) {
 
     mb->piHandle = handle;
     if (direction == OS_READ) {
-        mb->hdr.type = 0xF;
+        mb->hdr.type = OS_MESG_TYPE_EDMAREAD;
     } else {
-        mb->hdr.type = 0x10;
+        mb->hdr.type = OS_MESG_TYPE_EDMAWRITE;
     }
 
     if (mb->hdr.pri == 1) {

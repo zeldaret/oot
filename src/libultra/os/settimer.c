@@ -1,4 +1,5 @@
-#include "global.h"
+#include "osint.h"
+#include "../macros.h" // TODO
 
 s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg) {
     UNUSED OSTime time;

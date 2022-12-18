@@ -1,4 +1,5 @@
-#include "global.h"
+#include "osint.h"
+#include "R4300.h"
 
 u32 osVirtualToPhysical(void* vaddr) {
     if (IS_KSEG0(vaddr)) {

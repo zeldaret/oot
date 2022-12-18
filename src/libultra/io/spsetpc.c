@@ -1,6 +1,7 @@
-#include "global.h"
+#include "internal.h"
+#include "rcp.h"
 
-s32 __osSpSetPc(void* pc) {
+s32 __osSpSetPc(u32 pc) {
     register u32 spStatus = IO_READ(SP_STATUS_REG);
 
     if (!(spStatus & SP_STATUS_HALT)) {

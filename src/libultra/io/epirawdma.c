@@ -1,4 +1,4 @@
-#include "global.h"
+#include "piint.h"
 
 s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dramAddr, size_t size) {
     s32 status;

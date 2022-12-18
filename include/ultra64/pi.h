@@ -56,22 +56,58 @@ typedef struct {
     /* 0x14 */ OSPiHandle* piHandle;
 } OSIoMesg; // size = 0x18
 
+typedef struct {
+    /* 0x00 */ u32 active;
+    /* 0x04 */ OSThread* thread;
+    /* 0x08 */ OSMesgQueue* cmdQueue;
+    /* 0x0C */ OSMesgQueue* evtQueue;
+    /* 0x10 */ OSMesgQueue* acsQueue;
+    /* 0x14 */ s32 (*dma)(s32, u32, void*, size_t);
+    /* 0x18 */ s32 (*edma)(OSPiHandle*, s32, u32, void*, size_t);
+} OSDevMgr; // size = 0x1C
+
+extern OSPiHandle* __osPiTable;
+
+/*
+ * Flags to indicate direction of data transfer
+ */
 #define OS_READ     0 // device -> RDRAM
 #define OS_WRITE    1 // device <- RDRAM
 #define OS_OTHERS   2 // for disk drive transfers
 
+/*
+ * I/O message types
+ */
+#define OS_MESG_TYPE_BASE       (10)
+#define OS_MESG_TYPE_LOOPBACK   (OS_MESG_TYPE_BASE + 0)
+#define OS_MESG_TYPE_DMAREAD    (OS_MESG_TYPE_BASE + 1)
+#define OS_MESG_TYPE_DMAWRITE   (OS_MESG_TYPE_BASE + 2)
+#define OS_MESG_TYPE_VRETRACE   (OS_MESG_TYPE_BASE + 3)
+#define OS_MESG_TYPE_COUNTER    (OS_MESG_TYPE_BASE + 4)
+#define OS_MESG_TYPE_EDMAREAD   (OS_MESG_TYPE_BASE + 5)
+#define OS_MESG_TYPE_EDMAWRITE  (OS_MESG_TYPE_BASE + 6)
+
+/*
+ * I/O message priority
+ */
+#define OS_MESG_PRI_NORMAL  0
+#define OS_MESG_PRI_HIGH    1
+
+/*
+ * PI/EPI
+ */
 #define PI_DOMAIN1  0
 #define PI_DOMAIN2  1
 
-#define OS_MESG_TYPE_LOOPBACK   10
-#define OS_MESG_TYPE_DMAREAD    11
-#define OS_MESG_TYPE_DMAWRITE   12
-#define OS_MESG_TYPE_VRETRACE   13
-#define OS_MESG_TYPE_COUNTER    14
-#define OS_MESG_TYPE_EDMAREAD   15
-#define OS_MESG_TYPE_EDMAWRITE  16
+void osCreatePiManager(OSPri, OSMesgQueue*, OSMesg*, s32);
 
-#define OS_MESG_PRI_NORMAL  0
-#define OS_MESG_PRI_HIGH    1
+/* Enhanced PI interface */
+
+OSPiHandle *osCartRomInit(void);
+OSPiHandle *osDriveRomInit(void);
+
+s32 osEPiWriteIo(OSPiHandle*, u32 , u32);
+s32 osEPiReadIo(OSPiHandle*, u32 , u32*);
+s32 osEPiStartDma(OSPiHandle*, OSIoMesg*, s32);
 
 #endif

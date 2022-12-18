@@ -1,4 +1,4 @@
-#include "global.h"
+#include "osint.h"
 
 void osYieldThread(void) {
     register u32 prevInt = __osDisableInt();

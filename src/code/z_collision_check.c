@@ -3227,7 +3227,6 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* collider, s32 index, Col
 static s8 sBssDummy11;
 static s8 sBssDummy12;
 static s8 sBssDummy13;
-static s8 sBssDummy14;
 
 /**
  * Updates the world spheres for all of the collider's JntSph elements attached to the specified limb

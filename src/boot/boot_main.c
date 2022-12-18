@@ -16,8 +16,7 @@ void bootproc(void) {
 
     osMemSize = osGetMemSize();
     cleararena();
-    __osInitialize_common();
-    __osInitialize_autodetect();
+    osInitialize();
 
     gCartHandle = osCartRomInit();
     osDriveRomInit();

@@ -1,4 +1,6 @@
-#include "global.h"
+#include "controller.h"
+#include "siint.h"
+#include "../macros.h" // TODO
 
 OSPifRam __osContPifRam;
 u8 __osContLastCmd;

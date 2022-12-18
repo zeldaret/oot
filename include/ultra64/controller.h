@@ -1,7 +1,8 @@
 #ifndef ULTRA64_CONTROLLER_H
 #define ULTRA64_CONTROLLER_H
 
-#include "message.h"
+#include "internal.h"
+#include "rcp.h"
 
 #define CHNL_ERR(readFormat) (((readFormat).rxsize & CHNL_ERR_MASK) >> 4)
 
@@ -48,7 +49,6 @@
 #define CONT_ERR_VOICE_MEMORY       13
 #define CONT_ERR_VOICE_WORD         14
 #define CONT_ERR_VOICE_NO_RESPONSE  15
-
 
 #define DIR_STATUS_EMPTY 0
 #define DIR_STATUS_UNKNOWN 1
@@ -103,22 +103,6 @@
 #define CONT_BLOCK_GB_BANK   CONT_BLOCKS(CONT_ADDR_GB_BANK)
 #define CONT_BLOCK_GB_STATUS CONT_BLOCKS(CONT_ADDR_GB_STATUS)
 
-/* Buttons */
-#define BTN_CRIGHT      0x0001
-#define BTN_CLEFT       0x0002
-#define BTN_CDOWN       0x0004
-#define BTN_CUP         0x0008
-#define BTN_R           0x0010
-#define BTN_L           0x0020
-#define BTN_DRIGHT      0x0100
-#define BTN_DLEFT       0x0200
-#define BTN_DDOWN       0x0400
-#define BTN_DUP         0x0800
-#define BTN_START       0x1000
-#define BTN_Z           0x2000
-#define BTN_B           0x4000
-#define BTN_A           0x8000
-
 typedef union {
     struct {
     /* 0x00 */ u32 ram[15];
@@ -126,27 +110,6 @@ typedef union {
     };
     u64 force_structure_alignment;
 } OSPifRam; // size = 0x40
-
-typedef struct {
-    /* 0x00 */ u16 type;
-    /* 0x02 */ u8 status;
-    /* 0x03 */ u8 errno;
-} OSContStatus; // size = 0x04
-
-typedef struct {
-    /* 0x00 */ u16 button;
-    /* 0x02 */ s8 stick_x;
-    /* 0x03 */ s8 stick_y;
-    /* 0x04 */ u8 errno;
-} OSContPad; // size = 0x06
-
-typedef struct {
-    /* 0x00 */ void* address;
-    /* 0x04 */ u8 databuffer[32];
-    /* 0x24 */ u8 addressCrc;
-    /* 0x25 */ u8 dataCrc;
-    /* 0x26 */ u8 errno;
-} OSContRamIo; // size = 0x28
 
 typedef struct {
     /* 0x00 */ u8 align;
@@ -190,5 +153,31 @@ typedef struct {
     /* 0x06 */ s8 joyX;
     /* 0x07 */ s8 joyY;
 } __OSContReadFormat; // size = 0x8
+
+s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* startPage, u8 bank, s32* decleared,
+                       s32* finalPage);
+s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel);
+void __osPackRequestData(u8 poll);
+void __osContGetInitData(u8* ctlBitfield, OSContStatus* data);
+u16 __osSumcalc(u8* ptr, s32 length);
+s32 __osIdCheckSum(u16* ptr, u16* checkSum, u16* idSum);
+s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid);
+s32 __osCheckPackId(OSPfs* pfs, __OSPackId* check);
+s32 __osGetId(OSPfs* pfs);
+s32 __osCheckId(OSPfs* pfs);
+s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank);
+s32 __osPfsReleasePages(OSPfs* pfs, __OSInode* inode, u8 initialPage, u8 bank, __OSInodeUnit* finalPage);
+void __osPfsRequestData(u8 cmd);
+void __osPfsGetInitData(u8* pattern, OSContStatus* contData);
+s32 __osPfsSelectBank(OSPfs* pfs, u8 bank);
+s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 force);
+s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data);
+u8 __osContAddressCrc(u16 addr);
+u8 __osContDataCrc(u8* data);
+
+extern OSPifRam __osContPifRam;
+extern u8 __osContLastCmd;
+extern u8 __osMaxControllers;
+extern OSPifRam __osPfsPifRam;
 
 #endif

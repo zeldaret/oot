@@ -1,6 +1,7 @@
 #ifndef ULTRA64_PRINTF_H
 #define ULTRA64_PRINTF_H
 
+#include "stdarg.h"
 #include "ultratypes.h"
 
 typedef struct {
@@ -23,6 +24,10 @@ typedef struct {
 } _Pft; // size = 0x38
 
 typedef void* (*PrintCallback)(void*, const char*, u32);
+
+s32 _Printf(PrintCallback, void* arg, const char* fmt, va_list ap);
+void _Litob(_Pft* args, char type);
+void _Ldtob(_Pft* args, char type);
 
 #define FLAGS_SPACE 1
 #define FLAGS_PLUS 2

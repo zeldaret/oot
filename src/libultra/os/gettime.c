@@ -1,4 +1,4 @@
-#include "global.h"
+#include "osint.h"
 
 OSTime osGetTime(void) {
     u32 count;

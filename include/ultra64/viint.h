@@ -1,6 +1,9 @@
 #ifndef ULTRA64_VIINT_H
 #define ULTRA64_VIINT_H
 
+#include "internal.h"
+#include "rcp.h"
+
 #define VI_STATE_MODE_SET           (1 << 0)
 #define VI_STATE_XSCALE_SET         (1 << 1)
 #define VI_STATE_YSCALE_FACTOR_SET  (1 << 2)
@@ -33,5 +36,13 @@
 #define ORIGIN(v) v
 #define VINTR(v) v
 #define HSTART START
+
+void __osViInit(void);
+void __osViSwapContext(void);
+OSViContext* __osViGetCurrentContext(void);
+
+extern OSViContext* __osViCurr;
+extern OSViContext* __osViNext;
+extern u32 __additional_scanline;
 
 #endif

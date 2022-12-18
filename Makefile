@@ -98,7 +98,8 @@ OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 EMULATOR = mupen64plus
 EMU_FLAGS = --noosd
 
-INC        := -Iinclude -Isrc -Ibuild -I.
+INC        := -Iinclude -Iinclude/libc -Isrc -Ibuild -I.
+build/src/libultra/%.o: INC := -Iinclude/libc -Iinclude/ultra64 -Isrc/libultra
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces

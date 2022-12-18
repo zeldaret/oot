@@ -1,5 +1,7 @@
-#include "ultra64.h"
-#include "global.h"
+#include "controller.h"
+#include "siint.h"
+
+OSPifRam __osPfsPifRam;
 
 s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern) {
     s32 ret = 0;
