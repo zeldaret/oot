@@ -4992,7 +4992,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 }
 
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, play, getItemId, 2000.0f, 1000.0f);
+                Actor_OfferGetItem(&this->actor, play, getItemId, 2000.0f, 1000.0f);
                 this->unk_15C = 23;
             }
             break;
@@ -5043,7 +5043,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
             if (Actor_HasParent(&this->actor, play)) {
                 this->unk_15C = 24;
             } else {
-                func_8002F434(&this->actor, play, GI_SCALE_GOLDEN, 2000.0f, 1000.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_SCALE_GOLDEN, 2000.0f, 1000.0f);
             }
             break;
 
@@ -5343,7 +5343,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             mainCam->eye = sSubCamEye;
             mainCam->eyeNext = sSubCamEye;
             mainCam->at = sSubCamAt;
-            func_800C08AC(play, sSubCamId, 0);
+            Play_ReturnToMainCam(play, sSubCamId, 0);
             func_80064534(play, &play->csCtx);
             D_80B7A6CC = 0;
             sSubCamId = SUB_CAM_ID_DONE;
@@ -5361,7 +5361,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, 5);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5385,9 +5385,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 mainCam->eye = sSubCamEye;
                 mainCam->eyeNext = sSubCamEye;
                 mainCam->at = sSubCamAt;
-                func_800C08AC(play, sSubCamId, 0);
+                Play_ReturnToMainCam(play, sSubCamId, 0);
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 D_80B7A6CC = 0;
                 sSubCamId = SUB_CAM_ID_DONE;
                 D_80B7A6D0 = 30;
@@ -5403,7 +5403,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, 5);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5422,7 +5422,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             if ((D_80B7A6D0 == 0) && Message_ShouldAdvance(play)) {
                 D_80B7A6CC = 22;
                 D_80B7A6D0 = 40;
-                func_8002DF54(play, &this->actor, 0x1C);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_28);
                 D_80B7FEE4 = 0.0f;
             }
             break;
@@ -5489,9 +5489,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                         mainCam->eye = sSubCamEye;
                         mainCam->eyeNext = sSubCamEye;
                         mainCam->at = sSubCamAt;
-                        func_800C08AC(play, sSubCamId, 0);
+                        Play_ReturnToMainCam(play, sSubCamId, 0);
                         func_80064534(play, &play->csCtx);
-                        func_8002DF54(play, &this->actor, 7);
+                        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                         D_80B7A6CC = 0;
                         sSubCamId = SUB_CAM_ID_DONE;
                         player->unk_860 = -5;
@@ -5510,7 +5510,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     if (sSubCamId != SUB_CAM_ID_DONE) {
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
         Math_ApproachF(&sSubCamVelFactor, 1.0f, 1.0f, 0.02f);
 
         if (sSubCamEye.y <= (WATER_SURFACE_Y(play) + 1.0f)) {

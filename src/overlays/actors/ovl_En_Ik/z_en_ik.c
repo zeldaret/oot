@@ -745,7 +745,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
             return;
         }
 
-        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
 
         prevHealth = this->actor.colChkInfo.health;
         Actor_ApplyDamage(&this->actor);
@@ -1238,7 +1238,8 @@ void EnIk_CsAction5(EnIk* this, PlayState* play) {
 }
 
 s32 EnIk_OverrideLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    if ((limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_HELMET_ARMOR) || (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_FRONT) ||
+    if ((limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_HELMET_ARMOR) ||
+        (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_FRONT) ||
         (limbIndex == IRON_KNUCKLE_DEFEAT_LIMB_CHEST_ARMOR_BACK)) {
         if (EnIk_GetAnimCurFrame(thisx) >= 30.0f) {
             *dList = NULL;

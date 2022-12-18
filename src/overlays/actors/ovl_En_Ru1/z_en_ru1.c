@@ -1574,7 +1574,7 @@ void func_80AEE568(EnRu1* this, PlayState* play) {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speedXZ == 0.0f) &&
             (this->actor.minVelocityY == 0.0f)) {
             func_80AEE02C(this);
-            func_8002F580(&this->actor, play);
+            Actor_OfferCarry(&this->actor, play);
             this->action = 27;
             func_80AEADD8(this);
         } else if (this->actor.yDistToWater > 0.0f) {
@@ -1675,7 +1675,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
 s32 func_80AEEAC8(EnRu1* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         func_80AEE02C(this);
-        func_8002F580(&this->actor, play);
+        Actor_OfferCarry(&this->actor, play);
         this->action = 27;
         func_80AEADD8(this);
         return true;
@@ -1693,7 +1693,7 @@ void func_80AEEB24(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEEBB4(EnRu1* this, PlayState* play) {
-    func_8002F580(&this->actor, play);
+    Actor_OfferCarry(&this->actor, play);
 }
 
 void func_80AEEBD4(EnRu1* this, PlayState* play) {
@@ -1845,7 +1845,7 @@ void func_80AEF1F0(EnRu1* this, PlayState* play, UNK_TYPE arg2) {
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_143);
         func_80AED6DC(this, play);
-        func_8002F580(&this->actor, play);
+        Actor_OfferCarry(&this->actor, play);
         this->action = 27;
         func_80AEADD8(this);
     }

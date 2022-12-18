@@ -586,7 +586,7 @@ void EnTa_CreateFloorCamera(EnTa* this, PlayState* play) {
     subCamAt.y = 45.0f;
     subCamAt.z = -40.0f;
 
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
 }
 
 void EnTa_RemoveFloorCamera(EnTa* this, PlayState* play) {
@@ -757,7 +757,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                         case 1:
                             // Last cucco found, end the game
                             gSaveContext.timerState = TIMER_STATE_OFF;
-                            func_8002DF54(play, &this->actor, 1);
+                            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
 
                             Message_StartTextbox(play, 0x2084, &this->actor);
                             this->actionFunc = EnTa_TalkCuccoGameEnd;
@@ -805,7 +805,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
         this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         func_80078884(NA_SE_SY_FOUND);
         gSaveContext.timerState = TIMER_STATE_OFF;
-        func_8002DF54(play, &this->actor, 1);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
 
         // Time's up text
         Message_StartTextbox(play, 0x2081, &this->actor);
@@ -868,7 +868,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 10.0f);
-        func_8002DF54(play, &this->actor, 7);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
     }
 }
 
@@ -885,7 +885,7 @@ void EnTa_StartingCuccoGame3(EnTa* this, PlayState* play) {
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         this->stateFlags |= TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         Message_CloseTextbox(play);
-        func_8002DF54(play, &this->actor, 1);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
     }
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
@@ -945,9 +945,9 @@ void EnTa_GiveItemInLonLonHouse(EnTa* this, PlayState* play) {
         }
         this->stateFlags &= ~TALON_STATE_FLAG_GIVING_MILK_REFILL;
     } else if (this->stateFlags & TALON_STATE_FLAG_GIVING_MILK_REFILL) {
-        func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
     } else {
-        func_8002F434(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
@@ -957,7 +957,7 @@ void EnTa_TalkAfterCuccoGameFirstWon(EnTa* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->stateFlags &= ~TALON_STATE_FLAG_GIVING_MILK_REFILL;
         EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
-        func_8002F434(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_MILK_FULL, 10000.0f, 50.0f);
     }
 }
 
@@ -980,7 +980,7 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
                         this->stateFlags |= TALON_STATE_FLAG_GIVING_MILK_REFILL;
                         EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
                         Rupees_ChangeBy(-30);
-                        func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
+                        Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
                         break;
                 }
                 break;
@@ -1077,7 +1077,7 @@ void EnTa_TalkAfterCuccoGameWon(EnTa* this, PlayState* play) {
             Message_CloseTextbox(play);
             this->stateFlags |= TALON_STATE_FLAG_GIVING_MILK_REFILL;
             EnTa_SetupAction(this, EnTa_GiveItemInLonLonHouse, EnTa_AnimRunToEnd);
-            func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 50.0f);
         } else {
             Message_ContinueTextbox(play, 0x208A);
             EnTa_SetupAction(this, EnTa_TalkGeneralInLonLonHouse, EnTa_AnimRunToEnd);
