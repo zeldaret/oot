@@ -486,7 +486,7 @@ void DoorShutter_WaitForObject(DoorShutter* this, PlayState* play) {
                 DoorShutter_SetupAction(this, DoorShutter_GohmaBlockFall);
             } else {
                 DoorShutter_SetupAction(this, DoorShutter_PhantomGanonBarsRaise);
-                this->moveState = 7;
+                this->isActive = 7;
             }
         } else {
             DoorShutter_SetupDoor(this, play);
@@ -585,7 +585,7 @@ void DoorShutter_Unopenable(DoorShutter* this, PlayState* play) {
  * Opening either a locked door or a boss door sets the switch flag taken from actor params.
  */
 void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
-    if (this->moveState) {
+    if (this->isActive) {
         DoorShutter_SetupAction(this, DoorShutter_Open);
         this->dyna.actor.velocity.y = 0.0f;
         if (this->unlockTimer != 0) {
@@ -730,7 +730,7 @@ void DoorShutter_BarAndWaitSwitchFlag(DoorShutter* this, PlayState* play) {
  * Its purpose is to check the switch flag is still set after the door has been unbarred.
  */
 void DoorShutter_UnbarredCheckSwitchFlag(DoorShutter* this, PlayState* play) {
-    if (!this->moveState && !Flags_GetSwitch(play, DOORSHUTTER_GET_SWITCH_FLAG(&this->dyna.actor))) {
+    if (!this->isActive && !Flags_GetSwitch(play, DOORSHUTTER_GET_SWITCH_FLAG(&this->dyna.actor))) {
         DoorShutter_SetupAction(this, DoorShutter_BarAndWaitSwitchFlag);
     } else {
         DoorShutter_Idle(this, play);
@@ -815,7 +815,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
         func_80097534(play, &play->roomCtx);
         Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0x0EFF);
     }
-    this->moveState = false;
+    this->isActive = false;
     this->dyna.actor.velocity.y = 0.0f;
     if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_11)) {
         // The door is barred behind the player
@@ -873,7 +873,7 @@ void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
             BossGoma* parent = (BossGoma*)this->dyna.actor.parent;
 
-            this->moveState = 10;
+            this->isActive = 10;
             Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             DoorShutter_RequestQuakeAndRumble(play, 2, 10, parent->subCamId);
             Actor_SpawnFloorDustRing(play, &this->dyna.actor, &this->dyna.actor.world.pos, 70.0f, 20, 8.0f, 500, 10,
@@ -886,10 +886,10 @@ void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play) {
     f32 bounceFactor;
 
     // Bounce a bit (unnoticeable in-game)
-    if (this->moveState != 0) {
-        this->moveState--;
-        bounceFactor = sinf(this->moveState * 250.0f / 100.0f);
-        this->dyna.actor.shape.yOffset = this->moveState * 3.0f / 10.0f * bounceFactor;
+    if (this->isActive != 0) {
+        this->isActive--;
+        bounceFactor = sinf(this->isActive * 250.0f / 100.0f);
+        this->dyna.actor.shape.yOffset = this->isActive * 3.0f / 10.0f * bounceFactor;
     }
 }
 
@@ -897,10 +897,10 @@ void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play) {
     f32 targetOffsetY;
 
     osSyncPrintf("FHG SAKU START !!\n");
-    if (this->moveState != 0) {
-        this->moveState--;
+    if (this->isActive != 0) {
+        this->isActive--;
     }
-    targetOffsetY = (this->moveState % 2 != 0) ? -3.0f : 0.0f;
+    targetOffsetY = (this->isActive % 2 != 0) ? -3.0f : 0.0f;
     Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -34.0f + targetOffsetY, 1.0f, 20.0f, 0.0f);
     osSyncPrintf("FHG SAKU END !!\n");
 }
