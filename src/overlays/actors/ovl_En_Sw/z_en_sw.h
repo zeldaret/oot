@@ -18,7 +18,7 @@ typedef struct EnSw {
     /* 0x01F8 */ Vec3s jointTable[30];
     /* 0x02AC */ Vec3s morphTable[30];
     /* 0x0360 */ u8 goldHiddenBool; // set when revealed, unset when landing.
-    /* 0x0364 */ Vec3f normalVec;
+    /* 0x0364 */ Vec3f wallPolyNormal;
     /* 0x0370 */ Vec3f unk_370;
     /* 0x037C */ Vec3f unk_37C;
     /* 0x0388 */ s16 aniTimer;
@@ -48,14 +48,14 @@ typedef struct EnSw {
     /* 0x0490 */ char unk_490[0x48];
 } EnSw; // size = 0x04D8
 
-#define SW_GOLDTYPE(params) ((params & 0xE000) >> 0xD)
+#define ENSW_GET_GOLDTYPE(params) ((params & 0xE000) >> 0xD)
 
 typedef enum {
     SW_NORMALTYPE, // normal Skullwalltula
     SW_GOLDTYPE_DEFAULT, // Normal Gold Skultula, found in dungeons
     SW_GOLDTYPE_NIGHT, // nocturnal Gold Skultula, found outside
-    SW_GOLDTYPE_HIDDEN, // found by using incects on soil patches
-    SW_GOLDTYPE_HIDDEN2, // found by hitting trees.
+    SW_GOLDTYPE_HIDDEN_SOIL, // found by using bugs on soil patches
+    SW_GOLDTYPE_HIDDEN_TREE, // found by hitting trees.
 } EnSwTypes;
 
 #endif
