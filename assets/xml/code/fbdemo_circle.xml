@@ -3,7 +3,7 @@
         <Texture Name="sTransCircleNormalTex" OutName="trans_circle_normal" Format="i8" Width="16" Height="64" Offset="0x10ED48"/>
         <Texture Name="sTransCircleWaveTex" OutName="trans_circle_wave" Format="i8" Width="16" Height="64" Offset="0x10F148"/>
         <Texture Name="sTransCircleRippleTex" OutName="trans_circle_ripple" Format="i8" Width="16" Height="64" Offset="0x10F548"/>
-        <Texture Name="sTransCircleStarburstTex" OutName="trans_circle_Starburst" Format="i8" Width="16" Height="64" Offset="0x10F948"/>
+        <Texture Name="sTransCircleStarburstTex" OutName="trans_circle_starburst" Format="i8" Width="16" Height="64" Offset="0x10F948"/>
         <Array Name="sTransCircleVtx" Count="34" Offset="0x10FD48">
             <Vtx/>
         </Array>

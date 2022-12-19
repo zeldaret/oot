@@ -6,7 +6,7 @@ typedef enum {
 } TransitionCircleDirection;
 
 // unused
-Gfx sCircleEmptyDL[] = {
+Gfx sTransCircleEmptyDL[] = {
     gsSPEndDisplayList(),
 };
 

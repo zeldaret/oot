@@ -130,7 +130,7 @@ s32 TransitionTriforce_IsDone(void* thisx) {
         return this->transPos <= 0.03f;
     } else if (this->state == 3 || this->state == 4) {
         return this->transPos >= 1.0f;
+    } else {
+        return isDone;
     }
-
-    return isDone;
 }
