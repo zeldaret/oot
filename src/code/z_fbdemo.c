@@ -1,3 +1,16 @@
+/**
+ * @file z_fbdemo.c
+ *
+ * This file implements an unused transition system that takes the current screen and converts it to large tiles.
+ *
+ * The static version will just display this tiled screen, while the dynamic version has the visual effect of `sucking`
+ * it tiled screen into a single point.
+ *
+ * @note While the init function allows for custom number of rows and columns, there are multiple hardcoded features
+ * that seem meant for 10 rows and 7 columns.
+ *     All the `0x20`s correspond to divding the screen in this way (`gScreenWidth`/ 10 = `gScreenHeight` / 7 = 0x20)
+ *     The dynamic version using the 5th row and 4th column as the point to suck towards
+ */
 #include "global.h"
 
 // color framebuffer
@@ -16,7 +29,7 @@ Gfx D_8012AFB0[] = {
     gsSPEndDisplayList(),
 };
 
-Gfx sTransitionTileSetupDL[] = {
+Gfx sTransTileSetupDL[] = {
     gsDPPipeSync(),
     gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
     gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
@@ -27,22 +40,6 @@ Gfx sTransitionTileSetupDL[] = {
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
     gsSPEndDisplayList(),
 };
-
-#define VTX_SET(vtx, tc0, ob0, ob1, ob2, flg, tc1, cn0, cn1, cn2, cn3) \
-    {                                                                  \
-        Vtx_t* __vtx = &(vtx)->v;                                      \
-        __vtx->tc[0] = tc0;                                            \
-        __vtx->ob[0] = ob0;                                            \
-        __vtx->ob[1] = ob1;                                            \
-        __vtx->ob[2] = ob2;                                            \
-        __vtx->flag = flg;                                             \
-        __vtx->tc[1] = tc1;                                            \
-        __vtx->cn[0] = cn0;                                            \
-        __vtx->cn[1] = cn1;                                            \
-        __vtx->cn[2] = cn2;                                            \
-        __vtx->cn[3] = cn3;                                            \
-    }                                                                  \
-    (void)0
 
 void TransitionTile_InitGraphics(TransitionTile* this) {
     s32 frame;
@@ -65,9 +62,23 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
         for (col = 0; col < this->cols + 1; col++) {
             rowTex = 0;
             for (row = 0; row < this->rows + 1; row++) {
-                VTX_SET(vtx++, rowTex << 6, row * 0x20, col * 0x20, -5, 0, colTex << 6, 0, 0, 120, 255);
+                Vtx_t* vtx2 = &vtx->v;
+
+                vtx++;
+                vtx2->tc[0] = rowTex << 6;
+                vtx2->ob[0] = row * 0x20;
+                vtx2->ob[1] = col * 0x20;
+                vtx2->ob[2] = -5;
+                vtx2->flag = 0;
+                vtx2->tc[1] = colTex << 6;
+                vtx2->cn[0] = 0;
+                vtx2->cn[1] = 0;
+                vtx2->cn[2] = 120;
+                vtx2->cn[3] = 255;
+
                 rowTex += 0x20;
             }
+
             colTex += 0x20;
         }
     }
@@ -93,6 +104,7 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
             row2++;
             row++;
         }
+
         colTex += 0x20;
     }
 
@@ -141,7 +153,7 @@ void TransitionTile_Destroy(TransitionTile* this) {
 
 TransitionTile* TransitionTile_Init(TransitionTile* this, s32 rows, s32 cols) {
     osSyncPrintf("fbdemo_init(%08x, %d, %d)\n", this, rows, cols);
-    bzero(this, sizeof(*this));
+    bzero(this, sizeof(TransitionTile));
     this->frame = 0;
     this->rows = rows;
     this->cols = cols;
@@ -171,6 +183,7 @@ TransitionTile* TransitionTile_Init(TransitionTile* this, s32 rows, s32 cols) {
         }
         return NULL;
     }
+    
     TransitionTile_InitGraphics(this);
     TransitionTile_InitVtxData(this);
     this->frame = 0;
@@ -197,40 +210,37 @@ void TransitionTile_SetVtx(TransitionTile* this) {
 void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
 
-    gSPDisplayList(gfx++, sTransitionTileSetupDL);
+    gSPDisplayList(gfx++, sTransTileSetupDL);
     TransitionTile_SetVtx(this);
     gSPMatrix(gfx++, &this->projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPMatrix(gfx++, &this->modelView, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(gfx++, 0xA, this->frame == 0 ? this->vtxFrame1 : this->vtxFrame2);
     gSPSegment(gfx++, 0xB, this->zBuffer);
-    gSPDisplayList(gfx++, sTransitionTileSetupDL);
+    gSPDisplayList(gfx++, sTransTileSetupDL);
     gSPDisplayList(gfx++, this->gfx);
     gDPPipeSync(gfx++);
     this->frame ^= 1;
     *gfxP = gfx;
 }
 
-/**
- * Has the visual effect of `sucking` the tiles towards a point
-*/
 void TransitionTile_UpdateDynamic(TransitionTile* this) {
     s32 col;
     s32 row;
     f32 diffX;
     f32 diffY;
-    f32 phi_f14;
+    f32 scale;
 
     for (col = 0; col < this->cols + 1; col++) {
         for (row = 0; row < this->rows + 1; row++) {
             diffX = (this->vtxData + row + col * (this->rows + 1))->x - (this->vtxData + 5 + 4 * (this->rows + 1))->x;
             diffY = (this->vtxData + row + col * (this->rows + 1))->y - (this->vtxData + 5 + 4 * (this->rows + 1))->y;
-            phi_f14 = (SQ(diffX) + SQ(diffY)) / 100.0f;
-            if (phi_f14 != 0.0f) {
-                if (phi_f14 < 1.0f) {
-                    phi_f14 = 1.0f;
+            scale = (SQ(diffX) + SQ(diffY)) / 100.0f;
+            if (scale != 0.0f) {
+                if (scale < 1.0f) {
+                    scale = 1.0f;
                 }
-                (this->vtxData + row + col * (this->rows + 1))->x -= diffX / phi_f14;
-                (this->vtxData + row + col * (this->rows + 1))->y -= diffY / phi_f14;
+                (this->vtxData + row + col * (this->rows + 1))->x -= diffX / scale;
+                (this->vtxData + row + col * (this->rows + 1))->y -= diffY / scale;
             }
         }
     }
