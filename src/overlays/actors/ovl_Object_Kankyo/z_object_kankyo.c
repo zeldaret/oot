@@ -206,7 +206,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
         func_800F436C(&sSfxPos, NA_SE_EV_NAVY_FLY - SFX_FLAG, (0.4f * dist) + 0.6f);
         switch (play->csCtx.frames) {
             case 473:
-                func_800788CC(NA_SE_VO_NA_HELLO_3);
+                Lib_PlaySfx_Centered(NA_SE_VO_NA_HELLO_3);
                 break;
 
             case 583:
@@ -214,11 +214,11 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
                 break;
 
             case 763:
-                func_80078884(NA_SE_EV_NAVY_CRASH - SFX_FLAG);
+                Lib_PlaySfx(NA_SE_EV_NAVY_CRASH - SFX_FLAG);
                 break;
 
             case 771:
-                func_80078884(NA_SE_VO_RT_THROW);
+                Lib_PlaySfx(NA_SE_VO_RT_THROW);
                 break;
 
             default:

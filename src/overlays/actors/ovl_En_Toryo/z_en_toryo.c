@@ -238,7 +238,7 @@ u32 func_80B20634(EnToryo* this, PlayState* play) {
 
     if (this->unk_1E0 != 0) {
         if (this->unk_1E0 == 10) {
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            Lib_PlaySfx(NA_SE_SY_TRE_BOX_APPEAR);
             if (GET_INFTABLE(INFTABLE_171)) {
                 ret = 0x606E;
             } else {

@@ -240,7 +240,7 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, PlayState* play) {
                 sPuzzleState = SKULL_OF_TRUTH_FOUND;
                 this->actionFunc = BgHakaGate_DoNothing;
             } else {
-                func_80078884(NA_SE_SY_ERROR);
+                Lib_PlaySfx(NA_SE_SY_ERROR);
                 Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->vTimer = 60;

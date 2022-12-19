@@ -286,7 +286,7 @@ void func_808B4194(BgSpot15Rrbox* this, PlayState* play) {
             Audio_PlayActorSfx2(actor, NA_SE_EV_WOOD_BOUND);
         }
         if (func_808B3A40(this, play)) {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Lib_PlaySfx(NA_SE_SY_CORRECT_CHIME);
         }
         actor->home.pos.x = actor->world.pos.x;
         actor->home.pos.z = actor->world.pos.z;
