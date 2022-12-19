@@ -356,7 +356,7 @@ void EnTa_WakeUp(EnTa* this, PlayState* play) {
         this->timer = 60;
         Animation_PlayOnce(&this->skelAnime, &gTalonWakeUpAnim);
         this->currentAnimation = &gTalonStandAnim;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_TA_SURPRISE);
     }
 }
 
@@ -431,7 +431,7 @@ void EnTa_RunWithAccelerationAndSfx(EnTa* this, PlayState* play) {
     s32 framesMod12 = (s32)play->state.frames % 12;
 
     if (framesMod12 == 0 || framesMod12 == 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT);
+        Actor_PlaySfx(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT);
     }
     if (this->actor.speedXZ < 6.0f) {
         this->actor.speedXZ += 0.4f;
@@ -500,7 +500,7 @@ void EnTa_RunAwayStart(EnTa* this, PlayState* play) {
     this->actor.shape.rot.y -= 0xC00;
 
     if (this->timer == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_TA_CRY_1);
         EnTa_SetupAction(this, EnTa_RunAwayRunSouth, EnTa_AnimRepeatCurrent);
         this->timer = 65;
         this->actor.flags |= ACTOR_FLAG_4;
@@ -774,13 +774,13 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                         case 2:
                             // One cucco remaining
                             this->actor.textId = 0x2083;
-                            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_CRY_1);
+                            Actor_PlaySfx(&this->actor, NA_SE_VO_TA_CRY_1);
                             break;
 
                         case 3:
                             // Two cuccos remaining
                             this->actor.textId = 0x2082;
-                            Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
+                            Actor_PlaySfx(&this->actor, NA_SE_VO_TA_SURPRISE);
                             break;
                     }
                     this->actionFunc = EnTa_IdleFoundSuperCucco;
@@ -1091,7 +1091,7 @@ void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
     EnTa_SetTextForTalkInLonLonHouse(this, play);
 
     if (EnTa_RequestTalk(this, play, this->actor.textId)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SURPRISE);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_TA_SURPRISE);
 
         if (faceReaction != 0) {
             EnTa_SetupActionWithWakeUpAnimation(this, EnTa_TalkGeneralInLonLonHouse);
@@ -1188,7 +1188,7 @@ void EnTa_AnimRepeatCurrent(EnTa* this) {
 void EnTa_AnimSleeping(EnTa* this) {
     if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayOnce(&this->skelAnime, this->currentAnimation);
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_TA_SLEEP);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_TA_SLEEP);
     }
     this->stateFlags |= TALON_STATE_FLAG_SUPPRESS_ROCKING_ANIM | TALON_STATE_FLAG_SUPPRESS_BLINK;
 }

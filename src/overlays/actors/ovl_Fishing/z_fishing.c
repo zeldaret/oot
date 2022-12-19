@@ -1433,7 +1433,7 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
     Vec3f posStep;
     f32 lineLength;
     Vec3f tempPos;
-    Vec3f sp98;
+    Vec3f segPos;
     f32 sp94;
     f32 sp90;
     f32 sp8C;
@@ -1444,11 +1444,11 @@ void Fishing_UpdateLine(PlayState* play, Vec3f* basePos, Vec3f* pos, Vec3f* rot,
 
     if (D_80B7A6A4 != 0) {
         tempPos = *basePos;
-        sp98 = pos[LINE_SEG_COUNT - 1];
+        segPos = pos[LINE_SEG_COUNT - 1];
 
-        sp94 = sp98.x - tempPos.x;
-        sp90 = sp98.y - tempPos.y;
-        sp8C = sp98.z - tempPos.z;
+        sp94 = segPos.x - tempPos.x;
+        sp90 = segPos.y - tempPos.y;
+        sp8C = segPos.z - tempPos.z;
 
         lineLength = sqrtf(SQ(sp94) + SQ(sp90) + SQ(sp8C)) * 0.97f;
         if (lineLength > 1000.0f) {
@@ -1550,11 +1550,11 @@ void Fishing_UpdateLinePos(Vec3f* pos) {
     f32 dist;
     Vec3f posSrc = { 0.0f, 0.0f, 0.0f };
     Vec3f posStep;
-    s16 min = sRodLineSpooled;
+    s16 spooled = sRodLineSpooled;
 
     posSrc.z = 5.0f;
 
-    for (i = LINE_SEG_COUNT - 2; i > min; i--) {
+    for (i = LINE_SEG_COUNT - 2; i > spooled; i--) {
         dx = (pos + i)->x - (pos + i + 1)->x;
         dy = (pos + i)->y - (pos + i + 1)->y;
         dz = (pos + i)->z - (pos + i + 1)->z;
@@ -2832,7 +2832,7 @@ void Fishing_FishLeapSfx(Fishing* this, u8 outOfWater) {
         }
     }
 
-    Audio_PlayActorSfx2(&this->actor, sfxId);
+    Actor_PlaySfx(&this->actor, sfxId);
 }
 
 void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
@@ -3260,7 +3260,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &spB8, 30.0f, 400.0f, 150,
                                             90);
 
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
+                        Actor_PlaySfx(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
                         break;
                     }
                 }
@@ -3534,7 +3534,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->unk_194 = 2000.0f;
             } else if (distToTarget < 10.0f) {
                 if (sLurePos.y > (WATER_SURFACE_Y(play) - 10.0f)) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
+                    Actor_PlaySfx(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
                     func_80078884(NA_SE_PL_CATCH_BOOMERANG);
                 }
 
@@ -4165,8 +4165,9 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->actor.velocity.x = this->actor.world.pos.x * -0.003f;
                     this->actor.velocity.z = this->actor.world.pos.z * -0.003f;
 
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EV_FISH_LEAP);
                     Fishing_SplashBySize2(this, play);
+
 
                     if (Rand_ZeroOne() < 0.5f) {
                         this->rotationTarget.z = 0x4000;

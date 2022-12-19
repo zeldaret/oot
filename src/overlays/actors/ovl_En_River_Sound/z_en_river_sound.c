@@ -292,6 +292,6 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
         func_800788CC(soundEffects[this->actor.params]);
     } else {
         // Play sfx at the location of riverSounds projected position
-        Audio_PlayActorSfx2(&this->actor, soundEffects[this->actor.params]);
+        Actor_PlaySfx(&this->actor, soundEffects[this->actor.params]);
     }
 }

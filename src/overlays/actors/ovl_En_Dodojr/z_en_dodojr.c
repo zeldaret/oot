@@ -90,7 +90,7 @@ void EnDodojr_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnDodojr_DoSwallowedBombEffects(EnDodojr* this) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
+    Actor_PlaySfx(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, 8);
 }
 
@@ -145,7 +145,7 @@ s32 EnDodojr_UpdateBounces(EnDodojr* this, PlayState* play) {
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         this->dustPos = this->actor.world.pos;
         EnDodojr_SpawnLargeDust(this, play, 10);
         this->actor.velocity.y = 10.0f / (4 - this->counter);
@@ -213,7 +213,7 @@ void EnDodojr_SetupDespawn(EnDodojr* this) {
 
 void EnDodojr_SetupEatBomb(EnDodojr* this) {
     Animation_Change(&this->skelAnime, &object_dodojr_Anim_000724, 1.0f, 8.0f, 12.0f, ANIMMODE_ONCE, 0.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_EAT);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_EAT);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
@@ -314,7 +314,7 @@ s32 EnDodojr_IsPlayerWithinAttackRange(EnDodojr* this) {
 }
 
 void EnDodojr_SetupStandardDeathBounce(EnDodojr* this) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_DEAD);
     this->actor.flags &= ~ACTOR_FLAG_0;
     EnDodojr_SetupFlipBounce(this);
     this->actionFunc = EnDodojr_StandardDeathBounce;
@@ -357,7 +357,7 @@ s32 EnDodojr_CheckDamaged(EnDodojr* this, PlayState* play) {
 
         if ((this->actor.colChkInfo.damageEffect == 1) && (this->actionFunc != EnDodojr_Stunned) &&
             (this->actionFunc != EnDodojr_StunnedBounce)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 120);
             EnDodojr_SetupFlipBounce(this);
@@ -398,7 +398,7 @@ void EnDodojr_WaitUnderground(EnDodojr* this, PlayState* play) {
         if (!(dist >= 40.0f)) {
             Animation_Change(&this->skelAnime, &object_dodojr_Anim_000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP,
                              -10.0f);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_UP);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_UP);
             this->actor.world.pos.y -= 60.0f;
             this->actor.flags |= ACTOR_FLAG_0;
             this->actor.world.rot.x -= 0x4000;
@@ -433,7 +433,7 @@ void EnDodojr_CrawlTowardsTarget(EnDodojr* this, PlayState* play) {
     EnDodojr_SpawnSmallDust(this, play, &this->actor.world.pos);
 
     if (DECR(this->crawlSfxTimer) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_MOVE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_MOVE);
         this->crawlSfxTimer = 5;
     }
 
@@ -446,13 +446,13 @@ void EnDodojr_CrawlTowardsTarget(EnDodojr* this, PlayState* play) {
     EnDodojr_UpdateCrawl(this, play);
 
     if (EnDodojr_IsPlayerWithinAttackRange(this)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_CRY);
         EnDodojr_SetupJumpAttackBounce(this);
         this->actionFunc = EnDodojr_JumpAttackBounce;
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_DOWN);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_DOWN);
         EnDodojr_SetupDespawn(this);
         this->actionFunc = EnDodojr_Despawn;
     }
@@ -466,7 +466,7 @@ void EnDodojr_EatBomb(EnDodojr* this, PlayState* play) {
         bomb->timer++;
         this->bomb->world.pos = this->headPos;
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_K_DRINK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_DRINK);
         Actor_Kill(this->bomb);
         this->timer = 24;
         this->counter = 0;
