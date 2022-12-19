@@ -531,7 +531,7 @@ typedef struct DoorActorBase {
 // Due to alignment, a substruct cannot be used in the structs of these actors.
 #define SLIDING_DOOR_ACTOR_BASE      \
     /* 0x0000 */ DynaPolyActor dyna; \
-    /* 0x0164 */ s16 isActive // Set to true by player when using the door
+    /* 0x0164 */ s16 isActive // Set to true by player when using the door. Also a timer for niche cases in DoorShutter
 
 typedef struct SlidingDoorActorBase {
     /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;
