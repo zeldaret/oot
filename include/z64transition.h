@@ -14,7 +14,7 @@ typedef enum {
 typedef struct {
     /* 0x0 */ f32 x;
     /* 0x4 */ f32 y;
-} TransitionTileVtxData;
+} TransitionTileVtxData; // size = 0x8
 
 typedef struct {
     /* 0x00 */ s32 rows;

@@ -1210,7 +1210,7 @@ void func_800AD958(struct_80166500* this, Gfx** gfxp);
 void PlayerCall_InitFuncPtrs(void);
 void TransitionTile_Destroy(TransitionTile* this);
 TransitionTile* TransitionTile_Init(TransitionTile* this, s32 rows, s32 cols);
-void TransitionTile_Draw(TransitionTile* this, Gfx**);
+void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP);
 void TransitionTile_UpdateDynamic(TransitionTile* this);
 void TransitionTile_UpdateStatic(TransitionTile* this);
 void TransitionTriforce_Start(void* thisx);

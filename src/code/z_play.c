@@ -505,6 +505,9 @@ void Play_Update(PlayState* this) {
                 case TRANS_TILE_PROCESS:
                     TransitionTile_UpdateStatic(&sTransitionTile);
                     break;
+
+                default:
+                    break;
             }
         }
 
