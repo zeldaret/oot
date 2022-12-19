@@ -127,7 +127,7 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
                         ocarinaSong = 0xA;
                     }
                     player->stateFlags2 |= PLAYER_STATE2_23;
-                    Message_SetOcarinaAction(play, ocarinaSong + OCARINA_ACTION_CHECK_SARIA);
+                    Message_StartOcarina(play, ocarinaSong + OCARINA_ACTION_CHECK_SARIA);
                     this->actionFunc = func_80ABF0CC;
                 } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange) &&
                             ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)))) {
@@ -197,16 +197,16 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
                 switch (this->type) {
                     case 1:
-                        Message_SetOcarinaAction(play, OCARINA_ACTION_CHECK_LULLABY);
+                        Message_StartOcarina(play, OCARINA_ACTION_CHECK_LULLABY);
                         break;
                     case 2:
-                        Message_SetOcarinaAction(play, OCARINA_ACTION_CHECK_STORMS);
+                        Message_StartOcarina(play, OCARINA_ACTION_CHECK_STORMS);
                         break;
                     case 4:
-                        Message_SetOcarinaAction(play, OCARINA_ACTION_CHECK_TIME);
+                        Message_StartOcarina(play, OCARINA_ACTION_CHECK_TIME);
                         break;
                     case 6:
-                        Message_SetOcarinaAction(play, OCARINA_ACTION_CHECK_LULLABY);
+                        Message_StartOcarina(play, OCARINA_ACTION_CHECK_LULLABY);
                         break;
                     default:
                         // "Ocarina Invisible-kun demo start check error source"
