@@ -128,7 +128,7 @@ void func_809CAEF4(EnBrob* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_brob_Anim_000290, -5.0f);
     this->unk_1AE -= 125.0f;
     Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_809CB2B8;
 }
 
@@ -181,7 +181,7 @@ void func_809CB114(EnBrob* this, PlayState* play) {
 void func_809CB218(EnBrob* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 6.0f) || Animation_OnFrame(&this->skelAnime, 15.0f)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_BROB_WAVE);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_BROB_WAVE);
     }
     if (this->timer != 0) {
         this->timer--;

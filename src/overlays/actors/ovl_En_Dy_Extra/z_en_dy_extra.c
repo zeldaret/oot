@@ -82,7 +82,7 @@ void EnDyExtra_Update(Actor* thisx, PlayState* play) {
     this->actor.scale.x = this->scale.x;
     this->actor.scale.y = this->scale.y;
     this->actor.scale.z = this->scale.z;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_PL_SPIRAL_HEAL_BEAM - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_PL_SPIRAL_HEAL_BEAM - SFX_FLAG);
     this->actionFunc(this, play);
     Actor_MoveForward(&this->actor);
 }

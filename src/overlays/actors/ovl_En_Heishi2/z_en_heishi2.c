@@ -284,7 +284,7 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SPEAR_HIT);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
     if (this->unk_2EC <= frameCount) {
@@ -447,7 +447,7 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (12.0f <= frameCount) {
         if (this->audioFlag == 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SPEAR_HIT);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_SPEAR_HIT);
             this->audioFlag = 1;
         }
     }
@@ -605,7 +605,7 @@ void func_80A543A0(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SPEAR_HIT);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
 

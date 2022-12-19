@@ -1095,7 +1095,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
               this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f ||
               this->skelAnime.curFrame == 58.0f)) ||
             (this->skelAnime.animation == &gOwlFlyAnim && this->skelAnime.curFrame == 4.0f)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OWL_FLUTTER);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
 

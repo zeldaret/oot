@@ -407,7 +407,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
         this->actionFunc = EnKz_StopMweep;
     }
     if (this->skelanime.curFrame == 13.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_KZ_MOVE);
+        Actor_PlaySfx(&this->actor, NA_SE_VO_KZ_MOVE);
     }
 }
 

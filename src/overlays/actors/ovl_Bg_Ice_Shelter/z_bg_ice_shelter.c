@@ -349,7 +349,7 @@ void BgIceShelter_Idle(BgIceShelter* this, PlayState* play) {
             }
 
             BgIceShelter_SetupMelt(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ICE_MELT);
         }
     }
 
