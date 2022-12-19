@@ -32,7 +32,7 @@ void EnReeba_StunDie(EnReeba* this, PlayState* play);
 
 typedef enum {
     /* 0x00 */ LEEVER_DMGEFF_NONE, // used by anything that cant kill the Leever
-    /* 0x01 */ LEEVER_DMGEFF_UNK, // used by "unknown 1" attack
+    /* 0x01 */ LEEVER_DMGEFF_UNK,  // used by "unknown 1" attack
     /* 0x03 */ LEEVER_DMGEFF_ICE = 3,
     /* 0x0B */ LEEVER_DMGEFF_UNUSED = 11, // not used in the damage table, but still checked for.
     /* 0x0C */ LEEVER_DMGEFF_BOOMERANG,
@@ -122,10 +122,10 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.health = 4;
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-    this->isBig = this->actor.params;
+    this->type = this->actor.params;
     this->scale = 0.04f;
 
-    if (this->isBig) {
+    if (this->type != LEEVER_TYPE_SMALL) {
         this->collider.dim.radius = 35;
         this->collider.dim.height = 45;
         this->scale *= 1.5f;
@@ -167,7 +167,7 @@ void EnReeba_Destroy(Actor* thisx, PlayState* play) {
             if (spawner->curNumSpawn > 0) {
                 spawner->curNumSpawn--;
             }
-            if (this->isBig) {
+            if (this->type != LEEVER_TYPE_SMALL) {
                 spawner->bigLeever = NULL;
                 spawner->timer = 600;
             }
@@ -194,7 +194,7 @@ void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
     this->actor.flags &= ~ACTOR_FLAG_27;
     this->actor.world.pos.y = this->actor.floorHeight;
 
-    if (this->isBig) {
+    if (this->type != LEEVER_TYPE_SMALL) {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);
     } else {
         Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_APPEAR);
@@ -242,7 +242,7 @@ void EnReeba_Surface(EnReeba* this, PlayState* play) {
                     break;
             }
 
-            if (this->isBig) {
+            if (this->type != LEEVER_TYPE_SMALL) {
                 this->actionfunc = EnReeba_SetupMoveBig;
             } else {
                 this->moveTimer = 130;
@@ -328,7 +328,7 @@ void EnReeba_Bumped(EnReeba* this, PlayState* play) {
     Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.3f);
 
     if (this->moveTimer == 0) {
-        if (this->isBig) {
+        if (this->type != LEEVER_TYPE_SMALL) {
             this->actionfunc = EnReeba_SetupMoveBig;
         } else {
             this->actionfunc = EnReeba_SetupSink;
@@ -368,7 +368,6 @@ void EnReeba_SetupDamaged(EnReeba* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->actionfunc = EnReeba_Damaged;
-
 }
 
 void EnReeba_Damaged(EnReeba* this, PlayState* play) {
@@ -379,7 +378,7 @@ void EnReeba_Damaged(EnReeba* this, PlayState* play) {
     }
 
     if (this->damagedTimer == 0) {
-        if (this->isBig) {
+        if (this->type != LEEVER_TYPE_SMALL) {
             this->bigLeeverTimer = 30;
             this->actionfunc = EnReeba_SetupMoveBig;
         } else {
@@ -415,7 +414,7 @@ void EnReeba_Stunned(EnReeba* this, PlayState* play) {
                 pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
                 scale = 3.0f;
 
-                if (this->isBig) {
+                if (this->type != LEEVER_TYPE_SMALL) {
                     scale = 6.0f;
                 }
 
@@ -442,7 +441,7 @@ void EnReeba_StunDie(EnReeba* this, PlayState* play) {
             pos.z = this->actor.world.pos.z + Rand_CenteredFloat(20.0f);
 
             scale = 3.0f;
-            if (this->isBig) {
+            if (this->type != LEEVER_TYPE_SMALL) {
                 scale = 6.0f;
             }
 
@@ -486,7 +485,7 @@ void EnReeba_Die(EnReeba* this, PlayState* play) {
 
             EffectSsDeadDb_Spawn(play, &pos, &velocity, &accel, 120, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
 
-            if (!this->isBig) {
+            if (this->type == LEEVER_TYPE_SMALL) {
                 Item_DropCollectibleRandom(play, &this->actor, &pos, 0xE0);
             } else {
                 Item_DropCollectibleRandom(play, &this->actor, &pos, 0xC0);
@@ -495,7 +494,7 @@ void EnReeba_Die(EnReeba* this, PlayState* play) {
             if (this->actor.parent != NULL) {
                 EnEncount1* spawner = (EnEncount1*)this->actor.parent;
 
-                if ((spawner->actor.update != NULL) && !this->isBig) {
+                if ((spawner->actor.update != NULL) && this->type == LEEVER_TYPE_SMALL) {
                     if (spawner->killCount < 10) {
                         spawner->killCount++;
                     }
@@ -517,7 +516,7 @@ void EnReeba_StunRecover(EnReeba* this, PlayState* play) {
         this->actor.shape.rot.z = Rand_CenteredFloat(3000.0f);
 
         if (this->waitTimer == 0) {
-            if (this->isBig) {
+            if (this->type != LEEVER_TYPE_SMALL) {
                 this->actionfunc = EnReeba_SetupMoveBig;
             } else {
                 this->actionfunc = EnReeba_SetupSink;
@@ -546,7 +545,6 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         break;
                     }
                     FALLTHROUGH;
-
                 case LEEVER_DMGEFF_HOOKSHOT:
                     if ((this->actor.colChkInfo.health > 2) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
@@ -557,7 +555,6 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         break;
                     }
                     FALLTHROUGH;
-
                 case LEEVER_DMGEFF_OTHER:
                     this->unkDamageField = 6;
                     Actor_ApplyDamage(&this->actor);
@@ -590,7 +587,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         this->actionfunc = EnReeba_SetupStunned;
                     }
                     break;
-                    
+
                 default:
                     break;
             }
@@ -646,14 +643,15 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        if ((this->collider.base.at == &player->actor) && !this->isBig && (this->actionfunc != EnReeba_Sink)) {
+        if ((this->collider.base.at == &player->actor) && this->type == LEEVER_TYPE_SMALL &&
+            (this->actionfunc != EnReeba_Sink)) {
             this->actionfunc = EnReeba_SetupSink;
         }
     }
 
     this->actor.focus.pos = this->actor.world.pos;
 
-    if (!this->isBig) {
+    if (this->type == LEEVER_TYPE_SMALL) {
         this->actor.focus.pos.y += 15.0f;
     } else {
         this->actor.focus.pos.y += 30.0f;
@@ -683,7 +681,7 @@ void EnReeba_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if (this->isBig) {
+    if (this->type != LEEVER_TYPE_SMALL) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 155, 55, 255, 255);
     } else {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 255, 255, 255, 255);

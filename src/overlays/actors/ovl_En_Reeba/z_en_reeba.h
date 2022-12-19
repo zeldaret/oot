@@ -20,7 +20,7 @@ typedef struct EnReeba {
     /* 0x0274 */ s16 sfxTimer; // delay between moving sfx. 2x if big Leever.
     /* 0x0276 */ s16 damagedTimer;
     /* 0x0278 */ s16 waitTimer;
-    /* 0x027A */ s16 isBig;
+    /* 0x027A */ s16 type;
     /* 0x027C */ s16 unkDamageField; // set when hit with ice and most other weapons. Never read.
     /* 0x027E */ s16 stunType;
     /* 0x0280 */ s16 aimType; // incremented by the spawner. Dictates rotateY modification
