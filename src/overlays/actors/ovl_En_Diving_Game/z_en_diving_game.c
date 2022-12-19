@@ -523,8 +523,8 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.trackPos.y = player->actor.world.pos.y;
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
-    this->vec_284 = this->interactInfo.headRot;
-    this->vec_28A = this->interactInfo.torsoRot;
+    this->headRot = this->interactInfo.headRot;
+    this->torsoRot = this->interactInfo.torsoRot;
     if ((play->gameplayFrames % 16) == 0) {
         pos = this->actor.world.pos;
         pos.y += 20.0f;
@@ -550,12 +550,12 @@ s32 EnDivingGame_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
     s32 pad;
 
     if (limbIndex == 6) {
-        rot->x += this->vec_28A.y;
+        rot->x += this->torsoRot.y;
     }
 
     if (limbIndex == 15) {
-        rot->x += this->vec_284.y;
-        rot->z += this->vec_284.z;
+        rot->x += this->headRot.y;
+        rot->z += this->headRot.z;
     }
 
     if (this->notPlayingMinigame && (limbIndex == 8 || limbIndex == 9 || limbIndex == 12)) {

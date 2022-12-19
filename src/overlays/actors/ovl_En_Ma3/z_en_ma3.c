@@ -14,9 +14,6 @@ void EnMa3_Destroy(Actor* thisx, PlayState* play);
 void EnMa3_Update(Actor* thisx, PlayState* play);
 void EnMa3_Draw(Actor* thisx, PlayState* play);
 
-u16 func_80AA2AA0(PlayState* play, Actor* thisx);
-s16 func_80AA2BD4(PlayState* play, Actor* thisx);
-
 void func_80AA2E54(EnMa3* this, PlayState* play);
 s32 func_80AA2EC8(EnMa3* this, PlayState* play);
 s32 func_80AA2F28(EnMa3* this);
@@ -71,7 +68,7 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
+u16 EnMa3_GetTextId(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
 
     if (!GET_INFTABLE(INFTABLE_B8)) {
@@ -113,8 +110,8 @@ u16 func_80AA2AA0(PlayState* play, Actor* thisx) {
     return 0x2003;
 }
 
-s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
-    s16 ret = NPC_TALK_STATE_TALKING;
+s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx) {
+    s16 talkState = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_EVENT:
@@ -145,7 +142,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
             switch (thisx->textId) {
                 case 0x2000:
                     SET_INFTABLE(INFTABLE_B8);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x208F:
                     SET_EVENTCHKINF(EVENTCHKINF_1E);
@@ -159,7 +156,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                 case 0x208E:
                     CLEAR_EVENTINF(EVENTINF_HORSES_0A);
                     thisx->flags &= ~ACTOR_FLAG_16;
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     gSaveContext.timerState = TIMER_STATE_STOP;
                     break;
                 case 0x2002:
@@ -167,11 +164,11 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     FALLTHROUGH;
                 case 0x2003:
                     if (!GET_EVENTINF(EVENTINF_HORSES_0A)) {
-                        ret = NPC_TALK_STATE_IDLE;
+                        talkState = NPC_TALK_STATE_IDLE;
                     }
                     break;
                 default:
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
             }
             break;
@@ -184,7 +181,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
         case TEXT_STATE_9:
             break;
     }
-    return ret;
+    return talkState;
 }
 
 void func_80AA2E54(EnMa3* this, PlayState* play) {
@@ -301,7 +298,7 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     func_80AA2E54(this, play);
     Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 150.0f,
-                      func_80AA2AA0, func_80AA2BD4);
+                      EnMa3_GetTextId, EnMa3_UpdateTalkState);
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         if (this->isNotSinging) {
             // Turn on singing
@@ -317,22 +314,22 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
 
 s32 EnMa3_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnMa3* this = (EnMa3*)thisx;
-    Vec3s vec;
+    Vec3s limbRot;
 
     if ((limbIndex == MALON_ADULT_LIMB_LEFT_THIGH) || (limbIndex == MALON_ADULT_LIMB_RIGHT_THIGH)) {
         *dList = NULL;
     }
     if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->interactInfo.headRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) {
-        vec = this->interactInfo.torsoRot;
-        Matrix_RotateY(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateY(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.x), MTXMODE_APPLY);
     }
     if ((limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) || (limbIndex == MALON_ADULT_LIMB_LEFT_SHOULDER) ||
         (limbIndex == MALON_ADULT_LIMB_RIGHT_SHOULDER)) {

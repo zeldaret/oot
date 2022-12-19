@@ -1271,21 +1271,21 @@ void func_80AED738(EnRu1* this, PlayState* play) {
 
 void func_80AED83C(EnRu1* this) {
     s32 pad[2];
-    Vec3s* tempPtr;
-    Vec3s* tempPtr2;
+    Vec3s* headRot;
+    Vec3s* torsoRot;
 
-    tempPtr = &this->interactInfo.headRot;
-    Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
-    tempPtr2 = &this->interactInfo.torsoRot;
-    Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
+    headRot = &this->interactInfo.headRot;
+    Math_SmoothStepToS(&headRot->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&headRot->y, 0, 0x14, 0x1838, 0x64);
+    torsoRot = &this->interactInfo.torsoRot;
+    Math_SmoothStepToS(&torsoRot->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&torsoRot->y, 0, 0x14, 0x1838, 0x64);
 }
 
 void func_80AED8DC(EnRu1* this) {
     s32 temp_hi;
     s16* unk_2AC = &this->unk_2AC;
-    s16* someY = &this->interactInfo.headRot.y;
+    s16* headRotY = &this->interactInfo.headRot.y;
     s16* unk_29E = &this->unk_29E;
     s32 pad[2];
 
@@ -1303,14 +1303,14 @@ void func_80AED8DC(EnRu1* this) {
     }
 
     if (this->unk_2B0 == 0) {
-        Math_SmoothStepToS(unk_29E, 0 - *someY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(someY, 0, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0 - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0, 3, ABS(*unk_29E), 0x64);
     } else if (this->unk_2B0 == 1) {
-        Math_SmoothStepToS(unk_29E, -0x2AAA - *someY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(someY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, -0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
     } else {
-        Math_SmoothStepToS(unk_29E, 0x2AAA - *someY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(someY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
     }
 }
 
@@ -1785,22 +1785,22 @@ void func_80AEEF5C(EnRu1* this, PlayState* play) {
 
 void func_80AEEF68(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 something;
+    s16 trackingPreset;
 
     this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yOffset = kREG(16) - 3.0f;
-    something = kREG(17) + 0xC;
-    Npc_TrackPoint(&this->actor, &this->interactInfo, something, NPC_TRACKING_HEAD_AND_TORSO);
+    trackingPreset = kREG(17) + 0xC;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, trackingPreset, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80AEEFEC(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 something;
+    s16 trackingPreset;
 
     this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yOffset = kREG(16) - 3.0f;
-    something = kREG(17) + 0xC;
-    Npc_TrackPoint(&this->actor, &this->interactInfo, something, NPC_TRACKING_FULL_BODY);
+    trackingPreset = kREG(17) + 0xC;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, trackingPreset, NPC_TRACKING_FULL_BODY);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 
@@ -2260,17 +2260,17 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 }
 
 void func_80AF0278(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot) {
-    Vec3s* vec1 = &this->interactInfo.torsoRot;
-    Vec3s* vec2 = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
+    Vec3s* headRot = &this->interactInfo.headRot;
 
     switch (limbIndex) {
-        case RUTO_CHILD_LEFT_UPPER_ARM:
-            rot->x += vec1->y;
-            rot->y -= vec1->x;
+        case RUTO_CHILD_CHEST:
+            rot->x += torsoRot->y;
+            rot->y -= torsoRot->x;
             break;
-        case RUTO_CHILD_TORSO:
-            rot->x += vec2->y;
-            rot->z += vec2->x;
+        case RUTO_CHILD_HEAD:
+            rot->x += headRot->y;
+            rot->z += headRot->x;
             break;
     }
 }
@@ -2293,7 +2293,7 @@ void EnRu1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     Vec3f vec1;
     Vec3f vec2;
 
-    if (limbIndex == RUTO_CHILD_TORSO) {
+    if (limbIndex == RUTO_CHILD_HEAD) {
         vec1 = sMultVec;
         Matrix_MultVec3f(&vec1, &vec2);
         this->actor.focus.pos.x = vec2.x;
