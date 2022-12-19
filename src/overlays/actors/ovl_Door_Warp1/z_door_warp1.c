@@ -567,8 +567,8 @@ void func_80999EE0(DoorWarp1* this, PlayState* play) {
         eye.y = 43.0f;
         eye.z = player->actor.world.pos.z;
 
-        Play_CameraSetAtEye(play, sRutoWarpSubCamId, &at, &eye);
-        Play_CameraSetFov(play, sRutoWarpSubCamId, 90.0f);
+        Play_SetCameraAtEye(play, sRutoWarpSubCamId, &at, &eye);
+        Play_SetCameraFov(play, sRutoWarpSubCamId, 90.0f);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_TALKING;
         Message_StartTextbox(play, 0x4022, NULL);
         DoorWarp1_SetupAction(this, func_80999FE4);
