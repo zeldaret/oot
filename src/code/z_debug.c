@@ -108,11 +108,11 @@ void Regs_Init(void) {
     }
 }
 
-// Function is stubbed, name is assumed by `Debug_SetColoredScreenText`, arguments, and usage
-void Debug_SetScreenText(s32 x, s32 y, const char* text) {
+// Function is stubbed, name is assumed by `Debug_SetScreenTextColored`, arguments, and usage
+void Debug_SetScreenText(u8 x, u8 y, const char* text) {
 }
 
-void Debug_SetColoredScreenText(u8 x, u8 y, u8 colorIndex, const char* text) {
+void Debug_SetScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
     PrintTextBufferEntry* entry = &sDebugTextBuffer[sDebugTextEntryCount];
     char* textDest;
     s16 charCount;
