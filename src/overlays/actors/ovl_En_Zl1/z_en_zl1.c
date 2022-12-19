@@ -172,14 +172,14 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         this->subCamId = Play_CreateSubCamera(play);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
         Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
-        func_800C0808(play, this->subCamId, player, CAM_SET_FREE0);
+        Play_InitCameraDataUsingPlayer(play, this->subCamId, player, CAM_SET_FREE0);
         play->envCtx.screenFillColor[0] = 255;
         play->envCtx.screenFillColor[1] = 255;
         play->envCtx.screenFillColor[2] = 255;
         play->envCtx.screenFillColor[3] = 24;
         play->envCtx.fillScreen = true;
-        Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-        Play_CameraSetFov(play, this->subCamId, 30.0f);
+        Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+        Play_SetCameraFov(play, this->subCamId, 30.0f);
         Letterbox_SetSizeTarget(32);
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
         player->actor.world.pos = playerPos;
@@ -232,8 +232,8 @@ void func_80B4B240(EnZl1* this, PlayState* play) {
         case 1:
             if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 play->envCtx.fillScreen = false;
-                Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-                Play_CameraSetFov(play, this->subCamId, 25.0f);
+                Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+                Play_SetCameraFov(play, this->subCamId, 25.0f);
                 player->actor.world.pos = sp58;
                 this->actor.textId = 0x702F;
                 Message_ContinueTextbox(play, this->actor.textId);
@@ -411,8 +411,8 @@ void func_80B4B8B4(EnZl1* this, PlayState* play) {
             this->actor.velocity.z = (sp68.z - sp74.z) / actionLength;
         }
         Actor_TrackPlayer(play, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
-        Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-        Play_CameraSetFov(play, this->subCamId, 70.0f);
+        Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+        Play_SetCameraFov(play, this->subCamId, 70.0f);
     }
 }
 

@@ -467,8 +467,8 @@ void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
 
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
-    Play_CameraSetFov(play, this->subCamId, play->mainCamera.fov);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraFov(play, this->subCamId, play->mainCamera.fov);
     func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
 }
 
@@ -483,7 +483,7 @@ void EnDaiku_UpdateSubCamera(EnDaiku* this, PlayState* play) {
     Math_SmoothStepToF(&this->subCamAt.y, this->subCamAtNext.y, 1.0f, 1000.0f, 0.0f);
     Math_SmoothStepToF(&this->subCamAt.z, this->subCamAtNext.z, 1.0f, 1000.0f, 0.0f);
 
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
 
 void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {

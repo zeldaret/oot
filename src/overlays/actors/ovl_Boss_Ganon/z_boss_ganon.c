@@ -1125,7 +1125,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 mainCam->eye = this->csCamEye;
                 mainCam->eyeNext = this->csCamEye;
                 mainCam->at = this->csCamAt;
-                func_800C08AC(play, this->csCamIndex, 0);
+                Play_ReturnToMainCam(play, this->csCamIndex, 0);
                 this->csState = this->csCamIndex = 0;
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
@@ -1156,8 +1156,8 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                            this->csCamAtMaxStep.z * this->csCamMaxStepScale);
         }
 
-        Play_CameraSetAtEye(play, this->csCamIndex, &this->csCamAt, &this->csCamEye);
-        Play_CameraSetFov(play, this->csCamIndex, this->csCamFov);
+        Play_SetCameraAtEye(play, this->csCamIndex, &this->csCamAt, &this->csCamEye);
+        Play_SetCameraFov(play, this->csCamIndex, this->csCamFov);
     }
 }
 
@@ -1788,7 +1788,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
                 mainCam->eyeNext = this->csCamEye;
                 mainCam->at = this->csCamAt;
 
-                func_800C08AC(play, this->csCamIndex, 0);
+                Play_ReturnToMainCam(play, this->csCamIndex, 0);
                 this->csState = 109;
                 this->csCamIndex = 0;
                 func_80064534(play, &play->csCtx);
@@ -1824,7 +1824,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
 
         sp64 = this->csCamAt;
         sp64.y += this->unk_70C;
-        Play_CameraSetAtEye(play, this->csCamIndex, &sp64, &this->csCamEye);
+        Play_SetCameraAtEye(play, this->csCamIndex, &sp64, &this->csCamEye);
     }
 }
 
