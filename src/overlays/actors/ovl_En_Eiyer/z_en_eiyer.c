@@ -235,7 +235,7 @@ void EnEiyer_SetupAmbush(EnEiyer* this, PlayState* play) {
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.shape.shadowScale = 65.0f;
     this->actor.shape.yOffset = 600.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
     EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 700);
     this->actionFunc = EnEiyer_Ambush;
 }
@@ -319,7 +319,7 @@ void EnEiyer_SetupStunned(EnEiyer* this) {
     this->collider.dim.height = sColCylInit.dim.height + 8;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     this->collider.base.atFlags &= ~AT_ON;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = EnEiyer_Stunned;
 }
 
@@ -584,11 +584,11 @@ void EnEiyer_Stunned(EnEiyer* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
 
     if (Animation_OnFrame(&this->skelanime, 0.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EIER_FLUTTER);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_FLUTTER);
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
     if (this->timer == 0) {
@@ -607,7 +607,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EIER_DEAD);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DEAD);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             }
 
@@ -623,7 +623,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
                     EnEiyer_SetupStunned(this);
                 }
             } else if (this->actor.colChkInfo.health != 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EIER_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_EIER_DAMAGE);
                 EnEiyer_SetupHurt(this);
             } else {
                 this->collider.dim.height = sColCylInit.dim.height;

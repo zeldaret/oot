@@ -1297,7 +1297,7 @@ typedef struct {
 } OnePointCsFull; // size = 0x28
 
 typedef struct {
-    /* 0x0 */ s32 keyFrameCnt;
+    /* 0x0 */ s32 keyFrameCount;
     /* 0x4 */ OnePointCsFull* keyFrames;
 } OnePointCsInfo; // size = 0x8
 

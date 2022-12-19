@@ -163,19 +163,19 @@ void EnArrow_Shoot(EnArrow* this, PlayState* play) {
 
         switch (this->actor.params) {
             case ARROW_SEED:
-                func_8002F7DC(&player->actor, NA_SE_IT_SLING_SHOT);
+                Player_PlaySfx(player, NA_SE_IT_SLING_SHOT);
                 break;
 
             case ARROW_NORMAL_LIT:
             case ARROW_NORMAL_HORSE:
             case ARROW_NORMAL:
-                func_8002F7DC(&player->actor, NA_SE_IT_ARROW_SHOT);
+                Player_PlaySfx(player, NA_SE_IT_ARROW_SHOT);
                 break;
 
             case ARROW_FIRE:
             case ARROW_ICE:
             case ARROW_LIGHT:
-                func_8002F7DC(&player->actor, NA_SE_IT_MAGIC_ARROW_SHOT);
+                Player_PlaySfx(player, NA_SE_IT_MAGIC_ARROW_SHOT);
                 break;
         }
 
@@ -307,7 +307,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     }
 
                     func_809B3CEC(play, this);
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_IT_ARROW_STICK_CRE);
+                    Actor_PlaySfx(&this->actor, NA_SE_IT_ARROW_STICK_CRE);
                 }
             } else if (this->touchedPoly) {
                 EnArrow_SetupAction(this, func_809B45E0);
@@ -319,7 +319,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->timer = 20;
                 }
 
-                Audio_PlayActorSfx2(&this->actor, NA_SE_IT_ARROW_STICK_OBJ);
+                Actor_PlaySfx(&this->actor, NA_SE_IT_ARROW_STICK_OBJ);
                 this->hitFlags |= 1;
             }
         }
