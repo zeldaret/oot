@@ -359,11 +359,13 @@ typedef enum {
 } CutsceneDestination;
 
 typedef struct {
-    /* 0x00 */ u16 base;
-    /* 0x02 */ u16 startFrame;
-    /* 0x04 */ u16 endFrame;
-    /* 0x06 */ u8 unused_06[0x2];
-} CsCmdGeneric; // size = 0x8
+    struct {
+        /* 0x00 */ u8 unused_00[0x2];
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame;
+    };
+    s32 _words[2];
+} CsCmdCam; // size = 0x8
 
 typedef union {
     struct {
