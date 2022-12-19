@@ -185,9 +185,9 @@ void EnGoma_SetupFlee(EnGoma* this) {
     this->actionTimer = 20;
 
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_DAM2);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_DAM2);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_DAM2);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_DAM2);
     }
 }
 
@@ -214,9 +214,9 @@ void EnGoma_EggFallToGround(EnGoma* this, PlayState* play) {
         case 0:
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 if (this->actor.params < 6) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_EGG1);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_EGG1);
                 } else {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_EGG1);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_EGG1);
                 }
 
                 if (this->actor.params > 5) {
@@ -331,9 +331,9 @@ void EnGoma_SetupHurt(EnGoma* this, PlayState* play) {
     this->actor.speedXZ = 20.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_DAM1);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_DAM1);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_DAM1);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_DAM1);
     }
 }
 
@@ -360,9 +360,9 @@ void EnGoma_SetupDie(EnGoma* this) {
     this->actionTimer = 30;
 
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_DEAD);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_DEAD);
     }
 
     this->invincibilityTimer = 100;
@@ -378,9 +378,9 @@ void EnGoma_Die(EnGoma* this, PlayState* play) {
 
     if (this->actionTimer == 17) {
         if (this->actor.params < 6) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_LAND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_LAND);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_LAND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_LAND);
         }
     }
 
@@ -491,9 +491,9 @@ void EnGoma_SetupJump(EnGoma* this) {
     this->actor.velocity.y = 8.0f;
 
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_CRY);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_CRY);
     }
 }
 
@@ -505,9 +505,9 @@ void EnGoma_Jump(EnGoma* this, PlayState* play) {
     if (this->actor.velocity.y <= 0.0f && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         EnGoma_SetupLand(this);
         if (this->actor.params < 6) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_LAND2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_LAND2);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_LAND2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_LAND2);
         }
     }
     this->visualState = 0;
@@ -529,9 +529,9 @@ void EnGoma_ChasePlayer(EnGoma* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelanime, 1.0f) || Animation_OnFrame(&this->skelanime, 5.0f)) {
         if (this->actor.params < 6) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_WALK);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_WALK);
         }
     }
 
@@ -554,9 +554,9 @@ void EnGoma_SetupStunned(EnGoma* this, PlayState* play) {
     this->actionTimer = (s16)Rand_ZeroFloat(15.0f) + 3;
 
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_FREEZE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_FREEZE);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     }
 }
 

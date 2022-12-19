@@ -211,7 +211,7 @@ void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_APPEAR);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, EnSkb_RiseFromGround);
 }
 
@@ -239,7 +239,7 @@ void EnSkb_SetupDespawn(EnSkb* this) {
     this->setColliderAT = false;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     EnSkb_SetupAction(this, EnSkb_Despawn);
 }
 
@@ -291,7 +291,7 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
         if (((prevKeyFrame < 9) && (((s32)playSpeed + thisKeyFrame) >= 8)) ||
             !((prevKeyFrame >= 16) || (((s32)playSpeed + thisKeyFrame) < 15))) {
 
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_WALK);
         }
     }
     if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 800.0f || IS_DAY) {
@@ -316,7 +316,7 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
 
     frameData = this->skelAnime.curFrame;
     if (frameData == 3) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->setColliderAT = true;
     } else if (frameData == 6) {
         this->setColliderAT = false;
@@ -348,7 +348,7 @@ void EnSkb_SetupStunned(EnSkb* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->setColliderAT = false;
     this->actionState = SKB_BEHAVIOR_STUNNED;
     EnSkb_SetupAction(this, EnSkb_Stunned);
@@ -378,7 +378,7 @@ void EnSkb_SetupTakeDamage(EnSkb* this) {
         this->actor.speedXZ = -4.0f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_DAMAGE);
     this->actionState = SKB_BEHAVIOR_DAMAGED;
     EnSkb_SetupAction(this, EnSkb_TakeDamage);
 }

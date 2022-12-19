@@ -121,7 +121,7 @@ static EnGo2DataStruct2 D_80A481F8[14] = {
     { 28.0f, 0.01f, 6, 30.0f },  { 28.0f, 0.01f, 6, 30.0f },
 };
 
-static f32 D_80A482D8[14][2] = {
+static f32 sPlayerTrackingYOffsets[14][2] = {
     { 80.0f, 80.0f }, { -10.0f, -10.0f }, { 800.0f, 800.0f }, { 0.0f, 0.0f },   { 20.0f, 40.0f },
     { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f }, { 20.0f, 20.0f },
     { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f },
@@ -819,8 +819,8 @@ s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 s32 func_80A44790(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unk_218, EnGo2_GetTextId,
-                                 EnGo2_UpdateTalkState);
+        return Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange,
+                                 EnGo2_GetTextId, EnGo2_UpdateTalkState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) &&
                !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
         return false;
@@ -831,7 +831,7 @@ s32 func_80A44790(EnGo2* this, PlayState* play) {
         } else if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
             this->interactInfo.talkState = EnGo2_UpdateTalkState(play, &this->actor);
             return false;
-        } else if (func_8002F2CC(&this->actor, play, this->unk_218)) {
+        } else if (func_8002F2CC(&this->actor, play, this->interactRange)) {
             this->actor.textId = EnGo2_GetTextId(play, &this->actor);
         }
         return false;
@@ -851,8 +851,8 @@ void EnGo2_SetShape(EnGo2* this) {
     this->actor.shape.shadowScale = D_80A481F8[index].shape_unk_10;
     Actor_SetScale(&this->actor, D_80A481F8[index].scale);
     this->actor.targetMode = D_80A481F8[index].actor_unk_1F;
-    this->unk_218 = D_80A481F8[index].unk_218;
-    this->unk_218 += this->collider.dim.radius;
+    this->interactRange = D_80A481F8[index].interactRange;
+    this->interactRange += this->collider.dim.radius;
 }
 
 void EnGo2_CheckCollision(EnGo2* this, PlayState* play) {
@@ -910,7 +910,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
 
                 play->damagePlayer(play, -4);
                 func_8002F71C(play, &this->actor, arg2, this->actor.yawTowardsPlayer, 6.0f);
-                Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+                Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
                 this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
             }
         }
@@ -998,15 +998,14 @@ s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
         } else {
             this->actor.world.pos.y =
                 (this->unk_590 & 1) ? this->actor.world.pos.y + 1.5f : this->actor.world.pos.y - 1.5f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
             return true;
         }
     }
 
     if (this->unk_59C >= 2) {
-        Audio_PlayActorSfx2(&this->actor, (this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG
-                                              ? NA_SE_EN_GOLON_LAND_BIG
-                                              : NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, (this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG ? NA_SE_EN_GOLON_LAND_BIG
+                                                                                          : NA_SE_EN_DODO_M_GND);
     }
 
     this->unk_59C--;
@@ -1091,7 +1090,8 @@ void func_80A45288(EnGo2* this, PlayState* play) {
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
         this->interactInfo.trackPos = player->actor.world.pos;
-        this->interactInfo.yOffset = D_80A482D8[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
+        this->interactInfo.yOffset =
+            sPlayerTrackingYOffsets[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
         Npc_TrackPoint(&this->actor, &this->interactInfo, 4, this->trackingMode);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
@@ -1275,17 +1275,17 @@ void EnGo2_SitDownAnimation(EnGo2* this) {
     if ((this->skelAnime.playSpeed != 0.0f) && (this->skelAnime.animation == &gGoronAnim_004930)) {
         if (this->skelAnime.playSpeed > 0.0f && this->skelAnime.curFrame == 14.0f) {
             if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
             } else {
                 func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_SIT_DOWN, 60);
             }
         }
         if (this->skelAnime.playSpeed < 0.0f) {
             if (this->skelAnime.curFrame == 1.0f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
             }
             if (this->skelAnime.curFrame == 40.0f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
             }
         }
     }
@@ -1318,7 +1318,7 @@ void EnGo2_RollingAnimation(EnGo2* this, PlayState* play) {
 void EnGo2_WakeUp(EnGo2* this, PlayState* play) {
     if (this->skelAnime.playSpeed == 0.0f) {
         if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
         } else {
             func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_WAKE_UP, 60);
         }
@@ -1468,7 +1468,7 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, PlayState* play) {
 
         if (this->skelAnime.animation == &gGoronAnim_000750) {
             if (this->skelAnime.curFrame == 20.0f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOLON_CRY);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_GOLON_CRY);
             }
         }
 
@@ -1492,7 +1492,7 @@ void EnGo2_GoronFireCamera(EnGo2* this, PlayState* play) {
     this->subCamAt.x = this->actor.world.pos.x;
     this->subCamAt.y = this->actor.world.pos.y + 40.0f;
     this->subCamAt.z = this->actor.world.pos.z;
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
 
 void EnGo2_GoronFireClearCamera(EnGo2* this, PlayState* play) {
@@ -1899,7 +1899,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, PlayState* play) {
 
 void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    Vec3s D_80A4854C = { 0x00, 0x00, 0x00 };
+    Vec3s zeroVec = { 0x00, 0x00, 0x00 };
 
     switch (this->goronState) {
         case 0: // Wake up
@@ -1914,8 +1914,8 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
                 this->animTimer = 60;
                 this->actor.gravity = 0.0f;
                 this->actor.speedXZ = 2.0f;
-                this->interactInfo.headRot = D_80A4854C;
-                this->interactInfo.torsoRot = D_80A4854C;
+                this->interactInfo.headRot = zeroVec;
+                this->interactInfo.torsoRot = zeroVec;
                 this->goronState++;
                 this->goronState++;
                 player->actor.world.rot.y = this->actor.world.rot.y;
@@ -1931,7 +1931,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
         case 2: // Walking away
             if (DECR(this->animTimer)) {
                 if (!(this->animTimer % 8)) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
                 }
                 Actor_MoveForward(&this->actor);
             } else {
@@ -1948,10 +1948,10 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
         case 3: // Walking away
             this->animTimer++;
             if (!(this->animTimer % 8) && (this->animTimer < 10)) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
             }
             if (this->animTimer == 10) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_IRON_DOOR_OPEN);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_IRON_DOOR_OPEN);
             }
             if (this->animTimer > 44) {
                 SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_IRON_DOOR_CLOSE);
@@ -2023,30 +2023,23 @@ s32 EnGo2_DrawRolling(EnGo2* this, PlayState* play) {
 
 s32 EnGo2_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnGo2* this = (EnGo2*)thisx;
-    Vec3s vec1;
-    f32 float1;
+    Vec3s limbRot;
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec1 = this->interactInfo.headRot;
-        float1 = BINANG_TO_RAD_ALT(vec1.y);
-        Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = BINANG_TO_RAD_ALT(vec1.x);
-        Matrix_RotateZ(float1, MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limb == 10) {
-        vec1 = this->interactInfo.torsoRot;
-        float1 = BINANG_TO_RAD_ALT(vec1.y);
-        Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = BINANG_TO_RAD_ALT(vec1.x);
-        Matrix_RotateX(float1, MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
-        float1 = Math_SinS(this->unk_226[limb]);
-        rot->y += float1 * 200.0f;
-        float1 = Math_CosS(this->unk_24A[limb]);
-        rot->z += float1 * 200.0f;
+        rot->y += Math_SinS(this->unk_226[limb]) * 200.0f;
+        rot->z += Math_CosS(this->unk_24A[limb]) * 200.0f;
     }
     return 0;
 }

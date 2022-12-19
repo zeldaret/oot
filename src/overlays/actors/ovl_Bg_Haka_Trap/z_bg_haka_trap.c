@@ -301,13 +301,13 @@ void func_80880484(BgHakaTrap* this, PlayState* play) {
     timer = this->timer;
 
     if ((timer == 10 && !this->unk_16A) || (timer == 13 && this->unk_16A)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
     }
 
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.0f;
         this->timer = (this->unk_16A) ? 10 : 40;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         this->actionFunc = func_808805C0;
     }
 
@@ -333,7 +333,7 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
         }
 
         if (this->timer == 20) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         }
     }
 
@@ -380,7 +380,7 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
 
     if (Math_StepToF(&this->dyna.actor.world.pos.y, floorHeight, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 0.01f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
         }
         this->dyna.actor.velocity.y = 0.0f;
     }

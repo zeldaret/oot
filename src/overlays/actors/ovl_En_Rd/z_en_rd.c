@@ -288,7 +288,7 @@ void EnRd_Idle(EnRd* this, PlayState* play) {
     }
 
     if ((play->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
 
@@ -313,7 +313,7 @@ void EnRd_RiseFromCoffin(EnRd* this, PlayState* play) {
         }
     } else {
         if (this->actor.world.pos.y == this->actor.home.pos.y) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_CRY);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_CRY);
         }
 
         if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 50.0f, 0.3f, 2.0f, 0.3f) == 0.0f) {
@@ -367,7 +367,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
                 }
 
                 this->playerStunWaitTimer = 60;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_AIM);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_AIM);
             }
         } else {
             EnRd_SetupWalkToHome(this, play);
@@ -394,9 +394,9 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
     }
 
     if ((this->skelAnime.curFrame == 10.0f) || (this->skelAnime.curFrame == 22.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_WALK);
     } else if ((play->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
 
@@ -445,9 +445,9 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
     }
 
     if (this->skelAnime.curFrame == 10.0f || this->skelAnime.curFrame == 22.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_WALK);
     } else if ((play->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
 
@@ -497,9 +497,9 @@ void EnRd_WalkToParent(EnRd* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->skelAnime.curFrame == 10.0f || this->skelAnime.curFrame == 22.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_WALK);
     } else if ((play->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
 
@@ -555,7 +555,7 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, player->actor.shape.rot.y, 1, 0x1770, 0);
 
             if (this->skelAnime.curFrame == 0.0f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_ATTACK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_ATTACK);
             }
 
             this->grabDamageTimer--;
@@ -563,7 +563,7 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
                 play->damagePlayer(play, -8);
                 Rumble_Request(this->actor.xzDistToPlayer, 240, 1, 12);
                 this->grabDamageTimer = 20;
-                func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S + player->ageProperties->unk_92);
+                Player_PlaySfx(player, NA_SE_VO_LI_DAMAGE_S + player->ageProperties->unk_92);
             }
             break;
 
@@ -607,7 +607,7 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, PlayState* play) {
             func_8008EEAC(play, &this->actor);
         }
 
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_AIM);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_AIM);
         EnRd_SetupWalkToPlayer(this, play);
     }
 }
@@ -649,7 +649,7 @@ void EnRd_SetupDamaged(EnRd* this) {
     }
 
     this->actor.flags |= ACTOR_FLAG_0;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_DAMAGE);
     this->action = REDEAD_ACTION_DAMAGED;
     EnRd_SetupAction(this, EnRd_Damaged);
 }
@@ -685,7 +685,7 @@ void EnRd_SetupDead(EnRd* this) {
     this->timer = 300;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_REDEAD_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_REDEAD_DEAD);
     EnRd_SetupAction(this, EnRd_Dead);
 }
 
@@ -717,7 +717,7 @@ void EnRd_Dead(EnRd* this, PlayState* play) {
             this->timer--;
         }
     } else if (((s32)this->skelAnime.curFrame == 33) || ((s32)this->skelAnime.curFrame == 40)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_DOWN);
     }
 }
 
@@ -728,13 +728,13 @@ void EnRd_SetupStunned(EnRd* this) {
     if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         this->stunnedBySunsSong = true;
         this->sunsSongStunTimer = 600;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, COLORFILTER_INTENSITY_FLAG | 200,
                              COLORFILTER_BUFFLAG_OPA, 255);
     } else if (this->damageEffect == REDEAD_DMGEFF_HOOKSHOT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 200, COLORFILTER_BUFFLAG_OPA, 80);
     }
 

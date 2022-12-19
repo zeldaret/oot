@@ -171,7 +171,7 @@ void EnDekunuts_SetupStand(EnDekunuts* this) {
 
 void EnDekunuts_SetupBurrow(EnDekunuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsBurrowAnim, -5.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DOWN);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnDekunuts_Burrow;
 }
 
@@ -179,7 +179,7 @@ void EnDekunuts_SetupBeginRun(EnDekunuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsUnburrowAnim, -3.0f);
     this->collider.dim.height = 37;
     this->actor.colChkInfo.mass = 0x32;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekunuts_BeginRun;
 }
@@ -212,8 +212,8 @@ void EnDekunuts_SetupBeDamaged(EnDekunuts* this) {
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekunuts_BeDamaged;
     this->actor.speedXZ = 10.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_CUTBODY);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA,
                          Animation_GetLastFrame(&gDekuNutsDamageAnim));
 }
@@ -223,7 +223,7 @@ void EnDekunuts_SetupBeStunned(EnDekunuts* this) {
     this->animFlagAndTimer = 5;
     this->actionFunc = EnDekunuts_BeStunned;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
                          Animation_GetLastFrame(&gDekuNutsDamageAnim) * this->animFlagAndTimer);
 }
@@ -232,7 +232,7 @@ void EnDekunuts_SetupDie(EnDekunuts* this) {
     Animation_PlayOnce(&this->skelAnime, &gDekuNutsDieAnim);
     this->actionFunc = EnDekunuts_Die;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DEAD);
 }
 
 void EnDekunuts_Wait(EnDekunuts* this, PlayState* play) {
@@ -247,7 +247,7 @@ void EnDekunuts_Wait(EnDekunuts* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         this->collider.base.acFlags |= AC_ON;
     } else if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_UP);
     }
 
     this->collider.dim.height = ((CLAMP(this->skelAnime.curFrame, 9.0f, 12.0f) - 9.0f) * 9.0f) + 5.0f;
@@ -310,7 +310,7 @@ void EnDekunuts_ThrowNut(EnDekunuts* this, PlayState* play) {
         spawnPos.z = this->actor.world.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, spawnPos.x, spawnPos.y, spawnPos.z,
                         this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 0) != NULL) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_THROW);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     } else if ((this->animFlagAndTimer > 1) && Animation_OnFrame(&this->skelAnime, 12.0f)) {
         Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsSpitAnim, -3.0f);
@@ -352,7 +352,7 @@ void EnDekunuts_Run(EnDekunuts* this, PlayState* play) {
         this->animFlagAndTimer--;
     }
     if (this->playWalkSfx) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_WALK);
         this->playWalkSfx = false;
     } else {
         this->playWalkSfx = true;
@@ -415,7 +415,7 @@ void EnDekunuts_BeStunned(EnDekunuts* this, PlayState* play) {
         if (this->animFlagAndTimer == 0) {
             EnDekunuts_SetupRun(this);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_FAINT);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_FAINT);
         }
     }
 }
