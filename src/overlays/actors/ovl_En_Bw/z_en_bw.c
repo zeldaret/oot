@@ -210,7 +210,7 @@ void func_809CEA24(EnBw* this, PlayState* play) {
         }
     } else {
         if (ABS(sp58) > ABS(sp5C)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLEWALK_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_WALK);
             this->unk_232 = 0;
         }
     }
@@ -400,7 +400,7 @@ void func_809CF72C(EnBw* this) {
     this->unk_222 = 20;
     this->unk_224 = 0xBB8;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLEWALK_AIM);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_AIM);
     EnBw_SetupAction(this, func_809CF7AC);
 }
 
@@ -431,7 +431,7 @@ void func_809CF8F0(EnBw* this) {
     this->unk_220 = 4;
     this->unk_222 = 1000;
     this->actor.velocity.y = 11.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.flags |= ACTOR_FLAG_24;
     EnBw_SetupAction(this, func_809CF984);
 }
@@ -450,7 +450,7 @@ void func_809CF984(EnBw* this, PlayState* play) {
         this->actor.speedXZ = -6.0f;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         if ((&player->actor == this->collider1.base.at) && !(this->collider1.base.atFlags & AT_BOUNCED)) {
-            Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
     SkelAnime_Update(&this->skelAnime);
@@ -464,7 +464,7 @@ void func_809CF984(EnBw* this, PlayState* play) {
         this->unk_222 = 3000;
         this->actor.flags &= ~ACTOR_FLAG_24;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnBw_SetupAction(this, func_809CE884);
     }
 }
@@ -478,7 +478,7 @@ void func_809CFBA8(EnBw* this) {
     this->actor.velocity.y = 11.0f;
     this->unk_25C = Rand_ZeroOne() * 0.25f + 1.0f;
     this->unk_224 = 0xBB8;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLEWALK_REVERSE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_REVERSE);
     EnBw_SetupAction(this, func_809CFC4C);
 }
 
@@ -495,7 +495,7 @@ void func_809CFC4C(EnBw* this, PlayState* play) {
         Math_SmoothStepToF(&this->unk_260, 0.075f, 1.0f, 0.005f, 0.0f);
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         if (this->unk_224 != 0) {
             this->unk_224 -= 250;
@@ -534,7 +534,7 @@ void func_809CFF10(EnBw* this) {
     this->unk_221 = 3;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 11.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLEWALK_REVERSE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_REVERSE);
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     EnBw_SetupAction(this, func_809CFF98);
 }
@@ -547,7 +547,7 @@ void func_809CFF98(EnBw* this, PlayState* play) {
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
         this->unk_222 = 0xBB8;
         this->unk_250 = 0.0f;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnBw_SetupAction(this, func_809CE884);
     }
     if (this->color1.r < 247) {
@@ -575,7 +575,7 @@ void func_809D00F4(EnBw* this) {
     this->unk_222 = 40;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLEWALK_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_DEAD);
     EnBw_SetupAction(this, func_809D014C);
 }
 
@@ -642,7 +642,7 @@ void func_809D03CC(EnBw* this) {
         this->iceTimer = 32;
     }
     this->unk_23C = this->actor.colorFilterTimer;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnBw_SetupAction(this, func_809D0424);
 }
 
@@ -718,7 +718,7 @@ void func_809D0584(EnBw* this, PlayState* play) {
                     func_809D00F4(this);
                 }
             } else if ((this->unk_220 != 1) && (this->unk_220 != 6)) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLEWALK_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_DAMAGE);
                 Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                 if (this->unk_220 != 5) {
                     func_809D01CC(this);
