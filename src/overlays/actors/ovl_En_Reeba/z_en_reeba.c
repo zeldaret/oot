@@ -194,10 +194,11 @@ void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
     this->actor.flags &= ~ACTOR_FLAG_27;
     this->actor.world.pos.y = this->actor.floorHeight;
 
+
     if (this->type != LEEVER_TYPE_SMALL) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_APPEAR);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_APPEAR);
     }
 
     this->actionfunc = EnReeba_Surface;
@@ -271,7 +272,7 @@ void EnReeba_Move(EnReeba* this, PlayState* play) {
                (this->actor.xzDistToPlayer > 400.0f) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = EnReeba_SetupSink;
     } else if (this->sfxTimer == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_MOVE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_MOVE);
         this->sfxTimer = 10;
     }
 }
@@ -318,7 +319,7 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
         this->actor.world.rot.y += yaw * 2.0f;
 
         if (this->sfxTimer == 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_MOVE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_MOVE);
             this->sfxTimer = 20;
         }
     }
@@ -338,7 +339,7 @@ void EnReeba_Bumped(EnReeba* this, PlayState* play) {
 
 void EnReeba_SetupSink(EnReeba* this, PlayState* play) {
     this->stunType = LEEVER_STUN_NONE;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     this->actor.flags |= ACTOR_FLAG_27;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = EnReeba_Sink;
@@ -448,7 +449,7 @@ void EnReeba_StunDie(EnReeba* this, PlayState* play) {
             EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
         }
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_DEAD);
         Enemy_StartFinishingBlow(play, &this->actor);
         this->actionfunc = EnReeba_Die;
     }
@@ -534,11 +535,12 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
             this->stunType = LEEVER_STUN_NONE;
 
             switch (this->actor.colChkInfo.damageEffect) {
+
                 case LEEVER_DMGEFF_UNUSED:
                 case LEEVER_DMGEFF_BOOMERANG:
                     if ((this->actor.colChkInfo.health > 1) && (this->stunType != LEEVER_STUN_OTHER)) {
                         this->stunType = LEEVER_STUN_OTHER;
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
                                              80);
                         this->actionfunc = EnReeba_SetupStunned;
@@ -550,7 +552,7 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                         this->stunType = LEEVER_STUN_OTHER;
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
                                              80);
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                         this->actionfunc = EnReeba_SetupStunned;
                         break;
                     }
@@ -559,14 +561,14 @@ void EnReeba_CheckDamage(EnReeba* this, PlayState* play) {
                     this->unkDamageField = 6;
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DEAD);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_DEAD);
                         Enemy_StartFinishingBlow(play, &this->actor);
                         this->actionfunc = EnReeba_SetupDie;
                     } else {
                         if (this->actionfunc == EnReeba_StunRecover) {
                             this->actor.shape.rot.x = this->actor.shape.rot.z = 0;
                         }
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_DAMAGE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_DAMAGE);
                         this->actionfunc = EnReeba_SetupDamaged;
                     }
                     break;

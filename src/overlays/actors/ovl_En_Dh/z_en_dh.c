@@ -211,7 +211,7 @@ void EnDh_Wait(EnDh* this, PlayState* play) {
                 this->actor.flags &= ~ACTOR_FLAG_7;
                 this->actionState++;
                 this->drawDirtWave++;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HIDE);
                 FALLTHROUGH;
             case 1:
                 this->dirtWavePhase += 0x3A7;
@@ -252,10 +252,10 @@ void EnDh_Walk(EnDh* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
     if (((s32)this->skelAnime.curFrame % 8) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_WALK);
     }
     if ((play->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_LAUGH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_LAUGH);
     }
     if (this->actor.xzDistToPlayer <= 100.0f) {
         this->actor.speedXZ = 0.0f;
@@ -311,7 +311,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
         case 1:
             Animation_PlayOnce(&this->skelAnime, &object_dh_Anim_001A3C);
             this->actionState++;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_BITE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_BITE);
             FALLTHROUGH;
         case 0:
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
@@ -365,7 +365,7 @@ void EnDh_SetupBurrow(EnDh* this) {
     this->dirtWavePhase = 0;
     this->actionState = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HIDE);
     EnDh_SetupAction(this, EnDh_Burrow);
 }
 
@@ -405,7 +405,7 @@ void EnDh_SetupDamage(EnDh* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -1.0f;
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
     this->curAction = DH_DAMAGE;
     EnDh_SetupAction(this, EnDh_Damage);
 }
@@ -439,7 +439,7 @@ void EnDh_SetupDeath(EnDh* this) {
     this->actor.speedXZ = 0.0f;
     func_800F5B58();
     this->actor.params = ENDH_DEATH;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_DEAD);
     EnDh_SetupAction(this, EnDh_Death);
 }
 
@@ -461,7 +461,7 @@ void EnDh_Death(EnDh* this, PlayState* play) {
     } else {
         if (((s32)this->skelAnime.curFrame == 53) || ((s32)this->skelAnime.curFrame == 56) ||
             ((s32)this->skelAnime.curFrame == 61)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
         if ((s32)this->skelAnime.curFrame == 61) {
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);

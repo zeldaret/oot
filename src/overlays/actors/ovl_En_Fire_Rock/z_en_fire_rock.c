@@ -190,7 +190,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE1:
             if ((play->gameplayFrames & 3) == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_VALVAISA_ROCK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
             }
             break;
     }
@@ -258,7 +258,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
                 osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
             }
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_VALVAISA_ROCK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
     }
     Actor_Kill(&this->actor);
 }
@@ -350,7 +350,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
                 (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
                 if (this->collider.base.atFlags & AT_BOUNCED) {
                     this->collider.base.atFlags &= ~AT_BOUNCED;
-                    Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+                    Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
                     thisx->velocity.y = 0.0f;
                     thisx->speedXZ = 0.0f;
                     this->actionFunc = EnFireRock_SpawnMoreBrokenPieces;
