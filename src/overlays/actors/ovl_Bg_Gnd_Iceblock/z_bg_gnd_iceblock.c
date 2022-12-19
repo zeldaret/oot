@@ -313,7 +313,7 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
         thisx->speedXZ = 0.0f;
         this->targetPos.x = thisx->world.pos.x;
         this->targetPos.z = thisx->world.pos.z;
-        Audio_PlayActorSfx2(thisx, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
         switch (BgGndIceblock_NextAction(this)) {
             case GNDICE_IDLE:
                 this->actionFunc = BgGndIceblock_Idle;
