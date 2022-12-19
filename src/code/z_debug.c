@@ -5,7 +5,7 @@ typedef struct {
     u8 y;
     u8 colorIndex;
     char text[21];
-} PrintTextBufferEntry; // size = 0x18
+} DebugTextBufferEntry; // size = 0x18
 
 typedef struct {
     u16 hold;
@@ -14,11 +14,11 @@ typedef struct {
 
 RegEditor* gRegEditor;
 
-PrintTextBufferEntry sDebugTextBuffer[22];
+DebugTextBufferEntry sDebugTextBuffer[22];
 
 s16 sDebugTextEntryCount = 0;
 
-Color_RGBA8 sDebugPrintTextColors[] = {
+Color_RGBA8 sDebugTextColors[] = {
     { 255, 255, 32, 192 },  // DEBUG_TEXT_YELLOW
     { 255, 150, 128, 192 }, // DEBUG_TEXT_PEACH
     { 128, 96, 0, 64 },     // DEBUG_TEXT_BROWN
@@ -108,12 +108,12 @@ void Regs_Init(void) {
     }
 }
 
-// Function is stubbed. Name is assumed by similarities in signature to `Debug_SetScreenTextColored` and usage.
-void Debug_SetScreenText(u8 x, u8 y, const char* text) {
+// Function is stubbed. Name is assumed by similarities in signature to `Debug_ScreenTextColored` and usage.
+void Debug_ScreenText(u8 x, u8 y, const char* text) {
 }
 
-void Debug_SetScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
-    PrintTextBufferEntry* entry = &sDebugTextBuffer[sDebugTextEntryCount];
+void Debug_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
+    DebugTextBufferEntry* entry = &sDebugTextBuffer[sDebugTextEntryCount];
     char* textDest;
     s16 charCount;
 
@@ -141,11 +141,11 @@ void Debug_SetScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
 void Debug_DrawOnScreenText(GfxPrint* printer) {
     s32 i;
     Color_RGBA8* color;
-    PrintTextBufferEntry* entry;
+    DebugTextBufferEntry* entry;
 
     for (i = 0; i < sDebugTextEntryCount; i++) {
         entry = &sDebugTextBuffer[i];
-        color = &sDebugPrintTextColors[entry->colorIndex];
+        color = &sDebugTextColors[entry->colorIndex];
 
         GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
         GfxPrint_SetPos(printer, entry->x, entry->y);
