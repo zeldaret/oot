@@ -52,28 +52,28 @@ ActorInit En_Tg_InitVars = {
 
 u16 EnTg_GetTextId(PlayState* play, Actor* thisx) {
     EnTg* this = (EnTg*)thisx;
-    u16 temp;
-    u32 phi;
+    u16 faceReaction;
+    u32 textId;
 
     // If the player is wearing a mask, return a special reaction text
-    temp = Text_GetFaceReaction(play, 0x24);
-    if (temp != 0) {
-        return temp;
+    faceReaction = Text_GetFaceReaction(play, 0x24);
+    if (faceReaction != 0) {
+        return faceReaction;
     }
     if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
         if (this->nextDialogue % 2 != 0) {
-            phi = 0x5089;
+            textId = 0x5089;
         } else {
-            phi = 0x508A;
+            textId = 0x508A;
         }
-        return phi;
+        return textId;
     } else {
         if (this->nextDialogue % 2 != 0) {
-            phi = 0x7025;
+            textId = 0x7025;
         } else {
-            phi = 0x7026;
+            textId = 0x7026;
         }
-        return phi;
+        return textId;
     }
 }
 
@@ -90,7 +90,7 @@ s16 EnTg_UpdateTalkState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            return 1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x5089:
@@ -103,9 +103,9 @@ s16 EnTg_UpdateTalkState(PlayState* play, Actor* thisx) {
                     this->nextDialogue++;
                     break;
             }
-            return 0;
+            return NPC_TALK_STATE_IDLE;
         default:
-            return 1;
+            return NPC_TALK_STATE_TALKING;
     }
 }
 

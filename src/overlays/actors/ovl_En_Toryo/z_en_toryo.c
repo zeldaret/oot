@@ -14,7 +14,7 @@ void EnToryo_Destroy(Actor* thisx, PlayState* play);
 void EnToryo_Update(Actor* thisx, PlayState* play);
 void EnToryo_Draw(Actor* thisx, PlayState* play);
 
-void func_80B20914(EnToryo* this, PlayState* play);
+void EnToryo_Idle(EnToryo* this, PlayState* play);
 s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnToryo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
@@ -128,7 +128,7 @@ void EnToryo_Init(Actor* thisx, PlayState* play) {
                      sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
     this->actor.targetMode = 6;
-    this->actionFunc = func_80B20914;
+    this->actionFunc = EnToryo_Idle;
 }
 
 void EnToryo_Destroy(Actor* thisx, PlayState* play) {
@@ -137,7 +137,7 @@ void EnToryo_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-s32 func_80B203D8(EnToryo* this, PlayState* play) {
+s32 EnToryo_TalkRespond(EnToryo* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
     s32 ret = 1;
@@ -210,7 +210,7 @@ s32 func_80B203D8(EnToryo* this, PlayState* play) {
     return ret;
 }
 
-s32 func_80B205CC(EnToryo* this, PlayState* play) {
+s32 EnToryo_DoneTalking(EnToryo* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
     s32 ret = 5;
@@ -233,11 +233,11 @@ s32 func_80B205CC(EnToryo* this, PlayState* play) {
     return ret;
 }
 
-u32 func_80B20634(EnToryo* this, PlayState* play) {
+u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
     u32 ret;
 
-    if (this->unk_1E0 != 0) {
-        if (this->unk_1E0 == 10) {
+    if (this->exchangeItemId != EXCH_ITEM_NONE) {
+        if (this->exchangeItemId == EXCH_ITEM_POACHERS_SAW) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             if (GET_INFTABLE(INFTABLE_171)) {
                 ret = 0x606E;
@@ -252,7 +252,7 @@ u32 func_80B20634(EnToryo* this, PlayState* play) {
     return ret;
 }
 
-s32 func_80B206A0(EnToryo* this, PlayState* play) {
+s32 EnToryo_GetTextId(EnToryo* this, PlayState* play) {
     s32 textId = Text_GetFaceReaction(play, 0);
     s32 ret = textId;
 
@@ -281,64 +281,64 @@ s32 func_80B206A0(EnToryo* this, PlayState* play) {
     return ret;
 }
 
-void func_80B20768(EnToryo* this, PlayState* play) {
+void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 sp32;
-    s16 sp30;
+    s16 posX;
+    s16 posY;
 
-    if (this->unk_1E4 == 3) {
+    if (this->messageState == 3) {
         Actor_ProcessTalkRequest(&this->actor, play);
         Message_ContinueTextbox(play, this->actor.textId);
-        this->unk_1E4 = 1;
+        this->messageState = 1;
     }
 
-    if (this->unk_1E4 == 1) {
-        this->unk_1E4 = func_80B203D8(this, play);
+    if (this->messageState == 1) {
+        this->messageState = EnToryo_TalkRespond(this, play);
     }
 
-    if (this->unk_1E4 == 5) {
-        this->unk_1E4 = func_80B205CC(this, play);
+    if (this->messageState == 5) {
+        this->messageState = EnToryo_DoneTalking(this, play);
         return;
     }
 
-    if (this->unk_1E4 == 2) {
+    if (this->messageState == 2) {
         Message_ContinueTextbox(play, this->actor.textId);
-        this->unk_1E4 = 1;
+        this->messageState = 1;
     }
 
-    if (this->unk_1E4 == 4) {
+    if (this->messageState == 4) {
         if (Actor_HasParent(&this->actor, play)) {
             this->actor.parent = NULL;
-            this->unk_1E4 = 5;
+            this->messageState = 5;
         } else {
             Actor_OfferGetItem(&this->actor, play, GI_BROKEN_GORONS_SWORD, 100.0f, 10.0f);
         }
         return;
     }
 
-    if (this->unk_1E4 == 0) {
+    if (this->messageState == 0) {
         if (Actor_ProcessTalkRequest(&this->actor, play)) {
-            this->unk_1E0 = func_8002F368(play);
-            if (this->unk_1E0 != 0) {
-                player->actor.textId = func_80B20634(this, play);
+            this->exchangeItemId = func_8002F368(play);
+            if (this->exchangeItemId != EXCH_ITEM_NONE) {
+                player->actor.textId = EnToryo_ReactToExchangeItem(this, play);
                 this->actor.textId = player->actor.textId;
             }
-            this->unk_1E4 = 1;
+            this->messageState = 1;
             return;
         }
 
-        Actor_GetScreenPos(play, &this->actor, &sp32, &sp30);
-        if ((sp32 >= 0) && (sp32 < 0x141) && (sp30 >= 0) && (sp30 < 0xF1)) {
-            this->actor.textId = func_80B206A0(this, play);
+        Actor_GetScreenPos(play, &this->actor, &posX, &posY);
+        if ((posX >= 0) && (posX <= SCREEN_WIDTH) && (posY >= 0) && (posY <= SCREEN_HEIGHT)) {
+            this->actor.textId = EnToryo_GetTextId(this, play);
             func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_POACHERS_SAW);
         }
     }
 }
 
-void func_80B20914(EnToryo* this, PlayState* play) {
+void EnToryo_Idle(EnToryo* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    func_80B20768(this, play);
-    if (this->unk_1E4 != 0) {
+    EnToryo_HandleTalking(this, play);
+    if (this->messageState != 0) {
         this->stateFlags |= 0x10;
     } else {
         this->stateFlags &= ~0x10;
