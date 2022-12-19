@@ -156,11 +156,11 @@ void func_80A4E470(EnGs* this, PlayState* play) {
                     (play->msgCtx.unk_E3F2 == OCARINA_SONG_TIME)) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.world.pos.x,
                                 this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_TIMED);
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+                    Actor_PlaySfx(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 } else if (play->msgCtx.unk_E3F2 == OCARINA_SONG_STORMS) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.world.pos.x,
                                 this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_BIG);
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+                    Actor_PlaySfx(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
                 this->unk_19D = 0;
                 Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
@@ -211,7 +211,7 @@ f32 func_80A4E754(EnGs* this, PlayState* play, f32* arg2, f32* arg3, u16* arg4, 
 
 void func_80A4E910(EnGs* this, PlayState* play) {
     if (this->unk_19F == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->unk_200 = 0;
         this->unk_19F = 1;
         this->unk_1E8 = 0.5f;
@@ -228,7 +228,7 @@ void func_80A4E910(EnGs* this, PlayState* play) {
 
 void func_80A4EA08(EnGs* this, PlayState* play) {
     if (this->unk_19F == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->unk_1E8 = 0.3f;
         this->unk_1EC = 0.0f;
         this->unk_200 = 0;
@@ -272,7 +272,7 @@ void func_80A4EB3C(EnGs* this, PlayState* play) {
             this->unk_1E8 = 0.5f;
             this->unk_1EC = 0.0f;
             this->unk_200 = 0;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_ATTACK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_ATTACK);
             this->unk_19F++;
         }
     } else if (this->unk_19F == 4) {
@@ -365,7 +365,7 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
             bomb2Pos.x = this->actor.world.pos.x;
             bomb2Pos.y = this->actor.world.pos.y;
             bomb2Pos.z = this->actor.world.pos.z;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
             EffectSsBomb2_SpawnLayered(play, &bomb2Pos, &bomb2Velocity, &bomb2Accel, 100, 20);
             this->unk_200 = 10;
             this->unk_19E |= 8;
@@ -412,7 +412,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
             this->unk_1EC = 1.5f;
             this->unk_1F0 = this->unk_1B4[1].y - 1.0f;
             this->unk_1F4 = -0.3f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONE_GROW_UP);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_STONE_GROW_UP);
             this->unk_19F = 3;
         }
     }
@@ -460,7 +460,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
             this->unk_1F4 = 0;
             this->unk_1F8 = 0.5f;
             this->unk_1FC = 0;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_ATTACK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_ATTACK);
             this->unk_19F = 6;
         }
     }
@@ -479,7 +479,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
         }
     }
     if ((u16)this->unk_1A0[0].y < (u16)tmp2) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONE_ROLLING);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_STONE_ROLLING);
     }
 }
 

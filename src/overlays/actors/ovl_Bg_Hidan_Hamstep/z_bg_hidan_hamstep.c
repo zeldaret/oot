@@ -280,7 +280,7 @@ void func_80888734(BgHidanHamstep* this) {
 void func_808887C4(BgHidanHamstep* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         OnePointCutscene_Init(play, 3310, 100, &this->dyna.actor, CAM_ID_MAIN);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_HAMMER_SWITCH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_HAMMER_SWITCH);
         this->collider.base.acFlags = AC_NONE;
         BgHidanHamstep_SetupAction(this, 1);
         Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0xFF);
@@ -313,7 +313,7 @@ void func_80888860(BgHidanHamstep* this, PlayState* play) {
                 Quake_SetSpeed(quakeIndex, -15536);
                 Quake_SetPerturbations(quakeIndex, 0, 0, 500, 0);
                 Quake_SetDuration(quakeIndex, 20);
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+                Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
                 Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 255, 20, 150);
                 func_80888638(this, play);
                 osSyncPrintf("A(%d)\n", this->dyna.actor.params);
@@ -373,7 +373,7 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
                 Quake_SetPerturbations(quakeIndex, 20, 1, 0, 0);
                 Quake_SetDuration(quakeIndex, 7);
 
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+                Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
                 Rumble_Request(SQ(100.0f), 255, 20, 150);
                 func_808884C8(this, play);
 
