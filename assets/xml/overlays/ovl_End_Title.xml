@@ -7,10 +7,10 @@
         <Texture Name="sNintendoRightTex" OutName="nintendo_right" Format="ia8" Width="64" Height="48" Offset="0x2D40"/>
         <Texture Name="sPresentedByTex" OutName="presented_by" Format="ia8" Width="96" Height="16" Offset="0x3940"/>
 
-        <Array Name="sTransTriforceVtx" Count="6" Offset="0x3F40">
+        <Array Name="sTriforceVtx" Count="6" Offset="0x3F40">
             <Vtx/>
         </Array>
-        <DList Name="sTransTriforceDL" Offset="0x3FA0"/>
+        <DList Name="sTriforceDL" Offset="0x3FA0"/>
 
         <DList Name="sPresentedByNintendoDL" Offset="0x4000"/>
     </File>
