@@ -1347,7 +1347,7 @@ s32 Cutscene_Command_CameraEyePoints(PlayState* play, CutsceneContext* csCtx, u8
         if (csCtx->unk_1A != 0) {
             csCtx->unk_18 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
@@ -1384,7 +1384,7 @@ s32 Cutscene_Command_CameraLookAtPoints(PlayState* play, CutsceneContext* csCtx,
         if (csCtx->unk_1B != 0) {
             D_8015FCC0 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
@@ -1428,7 +1428,7 @@ s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unu
                 subCam->player = NULL;
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
+                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
                 sp28 = csCtx->subCamLookAtPoints->cameraRoll * 1.40625f;
                 Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &sp28);
                 sp3C.x = csCtx->subCamLookAtPoints->pos.x;
@@ -1437,8 +1437,8 @@ s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unu
                 sp30.x = csCtx->subCamEyePoints->pos.x;
                 sp30.y = csCtx->subCamEyePoints->pos.y;
                 sp30.z = csCtx->subCamEyePoints->pos.z;
-                Play_CameraSetAtEye(play, csCtx->subCamId, &sp3C, &sp30);
-                Play_CameraSetFov(play, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
+                Play_SetCameraAtEye(play, csCtx->subCamId, &sp3C, &sp30);
+                Play_SetCameraFov(play, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
             }
         }
     }
@@ -1471,15 +1471,15 @@ s32 Cutscene_Command_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unu
                 subCam->player = NULL;
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
+                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
                 sp3C.x = csCtx->subCamLookAtPoints->pos.x;
                 sp3C.y = csCtx->subCamLookAtPoints->pos.y;
                 sp3C.z = csCtx->subCamLookAtPoints->pos.z;
                 sp30.x = csCtx->subCamEyePoints->pos.x;
                 sp30.y = csCtx->subCamEyePoints->pos.y;
                 sp30.z = csCtx->subCamEyePoints->pos.z;
-                Play_CameraSetAtEye(play, csCtx->subCamId, &sp3C, &sp30);
-                Play_CameraSetFov(play, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
+                Play_SetCameraAtEye(play, csCtx->subCamId, &sp3C, &sp30);
+                Play_SetCameraFov(play, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
             }
         }
     }

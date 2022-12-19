@@ -165,7 +165,7 @@ void BossFd_UpdateCamera(BossFd* this, PlayState* play) {
                        this->subCamAtVel.z * this->subCamVelFactor);
         Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
         this->subCamAt.y += this->subCamAtYOffset;
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
         Math_ApproachZeroF(&this->subCamAtYOffset, 1.0f, 0.1f);
     }
 }
@@ -534,7 +534,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     mainCam->eye = this->subCamEye;
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     // BFD_CS_NONE / BOSSFD_FLY_MAIN / SUB_CAM_ID_DONE
                     this->introState = this->introFlyState = this->subCamId = 0;
                     func_80064534(play, &play->csCtx);

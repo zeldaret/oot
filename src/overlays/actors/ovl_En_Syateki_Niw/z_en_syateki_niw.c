@@ -438,7 +438,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
                 this->wingRightRotZTarget = 0.0f;
                 this->wingLeftRotYTarget = 14000.0f;
                 this->wingRightRotYTarget = 14000.0f;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
                 this->peckTimer = this->timer1 = this->archeryTimer = 30;
                 this->archeryState = 5;
             }
@@ -550,7 +550,7 @@ void EnSyatekiNiw_CheckHit(EnSyatekiNiw* this, PlayState* play) {
             case SYATEKI_MINIGAME_ARCHERY:
                 if (!this->isFalling) {
                     this->cluckTimer = 30;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+                    Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                     this->isFalling = true;
                     this->spawnFeathers = true;
                     this->actionFunc = EnSyatekiNiw_SetupArchery;
@@ -561,7 +561,7 @@ void EnSyatekiNiw_CheckHit(EnSyatekiNiw* this, PlayState* play) {
             case SYATEKI_MINIGAME_ALLEY:
                 this->cluckTimer = 30;
                 this->unkAlleyHitByte = 1;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                 this->sootTimer = 100;
                 this->spawnFeathers = true;
                 this->movementTimer = this->sootTimer;
@@ -643,10 +643,10 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     if (this->cluckTimer == 0) {
         if (this->actionFunc == EnSyatekiNiw_Default) {
             this->cluckTimer = 300;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
         } else {
             this->cluckTimer = 30;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
         }
     }
 

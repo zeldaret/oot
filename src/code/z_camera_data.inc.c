@@ -2669,7 +2669,7 @@ Vec3f D_8011D678[] = {
 };
 
 /*******************************************************
- * OnePoint initalization values for Demo5
+ * OnePoint initalization values for Attention Cutscenes (Demo5)
  ********************************************************/
 s32 sDemo5PrevSfxFrame = -200;
 

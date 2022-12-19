@@ -354,12 +354,12 @@ void EnZo_SpawnSplashes(EnZo* this) {
     }
 }
 
-u16 func_80B61024(PlayState* play, Actor* thisx) {
-    u16 textId;
+u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
+    u16 faceReaction;
 
-    textId = Text_GetFaceReaction(play, 29);
-    if (textId != 0) {
-        return textId;
+    faceReaction = Text_GetFaceReaction(play, 29);
+    if (faceReaction != 0) {
+        return faceReaction;
     }
 
     switch (thisx->params & 0x3F) {
@@ -440,7 +440,7 @@ u16 func_80B61024(PlayState* play, Actor* thisx) {
     return 0x4006;
 }
 
-s16 func_80B61298(PlayState* play, Actor* thisx) {
+s16 EnZo_UpdateTalkState(PlayState* play, Actor* thisx) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
@@ -514,8 +514,8 @@ void EnZo_Dialog(EnZo* this, PlayState* play) {
     }
     Npc_TrackPoint(&this->actor, &this->interactInfo, 11, this->trackingMode);
     if (this->canSpeak == true) {
-        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->dialogRadius, func_80B61024,
-                          func_80B61298);
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->dialogRadius, EnZo_GetTextId,
+                          EnZo_UpdateTalkState);
     }
 }
 
@@ -642,7 +642,7 @@ void EnZo_Submerged(EnZo* this, PlayState* play) {
 
 void EnZo_Surface(EnZo* this, PlayState* play) {
     if (this->actor.yDistToWater < 54.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_OUT_OF_WATER);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_3);
         this->actor.flags |= ACTOR_FLAG_0;
@@ -693,7 +693,7 @@ void EnZo_TreadWater(EnZo* this, PlayState* play) {
 
 void EnZo_Dive(EnZo* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_DIVE_WATER);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_DIVE_WATER);
         EnZo_SpawnSplashes(this);
         this->actor.flags &= ~ACTOR_FLAG_0;
         this->actor.velocity.y = -4.0f;
@@ -755,20 +755,20 @@ void EnZo_Update(Actor* thisx, PlayState* play) {
 
 s32 EnZo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZo* this = (EnZo*)thisx;
-    Vec3s vec;
+    Vec3s limbRot;
 
     if (limbIndex == 15) {
         Matrix_Translate(1800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        vec = this->interactInfo.headRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        vec = this->interactInfo.torsoRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
 
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {

@@ -169,7 +169,7 @@ void EnInsect_UpdateCrawlSfx(EnInsect* this) {
         return;
     }
 
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MUSI_WALK);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_WALK);
 
     this->crawlSoundDelay = 3.0f / CLAMP_MIN(this->skelAnime.playSpeed, 0.1f);
     if (this->crawlSoundDelay < 2) {
@@ -413,7 +413,7 @@ void EnInsect_SetupDig(EnInsect* this) {
     this->actionTimer = 60;
     EnInsect_SetCrawlAnim(this);
     this->skelAnime.playSpeed = 1.9f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MUSI_SINK);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_SINK);
     Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
     this->actionFunc = EnInsect_Dig;
     this->insectFlags &= ~INSECT_FLAG_CRAWLING;
@@ -664,7 +664,7 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (!(this->insectFlags & INSECT_FLAG_DROPPED_HAS_LANDED) && (this->insectFlags & INSECT_FLAG_0) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MUSI_LAND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_MUSI_LAND);
         this->insectFlags |= INSECT_FLAG_DROPPED_HAS_LANDED;
     }
 

@@ -346,15 +346,15 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);
                     if (this->actor.colChkInfo.health != 0) {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
                         vec.x = this->actor.world.pos.x;
                         vec.y = this->actor.world.pos.y;
                         vec.z = this->actor.world.pos.z;
                         EnFz_Damaged(this, play, &vec, 10, 0.0f);
                         this->unusedCounter++;
                     } else {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_ICE_BROKEN);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_FREEZAD_DEAD);
+                        Actor_PlaySfx(&this->actor, NA_SE_EV_ICE_BROKEN);
                         vec.x = this->actor.world.pos.x;
                         vec.y = this->actor.world.pos.y;
                         vec.z = this->actor.world.pos.z;
@@ -367,10 +367,10 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
                     Actor_ApplyDamage(&this->actor);
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);
                     if (this->actor.colChkInfo.health == 0) {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_FREEZAD_DEAD);
                         EnFz_SetupMelt(this);
                     } else {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
                     }
                     break;
 

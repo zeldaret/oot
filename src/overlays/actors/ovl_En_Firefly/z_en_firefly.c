@@ -212,7 +212,7 @@ void EnFirefly_SetupFall(EnFirefly* this) {
     this->timer = 40;
     this->actor.velocity.y = 0.0f;
     Animation_Change(&this->skelAnime, &gKeeseFlyAnim, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= ACTOR_FLAG_4;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 40);
     this->actionFunc = EnFirefly_Fall;
@@ -252,7 +252,7 @@ void EnFirefly_SetupStunned(EnFirefly* this) {
     this->auraType = KEESE_AURA_NONE;
     this->actor.velocity.y = 0.0f;
     this->skelAnime.playSpeed = 3.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = EnFirefly_Stunned;
 }
 
@@ -264,7 +264,7 @@ void EnFirefly_SetupFrozenFall(EnFirefly* this, PlayState* play) {
     this->auraType = KEESE_AURA_NONE;
     this->actor.speedXZ = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 255);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_DEAD);
 
     for (i = 0; i <= 7; i++) {
         iceParticlePos.x = (i & 1 ? 7.0f : -7.0f) + this->actor.world.pos.x;
@@ -668,7 +668,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_ATTACK);
         if (this->onFire) {
             EnFirefly_Extinguish(this);
         }
@@ -706,7 +706,7 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FFLY_FLY);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_FFLY_FLY);
         }
     }
 
