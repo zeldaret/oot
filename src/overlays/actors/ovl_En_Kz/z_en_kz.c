@@ -68,7 +68,7 @@ static AnimationInfo sAnimationInfo[] = {
     { &gKzMweepAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-u16 EnKz_GetTextNoMaskChild(PlayState* play, EnKz* this) {
+u16 EnKz_GetTextIdChild(PlayState* play, EnKz* this) {
     Player* player = GET_PLAYER(play);
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -81,7 +81,7 @@ u16 EnKz_GetTextNoMaskChild(PlayState* play, EnKz* this) {
     }
 }
 
-u16 EnKz_GetTextNoMaskAdult(PlayState* play, EnKz* this) {
+u16 EnKz_GetTextIdAdult(PlayState* play, EnKz* this) {
     Player* player = GET_PLAYER(play);
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_EYEBALL_FROG) {
@@ -100,7 +100,7 @@ u16 EnKz_GetTextNoMaskAdult(PlayState* play, EnKz* this) {
     }
 }
 
-u16 EnKz_GetText(PlayState* play, Actor* thisx) {
+u16 EnKz_GetTextId(PlayState* play, Actor* thisx) {
     EnKz* this = (EnKz*)thisx;
     u16 reactionText = Text_GetFaceReaction(play, 0x1E);
 
@@ -109,26 +109,26 @@ u16 EnKz_GetText(PlayState* play, Actor* thisx) {
     }
 
     if (LINK_IS_ADULT) {
-        return EnKz_GetTextNoMaskAdult(play, this);
+        return EnKz_GetTextIdAdult(play, this);
     } else {
-        return EnKz_GetTextNoMaskChild(play, this);
+        return EnKz_GetTextIdChild(play, this);
     }
 }
 
-s16 func_80A9C6C0(PlayState* play, Actor* thisx) {
+s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnKz* this = (EnKz*)thisx;
-    s16 ret = NPC_TALK_STATE_TALKING;
+    s16 talkState = NPC_TALK_STATE_TALKING;
 
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_DONE:
-            ret = NPC_TALK_STATE_IDLE;
+            talkState = NPC_TALK_STATE_IDLE;
             switch (this->actor.textId) {
                 case 0x4012:
                     SET_INFTABLE(INFTABLE_139);
-                    ret = NPC_TALK_STATE_ACTION;
+                    talkState = NPC_TALK_STATE_ACTION;
                     break;
                 case 0x401B:
-                    ret = !Message_ShouldAdvance(play) ? NPC_TALK_STATE_TALKING : NPC_TALK_STATE_ACTION;
+                    talkState = !Message_ShouldAdvance(play) ? NPC_TALK_STATE_TALKING : NPC_TALK_STATE_ACTION;
                     break;
                 case 0x401F:
                     SET_INFTABLE(INFTABLE_139);
@@ -155,7 +155,7 @@ s16 func_80A9C6C0(PlayState* play, Actor* thisx) {
             if (this->actor.textId == 0x4014) {
                 if (play->msgCtx.choiceIndex == 0) {
                     EnKz_SetupGetItem(this, play);
-                    ret = NPC_TALK_STATE_ACTION;
+                    talkState = NPC_TALK_STATE_ACTION;
                 } else {
                     this->actor.textId = 0x4016;
                     Message_ContinueTextbox(play, this->actor.textId);
@@ -164,7 +164,7 @@ s16 func_80A9C6C0(PlayState* play, Actor* thisx) {
             break;
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                ret = NPC_TALK_STATE_ACTION;
+                talkState = NPC_TALK_STATE_ACTION;
             }
             break;
         case TEXT_STATE_NONE:
@@ -175,7 +175,7 @@ s16 func_80A9C6C0(PlayState* play, Actor* thisx) {
         case TEXT_STATE_9:
             break;
     }
-    return ret;
+    return talkState;
 }
 
 void EnKz_UpdateEyes(EnKz* this) {
@@ -188,54 +188,60 @@ void EnKz_UpdateEyes(EnKz* this) {
     }
 }
 
-s32 func_80A9C95C(PlayState* play, EnKz* this, s16* talkState, f32 unkf, NpcGetTextIdFunc getTextId,
-                  NpcUpdateTalkStateFunc updateTalkState) {
+/**
+ * Custom version of Npc_UpdateTalking.
+ *
+ * @see Npc_UpdateTalking
+ */
+s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 interactRange, NpcGetTextIdFunc getTextId,
+                       NpcUpdateTalkStateFunc updateTalkState) {
     Player* player = GET_PLAYER(play);
-    s16 sp32;
-    s16 sp30;
+    s16 x;
+    s16 y;
     f32 xzDistToPlayer;
     f32 yaw;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_ProcessTalkRequest(thisx, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
-        return 1;
+        return true;
     }
 
     if (*talkState != NPC_TALK_STATE_IDLE) {
-        *talkState = updateTalkState(play, &this->actor);
-        return 0;
+        *talkState = updateTalkState(play, thisx);
+        return false;
     }
 
-    yaw = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
-    yaw -= this->actor.shape.rot.y;
-    if ((fabsf(yaw) > 1638.0f) || (this->actor.xzDistToPlayer < 265.0f)) {
-        this->actor.flags &= ~ACTOR_FLAG_0;
-        return 0;
+    yaw = Math_Vec3f_Yaw(&thisx->home.pos, &player->actor.world.pos);
+    yaw -= thisx->shape.rot.y;
+    if ((fabsf(yaw) > 1638.0f) || (thisx->xzDistToPlayer < 265.0f)) {
+        thisx->flags &= ~ACTOR_FLAG_0;
+        return false;
     }
 
-    this->actor.flags |= ACTOR_FLAG_0;
+    thisx->flags |= ACTOR_FLAG_0;
 
-    Actor_GetScreenPos(play, &this->actor, &sp32, &sp30);
-    if (!((sp32 >= -30) && (sp32 < 361) && (sp30 >= -10) && (sp30 < 241))) {
-        return 0;
+    Actor_GetScreenPos(play, thisx, &x, &y);
+    if (!((x >= -30) && (x < 361) && (y >= -10) && (y < 241))) {
+        return false;
     }
 
-    xzDistToPlayer = this->actor.xzDistToPlayer;
-    this->actor.xzDistToPlayer = Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos);
-    if (func_8002F2CC(&this->actor, play, unkf) == 0) {
-        this->actor.xzDistToPlayer = xzDistToPlayer;
-        return 0;
+    xzDistToPlayer = thisx->xzDistToPlayer;
+    thisx->xzDistToPlayer = Math_Vec3f_DistXZ(&thisx->home.pos, &player->actor.world.pos);
+    if (func_8002F2CC(thisx, play, interactRange) == 0) {
+        thisx->xzDistToPlayer = xzDistToPlayer;
+        return false;
     }
-    this->actor.xzDistToPlayer = xzDistToPlayer;
-    this->actor.textId = getTextId(play, &this->actor);
+    thisx->xzDistToPlayer = xzDistToPlayer;
+    thisx->textId = getTextId(play, thisx);
 
-    return 0;
+    return false;
 }
 
 void func_80A9CB18(EnKz* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (func_80A9C95C(play, this, &this->interactInfo.talkState, 340.0f, EnKz_GetText, func_80A9C6C0)) {
+    if (EnKz_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, 340.0f, EnKz_GetTextId,
+                           EnKz_UpdateTalkState)) {
         if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
             if (func_8002F368(play) == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                 this->actor.textId = 0x401B;

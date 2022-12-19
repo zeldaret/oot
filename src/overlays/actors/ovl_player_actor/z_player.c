@@ -4579,7 +4579,7 @@ s32 func_80839768(PlayState* play, Player* this, Vec3f* arg2, CollisionPoly** ar
 }
 
 s32 func_80839800(Player* this, PlayState* play) {
-    DoorShutter* doorShutter;
+    SlidingDoorActorBase* slidingDoor;
     DoorActorBase* door;
     s32 doorDirection;
     f32 sp78;
@@ -4610,9 +4610,9 @@ s32 func_80839800(Player* this, PlayState* play) {
             sp74 = Math_SinS(doorActor->shape.rot.y);
 
             if (this->doorType == PLAYER_DOORTYPE_SLIDING) {
-                doorShutter = (DoorShutter*)doorActor;
+                slidingDoor = (SlidingDoorActorBase*)doorActor;
 
-                this->currentYaw = doorShutter->dyna.actor.home.rot.y;
+                this->currentYaw = slidingDoor->dyna.actor.home.rot.y;
                 if (doorDirection > 0) {
                     this->currentYaw -= 0x8000;
                 }
@@ -4633,7 +4633,7 @@ s32 func_80839800(Player* this, PlayState* play) {
                 this->unk_45C.x = this->actor.world.pos.x + ((doorDirection * -120.0f) * sp74);
                 this->unk_45C.z = this->actor.world.pos.z + ((doorDirection * -120.0f) * sp78);
 
-                doorShutter->unk_164 = 1;
+                slidingDoor->isActive = true;
                 func_80832224(this);
 
                 if (this->doorTimer != 0) {
@@ -4644,9 +4644,9 @@ s32 func_80839800(Player* this, PlayState* play) {
                     this->linearVelocity = 0.1f;
                 }
 
-                if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
+                if (slidingDoor->dyna.actor.category == ACTORCAT_DOOR) {
                     this->doorBgCamIndex =
-                        play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&doorShutter->dyna.actor)]
+                        play->transiActorCtx.list[GET_TRANSITION_ACTOR_INDEX(&slidingDoor->dyna.actor)]
                             .sides[(doorDirection > 0) ? 0 : 1]
                             .bgCamIndex;
 
