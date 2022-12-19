@@ -12,7 +12,7 @@ typedef enum {
     /* 2 */ TRANS_FADE_TYPE_FLASH
 } TransitionFadeType;
 
-static Gfx sFadeSetupDL[] = {
+static Gfx sTransFadeSetupDL[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
                           G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
@@ -103,7 +103,7 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
 
     if (color->a > 0) {
         gfx = *gfxP;
-        gSPDisplayList(gfx++, sFadeSetupDL);
+        gSPDisplayList(gfx++, sTransFadeSetupDL);
         gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, color->a);
         gDPFillRectangle(gfx++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
         gDPPipeSync(gfx++);
