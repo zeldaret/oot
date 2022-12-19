@@ -1,6 +1,17 @@
 #include "global.h"
 #include "terminal.h"
 
+typedef enum {
+    /* 0 */ TRANS_FADE_DIR_IN,
+    /* 1 */ TRANS_FADE_DIR_OUT
+} TransitionFadeDirection;
+
+typedef enum {
+    /* 0 */ TRANS_FADE_TYPE_NONE,
+    /* 1 */ TRANS_FADE_TYPE_ONE_WAY,
+    /* 2 */ TRANS_FADE_TYPE_FLASH
+} TransitionFadeType;
+
 static Gfx sFadeSetupDL[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
@@ -15,17 +26,17 @@ static Gfx sFadeSetupDL[] = {
 void TransitionFade_Start(void* thisx) {
     TransitionFade* this = (TransitionFade*)thisx;
 
-    switch (this->fadeType) {
-        case 0:
+    switch (this->type) {
+        case TRANS_FADE_TYPE_NONE:
             break;
 
-        case 1:
-            this->fadeTimer = 0;
-            this->fadeColor.a = this->fadeDirection != 0 ? 255 : 0;
+        case TRANS_FADE_TYPE_ONE_WAY:
+            this->timer = 0;
+            this->color.a = (this->direction != TRANS_FADE_DIR_IN) ? 255 : 0;
             break;
 
-        case 2:
-            this->fadeColor.a = 0;
+        case TRANS_FADE_TYPE_FLASH:
+            this->color.a = 0;
             break;
     }
     this->isDone = false;
@@ -46,14 +57,14 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
     s16 newAlpha;
     TransitionFade* this = (TransitionFade*)thisx;
 
-    switch (this->fadeType) {
-        case 0:
+    switch (this->type) {
+        case TRANS_FADE_TYPE_NONE:
             break;
 
-        case 1:
-            this->fadeTimer += updateRate;
-            if (this->fadeTimer >= gSaveContext.transFadeDuration) {
-                this->fadeTimer = gSaveContext.transFadeDuration;
+        case TRANS_FADE_TYPE_ONE_WAY:
+            this->timer += updateRate;
+            if (this->timer >= gSaveContext.transFadeDuration) {
+                this->timer = gSaveContext.transFadeDuration;
                 this->isDone = true;
             }
             if ((u32)gSaveContext.transFadeDuration == 0) {
@@ -61,12 +72,12 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
 
-            alpha = (255.0f * this->fadeTimer) / ((void)0, gSaveContext.transFadeDuration);
-            this->fadeColor.a = (this->fadeDirection != 0) ? 255 - alpha : alpha;
+            alpha = (255.0f * this->timer) / ((void)0, gSaveContext.transFadeDuration);
+            this->color.a = (this->direction != TRANS_FADE_DIR_IN) ? 255 - alpha : alpha;
             break;
 
-        case 2:
-            newAlpha = this->fadeColor.a;
+        case TRANS_FADE_TYPE_FLASH:
+            newAlpha = this->color.a;
             if (R_TRANS_FADE_FLASH_ALPHA_STEP != 0) {
                 if (R_TRANS_FADE_FLASH_ALPHA_STEP < 0) {
                     if (Math_StepToS(&newAlpha, 255, 255)) {
@@ -80,7 +91,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
                     }
                 }
             }
-            this->fadeColor.a = newAlpha;
+            this->color.a = newAlpha;
             break;
     }
 }
@@ -88,7 +99,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
 void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
     TransitionFade* this = (TransitionFade*)thisx;
     Gfx* gfx;
-    Color_RGBA8_u32* color = &this->fadeColor;
+    Color_RGBA8_u32* color = &this->color;
 
     if (color->a > 0) {
         gfx = *gfxP;
@@ -109,21 +120,21 @@ s32 TransitionFade_IsDone(void* thisx) {
 void TransitionFade_SetColor(void* thisx, u32 color) {
     TransitionFade* this = (TransitionFade*)thisx;
 
-    this->fadeColor.rgba = color;
+    this->color.rgba = color;
 }
 
 void TransitionFade_SetType(void* thisx, s32 type) {
     TransitionFade* this = (TransitionFade*)thisx;
 
     if (type == TRANS_INSTANCE_TYPE_FILL_OUT) {
-        this->fadeType = 1;
-        this->fadeDirection = 1;
+        this->type = TRANS_FADE_TYPE_ONE_WAY;
+        this->direction = TRANS_FADE_DIR_OUT;
     } else if (type == TRANS_INSTANCE_TYPE_FILL_IN) {
-        this->fadeType = 1;
-        this->fadeDirection = 0;
+        this->type = TRANS_FADE_TYPE_ONE_WAY;
+        this->direction = TRANS_FADE_DIR_IN;
     } else if (type == TRANS_INSTANCE_TYPE_FADE_FLASH) {
-        this->fadeType = 2;
+        this->type = TRANS_FADE_TYPE_FLASH;
     } else {
-        this->fadeType = 0;
+        this->type = TRANS_FADE_TYPE_NONE;
     }
 }

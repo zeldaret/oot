@@ -30,7 +30,7 @@ typedef enum {
 
 typedef struct {
     /* 0x000 */ Color_RGBA8_u32 color;
-    /* 0x004 */ Color_RGBA8_u32 envColor;
+    /* 0x004 */ Color_RGBA8_u32 unkColor;
     /* 0x008 */ u8 direction;
     /* 0x009 */ u8 frame;
     /* 0x00A */ u8 isDone;
@@ -45,11 +45,11 @@ typedef struct {
 #define TRANS_INSTANCE_TYPE_FADE_FLASH 3
 
 typedef struct {
-    /* 0x000 */ u8 fadeType;
+    /* 0x000 */ u8 type;
     /* 0x001 */ u8 isDone;
-    /* 0x002 */ u8 fadeDirection;
-    /* 0x004 */ Color_RGBA8_u32 fadeColor;
-    /* 0x008 */ u16 fadeTimer;
+    /* 0x002 */ u8 direction;
+    /* 0x004 */ Color_RGBA8_u32 color;
+    /* 0x008 */ u16 timer;
 } TransitionFade; // size = 0xC
 
 typedef struct {
@@ -76,7 +76,7 @@ typedef struct {
     /* 0x004 */ f32 transPos;
     /* 0x008 */ f32 step;
     /* 0x00C */ s32 state;
-    /* 0x010 */ s32 fadeDirection;
+    /* 0x010 */ s32 type;
     /* 0x018 */ Mtx projection;
     /* 0x058 */ s32 frame;
     /* 0x060 */ Mtx modelView[2][3];
