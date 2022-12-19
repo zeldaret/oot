@@ -290,12 +290,12 @@ static EnHyColliderInfo sColliderInfo[] = {
 };
 
 typedef struct {
-    /* 0x00 */ u8 unkPresetIndex;
-    /* 0x04 */ f32 unkValueChild;
-    /* 0x08 */ f32 unkValueAdult;
-} EnHyInit1Info; // size = 0xC
+    /* 0x00 */ u8 presetIndex;
+    /* 0x04 */ f32 childYOffset;
+    /* 0x08 */ f32 adultYOffset;
+} EnHyPlayerTrackingInfo; // size = 0xC
 
-static EnHyInit1Info sInit1Info[] = {
+static EnHyPlayerTrackingInfo sPlayerTrackingInfo[] = {
     /* ENHY_TYPE_AOB */ { 0x06, 20.0f, 10.0f },
     /* ENHY_TYPE_COB */ { 0x06, 20.0f, 10.0f },
     /* ENHY_TYPE_AHG_2 */ { 0x07, 40.0f, 20.0f },
@@ -324,7 +324,7 @@ typedef struct {
     /* 0x04 */ Vec3f modelOffset;
     /* 0x10 */ f32 scale;
     /* 0x14 */ s8 targetMode;
-    /* 0x18 */ f32 unkRange;
+    /* 0x18 */ f32 interactRange;
 } EnHyInit2Info; // size = 0x1C
 
 static EnHyInit2Info sInit2Info[] = {
@@ -414,7 +414,7 @@ void func_80A6F7CC(EnHy* this, PlayState* play, s32 getItemId) {
                        fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
-u16 func_80A6F810(PlayState* play, Actor* thisx) {
+u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnHy* this = (EnHy*)thisx;
     u16 textId = Text_GetFaceReaction(play, (this->actor.params & 0x7F) + 37);
@@ -552,7 +552,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
     }
 }
 
-s16 func_80A70058(PlayState* play, Actor* thisx) {
+s16 EnHy_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnHy* this = (EnHy*)thisx;
     s16 beggarItems[] = { ITEM_BOTTLE_BLUE_FIRE, ITEM_BOTTLE_FISH, ITEM_BOTTLE_BUG, ITEM_BOTTLE_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
@@ -702,8 +702,8 @@ void EnHy_InitSetProperties(EnHy* this) {
     Actor_SetScale(&this->actor, sInit2Info[type].scale);
     this->actor.targetMode = sInit2Info[type].targetMode;
     this->modelOffset = sInit2Info[type].modelOffset;
-    this->unkRange = sInit2Info[type].unkRange;
-    this->unkRange += this->collider.dim.radius;
+    this->interactRange = sInit2Info[type].interactRange;
+    this->interactRange += this->collider.dim.radius;
 }
 
 void EnHy_UpdateCollider(EnHy* this, PlayState* play) {
@@ -792,16 +792,16 @@ void func_80A70978(EnHy* this, PlayState* play) {
     this->interactInfo.trackPos = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->interactInfo.yOffset = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
+        this->interactInfo.yOffset = sPlayerTrackingInfo[this->actor.params & 0x7F].adultYOffset;
     } else {
-        this->interactInfo.yOffset = sInit1Info[this->actor.params & 0x7F].unkValueChild;
+        this->interactInfo.yOffset = sPlayerTrackingInfo[this->actor.params & 0x7F].childYOffset;
     }
 
-    Npc_TrackPoint(&this->actor, &this->interactInfo, sInit1Info[this->actor.params & 0x7F].unkPresetIndex,
+    Npc_TrackPoint(&this->actor, &this->interactInfo, sPlayerTrackingInfo[this->actor.params & 0x7F].presetIndex,
                    trackingMode);
 
-    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->unkRange, func_80A6F810,
-                          func_80A70058)) {
+    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange, EnHy_GetTextId,
+                          EnHy_UpdateTalkState)) {
         func_80A70834(this, play);
     }
 }
@@ -1101,7 +1101,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
 s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHy* this = (EnHy*)thisx;
     s32 pad;
-    Vec3s sp48;
+    Vec3s limbRot;
     u8 i;
     void* ptr;
 
@@ -1125,16 +1125,16 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp48 = this->interactInfo.headRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp48.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp48 = this->interactInfo.torsoRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp48.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
 
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {
