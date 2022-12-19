@@ -109,7 +109,7 @@ static Gfx* sAdultEraDLs[] = {
     gIngoAdultEraMustacheDL,
 };
 
-u16 func_80A78FB0(PlayState* play) {
+u16 EnIn_GetTextIdChild(PlayState* play) {
     if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_97)) {
             return 0x2046;
@@ -124,12 +124,12 @@ u16 func_80A78FB0(PlayState* play) {
     }
 }
 
-u16 func_80A79010(PlayState* play) {
+u16 EnIn_GetTextIdAdult(PlayState* play) {
     Player* player = GET_PLAYER(play);
-    u16 temp_v0 = Text_GetFaceReaction(play, 25);
+    u16 faceReaction = Text_GetFaceReaction(play, 25);
 
-    if (temp_v0 != 0) {
-        return temp_v0;
+    if (faceReaction != 0) {
+        return faceReaction;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         if (IS_DAY) {
@@ -177,40 +177,40 @@ u16 func_80A79010(PlayState* play) {
     }
 }
 
-u16 func_80A79168(PlayState* play, Actor* thisx) {
-    u16 temp_v0 = Text_GetFaceReaction(play, 25);
+u16 EnIn_GetTextId(PlayState* play, Actor* thisx) {
+    u16 faceReaction = Text_GetFaceReaction(play, 25);
 
-    if (temp_v0 != 0) {
-        return temp_v0;
+    if (faceReaction != 0) {
+        return faceReaction;
     }
     if (!LINK_IS_ADULT) {
-        return func_80A78FB0(play);
+        return EnIn_GetTextIdChild(play);
     } else {
-        return func_80A79010(play);
+        return EnIn_GetTextIdAdult(play);
     }
 }
 
-s16 func_80A791CC(PlayState* play, Actor* thisx) {
-    s32 ret = NPC_TALK_STATE_IDLE;
+s16 EnIn_UpdateTalkStateOnClosing(PlayState* play, Actor* thisx) {
+    s32 talkState = NPC_TALK_STATE_IDLE;
 
     switch (thisx->textId) {
         case 0x2045:
             SET_INFTABLE(INFTABLE_97);
             break;
         case 0x203E:
-            ret = NPC_TALK_STATE_ACTION;
+            talkState = NPC_TALK_STATE_ACTION;
             break;
         case 0x203F:
             SET_EVENTCHKINF(EVENTCHKINF_11);
             SET_INFTABLE(INFTABLE_94);
             break;
     }
-    return ret;
+    return talkState;
 }
 
-s16 func_80A7924C(PlayState* play, Actor* thisx) {
+s16 EnIn_UpdateTalkStateOnChoice(PlayState* play, Actor* thisx) {
     EnIn* this = (EnIn*)thisx;
-    s32 sp18 = NPC_TALK_STATE_TALKING;
+    s32 talkState = NPC_TALK_STATE_TALKING;
 
     switch (this->actor.textId) {
         case 0x2030:
@@ -237,7 +237,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
         case 0x2036:
         case 0x2037:
             if (play->msgCtx.choiceIndex == 1) {
-                sp18 = NPC_TALK_STATE_ACTION;
+                talkState = NPC_TALK_STATE_ACTION;
             } else {
                 this->actor.textId = 0x201F;
                 Message_ContinueTextbox(play, this->actor.textId);
@@ -245,7 +245,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             break;
         case 0x2038:
             if (play->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
-                sp18 = NPC_TALK_STATE_ACTION;
+                talkState = NPC_TALK_STATE_ACTION;
             } else {
                 this->actor.textId = 0x2039;
                 Message_ContinueTextbox(play, this->actor.textId);
@@ -254,7 +254,7 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
             break;
         case 0x205B:
             if (play->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
-                sp18 = NPC_TALK_STATE_ACTION;
+                talkState = NPC_TALK_STATE_ACTION;
             } else {
                 Message_ContinueTextbox(play, this->actor.textId = 0x2039);
                 SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
@@ -266,24 +266,24 @@ s16 func_80A7924C(PlayState* play, Actor* thisx) {
     }
     if (!gSaveContext.rupees) {}
 
-    return sp18;
+    return talkState;
 }
 
-s16 func_80A7949C(PlayState* play, Actor* thisx) {
-    s32 phi_v1 = NPC_TALK_STATE_TALKING;
+s16 EnIn_UpdateTalkStateOnEvent(PlayState* play, Actor* thisx) {
+    s32 talkState = NPC_TALK_STATE_TALKING;
 
     if (thisx->textId == 0x2035) {
         Rupees_ChangeBy(-10);
         thisx->textId = 0x205C;
         Message_ContinueTextbox(play, thisx->textId);
     } else {
-        phi_v1 = NPC_TALK_STATE_ACTION;
+        talkState = NPC_TALK_STATE_ACTION;
     }
-    return phi_v1;
+    return talkState;
 }
 
-s16 func_80A79500(PlayState* play, Actor* thisx) {
-    s16 sp1E = NPC_TALK_STATE_TALKING;
+s16 EnIn_UpdateTalkState(PlayState* play, Actor* thisx) {
+    s16 talkState = NPC_TALK_STATE_TALKING;
 
     osSyncPrintf("message_check->(%d[%x])\n", Message_GetState(&play->msgCtx), thisx->textId);
     switch (Message_GetState(&play->msgCtx)) {
@@ -291,18 +291,18 @@ s16 func_80A79500(PlayState* play, Actor* thisx) {
         case TEXT_STATE_DONE_HAS_NEXT:
             break;
         case TEXT_STATE_CLOSING:
-            sp1E = func_80A791CC(play, thisx);
+            talkState = EnIn_UpdateTalkStateOnClosing(play, thisx);
             break;
         case TEXT_STATE_DONE_FADING:
             break;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(play)) {
-                sp1E = func_80A7924C(play, thisx);
+                talkState = EnIn_UpdateTalkStateOnChoice(play, thisx);
             }
             break;
         case TEXT_STATE_EVENT:
             if (Message_ShouldAdvance(play)) {
-                sp1E = func_80A7949C(play, thisx);
+                talkState = EnIn_UpdateTalkStateOnEvent(play, thisx);
             }
             break;
         case TEXT_STATE_DONE:
@@ -311,21 +311,21 @@ s16 func_80A79500(PlayState* play, Actor* thisx) {
         case TEXT_STATE_9:
             break;
     }
-    return sp1E;
+    return talkState;
 }
 
 void func_80A795C8(EnIn* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 npcTrackingMode;
+    s16 trackingMode;
 
     if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0 ||
         this->skelAnime.animation == &object_in_Anim_013D60) {
-        npcTrackingMode = NPC_TRACKING_NONE;
+        trackingMode = NPC_TRACKING_NONE;
     } else {
-        npcTrackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
+        trackingMode = NPC_TRACKING_PLAYER_AUTO_TURN;
     }
     if (this->actionFunc == func_80A7A568) {
-        npcTrackingMode = NPC_TRACKING_FULL_BODY;
+        trackingMode = NPC_TRACKING_FULL_BODY;
     }
     if (this->actionFunc == func_80A7B024) {
         this->interactInfo.trackPos = play->view.eye;
@@ -334,7 +334,7 @@ void func_80A795C8(EnIn* this, PlayState* play) {
         this->interactInfo.trackPos = player->actor.world.pos;
         this->interactInfo.yOffset = 16.0f;
     }
-    Npc_TrackPoint(&this->actor, &this->interactInfo, 1, npcTrackingMode);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, 1, trackingMode);
 }
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, PlayState* play) {
@@ -935,7 +935,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
         } else {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
                               ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
-                              func_80A79168, func_80A79500);
+                              EnIn_GetTextId, EnIn_UpdateTalkState);
             if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
                 this->unk_1FA = this->unk_1F8;
                 this->unk_1F8 = Message_GetState(&play->msgCtx);
@@ -947,7 +947,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
 
 s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnIn* this = (EnIn*)thisx;
-    Vec3s sp2C;
+    Vec3s limbRot;
 
     if (this->actor.params > 0 && limbIndex != INGO_HEAD_LIMB) {
         if (sAdultEraDLs[limbIndex] != NULL) {
@@ -956,15 +956,15 @@ s32 EnIn_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     }
     if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp2C = this->interactInfo.headRot;
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB) {
-        sp2C = this->interactInfo.torsoRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB || limbIndex == INGO_LEFT_SHOULDER_LIMB || limbIndex == INGO_RIGHT_SHOULDER_LIMB) {
         rot->y += Math_SinS(this->unk_330[limbIndex].y) * 200.0f;
