@@ -1774,4 +1774,15 @@ typedef struct {
 #define ROM_FILE_UNSET \
     { 0 }
 
+typedef enum {
+    /* 0 */ DEBUG_TEXT_YELLOW,
+    /* 1 */ DEBUG_TEXT_PEACH,
+    /* 2 */ DEBUG_TEXT_BROWN,
+    /* 3 */ DEBUG_TEXT_ORANGE,
+    /* 4 */ DEBUG_TEXT_GOLD,
+    /* 5 */ DEBUG_TEXT_WHITE,
+    /* 6 */ DEBUG_TEXT_BLUE,
+    /* 7 */ DEBUG_TEXT_GREEN
+} DebugTextColor;
+
 #endif

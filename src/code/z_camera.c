@@ -7276,14 +7276,14 @@ void Camera_PrintSettings(Camera* camera) {
         sp48[i] = '\0';
 
         sp48[camera->play->activeCamId] = 'a';
-        func_8006376C(3, 0x16, 5, sp58);
-        func_8006376C(3, 0x16, 1, sp48);
-        func_8006376C(3, 0x17, 5, "S:");
-        func_8006376C(5, 0x17, 4, sCameraSettingNames[camera->setting]);
-        func_8006376C(3, 0x18, 5, "M:");
-        func_8006376C(5, 0x18, 4, sCameraModeNames[camera->mode]);
-        func_8006376C(3, 0x19, 5, "F:");
-        func_8006376C(5, 0x19, 4,
+        Debug_SetColoredScreenText(3, 0x16, 5, sp58);
+        Debug_SetColoredScreenText(3, 0x16, 1, sp48);
+        Debug_SetColoredScreenText(3, 0x17, 5, "S:");
+        Debug_SetColoredScreenText(5, 0x17, 4, sCameraSettingNames[camera->setting]);
+        Debug_SetColoredScreenText(3, 0x18, 5, "M:");
+        Debug_SetColoredScreenText(5, 0x18, 4, sCameraModeNames[camera->mode]);
+        Debug_SetColoredScreenText(3, 0x19, 5, "F:");
+        Debug_SetColoredScreenText(5, 0x19, 4,
                       sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
 
         i = 0;
@@ -7308,8 +7308,8 @@ void Camera_PrintSettings(Camera* camera) {
         sp50[i++] = ' ';
         sp50[i++] = ' ';
         sp50[i] = '\0';
-        func_8006376C(3, 26, 5, "I:");
-        func_8006376C(5, 26, 4, sp50);
+        Debug_SetColoredScreenText(3, 26, 5, "I:");
+        Debug_SetColoredScreenText(5, 26, 4, sp50);
     }
 }
 
