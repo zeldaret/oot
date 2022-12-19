@@ -108,7 +108,7 @@ void Regs_Init(void) {
     }
 }
 
-// Function is stubbed, name is assumed by `Debug_SetScreenTextColored`, arguments, and usage
+// Function is stubbed. Name is assumed by similarities in signature to `Debug_SetScreenTextColored` and usage.
 void Debug_SetScreenText(u8 x, u8 y, const char* text) {
 }
 
