@@ -341,7 +341,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
             this->painTimer1 = 0x10;
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, this->painTimer1);
             if (Actor_ApplyDamage(&this->actor) != 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
             }
             Enemy_StartFinishingBlow(play, &this->actor);
@@ -366,7 +366,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
                 this->actionFunc = EnSw_FallNormal;
             }
 
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_DEAD);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_DEAD);
             return true;
         }
     }
@@ -447,7 +447,7 @@ void EnSw_PlaySfxRoll(EnSw* this, PlayState* play) {
         Camera* activeCam = GET_ACTIVE_CAM(play);
 
         if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) >= 380.0f)) {
-            Audio_PlayActorSfx2(&this->actor, ENSW_GET_GOLDTYPE(this->actor.params) > SW_NORMALTYPE 
+            Actor_PlaySfx(&this->actor, ENSW_GET_GOLDTYPE(this->actor.params) > SW_NORMALTYPE 
             ? NA_SE_EN_STALGOLD_ROLL : NA_SE_EN_STALWALL_ROLL);
         }
     }
@@ -531,7 +531,7 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
     }
 
     if (EnSw_GoldClingToWall(this, play, 1) == 1) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnSw_SpawnDust2(this, play, 8);
         this->actor.scale.x = 0.02f;
         Actor_SetScale(&this->actor, 0.02f);
@@ -668,7 +668,7 @@ void EnSw_FallNormal(EnSw* this, PlayState* play) {
             this->actor.velocity.y = ((this->animationSpeed--) * 8.0f) * 0.5f;
         }
 
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 16.0f, 12, 2.0f, 120, 10, false);
     }
 }
@@ -812,7 +812,7 @@ s32 EnSw_SetCrawlAnimation(EnSw* this, f32 target, s16 step, s32 arg3, PlayState
 
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) < 380.0f) {
         if (DECR(this->sfxTimer) == 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_ROLL);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_ROLL);
             this->sfxTimer = 4;
         }
     } else {
@@ -838,7 +838,7 @@ void EnSw_SetupNormal(EnSw* this, PlayState* play) {
     }
 
     if ((DECR(this->dashTimer) == 0) && (EnSW_CanDashPlayer(this, play, 1))) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_LAUGH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_LAUGH);
         this->dashTimer = 20;
         this->actionFunc = EnSw_Dash;
     }
@@ -865,9 +865,8 @@ void EnSw_Dash(EnSw* this, PlayState* play) {
             this->actionFunc = EnSw_GoHome;
         } else {
             EnSw_Move(this, this->targetPos, 8.0f);
-
             if (DECR(this->sfxTimer) == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_DASH);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_DASH);
                 this->sfxTimer = 4;
             }
 

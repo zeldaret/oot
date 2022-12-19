@@ -470,7 +470,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play) {
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->dList = NULL;
         BgMizuBwall_SpawnDebris(this, play);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->actionFunc = BgMizuBwall_Break;
