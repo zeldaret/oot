@@ -684,7 +684,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_70)) {
                     BossGoma_SetupEncounterState4(this, play);
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
-                                       397.68002f, 0, -0x705C, 0, 0x180);
+                                       397.68002f, 0, -0x705C, 0, DOORSHUTTER_PARAMS(SHUTTER_GOHMA_BLOCK, 0));
                 } else {
                     func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                     this->actionState = 1;
@@ -748,7 +748,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
 
             if (this->frameCount == 176) {
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
-                                   397.68002f, 0, -0x705C, 0, SHUTTER_GOHMA_BLOCK << 6);
+                                   397.68002f, 0, -0x705C, 0, DOORSHUTTER_PARAMS(SHUTTER_GOHMA_BLOCK, 0));
             }
 
             if (this->frameCount == 176) {

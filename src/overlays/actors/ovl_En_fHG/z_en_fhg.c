@@ -138,7 +138,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 if (this->timers[0] == 55) {
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER,
                                        GND_BOSSROOM_CENTER_X + 0.0f, GND_BOSSROOM_CENTER_Y - 97.0f,
-                                       GND_BOSSROOM_CENTER_Z + 308.0f, 0, 0, 0, (SHUTTER_PG_BARS << 6));
+                                       GND_BOSSROOM_CENTER_Z + 308.0f, 0, 0, 0, DOORSHUTTER_PARAMS(SHUTTER_PG_BARS, 0));
                 }
                 if (this->timers[0] == 51) {
                     Audio_PlayActorSfx2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
@@ -177,7 +177,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             if (this->timers[0] == 25) {
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER,
                                    GND_BOSSROOM_CENTER_X + 0.0f, GND_BOSSROOM_CENTER_Y - 97.0f,
-                                   GND_BOSSROOM_CENTER_Z + 308.0f, 0, 0, 0, (SHUTTER_PG_BARS << 6));
+                                   GND_BOSSROOM_CENTER_Z + 308.0f, 0, 0, 0, DOORSHUTTER_PARAMS(SHUTTER_PG_BARS, 0));
             }
             if (this->timers[0] == 21) {
                 Audio_PlayActorSfx2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
