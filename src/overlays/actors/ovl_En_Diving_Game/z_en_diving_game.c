@@ -326,8 +326,8 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, PlayState* play) {
     this->subCamAtVel.x = fabsf(this->subCamAt.x - this->subCamAtNext.x) * 0.04f;
     this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * 0.04f;
     this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * 0.04f;
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
-    Play_CameraSetFov(play, this->subCamId, play->mainCamera.fov);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraFov(play, this->subCamId, play->mainCamera.fov);
     this->subCamTimer = 60;
     this->actionFunc = EnDivingGame_RupeeThrow;
     this->subCamVelFactor = 0.0f;
@@ -352,7 +352,7 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, PlayState* play) {
                        this->subCamAtVel.z * this->subCamVelFactor);
         Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.02f);
     }
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     if (!this->allRupeesThrown && this->spawnRuppyTimer == 0) {
         this->spawnRuppyTimer = 5;
         EnDivingGame_SpawnRuppy(this, play);
@@ -523,8 +523,8 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
     this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.trackPos.y = player->actor.world.pos.y;
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
-    this->vec_284 = this->interactInfo.headRot;
-    this->vec_28A = this->interactInfo.torsoRot;
+    this->headRot = this->interactInfo.headRot;
+    this->torsoRot = this->interactInfo.torsoRot;
     if ((play->gameplayFrames % 16) == 0) {
         pos = this->actor.world.pos;
         pos.y += 20.0f;
@@ -550,12 +550,12 @@ s32 EnDivingGame_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
     s32 pad;
 
     if (limbIndex == 6) {
-        rot->x += this->vec_28A.y;
+        rot->x += this->torsoRot.y;
     }
 
     if (limbIndex == 15) {
-        rot->x += this->vec_284.y;
-        rot->z += this->vec_284.z;
+        rot->x += this->headRot.y;
+        rot->z += this->headRot.z;
     }
 
     if (this->notPlayingMinigame && (limbIndex == 8 || limbIndex == 9 || limbIndex == 12)) {

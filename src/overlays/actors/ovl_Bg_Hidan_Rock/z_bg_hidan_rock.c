@@ -234,7 +234,7 @@ void func_8088B69C(BgHidanRock* this, PlayState* play) {
 
     if (!(this->timer % 4)) {
         Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
@@ -250,10 +250,10 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
             this->dyna.actor.flags &= ~(ACTOR_FLAG_4 | ACTOR_FLAG_5);
         }
 
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSfx2(&this->dyna.actor,
-                            NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(&play->colCtx, this->dyna.actor.floorPoly,
-                                                                            this->dyna.actor.floorBgId));
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(&this->dyna.actor,
+                      NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(&play->colCtx, this->dyna.actor.floorPoly,
+                                                                      this->dyna.actor.floorBgId));
     }
 
     this->unk_16C -= 0.5f;
@@ -305,7 +305,7 @@ void func_8088B990(BgHidanRock* this, PlayState* play) {
         ((this->type != 0) && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 480.0,
                                                   0.25f, 20.0f, 0.5f) < 0.1f))) {
         if (this->type == 0) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         }
         this->timer = 20;
         this->actionFunc = func_8088B954;

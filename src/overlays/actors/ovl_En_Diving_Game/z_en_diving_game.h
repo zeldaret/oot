@@ -14,8 +14,8 @@ typedef struct EnDivingGame {
     /* 0x0190 */ Vec3s jointTable[20];
     /* 0x0208 */ Vec3s morphTable[20];
     /* 0x0280 */ EnDivingGameActionFunc actionFunc;
-    /* 0x0284 */ Vec3s vec_284;
-    /* 0x028A */ Vec3s vec_28A;
+    /* 0x0284 */ Vec3s headRot;
+    /* 0x028A */ Vec3s torsoRot;
     /* 0x0290 */ s16 unk_290; // counter that only goes up
     /* 0x0292 */ s16 unk_292;
     /* 0x0294 */ s16 subCamTimer;
