@@ -137,7 +137,7 @@ void BgIceTurara_Shiver(BgIceTurara* this, PlayState* play) {
         this->shiverTimer--;
     }
     if (!(this->shiverTimer % 4)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ICE_SWING);
     }
     if (this->shiverTimer == 0) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
