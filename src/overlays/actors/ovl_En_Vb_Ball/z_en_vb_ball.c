@@ -289,7 +289,7 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2) {
             Player* player = GET_PLAYER(play);
 
             this->collider.base.atFlags &= ~AT_HIT;
-            Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

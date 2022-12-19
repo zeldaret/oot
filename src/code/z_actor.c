@@ -1714,12 +1714,18 @@ void func_8002F7A0(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4) 
     func_8002F758(play, actor, arg2, arg3, arg4, 0);
 }
 
-void func_8002F7DC(Actor* actor, u16 sfxId) {
-    Audio_PlaySfxGeneral(sfxId, &actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultReverb);
+/**
+ * Play a sound effect at the player's position
+ */
+void Player_PlaySfx(Player* player, u16 sfxId) {
+    Audio_PlaySfxGeneral(sfxId, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
-void Audio_PlayActorSfx2(Actor* actor, u16 sfxId) {
+/**
+ * Play a sound effect at the actor's position
+ */
+void Actor_PlaySfx(Actor* actor, u16 sfxId) {
     func_80078914(&actor->projectedPos, sfxId);
 }
 
@@ -1783,7 +1789,7 @@ s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, 
     if (SurfaceType_GetFloorType(&play->colCtx, poly, bgId) == FLOOR_TYPE_8) {
         play->roomCtx.unk_74[0] = 1;
         CollisionCheck_BlueBlood(play, NULL, pos);
-        Audio_PlayActorSfx2(actor, NA_SE_IT_WALL_HIT_BUYO);
+        Actor_PlaySfx(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
     }
 
@@ -3664,7 +3670,7 @@ void func_8003424C(PlayState* play, Vec3f* arg1) {
 
 void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration) {
     if ((colorFlag == COLORFILTER_COLORFLAG_GRAY) && !(colorIntensityMax & COLORFILTER_INTENSITY_FLAG)) {
-        Audio_PlayActorSfx2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
+        Actor_PlaySfx(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 
     actor->colorFilterParams = colorFlag | bufFlag | ((colorIntensityMax & 0xF8) << 5) | duration;

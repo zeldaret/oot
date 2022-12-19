@@ -152,7 +152,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
             spawnerState = ENCOUNT2_ACTIVE_DEATH_MOUNTAIN;
         }
 
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_VOLCANO - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_VOLCANO - SFX_FLAG);
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(play, 0x37) != 0)) {
         s16 sceneId = play->sceneId;
 
