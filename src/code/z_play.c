@@ -411,7 +411,7 @@ void Play_Init(GameState* thisx) {
     }
 
     player = GET_PLAYER(this);
-    Camera_InitPlayerSettings(&this->mainCamera, player);
+    Camera_InitDataUsingPlayer(&this->mainCamera, player);
     Camera_ChangeMode(&this->mainCamera, CAM_MODE_NORMAL);
 
     playerStartBgCamIndex = player->actor.params & 0xFF;
@@ -1460,28 +1460,28 @@ void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest) {
 }
 
 s16 Play_CreateSubCamera(PlayState* this) {
-    s16 i;
+    s16 camId;
 
-    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
-        if (this->cameraPtrs[i] == NULL) {
+    for (camId = CAM_ID_SUB_FIRST; camId < NUM_CAMS; camId++) {
+        if (this->cameraPtrs[camId] == NULL) {
             break;
         }
     }
 
-    if (i == NUM_CAMS) {
+    if (camId == NUM_CAMS) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
         return CAM_ID_NONE;
     }
 
     osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
                      CYAN) " " VT_RST "\n",
-                 i);
+                 camId);
 
-    this->cameraPtrs[i] = &this->subCameras[i - CAM_ID_SUB_FIRST];
-    Camera_Init(this->cameraPtrs[i], &this->view, &this->colCtx, this);
-    this->cameraPtrs[i]->camId = i;
+    this->cameraPtrs[camId] = &this->subCameras[camId - CAM_ID_SUB_FIRST];
+    Camera_Init(this->cameraPtrs[camId], &this->view, &this->colCtx, this);
+    this->cameraPtrs[camId]->camId = camId;
 
-    return i;
+    return camId;
 }
 
 s16 Play_GetActiveCamId(PlayState* this) {
@@ -1534,15 +1534,15 @@ Camera* Play_GetCamera(PlayState* this, s16 camId) {
     return this->cameraPtrs[camIdx];
 }
 
-s32 Play_CameraSetAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
-    s32 ret = 0;
+s32 Play_SetCameraAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
+    s32 successBits = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
-    ret <<= 1;
-    ret |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1557,20 +1557,20 @@ s32 Play_CameraSetAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
 
     camera->atLERPStepScale = 0.01f;
 
-    return ret;
+    return successBits;
 }
 
-s32 Play_CameraSetAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
-    s32 ret = 0;
+s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
+    s32 successBits = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
-    ret <<= 1;
-    ret |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
-    ret <<= 1;
-    ret |= Camera_SetViewParam(camera, CAM_VIEW_UP, up);
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_AT, at);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_EYE, eye);
+    successBits <<= 1;
+    successBits |= Camera_SetViewParam(camera, CAM_VIEW_UP, up);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1585,14 +1585,14 @@ s32 Play_CameraSetAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec
 
     camera->atLERPStepScale = 0.01f;
 
-    return ret;
+    return successBits;
 }
 
-s32 Play_CameraSetFov(PlayState* this, s16 camId, f32 fov) {
-    s32 ret = Camera_SetViewParam(this->cameraPtrs[camId], CAM_VIEW_FOV, &fov) & 1;
+s32 Play_SetCameraFov(PlayState* this, s16 camId, f32 fov) {
+    s32 successBits = Camera_SetViewParam(this->cameraPtrs[camId], CAM_VIEW_FOV, &fov) & 1;
 
     if (1) {}
-    return ret;
+    return successBits;
 }
 
 s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll) {
@@ -1611,43 +1611,52 @@ void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId) {
     Camera_Copy(this->cameraPtrs[destCamId1], this->cameraPtrs[srcCamId2]);
 }
 
-s32 func_800C0808(PlayState* this, s16 camId, Player* player, s16 setting) {
+/**
+ * Initializes camera data centered around Player, and applies the requested setting.
+ */
+s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, Player* player, s16 setting) {
     Camera* camera;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     camera = this->cameraPtrs[camIdx];
-    Camera_InitPlayerSettings(camera, player);
+    Camera_InitDataUsingPlayer(camera, player);
     return Camera_ChangeSetting(camera, setting);
 }
 
-s32 Play_CameraChangeSetting(PlayState* this, s16 camId, s16 setting) {
+s32 Play_ChangeCameraSetting(PlayState* this, s16 camId, s16 setting) {
     return Camera_ChangeSetting(Play_GetCamera(this, camId), setting);
 }
 
-void func_800C08AC(PlayState* this, s16 camId, s16 arg2) {
+/**
+ * Smoothly return control from a sub camera to the main camera by moving the subCamera's eye, at, fov through
+ * interpolation from the initial subCam viewParams to the target mainCam viewParams over `duration`.
+ * Setting the `duration` to 0 or less will instantly return control to the main camera.
+ * This will also clear every sub camera.
+ */
+void Play_ReturnToMainCam(PlayState* this, s16 camId, s16 duration) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
-    s16 i;
+    s16 subCamId;
 
     Play_ClearCamera(this, camIdx);
 
-    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
-        if (this->cameraPtrs[i] != NULL) {
+    for (subCamId = CAM_ID_SUB_FIRST; subCamId < NUM_CAMS; subCamId++) {
+        if (this->cameraPtrs[subCamId] != NULL) {
             osSyncPrintf(
                 VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,
-                i);
-            Play_ClearCamera(this, i);
+                subCamId);
+            Play_ClearCamera(this, subCamId);
         }
     }
 
-    if (arg2 <= 0) {
+    if (duration <= 0) {
         Play_ChangeCameraStatus(this, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         this->cameraPtrs[CAM_ID_MAIN]->childCamId = this->cameraPtrs[CAM_ID_MAIN]->parentCamId = CAM_ID_MAIN;
     } else {
-        OnePointCutscene_Init(this, 1020, arg2, NULL, CAM_ID_MAIN);
+        OnePointCutscene_Init(this, 1020, duration, NULL, CAM_ID_MAIN);
     }
 }
 
-s16 Play_CameraGetUID(PlayState* this, s16 camId) {
+s16 Play_GetCameraUID(PlayState* this, s16 camId) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
@@ -1657,12 +1666,16 @@ s16 Play_CameraGetUID(PlayState* this, s16 camId) {
     }
 }
 
-s16 func_800C09D8(PlayState* this, s16 camId, s16 arg2) {
+// Unused, purpose is unclear (also unused and unclear in MM)
+s16 func_800C09D8(PlayState* this, s16 camId, s16 uid) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
         return 0;
-    } else if (camera->uid != arg2) {
+    }
+
+    //! @bug this code is only reached if `camera` is NULL.
+    if (camera->uid != uid) {
         return 0;
     } else if (camera->status != CAM_STAT_ACTIVE) {
         return 2;

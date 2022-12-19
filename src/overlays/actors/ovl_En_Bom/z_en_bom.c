@@ -135,7 +135,7 @@ void EnBom_Move(EnBom* this, PlayState* play) {
         if (ABS((s16)(this->actor.wallYaw - this->actor.world.rot.y)) > 0x4000) {
             this->actor.world.rot.y = ((this->actor.wallYaw - this->actor.world.rot.y) + this->actor.wallYaw) - 0x8000;
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BOMB_BOUND);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_BOMB_BOUND);
         Actor_MoveForward(&this->actor);
         this->actor.speedXZ *= 0.7f;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
@@ -235,7 +235,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     }
 
     if (this->timer == 67) {
-        Audio_PlayActorSfx2(thisx, NA_SE_PL_TAKE_OUT_SHIELD);
+        Actor_PlaySfx(thisx, NA_SE_PL_TAKE_OUT_SHIELD);
         Actor_SetScale(thisx, 0.01f);
     }
 
@@ -260,7 +260,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
                 EffectSsGSpk_SpawnFuse(play, thisx, &effPos, &effVelocity, &effAccel);
             }
 
-            Audio_PlayActorSfx2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
+            Actor_PlaySfx(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
             effPos.y += 3.0f;
             func_8002829C(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
@@ -313,7 +313,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
                 EffectSsBlast_SpawnWhiteShockwave(play, &effPos, &effVelocity, &effAccel);
             }
 
-            Audio_PlayActorSfx2(thisx, NA_SE_IT_BOMB_EXPLOSION);
+            Actor_PlaySfx(thisx, NA_SE_IT_BOMB_EXPLOSION);
 
             play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = 250;
 
@@ -349,7 +349,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
         }
         if (thisx->bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
             thisx->bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            Audio_PlayActorSfx2(thisx, NA_SE_EV_BOMB_DROP_WATER);
+            Actor_PlaySfx(thisx, NA_SE_EV_BOMB_DROP_WATER);
         }
     }
 }
