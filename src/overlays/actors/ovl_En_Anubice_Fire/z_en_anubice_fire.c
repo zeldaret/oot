@@ -110,7 +110,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else if ((this->actor.params == 0) && (this->cylinder.base.atFlags & AT_BOUNCED)) {
         if (Player_HasMirrorShieldEquipped(play)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
             this->cylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->cylinder.base.atFlags |= AT_TYPE_PLAYER;
             this->cylinder.info.toucher.dmgFlags = DMG_DEKU_STICK;
@@ -123,7 +123,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
             this->unk_15A = 0;
             EffectSsBomb2_SpawnLayered(play, &this->actor.world.pos, &sp78, &sp84, 10, 5);
             this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
             this->actionFunc = func_809B2B48;
         }
     } else if (!(this->scale < .4f)) {
@@ -137,7 +137,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
             pos.z = this->actor.world.pos.z;
             EffectSsKiraKira_SpawnDispersed(play, &pos, &velocity, &accel, &primColor, &envColor, scale, life);
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_FIRE - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_FIRE - SFX_FLAG);
     }
 }
 
@@ -207,7 +207,7 @@ void EnAnubiceFire_Update(Actor* thisx, PlayState* play) {
 
         if (BgCheck_SphVsFirstPoly(&play->colCtx, &this->actor.world.pos, 30.0f)) {
             this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
             this->actionFunc = func_809B2B48;
         }
     }
