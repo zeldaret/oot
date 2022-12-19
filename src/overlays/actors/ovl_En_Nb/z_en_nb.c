@@ -167,15 +167,15 @@ void func_80AB1040(EnNb* this, PlayState* play) {
 
 void func_80AB10C4(EnNb* this) {
     s32 pad2[2];
-    Vec3s* tempPtr;
-    Vec3s* tempPtr2;
+    Vec3s* headRot;
+    Vec3s* torsoRot;
 
-    tempPtr = &this->interactInfo.headRot;
-    Math_SmoothStepToS(&tempPtr->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&tempPtr->y, 0, 20, 6200, 100);
-    tempPtr2 = &this->interactInfo.torsoRot;
-    Math_SmoothStepToS(&tempPtr2->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&tempPtr2->y, 0, 20, 6200, 100);
+    headRot = &this->interactInfo.headRot;
+    Math_SmoothStepToS(&headRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->y, 0, 20, 6200, 100);
+    torsoRot = &this->interactInfo.torsoRot;
+    Math_SmoothStepToS(&torsoRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 20, 6200, 100);
 }
 
 void EnNb_UpdateEyes(EnNb* this) {

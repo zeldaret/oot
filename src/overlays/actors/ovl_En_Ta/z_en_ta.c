@@ -586,7 +586,7 @@ void EnTa_CreateFloorCamera(EnTa* this, PlayState* play) {
     subCamAt.y = 45.0f;
     subCamAt.z = -40.0f;
 
-    Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
 }
 
 void EnTa_RemoveFloorCamera(EnTa* this, PlayState* play) {

@@ -136,13 +136,13 @@ void func_80B536B4(EnZl3* this) {
 
 void func_80B536C4(EnZl3* this) {
     s32 pad[2];
-    Vec3s* vec1 = &this->interactInfo.headRot;
-    Vec3s* vec2 = &this->interactInfo.torsoRot;
+    Vec3s* headRot = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
 
-    Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec2->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 20, 6200, 100);
 }
 
 void func_80B53764(EnZl3* this, PlayState* play) {
@@ -588,13 +588,13 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
     Mtx* sp78;
     MtxF sp38;
     Vec3s sp30;
-    Vec3s* unk_3F8_unk_08 = &this->interactInfo.headRot;
-    Vec3s* unk_3F8_unk_0E = &this->interactInfo.torsoRot;
+    Vec3s* headRot = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
 
     if (limbIndex == 14) {
         sp78 = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
-        rot->x += unk_3F8_unk_08->y;
-        rot->z += unk_3F8_unk_08->x;
+        rot->x += headRot->y;
+        rot->z += headRot->x;
         gSPSegment((*gfx)++, 0x0C, sp78);
 
         Matrix_Push();
@@ -678,8 +678,8 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         Matrix_Pop();
         this->unk_2FC = 1;
     } else if (limbIndex == 7) {
-        rot->x += unk_3F8_unk_0E->y;
-        rot->y -= unk_3F8_unk_0E->x;
+        rot->x += torsoRot->y;
+        rot->y -= torsoRot->x;
     }
     return false;
 }
@@ -2440,12 +2440,12 @@ s32 func_80B5944C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
     if (limbIndex == 14) {
         Mtx* mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
         EnZl3* this = (EnZl3*)thisx;
-        Vec3s* vec = &this->interactInfo.headRot;
+        Vec3s* headRot = &this->interactInfo.headRot;
 
         gSPSegment(gfx[0]++, 0x0C, mtx);
 
-        rot->x += vec->y;
-        rot->z += vec->x;
+        rot->x += headRot->y;
+        rot->z += headRot->x;
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
         Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);

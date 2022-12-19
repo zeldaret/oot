@@ -358,7 +358,7 @@ typedef enum {
     /* 0x77 */ CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneDestination;
 
-typedef struct {
+typedef union {
     struct {
         /* 0x00 */ u8 unused_00[0x2];
         /* 0x02 */ u16 startFrame;
