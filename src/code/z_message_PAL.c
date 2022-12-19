@@ -1873,13 +1873,13 @@ void Message_StartOcarina(PlayState* play, u16 ocarinaActionId) {
     }
 }
 
-void func_8010BD58(PlayState* play, u16 ocarinaActionId) {
-    play->msgCtx.unk_E40E = 0;
+void Message_SetOcarinaAction(PlayState* play, u16 ocarinaActionId) {
+    play->msgCtx.disableSunsSong = false;
     Message_StartOcarina(play, ocarinaActionId);
 }
 
-void func_8010BD88(PlayState* play, u16 ocarinaActionId) {
-    play->msgCtx.unk_E40E = 1;
+void Message_SetOcarinaActionSunsSongDisabled(PlayState* play, u16 ocarinaActionId) {
+    play->msgCtx.disableSunsSong = true;
     Message_StartOcarina(play, ocarinaActionId);
 }
 
@@ -2577,7 +2577,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
             case MSGMODE_OCARINA_AWAIT_INPUT:
                 Message_DrawText(play, &gfx);
                 if (Message_ShouldAdvance(play)) {
-                    func_8010BD58(play, msgCtx->ocarinaAction);
+                    Message_SetOcarinaAction(play, msgCtx->ocarinaAction);
                 }
                 break;
             case MSGMODE_SCARECROW_LONG_RECORDING_START:
