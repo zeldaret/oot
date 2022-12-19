@@ -301,7 +301,7 @@ void EnIk_StandUp(EnIk* this, PlayState* play) {
 
     if (this->bodyCollider.base.acFlags & AC_HIT) {
         sparksPos = this->actor.world.pos;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
         sparksPos.y += 30.0f;
         func_8003424C(play, &sparksPos);
         this->skelAnime.playSpeed = 1.0f;
@@ -309,7 +309,7 @@ void EnIk_StandUp(EnIk* this, PlayState* play) {
     }
 
     if (this->skelAnime.curFrame == 5.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -359,7 +359,7 @@ void EnIk_SetupWalkOrRun(EnIk* this) {
     } else {
         Animation_Change(&this->skelAnime, &gIronKnuckleRunAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleRunAnim), ANIMMODE_LOOP, -4.0f);
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DASH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
     }
 
@@ -430,7 +430,7 @@ void EnIk_WalkOrRun(EnIk* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (((s16)this->skelAnime.curFrame == footstepFrame1) || ((s16)this->skelAnime.curFrame == footstepFrame2)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_WALK);
     }
 }
 
@@ -448,13 +448,13 @@ void EnIk_VerticalAttack(EnIk* this, PlayState* play) {
     Vec3f sparksPos;
 
     if (this->skelAnime.curFrame == 15.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
     } else if (this->skelAnime.curFrame == 21.0f) {
         sparksPos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sparksPos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sparksPos.y = this->actor.world.pos.y;
 
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
         Camera_RequestQuake(&play->mainCamera, 2, 25, 5);
         Rumble_Request(this->actor.xzDistToPlayer, 255, 20, 150);
         CollisionCheck_SpawnShieldParticles(play, &sparksPos);
@@ -483,7 +483,7 @@ void EnIk_SetupPullOutAxe(EnIk* this) {
     this->unk_2F8 = 7;
     this->unk_2FF = this->unk_2FE;
     Animation_Change(&this->skelAnime, &gIronKnuckleAxeStuckAnim, 1.0f, 0.0f, endFrame, ANIMMODE_LOOP, -4.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_PULLOUT);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_PULLOUT);
     EnIk_SetupAction(this, EnIk_PullOutAxe);
 }
 
@@ -535,7 +535,7 @@ void EnIk_DoubleHorizontalAttack(EnIk* this, PlayState* play) {
         }
 
         if (this->unk_2FE < 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
         }
 
         this->unk_2FE = 1;
@@ -583,7 +583,7 @@ void EnIk_SingleHorizontalAttack(EnIk* this, PlayState* play) {
 
     if ((this->skelAnime.curFrame > 13.0f) && (this->skelAnime.curFrame < 18.0f)) {
         if (this->unk_2FE < 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
         }
         this->unk_2FE = 1;
     } else {
@@ -670,8 +670,8 @@ void EnIk_SetupDie(EnIk* this) {
     this->actor.speedXZ = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleDeathAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, -4.0f);
     this->animationTimer = 24;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DEAD);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_CUTBODY);
     EnIk_SetupAction(this, EnIk_Die);
 }
 
@@ -703,7 +703,7 @@ void EnIk_Die(EnIk* this, PlayState* play) {
             }
         }
     } else if (this->skelAnime.curFrame == 23.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_WALK);
     }
 }
 
@@ -782,16 +782,16 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
 
         if ((this->actor.params != IK_TYPE_NABOORU) && (this->armorStatusFlag != 0)) {
             if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
             } else {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_CUTBODY);
             }
 
             EnIk_SetupReactToAttack(this);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
             CollisionCheck_SpawnShieldParticles(play, &sparksPos);
         }
     }
