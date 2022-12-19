@@ -1513,11 +1513,11 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
 
 s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* script, u8 relativeToPlayer) {
     s32 shouldContinue = true;
-    CsCmdGeneric* cmd = (CsCmdGeneric*)script;
+    CsCmdCam* cmd = (CsCmdCam*)script;
     s32 size;
 
-    script += sizeof(CsCmdGeneric);
-    size = sizeof(CsCmdGeneric);
+    script += sizeof(CsCmdCam);
+    size = sizeof(CsCmdCam);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((cmd->startFrame > csCtx->camEyeSplinePointsAppliedFrame) ||
@@ -1553,11 +1553,11 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
 
 s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* script, u8 relativeToPlayer) {
     s32 shouldContinue = true;
-    CsCmdGeneric* cmd = (CsCmdGeneric*)script;
+    CsCmdCam* cmd = (CsCmdCam*)script;
     s32 size;
 
-    script += sizeof(CsCmdGeneric);
-    size = sizeof(CsCmdGeneric);
+    script += sizeof(CsCmdCam);
+    size = sizeof(CsCmdCam);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((cmd->startFrame > gCamAtSplinePointsAppliedFrame) || (gCamAtSplinePointsAppliedFrame >= 0xF000))) {
@@ -1591,15 +1591,15 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
 }
 
 s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u8 unused) {
-    CsCmdGeneric* cmd = (CsCmdGeneric*)script;
+    CsCmdCam* cmd = (CsCmdCam*)script;
     s32 size;
     Vec3f at;
     Vec3f eye;
     Camera* subCam;
     f32 roll;
 
-    script += sizeof(CsCmdGeneric);
-    size = sizeof(CsCmdGeneric);
+    script += sizeof(CsCmdCam);
+    size = sizeof(CsCmdCam);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((cmd->startFrame > gCamEyePointAppliedFrame) || (gCamEyePointAppliedFrame >= 0xF000))) {
@@ -1640,14 +1640,14 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
 }
 
 s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8 unused) {
-    CsCmdGeneric* cmd = (CsCmdGeneric*)script;
+    CsCmdCam* cmd = (CsCmdCam*)script;
     s32 size;
     Vec3f at;
     Vec3f eye;
     Camera* subCam;
 
-    script += sizeof(CsCmdGeneric);
-    size = sizeof(CsCmdGeneric);
+    script += sizeof(CsCmdCam);
+    size = sizeof(CsCmdCam);
 
     if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame < cmd->endFrame) &&
         ((cmd->startFrame > gCamAtPointAppliedFrame) || (gCamAtPointAppliedFrame >= 0xF000))) {
@@ -1763,7 +1763,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
     s32 totalEntries;
     s32 cmdType;
     s32 cmdEntries;
-    CsCmdGeneric* cmd;
+    void* cmd;
     s32 csFrameCount;
     s16 j;
 
@@ -1867,9 +1867,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->playerCue = (void*)script;
                     }
 
@@ -1899,9 +1900,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[0] = (void*)script;
                     }
 
@@ -1931,9 +1933,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[1] = (void*)script;
                     }
 
@@ -1959,9 +1962,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[2] = (void*)script;
                     }
 
@@ -1986,9 +1990,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[3] = (void*)script;
                     }
 
@@ -2009,9 +2014,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[4] = (void*)script;
                     }
 
@@ -2030,9 +2036,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[5] = (void*)script;
                     }
 
@@ -2052,9 +2059,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[6] = (void*)script;
                     }
 
@@ -2073,9 +2081,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[7] = (void*)script;
                     }
 
@@ -2088,9 +2097,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[8] = (void*)script;
                     }
 
@@ -2103,9 +2113,10 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
-                    if ((csCtx->curFrame > cmd->startFrame) && (csCtx->curFrame <= cmd->endFrame)) {
+                    if ((csCtx->curFrame > ((CsCmdActorCue*)cmd)->startFrame) &&
+                        (csCtx->curFrame <= ((CsCmdActorCue*)cmd)->endFrame)) {
                         csCtx->actorCues[9] = (void*)script;
                     }
 
@@ -2148,7 +2159,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
                 script += sizeof(cmdEntries);
 
                 for (j = 0; j < cmdEntries; j++) {
-                    cmd = (CsCmdGeneric*)script;
+                    cmd = script;
 
                     if (((CsCmdText*)cmd)->textId != CS_TEXT_ID_NONE) {
                         CutsceneCmd_Text(play, csCtx, (void*)script);
