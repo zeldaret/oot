@@ -233,7 +233,7 @@ s32 EnToryo_DoneTalking(EnToryo* this, PlayState* play) {
     return ret;
 }
 
-u32 EnToryo_OfferItem(EnToryo* this, PlayState* play) {
+u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
     u32 ret;
 
     if (this->exchangeItemId != EXCH_ITEM_NONE) {
@@ -281,7 +281,7 @@ s32 EnToryo_GetTextId(EnToryo* this, PlayState* play) {
     return ret;
 }
 
-void EnToryo_Talk(EnToryo* this, PlayState* play) {
+void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 posX;
     s16 posY;
@@ -320,7 +320,7 @@ void EnToryo_Talk(EnToryo* this, PlayState* play) {
         if (Actor_ProcessTalkRequest(&this->actor, play)) {
             this->exchangeItemId = func_8002F368(play);
             if (this->exchangeItemId != EXCH_ITEM_NONE) {
-                player->actor.textId = EnToryo_OfferItem(this, play);
+                player->actor.textId = EnToryo_ReactToExchangeItem(this, play);
                 this->actor.textId = player->actor.textId;
             }
             this->messageState = 1;
@@ -337,7 +337,7 @@ void EnToryo_Talk(EnToryo* this, PlayState* play) {
 
 void EnToryo_Idle(EnToryo* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    EnToryo_Talk(this, play);
+    EnToryo_HandleTalking(this, play);
     if (this->messageState != 0) {
         this->stateFlags |= 0x10;
     } else {
