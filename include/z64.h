@@ -541,7 +541,7 @@ typedef struct {
     /* 0xE406 */ s16    textboxColorAlphaCurrent;
     /* 0xE408 */ Actor* talkActor;
     /* 0xE40C */ s16    disableWarpSongs; // disables ability to warp with warp songs
-    /* 0xE40E */ s16    disableSunsSong; // disables Suns Song effect from occuring after song is played
+    /* 0xE40E */ s16    disableSunsSong; // disables Suns Song effect from occurring after song is played
     /* 0xE410 */ u8     lastOcarinaButtonIndex;
 } MessageContext; // size = 0xE418
 
