@@ -9,12 +9,6 @@ pipeline {
     }
 
     stages {
-        stage('Cleaning before build') {
-            steps {
-                cleanWs()
-            }
-        }
-
         stage('Check for unused asm') {
             steps {
                 sh './tools/find_unused_asm.sh'
