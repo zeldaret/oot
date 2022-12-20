@@ -3,7 +3,16 @@ pipeline {
         label 'oot'
     }
 
+    options {
+        // This is required if you want to clean before build
+        skipDefaultCheckout(true)
+    }
+
     stages {
+        stage('Cleaning before build') {
+            cleanWs()
+        }
+
         stage('Check for unused asm') {
             steps {
                 sh './tools/find_unused_asm.sh'
@@ -62,7 +71,15 @@ pipeline {
     }
     post {
         always {
-            cleanWs()
+            echo "Finished, deleting directory."
+            deleteDir()
+        }
+        cleanup {
+            echo "Clean up in post."
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true)
         }
     }
 }
