@@ -19,7 +19,7 @@ void func_809B5670(EnAttackNiw* this, PlayState* play);
 void func_809B5C18(EnAttackNiw* this, PlayState* play);
 void func_809B59B0(EnAttackNiw* this, PlayState* play);
 
-const ActorInit En_Attack_Niw_InitVars = {
+ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -365,11 +365,11 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     }
     if (this->unk_25E == 0) {
         this->unk_25E = 30;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
     }
     if (this->unk_260 == 0) {
         this->unk_260 = 7;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_WAKEUP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_WAKEUP);
     }
 }
 

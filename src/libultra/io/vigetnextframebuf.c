@@ -1,9 +1,9 @@
 #include "global.h"
 
 void* osViGetNextFramebuffer(void) {
-    u32 prevInt = __osDisableInt();
-    void* buff = __osViNext->buffer;
+    register u32 prevInt = __osDisableInt();
+    void* framep = __osViNext->framep;
 
     __osRestoreInt(prevInt);
-    return buff;
+    return framep;
 }

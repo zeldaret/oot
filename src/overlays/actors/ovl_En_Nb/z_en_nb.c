@@ -5,7 +5,7 @@
  */
 
 #include "z_en_nb.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_nb/object_nb.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
@@ -152,30 +152,30 @@ void EnNb_Destroy(Actor* thisx, PlayState* play) {
 void func_80AB0FBC(EnNb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_300.unk_18 = player->actor.world.pos;
-    this->unk_300.unk_14 = kREG(16) + 9.0f;
-    func_80034A14(&this->actor, &this->unk_300, kREG(17) + 0xC, 2);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 9.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80AB1040(EnNb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_300.unk_18 = player->actor.world.pos;
-    this->unk_300.unk_14 = kREG(16) + 9.0f;
-    func_80034A14(&this->actor, &this->unk_300, kREG(17) + 0xC, 4);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 9.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_FULL_BODY);
 }
 
 void func_80AB10C4(EnNb* this) {
     s32 pad2[2];
-    Vec3s* tempPtr;
-    Vec3s* tempPtr2;
+    Vec3s* headRot;
+    Vec3s* torsoRot;
 
-    tempPtr = &this->unk_300.unk_08;
-    Math_SmoothStepToS(&tempPtr->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&tempPtr->y, 0, 20, 6200, 100);
-    tempPtr2 = &this->unk_300.unk_0E;
-    Math_SmoothStepToS(&tempPtr2->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&tempPtr2->y, 0, 20, 6200, 100);
+    headRot = &this->interactInfo.headRot;
+    Math_SmoothStepToS(&headRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->y, 0, 20, 6200, 100);
+    torsoRot = &this->interactInfo.torsoRot;
+    Math_SmoothStepToS(&torsoRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 20, 6200, 100);
 }
 
 void EnNb_UpdateEyes(EnNb* this) {
@@ -717,7 +717,7 @@ void EnNb_PlayLookRightSFX(EnNb* this) {
     s32 pad[2];
 
     if ((this->skelAnime.mode == 2) && Animation_OnFrame(&this->skelAnime, 9.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
@@ -725,7 +725,7 @@ void EnNb_PlayLookLeftSFX(EnNb* this) {
     s32 pad[2];
 
     if (Animation_OnFrame(&this->skelAnime, 9.0f) || Animation_OnFrame(&this->skelAnime, 13.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
@@ -1452,17 +1452,17 @@ void EnNb_Init(Actor* thisx, PlayState* play) {
 
 s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
-    struct_80034A14_arg1* unk_300 = &this->unk_300;
+    NpcInteractInfo* interactInfo = &this->interactInfo;
     s32 ret = false;
 
     if (this->headTurnFlag != 0) {
         if (limbIndex == NB_LIMB_TORSO) {
-            rot->x += unk_300->unk_0E.y;
-            rot->y -= unk_300->unk_0E.x;
+            rot->x += interactInfo->torsoRot.y;
+            rot->y -= interactInfo->torsoRot.x;
             ret = false;
         } else if (limbIndex == NB_LIMB_HEAD) {
-            rot->x += unk_300->unk_08.y;
-            rot->z += unk_300->unk_08.x;
+            rot->x += interactInfo->headRot.y;
+            rot->z += interactInfo->headRot.x;
             ret = false;
         }
     }
@@ -1526,7 +1526,7 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
     sDrawFuncs[this->drawMode](this, play);
 }
 
-const ActorInit En_Nb_InitVars = {
+ActorInit En_Nb_InitVars = {
     ACTOR_EN_NB,
     ACTORCAT_NPC,
     FLAGS,

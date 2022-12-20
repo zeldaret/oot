@@ -7,7 +7,7 @@
 #include "z_en_tite.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_tite/object_tite.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
@@ -74,7 +74,7 @@ void EnTite_FallApart(EnTite* this, PlayState* play);
 void EnTite_FlipOnBack(EnTite* this, PlayState* play);
 void EnTite_FlipUpright(EnTite* this, PlayState* play);
 
-const ActorInit En_Tite_InitVars = {
+ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -277,10 +277,10 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                     if (this->actor.floorHeight > BGCHECK_Y_MIN) {
                         this->actor.world.pos.y = this->actor.floorHeight;
                     }
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
                 } else {
                     this->actor.world.pos.y += this->actor.yDistToWater;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
                 }
                 this->actor.velocity.y = 8.0f;
                 this->actor.gravity = -1.0f;
@@ -374,7 +374,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 if (&player->actor == this->collider.base.at) {
                     if (!(this->collider.base.atFlags & AT_BOUNCED)) {
-                        Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+                        Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
                     }
                 }
                 EnTite_SetupAction(this, EnTite_Recoil);
@@ -406,17 +406,17 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
             this->actor.speedXZ = 0.0f;
             if (this->vAttackState == TEKTITE_SUBMERGED) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
             } else {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
             }
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
         } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
     } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 }
 
@@ -469,9 +469,9 @@ void EnTite_TurnTowardPlayer(EnTite* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (((s16)this->skelAnime.curFrame & 7) == 0) {
         if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_WALK_WATER);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_WALK_WATER);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_WALK);
         }
     }
 
@@ -496,9 +496,9 @@ void EnTite_SetupMoveTowardPlayer(EnTite* this) {
     this->actor.speedXZ = 4.0f;
     this->vQueuedJumps = Rand_S16Offset(1, 3);
     if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     }
     EnTite_SetupAction(this, EnTite_MoveTowardPlayer);
 }
@@ -516,9 +516,9 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
             func_80033480(play, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER);
         }
     }
 
@@ -574,9 +574,9 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
                 this->actor.flags |= ACTOR_FLAG_24;
                 this->actor.gravity = -1.0f;
                 if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
                 } else {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
                 }
             }
         } else {
@@ -585,9 +585,9 @@ void EnTite_MoveTowardPlayer(EnTite* this, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_24;
             this->actor.gravity = -1.0f;
             if ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_JUMP_WATER);
             } else {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STAL_JUMP);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
             }
         }
         // If in midair:
@@ -644,10 +644,10 @@ void EnTite_Recoil(EnTite* this, PlayState* play) {
             func_80033480(play, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
         }
     }
 
@@ -682,7 +682,7 @@ void EnTite_SetupStunned(EnTite* this) {
     if (this->damageEffect == 0xF) {
         this->spawnIceTimer = 48;
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnTite_SetupAction(this, EnTite_Stunned);
 }
 
@@ -714,10 +714,10 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
             func_80033480(play, &this->frontRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backRightFootPos, 1.0f, 2, 80, 15, 1);
             func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_LAND_WATER2);
         }
     }
     // Decide on next action based on health, flip state and player distance
@@ -780,7 +780,7 @@ void EnTite_FallApart(EnTite* this, PlayState* play) {
 void EnTite_SetupFlipOnBack(EnTite* this) {
 
     Animation_PlayLoopSetSpeed(&this->skelAnime, &object_tite_Anim_000A14, 1.5f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_REVERSE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_REVERSE);
     this->flipState = TEKTITE_FLIPPED;
     this->vOnBackTimer = 500;
     this->actor.speedXZ = 0.0f;
@@ -806,7 +806,7 @@ void EnTite_FlipOnBack(EnTite* this, PlayState* play) {
         // Upon landing, spawn dust and make noise
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 20.0f, 11, 4.0f, 0, 0, false);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         this->vOnBackTimer--;
         if (this->vOnBackTimer == 0) {
@@ -825,7 +825,7 @@ void EnTite_SetupFlipUpright(EnTite* this) {
     this->actionVar1 = 1000; // value unused here and overwritten in SetupIdle
     //! @bug flying tektite: water sets gravity to 0 so y velocity will never decrease from 13
     this->actor.velocity.y = 13.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TEKU_REVERSE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_TEKU_REVERSE);
     EnTite_SetupAction(this, EnTite_FlipUpright);
 }
 
@@ -840,7 +840,7 @@ void EnTite_FlipUpright(EnTite* this, PlayState* play) {
         func_80033480(play, &this->backLeftFootPos, 1.0f, 2, 80, 15, 1);
         this->actor.shape.yOffset = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnTite_SetupIdle(this);
     }
 }
@@ -856,21 +856,21 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
             if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {
-                    Actor_SetColorFilter(thisx, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
                     Actor_ApplyDamage(thisx);
                     EnTite_SetupStunned(this);
                 }
                 // Otherwise apply damage and handle death where necessary
             } else {
                 if ((thisx->colorFilterTimer == 0) || ((thisx->colorFilterParams & 0x4000) == 0)) {
-                    Actor_SetColorFilter(thisx, 0x4000, 0xFF, 0, 8);
+                    Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                     Actor_ApplyDamage(thisx);
                 }
                 if (thisx->colChkInfo.health == 0) {
                     EnTite_SetupDeathCry(this);
                 } else {
                     // Flip tektite back up if it's on its back
-                    Audio_PlayActorSfx2(thisx, NA_SE_EN_TEKU_DAMAGE);
+                    Actor_PlaySfx(thisx, NA_SE_EN_TEKU_DAMAGE);
                     if (this->flipState != TEKTITE_FLIPPED) {
                         EnTite_SetupRecoil(this);
                     } else {

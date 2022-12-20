@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_ec.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_zo/object_zo.h"
 #include "assets/objects/object_ec/object_ec.h"
 #include "assets/objects/object_ma2/object_ma2.h"
@@ -1097,7 +1097,7 @@ void DemoEc_DrawFishingOwner(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitBombchuShopOwner(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_rs_Skel_004868);
+    DemoEc_InitSkelAnime(this, play, &gBombchuShopkeeperSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcPotionShopOwnerAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -1361,7 +1361,7 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-const ActorInit Demo_Ec_InitVars = {
+ActorInit Demo_Ec_InitVars = {
     ACTOR_DEMO_EC,
     ACTORCAT_NPC,
     FLAGS,

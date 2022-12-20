@@ -29,7 +29,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, PlayState* play);
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit En_Dekubaba_InitVars = {
+ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -328,7 +328,7 @@ void EnDekubaba_SetupGrow(EnDekubaba* this) {
 
     this->collider.base.colType = COLTYPE_HIT6;
     this->collider.base.acFlags &= ~AC_HARD;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DUMMY482);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnDekubaba_Grow;
 }
 
@@ -386,9 +386,9 @@ void EnDekubaba_SetupHit(EnDekubaba* this, s32 arg1) {
     Actor_SetScale(&this->actor, this->size * 0.01f);
 
     if (arg1 == 2) {
-        Actor_SetColorFilter(&this->actor, 0, 155, 0, 62);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 155, COLORFILTER_BUFFLAG_OPA, 62);
     } else {
-        Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 42);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 42);
     }
 
     this->actionFunc = EnDekubaba_Hit;
@@ -442,7 +442,7 @@ void EnDekubaba_SetupSway(EnDekubaba* this) {
     this->stemSectionAngle[1] = -0x4800;
 
     EnDekubaba_DisableHitboxes(this);
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 35);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 35);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekubaba_Sway;
 }
@@ -623,9 +623,9 @@ void EnDekubaba_DecideLunge(EnDekubaba* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
         if (this->actor.params == DEKUBABA_BIG) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_MOUTH);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_MOUTH);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
         }
     }
 
@@ -675,9 +675,9 @@ void EnDekubaba_Lunge(EnDekubaba* this, PlayState* play) {
     if (this->timer == 0) {
         if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
             if (this->actor.params == DEKUBABA_BIG) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_ATTACK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_ATTACK);
             } else {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_ATTACK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_ATTACK);
             }
         }
 
@@ -712,9 +712,9 @@ void EnDekubaba_Lunge(EnDekubaba* this, PlayState* play) {
 
         if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 12.0f)) {
             if (this->actor.params == DEKUBABA_BIG) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_MOUTH);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_MOUTH);
             } else {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
             }
         }
     }
@@ -816,7 +816,7 @@ void EnDekubaba_PullBack(EnDekubaba* this, PlayState* play) {
         this->timer++;
 
         if (this->timer == 10) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_SCRAPE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_SCRAPE);
         }
 
         if (this->timer >= 12) {
@@ -961,7 +961,7 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, PlayState* play) {
         }
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
             this->timer = 1;
         }
     } else if (this->timer == 1) {
@@ -1020,7 +1020,7 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, PlayState* play) {
         return;
     }
 
-    func_8002F554(&this->actor, play, GI_STICKS_1);
+    Actor_OfferGetItemNearby(&this->actor, play, GI_DEKU_STICKS_1);
 }
 
 // Update and associated functions
@@ -1094,16 +1094,16 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, PlayState* play) {
 
     if (this->actor.colChkInfo.health != 0) {
         if (this->timer == 2) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_DAMAGE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_DAMAGE);
         }
     } else {
         Enemy_StartFinishingBlow(play, &this->actor);
         if (this->actor.params == DEKUBABA_BIG) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_DEAD);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_DEAD);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
         }
     }
 }

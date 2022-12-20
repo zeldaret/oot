@@ -18,7 +18,7 @@ void EnBdfire_DrawFire(EnBdfire* this, PlayState* play);
 void func_809BC2A4(EnBdfire* this, PlayState* play);
 void func_809BC598(EnBdfire* this, PlayState* play);
 
-const ActorInit En_Bdfire_InitVars = {
+ActorInit En_Bdfire_InitVars = {
     0,
     ACTORCAT_ENEMY,
     FLAGS,

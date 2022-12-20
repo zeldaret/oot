@@ -39,7 +39,7 @@ typedef enum {
     /* 9 */ TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME
 } TailpasaranAction;
 
-const ActorInit En_Tp_InitVars = {
+ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -286,7 +286,7 @@ void EnTp_SetupDie(EnTp* this) {
         }
 
         this->timer = 13;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TAIL_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
     this->actionIndex = TAILPASARAN_ACTION_DIE;
     EnTp_SetupAction(this, EnTp_Die);
@@ -605,11 +605,13 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
             } else {
                 if (phi_s4 != 0) {
                     this->actor.freezeTimer = 80;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (phi_s2 != 0) {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                     } else {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                             80);
                     }
                 }
 
@@ -618,12 +620,14 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
                     if (phi_s4 != 0) {
                         now->actor.freezeTimer = 80;
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
 
                         if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                                 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                                 80);
                         }
                     }
                 }
@@ -634,9 +638,11 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
                         now->actor.freezeTimer = 80;
 
                         if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                                 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                                 80);
                         }
                     }
                 }

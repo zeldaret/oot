@@ -17,7 +17,7 @@ void BgHidanDalm_Draw(Actor* thisx, PlayState* play);
 void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play);
 void BgHidanDalm_Shrink(BgHidanDalm* this, PlayState* play);
 
-const ActorInit Bg_Hidan_Dalm_InitVars = {
+ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
     ACTORCAT_BG,
     FLAGS,
@@ -138,15 +138,15 @@ void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play) {
         this->dyna.actor.world.pos.x += 32.5f * Math_SinS(this->dyna.actor.world.rot.y);
         this->dyna.actor.world.pos.z += 32.5f * Math_CosS(this->dyna.actor.world.rot.y);
 
-        func_8002DF54(play, &this->dyna.actor, 8);
+        func_8002DF54(play, &this->dyna.actor, PLAYER_CSMODE_8);
         this->dyna.actor.flags |= ACTOR_FLAG_4;
         this->actionFunc = BgHidanDalm_Shrink;
         this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->dyna.actor.speedXZ = 10.0f;
         Flags_SetSwitch(play, this->switchFlag);
-        func_8002F7DC(&GET_PLAYER(play)->actor, NA_SE_IT_HAMMER_HIT);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_DARUMA_VANISH);
+        Player_PlaySfx(GET_PLAYER(play), NA_SE_IT_HAMMER_HIT);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_DARUMA_VANISH);
     } else {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
@@ -159,7 +159,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, PlayState* play) {
     Vec3f pos;
 
     if (Math_StepToF(&this->dyna.actor.scale.x, 0.0f, 0.004f)) {
-        func_8002DF54(play, &this->dyna.actor, 7);
+        func_8002DF54(play, &this->dyna.actor, PLAYER_CSMODE_7);
         Actor_Kill(&this->dyna.actor);
     }
 

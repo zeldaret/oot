@@ -7,7 +7,7 @@
 #include "z_en_ex_item.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -32,7 +32,7 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play);
 
-const ActorInit En_Ex_Item_InitVars = {
+ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
     ACTORCAT_PROP,
     FLAGS,
@@ -386,14 +386,14 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play) {
         s32 getItemId;
 
         this->actor.draw = NULL;
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actor.parent = NULL;
         if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
             getItemId = GI_BULLET_BAG_40;
         } else {
             getItemId = GI_BULLET_BAG_50;
         }
-        func_8002F434(&this->actor, play, getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, getItemId, 2000.0f, 1000.0f);
         this->actionFunc = EnExItem_TargetPrizeGive;
     }
 }
@@ -406,7 +406,7 @@ void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play) {
     } else {
         getItemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
 
-        func_8002F434(&this->actor, play, getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, getItemId, 2000.0f, 1000.0f);
     }
 }
 

@@ -20,12 +20,14 @@
 #include "z64effect.h"
 #include "z64item.h"
 #include "z64animation.h"
+#include "z64animation_legacy.h"
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
 #include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
+#include "z64skybox.h"
 #include "alignment.h"
 #include "seqcmd.h"
 #include "sequence.h"
@@ -38,6 +40,9 @@
 #include "fault.h"
 #include "sched.h"
 #include "rumble.h"
+#include "mempak.h"
+#include "tha.h"
+#include "thga.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -105,20 +110,6 @@ typedef struct {
     /* 0x11308 */ Gfx unusedBuffer[0x20];
     /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC
 } GfxPool; // size = 0x12410
-
-typedef struct {
-    /* 0x0000 */ u32    size;
-    /* 0x0004 */ void*    bufp;
-    /* 0x0008 */ void*    head;
-    /* 0x000C */ void*    tail;
-} TwoHeadArena; // size = 0x10
-
-typedef struct {
-    /* 0x0000 */ u32    size;
-    /* 0x0004 */ Gfx*   bufp;
-    /* 0x0008 */ Gfx*   p;
-    /* 0x000C */ Gfx*   d;
-} TwoHeadGfxArena; // size = 0x10
 
 typedef struct GraphicsContext {
     /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
@@ -373,49 +364,6 @@ typedef struct {
 } SfxSource; // size = 0x1C
 
 typedef enum {
-    /* 0x00 */ SKYBOX_NONE,
-    /* 0x01 */ SKYBOX_NORMAL_SKY,
-    /* 0x02 */ SKYBOX_BAZAAR,
-    /* 0x03 */ SKYBOX_OVERCAST_SUNSET,
-    /* 0x04 */ SKYBOX_MARKET_ADULT,
-    /* 0x05 */ SKYBOX_CUTSCENE_MAP,
-    /* 0x07 */ SKYBOX_HOUSE_LINK = 7,
-    /* 0x09 */ SKYBOX_MARKET_CHILD_DAY = 9,
-    /* 0x0A */ SKYBOX_MARKET_CHILD_NIGHT,
-    /* 0x0B */ SKYBOX_HAPPY_MASK_SHOP,
-    /* 0x0C */ SKYBOX_HOUSE_KNOW_IT_ALL_BROTHERS,
-    /* 0x0E */ SKYBOX_HOUSE_OF_TWINS = 14,
-    /* 0x0F */ SKYBOX_STABLES,
-    /* 0x10 */ SKYBOX_HOUSE_KAKARIKO,
-    /* 0x11 */ SKYBOX_KOKIRI_SHOP,
-    /* 0x13 */ SKYBOX_GORON_SHOP = 19,
-    /* 0x14 */ SKYBOX_ZORA_SHOP,
-    /* 0x16 */ SKYBOX_POTION_SHOP_KAKARIKO = 22,
-    /* 0x17 */ SKYBOX_POTION_SHOP_MARKET,
-    /* 0x18 */ SKYBOX_BOMBCHU_SHOP,
-    /* 0x1A */ SKYBOX_HOUSE_RICHARD = 26,
-    /* 0x1B */ SKYBOX_HOUSE_IMPA,
-    /* 0x1C */ SKYBOX_TENT,
-    /* 0x1D */ SKYBOX_UNSET_1D,
-    /* 0x20 */ SKYBOX_HOUSE_MIDO = 32,
-    /* 0x21 */ SKYBOX_HOUSE_SARIA,
-    /* 0x22 */ SKYBOX_HOUSE_ALLEY,
-    /* 0x27 */ SKYBOX_UNSET_27 = 39
-} SkyboxId;
-
-typedef struct {
-    /* 0x000 */ char unk_00[0x128];
-    /* 0x128 */ void* staticSegments[2];
-    /* 0x130 */ u16 (*palettes)[256];
-    /* 0x134 */ Gfx (*dListBuf)[150];
-    /* 0x138 */ Gfx* unk_138;
-    /* 0x13C */ Vtx* roomVtx;
-    /* 0x140 */ s16  unk_140;
-    /* 0x144 */ Vec3f rot;
-    /* 0x150 */ char unk_150[0x10];
-} SkyboxContext; // size = 0x160
-
-typedef enum {
     TEXTBOX_ICON_TRIANGLE,
     TEXTBOX_ICON_SQUARE,
     TEXTBOX_ICON_ARROW
@@ -431,10 +379,13 @@ typedef enum {
 // TODO get these properties from the textures themselves
 #define FONT_CHAR_TEX_WIDTH  16
 #define FONT_CHAR_TEX_HEIGHT 16
-#define FONT_CHAR_TEX_SIZE ((16 * 16) / 2) // 16x16 I4 texture
+#define FONT_CHAR_TEX_SIZE ((FONT_CHAR_TEX_WIDTH * FONT_CHAR_TEX_HEIGHT) / 2) // 16x16 I4 texture
 
 // TODO get these properties from the textures themselves
 #define MESSAGE_STATIC_TEX_SIZE 0x1000
+
+// TODO get these properties from the textures themselves
+#define MESSAGE_TEXTURE_STATIC_TEX_SIZE 0x900
 
 typedef enum {
     /* 0x00 */ MSGMODE_NONE,
@@ -627,6 +578,11 @@ typedef enum {
     /* 0x1D */ DO_ACTION_MAX
 } DoAction;
 
+// TODO extract this information from the texture definitions themselves
+#define DO_ACTION_TEX_WIDTH 48
+#define DO_ACTION_TEX_HEIGHT 16
+#define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   actionVtx;
@@ -702,6 +658,14 @@ typedef struct {
         /* 0x026D */ u8    all;        // "another"; enables all item restrictions
     }                   restrictions;
 } InterfaceContext; // size = 0x270
+
+typedef enum {
+    /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
+    /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
+    /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
+    /* 3 */ PAUSE_BG_PRERENDER_DONE, // The pause background is ready to be used.
+    /* 4 */ PAUSE_BG_PRERENDER_MAX
+} PauseBgPreRenderState;
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
@@ -1067,7 +1031,7 @@ typedef struct GameState {
     /* 0x84 */ GameAlloc alloc;
     /* 0x98 */ u32 running;
     /* 0x9C */ u32 frames;
-    /* 0xA0 */ u32 unk_A0;
+    /* 0xA0 */ u32 inPreNMIState;
 } GameState; // size = 0xA4
 
 typedef struct {
@@ -1173,7 +1137,7 @@ typedef struct PlayState {
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct PlayState* play);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
     /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
-    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 mode);
+    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 csMode);
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct PlayState* play);
     /* 0x11D58 */ s32 (*damagePlayer)(struct PlayState* play, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct PlayState* play, Actor* actor);
@@ -1303,47 +1267,6 @@ typedef struct {
     /* 0x1CAD6 */ s16 unk_1CAD6[5];
 } FileSelectState; // size = 0x1CAE0
 
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              playSpeed;
-    /* 0x08 */ f32              startFrame;
-    /* 0x0C */ f32              frameCount;
-    /* 0x10 */ u8               mode;
-    /* 0x14 */ f32              morphFrames;
-} AnimationInfo; // size = 0x18
-
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              frameCount;
-    /* 0x08 */ u8               mode;
-    /* 0x0C */ f32              morphFrames;
-} AnimationFrameCountInfo; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32 playSpeed;
-    /* 0x08 */ u8 mode;
-    /* 0x0C */ f32 morphFrames;
-} AnimationSpeedInfo; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ u8 mode;
-    /* 0x08 */ f32 morphFrames;
-} AnimationMinimalInfo; // size = 0xC
-
-typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ Vec3s unk_08;
-    /* 0x0E */ Vec3s unk_0E;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ s16 unk_24;
-} struct_80034A14_arg1; // size = 0x28
-
 // Macros for `EntranceInfo.field`
 #define ENTRANCE_INFO_CONTINUE_BGM_FLAG (1 << 15)
 #define ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG (1 << 14)
@@ -1437,6 +1360,25 @@ typedef struct {
     /* 0x68 */ u8  (*floorID)[8];
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
+
+// TODO get these properties from the textures themselves
+#define MAP_I_TEX_WIDTH 96
+#define MAP_I_TEX_HEIGHT 85
+#define MAP_I_TEX_SIZE ((MAP_I_TEX_WIDTH * MAP_I_TEX_HEIGHT) / 2) // 96x85 I4 texture
+
+#define MAP_48x85_TEX_WIDTH 48
+#define MAP_48x85_TEX_HEIGHT 85
+#define MAP_48x85_TEX_SIZE ((MAP_48x85_TEX_WIDTH * MAP_48x85_TEX_HEIGHT) / 2) // 48x85 CI4 texture
+
+// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
+// texture format for ITEM_NAME_TEX_* 
+#define MAP_NAME_TEX1_WIDTH 128
+#define MAP_NAME_TEX1_HEIGHT 16
+#define MAP_NAME_TEX1_SIZE ((MAP_NAME_TEX1_WIDTH * MAP_NAME_TEX1_HEIGHT) / 2) // 128x16 IA4 texture
+
+#define MAP_NAME_TEX2_WIDTH 80
+#define MAP_NAME_TEX2_HEIGHT 32
+#define MAP_NAME_TEX2_SIZE (MAP_NAME_TEX2_WIDTH * MAP_NAME_TEX2_HEIGHT) // 80x32 IA8 texture
 
 #define PAUSE_MAP_MARK_NONE -1
 #define PAUSE_MAP_MARK_CHEST 0
@@ -1725,20 +1667,27 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
 } JpegDecoderState; // size = 0x14
 
+typedef enum {
+    /* 0 */ VI_MODE_EDIT_STATE_INACTIVE,
+    /* 1 */ VI_MODE_EDIT_STATE_ACTIVE,
+    /* 2 */ VI_MODE_EDIT_STATE_2, // active, more adjustments
+    /* 3 */ VI_MODE_EDIT_STATE_3  // active, more adjustments, print comparison with NTSC LAN1 mode
+} ViModeEditState;
+
 typedef struct {
     /* 0x0000 */ OSViMode customViMode;
     /* 0x0050 */ s32 viHeight;
     /* 0x0054 */ s32 viWidth;
-    /* 0x0058 */ s32 unk_58; // Right adjustment?
-    /* 0x005C */ s32 unk_5C; // Left adjustment?
-    /* 0x0060 */ s32 unk_60; // Bottom adjustment?
-    /* 0x0064 */ s32 unk_64; // Top adjustment?
-    /* 0x0068 */ s32 viModeBase; // enum: {0, 1, 2, 3}
-    /* 0x006C */ s32 viTvType;
-    /* 0x0070 */ u32 unk_70; // bool
-    /* 0x0074 */ u32 unk_74; // bool
-    /* 0x0078 */ u32 unk_78; // bool
-    /* 0x007C */ u32 unk_7C; // bool
+    /* 0x0058 */ s32 rightAdjust;
+    /* 0x005C */ s32 leftAdjust;
+    /* 0x0060 */ s32 lowerAdjust;
+    /* 0x0064 */ s32 upperAdjust;
+    /* 0x0068 */ s32 editState;
+    /* 0x006C */ s32 tvType;
+    /* 0x0070 */ u32 loRes;
+    /* 0x0074 */ u32 antialiasOff;
+    /* 0x0078 */ u32 modeN; // Controls interlacing, the meaning of this mode is different based on choice of resolution
+    /* 0x007C */ u32 fb16Bit;
     /* 0x0080 */ u32 viFeatures;
     /* 0x0084 */ u32 unk_84;
 } ViMode;
@@ -1825,11 +1774,6 @@ typedef struct {
     /* 0x00 */ u16* value;
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ RomFile file;
-    /* 0x08 */ RomFile palette;
-} SkyboxFile; // size = 0x10
 
 #define ROM_FILE(name) \
     { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomEnd }

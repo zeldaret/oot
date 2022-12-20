@@ -28,7 +28,7 @@ void EnJj_WaitForFish(EnJj* this, PlayState* play);
 void EnJj_BeginCutscene(EnJj* this, PlayState* play);
 void EnJj_RemoveDust(EnJj* this, PlayState* play);
 
-const ActorInit En_Jj_InitVars = {
+ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -258,7 +258,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
     }
 
     if (this->unk_30A & 1) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
 
         if (this->mouthOpenAngle >= -5200) {
             this->mouthOpenAngle -= 102;
@@ -292,7 +292,7 @@ void EnJj_Update(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
 
         if (this->skelAnime.curFrame == 41.0f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
 

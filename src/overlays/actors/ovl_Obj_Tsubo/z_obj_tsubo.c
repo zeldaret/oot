@@ -36,7 +36,7 @@ static s16 D_80BA1B54 = 0;
 static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
-const ActorInit Obj_Tsubo_InitVars = {
+ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,
     ACTORCAT_PROP,
     FLAGS,
@@ -266,7 +266,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
             phi_v1 = ABS(temp_v0);
             if (phi_v1 >= 0x5556) {
                 // GI_NONE in this case allows the player to lift the actor
-                func_8002F434(&this->actor, play, GI_NONE, 30.0f, 30.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_NONE, 30.0f, 30.0f);
             }
         }
     }
@@ -275,7 +275,8 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
 void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actionFunc = ObjTsubo_LiftedUp;
     this->actor.room = -1;
-    func_8002F7DC(&this->actor, NA_SE_PL_PULL_UP_POT);
+    //! @bug: This is an unsafe cast, although the sound effect will still play
+    Player_PlaySfx((Player*)&this->actor, NA_SE_PL_PULL_UP_POT);
     this->actor.flags |= ACTOR_FLAG_4;
 }
 

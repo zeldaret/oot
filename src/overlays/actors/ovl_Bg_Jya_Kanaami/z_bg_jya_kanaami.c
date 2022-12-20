@@ -21,7 +21,7 @@ void func_8089993C(BgJyaKanaami* this);
 void func_80899950(BgJyaKanaami* this, PlayState* play);
 void func_80899A08(BgJyaKanaami* this);
 
-const ActorInit Bg_Jya_Kanaami_InitVars = {
+ActorInit Bg_Jya_Kanaami_InitVars = {
     ACTOR_BG_JYA_KANAAMI,
     ACTORCAT_BG,
     FLAGS,
@@ -102,7 +102,7 @@ void func_80899950(BgJyaKanaami* this, PlayState* play) {
     this->unk_168 += 0x20;
     if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
 
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
         Quake_SetSpeed(quakeIndex, 25000);

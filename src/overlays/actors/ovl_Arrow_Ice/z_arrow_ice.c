@@ -21,7 +21,7 @@ void ArrowIce_Hit(ArrowIce* this, PlayState* play);
 
 #include "assets/overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c"
 
-const ActorInit Arrow_Ice_InitVars = {
+ActorInit Arrow_Ice_InitVars = {
     ACTOR_ARROW_ICE,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -165,7 +165,7 @@ void ArrowIce_Fly(ArrowIce* this, PlayState* play) {
     func_80867E8C(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_EXPLOSION_ICE);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_EXPLOSION_ICE);
         ArrowIce_SetupAction(this, ArrowIce_Hit);
         this->timer = 32;
         this->alpha = 255;

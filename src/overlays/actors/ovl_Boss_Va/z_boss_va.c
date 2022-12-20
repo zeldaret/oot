@@ -188,7 +188,7 @@ void BossVa_SpawnBloodDroplets(PlayState* play, BossVaEffect* effect, Vec3f* pos
 void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpread, f32 ySpread, u8 mode, f32 range,
                   u8 fixed);
 
-const ActorInit Boss_Va_InitVars = {
+ActorInit Boss_Va_InitVars = {
     ACTOR_BOSS_VA,
     ACTORCAT_BOSS,
     FLAGS,
@@ -507,33 +507,33 @@ void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpr
 }
 
 void BossVa_SetSparkEnv(PlayState* play) {
-    play->envCtx.adjAmbientColor[0] = 0xA;
-    play->envCtx.adjAmbientColor[1] = 0xA;
-    play->envCtx.adjAmbientColor[2] = 0xA;
-    play->envCtx.adjLight1Color[0] = 0x73;
-    play->envCtx.adjLight1Color[1] = 0x41;
-    play->envCtx.adjLight1Color[2] = 0x64;
-    play->envCtx.adjFogColor[0] = 0x78;
-    play->envCtx.adjFogColor[1] = 0x78;
-    play->envCtx.adjFogColor[2] = 0x46;
+    play->envCtx.adjAmbientColor[0] = 10;
+    play->envCtx.adjAmbientColor[1] = 10;
+    play->envCtx.adjAmbientColor[2] = 10;
+    play->envCtx.adjLight1Color[0] = 115;
+    play->envCtx.adjLight1Color[1] = 65;
+    play->envCtx.adjLight1Color[2] = 100;
+    play->envCtx.adjFogColor[0] = 120;
+    play->envCtx.adjFogColor[1] = 120;
+    play->envCtx.adjFogColor[2] = 70;
 }
 
 void BossVa_SetDeathEnv(PlayState* play) {
-    play->envCtx.adjFogColor[0] = 0xDC;
-    play->envCtx.adjFogColor[1] = 0xDC;
-    play->envCtx.adjFogColor[2] = 0x96;
-    play->envCtx.adjFogNear = -0x3E8;
-    play->envCtx.adjFogFar = -0x384;
-    play->envCtx.adjAmbientColor[0] = 0xC8;
-    play->envCtx.adjAmbientColor[1] = 0xC8;
-    play->envCtx.adjAmbientColor[2] = 0xC8;
-    play->envCtx.adjLight1Color[0] = 0xD7;
-    play->envCtx.adjLight1Color[1] = 0xA5;
-    play->envCtx.adjLight1Color[2] = 0xC8;
-    play->envCtx.screenFillColor[0] = 0xDC;
-    play->envCtx.screenFillColor[1] = 0xDC;
-    play->envCtx.screenFillColor[2] = 0x96;
-    play->envCtx.screenFillColor[3] = 0x64;
+    play->envCtx.adjFogColor[0] = 220;
+    play->envCtx.adjFogColor[1] = 220;
+    play->envCtx.adjFogColor[2] = 150;
+    play->envCtx.adjFogNear = -1000;
+    play->envCtx.adjZFar = -900;
+    play->envCtx.adjAmbientColor[0] = 200;
+    play->envCtx.adjAmbientColor[1] = 200;
+    play->envCtx.adjAmbientColor[2] = 200;
+    play->envCtx.adjLight1Color[0] = 215;
+    play->envCtx.adjLight1Color[1] = 165;
+    play->envCtx.adjLight1Color[2] = 200;
+    play->envCtx.screenFillColor[0] = 220;
+    play->envCtx.screenFillColor[1] = 220;
+    play->envCtx.screenFillColor[2] = 150;
+    play->envCtx.screenFillColor[3] = 100;
 }
 
 EnBoom* BossVa_FindBoomerang(PlayState* play) {
@@ -640,7 +640,7 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
                 if (GET_EVENTCHKINF(EVENTCHKINF_76)) {
                     sCsState = INTRO_CALL_BARI;
                     sDoorState = 100;
-                    func_8002DF54(play, &this->actor, 1);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
                     play->envCtx.screenFillColor[0] = 0xDC;
                     play->envCtx.screenFillColor[1] = 0xDC;
                     play->envCtx.screenFillColor[2] = 0xBE;
@@ -655,7 +655,7 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
                     sSubCamAtNext.x = sSubCamAt.x = 10.0f;
                     sSubCamAtNext.y = sSubCamAt.y = 50.0f;
                     sSubCamAtNext.z = sSubCamAt.z = -220.0f;
-                    Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+                    Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
                     this->timer = 20;
 
                     for (i = BOSSVA_BARI_LOWER_5; i >= BOSSVA_BARI_UPPER_1; i--) {
@@ -781,7 +781,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             play->envCtx.screenFillColor[1] = 0xDC;
             play->envCtx.screenFillColor[2] = 0xBE;
             play->envCtx.screenFillColor[3] = 0xD2;
-            func_8002DF54(play, &this->actor, 8);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             player->actor.world.rot.y = player->actor.shape.rot.y = 0x7FFF;
             sCsState++;
             break;
@@ -809,7 +809,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
         case INTRO_CLOSE_DOOR:
             this->timer--;
             if (this->timer == 0) {
-                func_8002DF54(play, &this->actor, 2);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_2);
                 sCsState++;
                 this->timer = 30;
             }
@@ -820,11 +820,11 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 sCsState++;
             }
             if (Rand_ZeroOne() < 0.1f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
             }
             break;
         case INTRO_CRACKLE:
-            func_8002DF54(play, &this->actor, 1);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             sCsState++;
             break;
         case INTRO_SPAWN_BARI:
@@ -935,7 +935,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             for (i = 10; i >= 1; i--) {
                 if (sBodyBari[i - 1]) {
                     if (sBodyBari[i - 1] == 1) {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_STICK);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_STICK);
                         BossVa_SetSparkEnv(play);
                         if (this->onCeiling == 0) {
                             this->onCeiling = 2; // Not used by body
@@ -955,7 +955,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             sSubCamAtMaxVelFrac = sSubCamEyeMaxVelFrac;
             if (this->timer >= 45000) {
                 play->envCtx.lightSettingOverride = 1;
-                func_8002DF54(play, &this->actor, 8);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             } else if (this->timer >= 35000) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
@@ -978,7 +978,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 }
 
                 if (Rand_ZeroOne() < 0.1f) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
                 }
 
                 this->timer = 40;
@@ -1012,7 +1012,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
                 sSubCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 sCsState++;
                 SET_EVENTCHKINF(EVENTCHKINF_76);
                 player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
@@ -1039,7 +1039,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
         Math_SmoothStepToF(&sSubCamAt.x, sSubCamAtNext.x, 0.3f, sSubCamAtMaxVelFrac.x, 0.075f);
         Math_SmoothStepToF(&sSubCamAt.y, sSubCamAtNext.y, 0.3f, sSubCamAtMaxVelFrac.y, 0.075f);
         Math_SmoothStepToF(&sSubCamAt.z, sSubCamAtNext.z, 0.3f, sSubCamAtMaxVelFrac.z, 0.075f);
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 }
 
@@ -1075,8 +1075,8 @@ void BossVa_BodyPhase1(BossVa* this, PlayState* play) {
 
     if (sBodyState & 0x7F) {
         this->skelAnime.curFrame = 0.0f;
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
     }
 
     if (SkelAnime_Update(&this->skelAnime) && (sFightPhase >= PHASE_2)) {
@@ -1093,7 +1093,7 @@ void BossVa_BodyPhase1(BossVa* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);
@@ -1126,7 +1126,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     if (this->actor.colorFilterTimer == 0) {
         sPhase2Timer++;
         if ((this->invincibilityTimer != 0) && (this->actor.colorFilterParams & 0x4000)) {
-            Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
             this->actor.colorFilterTimer = this->invincibilityTimer;
         } else {
             this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
@@ -1138,7 +1138,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 
         if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
             sPhase2Timer &= 0xFE00;
-            Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
             this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
         } else {
             sKillBari++;
@@ -1149,10 +1149,10 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
                 }
             }
 
-            Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
         }
 
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_FAINT);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_FAINT);
     }
 
     if (this->colliderBody.base.atFlags & AT_HIT) {
@@ -1161,7 +1161,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
         sPhase2Timer = (sPhase2Timer + 0x18) & 0xFFF0;
         if (this->colliderBody.base.at == &player->actor) {
             func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
-            Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
 
@@ -1174,7 +1174,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.x, this->actor.world.rot.x, 1, 0xC8, 0);
@@ -1237,14 +1237,14 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
         if (this->colliderBody.base.at == &player->actor) {
             func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
-            Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
 
     if (this->colliderBody.base.acFlags & AC_HIT) {
         this->skelAnime.curFrame = 0.0f;
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_FAINT);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_FAINT);
         sBodyState = 1;
         this->timer = 131;
         this->actor.flags &= ~ACTOR_FLAG_0;
@@ -1316,7 +1316,7 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 20.0f;
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);
@@ -1358,11 +1358,11 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         if (this->colliderBody.base.at == &player->actor) {
             func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             this->actor.world.rot.y += (s16)Rand_CenteredFloat(0x2EE0) + 0x8000;
-            Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     if (this->colliderBody.base.acFlags & AC_HIT) {
@@ -1373,8 +1373,8 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 this->invincibilityTimer = 8;
                 if (this->actor.colChkInfo.damageEffect != 1) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
                     sPhase4HP -= this->actor.colChkInfo.damage;
                     if (sPhase4HP <= 0) {
                         this->timer = 0;
@@ -1392,8 +1392,8 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                     this->timer = (s16)Rand_CenteredFloat(40.0f) + 160;
                     this->vaBodySpinRate = 0;
                     this->actor.speedXZ = 0.0f;
-                    Actor_SetColorFilter(&this->actor, 0, 125, 0, 255);
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_FAINT);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 125, COLORFILTER_BUFFLAG_OPA, 255);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_FAINT);
                 }
             }
         } else if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
@@ -1401,7 +1401,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
             boomerang->returnTimer = 0;
             boomerang->moveTo = &player->actor;
             boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
         }
     } else if ((this->timer2 == 0) && (this->actor.shape.yOffset == 0.0f)) {
         this->timer = -220 - (s16)(Rand_ZeroOne() * 200.0f);
@@ -1530,7 +1530,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
 
     switch (sCsState) {
         case DEATH_START:
-            func_8002DF54(play, &this->actor, 1);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             func_80064520(play, &play->csCtx);
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1592,7 +1592,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
                 EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_BALINADE_DEAD, 1, 1, 0x28);
                 this->onCeiling = 2; // Not used by body
                 BossVa_SetDeathEnv(play);
-                func_8002DF54(play, &this->actor, 8);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             }
             break;
         case DEATH_CORE_BURST:
@@ -1633,7 +1633,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
 
                 mainCam->at = sSubCamAt;
 
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 sCsState++;
 
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -1663,7 +1663,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
         Math_SmoothStepToF(&sSubCamAt.x, sSubCamAtNext.x, 0.3f, sSubCamAtMaxVelFrac.x, 0.15f);
         Math_SmoothStepToF(&sSubCamAt.y, sSubCamAtNext.y, 0.3f, sSubCamAtMaxVelFrac.y, 0.15f);
         Math_SmoothStepToF(&sSubCamAt.z, sSubCamAtNext.z, 0.3f, sSubCamAtMaxVelFrac.z, 0.15f);
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -1703,7 +1703,7 @@ void BossVa_SupportIntro(BossVa* this, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 1.0f, 0.05f, 0.0f);
         if (Rand_ZeroOne() < 0.1f) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
         }
     }
 }
@@ -1718,7 +1718,7 @@ void BossVa_SetupSupportAttached(BossVa* this, PlayState* play) {
 void BossVa_SupportAttached(BossVa* this, PlayState* play) {
     this->timer++;
     if (sBodyState & 0x7F) {
-        Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
+        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
         if (Rand_ZeroOne() > 0.5f) {
             Animation_Change(&this->skelAnime, &gBarinadeSupportDamage1Anim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gBarinadeSupportDamage1Anim), ANIMMODE_ONCE, 0.0f);
@@ -1735,7 +1735,7 @@ void BossVa_SupportAttached(BossVa* this, PlayState* play) {
 
     BossVa_AttachToBody(this);
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     if (this->colliderSph.base.acFlags & AC_HIT) {
@@ -1834,7 +1834,7 @@ void BossVa_SupportCut(BossVa* this, PlayState* play) {
                 if (this->timer2 >= 32) {
                     this->burst++;
                     this->isDead = true;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BREAK2);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BREAK2);
                     if (this->actor.params == BOSSVA_SUPPORT_3) {
                         sCsState++;
                     }
@@ -2045,7 +2045,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
                 }
 
                 if (Rand_ZeroOne() < 0.1f) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
                 }
             }
         }
@@ -2053,7 +2053,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
         if (this->burst || (this->timer2 < 0)) {
             if (this->colliderLightning.base.atFlags & AT_HIT) {
                 if (this->timer2 > 0) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
                     BossVa_SetSparkEnv(play);
                     this->timer2 = -1;
                     GET_BODY(this)->onCeiling = 6; // not used by body
@@ -2079,7 +2079,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
     if (this->burst && (this->burst != 2)) { // burst can never be 2
         if (this->timer2 >= 32) {
             if (this->timer2 == 32) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_THUNDER);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_THUNDER);
             }
             BossVa_Spark(play, this, 2, 110, 15.0f, 15.0f, SPARK_BLAST, 5.0f, true);
             BossVa_Spark(play, this, 2, 110, 15.0f, 15.0f, SPARK_BLAST, 6.0f, true);
@@ -2114,7 +2114,7 @@ void BossVa_SetupZapperDamaged(BossVa* this, PlayState* play) {
                          Animation_GetLastFrame(&gBarinadeZapperDamage2Anim), ANIMMODE_ONCE_INTERP, 4.0f);
     }
 
-    Actor_SetColorFilter(&this->actor, 0, 255, 0, 12);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 12);
     this->burst = false;
     BossVa_SetupAction(this, BossVa_ZapperDamaged);
 }
@@ -2196,7 +2196,7 @@ void BossVa_ZapperDeath(BossVa* this, PlayState* play) {
                         this->burst++;
                         this->isDead = true;
                         BossVa_SetDeathEnv(play);
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BREAK2);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BREAK2);
                     }
                 } else {
                     this->burst++;
@@ -2304,7 +2304,7 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
                 this->burst++;
                 this->unk_1D8 = sp54;
                 if (Rand_ZeroOne() < 0.1f) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
                 }
             }
         }
@@ -2312,7 +2312,7 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
         if (this->burst || (this->timer2 < 0)) {
             if (this->colliderLightning.base.atFlags & AT_HIT) {
                 if (this->timer2 > 0) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HIT_RINK);
                     BossVa_SetSparkEnv(play);
                     this->timer2 = -1;
                     GET_BODY(this)->onCeiling = 6; // not used by body
@@ -2338,7 +2338,7 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
     if (this->burst && (this->burst != 2)) { // burst can never be 2
         if (this->timer2 >= 16) {
             if (this->timer2 == 18) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_THUNDER);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_THUNDER);
             }
 
             BossVa_Spark(play, this, 2, 110, 15.0f, 15.0f, SPARK_BLAST, 5.0f, true);
@@ -2417,7 +2417,7 @@ void BossVa_BariIntro(BossVa* this, PlayState* play) {
     switch (sCsState) {
         case INTRO_LOOK_BARI:
             if (this->actor.params == BOSSVA_BARI_UPPER_1) {
-                func_8002DF54(play, &this->actor, 1);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
                 if (Math_SmoothStepToF(&this->actor.world.pos.y, 60.0f, 0.3f, 1.0f, 0.15f) == 0.0f) {
                     this->timer--;
                     if (this->timer == 0) {
@@ -2509,7 +2509,7 @@ void BossVa_BariIntro(BossVa* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 }
 
@@ -2543,7 +2543,7 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
     if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderSph.base.atFlags & AT_HIT)) {
         if ((this->colliderLightning.base.at == &player->actor) || (this->colliderSph.base.at == &player->actor)) {
             func_8002F71C(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer, 8.0f);
-            Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             this->colliderSph.base.at = NULL;
             this->colliderLightning.base.at = NULL;
         }
@@ -2559,7 +2559,7 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
             boomerang->returnTimer = 0;
             boomerang->moveTo = &player->actor;
             boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
         }
     }
 
@@ -2591,7 +2591,7 @@ void BossVa_BariPhase3Attack(BossVa* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     this->actor.world.rot.y += this->unk_1AC;
@@ -2638,7 +2638,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
     if ((this->colliderLightning.base.atFlags & AT_HIT) || (this->colliderSph.base.atFlags & AT_HIT)) {
         if ((this->colliderLightning.base.at == &player->actor) || (this->colliderSph.base.at == &player->actor)) {
             func_8002F71C(play, &this->actor, 8.0f, GET_BODY(this)->actor.yawTowardsPlayer, 8.0f);
-            Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             this->colliderSph.base.at = NULL;
             this->colliderLightning.base.at = NULL;
         }
@@ -2673,7 +2673,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
                 boomerang->returnTimer = 0;
                 boomerang->moveTo = &player->actor;
                 boomerang->actor.world.rot.y = boomerang->actor.yawTowardsPlayer;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+                Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
             }
         }
 
@@ -2687,7 +2687,8 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
         } else {
             this->unk_1AC = 0;
             if (this->actor.colorFilterTimer == 0) {
-                Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, GET_BODY(this)->actor.colorFilterTimer);
+                Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                     GET_BODY(this)->actor.colorFilterTimer);
             }
         }
 
@@ -2704,7 +2705,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
     }
 
     if (Rand_ZeroOne() < 0.1f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
     if (GET_BODY(this)->actor.colorFilterTimer == 0) {
@@ -2722,7 +2723,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
 void BossVa_SetupBariPhase3Stunned(BossVa* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_0;
     this->timer = GET_BODY(this)->timer;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, this->timer);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, this->timer);
     BossVa_SetupAction(this, BossVa_BariPhase3Stunned);
 }
 
@@ -2764,7 +2765,7 @@ void BossVa_BariPhase3Stunned(BossVa* this, PlayState* play) {
 void BossVa_SetupBariDeath(BossVa* this) {
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->timer = 30;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_BL_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_DEAD);
     this->isDead++;
     BossVa_SetupAction(this, BossVa_BariDeath);
 }
@@ -2786,7 +2787,7 @@ void BossVa_SetupDoor(BossVa* this, PlayState* play) {
 
 void BossVa_Door(BossVa* this, PlayState* play) {
     if (sDoorState == 29) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_BUYODOOR_CLOSE);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_BUYODOOR_CLOSE);
     }
 
     if (sCsState <= INTRO_DOOR_SHUT) {
@@ -3185,16 +3186,16 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     switch (this->actor.params) {
         case BOSSVA_BODY:
             if (play->envCtx.adjFogNear != 0) {
-                play->envCtx.adjFogNear += 0x15E;
+                play->envCtx.adjFogNear += 350;
                 if (play->envCtx.adjFogNear > 0) {
                     play->envCtx.adjFogNear = 0;
                 }
             }
 
-            if (play->envCtx.adjFogFar != 0) {
-                play->envCtx.adjFogFar += 0x15E;
-                if (play->envCtx.adjFogFar > 0) {
-                    play->envCtx.adjFogFar = 0;
+            if (play->envCtx.adjZFar != 0) {
+                play->envCtx.adjZFar += 350;
+                if (play->envCtx.adjZFar > 0) {
+                    play->envCtx.adjZFar = 0;
                 }
             }
 

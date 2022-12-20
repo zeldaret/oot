@@ -25,7 +25,7 @@ void func_809DF8FC(EnCow* this, PlayState* play);
 void func_809DF96C(EnCow* this, PlayState* play);
 void func_809DFA84(EnCow* this, PlayState* play);
 
-const ActorInit En_Cow_InitVars = {
+ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
     ACTORCAT_NPC,
     FLAGS,
@@ -116,7 +116,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
             Collider_SetCylinder(play, &this->colliders[1], &this->actor, &sCylinderInit);
             func_809DEE9C(this);
             this->actionFunc = func_809DF96C;
-            if (play->sceneId == SCENE_LINK_HOME) {
+            if (play->sceneId == SCENE_LINKS_HOUSE) {
                 if (!LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
                     return;
@@ -213,7 +213,7 @@ void func_809DF778(EnCow* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = func_809DF730;
     } else {
-        func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
@@ -222,7 +222,7 @@ void func_809DF7D8(EnCow* this, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         Message_CloseTextbox(play);
         this->actionFunc = func_809DF778;
-        func_8002F434(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
@@ -305,7 +305,7 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
     Actor_UpdateBgCheckInfo(play, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->skelAnime.animation == &gCowBodyChewAnim) {
-            Audio_PlayActorSfx2(thisx, NA_SE_EV_COW_CRY);
+            Actor_PlaySfx(thisx, NA_SE_EV_COW_CRY);
             Animation_Change(&this->skelAnime, &gCowBodyMoveHeadAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gCowBodyMoveHeadAnim), ANIMMODE_ONCE, 1.0f);
         } else {

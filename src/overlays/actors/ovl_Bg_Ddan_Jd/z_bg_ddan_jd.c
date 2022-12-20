@@ -17,7 +17,7 @@ void BgDdanJd_Draw(Actor* thisx, PlayState* play);
 void BgDdanJd_Idle(BgDdanJd* this, PlayState* play);
 void BgDdanJd_Move(BgDdanJd* this, PlayState* play);
 
-const ActorInit Bg_Ddan_Jd_InitVars = {
+ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORCAT_BG,
     FLAGS,
@@ -162,7 +162,7 @@ void BgDdanJd_Move(BgDdanJd* this, PlayState* play) {
         this->actionFunc = BgDdanJd_Idle;
         OnePointCutscene_Init(play, 3060, -99, &this->dyna.actor, CAM_ID_MAIN);
     } else if (Math_StepToF(&this->dyna.actor.world.pos.y, this->targetY, this->ySpeed)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
         this->actionFunc = BgDdanJd_Idle;
     }
     BgDdanJd_MoveEffects(this, play);

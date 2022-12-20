@@ -22,7 +22,7 @@ extern CutsceneData D_808BB2F0[];
 extern CutsceneData D_808BB7A0[];
 extern CutsceneData D_808BBD90[];
 
-const ActorInit Bg_Toki_Swd_InitVars = {
+ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
     ACTORCAT_PROP,
     FLAGS,
@@ -114,7 +114,7 @@ void func_808BAF40(BgTokiSwd* this, PlayState* play) {
             BgTokiSwd_SetupAction(this, func_808BB0AC);
         } else {
             if (Actor_IsFacingPlayer(&this->actor, 0x2000)) {
-                func_8002F580(&this->actor, play);
+                Actor_OfferCarry(&this->actor, play);
             }
         }
     }
@@ -133,8 +133,8 @@ void func_808BB0AC(BgTokiSwd* this, PlayState* play) {
     // if sword has a parent it has been pulled/placed from the pedestal
     if (Actor_HasParent(&this->actor, play)) {
         if (!LINK_IS_ADULT) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SWORD_PUTAWAY_STN);
-            this->actor.draw = NULL; // sword has been pulled, dont draw sword
+            Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_PUTAWAY_STN);
+            this->actor.draw = NULL; // sword has been pulled, don't draw sword
         } else {
             this->actor.draw = BgTokiSwd_Draw; // sword has been placed, draw the master sword
         }

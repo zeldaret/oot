@@ -16,7 +16,7 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
-const ActorInit Bg_Sst_Floor_InitVars = {
+ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
     ACTORCAT_BG,
     FLAGS,
@@ -68,7 +68,7 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
 
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna) && (player->fallDistance > 1000.0f)) {
         this->dyna.actor.params = 1;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_SHADEST_TAIKO_HIGH);
     }
 
     if (this->dyna.actor.params == BONGOFLOOR_HIT) {

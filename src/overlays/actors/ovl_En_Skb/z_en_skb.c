@@ -113,7 +113,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-const ActorInit En_Skb_InitVars = {
+ActorInit En_Skb_InitVars = {
     ACTOR_EN_SKB,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -211,7 +211,7 @@ void EnSkb_SetupRiseFromGround(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->actionState = SKB_BEHAVIOR_BURIED;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIVA_APPEAR);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, EnSkb_RiseFromGround);
 }
 
@@ -239,7 +239,7 @@ void EnSkb_SetupDespawn(EnSkb* this) {
     this->setColliderAT = false;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     EnSkb_SetupAction(this, EnSkb_Despawn);
 }
 
@@ -291,7 +291,7 @@ void EnSkb_WalkForward(EnSkb* this, PlayState* play) {
         if (((prevKeyFrame < 9) && (((s32)playSpeed + thisKeyFrame) >= 8)) ||
             !((prevKeyFrame >= 16) || (((s32)playSpeed + thisKeyFrame) < 15))) {
 
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_WALK);
         }
     }
     if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) > 800.0f || IS_DAY) {
@@ -316,7 +316,7 @@ void EnSkb_Attack(EnSkb* this, PlayState* play) {
 
     frameData = this->skelAnime.curFrame;
     if (frameData == 3) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_ATTACK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->setColliderAT = true;
     } else if (frameData == 6) {
         this->setColliderAT = false;
@@ -348,7 +348,7 @@ void EnSkb_SetupStunned(EnSkb* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->setColliderAT = false;
     this->actionState = SKB_BEHAVIOR_STUNNED;
     EnSkb_SetupAction(this, EnSkb_Stunned);
@@ -378,7 +378,7 @@ void EnSkb_SetupTakeDamage(EnSkb* this) {
         this->actor.speedXZ = -4.0f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALKID_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_STALKID_DAMAGE);
     this->actionState = SKB_BEHAVIOR_DAMAGED;
     EnSkb_SetupAction(this, EnSkb_TakeDamage);
 }
@@ -463,7 +463,8 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                 this->setColliderAT = false;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->actionState != SKB_BEHAVIOR_STUNNED) {
-                        Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                         Actor_ApplyDamage(&this->actor);
                         EnSkb_SetupStunned(this);
                     }
@@ -480,7 +481,8 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
                         }
                         colorFilterDuration = 25;
                     }
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, colorFilterDuration);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA,
+                                         colorFilterDuration);
                     if (!Actor_ApplyDamage(&this->actor)) {
                         EnSkb_SetupDeath(this, play);
                         return;

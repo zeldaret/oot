@@ -9,7 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "assets/objects/object_bowl/object_bowl.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
@@ -24,7 +24,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play);
 void BgBowlWall_FinishFall(BgBowlWall* this, PlayState* play);
 void BgBowlWall_Reset(BgBowlWall* this, PlayState* play);
 
-const ActorInit Bg_Bowl_Wall_InitVars = {
+ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORCAT_PROP,
     FLAGS,
@@ -150,7 +150,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, PlayState* play) {
             EffectSsBomb2_SpawnLayered(play, &effectPos, &effectVelocity, &effectAccel, 100, 30);
             effectPos.y = -50.0f;
             EffectSsHahen_SpawnBurst(play, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
         quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);
         Quake_SetSpeed(quakeIndex, 0x7FFF);

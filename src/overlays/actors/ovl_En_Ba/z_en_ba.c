@@ -23,7 +23,7 @@ void EnBa_RecoilFromDamage(EnBa* this, PlayState* play);
 void EnBa_Die(EnBa* this, PlayState* play);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
 
-const ActorInit En_Ba_InitVars = {
+ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -237,7 +237,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 60.0f, 1.0f, 10.0f, 0.0f);
     if ((this->actor.xzDistToPlayer <= 175.0f) || (this->unk_31A != 0)) {
         if (this->unk_318 == 20) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_HAND_UP);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HAND_UP);
             this->unk_31C = 1500;
         }
         if (this->unk_318 != 0) {
@@ -267,7 +267,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
             }
         } else {
             if (this->unk_31A == 10) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_HAND_DOWN);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HAND_DOWN);
             }
             if (this->unk_31A != 0) {
                 this->unk_31C = 8000;
@@ -324,8 +324,8 @@ void func_809B7174(EnBa* this) {
     this->unk_318 = 20;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.speedXZ = 10.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BALINADE_HAND_DAMAGE);
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HAND_DAMAGE);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
     EnBa_SetupAction(this, EnBa_RecoilFromDamage);
 }
 

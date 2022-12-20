@@ -21,7 +21,7 @@ void BgHakaShip_SetupCrash(BgHakaShip* this, PlayState* play);
 void BgHakaShip_CrashShake(BgHakaShip* this, PlayState* play);
 void BgHakaShip_CrashFall(BgHakaShip* this, PlayState* play);
 
-const ActorInit Bg_Haka_Ship_InitVars = {
+ActorInit Bg_Haka_Ship_InitVars = {
     ACTOR_BG_HAKA_SHIP,
     ACTORCAT_BG,
     FLAGS,
@@ -177,7 +177,7 @@ void BgHakaShip_CrashFall(BgHakaShip* this, PlayState* play) {
             Actor_Kill(child);
         }
     } else {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
         if ((this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 500.0f) &&
             DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             Play_TriggerVoidOut(play);

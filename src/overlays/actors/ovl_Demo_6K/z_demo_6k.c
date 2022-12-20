@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_6k.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_demo_6k/object_demo_6k.h"
 #include "assets/objects/object_gnd_magic/object_gnd_magic.h"
@@ -37,7 +37,7 @@ void func_80968B70(Actor* thisx, PlayState* play);
 void func_80968FB0(Actor* thisx, PlayState* play);
 void func_809691BC(Demo6K* this, PlayState* play, s32 params);
 
-const ActorInit Demo_6K_InitVars = {
+ActorInit Demo_6K_InitVars = {
     ACTOR_DEMO_6K,
     ACTORCAT_PROP,
     FLAGS,
@@ -142,7 +142,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
             Actor_SetScale(&this->actor, 0.0f);
             this->initActionFunc = func_8096784C;
             this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_NABALL_VANISH);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_NABALL_VANISH);
             break;
         case 12:
             Actor_SetScale(&this->actor, 0.0f);
@@ -299,7 +299,7 @@ void func_8096712C(Demo6K* this, PlayState* play) {
 
     this->timer2++;
 
-    if ((play->sceneId == SCENE_GANONTIKA) && (play->csCtx.frames < D_8096932C[this->actor.params - 3])) {
+    if ((play->sceneId == SCENE_INSIDE_GANONS_CASTLE) && (play->csCtx.frames < D_8096932C[this->actor.params - 3])) {
         func_8002F974(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 }
@@ -331,7 +331,7 @@ void func_80967244(Demo6K* this, PlayState* play) {
     envColor.g = sEnvColors[this->unk_293].g;
     envColor.b = sEnvColors[this->unk_293].b;
 
-    if (play->sceneId == SCENE_TOKINOMA) {
+    if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
         scale = 6000;
     } else if (play->csCtx.frames < 419) {
         scale = 6000;
@@ -388,7 +388,7 @@ void func_809674E0(Demo6K* this, PlayState* play) {
         this->actor.world.pos.y += (19.0f - this->actor.world.pos.y) * temp;
         this->actor.world.pos.z += (1613.0f - this->actor.world.pos.z) * temp;
 
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
     }
 
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -506,7 +506,7 @@ void func_80967BF8(Player* player, PlayState* play) {
 }
 
 void func_80967DBC(Demo6K* this, PlayState* play) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_ATTACK_DEMO - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_ATTACK_DEMO - SFX_FLAG);
 
     this->timer2++;
 
@@ -520,13 +520,13 @@ void func_80967DBC(Demo6K* this, PlayState* play) {
         if (this->timer2 > 104) {
             func_80967BF8(GET_PLAYER(play), play);
             Actor_Kill(&this->actor);
-            Audio_PlayActorSfx2(&GET_PLAYER(play)->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
+            Actor_PlaySfx(&GET_PLAYER(play)->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
         } else if (this->timer2 > 94) {
             Actor_SetScale(&this->actor, this->actor.scale.x + 0.03f);
 
             if (this->timer2 == 95) {
                 osSyncPrintf(VT_FGCOL(CYAN) "  NA_SE_EN_GANON_FIRE_DEMO\n" VT_RST);
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_FIRE_DEMO);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_FIRE_DEMO);
             }
         }
 
@@ -812,7 +812,7 @@ void func_809691BC(Demo6K* this, PlayState* play, s32 params) {
 
     temp = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, play->csCtx.frames);
 
-    this->actor.world.pos.x = (((endPos.x - startPos.x) * temp) + startPos.x);
-    this->actor.world.pos.y = (((endPos.y - startPos.y) * temp) + startPos.y);
-    this->actor.world.pos.z = (((endPos.z - startPos.z) * temp) + startPos.z);
+    this->actor.world.pos.x = LERP(startPos.x, endPos.x, temp);
+    this->actor.world.pos.y = LERP(startPos.y, endPos.y, temp);
+    this->actor.world.pos.z = LERP(startPos.z, endPos.z, temp);
 }

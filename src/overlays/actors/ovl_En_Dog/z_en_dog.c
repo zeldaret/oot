@@ -21,7 +21,7 @@ void EnDog_RunAway(EnDog* this, PlayState* play);
 void EnDog_FaceLink(EnDog* this, PlayState* play);
 void EnDog_Wait(EnDog* this, PlayState* play);
 
-const ActorInit En_Dog_InitVars = {
+ActorInit En_Dog_InitVars = {
     ACTOR_EN_DOG,
     ACTORCAT_NPC,
     FLAGS,
@@ -92,7 +92,7 @@ void EnDog_PlayWalkSFX(EnDog* this) {
 
     if (this->skelAnime.animation == walk) {
         if ((this->skelAnime.curFrame == 1.0f) || (this->skelAnime.curFrame == 7.0f)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     }
 }
@@ -102,7 +102,7 @@ void EnDog_PlayRunSFX(EnDog* this) {
 
     if (this->skelAnime.animation == run) {
         if ((this->skelAnime.curFrame == 2.0f) || (this->skelAnime.curFrame == 4.0f)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     }
 }
@@ -112,7 +112,7 @@ void EnDog_PlayBarkSFX(EnDog* this) {
 
     if (this->skelAnime.animation == bark) {
         if ((this->skelAnime.curFrame == 13.0f) || (this->skelAnime.curFrame == 19.0f)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
         }
     }
 }
@@ -272,7 +272,7 @@ void EnDog_Init(Actor* thisx, PlayState* play) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case SCENE_IMPA: // Richard's Home
+        case SCENE_DOG_LADY_HOUSE: // Richard's Home
             if (!(this->actor.params & 0x8000)) {
                 if (!gSaveContext.dogIsLost) {
                     this->nextBehavior = DOG_SIT;

@@ -4,7 +4,7 @@
  * Description: Deku Shield
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_item_shield.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
@@ -38,7 +38,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 15, 15, 0, { 0, 0, 0 } },
 };
 
-const ActorInit Item_Shield_InitVars = {
+ActorInit Item_Shield_InitVars = {
     ACTOR_ITEM_SHIELD,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -102,7 +102,7 @@ void func_80B86AC8(ItemShield* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_8002F434(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->timer--;
@@ -124,7 +124,7 @@ void func_80B86BC8(ItemShield* this, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_8002F434(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
     if (this->collider.base.acFlags & AC_HIT) {
         ItemShield_SetupAction(this, func_80B86AC8);
         this->actor.velocity.y = 4.0f;

@@ -6,7 +6,7 @@
 
 #include "z_en_heishi1.h"
 #include "assets/objects/object_sd/object_sd.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -31,7 +31,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play);
 
 static s32 sPlayerIsCaught = false;
 
-const ActorInit En_Heishi1_InitVars = {
+ActorInit En_Heishi1_InitVars = {
     0,
     ACTORCAT_NPC,
     FLAGS,
@@ -149,7 +149,7 @@ void EnHeishi1_Walk(EnHeishi1* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (Animation_OnFrame(&this->skelAnime, 1.0f) || Animation_OnFrame(&this->skelAnime, 17.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_KNIGHT_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
 
     if (!sPlayerIsCaught) {
@@ -347,7 +347,7 @@ void EnHeishi1_Kick(EnHeishi1* this, PlayState* play) {
             Message_CloseTextbox(play);
             if (!this->loadStarted) {
                 SET_EVENTCHKINF(EVENTCHKINF_4E);
-                play->nextEntranceIndex = ENTR_SPOT15_3;
+                play->nextEntranceIndex = ENTR_HYRULE_CASTLE_3;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 this->loadStarted = true;
                 sPlayerIsCaught = false;
@@ -372,7 +372,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play) {
         Message_StartTextbox(play, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(play, &this->actor, 1);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
         this->actionFunc = EnHeishi1_SetupKick;
     }
 }
@@ -456,7 +456,7 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
                                     func_80078884(NA_SE_SY_FOUND);
                                     // "Discovered!"
                                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
-                                    func_8002DF54(play, &this->actor, 1);
+                                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
                                     sPlayerIsCaught = true;
                                     this->actionFunc = EnHeishi1_SetupMoveToLink;
                                 }

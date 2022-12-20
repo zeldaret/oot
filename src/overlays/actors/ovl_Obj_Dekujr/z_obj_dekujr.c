@@ -16,7 +16,7 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play);
 
 void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play);
 
-const ActorInit Obj_Dekujr_InitVars = {
+ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORCAT_NPC,
     FLAGS,
@@ -96,7 +96,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play) {
         this->unk_19B = 0;
     } else {
         if (play->csCtx.frames == 351) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
         }
         csCmdNPCAction = play->csCtx.npcActions[1];
         if (csCmdNPCAction != NULL) {

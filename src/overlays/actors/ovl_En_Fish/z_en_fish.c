@@ -6,7 +6,7 @@
 
 #include "z_en_fish.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -64,7 +64,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-const ActorInit En_Fish_InitVars = {
+ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -426,7 +426,7 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     this->unk_250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
 
     if (playSfx && (this->actor.draw != NULL)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_FISH_LEAP);
     }
 }
 
@@ -591,7 +591,7 @@ void EnFish_Cutscene_FlopOnGround(EnFish* this, PlayState* play) {
 
         if (Rand_ZeroOne() < 0.1f) {
             D_80A17018 = (Rand_ZeroOne() * 3.0f) + 2.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_FISH_LEAP);
         } else {
             D_80A17018 = 0.0f;
         }
@@ -710,7 +710,7 @@ void EnFish_OrdinaryUpdate(EnFish* this, PlayState* play) {
             EnFish_BeginRespawn(this);
         } else if (EnFish_InBottleRange(this, play)) {
             // GI_MAX in this case allows the player to catch the actor in a bottle
-            func_8002F434(&this->actor, play, GI_MAX, 80.0f, 20.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_MAX, 80.0f, 20.0f);
         }
     }
 }

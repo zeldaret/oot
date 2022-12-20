@@ -8,7 +8,7 @@
 
 #include "overlays/actors/ovl_En_Kanban/z_en_kanban.h"
 #include "assets/objects/object_fish/object_fish.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -117,7 +117,7 @@ typedef struct {
 #define LINE_SEG_COUNT 200
 #define SINKING_LURE_SEG_COUNT 20
 
-const ActorInit Fishing_InitVars = {
+ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORCAT_NPC,
     FLAGS,
@@ -2479,7 +2479,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                     sLureRot.x = 0.0f;
                     if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         D_80B7E144 += 6.0f;
-                        func_80078914(&D_80B7AF94, NA_SE_PL_WALK_SAND);
+                        func_80078914(&D_80B7AF94, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_SAND);
                     }
                 } else {
                     if (D_80B7E144 > 150.0f) {
@@ -2820,7 +2820,7 @@ void func_80B71278(Fishing* this, u8 arg1) {
         }
     }
 
-    Audio_PlayActorSfx2(&this->actor, sfxId);
+    Actor_PlaySfx(&this->actor, sfxId);
 }
 
 void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
@@ -3248,7 +3248,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &spB8, 30.0f, 400.0f, 150,
                                             90);
 
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
+                        Actor_PlaySfx(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
                         break;
                     }
                 }
@@ -3522,7 +3522,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 this->unk_194 = 2000.0f;
             } else if (sp124 < 10.0f) {
                 if (sLurePos.y > (WATER_SURFACE_Y(play) - 10.0f)) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
+                    Actor_PlaySfx(&this->actor, NA_SE_EV_JUMP_OUT_WATER);
                     func_80078884(NA_SE_PL_CATCH_BOOMERANG);
                 }
 
@@ -4150,7 +4150,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->actor.velocity.x = this->actor.world.pos.x * -0.003f;
                     this->actor.velocity.z = this->actor.world.pos.z * -0.003f;
 
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FISH_LEAP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EV_FISH_LEAP);
                     func_80B70CF0(this, play);
 
                     if (Rand_ZeroOne() < 0.5f) {
@@ -4982,7 +4982,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     } else {
                         if ((D_80B7E078 >= 60.0f) && !(HIGH_SCORE(HS_FISHING) & 0x800)) {
                             HIGH_SCORE(HS_FISHING) |= 0x800;
-                            getItemId = GI_SCALE_GOLD;
+                            getItemId = GI_SCALE_GOLDEN;
                             sSinkingLureLocation = (u8)Rand_ZeroFloat(3.999f) + 1;
                         }
                     }
@@ -4992,7 +4992,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 }
 
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, play, getItemId, 2000.0f, 1000.0f);
+                Actor_OfferGetItem(&this->actor, play, getItemId, 2000.0f, 1000.0f);
                 this->unk_15C = 23;
             }
             break;
@@ -5043,7 +5043,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
             if (Actor_HasParent(&this->actor, play)) {
                 this->unk_15C = 24;
             } else {
-                func_8002F434(&this->actor, play, GI_SCALE_GOLD, 2000.0f, 1000.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_SCALE_GOLDEN, 2000.0f, 1000.0f);
             }
             break;
 
@@ -5238,7 +5238,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamAt.y = mainCam->at.y;
             sSubCamAt.z = mainCam->at.z;
             D_80B7A6CC = 2;
-            Interface_ChangeAlpha(12);
+            Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_B_MINIMAP);
             sSubCamVelFactor = 0.0f;
             FALLTHROUGH;
         }
@@ -5343,7 +5343,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             mainCam->eye = sSubCamEye;
             mainCam->eyeNext = sSubCamEye;
             mainCam->at = sSubCamAt;
-            func_800C08AC(play, sSubCamId, 0);
+            Play_ReturnToMainCam(play, sSubCamId, 0);
             func_80064534(play, &play->csCtx);
             D_80B7A6CC = 0;
             sSubCamId = SUB_CAM_ID_DONE;
@@ -5361,7 +5361,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, 5);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5385,9 +5385,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 mainCam->eye = sSubCamEye;
                 mainCam->eyeNext = sSubCamEye;
                 mainCam->at = sSubCamAt;
-                func_800C08AC(play, sSubCamId, 0);
+                Play_ReturnToMainCam(play, sSubCamId, 0);
                 func_80064534(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 D_80B7A6CC = 0;
                 sSubCamId = SUB_CAM_ID_DONE;
                 D_80B7A6D0 = 30;
@@ -5403,7 +5403,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, 5);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5422,7 +5422,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             if ((D_80B7A6D0 == 0) && Message_ShouldAdvance(play)) {
                 D_80B7A6CC = 22;
                 D_80B7A6D0 = 40;
-                func_8002DF54(play, &this->actor, 0x1C);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_28);
                 D_80B7FEE4 = 0.0f;
             }
             break;
@@ -5489,9 +5489,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                         mainCam->eye = sSubCamEye;
                         mainCam->eyeNext = sSubCamEye;
                         mainCam->at = sSubCamAt;
-                        func_800C08AC(play, sSubCamId, 0);
+                        Play_ReturnToMainCam(play, sSubCamId, 0);
                         func_80064534(play, &play->csCtx);
-                        func_8002DF54(play, &this->actor, 7);
+                        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                         D_80B7A6CC = 0;
                         sSubCamId = SUB_CAM_ID_DONE;
                         player->unk_860 = -5;
@@ -5510,15 +5510,15 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     if (sSubCamId != SUB_CAM_ID_DONE) {
-        Play_CameraSetAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
         Math_ApproachF(&sSubCamVelFactor, 1.0f, 1.0f, 0.02f);
 
         if (sSubCamEye.y <= (WATER_SURFACE_Y(play) + 1.0f)) {
             Environment_EnableUnderwaterLights(play, 1);
             if (D_80B7E076 != 0) {
-                play->envCtx.adjFogNear = -0xB2;
+                play->envCtx.adjFogNear = -178;
             } else {
-                play->envCtx.adjFogNear = -0x2E;
+                play->envCtx.adjFogNear = -46;
             }
         } else {
             Environment_EnableUnderwaterLights(play, 0);

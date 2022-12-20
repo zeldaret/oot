@@ -1,6 +1,6 @@
 #include "z_en_fire_rock.h"
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -15,7 +15,7 @@ void FireRock_WaitOnFloor(EnFireRock* this, PlayState* play);
 void EnFireRock_Fall(EnFireRock* this, PlayState* play);
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play);
 
-const ActorInit En_Fire_Rock_InitVars = {
+ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -190,7 +190,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE1:
             if ((play->gameplayFrames & 3) == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_VALVAISA_ROCK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
             }
             break;
     }
@@ -258,7 +258,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
                 osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
             }
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_VALVAISA_ROCK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
     }
     Actor_Kill(&this->actor);
 }
@@ -350,7 +350,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
                 (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
                 if (this->collider.base.atFlags & AT_BOUNCED) {
                     this->collider.base.atFlags &= ~AT_BOUNCED;
-                    Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+                    Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
                     thisx->velocity.y = 0.0f;
                     thisx->speedXZ = 0.0f;
                     this->actionFunc = EnFireRock_SpawnMoreBrokenPieces;
