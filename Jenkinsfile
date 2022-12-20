@@ -10,7 +10,9 @@ pipeline {
 
     stages {
         stage('Cleaning before build') {
-            cleanWs()
+            steps {
+                cleanWs()
+            }
         }
 
         stage('Check for unused asm') {
