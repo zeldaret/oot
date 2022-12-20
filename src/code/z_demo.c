@@ -1155,7 +1155,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_STONES_RESTORED_CONDITIONAL:
-                // At one point in development, Forest, Fire and Water temple blocked the ability to return to child.
+                // At one point in development, Forest, Fire and Water temples blocked the ability to return to child.
                 // Completing each dungeon would "restore" their respective stone, with the Door of Time opening after
                 // all 3 are restored. This cutscene destination sends the player to the correct blue warp destination,
                 // unless all 3 dungeons have been cleared. In that case, the destination is the Temple of Time which
