@@ -79,8 +79,8 @@
  * @note setting `endFrame` to same value as `startFrame` will not behave as expected.
  * For commands that only need to last one frame, set `endFrame` to `startFrame + 1`.
  */
-#define CS_MISC(cmd, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
-    CMD_HH(cmd, startFrame), CMD_HH(endFrame, unused0), \
+#define CS_MISC(type, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+    CMD_HH(type, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
     CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
@@ -93,11 +93,12 @@
 /**
  * Changes the environment lights to the specified setting.
  * The lighting change will take place immediately with no blending.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
-#define CS_LIGHT_SETTING(lightSetting, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
-    CMD_HH((lightSetting + 1), frame), CMD_HH(unused0, unused1), \
-    CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
-    CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
+#define CS_LIGHT_SETTING(lightSetting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+    CMD_HH((lightSetting + 1), startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_RUMBLE_CONTROLLER` entries.
@@ -105,8 +106,12 @@
 #define CS_RUMBLE_CONTROLLER_LIST(entries) \
     CS_CMD_RUMBLE_CONTROLLER, CMD_W(entries)
 
-#define CS_RUMBLE_CONTROLLER(unused0, frame, unused1, sourceStrength, duration, decreaseRate, unused2, unused3) \
-    CMD_HH(unused0, frame), CMD_HBB(unused1, sourceStrength, duration), CMD_BBH(decreaseRate, unused2, unused3)
+/**
+ * Rumble the controller.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
+*/
+#define CS_RUMBLE_CONTROLLER(unused0, startFrame, endFrame, sourceStrength, duration, decreaseRate, unused1, unused2) \
+    CMD_HH(unused0, startFrame), CMD_HBB(endFrame, sourceStrength, duration), CMD_BBH(decreaseRate, unused1, unused2)
 
 /**
  * Declares a list of `CS_ACTOR_CUE` entries.
@@ -172,11 +177,12 @@
 
 /**
  * Starts a sequence at the specified time.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
-#define CS_START_SEQ(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
-    CMD_HH((seqId + 1), frame), CMD_HH(unused0, unused1), \
-    CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
-    CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
+#define CS_START_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+    CMD_HH((seqId + 1), startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_STOP_SEQ` entries.
@@ -186,11 +192,12 @@
 
 /**
  * Stops a sequence at the specified time.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
-#define CS_STOP_SEQ(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
-    CMD_HH((seqId + 1), frame), CMD_HH(unused0, unused1), \
-    CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), CMD_W(unused6), \
-    CMD_W(unused7), CMD_W(unused8), 0x00000000, 0x00000000, 0x00000000
+#define CS_STOP_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+    CMD_HH((seqId + 1), startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * Declares a list of `CS_FADE_OUT_SEQ` entries.
@@ -216,11 +223,10 @@
 /**
  * Sets the time of day.
  * Both the day time and skybox time are set by this command.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
-#define CS_TIME(unused0, frame, unused1, hour, min) \
-    CMD_HH(unused0, frame), \
-    CMD_HBB(unused1, hour, min), \
-    CMD_W(0)
+#define CS_TIME(unused0, startFrame, endFrame, hour, min) \
+    CMD_HH(unused0, startFrame), CMD_HBB(endFrame, hour, min), CMD_W(0)
 
 /**
  * Sends the player to a new destination. 
@@ -230,8 +236,8 @@
  * 
  * @see `CutsceneDestination`
  */
-#define CS_DESTINATION(destination, frame, unused) \
-    CS_CMD_DESTINATION, 1, CMD_HH(destination, frame), CMD_HH(unused, unused)
+#define CS_DESTINATION(destination, startFrame, endFrame) \
+    CS_CMD_DESTINATION, 1, CMD_HH(destination, startFrame), CMD_HH(endFrame, endFrame)
 
 /**
  * Marks the end of a cutscene script.

@@ -494,20 +494,20 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 }
 
 void CutsceneCmd_SetLightSetting(PlayState* play, CutsceneContext* csCtx, CsCmdLightSetting* cmd) {
-    if (csCtx->curFrame == cmd->frame) {
+    if (csCtx->curFrame == cmd->startFrame) {
         play->envCtx.lightSettingOverride = cmd->settingPlusOne - 1;
         play->envCtx.lightBlend = 1.0f;
     }
 }
 
 void CutsceneCmd_StartSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStartSeq* cmd) {
-    if (csCtx->curFrame == cmd->frame) {
+    if (csCtx->curFrame == cmd->startFrame) {
         Audio_PlaySequenceInCutscene(cmd->seqIdPlusOne - 1);
     }
 }
 
 void CutsceneCmd_StopSequence(PlayState* play, CutsceneContext* csCtx, CsCmdStopSeq* cmd) {
-    if (csCtx->curFrame == cmd->frame) {
+    if (csCtx->curFrame == cmd->startFrame) {
         Audio_StopSequenceInCutscene(cmd->seqIdPlusOne - 1);
     }
 }
@@ -527,7 +527,7 @@ void CutsceneCmd_FadeOutSequence(PlayState* play, CutsceneContext* csCtx, CsCmdF
 }
 
 void CutsceneCmd_RumbleController(PlayState* play, CutsceneContext* csCtx, CsCmdRumble* cmd) {
-    if (csCtx->curFrame == cmd->frame) {
+    if (csCtx->curFrame == cmd->startFrame) {
         Rumble_Request(0.0f, cmd->sourceStrength, cmd->duration, cmd->decreaseRate);
     }
 }
@@ -536,7 +536,7 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
     s16 hours;
     s16 minutes;
 
-    if (csCtx->curFrame == cmd->frame) {
+    if (csCtx->curFrame == cmd->startFrame) {
         hours = (cmd->hour * 60.0f) / (24.0f * 60.0f / 0x10000);
         minutes = (cmd->minute + 1) / (24.0f * 60.0f / 0x10000);
 
@@ -560,7 +560,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         titleDemoSkipped = true;
     }
 
-    if ((csCtx->curFrame == cmd->frame) || titleDemoSkipped ||
+    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped ||
         ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_RUN_UNSTOPPABLE;
@@ -572,7 +572,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         // `forceRisingButtonAlphas` has a secondary purpose, which is to signal to the title screen actor
         // that it should display immediately. This occurs when a title screen cutscene that is not the main
         // hyrule field scene is skipped.
-        if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (csCtx->curFrame != cmd->frame)) {
+        if ((gSaveContext.gameMode != GAMEMODE_NORMAL) && (csCtx->curFrame != cmd->startFrame)) {
             gSaveContext.forceRisingButtonAlphas = true;
         }
 

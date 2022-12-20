@@ -360,7 +360,7 @@ typedef enum {
 
 typedef union {
     struct {
-        /* 0x00 */ u8 unused_00[0x2];
+        /* 0x00 */ u16 unused0;
         /* 0x02 */ u16 startFrame;
         /* 0x04 */ u16 endFrame;
     };
@@ -378,27 +378,30 @@ typedef union {
 
 typedef union {
     struct {
-        /* 0x00 */ u8 unused_00[0x1];
+        /* 0x00 */ u8 unused0;
         /* 0x01 */ u8 settingPlusOne;
-        /* 0x02 */ u16 frame;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame; // unused
     };
     s32 _words[12];
 } CsCmdLightSetting; // size = 0x30
 
 typedef union {
     struct {
-        /* 0x00 */ u8 unused_00[0x1];
+        /* 0x00 */ u8 unused0;
         /* 0x01 */ u8 seqIdPlusOne;
-        /* 0x02 */ u16 frame;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame; // unused
     };
     s32 _words[12];
 } CsCmdStartSeq; // size = 0x30
 
 typedef union {
     struct {
-        /* 0x00 */ u8 unused_00[0x1];
+        /* 0x00 */ u8 unused0;
         /* 0x01 */ u8 seqIdPlusOne;
-        /* 0x02 */ u16 frame;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame; // unused
     };
     s32 _words[12];
 } CsCmdStopSeq; // size = 0x30
@@ -414,9 +417,9 @@ typedef union {
 
 typedef union {
     struct {
-        /* 0x00 */ u8 unused_00[0x2];
-        /* 0x02 */ u16 frame;
-        /* 0x04 */ u8 unused_04[0x2];
+        /* 0x00 */ u16 unused0;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame; // unused
         /* 0x06 */ u8  sourceStrength;
         /* 0x07 */ u8  duration;
         /* 0x08 */ u8  decreaseRate;
@@ -426,9 +429,9 @@ typedef union {
 
 typedef union {
     struct {
-        /* 0x00 */ u8 unused_00[0x2];
-        /* 0x02 */ u16 frame;
-        /* 0x04 */ u8 unused_04[0x2];
+        /* 0x00 */ u16 unused0;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame; // unused
         /* 0x06 */ u8  hour;
         /* 0x07 */ u8  minute;
     };
@@ -438,7 +441,8 @@ typedef union {
 typedef union {
     struct {
         /* 0x00 */ u16 destination;
-        /* 0x02 */ u16 frame;
+        /* 0x02 */ u16 startFrame;
+        /* 0x04 */ u16 endFrame; // unused
     };
     s32 _words[2];
 } CsCmdDestination; // size = 0x8
