@@ -1510,7 +1510,7 @@ void Cutscene_Command_Textbox(PlayState* play, CutsceneContext* csCtx, CsCmdText
         } else {
             if (D_8011E1C4 != cmd->base) {
                 D_8011E1C4 = cmd->base;
-                func_8010BD58(play, cmd->base);
+                Message_StartOcarina(play, cmd->base);
                 return;
             }
         }
@@ -1549,7 +1549,7 @@ void Cutscene_Command_Textbox(PlayState* play, CutsceneContext* csCtx, CsCmdText
 
                 if (dialogState == TEXT_STATE_EVENT) {
                     if (Message_ShouldAdvance(play)) {
-                        func_8010BD58(play, cmd->base);
+                        Message_StartOcarina(play, cmd->base);
                     }
                 }
             }
