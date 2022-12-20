@@ -3,18 +3,7 @@ pipeline {
         label 'oot'
     }
 
-    options {
-        // This is required if you want to clean before build
-        skipDefaultCheckout()
-    }
-
     stages {
-        stage('Cleaning before build') {
-            steps {
-                cleanWs()
-            }
-        }
-
         stage('Check for unused asm') {
             steps {
                 sh './tools/find_unused_asm.sh'
