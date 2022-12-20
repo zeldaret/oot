@@ -703,7 +703,7 @@ void ObjBean_GrowWaterPhase3(ObjBean* this, PlayState* play) {
                 Item_DropCollectible(play, &itemDropPos, ITEM00_FLEXIBLE);
             }
             this->stateFlags |= BEAN_STATE_BEEN_WATERED;
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         }
     } else if (this->timer <= 0) {
@@ -752,7 +752,7 @@ void ObjBean_SetupWaitForPlayer(ObjBean* this) {
 void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         ObjBean_SetupFly(this);
-        if (play->sceneId == SCENE_LOST_WOODS) { // Lost woods
+        if (play->sceneId == SCENE_LOST_WOODS) {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);

@@ -198,10 +198,10 @@ void EnZl4_SetActiveCamMove(PlayState* play, s16 index) {
                        sCamMove[index].relativeToPlayer);
 }
 
-u16 EnZl4_GetText(PlayState* play, Actor* thisx) {
+u16 EnZl4_GetTextId(PlayState* play, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(play, 22);
     u16 stoneCount;
-    s16 ret;
+    s16 textId;
 
     if (faceReaction != 0) {
         return faceReaction;
@@ -219,14 +219,14 @@ u16 EnZl4_GetText(PlayState* play, Actor* thisx) {
     }
 
     if (stoneCount > 1) {
-        ret = 0x703D;
+        textId = 0x703D;
     } else {
-        ret = 0x703C;
+        textId = 0x703C;
     }
-    return ret;
+    return textId;
 }
 
-s16 func_80B5B9B0(PlayState* play, Actor* thisx) {
+s16 EnZl4_UpdateTalkState(PlayState* play, Actor* thisx) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         return NPC_TALK_STATE_IDLE;
     }
@@ -320,7 +320,7 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, PlayState* play) {
     Actor* playerx = &GET_PLAYER(play)->actor;
     s16 rotY;
 
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
     playerx->world.pos = this->actor.world.pos;
     rotY = this->actor.shape.rot.y;
     playerx->world.pos.x += 56.0f * Math_SinS(rotY);
@@ -446,7 +446,7 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, PlayState* play) {
     switch (this->talkState) {
         case 0:
             if (this->skelAnime.curFrame == 50.0f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_MEET);
+                Actor_PlaySfx(&this->actor, NA_SE_VO_Z0_MEET);
             }
             if (!EnZl4_SetNextAnim(this, ZL4_ANIM_4)) {
                 break;
@@ -551,7 +551,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             break;
         case 4:
             if (this->skelAnime.curFrame == 16.0f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_QUESTION);
+                Actor_PlaySfx(&this->actor, NA_SE_VO_Z0_QUESTION);
             }
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_10)) {
                 this->talkState++;
@@ -598,7 +598,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             break;
         case 7:
             if (this->skelAnime.curFrame == 17.0f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_SMILE_0);
+                Actor_PlaySfx(&this->actor, NA_SE_VO_Z0_SMILE_0);
             }
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_29)) {
                 this->talkState++;
@@ -739,7 +739,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
             break;
         case 12:
             if (this->skelAnime.curFrame == 5.0f) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_SIGH_0);
+                Actor_PlaySfx(&this->actor, NA_SE_VO_Z0_SIGH_0);
             }
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_12)) {
                 this->talkState++;
@@ -834,7 +834,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, PlayState* play) {
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
                 Message_StartTextbox(play, 0x7038, NULL);
                 this->talkState++;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_VO_Z0_HURRY);
+                Actor_PlaySfx(&this->actor, NA_SE_VO_Z0_HURRY);
             }
             break;
         case 5:
@@ -912,7 +912,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
                 play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
                 gSaveContext.cutsceneTrigger = 1;
                 this->talkState++;
-                func_8002DF54(play, &this->actor, 8);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             }
             break;
         case 2:
@@ -922,7 +922,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
                 }
             } else {
                 Rumble_Request(0.0f, 160, 10, 40);
-                func_8002DF54(play, &this->actor, 1);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_30);
                 EnZl4_SetActiveCamDir(play, 11);
                 Message_StartTextbox(play, 0x7039, NULL);
@@ -1114,8 +1114,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 Camera_ChangeSetting(GET_ACTIVE_CAM(play), CAM_SET_NORMAL0);
                 this->talkState = 7;
                 play->talkWithPlayer(play, &this->actor);
-                func_8002F434(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
-                              fabsf(this->actor.yDistToPlayer) + 1.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                                   fabsf(this->actor.yDistToPlayer) + 1.0f);
                 play->msgCtx.stateTimer = 4;
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
             }
@@ -1125,8 +1125,8 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
                 this->talkState++;
             } else {
-                func_8002F434(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
-                              fabsf(this->actor.yDistToPlayer) + 1.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
+                                   fabsf(this->actor.yDistToPlayer) + 1.0f);
             }
             // no break here is required for matching
     }
@@ -1193,7 +1193,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
             break;
         case ZL4_CS_PLAN:
             if (EnZl4_CsMakePlan(this, play)) {
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
                 SET_EVENTCHKINF(EVENTCHKINF_40);
                 this->actionFunc = EnZl4_Idle;
@@ -1210,7 +1210,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
 
 void EnZl4_Idle(EnZl4* this, PlayState* play) {
     Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 60.0f,
-                      EnZl4_GetText, func_80B5B9B0);
+                      EnZl4_GetTextId, EnZl4_UpdateTalkState);
     func_80B5BB78(this, play);
 }
 
@@ -1266,19 +1266,19 @@ void EnZl4_Update(Actor* thisx, PlayState* play) {
 
 s32 EnZl4_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnZl4* this = (EnZl4*)thisx;
-    Vec3s sp1C;
+    Vec3s limbRot;
 
     if (limbIndex == 17) {
-        sp1C = this->interactInfo.headRot;
+        limbRot = this->interactInfo.headRot;
         Matrix_Translate(900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 10) {
-        sp1C = this->interactInfo.torsoRot;
-        Matrix_RotateY(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
     if ((limbIndex >= 3) && (limbIndex < 7)) {
         *dList = NULL;

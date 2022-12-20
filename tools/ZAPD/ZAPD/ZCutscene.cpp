@@ -76,7 +76,7 @@ void ZCutscene::ParseRawData()
 
 	endFrame = BitConverter::ToInt32BE(rawData, rawDataIndex + 4);
 	offset_t currentPtr = rawDataIndex + 8;
-
+	commands.reserve(numCommands);
 	for (int32_t i = 0; i < numCommands; i++)
 	{
 		uint32_t id = BitConverter::ToUInt32BE(rawData, currentPtr);

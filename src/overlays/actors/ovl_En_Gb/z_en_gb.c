@@ -264,7 +264,7 @@ s32 func_80A2F760(EnGb* this) {
 void func_80A2F7C0(EnGb* this) {
     Animation_Change(&this->skelAnime, &gPoeSellerSwingStickAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gPoeSellerSwingStickAnim), ANIMMODE_ONCE, 0.0f);
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
+    Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
     this->actionFunc = func_80A2FC70;
 }
 
@@ -350,7 +350,7 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
 
 void func_80A2FB40(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
+        Actor_OfferGetItem(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
 }
@@ -360,7 +360,7 @@ void func_80A2FBB0(EnGb* this, PlayState* play) {
         this->dyna.actor.parent = NULL;
         this->actionFunc = func_80A2FC0C;
     } else {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
+        Actor_OfferGetItem(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
     }
 }
 
@@ -389,7 +389,7 @@ void func_80A2FC70(EnGb* this, PlayState* play) {
         this->cagedSouls[0].unk_3 = 1;
         if (this->actionFunc) {}
         this->actionTimer = (s16)Rand_ZeroFloat(600.0f) + 600;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
     }
 }
 
