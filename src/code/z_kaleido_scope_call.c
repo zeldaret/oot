@@ -61,7 +61,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
             if (Letterbox_GetSize() == 0) {
                 R_HREG_MODE = HREG_MODE_UCODE_DISAS;
                 R_UCODE_DISAS_LOG_MODE = 3;
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
                 pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
                 pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
@@ -69,7 +69,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
         } else if (pauseCtx->state == PAUSE_STATE_8) {
             R_HREG_MODE = HREG_MODE_UCODE_DISAS;
             R_UCODE_DISAS_LOG_MODE = 3;
-            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DRAW;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_APPEARING;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9

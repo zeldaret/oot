@@ -1469,9 +1469,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     gDPSetDepthImage(POLY_XLU_DISP++, gZBuffer);
     gDPSetDepthImage(OVERLAY_DISP++, gZBuffer);
 
-    if ((R_PAUSE_BG_PRERENDER_STATE <= PAUSE_BG_PRERENDER_DRAW)
-        /* PAUSE_BG_PRERENDER_OFF, PAUSE_BG_PRERENDER_DRAW */
-        && (gTrnsnUnkState < 2)) {
+    if ((R_PAUSE_BG_PRERENDER_STATE <= PAUSE_BG_PRERENDER_SETUP) && (gTrnsnUnkState < 2)) {
         s32 letterboxSize = Letterbox_GetSize();
 
         if (R_HREG_MODE == HREG_MODE_SETUP_FRAME) {
