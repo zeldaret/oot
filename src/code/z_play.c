@@ -1116,7 +1116,7 @@ void Play_Draw(PlayState* this) {
             PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
             if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
-                // Wait for the previous frame's DList to be processed,
+                // Wait for the previous frame's display list to be processed,
                 // so that `pauseBgPreRender.fbufSave` and `pauseBgPreRender.cvgSave` are filled with the appropriate
                 // content and can be used by `PreRender_ApplyFilters` below.
                 Sched_FlushTaskQueue();
@@ -1247,7 +1247,7 @@ void Play_Draw(PlayState* this) {
                 if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) || (gTrnsnUnkState == 1)) {
                     Gfx* gfxP = OVERLAY_DISP;
 
-                    // Copy the frame buffer contents at this point in the DList to the zbuffer
+                    // Copy the frame buffer contents at this point in the display list to the zbuffer
                     // The zbuffer must then stay untouched until unpausing
                     this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
