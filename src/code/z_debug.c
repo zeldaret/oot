@@ -14,7 +14,7 @@ typedef struct {
 
 RegEditor* gRegEditor;
 
-DbCameraTextBufferEntry sDebugTextBuffer[22];
+DbCameraTextBufferEntry sDbCameraTextBuffer[22];
 
 s16 sDbCameraTextEntryCount = 0;
 
@@ -113,11 +113,11 @@ void DbCamera_ScreenText(u8 x, u8 y, const char* text) {
 }
 
 void DbCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
-    DbCameraTextBufferEntry* entry = &sDebugTextBuffer[sDbCameraTextEntryCount];
+    DbCameraTextBufferEntry* entry = &sDbCameraTextBuffer[sDbCameraTextEntryCount];
     char* textDest;
     s16 charCount;
 
-    if (sDbCameraTextEntryCount < ARRAY_COUNT(sDebugTextBuffer)) {
+    if (sDbCameraTextEntryCount < ARRAY_COUNT(sDbCameraTextBuffer)) {
         entry->x = x;
         entry->y = y;
         entry->colorIndex = colorIndex;
@@ -144,7 +144,7 @@ void DbCamera_DrawScreenText(GfxPrint* printer) {
     DbCameraTextBufferEntry* entry;
 
     for (i = 0; i < sDbCameraTextEntryCount; i++) {
-        entry = &sDebugTextBuffer[i];
+        entry = &sDbCameraTextBuffer[i];
         color = &sDbCameraTextColors[entry->colorIndex];
 
         GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
