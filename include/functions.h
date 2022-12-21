@@ -761,10 +761,10 @@ u8 CollisionCheck_GetSwordDamage(s32 dmgFlags);
 void SaveContext_Init(void);
 s32 func_800635D0(s32);
 void Regs_Init(void);
-void Debug_ScreenText(u8 x, u8 y, const char* text);
-void Debug_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
+void DbCamera_ScreenText(u8 x, u8 y, const char* text);
+void DbCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
 void Regs_UpdateEditor(Input* input);
-void Debug_Draw(GraphicsContext* gfxCtx);
+void Debug_DrawText(GraphicsContext* gfxCtx);
 void DebugDisplay_Init(void);
 DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, f32 scaleX,
                                         f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha, s16 type,

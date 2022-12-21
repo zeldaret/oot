@@ -7276,15 +7276,15 @@ void Camera_PrintSettings(Camera* camera) {
         sp48[i] = '\0';
 
         sp48[camera->play->activeCamId] = 'a';
-        Debug_ScreenTextColored(3, 22, DEBUG_TEXT_WHITE, sp58);
-        Debug_ScreenTextColored(3, 22, DEBUG_TEXT_PEACH, sp48);
-        Debug_ScreenTextColored(3, 23, DEBUG_TEXT_WHITE, "S:");
-        Debug_ScreenTextColored(5, 23, DEBUG_TEXT_GOLD, sCameraSettingNames[camera->setting]);
-        Debug_ScreenTextColored(3, 24, DEBUG_TEXT_WHITE, "M:");
-        Debug_ScreenTextColored(5, 24, DEBUG_TEXT_GOLD, sCameraModeNames[camera->mode]);
-        Debug_ScreenTextColored(3, 25, DEBUG_TEXT_WHITE, "F:");
-        Debug_ScreenTextColored(
-            5, 25, DEBUG_TEXT_GOLD,
+        DbCamera_ScreenTextColored(3, 22, DBCAMERA_TEXT_WHITE, sp58);
+        DbCamera_ScreenTextColored(3, 22, DBCAMERA_TEXT_PEACH, sp48);
+        DbCamera_ScreenTextColored(3, 23, DBCAMERA_TEXT_WHITE, "S:");
+        DbCamera_ScreenTextColored(5, 23, DBCAMERA_TEXT_GOLD, sCameraSettingNames[camera->setting]);
+        DbCamera_ScreenTextColored(3, 24, DBCAMERA_TEXT_WHITE, "M:");
+        DbCamera_ScreenTextColored(5, 24, DBCAMERA_TEXT_GOLD, sCameraModeNames[camera->mode]);
+        DbCamera_ScreenTextColored(3, 25, DBCAMERA_TEXT_WHITE, "F:");
+        DbCamera_ScreenTextColored(
+            5, 25, DBCAMERA_TEXT_GOLD,
             sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
 
         i = 0;
@@ -7309,8 +7309,8 @@ void Camera_PrintSettings(Camera* camera) {
         sp50[i++] = ' ';
         sp50[i++] = ' ';
         sp50[i] = '\0';
-        Debug_ScreenTextColored(3, 26, DEBUG_TEXT_WHITE, "I:");
-        Debug_ScreenTextColored(5, 26, DEBUG_TEXT_GOLD, sp50);
+        DbCamera_ScreenTextColored(3, 26, DBCAMERA_TEXT_WHITE, "I:");
+        DbCamera_ScreenTextColored(5, 26, DBCAMERA_TEXT_GOLD, sp50);
     }
 }
 

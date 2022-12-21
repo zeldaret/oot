@@ -364,9 +364,9 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             sDbCamAnim.unk_0A = 0;
         }
-        Debug_ScreenTextColored(17, 23, DEBUG_TEXT_ORANGE, D_8012CEE0[0]);
-        Debug_ScreenTextColored(18, 24, DEBUG_TEXT_ORANGE, D_8012CEE4);
-        Debug_ScreenTextColored(16, 26, DEBUG_TEXT_PEACH, D_8012CEE8);
+        DbCamera_ScreenTextColored(17, 23, DBCAMERA_TEXT_ORANGE, D_8012CEE0[0]);
+        DbCamera_ScreenTextColored(18, 24, DBCAMERA_TEXT_ORANGE, D_8012CEE4);
+        DbCamera_ScreenTextColored(16, 26, DBCAMERA_TEXT_PEACH, D_8012CEE8);
         return;
     }
 
@@ -381,7 +381,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
 
         if (dbCamera->sub.nFrames > 0 && dbCamera->sub.nFrames < sDbCamAnim.unk_04) {
             sDbCamAnim.unk_0A = 0;
-            Debug_ScreenTextColored(15, 26, DEBUG_TEXT_PEACH, D_8012CEEC);
+            DbCamera_ScreenTextColored(15, 26, DBCAMERA_TEXT_PEACH, D_8012CEEC);
         }
 
         if (dbCamera->sub.mode != 1) {
@@ -397,18 +397,18 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         dbCamera->rollDegrees = sDbCamAnim.roll * (360.0f / 256.0f);
 
         DbCamera_SetTextValue(sDbCamAnim.unk_04, &D_8012CFB4[8], 4);
-        Debug_ScreenTextColored(16, 23, DEBUG_TEXT_ORANGE, D_8012CFB4);
+        DbCamera_ScreenTextColored(16, 23, DBCAMERA_TEXT_ORANGE, D_8012CFB4);
         D_8012CFC4[5] = ((sDbCamAnim.keyframe + 1) / 10) + '0';
         D_8012CFC4[6] = ((sDbCamAnim.keyframe + 1) % 10) + '0';
         D_8012CFC4[8] = ((dbCamera->sub.nPoints - 5) / 10) + '0';
         D_8012CFC4[9] = ((dbCamera->sub.nPoints - 5) % 10) + '0';
-        Debug_ScreenTextColored(16, 24, DEBUG_TEXT_ORANGE, D_8012CFC4);
-        Debug_ScreenTextColored(16, 26, DEBUG_TEXT_PEACH, D_8012CEF0);
+        DbCamera_ScreenTextColored(16, 24, DBCAMERA_TEXT_ORANGE, D_8012CFC4);
+        DbCamera_ScreenTextColored(16, 26, DBCAMERA_TEXT_PEACH, D_8012CEF0);
         return;
     }
 
     sDbCamAnim.unk_0A = 0;
-    Debug_ScreenTextColored(15, 26, DEBUG_TEXT_PEACH, D_8012CEEC);
+    DbCamera_ScreenTextColored(15, 26, DBCAMERA_TEXT_PEACH, D_8012CEEC);
 }
 
 void DbCamera_PrintPoints(const char* name, s16 count, CutsceneCameraPoint* points) {
@@ -989,7 +989,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
 
     if (dbCamera->unk_00 == 1) {
         OREG(0) = 8;
-        Debug_ScreenTextColored(12, 5, DEBUG_TEXT_YELLOW, D_8012CEF4);
+        DbCamera_ScreenTextColored(12, 5, DBCAMERA_TEXT_YELLOW, D_8012CEF4);
         if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_CRIGHT) &&
             !CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].cur.button, BTN_L)) {
             func_800B44E0(dbCamera, cam);
@@ -1075,24 +1075,24 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 }
             }
 
-            Debug_ScreenTextColored(10, 6, (dbCamera->sub.unk_08 == 0) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                    D_8012D00C);
-            Debug_ScreenTextColored(17, 6, (dbCamera->sub.unk_08 == 1) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                    D_8012D020);
-            Debug_ScreenTextColored(23, 6, (dbCamera->sub.unk_08 == 2) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                    D_8012D034);
+            DbCamera_ScreenTextColored(10, 6, (dbCamera->sub.unk_08 == 0) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                                       D_8012D00C);
+            DbCamera_ScreenTextColored(17, 6, (dbCamera->sub.unk_08 == 1) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                                       D_8012D020);
+            DbCamera_ScreenTextColored(23, 6, (dbCamera->sub.unk_08 == 2) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                                       D_8012D034);
             if (dbCamera->sub.unkIdx == 0x80) {
-                Debug_ScreenTextColored(16, 26, DEBUG_TEXT_PEACH, D_8012CEF8[0]);
+                DbCamera_ScreenTextColored(16, 26, DBCAMERA_TEXT_PEACH, D_8012CEF8[0]);
             } else if (dbCamera->sub.unkIdx == (dbCamera->sub.nPoints - 1)) {
                 D_8012CEE0[7][10] = (dbCamera->sub.nPoints / 10) + '0';
                 D_8012CEE0[7][11] = (dbCamera->sub.nPoints % 10) + '0';
-                Debug_ScreenTextColored(15, 26, DEBUG_TEXT_PEACH, D_8012CEE0[7]);
+                DbCamera_ScreenTextColored(15, 26, DBCAMERA_TEXT_PEACH, D_8012CEE0[7]);
             } else {
                 D_8012CEE0[8][10] = ((dbCamera->sub.unkIdx + 1) / 10) + '0';
                 D_8012CEE0[8][11] = ((dbCamera->sub.unkIdx + 1) % 10) + '0';
                 D_8012CEE0[8][13] = ((dbCamera->sub.nPoints - 1) / 10) + '0';
                 D_8012CEE0[8][14] = ((dbCamera->sub.nPoints - 1) % 10) + '0';
-                Debug_ScreenTextColored(15, 26, DEBUG_TEXT_PEACH, D_8012CEE0[8]);
+                DbCamera_ScreenTextColored(15, 26, DBCAMERA_TEXT_PEACH, D_8012CEE0[8]);
             }
 
             switch (dbCamera->sub.unk_08) {
@@ -1102,25 +1102,25 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 case 0:
                     dbCamera->unk_3C = false;
                     if (dbCamera->sub.mode != 1) {
-                        Debug_ScreenTextColored(13, 24, DEBUG_TEXT_ORANGE, !D_80161144 ? D_8012CF04 : D_8012CF08);
+                        DbCamera_ScreenTextColored(13, 24, DBCAMERA_TEXT_ORANGE, !D_80161144 ? D_8012CF04 : D_8012CF08);
                         DbCamera_SetTextValue(CAM_BINANG_TO_DEG(sp104.pitch), &D_8012D0E4[11], 4);
-                        Debug_ScreenTextColored(15, 23, DEBUG_TEXT_ORANGE, D_8012D0E4);
+                        DbCamera_ScreenTextColored(15, 23, DBCAMERA_TEXT_ORANGE, D_8012D0E4);
                         DbCamera_SetTextValue(CAM_BINANG_TO_DEG(sp104.yaw), &D_8012D0F8[11], 4);
-                        Debug_ScreenTextColored(15, 24, DEBUG_TEXT_ORANGE, D_8012D0F8);
+                        DbCamera_ScreenTextColored(15, 24, DBCAMERA_TEXT_ORANGE, D_8012D0F8);
                         DbCamera_SetTextValue(sp104.r, &D_8012D0D4[8], 6);
-                        Debug_ScreenTextColored(15, 25, DEBUG_TEXT_ORANGE, D_8012D0D4);
+                        DbCamera_ScreenTextColored(15, 25, DBCAMERA_TEXT_ORANGE, D_8012D0D4);
                     } else {
-                        Debug_ScreenTextColored(14, 24, DEBUG_TEXT_ORANGE, D_8012CF0C);
-                        Debug_ScreenTextColored(16, 22, DEBUG_TEXT_ORANGE, D_8012CF10);
+                        DbCamera_ScreenTextColored(14, 24, DBCAMERA_TEXT_ORANGE, D_8012CF0C);
+                        DbCamera_ScreenTextColored(16, 22, DBCAMERA_TEXT_ORANGE, D_8012CF10);
                         sp110 = 'X';
                         DbCamera_SetTextValue(temp_s6->pos.x, &sp111, 7);
-                        Debug_ScreenTextColored(16, 23, DEBUG_TEXT_ORANGE, &sp110);
+                        DbCamera_ScreenTextColored(16, 23, DBCAMERA_TEXT_ORANGE, &sp110);
                         sp110 = 'Y';
                         DbCamera_SetTextValue(temp_s6->pos.y, &sp111, 7);
-                        Debug_ScreenTextColored(16, 24, DEBUG_TEXT_ORANGE, &sp110);
+                        DbCamera_ScreenTextColored(16, 24, DBCAMERA_TEXT_ORANGE, &sp110);
                         sp110 = 'Z';
                         DbCamera_SetTextValue(temp_s6->pos.z, &sp111, 7);
-                        Debug_ScreenTextColored(16, 25, DEBUG_TEXT_ORANGE, &sp110);
+                        DbCamera_ScreenTextColored(16, 25, DBCAMERA_TEXT_ORANGE, &sp110);
                     }
                     break;
                 case 1:
@@ -1308,18 +1308,19 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                     }
 
                     DbCamera_SetTextValue(dbCamera->sub.lookAt[dbCamera->sub.unkIdx].viewAngle, &D_8012D05C[10], 3);
-                    Debug_ScreenTextColored(16, 20, (dbCamera->sub.unk_0A == 0) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                            D_8012D05C);
+                    DbCamera_ScreenTextColored(
+                        16, 20, (dbCamera->sub.unk_0A == 0) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD, D_8012D05C);
                     DbCamera_SetTextValue(dbCamera->sub.lookAt[dbCamera->sub.unkIdx].nextPointFrame, &D_8012D070[9], 3);
-                    Debug_ScreenTextColored(16, 21, (dbCamera->sub.unk_0A == 1) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                            D_8012D070);
+                    DbCamera_ScreenTextColored(
+                        16, 21, (dbCamera->sub.unk_0A == 1) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD, D_8012D070);
                     DbCamera_SetTextValue(dbCamera->sub.lookAt[dbCamera->sub.unkIdx].cameraRoll, &D_8012D084[10], 3);
-                    Debug_ScreenTextColored(16, 22, (dbCamera->sub.unk_0A == 2) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                            D_8012D084);
-                    Debug_ScreenTextColored(15, 23, (dbCamera->sub.unk_0A == 3) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                            (dbCamera->sub.mode == 1)   ? D_8012CF14
-                                            : (dbCamera->sub.mode == 0) ? *D_8012CF18
-                                                                        : D_8012CFB0);
+                    DbCamera_ScreenTextColored(
+                        16, 22, (dbCamera->sub.unk_0A == 2) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD, D_8012D084);
+                    DbCamera_ScreenTextColored(15, 23,
+                                               (dbCamera->sub.unk_0A == 3) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                                               (dbCamera->sub.mode == 1)   ? D_8012CF14
+                                               : (dbCamera->sub.mode == 0) ? *D_8012CF18
+                                                                           : D_8012CFB0);
                     if (dbCamera->sub.unk_0C) {
                         D_8012D05C[80] = '>';
                     } else {
@@ -1335,75 +1336,76 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                         D_8012D05C[95] = '<';
                     }
                     D_8012D05C[96] = '\0';
-                    Debug_ScreenTextColored(15, 24, (dbCamera->sub.unk_0A == 4) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                            D_8012D0AC);
+                    DbCamera_ScreenTextColored(
+                        15, 24, (dbCamera->sub.unk_0A == 4) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD, D_8012D0AC);
                     DbCamera_SetTextValue(dbCamera->sub.nFrames, &D_8012D0C0[10], 5);
-                    Debug_ScreenTextColored(15, 25, (dbCamera->sub.unk_0A == 5) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD,
-                                            (dbCamera->sub.nFrames == -1) ? *D_8012CF24 : D_8012D0C0);
+                    DbCamera_ScreenTextColored(15, 25,
+                                               (dbCamera->sub.unk_0A == 5) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                                               (dbCamera->sub.nFrames == -1) ? *D_8012CF24 : D_8012D0C0);
                     break;
             }
 
             if (dbCamera->sub.mode != 1) {
-                Debug_ScreenTextColored(3, 22,
-                                        ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144)
-                                            ? DEBUG_TEXT_GREEN
-                                        : !D_80161144 ? DEBUG_TEXT_GOLD
-                                                      : DEBUG_TEXT_ORANGE,
-                                        D_8012CF30);
+                DbCamera_ScreenTextColored(3, 22,
+                                           ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144)
+                                               ? DBCAMERA_TEXT_GREEN
+                                           : !D_80161144 ? DBCAMERA_TEXT_GOLD
+                                                         : DBCAMERA_TEXT_ORANGE,
+                                           D_8012CF30);
                 sp110 = 'X';
                 DbCamera_SetTextValue(dbCamera->at.x, &sp111, 6);
-                Debug_ScreenTextColored(3, 23, DEBUG_TEXT_BROWN, &sp110);
+                DbCamera_ScreenTextColored(3, 23, DBCAMERA_TEXT_BROWN, &sp110);
                 sp110 = 'Y';
                 DbCamera_SetTextValue(dbCamera->at.y, &sp111, 6);
-                Debug_ScreenTextColored(3, 24, DEBUG_TEXT_BROWN, &sp110);
+                DbCamera_ScreenTextColored(3, 24, DBCAMERA_TEXT_BROWN, &sp110);
                 sp110 = 'Z';
                 DbCamera_SetTextValue(dbCamera->at.z, &sp111, 6);
-                Debug_ScreenTextColored(3, 25, DEBUG_TEXT_BROWN, &sp110);
-                Debug_ScreenTextColored(30, 22,
-                                        ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144)
-                                            ? DEBUG_TEXT_GREEN
-                                        : D_80161144 ? DEBUG_TEXT_GOLD
-                                                     : DEBUG_TEXT_ORANGE,
-                                        D_8012CF34);
+                DbCamera_ScreenTextColored(3, 25, DBCAMERA_TEXT_BROWN, &sp110);
+                DbCamera_ScreenTextColored(30, 22,
+                                           ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144)
+                                               ? DBCAMERA_TEXT_GREEN
+                                           : D_80161144 ? DBCAMERA_TEXT_GOLD
+                                                        : DBCAMERA_TEXT_ORANGE,
+                                           D_8012CF34);
                 sp110 = 'X';
                 DbCamera_SetTextValue(dbCamera->eye.x, &sp111, 6);
-                Debug_ScreenTextColored(30, 23, DEBUG_TEXT_BROWN, &sp110);
+                DbCamera_ScreenTextColored(30, 23, DBCAMERA_TEXT_BROWN, &sp110);
                 sp110 = 'Y';
                 DbCamera_SetTextValue(dbCamera->eye.y, &sp111, 6);
-                Debug_ScreenTextColored(30, 24, DEBUG_TEXT_BROWN, &sp110);
+                DbCamera_ScreenTextColored(30, 24, DBCAMERA_TEXT_BROWN, &sp110);
                 sp110 = 'Z';
                 DbCamera_SetTextValue(dbCamera->eye.z, &sp111, 6);
-                Debug_ScreenTextColored(30, 25, DEBUG_TEXT_BROWN, &sp110);
+                DbCamera_ScreenTextColored(30, 25, DBCAMERA_TEXT_BROWN, &sp110);
             } else {
                 if (D_8012CEE0[0]) {}
                 OLib_Vec3fDiffToVecGeo(&spFC, sp90, sp7C);
                 spFC.yaw -= cam->playerPosRot.rot.y;
-                Debug_ScreenTextColored(3, 22,
-                                        ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144)
-                                            ? DEBUG_TEXT_GREEN
-                                        : !D_80161144 ? DEBUG_TEXT_GOLD
-                                                      : DEBUG_TEXT_ORANGE,
-                                        D_8012CF30);
+                DbCamera_ScreenTextColored(3, 22,
+                                           ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && !D_80161144)
+                                               ? DBCAMERA_TEXT_GREEN
+                                           : !D_80161144 ? DBCAMERA_TEXT_GOLD
+                                                         : DBCAMERA_TEXT_ORANGE,
+                                           D_8012CF30);
                 DbCamera_SetTextValue(CAM_BINANG_TO_DEG(spFC.pitch), &D_8012D0E4[10], 4);
-                Debug_ScreenTextColored(3, 23, DEBUG_TEXT_ORANGE, D_8012D0E4);
+                DbCamera_ScreenTextColored(3, 23, DBCAMERA_TEXT_ORANGE, D_8012D0E4);
                 DbCamera_SetTextValue(CAM_BINANG_TO_DEG(spFC.yaw), &D_8012D0F8[10], 4);
-                Debug_ScreenTextColored(3, 24, DEBUG_TEXT_ORANGE, D_8012D0F8);
+                DbCamera_ScreenTextColored(3, 24, DBCAMERA_TEXT_ORANGE, D_8012D0F8);
                 DbCamera_SetTextValue(spFC.r, &D_8012D0D4[7], 6);
-                Debug_ScreenTextColored(3, 25, DEBUG_TEXT_ORANGE, D_8012D0D4);
+                DbCamera_ScreenTextColored(3, 25, DBCAMERA_TEXT_ORANGE, D_8012D0D4);
                 OLib_Vec3fDiffToVecGeo(&spFC, sp90, sp80);
                 spFC.yaw -= cam->playerPosRot.rot.y;
-                Debug_ScreenTextColored(30, 22,
-                                        ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144)
-                                            ? DEBUG_TEXT_GREEN
-                                        : D_80161144 ? DEBUG_TEXT_GOLD
-                                                     : DEBUG_TEXT_ORANGE,
-                                        D_8012CF34);
+                DbCamera_ScreenTextColored(30, 22,
+                                           ((dbCamera->sub.unk_08 == 1) && (dbCamera->sub.unk_0A == 4) && D_80161144)
+                                               ? DBCAMERA_TEXT_GREEN
+                                           : D_80161144 ? DBCAMERA_TEXT_GOLD
+                                                        : DBCAMERA_TEXT_ORANGE,
+                                           D_8012CF34);
                 DbCamera_SetTextValue(CAM_BINANG_TO_DEG(spFC.pitch), &D_8012D0E4[10], 4);
-                Debug_ScreenTextColored(28, 23, DEBUG_TEXT_ORANGE, D_8012D0E4);
+                DbCamera_ScreenTextColored(28, 23, DBCAMERA_TEXT_ORANGE, D_8012D0E4);
                 DbCamera_SetTextValue(CAM_BINANG_TO_DEG(spFC.yaw), &D_8012D0F8[10], 4);
-                Debug_ScreenTextColored(28, 24, DEBUG_TEXT_ORANGE, D_8012D0F8);
+                DbCamera_ScreenTextColored(28, 24, DBCAMERA_TEXT_ORANGE, D_8012D0F8);
                 DbCamera_SetTextValue(spFC.r, &D_8012D0D4[7], 6);
-                Debug_ScreenTextColored(28, 25, DEBUG_TEXT_ORANGE, D_8012D0D4);
+                DbCamera_ScreenTextColored(28, 25, DBCAMERA_TEXT_ORANGE, D_8012D0D4);
             }
 
             DebugDisplay_AddObject(dbCamera->at.x, dbCamera->at.y + 1.0f, dbCamera->at.z, 0, 0, 0, 0.02f, 2.0f, 0.02f,
@@ -1449,41 +1451,44 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             dbCamera->unk_38 = -1;
         }
 
-        Debug_ScreenTextColored(14, 5, DEBUG_TEXT_YELLOW, D_8012CF38);
-        Debug_ScreenTextColored(9, 6, (dbCamera->unk_78 == 0) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD, D_8012CFD0);
-        Debug_ScreenTextColored(17, 6, (dbCamera->unk_78 == 1) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD, D_8012CFE4);
-        Debug_ScreenTextColored(24, 6, (dbCamera->unk_78 == 2) ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD, D_8012CFF8);
-        Debug_ScreenTextColored(3, 22, D_80161144 ? DEBUG_TEXT_ORANGE : DEBUG_TEXT_GOLD, D_8012CF30);
+        DbCamera_ScreenTextColored(14, 5, DBCAMERA_TEXT_YELLOW, D_8012CF38);
+        DbCamera_ScreenTextColored(9, 6, (dbCamera->unk_78 == 0) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                                   D_8012CFD0);
+        DbCamera_ScreenTextColored(17, 6, (dbCamera->unk_78 == 1) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                                   D_8012CFE4);
+        DbCamera_ScreenTextColored(24, 6, (dbCamera->unk_78 == 2) ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                                   D_8012CFF8);
+        DbCamera_ScreenTextColored(3, 22, D_80161144 ? DBCAMERA_TEXT_ORANGE : DBCAMERA_TEXT_GOLD, D_8012CF30);
         sp110 = 'X';
         DbCamera_SetTextValue(dbCamera->at.x, &sp111, 6);
-        Debug_ScreenTextColored(3, 23, DEBUG_TEXT_BROWN, &sp110);
+        DbCamera_ScreenTextColored(3, 23, DBCAMERA_TEXT_BROWN, &sp110);
         sp110 = 'Y';
         DbCamera_SetTextValue(dbCamera->at.y, &sp111, 6);
-        Debug_ScreenTextColored(3, 24, DEBUG_TEXT_BROWN, &sp110);
+        DbCamera_ScreenTextColored(3, 24, DBCAMERA_TEXT_BROWN, &sp110);
         sp110 = 'Z';
         DbCamera_SetTextValue(dbCamera->at.z, &sp111, 6);
-        Debug_ScreenTextColored(3, 25, DEBUG_TEXT_BROWN, &sp110);
-        Debug_ScreenTextColored(30, 22, D_80161144 ? DEBUG_TEXT_GOLD : DEBUG_TEXT_ORANGE, D_8012CF34);
+        DbCamera_ScreenTextColored(3, 25, DBCAMERA_TEXT_BROWN, &sp110);
+        DbCamera_ScreenTextColored(30, 22, D_80161144 ? DBCAMERA_TEXT_GOLD : DBCAMERA_TEXT_ORANGE, D_8012CF34);
         sp110 = 'X';
         DbCamera_SetTextValue(dbCamera->eye.x, &sp111, 6);
-        Debug_ScreenTextColored(30, 23, DEBUG_TEXT_BROWN, &sp110);
+        DbCamera_ScreenTextColored(30, 23, DBCAMERA_TEXT_BROWN, &sp110);
         sp110 = 'Y';
         DbCamera_SetTextValue(dbCamera->eye.y, &sp111, 6);
-        Debug_ScreenTextColored(30, 24, DEBUG_TEXT_BROWN, &sp110);
+        DbCamera_ScreenTextColored(30, 24, DBCAMERA_TEXT_BROWN, &sp110);
         sp110 = 'Z';
         DbCamera_SetTextValue(dbCamera->eye.z, &sp111, 6);
-        Debug_ScreenTextColored(30, 25, DEBUG_TEXT_BROWN, &sp110);
-        Debug_ScreenTextColored(13, 24, DEBUG_TEXT_ORANGE, !D_80161144 ? D_8012CF04 : D_8012CF08);
+        DbCamera_ScreenTextColored(30, 25, DBCAMERA_TEXT_BROWN, &sp110);
+        DbCamera_ScreenTextColored(13, 24, DBCAMERA_TEXT_ORANGE, !D_80161144 ? D_8012CF04 : D_8012CF08);
         DbCamera_SetTextValue(CAM_BINANG_TO_DEG(sp104.pitch), &D_8012D0E4[11], 4);
-        Debug_ScreenTextColored(15, 23, DEBUG_TEXT_ORANGE, D_8012D0E4);
+        DbCamera_ScreenTextColored(15, 23, DBCAMERA_TEXT_ORANGE, D_8012D0E4);
         DbCamera_SetTextValue(CAM_BINANG_TO_DEG(sp104.yaw), &D_8012D0F8[11], 4);
-        Debug_ScreenTextColored(15, 24, DEBUG_TEXT_ORANGE, D_8012D0F8);
+        DbCamera_ScreenTextColored(15, 24, DBCAMERA_TEXT_ORANGE, D_8012D0F8);
         DbCamera_SetTextValue(sp104.r, &D_8012D0D4[8], 6);
-        Debug_ScreenTextColored(15, 25, DEBUG_TEXT_ORANGE, D_8012D0D4);
+        DbCamera_ScreenTextColored(15, 25, DBCAMERA_TEXT_ORANGE, D_8012D0D4);
         if (dbCamera->unk_3C) {
-            Debug_ScreenTextColored(16, 26, DEBUG_TEXT_PEACH, D_8012CF3C);
+            DbCamera_ScreenTextColored(16, 26, DBCAMERA_TEXT_PEACH, D_8012CF3C);
         } else {
-            Debug_ScreenTextColored(16, 26, DEBUG_TEXT_PEACH, D_8012CF40);
+            DbCamera_ScreenTextColored(16, 26, DBCAMERA_TEXT_PEACH, D_8012CF40);
         }
 
         D_8012D110++;
@@ -1717,9 +1722,9 @@ void DbCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorIndex) {
     }
 
     str[0x14] = str[i * 2 + 1] = '\0';
-    Debug_ScreenTextColored(x, y, colorIndex, str);
+    DbCamera_ScreenTextColored(x, y, colorIndex, str);
     str[0x14] = str[i * 2 + 0] = '-';
-    Debug_ScreenTextColored(20 + x, y, colorIndex, str + 0x14);
+    DbCamera_ScreenTextColored(20 + x, y, colorIndex, str + 0x14);
 }
 
 void DbCamera_PrintAllCuts(Camera* cam) {
@@ -1777,11 +1782,11 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
         D_8012D13C[10] = ((sDbCameraCuts[D_8016110C].nPoints - 5) / 10) + '0';
         D_8012D13C[11] = ((sDbCameraCuts[D_8016110C].nPoints - 5) % 10) + '0';
         DbCamera_SetTextValue(sDbCamAnim.unk_04, &D_8012D114[10], 4);
-        Debug_ScreenTextColored(15, 22, DEBUG_TEXT_ORANGE, D_8012D114);
+        DbCamera_ScreenTextColored(15, 22, DBCAMERA_TEXT_ORANGE, D_8012D114);
         DbCamera_SetTextValue(sDbCamAnim.unk_0C, &D_8012D128[10], 4);
-        Debug_ScreenTextColored(15, 23, DEBUG_TEXT_ORANGE, D_8012D128);
-        Debug_ScreenTextColored(15, 24, DEBUG_TEXT_ORANGE, D_8012D13C);
-        Debug_ScreenTextColored(16, 26, DEBUG_TEXT_PEACH, D_8012CEF0);
+        DbCamera_ScreenTextColored(15, 23, DBCAMERA_TEXT_ORANGE, D_8012D128);
+        DbCamera_ScreenTextColored(15, 24, DBCAMERA_TEXT_ORANGE, D_8012D13C);
+        DbCamera_ScreenTextColored(16, 26, DBCAMERA_TEXT_PEACH, D_8012CEF0);
 
         sDbCamAnim.unk_04++;
         sDbCamAnim.unk_0C++;
@@ -1844,7 +1849,8 @@ void DbCamera_Reset(Camera* cam, DbCamera* dbCam) {
 s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     static s32 sMempakFiles;
     static u32 sDbCameraColors[] = {
-        DEBUG_TEXT_GOLD, DEBUG_TEXT_GOLD, DEBUG_TEXT_GOLD, DEBUG_TEXT_GREEN, DEBUG_TEXT_GOLD, DEBUG_TEXT_GOLD,
+        DBCAMERA_TEXT_GOLD,  DBCAMERA_TEXT_GOLD, DBCAMERA_TEXT_GOLD,
+        DBCAMERA_TEXT_GREEN, DBCAMERA_TEXT_GOLD, DBCAMERA_TEXT_GOLD,
     };
     static s32 sMempakFilesize = 0;
     s32 i;
@@ -1856,7 +1862,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
     VecGeo sp5C;
     s32 (*callbacks[])(char*) = { DbCamera_SaveCallback, DbCamera_LoadCallback, DbCamera_ClearCallback };
 
-    Debug_ScreenTextColored(14, 5, DEBUG_TEXT_YELLOW, D_8012CF44); // DEMO CONTROL
+    DbCamera_ScreenTextColored(14, 5, DBCAMERA_TEXT_YELLOW, D_8012CF44); // DEMO CONTROL
 
     idx1 = sCurFileIdx >> 1;
     idx2 = sLastFileIdx >> 1;
@@ -1878,14 +1884,17 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             dbCamera->sub.demoCtrlToggleSwitch ^= 1;
                         }
                         D_8012CEE0[41][9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
-                        Debug_ScreenTextColored(10, 7, DEBUG_TEXT_WHITE, D_8012CEE0[41]);
-                        Debug_ScreenTextColored(16, 7, DEBUG_TEXT_WHITE, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
-                        Debug_ScreenTextColored(20, 7, DEBUG_TEXT_WHITE, D_8012CF88[0]);
+                        DbCamera_ScreenTextColored(10, 7, DBCAMERA_TEXT_WHITE, D_8012CEE0[41]);
+                        DbCamera_ScreenTextColored(16, 7, DBCAMERA_TEXT_WHITE,
+                                                   D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
+                        DbCamera_ScreenTextColored(20, 7, DBCAMERA_TEXT_WHITE, D_8012CF88[0]);
 
-                        Debug_ScreenTextColored(
-                            17, 8, dbCamera->sub.demoCtrlToggleSwitch ? DEBUG_TEXT_GOLD : DEBUG_TEXT_GREEN, D_8012CF94);
-                        Debug_ScreenTextColored(
-                            21, 8, dbCamera->sub.demoCtrlToggleSwitch ? DEBUG_TEXT_GREEN : DEBUG_TEXT_GOLD, D_8012CF98);
+                        DbCamera_ScreenTextColored(
+                            17, 8, dbCamera->sub.demoCtrlToggleSwitch ? DBCAMERA_TEXT_GOLD : DBCAMERA_TEXT_GREEN,
+                            D_8012CF94);
+                        DbCamera_ScreenTextColored(
+                            21, 8, dbCamera->sub.demoCtrlToggleSwitch ? DBCAMERA_TEXT_GREEN : DBCAMERA_TEXT_GOLD,
+                            D_8012CF98);
 
                         if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_A)) {
                             if (dbCamera->sub.demoCtrlToggleSwitch == 0) {
@@ -1904,11 +1913,11 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         } else {
                             dbCamera->sub.demoCtrlToggleSwitch ^= 1;
                             D_8012CF84[9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
-                            Debug_ScreenTextColored(13, 7, DEBUG_TEXT_WHITE,
-                                                    D_8012CF88[-1]); // todo: find something better
-                            Debug_ScreenTextColored(18, 7, DEBUG_TEXT_WHITE, D_8012CF80);
-                            Debug_ScreenTextColored(
-                                13, 9, dbCamera->sub.demoCtrlToggleSwitch ? DEBUG_TEXT_PEACH : DEBUG_TEXT_BLUE,
+                            DbCamera_ScreenTextColored(13, 7, DBCAMERA_TEXT_WHITE,
+                                                       D_8012CF88[-1]); // todo: find something better
+                            DbCamera_ScreenTextColored(18, 7, DBCAMERA_TEXT_WHITE, D_8012CF80);
+                            DbCamera_ScreenTextColored(
+                                13, 9, dbCamera->sub.demoCtrlToggleSwitch ? DBCAMERA_TEXT_PEACH : DBCAMERA_TEXT_BLUE,
                                 "PRESS B BUTTON");
                         }
                     }
@@ -1925,9 +1934,9 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_LOAD, MENU_CALLBACK):
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_CALLBACK): {
                     D_8012CEE0[41][9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
-                    Debug_ScreenTextColored(12, 7, DEBUG_TEXT_WHITE, D_8012CEE0[41]);
-                    Debug_ScreenTextColored(18, 7, DEBUG_TEXT_WHITE, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
-                    Debug_ScreenTextColored(22, 7, DEBUG_TEXT_WHITE, D_8012CF9C[0]);
+                    DbCamera_ScreenTextColored(12, 7, DBCAMERA_TEXT_WHITE, D_8012CEE0[41]);
+                    DbCamera_ScreenTextColored(18, 7, DBCAMERA_TEXT_WHITE, D_8012CF60[dbCamera->sub.demoCtrlActionIdx]);
+                    DbCamera_ScreenTextColored(22, 7, DBCAMERA_TEXT_WHITE, D_8012CF9C[0]);
 
                     if (callbacks[dbCamera->sub.demoCtrlActionIdx - 1](&D_8012CF84[9])) {
                         dbCamera->sub.demoCtrlMenu++;
@@ -1943,11 +1952,12 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_SUCCESS): {
                     dbCamera->sub.demoCtrlToggleSwitch ^= 1;
                     D_8012CEE0[41][9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
-                    Debug_ScreenTextColored(13, 7, DEBUG_TEXT_WHITE, D_8012CEE0[41]);
-                    Debug_ScreenTextColored(19, 7, DEBUG_TEXT_WHITE, D_8012CF60[dbCamera->sub.demoCtrlMenu / 100]);
-                    Debug_ScreenTextColored(23, 7, DEBUG_TEXT_WHITE, D_8012CFA4);
-                    Debug_ScreenTextColored(
-                        13, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? DEBUG_TEXT_PEACH : DEBUG_TEXT_BLUE,
+                    DbCamera_ScreenTextColored(13, 7, DBCAMERA_TEXT_WHITE, D_8012CEE0[41]);
+                    DbCamera_ScreenTextColored(19, 7, DBCAMERA_TEXT_WHITE,
+                                               D_8012CF60[dbCamera->sub.demoCtrlMenu / 100]);
+                    DbCamera_ScreenTextColored(23, 7, DBCAMERA_TEXT_WHITE, D_8012CFA4);
+                    DbCamera_ScreenTextColored(
+                        13, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? DBCAMERA_TEXT_PEACH : DBCAMERA_TEXT_BLUE,
                         "PRESS B BUTTON");
 
                     if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_A) ||
@@ -1968,12 +1978,12 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 case DEMO_CTRL_MENU(ACTION_CLEAR, MENU_ERROR): {
                     dbCamera->sub.demoCtrlToggleSwitch ^= 1;
                     D_8012CEE0[41][9] = MEMPAK_INDEX_TO_LETTER(sCurFileIdx);
-                    Debug_ScreenTextColored(13, 7, DEBUG_TEXT_WHITE,
-                                            D_8012CEE0[(dbCamera->sub.demoCtrlMenu / 100) + 32]);
-                    Debug_ScreenTextColored(17, 7, DEBUG_TEXT_WHITE, D_8012CFAC);
-                    Debug_ScreenTextColored(23, 7, DEBUG_TEXT_WHITE, D_8012CFA4);
-                    Debug_ScreenTextColored(
-                        13, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? DEBUG_TEXT_PEACH : DEBUG_TEXT_BLUE,
+                    DbCamera_ScreenTextColored(13, 7, DBCAMERA_TEXT_WHITE,
+                                               D_8012CEE0[(dbCamera->sub.demoCtrlMenu / 100) + 32]);
+                    DbCamera_ScreenTextColored(17, 7, DBCAMERA_TEXT_WHITE, D_8012CFAC);
+                    DbCamera_ScreenTextColored(23, 7, DBCAMERA_TEXT_WHITE, D_8012CFA4);
+                    DbCamera_ScreenTextColored(
+                        13, 9, (dbCamera->sub.demoCtrlToggleSwitch != 0) ? DBCAMERA_TEXT_PEACH : DBCAMERA_TEXT_BLUE,
                         "PRESS B BUTTON");
 
                     if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_A) ||
@@ -2050,31 +2060,31 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                             }
                         }
                         idx3 = dbCamera->sub.demoCtrlActionIdx;
-                        Debug_ScreenTextColored(14, 7, DEBUG_TEXT_WHITE, D_8012CF50[idx3]);
-                        Debug_ScreenTextColored(15, 7, DEBUG_TEXT_GOLD, sp74);
+                        DbCamera_ScreenTextColored(14, 7, DBCAMERA_TEXT_WHITE, D_8012CF50[idx3]);
+                        DbCamera_ScreenTextColored(15, 7, DBCAMERA_TEXT_GOLD, sp74);
 
-                        Debug_ScreenTextColored(16 + (sCurFileIdx * 2), 7, DEBUG_TEXT_GREEN, "_"); // cursor
+                        DbCamera_ScreenTextColored(16 + (sCurFileIdx * 2), 7, DBCAMERA_TEXT_GREEN, "_"); // cursor
                         DbCamera_SetTextValue(DbCamera_GetMempakAllocSize(), sp74, 6);
-                        Debug_ScreenTextColored(13, 9, DEBUG_TEXT_BLUE, D_8012CF78); // NEED      BYTE
-                        Debug_ScreenTextColored(17, 9, DEBUG_TEXT_GOLD, sp74);
+                        DbCamera_ScreenTextColored(13, 9, DBCAMERA_TEXT_BLUE, D_8012CF78); // NEED      BYTE
+                        DbCamera_ScreenTextColored(17, 9, DBCAMERA_TEXT_GOLD, sp74);
                         DbCamera_SetTextValue(Mempak_GetFreeBytes(DBCAM_CONTROLLER_PORT), sp74, 6);
-                        Debug_ScreenTextColored(13, 10, DEBUG_TEXT_BLUE, D_8012CF74); // FREE      BYTE
-                        Debug_ScreenTextColored(17, 10, DEBUG_TEXT_GOLD, sp74);
+                        DbCamera_ScreenTextColored(13, 10, DBCAMERA_TEXT_BLUE, D_8012CF74); // FREE      BYTE
+                        DbCamera_ScreenTextColored(17, 10, DBCAMERA_TEXT_GOLD, sp74);
                         if (sMempakFilesize != 0) {
                             DbCamera_SetTextValue(sMempakFilesize, sp74, 6);
-                            Debug_ScreenTextColored(13, 11, DEBUG_TEXT_GREEN, D_8012CFA8);
-                            Debug_ScreenTextColored(17, 11, DEBUG_TEXT_GOLD, sp74);
+                            DbCamera_ScreenTextColored(13, 11, DBCAMERA_TEXT_GREEN, D_8012CFA8);
+                            DbCamera_ScreenTextColored(17, 11, DBCAMERA_TEXT_GOLD, sp74);
                         }
 
                         idx1 = (dbCamera->sub.demoCtrlActionIdx + 2);
-                        Debug_ScreenTextColored(15, 22, DEBUG_TEXT_PEACH, D_8012CF7C);
-                        Debug_ScreenTextColored(18, 23, sDbCameraColors[idx1], D_8012CF64);
-                        Debug_ScreenTextColored(18, 24, sDbCameraColors[idx1 - 1], D_8012CF68);
-                        Debug_ScreenTextColored(18, 25, sDbCameraColors[idx1 - 2], D_8012CF6C);
-                        Debug_ScreenTextColored(14, 22 + dbCamera->sub.demoCtrlActionIdx, DEBUG_TEXT_GREEN,
-                                                D_8012CF0C); // current selection
-                        Debug_ScreenTextColored(13, 26, DEBUG_TEXT_WHITE, D_8012CF60[0]);
-                        Debug_ScreenTextColored(20, 26, DEBUG_TEXT_WHITE, D_8012CF70);
+                        DbCamera_ScreenTextColored(15, 22, DBCAMERA_TEXT_PEACH, D_8012CF7C);
+                        DbCamera_ScreenTextColored(18, 23, sDbCameraColors[idx1], D_8012CF64);
+                        DbCamera_ScreenTextColored(18, 24, sDbCameraColors[idx1 - 1], D_8012CF68);
+                        DbCamera_ScreenTextColored(18, 25, sDbCameraColors[idx1 - 2], D_8012CF6C);
+                        DbCamera_ScreenTextColored(14, 22 + dbCamera->sub.demoCtrlActionIdx, DBCAMERA_TEXT_GREEN,
+                                                   D_8012CF0C); // current selection
+                        DbCamera_ScreenTextColored(13, 26, DBCAMERA_TEXT_WHITE, D_8012CF60[0]);
+                        DbCamera_ScreenTextColored(20, 26, DBCAMERA_TEXT_WHITE, D_8012CF70);
 
                         if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DUP)) {
                             Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -2101,8 +2111,8 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                         }
                         goto block_2;
                     } else {
-                        Debug_ScreenTextColored(12, 26, DEBUG_TEXT_GOLD, D_8012CF60[0]);
-                        Debug_ScreenTextColored(19, 26, DEBUG_TEXT_GOLD, D_8012CF80);
+                        DbCamera_ScreenTextColored(12, 26, DBCAMERA_TEXT_GOLD, D_8012CF60[0]);
+                        DbCamera_ScreenTextColored(19, 26, DBCAMERA_TEXT_GOLD, D_8012CF80);
                         if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_B) ||
                             CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DUP) ||
                             CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_DDOWN)) {
@@ -2134,11 +2144,11 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 sCurFileIdx = 0;
             }
 
-            DbCamera_DrawSlotLetters(sp74, 7, 5, DEBUG_TEXT_GOLD);
+            DbCamera_DrawSlotLetters(sp74, 7, 5, DBCAMERA_TEXT_GOLD);
 
             if (sDbCamAnim.unk_0A != 0) {
-                Debug_ScreenTextColored(4, 7, DEBUG_TEXT_WHITE, D_8012CF4C);
-                Debug_ScreenTextColored(6 + (D_8016110C * 2), 7, DEBUG_TEXT_GREEN, ">");
+                DbCamera_ScreenTextColored(4, 7, DBCAMERA_TEXT_WHITE, D_8012CF4C);
+                DbCamera_ScreenTextColored(6 + (D_8016110C * 2), 7, DBCAMERA_TEXT_GREEN, ">");
 
                 if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CUP)) {
                     if (D_8016110C > 0) {
@@ -2247,7 +2257,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     sp74[sCurFileIdx] = DbCamera_InitCut(idx1, &dbCamera->sub);
                     if (sp74[sCurFileIdx] == '?') {
-                        Debug_ScreenTextColored(15, 24, DEBUG_TEXT_GREEN, D_8012CF48);
+                        DbCamera_ScreenTextColored(15, 24, DBCAMERA_TEXT_GREEN, D_8012CF48);
                     }
                 }
             }
@@ -2331,15 +2341,15 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
 
-            Debug_ScreenTextColored(4, 7, DEBUG_TEXT_WHITE, D_8012CF50[0]);
+            DbCamera_ScreenTextColored(4, 7, DBCAMERA_TEXT_WHITE, D_8012CF50[0]);
             sp74[1] = 0;
             if (sLastFileIdx != -1) {
                 sp74[0] = D_801612EA;
-                Debug_ScreenTextColored(5 + sLastFileIdx, 7, DEBUG_TEXT_BROWN, sp74);
+                DbCamera_ScreenTextColored(5 + sLastFileIdx, 7, DBCAMERA_TEXT_BROWN, sp74);
             } else {
                 sp74[0] = '_';
             }
-            Debug_ScreenTextColored(5 + sCurFileIdx, 7, DEBUG_TEXT_GREEN, sp74);
+            DbCamera_ScreenTextColored(5 + sCurFileIdx, 7, DBCAMERA_TEXT_GREEN, sp74);
 
             break;
         }

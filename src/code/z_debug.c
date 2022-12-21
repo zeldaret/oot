@@ -5,7 +5,7 @@ typedef struct {
     u8 y;
     u8 colorIndex;
     char text[21];
-} DebugTextBufferEntry; // size = 0x18
+} DbCameraTextBufferEntry; // size = 0x18
 
 typedef struct {
     u16 hold;
@@ -14,19 +14,19 @@ typedef struct {
 
 RegEditor* gRegEditor;
 
-DebugTextBufferEntry sDebugTextBuffer[22];
+DbCameraTextBufferEntry sDebugTextBuffer[22];
 
-s16 sDebugTextEntryCount = 0;
+s16 sDbCameraTextEntryCount = 0;
 
-Color_RGBA8 sDebugTextColors[] = {
-    { 255, 255, 32, 192 },  // DEBUG_TEXT_YELLOW
-    { 255, 150, 128, 192 }, // DEBUG_TEXT_PEACH
-    { 128, 96, 0, 64 },     // DEBUG_TEXT_BROWN
-    { 192, 128, 16, 128 },  // DEBUG_TEXT_ORANGE
-    { 255, 192, 32, 128 },  // DEBUG_TEXT_GOLD
-    { 230, 230, 220, 64 },  // DEBUG_TEXT_WHITE
-    { 128, 150, 255, 128 }, // DEBUG_TEXT_BLUE
-    { 128, 255, 32, 128 },  // DEBUG_TEXT_GREEN
+Color_RGBA8 sDbCameraTextColors[] = {
+    { 255, 255, 32, 192 },  // DBCAMERA_TEXT_YELLOW
+    { 255, 150, 128, 192 }, // DBCAMERA_TEXT_PEACH
+    { 128, 96, 0, 64 },     // DBCAMERA_TEXT_BROWN
+    { 192, 128, 16, 128 },  // DBCAMERA_TEXT_ORANGE
+    { 255, 192, 32, 128 },  // DBCAMERA_TEXT_GOLD
+    { 230, 230, 220, 64 },  // DBCAMERA_TEXT_WHITE
+    { 128, 150, 255, 128 }, // DBCAMERA_TEXT_BLUE
+    { 128, 255, 32, 128 },  // DBCAMERA_TEXT_GREEN
 };
 
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
@@ -108,16 +108,16 @@ void Regs_Init(void) {
     }
 }
 
-// Function is stubbed. Name is assumed by similarities in signature to `Debug_ScreenTextColored` and usage.
-void Debug_ScreenText(u8 x, u8 y, const char* text) {
+// Function is stubbed. Name is assumed by similarities in signature to `DbCamera_ScreenTextColored` and usage.
+void DbCamera_ScreenText(u8 x, u8 y, const char* text) {
 }
 
-void Debug_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
-    DebugTextBufferEntry* entry = &sDebugTextBuffer[sDebugTextEntryCount];
+void DbCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
+    DbCameraTextBufferEntry* entry = &sDebugTextBuffer[sDbCameraTextEntryCount];
     char* textDest;
     s16 charCount;
 
-    if (sDebugTextEntryCount < ARRAY_COUNT(sDebugTextBuffer)) {
+    if (sDbCameraTextEntryCount < ARRAY_COUNT(sDebugTextBuffer)) {
         entry->x = x;
         entry->y = y;
         entry->colorIndex = colorIndex;
@@ -134,18 +134,18 @@ void Debug_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
 
         *textDest = '\0';
 
-        sDebugTextEntryCount++;
+        sDbCameraTextEntryCount++;
     }
 }
 
-void Debug_DrawOnScreenText(GfxPrint* printer) {
+void DbCamera_DrawScreenText(GfxPrint* printer) {
     s32 i;
     Color_RGBA8* color;
-    DebugTextBufferEntry* entry;
+    DbCameraTextBufferEntry* entry;
 
-    for (i = 0; i < sDebugTextEntryCount; i++) {
+    for (i = 0; i < sDbCameraTextEntryCount; i++) {
         entry = &sDebugTextBuffer[i];
-        color = &sDebugTextColors[entry->colorIndex];
+        color = &sDbCameraTextColors[entry->colorIndex];
 
         GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
         GfxPrint_SetPos(printer, entry->x, entry->y);
@@ -266,7 +266,10 @@ void Regs_DrawEditor(GfxPrint* printer) {
     }
 }
 
-void Debug_Draw(GraphicsContext* gfxCtx) {
+/**
+ * Draws the Reg Editor and Debug Camera text on screen
+ */
+void Debug_DrawText(GraphicsContext* gfxCtx) {
     Gfx* gfx;
     Gfx* opaStart;
     GfxPrint printer;
@@ -281,14 +284,14 @@ void Debug_Draw(GraphicsContext* gfxCtx) {
     GfxPrint_Open(&printer, gfx);
 
     if ((OREG(0) == 1) || (OREG(0) == 8)) {
-        Debug_DrawOnScreenText(&printer);
+        DbCamera_DrawScreenText(&printer);
     }
 
     if (gRegEditor->regPage != 0) {
         Regs_DrawEditor(&printer);
     }
 
-    sDebugTextEntryCount = 0;
+    sDbCameraTextEntryCount = 0;
 
     gfx = GfxPrint_Close(&printer);
     gSPEndDisplayList(gfx++);
