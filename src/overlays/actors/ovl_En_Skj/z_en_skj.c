@@ -910,7 +910,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
         EnSkj_TurnPlayer(sSmallStumpSkullKid.skullkid, player);
-        func_8010BD88(play, OCARINA_ACTION_CHECK_SARIA);
+        Message_StartOcarinaSunsSongDisabled(play, OCARINA_ACTION_CHECK_SARIA);
         EnSkj_SetupWaitForSong(this);
     } else if (D_80B01EA0 != 0) {
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
@@ -1401,7 +1401,7 @@ void EnSkj_StartOcarinaMinigame(EnSkj* this, PlayState* play) {
     EnSkj_TurnPlayer(this, player);
 
     if (dialogState == TEXT_STATE_CLOSING) {
-        func_8010BD58(play, OCARINA_ACTION_MEMORY_GAME);
+        Message_StartOcarina(play, OCARINA_ACTION_MEMORY_GAME);
         if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
             sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCARINA_PLAY_NOTES;
         }
