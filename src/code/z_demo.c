@@ -1705,7 +1705,7 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdText* cmd) {
         } else {
             if (sCurOcarinaAction != cmd->textId) {
                 sCurOcarinaAction = cmd->textId;
-                func_8010BD58(play, cmd->textId);
+                Message_StartOcarina(play, cmd->textId);
                 return;
             }
         }
@@ -1744,7 +1744,7 @@ void CutsceneCmd_Text(PlayState* play, CutsceneContext* csCtx, CsCmdText* cmd) {
 
                 if (dialogState == TEXT_STATE_EVENT) {
                     if (Message_ShouldAdvance(play)) {
-                        func_8010BD58(play, cmd->textId);
+                        Message_StartOcarina(play, cmd->textId);
                     }
                 }
             }

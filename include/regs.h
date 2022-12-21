@@ -51,6 +51,7 @@
 #define R_ROOM_IMAGE_NODRAW_FLAGS                SREG(25)
 #define R_ROOM_BG2D_FORCE_SCALEBG                SREG(26)
 #define R_UPDATE_RATE                            SREG(30)
+#define R_GRAPH_TASKSET00_FLAGS                  SREG(33)
 #define R_ENABLE_AUDIO_DBG                       SREG(36)
 #define R_VI_MODE_EDIT_STATE                     SREG(48)
 #define R_VI_MODE_EDIT_WIDTH                     SREG(49)
@@ -64,7 +65,7 @@
 #define R_FB_FILTER_A                            SREG(84)
 #define R_FB_FILTER_ENV_COLOR(c)                 SREG(85 + (c))
 #define R_ENABLE_FB_FILTER                       SREG(88)
-#define R_PAUSE_MENU_MODE                        SREG(94)
+#define R_PAUSE_BG_PRERENDER_STATE               SREG(94) // `PauseBgPreRenderState`
 #define R_CAM_XZ_OFFSET_UPDATE_RATE              OREG(2)
 #define R_CAM_Y_OFFSET_UPDATE_RATE               OREG(3)
 #define R_CAM_FOV_UPDATE_RATE                    OREG(4)

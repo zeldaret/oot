@@ -142,7 +142,7 @@ void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play) {
             }
         }
         if (this->fairySpawnerState == SPAWNER_OCARINA_START) {
-            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+            Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->fairySpawnerState = SPAWNER_OCARINA_PLAYING;
         } else if (this->fairySpawnerState == SPAWNER_OCARINA_PLAYING && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
             if ((params == 0x40 && play->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS) ||

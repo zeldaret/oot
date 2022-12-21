@@ -191,7 +191,7 @@ void EnFu_WaitForPlayback(EnFu* this, PlayState* play) {
     player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 7, player has played back the song
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
-        func_8010BD58(play, OCARINA_ACTION_PLAYBACK_STORMS);
+        Message_StartOcarina(play, OCARINA_ACTION_PLAYBACK_STORMS);
         this->actionFunc = func_80A1DBD4;
     }
 }
@@ -205,7 +205,7 @@ void EnFu_TeachSong(EnFu* this, PlayState* play) {
         this->behaviorFlags &= ~FU_WAIT;
         // Ocarina is set to harp here but is immediately overwritten to the grind organ in the message system
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_HARP);
-        func_8010BD58(play, OCARINA_ACTION_TEACH_STORMS);
+        Message_StartOcarina(play, OCARINA_ACTION_TEACH_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }
 }
