@@ -603,7 +603,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
 
         case 3190:
             Play_ChangeCameraSetting(play, subCamId, CAM_SET_FOREST_DEFEAT_POE);
-            Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
+            Camera_RequestMode(mainCam, CAM_MODE_NORMAL);
             func_8002DF38(play, actor, PLAYER_CSMODE_12);
             break;
 
@@ -884,7 +884,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCount = ARRAY_COUNT(D_801227B4);
 
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
-            Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
+            Camera_RequestMode(mainCam, CAM_MODE_NORMAL);
             break;
 
         case 4150:
@@ -892,7 +892,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCount = ARRAY_COUNT(D_801228A4);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
-            Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
+            Camera_RequestMode(mainCam, CAM_MODE_NORMAL);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
@@ -901,7 +901,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCount = ARRAY_COUNT(D_8012296C);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
-            Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
+            Camera_RequestMode(mainCam, CAM_MODE_NORMAL);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
@@ -910,7 +910,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCount = ARRAY_COUNT(D_80122A0C);
 
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
-            Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
+            Camera_RequestMode(mainCam, CAM_MODE_NORMAL);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
@@ -919,7 +919,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCount = ARRAY_COUNT(D_80122A5C);
 
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_8);
-            Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
+            Camera_RequestMode(mainCam, CAM_MODE_NORMAL);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
@@ -928,7 +928,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrameCount = ARRAY_COUNT(D_80122B9C);
 
             func_8002DF38(play, &player->actor, PLAYER_CSMODE_8);
-            Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
+            Camera_RequestMode(mainCam, CAM_MODE_NORMAL);
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             break;
 
@@ -1358,7 +1358,7 @@ s32 OnePointCutscene_Attention(PlayState* play, Actor* actor) {
     parentCam = play->cameraPtrs[CAM_ID_MAIN];
     if (parentCam->mode == CAM_MODE_FOLLOW_BOOMERANG) {
         osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: change mode BOOKEEPON -> NORMAL\n" VT_RST);
-        Camera_ChangeMode(parentCam, CAM_MODE_NORMAL);
+        Camera_RequestMode(parentCam, CAM_MODE_NORMAL);
     }
 
     // Finds the camera of the first actor attention demo with a lower category actor, or the first non-attention demo

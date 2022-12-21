@@ -1664,7 +1664,7 @@ void func_80832440(PlayState* play, Player* this) {
     this->unk_6AD = 0;
 
     func_80832340(play, this);
-    func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+    Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
 
     this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20 | PLAYER_STATE1_21);
     this->stateFlags2 &= ~(PLAYER_STATE2_4 | PLAYER_STATE2_7 | PLAYER_STATE2_CRAWLING);
@@ -3111,7 +3111,7 @@ void func_80835E44(PlayState* play, s16 camSetting) {
             Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
         }
     } else {
-        Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), camSetting);
+        Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), camSetting);
     }
 }
 
@@ -4336,7 +4336,7 @@ void func_80838F5C(PlayState* play, Player* this) {
 
     this->stateFlags1 |= PLAYER_STATE1_29 | PLAYER_STATE1_31;
 
-    Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_FREE0);
+    Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_FREE0);
 }
 
 s32 func_80838FB8(PlayState* play, Player* this) {
@@ -5112,7 +5112,7 @@ s32 func_8083AD4C(PlayState* play, Player* this) {
         cameraMode = CAM_MODE_FIRST_PERSON;
     }
 
-    return Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), cameraMode);
+    return Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), cameraMode);
 }
 
 s32 func_8083ADD4(PlayState* play, Player* this) {
@@ -5325,7 +5325,7 @@ s32 func_8083B040(Player* this, PlayState* play) {
                         Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->unk_6A8);
                     }
                 }
-            } else if (func_8083AD4C(play, this)) {
+            } else if (func_8083AD4C(play, this) != CAM_MODE_NORMAL) {
                 if (!(this->stateFlags1 & PLAYER_STATE1_23)) {
                     func_80835C58(play, this, func_8084B1D8, 1);
                     this->unk_850 = 13;
@@ -6472,7 +6472,7 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
                     func_808322D0(play, this, this->ageProperties->unk_98);
                     func_80832F54(play, this, 0x28F);
                     chest->unk_1F4 = 1;
-                    Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_SLOW_CHEST_CS);
+                    Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_SLOW_CHEST_CS);
                 } else {
                     func_80832264(play, this, &gPlayerAnim_link_normal_box_kick);
                     chest->unk_1F4 = -1;
@@ -7948,7 +7948,7 @@ void func_8084279C(Player* this, PlayState* play) {
         }
 
         this->actor.flags &= ~ACTOR_FLAG_8;
-        func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
     }
 }
 
@@ -9207,9 +9207,9 @@ void func_80845CA4(Player* this, PlayState* play) {
             temp = func_80845BA0(play, this, &sp34, sp30);
 
             if ((this->unk_850 == 0) || ((temp == 0) && (this->linearVelocity == 0.0f) &&
-                                         (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_4))) {
+                                         (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_MINI_CS_END))) {
 
-                func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+                Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
                 func_80845C68(play, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
 
                 if (!func_8083B644(this, play)) {
@@ -9243,7 +9243,7 @@ void func_80845EF8(Player* this, PlayState* play) {
             if (play->roomCtx.prevRoom.num >= 0) {
                 func_80097534(play, &play->roomCtx);
             }
-            func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+            Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
             Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);
         }
         return;
@@ -10227,7 +10227,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
         seqMode = SEQ_MODE_DEFAULT;
 
         if (this->csMode != PLAYER_CSMODE_NONE) {
-            Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_NORMAL);
+            Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & PLAYER_STATE1_20)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & PLAYER_STATE3_7)) {
                 camMode = CAM_MODE_HOOKSHOT_FLY;
@@ -10288,7 +10288,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
                 }
             }
 
-            Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), camMode);
+            Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), camMode);
         } else {
             // First person mode
             seqMode = SEQ_MODE_STILL;
@@ -11260,7 +11260,7 @@ void func_8084B1D8(Player* this, PlayState* play) {
     }
 
     if ((this->csMode != PLAYER_CSMODE_NONE) || (this->unk_6AD == 0) || (this->unk_6AD >= 4) || func_80833B54(this) ||
-        (this->unk_664 != NULL) || !func_8083AD4C(play, this) ||
+        (this->unk_664 != NULL) || (func_8083AD4C(play, this) == CAM_MODE_NORMAL) ||
         (((this->unk_6AD == 2) && (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_R) ||
                                    func_80833B2C(this) || (!func_8002DD78(this) && !func_808334B4(this)))) ||
          ((this->unk_6AD == 1) &&
@@ -11326,7 +11326,7 @@ void func_8084B530(Player* this, PlayState* play) {
             this->stateFlags2 &= ~PLAYER_STATE2_13;
         }
 
-        func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
 
         if (!func_8084B4D4(play, this) && !func_8084B3CC(play, this) && !func_8083ADD4(play, this)) {
             if ((this->targetActor != this->interactRangeActor) || !func_8083E5A8(this, play)) {
@@ -12103,7 +12103,7 @@ void func_8084CC98(Player* this, PlayState* play) {
         }
 
         if (this->stateFlags1 & PLAYER_STATE1_20) {
-            if (!func_8083AD4C(play, this) || CHECK_BTN_ANY(sControlInput->press.button, BTN_A) ||
+            if ((func_8083AD4C(play, this) == CAM_MODE_NORMAL) || CHECK_BTN_ANY(sControlInput->press.button, BTN_A) ||
                 func_80833BCC(this)) {
                 this->unk_6AD = 0;
                 this->stateFlags1 &= ~PLAYER_STATE1_20;
@@ -12162,7 +12162,7 @@ void func_8084D3E4(Player* this, PlayState* play) {
             gSaveContext.horseData.angle = rideActor->actor.shape.rot.y;
         }
     } else {
-        Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_NORMAL0);
+        Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_NORMAL0);
 
         if (this->mountSide < 0) {
             D_808549C4[0].field = 0x2828;
@@ -12411,7 +12411,7 @@ void func_8084DF6C(PlayState* play, Player* this) {
     this->unk_862 = 0;
     this->stateFlags1 &= ~(PLAYER_STATE1_10 | PLAYER_STATE1_11);
     this->getItemId = GI_NONE;
-    func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+    Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
 }
 
 void func_8084DFAC(PlayState* play, Player* this) {
@@ -12539,7 +12539,7 @@ void func_8084E3C4(Player* this, PlayState* play) {
     }
 
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
-        func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
             func_80853148(play, this->targetActor);
@@ -12562,7 +12562,7 @@ void func_8084E3C4(Player* this, PlayState* play) {
         this->stateFlags1 &= ~PLAYER_STATE1_29;
 
         func_80852FFC(play, NULL, PLAYER_CSMODE_8);
-        play->mainCamera.stateFlags &= ~CAM_STATE_3;
+        play->mainCamera.stateFlags &= ~CAM_STATE_CS_END;
 
         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
         this->stateFlags2 |= PLAYER_STATE2_27;
@@ -12750,7 +12750,7 @@ void func_8084EAC0(Player* this, PlayState* play) {
         }
 
         func_8083C0E8(this, play);
-        func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
     } else if (this->unk_850 == 1) {
         if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
             func_80832B78(play, this, &gPlayerAnim_link_bottle_drink_demo_end);
@@ -12787,7 +12787,7 @@ void func_8084ECA4(Player* this, PlayState* play) {
                 this->unk_850 = 1;
             } else if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
                 this->unk_84F = 0;
-                func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+                Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
             func_8083C0E8(this, play);
@@ -12840,7 +12840,7 @@ static Vec3f D_80854A1C = { 0.0f, 0.0f, 5.0f };
 void func_8084EED8(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083C0E8(this, play);
-        func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
         return;
     }
 
@@ -12870,7 +12870,7 @@ void func_8084EFC0(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083C0E8(this, play);
-        func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
         return;
     }
 
@@ -12934,7 +12934,7 @@ void func_8084F104(Player* this, PlayState* play) {
                     func_8083C0E8(this, play);
                 }
 
-                func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+                Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
             }
         }
     } else if (this->unk_850 >= 0) {
@@ -13182,7 +13182,7 @@ s32 func_8084FCAC(Player* this, PlayState* play) {
         D_808535D0 ^= 1;
 
         if (D_808535D0) {
-            Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_AIM);
+            Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_AIM);
         }
     }
 
@@ -13429,7 +13429,7 @@ void func_8085063C(Player* this, PlayState* play) {
         }
 
         func_80853080(this, play);
-        func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
     }
 }
 
@@ -13495,7 +13495,7 @@ void func_808507F4(Player* this, PlayState* play) {
         if (this->unk_84F < 0) {
             if ((this->itemAction == PLAYER_IA_NAYRUS_LOVE) || (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
                 func_80839FFC(this, play);
-                func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
+                Camera_SetStateFlagEnd(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
             if (this->unk_850 == 0) {

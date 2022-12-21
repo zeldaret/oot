@@ -251,7 +251,7 @@ void EnDntJiji_Talk(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetStateFlagEnd(GET_ACTIVE_CAM(play));
         Message_CloseTextbox(play);
         func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actor.parent = NULL;
