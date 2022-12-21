@@ -96,7 +96,7 @@
  * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
 #define CS_LIGHT_SETTING(lightSetting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH((lightSetting + 1), startFrame), CMD_HH(endFrame, unused0), \
+    CMD_BBH(0, (lightSetting + 1)), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
     CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
@@ -235,6 +235,7 @@
  * before going to the next destination.
  * 
  * @see `CutsceneDestination`
+ * @note setting `endFrame` to same value as `startFrame` will not behave as expected.
  */
 #define CS_DESTINATION(destination, startFrame, endFrame) \
     CS_CMD_DESTINATION, 1, CMD_HH(destination, startFrame), CMD_HH(endFrame, endFrame)
