@@ -1,7 +1,8 @@
 #ifndef Z64PAUSE_H
 #define Z64PAUSE_H
 
-#include "z64.h"
+#include "z64animation.h"
+#include "z64message.h"
 #include "z64view.h"
 
 typedef enum {

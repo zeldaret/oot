@@ -1,7 +1,7 @@
 #ifndef Z64VIEW_H
 #define Z64VIEW_H
 
-#include "z64.h"
+#include "z64math.h"
 
 struct GraphicsContext;
 

@@ -1,7 +1,8 @@
-#ifndef Z64GFXPRINT_H
-#define Z64GFXPRINT_H
+#ifndef GFXPRINT_H
+#define GFXPRINT_H
 
-#include "z64.h"
+#include "ultra64.h"
+#include "color.h"
 
 typedef struct {
     /* 0x00 */ PrintCallback callback;
