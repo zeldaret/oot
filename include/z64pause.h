@@ -5,6 +5,8 @@
 #include "z64message.h"
 #include "z64view.h"
 
+struct OcarinaStaff;
+
 typedef enum {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
     /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
@@ -53,7 +55,7 @@ typedef struct {
     /* 0x0168 */ Vtx* cursorVtx;
     /* 0x016C */ Vtx* saveVtx;
     /* 0x0170 */ char unk_170[0x24];
-    /* 0x0194 */ OcarinaStaff* ocarinaStaff;
+    /* 0x0194 */ struct OcarinaStaff* ocarinaStaff;
     /* 0x0198 */ char unk_198[0x20];
     /* 0x01B8 */ OSMesgQueue loadQueue;
     /* 0x01D0 */ OSMesg loadMsg;

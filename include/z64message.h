@@ -3,6 +3,7 @@
 
 #include "z64view.h"
 
+struct OcarinaStaff;
 struct Actor;
 
 typedef enum {
@@ -130,7 +131,7 @@ typedef struct {
     /* 0x0128 */ Font font;
     /* 0xE2B0 */ u8* textboxSegment; // original name: "fukidashiSegment"
     /* 0xE2B4 */ char unk_E2B4[0x4];
-    /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : "info"
+    /* 0xE2B8 */ struct OcarinaStaff* ocarinaStaff; // original name : "info"
     /* 0xE2BC */ char unk_E2BC[0x3C];
     /* 0xE2F8 */ u16 textId;
     /* 0xE2FA */ u16 choiceTextId;
