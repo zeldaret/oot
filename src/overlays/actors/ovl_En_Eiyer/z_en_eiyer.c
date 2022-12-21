@@ -641,9 +641,9 @@ void EnEiyer_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->actor.world.rot.x == 0 || this->actionFunc == EnEiyer_Stunned) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveWithGravity(&this->actor);
     } else {
-        func_8002D97C(&this->actor);
+        Actor_MoveWithoutGravity(&this->actor);
     }
 
     if (this->actionFunc == EnEiyer_Glide || this->actionFunc == EnEiyer_DiveAttack ||

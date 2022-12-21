@@ -841,7 +841,10 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
     }
 }
 
-void func_8002D7EC(Actor* actor) {
+/**
+ * Update actor's position factoring in velocity and collider displacement
+ */
+void Actor_UpdatePos(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
 
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
@@ -849,22 +852,33 @@ void func_8002D7EC(Actor* actor) {
     actor->world.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
 }
 
-void func_8002D868(Actor* actor) {
+/**
+ * Update actor's velocity accounting for gravity (without exceeding terminal velocity)
+ */
+void Actor_UpdateVelocityWithGravity(Actor* actor) {
     actor->velocity.x = Math_SinS(actor->world.rot.y) * actor->speedXZ;
     actor->velocity.z = Math_CosS(actor->world.rot.y) * actor->speedXZ;
 
     actor->velocity.y += actor->gravity;
+
     if (actor->velocity.y < actor->minVelocityY) {
         actor->velocity.y = actor->minVelocityY;
     }
 }
 
-void Actor_MoveForward(Actor* actor) {
-    func_8002D868(actor);
-    func_8002D7EC(actor);
+/**
+ * Move actor while accounting for its current velocity and gravity.
+ * The actor will move in the direction of its world yaw.
+ */
+void Actor_MoveWithGravity(Actor* actor) {
+    Actor_UpdateVelocityWithGravity(actor);
+    Actor_UpdatePos(actor);
 }
 
-void func_8002D908(Actor* actor) {
+/**
+ * Update actor's velocity without gravity.
+ */
+void Actor_UpdateVelocityWithoutGravity(Actor* actor) {
     f32 sp24 = Math_CosS(actor->world.rot.x) * actor->speedXZ;
 
     actor->velocity.x = Math_SinS(actor->world.rot.y) * sp24;
@@ -872,23 +886,28 @@ void func_8002D908(Actor* actor) {
     actor->velocity.z = Math_CosS(actor->world.rot.y) * sp24;
 }
 
-void func_8002D97C(Actor* actor) {
-    func_8002D908(actor);
-    func_8002D7EC(actor);
+/**
+ * Move actor while accounting for its current velocity.
+ * The actor will move in the direction of its world yaw and pitch.
+ */
+void Actor_MoveWithoutGravity(Actor* actor) {
+    Actor_UpdateVelocityWithoutGravity(actor);
+    Actor_UpdatePos(actor);
 }
 
-void func_8002D9A4(Actor* actor, f32 arg1) {
-    actor->speedXZ = Math_CosS(actor->world.rot.x) * arg1;
-    actor->velocity.y = -Math_SinS(actor->world.rot.x) * arg1;
+void func_8002D9A4(Actor* actor, f32 speed) {
+    actor->speedXZ = Math_CosS(actor->world.rot.x) * speed;
+    actor->velocity.y = -Math_SinS(actor->world.rot.x) * speed;
 }
 
-void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
-    Vec3f sp1C;
+void Actor_UpdatePosByAnimation(Actor* actor, SkelAnime* skelAnime) {
+    Vec3f posDiff;
 
-    SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
-    actor->world.pos.x += sp1C.x * actor->scale.x;
-    actor->world.pos.y += sp1C.y * actor->scale.y;
-    actor->world.pos.z += sp1C.z * actor->scale.z;
+    SkelAnime_UpdateTranslation(skelAnime, &posDiff, actor->shape.rot.y);
+
+    actor->world.pos.x += posDiff.x * actor->scale.x;
+    actor->world.pos.y += posDiff.y * actor->scale.y;
+    actor->world.pos.z += posDiff.z * actor->scale.z;
 }
 
 s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB) {
@@ -4090,7 +4109,7 @@ s32 func_80035124(Actor* actor, PlayState* play) {
             if (Actor_HasParent(actor, play)) {
                 actor->params = 1;
             } else if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-                Actor_MoveForward(actor);
+                Actor_MoveWithGravity(actor);
                 Math_SmoothStepToF(&actor->speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
             } else if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (actor->velocity.y < -4.0f)) {
                 ret = 1;

@@ -325,7 +325,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
         }
     } else {
         Math_Vec3f_Copy(&this->unk_210, &this->actor.world.pos);
-        Actor_MoveForward(&this->actor);
+        Actor_MoveWithGravity(&this->actor);
 
         if ((this->touchedPoly =
                  BgCheck_ProjectileLineTest(&play->colCtx, &this->actor.prevPos, &this->actor.world.pos, &hitPoint,
@@ -377,7 +377,7 @@ void func_809B45E0(EnArrow* this, PlayState* play) {
 
 void func_809B4640(EnArrow* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveWithGravity(&this->actor);
 
     if (DECR(this->timer) == 0) {
         Actor_Kill(&this->actor);
