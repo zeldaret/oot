@@ -1774,15 +1774,4 @@ typedef struct {
 #define ROM_FILE_UNSET \
     { 0 }
 
-typedef enum {
-    /* 0 */ DBCAMERA_TEXT_YELLOW,
-    /* 1 */ DBCAMERA_TEXT_PEACH,
-    /* 2 */ DBCAMERA_TEXT_BROWN,
-    /* 3 */ DBCAMERA_TEXT_ORANGE,
-    /* 4 */ DBCAMERA_TEXT_GOLD,
-    /* 5 */ DBCAMERA_TEXT_WHITE,
-    /* 6 */ DBCAMERA_TEXT_BLUE,
-    /* 7 */ DBCAMERA_TEXT_GREEN
-} DbCameraTextColor;
-
 #endif
