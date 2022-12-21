@@ -235,7 +235,7 @@
  * before going to the next destination.
  * 
  * @see `CutsceneDestination`
- * @note setting `endFrame` to same value as `startFrame` will not behave as expected.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
 #define CS_DESTINATION(destination, startFrame, endFrame) \
     CS_CMD_DESTINATION, 1, CMD_HH(destination, startFrame), CMD_HH(endFrame, endFrame)
