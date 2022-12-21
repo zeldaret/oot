@@ -4,6 +4,23 @@
 #include "command_macros_base.h"
 #include "z64cutscene.h"
 
+/**
+ * Cutscene scripts are arrays of `CutsceneData` words, including bit-packed integers and floats.
+ *
+ * Most command macros have unused arguments. This is to account for the vanilla assets setting specific values
+ * that don't end up being used by any code. They can safely be set to anything, as they aren't used in the
+ * implementation.
+ *
+ * It is believed the original tool used for cutscenes handled most commands the same way, using similar
+ * fields, and the code would have accessed them using common structs. Given this, the unused values observed in vanilla
+ * assets may appear to map to a variable that makes sense, even if it doesn't end up being used in the code. It
+ * probably isn't garbage data.
+ *
+ * This codebase goes with specialized structs and macros to make it easier to follow the code.
+ * Note this common struct design is still partially reflected in all commands having a `startFrame` and `endFrame`,
+ * when sometimes only the `startFrame` matters (as documented).
+ */
+
 #ifdef __GNUC__
 #define CMD_F(a) {.f = (a)}
 #else
