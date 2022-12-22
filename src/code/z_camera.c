@@ -8467,7 +8467,7 @@ s32 func_8005B198(void) {
  * finished and is ready for the next camera setting/function
  * Different camera update functions will respond differently to this flag being set.
  */
-s16 Camera_SetExternalFinished(Camera* camera) {
+s16 Camera_SetExternalFinishedFlags(Camera* camera) {
     camera->stateFlags |= CAM_STATE_EXTERNAL_FINISHED;
 
     if ((camera->camId == CAM_ID_MAIN) && (camera->play->activeCamId != CAM_ID_MAIN)) {

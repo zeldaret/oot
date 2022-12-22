@@ -1664,7 +1664,7 @@ void func_80832440(PlayState* play, Player* this) {
     this->unk_6AD = 0;
 
     func_80832340(play, this);
-    Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+    Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
 
     this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20 | PLAYER_STATE1_21);
     this->stateFlags2 &= ~(PLAYER_STATE2_4 | PLAYER_STATE2_7 | PLAYER_STATE2_CRAWLING);
@@ -7948,7 +7948,7 @@ void func_8084279C(Player* this, PlayState* play) {
         }
 
         this->actor.flags &= ~ACTOR_FLAG_8;
-        Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
     }
 }
 
@@ -9209,7 +9209,7 @@ void func_80845CA4(Player* this, PlayState* play) {
             if ((this->unk_850 == 0) || ((temp == 0) && (this->linearVelocity == 0.0f) &&
                                          (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_CAM_FUNC_FINISH))) {
 
-                Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+                Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
                 func_80845C68(play, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
 
                 if (!func_8083B644(this, play)) {
@@ -9243,7 +9243,7 @@ void func_80845EF8(Player* this, PlayState* play) {
             if (play->roomCtx.prevRoom.num >= 0) {
                 func_80097534(play, &play->roomCtx);
             }
-            Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+            Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
             Play_SetupRespawnPoint(play, RESPAWN_MODE_DOWN, 0xDFF);
         }
         return;
@@ -11326,7 +11326,7 @@ void func_8084B530(Player* this, PlayState* play) {
             this->stateFlags2 &= ~PLAYER_STATE2_13;
         }
 
-        Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
 
         if (!func_8084B4D4(play, this) && !func_8084B3CC(play, this) && !func_8083ADD4(play, this)) {
             if ((this->targetActor != this->interactRangeActor) || !func_8083E5A8(this, play)) {
@@ -12411,7 +12411,7 @@ void func_8084DF6C(PlayState* play, Player* this) {
     this->unk_862 = 0;
     this->stateFlags1 &= ~(PLAYER_STATE1_10 | PLAYER_STATE1_11);
     this->getItemId = GI_NONE;
-    Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+    Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
 }
 
 void func_8084DFAC(PlayState* play, Player* this) {
@@ -12539,7 +12539,7 @@ void func_8084E3C4(Player* this, PlayState* play) {
     }
 
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
-        Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
             func_80853148(play, this->targetActor);
@@ -12750,7 +12750,7 @@ void func_8084EAC0(Player* this, PlayState* play) {
         }
 
         func_8083C0E8(this, play);
-        Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
     } else if (this->unk_850 == 1) {
         if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
             func_80832B78(play, this, &gPlayerAnim_link_bottle_drink_demo_end);
@@ -12787,7 +12787,7 @@ void func_8084ECA4(Player* this, PlayState* play) {
                 this->unk_850 = 1;
             } else if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
                 this->unk_84F = 0;
-                Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+                Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
             func_8083C0E8(this, play);
@@ -12840,7 +12840,7 @@ static Vec3f D_80854A1C = { 0.0f, 0.0f, 5.0f };
 void func_8084EED8(Player* this, PlayState* play) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083C0E8(this, play);
-        Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
         return;
     }
 
@@ -12870,7 +12870,7 @@ void func_8084EFC0(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_8083C0E8(this, play);
-        Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
         return;
     }
 
@@ -12934,7 +12934,7 @@ void func_8084F104(Player* this, PlayState* play) {
                     func_8083C0E8(this, play);
                 }
 
-                Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+                Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
             }
         }
     } else if (this->unk_850 >= 0) {
@@ -13429,7 +13429,7 @@ void func_8085063C(Player* this, PlayState* play) {
         }
 
         func_80853080(this, play);
-        Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+        Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
     }
 }
 
@@ -13495,7 +13495,7 @@ void func_808507F4(Player* this, PlayState* play) {
         if (this->unk_84F < 0) {
             if ((this->itemAction == PLAYER_IA_NAYRUS_LOVE) || (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
                 func_80839FFC(this, play);
-                Camera_SetExternalFinished(Play_GetCamera(play, CAM_ID_MAIN));
+                Camera_SetExternalFinishedFlags(Play_GetCamera(play, CAM_ID_MAIN));
             }
         } else {
             if (this->unk_850 == 0) {

@@ -675,7 +675,7 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
                 player = GET_PLAYER(play);
                 // "uorya-!" (screeming sound)
                 osSyncPrintf("うおりゃー！ \n");
-                Camera_SetExternalFinished(GET_ACTIVE_CAM(play));
+                Camera_SetExternalFinishedFlags(GET_ACTIVE_CAM(play));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
                 player->actor.world.pos.z = 180.0f;
@@ -686,7 +686,7 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
     this->unk_2C3 = dialogState;
     if (Message_GetState(msgCtx) == TEXT_STATE_CLOSING) {
         this->action = 18;
-        Camera_SetExternalFinished(GET_ACTIVE_CAM(play));
+        Camera_SetExternalFinishedFlags(GET_ACTIVE_CAM(play));
     }
 }
 

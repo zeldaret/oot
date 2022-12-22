@@ -500,7 +500,7 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->mouthState = 0;
         this->actionFunc = BgDyYoseizo_SetupSpinShrink;
-        Camera_SetExternalFinished(GET_ACTIVE_CAM(play));
+        Camera_SetExternalFinishedFlags(GET_ACTIVE_CAM(play));
     }
 
     BgDyYoseizo_Bob(this, play);

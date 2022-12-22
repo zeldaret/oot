@@ -1838,7 +1838,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
         case 1:
             if (DECR(this->animTimer)) {
                 if (this->animTimer == 60 || this->animTimer == 120) {
-                    Camera_SetExternalFinished(GET_ACTIVE_CAM(play));
+                    Camera_SetExternalFinishedFlags(GET_ACTIVE_CAM(play));
                     func_800F4524(&gSfxDefaultPos, NA_SE_EV_GORON_WATER_DROP, 60);
                 }
             } else {
