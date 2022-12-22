@@ -5096,23 +5096,23 @@ void func_8083AA10(Player* this, PlayState* play) {
 }
 
 s32 func_8083AD4C(PlayState* play, Player* this) {
-    s32 cameraMode;
+    s32 camMode;
 
     if (this->unk_6AD == 2) {
         if (func_8002DD6C(this)) {
             if (LINK_IS_ADULT) {
-                cameraMode = CAM_MODE_AIM_ADULT;
+                camMode = CAM_MODE_AIM_ADULT;
             } else {
-                cameraMode = CAM_MODE_AIM_CHILD;
+                camMode = CAM_MODE_AIM_CHILD;
             }
         } else {
-            cameraMode = CAM_MODE_AIM_BOOMERANG;
+            camMode = CAM_MODE_AIM_BOOMERANG;
         }
     } else {
-        cameraMode = CAM_MODE_FIRST_PERSON;
+        camMode = CAM_MODE_FIRST_PERSON;
     }
 
-    return Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), cameraMode);
+    return Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), camMode);
 }
 
 s32 func_8083ADD4(PlayState* play, Player* this) {
