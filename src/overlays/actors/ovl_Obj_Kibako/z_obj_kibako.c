@@ -198,7 +198,7 @@ void ObjKibako_Idle(ObjKibako* this, PlayState* play) {
         ObjKibako_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
     } else {
-        Actor_MoveXZGravity(&this->actor);
+        Actor_MoveWithGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 19.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 28.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;

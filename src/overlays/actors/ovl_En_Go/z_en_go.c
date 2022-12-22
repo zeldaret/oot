@@ -1032,7 +1032,7 @@ void EnGo_Update(Actor* thisx, PlayState* play) {
     EnGo_UpdateShadow(this);
 
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-        Actor_MoveXZGravity(&this->actor);
+        Actor_MoveWithGravity(&this->actor);
     }
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

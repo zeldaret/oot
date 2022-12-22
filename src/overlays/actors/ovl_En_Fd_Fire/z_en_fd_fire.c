@@ -192,13 +192,13 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play) {
         if (this->actor.speedXZ < 0.1f) {
             this->actor.speedXZ = 5.0f;
         }
-        Actor_UpdateVelocityXZGravity(&this->actor);
+        Actor_UpdateVelocityWithGravity(&this->actor);
     }
 }
 
 void EnFdFire_Disappear(EnFdFire* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.6f, 9.0f, 0.0f);
-    Actor_UpdateVelocityXZGravity(&this->actor);
+    Actor_UpdateVelocityWithGravity(&this->actor);
     Math_SmoothStepToF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
     this->actor.shape.shadowScale = 20.0f;
     this->actor.shape.shadowScale *= (this->scale / 3.0f);

@@ -181,7 +181,7 @@ void EnBdfire_Update(Actor* thisx, PlayState* play) {
 
     this->unk_156++;
     this->actionFunc(this, play);
-    Actor_MoveXZGravity(&this->actor);
+    Actor_MoveWithGravity(&this->actor);
 }
 
 void EnBdfire_DrawFire(EnBdfire* this, PlayState* play) {

@@ -591,9 +591,9 @@ void EnWeiyer_Update(Actor* thisx, PlayState* play) {
     this->actor.world.rot.x = -this->actor.shape.rot.x;
 
     if ((this->actor.world.rot.x == 0) || (this->actionFunc == func_80B333B8)) {
-        Actor_MoveXZGravity(&this->actor);
+        Actor_MoveWithGravity(&this->actor);
     } else {
-        Actor_MoveXYZ(&this->actor);
+        Actor_MoveWithoutGravity(&this->actor);
     }
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 30.0f, 45.0f,

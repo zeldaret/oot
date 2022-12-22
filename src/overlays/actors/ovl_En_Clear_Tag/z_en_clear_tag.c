@@ -236,7 +236,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
         this->state = CLEAR_TAG_STATE_LASER;
         this->timers[CLEAR_TAG_TIMER_LASER_DEATH] = 70;
         this->actor.speedXZ = 35.0f;
-        Actor_UpdateVelocityXYZ(&this->actor);
+        Actor_UpdateVelocityWithoutGravity(&this->actor);
         for (j = 0; j <= 0; j++) {
             Actor_UpdatePos(&this->actor);
         }
@@ -246,7 +246,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
         this->actor.speedXZ = 70.0f;
         this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
-        Actor_UpdateVelocityXYZ(&this->actor);
+        Actor_UpdateVelocityWithoutGravity(&this->actor);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sLaserCylinderInit);
         Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
@@ -473,7 +473,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                 this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
                 // Update the Arwing's velocity.
-                Actor_UpdateVelocityXYZ(&this->actor);
+                Actor_UpdateVelocityWithoutGravity(&this->actor);
                 this->actor.velocity.x += this->acceleration.x;
                 this->actor.velocity.y += this->acceleration.y;
                 this->actor.velocity.z += this->acceleration.z;

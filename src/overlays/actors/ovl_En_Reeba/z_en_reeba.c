@@ -625,7 +625,7 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
         this->damagedTimer--;
     }
 
-    Actor_MoveXZGravity(&this->actor);
+    Actor_MoveWithGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 35.0f, 60.0f, 60.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);

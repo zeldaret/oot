@@ -938,7 +938,7 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, PlayState* play) {
 void DemoEffect_UpdateCreationFireball(DemoEffect* this, PlayState* play) {
     DemoEffect* effect;
 
-    Actor_MoveXZGravity(&this->actor);
+    Actor_MoveWithGravity(&this->actor);
     this->actor.speedXZ = this->actor.speedXZ + (this->actor.gravity * 0.5f);
 
     if (this->fireBall.timer != 0) {

@@ -3511,7 +3511,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         if (this->playerControlled == true) {
             EnHorse_RegenBoost(this, play);
         }
-        Actor_MoveXZGravity(thisx);
+        Actor_MoveWithGravity(thisx);
         if (this->action == ENHORSE_ACT_INGO_RACE) {
             if (this->rider != NULL) {
                 this->rider->world.pos.x = thisx->world.pos.x;

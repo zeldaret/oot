@@ -10538,7 +10538,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     if (this->stateFlags2 & PLAYER_STATE2_15) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             func_80832210(this);
-            Actor_MoveXZGravity(&this->actor);
+            Actor_MoveWithGravity(&this->actor);
         }
 
         func_80847BA0(play, this);
@@ -10632,7 +10632,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 this->actor.world.rot.y = this->currentYaw;
             }
 
-            Actor_UpdateVelocityXZGravity(&this->actor);
+            Actor_UpdateVelocityWithGravity(&this->actor);
 
             if ((this->pushedSpeed != 0.0f) && !Player_InCsMode(play) &&
                 !(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21)) &&

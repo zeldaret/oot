@@ -855,7 +855,7 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
         }
     }
 
-    Actor_MoveXZGravity(&this->actor);
+    Actor_MoveWithGravity(&this->actor);
     this->heightOffset = this->scale * 7500.0f;
     Actor_SetFocus(&this->actor, this->heightOffset);
     this->actor.focus.pos.y = this->heightOffset;

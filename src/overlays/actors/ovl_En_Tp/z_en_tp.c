@@ -673,7 +673,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
-        Actor_MoveXZGravity(&this->actor);
+        Actor_MoveWithGravity(&this->actor);
 
         if (this->actionIndex != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 15.0f, 10.0f,
