@@ -436,7 +436,7 @@ void EnTa_RunWithAccelerationAndSfx(EnTa* this, PlayState* play) {
     if (this->actor.speedXZ < 6.0f) {
         this->actor.speedXZ += 0.4f;
     }
-    Actor_MoveWithGravity(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 }
 
 void EnTa_RunAwayRunOutOfGate(EnTa* this, PlayState* play) {
@@ -1232,7 +1232,7 @@ void EnTa_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveWithGravity(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->animFunc(this);
     this->actionFunc(this, play);

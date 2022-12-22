@@ -332,9 +332,9 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
                                 UPDBGCHECKINFO_FLAG_4);
 
     if (this->actionFunc == func_809B5670) {
-        Actor_MoveWithoutGravity(&this->actor);
+        Actor_MoveXYZ(&this->actor);
     } else {
-        Actor_MoveWithGravity(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     }
 
     if (this->actor.floorHeight <= BGCHECK_Y_MIN) {

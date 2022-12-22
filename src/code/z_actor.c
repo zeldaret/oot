@@ -855,7 +855,7 @@ void Actor_UpdatePos(Actor* actor) {
 /**
  * Update actor's velocity accounting for gravity (without exceeding terminal velocity)
  */
-void Actor_UpdateVelocityWithGravity(Actor* actor) {
+void Actor_UpdateVelocityXZGravity(Actor* actor) {
     actor->velocity.x = Math_SinS(actor->world.rot.y) * actor->speedXZ;
     actor->velocity.z = Math_CosS(actor->world.rot.y) * actor->speedXZ;
 
@@ -870,15 +870,15 @@ void Actor_UpdateVelocityWithGravity(Actor* actor) {
  * Move actor while accounting for its current velocity and gravity.
  * The actor will move in the direction of its world yaw.
  */
-void Actor_MoveWithGravity(Actor* actor) {
-    Actor_UpdateVelocityWithGravity(actor);
+void Actor_MoveXZGravity(Actor* actor) {
+    Actor_UpdateVelocityXZGravity(actor);
     Actor_UpdatePos(actor);
 }
 
 /**
  * Update actor's velocity without gravity.
  */
-void Actor_UpdateVelocityWithoutGravity(Actor* actor) {
+void Actor_UpdateVelocityXYZ(Actor* actor) {
     f32 sp24 = Math_CosS(actor->world.rot.x) * actor->speedXZ;
 
     actor->velocity.x = Math_SinS(actor->world.rot.y) * sp24;
@@ -890,12 +890,12 @@ void Actor_UpdateVelocityWithoutGravity(Actor* actor) {
  * Move actor while accounting for its current velocity.
  * The actor will move in the direction of its world yaw and pitch.
  */
-void Actor_MoveWithoutGravity(Actor* actor) {
-    Actor_UpdateVelocityWithoutGravity(actor);
+void Actor_MoveXYZ(Actor* actor) {
+    Actor_UpdateVelocityXYZ(actor);
     Actor_UpdatePos(actor);
 }
 
-void func_8002D9A4(Actor* actor, f32 speed) {
+void Actor_SetSpeedXYZ(Actor* actor, f32 speed) {
     actor->speedXZ = Math_CosS(actor->world.rot.x) * speed;
     actor->velocity.y = -Math_SinS(actor->world.rot.x) * speed;
 }
@@ -4109,7 +4109,7 @@ s32 func_80035124(Actor* actor, PlayState* play) {
             if (Actor_HasParent(actor, play)) {
                 actor->params = 1;
             } else if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-                Actor_MoveWithGravity(actor);
+                Actor_MoveXZGravity(actor);
                 Math_SmoothStepToF(&actor->speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
             } else if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (actor->velocity.y < -4.0f)) {
                 ret = 1;
