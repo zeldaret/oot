@@ -218,7 +218,7 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         play->csCtx.segment = D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
-        Camera_SetExternalFinishedFlags(GET_ACTIVE_CAM(play));
+        Camera_SetExternalFinishedFlag(GET_ACTIVE_CAM(play));
         SET_EVENTCHKINF(EVENTCHKINF_3A);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }

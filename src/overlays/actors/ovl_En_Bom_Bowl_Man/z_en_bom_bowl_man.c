@@ -450,7 +450,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play) {
 
     if ((Message_GetState(&play->msgCtx) == this->dialogState) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        Camera_SetExternalFinishedFlags(GET_ACTIVE_CAM(play));
+        Camera_SetExternalFinishedFlag(GET_ACTIVE_CAM(play));
         this->startedPlaying = true;
 
         if (BREG(2)) {

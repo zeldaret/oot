@@ -286,7 +286,7 @@ void func_80A91620(EnKakasi3* this, PlayState* play) {
             this->subCamId = CAM_ID_NONE;
         }
         if (this->subCamId != CAM_ID_NONE) {
-            Camera_SetExternalFinishedFlags(play->cameraPtrs[this->subCamId]);
+            Camera_SetExternalFinishedFlag(play->cameraPtrs[this->subCamId]);
         }
         this->actionFunc = func_80A911F0;
         return;
@@ -394,7 +394,7 @@ void func_80A91A90(EnKakasi3* this, PlayState* play) {
             this->subCamId = CAM_ID_NONE;
         }
         if (this->subCamId != CAM_ID_NONE) {
-            Camera_SetExternalFinishedFlags(play->cameraPtrs[this->subCamId]);
+            Camera_SetExternalFinishedFlag(play->cameraPtrs[this->subCamId]);
         }
         Message_CloseTextbox(play);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
