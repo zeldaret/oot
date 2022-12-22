@@ -4,7 +4,7 @@
 #include "terminal.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
-s16 Camera_RequestSettingImpl(Camera* camera, s16 setting, s16 flags);
+s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags);
 s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
 s32 Camera_QRegInit(void);
 s32 Camera_UpdateWater(Camera* camera);
@@ -2198,7 +2198,7 @@ s32 Camera_Parallel3(Camera* camera) {
     sCameraInterfaceField = interfaceField;
 
     if (interfaceField & PARALLEL3_FLAG_0) {
-        camera->stateFlags |= CAM_STATE_LOCK_SETTING;
+        camera->stateFlags |= CAM_STATE_BLOCK_BG;
     }
     if (interfaceField & PARALLEL3_FLAG_1) {
         camera->stateFlags |= CAM_STATE_CAM_FUNC_FINISH;
@@ -3524,7 +3524,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         Camera_BGCheck(camera, at, eye);
         rwData->animTimer--;
     } else {
-        camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_LOCK_SETTING);
+        camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_BLOCK_BG);
     }
 
     if (camera->stateFlags & CAM_STATE_EXTERNAL_FINISHED) {
@@ -3832,14 +3832,14 @@ s32 Camera_KeepOn4(Camera* camera) {
         rwData->unk_0E += (s16)rwData->unk_04;
         rwData->unk_10--;
     } else if (roData->interfaceField & KEEPON4_FLAG_4) {
-        camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_LOCK_SETTING);
+        camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_BLOCK_BG);
         camera->stateFlags |= (CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG);
         camera->stateFlags &= ~CAM_STATE_EXTERNAL_FINISHED;
         if (camera->timer > 0) {
             camera->timer--;
         }
     } else {
-        camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_LOCK_SETTING);
+        camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_BLOCK_BG);
         if ((camera->stateFlags & CAM_STATE_EXTERNAL_FINISHED) || (roData->interfaceField & KEEPON4_FLAG_7)) {
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
             camera->stateFlags |= (CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG);
@@ -3934,7 +3934,7 @@ s32 Camera_KeepOn0(Camera* camera) {
         Camera_AddVecGeoToVec3f(at, eye, &eyeAtOffset);
         rwData->animTimer--;
     } else {
-        camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_LOCK_SETTING);
+        camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_BLOCK_BG);
     }
     camera->fov = Camera_LERPCeilF(rwData->fovTarget, camera->fov, 0.5f, 10.0f);
     return true;
@@ -4897,7 +4897,7 @@ s32 Camera_Unique3(Camera* camera) {
             camera->animState++;
             FALLTHROUGH;
         case 3:
-            camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_LOCK_SETTING);
+            camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_BLOCK_BG);
             if (camera->stateFlags & CAM_STATE_EXTERNAL_FINISHED) {
                 camera->animState++;
             } else {
@@ -5188,7 +5188,7 @@ s32 Camera_Unique7(Camera* camera) {
     rwData->unk_00.x = Camera_LERPFloorS(playerPosEyeOffset.yaw, rwData->unk_00.x, 0.4f, 0x7D0);
     playerPosEyeOffset.pitch = -bgCamFuncData->rot.x * Math_CosS(playerPosEyeOffset.yaw - bgCamFuncData->rot.y);
     Camera_AddVecGeoToVec3f(at, eye, &playerPosEyeOffset);
-    camera->stateFlags |= CAM_STATE_LOCK_SETTING;
+    camera->stateFlags |= CAM_STATE_BLOCK_BG;
     return true;
 }
 
@@ -5482,7 +5482,7 @@ s32 Camera_Unique9(Camera* camera) {
             *eyeNext = rwData->eyeTarget;
             camera->fov = rwData->fovTarget;
             camera->roll = rwData->rollTarget;
-            camera->stateFlags |= CAM_STATE_LOCK_SETTING;
+            camera->stateFlags |= CAM_STATE_BLOCK_BG;
             break;
 
         case ONEPOINT_CS_ACTION_ID_21:
@@ -5942,7 +5942,7 @@ s32 Camera_Demo3(Camera* camera) {
             rwData->unk_0C += (4.0f / 45.0f);
             break;
         case 30:
-            camera->stateFlags |= CAM_STATE_LOCK_SETTING;
+            camera->stateFlags |= CAM_STATE_BLOCK_BG;
             if (camera->stateFlags & CAM_STATE_EXTERNAL_FINISHED) {
                 camera->animState = 4;
             }
@@ -6990,7 +6990,7 @@ s32 Camera_Special9(Camera* camera) {
             camera->animState++;
             FALLTHROUGH;
         default:
-            camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_LOCK_SETTING);
+            camera->stateFlags |= (CAM_STATE_CAM_FUNC_FINISH | CAM_STATE_BLOCK_BG);
             sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
 
             if (camera->xzSpeed > 0.001f || CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
@@ -7648,7 +7648,7 @@ Vec3s Camera_Update(Camera* camera) {
             }
 
             if ((camera->stateFlags & CAM_STATE_CHECK_BG_ALT) && (camera->stateFlags & CAM_STATE_CHECK_BG) &&
-                !(camera->stateFlags & CAM_STATE_LOCK_SETTING) &&
+                !(camera->stateFlags & CAM_STATE_BLOCK_BG) &&
                 (!(camera->stateFlags & CAM_STATE_PLAYER_IN_WATER) || (player->currentBoots == PLAYER_BOOTS_IRON)) &&
                 !(camera->stateFlags & CAM_STATE_PLAYER_DIVING) && (playerGroundY != BGCHECK_Y_MIN)) {
                 bgCamIndex = Camera_GetBgCamIndex(camera, &bgId, playerFloorPoly);
@@ -7679,7 +7679,7 @@ Vec3s Camera_Update(Camera* camera) {
     }
 
     camera->behaviorFlags = 0;
-    camera->stateFlags &= ~(CAM_STATE_LOCK_SETTING | CAM_STATE_LOCK_MODE);
+    camera->stateFlags &= ~(CAM_STATE_BLOCK_BG | CAM_STATE_LOCK_MODE);
     camera->stateFlags |= CAM_STATE_CAM_FUNC_FINISH;
 
     if (R_DBG_CAM_UPDATE) {
@@ -8065,7 +8065,7 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags) {
     if (camera->behaviorFlags & CAM_BEHAVIOR_SETTING_CHECK_PRIORITY) {
-        // If a second setting is requested, determine if the setting overwrites the
+        // If a second setting is requested this frame, determine if the setting overwrites the
         // current setting through priority
         if (((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
             ((sCameraSettings[requestedSetting].unk_00 & 0xF000000) >> 0x18)) {

@@ -100,14 +100,14 @@
 #define CAM_STATE_CHECK_BG (1 << 2) //  Must be set for the camera to change settings based on the bg surface
 #define CAM_STATE_EXTERNAL_FINISHED (1 << 3) // Signal from the external systems to camera that the current cam-update function is no longer needed
 #define CAM_STATE_CAM_FUNC_FINISH (1 << 4) // Signal from camera to player that the cam-update function is finished its primary purpose
-#define CAM_STATE_LOCK_MODE (1 << 5) // Prevents camera mode from changing mode depending on flags
+#define CAM_STATE_LOCK_MODE (1 << 5) // Prevents camera from changing mode, unless overwritten by `forceModeChange` passed to `Camera_ChangeModeFlags`
 #define CAM_STATE_DISTORTION (1 << 6) // Set when camera distortion is on
-#define CAM_STATE_PLAY_INIT (1 << 7) // Turned on in Play Init, never used or changed
+#define CAM_STATE_PLAY_INIT (1 << 7) // Set in Play_Init, never used or changed
 #define CAM_STATE_CAMERA_IN_WATER (1 << 8) // Camera (eye) is underwater
 #define CAM_STATE_PLAYER_IN_WATER (1 << 9) // Player is swimming in water
-#define CAM_STATE_LOCK_SETTING (1 << 10) // Prevents the camera from changing settings based on the bg surface
-#define CAM_STATE_DEMO7 (1 << 12) // Set in Camera_Demo7, but Camera_Demo7 is never called
-#define CAM_STATE_CAM_INIT (1 << 14) // Turned on in Camera Init, never used or changed
+#define CAM_STATE_BLOCK_BG (1 << 10) // Prevents the camera from changing settings based on the bg surface for 1 frame
+#define CAM_STATE_DEMO7 (1 << 12) // Set in Camera_Demo7, but this function is never called
+#define CAM_STATE_CAM_INIT (1 << 14) // Set in Camera_Init, never used or changed
 #define CAM_STATE_PLAYER_DIVING ((s16)(1 << 15)) // Diving from the surface of the water down
 
 // Camera viewFlags. Set params related to view

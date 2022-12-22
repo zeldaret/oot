@@ -25,7 +25,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
         }                                         \
     } while (0)
 
-void Play_ChangeViewpointBgCamIndex(PlayState* this) {
+void Play_RequestViewpointBgCam(PlayState* this) {
     Camera_RequestBgCam(GET_ACTIVE_CAM(this), this->viewpoint - 1);
 }
 
@@ -42,7 +42,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
                              &gSfxDefaultReverb);
     }
 
-    Play_ChangeViewpointBgCamIndex(this);
+    Play_RequestViewpointBgCam(this);
 }
 
 /**
@@ -937,7 +937,7 @@ void Play_Update(PlayState* this) {
                     }
                 }
 
-                Play_ChangeViewpointBgCamIndex(this);
+                Play_RequestViewpointBgCam(this);
             }
 
             PLAY_LOG(3708);
@@ -1633,7 +1633,7 @@ s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, Player* player, s
     return Camera_RequestSetting(camera, setting);
 }
 
-s32 Play_ChangeCameraSetting(PlayState* this, s16 camId, s16 setting) {
+s32 Play_RequestCameraSetting(PlayState* this, s16 camId, s16 setting) {
     return Camera_RequestSetting(Play_GetCamera(this, camId), setting);
 }
 
