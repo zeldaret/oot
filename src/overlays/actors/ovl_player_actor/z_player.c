@@ -8525,12 +8525,12 @@ s32 func_80843E64(PlayState* play, Player* this) {
     return 0;
 }
 
-void func_8084409C(PlayState* play, Player* this, f32 speed, f32 velocityY) {
+void func_8084409C(PlayState* play, Player* this, f32 speedXZ, f32 velocityY) {
     Actor* heldActor = this->heldActor;
 
     if (!func_80835644(play, this, heldActor)) {
         heldActor->world.rot.y = this->actor.shape.rot.y;
-        heldActor->speed = speed;
+        heldActor->speed = speedXZ;
         heldActor->velocity.y = velocityY;
         func_80834644(play, this);
         Player_PlaySfx(this, NA_SE_PL_THROW);
