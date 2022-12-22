@@ -8135,7 +8135,7 @@ s32 Camera_RequestSetting(Camera* camera, s16 setting) {
 
 s32 Camera_RequestBgCam(Camera* camera, s32 bgCamIndex) {
     s16 requestedCamSetting;
-    s16 newCamSetting;
+    s16 settingChangeSuccessful;
 
     if ((bgCamIndex == -1) || (bgCamIndex == camera->bgCamIndex)) {
         camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
@@ -8145,14 +8145,16 @@ s32 Camera_RequestBgCam(Camera* camera, s32 bgCamIndex) {
     if (!(camera->behaviorFlags & CAM_BEHAVIOR_BG_PROCESSED)) {
         requestedCamSetting = Camera_GetBgCamSetting(camera, bgCamIndex);
         camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
-        newCamSetting = Camera_RequestSettingImpl(camera, requestedCamSetting,
-                                                  CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
-                                                      CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
-        if ((newCamSetting != CAM_SET_NONE) || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
+        settingChangeSuccessful = Camera_RequestSettingImpl(camera, requestedCamSetting,
+                                                            CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
+                                                                CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
+        if ((settingChangeSuccessful != CAM_SET_NONE) || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
             camera->bgCamIndex = bgCamIndex;
             camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
             Camera_CopyDataToRegs(camera, camera->mode);
-        } else if (newCamSetting < -1) {
+        } else if (settingChangeSuccessful < -1) {
+            //! @bug: `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
+            // The actual return of Camera_RequestSettingImpl or bgCamIndex would make more sense.
             osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, bgCamIndex,
                          camera->camId, BGCHECK_SCENE, requestedCamSetting);
         }
