@@ -613,7 +613,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachS(&this->tentRot[indS1].z, tempf2, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
             this->targetPos = this->actor.world.pos;
-            Math_ApproachF(&this->actor.speedXZ, 0.75f, 1.0f, 0.04f);
+            Math_ApproachF(&this->actor.speed, 0.75f, 1.0f, 0.04f);
             if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_SWING) {
                 Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->attackAngleMod, 0xA,
                                0x1F4);
@@ -757,7 +757,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             }
             if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_GRAB) {
                 player->unk_850 = 0xA;
-                player->actor.speedXZ = player->actor.velocity.y = 0;
+                player->actor.speed = player->actor.velocity.y = 0;
                 Math_ApproachF(&player->actor.world.pos.x, this->grabPosRot.pos.x, 0.5f, 20.0f);
                 Math_ApproachF(&player->actor.world.pos.y, this->grabPosRot.pos.y, 0.5f, 20.0f);
                 Math_ApproachF(&player->actor.world.pos.z, this->grabPosRot.pos.z, 0.5f, 20.0f);
@@ -822,7 +822,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             player->actor.world.rot.y = player->actor.shape.rot.y = this->grabPosRot.rot.y;
             player->actor.world.rot.z = player->actor.shape.rot.z = this->grabPosRot.rot.z;
             player->actor.velocity.y = 0;
-            player->actor.speedXZ = 0;
+            player->actor.speed = 0;
             Math_ApproachF(&this->fwork[MO_TENT_MAX_STRETCH], 1.0f, 0.5f, 0.01);
             Math_ApproachF(&this->tentMaxAngle, 0.5f, 1.0f, 0.005f);
             Math_ApproachF(&this->tentSpeed, 480.0f, 1.0f, 10.0f);
@@ -999,7 +999,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachS(&this->tentRot[indS1].x, tempf1, 1.0f / this->tentMaxAngle, this->tentSpeed);
                 Math_ApproachS(&this->tentRot[indS1].z, tempf2, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
-            this->actor.speedXZ = 0.0;
+            this->actor.speed = 0.0;
             Math_ApproachF(&this->fwork[MO_TENT_MAX_STRETCH], 4.3f, 0.5f, 0.04);
             Math_ApproachF(&this->tentPulse, 1.3f, 0.5f, 0.05f);
             break;
@@ -1018,7 +1018,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachS(&this->tentRot[indS1].x, tempf1, 1.0f / this->tentMaxAngle, this->tentSpeed);
                 Math_ApproachS(&this->tentRot[indS1].z, tempf2, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
-            this->actor.speedXZ = 0.0;
+            this->actor.speed = 0.0;
             Math_ApproachF(&this->tentPulse, 1.3f, 0.5f, 0.05f);
             break;
         case MO_TENT_DEATH_2:
@@ -1034,7 +1034,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 Math_ApproachS(&this->tentRot[indS1].x, tempf1, 1.0f / this->tentMaxAngle, this->tentSpeed);
                 Math_ApproachS(&this->tentRot[indS1].z, tempf2, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
-            this->actor.speedXZ = 0.0;
+            this->actor.speed = 0.0;
             this->noBubbles--;
             Math_ApproachF(&this->fwork[MO_TENT_MAX_STRETCH], 0.1f, 0.1f, 0.03);
             Math_ApproachF(&this->tentPulse, 0.02f, 0.5f, 0.015f);
@@ -1229,7 +1229,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->csState = MO_INTRO_START;
                 this->timers[2] = 50;
                 this->work[MO_TENT_VAR_TIMER] = this->work[MO_TENT_MOVE_TIMER] = 0;
@@ -1245,7 +1245,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
             player->actor.world.pos.x = 180.0f;
             player->actor.world.pos.z = -130.0f;
             player->actor.shape.rot.y = player->actor.world.rot.y = 0;
-            player->actor.speedXZ = 0.0f;
+            player->actor.speed = 0.0f;
             this->subCamEye.x = -424.0f;
             this->subCamEye.y = -190.0f;
             this->subCamEye.z = 180.0f;
@@ -1330,7 +1330,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 sp80 = 1.5f;
                 sp7C = (f32)0x600;
             }
-            Math_ApproachF(&this->actor.speedXZ, sp80, 1.0f, sp78);
+            Math_ApproachF(&this->actor.speed, sp80, 1.0f, sp78);
             Math_ApproachF(&this->subCamYawRate, sp7C, 1.0f, 128.0f);
             if (this->work[MO_TENT_MOVE_TIMER] == 525) {
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_2);
@@ -1345,7 +1345,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 player->actor.shape.rot.y = player->actor.world.rot.y;
                 this->subCamYawShake = 0.0f;
                 sMorphaTent1->baseAlpha = 150.0;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->timers[2] = 200;
                 this->subCamFov = 60.0f;
                 this->actor.world.pos = sMorphaTent1->actor.world.pos;
@@ -1454,7 +1454,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
         sMorphaTent1->actor.world.pos.x = 180.0f;
         sMorphaTent1->actor.world.pos.z = -360.0f;
         sMorphaTent1->actor.prevPos = sMorphaTent1->actor.world.pos;
-        sMorphaTent1->actor.speedXZ = 0.0f;
+        sMorphaTent1->actor.speed = 0.0f;
         sMorphaTent1->actor.shape.rot.y = sMorphaTent1->actor.yawTowardsPlayer;
     }
     if (this->subCamId != SUB_CAM_ID_DONE) {
@@ -1763,7 +1763,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_STUNNED;
                 this->timers[0] = 25;
 
-                this->actor.speedXZ = 15.0f;
+                this->actor.speed = 15.0f;
 
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
                 this->work[MO_CORE_DMG_FLASH_TIMER] = 15;
@@ -1811,7 +1811,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_STUNNED;
                 this->timers[0] = 30;
                 this->work[MO_TENT_INVINC_TIMER] = 10;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
             }
             for (i = 0; i < 10; i++) {
                 Vec3f pos;
@@ -1903,7 +1903,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
         ((this->work[MO_TENT_ACTION_STATE] == MO_CORE_MOVE) ||
          (this->work[MO_TENT_ACTION_STATE] == MO_CORE_MAKE_TENT))) {
         this->work[MO_TENT_ACTION_STATE] = MO_CORE_UNDERWATER;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->work[MO_CORE_WAIT_IN_WATER] = 0;
     }
     switch (this->work[MO_TENT_ACTION_STATE]) {
@@ -1913,7 +1913,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                 ((sMorphaTent1->work[MO_TENT_ACTION_STATE] == MO_TENT_WAIT) ||
                  (sMorphaTent1->work[MO_TENT_ACTION_STATE] == MO_TENT_READY)) &&
                 (this->actor.world.pos.y < MO_WATER_LEVEL(play))) {
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_MAKE_TENT;
                 if (sMorphaTent1->work[MO_TENT_ACTION_STATE] == MO_TENT_WAIT) {
                     sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_SPAWN;
@@ -1937,13 +1937,13 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_ATTACK;
                 this->work[MO_CORE_POS_IN_TENT] = 0;
                 this->timers[0] = 0;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
             }
             break;
         case MO_CORE_UNDERWATER:
             if (player->actor.world.pos.y >= MO_WATER_LEVEL(play)) {
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_MOVE;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
             }
             break;
         case MO_CORE_STUNNED:
@@ -1955,7 +1955,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
             if (this->actor.world.pos.y < MO_WATER_LEVEL(play)) {
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_MAKE_TENT;
                 this->timers[0] = 50;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
             }
             break;
         case MO_CORE_UNUSED:
@@ -1984,7 +1984,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                     this->work[MO_TENT_ACTION_STATE] = MO_CORE_MAKE_TENT;
                     this->timers[0] = 100;
                     this->tentSpeed = 0.0f;
-                    this->actor.speedXZ = 0.0f;
+                    this->actor.speed = 0.0f;
                 }
                 this->timers[0] = 0;
                 break;
@@ -2023,22 +2023,22 @@ void BossMo_Core(BossMo* this, PlayState* play) {
         if (this->work[MO_CORE_POS_IN_TENT] <= 1) {
             this->targetPos.y -= 20.0f;
         }
-        Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 0.5f, this->actor.speedXZ);
-        Math_ApproachF(&this->actor.world.pos.y, this->targetPos.y, 0.5f, this->actor.speedXZ);
-        Math_ApproachF(&this->actor.world.pos.z, this->targetPos.z, 0.5f, this->actor.speedXZ);
-        Math_ApproachF(&this->actor.speedXZ, 30.0f, 1.0f, 1.0f);
+        Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 0.5f, this->actor.speed);
+        Math_ApproachF(&this->actor.world.pos.y, this->targetPos.y, 0.5f, this->actor.speed);
+        Math_ApproachF(&this->actor.world.pos.z, this->targetPos.z, 0.5f, this->actor.speed);
+        Math_ApproachF(&this->actor.speed, 30.0f, 1.0f, 1.0f);
     } else {
         switch (this->work[MO_TENT_ACTION_STATE]) {
             case MO_CORE_MOVE:
                 sp80 = Math_SinS(this->work[MO_TENT_VAR_TIMER] * 0x800) * 100.0f;
                 sp7C = Math_CosS(this->work[MO_TENT_VAR_TIMER] * 0x800) * 100.0f;
-                Math_ApproachF(&this->actor.world.pos.x, sMorphaTent1->targetPos.x + sp80, 0.05f, this->actor.speedXZ);
-                Math_ApproachF(&this->actor.world.pos.z, sMorphaTent1->targetPos.z + sp7C, 0.05f, this->actor.speedXZ);
-                Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
+                Math_ApproachF(&this->actor.world.pos.x, sMorphaTent1->targetPos.x + sp80, 0.05f, this->actor.speed);
+                Math_ApproachF(&this->actor.world.pos.z, sMorphaTent1->targetPos.z + sp7C, 0.05f, this->actor.speed);
+                Math_ApproachF(&this->actor.speed, 10.0f, 1.0f, 0.5f);
                 break;
             case MO_CORE_STUNNED:
-                this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-                this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+                this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+                this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
                 this->actor.world.pos.x += this->actor.velocity.x;
                 this->actor.world.pos.z += this->actor.velocity.z;
                 break;
@@ -2097,7 +2097,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                     this->targetPos.x = sMorphaTent1->targetPos.x;
                     this->targetPos.y = sMorphaTent1->actor.world.pos.y - 40.0f;
                     this->targetPos.z = sMorphaTent1->targetPos.z;
-                    Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
+                    Math_ApproachF(&this->actor.speed, 10.0f, 1.0f, 0.5f);
                 } else if (this->work[MO_TENT_ACTION_STATE] == MO_CORE_UNDERWATER) {
                     switch (this->work[MO_CORE_WAIT_IN_WATER]) {
                         case false:
@@ -2111,14 +2111,14 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                             this->targetPos.x = player->actor.world.pos.x + sp64.x;
                             this->targetPos.y = player->actor.world.pos.y + 30.0f;
                             this->targetPos.z = player->actor.world.pos.z + sp64.z;
-                            Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 1.0f);
+                            Math_ApproachF(&this->actor.speed, 10.0f, 1.0f, 1.0f);
                             if (this->timers[0] == 0) {
                                 this->work[MO_CORE_WAIT_IN_WATER] = true;
                                 this->timers[0] = (s16)Rand_ZeroFloat(50.0f) + 50;
                             }
                             break;
                         case true:
-                            Math_ApproachF(&this->actor.speedXZ, 1.0f, 1.0f, 0.5f);
+                            Math_ApproachF(&this->actor.speed, 1.0f, 1.0f, 0.5f);
                             if (this->timers[0] == 0) {
                                 this->work[MO_CORE_WAIT_IN_WATER] = false;
                                 this->timers[0] = (s16)Rand_ZeroFloat(20.0f) + 20;
@@ -2322,7 +2322,7 @@ void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
     }
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0xA, 0xC8);
     Actor_MoveForward(&this->actor);
-    Math_ApproachF(&this->actor.speedXZ, 0.0, 1.0f, 0.02f);
+    Math_ApproachF(&this->actor.speed, 0.0, 1.0f, 0.02f);
 
     if (BossMo_NearLand(&this->actor.world.pos, 40)) {
         this->actor.world.pos = this->actor.prevPos;

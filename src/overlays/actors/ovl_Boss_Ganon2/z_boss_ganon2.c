@@ -1069,7 +1069,7 @@ void func_808FFEBC(BossGanon2* this, PlayState* play) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_809002CC(this, play);
@@ -1091,7 +1091,7 @@ void func_808FFFE0(BossGanon2* this, PlayState* play) {
     s16 target;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_809002CC(this, play);
@@ -1115,7 +1115,7 @@ void func_809000A0(BossGanon2* this, PlayState* play) {
 
 void func_80900104(BossGanon2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 
     switch (this->unk_1AC) {
         case 0:
@@ -1148,7 +1148,7 @@ void func_80900210(BossGanon2* this, PlayState* play) {
 
 void func_8090026C(BossGanon2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 2.0f);
 
     if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
         func_809002CC(this, play);
@@ -1201,7 +1201,7 @@ void func_80900344(BossGanon2* this, PlayState* play) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachF(&this->actor.speedXZ, phi_f0, 0.5f, 1.0f);
+    Math_ApproachF(&this->actor.speed, phi_f0, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_808FFDB0(this, play);
@@ -1245,7 +1245,7 @@ void func_80900650(BossGanon2* this, PlayState* play) {
         this->unk_312 = 2;
     }
 
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 
     if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
         this->unk_311 = 1 - this->unk_311;
@@ -1428,7 +1428,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
             break;
     }
 
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 }
 
 void func_80901020(BossGanon2* this, PlayState* play) {
@@ -1493,7 +1493,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             this->unk_1A2[2] = 0;
             this->unk_336 = 0;
             this->unk_324 = 0.0f;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->unk_31A = this->unk_31C;
             play->envCtx.lightBlend = 0.0f;
             FALLTHROUGH;

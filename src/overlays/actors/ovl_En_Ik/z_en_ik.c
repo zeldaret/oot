@@ -292,7 +292,7 @@ void EnIk_SetupStandUp(EnIk* this) {
 
     Animation_Change(&this->skelAnime, &gIronKnuckleStandUpAnim, 0.0f, startFrame, endFrame, ANIMMODE_ONCE, 0.0f);
     this->unk_2F8 = 3;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnIk_SetupAction(this, EnIk_StandUp);
 }
 
@@ -323,7 +323,7 @@ void EnIk_SetupIdle(EnIk* this) {
 
     this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     this->unk_2F8 = 4;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &object_ik_Anim_00DD50, 0.0f, 0.0f, endFrame, ANIMMODE_LOOP, 4.0f);
     EnIk_SetupAction(this, EnIk_Idle);
 }
@@ -355,12 +355,12 @@ void EnIk_SetupWalkOrRun(EnIk* this) {
     if (this->armorStatusFlag == 0) {
         Animation_Change(&this->skelAnime, &gIronKnuckleWalkAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleWalkAnim), ANIMMODE_LOOP, -4.0f);
-        this->actor.speedXZ = 0.9f;
+        this->actor.speed = 0.9f;
     } else {
         Animation_Change(&this->skelAnime, &gIronKnuckleRunAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleRunAnim), ANIMMODE_LOOP, -4.0f);
         Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DASH);
-        this->actor.speedXZ = 2.5f;
+        this->actor.speed = 2.5f;
     }
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -439,7 +439,7 @@ void EnIk_SetupVerticalAttack(EnIk* this) {
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleVerticalAttackAnim, 1.5f, 0.0f, endFrame, ANIMMODE_ONCE, -4.0f);
     EnIk_SetupAction(this, EnIk_VerticalAttack);
 }
@@ -509,7 +509,7 @@ void EnIk_SetupDoubleHorizontalAttack(EnIk* this) {
     this->unk_2FF = 2;
     this->unk_300 = 0;
     this->unk_2F8 = 6;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleHorizontalAttackAnim, 0.0f, 0.0f, endFrame, ANIMMODE_ONCE_INTERP,
                      -6.0f);
     this->isBreakingProp = false;
@@ -571,7 +571,7 @@ void EnIk_SetupSingleHorizontalAttack(EnIk* this) {
 
     this->unk_2F8 = 1;
     this->unk_2FF = 3;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleHorizontalAttackAnim, 0.5f, 13.0f, endFrame, ANIMMODE_ONCE_INTERP,
                      -4.0f);
     EnIk_SetupAction(this, EnIk_SingleHorizontalAttack);
@@ -601,7 +601,7 @@ void EnIk_SetupStopAndBlock(EnIk* this) {
 
     this->unk_2FE = 0;
     this->unk_2F8 = 9;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleBlockAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE_INTERP, -4.0f);
     EnIk_SetupAction(this, EnIk_StopAndBlock);
 }
@@ -634,11 +634,11 @@ void EnIk_SetupReactToAttack(EnIk* this) {
     if (ABS(yawDiff) <= 0x4000) {
         Animation_Change(&this->skelAnime, &gIronKnuckleFrontHitAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleFrontHitAnim), ANIMMODE_ONCE, -4.0f);
-        this->actor.speedXZ = -6.0f;
+        this->actor.speed = -6.0f;
     } else {
         Animation_Change(&this->skelAnime, &gIronKnuckleBackHitAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleBackHitAnim), ANIMMODE_ONCE, -4.0f);
-        this->actor.speedXZ = 6.0f;
+        this->actor.speed = 6.0f;
     }
 
     this->unk_2FE = 0;
@@ -646,7 +646,7 @@ void EnIk_SetupReactToAttack(EnIk* this) {
 }
 
 void EnIk_ReactToAttack(EnIk* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
 
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, this->actor.params + 4)) {
         this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
@@ -667,7 +667,7 @@ void EnIk_SetupDie(EnIk* this) {
 
     this->unk_2FE = 0;
     this->unk_2F8 = 2;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleDeathAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, -4.0f);
     this->animationTimer = 24;
     Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DEAD);

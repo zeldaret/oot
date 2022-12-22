@@ -275,7 +275,7 @@ void EnAm_SetupSleep(EnAm* this) {
 
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->unk_258 = (this->textureBlend == 255) ? 0 : 1;
     EnAm_SetupAction(this, EnAm_Sleep);
 }
@@ -286,7 +286,7 @@ void EnAm_SetupStatue(EnAm* this) {
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->dyna.actor.flags &= ~ACTOR_FLAG_0;
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_Statue);
 }
 
@@ -294,7 +294,7 @@ void EnAm_SetupLunge(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->unk_258 = 3;
     this->behavior = AM_BEHAVIOR_AGGRO;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Lunge);
 }
@@ -304,7 +304,7 @@ void EnAm_SetupCooldown(EnAm* this) {
     this->unk_258 = 3;
     this->cooldownTimer = 40;
     this->behavior = AM_BEHAVIOR_AGGRO;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Cooldown);
 }
@@ -313,7 +313,7 @@ void EnAm_SetupMoveToHome(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
     this->unk_258 = 1;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_MoveToHome);
 }
 
@@ -321,14 +321,14 @@ void EnAm_SetupRotateToInit(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
     this->unk_258 = 1;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_RotateToInit);
 }
 
 void EnAm_SetupRotateToHome(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_RotateToHome);
 }
@@ -341,7 +341,7 @@ void EnAm_SetupRecoilFromDamage(EnAm* this, PlayState* play) {
     Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_DAMAGE);
 
     if (EnAm_CanMove(this, play, -6.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = -6.0f;
+        this->dyna.actor.speed = -6.0f;
     }
 
     this->dyna.actor.colorFilterTimer = 0;
@@ -354,7 +354,7 @@ void EnAm_SetupRicochet(EnAm* this, PlayState* play) {
     this->dyna.actor.world.rot.y = this->dyna.actor.yawTowardsPlayer;
 
     if (EnAm_CanMove(this, play, -6.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = -6.0f;
+        this->dyna.actor.speed = -6.0f;
     }
 
     this->unk_264 = 0;
@@ -412,13 +412,13 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
                 this->unk_264 = 0;
             }
 
-            this->dyna.actor.speedXZ += this->dyna.unk_150;
+            this->dyna.actor.speed += this->dyna.unk_150;
             this->shakeOrigin = this->dyna.actor.world.pos;
             this->dyna.actor.world.rot.y = this->dyna.unk_158;
-            this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);
-            Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+            this->dyna.actor.speed = CLAMP(this->dyna.actor.speed, -2.5f, 2.5f);
+            Math_SmoothStepToF(&this->dyna.actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
 
-            if (this->dyna.actor.speedXZ != 0.0f) {
+            if (this->dyna.actor.speed != 0.0f) {
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
             }
 
@@ -507,7 +507,7 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
 
     if (this->skelAnime.curFrame == 8.0f) {
         this->dyna.actor.velocity.y = 12.0f;
-        this->dyna.actor.speedXZ = 6.0f;
+        this->dyna.actor.speed = 6.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
         if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->skelAnime.curFrame = 11;
@@ -519,7 +519,7 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
             }
 
             this->dyna.actor.velocity.y = 0.0f;
-            this->dyna.actor.speedXZ = 0.0f;
+            this->dyna.actor.speed = 0.0f;
             this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             EnAm_SpawnEffects(this, play);
 
@@ -530,7 +530,7 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
     }
 
     // turn away from a wall if touching one
-    if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+    if ((this->dyna.actor.speed != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.wallYaw;
         Actor_MoveForward(&this->dyna.actor);
     }
@@ -541,12 +541,12 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
 }
 
 void EnAm_RecoilFromDamage(EnAm* this, PlayState* play) {
-    if (this->dyna.actor.speedXZ < 0.0f) {
-        this->dyna.actor.speedXZ += 0.5f;
+    if (this->dyna.actor.speed < 0.0f) {
+        this->dyna.actor.speed += 0.5f;
     }
 
     if ((this->dyna.actor.velocity.y <= 0.0f) && !EnAm_CanMove(this, play, -8.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -605,9 +605,9 @@ void EnAm_Lunge(EnAm* this, PlayState* play) {
             this->dyna.actor.velocity.y = 12.0f;
 
             if (EnAm_CanMove(this, play, 80.0f, this->dyna.actor.world.rot.y)) {
-                this->dyna.actor.speedXZ = 6.0f;
+                this->dyna.actor.speed = 6.0f;
             } else {
-                this->dyna.actor.speedXZ = 0.0f;
+                this->dyna.actor.speed = 0.0f;
             }
 
             this->unk_264 = 1;
@@ -623,7 +623,7 @@ void EnAm_Lunge(EnAm* this, PlayState* play) {
                 }
 
                 this->dyna.actor.velocity.y = 0.0f;
-                this->dyna.actor.speedXZ = 0.0f;
+                this->dyna.actor.speed = 0.0f;
                 this->unk_264 = 0;
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
                 EnAm_SpawnEffects(this, play);
@@ -637,7 +637,7 @@ void EnAm_Lunge(EnAm* this, PlayState* play) {
         }
 
         // turn and move away from a wall if contact is made with one
-        if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+        if ((this->dyna.actor.speed != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             this->dyna.actor.world.rot.y =
                 (this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw;
             Actor_MoveForward(&this->dyna.actor);
@@ -690,12 +690,12 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
 
             this->unk_258 = 0;
             player->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_4 | PLAYER_STATE2_6 | PLAYER_STATE2_8);
-            player->actor.speedXZ = 0.0f;
+            player->actor.speed = 0.0f;
             this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
         }
 
         this->dyna.actor.world.rot.y = this->dyna.unk_158;
-        this->dyna.actor.speedXZ = Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f);
+        this->dyna.actor.speed = Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f);
     }
 
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
@@ -714,7 +714,7 @@ void EnAm_SetupStunned(EnAm* this, PlayState* play) {
     this->dyna.actor.world.rot.y = this->dyna.actor.yawTowardsPlayer;
 
     if (EnAm_CanMove(this, play, -6.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = -6.0f;
+        this->dyna.actor.speed = -6.0f;
     }
 
     Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 100);
@@ -731,12 +731,12 @@ void EnAm_SetupStunned(EnAm* this, PlayState* play) {
 void EnAm_Stunned(EnAm* this, PlayState* play) {
     Math_SmoothStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.world.rot.y, 1, 0xFA0, 0);
 
-    if (this->dyna.actor.speedXZ < 0.0f) {
-        this->dyna.actor.speedXZ += 0.5f;
+    if (this->dyna.actor.speed < 0.0f) {
+        this->dyna.actor.speed += 0.5f;
     }
 
     if ((this->dyna.actor.velocity.y <= 0.0f) && !EnAm_CanMove(this, play, -9.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
     }
 
     if (this->dyna.actor.colorFilterTimer == 0) {
@@ -749,17 +749,17 @@ void EnAm_Stunned(EnAm* this, PlayState* play) {
 }
 
 void EnAm_Ricochet(EnAm* this, PlayState* play) {
-    if (this->dyna.actor.speedXZ < 0.0f) {
-        this->dyna.actor.speedXZ += 0.5f;
+    if (this->dyna.actor.speed < 0.0f) {
+        this->dyna.actor.speed += 0.5f;
     }
 
     if ((this->dyna.actor.velocity.y <= 0.0f) &&
-        !EnAm_CanMove(this, play, this->dyna.actor.speedXZ * 1.5f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = 0.0f;
+        !EnAm_CanMove(this, play, this->dyna.actor.speed * 1.5f, this->dyna.actor.world.rot.y)) {
+        this->dyna.actor.speed = 0.0f;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
         EnAm_SetupLunge(this);
     }
 }

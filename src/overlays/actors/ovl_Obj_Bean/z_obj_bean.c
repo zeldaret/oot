@@ -249,7 +249,7 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
     f32 sp30;
     f32 mag;
 
-    Math_StepToF(&this->dyna.actor.speedXZ, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
+    Math_StepToF(&this->dyna.actor.speed, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
     path = &play->pathList[(this->dyna.actor.params >> 8) & 0x1F];
     nextPathPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->nextPointIndex];
 
@@ -257,7 +257,7 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
 
     Math_Vec3f_Diff(&pathPointsFloat, &this->pathPoints, &acell);
     mag = Math3D_Vec3fMagnitude(&acell);
-    speed = CLAMP_MIN(this->dyna.actor.speedXZ, 0.5f);
+    speed = CLAMP_MIN(this->dyna.actor.speed, 0.5f);
     if (speed > mag) {
         currentPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->currentPointIndex];
 
@@ -273,12 +273,12 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
         Math_Vec3s_DiffToVec3f(&sp40, nextPathPoint, currentPoint);
         Math_Vec3s_DiffToVec3f(&sp34, sp4C, nextPathPoint);
         if (Math3D_CosOut(&sp40, &sp34, &sp30)) {
-            this->dyna.actor.speedXZ = 0.0f;
+            this->dyna.actor.speed = 0.0f;
         } else {
-            this->dyna.actor.speedXZ *= (sp30 + 1.0f) * 0.5f;
+            this->dyna.actor.speed *= (sp30 + 1.0f) * 0.5f;
         }
     } else {
-        Math_Vec3f_Scale(&acell, this->dyna.actor.speedXZ / mag);
+        Math_Vec3f_Scale(&acell, this->dyna.actor.speed / mag);
         this->pathPoints.x += acell.x;
         this->pathPoints.y += acell.y;
         this->pathPoints.z += acell.z;
@@ -764,7 +764,7 @@ void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
 void ObjBean_SetupFly(ObjBean* this) {
     this->actionFunc = ObjBean_Fly;
     ObjBean_SetDrawMode(this, BEAN_STATE_DRAW_PLANT);
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.flags |= ACTOR_FLAG_4; // Never stop updating
 }
 

@@ -277,7 +277,7 @@ void EnDog_Init(Actor* thisx, PlayState* play) {
                 if (!gSaveContext.dogIsLost) {
                     this->nextBehavior = DOG_SIT;
                     this->actionFunc = EnDog_Wait;
-                    this->actor.speedXZ = 0.0f;
+                    this->actor.speed = 0.0f;
                     return;
                 } else {
                     Actor_Kill(&this->actor);
@@ -317,7 +317,7 @@ void EnDog_FollowPath(EnDog* this, PlayState* play) {
         } else {
             speed = 4.0f;
         }
-        Math_SmoothStepToF(&this->actor.speedXZ, speed, 0.4f, 1.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, speed, 0.4f, 1.0f, 0.0f);
         EnDog_Orient(this, play);
         this->actor.shape.rot = this->actor.world.rot;
 
@@ -357,7 +357,7 @@ void EnDog_ChooseMovement(EnDog* this, PlayState* play) {
         }
         this->actionFunc = EnDog_FollowPath;
     }
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.4f, 1.0f, 0.0f);
 }
 
 void EnDog_FollowPlayer(EnDog* this, PlayState* play) {
@@ -366,7 +366,7 @@ void EnDog_FollowPlayer(EnDog* this, PlayState* play) {
     if (gSaveContext.dogParams == 0) {
         this->nextBehavior = DOG_SIT;
         this->actionFunc = EnDog_Wait;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         return;
     }
 
@@ -389,7 +389,7 @@ void EnDog_FollowPlayer(EnDog* this, PlayState* play) {
         speed = 1.0f;
     }
 
-    Math_ApproachF(&this->actor.speedXZ, speed, 0.6f, 1.0f);
+    Math_ApproachF(&this->actor.speed, speed, 0.6f, 1.0f);
 
     if (!(this->actor.xzDistToPlayer > 400.0f)) {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 10, 1000, 1);
@@ -399,7 +399,7 @@ void EnDog_FollowPlayer(EnDog* this, PlayState* play) {
 
 void EnDog_RunAway(EnDog* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 200.0f) {
-        Math_ApproachF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
+        Math_ApproachF(&this->actor.speed, 4.0f, 0.6f, 1.0f);
         Math_SmoothStepToS(&this->actor.world.rot.y, (this->actor.yawTowardsPlayer ^ 0x8000), 10, 1000, 1);
     } else {
         this->actionFunc = EnDog_FaceLink;
@@ -416,7 +416,7 @@ void EnDog_FaceLink(EnDog* this, PlayState* play) {
     if (200.0f <= this->actor.xzDistToPlayer) {
         this->nextBehavior = DOG_WALK;
 
-        Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.6f, 1.0f);
+        Math_ApproachF(&this->actor.speed, 1.0f, 0.6f, 1.0f);
 
         rotTowardLink = this->actor.yawTowardsPlayer;
         prevRotY = this->actor.world.rot.y;
@@ -428,7 +428,7 @@ void EnDog_FaceLink(EnDog* this, PlayState* play) {
         if (absAngleDiff < 200.0f) {
             this->nextBehavior = DOG_SIT;
             this->actionFunc = EnDog_Wait;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     } else {
         this->nextBehavior = DOG_RUN;

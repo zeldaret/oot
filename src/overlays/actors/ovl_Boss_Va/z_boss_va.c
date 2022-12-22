@@ -1165,7 +1165,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
         }
     }
 
-    if ((sPhase2Timer > 10) && !(sPhase2Timer & 7) && (this->actor.speedXZ == 1.0f)) {
+    if ((sPhase2Timer > 10) && !(sPhase2Timer & 7) && (this->actor.speed == 1.0f)) {
         sp48 = this->actor.world.pos;
         sp48.y += 310.0f + (this->actor.shape.yOffset * this->actor.scale.y);
         sp48.x += -10.0f;
@@ -1182,10 +1182,10 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 20.0f, 0.0f);
     if (!(sPhase2Timer & 0x100)) {
         this->actor.flags |= ACTOR_FLAG_0;
-        this->actor.speedXZ = 1.0f;
+        this->actor.speed = 1.0f;
     } else {
         this->actor.flags &= ~ACTOR_FLAG_0;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     if (SkelAnime_Update(&this->skelAnime) && (sFightPhase >= PHASE_3)) {
@@ -1218,7 +1218,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 
 void BossVa_SetupBodyPhase3(BossVa* this) {
     this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     sPhase3StopMoving = false;
     BossVa_SetupAction(this, BossVa_BodyPhase3);
 }
@@ -1252,10 +1252,10 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
         sBodyState = 0;
         if (this->timer == 0) {
             if (Math_SmoothStepToS(&this->vaBodySpinRate, 0xFA0, 1, 0x12C, 0) == 0) {
-                if (this->actor.speedXZ == 0.0f) {
+                if (this->actor.speed == 0.0f) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 }
-                Math_SmoothStepToF(&this->actor.speedXZ, 3.0f, 1.0f, 0.15f, 0.0f);
+                Math_SmoothStepToF(&this->actor.speed, 3.0f, 1.0f, 0.15f, 0.0f);
             }
             this->actor.flags |= ACTOR_FLAG_0;
         } else {
@@ -1264,7 +1264,7 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
                 sBodyState = 0x80;
             }
             Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x12C, 0);
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.2f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.2f, 0.0f);
             Math_SmoothStepToF(&this->actor.shape.yOffset, -1420.0f, 1.0f, 30.0f, 0.0f);
         }
     }
@@ -1280,7 +1280,7 @@ void BossVa_BodyPhase3(BossVa* this, PlayState* play) {
     }
 
     if (sPhase3StopMoving) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     Actor_MoveForward(&this->actor);
@@ -1385,13 +1385,13 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                             Enemy_StartFinishingBlow(play, &this->actor);
                             return;
                         }
-                        this->actor.speedXZ = -10.0f;
+                        this->actor.speed = -10.0f;
                         this->timer = -170 - (s16)(Rand_ZeroOne() * 150.0f);
                     }
                 } else {
                     this->timer = (s16)Rand_CenteredFloat(40.0f) + 160;
                     this->vaBodySpinRate = 0;
-                    this->actor.speedXZ = 0.0f;
+                    this->actor.speed = 0.0f;
                     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 125, COLORFILTER_BUFFLAG_OPA, 255);
                     Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_FAINT);
                 }
@@ -1414,12 +1414,12 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, ((sFightPhase - PHASE_4 + 1) * 5.0f) + 10.0f, 0.0f);
         if (Math_SmoothStepToS(&this->vaBodySpinRate, (s16)((sFightPhase - PHASE_4 + 1) * 500.0f) + 0xFA0, 1, 0x12C,
                                0) == 0) {
-            if (this->actor.speedXZ == 0.0f) {
+            if (this->actor.speed == 0.0f) {
                 this->actor.colorFilterTimer = 0;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 this->timer2 = (s16)(Rand_ZeroOne() * 150.0f) + 300;
             }
-            Math_SmoothStepToF(&this->actor.speedXZ, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
         }
         this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
     } else {
@@ -1439,18 +1439,18 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 BossVa_Spark(play, this, 2, 0x64, 220.0f, 5.0f, SPARK_BODY, 12.0f, true);
             }
             if (this->timer < -30) {
-                if (this->actor.speedXZ > 0.0f) {
-                    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+                if (this->actor.speed > 0.0f) {
+                    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
                 }
                 Math_SmoothStepToF(&this->actor.shape.yOffset, -1400.0f, 1.0f, 60.0f, 0.0f);
             } else {
-                if (this->actor.speedXZ == 0.0f) {
+                if (this->actor.speed == 0.0f) {
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
                     this->timer2 = (s16)(Rand_ZeroOne() * 150.0f) + 330;
                 }
                 Math_SmoothStepToS(&this->vaBodySpinRate, 0xFA0, 1, 0x1F4, 0);
                 tmpf1 = sFightPhase - PHASE_4 + 1;
-                Math_SmoothStepToF(&this->actor.speedXZ, (tmpf1 + tmpf1) + 4.0f, 1.0f, 0.25f, 0.0f);
+                Math_SmoothStepToF(&this->actor.speed, (tmpf1 + tmpf1) + 4.0f, 1.0f, 0.25f, 0.0f);
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 20.0f, 0.0f);
             }
             this->timer++;
@@ -1458,8 +1458,8 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y += this->vaBodySpinRate;
-    if (this->actor.speedXZ < 0.0f) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    if (this->actor.speed < 0.0f) {
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     }
 
     this->unk_1AC += 0xC31;
@@ -1515,7 +1515,7 @@ void BossVa_SetupBodyDeath(BossVa* this, PlayState* play) {
     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
     this->vaCamRotMod = 0xC31;
     sCsState = DEATH_START;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->unk_1A8 = 0.0f;
     Flags_SetClear(play, play->roomCtx.curRoom.num);
     BossVa_SetupAction(this, BossVa_BodyDeath);
@@ -1675,7 +1675,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
         play->envCtx.screenFillColor[3] -= 50;
     }
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     this->actor.shape.rot.y += this->vaBodySpinRate;
     this->unk_1AC += this->vaCamRotMod;
 
@@ -1992,7 +1992,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
         return;
     }
 
-    if ((sFightPhase < PHASE_4) && (GET_BODY(this)->actor.speedXZ != 0.0f)) {
+    if ((sFightPhase < PHASE_4) && (GET_BODY(this)->actor.speed != 0.0f)) {
         BossVa_SetupZapperHold(this, play);
         return;
     }
@@ -2381,7 +2381,7 @@ void BossVa_ZapperHold(BossVa* this, PlayState* play) {
     Math_SmoothStepToS(&this->unk_1EA, 0, 1, 0x1770, 0);
     Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - 0x4000, 1, 0x2710, 0);
     Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z - 0x1388, 1, 0x1770, 0);
-    if (GET_BODY(this)->actor.speedXZ == 0.0f) {
+    if (GET_BODY(this)->actor.speed == 0.0f) {
         BossVa_SetupZapperAttack(this, play);
     }
 }
