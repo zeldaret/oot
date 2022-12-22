@@ -667,7 +667,7 @@ Vec3f* Camera_GetQuakeOffset(Vec3f* quakeOffset, Camera* camera);
 void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
                           UNK_TYPE arg6);
 s32 func_8005B198(void);
-s16 Camera_SetExternalFinishedFlag(Camera* camera);
+s16 Camera_SetFinishedFlag(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
 void DamageTable_Clear(DamageTable* table);
 void Collider_DrawRedPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
