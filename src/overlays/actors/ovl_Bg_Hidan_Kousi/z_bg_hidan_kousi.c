@@ -124,7 +124,7 @@ void func_80889C18(BgHidanKousi* this, PlayState* play) {
         this->dyna.actor.speedXZ = 2.0f;
         BgHidanKousi_SetupAction(this, func_80889C90);
     }
-    Actor_MoveWithGravity(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
     func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
 }
 

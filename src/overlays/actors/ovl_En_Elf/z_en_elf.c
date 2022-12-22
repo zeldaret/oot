@@ -566,7 +566,7 @@ void func_80A03018(EnElf* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->unk_2BC, targetYaw, 10, this->unk_2AC, 0x20);
     this->actor.world.rot.y = this->unk_2BC;
-    Actor_MoveWithGravity(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 }
 
 void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
