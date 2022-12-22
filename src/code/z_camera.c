@@ -5,7 +5,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 setting, s16 flags);
-s32 Camera_RequestModeImpl(Camera* camera, s16 mode, u8 forceModeChange);
+s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange);
 s32 Camera_QRegInit(void);
 s32 Camera_UpdateWater(Camera* camera);
 
@@ -7885,11 +7885,11 @@ s32 Camera_SetNewModeStateFlags(Camera* camera) {
 #define CAM_REQUEST_MODE_SKIP_ANIM_NORMAL_PARALLEL (1 << 4) // never set to
 #define CAM_REQUEST_MODE_SKIP_ANIM_FIRST_PERSON (1 << 5)
 
-s32 Camera_RequestModeImpl(Camera* camera, s16 mode, u8 forceModeChange) {
+s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange) {
     static s32 sModeRequestFlags = 0;
 
     if (QREG(89)) {
-        osSyncPrintf("+=+(%d)+=+ recive request -> %s\n", camera->play->state.frames, sCameraModeNames[mode]);
+        osSyncPrintf("+=+(%d)+=+ recive request -> %s\n", camera->play->state.frames, sCameraModeNames[requestedMode]);
     }
 
     if ((camera->stateFlags & CAM_STATE_LOCK_MODE) && !forceModeChange) {
@@ -7897,19 +7897,19 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 mode, u8 forceModeChange) {
         return -1;
     }
 
-    if (!((sCameraSettings[camera->setting].unk_00 & 0x3FFFFFFF) & (1 << mode))) {
-        if (mode == CAM_MODE_FIRST_PERSON) {
+    if (!((sCameraSettings[camera->setting].unk_00 & 0x3FFFFFFF) & (1 << requestedMode))) {
+        if (requestedMode == CAM_MODE_FIRST_PERSON) {
             osSyncPrintf("camera: error sound\n");
             func_80078884(NA_SE_SY_ERROR);
         }
 
         if (camera->mode != CAM_MODE_NORMAL) {
             osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: change camera mode: force NORMAL: %s %s refused\n" VT_RST,
-                         sCameraSettingNames[camera->setting], sCameraModeNames[mode]);
+                         sCameraSettingNames[camera->setting], sCameraModeNames[requestedMode]);
             camera->mode = CAM_MODE_NORMAL;
             Camera_CopyDataToRegs(camera, camera->mode);
             Camera_SetNewModeStateFlags(camera);
-            return 0xC0000000 | mode;
+            return 0xC0000000 | requestedMode;
         }
 
         camera->behaviorFlags |= CAM_BEHAVIOR_MODE_VALID;
@@ -7917,7 +7917,7 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 mode, u8 forceModeChange) {
         return CAM_MODE_NORMAL;
     }
 
-    if ((mode == camera->mode) && !forceModeChange) {
+    if ((requestedMode == camera->mode) && !forceModeChange) {
         camera->behaviorFlags |= CAM_BEHAVIOR_MODE_VALID;
         camera->behaviorFlags |= CAM_BEHAVIOR_MODE_SUCCESS;
         return -1;
@@ -7926,12 +7926,12 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 mode, u8 forceModeChange) {
     camera->behaviorFlags |= CAM_BEHAVIOR_MODE_VALID;
     camera->behaviorFlags |= CAM_BEHAVIOR_MODE_SUCCESS;
 
-    Camera_CopyDataToRegs(camera, mode);
+    Camera_CopyDataToRegs(camera, requestedMode);
 
     sModeRequestFlags = 0;
 
     // requested camMode
-    switch (mode) {
+    switch (requestedMode) {
         case CAM_MODE_FIRST_PERSON:
             sModeRequestFlags = CAM_REQUEST_MODE_SKIP_ANIM_FIRST_PERSON;
             break;
@@ -8040,9 +8040,9 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 mode, u8 forceModeChange) {
     }
 
     Camera_SetNewModeStateFlags(camera);
-    camera->mode = mode;
+    camera->mode = requestedMode;
 
-    return mode | 0x80000000;
+    return requestedMode | 0x80000000;
 }
 
 s32 Camera_RequestMode(Camera* camera, s16 mode) {
@@ -8063,29 +8063,29 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
     }
 }
 
-s16 Camera_RequestSettingImpl(Camera* camera, s16 setting, s16 flags) {
+s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags) {
     if (camera->behaviorFlags & CAM_BEHAVIOR_SETTING_CHECK_PRIORITY) {
         // If a second setting is requested, determine if the setting overwrites the
         // current setting through priority
         if (((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
-            ((sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
+            ((sCameraSettings[requestedSetting].unk_00 & 0xF000000) >> 0x18)) {
             camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_VALID;
             return -2;
         }
     }
 
-    if (((setting == CAM_SET_MEADOW_BIRDS_EYE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
-        (camera->play->sceneId == SCENE_SACRED_FOREST_MEADOW)) {
+    if (((requestedSetting == CAM_SET_MEADOW_BIRDS_EYE) || (requestedSetting == CAM_SET_MEADOW_UNUSED)) &&
+        LINK_IS_ADULT && (camera->play->sceneId == SCENE_SACRED_FOREST_MEADOW)) {
         camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_VALID;
         return -5;
     }
 
-    if ((setting == CAM_SET_NONE) || (setting >= CAM_SET_MAX)) {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera set (%d) !!!!\n" VT_RST, setting);
+    if ((requestedSetting == CAM_SET_NONE) || (requestedSetting >= CAM_SET_MAX)) {
+        osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera set (%d) !!!!\n" VT_RST, requestedSetting);
         return -99;
     }
 
-    if ((setting == camera->setting) && !(flags & CAM_REQUEST_SETTING_FORCE_CHANGE)) {
+    if ((requestedSetting == camera->setting) && !(flags & CAM_REQUEST_SETTING_FORCE_CHANGE)) {
         camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_VALID;
         if (!(flags & CAM_REQUEST_SETTING_IGNORE_PRIORITY)) {
             camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_CHECK_PRIORITY;
@@ -8117,7 +8117,7 @@ s16 Camera_RequestSettingImpl(Camera* camera, s16 setting, s16 flags) {
         camera->bgCamIndex = -1;
     }
 
-    camera->setting = setting;
+    camera->setting = requestedSetting;
 
     if (Camera_RequestModeImpl(camera, camera->mode, true) >= 0) {
         Camera_CopyDataToRegs(camera, camera->mode);
@@ -8126,39 +8126,39 @@ s16 Camera_RequestSettingImpl(Camera* camera, s16 setting, s16 flags) {
     osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: change camera[%d] set %s\n", camera->play->state.frames,
                  camera->camId, sCameraSettingNames[camera->setting]);
 
-    return setting;
+    return requestedSetting;
 }
 
 s32 Camera_RequestSetting(Camera* camera, s16 setting) {
     return Camera_RequestSettingImpl(camera, setting, 0);
 }
 
-s32 Camera_RequestBgCam(Camera* camera, s32 bgCamIndex) {
+s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
     s16 requestedCamSetting;
     s16 settingChangeSuccessful;
 
-    if ((bgCamIndex == -1) || (bgCamIndex == camera->bgCamIndex)) {
+    if ((requestedBgCamIndex == -1) || (requestedBgCamIndex == camera->bgCamIndex)) {
         camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
         return -1;
     }
 
     if (!(camera->behaviorFlags & CAM_BEHAVIOR_BG_PROCESSED)) {
-        requestedCamSetting = Camera_GetBgCamSetting(camera, bgCamIndex);
+        requestedCamSetting = Camera_GetBgCamSetting(camera, requestedBgCamIndex);
         camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
         settingChangeSuccessful = Camera_RequestSettingImpl(camera, requestedCamSetting,
                                                             CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
                                                                 CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
         if ((settingChangeSuccessful != CAM_SET_NONE) || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
-            camera->bgCamIndex = bgCamIndex;
+            camera->bgCamIndex = requestedBgCamIndex;
             camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
             //! @bug: `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
             // The actual return of Camera_RequestSettingImpl or bgCamIndex would make more sense.
-            osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, bgCamIndex,
-                         camera->camId, BGCHECK_SCENE, requestedCamSetting);
+            osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST,
+                         requestedBgCamIndex, camera->camId, BGCHECK_SCENE, requestedCamSetting);
         }
-        return 0x80000000 | bgCamIndex;
+        return 0x80000000 | requestedBgCamIndex;
     }
 
     //! @note: no return here, but return is unused
