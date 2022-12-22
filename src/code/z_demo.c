@@ -1973,7 +1973,7 @@ void func_80068DC0(PlayState* play, CutsceneContext* csCtx) {
 
             Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_ACTIVE);
             Play_ClearCamera(play, csCtx->subCamId);
-            Camera_SetStateFlagEnd(play->cameraPtrs[sReturnToCamId]);
+            Camera_SetExternalFinished(play->cameraPtrs[sReturnToCamId]);
         }
 
         Audio_SetCutsceneFlag(0);

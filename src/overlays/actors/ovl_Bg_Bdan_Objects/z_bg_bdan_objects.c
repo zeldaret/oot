@@ -241,7 +241,7 @@ void func_8086C29C(BgBdanObjects* this, PlayState* play) {
         BgBdanObjects_SetContactRu1(this, 4);
         this->timer = 10;
         this->actionFunc = func_8086C55C;
-        Camera_SetStateFlagEnd(GET_ACTIVE_CAM(play));
+        Camera_SetExternalFinished(GET_ACTIVE_CAM(play));
     }
 }
 

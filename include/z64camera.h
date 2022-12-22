@@ -82,8 +82,8 @@
 #define CAM_INTERFACE_FIELD(letterboxFlag, hudVisibilityMode, funcFlags) \
     (((letterboxFlag) & CAM_LETTERBOX_MASK) | (hudVisibilityMode) | ((funcFlags) & 0xFF))
 
-// Camera behaviorFlags. Flags specifically for settings, modes, and bgCam
-// Used to store current state, only CAM_BEHAVIOR_SETTING_CHECK_PRIORITY and CAM_BEHAVIOR_BG_2 are read from and used in logic
+// Camera behaviorFlags. Flags specifically for settings, modes, and bgCam. Reset every frame.
+// Used to store current state, only CAM_BEHAVIOR_SETTING_CHECK_PRIORITY and CAM_BEHAVIOR_BG_PROCESSED are read from and used in logic
 // Setting (0x1, 0x10)
 #define CAM_BEHAVIOR_SETTING_CHECK_PRIORITY (1 << 0)
 #define CAM_BEHAVIOR_SETTING_VALID (1 << 4) // Set when a valid camera setting is requested
@@ -91,15 +91,15 @@
 #define CAM_BEHAVIOR_MODE_SUCCESS (1 << 1) // Set when the camera mode is the requested mode
 #define CAM_BEHAVIOR_MODE_VALID (1 << 5) // Set when a valid camera mode is requested
 // bgCam (0x4, 0x40)
-#define CAM_BEHAVIOR_BG_1 (1 << 2)
-#define CAM_BEHAVIOR_BG_2 (1 << 6)
+#define CAM_BEHAVIOR_BG_SUCCESS (1 << 2)
+#define CAM_BEHAVIOR_BG_PROCESSED (1 << 6)
 
 // Camera stateFlags. Variety of generic flags
 #define CAM_STATE_CHECK_BG_ALT (1 << 0) // Must be set for the camera to change settings based on the bg surface
 #define CAM_STATE_CHECK_WATER (1 << 1) // Must be set for Camera_UpdateWater to run
 #define CAM_STATE_CHECK_BG (1 << 2) //  Must be set for the camera to change settings based on the bg surface
-#define CAM_STATE_CS_END (1 << 3) // Customizable flag for different functions
-#define CAM_STATE_MINI_CS_END (1 << 4) // Related to respawn mode in player
+#define CAM_STATE_EXTERNAL_FINISHED (1 << 3) // Signal from the external systems to camera that the current cam-update function is no longer needed
+#define CAM_STATE_CAM_FUNC_FINISH (1 << 4) // Signal from camera to player to signal that the cam-update function is finished its primary purpose
 #define CAM_STATE_LOCK_MODE (1 << 5) // Prevents camera mode from changing mode depending on flags
 #define CAM_STATE_DISTORTION (1 << 6) // Set when camera distortion is on
 #define CAM_STATE_PLAY_INIT (1 << 7) // Turned on in Play Init, never used or changed

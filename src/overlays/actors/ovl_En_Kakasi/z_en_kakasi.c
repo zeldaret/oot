@@ -264,7 +264,7 @@ void func_80A8F9C8(EnKakasi* this, PlayState* play) {
     if (this->unk_196 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
 
         if (this->subCamId != CAM_ID_NONE) {
-            Camera_SetStateFlagEnd(play->cameraPtrs[this->subCamId]);
+            Camera_SetExternalFinished(play->cameraPtrs[this->subCamId]);
         }
         this->subCamId = OnePointCutscene_Init(play, 2270, -99, &this->actor, CAM_ID_MAIN);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -296,7 +296,7 @@ void func_80A8FAA4(EnKakasi* this, PlayState* play) {
         OnePointCutscene_EndCutscene(play, this->subCamId);
         this->subCamId = CAM_ID_NONE;
         this->subCamId = OnePointCutscene_Init(play, 2260, -99, &this->actor, CAM_ID_MAIN);
-        Camera_SetStateFlagEnd(play->cameraPtrs[this->subCamId]);
+        Camera_SetExternalFinished(play->cameraPtrs[this->subCamId]);
     }
 }
 
@@ -305,7 +305,7 @@ void func_80A8FBB8(EnKakasi* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
 
     if (this->unk_196 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
-        Camera_SetStateFlagEnd(play->cameraPtrs[this->subCamId]);
+        Camera_SetExternalFinished(play->cameraPtrs[this->subCamId]);
         Message_CloseTextbox(play);
         func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actionFunc = func_80A8F660;

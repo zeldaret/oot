@@ -647,7 +647,7 @@ void Camera_Finish(Camera* camera);
 s32 Camera_RequestMode(Camera* camera, s16 mode);
 s32 Camera_CheckValidMode(Camera* camera, s16 mode);
 s32 Camera_RequestSetting(Camera* camera, s16 setting);
-s32 Camera_ChangeBgCamIndex(Camera* camera, s32 bgCamIndex);
+s32 Camera_RequestBgCam(Camera* camera, s32 bgCamIndex);
 s16 Camera_GetInputDirYaw(Camera* camera);
 Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera);
 s16 Camera_GetCamDirPitch(Camera* camera);
@@ -667,7 +667,7 @@ Vec3f* Camera_GetQuakeOffset(Vec3f* quakeOffset, Camera* camera);
 void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
                           UNK_TYPE arg6);
 s32 func_8005B198(void);
-s16 Camera_SetStateFlagEnd(Camera* camera);
+s16 Camera_SetExternalFinished(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
 void DamageTable_Clear(DamageTable* table);
 void Collider_DrawRedPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);

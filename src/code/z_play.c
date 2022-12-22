@@ -26,7 +26,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
     } while (0)
 
 void Play_ChangeViewpointBgCamIndex(PlayState* this) {
-    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1);
+    Camera_RequestBgCam(GET_ACTIVE_CAM(this), this->viewpoint - 1);
 }
 
 void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
@@ -256,8 +256,8 @@ void Play_Init(GameState* thisx) {
     this->cameraPtrs[CAM_ID_MAIN]->uid = 0;
     this->activeCamId = CAM_ID_MAIN;
     Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_CHECK_BG_ALT | CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG |
-                                                      CAM_STATE_CS_END | CAM_STATE_MINI_CS_END | CAM_STATE_LOCK_MODE |
-                                                      CAM_STATE_DISTORTION | CAM_STATE_PLAY_INIT);
+                                                      CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_CAM_FUNC_FINISH |
+                                                      CAM_STATE_LOCK_MODE | CAM_STATE_DISTORTION | CAM_STATE_PLAY_INIT);
     Sram_Init(this, &this->sramCtx);
     Regs_InitData(this);
     Message_Init(this);
@@ -418,7 +418,7 @@ void Play_Init(GameState* thisx) {
     playerStartBgCamIndex = player->actor.params & 0xFF;
     if (playerStartBgCamIndex != 0xFF) {
         osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
-        Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
+        Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);
     }
 
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) {
