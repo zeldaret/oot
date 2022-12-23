@@ -34,7 +34,7 @@ typedef struct {
 #define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
 #define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
 #define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
-#define COLPOLY_VTX_CHECK_FLAGS_ANY(vIA, flags) ((vIA) & (((flags)&7) << 13))
+#define COLPOLY_VTX_CHECK_FLAGS_ANY(vI, flags) ((vI) & (((flags)&7) << 13))
 #define COLPOLY_VTX_FLAGS(vI) ((vI)&0xE000)
 #define COLPOLY_VTX_INDEX(vI) ((vI)&0x1FFF)
 #define COLPOLY_VTX(vtxId, flags) ((((flags)&7) << 13) | ((vtxId)&0x1FFF))
