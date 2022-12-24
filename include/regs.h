@@ -154,6 +154,7 @@
 #define R_TEXTBOX_TEXHEIGHT_TARGET               XREG(77)
 #define R_ENV_LIGHT1_DIR(i)                      cREG(3 + (i))
 #define R_ENV_LIGHT2_DIR(i)                      cREG(6 + (i))
+#define R_TRANS_FADE_FLASH_ALPHA_STEP            iREG(50) // Set to a negative number to start the flash
 #define R_ROOM_CULL_DEBUG_MODE                   iREG(86)
 #define R_ROOM_CULL_NUM_ENTRIES                  iREG(87)
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)

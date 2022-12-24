@@ -195,7 +195,7 @@ void EnDekunuts_SetupRun(EnDekunuts* this) {
 void EnDekunuts_SetupGasp(EnDekunuts* this) {
     Animation_PlayLoop(&this->skelAnime, &gDekuNutsGaspAnim);
     this->animFlagAndTimer = 3;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     if (this->runAwayCount != 0) {
         this->runAwayCount--;
     }
@@ -211,7 +211,7 @@ void EnDekunuts_SetupBeDamaged(EnDekunuts* this) {
     }
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekunuts_BeDamaged;
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_CUTBODY);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA,
@@ -222,7 +222,7 @@ void EnDekunuts_SetupBeStunned(EnDekunuts* this) {
     Animation_MorphToLoop(&this->skelAnime, &gDekuNutsDamageAnim, -3.0f);
     this->animFlagAndTimer = 5;
     this->actionFunc = EnDekunuts_BeStunned;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
                          Animation_GetLastFrame(&gDekuNutsDamageAnim) * this->animFlagAndTimer);
@@ -231,7 +231,7 @@ void EnDekunuts_SetupBeStunned(EnDekunuts* this) {
 void EnDekunuts_SetupDie(EnDekunuts* this) {
     Animation_PlayOnce(&this->skelAnime, &gDekuNutsDieAnim);
     this->actionFunc = EnDekunuts_Die;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DEAD);
 }
 
@@ -358,7 +358,7 @@ void EnDekunuts_Run(EnDekunuts* this, PlayState* play) {
         this->playWalkSfx = true;
     }
 
-    Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);
+    Math_StepToF(&this->actor.speed, 7.5f, 1.0f);
     if (Math_SmoothStepToS(&this->actor.world.rot.y, this->runDirection, 1, 0xE38, 0xB6) == 0) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             this->runDirection = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
@@ -382,7 +382,7 @@ void EnDekunuts_Run(EnDekunuts* this, PlayState* play) {
     if ((this->runAwayCount == 0) && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
         fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnDekunuts_SetupBurrow(this);
     } else if (this->animFlagAndTimer == 0) {
         EnDekunuts_SetupGasp(this);
@@ -400,7 +400,7 @@ void EnDekunuts_Gasp(EnDekunuts* this, PlayState* play) {
 }
 
 void EnDekunuts_BeDamaged(EnDekunuts* this, PlayState* play) {
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 1.0f);
+    Math_StepToF(&this->actor.speed, 0.0f, 1.0f);
     if (SkelAnime_Update(&this->skelAnime)) {
         EnDekunuts_SetupDie(this);
     }

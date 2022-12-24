@@ -198,7 +198,7 @@ void Play_Destroy(GameState* thisx) {
     }
 
     Letterbox_Destroy();
-    TransitionFade_Destroy(&this->transitionFade);
+    TransitionFade_Destroy(&this->transitionFadeFlash);
     VisMono_Destroy(&D_80161498);
 
     if (gSaveContext.linkAge != this->linkAgeOnLoad) {
@@ -386,10 +386,10 @@ void Play_Init(GameState* thisx) {
     }
 
     Letterbox_Init();
-    TransitionFade_Init(&this->transitionFade);
-    TransitionFade_SetType(&this->transitionFade, 3);
-    TransitionFade_SetColor(&this->transitionFade, RGBA8(160, 160, 160, 255));
-    TransitionFade_Start(&this->transitionFade);
+    TransitionFade_Init(&this->transitionFadeFlash);
+    TransitionFade_SetType(&this->transitionFadeFlash, TRANS_INSTANCE_TYPE_FADE_FLASH);
+    TransitionFade_SetColor(&this->transitionFadeFlash, RGBA8(160, 160, 160, 255));
+    TransitionFade_Start(&this->transitionFadeFlash);
     VisMono_Init(&D_80161498);
     gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
@@ -612,9 +612,9 @@ void Play_Update(PlayState* this) {
                     }
 
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
-                        this->transitionCtx.setType(&this->transitionCtx.instanceData, 1);
+                        this->transitionCtx.setType(&this->transitionCtx.instanceData, TRANS_INSTANCE_TYPE_FILL_OUT);
                     } else {
-                        this->transitionCtx.setType(&this->transitionCtx.instanceData, 2);
+                        this->transitionCtx.setType(&this->transitionCtx.instanceData, TRANS_INSTANCE_TYPE_FILL_IN);
                     }
 
                     this->transitionCtx.start(&this->transitionCtx.instanceData);
@@ -973,7 +973,7 @@ void Play_Update(PlayState* this) {
             Letterbox_Update(R_UPDATE_RATE);
 
             PLAY_LOG(3783);
-            TransitionFade_Update(&this->transitionFade, R_UPDATE_RATE);
+            TransitionFade_Update(&this->transitionFadeFlash, R_UPDATE_RATE);
         } else {
             goto skip;
         }
@@ -1097,7 +1097,7 @@ void Play_Draw(PlayState* this) {
                 this->transitionCtx.draw(&this->transitionCtx.instanceData, &gfxP);
             }
 
-            TransitionFade_Draw(&this->transitionFade, &gfxP);
+            TransitionFade_Draw(&this->transitionFadeFlash, &gfxP);
 
             if (gVisMonoColor.a > 0) {
                 D_80161498.primColor.rgba = gVisMonoColor.rgba;

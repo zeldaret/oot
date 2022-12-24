@@ -1176,7 +1176,7 @@ typedef struct PlayState {
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
     /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
-    /* 0x1241C */ TransitionFade transitionFade;
+    /* 0x1241C */ TransitionFade transitionFadeFlash; // Transition fade instance which flashes screen, see R_TRANS_FADE_FLASH_ALPHA_STEP
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 viewpoint; // toggleable camera setting by shops or player. Is also equal to the bgCamIndex + 1
     /* 0x1242C */ SceneTableEntry* loadedScene;

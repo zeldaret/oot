@@ -1604,7 +1604,7 @@ void Fishing_DrawLureHook(PlayState* play, Vec3f* pos, Vec3f* refPos, u8 hookInd
 
     Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_NEW);
 
-    if ((player->actor.speedXZ == 0.0f) && (D_80B7E138 == 0.0f)) {
+    if ((player->actor.speed == 0.0f) && (D_80B7E138 == 0.0f)) {
         Math_ApproachF(&sLureHookRotY[hookIndex], ry, 0.1f, 0.3f);
     } else {
         sLureHookRotY[hookIndex] = ry;
@@ -1815,7 +1815,7 @@ void Fishing_DrawLureAndLine(PlayState* play, Vec3f* linePos, Vec3f* lineRot) {
         sLurePos = sReelLinePos[LINE_SEG_COUNT - 1];
         sLureRot.x = sReelLineRot[LINE_SEG_COUNT - 2].x + M_PI;
 
-        if ((player->actor.speedXZ == 0.0f) && (D_80B7E0B0 == 0)) {
+        if ((player->actor.speed == 0.0f) && (D_80B7E0B0 == 0)) {
             Math_ApproachF(&sLureRot.y, sReelLineRot[LINE_SEG_COUNT - 2].y, 0.1f, 0.2f);
         } else {
             sLureRot.y = sReelLineRot[LINE_SEG_COUNT - 2].y;
@@ -2908,9 +2908,9 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     this->actor.uncullZoneScale = 50.0f;
 
     if (this->unk_150 == 0) {
-        sp118 = (player->actor.speedXZ * 0.15f) + 0.25f;
+        sp118 = (player->actor.speed * 0.15f) + 0.25f;
     } else {
-        sp118 = (player->actor.speedXZ * 0.3f) + 0.25f;
+        sp118 = (player->actor.speed * 0.3f) + 0.25f;
     }
 
     if ((D_80B7E0B0 != 0) || (sSubCamId != SUB_CAM_ID_DONE) ||
@@ -3056,7 +3056,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         case 10:
             this->unk_1B4 = this->actor.home.pos;
 
-            Math_ApproachF(&this->actor.speedXZ, 2.0f, 1.0f, 0.5f);
+            Math_ApproachF(&this->actor.speed, 2.0f, 1.0f, 0.5f);
             Math_ApproachF(&this->unk_1B0, 4096.0f, 1.0f, 256.0f);
 
             if (sp124 < 40.0f) {
@@ -3078,7 +3078,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         case 11:
             this->unk_1B4 = this->actor.home.pos;
 
-            Math_ApproachF(&this->actor.speedXZ, 0.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->actor.speed, 0.0f, 1.0f, 0.05f);
             Math_ApproachF(&this->unk_1B0, 0.0f, 1.0f, 256.0f);
 
             if (sp124 >= 40.0f) {
@@ -3115,7 +3115,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             break;
 
         case 0:
-            Math_ApproachF(&this->actor.speedXZ, 1.0f, 1.0f, 0.05f);
+            Math_ApproachF(&this->actor.speed, 1.0f, 1.0f, 0.05f);
             Math_ApproachF(&this->unk_1B0, 0.0f, 1.0f, 256.0f);
 
             if (this->unk_17A[0] == 0) {
@@ -3152,14 +3152,14 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
                 if ((this->actor.xzDistToPlayer < (250.0f * sp118)) || (this->unk_17A[1] != 0)) {
                     Math_ApproachF(&this->unk_1B0, 8192.0f, 1.0f, 768.0f);
-                    Math_ApproachF(&this->actor.speedXZ, 4.2f, 1.0f, 0.75);
+                    Math_ApproachF(&this->actor.speed, 4.2f, 1.0f, 0.75);
                     this->unk_190 = 1.2f;
                     this->unk_194 = 4000.0f;
                     this->unk_17A[0] = 20;
                 } else {
                     this->unk_190 = 1.0f;
                     this->unk_194 = 2000.0f;
-                    Math_ApproachF(&this->actor.speedXZ, 1.5f, 1.0f, 0.1f);
+                    Math_ApproachF(&this->actor.speed, 1.5f, 1.0f, 0.1f);
                 }
 
                 if ((this->unk_17A[0] == 0) || (sp124 < 50.0f)) {
@@ -3181,7 +3181,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             Math_ApproachS(&this->unk_166, 0, 0x14, 0x20);
 
             if ((this->actor.xzDistToPlayer < (250.0f * sp118)) || (this->unk_17A[1] != 0)) {
-                Math_ApproachF(&this->actor.speedXZ, 3.0f, 1.0f, 0.75);
+                Math_ApproachF(&this->actor.speed, 3.0f, 1.0f, 0.75);
                 this->unk_190 = 1.0f;
                 this->unk_17A[0] = 20;
                 this->unk_194 = 4000.0f;
@@ -3195,12 +3195,12 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             } else if (sp124 > 50.0f) {
                 this->unk_190 = 0.8f;
                 this->unk_194 = 1500.0f;
-                Math_ApproachF(&this->actor.speedXZ, 1.0f, 1.0f, 0.1f);
+                Math_ApproachF(&this->actor.speed, 1.0f, 1.0f, 0.1f);
                 Math_ApproachF(&this->unk_1B0, 2048.0f, 1.0f, 128.0f);
             } else {
                 this->unk_190 = 0.4f;
                 this->unk_194 = 500.0f;
-                Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.02f);
+                Math_ApproachZeroF(&this->actor.speed, 1.0f, 0.02f);
                 Math_ApproachF(&this->unk_1B0, 0.0f, 1.0f, 256.0f);
             }
 
@@ -3230,11 +3230,11 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 Math_ApproachS(&this->unk_166, -0x1000, 0x14, 0x100);
 
                 if (this->actor.world.pos.y < (WATER_SURFACE_Y(play) - 20.0f)) {
-                    Math_ApproachF(&this->actor.speedXZ, 0.5f, 1.0f, 0.1f);
+                    Math_ApproachF(&this->actor.speed, 0.5f, 1.0f, 0.1f);
                 } else {
-                    Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.01f);
+                    Math_ApproachZeroF(&this->actor.speed, 1.0f, 0.01f);
 
-                    if ((this->actor.speedXZ == 0.0f) || (this->actor.world.pos.y > (WATER_SURFACE_Y(play) - 5.0f))) {
+                    if ((this->actor.speed == 0.0f) || (this->actor.world.pos.y > (WATER_SURFACE_Y(play) - 5.0f))) {
                         this->unk_1B4.x = Rand_ZeroFloat(300.0f);
                         this->unk_1B4.z = Rand_ZeroFloat(300.0f);
                         this->unk_1B4.y = this->actor.floorHeight + 10.0f;
@@ -3268,7 +3268,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 if (sp124 > 40.0f) {
                     this->unk_190 = 0.7f;
                     this->unk_194 = 1200.0f;
-                    Math_ApproachF(&this->actor.speedXZ, 0.5f, 1.0f, 0.01f);
+                    Math_ApproachF(&this->actor.speed, 0.5f, 1.0f, 0.01f);
                     Math_ApproachF(&this->unk_1B0, 2048.0f, 1.0f, 128.0f);
                 } else {
                     this->unk_158 = -1;
@@ -3331,7 +3331,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->unk_194 = 500.0f;
                     this->unk_17A[0] = (s16)Rand_ZeroFloat(10.0f) + 2;
                 }
-                Math_ApproachF(&this->actor.speedXZ, -0.2f, 1.0f, 0.1f);
+                Math_ApproachF(&this->actor.speed, -0.2f, 1.0f, 0.1f);
                 this->unk_15E = 1;
             } else {
                 if (this->unk_15E != 0) {
@@ -3339,7 +3339,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                     this->unk_1B0 = 0.0f;
                     this->unk_194 = 3000.0f;
                 }
-                Math_ApproachF(&this->actor.speedXZ, 3.0f, 1.0f, 0.15f);
+                Math_ApproachF(&this->actor.speed, 3.0f, 1.0f, 0.15f);
                 this->unk_15E = 0;
             }
 
@@ -3423,7 +3423,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             this->unk_1B4.z = sLurePos.z + sp100.z;
             this->unk_1B4.y = sLurePos.y - 10.0f;
             this->unk_1B0 = 4096.0f;
-            Math_ApproachF(&this->actor.speedXZ, this->unk_188 * 0.8f, 1.0f, 1.0f);
+            Math_ApproachF(&this->actor.speed, this->unk_188 * 0.8f, 1.0f, 1.0f);
 
             if ((D_80B7A694 != 3) || (sLurePos.y > (WATER_SURFACE_Y(play) + 5.0f)) ||
                 (sqrtf(SQ(sLurePos.x) + SQ(sLurePos.z)) > 800.0f)) {
@@ -3448,7 +3448,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             this->unk_151 = 50;
             sp134 = 2;
             this->unk_1B4 = sLurePos;
-            Math_ApproachF(&this->actor.speedXZ, this->unk_188, 1.0f, 1.0f);
+            Math_ApproachF(&this->actor.speed, this->unk_188, 1.0f, 1.0f);
 
             if ((D_80B7A694 != 3) || (this->unk_17A[0] == 0) || (sLurePos.y > (WATER_SURFACE_Y(play) + 5.0f)) ||
                 (sqrtf(SQ(sLurePos.x) + SQ(sLurePos.z)) > 800.0f)) {
@@ -3511,7 +3511,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         case -3:
             this->unk_151 = 50;
             this->unk_1B4 = sLurePos;
-            Math_ApproachF(&this->actor.speedXZ, 2.0f, 1.0f, 1.0f);
+            Math_ApproachF(&this->actor.speed, 2.0f, 1.0f, 1.0f);
 
             if ((D_80B7A694 != 3) || (this->unk_17A[0] == 0) || (sLurePos.y > (WATER_SURFACE_Y(play) + 5.0f)) ||
                 (sqrtf(SQ(sLurePos.x) + SQ(sLurePos.z)) > 800.0f)) {
@@ -3678,17 +3678,17 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         D_80B7E11C = 0.0f;
                         this->unk_190 = 1.6f;
                         this->unk_194 = 6000.0f;
-                        Math_ApproachF(&this->actor.speedXZ, 7.5f, 1.0f, 1.0f);
+                        Math_ApproachF(&this->actor.speed, 7.5f, 1.0f, 1.0f);
                         Math_ApproachS(&this->unk_170, 0x4E20, 2, 0xFA0);
                     } else {
                         if ((D_80B7E124 == 0) && (D_80B7E0B6 == 2)) {
                             this->unk_190 = 1.0f;
                             this->unk_194 = 2000.0f;
-                            Math_ApproachF(&this->actor.speedXZ, 3.0f, 1.0f, 0.2f);
+                            Math_ApproachF(&this->actor.speed, 3.0f, 1.0f, 0.2f);
                         } else {
                             this->unk_190 = 1.4f;
                             this->unk_194 = 5000.0f;
-                            Math_ApproachF(&this->actor.speedXZ, 5.0f, 1.0f, 0.5f);
+                            Math_ApproachF(&this->actor.speed, 5.0f, 1.0f, 0.5f);
                         }
 
                         if (this->unk_150 == 0) {
@@ -3713,7 +3713,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         D_80B7E11C = 1.3f - (this->unk_1AC * 0.00899f * 1.4f);
                     }
 
-                    Math_ApproachF(&this->actor.speedXZ, 2.0f, 1.0f, 0.5f);
+                    Math_ApproachF(&this->actor.speed, 2.0f, 1.0f, 0.5f);
 
                     if (this->unk_17A[1] == 0) {
                         this->unk_152 = 0;
@@ -3734,7 +3734,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             if (D_80B7E124 || (D_80B7E0B6 != 2)) {
-                if (this->actor.speedXZ < 3.0f) {
+                if (this->actor.speed < 3.0f) {
                     if ((D_80B7E0AE & 8) != 0) {
                         sp100.x = -0.8f;
                     } else {
@@ -3759,11 +3759,11 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
             if ((SQ(sp10C.x) + SQ(sp10C.y) + SQ(sp10C.z)) > SQ(20.0f)) {
                 Math_ApproachF(&this->actor.world.pos.x, sReelLinePos[LINE_SEG_COUNT - 2].x, 0.2f,
-                               2.0f * (this->actor.speedXZ * 1.5f));
+                               2.0f * (this->actor.speed * 1.5f));
                 Math_ApproachF(&this->actor.world.pos.y, sReelLinePos[LINE_SEG_COUNT - 2].y, 0.2f,
-                               2.0f * (this->actor.speedXZ * 1.5f) * 5.0f * 0.1f);
+                               2.0f * (this->actor.speed * 1.5f) * 5.0f * 0.1f);
                 Math_ApproachF(&this->actor.world.pos.z, sReelLinePos[LINE_SEG_COUNT - 2].z, 0.2f,
-                               2.0f * (this->actor.speedXZ * 1.5f));
+                               2.0f * (this->actor.speed * 1.5f));
             }
 
             if (CHECK_BTN_ALL(input->cur.button, BTN_A) || (input->rel.stick_y < -30)) {
@@ -3995,7 +3995,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 D_80B7A898 = 3;
             }
 
-            Math_ApproachF(&this->actor.speedXZ, 5.0f, 1.0f, 1.0f);
+            Math_ApproachF(&this->actor.speed, 5.0f, 1.0f, 1.0f);
 
             if (sp124 < 20.0f) {
                 Math_ApproachS(&this->unk_170, 0x4E20, 2, 0xFA0);
@@ -4054,7 +4054,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 spF6 = -0x1F40;
             }
 
-            if (this->actor.speedXZ >= 3.2f) {
+            if (this->actor.speed >= 3.2f) {
                 Math_ApproachS(&this->unk_16E, spF6, 2, 0x4E20);
             } else {
                 Math_ApproachS(&this->unk_16E, spF6, 3, 0xBB8);
@@ -4088,7 +4088,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         Math_ApproachS(&this->unk_162, this->unk_168, spF0, spEE);
         Math_ApproachS(&this->unk_164, this->unk_16A, spFA, 0x2000);
 
-        if (this->actor.speedXZ <= 0.5f) {
+        if (this->actor.speed <= 0.5f) {
             Math_ApproachS(&this->actor.shape.rot.x, 0, 10, this->unk_178);
             Math_ApproachS(&this->unk_178, 0x500, 1, 0x20);
         } else {
@@ -4119,13 +4119,13 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
         if ((this->actor.world.pos.y < WATER_SURFACE_Y(play)) &&
             (this->actor.world.pos.y > (WATER_SURFACE_Y(play) - 10.0f)) && ((this->unk_15C & 1) == 0) &&
-            (this->actor.speedXZ > 0.0f)) {
+            (this->actor.speed > 0.0f)) {
             Vec3f pos = this->actor.world.pos;
             pos.y = WATER_SURFACE_Y(play);
             Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &pos, 80.0f, 500.0f, 150, 90);
         }
 
-        if ((this->actor.speedXZ > 0.0f) || (this->unk_158 == 5)) {
+        if ((this->actor.speed > 0.0f) || (this->unk_158 == 5)) {
             f32 velocityY = this->actor.velocity.y;
 
             spD8 = this->unk_1AC * 0.1f;
@@ -5189,7 +5189,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     if ((D_80B7E0AC != 0) && (D_80B7A6CC == 0) && (player->actor.world.pos.z > 1360.0f) &&
         (fabsf(player->actor.world.pos.x) < 25.0f)) {
         player->actor.world.pos.z = 1360.0f;
-        player->actor.speedXZ = 0.0f;
+        player->actor.speed = 0.0f;
 
         if (D_80B7A6D0 == 0) {
             D_80B7A6CC = 10;
@@ -5377,7 +5377,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
         case 11:
             player->actor.world.pos.z = 1360.0f;
-            player->actor.speedXZ = 0.0f;
+            player->actor.speed = 0.0f;
 
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) {
                 Camera* mainCam = Play_GetCamera(play, CAM_ID_MAIN);
@@ -5527,7 +5527,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     if ((player->actor.floorHeight < (WATER_SURFACE_Y(play) - 3.0f)) &&
-        (player->actor.world.pos.y < (player->actor.floorHeight + 3.0f)) && (player->actor.speedXZ > 1.0f) &&
+        (player->actor.world.pos.y < (player->actor.floorHeight + 3.0f)) && (player->actor.speed > 1.0f) &&
         ((play->gameplayFrames % 2) == 0)) {
         Vec3f pos;
 
@@ -5538,7 +5538,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     if ((player->actor.floorHeight < WATER_SURFACE_Y(play)) &&
-        (player->actor.floorHeight > (WATER_SURFACE_Y(play) - 10.0f)) && (player->actor.speedXZ >= 4.0f) &&
+        (player->actor.floorHeight > (WATER_SURFACE_Y(play) - 10.0f)) && (player->actor.speed >= 4.0f) &&
         ((play->gameplayFrames % 4) == 0)) {
         s16 i;
 

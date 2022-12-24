@@ -122,19 +122,19 @@ void BgJyaGoroiwa_SetupMove(BgJyaGoroiwa* this) {
 void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
     Actor* thisx = &this->actor;
     s16 relYawTowardsPlayer;
-    f32 speedXZsqBase = (-100.0f - thisx->world.pos.y) * 2.5f;
+    f32 speedXZBaseSq = (-100.0f - thisx->world.pos.y) * 2.5f;
     f32 posYfac;
 
-    if (speedXZsqBase < 0.01f) {
-        speedXZsqBase = 0.01f;
+    if (speedXZBaseSq < 0.01f) {
+        speedXZBaseSq = 0.01f;
     }
 
-    thisx->speedXZ = sqrtf(speedXZsqBase) * this->speedFactor;
-    thisx->velocity.x = Math_SinS(thisx->world.rot.y) * thisx->speedXZ;
-    thisx->velocity.z = Math_CosS(thisx->world.rot.y) * thisx->speedXZ;
+    thisx->speed = sqrtf(speedXZBaseSq) * this->speedFactor;
+    thisx->velocity.x = Math_SinS(thisx->world.rot.y) * thisx->speed;
+    thisx->velocity.z = Math_CosS(thisx->world.rot.y) * thisx->speed;
 
-    thisx->world.pos.x = thisx->world.pos.x + thisx->velocity.x;
-    thisx->world.pos.z = thisx->world.pos.z + thisx->velocity.z;
+    thisx->world.pos.x += thisx->velocity.x;
+    thisx->world.pos.z += thisx->velocity.z;
 
     if ((thisx->world.pos.x > 1466.0f) && (thisx->world.pos.x < 1673.0f)) {
         thisx->world.pos.y = -129.5f;

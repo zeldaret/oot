@@ -224,7 +224,7 @@ void EnFr_OrientUnderwater(EnFr* this) {
     this->actor.world.pos.y = sLogSpotToFromWater[this->actor.params].yDist + this->posLogSpot.y;
     this->actor.world.rot.y = this->actor.shape.rot.y =
         RAD_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw) + 0x8000;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
 }
@@ -418,7 +418,7 @@ void EnFr_JumpingOutOfWater(EnFr* this, PlayState* play) {
         this->skelAnime.playSpeed = 0.0f;
     } else if (this->skelAnime.curFrame == 3.0f) {
         this->actor.gravity = -10.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.velocity.y = 47.0f;
     }
 
@@ -501,7 +501,7 @@ void EnFr_JumpingBackIntoWater(EnFr* this, PlayState* play) {
     if (this->skelAnime.curFrame == 6.0f) {
         this->skelAnime.playSpeed = 0.0f;
     } else if (this->skelAnime.curFrame == 3.0f) {
-        this->actor.speedXZ = 6.0f;
+        this->actor.speed = 6.0f;
         this->actor.gravity = -10.0f;
         this->actor.velocity.y = 25.0f;
     }
