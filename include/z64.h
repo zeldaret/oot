@@ -342,19 +342,19 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ char  unk_00[0x4];
-    /* 0x04 */ void* segment;
-    /* 0x08 */ u8    state;
-    /* 0x0C */ f32   unk_0C;
-    /* 0x10 */ u16   frames;
-    /* 0x12 */ u16   unk_12;
-    /* 0x14 */ s32   subCamId;
-    /* 0x18 */ u16   unk_18;
-    /* 0x1A */ u8    unk_1A;
-    /* 0x1B */ u8    unk_1B;
-    /* 0x1C */ CutsceneCameraPoint* subCamLookAtPoints;
-    /* 0x20 */ CutsceneCameraPoint* subCamEyePoints;
-    /* 0x24 */ CsCmdActorAction* linkAction;
-    /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
+    /* 0x04 */ void* script;
+    /* 0x08 */ u8 state;
+    /* 0x0C */ f32 timer;
+    /* 0x10 */ u16 curFrame; // current frame of the script that is running
+    /* 0x12 */ u16 unk_12; // set but never used
+    /* 0x14 */ s32 subCamId;
+    /* 0x18 */ u16 camEyeSplinePointsAppliedFrame; // stores the frame the cam eye spline points data was last applied on
+    /* 0x1A */ u8 camAtReady; // cam `at` data is ready to be applied
+    /* 0x1B */ u8 camEyeReady; // cam `eye` data is ready to be applied
+    /* 0x1C */ CutsceneCameraPoint* camAtPoints;
+    /* 0x20 */ CutsceneCameraPoint* camEyePoints;
+    /* 0x24 */ CsCmdActorCue* playerCue;
+    /* 0x28 */ CsCmdActorCue* actorCues[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
 
 typedef struct {
@@ -1146,7 +1146,7 @@ typedef struct PlayState {
     /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
-    /* 0x11DE9 */ u8 unk_11DE9;
+    /* 0x11DE9 */ u8 haltAllActors;
     /* 0x11DEA */ u8 spawn;
     /* 0x11DEB */ u8 numActorEntries;
     /* 0x11DEC */ u8 numRooms;
@@ -1169,7 +1169,7 @@ typedef struct PlayState {
     /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
     /* 0x11E5E */ u8 transitionType;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
-    /* 0x120FC */ u16 envFlags[20];
+    /* 0x120FC */ u16 cutsceneFlags[20];
     /* 0x12124 */ PreRender pauseBgPreRender;
     /* 0x12174 */ char unk_12174[0x53];
     /* 0x121C7 */ s8 unk_121C7;

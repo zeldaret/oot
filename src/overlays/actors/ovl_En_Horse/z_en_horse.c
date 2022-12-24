@@ -12,7 +12,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-typedef void (*EnHorseCsFunc)(EnHorse*, PlayState*, CsCmdActorAction*);
+typedef void (*EnHorseCsFunc)(EnHorse*, PlayState*, CsCmdActorCue*);
 typedef void (*EnHorseActionFunc)(EnHorse*, PlayState*);
 
 void EnHorse_Init(Actor* thisx, PlayState* play2);
@@ -381,11 +381,11 @@ static s32 sIdleAnimIds[] = { 1, 3, 0, 3, 1, 0 };
 
 static s16 sIngoAnimations[] = { 7, 6, 2, 2, 1, 1, 0, 0, 0, 0 };
 
-void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorAction* action);
-void EnHorse_CsJumpInit(EnHorse* this, PlayState* play, CsCmdActorAction* action);
-void EnHorse_CsRearingInit(EnHorse* this, PlayState* play, CsCmdActorAction* action);
-void EnHorse_WarpMoveInit(EnHorse* this, PlayState* play, CsCmdActorAction* action);
-void EnHorse_CsWarpRearingInit(EnHorse* this, PlayState* play, CsCmdActorAction* action);
+void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
+void EnHorse_CsJumpInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
+void EnHorse_CsRearingInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
+void EnHorse_WarpMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
+void EnHorse_CsWarpRearingInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
 
 static EnHorseCsFunc sCutsceneInitFuncs[] = {
     NULL,
@@ -396,18 +396,18 @@ static EnHorseCsFunc sCutsceneInitFuncs[] = {
     EnHorse_CsWarpRearingInit,
 };
 
-void EnHorse_CsMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorAction* action);
-void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorAction* action);
-void EnHorse_CsRearing(EnHorse* this, PlayState* play, CsCmdActorAction* action);
-void EnHorse_CsWarpMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorAction* action);
-void EnHorse_CsWarpRearing(EnHorse* this, PlayState* play, CsCmdActorAction* action);
+void EnHorse_CsMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
+void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
+void EnHorse_CsRearing(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
+void EnHorse_CsWarpMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
+void EnHorse_CsWarpRearing(EnHorse* this, PlayState* play, CsCmdActorCue* cue);
 
 static EnHorseCsFunc sCutsceneActionFuncs[] = {
     NULL, EnHorse_CsMoveToPoint, EnHorse_CsJump, EnHorse_CsRearing, EnHorse_CsWarpMoveToPoint, EnHorse_CsWarpRearing,
 };
 
 typedef struct {
-    s32 csAction;
+    s32 cueId;
     s32 csFuncIdx;
 } CsActionEntry;
 
@@ -2111,7 +2111,7 @@ void EnHorse_UpdateIngoRace(EnHorse* this, PlayState* play) {
                              &((EnIn*)this->rider)->animationIdx, &((EnIn*)this->rider)->unk_1E0);
 }
 
-void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
+void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     this->animationIdx = ENHORSE_ANIM_GALLOP;
     this->cutsceneAction = 1;
     Animation_PlayOnceSetSpeed(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx],
@@ -2120,13 +2120,13 @@ void EnHorse_CsMoveInit(EnHorse* this, PlayState* play, CsCmdActorAction* action
 
 void EnHorse_CsPlayHighJumpAnim(EnHorse* this, PlayState* play);
 
-void EnHorse_CsMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
+void EnHorse_CsMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     Vec3f endPos;
     f32 speedXZ = 8.0f;
 
-    endPos.x = action->endPos.x;
-    endPos.y = action->endPos.y;
-    endPos.z = action->endPos.z;
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
 
     if (Math3D_Vec3f_DistXYZ(&endPos, &this->actor.world.pos) > speedXZ) {
         EnHorse_RotateToPoint(this, play, &endPos, 400);
@@ -2174,17 +2174,17 @@ void EnHorse_CsPlayHighJumpAnim(EnHorse* this, PlayState* play) {
     Rumble_Request(0.0f, 170, 10, 10);
 }
 
-void EnHorse_CsJumpInit(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
+void EnHorse_CsJumpInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     EnHorse_CsSetAnimHighJump(this, play);
     this->cutsceneAction = 2;
     this->cutsceneFlags &= ~1;
 }
 
-void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
+void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     f32 temp_f2;
 
     if (this->cutsceneFlags & 1) {
-        EnHorse_CsMoveToPoint(this, play, action);
+        EnHorse_CsMoveToPoint(this, play, cue);
         return;
     }
     temp_f2 = this->skin.skelAnime.curFrame;
@@ -2232,7 +2232,7 @@ void EnHorse_CsJump(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
     }
 }
 
-void EnHorse_CsRearingInit(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
+void EnHorse_CsRearingInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     this->animationIdx = ENHORSE_ANIM_REARING;
     this->cutsceneAction = 3;
     this->cutsceneFlags &= ~4;
@@ -2246,7 +2246,7 @@ void EnHorse_CsRearingInit(EnHorse* this, PlayState* play, CsCmdActorAction* act
                      Animation_GetLastFrame(sAnimationHeaders[this->type][this->animationIdx]), ANIMMODE_ONCE, -3.0f);
 }
 
-void EnHorse_CsRearing(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
+void EnHorse_CsRearing(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     this->actor.speed = 0.0f;
     if (this->curFrame > 25.0f) {
         if (!(this->stateFlags & ENHORSE_LAND2_SOUND)) {
@@ -2269,26 +2269,29 @@ void EnHorse_CsRearing(EnHorse* this, PlayState* play, CsCmdActorAction* action)
     }
 }
 
-void EnHorse_WarpMoveInit(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
-    this->actor.world.pos.x = action->startPos.x;
-    this->actor.world.pos.y = action->startPos.y;
-    this->actor.world.pos.z = action->startPos.z;
+void EnHorse_WarpMoveInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
+    this->actor.world.pos.x = cue->startPos.x;
+    this->actor.world.pos.y = cue->startPos.y;
+    this->actor.world.pos.z = cue->startPos.z;
+
     this->actor.prevPos = this->actor.world.pos;
-    this->actor.world.rot.y = action->urot.y;
+
+    this->actor.world.rot.y = cue->rot.y;
     this->actor.shape.rot = this->actor.world.rot;
+
     this->animationIdx = ENHORSE_ANIM_GALLOP;
     this->cutsceneAction = 4;
     Animation_PlayOnceSetSpeed(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx],
                                this->actor.speed * 0.3f);
 }
 
-void EnHorse_CsWarpMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
+void EnHorse_CsWarpMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     Vec3f endPos;
     f32 speedXZ = 8.0f;
 
-    endPos.x = action->endPos.x;
-    endPos.y = action->endPos.y;
-    endPos.z = action->endPos.z;
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
 
     if (Math3D_Vec3f_DistXYZ(&endPos, &this->actor.world.pos) > speedXZ) {
         EnHorse_RotateToPoint(this, play, &endPos, 400);
@@ -2307,27 +2310,32 @@ void EnHorse_CsWarpMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorAction*
     }
 }
 
-void EnHorse_CsWarpRearingInit(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
-    this->actor.world.pos.x = action->startPos.x;
-    this->actor.world.pos.y = action->startPos.y;
-    this->actor.world.pos.z = action->startPos.z;
+void EnHorse_CsWarpRearingInit(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
+    this->actor.world.pos.x = cue->startPos.x;
+    this->actor.world.pos.y = cue->startPos.y;
+    this->actor.world.pos.z = cue->startPos.z;
+
     this->actor.prevPos = this->actor.world.pos;
-    this->actor.world.rot.y = action->urot.y;
+
+    this->actor.world.rot.y = cue->rot.y;
     this->actor.shape.rot = this->actor.world.rot;
+
     this->animationIdx = ENHORSE_ANIM_REARING;
     this->cutsceneAction = 5;
     this->cutsceneFlags &= ~4;
     this->stateFlags &= ~ENHORSE_LAND2_SOUND;
     this->unk_21C = this->unk_228;
+
     if (this->stateFlags & ENHORSE_DRAW) {
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_21C, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
+
     Animation_Change(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx], 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationHeaders[this->type][this->animationIdx]), ANIMMODE_ONCE, -3.0f);
 }
 
-void EnHorse_CsWarpRearing(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
+void EnHorse_CsWarpRearing(EnHorse* this, PlayState* play, CsCmdActorCue* cue) {
     this->actor.speed = 0.0f;
     if (this->curFrame > 25.0f) {
         if (!(this->stateFlags & ENHORSE_LAND2_SOUND)) {
@@ -2357,15 +2365,15 @@ void EnHorse_InitCutscene(EnHorse* this, PlayState* play) {
     this->actor.speed = 0.0f;
 }
 
-s32 EnHorse_GetCutsceneFunctionIndex(s32 csAction) {
+s32 EnHorse_GetCutsceneFunctionIndex(s32 cueId) {
     s32 numActions = ARRAY_COUNT(sCsActionTable); // prevents unrolling
     s32 i;
 
     for (i = 0; i < numActions; i++) {
-        if (csAction == sCsActionTable[i].csAction) {
+        if (cueId == sCsActionTable[i].cueId) {
             return sCsActionTable[i].csFuncIdx;
         }
-        if (csAction < sCsActionTable[i].csAction) {
+        if (cueId < sCsActionTable[i].cueId) {
             return 0;
         }
     }
@@ -2374,7 +2382,7 @@ s32 EnHorse_GetCutsceneFunctionIndex(s32 csAction) {
 
 void EnHorse_CutsceneUpdate(EnHorse* this, PlayState* play) {
     s32 csFunctionIdx;
-    CsCmdActorAction* linkCsAction = play->csCtx.linkAction;
+    CsCmdActorCue* playerCue = play->csCtx.playerCue;
 
     if (play->csCtx.state == 3) {
         this->playerControlled = 1;
@@ -2383,22 +2391,25 @@ void EnHorse_CutsceneUpdate(EnHorse* this, PlayState* play) {
         EnHorse_Freeze(this);
         return;
     }
-    if (linkCsAction != NULL) {
-        csFunctionIdx = EnHorse_GetCutsceneFunctionIndex(linkCsAction->action);
+    if (playerCue != NULL) {
+        csFunctionIdx = EnHorse_GetCutsceneFunctionIndex(playerCue->id);
+
         if (csFunctionIdx != 0) {
             if (this->cutsceneAction != csFunctionIdx) {
                 if (this->cutsceneAction == 0) {
-                    this->actor.world.pos.x = linkCsAction->startPos.x;
-                    this->actor.world.pos.y = linkCsAction->startPos.y;
-                    this->actor.world.pos.z = linkCsAction->startPos.z;
-                    this->actor.world.rot.y = linkCsAction->urot.y;
+                    this->actor.world.pos.x = playerCue->startPos.x;
+                    this->actor.world.pos.y = playerCue->startPos.y;
+                    this->actor.world.pos.z = playerCue->startPos.z;
+
+                    this->actor.world.rot.y = playerCue->rot.y;
                     this->actor.shape.rot = this->actor.world.rot;
+
                     this->actor.prevPos = this->actor.world.pos;
                 }
                 this->cutsceneAction = csFunctionIdx;
-                sCutsceneInitFuncs[this->cutsceneAction](this, play, linkCsAction);
+                sCutsceneInitFuncs[this->cutsceneAction](this, play, playerCue);
             }
-            sCutsceneActionFuncs[this->cutsceneAction](this, play, linkCsAction);
+            sCutsceneActionFuncs[this->cutsceneAction](this, play, playerCue);
         }
     }
 }
@@ -2771,10 +2782,10 @@ void EnHorse_BridgeJumpInit(EnHorse* this, PlayState* play) {
 void EnHorse_StartBridgeJump(EnHorse* this, PlayState* play) {
     this->postDrawFunc = EnHorse_BridgeJumpInit;
     if (this->bridgeJumpIdx == 0) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFieldFortressCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFieldFortressCs);
         gSaveContext.cutsceneTrigger = 1;
     } else {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFortressToFieldCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFortressToFieldCs);
         gSaveContext.cutsceneTrigger = 1;
     }
 }

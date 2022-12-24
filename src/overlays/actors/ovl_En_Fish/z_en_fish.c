@@ -618,13 +618,13 @@ void EnFish_Cutscene_WiggleFlyingThroughAir(EnFish* this, PlayState* play) {
 void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     s32 pad;
     s32 pad2;
-    CsCmdActorAction* csAction = play->csCtx.npcActions[1];
+    CsCmdActorCue* cue = play->csCtx.actorCues[1];
     Vec3f startPos;
     Vec3f endPos;
-    f32 progress;
+    f32 lerp;
     s32 bgId;
 
-    if (csAction == NULL) {
+    if (cue == NULL) {
         // "Warning : DEMO ended without dousa (action) 3 termination being called"
         osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
                      1169, this->actor.params);
@@ -636,7 +636,7 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     this->slowPhase += 0x111;
     this->fastPhase += 0x500;
 
-    switch (csAction->action) {
+    switch (cue->id) {
         case 1:
             EnFish_Cutscene_FlopOnGround(this, play);
             break;
@@ -655,18 +655,19 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
             break;
     }
 
-    startPos.x = csAction->startPos.x;
-    startPos.y = csAction->startPos.y;
-    startPos.z = csAction->startPos.z;
-    endPos.x = csAction->endPos.x;
-    endPos.y = csAction->endPos.y;
-    endPos.z = csAction->endPos.z;
+    startPos.x = cue->startPos.x;
+    startPos.y = cue->startPos.y;
+    startPos.z = cue->startPos.z;
 
-    progress = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, play->csCtx.frames);
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
 
-    this->actor.world.pos.x = (endPos.x - startPos.x) * progress + startPos.x;
-    this->actor.world.pos.y = (endPos.y - startPos.y) * progress + startPos.y + D_80A17014;
-    this->actor.world.pos.z = (endPos.z - startPos.z) * progress + startPos.z;
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
+
+    this->actor.world.pos.x = (endPos.x - startPos.x) * lerp + startPos.x;
+    this->actor.world.pos.y = (endPos.y - startPos.y) * lerp + startPos.y + D_80A17014;
+    this->actor.world.pos.z = (endPos.z - startPos.z) * lerp + startPos.z;
 
     this->actor.floorHeight =
         BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
@@ -742,7 +743,7 @@ void EnFish_Update(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
     if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (play->csCtx.state != 0) &&
-        (play->csCtx.npcActions[1] != NULL)) {
+        (play->csCtx.actorCues[1] != NULL)) {
         EnFish_SetCutsceneData(this);
     }
 
