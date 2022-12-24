@@ -868,6 +868,7 @@ void Actor_UpdateVelocityXZGravity(Actor* actor) {
 
 /**
  * Move actor while accounting for its current velocity and gravity.
+ * `actor.speed` is used as the XZ velocity.
  * The actor will move in the direction of its world yaw.
  */
 void Actor_MoveXZGravity(Actor* actor) {
@@ -888,6 +889,7 @@ void Actor_UpdateVelocityXYZ(Actor* actor) {
 
 /**
  * Move actor while accounting for its current velocity.
+ * `actor.speed` is used as the XYZ velocity.
  * The actor will move in the direction of its world yaw and pitch.
  */
 void Actor_MoveXYZ(Actor* actor) {
