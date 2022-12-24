@@ -16,7 +16,8 @@
 // color framebuffer
 extern u16 D_0F000000[];
 
-Gfx D_8012AFB0[] = {
+// Unused background; a blue square with a grey border that fills the screen
+Gfx sTransTileBackgroundDL[] = {
     gsDPPipeSync(),
     gsDPSetCycleType(G_CYC_FILL),
     gsDPSetColorImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, D_0F000000),
