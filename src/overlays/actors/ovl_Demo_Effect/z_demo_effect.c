@@ -939,7 +939,7 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, PlayState* play) {
     DemoEffect* effect;
 
     Actor_MoveForward(&this->actor);
-    this->actor.speedXZ = this->actor.speedXZ + (this->actor.gravity * 0.5f);
+    this->actor.speed += this->actor.gravity * 0.5f;
 
     if (this->fireBall.timer != 0) {
         this->fireBall.timer--;
@@ -980,7 +980,7 @@ void DemoEffect_InitCreationFireball(DemoEffect* this, PlayState* play) {
 
     this->actor.world.rot.y = parent->shape.rot.y;
     this->fireBall.timer = 50;
-    this->actor.speedXZ = 1.5f;
+    this->actor.speed = 1.5f;
     this->actor.minVelocityY = -1.5f;
     this->actor.gravity = -0.03f;
     this->updateFunc = DemoEffect_UpdateCreationFireball;

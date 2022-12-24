@@ -235,7 +235,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == CLEAR_TAG_LASER) {
         this->state = CLEAR_TAG_STATE_LASER;
         this->timers[CLEAR_TAG_TIMER_LASER_DEATH] = 70;
-        this->actor.speedXZ = 35.0f;
+        this->actor.speed = 35.0f;
         func_8002D908(&this->actor);
         for (j = 0; j <= 0; j++) {
             func_8002D7EC(&this->actor);
@@ -243,7 +243,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
         this->actor.scale.x = 0.4f;
         this->actor.scale.y = 0.4f;
         this->actor.scale.z = 2.0f;
-        this->actor.speedXZ = 70.0f;
+        this->actor.speed = 70.0f;
         this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
         func_8002D908(&this->actor);
@@ -362,7 +362,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     }
                 }
                 Actor_SetScale(&this->actor, 0.2f);
-                this->actor.speedXZ = 7.0f;
+                this->actor.speed = 7.0f;
 
                 if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] == 0) {
                     if (this->timers[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] == 0) {

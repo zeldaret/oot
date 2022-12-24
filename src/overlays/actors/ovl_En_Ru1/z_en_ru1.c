@@ -346,7 +346,7 @@ void func_80AEB1D8(EnRu1* this) {
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.velocity.z = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     func_80AEB0EC(this, 0);
@@ -789,9 +789,9 @@ void func_80AEC40C(EnRu1* this) {
     f32 unk_26C = this->unk_26C;
 
     if (unk_26C < 8.0f) {
-        this->actor.speedXZ = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
+        this->actor.speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
     } else {
-        this->actor.speedXZ = (kREG(3) * 0.01f) + 2.7f;
+        this->actor.speed = (kREG(3) * 0.01f) + 2.7f;
     }
     this->actor.velocity.y = -1.0f;
     Actor_MoveForward(&this->actor);
@@ -803,7 +803,7 @@ void func_80AEC4CC(EnRu1* this) {
 }
 
 void func_80AEC4F4(EnRu1* this) {
-    f32* speedXZ = &this->actor.speedXZ;
+    f32* speedXZ = &this->actor.speed;
     f32* unk_26C = &this->unk_26C;
 
     if (this->unk_26C < 8.0f) {
@@ -1050,7 +1050,7 @@ s32 func_80AECF6C(EnRu1* this, PlayState* play) {
     s32 pad2[5];
 
     this->unk_26C += 1.0f;
-    if ((player->actor.speedXZ == 0.0f) && (this->unk_26C >= 3.0f)) {
+    if ((player->actor.speed == 0.0f) && (this->unk_26C >= 3.0f)) {
         otherPlayer = GET_PLAYER(play);
         player->actor.world.pos.x = otherPlayer->unk_450.x;
         player->actor.world.pos.y = otherPlayer->unk_450.y;
@@ -1203,7 +1203,7 @@ void func_80AED520(EnRu1* this, PlayState* play) {
 }
 
 void func_80AED57C(EnRu1* this) {
-    if (this->actor.speedXZ != 0.0f) {
+    if (this->actor.speed != 0.0f) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
     }
 }
@@ -1337,7 +1337,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         velocityY = &this->actor.velocity.y;
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
         if (*velocityY <= 0.0f) {
-            speedXZ = &this->actor.speedXZ;
+            speedXZ = &this->actor.speed;
             if (dynaPolyActor != NULL) {
                 if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
@@ -1370,7 +1370,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
-        speedXZ = &this->actor.speedXZ;
+        speedXZ = &this->actor.speed;
         velocityY = &this->actor.velocity.y;
         if (*speedXZ >= (kREG(27) * 0.01f) + 3.0f) {
             *speedXZ *= (kREG(19) * 0.01f) + 0.8f;
@@ -1383,7 +1383,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-        speedXZ = &this->actor.speedXZ;
+        speedXZ = &this->actor.speed;
         if (*speedXZ != 0.0f) {
             rotY = this->actor.world.rot.y;
             wallYaw = this->actor.wallYaw;
@@ -1409,7 +1409,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEDEF4(EnRu1* this, PlayState* play) {
-    f32* speedXZ = &this->actor.speedXZ;
+    f32* speedXZ = &this->actor.speed;
     DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
     if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_EN_BOX) {
@@ -1436,7 +1436,7 @@ void func_80AEE02C(EnRu1* this) {
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.velocity.z = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
 }
@@ -1449,7 +1449,7 @@ void func_80AEE050(EnRu1* this) {
     EnRu1* thisx = this; // necessary to match
 
     if (this->unk_350 == 0) {
-        if ((this->actor.minVelocityY == 0.0f) && (this->actor.speedXZ == 0.0f)) {
+        if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
@@ -1463,12 +1463,12 @@ void func_80AEE050(EnRu1* this) {
                 this->actor.minVelocityY = 0.0f;
                 this->actor.velocity.y = 0.0f;
             }
-            this->actor.speedXZ *= 0.5f;
-            if (this->actor.speedXZ <= 0.1f) {
-                this->actor.speedXZ = 0.0f;
+            this->actor.speed *= 0.5f;
+            if (this->actor.speed <= 0.1f) {
+                this->actor.speed = 0.0f;
             }
-            this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-            this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+            this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+            this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
             func_8002D7EC(&this->actor);
         }
     } else {
@@ -1571,7 +1571,7 @@ void func_80AEE488(EnRu1* this, PlayState* play) {
 
 void func_80AEE568(EnRu1* this, PlayState* play) {
     if (!func_80AEE394(this, play)) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speedXZ == 0.0f) &&
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speed == 0.0f) &&
             (this->actor.minVelocityY == 0.0f)) {
             func_80AEE02C(this);
             Actor_OfferCarry(&this->actor, play);
@@ -1628,7 +1628,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
         frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
         func_80AED6DC(this, play);
-        this->actor.speedXZ *= (kREG(25) * 0.01f) + 1.0f;
+        this->actor.speed *= (kREG(25) * 0.01f) + 1.0f;
         this->actor.velocity.y *= (kREG(26) * 0.01f) + 1.0f;
         this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);

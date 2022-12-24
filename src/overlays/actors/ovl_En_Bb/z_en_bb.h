@@ -26,7 +26,7 @@ typedef struct EnBb {
     /* 0x0270 */ s16 flameScrollMod;
     /* 0x0274 */ f32 bobPhase;
     /* 0x0278 */ f32 bobSize;
-    /* 0x027C */ f32 maxSpeed;
+    /* 0x027C */ f32 maxSpeedXZ;
     /* 0x0280 */ f32 flyHeightMod;
     /* 0x027C */ f32 bobSpeedMod; // y speed for blue, phase speed for green
     /* 0x0288 */ f32 flameScaleY;

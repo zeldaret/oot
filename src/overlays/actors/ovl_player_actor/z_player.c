@@ -1574,7 +1574,7 @@ static LinkAnimationHeader* D_808543D4[] = {
 
 // return type can't be void due to regalloc in func_8084FCAC
 BAD_RETURN(s32) func_80832210(Player* this) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->linearVelocity = 0.0f;
 }
 
@@ -3916,14 +3916,14 @@ void func_80837C0C(PlayState* play, Player* this, s32 arg2, f32 arg3, f32 arg4, 
             if (arg2 == 2) {
                 this->unk_850 = 4;
 
-                this->actor.speedXZ = 3.0f;
+                this->actor.speed = 3.0f;
                 this->linearVelocity = 3.0f;
                 this->actor.velocity.y = 6.0f;
 
                 func_80832C2C(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_damage_run, this->modelAnimType));
                 func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
             } else {
-                this->actor.speedXZ = arg3;
+                this->actor.speed = arg3;
                 this->linearVelocity = arg3;
                 this->actor.velocity.y = arg4;
 
@@ -8530,7 +8530,7 @@ void func_8084409C(PlayState* play, Player* this, f32 speedXZ, f32 velocityY) {
 
     if (!func_80835644(play, this, heldActor)) {
         heldActor->world.rot.y = this->actor.shape.rot.y;
-        heldActor->speedXZ = speedXZ;
+        heldActor->speed = speedXZ;
         heldActor->velocity.y = velocityY;
         func_80834644(play, this);
         Player_PlaySfx(this, NA_SE_PL_THROW);
@@ -9307,7 +9307,7 @@ void func_80846120(Player* this, PlayState* play) {
     if (LinkAnimation_OnFrame(&this->skelAnime, 229.0f)) {
         Actor* heldActor = this->heldActor;
 
-        heldActor->speedXZ = Math_SinS(heldActor->shape.rot.x) * 40.0f;
+        heldActor->speed = Math_SinS(heldActor->shape.rot.x) * 40.0f;
         heldActor->velocity.y = Math_CosS(heldActor->shape.rot.x) * 40.0f;
         heldActor->gravity = -2.0f;
         heldActor->minVelocityY = -30.0f;
@@ -9358,7 +9358,7 @@ void func_80846358(Player* this, PlayState* play) {
         Actor* heldActor = this->heldActor;
 
         heldActor->world.rot.y = this->actor.shape.rot.y;
-        heldActor->speedXZ = 10.0f;
+        heldActor->speed = 10.0f;
         heldActor->velocity.y = 20.0f;
         func_80834644(play, this);
         Player_PlaySfx(this, NA_SE_PL_THROW);
@@ -9396,7 +9396,7 @@ void func_808464B0(Player* this, PlayState* play) {
 
         if (!func_80835644(play, this, heldActor)) {
             heldActor->velocity.y = 0.0f;
-            heldActor->speedXZ = 0.0f;
+            heldActor->speed = 0.0f;
             func_80834644(play, this);
             if (heldActor->id == ACTOR_EN_BOM_CHU) {
                 func_8083B8F4(this, play);
@@ -10282,7 +10282,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
             } else {
                 camMode = CAM_MODE_NORMAL;
                 if ((this->linearVelocity == 0.0f) &&
-                    (!(this->stateFlags1 & PLAYER_STATE1_23) || (this->rideActor->speedXZ == 0.0f))) {
+                    (!(this->stateFlags1 & PLAYER_STATE1_23) || (this->rideActor->speed == 0.0f))) {
                     // not moving
                     seqMode = SEQ_MODE_STILL;
                 }
@@ -10606,29 +10606,29 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 s16 yawDiff = this->actor.world.rot.y - sp6E;
                 s32 pad;
 
-                if ((ABS(yawDiff) > 0x6000) && (this->actor.speedXZ != 0.0f)) {
+                if ((ABS(yawDiff) > 0x6000) && (this->actor.speed != 0.0f)) {
                     sp70 = 0.0f;
                     sp6E += 0x8000;
                 }
 
-                if (Math_StepToF(&this->actor.speedXZ, sp70, 0.35f) && (sp70 == 0.0f)) {
+                if (Math_StepToF(&this->actor.speed, sp70, 0.35f) && (sp70 == 0.0f)) {
                     this->actor.world.rot.y = this->currentYaw;
                 }
 
                 if (this->linearVelocity != 0.0f) {
                     s32 phi_v0;
 
-                    phi_v0 = (fabsf(this->linearVelocity) * 700.0f) - (fabsf(this->actor.speedXZ) * 100.0f);
+                    phi_v0 = (fabsf(this->linearVelocity) * 700.0f) - (fabsf(this->actor.speed) * 100.0f);
                     phi_v0 = CLAMP(phi_v0, 0, 1350);
 
                     Math_ScaledStepToS(&this->actor.world.rot.y, sp6E, phi_v0);
                 }
 
-                if ((this->linearVelocity == 0.0f) && (this->actor.speedXZ != 0.0f)) {
-                    func_800F4138(&this->actor.projectedPos, 0xD0, this->actor.speedXZ);
+                if ((this->linearVelocity == 0.0f) && (this->actor.speed != 0.0f)) {
+                    func_800F4138(&this->actor.projectedPos, 0xD0, this->actor.speed);
                 }
             } else {
-                this->actor.speedXZ = this->linearVelocity;
+                this->actor.speed = this->linearVelocity;
                 this->actor.world.rot.y = this->currentYaw;
             }
 
@@ -12058,7 +12058,7 @@ void func_8084CC98(Player* this, PlayState* play) {
     this->currentYaw = this->actor.shape.rot.y = rideActor->actor.shape.rot.y;
 
     if ((this->csMode != PLAYER_CSMODE_NONE) ||
-        (!func_8083224C(play) && ((rideActor->actor.speedXZ != 0.0f) || !func_8083B644(this, play)) &&
+        (!func_8083224C(play) && ((rideActor->actor.speed != 0.0f) || !func_8083B644(this, play)) &&
          !func_8083C1DC(this, play))) {
         if (D_808535E0 == 0) {
             if (this->unk_84F != 0) {
@@ -12971,7 +12971,7 @@ void func_8084F390(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_5 | PLAYER_STATE2_6;
     LinkAnimation_Update(play, &this->skelAnime);
     func_8084269C(play, this);
-    func_800F4138(&this->actor.projectedPos, NA_SE_PL_SLIP_LEVEL - SFX_FLAG, this->actor.speedXZ);
+    func_800F4138(&this->actor.projectedPos, NA_SE_PL_SLIP_LEVEL - SFX_FLAG, this->actor.speed);
 
     if (func_8083B040(this, play) == 0) {
         floorPoly = this->actor.floorPoly;
@@ -13268,8 +13268,8 @@ void func_8085002C(Player* this) {
 
     sp26 = this->actor.world.rot.y - this->actor.shape.rot.y;
 
-    sp28 = (s32)(this->actor.speedXZ * -200.0f * Math_CosS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
-    sp2A = (s32)(this->actor.speedXZ * 100.0f * Math_SinS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
+    sp28 = (s32)(this->actor.speed * -200.0f * Math_CosS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
+    sp2A = (s32)(this->actor.speed * 100.0f * Math_SinS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
 
     D_80858AC8.unk_06 += sp28 >> 2;
     D_80858AC8.unk_08 += sp2A >> 2;
