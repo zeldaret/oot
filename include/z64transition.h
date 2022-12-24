@@ -17,8 +17,8 @@ typedef struct {
 } TransitionTileVtxData; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ s32 rows;
-    /* 0x04 */ s32 cols;
+    /* 0x00 */ s32 cols;
+    /* 0x04 */ s32 rows;
     /* 0x08 */ s32 frame;
     /* 0x0C */ TransitionTileVtxData* vtxData;
     /* 0x10 */ Vtx* vtxFrame1;

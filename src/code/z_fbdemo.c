@@ -6,10 +6,10 @@
  * The static version will just display this tiled screen, while the dynamic version has the visual effect of being
  * sucked into a single point.
  *
- * @note While the init function allows for custom number of rows and columns, there are multiple hardcoded features
- * that seem meant for 10 rows and 7 columns.
- *     All the `0x20`s correspond to divding the screen in this way (`gScreenWidth`/ 10 = `gScreenHeight` / 7 = 0x20)
- *     The dynamic version using the 5th row and 4th column as the point to suck towards
+ * @note While the init function allows for custom number of cols and rows, there are multiple hardcoded features
+ * that seem meant for 10 cols and 7 rows (though visually only 5 cols and 4 rows are drawn).
+ *     All the `0x20`s correspond to dividing the screen in this way (`gScreenWidth`/ 10 = `gScreenHeight` / 7 = 0x20)
+ *     The dynamic version using the 5th col and 4th row as the point to suck towards
  */
 #include "global.h"
 
@@ -44,12 +44,12 @@ Gfx sTransTileSetupDL[] = {
 
 void TransitionTile_InitGraphics(TransitionTile* this) {
     s32 frame;
-    s32 row;
-    s32 row2;
-    s32 rowTex;
-    Vtx* vtx;
     s32 col;
+    s32 col2;
     s32 colTex;
+    Vtx* vtx;
+    s32 row;
+    s32 rowTex;
     Gfx* gfx;
 
     guMtxIdent(&this->modelView);
@@ -59,72 +59,72 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
     for (frame = 0; frame < 2; frame++) {
         this->frame = frame;
         vtx = (this->frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
-        colTex = 0;
-        for (col = 0; col < this->cols + 1; col++) {
-            rowTex = 0;
-            for (row = 0; row < this->rows + 1; row++) {
+        rowTex = 0;
+        for (row = 0; row < this->rows + 1; row++) {
+            colTex = 0;
+            for (col = 0; col < this->cols + 1; col++) {
                 Vtx_tn* vtxn = &vtx->n;
 
                 vtx++;
-                vtxn->tc[0] = rowTex << 6;
-                vtxn->ob[0] = row * 0x20;
-                vtxn->ob[1] = col * 0x20;
+                vtxn->tc[0] = colTex << 6;
+                vtxn->ob[0] = col * 0x20;
+                vtxn->ob[1] = row * 0x20;
                 vtxn->ob[2] = -5;
                 vtxn->flag = 0;
-                vtxn->tc[1] = colTex << 6;
+                vtxn->tc[1] = rowTex << 6;
                 vtxn->n[0] = 0;
                 vtxn->n[1] = 0;
                 vtxn->n[2] = 120;
                 vtxn->a = 255;
 
-                rowTex += 0x20;
+                colTex += 0x20;
             }
 
-            colTex += 0x20;
+            rowTex += 0x20;
         }
     }
 
     gfx = this->gfx;
-    colTex = 0;
-    for (col = 0; col < this->cols; col++) {
-        gSPVertex(gfx++, SEGMENT_ADDR(0xA, (u32)col * (this->rows + 1) * sizeof(Vtx)), 2 * (this->rows + 1), 0);
+    rowTex = 0;
+    for (row = 0; row < this->rows; row++) {
+        gSPVertex(gfx++, SEGMENT_ADDR(0xA, (u32)row * (this->cols + 1) * sizeof(Vtx)), 2 * (this->cols + 1), 0);
 
-        rowTex = 0;
-        row2 = 0;
-        row = 0;
-        while (row < this->rows) {
+        colTex = 0;
+        col2 = 0;
+        col = 0;
+        while (col < this->cols) {
             gDPPipeSync(gfx++);
 
             gDPLoadTextureTile(gfx++, SEGMENT_ADDR(0xB, 0), G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, SCREEN_HEIGHT,
-                               rowTex, colTex, rowTex + 0x20, colTex + 0x20, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                               colTex, rowTex, colTex + 0x20, rowTex + 0x20, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            gSP1Quadrangle(gfx++, row, row + 1, row2 + this->rows + 2, this->rows + row2 + 1, 0);
+            gSP1Quadrangle(gfx++, col, col + 1, col2 + this->cols + 2, this->cols + col2 + 1, 0);
 
-            rowTex += 0x20;
-            row2++;
-            row++;
+            colTex += 0x20;
+            col2++;
+            col++;
         }
 
-        colTex += 0x20;
+        rowTex += 0x20;
     }
 
     gDPPipeSync(gfx++);
     gSPEndDisplayList(gfx++);
 
-    LOG_NUM("this->col * (1 + this->row * (1 + 7 + 1)) + 1 + 1", this->cols * (1 + this->rows * 9) + 2, "../z_fbdemo.c",
+    LOG_NUM("this->col * (1 + this->row * (1 + 7 + 1)) + 1 + 1", this->rows * (1 + this->cols * 9) + 2, "../z_fbdemo.c",
             144);
     LOG_NUM("gp - this->gfxtbl", gfx - this->gfx, "../z_fbdemo.c", 145);
 }
 
 void TransitionTile_InitVtxData(TransitionTile* this) {
-    s32 col;
     s32 row;
+    s32 col;
 
-    for (col = 0; col < this->cols + 1; col++) {
-        for (row = 0; row < this->rows + 1; row++) {
-            (this->vtxData + row + col * (this->rows + 1))->x = row * 0x20;
-            (this->vtxData + row + col * (this->rows + 1))->y = col * 0x20;
+    for (row = 0; row < this->rows + 1; row++) {
+        for (col = 0; col < this->cols + 1; col++) {
+            (this->vtxData + col + row * (this->cols + 1))->x = col * 0x20;
+            (this->vtxData + col + row * (this->cols + 1))->y = row * 0x20;
         }
     }
 }
@@ -152,17 +152,17 @@ void TransitionTile_Destroy(TransitionTile* this) {
     }
 }
 
-TransitionTile* TransitionTile_Init(TransitionTile* this, s32 rows, s32 cols) {
-    osSyncPrintf("fbdemo_init(%08x, %d, %d)\n", this, rows, cols);
+TransitionTile* TransitionTile_Init(TransitionTile* this, s32 cols, s32 rows) {
+    osSyncPrintf("fbdemo_init(%08x, %d, %d)\n", this, cols, rows);
     bzero(this, sizeof(TransitionTile));
     this->frame = 0;
-    this->rows = rows;
     this->cols = cols;
+    this->rows = rows;
     this->vtxData =
-        SystemArena_MallocDebug((rows + 1) * sizeof(TransitionTileVtxData) * (cols + 1), "../z_fbdemo.c", 195);
-    this->vtxFrame1 = SystemArena_MallocDebug((rows + 1) * sizeof(Vtx) * (cols + 1), "../z_fbdemo.c", 196);
-    this->vtxFrame2 = SystemArena_MallocDebug((rows + 1) * sizeof(Vtx) * (cols + 1), "../z_fbdemo.c", 197);
-    this->gfx = SystemArena_MallocDebug((this->cols * (1 + this->rows * 9) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
+        SystemArena_MallocDebug((cols + 1) * sizeof(TransitionTileVtxData) * (rows + 1), "../z_fbdemo.c", 195);
+    this->vtxFrame1 = SystemArena_MallocDebug((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 196);
+    this->vtxFrame2 = SystemArena_MallocDebug((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 197);
+    this->gfx = SystemArena_MallocDebug((this->rows * (1 + this->cols * 9) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
 
     if ((this->vtxData == NULL) || (this->vtxFrame1 == NULL) || (this->vtxFrame2 == NULL) || (this->gfx == NULL)) {
         osSyncPrintf("fbdemo_init allocation error\n");
@@ -193,17 +193,17 @@ TransitionTile* TransitionTile_Init(TransitionTile* this, s32 rows, s32 cols) {
 }
 
 void TransitionTile_SetVtx(TransitionTile* this) {
-    s32 col;
     s32 row;
+    s32 col;
     Vtx* vtx;
 
-    for (col = 0; col < this->cols + 1; col++) {
-        for (row = 0; row < this->rows + 1; row++) {
+    for (row = 0; row < this->rows + 1; row++) {
+        for (col = 0; col < this->cols + 1; col++) {
             vtx = (this->frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
-            (vtx + row + col * (this->rows + 1))->n.ob[0] = (this->vtxData + row + col * (this->rows + 1))->x;
+            (vtx + col + row * (this->cols + 1))->n.ob[0] = (this->vtxData + col + row * (this->cols + 1))->x;
 
             vtx = (this->frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
-            (vtx + row + col * (this->rows + 1))->n.ob[1] = (this->vtxData + row + col * (this->rows + 1))->y;
+            (vtx + col + row * (this->cols + 1))->n.ob[1] = (this->vtxData + col + row * (this->cols + 1))->y;
         }
     }
 }
@@ -225,23 +225,23 @@ void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP) {
 }
 
 void TransitionTile_UpdateDynamic(TransitionTile* this) {
-    s32 col;
     s32 row;
+    s32 col;
     f32 diffX;
     f32 diffY;
     f32 scale;
 
-    for (col = 0; col < this->cols + 1; col++) {
-        for (row = 0; row < this->rows + 1; row++) {
-            diffX = (this->vtxData + row + col * (this->rows + 1))->x - (this->vtxData + 5 + 4 * (this->rows + 1))->x;
-            diffY = (this->vtxData + row + col * (this->rows + 1))->y - (this->vtxData + 5 + 4 * (this->rows + 1))->y;
+    for (row = 0; row < this->rows + 1; row++) {
+        for (col = 0; col < this->cols + 1; col++) {
+            diffX = (this->vtxData + col + row * (this->cols + 1))->x - (this->vtxData + 5 + 4 * (this->cols + 1))->x;
+            diffY = (this->vtxData + col + row * (this->cols + 1))->y - (this->vtxData + 5 + 4 * (this->cols + 1))->y;
             scale = (SQ(diffX) + SQ(diffY)) / 100.0f;
             if (scale != 0.0f) {
                 if (scale < 1.0f) {
                     scale = 1.0f;
                 }
-                (this->vtxData + row + col * (this->rows + 1))->x -= diffX / scale;
-                (this->vtxData + row + col * (this->rows + 1))->y -= diffY / scale;
+                (this->vtxData + col + row * (this->cols + 1))->x -= diffX / scale;
+                (this->vtxData + col + row * (this->cols + 1))->y -= diffY / scale;
             }
         }
     }
