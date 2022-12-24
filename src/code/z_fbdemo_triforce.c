@@ -124,13 +124,12 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
 
 s32 TransitionTriforce_IsDone(void* thisx) {
     TransitionTriforce* this = (TransitionTriforce*)thisx;
-    s32 isDone = false;
 
     if (this->state == 1 || this->state == 2) {
         return this->transPos <= 0.03f;
     } else if (this->state == 3 || this->state == 4) {
         return this->transPos >= 1.0f;
     } else {
-        return isDone;
+        return false;
     }
 }
