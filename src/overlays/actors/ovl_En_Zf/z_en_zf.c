@@ -46,7 +46,7 @@ void func_80B483E4(EnZf* this, PlayState* play);
 void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play);
 void EnZf_SetupDie(EnZf* this);
 void EnZf_Die(EnZf* this, PlayState* play);
-void EnZf_SetupCircleAroundPlayer(EnZf* this, f32 speed);
+void EnZf_SetupCircleAroundPlayer(EnZf* this, f32 speedXZ);
 s32 EnZf_DodgeRangedEngaging(PlayState* play, EnZf* this);
 s32 EnZf_DodgeRangedWaiting(PlayState* play, EnZf* this);
 

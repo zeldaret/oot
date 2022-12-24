@@ -305,7 +305,7 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
 
         accel = (this->actor.xzDistToPlayer - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
         this->actor.speed += accel * 1.8f;
-        
+
         if (this->actor.speed >= 3.0f) {
             this->actor.speed = 3.0f;
         }
