@@ -164,9 +164,6 @@ typedef enum {
     /* 0xFFFF */ CS_CMD_END = 0xFFFF
 } CutsceneCmd;
 
-#define CS_CMD_CONTINUE 0
-#define CS_CMD_STOP -1
-
 typedef enum {
     /* 0x00 */ CS_MISC_UNIMPLEMENTED_0,
     /* 0x01 */ CS_MISC_RAIN,
@@ -367,6 +364,7 @@ typedef union {
     s32 _words[2];
 } CsCmdCam; // size = 0x8
 
+
 typedef union {
     struct {
         /* 0x00 */ u16 type;
@@ -420,9 +418,9 @@ typedef union {
         /* 0x00 */ u16 unused0;
         /* 0x02 */ u16 startFrame;
         /* 0x04 */ u16 endFrame; // unused
-        /* 0x06 */ u8  sourceStrength;
-        /* 0x07 */ u8  duration;
-        /* 0x08 */ u8  decreaseRate;
+        /* 0x06 */ u8 sourceStrength;
+        /* 0x07 */ u8 duration;
+        /* 0x08 */ u8 decreaseRate;
     };
     s32 _words[3];
 } CsCmdRumble; // size = 0xC
@@ -492,6 +490,9 @@ typedef union {
     };
     s32 _words[4];
 } CutsceneCameraPoint; // size = 0x10
+
+#define CS_CAM_CONTINUE 0
+#define CS_CAM_STOP -1
 
 #define CS_CAM_DATA_NOT_APPLIED 0xFFFF
 

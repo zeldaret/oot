@@ -25,7 +25,7 @@ Gfx sTransCircleDL[] = {
     gsDPLoadTextureBlock(0x08000000, G_IM_FMT_I, G_IM_SIZ_8b, 16, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_CLAMP, 4, 6, G_TX_NOLOD, G_TX_NOLOD),
     gsSPDisplayList(0x09000000),
-    gsSPVertex(sTransCircleVtx, 32, 0),
+    gsSPVertex(sTransCircleDL, 32, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0),
     gsSP2Triangles(3, 5, 6, 0, 5, 7, 8, 0),
     gsSP2Triangles(7, 9, 10, 0, 9, 11, 12, 0),
@@ -34,7 +34,7 @@ Gfx sTransCircleDL[] = {
     gsSP2Triangles(19, 21, 22, 0, 21, 23, 24, 0),
     gsSP2Triangles(23, 25, 26, 0, 25, 27, 28, 0),
     gsSP1Triangle(27, 29, 30, 0),
-    gsSPVertex(&sTransCircleVtx[31], 3, 0),
+    gsSPVertex(&sTransCircleDL[31], 3, 0),
     gsSP1Triangle(0, 1, 2, 0),
     gsSPEndDisplayList(),
 };

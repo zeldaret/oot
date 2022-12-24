@@ -1540,7 +1540,7 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
     }
 
     while (shouldContinue) {
-        if (((CutsceneCameraPoint*)script)->continueFlag == CS_CMD_STOP) {
+        if (((CutsceneCameraPoint*)script)->continueFlag == CS_CAM_STOP) {
             shouldContinue = false;
         }
 
@@ -1579,7 +1579,7 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
     }
 
     while (shouldContinue) {
-        if (((CutsceneCameraPoint*)script)->continueFlag == CS_CMD_STOP) {
+        if (((CutsceneCameraPoint*)script)->continueFlag == CS_CAM_STOP) {
             shouldContinue = false;
         }
 
@@ -1787,7 +1787,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
         MemCpy(&cmdType, script, sizeof(cmdType));
         script += sizeof(cmdType);
 
-        if (cmdType == CS_CMD_STOP) {
+        if (cmdType == CS_CAM_STOP) {
             return;
         }
 
