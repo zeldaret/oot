@@ -59,8 +59,7 @@ void BgPushbox_Destroy(Actor* thisx, PlayState* play) {
 
 void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play) {
     this->dyna.actor.speed += this->dyna.unk_150 * 0.2f;
-    this->dyna.actor.speed =
-        (this->dyna.actor.speed < -1.0f) ? -1.0f : ((this->dyna.actor.speed > 1.0f) ? 1.0f : this->dyna.actor.speed);
+    this->dyna.actor.speed = CLAMP(this->dyna.actor.speed, -1.0f, 1.0f);
     Math_StepToF(&this->dyna.actor.speed, 0.0f, 0.2f);
     this->dyna.actor.world.rot.y = this->dyna.unk_158;
     Actor_MoveForward(&this->dyna.actor);

@@ -133,8 +133,8 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
     thisx->velocity.x = Math_SinS(thisx->world.rot.y) * thisx->speed;
     thisx->velocity.z = Math_CosS(thisx->world.rot.y) * thisx->speed;
 
-    thisx->world.pos.x = thisx->world.pos.x + thisx->velocity.x;
-    thisx->world.pos.z = thisx->world.pos.z + thisx->velocity.z;
+    thisx->world.pos.x += thisx->velocity.x;
+    thisx->world.pos.z += thisx->velocity.z;
 
     if ((thisx->world.pos.x > 1466.0f) && (thisx->world.pos.x < 1673.0f)) {
         thisx->world.pos.y = -129.5f;
