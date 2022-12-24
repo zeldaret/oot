@@ -183,7 +183,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         Letterbox_SetSizeTarget(32);
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
         player->actor.world.pos = playerPos;
-        player->actor.speedXZ = 0.0f;
+        player->actor.speed = 0.0f;
         this->unk_1E2 = 0;
         this->actionFunc = func_80B4B240;
         Audio_PlayFanfare(NA_BGM_APPEAR);

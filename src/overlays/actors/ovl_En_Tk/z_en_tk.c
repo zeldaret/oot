@@ -167,7 +167,7 @@ void EnTk_RestAnim(EnTk* this, PlayState* play) {
                      -10.0f);
 
     this->actionCountdown = Rand_S16Offset(60, 60);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void EnTk_WalkAnim(EnTk* this, PlayState* play) {
@@ -564,7 +564,7 @@ void EnTk_Walk(EnTk* this, PlayState* play) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnTk_Dig;
     } else {
-        this->actor.speedXZ = EnTk_Step(this, play);
+        this->actor.speed = EnTk_Step(this, play);
         EnTk_Orient(this, play);
         Math_SmoothStepToS(&this->headRot, 0, 6, 1000, 1);
         EnTk_CheckCurrentSpot(this);

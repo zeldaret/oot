@@ -133,7 +133,7 @@ void EnBa_Destroy(Actor* thisx, PlayState* play) {
 void EnBa_SetupIdle(EnBa* this) {
     this->unk_14C = 2;
     this->unk_31C = 1500;
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
     EnBa_SetupAction(this, EnBa_Idle);
 }
 
@@ -159,7 +159,7 @@ void EnBa_Idle(EnBa* this, PlayState* play) {
     this->unk_2FC.y -= 448.0f;
     this->unk_2FC.x += this->unk_308.x;
     this->unk_2FC.z += this->unk_308.y;
-    func_80033AEC(&this->unk_2FC, &this->unk_158[13], 1.0f, this->actor.speedXZ, 0.0f, 0.0f);
+    func_80033AEC(&this->unk_2FC, &this->unk_158[13], 1.0f, this->actor.speed, 0.0f, 0.0f);
     for (i = 12; i >= 0; i--) {
         func_80035844(&this->unk_158[i + 1], &this->unk_158[i], &sp5C, 0);
         Matrix_Translate(this->unk_158[i + 1].x, this->unk_158[i + 1].y, this->unk_158[i + 1].z, MTXMODE_NEW);
@@ -192,7 +192,7 @@ void EnBa_Idle(EnBa* this, PlayState* play) {
 
 void EnBa_SetupFallAsBlob(EnBa* this) {
     this->unk_14C = 0;
-    this->actor.speedXZ = Rand_CenteredFloat(8.0f);
+    this->actor.speed = Rand_CenteredFloat(8.0f);
     this->actor.world.rot.y = Rand_CenteredFloat(65535.0f);
     this->unk_318 = 20;
     this->actor.gravity = -2.0f;
@@ -223,7 +223,7 @@ void EnBa_SetupSwingAtPlayer(EnBa* this) {
     this->unk_31A = 0;
     this->unk_31C = 1500;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.speedXZ = 20.0f;
+    this->actor.speed = 20.0f;
     EnBa_SetupAction(this, EnBa_SwingAtPlayer);
 }
 
@@ -271,7 +271,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
             }
             if (this->unk_31A != 0) {
                 this->unk_31C = 8000;
-                this->actor.speedXZ = 30.0f;
+                this->actor.speed = 30.0f;
                 phi_fp = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_2FC);
                 temp = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk_158[0]) + 0x8000;
                 Math_SmoothStepToS(&this->actor.shape.rot.y, phi_fp, 1, this->unk_31C, 0);
@@ -323,7 +323,7 @@ void func_809B7174(EnBa* this) {
     this->unk_31C = 1500;
     this->unk_318 = 20;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HAND_DAMAGE);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
     EnBa_SetupAction(this, EnBa_RecoilFromDamage);
@@ -344,7 +344,7 @@ void EnBa_RecoilFromDamage(EnBa* this, PlayState* play) {
     this->unk_2FC.y -= 448.0f;
     this->unk_2FC.x += this->unk_308.x;
     this->unk_2FC.z += this->unk_308.y;
-    func_80033AEC(&this->unk_2FC, &this->unk_158[13], 1.0f, this->actor.speedXZ, 0.0f, 0.0f);
+    func_80033AEC(&this->unk_2FC, &this->unk_158[13], 1.0f, this->actor.speed, 0.0f, 0.0f);
     for (i = 12; i >= 0; i--) {
         func_80035844(&this->unk_158[i + 1], &this->unk_158[i], &sp6C, 0);
         Matrix_Translate(this->unk_158[i + 1].x, this->unk_158[i + 1].y, this->unk_158[i + 1].z, MTXMODE_NEW);
@@ -413,7 +413,7 @@ void EnBa_Die(EnBa* this, PlayState* play) {
     s32 i;
 
     if (this->unk_31A != 0) {
-        this->actor.speedXZ = 30.0f;
+        this->actor.speed = 30.0f;
         this->unk_31C = 8000;
         this->actor.world.pos.y += 8.0f;
         temp = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk_158[0]) + 0x8000;

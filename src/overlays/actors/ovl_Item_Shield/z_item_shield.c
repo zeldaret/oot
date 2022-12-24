@@ -130,7 +130,7 @@ void func_80B86BC8(ItemShield* this, PlayState* play) {
         this->actor.velocity.y = 4.0f;
         this->actor.minVelocityY = -4.0f;
         this->actor.gravity = -0.8f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->timer = 160;
     } else {
         Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -205,7 +205,7 @@ void func_80B86F68(ItemShield* this, PlayState* play) {
     this->actor.gravity = -0.8;
     this->unk_198 = 0;
     this->timer = 70;
-    this->actor.speedXZ = 0;
+    this->actor.speed = 0;
 }
 
 void ItemShield_Update(Actor* thisx, PlayState* play) {

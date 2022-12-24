@@ -440,7 +440,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             this->backflipFlag = 0;
             this->needlesToShoot = 3;
             this->hitsUntilDodge = 3;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -1.0f;
             EnSkj_CalculateCenter(this);
@@ -508,7 +508,7 @@ s32 EnSkj_ShootNeedle(EnSkj* this, PlayState* play) {
                                        this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 0);
     if (needle != NULL) {
         needle->killTimer = 100;
-        needle->actor.speedXZ = 24.0f;
+        needle->actor.speed = 24.0f;
         return 1;
     }
     return 0;
@@ -646,7 +646,7 @@ s32 func_80AFEDF8(EnSkj* this, PlayState* play) {
 
 void EnSkj_Backflip(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
 
     EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     EnSkj_SetupAction(this, SKJ_ACTION_FADE);
@@ -764,7 +764,7 @@ void EnSkj_PickNextFightAction(EnSkj* this, PlayState* play) {
 
 void func_80AFF2A0(EnSkj* this) {
     EnSkj_CalculateCenter(this);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_LAND);
     EnSkj_SetupAction(this, SKJ_ACTION_WAIT_FOR_LAND_ANIM);
 }
@@ -1082,7 +1082,7 @@ void EnSkj_StartMaskTrade(EnSkj* this, PlayState* play) {
 
 void EnSkj_JumpFromStump(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
-    this->actor.speedXZ = 2.0f;
+    this->actor.speed = 2.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     Animation_Reverse(&this->skelAnime);
     this->skelAnime.curFrame = this->skelAnime.startFrame;
@@ -1093,7 +1093,7 @@ void EnSkj_WaitForLanding(EnSkj* this, PlayState* play) {
     if (this->actor.velocity.y <= 0.0f) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             EnSkj_SetupWaitForLandAnimFinish(this);
         }
     }
@@ -1114,7 +1114,7 @@ void EnSkj_WaitForLandAnimFinish(EnSkj* this, PlayState* play) {
 
 void EnSkj_SetupWalkToPlayer(EnSkj* this) {
     this->unk_2F0 = 0.0f;
-    this->actor.speedXZ = 2.0f;
+    this->actor.speed = 2.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_WALK_TO_PLAYER);
     EnSkj_SetupAction(this, SKJ_ACTION_SARIA_SONG_WALK_TO_PLAYER);
 }
@@ -1124,7 +1124,7 @@ void EnSkj_WalkToPlayer(EnSkj* this, PlayState* play) {
     Math_ApproachF(&this->unk_2F0, 2000.0f, 1.0f, 100.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if (this->actor.xzDistToPlayer < 120.0f) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnSkj_SetupAskForMask(this, play);
     }
 }
@@ -1268,7 +1268,7 @@ void EnSkj_PlayOcarinaGame(EnSkj* this, PlayState* play) {
 
 void EnSkj_SetupLeaveOcarinaGame(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     EnSkj_SetupAction(this, SKJ_ACTION_OCARINA_GAME_LEAVE);
 }

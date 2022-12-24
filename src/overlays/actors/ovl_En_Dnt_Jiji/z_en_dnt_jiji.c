@@ -164,7 +164,7 @@ void EnDntJiji_Unburrow(EnDntJiji* this, PlayState* play) {
 void EnDntJiji_SetupWalk(EnDntJiji* this, PlayState* play) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiWalkAnim);
     Animation_Change(&this->skelAnime, &gDntJijiWalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
-    this->actor.speedXZ = 1.0f;
+    this->actor.speed = 1.0f;
     this->isSolid = true;
     this->unburrow = true;
     this->actionFunc = EnDntJiji_Walk;
@@ -174,14 +174,14 @@ void EnDntJiji_Walk(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 0x3E8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.2f, 0.4f);
+    Math_ApproachF(&this->actor.speed, 1.0f, 0.2f, 0.4f);
     if (this->sfxTimer == 0) {
         this->sfxTimer = 5;
         Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;
-        this->actor.speedXZ = 3.0f;
+        this->actor.speed = 3.0f;
     }
     if (this->actor.xzDistToPlayer < 100.0f) {
         if (CUR_UPG_VALUE(UPG_DEKU_STICKS) == 1) {
@@ -191,7 +191,7 @@ void EnDntJiji_Walk(EnDntJiji* this, PlayState* play) {
         }
         this->actor.textId = 0x104D;
         Message_StartTextbox(play, this->actor.textId, NULL);
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->unused = 5;
         this->actionFunc = EnDntJiji_Talk;
     }
@@ -329,7 +329,7 @@ void EnDntJiji_Hide(EnDntJiji* this, PlayState* play) {
 void EnDntJiji_SetupReturn(EnDntJiji* this, PlayState* play) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiWalkAnim);
     Animation_Change(&this->skelAnime, &gDntJijiWalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
-    this->actor.speedXZ = 2.0f;
+    this->actor.speed = 2.0f;
     this->isSolid = this->unburrow = true;
     this->actionFunc = EnDntJiji_Return;
 }
@@ -345,7 +345,7 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;
-        this->actor.speedXZ = 3.0f;
+        this->actor.speed = 3.0f;
     }
     if (this->sfxTimer == 0) {
         this->sfxTimer = 3;
@@ -361,7 +361,7 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
             }
         }
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->isSolid = 0;
         this->actionFunc = EnDntJiji_SetupBurrow;
     }

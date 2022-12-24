@@ -176,7 +176,7 @@ void EnKarebaba_SetupDying(EnKarebaba* this) {
     this->actor.gravity = -0.8f;
     this->actor.velocity.y = 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
-    this->actor.speedXZ = 3.0f;
+    this->actor.speed = 3.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
     this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     this->actionFunc = EnKarebaba_Dying;
@@ -318,7 +318,7 @@ void EnKarebaba_Dying(EnKarebaba* this, PlayState* play) {
     Vec3f position;
     Vec3f rotation;
 
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.1f);
 
     if (this->actor.params == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
@@ -327,7 +327,7 @@ void EnKarebaba_Dying(EnKarebaba* this, PlayState* play) {
         if (this->actor.scale.x > 0.005f &&
             ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 3.0f, 0, 12, 5, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         }

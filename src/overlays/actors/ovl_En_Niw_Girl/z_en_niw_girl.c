@@ -106,7 +106,7 @@ void func_80AB9210(EnNiwGirl* this, PlayState* play) {
     f32 zDistBetween;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachF(&this->actor.speedXZ, 3.0f, 0.2f, 0.4f);
+    Math_ApproachF(&this->actor.speed, 3.0f, 0.2f, 0.4f);
 
     // Find the X and Z distance between the girl and the cuckoo she is chasing
     xDistBetween = this->chasedEnNiw->actor.world.pos.x - this->actor.world.pos.x;
@@ -169,7 +169,7 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE) {
         this->chasedEnNiw->path = 0;
     }
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.8f, 0.2f);
+    Math_ApproachZeroF(&this->actor.speed, 0.8f, 0.2f);
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         if (this->actor.textId == 0x70EA) {
             this->unk_27A = 1;

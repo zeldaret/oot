@@ -90,7 +90,7 @@ void func_80B43AD4(EnYukabyun* this, PlayState* play) {
     this->actor.shape.rot.y += this->unk_150;
     if (this->unk_150 >= 0x2000) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->actionfunc = func_80B43B6C;
     }
     Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 1.0f);

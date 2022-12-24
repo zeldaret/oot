@@ -139,15 +139,15 @@ void func_80A686A8(EnHorseGanon* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
     if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(play)->actor) <= 300.0f) {
-        if (this->actor.speedXZ < 12.0f) {
-            this->actor.speedXZ += 1.0f;
+        if (this->actor.speed < 12.0f) {
+            this->actor.speed += 1.0f;
         } else {
-            this->actor.speedXZ -= 1.0f;
+            this->actor.speed -= 1.0f;
         }
-    } else if (this->actor.speedXZ < D_80A69248[this->unk_1EC].unk_6) {
-        this->actor.speedXZ += 0.5f;
+    } else if (this->actor.speed < D_80A69248[this->unk_1EC].unk_6) {
+        this->actor.speed += 0.5f;
     } else {
-        this->actor.speedXZ -= 0.5f;
+        this->actor.speed -= 0.5f;
     }
 }
 
@@ -173,7 +173,7 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     this->actor.gravity = -3.5f;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawHorse, 20.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
@@ -204,7 +204,7 @@ void func_80A68AC4(EnHorseGanon* this) {
 }
 
 void func_80A68AF0(EnHorseGanon* this, PlayState* play) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     SkelAnime_Update(&this->skin.skelAnime);
 }
 
@@ -214,12 +214,12 @@ void func_80A68B20(EnHorseGanon* this) {
 
     animationChanged = 0;
     this->action = 1;
-    if (this->actor.speedXZ <= 3.0f) {
+    if (this->actor.speed <= 3.0f) {
         if (this->currentAnimation != 2) {
             animationChanged = 1;
         }
         this->currentAnimation = 2;
-    } else if (this->actor.speedXZ <= 6.0f) {
+    } else if (this->actor.speed <= 6.0f) {
         if (this->currentAnimation != 3) {
             animationChanged = 1;
         }
@@ -232,13 +232,13 @@ void func_80A68B20(EnHorseGanon* this) {
     }
 
     if (this->currentAnimation == 2) {
-        sp30 = this->actor.speedXZ / 3.0f;
+        sp30 = this->actor.speed / 3.0f;
     } else if (this->currentAnimation == 3) {
-        sp30 = this->actor.speedXZ / 5.0f;
+        sp30 = this->actor.speed / 5.0f;
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (this->currentAnimation == 4) {
-        sp30 = this->actor.speedXZ / 7.0f;
+        sp30 = this->actor.speed / 7.0f;
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else {

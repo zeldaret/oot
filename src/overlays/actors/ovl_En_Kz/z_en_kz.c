@@ -383,7 +383,7 @@ void EnKz_SetupMweep(EnKz* this, PlayState* play) {
     subCamEye.z += 260.0f;
     Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
     func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
-    this->actor.speedXZ = 0.1f;
+    this->actor.speed = 0.1f;
     this->actionFunc = EnKz_Mweep;
 }
 
@@ -403,7 +403,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
         Inventory_ReplaceItem(play, ITEM_BOTTLE_RUTOS_LETTER, ITEM_BOTTLE_EMPTY);
         EnKz_SetMovedPos(this, play);
         SET_EVENTCHKINF(EVENTCHKINF_33);
-        this->actor.speedXZ = 0.0;
+        this->actor.speed = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }
     if (this->skelanime.curFrame == 13.0f) {

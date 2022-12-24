@@ -654,7 +654,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
                 EnGo_SetupAction(this, EnGo_CurledUp);
             } else {
                 this->actor.shape.yOffset = 1400.0f;
-                this->actor.speedXZ = 3.0f;
+                this->actor.speed = 3.0f;
                 EnGo_SetupAction(this, EnGo_GoronLinkRolling);
             }
             break;
@@ -717,7 +717,7 @@ void EnGo_StopRolling(EnGo* this, PlayState* play) {
         }
     }
 
-    this->actor.speedXZ = 3.0f;
+    this->actor.speed = 3.0f;
     if ((EnGo_FollowPath(this, play) == true) && (this->unk_218 == 0)) {
         bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
@@ -725,7 +725,7 @@ void EnGo_StopRolling(EnGo* this, PlayState* play) {
             bomb->timer = 0;
         }
 
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
     }
 
@@ -750,7 +750,7 @@ void func_80A4008C(EnGo* this, PlayState* play) {
 void EnGo_GoronLinkRolling(EnGo* this, PlayState* play) {
     if ((EnGo_FollowPath(this, play) == true) && Flags_GetSwitch(play, this->actor.params >> 8) &&
         (this->unk_218 == 0)) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
         SET_INFTABLE(INFTABLE_109);
     }
@@ -924,11 +924,11 @@ void func_80A40A54(EnGo* this, PlayState* play) {
     f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&gGoronAnim_010590));
     f32 float2 = this->skelAnime.curFrame * float1;
 
-    this->actor.speedXZ = Math_SinS((s16)float2);
+    this->actor.speed = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, play) && this->unk_218 == 0) {
         EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
     }
 }
@@ -1068,7 +1068,7 @@ void EnGo_DrawRolling(EnGo* this, PlayState* play) {
 
     Matrix_Push();
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    Matrix_RotateZYX((s16)(play->state.frames * ((s16)this->actor.speedXZ * 1400)), 0, this->actor.shape.rot.z,
+    Matrix_RotateZYX((s16)(play->state.frames * ((s16)this->actor.speed * 1400)), 0, this->actor.shape.rot.z,
                      MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go.c", 2368),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

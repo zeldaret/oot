@@ -82,13 +82,13 @@ void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {
         Actor_SetFocus(&this->dyna.actor, 50.0f);
         OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808AE630;
-        this->dyna.actor.speedXZ = 0.5f;
+        this->dyna.actor.speed = 0.5f;
     }
 }
 
 void func_808AE630(BgSpot05Soko* this, PlayState* play) {
-    this->dyna.actor.speedXZ *= 1.5f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) !=
+    this->dyna.actor.speed *= 1.5f;
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speed) !=
         0) {
         Actor_Kill(&this->dyna.actor);
     }

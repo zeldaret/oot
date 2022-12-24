@@ -213,7 +213,7 @@ void EnPoh_Init(Actor* thisx, PlayState* play) {
         } else {
             collectible = Item_DropCollectible(play, &this->actor.world.pos, 0x4000 | ITEM00_RUPEE_BLUE);
             if (collectible != NULL) {
-                collectible->actor.speedXZ = 0.0f;
+                collectible->actor.speed = 0.0f;
             }
         }
     } else if (this->actor.params == EN_POH_FLAT) {
@@ -259,7 +259,7 @@ void func_80ADE114(EnPoh* this) {
     Animation_PlayLoop(&this->skelAnime, this->info->idleAnim);
     this->unk_198 = Rand_S16Offset(2, 3);
     this->actionFunc = func_80ADEAC4;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void EnPoh_SetupIdle(EnPoh* this) {
@@ -272,7 +272,7 @@ void func_80ADE1BC(EnPoh* this) {
     Animation_PlayLoop(&this->skelAnime, this->info->idleAnim2);
     this->actionFunc = func_80ADEC9C;
     this->unk_198 = 0;
-    this->actor.speedXZ = 2.0f;
+    this->actor.speed = 2.0f;
 }
 
 void EnPoh_SetupAttack(EnPoh* this) {
@@ -282,7 +282,7 @@ void EnPoh_SetupAttack(EnPoh* this) {
         Animation_PlayLoop(&this->skelAnime, &gPoeComposerAttackAnim);
     }
     this->unk_198 = 12;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoh_Attack;
 }
@@ -299,14 +299,14 @@ void func_80ADE28C(EnPoh* this) {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->colliderCyl.base.ac) + 0x8000;
     }
     this->colliderCyl.base.acFlags &= ~AC_ON;
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
     this->actionFunc = func_80ADEECC;
 }
 
 void func_80ADE368(EnPoh* this) {
     Animation_MorphToLoop(&this->skelAnime, this->info->fleeAnim, -5.0f);
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->colliderCyl.base.acFlags |= AC_ON;
     this->unk_198 = 200;
@@ -329,7 +329,7 @@ void EnPoh_SetupInitialAction(EnPoh* this) {
 }
 
 void func_80ADE48C(EnPoh* this) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk_198 = 0;
     this->actor.naviEnemyId = NAVI_ENEMY_NONE;
@@ -340,19 +340,19 @@ void func_80ADE48C(EnPoh* this) {
 void func_80ADE4C8(EnPoh* this) {
     Animation_PlayOnce(&this->skelAnime, this->info->idleAnim2);
     this->actionFunc = func_80ADF574;
-    this->actor.speedXZ = -5.0f;
+    this->actor.speed = -5.0f;
 }
 
 void func_80ADE514(EnPoh* this) {
     Animation_PlayLoop(&this->skelAnime, this->info->idleAnim);
     this->unk_19C = this->actor.world.rot.y + 0x8000;
     this->actionFunc = func_80ADF5E0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void EnPoh_SetupDisappear(EnPoh* this) {
     this->unk_194 = 32;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DISAPPEAR);
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
@@ -361,7 +361,7 @@ void EnPoh_SetupDisappear(EnPoh* this) {
 
 void EnPoh_SetupAppear(EnPoh* this) {
     this->unk_194 = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoh_Appear;
@@ -494,7 +494,7 @@ void func_80ADEAC4(EnPoh* this, PlayState* play) {
 
 void EnPoh_Idle(EnPoh* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_StepToF(&this->actor.speedXZ, 1.0f, 0.2f);
+    Math_StepToF(&this->actor.speed, 1.0f, 0.2f);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_198 != 0) {
         this->unk_198--;
     }
@@ -555,7 +555,7 @@ void EnPoh_Attack(EnPoh* this, PlayState* play) {
     if (this->unk_198 >= 10) {
         Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0xE38);
     } else if (this->unk_198 == 9) {
-        this->actor.speedXZ = 5.0f;
+        this->actor.speed = 5.0f;
         this->skelAnime.playSpeed = 2.0f;
     } else if (this->unk_198 == 0) {
         EnPoh_SetupIdle(this);
@@ -564,7 +564,7 @@ void EnPoh_Attack(EnPoh* this, PlayState* play) {
 }
 
 void func_80ADEECC(EnPoh* this, PlayState* play) {
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health != 0) {
             func_80ADE368(this);
@@ -654,7 +654,7 @@ void func_80ADF574(EnPoh* this, PlayState* play) {
         EnPoh_SetupIdle(this);
         this->unk_198 = 23;
     } else {
-        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+        Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
         this->actor.shape.rot.y += 0x1000;
     }
 }

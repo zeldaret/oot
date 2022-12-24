@@ -165,7 +165,7 @@ void EnDodojr_SetupCrawlTowardsTarget(EnDodojr* this) {
 
     Animation_Change(&this->skelAnime, &object_dodojr_Anim_000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -10.0f);
     this->actor.velocity.y = 0.0f;
-    this->actor.speedXZ = 2.6f;
+    this->actor.speed = 2.6f;
     this->actor.gravity = -0.8f;
 }
 
@@ -173,7 +173,7 @@ void EnDodojr_SetupFlipBounce(EnDodojr* this) {
     f32 lastFrame = Animation_GetLastFrame(&object_dodojr_Anim_0004A0);
 
     Animation_Change(&this->skelAnime, &object_dodojr_Anim_0004A0, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -10.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
     this->actor.gravity = -0.8f;
@@ -205,7 +205,7 @@ void EnDodojr_SetupDespawn(EnDodojr* this) {
     this->actor.shape.shadowDraw = NULL;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.home.pos = this->actor.world.pos;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = -0.8f;
     this->timer = 30;
     this->dustPos = this->actor.world.pos;
@@ -214,7 +214,7 @@ void EnDodojr_SetupDespawn(EnDodojr* this) {
 void EnDodojr_SetupEatBomb(EnDodojr* this) {
     Animation_Change(&this->skelAnime, &object_dodojr_Anim_000724, 1.0f, 8.0f, 12.0f, ANIMMODE_ONCE, 0.0f);
     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_EAT);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
     this->actor.gravity = -0.8f;
@@ -423,7 +423,7 @@ void EnDodojr_EmergeFromGround(EnDodojr* this, PlayState* play) {
     if (sp2C == 0.0f) {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         this->actor.world.rot.x = this->actor.shape.rot.x;
-        this->actor.speedXZ = 2.6f;
+        this->actor.speed = 2.6f;
         this->actionFunc = EnDodojr_CrawlTowardsTarget;
     }
 }

@@ -265,11 +265,11 @@ void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type) {
 }
 
 void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
-    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.speed, 1.0f, 1.0f, 0.5f, 0.0f);
     this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x >> 1;
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z >> 1;
 
-    if (this->dyna.actor.speedXZ != 0.0f && this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL) {
+    if (this->dyna.actor.speed != 0.0f && this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->dyna.actor.world.rot.y =
             this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y + this->dyna.actor.wallYaw - 0x8000;
         if (1) {}
@@ -279,7 +279,7 @@ void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->dyna.actor.velocity.y < -8.0f) {
             this->dyna.actor.velocity.y *= -0.6f;
-            this->dyna.actor.speedXZ *= 0.6f;
+            this->dyna.actor.speed *= 0.6f;
             this->dyna.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
         } else {
             Actor_Kill(&this->dyna.actor);
@@ -294,13 +294,13 @@ void EnAObj_SetupBlock(EnAObj* this, s16 type) {
 }
 
 void EnAObj_Block(EnAObj* this, PlayState* play) {
-    this->dyna.actor.speedXZ += this->dyna.unk_150;
+    this->dyna.actor.speed += this->dyna.unk_150;
     this->dyna.actor.world.rot.y = this->dyna.unk_158;
-    this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);
+    this->dyna.actor.speed = CLAMP(this->dyna.actor.speed, -2.5f, 2.5f);
 
-    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
 
-    if (this->dyna.actor.speedXZ != 0.0f) {
+    if (this->dyna.actor.speed != 0.0f) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 

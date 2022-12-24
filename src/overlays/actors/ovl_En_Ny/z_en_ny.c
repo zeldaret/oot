@@ -115,7 +115,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->unk_1CA = 0;
     this->unk_1D0 = 0;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.shape.rot.y = 0;
     this->actor.gravity = -0.4f;
     this->hitPlayer = 0;
@@ -237,7 +237,7 @@ void EnNy_Move(EnNy* this, PlayState* play) {
         Math_ApproachF(&this->unk_1F4, 2000.0f, 1.0f, 100.0f);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         yawDiff = Math_FAtan2F(this->actor.yDistToPlayer, this->actor.xzDistToPlayer);
-        this->actor.speedXZ = fabsf(cosf(yawDiff) * this->unk_1E8);
+        this->actor.speed = fabsf(cosf(yawDiff) * this->unk_1E8);
         if (this->unk_1F0 < this->actor.yDistToWater) {
             this->unk_1EC = sinf(yawDiff) * this->unk_1E8;
         }
@@ -256,7 +256,7 @@ void EnNy_TurnToStone(EnNy* this, PlayState* play) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
             }
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->actor.world.rot.y = this->actor.shape.rot.y;
             func_80ABCE38(this);
         }
@@ -295,7 +295,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
         this->collider.base.atFlags &= ~AT_BOUNCED;
         this->hitPlayer = 1;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        this->actor.speedXZ = -4.0f;
+        this->actor.speed = -4.0f;
         return 0;
     }
     if (this->collider.base.atFlags & AT_HIT) {
