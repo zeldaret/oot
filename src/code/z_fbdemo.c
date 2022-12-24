@@ -62,19 +62,19 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
         for (col = 0; col < this->cols + 1; col++) {
             rowTex = 0;
             for (row = 0; row < this->rows + 1; row++) {
-                Vtx_t* vtx2 = &vtx->v;
+                Vtx_tn* vtxn = &vtx->n;
 
                 vtx++;
-                vtx2->tc[0] = rowTex << 6;
-                vtx2->ob[0] = row * 0x20;
-                vtx2->ob[1] = col * 0x20;
-                vtx2->ob[2] = -5;
-                vtx2->flag = 0;
-                vtx2->tc[1] = colTex << 6;
-                vtx2->cn[0] = 0;
-                vtx2->cn[1] = 0;
-                vtx2->cn[2] = 120;
-                vtx2->cn[3] = 255;
+                vtxn->tc[0] = rowTex << 6;
+                vtxn->ob[0] = row * 0x20;
+                vtxn->ob[1] = col * 0x20;
+                vtxn->ob[2] = -5;
+                vtxn->flag = 0;
+                vtxn->tc[1] = colTex << 6;
+                vtxn->n[0] = 0;
+                vtxn->n[1] = 0;
+                vtxn->n[2] = 120;
+                vtxn->a = 255;
 
                 rowTex += 0x20;
             }
@@ -199,10 +199,10 @@ void TransitionTile_SetVtx(TransitionTile* this) {
     for (col = 0; col < this->cols + 1; col++) {
         for (row = 0; row < this->rows + 1; row++) {
             vtx = (this->frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
-            (vtx + row + col * (this->rows + 1))->v.ob[0] = (this->vtxData + row + col * (this->rows + 1))->x;
+            (vtx + row + col * (this->rows + 1))->n.ob[0] = (this->vtxData + row + col * (this->rows + 1))->x;
 
             vtx = (this->frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
-            (vtx + row + col * (this->rows + 1))->v.ob[1] = (this->vtxData + row + col * (this->rows + 1))->y;
+            (vtx + row + col * (this->rows + 1))->n.ob[1] = (this->vtxData + row + col * (this->rows + 1))->y;
         }
     }
 }
