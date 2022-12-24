@@ -1298,10 +1298,9 @@ void Interface_LoadItemIcon1(PlayState* play, u16 button) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * ICON_ITEM_TEX_SIZE,
-                        (uintptr_t)_icon_item_staticSegmentRomStart +
-                            (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
-                        ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
+    DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + (button * ITEM_ICON_SIZE),
+                        GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[button]), ITEM_ICON_SIZE, 0,
+                        &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 
@@ -1309,10 +1308,9 @@ void Interface_LoadItemIcon2(PlayState* play, u16 button) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, 1);
-    DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * ICON_ITEM_TEX_SIZE,
-                        (uintptr_t)_icon_item_staticSegmentRomStart +
-                            (gSaveContext.equips.buttonItems[button] * ICON_ITEM_TEX_SIZE),
-                        ICON_ITEM_TEX_SIZE, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
+    DmaMgr_RequestAsync(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + (button * ITEM_ICON_SIZE),
+                        GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[button]), ITEM_ICON_SIZE, 0,
+                        &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 }
 
@@ -3240,7 +3238,8 @@ void Interface_Draw(PlayState* play) {
         Magic_DrawMeter(play);
         Minimap_Draw(play);
 
-        if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
+        if ((R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_PROCESS) &&
+            (R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_DONE)) {
             func_8002C124(&play->actorCtx.targetCtx, play); // Draw Z-Target
         }
 
@@ -3375,8 +3374,8 @@ void Interface_Draw(PlayState* play) {
                 gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[16], 4, 0);
 
                 gDPLoadTextureBlock(OVERLAY_DISP++, gItemIcons[pauseCtx->equipTargetItem], G_IM_FMT_RGBA, G_IM_SIZ_32b,
-                                    32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                                    G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                                    ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             } else {
                 // Magic Arrow Equip Effect
                 svar1 = pauseCtx->equipTargetItem - 0xBF;
@@ -3801,7 +3800,7 @@ void Interface_Draw(PlayState* play) {
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
                                                 gSaveContext.cutsceneIndex = 0;
                                                 Message_StartTextbox(play, 0x71B0, NULL);
-                                                func_8002DF54(play, NULL, 8);
+                                                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
                                             } else {
                                                 sSubTimerStateTimer = 40;
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_STOP;

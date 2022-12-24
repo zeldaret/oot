@@ -119,9 +119,9 @@ void func_80889BC0(BgHidanKousi* this, PlayState* play) {
 }
 
 void func_80889C18(BgHidanKousi* this, PlayState* play) {
-    this->dyna.actor.speedXZ += 0.2f;
-    if (this->dyna.actor.speedXZ > 2.0f) {
-        this->dyna.actor.speedXZ = 2.0f;
+    this->dyna.actor.speed += 0.2f;
+    if (this->dyna.actor.speed > 2.0f) {
+        this->dyna.actor.speed = 2.0f;
         BgHidanKousi_SetupAction(this, func_80889C90);
     }
     Actor_MoveForward(&this->dyna.actor);
@@ -134,7 +134,7 @@ void func_80889C90(BgHidanKousi* this, PlayState* play) {
         Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &this->dyna.actor.world.pos)) {
         func_80889ACC(this);
         BgHidanKousi_SetupAction(this, func_80889D28);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }

@@ -51,6 +51,7 @@
 #define R_ROOM_IMAGE_NODRAW_FLAGS                SREG(25)
 #define R_ROOM_BG2D_FORCE_SCALEBG                SREG(26)
 #define R_UPDATE_RATE                            SREG(30)
+#define R_GRAPH_TASKSET00_FLAGS                  SREG(33)
 #define R_ENABLE_AUDIO_DBG                       SREG(36)
 #define R_VI_MODE_EDIT_STATE                     SREG(48)
 #define R_VI_MODE_EDIT_WIDTH                     SREG(49)
@@ -64,7 +65,7 @@
 #define R_FB_FILTER_A                            SREG(84)
 #define R_FB_FILTER_ENV_COLOR(c)                 SREG(85 + (c))
 #define R_ENABLE_FB_FILTER                       SREG(88)
-#define R_PAUSE_MENU_MODE                        SREG(94)
+#define R_PAUSE_BG_PRERENDER_STATE               SREG(94) // `PauseBgPreRenderState`
 #define R_CAM_XZ_OFFSET_UPDATE_RATE              OREG(2)
 #define R_CAM_Y_OFFSET_UPDATE_RATE               OREG(3)
 #define R_CAM_FOV_UPDATE_RATE                    OREG(4)
@@ -99,7 +100,7 @@
 #define R_TEXTBOX_HEIGHT                         YREG(23)
 #define R_TEXTBOX_ICON_XPOS                      YREG(71)
 #define R_TEXTBOX_ICON_YPOS                      YREG(72)
-#define R_TEXTBOX_ICON_SIZE                      YREG(75)
+#define R_TEXTBOX_ICON_DIMENSION                 YREG(75)
 #define R_MESSAGE_DEBUGGER_SELECT                YREG(78)
 #define R_MESSAGE_DEBUGGER_TEXTID                YREG(79)
 #define R_C_UP_ICON_X                            YREG(88)
@@ -153,6 +154,7 @@
 #define R_TEXTBOX_TEXHEIGHT_TARGET               XREG(77)
 #define R_ENV_LIGHT1_DIR(i)                      cREG(3 + (i))
 #define R_ENV_LIGHT2_DIR(i)                      cREG(6 + (i))
+#define R_TRANS_FADE_FLASH_ALPHA_STEP            iREG(50) // Set to a negative number to start the flash
 #define R_ROOM_CULL_DEBUG_MODE                   iREG(86)
 #define R_ROOM_CULL_NUM_ENTRIES                  iREG(87)
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)

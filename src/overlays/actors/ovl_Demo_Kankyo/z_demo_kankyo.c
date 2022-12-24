@@ -406,10 +406,10 @@ void DemoKankyo_UpdateClouds(DemoKankyo* this, PlayState* play) {
 }
 
 void DemoKankyo_UpdateDoorOfTime(DemoKankyo* this, PlayState* play) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     this->unk_150[0].unk_18 += 1.0f;
     if (this->unk_150[0].unk_18 >= 102.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONEDOOR_STOP);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_STONEDOOR_STOP);
         SET_EVENTCHKINF(EVENTCHKINF_4B);
         Actor_Kill(this->actor.child);
         DemoKankyo_SetupAction(this, DemoKankyo_KillDoorOfTimeCollision);

@@ -337,7 +337,7 @@ void func_80ACA71C(EnOwl* this) {
 }
 
 void func_80ACA76C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -347,7 +347,7 @@ void func_80ACA76C(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACA7E0(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -547,7 +547,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB03C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -842,8 +842,8 @@ void func_80ACBC0C(EnOwl* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x80, 0x40);
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (this->actor.speedXZ < 16.0f) {
-        this->actor.speedXZ += 0.5f;
+    if (this->actor.speed < 16.0f) {
+        this->actor.speed += 0.5f;
     }
 
     if ((this->unk_3F8 + 1000.0f) < this->actor.world.pos.y) {
@@ -866,11 +866,11 @@ void func_80ACBD4C(EnOwl* this, PlayState* play) {
     if (this->skelAnime.curFrame > 45.0f) {
         this->actor.velocity.y = 2.0f;
         this->actor.gravity = 0.0f;
-        this->actor.speedXZ = 8.0f;
+        this->actor.speed = 8.0f;
     } else if (this->skelAnime.curFrame > 17.0f) {
         this->actor.velocity.y = 6.0f;
         this->actor.gravity = 0.0f;
-        this->actor.speedXZ = 4.0f;
+        this->actor.speed = 4.0f;
     }
 
     if (this->actionFlags & 1) {
@@ -911,7 +911,7 @@ void func_80ACBF50(EnOwl* this, PlayState* play) {
         this->unk_3FE = 6;
         this->actor.velocity.y = 2.0f;
         this->actor.gravity = 0.0f;
-        this->actor.speedXZ = 4.0f;
+        this->actor.speed = 4.0f;
     }
     this->actionFlags |= 8;
 }
@@ -972,9 +972,9 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
 
 void func_80ACC23C(EnOwl* this, PlayState* play) {
     if (this->skelAnime.curFrame < 20.0f) {
-        this->actor.speedXZ = 1.5f;
+        this->actor.speed = 1.5f;
     } else {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x384, 0x258);
         this->actor.shape.rot.y = this->actor.world.rot.y;
     }
@@ -985,7 +985,7 @@ void func_80ACC23C(EnOwl* this, PlayState* play) {
         this->unk_3FE = 5;
         this->actor.velocity.y = 0.0f;
         this->actor.gravity = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     this->actionFlags |= 8;
@@ -1095,7 +1095,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
               this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f ||
               this->skelAnime.curFrame == 58.0f)) ||
             (this->skelAnime.animation == &gOwlFlyAnim && this->skelAnime.curFrame == 4.0f)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OWL_FLUTTER);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
 
@@ -1359,7 +1359,7 @@ void func_80ACD220(EnOwl* this, Vec3f* arg1, f32 arg2) {
     rpy.z = (arg1->z - this->actor.world.pos.z) * arg2;
 
     Math_StepToF(&this->actor.velocity.y, rpy.y, 1.0f);
-    this->actor.speedXZ = sqrtf(SQ(rpy.x) + SQ(rpy.z));
+    this->actor.speed = sqrtf(SQ(rpy.x) + SQ(rpy.z));
     this->actor.world.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, arg1);
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
@@ -1391,7 +1391,7 @@ void func_80ACD2CC(EnOwl* this, PlayState* play) {
         this->actor.world.pos = pos;
         this->actor.draw = EnOwl_Draw;
         this->actionFlags &= ~4;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     } else {
         pos.x -= Math_SinS(angle) * this->unk_3F8;
         pos.z += Math_CosS(angle) * this->unk_3F8;

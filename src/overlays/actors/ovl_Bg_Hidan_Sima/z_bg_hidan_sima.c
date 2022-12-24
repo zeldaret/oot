@@ -144,7 +144,7 @@ void func_8088E5D0(BgHidanSima* this, PlayState* play) {
     }
     if (!(this->timer % 4)) {
         Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 

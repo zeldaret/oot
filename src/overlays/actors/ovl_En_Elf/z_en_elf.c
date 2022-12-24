@@ -257,7 +257,7 @@ void func_80A0214C(EnElf* this, PlayState* play) {
                 this->unk_2AC = 0x400;
                 this->unk_2B8 = 2.0f;
                 this->func_2C8 = func_80A020A4;
-                this->actor.speedXZ = 1.5f;
+                this->actor.speed = 1.5f;
                 this->unk_2C0 = (s16)Rand_ZeroFloat(8.0f) + 4;
             } else {
                 this->unk_2C0 = 10;
@@ -542,7 +542,7 @@ void func_80A03018(EnElf* this, PlayState* play) {
     s16 targetYaw;
     Vec3f* unk_28C = &this->unk_28C;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, this->unk_2B8, 0.2f, 0.5f, 0.01f);
+    Math_SmoothStepToF(&this->actor.speed, this->unk_2B8, 0.2f, 0.5f, 0.01f);
 
     switch (this->unk_2A8) {
         case 0:
@@ -584,7 +584,7 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
 
     xzVelocity = sqrtf(SQ(xVelTarget) + SQ(zVelTarget));
 
-    this->actor.speedXZ = clampedXZ = CLAMP(xzVelocity, arg2, arg3);
+    this->actor.speed = clampedXZ = CLAMP(xzVelocity, arg2, arg3);
 
     if ((xzVelocity != clampedXZ) && (xzVelocity != 0.0f)) {
         xzVelocity = clampedXZ / xzVelocity;
@@ -728,7 +728,7 @@ void func_80A03610(EnElf* this, PlayState* play) {
 
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, play, 32);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
 }
 
 void func_80A03814(EnElf* this, PlayState* play) {
@@ -763,7 +763,7 @@ void func_80A03814(EnElf* this, PlayState* play) {
     func_80A02E30(this, &player->bodyPartsPos[PLAYER_BODYPART_WAIST]);
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, play, 32);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
 }
 
 void func_80A03990(EnElf* this, PlayState* play) {
@@ -788,7 +788,7 @@ void func_80A03990(EnElf* this, PlayState* play) {
     Actor_SetScale(&this->actor, (1.0f - (SQ(this->unk_2B4) * SQ(1.0f / 9.0f))) * 0.008f);
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, play, 32);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
 }
 
 void func_80A03AB0(EnElf* this, PlayState* play) {
@@ -866,7 +866,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
             // play dash sound effect as Navi enters Links house in the intro
             if (1) {}
             if (play->csCtx.frames == 55) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FAIRY_DASH);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_FAIRY_DASH);
             }
 
             // play dash sound effect in intervals as Navi is waking up Link in the intro
@@ -878,7 +878,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
                 } else {
                     if (this->actor.world.pos.y < prevPos.y) {
                         this->fairyFlags |= 0x40;
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FAIRY_DASH);
+                        Actor_PlaySfx(&this->actor, NA_SE_EV_FAIRY_DASH);
                     }
                 }
             }
@@ -941,7 +941,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
                 if (arrowPointedActor != NULL) {
                     func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
 
-                    if (this->actor.speedXZ >= 5.0f) {
+                    if (this->actor.speed >= 5.0f) {
                         EnElf_SpawnSparkles(this, play, 16);
                     }
                 } else {
@@ -961,7 +961,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
                             this->fairyFlags |= 2;
 
                             if (this->unk_2C7 == 0) {
-                                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FAIRY_DASH);
+                                Actor_PlaySfx(&this->actor, NA_SE_EV_FAIRY_DASH);
                             }
 
                             this->unk_2C0 = 0x64;
@@ -1009,7 +1009,7 @@ void func_80A04414(EnElf* this, PlayState* play) {
         this->unk_29C = 1.0f;
 
         if (this->unk_2C7 == 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FAIRY_DASH);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_FAIRY_DASH);
         }
 
     } else {
@@ -1045,7 +1045,7 @@ void func_80A04414(EnElf* this, PlayState* play) {
             }
 
             if (this->unk_2C7 == 0) {
-                Audio_PlayActorSfx2(&this->actor, sfxId);
+                Actor_PlaySfx(&this->actor, sfxId);
             }
 
             this->fairyFlags |= 1;
@@ -1104,7 +1104,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
                             temp = 0;
                         } else {
                             if (this->unk_2C7 == 0) {
-                                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_NAVY_VANISH);
+                                Actor_PlaySfx(&this->actor, NA_SE_EV_NAVY_VANISH);
                             }
                             temp = 7;
                         }
@@ -1148,7 +1148,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
                 if (!(player->stateFlags2 & PLAYER_STATE2_20)) {
                     temp = 7;
                     if (this->unk_2C7 == 0) {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_NAVY_VANISH);
+                        Actor_PlaySfx(&this->actor, NA_SE_EV_NAVY_VANISH);
                     }
                 }
                 break;
@@ -1158,7 +1158,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
                     this->unk_2C0 = 42;
                     temp = 11;
                     if (this->unk_2C7 == 0) {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_FAIRY_DASH);
+                        Actor_PlaySfx(&this->actor, NA_SE_EV_FAIRY_DASH);
                     }
                 }
                 break;
@@ -1240,7 +1240,7 @@ void func_80A04DE4(EnElf* this, PlayState* play) {
 
     func_80A03148(this, &headCopy, 0, 20.0f, 0.2f);
 
-    if (this->actor.speedXZ >= 5.0f) {
+    if (this->actor.speed >= 5.0f) {
         EnElf_SpawnSparkles(this, play, 16);
     }
 

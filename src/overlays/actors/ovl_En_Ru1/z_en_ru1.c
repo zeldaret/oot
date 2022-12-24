@@ -346,7 +346,7 @@ void func_80AEB1D8(EnRu1* this) {
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.velocity.z = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     func_80AEB0EC(this, 0);
@@ -789,9 +789,9 @@ void func_80AEC40C(EnRu1* this) {
     f32 unk_26C = this->unk_26C;
 
     if (unk_26C < 8.0f) {
-        this->actor.speedXZ = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
+        this->actor.speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
     } else {
-        this->actor.speedXZ = (kREG(3) * 0.01f) + 2.7f;
+        this->actor.speed = (kREG(3) * 0.01f) + 2.7f;
     }
     this->actor.velocity.y = -1.0f;
     Actor_MoveForward(&this->actor);
@@ -803,7 +803,7 @@ void func_80AEC4CC(EnRu1* this) {
 }
 
 void func_80AEC4F4(EnRu1* this) {
-    f32* speedXZ = &this->actor.speedXZ;
+    f32* speedXZ = &this->actor.speed;
     f32* unk_26C = &this->unk_26C;
 
     if (this->unk_26C < 8.0f) {
@@ -1050,7 +1050,7 @@ s32 func_80AECF6C(EnRu1* this, PlayState* play) {
     s32 pad2[5];
 
     this->unk_26C += 1.0f;
-    if ((player->actor.speedXZ == 0.0f) && (this->unk_26C >= 3.0f)) {
+    if ((player->actor.speed == 0.0f) && (this->unk_26C >= 3.0f)) {
         otherPlayer = GET_PLAYER(play);
         player->actor.world.pos.x = otherPlayer->unk_450.x;
         player->actor.world.pos.y = otherPlayer->unk_450.y;
@@ -1203,7 +1203,7 @@ void func_80AED520(EnRu1* this, PlayState* play) {
 }
 
 void func_80AED57C(EnRu1* this) {
-    if (this->actor.speedXZ != 0.0f) {
+    if (this->actor.speed != 0.0f) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
     }
 }
@@ -1271,21 +1271,21 @@ void func_80AED738(EnRu1* this, PlayState* play) {
 
 void func_80AED83C(EnRu1* this) {
     s32 pad[2];
-    Vec3s* tempPtr;
-    Vec3s* tempPtr2;
+    Vec3s* headRot;
+    Vec3s* torsoRot;
 
-    tempPtr = &this->interactInfo.headRot;
-    Math_SmoothStepToS(&tempPtr->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothStepToS(&tempPtr->y, 0, 0x14, 0x1838, 0x64);
-    tempPtr2 = &this->interactInfo.torsoRot;
-    Math_SmoothStepToS(&tempPtr2->x, 0, 0x14, 0x1838, 0x64);
-    Math_SmoothStepToS(&tempPtr2->y, 0, 0x14, 0x1838, 0x64);
+    headRot = &this->interactInfo.headRot;
+    Math_SmoothStepToS(&headRot->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&headRot->y, 0, 0x14, 0x1838, 0x64);
+    torsoRot = &this->interactInfo.torsoRot;
+    Math_SmoothStepToS(&torsoRot->x, 0, 0x14, 0x1838, 0x64);
+    Math_SmoothStepToS(&torsoRot->y, 0, 0x14, 0x1838, 0x64);
 }
 
 void func_80AED8DC(EnRu1* this) {
     s32 temp_hi;
     s16* unk_2AC = &this->unk_2AC;
-    s16* someY = &this->interactInfo.headRot.y;
+    s16* headRotY = &this->interactInfo.headRot.y;
     s16* unk_29E = &this->unk_29E;
     s32 pad[2];
 
@@ -1303,14 +1303,14 @@ void func_80AED8DC(EnRu1* this) {
     }
 
     if (this->unk_2B0 == 0) {
-        Math_SmoothStepToS(unk_29E, 0 - *someY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(someY, 0, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0 - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0, 3, ABS(*unk_29E), 0x64);
     } else if (this->unk_2B0 == 1) {
-        Math_SmoothStepToS(unk_29E, -0x2AAA - *someY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(someY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, -0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, -0x2AAA, 3, ABS(*unk_29E), 0x64);
     } else {
-        Math_SmoothStepToS(unk_29E, 0x2AAA - *someY, 1, 0x190, 0x190);
-        Math_SmoothStepToS(someY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
+        Math_SmoothStepToS(unk_29E, 0x2AAA - *headRotY, 1, 0x190, 0x190);
+        Math_SmoothStepToS(headRotY, 0x2AAA, 3, ABS(*unk_29E), 0x64);
     }
 }
 
@@ -1337,7 +1337,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         velocityY = &this->actor.velocity.y;
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
         if (*velocityY <= 0.0f) {
-            speedXZ = &this->actor.speedXZ;
+            speedXZ = &this->actor.speed;
             if (dynaPolyActor != NULL) {
                 if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
@@ -1370,7 +1370,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
-        speedXZ = &this->actor.speedXZ;
+        speedXZ = &this->actor.speed;
         velocityY = &this->actor.velocity.y;
         if (*speedXZ >= (kREG(27) * 0.01f) + 3.0f) {
             *speedXZ *= (kREG(19) * 0.01f) + 0.8f;
@@ -1383,7 +1383,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-        speedXZ = &this->actor.speedXZ;
+        speedXZ = &this->actor.speed;
         if (*speedXZ != 0.0f) {
             rotY = this->actor.world.rot.y;
             wallYaw = this->actor.wallYaw;
@@ -1409,7 +1409,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEDEF4(EnRu1* this, PlayState* play) {
-    f32* speedXZ = &this->actor.speedXZ;
+    f32* speedXZ = &this->actor.speed;
     DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
     if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_EN_BOX) {
@@ -1436,7 +1436,7 @@ void func_80AEE02C(EnRu1* this) {
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.velocity.z = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
 }
@@ -1449,7 +1449,7 @@ void func_80AEE050(EnRu1* this) {
     EnRu1* thisx = this; // necessary to match
 
     if (this->unk_350 == 0) {
-        if ((this->actor.minVelocityY == 0.0f) && (this->actor.speedXZ == 0.0f)) {
+        if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
@@ -1463,12 +1463,12 @@ void func_80AEE050(EnRu1* this) {
                 this->actor.minVelocityY = 0.0f;
                 this->actor.velocity.y = 0.0f;
             }
-            this->actor.speedXZ *= 0.5f;
-            if (this->actor.speedXZ <= 0.1f) {
-                this->actor.speedXZ = 0.0f;
+            this->actor.speed *= 0.5f;
+            if (this->actor.speed <= 0.1f) {
+                this->actor.speed = 0.0f;
             }
-            this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-            this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+            this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+            this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
             func_8002D7EC(&this->actor);
         }
     } else {
@@ -1571,7 +1571,7 @@ void func_80AEE488(EnRu1* this, PlayState* play) {
 
 void func_80AEE568(EnRu1* this, PlayState* play) {
     if (!func_80AEE394(this, play)) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speedXZ == 0.0f) &&
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speed == 0.0f) &&
             (this->actor.minVelocityY == 0.0f)) {
             func_80AEE02C(this);
             Actor_OfferCarry(&this->actor, play);
@@ -1628,7 +1628,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
         frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
         func_80AED6DC(this, play);
-        this->actor.speedXZ *= (kREG(25) * 0.01f) + 1.0f;
+        this->actor.speed *= (kREG(25) * 0.01f) + 1.0f;
         this->actor.velocity.y *= (kREG(26) * 0.01f) + 1.0f;
         this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
@@ -1785,22 +1785,22 @@ void func_80AEEF5C(EnRu1* this, PlayState* play) {
 
 void func_80AEEF68(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 something;
+    s16 trackingPreset;
 
     this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yOffset = kREG(16) - 3.0f;
-    something = kREG(17) + 0xC;
-    Npc_TrackPoint(&this->actor, &this->interactInfo, something, NPC_TRACKING_HEAD_AND_TORSO);
+    trackingPreset = kREG(17) + 0xC;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, trackingPreset, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80AEEFEC(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 something;
+    s16 trackingPreset;
 
     this->interactInfo.trackPos = player->actor.world.pos;
     this->interactInfo.yOffset = kREG(16) - 3.0f;
-    something = kREG(17) + 0xC;
-    Npc_TrackPoint(&this->actor, &this->interactInfo, something, NPC_TRACKING_FULL_BODY);
+    trackingPreset = kREG(17) + 0xC;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, trackingPreset, NPC_TRACKING_FULL_BODY);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 }
 
@@ -2260,17 +2260,17 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
 }
 
 void func_80AF0278(EnRu1* this, PlayState* play, s32 limbIndex, Vec3s* rot) {
-    Vec3s* vec1 = &this->interactInfo.torsoRot;
-    Vec3s* vec2 = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
+    Vec3s* headRot = &this->interactInfo.headRot;
 
     switch (limbIndex) {
-        case RUTO_CHILD_LEFT_UPPER_ARM:
-            rot->x += vec1->y;
-            rot->y -= vec1->x;
+        case RUTO_CHILD_CHEST:
+            rot->x += torsoRot->y;
+            rot->y -= torsoRot->x;
             break;
-        case RUTO_CHILD_TORSO:
-            rot->x += vec2->y;
-            rot->z += vec2->x;
+        case RUTO_CHILD_HEAD:
+            rot->x += headRot->y;
+            rot->z += headRot->x;
             break;
     }
 }
@@ -2293,7 +2293,7 @@ void EnRu1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     Vec3f vec1;
     Vec3f vec2;
 
-    if (limbIndex == RUTO_CHILD_TORSO) {
+    if (limbIndex == RUTO_CHILD_HEAD) {
         vec1 = sMultVec;
         Matrix_MultVec3f(&vec1, &vec2);
         this->actor.focus.pos.x = vec2.x;
