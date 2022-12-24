@@ -44,7 +44,7 @@ typedef struct EnNb {
     /* 0x0280 */ f32 alphaTimer;
     /* 0x0284 */ u32 alpha;
     /* 0x0288 */ s32 flag;
-    /* 0x028C */ s32 previousCsAction;
+    /* 0x028C */ s32 cueId;
     /* 0x0290 */ f32 timer;
     /* 0x0294 */ ColliderCylinder collider;
     /* 0x02E0 */ s32 headTurnFlag;

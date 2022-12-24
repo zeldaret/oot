@@ -311,7 +311,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     (fabsf(player2->actor.world.pos.x - 340.0f) < 60.0f)) {
 
                     this->introState = BFD_CS_START;
-                    func_80064520(play, &play->csCtx);
+                    Cutscene_StartManual(play, &play->csCtx);
                     func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                     this->subCamId = Play_CreateSubCamera(play);
                     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -537,7 +537,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     Play_ReturnToMainCam(play, this->subCamId, 0);
                     // BFD_CS_NONE / BOSSFD_FLY_MAIN / SUB_CAM_ID_DONE
                     this->introState = this->introFlyState = this->subCamId = 0;
-                    func_80064534(play, &play->csCtx);
+                    Cutscene_StopManual(play, &play->csCtx);
                     func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                     this->actionFunc = BossFd_Wait;
                     this->handoffSignal = FD2_SIGNAL_GROUND;

@@ -557,7 +557,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             this->actor.shape.yOffset = -7000.0f;
             this->actor.shape.rot.y = 0;
 
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             this->csCamIndex = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1127,7 +1127,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 mainCam->at = this->csCamAt;
                 Play_ReturnToMainCam(play, this->csCamIndex, 0);
                 this->csState = this->csCamIndex = 0;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 BossGanon_SetupWait(this, play);
             }
@@ -1233,7 +1233,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
 
     switch (this->csState) {
         case 0:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             this->csCamIndex = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1504,7 +1504,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
             break;
 
         case 100:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             this->csCamIndex = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1791,7 +1791,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->csCamIndex, 0);
                 this->csState = 109;
                 this->csCamIndex = 0;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 Flags_SetSwitch(play, 0x37);
             }

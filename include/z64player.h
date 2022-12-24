@@ -632,7 +632,7 @@ typedef struct Player {
     /* 0x0440 */ Actor*     rideActor;
     /* 0x0444 */ u8         csMode;
     /* 0x0445 */ u8         prevCsMode;
-    /* 0x0446 */ u8         unk_446;
+    /* 0x0446 */ u8         cueId;
     /* 0x0447 */ u8         unk_447;
     /* 0x0448 */ Actor*     unk_448;
     /* 0x044C */ char       unk_44C[0x004];

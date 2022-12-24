@@ -2259,7 +2259,7 @@ void AudioOcarina_Update(void) {
     AudioOcarina_UpdateRecordingStaff();
 }
 
-void AudioOcarina_PlayLongScarecrowAfterCredits(void) {
+void AudioOcarina_PlayLongScarecrowSong(void) {
     static u8 sScarecrowAfterCreditsState = 0;
     static u8 sScarecrowAfterCreditsIntrumentId = OCARINA_INSTRUMENT_DEFAULT;
     static u16 sScarecrowAfterCreditsTimer = 1200;

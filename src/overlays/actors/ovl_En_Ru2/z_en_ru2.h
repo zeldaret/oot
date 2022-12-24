@@ -21,7 +21,7 @@ typedef struct EnRu2 {
     /* 0x02B0 */ f32 unk_2B0;
     /* 0x02B4 */ u32 alpha;
     /* 0x02B8 */ s32 unk_2B8;
-    /* 0x02BC */ s32 unk_2BC;
+    /* 0x02BC */ s32 cueId;
     /* 0x02C0 */ u16 unk_2C0;
     /* 0x02C2 */ u8 unk_2C2;
     /* 0x02C3 */ u8 unk_2C3;

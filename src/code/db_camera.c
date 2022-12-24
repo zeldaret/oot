@@ -252,7 +252,7 @@ s32 func_800B4088(DbCamera* dbCamera, Camera* cam) {
     position = &dbCamera->sub.position[dbCamera->sub.unkIdx];
     lookAt = &dbCamera->sub.lookAt[dbCamera->sub.unkIdx];
 
-    position->continueFlag = -1;
+    position->continueFlag = CS_CAM_STOP;
     lookAt->continueFlag = position->continueFlag;
     position->nextPointFrame = 0;
     lookAt->nextPointFrame = 30;
@@ -268,10 +268,10 @@ s32 func_800B4088(DbCamera* dbCamera, Camera* cam) {
     }
 
     for (i = 0; i < (dbCamera->sub.nPoints - 2); i++) {
-        dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = 0;
+        dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = CS_CAM_CONTINUE;
     }
 
-    dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = -1;
+    dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = CS_CAM_STOP;
 
     return dbCamera->sub.unkIdx;
 }
@@ -299,7 +299,7 @@ s32 func_800B42C0(DbCamera* dbCamera, Camera* cameraPtr) {
     CutsceneCameraPoint* position = &dbCamera->sub.position[dbCamera->sub.unkIdx];
     CutsceneCameraPoint* lookAt = &dbCamera->sub.lookAt[dbCamera->sub.unkIdx];
 
-    position->continueFlag = lookAt->continueFlag = 0;
+    position->continueFlag = lookAt->continueFlag = CS_CAM_CONTINUE;
 
     if (dbCamera->sub.mode != 1) {
         DbCamera_Vec3FToS(&dbCamera->eye, &position->pos);
@@ -352,10 +352,10 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         sDbCamAnim.unk_04 = 0;
 
         for (i = 0; i < (dbCamera->sub.nPoints - 2); i++) {
-            dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = 0;
+            dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = CS_CAM_CONTINUE;
         }
 
-        dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = -1;
+        dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = CS_CAM_STOP;
     }
 
     if (dbCamera->sub.nPoints < 6) {
@@ -2155,7 +2155,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
             }
 
             if (CHECK_BTN_ALL(sPlay->state.input[1].press.button, BTN_CRIGHT)) {
-                D_8015FCC8 = 0;
+                gUseCutsceneCam = false;
                 gSaveContext.cutsceneIndex = 0xFFFD;
                 gSaveContext.cutsceneTrigger = 1;
                 sDbCamAnim.curFrame = 0.0f;

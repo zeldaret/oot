@@ -743,20 +743,20 @@ void func_80ACB748(EnOwl* this, PlayState* play) {
     switch (owlType) {
         case 7:
             func_800F436C(&D_80ACD62C, NA_SE_EV_FLYING_AIR - SFX_FLAG, weight * 2.0f);
-            if ((play->csCtx.frames > 324) || ((play->csCtx.frames >= 142 && (play->csCtx.frames <= 266)))) {
+            if ((play->csCtx.curFrame > 324) || ((play->csCtx.curFrame >= 142 && (play->csCtx.curFrame <= 266)))) {
                 func_800F4414(&D_80ACD62C, NA_SE_EN_OWL_FLUTTER, weight * 2.0f);
             }
-            if (play->csCtx.frames == 85) {
+            if (play->csCtx.curFrame == 85) {
                 func_800F436C(&D_80ACD62C, NA_SE_EV_PASS_AIR, weight * 2.0f);
             }
             break;
         case 8:
         case 9:
             func_800F436C(&D_80ACD62C, NA_SE_EV_FLYING_AIR - SFX_FLAG, weight * 2.0f);
-            if ((play->csCtx.frames >= 420) || ((0xC1 < play->csCtx.frames && (play->csCtx.frames <= 280)))) {
+            if ((play->csCtx.curFrame >= 420) || ((0xC1 < play->csCtx.curFrame && (play->csCtx.curFrame <= 280)))) {
                 func_800F4414(&D_80ACD62C, NA_SE_EN_OWL_FLUTTER, weight * 2.0f);
             }
-            if (play->csCtx.frames == 217) {
+            if (play->csCtx.curFrame == 217) {
                 func_800F436C(&D_80ACD62C, NA_SE_EV_PASS_AIR, weight * 2.0f);
             }
             break;
@@ -764,8 +764,8 @@ void func_80ACB748(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB904(EnOwl* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.npcActions[7] != NULL)) {
-        if (this->unk_40A != play->csCtx.npcActions[7]->action) {
+    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.actorCues[7] != NULL)) {
+        if (this->unk_40A != play->csCtx.actorCues[7]->id) {
             func_80ACD130(this, play, 7);
             func_80ACBAB8(this, play);
         }
@@ -778,8 +778,8 @@ void func_80ACB904(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB994(EnOwl* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.npcActions[7] != NULL)) {
-        if (this->unk_40A != play->csCtx.npcActions[7]->action) {
+    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.actorCues[7] != NULL)) {
+        if (this->unk_40A != play->csCtx.actorCues[7]->id) {
             func_80ACD130(this, play, 7);
             func_80ACBAB8(this, play);
         }
@@ -792,13 +792,13 @@ void func_80ACB994(EnOwl* this, PlayState* play) {
 }
 
 void EnOwl_WaitDefault(EnOwl* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.npcActions[7] != NULL)) {
-        if (this->unk_40A != play->csCtx.npcActions[7]->action) {
+    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.actorCues[7] != NULL)) {
+        if (this->unk_40A != play->csCtx.actorCues[7]->id) {
             this->actionFlags |= 4;
             func_80ACD130(this, play, 7);
             func_80ACBAB8(this, play);
         } else {
-            this->actor.world.rot.z = play->csCtx.npcActions[7]->urot.y;
+            this->actor.world.rot.z = play->csCtx.actorCues[7]->rot.y;
         }
     }
 
@@ -808,28 +808,28 @@ void EnOwl_WaitDefault(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACBAB8(EnOwl* this, PlayState* play) {
-    switch (play->csCtx.npcActions[7]->action - 1) {
-        case 0:
-            EnOwl_ChangeMode(this, func_80ACB904, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
-            break;
+    switch (play->csCtx.actorCues[7]->id) {
         case 1:
-            this->actor.draw = EnOwl_Draw;
-            EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime, &gOwlPerchAnim, 0.0f);
+            EnOwl_ChangeMode(this, func_80ACB904, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
             break;
         case 2:
             this->actor.draw = EnOwl_Draw;
-            EnOwl_ChangeMode(this, func_80ACB994, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
+            EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime, &gOwlPerchAnim, 0.0f);
             break;
         case 3:
+            this->actor.draw = EnOwl_Draw;
+            EnOwl_ChangeMode(this, func_80ACB994, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
+            break;
+        case 4:
             this->actor.draw = NULL;
             this->actionFunc = EnOwl_WaitDefault;
             break;
-        case 4:
+        case 5:
             Actor_Kill(&this->actor);
             break;
     }
 
-    this->unk_40A = play->csCtx.npcActions[7]->action;
+    this->unk_40A = play->csCtx.actorCues[7]->id;
 }
 
 void func_80ACBC0C(EnOwl* this, PlayState* play) {
@@ -935,12 +935,12 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
                     osSyncPrintf(VT_FGCOL(CYAN));
                     osSyncPrintf("SPOT 06 の デモがはしった\n"); // "Demo of SPOT 06 has been completed"
                     osSyncPrintf(VT_RST);
-                    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
+                    play->csCtx.script = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;
                 case 8:
                 case 9:
-                    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDMTOwlCs);
+                    play->csCtx.script = SEGMENTED_TO_VIRTUAL(gDMTOwlCs);
                     this->actor.draw = NULL;
                     break;
                 default:
@@ -1063,9 +1063,9 @@ s32 func_80ACC624(EnOwl* this, PlayState* play) {
         return true;
     } else if (switchFlag == 0xA) {
         return true;
-    } else if (play->csCtx.frames >= 300 && play->csCtx.frames <= 430) {
+    } else if (play->csCtx.curFrame >= 300 && play->csCtx.curFrame <= 430) {
         return true;
-    } else if (play->csCtx.frames >= 1080 && play->csCtx.frames <= 1170) {
+    } else if (play->csCtx.curFrame >= 1080 && play->csCtx.curFrame <= 1170) {
         return true;
     } else {
         return false;
@@ -1335,17 +1335,17 @@ void EnOwl_ChangeMode(EnOwl* this, EnOwlActionFunc actionFunc, OwlFunc arg2, Ske
 void func_80ACD130(EnOwl* this, PlayState* play, s32 idx) {
     Vec3f startPos;
 
-    startPos.x = play->csCtx.npcActions[idx]->startPos.x;
-    startPos.y = play->csCtx.npcActions[idx]->startPos.y;
-    startPos.z = play->csCtx.npcActions[idx]->startPos.z;
+    startPos.x = play->csCtx.actorCues[idx]->startPos.x;
+    startPos.y = play->csCtx.actorCues[idx]->startPos.y;
+    startPos.z = play->csCtx.actorCues[idx]->startPos.z;
     this->actor.world.pos = startPos;
-    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.npcActions[idx]->rot.y;
-    this->actor.shape.rot.z = play->csCtx.npcActions[idx]->urot.z;
+    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.actorCues[idx]->rot.y;
+    this->actor.shape.rot.z = play->csCtx.actorCues[idx]->rot.z;
 }
 
 f32 func_80ACD1C4(PlayState* play, s32 idx) {
-    f32 ret = Environment_LerpWeight(play->csCtx.npcActions[idx]->endFrame, play->csCtx.npcActions[idx]->startFrame,
-                                     play->csCtx.frames);
+    f32 ret = Environment_LerpWeight(play->csCtx.actorCues[idx]->endFrame, play->csCtx.actorCues[idx]->startFrame,
+                                     play->csCtx.curFrame);
 
     ret = CLAMP_MAX(ret, 1.0f);
     return ret;
@@ -1369,17 +1369,17 @@ void func_80ACD2CC(EnOwl* this, PlayState* play) {
     s32 angle;
     f32 t = func_80ACD1C4(play, 7);
 
-    pos.x = play->csCtx.npcActions[7]->startPos.x;
-    pos.y = play->csCtx.npcActions[7]->startPos.y;
-    pos.z = play->csCtx.npcActions[7]->startPos.z;
-    angle = (s16)play->csCtx.npcActions[7]->rot.y - this->actor.world.rot.z;
+    pos.x = play->csCtx.actorCues[7]->startPos.x;
+    pos.y = play->csCtx.actorCues[7]->startPos.y;
+    pos.z = play->csCtx.actorCues[7]->startPos.z;
+    angle = (s16)play->csCtx.actorCues[7]->rot.y - this->actor.world.rot.z;
     if (angle < 0) {
         angle += 0x10000;
     }
     angle = (s16)((t * angle) + this->actor.world.rot.z);
     angle = (u16)angle;
     if (this->actionFlags & 4) {
-        f32 phi_f2 = play->csCtx.npcActions[7]->urot.x;
+        f32 phi_f2 = play->csCtx.actorCues[7]->rot.x;
 
         phi_f2 *= 10.0f * (360.0f / 0x10000);
         if (phi_f2 < 0.0f) {
@@ -1404,12 +1404,12 @@ void func_80ACD4D4(EnOwl* this, PlayState* play) {
     Vec3f endPosf;
     f32 temp_ret = func_80ACD1C4(play, 7);
 
-    pos.x = play->csCtx.npcActions[7]->startPos.x;
-    pos.y = play->csCtx.npcActions[7]->startPos.y;
-    pos.z = play->csCtx.npcActions[7]->startPos.z;
-    endPosf.x = play->csCtx.npcActions[7]->endPos.x;
-    endPosf.y = play->csCtx.npcActions[7]->endPos.y;
-    endPosf.z = play->csCtx.npcActions[7]->endPos.z;
+    pos.x = play->csCtx.actorCues[7]->startPos.x;
+    pos.y = play->csCtx.actorCues[7]->startPos.y;
+    pos.z = play->csCtx.actorCues[7]->startPos.z;
+    endPosf.x = play->csCtx.actorCues[7]->endPos.x;
+    endPosf.y = play->csCtx.actorCues[7]->endPos.y;
+    endPosf.z = play->csCtx.actorCues[7]->endPos.z;
     pos.x = (endPosf.x - pos.x) * temp_ret + pos.x;
     pos.y = (endPosf.y - pos.y) * temp_ret + pos.y;
     pos.z = (endPosf.z - pos.z) * temp_ret + pos.z;

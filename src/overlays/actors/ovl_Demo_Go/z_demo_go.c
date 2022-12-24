@@ -49,22 +49,25 @@ ActorInit Demo_Go_InitVars = {
     (ActorFunc)DemoGo_Draw,
 };
 
-s32 func_8097C870(DemoGo* this) {
+s32 DemoGo_GetCueChannel(DemoGo* this) {
     s32 ret;
 
     switch (this->actor.params) {
         case 0:
             ret = 3;
             break;
+
         case 1:
             ret = 4;
             break;
+
         default:
             if (1) {
                 ret = 5;
             }
             break;
     }
+
     return ret;
 }
 
@@ -126,26 +129,31 @@ void func_8097CB0C(DemoGo* this, PlayState* play) {
     Actor* thisx = &this->actor;
     PosRot* world = &thisx->world;
     CutsceneContext* csCtx = &play->csCtx;
-    CsCmdActorAction* npcAction;
-    f32 temp_ret;
+    CsCmdActorCue* cue;
+    f32 lerp;
     s32 pad;
     Vec3f startPos;
     Vec3f endPos;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        npcAction = csCtx->npcActions[func_8097C870(this)];
-        if (npcAction != NULL) {
-            temp_ret = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
-            startPos.x = npcAction->startPos.x;
-            startPos.y = npcAction->startPos.y;
-            startPos.z = npcAction->startPos.z;
-            endPos.x = npcAction->endPos.x;
-            endPos.y = npcAction->endPos.y;
-            endPos.z = npcAction->endPos.z;
-            world->pos.x = (endPos.x - startPos.x) * temp_ret + startPos.x;
-            world->pos.y = (endPos.y - startPos.y) * temp_ret + startPos.y;
-            world->pos.z = (endPos.z - startPos.z) * temp_ret + startPos.z;
-            world->rot.y = thisx->shape.rot.y = npcAction->rot.y;
+        cue = csCtx->actorCues[DemoGo_GetCueChannel(this)];
+
+        if (cue != NULL) {
+            lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, csCtx->curFrame);
+
+            startPos.x = cue->startPos.x;
+            startPos.y = cue->startPos.y;
+            startPos.z = cue->startPos.z;
+
+            endPos.x = cue->endPos.x;
+            endPos.y = cue->endPos.y;
+            endPos.z = cue->endPos.z;
+
+            world->pos.x = (endPos.x - startPos.x) * lerp + startPos.x;
+            world->pos.y = (endPos.y - startPos.y) * lerp + startPos.y;
+            world->pos.z = (endPos.z - startPos.z) * lerp + startPos.z;
+
+            world->rot.y = thisx->shape.rot.y = cue->rot.y;
         }
     }
 }
@@ -166,24 +174,27 @@ void func_8097CCC0(DemoGo* this) {
 }
 
 void func_8097CCE0(DemoGo* this, PlayState* play) {
-    CsCmdActorAction* npcAction;
+    CsCmdActorCue* cue;
     Actor* thisx = &this->actor;
     s32 rotYDelta;
     s32 newRotY;
     s32 thisRotY;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        npcAction = play->csCtx.npcActions[func_8097C870(this)];
-        if (npcAction != NULL) {
+        cue = play->csCtx.actorCues[DemoGo_GetCueChannel(this)];
+
+        if (cue != NULL) {
             thisRotY = thisx->world.rot.y;
-            rotYDelta = npcAction->rot.y - thisRotY;
+            rotYDelta = (s16)cue->rot.y - thisRotY;
+
             if ((rotYDelta > -(kREG(16) + 0x96)) && (rotYDelta < kREG(16) + 0x96)) {
-                newRotY = npcAction->rot.y;
+                newRotY = (s16)cue->rot.y;
             } else if (rotYDelta > 0) {
                 newRotY = (thisRotY + kREG(16)) + 0x96;
             } else {
                 newRotY = (thisRotY - kREG(16)) - 0x96;
             }
+
             thisx->shape.rot.y = newRotY;
             thisx->world.rot.y = newRotY;
         }
@@ -194,15 +205,16 @@ s32 DemoGo_UpdateSkelAnime(DemoGo* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-s32 func_8097CDB0(DemoGo* this, PlayState* play, u16 npcAction) {
+s32 func_8097CDB0(DemoGo* this, PlayState* play, u16 cueId) {
     CutsceneContext* csCtx = &play->csCtx;
-    s32 actionIdx = func_8097C870(this);
+    s32 cueChannel = DemoGo_GetCueChannel(this);
 
-    if ((csCtx->state != CS_STATE_IDLE) && (csCtx->npcActions[actionIdx] != NULL) &&
-        (csCtx->npcActions[actionIdx]->action == npcAction)) {
-        return 1;
+    if ((csCtx->state != CS_STATE_IDLE) && (csCtx->actorCues[cueChannel] != NULL) &&
+        (csCtx->actorCues[cueChannel]->id == cueId)) {
+        return true;
     }
-    return 0;
+
+    return false;
 }
 
 void func_8097CE10(DemoGo* this, PlayState* play) {
@@ -220,11 +232,12 @@ void func_8097CE20(DemoGo* this, PlayState* play) {
 
 void func_8097CE78(DemoGo* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
-    CsCmdActorAction* npcAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        npcAction = csCtx->npcActions[func_8097C870(this)];
-        if (npcAction != NULL && csCtx->frames >= npcAction->endFrame) {
+        cue = csCtx->actorCues[DemoGo_GetCueChannel(this)];
+
+        if (cue != NULL && csCtx->curFrame >= cue->endFrame) {
             func_8097CA78(this, play);
             this->action = 3;
         }

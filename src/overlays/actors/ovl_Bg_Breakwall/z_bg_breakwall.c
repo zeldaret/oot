@@ -250,7 +250,7 @@ void BgBreakwall_Wait(BgBreakwall* this, PlayState* play) {
 
         if ((wallType == BWALL_DC_ENTRANCE) && !Flags_GetEventChkInf(EVENTCHKINF_B0)) {
             Flags_SetEventChkInf(EVENTCHKINF_B0);
-            Cutscene_SetSegment(play, gDcOpeningCs);
+            Cutscene_SetScript(play, gDcOpeningCs);
             gSaveContext.cutsceneTrigger = 1;
             Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

@@ -4301,12 +4301,12 @@ void Interface_Update(PlayState* play) {
                 gSaveContext.nextDayTime = NEXT_TIME_NIGHT;
                 play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
-                play->unk_11DE9 = true;
+                play->haltAllActors = true;
             } else {
                 gSaveContext.nextDayTime = NEXT_TIME_DAY;
                 play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
-                play->unk_11DE9 = true;
+                play->haltAllActors = true;
             }
 
             if (play->sceneId == SCENE_HAUNTED_WASTELAND) {

@@ -195,7 +195,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
         case 0:
             objectIdx = Object_GetIndex(&play->objectCtx, OBJECT_GANON_ANIME3);
             if (Object_IsLoaded(&play->objectCtx, objectIdx)) {
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -323,7 +323,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 camera->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->unk_39C = 5;
                 this->unk_398 = 0;
@@ -335,7 +335,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 Message_CloseTextbox(play);
                 this->unk_39C = 10;
                 this->unk_398 = 0;
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -876,7 +876,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 camera->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->unk_39C = 0;
                 this->unk_337 = 1;
@@ -1295,7 +1295,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
 
     switch (this->unk_39C) {
         case 0:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1347,13 +1347,13 @@ void func_80900890(BossGanon2* this, PlayState* play) {
                 mainCam2->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->unk_39C = 3;
             }
             break;
         case 10:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1380,7 +1380,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
                 this->unk_39C = 3;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
             }
             break;
@@ -1481,7 +1481,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
 
     switch (this->unk_39C) {
         case 0:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1625,7 +1625,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
                 mainCam->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->unk_39C = 6;
             }
@@ -1637,7 +1637,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             temp_a0_2 = Math_Atan2S(temp_f12, temp_f14) - player->actor.shape.rot.y;
             if ((ABS(temp_a0_2) < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f) &&
                 (player->meleeWeaponState != 0) && (player->heldItemAction == PLAYER_IA_SWORD_MASTER)) {
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);

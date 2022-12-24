@@ -200,6 +200,7 @@
 #define R_ENABLE_PLAY_LOGS                       HREG(63)
 #define R_EN_GOROIWA_SPEED                       mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA                  nREG(87)
+#define R_USE_DEBUG_CUTSCENE                     dREG(95)
 
 
 #define R_HREG_MODE  HREG(80) // see `HRegMode` for mode options
