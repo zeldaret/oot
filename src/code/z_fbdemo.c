@@ -3,13 +3,10 @@
  *
  * This file implements an unused transition system that takes the current screen and converts it to large tiles.
  *
- * The static version will just display this tiled screen, while the dynamic version has the visual effect of being
- * sucked into a single point.
- *
  * @note While the init function allows for custom number of cols and rows, there are multiple hardcoded features
  * that seem meant for 10 cols and 7 rows (though visually only 5 cols and 4 rows are drawn).
  *     All the `0x20`s correspond to dividing the screen in this way (`gScreenWidth`/ 10 = `gScreenHeight` / 7 = 0x20)
- *     The dynamic version using the 5th col and 4th row as the point to suck towards
+ *     The sucking function uses the 5th col and 4th row as the point to suck towards
  */
 #include "global.h"
 
@@ -224,7 +221,10 @@ void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-void TransitionTile_UpdateDynamic(TransitionTile* this) {
+/**
+ * Has the visual effect of sucking the tiled screen into a single point
+*/
+void TransitionTile_Suck(TransitionTile* this) {
     s32 row;
     s32 col;
     f32 diffX;
@@ -247,7 +247,7 @@ void TransitionTile_UpdateDynamic(TransitionTile* this) {
     }
 }
 
-void TransitionTile_UpdateStatic(TransitionTile* this) {
+void TransitionTile_Update(TransitionTile* this) {
 }
 
 s32 func_800B23F0(TransitionTile* this) {
