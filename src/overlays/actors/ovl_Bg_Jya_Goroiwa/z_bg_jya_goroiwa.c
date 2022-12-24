@@ -125,8 +125,8 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
     f32 speedXZBaseSq = (-100.0f - thisx->world.pos.y) * 2.5f;
     f32 posYfac;
 
-    if (speedXZBaseSq < SQ(0.1f)) {
-        speedXZBaseSq = SQ(0.1f);
+    if (speedXZBaseSq < 0.01f) {
+        speedXZBaseSq = 0.01f;
     }
 
     thisx->speed = sqrtf(speedXZBaseSq) * this->speedFactor;
