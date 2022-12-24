@@ -2289,15 +2289,15 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_zf.c", 3601);
 }
 
-void EnZf_SetupCircleAroundPlayer(EnZf* this, f32 speed) {
+void EnZf_SetupCircleAroundPlayer(EnZf* this, f32 speedXZ) {
     Animation_MorphToLoop(&this->skelAnime, &gZfSidesteppingAnim, -1.0f);
     this->unk_3F0 = Rand_ZeroOne() * 10.0f + 8.0f;
 
     if (this->actor.params == ENZF_TYPE_DINOLFOS) {
-        this->actor.speed = 2.0f * speed;
+        this->actor.speed = 2.0f * speedXZ;
         this->unk_3F0 /= 2;
     } else {
-        this->actor.speed = speed;
+        this->actor.speed = speedXZ;
     }
 
     this->hopAnimIndex = 0;

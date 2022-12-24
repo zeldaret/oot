@@ -1408,7 +1408,7 @@ void BossSst_HandRetreat(BossSst* this, PlayState* play) {
     s32 inPosition;
 
     SkelAnime_Update(&this->skelAnime);
-    this->actor.speed = this->actor.speed * 1.2f;
+    this->actor.speed *= 1.2f;
     this->actor.speed = CLAMP_MAX(this->actor.speed, 50.0f);
 
     diff = Math_SmoothStepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 0.3f, this->actor.speed, 1.0f);

@@ -205,8 +205,8 @@ void EnRr_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider2);
 }
 
-void EnRr_SetSpeed(EnRr* this, f32 speed) {
-    this->actor.speed = speed;
+void EnRr_Move(EnRr* this, f32 speedXZ) {
+    this->actor.speed = speedXZ;
     Actor_PlaySfx(&this->actor, NA_SE_EN_LIKE_WALK);
 }
 
@@ -579,7 +579,7 @@ void EnRr_Approach(EnRr* this, PlayState* play) {
     if ((this->actionTimer == 0) && (this->actor.xzDistToPlayer < 160.0f)) {
         EnRr_SetupReach(this);
     } else if ((this->actor.xzDistToPlayer < 400.0f) && (this->actor.speed == 0.0f)) {
-        EnRr_SetSpeed(this, 2.0f);
+        EnRr_Move(this, 2.0f);
     }
 }
 
@@ -742,7 +742,7 @@ void EnRr_Retreat(EnRr* this, PlayState* play) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0xA, 0x3E8, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (this->actor.speed == 0.0f) {
-            EnRr_SetSpeed(this, 2.0f);
+            EnRr_Move(this, 2.0f);
         }
     }
 }

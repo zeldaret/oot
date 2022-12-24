@@ -84,7 +84,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 typedef struct {
     /* 0x0 */ Vec3s pos;
-    /* 0x6 */ u8 speed;
+    /* 0x6 */ u8 speedXZ;
 } HorsePosSpeed; // size = 0x8
 
 // these seem to be valid coords on Hyrule field, along with target speeds
@@ -140,7 +140,7 @@ void EnHorseZelda_Move(EnHorseZelda* this, PlayState* play) {
         } else {
             this->actor.speed -= 1.0f;
         }
-    } else if (this->actor.speed < sHorseFieldPositions[this->fieldPosIndex].speed) {
+    } else if (this->actor.speed < sHorseFieldPositions[this->fieldPosIndex].speedXZ) {
         this->actor.speed += 0.5f;
     } else {
         this->actor.speed -= 0.5f;

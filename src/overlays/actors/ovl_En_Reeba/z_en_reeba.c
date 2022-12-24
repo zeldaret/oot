@@ -282,7 +282,7 @@ void EnReeba_SetupMoveBig(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
-    f32 speed;
+    f32 accel;
     s16 yawDiff;
     s16 yaw;
     s32 surfaceType;
@@ -303,8 +303,9 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
             this->bigLeeverTimer = 30;
         }
 
-        speed = (this->actor.xzDistToPlayer - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
-        this->actor.speed += speed * 1.8f;
+        accel = (this->actor.xzDistToPlayer - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
+        this->actor.speed += accel * 1.8f;
+        
         if (this->actor.speed >= 3.0f) {
             this->actor.speed = 3.0f;
         }

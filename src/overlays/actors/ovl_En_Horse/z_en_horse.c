@@ -352,7 +352,7 @@ typedef struct {
     s16 x;
     s16 y;
     s16 z;
-    s16 speed;
+    s16 speedXZ;
     s16 angle;
 } RaceWaypoint;
 
@@ -590,10 +590,10 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
         return;
     }
 
-    if (this->actor.speed < raceInfo->waypoints[this->curRaceWaypoint].speed) {
-        this->actor.speed = this->actor.speed + 0.4f;
+    if (this->actor.speed < raceInfo->waypoints[this->curRaceWaypoint].speedXZ) {
+        this->actor.speed += 0.4f;
     } else {
-        this->actor.speed = this->actor.speed - 0.4f;
+        this->actor.speed -= 0.4f;
     }
     this->ingoRaceFlags &= ~0x1;
 }
@@ -1042,7 +1042,7 @@ void EnHorse_UpdateSpeed(EnHorse* this, PlayState* play, f32 brakeDecel, f32 bra
         this->actor.speed +=
             (this->actor.speed <= baseSpeed * (1.0f / 54.0f) * stickMag ? 1.0f : -1.0f) * 50.0f * 0.01f;
         if (baseSpeed < this->actor.speed) {
-            this->actor.speed = this->actor.speed - decel;
+            this->actor.speed -= decel;
             if (this->actor.speed < baseSpeed) {
                 this->actor.speed = baseSpeed;
             }
@@ -1458,7 +1458,7 @@ void EnHorse_StartBraking(EnHorse* this, PlayState* play) {
 
 void EnHorse_Stopping(EnHorse* this, PlayState* play) {
     if (this->actor.speed > 0.0f) {
-        this->actor.speed = this->actor.speed - 0.6f;
+        this->actor.speed -= 0.6f;
         if (this->actor.speed < 0.0f) {
             this->actor.speed = 0.0f;
         }
@@ -2122,15 +2122,16 @@ void EnHorse_CsPlayHighJumpAnim(EnHorse* this, PlayState* play);
 
 void EnHorse_CsMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
     Vec3f endPos;
-    f32 speed = 8.0f;
+    f32 speedXZ = 8.0f;
 
     endPos.x = action->endPos.x;
     endPos.y = action->endPos.y;
     endPos.z = action->endPos.z;
-    if (Math3D_Vec3f_DistXYZ(&endPos, &this->actor.world.pos) > speed) {
+
+    if (Math3D_Vec3f_DistXYZ(&endPos, &this->actor.world.pos) > speedXZ) {
         EnHorse_RotateToPoint(this, play, &endPos, 400);
-        this->actor.speed = speed;
-        this->skin.skelAnime.playSpeed = speed * 0.3f;
+        this->actor.speed = speedXZ;
+        this->skin.skelAnime.playSpeed = speedXZ * 0.3f;
     } else {
         this->actor.world.pos = endPos;
         this->actor.speed = 0.0f;
@@ -2283,15 +2284,16 @@ void EnHorse_WarpMoveInit(EnHorse* this, PlayState* play, CsCmdActorAction* acti
 
 void EnHorse_CsWarpMoveToPoint(EnHorse* this, PlayState* play, CsCmdActorAction* action) {
     Vec3f endPos;
-    f32 speed = 8.0f;
+    f32 speedXZ = 8.0f;
 
     endPos.x = action->endPos.x;
     endPos.y = action->endPos.y;
     endPos.z = action->endPos.z;
-    if (Math3D_Vec3f_DistXYZ(&endPos, &this->actor.world.pos) > speed) {
+
+    if (Math3D_Vec3f_DistXYZ(&endPos, &this->actor.world.pos) > speedXZ) {
         EnHorse_RotateToPoint(this, play, &endPos, 400);
-        this->actor.speed = speed;
-        this->skin.skelAnime.playSpeed = speed * 0.3f;
+        this->actor.speed = speedXZ;
+        this->skin.skelAnime.playSpeed = speedXZ * 0.3f;
     } else {
         this->actor.world.pos = endPos;
         this->actor.speed = 0.0f;
@@ -2428,7 +2430,7 @@ s32 EnHorse_UpdateHbaRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceInfo
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    if (this->actor.speed < raceInfo->waypoints[this->curRaceWaypoint].speed && !(this->hbaFlags & 1)) {
+    if (this->actor.speed < raceInfo->waypoints[this->curRaceWaypoint].speedXZ && !(this->hbaFlags & 1)) {
         this->actor.speed += 0.4f;
     } else {
         this->actor.speed -= 0.4f;
