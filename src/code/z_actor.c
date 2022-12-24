@@ -853,7 +853,7 @@ void Actor_UpdatePos(Actor* actor) {
 }
 
 /**
- * Update actor's velocity accounting for gravity (without exceeding terminal velocity)
+ * Update actor's velocity accounting for gravity (without dropping below minimum y velocity)
  */
 void Actor_UpdateVelocityXZGravity(Actor* actor) {
     actor->velocity.x = Math_SinS(actor->world.rot.y) * actor->speed;
