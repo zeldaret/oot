@@ -1248,7 +1248,8 @@ void Play_Draw(PlayState* this) {
                     DebugDisplay_DrawObjects(this);
                 }
 
-                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) || (gTransitionTileState == TRANS_TILE_SETUP)) {
+                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) ||
+                    (gTransitionTileState == TRANS_TILE_SETUP)) {
                     Gfx* gfxP = OVERLAY_DISP;
 
                     // Copy the frame buffer contents at this point in the display list to the zbuffer

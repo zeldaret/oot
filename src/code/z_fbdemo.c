@@ -3,8 +3,8 @@
  *
  * This file implements an unused transition system that takes the current screen and converts it to large tiles.
  *
- * The static version will just display this tiled screen, while the dynamic version has the visual effect of `sucking`
- * the tiled screen into a single point.
+ * The static version will just display this tiled screen, while the dynamic version has the visual effect of being
+ * sucked into a single point.
  *
  * @note While the init function allows for custom number of rows and columns, there are multiple hardcoded features
  * that seem meant for 10 rows and 7 columns.
@@ -183,7 +183,7 @@ TransitionTile* TransitionTile_Init(TransitionTile* this, s32 rows, s32 cols) {
         }
         return NULL;
     }
-    
+
     TransitionTile_InitGraphics(this);
     TransitionTile_InitVtxData(this);
     this->frame = 0;
