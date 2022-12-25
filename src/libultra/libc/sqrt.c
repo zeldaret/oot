@@ -4,6 +4,6 @@
 #define __builtin_sqrt sqrt
 #endif
 
-f64 sqrt(f64 f) {
+double sqrt(double f) {
     return __builtin_sqrt(f);
 }

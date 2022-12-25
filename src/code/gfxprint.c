@@ -285,9 +285,9 @@ void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
     }
 }
 
-void GfxPrint_PrintStringWithSize(GfxPrint* this, const void* buffer, u32 charSize, u32 charCount) {
+void GfxPrint_PrintStringWithSize(GfxPrint* this, const void* buffer, u32 charSize, size_t charCount) {
     const char* str = (const char*)buffer;
-    u32 count = charSize * charCount;
+    size_t count = charSize * charCount;
 
     while (count != 0) {
         GfxPrint_PrintChar(this, *(str++));
@@ -301,7 +301,7 @@ void GfxPrint_PrintString(GfxPrint* this, const char* str) {
     }
 }
 
-void* GfxPrint_Callback(void* arg, const char* str, u32 size) {
+void* GfxPrint_Callback(void* arg, const char* str, size_t size) {
     GfxPrint* this = arg;
 
     GfxPrint_PrintStringWithSize(this, str, sizeof(char), size);

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "is_debug.h"
 #include "boot.h"
 
 StackEntry sBootThreadInfo;

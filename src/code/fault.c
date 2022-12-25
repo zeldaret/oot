@@ -1295,19 +1295,23 @@ void Fault_HungupFaultClient(const char* exp1, const char* exp2) {
  * error occurs. The parameters specify two messages detailing the error, one
  * or both may be NULL.
  */
-void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
+NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     FaultClient client;
     s32 pad;
 
     Fault_AddClient(&client, Fault_HungupFaultClient, (void*)exp1, (void*)exp2);
     *(u32*)0x11111111 = 0; // trigger an exception via unaligned memory access
+#ifdef __GNUC__
+    // since the above code triggers an exception this function does not return
+    __builtin_unreachable();
+#endif
 }
 
 /**
  * Like `Fault_AddHungupAndCrashImpl`, however provides a fixed message containing
  * filename and line number
  */
-void Fault_AddHungupAndCrash(const char* file, s32 line) {
+NORETURN void Fault_AddHungupAndCrash(const char* file, s32 line) {
     char msg[256];
 
     sprintf(msg, "HungUp %s:%d", file, line);

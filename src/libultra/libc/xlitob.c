@@ -9,20 +9,19 @@ static char udigs[] = "0123456789ABCDEF";
 
 void _Litob(_Pft* args, char type) {
     char buff[BUFF_LEN];
-    const char* numMap;
-    s32 base;
-    s32 idx;
-    u64 num;
-    lldiv_t quotrem;
+    const char* digs;
+    int base;
+    int i;
+    unsigned long long num;
 
     if (type == 'X') {
-        numMap = udigs;
+        digs = udigs;
     } else {
-        numMap = ldigs;
+        digs = ldigs;
     }
 
     base = (type == 'o') ? 8 : ((type != 'x' && type != 'X') ? 10 : 16);
-    idx = BUFF_LEN;
+    i = BUFF_LEN;
     num = args->v.ll;
 
     if ((type == 'd' || type == 'i') && args->v.ll < 0) {
@@ -30,29 +29,29 @@ void _Litob(_Pft* args, char type) {
     }
 
     if (num != 0 || args->prec != 0) {
-        buff[--idx] = numMap[num % base];
+        buff[--i] = digs[num % base];
     }
 
     args->v.ll = num / base;
 
-    while (args->v.ll > 0 && idx > 0) {
-        quotrem = lldiv(args->v.ll, base);
+    while (args->v.ll > 0 && i > 0) {
+        lldiv_t quotrem = lldiv(args->v.ll, base);
         args->v.ll = quotrem.quot;
-        buff[--idx] = numMap[quotrem.rem];
+        buff[--i] = digs[quotrem.rem];
     }
 
-    args->n1 = BUFF_LEN - idx;
+    args->n1 = BUFF_LEN - i;
 
-    memcpy(args->s, buff + idx, args->n1);
+    memcpy(args->s, buff + i, args->n1);
 
     if (args->n1 < args->prec) {
         args->nz0 = args->prec - args->n1;
     }
 
     if (args->prec < 0 && (args->flags & (FLAGS_ZERO | FLAGS_MINUS)) == FLAGS_ZERO) {
-        idx = args->width - args->n0 - args->nz0 - args->n1;
-        if (idx > 0) {
-            args->nz0 += idx;
+        i = args->width - args->n0 - args->nz0 - args->n1;
+        if (i > 0) {
+            args->nz0 += i;
         }
     }
 }

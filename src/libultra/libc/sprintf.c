@@ -3,20 +3,20 @@
 #include "string.h"
 #include "xstdio.h"
 
-void* proutSprintf(void* dst, const char* fmt, u32 size) {
-    return (void*)((u32)memcpy(dst, fmt, size) + size);
+void* proutSprintf(void* dst, const char* fmt, size_t size) {
+    return (char*)memcpy(dst, fmt, size) + size;
 }
 
-s32 vsprintf(char* dst, const char* fmt, va_list args) {
-    s32 ret = _Printf(proutSprintf, dst, fmt, args);
+int vsprintf(char* dst, const char* fmt, va_list args) {
+    int ret = _Printf(proutSprintf, dst, fmt, args);
     if (ret > -1) {
         dst[ret] = '\0';
     }
     return ret;
 }
 
-s32 sprintf(char* dst, const char* fmt, ...) {
-    s32 ret;
+int sprintf(char* dst, const char* fmt, ...) {
+    int ret;
     va_list args;
     va_start(args, fmt);
 
