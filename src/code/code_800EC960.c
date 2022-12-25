@@ -1,4 +1,3 @@
-#include "ultra64.h"
 #include "global.h"
 
 #define Audio_DisableSeq(seqPlayerIndex, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqPlayerIndex << 16), fadeOut)

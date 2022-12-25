@@ -2,6 +2,7 @@
 #define ULTRA64_OS_H
 
 #include "ultratypes.h"
+#include "libc.h"
 #include "message.h"
 #include "thread.h"
 #include "time.h"

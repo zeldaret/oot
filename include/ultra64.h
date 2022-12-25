@@ -15,6 +15,7 @@
 #include "libc/string.h"
 
 #include "ultra64/libc.h"
+#include "ultra64/rmon.h"
 #include "ultra64/exception.h"
 #include "ultra64/system.h"
 #include "ultra64/internal_reg.h"

@@ -1,6 +1,9 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+// TODO this shouldn't be here but bss reordering currently prevents removing it
+void osSyncPrintf(const char* fmt, ...);
+
 #include "z64.h"
 #include "macros.h"
 
