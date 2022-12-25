@@ -221,7 +221,7 @@ void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP) {
 }
 
 /**
- * Has the visual effect of sucking the tiled screen into a single point
+ * Blurs tiles which has the visual effect of sucking those tiles into a single point
 */
 void TransitionTile_Suck(TransitionTile* this) {
     s32 row;

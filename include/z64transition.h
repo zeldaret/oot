@@ -5,10 +5,10 @@
 #include "color.h"
 
 typedef enum {
-    /* 0 */ TRANS_TILE_OFF,
-    /* 1 */ TRANS_TILE_SETUP,
-    /* 2 */ TRANS_TILE_INIT,
-    /* 3 */ TRANS_TILE_PROCESS
+    /* 0 */ TRANS_TILE_OFF, // Inactive, do nothing
+    /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
+    /* 2 */ TRANS_TILE_PROCESS, // Initalize the transition using the saved buffers
+    /* 3 */ TRANS_TILE_DONE // The transition is ready, so will update and draw each frame
 } TransitionTileStatus;
 
 typedef struct {

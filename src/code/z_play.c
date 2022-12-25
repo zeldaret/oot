@@ -186,7 +186,7 @@ void Play_Destroy(GameState* thisx) {
     EffectSs_ClearAll(this);
     CollisionCheck_DestroyContext(this, &this->colChkCtx);
 
-    if (gTransitionTileState == TRANS_TILE_PROCESS) {
+    if (gTransitionTileState == TRANS_TILE_DONE) {
         TransitionTile_Destroy(&sTransitionTile);
         gTransitionTileState = TRANS_TILE_OFF;
     }
@@ -494,18 +494,18 @@ void Play_Update(PlayState* this) {
 
         if (gTransitionTileState != TRANS_TILE_OFF) {
             switch (gTransitionTileState) {
-                case TRANS_TILE_INIT:
+                case TRANS_TILE_PROCESS:
                     if (TransitionTile_Init(&sTransitionTile, 10, 7) == NULL) {
                         osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         gTransitionTileState = TRANS_TILE_OFF;
                     } else {
                         sTransitionTile.zBuffer = (u16*)gZBuffer;
-                        gTransitionTileState = TRANS_TILE_PROCESS;
+                        gTransitionTileState = TRANS_TILE_DONE;
                         R_UPDATE_RATE = 1;
                     }
                     break;
 
-                case TRANS_TILE_PROCESS:
+                case TRANS_TILE_DONE:
                     TransitionTile_Update(&sTransitionTile);
                     break;
 
@@ -656,7 +656,7 @@ void Play_Update(PlayState* this) {
                             func_800BC88C(this);
                             this->transitionMode = TRANS_MODE_OFF;
 
-                            if (gTransitionTileState == TRANS_TILE_PROCESS) {
+                            if (gTransitionTileState == TRANS_TILE_DONE) {
                                 TransitionTile_Destroy(&sTransitionTile);
                                 gTransitionTileState = TRANS_TILE_OFF;
                                 R_UPDATE_RATE = 3;
@@ -841,7 +841,7 @@ void Play_Update(PlayState* this) {
 
         PLAY_LOG(3533);
 
-        if (1 && (gTransitionTileState != TRANS_TILE_PROCESS)) {
+        if (1 && (gTransitionTileState != TRANS_TILE_DONE)) {
             PLAY_LOG(3542);
 
             if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (this->msgCtx.msgMode == MSGMODE_NONE) &&
@@ -1113,7 +1113,7 @@ void Play_Draw(PlayState* this) {
             POLY_OPA_DISP = gfxP;
         }
 
-        if (gTransitionTileState == TRANS_TILE_PROCESS) {
+        if (gTransitionTileState == TRANS_TILE_DONE) {
             Gfx* sp88 = POLY_OPA_DISP;
 
             TransitionTile_Draw(&sTransitionTile, &sp88);
@@ -1266,7 +1266,7 @@ void Play_Draw(PlayState* this) {
 
                         R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
                     } else {
-                        gTransitionTileState = TRANS_TILE_INIT;
+                        gTransitionTileState = TRANS_TILE_PROCESS;
                     }
                     OVERLAY_DISP = gfxP;
                     this->unk_121C7 = 2;
