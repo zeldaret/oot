@@ -897,7 +897,7 @@ void Actor_MoveXYZ(Actor* actor) {
     Actor_UpdatePos(actor);
 }
 
-void Actor_SetSpeedXYZ(Actor* actor, f32 speed) {
+void Actor_SetProjectileSpeed(Actor* actor, f32 speed) {
     actor->speed = Math_CosS(actor->world.rot.x) * speed;
     actor->velocity.y = -Math_SinS(actor->world.rot.x) * speed;
 }

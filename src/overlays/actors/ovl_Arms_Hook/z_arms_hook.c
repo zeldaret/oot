@@ -87,7 +87,7 @@ void ArmsHook_Wait(ArmsHook* this, PlayState* play) {
         s32 length = (player->heldItemAction == PLAYER_IA_HOOKSHOT) ? 13 : 26;
 
         ArmsHook_SetupAction(this, ArmsHook_Shoot);
-        Actor_SetSpeedXYZ(&this->actor, 20.0f);
+        Actor_SetProjectileSpeed(&this->actor, 20.0f);
         this->actor.parent = &GET_PLAYER(play)->actor;
         this->timer = length;
     }

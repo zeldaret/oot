@@ -148,7 +148,7 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
     }
 
     // Set xyz speed, move forward, and play the boomerang sound effect
-    Actor_SetSpeedXYZ(&this->actor, 12.0f);
+    Actor_SetProjectileSpeed(&this->actor, 12.0f);
     Actor_MoveXZGravity(&this->actor);
     func_8002F974(&this->actor, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
 
