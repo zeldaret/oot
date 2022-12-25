@@ -1,12 +1,11 @@
 /**
  * @file z_fbdemo.c
  *
- * This file implements an unused transition system that takes the current screen and converts it to large tiles.
+ * This file implements an unused transition system that takes the current screen, partitions it into large tiles, and can apply an effect to them.
  *
- * @note While the init function allows for custom number of cols and rows, there are multiple hardcoded features
- * that seem meant for 10 cols and 7 rows (though visually only 5 cols and 4 rows are drawn).
- *     All the `0x20`s correspond to dividing the screen in this way (`gScreenWidth`/ 10 = `gScreenHeight` / 7 = 0x20)
- *     The sucking function uses the 5th col and 4th row as the point to suck towards
+ * The screen is divided into 7 rows and 10 columns of tiles. (`gScreenWidth`/ 10 = `gScreenHeight` / 7 = 0x20)
+ *
+ * @note The only coded effect has a visual effect to blend the tiles to a single point, which looks like the screen gets sucked into.
  */
 #include "global.h"
 
