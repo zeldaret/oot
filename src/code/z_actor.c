@@ -897,9 +897,9 @@ void Actor_MoveXYZ(Actor* actor) {
     Actor_UpdatePos(actor);
 }
 
-void Actor_SetProjectileSpeed(Actor* actor, f32 speed) {
-    actor->speed = Math_CosS(actor->world.rot.x) * speed;
-    actor->velocity.y = -Math_SinS(actor->world.rot.x) * speed;
+void Actor_SetProjectileSpeed(Actor* actor, f32 speedXYZ) {
+    actor->speed = Math_CosS(actor->world.rot.x) * speedXYZ;
+    actor->velocity.y = -Math_SinS(actor->world.rot.x) * speedXYZ;
 }
 
 void Actor_UpdatePosByAnimation(Actor* actor, SkelAnime* skelAnime) {

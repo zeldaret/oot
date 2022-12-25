@@ -363,7 +363,7 @@ void Actor_UpdateVelocityXZGravity(Actor* actor);
 void Actor_MoveXZGravity(Actor* actor);
 void Actor_UpdateVelocityXYZ(Actor* actor);
 void Actor_MoveXYZ(Actor* actor);
-void Actor_SetProjectileSpeed(Actor* actor, f32 speed);
+void Actor_SetProjectileSpeed(Actor* actor, f32 speedXYZ);
 s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB);
 s16 Actor_WorldYawTowardPoint(Actor* actor, Vec3f* refPoint);
 f32 Actor_WorldDistXYZToActor(Actor* actorA, Actor* actorB);
