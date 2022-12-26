@@ -200,8 +200,8 @@ void EnFish_Respawning_SetupSlowDown(EnFish* this) {
 
 void EnFish_Respawning_SlowDown(EnFish* this, PlayState* play) {
     EnFish_SetYOffset(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.05f, 0.3f, 0.0f);
-    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speedXZ * 1.4f + 0.8f, 2.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.05f, 0.3f, 0.0f);
+    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speed * 1.4f + 0.8f, 2.0f);
     SkelAnime_Update(&this->skelAnime);
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
@@ -229,7 +229,7 @@ void EnFish_Respawning_FollowChild(EnFish* this, PlayState* play) {
     s32 pad;
 
     EnFish_SetYOffset(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.08f, 0.4f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 1.8f, 0.08f, 0.4f, 0.0f);
 
     if ((EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) || (this->timer < 4)) {
         Math_StepToAngleS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),
@@ -240,7 +240,7 @@ void EnFish_Respawning_FollowChild(EnFish* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speedXZ * 1.5f + 0.8f, 4.0f);
+    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speed * 1.5f + 0.8f, 4.0f);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer <= 0) {
@@ -270,7 +270,7 @@ void EnFish_Respawning_FleePlayer(EnFish* this, PlayState* play) {
 
     EnFish_SetYOffset(this);
     playerClose = EnFish_CheckXZDistanceToPlayer(this, play);
-    Math_SmoothStepToF(&this->actor.speedXZ, 4.2f, 0.08f, 1.4f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 4.2f, 0.08f, 1.4f, 0.0f);
 
     if (EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(160.0f)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
@@ -296,7 +296,7 @@ void EnFish_Respawning_FleePlayer(EnFish* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speedXZ * 1.5f + 0.8f, 4.0f);
+    this->skelAnime.playSpeed = CLAMP_MAX(this->actor.speed * 1.5f + 0.8f, 4.0f);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -325,7 +325,7 @@ void EnFish_Respawning_ApproachPlayer(EnFish* this, PlayState* play) {
     s16 temp_a0_2;
 
     EnFish_SetYOffset(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 1.8f, 0.1f, 0.5f, 0.0f);
 
     if (EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > SQ(80.0f)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
@@ -346,7 +346,7 @@ void EnFish_Respawning_ApproachPlayer(EnFish* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 0.8f, 4.0f);
+    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 0.8f, 4.0f);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -368,7 +368,7 @@ void EnFish_Dropped_SetupFall(EnFish* this) {
 }
 
 void EnFish_Dropped_Fall(EnFish* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 0.1f, 0.0f);
     Math_StepToAngleS(&this->actor.world.rot.x, 0x4000, 100);
     Math_StepToAngleS(&this->actor.world.rot.z, -0x4000, 100);
     this->actor.shape.rot.x = this->actor.world.rot.x;
@@ -435,7 +435,7 @@ void EnFish_Dropped_FlopOnGround(EnFish* this, PlayState* play) {
     s16 frames = play->state.frames;
     s16 targetXRot;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, Rand_ZeroOne() * 0.2f, 0.1f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, Rand_ZeroOne() * 0.2f, 0.1f, 0.1f, 0.0f);
 
     targetXRot = (s16)((((frames >> 5) & 2) | ((frames >> 2) & 1)) << 0xB) * 0.3f;
 
@@ -485,12 +485,12 @@ void EnFish_Dropped_SetupSwimAway(EnFish* this) {
 void EnFish_Dropped_SwimAway(EnFish* this, PlayState* play) {
     s32 pad;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 2.8f, 0.1f, 0.4f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 2.8f, 0.1f, 0.4f, 0.0f);
 
     // If touching wall or not in water, turn back and slow down for one frame.
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
         this->actor.home.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
-        this->actor.speedXZ *= 0.5f;
+        this->actor.speed *= 0.5f;
     }
 
     Math_StepToAngleS(&this->actor.world.rot.x, 0, 1500);
@@ -511,7 +511,7 @@ void EnFish_Dropped_SwimAway(EnFish* this, PlayState* play) {
         Actor_SetScale(&this->actor, this->actor.scale.x * 0.982f);
     }
 
-    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speedXZ * 1.5f) + 1.0f, 4.0f);
+    this->skelAnime.playSpeed = CLAMP_MAX((this->actor.speed * 1.5f) + 1.0f, 4.0f);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer <= 0) {
@@ -555,7 +555,7 @@ void EnFish_Unique_SwimIdle(EnFish* this, PlayState* play) {
     }
 
     EnFish_SetYOffset(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, speed[0], speed[1], speed[2], 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, speed[0], speed[1], speed[2], 0.0f);
 
     extraPlaySpeed = 0.0f;
 
@@ -569,7 +569,7 @@ void EnFish_Unique_SwimIdle(EnFish* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    playSpeed = (this->actor.speedXZ * 1.2f) + 0.2f + extraPlaySpeed;
+    playSpeed = (this->actor.speed * 1.2f) + 0.2f + extraPlaySpeed;
     this->skelAnime.playSpeed = CLAMP(playSpeed, 1.5f, 0.5);
     SkelAnime_Update(&this->skelAnime);
 
@@ -618,13 +618,13 @@ void EnFish_Cutscene_WiggleFlyingThroughAir(EnFish* this, PlayState* play) {
 void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     s32 pad;
     s32 pad2;
-    CsCmdActorAction* csAction = play->csCtx.npcActions[1];
+    CsCmdActorCue* cue = play->csCtx.actorCues[1];
     Vec3f startPos;
     Vec3f endPos;
-    f32 progress;
+    f32 lerp;
     s32 bgId;
 
-    if (csAction == NULL) {
+    if (cue == NULL) {
         // "Warning : DEMO ended without dousa (action) 3 termination being called"
         osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
                      1169, this->actor.params);
@@ -636,7 +636,7 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
     this->slowPhase += 0x111;
     this->fastPhase += 0x500;
 
-    switch (csAction->action) {
+    switch (cue->id) {
         case 1:
             EnFish_Cutscene_FlopOnGround(this, play);
             break;
@@ -655,18 +655,19 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
             break;
     }
 
-    startPos.x = csAction->startPos.x;
-    startPos.y = csAction->startPos.y;
-    startPos.z = csAction->startPos.z;
-    endPos.x = csAction->endPos.x;
-    endPos.y = csAction->endPos.y;
-    endPos.z = csAction->endPos.z;
+    startPos.x = cue->startPos.x;
+    startPos.y = cue->startPos.y;
+    startPos.z = cue->startPos.z;
 
-    progress = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, play->csCtx.frames);
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
 
-    this->actor.world.pos.x = (endPos.x - startPos.x) * progress + startPos.x;
-    this->actor.world.pos.y = (endPos.y - startPos.y) * progress + startPos.y + D_80A17014;
-    this->actor.world.pos.z = (endPos.z - startPos.z) * progress + startPos.z;
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
+
+    this->actor.world.pos.x = (endPos.x - startPos.x) * lerp + startPos.x;
+    this->actor.world.pos.y = (endPos.y - startPos.y) * lerp + startPos.y + D_80A17014;
+    this->actor.world.pos.z = (endPos.z - startPos.z) * lerp + startPos.z;
 
     this->actor.floorHeight =
         BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
@@ -742,7 +743,7 @@ void EnFish_Update(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
     if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (play->csCtx.state != 0) &&
-        (play->csCtx.npcActions[1] != NULL)) {
+        (play->csCtx.actorCues[1] != NULL)) {
         EnFish_SetCutsceneData(this);
     }
 

@@ -119,9 +119,9 @@ void func_80889BC0(BgHidanKousi* this, PlayState* play) {
 }
 
 void func_80889C18(BgHidanKousi* this, PlayState* play) {
-    this->dyna.actor.speedXZ += 0.2f;
-    if (this->dyna.actor.speedXZ > 2.0f) {
-        this->dyna.actor.speedXZ = 2.0f;
+    this->dyna.actor.speed += 0.2f;
+    if (this->dyna.actor.speed > 2.0f) {
+        this->dyna.actor.speed = 2.0f;
         BgHidanKousi_SetupAction(this, func_80889C90);
     }
     Actor_MoveForward(&this->dyna.actor);

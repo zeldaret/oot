@@ -342,19 +342,19 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ char  unk_00[0x4];
-    /* 0x04 */ void* segment;
-    /* 0x08 */ u8    state;
-    /* 0x0C */ f32   unk_0C;
-    /* 0x10 */ u16   frames;
-    /* 0x12 */ u16   unk_12;
-    /* 0x14 */ s32   subCamId;
-    /* 0x18 */ u16   unk_18;
-    /* 0x1A */ u8    unk_1A;
-    /* 0x1B */ u8    unk_1B;
-    /* 0x1C */ CutsceneCameraPoint* subCamLookAtPoints;
-    /* 0x20 */ CutsceneCameraPoint* subCamEyePoints;
-    /* 0x24 */ CsCmdActorAction* linkAction;
-    /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
+    /* 0x04 */ void* script;
+    /* 0x08 */ u8 state;
+    /* 0x0C */ f32 timer;
+    /* 0x10 */ u16 curFrame; // current frame of the script that is running
+    /* 0x12 */ u16 unk_12; // set but never used
+    /* 0x14 */ s32 subCamId;
+    /* 0x18 */ u16 camEyeSplinePointsAppliedFrame; // stores the frame the cam eye spline points data was last applied on
+    /* 0x1A */ u8 camAtReady; // cam `at` data is ready to be applied
+    /* 0x1B */ u8 camEyeReady; // cam `eye` data is ready to be applied
+    /* 0x1C */ CutsceneCameraPoint* camAtPoints;
+    /* 0x20 */ CutsceneCameraPoint* camEyePoints;
+    /* 0x24 */ CsCmdActorCue* playerCue;
+    /* 0x28 */ CsCmdActorCue* actorCues[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
 
 typedef struct {
@@ -540,8 +540,8 @@ typedef struct {
     /* 0xE404 */ s16    textboxColorAlphaTarget;
     /* 0xE406 */ s16    textboxColorAlphaCurrent;
     /* 0xE408 */ Actor* talkActor;
-    /* 0xE40C */ s16    disableWarpSongs; // warp song flag set by scene commands
-    /* 0xE40E */ s16    unk_E40E; // ocarina related
+    /* 0xE40C */ s16    disableWarpSongs; // disables ability to warp with warp songs
+    /* 0xE40E */ s16    disableSunsSong; // disables Suns Song effect from occurring after song is played
     /* 0xE410 */ u8     lastOcarinaButtonIndex;
 } MessageContext; // size = 0xE418
 
@@ -658,6 +658,14 @@ typedef struct {
         /* 0x026D */ u8    all;        // "another"; enables all item restrictions
     }                   restrictions;
 } InterfaceContext; // size = 0x270
+
+typedef enum {
+    /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
+    /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
+    /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
+    /* 3 */ PAUSE_BG_PRERENDER_DONE, // The pause background is ready to be used.
+    /* 4 */ PAUSE_BG_PRERENDER_MAX
+} PauseBgPreRenderState;
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
@@ -1138,7 +1146,7 @@ typedef struct PlayState {
     /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
-    /* 0x11DE9 */ u8 unk_11DE9;
+    /* 0x11DE9 */ u8 haltAllActors;
     /* 0x11DEA */ u8 spawn;
     /* 0x11DEB */ u8 numActorEntries;
     /* 0x11DEC */ u8 numRooms;
@@ -1161,14 +1169,14 @@ typedef struct PlayState {
     /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
     /* 0x11E5E */ u8 transitionType;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
-    /* 0x120FC */ u16 envFlags[20];
+    /* 0x120FC */ u16 cutsceneFlags[20];
     /* 0x12124 */ PreRender pauseBgPreRender;
     /* 0x12174 */ char unk_12174[0x53];
     /* 0x121C7 */ s8 unk_121C7;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
     /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
-    /* 0x1241C */ TransitionFade transitionFade;
+    /* 0x1241C */ TransitionFade transitionFadeFlash; // Transition fade instance which flashes screen, see R_TRANS_FADE_FLASH_ALPHA_STEP
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 viewpoint; // toggleable camera setting by shops or player. Is also equal to the bgCamIndex + 1
     /* 0x1242C */ SceneTableEntry* loadedScene;

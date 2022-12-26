@@ -368,7 +368,7 @@ void func_80AA106C(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_MALON);
-        func_8010BD58(play, OCARINA_ACTION_TEACH_EPONA);
+        Message_StartOcarina(play, OCARINA_ACTION_TEACH_EPONA);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = func_80AA10EC;
     }
@@ -377,7 +377,7 @@ void func_80AA106C(EnMa1* this, PlayState* play) {
 void func_80AA10EC(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
-        func_8010BD58(play, OCARINA_ACTION_PLAYBACK_EPONA);
+        Message_StartOcarina(play, OCARINA_ACTION_PLAYBACK_EPONA);
         this->actionFunc = func_80AA1150;
     }
 }

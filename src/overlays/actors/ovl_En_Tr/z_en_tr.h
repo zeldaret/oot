@@ -46,7 +46,7 @@ typedef struct EnTr {
     /* 0x0232 */ Vec3s morphTable[KOTAKE_KOUME_LIMB_MAX];
     /* 0x02D4 */ s16 unk_2D4;
     /* 0x02D6 */ u16 timer; // Also used as an angle
-    /* 0x02D8 */ s16 actionIndex;
+    /* 0x02D8 */ s16 cueChannel;
     /* 0x02DC */ EnTrActionFunc actionFunc;
     /* 0x02E0 */ s16 eyeIndex;
     /* 0x02E2 */ s16 blinkTimer;

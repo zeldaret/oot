@@ -143,7 +143,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play) {
         this->actionFunc = BgHidanDalm_Shrink;
         this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
-        this->dyna.actor.speedXZ = 10.0f;
+        this->dyna.actor.speed = 10.0f;
         Flags_SetSwitch(play, this->switchFlag);
         Player_PlaySfx(GET_PLAYER(play), NA_SE_IT_HAMMER_HIT);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_DARUMA_VANISH);
