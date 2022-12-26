@@ -162,7 +162,7 @@ void EnBw_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_809CE884(EnBw* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     this->unk_222 -= 250;
     this->actor.scale.x = 0.013f + Math_SinF(this->unk_222 * 0.001f) * 0.0069999998f;
     this->actor.scale.y = 0.013f - Math_SinF(this->unk_222 * 0.001f) * 0.0069999998f;
@@ -178,7 +178,7 @@ void func_809CE9A8(EnBw* this) {
     this->unk_220 = 2;
     this->unk_222 = Rand_ZeroOne() * 200.0f + 200.0f;
     this->unk_232 = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnBw_SetupAction(this, func_809CEA24);
 }
 
@@ -215,13 +215,13 @@ void func_809CEA24(EnBw* this, PlayState* play) {
         }
     }
     sp5C *= this->unk_24C * (10.0f * this->unk_244);
-    this->actor.speedXZ = ABS(sp5C);
+    this->actor.speed = ABS(sp5C);
     if (this->unk_221 != 1) {
         sp58 = Math_SinF(this->unk_240);
         sp60 = ABS(sp58) * 85.0f;
         this->color1.g = sp60;
     }
-    if ((((play->gameplayFrames % 4) == (u32)this->actor.params) && (this->actor.speedXZ != 0.0f) &&
+    if ((((play->gameplayFrames % 4) == (u32)this->actor.params) && (this->actor.speed != 0.0f) &&
          (sp64 =
               BgCheck_AnyLineTest2(&play->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0, 1))) ||
         (this->unk_222 == 0)) {
@@ -281,7 +281,7 @@ void func_809CEA24(EnBw* this, PlayState* play) {
             }
             this->unk_222 = (Rand_ZeroOne() * 200.0f) + 200.0f;
         }
-    } else if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+    } else if ((this->actor.speed != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         if (this->unk_236 != this->actor.wallYaw) {
             sp64 = 1;
             this->unk_236 = this->actor.wallYaw;
@@ -339,14 +339,14 @@ void func_809CEA24(EnBw* this, PlayState* play) {
                 func_809CF72C(this);
             } else {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_236 + this->unk_238, 1,
-                                   this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speed * 1000.0f, 0);
             }
             break;
         case 0:
             Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
             if (sp64 == 0) {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1,
-                                   this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speed * 1000.0f, 0);
                 if ((this->actor.xzDistToPlayer < 90.0f) && (this->actor.yDistToPlayer < 50.0f) &&
                     Actor_IsFacingPlayer(&this->actor, 0x1554) &&
                     Actor_TestFloorInDirection(&this->actor, play, 71.24802f, this->actor.yawTowardsPlayer)) {
@@ -354,7 +354,7 @@ void func_809CEA24(EnBw* this, PlayState* play) {
                 }
             } else {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_236 + this->unk_238, 1,
-                                   this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speed * 1000.0f, 0);
             }
             if ((this->unk_224 == 0) || (ABS(this->actor.yDistToPlayer) > 60.0f) ||
                 (player2->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
@@ -370,10 +370,10 @@ void func_809CEA24(EnBw* this, PlayState* play) {
                     this->unk_238 = -this->unk_238;
                 }
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer - 0x8000, 1,
-                                   this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speed * 1000.0f, 0);
             } else {
                 Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_236 + this->unk_238, 1,
-                                   this->actor.speedXZ * 1000.0f, 0);
+                                   this->actor.speed * 1000.0f, 0);
             }
             if (this->unk_224 <= 200) {
                 sp60 = Math_SinS(this->unk_224 * (0x960 - this->unk_224)) * 55.0f;
@@ -399,7 +399,7 @@ void func_809CF72C(EnBw* this) {
     this->unk_250 = 0.6f;
     this->unk_222 = 20;
     this->unk_224 = 0xBB8;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_AIM);
     EnBw_SetupAction(this, func_809CF7AC);
 }
@@ -426,7 +426,7 @@ void func_809CF7AC(EnBw* this, PlayState* play) {
 
 void func_809CF8F0(EnBw* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gTorchSlugEyestalkFlailAnim, -1.0f);
-    this->actor.speedXZ = 7.0f;
+    this->actor.speed = 7.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk_220 = 4;
     this->unk_222 = 1000;
@@ -440,14 +440,14 @@ void func_809CF984(EnBw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 floorPolyType;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     this->unk_222 += 250;
     this->actor.scale.x = 0.013f - Math_SinF(this->unk_222 * 0.001f) * 0.0034999999f;
     this->actor.scale.y = 0.013f + Math_SinF(this->unk_222 * 0.001f) * 0.0245f;
     this->actor.scale.z = 0.013f - Math_SinF(this->unk_222 * 0.001f) * 0.0034999999f;
     if (this->collider1.base.atFlags & AT_HIT) {
         this->collider1.base.atFlags &= ~AT_HIT;
-        this->actor.speedXZ = -6.0f;
+        this->actor.speed = -6.0f;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         if ((&player->actor == this->collider1.base.at) && !(this->collider1.base.atFlags & AT_BOUNCED)) {
             Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
@@ -463,7 +463,7 @@ void func_809CF984(EnBw* this, PlayState* play) {
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
         this->unk_222 = 3000;
         this->actor.flags &= ~ACTOR_FLAG_24;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnBw_SetupAction(this, func_809CE884);
     }
@@ -474,7 +474,7 @@ void func_809CFBA8(EnBw* this) {
     this->unk_220 = 5;
     this->unk_222 = 1000;
     this->unk_260 = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 11.0f;
     this->unk_25C = Rand_ZeroOne() * 0.25f + 1.0f;
     this->unk_224 = 0xBB8;
@@ -532,7 +532,7 @@ void func_809CFF10(EnBw* this) {
     this->unk_220 = 6;
     this->unk_222 = 1000;
     this->unk_221 = 3;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 11.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_REVERSE);
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
@@ -574,7 +574,7 @@ void func_809D00F4(EnBw* this) {
     this->unk_220 = 0;
     this->unk_222 = 40;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLEWALK_DEAD);
     EnBw_SetupAction(this, func_809D014C);
 }
@@ -594,7 +594,7 @@ void func_809D014C(EnBw* this, PlayState* play) {
 
 void func_809D01CC(EnBw* this) {
     this->unk_220 = 1;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->unk_25C = (Rand_ZeroOne() * 0.25f) + 1.0f;
     this->unk_260 = 0.0f;
     if (this->damageEffect == 0xE) {
@@ -637,7 +637,7 @@ void func_809D0268(EnBw* this, PlayState* play) {
 }
 
 void func_809D03CC(EnBw* this) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     if (this->damageEffect == 0xE) {
         this->iceTimer = 32;
     }

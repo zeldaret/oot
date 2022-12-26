@@ -412,7 +412,7 @@ void EnWf_SetupWait(EnWf* this) {
     Animation_MorphToLoop(&this->skelAnime, &gWolfosWaitingAnim, -4.0f);
     this->action = WOLFOS_ACTION_WAIT;
     this->actionTimer = (Rand_ZeroOne() * 10.0f) + 2.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnWf_SetupAction(this, EnWf_Wait);
 }
@@ -507,14 +507,14 @@ void EnWf_RunAtPlayer(EnWf* this, PlayState* play) {
         }
 
         if (this->actor.xzDistToPlayer <= (50.0f + baseRange)) {
-            Math_SmoothStepToF(&this->actor.speedXZ, -8.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, -8.0f, 1.0f, 1.5f, 0.0f);
         } else if ((65.0f + baseRange) < this->actor.xzDistToPlayer) {
-            Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 8.0f, 1.0f, 1.5f, 0.0f);
         } else {
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 6.65f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 6.65f, 0.0f);
         }
 
-        this->skelAnime.playSpeed = this->actor.speedXZ * 0.175f;
+        this->skelAnime.playSpeed = this->actor.speed * 0.175f;
         playerFacingAngleDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
         playerFacingAngleDiff = ABS(playerFacingAngleDiff);
 
@@ -618,7 +618,7 @@ void EnWf_SetupRunAroundPlayer(EnWf* this) {
         this->runAngle = -16000;
     }
 
-    this->skelAnime.playSpeed = this->actor.speedXZ = 6.0f;
+    this->skelAnime.playSpeed = this->actor.speed = 6.0f;
     this->skelAnime.playSpeed *= 0.175f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionTimer = (Rand_ZeroOne() * 30.0f) + 30.0f;
@@ -646,7 +646,7 @@ void EnWf_RunAroundPlayer(EnWf* this, PlayState* play) {
 
         // Actor_TestFloorInDirection is useless here (see comment below)
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y)) {
+            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y)) {
             angle2 = (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
                          ? (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->runAngle
                          : 0;
@@ -675,8 +675,8 @@ void EnWf_RunAroundPlayer(EnWf* this, PlayState* play) {
             this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->runSpeed;
         }
 
-        if (ABS(this->runSpeed) < ABS(this->actor.speedXZ)) {
-            this->skelAnime.playSpeed = this->actor.speedXZ * 0.175f;
+        if (ABS(this->runSpeed) < ABS(this->actor.speed)) {
+            this->skelAnime.playSpeed = this->actor.speed * 0.175f;
         } else {
             this->skelAnime.playSpeed = this->runSpeed * 0.175f;
         }
@@ -722,7 +722,7 @@ void EnWf_SetupSlash(EnWf* this) {
     this->unk_2FA = 0; // Set and not used
     this->actionTimer = 7;
     this->skelAnime.endFrame = 20.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     EnWf_SetupAction(this, EnWf_Slash);
 }
@@ -735,7 +735,7 @@ void EnWf_Slash(EnWf* this, PlayState* play) {
 
     shapeAngleDiff = ABS(shapeAngleDiff);
     yawAngleDiff = ABS(yawAngleDiff);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     if (((curFrame >= 9) && (curFrame <= 12)) || ((curFrame >= 17) && (curFrame <= 19))) {
         if (this->slashStatus == 0) {
@@ -839,7 +839,7 @@ void EnWf_RecoilFromBlockedSlash(EnWf* this, PlayState* play) {
 
 void EnWf_SetupBackflipAway(EnWf* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWolfosBackflippingAnim, -3.0f);
-    this->actor.speedXZ = -6.0f;
+    this->actor.speed = -6.0f;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actionTimer = 0;
     this->unk_300 = true;
@@ -866,7 +866,7 @@ void EnWf_BackflipAway(EnWf* this, PlayState* play) {
 
 void EnWf_SetupStunned(EnWf* this) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -877,12 +877,12 @@ void EnWf_SetupStunned(EnWf* this) {
 
 void EnWf_Stunned(EnWf* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 0.05f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 0.05f;
         }
 
         this->unk_300 = false;
@@ -902,7 +902,7 @@ void EnWf_SetupDamaged(EnWf* this) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->unk_300 = false;
-        this->actor.speedXZ = -4.0f;
+        this->actor.speed = -4.0f;
     } else {
         this->unk_300 = true;
     }
@@ -918,12 +918,12 @@ void EnWf_Damaged(EnWf* this, PlayState* play) {
     s16 angleToWall;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 0.05f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 0.05f;
         }
 
         this->unk_300 = false;
@@ -962,7 +962,7 @@ void EnWf_SetupSomersaultAndAttack(EnWf* this) {
     this->actionTimer = 0;
     this->unk_300 = false;
     this->action = WOLFOS_ACTION_TURN_TOWARDS_PLAYER;
-    this->actor.speedXZ = 6.5f;
+    this->actor.speed = 6.5f;
     this->actor.velocity.y = 15.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -982,7 +982,7 @@ void EnWf_SomersaultAndAttack(EnWf* this, PlayState* play) {
         (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.x = 0;
-        this->actor.speedXZ = this->actor.velocity.y = 0.0f;
+        this->actor.speed = this->actor.velocity.y = 0.0f;
         this->actor.world.pos.y = this->actor.floorHeight;
 
         if (!Actor_OtherIsTargeted(play, &this->actor)) {
@@ -1000,7 +1000,7 @@ void EnWf_SetupBlocking(EnWf* this) {
         this->slashStatus = -1;
     }
 
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->action = WOLFOS_ACTION_BLOCKING;
     this->actionTimer = 10;
 
@@ -1078,7 +1078,7 @@ void EnWf_SetupSidestep(EnWf* this, PlayState* play) {
         this->runAngle = -16000;
     }
 
-    this->skelAnime.playSpeed = this->actor.speedXZ = 6.0f;
+    this->skelAnime.playSpeed = this->actor.speed = 6.0f;
     this->skelAnime.playSpeed *= 0.175f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->runSpeed = 0.0f;
@@ -1100,7 +1100,7 @@ void EnWf_Sidestep(EnWf* this, PlayState* play) {
 
     // Actor_TestFloorInDirection is useless here (see comment below)
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y)) {
+        !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y)) {
         s16 angle = (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)
                         ? (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->runAngle
                         : 0;
@@ -1131,8 +1131,8 @@ void EnWf_Sidestep(EnWf* this, PlayState* play) {
         this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->runSpeed;
     }
 
-    if (ABS(this->runSpeed) < ABS(this->actor.speedXZ)) {
-        this->skelAnime.playSpeed = this->actor.speedXZ * 0.175f;
+    if (ABS(this->runSpeed) < ABS(this->actor.speed)) {
+        this->skelAnime.playSpeed = this->actor.speed * 0.175f;
     } else {
         this->skelAnime.playSpeed = this->runSpeed * 0.175f;
     }
@@ -1185,7 +1185,7 @@ void EnWf_SetupDie(EnWf* this) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->unk_300 = false;
-        this->actor.speedXZ = -6.0f;
+        this->actor.speed = -6.0f;
     } else {
         this->unk_300 = true;
     }
@@ -1199,11 +1199,11 @@ void EnWf_SetupDie(EnWf* this) {
 
 void EnWf_Die(EnWf* this, PlayState* play) {
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
         this->unk_300 = false;
     }
 
@@ -1485,7 +1485,7 @@ s32 EnWf_DodgeRanged(PlayState* play, EnWf* this) {
             this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
             if ((ABS(angleToFacing) < 0x2000) || (ABS(angleToFacing) > 0x5FFF)) {
                 EnWf_SetupSidestep(this, play);
-                this->actor.speedXZ *= 2.0f;
+                this->actor.speed *= 2.0f;
             } else if (ABS(angleToFacing) < 0x5FFF) {
                 EnWf_SetupBackflipAway(this);
             }

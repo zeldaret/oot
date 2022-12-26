@@ -104,7 +104,7 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == FHGFIRE_LIGHTNING_SHOCK) {
         this->actor.draw = NULL;
         EnFhgFire_SetUpdate(this, EnFhgFire_LightningShock);
-        this->actor.speedXZ = 30.0f;
+        this->actor.speed = 30.0f;
         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_SPARK);
     } else if (this->actor.params == FHGFIRE_LIGHTNING_BURST) {
         EnFhgFire_SetUpdate(this, EnFhgFire_LightningBurst);
@@ -141,7 +141,7 @@ void EnFhgFire_Init(Actor* thisx, PlayState* play) {
         f32 dzL;
         f32 dxzL;
 
-        this->actor.speedXZ = (this->actor.world.rot.x == 0) ? 8.0f : 3.0f;
+        this->actor.speed = (this->actor.world.rot.x == 0) ? 8.0f : 3.0f;
         EnFhgFire_SetUpdate(this, EnFhgFire_EnergyBall);
 
         this->work[FHGFIRE_TIMER] = 70;
@@ -501,7 +501,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                         if (bossGnd->flyMode == GND_FLY_NEUTRAL) {
                             angleModX = Rand_CenteredFloat(0x2000);
                             angleModY = Rand_CenteredFloat(0x2000);
-                            this->actor.speedXZ = 15.0f;
+                            this->actor.speed = 15.0f;
                         } else {
                             angleModX = 0;
                             angleModY = 0;
@@ -511,10 +511,10 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                             }
 
                             if (!canBottleReflect2 && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H)) {
-                                this->actor.speedXZ = 20.0f;
+                                this->actor.speed = 20.0f;
                                 this->work[FHGFIRE_RETURN_COUNT] = 4;
                             } else {
-                                this->actor.speedXZ += 1.0f;
+                                this->actor.speed += 1.0f;
                             }
                         }
                         this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(dxPG, dzPG)) + angleModY;
@@ -539,7 +539,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
             case FHGFIRE_LIGHT_BLUE:
                 if ((bossGnd->flyMode == GND_FLY_RETURN) && (this->work[FHGFIRE_RETURN_COUNT] < 100)) {
                     this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(dxPG, dzPG));
-                    if ((sqrtf(SQ(dxPG) + SQ(dzPG)) < (150.0f + (this->actor.speedXZ * 8.0f)))) {
+                    if ((sqrtf(SQ(dxPG) + SQ(dzPG)) < (150.0f + (this->actor.speed * 8.0f)))) {
                         this->work[FHGFIRE_FIRE_MODE] = FHGFIRE_LIGHT_REFLECT;
                         bossGnd->returnSuccess = true;
                         this->work[FHGFIRE_TIMER] = 8;
@@ -582,7 +582,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                     this->actor.world.rot.x = RAD_TO_BINANG(Math_FAtan2F(dyL, dxzL));
                     this->work[FHGFIRE_FIRE_MODE] = FHGFIRE_LIGHT_GREEN;
                     Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
-                    this->actor.speedXZ += 2.0f;
+                    this->actor.speed += 2.0f;
                 }
                 break;
         }
@@ -631,8 +631,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
         }
         Lights_PointNoGlowSetInfo(&this->lightInfo, (s16)this->actor.world.pos.x, (s16)this->actor.world.pos.y,
                                   (s16)this->actor.world.pos.z, 255, 255, 255, 200);
-        if (this->actor.speedXZ > 20.0f) {
-            this->actor.speedXZ = 20.0f;
+        if (this->actor.speed > 20.0f) {
+            this->actor.speed = 20.0f;
         }
         Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
         // "Why ah ah ah ah"

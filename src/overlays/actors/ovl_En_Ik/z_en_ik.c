@@ -292,7 +292,7 @@ void EnIk_SetupStandUp(EnIk* this) {
 
     Animation_Change(&this->skelAnime, &gIronKnuckleStandUpAnim, 0.0f, startFrame, endFrame, ANIMMODE_ONCE, 0.0f);
     this->unk_2F8 = 3;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnIk_SetupAction(this, EnIk_StandUp);
 }
 
@@ -323,7 +323,7 @@ void EnIk_SetupIdle(EnIk* this) {
 
     this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     this->unk_2F8 = 4;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &object_ik_Anim_00DD50, 0.0f, 0.0f, endFrame, ANIMMODE_LOOP, 4.0f);
     EnIk_SetupAction(this, EnIk_Idle);
 }
@@ -355,12 +355,12 @@ void EnIk_SetupWalkOrRun(EnIk* this) {
     if (this->armorStatusFlag == 0) {
         Animation_Change(&this->skelAnime, &gIronKnuckleWalkAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleWalkAnim), ANIMMODE_LOOP, -4.0f);
-        this->actor.speedXZ = 0.9f;
+        this->actor.speed = 0.9f;
     } else {
         Animation_Change(&this->skelAnime, &gIronKnuckleRunAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleRunAnim), ANIMMODE_LOOP, -4.0f);
         Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DASH);
-        this->actor.speedXZ = 2.5f;
+        this->actor.speed = 2.5f;
     }
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -439,7 +439,7 @@ void EnIk_SetupVerticalAttack(EnIk* this) {
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleVerticalAttackAnim, 1.5f, 0.0f, endFrame, ANIMMODE_ONCE, -4.0f);
     EnIk_SetupAction(this, EnIk_VerticalAttack);
 }
@@ -509,7 +509,7 @@ void EnIk_SetupDoubleHorizontalAttack(EnIk* this) {
     this->unk_2FF = 2;
     this->unk_300 = 0;
     this->unk_2F8 = 6;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleHorizontalAttackAnim, 0.0f, 0.0f, endFrame, ANIMMODE_ONCE_INTERP,
                      -6.0f);
     this->isBreakingProp = false;
@@ -571,7 +571,7 @@ void EnIk_SetupSingleHorizontalAttack(EnIk* this) {
 
     this->unk_2F8 = 1;
     this->unk_2FF = 3;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleHorizontalAttackAnim, 0.5f, 13.0f, endFrame, ANIMMODE_ONCE_INTERP,
                      -4.0f);
     EnIk_SetupAction(this, EnIk_SingleHorizontalAttack);
@@ -601,7 +601,7 @@ void EnIk_SetupStopAndBlock(EnIk* this) {
 
     this->unk_2FE = 0;
     this->unk_2F8 = 9;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleBlockAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE_INTERP, -4.0f);
     EnIk_SetupAction(this, EnIk_StopAndBlock);
 }
@@ -634,11 +634,11 @@ void EnIk_SetupReactToAttack(EnIk* this) {
     if (ABS(yawDiff) <= 0x4000) {
         Animation_Change(&this->skelAnime, &gIronKnuckleFrontHitAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleFrontHitAnim), ANIMMODE_ONCE, -4.0f);
-        this->actor.speedXZ = -6.0f;
+        this->actor.speed = -6.0f;
     } else {
         Animation_Change(&this->skelAnime, &gIronKnuckleBackHitAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gIronKnuckleBackHitAnim), ANIMMODE_ONCE, -4.0f);
-        this->actor.speedXZ = 6.0f;
+        this->actor.speed = 6.0f;
     }
 
     this->unk_2FE = 0;
@@ -646,7 +646,7 @@ void EnIk_SetupReactToAttack(EnIk* this) {
 }
 
 void EnIk_ReactToAttack(EnIk* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
 
     if (BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, play, this->actor.params + 4)) {
         this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
@@ -667,7 +667,7 @@ void EnIk_SetupDie(EnIk* this) {
 
     this->unk_2FE = 0;
     this->unk_2F8 = 2;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleDeathAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, -4.0f);
     this->animationTimer = 24;
     Actor_PlaySfx(&this->actor, NA_SE_EN_IRONNACK_DEAD);
@@ -1117,22 +1117,23 @@ s32 EnIk_UpdateSkelAnime(EnIk* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorAction* EnIk_GetNpcAction(PlayState* play, s32 actionIdx) {
+CsCmdActorCue* EnIk_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[actionIdx];
+        return play->csCtx.actorCues[cueChannel];
     } else {
         return NULL;
     }
 }
 
-void EnIk_MoveNpcToPos(EnIk* this, PlayState* play, s32 actionIdx) {
-    CsCmdActorAction* npcAction = EnIk_GetNpcAction(play, actionIdx);
+void EnIk_SetStartPosRotFromCue(EnIk* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = EnIk_GetCue(play, cueChannel);
 
-    if (npcAction != NULL) {
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
-        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+    if (cue != NULL) {
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
+
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
@@ -1153,7 +1154,7 @@ void EnIk_SetupCsAction0(EnIk* this) {
 void EnIk_SetupCsAction1(EnIk* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gIronKnuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gIronKnuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
-    EnIk_MoveNpcToPos(this, play, 4);
+    EnIk_SetStartPosRotFromCue(this, play, 4);
     this->csAction = IK_CS_ACTION_1;
     this->csDrawMode = IK_CS_DRAW_INTRO;
     this->actor.shape.shadowAlpha = 255;
@@ -1170,7 +1171,7 @@ void EnIk_SetupCsAction2(EnIk* this) {
 }
 
 void EnIk_HandleEnemyChange(EnIk* this, PlayState* play, s32 animFinished) {
-    if (animFinished && (EnIk_GetNpcAction(play, 4) != NULL)) {
+    if (animFinished && (EnIk_GetCue(play, 4) != NULL)) {
         EnIk_ChangeToEnemy(this, play);
     }
 }
@@ -1200,7 +1201,7 @@ void EnIk_SetupCsAction3(EnIk* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gIronKnuckleNabooruDeathAnim, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, 0.0f);
     this->csAction = IK_CS_ACTION_3;
     this->csDrawMode = IK_CS_DRAW_DEFEAT;
-    EnIk_MoveNpcToPos(this, play, 4);
+    EnIk_SetStartPosRotFromCue(this, play, 4);
     EnIk_PlayDeathSfx(this, play);
     this->actor.shape.shadowAlpha = 255;
 }
@@ -1232,7 +1233,7 @@ void EnIk_CsAction4(EnIk* this, PlayState* play) {
 }
 
 void EnIk_CsAction5(EnIk* this, PlayState* play) {
-    if (EnIk_GetNpcAction(play, 4) == NULL) {
+    if (EnIk_GetCue(play, 4) == NULL) {
         Actor_Kill(&this->actor);
     }
 }
@@ -1321,14 +1322,16 @@ void EnIk_CsDrawDefeat(EnIk* this, PlayState* play) {
 }
 
 void EnIk_HandleCsCues(EnIk* this, PlayState* play) {
-    CsCmdActorAction* npcAction = EnIk_GetNpcAction(play, 4);
+    CsCmdActorCue* cue = EnIk_GetCue(play, 4);
+    u32 nextCueId;
+    u32 currentCueId;
 
-    if (npcAction != NULL) {
-        s32 action = npcAction->action;
-        s32 currentNpcAction = this->npcAction;
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        currentCueId = this->cueId;
 
-        if (action != currentNpcAction) {
-            switch (action) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     EnIk_SetupCsAction0(this);
                     break;
@@ -1361,7 +1364,7 @@ void EnIk_HandleCsCues(EnIk* this, PlayState* play) {
                     osSyncPrintf("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
 
-            this->npcAction = action;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -1529,7 +1532,7 @@ void EnIk_StartDefeatCutscene(Actor* thisx, PlayState* play) {
     if (!Play_InCsMode(play)) {
         this->actor.update = EnIk_UpdateCutscene;
         this->actor.draw = EnIk_DrawCutscene;
-        Cutscene_SetSegment(play, gSpiritBossNabooruKnuckleDefeatCs);
+        Cutscene_SetScript(play, gSpiritBossNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
         SET_EVENTCHKINF(EVENTCHKINF_3C);

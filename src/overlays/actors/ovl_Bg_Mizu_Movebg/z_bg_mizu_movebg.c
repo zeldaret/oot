@@ -322,11 +322,11 @@ void func_8089E650(BgMizuMovebg* this, PlayState* play) {
     f32 dy;
     f32 dz;
 
-    this->dyna.actor.speedXZ = MOVEBG_SPEED(this->dyna.actor.params) * 0.1f;
+    this->dyna.actor.speed = MOVEBG_SPEED(this->dyna.actor.params) * 0.1f;
     func_8089E108(play->pathList, &waypoint, MOVEBG_PATH_ID(this->dyna.actor.params), this->waypointId);
     dist = Actor_WorldDistXYZToPoint(&this->dyna.actor, &waypoint);
-    if (dist < this->dyna.actor.speedXZ) {
-        this->dyna.actor.speedXZ = dist;
+    if (dist < this->dyna.actor.speed) {
+        this->dyna.actor.speed = dist;
     }
     func_80035844(&this->dyna.actor.world.pos, &waypoint, &this->dyna.actor.world.rot, 1);
     func_8002D97C(&this->dyna.actor);

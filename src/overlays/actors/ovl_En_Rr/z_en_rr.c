@@ -176,7 +176,7 @@ void EnRr_Init(Actor* thisx, PlayState* play2) {
     this->actor.scale.y = 0.013f;
     this->actor.scale.x = this->actor.scale.z = 0.014f;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.velocity.y = this->actor.speedXZ = 0.0f;
+    this->actor.velocity.y = this->actor.speed = 0.0f;
     this->actor.gravity = -0.4f;
     this->actionTimer = 0;
     this->eatenShield = 0;
@@ -205,8 +205,8 @@ void EnRr_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider2);
 }
 
-void EnRr_SetSpeed(EnRr* this, f32 speed) {
-    this->actor.speedXZ = speed;
+void EnRr_Move(EnRr* this, f32 speedXZ) {
+    this->actor.speed = speedXZ;
     Actor_PlaySfx(&this->actor, NA_SE_EN_LIKE_WALK);
 }
 
@@ -256,7 +256,7 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
     this->ocTimer = 8;
     this->hasPlayer = true;
     this->reachState = 0;
-    this->segMoveRate = this->swallowOffset = this->actor.speedXZ = 0.0f;
+    this->segMoveRate = this->swallowOffset = this->actor.speed = 0.0f;
     this->pulseSizeTarget = 0.15f;
     this->segPhaseVelTarget = 5000.0f;
     this->wobbleSizeTarget = 512.0f;
@@ -578,8 +578,8 @@ void EnRr_Approach(EnRr* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->actionTimer == 0) && (this->actor.xzDistToPlayer < 160.0f)) {
         EnRr_SetupReach(this);
-    } else if ((this->actor.xzDistToPlayer < 400.0f) && (this->actor.speedXZ == 0.0f)) {
-        EnRr_SetSpeed(this, 2.0f);
+    } else if ((this->actor.xzDistToPlayer < 400.0f) && (this->actor.speed == 0.0f)) {
+        EnRr_Move(this, 2.0f);
     }
 }
 
@@ -741,8 +741,8 @@ void EnRr_Retreat(EnRr* this, PlayState* play) {
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0xA, 0x3E8, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        if (this->actor.speedXZ == 0.0f) {
-            EnRr_SetSpeed(this, 2.0f);
+        if (this->actor.speed == 0.0f) {
+            EnRr_Move(this, 2.0f);
         }
     }
 }
@@ -796,7 +796,7 @@ void EnRr_Update(Actor* thisx, PlayState* play) {
         ASSERT(0, "0", "../z_en_rr.c", 1355);
     }
 
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.1f);
     Actor_MoveForward(&this->actor);
     Collider_UpdateCylinder(&this->actor, &this->collider1);
     this->collider2.dim.pos.x = this->mouthPos.x;

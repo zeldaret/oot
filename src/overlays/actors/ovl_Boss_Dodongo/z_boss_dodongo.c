@@ -268,7 +268,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             }
             break;
         case 1:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             Play_ClearAllSubCameras(play);
             this->subCamId = Play_CreateSubCamera(play);
@@ -285,7 +285,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
                 player->actor.world.pos.x = -890.0f;
                 player->actor.world.pos.z = -2804.0f;
 
-                player->actor.speedXZ = 0.0f;
+                player->actor.speed = 0.0f;
                 player->actor.shape.rot.y = player->actor.world.rot.y = 0x3FFF;
 
                 this->subCamEye.x = -890.0f;
@@ -416,7 +416,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
                 mainCam->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 BossDodongo_SetupWalk(this);
                 this->unk_1DA = 50;
@@ -489,7 +489,7 @@ void BossDodongo_SetupRoll(BossDodongo* this) {
 }
 
 void BossDodongo_SetupBlowFire(BossDodongo* this) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->unk_1E4 = 0.0f;
     Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_0061D4, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_kingdodongo_Anim_0061D4), ANIMMODE_ONCE, 0.0f);
@@ -499,7 +499,7 @@ void BossDodongo_SetupBlowFire(BossDodongo* this) {
 }
 
 void BossDodongo_SetupInhale(BossDodongo* this) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_008EEC, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_kingdodongo_Anim_008EEC), ANIMMODE_ONCE, -5.0f);
     this->actionFunc = BossDodongo_Inhale;
@@ -1274,7 +1274,7 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
 }
 
 void BossDodongo_SetupDeathCutscene(BossDodongo* this) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->unk_1E4 = 0.0f;
     Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_002D0C, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_kingdodongo_Anim_002D0C), ANIMMODE_ONCE, -5.0f);
@@ -1304,7 +1304,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
     switch (this->csState) {
         case 0:
             this->csState = 5;
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
@@ -1364,7 +1364,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
             Math_SmoothStepToF(&this->unk_204, 1.0f, 1.0f, 0.1f, 0.0f);
             if (this->unk_1DA == 1) {
                 this->csState = 8;
-                this->actor.speedXZ = this->unk_1E4 / 1.5f;
+                this->actor.speed = this->unk_1E4 / 1.5f;
                 if (this->unk_1A2 == 0) {
                     this->unk_238 = 250.0f;
                 } else {
@@ -1527,7 +1527,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                                              false);
                 }
             }
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.2f, 0.1f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.2f, 0.1f, 0.0f);
             this->actor.world.rot.y += (s16)this->unk_238;
             this->unk_1C4 += (s16)this->unk_234;
             if (this->unk_1DA >= 0x367) {
@@ -1614,7 +1614,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                 this->subCamId = SUB_CAM_ID_DONE;
                 this->csState = 100;
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, -890.0f, -1523.76f, -3304.0f,
                                    0, 0, 0, WARP_DUNGEON_CHILD);

@@ -247,7 +247,7 @@ void func_80AD9368(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
     this->unk_19A = Rand_S16Offset(2, 3);
     this->actionFunc = func_80ADA4A8;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void func_80AD93C4(EnPoSisters* this) {
@@ -269,14 +269,14 @@ void func_80AD944C(EnPoSisters* this) {
         this->collider.base.acFlags |= AC_HARD;
     }
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersAttackAnim, -5.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->unk_19A = Animation_GetLastFrame(&gPoeSistersAttackAnim) * 3 + 3;
     this->unk_199 &= ~2;
     this->actionFunc = func_80ADA7F0;
 }
 
 void func_80AD94E0(EnPoSisters* this) {
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
     if (this->unk_194 == 0) {
         this->collider.base.colType = COLTYPE_METAL;
         this->collider.base.acFlags |= AC_HARD;
@@ -306,7 +306,7 @@ void func_80AD95D8(EnPoSisters* this) {
                                       : Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
     if (this->unk_194 != 0) {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
     }
     this->unk_199 &= ~0xB;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
@@ -318,14 +318,14 @@ void func_80AD96A4(EnPoSisters* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->unk_19A = 5;
     this->unk_199 |= 0xB;
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
     this->actionFunc = func_80ADAC70;
 }
 
 void func_80AD9718(EnPoSisters* this) {
     Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f,
                      Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE, -3.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->unk_19C = 100;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk_199 &= ~5;
@@ -365,7 +365,7 @@ void func_80AD98F4(EnPoSisters* this, PlayState* play) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
     }
     this->unk_19A = 15;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
     this->unk_199 &= ~1;
     this->actionFunc = func_80ADAE6C;
@@ -373,7 +373,7 @@ void func_80AD98F4(EnPoSisters* this, PlayState* play) {
 
 void func_80AD99D4(EnPoSisters* this, PlayState* play) {
     this->unk_19A = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.pos.y += 42.0f;
     this->actor.shape.yOffset = -6000.0f;
     this->actor.flags &= ~ACTOR_FLAG_0;
@@ -500,7 +500,7 @@ void func_80AD9F90(EnPoSisters* this) {
     Animation_PlayLoop(&this->skelAnime, &gPoeSistersFloatAnim);
     this->unk_199 |= 0xA;
     this->actionFunc = func_80ADBB6C;
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
 }
 
 void func_80ADA028(EnPoSisters* this) {
@@ -509,7 +509,7 @@ void func_80ADA028(EnPoSisters* this) {
     this->unk_199 |= 0x15;
     this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = func_80ADBBF4;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void func_80ADA094(EnPoSisters* this, PlayState* play) {
@@ -608,13 +608,13 @@ void func_80ADA4A8(EnPoSisters* this, PlayState* play) {
 
 void func_80ADA530(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_StepToF(&this->actor.speedXZ, 1.0f, 0.2f);
+    Math_StepToF(&this->actor.speed, 1.0f, 0.2f);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
         this->unk_19A--;
     }
     if (this->actor.xzDistToPlayer < 200.0f && fabsf(this->actor.yDistToPlayer + 5.0f) < 30.0f) {
         func_80AD943C(this);
-    } else if (this->unk_19A == 0 && Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f) != 0) {
+    } else if (this->unk_19A == 0 && Math_StepToF(&this->actor.speed, 0.0f, 0.2f) != 0) {
         func_80AD9368(this);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
@@ -632,7 +632,7 @@ void func_80ADA6A0(EnPoSisters* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     temp_v0 = this->actor.yawTowardsPlayer - player->actor.shape.rot.y;
-    Math_StepToF(&this->actor.speedXZ, 2.0f, 0.2f);
+    Math_StepToF(&this->actor.speed, 2.0f, 0.2f);
     if (temp_v0 > 0x3000) {
         Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x3000, 0x71C);
     } else if (temp_v0 < -0x3000) {
@@ -686,8 +686,8 @@ void func_80ADA8C0(EnPoSisters* this, PlayState* play) {
 
 void func_80ADA9E8(EnPoSisters* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    this->actor.shape.rot.y -= (this->actor.speedXZ * 10.0f) * 128.0f;
-    if (Math_StepToF(&this->actor.speedXZ, 0.0f, 0.1f) != 0) {
+    this->actor.shape.rot.y -= (this->actor.speed * 10.0f) * 128.0f;
+    if (Math_StepToF(&this->actor.speed, 0.0f, 0.1f) != 0) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         if (this->unk_194 != 0) {
             func_80AD93C4(this);
@@ -719,7 +719,7 @@ void func_80ADAAA4(EnPoSisters* this, PlayState* play) {
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
         func_80AD97C8(this, play);
     } else if (this->unk_194 != 0) {
-        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+        Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     }
 }
 
@@ -1097,7 +1097,7 @@ void func_80ADBF58(EnPoSisters* this, PlayState* play) {
         play->envCtx.lightSettingOverride = 4;
     }
     if (this->unk_19A < 0) {
-        Math_StepToF(&this->actor.speedXZ, 5.0f, 0.2f);
+        Math_StepToF(&this->actor.speed, 5.0f, 0.2f);
     }
     if (this->unk_19A == -70 && this->unk_194 == 1) {
         SfxSource_PlaySfxAtFixedWorldPos(play, &D_80ADD7BC, 40, NA_SE_EN_PO_LAUGH);

@@ -433,7 +433,7 @@ void EnMb_FindWaypointTowardsPlayer(EnMb* this, PlayState* play) {
 
 void EnMb_SetupSpearGuardLookAround(EnMb* this) {
     Animation_MorphToLoop(&this->skelAnime, &gEnMbSpearLookLeftAndRightAnim, -4.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer1 = Rand_S16Offset(30, 50);
     this->state = ENMB_STATE_IDLE;
     EnMb_SetupAction(this, EnMb_SpearGuardLookAround);
@@ -441,7 +441,7 @@ void EnMb_SetupSpearGuardLookAround(EnMb* this) {
 
 void EnMb_SetupClubWaitPlayerNear(EnMb* this) {
     Animation_PlayLoop(&this->skelAnime, &gEnMbClubStandStillClubDownAnim);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer1 = Rand_S16Offset(30, 50);
     this->state = ENMB_STATE_IDLE;
     EnMb_SetupAction(this, EnMb_ClubWaitPlayerNear);
@@ -449,7 +449,7 @@ void EnMb_SetupClubWaitPlayerNear(EnMb* this) {
 
 void EnMb_SetupSpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
     Animation_MorphToLoop(&this->skelAnime, &gEnMbSpearLookLeftAndRightAnim, -4.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer1 = Rand_S16Offset(40, 80);
     this->state = ENMB_STATE_IDLE;
     EnMb_NextWaypoint(this, play);
@@ -459,7 +459,7 @@ void EnMb_SetupSpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
 void EnMb_SetupSpearGuardWalk(EnMb* this) {
     Animation_Change(&this->skelAnime, &gEnMbSpearWalkAnim, 0.0f, 0.0f, Animation_GetLastFrame(&gEnMbSpearWalkAnim),
                      ANIMMODE_LOOP, -4.0f);
-    this->actor.speedXZ = 0.59999996f;
+    this->actor.speed = 0.59999996f;
     this->timer1 = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
     this->state = ENMB_STATE_WALK;
@@ -469,7 +469,7 @@ void EnMb_SetupSpearGuardWalk(EnMb* this) {
 void EnMb_SetupSpearPatrolWalkTowardsWaypoint(EnMb* this) {
     f32 frameCount = Animation_GetLastFrame(&gEnMbSpearWalkAnim);
 
-    this->actor.speedXZ = 0.59999996f;
+    this->actor.speed = 0.59999996f;
     this->timer1 = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
     this->state = ENMB_STATE_WALK;
@@ -482,7 +482,7 @@ void EnMb_SetupSpearPrepareAndCharge(EnMb* this) {
 
     Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearPrepareChargeAnim, -4.0f);
     this->state = ENMB_STATE_ATTACK;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer3 = (s16)frameCount + 6;
     Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_AT);
     if (this->actor.params == ENMB_TYPE_SPEAR_GUARD) {
@@ -498,7 +498,7 @@ void EnMb_SetupSpearPatrolImmediateCharge(EnMb* this) {
     this->attack = ENMB_ATTACK_SPEAR;
     this->state = ENMB_STATE_ATTACK;
     this->timer3 = 3;
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
     EnMb_SetupAction(this, EnMb_SpearPatrolImmediateCharge);
 }
 
@@ -537,7 +537,7 @@ void EnMb_SetupSpearPatrolEndCharge(EnMb* this) {
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->timer1 = 0;
     this->timer3 = 50;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
     this->actor.velocity.y = 6.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SLIDE);
     EnMb_SetupAction(this, EnMb_SpearPatrolEndCharge);
@@ -578,14 +578,14 @@ void EnMb_SetupClubDead(EnMb* this) {
     this->hitbox.dim.height = 80;
     this->hitbox.dim.radius = 95;
     this->timer1 = 30;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
     EnMb_SetupAction(this, EnMb_ClubDead);
 }
 
 void EnMb_SetupStunned(EnMb* this) {
     this->state = ENMB_STATE_STUNNED;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 80);
     if (this->damageEffect == ENMB_DMGEFF_STUN_ICE) {
         this->iceEffectTimer = 40;
@@ -676,8 +676,8 @@ void EnMb_SpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play) {
 void EnMb_SpearEndChargeQuick(EnMb* this, PlayState* play) {
     s32 pad;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 1.0f, 0.0f);
-    if (this->actor.speedXZ > 1.0f) {
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.5f, 1.0f, 0.0f);
+    if (this->actor.speed > 1.0f) {
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -688,7 +688,7 @@ void EnMb_SpearEndChargeQuick(EnMb* this, PlayState* play) {
                 Animation_Change(&this->skelAnime, &gEnMbSpearPrepareChargeAnim, -1.0f,
                                  Animation_GetLastFrame(&gEnMbSpearPrepareChargeAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
                 this->timer1 = 1;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
             }
         } else {
@@ -726,9 +726,9 @@ void EnMb_SpearPatrolEndCharge(EnMb* this, PlayState* play) {
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.5f, 0.0f);
 
-        if (this->actor.speedXZ > 1.0f) {
+        if (this->actor.speed > 1.0f) {
             Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
         }
 
@@ -745,14 +745,14 @@ void EnMb_SpearPatrolEndCharge(EnMb* this, PlayState* play) {
                     /* Play the charge animation in reverse: let go of the spear and stand normally */
                     Animation_Change(&this->skelAnime, &gEnMbSpearPrepareChargeAnim, -1.0f, lastFrame, 0.0f,
                                      ANIMMODE_ONCE, 0.0f);
-                    this->actor.speedXZ = 0.0f;
+                    this->actor.speed = 0.0f;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
                 }
             } else {
                 if (this->actor.xzDistToPlayer <= 160.0f) {
-                    this->actor.speedXZ = -5.0f;
+                    this->actor.speed = -5.0f;
                 } else {
-                    this->actor.speedXZ = 0.0f;
+                    this->actor.speed = 0.0f;
                 }
             }
         }
@@ -799,7 +799,7 @@ void EnMb_SpearGuardPrepareAndCharge(EnMb* this, PlayState* play) {
         this->timer3--;
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 0);
     } else {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->attack = ENMB_ATTACK_SPEAR;
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
         if (prevFrame != (s32)this->skelAnime.curFrame &&
@@ -897,7 +897,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 1, 0x1F40, 0);
         endCharge = false;
     } else {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->attack = ENMB_ATTACK_SPEAR;
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 5.0f, 3, 4.0f, 100, 15, false);
         if (prevFrame != (s32)this->skelAnime.curFrame &&
@@ -937,7 +937,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
         player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f +
                                     Math_CosS(this->actor.shape.rot.y) * 89.0f;
         player->unk_850 = 0;
-        player->actor.speedXZ = 0.0f;
+        player->actor.speed = 0.0f;
         player->actor.velocity.y = 0.0f;
     }
 
@@ -952,7 +952,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, PlayState* play) {
             }
         }
         this->attack = ENMB_ATTACK_NONE;
-        this->actor.speedXZ = -10.0f;
+        this->actor.speed = -10.0f;
         EnMb_SetupSpearPatrolEndCharge(this);
     }
 }
@@ -1006,7 +1006,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
         player->actor.world.pos.z = this->actor.world.pos.z + Math_SinS(this->actor.shape.rot.y) * 10.0f +
                                     Math_CosS(this->actor.shape.rot.y) * 89.0f;
         player->unk_850 = 0;
-        player->actor.speedXZ = 0.0f;
+        player->actor.speed = 0.0f;
         player->actor.velocity.y = 0.0f;
     }
 
@@ -1020,7 +1020,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play) {
                 func_8002F71C(play, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
             }
             this->attack = ENMB_ATTACK_NONE;
-            this->actor.speedXZ = -10.0f;
+            this->actor.speed = -10.0f;
             EnMb_SetupSpearPatrolEndCharge(this);
             this->timer3 = 1;
         } else {
@@ -1081,7 +1081,7 @@ void EnMb_ClubDead(EnMb* this, PlayState* play) {
     effPos = this->actor.world.pos;
     effPos.x += Math_SinS(this->actor.shape.rot.y) * -70.0f;
     effPos.z += Math_CosS(this->actor.shape.rot.y) * -70.0f;
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     effPosBase = effPos;
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1123,8 +1123,8 @@ void EnMb_SpearGuardWalk(EnMb* this, PlayState* play) {
     f32 playSpeedAbs;
 
     relYawTowardsPlayer = ABS(relYawTowardsPlayer);
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
-    this->skelAnime.playSpeed = this->actor.speedXZ;
+    Math_SmoothStepToF(&this->actor.speed, 0.59999996f, 0.1f, 1.0f, 0.0f);
+    this->skelAnime.playSpeed = this->actor.speed;
     prevFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
 
@@ -1185,8 +1185,8 @@ void EnMb_SpearPatrolWalkTowardsWaypoint(EnMb* this, PlayState* play) {
         (Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.home.pos, &this->actor.world.pos) <= 4.0f)) {
         EnMb_SetupSpearPatrolTurnTowardsWaypoint(this, play);
     } else {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
-        this->skelAnime.playSpeed = 2.0f * this->actor.speedXZ;
+        Math_SmoothStepToF(&this->actor.speed, 0.59999996f, 0.1f, 1.0f, 0.0f);
+        this->skelAnime.playSpeed = 2.0f * this->actor.speed;
     }
 
     this->yawToWaypoint = Math_Vec3f_Yaw(&this->actor.world.pos, &this->waypointPos);
@@ -1246,10 +1246,10 @@ void EnMb_SetupSpearDamaged(EnMb* this) {
 
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearDamagedFromFrontAnim, -4.0f);
-        this->actor.speedXZ = -8.0f;
+        this->actor.speed = -8.0f;
     } else {
         Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearDamagedFromBehindAnim, -4.0f);
-        this->actor.speedXZ = 8.0f;
+        this->actor.speed = 8.0f;
     }
 
     this->timer1 = 30;
@@ -1260,7 +1260,7 @@ void EnMb_SetupSpearDamaged(EnMb* this) {
 }
 
 void EnMb_SpearDamaged(EnMb* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.params <= ENMB_TYPE_SPEAR_GUARD) {
             EnMb_SetupSpearGuardLookAround(this);
@@ -1275,11 +1275,11 @@ void EnMb_SetupSpearDead(EnMb* this) {
 
     if (ABS(relYawTowardsPlayer) <= 0x4000) {
         Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearFallOnItsBackAnim, -4.0f);
-        this->actor.speedXZ = -8.0f;
+        this->actor.speed = -8.0f;
     } else {
         /* The gEnMbSpearFallFaceDownAnim animation was probably meant to be used here */
         Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbSpearFallOnItsBackAnim, -4.0f);
-        this->actor.speedXZ = 8.0f;
+        this->actor.speed = 8.0f;
     }
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -1293,7 +1293,7 @@ void EnMb_SetupSpearDead(EnMb* this) {
 void EnMb_SpearDead(EnMb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
 
     if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;

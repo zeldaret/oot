@@ -173,43 +173,41 @@ s32 EnRu2_UpdateSkelAnime(EnRu2* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorAction* func_80AF27AC(PlayState* play, s32 npcActionIdx) {
+CsCmdActorCue* EnRu2_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[npcActionIdx];
+        return play->csCtx.actorCues[cueChannel];
     }
     return NULL;
 }
 
-s32 func_80AF27D0(EnRu2* this, PlayState* play, u16 arg2, s32 npcActionIdx) {
-    CsCmdActorAction* csCmdActorAction = func_80AF27AC(play, npcActionIdx);
+s32 func_80AF27D0(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
-    if ((csCmdActorAction != NULL) && (csCmdActorAction->action == arg2)) {
+    if ((cue != NULL) && (cue->id == cueId)) {
         return true;
     }
     return false;
 }
 
-s32 func_80AF281C(EnRu2* this, PlayState* play, u16 arg2, s32 npcActionIdx) {
-    CsCmdActorAction* csCmdNPCAction = func_80AF27AC(play, npcActionIdx);
+s32 func_80AF281C(EnRu2* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
 
-    if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action != arg2)) {
+    if ((cue != NULL) && (cue->id != cueId)) {
         return true;
     }
     return false;
 }
 
-void func_80AF2868(EnRu2* this, PlayState* play, u32 npcActionIdx) {
-    CsCmdActorAction* csCmdNPCAction = func_80AF27AC(play, npcActionIdx);
-    s16 newRotY;
+void func_80AF2868(EnRu2* this, PlayState* play, u32 cueChannel) {
+    CsCmdActorCue* cue = EnRu2_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
 
-    if (csCmdNPCAction != NULL) {
-        thisx->world.pos.x = csCmdNPCAction->startPos.x;
-        thisx->world.pos.y = csCmdNPCAction->startPos.y;
-        thisx->world.pos.z = csCmdNPCAction->startPos.z;
-        newRotY = csCmdNPCAction->rot.y;
-        thisx->shape.rot.y = newRotY;
-        thisx->world.rot.y = newRotY;
+    if (cue != NULL) {
+        thisx->world.pos.x = cue->startPos.x;
+        thisx->world.pos.y = cue->startPos.y;
+        thisx->world.pos.z = cue->startPos.z;
+
+        thisx->world.rot.y = thisx->shape.rot.y = cue->rot.y;
     }
 }
 
@@ -268,7 +266,7 @@ void func_80AF2AB4(EnRu2* this, PlayState* play) {
     if ((gSaveContext.chamberCutsceneNum == 2) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = 1;
-        play->csCtx.segment = D_80AF411C;
+        play->csCtx.script = D_80AF411C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_WATER);
         temp = this->actor.world.rot.y + 0x8000;
@@ -279,11 +277,12 @@ void func_80AF2AB4(EnRu2* this, PlayState* play) {
 
 void func_80AF2B44(EnRu2* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
-    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorCue* cue;
 
     if (csCtx->state != CS_STATE_IDLE) {
-        csCmdNPCAction = csCtx->npcActions[3];
-        if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 2)) {
+        cue = csCtx->actorCues[3];
+
+        if ((cue != NULL) && (cue->id == 2)) {
             this->action = 2;
             this->drawConfig = 1;
             func_80AF29DC(this, play);
@@ -300,11 +299,12 @@ void func_80AF2B94(EnRu2* this) {
 
 void func_80AF2BC0(EnRu2* this, PlayState* play) {
     AnimationHeader* animation = &gAdultRutoRaisingArmsUpAnim;
-    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        csCmdNPCAction = play->csCtx.npcActions[3];
-        if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 3)) {
+        cue = play->csCtx.actorCues[3];
+
+        if ((cue != NULL) && (cue->id == 3)) {
             Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
                              0.0f);
             this->action = 4;
@@ -319,11 +319,12 @@ void func_80AF2C54(EnRu2* this, s32 arg1) {
 }
 
 void func_80AF2C68(EnRu2* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        csCmdNPCAction = play->csCtx.npcActions[6];
-        if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 2)) {
+        cue = play->csCtx.actorCues[6];
+
+        if ((cue != NULL) && (cue->id == 2)) {
             this->action = 6;
             func_80AF2A38(this, play);
         }
@@ -536,15 +537,16 @@ void func_80AF3530(EnRu2* this, s32 arg1) {
 }
 
 void func_80AF3564(EnRu2* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction = func_80AF27AC(play, 3);
-    s32 action;
-    s32 unk_2BC;
+    CsCmdActorCue* cue = EnRu2_GetCue(play, 3);
+    s32 nextCueId;
+    s32 currentCueId;
 
-    if (csCmdNPCAction != NULL) {
-        action = csCmdNPCAction->action;
-        unk_2BC = this->unk_2BC;
-        if (action != unk_2BC) {
-            switch (action) {
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        currentCueId = this->cueId;
+
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 7:
                     func_80AF346C(this, play);
                     break;
@@ -556,7 +558,7 @@ void func_80AF3564(EnRu2* this, PlayState* play) {
                     osSyncPrintf("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
-            this->unk_2BC = action;
+            this->cueId = nextCueId;
         }
     }
 }
