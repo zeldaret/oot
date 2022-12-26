@@ -232,16 +232,16 @@ void func_809FDE9C(EnDu* this) {
     }
 }
 
-void func_809FDFC0(CsCmdActorAction* csAction, Vec3f* dst) {
-    dst->x = csAction->startPos.x;
-    dst->y = csAction->startPos.y;
-    dst->z = csAction->startPos.z;
+void func_809FDFC0(CsCmdActorCue* cue, Vec3f* dst) {
+    dst->x = cue->startPos.x;
+    dst->y = cue->startPos.y;
+    dst->z = cue->startPos.z;
 }
 
-void func_809FE000(CsCmdActorAction* csAction, Vec3f* dst) {
-    dst->x = csAction->endPos.x;
-    dst->y = csAction->endPos.y;
-    dst->z = csAction->endPos.z;
+void func_809FE000(CsCmdActorCue* cue, Vec3f* dst) {
+    dst->x = cue->endPos.x;
+    dst->y = cue->endPos.y;
+    dst->z = cue->endPos.z;
 }
 
 void func_809FE040(EnDu* this) {
@@ -295,7 +295,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 
     if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
         gSaveContext.cutsceneTrigger = 1;
         EnDu_SetupAction(this, func_809FE890);
     } else if (play->sceneId == SCENE_FIRE_TEMPLE) {
@@ -343,7 +343,7 @@ void func_809FE4A4(EnDu* this, PlayState* play) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_00;
         EnDu_SetupAction(this, func_809FE3C0);
     } else if (play->msgCtx.ocarinaMode >= OCARINA_MODE_06) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaWrongCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaWrongCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 1;
         EnDu_SetupAction(this, func_809FE890);
@@ -351,7 +351,7 @@ void func_809FE4A4(EnDu* this, PlayState* play) {
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 0;
         EnDu_SetupAction(this, func_809FE890);
@@ -420,37 +420,44 @@ void func_809FE890(EnDu* this, PlayState* play) {
     Vec3f startPos;
     Vec3f endPos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-    CsCmdActorAction* csAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state == CS_STATE_IDLE) {
         func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
         EnDu_SetupAction(this, func_809FEB08);
         return;
     }
-    csAction = play->csCtx.npcActions[2];
 
-    if (csAction != NULL) {
-        func_809FDFC0(csAction, &startPos);
-        func_809FE000(csAction, &endPos);
+    cue = play->csCtx.actorCues[2];
+
+    if (cue != NULL) {
+        func_809FDFC0(cue, &startPos);
+        func_809FE000(cue, &endPos);
+
         if (this->unk_1EA == 0) {
-            func_809FDFC0(csAction, &startPos);
+            func_809FDFC0(cue, &startPos);
             this->actor.world.pos = startPos;
         }
-        if (this->unk_1EA != csAction->action) {
-            if (csAction->action == 1) {
+
+        if (this->unk_1EA != cue->id) {
+            if (cue->id == 1) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
             }
-            if (csAction->action == 7 || csAction->action == 8) {
+
+            if (cue->id == 7 || cue->id == 8) {
                 this->unk_1E6 = 0;
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_7);
             }
-            this->unk_1EA = csAction->action;
+
+            this->unk_1EA = cue->id;
+
             if (this->unk_1EA == 7) {
                 this->blinkTimer = 11;
                 this->unk_1EC = 2;
                 this->unk_1ED = 2;
                 this->unk_1EE = 1;
             }
+
             if (this->unk_1EA == 8) {
                 this->blinkTimer = 11;
                 this->unk_1EC = 3;
@@ -458,26 +465,32 @@ void func_809FE890(EnDu* this, PlayState* play) {
                 this->unk_1EE = 0;
             }
         }
+
         if (this->unk_1EA == 7) {
             func_809FE040(this);
         }
+
         if (this->unk_1EA == 8) {
             func_809FE104(this);
         }
-        this->actor.shape.rot.x = csAction->urot.x;
-        this->actor.shape.rot.y = csAction->urot.y;
-        this->actor.shape.rot.z = csAction->urot.z;
+
+        this->actor.shape.rot.x = cue->rot.x;
+        this->actor.shape.rot.y = cue->rot.y;
+        this->actor.shape.rot.z = cue->rot.z;
+
         this->actor.velocity = velocity;
 
-        if (play->csCtx.frames < csAction->endFrame) {
-            frame = csAction->endFrame - csAction->startFrame;
+        if (play->csCtx.curFrame < cue->endFrame) {
+            frame = cue->endFrame - cue->startFrame;
 
             this->actor.velocity.x = (endPos.x - startPos.x) / frame;
             this->actor.velocity.y = (endPos.y - startPos.y) / frame;
             this->actor.velocity.y += this->actor.gravity;
+
             if (this->actor.velocity.y < this->actor.minVelocityY) {
                 this->actor.velocity.y = this->actor.minVelocityY;
             }
+
             this->actor.velocity.z = (endPos.z - startPos.z) / frame;
         }
     }

@@ -70,7 +70,8 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play) {
 }
 
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
-    Flags_UnsetEnv(play, 5); // clear storms env flag
+    CutsceneFlags_Unset(play, 5);
+
     if (((play->pauseCtx.state == 0) && (play->gameOverCtx.state == GAMEOVER_INACTIVE) &&
          (play->msgCtx.msgLength == 0) && (!FrameAdvance_IsEnabled(play)) &&
          ((play->transitionMode == TRANS_MODE_OFF) || (gSaveContext.gameMode != GAMEMODE_NORMAL))) ||
@@ -81,7 +82,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
         osSyncPrintf("\nthis->timer=[%d]", this->timer);
         if (this->timer == 308) {
             osSyncPrintf("\n\n\n豆よ のびろ 指定\n\n\n"); // "Let's grow some beans"
-            Flags_SetEnv(play, 5);                        // set storms env flag
+            CutsceneFlags_Set(play, 5);
         }
     }
 

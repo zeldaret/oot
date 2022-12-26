@@ -170,7 +170,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
         osSyncPrintf(VT_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
         if (INV_CONTENT(ITEM_ARROW_FIRE) == ITEM_NONE) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_ETCETERA, 700.0f, -800.0f, 7261.0f, 0, 0, 0, 7);
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaFireArrowsCS);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gLakeHyliaFireArrowsCS);
             if (1) {}
             gSaveContext.cutsceneTrigger = 1;
         } else {
@@ -181,7 +181,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play) {
             collectible = Item_DropCollectible(play, &spawnPos, ITEM00_MAGIC_LARGE);
             if (collectible != NULL) {
                 collectible->despawnTimer = 6000;
-                collectible->actor.speedXZ = 0.0f;
+                collectible->actor.speed = 0.0f;
             }
         }
         Actor_Kill(&this->actor);

@@ -479,7 +479,7 @@ void EnTest_SetupIdle(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime, &gStalfosMiddleGuardAnim);
     this->unk_7C8 = 0xA;
     this->timer = (Rand_ZeroOne() * 10.0f) + 5.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnTest_SetupAction(this, EnTest_Idle);
 }
@@ -584,33 +584,33 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         }
 
         if (this->actor.xzDistToPlayer <= (80.0f + checkDist)) {
-            Math_SmoothStepToF(&this->actor.speedXZ, -5.0f, 1.0f, 0.8f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, -5.0f, 1.0f, 0.8f, 0.0f);
         } else if (this->actor.xzDistToPlayer > (110.0f + checkDist)) {
-            Math_SmoothStepToF(&this->actor.speedXZ, 5.0f, 1.0f, 0.8f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 5.0f, 1.0f, 0.8f, 0.0f);
         }
 
-        if (this->actor.speedXZ >= 5.0f) {
-            this->actor.speedXZ = 5.0f;
-        } else if (this->actor.speedXZ < -5.0f) {
-            this->actor.speedXZ = -5.0f;
+        if (this->actor.speed >= 5.0f) {
+            this->actor.speed = 5.0f;
+        } else if (this->actor.speed < -5.0f) {
+            this->actor.speed = -5.0f;
         }
 
         if ((this->actor.params == STALFOS_TYPE_CEILING) &&
-            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.world.rot.y)) {
-            this->actor.speedXZ *= -1.0f;
+            !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.world.rot.y)) {
+            this->actor.speed *= -1.0f;
         }
 
-        if (ABS(this->actor.speedXZ) < 3.0f) {
+        if (ABS(this->actor.speed) < 3.0f) {
             Animation_Change(&this->skelAnime, &gStalfosSlowAdvanceAnim, 0.0f, this->skelAnime.curFrame,
                              Animation_GetLastFrame(&gStalfosSlowAdvanceAnim), 0, -6.0f);
-            playSpeed = this->actor.speedXZ * 10.0f;
+            playSpeed = this->actor.speed * 10.0f;
         } else {
             Animation_Change(&this->skelAnime, &gStalfosFastAdvanceAnim, 0.0f, this->skelAnime.curFrame,
                              Animation_GetLastFrame(&gStalfosFastAdvanceAnim), 0, -4.0f);
-            playSpeed = this->actor.speedXZ * 10.0f * 0.02f;
+            playSpeed = this->actor.speed * 10.0f * 0.02f;
         }
 
-        if (this->actor.speedXZ >= 0.0f) {
+        if (this->actor.speed >= 0.0f) {
             if (this->unk_7DE == 0) {
                 this->unk_7DE++;
             }
@@ -702,7 +702,7 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
                 EnTest_SetupStopAndBlock(this);
             }
         } else if (Rand_ZeroOne() < 0.1f) {
-            this->actor.speedXZ = 5.0f;
+            this->actor.speed = 5.0f;
         }
     }
 }
@@ -779,7 +779,7 @@ void func_80860C24(EnTest* this, PlayState* play) {
 void func_80860EC0(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime, &gStalfosSidestepAnim);
     this->unk_7C8 = 0xF;
-    this->actor.speedXZ = (Rand_ZeroOne() > 0.5f) ? -0.5f : 0.5f;
+    this->actor.speed = (Rand_ZeroOne() > 0.5f) ? -0.5f : 0.5f;
     this->timer = (s16)((Rand_ZeroOne() * 15.0f) + 25.0f);
     this->unk_7EC = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -803,25 +803,25 @@ void func_80860F84(EnTest* this, PlayState* play) {
         this->actor.world.rot.y = this->actor.shape.rot.y + 0x3E80;
         playerYaw180 = player->actor.shape.rot.y + 0x8000;
 
-        if (this->actor.speedXZ >= 0.0f) {
-            if (this->actor.speedXZ < 6.0f) {
-                this->actor.speedXZ += 0.5f;
+        if (this->actor.speed >= 0.0f) {
+            if (this->actor.speed < 6.0f) {
+                this->actor.speed += 0.5f;
             } else {
-                this->actor.speedXZ = 6.0f;
+                this->actor.speed = 6.0f;
             }
         } else {
-            if (this->actor.speedXZ > -6.0f) {
-                this->actor.speedXZ -= 0.5f;
+            if (this->actor.speed > -6.0f) {
+                this->actor.speed -= 0.5f;
             } else {
-                this->actor.speedXZ = -6.0f;
+                this->actor.speed = -6.0f;
             }
         }
 
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
             ((this->actor.params == STALFOS_TYPE_CEILING) &&
-             !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.world.rot.y))) {
+             !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.world.rot.y))) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-                if (this->actor.speedXZ >= 0.0f) {
+                if (this->actor.speed >= 0.0f) {
                     newYaw = this->actor.shape.rot.y + 0x3FFF;
                 } else {
                     newYaw = this->actor.shape.rot.y - 0x3FFF;
@@ -829,17 +829,17 @@ void func_80860F84(EnTest* this, PlayState* play) {
 
                 newYaw = this->actor.wallYaw - newYaw;
             } else {
-                this->actor.speedXZ *= -0.8f;
+                this->actor.speed *= -0.8f;
                 newYaw = 0;
             }
 
             if (ABS(newYaw) > 0x4000) {
-                this->actor.speedXZ *= -0.8f;
+                this->actor.speed *= -0.8f;
 
-                if (this->actor.speedXZ < 0.0f) {
-                    this->actor.speedXZ -= 0.5f;
+                if (this->actor.speed < 0.0f) {
+                    this->actor.speed -= 0.5f;
                 } else {
-                    this->actor.speedXZ += 0.5f;
+                    this->actor.speed += 0.5f;
                 }
             }
         }
@@ -861,7 +861,7 @@ void func_80860F84(EnTest* this, PlayState* play) {
             this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->unk_7EC;
         }
 
-        this->skelAnime.playSpeed = this->actor.speedXZ * 0.5f;
+        this->skelAnime.playSpeed = this->actor.speed * 0.5f;
 
         prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
@@ -896,7 +896,7 @@ void EnTest_SetupSlashDown(EnTest* this) {
     Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x10;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashDown);
     this->swordCollider.info.toucher.damage = 16;
 
@@ -906,7 +906,7 @@ void EnTest_SetupSlashDown(EnTest* this) {
 }
 
 void EnTest_SlashDown(EnTest* this, PlayState* play) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     if ((s32)this->skelAnime.curFrame < 4) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 0);
@@ -934,7 +934,7 @@ void EnTest_SlashDown(EnTest* this, PlayState* play) {
 void EnTest_SetupSlashDownEnd(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosRecoverFromDownSlashAnim);
     this->unk_7C8 = 0x12;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashDownEnd);
 }
 
@@ -996,7 +996,7 @@ void EnTest_SetupSlashUp(EnTest* this) {
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
     this->unk_7C8 = 0x11;
     this->swordCollider.info.toucher.damage = 16;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnTest_SetupAction(this, EnTest_SlashUp);
 
     if (this->unk_7DE != 0) {
@@ -1005,7 +1005,7 @@ void EnTest_SetupSlashUp(EnTest* this) {
 }
 
 void EnTest_SlashUp(EnTest* this, PlayState* play) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     if ((s32)this->skelAnime.curFrame == 2) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_SAKEBI);
@@ -1034,9 +1034,9 @@ void EnTest_SetupJumpBack(EnTest* this) {
     }
 
     if (this->actor.params != STALFOS_TYPE_CEILING) {
-        this->actor.speedXZ = -11.0f;
+        this->actor.speed = -11.0f;
     } else {
-        this->actor.speedXZ = -7.0f;
+        this->actor.speed = -7.0f;
     }
 }
 
@@ -1079,7 +1079,7 @@ void EnTest_SetupJumpslash(EnTest* this) {
     this->timer = 0;
     this->unk_7C8 = 0x17;
     this->actor.velocity.y = 10.0f;
-    this->actor.speedXZ = 8.0f;
+    this->actor.speed = 8.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->swordCollider.base.atFlags &= ~AT_BOUNCED;
@@ -1100,7 +1100,7 @@ void EnTest_Jumpslash(EnTest* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_SAKEBI);
             Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
         } else {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             EnTest_SetupIdle(this);
         }
     }
@@ -1110,13 +1110,13 @@ void EnTest_Jumpslash(EnTest* this, PlayState* play) {
     }
 
     if (this->actor.world.pos.y <= this->actor.floorHeight) {
-        if (this->actor.speedXZ != 0.0f) {
+        if (this->actor.speed != 0.0f) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         }
 
         this->actor.world.pos.y = this->actor.floorHeight;
         this->actor.velocity.y = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 }
 
@@ -1125,7 +1125,7 @@ void EnTest_SetupJumpUp(EnTest* this) {
     this->timer = 0;
     this->unk_7C8 = 4;
     this->actor.velocity.y = 14.0f;
-    this->actor.speedXZ = 6.0f;
+    this->actor.speed = 6.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnTest_SetupAction(this, EnTest_JumpUp);
@@ -1146,7 +1146,7 @@ void EnTest_JumpUp(EnTest* this, PlayState* play) {
         }
 
         this->actor.velocity.y = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->unk_7C8 = 0xC;
         this->timer = 4;
         Animation_Change(&this->skelAnime, &gStalfosLandFromLeapAnim, 0.0f, 0.0f, 0.0f, 2, 0.0f);
@@ -1158,7 +1158,7 @@ void EnTest_SetupStopAndBlock(EnTest* this) {
     Animation_Change(&this->skelAnime, &gStalfosBlockWithShieldAnim, 2.0f, 0.0f,
                      Animation_GetLastFrame(&gStalfosBlockWithShieldAnim), 2, 2.0f);
     this->unk_7C8 = 0x15;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->timer = (Rand_ZeroOne() * 10.0f) + 11.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk_7DE = 5;
@@ -1166,7 +1166,7 @@ void EnTest_SetupStopAndBlock(EnTest* this) {
 }
 
 void EnTest_StopAndBlock(EnTest* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.5f, 0.0f);
     SkelAnime_Update(&this->skelAnime);
 
     if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80) &&
@@ -1189,11 +1189,11 @@ void EnTest_SetupIdleFromBlock(EnTest* this) {
 }
 
 void EnTest_IdleFromBlock(EnTest* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.5f, 0.0f);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->skelAnime.morphWeight == 0.0f) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->unk_7DE = 0;
 
         if (!EnTest_ReactToProjectile(play, this)) {
@@ -1210,7 +1210,7 @@ void func_80862154(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFlinchFromHitFrontAnim);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 8;
-    this->actor.speedXZ = -2.0f;
+    this->actor.speed = -2.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     EnTest_SetupAction(this, func_808621D4);
 }
@@ -1218,10 +1218,10 @@ void func_80862154(EnTest* this) {
 void func_808621D4(EnTest* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.1f, 0.0f);
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
 
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
             ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
@@ -1254,7 +1254,7 @@ void func_80862398(EnTest* this) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFlinchFromHitBehindAnim);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DAMAGE);
     this->unk_7C8 = 9;
-    this->actor.speedXZ = -2.0f;
+    this->actor.speed = -2.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     EnTest_SetupAction(this, func_80862418);
 }
@@ -1262,10 +1262,10 @@ void func_80862398(EnTest* this) {
 void func_80862418(EnTest* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.1f, 0.0f);
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
 
         if (!EnTest_ReactToProjectile(play, this)) {
             EnTest_ChooseAction(this, play);
@@ -1295,7 +1295,7 @@ void EnTest_SetupStunned(EnTest* this) {
     this->unk_7DE = 0;
     this->swordState = 0;
     this->skelAnime.playSpeed = 0.0f;
-    this->actor.speedXZ = -4.0f;
+    this->actor.speed = -4.0f;
 
     if (this->lastDamageEffect == STALFOS_DMGEFF_LIGHT) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_GRAY, 120, COLORFILTER_BUFFLAG_OPA, 80);
@@ -1316,7 +1316,7 @@ void EnTest_SetupStunned(EnTest* this) {
 void EnTest_Stunned(EnTest* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
 
     if (this->actor.colorFilterTimer == 0) {
         if (this->actor.colChkInfo.health == 0) {
@@ -1334,7 +1334,7 @@ void EnTest_Stunned(EnTest* this, PlayState* play) {
 
             this->unk_7C8 = 8;
         } else {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             if (!EnTest_ReactToProjectile(play, this)) {
                 EnTest_ChooseAction(this, play);
             }
@@ -1351,7 +1351,7 @@ void func_808627C4(EnTest* this, PlayState* play) {
 
     Animation_MorphToLoop(&this->skelAnime, &gStalfosSidestepAnim, -2.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
-    this->actor.speedXZ = ((play->gameplayFrames % 2) != 0) ? -4.0f : 4.0f;
+    this->actor.speed = ((play->gameplayFrames % 2) != 0) ? -4.0f : 4.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 20.0f;
     this->unk_7C8 = 0x18;
@@ -1377,25 +1377,25 @@ void func_808628C8(EnTest* this, PlayState* play) {
         this->unk_7DE++;
     }
 
-    if (this->actor.speedXZ >= 0.0f) {
-        if (this->actor.speedXZ < 6.0f) {
-            this->actor.speedXZ += 0.125f;
+    if (this->actor.speed >= 0.0f) {
+        if (this->actor.speed < 6.0f) {
+            this->actor.speed += 0.125f;
         } else {
-            this->actor.speedXZ = 6.0f;
+            this->actor.speed = 6.0f;
         }
     } else {
-        if (this->actor.speedXZ > -6.0f) {
-            this->actor.speedXZ -= 0.125f;
+        if (this->actor.speed > -6.0f) {
+            this->actor.speed -= 0.125f;
         } else {
-            this->actor.speedXZ = -6.0f;
+            this->actor.speed = -6.0f;
         }
     }
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
         ((this->actor.params == STALFOS_TYPE_CEILING) &&
-         !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF))) {
+         !Actor_TestFloorInDirection(&this->actor, play, this->actor.speed, this->actor.shape.rot.y + 0x3FFF))) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-            if (this->actor.speedXZ >= 0.0f) {
+            if (this->actor.speed >= 0.0f) {
                 newYaw = (this->actor.shape.rot.y + 0x3FFF);
             } else {
                 newYaw = (this->actor.shape.rot.y - 0x3FFF);
@@ -1403,17 +1403,17 @@ void func_808628C8(EnTest* this, PlayState* play) {
 
             newYaw = this->actor.wallYaw - newYaw;
         } else {
-            this->actor.speedXZ *= -0.8f;
+            this->actor.speed *= -0.8f;
             newYaw = 0;
         }
 
         if (ABS(newYaw) > 0x4000) {
-            this->actor.speedXZ *= -0.8f;
+            this->actor.speed *= -0.8f;
 
-            if (this->actor.speedXZ < 0.0f) {
-                this->actor.speedXZ -= 0.5f;
+            if (this->actor.speed < 0.0f) {
+                this->actor.speed -= 0.5f;
             } else {
-                this->actor.speedXZ += 0.5f;
+                this->actor.speed += 0.5f;
             }
         }
     }
@@ -1437,7 +1437,7 @@ void func_808628C8(EnTest* this, PlayState* play) {
         this->actor.world.pos.z += (Math_CosS(this->actor.shape.rot.y) * this->unk_7EC);
     }
 
-    this->skelAnime.playSpeed = this->actor.speedXZ * 0.5f;
+    this->skelAnime.playSpeed = this->actor.speed * 0.5f;
 
     prevFrame = (s32)this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
@@ -1538,7 +1538,7 @@ void func_80862FA8(EnTest* this, PlayState* play) {
     this->unk_7DE = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colorFilterTimer = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     if (this->actor.params <= STALFOS_TYPE_CEILING) {
         this->unk_7C8 = 5;
@@ -1567,7 +1567,7 @@ void func_808630F0(EnTest* this, PlayState* play) {
     this->unk_7C8 = 6;
     this->actor.colorFilterTimer = 0;
     this->unk_7DE = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     if (this->actor.params <= STALFOS_TYPE_CEILING) {
         this->actor.flags &= ~ACTOR_FLAG_0;
@@ -1657,7 +1657,7 @@ void EnTest_UpdateDamage(EnTest* this, PlayState* play) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
 
         if (this->unk_7C8 >= 0xA) {
-            this->actor.speedXZ = -4.0f;
+            this->actor.speed = -4.0f;
         }
     } else if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -1898,7 +1898,7 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
 
         if ((limbIndex == STALFOS_LIMB_FOOT_L) || (limbIndex == STALFOS_LIMB_ANKLE_R)) {
             if ((this->unk_7C8 == 0x15) || (this->unk_7C8 == 0x16)) {
-                if (this->actor.speedXZ != 0.0f) {
+                if (this->actor.speed != 0.0f) {
                     Matrix_MultVec3f(&D_80864658, &sp64);
                     Actor_SpawnFloorDustRing(play, &this->actor, &sp64, 10.0f, 1, 8.0f, 100, 15, false);
                 }
@@ -1974,7 +1974,7 @@ void EnTest_Draw(Actor* thisx, PlayState* play) {
 // a variation of sidestep
 void func_80864158(EnTest* this, f32 xzSpeed) {
     Animation_MorphToLoop(&this->skelAnime, &gStalfosSidestepAnim, -2.0f);
-    this->actor.speedXZ = xzSpeed;
+    this->actor.speed = xzSpeed;
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = (Rand_ZeroOne() * 20.0f) + 15.0f;
     this->unk_7C8 = 0x18;
