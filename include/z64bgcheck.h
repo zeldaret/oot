@@ -239,7 +239,7 @@ typedef enum {
     (((canHookshot)       << 17) & 0x00020000) | \
     (((conveyorSpeed)     << 18) & 0x001C0000) | \
     (((conveyorDirection) << 21) & 0x07E00000) | \
-    (((unk27) & 1 << 27))
+    ((((unk27) & 1) << 27))
 
 typedef struct {
     u32 data[2];
