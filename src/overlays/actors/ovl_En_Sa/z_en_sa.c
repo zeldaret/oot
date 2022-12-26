@@ -466,16 +466,16 @@ void func_80AF609C(EnSa* this) {
     }
 }
 
-void func_80AF6130(CsCmdActorAction* csAction, Vec3f* dst) {
-    dst->x = csAction->startPos.x;
-    dst->y = csAction->startPos.y;
-    dst->z = csAction->startPos.z;
+void func_80AF6130(CsCmdActorCue* cue, Vec3f* dst) {
+    dst->x = cue->startPos.x;
+    dst->y = cue->startPos.y;
+    dst->z = cue->startPos.z;
 }
 
-void func_80AF6170(CsCmdActorAction* csAction, Vec3f* dst) {
-    dst->x = csAction->endPos.x;
-    dst->y = csAction->endPos.y;
-    dst->z = csAction->endPos.z;
+void func_80AF6170(CsCmdActorCue* cue, Vec3f* dst) {
+    dst->x = cue->endPos.x;
+    dst->y = cue->endPos.y;
+    dst->z = cue->endPos.z;
 }
 
 void EnSa_Init(Actor* thisx, PlayState* play) {
@@ -505,7 +505,7 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
         case 4:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
             gSaveContext.cutsceneTrigger = 1;
             EnSa_ChangeAnim(this, ENSA_ANIM1_4);
             this->actionFunc = func_80AF68E4;
@@ -625,7 +625,7 @@ void func_80AF683C(EnSa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Play_InCsMode(play)) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
     }
@@ -636,7 +636,7 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
     Vec3f startPos;
     Vec3f endPos;
     Vec3f D_80AF7448 = { 0.0f, 0.0f, 0.0f };
-    CsCmdActorAction* csAction;
+    CsCmdActorCue* cue;
     f32 temp_f0;
     f32 gravity;
 
@@ -644,16 +644,18 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
         this->actionFunc = func_80AF6B20;
         return;
     }
-    csAction = play->csCtx.npcActions[1];
-    if (csAction != NULL) {
-        func_80AF6130(csAction, &startPos);
-        func_80AF6170(csAction, &endPos);
+
+    cue = play->csCtx.actorCues[1];
+
+    if (cue != NULL) {
+        func_80AF6130(cue, &startPos);
+        func_80AF6170(cue, &endPos);
 
         if (this->unk_210 == 0) {
             this->actor.world.pos = startPos;
         }
-        if (this->unk_210 != csAction->action) {
-            switch (csAction->action) {
+        if (this->unk_210 != cue->id) {
+            switch (cue->id) {
                 case 2:
                     this->mouthIndex = 1;
                     break;
@@ -664,11 +666,13 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
                     this->mouthIndex = 0;
                     break;
             }
-            EnSa_ChangeAnim(this, csAction->action);
-            this->unk_210 = csAction->action;
+            EnSa_ChangeAnim(this, cue->id);
+            this->unk_210 = cue->id;
         }
+
         if (phi_v0) {}
-        if (csAction->action == 3) {
+
+        if (cue->id == 3) {
             if (this->unk_20C == 0) {
                 phi_v0 = 0;
             } else {
@@ -681,13 +685,13 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
                 this->unk_20C = 8;
             }
         }
-        this->actor.shape.rot.x = csAction->urot.x;
-        this->actor.shape.rot.y = csAction->urot.y;
-        this->actor.shape.rot.z = csAction->urot.z;
+        this->actor.shape.rot.x = cue->rot.x;
+        this->actor.shape.rot.y = cue->rot.y;
+        this->actor.shape.rot.z = cue->rot.z;
         this->actor.velocity = D_80AF7448;
 
-        if (play->csCtx.frames < csAction->endFrame) {
-            temp_f0 = csAction->endFrame - csAction->startFrame;
+        if (play->csCtx.curFrame < cue->endFrame) {
+            temp_f0 = cue->endFrame - cue->startFrame;
             this->actor.velocity.x = (endPos.x - startPos.x) / temp_f0;
             this->actor.velocity.y = (endPos.y - startPos.y) / temp_f0;
             gravity = this->actor.gravity;

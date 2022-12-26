@@ -752,7 +752,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
         this->waypoint = 1;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80AABD0C;
-        this->actor.speedXZ = 1.5f;
+        this->actor.speed = 1.5f;
         return;
     }
 
@@ -764,7 +764,7 @@ void func_80AAB948(EnMd* this, PlayState* play) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
             player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;
-            func_8010BD58(play, OCARINA_ACTION_CHECK_SARIA);
+            Message_StartOcarina(play, OCARINA_ACTION_CHECK_SARIA);
             this->actionFunc = func_80AABC10;
             return;
         }
@@ -814,7 +814,7 @@ void func_80AABD0C(EnMd* this, PlayState* play) {
     func_80AAA92C(this, 11);
 
     this->skelAnime.playSpeed = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.home.pos = this->actor.world.pos;
     this->actionFunc = func_80AAB8F8;
 }

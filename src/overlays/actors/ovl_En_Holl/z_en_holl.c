@@ -278,7 +278,7 @@ void EnHoll_VerticalDownBgCoverLarge(EnHoll* this, PlayState* play) {
                 func_8009728C(play, &play->roomCtx, this->actor.room)) {
                 EnHoll_SetupAction(this, EnHoll_WaitRoomLoaded);
                 this->resetBgCoverAlpha = true;
-                player->actor.speedXZ = 0.0f;
+                player->actor.speed = 0.0f;
             }
         }
     } else {

@@ -290,7 +290,7 @@ void BgDodoago_Update(Actor* thisx, PlayState* play) {
                 // disable the bomb catcher for a few seconds
                 this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;
-                bomb->actor.speedXZ = 0.0f;
+                bomb->actor.speed = 0.0f;
                 sTimer = 0;
             }
         }

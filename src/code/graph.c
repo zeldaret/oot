@@ -242,8 +242,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     scTask->next = NULL;
     scTask->flags = OS_SC_NEEDS_RSP | OS_SC_NEEDS_RDP | OS_SC_SWAPBUFFER | OS_SC_LAST_TASK;
-    if (SREG(33) & 1) {
-        SREG(33) &= ~1;
+    if (R_GRAPH_TASKSET00_FLAGS & 1) {
+        R_GRAPH_TASKSET00_FLAGS &= ~1;
         scTask->flags &= ~OS_SC_SWAPBUFFER;
         gfxCtx->fbIdx--;
     }

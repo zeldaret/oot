@@ -7716,7 +7716,7 @@ Vec3s Camera_Update(Camera* camera) {
         if (gDbgCamEnabled) {
             DbgCamera_Enable(&D_8015BD80, camera);
         } else if (camera->play->csCtx.state != CS_STATE_IDLE) {
-            func_80064534(camera->play, &camera->play->csCtx);
+            Cutscene_StopManual(camera->play, &camera->play->csCtx);
         }
     }
 

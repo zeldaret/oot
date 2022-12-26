@@ -13,7 +13,7 @@ typedef struct DemoExt {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
     /* 0x014C */ s32 drawMode;
-    /* 0x0154 */ s32 previousCsAction;
+    /* 0x0154 */ s32 cueId;
     /* 0x015E */ s16 scrollIncr[4];
     /* 0x0160 */ s16 curScroll[4];
     /* 0x0168 */ s16 rotationPitch;

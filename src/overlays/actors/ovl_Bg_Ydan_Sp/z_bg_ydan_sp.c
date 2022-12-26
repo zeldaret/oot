@@ -308,7 +308,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
                 this->timer = 14;
             }
         }
-        if (player->actor.speedXZ != 0.0f) {
+        if (player->actor.speed != 0.0f) {
             if (this->unk_16C < 0.1f) {
                 this->timer = 14;
             }

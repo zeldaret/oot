@@ -68,11 +68,11 @@ void EnPubox_Destroy(Actor* thisx, PlayState* play) {
 void EnPubox_Update(Actor* thisx, PlayState* play) {
     EnPubox* this = (EnPubox*)thisx;
 
-    thisx->speedXZ += this->dyna.unk_150;
+    thisx->speed += this->dyna.unk_150;
     thisx->world.rot.y = this->dyna.unk_158;
-    thisx->speedXZ = (thisx->speedXZ < -2.5f) ? -2.5f : ((thisx->speedXZ > 2.5f) ? 2.5f : thisx->speedXZ);
-    Math_SmoothStepToF(&thisx->speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
-    if (thisx->speedXZ != 0.0f) {
+    thisx->speed = CLAMP(thisx->speed, -2.5f, 2.5f);
+    Math_SmoothStepToF(&thisx->speed, 0.0f, 1.0f, 1.0f, 0.0f);
+    if (thisx->speed != 0.0f) {
         Audio_PlaySfxGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
