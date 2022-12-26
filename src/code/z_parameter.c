@@ -3239,7 +3239,7 @@ void Interface_Draw(PlayState* play) {
         Minimap_Draw(play);
 
         if ((R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_PROCESS) &&
-            (R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_DONE)) {
+            (R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_READY)) {
             func_8002C124(&play->actorCtx.targetCtx, play); // Draw Z-Target
         }
 

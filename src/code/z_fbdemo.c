@@ -1,18 +1,20 @@
 /**
  * @file z_fbdemo.c
  *
- * This file implements an unused transition system that takes the current screen, partitions it into large tiles, and can apply an effect to them.
+ * This file implements an unused transition system that takes the current screen, partitions it into large tiles, and
+ * can apply an effect to them.
  *
  * The screen is divided into 7 rows and 10 columns of tiles. (`gScreenWidth`/ 10 = `gScreenHeight` / 7 = 0x20)
  *
- * @note The only coded effect has a visual effect to blend the tiles to a single point, which looks like the screen gets sucked into.
+ * @note The only coded effect has a visual effect to blend the tiles to a single point, which looks like the screen
+ * gets sucked into.
  */
 #include "global.h"
 
 // color framebuffer
 extern u16 D_0F000000[];
 
-// Unused background; a blue square with a grey border that fills the screen
+// Unused background; a blue rectangle with a grey border that fills the screen
 Gfx sTransTileBackgroundDL[] = {
     gsDPPipeSync(),
     gsDPSetCycleType(G_CYC_FILL),
@@ -221,8 +223,8 @@ void TransitionTile_Draw(TransitionTile* this, Gfx** gfxP) {
 }
 
 /**
- * Blurs tiles which has the visual effect of sucking those tiles into a single point
-*/
+ * Blends tiles which has the visual effect of sucking those tiles into a single point
+ */
 void TransitionTile_Suck(TransitionTile* this) {
     s32 row;
     s32 col;

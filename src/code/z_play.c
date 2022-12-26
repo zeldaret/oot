@@ -186,7 +186,7 @@ void Play_Destroy(GameState* thisx) {
     EffectSs_ClearAll(this);
     CollisionCheck_DestroyContext(this, &this->colChkCtx);
 
-    if (gTransitionTileState == TRANS_TILE_DONE) {
+    if (gTransitionTileState == TRANS_TILE_READY) {
         TransitionTile_Destroy(&sTransitionTile);
         gTransitionTileState = TRANS_TILE_OFF;
     }
@@ -500,12 +500,12 @@ void Play_Update(PlayState* this) {
                         gTransitionTileState = TRANS_TILE_OFF;
                     } else {
                         sTransitionTile.zBuffer = (u16*)gZBuffer;
-                        gTransitionTileState = TRANS_TILE_DONE;
+                        gTransitionTileState = TRANS_TILE_READY;
                         R_UPDATE_RATE = 1;
                     }
                     break;
 
-                case TRANS_TILE_DONE:
+                case TRANS_TILE_READY:
                     TransitionTile_Update(&sTransitionTile);
                     break;
 
@@ -656,7 +656,7 @@ void Play_Update(PlayState* this) {
                             func_800BC88C(this);
                             this->transitionMode = TRANS_MODE_OFF;
 
-                            if (gTransitionTileState == TRANS_TILE_DONE) {
+                            if (gTransitionTileState == TRANS_TILE_READY) {
                                 TransitionTile_Destroy(&sTransitionTile);
                                 gTransitionTileState = TRANS_TILE_OFF;
                                 R_UPDATE_RATE = 3;
@@ -841,7 +841,7 @@ void Play_Update(PlayState* this) {
 
         PLAY_LOG(3533);
 
-        if (1 && (gTransitionTileState != TRANS_TILE_DONE)) {
+        if (1 && (gTransitionTileState != TRANS_TILE_READY)) {
             PLAY_LOG(3542);
 
             if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (this->msgCtx.msgMode == MSGMODE_NONE) &&
@@ -1113,7 +1113,7 @@ void Play_Draw(PlayState* this) {
             POLY_OPA_DISP = gfxP;
         }
 
-        if (gTransitionTileState == TRANS_TILE_DONE) {
+        if (gTransitionTileState == TRANS_TILE_READY) {
             Gfx* sp88 = POLY_OPA_DISP;
 
             TransitionTile_Draw(&sTransitionTile, &sp88);
@@ -1130,12 +1130,12 @@ void Play_Draw(PlayState* this) {
 
                 PreRender_ApplyFilters(&this->pauseBgPreRender);
 
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DONE;
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
             } else if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_MAX) {
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
             }
 
-            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_DONE) {
+            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_READY) {
                 Gfx* gfxP = POLY_OPA_DISP;
 
                 PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &gfxP);
