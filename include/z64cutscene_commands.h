@@ -4,6 +4,23 @@
 #include "command_macros_base.h"
 #include "z64cutscene.h"
 
+/**
+ * Cutscene scripts are arrays of `CutsceneData` words, including bit-packed integers and floats.
+ *
+ * Most command macros have unused arguments. This is to account for the vanilla assets setting specific values
+ * that don't end up being used by any code. They can safely be set to anything, as they aren't used in the
+ * implementation.
+ *
+ * It is believed the original tool used for cutscenes handled most commands the same way, using similar
+ * fields, and the code would have accessed them using common structs. Given this, the unused values observed in vanilla
+ * assets may appear to map to a variable that makes sense, even if it doesn't end up being used in the code. It
+ * probably isn't garbage data.
+ *
+ * This codebase goes with specialized structs and macros to make it easier to follow the code.
+ * Note this common struct design is still partially reflected in all commands having a `startFrame` and `endFrame`,
+ * when sometimes only the `startFrame` matters (as documented).
+ */
+
 #ifdef __GNUC__
 #define CMD_F(a) {.f = (a)}
 #else
@@ -11,445 +28,281 @@
 #endif
 
 /**
- * ARGS
- *   s32 totalEntries (e), s32 endFrame (n)
- * FORMAT
- *   eeeeeeee nnnnnnnn
- *   size = 0x8
+ * Marks the beginning of a cutscene script.
  */
-#define CS_BEGIN_CUTSCENE(totalEntries, endFrame) CMD_W(totalEntries), CMD_W(endFrame)
+#define CS_BEGIN_CUTSCENE(totalEntries, frameCount) CMD_W(totalEntries), CMD_W(frameCount)
 
 /**
- * ARGS
- *   s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   00000001 0001ssss eeee0000
- *   size = 0xC
+ * Defines data for `CutsceneCameraPoint`, which can be used with any of the `eye` or `at` camera commands.
  */
-#define CS_CAM_POS_LIST CS_CAM_EYE_LIST
-#define CS_CAM_EYE_LIST(startFrame, endFrame) \
+#define CS_CAM_POINT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+
+/**
+ * Declares a list of camera `eye` points that form a spline.
+ * The points of the spline are interpolated over time to create smooth camera movements.
+ */
+#define CS_CAM_EYE_SPLINE(startFrame, endFrame) \
+    CS_CMD_CAM_EYE_SPLINE, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+
+/**
+ * Declares a list of camera `at` points that form a spline.
+ * The points of the spline are interpolated over time to create smooth camera movements.
+ */
+#define CS_CAM_AT_SPLINE(startFrame, endFrame) \
+    CS_CMD_CAM_AT_SPLINE, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+
+/**
+ * Declares a list of camera `eye` points that form a spline.
+ * The points of the spline are interpolated over time to create smooth camera movements.
+ * The points are relative to the player's position and yaw.
+ */
+#define CS_CAM_EYE_SPLINE_REL_TO_PLAYER(startFrame, endFrame) \
+    CS_CMD_CAM_EYE_SPLINE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+
+/**
+ * Declares a list of camera `at` points that form a spline.
+ * The points of the spline are interpolated over time to create smooth camera movements.
+ * The points are relative to the player's position and yaw.
+ */
+#define CS_CAM_AT_SPLINE_REL_TO_PLAYER(startFrame, endFrame) \
+    CS_CMD_CAM_AT_SPLINE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+
+/**
+ * Declares a single `eye` point that will be set on the specified frame, without any interpolation.
+ * Should only contain a single point, not a list.
+ * This feature is not used in the final game and lacks polish, it is recommended to use splines in all cases.
+ */
+#define CS_CAM_EYE(startFrame, endFrame) \
     CS_CMD_CAM_EYE, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
- * ARGS
- *   s8 continueFlag (c), s8 roll (r), s16 frame (f), f32 viewAngle (a),
- *   s16 xPos (x), s16 yPos (y), s16 zPos (z)
- * FORMAT
- *   Capital U is Unused
- *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
- *   size = 0x10
+ * Declares a single `at` point that will be set on the specified frame, without any interpolation.
+ * Should only contain a single point, not a list.
+ * This feature is not used in the final game and lacks polish, it is recommended to use splines in all cases.
  */
-#define CS_CAM_POS CS_CAM_EYE
-#define CS_CAM_EYE(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
-
-/**
- * ARGS
- *   s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   00000002 0001ssss eeee0000
- *   size = 0xC
- */
-#define CS_CAM_FOCUS_POINT_LIST CS_CAM_AT_LIST
-#define CS_CAM_AT_LIST(startFrame, endFrame) \
+#define CS_CAM_AT(startFrame, endFrame) \
     CS_CMD_CAM_AT, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
- * ARGS
- *   s8 continueFlag (c), s8 roll (r), s16 frame (f), f32 viewAngle (a),
- *   s16 xPos (x), s16 yPos (y), s16 zPos (z)
- * FORMAT
- *   Capital U is Unused
- *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
- *   size = 0x10
+ * Declares a list of `CS_MISC` entries.
  */
-#define CS_CAM_FOCUS_POINT CS_CAM_AT
-#define CS_CAM_AT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+#define CS_MISC_LIST(entries) \
+    CS_CMD_MISC, CMD_W(entries)
 
 /**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   00000003 eeeeeeee
- *   size = 0x8
+ * Various miscellaneous commands.
+ * @see `CutsceneMiscType` enum for the different types of commands.
+ * @note setting `endFrame` to same value as `startFrame` will not behave as expected.
+ * For commands that only need to last one frame, set `endFrame` to `startFrame + 1`.
  */
-#define CS_MISC_LIST(entries) CS_CMD_MISC, CMD_W(entries)
-
-/**
- * ARGS
- *   s16 unk (u), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused
- *   uuuussss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
- *   size = 0x30
- */
-#define CS_MISC(unk, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
-    CMD_HH(unk, startFrame), CMD_HH(endFrame, unused0), \
+#define CS_MISC(type, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+    CMD_HH(type, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
     CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   00000004 eeeeeeee
- *   size = 0x8
+ * Declares a list of `CS_LIGHT_SETTING` entries.
  */
-#define CS_LIGHTING_LIST(entries) CS_CMD_SET_LIGHTING, CMD_W(entries)
-
+#define CS_LIGHT_SETTING_LIST(entries) \
+    CS_CMD_LIGHT_SETTING, CMD_W(entries)
 
 /**
- * ARGS
- *   s16 setting (m), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused
- *   mmmmssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU 00000000 00000000 00000000
- *   size = 0x30
+ * Changes the environment lights to the specified setting.
+ * The lighting change will take place immediately with no blending.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */
-#define CS_LIGHTING(setting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(setting, startFrame), CMD_HH(endFrame, unused0), \
+#define CS_LIGHT_SETTING(lightSetting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+    CMD_BBH(0, (lightSetting + 1), startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
     CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
- * ARGS
- *   s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused , may be consistently zero
- *   00000005 0001ssss eeee0000
- *   size = 0xC
+ * Declares a list of `CS_RUMBLE_CONTROLLER` entries.
  */
-#define CS_CAM_POS_PLAYER_LIST CS_CAM_EYE_REL_TO_PLAYER_LIST
-#define CS_CAM_EYE_REL_TO_PLAYER_LIST(startFrame, endFrame) \
-    CS_CMD_CAM_EYE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+#define CS_RUMBLE_CONTROLLER_LIST(entries) \
+    CS_CMD_RUMBLE_CONTROLLER, CMD_W(entries)
 
 /**
- * ARGS
- *   s8 continueFlag (c), s8 roll (r), s16 frame (f), f32 viewAngle (a),
- *   s16 xPos (x), s16 yPos (y), s16 zPos (z)
- * FORMAT
- *   Capital U is Unused
- *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
- *   size = 0x10
- */
-#define CS_CAM_POS_PLAYER CS_CAM_EYE_REL_TO_PLAYER
-#define CS_CAM_EYE_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+ * Rumble the controller.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
+*/
+#define CS_RUMBLE_CONTROLLER(unused0, startFrame, endFrame, sourceStrength, duration, decreaseRate, unused1, unused2) \
+    CMD_HH(unused0, startFrame), CMD_HBB(endFrame, sourceStrength, duration), CMD_BBH(decreaseRate, unused1, unused2)
 
 /**
- * ARGS
- *   s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused , may be consistently zero
- *   00000006 0001ssss eeee0000
- *   size = 0xC
+ * Declares a list of `CS_ACTOR_CUE` entries.
  */
-#define CS_CAM_FOCUS_POINT_PLAYER_LIST CS_CAM_AT_REL_TO_PLAYER_LIST
-#define CS_CAM_AT_REL_TO_PLAYER_LIST(startFrame, endFrame) \
-    CS_CMD_CAM_AT_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
-/**
- * ARGS
- *   s8 continueFlag (c), s8 roll (r), s16 frame (f), f32 viewAngle (a),
- *   s16 xPos (x), s16 yPos (y), s16 zPos (z)
- * FORMAT
- *   Capital U is Unused
- *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
- *   size = 0x10
- */
-#define CS_CAM_FOCUS_POINT_PLAYER CS_CAM_AT_REL_TO_PLAYER
-#define CS_CAM_AT_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+#define CS_ACTOR_CUE_LIST(cmdType, entries) \
+    CMD_W(cmdType), CMD_W(entries)
 
 /**
- * ARGS
- *   s16 unk (u), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused
- *   00000007 uuuussss eeeeUUUU
- *   size = 0xC
+ * Defines a cue that an actor can listen for. 
+ * The actor can choose whether or not to use the position and rotation data supplied to it.
+ * The cue `id` is a number that has an actor-specific meaning.
  */
-#define CS_CMD_07_LIST(unk, startFrame, endFrame, unused) \
-    CS_CMD_07, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
+#define CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2) \
+    CMD_HH(id, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
+    CMD_W(startX), CMD_W(startY), CMD_W(startZ), \
+    CMD_W(endX), CMD_W(endY), CMD_W(endZ), \
+    CMD_F(unused0), CMD_F(unused1), CMD_F(unused2)
 
 /**
- * ARGS
- *   s8 continueFlag (c), s8 roll (r), s16 frame (f), f32 viewAngle (a),
- *   s16 xPos (x), s16 yPos (y), s16 zPos (z)
- * FORMAT
- *   Capital U is Unused
- *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
- *   size = 0x10
+ * Declares a list of `CS_PLAYER_CUE` entries.
  */
-#define CS_CMD_07(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+#define CS_PLAYER_CUE_LIST(entries) \
+    CS_CMD_PLAYER_CUE, CMD_W(entries)
 
 /**
- * ARGS
- *   s16 unk (u), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused
- *   00000008 uuuussss eeeeUUUU
- *   size = 0xC
+ * A player cue is the same as `CS_ACTOR_CUE` but is specifically for player. 
  */
-#define CS_CMD_08_LIST(unk, startFrame, endFrame, unused) \
-    CS_CMD_08, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
+#define CS_PLAYER_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2) \
+    CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2)
 
 /**
- * ARGS
- *   s8 continueFlag (c), s8 roll (r), s16 frame (f), f32 viewAngle (a),
- *   s16 xPos (x), s16 yPos (y), s16 zPos (z)
- * FORMAT
- *   Capital U is Unused
- *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
- *   size = 0x10
+ * Declares a list of `CS_TEXT_*` entries.
  */
-#define CS_CMD_08(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+#define CS_TEXT_LIST(entries) \
+    CS_CMD_TEXT, CMD_W(entries)
 
 /**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   00000009 eeeeeeee
- *   size = 0x8
+ * Starts a textbox at the specified time. 
+ * For `CS_TEXT_OCARINA_ACTION`, `textId` is used as an ocarina action.
+ * For a choice textbox, `altTextId1` is the top text id to branch to and `altTextId2` is the bottom.
  */
-#define CS_CMD_09_LIST(entries) CS_CMD_09, CMD_W(entries)
+#define CS_TEXT(textId, startFrame, endFrame, type, altTextId1, altTextId2) \
+    CMD_HH(textId, startFrame), CMD_HH(endFrame, type), CMD_HH(altTextId1, altTextId2)
+
+#define CS_TEXT_NONE(startFrame, endFrame) \
+    CS_TEXT(CS_TEXT_ID_NONE, startFrame, endFrame, 0xFFFF, CS_TEXT_ID_NONE, CS_TEXT_ID_NONE)
+
+#define CS_TEXT_OCARINA_ACTION(ocarinaAction, startFrame, endFrame, messageId) \
+    CS_TEXT(ocarinaAction, startFrame, endFrame, CS_TEXT_OCARINA_ACTION, messageId, CS_TEXT_ID_NONE)
 
 /**
- * ARGS
- *   s16 unk (u), s16 startFrame (s), s16 endFrame (e), s16 unk2 (v), s16 unk3 (w), s16 unk4 (x)
- * FORMAT
- *   Capital U is Unused
- *   uuuussss eeeevvww xxUUUUUU
- *   size = 0xC
+ * Controls various types of screen transitions.
+ * @see `CutsceneTransitionType` for type options.
  */
-#define CS_CMD_09(unk, startFrame, endFrame, unk2, unk3, unk4, unused0, unused1) \
-    CMD_HH(unk, startFrame), CMD_HBB(endFrame, unk2, unk3), CMD_BBH(unk4, unused0, unused1)
+#define CS_TRANSITION(type, startFrame, endFrame) \
+    CS_CMD_TRANSITION, 0x00000001, CMD_HH(type, startFrame), CMD_HH(endFrame, endFrame)
 
 /**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
+ * Declares a list of `CS_START_SEQ` entries.
  */
+#define CS_START_SEQ_LIST(entries) \
+    CS_CMD_START_SEQ, CMD_W(entries)
+
+/**
+ * Starts a sequence at the specified time.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
+ */
+#define CS_START_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+    CMD_HH((seqId + 1), startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+
+/**
+ * Declares a list of `CS_STOP_SEQ` entries.
+ */
+#define CS_STOP_SEQ_LIST(entries) \
+    CS_CMD_STOP_SEQ, CMD_W(entries)
+
+/**
+ * Stops a sequence at the specified time.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
+ */
+#define CS_STOP_SEQ(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+    CMD_HH((seqId + 1), startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+
+/**
+ * Declares a list of `CS_FADE_OUT_SEQ` entries.
+ */
+#define CS_FADE_OUT_SEQ_LIST(entries) \
+    CS_CMD_FADE_OUT_SEQ, CMD_W(entries)
+
+/**
+ * Fade out the sequence that is playing on the specified sequence player, over the specified frame range.
+ * @see `CutsceneFadeOutSeqPlayer`
+ */
+#define CS_FADE_OUT_SEQ(seqPlayer, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+    CMD_HH(seqPlayer, startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
+
+/**
+ * Declares a list of `CS_TIME` entries.
+ */
+#define CS_TIME_LIST(entries) \
+    CS_CMD_TIME, CMD_W(entries)
+
+/**
+ * Sets the time of day.
+ * Both the day time and skybox time are set by this command.
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
+ */
+#define CS_TIME(unused0, startFrame, endFrame, hour, min) \
+    CMD_HH(unused0, startFrame), CMD_HBB(endFrame, hour, min), CMD_W(0)
+
+/**
+ * Sends the player to a new destination. 
+ * `destination` maps to a custom block of code that must implement the scene transition on its own.
+ * This custom code can also do other tasks like changing age, setting flags, or any other setup that is needed
+ * before going to the next destination.
+ * 
+ * @see `CutsceneDestination`
+ * @note `endFrame` is not used in the implementation of the command, so its value does not matter
+ */
+#define CS_DESTINATION(destination, startFrame, endFrame) \
+    CS_CMD_DESTINATION, 1, CMD_HH(destination, startFrame), CMD_HH(endFrame, endFrame)
+
+/**
+ * Marks the end of a cutscene script.
+ */
+#define CS_END() 0xFFFFFFFF, 0x00000000
+
+
+// most instances of this look like unimplemented actor cues.
+// after confirming this, can probably switch those over and delete this
 #define CS_UNK_DATA_LIST(cmdType, entries) CMD_W(cmdType), CMD_W(entries)
 
-/**
- * ARGS
- *   s32 unk1 (a), s32 unk2 (b), s32 unk3 (c), s32 unk4 (d), s32 unk5 (e), s32 unk6 (f),
- *   s32 unk7 (g), s32 unk8 (h), s32 unk9 (i), s32 unk10 (j), s32 unk11 (k), s32 unk12 (l)
- * FORMAT
- *   aaaaaaaa bbbbbbbb cccccccc dddddddd eeeeeeee ffffffff gggggggg hhhhhhhh iiiiiiii jjjjjjjj kkkkkkkk llllllll
- *   size = 0x30
- */
 #define CS_UNK_DATA(unk1, unk2, unk3, unk4, unk5, unk6, unk7, unk8, unk9, unk10, unk11, unk12) \
     CMD_W(unk1), CMD_W(unk2), CMD_W(unk3), CMD_W(unk4), CMD_W(unk5), CMD_W(unk6), \
     CMD_W(unk7), CMD_W(unk8), CMD_W(unk9), CMD_W(unk10), CMD_W(unk11), CMD_W(unk12)
 
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- */
-#define CS_NPC_ACTION_LIST(cmdType, entries) CMD_W(cmdType), CMD_W(entries)
+// TODO: Fix ZAPD and delete these
+#define CS_CAM_POS_LIST                CS_CAM_EYE_SPLINE
+#define CS_CAM_POS                     CS_CAM_POINT
+#define CS_CAM_FOCUS_POINT_LIST        CS_CAM_AT_SPLINE
+#define CS_CAM_FOCUS_POINT             CS_CAM_POINT
+#define CS_CAM_POS_PLAYER_LIST         CS_CAM_EYE_SPLINE_REL_TO_PLAYER
+#define CS_CAM_POS_PLAYER              CS_CAM_POINT
+#define CS_CAM_FOCUS_POINT_PLAYER_LIST CS_CAM_AT_SPLINE_REL_TO_PLAYER
+#define CS_CAM_FOCUS_POINT_PLAYER      CS_CAM_POINT
+#define CS_NPC_ACTION_LIST             CS_ACTOR_CUE_LIST
+#define CS_NPC_ACTION                  CS_ACTOR_CUE
+#define CS_PLAYER_ACTION_LIST          CS_PLAYER_CUE_LIST
+#define CS_PLAYER_ACTION               CS_PLAYER_CUE
+#define CS_LIGHTING_LIST               CS_LIGHT_SETTING_LIST
+#define CS_CMD_09_LIST                 CS_RUMBLE_CONTROLLER_LIST
+#define CS_CMD_09                      CS_RUMBLE_CONTROLLER
+#define CS_TEXT_DISPLAY_TEXTBOX        CS_TEXT
+#define CS_TEXT_LEARN_SONG             CS_TEXT_OCARINA_ACTION
+#define CS_SCENE_TRANS_FX              CS_TRANSITION
+#define CS_PLAY_BGM_LIST               CS_START_SEQ_LIST
+#define CS_STOP_BGM_LIST               CS_STOP_SEQ_LIST
+#define CS_FADE_BGM_LIST               CS_FADE_OUT_SEQ_LIST
+#define CS_FADE_BGM                    CS_FADE_OUT_SEQ
+#define CS_TERMINATOR                  CS_DESTINATION
 
-/**
- * ARGS
- *   s16 npcAction (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (i),    s32 startY (j),     s32 startZ (k),
- *   s32 endX (l),      s32 endY (m),       s32 endZ (n),
- *   f32 normX (x),     f32 normY (y),      f32 normZ (z),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww iiiiiiii jjjjjjjj kkkkkkkk llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz
- *   size = 0x30
- */
-#define CS_NPC_ACTION(npcAction, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    CMD_HH(npcAction, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
-    CMD_W(startX), CMD_W(startY), CMD_W(startZ), \
-    CMD_W(endX), CMD_W(endY), CMD_W(endZ), \
-    CMD_F(normX), CMD_F(normY), CMD_F(normZ)
+#define CS_PLAY_BGM(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
+CS_START_SEQ((seqId)-1, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7)
 
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- */
-#define CS_PLAYER_ACTION_LIST(entries) CS_CMD_SET_PLAYER_ACTION, CMD_W(entries)
+#define CS_STOP_BGM(seqId, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+CS_STOP_SEQ((seqId)-1, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8)
 
-/**
- * ARGS
- *   s16 linkAction (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),       s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (i),     s32 startY (j),     s32 startZ (k),
- *   s32 endX (l),       s32 endY (m),       s32 endZ (n),
- *   f32 normX (x),      f32 normY (y),      f32 normZ (z),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww iiiiiiii jjjjjjjj kkkkkkkk llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz
- *   size = 0x30
- */
-#define CS_PLAYER_ACTION(linkAction, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    CS_NPC_ACTION(linkAction, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   00000013 eeeeeeee
- *   size = 0x8
- */
-#define CS_TEXT_LIST(entries) CS_CMD_TEXTBOX, CMD_W(entries)
-
-/**
- * ARGS
- *   s16 messageId (i), s16 startFrame (s), s16 endFrame (e), s16 type (o),
- *   s16 topOptionBranch (y), s16 bottomOptionBranch (n)
- * FORMAT
- *   iiiissss eeeeoooo yyyynnnn
- *   size = 0xC
- */
-#define CS_TEXT_DISPLAY_TEXTBOX(messageId, startFrame, endFrame, type, topOptionBranch, bottomOptionBranch) \
-    CMD_HH(messageId, startFrame), CMD_HH(endFrame, type), CMD_HH(topOptionBranch, bottomOptionBranch)
-
-/**
- * ARGS
- *   s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   FFFFssss eeeeFFFF FFFFFFFF
- *   size = 0xC
- */
-#define CS_TEXT_NONE(startFrame, endFrame) \
-    CS_TEXT_DISPLAY_TEXTBOX(0xFFFF, startFrame, endFrame, 0xFFFF, 0xFFFF, 0xFFFF)
-
-/**
- * ARGS
- *   s16 ocarinaSongAction (o), s16 startFrame (s), s16 endFrame (e), s16 topOptionBranch (i)
- * FORMAT
- *   oooossss eeee0002 iiiiFFFF
- *   size = 0xC
- */
-#define CS_TEXT_LEARN_SONG(ocarinaSongAction, startFrame, endFrame, messageId) \
-    CS_TEXT_DISPLAY_TEXTBOX(ocarinaSongAction, startFrame, endFrame, 0x0002, messageId, 0xFFFF)
-
-/**
- * ARGS
- *   s16 transitionType (t), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused , endFrame duplicate
- *   0000002D 00000001 ttttssss eeeeUUUU
- *   size = 0x10
- */
-#define CS_SCENE_TRANS_FX(transitionType, startFrame, endFrame) \
-    CS_CMD_SCENE_TRANS_FX, 0x00000001, CMD_HH(transitionType, startFrame), CMD_HH(endFrame, endFrame)
-
-/**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   00000056 eeeeeeee
- *   size = 0x8
- */
-#define CS_PLAY_BGM_LIST(entries) CS_CMD_PLAYBGM, CMD_W(entries)
-
-/**
- * ARGS
- *   s16 sequence (q), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused
- *   qqqqssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU 00000000 00000000 00000000
- *   size = 0x30
- */
-#define CS_PLAY_BGM(sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(sequence, startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
-
-/**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   00000057 eeeeeeee
- *   size = 0x8
- */
-#define CS_STOP_BGM_LIST(entries) CS_CMD_STOPBGM, CMD_W(entries)
-
-/**
- * ARGS
- *   s16 sequence (q), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused
- *   uuqqssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU 00000000 00000000 00000000
- *   size = 0x30
- */
-#define CS_STOP_BGM(sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(sequence, startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
-
-/**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   0000007C eeeeeeee
- *   size = 0x8
- */
-#define CS_FADE_BGM_LIST(entries) CS_CMD_FADEBGM, CMD_W(entries)
-
-/**
- * ARGS
- *   s16 fadeType (t), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused
- *   ttttssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU 00000000 00000000 00000000
- *   size = 0x30
- */
-#define CS_FADE_BGM(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
-    CMD_HH(fadeType, startFrame), CMD_HH(endFrame, unused0), \
-    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
-
-/**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   0000008C eeeeeeee
- *   size = 0x8
- */
-#define CS_TIME_LIST(entries) CS_CMD_SETTIME, CMD_W(entries)
-
-/**
- * ARGS
- *   s16 unk (u), s16 startFrame (s), s16 endFrame (e), s8 hour (h), s8 min (m)
- * FORMAT
- *   Capital U is Unused
- *   uuuussss eeeehhmm UUUUUUUU
- *   size = 0xC
- */
-#define CS_TIME(unk, startFrame, endFrame, hour, min, unused) \
-    CMD_HH(unk, startFrame), \
-    CMD_HBB(endFrame, hour, min), \
-    CMD_W(unused)
-
-/**
- * ARGS
- *   CutsceneTerminatorDestination dest (d), s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   Capital U is Unused , endFrame duplicate
- *   000003E8 00000001 ddddssss eeeeUUUU
- *   size = 0x10
- */
-#define CS_TERMINATOR(dest, startFrame, endFrame) \
-    CS_CMD_TERMINATOR, 0x00000001, CMD_HH(dest, startFrame), CMD_HH(endFrame, endFrame)
-
-/**
- * Marks the end of a cutscene
- */
-#define CS_END() 0xFFFFFFFF, 0x00000000
+#define CS_LIGHTING(lightSetting, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8) \
+CS_LIGHT_SETTING((lightSetting)-1, frame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8)
 
 #endif

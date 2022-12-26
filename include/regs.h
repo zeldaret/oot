@@ -157,6 +157,7 @@
 #define R_TEXTBOX_TEXHEIGHT_TARGET               XREG(77)
 #define R_ENV_LIGHT1_DIR(i)                      cREG(3 + (i))
 #define R_ENV_LIGHT2_DIR(i)                      cREG(6 + (i))
+#define R_TRANS_FADE_FLASH_ALPHA_STEP            iREG(50) // Set to a negative number to start the flash
 #define R_ROOM_CULL_DEBUG_MODE                   iREG(86)
 #define R_ROOM_CULL_NUM_ENTRIES                  iREG(87)
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)
@@ -219,6 +220,7 @@
 #define R_ENABLE_PLAY_LOGS                       HREG(63)
 #define R_EN_GOROIWA_SPEED                       mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA                  nREG(87)
+#define R_USE_DEBUG_CUTSCENE                     dREG(95)
 
 
 #define R_HREG_MODE  HREG(80) // see `HRegMode` for mode options

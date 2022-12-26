@@ -947,7 +947,7 @@ void EnSt_BounceAround(EnSt* this, PlayState* play) {
     this->actor.shape.rot = this->actor.world.rot;
     if (EnSt_IsDoneBouncing(this, play)) {
         this->actor.shape.yOffset = 400.0f;
-        this->actor.speedXZ = 1.0f;
+        this->actor.speed = 1.0f;
         this->actor.gravity = -2.0f;
         EnSt_SetupAction(this, EnSt_FinishBouncing);
     } else {

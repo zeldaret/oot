@@ -136,7 +136,7 @@ void EnCrow_SetupFlyIdle(EnCrow* this) {
 
 void EnCrow_SetupDiveAttack(EnCrow* this) {
     this->timer = 300;
-    this->actor.speedXZ = 4.0f;
+    this->actor.speed = 4.0f;
     this->skelAnime.playSpeed = 2.0f;
     this->actionFunc = EnCrow_DiveAttack;
 }
@@ -146,7 +146,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     f32 scale;
     Vec3f iceParticlePos;
 
-    this->actor.speedXZ *= Math_CosS(this->actor.world.rot.x);
+    this->actor.speed *= Math_CosS(this->actor.world.rot.x);
     this->actor.velocity.y = 0.0f;
     Animation_Change(&this->skelAnime, &gGuayFlyAnim, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     scale = this->actor.scale.x * 100.0f;
@@ -176,7 +176,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     }
 
     if (this->actor.flags & ACTOR_FLAG_15) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     this->collider.base.acFlags &= ~AC_ON;
@@ -192,7 +192,7 @@ void EnCrow_SetupDie(EnCrow* this) {
 
 void EnCrow_SetupTurnAway(EnCrow* this) {
     this->timer = 100;
-    this->actor.speedXZ = 3.5f;
+    this->actor.speed = 3.5f;
     this->aimRotX = -0x1000;
     this->aimRotY = this->actor.yawTowardsPlayer + 0x8000;
     this->skelAnime.playSpeed = 2.0f;
@@ -232,7 +232,7 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     skelanimeUpdated = Animation_OnFrame(&this->skelAnime, 0.0f);
-    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 3.0f;
+    this->actor.speed = (Rand_ZeroOne() * 1.5f) + 3.0f;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->aimRotY = this->actor.wallYaw;
@@ -325,7 +325,7 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
 }
 
 void EnCrow_Damaged(EnCrow* this, PlayState* play) {
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
     if (!(this->actor.flags & ACTOR_FLAG_15)) {

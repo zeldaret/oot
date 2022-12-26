@@ -206,7 +206,7 @@ void func_809B0988(EnAni* this, PlayState* play) {
 }
 
 void func_809B0994(EnAni* this, PlayState* play) {
-    if (play->csCtx.npcActions[0]->action == 4) {
+    if (play->csCtx.actorCues[0]->id == 4) {
         Animation_Change(&this->skelAnime, &gRoofManGettingUpAfterKnockbackAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gRoofManGettingUpAfterKnockbackAnim), ANIMMODE_ONCE, -4.0f);
         this->unk_2AA++;
@@ -224,7 +224,7 @@ void func_809B0A6C(EnAni* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
-    if (play->csCtx.npcActions[0]->action == 2) {
+    if (play->csCtx.actorCues[0]->id == 2) {
         Animation_Change(&this->skelAnime, &gRoofManKnockbackAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gRoofManKnockbackAnim), ANIMMODE_ONCE, 0.0f);
         this->actor.shape.shadowDraw = NULL;
@@ -240,7 +240,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL)) {
         switch (this->unk_2AA) {
             case 0:
                 func_809B0A6C(this, play);
@@ -259,7 +259,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
                 break;
         }
 
-        if (play->csCtx.frames == 100) {
+        if (play->csCtx.curFrame == 100) {
             func_800788CC(NA_SE_IT_EARTHQUAKE);
         }
     } else {

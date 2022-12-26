@@ -257,7 +257,7 @@ void BgGndIceblock_Reset(BgGndIceblock* this, PlayState* play) {
     }
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 1.0f)) {
         this->targetPos = thisx->home.pos;
-        thisx->speedXZ = 0.0f;
+        thisx->speed = 0.0f;
         this->actionFunc = BgGndIceblock_Idle;
         switch (thisx->params) {
             case 0:
@@ -306,11 +306,11 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
     f32 spread;
     Actor* thisx = &this->dyna.actor;
 
-    Math_StepToF(&thisx->speedXZ, 10.0f, 0.5f);
-    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speedXZ);
-    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speedXZ);
+    Math_StepToF(&thisx->speed, 10.0f, 0.5f);
+    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speed);
+    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speed);
     if (atTarget) {
-        thisx->speedXZ = 0.0f;
+        thisx->speed = 0.0f;
         this->targetPos.x = thisx->world.pos.x;
         this->targetPos.z = thisx->world.pos.z;
         Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
@@ -326,7 +326,7 @@ void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play) {
                 this->actionFunc = BgGndIceblock_Hole;
                 break;
         }
-    } else if (thisx->speedXZ > 6.0f) {
+    } else if (thisx->speed > 6.0f) {
         spread = Rand_CenteredFloat(120.0f);
         velocity.x = -(1.5f + Rand_ZeroOne()) * Math_SinS(this->dyna.unk_158);
         velocity.y = Rand_ZeroOne() + 1.0f;
