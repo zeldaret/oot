@@ -1560,11 +1560,11 @@ s32 Play_SetCameraAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
 
     player = camera->player;
     if (player != NULL) {
-        camera->posOffset.x = at->x - player->actor.world.pos.x;
-        camera->posOffset.y = at->y - player->actor.world.pos.y;
-        camera->posOffset.z = at->z - player->actor.world.pos.z;
+        camera->playerToAtOffset.x = at->x - player->actor.world.pos.x;
+        camera->playerToAtOffset.y = at->y - player->actor.world.pos.y;
+        camera->playerToAtOffset.z = at->z - player->actor.world.pos.z;
     } else {
-        camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
+        camera->playerToAtOffset.x = camera->playerToAtOffset.y = camera->playerToAtOffset.z = 0.0f;
     }
 
     camera->atLERPStepScale = 0.01f;
@@ -1588,11 +1588,11 @@ s32 Play_SetCameraAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec
 
     player = camera->player;
     if (player != NULL) {
-        camera->posOffset.x = at->x - player->actor.world.pos.x;
-        camera->posOffset.y = at->y - player->actor.world.pos.y;
-        camera->posOffset.z = at->z - player->actor.world.pos.z;
+        camera->playerToAtOffset.x = at->x - player->actor.world.pos.x;
+        camera->playerToAtOffset.y = at->y - player->actor.world.pos.y;
+        camera->playerToAtOffset.z = at->z - player->actor.world.pos.z;
     } else {
-        camera->posOffset.x = camera->posOffset.y = camera->posOffset.z = 0.0f;
+        camera->playerToAtOffset.x = camera->playerToAtOffset.y = camera->playerToAtOffset.z = 0.0f;
     }
 
     camera->atLERPStepScale = 0.01f;
