@@ -433,8 +433,8 @@ void EnTa_RunWithAccelerationAndSfx(EnTa* this, PlayState* play) {
     if (framesMod12 == 0 || framesMod12 == 6) {
         Actor_PlaySfx(&this->actor, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_DIRT);
     }
-    if (this->actor.speedXZ < 6.0f) {
-        this->actor.speedXZ += 0.4f;
+    if (this->actor.speed < 6.0f) {
+        this->actor.speed += 0.4f;
     }
     Actor_MoveForward(&this->actor);
 }
@@ -651,7 +651,7 @@ void EnTa_TalkFoundSuperCucco(EnTa* this, PlayState* play) {
         // Make the found cucco fly directly upwards and then forget about it
         this->superCuccos[lastFoundSuperCuccoIdx]->actor.gravity = 0.1f;
         this->superCuccos[lastFoundSuperCuccoIdx]->actor.velocity.y = 0.0f;
-        this->superCuccos[lastFoundSuperCuccoIdx]->actor.speedXZ = 0.0f;
+        this->superCuccos[lastFoundSuperCuccoIdx]->actor.speed = 0.0f;
         this->superCuccos[lastFoundSuperCuccoIdx]->actor.parent = NULL;
 
         if (player->interactRangeActor == &this->superCuccos[lastFoundSuperCuccoIdx]->actor) {

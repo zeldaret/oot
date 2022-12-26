@@ -263,9 +263,9 @@ void EnInsect_SlowDown(EnInsect* this, PlayState* play) {
 
     type = this->actor.params & 3;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 0.5f, 0.0f);
 
-    playSpeed = (Rand_ZeroOne() * 0.8f) + (this->actor.speedXZ * 1.2f);
+    playSpeed = (Rand_ZeroOne() * 0.8f) + (this->actor.speed * 1.2f);
     this->skelAnime.playSpeed = CLAMP(playSpeed, 0.0f, 1.9f);
 
     SkelAnime_Update(&this->skelAnime);
@@ -299,7 +299,7 @@ void EnInsect_Crawl(EnInsect* this, PlayState* play) {
     s16 yaw;
     s16 type = this->actor.params & 3;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 1.5f, 0.1f, 0.5f, 0.0f);
 
     if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 1600.0f ||
         (this->actionTimer < 4)) {
@@ -311,7 +311,7 @@ void EnInsect_Crawl(EnInsect* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->skelAnime.playSpeed = CLAMP(this->actor.speedXZ * 1.4f, 0.7f, 1.9f);
+    this->skelAnime.playSpeed = CLAMP(this->actor.speed * 1.4f, 0.7f, 1.9f);
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -346,7 +346,7 @@ void EnInsect_RunFromPlayer(EnInsect* this, PlayState* play) {
     s16 yaw;
     s16 playerIsClose = this->actor.xzDistToPlayer < 40.0f;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 1.8f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 1.8f, 0.1f, 0.5f, 0.0f);
 
     if (EnInsect_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 25600.0f || this->actionTimer < 4) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
@@ -368,7 +368,7 @@ void EnInsect_RunFromPlayer(EnInsect* this, PlayState* play) {
         Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000);
     }
     this->actor.shape.rot.y = this->actor.world.rot.y;
-    this->skelAnime.playSpeed = CLAMP(this->actor.speedXZ * 1.6f, 0.8f, 1.9f);
+    this->skelAnime.playSpeed = CLAMP(this->actor.speed * 1.6f, 0.8f, 1.9f);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actionTimer <= 0 || !playerIsClose) {
@@ -384,7 +384,7 @@ void EnInsect_SetupCaught(EnInsect* this) {
     Actor_SetScale(&this->actor, 0.001f);
 
     this->actor.draw = NULL;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     EnInsect_SetCrawlAnim(this);
 
@@ -426,7 +426,7 @@ void EnInsect_Dig(EnInsect* this, PlayState* play) {
     s32 pad[2];
     Vec3f velocity;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 0.5f, 0.0f);
     Math_StepToS(&this->actor.shape.rot.x, 10922, 352);
 
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.0002f, 0.001f));
@@ -472,9 +472,9 @@ void EnInsect_WalkOnWater(EnInsect* this, PlayState* play) {
     type = this->actor.params & 3;
 
     if (this->actionTimer > 80) {
-        Math_StepToF(&this->actor.speedXZ, 0.6f, 0.08f);
+        Math_StepToF(&this->actor.speed, 0.6f, 0.08f);
     } else {
-        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.02f);
+        Math_StepToF(&this->actor.speed, 0.0f, 0.02f);
     }
     this->actor.velocity.y = 0.0f;
     this->actor.world.pos.y += this->actor.yDistToWater;
@@ -523,7 +523,7 @@ void EnInsect_SetupDrown(EnInsect* this) {
     this->actionTimer = 100;
     EnInsect_SetCrawlAnim(this);
     this->actor.velocity.y = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.minVelocityY = -0.8f;
     this->actor.gravity = -0.04f;
     this->insectFlags &= ~(INSECT_FLAG_0 | INSECT_FLAG_1);
@@ -635,21 +635,21 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
     Actor_SetScale(&this->actor, CLAMP_MAX(thisTemp->actor.scale.x + 0.0008f, 0.01f));
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_SmoothStepToF(&this->actor.speedXZ, this->unk_324, 0.1f, 0.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, this->unk_324, 0.1f, 0.5f, 0.0f);
         Math_ScaledStepToS(&this->actor.world.rot.y, this->unk_328, 2000);
         sp50 = Math_ScaledStepToS(&this->actor.world.rot.x, 0, 2000);
         this->actor.shape.rot.y = this->actor.world.rot.y;
         this->actor.shape.rot.x = this->actor.world.rot.x;
     } else {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
-        this->actor.speedXZ += (Rand_ZeroOne() - 0.5f) * 0.14f;
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 0.5f, 0.0f);
+        this->actor.speed += (Rand_ZeroOne() - 0.5f) * 0.14f;
         this->actor.velocity.y += Rand_ZeroOne() * 0.12f;
         this->actor.world.rot.y += this->unk_316;
         this->actor.shape.rot.y = this->actor.world.rot.y;
         this->actor.shape.rot.x -= 2000;
     }
 
-    phi_f2 = Rand_ZeroOne() * 0.5f + this->actor.speedXZ * 1.3f;
+    phi_f2 = Rand_ZeroOne() * 0.5f + this->actor.speed * 1.3f;
     if (phi_f2 < 0.0f) {
         this->skelAnime.playSpeed = 0.0f;
     } else {

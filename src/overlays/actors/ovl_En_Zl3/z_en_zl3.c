@@ -2569,8 +2569,7 @@ void func_80B59A80(EnZl3* this, PlayState* play) {
 }
 
 void func_80B59AD0(EnZl3* this, PlayState* play) {
-    // todo look into
-    Actor* thisx = &this->actor; // unused, necessary to use 'this' first to fix regalloc
+    Actor* thisx = &this->actor;
 
     Flags_SetSwitch(play, 0x36);
     Interface_SetSubTimer(180);

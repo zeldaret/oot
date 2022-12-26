@@ -292,8 +292,8 @@ void ObjTsubo_LiftedUp(ObjTsubo* this, PlayState* play) {
 }
 
 void ObjTsubo_SetupThrown(ObjTsubo* this) {
-    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
     this->actor.colChkInfo.mass = 240;
     D_80BA1B50 = (Rand_ZeroOne() - 0.7f) * 2800.0f;
     D_80BA1B58 = (Rand_ZeroOne() - 0.5f) * 2000.0f;

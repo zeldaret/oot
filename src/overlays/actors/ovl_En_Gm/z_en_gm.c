@@ -119,7 +119,7 @@ void func_80A3D838(EnGm* this, PlayState* play) {
         this->actor.textId = 0x3049;
         this->updateFunc = func_80A3DFBC;
         this->actionFunc = func_80A3DB04;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.gravity = -1.0f;
         this->actor.velocity.y = 0.0f;
     }

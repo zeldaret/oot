@@ -47,23 +47,23 @@ void DemoShd_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80991298(DemoShd* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[0] != NULL) ||
-        (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[1] != NULL)) {
-        if (play->csCtx.frames == 800) {
+    if ((play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL) ||
+        (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[1] != NULL)) {
+        if (play->csCtx.curFrame == 800) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_BONGO_EMERGES);
         }
-        if (play->csCtx.frames == 1069) {
+        if (play->csCtx.curFrame == 1069) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_BONGO_HOVER);
         }
     }
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction0 = play->csCtx.npcActions[0];
+        CsCmdActorCue* cue = play->csCtx.actorCues[0];
 
-        if (npcAction0 != NULL) {
-            if (npcAction0->action == 2) {
+        if (cue != NULL) {
+            if (cue->id == 2) {
                 if (!(this->unk_14C & 1)) {
-                    this->unk_14E = npcAction0->startPos.x;
+                    this->unk_14E = cue->startPos.x;
                 }
                 this->unk_14C |= 1;
             } else {
@@ -73,12 +73,12 @@ void func_80991298(DemoShd* this, PlayState* play) {
     }
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        CsCmdActorAction* npcAction1 = play->csCtx.npcActions[1];
+        CsCmdActorCue* cue = play->csCtx.actorCues[1];
 
-        if (npcAction1 != NULL) {
-            if (npcAction1->action == 2) {
+        if (cue != NULL) {
+            if (cue->id == 2) {
                 if (!(this->unk_14C & 2)) {
-                    this->unk_14E = npcAction1->startPos.x;
+                    this->unk_14E = cue->startPos.x;
                 }
                 this->unk_14C |= 2;
             } else {

@@ -100,7 +100,7 @@ typedef struct DemoEffect {
         DemoEffectDust dust;
     };
     /* 0x018A */ s16 effectFlags;
-    /* 0x018C */ s16 csActionId;
+    /* 0x018C */ s16 cueChannel;
     /* 0x018E */ Vec3s jewelCsRotation;
     /* 0x0194 */ DemoEffectFunc initUpdateFunc;
     /* 0x0198 */ ActorFunc initDrawFunc;

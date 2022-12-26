@@ -118,7 +118,7 @@ void EnSb_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = 0;
     Actor_SetScale(&this->actor, 0.006f);
     this->actor.shape.rot.y = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = -0.35f;
     this->fire = 0;
     this->hitByWindArrow = false;
@@ -190,12 +190,12 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
         if (this->actor.yDistToWater > 0.0f) {
-            this->actor.speedXZ = -5.0f;
+            this->actor.speed = -5.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 2.1f;
             }
         } else {
-            this->actor.speedXZ = -6.0f;
+            this->actor.speed = -6.0f;
             if (this->actor.velocity.y < 0.0f) {
                 this->actor.velocity.y = 1.4f;
             }
@@ -256,11 +256,11 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
         this->actor.world.rot.y = this->attackYaw;
         if (this->actor.yDistToWater > 0.0f) {
             this->actor.velocity.y = 3.0f;
-            this->actor.speedXZ = 5.0f;
+            this->actor.speed = 5.0f;
             this->actor.gravity = -0.35f;
         } else {
             this->actor.velocity.y = 2.0f;
-            this->actor.speedXZ = 6.0f;
+            this->actor.speed = 6.0f;
             this->actor.gravity = -2.0f;
         }
         EnSb_SpawnBubbles(play, this);
@@ -272,7 +272,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
 }
 
 void EnSb_Lunge(EnSb* this, PlayState* play) {
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH)) {
         if (!(this->actor.yDistToWater > 0.0f)) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -289,7 +289,7 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
 
     currentFrame = this->skelAnime.curFrame;
     frameCount = Animation_GetLastFrame(&object_sb_Anim_0000B4);
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.2f);
 
     if (currentFrame == frameCount) {
         if (this->bouncesLeft != 0) {
@@ -297,18 +297,18 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
             this->timer = 1;
             if (this->actor.yDistToWater > 0.0f) {
                 this->actor.velocity.y = 3.0f;
-                this->actor.speedXZ = 5.0f;
+                this->actor.speed = 5.0f;
                 this->actor.gravity = -0.35f;
             } else {
                 this->actor.velocity.y = 2.0f;
-                this->actor.speedXZ = 6.0f;
+                this->actor.speed = 6.0f;
                 this->actor.gravity = -2.0f;
             }
             EnSb_SpawnBubbles(play, this);
             EnSb_SetupLunge(this);
         } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
             osSyncPrintf(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n"); // "Attack Complete!"
@@ -321,13 +321,13 @@ void EnSb_Cooldown(EnSb* this, PlayState* play) {
         this->timer--;
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     } else {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
             this->actionFunc = EnSb_WaitClosed;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     }
 }

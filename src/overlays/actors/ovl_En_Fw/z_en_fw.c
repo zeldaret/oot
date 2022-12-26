@@ -239,7 +239,7 @@ void EnFw_Run(EnFw* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_MAN_DAMAGE);
             this->explosionTimer = 6;
         }
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     if (this->explosionTimer != 0) {
@@ -273,7 +273,7 @@ void EnFw_Run(EnFw* this, PlayState* play) {
         DECR(this->damageTimer);
         if ((200.0f - this->runRadius) < 0.9f) {
             if (DECR(this->returnToParentTimer) == 0) {
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->actionFunc = EnFw_TurnToParentInitPos;
                 return;
             }
@@ -283,7 +283,7 @@ void EnFw_Run(EnFw* this, PlayState* play) {
         Math_SmoothStepToF(&this->runRadius, 200.0f, 0.3f, 100.0f, 0.0f);
 
         if (this->turnAround) {
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 1.0f, 0.0f);
             tmpAngle = (s16)(this->actor.world.rot.y ^ 0x8000);
             facingDir = this->actor.shape.rot.y;
             tmpAngle = Math_SmoothStepToF(&facingDir, tmpAngle, 0.1f, 10000.0f, 0.0f);
@@ -312,7 +312,7 @@ void EnFw_Run(EnFw* this, PlayState* play) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_MAN_SLIDE);
                 this->slideSfxTimer = 4;
             }
-            Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 1.0f, 0.0f);
             this->skelAnime.playSpeed = 0.0f;
             EnFw_SpawnDust(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
             this->slideTimer--;
@@ -321,7 +321,7 @@ void EnFw_Run(EnFw* this, PlayState* play) {
                 this->runDirection = -this->runDirection;
             }
         } else {
-            Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speed, 6.0f, 0.1f, 1.0f, 0.0f);
             curFrame = this->skelAnime.curFrame;
             if (curFrame == 1 || curFrame == 4) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_MAN_RUN);

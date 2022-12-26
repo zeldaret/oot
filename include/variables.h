@@ -98,7 +98,7 @@ extern u64 gMojiFontTex[]; // original name: "font_ff"
 extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
-extern void* D_8012D1F0;
+extern void* gDebugCutsceneScript;
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
@@ -168,10 +168,12 @@ extern u8 gSampleBankTable[];
 
 extern SaveContext gSaveContext;
 extern RegEditor* gRegEditor;
-extern u16 D_8015FCC0;
-extern u16 D_8015FCC2;
-extern u16 D_8015FCC4;
-extern u8 D_8015FCC8;
+
+extern u16 gCamAtSplinePointsAppliedFrame;
+extern u16 gCamEyePointAppliedFrame;
+extern u16 gCamAtPointAppliedFrame;
+extern u8 gUseCutsceneCam;
+
 extern u8 gCustomLensFlareOn;
 extern Vec3f gCustomLensFlarePos;
 extern s16 gLensFlareScale;
@@ -182,7 +184,7 @@ extern MapData* gMapData;
 extern f32 gBossMarkScale;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 extern s32 gTrnsnUnkState;
-extern Color_RGBA8_u32 D_801614B0;
+extern Color_RGBA8_u32 gVisMonoColor;
 extern PreNmiBuff* gAppNmiBufferPtr;
 extern Scheduler gScheduler;
 extern uintptr_t gSegments[NUM_SEGMENTS];
