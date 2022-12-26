@@ -890,13 +890,17 @@ void Actor_UpdateVelocityXYZ(Actor* actor) {
 /**
  * Move actor while accounting for its current velocity.
  * `actor.speed` is used as the XYZ velocity.
- * The actor will move in the direction of its world yaw and pitch.
+ * The actor will move in the direction of its world yaw and pitch, with positive pitch moving upwards.
  */
 void Actor_MoveXYZ(Actor* actor) {
     Actor_UpdateVelocityXYZ(actor);
     Actor_UpdatePos(actor);
 }
 
+/**
+ * From a given XYZ speed value, set the corresponding XZ speed as `actor.speed`, and Y speed as Y velocity.
+ * Only the actor's world pitch is factored in, with positive pitch moving downwards.
+ */
 void Actor_SetProjectileSpeed(Actor* actor, f32 speedXYZ) {
     actor->speed = Math_CosS(actor->world.rot.x) * speedXYZ;
     actor->velocity.y = -Math_SinS(actor->world.rot.x) * speedXYZ;
