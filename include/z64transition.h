@@ -7,7 +7,7 @@
 typedef enum {
     /* 0 */ TRANS_TILE_OFF, // Inactive, do nothing
     /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
-    /* 2 */ TRANS_TILE_PROCESS, // Initalize the transition using the saved buffers
+    /* 2 */ TRANS_TILE_PROCESS, // Initialize the transition
     /* 3 */ TRANS_TILE_READY // The transition is ready, so will update and draw each frame
 } TransitionTileStatus;
 
