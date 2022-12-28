@@ -6,8 +6,8 @@ void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
 Input* D_8012D1F8 = NULL;
 
-TransitionUnk sTrnsnUnk;
-s32 gTrnsnUnkState;
+TransitionTile sTransitionTile;
+s32 gTransitionTileState;
 VisMono D_80161498;
 Color_RGBA8_u32 gVisMonoColor;
 FaultClient D_801614B8;
@@ -186,9 +186,9 @@ void Play_Destroy(GameState* thisx) {
     EffectSs_ClearAll(this);
     CollisionCheck_DestroyContext(this, &this->colChkCtx);
 
-    if (gTrnsnUnkState == 3) {
-        TransitionUnk_Destroy(&sTrnsnUnk);
-        gTrnsnUnkState = 0;
+    if (gTransitionTileState == TRANS_TILE_READY) {
+        TransitionTile_Destroy(&sTransitionTile);
+        gTransitionTileState = TRANS_TILE_OFF;
     }
 
     if (this->transitionMode == TRANS_MODE_INSTANCE_RUNNING) {
@@ -361,7 +361,7 @@ void Play_Init(GameState* thisx) {
     PreRender_Init(&this->pauseBgPreRender);
     PreRender_SetValuesSave(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, NULL, NULL, NULL);
     PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, NULL, NULL);
-    gTrnsnUnkState = 0;
+    gTransitionTileState = TRANS_TILE_OFF;
     this->transitionMode = TRANS_MODE_OFF;
     FrameAdvance_Init(&this->frameAdvCtx);
     Rand_Seed((u32)osGetTime());
@@ -492,20 +492,24 @@ void Play_Update(PlayState* this) {
             this->transitionMode = TRANS_MODE_SETUP;
         }
 
-        if (gTrnsnUnkState != 0) {
-            switch (gTrnsnUnkState) {
-                case 2:
-                    if (TransitionUnk_Init(&sTrnsnUnk, 10, 7) == NULL) {
+        if (gTransitionTileState != TRANS_TILE_OFF) {
+            switch (gTransitionTileState) {
+                case TRANS_TILE_PROCESS:
+                    if (TransitionTile_Init(&sTransitionTile, 10, 7) == NULL) {
                         osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
-                        gTrnsnUnkState = 0;
+                        gTransitionTileState = TRANS_TILE_OFF;
                     } else {
-                        sTrnsnUnk.zBuffer = (u16*)gZBuffer;
-                        gTrnsnUnkState = 3;
+                        sTransitionTile.zBuffer = (u16*)gZBuffer;
+                        gTransitionTileState = TRANS_TILE_READY;
                         R_UPDATE_RATE = 1;
                     }
                     break;
-                case 3:
-                    func_800B23E8(&sTrnsnUnk);
+
+                case TRANS_TILE_READY:
+                    TransitionTile_Update(&sTransitionTile);
+                    break;
+
+                default:
                     break;
             }
         }
@@ -652,9 +656,9 @@ void Play_Update(PlayState* this) {
                             func_800BC88C(this);
                             this->transitionMode = TRANS_MODE_OFF;
 
-                            if (gTrnsnUnkState == 3) {
-                                TransitionUnk_Destroy(&sTrnsnUnk);
-                                gTrnsnUnkState = 0;
+                            if (gTransitionTileState == TRANS_TILE_READY) {
+                                TransitionTile_Destroy(&sTransitionTile);
+                                gTransitionTileState = TRANS_TILE_OFF;
                                 R_UPDATE_RATE = 3;
                             }
                         }
@@ -702,7 +706,7 @@ void Play_Update(PlayState* this) {
                     this->envCtx.screenFillColor[3] = (1 - sTransitionFillTimer / 20.0f) * 255.0f;
 
                     if (sTransitionFillTimer >= 20) {
-                        gTrnsnUnkState = 0;
+                        gTransitionTileState = TRANS_TILE_OFF;
                         R_UPDATE_RATE = 3;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
@@ -736,7 +740,7 @@ void Play_Update(PlayState* this) {
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
                     } else {
-                        gTrnsnUnkState = 0;
+                        gTransitionTileState = TRANS_TILE_OFF;
                         R_UPDATE_RATE = 3;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
@@ -767,7 +771,7 @@ void Play_Update(PlayState* this) {
 
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
                         if (this->envCtx.sandstormPrimA < 110) {
-                            gTrnsnUnkState = 0;
+                            gTransitionTileState = TRANS_TILE_OFF;
                             R_UPDATE_RATE = 3;
                             this->transitionTrigger = TRANS_TRIGGER_OFF;
                             this->transitionMode = TRANS_MODE_OFF;
@@ -802,7 +806,7 @@ void Play_Update(PlayState* this) {
 
                     if (this->transitionTrigger == TRANS_TRIGGER_END) {
                         if (this->envCtx.sandstormPrimA <= 0) {
-                            gTrnsnUnkState = 0;
+                            gTransitionTileState = TRANS_TILE_OFF;
                             R_UPDATE_RATE = 3;
                             this->transitionTrigger = TRANS_TRIGGER_OFF;
                             this->transitionMode = TRANS_MODE_OFF;
@@ -825,7 +829,7 @@ void Play_Update(PlayState* this) {
                         this->envCtx.screenFillColor[3] = gSaveContext.cutsceneTransitionControl;
 
                         if (gSaveContext.cutsceneTransitionControl <= 100) {
-                            gTrnsnUnkState = 0;
+                            gTransitionTileState = TRANS_TILE_OFF;
                             R_UPDATE_RATE = 3;
                             this->transitionTrigger = TRANS_TRIGGER_OFF;
                             this->transitionMode = TRANS_MODE_OFF;
@@ -837,7 +841,7 @@ void Play_Update(PlayState* this) {
 
         PLAY_LOG(3533);
 
-        if (1 && (gTrnsnUnkState != 3)) {
+        if (1 && (gTransitionTileState != TRANS_TILE_READY)) {
             PLAY_LOG(3542);
 
             if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (this->msgCtx.msgMode == MSGMODE_NONE) &&
@@ -1109,10 +1113,10 @@ void Play_Draw(PlayState* this) {
             POLY_OPA_DISP = gfxP;
         }
 
-        if (gTrnsnUnkState == 3) {
+        if (gTransitionTileState == TRANS_TILE_READY) {
             Gfx* sp88 = POLY_OPA_DISP;
 
-            TransitionUnk_Draw(&sTrnsnUnk, &sp88);
+            TransitionTile_Draw(&sTransitionTile, &sp88);
             POLY_OPA_DISP = sp88;
             goto Play_Draw_DrawOverlayElements;
         } else {
@@ -1126,12 +1130,12 @@ void Play_Draw(PlayState* this) {
 
                 PreRender_ApplyFilters(&this->pauseBgPreRender);
 
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_DONE;
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
             } else if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_MAX) {
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
             }
 
-            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_DONE) {
+            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_READY) {
                 Gfx* gfxP = POLY_OPA_DISP;
 
                 PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &gfxP);
@@ -1247,7 +1251,8 @@ void Play_Draw(PlayState* this) {
                     DebugDisplay_DrawObjects(this);
                 }
 
-                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) || (gTrnsnUnkState == 1)) {
+                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) ||
+                    (gTransitionTileState == TRANS_TILE_SETUP)) {
                     Gfx* gfxP = OVERLAY_DISP;
 
                     // Copy the frame buffer contents at this point in the display list to the zbuffer
@@ -1261,7 +1266,7 @@ void Play_Draw(PlayState* this) {
 
                         R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
                     } else {
-                        gTrnsnUnkState = 2;
+                        gTransitionTileState = TRANS_TILE_PROCESS;
                     }
                     OVERLAY_DISP = gfxP;
                     this->unk_121C7 = 2;
