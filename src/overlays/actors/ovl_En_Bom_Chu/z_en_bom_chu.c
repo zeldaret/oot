@@ -112,7 +112,7 @@ void EnBomChu_Explode(EnBomChu* this, PlayState* play) {
     }
 
     this->timer = 1;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     if (this->actor.yDistToWater > 0.0f) {
         for (i = 0; i < 40; i++) {
@@ -230,7 +230,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, PlayState* play) {
         this->axisLeft.y = 0;
         this->axisLeft.z = Math_CosS(this->actor.shape.rot.y + 0x4000);
 
-        this->actor.speedXZ = 8.0f;
+        this->actor.speed = 8.0f;
         //! @bug there is no NULL check on the floor poly.  If the player is out of bounds the floor poly will be NULL
         //! and will cause a crash inside this function.
         EnBomChu_UpdateFloorPoly(this, this->actor.floorPoly, play);
@@ -252,8 +252,8 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
     Vec3f posSide;
     Vec3f posUpDown;
 
-    this->actor.speedXZ = 8.0f;
-    lineLength = this->actor.speedXZ * 2.0f;
+    this->actor.speed = 8.0f;
+    lineLength = this->actor.speed * 2.0f;
 
     if (this->timer != 0) {
         this->timer--;
@@ -289,7 +289,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
             EnBomChu_UpdateFloorPoly(this, polySide, play);
             this->actor.world.pos = posSide;
             this->actor.floorBgId = bgIdSide;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         } else {
             if (this->actor.floorPoly != polyUpDown) {
                 EnBomChu_UpdateFloorPoly(this, polyUpDown, play);
@@ -299,7 +299,7 @@ void EnBomChu_Move(EnBomChu* this, PlayState* play) {
             this->actor.floorBgId = bgIdUpDown;
         }
     } else {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         lineLength *= 3.0f;
         posA = posB;
 

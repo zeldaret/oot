@@ -92,8 +92,8 @@ void BgSpot16Doughnut_Update(Actor* thisx, PlayState* play) {
         } else {
             this->envColorAlpha = 255;
         }
-    } else if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[2] != NULL &&
-               play->csCtx.npcActions[2]->action == 2) {
+    } else if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[2] != NULL &&
+               play->csCtx.actorCues[2]->id == 2) {
         if (this->envColorAlpha >= 6) {
             this->envColorAlpha -= 5;
         } else {

@@ -1567,7 +1567,7 @@ typedef struct Camera {
     /* 0x0D8 */ f32 xzSpeed;
     /* 0x0DC */ f32 dist;
     /* 0x0E0 */ f32 speedRatio;
-    /* 0x0E4 */ Vec3f posOffset;
+    /* 0x0E4 */ Vec3f playerToAtOffset;
     /* 0x0F0 */ Vec3f playerPosDelta;
     /* 0x0FC */ f32 fov;
     /* 0x100 */ f32 atLERPStepScale;

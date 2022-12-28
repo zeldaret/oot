@@ -118,7 +118,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE1:
             this->actor.velocity.y = Rand_ZeroFloat(3.0f) + 4.0f;
-            this->actor.speedXZ = Rand_ZeroFloat(3.0f) + 3.0f;
+            this->actor.speed = Rand_ZeroFloat(3.0f) + 3.0f;
             this->scale = (Rand_ZeroFloat(1.0f) / 100.0f) + 0.02f;
             Actor_SetScale(&this->actor, this->scale);
             this->actor.gravity = -1.5f;
@@ -130,7 +130,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE2:
             this->actor.velocity.y = Rand_ZeroFloat(3.0f) + 4.0f;
-            this->actor.speedXZ = Rand_ZeroFloat(3.0f) + 2.0f;
+            this->actor.speed = Rand_ZeroFloat(3.0f) + 2.0f;
             this->scale = (Rand_ZeroFloat(1.0f) / 500.0f) + 0.01f;
             Actor_SetScale(&this->actor, this->scale);
             this->actor.gravity = -1.2f;
@@ -352,7 +352,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
                     this->collider.base.atFlags &= ~AT_BOUNCED;
                     Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
                     thisx->velocity.y = 0.0f;
-                    thisx->speedXZ = 0.0f;
+                    thisx->speed = 0.0f;
                     this->actionFunc = EnFireRock_SpawnMoreBrokenPieces;
                     // "☆☆☆☆☆ Shield Defense Lv1 ☆☆☆☆☆"
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ シールド防御 Lv１ ☆☆☆☆☆ \n" VT_RST);

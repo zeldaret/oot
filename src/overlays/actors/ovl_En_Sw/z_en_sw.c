@@ -275,7 +275,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         case 4:
             this->unk_360 = 1;
             this->actor.velocity.y = 8.0f;
-            this->actor.speedXZ = 4.0f;
+            this->actor.speed = 4.0f;
             this->actor.gravity = -1.0f;
             FALLTHROUGH;
         case 2:
@@ -510,9 +510,9 @@ void func_80B0D3AC(EnSw* this, PlayState* play) {
     this->actor.world.pos.x += this->unk_364.x * this->actor.velocity.y;
     this->actor.world.pos.y += this->unk_364.y * this->actor.velocity.y;
     this->actor.world.pos.z += this->unk_364.z * this->actor.velocity.y;
-    this->actor.world.pos.x += this->unk_37C.x * this->actor.speedXZ;
-    this->actor.world.pos.y += this->unk_37C.y * this->actor.speedXZ;
-    this->actor.world.pos.z += this->unk_37C.z * this->actor.speedXZ;
+    this->actor.world.pos.x += this->unk_37C.x * this->actor.speed;
+    this->actor.world.pos.y += this->unk_37C.y * this->actor.speed;
+    this->actor.world.pos.z += this->unk_37C.z * this->actor.speed;
     this->actor.velocity.y += this->actor.gravity;
     this->actor.velocity.y = CLAMP_MIN(this->actor.velocity.y, this->actor.minVelocityY);
 
@@ -527,7 +527,7 @@ void func_80B0D3AC(EnSw* this, PlayState* play) {
         Actor_SetScale(&this->actor, 0.02f);
         this->actionFunc = func_80B0D590;
         this->actor.velocity.y = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.gravity = 0.0f;
     }
 }
@@ -762,7 +762,7 @@ void func_80B0E314(EnSw* this, Vec3f arg1, f32 arg4) {
     f32 yDiff;
     f32 zDiff;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, arg4, 0.3f, 100.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.speed, arg4, 0.3f, 100.0f, 0.1f);
     xDiff = arg1.x - this->actor.world.pos.x;
     yDiff = arg1.y - this->actor.world.pos.y;
     zDiff = arg1.z - this->actor.world.pos.z;
@@ -774,9 +774,9 @@ void func_80B0E314(EnSw* this, Vec3f arg1, f32 arg4) {
         yDist = yDiff / dist;
         zDist = zDiff / dist;
     }
-    xDist *= this->actor.speedXZ;
-    yDist *= this->actor.speedXZ;
-    zDist *= this->actor.speedXZ;
+    xDist *= this->actor.speed;
+    yDist *= this->actor.speed;
+    zDist *= this->actor.speed;
     this->actor.world.pos.x += xDist;
     this->actor.world.pos.y += yDist;
     this->actor.world.pos.z += zDist;
@@ -871,7 +871,7 @@ void func_80B0E90C(EnSw* this, PlayState* play) {
     s32 pad;
 
     func_80B0E314(this, this->unk_448, 0.0f);
-    if (this->actor.speedXZ == 0.0f) {
+    if (this->actor.speed == 0.0f) {
         this->unk_444 = func_80B0DE34(this, &this->actor.home.pos);
         this->unk_448 = this->actor.home.pos;
         this->actionFunc = func_80B0E9BC;

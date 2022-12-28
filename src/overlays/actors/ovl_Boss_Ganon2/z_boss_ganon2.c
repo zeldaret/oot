@@ -195,7 +195,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
         case 0:
             objectIdx = Object_GetIndex(&play->objectCtx, OBJECT_GANON_ANIME3);
             if (Object_IsLoaded(&play->objectCtx, objectIdx)) {
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -323,7 +323,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 camera->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->unk_39C = 5;
                 this->unk_398 = 0;
@@ -335,7 +335,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 Message_CloseTextbox(play);
                 this->unk_39C = 10;
                 this->unk_398 = 0;
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -876,7 +876,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 camera->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->unk_39C = 0;
                 this->unk_337 = 1;
@@ -1069,7 +1069,7 @@ void func_808FFEBC(BossGanon2* this, PlayState* play) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_809002CC(this, play);
@@ -1091,7 +1091,7 @@ void func_808FFFE0(BossGanon2* this, PlayState* play) {
     s16 target;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_809002CC(this, play);
@@ -1115,7 +1115,7 @@ void func_809000A0(BossGanon2* this, PlayState* play) {
 
 void func_80900104(BossGanon2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 
     switch (this->unk_1AC) {
         case 0:
@@ -1148,7 +1148,7 @@ void func_80900210(BossGanon2* this, PlayState* play) {
 
 void func_8090026C(BossGanon2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 2.0f);
 
     if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
         func_809002CC(this, play);
@@ -1201,7 +1201,7 @@ void func_80900344(BossGanon2* this, PlayState* play) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachF(&this->actor.speedXZ, phi_f0, 0.5f, 1.0f);
+    Math_ApproachF(&this->actor.speed, phi_f0, 0.5f, 1.0f);
 
     if (this->unk_1A2[0] == 0) {
         func_808FFDB0(this, play);
@@ -1245,7 +1245,7 @@ void func_80900650(BossGanon2* this, PlayState* play) {
         this->unk_312 = 2;
     }
 
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 
     if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
         this->unk_311 = 1 - this->unk_311;
@@ -1295,7 +1295,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
 
     switch (this->unk_39C) {
         case 0:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1347,13 +1347,13 @@ void func_80900890(BossGanon2* this, PlayState* play) {
                 mainCam2->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->unk_39C = 3;
             }
             break;
         case 10:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1380,7 +1380,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
                 this->unk_39C = 3;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
             }
             break;
@@ -1428,7 +1428,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
             break;
     }
 
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 1.0f);
 }
 
 void func_80901020(BossGanon2* this, PlayState* play) {
@@ -1481,7 +1481,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
 
     switch (this->unk_39C) {
         case 0:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1493,7 +1493,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             this->unk_1A2[2] = 0;
             this->unk_336 = 0;
             this->unk_324 = 0.0f;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->unk_31A = this->unk_31C;
             play->envCtx.lightBlend = 0.0f;
             FALLTHROUGH;
@@ -1625,7 +1625,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
                 mainCam->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 this->unk_39C = 6;
             }
@@ -1637,7 +1637,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             temp_a0_2 = Math_Atan2S(temp_f12, temp_f14) - player->actor.shape.rot.y;
             if ((ABS(temp_a0_2) < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f) &&
                 (player->meleeWeaponState != 0) && (player->heldItemAction == PLAYER_IA_SWORD_MASTER)) {
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);

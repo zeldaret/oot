@@ -185,7 +185,7 @@ void func_809B5670(EnAttackNiw* this, PlayState* play) {
     f32 tmpf3;
     Vec3f sp34;
 
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
 
     tmpf1 = (this->unk_298.x + play->view.at.x) - play->view.eye.x;
     tmpf2 = (this->unk_298.y + play->view.at.y) - play->view.eye.y;
@@ -266,7 +266,7 @@ void func_809B59B0(EnAttackNiw* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_2D4, 2, this->unk_2DC, 0);
     Math_SmoothStepToS(&this->actor.world.rot.x, this->unk_2D0, 2, this->unk_2DC, 0);
     Math_ApproachF(&this->unk_2DC, 10000.0f, 1.0f, 1000.0f);
-    Math_ApproachF(&this->actor.speedXZ, this->unk_2E0, 0.9f, 1.0f);
+    Math_ApproachF(&this->actor.speed, this->unk_2E0, 0.9f, 1.0f);
     if ((this->actor.gravity == -2.0f) && (this->unk_262 == 0) &&
         ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->unk_25C == 0))) {
         this->unk_2E0 = 0.0f;
