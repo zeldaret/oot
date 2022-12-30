@@ -72,7 +72,7 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(thisx, 0.1f);
     thisx->gravity = -2.0f;
     if (thisx->params & SPIKETRAP_MODE_LINEAR) {
-        thisx->speedXZ = this->moveSpeedForwardBack.z = this->upperParams & 0xF;
+        thisx->speed = this->moveSpeedForwardBack.z = this->upperParams & 0xF;
         Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
     } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
         this->vRadius = (this->upperParams & 0xF) * 40.0f;

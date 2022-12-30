@@ -92,9 +92,9 @@ void func_8087B938(BgHaka* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 sp38;
 
-    this->dyna.actor.speedXZ += 0.05f;
-    this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 1.5f);
-    sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
+    this->dyna.actor.speed += 0.05f;
+    this->dyna.actor.speed = CLAMP_MAX(this->dyna.actor.speed, 1.5f);
+    sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speed);
     this->dyna.actor.world.pos.x =
         Math_SinS(this->dyna.actor.world.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.home.pos.x;
     this->dyna.actor.world.pos.z =

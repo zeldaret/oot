@@ -4,6 +4,13 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+typedef enum {
+    /* 0 */ LANGUAGE_ENG,
+    /* 1 */ LANGUAGE_GER,
+    /* 2 */ LANGUAGE_FRA,
+    /* 3 */ LANGUAGE_MAX
+} Language;
+
 // `_FORCE` means that this request will respond to `forceRisingButtonAlphas`.
 // If set, the buttons will also raise alphas but will also account for disabled buttons
 
