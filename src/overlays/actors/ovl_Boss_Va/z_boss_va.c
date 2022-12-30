@@ -645,7 +645,7 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
                     play->envCtx.screenFillColor[1] = 0xDC;
                     play->envCtx.screenFillColor[2] = 0xBE;
                     play->envCtx.screenFillColor[3] = 0xD2;
-                    func_80064520(play, &play->csCtx);
+                    Cutscene_StartManual(play, &play->csCtx);
                     sSubCamId = Play_CreateSubCamera(play);
                     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
@@ -786,7 +786,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             sCsState++;
             break;
         case INTRO_LOOK_DOOR:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             if (sSubCamId == SUB_CAM_ID_DONE) {
                 sSubCamId = Play_CreateSubCamera(play);
             }
@@ -828,7 +828,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             sCsState++;
             break;
         case INTRO_SPAWN_BARI:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             if (sSubCamId == SUB_CAM_ID_DONE) {
                 sSubCamId = Play_CreateSubCamera(play);
             }
@@ -1010,7 +1010,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             if (this->timer == 0) {
                 Play_ClearCamera(play, sSubCamId);
                 sSubCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 sCsState++;
@@ -1531,7 +1531,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
     switch (sCsState) {
         case DEATH_START:
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
@@ -1626,7 +1626,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
             if (this->timer == 0) {
                 Play_ClearCamera(play, sSubCamId);
                 sSubCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
 
                 mainCam->eyeNext = mainCam->eye = sSubCamEye;

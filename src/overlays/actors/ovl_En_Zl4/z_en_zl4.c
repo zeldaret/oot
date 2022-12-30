@@ -309,10 +309,10 @@ void func_80B5BB78(EnZl4* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
-void EnZl4_GetActionStartPos(CsCmdActorAction* action, Vec3f* vec) {
-    vec->x = action->startPos.x;
-    vec->y = action->startPos.y;
-    vec->z = action->startPos.z;
+void EnZl4_GetCueStartPos(CsCmdActorCue* cue, Vec3f* dest) {
+    dest->x = cue->startPos.x;
+    dest->y = cue->startPos.y;
+    dest->z = cue->startPos.z;
 }
 
 s32 EnZl4_SetupFromLegendCs(EnZl4* this, PlayState* play) {
@@ -465,7 +465,7 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, PlayState* play) {
             break;
         case 2:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-                play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardMeetCs);
+                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardMeetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 EnZl4_SetActiveCamMove(play, 0);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -899,17 +899,17 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
     switch (this->talkState) {
         case 0:
             EnZl4_SetActiveCamMove(play, 7);
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardWindowCs);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardWindowCs);
             gSaveContext.cutsceneTrigger = 1;
             this->talkState++;
             break;
         case 1:
             if (play->csCtx.state != CS_STATE_IDLE) {
-                if (play->csCtx.frames == 90) {
-                    play->csCtx.state = CS_STATE_UNSKIPPABLE_INIT;
+                if (play->csCtx.curFrame == 90) {
+                    play->csCtx.state = CS_STATE_STOP;
                 }
             } else {
-                play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
+                play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
                 gSaveContext.cutsceneTrigger = 1;
                 this->talkState++;
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
@@ -917,8 +917,8 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
             break;
         case 2:
             if (play->csCtx.state != CS_STATE_IDLE) {
-                if (play->csCtx.frames == 209) {
-                    play->csCtx.state = CS_STATE_UNSKIPPABLE_INIT;
+                if (play->csCtx.curFrame == 209) {
+                    play->csCtx.state = CS_STATE_STOP;
                 }
             } else {
                 Rumble_Request(0.0f, 160, 10, 40);
@@ -1099,7 +1099,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
                 this->talkState = 5;
-                this->unk_20F = this->lastAction = 0;
+                this->unk_20F = this->cueId = 0;
             }
             break;
         case 5:
@@ -1217,33 +1217,41 @@ void EnZl4_Idle(EnZl4* this, PlayState* play) {
 void EnZl4_TheEnd(EnZl4* this, PlayState* play) {
     s32 animIndex[] = { ZL4_ANIM_0, ZL4_ANIM_0, ZL4_ANIM_0,  ZL4_ANIM_0,  ZL4_ANIM_0,
                         ZL4_ANIM_0, ZL4_ANIM_0, ZL4_ANIM_26, ZL4_ANIM_21, ZL4_ANIM_3 };
-    CsCmdActorAction* npcAction;
+    CsCmdActorCue* cue;
     Vec3f pos;
 
     if (SkelAnime_Update(&this->skelAnime) && (this->skelAnime.animation == &gChildZeldaAnim_010DF8)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_4);
     }
+
     if (EnZl4_InMovingAnim(this)) {
         EnZl4_SetMove(this, play);
     }
-    if (play->csCtx.frames == 100) {
+
+    if (play->csCtx.curFrame == 100) {
         this->eyeExpression = ZL4_EYES_LOOK_LEFT;
     }
-    if (play->csCtx.frames == 450) {
+
+    if (play->csCtx.curFrame == 450) {
         this->blinkTimer = 3;
         this->eyeExpression = ZL4_EYES_NEUTRAL;
         this->mouthExpression = ZL4_MOUTH_SURPRISED;
     }
-    npcAction = play->csCtx.npcActions[0];
-    if (npcAction != NULL) {
-        EnZl4_GetActionStartPos(npcAction, &pos);
-        if (this->lastAction == 0) {
+
+    cue = play->csCtx.actorCues[0];
+
+    if (cue != NULL) {
+        EnZl4_GetCueStartPos(cue, &pos);
+
+        if (this->cueId == 0) {
             this->actor.world.pos = this->actor.home.pos = pos;
         }
-        if (this->lastAction != npcAction->action) {
-            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animIndex[npcAction->action]);
-            this->lastAction = npcAction->action;
+
+        if (this->cueId != cue->id) {
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animIndex[cue->id]);
+            this->cueId = cue->id;
         }
+
         this->actor.velocity.x = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.velocity.z = 0.0f;

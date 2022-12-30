@@ -242,19 +242,19 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 SET_EVENTCHKINF(EVENTCHKINF_39);
                 break;
             case 2:
-                play->csCtx.segment = D_80ABF9D0;
+                play->csCtx.script = D_80ABF9D0;
                 gSaveContext.cutsceneTrigger = 1;
                 // Increase pitch by 3 semitones i.e. 2^(3/12), scale tempo by same ratio
                 // Applies to the windmill bgm once the song of storms fanfare is complete
                 Audio_SetMainBgmTempoFreqAfterFanfare(1.18921f, 90);
                 break;
             case 4:
-                play->csCtx.segment = D_80ABFB40;
+                play->csCtx.script = D_80ABFB40;
                 gSaveContext.cutsceneTrigger = 1;
                 break;
             case 6:
-                play->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
-                                                    : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
+                play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
+                                                   : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -307,7 +307,7 @@ void func_80ABF7CC(EnOkarinaTag* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (!CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSunSongGraveSunSongTeachCs);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSunSongGraveSunSongTeachCs);
             gSaveContext.cutsceneTrigger = 1;
         }
         this->actionFunc = func_80ABF708;

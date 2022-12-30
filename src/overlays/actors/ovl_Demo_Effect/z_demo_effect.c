@@ -57,10 +57,10 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, PlaySta
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play);
 void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, PlayState* play);
 
-s32 DemoEffect_CheckCsAction(DemoEffect* this, PlayState* play, s32 csActionCompareId);
-void DemoEffect_InitPositionFromCsAction(DemoEffect* this, PlayState* play, s32 csActionIndex);
-void DemoEffect_MoveToCsEndpoint(DemoEffect* this, PlayState* play, s32 csActionId, s32 shouldUpdateFacing);
-void DemoEffect_MoveGetItem(DemoEffect* this, PlayState* play, s32 csActionId, f32 speed);
+s32 DemoEffect_CheckForCue(DemoEffect* this, PlayState* play, s32 cueId);
+void DemoEffect_SetStartPosFromCue(DemoEffect* this, PlayState* play, s32 cueChannel);
+void DemoEffect_SetPosRotFromCue(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing);
+void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed);
 
 ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
@@ -115,28 +115,23 @@ static Color_RGB8 sJewelSparkleColors[5][2] = {
     { { 223, 0, 0 }, { 0, 0, 0 } },
 };
 
-/**
- * Sets up the update function.
- */
 void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc) {
     this->updateFunc = updateFunc;
 }
 
 /**
- * Gives a number on the range of 0.0f - 1.0f representing current cutscene action completion percentage.
+ * Gives a number on the range of 0.0f - 1.0f representing current cue completion percentage.
  */
-f32 DemoEffect_InterpolateCsFrames(PlayState* play, s32 csActionId) {
-    f32 interpolated = Environment_LerpWeight(play->csCtx.npcActions[csActionId]->endFrame,
-                                              play->csCtx.npcActions[csActionId]->startFrame, play->csCtx.frames);
+f32 DemoEffect_InterpolateCsFrames(PlayState* play, s32 cueChannel) {
+    f32 interpolated = Environment_LerpWeight(play->csCtx.actorCues[cueChannel]->endFrame,
+                                              play->csCtx.actorCues[cueChannel]->startFrame, play->csCtx.curFrame);
     if (interpolated > 1.0f) {
         interpolated = 1.0f;
     }
+
     return interpolated;
 }
 
-/**
- * Initializes information for Jewel/Spritual Stone actors.
- */
 void DemoEffect_InitJewel(PlayState* play, DemoEffect* this) {
     this->initDrawFunc = DemoEffect_DrawJewel;
     if (!LINK_IS_ADULT) {
@@ -149,7 +144,7 @@ void DemoEffect_InitJewel(PlayState* play, DemoEffect* this) {
     } else {
         Actor_SetScale(&this->actor, 0.10f);
     }
-    this->csActionId = 1;
+    this->cueChannel = 1;
     this->actor.shape.rot.x = 16384;
     DemoEffect_InitJewelColor(this);
     this->jewel.alpha = 0;
@@ -157,22 +152,15 @@ void DemoEffect_InitJewel(PlayState* play, DemoEffect* this) {
     sSfxJewelId[0] = 0;
 }
 
-/**
- * Initializes information for Get Item actors.
- * These are the Medal and Light Arrow actors.
- */
 void DemoEffect_InitGetItem(DemoEffect* this) {
     this->getItem.isPositionInit = 0;
     this->getItem.isLoaded = 0;
     this->initDrawFunc = DemoEffect_DrawGetItem;
     this->initUpdateFunc = DemoEffect_UpdateGetItem;
     Actor_SetScale(&this->actor, 0.25f);
-    this->csActionId = 6;
+    this->cueChannel = 6;
 }
 
-/**
- * Main Actor Init function
- */
 void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     DemoEffect* this = (DemoEffect*)thisx;
@@ -301,7 +289,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
                     this->envXluColor[2] = 0;
                     break;
             }
-            this->csActionId = 7;
+            this->cueChannel = 7;
             Actor_SetScale(thisx, 0.0f);
             break;
 
@@ -323,7 +311,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             this->godLgt.type = GOD_LGT_DIN;
             this->godLgt.rotation = 0;
             this->initUpdateFunc = DemoEffect_UpdateGodLgtDin;
-            this->csActionId = 0;
+            this->cueChannel = 0;
             break;
 
         case DEMO_EFFECT_GOD_LGT_NAYRU:
@@ -344,7 +332,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             this->godLgt.rotation = 0;
             this->godLgt.lightRingSpawnTimer = 0;
             this->initUpdateFunc = DemoEffect_UpdateGodLgtNayru;
-            this->csActionId = 1;
+            this->cueChannel = 1;
             break;
 
         case DEMO_EFFECT_GOD_LGT_FARORE:
@@ -363,7 +351,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             this->godLgt.type = GOD_LGT_FARORE;
             this->godLgt.rotation = 0;
             this->initUpdateFunc = DemoEffect_UpdateGodLgtFarore;
-            this->csActionId = 2;
+            this->cueChannel = 2;
             break;
 
         case DEMO_EFFECT_LIGHTRING_EXPANDING:
@@ -380,7 +368,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             this->lightRing.timer = 20;
             this->lightRing.timerIncrement = 4;
             this->lightRing.alpha = 0;
-            this->csActionId = 4;
+            this->cueChannel = 4;
             break;
 
         case DEMO_EFFECT_LIGHTRING_SHRINKING:
@@ -399,7 +387,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             this->triforceSpot.triforceSpotOpacity = 0;
             this->triforceSpot.rotation = 0;
             this->primXluColor[0] = 0;
-            this->csActionId = 3;
+            this->cueChannel = 3;
 
             Actor_SetScale(&this->actor, 0.020f);
 
@@ -502,7 +490,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             this->initDrawFunc = NULL;
             this->initUpdateFunc = DemoEffect_UpdateDust;
             this->dust.timer = 0;
-            this->csActionId = 2;
+            this->cueChannel = 2;
             break;
 
         default:
@@ -514,9 +502,6 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     DemoEffect_SetupUpdate(this, DemoEffect_Wait);
 }
 
-/**
- * Main Actor Destroy function
- */
 void DemoEffect_Destroy(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 effectType = (this->actor.params & 0x00FF);
@@ -548,7 +533,6 @@ void DemoEffect_Wait(DemoEffect* this, PlayState* play) {
  */
 void DemoEffect_UpdatePositionToParent(DemoEffect* this, PlayState* play) {
     if (this->actor.parent != NULL) {
-        // Struct copy affects regalloc
         this->actor.world.pos.x = this->actor.parent->world.pos.x;
         this->actor.world.pos.y = this->actor.parent->world.pos.y;
         this->actor.world.pos.z = this->actor.parent->world.pos.z;
@@ -566,9 +550,6 @@ void DemoEffect_UpdateCrystalLight(DemoEffect* this, PlayState* play) {
     this->actor.world.pos.y += 14.0f;
 }
 
-/**
- * Spawns sparkle effects for Medals
- */
 void DemoEffect_MedalSparkle(DemoEffect* this, PlayState* play, s32 isSmallSpawner) {
     Vec3f velocity;
     Vec3f accel;
@@ -610,16 +591,16 @@ void DemoEffect_MedalSparkle(DemoEffect* this, PlayState* play, s32 isSmallSpawn
 /**
  * Update function for the GetItem Actors.
  * Medals and Light Arrows.
- * It spawns Medal Sparkle Effects  and scales/moves the Actor based on the current Cutscene Action
+ * It spawns Medal Sparkle Effects and scales/moves the Actor based on the current cue
  */
 void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
     Actor* thisx = &this->actor;
 
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
         if (this->getItem.isPositionInit) {
-            DemoEffect_MoveGetItem(this, play, this->csActionId, 0.1f);
+            DemoEffect_MoveTowardCuePos(this, play, this->cueChannel, 0.1f);
         } else {
-            DemoEffect_InitPositionFromCsAction(this, play, this->csActionId);
+            DemoEffect_SetStartPosFromCue(this, play, this->cueChannel);
             this->getItem.isPositionInit = 1;
         }
 
@@ -632,7 +613,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
         Actor_SetScale(thisx, 0.20f);
 
         if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
-            switch (play->csCtx.npcActions[this->csActionId]->action) {
+            switch (play->csCtx.actorCues[this->cueChannel]->id) {
                 case 2:
                     DemoEffect_MedalSparkle(this, play, 0);
                     break;
@@ -641,7 +622,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
                     break;
             }
         }
-        switch (play->csCtx.npcActions[this->csActionId]->action) {
+        switch (play->csCtx.actorCues[this->cueChannel]->id) {
             case 2:
                 if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
                     Actor_PlaySfx(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
@@ -715,7 +696,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
  * It changes the Background Music and updates its SkelCurve animation.
  */
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play) {
-    if (Flags_GetEnv(play, 1)) {
+    if (CutsceneFlags_Get(play, 1)) {
         if (!(this->effectFlags & 0x2)) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_SWORD_GLOW);
             this->effectFlags |= 0x2;
@@ -828,10 +809,10 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, PlayState* play) {
 void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
     this->triforceSpot.rotation += 0x03E8;
 
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL) {
-        DemoEffect_MoveToCsEndpoint(this, play, this->csActionId, 0);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
 
-        if (play->csCtx.npcActions[this->csActionId]->action == 2) {
+        if (play->csCtx.actorCues[this->cueChannel]->id == 2) {
             if (this->primXluColor[0] < 140) {
                 this->primXluColor[0]++;
             }
@@ -853,7 +834,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
         }
 
         if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0 && gSaveContext.sceneLayer == 6 &&
-            play->csCtx.frames == 143) {
+            play->csCtx.curFrame == 143) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
     }
@@ -905,7 +886,6 @@ void DemoEffect_UpdateLightRingExpanding(DemoEffect* this, PlayState* play) {
 
 /**
  * Update function for the Lightring Actor that expands. This is a special version for the Triforce Actor.
- * This version spawns a blue orb when the cutscene action state is set to 2.
  * Once the Blue Orb Actor is spawned the Update Function is changed to the regular Light Ring Expanding Update Func.
  */
 void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, PlayState* play) {
@@ -914,7 +894,7 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, PlayState* play) {
     DemoEffect_UpdatePositionToParent(this, play);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.npcActions[this->csActionId] != NULL && play->csCtx.npcActions[this->csActionId]->action == 2) {
+        if (play->csCtx.actorCues[this->cueChannel] != NULL && play->csCtx.actorCues[this->cueChannel]->id == 2) {
             blueOrb = (DemoEffect*)Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
                                                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                                DEMO_EFFECT_BLUE_ORB);
@@ -1033,14 +1013,14 @@ void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, PlayState* play) {
  * This function updates the position and scale of the actor based on the current cutscene command.
  */
 void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
-    u16 action;
+    u16 pad;
     s32 isLargeSize;
 
     isLargeSize = ((this->actor.params & 0x0F00) >> 8);
 
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL) {
-        DemoEffect_MoveToCsEndpoint(this, play, this->csActionId, 0);
-        switch (play->csCtx.npcActions[this->csActionId]->action) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
+        switch (play->csCtx.actorCues[this->cueChannel]->id) {
             case 2:
                 if (this->light.rotation < 240) {
                     if (!isLargeSize) {
@@ -1068,15 +1048,15 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
                 break;
         }
 
-        if (play->sceneId == SCENE_KOKIRI_FOREST && gSaveContext.sceneLayer == 6 && play->csCtx.frames == 197) {
+        if (play->sceneId == SCENE_KOKIRI_FOREST && gSaveContext.sceneLayer == 6 && play->csCtx.curFrame == 197) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_WHITE_OUT);
         }
 
         if (play->sceneId == SCENE_DEATH_MOUNTAIN_TRAIL && gSaveContext.sceneLayer == 5) {
-            if (!DemoEffect_CheckCsAction(this, play, 1)) {
+            if (!DemoEffect_CheckForCue(this, play, 1)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
-            if (play->csCtx.frames == 640) {
+            if (play->csCtx.curFrame == 640) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_WHITE_OUT);
             }
 
@@ -1084,10 +1064,10 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
         }
 
         if (play->sceneId == SCENE_ZORAS_FOUNTAIN && gSaveContext.sceneLayer == 4) {
-            if (!DemoEffect_CheckCsAction(this, play, 1)) {
+            if (!DemoEffect_CheckForCue(this, play, 1)) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
-            if (play->csCtx.frames == 648) {
+            if (play->csCtx.curFrame == 648) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_WHITE_OUT);
             }
 
@@ -1098,13 +1078,13 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
         if (play->sceneId == SCENE_TEMPLE_OF_TIME && gSaveContext.sceneLayer == 14) {
             if (1) {}
 
-            if (play->csCtx.npcActions[this->csActionId]->action == 2) {
+            if (play->csCtx.actorCues[this->cueChannel]->id == 2) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
         }
 
         if (play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC || play->sceneId == SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS) {
-            if (play->csCtx.npcActions[this->csActionId]->action == 2) {
+            if (play->csCtx.actorCues[this->cueChannel]->id == 2) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
         }
@@ -1137,10 +1117,10 @@ void DemoEffect_UpdateLgtShower(DemoEffect* this, PlayState* play) {
 void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
     DemoEffect* fireBall;
 
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL) {
-        DemoEffect_MoveToCsEndpoint(this, play, this->csActionId, 1);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 1);
 
-        if (play->csCtx.npcActions[this->csActionId]->action == 3) {
+        if (play->csCtx.actorCues[this->cueChannel]->id == 3) {
             fireBall = (DemoEffect*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT,
                                                        this->actor.world.pos.x, this->actor.world.pos.y,
                                                        this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_FIRE_BALL);
@@ -1154,22 +1134,22 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
         if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.frames == 288) {
+                    if (play->csCtx.curFrame == 288) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
-                    if (play->csCtx.frames == 635) {
+                    if (play->csCtx.curFrame == 635) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.frames == 55) {
+                    if (play->csCtx.curFrame == 55) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.frames == 350) {
+                    if (play->csCtx.curFrame == 350) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1187,10 +1167,10 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
 void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
     DemoEffect* lightRing;
 
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL) {
-        DemoEffect_MoveToCsEndpoint(this, play, this->csActionId, 1);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 1);
 
-        if (play->csCtx.npcActions[this->csActionId]->action == 3) {
+        if (play->csCtx.actorCues[this->cueChannel]->id == 3) {
             if (this->godLgt.lightRingSpawnTimer != 0) {
                 this->godLgt.lightRingSpawnTimer--;
             } else {
@@ -1209,19 +1189,19 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
         if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.frames == 298) {
+                    if (play->csCtx.curFrame == 298) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.frames == 105) {
+                    if (play->csCtx.curFrame == 105) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.frames == 360) {
+                    if (play->csCtx.curFrame == 360) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1229,10 +1209,10 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
         }
 
         if (gSaveContext.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0 && gSaveContext.sceneLayer == 4) {
-            if (play->csCtx.frames == 72) {
+            if (play->csCtx.curFrame == 72) {
                 Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
-            if (play->csCtx.frames == 80) {
+            if (play->csCtx.curFrame == 80) {
                 Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_NAYRU_MAGIC);
             }
         }
@@ -1248,10 +1228,10 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
 void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
     DemoEffect* lgtShower;
 
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL) {
-        DemoEffect_MoveToCsEndpoint(this, play, this->csActionId, 1);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL) {
+        DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 1);
 
-        if (play->csCtx.npcActions[this->csActionId]->action == 3) {
+        if (play->csCtx.actorCues[this->cueChannel]->id == 3) {
             lgtShower = (DemoEffect*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT,
                                                         this->actor.world.pos.x, this->actor.world.pos.y - 150.0f,
                                                         this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_LGT_SHOWER);
@@ -1269,19 +1249,19 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
         if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
-                    if (play->csCtx.frames == 315) {
+                    if (play->csCtx.curFrame == 315) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
                 case 6:
-                    if (play->csCtx.frames == 80) {
+                    if (play->csCtx.curFrame == 80) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
                 case 11:
-                    if (play->csCtx.frames == 370) {
+                    if (play->csCtx.curFrame == 370) {
                         Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1290,18 +1270,12 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
     }
 }
 
-/**
- * Moves this actor towards the target position with a given speed.
- */
 void DemoEffect_MoveTowardTarget(Vec3f targetPos, DemoEffect* this, f32 speed) {
     this->actor.world.pos.x += (targetPos.x - this->actor.world.pos.x) * speed;
     this->actor.world.pos.y += (targetPos.y - this->actor.world.pos.y) * speed;
     this->actor.world.pos.z += (targetPos.z - this->actor.world.pos.z) * speed;
 }
 
-/**
- * Initializes Jewel colors.
- */
 void DemoEffect_InitJewelColor(DemoEffect* this) {
     u8 jewelType = this->jewel.type;
 
@@ -1440,17 +1414,17 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, PlayState* play) {
     f32 frameDivisor;
     f32 degrees;
     f32 radius;
-    s32 csActionId;
+    s32 cueChannel = this->cueChannel;
 
-    csActionId = this->csActionId;
-    startPos.x = play->csCtx.npcActions[csActionId]->startPos.x;
-    startPos.y = play->csCtx.npcActions[csActionId]->startPos.y;
-    startPos.z = play->csCtx.npcActions[csActionId]->startPos.z;
-    endPos.x = play->csCtx.npcActions[csActionId]->endPos.x;
-    endPos.y = play->csCtx.npcActions[csActionId]->endPos.y;
-    endPos.z = play->csCtx.npcActions[csActionId]->endPos.z;
+    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
-    frameDivisor = DemoEffect_InterpolateCsFrames(play, csActionId);
+    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
+    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
+    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
+
+    frameDivisor = DemoEffect_InterpolateCsFrames(play, cueChannel);
 
     switch (this->jewel.type) {
         case DEMO_EFFECT_JEWEL_KOKIRI:
@@ -1480,9 +1454,6 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, PlayState* play) {
     DemoEffect_MoveJewelSpherical(degrees, frameDivisor, startPos, endPos, radius, this->jewelCsRotation, this);
 }
 
-/**
- * Spawns Sparkle Effects for the Jewel Actor.
- */
 void DemoEffect_JewelSparkle(DemoEffect* this, PlayState* play, s32 spawnerCount) {
     Vec3f velocity;
     Vec3f accel;
@@ -1521,7 +1492,7 @@ void DemoEffect_JewelSparkle(DemoEffect* this, PlayState* play, s32 spawnerCount
  * The sSfxJewelId global variable is used to ensure only one Jewel Actor is playing SFX when all are spawned.
  */
 void DemoEffect_PlayJewelSfx(DemoEffect* this, PlayState* play) {
-    if (!DemoEffect_CheckCsAction(this, play, 1)) {
+    if (!DemoEffect_CheckForCue(this, play, 1)) {
         if (this->actor.params == sSfxJewelId[0]) {
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
         } else if (sSfxJewelId[0] == 0) {
@@ -1551,13 +1522,13 @@ void DemoEffect_UpdateJewelAdult(DemoEffect* this, PlayState* play) {
  * This also updates the Jewel's position based on different cutscenes.
  */
 void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
-    s32 hasCmdAction;
+    s32 hasCue;
     Actor* thisx = &this->actor;
 
     this->jewel.timer++;
 
-    if (play->csCtx.state && play->csCtx.npcActions[this->csActionId]) {
-        switch (play->csCtx.npcActions[this->csActionId]->action) {
+    if (play->csCtx.state && play->csCtx.actorCues[this->cueChannel]) {
+        switch (play->csCtx.actorCues[this->cueChannel]->id) {
             case 3:
                 if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
                     SET_EVENTCHKINF(EVENTCHKINF_4B);
@@ -1569,13 +1540,13 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
                 break;
             case 4:
                 if (this->jewel.isPositionInit) {
-                    DemoEffect_MoveToCsEndpoint(this, play, this->csActionId, 0);
+                    DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                     if ((play->gameplayFrames & 1) == 0) {
                         DemoEffect_JewelSparkle(this, play, 1);
                     }
                 } else {
-                    DemoEffect_InitPositionFromCsAction(this, play, this->csActionId);
+                    DemoEffect_SetStartPosFromCue(this, play, this->cueChannel);
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                     this->jewel.isPositionInit = 1;
                 }
@@ -1584,7 +1555,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
                 Actor_Kill(thisx);
                 return;
             default:
-                DemoEffect_MoveToCsEndpoint(this, play, this->csActionId, 0);
+                DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
                 if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                 }
@@ -1594,8 +1565,9 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
 
     if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
-            hasCmdAction = play->csCtx.state && play->csCtx.npcActions[this->csActionId];
-            if (!hasCmdAction) {
+            hasCue = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[this->cueChannel] != NULL);
+
+            if (!hasCue) {
                 this->effectFlags |= 0x1;
                 return;
             }
@@ -1617,8 +1589,8 @@ void DemoEffect_UpdateDust(DemoEffect* this, PlayState* play) {
     Vec3f velocity;
     Vec3f accel;
 
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL &&
-        play->csCtx.npcActions[this->csActionId]->action == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL &&
+        play->csCtx.actorCues[this->cueChannel]->id == 2) {
         pos = this->actor.world.pos;
 
         pos.y += 600.0f;
@@ -1639,29 +1611,20 @@ void DemoEffect_UpdateDust(DemoEffect* this, PlayState* play) {
     }
 }
 
-/**
- * This is the main Actor Update Function.
- */
 void DemoEffect_Update(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     this->updateFunc(this, play);
 }
 
-/**
- * Check if the current cutscene action matches the passed in cutscene action ID.
- */
-s32 DemoEffect_CheckCsAction(DemoEffect* this, PlayState* play, s32 csActionCompareId) {
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->csActionId] != NULL &&
-        play->csCtx.npcActions[this->csActionId]->action == csActionCompareId) {
+s32 DemoEffect_CheckForCue(DemoEffect* this, PlayState* play, s32 cueId) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->cueChannel] != NULL &&
+        play->csCtx.actorCues[this->cueChannel]->id == cueId) {
         return 1;
     }
 
     return 0;
 }
 
-/**
- * Draw function for the Jewel Actor.
- */
 void DemoEffect_DrawJewel(Actor* thisx, PlayState* play2) {
     DemoEffect* this = (DemoEffect*)thisx;
     PlayState* play = play2;
@@ -1669,7 +1632,7 @@ void DemoEffect_DrawJewel(Actor* thisx, PlayState* play2) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2543);
 
-    if (!DemoEffect_CheckCsAction(this, play, 1)) {
+    if (!DemoEffect_CheckForCue(this, play, 1)) {
         if (1) {}
 
         if (!(this->effectFlags & 0x1)) {
@@ -1721,9 +1684,6 @@ void DemoEffect_DrawJewel(Actor* thisx, PlayState* play2) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2620);
 }
 
-/**
- * Draw function for the Crystal Light Actor.
- */
 void DemoEffect_DrawCrystalLight(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     DemoEffect* parent = (DemoEffect*)this->actor.parent;
@@ -1769,9 +1729,6 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2688);
 }
 
-/**
- * Draw function for the Fire Ball Actor.
- */
 void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     u32 frames = play->gameplayFrames;
@@ -1791,7 +1748,6 @@ void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play) {
 }
 
 /**
- * Draw function for the God Lgt Actors.
  * This draws either Din, Nayru, or Farore based on the colors set in the DemoEffect struct.
  */
 void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
@@ -1801,10 +1757,10 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2737);
 
-    if (!DemoEffect_CheckCsAction(this, play, 2)) {
+    if (!DemoEffect_CheckForCue(this, play, 2)) {
         if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             if (gSaveContext.sceneLayer == 4) {
-                if (play->csCtx.frames <= 680) {
+                if (play->csCtx.curFrame <= 680) {
                     func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
                 }
             } else {
@@ -1850,9 +1806,6 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2829);
 }
 
-/**
- * Draw function for the Light Effect Actor.
- */
 void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     u8* alpha;
@@ -1860,7 +1813,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2842);
 
-    if (!DemoEffect_CheckCsAction(this, play, 1)) {
+    if (!DemoEffect_CheckForCue(this, play, 1)) {
 
         if (this->light.flicker == 0) {
             this->light.flicker = 1;
@@ -1892,9 +1845,6 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2881);
 }
 
-/**
- * Draw function for the Blue Orb Actor.
- */
 void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 pad2;
@@ -1912,9 +1862,6 @@ void DemoEffect_DrawBlueOrb(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2907);
 }
 
-/**
- * Draw function for the Lgt Shower Actor.
- */
 void DemoEffect_DrawLgtShower(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 pad;
@@ -1933,9 +1880,6 @@ void DemoEffect_DrawLgtShower(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2942);
 }
 
-/**
- * Draw function for the Light Ring Actor.
- */
 void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2) {
     DemoEffect* this = (DemoEffect*)thisx;
     PlayState* play = play2;
@@ -1956,9 +1900,6 @@ void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2978);
 }
 
-/**
- * Draw function for the Triforce Spot Actor.
- */
 void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 pad;
@@ -1966,7 +1907,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2994);
-    if (gSaveContext.entranceIndex != ENTR_CASTLE_COURTYARD_ZELDA_0 || play->csCtx.frames < 885) {
+    if (gSaveContext.entranceIndex != ENTR_CASTLE_COURTYARD_ZELDA_0 || play->csCtx.curFrame < 885) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (this->triforceSpot.lightColumnOpacity > 0) {
@@ -2022,12 +1963,11 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
 }
 
 /**
- * Draw function for the Get Item Actors.
  * This is either Medals or Light Arrows based on the drawId.
  */
 void DemoEffect_DrawGetItem(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
-    if (!DemoEffect_CheckCsAction(this, play, 1) && !DemoEffect_CheckCsAction(this, play, 4)) {
+    if (!DemoEffect_CheckForCue(this, play, 1) && !DemoEffect_CheckForCue(this, play, 4)) {
         if (!this->getItem.isLoaded) {
             this->getItem.isLoaded = 1;
             return;
@@ -2038,9 +1978,6 @@ void DemoEffect_DrawGetItem(Actor* thisx, PlayState* play) {
     }
 }
 
-/**
- * Callback for the SkelCurve system to draw the animated limbs.
- */
 s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
     s32 pad;
     DemoEffect* this = (DemoEffect*)thisx;
@@ -2066,16 +2003,13 @@ s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s
     return true;
 }
 
-/**
- * Draw function for the Time Warp Actors.
- */
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     u8 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
-        Flags_GetEnv(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
+        CutsceneFlags_Get(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);
@@ -2087,10 +2021,7 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     }
 }
 
-/**
- * Faces/rotates the Actor towards the current cutscene action end point.
- */
-void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos) {
+void DemoEffect_FaceTowardPoint(DemoEffect* this, Vec3f startPos, Vec3f endPos) {
     s32 pad;
     f32 x = endPos.x - startPos.x;
     f32 z = endPos.z - startPos.z;
@@ -2100,52 +2031,44 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(-(endPos.y - startPos.y), xzDistance));
 }
 
-/**
- * Moves the Actor towards the current cutscene action end point.
- * Will only update the Actor's facing/rotation if the shouldUpdateFacing argument is true.
- * The speed is based on the current progress in the cutscene action.
- */
-void DemoEffect_MoveToCsEndpoint(DemoEffect* this, PlayState* play, s32 csActionId, s32 shouldUpdateFacing) {
+void DemoEffect_SetPosRotFromCue(DemoEffect* this, PlayState* play, s32 cueChannel, s32 shouldUpdateFacing) {
     Vec3f startPos;
     Vec3f endPos;
     f32 speed;
 
-    startPos.x = play->csCtx.npcActions[csActionId]->startPos.x;
-    startPos.y = play->csCtx.npcActions[csActionId]->startPos.y;
-    startPos.z = play->csCtx.npcActions[csActionId]->startPos.z;
-    endPos.x = play->csCtx.npcActions[csActionId]->endPos.x;
-    endPos.y = play->csCtx.npcActions[csActionId]->endPos.y;
-    endPos.z = play->csCtx.npcActions[csActionId]->endPos.z;
+    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
-    speed = DemoEffect_InterpolateCsFrames(play, csActionId);
+    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
+    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
+    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
+
+    speed = DemoEffect_InterpolateCsFrames(play, cueChannel);
 
     this->actor.world.pos.x = ((endPos.x - startPos.x) * speed) + startPos.x;
     this->actor.world.pos.y = ((endPos.y - startPos.y) * speed) + startPos.y;
     this->actor.world.pos.z = ((endPos.z - startPos.z) * speed) + startPos.z;
 
     if (shouldUpdateFacing) {
-        DemoEffect_FaceToCsEndpoint(this, startPos, endPos);
+        DemoEffect_FaceTowardPoint(this, startPos, endPos);
     }
 }
 
-/**
- * Moves a GetItem actor towards the current cutscene action's endpoint.
- */
-void DemoEffect_MoveGetItem(DemoEffect* this, PlayState* play, s32 csActionId, f32 speed) {
+void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed) {
     Vec3f endPos;
-    endPos.x = play->csCtx.npcActions[csActionId]->endPos.x;
-    endPos.y = play->csCtx.npcActions[csActionId]->endPos.y;
-    endPos.z = play->csCtx.npcActions[csActionId]->endPos.z;
+
+    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
+    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
+    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
+
     DemoEffect_MoveTowardTarget(endPos, this, speed);
 }
 
-/**
- * Initializes the Actor's position to the current cutscene action's start point.
- */
-void DemoEffect_InitPositionFromCsAction(DemoEffect* this, PlayState* play, s32 csActionIndex) {
-    f32 x = play->csCtx.npcActions[csActionIndex]->startPos.x;
-    f32 y = play->csCtx.npcActions[csActionIndex]->startPos.y;
-    f32 z = play->csCtx.npcActions[csActionIndex]->startPos.z;
+void DemoEffect_SetStartPosFromCue(DemoEffect* this, PlayState* play, s32 cueChannel) {
+    f32 x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    f32 y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    f32 z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
     this->actor.world.pos.x = x;
     this->actor.world.pos.y = y;

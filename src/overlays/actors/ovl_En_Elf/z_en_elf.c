@@ -52,7 +52,7 @@ void func_80A01FE0(EnElf* this, PlayState* play);
 void func_80A04414(EnElf* this, PlayState* play);
 void func_80A0461C(EnElf* this, PlayState* play);
 void EnElf_SpawnSparkles(EnElf* this, PlayState* play, s32 sparkleLife);
-void EnElf_GetCutsceneNextPos(Vec3f* vec, PlayState* play, s32 action);
+void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 cueChannel);
 
 ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
@@ -846,10 +846,10 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
 
     xScale = 0.0f;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[8] != NULL)) {
-        EnElf_GetCutsceneNextPos(&nextPos, play, 8);
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[8] != NULL)) {
+        EnElf_GetCuePos(&nextPos, play, 8);
 
-        if (play->csCtx.npcActions[8]->action == 5) {
+        if (play->csCtx.actorCues[8]->id == 5) {
             if (1) {}
             EnElf_SpawnSparkles(this, play, 16);
         }
@@ -865,7 +865,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
         if ((play->sceneId == SCENE_LINKS_HOUSE) && (gSaveContext.sceneLayer == 4)) {
             // play dash sound effect as Navi enters Links house in the intro
             if (1) {}
-            if (play->csCtx.frames == 55) {
+            if (play->csCtx.curFrame == 55) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_FAIRY_DASH);
             }
 
@@ -1059,8 +1059,8 @@ void func_80A0461C(EnElf* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.npcActions[8] != NULL) {
-            switch (play->csCtx.npcActions[8]->action) {
+        if (play->csCtx.actorCues[8] != NULL) {
+            switch (play->csCtx.actorCues[8]->id) {
                 case 4:
                     temp = 9;
                     break;
@@ -1544,23 +1544,23 @@ void EnElf_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-void EnElf_GetCutsceneNextPos(Vec3f* vec, PlayState* play, s32 action) {
+void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
-    CsCmdActorAction* npcAction = play->csCtx.npcActions[action];
+    CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
     f32 lerp;
 
-    startPos.x = npcAction->startPos.x;
-    startPos.y = npcAction->startPos.y;
-    startPos.z = npcAction->startPos.z;
+    startPos.x = cue->startPos.x;
+    startPos.y = cue->startPos.y;
+    startPos.z = cue->startPos.z;
 
-    endPos.x = npcAction->endPos.x;
-    endPos.y = npcAction->endPos.y;
-    endPos.z = npcAction->endPos.z;
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
 
-    lerp = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames);
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
 
-    vec->x = ((endPos.x - startPos.x) * lerp) + startPos.x;
-    vec->y = ((endPos.y - startPos.y) * lerp) + startPos.y;
-    vec->z = ((endPos.z - startPos.z) * lerp) + startPos.z;
+    dest->x = ((endPos.x - startPos.x) * lerp) + startPos.x;
+    dest->y = ((endPos.y - startPos.y) * lerp) + startPos.y;
+    dest->z = ((endPos.z - startPos.z) * lerp) + startPos.z;
 }

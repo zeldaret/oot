@@ -90,7 +90,7 @@ void ItemOcarina_Fly(ItemOcarina* this, PlayState* play) {
         }
     }
 
-    if (play->csCtx.frames == 881) {
+    if (play->csCtx.curFrame == 881) {
         this->actor.world.pos.x = 250.0f;
         this->actor.world.pos.y = 60.0f;
         this->actor.world.pos.z = 1075.0f;
@@ -99,7 +99,7 @@ void ItemOcarina_Fly(ItemOcarina* this, PlayState* play) {
         this->actor.velocity.z = -7.0f;
     }
 
-    if (play->csCtx.frames == 897) {
+    if (play->csCtx.curFrame == 897) {
         EffectSsGRipple_Spawn(play, &this->actor.world.pos, 100, 500, 0);
         EffectSsGSplash_Spawn(play, &this->actor.world.pos, NULL, NULL, 1, 0);
         this->actor.velocity.x = 0.0f;
@@ -112,7 +112,7 @@ void ItemOcarina_Fly(ItemOcarina* this, PlayState* play) {
     }
 
     // landed in water
-    if (play->csCtx.frames == 906) {
+    if (play->csCtx.curFrame == 906) {
         ripplePos.x = 274.0f;
         ripplePos.y = -60.0f;
         ripplePos.z = 907.0f;
@@ -142,7 +142,7 @@ void func_80B864EC(ItemOcarina* this, PlayState* play) {
         }
     }
 
-    if (play->csCtx.frames == 220) {
+    if (play->csCtx.curFrame == 220) {
         this->actor.world.pos.x = 144.0f;
         this->actor.world.pos.y = 80.0f;
         this->actor.world.pos.z = 1686.0f;
@@ -168,7 +168,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, PlayState* play) {
 
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gHyruleFieldZeldaSongOfTimeCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gHyruleFieldZeldaSongOfTimeCs);
         gSaveContext.cutsceneTrigger = 1;
     }
 }

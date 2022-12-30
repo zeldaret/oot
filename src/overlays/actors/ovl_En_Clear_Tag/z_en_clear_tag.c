@@ -587,7 +587,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     case CLEAR_TAG_CUTSCENE_MODE_SETUP:
                         // Initializes Arwing cutscene camera data.
                         this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_PLAY;
-                        func_80064520(play, &play->csCtx);
+                        Cutscene_StartManual(play, &play->csCtx);
                         this->subCamId = Play_CreateSubCamera(play);
                         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                         Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -620,7 +620,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     Play_ReturnToMainCam(play, this->subCamId, 0);
                     // CLEAR_TAG_CUTSCENE_MODE_NONE / SUB_CAM_ID_DONE
                     this->cutsceneMode = this->subCamId = 0;
-                    func_80064534(play, &play->csCtx);
+                    Cutscene_StopManual(play, &play->csCtx);
                 }
             }
         }

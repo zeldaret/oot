@@ -774,7 +774,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     this->mashCounter = 0;
                     this->sfxTimer = 30;
                     Audio_ResetIncreasingTranspose();
-                    func_80064520(play, &play->csCtx);
+                    Cutscene_StartManual(play, &play->csCtx);
                     this->subCamId = Play_CreateSubCamera(play);
                     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                     Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -901,7 +901,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     mainCam2->at = this->subCamAt;
                     Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
-                    func_80064534(play, &play->csCtx);
+                    Cutscene_StopManual(play, &play->csCtx);
                 }
             }
             for (indS1 = 0; indS1 < 41; indS1++) {
@@ -1224,7 +1224,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 ((fabsf(player->actor.world.pos.z - -180.0f) < 40.0f) &&
                  (fabsf(player->actor.world.pos.x - -180.0f) < 40.0f))) {
                 // checks if Link is on one of the four platforms
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1445,7 +1445,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 // MO_BATTLE / SUB_CAM_ID_DONE
                 this->csState = this->subCamId = 0;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
             }
             break;
@@ -1510,7 +1510,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
 
     switch (this->csState) {
         case MO_DEATH_START:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1680,7 +1680,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
                     mainCam->at = this->subCamAt;
                     Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
-                    func_80064534(play, &play->csCtx);
+                    Cutscene_StopManual(play, &play->csCtx);
                     func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                     sMorphaTent1->actor.world.pos.y = -1000.0f;
                 }

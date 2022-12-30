@@ -212,10 +212,10 @@ void func_80B85B28(ItemEtcetera* this, PlayState* play) {
 }
 
 void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL)) {
-        LOG_NUM("(game_play->demo_play.npcdemopnt[0]->dousa)", play->csCtx.npcActions[0]->action,
-                "../z_item_etcetera.c", 441);
-        if (play->csCtx.npcActions[0]->action == 2) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL)) {
+        LOG_NUM("(game_play->demo_play.npcdemopnt[0]->dousa)", play->csCtx.actorCues[0]->id, "../z_item_etcetera.c",
+                441);
+        if (play->csCtx.actorCues[0]->id == 2) {
             this->actor.draw = ItemEtcetera_Draw;
             this->actor.gravity = -0.1f;
             this->actor.minVelocityY = -4.0f;
