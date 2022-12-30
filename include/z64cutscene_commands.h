@@ -271,7 +271,7 @@
     CMD_W(unk1), CMD_W(unk2), CMD_W(unk3), CMD_W(unk4), CMD_W(unk5), CMD_W(unk6), \
     CMD_W(unk7), CMD_W(unk8), CMD_W(unk9), CMD_W(unk10), CMD_W(unk11), CMD_W(unk12)
 
-// TODO: Fix ZAPD and delete these
+// TODO: Fix ZAPD and delete these (everything to the end of the file)
 #define CS_CAM_POS_LIST                CS_CAM_EYE_SPLINE
 #define CS_CAM_POS                     CS_CAM_POINT
 #define CS_CAM_FOCUS_POINT_LIST        CS_CAM_AT_SPLINE
@@ -295,6 +295,18 @@
 #define CS_FADE_BGM_LIST               CS_FADE_OUT_SEQ_LIST
 #define CS_FADE_BGM                    CS_FADE_OUT_SEQ
 #define CS_TERMINATOR                  CS_DESTINATION
+
+// CS_TIME macro:
+// The last argument of the macro was removed, but ZAPD isn't aware
+// Passing 6 arguments to a 5-arguments macro works fine with IDO, so ignore this hack for IDO
+#ifndef __sgi
+// Only spot06_scene uses CS_TIME. Limit the hack to that file, so everything else can use the new macro
+#  ifdef SPOT06_SCENE_H
+#    undef CS_TIME
+#    define CS_TIME(unused0, startFrame, endFrame, hour, min, _unusedZapdCompatibilityArg) \
+        CMD_HH(unused0, startFrame), CMD_HBB(endFrame, hour, min), CMD_W(0)
+#  endif
+#endif
 
 #define CS_PLAY_BGM(seqId, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
 CS_START_SEQ((seqId)-1, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7)
