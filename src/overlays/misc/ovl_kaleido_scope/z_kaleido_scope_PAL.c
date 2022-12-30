@@ -824,7 +824,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
         if (IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sGameOverTexs);
-        } else {
+        } else { // PAUSE_STATE_SAVE_PROMPT
             POLY_OPA_DISP =
                 KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->saveVtx, sSaveTexs[gSaveContext.language]);
         }
@@ -2336,7 +2336,7 @@ void KaleidoScope_GrayOutTextureRGBA32(u32* texture, u16 pixelCount) {
     }
 }
 
-void func_808265BC(PlayState* play) {
+void KaleidoScope_UpdateOpening(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
 
     pauseCtx->eye.x += D_8082ABAC[pauseCtx->mode] * ZREG(46);
@@ -2344,6 +2344,8 @@ void func_808265BC(PlayState* play) {
     pauseCtx->unk_1EA += 4 * ZREG(46);
 
     if (pauseCtx->unk_1EA == (64 * ZREG(47))) {
+        // Finished opening
+
         func_80084BF4(play, 1);
         gSaveContext.buttonStatus[0] = D_8082AB6C[pauseCtx->pageIndex][0];
         gSaveContext.buttonStatus[1] = D_8082AB6C[pauseCtx->pageIndex][1];
@@ -2352,10 +2354,11 @@ void func_808265BC(PlayState* play) {
         gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex][4];
         pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
         pauseCtx->unk_1E4 = 0;
-        pauseCtx->state++;
+        pauseCtx->state++; // PAUSE_STATE_MAIN
         pauseCtx->alpha = 255;
         Interface_LoadActionLabelB(play, DO_ACTION_SAVE);
     } else if (pauseCtx->unk_1EA == 64) {
+        // `ZREG(47)` is always 1 so this normally never happens
         pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
         pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
     }
@@ -2541,7 +2544,7 @@ void KaleidoScope_Update(PlayState* play) {
             //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->playerSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
 
-            size1 = func_80091738(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
+            size1 = Player_InitDrawPause(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
             osSyncPrintf("プレイヤー size1＝%x\n", size1);
 
             pauseCtx->iconItemSegment = (void*)ALIGN16((uintptr_t)pauseCtx->playerSegment + size1);
@@ -2896,6 +2899,8 @@ void KaleidoScope_Update(PlayState* play) {
 
         case PAUSE_STATE_OPENING_1:
             if (pauseCtx->unk_1F4 == 160.0f) {
+                // First frame in this state
+
                 KaleidoScope_SetDefaultCursor(play);
                 KaleidoScope_ProcessPlayerPreRender();
             }
@@ -2914,12 +2919,13 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->state = PAUSE_STATE_OPENING_2;
             }
 
-            func_808265BC(play);
+            KaleidoScope_UpdateOpening(play);
             break;
 
         case PAUSE_STATE_OPENING_2:
             pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
-            func_808265BC(play);
+            KaleidoScope_UpdateOpening(play);
+
             if (pauseCtx->state == PAUSE_STATE_MAIN) {
                 KaleidoScope_UpdateNamePanel(play);
             }
@@ -3480,6 +3486,7 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->state = PAUSE_STATE_OFF;
             R_UPDATE_RATE = 3;
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
+
             func_800981B8(&play->objectCtx);
             func_800418D0(&play->colCtx, play);
 
