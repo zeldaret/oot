@@ -448,7 +448,7 @@ void Play_Init(GameState* thisx) {
 
 void Play_Update(PlayState* this) {
     s32 pad1;
-    s32 sp80;
+    s32 isPaused;
     Input* input;
     u32 i;
     s32 pad2;
@@ -850,7 +850,7 @@ void Play_Update(PlayState* this) {
             }
 
             PLAY_LOG(3551);
-            sp80 = (this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0);
+            isPaused = IS_PAUSED(&this->pauseCtx);
 
             PLAY_LOG(3555);
             AnimationContext_Reset(&this->animationCtx);
@@ -860,7 +860,7 @@ void Play_Update(PlayState* this) {
 
             PLAY_LOG(3577);
 
-            if ((sp80 == 0) && (IREG(72) == 0)) {
+            if (!isPaused && (IREG(72) == 0)) {
                 PLAY_LOG(3580);
 
                 this->gameplayFrames++;
@@ -927,7 +927,7 @@ void Play_Update(PlayState* this) {
 
             if (this->viewpoint != VIEWPOINT_NONE) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
-                    if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+                    if (IS_PAUSED(&this->pauseCtx)) {
                         // "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (Player_InCsMode(this)) {
@@ -951,7 +951,7 @@ void Play_Update(PlayState* this) {
 
             PLAY_LOG(3716);
 
-            if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+            if (IS_PAUSED(&this->pauseCtx)) {
                 PLAY_LOG(3721);
                 KaleidoScopeCall_Update(this);
             } else if (this->gameOverCtx.state != GAMEOVER_INACTIVE) {
@@ -988,7 +988,7 @@ void Play_Update(PlayState* this) {
 skip:
     PLAY_LOG(3801);
 
-    if ((sp80 == 0) || gDbgCamEnabled) {
+    if (!isPaused || gDbgCamEnabled) {
         s32 pad3[5];
         s32 i;
 
@@ -1014,7 +1014,7 @@ skip:
 }
 
 void Play_DrawOverlayElements(PlayState* this) {
-    if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+    if (IS_PAUSED(&this->pauseCtx)) {
         KaleidoScopeCall_Draw(this);
     }
 

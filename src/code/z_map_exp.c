@@ -365,7 +365,7 @@ void Minimap_Draw(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_map_exp.c", 626);
 
-    if (play->pauseCtx.state < 4) {
+    if (play->pauseCtx.state <= PAUSE_STATE_INIT) {
         switch (play->sceneId) {
             case SCENE_DEKU_TREE:
             case SCENE_DODONGOS_CAVERN:
@@ -523,7 +523,7 @@ void Map_Update(PlayState* play) {
     s16 floor;
     s16 i;
 
-    if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
+    if (!IS_PAUSED(&play->pauseCtx)) {
         switch (play->sceneId) {
             case SCENE_DEKU_TREE:
             case SCENE_DODONGOS_CAVERN:
