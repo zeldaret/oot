@@ -13195,7 +13195,7 @@ s32 func_8084FCAC(Player* this, PlayState* play) {
             speed = 20.0f;
         }
 
-        func_8006375C(3, 2, "DEBUG MODE");
+        DbCamera_ScreenText(3, 2, "DEBUG MODE");
 
         if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_L)) {
             if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {

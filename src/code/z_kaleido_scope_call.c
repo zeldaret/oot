@@ -76,7 +76,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
         } else if ((pauseCtx->state == 2) || (pauseCtx->state == 9)) {
             osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);
 
-            if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) {
+            if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) {
                 pauseCtx->state++;
             }
         } else if (pauseCtx->state != 0) {
@@ -118,7 +118,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 void KaleidoScopeCall_Draw(PlayState* play) {
     KaleidoMgrOverlay* kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
 
-    if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) {
+    if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) {
         if (((play->pauseCtx.state >= 4) && (play->pauseCtx.state <= 7)) ||
             ((play->pauseCtx.state >= 11) && (play->pauseCtx.state <= 18))) {
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {
