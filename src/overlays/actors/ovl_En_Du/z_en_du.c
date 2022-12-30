@@ -98,7 +98,7 @@ void EnDu_SetupAction(EnDu* this, EnDuActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-u16 func_809FDC38(PlayState* play, Actor* actor) {
+u16 EnDu_GetTextId(PlayState* play, Actor* actor) {
     u16 reaction = Text_GetFaceReaction(play, 0x21);
 
     if (reaction != 0) {
@@ -118,7 +118,7 @@ u16 func_809FDC38(PlayState* play, Actor* actor) {
     }
 }
 
-s16 func_809FDCDC(PlayState* play, Actor* actor) {
+s16 EnDu_UpdateTalkState(PlayState* play, Actor* actor) {
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
@@ -232,16 +232,16 @@ void func_809FDE9C(EnDu* this) {
     }
 }
 
-void func_809FDFC0(CsCmdActorAction* csAction, Vec3f* dst) {
-    dst->x = csAction->startPos.x;
-    dst->y = csAction->startPos.y;
-    dst->z = csAction->startPos.z;
+void func_809FDFC0(CsCmdActorCue* cue, Vec3f* dst) {
+    dst->x = cue->startPos.x;
+    dst->y = cue->startPos.y;
+    dst->z = cue->startPos.z;
 }
 
-void func_809FE000(CsCmdActorAction* csAction, Vec3f* dst) {
-    dst->x = csAction->endPos.x;
-    dst->y = csAction->endPos.y;
-    dst->z = csAction->endPos.z;
+void func_809FE000(CsCmdActorCue* cue, Vec3f* dst) {
+    dst->x = cue->endPos.x;
+    dst->y = cue->endPos.y;
+    dst->z = cue->endPos.z;
 }
 
 void func_809FE040(EnDu* this) {
@@ -295,7 +295,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 
     if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
         gSaveContext.cutsceneTrigger = 1;
         EnDu_SetupAction(this, func_809FE890);
     } else if (play->sceneId == SCENE_FIRE_TEMPLE) {
@@ -321,7 +321,7 @@ void func_809FE3C0(EnDu* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->stateFlags2 & PLAYER_STATE2_24) {
-        func_8010BD88(play, OCARINA_ACTION_CHECK_SARIA);
+        Message_StartOcarinaSunsSongDisabled(play, OCARINA_ACTION_CHECK_SARIA);
         player->stateFlags2 |= PLAYER_STATE2_25;
         player->unk_6A8 = &this->actor;
         EnDu_SetupAction(this, func_809FE4A4);
@@ -343,7 +343,7 @@ void func_809FE4A4(EnDu* this, PlayState* play) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_00;
         EnDu_SetupAction(this, func_809FE3C0);
     } else if (play->msgCtx.ocarinaMode >= OCARINA_MODE_06) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaWrongCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaWrongCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 1;
         EnDu_SetupAction(this, func_809FE890);
@@ -351,7 +351,7 @@ void func_809FE4A4(EnDu* this, PlayState* play) {
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 0;
         EnDu_SetupAction(this, func_809FE890);
@@ -394,16 +394,16 @@ void func_809FE798(EnDu* this, PlayState* play) {
     if (DECR(this->unk_1E2) != 0) {
         switch (this->unk_1E2) {
             case 0x50:
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
                 break;
             case 0x3C:
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SLIDE_DOOR_OPEN);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_SLIDE_DOOR_OPEN);
                 break;
             case 0xF:
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
                 break;
             case 5:
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONE_BOUND);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_STONE_BOUND);
                 break;
         }
         if (this->unk_1E2 >= 0x3D) {
@@ -420,37 +420,44 @@ void func_809FE890(EnDu* this, PlayState* play) {
     Vec3f startPos;
     Vec3f endPos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-    CsCmdActorAction* csAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state == CS_STATE_IDLE) {
         func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
         EnDu_SetupAction(this, func_809FEB08);
         return;
     }
-    csAction = play->csCtx.npcActions[2];
 
-    if (csAction != NULL) {
-        func_809FDFC0(csAction, &startPos);
-        func_809FE000(csAction, &endPos);
+    cue = play->csCtx.actorCues[2];
+
+    if (cue != NULL) {
+        func_809FDFC0(cue, &startPos);
+        func_809FE000(cue, &endPos);
+
         if (this->unk_1EA == 0) {
-            func_809FDFC0(csAction, &startPos);
+            func_809FDFC0(cue, &startPos);
             this->actor.world.pos = startPos;
         }
-        if (this->unk_1EA != csAction->action) {
-            if (csAction->action == 1) {
+
+        if (this->unk_1EA != cue->id) {
+            if (cue->id == 1) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
             }
-            if (csAction->action == 7 || csAction->action == 8) {
+
+            if (cue->id == 7 || cue->id == 8) {
                 this->unk_1E6 = 0;
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_7);
             }
-            this->unk_1EA = csAction->action;
+
+            this->unk_1EA = cue->id;
+
             if (this->unk_1EA == 7) {
                 this->blinkTimer = 11;
                 this->unk_1EC = 2;
                 this->unk_1ED = 2;
                 this->unk_1EE = 1;
             }
+
             if (this->unk_1EA == 8) {
                 this->blinkTimer = 11;
                 this->unk_1EC = 3;
@@ -458,26 +465,32 @@ void func_809FE890(EnDu* this, PlayState* play) {
                 this->unk_1EE = 0;
             }
         }
+
         if (this->unk_1EA == 7) {
             func_809FE040(this);
         }
+
         if (this->unk_1EA == 8) {
             func_809FE104(this);
         }
-        this->actor.shape.rot.x = csAction->urot.x;
-        this->actor.shape.rot.y = csAction->urot.y;
-        this->actor.shape.rot.z = csAction->urot.z;
+
+        this->actor.shape.rot.x = cue->rot.x;
+        this->actor.shape.rot.y = cue->rot.y;
+        this->actor.shape.rot.z = cue->rot.z;
+
         this->actor.velocity = velocity;
 
-        if (play->csCtx.frames < csAction->endFrame) {
-            frame = csAction->endFrame - csAction->startFrame;
+        if (play->csCtx.curFrame < cue->endFrame) {
+            frame = cue->endFrame - cue->startFrame;
 
             this->actor.velocity.x = (endPos.x - startPos.x) / frame;
             this->actor.velocity.y = (endPos.y - startPos.y) / frame;
             this->actor.velocity.y += this->actor.gravity;
+
             if (this->actor.velocity.y < this->actor.minVelocityY) {
                 this->actor.velocity.y = this->actor.minVelocityY;
             }
+
             this->actor.velocity.z = (endPos.z - startPos.z) / frame;
         }
     }
@@ -561,26 +574,26 @@ void EnDu_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != func_809FE4A4) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 116.0f,
-                          func_809FDC38, func_809FDCDC);
+                          EnDu_GetTextId, EnDu_UpdateTalkState);
     }
     this->actionFunc(this, play);
 }
 
 s32 EnDu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnDu* this = (EnDu*)thisx;
-    Vec3s sp1C;
+    Vec3s limbRot;
 
     if (limbIndex == 16) {
         Matrix_Translate(2400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp1C = this->interactInfo.headRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-2400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        sp1C = this->interactInfo.torsoRot;
-        Matrix_RotateY(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
     return 0;
 }

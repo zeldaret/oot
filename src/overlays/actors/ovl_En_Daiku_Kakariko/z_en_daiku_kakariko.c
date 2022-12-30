@@ -420,12 +420,12 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
         if (angleStepDiff == 0) {
             this->run = true;
         } else {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     }
 
     if (this->run == true) {
-        Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.8f, runDist, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, this->runSpeed, 0.8f, runDist, 0.0f);
     }
 
     Actor_MoveForward(&this->actor);
@@ -458,7 +458,7 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     if (this->currentAnimIndex == 3) {
         if (((s32)this->skelAnime.curFrame == 6) || ((s32)this->skelAnime.curFrame == 15)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 

@@ -50,8 +50,8 @@ void EnBird_Init(Actor* thisx, PlayState* play) {
     this->timer = 0;
     this->rotYStep = 2500;
     this->actor.colChkInfo.mass = 0;
-    this->speedXZTarget = 1.5f;
-    this->speedXZStep = 0.5f;
+    this->speedTarget = 1.5f;
+    this->speedStep = 0.5f;
     this->posYMag = 0.0f;
     this->rotYMag = 0.0f;
     this->posYPhaseStep = 0.0f;
@@ -74,10 +74,10 @@ void EnBird_SetupIdle(EnBird* this, s16 params) {
 
 void EnBird_Idle(EnBird* this, PlayState* play) {
     this->actor.shape.yOffset += sinf(this->posYPhase) * this->posYMag;
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.1f, 0.5f, 0.0f);
 
     if (this->scaleAnimSpeed) {
-        this->skelAnime.playSpeed = this->actor.speedXZ * 2.0f;
+        this->skelAnime.playSpeed = this->actor.speed * 2.0f;
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -95,7 +95,7 @@ void EnBird_SetupMove(EnBird* this, s16 params) {
 
 void EnBird_Move(EnBird* this, PlayState* play) {
     this->actor.shape.yOffset += sinf(this->posYPhase) * this->posYMag;
-    Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZTarget, 0.1f, this->speedXZStep, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, this->speedTarget, 0.1f, this->speedStep, 0.0f);
 
     if (this->flightDistance < Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) || this->timer < 4) {
         Math_StepToAngleS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos),

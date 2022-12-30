@@ -138,7 +138,7 @@ s16 func_80AF5560(EnSa* this, PlayState* play) {
     return textState;
 }
 
-u16 func_80AF55E0(PlayState* play, Actor* thisx) {
+u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
     EnSa* this = (EnSa*)thisx;
     u16 reaction = Text_GetFaceReaction(play, 0x10);
 
@@ -178,8 +178,8 @@ u16 func_80AF55E0(PlayState* play, Actor* thisx) {
     return 0x1001;
 }
 
-s16 func_80AF56F4(PlayState* play, Actor* thisx) {
-    s16 ret = NPC_TALK_STATE_TALKING;
+s16 EnSa_UpdateTalkState(PlayState* play, Actor* thisx) {
+    s16 talkState = NPC_TALK_STATE_TALKING;
     EnSa* this = (EnSa*)thisx;
 
     switch (func_80AF5560(this, play)) {
@@ -187,19 +187,19 @@ s16 func_80AF56F4(PlayState* play, Actor* thisx) {
             switch (this->actor.textId) {
                 case 0x1002:
                     SET_INFTABLE(INFTABLE_01);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x1031:
                     SET_EVENTCHKINF(EVENTCHKINF_03);
                     SET_INFTABLE(INFTABLE_03);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x1047:
                     SET_INFTABLE(INFTABLE_05);
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
                 default:
-                    ret = NPC_TALK_STATE_IDLE;
+                    talkState = NPC_TALK_STATE_IDLE;
                     break;
             }
             break;
@@ -213,7 +213,7 @@ s16 func_80AF56F4(PlayState* play, Actor* thisx) {
         case TEXT_STATE_9:
             break;
     }
-    return ret;
+    return talkState;
 }
 
 void func_80AF57D8(EnSa* this, PlayState* play) {
@@ -221,7 +221,7 @@ void func_80AF57D8(EnSa* this, PlayState* play) {
         ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 ||
         this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
-                          func_80AF55E0, func_80AF56F4);
+                          EnSa_GetTextId, EnSa_UpdateTalkState);
     }
 }
 
@@ -466,16 +466,16 @@ void func_80AF609C(EnSa* this) {
     }
 }
 
-void func_80AF6130(CsCmdActorAction* csAction, Vec3f* dst) {
-    dst->x = csAction->startPos.x;
-    dst->y = csAction->startPos.y;
-    dst->z = csAction->startPos.z;
+void func_80AF6130(CsCmdActorCue* cue, Vec3f* dst) {
+    dst->x = cue->startPos.x;
+    dst->y = cue->startPos.y;
+    dst->z = cue->startPos.z;
 }
 
-void func_80AF6170(CsCmdActorAction* csAction, Vec3f* dst) {
-    dst->x = csAction->endPos.x;
-    dst->y = csAction->endPos.y;
-    dst->z = csAction->endPos.z;
+void func_80AF6170(CsCmdActorCue* cue, Vec3f* dst) {
+    dst->x = cue->endPos.x;
+    dst->y = cue->endPos.y;
+    dst->z = cue->endPos.z;
 }
 
 void EnSa_Init(Actor* thisx, PlayState* play) {
@@ -505,7 +505,7 @@ void EnSa_Init(Actor* thisx, PlayState* play) {
         case 4:
             this->unk_210 = 0;
             this->actor.gravity = -1.0f;
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSpot04Cs_10E20);
             gSaveContext.cutsceneTrigger = 1;
             EnSa_ChangeAnim(this, ENSA_ANIM1_4);
             this->actionFunc = func_80AF68E4;
@@ -625,7 +625,7 @@ void func_80AF683C(EnSa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->actor.world.pos.z >= -2220.0f) && !Play_InCsMode(play)) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(spot05_scene_Cs_005730);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
     }
@@ -636,7 +636,7 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
     Vec3f startPos;
     Vec3f endPos;
     Vec3f D_80AF7448 = { 0.0f, 0.0f, 0.0f };
-    CsCmdActorAction* csAction;
+    CsCmdActorCue* cue;
     f32 temp_f0;
     f32 gravity;
 
@@ -644,16 +644,18 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
         this->actionFunc = func_80AF6B20;
         return;
     }
-    csAction = play->csCtx.npcActions[1];
-    if (csAction != NULL) {
-        func_80AF6130(csAction, &startPos);
-        func_80AF6170(csAction, &endPos);
+
+    cue = play->csCtx.actorCues[1];
+
+    if (cue != NULL) {
+        func_80AF6130(cue, &startPos);
+        func_80AF6170(cue, &endPos);
 
         if (this->unk_210 == 0) {
             this->actor.world.pos = startPos;
         }
-        if (this->unk_210 != csAction->action) {
-            switch (csAction->action) {
+        if (this->unk_210 != cue->id) {
+            switch (cue->id) {
                 case 2:
                     this->mouthIndex = 1;
                     break;
@@ -664,11 +666,13 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
                     this->mouthIndex = 0;
                     break;
             }
-            EnSa_ChangeAnim(this, csAction->action);
-            this->unk_210 = csAction->action;
+            EnSa_ChangeAnim(this, cue->id);
+            this->unk_210 = cue->id;
         }
+
         if (phi_v0) {}
-        if (csAction->action == 3) {
+
+        if (cue->id == 3) {
             if (this->unk_20C == 0) {
                 phi_v0 = 0;
             } else {
@@ -681,13 +685,13 @@ void func_80AF68E4(EnSa* this, PlayState* play) {
                 this->unk_20C = 8;
             }
         }
-        this->actor.shape.rot.x = csAction->urot.x;
-        this->actor.shape.rot.y = csAction->urot.y;
-        this->actor.shape.rot.z = csAction->urot.z;
+        this->actor.shape.rot.x = cue->rot.x;
+        this->actor.shape.rot.y = cue->rot.y;
+        this->actor.shape.rot.z = cue->rot.z;
         this->actor.velocity = D_80AF7448;
 
-        if (play->csCtx.frames < csAction->endFrame) {
-            temp_f0 = csAction->endFrame - csAction->startFrame;
+        if (play->csCtx.curFrame < cue->endFrame) {
+            temp_f0 = cue->endFrame - cue->startFrame;
             this->actor.velocity.x = (endPos.x - startPos.x) / temp_f0;
             this->actor.velocity.y = (endPos.y - startPos.y) / temp_f0;
             gravity = this->actor.gravity;
@@ -762,20 +766,20 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
 s32 EnSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnSa* this = (EnSa*)thisx;
     s32 pad;
-    Vec3s sp18;
+    Vec3s limbRot;
 
     if (limbIndex == 16) {
         Matrix_Translate(900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp18 = this->interactInfo.headRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp18.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp18.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 9) {
-        sp18 = this->interactInfo.torsoRot;
-        Matrix_RotateY(BINANG_TO_RAD_ALT(sp18.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp18.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateY(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
 
     if (play->sceneId == SCENE_SACRED_FOREST_MEADOW && limbIndex == 15) {

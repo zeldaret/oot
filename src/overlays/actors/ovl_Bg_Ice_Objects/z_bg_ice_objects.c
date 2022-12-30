@@ -161,11 +161,11 @@ void BgIceObjects_Slide(BgIceObjects* this, PlayState* play) {
     f32 spread;
     Actor* thisx = &this->dyna.actor;
 
-    Math_StepToF(&thisx->speedXZ, 10.0f, 0.5f);
-    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speedXZ);
-    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speedXZ);
+    Math_StepToF(&thisx->speed, 10.0f, 0.5f);
+    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speed);
+    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speed);
     if (atTarget) {
-        thisx->speedXZ = 0.0f;
+        thisx->speed = 0.0f;
         this->targetPos.x = thisx->world.pos.x;
         this->targetPos.z = thisx->world.pos.z;
         if (thisx->velocity.y <= 0.0f) {
@@ -173,13 +173,13 @@ void BgIceObjects_Slide(BgIceObjects* this, PlayState* play) {
         }
         thisx->params = 0;
         func_8002DF54(play, thisx, PLAYER_CSMODE_7);
-        Audio_PlayActorSfx2(thisx, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
         if ((fabsf(thisx->world.pos.x + 1387.0f) < 1.0f) && (fabsf(thisx->world.pos.z + 260.0f) < 1.0f)) {
             this->actionFunc = BgIceObjects_Stuck;
         } else {
             this->actionFunc = BgIceObjects_Idle;
         }
-    } else if ((thisx->speedXZ > 6.0f) && (thisx->world.pos.y >= 0.0f)) {
+    } else if ((thisx->speed > 6.0f) && (thisx->world.pos.y >= 0.0f)) {
         spread = Rand_CenteredFloat(120.0f);
         velocity.x = -(1.5f + Rand_ZeroOne()) * Math_SinS(this->dyna.unk_158);
         velocity.y = Rand_ZeroOne() + 1.0f;
@@ -209,7 +209,7 @@ void BgIceObjects_Reset(BgIceObjects* this, PlayState* play) {
         thisx->flags &= ~ACTOR_FLAG_4;
         Math_Vec3f_Copy(&this->targetPos, &thisx->home.pos);
         this->actionFunc = BgIceObjects_Idle;
-        thisx->speedXZ = 0.0f;
+        thisx->speed = 0.0f;
     }
 }
 

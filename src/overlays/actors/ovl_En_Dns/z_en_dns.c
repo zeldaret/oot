@@ -160,7 +160,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     this->maintainCollider = 1;
     this->standOnGround = 1;
     this->dropCollectible = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
     this->dnsItemEntry = sItemEntries[this->actor.params];
@@ -437,7 +437,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->skelAnime.curFrame == frameCount) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->actionFunc = EnDns_Burrow;
         this->standOnGround = 0;
         this->yInitPos = this->actor.world.pos.y;

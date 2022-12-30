@@ -158,7 +158,7 @@ s32 func_80BA2218(ObjWarp2block* this, PlayState* play) {
 
     if (func_80BA1ECC(this, play)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
-            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+            Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->func_168 = func_80BA228C;
         } else {
             player->stateFlags2 |= PLAYER_STATE2_23;

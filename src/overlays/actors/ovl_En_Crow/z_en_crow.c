@@ -136,7 +136,7 @@ void EnCrow_SetupFlyIdle(EnCrow* this) {
 
 void EnCrow_SetupDiveAttack(EnCrow* this) {
     this->timer = 300;
-    this->actor.speedXZ = 4.0f;
+    this->actor.speed = 4.0f;
     this->skelAnime.playSpeed = 2.0f;
     this->actionFunc = EnCrow_DiveAttack;
 }
@@ -146,7 +146,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     f32 scale;
     Vec3f iceParticlePos;
 
-    this->actor.speedXZ *= Math_CosS(this->actor.world.rot.x);
+    this->actor.speed *= Math_CosS(this->actor.world.rot.x);
     this->actor.velocity.y = 0.0f;
     Animation_Change(&this->skelAnime, &gGuayFlyAnim, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     scale = this->actor.scale.x * 100.0f;
@@ -154,7 +154,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->actor.shape.yOffset = 0.0f;
     this->actor.targetArrowOffset = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KAICHO_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_DEAD);
 
     if (this->actor.colChkInfo.damageEffect == 3) { // Ice arrows
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 40);
@@ -176,7 +176,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     }
 
     if (this->actor.flags & ACTOR_FLAG_15) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     this->collider.base.acFlags &= ~AC_ON;
@@ -192,12 +192,12 @@ void EnCrow_SetupDie(EnCrow* this) {
 
 void EnCrow_SetupTurnAway(EnCrow* this) {
     this->timer = 100;
-    this->actor.speedXZ = 3.5f;
+    this->actor.speed = 3.5f;
     this->aimRotX = -0x1000;
     this->aimRotY = this->actor.yawTowardsPlayer + 0x8000;
     this->skelAnime.playSpeed = 2.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 5);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = EnCrow_TurnAway;
 }
 
@@ -232,7 +232,7 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     skelanimeUpdated = Animation_OnFrame(&this->skelAnime, 0.0f);
-    this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 3.0f;
+    this->actor.speed = (Rand_ZeroOne() * 1.5f) + 3.0f;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->aimRotY = this->actor.wallYaw;
@@ -248,7 +248,7 @@ void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
         } else {
             this->aimRotY -= 0x1000 + (0x1000 * Rand_ZeroOne());
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KAICHO_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
 
     if (this->actor.yDistToWater > -40.0f) {
@@ -317,7 +317,7 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
         (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_ATTACK);
         }
 
         EnCrow_SetupFlyIdle(this);
@@ -325,7 +325,7 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
 }
 
 void EnCrow_Damaged(EnCrow* this, PlayState* play) {
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
     if (!(this->actor.flags & ACTOR_FLAG_15)) {
@@ -470,7 +470,7 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->actor, height);
 
     if (this->actor.colChkInfo.health != 0 && Animation_OnFrame(&this->skelAnime, 3.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KAICHO_FLUTTER);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_KAICHO_FLUTTER);
     }
 }
 

@@ -177,7 +177,7 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->dyna.actor, 0.01f);
     this->dyna.actor.colChkInfo.mass = 0xFF;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.gravity = -1.0f;
     this->actionTimer = (s16)Rand_ZeroFloat(100.0f) + 100;
@@ -264,7 +264,7 @@ s32 func_80A2F760(EnGb* this) {
 void func_80A2F7C0(EnGb* this) {
     Animation_Change(&this->skelAnime, &gPoeSellerSwingStickAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gPoeSellerSwingStickAnim), ANIMMODE_ONCE, 0.0f);
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
+    Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
     this->actionFunc = func_80A2FC70;
 }
 
@@ -389,7 +389,7 @@ void func_80A2FC70(EnGb* this, PlayState* play) {
         this->cagedSouls[0].unk_3 = 1;
         if (this->actionFunc) {}
         this->actionTimer = (s16)Rand_ZeroFloat(600.0f) + 600;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
     }
 }
 
