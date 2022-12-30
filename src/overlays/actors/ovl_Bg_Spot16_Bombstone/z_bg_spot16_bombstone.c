@@ -196,7 +196,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
 
     Actor_ProcessInitChain(actor, sInitChainDebris);
 
-    actor->speedXZ = D_808B5DD8[actor->params][0];
+    actor->speed = D_808B5DD8[actor->params][0];
     actor->velocity.y = D_808B5DD8[actor->params][1];
 
     Actor_SetScale(actor, D_808B5DD8[actor->params][2] * scaleFactor);
