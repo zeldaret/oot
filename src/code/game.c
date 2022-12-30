@@ -188,7 +188,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
     CLOSE_DISPS(gfxCtx, "../game.c", 800);
 
-    func_80063D7C(gfxCtx);
+    Debug_DrawText(gfxCtx);
 
     if (R_ENABLE_ARENA_DBG != 0) {
         SpeedMeter_DrawTimeEntries(&D_801664D0, gfxCtx);
