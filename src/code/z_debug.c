@@ -19,14 +19,14 @@ DbCameraTextBufferEntry sDbCameraTextBuffer[22];
 s16 sDbCameraTextEntryCount = 0;
 
 Color_RGBA8 sDbCameraTextColors[] = {
-    { 255, 255, 32, 192 },  // DBCAMERA_TEXT_YELLOW
-    { 255, 150, 128, 192 }, // DBCAMERA_TEXT_PEACH
-    { 128, 96, 0, 64 },     // DBCAMERA_TEXT_BROWN
-    { 192, 128, 16, 128 },  // DBCAMERA_TEXT_ORANGE
-    { 255, 192, 32, 128 },  // DBCAMERA_TEXT_GOLD
-    { 230, 230, 220, 64 },  // DBCAMERA_TEXT_WHITE
-    { 128, 150, 255, 128 }, // DBCAMERA_TEXT_BLUE
-    { 128, 255, 32, 128 },  // DBCAMERA_TEXT_GREEN
+    { 255, 255, 32, 192 },  // DBG_CAM_TEXT_YELLOW
+    { 255, 150, 128, 192 }, // DBG_CAM_TEXT_PEACH
+    { 128, 96, 0, 64 },     // DBG_CAM_TEXT_BROWN
+    { 192, 128, 16, 128 },  // DBG_CAM_TEXT_ORANGE
+    { 255, 192, 32, 128 },  // DBG_CAM_TEXT_GOLD
+    { 230, 230, 220, 64 },  // DBG_CAM_TEXT_WHITE
+    { 128, 150, 255, 128 }, // DBG_CAM_TEXT_BLUE
+    { 128, 255, 32, 128 },  // DBG_CAM_TEXT_GREEN
 };
 
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
@@ -108,11 +108,11 @@ void Regs_Init(void) {
     }
 }
 
-// Function is stubbed. Name is assumed by similarities in signature to `DbCamera_ScreenTextColored` and usage.
-void DbCamera_ScreenText(u8 x, u8 y, const char* text) {
+// Function is stubbed. Name is assumed by similarities in signature to `DebugCamera_ScreenTextColored` and usage.
+void DebugCamera_ScreenText(u8 x, u8 y, const char* text) {
 }
 
-void DbCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
+void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
     DbCameraTextBufferEntry* entry = &sDbCameraTextBuffer[sDbCameraTextEntryCount];
     char* textDest;
     s16 charCount;
@@ -138,7 +138,7 @@ void DbCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
     }
 }
 
-void DbCamera_DrawScreenText(GfxPrint* printer) {
+void DebugCamera_DrawScreenText(GfxPrint* printer) {
     s32 i;
     Color_RGBA8* color;
     DbCameraTextBufferEntry* entry;
@@ -156,7 +156,7 @@ void DbCamera_DrawScreenText(GfxPrint* printer) {
 /**
  * Updates the state of the Reg Editor according to user input.
  * Also contains a controller rumble test that can be interfaced with via related REGs.
-*/
+ */
 void Regs_UpdateEditor(Input* input) {
     s32 dPadInputCur;
     s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;
@@ -288,7 +288,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
     GfxPrint_Open(&printer, gfx);
 
     if ((OREG(0) == 1) || (OREG(0) == 8)) {
-        DbCamera_DrawScreenText(&printer);
+        DebugCamera_DrawScreenText(&printer);
     }
 
     if (gRegEditor->regPage != 0) {

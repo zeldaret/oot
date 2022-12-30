@@ -7049,12 +7049,12 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
             R_CAM_DATA(i) = sCamDataRegsInit[i];
         }
 
-        DbCamera_Reset(camera, &D_8015BD80);
+        DebugCamera_Reset(camera, &D_8015BD80);
         sInitRegs = false;
         PREG(88) = -1;
     }
     camera->play = D_8015BD7C = play;
-    DbCamera_Init(&D_8015BD80, camera);
+    DebugCamera_Init(&D_8015BD80, camera);
     curUID = sNextUID;
     sNextUID++;
     while (curUID != 0) {
@@ -7278,15 +7278,15 @@ void Camera_PrintSettings(Camera* camera) {
         sp48[i] = '\0';
 
         sp48[camera->play->activeCamId] = 'a';
-        DbCamera_ScreenTextColored(3, 22, DBCAMERA_TEXT_WHITE, sp58);
-        DbCamera_ScreenTextColored(3, 22, DBCAMERA_TEXT_PEACH, sp48);
-        DbCamera_ScreenTextColored(3, 23, DBCAMERA_TEXT_WHITE, "S:");
-        DbCamera_ScreenTextColored(5, 23, DBCAMERA_TEXT_GOLD, sCameraSettingNames[camera->setting]);
-        DbCamera_ScreenTextColored(3, 24, DBCAMERA_TEXT_WHITE, "M:");
-        DbCamera_ScreenTextColored(5, 24, DBCAMERA_TEXT_GOLD, sCameraModeNames[camera->mode]);
-        DbCamera_ScreenTextColored(3, 25, DBCAMERA_TEXT_WHITE, "F:");
-        DbCamera_ScreenTextColored(
-            5, 25, DBCAMERA_TEXT_GOLD,
+        DebugCamera_ScreenTextColored(3, 22, DBG_CAM_TEXT_WHITE, sp58);
+        DebugCamera_ScreenTextColored(3, 22, DBG_CAM_TEXT_PEACH, sp48);
+        DebugCamera_ScreenTextColored(3, 23, DBG_CAM_TEXT_WHITE, "S:");
+        DebugCamera_ScreenTextColored(5, 23, DBG_CAM_TEXT_GOLD, sCameraSettingNames[camera->setting]);
+        DebugCamera_ScreenTextColored(3, 24, DBG_CAM_TEXT_WHITE, "M:");
+        DebugCamera_ScreenTextColored(5, 24, DBG_CAM_TEXT_GOLD, sCameraModeNames[camera->mode]);
+        DebugCamera_ScreenTextColored(3, 25, DBG_CAM_TEXT_WHITE, "F:");
+        DebugCamera_ScreenTextColored(
+            5, 25, DBG_CAM_TEXT_GOLD,
             sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
 
         i = 0;
@@ -7311,8 +7311,8 @@ void Camera_PrintSettings(Camera* camera) {
         sp50[i++] = ' ';
         sp50[i++] = ' ';
         sp50[i] = '\0';
-        DbCamera_ScreenTextColored(3, 26, DBCAMERA_TEXT_WHITE, "I:");
-        DbCamera_ScreenTextColored(5, 26, DBCAMERA_TEXT_GOLD, sp50);
+        DebugCamera_ScreenTextColored(3, 26, DBG_CAM_TEXT_WHITE, "I:");
+        DebugCamera_ScreenTextColored(5, 26, DBG_CAM_TEXT_GOLD, sp50);
     }
 }
 
@@ -7717,7 +7717,7 @@ Vec3s Camera_Update(Camera* camera) {
     if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_START)) {
         gDbgCamEnabled ^= 1;
         if (gDbgCamEnabled) {
-            DbgCamera_Enable(&D_8015BD80, camera);
+            DebugCamera_Enable(&D_8015BD80, camera);
         } else if (camera->play->csCtx.state != CS_STATE_IDLE) {
             Cutscene_StopManual(camera->play, &camera->play->csCtx);
         }
@@ -7726,7 +7726,7 @@ Vec3s Camera_Update(Camera* camera) {
     // Debug cam update
     if (gDbgCamEnabled) {
         camera->play->view.fovy = D_8015BD80.fov;
-        DbCamera_Update(&D_8015BD80, camera);
+        DebugCamera_Update(&D_8015BD80, camera);
         View_LookAt(&camera->play->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
