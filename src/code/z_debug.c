@@ -1,24 +1,24 @@
 #include "global.h"
 
 typedef struct {
-    u8 x;
-    u8 y;
-    u8 colorIndex;
-    char text[21];
-} DbCameraTextBufferEntry; // size = 0x18
+    /* 0x0 */ u8 x;
+    /* 0x1 */ u8 y;
+    /* 0x2 */ u8 colorIndex;
+    /* 0x3 */ char text[21];
+} DebugCameraTextBufferEntry; // size = 0x18
 
 typedef struct {
-    u16 hold;
-    u16 press;
+    /* 0x0 */ u16 hold;
+    /* 0x2 */ u16 press;
 } InputCombo; // size = 0x4
 
 RegEditor* gRegEditor;
 
-DbCameraTextBufferEntry sDbCameraTextBuffer[22];
+DebugCameraTextBufferEntry sDebugCamTextBuffer[22];
 
-s16 sDbCameraTextEntryCount = 0;
+s16 sDebugCamTextEntryCount = 0;
 
-Color_RGBA8 sDbCameraTextColors[] = {
+Color_RGBA8 sDebugCamTextColors[] = {
     { 255, 255, 32, 192 },  // DBG_CAM_TEXT_YELLOW
     { 255, 150, 128, 192 }, // DBG_CAM_TEXT_PEACH
     { 128, 96, 0, 64 },     // DBG_CAM_TEXT_BROWN
@@ -113,11 +113,11 @@ void DebugCamera_ScreenText(u8 x, u8 y, const char* text) {
 }
 
 void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
-    DbCameraTextBufferEntry* entry = &sDbCameraTextBuffer[sDbCameraTextEntryCount];
+    DebugCameraTextBufferEntry* entry = &sDebugCamTextBuffer[sDebugCamTextEntryCount];
     char* textDest;
     s16 charCount;
 
-    if (sDbCameraTextEntryCount < ARRAY_COUNT(sDbCameraTextBuffer)) {
+    if (sDebugCamTextEntryCount < ARRAY_COUNT(sDebugCamTextBuffer)) {
         entry->x = x;
         entry->y = y;
         entry->colorIndex = colorIndex;
@@ -134,18 +134,18 @@ void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) 
 
         *textDest = '\0';
 
-        sDbCameraTextEntryCount++;
+        sDebugCamTextEntryCount++;
     }
 }
 
 void DebugCamera_DrawScreenText(GfxPrint* printer) {
     s32 i;
     Color_RGBA8* color;
-    DbCameraTextBufferEntry* entry;
+    DebugCameraTextBufferEntry* entry;
 
-    for (i = 0; i < sDbCameraTextEntryCount; i++) {
-        entry = &sDbCameraTextBuffer[i];
-        color = &sDbCameraTextColors[entry->colorIndex];
+    for (i = 0; i < sDebugCamTextEntryCount; i++) {
+        entry = &sDebugCamTextBuffer[i];
+        color = &sDebugCamTextColors[entry->colorIndex];
 
         GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
         GfxPrint_SetPos(printer, entry->x, entry->y);
@@ -295,7 +295,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
         Regs_DrawEditor(&printer);
     }
 
-    sDbCameraTextEntryCount = 0;
+    sDebugCamTextEntryCount = 0;
 
     gfx = GfxPrint_Close(&printer);
     gSPEndDisplayList(gfx++);
