@@ -171,7 +171,7 @@ typedef struct {
     /* 0x1 */ u8 buttonsIndex[8];
 } OcarinaSongButtons; // size = 0x9
 
-typedef struct {
+typedef struct OcarinaStaff {
     /* 0x0 */ u8 buttonIndex;
     /* 0x1 */ u8 state;   // multi-use. Playing: used as songIndex. Playback: used as repeat count of song. Recording: used as OcarinaRecordingState. "status"
     /* 0x2 */ u8 pos;     // "locate"
