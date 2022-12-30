@@ -35,7 +35,12 @@ u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
+
+        //! @bug Segment 6 is not set to the required object before setting this display list.
+        //! It works out in practice because this effect is spawned from an actor who uses the same object
+        //! and previously already set it to segment 6.
         this->gfx = SEGMENTED_TO_VIRTUAL(gDodongoFireDL);
+        
         this->life = initParams->life;
         this->rScale = initParams->scale;
         this->rScaleStep = initParams->scaleStep;
