@@ -24,15 +24,19 @@
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
+#include "z64message.h"
+#include "z64pause.h"
 #include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
 #include "z64skybox.h"
+#include "z64view.h"
 #include "alignment.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "color.h"
+#include "gfxprint.h"
 #include "ichain.h"
 #include "regs.h"
 #include "irqmgr.h"
@@ -142,50 +146,6 @@ typedef struct GraphicsContext {
     /* 0x02F8 */ f32 yScale;
     /* 0x02FC */ char unk_2FC[0x04];
 } GraphicsContext; // size = 0x300
-
-typedef struct {
-   /* 0x0000 */ s32 topY;    // uly (upper left y)
-   /* 0x0004 */ s32 bottomY; // lry (lower right y)
-   /* 0x0008 */ s32 leftX;   // ulx (upper left x)
-   /* 0x000C */ s32 rightX;  // lrx (lower right x)
-} Viewport; // size = 0x10
-
-typedef struct {
-    /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
-    /* 0x0004 */ GraphicsContext* gfxCtx;
-    /* 0x0008 */ Viewport viewport;
-    /* 0x0018 */ f32    fovy;  // vertical field of view in degrees
-    /* 0x001C */ f32    zNear; // distance to near clipping plane
-    /* 0x0020 */ f32    zFar;  // distance to far clipping plane
-    /* 0x0024 */ f32    scale; // scale for matrix elements
-    /* 0x0028 */ Vec3f  eye;
-    /* 0x0034 */ Vec3f  at;
-    /* 0x0040 */ Vec3f  up;
-    /* 0x0050 */ Vp     vp;
-    /* 0x0060 */ Mtx    projection;
-    /* 0x00A0 */ Mtx    viewing;
-    /* 0x00E0 */ Mtx*   projectionPtr;
-    /* 0x00E4 */ Mtx*   viewingPtr;
-    /* 0x00E8 */ Vec3f  distortionOrientation;
-    /* 0x00F4 */ Vec3f  distortionScale;
-    /* 0x0100 */ f32    distortionSpeed;
-    /* 0x0104 */ Vec3f  curDistortionOrientation;
-    /* 0x0110 */ Vec3f  curDistortionScale;
-    /* 0x011C */ u16    normal; // used to normalize the projection matrix
-    /* 0x0120 */ s32    flags;
-    /* 0x0124 */ s32    unk_124;
-} View; // size = 0x128
-
-#define VIEW_VIEWING (1 << 0)
-#define VIEW_VIEWPORT (1 << 1)
-#define VIEW_PROJECTION_PERSPECTIVE (1 << 2)
-#define VIEW_PROJECTION_ORTHO (1 << 3)
-#define VIEW_ALL (VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE | VIEW_PROJECTION_ORTHO)
-
-#define VIEW_FORCE_VIEWING (VIEW_VIEWING << 4)
-#define VIEW_FORCE_VIEWPORT (VIEW_VIEWPORT << 4)
-#define VIEW_FORCE_PROJECTION_PERSPECTIVE (VIEW_PROJECTION_PERSPECTIVE << 4)
-#define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
 
 typedef enum {
     /*  0 */ SETUPDL_0,
@@ -364,188 +324,6 @@ typedef struct {
 } SfxSource; // size = 0x1C
 
 typedef enum {
-    TEXTBOX_ICON_TRIANGLE,
-    TEXTBOX_ICON_SQUARE,
-    TEXTBOX_ICON_ARROW
-} TextBoxIcon;
-
-typedef enum {
-    LANGUAGE_ENG,
-    LANGUAGE_GER,
-    LANGUAGE_FRA,
-    LANGUAGE_MAX
-} Language;
-
-// TODO get these properties from the textures themselves
-#define FONT_CHAR_TEX_WIDTH  16
-#define FONT_CHAR_TEX_HEIGHT 16
-#define FONT_CHAR_TEX_SIZE ((FONT_CHAR_TEX_WIDTH * FONT_CHAR_TEX_HEIGHT) / 2) // 16x16 I4 texture
-
-// TODO get these properties from the textures themselves
-#define MESSAGE_STATIC_TEX_SIZE 0x1000
-
-// TODO get these properties from the textures themselves
-#define MESSAGE_TEXTURE_STATIC_TEX_SIZE 0x900
-
-typedef enum {
-    /* 0x00 */ MSGMODE_NONE,
-    /* 0x01 */ MSGMODE_TEXT_START,
-    /* 0x02 */ MSGMODE_TEXT_BOX_GROWING,
-    /* 0x03 */ MSGMODE_TEXT_STARTING,
-    /* 0x04 */ MSGMODE_TEXT_NEXT_MSG,
-    /* 0x05 */ MSGMODE_TEXT_CONTINUING,
-    /* 0x06 */ MSGMODE_TEXT_DISPLAYING,
-    /* 0x07 */ MSGMODE_TEXT_AWAIT_INPUT,
-    /* 0x08 */ MSGMODE_TEXT_DELAYED_BREAK,
-    /* 0x09 */ MSGMODE_OCARINA_STARTING,
-    /* 0x0A */ MSGMODE_SONG_DEMONSTRATION_STARTING,
-    /* 0x0B */ MSGMODE_SONG_PLAYBACK_STARTING,
-    /* 0x0C */ MSGMODE_OCARINA_PLAYING,
-    /* 0x0D */ MSGMODE_OCARINA_CORRECT_PLAYBACK,
-    /* 0x0E */ MSGMODE_OCARINA_FAIL, // Failed to play a valid song after entering 8 notes
-    /* 0x0F */ MSGMODE_OCARINA_FAIL_NO_TEXT, // Never set, only compared against
-    /* 0x10 */ MSGMODE_OCARINA_NOTES_DROP,
-    /* 0x11 */ MSGMODE_SONG_PLAYED, // Played a full named song correctly
-    /* 0x12 */ MSGMODE_SETUP_DISPLAY_SONG_PLAYED,
-    /* 0x13 */ MSGMODE_DISPLAY_SONG_PLAYED,
-    /* 0x14 */ MSGMODE_DISPLAY_SONG_PLAYED_TEXT_BEGIN,
-    /* 0x15 */ MSGMODE_DISPLAY_SONG_PLAYED_TEXT,
-    /* 0x16 */ MSGMODE_SONG_PLAYED_ACT_BEGIN,
-    /* 0x17 */ MSGMODE_SONG_PLAYED_ACT, // Act on a played song
-    /* 0x18 */ MSGMODE_SONG_DEMONSTRATION_SELECT_INSTRUMENT,
-    /* 0x19 */ MSGMODE_SONG_DEMONSTRATION,
-    /* 0x1A */ MSGMODE_SONG_DEMONSTRATION_DONE,
-    /* 0x1B */ MSGMODE_SONG_PLAYBACK,
-    /* 0x1C */ MSGMODE_SONG_PLAYBACK_SUCCESS,
-    /* 0x1D */ MSGMODE_SONG_PLAYBACK_FAIL,
-    /* 0x1E */ MSGMODE_SONG_PLAYBACK_NOTES_DROP,
-    /* 0x1F */ MSGMODE_OCARINA_AWAIT_INPUT,
-    /* 0x20 */ MSGMODE_UNK_20, // Never set and does nothing
-    /* 0x21 */ MSGMODE_SCARECROW_LONG_RECORDING_START,
-    /* 0x22 */ MSGMODE_SCARECROW_LONG_RECORDING_ONGOING,
-    /* 0x23 */ MSGMODE_SCARECROW_LONG_PLAYBACK,
-    /* 0x24 */ MSGMODE_SCARECROW_SPAWN_RECORDING_START,
-    /* 0x25 */ MSGMODE_SCARECROW_SPAWN_RECORDING_ONGOING,
-    /* 0x26 */ MSGMODE_SCARECROW_SPAWN_RECORDING_FAILED,
-    /* 0x27 */ MSGMODE_SCARECROW_SPAWN_RECORDING_DONE,
-    /* 0x28 */ MSGMODE_SCARECROW_SPAWN_PLAYBACK,
-    /* 0x29 */ MSGMODE_MEMORY_GAME_START,
-    /* 0x2A */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING,
-    /* 0x2B */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT,
-    /* 0x2C */ MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_PLAYING,
-    /* 0x2D */ MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT,
-    /* 0x2E */ MSGMODE_MEMORY_GAME_PLAYER_PLAYING,
-    /* 0x2F */ MSGMODE_MEMORY_GAME_ROUND_SUCCESS,
-    /* 0x30 */ MSGMODE_MEMORY_GAME_START_NEXT_ROUND,
-    /* 0x31 */ MSGMODE_FROGS_START,
-    /* 0x32 */ MSGMODE_FROGS_PLAYING,
-    /* 0x33 */ MSGMODE_FROGS_WAITING,
-    /* 0x34 */ MSGMODE_TEXT_AWAIT_NEXT,
-    /* 0x35 */ MSGMODE_TEXT_DONE,
-    /* 0x36 */ MSGMODE_TEXT_CLOSING,
-    /* 0x37 */ MSGMODE_PAUSED // Causes the message system to do nothing until external code sets a new message mode or calls a public function
-} MessageMode;
-
-typedef enum {
-    /*  0 */ TEXT_STATE_NONE,
-    /*  1 */ TEXT_STATE_DONE_HAS_NEXT,
-    /*  2 */ TEXT_STATE_CLOSING,
-    /*  3 */ TEXT_STATE_DONE_FADING,
-    /*  4 */ TEXT_STATE_CHOICE,
-    /*  5 */ TEXT_STATE_EVENT,
-    /*  6 */ TEXT_STATE_DONE,
-    /*  7 */ TEXT_STATE_SONG_DEMO_DONE,
-    /*  8 */ TEXT_STATE_8,
-    /*  9 */ TEXT_STATE_9,
-    /* 10 */ TEXT_STATE_AWAITING_NEXT
-} TextState;
-
-typedef struct {
-    /* 0x0000 */ u32    msgOffset;
-    /* 0x0004 */ u32    msgLength;
-    union {
-    /* 0x0008 */ u8     charTexBuf[FONT_CHAR_TEX_SIZE * 120];
-    /* 0x0008 */ u64    force_structure_alignment_charTex;
-    };
-    union {
-    /* 0x3C08 */ u8     iconBuf[FONT_CHAR_TEX_SIZE];
-    /* 0x3C08 */ u64    force_structure_alignment_icon;
-    };
-    union {
-    /* 0x3C88 */ u8     fontBuf[FONT_CHAR_TEX_SIZE * 320];
-    /* 0x3C88 */ u64    force_structure_alignment_font;
-    };
-    union {
-    /* 0xDC88 */ char   msgBuf[1280];
-    /* 0xDC88 */ u16    msgBufWide[640];
-    /* 0xDC88 */ u64    force_structure_alignment_msg;
-    };
-} Font; // size = 0xE188
-
-#define TEXTBOX_ENDTYPE_DEFAULT     0x00
-#define TEXTBOX_ENDTYPE_2_CHOICE    0x10
-#define TEXTBOX_ENDTYPE_3_CHOICE    0x20
-#define TEXTBOX_ENDTYPE_HAS_NEXT    0x30
-#define TEXTBOX_ENDTYPE_PERSISTENT  0x40
-#define TEXTBOX_ENDTYPE_EVENT       0x50
-#define TEXTBOX_ENDTYPE_FADING      0x60
-
-typedef struct {
-    /* 0x0000 */ View   view;
-    /* 0x0128 */ Font   font;
-    /* 0xE2B0 */ u8*    textboxSegment; // original name: "fukidashiSegment"
-    /* 0xE2B4 */ char   unk_E2B4[0x4];
-    /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : "info"
-    /* 0xE2BC */ char   unk_E2BC[0x3C];
-    /* 0xE2F8 */ u16    textId;
-    /* 0xE2FA */ u16    choiceTextId;
-    /* 0xE2FC */ u8     textBoxProperties; // original name : "msg_disp_type"
-    /* 0xE2FD */ u8     textBoxType; // "Text Box Type"
-    /* 0xE2FE */ u8     textBoxPos; // text box position
-    /* 0xE300 */ s32    msgLength; // original name : "msg_data"
-    /* 0xE304 */ u8     msgMode; // original name: "msg_mode"
-    /* 0xE305 */ char   unk_E305[0x1];
-    /* 0xE306 */ u8     msgBufDecoded[200]; // decoded message buffer, may be smaller than this
-    /* 0xE3CE */ u16    msgBufPos; // original name : "rdp"
-    /* 0xE3D0 */ u16    unk_E3D0; // unused, only ever set to 0
-    /* 0xE3D2 */ u16    textDrawPos; // draw all decoded characters up to this buffer position
-    /* 0xE3D4 */ u16    decodedTextLen; // decoded message buffer length
-    /* 0xE3D6 */ u16    textUnskippable;
-    /* 0xE3D8 */ s16    textPosX;
-    /* 0xE3DA */ s16    textPosY;
-    /* 0xE3DC */ s16    textColorR;
-    /* 0xE3DE */ s16    textColorG;
-    /* 0xE3E0 */ s16    textColorB;
-    /* 0xE3E2 */ s16    textColorAlpha;
-    /* 0xE3E4 */ u8     textboxEndType; // original name : "select"
-    /* 0xE3E5 */ u8     choiceIndex;
-    /* 0xE3E6 */ u8     choiceNum; // textboxes that are not choice textboxes have a choiceNum of 1
-    /* 0xE3E7 */ u8     stateTimer;
-    /* 0xE3E8 */ u16    textDelayTimer;
-    /* 0xE3EA */ u16    textDelay;
-    /* 0xE3EA */ u16    lastPlayedSong; // original references : "Ocarina_Flog" , "Ocarina_Free"
-    /* 0xE3EE */ u16    ocarinaMode; // original name : "ocarina_mode"
-    /* 0xE3F0 */ u16    ocarinaAction; // original name : "ocarina_no"
-    /* 0xE3F2 */ u16    unk_E3F2; // this is like "lastPlayedSong" but set less often, original name : "chk_ocarina_no"
-    /* 0xE3F4 */ u16    unk_E3F4; // unused, only set to 0 in z_actor
-    /* 0xE3F6 */ u16    textboxBackgroundIdx;
-    /* 0xE3F8 */ u8     textboxBackgroundForeColorIdx;
-    /* 0xE3F8 */ u8     textboxBackgroundBackColorIdx;
-    /* 0xE3F8 */ u8     textboxBackgroundYOffsetIdx;
-    /* 0xE3F8 */ u8     textboxBackgroundUnkArg; // unused, set by the textbox background control character arguments
-    /* 0xE3FC */ char   unk_E3FC[0x2];
-    /* 0xE3FE */ s16    textboxColorRed;
-    /* 0xE400 */ s16    textboxColorGreen;
-    /* 0xE402 */ s16    textboxColorBlue;
-    /* 0xE404 */ s16    textboxColorAlphaTarget;
-    /* 0xE406 */ s16    textboxColorAlphaCurrent;
-    /* 0xE408 */ Actor* talkActor;
-    /* 0xE40C */ s16    disableWarpSongs; // disables ability to warp with warp songs
-    /* 0xE40E */ s16    disableSunsSong; // disables Suns Song effect from occurring after song is played
-    /* 0xE410 */ u8     lastOcarinaButtonIndex;
-} MessageContext; // size = 0xE418
-
-typedef enum {
     /* 0x00 */ DO_ACTION_ATTACK,
     /* 0x01 */ DO_ACTION_CHECK,
     /* 0x02 */ DO_ACTION_ENTER,
@@ -659,14 +437,6 @@ typedef struct {
     }                   restrictions;
 } InterfaceContext; // size = 0x270
 
-typedef enum {
-    /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
-    /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
-    /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
-    /* 3 */ PAUSE_BG_PRERENDER_READY, // The pause background is ready to be used.
-    /* 4 */ PAUSE_BG_PRERENDER_MAX
-} PauseBgPreRenderState;
-
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
     /* 0x04 */ uintptr_t vromStart;
@@ -682,95 +452,6 @@ typedef enum {
     /* 0x01 */ KALEIDO_OVL_PLAYER_ACTOR,
     /* 0x02 */ KALEIDO_OVL_MAX
 } KaleidoOverlayType;
-
-#define PAUSE_ITEM_NONE 999
-
-#define PAUSE_CURSOR_PAGE_LEFT 10
-#define PAUSE_CURSOR_PAGE_RIGHT 11
-
-typedef enum {
-    /* 0x00 */ PAUSE_ITEM,
-    /* 0x01 */ PAUSE_MAP,
-    /* 0x02 */ PAUSE_QUEST,
-    /* 0x03 */ PAUSE_EQUIP,
-    /* 0x04 */ PAUSE_WORLD_MAP
-} PauseMenuPage;
-
-#define PAUSE_EQUIP_PLAYER_WIDTH 64
-#define PAUSE_EQUIP_PLAYER_HEIGHT 112
-
-#define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
-#define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
-
-typedef struct {
-    /* 0x0000 */ View   view;
-    /* 0x0128 */ u8*    iconItemSegment;
-    /* 0x012C */ u8*    iconItem24Segment;
-    /* 0x0130 */ u8*    iconItemAltSegment;
-    /* 0x0134 */ u8*    iconItemLangSegment;
-    /* 0x0138 */ u8*    nameSegment;
-    /* 0x013C */ u8*    playerSegment;
-    /* 0x0140 */ char   unk_140[0x04];
-    /* 0x0144 */ Vtx*   itemPageVtx;
-    /* 0x0148 */ Vtx*   equipPageVtx;
-    /* 0x014C */ Vtx*   mapPageVtx;
-    /* 0x0150 */ Vtx*   questPageVtx;
-    /* 0x0154 */ Vtx*   infoPanelVtx;
-    /* 0x0158 */ Vtx*   itemVtx;
-    /* 0x015C */ Vtx*   equipVtx;
-    /* 0x0160 */ char   unk_160[0x04];
-    /* 0x0164 */ Vtx*   questVtx;
-    /* 0x0168 */ Vtx*   cursorVtx;
-    /* 0x016C */ Vtx*   saveVtx;
-    /* 0x0170 */ char   unk_170[0x24];
-    /* 0x0194 */ OcarinaStaff* ocarinaStaff;
-    /* 0x0198 */ char   unk_198[0x20];
-    /* 0x01B8 */ OSMesgQueue loadQueue;
-    /* 0x01D0 */ OSMesg loadMsg;
-    /* 0x01D4 */ u16    state;
-    /* 0x01D6 */ u16    debugState;
-    /* 0x01D8 */ Vec3f  eye;
-    /* 0x01E4 */ u16    unk_1E4;
-    /* 0x01E6 */ u16    mode;
-    /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
-    /* 0x01EA */ u16    unk_1EA;
-    /* 0x01EC */ u16    unk_1EC;
-    /* 0x01F0 */ f32    unk_1F0;
-    /* 0x01F4 */ f32    unk_1F4;
-    /* 0x01F8 */ f32    unk_1F8;
-    /* 0x01FC */ f32    unk_1FC;
-    /* 0x0200 */ f32    unk_200;
-    /* 0x0204 */ f32    unk_204; // "angle_s"
-    /* 0x0208 */ u16    alpha;
-    /* 0x020A */ s16    offsetY;
-    /* 0x020C */ char   unk_20C[0x08];
-    /* 0x0214 */ s16    stickAdjX;
-    /* 0x0216 */ s16    stickAdjY;
-    /* 0x0218 */ s16    cursorPoint[5]; // "cursor_point"
-    /* 0x0222 */ s16    cursorX[5]; // "cur_xpt"
-    /* 0x022C */ s16    cursorY[5]; // "cur_ypt"
-    /* 0x0236 */ s16    dungeonMapSlot;
-    /* 0x0238 */ s16    cursorSpecialPos; // "key_angle"
-    /* 0x023A */ s16    pageSwitchInputTimer; // Used to introduce a delay before switching page when arriving on the "scroll left/right" positions while holding stick left/right.
-    /* 0x023C */ u16    namedItem; // "zoom_name"
-    /* 0x023E */ u16    cursorItem[4]; // "select_name"
-    /* 0x0246 */ u16    cursorSlot[4];
-    /* 0x024E */ u16    equipTargetItem; // "sl_item_no"
-    /* 0x0250 */ u16    equipTargetSlot; // "sl_number"
-    /* 0x0252 */ u16    equipTargetCBtn;
-    /* 0x0254 */ s16    equipAnimX;
-    /* 0x0256 */ s16    equipAnimY;
-    /* 0x0258 */ s16    equipAnimAlpha;
-    /* 0x025A */ s16    infoPanelOffsetY;
-    /* 0x025C */ u16    nameDisplayTimer;
-    /* 0x025E */ u16    nameColorSet; // 0 = white; 1 = grey
-    /* 0x0260 */ s16    cursorColorSet; // 0 = white; 4 = yellow; 8 = green
-    /* 0x0262 */ s16    promptChoice; // save/continue choice: 0 = yes; 4 = no
-    /* 0x0264 */ s16    ocarinaSongIdx;
-    /* 0x0266 */ u8     worldMapPoints[20]; // 0 = hidden; 1 = displayed; 2 = highlighted
-    /* 0x027A */ u8     tradeQuestLocation;
-    /* 0x027C */ SkelAnime playerSkelAnime;
-} PauseContext; // size = 0x2C0
 
 typedef enum {
     /* 00 */ GAMEOVER_INACTIVE,
@@ -1102,6 +783,21 @@ typedef struct {
     /* 0x04 */ TransitionActorEntry* list;
 } TransitionActorContext;
 
+typedef enum {
+    /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
+    /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
+    /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
+    /* 3 */ PAUSE_BG_PRERENDER_READY, // The pause background is ready to be used.
+    /* 4 */ PAUSE_BG_PRERENDER_MAX
+} PauseBgPreRenderState;
+
+typedef enum {
+    /* 0 */ TRANS_TILE_OFF, // Inactive, do nothing
+    /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
+    /* 2 */ TRANS_TILE_PROCESS, // Initialize the transition
+    /* 3 */ TRANS_TILE_READY // The transition is ready, so will update and draw each frame
+} TransitionTileStatus;
+
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ s16 sceneId;
@@ -1370,36 +1066,6 @@ typedef struct {
 #define MAP_48x85_TEX_HEIGHT 85
 #define MAP_48x85_TEX_SIZE ((MAP_48x85_TEX_WIDTH * MAP_48x85_TEX_HEIGHT) / 2) // 48x85 CI4 texture
 
-// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
-// texture format for ITEM_NAME_TEX_* 
-#define MAP_NAME_TEX1_WIDTH 128
-#define MAP_NAME_TEX1_HEIGHT 16
-#define MAP_NAME_TEX1_SIZE ((MAP_NAME_TEX1_WIDTH * MAP_NAME_TEX1_HEIGHT) / 2) // 128x16 IA4 texture
-
-#define MAP_NAME_TEX2_WIDTH 80
-#define MAP_NAME_TEX2_HEIGHT 32
-#define MAP_NAME_TEX2_SIZE (MAP_NAME_TEX2_WIDTH * MAP_NAME_TEX2_HEIGHT) // 80x32 IA8 texture
-
-#define PAUSE_MAP_MARK_NONE -1
-#define PAUSE_MAP_MARK_CHEST 0
-#define PAUSE_MAP_MARK_BOSS 1
-
-typedef struct {
-    /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag
-    /* 0x04 */ f32 x, y; // coordinates to place the icon (top-left corner)
-} PauseMapMarkPoint; // size = 0x0C
-
-typedef struct {
-    /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ const Vtx* vtx;
-    /* 0x0C */ s32 vtxCount;
-    /* 0x10 */ s32 count; // number of icons to display
-    /* 0x14 */ PauseMapMarkPoint points[12];
-} PauseMapMarkData; // size = 0xA4
-
-typedef PauseMapMarkData PauseMapMarksData[3];
-
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3s rot;
@@ -1413,39 +1079,6 @@ typedef enum {
     MTXMODE_NEW,  // generates a new matrix
     MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
-
-typedef struct {
-    /* 0x00 */ PrintCallback callback;
-    /* 0x04 */ Gfx* dList;
-    /* 0x08 */ u16 posX;
-    /* 0x0A */ u16 posY;
-    /* 0x0C */ u16 baseX;
-    /* 0x0E */ u8 baseY;
-    /* 0x0F */ u8 flags;
-    /* 0x10 */ Color_RGBA8_u32 color;
-    /* 0x14 */ char unk_14[0x1C]; // unused
-} GfxPrint; // size = 0x30
-
-#define GFX_CHAR_X_SPACING    8
-#define GFX_CHAR_Y_SPACING    8
-
-#define GFXP_UNUSED "\x8E"
-#define GFXP_UNUSED_CHAR 0x8E
-#define GFXP_HIRAGANA "\x8D"
-#define GFXP_HIRAGANA_CHAR 0x8D
-#define GFXP_KATAKANA "\x8C"
-#define GFXP_KATAKANA_CHAR 0x8C
-#define GFXP_RAINBOW_ON "\x8B"
-#define GFXP_RAINBOW_ON_CHAR 0x8B
-#define GFXP_RAINBOW_OFF "\x8A"
-#define GFXP_RAINBOW_OFF_CHAR 0x8A
-
-#define GFXP_FLAG_HIRAGANA (1 << 0)
-#define GFXP_FLAG_RAINBOW  (1 << 1)
-#define GFXP_FLAG_SHADOW   (1 << 2)
-#define GFXP_FLAG_UPDATE   (1 << 3)
-#define GFXP_FLAG_ENLARGE  (1 << 6)
-#define GFXP_FLAG_OPEN     (1 << 7)
 
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;
