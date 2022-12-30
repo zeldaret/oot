@@ -2500,7 +2500,7 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepA;
     s32 pad;
 
-    if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_DONE) &&
+    if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) &&
         (((pauseCtx->state >= 4) && (pauseCtx->state <= 7)) ||
          ((pauseCtx->state >= 0xA) && (pauseCtx->state <= 0x12)))) {
 
