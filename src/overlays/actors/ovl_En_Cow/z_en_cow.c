@@ -301,7 +301,7 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
 
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[0].base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[1].base);
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->skelAnime.animation == &gCowBodyChewAnim) {
