@@ -160,7 +160,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     this->maintainCollider = 1;
     this->standOnGround = 1;
     this->dropCollectible = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
     this->dnsItemEntry = sItemEntries[this->actor.params];

@@ -235,7 +235,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == CLEAR_TAG_LASER) {
         this->state = CLEAR_TAG_STATE_LASER;
         this->timers[CLEAR_TAG_TIMER_LASER_DEATH] = 70;
-        this->actor.speedXZ = 35.0f;
+        this->actor.speed = 35.0f;
         func_8002D908(&this->actor);
         for (j = 0; j <= 0; j++) {
             func_8002D7EC(&this->actor);
@@ -243,7 +243,7 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
         this->actor.scale.x = 0.4f;
         this->actor.scale.y = 0.4f;
         this->actor.scale.z = 2.0f;
-        this->actor.speedXZ = 70.0f;
+        this->actor.speed = 70.0f;
         this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
         func_8002D908(&this->actor);
@@ -362,7 +362,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     }
                 }
                 Actor_SetScale(&this->actor, 0.2f);
-                this->actor.speedXZ = 7.0f;
+                this->actor.speed = 7.0f;
 
                 if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] == 0) {
                     if (this->timers[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] == 0) {
@@ -587,7 +587,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     case CLEAR_TAG_CUTSCENE_MODE_SETUP:
                         // Initializes Arwing cutscene camera data.
                         this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_PLAY;
-                        func_80064520(play, &play->csCtx);
+                        Cutscene_StartManual(play, &play->csCtx);
                         this->subCamId = Play_CreateSubCamera(play);
                         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                         Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -620,7 +620,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     Play_ReturnToMainCam(play, this->subCamId, 0);
                     // CLEAR_TAG_CUTSCENE_MODE_NONE / SUB_CAM_ID_DONE
                     this->cutsceneMode = this->subCamId = 0;
-                    func_80064534(play, &play->csCtx);
+                    Cutscene_StopManual(play, &play->csCtx);
                 }
             }
         }

@@ -3238,7 +3238,8 @@ void Interface_Draw(PlayState* play) {
         Magic_DrawMeter(play);
         Minimap_Draw(play);
 
-        if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
+        if ((R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_PROCESS) &&
+            (R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_READY)) {
             func_8002C124(&play->actorCtx.targetCtx, play); // Draw Z-Target
         }
 
@@ -4300,12 +4301,12 @@ void Interface_Update(PlayState* play) {
                 gSaveContext.nextDayTime = NEXT_TIME_NIGHT;
                 play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
-                play->unk_11DE9 = true;
+                play->haltAllActors = true;
             } else {
                 gSaveContext.nextDayTime = NEXT_TIME_DAY;
                 play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
-                play->unk_11DE9 = true;
+                play->haltAllActors = true;
             }
 
             if (play->sceneId == SCENE_HAUNTED_WASTELAND) {

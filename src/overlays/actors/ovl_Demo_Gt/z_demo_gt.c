@@ -289,7 +289,7 @@ void func_8097E454(PlayState* play, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* a
     }
 }
 
-u8 func_8097E69C(PlayState* play) {
+u8 DemoGt_IsCutsceneIdle(PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
     } else {
@@ -297,29 +297,29 @@ u8 func_8097E69C(PlayState* play) {
     }
 }
 
-CsCmdActorAction* DemoGt_GetNpcAction(PlayState* play, u32 actionIdx) {
+CsCmdActorCue* DemoGt_GetCue(PlayState* play, u32 cueChannel) {
     s32 pad[2];
-    CsCmdActorAction* ret = NULL;
+    CsCmdActorCue* cue = NULL;
 
-    if (!func_8097E69C(play)) {
-        ret = play->csCtx.npcActions[actionIdx];
+    if (!DemoGt_IsCutsceneIdle(play)) {
+        cue = play->csCtx.actorCues[cueChannel];
     }
 
-    return ret;
+    return cue;
 }
 
-u8 func_8097E704(PlayState* play, u16 arg1, s32 arg2) {
-    CsCmdActorAction* action = DemoGt_GetNpcAction(play, arg2);
+u8 func_8097E704(PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoGt_GetCue(play, cueChannel);
 
-    if ((action != NULL) && (action->action == arg1)) {
+    if ((cue != NULL) && (cue->id == cueId)) {
         return true;
     } else {
         return false;
     }
 }
 
-void func_8097E744(DemoGt* this, PlayState* play, u32 actionIdx) {
-    CsCmdActorAction* npcAction = DemoGt_GetNpcAction(play, actionIdx);
+void func_8097E744(DemoGt* this, PlayState* play, u32 cueChannel) {
+    CsCmdActorCue* cue = DemoGt_GetCue(play, cueChannel);
     Vec3f* pos = &this->dyna.actor.world.pos;
     f32 startX;
     f32 startY;
@@ -327,21 +327,22 @@ void func_8097E744(DemoGt* this, PlayState* play, u32 actionIdx) {
     f32 endX;
     f32 endY;
     f32 endZ;
-    f32 someFloat;
+    f32 lerp;
 
-    if (npcAction != NULL) {
-        someFloat =
-            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames, 8, 0);
-        startX = npcAction->startPos.x;
-        startY = npcAction->startPos.y;
-        startZ = npcAction->startPos.z;
-        endX = npcAction->endPos.x;
-        endY = npcAction->endPos.y;
-        endZ = npcAction->endPos.z;
+    if (cue != NULL) {
+        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.curFrame, 8, 0);
 
-        pos->x = ((endX - startX) * someFloat) + startX;
-        pos->y = ((endY - startY) * someFloat) + startY;
-        pos->z = ((endZ - startZ) * someFloat) + startZ;
+        startX = cue->startPos.x;
+        startY = cue->startPos.y;
+        startZ = cue->startPos.z;
+
+        endX = cue->endPos.x;
+        endY = cue->endPos.y;
+        endZ = cue->endPos.z;
+
+        pos->x = ((endX - startX) * lerp) + startX;
+        pos->y = ((endY - startY) * lerp) + startY;
+        pos->z = ((endZ - startZ) * lerp) + startZ;
     }
 }
 
@@ -430,9 +431,9 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     pos->z += tempf3;
 }
 
-void func_8097ED64(DemoGt* this, PlayState* play, s32 actionIdx) {
-    func_8097E744(this, play, actionIdx);
-    func_8097E824(this, actionIdx);
+void func_8097ED64(DemoGt* this, PlayState* play, s32 cueChannel) {
+    func_8097E744(this, play, cueChannel);
+    func_8097E824(this, cueChannel);
 }
 
 u8 DemoGt_IsCutsceneLayer(void) {
@@ -483,9 +484,9 @@ void func_8097EEA8_Init0(DemoGt* this, PlayState* play) {
 }
 
 void func_8097EF00(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (frames == 527) {
+    if (csCurFrame == 527) {
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TOWER_COLLAPSE);
     }
 }
@@ -494,7 +495,7 @@ void func_8097EF34(DemoGt* this, PlayState* play) {
 }
 
 void func_8097EF40(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     s32 pad1[3];
     Vec3f dustPos;
     Vec3f velocity = { 0.0f, -16.0f, 0.0f };
@@ -502,7 +503,7 @@ void func_8097EF40(DemoGt* this, PlayState* play) {
     Vec3f* pos = &this->dyna.actor.world.pos;
     s32 pad;
 
-    if ((kREG(1) == 20) || (frames == 220)) {
+    if ((kREG(1) == 20) || (csCurFrame == 220)) {
         dustPos.x = pos->x + 256.0f;
         dustPos.y = pos->y + 679.0f;
         dustPos.z = pos->z + 82.0f;
@@ -522,17 +523,17 @@ void func_8097F0AC(DemoGt* this, PlayState* play) {
     Vec3f sp38;
     s16 pad1[3];
     Vec3f sp24;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     s32 pad2;
 
-    if ((frames == 140) || (kREG(1) == 19)) {
+    if ((csCurFrame == 140) || (kREG(1) == 19)) {
         sp38.x = this->dyna.actor.world.pos.x + 260.0f;
         sp38.y = this->dyna.actor.world.pos.y + 340.0f;
         sp38.z = this->dyna.actor.world.pos.z + 45.0f;
         DemoGt_SpawnExplosionWithSound(play, &sp38, 2.0f);
     }
 
-    if (frames == 176) {
+    if (csCurFrame == 176) {
         sp24.x = this->dyna.actor.world.pos.x + 260.0f;
         sp24.y = this->dyna.actor.world.pos.y + 840.0f;
         sp24.z = this->dyna.actor.world.pos.z + 45.0f;
@@ -563,7 +564,7 @@ void func_8097F280(DemoGt* this, PlayState* play) {
     s32* unk198 = this->unk_198;
     f32 temp_f0;
 
-    if (play->csCtx.frames < 160) {
+    if (play->csCtx.curFrame < 160) {
         unk178[0] = 100;
         unk178[1] = 255;
         unk178[2] = 200;
@@ -574,8 +575,8 @@ void func_8097F280(DemoGt* this, PlayState* play) {
 
         unk198[0]++;
         unk198[1]--;
-    } else if (play->csCtx.frames < 170) {
-        temp_f0 = Environment_LerpWeightAccelDecel(170, 160, play->csCtx.frames, 0, 0);
+    } else if (play->csCtx.curFrame < 170) {
+        temp_f0 = Environment_LerpWeightAccelDecel(170, 160, play->csCtx.curFrame, 0, 0);
 
         unk178[0] = (temp_f0 * -63.0f) + 163.0f;
         unk178[1] = (temp_f0 * -155.0f) + 255.0f;
@@ -703,9 +704,9 @@ void func_8097F96C(DemoGt* this, PlayState* play) {
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (((frames > 1059) && (frames < 1062)) || kREG(1) == 17) {
+    if (((csCurFrame > 1059) && (csCurFrame < 1062)) || kREG(1) == 17) {
         pos.x = this->dyna.actor.world.pos.x;
         pos.y = this->dyna.actor.world.pos.y + 612.0f;
         pos.z = this->dyna.actor.world.pos.z;
@@ -724,12 +725,12 @@ void func_8097F96C(DemoGt* this, PlayState* play) {
 void func_8097FA1C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { -12.0f, -17.0, 5.0 };
     s32 pad1[3];
 
-    if (((frames > 502) && !(frames >= 581)) || (kREG(1) == 5)) {
+    if (((csCurFrame > 502) && !(csCurFrame >= 581)) || (kREG(1) == 5)) {
         dustPos.x = pos->x + 300.0f;
         dustPos.y = pos->y + 360.0f;
         dustPos.z = pos->z - 377.0f;
@@ -746,17 +747,17 @@ void func_8097FAFC(DemoGt* this, PlayState* play) {
     static s32 arg7 = 1;
     static s16 life = 3;
     s32 pad[2];
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f pos;
     f32 new_var = -200.0;
 
-    if (((frames > 582) && (frames < 683)) || (kREG(1) == 6)) {
+    if (((csCurFrame > 582) && (csCurFrame < 683)) || (kREG(1) == 6)) {
         pos = this->dyna.actor.world.pos;
         pos.y += 680.0f;
 
-        if (frames == 682) {
+        if (csCurFrame == 682) {
             velocity.y += new_var;
-        } else if (frames == 681) {
+        } else if (csCurFrame == 681) {
             accel.y += new_var;
         }
 
@@ -767,12 +768,12 @@ void func_8097FAFC(DemoGt* this, PlayState* play) {
 void func_8097FC1C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
-    if (frames > 682 || kREG(1) == 7) {
+    if (csCurFrame > 682 || kREG(1) == 7) {
         dustPos.x = pos->x + 260.0f;
         dustPos.y = pos->y + 360.0f;
         dustPos.z = pos->z + 260.0f;
@@ -783,9 +784,9 @@ void func_8097FC1C(DemoGt* this, PlayState* play) {
 void func_8097FCE4(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f vec;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (frames == 0x1F7 || kREG(1) == 4) {
+    if (csCurFrame == 0x1F7 || kREG(1) == 4) {
         vec.x = this->dyna.actor.world.pos.x + 300.0f;
         vec.y = this->dyna.actor.world.pos.y + 560.0f;
         vec.z = this->dyna.actor.world.pos.z - 377.0f;
@@ -806,14 +807,14 @@ void func_8097FDDC(DemoGt* this, PlayState* play) {
     s32* unk178 = this->unk_178;
     s32* unk198 = this->unk_198;
 
-    if (play->csCtx.frames < 610) {
+    if (play->csCtx.curFrame < 610) {
         unk178[0] = 163;
         unk178[1] = 193;
         unk178[2] = 193;
         unk198[0]++;
         unk198[1]--;
-    } else if (play->csCtx.frames < 620) {
-        f32 temp_f0 = Environment_LerpWeightAccelDecel(620, 610, play->csCtx.frames, 0, 0);
+    } else if (play->csCtx.curFrame < 620) {
+        f32 temp_f0 = Environment_LerpWeightAccelDecel(620, 610, play->csCtx.curFrame, 0, 0);
 
         unk178[0] = (temp_f0 * (-13.0f)) + 163.0f;
         unk178[1] = (temp_f0 * (-43.0f)) + 193.0f;
@@ -885,7 +886,7 @@ void func_80980184(DemoGt* this, PlayState* play) {
     Vec3f pos;
     Actor* actor;
 
-    if ((play->csCtx.frames > 1027) && (play->csCtx.frames < 1031)) {
+    if ((play->csCtx.curFrame > 1027) && (play->csCtx.curFrame < 1031)) {
         pos.x = this->dyna.actor.world.pos.x;
         pos.y = this->dyna.actor.world.pos.y + 247.0f;
         pos.z = this->dyna.actor.world.pos.z;
@@ -907,7 +908,7 @@ void func_80980218(DemoGt* this, PlayState* play) {
     Vec3f pos;
     Actor* actor;
 
-    if ((play->csCtx.frames > 997) && (play->csCtx.frames < 1001)) {
+    if ((play->csCtx.curFrame > 997) && (play->csCtx.curFrame < 1001)) {
         pos.x = this->dyna.actor.home.pos.x;
         pos.y = this->dyna.actor.home.pos.y + 38.0f;
         pos.z = this->dyna.actor.home.pos.z;
@@ -926,12 +927,12 @@ void func_80980218(DemoGt* this, PlayState* play) {
 void func_809802AC(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 0.0f, 0.0f, -10.0f };
     s32 pad1[3];
 
-    if (frames > 109 && frames < 140) {
+    if (csCurFrame > 109 && csCurFrame < 140) {
         dustPos.x = pos->x - 100.0f;
         dustPos.y = pos->y + 1260.0f;
         dustPos.z = pos->z - 323.0f;
@@ -942,12 +943,12 @@ void func_809802AC(DemoGt* this, PlayState* play) {
 void func_8098036C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* world = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
 
-    if ((frames > 284) && (frames < 421)) {
+    if ((csCurFrame > 284) && (csCurFrame < 421)) {
         dustPos.x = world->x + 760.0f;
         dustPos.y = world->y - 40.0f;
         dustPos.z = world->z - 240.0f;
@@ -958,12 +959,12 @@ void func_8098036C(DemoGt* this, PlayState* play) {
 void func_80980430(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    s32 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
 
-    if (frames > 709 || kREG(1) == 8) {
+    if (csCurFrame > 709 || kREG(1) == 8) {
         dustPos.x = pos->x + 760.0f;
         dustPos.y = pos->y - 40.0f;
         dustPos.z = pos->z - 240.0f;
@@ -974,12 +975,12 @@ void func_80980430(DemoGt* this, PlayState* play) {
 void func_80980504(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
-    if ((frames > 704) || kREG(1) == 9) {
+    if ((csCurFrame > 704) || kREG(1) == 9) {
         dustPos.x = pos->x + 830.0f;
         dustPos.y = pos->y + 60.0f;
         dustPos.z = pos->z + 390.0f;
@@ -990,12 +991,12 @@ void func_80980504(DemoGt* this, PlayState* play) {
 void func_809805D8(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* homePos = &this->dyna.actor.home.pos;
     Vec3f velOffset = { 15.0f, -26.0, 0.0f };
     s32 pad1[3];
 
-    if (((frames > 739) && (frames < 781)) || kREG(1) == 11) {
+    if (((csCurFrame > 739) && (csCurFrame < 781)) || kREG(1) == 11) {
         dustPos.x = homePos->x + 550.0f;
         dustPos.y = homePos->y - 110.0f;
         dustPos.z = homePos->z + 50.0f;
@@ -1006,12 +1007,12 @@ void func_809805D8(DemoGt* this, PlayState* play) {
 void func_809806B8(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
-    if ((frames > 964) || (kREG(1) == 12)) {
+    if ((csCurFrame > 964) || (kREG(1) == 12)) {
         dustPos.x = pos->x + 460.0f;
         dustPos.y = pos->y + 60.0f;
         dustPos.z = pos->z + 760.0f;
@@ -1022,12 +1023,12 @@ void func_809806B8(DemoGt* this, PlayState* play) {
 void func_8098078C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
-    if ((frames > 939) || (kREG(1) == 14)) {
+    if ((csCurFrame > 939) || (kREG(1) == 14)) {
         dustPos.x = pos->x + 360.0f;
         dustPos.y = pos->y + 70.0f;
         dustPos.z = pos->z - 640.0f;
@@ -1038,20 +1039,20 @@ void func_8098078C(DemoGt* this, PlayState* play) {
 void func_8098085C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f sp28;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f* pos = &this->dyna.actor.world.pos;
 
-    if ((frames == 58) || (kREG(1) == 1)) {
+    if ((csCurFrame == 58) || (kREG(1) == 1)) {
         sp28.x = pos->x + 900.0f;
         sp28.y = pos->y - 50.0f;
         sp28.z = pos->z + 93.0f;
         DemoGt_SpawnExplosionWithSound(play, &sp28, 2.0f);
-    } else if (frames == 80) {
+    } else if (csCurFrame == 80) {
         sp28.x = pos->x + 810.0f;
         sp28.y = pos->y + 200.0f;
         sp28.z = pos->z - 37.0f;
         DemoGt_SpawnExplosionWithSound(play, &sp28, 0.9f);
-    } else if (frames == 90) {
+    } else if (csCurFrame == 90) {
         sp28.x = pos->x - 220.0f;
         sp28.y = pos->y + 1350.0f;
         sp28.z = pos->z - 287.0f;
@@ -1063,11 +1064,11 @@ void func_809809C0(DemoGt* this, PlayState* play2) {
     PlayState* play = play2;
     DemoGt* this2 = this;
     s32 gameplayFrames = play->gameplayFrames;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     Vec3f sp54;
     s16 pad[3];
 
-    if (((frames > 469) && (frames < 481)) || (kREG(1) == 3)) {
+    if (((csCurFrame > 469) && (csCurFrame < 481)) || (kREG(1) == 3)) {
         Vec3f sp40 = { 20.0f, 6.0f, 0.0f };
         Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
         s16 pad2[3];
@@ -1085,9 +1086,9 @@ void func_809809C0(DemoGt* this, PlayState* play2) {
 void func_80980AD4(DemoGt* this, PlayState* play) {
     s32 pad[4];
     Vec3f pos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if ((frames == 477) || (kREG(2) == 1)) {
+    if ((csCurFrame == 477) || (kREG(2) == 1)) {
         pos.x = this->dyna.actor.world.pos.x + 790.0f;
         pos.y = this->dyna.actor.world.pos.y + 60.0f;
         pos.z = this->dyna.actor.world.pos.z + 23.0f;
@@ -1100,9 +1101,9 @@ void func_80980AD4(DemoGt* this, PlayState* play) {
 void func_80980B68(DemoGt* this, PlayState* play) {
     s32 pad[4];
     Vec3f pos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if ((frames == 317) || (kREG(3) == 1)) {
+    if ((csCurFrame == 317) || (kREG(3) == 1)) {
         pos.x = this->dyna.actor.world.pos.x + 980.0f;
         pos.y = this->dyna.actor.world.pos.y + 410.0f;
         pos.z = this->dyna.actor.world.pos.z - 177.0f;
@@ -1114,9 +1115,9 @@ void func_80980B68(DemoGt* this, PlayState* play) {
 void func_80980BFC(DemoGt* this, PlayState* play) {
     s32 pad[4];
     Vec3f pos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if ((frames == 740) || (kREG(4) == 1)) {
+    if ((csCurFrame == 740) || (kREG(4) == 1)) {
         pos.x = this->dyna.actor.world.pos.x + 790.0f;
         pos.y = this->dyna.actor.world.pos.y + 60.0f;
         pos.z = this->dyna.actor.world.pos.z + 23.0f;
@@ -1185,9 +1186,9 @@ void func_80980F00_Init5(DemoGt* this, PlayState* play) {
 }
 
 void func_80980F58(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (frames == 244) {
+    if (csCurFrame == 244) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
@@ -1196,9 +1197,9 @@ void func_80980F8C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f sp58;
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if ((frames > 259) && (frames < 289)) {
+    if ((csCurFrame > 259) && (csCurFrame < 289)) {
         Vec3f velOfset = { 0.0f, -17.0f, 0.0f };
         s32 pad[3];
 
@@ -1244,7 +1245,7 @@ void DemoGt_Update16(DemoGt* this, PlayState* play) {
 void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
     GraphicsContext* gfxCtx;
     PlayState* play = play2;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
     s32 pad;
     s16 sp76;
     f32 sp70;
@@ -1257,7 +1258,7 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
     Vec3f sp48;
     f32 sp44;
 
-    if (frames < 301) {
+    if (csCurFrame < 301) {
 
         sp76 = this->unk_172;
         sp70 = fabsf(BINANG_TO_RAD(sp76));
@@ -1308,9 +1309,9 @@ void func_809813CC_Init6(DemoGt* this, PlayState* play) {
 }
 
 void func_80981424(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (frames == 789) {
+    if (csCurFrame == 789) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
@@ -1319,9 +1320,9 @@ void func_80981458(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f sp58;
     Vec3f dustPos;
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (((frames > 855) && (frames < 891)) || (kREG(1) == 13)) {
+    if (((csCurFrame > 855) && (csCurFrame < 891)) || (kREG(1) == 13)) {
         Vec3f velOffset = { 0.0f, -30.0f, 0.0f };
         s32 pad1[3];
 
@@ -1426,9 +1427,9 @@ void func_809818A4_Init7(DemoGt* this, PlayState* play) {
 }
 
 void func_809818FC(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (frames == 845) {
+    if (csCurFrame == 845) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
@@ -1517,9 +1518,9 @@ void func_80981C94_Init23(DemoGt* this, PlayState* play) {
 }
 
 void func_80981CEC(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (frames == 183) {
+    if (csCurFrame == 183) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
@@ -1608,9 +1609,9 @@ void func_80982054_Init24(DemoGt* this, PlayState* play) {
 }
 
 void func_809820AC(DemoGt* this, PlayState* play) {
-    u16 frames = play->csCtx.frames;
+    u16 csCurFrame = play->csCtx.curFrame;
 
-    if (frames == 154) {
+    if (csCurFrame == 154) {
         func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }

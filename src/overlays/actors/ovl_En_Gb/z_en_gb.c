@@ -177,7 +177,7 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->dyna.actor, 0.01f);
     this->dyna.actor.colChkInfo.mass = 0xFF;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.gravity = -1.0f;
     this->actionTimer = (s16)Rand_ZeroFloat(100.0f) + 100;

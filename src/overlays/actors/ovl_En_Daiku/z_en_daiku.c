@@ -541,7 +541,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, ry, 1, 0xFA0, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, this->runSpeed, 0.6f, dxz, 0.0f);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 

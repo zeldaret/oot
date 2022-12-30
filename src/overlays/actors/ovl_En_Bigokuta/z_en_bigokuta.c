@@ -582,7 +582,7 @@ void func_809BE058(EnBigokuta* this, PlayState* play) {
 
     if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->cylinder[0].base.ocFlags1 & OC1_HIT) ||
         (this->cylinder[1].base.ocFlags1 & OC1_HIT)) {
-        speedXZ = CLAMP_MIN(player->actor.speedXZ, 1.0f);
+        speedXZ = CLAMP_MIN(player->actor.speed, 1.0f);
         if (!(this->collider.base.ocFlags1 & OC1_HIT)) {
             this->cylinder[0].base.ocFlags1 &= ~OC1_HIT;
             this->cylinder[1].base.ocFlags1 &= ~OC1_HIT;
