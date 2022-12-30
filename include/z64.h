@@ -437,14 +437,6 @@ typedef struct {
     }                   restrictions;
 } InterfaceContext; // size = 0x270
 
-typedef enum {
-    /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
-    /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
-    /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
-    /* 3 */ PAUSE_BG_PRERENDER_READY, // The pause background is ready to be used.
-    /* 4 */ PAUSE_BG_PRERENDER_MAX
-} PauseBgPreRenderState;
-
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
     /* 0x04 */ uintptr_t vromStart;
@@ -790,6 +782,21 @@ typedef struct {
     /* 0x00 */ u8 numActors;
     /* 0x04 */ TransitionActorEntry* list;
 } TransitionActorContext;
+
+typedef enum {
+    /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
+    /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
+    /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
+    /* 3 */ PAUSE_BG_PRERENDER_READY, // The pause background is ready to be used.
+    /* 4 */ PAUSE_BG_PRERENDER_MAX
+} PauseBgPreRenderState;
+
+typedef enum {
+    /* 0 */ TRANS_TILE_OFF, // Inactive, do nothing
+    /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
+    /* 2 */ TRANS_TILE_PROCESS, // Initialize the transition
+    /* 3 */ TRANS_TILE_READY // The transition is ready, so will update and draw each frame
+} TransitionTileStatus;
 
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
