@@ -234,9 +234,9 @@ void EnBombf_Move(EnBombf* this, PlayState* play) {
     this->flowerBombScale = 1.0f;
 
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.025f, 0.0f);
     } else {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.5f, 0.0f);
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -6.0f)) {
             func_8002F850(play, &this->actor);
             this->actor.velocity.y *= -0.5f;
@@ -350,7 +350,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
         }
 
         // rebound bomb off the wall it hits
-        if ((thisx->speedXZ != 0.0f) && (thisx->bgCheckFlags & BGCHECKFLAG_WALL)) {
+        if ((thisx->speed != 0.0f) && (thisx->bgCheckFlags & BGCHECKFLAG_WALL)) {
 
             if (ABS((s16)(thisx->wallYaw - thisx->world.rot.y)) > 0x4000) {
                 if (1) {}
@@ -363,7 +363,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
                                         UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
             DREG(6) = 0;
-            thisx->speedXZ *= 0.7f;
+            thisx->speed *= 0.7f;
             thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 

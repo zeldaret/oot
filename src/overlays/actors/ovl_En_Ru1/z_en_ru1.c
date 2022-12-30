@@ -246,29 +246,29 @@ s32 EnRu1_IsCsStateIdle(PlayState* play) {
     return false;
 }
 
-CsCmdActorAction* func_80AEAF58(PlayState* play, s32 npcActionIdx) {
+CsCmdActorCue* EnRu1_GetCue(PlayState* play, s32 cueChannel) {
     s32 pad[2];
-    CsCmdActorAction* ret = NULL;
+    CsCmdActorCue* cue = NULL;
 
     if (!EnRu1_IsCsStateIdle(play)) {
-        ret = play->csCtx.npcActions[npcActionIdx];
+        cue = play->csCtx.actorCues[cueChannel];
     }
-    return ret;
+    return cue;
 }
 
-s32 func_80AEAFA0(PlayState* play, u16 action, s32 npcActionIdx) {
-    CsCmdActorAction* csCmdNPCAction = func_80AEAF58(play, npcActionIdx);
+s32 func_80AEAFA0(PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnRu1_GetCue(play, cueChannel);
 
-    if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == action)) {
+    if ((cue != NULL) && (cue->id == cueId)) {
         return true;
     }
     return false;
 }
 
-s32 func_80AEAFE0(PlayState* play, u16 action, s32 npcActionIdx) {
-    CsCmdActorAction* csCmdNPCAction = func_80AEAF58(play, npcActionIdx);
+s32 func_80AEAFE0(PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = EnRu1_GetCue(play, cueChannel);
 
-    if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action != action)) {
+    if ((cue != NULL) && (cue->id != cueId)) {
         return true;
     }
     return false;
@@ -346,7 +346,7 @@ void func_80AEB1D8(EnRu1* this) {
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.velocity.z = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     func_80AEB0EC(this, 0);
@@ -410,16 +410,16 @@ void func_80AEB3DC(EnRu1* this, PlayState* play) {
     EnRu1_SetMouthIndex(this, 0);
 }
 
-CsCmdActorAction* func_80AEB438(PlayState* play) {
-    return func_80AEAF58(play, 3);
+CsCmdActorCue* EnRu1_GetCueChannel3(PlayState* play) {
+    return EnRu1_GetCue(play, 3);
 }
 
-s32 func_80AEB458(PlayState* play, u16 action) {
-    return func_80AEAFA0(play, action, 3);
+s32 func_80AEB458(PlayState* play, u16 cueId) {
+    return func_80AEAFA0(play, cueId, 3);
 }
 
-s32 func_80AEB480(PlayState* play, u16 action) {
-    return func_80AEAFE0(play, action, 3);
+s32 func_80AEB480(PlayState* play, u16 cueId) {
+    return func_80AEAFE0(play, cueId, 3);
 }
 
 void EnRu1_SpawnRipple(EnRu1* this, PlayState* play, s16 radiusMax, s16 life) {
@@ -480,13 +480,11 @@ void func_80AEB7D0(EnRu1* this) {
     this->skelAnime.moveFlags &= ~0x3;
 }
 
-f32 func_80AEB7E0(CsCmdActorAction* csCmdNPCAction, PlayState* play) {
-    s32 csCtxFrames = play->csCtx.frames;
+f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
+    s32 csCurFrame = play->csCtx.curFrame;
 
-    if ((csCtxFrames < csCmdNPCAction->endFrame) && (csCmdNPCAction->endFrame - csCmdNPCAction->startFrame > 0)) {
-        return (Math_CosS(((csCtxFrames - csCmdNPCAction->startFrame) /
-                           (f32)(csCmdNPCAction->endFrame - csCmdNPCAction->startFrame)) *
-                          32768.0f) *
+    if ((csCurFrame < cue->endFrame) && (cue->endFrame - cue->startFrame > 0)) {
+        return (Math_CosS(((csCurFrame - cue->startFrame) / (f32)(cue->endFrame - cue->startFrame)) * 32768.0f) *
                 -0.5f) +
                0.5f;
     }
@@ -498,16 +496,14 @@ f32 func_80AEB87C(f32 arg0, s32 arg1, s32 arg2) {
 }
 
 void func_80AEB89C(EnRu1* this, PlayState* play) {
-    CsCmdActorAction* npcAction = func_80AEB438(play);
-    s16 npcActionRotY;
+    CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
 
-    if (npcAction != NULL) {
-        npcActionRotY = npcAction->rot.y;
-        this->actor.shape.rot.y = npcActionRotY;
-        this->actor.world.rot.y = npcActionRotY;
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
+    if (cue != NULL) {
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
+
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
     }
 }
 
@@ -526,15 +522,15 @@ void func_80AEB954(EnRu1* this, PlayState* play) {
 void func_80AEB974(EnRu1* this, PlayState* play) {
     Vec3f* thisPos;
     f32 sp30;
-    CsCmdActorAction* csCmdNPCAction = func_80AEB438(play);
+    CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
     s32 pad;
 
-    if (csCmdNPCAction != NULL) {
-        sp30 = func_80AEB7E0(csCmdNPCAction, play);
+    if (cue != NULL) {
+        sp30 = func_80AEB7E0(cue, play);
         thisPos = &this->actor.world.pos;
-        thisPos->x = func_80AEB87C(sp30, csCmdNPCAction->startPos.x, csCmdNPCAction->endPos.x);
-        thisPos->y = func_80AEB87C(sp30, csCmdNPCAction->startPos.y, csCmdNPCAction->endPos.y);
-        thisPos->z = func_80AEB87C(sp30, csCmdNPCAction->startPos.z, csCmdNPCAction->endPos.z);
+        thisPos->x = func_80AEB87C(sp30, cue->startPos.x, cue->endPos.x);
+        thisPos->y = func_80AEB87C(sp30, cue->startPos.y, cue->endPos.y);
+        thisPos->z = func_80AEB87C(sp30, cue->startPos.z, cue->endPos.z);
     }
 }
 
@@ -547,15 +543,15 @@ void func_80AEBA2C(EnRu1* this, PlayState* play) {
     Vec3f* unk_364 = &this->unk_364;
     Vec3f* thisPos;
     f32 temp_ret_2;
-    CsCmdActorAction* csCmdNPCAction = func_80AEB438(play);
+    CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
     s32 pad2;
 
-    if (csCmdNPCAction != NULL) {
-        temp_ret_2 = func_80AEB7E0(csCmdNPCAction, play);
+    if (cue != NULL) {
+        temp_ret_2 = func_80AEB7E0(cue, play);
         thisPos = &this->actor.world.pos;
-        thisPos->x = func_80AEB87C(temp_ret_2, unk_364->x, csCmdNPCAction->endPos.x);
-        thisPos->y = func_80AEB87C(temp_ret_2, unk_364->y, csCmdNPCAction->endPos.y);
-        thisPos->z = func_80AEB87C(temp_ret_2, unk_364->z, csCmdNPCAction->endPos.z);
+        thisPos->x = func_80AEB87C(temp_ret_2, unk_364->x, cue->endPos.x);
+        thisPos->y = func_80AEB87C(temp_ret_2, unk_364->y, cue->endPos.y);
+        thisPos->z = func_80AEB87C(temp_ret_2, unk_364->z, cue->endPos.z);
     }
 }
 
@@ -590,7 +586,7 @@ void func_80AEBBF4(EnRu1* this) {
 void func_80AEBC30(PlayState* play) {
     Player* player;
 
-    if (play->csCtx.frames == 0xCD) {
+    if (play->csCtx.curFrame == 0xCD) {
         player = GET_PLAYER(play);
         Audio_PlaySfxGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -598,7 +594,7 @@ void func_80AEBC30(PlayState* play) {
 }
 
 void func_80AEBC84(EnRu1* this, PlayState* play) {
-    if (play->csCtx.frames == 0x82) {
+    if (play->csCtx.curFrame == 0x82) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
@@ -673,15 +669,16 @@ void func_80AEBF60(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEBFD8(EnRu1* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction = func_80AEB438(play);
+    CsCmdActorCue* cue = EnRu1_GetCueChannel3(play);
     f32 frameCount;
-    u16 csCtxFrames;
+    u16 csCurFrame;
     u16 endFrame;
 
-    if (csCmdNPCAction != NULL) {
-        csCtxFrames = play->csCtx.frames;
-        endFrame = csCmdNPCAction->endFrame;
-        if (csCtxFrames >= endFrame - 2) {
+    if (cue != NULL) {
+        csCurFrame = play->csCtx.curFrame;
+        endFrame = cue->endFrame;
+
+        if (csCurFrame >= endFrame - 2) {
             frameCount = Animation_GetLastFrame(&gRutoChildTransitionFromSwimOnBackAnim);
             Animation_Change(&this->skelAnime, &gRutoChildTransitionFromSwimOnBackAnim, 1.0, 0, frameCount,
                              ANIMMODE_ONCE, -8.0f);
@@ -789,9 +786,9 @@ void func_80AEC40C(EnRu1* this) {
     f32 unk_26C = this->unk_26C;
 
     if (unk_26C < 8.0f) {
-        this->actor.speedXZ = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
+        this->actor.speed = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
     } else {
-        this->actor.speedXZ = (kREG(3) * 0.01f) + 2.7f;
+        this->actor.speed = (kREG(3) * 0.01f) + 2.7f;
     }
     this->actor.velocity.y = -1.0f;
     Actor_MoveForward(&this->actor);
@@ -803,7 +800,7 @@ void func_80AEC4CC(EnRu1* this) {
 }
 
 void func_80AEC4F4(EnRu1* this) {
-    f32* speedXZ = &this->actor.speedXZ;
+    f32* speedXZ = &this->actor.speed;
     f32* unk_26C = &this->unk_26C;
 
     if (this->unk_26C < 8.0f) {
@@ -860,7 +857,7 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
         (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
-        play->csCtx.segment = D_80AF0880;
+        play->csCtx.script = D_80AF0880;
         gSaveContext.cutsceneTrigger = 1;
         player->linearVelocity = 0.0f;
         this->action = 8;
@@ -868,15 +865,15 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEC81C(EnRu1* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorCue* cue;
     s16 newRotY;
 
     if (func_80AEAFE0(play, 1, 3)) {
-        csCmdNPCAction = play->csCtx.npcActions[3];
-        this->actor.world.pos.x = csCmdNPCAction->startPos.x;
-        this->actor.world.pos.y = csCmdNPCAction->startPos.y;
-        this->actor.world.pos.z = csCmdNPCAction->startPos.z;
-        newRotY = csCmdNPCAction->rot.y;
+        cue = play->csCtx.actorCues[3];
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
+        newRotY = cue->rot.y;
         this->actor.shape.rot.y = newRotY;
         this->actor.world.rot.y = newRotY;
         this->action = 9;
@@ -1050,7 +1047,7 @@ s32 func_80AECF6C(EnRu1* this, PlayState* play) {
     s32 pad2[5];
 
     this->unk_26C += 1.0f;
-    if ((player->actor.speedXZ == 0.0f) && (this->unk_26C >= 3.0f)) {
+    if ((player->actor.speed == 0.0f) && (this->unk_26C >= 3.0f)) {
         otherPlayer = GET_PLAYER(play);
         player->actor.world.pos.x = otherPlayer->unk_450.x;
         player->actor.world.pos.y = otherPlayer->unk_450.y;
@@ -1203,7 +1200,7 @@ void func_80AED520(EnRu1* this, PlayState* play) {
 }
 
 void func_80AED57C(EnRu1* this) {
-    if (this->actor.speedXZ != 0.0f) {
+    if (this->actor.speed != 0.0f) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
     }
 }
@@ -1337,7 +1334,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         velocityY = &this->actor.velocity.y;
         dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
         if (*velocityY <= 0.0f) {
-            speedXZ = &this->actor.speedXZ;
+            speedXZ = &this->actor.speed;
             if (dynaPolyActor != NULL) {
                 if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
@@ -1370,7 +1367,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
-        speedXZ = &this->actor.speedXZ;
+        speedXZ = &this->actor.speed;
         velocityY = &this->actor.velocity.y;
         if (*speedXZ >= (kREG(27) * 0.01f) + 3.0f) {
             *speedXZ *= (kREG(19) * 0.01f) + 0.8f;
@@ -1383,7 +1380,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
         }
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
-        speedXZ = &this->actor.speedXZ;
+        speedXZ = &this->actor.speed;
         if (*speedXZ != 0.0f) {
             rotY = this->actor.world.rot.y;
             wallYaw = this->actor.wallYaw;
@@ -1409,7 +1406,7 @@ void func_80AEDB30(EnRu1* this, PlayState* play) {
 }
 
 void func_80AEDEF4(EnRu1* this, PlayState* play) {
-    f32* speedXZ = &this->actor.speedXZ;
+    f32* speedXZ = &this->actor.speed;
     DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&play->colCtx, this->actor.floorBgId);
 
     if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_EN_BOX) {
@@ -1436,7 +1433,7 @@ void func_80AEE02C(EnRu1* this) {
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.velocity.z = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
 }
@@ -1449,7 +1446,7 @@ void func_80AEE050(EnRu1* this) {
     EnRu1* thisx = this; // necessary to match
 
     if (this->unk_350 == 0) {
-        if ((this->actor.minVelocityY == 0.0f) && (this->actor.speedXZ == 0.0f)) {
+        if ((this->actor.minVelocityY == 0.0f) && (this->actor.speed == 0.0f)) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
@@ -1463,12 +1460,12 @@ void func_80AEE050(EnRu1* this) {
                 this->actor.minVelocityY = 0.0f;
                 this->actor.velocity.y = 0.0f;
             }
-            this->actor.speedXZ *= 0.5f;
-            if (this->actor.speedXZ <= 0.1f) {
-                this->actor.speedXZ = 0.0f;
+            this->actor.speed *= 0.5f;
+            if (this->actor.speed <= 0.1f) {
+                this->actor.speed = 0.0f;
             }
-            this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-            this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+            this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+            this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
             func_8002D7EC(&this->actor);
         }
     } else {
@@ -1542,7 +1539,7 @@ s32 func_80AEE394(EnRu1* this, PlayState* play) {
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
             dynaPolyActor->actor.params == 0 && !Player_InCsMode(play) && play->msgCtx.msgLength == 0) {
             func_80AEE02C(this);
-            play->csCtx.segment = D_80AF10A4;
+            play->csCtx.script = D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
@@ -1571,7 +1568,7 @@ void func_80AEE488(EnRu1* this, PlayState* play) {
 
 void func_80AEE568(EnRu1* this, PlayState* play) {
     if (!func_80AEE394(this, play)) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speedXZ == 0.0f) &&
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.speed == 0.0f) &&
             (this->actor.minVelocityY == 0.0f)) {
             func_80AEE02C(this);
             Actor_OfferCarry(&this->actor, play);
@@ -1608,7 +1605,7 @@ s32 func_80AEE6D0(EnRu1* this, PlayState* play) {
             func_80AED600(this);
             this->action = 34;
             this->unk_26C = 0.0f;
-            play->csCtx.segment = D_80AF1728;
+            play->csCtx.script = D_80AF1728;
             gSaveContext.cutsceneTrigger = 1;
         }
         this->roomNum3 = curRoomNum;
@@ -1628,7 +1625,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
         frameCount = Animation_GetLastFrame(&gRutoChildSittingAnim);
         Animation_Change(&this->skelAnime, &gRutoChildSittingAnim, 1.0f, 0, frameCount, ANIMMODE_LOOP, -8.0f);
         func_80AED6DC(this, play);
-        this->actor.speedXZ *= (kREG(25) * 0.01f) + 1.0f;
+        this->actor.speed *= (kREG(25) * 0.01f) + 1.0f;
         this->actor.velocity.y *= (kREG(26) * 0.01f) + 1.0f;
         this->actor.minVelocityY = -((kREG(24) * 0.01f) + 6.8f);
         this->actor.gravity = -((kREG(23) * 0.01f) + 1.3f);
@@ -1944,25 +1941,25 @@ void func_80AEF5B8(EnRu1* this) {
 
 void func_80AEF624(EnRu1* this, PlayState* play) {
     f32 frameCount;
-    CsCmdActorAction* csCmdNPCAction;
-    CsCmdActorAction* csCmdNPCAction2;
+    CsCmdActorCue* cue;
+    CsCmdActorCue* cue2;
     s16 newRotTmp;
 
     if (func_80AEAFE0(play, 1, 3)) {
         frameCount = Animation_GetLastFrame(&gRutoChildWalkToAndHoldUpSapphireAnim);
         // this weird part with the redundant variable is necessary to match for some reason
-        csCmdNPCAction2 = play->csCtx.npcActions[3];
-        csCmdNPCAction = csCmdNPCAction2;
-        this->actor.world.pos.x = csCmdNPCAction->startPos.x;
-        this->actor.world.pos.y = csCmdNPCAction->startPos.y;
-        this->actor.world.pos.z = csCmdNPCAction->startPos.z;
-        newRotTmp = csCmdNPCAction->rot.x;
+        cue2 = play->csCtx.actorCues[3];
+        cue = cue2;
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
+        newRotTmp = cue->rot.x;
         this->actor.shape.rot.x = newRotTmp;
         this->actor.world.rot.x = newRotTmp;
-        newRotTmp = csCmdNPCAction->rot.y;
+        newRotTmp = cue->rot.y;
         this->actor.shape.rot.y = newRotTmp;
         this->actor.world.rot.y = newRotTmp;
-        newRotTmp = csCmdNPCAction->rot.z;
+        newRotTmp = cue->rot.z;
         this->actor.shape.rot.z = newRotTmp;
         this->actor.world.rot.z = newRotTmp;
         Animation_Change(&this->skelAnime, &gRutoChildWalkToAndHoldUpSapphireAnim, 1.0f, 0.0f, frameCount,

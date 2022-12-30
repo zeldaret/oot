@@ -88,9 +88,9 @@ void EnFdFire_UpdatePos(EnFdFire* this, Vec3f* targetPos) {
     f32 zDiff = targetPos->z - this->actor.world.pos.z;
 
     dist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff));
-    if (fabsf(dist) > fabsf(this->actor.speedXZ)) {
-        this->actor.velocity.x = (xDiff / dist) * this->actor.speedXZ;
-        this->actor.velocity.z = (zDiff / dist) * this->actor.speedXZ;
+    if (fabsf(dist) > fabsf(this->actor.speed)) {
+        this->actor.velocity.x = (xDiff / dist) * this->actor.speed;
+        this->actor.velocity.z = (zDiff / dist) * this->actor.speed;
     } else {
         this->actor.velocity.x = 0.0f;
         this->actor.velocity.z = 0.0f;
@@ -130,7 +130,7 @@ void EnFdFire_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInit);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.gravity = -0.6f;
-    this->actor.speedXZ = 5.0f;
+    this->actor.speed = 5.0f;
     this->actor.velocity.y = 12.0f;
     this->spawnRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.world.pos);
     this->scale = 3.0f;
@@ -153,7 +153,7 @@ void func_80A0E70C(EnFdFire* this, PlayState* play) {
     EnFdFire_UpdatePos(this, &targetPos);
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (!(this->actor.velocity.y > 0.0f))) {
         this->actor.velocity = velocity;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         if (this->actor.params & 0x8000) {
             this->deathTimer = 200;
@@ -188,16 +188,16 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play) {
         this->actionFunc = EnFdFire_Disappear;
     } else {
         Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &pos), 8, 0xFA0, 1);
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
-        if (this->actor.speedXZ < 0.1f) {
-            this->actor.speedXZ = 5.0f;
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.4f, 1.0f, 0.0f);
+        if (this->actor.speed < 0.1f) {
+            this->actor.speed = 5.0f;
         }
         func_8002D868(&this->actor);
     }
 }
 
 void EnFdFire_Disappear(EnFdFire* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.6f, 9.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.6f, 9.0f, 0.0f);
     func_8002D868(&this->actor);
     Math_SmoothStepToF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
     this->actor.shape.shadowScale = 20.0f;

@@ -132,8 +132,8 @@ void EffectSsGSpk_Update(PlayState* play, u32 index, EffectSs* this) {
 void EffectSsGSpk_UpdateNoAccel(PlayState* play, u32 index, EffectSs* this) {
     if (this->actor != NULL) {
         if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
-            this->pos.x += (Math_SinS(this->actor->world.rot.y) * this->actor->speedXZ);
-            this->pos.z += (Math_CosS(this->actor->world.rot.y) * this->actor->speedXZ);
+            this->pos.x += (Math_SinS(this->actor->world.rot.y) * this->actor->speed);
+            this->pos.z += (Math_CosS(this->actor->world.rot.y) * this->actor->speed);
         }
     }
 
