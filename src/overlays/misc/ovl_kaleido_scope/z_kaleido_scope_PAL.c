@@ -3152,7 +3152,7 @@ void KaleidoScope_Update(PlayState* play) {
                         }
                     } else {
                         pauseCtx->debugState = 0;
-                        pauseCtx->state = PAUSE_STATE_UNPAUSE;
+                        pauseCtx->state = PAUSE_STATE_RESUME_GAMEPLAY;
                         pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = 160.0f;
                         pauseCtx->namedItem = PAUSE_ITEM_NONE;
                         pauseCtx->unk_1E4 = 0;
@@ -3472,7 +3472,7 @@ void KaleidoScope_Update(PlayState* play) {
                 }
             } else {
                 pauseCtx->debugState = 0;
-                pauseCtx->state = PAUSE_STATE_UNPAUSE;
+                pauseCtx->state = PAUSE_STATE_RESUME_GAMEPLAY;
                 pauseCtx->unk_200 = 160.0f;
                 pauseCtx->unk_1FC = 160.0f;
                 pauseCtx->unk_1F8 = 160.0f;
@@ -3482,7 +3482,7 @@ void KaleidoScope_Update(PlayState* play) {
             }
             break;
 
-        case PAUSE_STATE_UNPAUSE:
+        case PAUSE_STATE_RESUME_GAMEPLAY:
             pauseCtx->state = PAUSE_STATE_OFF;
             R_UPDATE_RATE = 3;
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
