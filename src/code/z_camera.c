@@ -6219,7 +6219,7 @@ s32 Camera_Demo5(Camera* camera) {
 
     framesDiff = sDemo5PrevSfxFrame - camera->play->state.frames;
     if ((framesDiff > 50) || (framesDiff < -50)) {
-        func_80078884((u32)camera->data1);
+        Audio_PlaySfxGeneralWithDefaultSettings1((u32)camera->data1);
     }
 
     sDemo5PrevSfxFrame = camera->play->state.frames;
@@ -7454,11 +7454,11 @@ s32 Camera_DbgChangeMode(Camera* camera) {
     if (!gDbgCamEnabled && camera->play->activeCamId == CAM_ID_MAIN) {
         if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CUP)) {
             osSyncPrintf("attention sound URGENCY\n");
-            func_80078884(NA_SE_SY_ATTENTION_URGENCY);
+            Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_ATTENTION_URGENCY);
         }
         if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CDOWN)) {
             osSyncPrintf("attention sound NORMAL\n");
-            func_80078884(NA_SE_SY_ATTENTION_ON);
+            Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_ATTENTION_ON);
         }
 
         if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CRIGHT)) {
@@ -7882,7 +7882,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
     if (!((sCameraSettings[camera->setting].unk_00 & 0x3FFFFFFF) & (1 << mode))) {
         if (mode == CAM_MODE_FIRST_PERSON) {
             osSyncPrintf("camera: error sound\n");
-            func_80078884(NA_SE_SY_ERROR);
+            Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_ERROR);
         }
 
         if (camera->mode != CAM_MODE_NORMAL) {
@@ -7970,20 +7970,20 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
         if (camera->status == CAM_STAT_ACTIVE) {
             switch (modeChangeFlags) {
                 case 1:
-                    func_80078884(0);
+                    Audio_PlaySfxGeneralWithDefaultSettings1(0);
                     break;
                 case 2:
                     if (camera->play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_1) {
-                        func_80078884(NA_SE_SY_ATTENTION_URGENCY);
+                        Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_ATTENTION_URGENCY);
                     } else {
-                        func_80078884(NA_SE_SY_ATTENTION_ON);
+                        Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_ATTENTION_ON);
                     }
                     break;
                 case 4:
-                    func_80078884(NA_SE_SY_ATTENTION_URGENCY);
+                    Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_ATTENTION_URGENCY);
                     break;
                 case 8:
-                    func_80078884(NA_SE_SY_ATTENTION_ON);
+                    Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_ATTENTION_ON);
                     break;
             }
         }

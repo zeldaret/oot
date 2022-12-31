@@ -151,12 +151,12 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     Actor* child = this->actor.child;
 
-    this->unk_1B8 = player->unk_858;
+    this->unk_1B8 = player->actionCharge;
     this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
 
     if (this->unk_1CA == 0) {
-        if (player->unk_858 >= 0.1f) {
+        if (player->actionCharge >= 0.1f) {
             if ((gSaveContext.magicState != MAGIC_STATE_IDLE) ||
                 (((this->actor.params & 0xFF00) >> 8) &&
                  !(Magic_RequestChange(play, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_WAIT_PREVIEW)))) {
@@ -172,8 +172,8 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         }
     }
 
-    if (player->unk_858 >= 0.1f) {
-        Rumble_Request(0.0f, (s32)(player->unk_858 * 150.0f), 2, (s32)(player->unk_858 * 150.0f));
+    if (player->actionCharge >= 0.1f) {
+        Rumble_Request(0.0f, (s32)(player->actionCharge * 150.0f), 2, (s32)(player->actionCharge * 150.0f));
     }
 
     if (player->stateFlags2 & PLAYER_STATE2_SPIN_ATTACK) {
@@ -181,8 +181,8 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
             child->parent = NULL;
         }
 
-        if (player->unk_858 <= 0.15f) {
-            if ((player->unk_858 >= 0.1f) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H)) {
+        if (player->actionCharge <= 0.15f) {
+            if ((player->actionCharge >= 0.1f) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H)) {
                 Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 Audio_PlaySfxGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4,
@@ -195,7 +195,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
             if ((this->actor.params & 0xFF00) >> 8) {
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
             }
-            if (player->unk_858 < 0.85f) {
+            if (player->actionCharge < 0.85f) {
                 this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];
                 this->unk_1C6 = 1;
                 this->unk_1C9 = ((this->unk_1C7 == 1) ? 2 : 4);
@@ -222,27 +222,27 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         return;
     }
 
-    if (player->unk_858 > 0.15f) {
+    if (player->actionCharge > 0.15f) {
         this->unk_1C8 = 255;
         if (this->actor.child == NULL) {
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EFF_DUST, this->actor.world.pos.x,
                                this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0,
                                this->unk_1C7 + 2);
         }
-        this->unk_1BC += ((((player->unk_858 - 0.15f) * 1.5f) - this->unk_1BC) * 0.5f);
+        this->unk_1BC += ((((player->actionCharge - 0.15f) * 1.5f) - this->unk_1BC) * 0.5f);
 
-    } else if (player->unk_858 > .1f) {
-        this->unk_1C8 = (s32)((player->unk_858 - .1f) * 255.0f * 20.0f);
-        this->unk_1AC = (player->unk_858 - .1f) * 10.0f;
+    } else if (player->actionCharge > .1f) {
+        this->unk_1C8 = (s32)((player->actionCharge - .1f) * 255.0f * 20.0f);
+        this->unk_1AC = (player->actionCharge - .1f) * 10.0f;
     } else {
         this->unk_1C8 = 0;
     }
 
-    if (player->unk_858 > 0.85f) {
+    if (player->actionCharge > 0.85f) {
         func_800F4254(&player->actor.projectedPos, 2);
-    } else if (player->unk_858 > 0.15f) {
+    } else if (player->actionCharge > 0.15f) {
         func_800F4254(&player->actor.projectedPos, 1);
-    } else if (player->unk_858 > 0.1f) {
+    } else if (player->actionCharge > 0.1f) {
         func_800F4254(&player->actor.projectedPos, 0);
     }
 

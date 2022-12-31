@@ -482,7 +482,7 @@ typedef struct {
     /* 0x62 */ Vec3s unk_62[4];
     /* 0x7A */ Vec3s unk_7A[2];
     /* 0x86 */ Vec3s unk_86[2];
-    /* 0x92 */ u16 unk_92;
+    /* 0x92 */ u16 sfxIdOffsetForAdultLink;
     /* 0x94 */ u16 unk_94;
     /* 0x98 */ LinkAnimationHeader* unk_98;
     /* 0x9C */ LinkAnimationHeader* unk_9C;
@@ -576,7 +576,7 @@ typedef struct {
 #define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
 #define PLAYER_STATE3_7 (1 << 7)
 
-typedef void (*PlayerFunc674)(struct Player*, struct PlayState*);
+typedef void (*PlayerActionFunction)(struct Player*, struct PlayState*);
 typedef s32 (*PlayerFunc82C)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
@@ -649,7 +649,7 @@ typedef struct Player {
     /* 0x0668 */ char       unk_668[0x004];
     /* 0x066C */ s32        unk_66C;
     /* 0x0670 */ s32        meleeWeaponEffectIndex;
-    /* 0x0674 */ PlayerFunc674 func_674;
+    /* 0x0674 */ PlayerActionFunction currentAction;
     /* 0x0678 */ PlayerAgeProperties* ageProperties;
     /* 0x067C */ u32        stateFlags1;
     /* 0x0680 */ u32        stateFlags2;
@@ -698,9 +698,9 @@ typedef struct Player {
     /* 0x0847 */ s8         unk_847[4];
     /* 0x084B */ s8         unk_84B[4];
     /* 0x084F */ s8         unk_84F;
-    /* 0x0850 */ s16        unk_850; // multipurpose timer
+    /* 0x0850 */ s16        utilTmp; // multipurpose timer
     /* 0x0854 */ f32        unk_854;
-    /* 0x0858 */ f32        unk_858;
+    /* 0x0858 */ f32        actionCharge;
     /* 0x085C */ f32        unk_85C; // stick length among other things
     /* 0x0860 */ s16        unk_860; // stick flame timer among other things
     /* 0x0862 */ s8         unk_862; // get item draw ID + 1

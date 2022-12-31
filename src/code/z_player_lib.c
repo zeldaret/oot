@@ -1546,23 +1546,23 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 Matrix_MultVec3f(&sZeroVec, &sp90);
                 distXYZ = Math_Vec3f_DistXYZ(sCurBodyPartPos, &sp90);
 
-                this->unk_858 = distXYZ - 3.0f;
+                this->actionCharge = distXYZ - 3.0f;
                 if (distXYZ < 3.0f) {
-                    this->unk_858 = 0.0f;
+                    this->actionCharge = 0.0f;
                 } else {
-                    this->unk_858 *= 1.6f;
-                    if (this->unk_858 > 1.0f) {
-                        this->unk_858 = 1.0f;
+                    this->actionCharge *= 1.6f;
+                    if (this->actionCharge > 1.0f) {
+                        this->actionCharge = 1.0f;
                     }
                 }
 
                 this->unk_85C = -0.5f;
             }
 
-            Matrix_Scale(1.0f, this->unk_858, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(1.0f, this->actionCharge, 1.0f, MTXMODE_APPLY);
 
             if (!LINK_IS_ADULT) {
-                Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
+                Matrix_RotateZ(this->actionCharge * -0.2f, MTXMODE_APPLY);
             }
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_player_lib.c", 2804),
