@@ -1,6 +1,9 @@
 #ifndef Z64OBJECT_H
 #define Z64OBJECT_H
 
+#include "ultra64.h"
+#include "z64dma.h"
+
 #define OBJECT_EXCHANGE_BANK_MAX 19
 
 typedef struct {
