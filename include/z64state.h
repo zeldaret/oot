@@ -1,8 +1,10 @@
 #ifndef Z64STATE_H
 #define Z64STATE_H
 
+#include "ultra64/ultratypes.h"
 #include "gfx.h"
 #include "padmgr.h"
+#include "tha.h"
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
