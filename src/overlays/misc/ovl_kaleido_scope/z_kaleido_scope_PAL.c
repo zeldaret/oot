@@ -436,7 +436,7 @@ void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
 
     temp = pauseCtx->unk_1E4;
 
-    if ((((pauseCtx->unk_1E4 == 0) || (temp == 8)) && (pauseCtx->state == PAUSE_STATE_MAIN)) ||
+    if ((((pauseCtx->unk_1E4 == 0) || (temp == 8)) && (pauseCtx->state == PAUSE_STATE_6)) ||
         ((pauseCtx->pageIndex == PAUSE_QUEST) && ((temp < 3) || (temp == 5) || (temp == 8)))) {
 
         if (pauseCtx->pageIndex == pageIndex) {
@@ -1121,7 +1121,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
     gDPSetEnvColor(POLY_OPA_DISP++, 20, 30, 40, 0);
 
-    if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) &&
+    if ((pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) &&
         (pauseCtx->nameDisplayTimer < WREG(89)) &&
         (!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 2) || ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) ||
          (pauseCtx->unk_1E4 == 8)) &&
@@ -1226,7 +1226,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_8082AD60[gSaveContext.language],
                                                         D_8082ADE0[gSaveContext.language], 16, 4);
         } else if (pauseCtx->cursorSpecialPos != 0) {
-            if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->unk_1E4 == 0)) {
+            if ((pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->unk_1E4 == 0)) {
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
                 pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
@@ -2354,7 +2354,7 @@ void KaleidoScope_UpdateOpening(PlayState* play) {
         gSaveContext.buttonStatus[4] = D_8082AB6C[pauseCtx->pageIndex][4];
         pauseCtx->pageIndex = D_8082ABEC[pauseCtx->mode];
         pauseCtx->unk_1E4 = 0;
-        pauseCtx->state++; // PAUSE_STATE_MAIN
+        pauseCtx->state++; // PAUSE_STATE_6
         pauseCtx->alpha = 255;
         Interface_LoadActionLabelB(play, DO_ACTION_SAVE);
     } else if (pauseCtx->unk_1EA == 64) {
@@ -2510,7 +2510,7 @@ void KaleidoScope_Update(PlayState* play) {
         (((pauseCtx->state >= PAUSE_STATE_OPENING_1) && (pauseCtx->state <= PAUSE_STATE_SAVE_PROMPT)) ||
          ((pauseCtx->state >= PAUSE_STATE_10) && (pauseCtx->state <= PAUSE_STATE_CLOSING)))) {
 
-        if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == PAUSE_STATE_MAIN)) {
+        if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == PAUSE_STATE_6)) {
             pauseCtx->stickAdjX = input->rel.stick_x;
             pauseCtx->stickAdjY = input->rel.stick_y;
             KaleidoScope_UpdateCursorSize(play);
@@ -2519,7 +2519,7 @@ void KaleidoScope_Update(PlayState* play) {
             KaleidoScope_UpdateCursorSize(play);
         }
 
-        if (pauseCtx->state == PAUSE_STATE_MAIN) {
+        if (pauseCtx->state == PAUSE_STATE_6) {
             KaleidoScope_UpdateNamePanel(play);
         }
     }
@@ -2926,12 +2926,12 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->alpha += (u16)(255 / (WREG(6) + WREG(4)));
             KaleidoScope_UpdateOpening(play);
 
-            if (pauseCtx->state == PAUSE_STATE_MAIN) {
+            if (pauseCtx->state == PAUSE_STATE_6) {
                 KaleidoScope_UpdateNamePanel(play);
             }
             break;
 
-        case PAUSE_STATE_MAIN:
+        case PAUSE_STATE_6:
             switch (pauseCtx->unk_1E4) {
                 case 0:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
@@ -3129,7 +3129,7 @@ void KaleidoScope_Update(PlayState* play) {
                     WREG(16) += WREG(25) / WREG(6);
                     WREG(17) += WREG(26) / WREG(6);
                     if (pauseCtx->unk_204 >= -314.0f) {
-                        pauseCtx->state = PAUSE_STATE_MAIN;
+                        pauseCtx->state = PAUSE_STATE_6;
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->unk_1F4 = pauseCtx->unk_1F8 = pauseCtx->unk_1FC = pauseCtx->unk_200 = 0.0f;
                         pauseCtx->unk_204 = -314.0f;

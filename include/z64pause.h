@@ -33,7 +33,7 @@ typedef enum {
     /*  3 */ PAUSE_STATE_INIT, // Load data and initialize/setup various things.
     /*  4 */ PAUSE_STATE_OPENING_1, // Animate the pause menu coming together with rotations and other animations.
     /*  5 */ PAUSE_STATE_OPENING_2, // Finish some animations for opening the menu.
-    /*  6 */ PAUSE_STATE_MAIN, // Pause menu ready for player inputs.
+    /*  6 */ PAUSE_STATE_6, // Pause menu ready for player inputs.
     /*  7 */ PAUSE_STATE_SAVE_PROMPT,  // Save prompt in the pause menu
     /*  8 */ PAUSE_STATE_8,
     /*  9 */ PAUSE_STATE_9,

@@ -3353,7 +3353,7 @@ void Interface_Draw(PlayState* play) {
 
         func_8008A994(interfaceCtx);
 
-        if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->unk_1E4 == 3)) {
+        if ((pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->unk_1E4 == 3)) {
             // Inventory Equip Effects
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             Gfx_SetupDL_42Overlay(play->state.gfxCtx);
