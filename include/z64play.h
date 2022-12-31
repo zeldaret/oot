@@ -1,9 +1,16 @@
 #ifndef Z64PLAY_H
 #define Z64PLAY_H
 
+#include "ultra64.h"
 #include "z64state.h"
 #include "z64actor.h"
+#include "z64animation.h"
+#include "z64collision_check.h"
 #include "z64cutscene.h"
+#include "z64environment.h"
+#include "z64light.h"
+#include "z64math.h"
+#include "z64message.h"
 #include "z64object.h"
 #include "z64sram.h"
 #include "z64skybox.h"
@@ -11,6 +18,7 @@
 #include "z64transition.h"
 #include "z64view.h"
 #include "prerender.h"
+#include "color.h"
 
 typedef struct {
     /* 0x00 */ u8   seqId;
