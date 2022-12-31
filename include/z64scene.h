@@ -2,13 +2,9 @@
 #define Z64SCENE_H
 
 #include "z64.h"
+#include "z64dma.h" // for RomFile
 
 #include "command_macros_base.h"
-
-typedef struct {
-    /* 0x00 */ uintptr_t vromStart;
-    /* 0x04 */ uintptr_t vromEnd;
-} RomFile; // size = 0x8
 
 typedef struct {
     /* 0x00 */ RomFile sceneFile;
