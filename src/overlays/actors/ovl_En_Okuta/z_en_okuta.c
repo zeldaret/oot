@@ -578,7 +578,7 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
     Vec3f prevPos;
     s32 canRestorePrevPos;
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_DIALOGUE_MESSAGE | PLAYER_STATE1_7 | PLAYER_STATE1_EXCLUSIVE_ITEM_USAGE | PLAYER_STATE1_EXCLUSIVE_CUTSCENE))) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, play);
             if (!WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,

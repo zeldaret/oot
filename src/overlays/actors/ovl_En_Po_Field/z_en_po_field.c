@@ -379,7 +379,7 @@ void EnPoField_CorrectYPos(EnPoField* this, PlayState* play) {
 void EnPoField_SetFleeSpeed(EnPoField* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 speed =
-        ((player->stateFlags1 & PLAYER_STATE1_23) && player->rideActor != NULL) ? player->rideActor->speed : 12.0f;
+        ((player->stateFlags1 & PLAYER_STATE1_ON_HORSE) && player->rideActor != NULL) ? player->rideActor->speed : 12.0f;
 
     if (this->actor.xzDistToPlayer < 300.0f) {
         this->actor.speed = speed * 1.5f + 2.0f;
@@ -407,13 +407,13 @@ void EnPoField_WaitForSpawn(EnPoField* this, PlayState* play) {
             if (fabsf(sSpawnPositions[i].x - player->actor.world.pos.x) < 150.0f &&
                 fabsf(sSpawnPositions[i].z - player->actor.world.pos.z) < 150.0f) {
                 if (Flags_GetSwitch(play, sSpawnSwitchFlags[i])) {
-                    if (player->stateFlags1 & PLAYER_STATE1_23) { // Player riding Epona
+                    if (player->stateFlags1 & PLAYER_STATE1_ON_HORSE) { // Player riding Epona
                         return;
                     } else {
                         this->actor.params = EN_PO_FIELD_SMALL;
                         spawnDist = 300.0f;
                     }
-                } else if (player->stateFlags1 & PLAYER_STATE1_23 || Rand_ZeroOne() < 0.4f) {
+                } else if (player->stateFlags1 & PLAYER_STATE1_ON_HORSE || Rand_ZeroOne() < 0.4f) {
                     this->actor.params = EN_PO_FIELD_BIG;
                     this->spawnFlagIndex = i;
                     spawnDist = 480.0f;

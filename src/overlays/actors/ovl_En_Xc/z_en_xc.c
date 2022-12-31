@@ -353,7 +353,7 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
         s32 stateFlags = player->stateFlags1;
 
         if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
-            !(stateFlags & PLAYER_STATE1_29) && !Play_InCsMode(play)) {
+            !(stateFlags & PLAYER_STATE1_EXCLUSIVE_CUTSCENE) && !Play_InCsMode(play)) {
             Cutscene_SetScript(play, gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag

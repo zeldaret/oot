@@ -456,7 +456,7 @@ void Player_SetBootData(PlayState* play, Player* this) {
             currentBoots = PLAYER_BOOTS_KOKIRI_CHILD;
         }
     } else if (currentBoots == PLAYER_BOOTS_IRON) {
-        if (this->stateFlags1 & PLAYER_STATE1_27) {
+        if (this->stateFlags1 & PLAYER_STATE1_BEING_IN_WATER) {
             currentBoots = PLAYER_BOOTS_IRON_UNDERWATER;
         }
         REG(27) = 500;
@@ -488,7 +488,7 @@ void Player_SetBootData(PlayState* play, Player* this) {
 }
 
 s32 Player_InBlockingCsMode(PlayState* play, Player* this) {
-    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csMode != PLAYER_CSMODE_NONE) ||
+    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_EXCLUSIVE_CUTSCENE)) || (this->csMode != PLAYER_CSMODE_NONE) ||
            (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
            (this->stateFlags3 & PLAYER_STATE3_7) ||
            ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
@@ -501,7 +501,7 @@ s32 Player_InCsMode(PlayState* play) {
 }
 
 s32 func_8008E9C4(Player* this) {
-    return (this->stateFlags1 & PLAYER_STATE1_4);
+    return (this->stateFlags1 & PLAYER_STATE1_AIMING);
 }
 
 s32 Player_IsChildWithHylianShield(Player* this) {
@@ -520,7 +520,7 @@ s32 Player_ActionToModelGroup(Player* this, s32 itemAction) {
 }
 
 void Player_SetModelsForHoldingShield(Player* this) {
-    if ((this->stateFlags1 & PLAYER_STATE1_22) &&
+    if ((this->stateFlags1 & PLAYER_STATE1_USING_SHIELD) &&
         ((this->itemAction < 0) || (this->itemAction == this->heldItemAction))) {
         if (!Player_HoldsTwoHandedWeapon(this) && !Player_IsChildWithHylianShield(this)) {
             this->rightHandType = PLAYER_MODELTYPE_RH_SHIELD;
@@ -600,18 +600,18 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
 
 void func_8008EDF0(Player* this) {
     this->unk_664 = NULL;
-    this->stateFlags2 &= ~PLAYER_STATE2_13;
+    this->stateFlags2 &= ~PLAYER_STATE2_TARGETING_ENEMY;
 }
 
 void func_8008EE08(Player* this) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-        (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
-        (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
+        (this->stateFlags1 & (PLAYER_STATE1_CLIMBING_MODE | PLAYER_STATE1_ON_HORSE | PLAYER_STATE1_BEING_IN_WATER)) ||
+        (!(this->stateFlags1 & (PLAYER_STATE1_MID_AIR_JUMP | PLAYER_STATE1_FREE_FALLING)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
-        this->stateFlags1 &= ~(PLAYER_STATE1_15 | PLAYER_STATE1_16 | PLAYER_STATE1_17 | PLAYER_STATE1_18 |
-                               PLAYER_STATE1_19 | PLAYER_STATE1_30);
-    } else if (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_21))) {
-        this->stateFlags1 |= PLAYER_STATE1_19;
+        this->stateFlags1 &= ~(PLAYER_STATE1_Z_TARGETING | PLAYER_STATE1_TARGETING_NON_ENEMY | PLAYER_STATE1_STRAFING | PLAYER_STATE1_MID_AIR_JUMP |
+                               PLAYER_STATE1_FREE_FALLING | PLAYER_STATE1_30);
+    } else if (!(this->stateFlags1 & (PLAYER_STATE1_MID_AIR_JUMP | PLAYER_STATE1_FREE_FALLING | PLAYER_STATE1_CLIMBING_MODE))) {
+        this->stateFlags1 |= PLAYER_STATE1_FREE_FALLING;
     }
 
     func_8008EDF0(this);
@@ -623,7 +623,7 @@ void func_8008EEAC(PlayState* play, Actor* actor) {
     func_8008EE08(this);
     this->unk_664 = actor;
     this->unk_684 = actor;
-    this->stateFlags1 |= PLAYER_STATE1_16;
+    this->stateFlags1 |= PLAYER_STATE1_TARGETING_NON_ENEMY;
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
     Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);
 }
@@ -631,7 +631,7 @@ void func_8008EEAC(PlayState* play, Actor* actor) {
 s32 func_8008EF30(PlayState* play) {
     Player* this = GET_PLAYER(play);
 
-    return (this->stateFlags1 & PLAYER_STATE1_23);
+    return (this->stateFlags1 & PLAYER_STATE1_ON_HORSE);
 }
 
 s32 func_8008EF44(PlayState* play, s32 ammo) {
@@ -790,7 +790,7 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
         envHazard = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))
                         ? (PLAYER_ENV_HAZARD_UNDERWATER_FLOOR - 1)
                         : (PLAYER_ENV_HAZARD_UNDERWATER_FREE - 1);
-    } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
+    } else if (this->stateFlags1 & PLAYER_STATE1_BEING_IN_WATER) { // Swimming
         envHazard = PLAYER_ENV_HAZARD_SWIMMING - 1;
     } else {
         return PLAYER_ENV_HAZARD_NONE;
@@ -1127,11 +1127,11 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
 
             if ((sLeftHandType == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.swordHealth <= 0.0f)) {
                 dLists += 4;
-            } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & PLAYER_STATE1_25)) {
+            } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & PLAYER_STATE1_BOOMERANG_CATCHING)) {
                 dLists = gPlayerLeftHandOpenDLs + gSaveContext.linkAge;
                 sLeftHandType = PLAYER_MODELTYPE_LH_OPEN;
             } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speed > 2.0f) &&
-                       !(this->stateFlags1 & PLAYER_STATE1_27)) {
+                       !(this->stateFlags1 & PLAYER_STATE1_BEING_IN_WATER)) {
                 dLists = gPlayerLeftHandClosedDLs + gSaveContext.linkAge;
                 sLeftHandType = PLAYER_MODELTYPE_LH_CLOSED;
             }
@@ -1143,7 +1143,7 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
             if (sRightHandType == PLAYER_MODELTYPE_RH_SHIELD) {
                 dLists += this->currentShield * 4;
             } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_OPEN) && (this->actor.speed > 2.0f) &&
-                       !(this->stateFlags1 & PLAYER_STATE1_27)) {
+                       !(this->stateFlags1 & PLAYER_STATE1_BEING_IN_WATER)) {
                 dLists = sPlayerRightHandClosedDLs + gSaveContext.linkAge;
                 sRightHandType = PLAYER_MODELTYPE_RH_CLOSED;
             }
@@ -1245,7 +1245,7 @@ void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* co
         COLTYPE_METAL,
     };
 
-    if (this->stateFlags1 & PLAYER_STATE1_22) {
+    if (this->stateFlags1 & PLAYER_STATE1_USING_SHIELD) {
         Vec3f quadDest[4];
 
         this->shieldQuad.base.colType = shieldColTypes[this->currentShield];
@@ -1279,13 +1279,13 @@ void func_800906D4(PlayState* play, Player* this, Vec3f* newTipPos) {
     Matrix_MultVec3f(&D_801260A4[2], &newBasePos[2]);
 
     if (func_80090480(play, NULL, &this->meleeWeaponInfo[0], &newTipPos[0], &newBasePos[0]) &&
-        !(this->stateFlags1 & PLAYER_STATE1_22)) {
+        !(this->stateFlags1 & PLAYER_STATE1_USING_SHIELD)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->meleeWeaponEffectIndex), &this->meleeWeaponInfo[0].tip,
                               &this->meleeWeaponInfo[0].base);
     }
 
     if ((this->meleeWeaponState > 0) &&
-        ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_17))) {
+        ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_SPIN_ATTACK))) {
         func_80090480(play, &this->meleeWeaponQuads[0], &this->meleeWeaponInfo[1], &newTipPos[1], &newBasePos[1]);
         func_80090480(play, &this->meleeWeaponQuads[1], &this->meleeWeaponInfo[2], &newTipPos[2], &newBasePos[2]);
     }
@@ -1502,13 +1502,13 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
         if (this->actor.scale.y >= 0.0f) {
             if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
-                if (this->stateFlags1 & PLAYER_STATE1_9) {
+                if (this->stateFlags1 & PLAYER_STATE1_FAR_RANGE_WEAPON_LOADED) {
                     Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
                     Matrix_RotateZYX(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
                     Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
                     hookedActor->shape.rot = hookedActor->world.rot;
-                } else if (this->stateFlags1 & PLAYER_STATE1_11) {
+                } else if (this->stateFlags1 & PLAYER_STATE1_CARRYING_OBJECT) {
                     Vec3s spB8;
 
                     Matrix_Get(&sp14C);
@@ -1539,7 +1539,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_Push();
             Matrix_Translate(stringData->pos.x, stringData->pos.y, stringData->pos.z, MTXMODE_APPLY);
 
-            if ((this->stateFlags1 & PLAYER_STATE1_9) && (this->unk_860 >= 0) && (this->unk_834 <= 10)) {
+            if ((this->stateFlags1 & PLAYER_STATE1_FAR_RANGE_WEAPON_LOADED) && (this->unk_860 >= 0) && (this->unk_834 <= 10)) {
                 Vec3f sp90;
                 f32 distXYZ;
 
@@ -1600,7 +1600,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             }
 
             if ((this->unk_862 != 0) || ((func_8002DD6C(this) == 0) && (heldActor != NULL))) {
-                if (!(this->stateFlags1 & PLAYER_STATE1_10) && (this->unk_862 != 0) &&
+                if (!(this->stateFlags1 & PLAYER_STATE1_AQCUIRING_NEW_ITEM) && (this->unk_862 != 0) &&
                     (this->exchangeItemId != EXCH_ITEM_NONE)) {
                     Math_Vec3f_Copy(&sGetItemRefPos, &this->leftHandPos);
                 } else {

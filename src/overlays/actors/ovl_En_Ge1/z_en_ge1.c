@@ -585,7 +585,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
                     SET_EVENTINF(EVENTINF_HORSES_08);
                     SET_EVENTCHKINF(EVENTCHKINF_68);
 
-                    if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
+                    if (!(player->stateFlags1 & PLAYER_STATE1_ON_HORSE)) {
                         func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
                     } else {
                         horse = Actor_FindNearby(play, &player->actor, ACTOR_EN_HORSE, ACTORCAT_BG, 1200.0f);
@@ -667,7 +667,7 @@ void EnGe1_Wait_Archery(EnGe1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     u16 textId;
 
-    if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_ON_HORSE)) {
         EnGe1_SetTalkAction(this, play, 0x603F, 100.0f, EnGe1_TalkNoHorse_Archery);
     } else {
         if (GET_EVENTCHKINF(EVENTCHKINF_68)) {

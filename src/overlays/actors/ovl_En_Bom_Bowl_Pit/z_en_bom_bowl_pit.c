@@ -184,10 +184,10 @@ void EnBomBowlPit_GivePrize(EnBomBowlPit* this, PlayState* play) {
         this->getItemId = GI_BOMB_BAG_40;
     }
 
-    player->stateFlags1 &= ~PLAYER_STATE1_29;
+    player->stateFlags1 &= ~PLAYER_STATE1_EXCLUSIVE_CUTSCENE;
     this->actor.parent = NULL;
     Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
-    player->stateFlags1 |= PLAYER_STATE1_29;
+    player->stateFlags1 |= PLAYER_STATE1_EXCLUSIVE_CUTSCENE;
     this->actionFunc = EnBomBowlPit_WaitTillPrizeGiven;
 }
 

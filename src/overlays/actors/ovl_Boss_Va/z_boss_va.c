@@ -1425,14 +1425,14 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
     } else {
         Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x96, 0);
         if (this->timer > 0) {
-            if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer > 35)) {
+            if ((player->stateFlags1 & PLAYER_STATE1_TAKING_DAMAGE) && (this->timer > 35)) {
                 this->timer = 35;
             }
             Math_SmoothStepToF(&this->actor.shape.yOffset, -480.0f, 1.0f, 30.0f, 0.0f);
             this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
             this->timer--;
         } else {
-            if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer < -60)) {
+            if ((player->stateFlags1 & PLAYER_STATE1_TAKING_DAMAGE) && (this->timer < -60)) {
                 this->timer = -59;
             }
             if ((play->gameplayFrames % 4) == 0) {
@@ -2000,7 +2000,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
     sp98 = Math_Vec3f_Yaw(&sp7C, &this->armTip);
     tmp17 = sp98 - this->actor.shape.rot.y;
 
-    if ((sp8E >= ABS(tmp17) || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE1_26)) {
+    if ((sp8E >= ABS(tmp17) || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE1_TAKING_DAMAGE)) {
 
         if (!this->burst) {
             sp94 = sp98 - this->actor.shape.rot.y;
@@ -2062,7 +2062,7 @@ void BossVa_ZapperAttack(BossVa* this, PlayState* play) {
                 this->timer2 = 0;
             }
 
-            if ((this->timer2 < 0) && (player->stateFlags1 & PLAYER_STATE1_26)) {
+            if ((this->timer2 < 0) && (player->stateFlags1 & PLAYER_STATE1_TAKING_DAMAGE)) {
                 BossVa_Spark(play, this, 1, 30, 0.0f, 0.0f, SPARK_LINK, 0.0f, true);
             }
         }
@@ -2264,7 +2264,7 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
     sp6C = Math_Vec3f_Yaw(&sp54, &this->armTip);
     tmp16 = sp6C - this->actor.shape.rot.y;
 
-    if ((ABS(tmp16) <= 0x4650 || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE1_26)) {
+    if ((ABS(tmp16) <= 0x4650 || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE1_TAKING_DAMAGE)) {
         if (!this->burst) {
 
             sp68 = sp6C - this->actor.shape.rot.y;
@@ -2321,7 +2321,7 @@ void BossVa_ZapperEnraged(BossVa* this, PlayState* play) {
                 this->timer2 = 0;
             }
 
-            if ((this->timer2 < 0) && (player->stateFlags1 & PLAYER_STATE1_26)) {
+            if ((this->timer2 < 0) && (player->stateFlags1 & PLAYER_STATE1_TAKING_DAMAGE)) {
                 BossVa_Spark(play, this, 1, 30, 0.0f, 0, SPARK_LINK, 0.0f, true);
             }
         }

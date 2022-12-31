@@ -722,7 +722,7 @@ s32 EnHorse_PlayerCanMove(EnHorse* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((player->stateFlags1 & PLAYER_STATE1_0) || func_8002DD78(GET_PLAYER(play)) == 1 ||
-        (player->stateFlags1 & PLAYER_STATE1_20) || ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) ||
+        (player->stateFlags1 & PLAYER_STATE1_1ST_PERSON_VIEW) || ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) ||
         this->action == ENHORSE_ACT_HBA || player->actor.flags & ACTOR_FLAG_8 || play->csCtx.state != 0) {
         return false;
     }

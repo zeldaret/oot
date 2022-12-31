@@ -178,7 +178,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play) {
     s32 i;
     s32 j;
 
-    if (parent == NULL || parent->update == NULL || !(player->stateFlags1 & PLAYER_STATE1_12)) {
+    if (parent == NULL || parent->update == NULL || !(player->stateFlags1 & PLAYER_STATE1_SPIN_ATTACK_POSITIONING)) {
         if (this->life != 0) {
             this->life -= 1;
         } else {

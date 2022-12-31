@@ -366,7 +366,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
             if (this->collider.base.atFlags & AT_HIT) {
                 this->collider.base.atFlags &= ~AT_HIT;
                 if (this->collider.base.at == playerActor) {
-                    if (!(player->stateFlags1 & PLAYER_STATE1_26)) {
+                    if (!(player->stateFlags1 & PLAYER_STATE1_TAKING_DAMAGE)) {
                         func_8002F758(play, thisx, 2.0f, -player->actor.world.rot.y, 3.0f, 4);
                     }
                     return;

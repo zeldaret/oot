@@ -83,7 +83,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, 0.1f);
     this->unk_1CA = 0;
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    if (player->stateFlags2 & PLAYER_STATE2_SPIN_ATTACK) {
         if (!gSaveContext.isMagicAcquired || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             (((this->actor.params & 0xFF00) >> 8) &&
              !(Magic_RequestChange(play, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_NOW)))) {
@@ -95,7 +95,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
             return;
         }
 
-        player->stateFlags2 &= ~PLAYER_STATE2_17;
+        player->stateFlags2 &= ~PLAYER_STATE2_SPIN_ATTACK;
         this->unk_1CA = 1;
         this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];
         this->unk_1C6 = 1;
@@ -130,7 +130,7 @@ void func_80A9F314(PlayState* play, f32 arg1) {
 void func_80A9F350(EnMThunder* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    if (player->stateFlags2 & PLAYER_STATE2_SPIN_ATTACK) {
         if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
             Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -142,7 +142,7 @@ void func_80A9F350(EnMThunder* this, PlayState* play) {
         return;
     }
 
-    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_SPIN_ATTACK_POSITIONING)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -176,7 +176,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         Rumble_Request(0.0f, (s32)(player->unk_858 * 150.0f), 2, (s32)(player->unk_858 * 150.0f));
     }
 
-    if (player->stateFlags2 & PLAYER_STATE2_17) {
+    if (player->stateFlags2 & PLAYER_STATE2_SPIN_ATTACK) {
         if ((child != NULL) && (child->update != NULL)) {
             child->parent = NULL;
         }
@@ -191,7 +191,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            player->stateFlags2 &= ~PLAYER_STATE2_17;
+            player->stateFlags2 &= ~PLAYER_STATE2_SPIN_ATTACK;
             if ((this->actor.params & 0xFF00) >> 8) {
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
             }
@@ -214,7 +214,7 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
         }
     }
 
-    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_SPIN_ATTACK_POSITIONING)) {
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
         }

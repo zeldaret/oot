@@ -346,7 +346,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
         }
     } else {
         if ((gSaveContext.timerSeconds == 0) && (sBlocksAtRest == 5)) {
-            player->stateFlags2 &= ~PLAYER_STATE2_4;
+            player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
             sPuzzleState = 0x10;
             sBlocksAtRest = 0;
         }
@@ -365,11 +365,11 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
                     this->direction = (this->dyna.unk_150 >= 0.0f) ? 1.0f : -1.0f;
                     this->actionFunc = BgPoEvent_BlockPush;
                 } else {
-                    player->stateFlags2 &= ~PLAYER_STATE2_4;
+                    player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
                     this->dyna.unk_150 = 0.0f;
                 }
             } else {
-                player->stateFlags2 &= ~PLAYER_STATE2_4;
+                player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
                 this->dyna.unk_150 = 0.0f;
                 DECR(this->direction);
             }
@@ -392,7 +392,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, PlayState* play) {
     this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.unk_158) * displacement) + this->dyna.actor.home.pos.x;
     this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.unk_158) * displacement) + this->dyna.actor.home.pos.z;
     if (blockStop) {
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
         if ((this->dyna.unk_150 > 0.0f) && (func_800435D8(play, &this->dyna, 0x1E, 0x32, -0x14) == 0)) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         }
@@ -417,7 +417,7 @@ void BgPoEvent_BlockReset(BgPoEvent* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
         this->dyna.unk_150 = 0.0f;
     }
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 493.0f, 1.0f) &&
@@ -437,7 +437,7 @@ void BgPoEvent_BlockSolved(BgPoEvent* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
     }
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 369.0f, 2.0f)) {
         sPuzzleState = 0x20;

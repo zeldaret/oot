@@ -817,7 +817,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
     }
     this->isActive = false;
     this->dyna.actor.velocity.y = 0.0f;
-    if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_11)) {
+    if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_CARRYING_OBJECT)) {
         // The door is barred behind the player
         DoorShutter_SetupAction(this, DoorShutter_WaitPlayerSurprised);
         func_8002DF54(play, NULL, PLAYER_CSMODE_2);
@@ -909,7 +909,7 @@ void DoorShutter_Update(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
     Player* player = GET_PLAYER(play);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28)) ||
+    if (!(player->stateFlags1 & (PLAYER_STATE1_DIALOGUE_MESSAGE | PLAYER_STATE1_7 | PLAYER_STATE1_AQCUIRING_NEW_ITEM | PLAYER_STATE1_EXCLUSIVE_ITEM_USAGE)) ||
         (this->actionFunc == DoorShutter_WaitForObject)) {
         this->actionFunc(this, play);
     }

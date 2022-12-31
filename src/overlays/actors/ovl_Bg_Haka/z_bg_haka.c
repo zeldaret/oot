@@ -70,7 +70,7 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
     if (this->dyna.unk_150 != 0.0f) {
         if (play->sceneId == SCENE_GRAVEYARD && !LINK_IS_ADULT && IS_DAY) {
             this->dyna.unk_150 = 0.0f;
-            player->stateFlags2 &= ~PLAYER_STATE2_4;
+            player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
             if (!Play_InCsMode(play)) {
                 Message_StartTextbox(play, 0x5073, NULL);
                 this->dyna.actor.params = 100;
@@ -79,7 +79,7 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
         } else if (0.0f < this->dyna.unk_150 ||
                    (play->sceneId == SCENE_LAKE_HYLIA && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
             this->dyna.unk_150 = 0.0f;
-            player->stateFlags2 &= ~PLAYER_STATE2_4;
+            player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
         } else {
             this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
             this->actionFunc = func_8087B938;
@@ -101,7 +101,7 @@ void func_8087B938(BgHaka* this, PlayState* play) {
         Math_CosS(this->dyna.actor.world.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.home.pos.z;
     if (sp38 != 0) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         } else if (!IS_DAY && play->sceneId == SCENE_GRAVEYARD) {
@@ -118,7 +118,7 @@ void func_8087BAAC(BgHaka* this, PlayState* play) {
 
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
     }
 }
 
@@ -131,7 +131,7 @@ void func_8087BAE4(BgHaka* this, PlayState* play) {
     }
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~PLAYER_STATE2_4;
+        player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
     }
     if (this->dyna.actor.params == 0) {
         this->actionFunc = func_8087B7E8;

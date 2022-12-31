@@ -624,7 +624,7 @@ s32 EnTa_IsPlayerHoldingSuperCucco(EnTa* this, PlayState* play, s32 cuccoIdx) {
     Player* player = GET_PLAYER(play);
     Actor* interactRangeActor;
 
-    if (player->stateFlags1 & PLAYER_STATE1_11) {
+    if (player->stateFlags1 & PLAYER_STATE1_CARRYING_OBJECT) {
         interactRangeActor = player->interactRangeActor;
         if (interactRangeActor != NULL && interactRangeActor->id == ACTOR_EN_NIW &&
             interactRangeActor == &this->superCuccos[cuccoIdx]->actor) {
@@ -660,7 +660,7 @@ void EnTa_TalkFoundSuperCucco(EnTa* this, PlayState* play) {
         if (player->heldActor == &this->superCuccos[lastFoundSuperCuccoIdx]->actor) {
             player->heldActor = NULL;
         }
-        player->stateFlags1 &= ~PLAYER_STATE1_11;
+        player->stateFlags1 &= ~PLAYER_STATE1_CARRYING_OBJECT;
         this->superCuccos[lastFoundSuperCuccoIdx] = NULL;
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;

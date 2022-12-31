@@ -58,7 +58,7 @@ void BgJyaBlock_Update(Actor* thisx, PlayState* play) {
     BgJyaBlock* this = (BgJyaBlock*)thisx;
     Player* player = GET_PLAYER(play);
 
-    player->stateFlags2 &= ~PLAYER_STATE2_4;
+    player->stateFlags2 &= ~PLAYER_STATE2_MOVING_OBJECT;
     this->dyna.unk_150 = 0.0f;
 }
 

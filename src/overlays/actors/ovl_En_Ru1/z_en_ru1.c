@@ -854,7 +854,7 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((func_80AEC5FC(this, play)) && (!Play_InCsMode(play)) &&
-        (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
+        (!(player->stateFlags1 & (PLAYER_STATE1_HANGING_AT_EDGE | PLAYER_STATE1_CLIMBING_EDGE | PLAYER_STATE1_CLIMBING_MODE))) &&
         (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
 
         play->csCtx.script = D_80AF0880;
@@ -1641,7 +1641,7 @@ void func_80AEE7C4(EnRu1* this, PlayState* play) {
     }
 
     player = GET_PLAYER(play);
-    if (player->stateFlags2 & PLAYER_STATE2_28) {
+    if (player->stateFlags2 & PLAYER_STATE2_IDLE_ANIMATION) {
         this->unk_370 += 1.0f;
         if (this->action != 32) {
             if (*unk_370 > 30.0f) {

@@ -694,7 +694,7 @@ s32 func_80B0DEA8(EnSw* this, PlayState* play, s32 arg2) {
     s32 sp54;
     Vec3f sp48;
 
-    if (!(player->stateFlags1 & PLAYER_STATE1_21) && arg2) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_CLIMBING_MODE) && arg2) {
         return false;
     } else if (func_8002DDF4(play) && arg2) {
         return false;

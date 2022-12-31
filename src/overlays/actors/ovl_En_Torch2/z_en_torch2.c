@@ -413,7 +413,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         sp50 = 0.0f;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) &&
-                            (this->actor.isTargeted || !(player->stateFlags1 & PLAYER_STATE1_22))) {
+                            (this->actor.isTargeted || !(player->stateFlags1 & PLAYER_STATE1_USING_SHIELD))) {
                             EnTorch2_SwingSword(play, input, this);
                         } else if (((this->actor.xzDistToPlayer <= 70.0f) ||
                                     ((this->actor.xzDistToPlayer <= 80.0f + sp50) &&
@@ -568,7 +568,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         sDeathFlag = false;
     }
     if ((this->invincibilityTimer == 0) && (this->actor.colChkInfo.health != 0) &&
-        (this->cylinder.base.acFlags & AC_HIT) && !(this->stateFlags1 & PLAYER_STATE1_26) &&
+        (this->cylinder.base.acFlags & AC_HIT) && !(this->stateFlags1 & PLAYER_STATE1_TAKING_DAMAGE) &&
         !(this->meleeWeaponQuads[0].base.atFlags & AT_HIT) && !(this->meleeWeaponQuads[1].base.atFlags & AT_HIT)) {
 
         if (!Actor_ApplyDamage(&this->actor)) {
@@ -620,7 +620,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
         this->stateFlags3 &= ~PLAYER_STATE3_2;
     } else {
         this->stateFlags3 |= PLAYER_STATE3_2;
-        this->stateFlags1 &= ~PLAYER_STATE1_26;
+        this->stateFlags1 &= ~PLAYER_STATE1_TAKING_DAMAGE;
         this->invincibilityTimer = 0;
         input->press.stick_x = input->press.stick_y = 0;
         /*! @bug

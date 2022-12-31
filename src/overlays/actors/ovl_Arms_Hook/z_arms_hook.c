@@ -121,7 +121,7 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
 
     if (Player_HoldsHookshot(player)) {
         if ((player->itemAction != player->heldItemAction) || (player->actor.flags & ACTOR_FLAG_8) ||
-            ((player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))) {
+            ((player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_TAKING_DAMAGE)))) {
             this->timer = 0;
             ArmsHook_DetachHookFromActor(this);
             Math_Vec3f_Copy(&this->actor.world.pos, &player->unk_3C8);
