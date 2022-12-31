@@ -14,5 +14,5 @@
 glabel sFaultDrawer
     .space 0x3C
 
-glabel D_8016B6CC
+glabel D_8016B6BC
     .space 0x24
