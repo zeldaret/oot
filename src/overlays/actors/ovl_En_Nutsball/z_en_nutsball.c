@@ -147,7 +147,7 @@ void EnNutsball_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_DIALOGUE_MESSAGE | PLAYER_STATE1_7 | PLAYER_STATE1_EXCLUSIVE_ITEM_USAGE | PLAYER_STATE1_EXCLUSIVE_CUTSCENE)) ||
+    if (!(player->stateFlags1 & (PLAYER_STATE1_DIALOGUE_MESSAGE | PLAYER_STATE1_GAME_OVER | PLAYER_STATE1_EXCLUSIVE_ITEM_USAGE | PLAYER_STATE1_EXCLUSIVE_CUTSCENE)) ||
         (this->actionFunc == func_80ABBB34)) {
         this->actionFunc(this, play);
 

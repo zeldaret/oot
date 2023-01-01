@@ -689,7 +689,7 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
             ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
 
             this->unk_258 = 0;
-            player->stateFlags2 &= ~(PLAYER_STATE2_DO_ACTION_GRAB | PLAYER_STATE2_MOVING_OBJECT | PLAYER_STATE2_GRABBING | PLAYER_STATE2_8);
+            player->stateFlags2 &= ~(PLAYER_STATE2_CAN_GRAB_OBJECT | PLAYER_STATE2_MOVING_OBJECT | PLAYER_STATE2_FIXED_ROTATION | PLAYER_STATE2_PUSH_PULL_MODE);
             player->actor.speed = 0.0f;
             this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
         }

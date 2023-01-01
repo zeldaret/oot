@@ -501,21 +501,21 @@ typedef struct {
     /* 0x10 */ Vec3f base;
 } WeaponInfo; // size = 0x1C
 
-#define PLAYER_STATE1_0 (1 << 0) // can not move or interact
+#define PLAYER_STATE1_TRANSITIONING_MAP (1 << 0)
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1)
 #define PLAYER_STATE1_2 (1 << 2)
 #define PLAYER_STATE1_FAR_RANGE_WEAPON_EQUIPPED (1 << 3)
-#define PLAYER_STATE1_AIMING (1 << 4)
+#define PLAYER_STATE1_AIMING (1 << 4) // applies also when targeting enemy without actual aiming
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_DIALOGUE_MESSAGE (1 << 6)
-#define PLAYER_STATE1_7 (1 << 7)
+#define PLAYER_STATE1_GAME_OVER (1 << 7) // applies also when player has a fairy for revival
 #define PLAYER_STATE1_PUTTING_AWAY_ITEM (1 << 8)
 #define PLAYER_STATE1_FAR_RANGE_WEAPON_LOADED (1 << 9)
-#define PLAYER_STATE1_AQCUIRING_NEW_ITEM (1 << 10)
+#define PLAYER_STATE1_ACQUIRING_NEW_ITEM (1 << 10)
 #define PLAYER_STATE1_CARRYING_OBJECT (1 << 11)
 #define PLAYER_STATE1_SPIN_ATTACK_POSITIONING (1 << 12)
-#define PLAYER_STATE1_HANGING_AT_EDGE (1 << 13)
-#define PLAYER_STATE1_CLIMBING_EDGE (1 << 14)
+#define PLAYER_STATE1_HANGING_AT_LEDGE (1 << 13)
+#define PLAYER_STATE1_CLIMBING_LEDGE (1 << 14)
 #define PLAYER_STATE1_Z_TARGETING (1 << 15)
 #define PLAYER_STATE1_TARGETING_NON_ENEMY (1 << 16)
 #define PLAYER_STATE1_STRAFING (1 << 17)
@@ -534,47 +534,47 @@ typedef struct {
 #define PLAYER_STATE1_30 (1 << 30)
 #define PLAYER_STATE1_31 (1 << 31)
 
-#define PLAYER_STATE2_DO_ACTION_GRAB (1 << 0)
-#define PLAYER_STATE2_DO_ACTION_CHECK (1 << 1)
-#define PLAYER_STATE2_DO_ACTION_SPEAK (1 << 2)
+#define PLAYER_STATE2_CAN_GRAB_OBJECT (1 << 0) // only applies to crates etc. which can be pulled/pushed
+#define PLAYER_STATE2_CAN_START_DIALOGUE (1 << 1)
+#define PLAYER_STATE2_CAN_LIFT_UP (1 << 2) // applied to walls or objects, that are low enough so Link can lift himself up (shows "Climb" action)
 #define PLAYER_STATE2_TOUCHING_GROUND (1 << 3) // does not mean standing - only running (for creating foot steps sound)
 #define PLAYER_STATE2_MOVING_OBJECT (1 << 4) // push and pull crates or similar
 #define PLAYER_STATE2_IN_MOTION (1 << 5) // applies generally when the player is in motion (not standing or hanging, player must move)
-#define PLAYER_STATE2_GRABBING (1 << 6) // applies when climbing in a direction and grabbing a crate to move it
-#define PLAYER_STATE2_GRABBED (1 << 7) // grabbed by enemies like redead, dead hand, wallmaster, ...
-#define PLAYER_STATE2_8 (1 << 8)
+#define PLAYER_STATE2_FIXED_ROTATION (1 << 6) // applies when climbing in a direction, grabbing a crate to move it, idling attack animations in battle, climbing ledge, ...
+#define PLAYER_STATE2_GRABBED (1 << 7) // grabbed by enemies like redead, dead hand, ...
+#define PLAYER_STATE2_PUSH_PULL_MODE (1 << 8)
 #define PLAYER_STATE2_9 (1 << 9)
 #define PLAYER_STATE2_UNDERWATER (1 << 10)
 #define PLAYER_STATE2_DIVING (1 << 11)
 #define PLAYER_STATE2_CLIMBING_IDLE (1 << 12)
-#define PLAYER_STATE2_TARGETING_ENEMY (1 << 13)
+#define PLAYER_STATE2_TARGETING_ACTOR (1 << 13)
 #define PLAYER_STATE2_14 (1 << 14)
 #define PLAYER_STATE2_15 (1 << 15)
 #define PLAYER_STATE2_DO_ACTION_ENTER (1 << 16) // Turns on the "Enter On A" DoAction
 #define PLAYER_STATE2_SPIN_ATTACK (1 << 17)
 #define PLAYER_STATE2_CRAWLING (1 << 18) // Crawling through a crawlspace
-#define PLAYER_STATE2_BACKFLIP (1 << 19)
+#define PLAYER_STATE2_EVADING (1 << 19) // backflip and sidejump
 #define PLAYER_STATE2_NAVI_OUT (1 << 20)
 #define PLAYER_STATE2_NAVI_ANNOYS_AGAIN (1 << 21)
 #define PLAYER_STATE2_22 (1 << 22)
-#define PLAYER_STATE2_23 (1 << 23) // related to Fairy Fountain and Ocarina Puzzle Song + "Hint" marker by navi + close to "wisdom stone"
+#define PLAYER_STATE2_NEAR_SECRET (1 << 23)
 #define PLAYER_STATE2_24 (1 << 24) // related to Fairy Fountain and Ocarina Puzzle Song
 #define PLAYER_STATE2_25 (1 << 25) // related to Fairy Fountain and Ocarina Puzzle Song
 #define PLAYER_STATE2_26 (1 << 26)
 #define PLAYER_STATE2_USING_OCARINA (1 << 27)
 #define PLAYER_STATE2_IDLE_ANIMATION (1 << 28)
-#define PLAYER_STATE2_29 (1 << 29)
+#define PLAYER_STATE2_SHOPPING (1 << 29)
 #define PLAYER_STATE2_30 (1 << 30)
 #define PLAYER_STATE2_31 (1 << 31)
 
 #define PLAYER_STATE3_0 (1 << 0)
-#define PLAYER_STATE1_JUMPSLASH_PLUNGE (1 << 1)
+#define PLAYER_STATE1_FIXED_FALLING (1 << 1) // applies for plunge attack and when Link is hit mid-air
 #define PLAYER_STATE3_2 (1 << 2)
 #define PLAYER_STATE3_3 (1 << 3)
 #define PLAYER_STATE3_4 (1 << 4)
 #define PLAYER_STATE3_5 (1 << 5)
 #define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
-#define PLAYER_STATE3_7 (1 << 7)
+#define PLAYER_STATE3_HOOKSHOT_FLYING (1 << 7)
 
 typedef void (*PlayerActionFunction)(struct Player*, struct PlayState*);
 typedef s32 (*PlayerFunc82C)(struct Player*, struct PlayState*);

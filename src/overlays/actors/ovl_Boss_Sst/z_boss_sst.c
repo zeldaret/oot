@@ -655,7 +655,7 @@ void BossSst_HeadNeutral(BossSst* this, PlayState* play) {
 
     if (this->timer == 0) {
         if ((GET_PLAYER(play)->actor.world.pos.y > -50.0f) &&
-            !(GET_PLAYER(play)->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_HANGING_AT_EDGE | PLAYER_STATE1_CLIMBING_EDGE))) {
+            !(GET_PLAYER(play)->stateFlags1 & (PLAYER_STATE1_GAME_OVER | PLAYER_STATE1_HANGING_AT_LEDGE | PLAYER_STATE1_CLIMBING_LEDGE))) {
             sHands[Rand_ZeroOne() <= 0.5f]->ready = true;
             BossSst_HeadSetupWait(this);
         } else {
@@ -1244,7 +1244,7 @@ void BossSst_HandWait(BossSst* this, PlayState* play) {
         }
 
         if ((this->timer == 0) && (player->actor.world.pos.y > -50.0f) &&
-            !(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_HANGING_AT_EDGE | PLAYER_STATE1_CLIMBING_EDGE))) {
+            !(player->stateFlags1 & (PLAYER_STATE1_GAME_OVER | PLAYER_STATE1_HANGING_AT_LEDGE | PLAYER_STATE1_CLIMBING_LEDGE))) {
             BossSst_HandSelectAttack(this);
         }
     } else if (sHead->actionFunc == BossSst_HeadNeutral) {

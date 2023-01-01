@@ -181,14 +181,14 @@ void func_80A1DBD4(EnFu* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_24;
         this->actionFunc = EnFu_WaitAdult;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
-        player->stateFlags2 |= PLAYER_STATE2_23;
+        player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
     }
 }
 
 void EnFu_WaitForPlayback(EnFu* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    player->stateFlags2 |= PLAYER_STATE2_23;
+    player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
     // if dialog state is 7, player has played back the song
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         Message_StartOcarina(play, OCARINA_ACTION_PLAYBACK_STORMS);
@@ -199,7 +199,7 @@ void EnFu_WaitForPlayback(EnFu* this, PlayState* play) {
 void EnFu_TeachSong(EnFu* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    player->stateFlags2 |= PLAYER_STATE2_23;
+    player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
@@ -228,7 +228,7 @@ void EnFu_WaitAdult(EnFu* this, PlayState* play) {
         if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
             func_8002F2CC(&this->actor, play, 100.0f);
-            player->stateFlags2 |= PLAYER_STATE2_23;
+            player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
         }
     }
 }

@@ -295,7 +295,7 @@ void func_809C9700(EnBox* this, PlayState* play) {
     } else {
         if (this->unk_1FB == ENBOX_STATE_0) {
             if (!(player->stateFlags2 & PLAYER_STATE2_24)) {
-                player->stateFlags2 |= PLAYER_STATE2_23;
+                player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
                 return;
             }
             this->unk_1FB = ENBOX_STATE_1;

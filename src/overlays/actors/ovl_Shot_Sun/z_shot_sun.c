@@ -135,7 +135,7 @@ void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play) {
     } else {
         if (this->fairySpawnerState == SPAWNER_OUT_OF_RANGE) {
             if (!(player->stateFlags2 & PLAYER_STATE2_24)) {
-                player->stateFlags2 |= PLAYER_STATE2_23;
+                player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
                 return;
             } else {
                 this->fairySpawnerState = SPAWNER_OCARINA_START;

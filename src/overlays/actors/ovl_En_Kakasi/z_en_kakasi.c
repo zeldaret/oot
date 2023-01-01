@@ -218,12 +218,12 @@ void func_80A8F75C(EnKakasi* this, PlayState* play) {
                         Message_StartOcarina(play, OCARINA_ACTION_SCARECROW_LONG_RECORDING);
                         this->unk_19A = 0;
                         this->unk_1B8 = 0.0;
-                        player->stateFlags2 |= PLAYER_STATE2_23;
+                        player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
                         this->actionFunc = func_80A8F8D0;
                         return;
                     }
                     if (this->actor.xzDistToPlayer < 80.0f) {
-                        player->stateFlags2 |= PLAYER_STATE2_23;
+                        player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
                     }
                 }
                 func_8002F2CC(&this->actor, play, 100.0f);
@@ -252,7 +252,7 @@ void func_80A8F8D0(EnKakasi* this, PlayState* play) {
         }
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
         func_80A8F320(this, play, 0);
-        player->stateFlags2 |= PLAYER_STATE2_23;
+        player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
     }
 }
 

@@ -355,7 +355,7 @@ void EnRd_WalkToPlayer(EnRd* this, PlayState* play) {
     }
 
     if ((ABS(yaw) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
-        if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_HANGING_AT_EDGE | PLAYER_STATE1_CLIMBING_EDGE | PLAYER_STATE1_MID_AIR_JUMP |
+        if (!(player->stateFlags1 & (PLAYER_STATE1_GAME_OVER | PLAYER_STATE1_HANGING_AT_LEDGE | PLAYER_STATE1_CLIMBING_LEDGE | PLAYER_STATE1_MID_AIR_JUMP |
                                      PLAYER_STATE1_FREE_FALLING | PLAYER_STATE1_CLIMBING_MODE)) &&
             !(player->stateFlags2 & PLAYER_STATE2_GRABBED)) {
             if (this->playerStunWaitTimer == 0) {
@@ -430,7 +430,7 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_HANGING_AT_EDGE | PLAYER_STATE1_CLIMBING_EDGE | PLAYER_STATE1_MID_AIR_JUMP |
+    if (!(player->stateFlags1 & (PLAYER_STATE1_GAME_OVER | PLAYER_STATE1_HANGING_AT_LEDGE | PLAYER_STATE1_CLIMBING_LEDGE | PLAYER_STATE1_MID_AIR_JUMP |
                                  PLAYER_STATE1_FREE_FALLING | PLAYER_STATE1_CLIMBING_MODE)) &&
         !(player->stateFlags2 & PLAYER_STATE2_GRABBED) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {

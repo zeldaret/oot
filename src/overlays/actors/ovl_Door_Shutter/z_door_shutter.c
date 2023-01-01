@@ -909,7 +909,7 @@ void DoorShutter_Update(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
     Player* player = GET_PLAYER(play);
 
-    if (!(player->stateFlags1 & (PLAYER_STATE1_DIALOGUE_MESSAGE | PLAYER_STATE1_7 | PLAYER_STATE1_AQCUIRING_NEW_ITEM | PLAYER_STATE1_EXCLUSIVE_ITEM_USAGE)) ||
+    if (!(player->stateFlags1 & (PLAYER_STATE1_DIALOGUE_MESSAGE | PLAYER_STATE1_GAME_OVER | PLAYER_STATE1_ACQUIRING_NEW_ITEM | PLAYER_STATE1_EXCLUSIVE_ITEM_USAGE)) ||
         (this->actionFunc == DoorShutter_WaitForObject)) {
         this->actionFunc(this, play);
     }

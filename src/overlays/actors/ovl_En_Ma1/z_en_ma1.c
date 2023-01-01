@@ -359,13 +359,13 @@ void func_80AA0F44(EnMa1* this, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
-            player->stateFlags2 |= PLAYER_STATE2_23;
+            player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
         }
     }
 }
 
 void func_80AA106C(EnMa1* this, PlayState* play) {
-    GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
+    GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_MALON);
         Message_StartOcarina(play, OCARINA_ACTION_TEACH_EPONA);
@@ -375,7 +375,7 @@ void func_80AA106C(EnMa1* this, PlayState* play) {
 }
 
 void func_80AA10EC(EnMa1* this, PlayState* play) {
-    GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
+    GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         Message_StartOcarina(play, OCARINA_ACTION_PLAYBACK_EPONA);
         this->actionFunc = func_80AA1150;
@@ -383,7 +383,7 @@ void func_80AA10EC(EnMa1* this, PlayState* play) {
 }
 
 void func_80AA1150(EnMa1* this, PlayState* play) {
-    GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
+    GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
         gSaveContext.nextCutsceneIndex = 0xFFF1;

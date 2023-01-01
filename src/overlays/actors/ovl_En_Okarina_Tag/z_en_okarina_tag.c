@@ -126,7 +126,7 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
                     if (ocarinaSong == 6) {
                         ocarinaSong = 0xA;
                     }
-                    player->stateFlags2 |= PLAYER_STATE2_23;
+                    player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
                     Message_StartOcarina(play, ocarinaSong + OCARINA_ACTION_CHECK_SARIA);
                     this->actionFunc = func_80ABF0CC;
                 } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange) &&
@@ -178,7 +178,7 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             this->actionFunc = func_80ABEF2C;
         } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
-            player->stateFlags2 |= PLAYER_STATE2_23;
+            player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
         }
     }
 }
@@ -215,12 +215,12 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
                         Actor_Kill(&this->actor);
                         break;
                 }
-                player->stateFlags2 |= PLAYER_STATE2_23;
+                player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
                 this->actionFunc = func_80ABF4C8;
             } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange)) &&
                        (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)) {
                 this->unk_15A = 0;
-                player->stateFlags2 |= PLAYER_STATE2_23;
+                player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
             }
         }
     }
@@ -273,7 +273,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
             }
         }
         if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
-            player->stateFlags2 |= PLAYER_STATE2_23;
+            player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
         }
     }
 }

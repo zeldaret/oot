@@ -488,9 +488,9 @@ void Player_SetBootData(PlayState* play, Player* this) {
 }
 
 s32 Player_InBlockingCsMode(PlayState* play, Player* this) {
-    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_EXCLUSIVE_CUTSCENE)) || (this->csMode != PLAYER_CSMODE_NONE) ||
-           (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
-           (this->stateFlags3 & PLAYER_STATE3_7) ||
+    return (this->stateFlags1 & (PLAYER_STATE1_GAME_OVER | PLAYER_STATE1_EXCLUSIVE_CUTSCENE)) || (this->csMode != PLAYER_CSMODE_NONE) ||
+           (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_TRANSITIONING_MAP) ||
+           (this->stateFlags3 & PLAYER_STATE3_HOOKSHOT_FLYING) ||
            ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
 }
 
@@ -600,7 +600,7 @@ void Player_UpdateBottleHeld(PlayState* play, Player* this, s32 item, s32 itemAc
 
 void func_8008EDF0(Player* this) {
     this->unk_664 = NULL;
-    this->stateFlags2 &= ~PLAYER_STATE2_TARGETING_ENEMY;
+    this->stateFlags2 &= ~PLAYER_STATE2_TARGETING_ACTOR;
 }
 
 void func_8008EE08(Player* this) {
@@ -976,7 +976,7 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
     s16 temp2;
     s32 temp3;
 
-    if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_7) &&
+    if ((this->actor.scale.y >= 0.0f) && !(this->stateFlags1 & PLAYER_STATE1_GAME_OVER) &&
         (Player_ActionToMagicSpell(this, this->itemAction) < 0)) {
         s32 pad;
 
@@ -1600,7 +1600,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             }
 
             if ((this->unk_862 != 0) || ((func_8002DD6C(this) == 0) && (heldActor != NULL))) {
-                if (!(this->stateFlags1 & PLAYER_STATE1_AQCUIRING_NEW_ITEM) && (this->unk_862 != 0) &&
+                if (!(this->stateFlags1 & PLAYER_STATE1_ACQUIRING_NEW_ITEM) && (this->unk_862 != 0) &&
                     (this->exchangeItemId != EXCH_ITEM_NONE)) {
                     Math_Vec3f_Copy(&sGetItemRefPos, &this->leftHandPos);
                 } else {

@@ -720,7 +720,7 @@ void EnSkj_SariasSongKidIdle(EnSkj* this, PlayState* play) {
             Player* player = GET_PLAYER(play);
             if (EnSkj_RangeCheck(player, sSmallStumpSkullKid.skullkid)) {
                 EnSkj_SetupWaitInRange(this);
-                player->stateFlags2 |= PLAYER_STATE2_23;
+                player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
                 player->unk_6A8 = &sSmallStumpSkullKid.skullkid->actor;
             }
         }
@@ -925,7 +925,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
     } else if (!EnSkj_RangeCheck(player, sSmallStumpSkullKid.skullkid)) {
         EnSkj_SetupResetFight(this);
     } else {
-        player->stateFlags2 |= PLAYER_STATE2_23;
+        player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
         if (GET_ITEMGETINF(ITEMGETINF_16)) {
             if (GET_ITEMGETINF(ITEMGETINF_39)) {
                 this->textId = Text_GetFaceReaction(play, 0x15);
@@ -989,7 +989,7 @@ void EnSkj_WaitForSong(EnSkj* this, PlayState* play) {
             player->stateFlags2 &= ~PLAYER_STATE2_24;
             Actor_Kill(&this->actor);
         } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
-            player->stateFlags2 |= PLAYER_STATE2_23;
+            player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
         } else {
             if (play->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
                 gSaveContext.sunsSongState = 0;
@@ -1202,7 +1202,7 @@ void EnSkj_SariasSongWaitForTextClear(EnSkj* this, PlayState* play) {
 
     if (state == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
         EnSkj_SetupWaitInRange(this);
-        player->stateFlags2 |= PLAYER_STATE2_23;
+        player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
         player->unk_6A8 = (Actor*)sSmallStumpSkullKid.skullkid;
     }
 }
@@ -1390,7 +1390,7 @@ void EnSkj_WaitForOcarina(EnSkj* this, PlayState* play) {
         Message_StartTextbox(play, 0x10BE, &this->actor);
         this->actionFunc = EnSkj_StartOcarinaMinigame;
     } else if (EnSkj_RangeCheck(player, this)) {
-        player->stateFlags2 |= PLAYER_STATE2_23;
+        player->stateFlags2 |= PLAYER_STATE2_NEAR_SECRET;
     }
 }
 
