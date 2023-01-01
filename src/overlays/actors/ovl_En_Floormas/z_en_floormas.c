@@ -1026,12 +1026,7 @@ void EnFloormas_Update(Actor* thisx, PlayState* play) {
             this->collider.base.atFlags &= ~AT_HIT;
             this->actor.speed *= -0.5f;
 
-            if (-5.0f < this->actor.speed) {
-                this->actor.speed = -5.0f;
-            } else {
-                this->actor.speed = this->actor.speed;
-            }
-
+            this->actor.speed = CLAMP_MAX(this->actor.speed, -5.0f);
             this->actor.velocity.y = 5.0f;
 
             EnFloormas_SetupLand(this);
