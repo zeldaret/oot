@@ -796,7 +796,7 @@ typedef enum {
     /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
     /* 2 */ TRANS_TILE_PROCESS, // Initialize the transition
     /* 3 */ TRANS_TILE_READY // The transition is ready, so will update and draw each frame
-} TransitionTileStatus;
+} TransitionTileState;
 
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
