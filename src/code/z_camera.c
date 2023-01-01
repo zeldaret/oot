@@ -487,12 +487,12 @@ Vec3s* Camera_GetBgCamFuncDataUnderPlayer(Camera* camera, u16* bgCamCount) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
-    PosRot playerPosShape;
+    PosRot playerPosRot;
 
-    Actor_GetWorldPosShapeRot(&playerPosShape, &camera->player->actor);
-    playerPosShape.pos.y += Player_GetHeight(camera->player);
+    Actor_GetWorldPosShapeRot(&playerPosRot, &camera->player->actor);
+    playerPosRot.pos.y += Player_GetHeight(camera->player);
 
-    if (BgCheck_EntityRaycastDown3(&camera->play->colCtx, &floorPoly, &bgId, &playerPosShape.pos) == BGCHECK_Y_MIN) {
+    if (BgCheck_EntityRaycastDown3(&camera->play->colCtx, &floorPoly, &bgId, &playerPosRot.pos) == BGCHECK_Y_MIN) {
         // no floor
         return NULL;
     }
@@ -508,14 +508,14 @@ Vec3s* Camera_GetBgCamFuncDataUnderPlayer(Camera* camera, u16* bgCamCount) {
  * Returns the camera data index otherwise.
  */
 s32 Camera_GetWaterBoxBgCamIndex(Camera* camera, f32* waterY) {
-    PosRot playerPosShape;
+    PosRot playerPosRot;
     WaterBox* waterBox;
     s32 bgCamIndex;
 
-    Actor_GetWorldPosShapeRot(&playerPosShape, &camera->player->actor);
-    *waterY = playerPosShape.pos.y;
+    Actor_GetWorldPosShapeRot(&playerPosRot, &camera->player->actor);
+    *waterY = playerPosRot.pos.y;
 
-    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, playerPosShape.pos.x, playerPosShape.pos.z, waterY,
+    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, playerPosRot.pos.x, playerPosRot.pos.z, waterY,
                               &waterBox)) {
         // player's position is not in a water box.
         *waterY = BGCHECK_Y_MIN;
@@ -7144,29 +7144,29 @@ void Camera_Stub80058140(Camera* camera) {
 }
 
 void Camera_InitDataUsingPlayer(Camera* camera, Player* player) {
-    PosRot playerPosShape;
+    PosRot playerPosRot;
     VecGeo eyeNextAtOffset;
     s32 bgId;
-    Vec3f floorPos;
+    Vec3f floorNorm;
     s32 upXZ;
     f32 playerToAtOffsetY;
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
 
-    Actor_GetWorldPosShapeRot(&playerPosShape, &player->actor);
+    Actor_GetWorldPosShapeRot(&playerPosRot, &player->actor);
     playerToAtOffsetY = Player_GetHeight(player);
     camera->player = player;
-    camera->playerPosRot = playerPosShape;
+    camera->playerPosRot = playerPosRot;
     camera->dist = eyeNextAtOffset.r = 180.0f;
-    camera->inputDir.y = playerPosShape.rot.y;
+    camera->inputDir.y = playerPosRot.rot.y;
     eyeNextAtOffset.yaw = camera->inputDir.y - 0x7FFF;
     camera->inputDir.x = eyeNextAtOffset.pitch = 0x71C;
     camera->inputDir.z = 0;
     camera->camDir = camera->inputDir;
     camera->xzSpeed = 0.0f;
     camera->playerPosDelta.y = 0.0f;
-    camera->at = playerPosShape.pos;
+    camera->at = playerPosRot.pos;
     camera->at.y += playerToAtOffsetY;
 
     camera->playerToAtOffset.x = 0;
@@ -7182,7 +7182,7 @@ void Camera_InitDataUsingPlayer(Camera* camera, Player* player) {
     camera->up.y = 1.0f;
     camera->up.x = upXZ;
 
-    if (Camera_GetFloorYNorm(camera, &floorPos, at, &bgId) != BGCHECK_Y_MIN) {
+    if (Camera_GetFloorYNorm(camera, &floorNorm, at, &bgId) != BGCHECK_Y_MIN) {
         camera->bgId = bgId;
     }
 
