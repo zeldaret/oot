@@ -1212,7 +1212,7 @@ static s8 sItemActions[] = {
     PLAYER_IA_BOW_LIGHT,           // ITEM_BOW_LIGHT
     PLAYER_IA_SWORD_KOKIRI,        // ITEM_SWORD_KOKIRI
     PLAYER_IA_SWORD_MASTER,        // ITEM_SWORD_MASTER
-    PLAYER_IA_SWORD_BGS,           // ITEM_SWORD_BIGGORON
+    PLAYER_IA_SWORD_BIGGORON,      // ITEM_SWORD_BIGGORON
 };
 
 static s32 (*D_80853EDC[])(Player* this, PlayState* play) = {
@@ -1221,7 +1221,7 @@ static s32 (*D_80853EDC[])(Player* this, PlayState* play) = {
     func_8083485C, // PLAYER_IA_FISHING_POLE
     func_808349DC, // PLAYER_IA_SWORD_MASTER
     func_808349DC, // PLAYER_IA_SWORD_KOKIRI
-    func_808349DC, // PLAYER_IA_SWORD_BGS
+    func_808349DC, // PLAYER_IA_SWORD_BIGGORON
     func_8083485C, // PLAYER_IA_DEKU_STICK
     func_8083485C, // PLAYER_IA_HAMMER
     func_8083501C, // PLAYER_IA_BOW
@@ -1291,7 +1291,7 @@ static void (*D_80853FE8[])(PlayState* play, Player* this) = {
     func_80833770, // PLAYER_IA_FISHING_POLE
     func_80833770, // PLAYER_IA_SWORD_MASTER
     func_80833770, // PLAYER_IA_SWORD_KOKIRI
-    func_80833770, // PLAYER_IA_SWORD_BGS
+    func_80833770, // PLAYER_IA_SWORD_BIGGORON
     func_8083377C, // PLAYER_IA_DEKU_STICK
     func_80833790, // PLAYER_IA_HAMMER
     func_8083379C, // PLAYER_IA_BOW
@@ -2213,7 +2213,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
     u16 voiceSfx;
 
     if (this->meleeWeaponState == 0) {
-        if ((this->heldItemAction == PLAYER_IA_SWORD_BGS) && (gSaveContext.swordHealth > 0.0f)) {
+        if ((this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) && (gSaveContext.swordHealth > 0.0f)) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
         } else {
             itemSfx = NA_SE_IT_SWORD_SWING;
@@ -5702,7 +5702,7 @@ s32 func_8083C544(Player* this, PlayState* play) {
     if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
         if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0) && (this->unk_844 == 1) &&
             (this->heldItemAction != PLAYER_IA_DEKU_STICK)) {
-            if ((this->heldItemAction != PLAYER_IA_SWORD_BGS) || (gSaveContext.swordHealth > 0.0f)) {
+            if ((this->heldItemAction != PLAYER_IA_SWORD_BIGGORON) || (gSaveContext.swordHealth > 0.0f)) {
                 func_808377DC(play, this);
                 return 1;
             }
@@ -8014,7 +8014,7 @@ s32 func_80842AC4(PlayState* play, Player* this) {
 }
 
 s32 func_80842B7C(PlayState* play, Player* this) {
-    if (this->heldItemAction == PLAYER_IA_SWORD_BGS) {
+    if (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) {
         if (!gSaveContext.bgsFlag && (gSaveContext.swordHealth > 0.0f)) {
             if ((gSaveContext.swordHealth -= 1.0f) <= 0.0f) {
                 EffectSsStick_Spawn(play, &this->bodyPartsPos[PLAYER_BODYPART_R_HAND],

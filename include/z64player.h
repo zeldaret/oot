@@ -10,7 +10,7 @@ typedef enum {
     /* 0 */ PLAYER_SWORD_NONE,
     /* 1 */ PLAYER_SWORD_KOKIRI,
     /* 2 */ PLAYER_SWORD_MASTER,
-    /* 3 */ PLAYER_SWORD_BGS,
+    /* 3 */ PLAYER_SWORD_BIGGORON,
     /* 4 */ PLAYER_SWORD_MAX
 } PlayerSword;
 
@@ -75,7 +75,7 @@ typedef enum {
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
     /* 0x03 */ PLAYER_IA_SWORD_MASTER,
     /* 0x04 */ PLAYER_IA_SWORD_KOKIRI,
-    /* 0x05 */ PLAYER_IA_SWORD_BGS,
+    /* 0x05 */ PLAYER_IA_SWORD_BIGGORON,
     /* 0x06 */ PLAYER_IA_DEKU_STICK,
     /* 0x07 */ PLAYER_IA_HAMMER,
     /* 0x08 */ PLAYER_IA_BOW,
