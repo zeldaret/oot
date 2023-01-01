@@ -52,9 +52,9 @@ void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
             if ((dynaPolyActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
                 (dynaPolyActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
-                Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_CORRECT_CHIME);
+                Lib_PlaySfx(NA_SE_SY_CORRECT_CHIME);
             } else {
-                Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_TRE_BOX_APPEAR);
+                Lib_PlaySfx(NA_SE_SY_TRE_BOX_APPEAR);
             }
 
             Flags_SetSwitch(play, this->actor.params);

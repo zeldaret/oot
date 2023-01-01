@@ -74,7 +74,7 @@ void EnWonderItem_DropCollectible(EnWonderItem* this, PlayState* play, s32 autoC
     s32 i;
     s32 randomDrop;
 
-    Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_GET_ITEM);
+    Lib_PlaySfx(NA_SE_SY_GET_ITEM);
 
     if (this->dropCount == 0) {
         this->dropCount++;

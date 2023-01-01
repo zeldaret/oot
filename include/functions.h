@@ -877,9 +877,9 @@ f32 Math_SmoothStepToDegF(f32* pValue, f32 target, f32 fraction, f32 step, f32 m
 s16 Math_SmoothStepToS(s16* pValue, s16 target, s16 scale, s16 step, s16 minStep);
 void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 step);
 void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src);
-void Audio_PlaySfxGeneralWithDefaultSettings1(u16 sfxId);
-void Audio_PlaySfxGeneralWithDefaultSettings2(u16 sfxId);
-void Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(Vec3f* arg0, u16 sfxId);
+void Lib_PlaySfx(u16 sfxId);
+void Lib_PlaySfx_Centered(u16 sfxId);
+void Lib_PlaySfx_AtPos(Vec3f* arg0, u16 sfxId);
 void Health_InitMeter(PlayState* play);
 void Health_UpdateMeter(PlayState* play);
 void Health_DrawMeter(PlayState* play);

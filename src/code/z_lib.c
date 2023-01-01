@@ -590,16 +590,16 @@ void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src) {
     dst->a = src->a;
 }
 
-void Audio_PlaySfxGeneralWithDefaultSettings1(u16 sfxId) {
+void Lib_PlaySfx(u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
 }
 
-void Audio_PlaySfxGeneralWithDefaultSettings2(u16 sfxId) {
+void Lib_PlaySfx_Centered(u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
 }
 
-void Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(Vec3f* arg0, u16 sfxId) {
-    Audio_PlaySfxGeneral(sfxId, arg0, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+void Lib_PlaySfx_AtPos(Vec3f* projectedPos, u16 sfxId) {
+    Audio_PlaySfxGeneral(sfxId, projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }

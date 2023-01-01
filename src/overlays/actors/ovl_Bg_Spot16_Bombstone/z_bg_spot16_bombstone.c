@@ -472,7 +472,7 @@ void func_808B5A94(BgSpot16Bombstone* this, PlayState* play) {
     func_808B5240(this, play);
 
     if (this->unk_154 == 56) {
-        Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_CORRECT_CHIME);
+        Lib_PlaySfx(NA_SE_SY_CORRECT_CHIME);
     }
 
     if (this->unk_154 > 60) {

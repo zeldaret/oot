@@ -20,7 +20,7 @@ void DemoGt_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DemoGt_PlayEarthquakeSfx(void) {
-    Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+    Lib_PlaySfx_Centered(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
 }
 
 void DemoGt_PlayExplosion1Sfx(PlayState* play, Vec3f* pos) {
@@ -1189,7 +1189,7 @@ void func_80980F58(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 244) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Lib_PlaySfx_AtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1312,7 +1312,7 @@ void func_80981424(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 789) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Lib_PlaySfx_AtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1430,7 +1430,7 @@ void func_809818FC(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 845) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Lib_PlaySfx_AtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 void func_80981930(DemoGt* this, PlayState* play) {
@@ -1521,7 +1521,7 @@ void func_80981CEC(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 183) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Lib_PlaySfx_AtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1612,7 +1612,7 @@ void func_809820AC(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 154) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Lib_PlaySfx_AtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 

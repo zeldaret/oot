@@ -203,7 +203,7 @@ void func_808A3E54(BgMoriHineri* this, PlayState* play) {
             this->moriHineriObjIdx = objBankIndex;
             this->dyna.actor.params ^= 1;
             sSubCamId = SUB_CAM_ID_DONE;
-            Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_TRE_BOX_APPEAR);
+            Lib_PlaySfx(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             this->dyna.actor.draw = NULL;
             this->actionFunc = func_808A3D58;

@@ -233,7 +233,7 @@ void func_8086EE40(BgBombwall* this, PlayState* play) {
         func_8086EE94(this, play);
 
         if (((this->dyna.actor.params >> 0xF) & 1) != 0) {
-            Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_CORRECT_CHIME);
+            Lib_PlaySfx(NA_SE_SY_CORRECT_CHIME);
         }
     }
 }

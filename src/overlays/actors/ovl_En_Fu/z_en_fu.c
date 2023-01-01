@@ -169,7 +169,7 @@ void func_80A1DBD4(EnFu* this, PlayState* play) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         this->actor.flags &= ~ACTOR_FLAG_16;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_CORRECT_CHIME);
+        Lib_PlaySfx(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
         this->actor.flags &= ~ACTOR_FLAG_16;
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);

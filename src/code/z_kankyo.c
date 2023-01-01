@@ -910,10 +910,10 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             // delaying the chicken crow or dog howl sfx by 15 frames when loading the new area.
 
             if (((void)0, gSaveContext.nextDayTime) == (NEXT_TIME_DAY_SET - (15 * 0x10))) {
-                Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_EV_CHICKEN_CRY_M);
+                Lib_PlaySfx(NA_SE_EV_CHICKEN_CRY_M);
                 gSaveContext.nextDayTime = NEXT_TIME_NONE;
             } else if (((void)0, gSaveContext.nextDayTime) == (NEXT_TIME_NIGHT_SET - (15 * 0x10))) {
-                Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_EV_DOG_CRY_EVENING);
+                Lib_PlaySfx_Centered(NA_SE_EV_DOG_CRY_EVENING);
                 gSaveContext.nextDayTime = NEXT_TIME_NONE;
             }
         }
@@ -2119,7 +2119,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
 
         case TIMESEQ_NIGHT_BEGIN_SFX:
             if (gSaveContext.dayTime > CLOCK_TIME(18, 0)) {
-                Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_EV_DOG_CRY_EVENING);
+                Lib_PlaySfx_Centered(NA_SE_EV_DOG_CRY_EVENING);
                 play->envCtx.timeSeqState++;
             }
             break;
@@ -2155,7 +2155,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
                 gSaveContext.totalDays++;
                 gSaveContext.bgsDayCount++;
                 gSaveContext.dogIsLost = true;
-                Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_EV_CHICKEN_CRY_M);
+                Lib_PlaySfx(NA_SE_EV_CHICKEN_CRY_M);
 
                 if ((Inventory_ReplaceItem(play, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(play, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&

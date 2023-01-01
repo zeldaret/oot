@@ -460,7 +460,7 @@ void EnNb_SetupLightArrowOrSealingCs(EnNb* this, PlayState* play) {
 }
 
 void EnNb_PlaySealingSfx(void) {
-    Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_SY_WHITE_OUT_T);
+    Lib_PlaySfx_Centered(NA_SE_SY_WHITE_OUT_T);
 }
 
 void EnNb_InitializeDemo6K(EnNb* this, PlayState* play) {
@@ -575,13 +575,13 @@ void EnNb_InitKidnap(EnNb* this, PlayState* play) {
 
 void EnNb_PlayCrySFX(EnNb* this, PlayState* play) {
     if (play->csCtx.curFrame == 3) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
     }
 }
 
 void EnNb_PlayAgonySFX(EnNb* this, PlayState* play) {
     if (play->csCtx.curFrame == 420) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_NB_AGONY);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_NB_AGONY);
     }
 }
 
@@ -709,8 +709,8 @@ void EnNb_PlayKnuckleDefeatSFX(EnNb* this, PlayState* play) {
     s32 pad[2];
 
     if (play->csCtx.curFrame == 548) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_EN_FANTOM_HIT_THUNDER);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_EN_FANTOM_HIT_THUNDER);
     }
 }
 
@@ -719,7 +719,7 @@ void EnNb_PlayKneelingOnGroundSFX(EnNb* this) {
 
     if ((this->skelAnime.mode == 2) &&
         (Animation_OnFrame(&this->skelAnime, 18.0f) || Animation_OnFrame(&this->skelAnime, 25.0f))) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_EV_HUMAN_BOUND);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_EV_HUMAN_BOUND);
     }
 }
 
@@ -727,7 +727,7 @@ void EnNb_PlayLookRightSFX(EnNb* this) {
     s32 pad[2];
 
     if ((this->skelAnime.mode == 2) && Animation_OnFrame(&this->skelAnime, 9.0f)) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
@@ -735,7 +735,7 @@ void EnNb_PlayLookLeftSFX(EnNb* this) {
     s32 pad[2];
 
     if (Animation_OnFrame(&this->skelAnime, 9.0f) || Animation_OnFrame(&this->skelAnime, 13.0f)) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
@@ -1154,7 +1154,7 @@ void func_80AB359C(EnNb* this) {
 }
 
 void EnNb_SetNoticeSFX(EnNb* this) {
-    Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_NB_NOTICE);
+    Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_NB_NOTICE);
 }
 
 s32 EnNb_GetNoticedStatus(EnNb* this, PlayState* play) {

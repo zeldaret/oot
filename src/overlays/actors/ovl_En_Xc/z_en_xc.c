@@ -379,7 +379,7 @@ void EnXc_SetWalkingSFX(EnXc* this, PlayState* play) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = NA_SE_PL_WALK_GROUND;
             sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-            Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, sfxId);
+            Lib_PlaySfx_AtPos(&this->actor.projectedPos, sfxId);
         }
     }
 }
@@ -393,11 +393,11 @@ void EnXc_SetNutThrowSFX(EnXc* this, PlayState* play) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = NA_SE_PL_WALK_GROUND;
             sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-            Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, sfxId);
+            Lib_PlaySfx_AtPos(&this->actor.projectedPos, sfxId);
         }
     }
     if (Animation_OnFrame(&this->skelAnime, 20.0f)) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_SK_SHOUT);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_SK_SHOUT);
     }
 }
 
@@ -409,7 +409,7 @@ void EnXc_SetLandingSFX(EnXc* this, PlayState* play) {
         if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
             sfxId = NA_SE_PL_WALK_GROUND;
             sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-            Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, sfxId);
+            Lib_PlaySfx_AtPos(&this->actor.projectedPos, sfxId);
         }
     }
 }
@@ -429,13 +429,13 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
                 Vec3f pos = { -611.0f, 728.0f, -2.0f };
 
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sXyzDist, wDest);
-                Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&sXyzDist, NA_SE_EV_JUMP_CONC);
+                Lib_PlaySfx_AtPos(&sXyzDist, NA_SE_EV_JUMP_CONC);
             } else if (frameCount == 164) {
                 Vec3f pos = { -1069.0f, 38.0f, 0.0f };
                 s32 pad;
 
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sXyzDist, wDest);
-                Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&sXyzDist, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
+                Lib_PlaySfx_AtPos(&sXyzDist, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
             }
         }
     }
@@ -445,7 +445,7 @@ void func_80B3D118(PlayState* play) {
     s16 sceneId;
 
     if ((gSaveContext.sceneLayer != 4) || (sceneId = play->sceneId, sceneId != SCENE_DESERT_COLOSSUS)) {
-        Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_PL_SKIP);
+        Lib_PlaySfx_Centered(NA_SE_PL_SKIP);
     }
 }
 
@@ -1370,14 +1370,14 @@ void func_80B3F3C8(EnXc* this, PlayState* play) {
 }
 
 void func_80B3F3D8(void) {
-    Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_PL_SKIP);
+    Lib_PlaySfx_Centered(NA_SE_PL_SKIP);
 }
 
 void EnXc_PlayDiveSFX(Vec3f* src, PlayState* play) {
     f32 wDest[2];
 
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, src, &D_80B42DA0, wDest);
-    Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&D_80B42DA0, NA_SE_EV_DIVE_INTO_WATER);
+    Lib_PlaySfx_AtPos(&D_80B42DA0, NA_SE_EV_DIVE_INTO_WATER);
 }
 
 void EnXc_LakeHyliaDive(PlayState* play) {
@@ -1553,7 +1553,7 @@ void EnXc_PlayTriforceSFX(Actor* thisx, PlayState* play) {
 
 void func_80B3FAE0(EnXc* this) {
     if (Animation_OnFrame(&this->skelAnime, 38.0f)) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_SK_SHOUT);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_SK_SHOUT);
         func_80B3FA2C();
     }
 }
@@ -1755,14 +1755,14 @@ void EnXc_SetThrownAroundSFX(EnXc* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (Animation_OnFrame(skelAnime, 9.0f)) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS);
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_SK_CRASH);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_SK_CRASH);
     } else if (Animation_OnFrame(skelAnime, 26.0f)) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_PL_BOUND + SURFACE_SFX_OFFSET_GRASS);
     } else if (Animation_OnFrame(skelAnime, 28.0f)) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS);
     } else if (Animation_OnFrame(skelAnime, 34.0f)) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_GRASS);
     }
 }
 
@@ -1776,9 +1776,9 @@ void EnXc_SetCrySFX(EnXc* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
 
     if (csCtx->curFrame == 869) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_SK_CRY_0);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_SK_CRY_0);
     } else if (csCtx->curFrame == 939) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&this->actor.projectedPos, NA_SE_VO_SK_CRY_1);
+        Lib_PlaySfx_AtPos(&this->actor.projectedPos, NA_SE_VO_SK_CRY_1);
     }
 }
 

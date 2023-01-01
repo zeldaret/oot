@@ -208,7 +208,7 @@ void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
     }
 
     if (play->csCtx.curFrame == 245 || play->csCtx.curFrame == 351) {
-        Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_EV_LIGHTNING);
+        Lib_PlaySfx_Centered(NA_SE_EV_LIGHTNING);
     }
 }
 

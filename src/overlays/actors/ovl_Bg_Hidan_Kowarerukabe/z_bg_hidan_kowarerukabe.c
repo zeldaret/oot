@@ -312,7 +312,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play) {
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
 
-        Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_CORRECT_CHIME);
+        Lib_PlaySfx(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
         return;
     }

@@ -358,7 +358,7 @@ void BossGanondrof_Intro(BossGanondrof* this, PlayState* play) {
     }
 
     if (this->timers[1] == 30) {
-        Audio_PlaySfxGeneralWithDefaultSettingsAtPosition(&sAudioVec, NA_SE_EN_FANTOM_TRANSFORM);
+        Lib_PlaySfx_AtPos(&sAudioVec, NA_SE_EN_FANTOM_TRANSFORM);
     }
 
     if (horse->bossGndSignal == FHG_LIGHTNING) {

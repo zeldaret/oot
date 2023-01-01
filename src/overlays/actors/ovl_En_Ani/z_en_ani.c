@@ -260,7 +260,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
         }
 
         if (play->csCtx.curFrame == 100) {
-            Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_IT_EARTHQUAKE);
+            Lib_PlaySfx_Centered(NA_SE_IT_EARTHQUAKE);
         }
     } else {
         if (SkelAnime_Update(&this->skelAnime)) {

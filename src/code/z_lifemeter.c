@@ -508,7 +508,7 @@ void Health_UpdateBeatingHeart(PlayState* play) {
             interfaceCtx->beatingHeartOscillatorDirection = 0;
             if (!Player_InCsMode(play) && (play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) &&
                 Health_IsCritical() && !Play_InCsMode(play)) {
-                Audio_PlaySfxGeneralWithDefaultSettings1(NA_SE_SY_HITPOINT_ALARM);
+                Lib_PlaySfx(NA_SE_SY_HITPOINT_ALARM);
             }
         }
     } else {

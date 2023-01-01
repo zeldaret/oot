@@ -376,7 +376,7 @@ void func_8098EDB0(DemoSa* this) {
 }
 
 void func_8098EE08(void) {
-    Audio_PlaySfxGeneralWithDefaultSettings2(NA_SE_SY_WHITE_OUT_T);
+    Lib_PlaySfx_Centered(NA_SE_SY_WHITE_OUT_T);
 }
 
 void func_8098EE28(DemoSa* this, PlayState* play) {
