@@ -50,7 +50,7 @@ pipeline {
                 branch 'master'
             }
             agent {
-                label 'master'
+                label 'zeldaret_website'
             }
             steps {
                 unstash 'reports'
@@ -62,7 +62,15 @@ pipeline {
     }
     post {
         always {
-            cleanWs()
+            echo "Finished, deleting directory."
+            deleteDir()
+        }
+        cleanup {
+            echo "Clean up in post."
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true)
         }
     }
 }

@@ -54,26 +54,27 @@ typedef struct EnRu1 {
     /* 0x0360 */ f32 unk_360;
     /* 0x0364 */ Vec3f unk_364;
     /* 0x0370 */ f32 unk_370;
-    /* 0x0374 */ struct_80034A14_arg1 unk_374;
+    /* 0x0374 */ NpcInteractInfo interactInfo;
 } EnRu1; // size = 0x039C
 
 typedef enum {
-    /* 0 */ RUTO_CHILD_ROOT,
-    /* 1 */ RUTO_CHILD_LEFT_THIGH,
-    /* 2 */ RUTO_CHILD_LEFT_SHIN,
-    /* 3 */ RUTO_CHILD_LEFT_FOOT,
-    /* 4 */ RUTO_CHILD_RIGHT_THIGH,
-    /* 5 */ RUTO_CHILD_RIGHT_SHIN,
-    /* 6 */ RUTO_CHILD_RIGHT_FOOT,
-    /* 7 */ RUTO_CHILD_CHEST,
-    /* 8 */ RUTO_CHILD_LEFT_UPPER_ARM,
-    /* 9 */ RUTO_CHILD_LEFT_FIN,
-    /* 10 */ RUTO_CHILD_LEFT_HAND,
-    /* 11 */ RUTO_CHILD_RIGHT_UPPER_ARM,
-    /* 12 */ RUTO_CHILD_RIGHT_FIN,
-    /* 13 */ RUTO_CHILD_RIGHT_HAND,
-    /* 14 */ RUTO_CHILD_HEAD,
-    /* 15 */ RUTO_CHILD_TORSO
+    /* 0 */ RUTO_CHILD_NONE,
+    /* 1 */ RUTO_CHILD_ROOT,
+    /* 2 */ RUTO_CHILD_LEFT_THIGH,
+    /* 3 */ RUTO_CHILD_LEFT_SHIN,
+    /* 4 */ RUTO_CHILD_LEFT_FOOT,
+    /* 5 */ RUTO_CHILD_RIGHT_THIGH,
+    /* 6 */ RUTO_CHILD_RIGHT_SHIN,
+    /* 7 */ RUTO_CHILD_RIGHT_FOOT,
+    /* 8 */ RUTO_CHILD_CHEST,
+    /* 9 */ RUTO_CHILD_LEFT_UPPER_ARM,
+    /* 10 */ RUTO_CHILD_LEFT_FIN,
+    /* 11 */ RUTO_CHILD_LEFT_HAND,
+    /* 12 */ RUTO_CHILD_RIGHT_UPPER_ARM,
+    /* 13 */ RUTO_CHILD_RIGHT_FIN,
+    /* 14 */ RUTO_CHILD_RIGHT_HAND,
+    /* 15 */ RUTO_CHILD_HEAD,
+    /* 16 */ RUTO_CHILD_TORSO
 } RutoLimb;
 
 #endif

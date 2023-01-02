@@ -14,7 +14,7 @@ void BgSpot18Futa_Destroy(Actor* thisx, PlayState* play);
 void BgSpot18Futa_Update(Actor* thisx, PlayState* play);
 void BgSpot18Futa_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Spot18_Futa_InitVars = {
+ActorInit Bg_Spot18_Futa_InitVars = {
     ACTOR_BG_SPOT18_FUTA,
     ACTORCAT_PROP,
     FLAGS,
@@ -38,7 +38,7 @@ void BgSpot18Futa_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gGoronCityVaseLidCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);

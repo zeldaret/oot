@@ -39,7 +39,7 @@ s32 func_80AADA70(void);
 s32 EnMm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
-const ActorInit En_Mm_InitVars = {
+ActorInit En_Mm_InitVars = {
     ACTOR_EN_MM,
     ACTORCAT_NPC,
     FLAGS,
@@ -331,7 +331,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
     s32 phi_a2;
     s32 phi_v1;
 
-    func_80AADE60(play->setupPathList, &waypointPos, this->path, this->waypoint);
+    func_80AADE60(play->pathList, &waypointPos, this->path, this->waypoint);
 
     xDiff = waypointPos.x - this->actor.world.pos.x;
     zDiff = waypointPos.z - this->actor.world.pos.z;
@@ -349,7 +349,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
                 phi_a2 = 0;
                 break;
             case 1:
-                phi_a2 = EnMm_GetPointCount(play->setupPathList, this->path) - 1;
+                phi_a2 = EnMm_GetPointCount(play->pathList, this->path) - 1;
                 break;
             case 2:
                 phi_a2 = this->unk_1F0;
@@ -363,7 +363,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
                 phi_v1 = 0;
                 break;
             case 1:
-                phi_v1 = EnMm_GetPointCount(play->setupPathList, this->path) - 1;
+                phi_v1 = EnMm_GetPointCount(play->pathList, this->path) - 1;
                 break;
             case 2:
                 phi_v1 = this->unk_1F0;
@@ -376,7 +376,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
             this->waypoint = sPathInfo[this->unk_1E8].unk_08;
         }
 
-        func_80AADE60(play->setupPathList, &waypointPos, this->path, this->waypoint);
+        func_80AADE60(play->pathList, &waypointPos, this->path, this->waypoint);
 
         xDiff = waypointPos.x - this->actor.world.pos.x;
         zDiff = waypointPos.z - this->actor.world.pos.z;
@@ -387,8 +387,8 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->yawToWaypoint, 1, 2500, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
-    Actor_MoveForward(&this->actor);
+    Math_SmoothStepToF(&this->actor.speed, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     return 0;
@@ -401,7 +401,7 @@ void func_80AAE224(EnMm* this, PlayState* play) {
         this->mouthTexIndex = RM_MOUTH_CLOSED;
         this->unk_254 |= 1;
         this->unk_1E0 = 0;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnMm_ChangeAnim(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
     }
 }
@@ -415,7 +415,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
 
         if (this->curAnimIndex == 0) {
             if (((s32)this->skelAnime.curFrame == 1) || ((s32)this->skelAnime.curFrame == 6)) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND);
+                Actor_PlaySfx(&this->actor, NA_SE_PL_WALK_GROUND);
             }
         }
 
@@ -423,7 +423,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             if (((this->skelAnime.curFrame - this->skelAnime.playSpeed < 9.0f) && (this->skelAnime.curFrame >= 9.0f)) ||
                 ((this->skelAnime.curFrame - this->skelAnime.playSpeed < 19.0f) &&
                  (this->skelAnime.curFrame >= 19.0f))) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
             }
         }
 
@@ -541,7 +541,7 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
 
-            // Draw the ears in the neutral position (unlixe Player, no flopping physics)
+            // Draw the ears in the neutral position (unlike Player, no flopping physics)
 
             // Right ear
             earRot.x = 0x3E2;

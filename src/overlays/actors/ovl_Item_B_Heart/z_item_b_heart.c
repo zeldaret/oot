@@ -16,7 +16,7 @@ void ItemBHeart_Draw(Actor* thisx, PlayState* play);
 
 void func_80B85264(ItemBHeart* this, PlayState* play);
 
-const ActorInit Item_B_Heart_InitVars = {
+ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
     ACTORCAT_MISC,
     FLAGS,
@@ -58,7 +58,7 @@ void ItemBHeart_Update(Actor* thisx, PlayState* play) {
         Flags_SetCollectible(play, 0x1F);
         Actor_Kill(&this->actor);
     } else {
-        func_8002F434(&this->actor, play, GI_HEART_CONTAINER_2, 30.0f, 40.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_CONTAINER_2, 30.0f, 40.0f);
     }
 }
 

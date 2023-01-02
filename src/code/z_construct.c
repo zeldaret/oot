@@ -4,14 +4,16 @@ void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }
 
+#define ICON_ITEM_SEGMENT_SIZE (4 * ITEM_ICON_SIZE)
+
 void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u32 parameterSize;
     u16 doActionOffset;
-    u8 temp;
+    u8 timerId;
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-    gSaveContext.unk_13E8 = gSaveContext.unk_13EA = 0;
+    gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
 
     View_Init(&interfaceCtx->view, play->state.gfxCtx);
 
@@ -27,7 +29,7 @@ void Interface_Init(PlayState* play) {
         interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
             interfaceCtx->magicAlpha = 0;
 
-    parameterSize = (u32)_parameter_staticSegmentRomEnd - (u32)_parameter_staticSegmentRomStart;
+    parameterSize = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
 
     // "Permanent PARAMETER Segment = %x"
     osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
@@ -37,42 +39,43 @@ void Interface_Init(PlayState* play) {
     osSyncPrintf("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
     ASSERT(interfaceCtx->parameterSegment != NULL, "parameter->parameterSegment != NULL", "../z_construct.c", 161);
-    DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (u32)_parameter_staticSegmentRomStart, parameterSize,
-                        "../z_construct.c", 162);
+    DmaMgr_RequestSyncDebug(interfaceCtx->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, parameterSize,
+                            "../z_construct.c", 162);
 
-    interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 0x480, "../z_construct.c", 166);
+    interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 3 * DO_ACTION_TEX_SIZE, "../z_construct.c", 166);
 
-    osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480); // "DO Action Texture Initialization"
+    osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 3 * DO_ACTION_TEX_SIZE); // "DO Action Texture Initialization"
     osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = 0;
+        doActionOffset = LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = 0x2B80;
+        doActionOffset = LANGUAGE_GER * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 0x5700;
+        doActionOffset = LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (u32)_do_action_staticSegmentRomStart + doActionOffset, 0x300,
-                        "../z_construct.c", 174);
+    DmaMgr_RequestSyncDebug(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
+                            2 * DO_ACTION_TEX_SIZE, "../z_construct.c", 174);
 
     if (gSaveContext.language == LANGUAGE_ENG) {
-        doActionOffset = 0x480;
+        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     } else if (gSaveContext.language == LANGUAGE_GER) {
-        doActionOffset = 0x3000;
+        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_GER * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     } else {
-        doActionOffset = 0x5B80;
+        doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300, (u32)_do_action_staticSegmentRomStart + doActionOffset,
-                        0x180, "../z_construct.c", 178);
+    DmaMgr_RequestSyncDebug(interfaceCtx->doActionSegment + 2 * DO_ACTION_TEX_SIZE,
+                            (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,
+                            "../z_construct.c", 178);
 
-    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, 0x4000, "../z_construct.c", 190);
+    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
 
     // "Icon Item Texture Initialization = %x"
-    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
+    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", ICON_ITEM_SEGMENT_SIZE);
     osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
@@ -82,66 +85,69 @@ void Interface_Init(PlayState* play) {
                  gSaveContext.equips.buttonItems[3]);
 
     if (gSaveContext.equips.buttonItems[0] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
-                            "../z_construct.c", 198);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[0]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 198);
     } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
-                            "../z_construct.c", 203);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[0]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 203);
     }
 
     if (gSaveContext.equips.buttonItems[1] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x1000, 0x1000,
-                            "../z_construct.c", 209);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (1 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[1]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 209);
     }
 
     if (gSaveContext.equips.buttonItems[2] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x1000, 0x1000,
-                            "../z_construct.c", 214);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (2 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[2]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 214);
     }
 
     if (gSaveContext.equips.buttonItems[3] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
-                            (u32)_icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x1000, 0x1000,
-                            "../z_construct.c", 219);
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (3 * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[3]), ITEM_ICON_SIZE,
+                                "../z_construct.c", 219);
     }
 
-    osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
+    osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
 
-    if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8) || (gSaveContext.timer2State == 4) ||
-        (gSaveContext.timer2State == 10)) {
+    if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
+        (gSaveContext.timerState == TIMER_STATE_DOWN_TICK) ||
+        (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK) ||
+        (gSaveContext.subTimerState == SUBTIMER_STATE_UP_TICK)) {
         osSyncPrintf("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
 
         if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
-            if (gSaveContext.timer1State == 4) {
-                gSaveContext.timer1State = 1;
-                gSaveContext.timerX[0] = 140;
-                gSaveContext.timerY[0] = 80;
+            if (gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) {
+                gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_INIT;
+                gSaveContext.timerX[TIMER_ID_MAIN] = 140;
+                gSaveContext.timerY[TIMER_ID_MAIN] = 80;
             }
         }
 
-        if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8)) {
-            temp = 0;
+        if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
+            (gSaveContext.timerState == TIMER_STATE_DOWN_TICK)) {
+            timerId = TIMER_ID_MAIN;
         } else {
-            temp = 1;
+            timerId = TIMER_ID_SUB;
         }
 
-        gSaveContext.timerX[temp] = 26;
+        gSaveContext.timerX[timerId] = 26;
 
         if (gSaveContext.healthCapacity > 0xA0) {
-            gSaveContext.timerY[temp] = 54;
+            gSaveContext.timerY[timerId] = 54; // two rows of hearts
         } else {
-            gSaveContext.timerY[temp] = 46;
+            gSaveContext.timerY[timerId] = 46; // one row of hearts
         }
     }
 
-    if ((gSaveContext.timer1State >= 11) && (gSaveContext.timer1State < 16)) {
-        gSaveContext.timer1State = 0;
+    if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE)) {
+        gSaveContext.timerState = TIMER_STATE_OFF;
         // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer1State);
+        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timerState);
     }
 
     osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
@@ -164,6 +170,9 @@ void Interface_Init(PlayState* play) {
     R_A_BTN_COLOR(2) = 50;
 }
 
+#define TEXTBOX_SEGMENT_SIZE \
+    (MESSAGE_STATIC_TEX_SIZE + MAX(MAX(ITEM_ICON_SIZE, QUEST_ICON_SIZE), 2 * MESSAGE_TEXTURE_STATIC_TEX_SIZE))
+
 void Message_Init(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
     s32 pad;
@@ -179,11 +188,11 @@ void Message_Init(PlayState* play) {
 
     View_Init(&msgCtx->view, play->state.gfxCtx);
 
-    msgCtx->textboxSegment = GameState_Alloc(&play->state, 0x2200, "../z_construct.c", 349);
+    msgCtx->textboxSegment = GameState_Alloc(&play->state, TEXTBOX_SEGMENT_SIZE, "../z_construct.c", 349);
 
     osSyncPrintf("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 
-    osSyncPrintf("吹き出しgame_alloc=%x\n", 0x2200); // "Textbox game_alloc=%x"
+    osSyncPrintf("吹き出しgame_alloc=%x\n", TEXTBOX_SEGMENT_SIZE); // "Textbox game_alloc=%x"
     ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
     Font_LoadOrderedFont(&play->msgCtx.font);
@@ -191,7 +200,7 @@ void Message_Init(PlayState* play) {
     YREG(31) = 0;
 }
 
-void func_80111070(void) {
+void Regs_InitDataImpl(void) {
     YREG(8) = 10;
     YREG(14) = 0;
     R_SCENE_CAM_TYPE = SCENE_CAM_TYPE_DEFAULT;
@@ -244,7 +253,7 @@ void func_80111070(void) {
     R_TEXTBOX_ICON_YPOS = 10;
     YREG(73) = -8;
     YREG(74) = 8;
-    R_TEXTBOX_ICON_SIZE = 24;
+    R_TEXTBOX_ICON_DIMENSION = 24;
     YREG(76) = 32;
     YREG(77) = 0;
     R_MESSAGE_DEBUGGER_SELECT = 0;
@@ -345,9 +354,9 @@ void func_80111070(void) {
     XREG(3) = -4;
     XREG(4) = 3;
     XREG(5) = 0;
-    XREG(6) = 2;
+    R_PAUSE_STICK_REPEAT_DELAY = 2;
     XREG(7) = 30;
-    XREG(8) = 10;
+    R_PAUSE_STICK_REPEAT_DELAY_FIRST = 10;
     XREG(9) = 0;
     XREG(10) = -9550;
     XREG(11) = 9950;
@@ -595,11 +604,13 @@ void func_80111070(void) {
     VREG(87) = 64;
     VREG(88) = 66;
     VREG(89) = 0;
-    VREG(90) = 126;
-    VREG(91) = 124;
-    VREG(92) = -63;
+    R_GAME_OVER_RUMBLE_STRENGTH = 126;
+    R_GAME_OVER_RUMBLE_DURATION = 124;
+    //! @bug This is eventually cast to a u8 after some scaling in `GameOver_Update`, negative numbers typically
+    //! become large (fast) decrease rates
+    R_GAME_OVER_RUMBLE_DECREASE_RATE = -63;
 }
 
-void func_80112098(PlayState* play) {
-    func_80111070();
+void Regs_InitData(PlayState* play) {
+    Regs_InitDataImpl();
 }

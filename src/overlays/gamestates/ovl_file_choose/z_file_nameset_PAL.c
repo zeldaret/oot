@@ -1,4 +1,5 @@
 #include "file_select.h"
+#include "terminal.h"
 #include "assets/textures/title_static/title_static.h"
 #include "assets/overlays/ovl_File_Choose/ovl_file_choose.h"
 
@@ -115,9 +116,6 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     s16 phi_t1;
     u8 temp;
     s16 phi_v0;
-
-    if (1) {}
-    if (1) {}
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 205);
 
@@ -446,7 +444,7 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                             this->configMode = CM_NAME_ENTRY_TO_MAIN;
                             this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
                             this->connectorAlpha[this->buttonIndex] = 255;
-                            func_800AA000(300.0f, 0xB4, 0x14, 0x64);
+                            Rumble_Request(300.0f, 180, 20, 100);
                         } else {
                             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -563,7 +561,7 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
         this->kbdY--;
 
         if (this->kbdY < 0) {
-            // dont go to bottom row
+            // don't go to bottom row
             if (this->kbdX < 8) {
                 this->kbdY = 4;
                 this->charIndex = (s32)(this->kbdX + 52);
@@ -734,7 +732,7 @@ typedef struct {
     /* 0x12 */ u16 height;
 } OptionsMenuTextureInfo; // size = 0x14
 
-static OptionsMenuTextureInfo gOptionsMenuHeaders[] = {
+static OptionsMenuTextureInfo sOptionsMenuHeaders[] = {
     {
         { gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex },
         { 128, 128, 128 },
@@ -757,7 +755,7 @@ static OptionsMenuTextureInfo gOptionsMenuHeaders[] = {
     },
 };
 
-static OptionsMenuTextureInfo gOptionsMenuSettings[] = {
+static OptionsMenuTextureInfo sOptionsMenuSettings[] = {
     {
         { gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex },
         { 48, 48, 48 },
@@ -890,9 +888,9 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuHeaders[i].texture[gSaveContext.language], G_IM_FMT_IA,
-                            G_IM_SIZ_8b, gOptionsMenuHeaders[i].width[gSaveContext.language],
-                            gOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuHeaders[i].texture[gSaveContext.language], G_IM_FMT_IA,
+                            G_IM_SIZ_8b, sOptionsMenuHeaders[i].width[gSaveContext.language],
+                            sOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
@@ -919,9 +917,9 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
-                            G_IM_SIZ_8b, gOptionsMenuSettings[i].width[gSaveContext.language],
-                            gOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
+                            G_IM_SIZ_8b, sOptionsMenuSettings[i].width[gSaveContext.language],
+                            sOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
@@ -943,9 +941,9 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
-        gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
-                            G_IM_SIZ_8b, gOptionsMenuSettings[i].width[gSaveContext.language],
-                            gOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[gSaveContext.language], G_IM_FMT_IA,
+                            G_IM_SIZ_8b, sOptionsMenuSettings[i].width[gSaveContext.language],
+                            sOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }

@@ -21,7 +21,7 @@ void ArrowLight_Hit(ArrowLight* this, PlayState* play);
 
 #include "assets/overlays/ovl_Arrow_Light/ovl_Arrow_Light.c"
 
-const ActorInit Arrow_Light_InitVars = {
+ActorInit Arrow_Light_InitVars = {
     ACTOR_ARROW_LIGHT,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -163,7 +163,7 @@ void ArrowLight_Fly(ArrowLight* this, PlayState* play) {
     func_80869E6C(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_EXPLOSION_LIGHT);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_EXPLOSION_LIGHT);
         ArrowLight_SetupAction(this, ArrowLight_Hit);
         this->timer = 32;
         this->alpha = 255;

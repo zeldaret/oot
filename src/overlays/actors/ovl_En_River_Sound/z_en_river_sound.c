@@ -13,7 +13,7 @@ void EnRiverSound_Destroy(Actor* thisx, PlayState* play);
 void EnRiverSound_Update(Actor* thisx, PlayState* play);
 void EnRiverSound_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_River_Sound_InitVars = {
+ActorInit En_River_Sound_InitVars = {
     ACTOR_EN_RIVER_SOUND,
     ACTORCAT_BG,
     FLAGS,
@@ -200,7 +200,7 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
 
     if ((thisx->params == RS_RIVER_DEFAULT_LOW_FREQ) || (thisx->params == RS_RIVER_DEFAULT_MEDIUM_FREQ) ||
         (thisx->params == RS_RIVER_DEFAULT_HIGH_FREQ)) {
-        path = &play->setupPathList[this->pathIndex];
+        path = &play->pathList[this->pathIndex];
         pos = &thisx->world.pos;
 
         if (EnRiverSound_GetSfxPos(SEGMENTED_TO_VIRTUAL(path->points), path->count, &player->actor.world.pos, pos)) {
@@ -227,7 +227,7 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play) {
         }
     } else if ((thisx->params == RS_GORON_CITY_SARIAS_SONG) || (thisx->params == RS_GREAT_FAIRY)) {
         func_8002DBD0(&player->actor, &thisx->home.pos, &thisx->world.pos);
-    } else if (play->sceneId == SCENE_DDAN_BOSS && Flags_GetClear(play, thisx->room)) {
+    } else if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS && Flags_GetClear(play, thisx->room)) {
         Actor_Kill(thisx);
     }
 }
@@ -292,6 +292,6 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
         func_800788CC(soundEffects[this->actor.params]);
     } else {
         // Play sfx at the location of riverSounds projected position
-        Audio_PlayActorSfx2(&this->actor, soundEffects[this->actor.params]);
+        Actor_PlaySfx(&this->actor, soundEffects[this->actor.params]);
     }
 }

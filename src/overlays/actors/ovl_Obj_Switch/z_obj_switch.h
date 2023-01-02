@@ -48,7 +48,7 @@ typedef struct ObjSwitch {
     /* 0x017A */ u8 x2TexScroll;
     /* 0x017B */ u8 y2TexScroll;
     /* 0x017C */ Color_RGB8 crystalColor;
-    /* 0x017F */ u8 unk_17F;
+    /* 0x017F */ u8 prevColFlags; // Either dynapoly interact flags or AC flags, of the previous frame
     union {
         /* 0x0180 */ ObjSwitchJntSph jntSph;
         /* 0x0180 */ ObjSwitchTris tris;

@@ -14,7 +14,7 @@ void EnBx_Destroy(Actor* thisx, PlayState* play);
 void EnBx_Update(Actor* thisx, PlayState* play);
 void EnBx_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Bx_InitVars = {
+ActorInit En_Bx_InitVars = {
     ACTOR_EN_BX,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -183,7 +183,7 @@ void EnBx_Update(Actor* thisx, PlayState* play) {
             }
         }
 
-        Audio_PlayActorSfx2(thisx, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
+        Actor_PlaySfx(thisx, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
     }
     thisx->focus.pos = thisx->world.pos;
     Collider_UpdateCylinder(thisx, &this->collider);

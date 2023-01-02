@@ -1,4 +1,5 @@
 #include "file_select.h"
+#include "terminal.h"
 #include "assets/textures/title_static/title_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
@@ -346,7 +347,7 @@ void FileSelect_RotateToMain(GameState* thisx) {
     }
 }
 
-static void (*gConfigModeUpdateFuncs[])(GameState*) = {
+static void (*sConfigModeUpdateFuncs[])(GameState*) = {
     FileSelect_StartFadeIn,        FileSelect_FinishFadeIn,
     FileSelect_UpdateMainMenu,     FileSelect_SetupCopySource,
     FileSelect_SelectCopySource,   FileSelect_SetupCopyDest1,
@@ -441,7 +442,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
 void FileSelect_ConfigModeUpdate(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
 
-    gConfigModeUpdateFuncs[this->configMode](&this->state);
+    sConfigModeUpdateFuncs[this->configMode](&this->state);
 }
 
 void FileSelect_SetWindowVtx(GameState* thisx) {
@@ -806,8 +807,6 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
     s16 j;
     s16 deathCountSplit[3];
 
-    if (1) {}
-
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 1709);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1127,7 +1126,7 @@ void FileSelect_ConfigModeDraw(GameState* thisx) {
     eyeZ = 1000.0f * Math_SinS(ZREG(11)) + 1000.0f * Math_CosS(ZREG(11));
 
     FileSelect_SetView(this, eyeX, eyeY, eyeZ);
-    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
+    Skybox_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
@@ -1320,7 +1319,7 @@ void FileSelect_ConfirmFile(GameState* thisx) {
 
     if (CHECK_BTN_ALL(input->press.button, BTN_START) || (CHECK_BTN_ALL(input->press.button, BTN_A))) {
         if (this->confirmButtonIndex == FS_BTN_CONFIRM_YES) {
-            func_800AA000(300.0f, 180, 20, 100);
+            Rumble_Request(300.0f, 180, 20, 100);
             Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->selectMode = SM_FADE_OUT;
@@ -1464,13 +1463,13 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
     gSaveContext.dogParams = 0;
-    gSaveContext.timer1State = 0;
-    gSaveContext.timer2State = 0;
+    gSaveContext.timerState = TIMER_STATE_OFF;
+    gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
     gSaveContext.eventInf[0] = 0;
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;
     gSaveContext.eventInf[3] = 0;
-    gSaveContext.unk_13EE = 0x32;
+    gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
     gSaveContext.nayrusLoveTimer = 0;
     gSaveContext.healthAccumulator = 0;
     gSaveContext.magicState = MAGIC_STATE_IDLE;
@@ -1487,8 +1486,8 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
-    gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
-        gSaveContext.magicCapacity = 0;
+    gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
+        gSaveContext.hudVisibilityModeTimer = gSaveContext.magicCapacity = 0; // false, HUD_VISIBILITY_NO_CHANGE
 
     // Set the fill target to be the saved magic amount
     gSaveContext.magicFillTarget = gSaveContext.magic;
@@ -1504,8 +1503,8 @@ void FileSelect_LoadGame(GameState* thisx) {
 
     if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
         (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
+        (gSaveContext.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
 
         gSaveContext.equips.buttonItems[0] = ITEM_NONE;
         swordEquipValue = (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
@@ -1514,7 +1513,7 @@ void FileSelect_LoadGame(GameState* thisx) {
     }
 }
 
-static void (*gSelectModeUpdateFuncs[])(GameState*) = {
+static void (*sSelectModeUpdateFuncs[])(GameState*) = {
     FileSelect_FadeMainToSelect, FileSelect_MoveSelectedFileToTop,  FileSelect_FadeInFileInfo, FileSelect_ConfirmFile,
     FileSelect_FadeOutFileInfo,  FileSelect_MoveSelectedFileToSlot, FileSelect_FadeOut,        FileSelect_LoadGame,
 };
@@ -1522,7 +1521,7 @@ static void (*gSelectModeUpdateFuncs[])(GameState*) = {
 void FileSelect_SelectModeUpdate(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
 
-    gSelectModeUpdateFuncs[this->selectMode](&this->state);
+    sSelectModeUpdateFuncs[this->selectMode](&this->state);
 }
 
 void FileSelect_SelectModeDraw(GameState* thisx) {
@@ -1540,7 +1539,7 @@ void FileSelect_SelectModeDraw(GameState* thisx) {
     eyeZ = 1000.0f * Math_SinS(ZREG(11)) + 1000.0f * Math_CosS(ZREG(11));
 
     FileSelect_SetView(this, eyeX, eyeY, eyeZ);
-    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
+    Skybox_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.skyboxBlend, eyeX, eyeY, eyeZ);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
@@ -1577,13 +1576,13 @@ void FileSelect_SelectModeDraw(GameState* thisx) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2834);
 }
 
-static void (*gFileSelectDrawFuncs[])(GameState*) = {
+static void (*sFileSelectDrawFuncs[])(GameState*) = {
     FileSelect_InitModeDraw,
     FileSelect_ConfigModeDraw,
     FileSelect_SelectModeDraw,
 };
 
-static void (*gFileSelectUpdateFuncs[])(GameState*) = {
+static void (*sFileSelectUpdateFuncs[])(GameState*) = {
     FileSelect_InitModeUpdate,
     FileSelect_ConfigModeUpdate,
     FileSelect_SelectModeUpdate,
@@ -1670,8 +1669,8 @@ void FileSelect_Main(GameState* thisx) {
     this->emptyFileTextAlpha = 0;
 
     FileSelect_PulsateCursor(&this->state);
-    gFileSelectUpdateFuncs[this->menuMode](&this->state);
-    gFileSelectDrawFuncs[this->menuMode](&this->state);
+    sFileSelectUpdateFuncs[this->menuMode](&this->state);
+    sFileSelectDrawFuncs[this->menuMode](&this->state);
 
     // do not draw controls text in the options menu
     if ((this->configMode <= CM_NAME_ENTRY_TO_MAIN) || (this->configMode >= CM_UNUSED_DELAY)) {
@@ -1880,13 +1879,14 @@ void FileSelect_Init(GameState* thisx) {
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_file_choose.c", 3392);
     ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_file_choose.c", 3393);
-    DmaMgr_SendRequest1(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_file_choose.c", 3394);
+    DmaMgr_RequestSyncDebug(this->staticSegment, (uintptr_t)_title_staticSegmentRomStart, size, "../z_file_choose.c",
+                            3394);
 
     size = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
     this->parameterSegment = GameState_Alloc(&this->state, size, "../z_file_choose.c", 3398);
     ASSERT(this->parameterSegment != NULL, "this->parameterSegment != NULL", "../z_file_choose.c", 3399);
-    DmaMgr_SendRequest1(this->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, size, "../z_file_choose.c",
-                        3400);
+    DmaMgr_RequestSyncDebug(this->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, size,
+                            "../z_file_choose.c", 3400);
 
     Matrix_Init(&this->state);
     View_Init(&this->view, this->state.gfxCtx);
@@ -1894,6 +1894,7 @@ void FileSelect_Init(GameState* thisx) {
     this->state.destroy = FileSelect_Destroy;
     FileSelect_InitContext(&this->state);
     Font_LoadOrderedFont(&this->font);
-    Audio_QueueSeqCmd(0xF << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA);
-    func_800F5E18(SEQ_PLAYER_BGM_MAIN, NA_BGM_FILE_SELECT, 0, 7, 1);
+    SEQCMD_RESET_AUDIO_HEAP(0, 10);
+    // Setting ioData to 1 and writing it to ioPort 7 will skip the harp intro
+    Audio_PlaySequenceWithSeqPlayerIO(SEQ_PLAYER_BGM_MAIN, NA_BGM_FILE_SELECT, 0, 7, 1);
 }

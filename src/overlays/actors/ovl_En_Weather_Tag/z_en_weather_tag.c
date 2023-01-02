@@ -5,7 +5,7 @@
  */
 
 #include "z_en_weather_tag.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -31,7 +31,7 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, PlayState* play);
 
 #define WEATHER_TAG_RANGE100(x) ((x >> 8) * 100.0f)
 
-const ActorInit En_Weather_Tag_InitVars = {
+ActorInit En_Weather_Tag_InitVars = {
     ACTOR_EN_WEATHER_TAG,
     ACTORCAT_PROP,
     FLAGS,
@@ -66,7 +66,7 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" VT_RST);
-            if (Flags_GetEventChkInf(EVENTCHKINF_18)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
                 Actor_Kill(&this->actor);
             }
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyLonLonRanch);
@@ -291,11 +291,11 @@ void EnWeatherTag_SetSandstormIntensity(EnWeatherTag* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
-        Math_SmoothStepToS(&play->envCtx.adjFogNear, -0x50, 1, 2, 1);
-        Math_SmoothStepToS(&play->envCtx.adjFogFar, -0x7D0, 1, 50, 1);
+        Math_SmoothStepToS(&play->envCtx.adjFogNear, -80, 1, 2, 1);
+        Math_SmoothStepToS(&play->envCtx.adjZFar, -2000, 1, 50, 1);
     } else {
         Math_SmoothStepToS(&play->envCtx.adjFogNear, 0, 1, 1, 1);
-        Math_SmoothStepToS(&play->envCtx.adjFogFar, 0, 1, 25, 1);
+        Math_SmoothStepToS(&play->envCtx.adjZFar, 0, 1, 25, 1);
     }
 }
 

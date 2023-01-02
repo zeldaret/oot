@@ -5,7 +5,7 @@
  */
 
 #include "z_en_changer.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
@@ -24,7 +24,7 @@ void EnChanger_Wait(EnChanger* this, PlayState* play);
 void EnChanger_OpenChests(EnChanger* this, PlayState* play);
 void EnChanger_SetHeartPieceFlag(EnChanger* this, PlayState* play);
 
-const ActorInit En_Changer_InitVars = {
+ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
     ACTORCAT_PROP,
     FLAGS,
@@ -73,11 +73,7 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
     s16 minigameRoomNum;
     s16 rightChestItem;
     s16 leftChestItem;
-    s16 temp_v1_3;
-    s16 new_var;
     s32 rewardParams;
-
-    if (1) {}
 
     minigameRoomNum = play->roomCtx.curRoom.num - 1;
     if (minigameRoomNum < 0) {
@@ -124,27 +120,25 @@ void EnChanger_Init(Actor* thisx, PlayState* play2) {
         }
     }
 
-    temp_v1_3 = minigameRoomNum;
     // Set up items in chests, swap them round with probability 1/2
     leftChestParams = (sLoserGetItemIds[play->roomCtx.curRoom.num] << 5) | 0x4000;
-    new_var = temp_v1_3;
-    this->leftChestNum = new_var;
+    this->leftChestNum = minigameRoomNum;
     this->leftChestGetItemId = sLoserGetItemIds[play->roomCtx.curRoom.num];
     leftChestItem = sItemEtcTypes[play->roomCtx.curRoom.num];
-    leftChestParams |= new_var;
-    rightChestParams = new_var | 0x4E21;
-    this->rightChestNum = new_var | 1;
+    leftChestParams |= minigameRoomNum;
+    rightChestParams = minigameRoomNum | 0x4E21;
+    this->rightChestNum = minigameRoomNum | 1;
     this->rightChestGetItemId = GI_DOOR_KEY;
     rightChestItem = ITEM_ETC_KEY_SMALL_CHEST_GAME;
 
     if (Rand_ZeroFloat(1.99f) < 1.0f) {
         rightChestParams = (sLoserGetItemIds[play->roomCtx.curRoom.num] << 5) | 0x4000;
-        this->rightChestNum = new_var;
+        this->rightChestNum = minigameRoomNum;
         this->rightChestGetItemId = sLoserGetItemIds[play->roomCtx.curRoom.num];
         rightChestItem = sItemEtcTypes[play->roomCtx.curRoom.num];
-        leftChestParams = new_var | 0x4E21;
-        rightChestParams |= new_var;
-        this->leftChestNum = temp_v1_3 | 1;
+        leftChestParams = minigameRoomNum | 0x4E21;
+        rightChestParams |= minigameRoomNum;
+        this->leftChestNum = minigameRoomNum | 1;
         this->leftChestGetItemId = GI_DOOR_KEY;
         leftChestItem = ITEM_ETC_KEY_SMALL_CHEST_GAME;
     }

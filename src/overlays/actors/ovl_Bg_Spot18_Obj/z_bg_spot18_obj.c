@@ -30,7 +30,7 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play);
 void func_808B9030(BgSpot18Obj* this);
 void func_808B9040(BgSpot18Obj* this, PlayState* play);
 
-const ActorInit Bg_Spot18_Obj_InitVars = {
+ActorInit Bg_Spot18_Obj_InitVars = {
     ACTOR_BG_SPOT18_OBJ,
     ACTORCAT_BG,
     FLAGS,
@@ -128,7 +128,7 @@ s32 func_808B8A98(BgSpot18Obj* this, PlayState* play) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     return 1;
@@ -236,7 +236,7 @@ void func_808B8E7C(BgSpot18Obj* this, PlayState* play) {
 void func_808B8EE0(BgSpot18Obj* this) {
     this->actionFunc = func_808B8F08;
     this->dyna.actor.world.rot.y = 0;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.velocity.z = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.velocity.x = 0.0f;
@@ -246,8 +246,8 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    Math_StepToF(&this->dyna.actor.speedXZ, 1.2f, 0.1f);
-    Actor_MoveForward(&this->dyna.actor);
+    Math_StepToF(&this->dyna.actor.speed, 1.2f, 0.1f);
+    Actor_MoveXZGravity(&this->dyna.actor);
     func_808B8DDC(this, play);
 
     if (Math3D_Dist2DSq(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.x,
@@ -259,7 +259,7 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }

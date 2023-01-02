@@ -5,7 +5,7 @@
  * the crash screen implemented by fault.c
  */
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 typedef struct {
     /* 0x00 */ u16* fb;
@@ -99,7 +99,15 @@ FaultDrawer sFaultDrawerDefault = {
     NULL,
 };
 
+#ifndef NON_MATCHING
+// TODO: match .bss (has reordering issues)
 extern FaultDrawer sFaultDrawer;
+extern char D_8016B6BC[0x24];
+#else
+// Non-matching version for struct shiftability
+FaultDrawer sFaultDrawer;
+char D_8016B6BC[0x24];
+#endif
 
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
     sFaultDrawer.osSyncPrintfEnabled = enabled;

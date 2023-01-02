@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 vu32 sLogOnNextViewInit = true;
 
@@ -12,11 +12,11 @@ void View_ViewportToVp(Vp* dest, Viewport* src) {
 
     dest->vp.vscale[0] = width * 2;
     dest->vp.vscale[1] = height * 2;
-    dest->vp.vscale[2] = 0x01FF;
+    dest->vp.vscale[2] = G_MAXZ / 2;
     dest->vp.vscale[3] = 0;
     dest->vp.vtrans[0] = ((src->leftX * 2) + width) * 2;
     dest->vp.vtrans[1] = ((src->topY * 2) + height) * 2;
-    dest->vp.vtrans[2] = 0x01FF;
+    dest->vp.vtrans[2] = G_MAXZ / 2;
     dest->vp.vtrans[3] = 0;
 }
 
@@ -310,16 +310,17 @@ s32 View_ApplyPerspective(View* view) {
     height = view->viewport.bottomY - view->viewport.topY;
     aspect = (f32)width / (f32)height;
 
-    if (HREG(80) == 11) {
-        if (HREG(94) != 11) {
-            HREG(94) = 11;
-            HREG(83) = 60;
-            HREG(84) = 13333;
-            HREG(85) = 10;
-            HREG(86) = 12800;
-            HREG(87) = 100;
+    if (R_HREG_MODE == HREG_MODE_PERSPECTIVE) {
+        if (R_PERSPECTIVE_INIT != HREG_MODE_PERSPECTIVE) {
+            R_PERSPECTIVE_INIT = HREG_MODE_PERSPECTIVE;
+            R_PERSPECTIVE_FOVY = 60;
+            R_PERSPECTIVE_ASPECT = (10000 * 4) / 3;
+            R_PERSPECTIVE_NEAR = 10;
+            R_PERSPECTIVE_FAR = 12800;
+            R_PERSPECTIVE_SCALE = 100;
         }
-        guPerspective(projection, &view->normal, HREG(83), HREG(84) / 10000.0f, HREG(85), HREG(86), HREG(87) / 100.0f);
+        guPerspective(projection, &view->normal, R_PERSPECTIVE_FOVY, R_PERSPECTIVE_ASPECT / 10000.0f,
+                      R_PERSPECTIVE_NEAR, R_PERSPECTIVE_FAR, R_PERSPECTIVE_SCALE / 100.0f);
     } else {
         guPerspective(projection, &view->normal, view->fovy, aspect, view->zNear, view->zFar, view->scale);
     }

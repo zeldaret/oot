@@ -20,7 +20,7 @@ void func_808B29F0(BgSpot11Oasis* this, PlayState* play);
 void func_808B2AA8(BgSpot11Oasis* this);
 void func_808B2AB8(BgSpot11Oasis* this, PlayState* play);
 
-const ActorInit Bg_Spot11_Oasis_InitVars = {
+ActorInit Bg_Spot11_Oasis_InitVars = {
     ACTOR_BG_SPOT11_OASIS,
     ACTORCAT_BG,
     FLAGS,
@@ -94,7 +94,7 @@ void func_808B2970(BgSpot11Oasis* this) {
 }
 
 void func_808B2980(BgSpot11Oasis* this, PlayState* play) {
-    if (Flags_GetEnv(play, 5) && func_808B280C(play)) {
+    if (CutsceneFlags_Get(play, 5) && func_808B280C(play)) {
         OnePointCutscene_Init(play, 4150, -99, &this->actor, CAM_ID_MAIN);
         func_808B29E0(this);
     }

@@ -21,7 +21,7 @@ void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, PlayState* play);
 void BgGndDarkmeiro_UpdateStaticBlock(BgGndDarkmeiro* this, PlayState* play);
 void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, PlayState* play);
 
-const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
+ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     ACTOR_BG_GND_DARKMEIRO,
     ACTORCAT_PROP,
     FLAGS,

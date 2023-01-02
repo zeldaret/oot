@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList* nodeList);
 void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* sector);
@@ -63,26 +63,26 @@ s32 D_80119D90[WALL_TYPE_MAX] = {
     WALL_FLAG_0 | WALL_FLAG_1, // WALL_TYPE_2
     WALL_FLAG_0 | WALL_FLAG_2, // WALL_TYPE_3
     WALL_FLAG_3,               // WALL_TYPE_4
-    WALL_FLAG_4,               // WALL_TYPE_5
-    WALL_FLAG_5,               // WALL_TYPE_6
+    WALL_FLAG_CRAWLSPACE_1,    // WALL_TYPE_5
+    WALL_FLAG_CRAWLSPACE_2,    // WALL_TYPE_6
     WALL_FLAG_6,               // WALL_TYPE_7
 };
 
-u16 D_80119E10[SURFACE_SFX_TYPE_MAX] = {
-    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACE_SFX_TYPE_0
-    NA_SE_PL_WALK_SAND - SFX_FLAG,     // SURFACE_SFX_TYPE_1
-    NA_SE_PL_WALK_CONCRETE - SFX_FLAG, // SURFACE_SFX_TYPE_2
-    NA_SE_PL_WALK_DIRT - SFX_FLAG,     // SURFACE_SFX_TYPE_3
-    NA_SE_PL_WALK_WATER0 - SFX_FLAG,   // SURFACE_SFX_TYPE_4
-    NA_SE_PL_WALK_WATER1 - SFX_FLAG,   // SURFACE_SFX_TYPE_5
-    NA_SE_PL_WALK_WATER2 - SFX_FLAG,   // SURFACE_SFX_TYPE_6
-    NA_SE_PL_WALK_MAGMA - SFX_FLAG,    // SURFACE_SFX_TYPE_7
-    NA_SE_PL_WALK_GRASS - SFX_FLAG,    // SURFACE_SFX_TYPE_8
-    NA_SE_PL_WALK_GLASS - SFX_FLAG,    // SURFACE_SFX_TYPE_9
-    NA_SE_PL_WALK_LADDER - SFX_FLAG,   // SURFACE_SFX_TYPE_10
-    NA_SE_PL_WALK_GROUND - SFX_FLAG,   // SURFACE_SFX_TYPE_11
-    NA_SE_PL_WALK_ICE - SFX_FLAG,      // SURFACE_SFX_TYPE_12
-    NA_SE_PL_WALK_IRON - SFX_FLAG,     // SURFACE_SFX_TYPE_13
+u16 sSurfaceMaterialToSfxOffset[SURFACE_MATERIAL_MAX] = {
+    SURFACE_SFX_OFFSET_DIRT,          // SURFACE_MATERIAL_DIRT
+    SURFACE_SFX_OFFSET_SAND,          // SURFACE_MATERIAL_SAND
+    SURFACE_SFX_OFFSET_STONE,         // SURFACE_MATERIAL_STONE
+    SURFACE_SFX_OFFSET_JABU,          // SURFACE_MATERIAL_JABU
+    SURFACE_SFX_OFFSET_WATER_SHALLOW, // SURFACE_MATERIAL_WATER_SHALLOW
+    SURFACE_SFX_OFFSET_WATER_DEEP,    // SURFACE_MATERIAL_WATER_DEEP
+    SURFACE_SFX_OFFSET_TALL_GRASS,    // SURFACE_MATERIAL_TALL_GRASS
+    SURFACE_SFX_OFFSET_LAVA,          // SURFACE_MATERIAL_LAVA
+    SURFACE_SFX_OFFSET_GRASS,         // SURFACE_MATERIAL_GRASS
+    SURFACE_SFX_OFFSET_BRIDGE,        // SURFACE_MATERIAL_BRIDGE
+    SURFACE_SFX_OFFSET_WOOD,          // SURFACE_MATERIAL_WOOD
+    SURFACE_SFX_OFFSET_DIRT,          // SURFACE_MATERIAL_DIRT_SOFT
+    SURFACE_SFX_OFFSET_ICE,           // SURFACE_MATERIAL_ICE
+    SURFACE_SFX_OFFSET_CARPET,        // SURFACE_MATERIAL_CARPET
 };
 
 /**
@@ -149,7 +149,7 @@ void DynaSSNodeList_Initialize(PlayState* play, DynaSSNodeList* nodeList) {
  * Initialize DynaSSNodeList tbl
  */
 void DynaSSNodeList_Alloc(PlayState* play, DynaSSNodeList* nodeList, s32 max) {
-    nodeList->tbl = THA_AllocEndAlign(&play->state.tha, max * sizeof(SSNode), -2);
+    nodeList->tbl = THA_AllocTailAlign(&play->state.tha, max * sizeof(SSNode), ALIGNOF_MASK(SSNode));
 
     ASSERT(nodeList->tbl != NULL, "psst->tbl != NULL", "../z_bgcheck.c", 1811);
 
@@ -1476,9 +1476,11 @@ u32 BgCheck_InitializeStaticLookup(CollisionContext* colCtx, PlayState* play, St
  */
 s32 BgCheck_IsSpotScene(PlayState* play) {
     static s16 spotScenes[] = {
-        SCENE_SPOT00, SCENE_SPOT01, SCENE_SPOT02, SCENE_SPOT03, SCENE_SPOT04, SCENE_SPOT05, SCENE_SPOT06,
-        SCENE_SPOT07, SCENE_SPOT08, SCENE_SPOT09, SCENE_SPOT10, SCENE_SPOT11, SCENE_SPOT12, SCENE_SPOT13,
-        SCENE_SPOT15, SCENE_SPOT16, SCENE_SPOT17, SCENE_SPOT18, SCENE_SPOT20,
+        SCENE_HYRULE_FIELD,          SCENE_KAKARIKO_VILLAGE,     SCENE_GRAVEYARD,     SCENE_ZORAS_RIVER,
+        SCENE_KOKIRI_FOREST,         SCENE_SACRED_FOREST_MEADOW, SCENE_LAKE_HYLIA,    SCENE_ZORAS_DOMAIN,
+        SCENE_ZORAS_FOUNTAIN,        SCENE_GERUDO_VALLEY,        SCENE_LOST_WOODS,    SCENE_DESERT_COLOSSUS,
+        SCENE_GERUDOS_FORTRESS,      SCENE_HAUNTED_WASTELAND,    SCENE_HYRULE_CASTLE, SCENE_DEATH_MOUNTAIN_TRAIL,
+        SCENE_DEATH_MOUNTAIN_CRATER, SCENE_GORON_CITY,           SCENE_LON_LON_RANCH,
     };
     s16* i;
 
@@ -1500,9 +1502,10 @@ typedef struct {
  */
 s32 BgCheck_TryGetCustomMemsize(s32 sceneId, u32* memSize) {
     static BgCheckSceneMemEntry sceneMemList[] = {
-        { SCENE_SPOT00, 0xB798 },     { SCENE_GANON_FINAL, 0x78C8 }, { SCENE_GANON_DEMO, 0x70C8 },
-        { SCENE_JYASINBOSS, 0xACC8 }, { SCENE_KENJYANOMA, 0x70C8 },  { SCENE_JYASINZOU, 0x16CC8 },
-        { SCENE_HIDAN, 0x198C8 },     { SCENE_GANON_BOSS, 0x84C8 },
+        { SCENE_HYRULE_FIELD, 0xB798 },         { SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR, 0x78C8 },
+        { SCENE_GANON_BOSS, 0x70C8 },           { SCENE_SPIRIT_TEMPLE_BOSS, 0xACC8 },
+        { SCENE_CHAMBER_OF_THE_SAGES, 0x70C8 }, { SCENE_SPIRIT_TEMPLE, 0x16CC8 },
+        { SCENE_FIRE_TEMPLE, 0x198C8 },         { SCENE_GANONDORF_BOSS, 0x84C8 },
     };
     s32 i;
 
@@ -1539,8 +1542,8 @@ typedef struct {
  */
 void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader* colHeader) {
     static BgCheckSceneSubdivisionEntry sceneSubdivisionList[] = {
-        { SCENE_HAKADAN, { 23, 7, 14 }, -1 },
-        { SCENE_BMORI1, { 38, 1, 38 }, -1 },
+        { SCENE_SHADOW_TEMPLE, { 23, 7, 14 }, -1 },
+        { SCENE_FOREST_TEMPLE, { 38, 1, 38 }, -1 },
     };
     u32 tblMax;
     u32 memSize;
@@ -1560,7 +1563,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     if ((R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) ||
         (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) || (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED) ||
         (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_MARKET)) {
-        if (play->sceneId == SCENE_MALON_STABLE) {
+        if (play->sceneId == SCENE_STABLE) {
             // "/* BGCheck LonLon Size %dbyte */\n"
             osSyncPrintf("/* BGCheck LonLonサイズ %dbyte */\n", 0x3520);
             colCtx->memSize = 0x3520;
@@ -1613,9 +1616,10 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
             colCtx->subdivAmount.z = 16;
         }
     }
-    colCtx->lookupTbl = THA_AllocEndAlign(
-        &play->state.tha,
-        colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y * colCtx->subdivAmount.z, ~1);
+    colCtx->lookupTbl = THA_AllocTailAlign(&play->state.tha,
+                                           colCtx->subdivAmount.x * sizeof(StaticLookup) * colCtx->subdivAmount.y *
+                                               colCtx->subdivAmount.z,
+                                           ALIGNOF_MASK(StaticLookup));
     if (colCtx->lookupTbl == NULL) {
         LogUtils_HungupThread("../z_bgcheck.c", 4176);
     }
@@ -2501,7 +2505,7 @@ void SSNodeList_Initialize(SSNodeList* this) {
 void SSNodeList_Alloc(PlayState* play, SSNodeList* this, s32 tblMax, s32 numPolys) {
     this->max = tblMax;
     this->count = 0;
-    this->tbl = THA_AllocEndAlign(&play->state.tha, tblMax * sizeof(SSNode), -2);
+    this->tbl = THA_AllocTailAlign(&play->state.tha, tblMax * sizeof(SSNode), ALIGNOF_MASK(SSNode));
 
     ASSERT(this->tbl != NULL, "this->short_slist_node_tbl != NULL", "../z_bgcheck.c", 5975);
 
@@ -2636,7 +2640,7 @@ void DynaPoly_NullPolyList(CollisionPoly** polyList) {
  * Allocate dyna.polyList
  */
 void DynaPoly_AllocPolyList(PlayState* play, CollisionPoly** polyList, s32 numPolys) {
-    *polyList = THA_AllocEndAlign(&play->state.tha, numPolys * sizeof(CollisionPoly), -2);
+    *polyList = THA_AllocTailAlign(&play->state.tha, numPolys * sizeof(CollisionPoly), ALIGNOF_MASK(CollisionPoly));
     ASSERT(*polyList != NULL, "ptbl->pbuf != NULL", "../z_bgcheck.c", 6247);
 }
 
@@ -2651,7 +2655,7 @@ void DynaPoly_NullVtxList(Vec3s** vtxList) {
  * Allocate dyna.vtxList
  */
 void DynaPoly_AllocVtxList(PlayState* play, Vec3s** vtxList, s32 numVtx) {
-    *vtxList = THA_AllocEndAlign(&play->state.tha, numVtx * sizeof(Vec3s), -2);
+    *vtxList = THA_AllocTailAlign(&play->state.tha, numVtx * sizeof(Vec3s), ALIGNOF_MASK(Vec3s));
     ASSERT(*vtxList != NULL, "ptbl->pbuf != NULL", "../z_bgcheck.c", 6277);
 }
 
@@ -4107,17 +4111,17 @@ u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s3
     return SurfaceType_GetData(colCtx, poly, bgId, 0) >> 31 & 1;
 }
 
-u32 SurfaceType_GetSfxType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u32 SurfaceType_GetMaterial(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     return SurfaceType_GetData(colCtx, poly, bgId, 1) & 0xF;
 }
 
-u16 SurfaceType_GetSfxId(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
-    s32 sfxType = SurfaceType_GetSfxType(colCtx, poly, bgId);
+u16 SurfaceType_GetSfxOffset(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+    s32 surfaceMaterial = SurfaceType_GetMaterial(colCtx, poly, bgId);
 
-    if (sfxType < 0 || sfxType >= ARRAY_COUNT(D_80119E10)) {
-        return NA_SE_PL_WALK_GROUND - SFX_FLAG;
+    if ((surfaceMaterial < 0) || (surfaceMaterial >= ARRAY_COUNT(sSurfaceMaterialToSfxOffset))) {
+        return SURFACE_SFX_OFFSET_DIRT;
     }
-    return D_80119E10[sfxType];
+    return sSurfaceMaterialToSfxOffset[surfaceMaterial];
 }
 
 u32 SurfaceType_GetFloorEffect(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
@@ -4220,7 +4224,7 @@ f32 sZorasDomainWaterBoxMaxZ = -967.0f;
  */
 s32 WaterBox_GetSurface1(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                          WaterBox** outWaterBox) {
-    if (play->sceneId == SCENE_SPOT07) {
+    if (play->sceneId == SCENE_ZORAS_DOMAIN) {
         if (sZorasDomainWaterBoxMinX < x && x < sZorasDomainWaterBoxMaxX && sZorasDomainWaterBoxMinY < *ySurface &&
             *ySurface < sZorasDomainWaterBoxMaxY && sZorasDomainWaterBoxMinZ < z && z < sZorasDomainWaterBoxMaxZ) {
             *outWaterBox = &sZorasDomainWaterBox;
@@ -4239,22 +4243,21 @@ s32 WaterBox_GetSurface1(PlayState* play, CollisionContext* colCtx, f32 x, f32 z
 s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                             WaterBox** outWaterBox) {
     CollisionHeader* colHeader = colCtx->colHeader;
-    u32 room;
-    WaterBox* curWaterBox;
+    s32 room;
+    WaterBox* waterBox;
 
     if (colHeader->numWaterBoxes == 0 || colHeader->waterBoxes == SEGMENTED_TO_VIRTUAL(NULL)) {
         return false;
     }
 
-    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
-         curWaterBox++) {
-        room = WATERBOX_ROOM(curWaterBox->properties);
-        if (room == (u32)play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
-            if (!(curWaterBox->properties & WATERBOX_FLAG_19)) {
-                if (curWaterBox->xMin < x && x < curWaterBox->xMin + curWaterBox->xLength) {
-                    if (curWaterBox->zMin < z && z < curWaterBox->zMin + curWaterBox->zLength) {
-                        *outWaterBox = curWaterBox;
-                        *ySurface = curWaterBox->ySurface;
+    for (waterBox = colHeader->waterBoxes; waterBox < colHeader->waterBoxes + colHeader->numWaterBoxes; waterBox++) {
+        room = WATERBOX_ROOM(waterBox->properties);
+        if (room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
+            if (!(waterBox->properties & WATERBOX_FLAG_19)) {
+                if (waterBox->xMin < x && x < waterBox->xMin + waterBox->xLength) {
+                    if (waterBox->zMin < z && z < waterBox->zMin + waterBox->zLength) {
+                        *outWaterBox = waterBox;
+                        *ySurface = waterBox->ySurface;
                         return true;
                     }
                 }
@@ -4287,21 +4290,18 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
         waterBox = &colHeader->waterBoxes[i];
 
         room = WATERBOX_ROOM(waterBox->properties);
-        if (!(room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL)) {
-            continue;
-        }
-        if (waterBox->properties & WATERBOX_FLAG_19) {
-            continue;
-        }
-        if (!(waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength)) {
-            continue;
-        }
-        if (!(waterBox->zMin < pos->z && pos->z < waterBox->zMin + waterBox->zLength)) {
-            continue;
-        }
-        if (pos->y - surfaceChkDist < waterBox->ySurface && waterBox->ySurface < pos->y + surfaceChkDist) {
-            *outWaterBox = waterBox;
-            return i;
+        if (room == play->roomCtx.curRoom.num || room == WATERBOX_ROOM_ALL) {
+            if (!(waterBox->properties & WATERBOX_FLAG_19)) {
+                if (waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength) {
+                    if (waterBox->zMin < pos->z && pos->z < waterBox->zMin + waterBox->zLength) {
+                        if (pos->y - surfaceChkDist < waterBox->ySurface &&
+                            waterBox->ySurface < pos->y + surfaceChkDist) {
+                            *outWaterBox = waterBox;
+                            return i;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -4349,22 +4349,21 @@ u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox) {
  */
 s32 func_800425B0(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox) {
     CollisionHeader* colHeader = colCtx->colHeader;
-    u32 room;
-    WaterBox* curWaterBox;
+    s32 room;
+    WaterBox* waterBox;
 
     if (colHeader->numWaterBoxes == 0 || colHeader->waterBoxes == SEGMENTED_TO_VIRTUAL(NULL)) {
         return false;
     }
 
-    for (curWaterBox = colHeader->waterBoxes; curWaterBox < colHeader->waterBoxes + colHeader->numWaterBoxes;
-         curWaterBox++) {
-        room = WATERBOX_ROOM(curWaterBox->properties);
-        if ((room == (u32)play->roomCtx.curRoom.num) || (room == WATERBOX_ROOM_ALL)) {
-            if (curWaterBox->properties & WATERBOX_FLAG_19) {
-                if (curWaterBox->xMin < x && x < (curWaterBox->xMin + curWaterBox->xLength)) {
-                    if (curWaterBox->zMin < z && z < (curWaterBox->zMin + curWaterBox->zLength)) {
-                        *outWaterBox = curWaterBox;
-                        *ySurface = curWaterBox->ySurface;
+    for (waterBox = colHeader->waterBoxes; waterBox < colHeader->waterBoxes + colHeader->numWaterBoxes; waterBox++) {
+        room = WATERBOX_ROOM(waterBox->properties);
+        if ((room == play->roomCtx.curRoom.num) || (room == WATERBOX_ROOM_ALL)) {
+            if (waterBox->properties & WATERBOX_FLAG_19) {
+                if (waterBox->xMin < x && x < (waterBox->xMin + waterBox->xLength)) {
+                    if (waterBox->zMin < z && z < (waterBox->zMin + waterBox->zLength)) {
+                        *outWaterBox = waterBox;
+                        *ySurface = waterBox->ySurface;
                         return true;
                     }
                 }

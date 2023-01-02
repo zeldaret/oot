@@ -1,6 +1,6 @@
 #include "global.h"
 
-static u16 sATan2Tbl[] = {
+static u16 sAtan2Tbl[] = {
     0x0000, 0x000A, 0x0014, 0x001F, 0x0029, 0x0033, 0x003D, 0x0047, 0x0051, 0x005C, 0x0066, 0x0070, 0x007A, 0x0084,
     0x008F, 0x0099, 0x00A3, 0x00AD, 0x00B7, 0x00C2, 0x00CC, 0x00D6, 0x00E0, 0x00EA, 0x00F4, 0x00FF, 0x0109, 0x0113,
     0x011D, 0x0127, 0x0131, 0x013C, 0x0146, 0x0150, 0x015A, 0x0164, 0x016F, 0x0179, 0x0183, 0x018D, 0x0197, 0x01A1,
@@ -77,24 +77,34 @@ static u16 sATan2Tbl[] = {
     0x1FF6, 0x1FFB, 0x2000,
 };
 
-u16 Math_GetAtan2Tbl(f32 x, f32 y) {
+/**
+ * @param y must be >= 0 and <= x
+ * @param x must be >= 0
+ * @return arctan(y/x) as binang, in [0,0x2000] range
+ */
+u16 Math_GetAtan2Tbl(f32 y, f32 x) {
     u16 ret;
 
-    if (y == 0.0f) {
-        ret = sATan2Tbl[0];
+    if (x == 0.0f) {
+        ret = sAtan2Tbl[0];
     } else {
-        s32 tblIdx = ((x / y) * 1024.0f) + 0.5f;
+        s32 tblIdx = ((y / x) * 1024.0f) + 0.5f;
 
-        if (tblIdx >= ARRAY_COUNT(sATan2Tbl)) {
-            ret = sATan2Tbl[0];
+        if (tblIdx >= ARRAY_COUNT(sAtan2Tbl)) {
+            ret = sAtan2Tbl[0];
         } else {
-            ret = sATan2Tbl[tblIdx];
+            ret = sAtan2Tbl[tblIdx];
         }
     }
 
     return ret;
 }
 
+/**
+ * @return angle to (x,y) from vector (1,0) around (0,0) as binang, in [-0x8000,0x7FFF] range
+ *
+ * @note The arguments are (x,y), which is different from atan2's (y,x)
+ */
 s16 Math_Atan2S(f32 x, f32 y) {
     s32 ret;
 
@@ -107,7 +117,7 @@ s16 Math_Atan2S(f32 x, f32 y) {
             }
         } else {
             if (-x < y) {
-                ret = Math_GetAtan2Tbl(-x, y) + 0x4000;
+                ret = 0x4000 + Math_GetAtan2Tbl(-x, y);
             } else {
                 ret = 0x8000 - Math_GetAtan2Tbl(y, -x);
             }
@@ -115,21 +125,27 @@ s16 Math_Atan2S(f32 x, f32 y) {
     } else {
         if (x < 0.0f) {
             if (-y <= -x) {
-                ret = Math_GetAtan2Tbl(-y, -x) + 0x8000;
+                ret = 0x8000 + Math_GetAtan2Tbl(-y, -x);
             } else {
                 ret = 0xC000 - Math_GetAtan2Tbl(-x, -y);
             }
         } else {
             if (x < -y) {
-                ret = Math_GetAtan2Tbl(x, -y) + 0xC000;
+                ret = 0xC000 + Math_GetAtan2Tbl(x, -y);
             } else {
                 ret = -Math_GetAtan2Tbl(-y, x);
             }
         }
     }
-    return ret;
+
+    return (s16)ret;
 }
 
+/**
+ * @return angle to (x,y) from vector (1,0) around (0,0) in radians, in [-pi,pi) range
+ *
+ * @note The arguments are (x,y), which is different from atan2's (y,x)
+ */
 f32 Math_Atan2F(f32 x, f32 y) {
     return BINANG_TO_RAD(Math_Atan2S(x, y));
 }
