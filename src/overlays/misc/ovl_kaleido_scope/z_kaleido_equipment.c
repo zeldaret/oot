@@ -42,7 +42,7 @@ void KaleidoScope_DrawEquipmentImage(PlayState* play, void* source, u32 width, u
     textureSize = width * textureHeight * 2;
     textureCount = remainingSize / textureSize;
     if ((remainingSize % textureSize) != 0) {
-        textureCount++;
+        textureCount += 1;
     }
 
     vtxIndex = 80;
@@ -173,7 +173,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 if (pauseCtx->stickAdjX < -30) {
                     if (pauseCtx->cursorX[PAUSE_EQUIP] != 0) {
                         pauseCtx->cursorX[PAUSE_EQUIP]--;
-                        pauseCtx->cursorPoint[PAUSE_EQUIP]--;
+                        pauseCtx->cursorPoint[PAUSE_EQUIP] -= 1;
 
                         if (pauseCtx->cursorX[PAUSE_EQUIP] == 0) {
                             if (pauseCtx->cursorY[PAUSE_EQUIP] == 0) {
@@ -215,7 +215,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                 } else if (pauseCtx->stickAdjX > 30) {
                     if (pauseCtx->cursorX[PAUSE_EQUIP] < 3) {
                         pauseCtx->cursorX[PAUSE_EQUIP]++;
-                        pauseCtx->cursorPoint[PAUSE_EQUIP]++;
+                        pauseCtx->cursorPoint[PAUSE_EQUIP] += 1;
 
                         if (pauseCtx->cursorX[PAUSE_EQUIP] == 0) {
                             if (CUR_UPG_VALUE(pauseCtx->cursorY[PAUSE_EQUIP]) != 0) {

@@ -99,7 +99,7 @@ s32 func_80994750(DoorGerudo* this, PlayState* play) {
 void func_8099485C(DoorGerudo* this, PlayState* play) {
     if (this->isActive) {
         this->actionFunc = func_8099496C;
-        gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
+        gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
         Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
     } else {

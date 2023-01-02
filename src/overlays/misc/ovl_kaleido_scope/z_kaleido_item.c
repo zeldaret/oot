@@ -132,7 +132,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                     if (pauseCtx->stickAdjX < -30) {
                         if (pauseCtx->cursorX[PAUSE_ITEM] != 0) {
                             pauseCtx->cursorX[PAUSE_ITEM]--;
-                            pauseCtx->cursorPoint[PAUSE_ITEM]--;
+                            pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
 
                             if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
                                 moveCursorResult = 1;
@@ -164,7 +164,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                     } else if (pauseCtx->stickAdjX > 30) {
                         if (pauseCtx->cursorX[PAUSE_ITEM] < 5) {
                             pauseCtx->cursorX[PAUSE_ITEM]++;
-                            pauseCtx->cursorPoint[PAUSE_ITEM]++;
+                            pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
 
                             if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
                                 moveCursorResult = 1;

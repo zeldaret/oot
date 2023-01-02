@@ -2821,7 +2821,7 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
 
             for (i = 2; i >= 0; i--) {
                 if ((play->envCtx.adjAmbientColor[i] - 1) > 0) {
-                    play->envCtx.adjAmbientColor[i]--;
+                    play->envCtx.adjAmbientColor[i] -= 1;
                 } else {
                     play->envCtx.adjAmbientColor[i] = 0;
                 }

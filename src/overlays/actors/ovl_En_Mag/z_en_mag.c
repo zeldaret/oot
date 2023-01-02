@@ -319,7 +319,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 centerX, s16 centerY, u8* source, u32
     textureSize = (width * textureHeight) << 2;
     textureCount = remainingSize / textureSize;
     if ((remainingSize % textureSize) != 0) {
-        textureCount++;
+        textureCount += 1;
     }
 
     gDPSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, textureHeight, 0, G_TX_NOMIRROR | G_TX_CLAMP,

@@ -68,7 +68,7 @@ void ArrowLight_Charge(ArrowLight* this, PlayState* play) {
     }
 
     if (this->radius < 10) {
-        this->radius++;
+        this->radius += 1;
     }
     // copy position and rotation from arrow
     this->actor.world.pos = arrow->actor.world.pos;

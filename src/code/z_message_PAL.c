@@ -1754,7 +1754,7 @@ void Message_StartOcarinaImpl(PlayState* play, u16 ocarinaActionId) {
     s32 textId;
     s16 j;
     s16 i;
-    s16 noStop;
+    s16 noStopDoAction;
     s32 k;
 
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -1780,7 +1780,7 @@ void Message_StartOcarinaImpl(PlayState* play, u16 ocarinaActionId) {
 
     // "Ocarina Number"
     osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ オカリナ番号＝%d(%d) ☆☆☆☆☆\n" VT_RST, ocarinaActionId, 2);
-    noStop = false;
+    noStopDoAction = false;
     if (ocarinaActionId >= 0x893) {
         Message_OpenText(play, ocarinaActionId); // You played the [song name]
         textId = ocarinaActionId + 0x86E;
@@ -1804,7 +1804,7 @@ void Message_StartOcarinaImpl(PlayState* play, u16 ocarinaActionId) {
         }
     } else {
         msgCtx->ocarinaAction = ocarinaActionId;
-        noStop = true;
+        noStopDoAction = true;
         if (ocarinaActionId >= OCARINA_ACTION_PLAYBACK_MINUET) {
             osSyncPrintf("222222222\n");
             Message_OpenText(play, 0x86D); // Play using [A] and [C].
@@ -1834,11 +1834,11 @@ void Message_StartOcarinaImpl(PlayState* play, u16 ocarinaActionId) {
         msgCtx->msgMode = MSGMODE_TEXT_CONTINUING;
     }
     msgCtx->textboxColorAlphaCurrent = msgCtx->textboxColorAlphaTarget;
-    if (!noStop) {
+    if (!noStopDoAction) {
         Interface_LoadActionLabelB(play, DO_ACTION_STOP);
-        noStop = gSaveContext.hudVisibilityMode;
+        noStopDoAction = gSaveContext.hudVisibilityMode;
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_B_ALT);
-        gSaveContext.hudVisibilityMode = noStop;
+        gSaveContext.hudVisibilityMode = noStopDoAction;
     }
     // "Music Performance Start"
     osSyncPrintf("演奏開始\n");
