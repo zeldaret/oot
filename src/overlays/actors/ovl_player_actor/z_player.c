@@ -1875,8 +1875,8 @@ void func_80832DBC(Player* this) {
         func_808322FC(this);
         this->skelAnime.jointTable[0].x = this->skelAnime.baseTransl.x;
         this->skelAnime.jointTable[0].z = this->skelAnime.baseTransl.z;
-        if (this->skelAnime.moveFlags & 8) {
-            if (this->skelAnime.moveFlags & 2) {
+        if (this->skelAnime.moveFlags & ANIM_FLAG_3) {
+            if (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_Y) {
                 this->skelAnime.jointTable[0].y = this->skelAnime.prevTransl.y;
             }
         } else {
@@ -2890,7 +2890,7 @@ s32 func_80835588(Player* this, PlayState* play) {
 void func_808355DC(Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_17;
 
-    if (!(this->skelAnime.moveFlags & 0x80) && (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
+    if (!(this->skelAnime.moveFlags & ANIM_FLAG_7) && (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         (D_80853608 < 0x2000)) {
         this->yaw = this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
     }
@@ -3833,7 +3833,7 @@ s32 func_80837B18(PlayState* play, Player* this, s32 damage) {
 
 void func_80837B60(Player* this) {
     this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
-    func_80832E48(this, 3);
+    func_80832E48(this, ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y);
 }
 
 void func_80837B9C(Player* this, PlayState* play) {
@@ -5040,7 +5040,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                 return;
             }
 
-            if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & 0x80) &&
+            if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & ANIM_FLAG_7) &&
                 (func_8084411C != this->func_674) && (func_80844A44 != this->func_674)) {
 
                 if ((D_80853604 == FLOOR_PROPERTY_7) || (this->meleeWeaponState != 0)) {
@@ -10596,7 +10596,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             func_8084FF7C(this);
         }
 
-        if (!(this->skelAnime.moveFlags & 0x80)) {
+        if (!(this->skelAnime.moveFlags & ANIM_FLAG_7)) {
             if (((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (D_808535E4 == FLOOR_TYPE_5) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((this->currentBoots == PLAYER_BOOTS_HOVER) &&
@@ -10779,9 +10779,10 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         Player_UpdateCamAndSeqModes(play, this);
 
-        if (this->skelAnime.moveFlags & 8) {
+        if (this->skelAnime.moveFlags & ANIM_FLAG_3) {
             AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime,
-                                          (this->skelAnime.moveFlags & 4) ? 1.0f : this->ageProperties->unk_08);
+                                          (this->skelAnime.moveFlags & ANIM_FLAG_2) ? 1.0f
+                                                                                    : this->ageProperties->unk_08);
         }
 
         func_808368EC(this, play);
@@ -11563,7 +11564,7 @@ void func_8084BDFC(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_6;
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        func_80832E48(this, 1);
+        func_80832E48(this, ANIM_FLAG_0);
         func_8083C0E8(this, play);
         return;
     }
@@ -14622,7 +14623,7 @@ void func_80852B4C(PlayState* play, Player* this, CsCmdActorCue* cue, struct_808
         arg3->func(play, this, cue);
     }
 
-    if ((D_80858AA0 & 4) && !(this->skelAnime.moveFlags & 4)) {
+    if ((D_80858AA0 & ANIM_FLAG_2) && !(this->skelAnime.moveFlags & ANIM_FLAG_2)) {
         this->skelAnime.morphTable[0].y /= this->ageProperties->unk_08;
         D_80858AA0 = 0;
     }
