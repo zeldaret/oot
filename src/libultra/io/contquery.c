@@ -1,4 +1,5 @@
-#include "global.h"
+#include "controller.h"
+#include "siint.h"
 
 /**
  * osContStartQuery:

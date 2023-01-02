@@ -1,4 +1,4 @@
-#include "global.h"
+#include "guint.h"
 
 #ifndef __GNUC__
 #define __builtin_sqrtf sqrtf

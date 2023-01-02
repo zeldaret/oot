@@ -1,4 +1,6 @@
-#include "global.h"
+#include "internal.h"
+#include "rcp.h"
+#include "convert.h"
 
 /**
  * Submits an audio buffer to be consumed by the Audio DAC. The audio interface can queue a second DMA while another

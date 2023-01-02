@@ -3,6 +3,10 @@
 
 #ifdef _LANGUAGE_C
 
+#include "stdbool.h"
+#include "stddef.h"
+#include "stdint.h"
+
 typedef signed char            s8;
 typedef unsigned char          u8;
 typedef signed short int       s16;
@@ -23,20 +27,6 @@ typedef volatile s64 vs64;
 
 typedef float  f32;
 typedef double f64;
-
-
-typedef float MtxF_t[4][4];
-typedef union {
-    MtxF_t mf;
-    struct {
-        // Note: The order displayed here is the transpose of the order in which matrices are typically written.
-        // For example, [xw, yw, zw] is the translation part of the matrix, not [wx, wy, wz].
-        float xx, yx, zx, wx,
-              xy, yy, zy, wy,
-              xz, yz, zz, wz,
-              xw, yw, zw, ww;
-    };
-} MtxF;
 
 #endif
 

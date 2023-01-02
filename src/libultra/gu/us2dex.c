@@ -1,4 +1,6 @@
-#include "global.h"
+#include "ultratypes.h"
+#include "gbi.h"
+#include "gs2dex.h"
 
 void guS2DInitBg(uObjBg* bg) {
     u32 size;

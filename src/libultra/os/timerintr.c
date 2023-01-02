@@ -1,4 +1,4 @@
-#include "global.h"
+#include "osint.h"
 
 OSTimer __osBaseTimer;
 OSTime __osCurrentTime;

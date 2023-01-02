@@ -1,4 +1,6 @@
-#include "global.h"
+#include "osint.h"
+#include "sptask.h"
+#include "rcp.h"
 
 #define _osVirtualToPhysical(ptr)              \
     if (ptr != NULL) {                         \
@@ -38,16 +40,16 @@ void osSpTaskLoad(OSTask* intp) {
     osWritebackDCache(tp, sizeof(OSTask));
     __osSpSetStatus(SP_CLR_SIG0 | SP_CLR_SIG1 | SP_CLR_SIG2 | SP_SET_INTR_BREAK);
 
-    while (__osSpSetPc((void*)SP_IMEM_START) == -1) {
+    while (__osSpSetPc(SP_IMEM_START) == -1) {
         ;
     }
-    while (__osSpRawStartDma(OS_WRITE, (void*)(SP_IMEM_START - sizeof(*tp)), tp, sizeof(OSTask)) == -1) {
+    while (__osSpRawStartDma(OS_WRITE, SP_IMEM_START - sizeof(*tp), tp, sizeof(OSTask)) == -1) {
         ;
     }
     while (__osSpDeviceBusy()) {
         ;
     }
-    while (__osSpRawStartDma(OS_WRITE, (void*)SP_IMEM_START, tp->t.ucode_boot, tp->t.ucode_boot_size) == -1) {
+    while (__osSpRawStartDma(OS_WRITE, SP_IMEM_START, tp->t.ucode_boot, tp->t.ucode_boot_size) == -1) {
         ;
     }
 }

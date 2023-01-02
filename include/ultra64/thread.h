@@ -66,10 +66,20 @@ typedef struct OSThread {
     /* 0x20 */ __OSThreadContext context;
 } OSThread; // size = 0x1B0
 
-typedef struct {
-    OSThread* next;
-    OSPri priority;
-} __OSThreadTail; // size = 0x8
+void osStopThread(OSThread* thread);
+OSId osGetThreadId(OSThread* thread);
+void osSetThreadPri(OSThread* thread, OSPri pri);
+OSPri osGetThreadPri(OSThread* thread);
+void osYieldThread(void);
+void osStartThread(OSThread* thread);
+void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri);
+void __osEnqueueAndYield(OSThread**);
+void __osEnqueueThread(OSThread**, OSThread*);
+OSThread* __osPopThread(OSThread**);
+void __osDispatchThread(void);
+void __osCleanupThread(void);
+void __osDequeueThread(OSThread** queue, OSThread* thread);
+void osDestroyThread(OSThread* thread);
 
 #else
 

@@ -1,4 +1,4 @@
-#include "global.h"
+#include "osint.h"
 
 OSPri osGetThreadPri(OSThread* thread) {
     if (thread == NULL) {

@@ -1,47 +1,48 @@
-#include "global.h"
+// IDO Compiler Intrinsics for 64-bit arithmetic
 
-s64 __ull_rshift(u64 l, s64 r) {
+unsigned long long __ull_rshift(unsigned long long l, unsigned long long r) {
     return l >> r;
 }
 
-u64 __ull_rem(u64 l, u64 r) {
+unsigned long long __ull_rem(unsigned long long l, unsigned long long r) {
     return l % r;
 }
 
-u64 __ull_div(u64 l, u64 r) {
+unsigned long long __ull_div(unsigned long long l, unsigned long long r) {
     return l / r;
 }
 
-s64 __ll_lshift(s64 l, s64 r) {
+unsigned long long __ll_lshift(unsigned long long l, unsigned long long r) {
     return l << r;
 }
 
-s64 __ll_rem(s64 l, u64 r) {
+long long __ll_rem(unsigned long long l, long long r) {
     return l % r;
 }
 
-s64 __ll_div(s64 l, s64 r) {
+long long __ll_div(long long l, long long r) {
     return l / r;
 }
 
-s64 __ll_mul(s64 l, s64 r) {
+unsigned long long __ll_mul(unsigned long long l, unsigned long long r) {
     return l * r;
 }
 
-void __ull_divremi(u64* quotient, u64* remainder, u64 dividend, u16 divisor) {
+void __ull_divremi(unsigned long long int* quotient, unsigned long long int* remainder,
+                   unsigned long long dividend, unsigned short divisor) {
     *quotient = dividend / divisor;
     *remainder = dividend % divisor;
 }
 
-s64 __ll_mod(s64 l, s64 r) {
-    s64 remainder = l % r;
+long long __ll_mod(long long l, long long r) {
+    long long remainder = l % r;
 
-    if (((remainder < 0) && (r > 0)) || ((remainder > 0) && (r < 0))) {
+    if ((remainder < 0 && r > 0) || (remainder > 0 && r < 0)) {
         remainder += r;
     }
     return remainder;
 }
 
-s64 __ll_rshift(s64 l, s64 r) {
+long long __ll_rshift(long long l, long long r) {
     return l >> r;
 }

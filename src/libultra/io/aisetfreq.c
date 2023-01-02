@@ -1,4 +1,5 @@
-#include "global.h"
+#include "rcp.h"
+#include "osint.h"
 
 /**
  * Programs the operating frequency of the Audio DAC.

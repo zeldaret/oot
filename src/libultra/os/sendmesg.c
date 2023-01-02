@@ -1,4 +1,4 @@
-#include "global.h"
+#include "osint.h"
 
 s32 osSendMesg(OSMesgQueue* mq, OSMesg msg, s32 flag) {
     register u32 prevInt = __osDisableInt();

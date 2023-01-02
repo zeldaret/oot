@@ -1,5 +1,6 @@
-#include "global.h"
-#include "ultra64/asm.h"
+#include "osint.h"
+#include "R4300.h"
+#include "asm.h"
 
 void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri) {
     register u32 prevInt;

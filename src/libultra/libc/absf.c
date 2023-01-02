@@ -1,5 +1,5 @@
-#include "global.h"
+#include "guint.h"
 
-f32 absf(f32 a) {
-    return fabsf(a);
+float absf(float n) {
+    return fabsf(n);
 }

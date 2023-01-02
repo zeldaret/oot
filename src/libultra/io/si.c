@@ -1,4 +1,5 @@
-#include "global.h"
+#include "stdbool.h"
+#include "siint.h"
 
 s32 __osSiDeviceBusy(void) {
     register u32 status = IO_READ(SI_STATUS_REG);

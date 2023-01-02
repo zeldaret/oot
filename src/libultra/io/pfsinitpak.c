@@ -1,5 +1,7 @@
-#include "ultra64.h"
-#include "global.h"
+#include "controller.h"
+#include "siint.h"
+
+s32 __osPfsCheckRamArea(OSPfs* pfs);
 
 s32 osPfsInitPak(OSMesgQueue* queue, OSPfs* pfs, s32 channel) {
     s32 ret;

@@ -1,7 +1,8 @@
-#include "ultra64.h"
-#include "global.h"
+#include "controller.h"
+#include "siint.h"
 
-OSPifRam __osPfsPifRam;
+void __osPfsRequestOneChannel(s32 channel, u8 cmd);
+void __osPfsGetOneChannelData(s32 channel, OSContStatus* contData);
 
 s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel) {
     s32 ret = 0;

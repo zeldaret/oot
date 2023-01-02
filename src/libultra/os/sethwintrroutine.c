@@ -1,11 +1,10 @@
-#include "global.h"
-#include "ultra64/internal.h"
+#include "osint.h"
 
-void __osSetHWIntrRoutine(OSHWIntr intr, s32 (*callback)(void), void* sp) {
+void __osSetHWIntrRoutine(OSHWIntr intr, s32 (*handler)(void), void* stackEnd) {
     register u32 prevInt = __osDisableInt();
 
-    __osHwIntTable[intr].callback = callback;
-    __osHwIntTable[intr].sp = sp;
+    __osHwIntTable[intr].handler = handler;
+    __osHwIntTable[intr].stackEnd = stackEnd;
 
     __osRestoreInt(prevInt);
 }

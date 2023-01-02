@@ -1,5 +1,5 @@
-#include "global.h"
-#include "ultra64/internal.h"
+#include "piint.h"
+#include "../stack.h" // TODO
 
 OSDevMgr __osPiDevMgr = { 0 };
 

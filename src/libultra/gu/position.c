@@ -1,17 +1,18 @@
-#include "global.h"
+#include "math.h"
+#include "guint.h"
 
 /**
  * guPositionF
  * Creates a rotation/parallel translation modeling matrix (floating point)
  */
 void guPositionF(f32 mf[4][4], f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f32 y, f32 z) {
-    static f32 D_80134D00 = M_PI / 180.0;
+    static f32 dtor = M_PI / 180.0f;
     f32 sinr, sinp, sinh;
     f32 cosr, cosp, cosh;
 
-    rot *= D_80134D00;
-    pitch *= D_80134D00;
-    yaw *= D_80134D00;
+    rot *= dtor;
+    pitch *= dtor;
+    yaw *= dtor;
 
     sinr = sinf(rot);
     cosr = cosf(rot);
@@ -50,5 +51,5 @@ void guPosition(Mtx* m, f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f32 y, f3
 
     guPositionF(mf, rot, pitch, yaw, scale, x, y, z);
 
-    guMtxF2L((MtxF*)mf, m);
+    guMtxF2L(mf, m);
 }

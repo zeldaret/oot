@@ -1,6 +1,7 @@
-#include "global.h"
+#include "osint.h"
+#include "rcp.h"
 
-s32 __osSpRawStartDma(s32 direction, void* devAddr, void* dramAddr, u32 size) {
+s32 __osSpRawStartDma(s32 direction, u32 devAddr, void* dramAddr, u32 size) {
     if (__osSpDeviceBusy()) {
         return -1;
     }

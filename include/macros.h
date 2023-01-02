@@ -1,18 +1,13 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-#ifndef __GNUC__
-#define __attribute__(x)
-#endif
+#include "attributes.h"
 
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
 #define BAD_RETURN(type) void
 #endif
-
-#define UNUSED __attribute__((unused))
-#define FALLTHROUGH __attribute__((fallthrough))
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
@@ -139,8 +134,6 @@
     }                                      \
     (void)0
 
-struct GraphicsContext;
-
 extern struct GraphicsContext* __gfxCtx;
 
 #define WORK_DISP       __gfxCtx->work.p
@@ -150,12 +143,12 @@ extern struct GraphicsContext* __gfxCtx;
 
 // __gfxCtx shouldn't be used directly.
 // Use the DISP macros defined above when writing to display buffers.
-#define OPEN_DISPS(gfxCtx, file, line) \
-    {                                  \
-        GraphicsContext* __gfxCtx;     \
-        Gfx* dispRefs[4];              \
-        __gfxCtx = gfxCtx;             \
-        (void)__gfxCtx;                \
+#define OPEN_DISPS(gfxCtx, file, line)    \
+    {                                     \
+        struct GraphicsContext* __gfxCtx; \
+        Gfx* dispRefs[4];                 \
+        __gfxCtx = gfxCtx;                \
+        (void)__gfxCtx;                   \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
 #define CLOSE_DISPS(gfxCtx, file, line)                 \
@@ -177,14 +170,6 @@ extern struct GraphicsContext* __gfxCtx;
 #define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
-
-#ifdef NDEBUG
-#define ASSERT(cond, msg, file, line) ((void)0)
-#elif defined(REAL_ASSERT_MACRO)
-#define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(#cond, __FILE__, __LINE__))
-#else
-#define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(msg, file, line))
-#endif
 
 #define gDPSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
     do {                                                                                                               \

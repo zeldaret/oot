@@ -1,6 +1,5 @@
-#include "global.h"
-#include "ultra64/internal.h"
-#include "ultra64/leodrive.h"
+#include "piint.h"
+#include "leodrive.h"
 
 // os.h
 #define LEO_BLOCK_MODE 1

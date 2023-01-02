@@ -3,6 +3,19 @@
 
 #include "ultra64.h"
 
+typedef f32 MtxF_t[4][4];
+typedef union {
+    MtxF_t mf;
+    struct {
+        // Note: The order displayed here is the transpose of the order in which matrices are typically written.
+        // For example, [xw, yw, zw] is the translation part of the matrix, not [wx, wy, wz].
+        f32 xx, yx, zx, wx,
+            xy, yy, zy, wy,
+            xz, yz, zz, wz,
+            xw, yw, zw, ww;
+    };
+} MtxF;
+
 #define VEC_SET(V,X,Y,Z) (V).x=(X);(V).y=(Y);(V).z=(Z)
 
 typedef struct {

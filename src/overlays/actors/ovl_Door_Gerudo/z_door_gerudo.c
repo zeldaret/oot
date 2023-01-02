@@ -70,7 +70,7 @@ f32 func_809946BC(PlayState* play, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg
     func_8002DBD0(&this->dyna.actor, &sp1C, &playerPos);
 
     if ((arg3 < fabsf(sp1C.x)) || (arg4 < fabsf(sp1C.y))) {
-        return FLT_MAX;
+        return MAXFLOAT;
     } else {
         return sp1C.z;
     }

@@ -1,4 +1,5 @@
-#include "global.h"
+#include "controller.h"
+#include "siint.h"
 
 #define MOTOR_ID 0x80
 

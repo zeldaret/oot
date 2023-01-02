@@ -1,4 +1,5 @@
 #include "global.h"
+#include "is_debug.h"
 #include "boot.h"
 
 StackEntry sBootThreadInfo;
@@ -16,8 +17,7 @@ void bootproc(void) {
 
     osMemSize = osGetMemSize();
     cleararena();
-    __osInitialize_common();
-    __osInitialize_autodetect();
+    osInitialize();
 
     gCartHandle = osCartRomInit();
     osDriveRomInit();

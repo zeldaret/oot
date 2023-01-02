@@ -1,4 +1,4 @@
-#include "global.h"
+#include "osint.h"
 
 __OSThreadTail __osThreadTail = { NULL, OS_PRIORITY_THREADTAIL };
 OSThread* __osRunQueue = (OSThread*)&__osThreadTail;

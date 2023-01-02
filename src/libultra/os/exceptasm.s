@@ -308,7 +308,7 @@ cart:
     // Load cart callback set by __osSetHWIntrRoutine
     lui     $t1, %hi(__osHwIntTable)
     addiu   $t1, %lo(__osHwIntTable)
-    lw      $t2, (OS_INTR_CART*HWINT_SIZE+HWINT_CALLBACK)($t1)
+    lw      $t2, (OS_INTR_CART*HWINT_SIZE+HWINT_HANDLER)($t1)
     // Mask out interrupt
     li      $at, ~CAUSE_IP4
     and     $s0, $s0, $at
@@ -317,7 +317,7 @@ cart:
      addi   $t1, $t1, (OS_INTR_CART*HWINT_SIZE)
     // Set up a stack and run the callback
     jalr    $t2
-     lw     $sp, HWINT_SP($t1)
+     lw     $sp, HWINT_STACK($t1)
     beqz    $v0, send_cart_mesg
      nop
     // Redispatch immediately if the callback returned nonzero
@@ -455,14 +455,14 @@ pi:
     // Load pi callback
     lui     $t1, %hi(__osPiIntTable)
     addiu   $t1, %lo(__osPiIntTable)
-    lw      $t2, HWINT_CALLBACK($t1)
+    lw      $t2, HWINT_HANDLER($t1)
     // Mask out pi interrupt
     andi    $s1, $s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_DP)
     // Skip callback if NULL
     beqz    $t2, no_pi_callback
      nop
     // Set up a stack and run the callback
-    lw      $sp, HWINT_SP($t1)
+    lw      $sp, HWINT_STACK($t1)
     jalr    $t2
      move   $a0, $v0
     // If the callback returns non-zero, don't post a pi event message

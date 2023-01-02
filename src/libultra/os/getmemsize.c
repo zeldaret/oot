@@ -1,4 +1,5 @@
-#include "global.h"
+#include "system.h"
+#include "R4300.h"
 
 #define STEP 0x100000
 

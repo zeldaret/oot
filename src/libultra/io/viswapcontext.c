@@ -1,5 +1,4 @@
-#include "global.h"
-#include "ultra64/viint.h"
+#include "viint.h"
 
 void __osViSwapContext(void) {
     register OSViMode* viMode;

@@ -1,6 +1,5 @@
-#include "global.h"
-
-#define BLOCKSIZE 32
+#include "controller.h"
+#include "siint.h"
 
 s32 __osPfsLastChannel = -1;
 
@@ -46,14 +45,14 @@ s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
                 if (ret) {
                     break;
                 }
-                ret = 4; // Retry
+                ret = PFS_ERR_CONTRFAIL;
             } else {
                 bcopy(ptr + 6, data, BLOCKSIZE);
             }
         } else {
-            ret = 1; // Error
+            ret = PFS_ERR_NOPACK;
         }
-        if (ret != 4) {
+        if (ret != PFS_ERR_CONTRFAIL) {
             break;
         }
     } while (0 <= retryCount--);

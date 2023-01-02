@@ -1,5 +1,5 @@
-#include "ultra64.h"
-#include "global.h"
+#include "controller.h"
+#include "siint.h"
 
 /*
  * s32 osContSetCh(u8 ch)

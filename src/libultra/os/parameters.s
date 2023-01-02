@@ -1,4 +1,5 @@
 #include "ultra64/asm.h"
+#include "ultra64/system.h"
 
 .section .text
 
@@ -17,6 +18,6 @@ IPL_SYMBOL osResetType,     0x8000030C, 4
 IPL_SYMBOL osCicId,         0x80000310, 4
 IPL_SYMBOL osVersion,       0x80000314, 4
 IPL_SYMBOL osMemSize,       0x80000318, 4
-IPL_SYMBOL osAppNMIBuffer,  0x8000031C, 0x40
+IPL_SYMBOL osAppNMIBuffer,  0x8000031C, OS_APP_NMI_BUFSIZE
 
 .fill 0x60

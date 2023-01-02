@@ -1,4 +1,4 @@
-#include "ultra64.h"
+#include "guint.h"
 
 #include "sintable.inc.c"
 

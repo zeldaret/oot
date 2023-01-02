@@ -33,15 +33,15 @@
 typedef u32 OSIntMask;
 typedef u32 OSHWIntr;
 
-typedef struct  {
-    /* 0x00 */ void* callback;
-    /* 0x04 */ void* sp;
+typedef struct {
+    /* 0x00 */ s32 (*handler)(void);
+    /* 0x04 */ void* stackEnd;
 } __osHwInt; // size = 0x08
 
 OSIntMask osSetIntMask(OSIntMask);
 
-void __osSetHWIntrRoutine(OSHWIntr intr, s32 (*callback)(void), void* sp);
-void __osGetHWIntrRoutine(OSHWIntr intr, s32 (**callbackOut)(void), void** spOut);
+void __osSetHWIntrRoutine(OSHWIntr interrupt, s32 (*handler)(void), void* stackEnd);
+void __osGetHWIntrRoutine(OSHWIntr interrupt, s32 (**handler)(void), void** stackEnd);
 
 void __osSetGlobalIntMask(OSHWIntr mask);
 void __osResetGlobalIntMask(OSHWIntr mask);
@@ -51,11 +51,11 @@ extern __osHwInt __osHwIntTable[];
 #else
 
 // __osHwInt struct member offsets
-#define HWINT_CALLBACK 0x00
-#define HWINT_SP       0x04
+#define HWINT_HANDLER 0x00
+#define HWINT_STACK   0x04
 
 // __osHwInt struct size
-#define HWINT_SIZE     0x8
+#define HWINT_SIZE 0x8
 
 #endif
 

@@ -1,4 +1,4 @@
-#include "global.h"
+#include "viint.h"
 
 void* osViGetNextFramebuffer(void) {
     register u32 prevInt = __osDisableInt();

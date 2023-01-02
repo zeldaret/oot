@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "ultra64/gs2dex.h"
+#include "stack.h"
 #include "z64save.h"
 #include "z64light.h"
 #include "z64bgcheck.h"
@@ -78,12 +79,6 @@
 #define THREAD_ID_AUDIOMGR   10
 #define THREAD_ID_DMAMGR     18
 #define THREAD_ID_IRQMGR     19
-
-#define STACK(stack, size) \
-    u64 stack[ALIGN8(size) / sizeof(u64)]
-
-#define STACK_TOP(stack) \
-    ((u8*)(stack) + sizeof(stack))
 
 // Texture memory size, 4 KiB
 #define TMEM_SIZE 0x1000
@@ -1095,15 +1090,6 @@ typedef enum {
     STACK_STATUS_WARNING = 1,
     STACK_STATUS_OVERFLOW = 2
 } StackStatus;
-
-typedef struct {
-    /* 0x00 */ u32 magic; // IS64
-    /* 0x04 */ u32 get;
-    /* 0x08 */ u8 unk_08[0x14-0x08];
-    /* 0x14 */ u32 put;
-    /* 0x18 */ u8 unk_18[0x20-0x18];
-    /* 0x20 */ u8 data[0x10000-0x20];
-} ISVDbg;
 
 typedef struct {
     /* 0x00 */ char name[0x18];
