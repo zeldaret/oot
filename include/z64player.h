@@ -686,9 +686,9 @@ typedef struct Player {
     /* 0x0834 */ s16        unk_834;
     /* 0x0836 */ s8         unk_836;
     /* 0x0837 */ u8         unk_837;
-    /* 0x0838 */ f32        linearVelocity;
-    /* 0x083C */ s16        currentYaw;
-    /* 0x083E */ s16        targetYaw;
+    /* 0x0838 */ f32        speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
+    /* 0x083C */ s16        yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
+    /* 0x083E */ s16        zTargetYaw; // yaw relating to Z targeting/"parallel" mode
     /* 0x0840 */ u16        underwaterTimer;
     /* 0x0842 */ s8         meleeWeaponAnimation;
     /* 0x0843 */ s8         meleeWeaponState;
