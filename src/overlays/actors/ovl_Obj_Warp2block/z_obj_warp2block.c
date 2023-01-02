@@ -6,7 +6,7 @@
 
 #include "z_obj_warp2block.h"
 #include "assets/objects/object_timeblock/object_timeblock.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
@@ -158,7 +158,7 @@ s32 func_80BA2218(ObjWarp2block* this, PlayState* play) {
 
     if (func_80BA1ECC(this, play)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
-            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+            Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->func_168 = func_80BA228C;
         } else {
             player->stateFlags2 |= PLAYER_STATE2_23;

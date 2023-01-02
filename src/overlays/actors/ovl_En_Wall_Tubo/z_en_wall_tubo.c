@@ -6,7 +6,7 @@
 
 #include "z_en_wall_tubo.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
@@ -118,7 +118,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play) {
         effPos.z = this->explosionCenter.z;
         EffectSsBomb2_SpawnLayered(play, &effPos, &effVelocity, &effAccel, 100, 30);
         EffectSsHahen_SpawnBurst(play, &effPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
     }
 
     if (this->timer == 0) {

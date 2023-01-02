@@ -51,8 +51,8 @@ void EfcErupc_UpdateAction(EfcErupc* this, PlayState* play) {
     s32 i;
 
     if (play->csCtx.state != 0) {
-        if (play->csCtx.npcActions[1] != NULL) {
-            if (play->csCtx.npcActions[1]->action == 2) {
+        if (play->csCtx.actorCues[1] != NULL) {
+            if (play->csCtx.actorCues[1]->id == 2) {
                 if (this->unk_150 == 30) {
                     func_800788CC(NA_SE_IT_EARTHQUAKE);
                 }
@@ -74,8 +74,8 @@ void EfcErupc_UpdateAction(EfcErupc* this, PlayState* play) {
         }
     }
     if (play->csCtx.state != 0) {
-        if (play->csCtx.npcActions[2] != NULL) {
-            switch (play->csCtx.npcActions[2]->action) {
+        if (play->csCtx.actorCues[2] != NULL) {
+            switch (play->csCtx.actorCues[2]->id) {
                 case 2:
                     if (this->unk_14E == 0) {
                         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_LAVA_ERUPT);
@@ -112,7 +112,7 @@ void EfcErupc_Update(Actor* thisx, PlayState* play) {
 
 void EfcErupc_Draw(Actor* thisx, PlayState* play) {
     EfcErupc* this = (EfcErupc*)thisx;
-    u16 csAction;
+    u16 cueId;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_efc_erupc.c", 282);
 
@@ -136,7 +136,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (play->csCtx.state != 0) {
-        if ((play->csCtx.npcActions[1] != NULL) && (play->csCtx.npcActions[1]->action == 2)) {
+        if ((play->csCtx.actorCues[1] != NULL) && (play->csCtx.actorCues[1]->id == 2)) {
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002570);
         }
     }
@@ -145,10 +145,12 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_efc_erupc.c", 333),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (play->csCtx.state != 0) {
-        CsCmdActorAction* csActorAction = play->csCtx.npcActions[2];
-        if (csActorAction != NULL) {
-            csAction = csActorAction->action;
-            if ((csAction == 2) || (csAction == 3)) {
+        CsCmdActorCue* cue = play->csCtx.actorCues[2];
+
+        if (cue != NULL) {
+            cueId = cue->id;
+
+            if ((cueId == 2) || (cueId == 3)) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, 255);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 0, 0, 255);
                 gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_001720);

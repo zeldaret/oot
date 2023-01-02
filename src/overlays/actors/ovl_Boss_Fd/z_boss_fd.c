@@ -165,7 +165,7 @@ void BossFd_UpdateCamera(BossFd* this, PlayState* play) {
                        this->subCamAtVel.z * this->subCamVelFactor);
         Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
         this->subCamAt.y += this->subCamAtYOffset;
-        Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
         Math_ApproachZeroF(&this->subCamAtYOffset, 1.0f, 0.1f);
     }
 }
@@ -311,8 +311,8 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     (fabsf(player2->actor.world.pos.x - 340.0f) < 60.0f)) {
 
                     this->introState = BFD_CS_START;
-                    func_80064520(play, &play->csCtx);
-                    func_8002DF54(play, &this->actor, 8);
+                    Cutscene_StartManual(play, &play->csCtx);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                     this->subCamId = Play_CreateSubCamera(play);
                     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                     Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -320,7 +320,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     player2->actor.world.pos.y = 100.0f;
                     player2->actor.world.pos.z = 0.0f;
                     player2->actor.shape.rot.y = player2->actor.world.rot.y = -0x4000;
-                    player2->actor.speedXZ = 0.0f;
+                    player2->actor.speed = 0.0f;
                     this->subCamEye.x = player2->actor.world.pos.x - 70.0f;
                     this->subCamEye.y = player2->actor.world.pos.y + 40.0f;
                     this->subCamEye.z = player2->actor.world.pos.z + 70.0f;
@@ -377,7 +377,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 player2->actor.world.pos.x = 380.0f;
                 player2->actor.world.pos.y = 100.0f;
                 player2->actor.world.pos.z = 0.0f;
-                player2->actor.speedXZ = 0.0f;
+                player2->actor.speed = 0.0f;
                 player2->actor.shape.rot.y = player2->actor.world.rot.y = -0x4000;
                 if (this->timers[0] == 50) {
                     this->fogMode = 1;
@@ -389,7 +389,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     Math_ApproachF(&this->subCamShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 }
                 if (this->timers[0] == 40) {
-                    func_8002DF54(play, &this->actor, 0x13);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_19);
                 }
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_LOOK_GROUND;
@@ -418,7 +418,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->timers[0] = 170;
                     this->subCamVelFactor = 0.0f;
                     this->subCamAccel = 0.0f;
-                    func_8002DF54(play, &this->actor, 0x14);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_20);
                 }
                 break;
             case BFD_CS_COLLAPSE:
@@ -468,7 +468,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 if (this->timers[3] == 190) {
                     this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.05f;
                     this->platformSignal = VBSIMA_KILL;
-                    func_8002DF54(play, &this->actor, 1);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
                 }
                 if (this->actor.world.pos.y > 120.0f) {
                     this->subCamAtNext = this->actor.world.pos;
@@ -534,11 +534,11 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     mainCam->eye = this->subCamEye;
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     // BFD_CS_NONE / BOSSFD_FLY_MAIN / SUB_CAM_ID_DONE
                     this->introState = this->introFlyState = this->subCamId = 0;
-                    func_80064534(play, &play->csCtx);
-                    func_8002DF54(play, &this->actor, 7);
+                    Cutscene_StopManual(play, &play->csCtx);
+                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                     this->actionFunc = BossFd_Wait;
                     this->handoffSignal = FD2_SIGNAL_GROUND;
                     SET_EVENTCHKINF(EVENTCHKINF_73);
@@ -824,7 +824,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
             }
             break;
         case BOSSFD_SKULL_FALL:
-            this->fwork[BFD_TURN_RATE] = this->fwork[BFD_TURN_RATE_MAX] = this->actor.speedXZ =
+            this->fwork[BFD_TURN_RATE] = this->fwork[BFD_TURN_RATE_MAX] = this->actor.speed =
                 this->fwork[BFD_FLY_SPEED] = 0;
 
             if (this->timers[0] == 1) {
@@ -847,7 +847,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                         Audio_PlaySfxGeneral(NA_SE_EN_VALVAISA_LAND2, &this->actor.projectedPos, 4,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultReverb);
-                        func_8002DF54(play, &this->actor, 5);
+                        func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
                         for (i1 = 0; i1 < 15; i1++) {
                             Vec3f sp144 = { 0.0f, 0.0f, 0.0f };
                             Vec3f sp138 = { 0.0f, 0.0f, 0.0f };
@@ -879,7 +879,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
         case BOSSFD_SKULL_BURN:
             this->actor.velocity.y = 0.0f;
             this->actor.world.pos.y = 110.0f;
-            this->fwork[BFD_TURN_RATE] = this->fwork[BFD_TURN_RATE_MAX] = this->actor.speedXZ =
+            this->fwork[BFD_TURN_RATE] = this->fwork[BFD_TURN_RATE_MAX] = this->actor.speed =
                 this->fwork[BFD_FLY_SPEED] = 0.0f;
 
             if ((50 > this->timers[0]) && (this->timers[0] > 0)) {
@@ -937,11 +937,11 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
 
         Math_ApproachS(&this->actor.world.rot.x, pitchToTarget, 0xA, this->fwork[BFD_TURN_RATE]);
         Math_ApproachF(&this->fwork[BFD_TURN_RATE], this->fwork[BFD_TURN_RATE_MAX], 1.0f, 20000.0f);
-        Math_ApproachF(&this->actor.speedXZ, this->fwork[BFD_FLY_SPEED], 1.0f, 0.1f);
+        Math_ApproachF(&this->actor.speed, this->fwork[BFD_FLY_SPEED], 1.0f, 0.1f);
         if (this->work[BFD_ACTION_STATE] < BOSSFD_SKULL_FALL) {
-            func_8002D908(&this->actor);
+            Actor_UpdateVelocityXYZ(&this->actor);
         }
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
 
         this->work[BFD_LEAD_BODY_SEG]++;
         if (this->work[BFD_LEAD_BODY_SEG] >= 100) {
@@ -1930,7 +1930,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
     gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, (s8)this->fwork[BFD_HEAD_TEX2_ALPHA]);
     Matrix_Push();
     temp_float =
-        (this->work[BFD_ACTION_STATE] >= BOSSFD_SKULL_FALL) ? -20.0f : -10.0f - ((this->actor.speedXZ - 5.0f) * 10.0f);
+        (this->work[BFD_ACTION_STATE] >= BOSSFD_SKULL_FALL) ? -20.0f : -10.0f - ((this->actor.speed - 5.0f) * 10.0f);
     segIndex = (this->work[BFD_LEAD_BODY_SEG] + sBodyIndex[0]) % 100;
     Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z,
                      MTXMODE_NEW);

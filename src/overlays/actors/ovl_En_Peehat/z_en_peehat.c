@@ -306,7 +306,7 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, PlayState* play) {
         }
         this->unk_2D4 = 8;
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
 }
 
 void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
@@ -384,7 +384,7 @@ void EnPeehat_Flying_SetStateFly(EnPeehat* this) {
 }
 
 void EnPeehat_Flying_StateFly(EnPeehat* this, PlayState* play) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
     SkelAnime_Update(&this->skelAnime);
     if (!IS_DAY || this->xzDistToRise < this->actor.xzDistToPlayer) {
         EnPeehat_Flying_SetStateLanding(this);
@@ -411,7 +411,7 @@ void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
     }
     this->state = PEAHAT_STATE_8;
     this->animTimer = lastFrame;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_UP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_UP);
     EnPeehat_SetupAction(this, EnPeehat_Ground_StateRise);
 }
 
@@ -452,7 +452,7 @@ void EnPeehat_Flying_SetStateRise(EnPeehat* this) {
     }
     this->state = PEAHAT_STATE_9;
     this->animTimer = lastFrame;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_UP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_UP);
     EnPeehat_SetupAction(this, EnPeehat_Flying_StateRise);
 }
 
@@ -496,7 +496,7 @@ void EnPeehat_Ground_SetStateSeekPlayer(EnPeehat* this) {
 void EnPeehat_Ground_StateSeekPlayer(EnPeehat* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 3.0f, 1.0f, 0.25f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 3.0f, 1.0f, 0.25f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 80.0f, 1.0f, 3.0f, 0.0f);
     if (this->seekPlayerTimer <= 0) {
         EnPeehat_Ground_SetStateLanding(this);
@@ -518,7 +518,7 @@ void EnPeehat_Ground_StateSeekPlayer(EnPeehat* this, PlayState* play) {
     Math_SmoothStepToS(&this->bladeRotVel, 4000, 1, 500, 0);
     this->bladeRot += this->bladeRotVel;
     Math_SmoothStepToF(&this->scaleShift, 0.075f, 1.0f, 0.005f, 0.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
 }
 
 void EnPeehat_Larva_SetStateSeekPlayer(EnPeehat* this) {
@@ -537,7 +537,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, PlayState* play) {
     if (this->actor.parent != NULL && this->actor.parent->update == NULL) {
         this->actor.parent = NULL;
     }
-    this->actor.speedXZ = speedXZ;
+    this->actor.speed = speedXZ;
     if (this->actor.world.pos.y - this->actor.floorHeight >= 70.0f) {
         Math_SmoothStepToF(&this->actor.velocity.y, -1.3f, 1.0f, 0.5f, 0.0f);
     } else {
@@ -553,7 +553,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, PlayState* play) {
     Math_SmoothStepToS(&this->bladeRotVel, 4000, 1, 500, 0);
     this->bladeRot += this->bladeRotVel;
     Math_SmoothStepToF(&this->scaleShift, 0.075f, 1.0f, 0.005f, 0.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_SM_FLY - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_SM_FLY - SFX_FLAG);
     if (this->colQuad.base.atFlags & AT_BOUNCED) {
         this->actor.colChkInfo.health = 0;
         this->colQuad.base.acFlags = this->colQuad.base.acFlags & ~AC_BOUNCED;
@@ -598,12 +598,12 @@ void EnPeehat_Ground_SetStateLanding(EnPeehat* this) {
 
 void EnPeehat_Ground_StateLanding(EnPeehat* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 50, 0);
     if (SkelAnime_Update(&this->skelAnime)) {
         EnPeehat_Ground_SetStateGround(this);
         this->actor.world.pos.y = this->actor.floorHeight;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_LAND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_LAND);
     } else if (this->actor.floorHeight < this->actor.world.pos.y) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight, 0.3f, 3.5f, 0.25f);
         if (this->actor.world.pos.y - this->actor.floorHeight < 60.0f) {
@@ -625,11 +625,11 @@ void EnPeehat_Flying_SetStateLanding(EnPeehat* this) {
 
 void EnPeehat_Flying_StateLanding(EnPeehat* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 50, 0);
     if (SkelAnime_Update(&this->skelAnime)) {
         EnPeehat_Flying_SetStateGround(this);
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_LAND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_LAND);
         this->actor.world.pos.y = this->actor.floorHeight;
     } else if (this->actor.floorHeight < this->actor.world.pos.y) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight, 0.3f, 13.5f, 0.25f);
@@ -646,7 +646,7 @@ void EnPeehat_Flying_StateLanding(EnPeehat* this, PlayState* play) {
 
 void EnPeehat_Ground_SetStateHover(EnPeehat* this) {
     Animation_PlayLoop(&this->skelAnime, &gPeehatFlyingAnim);
-    this->actor.speedXZ = Rand_ZeroOne() * 0.5f + 2.5f;
+    this->actor.speed = Rand_ZeroOne() * 0.5f + 2.5f;
     this->unk_2D4 = Rand_ZeroOne() * 10 + 10;
     this->state = PEAHAT_STATE_15;
     EnPeehat_SetupAction(this, EnPeehat_Ground_StateHover);
@@ -665,7 +665,7 @@ void EnPeehat_Ground_StateHover(EnPeehat* this, PlayState* play) {
     this->unk_2E0 += ((0.0f <= cos) ? cos : -cos) + 0.07f;
     this->unk_2D4--;
     if (this->unk_2D4 <= 0) {
-        this->actor.speedXZ = Rand_ZeroOne() * 0.5f + 2.5f;
+        this->actor.speed = Rand_ZeroOne() * 0.5f + 2.5f;
         this->unk_2D4 = Rand_ZeroOne() * 10.0f + 10.0f;
         this->unk_2F4 = (Rand_ZeroOne() - 0.5f) * 1000.0f;
     }
@@ -689,12 +689,12 @@ void EnPeehat_Ground_StateHover(EnPeehat* this, PlayState* play) {
     Math_SmoothStepToS(&this->bladeRotVel, 4000, 1, 500, 0);
     this->bladeRot += this->bladeRotVel;
     Math_SmoothStepToF(&this->scaleShift, 0.075f, 1.0f, 0.005f, 0.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
 }
 
 void EnPeehat_Ground_SetStateReturnHome(EnPeehat* this) {
     this->state = PEAHAT_STATE_RETURN_HOME;
-    this->actor.speedXZ = 2.5f;
+    this->actor.speed = 2.5f;
     EnPeehat_SetupAction(this, EnPeehat_Ground_StateReturnHome);
 }
 
@@ -726,13 +726,13 @@ void EnPeehat_Ground_StateReturnHome(EnPeehat* this, PlayState* play) {
         EnPeehat_Ground_SetStateSeekPlayer(this);
         this->unk_2FA = (play->gameplayFrames & 1);
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
 }
 
 void EnPeehat_SetStateAttackRecoil(EnPeehat* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPeehatRecoilAnim, -4.0f);
     this->state = PEAHAT_STATE_ATTACK_RECOIL;
-    this->actor.speedXZ = -9.0f;
+    this->actor.speed = -9.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     EnPeehat_SetupAction(this, EnPeehat_StateAttackRecoil);
 }
@@ -740,8 +740,8 @@ void EnPeehat_SetStateAttackRecoil(EnPeehat* this) {
 void EnPeehat_StateAttackRecoil(EnPeehat* this, PlayState* play) {
     this->bladeRot += this->bladeRotVel;
     SkelAnime_Update(&this->skelAnime);
-    this->actor.speedXZ += 0.5f;
-    if (this->actor.speedXZ == 0.0f) {
+    this->actor.speed += 0.5f;
+    if (this->actor.speed == 0.0f) {
         // Is PEAHAT_TYPE_LARVA
         if (this->actor.params > 0) {
             Vec3f zeroVec = { 0, 0, 0 };
@@ -762,23 +762,23 @@ void EnPeehat_StateAttackRecoil(EnPeehat* this, PlayState* play) {
             }
         }
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
 }
 
 void EnPeehat_SetStateBoomerangStunned(EnPeehat* this) {
     this->state = PEAHAT_STATE_STUNNED;
     if (this->actor.floorHeight < this->actor.world.pos.y) {
-        this->actor.speedXZ = -9.0f;
+        this->actor.speed = -9.0f;
     }
     this->bladeRotVel = 0;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    Actor_SetColorFilter(&this->actor, 0, 200, 0, 80);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA, 80);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnPeehat_SetupAction(this, EnPeehat_StateBoomerangStunned);
 }
 
 void EnPeehat_StateBoomerangStunned(EnPeehat* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight, 1.0f, 8.0f, 0.0f);
     if (this->actor.colorFilterTimer == 0) {
         EnPeehat_Ground_SetStateRise(this);
@@ -788,8 +788,8 @@ void EnPeehat_StateBoomerangStunned(EnPeehat* this, PlayState* play) {
 void EnPeehat_Adult_SetStateDie(EnPeehat* this) {
     this->bladeRotVel = 0;
     this->isStateDieFirstUpdate = 1;
-    this->actor.speedXZ = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 8);
+    this->actor.speed = 0.0f;
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->state = PEAHAT_STATE_DYING;
     this->scaleShift = 0.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -803,7 +803,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, PlayState* play) {
             Animation_MorphToPlayOnce(&this->skelAnime, &gPeehatRecoilAnim, -4.0f);
             this->bladeRotVel = 4000;
             this->unk_2D4 = 14;
-            this->actor.speedXZ = 0;
+            this->actor.speed = 0;
             this->actor.velocity.y = 6;
             this->isStateDieFirstUpdate = 0;
             this->actor.shape.rot.z = this->actor.shape.rot.x = 0;
@@ -827,8 +827,8 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, PlayState* play) {
             func_80033480(play, &pos, 80.0f, 1, 150, 100, 1);
             EnPeehat_SpawnDust(play, this, &pos, 75.0f, 2, 1.05f, 2.0f);
         }
-        if (this->actor.speedXZ < 0) {
-            this->actor.speedXZ += 0.25f;
+        if (this->actor.speed < 0) {
+            this->actor.speed += 0.25f;
         }
         this->unk_2D4--;
         if (this->unk_2D4 <= 0) {
@@ -894,8 +894,8 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
             return;
         } else {
             Actor_ApplyDamage(&this->actor);
-            Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 8);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
         }
 
         if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_FIRE) {
@@ -907,7 +907,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, PlayState* play) {
                 pos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
                 EffectSsEnFire_SpawnVec3f(play, &this->actor, &pos, 70, 0, 0, -1);
             }
-            Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 100);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, 100);
         }
         if (this->actor.colChkInfo.health == 0) {
             EnPeehat_Adult_SetStateDie(this);
@@ -925,8 +925,8 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
         EnPeehat_Adult_CollisionCheck(this, play);
     }
     if (thisx->colChkInfo.damageEffect != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
-        if (thisx->speedXZ != 0.0f || thisx->velocity.y != 0.0f) {
-            Actor_MoveForward(thisx);
+        if (thisx->speed != 0.0f || thisx->velocity.y != 0.0f) {
+            Actor_MoveXZGravity(thisx);
             Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
 
@@ -1067,7 +1067,7 @@ void EnPeehat_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPeehat_OverrideLimbDraw,
                       EnPeehat_PostLimbDraw, this);
-    if (this->actor.speedXZ != 0.0f || this->actor.velocity.y != 0.0f) {
+    if (this->actor.speed != 0.0f || this->actor.velocity.y != 0.0f) {
         Matrix_MultVec3f(&D_80AD285C[0], &this->colQuad.dim.quad[1]);
         Matrix_MultVec3f(&D_80AD285C[1], &this->colQuad.dim.quad[0]);
         Matrix_MultVec3f(&D_80AD285C[2], &this->colQuad.dim.quad[3]);
