@@ -429,7 +429,7 @@ void EnDodojr_EmergeFromGround(EnDodojr* this, PlayState* play) {
 }
 
 void EnDodojr_CrawlTowardsTarget(EnDodojr* this, PlayState* play) {
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
     EnDodojr_SpawnSmallDust(this, play, &this->actor.world.pos);
 
     if (DECR(this->crawlSfxTimer) == 0) {
@@ -487,7 +487,7 @@ void EnDodojr_SwallowedBombDeathBounce(EnDodojr* this, PlayState* play) {
     // Scale up briefly to expand from the swallowed bomb exploding.
     this->rootScale = 1.2f;
     this->rootScale *= ((f32)this->actor.colorFilterTimer / 8);
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
 
     if (EnDodojr_UpdateBounces(this, play)) {
         this->timer = 60;
@@ -502,7 +502,7 @@ void EnDodojr_SwallowedBombDeathSequence(EnDodojr* this, PlayState* play) {
 }
 
 void EnDodojr_StunnedBounce(EnDodojr* this, PlayState* play) {
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
 
     if (EnDodojr_UpdateBounces(this, play)) {
         EnDodojr_SetupSwallowedBombDeathSequence(this);
@@ -536,7 +536,7 @@ void EnDodojr_Stunned(EnDodojr* this, PlayState* play) {
 
 void EnDodojr_JumpAttackBounce(EnDodojr* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_24;
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
 
     if (EnDodojr_UpdateBounces(this, play)) {
         EnDodojr_SetupCrawlTowardsTarget(this);
@@ -560,7 +560,7 @@ void EnDodojr_Despawn(EnDodojr* this, PlayState* play) {
 }
 
 void EnDodojr_StandardDeathBounce(EnDodojr* this, PlayState* play) {
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
     this->actor.world.rot.x = this->actor.shape.rot.x;
 
@@ -610,7 +610,7 @@ void EnDodojr_Update(Actor* thisx, PlayState* play) {
     EnDodojr* this = (EnDodojr*)thisx;
 
     SkelAnime_Update(&this->skelAnime);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     EnDodojr_CheckDamaged(this, play);
 
     if (this->actionFunc != EnDodojr_WaitUnderground) {

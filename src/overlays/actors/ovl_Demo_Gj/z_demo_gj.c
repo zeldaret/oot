@@ -568,7 +568,7 @@ void DemoGj_InitRubblePile1(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A000(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(18));
     this->rotationVec.y += (s16)(kREG(19) + 1000);
@@ -633,7 +633,7 @@ void DemoGj_InitRubblePile2(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A238(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(31));
     this->rotationVec.y += (s16)(kREG(32) + 1000);
@@ -698,7 +698,7 @@ void DemoGj_InitRubblePile3(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A474(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(44));
     this->rotationVec.y += (s16)(kREG(45) + 1000);
@@ -746,7 +746,7 @@ void DemoGj_InitRubblePile4(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A644(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(57));
     this->rotationVec.y += (s16)(kREG(58) + 1000);
@@ -794,7 +794,7 @@ void DemoGj_InitRubblePile5(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A814(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(70));
     this->rotationVec.y += (s16)(kREG(71) + 1000);
@@ -842,7 +842,7 @@ void DemoGj_InitRubblePile6(DemoGj* this, PlayState* play) {
 }
 
 void func_8097A9E4(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(83));
     this->rotationVec.y += (s16)(kREG(84) + 1000);
@@ -890,7 +890,7 @@ void DemoGj_InitRubblePile7(DemoGj* this, PlayState* play) {
 }
 
 void func_8097ABB4(DemoGj* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(15));
     this->rotationVec.y += (s16)(kREG(14) + 1000);

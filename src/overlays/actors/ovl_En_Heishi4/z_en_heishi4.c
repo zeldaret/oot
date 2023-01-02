@@ -357,7 +357,7 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
     }
     this->unk_27E += 1;
     this->actionFunc(this, play);
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 10.0f, 10.0f, 30.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
