@@ -1273,13 +1273,16 @@ void Play_Draw(PlayState* this) {
                     OVERLAY_DISP = gfxP;
                     this->unk_121C7 = 2;
                     R_GRAPH_TASKSET00_FLAGS |= 1;
-                } else {
+                    goto Play_Draw_skip;
+                }
+
                 Play_Draw_DrawOverlayElements:
                     if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
                         Play_DrawOverlayElements(this);
                     }
-                }
     }
+
+Play_Draw_skip:
 
     if (this->view.unk_124 != 0) {
         Camera_Update(GET_ACTIVE_CAM(this));
