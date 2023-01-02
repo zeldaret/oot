@@ -178,12 +178,13 @@ void EnReeba_Destroy(Actor* thisx, PlayState* play) {
 void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
     f32 frames = Animation_GetLastFrame(&object_reeba_Anim_0001E4);
     Player* player = GET_PLAYER(play);
-    s16 playerSpeed;
+    s16 absPlayerSpeedXZ;
 
     Animation_Change(&this->skelanime, &object_reeba_Anim_0001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
 
-    playerSpeed = fabsf(player->linearVelocity);
-    this->waitTimer = 20 - playerSpeed * 2;
+    absPlayerSpeedXZ = fabsf(player->speedXZ);
+    this->waitTimer = 20 - absPlayerSpeedXZ * 2;
+
     if (this->waitTimer < 0) {
         this->waitTimer = 2;
     }
@@ -205,7 +206,7 @@ void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
 
 void EnReeba_Surface(EnReeba* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    f32 playerLinearVel;
+    f32 playerSpeedXZ;
 
     SkelAnime_Update(&this->skelanime);
 
@@ -222,23 +223,23 @@ void EnReeba_Surface(EnReeba* this, PlayState* play) {
         } else {
             this->yOffsetStep = 0.0f;
             this->actor.shape.yOffset = 0.0f;
-            playerLinearVel = player->linearVelocity;
+            playerSpeedXZ = player->speedXZ;
 
             switch (this->aimType) {
                 case 0:
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     break;
                 case 1:
-                    this->actor.world.rot.y = this->actor.yawTowardsPlayer + (800.0f * playerLinearVel);
+                    this->actor.world.rot.y = this->actor.yawTowardsPlayer + (800.0f * playerSpeedXZ);
                     break;
                 case 2:
                 case 3:
                     this->actor.world.rot.y =
                         this->actor.yawTowardsPlayer +
-                        (player->actor.shape.rot.y - this->actor.yawTowardsPlayer) * (playerLinearVel * 0.15f);
+                        (player->actor.shape.rot.y - this->actor.yawTowardsPlayer) * (playerSpeedXZ * 0.15f);
                     break;
                 case 4:
-                    this->actor.world.rot.y = this->actor.yawTowardsPlayer - (800.0f * playerLinearVel);
+                    this->actor.world.rot.y = this->actor.yawTowardsPlayer - (800.0f * playerSpeedXZ);
                     break;
             }
 
