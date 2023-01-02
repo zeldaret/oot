@@ -1119,7 +1119,8 @@ void Play_Draw(PlayState* this) {
             TransitionTile_Draw(&sTransitionTile, &sp88);
             POLY_OPA_DISP = sp88;
             goto Play_Draw_DrawOverlayElements;
-        } else {
+        }
+
             PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
             if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
@@ -1142,8 +1143,7 @@ void Play_Draw(PlayState* this) {
                 POLY_OPA_DISP = gfxP;
 
                 goto Play_Draw_DrawOverlayElements;
-            } else {
-                s32 roomDrawFlags;
+            }
 
                 if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
                     if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
@@ -1181,6 +1181,8 @@ void Play_Draw(PlayState* this) {
 
                 if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
                     if (VREG(94) == 0) {
+                        s32 roomDrawFlags;
+
                         if (R_HREG_MODE != HREG_MODE_PLAY) {
                             roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
                         } else {
@@ -1277,8 +1279,6 @@ void Play_Draw(PlayState* this) {
                         Play_DrawOverlayElements(this);
                     }
                 }
-            }
-        }
     }
 
     if (this->view.unk_124 != 0) {
