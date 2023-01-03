@@ -153,7 +153,7 @@ void EnOkuta_Init(Actor* thisx, PlayState* play) {
         this->timer = 30;
         thisx->shape.rot.y = 0;
         this->actionFunc = EnOkuta_ProjectileFly;
-        thisx->speedXZ = 10.0f;
+        thisx->speed = 10.0f;
     }
 }
 
@@ -478,8 +478,8 @@ void EnOkuta_ProjectileFly(EnOkuta* this, PlayState* play) {
     this->actor.home.rot.z += 0x1554;
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         this->actor.gravity = -1.0f;
-        this->actor.speedXZ -= 0.1f;
-        this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
+        this->actor.speed -= 0.1f;
+        this->actor.speed = CLAMP_MIN(this->actor.speed, 1.0f);
     }
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->collider.base.atFlags & AT_HIT) || this->collider.base.acFlags & AC_HIT ||
@@ -600,7 +600,7 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
                  this->actor.scale.y * 100.0f);
         } else {
             canRestorePrevPos = false;
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
             Math_Vec3f_Copy(&prevPos, &this->actor.world.pos);
             Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 15.0f, 30.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);

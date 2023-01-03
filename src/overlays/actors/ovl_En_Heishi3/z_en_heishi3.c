@@ -172,7 +172,7 @@ void EnHeishi3_CatchStart(EnHeishi3* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gEnHeishiWalkAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->caughtTimer = 20;
     this->actionFunc = func_80A55BD4;
-    this->actor.speedXZ = 2.5f;
+    this->actor.speed = 2.5f;
 }
 
 void func_80A55BD4(EnHeishi3* this, PlayState* play) {
@@ -183,7 +183,7 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play) {
     }
     if (this->caughtTimer == 0) {
         this->actionFunc = EnHeishi3_ResetAnimationToIdle;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     } else {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
@@ -221,7 +221,7 @@ void EnHeishi3_Update(Actor* thisx, PlayState* play) {
     }
     this->actionFunc(this, play);
     this->actor.shape.rot = this->actor.world.rot;
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 50.0f,
                             UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);

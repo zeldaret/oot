@@ -384,11 +384,11 @@ void EnHonotrap_FlameMove(EnHonotrap* this, PlayState* play) {
 
         tempVel = this->actor.velocity;
         Math3D_Vec3fReflect(&tempVel, &shieldNorm, &this->actor.velocity);
-        this->actor.speedXZ = this->speedMod * 0.5f;
+        this->actor.speed = this->speedMod * 0.5f;
         this->actor.world.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
         EnHonotrap_SetupFlameVanish(this);
     } else if (this->collider.tris.base.atFlags & AT_HIT) {
-        this->actor.velocity.y = this->actor.speedXZ = 0.0f;
+        this->actor.velocity.y = this->actor.speed = 0.0f;
         EnHonotrap_SetupFlameVanish(this);
     } else if (this->timer <= 0) {
         EnHonotrap_SetupFlameVanish(this);
@@ -403,7 +403,7 @@ void EnHonotrap_FlameMove(EnHonotrap* this, PlayState* play) {
 void EnHonotrap_SetupFlameChase(EnHonotrap* this) {
     this->actionFunc = EnHonotrap_FlameChase;
 
-    this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = this->actor.speedXZ = 0.0f;
+    this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = this->actor.speed = 0.0f;
     this->actor.world.rot.x = this->actor.world.rot.y = this->actor.world.rot.z = 0;
 
     this->timer = 100;
@@ -413,14 +413,14 @@ void EnHonotrap_FlameChase(EnHonotrap* this, PlayState* play) {
     s32 pad;
 
     Math_ScaledStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0x300);
-    Math_StepToF(&this->actor.speedXZ, 3.0f, 0.1f);
+    Math_StepToF(&this->actor.speed, 3.0f, 0.1f);
     this->actor.gravity = (-this->actor.yDistToPlayer < 10.0f) ? 0.08f : -0.08f;
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
     if (this->actor.velocity.y > 1.0f) {
         this->actor.velocity.y = 1.0f;
     }
     this->actor.velocity.y *= 0.95f;
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 10.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
@@ -432,7 +432,7 @@ void EnHonotrap_FlameChase(EnHonotrap* this, PlayState* play) {
         this->actor.world.rot.y = ((shieldRot.y * 2) - this->actor.world.rot.y) + 0x8000;
         EnHonotrap_SetupFlameVanish(this);
     } else if (this->collider.cyl.base.atFlags & AT_HIT) {
-        this->actor.speedXZ *= 0.1f;
+        this->actor.speed *= 0.1f;
         this->actor.velocity.y *= 0.1f;
         EnHonotrap_SetupFlameVanish(this);
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->timer <= 0)) {
@@ -451,7 +451,7 @@ void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play) {
     s32 ready = Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 10.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);

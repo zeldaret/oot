@@ -182,7 +182,7 @@ void func_80AAF2BC(EnMm2* this, PlayState* play) {
     }
     SkelAnime_Update(&this->skelAnime);
     this->unk_1F6++;
-    Math_SmoothStepToF(&this->actor.speedXZ, 10.0f, 0.6f, 2.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 10.0f, 0.6f, 2.0f, 0.0f);
 }
 
 void func_80AAF330(EnMm2* this, PlayState* play) {
@@ -303,7 +303,7 @@ void EnMm2_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 }
 

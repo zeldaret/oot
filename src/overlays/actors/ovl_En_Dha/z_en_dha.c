@@ -182,7 +182,7 @@ void EnDha_SetupWait(EnDha* this) {
     Animation_PlayLoop(&this->skelAnime, &object_dh_Anim_0015B0);
     this->unk_1C0 = 0;
     this->actionTimer = ((Rand_ZeroOne() * 10.0f) + 5.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.home.rot.z = 1;
     EnDha_SetupAction(this, EnDha_Wait);
