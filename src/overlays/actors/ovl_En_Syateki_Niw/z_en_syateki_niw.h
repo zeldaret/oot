@@ -14,9 +14,9 @@ typedef struct {
     /* 0x10 */ Vec3f vel;
     /* 0x1C */ Vec3f accel;
     /* 0x28 */ s16   lifespan;
-    /* 0x2A */ s16   rotZPulse;
+    /* 0x2A */ s16   rotPulse;
     /* 0x2C */ f32   scale;
-    /* 0x30 */ f32   rotZ;
+    /* 0x30 */ f32   rot;
     /* 0x34 */ u8    timer;
 } EnSyatekiNiwEffect; // size = 0x38
 
@@ -29,7 +29,7 @@ typedef struct EnSyatekiNiw {
     /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ EnSyatekiNiwActionFunc actionFunc;
     /* 0x0254 */ s16 peckTimer;
-    /* 0x0256 */ s16 timer1; // sometimes set alongside peckTimer, never read on its own.
+    /* 0x0256 */ s16 timer1; // sometimes set alongside peckTimer, never read.
     /* 0x0258 */ s16 flapTimer;
     /* 0x025A */ s16 archeryTimer;
     /* 0x025C */ s16 hopTimer;
@@ -37,27 +37,27 @@ typedef struct EnSyatekiNiw {
     /* 0x0260 */ s16 sootTimer; // cuccoo is covereed in soot.
     /* 0x0262 */ s16 cluckTimer;
     /* 0x0264 */ f32 headRotXTarget;
-    /* 0x0268 */ f32 wingRightRotXTarget;
-    /* 0x026C */ f32 wingLeftRotXTarget;
+    /* 0x0268 */ f32 rightWingRotXTarget;
+    /* 0x026C */ f32 leftWingRotXTarget;
     /* 0x0270 */ char unk_270[0x8];
-    /* 0x0278 */ f32 wingRightRotYTarget;
-    /* 0x027C */ f32 wingRightRotZTarget;
-    /* 0x0284 */ f32 wingLeftRotYTarget;
-    /* 0x0280 */ f32 wingLeftRotZTarget;
+    /* 0x0278 */ f32 rightWingRotYTarget;
+    /* 0x027C */ f32 rightWingRotZTarget;
+    /* 0x0284 */ f32 leftWingRotYTarget;
+    /* 0x0280 */ f32 leftWingRotZTarget;
     /* 0x0288 */ f32 unkArcheryFloat; // set, but never used. another rot target?
     /* 0x028C */ s16 lifetime; // always ticks up, never read
     /* 0x028E */ s16 headRotXState;
     /* 0x0290 */ s16 unk_290; // set to 0, never read.
-    /* 0x0292 */ s16 wingRotState;
+    /* 0x0292 */ s16 wingsRotState;
     /* 0x0294 */ s16 targetPosTimer;
     /* 0x0296 */ s16 archeryAnimationType;
     /* 0x0298 */ s16 rotYFlip;
-    /* 0x029C */ s16 archeryState; // sequence index for "Archery" action
+    /* 0x029C */ s16 archeryState; // state index for "Archery" action
     /* 0x029C */ s16 isFalling; // set when hit in archery game
     /* 0x029E */ s16 minigameType;
     /* 0x02A0 */ s16 spawnFeathers;
-    /* 0x02A4 */ Vec3f wingLeftRot;
-    /* 0x02B0 */ Vec3f wingRightRot;
+    /* 0x02A4 */ Vec3f leftWingRot;
+    /* 0x02B0 */ Vec3f rightWingRot;
     /* 0x02BC */ Vec3f headRot;
     /* 0x02C8 */ Vec3f posRotStep;
     /* 0x02D4 */ f32 focusYOffset;
@@ -72,7 +72,7 @@ typedef struct EnSyatekiNiw {
 
 typedef enum{
     SYATEKI_MINIGAME_ARCHERY, // unused archery game behavior
-    SYATEKI_MINIGAME_ALLEY
+    SYATEKI_MINIGAME_ALLEY // Bombchu Alley behavior
 } EnSyatekiMinigame;
 
 #endif
