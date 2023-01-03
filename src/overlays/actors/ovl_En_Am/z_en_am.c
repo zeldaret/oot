@@ -532,7 +532,7 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
     // turn away from a wall if touching one
     if ((this->dyna.actor.speed != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.wallYaw;
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -640,7 +640,7 @@ void EnAm_Lunge(EnAm* this, PlayState* play) {
         if ((this->dyna.actor.speed != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             this->dyna.actor.world.rot.y =
                 (this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw;
-            Actor_MoveForward(&this->dyna.actor);
+            Actor_MoveXZGravity(&this->dyna.actor);
             this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 
@@ -885,7 +885,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
             }
         }
 
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
         Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 20.0f, 28.0f, 80.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);

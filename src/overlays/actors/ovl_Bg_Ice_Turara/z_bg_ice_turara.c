@@ -173,7 +173,7 @@ void BgIceTurara_Fall(BgIceTurara* this, PlayState* play) {
             return;
         }
     } else {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
         this->dyna.actor.world.pos.y += 40.0f;
         Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->dyna.actor.world.pos.y -= 40.0f;

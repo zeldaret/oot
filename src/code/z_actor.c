@@ -841,7 +841,10 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
     }
 }
 
-void func_8002D7EC(Actor* actor) {
+/**
+ * Update actor's position factoring in velocity and collider displacement
+ */
+void Actor_UpdatePos(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
 
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
@@ -849,22 +852,34 @@ void func_8002D7EC(Actor* actor) {
     actor->world.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
 }
 
-void func_8002D868(Actor* actor) {
+/**
+ * Update actor's velocity accounting for gravity (without dropping below minimum y velocity)
+ */
+void Actor_UpdateVelocityXZGravity(Actor* actor) {
     actor->velocity.x = Math_SinS(actor->world.rot.y) * actor->speed;
     actor->velocity.z = Math_CosS(actor->world.rot.y) * actor->speed;
 
     actor->velocity.y += actor->gravity;
+
     if (actor->velocity.y < actor->minVelocityY) {
         actor->velocity.y = actor->minVelocityY;
     }
 }
 
-void Actor_MoveForward(Actor* actor) {
-    func_8002D868(actor);
-    func_8002D7EC(actor);
+/**
+ * Move actor while accounting for its current velocity and gravity.
+ * `actor.speed` is used as the XZ velocity.
+ * The actor will move in the direction of its world yaw.
+ */
+void Actor_MoveXZGravity(Actor* actor) {
+    Actor_UpdateVelocityXZGravity(actor);
+    Actor_UpdatePos(actor);
 }
 
-void func_8002D908(Actor* actor) {
+/**
+ * Update actor's velocity without gravity.
+ */
+void Actor_UpdateVelocityXYZ(Actor* actor) {
     f32 speedXZ = Math_CosS(actor->world.rot.x) * actor->speed;
 
     actor->velocity.x = Math_SinS(actor->world.rot.y) * speedXZ;
@@ -872,23 +887,33 @@ void func_8002D908(Actor* actor) {
     actor->velocity.z = Math_CosS(actor->world.rot.y) * speedXZ;
 }
 
-void func_8002D97C(Actor* actor) {
-    func_8002D908(actor);
-    func_8002D7EC(actor);
+/**
+ * Move actor while accounting for its current velocity.
+ * `actor.speed` is used as the XYZ velocity.
+ * The actor will move in the direction of its world yaw and pitch, with positive pitch moving upwards.
+ */
+void Actor_MoveXYZ(Actor* actor) {
+    Actor_UpdateVelocityXYZ(actor);
+    Actor_UpdatePos(actor);
 }
 
-void func_8002D9A4(Actor* actor, f32 arg1) {
-    actor->speed = Math_CosS(actor->world.rot.x) * arg1;
-    actor->velocity.y = -Math_SinS(actor->world.rot.x) * arg1;
+/**
+ * From a given XYZ speed value, set the corresponding XZ speed as `actor.speed`, and Y speed as Y velocity.
+ * Only the actor's world pitch is factored in, with positive pitch moving downwards.
+ */
+void Actor_SetProjectileSpeed(Actor* actor, f32 speedXYZ) {
+    actor->speed = Math_CosS(actor->world.rot.x) * speedXYZ;
+    actor->velocity.y = -Math_SinS(actor->world.rot.x) * speedXYZ;
 }
 
-void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
-    Vec3f sp1C;
+void Actor_UpdatePosByAnimation(Actor* actor, SkelAnime* skelAnime) {
+    Vec3f posDiff;
 
-    SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
-    actor->world.pos.x += sp1C.x * actor->scale.x;
-    actor->world.pos.y += sp1C.y * actor->scale.y;
-    actor->world.pos.z += sp1C.z * actor->scale.z;
+    SkelAnime_UpdateTranslation(skelAnime, &posDiff, actor->shape.rot.y);
+
+    actor->world.pos.x += posDiff.x * actor->scale.x;
+    actor->world.pos.y += posDiff.y * actor->scale.y;
+    actor->world.pos.z += posDiff.z * actor->scale.z;
 }
 
 s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB) {
@@ -4090,7 +4115,7 @@ s32 func_80035124(Actor* actor, PlayState* play) {
             if (Actor_HasParent(actor, play)) {
                 actor->params = 1;
             } else if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-                Actor_MoveForward(actor);
+                Actor_MoveXZGravity(actor);
                 Math_SmoothStepToF(&actor->speed, 0.0f, 1.0f, 0.1f, 0.0f);
             } else if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (actor->velocity.y < -4.0f)) {
                 ret = 1;

@@ -475,7 +475,7 @@ void EnDekunuts_Update(Actor* thisx, PlayState* play) {
     if (this->actor.params != DEKUNUTS_FLOWER) {
         EnDekunuts_ColliderCheck(this, play);
         this->actionFunc(this, play);
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);

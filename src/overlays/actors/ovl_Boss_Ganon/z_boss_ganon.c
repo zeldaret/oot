@@ -3921,8 +3921,8 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
         yDistFromLink = (player->actor.world.pos.y + 40.0f) - this->actor.world.pos.y;
         zDistFromLink = player->actor.world.pos.z - this->actor.world.pos.z;
 
-        func_8002D908(&this->actor);
-        func_8002D7EC(&this->actor);
+        Actor_UpdateVelocityXYZ(&this->actor);
+        Actor_UpdatePos(&this->actor);
 
         switch (this->unk_1C2) {
             case 0:
@@ -4195,8 +4195,8 @@ void func_808E1EB4(Actor* thisx, PlayState* play2) {
         }
     }
 
-    func_8002D908(&this->actor);
-    func_8002D7EC(&this->actor);
+    Actor_UpdateVelocityXYZ(&this->actor);
+    Actor_UpdatePos(&this->actor);
 
     this->unk_1A6++;
 
@@ -4322,8 +4322,8 @@ void func_808E2544(Actor* thisx, PlayState* play) {
         }
     }
 
-    func_8002D908(&this->actor);
-    func_8002D7EC(&this->actor);
+    Actor_UpdateVelocityXYZ(&this->actor);
+    Actor_UpdatePos(&this->actor);
 
     this->unk_1A6++;
 
@@ -4412,8 +4412,8 @@ void func_808E2544(Actor* thisx, PlayState* play) {
                 (this->actor.xzDistToPlayer < 80.0f)) {
                 this->unk_1C2 = 0xC;
                 this->actor.speed = -30.0f;
-                func_8002D908(&this->actor);
-                func_8002D7EC(&this->actor);
+                Actor_UpdateVelocityXYZ(&this->actor);
+                Actor_UpdatePos(&this->actor);
                 this->unk_1F0 = dorf->unk_1FC;
                 numEffects = 10;
                 break;
@@ -4429,8 +4429,8 @@ void func_808E2544(Actor* thisx, PlayState* play) {
                     this->unk_1C2 = 0xC;
                     this->actor.speed = -30.0f;
 
-                    func_8002D908(&this->actor);
-                    func_8002D7EC(&this->actor);
+                    Actor_UpdateVelocityXYZ(&this->actor);
+                    Actor_UpdatePos(&this->actor);
 
                     this->unk_1F0.x = Rand_CenteredFloat(700.0f) + dorf->unk_1FC.x;
                     this->unk_1F0.y = Rand_CenteredFloat(200.0f) + dorf->unk_1FC.y;
