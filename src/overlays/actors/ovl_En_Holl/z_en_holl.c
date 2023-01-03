@@ -206,7 +206,7 @@ void func_80A591C0(EnHoll* this, PlayState* play) {
                 func_8009728C(play, &play->roomCtx, this->actor.room) != 0) {
                 EnHoll_SetupAction(this, EnHoll_NextAction);
                 this->unk_14F = 1;
-                player->actor.speedXZ = 0.0f;
+                player->actor.speed = 0.0f;
             }
         }
     } else if (this->unk_14F != 0) {

@@ -283,7 +283,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             // they spring out of their hidding spot
             this->goldHiddenBool = 1;
             this->actor.velocity.y = 8.0f;
-            this->actor.speedXZ = 4.0f;
+            this->actor.speed = 4.0f;
             this->actor.gravity = -1.0f;
             FALLTHROUGH;
         case SW_GOLDTYPE_NIGHT:
@@ -517,12 +517,13 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
 
     Math_ApproachF(&this->actor.scale.x, 0.02f, 0.2f, 0.01f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
+
     this->actor.world.pos.x += this->wallPolyNormal.x * this->actor.velocity.y;
     this->actor.world.pos.y += this->wallPolyNormal.y * this->actor.velocity.y;
     this->actor.world.pos.z += this->wallPolyNormal.z * this->actor.velocity.y;
-    this->actor.world.pos.x += this->unk_37C.x * this->actor.speedXZ;
-    this->actor.world.pos.y += this->unk_37C.y * this->actor.speedXZ;
-    this->actor.world.pos.z += this->unk_37C.z * this->actor.speedXZ;
+    this->actor.world.pos.x += this->unk_37C.x * this->actor.speed;
+    this->actor.world.pos.y += this->unk_37C.y * this->actor.speed;
+    this->actor.world.pos.z += this->unk_37C.z * this->actor.speed;
     this->actor.velocity.y += this->actor.gravity;
     this->actor.velocity.y = CLAMP_MIN(this->actor.velocity.y, this->actor.minVelocityY);
 
@@ -537,7 +538,7 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
         Actor_SetScale(&this->actor, 0.02f);
         this->actionFunc = EnSw_Crawl;
         this->actor.velocity.y = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.gravity = 0.0f;
     }
 }
@@ -648,7 +649,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
 }
 
 void EnSw_FallNormal(EnSw* this, PlayState* play) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     this->actor.shape.rot.x += 0x1000;
     this->actor.shape.rot.z += 0x1000;
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
@@ -773,7 +774,7 @@ void EnSw_Move(EnSw* this, Vec3f targetPos, f32 speedTarget) {
     f32 yDiff;
     f32 zDiff;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, speedTarget, 0.3f, 100.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.speed, speedTarget, 0.3f, 100.0f, 0.1f);
     xDiff = targetPos.x - this->actor.world.pos.x;
     yDiff = targetPos.y - this->actor.world.pos.y;
     zDiff = targetPos.z - this->actor.world.pos.z;
@@ -785,9 +786,9 @@ void EnSw_Move(EnSw* this, Vec3f targetPos, f32 speedTarget) {
         yDist = yDiff / dist;
         zDist = zDiff / dist;
     }
-    xDist *= this->actor.speedXZ;
-    yDist *= this->actor.speedXZ;
-    zDist *= this->actor.speedXZ;
+    xDist *= this->actor.speed;
+    yDist *= this->actor.speed;
+    zDist *= this->actor.speed;
     this->actor.world.pos.x += xDist;
     this->actor.world.pos.y += yDist;
     this->actor.world.pos.z += zDist;
@@ -881,7 +882,7 @@ void EnSw_SetupGoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
     EnSw_Move(this, this->targetPos, 0.0f);
-    if (this->actor.speedXZ == 0.0f) {
+    if (this->actor.speed == 0.0f) {
         this->rotZTarget = EnSw_GetTargetPitch(this, &this->actor.home.pos);
         this->targetPos = this->actor.home.pos;
         this->actionFunc = EnSw_GoHome;

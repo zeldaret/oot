@@ -198,7 +198,7 @@ void ObjKibako_Idle(ObjKibako* this, PlayState* play) {
         ObjKibako_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
     } else {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 19.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 28.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
@@ -226,22 +226,22 @@ void ObjKibako_SetupHeld(ObjKibako* this) {
 void ObjKibako_Held(ObjKibako* this, PlayState* play) {
     if (Actor_HasNoParent(&this->actor, play)) {
         this->actor.room = play->roomCtx.curRoom.num;
-        if (fabsf(this->actor.speedXZ) < 0.1f) {
+        if (fabsf(this->actor.speed) < 0.1f) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_PUT_DOWN_WOODBOX);
             ObjKibako_SetupIdle(this);
             this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
         } else {
             ObjKibako_SetupThrown(this);
             ObjKibako_ApplyGravity(this);
-            func_8002D7EC(&this->actor);
+            Actor_UpdatePos(&this->actor);
         }
         Actor_UpdateBgCheckInfo(play, &this->actor, 19.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 }
 
 void ObjKibako_SetupThrown(ObjKibako* this) {
-    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
     this->actor.colChkInfo.mass = 240;
     this->actionFunc = ObjKibako_Thrown;
 }
@@ -263,7 +263,7 @@ void ObjKibako_Thrown(ObjKibako* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         ObjKibako_ApplyGravity(this);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 19.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

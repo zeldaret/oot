@@ -34,17 +34,17 @@ s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorAction* DemoIk_GetCue(PlayState* play, s32 index) {
+CsCmdActorCue* DemoIk_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[index];
+        return play->csCtx.actorCues[cueChannel];
     }
     return NULL;
 }
 
-s32 DemoIk_CheckCue(PlayState* play, u16 action, s32 index) {
-    CsCmdActorAction* cue = DemoIk_GetCue(play, index);
+s32 DemoIk_CheckForCue(PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIk_GetCue(play, cueChannel);
 
-    if ((cue != NULL) && (cue->action == action)) {
+    if ((cue != NULL) && (cue->id == cueId)) {
         return 1;
     }
     return 0;
@@ -73,7 +73,7 @@ Gfx* DemoIk_SetColors(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 
     return head;
 }
 
-s32 DemoIk_GetIndexFromParams(s32 params) {
+s32 DemoIk_GetCueChannel(s32 params) {
     s32 ret;
 
     if (params == 0) {
@@ -116,18 +116,18 @@ void DemoIk_SpawnDeadDb(DemoIk* this, PlayState* play) {
         { -6.0f, 13.0f, -5.0f }, { 1.0f, 9.0f, 3.0f },    { -10.0f, 9.0f, 1.0f },
     };
     s32 i;
-    s32 index = DemoIk_GetIndexFromParams(this->actor.params);
+    s32 cueChannel = DemoIk_GetCueChannel(this->actor.params);
 
-    if (DemoIk_CheckCue(play, 5, index)) {
+    if (DemoIk_CheckForCue(play, 5, cueChannel)) {
         Vec3f pos;
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         s32 startIndex;
         s32 endIndex;
 
-        if (index == 5) {
+        if (cueChannel == 5) {
             startIndex = 0;
             endIndex = 4;
-        } else if (index == 7) {
+        } else if (cueChannel == 7) {
             startIndex = 4;
             endIndex = 8;
         } else {
@@ -143,8 +143,8 @@ void DemoIk_SpawnDeadDb(DemoIk* this, PlayState* play) {
     }
 }
 
-void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 index) {
-    CsCmdActorAction* cue = DemoIk_GetCue(play, index);
+void DemoIk_MoveToStartPos(DemoIk* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIk_GetCue(play, cueChannel);
 
     if (cue != NULL) {
         this->actor.world.pos.x = cue->startPos.x;
@@ -190,7 +190,7 @@ void func_8098393C(DemoIk* this) {
 
 void func_8098394C(DemoIk* this, PlayState* play) {
     DemoIk_EndMove(this);
-    DemoIk_MoveToStartPos(this, play, DemoIk_GetIndexFromParams(this->actor.params));
+    DemoIk_MoveToStartPos(this, play, DemoIk_GetCueChannel(this->actor.params));
     this->actionMode = 1;
     this->drawMode = 1;
     this->actor.shape.shadowAlpha = 255;
@@ -205,14 +205,14 @@ void func_809839AC(DemoIk* this) {
 }
 
 void func_809839D0(DemoIk* this, PlayState* play) {
-    CsCmdActorAction* cue = DemoIk_GetCue(play, DemoIk_GetIndexFromParams(this->actor.params));
+    CsCmdActorCue* cue = DemoIk_GetCue(play, DemoIk_GetCueChannel(this->actor.params));
 
     if (cue != NULL) {
-        s32 nextCsAction = cue->action;
-        s32 csAction = this->csAction;
+        s32 nextCueId = cue->id;
+        s32 currentCueId = this->cueId;
 
-        if (nextCsAction != csAction) {
-            switch (nextCsAction) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     func_8098393C(this);
                     break;
@@ -232,7 +232,7 @@ void func_809839D0(DemoIk* this, PlayState* play) {
                     // "there is no such action"
                     osSyncPrintf("Demo_Ik_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->csAction = nextCsAction;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -359,14 +359,14 @@ void func_8098402C(DemoIk* this) {
 }
 
 void func_80984048(DemoIk* this, PlayState* play) {
-    CsCmdActorAction* cue = DemoIk_GetCue(play, 4);
+    CsCmdActorCue* cue = DemoIk_GetCue(play, 4);
 
     if (cue != NULL) {
-        s32 nextCsAction = cue->action;
-        s32 csAction = this->csAction;
+        s32 nextCueId = cue->id;
+        s32 currentCueId = this->cueId;
 
-        if (nextCsAction != csAction) {
-            switch (nextCsAction) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     func_80983FDC(this);
                     break;
@@ -383,7 +383,7 @@ void func_80984048(DemoIk* this, PlayState* play) {
                     // "there is no such action"
                     osSyncPrintf("Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->csAction = nextCsAction;
+            this->cueId = nextCueId;
         }
     }
 }

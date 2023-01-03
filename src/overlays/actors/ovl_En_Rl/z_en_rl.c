@@ -84,28 +84,30 @@ s32 func_80AE7494(EnRl* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-s32 func_80AE74B4(EnRl* this, PlayState* play, u16 arg2, s32 arg3) {
-    CsCmdActorAction* csCmdActorAction;
+s32 func_80AE74B4(EnRl* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        csCmdActorAction = play->csCtx.npcActions[arg3];
-        if (csCmdActorAction != NULL && csCmdActorAction->action == arg2) {
-            return 1;
+        cue = play->csCtx.actorCues[cueChannel];
+
+        if (cue != NULL && cue->id == cueId) {
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
-s32 func_80AE74FC(EnRl* this, PlayState* play, u16 arg2, s32 arg3) {
-    CsCmdActorAction* csCmdActorAction;
+s32 func_80AE74FC(EnRl* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        csCmdActorAction = play->csCtx.npcActions[arg3];
-        if (csCmdActorAction != NULL && csCmdActorAction->action != arg2) {
-            return 1;
+        cue = play->csCtx.actorCues[cueChannel];
+
+        if (cue != NULL && cue->id != cueId) {
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void func_80AE7544(EnRl* this, PlayState* play) {
@@ -118,8 +120,9 @@ void func_80AE7590(EnRl* this, PlayState* play) {
     Vec3f pos;
     s16 sceneId = play->sceneId;
 
-    if (gSaveContext.sceneLayer == 4 && sceneId == SCENE_CHAMBER_OF_THE_SAGES && play->csCtx.state != CS_STATE_IDLE &&
-        play->csCtx.npcActions[6] != NULL && play->csCtx.npcActions[6]->action == 2 && !this->lightMedallionGiven) {
+    if ((gSaveContext.sceneLayer == 4) && (sceneId == SCENE_CHAMBER_OF_THE_SAGES) &&
+        (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
+        (play->csCtx.actorCues[6]->id == 2) && !this->lightMedallionGiven) {
         player = GET_PLAYER(play);
         pos.x = player->actor.world.pos.x;
         pos.y = player->actor.world.pos.y + 80.0f;
@@ -139,11 +142,12 @@ void func_80AE7668(EnRl* this, PlayState* play) {
 }
 
 void func_80AE7698(EnRl* this, PlayState* play) {
-    CsCmdActorAction* csCmdActorAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        csCmdActorAction = play->csCtx.npcActions[0];
-        if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
+        cue = play->csCtx.actorCues[0];
+
+        if (cue != NULL && cue->id == 3) {
             Animation_Change(&this->skelAnime, &object_rl_Anim_00040C, 1.0f, 0.0f,
                              Animation_GetLastFrame(&object_rl_Anim_00040C), ANIMMODE_ONCE, 0.0f);
             this->action = 2;
