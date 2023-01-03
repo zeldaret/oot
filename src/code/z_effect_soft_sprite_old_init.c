@@ -322,7 +322,7 @@ void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Ve
  * @param pos Position from which to find collision to draw the shockwave along.
  * @param innerColor Color on the inside of the ring. Alpha is effect's alpha.
  * @param outerColor Color on the outside of the ring.
- * @param scale How large the shockwave is initially. The shockwave will be `64*scale/400` units wide.
+ * @param scale How large the shockwave is initially. The shockwave will be `scale*64/400` units wide.
  * @param scaleStep How much to increase `scale` by each frame.
  * @param scaleStepDecay How much to decrease `scaleStep` by each frame
  *   (should be a divisor of `scaleStep`, or small enough that `scaleStep` won't go negative).
@@ -775,7 +775,7 @@ void EffectSsFhgFlash_SpawnLightBall(PlayState* play, Vec3f* pos, Vec3f* velocit
  *
  * @param actor If param is `FHGFLASH_SHOCK_PG`, the Phantom Ganon actor. Unused otherwise.
  * @param pos If param is `FHGFLASH_SHOCK_NO_ACTOR`, the position of the effect. Unused otherwise.
- * @param scale The effect will be `20*rand(1..2)*scale/100` units wide.
+ * @param scale The effect will be around `scale*20/100` units wide (randomized).
  * @param param Determines what the effect attaches to. See `FhgFlashLightningParam`.
  */
 void EffectSsFhgFlash_SpawnShock(PlayState* play, Actor* actor, Vec3f* pos, s16 scale, u8 param) {
