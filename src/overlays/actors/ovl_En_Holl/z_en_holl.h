@@ -11,7 +11,9 @@
  * Two kinds of holls:
  *   Horizontal (H):
  *     For the player to move horizontally between rooms.
- *     Cuboid-shaped, 200 units high plus 50 units into the ground, 400 units wide or, if narrow, 200 units wide.
+ *     Cuboid-shaped:
+ *      - height: 200 units high plus 50 units into the ground
+ *      - width: 400 units wide or, if narrow, 200 units wide
  *   Vertical (V):
  *     For the player to move vertically between rooms.
  *     Cylinder-shaped, radius of 120 units.
