@@ -2,9 +2,11 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-// Horizontal holls parameters (`ENHOLL_H_*`)
-// All horizontal holls are cuboids which react to how far (depth) and in which direction (side) the player is from the
-// actor, in the actor's local z direction.
+/*
+ * Horizontal holls parameters (`ENHOLL_H_*`)
+ * All horizontal holls are cuboids which react to how far (depth) and in which direction (side) the player is from the
+ * actor, in the actor's local z direction.
+ */
 
 // Defines the height of horizontal holls (all kinds) with a Y range relative to the actor position.
 #define ENHOLL_H_Y_MIN -50.0f
@@ -18,8 +20,8 @@
 // Defines the depth range from horizontal invisible holls (`ENHOLL_H_INVISIBLE`, `ENHOLL_H_INVISIBLE_NARROW`),
 // at which rooms get loaded.
 // i.e. when the player's distance from the actor (along local z) is within this range, the corresponding room is loaded
-// Note: This means there is a depth range in the middle of `2*ENHOLL_H_INVISIBLE_LOAD_DEPTH_MIN` where nothing happens.
-//       That range where nothing happens is useful to avoid quickly repeated room swaps.
+// Note: This means there is a depth range in the middle of `2 * ENHOLL_H_INVISIBLE_LOAD_DEPTH_MIN` where nothing
+//       happens. That range where nothing happens is useful to avoid quickly repeated room swaps.
 // Note: This means the player is expected to be inside the depth range at some point.
 //       i.e. this range needs to be deep enough so that the player cannot move past it in a single frame.
 #define ENHOLL_H_INVISIBLE_LOAD_DEPTH_MAX 100.0f
@@ -32,9 +34,11 @@
 //    and rooms are loaded if needed according to the side the player is on (along local z).
 #define ENHOLL_H_SWITCHFLAG_LOAD_DEPTH 50.0f
 
-// Vertical holls parameters (`ENHOLL_V_*`)
-// All vertical holls are cylinders which react to how far (y dist) and in which direction (side) the player is from the
-// actor, along the vertical y axis.
+/*
+ * Vertical holls parameters (`ENHOLL_V_*`)
+ * All vertical holls are cylinders which react to how far (y dist) and in which direction (side) the player is from the
+ * actor, along the vertical y axis.
+ */
 
 // Vertical down holls parameters (`ENHOLL_V_DOWN_BGCOVER_LARGE`)
 #define ENHOLL_V_DOWN_RADIUS 500.0f
