@@ -34,7 +34,7 @@ typedef struct EnSyatekiNiw {
     /* 0x025A */ s16 archeryTimer;
     /* 0x025C */ s16 hopTimer;
     /* 0x025E */ s16 movementTimer;
-    /* 0x0260 */ s16 sootTimer; // cuccoo is covereed in soot.
+    /* 0x0260 */ s16 sootTimer; // cucco is covered in soot.
     /* 0x0262 */ s16 cluckTimer;
     /* 0x0264 */ f32 headRotXTarget;
     /* 0x0268 */ f32 rightWingRotXTarget;
