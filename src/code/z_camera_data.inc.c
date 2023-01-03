@@ -957,7 +957,7 @@ CameraModeValue sSetFree0ModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: FREE1 Setting
+ *                   Custom Data: FREE2 Setting
  *=====================================================================
  */
 
