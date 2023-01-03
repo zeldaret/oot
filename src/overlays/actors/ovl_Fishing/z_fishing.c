@@ -2858,13 +2858,13 @@ void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
         }
     }
 
-    if (this->isAquariumMessage == 0) {
+    if (!this->isAquariumMessage) {
         if (this->aquariumWaitTimer == 0) {
             this->actor.flags |= ACTOR_FLAG_0;
 
             if (Actor_ProcessTalkRequest(&this->actor, play)) {
                 sFishLengthToWeigh = sFishingRecordLength;
-                this->isAquariumMessage = 1;
+                this->isAquariumMessage = true;
             } else {
                 func_8002F2F4(&this->actor, play);
             }
@@ -2873,7 +2873,7 @@ void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_0;
         }
     } else if (Actor_TextboxIsClosing(&this->actor, play)) {
-        this->isAquariumMessage = 0;
+        this->isAquariumMessage = false;
         this->aquariumWaitTimer = 20;
     }
 }
@@ -3828,7 +3828,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 player->unk_860 = 3;
                 Rumble_Override(0.0f, 1, 3, 1);
                 sFishesCaught++;
-                func_80064520(play, &play->csCtx);
+                Cutscene_StartManual(play, &play->csCtx);
                 sFishingPlayerCinematicState = 100;
                 sCatchCamX = 45.0f;
                 sRodCastState = 5;
@@ -3930,13 +3930,13 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
                                         Message_StartTextbox(play, 0x4098, NULL);
                                     } else {
-                                        f32 temp1 = sFishOnHandLength;
-                                        s16 temp2 = sFishOnHandIsLoach;
+                                        f32 lengthTemp = sFishOnHandLength;
+                                        s16 loachTemp = sFishOnHandIsLoach;
                                         sFishOnHandLength = this->fishLength;
                                         sFishOnHandIsLoach = this->isLoach;
                                         sLureCaughtWith = sLureEquipped;
-                                        this->fishLength = temp1;
-                                        this->isLoach = temp2;
+                                        this->fishLength = lengthTemp;
+                                        this->isLoach = loachTemp;
                                     }
                                 }
                                 if (this->keepState == 0) {
