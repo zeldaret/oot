@@ -1121,7 +1121,7 @@ void EnDekubaba_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->actionFunc == EnDekubaba_PrunedSomersault) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->size * 15.0f, 10.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     } else if (this->actionFunc != EnDekubaba_DeadStickDrop) {
