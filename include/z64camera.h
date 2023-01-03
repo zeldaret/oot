@@ -50,10 +50,9 @@
 #define CAM_HUD_VISIBILITY_MASK (0xF << CAM_HUD_VISIBILITY_SHIFT)
 #define CAM_HUD_VISIBILITY(hudVisibility) (((hudVisibility) & 0xF) << CAM_HUD_VISIBILITY_SHIFT)
 
-// These CAM_HUD_VISIBILITY_* defines exist to clarify exactly which HUD visibility modes HUD_VISIBILITY_* are
-// supported by the camera system. While most of them map 1 to 1 with their HUD visibility counterparts, not all 
-// HUD visibility mode values HUD_VISIBILITY_* will work as expected if used directly.
-// Notably:
+// These defines exist to clarify exactly which HUD visibility modes are supported by the camera system. While most of
+// them map 1 to 1 with their HUD visibility counterparts, not all HUD visibility mode values will work as expected if
+// used directly. Notably:
 // - CAM_HUD_VISIBILITY_ALL (0) maps to HUD_VISIBILITY_ALL (50), not HUD_VISIBILITY_NO_CHANGE (0)
 // - HUD_VISIBILITY_NOTHING_INSTANT (52) has no CAM_HUD_VISIBILITY_* mapping,
 //   because camera HUD visibility values are restricted to the 0-0xF range
