@@ -88,7 +88,7 @@ typedef enum {
     /*  1 */ ANIMTAPER_ACCEL
 } AnimationTapers;
 
-#define ANIM_FLAG_PLAYER_0 (1 << 0) // (player-only, also used elsewhere with no effect) Related to scaling an animation from/to child/adult
+#define ANIM_FLAG_0 (1 << 0) // (no effect outside of player) Related to scaling an animation from/to child/adult
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
 #define ANIM_FLAG_PLAYER_2 (1 << 2) // (player-only) Related to scaling an animation from/to child/adult
 #define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) // (player-only) Call AnimationContext_SetMoveActor

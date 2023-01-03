@@ -745,7 +745,7 @@ void EnNb_InitDemo6KInConfrontation(EnNb* this, PlayState* play) {
 }
 
 void func_80AB2688(EnNb* this, PlayState* play) {
-    this->skelAnime.moveFlags |= ANIM_FLAG_PLAYER_0;
+    this->skelAnime.moveFlags |= ANIM_FLAG_0;
     AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
