@@ -1917,9 +1917,9 @@ void func_80832E48(Player* this, s32 flags) {
 #define FLAG_FUNC_80832F54_9 0x200
 
 void func_80832F54(PlayState* play, Player* this, s32 flags) {
-    if (flags & 0x200) {
+    if (flags & FLAG_FUNC_80832F54_9) {
         func_80832D20(this);
-    } else if ((flags & 0x100) || (this->skelAnime.moveFlags != 0)) {
+    } else if ((flags & FLAG_FUNC_80832F54_8) || (this->skelAnime.moveFlags != 0)) {
         func_80832CFC(this);
     } else {
         this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
