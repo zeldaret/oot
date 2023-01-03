@@ -1087,7 +1087,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
         EnHy_UpdateEyes(this);
 
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
         }
 
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

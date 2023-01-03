@@ -156,7 +156,7 @@ void DbCamera_DrawScreenText(GfxPrint* printer) {
 /**
  * Updates the state of the Reg Editor according to user input.
  * Also contains a controller rumble test that can be interfaced with via related REGs.
-*/
+ */
 void Regs_UpdateEditor(Input* input) {
     s32 dPadInputCur;
     s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;

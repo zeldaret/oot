@@ -326,7 +326,7 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, PlayState* play) {
     playerx->world.pos.x += 56.0f * Math_SinS(rotY);
     playerx->world.pos.z += 56.0f * Math_CosS(rotY);
 
-    player->linearVelocity = playerx->speed = 0.0f;
+    player->speedXZ = playerx->speed = 0.0f;
 
     EnZl4_SetActiveCamMove(play, 5);
     Letterbox_SetSizeTarget(32);
@@ -438,7 +438,7 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, PlayState* play) {
     playerx->world.pos.x += 56.0f * Math_SinS(rotY);
     playerx->world.pos.z += 56.0f * Math_CosS(rotY);
     playerx->speed = 0.0f;
-    player->linearVelocity = 0.0f;
+    player->speedXZ = 0.0f;
     return true;
 }
 
