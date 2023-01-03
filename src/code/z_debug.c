@@ -5,7 +5,7 @@ typedef struct {
     /* 0x1 */ u8 y;
     /* 0x2 */ u8 colorIndex;
     /* 0x3 */ char text[21];
-} DebugCameraTextBufferEntry; // size = 0x18
+} DebugCamTextBufferEntry; // size = 0x18
 
 typedef struct {
     /* 0x0 */ u16 hold;
@@ -14,19 +14,19 @@ typedef struct {
 
 RegEditor* gRegEditor;
 
-DebugCameraTextBufferEntry sDebugCamTextBuffer[22];
+DebugCamTextBufferEntry sDebugCamTextBuffer[22];
 
 s16 sDebugCamTextEntryCount = 0;
 
 Color_RGBA8 sDebugCamTextColors[] = {
-    { 255, 255, 32, 192 },  // DBG_CAM_TEXT_YELLOW
-    { 255, 150, 128, 192 }, // DBG_CAM_TEXT_PEACH
-    { 128, 96, 0, 64 },     // DBG_CAM_TEXT_BROWN
-    { 192, 128, 16, 128 },  // DBG_CAM_TEXT_ORANGE
-    { 255, 192, 32, 128 },  // DBG_CAM_TEXT_GOLD
-    { 230, 230, 220, 64 },  // DBG_CAM_TEXT_WHITE
-    { 128, 150, 255, 128 }, // DBG_CAM_TEXT_BLUE
-    { 128, 255, 32, 128 },  // DBG_CAM_TEXT_GREEN
+    { 255, 255, 32, 192 },  // DEBUG_CAM_TEXT_YELLOW
+    { 255, 150, 128, 192 }, // DEBUG_CAM_TEXT_PEACH
+    { 128, 96, 0, 64 },     // DEBUG_CAM_TEXT_BROWN
+    { 192, 128, 16, 128 },  // DEBUG_CAM_TEXT_ORANGE
+    { 255, 192, 32, 128 },  // DEBUG_CAM_TEXT_GOLD
+    { 230, 230, 220, 64 },  // DEBUG_CAM_TEXT_WHITE
+    { 128, 150, 255, 128 }, // DEBUG_CAM_TEXT_BLUE
+    { 128, 255, 32, 128 },  // DEBUG_CAM_TEXT_GREEN
 };
 
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
@@ -113,7 +113,7 @@ void DebugCamera_ScreenText(u8 x, u8 y, const char* text) {
 }
 
 void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
-    DebugCameraTextBufferEntry* entry = &sDebugCamTextBuffer[sDebugCamTextEntryCount];
+    DebugCamTextBufferEntry* entry = &sDebugCamTextBuffer[sDebugCamTextEntryCount];
     char* textDest;
     s16 charCount;
 
@@ -141,7 +141,7 @@ void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) 
 void DebugCamera_DrawScreenText(GfxPrint* printer) {
     s32 i;
     Color_RGBA8* color;
-    DebugCameraTextBufferEntry* entry;
+    DebugCamTextBufferEntry* entry;
 
     for (i = 0; i < sDebugCamTextEntryCount; i++) {
         entry = &sDebugCamTextBuffer[i];
