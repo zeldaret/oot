@@ -409,9 +409,11 @@ beginseg
     include "build/src/code/irqmgr.o"
     include "build/src/code/debug_malloc.o"
     include "build/src/code/fault.o"
-    include "build/data/fault.bss.o"
     include "build/src/code/fault_drawer.o"
+#ifndef NON_MATCHING
+    include "build/data/fault.bss.o"
     include "build/data/fault_drawer.bss.o"
+#endif
     include "build/src/code/kanread.o"
     include "build/src/code/ucode_disas.o"
     pad_text // audio library aligned to 32 bytes?

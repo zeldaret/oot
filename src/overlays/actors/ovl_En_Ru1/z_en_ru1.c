@@ -859,7 +859,7 @@ void func_80AEC780(EnRu1* this, PlayState* play) {
 
         play->csCtx.script = D_80AF0880;
         gSaveContext.cutsceneTrigger = 1;
-        player->linearVelocity = 0.0f;
+        player->speedXZ = 0.0f;
         this->action = 8;
     }
 }

@@ -382,7 +382,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
 
         if (this->unk_14C >= -1) {
             if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0) &&
-                 (player->linearVelocity != 0.0f)) ||
+                 (player->speedXZ != 0.0f)) ||
                 ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0) &&
                  (player->rideActor->speed != 0.0f))) {
                 if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
