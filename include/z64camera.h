@@ -56,7 +56,7 @@
 // - CAM_HUD_VISIBILITY_ALL (0) maps to HUD_VISIBILITY_ALL (50), not HUD_VISIBILITY_NO_CHANGE (0)
 // - HUD_VISIBILITY_NOTHING_INSTANT (52) has no CAM_HUD_VISIBILITY_* mapping,
 //   because camera HUD visibility values are restricted to the 0-0xF range
-#define CAM_HUD_VISIBILITY_ALL (0) // HUD_VISIBILITY_ALL
+#define CAM_HUD_VISIBILITY_ALL                          (0) // HUD_VISIBILITY_ALL
 #define CAM_HUD_VISIBILITY_NOTHING                      (HUD_VISIBILITY_NOTHING)
 #define CAM_HUD_VISIBILITY_NOTHING_ALT                  (HUD_VISIBILITY_NOTHING_ALT)
 #define CAM_HUD_VISIBILITY_HEARTS_FORCE                 (HUD_VISIBILITY_HEARTS_FORCE)
