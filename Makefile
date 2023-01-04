@@ -41,8 +41,6 @@ ifeq ($(NON_MATCHING),1)
   COMPARE := 0
 endif
 
-PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
-
 MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
 
@@ -152,27 +150,30 @@ ELF := $(ROM:.z64=.elf)
 # description of ROM segments
 SPEC := spec
 
-ifeq ($(COMPILER),ido)
-SRC_DIRS := $(shell find src -type d -not -path src/gcc_fix)
-else
-SRC_DIRS := $(shell find src -type d)
+# Folders ZAPD extracts assets to
+ASSETS_ZAPD_DEST_DIRS := assets/code assets/misc assets/objects assets/overlays assets/scenes assets/textures
+# Create the folders to avoid find printing errors
+stdout := $(shell mkdir -p $(ASSETS_ZAPD_DEST_DIRS))
+ifneq ($(stdout),)
+$(error $(stdout))
 endif
 
-ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
-ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
-ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
-ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
-				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f) \
-				   $(foreach f,$(wildcard assets/text/*.c),build/$(f:.c=.o))
+# Folders under which source files are to be found
+SRC_DIRS := assets/text src/boot src/buffers src/code src/dmadata src/elf_message src/libultra src/makerom src/overlays
+ifeq ($(COMPILER),gcc)
+SRC_DIRS += src/gcc_fix
+endif
 
-UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
+ASSETS_ZAPD_FILES_BIN := $(shell find $(ASSETS_ZAPD_DEST_DIRS) -name '*.bin')
+ASSETS_ZAPD_FILES_PNG := $(shell find $(ASSETS_ZAPD_DEST_DIRS) -name '*.png')
+ASSETS_ZAPD_FILES_JPG := $(shell find $(ASSETS_ZAPD_DEST_DIRS) -name '*.jpg')
+ASSETS_ZAPD_FILES_OUT := $(addprefix build/,$(ASSETS_ZAPD_FILES_BIN:.bin=.bin.inc.c) $(ASSETS_ZAPD_FILES_PNG:.png=.inc.c) $(ASSETS_ZAPD_FILES_JPG:.jpg=.jpg.inc.c))
 
-# source files
-C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
-S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
-O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
-                 $(foreach f,$(C_FILES:.c=.o),build/$f) \
-                 $(foreach f,$(wildcard baserom/*),build/$f.o)
+# Source files
+# List all .c files in assets and source directories, excluding .inc.c files
+C_FILES := $(shell find $(ASSETS_ZAPD_DEST_DIRS) $(SRC_DIRS) -name '*.inc.c' -o -name '*.c' -print)
+S_FILES := $(shell find $(SRC_DIRS) data -name '*.s')
+O_FILES := $(addprefix build/,$(S_FILES:.s=.o) $(C_FILES:.c=.o) $(addsuffix .o,$(wildcard baserom/*)))
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
 
@@ -181,13 +182,11 @@ OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' 
 DEP_FILES := $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d)
 
 
-TEXTURE_FILES_PNG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.png))
-TEXTURE_FILES_JPG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.jpg))
-TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
-
 # create build directories
-$(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
+stdout := $(shell mkdir -p $(dir $(O_FILES)))
+ifneq ($(stdout),)
+$(error $(stdout))
+endif
 
 ifeq ($(COMPILER),ido)
 build/src/code/fault.o: CFLAGS += -trapuv
@@ -252,7 +251,7 @@ clean:
 	$(RM) -r $(ROM) $(ELF) build
 
 assetclean:
-	$(RM) -r $(ASSET_BIN_DIRS)
+	$(RM) -r $(ASSETS_ZAPD_DEST_DIRS)
 	$(RM) -r assets/text/*.h
 	$(RM) -r build/assets
 	$(RM) -r .extracted-assets.json
@@ -266,6 +265,7 @@ setup:
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py -j$(N_THREADS)
+	python3 tools/msgdis.py --text-out assets/text/message_data.h --staff-text-out assets/text/message_data_staff.h
 
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
@@ -278,7 +278,7 @@ test: $(ROM)
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): $(ASSETS_ZAPD_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 ## Order-only prerequisites 
@@ -288,7 +288,7 @@ $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) bu
 o_files: $(O_FILES)
 $(OVL_RELOC_FILES): | o_files
 
-asset_files: $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT)
+asset_files: $(ASSETS_ZAPD_FILES_OUT)
 $(O_FILES): | asset_files
 
 .PHONY: o_files asset_files
