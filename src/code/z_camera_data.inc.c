@@ -2555,7 +2555,7 @@ s32 (*sCameraFunctions[])(Camera*) = {
 
 s32 sInitRegs = 1;
 
-s32 gDbgCamEnabled = 0;
+s32 gDebugCamEnabled = false;
 s32 sDbgModeIdx = -1;
 s16 sNextUID = 0;
 

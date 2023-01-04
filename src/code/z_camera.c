@@ -7245,7 +7245,7 @@ void Camera_PrintSettings(Camera* camera) {
     char sp48[8];
     s32 i;
 
-    if ((OREG(0) & 1) && (camera->play->activeCamId == camera->camId) && !gDbgCamEnabled) {
+    if ((OREG(0) & 1) && (camera->play->activeCamId == camera->camId) && !gDebugCamEnabled) {
         for (i = 0; i < NUM_CAMS; i++) {
             if (camera->play->cameraPtrs[i] == NULL) {
                 sp58[i] = '-';
@@ -7451,7 +7451,7 @@ s32 Camera_UpdateHotRoom(Camera* camera) {
 s32 Camera_DbgChangeMode(Camera* camera) {
     s32 changeDir = 0;
 
-    if (!gDbgCamEnabled && camera->play->activeCamId == CAM_ID_MAIN) {
+    if (!gDebugCamEnabled && camera->play->activeCamId == CAM_ID_MAIN) {
         if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CUP)) {
             osSyncPrintf("attention sound URGENCY\n");
             func_80078884(NA_SE_SY_ATTENTION_URGENCY);
@@ -7715,8 +7715,8 @@ Vec3s Camera_Update(Camera* camera) {
 
     // enable/disable debug cam
     if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_START)) {
-        gDbgCamEnabled ^= 1;
-        if (gDbgCamEnabled) {
+        gDebugCamEnabled ^= 1;
+        if (gDebugCamEnabled) {
             DebugCamera_Enable(&D_8015BD80, camera);
         } else if (camera->play->csCtx.state != CS_STATE_IDLE) {
             Cutscene_StopManual(camera->play, &camera->play->csCtx);
@@ -7724,7 +7724,7 @@ Vec3s Camera_Update(Camera* camera) {
     }
 
     // Debug cam update
-    if (gDbgCamEnabled) {
+    if (gDebugCamEnabled) {
         camera->play->view.fovy = D_8015BD80.fov;
         DebugCamera_Update(&D_8015BD80, camera);
         View_LookAt(&camera->play->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
@@ -8105,7 +8105,7 @@ s32 Camera_ChangeBgCamIndex(Camera* camera, s32 bgCamIndex) {
 }
 
 Vec3s* Camera_GetInputDir(Vec3s* dst, Camera* camera) {
-    if (gDbgCamEnabled) {
+    if (gDebugCamEnabled) {
         *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
@@ -8129,7 +8129,7 @@ s16 Camera_GetInputDirYaw(Camera* camera) {
 }
 
 Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera) {
-    if (gDbgCamEnabled) {
+    if (gDebugCamEnabled) {
         *dst = D_8015BD80.sub.unk_104A;
         return dst;
     } else {
@@ -8331,8 +8331,8 @@ s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera) {
     return true;
 }
 
-s32 Camera_GetDbgCamEnabled(void) {
-    return gDbgCamEnabled;
+s32 Camera_IsDebugCamEnabled(void) {
+    return gDebugCamEnabled;
 }
 
 Vec3f* Camera_GetQuakeOffset(Vec3f* quakeOffset, Camera* camera) {
