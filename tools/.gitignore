@@ -1,10 +1,9 @@
 # Output files
 *.exe
-elf2rom
-makeromfs
 mkdmadata
 mkldscript
 reloc_prereq
+n64checksum_6105
 vtxdis
 yaz0
 

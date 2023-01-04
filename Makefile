@@ -104,7 +104,6 @@ CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-u
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
-ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
 
@@ -276,7 +275,9 @@ test: $(ROM)
 #### Various Recipes ####
 
 $(ROM): $(ELF)
-	$(ELF2ROM) -cic 6105 $< $@
+	$(OBJCOPY) -O binary $< $@
+	python3 tools/pad_rom.py $@
+	tools/n64checksum_6105 --fix $@
 
 $(ELF): $(ASSETS_ZAPD_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
