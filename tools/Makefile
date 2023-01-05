@@ -19,7 +19,7 @@ ifneq ($(LLD),0)
   CFLAGS += -fuse-ld=lld
 endif
 
-all: $(PROGRAMS)
+all: $(PROGRAMS) $(CPP_PROGRAMS)
 	$(MAKE) -C ZAPD
 	$(MAKE) -C fado
 
