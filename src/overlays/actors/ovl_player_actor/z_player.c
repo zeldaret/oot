@@ -8357,8 +8357,8 @@ void func_80843954(Player* this, PlayState* play) {
         }
 
         Player_AnimPlayOnceAdjusted(play, this,
-                               (this->yaw != this->actor.shape.rot.y) ? &gPlayerAnim_link_normal_front_down_wake
-                                                                      : &gPlayerAnim_link_normal_back_down_wake);
+                                    (this->yaw != this->actor.shape.rot.y) ? &gPlayerAnim_link_normal_front_down_wake
+                                                                           : &gPlayerAnim_link_normal_back_down_wake);
         this->yaw = this->actor.shape.rot.y;
     }
 }
@@ -14809,8 +14809,8 @@ void func_80853148(PlayState* play, Actor* actor) {
             } else {
                 func_80836898(play, this, func_8083A2F8);
                 Player_AnimPlayOnceAdjusted(play, this,
-                                       (actor->xzDistToPlayer < 40.0f) ? &gPlayerAnim_link_normal_backspace
-                                                                       : &gPlayerAnim_link_normal_talk_free);
+                                            (actor->xzDistToPlayer < 40.0f) ? &gPlayerAnim_link_normal_backspace
+                                                                            : &gPlayerAnim_link_normal_talk_free);
             }
 
             if (this->skelAnime.animation == &gPlayerAnim_link_normal_backspace) {
