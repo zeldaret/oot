@@ -80,7 +80,7 @@ def get_seq_index(refname, seqdefs):
         defn = seqdefs[i]
         if defn.name.endswith(refname):
             return i
-    
+
     raise Exception(f"Sequence {refname} not found but referenced")
 
 def generate_sequence_table(sequences, output_path, machine, packspecs):
@@ -134,7 +134,7 @@ def generate_sequence_font_table(sequences, output_path, machine, packspecs):
             stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
             for id in defn.fonts:
                 stream.write(struct.pack(packspecs.genPackString("b"), id))
-        
+
         while stream.getbuffer().nbytes & 0xF != 0:
             stream.write(struct.pack(packspecs.genPackString("b"), 0))
 

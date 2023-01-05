@@ -116,11 +116,11 @@ def read_soundfont_xmls(xml_dir):
             for instrumentElement in instrumentElements:
                 instrument = ElementDefinition(instrumentElement.get("Name"), instrumentElement.get("Enum"))
                 soundfont.instruments.append(instrument)
-            
+
             for drumElement in drumElements:
                 drum = ElementDefinition(drumElement.get("Name"), drumElement.get("Enum"))
                 soundfont.drums.append(drum)
-            
+
             for effectElement in effectsElements:
                 effect = ElementDefinition(effectElement.get("Name"), effectElement.get("Enum"))
                 soundfont.effects.append(effect)
@@ -275,7 +275,7 @@ def write_aifc(raw, bank_defs, entry, filename, tunings):
 
     if entry.bank not in usedTuning:
         usedTuning[entry.bank] = {}
-    
+
     if entry.bank in usedTuning and entry.offsetInBank in usedTuning[entry.bank]:
         tuning = usedTuning[entry.bank][entry.offsetInBank]
     else:
@@ -423,14 +423,14 @@ def main(args):
     if table_offsets[version] is None:
         print(f"Offsets JSON file does not contain version {version}", file=sys.stderr)
         sys.exit(1)
-    
+
     bankdef_offset, bankdef_length = check_offset(table_offsets[version]["bankdefs"], "bankdefs")
     fontdef_offset, fontdef_length = check_offset(table_offsets[version]["fontdefs"], "fontdefs")
 
     bankdef_data = code_data[bankdef_offset:bankdef_offset + bankdef_length]
     fontdef_data = code_data[fontdef_offset:fontdef_offset + fontdef_length]
     sampleNames = {}
-    
+
     soundfont_defs = read_soundfont_xmls(os.path.join(asset_xml_dir, "soundfonts"))
     samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples"), version, sampleNames)
     real_samplebanks = dict(samplebanks)
@@ -510,7 +510,7 @@ def main(args):
             write_aifc(bank_data, bank_defs, sample, aifc_filename, tunings)
             write_aiff(sample, samples_out_dir, aifc_filename, aiff_filename)
             idx += 1
-    
+
     if len(usedRawData) > 0:
         if args.gaps:
             report_gaps("SAMPLE", usedRawData, bank_data)

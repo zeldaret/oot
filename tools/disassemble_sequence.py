@@ -15,7 +15,7 @@ def get_symbols(header_file):
     inst_syms = {}
     drum_syms = {}
     effect_syms = {}
-    
+
     current_mode = ""
     for line in header_file.readlines():
         if current_mode == "" and " INSTRUMENTS " in line:
@@ -27,7 +27,7 @@ def get_symbols(header_file):
         elif current_mode == "drum" and " EFFECTS " in line:
             current_mode = "effect"
             continue
-            
+
         if ".define" in line and current_mode != "":
             sym, index = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
             if current_mode == "instrument":

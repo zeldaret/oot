@@ -54,7 +54,7 @@ class DummyBlock:
     def serializeTo(self, output, packspecs=StructPackSpec()):
         output.write(struct.pack(packspecs.genPackString(str(self.size) + "x")))
         return self.size
-    
+
 class GarbageBlock:
     def __init__(self):
         self.data = []
@@ -474,7 +474,7 @@ def linkFontToBank(font):
         abname = font.apparent_banks[0]
         if abname in bank_lookup:
             abank = bank_lookup[abname]
-            font.bankIdx1 = abank.idx	
+            font.bankIdx1 = abank.idx
         else:
             # Try to isolate index from name...
             if abname[0:1].isnumeric():
@@ -487,7 +487,7 @@ def linkFontToBank(font):
             else:
                 print(f"WARNING: Could not find bank match {abname} for font: {font.name}", file=sys.stderr)
 
-    # Link bank and samples 
+    # Link bank and samples
     font.bank1 = mybank
     for inst in font.instruments:
         if inst.keyLowName:
@@ -497,7 +497,7 @@ def linkFontToBank(font):
         if inst.keyMedName:
             inst.keyMedSample = mybank.getSample(inst.keyMedName)
             if inst.keyMedSample is not None and inst.keyMedPitch < 0.0:
-                inst.keyMedPitch = inst.keyMedSample.tuning	
+                inst.keyMedPitch = inst.keyMedSample.tuning
         if inst.keyHighName:
             inst.keyHighSample = mybank.getSample(inst.keyHighName)
             if inst.keyHighSample is not None and inst.keyHighPitch < 0.0:
@@ -849,7 +849,7 @@ def processBanks(sampledir, builddir, tabledir):
                 output.write(struct.pack("8x"))
             output.write(struct.pack(packspecs.genPackString("BB6x"), mybank.medium, mybank.cachePolicy))
             i += 1
-    
+
     for tmpbank in audiotable_paths:
         if tmpbank and tmpbank.endswith(".tmp"):
             Path(tmpbank).unlink(missing_ok=True)
@@ -888,14 +888,14 @@ def write_soundfont_define(font, fontcount, filename):
                 continue
 
             file.write(f".define FONT{index}_INSTR_{instrument.enum} {instrument.idx}\n")
-        
+
         file.write("\n##### DRUMS #####\n")
         for drum in font.percussion:
             if drum is None:
                 continue
 
             file.write(f".define FONT{index}_DRUM_{drum.enum} {drum.idx}\n")
-        
+
         file.write("\n##### EFFECTS #####\n")
         for effect in font.soundEffects:
             if effect is None:
@@ -1032,7 +1032,7 @@ def main(args):
 
     for pair in sorted_fonts:
         fonts_ordered.append(pair[1])
-    
+
     fontpaths = {}
 
     for font in fonts_ordered:
@@ -1052,7 +1052,7 @@ def main(args):
                 diff = target_size - current_size
                 with open(fontpaths[font.idx], 'ab') as f:
                     f.write(struct.pack(f"{diff}x"))
-        
+
 
         with open(os.path.join(audiobank_dir, f"{getFileName(idx=font.idx, name=font.name)}.o"), "wb") as elffile:
             with open(fontpaths[font.idx], "rb") as bin:

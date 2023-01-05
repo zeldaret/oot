@@ -79,7 +79,7 @@ def main(args):
     if table_offsets[version] is None:
         print(f"Offsets JSON file does not contain version {version}", file=sys.stderr)
         sys.exit(1)
-    
+
     seqdef_offset, seqdef_length = check_offset(table_offsets[version]["seqdefs"], "seqdefs")
     seqmap_offset, seqmap_length = check_offset(table_offsets[version]["fontmaps"], "fontmaps")
 
