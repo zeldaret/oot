@@ -1833,8 +1833,8 @@ void Player_AnimChangeOnceMorph(PlayState* play, Player* this, LinkAnimationHead
 }
 
 void Player_AnimChangeOnceMorphAdjusted(PlayState* play, Player* this, LinkAnimationHeader* anim) {
-    LinkAnimation_Change(play, &this->skelAnime, anim, PLAYER_ANIM_ADJUSTED_SPEED, 0.0f, Animation_GetLastFrame(anim), ANIMMODE_ONCE,
-                         -6.0f);
+    LinkAnimation_Change(play, &this->skelAnime, anim, PLAYER_ANIM_ADJUSTED_SPEED, 0.0f, Animation_GetLastFrame(anim),
+                         ANIMMODE_ONCE, -6.0f);
 }
 
 void Player_AnimChangeLoopMorph(PlayState* play, Player* this, LinkAnimationHeader* anim) {
@@ -13885,8 +13885,8 @@ void Player_AnimChangeOnceMorphZeroRootYawSpeed(PlayState* play, Player* this, L
 
 void Player_AnimChangeOnceMorphAdjustedZeroRootYawSpeed(PlayState* play, Player* this, LinkAnimationHeader* anim) {
     Player_ZeroRootLimbYaw(this);
-    LinkAnimation_Change(play, &this->skelAnime, anim, PLAYER_ANIM_ADJUSTED_SPEED, 0.0f, Animation_GetLastFrame(anim), ANIMMODE_ONCE,
-                         -8.0f);
+    LinkAnimation_Change(play, &this->skelAnime, anim, PLAYER_ANIM_ADJUSTED_SPEED, 0.0f, Animation_GetLastFrame(anim),
+                         ANIMMODE_ONCE, -8.0f);
     Player_ZeroSpeedXZ(this);
 }
 
