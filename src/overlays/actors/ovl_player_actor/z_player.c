@@ -1917,6 +1917,8 @@ void func_80832E48(Player* this, s32 flags) {
     func_808322FC(this);
 }
 
+// Apply the given flags when doing an "anim replace"
+// "anim replace" refers to this function seemingly clearing the influence the previous animation may have had.
 void Player_AnimReplaceApplyFlags(PlayState* play, Player* this, s32 flags) {
     if (flags & 0x200) {
         Player_SkelAnimeResetPrevTranslRotAgeScale(this);
