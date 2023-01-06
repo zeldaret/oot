@@ -315,10 +315,7 @@ build/undefined_syms.txt: undefined_syms.txt
 build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
-build/assets/data/sequence_table.bin: build/assets/data/sequence_font_table.bin
-build/assets/data/sound_font_table.bin: build/assets/data/sample_bank_table.bin
-
-build/data/sounds.o: build/assets/data/sequence_table.bin build/assets/data/sound_font_table.bin
+build/data/sounds.o: build/assets/data/sequence_font_table.bin build/assets/data/sound_font_table.bin
 
 build/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
@@ -365,10 +362,10 @@ build/src/overlays/%_reloc.o: build/$(SPEC)
 	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
-build/assets/data/sequence_table.bin build/assets/data/sequence_font_table.bin: $(SEQ_OUT)
+build/assets/data/sequence_font_table.bin: $(SEQ_OUT)
 	python3 tools/assemble_sequences.py $(SEQUENCE_DIR) build/include build
 
-build/assets/data/sample_bank_table.bin build/assets/data/sound_font_table.bin: $(FONT_FILES) $(AIFC_FILES)
+build/assets/data/sound_font_table.bin: $(FONT_FILES) $(AIFC_FILES)
 	python3 tools/assemble_sound.py $(SOUNDFONT_DIR) build/assets build/include assets/samples --build-bank --match=ocarina
 
 build/%.o: %.seq
