@@ -857,21 +857,8 @@ def processBanks(sampledir, builddir, tabledir):
             Path(tmpbank).unlink(missing_ok=True)
 
     os.makedirs(tabledir, exist_ok=True)
-    with open(os.path.join(tabledir, "SampleBankTable.o"), "wb") as elftblfile:
-        with open(banktable_path, "rb") as tblfile:
-            elf = ELF(
-                e_class=ELFCLASS.ELFCLASS64 if target_64 else ELFCLASS.ELFCLASS32,
-                e_data=ELFDATA.ELFDATA2LSB if target_le else ELFDATA.ELFDATA2MSB,
-                e_type=ET.ET_REL,
-                e_machine=machine
-            )
-            sampledata = tblfile.read()
-            data = elf._append_section(".data", sampledata, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
-            elf.append_symbol(".data", data, 0, len(sampledata), STB.STB_LOCAL, STT.STT_SECTION, STV.STV_DEFAULT)
-            elf.append_symbol("gSampleBankTable_start", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elf.append_symbol("gSampleBankTable", data, 0, len(sampledata), STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elf.append_symbol("gSampleBankTable_end", data, len(sampledata), 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elftblfile.write(bytes(elf))
+    with open(os.path.join(tabledir, "sample_bank_table.bin"), "wb") as f:
+            f.write(open(banktable_path, "rb").read())
 
     Path(banktable_path).unlink(missing_ok=True)
 
@@ -1083,7 +1070,7 @@ def main(args):
             og_font_dat = f.read()
 
     # write audiobank & code table (and match banks one by one)
-    audiobank_tbl_path = os.path.join(outpath, "data", "SoundFontTable.o")
+    audiobank_tbl_path = os.path.join(outpath, "data", "sound_font_table.bin")
     audiobank_tbl_tmp = None
     current_pos = 0
     total_fonts = len(fonts_ordered)
@@ -1102,21 +1089,8 @@ def main(args):
             current_pos += fontsize
             myentry.serializeTo(tblfile, packspecs)
 
-    with open(audiobank_tbl_path, "wb") as elftblfile:
-        with open(audiobank_tbl_tmp, "rb") as tblfile:
-            elf = ELF(
-                e_class=ELFCLASS.ELFCLASS64 if target_64 else ELFCLASS.ELFCLASS32,
-                e_data=ELFDATA.ELFDATA2LSB if target_le else ELFDATA.ELFDATA2MSB,
-                e_type=ET.ET_REL,
-                e_machine=machine
-            )
-            bankbytes = tblfile.read()
-            data = elf._append_section(".data", bankbytes, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
-            elf.append_symbol(".data", data, 0, len(bankbytes), STB.STB_LOCAL, STT.STT_SECTION, STV.STV_DEFAULT)
-            elf.append_symbol("_gSoundFontTable_start", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elf.append_symbol("gSoundFontTable", data, 0, len(bankbytes), STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elf.append_symbol("_gSoundFontTable_end", data, len(bankbytes), 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-            elftblfile.write(bytes(elf))
+    with open(audiobank_tbl_path, "wb") as f:
+        f.write(open(audiobank_tbl_tmp, "rb").read())
 
     # match audiobank
     if debug_mode and match_mode:

@@ -84,72 +84,50 @@ def get_seq_index(refname, seqdefs):
     raise Exception(f"Sequence {refname} not found but referenced")
 
 def generate_sequence_table(sequences, output_path, machine, packspecs):
-    with open(os.path.join(output_path, "assets", "data", "SequenceTable.o"), "wb") as seqtable:
-        stream = io.BytesIO()
-        stream.write(struct.pack(packspecs.genPackString("H14x"), len(sequences)))
-        start_offset = 0
-        for defn in sequences:
-            spec = packspecs.genPackString("IIbbxxxxxx")
-            if defn.ref:
-                packed = struct.pack(spec, get_seq_index(defn.ref, sequences), 0, 2, defn.cachePolicy)
-            else:
-                packed = struct.pack(spec, start_offset, defn.size, 2, defn.cachePolicy)
-                start_offset += defn.size
-            stream.write(packed)
+    stream = io.BytesIO()
+    stream.write(struct.pack(packspecs.genPackString("H14x"), len(sequences)))
+    start_offset = 0
+    for defn in sequences:
+        spec = packspecs.genPackString("IIbbxxxxxx")
+        if defn.ref:
+            packed = struct.pack(spec, get_seq_index(defn.ref, sequences), 0, 2, defn.cachePolicy)
+        else:
+            packed = struct.pack(spec, start_offset, defn.size, 2, defn.cachePolicy)
+            start_offset += defn.size
+        stream.write(packed)
 
-        elf = ELF(
-            e_class=ELFCLASS.ELFCLASS64 if packspecs.is_64 else ELFCLASS.ELFCLASS32,
-            e_data=ELFDATA.ELFDATA2LSB if packspecs.le else ELFDATA.ELFDATA2MSB,
-            e_type=ET.ET_REL,
-            e_machine=machine
-        )
-        data = elf._append_section(".data", stream.getvalue(), 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16, sh_entsize=1)
-        elf.append_symbol(".data", data, 0, stream.getbuffer().nbytes, STB.STB_LOCAL, STT.STT_SECTION, STV.STV_DEFAULT)
-        elf.append_symbol("_SequenceTable_start", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        elf.append_symbol("gSequenceTable", data, 0, stream.getbuffer().nbytes, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        elf.append_symbol("_SequenceTable_end", data, stream.getbuffer().nbytes, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        seqtable.write(bytes(elf))
+    with open(os.path.join(output_path, "assets", "data", "sequence_table.bin"), "wb") as f:
+        f.write(stream.getbuffer())
 
 def generate_sequence_font_table(sequences, output_path, machine, packspecs):
-    with open(os.path.join(output_path, "assets", "data", "SequenceFontTable.o"), "wb") as seqmap:
-        stream = io.BytesIO()
-        seqoffsets = {}
+    stream = io.BytesIO()
+    seqoffsets = {}
 
-        for i in range(len(sequences)):
-            defn = sequences[i]
-            seqoffsets[i] = stream.tell() + (len(sequences) * 2)
-            if defn.ref:
-                defn = sequences[get_seq_index(defn.ref, sequences)]
-            stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
-            for id in defn.fonts:
-                stream.write(struct.pack(packspecs.genPackString("b"), id))
+    for i in range(len(sequences)):
+        defn = sequences[i]
+        seqoffsets[i] = stream.tell() + (len(sequences) * 2)
+        if defn.ref:
+            defn = sequences[get_seq_index(defn.ref, sequences)]
+        stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
+        for id in defn.fonts:
+            stream.write(struct.pack(packspecs.genPackString("b"), id))
 
-        stream.seek(0)
+    stream.seek(0)
 
-        for offset in seqoffsets.values():
-            stream.write(struct.pack(packspecs.genPackString("H"), offset))
-        for defn in sequences:
-            if defn.ref:
-                defn = sequences[get_seq_index(defn.ref, sequences)]
-            stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
-            for id in defn.fonts:
-                stream.write(struct.pack(packspecs.genPackString("b"), id))
+    for offset in seqoffsets.values():
+        stream.write(struct.pack(packspecs.genPackString("H"), offset))
+    for defn in sequences:
+        if defn.ref:
+            defn = sequences[get_seq_index(defn.ref, sequences)]
+        stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
+        for id in defn.fonts:
+            stream.write(struct.pack(packspecs.genPackString("b"), id))
 
-        while stream.getbuffer().nbytes & 0xF != 0:
-            stream.write(struct.pack(packspecs.genPackString("b"), 0))
+    while stream.getbuffer().nbytes & 0xF != 0:
+        stream.write(struct.pack(packspecs.genPackString("b"), 0))
 
-        elf = ELF(
-            e_class=ELFCLASS.ELFCLASS64 if packspecs.is_64 else ELFCLASS.ELFCLASS32,
-            e_data=ELFDATA.ELFDATA2LSB if packspecs.le else ELFDATA.ELFDATA2MSB,
-            e_type=ET.ET_REL,
-            e_machine=machine
-        )
-        data = elf._append_section(".data", stream.getvalue(), 0, sh_flags=SHF.SHF_ALLOC, sh_addralign=16)
-        elf.append_symbol(".data", data, 0, 0, STB.STB_LOCAL, STT.STT_SECTION, STV.STV_DEFAULT)
-        elf.append_symbol("_SequenceFontTable_start", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        elf.append_symbol("gSequenceFontTable", data, 0, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        elf.append_symbol("_SequenceFontTable_end", data, stream.getbuffer().nbytes, 0, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-        seqmap.write(bytes(elf))
+    with open(os.path.join(output_path, "assets", "data", "sequence_font_table.bin"), "wb") as f:
+        f.write(stream.getbuffer())
 
 def main(args):
     packspecs = StructPackSpec(args.le, args.arch64)
