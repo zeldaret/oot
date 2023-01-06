@@ -172,12 +172,12 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
 # source files
-SEQ_FILES     := $(foreach dir,$(SRC_DIRS) $(SEQUENCE_DIR),$(wildcard $(dir)/*.mus))
+SEQ_FILES     := $(foreach dir,$(SRC_DIRS) $(SEQUENCE_DIR),$(wildcard $(dir)/*.seq))
 FONT_FILES    := $(foreach dir,$(SOUNDFONT_DIR),$(wildcard $(dir)/*.xml))
 AIFC_FILES    := $(foreach dir,$(SAMPLES_DIR),$(wildcard $(dir)/*.aifc))
-INC_FILES     := $(foreach f,$(SEQ_FILES:.mus=.inc),build/include/$f)
+INC_FILES     := $(foreach f,$(SEQ_FILES:.seq=.inc),build/include/$f)
 BANK_OUT      := $(foreach dir,$(SAMPLES_DIR:.=.o),build/assets/samplebanks/$(dir))
-MUS_OUT       := $(foreach f,$(SEQ_FILES:.mus=.o),build/$f)
+SEQ_OUT       := $(foreach f,$(SEQ_FILES:.seq=.o),build/$f)
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
@@ -288,7 +288,7 @@ test: $(ROM)
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): audio_tables $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(MUS_OUT) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): audio_tables $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(SEQ_OUT) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 ## Order-only prerequisites 
@@ -362,7 +362,7 @@ build/src/overlays/%_reloc.o: build/$(SPEC)
 	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
-build/assets/data/SequenceTable.o: $(MUS_OUT)
+build/assets/data/SequenceTable.o: $(SEQ_OUT)
 	python3 tools/assemble_sequences.py $(SEQUENCE_DIR) build/include build
 
 build/assets/data/SoundFontTable.o: $(FONT_FILES) $(AIFC_FILES)
