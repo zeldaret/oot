@@ -641,187 +641,189 @@ def processBanks(sampledir, builddir, tabledir):
                 print("Bank reference discovered:", bankname)
             audiotable_paths.append(None)
             banks.append(mybank)
-        else:
-            if not quiet:
-                print("Bank discovered:", bankname)
-            mybank = Soundbank()
-            banks.append(mybank)
-            mybank.name = bankname
-            mybank.fromXML(e_bank)
-            bank_lookup[bankname] = mybank
+            i += 1
+            continue
 
-            mybank.idx = i
-            bankdir = os.path.join(sampledir, bankname)
+        if not quiet:
+            print("Bank discovered:", bankname)
+        mybank = Soundbank()
+        banks.append(mybank)
+        mybank.name = bankname
+        mybank.fromXML(e_bank)
+        bank_lookup[bankname] = mybank
 
-            current_books = []
-            current_loops = []
-            index_map = {}
-            max_idx = -1
-            need_index = []
+        mybank.idx = i
+        bankdir = os.path.join(sampledir, bankname)
 
-            for file in os.listdir(bankdir):
-                if file.endswith(".aifc"):
-                    tup = splitSampleName(file)
-                    si = tup[0]
-                    samplename = tup[1]
-                    mysample = SampleHeader()
-                    if samplename in mybank.samplesByName:
-                        print("WARNING: Duplicate sample key found:", samplename, file=sys.stderr)
-                    mybank.samplesByName[samplename] = mysample
-                    mysample.name = samplename
-                    mysample.idx = si
-                    mysample.fileName = file
+        current_books = []
+        current_loops = []
+        index_map = {}
+        max_idx = -1
+        need_index = []
 
-                    if si < 0:
-                        need_index.append(mysample)
-                    else:
-                        index_map[si] = mysample
-                        if si > max_idx:
-                            max_idx = si
+        for file in os.listdir(bankdir):
+            if file.endswith(".aifc"):
+                tup = splitSampleName(file)
+                si = tup[0]
+                samplename = tup[1]
+                mysample = SampleHeader()
+                if samplename in mybank.samplesByName:
+                    print("WARNING: Duplicate sample key found:", samplename, file=sys.stderr)
+                mybank.samplesByName[samplename] = mysample
+                mysample.name = samplename
+                mysample.idx = si
+                mysample.fileName = file
 
-                    # load from aifc
-                    mysample.loadInfoFromAif(os.path.join(bankdir, file))
+                if si < 0:
+                    need_index.append(mysample)
+                else:
+                    index_map[si] = mysample
+                    if si > max_idx:
+                        max_idx = si
 
-                    # If book or loop is identical to previous in bank, merge.
+                # load from aifc
+                mysample.loadInfoFromAif(os.path.join(bankdir, file))
+
+                # If book or loop is identical to previous in bank, merge.
+                blmerge = False
+                if mysample.book is not None:
+                    for book in current_books:
+                        if book.booksEqual(mysample.book):
+                            blmerge = True
+                            mysample.book = book
+                            break
+                    if not blmerge:
+                        current_books.append(mysample.book)
+
+                if not match_mode:
+                    # Looks like original tool does not merge (the very rare, but existing) identical loops
                     blmerge = False
-                    if mysample.book is not None:
-                        for book in current_books:
-                            if book.booksEqual(mysample.book):
+                    if mysample.loop is not None:
+                        for loop in current_loops:
+                            if loop.loopsEqual(mysample.loop):
                                 blmerge = True
-                                mysample.book = book
+                                mysample.loop = loop
                                 break
                         if not blmerge:
-                            current_books.append(mysample.book)
+                            current_loops.append(mysample.loop)
 
-                    if not match_mode:
-                        # Looks like original tool does not merge (the very rare, but existing) identical loops
-                        blmerge = False
-                        if mysample.loop is not None:
-                            for loop in current_loops:
-                                if loop.loopsEqual(mysample.loop):
-                                    blmerge = True
-                                    mysample.loop = loop
-                                    break
-                            if not blmerge:
-                                current_loops.append(mysample.loop)
-
-            # Assign indices to yet unindexed samples.
-            nextidx = 0
-            for asample in need_index:
-                while nextidx in index_map:
-                    nextidx += 1
-                asample.idx = nextidx
-                index_map[nextidx] = asample
-                max_idx = max(max_idx, nextidx)
+        # Assign indices to yet unindexed samples.
+        nextidx = 0
+        for asample in need_index:
+            while nextidx in index_map:
                 nextidx += 1
+            asample.idx = nextidx
+            index_map[nextidx] = asample
+            max_idx = max(max_idx, nextidx)
+            nextidx += 1
 
-            # Order samples.
-            c = 0
-            while c <= max_idx:
-                if c in index_map:
-                    mysample = index_map[c]
-                    mybank.samples.append(mysample)
-                else:
-                    mybank.samples.append(None)
-                c += 1
+        # Order samples.
+        c = 0
+        while c <= max_idx:
+            if c in index_map:
+                mysample = index_map[c]
+                mybank.samples.append(mysample)
+            else:
+                mybank.samples.append(None)
+            c += 1
 
-            # Now, assign offsets/calculate sizes for samples
-            sorted_samples = mybank.samples
-            if not quiet:
-                print(f"Bank {mybank.idx}: {len(sorted_samples)} samples found")
+        # Now, assign offsets/calculate sizes for samples
+        sorted_samples = mybank.samples
+        if not quiet:
+            print(f"Bank {mybank.idx}: {len(sorted_samples)} samples found")
 
-            binpath = None
-            opath = None
-            syms = []
+        binpath = None
+        opath = None
+        syms = []
+        if builddir is not None:
+            opath = os.path.join(builddir, f"{getFileName(name=mybank.name)}.o")
+        if len(sorted_samples) > 0:
+            output = None
             if builddir is not None:
-                opath = os.path.join(builddir, f"{getFileName(name=mybank.name)}.o")
-            if len(sorted_samples) > 0:
-                output = None
-                if builddir is not None:
-                    output = tempfile.NamedTemporaryFile("wb", prefix="bank_", suffix=f"_{mybank.idx}.bank.tmp", delete=False)
-                    binpath = output.name
-                    audiotable_paths.append(binpath)
+                output = tempfile.NamedTemporaryFile("wb", prefix="bank_", suffix=f"_{mybank.idx}.bank.tmp", delete=False)
+                binpath = output.name
+                audiotable_paths.append(binpath)
 
-                j = 0
-                offset = 0
-                for sample in sorted_samples:
-                    sample.idx = j
-                    j += 1
-                    sample.offsetInBank = offset
-                    # Need to add padding as well...
-                    offset += sample.length
-                    padding = padding16(offset)
-                    offset += padding
-
-                    if output is not None:
-                        if not quiet:
-                            print("Writing sample:", sample.name)
-                        aifc_path = os.path.join(bankdir, sample.fileName)
-                        syms.append(
-                            (
-                                get_sym_name(sample.name),
-                                output.tell(),
-                                4,
-                                STB.STB_GLOBAL,
-                                STT.STT_OBJECT,
-                                STV.STV_DEFAULT
-                            )
-                        )
-                        output.write(loadSoundData(aifc_path)[8:8 + sample.length])
-                        if padding > 0:
-                            output.write(struct.pack(f"{padding}x"))
+            j = 0
+            offset = 0
+            for sample in sorted_samples:
+                sample.idx = j
+                j += 1
+                sample.offsetInBank = offset
+                # Need to add padding as well...
+                offset += sample.length
+                padding = padding16(offset)
+                offset += padding
 
                 if output is not None:
-                    output.close()
-                    output = None
-
-                if (builddir is not None) and (mybank.idx == 0) and match_mode:
-                    # There appears to be a buffer clearing bug in the original authoring tool
-                    # that only affects the end of bank 0.
-                    # Must replicate to get a match
-                    filesize = os.path.getsize(binpath)
-                    temppath = binpath + ".tmp"
-                    os.rename(binpath, temppath)
-                    with open(temppath, "rb") as input:
-                        with open(binpath, "wb") as output:
-                            bug_trg = filesize - 4
-                            bug_src = bug_trg - 0x10000
-                            output.write(input.read(bug_src))
-                            bug_word = input.read(4)
-                            output.write(bug_word)
-                            output.write(input.read(0xFFFC))
-                            output.write(bug_word)
-                    Path(temppath).unlink(missing_ok=True)
-            else:
-                # If no aifc files were found, look for raw bin
-                for file in os.listdir(bankdir):
-                    if file.endswith(".bin"):
-                        binpath = os.path.join(bankdir, file)
-                        audiotable_paths.append(binpath)
-                        break
-            elftable = ELF(
-                e_class=ELFCLASS.ELFCLASS64 if target_64 else ELFCLASS.ELFCLASS32,
-                e_data=ELFDATA.ELFDATA2LSB if target_le else ELFDATA.ELFDATA2MSB,
-                e_type=ET.ET_REL,
-                e_machine=machine
-            )
-            with open(binpath, "rb") as datafile:
-                with open(opath, "wb") as elffile:
-                    bankdata = datafile.read()
-                    data = elftable._append_section(".data", bankdata, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
-                    elftable.append_symbol(get_sym_name(bankname + "_start"), data, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT)
-                    for name, value, size, binding, type, visibility in syms:
-                        elftable.append_symbol(
-                            name,
-                            data,
-                            value,
-                            size,
-                            binding,
-                            type,
-                            visibility
+                    if not quiet:
+                        print("Writing sample:", sample.name)
+                    aifc_path = os.path.join(bankdir, sample.fileName)
+                    syms.append(
+                        (
+                            get_sym_name(sample.name),
+                            output.tell(),
+                            4,
+                            STB.STB_GLOBAL,
+                            STT.STT_OBJECT,
+                            STV.STV_DEFAULT
                         )
-                    elftable.append_symbol(get_sym_name(bankname + "_end"), data, len(bankdata), 4, STB.STB_GLOBAL, STT.STT_OBJECT)
-                    elffile.write(bytes(elftable))
+                    )
+                    output.write(loadSoundData(aifc_path)[8:8 + sample.length])
+                    if padding > 0:
+                        output.write(struct.pack(f"{padding}x"))
+
+            if output is not None:
+                output.close()
+                output = None
+
+            if (builddir is not None) and (mybank.idx == 0) and match_mode:
+                # There appears to be a buffer clearing bug in the original authoring tool
+                # that only affects the end of bank 0.
+                # Must replicate to get a match
+                filesize = os.path.getsize(binpath)
+                temppath = binpath + ".tmp"
+                os.rename(binpath, temppath)
+                with open(temppath, "rb") as input:
+                    with open(binpath, "wb") as output:
+                        bug_trg = filesize - 4
+                        bug_src = bug_trg - 0x10000
+                        output.write(input.read(bug_src))
+                        bug_word = input.read(4)
+                        output.write(bug_word)
+                        output.write(input.read(0xFFFC))
+                        output.write(bug_word)
+                Path(temppath).unlink(missing_ok=True)
+        else:
+            # If no aifc files were found, look for raw bin
+            for file in os.listdir(bankdir):
+                if file.endswith(".bin"):
+                    binpath = os.path.join(bankdir, file)
+                    audiotable_paths.append(binpath)
+                    break
+        elftable = ELF(
+            e_class=ELFCLASS.ELFCLASS64 if target_64 else ELFCLASS.ELFCLASS32,
+            e_data=ELFDATA.ELFDATA2LSB if target_le else ELFDATA.ELFDATA2MSB,
+            e_type=ET.ET_REL,
+            e_machine=machine
+        )
+        with open(binpath, "rb") as datafile:
+            with open(opath, "wb") as elffile:
+                bankdata = datafile.read()
+                data = elftable._append_section(".data", bankdata, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
+                elftable.append_symbol(get_sym_name(bankname + "_start"), data, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT)
+                for name, value, size, binding, type, visibility in syms:
+                    elftable.append_symbol(
+                        name,
+                        data,
+                        value,
+                        size,
+                        binding,
+                        type,
+                        visibility
+                    )
+                elftable.append_symbol(get_sym_name(bankname + "_end"), data, len(bankdata), 4, STB.STB_GLOBAL, STT.STT_OBJECT)
+                elffile.write(bytes(elftable))
 
         i += 1
 
