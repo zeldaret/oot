@@ -12,19 +12,19 @@ class StructPackSpec:
         if archLE:
             self.byte_order_char = "<"
         self.is_64 = arch64
-        
+
     def pointerSize(self):
         if self.is_64:
             return 8
         else:
             return 4
-        
+
     def pointerPaddingSize(self):
         if self.is_64:
             return 4
         else:
-            return 0		
-        
+            return 0
+
     def genPackString(self, base_string):
         if self.is_64:
             base_string = base_string.replace("P", "Q").replace("X", "xxxx")
@@ -40,7 +40,7 @@ class AifReader:
         self.appl_sections = []
         self.total_size = 0
         self.is_aifc = False
-        
+
         #Read header
         assert input.read(4) == b"FORM"
         self.total_size = struct.unpack(">L", input.read(4))
@@ -48,10 +48,10 @@ class AifReader:
         typeb = input.read(1)
         if typeb == b"C":
             self.is_aifc = True
-        
+
         #Scan chunks and map
         offset = 12
-        
+
         while True:
             magicno = input.read(4)
             if not magicno or len(magicno) < 4:
@@ -65,22 +65,22 @@ class AifReader:
                 self.sections[secmagic] = (offset, secsize)
             input.seek(offset + secsize)
             offset += secsize
-            
+
         input.close()
-        
+
     def loadData(self, offset, size):
         sec_dat = None
         with open(self.path, 'rb') as f:
             f.seek(offset)
             sec_dat = f.read(size)
         return sec_dat
-        
+
     def loadSectionData(self, magicno):
         section_loc = self.sections[magicno]
         if section_loc is None:
             return None
         return self.loadData(section_loc[0], section_loc[1])
-        
+
     def loadApplSectionData(self, idx):
         if idx < 0 or idx >= len(self.appl_sections):
             return None
@@ -131,11 +131,11 @@ def tryStr2Num(val):
 def loadSoundData(aif_path):
     aif_reader = AifReader(aif_path)
     snd_data = aif_reader.loadSectionData('SSND')
-    
+
     if snd_data is None:
         #It SHOULD be SSND, but just in case, check for a CSND
         snd_data = aif_reader.loadSectionData('CSND')
-        
+
     return snd_data
 
 def toNote(note):
@@ -163,13 +163,13 @@ def parseNoteName(noteName):
     #tone_str = noteName[0]
     #oct_str = noteName[1:]
     #if noteName[1] == '♯':
-    #	tone_str = noteName[0:2]
-    #	oct_str = noteName[2:]
-    
+    #   tone_str = noteName[0:2]
+    #   oct_str = noteName[2:]
+
     #This works if oct_str is never more than one digit/char
     tone_str = noteName[:-1]
-    oct_str = noteName[-1:]	
-    
+    oct_str = noteName[-1:]
+
     tone = {
         'C' : 0,
         'C♯': 1,
@@ -184,7 +184,7 @@ def parseNoteName(noteName):
         'A♯': 10,
         'B' : 11,
     }.get(tone_str)
-    
+
     #Returns the N64 note, which is MIDI - 21
     oct = int(oct_str) - 1
     return ((oct * 12) + tone) - 9
@@ -227,7 +227,7 @@ def toCodecID(codec):
         b"NONE":2,
         b"ADP5":3,
         b"RVRB":4,
-        b"NONE":5		
+        b"NONE":5
     }.get(codec)
 
 def toCodecName(codec):
@@ -251,7 +251,7 @@ def parse_f80(data):
     assert exp_bits != 0x7FFF, "sample rate is infinity/nan"
     mant = float(mantissa_bits) / 2 ** 63
     return sign * mant * pow(2, exp_bits - 0x3FFF)
-    
+
 def serialize_f80(num):
     num = float(num)
     f64, = struct.unpack(">Q", struct.pack(">d", num))
@@ -271,7 +271,7 @@ def serialize_f80(num):
     f80_mantissa_bits = 2 ** 63 | (f64_mantissa_bits << (63 - 52))
     f80 = f80_sign_bit | f80_exponent | f80_mantissa_bits
     return struct.pack(">HQ", f80 >> 64, f80 & (2 ** 64 - 1))
-    
+
 def align(val, al):
     return (val + (al - 1)) & -al
 
@@ -301,7 +301,7 @@ class PCMLoop:
         self.count = 0
         self.predictorState = []
         self.addr = -1
-        
+
     def parseFrom(self, input, baseOffset, offset, usedFontData):
         totalSize = 16
         self.start, self.end, self.count, originalLength = struct.unpack(">LLll", input[0:16])
@@ -311,7 +311,7 @@ class PCMLoop:
             totalSize += 32
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + totalSize))
         return totalSize
-        
+
     def serializeTo(self, output, packspecs=StructPackSpec()):
         wcount = 16
         #Start and end are in sample frames, so just keep 32-bit regardless of target.
@@ -321,7 +321,7 @@ class PCMLoop:
                 output.write(struct.pack(packspecs.genPackString("h"), self.predictorState[i]))
                 wcount += 2
         return wcount
-        
+
     def loopsEqual(self, other):
         if other is None:
             return False
@@ -337,24 +337,24 @@ class PCMLoop:
             if self.predictorState != other.predictorState:
                 return False
         return True
-    
+
 class PCMBook:
     def __init__(self):
         self.order = 0
         self.predictorCount = 0
         self.predictors = []
         self.addr = -1
-        
+
     def entryCount(self):
         return self.order * self.predictorCount * 8
-        
+
     def calculatePadding(self):
         totalSize = 8 + (self.entryCount() * 2)
         padding = 16 - (totalSize % 16)
         if padding > 15:
             padding = 0
         return padding
-        
+
     def parseFrom(self, input, baseOffset, offset, usedData):
         totalSize = 8
         self.order, self.predictorCount = struct.unpack(">LL", input[0:8])
@@ -371,9 +371,9 @@ class PCMBook:
             totalSize += predictorBytes
 
         return totalSize
-        
+
     def serializeTo(self, output, packspecs=StructPackSpec()):
-        wcount = 8	
+        wcount = 8
         output.write(struct.pack(packspecs.genPackString("LL"), self.order, self.predictorCount))
         predictorSize = self.order * 8
         hw_pack_str = packspecs.genPackString("h")
@@ -382,7 +382,7 @@ class PCMBook:
                 output.write(struct.pack(hw_pack_str, self.predictors[i][j]))
                 wcount += 2
         return wcount
-        
+
     def booksEqual(self, other):
         if other is None:
             return False
@@ -392,7 +392,7 @@ class PCMBook:
             return False
         if self.order != other.order:
             return False
-        
+
         predictorSize = self.order * 8
         for i in range(self.predictorCount):
             for j in range(predictorSize):
@@ -415,12 +415,12 @@ class SampleHeader:
         self.addr = -1
         self.name = ''
         self.idx = -1
-        
+
         #Storage for reading aiff/aifc
         self.tuning = 1.0
         self.frameCount = 0
         self.fileName = ''
-        
+
     def updateReferences(self):
         if self.loop is not None:
             self.loopOffset = self.loop.addr
@@ -454,7 +454,7 @@ class SampleHeader:
         if self.loopOffset != 0:
             self.loop = PCMLoop()
             self.loop.parseFrom(datafile[self.loopOffset:self.loopOffset + 48], baseOffset, self.loopOffset, usedData)
-        
+
         self.book = None
         if self.bookOffset != 0:
             self.book = PCMBook()
@@ -467,7 +467,7 @@ class SampleHeader:
         blockSize = 9
         if self.codec == 3:
             blockSize = 5
-        
+
         #Okay so the frame count is calculated weird.
         #To get the original data length, looks like we gotta reverse it.
         self.length = (self.frameCount * blockSize) // 16
@@ -477,18 +477,18 @@ class SampleHeader:
     def loadInfoFromAif(self, aif_path):
         aif_reader = AifReader(aif_path)
         comm_data = aif_reader.loadSectionData('COMM')
-        
+
         self.frameCount, = struct.unpack('>L', comm_data[2:6])
         sample_rate = parse_f80(comm_data[8:18])
         if aif_reader.is_aifc:
             self.codec = toCodecID(comm_data[18:22])
-            
+
         #Default loop (non-loop)
         self.loop = PCMLoop()
         self.loop.start = 0
         self.loop.end = self.frameCount
         self.loop.count = 0
-            
+
         #Go thru appl sections to get book and loop data
         appl_count = len(aif_reader.appl_sections)
         if appl_count > 0:
@@ -508,18 +508,18 @@ class SampleHeader:
                     predictorBytes = predictorSize * 2
                     for i in range(self.book.predictorCount):
                         self.book.predictors.append(struct.unpack(">" + str(predictorSize) + "h", appl_data[bookpos:(bookpos+predictorBytes)]))
-                        bookpos += predictorBytes				
+                        bookpos += predictorBytes
                 elif strdat == b'VADPCMLOOPS':
                     #Loop data
                     looppos = 20
                     self.loop.start, self.loop.end, self.loop.count = struct.unpack(">LLl", appl_data[looppos:looppos+12])
                     looppos += 12
                     if self.loop.count != 0:
-                        self.loop.predictorState = struct.unpack(">16h", appl_data[looppos:looppos+32])				
-                
+                        self.loop.predictorState = struct.unpack(">16h", appl_data[looppos:looppos+32])
+
         #Scale sample rate
         self.tuning = sample_rate/32000.0
-        
+
         self.updateSize()
 
     def serializeTo(self, output, packspecs=StructPackSpec()):
@@ -553,7 +553,7 @@ class Envelope:
         self.name = f"Env_{offset:0>8x}"
         self.script = []
         self.referencedScripts = []
-        
+
         while True:
             key, value = struct.unpack(">hH", datafile[advanceOffset : advanceOffset + 4])
             if key == 0 and value != 0:
@@ -605,7 +605,7 @@ class Envelope:
         for script_element in self.script:
             cmd = script_element[0]
             val = script_element[1]
-            
+
             if isinstance(cmd, str):
                 cmd = {
                     "ADSR_DISABLE": 0,
@@ -613,7 +613,7 @@ class Envelope:
                     "ADSR_GOTO": -2,
                     "ADSR_RESTART": -3,
                 }.get(cmd)
-                
+
             if cmd == -2:
                 #Update link.
                 val = self.referencedScripts[i]
@@ -627,15 +627,15 @@ class Envelope:
                 last = True
             elif cmd > 0 and val > 32767:
                 break
-                
+
             output.write(struct.pack(packspecs.genPackString("hH"), cmd, val))
-            
+
             i += 1
             mysize += 4
-            
+
             if last:
                 break
-        
+
         return mysize
 
     def fromXML(self, xml_element):
@@ -648,19 +648,19 @@ class Envelope:
         e_script = xml_element.find("Script")
         if e_script is None:
             return
-        
+
         elist_points = e_script.findall("Point")
         if elist_points is None:
             return
-            
+
         for e_point in elist_points:
             first = e_point.get("Delay")
             second = e_point.get("Value")
-            
+
             #Try to convert to numbers
             first = tryStr2Num(first)
             second = tryStr2Num(second)
-            
+
             self.script.append((first, second))
 
     def toXML(self, root):
@@ -680,7 +680,7 @@ class SoundEffect:
         self.sample = None
         self.addr = -1
         self.idx = -1
-        
+
         self.headerOffset = -1 #Offset of sample info in font
         self.sampleName = ''
 
@@ -697,34 +697,34 @@ class SoundEffect:
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 8))
         self.sample = SampleHeader()
         self.sample.parseFrom(datafile, datafile[self.headerOffset:self.headerOffset + 16], self.name, banks, baseOffset, self.headerOffset, self.pitch, usedFontData)
-        
+
     def serializeTo(self, output, packspecs=StructPackSpec()):
         if self.sample is not None:
-            self.headerOffset = self.sample.addr	
+            self.headerOffset = self.sample.addr
         output.write(struct.pack(packspecs.genPackString("PfX"), self.headerOffset, self.pitch))
         return packspecs.pointerSize() + 4 + packspecs.pointerPaddingSize()
-        
+
     def fromXML(self, xml_element):
         if xml_element is None:
             return
-            
+
         self.name = xml_element.get("Name")
         self.enum = xml_element.get("Enum")
         self.sampleName = xml_element.get("Sample")
         if self.sampleName is not None:
             if self.sampleName.endswith(".aifc"):
                 self.sampleName = self.sampleName[:-5]
-        
+
         pitch_str = xml_element.get("Pitch")
         if pitch_str is not None:
             self.pitch = float(pitch_str)
         else:
             self.pitch = -1.0
-            
+
         idx_str = xml_element.get("Index")
         if idx_str is not None:
-            self.idx = int(idx_str)		
-        
+            self.idx = int(idx_str)
+
     def toXML(self, root, samples, sampleNames, tunings):
         element = XmlTree.SubElement(root, "SoundEffect")
 
@@ -751,7 +751,7 @@ class Percussion:
         self.envelope = None
         self.addr = -1
         self.idx = -1
-        
+
         self.sampleName = ''
         self.envName = ''
         self.headerOffset = -1
@@ -778,7 +778,7 @@ class Percussion:
         if self.sample is not None:
             self.headerOffset = self.sample.addr
         if self.envelope is not None:
-            self.envelopeOffset = self.envelope.addr	
+            self.envelopeOffset = self.envelope.addr
         output.write(struct.pack(packspecs.genPackString("bbBxXPfXP"), self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset))
         return 8 + (2*packspecs.pointerSize()) + (2*packspecs.pointerPaddingSize())
 
@@ -905,7 +905,7 @@ class Instrument:
             output.write(struct.pack(packspecs.genPackString("X4x")))
         else:
             output.write(struct.pack(packspecs.genPackString("XP"), self.envelopeOffset))
-            
+
         if self.keyLowSample is None:
             output.write(struct.pack(str(packspecs.pointerSize() << 1) + "x"))
         else:
@@ -1058,7 +1058,7 @@ class SampleTableEntry:
     def parseFrom(self, input):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBB6x", input)
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):		
+    def serializeTo(self, output, packspecs=StructPackSpec()):
         output.write(struct.pack(packspecs.genPackString("LLBB6x"), self.offset, self.length, self.medium, self.cache))
 
 class SoundfontEntry:
@@ -1076,7 +1076,7 @@ class SoundfontEntry:
     def parseFrom(self, input):
         self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBbbBBH", input)
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):	
+    def serializeTo(self, output, packspecs=StructPackSpec()):
         output.write(struct.pack(packspecs.genPackString("LLBBbbBBH"), self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
 
 class Soundfont:
@@ -1101,15 +1101,15 @@ class Soundfont:
         self.soundEffects = []
         self.unused = []
         self.envelopes = {}
-        
+
         self.inst_read = 0
         self.perc_read = 0
         self.sfx_read = 0
-        
+
         self.instIdxLookup = {}
         self.percIdxLookup = {}
         self.sfxIdxLookup = {}
-        
+
         #Needed only for matching (optional)
         #List of samples in order appearing in font bin.
         self.sampleOrder = [] #List of tuples (block name, file name (w/o ext))
@@ -1144,7 +1144,7 @@ class Soundfont:
         return Soundfont.slotCount(self.perc_read, self.percIdxLookup, self.percussion)
 
     def sfxSlotCount(self):
-        return Soundfont.slotCount(self.sfx_read, self.sfxIdxLookup, self.soundEffects)	
+        return Soundfont.slotCount(self.sfx_read, self.sfxIdxLookup, self.soundEffects)
 
     def getSamples(self):
         samples = []
@@ -1236,7 +1236,7 @@ class Soundfont:
         #Read bank names
         e_banks = xml_element.find("SampleBanks")
         e_list_bank = e_banks.findall("Bank")
-        
+
         for e_bank in e_list_bank:
             self.bankNames.append(e_bank.get("Name"))
 
@@ -1305,7 +1305,7 @@ class Soundfont:
                         if (not use_idx_field) or (drum.idx < 0):
                             #If indices are missed once, they are hereby ignored (for now)
                             use_idx_field = False
-                            drum.idx = self.perc_read - 1						
+                            drum.idx = self.perc_read - 1
                         self.percIdxLookup[drum.idx] = drum
 
         #Read Instruments
@@ -1470,7 +1470,7 @@ class Soundbank:
         if med_str is not None:
             self.medium = toMedium(med_str)
         if cache_str is not None:
-            self.cachePolicy = toCachePolicy(cache_str)	
+            self.cachePolicy = toCachePolicy(cache_str)
 
 #Common Functions
 def loadBankDefTable(filepath):
@@ -1493,7 +1493,7 @@ def loadFontDefTable(filepath):
             record = SoundfontEntry()
             record.parseFrom(f.read(16))
             fontdeftbl.append(record)
-    return fontdeftbl	
+    return fontdeftbl
 
 def write_soundfont_define(font, fontcount, filename):
     width = int(math.log10(fontcount)) + 1
@@ -1510,14 +1510,14 @@ def write_soundfont_define(font, fontcount, filename):
                 continue
 
             file.write(f".define FONT{index}_INSTR_{instrument.enum} {instrument.idx}\n")
-        
+
         file.write("\n##### DRUMS #####\n")
         for drum in font.percussion:
             if type(drum) is int:
                 continue
 
             file.write(f".define FONT{index}_DRUM_{drum.enum} {drum.idx}\n")
-        
+
         file.write("\n##### EFFECTS #####\n")
         for effect in font.soundEffects:
             if type(effect) is int:

@@ -8,7 +8,7 @@ import struct
 import sys
 import xml.etree.ElementTree as XmlTree
 from audio_common import StructPackSpec, parse_machine, toCachePolicy
-from makeelf.elf import *
+from makeelf.elf import ELF
 
 class SequenceDefinition:
     def __init__(self):

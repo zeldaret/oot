@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import math
 import os
 from pathlib import Path
 import struct
@@ -8,8 +9,8 @@ import tempfile
 
 import xml.etree.ElementTree as XmlTree
 
-from makeelf.elf import *
-from audio_common import *
+from makeelf.elf import ELF, STB, STT, STV, ELFCLASS, ELFDATA, ET, SHF
+from audio_common import StructPackSpec, parse_machine, Soundbank, SampleHeader, padding16, loadSoundData, Soundfont, align
 
 # Script variables
 debug_mode = False
