@@ -135,7 +135,7 @@ def read_samplebank_xml(xml_dir, version, sampleNames):
     for xmlfile in os.listdir(xml_dir):
         if xmlfile.endswith(".xml"):
             bankname = os.path.splitext(xmlfile)[0]
-            index = int(bankname.split(" ")[0])
+            index = int(bankname[0])
             results[index] = bankname
             root = XmlTree.parse(os.path.join(xml_dir, xmlfile))
             for sample in root.findall("Sample"):
@@ -505,8 +505,8 @@ def main(args):
             filename_base = os.path.join(samples_out_dir, samplebanks[bank])
             sampleName = sampleNames[sample.bank][sample.offsetInBank]
             os.makedirs(filename_base, exist_ok=True)
-            aifc_filename = os.path.join(filename_base, f"{str(idx).zfill(width)} {sampleName}.aifc")
-            aiff_filename = f"{str(idx).zfill(width)} {sampleName}.aiff"
+            aifc_filename = os.path.join(filename_base, f"{str(idx).zfill(width)}_{sampleName}.aifc")
+            aiff_filename = f"{str(idx).zfill(width)}_{sampleName}.aiff"
             write_aifc(bank_data, bank_defs, sample, aifc_filename, tunings)
             write_aiff(sample, samples_out_dir, aifc_filename, aiff_filename)
             idx += 1

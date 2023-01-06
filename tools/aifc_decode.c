@@ -623,6 +623,8 @@ s64 scored_encode(s32 *inBuffer, s32 *origState, s32 ***coefTable, s32 order, s3
 
 s32 descent(s32 guess[16], s32 minVals[16], s32 maxVals[16], u8 input[9], s32 lastState[16], s32 ***coefTable, s32 order, s32 npredictors, s32 wantedPredictor, s32 wantedScale, s32 wantedIx[32])
 {
+    (void) input;
+
     const f64 inf = 1e100;
     s64 curScore = scored_encode(guess, lastState, coefTable, order, npredictors, wantedPredictor, wantedScale, wantedIx);
     for (;;) {

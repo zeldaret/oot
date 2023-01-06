@@ -454,8 +454,8 @@ def linkFontToBank(font):
     else:
         # Try to isolate index from name...
         if bname[0:1].isnumeric():
-            firstspace = bname.find(' ')
-            bidx = int(bname[:firstspace])
+            firstunderscore = bname.find('_')
+            bidx = int(bname[:firstunderscore])
             mybank = banks[bidx]
             font.bankIdx1 = bidx
             if not mybank:
@@ -478,8 +478,8 @@ def linkFontToBank(font):
         else:
             # Try to isolate index from name...
             if abname[0:1].isnumeric():
-                firstspace = abname.find(' ')
-                abidx = int(abname[:firstspace])
+                firstunderscore = abname.find('_')
+                abidx = int(abname[:firstunderscore])
                 abank = banks[abidx]
                 font.bankIdx1 = abidx
                 if not abank:
@@ -587,10 +587,10 @@ def splitSampleName(filepath):
     firstchar = rawname[0:1]
     if firstchar.isnumeric():
         # Find the first space
-        firstspace = rawname.find(' ')
-        if firstspace >= 0:
-            istr = rawname[:firstspace]
-            sname = rawname[firstspace + 1:]
+        firstunderscore = rawname.find('_')
+        if firstunderscore >= 0:
+            istr = rawname[:firstunderscore]
+            sname = rawname[firstunderscore + 1:]
             inum = int(istr)
 
     # Return number, name
