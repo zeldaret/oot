@@ -517,7 +517,7 @@ def main(args):
         samplebank_gaps = get_data_gaps("SAMPLE", usedRawData, bank_data)
         for offset in samplebank_gaps:
             bank = get_entry_from_absolute_offset(bank_defs, offset)
-            filename = os.path.join(samples_out_dir, bank.name, f"{offset:0>8x} - Unused.bin")
+            filename = os.path.join(samples_out_dir, bank.name, f"{offset:0>8x}_Unused.bin")
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             with open(filename, "wb") as bin_file:
                 bin_file.write(samplebank_gaps[offset])

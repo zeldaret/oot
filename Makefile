@@ -288,7 +288,7 @@ test: $(ROM)
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): audio_tables $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(SEQ_OUT) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(SEQ_OUT) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 ## Order-only prerequisites 
@@ -300,8 +300,6 @@ $(OVL_RELOC_FILES): | o_files
 
 asset_files: $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT)
 $(O_FILES): | asset_files
-
-audio_tables: build/assets/data/SequenceTable.o build/assets/data/SoundFontTable.o
 
 .PHONY: o_files asset_files
 
@@ -316,6 +314,11 @@ build/undefined_syms.txt: undefined_syms.txt
 
 build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
+
+build/assets/data/sequence_table.bin: build/assets/data/sequence_font_table.bin
+build/assets/data/sound_font_table.bin: build/assets/data/sample_bank_table.bin
+
+build/data/sounds.o: build/assets/data/sequence_table.bin build/assets/data/sound_font_table.bin
 
 build/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
@@ -362,10 +365,10 @@ build/src/overlays/%_reloc.o: build/$(SPEC)
 	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
-build/assets/data/SequenceTable.o: $(SEQ_OUT)
+build/assets/data/sequence_table.bin build/assets/data/sequence_font_table.bin: $(SEQ_OUT)
 	python3 tools/assemble_sequences.py $(SEQUENCE_DIR) build/include build
 
-build/assets/data/SoundFontTable.o: $(FONT_FILES) $(AIFC_FILES)
+build/assets/data/sample_bank_table.bin build/assets/data/sound_font_table.bin: $(FONT_FILES) $(AIFC_FILES)
 	python3 tools/assemble_sound.py $(SOUNDFONT_DIR) build/assets build/include assets/samples --build-bank --match=ocarina
 
 build/%.o: %.seq
