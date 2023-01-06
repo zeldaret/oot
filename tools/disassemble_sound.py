@@ -284,48 +284,47 @@ def write_aifc(raw, bank_defs, entry, filename, tunings):
 
     sample_rate = 32000 * tuning
 
-    if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-        with open(filename, "wb") as file:
-            writer = AifcWriter(file)
-            num_channels = 1
-            if len(data) % 2 == 1:
-                data += b"\0"
-            # (Computing num_frames this way makes it off by one when the data length
-            # is odd. It matches vadpcm_enc, though.)
-            num_frames = len(data) * sample_size // frame_size
+    with open(filename, "wb") as file:
+        writer = AifcWriter(file)
+        num_channels = 1
+        if len(data) % 2 == 1:
+            data += b"\0"
+        # (Computing num_frames this way makes it off by one when the data length
+        # is odd. It matches vadpcm_enc, though.)
+        num_frames = len(data) * sample_size // frame_size
 
-            writer.add_section(
-                b"COMM",
-                struct.pack(">hIh", num_channels, num_frames, sample_size)
-                + serialize_f80(sample_rate)
-                + toCodecID(entry.codec)
-                + writer.pstring(toCodecName(entry.codec)),
-            )
-            writer.add_section(b"INST", b"\0" * 20)
-            predictors = []
-            for table in entry.book.predictors:
-                for predictor in table:
-                    predictors.append(predictor)
-            table_data = b"".join(struct.pack(">h", x) for x in predictors)
+        writer.add_section(
+            b"COMM",
+            struct.pack(">hIh", num_channels, num_frames, sample_size)
+            + serialize_f80(sample_rate)
+            + toCodecID(entry.codec)
+            + writer.pstring(toCodecName(entry.codec)),
+        )
+        writer.add_section(b"INST", b"\0" * 20)
+        predictors = []
+        for table in entry.book.predictors:
+            for predictor in table:
+                predictors.append(predictor)
+        table_data = b"".join(struct.pack(">h", x) for x in predictors)
+        writer.add_custom_section(
+            b"VADPCMCODES",
+            struct.pack(">hhh", 1, entry.book.order, entry.book.predictorCount) + table_data,
+        )
+        writer.add_section(b"SSND", struct.pack(">II", 0, 0) + data)
+        if entry.loop.count != 0:
             writer.add_custom_section(
-                b"VADPCMCODES",
-                struct.pack(">hhh", 1, entry.book.order, entry.book.predictorCount) + table_data,
+                b"VADPCMLOOPS",
+                struct.pack(
+                    ">HHIIi16h",
+                    1,
+                    1,
+                    entry.loop.start,
+                    entry.loop.end,
+                    entry.loop.count,
+                    *entry.loop.predictorState
+                ),
             )
-            writer.add_section(b"SSND", struct.pack(">II", 0, 0) + data)
-            if entry.loop.count != 0:
-                writer.add_custom_section(
-                    b"VADPCMLOOPS",
-                    struct.pack(
-                        ">HHIIi16h",
-                        1,
-                        1,
-                        entry.loop.start,
-                        entry.loop.end,
-                        entry.loop.count,
-                        *entry.loop.predictorState
-                    ),
-                )
-            writer.finish()
+        writer.finish()
 
 def write_aiff(entry, basedir, aifc_filename, aiff_filename):
     rel_aiff_file = os.path.join(os.path.dirname(aifc_filename).replace("\\", "/"), aiff_filename)
