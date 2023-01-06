@@ -746,7 +746,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     AREG(6) = 0;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnHorse_ClearDustFlags(&this->dustFlags);
-    DREG(53) = 0;
+    R_PLAYED_EPONAS_SONG = 0;
     this->riderPos = this->actor.world.pos;
     this->noInputTimer = 0;
     this->noInputTimerMax = 0;
@@ -1738,8 +1738,8 @@ void EnHorse_SetFollowAnimation(EnHorse* this, PlayState* play);
 void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
     PlayState* play = play2;
 
-    if (DREG(53) != 0 && this->type == HORSE_EPONA) {
-        DREG(53) = 0;
+    if (R_PLAYED_EPONAS_SONG && this->type == HORSE_EPONA) {
+        R_PLAYED_EPONAS_SONG = 0;
         if (EnHorse_Spawn(this, play) != 0) {
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1813,8 +1813,8 @@ void EnHorse_Idle(EnHorse* this, PlayState* play) {
     this->actor.speed = 0.0f;
     EnHorse_IdleAnimSounds(this, play);
 
-    if (DREG(53) && this->type == HORSE_EPONA) {
-        DREG(53) = 0;
+    if (R_PLAYED_EPONAS_SONG && this->type == HORSE_EPONA) {
+        R_PLAYED_EPONAS_SONG = 0;
         if (!func_80A5BBBC(play, this, &this->actor.world.pos)) {
             if (EnHorse_Spawn(this, play)) {
                 Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -1908,7 +1908,7 @@ void EnHorse_FollowPlayer(EnHorse* this, PlayState* play) {
     f32 distToPlayer;
     f32 angleDiff;
 
-    DREG(53) = 0;
+    R_PLAYED_EPONAS_SONG = 0;
     distToPlayer = Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(play)->actor);
 
     // First rotate if the player is behind
@@ -2600,7 +2600,7 @@ void EnHorse_FleePlayer(EnHorse* this, PlayState* play) {
     s32 animFinished;
     s16 yaw;
 
-    if (DREG(53) || this->type == HORSE_HNI) {
+    if (R_PLAYED_EPONAS_SONG || this->type == HORSE_HNI) {
         EnHorse_StartIdleRidable(this);
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
