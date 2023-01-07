@@ -287,10 +287,12 @@ void EnCow_DoTail(EnCow* this, PlayState* play) {
     }
 
     if ((this->actor.xzDistToPlayer < 150.0f) &&
-        (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 25000) && !(this->flags & EN_COW_FLAG_PLAYER_HAS_APPROACHED)) {
-        this->flags |= EN_COW_FLAG_PLAYER_HAS_APPROACHED;
-        if (this->skelAnime.animation == &gCowTailIdleAnim) {
-            this->animationTimer = 0;
+        (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 25000)) {
+        if (!(this->flags & EN_COW_FLAG_PLAYER_HAS_APPROACHED)) {
+            this->flags |= EN_COW_FLAG_PLAYER_HAS_APPROACHED;
+            if (this->skelAnime.animation == &gCowTailIdleAnim) {
+                this->animationTimer = 0;
+            }
         }
     }
 }
