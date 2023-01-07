@@ -178,18 +178,18 @@ void EnCow_UpdateAnimation(EnCow* this, PlayState* play) {
     }
 
     this->animationCycle++;
-    if (this->animationCycle > 0x30) {
+    if (this->animationCycle > 48) {
         this->animationCycle = 0;
     }
 
     // (1.0f / 100.0f) instead of 0.01f below is necessary so 0.01f doesn't get reused mistakenly
-    if (this->animationCycle < 0x20) {
+    if (this->animationCycle < 32) {
         this->actor.scale.x = ((Math_SinS(this->animationCycle * 1024) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
     } else {
         this->actor.scale.x = 0.01f;
     }
 
-    if (this->animationCycle >= 0x11) {
+    if (this->animationCycle > 16) {
         this->actor.scale.y = ((Math_SinS((this->animationCycle * 1024) - 0x4000) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
     } else {
         this->actor.scale.y = 0.01f;
