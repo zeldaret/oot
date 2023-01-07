@@ -122,7 +122,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-                if (!GET_EVENTCHKINF(EVENTCHKINF_HS_HORSE_RACE)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK)) {
                     Actor_Kill(&this->actor);
                     return;
                 }
