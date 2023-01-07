@@ -3,9 +3,17 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "assets/objects/object_cow/object_cow.h"
 
-#define COW_ACTIVE (1 << 1)
-#define COW_RESET_EPONAS_TRIGGER (1 << 2)
+#define EN_COW_TYPE(thisx) ((thisx)->actor.params)
+
+#define EN_COW_FLAG_PLAYER_HAS_APPROACHED (1 << 1)
+#define EN_COW_FLAG_WONT_GIVE_MILK (1 << 2)
+
+typedef enum {
+    /*  0 */ EN_COW_TYPE_DEFAULT,
+    /*  1 */ EN_COW_TYPE_TAIL
+} EnCowType;
 
 struct EnCow;
 
@@ -15,12 +23,12 @@ typedef struct EnCow {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder colliders[2];
     /* 0x01E4 */ SkelAnime skelAnime;
-    /* 0x0228 */ Vec3s jointTable[6];
-    /* 0x024C */ Vec3s morphTable[6];
-    /* 0x0270 */ Vec3s headRot;
-    /* 0x0276 */ u16 stateFlags;
-    /* 0x0278 */ u16 animTimer;
-    /* 0x027A */ u16 breathTimer;
+    /* 0x0228 */ Vec3s jointTable[COW_LIMB_MAX];
+    /* 0x024C */ Vec3s morphTable[COW_LIMB_MAX];
+    /* 0x0270 */ Vec3s headTilt;
+    /* 0x0276 */ u16 flags;
+    /* 0x0278 */ u16 animationTimer;
+    /* 0x027A */ u16 animationCycle;
     /* 0x027C */ EnCowActionFunc actionFunc;
 } EnCow; // size = 0x0280
 

@@ -434,7 +434,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
 void func_80A6A4DC(EnHorseLinkChild* this) {
     this->action = 5;
     this->animationIdx = Rand_ZeroOne() > 0.5f ? 0 : 1;
-    R_PLAYED_EPONAS_SONG = 0;
+    R_PLAYED_EPONAS_SONG = false;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
                      Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
@@ -443,7 +443,7 @@ void func_80A6A5A4(EnHorseLinkChild* this, PlayState* play) {
     s16 yawDiff;
 
     if (R_PLAYED_EPONAS_SONG) {
-        R_PLAYED_EPONAS_SONG = 0;
+        R_PLAYED_EPONAS_SONG = false;
         Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);
