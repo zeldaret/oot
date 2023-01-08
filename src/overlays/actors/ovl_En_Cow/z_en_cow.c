@@ -153,7 +153,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
 void EnCow_Destroy(Actor* thisx, PlayState* play) {
     EnCow* this = (EnCow*)thisx;
 
-    if (this->actor.params == EN_COW_TYPE_DEFAULT) {
+    if (EN_COW_TYPE(this) == EN_COW_TYPE_DEFAULT) {
         Collider_DestroyCylinder(play, &this->colliders[0]);
         Collider_DestroyCylinder(play, &this->colliders[1]);
     }
