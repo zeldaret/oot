@@ -276,6 +276,7 @@ setup:
 	python3 extract_assets.py -j$(N_THREADS)
 	python3 tools/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/soundfonts build/include
 	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
+	go run tools/audiotable.go
 
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
@@ -361,12 +362,6 @@ build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 build/src/overlays/%_reloc.o: build/$(SPEC)
 	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
-
-build/assets/data/sequence_font_table.bin: $(SEQ_OUT)
-	python3 tools/assemble_sequences.py $(SEQUENCE_DIR) build/include build
-
-build/assets/data/sound_font_table.bin: $(FONT_FILES) $(AIFC_FILES)
-	python3 tools/assemble_sound.py $(SOUNDFONT_DIR) build/assets build/include assets/samples --build-bank --match=ocarina
 
 build/%.o: %.seq
 	$(SEQ_ASM) $< $@ --font-path build/include --elf big 32 mips
