@@ -1628,7 +1628,7 @@ typedef struct {
     /* 0x1046 */ s16 demoCtrlActionIdx; // e (?), s (save), l (load), c (clear)
     /* 0x1048 */ s16 demoCtrlToggleSwitch;
     /* 0x104A */ Vec3s unk_104A;
-} DbCameraSub; // size = 0x1050
+} DebugCamSub; // size = 0x1050
 
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -1650,8 +1650,8 @@ typedef struct {
     /* 0x6C */ Vec3f unk_6C;
     /* 0x78 */ s16 unk_78;
     /* 0x7A */ s16 unk_7A;
-    /* 0x7C */ DbCameraSub sub;
-} DbCamera; // size = 0x10CC
+    /* 0x7C */ DebugCamSub sub;
+} DebugCam; // size = 0x10CC
 
 typedef struct {
     /* 0x00 */ char letter;
@@ -1661,7 +1661,7 @@ typedef struct {
     /* 0x08 */ CutsceneCameraPoint* lookAt;
     /* 0x0C */ s16 nFrames;
     /* 0x0E */ s16 nPoints;
-} DbCameraCut; // size = 0x10
+} DebugCamCut; // size = 0x10
 
 typedef struct {
     /* 0x00 */ f32 curFrame;
@@ -1673,17 +1673,17 @@ typedef struct {
     /* 0x1C */ Vec3f lookAtPos;
     /* 0x28 */ f32 roll;
     /* 0x2C */ f32 fov;
-} DbCameraAnim; // size = 0x30
+} DebugCamAnim; // size = 0x30
 
 typedef enum {
-    /* 0 */ DBCAMERA_TEXT_YELLOW,
-    /* 1 */ DBCAMERA_TEXT_PEACH,
-    /* 2 */ DBCAMERA_TEXT_BROWN,
-    /* 3 */ DBCAMERA_TEXT_ORANGE,
-    /* 4 */ DBCAMERA_TEXT_GOLD,
-    /* 5 */ DBCAMERA_TEXT_WHITE,
-    /* 6 */ DBCAMERA_TEXT_BLUE,
-    /* 7 */ DBCAMERA_TEXT_GREEN
-} DbCameraTextColor;
+    /* 0 */ DEBUG_CAM_TEXT_YELLOW,
+    /* 1 */ DEBUG_CAM_TEXT_PEACH,
+    /* 2 */ DEBUG_CAM_TEXT_BROWN,
+    /* 3 */ DEBUG_CAM_TEXT_ORANGE,
+    /* 4 */ DEBUG_CAM_TEXT_GOLD,
+    /* 5 */ DEBUG_CAM_TEXT_WHITE,
+    /* 6 */ DEBUG_CAM_TEXT_BLUE,
+    /* 7 */ DEBUG_CAM_TEXT_GREEN
+} DebugCamTextColor;
 
 #endif

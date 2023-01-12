@@ -155,7 +155,7 @@ void func_80A58DD4(EnHoll* this, PlayState* play) {
 // Horizontal Planes
 void func_80A59014(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 useViewEye = gDbgCamEnabled || play->csCtx.state != CS_STATE_IDLE;
+    s32 useViewEye = gDebugCamEnabled || play->csCtx.state != CS_STATE_IDLE;
     Vec3f vec;
     s32 temp;
     f32 planeHalfWidth;

@@ -2555,7 +2555,7 @@ s32 (*sCameraFunctions[])(Camera*) = {
 
 s32 sInitRegs = 1;
 
-s32 gDbgCamEnabled = 0;
+s32 gDebugCamEnabled = false;
 s32 sDbgModeIdx = -1;
 s16 sNextUID = 0;
 
@@ -3034,5 +3034,5 @@ s16 D_8011DAFC[] = {
 };
 
 PlayState* D_8015BD7C;
-DbCamera D_8015BD80;
+DebugCam D_8015BD80;
 CollisionPoly* playerFloorPoly;
