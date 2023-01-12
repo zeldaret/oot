@@ -114,24 +114,6 @@ typedef struct {
     };
 } struct_80854B18; // size = 0x08
 
-/**
- * Contains the rotation and angular velocity of the Bunny Hood's ears, which share the same x and y motion, but apply
- * the z displacement in opposite directions. It is useful to keep in mind that
- * - as usual, rot.x,rot.y,rot.z map to the Z,X,Y angles for the rotations applied, and
- * - in its usual orientation, Player's head limb has x forwards, y downwards and z leftwards.
- *
- * Hence, in order, the rotations applied are:
- * - rot.x (around the leftward axis, i.e. forward/backward)
- * - rot.y (around the forward axis, i.e. left/right)
- * - rot.z (around the vertical axis)
- *
- * @see Player_DrawGameplay(), Player_UpdateBunnyEars()
- */
-typedef struct {
-    /* 0x0 */ Vec3s rot;
-    /* 0x6 */ Vec3s angVel;
-} BunnyEarKinematics; // size = 0xC
-
 void func_80833770(PlayState* play, Player* this);
 void func_80833790(PlayState* play, Player* this);
 void func_8083379C(PlayState* play, Player* this);
@@ -10952,7 +10934,13 @@ void Player_Update(Actor* thisx, PlayState* play) {
     MREG(55) = this->actor.world.rot.y;
 }
 
+typedef struct {
+    /* 0x0 */ Vec3s rot;
+    /* 0x6 */ Vec3s angVel;
+} BunnyEarKinematics; // size = 0xC
+
 static BunnyEarKinematics sBunnyEarKinematics;
+
 static Vec3s D_80858AD8[25];
 
 static Gfx* sMaskDlists[PLAYER_MASK_MAX - 1] = {
