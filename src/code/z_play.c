@@ -988,7 +988,7 @@ void Play_Update(PlayState* this) {
 skip:
     PLAY_LOG(3801);
 
-    if ((sp80 == 0) || gDbgCamEnabled) {
+    if ((sp80 == 0) || gDebugCamEnabled) {
         s32 pad3[5];
         s32 i;
 

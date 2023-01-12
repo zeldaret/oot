@@ -221,7 +221,7 @@ void EnHoll_HorizontalVisibleNarrow(EnHoll* this, PlayState* play) {
 
 void EnHoll_HorizontalInvisible(EnHoll* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 useViewEye = gDbgCamEnabled || play->csCtx.state != CS_STATE_IDLE;
+    s32 useViewEye = gDebugCamEnabled || play->csCtx.state != CS_STATE_IDLE;
     Vec3f relSubjectPos;
     s32 isKokiriLayer8;
     f32 hollHalfWidth;
