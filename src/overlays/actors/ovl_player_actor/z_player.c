@@ -114,14 +114,6 @@ typedef struct {
     };
 } struct_80854B18; // size = 0x08
 
-typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 unk_08;
-} struct_80858AC8; // size = 0x0A
-
 void func_80833770(PlayState* play, Player* this);
 void func_80833790(PlayState* play, Player* this);
 void func_8083379C(PlayState* play, Player* this);
@@ -255,7 +247,7 @@ void func_8084FB10(Player* this, PlayState* play);
 void func_8084FBF4(Player* this, PlayState* play);
 s32 func_8084FCAC(Player* this, PlayState* play);
 void func_8084FF7C(Player* this);
-void func_8085002C(Player* this);
+void Player_UpdateBunnyEars(Player* this);
 s32 func_80850224(Player* this, PlayState* play);
 void func_808502D0(Player* this, PlayState* play);
 void func_808505DC(Player* this, PlayState* play);
@@ -9613,9 +9605,22 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
 }
 
 static void (*D_80854738[])(PlayState* play, Player* this) = {
-    func_80846648, func_808467D4, func_80846660, func_808468A8, func_808468E8, func_808469BC,
-    func_80846A68, func_80846978, func_8083CA54, func_8083CA54, func_8083CA54, func_8083CA54,
-    func_8083CA54, func_8083CA20, func_8083CA54, func_8083CA9C,
+    /* 0x0 */ func_80846648,
+    /* 0x1 */ func_808467D4, // From time travel
+    /* 0x2 */ func_80846660,
+    /* 0x3 */ func_808468A8,
+    /* 0x4 */ func_808468E8,
+    /* 0x5 */ func_808469BC,
+    /* 0x6 */ func_80846A68,
+    /* 0x7 */ func_80846978,
+    /* 0x8 */ func_8083CA54,
+    /* 0x9 */ func_8083CA54,
+    /* 0xA */ func_8083CA54,
+    /* 0xB */ func_8083CA54,
+    /* 0xC */ func_8083CA54,
+    /* 0xD */ func_8083CA20,
+    /* 0xE */ func_8083CA54,
+    /* 0xF */ func_8083CA9C,
 };
 
 static Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
@@ -10589,7 +10594,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->actor.shape.face = this->unk_3A8[0] + ((play->gameplayFrames & 32) ? 0 : 3);
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
-            func_8085002C(this);
+            Player_UpdateBunnyEars(this);
         }
 
         if (func_8002DD6C(this) != 0) {
@@ -10929,7 +10934,13 @@ void Player_Update(Actor* thisx, PlayState* play) {
     MREG(55) = this->actor.world.rot.y;
 }
 
-static struct_80858AC8 D_80858AC8;
+typedef struct {
+    /* 0x0 */ Vec3s rot;
+    /* 0x6 */ Vec3s angVel;
+} BunnyEarKinematics; // size = 0xC
+
+static BunnyEarKinematics sBunnyEarKinematics;
+
 static Vec3s D_80858AD8[25];
 
 static Gfx* sMaskDlists[PLAYER_MASK_MAX - 1] = {
@@ -10952,24 +10963,26 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
                     Player_PostLimbDrawGameplay, this);
 
     if ((overrideLimbDraw == Player_OverrideLimbDrawGameplayDefault) && (this->currentMask != PLAYER_MASK_NONE)) {
-        Mtx* sp70 = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Mtx));
+        Mtx* bunnyEarMtx = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Mtx));
 
         if (this->currentMask == PLAYER_MASK_BUNNY) {
-            Vec3s sp68;
+            Vec3s earRot;
 
-            gSPSegment(POLY_OPA_DISP++, 0x0B, sp70);
+            gSPSegment(POLY_OPA_DISP++, 0x0B, bunnyEarMtx);
 
-            sp68.x = D_80858AC8.unk_02 + 0x3E2;
-            sp68.y = D_80858AC8.unk_04 + 0xDBE;
-            sp68.z = D_80858AC8.unk_00 - 0x348A;
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp68);
-            Matrix_ToMtx(sp70++, "../z_player.c", 19273);
+            // Right ear
+            earRot.x = sBunnyEarKinematics.rot.y + 0x3E2;
+            earRot.y = sBunnyEarKinematics.rot.z + 0xDBE;
+            earRot.z = sBunnyEarKinematics.rot.x - 0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
+            Matrix_ToMtx(bunnyEarMtx++, "../z_player.c", 19273);
 
-            sp68.x = D_80858AC8.unk_02 - 0x3E2;
-            sp68.y = -0xDBE - D_80858AC8.unk_04;
-            sp68.z = D_80858AC8.unk_00 - 0x348A;
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp68);
-            Matrix_ToMtx(sp70, "../z_player.c", 19279);
+            // Left ear
+            earRot.x = sBunnyEarKinematics.rot.y - 0x3E2;
+            earRot.y = -sBunnyEarKinematics.rot.z - 0xDBE;
+            earRot.z = sBunnyEarKinematics.rot.x - 0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
+            Matrix_ToMtx(bunnyEarMtx, "../z_player.c", 19279);
         }
 
         gSPDisplayList(POLY_OPA_DISP++, sMaskDlists[this->currentMask - 1]);
@@ -13255,44 +13268,50 @@ void func_8084FF7C(Player* this) {
     }
 }
 
-void func_8085002C(Player* this) {
-    s32 pad;
-    s16 sp2A;
-    s16 sp28;
-    s16 sp26;
+/**
+ * Updates the Bunny Hood's floppy ears' rotation and velocity.
+ */
+void Player_UpdateBunnyEars(Player* this) {
+    Vec3s force;
+    s16 angle;
 
-    D_80858AC8.unk_06 -= D_80858AC8.unk_06 >> 3;
-    D_80858AC8.unk_08 -= D_80858AC8.unk_08 >> 3;
-    D_80858AC8.unk_06 += -D_80858AC8.unk_00 >> 2;
-    D_80858AC8.unk_08 += -D_80858AC8.unk_02 >> 2;
+    // Damping: decay by 1/8 the previous value each frame
+    sBunnyEarKinematics.angVel.x -= sBunnyEarKinematics.angVel.x >> 3;
+    sBunnyEarKinematics.angVel.y -= sBunnyEarKinematics.angVel.y >> 3;
 
-    sp26 = this->actor.world.rot.y - this->actor.shape.rot.y;
+    // Elastic restorative force
+    sBunnyEarKinematics.angVel.x += -sBunnyEarKinematics.rot.x >> 2;
+    sBunnyEarKinematics.angVel.y += -sBunnyEarKinematics.rot.y >> 2;
 
-    sp28 = (s32)(this->actor.speed * -200.0f * Math_CosS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
-    sp2A = (s32)(this->actor.speed * 100.0f * Math_SinS(sp26) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
+    // Forcing from motion relative to shape frame
+    angle = this->actor.world.rot.y - this->actor.shape.rot.y;
+    force.x = (s32)(this->actor.speed * -200.0f * Math_CosS(angle) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
+    force.y = (s32)(this->actor.speed * 100.0f * Math_SinS(angle) * (Rand_CenteredFloat(2.0f) + 10.0f)) & 0xFFFF;
 
-    D_80858AC8.unk_06 += sp28 >> 2;
-    D_80858AC8.unk_08 += sp2A >> 2;
+    sBunnyEarKinematics.angVel.x += force.x >> 2;
+    sBunnyEarKinematics.angVel.y += force.y >> 2;
 
-    if (D_80858AC8.unk_06 > 6000) {
-        D_80858AC8.unk_06 = 6000;
-    } else if (D_80858AC8.unk_06 < -6000) {
-        D_80858AC8.unk_06 = -6000;
+    // Clamp both angular velocities to [-6000, 6000]
+    if (sBunnyEarKinematics.angVel.x > 6000) {
+        sBunnyEarKinematics.angVel.x = 6000;
+    } else if (sBunnyEarKinematics.angVel.x < -6000) {
+        sBunnyEarKinematics.angVel.x = -6000;
+    }
+    if (sBunnyEarKinematics.angVel.y > 6000) {
+        sBunnyEarKinematics.angVel.y = 6000;
+    } else if (sBunnyEarKinematics.angVel.y < -6000) {
+        sBunnyEarKinematics.angVel.y = -6000;
     }
 
-    if (D_80858AC8.unk_08 > 6000) {
-        D_80858AC8.unk_08 = 6000;
-    } else if (D_80858AC8.unk_08 < -6000) {
-        D_80858AC8.unk_08 = -6000;
-    }
+    // Add angular velocity to rotations
+    sBunnyEarKinematics.rot.x += sBunnyEarKinematics.angVel.x;
+    sBunnyEarKinematics.rot.y += sBunnyEarKinematics.angVel.y;
 
-    D_80858AC8.unk_00 += D_80858AC8.unk_06;
-    D_80858AC8.unk_02 += D_80858AC8.unk_08;
-
-    if (D_80858AC8.unk_00 < 0) {
-        D_80858AC8.unk_04 = D_80858AC8.unk_00 >> 1;
+    // swivel ears outwards if bending backwards
+    if (sBunnyEarKinematics.rot.x < 0) {
+        sBunnyEarKinematics.rot.z = sBunnyEarKinematics.rot.x >> 1;
     } else {
-        D_80858AC8.unk_04 = 0;
+        sBunnyEarKinematics.rot.z = 0;
     }
 }
 
