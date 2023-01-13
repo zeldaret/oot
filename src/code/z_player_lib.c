@@ -26,7 +26,7 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_10,            // PLAYER_IA_FISHING_POLE
     PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_MASTER
     PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_KOKIRI
-    PLAYER_MODELGROUP_BGS,           // PLAYER_IA_SWORD_BGS
+    PLAYER_MODELGROUP_BGS,           // PLAYER_IA_SWORD_BIGGORON
     PLAYER_MODELGROUP_10,            // PLAYER_IA_DEKU_STICK
     PLAYER_MODELGROUP_HAMMER,        // PLAYER_IA_HAMMER
     PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW
@@ -723,7 +723,7 @@ s32 Player_GetMeleeWeaponHeld(Player* this) {
 }
 
 s32 Player_HoldsTwoHandedWeapon(Player* this) {
-    if ((this->heldItemAction >= PLAYER_IA_SWORD_BGS) && (this->heldItemAction <= PLAYER_IA_HAMMER)) {
+    if ((this->heldItemAction >= PLAYER_IA_SWORD_BIGGORON) && (this->heldItemAction <= PLAYER_IA_HAMMER)) {
         return 1;
     } else {
         return 0;
@@ -731,7 +731,7 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
 }
 
 s32 Player_HoldsBrokenKnife(Player* this) {
-    return (this->heldItemAction == PLAYER_IA_SWORD_BGS) && (gSaveContext.swordHealth <= 0.0f);
+    return (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) && (gSaveContext.swordHealth <= 0.0f);
 }
 
 s32 Player_ActionToBottle(Player* this, s32 itemAction) {
@@ -1666,7 +1666,7 @@ u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime) {
 u8 sPauseModelGroupBySword[] = {
     PLAYER_MODELGROUP_SWORD, // PLAYER_SWORD_KOKIRI
     PLAYER_MODELGROUP_SWORD, // PLAYER_SWORD_MASTER
-    PLAYER_MODELGROUP_BGS,   // PLAYER_SWORD_BGS
+    PLAYER_MODELGROUP_BGS,   // PLAYER_SWORD_BIGGORON
 };
 
 s32 Player_OverrideLimbDrawPause(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
@@ -1836,7 +1836,7 @@ void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f*
             srcTable = gLinkPauseChildJointTable;
         }
     } else {
-        if (sword == PLAYER_SWORD_BGS) {
+        if (sword == PLAYER_SWORD_BIGGORON) {
             srcTable = gLinkPauseAdultBgsJointTable;
         } else if (shield != PLAYER_SHIELD_NONE) {
             srcTable = gLinkPauseAdultShieldJointTable;

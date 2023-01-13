@@ -203,7 +203,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
                     tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.world.pos.x;
                     tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.world.pos.z;
                 } else {
-                    if (player->linearVelocity != 0.0f) {
+                    if (player->speedXZ != 0.0f) {
                         // rock spawn pos is between 300 and 600 units from the camera depending on the camera yaw.
                         // Rocks will generally spawn closer to the camera in the X axis than in the Z axis.
                         tempVec2X = Rand_CenteredFloat(200.0f) + (play->view.eye.x + (tempVec2X * 300.0f));

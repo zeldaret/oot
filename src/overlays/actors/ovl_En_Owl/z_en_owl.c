@@ -1100,7 +1100,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->actor.draw != NULL) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     }
 
     if (this->actionFlags & 2) {

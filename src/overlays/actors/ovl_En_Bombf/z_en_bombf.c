@@ -332,7 +332,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (thisx->params == BOMBFLOWER_BODY) {
-        Actor_MoveForward(thisx);
+        Actor_MoveXZGravity(thisx);
     }
 
     if (thisx->gravity != 0.0f) {
@@ -357,7 +357,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 thisx->world.rot.y = ((thisx->wallYaw - thisx->world.rot.y) + thisx->wallYaw) - 0x8000;
             }
             Actor_PlaySfx(thisx, NA_SE_EV_BOMB_BOUND);
-            Actor_MoveForward(thisx);
+            Actor_MoveXZGravity(thisx);
             DREG(6) = 1;
             Actor_UpdateBgCheckInfo(play, thisx, 5.0f, 10.0f, 0.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |

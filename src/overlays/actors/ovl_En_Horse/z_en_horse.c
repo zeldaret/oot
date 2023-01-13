@@ -1001,7 +1001,7 @@ void EnHorse_UpdateSpeed(EnHorse* this, PlayState* play, f32 brakeDecel, f32 bra
     EnHorse_StickDirection(&this->curStick, &stickMag, &stickAngle);
     if (Math_CosS(stickAngle) <= brakeAngle) {
         this->actor.speed -= brakeDecel;
-        this->actor.speed = this->actor.speed < 0.0f ? 0.0f : this->actor.speed;
+        this->actor.speed = CLAMP_MIN(this->actor.speed, 0.0f);
         return;
     }
 
@@ -3523,7 +3523,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         if (this->playerControlled == true) {
             EnHorse_RegenBoost(this, play);
         }
-        Actor_MoveForward(thisx);
+        Actor_MoveXZGravity(thisx);
         if (this->action == ENHORSE_ACT_INGO_RACE) {
             if (this->rider != NULL) {
                 this->rider->world.pos.x = thisx->world.pos.x;

@@ -41,7 +41,7 @@ void osSpTaskLoad(OSTask* intp) {
     while (__osSpSetPc((void*)SP_IMEM_START) == -1) {
         ;
     }
-    while (__osSpRawStartDma(OS_WRITE, (void*)(SP_IMEM_START - sizeof(*tp)), tp, sizeof(OSTask)) == -1) {
+    while (__osSpRawStartDma(OS_WRITE, (void*)(SP_DMEM_END + 1 - sizeof(OSTask)), tp, sizeof(OSTask)) == -1) {
         ;
     }
     while (__osSpDeviceBusy()) {
