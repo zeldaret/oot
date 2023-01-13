@@ -172,7 +172,7 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, PlayState* play) {
 
     thisx->velocity.x *= 0.98f;
     thisx->velocity.z *= 0.98f;
-    func_8002D7EC(thisx);
+    Actor_UpdatePos(thisx);
     thisx->shape.rot.x += thisx->world.rot.x;
     thisx->shape.rot.y += thisx->world.rot.y;
     thisx->shape.rot.z += thisx->world.rot.z;
@@ -382,7 +382,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, PlayState* play) {
     Vec3f checkPos;
     f32 yIntersect;
 
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
     checkPos.x = this->dyna.actor.home.pos.x;
     checkPos.y = this->dyna.actor.home.pos.y + 1000.0f;
     checkPos.z = this->dyna.actor.home.pos.z;
@@ -455,7 +455,7 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play) {
         Math_StepToF(&this->dyna.actor.velocity.y, 0.0f, 3.0f);
         this->dyna.actor.gravity = 0.0f;
         this->dyna.actor.world.pos = this->dyna.actor.home.pos;
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
         this->dyna.actor.home.pos = this->dyna.actor.world.pos;
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:

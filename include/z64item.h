@@ -20,7 +20,7 @@ typedef enum {
 typedef enum {
     /* 0 */ EQUIP_INV_SWORD_KOKIRI,
     /* 1 */ EQUIP_INV_SWORD_MASTER,
-    /* 2 */ EQUIP_INV_SWORD_BGS,
+    /* 2 */ EQUIP_INV_SWORD_BIGGORON,
     /* 3 */ EQUIP_INV_SWORD_BROKENGIANTKNIFE
 } EquipInvSword;
 
@@ -48,7 +48,7 @@ typedef enum {
     /* 0 */ EQUIP_VALUE_SWORD_NONE,
     /* 1 */ EQUIP_VALUE_SWORD_KOKIRI,
     /* 2 */ EQUIP_VALUE_SWORD_MASTER,
-    /* 3 */ EQUIP_VALUE_SWORD_BGS,
+    /* 3 */ EQUIP_VALUE_SWORD_BIGGORON,
     /* 4 */ EQUIP_VALUE_SWORD_MAX
 } EquipValueSword;
 

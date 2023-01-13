@@ -439,7 +439,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             f32 tempYDistToWater;
             u8 onGround;
 
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
             Actor_UpdateBgCheckInfo(play, &this->actor, 30.0f, 30.0f, 50.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
@@ -613,7 +613,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     this->actor.speed = 0.0f;
                 }
-                Actor_MoveForward(&this->actor);
+                Actor_MoveXZGravity(&this->actor);
                 if (this->actor.speed != 0.0f) {
                     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 50.0f,
                                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);

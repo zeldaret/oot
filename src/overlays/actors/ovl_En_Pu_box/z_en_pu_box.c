@@ -78,7 +78,7 @@ void EnPubox_Update(Actor* thisx, PlayState* play) {
     }
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(
         play, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius, thisx->colChkInfo.cylRadius,
         UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
