@@ -121,7 +121,7 @@ static s16 D_801208E8 = 8;
 static OnePointCsFull D_801208EC[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0101,
         1,
         0,
@@ -132,7 +132,7 @@ static OnePointCsFull D_801208EC[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         0,
@@ -143,7 +143,7 @@ static OnePointCsFull D_801208EC[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -157,7 +157,7 @@ static OnePointCsFull D_801208EC[3] = {
 static OnePointCsFull D_80120964[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         0,
@@ -168,7 +168,7 @@ static OnePointCsFull D_80120964[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xA121,
         1,
         0,
@@ -182,7 +182,7 @@ static OnePointCsFull D_80120964[2] = {
 static OnePointCsFull D_801209B4[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0101,
         1,
         0,
@@ -193,7 +193,7 @@ static OnePointCsFull D_801209B4[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0100,
         29,
         0,
@@ -204,7 +204,7 @@ static OnePointCsFull D_801209B4[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         10,
         0,
@@ -215,7 +215,7 @@ static OnePointCsFull D_801209B4[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -229,7 +229,7 @@ static OnePointCsFull D_801209B4[4] = {
 static OnePointCsFull D_80120A54[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2525,
         1,
         0,
@@ -240,7 +240,7 @@ static OnePointCsFull D_80120A54[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         9,
         0,
@@ -251,7 +251,7 @@ static OnePointCsFull D_80120A54[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0022,
         5000,
         0,
@@ -265,7 +265,7 @@ static OnePointCsFull D_80120A54[3] = {
 static OnePointCsFull D_80120ACC[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0442,
         10,
         0,
@@ -276,7 +276,7 @@ static OnePointCsFull D_80120ACC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -287,7 +287,7 @@ static OnePointCsFull D_80120ACC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0442,
         10,
         0,
@@ -298,7 +298,7 @@ static OnePointCsFull D_80120ACC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -309,7 +309,7 @@ static OnePointCsFull D_80120ACC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -323,7 +323,7 @@ static OnePointCsFull D_80120ACC[5] = {
 static OnePointCsFull D_80120B94[11] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x2142,
         1,
         0,
@@ -334,7 +334,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         19,
         5,
@@ -345,7 +345,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         20,
         0,
@@ -356,7 +356,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         40,
         -10,
@@ -367,7 +367,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         1,
         0,
@@ -378,7 +378,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         19,
         0,
@@ -389,7 +389,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         40,
         10,
@@ -400,7 +400,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         70,
         0,
@@ -411,7 +411,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         1,
         0,
@@ -422,7 +422,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_13, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         150,
         0,
@@ -433,7 +433,7 @@ static OnePointCsFull D_80120B94[11] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_24, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -447,7 +447,7 @@ static OnePointCsFull D_80120B94[11] = {
 static OnePointCsFull D_80120D4C[7] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x2142,
         1,
         0,
@@ -458,7 +458,7 @@ static OnePointCsFull D_80120D4C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         19,
         5,
@@ -469,7 +469,7 @@ static OnePointCsFull D_80120D4C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         20,
         0,
@@ -480,7 +480,7 @@ static OnePointCsFull D_80120D4C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         40,
         -10,
@@ -491,7 +491,7 @@ static OnePointCsFull D_80120D4C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         1,
         0,
@@ -502,7 +502,7 @@ static OnePointCsFull D_80120D4C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_13, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         150,
         0,
@@ -513,7 +513,7 @@ static OnePointCsFull D_80120D4C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_24, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -527,7 +527,7 @@ static OnePointCsFull D_80120D4C[7] = {
 static OnePointCsFull D_80120E64[8] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x2142,
         20,
         0,
@@ -538,7 +538,7 @@ static OnePointCsFull D_80120E64[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         80,
         0,
@@ -549,7 +549,7 @@ static OnePointCsFull D_80120E64[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         8,
         0,
@@ -560,7 +560,7 @@ static OnePointCsFull D_80120E64[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         15,
         4,
@@ -571,7 +571,7 @@ static OnePointCsFull D_80120E64[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         15,
         -4,
@@ -582,7 +582,7 @@ static OnePointCsFull D_80120E64[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         15,
         0,
@@ -593,7 +593,7 @@ static OnePointCsFull D_80120E64[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         40,
         0,
@@ -604,7 +604,7 @@ static OnePointCsFull D_80120E64[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -618,7 +618,7 @@ static OnePointCsFull D_80120E64[8] = {
 static OnePointCsFull D_80120FA4[6] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x2143,
         30,
         0,
@@ -629,7 +629,7 @@ static OnePointCsFull D_80120FA4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -640,7 +640,7 @@ static OnePointCsFull D_80120FA4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2222,
         10,
         0,
@@ -651,7 +651,7 @@ static OnePointCsFull D_80120FA4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -662,7 +662,7 @@ static OnePointCsFull D_80120FA4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         10,
         0,
@@ -673,7 +673,7 @@ static OnePointCsFull D_80120FA4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -687,7 +687,7 @@ static OnePointCsFull D_80120FA4[6] = {
 static OnePointCsFull D_80121094[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x2101,
         20,
         0,
@@ -698,7 +698,7 @@ static OnePointCsFull D_80121094[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x2101,
         50,
         0,
@@ -709,7 +709,7 @@ static OnePointCsFull D_80121094[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -723,7 +723,7 @@ static OnePointCsFull D_80121094[3] = {
 static OnePointCsFull D_8012110C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        0x05,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
         0x2142,
         1,
         0,
@@ -734,7 +734,7 @@ static OnePointCsFull D_8012110C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         10,
         0,
@@ -745,7 +745,7 @@ static OnePointCsFull D_8012110C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -759,7 +759,7 @@ static OnePointCsFull D_8012110C[3] = {
 static OnePointCsFull D_80121184[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0101,
         40,
         0,
@@ -770,7 +770,7 @@ static OnePointCsFull D_80121184[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -784,7 +784,7 @@ static OnePointCsFull D_80121184[2] = {
 static OnePointCsFull D_801211D4[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0101,
         50,
         0,
@@ -795,7 +795,7 @@ static OnePointCsFull D_801211D4[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -809,7 +809,7 @@ static OnePointCsFull D_801211D4[2] = {
 static OnePointCsFull D_80121224[6] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x4141,
         2,
         0,
@@ -820,7 +820,7 @@ static OnePointCsFull D_80121224[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         18,
         0,
@@ -831,7 +831,7 @@ static OnePointCsFull D_80121224[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0x34,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_52),
         0x4104,
         80,
         0,
@@ -842,7 +842,7 @@ static OnePointCsFull D_80121224[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0000,
         20,
         0,
@@ -853,7 +853,7 @@ static OnePointCsFull D_80121224[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0421,
         60,
         0,
@@ -864,7 +864,7 @@ static OnePointCsFull D_80121224[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -878,7 +878,7 @@ static OnePointCsFull D_80121224[6] = {
 static OnePointCsFull D_80121314[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x4141,
         1000,
         0,
@@ -892,7 +892,7 @@ static OnePointCsFull D_80121314[1] = {
 static OnePointCsFull D_8012133C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0141,
         40,
         0,
@@ -903,7 +903,7 @@ static OnePointCsFull D_8012133C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         20,
         0,
@@ -914,7 +914,7 @@ static OnePointCsFull D_8012133C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -928,7 +928,7 @@ static OnePointCsFull D_8012133C[3] = {
 static OnePointCsFull D_801213B4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0xC2C2,
         40,
         0,
@@ -939,7 +939,7 @@ static OnePointCsFull D_801213B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0xC2C2,
         120,
         0,
@@ -950,7 +950,7 @@ static OnePointCsFull D_801213B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x53,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_83),
         0xC2C2,
         30,
         0,
@@ -961,7 +961,7 @@ static OnePointCsFull D_801213B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        0x45,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_69),
         0x4222,
         30,
         0,
@@ -972,7 +972,7 @@ static OnePointCsFull D_801213B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -986,7 +986,7 @@ static OnePointCsFull D_801213B4[5] = {
 static OnePointCsFull D_8012147C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0101,
         40,
         0,
@@ -997,7 +997,7 @@ static OnePointCsFull D_8012147C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0142,
         1,
         0,
@@ -1008,7 +1008,7 @@ static OnePointCsFull D_8012147C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0142,
         89,
         -4,
@@ -1019,7 +1019,7 @@ static OnePointCsFull D_8012147C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1033,7 +1033,7 @@ static OnePointCsFull D_8012147C[4] = {
 static OnePointCsFull D_8012151C[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0101,
         29,
         0,
@@ -1044,7 +1044,7 @@ static OnePointCsFull D_8012151C[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1058,7 +1058,7 @@ static OnePointCsFull D_8012151C[2] = {
 static OnePointCsFull D_8012156C[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0x4D,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_77),
         0x4242,
         1,
         0,
@@ -1069,7 +1069,7 @@ static OnePointCsFull D_8012156C[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         -1,
         0,
@@ -1083,7 +1083,7 @@ static OnePointCsFull D_8012156C[2] = {
 static OnePointCsFull D_801215BC[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         5,
         0,
@@ -1097,7 +1097,7 @@ static OnePointCsFull D_801215BC[1] = {
 static OnePointCsFull D_801215E4[10] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x4141,
         20,
         0,
@@ -1108,7 +1108,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0101,
         1,
         4,
@@ -1119,7 +1119,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         129,
         0,
@@ -1130,7 +1130,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         30,
         0,
@@ -1141,7 +1141,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x09,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_9),
         0x0101,
         40,
         -5,
@@ -1152,7 +1152,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0101,
         1,
         0,
@@ -1163,7 +1163,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         60,
         0,
@@ -1174,7 +1174,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         10,
         0,
@@ -1185,7 +1185,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         20,
         0,
@@ -1196,7 +1196,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1210,7 +1210,7 @@ static OnePointCsFull D_801215E4[10] = {
 static OnePointCsFull D_80121774[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0101,
         1,
         -2,
@@ -1221,7 +1221,7 @@ static OnePointCsFull D_80121774[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0142,
         39,
         2,
@@ -1232,7 +1232,7 @@ static OnePointCsFull D_80121774[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0x05,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
         0x0121,
         20,
         0,
@@ -1243,7 +1243,7 @@ static OnePointCsFull D_80121774[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1257,7 +1257,7 @@ static OnePointCsFull D_80121774[4] = {
 static OnePointCsFull D_80121814[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x4C,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_76),
         0x0101,
         5,
         0,
@@ -1268,7 +1268,7 @@ static OnePointCsFull D_80121814[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         70,
         0,
@@ -1279,7 +1279,7 @@ static OnePointCsFull D_80121814[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         10,
         0,
@@ -1290,7 +1290,7 @@ static OnePointCsFull D_80121814[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1304,7 +1304,7 @@ static OnePointCsFull D_80121814[4] = {
 static OnePointCsFull D_801218B4[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         60,
         0,
@@ -1315,7 +1315,7 @@ static OnePointCsFull D_801218B4[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         100,
         0,
@@ -1329,7 +1329,7 @@ static OnePointCsFull D_801218B4[2] = {
 static OnePointCsFull D_80121904[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         50,
         10,
@@ -1340,7 +1340,7 @@ static OnePointCsFull D_80121904[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -1355,7 +1355,7 @@ static OnePointCsFull D_80121954[3][2] = {
     {
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0101,
             20,
             5,
@@ -1366,7 +1366,7 @@ static OnePointCsFull D_80121954[3][2] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0101,
             80,
             -10,
@@ -1379,7 +1379,7 @@ static OnePointCsFull D_80121954[3][2] = {
     {
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0101,
             40,
             -30,
@@ -1390,7 +1390,7 @@ static OnePointCsFull D_80121954[3][2] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0101,
             60,
             20,
@@ -1403,7 +1403,7 @@ static OnePointCsFull D_80121954[3][2] = {
     {
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0101,
             80,
             5,
@@ -1414,7 +1414,7 @@ static OnePointCsFull D_80121954[3][2] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0101,
             20,
             5,
@@ -1429,7 +1429,7 @@ static OnePointCsFull D_80121954[3][2] = {
 static OnePointCsFull D_80121A44[12] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        0x05,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
         0x2121,
         10,
         0,
@@ -1440,7 +1440,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, true, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x4242,
         30,
         0,
@@ -1451,7 +1451,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1462,7 +1462,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        0x05,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
         0x2222,
         40,
         5,
@@ -1473,7 +1473,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x4242,
         40,
         5,
@@ -1484,7 +1484,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1495,7 +1495,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         30,
         -5,
@@ -1506,7 +1506,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1517,7 +1517,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x2242,
         40,
         0,
@@ -1528,7 +1528,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x22C2,
         140,
         0,
@@ -1539,7 +1539,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_9, true, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2222,
         20,
         0,
@@ -1550,7 +1550,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1564,7 +1564,7 @@ static OnePointCsFull D_80121A44[12] = {
 static OnePointCsFull D_80121C24[7] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x05,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
         0x0101,
         1,
         0,
@@ -1575,7 +1575,7 @@ static OnePointCsFull D_80121C24[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         89,
         0,
@@ -1586,7 +1586,7 @@ static OnePointCsFull D_80121C24[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0101,
         40,
         4,
@@ -1597,7 +1597,7 @@ static OnePointCsFull D_80121C24[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         40,
         -4,
@@ -1608,7 +1608,7 @@ static OnePointCsFull D_80121C24[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         100,
         0,
@@ -1619,7 +1619,7 @@ static OnePointCsFull D_80121C24[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         100,
         0,
@@ -1630,7 +1630,7 @@ static OnePointCsFull D_80121C24[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -1644,7 +1644,7 @@ static OnePointCsFull D_80121C24[7] = {
 static OnePointCsFull D_80121D3C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         0,
@@ -1655,7 +1655,7 @@ static OnePointCsFull D_80121D3C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         4,
         0,
@@ -1666,7 +1666,7 @@ static OnePointCsFull D_80121D3C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         -1,
         0,
@@ -1680,7 +1680,7 @@ static OnePointCsFull D_80121D3C[3] = {
 static OnePointCsFull D_80121DB4[9] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         40,
         0,
@@ -1691,7 +1691,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         60,
         0,
@@ -1702,7 +1702,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         5,
         0,
@@ -1713,7 +1713,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         80,
         8,
@@ -1724,7 +1724,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x39,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_57),
         0x2121,
         1,
         8,
@@ -1735,7 +1735,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         99,
         2,
@@ -1746,7 +1746,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_9, false, false),
-        0x38,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_56),
         0x2121,
         149,
         -20,
@@ -1757,7 +1757,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         1,
         0,
@@ -1768,7 +1768,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -1782,7 +1782,7 @@ static OnePointCsFull D_80121DB4[9] = {
 static OnePointCsFull D_80121F1C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0101,
         10,
         0,
@@ -1793,7 +1793,7 @@ static OnePointCsFull D_80121F1C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         10,
         0,
@@ -1804,7 +1804,7 @@ static OnePointCsFull D_80121F1C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0x02,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_2),
         0x2121,
         23,
         0,
@@ -1815,7 +1815,7 @@ static OnePointCsFull D_80121F1C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -1829,7 +1829,7 @@ static OnePointCsFull D_80121F1C[4] = {
 static OnePointCsFull D_80121FBC[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         5,
         0,
@@ -1840,7 +1840,7 @@ static OnePointCsFull D_80121FBC[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         10,
         0,
@@ -1851,7 +1851,7 @@ static OnePointCsFull D_80121FBC[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         30,
         0,
@@ -1862,7 +1862,7 @@ static OnePointCsFull D_80121FBC[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -1876,7 +1876,7 @@ static OnePointCsFull D_80121FBC[4] = {
 static OnePointCsFull D_8012205C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x42C2,
         1,
         0,
@@ -1887,7 +1887,7 @@ static OnePointCsFull D_8012205C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0080,
         29,
         0,
@@ -1898,7 +1898,7 @@ static OnePointCsFull D_8012205C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x21A1,
         10,
         0,
@@ -1912,7 +1912,7 @@ static OnePointCsFull D_8012205C[3] = {
 static OnePointCsFull D_801220D4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0101,
         5,
         0,
@@ -1923,7 +1923,7 @@ static OnePointCsFull D_801220D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         10,
         5,
@@ -1934,7 +1934,7 @@ static OnePointCsFull D_801220D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         15,
         10,
@@ -1945,7 +1945,7 @@ static OnePointCsFull D_801220D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         25,
         0,
@@ -1956,7 +1956,7 @@ static OnePointCsFull D_801220D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -1970,7 +1970,7 @@ static OnePointCsFull D_801220D4[5] = {
 static OnePointCsFull D_8012219C[7] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         5,
         0,
@@ -1981,7 +1981,7 @@ static OnePointCsFull D_8012219C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         15,
         0,
@@ -1992,7 +1992,7 @@ static OnePointCsFull D_8012219C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         20,
         0,
@@ -2003,7 +2003,7 @@ static OnePointCsFull D_8012219C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         20,
         0,
@@ -2014,7 +2014,7 @@ static OnePointCsFull D_8012219C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2025,7 +2025,7 @@ static OnePointCsFull D_8012219C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         90,
         0,
@@ -2036,7 +2036,7 @@ static OnePointCsFull D_8012219C[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2050,7 +2050,7 @@ static OnePointCsFull D_8012219C[7] = {
 static OnePointCsFull D_801222B4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         10,
@@ -2061,7 +2061,7 @@ static OnePointCsFull D_801222B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         10,
@@ -2072,7 +2072,7 @@ static OnePointCsFull D_801222B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-        0x81,
+        ONEPOINT_CS_INIT_FIELD_ACTORCAT(ACTORCAT_BG),
         0x0101,
         20,
         10,
@@ -2083,7 +2083,7 @@ static OnePointCsFull D_801222B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-        0x8A,
+        ONEPOINT_CS_INIT_FIELD_ACTORCAT(ACTORCAT_DOOR),
         0x0101,
         5,
         10,
@@ -2094,7 +2094,7 @@ static OnePointCsFull D_801222B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2108,7 +2108,7 @@ static OnePointCsFull D_801222B4[5] = {
 static OnePointCsFull D_8012237C[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         -2,
@@ -2119,7 +2119,7 @@ static OnePointCsFull D_8012237C[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2133,7 +2133,7 @@ static OnePointCsFull D_8012237C[2] = {
 static OnePointCsFull D_801223CC[6] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         0,
@@ -2144,7 +2144,7 @@ static OnePointCsFull D_801223CC[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         18,
         -13,
@@ -2155,7 +2155,7 @@ static OnePointCsFull D_801223CC[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         16,
         18,
@@ -2166,7 +2166,7 @@ static OnePointCsFull D_801223CC[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         4,
         0,
@@ -2177,7 +2177,7 @@ static OnePointCsFull D_801223CC[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         32,
         0,
@@ -2188,7 +2188,7 @@ static OnePointCsFull D_801223CC[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2202,7 +2202,7 @@ static OnePointCsFull D_801223CC[6] = {
 static OnePointCsFull D_801224BC[7] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         5,
         0,
@@ -2213,7 +2213,7 @@ static OnePointCsFull D_801224BC[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         0,
@@ -2224,7 +2224,7 @@ static OnePointCsFull D_801224BC[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2235,7 +2235,7 @@ static OnePointCsFull D_801224BC[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0142,
         1,
         0,
@@ -2246,7 +2246,7 @@ static OnePointCsFull D_801224BC[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0142,
         119,
         0,
@@ -2257,7 +2257,7 @@ static OnePointCsFull D_801224BC[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         20,
         0,
@@ -2268,7 +2268,7 @@ static OnePointCsFull D_801224BC[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2282,7 +2282,7 @@ static OnePointCsFull D_801224BC[7] = {
 static OnePointCsFull D_801225D4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0101,
         1,
         0,
@@ -2293,7 +2293,7 @@ static OnePointCsFull D_801225D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0x3B,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_59),
         0x0101,
         60,
         4,
@@ -2304,7 +2304,7 @@ static OnePointCsFull D_801225D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         90,
         -5,
@@ -2315,7 +2315,7 @@ static OnePointCsFull D_801225D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x2323,
         2,
         0,
@@ -2326,7 +2326,7 @@ static OnePointCsFull D_801225D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2340,7 +2340,7 @@ static OnePointCsFull D_801225D4[5] = {
 static OnePointCsFull D_8012269C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         2,
@@ -2351,7 +2351,7 @@ static OnePointCsFull D_8012269C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2362,7 +2362,7 @@ static OnePointCsFull D_8012269C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2376,7 +2376,7 @@ static OnePointCsFull D_8012269C[3] = {
 static OnePointCsFull D_80122714[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         0,
@@ -2387,7 +2387,7 @@ static OnePointCsFull D_80122714[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         -1,
         0,
@@ -2398,7 +2398,7 @@ static OnePointCsFull D_80122714[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         0,
@@ -2409,7 +2409,7 @@ static OnePointCsFull D_80122714[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2423,7 +2423,7 @@ static OnePointCsFull D_80122714[4] = {
 static OnePointCsFull D_801227B4[6] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         30,
         0,
@@ -2434,7 +2434,7 @@ static OnePointCsFull D_801227B4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         130,
         0,
@@ -2445,7 +2445,7 @@ static OnePointCsFull D_801227B4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2456,7 +2456,7 @@ static OnePointCsFull D_801227B4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         69,
         0,
@@ -2467,7 +2467,7 @@ static OnePointCsFull D_801227B4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         20,
         0,
@@ -2478,7 +2478,7 @@ static OnePointCsFull D_801227B4[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2492,7 +2492,7 @@ static OnePointCsFull D_801227B4[6] = {
 static OnePointCsFull D_801228A4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0101,
         20,
         5,
@@ -2503,7 +2503,7 @@ static OnePointCsFull D_801228A4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         -2,
@@ -2514,7 +2514,7 @@ static OnePointCsFull D_801228A4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x08,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
         0x0101,
         90,
         2,
@@ -2525,7 +2525,7 @@ static OnePointCsFull D_801228A4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         10,
         0,
@@ -2536,7 +2536,7 @@ static OnePointCsFull D_801228A4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2550,7 +2550,7 @@ static OnePointCsFull D_801228A4[5] = {
 static OnePointCsFull D_8012296C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         20,
         -10,
@@ -2561,7 +2561,7 @@ static OnePointCsFull D_8012296C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         80,
         -10,
@@ -2572,7 +2572,7 @@ static OnePointCsFull D_8012296C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         120,
         0,
@@ -2583,7 +2583,7 @@ static OnePointCsFull D_8012296C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2597,7 +2597,7 @@ static OnePointCsFull D_8012296C[4] = {
 static OnePointCsFull D_80122A0C[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         60,
         4,
@@ -2608,7 +2608,7 @@ static OnePointCsFull D_80122A0C[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2622,7 +2622,7 @@ static OnePointCsFull D_80122A0C[2] = {
 static OnePointCsFull D_80122A5C[8] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         -15,
@@ -2633,7 +2633,7 @@ static OnePointCsFull D_80122A5C[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2644,7 +2644,7 @@ static OnePointCsFull D_80122A5C[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         0,
@@ -2655,7 +2655,7 @@ static OnePointCsFull D_80122A5C[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_21, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2666,7 +2666,7 @@ static OnePointCsFull D_80122A5C[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         55,
         0,
@@ -2677,7 +2677,7 @@ static OnePointCsFull D_80122A5C[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         -15,
@@ -2688,7 +2688,7 @@ static OnePointCsFull D_80122A5C[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2699,7 +2699,7 @@ static OnePointCsFull D_80122A5C[8] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2713,7 +2713,7 @@ static OnePointCsFull D_80122A5C[8] = {
 static OnePointCsFull D_80122B9C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         60,
         0,
@@ -2724,7 +2724,7 @@ static OnePointCsFull D_80122B9C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         60,
         15,
@@ -2735,7 +2735,7 @@ static OnePointCsFull D_80122B9C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2749,7 +2749,7 @@ static OnePointCsFull D_80122B9C[3] = {
 static OnePointCsFull D_80122C14[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         999,
         0,
@@ -2763,7 +2763,7 @@ static OnePointCsFull D_80122C14[1] = {
 static OnePointCsFull D_80122C3C[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         999,
         -2,
@@ -2777,7 +2777,7 @@ static OnePointCsFull D_80122C3C[1] = {
 static OnePointCsFull D_80122C64[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         999,
         3,
@@ -2791,7 +2791,7 @@ static OnePointCsFull D_80122C64[1] = {
 static OnePointCsFull D_80122C8C[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         999,
         5,
@@ -2805,7 +2805,7 @@ static OnePointCsFull D_80122C8C[1] = {
 static OnePointCsFull D_80122CB4[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         5,
         0,
@@ -2816,7 +2816,7 @@ static OnePointCsFull D_80122CB4[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         -1,
         0,
@@ -2830,7 +2830,7 @@ static OnePointCsFull D_80122CB4[2] = {
 static OnePointCsFull D_80122D04[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         10,
         0,
@@ -2841,7 +2841,7 @@ static OnePointCsFull D_80122D04[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         -1,
         0,
@@ -2855,7 +2855,7 @@ static OnePointCsFull D_80122D04[2] = {
 static OnePointCsFull D_80122D54[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         -4,
@@ -2866,7 +2866,7 @@ static OnePointCsFull D_80122D54[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2877,7 +2877,7 @@ static OnePointCsFull D_80122D54[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2891,7 +2891,7 @@ static OnePointCsFull D_80122D54[3] = {
 static OnePointCsFull D_80122DCC[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         0,
@@ -2902,7 +2902,7 @@ static OnePointCsFull D_80122DCC[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2913,7 +2913,7 @@ static OnePointCsFull D_80122DCC[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_17, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         -1,
@@ -2928,7 +2928,7 @@ static OnePointCsFull D_80122E44[2][7] = {
     {
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x2222,
             10,
             5,
@@ -2939,7 +2939,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0000,
             20,
             0,
@@ -2950,7 +2950,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x4343,
             30,
             -5,
@@ -2961,7 +2961,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0000,
             1,
             -5,
@@ -2972,7 +2972,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-            0x01,
+            ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
             0x4343,
             160,
             10,
@@ -2983,7 +2983,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0501,
             50,
             0,
@@ -2994,7 +2994,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_19, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0000,
             1,
             -1,
@@ -3007,7 +3007,7 @@ static OnePointCsFull D_80122E44[2][7] = {
     {
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x2222,
             10,
             -5,
@@ -3018,7 +3018,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0000,
             20,
             0,
@@ -3029,7 +3029,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x4343,
             30,
             5,
@@ -3040,7 +3040,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0000,
             1,
             5,
@@ -3051,7 +3051,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-            0x01,
+            ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
             0x4343,
             160,
             -10,
@@ -3062,7 +3062,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0501,
             50,
             0,
@@ -3073,7 +3073,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_19, false, false),
-            0xFF,
+            ONEPOINT_CS_INIT_FIELD_NONE,
             0x0000,
             1,
             -1,
@@ -3088,7 +3088,7 @@ static OnePointCsFull D_80122E44[2][7] = {
 static OnePointCsFull D_80123074[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xA2A2,
         2,
         8,
@@ -3099,7 +3099,7 @@ static OnePointCsFull D_80123074[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xA2A2,
         38,
         4,
@@ -3110,7 +3110,7 @@ static OnePointCsFull D_80123074[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xA2A2,
         2,
         8,
@@ -3121,7 +3121,7 @@ static OnePointCsFull D_80123074[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xA2A2,
         58,
         4,
@@ -3132,7 +3132,7 @@ static OnePointCsFull D_80123074[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3146,7 +3146,7 @@ static OnePointCsFull D_80123074[5] = {
 static OnePointCsFull D_8012313C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xA2A2,
         20,
         8,
@@ -3157,7 +3157,7 @@ static OnePointCsFull D_8012313C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xA2A2,
         100,
         0,
@@ -3168,7 +3168,7 @@ static OnePointCsFull D_8012313C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3182,7 +3182,7 @@ static OnePointCsFull D_8012313C[3] = {
 static OnePointCsFull D_801231B4[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xC5,
+        ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE),
         0x4343,
         1,
         0,
@@ -3193,7 +3193,7 @@ static OnePointCsFull D_801231B4[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xC5,
+        ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE),
         0x4343,
         48,
         0,
@@ -3204,7 +3204,7 @@ static OnePointCsFull D_801231B4[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xC5,
+        ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE),
         0x4343,
         1,
         5,
@@ -3215,7 +3215,7 @@ static OnePointCsFull D_801231B4[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xC5,
+        ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE),
         0x4343,
         -1,
         0,
@@ -3229,7 +3229,7 @@ static OnePointCsFull D_801231B4[4] = {
 static OnePointCsFull D_80123254[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         1,
         0,
@@ -3240,7 +3240,7 @@ static OnePointCsFull D_80123254[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xC5,
+        ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE),
         0x0101,
         49,
         0,
@@ -3254,7 +3254,7 @@ static OnePointCsFull D_80123254[2] = {
 static OnePointCsFull D_801232A4[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x45,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_69),
         0x0101,
         9999,
         0,
@@ -3268,7 +3268,7 @@ static OnePointCsFull D_801232A4[1] = {
 static OnePointCsFull D_801232CC[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         45,
         -3,
@@ -3279,7 +3279,7 @@ static OnePointCsFull D_801232CC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3290,7 +3290,7 @@ static OnePointCsFull D_801232CC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         10,
         0,
@@ -3301,7 +3301,7 @@ static OnePointCsFull D_801232CC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         15,
         0,
@@ -3312,7 +3312,7 @@ static OnePointCsFull D_801232CC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3326,7 +3326,7 @@ static OnePointCsFull D_801232CC[5] = {
 static OnePointCsFull D_80123394[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         45,
         3,
@@ -3337,7 +3337,7 @@ static OnePointCsFull D_80123394[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3348,7 +3348,7 @@ static OnePointCsFull D_80123394[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         10,
         0,
@@ -3359,7 +3359,7 @@ static OnePointCsFull D_80123394[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         15,
         0,
@@ -3370,7 +3370,7 @@ static OnePointCsFull D_80123394[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3384,7 +3384,7 @@ static OnePointCsFull D_80123394[5] = {
 static OnePointCsFull D_8012345C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x4242,
         40,
         0,
@@ -3395,7 +3395,7 @@ static OnePointCsFull D_8012345C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, false),
-        0x4D,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_77),
         0x4242,
         40,
         0,
@@ -3406,7 +3406,7 @@ static OnePointCsFull D_8012345C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x2121,
         10,
         0,
@@ -3417,7 +3417,7 @@ static OnePointCsFull D_8012345C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3431,7 +3431,7 @@ static OnePointCsFull D_8012345C[4] = {
 static OnePointCsFull D_801234FC[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        0x05,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
         0x0441,
         10,
         0,
@@ -3442,7 +3442,7 @@ static OnePointCsFull D_801234FC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4141,
         30,
         0,
@@ -3453,7 +3453,7 @@ static OnePointCsFull D_801234FC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x0000,
         1,
         0,
@@ -3464,7 +3464,7 @@ static OnePointCsFull D_801234FC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         10,
         0,
@@ -3475,7 +3475,7 @@ static OnePointCsFull D_801234FC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3489,7 +3489,7 @@ static OnePointCsFull D_801234FC[5] = {
 static OnePointCsFull D_801235C4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0x01,
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
         0x4141,
         1,
         0,
@@ -3500,7 +3500,7 @@ static OnePointCsFull D_801235C4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0441,
         39,
         0,
@@ -3511,7 +3511,7 @@ static OnePointCsFull D_801235C4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3522,7 +3522,7 @@ static OnePointCsFull D_801235C4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         15,
         0,
@@ -3533,7 +3533,7 @@ static OnePointCsFull D_801235C4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3547,7 +3547,7 @@ static OnePointCsFull D_801235C4[5] = {
 static OnePointCsFull D_8012368C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         10,
         0,
@@ -3558,7 +3558,7 @@ static OnePointCsFull D_8012368C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         70,
         -45,
@@ -3569,7 +3569,7 @@ static OnePointCsFull D_8012368C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         10,
         -45,
@@ -3580,7 +3580,7 @@ static OnePointCsFull D_8012368C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         180,
         9,
@@ -3594,7 +3594,7 @@ static OnePointCsFull D_8012368C[4] = {
 static OnePointCsFull D_8012372C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0142,
         10,
         0,
@@ -3605,7 +3605,7 @@ static OnePointCsFull D_8012372C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0142,
         110,
         -2,
@@ -3616,7 +3616,7 @@ static OnePointCsFull D_8012372C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         100,
         2,
@@ -3627,7 +3627,7 @@ static OnePointCsFull D_8012372C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         60,
         2,
@@ -3641,7 +3641,7 @@ static OnePointCsFull D_8012372C[4] = {
 static OnePointCsFull D_801237CC[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         20,
         0,
@@ -3652,7 +3652,7 @@ static OnePointCsFull D_801237CC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_10, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         80,
         0,
@@ -3663,7 +3663,7 @@ static OnePointCsFull D_801237CC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         10,
         0,
@@ -3674,7 +3674,7 @@ static OnePointCsFull D_801237CC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         55,
         0,
@@ -3685,7 +3685,7 @@ static OnePointCsFull D_801237CC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         100,
         -45,
@@ -3699,7 +3699,7 @@ static OnePointCsFull D_801237CC[5] = {
 static OnePointCsFull D_80123894[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         60,
         0,
@@ -3710,7 +3710,7 @@ static OnePointCsFull D_80123894[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         30,
         0,
@@ -3721,7 +3721,7 @@ static OnePointCsFull D_80123894[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_13, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         120,
         0,
@@ -3735,7 +3735,7 @@ static OnePointCsFull D_80123894[3] = {
 static OnePointCsFull D_8012390C[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         30,
         0,
@@ -3746,7 +3746,7 @@ static OnePointCsFull D_8012390C[2] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         180,
         0,
@@ -3760,7 +3760,7 @@ static OnePointCsFull D_8012390C[2] = {
 static OnePointCsFull D_8012395C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0101,
         60,
         0,
@@ -3771,7 +3771,7 @@ static OnePointCsFull D_8012395C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         30,
         0,
@@ -3782,7 +3782,7 @@ static OnePointCsFull D_8012395C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_13, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         120,
         0,
@@ -3796,7 +3796,7 @@ static OnePointCsFull D_8012395C[3] = {
 static OnePointCsFull D_801239D4[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         5,
         0,
@@ -3807,7 +3807,7 @@ static OnePointCsFull D_801239D4[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_9, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x4242,
         0,
         0,
@@ -3818,7 +3818,7 @@ static OnePointCsFull D_801239D4[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
