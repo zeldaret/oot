@@ -40,7 +40,7 @@ u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         //! It works out in practice because this effect is spawned from an actor who uses the same object
         //! and previously already set it to segment 6.
         this->gfx = SEGMENTED_TO_VIRTUAL(gDodongoFireDL);
-        
+
         this->life = initParams->life;
         this->rScale = initParams->scale;
         this->rScaleStep = initParams->scaleStep;
