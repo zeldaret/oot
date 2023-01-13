@@ -58,25 +58,6 @@ typedef enum {
 
 #define TRANS_NEXT_TYPE_DEFAULT 0xFF // when `nextTransitionType` is set to default, the type will be taken from the entrance table for the ending transition
 
-typedef enum {
-    /* 0 */ TCA_NORMAL,
-    /* 1 */ TCA_WAVE,
-    /* 2 */ TCA_RIPPLE,
-    /* 3 */ TCA_STARBURST
-} TransitionCircleAppearance;
-
-typedef enum {
-    /* 0 */ TCC_BLACK,
-    /* 1 */ TCC_WHITE,
-    /* 2 */ TCC_GRAY,
-    /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused and appears broken
-} TransitionCircleColor;
-
-typedef enum {
-    /* 0 */ TCS_FAST,
-    /* 1 */ TCS_SLOW
-} TransitionCircleSpeed;
-
 #define TC_SET_PARAMS (1 << 7)
 
 #define TRANS_TYPE_CIRCLE(appearance, color, speed) ((1 << 5) | ((color & 3) << 3) | ((appearance & 3) << 1) | (speed & 1))

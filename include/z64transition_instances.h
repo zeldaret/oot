@@ -52,6 +52,25 @@ typedef struct {
     /* 0x008 */ u16 timer;
 } TransitionFade; // size = 0xC
 
+typedef enum {
+    /* 0 */ TCA_NORMAL,
+    /* 1 */ TCA_WAVE,
+    /* 2 */ TCA_RIPPLE,
+    /* 3 */ TCA_STARBURST
+} TransitionCircleAppearance;
+
+typedef enum {
+    /* 0 */ TCC_BLACK,
+    /* 1 */ TCC_WHITE,
+    /* 2 */ TCC_GRAY,
+    /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused and appears broken
+} TransitionCircleColor;
+
+typedef enum {
+    /* 0 */ TCS_FAST,
+    /* 1 */ TCS_SLOW
+} TransitionCircleSpeed;
+
 typedef struct {
     /* 0x000 */ Color_RGBA8_u32 color;
     /* 0x004 */ Color_RGBA8_u32 unkColor;
