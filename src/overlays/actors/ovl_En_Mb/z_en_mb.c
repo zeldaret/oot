@@ -1421,7 +1421,7 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
     EnMb_CheckColliding(this, play);
     if (thisx->colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
         this->actionFunc(this, play);
-        Actor_MoveForward(thisx);
+        Actor_MoveXZGravity(thisx);
         Actor_UpdateBgCheckInfo(play, thisx, 40.0f, 40.0f, 70.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);

@@ -222,7 +222,7 @@ void DoorKiller_FallAsRubble(DoorKiller* this, PlayState* play) {
     } else {
         Actor_Kill(&this->actor);
     }
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
 }
 
 s32 DoorKiller_IsHit(Actor* thisx, PlayState* play) {

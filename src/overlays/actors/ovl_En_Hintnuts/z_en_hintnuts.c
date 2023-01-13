@@ -482,7 +482,7 @@ void EnHintnuts_Update(Actor* thisx, PlayState* play) {
         EnHintnuts_ColliderCheck(this, play);
         this->actionFunc(this, play);
         if (this->actionFunc != EnHintnuts_Freeze && this->actionFunc != EnHintnuts_BeginFreeze) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
             Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                         UPDBGCHECKINFO_FLAG_4);

@@ -151,7 +151,7 @@ void EnNutsball_Update(Actor* thisx, PlayState* play) {
         (this->actionFunc == func_80ABBB34)) {
         this->actionFunc(this, play);
 
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);

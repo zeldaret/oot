@@ -600,7 +600,7 @@ void EnOkuta_Update(Actor* thisx, PlayState* play2) {
                  this->actor.scale.y * 100.0f);
         } else {
             canRestorePrevPos = false;
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
             Math_Vec3f_Copy(&prevPos, &this->actor.world.pos);
             Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 15.0f, 30.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);

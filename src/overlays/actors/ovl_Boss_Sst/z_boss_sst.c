@@ -363,10 +363,10 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     player->actor.world.pos.x = sRoomCenter.x;
     player->actor.world.pos.y = ROOM_CENTER_Y + 1000.0f;
     player->actor.world.pos.z = sRoomCenter.z;
-    player->linearVelocity = player->actor.velocity.y = 0.0f;
+    player->speedXZ = player->actor.velocity.y = 0.0f;
     player->actor.shape.rot.y = -0x8000;
-    player->targetYaw = -0x8000;
-    player->currentYaw = -0x8000;
+    player->zTargetYaw = -0x8000;
+    player->yaw = -0x8000;
     player->fallStartHeight = 0;
     player->stateFlags1 |= PLAYER_STATE1_5;
 
@@ -422,10 +422,10 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
         if (player->actor.world.pos.y > 100.0f) {
             player->actor.world.pos.x = sRoomCenter.x;
             player->actor.world.pos.z = sRoomCenter.z;
-            player->linearVelocity = 0;
+            player->speedXZ = 0;
             player->actor.shape.rot.y = -0x8000;
-            player->targetYaw = -0x8000;
-            player->currentYaw = -0x8000;
+            player->zTargetYaw = -0x8000;
+            player->yaw = -0x8000;
         }
 
         Math_Vec3f_Copy(&sSubCamAt, &player->actor.world.pos);
