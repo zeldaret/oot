@@ -253,11 +253,12 @@ clean:
 
 clean_builtsrc:
 	$(RM) -r $(ROM) $(ELF) build/src build/data
-	find build -maxdepth 1 -type f -exec rm {} \;
+# Delete files directly inside build/ (but not in subfolders)
+	find build -maxdepth 1 -type f -exec $(RM) {} \;
 
 clean_builtassets:
 	$(RM) -r $(ROM) $(ELF) build/assets
-	find build -maxdepth 1 -type f -exec rm {} \;
+	find build -maxdepth 1 -type f -exec $(RM) {} \;
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
