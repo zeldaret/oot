@@ -352,108 +352,108 @@ static u8 D_80853410[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
 
 static PlayerAgeProperties sAgeProperties[] = {
     {
-        56.0f,
-        90.0f,
-        1.0f,
-        111.0f,
-        70.0f,
-        79.4f,
-        59.0f,
-        41.0f,
-        19.0f,
-        36.0f,
-        44.8f,
-        56.0f,
-        68.0f,
-        70.0f,
-        18.0f,
-        15.0f,
-        70.0f,
-        { 9, 4671, 359 },
+        56.0f,            // unk_00
+        90.0f,            // unk_04
+        1.0f,             // unk_08
+        111.0f,           // unk_0C
+        70.0f,            // unk_10
+        79.4f,            // unk_14
+        59.0f,            // unk_18
+        41.0f,            // unk_1C
+        19.0f,            // unk_20
+        36.0f,            // unk_24
+        44.8f,            // unk_28
+        56.0f,            // unk_2C
+        68.0f,            // unk_30
+        70.0f,            // unk_34
+        18.0f,            // unk_38
+        15.0f,            // unk_3C
+        70.0f,            // unk_40
+        { 9, 4671, 359 }, // unk_44
         {
             { 8, 4694, 380 },
             { 9, 6122, 359 },
             { 8, 4694, 380 },
             { 9, 6122, 359 },
-        },
+        }, // unk_4A
         {
             { 9, 6122, 359 },
             { 9, 7693, 380 },
             { 9, 6122, 359 },
             { 9, 7693, 380 },
-        },
+        }, // unk_62
         {
             { 8, 4694, 380 },
             { 9, 6122, 359 },
-        },
+        }, // unk_7A
         {
             { -1592, 4694, 380 },
             { -1591, 6122, 359 },
-        },
-        0,
-        0x80,
-        &gPlayerAnim_link_demo_Tbox_open,
-        &gPlayerAnim_link_demo_back_to_past,
-        &gPlayerAnim_link_demo_return_to_past,
-        &gPlayerAnim_link_normal_climb_startA,
-        &gPlayerAnim_link_normal_climb_startB,
+        },                                     // unk_86
+        0,                                     // unk_92
+        0x80,                                  // unk_94
+        &gPlayerAnim_link_demo_Tbox_open,      // unk_98
+        &gPlayerAnim_link_demo_back_to_past,   // unk_9C
+        &gPlayerAnim_link_demo_return_to_past, // unk_A0
+        &gPlayerAnim_link_normal_climb_startA, // unk_A4
+        &gPlayerAnim_link_normal_climb_startB, // unk_A8
         { &gPlayerAnim_link_normal_climb_upL, &gPlayerAnim_link_normal_climb_upR, &gPlayerAnim_link_normal_Fclimb_upL,
-          &gPlayerAnim_link_normal_Fclimb_upR },
-        { &gPlayerAnim_link_normal_Fclimb_sideL, &gPlayerAnim_link_normal_Fclimb_sideR },
-        { &gPlayerAnim_link_normal_climb_endAL, &gPlayerAnim_link_normal_climb_endAR },
-        { &gPlayerAnim_link_normal_climb_endBR, &gPlayerAnim_link_normal_climb_endBL },
+          &gPlayerAnim_link_normal_Fclimb_upR },                                          // unk_AC
+        { &gPlayerAnim_link_normal_Fclimb_sideL, &gPlayerAnim_link_normal_Fclimb_sideR }, // unk_BC
+        { &gPlayerAnim_link_normal_climb_endAL, &gPlayerAnim_link_normal_climb_endAR },   // unk_C4
+        { &gPlayerAnim_link_normal_climb_endBR, &gPlayerAnim_link_normal_climb_endBL },   // unk_CC
     },
     {
-        40.0f,
-        60.0f,
-        11.0f / 17.0f,
-        71.0f,
-        50.0f,
-        47.0f,
-        39.0f,
-        27.0f,
-        19.0f,
-        22.0f,
-        29.6f,
-        32.0f,
-        48.0f,
-        70.0f * (11.0f / 17.0f),
-        14.0f,
-        12.0f,
-        55.0f,
-        { -24, 3565, 876 },
+        40.0f,                   // unk_00
+        60.0f,                   // unk_04
+        11.0f / 17.0f,           // unk_08
+        71.0f,                   // unk_0C
+        50.0f,                   // unk_10
+        47.0f,                   // unk_14
+        39.0f,                   // unk_18
+        27.0f,                   // unk_1C
+        19.0f,                   // unk_20
+        22.0f,                   // unk_24
+        29.6f,                   // unk_28
+        32.0f,                   // unk_2C
+        48.0f,                   // unk_30
+        70.0f * (11.0f / 17.0f), // unk_34
+        14.0f,                   // unk_38
+        12.0f,                   // unk_3C
+        55.0f,                   // unk_40
+        { -24, 3565, 876 },      // unk_44
         {
             { -24, 3474, 862 },
             { -24, 4977, 937 },
             { 8, 4694, 380 },
             { 9, 6122, 359 },
-        },
+        }, // unk_4A
         {
             { -24, 4977, 937 },
             { -24, 6495, 937 },
             { 9, 6122, 359 },
             { 9, 7693, 380 },
-        },
+        }, // unk_62
         {
             { 8, 4694, 380 },
             { 9, 6122, 359 },
-        },
+        }, // unk_7A
         {
             { -1592, 4694, 380 },
             { -1591, 6122, 359 },
-        },
-        0x20,
-        0,
-        &gPlayerAnim_clink_demo_Tbox_open,
-        &gPlayerAnim_clink_demo_goto_future,
-        &gPlayerAnim_clink_demo_return_to_future,
-        &gPlayerAnim_clink_normal_climb_startA,
-        &gPlayerAnim_clink_normal_climb_startB,
+        },                                        // unk_86
+        0x20,                                     // unk_92
+        0,                                        // unk_94
+        &gPlayerAnim_clink_demo_Tbox_open,        // unk_98
+        &gPlayerAnim_clink_demo_goto_future,      // unk_9C
+        &gPlayerAnim_clink_demo_return_to_future, // unk_A0
+        &gPlayerAnim_clink_normal_climb_startA,   // unk_A4
+        &gPlayerAnim_clink_normal_climb_startB,   // unk_A8
         { &gPlayerAnim_clink_normal_climb_upL, &gPlayerAnim_clink_normal_climb_upR, &gPlayerAnim_link_normal_Fclimb_upL,
-          &gPlayerAnim_link_normal_Fclimb_upR },
-        { &gPlayerAnim_link_normal_Fclimb_sideL, &gPlayerAnim_link_normal_Fclimb_sideR },
-        { &gPlayerAnim_clink_normal_climb_endAL, &gPlayerAnim_clink_normal_climb_endAR },
-        { &gPlayerAnim_clink_normal_climb_endBR, &gPlayerAnim_clink_normal_climb_endBL },
+          &gPlayerAnim_link_normal_Fclimb_upR },                                          // unk_AC
+        { &gPlayerAnim_link_normal_Fclimb_sideL, &gPlayerAnim_link_normal_Fclimb_sideR }, // unk_BC
+        { &gPlayerAnim_clink_normal_climb_endAL, &gPlayerAnim_clink_normal_climb_endAR }, // unk_C4
+        { &gPlayerAnim_clink_normal_climb_endBR, &gPlayerAnim_clink_normal_climb_endBL }, // unk_CC
     },
 };
 
