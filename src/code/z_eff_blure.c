@@ -115,23 +115,17 @@ void EffectBlure_Init1(void* thisx, void* initParamsx) {
     EffectBlureInit1* initParams = (EffectBlureInit1*)initParamsx;
 
     if ((this != NULL) && (initParams != NULL)) {
+        s32 i;
+
         EffectBlure_InitElements(this);
-        this->p1StartColor.r = initParams->p1StartColor[0];
-        this->p2StartColor.r = initParams->p2StartColor[0];
-        this->p1EndColor.r = initParams->p1EndColor[0];
-        this->p2EndColor.r = initParams->p2EndColor[0];
-        this->p1StartColor.g = initParams->p1StartColor[1];
-        this->p2StartColor.g = initParams->p2StartColor[1];
-        this->p1EndColor.g = initParams->p1EndColor[1];
-        this->p2EndColor.g = initParams->p2EndColor[1];
-        this->p1StartColor.b = initParams->p1StartColor[2];
-        this->p2StartColor.b = initParams->p2StartColor[2];
-        this->p1EndColor.b = initParams->p1EndColor[2];
-        this->p2EndColor.b = initParams->p2EndColor[2];
-        this->p1StartColor.a = initParams->p1StartColor[3];
-        this->p2StartColor.a = initParams->p2StartColor[3];
-        this->p1EndColor.a = initParams->p1EndColor[3];
-        this->p2EndColor.a = initParams->p2EndColor[3];
+
+        for (i = 0; i < 4; i++) {
+            this->p1StartColor[i] = initParams->p1StartColor[i];
+            this->p2StartColor[i] = initParams->p2StartColor[i];
+            this->p1EndColor[i] = initParams->p1EndColor[i];
+            this->p2EndColor[i] = initParams->p2EndColor[i];
+        }
+
         this->elemDuration = initParams->elemDuration;
         this->unkFlag = initParams->unkFlag;
         this->calcMode = initParams->calcMode;
@@ -156,23 +150,17 @@ void EffectBlure_Init2(void* thisx, void* initParamsx) {
     EffectBlureInit2* initParams = (EffectBlureInit2*)initParamsx;
 
     if ((this != NULL) && (initParams != NULL)) {
+        s32 i;
+
         EffectBlure_InitElements(this);
-        this->p1StartColor.r = initParams->p1StartColor[0];
-        this->p2StartColor.r = initParams->p2StartColor[0];
-        this->p1EndColor.r = initParams->p1EndColor[0];
-        this->p2EndColor.r = initParams->p2EndColor[0];
-        this->p1StartColor.g = initParams->p1StartColor[1];
-        this->p2StartColor.g = initParams->p2StartColor[1];
-        this->p1EndColor.g = initParams->p1EndColor[1];
-        this->p2EndColor.g = initParams->p2EndColor[1];
-        this->p1StartColor.b = initParams->p1StartColor[2];
-        this->p2StartColor.b = initParams->p2StartColor[2];
-        this->p1EndColor.b = initParams->p1EndColor[2];
-        this->p2EndColor.b = initParams->p2EndColor[2];
-        this->p1StartColor.a = initParams->p1StartColor[3];
-        this->p2StartColor.a = initParams->p2StartColor[3];
-        this->p1EndColor.a = initParams->p1EndColor[3];
-        this->p2EndColor.a = initParams->p2EndColor[3];
+
+        for (i = 0; i < 4; i++) {
+            this->p1StartColor[i] = initParams->p1StartColor[i];
+            this->p2StartColor[i] = initParams->p2StartColor[i];
+            this->p1EndColor[i] = initParams->p1EndColor[i];
+            this->p2EndColor[i] = initParams->p2EndColor[i];
+        }
+
         this->elemDuration = initParams->elemDuration;
         this->unkFlag = initParams->unkFlag;
         this->calcMode = initParams->calcMode;
@@ -368,14 +356,14 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
         color1->r = color1->g = color1->b = color1->a = 255;
         color2->r = color2->g = color2->b = color2->a = 255;
     } else {
-        color1->r = func_80027E84(this->p1StartColor.r, this->p1EndColor.r, ratio);
-        color1->g = func_80027E84(this->p1StartColor.g, this->p1EndColor.g, ratio);
-        color1->b = func_80027E84(this->p1StartColor.b, this->p1EndColor.b, ratio);
-        color1->a = func_80027E84(this->p1StartColor.a, this->p1EndColor.a, ratio);
-        color2->r = func_80027E84(this->p2StartColor.r, this->p2EndColor.r, ratio);
-        color2->g = func_80027E84(this->p2StartColor.g, this->p2EndColor.g, ratio);
-        color2->b = func_80027E84(this->p2StartColor.b, this->p2EndColor.b, ratio);
-        color2->a = func_80027E84(this->p2StartColor.a, this->p2EndColor.a, ratio);
+        color1->r = func_80027E84(this->p1StartColor[0], this->p1EndColor[0], ratio);
+        color1->g = func_80027E84(this->p1StartColor[1], this->p1EndColor[1], ratio);
+        color1->b = func_80027E84(this->p1StartColor[2], this->p1EndColor[2], ratio);
+        color1->a = func_80027E84(this->p1StartColor[3], this->p1EndColor[3], ratio);
+        color2->r = func_80027E84(this->p2StartColor[0], this->p2EndColor[0], ratio);
+        color2->g = func_80027E84(this->p2StartColor[1], this->p2EndColor[1], ratio);
+        color2->b = func_80027E84(this->p2StartColor[2], this->p2EndColor[2], ratio);
+        color2->a = func_80027E84(this->p2StartColor[3], this->p2EndColor[3], ratio);
     }
 }
 
@@ -1008,19 +996,19 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
                         vtx[j].v.flag = 0;
                         vtx[j].v.tc[0] = 0;
                         vtx[j].v.tc[1] = 0;
-                        vtx[j].v.cn[0] = func_80027E84(this->p1StartColor.r, this->p1EndColor.r, ratio);
-                        vtx[j].v.cn[1] = func_80027E84(this->p1StartColor.g, this->p1EndColor.g, ratio);
-                        vtx[j].v.cn[2] = func_80027E84(this->p1StartColor.b, this->p1EndColor.b, ratio);
-                        vtx[j].v.cn[3] = func_80027E84(this->p1StartColor.a, this->p1EndColor.a, ratio);
+                        vtx[j].v.cn[0] = func_80027E84(this->p1StartColor[0], this->p1EndColor[0], ratio);
+                        vtx[j].v.cn[1] = func_80027E84(this->p1StartColor[1], this->p1EndColor[1], ratio);
+                        vtx[j].v.cn[2] = func_80027E84(this->p1StartColor[2], this->p1EndColor[2], ratio);
+                        vtx[j].v.cn[3] = func_80027E84(this->p1StartColor[3], this->p1EndColor[3], ratio);
                         j++;
 
                         vtx[j].v.flag = 0;
                         vtx[j].v.tc[0] = 0;
                         vtx[j].v.tc[1] = 0;
-                        vtx[j].v.cn[0] = func_80027E84(this->p2StartColor.r, this->p2EndColor.r, ratio);
-                        vtx[j].v.cn[1] = func_80027E84(this->p2StartColor.g, this->p2EndColor.g, ratio);
-                        vtx[j].v.cn[2] = func_80027E84(this->p2StartColor.b, this->p2EndColor.b, ratio);
-                        vtx[j].v.cn[3] = func_80027E84(this->p2StartColor.a, this->p2EndColor.a, ratio);
+                        vtx[j].v.cn[0] = func_80027E84(this->p2StartColor[0], this->p2EndColor[0], ratio);
+                        vtx[j].v.cn[1] = func_80027E84(this->p2StartColor[1], this->p2EndColor[1], ratio);
+                        vtx[j].v.cn[2] = func_80027E84(this->p2StartColor[2], this->p2EndColor[2], ratio);
+                        vtx[j].v.cn[3] = func_80027E84(this->p2StartColor[3], this->p2EndColor[3], ratio);
                         j++;
                     }
                 }

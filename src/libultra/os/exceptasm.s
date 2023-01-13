@@ -1,7 +1,6 @@
 #include "ultra64/asm.h"
-#include "ultra64/r4300.h"
+#include "ultra64/R4300.h"
 #include "ultra64/rcp.h"
-#include "ultra64/rsp.h"
 #include "ultra64/message.h"
 #include "ultra64/thread.h"
 #include "ultra64/exception.h"
@@ -31,38 +30,38 @@ ENDDATA(__osPiIntTable)
 .balign 16
 
 __osIntOffTable:
-	.byte 0x00 /* redispatch */
-	.byte 0x14 /* prenmi */
-	.byte 0x18 /* IP6_Hdlr */
-	.byte 0x18 /* IP6_Hdlr */
-	.byte 0x1C /* IP7_Hdlr */
-	.byte 0x1C /* IP7_Hdlr */
-	.byte 0x1C /* IP7_Hdlr */
-	.byte 0x1C /* IP7_Hdlr */
-	.byte 0x20 /* counter */
-	.byte 0x20 /* counter */
-	.byte 0x20 /* counter */
-	.byte 0x20 /* counter */
-	.byte 0x20 /* counter */
-	.byte 0x20 /* counter */
-	.byte 0x20 /* counter */
-	.byte 0x20 /* counter */
-	.byte 0x00 /* redispatch */
-	.byte 0x04 /* sw1 */
-	.byte 0x08 /* sw2 */
-	.byte 0x08 /* sw2 */
-	.byte 0x0C /* rcp */
-	.byte 0x0C /* rcp */
-	.byte 0x0C /* rcp */
-	.byte 0x0C /* rcp */
-	.byte 0x10 /* cart */
-	.byte 0x10 /* cart */
-	.byte 0x10 /* cart */
-	.byte 0x10 /* cart */
-	.byte 0x10 /* cart */
-	.byte 0x10 /* cart */
-	.byte 0x10 /* cart */
-	.byte 0x10 /* cart */
+    .byte 0x00 /* redispatch */
+    .byte 0x14 /* prenmi */
+    .byte 0x18 /* IP6_Hdlr */
+    .byte 0x18 /* IP6_Hdlr */
+    .byte 0x1C /* IP7_Hdlr */
+    .byte 0x1C /* IP7_Hdlr */
+    .byte 0x1C /* IP7_Hdlr */
+    .byte 0x1C /* IP7_Hdlr */
+    .byte 0x20 /* counter */
+    .byte 0x20 /* counter */
+    .byte 0x20 /* counter */
+    .byte 0x20 /* counter */
+    .byte 0x20 /* counter */
+    .byte 0x20 /* counter */
+    .byte 0x20 /* counter */
+    .byte 0x20 /* counter */
+    .byte 0x00 /* redispatch */
+    .byte 0x04 /* sw1 */
+    .byte 0x08 /* sw2 */
+    .byte 0x08 /* sw2 */
+    .byte 0x0C /* rcp */
+    .byte 0x0C /* rcp */
+    .byte 0x0C /* rcp */
+    .byte 0x0C /* rcp */
+    .byte 0x10 /* cart */
+    .byte 0x10 /* cart */
+    .byte 0x10 /* cart */
+    .byte 0x10 /* cart */
+    .byte 0x10 /* cart */
+    .byte 0x10 /* cart */
+    .byte 0x10 /* cart */
+    .byte 0x10 /* cart */
 
 __osIntTable:
     .word redispatch

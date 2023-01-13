@@ -19,7 +19,7 @@ void func_808787A4(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play);
 
-const ActorInit Bg_Gjyo_Bridge_InitVars = {
+ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
     ACTORCAT_PROP,
     FLAGS,
@@ -44,7 +44,7 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
     colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gRainbowBridgeCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
@@ -74,15 +74,15 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play) {
         (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) && (player->actor.world.pos.x > -70.0f) &&
         (player->actor.world.pos.x < 300.0f) && (player->actor.world.pos.y > 1340.0f) &&
         (player->actor.world.pos.z > 1340.0f) && (player->actor.world.pos.z < 1662.0f) && !Play_InCsMode(play)) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = BgGjyoBridge_SpawnBridge;
     }
 }
 
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL) &&
-        (play->csCtx.npcActions[2]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL) &&
+        (play->csCtx.actorCues[2]->id == 2)) {
         this->dyna.actor.draw = BgGjyoBridge_Draw;
         DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         SET_EVENTCHKINF(EVENTCHKINF_4D);

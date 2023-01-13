@@ -19,8 +19,8 @@ struct Lights;
 
 typedef void (*ActorFunc)(struct Actor*, struct PlayState*);
 typedef void (*ActorShadowFunc)(struct Actor*, struct Lights*, struct PlayState*);
-typedef u16 (*callback1_800343CC)(struct PlayState*, struct Actor*);
-typedef s16 (*callback2_800343CC)(struct PlayState*, struct Actor*);
+typedef u16 (*NpcGetTextIdFunc)(struct PlayState*, struct Actor*);
+typedef s16 (*NpcUpdateTalkStateFunc)(struct PlayState*, struct Actor*);
 
 typedef struct {
     Vec3f pos;
@@ -85,8 +85,8 @@ typedef struct {
 #define ACTOROVL_ALLOC_PERSISTENT (1 << 1)
 
 typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
+    /* 0x00 */ uintptr_t vromStart;
+    /* 0x04 */ uintptr_t vromEnd;
     /* 0x08 */ void* vramStart;
     /* 0x0C */ void* vramEnd;
     /* 0x10 */ void* loadedRamAddr; // original name: "allocp"
@@ -151,7 +151,7 @@ typedef struct {
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
-#define ACTOR_FLAG_12 (1 << 12)
+#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12) // actor will not shake when a quake occurs
 #define ACTOR_FLAG_13 (1 << 13)
 #define ACTOR_FLAG_14 (1 << 14)
 #define ACTOR_FLAG_15 (1 << 15)
@@ -168,6 +168,18 @@ typedef struct {
 #define ACTOR_FLAG_26 (1 << 26)
 #define ACTOR_FLAG_27 (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
+
+#define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
+#define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)
+
+#define COLORFILTER_COLORFLAG_GRAY 0x8000
+#define COLORFILTER_COLORFLAG_RED  0x4000
+#define COLORFILTER_COLORFLAG_BLUE 0x0000
+
+#define COLORFILTER_INTENSITY_FLAG 0x8000
+
+#define COLORFILTER_BUFFLAG_XLU    0x2000
+#define COLORFILTER_BUFFLAG_OPA    0x0000
 
 #define BGCHECKFLAG_GROUND (1 << 0) // Standing on the ground
 #define BGCHECKFLAG_GROUND_TOUCH (1 << 1) // Has touched the ground (only active for 1 frame)
@@ -195,9 +207,9 @@ typedef struct Actor {
     /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `focus` position
     /* 0x050 */ Vec3f scale; // Scale of the actor in each axis
     /* 0x05C */ Vec3f velocity; // Velocity of the actor in each axis
-    /* 0x068 */ f32 speedXZ; // How fast the actor is traveling along the XZ plane
+    /* 0x068 */ f32 speed; // Context dependent speed value. Can be used for XZ or XYZ depending on which move function is used
     /* 0x06C */ f32 gravity; // Acceleration due to gravity. Value is added to Y velocity every frame
-    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
+    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap for velocity along the Y axis. Only relevant when moved with gravity.
     /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon the actor is touching
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon directly below the actor
     /* 0x07C */ u8 wallBgId; // Bg ID of the wall polygon the actor is touching
@@ -220,7 +232,7 @@ typedef struct Actor {
     /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
     /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player
     /* 0x10D */ u8 targetPriority; // Lower values have higher priority. Resets to 0 when player stops targeting
-    /* 0x10E */ u16 textId; // Text ID to pass to link/display when interacting with the actor
+    /* 0x10E */ u16 textId; // Text ID to pass to player/display when interacting with the actor
     /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
     /* 0x112 */ u16 colorFilterParams; // Set color filter to red, blue, or white. Toggle opa or xlu
     /* 0x114 */ u8 colorFilterTimer; // A non-zero value enables the color filter. Decrements automatically
@@ -254,6 +266,9 @@ if neither of the above are set : blue
 0x2000 : translucent, else opaque
 */
 
+#define DYNA_TRANSFORM_POS (1 << 0) // Position of the actors on top follows the dynapoly actor's movement.
+#define DYNA_TRANSFORM_ROT_Y (1 << 1) // The Y rotation of the actors on top follows the dynapoly actor's Y rotation.
+
 #define DYNA_INTERACT_ACTOR_ON_TOP (1 << 0) // There is an actor standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ON_TOP (1 << 1) // The player actor is standing on the collision of the dynapoly actor
 #define DYNA_INTERACT_PLAYER_ABOVE (1 << 2) // The player is directly above the collision of the dynapoly actor (any distance above)
@@ -265,8 +280,7 @@ typedef struct DynaPolyActor {
     /* 0x150 */ f32 unk_150;
     /* 0x154 */ f32 unk_154;
     /* 0x158 */ s16 unk_158; // y rotation?
-    /* 0x15A */ u16 unk_15A;
-    /* 0x15C */ u32 unk_15C;
+    /* 0x15C */ u32 transformFlags;
     /* 0x160 */ u8 interactFlags;
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
@@ -513,6 +527,16 @@ typedef struct DoorActorBase {
     /* 0x0000 */ DOOR_ACTOR_BASE;
 } DoorActorBase;
 
+// DoorShutter and DoorGerudo share isActive
+// Due to alignment, a substruct cannot be used in the structs of these actors.
+#define SLIDING_DOOR_ACTOR_BASE      \
+    /* 0x0000 */ DynaPolyActor dyna; \
+    /* 0x0164 */ s16 isActive // Set to true by player when using the door. Also a timer for niche cases in DoorShutter
+
+typedef struct SlidingDoorActorBase {
+    /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;
+} SlidingDoorActorBase;
+
 typedef enum {
     /* 0x00 */ DOOR_OPEN_ANIM_ADULT_L,
     /* 0x01 */ DOOR_OPEN_ANIM_CHILD_L,
@@ -529,5 +553,32 @@ typedef enum {
 #define UPDBGCHECKINFO_FLAG_5 (1 << 5) // unused
 #define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
 #define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
+
+typedef enum {
+    /* 0x0 */ NPC_TALK_STATE_IDLE, // NPC not currently talking to player
+    /* 0x1 */ NPC_TALK_STATE_TALKING, // NPC is currently talking to player
+    /* 0x2 */ NPC_TALK_STATE_ACTION, // An NPC-defined action triggered in the conversation
+    /* 0x3 */ NPC_TALK_STATE_ITEM_GIVEN // NPC finished giving an item and text box is done
+} NpcTalkState;
+
+typedef enum {
+    /* 0x0 */ NPC_TRACKING_PLAYER_AUTO_TURN, // Determine tracking mode based on player position, see Npc_UpdateAutoTurn
+    /* 0x1 */ NPC_TRACKING_NONE, // Don't track the target (usually the player)
+    /* 0x2 */ NPC_TRACKING_HEAD_AND_TORSO, // Track target by turning the head and the torso
+    /* 0x3 */ NPC_TRACKING_HEAD, // Track target by turning the head
+    /* 0x4 */ NPC_TRACKING_FULL_BODY // Track target by turning the body, torso and head
+} NpcTrackingMode;
+
+typedef struct {
+    /* 0x00 */ s16 talkState;
+    /* 0x02 */ s16 trackingMode;
+    /* 0x04 */ s16 autoTurnTimer;
+    /* 0x06 */ s16 autoTurnState;
+    /* 0x08 */ Vec3s headRot;
+    /* 0x0E */ Vec3s torsoRot;
+    /* 0x14 */ f32 yOffset; // Y position offset to add to actor position when calculating angle to target
+    /* 0x18 */ Vec3f trackPos;
+    /* 0x24 */ char unk_24[0x4];
+} NpcInteractInfo; // size = 0x28
 
 #endif

@@ -6,7 +6,7 @@
 
 #include "z_bg_jya_zurerukabe.h"
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -23,7 +23,7 @@ void func_8089B870(BgJyaZurerukabe* this, PlayState* play);
 
 static f32 D_8089B9C0[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-const ActorInit Bg_Jya_Zurerukabe_InitVars = {
+ActorInit Bg_Jya_Zurerukabe_InitVars = {
     ACTOR_BG_JYA_ZURERUKABE,
     ACTORCAT_BG,
     FLAGS,
@@ -110,7 +110,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     BgJyaZurerukabe* this = (BgJyaZurerukabe*)thisx;
     s32 i;
 
-    BgJyaZurerukabe_InitDynaPoly(this, play, &gZurerukabeCol, DPM_UNK);
+    BgJyaZurerukabe_InitDynaPoly(this, play, &gZurerukabeCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
 
     for (i = 0; i < ARRAY_COUNT(D_8089B9F0); i++) {

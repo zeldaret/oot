@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_Bg_Jya_Bigmirror/z_bg_jya_bigmirror.h"
 #include "overlays/actors/ovl_Mir_Ray/z_mir_ray.h"
 #include "assets/objects/object_jya_obj/object_jya_obj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -18,7 +18,7 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play);
 
 #include "assets/overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
 
-const ActorInit Bg_Jya_Cobra_InitVars = {
+ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
     ACTORCAT_PROP,
     FLAGS,
@@ -397,7 +397,7 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
 void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
     BgJyaCobra* this = (BgJyaCobra*)thisx;
 
-    BgJyaCobra_InitDynapoly(this, play, &gCobraCol, DPM_UNK);
+    BgJyaCobra_InitDynapoly(this, play, &gCobraCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (!(this->dyna.actor.params & 3) && Flags_GetSwitch(play, ((s32)this->dyna.actor.params >> 8) & 0x3F)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.home.rot.y = this->dyna.actor.shape.rot.y = 0;

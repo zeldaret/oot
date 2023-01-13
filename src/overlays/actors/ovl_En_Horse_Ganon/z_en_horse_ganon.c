@@ -23,7 +23,7 @@ void func_80A68AC4(EnHorseGanon* this);
 void func_80A68AF0(EnHorseGanon* this, PlayState* play);
 void func_80A68DB0(EnHorseGanon* this, PlayState* play);
 
-const ActorInit En_Horse_Ganon_InitVars = {
+ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
     ACTORCAT_BG,
     FLAGS,
@@ -139,15 +139,15 @@ void func_80A686A8(EnHorseGanon* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
     if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(play)->actor) <= 300.0f) {
-        if (this->actor.speedXZ < 12.0f) {
-            this->actor.speedXZ += 1.0f;
+        if (this->actor.speed < 12.0f) {
+            this->actor.speed += 1.0f;
         } else {
-            this->actor.speedXZ -= 1.0f;
+            this->actor.speed -= 1.0f;
         }
-    } else if (this->actor.speedXZ < D_80A69248[this->unk_1EC].unk_6) {
-        this->actor.speedXZ += 0.5f;
+    } else if (this->actor.speed < D_80A69248[this->unk_1EC].unk_6) {
+        this->actor.speed += 0.5f;
     } else {
-        this->actor.speedXZ -= 0.5f;
+        this->actor.speed -= 0.5f;
     }
 }
 
@@ -173,7 +173,7 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     this->actor.gravity = -3.5f;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawHorse, 20.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
@@ -186,7 +186,7 @@ void EnHorseGanon_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->colliderHead);
     Collider_SetJntSph(play, &this->colliderHead, &this->actor, &sJntSphInit, this->headElements);
 
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     func_80A68AC4(this);
 }
 
@@ -204,7 +204,7 @@ void func_80A68AC4(EnHorseGanon* this) {
 }
 
 void func_80A68AF0(EnHorseGanon* this, PlayState* play) {
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     SkelAnime_Update(&this->skin.skelAnime);
 }
 
@@ -214,12 +214,12 @@ void func_80A68B20(EnHorseGanon* this) {
 
     animationChanged = 0;
     this->action = 1;
-    if (this->actor.speedXZ <= 3.0f) {
+    if (this->actor.speed <= 3.0f) {
         if (this->currentAnimation != 2) {
             animationChanged = 1;
         }
         this->currentAnimation = 2;
-    } else if (this->actor.speedXZ <= 6.0f) {
+    } else if (this->actor.speed <= 6.0f) {
         if (this->currentAnimation != 3) {
             animationChanged = 1;
         }
@@ -232,13 +232,13 @@ void func_80A68B20(EnHorseGanon* this) {
     }
 
     if (this->currentAnimation == 2) {
-        sp30 = this->actor.speedXZ / 3.0f;
+        sp30 = this->actor.speed / 3.0f;
     } else if (this->currentAnimation == 3) {
-        sp30 = this->actor.speedXZ / 5.0f;
+        sp30 = this->actor.speed / 5.0f;
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (this->currentAnimation == 4) {
-        sp30 = this->actor.speedXZ / 7.0f;
+        sp30 = this->actor.speed / 7.0f;
         Audio_PlaySfxGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else {
@@ -263,26 +263,23 @@ void func_80A68DB0(EnHorseGanon* this, PlayState* play) {
 
     func_80A686A8(this, play);
 
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         func_80A68B20(this);
     }
 }
 
 void func_80A68E14(EnHorseGanon* this, PlayState* play) {
     s32 pad;
-    CollisionPoly* col;
-    f32 temp_ret;
-    Vec3f v;
-    s32 temp1;
+    CollisionPoly* poly;
+    s32 pad2;
+    Vec3f checkPos;
+    s32 bgId;
 
-    v.x = Math_SinS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.x;
-    v.y = this->actor.world.pos.y + 60.0f;
-    v.z = Math_CosS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.z;
-
-    temp_ret = BgCheck_EntityRaycastFloor3(&play->colCtx, &col, &temp1, &v);
-
-    this->unk_1F4 = temp_ret;
-    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f));
+    checkPos.x = Math_SinS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 60.0f;
+    checkPos.z = Math_CosS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.z;
+    this->unk_1F4 = BgCheck_EntityRaycastDown3(&play->colCtx, &poly, &bgId, &checkPos);
+    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_1F4, 30.0f));
 }
 
 void EnHorseGanon_Update(Actor* thisx, PlayState* play) {
@@ -290,7 +287,7 @@ void EnHorseGanon_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     sActionFuncs[this->action](this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 55.0f, 100.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);

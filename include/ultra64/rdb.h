@@ -28,7 +28,7 @@
 #define RDB_TYPE_HtoG_DEBUG             14
 #define RDB_TYPE_HtoG_DEBUG_CT          15
 #define RDB_TYPE_HtoG_DATA              16
-#define RDB_TYPE_HtoG_DATA_DONE         17 
+#define RDB_TYPE_HtoG_DATA_DONE         17
 #define RDB_TYPE_HtoG_REQ_RAMROM        18
 #define RDB_TYPE_HtoG_FREE_RAMROM       19
 #define RDB_TYPE_HtoG_KDEBUG            20
@@ -68,7 +68,7 @@
 
 #if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
-#include "types.h"
+#include "ultratypes.h"
 
 /* Structure for debug port */
 typedef struct {

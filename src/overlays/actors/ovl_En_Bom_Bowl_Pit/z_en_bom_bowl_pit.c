@@ -1,5 +1,5 @@
 #include "z_en_bom_bowl_pit.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
@@ -20,7 +20,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, PlayState* play);
 
 static s32 sGetItemIds[] = { GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_BOMBS_1, GI_RUPEE_PURPLE };
 
-const ActorInit En_Bom_Bowl_Pit_InitVars = {
+ActorInit En_Bom_Bowl_Pit_InitVars = {
     ACTOR_EN_BOM_BOWL_PIT,
     ACTORCAT_PROP,
     FLAGS,
@@ -67,7 +67,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, PlayState* play) {
 
             if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2))) &&
                 ((fabsf(chuPosDiff.z) < 40.0f) || (BREG(2)))) {
-                func_8002DF54(play, NULL, 8);
+                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
                 chu->timer = 1;
 
                 this->subCamId = Play_CreateSubCamera(play);
@@ -101,12 +101,12 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, PlayState* play) {
                 this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * 0.02f;
                 this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * 0.02f;
 
-                Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+                Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
                 this->actor.textId = 0xF;
                 Message_StartTextbox(play, this->actor.textId, NULL);
                 this->unk_154 = TEXT_STATE_EVENT;
                 func_80078884(NA_SE_EV_HIT_SOUND);
-                func_8002DF54(play, NULL, 8);
+                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
                 this->status = 1;
                 this->actionFunc = EnBomBowlPit_CameraDollyIn;
                 break;
@@ -127,7 +127,7 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, PlayState* play) {
         Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z, this->subCamEyeVel.z);
     }
 
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
 
     if ((this->unk_154 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
@@ -169,7 +169,7 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, PlayState* play) {
 
         Play_ClearCamera(play, this->subCamId);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
-        func_8002DF54(play, NULL, 8);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         this->actionFunc = EnBomBowlPit_GivePrize;
     }
 }
@@ -177,7 +177,7 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, PlayState* play) {
 void EnBomBowlPit_GivePrize(EnBomBowlPit* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    func_8002DF54(play, NULL, 7);
+    func_8002DF54(play, NULL, PLAYER_CSMODE_7);
     this->getItemId = sGetItemIds[this->prizeIndex];
 
     if ((this->getItemId == GI_BOMB_BAG_30) && (CUR_CAPACITY(UPG_BOMB_BAG) == 30)) {
@@ -186,7 +186,7 @@ void EnBomBowlPit_GivePrize(EnBomBowlPit* this, PlayState* play) {
 
     player->stateFlags1 &= ~PLAYER_STATE1_29;
     this->actor.parent = NULL;
-    func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+    Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
     player->stateFlags1 |= PLAYER_STATE1_29;
     this->actionFunc = EnBomBowlPit_WaitTillPrizeGiven;
 }
@@ -195,7 +195,7 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = EnBomBowlPit_Reset;
     } else {
-        func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 

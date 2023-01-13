@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);
@@ -58,25 +58,25 @@ void KaleidoScopeCall_Update(PlayState* play) {
 
     if ((pauseCtx->state != 0) || (pauseCtx->debugState != 0)) {
         if (pauseCtx->state == 1) {
-            if (ShrinkWindow_GetCurrentVal() == 0) {
-                HREG(80) = 7;
-                HREG(82) = 3;
-                R_PAUSE_MENU_MODE = 1;
+            if (Letterbox_GetSize() == 0) {
+                R_HREG_MODE = HREG_MODE_UCODE_DISAS;
+                R_UCODE_DISAS_LOG_MODE = 3;
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
                 pauseCtx->unk_1E4 = 0;
                 pauseCtx->unk_1EC = 0;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
             }
         } else if (pauseCtx->state == 8) {
-            HREG(80) = 7;
-            HREG(82) = 3;
-            R_PAUSE_MENU_MODE = 1;
+            R_HREG_MODE = HREG_MODE_UCODE_DISAS;
+            R_UCODE_DISAS_LOG_MODE = 3;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
             pauseCtx->unk_1E4 = 0;
             pauseCtx->unk_1EC = 0;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
         } else if ((pauseCtx->state == 2) || (pauseCtx->state == 9)) {
-            osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_MENU_MODE);
+            osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_BG_PRERENDER_STATE);
 
-            if (R_PAUSE_MENU_MODE >= 3) {
+            if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) {
                 pauseCtx->state++;
             }
         } else if (pauseCtx->state != 0) {
@@ -118,7 +118,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
 void KaleidoScopeCall_Draw(PlayState* play) {
     KaleidoMgrOverlay* kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
 
-    if (R_PAUSE_MENU_MODE >= 3) {
+    if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) {
         if (((play->pauseCtx.state >= 4) && (play->pauseCtx.state <= 7)) ||
             ((play->pauseCtx.state >= 11) && (play->pauseCtx.state <= 18))) {
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {

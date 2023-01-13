@@ -24,7 +24,7 @@ void EnIceHono_SetupActionDroppedFlame(EnIceHono* this);
 void EnIceHono_SetupActionSpreadFlames(EnIceHono* this);
 void EnIceHono_SetupActionSmallFlame(EnIceHono* this);
 
-const ActorInit En_Ice_Hono_InitVars = {
+ActorInit En_Ice_Hono_InitVars = {
     ACTOR_EN_ICE_HONO,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -218,7 +218,7 @@ void EnIceHono_CapturableFlame(EnIceHono* this, PlayState* play) {
         this->actor.parent = NULL;
     } else if (EnIceHono_InBottleRange(this, play)) {
         // GI_MAX in this case allows the player to catch the actor in a bottle
-        func_8002F434(&this->actor, play, GI_MAX, 60.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MAX, 60.0f, 100.0f);
     }
 
     if (this->actor.xzDistToPlayer < 200.0f) {
@@ -252,7 +252,7 @@ void EnIceHono_DropFlame(EnIceHono* this, PlayState* play) {
         EnIceHono_SetupActionSpreadFlames(this);
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
@@ -282,7 +282,7 @@ void EnIceHono_SpreadFlames(EnIceHono* this, PlayState* play) {
     }
     this->actor.scale.z = this->actor.scale.x;
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->timer < 25) {
@@ -321,10 +321,10 @@ void EnIceHono_SetupActionSmallFlame(EnIceHono* this) {
 
     if (this->actor.params == BLUEFIRE_TYPE_SMALL1) {
         this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.004f;
-        this->actor.speedXZ = (Rand_ZeroOne() * 1.6f) + 0.5f;
+        this->actor.speed = (Rand_ZeroOne() * 1.6f) + 0.5f;
     } else { // BLUEFIRE_TYPE_SMALL2
         this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.003f;
-        this->actor.speedXZ = (Rand_ZeroOne() * 2.0f) + 0.5f;
+        this->actor.speed = (Rand_ZeroOne() * 2.0f) + 0.5f;
     }
 }
 
@@ -338,8 +338,8 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, PlayState* play) {
     }
     this->actor.scale.z = this->actor.scale.x;
 
-    Math_StepToF(&this->actor.speedXZ, 0, 0.06f);
-    Actor_MoveForward(&this->actor);
+    Math_StepToF(&this->actor.speed, 0, 0.06f);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (this->timer < 25) {

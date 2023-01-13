@@ -4,7 +4,7 @@
  * Description: Deku Shield
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_item_shield.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
@@ -41,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 15, 15, 0, { 0, 0, 0 } },
 };
 
-const ActorInit Item_Shield_InitVars = {
+ActorInit Item_Shield_InitVars = {
     ACTOR_ITEM_SHIELD,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -100,13 +100,13 @@ void ItemShield_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void ItemShield_Collectible_ReactToHit(ItemShield* this, PlayState* play) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     if (Actor_HasParent(&this->actor, play)) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    func_8002F434(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
@@ -132,14 +132,14 @@ void ItemShield_Collectible_Wait(ItemShield* this, PlayState* play) {
         return;
     }
 
-    func_8002F434(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, GI_SHIELD_DEKU, 30.0f, 50.0f);
 
     if (this->collider.base.acFlags & AC_HIT) {
         ItemShield_SetupAction(this, ItemShield_Collectible_ReactToHit);
         this->actor.velocity.y = 4.0f;
         this->actor.minVelocityY = -4.0f;
         this->actor.gravity = -0.8f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->timer = 160;
     } else {
         Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -160,7 +160,7 @@ void ItemShield_Burning_Combust(ItemShield* this, PlayState* play) {
     s32 i;
     s32 type;
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actor.shape.yOffset = ABS(Math_SinS(this->actor.shape.rot.x)) * 1500.0f;
 
@@ -230,7 +230,7 @@ void ItemShield_Burning_FlyFromPlayer(ItemShield* this, PlayState* play) {
     this->actor.gravity = -0.8;
     this->pitchSpeed = 0;
     this->timer = 70;
-    this->actor.speedXZ = 0;
+    this->actor.speed = 0;
 }
 
 void ItemShield_Update(Actor* thisx, PlayState* play) {

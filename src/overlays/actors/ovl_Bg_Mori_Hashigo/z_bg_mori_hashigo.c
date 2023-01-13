@@ -24,7 +24,7 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-const ActorInit Bg_Mori_Hashigo_InitVars = {
+ActorInit Bg_Mori_Hashigo_InitVars = {
     ACTOR_BG_MORI_HASHIGO,
     ACTORCAT_BG,
     FLAGS,
@@ -144,7 +144,7 @@ s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, PlayState* play) {
 }
 
 s32 BgMoriHashigo_InitLadder(BgMoriHashigo* this, PlayState* play) {
-    BgMoriHashigo_InitDynapoly(this, play, &gMoriHashigoCol, DPM_UNK);
+    BgMoriHashigo_InitDynapoly(this, play, &gMoriHashigoCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChainLadder);
     return true;
 }
@@ -243,7 +243,7 @@ void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play) {
     static f32 bounceSpeed[3] = { 4.0f, 2.7f, 1.7f };
     Actor* thisx = &this->dyna.actor;
 
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
     if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND) && (thisx->velocity.y < 0.0f)) {
         if (this->bounceCounter >= ARRAY_COUNT(bounceSpeed)) {
             BgMoriHashigo_SetupLadderRest(this);

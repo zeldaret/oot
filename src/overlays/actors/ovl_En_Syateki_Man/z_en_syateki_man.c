@@ -1,5 +1,5 @@
 #include "z_en_syateki_man.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 
@@ -42,7 +42,7 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
 void EnSyatekiMan_SetBgm(void);
 
-const ActorInit En_Syateki_Man_InitVars = {
+ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
     ACTORCAT_NPC,
     FLAGS,
@@ -365,7 +365,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                             this->getItemId = GI_RUPEE_PURPLE;
                         }
                     }
-                    func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+                    Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
                     this->actionFunc = EnSyatekiMan_GivePrize;
                     break;
                 case SYATEKI_RESULT_ALMOST:
@@ -394,7 +394,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = EnSyatekiMan_FinishPrize;
     } else {
-        func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 
@@ -505,6 +505,6 @@ void EnSyatekiMan_Draw(Actor* thisx, PlayState* play) {
 void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;
-        Audio_QueueSeqCmd(sBgmList[BREG(81)]);
+        SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, sBgmList[BREG(81)]);
     }
 }

@@ -52,7 +52,7 @@ static f32 sStatueDistToPlayer = 0;
 
 static s16 sStatueRotY;
 
-const ActorInit Bg_Haka_Gate_InitVars = {
+ActorInit Bg_Haka_Gate_InitVars = {
     ACTOR_BG_HAKA_GATE,
     ACTORCAT_PROP,
     FLAGS,
@@ -76,7 +76,7 @@ void BgHakaGate_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     if (thisx->params == BGHAKAGATE_SKULL) {
         if (sSkullOfTruthRotY != 0x100) {
             this->actionFunc = BgHakaGate_FalseSkull;
@@ -158,7 +158,7 @@ void BgHakaGate_StatueInactive(BgHakaGate* this, PlayState* play) {
 
 void BgHakaGate_StatueIdle(BgHakaGate* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 linkDirection;
+    s32 playerDirection;
     f32 forceDirection;
 
     if (this->dyna.unk_150 != 0.0f) {
@@ -166,8 +166,8 @@ void BgHakaGate_StatueIdle(BgHakaGate* this, PlayState* play) {
             this->vInitTurnAngle = this->dyna.actor.shape.rot.y - this->dyna.actor.yawTowardsPlayer;
             sStatueDistToPlayer = this->dyna.actor.xzDistToPlayer;
             forceDirection = (this->dyna.unk_150 >= 0.0f) ? 1.0f : -1.0f;
-            linkDirection = ((s16)(this->dyna.actor.yawTowardsPlayer - player->actor.shape.rot.y) > 0) ? -1 : 1;
-            this->vTurnDirection = linkDirection * forceDirection;
+            playerDirection = ((s16)(this->dyna.actor.yawTowardsPlayer - player->actor.shape.rot.y) > 0) ? -1 : 1;
+            this->vTurnDirection = playerDirection * forceDirection;
             this->actionFunc = BgHakaGate_StatueTurn;
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_4;
@@ -241,7 +241,7 @@ void BgHakaGate_FloorClosed(BgHakaGate* this, PlayState* play) {
                 this->actionFunc = BgHakaGate_DoNothing;
             } else {
                 func_80078884(NA_SE_SY_ERROR);
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
+                Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GROUND_GATE_OPEN);
                 DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
                 this->vTimer = 60;
                 this->actionFunc = BgHakaGate_FloorOpen;
@@ -273,7 +273,7 @@ void BgHakaGate_GateWait(BgHakaGate* this, PlayState* play) {
 
 void BgHakaGate_GateOpen(BgHakaGate* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 80.0f, 1.0f)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->actionFunc = BgHakaGate_DoNothing;
     } else {

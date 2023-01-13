@@ -7,7 +7,7 @@
 #include "z_en_tubo_trap.h"
 #include "assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -40,7 +40,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 9, 23, 0, { 0 } },
 };
 
-const ActorInit En_Tubo_Trap_InitVars = {
+ActorInit En_Tubo_Trap_InitVars = {
     ACTOR_EN_TUBO_TRAP,
     ACTORCAT_PROP,
     FLAGS,
@@ -135,7 +135,7 @@ void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, PlayState* play) {
     pos = *actorPos;
     pos.y += this->actor.yDistToWater;
 
-    EffectSsGSplash_Spawn(play, &pos, 0, 0, 0, 400);
+    EffectSsGSplash_Spawn(play, &pos, NULL, NULL, 0, 400);
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
         sin = Math_SinS(var);
@@ -238,7 +238,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, PlayState* play) {
         }
 
         this->originPos = this->actor.world.pos;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_POT_MOVE_START);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_POT_MOVE_START);
         this->actionFunc = EnTuboTrap_Levitate;
     }
 }
@@ -248,7 +248,7 @@ void EnTuboTrap_Levitate(EnTuboTrap* this, PlayState* play) {
     Math_ApproachF(&this->actor.world.pos.y, this->targetY, 0.8f, 3.0f);
 
     if (fabsf(this->actor.world.pos.y - this->targetY) < 10.0f) {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actionFunc = EnTuboTrap_Fly;
     }
@@ -259,7 +259,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, PlayState* play) {
     f32 dy = this->originPos.y - this->actor.world.pos.y;
     f32 dz = this->originPos.z - this->actor.world.pos.z;
 
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TUBOOCK_FLY - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_TUBOOCK_FLY - SFX_FLAG);
 
     if (240.0f < sqrtf(SQ(dx) + SQ(dy) + SQ(dz))) {
         Math_ApproachF(&this->actor.gravity, -3.0f, 0.2f, 0.5f);
@@ -274,7 +274,7 @@ void EnTuboTrap_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 20.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
