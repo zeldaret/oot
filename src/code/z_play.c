@@ -1121,165 +1121,164 @@ void Play_Draw(PlayState* this) {
             goto Play_Draw_DrawOverlayElements;
         }
 
-            PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
+        PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
-            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
-                // Wait for the previous frame's display list to be processed,
-                // so that `pauseBgPreRender.fbufSave` and `pauseBgPreRender.cvgSave` are filled with the appropriate
-                // content and can be used by `PreRender_ApplyFilters` below.
-                Sched_FlushTaskQueue();
+        if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
+            // Wait for the previous frame's display list to be processed,
+            // so that `pauseBgPreRender.fbufSave` and `pauseBgPreRender.cvgSave` are filled with the appropriate
+            // content and can be used by `PreRender_ApplyFilters` below.
+            Sched_FlushTaskQueue();
 
-                PreRender_ApplyFilters(&this->pauseBgPreRender);
+            PreRender_ApplyFilters(&this->pauseBgPreRender);
 
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
-            } else if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_MAX) {
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
+        } else if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_MAX) {
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
+        }
+
+        if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_READY) {
+            Gfx* gfxP = POLY_OPA_DISP;
+
+            PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &gfxP);
+            POLY_OPA_DISP = gfxP;
+
+            goto Play_Draw_DrawOverlayElements;
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
+            if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
+                if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
+                    Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
+                    Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend, this->view.eye.x,
+                                this->view.eye.y, this->view.eye.z);
+                } else if (this->skyboxCtx.unk_140 == 0) {
+                    Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
+                                this->view.eye.z);
+                }
+            }
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
+            if (!this->envCtx.sunMoonDisabled) {
+                Environment_DrawSunAndMoon(this);
+            }
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
+            Environment_DrawSkyboxFilters(this);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTNING)) {
+            Environment_UpdateLightningStrike(this);
+            Environment_DrawLightning(this, 0);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTS)) {
+            sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
+            Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
+            Lights_Draw(sp228, gfxCtx);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
+            if (VREG(94) == 0) {
+                s32 roomDrawFlags;
+
+                if (R_HREG_MODE != HREG_MODE_PLAY) {
+                    roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
+                } else {
+                    roomDrawFlags = R_PLAY_DRAW_ROOM_FLAGS;
+                }
+                Scene_Draw(this);
+                Room_Draw(this, &this->roomCtx.curRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
+                Room_Draw(this, &this->roomCtx.prevRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
+            }
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
+            if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
+                Vec3f quakeOffset;
+
+                Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
+                Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
+                            this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
+            }
+        }
+
+        if (this->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
+            Environment_DrawRain(this, &this->view, gfxCtx);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
+            Environment_FillScreen(gfxCtx, 0, 0, 0, this->bgCoverAlpha, FILL_SCREEN_OPA);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
+            func_800315AC(this, &this->actorCtx);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
+            if (!this->envCtx.sunMoonDisabled) {
+                sp21C.x = this->view.eye.x + this->envCtx.sunPos.x;
+                sp21C.y = this->view.eye.y + this->envCtx.sunPos.y;
+                sp21C.z = this->view.eye.z + this->envCtx.sunPos.z;
+                Environment_DrawSunLensFlare(this, &this->envCtx, &this->view, gfxCtx, sp21C, 0);
+            }
+            Environment_DrawCustomLensFlare(this);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SCREEN_FILLS) {
+            if (MREG(64) != 0) {
+                Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
+                                       FILL_SCREEN_OPA | FILL_SCREEN_XLU);
             }
 
-            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_READY) {
-                Gfx* gfxP = POLY_OPA_DISP;
-
-                PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &gfxP);
-                POLY_OPA_DISP = gfxP;
-
-                goto Play_Draw_DrawOverlayElements;
+            switch (this->envCtx.fillScreen) {
+                case 1:
+                    Environment_FillScreen(gfxCtx, this->envCtx.screenFillColor[0], this->envCtx.screenFillColor[1],
+                                           this->envCtx.screenFillColor[2], this->envCtx.screenFillColor[3],
+                                           FILL_SCREEN_OPA | FILL_SCREEN_XLU);
+                    break;
+                default:
+                    break;
             }
+        }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
-                    if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
-                        if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
-                            Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
-                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend,
-                                        this->view.eye.x, this->view.eye.y, this->view.eye.z);
-                        } else if (this->skyboxCtx.unk_140 == 0) {
-                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
-                                        this->view.eye.z);
-                        }
-                    }
-                }
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SANDSTORM) {
+            if (this->envCtx.sandstormState != SANDSTORM_OFF) {
+                Environment_DrawSandstorm(this, this->envCtx.sandstormState);
+            }
+        }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
-                    if (!this->envCtx.sunMoonDisabled) {
-                        Environment_DrawSunAndMoon(this);
-                    }
-                }
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_DEBUG_OBJECTS) {
+            DebugDisplay_DrawObjects(this);
+        }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
-                    Environment_DrawSkyboxFilters(this);
-                }
+        if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) || (gTransitionTileState == TRANS_TILE_SETUP)) {
+            Gfx* gfxP = OVERLAY_DISP;
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTNING)) {
-                    Environment_UpdateLightningStrike(this);
-                    Environment_DrawLightning(this, 0);
-                }
+            // Copy the frame buffer contents at this point in the display list to the zbuffer
+            // The zbuffer must then stay untouched until unpausing
+            this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
+            this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
+            PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
+            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) {
+                this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
+                PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTS)) {
-                    sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
-                    Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
-                    Lights_Draw(sp228, gfxCtx);
-                }
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
+            } else {
+                gTransitionTileState = TRANS_TILE_PROCESS;
+            }
+            OVERLAY_DISP = gfxP;
+            this->unk_121C7 = 2;
+            R_GRAPH_TASKSET00_FLAGS |= 1;
+            goto Play_Draw_skip;
+        }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
-                    if (VREG(94) == 0) {
-                        s32 roomDrawFlags;
-
-                        if (R_HREG_MODE != HREG_MODE_PLAY) {
-                            roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
-                        } else {
-                            roomDrawFlags = R_PLAY_DRAW_ROOM_FLAGS;
-                        }
-                        Scene_Draw(this);
-                        Room_Draw(this, &this->roomCtx.curRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
-                        Room_Draw(this, &this->roomCtx.prevRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
-                    }
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
-                    if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
-                        Vec3f quakeOffset;
-
-                        Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
-                        Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
-                                    this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
-                    }
-                }
-
-                if (this->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
-                    Environment_DrawRain(this, &this->view, gfxCtx);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
-                    Environment_FillScreen(gfxCtx, 0, 0, 0, this->bgCoverAlpha, FILL_SCREEN_OPA);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
-                    func_800315AC(this, &this->actorCtx);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
-                    if (!this->envCtx.sunMoonDisabled) {
-                        sp21C.x = this->view.eye.x + this->envCtx.sunPos.x;
-                        sp21C.y = this->view.eye.y + this->envCtx.sunPos.y;
-                        sp21C.z = this->view.eye.z + this->envCtx.sunPos.z;
-                        Environment_DrawSunLensFlare(this, &this->envCtx, &this->view, gfxCtx, sp21C, 0);
-                    }
-                    Environment_DrawCustomLensFlare(this);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SCREEN_FILLS) {
-                    if (MREG(64) != 0) {
-                        Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
-                                               FILL_SCREEN_OPA | FILL_SCREEN_XLU);
-                    }
-
-                    switch (this->envCtx.fillScreen) {
-                        case 1:
-                            Environment_FillScreen(gfxCtx, this->envCtx.screenFillColor[0],
-                                                   this->envCtx.screenFillColor[1], this->envCtx.screenFillColor[2],
-                                                   this->envCtx.screenFillColor[3], FILL_SCREEN_OPA | FILL_SCREEN_XLU);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SANDSTORM) {
-                    if (this->envCtx.sandstormState != SANDSTORM_OFF) {
-                        Environment_DrawSandstorm(this, this->envCtx.sandstormState);
-                    }
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_DEBUG_OBJECTS) {
-                    DebugDisplay_DrawObjects(this);
-                }
-
-                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) ||
-                    (gTransitionTileState == TRANS_TILE_SETUP)) {
-                    Gfx* gfxP = OVERLAY_DISP;
-
-                    // Copy the frame buffer contents at this point in the display list to the zbuffer
-                    // The zbuffer must then stay untouched until unpausing
-                    this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
-                    this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
-                    PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
-                    if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) {
-                        this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                        PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
-
-                        R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
-                    } else {
-                        gTransitionTileState = TRANS_TILE_PROCESS;
-                    }
-                    OVERLAY_DISP = gfxP;
-                    this->unk_121C7 = 2;
-                    R_GRAPH_TASKSET00_FLAGS |= 1;
-                    goto Play_Draw_skip;
-                }
-
-                Play_Draw_DrawOverlayElements:
-                    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
-                        Play_DrawOverlayElements(this);
-                    }
+    Play_Draw_DrawOverlayElements:
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
+            Play_DrawOverlayElements(this);
+        }
     }
 
 Play_Draw_skip:
