@@ -17,7 +17,7 @@
         <DList Name="gGanonsCastleRubble7DL" Offset="0x3190"/>
         <Collision Name="gGanonsCastleRubble7Col" Offset="0x33E0"/>
 
-        <!-- This three rubbles are the ones that Ganon can destroy during the fight -->
+        <!-- These three rubble pieces are the ones that Ganon can destroy during the fight -->
         <DList Name="gGanonsCastleRubble2DL" Offset="0x1D20"/>
         <Collision Name="gGanonsCastleRubble2Col" Offset="0x1F70"/>
 

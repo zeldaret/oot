@@ -79,7 +79,7 @@ void ItemShield_Init(Actor* thisx, PlayState* play) {
             ItemShield_SetupAction(this, ItemShield_Burning_FlyFromPlayer);
             this->stateFlags |= ITEMSHIELD_STATE_INVISIBLE;
             for (i = 0; i < ITEMSHIELD_FLAME_COUNT; i++) {
-                this->reverseflameTypeIndices[i] = 1 + 2 * i;
+                this->flameTypes[i] = 1 + 2 * i;
                 this->flameBasePoss[i].x = Rand_CenteredFloat(10.0f);
                 this->flameBasePoss[i].y = Rand_CenteredFloat(10.0f);
                 this->flameBasePoss[i].z = Rand_CenteredFloat(10.0f);
@@ -166,19 +166,21 @@ void ItemShield_Burning_Combust(ItemShield* this, PlayState* play) {
 
     // Spawn flames at random locations until despawn
     for (i = 0; i < ITEMSHIELD_FLAME_COUNT; i++) {
-        type = ITEMSHIELD_FLAME_TYPE_COUNT - this->reverseflameTypeIndices[i];
+        type = ITEMSHIELD_FLAME_TYPE_COUNT - this->flameTypes[i];
+
         sFlamePos.x = this->flameBasePoss[i].x;
         sFlamePos.y =
             this->flameBasePoss[i].y + (this->actor.shape.yOffset * 0.01f) + (sFlameScales[type] * -10.0f * 0.2f);
         sFlamePos.z = this->flameBasePoss[i].z;
+
         EffectSsFireTail_SpawnFlame(play, &this->actor, &sFlamePos, sFlameScales[type] * 0.2f, -1,
                                     sFlameIntensities[type]);
 
-        // cycle through flame types and rechoose random positions until about to disappear
-        if (this->reverseflameTypeIndices[i] != 0) {
-            this->reverseflameTypeIndices[i]--;
+        // cycle through flame types and pick new random positions until the shield is about to disappear
+        if (this->flameTypes[i] != 0) {
+            this->flameTypes[i]--;
         } else if (this->timer > 16) {
-            this->reverseflameTypeIndices[i] = ITEMSHIELD_FLAME_TYPE_COUNT;
+            this->flameTypes[i] = ITEMSHIELD_FLAME_TYPE_COUNT;
             this->flameBasePoss[i].x = Rand_CenteredFloat(15.0f);
             this->flameBasePoss[i].y = Rand_CenteredFloat(10.0f);
             this->flameBasePoss[i].z = Rand_CenteredFloat(15.0f);

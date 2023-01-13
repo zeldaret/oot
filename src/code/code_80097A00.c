@@ -277,7 +277,7 @@ u8 Inventory_DeleteEquippedItem(PlayState* play, s16 equipmentType) {
  * Changes the current upgrade.
  *
  * @param upgradeType uses `UpgradeType` enum.
- * @param value Level to change upgrade to (plain number, valid range depends on `upgrade`).
+ * @param value Level to change upgrade to (plain number, valid range depends on `upgradeType`).
  */
 void Inventory_ChangeUpgrade(s16 upgradeType, s16 value) {
     gSaveContext.inventory.upgrades &= gUpgradeNegMasks[upgradeType];

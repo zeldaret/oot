@@ -609,7 +609,7 @@ s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         matrices = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
         rot->x += unk_3F8_unk_08->y;
         rot->z += unk_3F8_unk_08->x;
-        gSPSegment(gfx[0]++, 0x0C, matrices);
+        gSPSegment((*gfx)++, 0x0C, matrices);
 
         Matrix_Push();
         Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
@@ -2451,7 +2451,7 @@ s32 func_80B5944C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s
         EnZl3* this = (EnZl3*)thisx;
         Vec3s* vec = &this->unk_3F8.unk_08;
 
-        gSPSegment(gfx[0]++, 0x0C, matrices);
+        gSPSegment((*gfx)++, 0x0C, matrices);
 
         rot->x += vec->y;
         rot->z += vec->x;

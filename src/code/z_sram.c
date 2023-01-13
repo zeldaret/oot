@@ -306,7 +306,7 @@ static s16 sDungeonEntrances[] = {
 };
 
 /**
- *  Copy save currently on the buffer to Save Context and complete various tasks to open the save.
+ *  Copy the save currently in the buffer to Save Context and complete various tasks to open the save.
  *  This includes:
  *  - Set proper entrance depending on where the game was saved.
  *  - If health is less than 3 hearts, give 3 hearts.
@@ -448,7 +448,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         }
     }
 
-    // Restore Master Sword to inventory and re-equip it if missing. 
+    // Restore Master Sword to inventory and re-equip it if missing.
     // This is a patch for one method of getting the "swordless Link" glitch
     if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
         gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER);
