@@ -112,9 +112,9 @@ static ColliderQuadInit sQuadInit = {
 };
 
 typedef enum {
-    /* 00 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
-    /* 01 */ AM_DMGEFF_NUT,
-    /* 06 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts
+    /*  0 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
+    /*  1 */ AM_DMGEFF_NUT,
+    /*  6 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts
     /* 13 */ AM_DMGEFF_ICE = 13,
     /* 14 */ AM_DMGEFF_MAGIC_FIRE_LIGHT,
     /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isn't a special case)
