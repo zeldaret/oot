@@ -165,8 +165,10 @@ void ObjLift_Shake(ObjLift* this, PlayState* play) {
         ObjLift_SetupFall(this);
     } else {
         this->shakeOrientation.x += 10000;
-        this->dyna.actor.world.rot.x = (s16)(Math_SinS(this->shakeOrientation.x) * 300.0f) + this->dyna.actor.home.rot.x;
-        this->dyna.actor.world.rot.z = (s16)(Math_CosS(this->shakeOrientation.x) * 300.0f) + this->dyna.actor.home.rot.z;
+        this->dyna.actor.world.rot.x =
+            (s16)(Math_SinS(this->shakeOrientation.x) * 300.0f) + this->dyna.actor.home.rot.x;
+        this->dyna.actor.world.rot.z =
+            (s16)(Math_CosS(this->shakeOrientation.x) * 300.0f) + this->dyna.actor.home.rot.z;
         this->dyna.actor.shape.rot.x = this->dyna.actor.world.rot.x;
         this->dyna.actor.shape.rot.z = this->dyna.actor.world.rot.z;
         this->shakeOrientation.y += 18000;
@@ -192,7 +194,7 @@ void ObjLift_Fall(ObjLift* this, PlayState* play) {
     s32 bgId;
     Vec3f pos;
 
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
     Math_Vec3f_Copy(&pos, &this->dyna.actor.prevPos);
     pos.y += sMaxFallDistances[(this->dyna.actor.params >> 1) & 1];
     this->dyna.actor.floorHeight =

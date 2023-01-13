@@ -115,7 +115,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->unk_1CA = 0;
     this->unk_1D0 = 0;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.shape.rot.y = 0;
     this->actor.gravity = -0.4f;
     this->hitPlayer = 0;
@@ -177,7 +177,7 @@ void func_80ABCDBC(EnNy* this) {
 }
 
 void EnNy_SetupTurnToStone(EnNy* this) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NYU_HIT_STOP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NYU_HIT_STOP);
     this->actionFunc = EnNy_TurnToStone;
     this->unk_1E8 = 0.0f;
 }
@@ -237,7 +237,7 @@ void EnNy_Move(EnNy* this, PlayState* play) {
         Math_ApproachF(&this->unk_1F4, 2000.0f, 1.0f, 100.0f);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         yawDiff = Math_FAtan2F(this->actor.yDistToPlayer, this->actor.xzDistToPlayer);
-        this->actor.speedXZ = fabsf(cosf(yawDiff) * this->unk_1E8);
+        this->actor.speed = fabsf(cosf(yawDiff) * this->unk_1E8);
         if (this->unk_1F0 < this->actor.yDistToWater) {
             this->unk_1EC = sinf(yawDiff) * this->unk_1E8;
         }
@@ -253,10 +253,10 @@ void EnNy_TurnToStone(EnNy* this, PlayState* play) {
         phi_f0 = 0.25f;
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             if (!(this->unk_1F0 < this->actor.yDistToWater)) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
             }
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->actor.world.rot.y = this->actor.shape.rot.y;
             func_80ABCE38(this);
         }
@@ -295,7 +295,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
         this->collider.base.atFlags &= ~AT_BOUNCED;
         this->hitPlayer = 1;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        this->actor.speedXZ = -4.0f;
+        this->actor.speed = -4.0f;
         return 0;
     }
     if (this->collider.base.atFlags & AT_HIT) {
@@ -315,16 +315,16 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
                         FALLTHROUGH;
                     case 0xF:
                         Actor_ApplyDamage(&this->actor);
-                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                         break;
                     case 1:
                         Actor_ApplyDamage(&this->actor);
-                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                         break;
                     case 2:
                         this->unk_1CA = 4;
                         Actor_ApplyDamage(&this->actor);
-                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 80);
                         break;
                 }
             }
@@ -381,7 +381,7 @@ void EnNy_Update(Actor* thisx, PlayState* play) {
     temp_f22 = (24.0f * temp_f20) + 12.0f;
     this->actor.shape.rot.x += (s16)(this->unk_1E8 * 1000.0f);
     func_80ABD3B8(this, temp_f22 + 10.0f, temp_f22 - 10.0f);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Math_StepToF(&this->unk_1E4, this->unk_1E8, 0.1f);
     this->actionFunc(this, play);
     this->actor.prevPos.y -= temp_f22;
@@ -444,7 +444,7 @@ void EnNy_SetupDie(EnNy* this, PlayState* play) {
         } else {
             Item_DropCollectible(play, &this->actor.world.pos, ITEM00_ARROWS_SMALL);
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NYU_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NYU_DEAD);
         this->actionFunc = EnNy_Die;
     }
 }
@@ -512,7 +512,7 @@ void EnNy_UpdateUnused(Actor* thisx, PlayState* play2) {
 
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Math_StepToF(&this->unk_1E4, this->unk_1E8, 0.1f);
 }
 static Vec3f sFireOffsets[] = {

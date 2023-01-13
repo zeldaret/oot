@@ -275,7 +275,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         case 4:
             this->unk_360 = 1;
             this->actor.velocity.y = 8.0f;
-            this->actor.speedXZ = 4.0f;
+            this->actor.speed = 4.0f;
             this->actor.gravity = -1.0f;
             FALLTHROUGH;
         case 2:
@@ -329,9 +329,9 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
         if ((this->collider.base.acFlags & AC_HIT) || phi_v1) {
             this->collider.base.acFlags &= ~AC_HIT;
             this->unk_392 = 0x10;
-            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->unk_392);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, this->unk_392);
             if (Actor_ApplyDamage(&this->actor) != 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
             }
             Enemy_StartFinishingBlow(play, &this->actor);
@@ -356,7 +356,7 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
                 this->actionFunc = func_80B0DB00;
             }
 
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_DEAD);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_DEAD);
             return true;
         }
     }
@@ -437,8 +437,8 @@ void func_80B0CEA8(EnSw* this, PlayState* play) {
         Camera* activeCam = GET_ACTIVE_CAM(play);
 
         if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) >= 380.0f)) {
-            Audio_PlayActorSfx2(&this->actor, ((this->actor.params & 0xE000) >> 0xD) > 0 ? NA_SE_EN_STALGOLD_ROLL
-                                                                                         : NA_SE_EN_STALWALL_ROLL);
+            Actor_PlaySfx(&this->actor,
+                          ((this->actor.params & 0xE000) >> 0xD) > 0 ? NA_SE_EN_STALGOLD_ROLL : NA_SE_EN_STALWALL_ROLL);
         }
     }
 }
@@ -510,9 +510,9 @@ void func_80B0D3AC(EnSw* this, PlayState* play) {
     this->actor.world.pos.x += this->unk_364.x * this->actor.velocity.y;
     this->actor.world.pos.y += this->unk_364.y * this->actor.velocity.y;
     this->actor.world.pos.z += this->unk_364.z * this->actor.velocity.y;
-    this->actor.world.pos.x += this->unk_37C.x * this->actor.speedXZ;
-    this->actor.world.pos.y += this->unk_37C.y * this->actor.speedXZ;
-    this->actor.world.pos.z += this->unk_37C.z * this->actor.speedXZ;
+    this->actor.world.pos.x += this->unk_37C.x * this->actor.speed;
+    this->actor.world.pos.y += this->unk_37C.y * this->actor.speed;
+    this->actor.world.pos.z += this->unk_37C.z * this->actor.speed;
     this->actor.velocity.y += this->actor.gravity;
     this->actor.velocity.y = CLAMP_MIN(this->actor.velocity.y, this->actor.minVelocityY);
 
@@ -521,13 +521,13 @@ void func_80B0D3AC(EnSw* this, PlayState* play) {
     }
 
     if (func_80B0C0CC(this, play, 1) == 1) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         func_80B0D14C(this, play, 8);
         this->actor.scale.x = 0.02f;
         Actor_SetScale(&this->actor, 0.02f);
         this->actionFunc = func_80B0D590;
         this->actor.velocity.y = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.gravity = 0.0f;
     }
 }
@@ -637,7 +637,7 @@ void func_80B0D878(EnSw* this, PlayState* play) {
 }
 
 void func_80B0DB00(EnSw* this, PlayState* play) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     this->actor.shape.rot.x += 0x1000;
     this->actor.shape.rot.z += 0x1000;
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
@@ -657,7 +657,7 @@ void func_80B0DB00(EnSw* this, PlayState* play) {
             this->actor.velocity.y = ((this->unk_38A--) * 8.0f) * 0.5f;
         }
 
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 16.0f, 12, 2.0f, 120, 10, false);
     }
 }
@@ -762,7 +762,7 @@ void func_80B0E314(EnSw* this, Vec3f arg1, f32 arg4) {
     f32 yDiff;
     f32 zDiff;
 
-    Math_SmoothStepToF(&this->actor.speedXZ, arg4, 0.3f, 100.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.speed, arg4, 0.3f, 100.0f, 0.1f);
     xDiff = arg1.x - this->actor.world.pos.x;
     yDiff = arg1.y - this->actor.world.pos.y;
     zDiff = arg1.z - this->actor.world.pos.z;
@@ -774,9 +774,9 @@ void func_80B0E314(EnSw* this, Vec3f arg1, f32 arg4) {
         yDist = yDiff / dist;
         zDist = zDiff / dist;
     }
-    xDist *= this->actor.speedXZ;
-    yDist *= this->actor.speedXZ;
-    zDist *= this->actor.speedXZ;
+    xDist *= this->actor.speed;
+    yDist *= this->actor.speed;
+    zDist *= this->actor.speed;
     this->actor.world.pos.x += xDist;
     this->actor.world.pos.y += yDist;
     this->actor.world.pos.z += zDist;
@@ -801,7 +801,7 @@ s32 func_80B0E430(EnSw* this, f32 arg1, s16 arg2, s32 arg3, PlayState* play) {
 
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) < 380.0f) {
         if (DECR(this->unk_440) == 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_ROLL);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_ROLL);
             this->unk_440 = 4;
         }
     } else {
@@ -827,7 +827,7 @@ void func_80B0E5E0(EnSw* this, PlayState* play) {
     }
 
     if ((DECR(this->unk_442) == 0) && (func_80B0DEA8(this, play, 1))) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_LAUGH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_LAUGH);
         this->unk_442 = 20;
         this->actionFunc = func_80B0E728;
     }
@@ -856,7 +856,7 @@ void func_80B0E728(EnSw* this, PlayState* play) {
             func_80B0E314(this, this->unk_448, 8.0f);
 
             if (DECR(this->unk_440) == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_DASH);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_DASH);
                 this->unk_440 = 4;
             }
 
@@ -871,7 +871,7 @@ void func_80B0E90C(EnSw* this, PlayState* play) {
     s32 pad;
 
     func_80B0E314(this, this->unk_448, 0.0f);
-    if (this->actor.speedXZ == 0.0f) {
+    if (this->actor.speed == 0.0f) {
         this->unk_444 = func_80B0DE34(this, &this->actor.home.pos);
         this->unk_448 = this->actor.home.pos;
         this->actionFunc = func_80B0E9BC;

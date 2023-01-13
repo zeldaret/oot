@@ -334,7 +334,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
 
         if (this->actor.home.rot.y != 0) {
@@ -361,7 +361,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                     (this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNED)) {
                     leavesParams = WOOD_LEAF_YELLOW;
                 }
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TREE_SWING);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
 
                 for (i = 3; i >= 0; i--) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_WOOD02, dropsSpawnPt.x, dropsSpawnPt.y, dropsSpawnPt.z,
@@ -382,22 +382,22 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
 
         if (this->unk_14C >= -1) {
             if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0) &&
-                 (player->linearVelocity != 0.0f)) ||
+                 (player->speedXZ != 0.0f)) ||
                 ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0) &&
-                 (player->rideActor->speedXZ != 0.0f))) {
+                 (player->rideActor->speed != 0.0f))) {
                 if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
                                                ((this->unk_14C << 4) | 0x8000));
                 }
                 this->unk_14C = -0x15;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TREE_SWING);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
             }
         }
     } else { // Leaves
         this->unk_14C++;
         Math_ApproachF(&this->actor.velocity.x, 0.0f, 1.0f, 5 * 0.01f);
         Math_ApproachF(&this->actor.velocity.z, 0.0f, 1.0f, 5 * 0.01f);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         this->actor.shape.rot.z = Math_SinS(3000 * this->unk_14C) * 0x4000;
         this->unk_14E[0]--;
 

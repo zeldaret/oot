@@ -15,7 +15,7 @@ void EnMu_Update(Actor* thisx, PlayState* play);
 void EnMu_Draw(Actor* thisx, PlayState* play);
 
 void EnMu_Pose(EnMu* this, PlayState* play);
-s16 EnMu_CheckDialogState(PlayState* play, Actor* thisx);
+s16 EnMu_UpdateTalkState(PlayState* play, Actor* thisx);
 
 static ColliderCylinderInit D_80AB0BD0 = {
     {
@@ -83,7 +83,7 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
     }
 
     if (i == 5) {
-        if (this->defFaceReaction == (textIdOffset[randomIndex] | 0x7000)) {
+        if (this->defaultTextId == (textIdOffset[randomIndex] | 0x7000)) {
             randomIndex++;
             if (randomIndex >= 5) {
                 randomIndex = 0;
@@ -93,22 +93,22 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
     }
 
     textFlags |= bitmask[randomIndex];
-    this->defFaceReaction = textIdOffset[randomIndex] | 0x7000;
+    this->defaultTextId = textIdOffset[randomIndex] | 0x7000;
     textFlags &= EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK | 0xE0;
     gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] |= textFlags;
 }
 
-u16 EnMu_GetFaceReaction(PlayState* play, Actor* thisx) {
+u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {
     EnMu* this = (EnMu*)thisx;
     u16 faceReaction = Text_GetFaceReaction(play, this->actor.params + 0x3A);
 
     if (faceReaction != 0) {
         return faceReaction;
     }
-    return this->defFaceReaction;
+    return this->defaultTextId;
 }
 
-s16 EnMu_CheckDialogState(PlayState* play, Actor* thisx) {
+s16 EnMu_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnMu* this = (EnMu*)thisx;
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -121,12 +121,12 @@ s16 EnMu_CheckDialogState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            return 1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_CLOSING:
             EnMu_Interact(this, play);
-            return 0;
+            return NPC_TALK_STATE_IDLE;
         default:
-            return 1;
+            return NPC_TALK_STATE_TALKING;
     }
 }
 
@@ -172,7 +172,7 @@ void EnMu_Update(Actor* thisx, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);
     talkDist = this->collider.dim.radius + 30.0f;
-    func_800343CC(play, &this->actor, &this->npcInfo.unk_00, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+    Npc_UpdateTalking(play, &this->actor, &this->npcInfo.talkState, talkDist, EnMu_GetTextId, EnMu_UpdateTalkState);
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;

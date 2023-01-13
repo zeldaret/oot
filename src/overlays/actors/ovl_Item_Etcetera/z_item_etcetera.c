@@ -158,7 +158,7 @@ void func_80B85824(ItemEtcetera* this, PlayState* play) {
         }
         Actor_Kill(&this->actor);
     } else {
-        func_8002F434(&this->actor, play, this->getItemId, 30.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 30.0f, 50.0f);
     }
 }
 
@@ -171,7 +171,7 @@ void func_80B858B4(ItemEtcetera* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         if (0) {} // Necessary to match
-        func_8002F434(&this->actor, play, this->getItemId, 30.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 30.0f, 50.0f);
         if ((play->gameplayFrames & 0xD) == 0) {
             EffectSsBubble_Spawn(play, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
@@ -197,7 +197,7 @@ void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, PlayState* play) {
 
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         ItemEtcetera_SpawnSparkles(this, play);
     }
@@ -212,10 +212,10 @@ void func_80B85B28(ItemEtcetera* this, PlayState* play) {
 }
 
 void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL)) {
-        LOG_NUM("(game_play->demo_play.npcdemopnt[0]->dousa)", play->csCtx.npcActions[0]->action,
-                "../z_item_etcetera.c", 441);
-        if (play->csCtx.npcActions[0]->action == 2) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL)) {
+        LOG_NUM("(game_play->demo_play.npcdemopnt[0]->dousa)", play->csCtx.actorCues[0]->id, "../z_item_etcetera.c",
+                441);
+        if (play->csCtx.actorCues[0]->id == 2) {
             this->actor.draw = ItemEtcetera_Draw;
             this->actor.gravity = -0.1f;
             this->actor.minVelocityY = -4.0f;

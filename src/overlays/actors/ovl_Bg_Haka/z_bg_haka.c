@@ -68,7 +68,7 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->dyna.unk_150 != 0.0f) {
-        if (play->sceneId == SCENE_SPOT02 && !LINK_IS_ADULT && IS_DAY) {
+        if (play->sceneId == SCENE_GRAVEYARD && !LINK_IS_ADULT && IS_DAY) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~PLAYER_STATE2_4;
             if (!Play_InCsMode(play)) {
@@ -77,7 +77,7 @@ void func_8087B7E8(BgHaka* this, PlayState* play) {
                 this->actionFunc = func_8087BAE4;
             }
         } else if (0.0f < this->dyna.unk_150 ||
-                   (play->sceneId == SCENE_SPOT06 && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
+                   (play->sceneId == SCENE_LAKE_HYLIA && !LINK_IS_ADULT && !Flags_GetSwitch(play, 0x23))) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~PLAYER_STATE2_4;
         } else {
@@ -92,9 +92,9 @@ void func_8087B938(BgHaka* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 sp38;
 
-    this->dyna.actor.speedXZ += 0.05f;
-    this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 1.5f);
-    sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
+    this->dyna.actor.speed += 0.05f;
+    this->dyna.actor.speed = CLAMP_MAX(this->dyna.actor.speed, 1.5f);
+    sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speed);
     this->dyna.actor.world.pos.x =
         Math_SinS(this->dyna.actor.world.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.home.pos.x;
     this->dyna.actor.world.pos.z =
@@ -104,7 +104,7 @@ void func_8087B938(BgHaka* this, PlayState* play) {
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-        } else if (!IS_DAY && play->sceneId == SCENE_SPOT02) {
+        } else if (!IS_DAY && play->sceneId == SCENE_GRAVEYARD) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_POH, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
                         this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0, 1);
         }

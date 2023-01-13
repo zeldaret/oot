@@ -238,7 +238,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, PlayState* play) {
         }
 
         this->originPos = this->actor.world.pos;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_POT_MOVE_START);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_POT_MOVE_START);
         this->actionFunc = EnTuboTrap_Levitate;
     }
 }
@@ -248,7 +248,7 @@ void EnTuboTrap_Levitate(EnTuboTrap* this, PlayState* play) {
     Math_ApproachF(&this->actor.world.pos.y, this->targetY, 0.8f, 3.0f);
 
     if (fabsf(this->actor.world.pos.y - this->targetY) < 10.0f) {
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actionFunc = EnTuboTrap_Fly;
     }
@@ -259,7 +259,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, PlayState* play) {
     f32 dy = this->originPos.y - this->actor.world.pos.y;
     f32 dz = this->originPos.z - this->actor.world.pos.z;
 
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TUBOOCK_FLY - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_TUBOOCK_FLY - SFX_FLAG);
 
     if (240.0f < sqrtf(SQ(dx) + SQ(dy) + SQ(dz))) {
         Math_ApproachF(&this->actor.gravity, -3.0f, 0.2f, 0.5f);
@@ -274,7 +274,7 @@ void EnTuboTrap_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 20.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);

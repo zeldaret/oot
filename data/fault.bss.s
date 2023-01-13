@@ -7,6 +7,8 @@
 
 .section .bss
 
+# Note: This file is only included in the MATCHING build, the data is imported for non-matching
+
 .balign 16
 
 glabel sFaultInstance
