@@ -3728,7 +3728,7 @@ s32 func_8083816C(s32 floorType) {
     return (floorType == FLOOR_TYPE_4) || (floorType == FLOOR_TYPE_7) || (floorType == FLOOR_TYPE_12);
 }
 
-void Player_TryBurnShield(Player* this, PlayState* play) {
+void Player_BurnDekuShield(Player* this, PlayState* play) {
     if (this->currentShield == PLAYER_SHIELD_DEKU) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_SHIELD, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, 0, 0, 0, ITEMSHIELD_TYPE_BURNING);
@@ -3859,7 +3859,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
                 }
 
                 if (sp64 && (this->shieldQuad.info.acHitInfo->toucher.effect == 1)) {
-                    Player_TryBurnShield(this, play);
+                    Player_BurnDekuShield(this, play);
                 }
 
                 return 0;
@@ -10054,7 +10054,7 @@ void func_80848C74(PlayState* play, Player* this) {
         sp58 = 0;
     }
 
-    Player_TryBurnShield(this, play);
+    Player_BurnDekuShield(this, play);
 
     for (i = 0; i < PLAYER_BODYPART_MAX; i++, timerPtr++) {
         timerStep = sp58 + sp54;
@@ -14148,10 +14148,6 @@ void func_80852608(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     func_808322D0(play, this, &gPlayerAnim_002838);
 }
 
-/**
- * Unequip Master Sword and remove from inventory. Since this only checks on frame 10 of the animation, if the animation
- * never reaches this frame (such as if stuck in a "superslide" state), the sword will not be removed.
- */
 void func_80852648(PlayState* play, Player* this, CsCmdActorAction* arg2) {
     LinkAnimation_Update(play, &this->skelAnime);
 

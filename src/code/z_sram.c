@@ -448,8 +448,8 @@ void Sram_OpenSave(SramContext* sramCtx) {
         }
     }
 
-    //! Restore Master Sword to inventory and re-equip it if missing. Patch for one way of getting the "swordless Link"
-    //! glitch
+    // Restore Master Sword to inventory and re-equip it if missing. 
+    // This is a patch for one method of getting the "swordless Link" glitch
     if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
         gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;

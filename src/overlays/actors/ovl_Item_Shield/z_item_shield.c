@@ -168,7 +168,8 @@ void ItemShield_Burning_Combust(ItemShield* this, PlayState* play) {
     for (i = 0; i < ITEMSHIELD_FLAME_COUNT; i++) {
         type = ITEMSHIELD_FLAME_TYPE_COUNT - this->reverseflameTypeIndices[i];
         sFlamePos.x = this->flameBasePoss[i].x;
-        sFlamePos.y = this->flameBasePoss[i].y + (this->actor.shape.yOffset * 0.01f) + (sFlameScales[type] * -10.0f * 0.2f);
+        sFlamePos.y =
+            this->flameBasePoss[i].y + (this->actor.shape.yOffset * 0.01f) + (sFlameScales[type] * -10.0f * 0.2f);
         sFlamePos.z = this->flameBasePoss[i].z;
         EffectSsFireTail_SpawnFlame(play, &this->actor, &sFlamePos, sFlameScales[type] * 0.2f, -1,
                                     sFlameIntensities[type]);
@@ -241,14 +242,20 @@ void ItemShield_Draw(Actor* thisx, PlayState* play) {
 
     if (!(this->stateFlags & ITEMSHIELD_STATE_INVISIBLE)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_item_shield.c", 457);
+
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_shield.c", 460),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        //! @bug This displaylist will attempt to draw a displaylist from segment 12, but this actor never sets segment
-        //! 12, so it will draw whatever was last set in segment 12. Therefore when that was not a displaylist, it is
-        //! very likely to crash; a notable example is the tower collapse sequence, where Zelda (EnZl3) draws after
-        //! Player but before this, and keeps a set of matrices on segment 12.
+
+        //! @bug This display list references segment 12, which the player actor usually sets up properly before drawing
+        //! his shield. However when drawn in isolation by this actor, that segment is not set up properly.
+        //! If an actor that is processed before this one happens to set segment 12 to something other than a display
+        //! list, a crash is likely to occur.
+        //! Under normal game circumstances a crash due to this bug happens to not manifest. In more niche scenarios,
+        //! like doing the ganon's castle collapse sequence as child, burning the shield can cause a crash due to Zelda
+        //! using segment 12 for matrices.
         gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gLinkChildDekuShieldDL));
+
         CLOSE_DISPS(play->state.gfxCtx, "../z_item_shield.c", 465);
     }
 }

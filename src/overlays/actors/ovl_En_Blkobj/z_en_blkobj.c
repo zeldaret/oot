@@ -78,7 +78,8 @@ void EnBlkobj_Destroy(Actor* thisx, PlayState* play) {
 }
 
 /**
- * Draw Player's reflection until it is close enough to start the fight
+ * Wait for the player to get close enough before spawning Dark Link.
+ * Also signals to player that he should draw his reflection.
  */
 void EnBlkobj_Wait(EnBlkobj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
@@ -86,6 +87,7 @@ void EnBlkobj_Wait(EnBlkobj* this, PlayState* play) {
     if (this->dyna.actor.xzDistToPlayer < 120.0f) {
         EnBlkobj_SetupAction(this, EnBlkobj_SpawnDarkLink);
     }
+    
     player->stateFlags2 |= PLAYER_STATE2_DRAW_REFLECTION;
 }
 
