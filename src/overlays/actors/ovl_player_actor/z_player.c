@@ -1523,7 +1523,14 @@ static u8 D_80854384[2] = { PLAYER_MWA_BIG_SPIN_1H, PLAYER_MWA_BIG_SPIN_2H };
 
 static u16 D_80854388[] = { BTN_B, BTN_CLEFT, BTN_CDOWN, BTN_CRIGHT };
 
-static u8 sMagicSpellCosts[] = { 12, 24, 24, 12, 24, 12 };
+static u8 sMagicSpellCosts[] = {
+    12, // PLAYER_MAGIC_SPELL(PLAYER_IA_MAGIC_SPELL_15)
+    24, // PLAYER_MAGIC_SPELL(PLAYER_IA_MAGIC_SPELL_16)
+    24, // PLAYER_MAGIC_SPELL(PLAYER_IA_MAGIC_SPELL_17)
+    12, // PLAYER_MAGIC_SPELL(PLAYER_IA_FARORES_WIND)
+    24, // PLAYER_MAGIC_SPELL(PLAYER_IA_NAYRUS_LOVE)
+    12, // PLAYER_MAGIC_SPELL(PLAYER_IA_DINS_FIRE)
+};
 
 static u16 D_80854398[] = { NA_SE_IT_BOW_DRAW, NA_SE_IT_SLING_DRAW, NA_SE_IT_HOOKSHOT_READY };
 
@@ -3107,9 +3114,9 @@ void func_80835E44(PlayState* play, s16 camSetting) {
     }
 }
 
-void func_80835EA4(PlayState* play, s32 arg1) {
+void Player_CameraChangeSettingTurnAround(PlayState* play, s32 camItemType) {
     func_80835E44(play, CAM_SET_TURN_AROUND);
-    Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), 4, NULL, NULL, arg1, 0, 0);
+    Camera_SetCameraData(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_CAMERA_DATA_2, NULL, NULL, camItemType, 0, 0);
 }
 
 void func_80835EFC(Player* this) {
@@ -5141,15 +5148,15 @@ void func_8083AE40(Player* this, s16 objectId) {
 void func_8083AF44(PlayState* play, Player* this, s32 magicSpell) {
     func_80835DE4(play, this, func_808507F4, 0);
 
-    this->unk_84F = magicSpell - 3;
+    this->unk_84F = magicSpell - PLAYER_MAGIC_SPELL(PLAYER_IA_FARORES_WIND);
     Magic_RequestChange(play, sMagicSpellCosts[magicSpell], MAGIC_CONSUME_WAIT_PREVIEW);
 
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, &gPlayerAnim_link_magic_tame, 0.83f);
 
-    if (magicSpell == 5) {
+    if (magicSpell == PLAYER_MAGIC_SPELL(PLAYER_IA_DINS_FIRE)) {
         this->subCamId = OnePointCutscene_Init(play, 1100, -101, NULL, CAM_ID_MAIN);
     } else {
-        func_80835EA4(play, 10);
+        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_10);
     }
 }
 
@@ -5211,13 +5218,14 @@ s32 func_8083B040(Player* this, PlayState* play) {
             if (this->unk_6AD == 4) {
                 sp2C = Player_ActionToMagicSpell(this, this->itemAction);
                 if (sp2C >= 0) {
-                    if ((sp2C != 3) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
+                    if ((sp2C != PLAYER_MAGIC_SPELL(PLAYER_IA_FARORES_WIND)) ||
+                        (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
                         func_8083AF44(play, this, sp2C);
                     } else {
                         func_80835C58(play, this, func_8085063C, 1);
                         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                         func_80832264(play, this, func_80833338(this));
-                        func_80835EA4(play, 4);
+                        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_4);
                     }
 
                     func_80832224(this);
@@ -5227,7 +5235,8 @@ s32 func_8083B040(Player* this, PlayState* play) {
                 sp2C = this->itemAction - PLAYER_IA_ZELDAS_LETTER;
                 if ((sp2C >= 0) ||
                     (sp28 = Player_ActionToBottle(this, this->itemAction) - 1,
-                     ((sp28 >= 0) && (sp28 < 6) &&
+                     ((sp28 >= (PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FISH) - 1)) &&
+                      (sp28 <= (PLAYER_BOTTLE(PLAYER_IA_BOTTLE_RUTOS_LETTER) - 1)) &&
                       ((this->itemAction > PLAYER_IA_BOTTLE_POE) ||
                        ((this->targetActor != NULL) && (((this->itemAction == PLAYER_IA_BOTTLE_POE) &&
                                                          (this->exchangeItemId == EXCH_ITEM_BOTTLE_POE)) ||
@@ -5244,9 +5253,9 @@ s32 func_8083B040(Player* this, PlayState* play) {
                         this->stateFlags1 |= PLAYER_STATE1_6 | PLAYER_STATE1_28 | PLAYER_STATE1_29;
 
                         if (sp2C >= 0) {
-                            sp2C = sp2C + 1;
+                            sp2C = EXCH_ITEM_ZELDAS_LETTER + sp2C;
                         } else {
-                            sp2C = sp28 + 0x18;
+                            sp2C = EXCH_ITEM_BOTTLE_FISH + (sp28 - (PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FISH) - 1));
                         }
 
                         targetActor = this->targetActor;
@@ -5271,11 +5280,11 @@ s32 func_8083B040(Player* this, PlayState* play) {
                         } else if (sp2C == EXCH_ITEM_BOTTLE_RUTOS_LETTER) {
                             this->unk_84F = 1;
                             this->actor.textId = 0x4005;
-                            func_80835EA4(play, 1);
+                            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_1);
                         } else {
                             this->unk_84F = 2;
                             this->actor.textId = 0xCF;
-                            func_80835EA4(play, 4);
+                            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_4);
                         }
 
                         this->actor.flags |= ACTOR_FLAG_8;
@@ -5294,24 +5303,27 @@ s32 func_8083B040(Player* this, PlayState* play) {
 
                 sp2C = Player_ActionToBottle(this, this->itemAction);
                 if (sp2C >= 0) {
-                    if (sp2C == 0xC) {
+                    if (sp2C == PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FAIRY)) {
                         func_80835DE4(play, this, func_8084EED8, 0);
                         func_808322D0(play, this, &gPlayerAnim_link_bottle_bug_out);
-                        func_80835EA4(play, 3);
-                    } else if ((sp2C > 0) && (sp2C < 4)) {
+                        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_3);
+                    } else if ((sp2C >= PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FISH)) &&
+                               (sp2C <= PLAYER_BOTTLE(PLAYER_IA_BOTTLE_BUG))) {
                         func_80835DE4(play, this, func_8084EFC0, 0);
                         func_808322D0(play, this, &gPlayerAnim_link_bottle_fish_out);
-                        func_80835EA4(play, (sp2C == 1) ? 1 : 5);
+                        Player_CameraChangeSettingTurnAround(
+                            play, (sp2C == PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FISH)) ? CAM_ITEM_TYPE_1 : CAM_ITEM_TYPE_5);
                     } else {
                         func_80835DE4(play, this, func_8084EAC0, 0);
                         func_80832B78(play, this, &gPlayerAnim_link_bottle_drink_demo_start);
-                        func_80835EA4(play, 2);
+                        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_2);
                     }
                 } else {
                     func_80835DE4(play, this, func_8084E3C4, 0);
                     func_808322D0(play, this, &gPlayerAnim_link_normal_okarina_start);
                     this->stateFlags2 |= PLAYER_STATE2_27;
-                    func_80835EA4(play, (this->unk_6A8 != NULL) ? 0x5B : 0x5A);
+                    Player_CameraChangeSettingTurnAround(play,
+                                                         (this->unk_6A8 != NULL) ? CAM_ITEM_TYPE_91 : CAM_ITEM_TYPE_90);
                     if (this->unk_6A8 != NULL) {
                         this->stateFlags2 |= PLAYER_STATE2_25;
                         Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, this->unk_6A8);
@@ -6424,7 +6436,7 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
                     if (!(this->stateFlags2 & PLAYER_STATE2_10) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
                         func_80836898(play, this, func_8083A434);
                         func_808322D0(play, this, &gPlayerAnim_link_demo_get_itemB);
-                        func_80835EA4(play, 9);
+                        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_9);
                     }
 
                     this->stateFlags1 |= PLAYER_STATE1_10 | PLAYER_STATE1_11 | PLAYER_STATE1_29;
@@ -12496,7 +12508,7 @@ void func_8084E1EC(Player* this, PlayState* play) {
         if ((this->stateFlags1 & PLAYER_STATE1_10) && LinkAnimation_OnFrame(&this->skelAnime, 10.0f)) {
             func_808332F4(this, play);
             func_80832340(play, this);
-            func_80835EA4(play, 8);
+            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_8);
         } else if (LinkAnimation_OnFrame(&this->skelAnime, 5.0f)) {
             func_80832698(this, NA_SE_VO_LI_BREATH_DRINK);
         }
@@ -12661,7 +12673,7 @@ void func_8084E6D4(Player* this, PlayState* play) {
             }
 
             this->unk_850 = 2;
-            func_80835EA4(play, 9);
+            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_9);
         }
     } else {
         if (this->unk_850 == 0) {
@@ -12832,7 +12844,7 @@ void func_8084ECA4(Player* this, PlayState* play) {
                             this->interactRangeActor->parent = &this->actor;
                             Player_UpdateBottleHeld(play, this, catchInfo->itemId, ABS(catchInfo->itemAction));
                             func_808322D0(play, this, sp24->unk_04);
-                            func_80835EA4(play, 4);
+                            Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_4);
                         }
                     }
                 }
@@ -14839,6 +14851,6 @@ void func_80853148(PlayState* play, Actor* actor) {
 
     if ((this->naviActor == this->targetActor) && ((this->targetActor->textId & 0xFF00) != 0x200)) {
         this->naviActor->flags |= ACTOR_FLAG_8;
-        func_80835EA4(play, 0xB);
+        Player_CameraChangeSettingTurnAround(play, CAM_ITEM_TYPE_11);
     }
 }

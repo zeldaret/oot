@@ -691,9 +691,9 @@ s32 Player_HasMirrorShieldSetToDraw(PlayState* play) {
 }
 
 s32 Player_ActionToMagicSpell(Player* this, s32 itemAction) {
-    s32 magicSpell = itemAction - PLAYER_IA_MAGIC_SPELL_15;
+    s32 magicSpell = PLAYER_MAGIC_SPELL(itemAction);
 
-    if ((magicSpell >= 0) && (magicSpell < 6)) {
+    if ((magicSpell >= 0) && (magicSpell < PLAYER_MAGIC_SPELL_MAX)) {
         return magicSpell;
     } else {
         return -1;
@@ -735,9 +735,9 @@ s32 Player_HoldsBrokenKnife(Player* this) {
 }
 
 s32 Player_ActionToBottle(Player* this, s32 itemAction) {
-    s32 bottle = itemAction - PLAYER_IA_BOTTLE;
+    s32 bottle = PLAYER_BOTTLE(itemAction);
 
-    if ((bottle >= 0) && (bottle < 13)) {
+    if ((bottle >= 0) && (bottle < PLAYER_BOTTLE_MAX)) {
         return bottle;
     } else {
         return -1;
@@ -1388,19 +1388,19 @@ f32 sMeleeWeaponLengths[] = {
 Gfx* sBottleDLists[] = { gLinkAdultBottleDL, gLinkChildBottleDL };
 
 Color_RGB8 sBottleColors[] = {
-    { 255, 255, 255 }, // Empty
-    { 80, 80, 255 },   // Fish
-    { 255, 100, 255 }, // Fire
-    { 0, 0, 255 },     // Bug
-    { 255, 0, 255 },   // Poe
-    { 255, 0, 255 },   // Big Poe
-    { 200, 200, 100 }, // Letter
-    { 255, 0, 0 },     // Red Potion
-    { 0, 0, 255 },     // Blue Potion
-    { 0, 255, 0 },     // Green Potion
-    { 255, 255, 255 }, // Milk
-    { 255, 255, 255 }, // Half Milk
-    { 80, 80, 255 },   // Fairy
+    { 255, 255, 255 }, // PLAYER_BOTTLE(PLAYER_IA_BOTTLE)
+    { 80, 80, 255 },   // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FISH)
+    { 255, 100, 255 }, // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FIRE)
+    { 0, 0, 255 },     // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_BUG)
+    { 255, 0, 255 },   // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_POE)
+    { 255, 0, 255 },   // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_BIG_POE)
+    { 200, 200, 100 }, // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_RUTOS_LETTER)
+    { 255, 0, 0 },     // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_POTION_RED)
+    { 0, 0, 255 },     // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_POTION_BLUE)
+    { 0, 255, 0 },     // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_POTION_GREEN)
+    { 255, 255, 255 }, // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_MILK_FULL)
+    { 255, 255, 255 }, // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_MILK_HALF)
+    { 80, 80, 255 },   // PLAYER_BOTTLE(PLAYER_IA_BOTTLE_FAIRY)
 };
 
 Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };

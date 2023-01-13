@@ -121,6 +121,12 @@
 #define CAM_VIEW_FOV (1 << 5) // camera->fov
 #define CAM_VIEW_ROLL (1 << 6) // camera->roll
 
+#define CAM_SET_CAMERA_DATA_0 (1 << 0)
+#define CAM_SET_CAMERA_DATA_1 (1 << 1)
+#define CAM_SET_CAMERA_DATA_2 (1 << 2)
+#define CAM_SET_CAMERA_DATA_3 (1 << 3)
+#define CAM_SET_CAMERA_DATA_4 (1 << 4)
+
 // All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected 
 // to have their first two bgCamInfo entries be the following:
 #define BGCAM_INDEX_TOGGLE_LOCKED 0
@@ -824,7 +830,7 @@ typedef struct {
 #define KEEPON3_FLAG_5 (1 << 5)
 #define KEEPON3_FLAG_7 (1 << 7)
 
-#define CAM_FUNCDATA_KEEP3(yOffset, eyeDist, eyeDistNext, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, yawUpdateRateTarget, interfaceField) \
+#define CAM_FUNCDATA_KEEP3(yOffset, eyeDist, eyeDistNext, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, initTimer, interfaceField) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
     { eyeDist, CAM_DATA_EYE_DIST }, \
     { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
@@ -835,30 +841,46 @@ typedef struct {
     { swingPitchAdj, CAM_DATA_SWING_PITCH_ADJ }, \
     { fov, CAM_DATA_FOV }, \
     { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
-    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { initTimer, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
     { interfaceField, CAM_DATA_INTERFACE_FIELD }
 
 typedef struct {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ f32 unk_18;
+    /* 0x00 */ f32 yOffset;
+    /* 0x04 */ f32 eyeDist;
+    /* 0x08 */ f32 pitchTarget; // degrees, usage varies with KEEPON4_FLAG_EYE_
+    /* 0x0C */ f32 yawTarget; // degrees, usage varies with KEEPON4_FLAG_EYE_
+    /* 0x10 */ f32 atOffsetPlayerForwards; // distance to offset at by in the player's forwards direction
+    /* 0x14 */ f32 unk_14; // scale for stepping yaw and pitch of "at to eye" to target
+    /* 0x18 */ f32 fovTarget;
     /* 0x1C */ s16 interfaceField;
-    /* 0x1E */ s16 unk_1E;
+    /* 0x1E */ s16 initTimer;
 } KeepOn4ReadOnlyData; // size = 0x20
 
+typedef enum {
+    /*  1 */ CAM_ITEM_TYPE_1=1, // drop fish from bottle and something with ruto's letter
+    /*  2 */ CAM_ITEM_TYPE_2, // drink from bottle?
+    /*  3 */ CAM_ITEM_TYPE_3, // use bottled fairy
+    /*  4 */ CAM_ITEM_TYPE_4, // something with farore's wind, something with exchange items, catching things into bottles
+    /*  5 */ CAM_ITEM_TYPE_5, // drop bugs and blue fire from bottle
+    /*  8 */ CAM_ITEM_TYPE_8=8, // ??? get item after underwater?
+    /*  9 */ CAM_ITEM_TYPE_9, // get item
+    /* 10 */ CAM_ITEM_TYPE_10, // used farore's wind or nayru's love
+    /* 11 */ CAM_ITEM_TYPE_11, // talking to navi?
+    /* 12 */ CAM_ITEM_TYPE_ONEPOINTDEMO9806,
+    /* 81 */ CAM_ITEM_TYPE_HORSE=81,
+    /* 90 */ CAM_ITEM_TYPE_90=90, // play ocarina (on its own)?
+    /* 91 */ CAM_ITEM_TYPE_91 // play ocarina for an actor?
+} CameraItemType;
+
 typedef struct {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ s16 unk_0C;
-    /* 0x0E */ s16 unk_0E;
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
+    /* 0x00 */ f32 atToEyeTargetStepYaw;
+    /* 0x04 */ f32 atToEyeTargetStepPitch;
+    /* 0x08 */ f32 unk_08; // unused
+    /* 0x0C */ s16 atToEyeTargetYaw;
+    /* 0x0E */ s16 atToEyeTargetPitch;
+    /* 0x10 */ s16 animTimer;
+    /* 0x12 */ s16 unk_12; // unused
+    /* 0x14 */ s16 itemType;
 } KeepOn4ReadWriteData; // size = 0x18
 
 typedef struct {
@@ -866,25 +888,25 @@ typedef struct {
     /* 0x20 */ KeepOn4ReadWriteData rwData;
 } KeepOn4; // size = 0x38
 
-#define KEEPON4_FLAG_0 (1 << 0)
-#define KEEPON4_FLAG_1 (1 << 1)
-#define KEEPON4_FLAG_2 (1 << 2)
-#define KEEPON4_FLAG_3 (1 << 3)
-#define KEEPON4_FLAG_4 (1 << 4)
-#define KEEPON4_FLAG_5 (1 << 5)
-#define KEEPON4_FLAG_6 (1 << 6)
-#define KEEPON4_FLAG_7 (1 << 7)
+#define KEEPON4_FLAG_NO_CHECK_COL (1 << 0) // If set, disables checking for colliders and collision to place the camera eye. Never set
+#define KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER (1 << 1) // pitch: provided, yaw: offset from behind player
+#define KEEPON4_FLAG_EYE_ABS (1 << 2) // pitch: provided, yaw: provided. Unused
+#define KEEPON4_FLAG_EYE_FROM_TARGET (1 << 3) // pitch and yaw: depends on x/y rotations of the camera `target`, plus offsets
+#define KEEPON4_FLAG_ONEPOINTDEMO9806 (1 << 4) // Camera timer ticks down, and other things (TODO). Only set for CAM_ITEM_TYPE_ONEPOINTDEMO9806
+#define KEEPON4_FLAG_NOOP (1 << 5) // No effect. Only set for CAM_ITEM_TYPE_11
+#define KEEPON4_FLAG_EYE_KEEP_YAW (1 << 6) // pitch: provided, yaw: retain current yaw
+#define KEEPON4_FLAG_HORSE (1 << 7) // (partly a KEEPON4_FLAG_EYE_) pitch: provided, yaw: offset from the side opposite to the camera `target` compared to player
 
-#define CAM_FUNCDATA_KEEP4(yOffset, eyeDist, pitchTarget, yawTarget, atOffsetZ, fov, interfaceField, yawUpdateRateTarget, unk_22) \
+#define CAM_FUNCDATA_KEEP4(yOffset, eyeDist, pitchTarget, yawTarget, atOffsetPlayerForwards, fov, interfaceField, yawUpdateRateTarget, initTimer) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
     { eyeDist, CAM_DATA_EYE_DIST }, \
     { pitchTarget, CAM_DATA_PITCH_TARGET }, \
     { yawTarget, CAM_DATA_YAW_TARGET }, \
-    { atOffsetZ, CAM_DATA_AT_OFFSET_Z }, \
+    { atOffsetPlayerForwards, CAM_DATA_AT_OFFSET_Z }, \
     { fov, CAM_DATA_FOV }, \
     { interfaceField, CAM_DATA_INTERFACE_FIELD }, \
     { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
-    { unk_22, CAM_DATA_UNK_22 }
+    { initTimer, CAM_DATA_UNK_22 }
 
 typedef struct {
     /* 0x00 */ f32 fovScale;

@@ -3474,7 +3474,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         playerHeadPos = camPlayerPosRot->pos;
         playerHeadPos.y += playerHeight;
         Camera_AddVecGeoToVec3f(&rwData->atTarget, &playerHeadPos, &targetToPlayerDir);
-        angleCnt = ARRAY_COUNT(D_8011D3B0);
+        angleCnt = ARRAY_COUNT(sCamCheckAroundOffsetsYaw);
         i = 0;
         targetToPlayerDir.r = prevTargetPlayerDist;
         atToEyeAdj.r = roData->minDist + (targetToPlayerDir.r * (1 - 0.5f)) - atToEyeNextDir.r + atToEyeNextDir.r;
@@ -3486,8 +3486,8 @@ s32 Camera_KeepOn3(Camera* camera) {
                     !Camera_BGCheck(camera, &rwData->atTarget, &lineChkPointB)) {
                     break;
                 }
-                atToEyeAdj.yaw = sp80 + D_8011D3B0[i];
-                atToEyeAdj.pitch = sp82 + D_8011D3CC[i];
+                atToEyeAdj.yaw = sp80 + sCamCheckAroundOffsetsYaw[i];
+                atToEyeAdj.pitch = sp82 + sCamCheckAroundOffsetsPitch[i];
                 Camera_AddVecGeoToVec3f(&lineChkPointB, &rwData->atTarget, &atToEyeAdj);
                 i++;
             }
@@ -3542,24 +3542,24 @@ s32 Camera_KeepOn3(Camera* camera) {
 }
 
 s32 Camera_KeepOn4(Camera* camera) {
-    static Vec3f D_8015BD50;
+    static Vec3f sAtTarget;
     static Vec3f D_8015BD60;
-    static Vec3f D_8015BD70;
+    static Vec3f sEyeCandidate;
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
-    Actor* spCC[2];
+    Actor* lineOCCheckExclusions[2];
     f32 t = -0.5f;
-    f32 temp_f0_2;
-    CollisionPoly* spC0;
-    VecGeo spB8;
-    VecGeo spB0;
-    VecGeo spA8;
-    s16* temp_s0 = &camera->data2;
-    s16 spA2;
-    s16 spA0;
-    s16 sp9E;
-    s16 sp9C;
+    f32 camFloorY;
+    CollisionPoly* outPoly;
+    VecGeo vecGeo;
+    VecGeo atToEyeDir;
+    VecGeo atToEyeNextDir;
+    s16* itemType = &camera->data2;
+    s16 atToEyeBasePitch;
+    s16 atToEyeBaseYaw;
+    s16 camTargetYawTowardsPlayer;
+    s16 lineOCCheckNumExclusions;
     PosRot* playerPosRot = &camera->playerPosRot;
     KeepOn4ReadOnlyData* roData = &camera->paramData.keep4.roData;
     KeepOn4ReadWriteData* rwData = &camera->paramData.keep4.rwData;
@@ -3576,13 +3576,13 @@ s32 Camera_KeepOn4(Camera* camera) {
             camera->play->view.unk_124 = camera->camId | 0x50;
             return 1;
         }
-        rwData->unk_14 = *temp_s0;
+        rwData->itemType = *itemType;
         camera->stateFlags &= ~CAM_STATE_5;
     }
 
-    if (rwData->unk_14 != *temp_s0) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" VT_RST, rwData->unk_14,
-                     *temp_s0);
+    if (rwData->itemType != *itemType) {
+        osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: item: item type changed %d -> %d\n" VT_RST, rwData->itemType,
+                     *itemType);
         camera->animState = 20;
         camera->stateFlags |= CAM_STATE_5;
         camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
@@ -3596,117 +3596,120 @@ s32 Camera_KeepOn4(Camera* camera) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = 1.0f + t - (68.0f / playerHeight * t);
 
-        roData->unk_00 = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
-        roData->unk_04 = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
-        roData->unk_08 = GET_NEXT_RO_DATA(values);
-        roData->unk_0C = GET_NEXT_RO_DATA(values);
-        roData->unk_10 = GET_NEXT_RO_DATA(values);
-        roData->unk_18 = GET_NEXT_RO_DATA(values);
+        roData->yOffset = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
+        roData->eyeDist = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
+        roData->pitchTarget = GET_NEXT_RO_DATA(values);
+        roData->yawTarget = GET_NEXT_RO_DATA(values);
+        roData->atOffsetPlayerForwards = GET_NEXT_RO_DATA(values);
+        roData->fovTarget = GET_NEXT_RO_DATA(values);
         roData->interfaceField = GET_NEXT_RO_DATA(values);
         roData->unk_14 = GET_NEXT_SCALED_RO_DATA(values);
-        roData->unk_1E = GET_NEXT_RO_DATA(values);
-        osSyncPrintf("camera: item: type %d\n", *temp_s0);
-        switch (*temp_s0) {
-            case 1:
-                roData->unk_00 = playerHeight * -0.6f * yNormal;
-                roData->unk_04 = playerHeight * 2.0f * yNormal;
-                roData->unk_08 = 10.0f;
+        roData->initTimer = GET_NEXT_RO_DATA(values);
+
+        osSyncPrintf("camera: item: type %d\n", *itemType);
+        switch (*itemType) {
+            case CAM_ITEM_TYPE_1:
+                roData->yOffset = playerHeight * -0.6f * yNormal;
+                roData->eyeDist = playerHeight * 2.0f * yNormal;
+                roData->pitchTarget = 10.0f;
                 break;
 
-            case 2:
-            case 3:
-                roData->unk_08 = -20.0f;
-                roData->unk_18 = 80.0f;
+            case CAM_ITEM_TYPE_2:
+            case CAM_ITEM_TYPE_3:
+                roData->pitchTarget = -20.0f;
+                roData->fovTarget = 80.0f;
                 break;
 
-            case 4:
-                roData->unk_00 = playerHeight * -0.2f * yNormal;
-                roData->unk_08 = 25.0f;
+            case CAM_ITEM_TYPE_4:
+                roData->yOffset = playerHeight * -0.2f * yNormal;
+                roData->pitchTarget = 25.0f;
                 break;
 
-            case 8:
-                roData->unk_00 = playerHeight * -0.2f * yNormal;
-                roData->unk_04 = playerHeight * 0.8f * yNormal;
-                roData->unk_08 = 50.0f;
-                roData->unk_18 = 70.0f;
+            case CAM_ITEM_TYPE_8:
+                roData->yOffset = playerHeight * -0.2f * yNormal;
+                roData->eyeDist = playerHeight * 0.8f * yNormal;
+                roData->pitchTarget = 50.0f;
+                roData->fovTarget = 70.0f;
                 break;
 
-            case 9:
-                roData->unk_00 = playerHeight * 0.1f * yNormal;
-                roData->unk_04 = playerHeight * 0.5f * yNormal;
-                roData->unk_08 = -20.0f;
-                roData->unk_0C = 0.0f;
-                roData->interfaceField =
-                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, KEEPON4_FLAG_6);
-                break;
-
-            case 5:
-                roData->unk_00 = playerHeight * -0.4f * yNormal;
-                roData->unk_08 = -10.0f;
-                roData->unk_0C = 45.0f;
-                roData->interfaceField =
-                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_ALL, KEEPON4_FLAG_1);
-                break;
-
-            case 10:
-                roData->unk_00 = playerHeight * -0.5f * yNormal;
-                roData->unk_04 = playerHeight * 1.5f * yNormal;
-                roData->unk_08 = -15.0f;
-                roData->unk_0C = 175.0f;
-                roData->unk_18 = 70.0f;
-                roData->interfaceField =
-                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_NOTHING_ALT, KEEPON4_FLAG_1);
-                roData->unk_1E = 0x3C;
-                break;
-
-            case 12:
-                roData->unk_00 = playerHeight * -0.6f * yNormal;
-                roData->unk_04 = playerHeight * 1.6f * yNormal;
-                roData->unk_08 = -2.0f;
-                roData->unk_0C = 120.0f;
-                roData->unk_10 = player->stateFlags1 & PLAYER_STATE1_27 ? 0.0f : 20.0f;
-                roData->interfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_NOTHING_ALT,
-                                                             KEEPON4_FLAG_4 | KEEPON4_FLAG_1);
-                roData->unk_1E = 0x1E;
-                roData->unk_18 = 50.0f;
-                break;
-
-            case 0x5A:
-                roData->unk_00 = playerHeight * -0.3f * yNormal;
-                roData->unk_18 = 45.0f;
-                roData->interfaceField =
-                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE, KEEPON4_FLAG_1);
-                break;
-
-            case 0x5B:
-                roData->unk_00 = playerHeight * -0.1f * yNormal;
-                roData->unk_04 = playerHeight * 1.5f * yNormal;
-                roData->unk_08 = -3.0f;
-                roData->unk_0C = 10.0f;
-                roData->unk_18 = 55.0f;
-                roData->interfaceField =
-                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE, KEEPON4_FLAG_3);
-                break;
-
-            case 0x51:
-                roData->unk_00 = playerHeight * -0.3f * yNormal;
-                roData->unk_04 = playerHeight * 1.5f * yNormal;
-                roData->unk_08 = 2.0f;
-                roData->unk_0C = 20.0f;
-                roData->unk_10 = 20.0f;
-                roData->interfaceField =
-                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_NOTHING_ALT, KEEPON4_FLAG_7);
-                roData->unk_1E = 0x1E;
-                roData->unk_18 = 45.0f;
-                break;
-
-            case 11:
-                roData->unk_00 = playerHeight * -0.19f * yNormal;
-                roData->unk_04 = playerHeight * 0.7f * yNormal;
-                roData->unk_0C = 130.0f;
-                roData->unk_10 = 10.0f;
+            case CAM_ITEM_TYPE_9:
+                roData->yOffset = playerHeight * 0.1f * yNormal;
+                roData->eyeDist = playerHeight * 0.5f * yNormal;
+                roData->pitchTarget = -20.0f;
+                roData->yawTarget = 0.0f;
                 roData->interfaceField = CAM_INTERFACE_FIELD(
-                    CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, KEEPON4_FLAG_5 | KEEPON4_FLAG_1);
+                    CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, KEEPON4_FLAG_EYE_KEEP_YAW);
+                break;
+
+            case CAM_ITEM_TYPE_5:
+                roData->yOffset = playerHeight * -0.4f * yNormal;
+                roData->pitchTarget = -10.0f;
+                roData->yawTarget = 45.0f;
+                roData->interfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_ALL,
+                                                             KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER);
+                break;
+
+            case CAM_ITEM_TYPE_10:
+                roData->yOffset = playerHeight * -0.5f * yNormal;
+                roData->eyeDist = playerHeight * 1.5f * yNormal;
+                roData->pitchTarget = -15.0f;
+                roData->yawTarget = 175.0f;
+                roData->fovTarget = 70.0f;
+                roData->interfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_NOTHING_ALT,
+                                                             KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER);
+                roData->initTimer = 60;
+                break;
+
+            case CAM_ITEM_TYPE_ONEPOINTDEMO9806:
+                roData->yOffset = playerHeight * -0.6f * yNormal;
+                roData->eyeDist = playerHeight * 1.6f * yNormal;
+                roData->pitchTarget = -2.0f;
+                roData->yawTarget = 120.0f;
+                roData->atOffsetPlayerForwards = player->stateFlags1 & PLAYER_STATE1_27 ? 0.0f : 20.0f;
+                roData->interfaceField =
+                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_NOTHING_ALT,
+                                        KEEPON4_FLAG_ONEPOINTDEMO9806 | KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER);
+                roData->initTimer = 30;
+                roData->fovTarget = 50.0f;
+                break;
+
+            case CAM_ITEM_TYPE_90:
+                roData->yOffset = playerHeight * -0.3f * yNormal;
+                roData->fovTarget = 45.0f;
+                roData->interfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE,
+                                                             KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER);
+                break;
+
+            case CAM_ITEM_TYPE_91:
+                roData->yOffset = playerHeight * -0.1f * yNormal;
+                roData->eyeDist = playerHeight * 1.5f * yNormal;
+                roData->pitchTarget = -3.0f;
+                roData->yawTarget = 10.0f;
+                roData->fovTarget = 55.0f;
+                roData->interfaceField =
+                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_IGNORE, KEEPON4_FLAG_EYE_FROM_TARGET);
+                break;
+
+            case CAM_ITEM_TYPE_HORSE:
+                roData->yOffset = playerHeight * -0.3f * yNormal;
+                roData->eyeDist = playerHeight * 1.5f * yNormal;
+                roData->pitchTarget = 2.0f;
+                roData->yawTarget = 20.0f;
+                roData->atOffsetPlayerForwards = 20.0f;
+                roData->interfaceField =
+                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_NOTHING_ALT, KEEPON4_FLAG_HORSE);
+                roData->initTimer = 30;
+                roData->fovTarget = 45.0f;
+                break;
+
+            case CAM_ITEM_TYPE_11:
+                roData->yOffset = playerHeight * -0.19f * yNormal;
+                roData->eyeDist = playerHeight * 0.7f * yNormal;
+                roData->yawTarget = 130.0f;
+                roData->atOffsetPlayerForwards = 10.0f;
+                roData->interfaceField =
+                    CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE,
+                                        KEEPON4_FLAG_NOOP | KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER);
                 break;
 
             default:
@@ -3720,138 +3723,172 @@ s32 Camera_KeepOn4(Camera* camera) {
 
     sUpdateCameraDirection = 1;
     sCameraInterfaceField = roData->interfaceField;
-    OLib_Vec3fDiffToVecGeo(&spB0, at, eye);
-    OLib_Vec3fDiffToVecGeo(&spA8, at, eyeNext);
-    D_8015BD50 = playerPosRot->pos;
-    D_8015BD50.y += playerHeight;
-    temp_f0_2 = BgCheck_CameraRaycastDown2(&camera->play->colCtx, &spC0, &i, &D_8015BD50);
-    if (temp_f0_2 > (roData->unk_00 + D_8015BD50.y)) {
-        D_8015BD50.y = temp_f0_2 + 10.0f;
+    OLib_Vec3fDiffToVecGeo(&atToEyeDir, at, eye);
+    OLib_Vec3fDiffToVecGeo(&atToEyeNextDir, at, eyeNext);
+    sAtTarget = playerPosRot->pos;
+    sAtTarget.y += playerHeight;
+    camFloorY = BgCheck_CameraRaycastDown2(&camera->play->colCtx, &outPoly, &i, &sAtTarget);
+    if (camFloorY > (sAtTarget.y + roData->yOffset)) {
+        sAtTarget.y = camFloorY + 10.0f;
     } else {
-        D_8015BD50.y += roData->unk_00;
+        sAtTarget.y = sAtTarget.y + roData->yOffset;
     }
 
-    sp9C = 0;
+    lineOCCheckNumExclusions = 0;
     switch (camera->animState) {
         case 0:
         case 20:
-            spCC[sp9C] = &camera->player->actor;
-            sp9C++;
+            // Init
+
+            lineOCCheckExclusions[0] = &camera->player->actor;
+            lineOCCheckNumExclusions++;
+
             func_80043ABC(camera);
             camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
-            rwData->unk_10 = roData->unk_1E;
+            rwData->animTimer = roData->initTimer;
             rwData->unk_08 = playerPosRot->pos.y - camera->playerPosDelta.y;
-            if (roData->interfaceField & KEEPON4_FLAG_1) {
-                spA2 = CAM_DEG_TO_BINANG(roData->unk_08);
-                spA0 = (s16)((s16)(playerPosRot->rot.y - 0x7FFF) - spA8.yaw) > 0
-                           ? (s16)(playerPosRot->rot.y - 0x7FFF) + CAM_DEG_TO_BINANG(roData->unk_0C)
-                           : (s16)(playerPosRot->rot.y - 0x7FFF) - CAM_DEG_TO_BINANG(roData->unk_0C);
-            } else if (roData->interfaceField & KEEPON4_FLAG_2) {
-                spA2 = CAM_DEG_TO_BINANG(roData->unk_08);
-                spA0 = CAM_DEG_TO_BINANG(roData->unk_0C);
-            } else if ((roData->interfaceField & KEEPON4_FLAG_3) && camera->target != NULL) {
-                PosRot sp60;
 
-                Actor_GetWorldPosShapeRot(&sp60, camera->target);
-                spA2 = CAM_DEG_TO_BINANG(roData->unk_08) - sp60.rot.x;
-                spA0 = (s16)((s16)(sp60.rot.y - 0x7FFF) - spA8.yaw) > 0
-                           ? (s16)(sp60.rot.y - 0x7FFF) + CAM_DEG_TO_BINANG(roData->unk_0C)
-                           : (s16)(sp60.rot.y - 0x7FFF) - CAM_DEG_TO_BINANG(roData->unk_0C);
-                spCC[1] = camera->target;
-                sp9C++;
-            } else if ((roData->interfaceField & KEEPON4_FLAG_7) && camera->target != NULL) {
-                PosRot sp4C;
+            // Get base pitch and yaw to position the eye
+            if (roData->interfaceField & KEEPON4_FLAG_EYE_YAW_REL_TO_PLAYER) {
+                atToEyeBasePitch = CAM_DEG_TO_BINANG(roData->pitchTarget);
+                atToEyeBaseYaw = (s16)((s16)(playerPosRot->rot.y - 0x7FFF) - atToEyeNextDir.yaw) > 0
+                                     ? (s16)(playerPosRot->rot.y - 0x7FFF) + CAM_DEG_TO_BINANG(roData->yawTarget)
+                                     : (s16)(playerPosRot->rot.y - 0x7FFF) - CAM_DEG_TO_BINANG(roData->yawTarget);
+            } else if (roData->interfaceField & KEEPON4_FLAG_EYE_ABS) {
+                atToEyeBasePitch = CAM_DEG_TO_BINANG(roData->pitchTarget);
+                atToEyeBaseYaw = CAM_DEG_TO_BINANG(roData->yawTarget);
+            } else if ((roData->interfaceField & KEEPON4_FLAG_EYE_FROM_TARGET) && camera->target != NULL) {
+                PosRot camTargetPosRot;
 
-                Actor_GetWorld(&sp4C, camera->target);
-                spA2 = CAM_DEG_TO_BINANG(roData->unk_08);
-                sp9E = Camera_XZAngle(&sp4C.pos, &playerPosRot->pos);
-                spA0 = ((s16)(sp9E - spA8.yaw) > 0) ? sp9E + CAM_DEG_TO_BINANG(roData->unk_0C)
-                                                    : sp9E - CAM_DEG_TO_BINANG(roData->unk_0C);
-                spCC[1] = camera->target;
-                sp9C++;
-            } else if (roData->interfaceField & KEEPON4_FLAG_6) {
-                spA2 = CAM_DEG_TO_BINANG(roData->unk_08);
-                spA0 = spA8.yaw;
+                Actor_GetWorldPosShapeRot(&camTargetPosRot, camera->target);
+                atToEyeBasePitch = CAM_DEG_TO_BINANG(roData->pitchTarget) - camTargetPosRot.rot.x;
+                atToEyeBaseYaw = (s16)((s16)(camTargetPosRot.rot.y - 0x7FFF) - atToEyeNextDir.yaw) > 0
+                                     ? (s16)(camTargetPosRot.rot.y - 0x7FFF) + CAM_DEG_TO_BINANG(roData->yawTarget)
+                                     : (s16)(camTargetPosRot.rot.y - 0x7FFF) - CAM_DEG_TO_BINANG(roData->yawTarget);
+
+                lineOCCheckExclusions[1] = camera->target;
+                lineOCCheckNumExclusions++;
+            } else if ((roData->interfaceField & KEEPON4_FLAG_HORSE) && camera->target != NULL) {
+                PosRot camTargetPosRot;
+
+                Actor_GetWorld(&camTargetPosRot, camera->target);
+                atToEyeBasePitch = CAM_DEG_TO_BINANG(roData->pitchTarget);
+                camTargetYawTowardsPlayer = Camera_XZAngle(&camTargetPosRot.pos, &playerPosRot->pos);
+                atToEyeBaseYaw = ((s16)(camTargetYawTowardsPlayer - atToEyeNextDir.yaw) > 0)
+                                     ? camTargetYawTowardsPlayer + CAM_DEG_TO_BINANG(roData->yawTarget)
+                                     : camTargetYawTowardsPlayer - CAM_DEG_TO_BINANG(roData->yawTarget);
+
+                lineOCCheckExclusions[1] = camera->target;
+                lineOCCheckNumExclusions++;
+            } else if (roData->interfaceField & KEEPON4_FLAG_EYE_KEEP_YAW) {
+                atToEyeBasePitch = CAM_DEG_TO_BINANG(roData->pitchTarget);
+                atToEyeBaseYaw = atToEyeNextDir.yaw;
             } else {
-                spA2 = spA8.pitch;
-                spA0 = spA8.yaw;
+                atToEyeBasePitch = atToEyeNextDir.pitch;
+                atToEyeBaseYaw = atToEyeNextDir.yaw;
             }
 
-            spB8.pitch = spA2;
-            spB8.yaw = spA0;
-            spB8.r = roData->unk_04;
-            Camera_AddVecGeoToVec3f(&D_8015BD70, &D_8015BD50, &spB8);
-            if (!(roData->interfaceField & KEEPON4_FLAG_0)) {
-                angleCnt = ARRAY_COUNT(D_8011D3B0);
+            // Find a position for the eye such that no colider or collision is in the way
+            vecGeo.pitch = atToEyeBasePitch;
+            vecGeo.yaw = atToEyeBaseYaw;
+            vecGeo.r = roData->eyeDist;
+            Camera_AddVecGeoToVec3f(&sEyeCandidate, &sAtTarget, &vecGeo);
+            if (!(roData->interfaceField & KEEPON4_FLAG_NO_CHECK_COL)) {
+                angleCnt = ARRAY_COUNT(sCamCheckAroundOffsetsYaw);
                 for (i = 0; i < angleCnt; i++) {
-                    if (!CollisionCheck_LineOCCheck(camera->play, &camera->play->colChkCtx, &D_8015BD50, &D_8015BD70,
-                                                    spCC, sp9C) &&
-                        !Camera_BGCheck(camera, &D_8015BD50, &D_8015BD70)) {
+                    if (!CollisionCheck_LineOCCheck(camera->play, &camera->play->colChkCtx, &sAtTarget, &sEyeCandidate,
+                                                    lineOCCheckExclusions, lineOCCheckNumExclusions) &&
+                        !Camera_BGCheck(camera, &sAtTarget, &sEyeCandidate)) {
                         break;
                     }
-                    spB8.yaw = D_8011D3B0[i] + spA0;
-                    spB8.pitch = D_8011D3CC[i] + spA2;
-                    Camera_AddVecGeoToVec3f(&D_8015BD70, &D_8015BD50, &spB8);
+                    vecGeo.yaw = atToEyeBaseYaw + sCamCheckAroundOffsetsYaw[i];
+                    vecGeo.pitch = atToEyeBasePitch + sCamCheckAroundOffsetsPitch[i];
+                    Camera_AddVecGeoToVec3f(&sEyeCandidate, &sAtTarget, &vecGeo);
                 }
                 osSyncPrintf("camera: item: BG&collision check %d time(s)\n", i);
             }
-            rwData->unk_04 = (s16)(spB8.pitch - spA8.pitch) / (f32)rwData->unk_10;
-            rwData->unk_00 = (s16)(spB8.yaw - spA8.yaw) / (f32)rwData->unk_10;
-            rwData->unk_0C = spA8.yaw;
-            rwData->unk_0E = spA8.pitch;
+
+            rwData->atToEyeTargetStepPitch = (s16)(vecGeo.pitch - atToEyeNextDir.pitch) / (f32)rwData->animTimer;
+            rwData->atToEyeTargetStepYaw = (s16)(vecGeo.yaw - atToEyeNextDir.yaw) / (f32)rwData->animTimer;
+            rwData->atToEyeTargetYaw = atToEyeNextDir.yaw;
+            rwData->atToEyeTargetPitch = atToEyeNextDir.pitch;
+
+            // Init done
             camera->animState++;
+
             rwData->unk_12 = 1;
+
             break;
+
         case 10:
+            // Also init but do nothing?
             rwData->unk_08 = playerPosRot->pos.y - camera->playerPosDelta.y;
+            FALLTHROUGH;
         default:
             break;
     }
+
     camera->xzOffsetUpdateRate = 0.25f;
     camera->yOffsetUpdateRate = 0.25f;
     camera->atLERPStepScale = 0.75f;
-    Camera_LERPCeilVec3f(&D_8015BD50, at, 0.5f, 0.5f, 0.2f);
-    if (roData->unk_10 != 0.0f) {
-        spB8.r = roData->unk_10;
-        spB8.pitch = 0;
-        spB8.yaw = playerPosRot->rot.y;
-        Camera_AddVecGeoToVec3f(at, at, &spB8);
+
+    // Step at towards the at target
+    Camera_LERPCeilVec3f(&sAtTarget, at, 0.5f, 0.5f, 0.2f);
+
+    // Offset at
+    if (roData->atOffsetPlayerForwards != 0.0f) {
+        vecGeo.r = roData->atOffsetPlayerForwards;
+        vecGeo.pitch = 0;
+        vecGeo.yaw = playerPosRot->rot.y;
+        Camera_AddVecGeoToVec3f(at, at, &vecGeo);
     }
+
     camera->atLERPStepScale = 0.0f;
-    camera->dist = Camera_LERPCeilF(roData->unk_04, camera->dist, 0.25f, 2.0f);
-    spB8.r = camera->dist;
-    if (rwData->unk_10 != 0) {
+
+    camera->dist = Camera_LERPCeilF(roData->eyeDist, camera->dist, 0.25f, 2.0f);
+    vecGeo.r = camera->dist;
+
+    if (rwData->animTimer != 0) {
+        // Step eye yaw and pitch targets
         camera->stateFlags |= CAM_STATE_5;
-        rwData->unk_0C += (s16)rwData->unk_00;
-        rwData->unk_0E += (s16)rwData->unk_04;
-        rwData->unk_10--;
-    } else if (roData->interfaceField & KEEPON4_FLAG_4) {
-        camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_10);
-        camera->stateFlags |= (CAM_STATE_1 | CAM_STATE_2);
-        camera->stateFlags &= ~CAM_STATE_3;
-        if (camera->timer > 0) {
-            camera->timer--;
-        }
+        rwData->atToEyeTargetYaw += (s16)rwData->atToEyeTargetStepYaw;
+        rwData->atToEyeTargetPitch += (s16)rwData->atToEyeTargetStepPitch;
+        rwData->animTimer--;
     } else {
-        camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_10);
-        if ((camera->stateFlags & CAM_STATE_3) || (roData->interfaceField & KEEPON4_FLAG_7)) {
-            sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
+        if (roData->interfaceField & KEEPON4_FLAG_ONEPOINTDEMO9806) {
+            camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_10);
             camera->stateFlags |= (CAM_STATE_1 | CAM_STATE_2);
             camera->stateFlags &= ~CAM_STATE_3;
-            if (camera->prevBgCamIndex < 0) {
-                Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
-            } else {
-                Camera_ChangeBgCamIndex(camera, camera->prevBgCamIndex);
-                camera->prevBgCamIndex = -1;
+            if (camera->timer > 0) {
+                camera->timer--;
+            }
+        } else {
+            camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_10);
+            if ((camera->stateFlags & CAM_STATE_3) || (roData->interfaceField & KEEPON4_FLAG_HORSE)) {
+                sCameraInterfaceField = CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0);
+                camera->stateFlags |= (CAM_STATE_1 | CAM_STATE_2);
+                camera->stateFlags &= ~CAM_STATE_3;
+                if (camera->prevBgCamIndex < 0) {
+                    Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
+                } else {
+                    Camera_ChangeBgCamIndex(camera, camera->prevBgCamIndex);
+                    camera->prevBgCamIndex = -1;
+                }
             }
         }
     }
-    spB8.yaw = Camera_LERPCeilS(rwData->unk_0C, spA8.yaw, roData->unk_14, 4);
-    spB8.pitch = Camera_LERPCeilS(rwData->unk_0E, spA8.pitch, roData->unk_14, 4);
-    Camera_AddVecGeoToVec3f(eyeNext, at, &spB8);
+
+    // Step eye yaw and pitch
+    vecGeo.yaw = Camera_LERPCeilS(rwData->atToEyeTargetYaw, atToEyeNextDir.yaw, roData->unk_14, 4);
+    vecGeo.pitch = Camera_LERPCeilS(rwData->atToEyeTargetPitch, atToEyeNextDir.pitch, roData->unk_14, 4);
+    // Compute eyeNext
+    Camera_AddVecGeoToVec3f(eyeNext, at, &vecGeo);
+    // Compute eye (accounting for collision)
     *eye = *eyeNext;
     Camera_BGCheck(camera, at, eye);
-    camera->fov = Camera_LERPCeilF(roData->unk_18, camera->fov, camera->fovUpdateRate, 1.0f);
+
+    // Step fov, roll
+    camera->fov = Camera_LERPCeilF(roData->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
 }
 
@@ -8342,25 +8379,24 @@ Vec3f* Camera_GetQuakeOffset(Vec3f* quakeOffset, Camera* camera) {
     return quakeOffset;
 }
 
-void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
-                          UNK_TYPE arg6) {
-    if (setDataFlags & 0x1) {
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3, s32 data4) {
+    if (setDataFlags & CAM_SET_CAMERA_DATA_0) {
         camera->data0 = data0;
     }
 
-    if (setDataFlags & 0x2) {
+    if (setDataFlags & CAM_SET_CAMERA_DATA_1) {
         camera->data1 = data1;
     }
 
-    if (setDataFlags & 0x4) {
+    if (setDataFlags & CAM_SET_CAMERA_DATA_2) {
         camera->data2 = data2;
     }
 
-    if (setDataFlags & 0x8) {
+    if (setDataFlags & CAM_SET_CAMERA_DATA_3) {
         camera->data3 = data3;
     }
 
-    if (setDataFlags & 0x10) {
+    if (setDataFlags & CAM_SET_CAMERA_DATA_4) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera: setCameraData: last argument not alive!\n" VT_RST);
     }
 }
