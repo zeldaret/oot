@@ -445,7 +445,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     this->actor.velocity.y += this->actor.gravity;
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
 
     if (!this->isPlayerOutOfRange) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 5.0f, 10.0f,

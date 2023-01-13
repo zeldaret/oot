@@ -388,7 +388,7 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->yawToWaypoint, 1, 2500, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     Math_SmoothStepToF(&this->actor.speed, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     return 0;
@@ -526,9 +526,10 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
         s32 linkChildObjBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_LINK_CHILD);
 
+        // Draw Bunny Hood
         if (linkChildObjBankIndex >= 0) {
             Mtx* mtx;
-            Vec3s sp50;
+            Vec3s earRot;
             Mtx* mtx2;
 
             mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 2);
@@ -540,18 +541,20 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
 
-            sp50.x = 994;
-            sp50.y = 3518;
-            sp50.z = -13450;
+            // Draw the ears in the neutral position (unlike Player, no flopping physics)
 
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
+            // Right ear
+            earRot.x = 0x3E2;
+            earRot.y = 0xDBE;
+            earRot.z = -0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
             Matrix_ToMtx(mtx++, "../z_en_mm.c", 1124);
 
-            sp50.x = -994;
-            sp50.y = -3518;
-            sp50.z = -13450;
-
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
+            // Left ear
+            earRot.x = -0x3E2;
+            earRot.y = -0xDBE;
+            earRot.z = -0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
             Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);

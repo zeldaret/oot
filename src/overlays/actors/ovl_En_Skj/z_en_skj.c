@@ -992,7 +992,7 @@ void EnSkj_WaitForSong(EnSkj* this, PlayState* play) {
             player->stateFlags2 |= PLAYER_STATE2_23;
         } else {
             if (play->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
-                gSaveContext.sunsSongState = 0;
+                gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                 if (GET_ITEMGETINF(ITEMGETINF_16)) {
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
@@ -1336,7 +1336,7 @@ void EnSkj_Update(Actor* thisx, PlayState* play) {
 
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
 }
@@ -1356,7 +1356,7 @@ void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, PlayState* play) {
 void EnSkj_TurnPlayer(EnSkj* this, Player* player) {
     Math_SmoothStepToS(&player->actor.shape.rot.y, this->actor.world.rot.y, 5, 2000, 0);
     player->actor.world.rot.y = player->actor.shape.rot.y;
-    player->currentYaw = player->actor.shape.rot.y;
+    player->yaw = player->actor.shape.rot.y;
 }
 
 void EnSkj_SetupWaitForOcarina(EnSkj* this, PlayState* play) {

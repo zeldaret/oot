@@ -194,7 +194,7 @@ void ObjLift_Fall(ObjLift* this, PlayState* play) {
     s32 bgId;
     Vec3f pos;
 
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
     Math_Vec3f_Copy(&pos, &this->dyna.actor.prevPos);
     pos.y += sMaxFallDistances[(this->dyna.actor.params >> 1) & 1];
     this->dyna.actor.floorHeight =

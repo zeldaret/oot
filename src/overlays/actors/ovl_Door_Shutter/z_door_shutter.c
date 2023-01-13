@@ -866,7 +866,7 @@ void DoorShutter_WaitPlayerSurprised(DoorShutter* this, PlayState* play) {
 }
 
 void DoorShutter_GohmaBlockFall(DoorShutter* this, PlayState* play) {
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
     Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         DoorShutter_SetupAction(this, DoorShutter_GohmaBlockBounce);
