@@ -40,7 +40,7 @@ static u8 sEquipmentItemOffsets[] = {
     0,                                       // unused
     ITEM_SWORD_KOKIRI - ITEM_SWORD_KOKIRI,   // EQUIP_VALUE_SWORD_KOKIRI
     ITEM_SWORD_MASTER - ITEM_SWORD_KOKIRI,   // EQUIP_VALUE_SWORD_MASTER
-    ITEM_SWORD_BIGGORON - ITEM_SWORD_KOKIRI, // EQUIP_VALUE_SWORD_BGS
+    ITEM_SWORD_BIGGORON - ITEM_SWORD_KOKIRI, // EQUIP_VALUE_SWORD_BIGGORON
     // EQUIP_TYPE_SHIELD
     0,                                      // unused
     ITEM_SHIELD_DEKU - ITEM_SWORD_KOKIRI,   // EQUIP_VALUE_SHIELD_DEKU
@@ -487,7 +487,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         }
 
         if ((pauseCtx->cursorY[PAUSE_EQUIP] == EQUIP_TYPE_SWORD) &&
-            (pauseCtx->cursorX[PAUSE_EQUIP] == EQUIP_VALUE_SWORD_BGS)) {
+            (pauseCtx->cursorX[PAUSE_EQUIP] == EQUIP_VALUE_SWORD_BIGGORON)) {
             if (gSaveContext.bgsFlag) {
                 cursorItem = ITEM_HEART_PIECE_2;
             } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
@@ -546,7 +546,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     gSaveContext.infTable[INFTABLE_1DX_INDEX] = 0;
                     gSaveContext.equips.buttonItems[0] = cursorItem;
 
-                    if ((pauseCtx->cursorX[PAUSE_EQUIP] == EQUIP_VALUE_SWORD_BGS) && gSaveContext.bgsFlag) {
+                    if ((pauseCtx->cursorX[PAUSE_EQUIP] == EQUIP_VALUE_SWORD_BIGGORON) && gSaveContext.bgsFlag) {
                         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                         gSaveContext.swordHealth = 8;
                     } else {
@@ -659,10 +659,10 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
         for (k = 0, bit = rowStart, point = 4; k < 3; k++, point += 4, temp++, bit++) {
 
-            if (((u32)i == EQUIP_TYPE_SWORD) && (k == EQUIP_INV_SWORD_BGS) && gSaveContext.bgsFlag) {
+            if (((u32)i == EQUIP_TYPE_SWORD) && (k == EQUIP_INV_SWORD_BIGGORON) && gSaveContext.bgsFlag) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIconSwordBiggoronTex, ITEM_ICON_WIDTH,
                                                    ITEM_ICON_HEIGHT, point);
-            } else if ((i == EQUIP_TYPE_SWORD) && (k == EQUIP_INV_SWORD_BGS) &&
+            } else if ((i == EQUIP_TYPE_SWORD) && (k == EQUIP_INV_SWORD_BIGGORON) &&
                        (gBitFlags[bit + 1] & gSaveContext.inventory.equipment)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIconBrokenGiantsKnifeTex, ITEM_ICON_WIDTH,
                                                    ITEM_ICON_HEIGHT, point);

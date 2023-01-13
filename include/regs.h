@@ -91,7 +91,7 @@
 #define R_CAM_YOFFSET_NORM                       OREG(46)
 #define R_CAM_DATA(type)                         PREG(0 + (type))
 #define R_CAM_PARALLEL_LOCKON_CALC_SLOPE_Y_ADJ   PREG(76)
-#define R_DBG_CAM_UPDATE                         PREG(80)
+#define R_DEBUG_CAM_UPDATE                       PREG(80)
 #define R_DBG_REG_UPDATE                         PREG(82)
 #define R_RELOAD_CAM_PARAMS                      QREG(0)
 #define R_SCENE_CAM_TYPE                         YREG(15)

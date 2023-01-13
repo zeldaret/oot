@@ -1282,7 +1282,7 @@ void Interface_InitHorsebackArchery(PlayState* play) {
 }
 
 void func_800849EC(PlayState* play) {
-    gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BGS);
+    gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BIGGORON);
     gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
 
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
@@ -1419,7 +1419,7 @@ u8 Item_Give(PlayState* play, u8 item) {
             gSaveContext.swordHealth = 8;
 
             if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) ==
-                ((1 << EQUIP_INV_SWORD_KOKIRI) | (1 << EQUIP_INV_SWORD_MASTER) | (1 << EQUIP_INV_SWORD_BGS) |
+                ((1 << EQUIP_INV_SWORD_KOKIRI) | (1 << EQUIP_INV_SWORD_MASTER) | (1 << EQUIP_INV_SWORD_BIGGORON) |
                  (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE))) {
                 gSaveContext.inventory.equipment ^=
                     OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
