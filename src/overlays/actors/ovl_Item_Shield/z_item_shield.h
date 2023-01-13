@@ -23,7 +23,7 @@ typedef struct ItemShield {
     /* 0x019A */ s16 timer;
     /* 0x019C */ s16 stateFlags;
     /* 0x019E */ u8 flameTypes[ITEMSHIELD_FLAME_COUNT];
-    /* 0x01A8 */ Vec3f flameBasePoss[ITEMSHIELD_FLAME_COUNT];
+    /* 0x01A8 */ Vec3f flamePos[ITEMSHIELD_FLAME_COUNT];
     /* 0x0208 */ ItemShieldActionFunc actionFunc;
 } ItemShield; // size = 0x020C
 

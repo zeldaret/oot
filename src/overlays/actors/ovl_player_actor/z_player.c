@@ -9956,7 +9956,6 @@ s32 func_80847A78(Player* this) {
 
 static Vec3f D_80854798 = { 0.0f, 18.0f, 0.0f };
 
-// Player_UpdateBgCheck
 void func_80847BA0(PlayState* play, Player* this) {
     u8 spC7 = 0;
     CollisionPoly* floorPoly;

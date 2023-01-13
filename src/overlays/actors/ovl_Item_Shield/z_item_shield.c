@@ -80,9 +80,9 @@ void ItemShield_Init(Actor* thisx, PlayState* play) {
             this->stateFlags |= ITEMSHIELD_STATE_INVISIBLE;
             for (i = 0; i < ITEMSHIELD_FLAME_COUNT; i++) {
                 this->flameTypes[i] = 1 + 2 * i;
-                this->flameBasePoss[i].x = Rand_CenteredFloat(10.0f);
-                this->flameBasePoss[i].y = Rand_CenteredFloat(10.0f);
-                this->flameBasePoss[i].z = Rand_CenteredFloat(10.0f);
+                this->flamePos[i].x = Rand_CenteredFloat(10.0f);
+                this->flamePos[i].y = Rand_CenteredFloat(10.0f);
+                this->flamePos[i].z = Rand_CenteredFloat(10.0f);
             }
             break;
     }
@@ -150,7 +150,7 @@ void ItemShield_Collectible_Wait(ItemShield* this, PlayState* play) {
 #define ITEMSHIELD_FLAME_TYPE_COUNT 15
 
 void ItemShield_Burning_Combust(ItemShield* this, PlayState* play) {
-    static Vec3f sFlamePos = { 0.0f, 0.0f, 0.0f };
+    static Vec3f sFlameSpawnPos = { 0.0f, 0.0f, 0.0f };
     static f32 sFlameScales[] = {
         0.3f, 0.6f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.85f, 0.7f, 0.55f, 0.4f, 0.25f, 0.1f, 0.0f,
     };
@@ -168,12 +168,12 @@ void ItemShield_Burning_Combust(ItemShield* this, PlayState* play) {
     for (i = 0; i < ITEMSHIELD_FLAME_COUNT; i++) {
         type = ITEMSHIELD_FLAME_TYPE_COUNT - this->flameTypes[i];
 
-        sFlamePos.x = this->flameBasePoss[i].x;
-        sFlamePos.y =
-            this->flameBasePoss[i].y + (this->actor.shape.yOffset * 0.01f) + (sFlameScales[type] * -10.0f * 0.2f);
-        sFlamePos.z = this->flameBasePoss[i].z;
+        sFlameSpawnPos.x = this->flamePos[i].x;
+        sFlameSpawnPos.y =
+            this->flamePos[i].y + (this->actor.shape.yOffset * 0.01f) + (sFlameScales[type] * -10.0f * 0.2f);
+        sFlameSpawnPos.z = this->flamePos[i].z;
 
-        EffectSsFireTail_SpawnFlame(play, &this->actor, &sFlamePos, sFlameScales[type] * 0.2f, -1,
+        EffectSsFireTail_SpawnFlame(play, &this->actor, &sFlameSpawnPos, sFlameScales[type] * 0.2f, -1,
                                     sFlameIntensities[type]);
 
         // cycle through flame types and pick new random positions until the shield is about to disappear
@@ -181,9 +181,9 @@ void ItemShield_Burning_Combust(ItemShield* this, PlayState* play) {
             this->flameTypes[i]--;
         } else if (this->timer > 16) {
             this->flameTypes[i] = ITEMSHIELD_FLAME_TYPE_COUNT;
-            this->flameBasePoss[i].x = Rand_CenteredFloat(15.0f);
-            this->flameBasePoss[i].y = Rand_CenteredFloat(10.0f);
-            this->flameBasePoss[i].z = Rand_CenteredFloat(15.0f);
+            this->flamePos[i].x = Rand_CenteredFloat(15.0f);
+            this->flamePos[i].y = Rand_CenteredFloat(10.0f);
+            this->flamePos[i].z = Rand_CenteredFloat(15.0f);
         }
     }
 
