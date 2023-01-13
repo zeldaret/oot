@@ -186,7 +186,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
 
 void DoorWarp1_SetupAdultDungeonWarp(DoorWarp1* this, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
-    Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 40.0f, 1);
+    Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 40.0f, ANIMTAPER_ACCEL);
 
     this->scale = 0;
     this->unk_1AE = -140;
@@ -215,7 +215,7 @@ void DoorWarp1_SetupBlueCrystal(DoorWarp1* this, PlayState* play) {
 
     SkelAnime_Init(play, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
     Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 0, Animation_GetLastFrame(&gWarpCrystalAnim),
-                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, 1);
+                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, ANIMTAPER_ACCEL);
 
     this->skelAnime.curFrame = Animation_GetLastFrame(&gWarpCrystalAnim);
     this->scale = 10;
@@ -244,7 +244,7 @@ void DoorWarp1_SetupBlueCrystal(DoorWarp1* this, PlayState* play) {
 void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
     Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 0, Animation_GetLastFrame(&gWarpCrystalAnim),
-                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, 1);
+                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, ANIMTAPER_ACCEL);
 
     this->skelAnime.curFrame = Animation_GetLastFrame(&gWarpCrystalAnim);
     this->unk_1AE = 120;
@@ -668,7 +668,7 @@ void func_8099A508(DoorWarp1* this, PlayState* play) {
     Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, Animation_GetLastFrame(&gWarpCrystalAnim),
-                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 40.0f, 1);
+                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 40.0f, ANIMTAPER_ACCEL);
 
     this->unk_1B2 = 0x32;
     DoorWarp1_SetupAction(this, DoorWarp1_AdultWarpOut);

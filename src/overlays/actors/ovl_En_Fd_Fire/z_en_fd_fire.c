@@ -192,13 +192,13 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play) {
         if (this->actor.speed < 0.1f) {
             this->actor.speed = 5.0f;
         }
-        func_8002D868(&this->actor);
+        Actor_UpdateVelocityXZGravity(&this->actor);
     }
 }
 
 void EnFdFire_Disappear(EnFdFire* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 0.6f, 9.0f, 0.0f);
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
     Math_SmoothStepToF(&this->scale, 0.0f, 0.3f, 0.1f, 0.0f);
     this->actor.shape.shadowScale = 20.0f;
     this->actor.shape.shadowScale *= (this->scale / 3.0f);
@@ -217,7 +217,7 @@ void EnFdFire_Update(Actor* thisx, PlayState* play) {
         }
     }
 
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     this->actionFunc(this, play);
     Actor_UpdateBgCheckInfo(play, &this->actor, 12.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 

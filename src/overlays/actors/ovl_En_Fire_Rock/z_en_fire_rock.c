@@ -339,7 +339,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
             thisx->gravity = -0.3f - (this->scale * 7.0f);
         }
         if (this->type != FIRE_ROCK_ON_FLOOR) {
-            Actor_MoveForward(thisx);
+            Actor_MoveXZGravity(thisx);
             Actor_UpdateBgCheckInfo(play, thisx, 50.0f, 50.0f, 100.0f,
                                     UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
         }
