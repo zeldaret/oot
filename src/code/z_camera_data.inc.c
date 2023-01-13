@@ -2676,12 +2676,12 @@ s32 sDemo5PrevSfxFrame = -200;
 // target is player, far from eye
 OnePointCsFull D_8011D6AC[] = {
     {
-        // initflags & 0x00FF (at): 2, atTarget is view lookAt + atInit
-        // initFlags & 0xFF00 (eye): none
+        // viewFlags & 0x00FF (at): 2, atTarget is view lookAt + atInit
+        // viewFlags & 0xFF00 (eye): none
         // action: 15, copy at, eye, roll, fov to camera
         // result: eye remains in the same location, at is View's lookAt
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0002,
         1,
         0,
@@ -2691,12 +2691,12 @@ OnePointCsFull D_8011D6AC[] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        // initFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
-        // initFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
+        // viewFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
+        // viewFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
         // action: interpolate eye and at.
         // result: eye and at's y interpolate to become +20 from their current location.
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         19,
         0,
@@ -2706,11 +2706,11 @@ OnePointCsFull D_8011D6AC[] = {
         { 0.0f, 20.0f, 0.0f },
     },
     {
-        // initFlags & 0x00FF (at): 0 none
-        // initFlags & 0xFF00 (eye): 0 none
+        // viewFlags & 0x00FF (at): 0 none
+        // viewFlags & 0xFF00 (eye): 0 none
         // action: 18, copy this camera to default camera.
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2725,7 +2725,7 @@ OnePointCsFull D_8011D6AC[] = {
 OnePointCsFull D_8011D724[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2424,
         1,
         0,
@@ -2736,7 +2736,7 @@ OnePointCsFull D_8011D724[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         19,
         0,
@@ -2747,7 +2747,7 @@ OnePointCsFull D_8011D724[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2762,7 +2762,7 @@ OnePointCsFull D_8011D724[] = {
 OnePointCsFull D_8011D79C[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0002,
         1,
         0,
@@ -2773,7 +2773,7 @@ OnePointCsFull D_8011D79C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         19,
         0,
@@ -2784,7 +2784,7 @@ OnePointCsFull D_8011D79C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         9,
         0,
@@ -2795,7 +2795,7 @@ OnePointCsFull D_8011D79C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2810,7 +2810,7 @@ OnePointCsFull D_8011D79C[] = {
 OnePointCsFull D_8011D83C[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2141,
         20,
         0,
@@ -2821,7 +2821,7 @@ OnePointCsFull D_8011D83C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2838,7 +2838,7 @@ OnePointCsFull D_8011D83C[] = {
 OnePointCsFull D_8011D88C[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         20,
         0,
@@ -2849,7 +2849,7 @@ OnePointCsFull D_8011D88C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2864,7 +2864,7 @@ OnePointCsFull D_8011D88C[] = {
 OnePointCsFull D_8011D8DC[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         20,
         1,
@@ -2875,7 +2875,7 @@ OnePointCsFull D_8011D8DC[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         5,
         0,
@@ -2886,7 +2886,7 @@ OnePointCsFull D_8011D8DC[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2901,7 +2901,7 @@ OnePointCsFull D_8011D8DC[] = {
 OnePointCsFull D_8011D954[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xC1C1,
         20,
         0,
@@ -2912,7 +2912,7 @@ OnePointCsFull D_8011D954[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x05B1,
         5,
         0,
@@ -2923,7 +2923,7 @@ OnePointCsFull D_8011D954[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         5,
         2,
@@ -2934,7 +2934,7 @@ OnePointCsFull D_8011D954[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2949,7 +2949,7 @@ OnePointCsFull D_8011D954[] = {
 OnePointCsFull D_8011D9F4[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0504,
         20,
         2,
@@ -2960,7 +2960,7 @@ OnePointCsFull D_8011D9F4[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         5,
         2,
@@ -2971,7 +2971,7 @@ OnePointCsFull D_8011D9F4[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,

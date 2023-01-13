@@ -783,9 +783,9 @@ void Camera_UpdateInterface(s16 interfaceField) {
         }
     }
 
-    if ((interfaceField & CAM_HUD_VISIBILITY_MASK) != CAM_HUD_VISIBILITY_IGNORE) {
+    if ((interfaceField & CAM_HUD_VISIBILITY_MASK) != CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_IGNORE)) {
         hudVisibilityMode = (interfaceField & CAM_HUD_VISIBILITY_MASK) >> CAM_HUD_VISIBILITY_SHIFT;
-        if (hudVisibilityMode == (CAM_HUD_VISIBILITY_ALL >> CAM_HUD_VISIBILITY_SHIFT)) {
+        if (hudVisibilityMode == CAM_HUD_VISIBILITY_ALL) {
             hudVisibilityMode = HUD_VISIBILITY_ALL;
         }
         if (sCameraHudVisibilityMode != hudVisibilityMode) {
@@ -5204,8 +5204,8 @@ s32 Camera_Unique9(Camera* camera) {
     VecGeo scratchGeo;
     VecGeo playerTargetOffset;
     s16 action;
-    s16 atInitFlags;
-    s16 eyeInitFlags;
+    s16 atFlags;
+    s16 eyeFlags;
     s16 pad2;
     PosRot targethead;
     PosRot playerhead;
@@ -5257,19 +5257,21 @@ s32 Camera_Unique9(Camera* camera) {
             rwData->curKeyFrame = &ONEPOINT_CS_INFO(camera)->keyFrames[rwData->curKeyFrameIdx];
             rwData->keyFrameTimer = rwData->curKeyFrame->timerInit;
 
-            if (rwData->curKeyFrame->unk_01 != 0xFF) {
-                if ((rwData->curKeyFrame->unk_01 & 0xF0) == 0x80) {
-                    D_8011D3AC = rwData->curKeyFrame->unk_01 & 0xF;
-                } else if ((rwData->curKeyFrame->unk_01 & 0xF0) == 0xC0) {
+            if (rwData->curKeyFrame->initField != ONEPOINT_CS_INIT_FIELD_NONE) {
+                if (ONEPOINT_CS_INIT_FIELD_IS_TYPE_ACTORCAT(rwData->curKeyFrame->initField)) {
+                    D_8011D3AC = rwData->curKeyFrame->initField & 0xF;
+                } else if (ONEPOINT_CS_INIT_FIELD_IS_TYPE_HUD_VISIBILITY(rwData->curKeyFrame->initField)) {
                     Camera_UpdateInterface(
-                        CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, CAM_HUD_VISIBILITY(rwData->curKeyFrame->unk_01), 0));
-                } else if (camera->player->stateFlags1 & PLAYER_STATE1_27 &&
-                           player->currentBoots != PLAYER_BOOTS_IRON) {
-                    func_8002DF38(camera->play, camera->target, PLAYER_CSMODE_8);
-                    osSyncPrintf("camera: demo: player demo set WAIT\n");
-                } else {
-                    osSyncPrintf("camera: demo: player demo set %d\n", rwData->curKeyFrame->unk_01);
-                    func_8002DF38(camera->play, camera->target, rwData->curKeyFrame->unk_01);
+                        CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, rwData->curKeyFrame->initField, 0));
+                } else { // initField is of type PlayerCsMode
+                    if ((camera->player->stateFlags1 & PLAYER_STATE1_27) &&
+                        (player->currentBoots != PLAYER_BOOTS_IRON)) {
+                        func_8002DF38(camera->play, camera->target, PLAYER_CSMODE_8);
+                        osSyncPrintf("camera: demo: player demo set WAIT\n");
+                    } else {
+                        osSyncPrintf("camera: demo: player demo set %d\n", rwData->curKeyFrame->initField);
+                        func_8002DF38(camera->play, camera->target, rwData->curKeyFrame->initField);
+                    }
                 }
             }
         } else {
@@ -5283,29 +5285,29 @@ s32 Camera_Unique9(Camera* camera) {
         rwData->isNewKeyFrame = false;
     }
 
-    atInitFlags = rwData->curKeyFrame->initFlags & 0xFF;
-    if (atInitFlags == 1) {
+    atFlags = rwData->curKeyFrame->viewFlags & 0xFF;
+    if (atFlags == 1) {
         rwData->atTarget = rwData->curKeyFrame->atTargetInit;
-    } else if (atInitFlags == 2) {
+    } else if (atFlags == 2) {
         if (rwData->isNewKeyFrame) {
             rwData->atTarget.x = camera->play->view.at.x + rwData->curKeyFrame->atTargetInit.x;
             rwData->atTarget.y = camera->play->view.at.y + rwData->curKeyFrame->atTargetInit.y;
             rwData->atTarget.z = camera->play->view.at.z + rwData->curKeyFrame->atTargetInit.z;
         }
-    } else if (atInitFlags == 3) {
+    } else if (atFlags == 3) {
         if (rwData->isNewKeyFrame) {
             rwData->atTarget.x = camera->at.x + rwData->curKeyFrame->atTargetInit.x;
             rwData->atTarget.y = camera->at.y + rwData->curKeyFrame->atTargetInit.y;
             rwData->atTarget.z = camera->at.z + rwData->curKeyFrame->atTargetInit.z;
         }
-    } else if (atInitFlags == 4 || atInitFlags == 0x84) {
+    } else if (atFlags == 4 || atFlags == 0x84) {
         if (camera->target != NULL && camera->target->update != NULL) {
             Actor_GetFocus(&targethead, camera->target);
             Actor_GetFocus(&playerhead, &camera->player->actor);
             playerhead.pos.x = playerPosRot.pos.x;
             playerhead.pos.z = playerPosRot.pos.z;
             OLib_Vec3fDiffToVecGeo(&playerTargetOffset, &targethead.pos, &playerhead.pos);
-            if (atInitFlags & (s16)0x8080) {
+            if (atFlags & (s16)0x8080) {
                 scratchGeo.pitch = CAM_DEG_TO_BINANG(rwData->curKeyFrame->atTargetInit.x);
                 scratchGeo.yaw = CAM_DEG_TO_BINANG(rwData->curKeyFrame->atTargetInit.y);
                 scratchGeo.r = rwData->curKeyFrame->atTargetInit.z;
@@ -5323,9 +5325,9 @@ s32 Camera_Unique9(Camera* camera) {
             camera->target = NULL;
             rwData->atTarget = camera->at;
         }
-    } else if (atInitFlags & 0x6060) {
-        if (!(atInitFlags & 4) || rwData->isNewKeyFrame) {
-            if (atInitFlags & 0x2020) {
+    } else if (atFlags & 0x6060) {
+        if (!(atFlags & 4) || rwData->isNewKeyFrame) {
+            if (atFlags & 0x2020) {
                 focusActor = &camera->player->actor;
             } else if (camera->target != NULL && camera->target->update != NULL) {
                 focusActor = camera->target;
@@ -5335,15 +5337,15 @@ s32 Camera_Unique9(Camera* camera) {
             }
 
             if (focusActor != NULL) {
-                if ((atInitFlags & 0xF) == 1) {
+                if ((atFlags & 0xF) == 1) {
                     Actor_GetFocus(&atFocusPosRot, focusActor);
-                } else if ((atInitFlags & 0xF) == 2) {
+                } else if ((atFlags & 0xF) == 2) {
                     Actor_GetWorld(&atFocusPosRot, focusActor);
                 } else {
                     Actor_GetWorldPosShapeRot(&atFocusPosRot, focusActor);
                 }
 
-                if (atInitFlags & (s16)0x8080) {
+                if (atFlags & (s16)0x8080) {
                     scratchGeo.pitch = CAM_DEG_TO_BINANG(rwData->curKeyFrame->atTargetInit.x);
                     scratchGeo.yaw = CAM_DEG_TO_BINANG(rwData->curKeyFrame->atTargetInit.y);
                     scratchGeo.r = rwData->curKeyFrame->atTargetInit.z;
@@ -5365,36 +5367,35 @@ s32 Camera_Unique9(Camera* camera) {
         rwData->atTarget = *at;
     }
 
-    eyeInitFlags = rwData->curKeyFrame->initFlags & 0xFF00;
-    if (eyeInitFlags == 0x100) {
+    eyeFlags = rwData->curKeyFrame->viewFlags & 0xFF00;
+    if (eyeFlags == 0x100) {
         rwData->eyeTarget = rwData->curKeyFrame->eyeTargetInit;
-    } else if (eyeInitFlags == 0x200) {
+    } else if (eyeFlags == 0x200) {
         if (rwData->isNewKeyFrame) {
             rwData->eyeTarget.x = camera->play->view.eye.x + rwData->curKeyFrame->eyeTargetInit.x;
             rwData->eyeTarget.y = camera->play->view.eye.y + rwData->curKeyFrame->eyeTargetInit.y;
             rwData->eyeTarget.z = camera->play->view.eye.z + rwData->curKeyFrame->eyeTargetInit.z;
         }
-    } else if (eyeInitFlags == 0x300) {
+    } else if (eyeFlags == 0x300) {
         if (rwData->isNewKeyFrame) {
             rwData->eyeTarget.x = camera->eyeNext.x + rwData->curKeyFrame->eyeTargetInit.x;
             rwData->eyeTarget.y = camera->eyeNext.y + rwData->curKeyFrame->eyeTargetInit.y;
             rwData->eyeTarget.z = camera->eyeNext.z + rwData->curKeyFrame->eyeTargetInit.z;
         }
-    } else if (eyeInitFlags == 0x400 || eyeInitFlags == (s16)0x8400 || eyeInitFlags == 0x500 ||
-               eyeInitFlags == (s16)0x8500) {
+    } else if (eyeFlags == 0x400 || eyeFlags == (s16)0x8400 || eyeFlags == 0x500 || eyeFlags == (s16)0x8500) {
         if (camera->target != NULL && camera->target->update != NULL) {
             Actor_GetFocus(&targethead, camera->target);
             Actor_GetFocus(&playerhead, &camera->player->actor);
             playerhead.pos.x = playerPosRot.pos.x;
             playerhead.pos.z = playerPosRot.pos.z;
             OLib_Vec3fDiffToVecGeo(&playerTargetOffset, &targethead.pos, &playerhead.pos);
-            if (eyeInitFlags == 0x400 || eyeInitFlags == (s16)0x8400) {
+            if (eyeFlags == 0x400 || eyeFlags == (s16)0x8400) {
                 eyeLookAtPos = targethead.pos;
             } else {
                 eyeLookAtPos = rwData->atTarget;
             }
 
-            if (eyeInitFlags & (s16)0x8080) {
+            if (eyeFlags & (s16)0x8080) {
                 scratchGeo.pitch = CAM_DEG_TO_BINANG(rwData->curKeyFrame->eyeTargetInit.x);
                 scratchGeo.yaw = CAM_DEG_TO_BINANG(rwData->curKeyFrame->eyeTargetInit.y);
                 scratchGeo.r = rwData->curKeyFrame->eyeTargetInit.z;
@@ -5412,9 +5413,9 @@ s32 Camera_Unique9(Camera* camera) {
             camera->target = NULL;
             rwData->eyeTarget = *eyeNext;
         }
-    } else if (eyeInitFlags & 0x6060) {
-        if (!(eyeInitFlags & 0x400) || rwData->isNewKeyFrame) {
-            if (eyeInitFlags & 0x2020) {
+    } else if (eyeFlags & 0x6060) {
+        if (!(eyeFlags & 0x400) || rwData->isNewKeyFrame) {
+            if (eyeFlags & 0x2020) {
                 focusActor = &camera->player->actor;
             } else if (camera->target != NULL && camera->target->update != NULL) {
                 focusActor = camera->target;
@@ -5424,10 +5425,10 @@ s32 Camera_Unique9(Camera* camera) {
             }
 
             if (focusActor != NULL) {
-                if ((eyeInitFlags & 0xF00) == 0x100) {
+                if ((eyeFlags & 0xF00) == 0x100) {
                     // head
                     Actor_GetFocus(&eyeFocusPosRot, focusActor);
-                } else if ((eyeInitFlags & 0xF00) == 0x200) {
+                } else if ((eyeFlags & 0xF00) == 0x200) {
                     // world
                     Actor_GetWorld(&eyeFocusPosRot, focusActor);
                 } else {
@@ -5435,7 +5436,7 @@ s32 Camera_Unique9(Camera* camera) {
                     Actor_GetWorldPosShapeRot(&eyeFocusPosRot, focusActor);
                 }
 
-                if (eyeInitFlags & (s16)0x8080) {
+                if (eyeFlags & (s16)0x8080) {
                     scratchGeo.pitch = CAM_DEG_TO_BINANG(rwData->curKeyFrame->eyeTargetInit.x);
                     scratchGeo.yaw = CAM_DEG_TO_BINANG(rwData->curKeyFrame->eyeTargetInit.y);
                     scratchGeo.r = rwData->curKeyFrame->eyeTargetInit.z;
@@ -5458,10 +5459,10 @@ s32 Camera_Unique9(Camera* camera) {
         rwData->eyeTarget = *eyeNext;
     }
 
-    if (rwData->curKeyFrame->initFlags == 2) {
+    if (rwData->curKeyFrame->viewFlags == 2) {
         rwData->fovTarget = camera->play->view.fovy;
         rwData->rollTarget = 0;
-    } else if (rwData->curKeyFrame->initFlags == 0) {
+    } else if (rwData->curKeyFrame->viewFlags == 0) {
         rwData->fovTarget = camera->fov;
         rwData->rollTarget = camera->roll;
     } else {
@@ -6805,8 +6806,8 @@ s32 Camera_Special6(Camera* camera) {
         // Change "screens"
         camera->player->actor.freezeTimer = 12;
         // Overwrite hud visibility to CAM_HUD_VISIBILITY_HEARTS_FORCE
-        sCameraInterfaceField =
-            (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY_HEARTS_FORCE;
+        sCameraInterfaceField = (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) |
+                                CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_HEARTS_FORCE);
         rwData->initalPlayerY = playerPosRot->pos.y;
         rwData->animTimer = 12;
         *eyeNext = bgCamPos;
@@ -6842,7 +6843,8 @@ s32 Camera_Special6(Camera* camera) {
     } else {
         // Camera following player on the x axis.
         // Overwrite hud visibility to CAM_HUD_VISIBILITY_ALL
-        sCameraInterfaceField = (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY_ALL;
+        sCameraInterfaceField =
+            (sCameraInterfaceField & (u16)~CAM_HUD_VISIBILITY_MASK) | CAM_HUD_VISIBILITY(CAM_HUD_VISIBILITY_ALL);
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
         eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;
