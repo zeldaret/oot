@@ -568,7 +568,7 @@ void func_80AAB158(EnMd* this, PlayState* play) {
         temp2 = 1;
     }
 
-    if ((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
+    if ((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) {
         this->interactInfo.trackPos = play->view.eye;
         this->interactInfo.yOffset = 40.0f;
         trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
@@ -828,7 +828,7 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     EnMd_UpdateEyes(this);
     func_80AAB5A4(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     func_80AAB158(this, play);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, play);

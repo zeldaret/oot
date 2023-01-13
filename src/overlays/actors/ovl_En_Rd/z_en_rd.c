@@ -858,7 +858,7 @@ void EnRd_Update(Actor* thisx, PlayState* play) {
 
         this->actionFunc(this, play);
         if (this->action != REDEAD_ACTION_GRAB && this->actor.speed != 0.0f) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
         }
 
         if ((this->actor.shape.rot.x == 0) && (this->action != REDEAD_ACTION_GRAB) && (this->actor.speed != 0.0f)) {

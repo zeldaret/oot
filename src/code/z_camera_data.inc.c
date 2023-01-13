@@ -874,7 +874,7 @@ CameraModeValue sDataOnlyNullFlags[] = {
  *=====================================================================
  */
 
-CameraModeValue sSetPrerendFixedModeZTargetFriendlyData[] = {
+CameraModeValue sSetPreRendFixedModeZTargetFriendlyData[] = {
     CAM_FUNCDATA_INTERFACE_FIELD(CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_ALL, 0)),
 };
 
@@ -884,15 +884,15 @@ CameraModeValue sSetPrerendFixedModeZTargetFriendlyData[] = {
  *=====================================================================
  */
 
-CameraModeValue sSetPrerendPivotModeNormalData[] = {
+CameraModeValue sSetPreRendPivotModeNormalData[] = {
     CAM_FUNCDATA_UNIQ7(60, CAM_INTERFACE_FIELD(CAM_LETTERBOX_NONE, CAM_HUD_VISIBILITY_ALL, 0)),
 };
 
-CameraModeValue sSetPrerendPivotModeZTargetFriendlyData[] = {
+CameraModeValue sSetPreRendPivotModeZTargetFriendlyData[] = {
     CAM_FUNCDATA_UNIQ7(60, CAM_INTERFACE_FIELD(CAM_LETTERBOX_MEDIUM, CAM_HUD_VISIBILITY_ALL, 0)),
 };
 
-CameraModeValue sSetPrerendPivotModeTalkData[] = {
+CameraModeValue sSetPreRendPivotModeTalkData[] = {
     CAM_FUNCDATA_KEEP0(30, 0, 4, CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, 0)),
 };
 
@@ -957,11 +957,11 @@ CameraModeValue sSetFree0ModeNormalData[] = {
 
 /**
  *=====================================================================
- *                   Custom Data: FREE1 Setting
+ *                   Custom Data: FREE2 Setting
  *=====================================================================
  */
 
-CameraModeValue sSetFree1ModeNormalData[] = {
+CameraModeValue sSetFree2ModeNormalData[] = {
     CAM_FUNCDATA_INTERFACE_FIELD(CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, CAM_HUD_VISIBILITY_IGNORE, UNIQUE6_FLAG_0)),
 };
 
@@ -1460,7 +1460,7 @@ CameraModeValue sSetDirectedYawModeTalkData[] = {
  *=====================================================================
  */
 
-CameraModeValue sNormal4ModeTalkData[] = {
+CameraModeValue sSetNormal4ModeTalkData[] = {
     CAM_FUNCDATA_KEEP3(-30, 70, 200, 40, 10, 0, 5, 70, 45, 50, 10,
                        CAM_INTERFACE_FIELD(CAM_LETTERBOX_LARGE, CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE,
                                            KEEPON3_FLAG_7 | KEEPON3_FLAG_5)),
@@ -1966,15 +1966,15 @@ CameraMode sCamSetPivotInFrontModes[] = {
 CameraMode sCamSetPreRendFixedModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD3, sDataOnlyNullFlags),                      // CAM_MODE_NORMAL
     { CAM_FUNC_NONE, 0, NULL },                                                      // CAM_MODE_Z_PARALLEL
-    CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD3, sSetPrerendFixedModeZTargetFriendlyData), // CAM_MODE_Z_TARGET_FRIENDLY
-    CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD3, sSetPrerendFixedModeZTargetFriendlyData), // CAM_MODE_TALK
+    CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD3, sSetPreRendFixedModeZTargetFriendlyData), // CAM_MODE_Z_TARGET_FRIENDLY
+    CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD3, sSetPreRendFixedModeZTargetFriendlyData), // CAM_MODE_TALK
 };
 
 CameraMode sCamSetPreRendPivotModes[] = {
-    CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ7, sSetPrerendPivotModeNormalData),          // CAM_MODE_NORMAL
+    CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ7, sSetPreRendPivotModeNormalData),          // CAM_MODE_NORMAL
     { CAM_FUNC_NONE, 0, NULL },                                                      // CAM_MODE_Z_PARALLEL
-    CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ7, sSetPrerendPivotModeZTargetFriendlyData), // CAM_MODE_Z_TARGET_FRIENDLY
-    CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP0, sSetPrerendPivotModeTalkData),            // CAM_MODE_TALK
+    CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ7, sSetPreRendPivotModeZTargetFriendlyData), // CAM_MODE_Z_TARGET_FRIENDLY
+    CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP0, sSetPreRendPivotModeTalkData),            // CAM_MODE_TALK
 };
 
 CameraMode sCamSetPreRendSideScrollModes[] = {
@@ -2006,15 +2006,15 @@ CameraMode sCamSetFree0Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ6, sSetFree0ModeNormalData), // CAM_MODE_NORMAL
 };
 
-CameraMode sCamSetFree1Modes[] = {
-    CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ6, sSetFree1ModeNormalData), // CAM_MODE_NORMAL
+CameraMode sCamSetFree2Modes[] = {
+    CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ6, sSetFree2ModeNormalData), // CAM_MODE_NORMAL
 };
 
 CameraMode sCamSetPivotCornerModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_FIXD2, sSetPivotCornerModeNormalData), // CAM_MODE_NORMAL
 };
 
-CameraMode sCamSetPivotDivingModes[] = {
+CameraMode sCamSetPivotWaterSurfaceModes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ2, sSetPivotWaterSurfaceModeNormalData),    // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_UNIQ2, sSetPivotWaterSurfaceModeZParallelData), // CAM_MODE_Z_PARALLEL
 };
@@ -2320,7 +2320,7 @@ CameraMode sCamSetNormal4Modes[] = {
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_NORM1, sSetNormal2and4ModeNormalData),        // CAM_MODE_NORMAL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_PARA1, sSetNormal0ModeZParallelData),         // CAM_MODE_Z_PARALLEL
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP1, sSetNormal0ModeZTargetFriendlyData),   // CAM_MODE_Z_TARGET_FRIENDLY
-    CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP3, sNormal4ModeTalkData),                 // CAM_MODE_TALK
+    CAM_SETTING_MODE_ENTRY(CAM_FUNC_KEEP3, sSetNormal4ModeTalkData),              // CAM_MODE_TALK
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_BATT1, sSetNormal1ModeZTargetUnfriendlyData), // CAM_MODE_Z_TARGET_UNFRIENDLY
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_JUMP2, sSetNormal0ModeWallClimbData),         // CAM_MODE_WALL_CLIMB
     CAM_SETTING_MODE_ENTRY(CAM_FUNC_SUBJ3, sSetNormal0ModeFirstPersonData),       // CAM_MODE_FIRST_PERSON
@@ -2375,9 +2375,9 @@ CameraSetting sCameraSettings[] = {
     { { 0xC5000001 }, sCamSetStart0Modes },               // CAM_SET_START0
     { { 0xC5000001 }, sCamSetStart1Modes },               // CAM_SET_START1
     { { 0x05000001 }, sCamSetFree0Modes },                // CAM_SET_FREE0
-    { { 0x05000001 }, sCamSetFree1Modes },                // CAM_SET_FREE2
+    { { 0x05000001 }, sCamSetFree2Modes },                // CAM_SET_FREE2
     { { 0x85000001 }, sCamSetPivotCornerModes },          // CAM_SET_PIVOT_CORNER
-    { { 0x05000003 }, sCamSetPivotDivingModes },          // CAM_SET_PIVOT_WATER_SURFACE
+    { { 0x05000003 }, sCamSetPivotWaterSurfaceModes },    // CAM_SET_PIVOT_WATER_SURFACE
     { { 0xCE000001 }, sCamSetCs0Modes },                  // CAM_SET_CS_0
     { { 0x4E000001 }, sCamSetCsTwistedHallwayModes },     // CAM_SET_CS_TWISTED_HALLWAY
     { { 0x05000009 }, sCamSetForestBirdsEyeModes },       // CAM_SET_FOREST_BIRDS_EYE
@@ -2556,7 +2556,7 @@ s32 (*sCameraFunctions[])(Camera*) = {
 
 s32 sInitRegs = 1;
 
-s32 gDbgCamEnabled = 0;
+s32 gDebugCamEnabled = false;
 s32 sDbgModeIdx = -1;
 s16 sNextUID = 0;
 
@@ -2678,12 +2678,12 @@ s32 sDemo5PrevSfxFrame = -200;
 // target is player, far from eye
 OnePointCsFull D_8011D6AC[] = {
     {
-        // initflags & 0x00FF (at): 2, atTarget is view lookAt + atInit
-        // initFlags & 0xFF00 (eye): none
+        // viewFlags & 0x00FF (at): 2, atTarget is view lookAt + atInit
+        // viewFlags & 0xFF00 (eye): none
         // action: 15, copy at, eye, roll, fov to camera
         // result: eye remains in the same location, at is View's lookAt
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0002,
         1,
         0,
@@ -2693,12 +2693,12 @@ OnePointCsFull D_8011D6AC[] = {
         { 0.0f, 0.0f, 0.0f },
     },
     {
-        // initFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
-        // initFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
+        // viewFlags & 0x00FF (at): 3, atTarget is camera's current at + atInit
+        // viewFlags & 0xFF00 (eye): 3, eyeTarget is the camera's current eye + eyeInit
         // action: interpolate eye and at.
         // result: eye and at's y interpolate to become +20 from their current location.
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         19,
         0,
@@ -2708,11 +2708,11 @@ OnePointCsFull D_8011D6AC[] = {
         { 0.0f, 20.0f, 0.0f },
     },
     {
-        // initFlags & 0x00FF (at): 0 none
-        // initFlags & 0xFF00 (eye): 0 none
+        // viewFlags & 0x00FF (at): 0 none
+        // viewFlags & 0xFF00 (eye): 0 none
         // action: 18, copy this camera to default camera.
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2727,7 +2727,7 @@ OnePointCsFull D_8011D6AC[] = {
 OnePointCsFull D_8011D724[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2424,
         1,
         0,
@@ -2738,7 +2738,7 @@ OnePointCsFull D_8011D724[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         19,
         0,
@@ -2749,7 +2749,7 @@ OnePointCsFull D_8011D724[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2764,7 +2764,7 @@ OnePointCsFull D_8011D724[] = {
 OnePointCsFull D_8011D79C[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0002,
         1,
         0,
@@ -2775,7 +2775,7 @@ OnePointCsFull D_8011D79C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         19,
         0,
@@ -2786,7 +2786,7 @@ OnePointCsFull D_8011D79C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         9,
         0,
@@ -2797,7 +2797,7 @@ OnePointCsFull D_8011D79C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2812,7 +2812,7 @@ OnePointCsFull D_8011D79C[] = {
 OnePointCsFull D_8011D83C[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2141,
         20,
         0,
@@ -2823,7 +2823,7 @@ OnePointCsFull D_8011D83C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2840,7 +2840,7 @@ OnePointCsFull D_8011D83C[] = {
 OnePointCsFull D_8011D88C[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0303,
         20,
         0,
@@ -2851,7 +2851,7 @@ OnePointCsFull D_8011D88C[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2866,7 +2866,7 @@ OnePointCsFull D_8011D88C[] = {
 OnePointCsFull D_8011D8DC[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0404,
         20,
         1,
@@ -2877,7 +2877,7 @@ OnePointCsFull D_8011D8DC[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         5,
         0,
@@ -2888,7 +2888,7 @@ OnePointCsFull D_8011D8DC[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2903,7 +2903,7 @@ OnePointCsFull D_8011D8DC[] = {
 OnePointCsFull D_8011D954[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0xC1C1,
         20,
         0,
@@ -2914,7 +2914,7 @@ OnePointCsFull D_8011D954[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x05B1,
         5,
         0,
@@ -2925,7 +2925,7 @@ OnePointCsFull D_8011D954[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         5,
         2,
@@ -2936,7 +2936,7 @@ OnePointCsFull D_8011D954[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -2951,7 +2951,7 @@ OnePointCsFull D_8011D954[] = {
 OnePointCsFull D_8011D9F4[] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0504,
         20,
         2,
@@ -2962,7 +2962,7 @@ OnePointCsFull D_8011D9F4[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, false, true),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x2121,
         5,
         2,
@@ -2973,7 +2973,7 @@ OnePointCsFull D_8011D9F4[] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_18, false, false),
-        0xFF,
+        ONEPOINT_CS_INIT_FIELD_NONE,
         0x0000,
         1,
         0,
@@ -3036,5 +3036,5 @@ s16 D_8011DAFC[] = {
 };
 
 PlayState* D_8015BD7C;
-DbCamera D_8015BD80;
+DebugCam D_8015BD80;
 CollisionPoly* playerFloorPoly;

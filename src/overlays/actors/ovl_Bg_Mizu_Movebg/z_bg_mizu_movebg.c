@@ -329,7 +329,7 @@ void func_8089E650(BgMizuMovebg* this, PlayState* play) {
         this->dyna.actor.speed = dist;
     }
     func_80035844(&this->dyna.actor.world.pos, &waypoint, &this->dyna.actor.world.rot, 1);
-    func_8002D97C(&this->dyna.actor);
+    Actor_MoveXYZ(&this->dyna.actor);
     dx = waypoint.x - this->dyna.actor.world.pos.x;
     dy = waypoint.y - this->dyna.actor.world.pos.y;
     dz = waypoint.z - this->dyna.actor.world.pos.z;

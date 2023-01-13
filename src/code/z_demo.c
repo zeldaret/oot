@@ -182,7 +182,7 @@ void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER &&
-        !gDbgCamEnabled) {
+        !gDebugCamEnabled) {
         gUseCutsceneCam = true;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;

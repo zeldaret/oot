@@ -1117,7 +1117,7 @@ void EnGo2_RollForward(EnGo2* this) {
     }
 
     if (this->actionFunc != EnGo2_ContinueRolling) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     }
 
     this->actor.speed = speedXZ;
@@ -1353,7 +1353,7 @@ void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_24;
     this->animTimer = 10;
     this->actor.shape.yOffset = 1800.0f;
-    this->actor.speed += this->actor.speed; // Speeding up
+    this->actor.speed *= 2.0f; // Speeding up
     this->actionFunc = EnGo2_ContinueRolling;
 }
 
@@ -1933,7 +1933,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
                 if (!(this->animTimer % 8)) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
                 }
-                Actor_MoveForward(&this->actor);
+                Actor_MoveXZGravity(&this->actor);
             } else {
                 this->animTimer = 0;
                 this->actor.speed = 0.0f;

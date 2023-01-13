@@ -197,7 +197,7 @@ void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, PlayState* play) {
 
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         ItemEtcetera_SpawnSparkles(this, play);
     }

@@ -209,7 +209,7 @@ typedef struct Actor {
     /* 0x05C */ Vec3f velocity; // Velocity of the actor in each axis
     /* 0x068 */ f32 speed; // Context dependent speed value. Can be used for XZ or XYZ depending on which move function is used
     /* 0x06C */ f32 gravity; // Acceleration due to gravity. Value is added to Y velocity every frame
-    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
+    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap for velocity along the Y axis. Only relevant when moved with gravity.
     /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon the actor is touching
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon directly below the actor
     /* 0x07C */ u8 wallBgId; // Bg ID of the wall polygon the actor is touching

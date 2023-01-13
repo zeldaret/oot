@@ -84,7 +84,7 @@ void EnDyExtra_Update(Actor* thisx, PlayState* play) {
     this->actor.scale.z = this->scale.z;
     Actor_PlaySfx(&this->actor, NA_SE_PL_SPIRAL_HEAL_BEAM - SFX_FLAG);
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 }
 
 void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
