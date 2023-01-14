@@ -15,13 +15,18 @@ typedef enum {
     /*  1 */ EN_COW_TYPE_TAIL
 } EnCowType;
 
+typedef enum {
+    /*  0 */ EN_COW_COLL_FRONT,
+    /*  1 */ EN_COW_COLL_BACK,
+    /*  2 */ EN_COW_COLL_MAX
+} EnCowCollider;
 struct EnCow;
 
 typedef void (*EnCowActionFunc)(struct EnCow*, PlayState*);
 
 typedef struct EnCow {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinder colliders[2];
+    /* 0x014C */ ColliderCylinder colliders[EN_COW_COLL_MAX];
     /* 0x01E4 */ SkelAnime skelAnime;
     /* 0x0228 */ Vec3s jointTable[COW_LIMB_MAX];
     /* 0x024C */ Vec3s morphTable[COW_LIMB_MAX];
