@@ -992,7 +992,7 @@ void EnSkj_WaitForSong(EnSkj* this, PlayState* play) {
             player->stateFlags2 |= PLAYER_STATE2_23;
         } else {
             if (play->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
-                gSaveContext.sunsSongState = 0;
+                gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                 if (GET_ITEMGETINF(ITEMGETINF_16)) {
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
