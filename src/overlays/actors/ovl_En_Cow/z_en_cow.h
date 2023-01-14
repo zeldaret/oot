@@ -17,7 +17,7 @@ typedef enum {
 
 typedef enum {
     /*  0 */ EN_COW_COLL_FRONT,
-    /*  1 */ EN_COW_COLL_BACK,
+    /*  1 */ EN_COW_COLL_REAR,
     /*  2 */ EN_COW_COLL_MAX
 } EnCowCollider;
 struct EnCow;

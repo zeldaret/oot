@@ -86,9 +86,9 @@ void EnCow_PositionCow(EnCow* this) {
     vec.y = 0.0f;
     vec.z = -20.0f;
     EnCow_RotateY(&vec, this->actor.shape.rot.y);
-    this->colliders[EN_COW_COLL_BACK].dim.pos.x = this->actor.world.pos.x + vec.x;
-    this->colliders[EN_COW_COLL_BACK].dim.pos.y = this->actor.world.pos.y;
-    this->colliders[EN_COW_COLL_BACK].dim.pos.z = this->actor.world.pos.z + vec.z;
+    this->colliders[EN_COW_COLL_REAR].dim.pos.x = this->actor.world.pos.x + vec.x;
+    this->colliders[EN_COW_COLL_REAR].dim.pos.y = this->actor.world.pos.y;
+    this->colliders[EN_COW_COLL_REAR].dim.pos.z = this->actor.world.pos.z + vec.z;
 }
 
 void EnCow_PositionTail(EnCow* this) {
@@ -114,8 +114,8 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
             Animation_PlayLoop(&this->skelAnime, &gCowBodyChewAnim);
             Collider_InitCylinder(play, &this->colliders[EN_COW_COLL_FRONT]);
             Collider_SetCylinder(play, &this->colliders[EN_COW_COLL_FRONT], &this->actor, &sCylinderInit);
-            Collider_InitCylinder(play, &this->colliders[EN_COW_COLL_BACK]);
-            Collider_SetCylinder(play, &this->colliders[EN_COW_COLL_BACK], &this->actor, &sCylinderInit);
+            Collider_InitCylinder(play, &this->colliders[EN_COW_COLL_REAR]);
+            Collider_SetCylinder(play, &this->colliders[EN_COW_COLL_REAR], &this->actor, &sCylinderInit);
             EnCow_PositionCow(this);
             this->actionFunc = EnCow_Idle;
             if (play->sceneId == SCENE_LINKS_HOUSE) {
@@ -158,7 +158,7 @@ void EnCow_Destroy(Actor* thisx, PlayState* play) {
 
     if (EN_COW_TYPE(this) == EN_COW_TYPE_DEFAULT) {
         Collider_DestroyCylinder(play, &this->colliders[EN_COW_COLL_FRONT]);
-        Collider_DestroyCylinder(play, &this->colliders[EN_COW_COLL_BACK]);
+        Collider_DestroyCylinder(play, &this->colliders[EN_COW_COLL_REAR]);
     }
 }
 
@@ -308,7 +308,7 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
     Player* player = GET_PLAYER(play);
 
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[EN_COW_COLL_FRONT].base);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[EN_COW_COLL_BACK].base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[EN_COW_COLL_REAR].base);
     Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
