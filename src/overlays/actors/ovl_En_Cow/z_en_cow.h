@@ -5,11 +5,10 @@
 #include "global.h"
 #include "assets/objects/object_cow/object_cow.h"
 
-#define EN_COW_TYPE(thisx) ((thisx)->actor.params)
-
 #define EN_COW_FLAG_PLAYER_HAS_APPROACHED (1 << 1)
 #define EN_COW_FLAG_WONT_GIVE_MILK (1 << 2)
 
+#define EN_COW_TYPE(thisx) ((thisx)->actor.params)
 typedef enum {
     /*  0 */ EN_COW_TYPE_DEFAULT,
     /*  1 */ EN_COW_TYPE_TAIL
@@ -20,6 +19,7 @@ typedef enum {
     /*  1 */ EN_COW_COLL_REAR,
     /*  2 */ EN_COW_COLL_MAX
 } EnCowCollider;
+
 struct EnCow;
 
 typedef void (*EnCowActionFunc)(struct EnCow*, PlayState*);
