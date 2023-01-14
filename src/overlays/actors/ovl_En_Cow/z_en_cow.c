@@ -24,7 +24,7 @@ void EnCow_Idle(EnCow* this, PlayState* play);
 
 void EnCow_DrawTail(Actor* thisx, PlayState* play);
 void EnCow_UpdateTail(Actor* thisx, PlayState* play);
-void EnCow_DoTail(EnCow* this, PlayState* play);
+void EnCow_IdleTail(EnCow* this, PlayState* play);
 
 ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
@@ -78,17 +78,17 @@ void EnCow_PositionCow(EnCow* this) {
     vec.x = 0.0f;
     vec.z = 30.0f;
     EnCow_RotateY(&vec, this->actor.shape.rot.y);
-    this->colliders[0].dim.pos.x = this->actor.world.pos.x + vec.x;
-    this->colliders[0].dim.pos.y = this->actor.world.pos.y;
-    this->colliders[0].dim.pos.z = this->actor.world.pos.z + vec.z;
+    this->colliders[EN_COW_TYPE_DEFAULT].dim.pos.x = this->actor.world.pos.x + vec.x;
+    this->colliders[EN_COW_TYPE_DEFAULT].dim.pos.y = this->actor.world.pos.y;
+    this->colliders[EN_COW_TYPE_DEFAULT].dim.pos.z = this->actor.world.pos.z + vec.z;
 
     vec.x = 0.0f;
     vec.y = 0.0f;
     vec.z = -20.0f;
     EnCow_RotateY(&vec, this->actor.shape.rot.y);
-    this->colliders[1].dim.pos.x = this->actor.world.pos.x + vec.x;
-    this->colliders[1].dim.pos.y = this->actor.world.pos.y;
-    this->colliders[1].dim.pos.z = this->actor.world.pos.z + vec.z;
+    this->colliders[EN_COW_TYPE_TAIL].dim.pos.x = this->actor.world.pos.x + vec.x;
+    this->colliders[EN_COW_TYPE_TAIL].dim.pos.y = this->actor.world.pos.y;
+    this->colliders[EN_COW_TYPE_TAIL].dim.pos.z = this->actor.world.pos.z + vec.z;
 }
 
 void EnCow_PositionTail(EnCow* this) {
@@ -109,12 +109,13 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 72.0f);
     switch (EN_COW_TYPE(this)) {
         case EN_COW_TYPE_DEFAULT:
-            SkelAnime_InitFlex(play, &this->skelAnime, &gCowBodySkel, NULL, this->jointTable, this->morphTable, COW_LIMB_MAX);
+            SkelAnime_InitFlex(play, &this->skelAnime, &gCowBodySkel, NULL,
+                               this->jointTable, this->morphTable, COW_LIMB_MAX);
             Animation_PlayLoop(&this->skelAnime, &gCowBodyChewAnim);
-            Collider_InitCylinder(play, &this->colliders[0]);
-            Collider_SetCylinder(play, &this->colliders[0], &this->actor, &sCylinderInit);
-            Collider_InitCylinder(play, &this->colliders[1]);
-            Collider_SetCylinder(play, &this->colliders[1], &this->actor, &sCylinderInit);
+            Collider_InitCylinder(play, &this->colliders[EN_COW_TYPE_DEFAULT]);
+            Collider_SetCylinder(play, &this->colliders[EN_COW_TYPE_DEFAULT], &this->actor, &sCylinderInit);
+            Collider_InitCylinder(play, &this->colliders[EN_COW_TYPE_TAIL]);
+            Collider_SetCylinder(play, &this->colliders[EN_COW_TYPE_TAIL], &this->actor, &sCylinderInit);
             EnCow_PositionCow(this);
             this->actionFunc = EnCow_Idle;
             if (play->sceneId == SCENE_LINKS_HOUSE) {
@@ -127,19 +128,21 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
                     return;
                 }
             }
-            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_COW, this->actor.world.pos.x,
-                               this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0, 1);
+            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_COW,
+                               this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               0, this->actor.shape.rot.y, 0, EN_COW_TYPE_TAIL);
             this->animationTimer = Rand_ZeroFloat(1000.0f) + 40.0f;
             this->animationCycle = 0;
             this->actor.targetMode = 6;
             R_PLAYED_EPONAS_SONG = false;
             break;
         case EN_COW_TYPE_TAIL:
-            SkelAnime_InitFlex(play, &this->skelAnime, &gCowTailSkel, NULL, this->jointTable, this->morphTable, COW_TAIL_LIMB_MAX);
+            SkelAnime_InitFlex(play, &this->skelAnime, &gCowTailSkel, NULL,
+                               this->jointTable, this->morphTable, COW_TAIL_LIMB_MAX);
             Animation_PlayLoop(&this->skelAnime, &gCowTailIdleAnim);
             this->actor.update = EnCow_UpdateTail;
             this->actor.draw = EnCow_DrawTail;
-            this->actionFunc = EnCow_DoTail;
+            this->actionFunc = EnCow_IdleTail;
             EnCow_PositionTail(this);
             this->actor.flags &= ~ACTOR_FLAG_0;
             this->animationTimer = ((u32)(Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
@@ -154,8 +157,8 @@ void EnCow_Destroy(Actor* thisx, PlayState* play) {
     EnCow* this = (EnCow*)thisx;
 
     if (EN_COW_TYPE(this) == EN_COW_TYPE_DEFAULT) {
-        Collider_DestroyCylinder(play, &this->colliders[0]);
-        Collider_DestroyCylinder(play, &this->colliders[1]);
+        Collider_DestroyCylinder(play, &this->colliders[EN_COW_TYPE_DEFAULT]);
+        Collider_DestroyCylinder(play, &this->colliders[EN_COW_TYPE_TAIL]);
     }
 }
 
@@ -277,7 +280,7 @@ void EnCow_Idle(EnCow* this, PlayState* play) {
     EnCow_UpdateAnimation(this, play);
 }
 
-void EnCow_DoTail(EnCow* this, PlayState* play) {
+void EnCow_IdleTail(EnCow* this, PlayState* play) {
     if (this->animationTimer > 0) {
         this->animationTimer--;
     } else {
@@ -304,8 +307,8 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
     s16 targetY;
     Player* player = GET_PLAYER(play);
 
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[0].base);
-    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[1].base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[EN_COW_TYPE_DEFAULT].base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliders[EN_COW_TYPE_TAIL].base);
     Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
@@ -315,8 +318,8 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
             Animation_Change(&this->skelAnime, &gCowBodyMoveHeadAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gCowBodyMoveHeadAnim), ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &gCowBodyChewAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowBodyChewAnim),
-                             ANIMMODE_LOOP, 1.0f);
+            Animation_Change(&this->skelAnime, &gCowBodyChewAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gCowBodyChewAnim), ANIMMODE_LOOP, 1.0f);
         }
     }
 
@@ -355,8 +358,8 @@ void EnCow_UpdateTail(Actor* thisx, PlayState* play) {
             Animation_Change(&this->skelAnime, &gCowTailSwishAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gCowTailSwishAnim), ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &gCowTailIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gCowTailIdleAnim),
-                             ANIMMODE_LOOP, 1.0f);
+            Animation_Change(&this->skelAnime, &gCowTailIdleAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gCowTailIdleAnim), ANIMMODE_LOOP, 1.0f);
         }
     }
     this->actionFunc(this, play);
@@ -395,6 +398,6 @@ void EnCow_DrawTail(Actor* thisx, PlayState* play) {
     EnCow* this = (EnCow*)thisx;
 
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
-                          NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          NULL, NULL, this);
 }
