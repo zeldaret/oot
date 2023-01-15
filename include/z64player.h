@@ -501,6 +501,8 @@ typedef struct {
     /* 0x10 */ Vec3f base;
 } WeaponInfo; // size = 0x1C
 
+#define LEDGE_DIST_MAX 399.96002f
+
 #define PLAYER_STATE1_0 (1 << 0)
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1)
 #define PLAYER_STATE1_2 (1 << 2)
@@ -713,10 +715,10 @@ typedef struct Player {
     /* 0x087C */ s16        unk_87C;
     /* 0x087E */ s16        unk_87E;
     /* 0x0880 */ f32        unk_880;
-    /* 0x0884 */ f32        wallHeight; // height used to determine whether link can climb or grab a ledge at the top
-    /* 0x0888 */ f32        wallDistance; // distance to the colliding wall plane
-    /* 0x088C */ u8         unk_88C;
-    /* 0x088D */ u8         unk_88D;
+    /* 0x0884 */ f32        yDistToLedge; // y distance to ground above an interact wall. LEDGE_DIST_MAX if no ground if found
+    /* 0x0888 */ f32        distToInteractWall; // xyz distance to the interact wall
+    /* 0x088C */ u8         ledgeClimbType;
+    /* 0x088D */ u8         ledgeClimbDelayTimer;
     /* 0x088E */ u8         unk_88E;
     /* 0x088F */ u8         unk_88F;
     /* 0x0890 */ u8         unk_890;
@@ -745,9 +747,9 @@ typedef struct Player {
     /* 0x0A73 */ u8         unk_A73;
     /* 0x0A74 */ PlayerFuncA74 func_A74;
     /* 0x0A78 */ s8         invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
-    /* 0x0A79 */ u8         unk_A79;
+    /* 0x0A79 */ u8         floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
     /* 0x0A7A */ u8         floorProperty;
-    /* 0x0A7B */ u8         unk_A7B;
+    /* 0x0A7B */ u8         prevFloorType;
     /* 0x0A7C */ f32        unk_A7C;
     /* 0x0A80 */ s16        unk_A80;
     /* 0x0A82 */ u16        prevFloorSfxOffset;
