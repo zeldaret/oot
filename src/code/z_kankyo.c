@@ -1853,71 +1853,64 @@ void Environment_DrawLightningFlash(PlayState* play, u8 red, u8 green, u8 blue, 
 }
 
 void Environment_UpdateLightningStrike(PlayState* play) {
-    if (play->envCtx.lightningState != LIGHTNING_OFF) {
-        switch (gLightningStrike.state) {
-            case LIGHTNING_STRIKE_WAIT:
+    switch (gLightningStrike.state) {
+        case LIGHTNING_STRIKE_WAIT:
+            if (play->envCtx.lightningState != LIGHTNING_OFF) {
                 // every frame theres a 10% chance of the timer advancing 50 units
                 if (Rand_ZeroOne() < 0.1f) {
                     gLightningStrike.delayTimer += 50.0f;
                 }
-
                 gLightningStrike.delayTimer += Rand_ZeroOne();
-
+    
                 if (gLightningStrike.delayTimer > 500.0f) {
                     gLightningStrike.flashRed = 200;
                     gLightningStrike.flashGreen = 200;
                     gLightningStrike.flashBlue = 255;
                     gLightningStrike.flashAlphaTarget = 200;
-
                     gLightningStrike.delayTimer = 0.0f;
                     Environment_AddLightningBolts(play,
                                                   (u8)(Rand_ZeroOne() * (ARRAY_COUNT(sLightningBolts) - 0.1f)) + 1);
                     sLightningFlashAlpha = 0;
                     gLightningStrike.state++;
                 }
-                break;
-            case LIGHTNING_STRIKE_START:
-                gLightningStrike.flashRed = 200;
-                gLightningStrike.flashGreen = 200;
-                gLightningStrike.flashBlue = 255;
+            }
+            break;
+        case LIGHTNING_STRIKE_START:
+            gLightningStrike.flashRed = 200;
+            gLightningStrike.flashGreen = 200;
+            gLightningStrike.flashBlue = 255;
+            play->envCtx.adjAmbientColor[0] += 80;
+            play->envCtx.adjAmbientColor[1] += 80;
+            play->envCtx.adjAmbientColor[2] += 100;
+            sLightningFlashAlpha += 100;
 
-                play->envCtx.adjAmbientColor[0] += 80;
-                play->envCtx.adjAmbientColor[1] += 80;
-                play->envCtx.adjAmbientColor[2] += 100;
+            if (sLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
+                gLightningStrike.state++;
+                gLightningStrike.flashAlphaTarget = 0;
+            }
+            break;
+        case LIGHTNING_STRIKE_END:
+            if (play->envCtx.adjAmbientColor[0] > 0) {
+                play->envCtx.adjAmbientColor[0] -= 10;
+                play->envCtx.adjAmbientColor[1] -= 10;
+            }
 
-                sLightningFlashAlpha += 100;
+            if (play->envCtx.adjAmbientColor[2] > 0) {
+                play->envCtx.adjAmbientColor[2] -= 10;
+            }
+            sLightningFlashAlpha -= 10;
 
-                if (sLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
-                    Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
-                    gLightningStrike.state++;
-                    gLightningStrike.flashAlphaTarget = 0;
+            if (sLightningFlashAlpha <= gLightningStrike.flashAlphaTarget) {
+                play->envCtx.adjAmbientColor[0] = 0;
+                play->envCtx.adjAmbientColor[1] = 0;
+                play->envCtx.adjAmbientColor[2] = 0;
+                gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
+                if (play->envCtx.lightningState == LIGHTNING_LAST) {
+                    play->envCtx.lightningState = LIGHTNING_OFF;
                 }
-                break;
-            case LIGHTNING_STRIKE_END:
-                if (play->envCtx.adjAmbientColor[0] > 0) {
-                    play->envCtx.adjAmbientColor[0] -= 10;
-                    play->envCtx.adjAmbientColor[1] -= 10;
-                }
-
-                if (play->envCtx.adjAmbientColor[2] > 0) {
-                    play->envCtx.adjAmbientColor[2] -= 10;
-                }
-
-                sLightningFlashAlpha -= 10;
-
-                if (sLightningFlashAlpha <= gLightningStrike.flashAlphaTarget) {
-                    play->envCtx.adjAmbientColor[0] = 0;
-                    play->envCtx.adjAmbientColor[1] = 0;
-                    play->envCtx.adjAmbientColor[2] = 0;
-
-                    gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
-
-                    if (play->envCtx.lightningState == LIGHTNING_LAST) {
-                        play->envCtx.lightningState = LIGHTNING_OFF;
-                    }
-                }
-                break;
-        }
+            }
+            break;
     }
 
     if (gLightningStrike.state != LIGHTNING_STRIKE_WAIT) {
