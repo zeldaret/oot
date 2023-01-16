@@ -432,7 +432,7 @@ beginseg
     include "build/src/audio/audio_external_sfx.o"
     include "build/src/audio/audio_external_sequence.o"
     include "build/src/audio/audio_external_data.o"
-    include "build/src/audio/audio_init_params.o"
+    include "build/src/audio/audio_configuration.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
     include "build/src/code/rcp_utils.o"
