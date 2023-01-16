@@ -27,7 +27,7 @@
         <Texture Name="gHylianYoungWomanBrownHairSkinTex" OutName="brown_hair_skin" Format="ci8" Width="8" Height="8" Offset="0x3BC" TlutOffset="0xFC"/>
         <Texture Name="gHylianYoungWomanBrownHairFaceTex" OutName="brown_hair_face" Format="ci8" Width="8" Height="16" Offset="0x3FC" TlutOffset="0xFC"/>
         <Texture Name="gHylianYoungWomanDressTex" OutName="dress" Format="i8" Width="8" Height="8" Offset="0x47C"/>
-        <Texture Name="gHylianYoungWomanDressNeckTex" OutName="dress_neck" Format="ci8" Width="8" Height="8" Offset="0x4BC" TlutOffset="0xFC"/>
+        <Texture Name="gHylianYoungWomanCollarTex" OutName="collar" Format="ci8" Width="8" Height="8" Offset="0x4BC" TlutOffset="0xFC"/>
 
         <DList Name="gHylianYoungWomanHeadBrownHairDL" Offset="0x1300"/>
         <DList Name="gHylianYoungWomanRightHandDL" Offset="0x1608"/>

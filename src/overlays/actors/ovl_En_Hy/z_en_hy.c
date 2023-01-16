@@ -72,7 +72,7 @@ static void* sEyeTexturesAHG7[] = { object_ahg_Tex_00057C, object_ahg_Tex_00067C
 static void* sEyeTexturesBBA[] = { gHylianOldWomanEyeTex, NULL };
 static void* sEyeTexturesBJI13[] = { object_bji_Tex_0005FC, object_bji_Tex_0009FC, object_bji_Tex_000DFC, NULL };
 static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC, object_boj_Tex_0007FC, NULL };
-static void* sEyeTexturesBOB[] = { object_bob_Tex_0007C8, object_bob_Tex_000FC8, object_bob_Tex_0017C8, NULL };
+static void* sEyeTexturesBOB[] = { gHylianWomanEyeOpenTex, gHylianWomanEyeHalfTex, gHylianWomanEyeClosedTex, NULL };
 
 typedef struct {
     /* 0x00 */ s16 objectId;
@@ -101,7 +101,7 @@ typedef enum {
 
 static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_AOB */ { OBJECT_AOB, gDogLadyHeadDL, sEyeTexturesAOB },
-    /* ENHY_HEAD_BOB */ { OBJECT_BOB, object_bob_DL_003B78, sEyeTexturesBOB },
+    /* ENHY_HEAD_BOB */ { OBJECT_BOB, gHylianWomanHeadDL, sEyeTexturesBOB },
     /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, object_boj_DL_0026F0, sEyeTexturesBOJ2 },
     /* ENHY_HEAD_BOJ_3 */ { OBJECT_BOJ, object_boj_DL_0052E0, NULL },
     /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, object_boj_DL_005528, NULL },
@@ -136,7 +136,7 @@ typedef enum {
 
 static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gDogLadySkel },
-    /* ENHY_SKEL_BOB */ { OBJECT_BOB, &object_bob_Skel_0000F0 },
+    /* ENHY_SKEL_BOB */ { OBJECT_BOB, &gHylianWomanSkel },
     /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &object_boj_Skel_0000F0 },
     /* ENHY_SKEL_AHG */ { OBJECT_AHG, &object_ahg_Skel_0000F0 },
     /* ENHY_SKEL_BBA */ { OBJECT_BBA, &gHylianOldWomanSkel },

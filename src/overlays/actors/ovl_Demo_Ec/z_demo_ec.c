@@ -566,7 +566,7 @@ void DemoEc_DrawBeardedMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitWoman(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_bob_Skel_0000F0);
+    DemoEc_InitSkelAnime(this, play, &gHylianWomanSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -584,9 +584,9 @@ void DemoEc_UpdateWoman(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawWoman(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_bob_Tex_0007C8,
-        object_bob_Tex_000FC8,
-        object_bob_Tex_0017C8,
+        gHylianWomanEyeOpenTex,
+        gHylianWomanEyeHalfTex,
+        gHylianWomanEyeClosedTex,
     };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
