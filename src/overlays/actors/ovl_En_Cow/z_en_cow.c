@@ -132,7 +132,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
                                this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                0, this->actor.shape.rot.y, 0, EN_COW_TYPE_TAIL);
             this->animationTimer = Rand_ZeroFloat(1000.0f) + 40.0f;
-            this->animationCycle = 0;
+            this->breathTimer = 0;
             this->actor.targetMode = 6;
             R_PLAYED_EPONAS_SONG = false;
             break;
@@ -180,20 +180,20 @@ void EnCow_UpdateAnimation(EnCow* this, PlayState* play) {
         }
     }
 
-    this->animationCycle++;
-    if (this->animationCycle > 48) {
-        this->animationCycle = 0;
+    this->breathTimer++;
+    if (this->breathTimer > 48) {
+        this->breathTimer = 0;
     }
 
     // (1.0f / 100.0f) instead of 0.01f below is necessary so 0.01f doesn't get reused mistakenly
-    if (this->animationCycle < 32) {
-        this->actor.scale.x = ((Math_SinS(this->animationCycle * 1024) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
+    if (this->breathTimer < 32) {
+        this->actor.scale.x = ((Math_SinS(this->breathTimer * 0x0400) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
     } else {
         this->actor.scale.x = 0.01f;
     }
 
-    if (this->animationCycle > 16) {
-        this->actor.scale.y = ((Math_SinS((this->animationCycle * 1024) - 0x4000) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
+    if (this->breathTimer > 16) {
+        this->actor.scale.y = ((Math_SinS((this->breathTimer * 0x0400) - 0x4000) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
     } else {
         this->actor.scale.y = 0.01f;
     }
@@ -345,8 +345,8 @@ void EnCow_Update(Actor* thisx, PlayState* play2) {
         targetY = 0;
         targetX = 0;
     }
-    Math_SmoothStepToS(&this->headTilt.x, targetX, 10, 200, 10);
-    Math_SmoothStepToS(&this->headTilt.y, targetY, 10, 200, 10);
+    Math_SmoothStepToS(&this->headRot.x, targetX, 10, 200, 10);
+    Math_SmoothStepToS(&this->headRot.y, targetY, 10, 200, 10);
 }
 
 void EnCow_UpdateTail(Actor* thisx, PlayState* play) {
@@ -369,8 +369,8 @@ s32 EnCow_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     EnCow* this = (EnCow*)thisx;
 
     if (limbIndex == COW_LIMB_HEAD) {
-        rot->y += this->headTilt.y;
-        rot->x += this->headTilt.x;
+        rot->y += this->headRot.y;
+        rot->x += this->headRot.x;
     }
     if (limbIndex == COW_LIMB_NOSE_RING) {
         *dList = NULL;
