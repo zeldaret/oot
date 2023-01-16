@@ -1,5 +1,10 @@
+/*
+* File: z_en_dns.c
+* Overlay: En_Dns
+* Description: Deku Salesman - Attack Phase
+*/
+
 #include "z_en_shopnuts.h"
-#include "assets/objects/object_shopnuts/object_shopnuts.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
@@ -8,10 +13,10 @@ void EnShopnuts_Destroy(Actor* thisx, PlayState* play);
 void EnShopnuts_Update(Actor* thisx, PlayState* play);
 void EnShopnuts_Draw(Actor* thisx, PlayState* play);
 
-void EnShopnuts_SetupWait(EnShopnuts* this);
-void EnShopnuts_Wait(EnShopnuts* this, PlayState* play);
+void EnShopnuts_SetupIdle(EnShopnuts* this);
+void EnShopnuts_Idle(EnShopnuts* this, PlayState* play);
 void EnShopnuts_LookAround(EnShopnuts* this, PlayState* play);
-void EnShopnuts_Stand(EnShopnuts* this, PlayState* play);
+void EnShopnuts_Peek(EnShopnuts* this, PlayState* play);
 void EnShopnuts_ThrowNut(EnShopnuts* this, PlayState* play);
 void EnShopnuts_Burrow(EnShopnuts* this, PlayState* play);
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play);
@@ -48,7 +53,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 1, 20, 40, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 20, 40, MASS_HEAVY };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
@@ -61,19 +66,19 @@ void EnShopnuts_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
-    SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubAnim_4574, this->jointTable,
-                       this->morphTable, 18);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubPeekAnim, this->jointTable,
+                       this->morphTable, BIZ_SCRUB_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    if (((this->actor.params == 0x0002) && GET_ITEMGETINF(ITEMGETINF_0B)) ||
-        ((this->actor.params == 0x0009) && GET_INFTABLE(INFTABLE_192)) ||
-        ((this->actor.params == 0x000A) && GET_INFTABLE(INFTABLE_193))) {
+    if (((EN_DNS_TYPE(this) == EN_DNS_TYPE_HEART) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
+        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_STICK_UPG) && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
+        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_NUT_UPG) && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
         Actor_Kill(&this->actor);
     } else {
-        EnShopnuts_SetupWait(this);
+        EnShopnuts_SetupIdle(this);
     }
 }
 
@@ -83,12 +88,12 @@ void EnShopnuts_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnShopnuts_SetupWait(EnShopnuts* this) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &gBusinessScrubAnim_139C, 0.0f);
+void EnShopnuts_SetupIdle(EnShopnuts* this) {
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gBusinessScrubInitialAnim, 0.0f);
     this->animFlagAndTimer = Rand_S16Offset(100, 50);
     this->collider.dim.height = 5;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actionFunc = EnShopnuts_Wait;
+    this->actionFunc = EnShopnuts_Idle;
 }
 
 void EnShopnuts_SetupLookAround(EnShopnuts* this) {
@@ -98,22 +103,22 @@ void EnShopnuts_SetupLookAround(EnShopnuts* this) {
 }
 
 void EnShopnuts_SetupThrowNut(EnShopnuts* this) {
-    Animation_PlayOnce(&this->skelAnime, &gBusinessScrubAnim_1EC);
+    Animation_PlayOnce(&this->skelAnime, &gBusinessScrubThrowNutAnim);
     this->actionFunc = EnShopnuts_ThrowNut;
 }
 
-void EnShopnuts_SetupStand(EnShopnuts* this) {
-    Animation_MorphToLoop(&this->skelAnime, &gBusinessScrubAnim_4574, -3.0f);
+void EnShopnuts_SetupPeek(EnShopnuts* this) {
+    Animation_MorphToLoop(&this->skelAnime, &gBusinessScrubPeekAnim, -3.0f);
     if (this->actionFunc == EnShopnuts_ThrowNut) {
         this->animFlagAndTimer = 2 | 0x1000; // sets timer and flag
     } else {
         this->animFlagAndTimer = 1;
     }
-    this->actionFunc = EnShopnuts_Stand;
+    this->actionFunc = EnShopnuts_Peek;
 }
 
 void EnShopnuts_SetupBurrow(EnShopnuts* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &gBusinessScrubAnim_39C, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gBusinessScrubPeekBurrowAnim, -5.0f);
     Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnShopnuts_Burrow;
 }
@@ -125,7 +130,7 @@ void EnShopnuts_SetupSpawnSalesman(EnShopnuts* this) {
     this->actionFunc = EnShopnuts_SpawnSalesman;
 }
 
-void EnShopnuts_Wait(EnShopnuts* this, PlayState* play) {
+void EnShopnuts_Idle(EnShopnuts* this, PlayState* play) {
     s32 hasSlowPlaybackSpeed = false;
 
     if (this->skelAnime.playSpeed < 0.5f) {
@@ -149,7 +154,7 @@ void EnShopnuts_Wait(EnShopnuts* this, PlayState* play) {
         } else if ((this->animFlagAndTimer == 0) && (this->actor.xzDistToPlayer > 320.0f)) {
             EnShopnuts_SetupLookAround(this);
         } else {
-            EnShopnuts_SetupStand(this);
+            EnShopnuts_SetupPeek(this);
         }
     }
     if (hasSlowPlaybackSpeed &&
@@ -169,7 +174,7 @@ void EnShopnuts_LookAround(EnShopnuts* this, PlayState* play) {
     }
 }
 
-void EnShopnuts_Stand(EnShopnuts* this, PlayState* play) {
+void EnShopnuts_Peek(EnShopnuts* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && (this->animFlagAndTimer != 0)) {
         this->animFlagAndTimer--;
@@ -191,13 +196,14 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 120.0f) {
         EnShopnuts_SetupBurrow(this);
     } else if (SkelAnime_Update(&this->skelAnime)) {
-        EnShopnuts_SetupStand(this);
+        EnShopnuts_SetupPeek(this);
     } else if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
         spawnPos.x = this->actor.world.pos.x + (Math_SinS(this->actor.shape.rot.y) * 23.0f);
         spawnPos.y = this->actor.world.pos.y + 12.0f;
         spawnPos.z = this->actor.world.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, spawnPos.x, spawnPos.y, spawnPos.z,
-                        this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 2) != NULL) {
+                        this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z,
+                        EN_NUTSBALL_TYPE_SHOPNUTS) != NULL) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     }
@@ -205,7 +211,7 @@ void EnShopnuts_ThrowNut(EnShopnuts* this, PlayState* play) {
 
 void EnShopnuts_Burrow(EnShopnuts* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        EnShopnuts_SetupWait(this);
+        EnShopnuts_SetupIdle(this);
     } else {
         this->collider.dim.height = ((4.0f - CLAMP_MAX(this->skelAnime.curFrame, 4.0f)) * 10.0f) + 5.0f;
     }
@@ -216,9 +222,10 @@ void EnShopnuts_Burrow(EnShopnuts* this, PlayState* play) {
 
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DNS, this->actor.world.pos.x, this->actor.world.pos.y,
-                    this->actor.world.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z,
-                    this->actor.params);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DNS,
+                    this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                    this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z,
+                    EN_DNS_TYPE(this));
         Actor_Kill(&this->actor);
     } else {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0xE38);
@@ -230,7 +237,7 @@ void EnShopnuts_ColliderCheck(EnShopnuts* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         EnShopnuts_SetupSpawnSalesman(this);
-    } else if (play->actorCtx.unk_02 != 0) {
+    } else if (play->actorCtx.unk_02 != 0) {    // Hammer Time
         EnShopnuts_SetupSpawnSalesman(this);
     }
 }
@@ -246,11 +253,11 @@ void EnShopnuts_Update(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    if (this->actionFunc == EnShopnuts_Wait) {
+    if (this->actionFunc == EnShopnuts_Idle) {
         Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
     } else if (this->actionFunc == EnShopnuts_Burrow) {
-        Actor_SetFocus(&this->actor,
-                       20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&gBusinessScrubAnim_39C)));
+        Actor_SetFocus(&this->actor, 20.0f - ((this->skelAnime.curFrame * 20.0f) /
+                                              Animation_GetLastFrame(&gBusinessScrubPeekBurrowAnim)));
     } else {
         Actor_SetFocus(&this->actor, 20.0f);
     }
@@ -259,7 +266,7 @@ void EnShopnuts_Update(Actor* thisx, PlayState* play) {
 s32 EnShopnuts_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnShopnuts* this = (EnShopnuts*)thisx;
 
-    if ((limbIndex == 9) && (this->actionFunc == EnShopnuts_ThrowNut)) {
+    if ((limbIndex == BIZ_SCRUB_LIMB_NOSE) && (this->actionFunc == EnShopnuts_ThrowNut)) {
         *dList = NULL;
     }
     return 0;
@@ -273,7 +280,7 @@ void EnShopnuts_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
     f32 y;
     f32 z;
 
-    if ((limbIndex == 9) && (this->actionFunc == EnShopnuts_ThrowNut)) {
+    if ((limbIndex == BIZ_SCRUB_LIMB_NOSE) && (this->actionFunc == EnShopnuts_ThrowNut)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_shopnuts.c", 682);
         curFrame = this->skelAnime.curFrame;
         if (curFrame <= 6.0f) {
