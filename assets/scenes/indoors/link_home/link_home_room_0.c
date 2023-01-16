@@ -16,7 +16,7 @@ SceneCmd link_home_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&link_home_room_0MeshHeader1Single_0000A0),
     SCENE_CMD_OBJECT_LIST(3, link_home_room_0ObjectList_00005C),
-    SCENE_CMD_ACTOR_LIST(3, link_home_room_0ActorList_000064),
+    SCENE_CMD_ACTOR_LIST(5, link_home_room_0ActorList_000064),
     SCENE_CMD_END(),
 };
 
@@ -38,6 +38,8 @@ ActorEntry link_home_room_0ActorList_000064[] = {
     { ACTOR_EN_WONDER_TALK2, {     78,     38,    116 }, {      0, 0X8E39,      0 }, 0x8ABF },
     { ACTOR_EN_COW,          {    -83,      0,    -78 }, {      0, 0XF49F,      0 }, 0x0000 },
     { ACTOR_OBJ_TSUBO,       {   -118,      0,     51 }, {      0,      0,      0 }, 0x4103 },
+    { ACTOR_OBJ_TSUBO,       {    -83,      0,     86 }, {      0,      0,      0 }, 0x4300 },
+    { ACTOR_OBJ_TSUBO,       {     66,      0,     96 }, {      0, 0x1000,      0 }, 0x4503 },
 };
 
 u8 link_home_room_0_possiblePadding_000094[] = {
