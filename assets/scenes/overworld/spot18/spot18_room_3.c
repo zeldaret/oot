@@ -19,7 +19,7 @@ SceneCmd spot18_room_3Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot18_room_3PolygonType2_000360),
     SCENE_CMD_OBJECT_LIST(12, spot18_room_3ObjectList_00005C),
-    SCENE_CMD_ACTOR_LIST(46, spot18_room_3ActorList_000074),
+    SCENE_CMD_ACTOR_LIST(59, spot18_room_3ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -93,6 +93,19 @@ ActorEntry spot18_room_3ActorList_000074[] = {
     { ACTOR_OBJ_TSUBO,         {  -1170,    400,     60 }, {      0,  0X2D8,      0 }, 0x6D00 },
     { ACTOR_OBJ_TSUBO,         {  -1185,    400,     95 }, {      0,  0X2D8,      0 }, 0x7701 },
     { ACTOR_OBJ_TSUBO,         {   -271,     76,    825 }, {      0,      0,      0 }, 0x7903 },
+    { ACTOR_EN_BOMBF,          {   -246,    398,   -472 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_BOMBIWA,       {   -262,    197,   -305 }, {      0, 0XF7EA,      0 }, 0x003B },
+    { ACTOR_EN_ITEM00,         {   -262,    197,   -305 }, {      0,      0,      0 }, 0x3E02 },
+    { ACTOR_OBJ_BOMBIWA,       {    216,    197,   -209 }, {      0,  0XFEA,      0 }, 0x003C },
+    { ACTOR_EN_ITEM00,         {    216,    197,   -209 }, {      0,      0,      0 }, 0x3D02 },
+    { ACTOR_OBJ_BOMBIWA,       {    157,    398,   -391 }, {      0,      0,      0 }, 0x003D },
+    { ACTOR_EN_ITEM00,         {    157,    398,   -391 }, {      0,      0,      0 }, 0x2001 },
+    { ACTOR_EN_BOMBF,          {    753,    600,    380 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,          {    753,    600,    348 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,          {    753,    600,    314 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,          {    753,    600,    280 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_KANBAN,         {   -173,      0,   -106 }, {      0, 0X34F8,      0 }, 0x0332 },
+    { ACTOR_EN_BOMBF,          {   -580,    600,    476 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 spot18_room_3_possiblePadding_000354[] = {
@@ -126,7 +139,7 @@ SceneCmd spot18_room_3Set_000400[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot18_room_3PolygonType2_000360),
     SCENE_CMD_OBJECT_LIST(12, spot18_room_3ObjectList_000440),
-    SCENE_CMD_ACTOR_LIST(38, spot18_room_3ActorList_000458),
+    SCENE_CMD_ACTOR_LIST(51, spot18_room_3ActorList_000458),
     SCENE_CMD_END(),
 };
 
@@ -184,6 +197,19 @@ ActorEntry spot18_room_3ActorList_000458[] = {
     { ACTOR_EN_GO2,            {    187,    600,    873 }, {      0, 0XE222,      0 }, 0xFFE7 },
     { ACTOR_OBJ_HSBLOCK,       {   1161,    480,   -148 }, {      0,      0,      0 }, 0xFFC0 },
     { ACTOR_EN_WONDER_TALK2,   {    -74,     -2,   -328 }, {      0,      0,   0X29 }, 0x8BFF },
+    { ACTOR_EN_BOMBF,          {   -246,    398,   -472 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_BOMBIWA,       {   -262,    197,   -305 }, {      0, 0XF7EA,      0 }, 0x003B },
+    { ACTOR_EN_ITEM00,         {   -262,    197,   -305 }, {      0,      0,      0 }, 0x3E02 },
+    { ACTOR_OBJ_BOMBIWA,       {    216,    197,   -209 }, {      0,  0XFEA,      0 }, 0x003C },
+    { ACTOR_EN_ITEM00,         {    216,    197,   -209 }, {      0,      0,      0 }, 0x3D02 },
+    { ACTOR_OBJ_BOMBIWA,       {    157,    398,   -391 }, {      0,      0,      0 }, 0x003D },
+    { ACTOR_EN_ITEM00,         {    157,    398,   -391 }, {      0,      0,      0 }, 0x2001 },
+    { ACTOR_EN_BOMBF,          {    753,    600,    380 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,          {    753,    600,    348 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,          {    753,    600,    314 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,          {    753,    600,    280 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_KANBAN,         {   -173,      0,   -106 }, {      0, 0X34F8,      0 }, 0x0332 },
+    { ACTOR_EN_BOMBF,          {   -580,    600,    476 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 spot18_room_3_possiblePadding_0006B8[] = {
