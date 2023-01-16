@@ -15,8 +15,8 @@ SceneCmd spot20_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot20_room_0PolygonType2_000220),
-    SCENE_CMD_OBJECT_LIST(8, spot20_room_0ObjectList_000074),
-    SCENE_CMD_ACTOR_LIST(25, spot20_room_0ActorList_000084),
+    SCENE_CMD_OBJECT_LIST(9, spot20_room_0ObjectList_000074),
+    SCENE_CMD_ACTOR_LIST(30, spot20_room_0ActorList_000084),
     SCENE_CMD_END(),
 };
 
@@ -43,6 +43,7 @@ s16 spot20_room_0ObjectList_000074[] = {
     OBJECT_KIBAKO2,
     OBJECT_WOOD02,
     OBJECT_ST,
+    OBJECT_NIW,
 };
 
 ActorEntry spot20_room_0ActorList_000084[] = {
@@ -71,6 +72,11 @@ ActorEntry spot20_room_0ActorList_000084[] = {
     { ACTOR_EN_HORSE_NORMAL,     {    750,      0,  -1076 }, {      0, 0X305B,    0X3 }, 0x000F },
     { ACTOR_EN_HORSE_NORMAL,     {    821,      0,   -283 }, {      0, 0XD8E4,    0X3 }, 0x000F },
     { ACTOR_OBJ_KIBAKO2,         {   1160,      0,  -2376 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_NIW,              {   1180,      0,  -2338 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_NIW,              {   1299,      0,  -2310 }, {      0, 0XC5B0,      0 }, 0xFFFF },
+    { ACTOR_EN_NIW,              {   1272,      0,  -2200 }, {      0, 0X9555,      0 }, 0xFFFF },
+    { ACTOR_EN_NIW,              {   1106,      0,  -2209 }, {      0, 0X6889,      0 }, 0xFFFF },
+    { ACTOR_EN_NIW,              {   1207,      0,  -2264 }, {      0, 0XACCD,      0 }, 0xFFFF },
 };
 
 u8 spot20_room_0_possiblePadding_000214[] = {
