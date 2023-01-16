@@ -596,7 +596,7 @@ void DemoEc_DrawWoman(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitOldWoman(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_bba_Skel_0000F0);
+    DemoEc_InitSkelAnime(this, play, &gHylianOldWomanSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -612,7 +612,7 @@ void DemoEc_UpdateOldWoman(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawOldWoman(DemoEc* this, PlayState* play) {
-    DemoEc_DrawSkeleton(this, play, &object_bba_Tex_0004C8, NULL, NULL, NULL);
+    DemoEc_DrawSkeleton(this, play, &gHylianOldWomanEyeTex, NULL, NULL, NULL);
 }
 
 void DemoEc_InitBossCarpenter(DemoEc* this, PlayState* play) {
