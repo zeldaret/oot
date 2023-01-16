@@ -115,7 +115,7 @@ static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, gHylianYoungWomanHeadOrangeHairDL, NULL },
     /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, object_bji_DL_002560, sEyeTexturesBJI13 },
     /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, object_bji_DL_003F68, NULL },
-    /* ENHY_HEAD_COB */ { OBJECT_COB, object_cob_DL_001300, NULL },
+    /* ENHY_HEAD_COB */ { OBJECT_COB, gHylianWoman3HeadDL, NULL },
 };
 
 typedef struct {
@@ -142,7 +142,7 @@ static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_BBA */ { OBJECT_BBA, &gHylianOldWomanSkel },
     /* ENHY_SKEL_CNE */ { OBJECT_CNE, &gHylianYoungWomanSkel },
     /* ENHY_SKEL_BJI */ { OBJECT_BJI, &object_bji_Skel_0000F0 },
-    /* ENHY_SKEL_COB */ { OBJECT_COB, &object_cob_Skel_0021F8 },
+    /* ENHY_SKEL_COB */ { OBJECT_COB, &gHylianWoman3Skel },
 };
 
 typedef enum {
