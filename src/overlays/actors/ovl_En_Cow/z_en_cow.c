@@ -108,7 +108,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 72.0f);
     switch (EN_COW_TYPE(this)) {
-        case EN_COW_TYPE_DEFAULT:
+        case EN_COW_TYPE_COW:
             SkelAnime_InitFlex(play, &this->skelAnime, &gCowBodySkel, NULL,
                                this->jointTable, this->morphTable, COW_LIMB_MAX);
             Animation_PlayLoop(&this->skelAnime, &gCowBodyChewAnim);
@@ -156,7 +156,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
 void EnCow_Destroy(Actor* thisx, PlayState* play) {
     EnCow* this = (EnCow*)thisx;
 
-    if (EN_COW_TYPE(this) == EN_COW_TYPE_DEFAULT) {
+    if (EN_COW_TYPE(this) == EN_COW_TYPE_COW) {
         Collider_DestroyCylinder(play, &this->colliders[EN_COW_COLLIDER_FRONT]);
         Collider_DestroyCylinder(play, &this->colliders[EN_COW_COLLIDER_REAR]);
     }
@@ -258,6 +258,7 @@ void EnCow_Talk(EnCow* this, PlayState* play) {
 void EnCow_Idle(EnCow* this, PlayState* play) {
     if ((play->msgCtx.ocarinaMode == OCARINA_MODE_00) || (play->msgCtx.ocarinaMode == OCARINA_MODE_04)) {
         if (R_PLAYED_EPONAS_SONG) {
+            // Resets R_PLAYED_EPONAS_SONG on next tick if not handled by another actor
             if (this->cowFlags & EN_COW_FLAG_WONT_GIVE_MILK) {
                 this->cowFlags &= ~EN_COW_FLAG_WONT_GIVE_MILK;
                 R_PLAYED_EPONAS_SONG = false;

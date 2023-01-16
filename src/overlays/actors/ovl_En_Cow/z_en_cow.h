@@ -10,7 +10,7 @@
 
 #define EN_COW_TYPE(thisx) ((thisx)->actor.params)
 typedef enum {
-    /*  0 */ EN_COW_TYPE_DEFAULT,
+    /*  0 */ EN_COW_TYPE_COW,
     /*  1 */ EN_COW_TYPE_TAIL
 } EnCowType;
 
