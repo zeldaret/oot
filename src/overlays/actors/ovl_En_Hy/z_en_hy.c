@@ -67,12 +67,12 @@ static ColliderCylinderInit sColCylInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 // NULL-terminated arrays of eye textures
-static void* sEyeTexturesAOB[] = { gDogLadyEyeOpenTex, gDogLadyEyeHalfTex, gDogLadyEyeClosedTex, NULL };
+static void* sEyeTexturesAOB[] = { gHylianWoman1EyeOpenTex, gHylianWoman1EyeHalfTex, gHylianWoman1EyeClosedTex, NULL };
 static void* sEyeTexturesAHG7[] = { object_ahg_Tex_00057C, object_ahg_Tex_00067C, object_ahg_Tex_00077C, NULL };
 static void* sEyeTexturesBBA[] = { gHylianOldWomanEyeTex, NULL };
 static void* sEyeTexturesBJI13[] = { object_bji_Tex_0005FC, object_bji_Tex_0009FC, object_bji_Tex_000DFC, NULL };
 static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC, object_boj_Tex_0007FC, NULL };
-static void* sEyeTexturesBOB[] = { gHylianWomanEyeOpenTex, gHylianWomanEyeHalfTex, gHylianWomanEyeClosedTex, NULL };
+static void* sEyeTexturesBOB[] = { gHylianWoman2EyeOpenTex, gHylianWoman2EyeHalfTex, gHylianWoman2EyeClosedTex, NULL };
 
 typedef struct {
     /* 0x00 */ s16 objectId;
@@ -100,8 +100,8 @@ typedef enum {
 } EnHyHeadIndex;
 
 static EnHyHeadInfo sHeadInfo[] = {
-    /* ENHY_HEAD_AOB */ { OBJECT_AOB, gDogLadyHeadDL, sEyeTexturesAOB },
-    /* ENHY_HEAD_BOB */ { OBJECT_BOB, gHylianWomanHeadDL, sEyeTexturesBOB },
+    /* ENHY_HEAD_AOB */ { OBJECT_AOB, gHylianWoman1HeadDL, sEyeTexturesAOB },
+    /* ENHY_HEAD_BOB */ { OBJECT_BOB, gHylianWoman2HeadDL, sEyeTexturesBOB },
     /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, object_boj_DL_0026F0, sEyeTexturesBOJ2 },
     /* ENHY_HEAD_BOJ_3 */ { OBJECT_BOJ, object_boj_DL_0052E0, NULL },
     /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, object_boj_DL_005528, NULL },
@@ -135,8 +135,8 @@ typedef enum {
 } EnHySkeletonIndex;
 
 static EnHySkeletonInfo sSkeletonInfo[] = {
-    /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gDogLadySkel },
-    /* ENHY_SKEL_BOB */ { OBJECT_BOB, &gHylianWomanSkel },
+    /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gHylianWoman1Skel },
+    /* ENHY_SKEL_BOB */ { OBJECT_BOB, &gHylianWoman2Skel },
     /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &object_boj_Skel_0000F0 },
     /* ENHY_SKEL_AHG */ { OBJECT_AHG, &object_ahg_Skel_0000F0 },
     /* ENHY_SKEL_BBA */ { OBJECT_BBA, &gHylianOldWomanSkel },
