@@ -20,7 +20,7 @@ SceneCmd gerudoway_room_4Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&gerudoway_room_4PolygonType2_000110),
     SCENE_CMD_OBJECT_LIST(7, gerudoway_room_4ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(12, gerudoway_room_4ActorList_000050),
+    SCENE_CMD_ACTOR_LIST(13, gerudoway_room_4ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -47,6 +47,7 @@ ActorEntry gerudoway_room_4ActorList_000050[] = {
     { ACTOR_OBJ_TSUBO,       {     67,    -80,  -1975 }, {      0,      0,      0 }, 0x4A01 },
     { ACTOR_OBJ_TSUBO,       {     39,    -80,  -1943 }, {      0,      0,      0 }, 0x4C03 },
     { ACTOR_EN_WONDER_TALK2, {    326,   -181,  -1123 }, {      0, 0XC000,    0X6 }, 0x4706 },
+    { ACTOR_EN_GELDB,        {     68,     60,  -1032 }, {      0, 0X4000,   0X12 }, 0x0E00 },
 };
 
 PolygonType2 gerudoway_room_4PolygonType2_000110 = { 
