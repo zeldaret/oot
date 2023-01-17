@@ -129,8 +129,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
         EN_DNS_TYPE(this) = EN_DNS_TYPE_SEEDS;
     }
     // "Deku Salesman"
-    osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[EN_DNS_TYPE(this)],
-                 EN_DNS_TYPE(this));
+    osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[EN_DNS_TYPE(this)]);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
                        this->jointTable, this->morphTable, BIZ_SCRUB_LIMB_MAX);
