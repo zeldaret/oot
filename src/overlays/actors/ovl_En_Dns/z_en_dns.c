@@ -167,7 +167,7 @@ void EnDns_ChangeAnim(EnDns* this, u8 index) {
 /* Item give checking functions */
 
 u32 EnDns_CanBuyDekuNuts(EnDns* this) {
-    if (CUR_CAPACITY(UPG_DEKU_NUTS) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS))) {
+    if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS))) {
         return CANBUY_RESULT_CAPACITY_FULL;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
