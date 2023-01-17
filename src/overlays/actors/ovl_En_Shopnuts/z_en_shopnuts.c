@@ -74,8 +74,8 @@ void EnShopnuts_Init(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
     if (((EN_DNS_TYPE(this) == EN_DNS_TYPE_HEART_PIECE) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
-        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_STICK_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
-        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_NUT_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
+        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_DEKU_STICK_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
+        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_DEKU_NUT_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
         Actor_Kill(&this->actor);
     } else {
         EnShopnuts_SetupIdle(this);

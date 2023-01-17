@@ -16,8 +16,8 @@ typedef enum {
     /*  6 */ EN_DNS_TYPE_ARROWS_30,
     /*  7 */ EN_DNS_TYPE_RED_POTION,
     /*  8 */ EN_DNS_TYPE_GREEN_POTION,
-    /*  9 */ EN_DNS_TYPE_STICK_UPGRADE,
-    /* 10 */ EN_DNS_TYPE_NUT_UPGRADE,
+    /*  9 */ EN_DNS_TYPE_DEKU_STICK_UPGRADE,
+    /* 10 */ EN_DNS_TYPE_DEKU_NUT_UPGRADE,
 } EnDnsType;
 
 typedef enum {

@@ -350,13 +350,13 @@ void EnDns_Talk(EnDns* this, PlayState* play) {
 }
 
 void EnDns_OfferSaleItem(EnDns* this, PlayState* play) {
-    if (EN_DNS_TYPE(this) == EN_DNS_TYPE_STICK_UPGRADE) {
+    if (EN_DNS_TYPE(this) == EN_DNS_TYPE_DEKU_STICK_UPGRADE) {
         if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < 2) {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
-    } else if (EN_DNS_TYPE(this) == EN_DNS_TYPE_NUT_UPGRADE) {
+    } else if (EN_DNS_TYPE(this) == EN_DNS_TYPE_DEKU_NUT_UPGRADE) {
         if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < 2) {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
