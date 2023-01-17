@@ -83,7 +83,7 @@ const ActorInit En_GeldB_InitVars = {
 
 static ColliderCylinderInit sBodyCylInit = {
     {
-        COLTYPE_HIT5,
+        COLTYPE_HIT7,
         AT_NONE,
         AC_ON | AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_ALL,
