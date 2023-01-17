@@ -174,7 +174,7 @@ u32 EnDns_CanBuyDekuNuts(EnDns* this) {
         return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
-        return EN_DNS_CANBUY_RESULT_NEW_ITEM;
+        return EN_DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM;
     }
     return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
@@ -187,7 +187,7 @@ u32 EnDns_CanBuyDekuSticks(EnDns* this) {
         return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
-        return EN_DNS_CANBUY_RESULT_NEW_ITEM;
+        return EN_DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM;
     }
     return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
@@ -210,7 +210,7 @@ u32 EnDns_CanBuyDekuSeeds(EnDns* this) {
         return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
-        return EN_DNS_CANBUY_RESULT_NEW_ITEM;
+        return EN_DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM;
     }
     return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
@@ -335,7 +335,7 @@ void EnDns_Talk(EnDns* this, PlayState* play) {
                         Message_ContinueTextbox(play, 0x10DE);
                         this->actionFunc = EnDns_SetupNoSaleBurrow;
                         break;
-                    case EN_DNS_CANBUY_RESULT_NEW_ITEM:
+                    case EN_DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM:
                     case EN_DNS_CANBUY_RESULT_SUCCESS:
                         Message_ContinueTextbox(play, 0x10A7);
                         this->actionFunc = EnDns_SetupSale;

@@ -23,7 +23,7 @@ typedef enum {
 typedef enum {
     /*  0 */ EN_DNS_CANBUY_RESULT_NEED_RUPEES,
     /*  1 */ EN_DNS_CANBUY_RESULT_CAPACITY_FULL,
-    /*  2 */ EN_DNS_CANBUY_RESULT_NEW_ITEM,
+    /*  2 */ EN_DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM,
     /*  3 */ EN_DNS_CANBUY_RESULT_CANT_GET_NOW,
     /*  4 */ EN_DNS_CANBUY_RESULT_SUCCESS,
 } EnDnsCanBuyResult;
