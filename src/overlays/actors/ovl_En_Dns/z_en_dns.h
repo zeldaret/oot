@@ -7,26 +7,26 @@
 
 #define EN_DNS_TYPE(thisx) ((thisx)->actor.params)
 typedef enum {
-    /*  0 */ EN_DNS_TYPE_NUTS,
-    /*  1 */ EN_DNS_TYPE_STICKS,
-    /*  2 */ EN_DNS_TYPE_HEART,
-    /*  3 */ EN_DNS_TYPE_SEEDS,
-    /*  4 */ EN_DNS_TYPE_SHIELD,
-    /*  5 */ EN_DNS_TYPE_BOMBS,
-    /*  6 */ EN_DNS_TYPE_ARROWS,
-    /*  7 */ EN_DNS_TYPE_RED_POT,
-    /*  8 */ EN_DNS_TYPE_GREEN_POT,
-    /*  9 */ EN_DNS_TYPE_STICK_UPG,
-    /* 10 */ EN_DNS_TYPE_NUT_UPG,
+    /*  0 */ EN_DNS_TYPE_DEKU_NUTS_5,
+    /*  1 */ EN_DNS_TYPE_DEKU_STICKS_1,
+    /*  2 */ EN_DNS_TYPE_HEART_PIECE,
+    /*  3 */ EN_DNS_TYPE_DEKU_SEEDS_30,
+    /*  4 */ EN_DNS_TYPE_DEKU_SHIELD,
+    /*  5 */ EN_DNS_TYPE_BOMBS_5,
+    /*  6 */ EN_DNS_TYPE_ARROWS_30,
+    /*  7 */ EN_DNS_TYPE_RED_POTION,
+    /*  8 */ EN_DNS_TYPE_GREEN_POTION,
+    /*  9 */ EN_DNS_TYPE_STICK_UPGRADE,
+    /* 10 */ EN_DNS_TYPE_NUT_UPGRADE,
 } EnDnsType;
 
 typedef enum {
-    /*  0 */ EN_DNS_DIALOG_TYPE_NO_RUPEES,
-    /*  1 */ EN_DNS_DIALOG_TYPE_NO_CAPACITY,
-    /*  2 */ EN_DNS_DIALOG_TYPE_NEW_ITEM,
-    /*  3 */ EN_DNS_DIALOG_TYPE_NO_ITEM,
-    /*  4 */ EN_DNS_DIALOG_TYPE_SUCCESS,
-} EnDnsDialogType;
+    /*  0 */ CANBUY_RESULT_NEED_RUPEES,
+    /*  1 */ CANBUY_RESULT_CAPACITY_FULL,
+    /*  2 */ CANBUY_RESULT_NEW_ITEM,
+    /*  3 */ CANBUY_RESULT_CANT_GET_NOW,
+    /*  4 */ CANBUY_RESULT_SUCCESS,
+} EnDnsCanBuyResult;
 
 typedef enum {
     /* 0 */ EN_DNS_ANIM_IDLE,
@@ -42,22 +42,22 @@ typedef enum {
 struct EnDns;
 
 typedef void (*EnDnsActionFunc)(struct EnDns*, PlayState*);
-typedef u32 (*EnDnsDialogPathFunc)(struct EnDns*);
-typedef void (*EnDnsItemPaymentFunc)(struct EnDns*);
+typedef u32 (*EnDnsCanBuyFunc)(struct EnDns*);
+typedef void (*EnDnsPaymentFunc)(struct EnDns*);
 
 typedef struct {
     /* 0x00 */ s16 itemPrice;
     /* 0x02 */ u16 itemAmount;
     /* 0x04 */ s32 getItemId;
-    /* 0x08 */ EnDnsDialogPathFunc dialogPath;
-    /* 0x0C */ EnDnsItemPaymentFunc itemPayment;
+    /* 0x08 */ EnDnsCanBuyFunc canBuy;
+    /* 0x0C */ EnDnsPaymentFunc payment;
 } DnsItemEntry; // size = 0x10
 
 typedef struct EnDns {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTable[BIZ_SCRUB_LIMB_MAX];
-    /* 0x01FC */ Vec3s morphTable[BIZ_SCRUB_LIMB_MAX];
+    /* 0x0190 */ Vec3s jointTable[BUSINESS_SCRUB_LIMB_MAX];
+    /* 0x01FC */ Vec3s morphTable[BUSINESS_SCRUB_LIMB_MAX];
     /* 0x0268 */ EnDnsActionFunc actionFunc;
     /* 0x026C */ ColliderCylinder collider;
     /* 0x02B8 */ s16 dustTimer;

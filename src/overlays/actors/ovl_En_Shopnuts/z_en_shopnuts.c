@@ -1,6 +1,6 @@
 /*
-* File: z_en_dns.c
-* Overlay: En_Dns
+* File: z_en_shopnuts.c
+* Overlay: En_Shopnuts
 * Description: Deku Salesman - Attack Phase
 */
 
@@ -67,15 +67,15 @@ void EnShopnuts_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubPeekAnim, this->jointTable,
-                       this->morphTable, BIZ_SCRUB_LIMB_MAX);
+                       this->morphTable, BUSINESS_SCRUB_LIMB_MAX);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    if (((EN_DNS_TYPE(this) == EN_DNS_TYPE_HEART) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
-        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_STICK_UPG) && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
-        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_NUT_UPG) && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
+    if (((EN_DNS_TYPE(this) == EN_DNS_TYPE_HEART_PIECE) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
+        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_STICK_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
+        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_NUT_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
         Actor_Kill(&this->actor);
     } else {
         EnShopnuts_SetupIdle(this);
@@ -266,7 +266,7 @@ void EnShopnuts_Update(Actor* thisx, PlayState* play) {
 s32 EnShopnuts_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnShopnuts* this = (EnShopnuts*)thisx;
 
-    if ((limbIndex == BIZ_SCRUB_LIMB_NOSE) && (this->actionFunc == EnShopnuts_ThrowNut)) {
+    if ((limbIndex == BUSINESS_SCRUB_LIMB_NOSE) && (this->actionFunc == EnShopnuts_ThrowNut)) {
         *dList = NULL;
     }
     return 0;
@@ -274,13 +274,12 @@ s32 EnShopnuts_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 
 void EnShopnuts_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnShopnuts* this = (EnShopnuts*)thisx;
-
     f32 curFrame;
     f32 x;
     f32 y;
     f32 z;
 
-    if ((limbIndex == BIZ_SCRUB_LIMB_NOSE) && (this->actionFunc == EnShopnuts_ThrowNut)) {
+    if ((limbIndex == BUSINESS_SCRUB_LIMB_NOSE) && (this->actionFunc == EnShopnuts_ThrowNut)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_shopnuts.c", 682);
         curFrame = this->skelAnime.curFrame;
         if (curFrame <= 6.0f) {

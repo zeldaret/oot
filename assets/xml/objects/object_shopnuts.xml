@@ -1,26 +1,26 @@
 <Root>
     <File Name="object_shopnuts" Segment="6">
         <!-- Business Scrub Skeleton -->
-        <Skeleton Name="gBusinessScrubSkel" Type="Flex" LimbType="Standard" LimbNone="BIZ_SCRUB_LIMB_NONE" LimbMax="BIZ_SCRUB_LIMB_MAX" EnumName="BizScrubLimb" Offset="0x41A8"/>
+        <Skeleton Name="gBusinessScrubSkel" Type="Flex" LimbType="Standard" LimbNone="BUSINESS_SCRUB_LIMB_NONE" LimbMax="BUSINESS_SCRUB_LIMB_MAX" EnumName="BUSINESSScrubLimb" Offset="0x41A8"/>
 
         <!-- Business Scrub Limbs -->
-        <Limb Name="gBusinessScrubRootLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_ROOT" Offset="0x4098"/>
-        <Limb Name="gBusinessScrubLeftThighLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_LEFT_THIGH" Offset="0x40A4"/>
-        <Limb Name="gBusinessScrubLeftShinLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_LEFT_SHIN" Offset="0x40B0"/>
-        <Limb Name="gBusinessScrubLeftFootLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_LEFT_FOOT" Offset="0x40BC"/>
-        <Limb Name="gBusinessScrubRightThighLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_RIGHT_THIGH" Offset="0x40C8"/>
-        <Limb Name="gBusinessScrubRightShinLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_RIGHT_SHIN" Offset="0x40D4"/>
-        <Limb Name="gBusinessScrubRightFootLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_RIGHT_FOOT" Offset="0x40E0"/>
-        <Limb Name="gBusinessScrubTopLeafLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_TOP_LEAF" Offset="0x40EC"/>
-        <Limb Name="gBusinessScrubNoseLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_NOSE" Offset="0x40F8"/>
-        <Limb Name="gBusinessScrubLeftUpperArmLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_LEFT_UPPER_ARM" Offset="0x4104"/>
-        <Limb Name="gBusinessScrubLeftForearmLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_LEFT_FOREARM" Offset="0x4110"/>
-        <Limb Name="gBusinessScrubLeftHandLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_LEFT_HAND" Offset="0x411C"/>
-        <Limb Name="gBusinessScrubRightUpperArmLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_RIGHT_UPPER_ARM" Offset="0x4128"/>
-        <Limb Name="gBusinessScrubRightForearmLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_RIGHT_FOREARM" Offset="0x4134"/>
-        <Limb Name="gBusinessScrubRightHandLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_RIGHT_HAND" Offset="0x4140"/>
-        <Limb Name="gBusinessScrubEyesLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_EYES" Offset="0x414C"/>
-        <Limb Name="gBusinessScrubBodyLimb" LimbType="Standard" EnumName="BIZ_SCRUB_LIMB_BODY" Offset="0x4158"/>
+        <Limb Name="gBusinessScrubRootLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_ROOT" Offset="0x4098"/>
+        <Limb Name="gBusinessScrubLeftThighLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_LEFT_THIGH" Offset="0x40A4"/>
+        <Limb Name="gBusinessScrubLeftShinLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_LEFT_SHIN" Offset="0x40B0"/>
+        <Limb Name="gBusinessScrubLeftFootLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_LEFT_FOOT" Offset="0x40BC"/>
+        <Limb Name="gBusinessScrubRightThighLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_RIGHT_THIGH" Offset="0x40C8"/>
+        <Limb Name="gBusinessScrubRightShinLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_RIGHT_SHIN" Offset="0x40D4"/>
+        <Limb Name="gBusinessScrubRightFootLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_RIGHT_FOOT" Offset="0x40E0"/>
+        <Limb Name="gBusinessScrubTopLeafLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_TOP_LEAF" Offset="0x40EC"/>
+        <Limb Name="gBusinessScrubNoseLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_NOSE" Offset="0x40F8"/>
+        <Limb Name="gBusinessScrubLeftUpperArmLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_LEFT_UPPER_ARM" Offset="0x4104"/>
+        <Limb Name="gBusinessScrubLeftForearmLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_LEFT_FOREARM" Offset="0x4110"/>
+        <Limb Name="gBusinessScrubLeftHandLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_LEFT_HAND" Offset="0x411C"/>
+        <Limb Name="gBusinessScrubRightUpperArmLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_RIGHT_UPPER_ARM" Offset="0x4128"/>
+        <Limb Name="gBusinessScrubRightForearmLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_RIGHT_FOREARM" Offset="0x4134"/>
+        <Limb Name="gBusinessScrubRightHandLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_RIGHT_HAND" Offset="0x4140"/>
+        <Limb Name="gBusinessScrubEyesLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_EYES" Offset="0x414C"/>
+        <Limb Name="gBusinessScrubBodyLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_BODY" Offset="0x4158"/>
 
         <!-- Business Scrub Limb DisplayLists -->
         <DList Name="gBusinessScrubRootLeafDL" Offset="0x3C80"/>
