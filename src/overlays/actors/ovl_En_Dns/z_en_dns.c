@@ -168,97 +168,97 @@ void EnDns_ChangeAnim(EnDns* this, u8 index) {
 
 u32 EnDns_CanBuyDekuNuts(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS))) {
-        return CANBUY_RESULT_CAPACITY_FULL;
+        return EN_DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
-        return CANBUY_RESULT_NEED_RUPEES;
+        return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
-        return CANBUY_RESULT_NEW_ITEM;
+        return EN_DNS_CANBUY_RESULT_NEW_ITEM;
     }
-    return CANBUY_RESULT_SUCCESS;
+    return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
 
 u32 EnDns_CanBuyDekuSticks(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS))) {
-        return CANBUY_RESULT_CAPACITY_FULL;
+        return EN_DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
-        return CANBUY_RESULT_NEED_RUPEES;
+        return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
-        return CANBUY_RESULT_NEW_ITEM;
+        return EN_DNS_CANBUY_RESULT_NEW_ITEM;
     }
-    return CANBUY_RESULT_SUCCESS;
+    return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
 
 u32 EnDns_CanBuyPrice(EnDns* this) {
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
-        return CANBUY_RESULT_NEED_RUPEES;
+        return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
-    return CANBUY_RESULT_SUCCESS;
+    return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
 
 u32 EnDns_CanBuyDekuSeeds(EnDns* this) {
     if (INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE) {
-        return CANBUY_RESULT_CANT_GET_NOW;
+        return EN_DNS_CANBUY_RESULT_CANT_GET_NOW;
     }
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
-        return CANBUY_RESULT_CAPACITY_FULL;
+        return EN_DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
-        return CANBUY_RESULT_NEED_RUPEES;
+        return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
     if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
-        return CANBUY_RESULT_NEW_ITEM;
+        return EN_DNS_CANBUY_RESULT_NEW_ITEM;
     }
-    return CANBUY_RESULT_SUCCESS;
+    return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
 
 u32 EnDns_CanBuyDekuShield(EnDns* this) {
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_DEKU)) {
-        return CANBUY_RESULT_CAPACITY_FULL;
+        return EN_DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
-        return CANBUY_RESULT_NEED_RUPEES;
+        return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
-    return CANBUY_RESULT_SUCCESS;
+    return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
 
 u32 EnDns_CanBuyBombs(EnDns* this) {
     if (!CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-        return CANBUY_RESULT_CANT_GET_NOW;
+        return EN_DNS_CANBUY_RESULT_CANT_GET_NOW;
     }
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
-        return CANBUY_RESULT_CAPACITY_FULL;
+        return EN_DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
-        return CANBUY_RESULT_NEED_RUPEES;
+        return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
-    return CANBUY_RESULT_SUCCESS;
+    return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
 
 u32 EnDns_CanBuyArrows(EnDns* this) {
     if (Item_CheckObtainability(ITEM_BOW) == ITEM_NONE) {
-        return CANBUY_RESULT_CANT_GET_NOW;
+        return EN_DNS_CANBUY_RESULT_CANT_GET_NOW;
     }
     if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
-        return CANBUY_RESULT_CAPACITY_FULL;
+        return EN_DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
-        return CANBUY_RESULT_NEED_RUPEES;
+        return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
-    return CANBUY_RESULT_SUCCESS;
+    return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
 
 u32 EnDns_CanBuyBottle(EnDns* this) {
     if (!Inventory_HasEmptyBottle()) {
-        return CANBUY_RESULT_CAPACITY_FULL;
+        return EN_DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
-        return CANBUY_RESULT_NEED_RUPEES;
+        return EN_DNS_CANBUY_RESULT_NEED_RUPEES;
     }
-    return CANBUY_RESULT_SUCCESS;
+    return EN_DNS_CANBUY_RESULT_SUCCESS;
 }
 
 /* Paying and flagging functions */
@@ -323,20 +323,20 @@ void EnDns_Talk(EnDns* this, PlayState* play) {
         switch (play->msgCtx.choiceIndex) {
             case EN_DNS_MESSAGE_CHOICE_OK:
                 switch (this->dnsItemEntry->canBuy(this)) {
-                    case CANBUY_RESULT_NEED_RUPEES:
+                    case EN_DNS_CANBUY_RESULT_NEED_RUPEES:
                         Message_ContinueTextbox(play, 0x10A5);
                         this->actionFunc = EnDns_SetupNoSaleBurrow;
                         break;
-                    case CANBUY_RESULT_CAPACITY_FULL:
+                    case EN_DNS_CANBUY_RESULT_CAPACITY_FULL:
                         Message_ContinueTextbox(play, 0x10A6);
                         this->actionFunc = EnDns_SetupNoSaleBurrow;
                         break;
-                    case CANBUY_RESULT_CANT_GET_NOW:
+                    case EN_DNS_CANBUY_RESULT_CANT_GET_NOW:
                         Message_ContinueTextbox(play, 0x10DE);
                         this->actionFunc = EnDns_SetupNoSaleBurrow;
                         break;
-                    case CANBUY_RESULT_NEW_ITEM:
-                    case CANBUY_RESULT_SUCCESS:
+                    case EN_DNS_CANBUY_RESULT_NEW_ITEM:
+                    case EN_DNS_CANBUY_RESULT_SUCCESS:
                         Message_ContinueTextbox(play, 0x10A7);
                         this->actionFunc = EnDns_SetupSale;
                         break;

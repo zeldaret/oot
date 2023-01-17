@@ -21,22 +21,22 @@ typedef enum {
 } EnDnsType;
 
 typedef enum {
-    /*  0 */ CANBUY_RESULT_NEED_RUPEES,
-    /*  1 */ CANBUY_RESULT_CAPACITY_FULL,
-    /*  2 */ CANBUY_RESULT_NEW_ITEM,
-    /*  3 */ CANBUY_RESULT_CANT_GET_NOW,
-    /*  4 */ CANBUY_RESULT_SUCCESS,
+    /*  0 */ EN_DNS_CANBUY_RESULT_NEED_RUPEES,
+    /*  1 */ EN_DNS_CANBUY_RESULT_CAPACITY_FULL,
+    /*  2 */ EN_DNS_CANBUY_RESULT_NEW_ITEM,
+    /*  3 */ EN_DNS_CANBUY_RESULT_CANT_GET_NOW,
+    /*  4 */ EN_DNS_CANBUY_RESULT_SUCCESS,
 } EnDnsCanBuyResult;
 
 typedef enum {
-    /* 0 */ EN_DNS_ANIM_IDLE,
-    /* 1 */ EN_DNS_ANIM_BURROW,
-    /* 2 */ EN_DNS_ANIM_IDLE_TRANSITION,
+    /*  0 */ EN_DNS_ANIM_IDLE,
+    /*  1 */ EN_DNS_ANIM_BURROW,
+    /*  2 */ EN_DNS_ANIM_IDLE_TRANSITION,
 } EnDnsAnimation;
 
 typedef enum {
-    /* 0x00 */ EN_DNS_MESSAGE_CHOICE_OK,
-    /* 0x01 */ EN_DNS_MESSAGE_CHOICE_NO_WAY,
+    /*  0 */ EN_DNS_MESSAGE_CHOICE_OK,
+    /*  1 */ EN_DNS_MESSAGE_CHOICE_NO_WAY,
 } EnDnsMessageChoice;
 
 struct EnDns;

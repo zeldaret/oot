@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_shopnuts" Segment="6">
         <!-- Business Scrub Skeleton -->
-        <Skeleton Name="gBusinessScrubSkel" Type="Flex" LimbType="Standard" LimbNone="BUSINESS_SCRUB_LIMB_NONE" LimbMax="BUSINESS_SCRUB_LIMB_MAX" EnumName="BUSINESSScrubLimb" Offset="0x41A8"/>
+        <Skeleton Name="gBusinessScrubSkel" Type="Flex" LimbType="Standard" LimbNone="BUSINESS_SCRUB_LIMB_NONE" LimbMax="BUSINESS_SCRUB_LIMB_MAX" EnumName="BusinessScrubLimb" Offset="0x41A8"/>
 
         <!-- Business Scrub Limbs -->
         <Limb Name="gBusinessScrubRootLimb" LimbType="Standard" EnumName="BUSINESS_SCRUB_LIMB_ROOT" Offset="0x4098"/>
