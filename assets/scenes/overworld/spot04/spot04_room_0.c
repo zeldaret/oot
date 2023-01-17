@@ -185,8 +185,8 @@ SceneCmd spot04_room_0Set_0006B0[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot04_room_0PolygonType2_000580),
-    SCENE_CMD_OBJECT_LIST(7, spot04_room_0ObjectList_0006F0),
-    SCENE_CMD_ACTOR_LIST(48, spot04_room_0ActorList_000700),
+    SCENE_CMD_OBJECT_LIST(10, spot04_room_0ObjectList_0006F0),
+    SCENE_CMD_ACTOR_LIST(55, spot04_room_0ActorList_000700),
     SCENE_CMD_END(),
 };
 
@@ -198,6 +198,9 @@ s16 spot04_room_0ObjectList_0006F0[] = {
     OBJECT_OKUTA,
     OBJECT_DEKUNUTS,
     OBJECT_MAMENOKI,
+    OBJECT_KM1,
+    OBJECT_KW1,
+    OBJECT_OS_ANIME,
 };
 
 ActorEntry spot04_room_0ActorList_000700[] = {
@@ -249,6 +252,13 @@ ActorEntry spot04_room_0ActorList_000700[] = {
     { ACTOR_EN_ISHI,        {    901,      0,    745 }, {      0, 0x1000,      0 }, 0x0702 },
     { ACTOR_EN_ISHI,        {    959,      0,    697 }, {      0, 0x3755,      0 }, 0x0702 },
     { ACTOR_EN_DEKUBABA,    {   -463,      0,     69 }, {      0, 0x1000,      0 }, 0x0001 },
+    { ACTOR_EN_KO,          {   -292,      0,   -430 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_KO,          {     45,      0,   -272 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_EN_KO,          {   -608,    120,   1022 }, {      0, 0XA000,      0 }, 0xFF02 },
+    { ACTOR_EN_KO,          {  -1415,    -74,   -108 }, {      0, 0X4000,      0 }, 0xFF03 },
+    { ACTOR_EN_KO,          {    669,      0,    521 }, {      0, 0X871C,      0 }, 0xFF04 },
+    { ACTOR_EN_KO,          {    853,    100,   -311 }, {      0,      0,      0 }, 0xFF05 },
+    { ACTOR_EN_KO,          {   -678,      1,   -179 }, {      0, 0X3777,      0 }, 0xFF06 },
 };
 
 SceneCmd spot04_room_0Set_000940[] = {

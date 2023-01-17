@@ -965,9 +965,6 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
             if (ENKO_TYPE >= ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_FADO) {
                 return false;
             }
-            if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST) && LINK_IS_ADULT) {
-                return false;
-            }
             return true;
         case SCENE_KOKIRI_HOME:
             if (ENKO_TYPE != ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_8 && ENKO_TYPE != ENKO_TYPE_CHILD_11) {
@@ -976,52 +973,10 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
                 return true;
             }
         case SCENE_KOKIRI_HOME3:
-            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-                if (ENKO_TYPE != ENKO_TYPE_CHILD_1 && ENKO_TYPE != ENKO_TYPE_CHILD_9) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-            if (ENKO_TYPE != ENKO_TYPE_CHILD_9) {
-                return false;
-            } else {
-                return true;
-            }
         case SCENE_KOKIRI_HOME4:
-            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-                if (ENKO_TYPE != ENKO_TYPE_CHILD_0 && ENKO_TYPE != ENKO_TYPE_CHILD_4) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                return false;
-            }
         case SCENE_KOKIRI_HOME5:
-            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-                if (ENKO_TYPE != ENKO_TYPE_CHILD_6) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else {
-                return false;
-            }
-
         case SCENE_KOKIRI_SHOP:
-            if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-                if (ENKO_TYPE != ENKO_TYPE_CHILD_5 && ENKO_TYPE != ENKO_TYPE_CHILD_10) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } else if (ENKO_TYPE != ENKO_TYPE_CHILD_10) {
-                return false;
-            } else {
-                return true;
-            }
-
+            return true;
         case SCENE_SPOT10:
             return (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_ODD_POTION) ? true : false;
         default:
