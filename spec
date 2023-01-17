@@ -423,7 +423,7 @@ beginseg
     include "build/src/libaudio/load.o"
     include "build/src/libaudio/thread.o"
     include "build/src/libaudio/dcache.o"
-    include "build/src/libultra/io/aisetnextbuf.o"
+    include "build/src/libaudio/aisetnextbuf.o"
     include "build/src/libaudio/playback.o"
     include "build/src/libaudio/effects.o"
     include "build/src/libaudio/seqplayer.o"
