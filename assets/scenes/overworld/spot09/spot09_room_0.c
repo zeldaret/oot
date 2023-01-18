@@ -15,8 +15,8 @@ SceneCmd spot09_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_MESH(&spot09_room_0PolygonType2_0002F0),
-    SCENE_CMD_OBJECT_LIST(13, spot09_room_0ObjectList_000060),
-    SCENE_CMD_ACTOR_LIST(39, spot09_room_0ActorList_00007C),
+    SCENE_CMD_OBJECT_LIST(14, spot09_room_0ObjectList_000060),
+    SCENE_CMD_ACTOR_LIST(40, spot09_room_0ActorList_00007C),
     SCENE_CMD_END(),
 };
 
@@ -43,6 +43,7 @@ s16 spot09_room_0ObjectList_000060[] = {
     OBJECT_ST,
     OBJECT_BOMBIWA,
     OBJECT_COW,
+    OBJECT_HORSE_NORMAL,
 };
 
 ActorEntry spot09_room_0ActorList_00007C[] = {
@@ -85,6 +86,7 @@ ActorEntry spot09_room_0ActorList_00007C[] = {
     { ACTOR_OBJ_KIBAKO2,     {   -764,     34,    148 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,     {   -449,  -2051,    123 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,     {   -350,   -555,   1480 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_HORSE_NORMAL,     {   1257,     42,   -456 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 spot09_room_0_possiblePadding_0002EC[] = {
@@ -140,8 +142,8 @@ SceneCmd spot09_room_0Set_000500[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_MESH(&spot09_room_0PolygonType2_0002F0),
-    SCENE_CMD_OBJECT_LIST(12, spot09_room_0ObjectList_000540),
-    SCENE_CMD_ACTOR_LIST(51, spot09_room_0ActorList_000558),
+    SCENE_CMD_OBJECT_LIST(13, spot09_room_0ObjectList_000540),
+    SCENE_CMD_ACTOR_LIST(52, spot09_room_0ActorList_000558),
     SCENE_CMD_END(),
 };
 
@@ -158,6 +160,7 @@ s16 spot09_room_0ObjectList_000540[] = {
     OBJECT_BOMBIWA,
     OBJECT_BOX,
     OBJECT_KIBAKO2,
+    OBJECT_HORSE_NORMAL,
 };
 
 ActorEntry spot09_room_0ActorList_000558[] = {
@@ -212,6 +215,7 @@ ActorEntry spot09_room_0ActorList_000558[] = {
     { ACTOR_EN_BOX,         {  -1341,     76,    858 }, {      0, 0XE2D8,      0 }, 0x5AA0 },
     { ACTOR_EN_A_OBJ,       {   2778,   -264,    593 }, {      0, 0XCC17,      0 }, 0x010A },
     { ACTOR_EN_KANBAN,      {    359,     25,    254 }, {      0, 0X4000,      0 }, 0x0342 },
+    { ACTOR_EN_HORSE_NORMAL,     {   1257,     42,   -456 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 spot09_room_0_possiblePadding_000888[] = {
