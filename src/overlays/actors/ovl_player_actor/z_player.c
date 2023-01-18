@@ -473,7 +473,7 @@ static f32 sDistanceToFloorY = 0.0f;
 static s32 sPrevFloorProperty = FLOOR_PROPERTY_0; // floor property from the previous frame
 static s32 sShapeYawToTouchedWall = 0;
 static s32 sWorldYawToTouchedWall = 0;
-static s16 D_80853610 = 0;
+static s16 sFloorPitchShape = 0;
 static s32 D_80853614 = 0;
 static s32 D_80853618 = 0;
 
@@ -3502,7 +3502,7 @@ s32 func_80836FAC(PlayState* play, Player* this, f32* arg2, s16* arg3, f32 arg4)
         }
 
         if (D_808535D4 != 0.0f) {
-            temp_f0 = Math_SinS(this->unk_898);
+            temp_f0 = Math_SinS(this->floorPitch);
             temp_f12 = this->unk_880;
             temp_f14 = CLAMP(temp_f0, 0.0f, 0.6f);
 
@@ -4960,7 +4960,10 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
     Vec3f sp68;
     f32 temp1;
 
-    if ((this->actor.yDistToWater < -80.0f) && (ABS(this->unk_898) < 0xAAA) && (ABS(this->unk_89A) < 0xAAA)) {
+    //! @bug `floorPitch` and `floorPitchAlt` are cleared to 0 before this function is called, because the player
+    //! left the ground. The angles will always be zero and therefore will always pass these checks.
+    //! The intention seems to be to prevent ledge hanging or vine grabbing when walking off of a steep enough slope.
+    if ((this->actor.yDistToWater < -80.0f) && (ABS(this->floorPitch) < 0xAAA) && (ABS(this->floorPitchAlt) < 0xAAA)) {
         sp74.x = this->actor.prevPos.x - this->actor.world.pos.x;
         sp74.z = this->actor.prevPos.z - this->actor.world.pos.z;
 
@@ -5089,7 +5092,6 @@ void func_8083AA10(Player* this, PlayState* play) {
                     func_8083A4A8(this, play);
                     return;
                 }
-
                 if ((sPrevFloorProperty == FLOOR_PROPERTY_9) || (sDistanceToFloorY <= this->ageProperties->unk_34) ||
                     !func_8083A6AC(this, play)) {
                     func_80832284(play, this, &gPlayerAnim_link_normal_landing_wait);
@@ -6377,7 +6379,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
             func_80835C58(play, this, func_8084F390, 0);
             func_80832564(play, this);
 
-            if (D_80853610 >= 0) {
+            if (sFloorPitchShape >= 0) {
                 this->unk_84F = 1;
             }
 
@@ -7715,10 +7717,10 @@ void func_80841CC4(Player* this, s32 arg1, PlayState* play) {
     s16 target;
     f32 rate;
 
-    if (ABS(D_80853610) < 3640) {
+    if (ABS(sFloorPitchShape) < 3640) {
         target = 0;
     } else {
-        target = CLAMP(D_80853610, -10922, 10922);
+        target = CLAMP(sFloorPitchShape, -10922, 10922);
     }
 
     Math_ScaledStepToS(&this->unk_89C, target, 400);
@@ -9963,7 +9965,7 @@ s32 Player_UpdateHoverBoots(Player* this) {
     }
 
     sFloorType = FLOOR_TYPE_0;
-    this->unk_898 = this->unk_89A = D_80853610 = 0;
+    this->floorPitch = this->floorPitchAlt = sFloorPitchShape = 0;
 
     return true;
 }
@@ -10241,15 +10243,15 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
             sin = Math_SinS(this->yaw);
             cos = Math_CosS(this->yaw);
 
-            this->unk_898 =
+            this->floorPitch =
                 Math_Atan2S(1.0f, (-(floorPolyNormalX * sin) - (floorPolyNormalZ * cos)) * invFloorPolyNormalY);
-            this->unk_89A =
+            this->floorPitchAlt =
                 Math_Atan2S(1.0f, (-(floorPolyNormalX * cos) - (floorPolyNormalZ * sin)) * invFloorPolyNormalY);
 
             sin = Math_SinS(this->actor.shape.rot.y);
             cos = Math_CosS(this->actor.shape.rot.y);
 
-            D_80853610 =
+            sFloorPitchShape =
                 Math_Atan2S(1.0f, (-(floorPolyNormalX * sin) - (floorPolyNormalZ * cos)) * invFloorPolyNormalY);
 
             Player_HandleSlopes(play, this, floorPoly);
