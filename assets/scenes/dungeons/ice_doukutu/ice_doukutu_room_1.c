@@ -26,8 +26,8 @@ SceneCmd ice_doukutu_room_1Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ice_doukutu_room_1PolygonType0_000140),
-    SCENE_CMD_OBJECT_LIST(13, ice_doukutu_room_1ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(12, ice_doukutu_room_1ActorList_000074),
+    SCENE_CMD_OBJECT_LIST(16, ice_doukutu_room_1ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(23, ice_doukutu_room_1ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -52,6 +52,9 @@ s16 ice_doukutu_room_1ObjectList_000058[] = {
     OBJECT_BOX,
     OBJECT_KA,
     OBJECT_FIREFLY,
+    OBJECT_TRAP,
+    OBJECT_VALI,
+    OBJECT_BL,
 };
 
 ActorEntry ice_doukutu_room_1ActorList_000074[] = {
@@ -67,6 +70,17 @@ ActorEntry ice_doukutu_room_1ActorList_000074[] = {
     { ACTOR_BG_GND_DARKMEIRO, {     49,     51,    840 }, { 0X4000,      0,      0 }, 0x2801 },
     { ACTOR_BG_GND_DARKMEIRO, {     49,    151,    840 }, { 0X4000,      0,      0 }, 0x2801 },
     { ACTOR_BG_GND_DARKMEIRO, {    -51,    151,    840 }, { 0X4000,      0,      0 }, 0x2801 },
+    { ACTOR_EN_FZ,            {   -111,    -10,   1277 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_FZ,            {      0,    -10,   1078 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_FZ,            {    138,    -10,   1260 }, {      0, 0XEC17,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,    {    -62,      1,   1642 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,    {    -19,      2,   1676 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,    {     36,      1,   1643 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,    {    -18,    110,   1760 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_EN_TRAP,          {      1,    -10,   1195 }, {      0,      0,      0 }, 0x2620 },
+    { ACTOR_EN_VALI,          {    138,    120,   1029 }, {      0, 0XEC17,      0 }, 0xFFFF },
+    { ACTOR_EN_VALI,          {    -75,    120,    975 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_VALI,          {     12,    120,   1395 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 ice_doukutu_room_1_possiblePadding_000134[] = {

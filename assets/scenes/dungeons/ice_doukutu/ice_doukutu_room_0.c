@@ -26,8 +26,8 @@ SceneCmd ice_doukutu_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ice_doukutu_room_0PolygonType0_0000E0),
-    SCENE_CMD_OBJECT_LIST(13, ice_doukutu_room_0ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(6, ice_doukutu_room_0ActorList_000074),
+    SCENE_CMD_OBJECT_LIST(15, ice_doukutu_room_0ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(7, ice_doukutu_room_0ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -52,6 +52,8 @@ s16 ice_doukutu_room_0ObjectList_000058[] = {
     OBJECT_BOX,
     OBJECT_KA,
     OBJECT_FIREFLY,
+    OBJECT_VALI,
+    OBJECT_BL,
 };
 
 ActorEntry ice_doukutu_room_0ActorList_000074[] = {
@@ -61,6 +63,7 @@ ActorEntry ice_doukutu_room_0ActorList_000074[] = {
     { ACTOR_OBJ_TSUBO,      {    248,     10,   2287 }, {      0,      0,      0 }, 0x4003 },
     { ACTOR_EN_WONDER_ITEM, {    195,      2,   2605 }, {      0,      0,      0 }, 0x3FE8 },
     { ACTOR_EN_WONDER_ITEM, {    168,      2,   2533 }, {      0,      0,      0 }, 0x3FE8 },
+    { ACTOR_EN_VALI,        {    317,    120,   2442 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 ice_doukutu_room_0_possiblePadding_0000D4[] = {
