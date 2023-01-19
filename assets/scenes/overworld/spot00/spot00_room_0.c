@@ -176,8 +176,8 @@ SceneCmd spot00_room_0Set_000770[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_WIND_SETTINGS(80, 80, 80, 0),
     SCENE_CMD_MESH(&spot00_room_0PolygonType2_000520),
-    SCENE_CMD_OBJECT_LIST(6, spot00_room_0ObjectList_0007B8),
-    SCENE_CMD_ACTOR_LIST(72, spot00_room_0ActorList_0007C4),
+    SCENE_CMD_OBJECT_LIST(7, spot00_room_0ObjectList_0007B8),
+    SCENE_CMD_ACTOR_LIST(76, spot00_room_0ActorList_0007C4),
     SCENE_CMD_END(),
 };
 
@@ -188,6 +188,7 @@ s16 spot00_room_0ObjectList_0007B8[] = {
     OBJECT_PO_FIELD,
     OBJECT_HORSE,
     OBJECT_BOMBIWA,
+    OBJECT_SPOT00_OBJECTS,
 };
 
 ActorEntry spot00_room_0ActorList_0007C4[] = {
@@ -195,7 +196,7 @@ ActorEntry spot00_room_0ActorList_0007C4[] = {
     { ACTOR_EN_RIVER_SOUND,  {   5161,     29,   3688 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_RIVER_SOUND,  {  -7870,   -300,   6920 }, {      0,      0,      0 }, 0x0015 },
     { ACTOR_EN_WEATHER_TAG,  {      0,      0,    635 }, {      0,      0,      0 }, 0x0A00 },
-    { ACTOR_BG_SPOT00_BREAK, {      0,    -10,    670 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_SPOT00_BREAK, {      0,    -47,    670 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_BG_SPOT00_BREAK, {  -3713,   -400,  11456 }, {      0, 0X6AAB,  0X4FA }, 0x0001 },
     { ACTOR_BG_SPOT00_BREAK, {   -869,      4,   7990 }, {      0, 0XEAAB, 0XFBBC }, 0x0001 },
     { ACTOR_BG_SPOT00_BREAK, {    746,   -100,   8925 }, {      0, 0XEAAB,      0 }, 0x0001 },
@@ -263,6 +264,10 @@ ActorEntry spot00_room_0ActorList_0007C4[] = {
     { ACTOR_OBJ_BOMBIWA,     {  -4450,   -300,   -425 }, {      0, 0X8000,      0 }, 0x8010 },
     { ACTOR_DOOR_ANA,        {  -4450,   -300,   -425 }, {      0,      0,      0 }, 0x10FF },
     { ACTOR_SHOT_SUN,        {   5143,    -55,   5012 }, {      0,      0,      0 }, 0xFF41 },
+    { ACTOR_BG_SPOT00_HANEBASI, {      0,    -10,    670 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_WONDER_ITEM,     {    -99,    405,    662 }, {      0,      0,    0X1 }, 0x12BF },
+    { ACTOR_EN_WONDER_ITEM,     {     -1,    401,    665 }, {      0,      0,    0X1 }, 0x12BF },
+    { ACTOR_EN_WONDER_ITEM,     {     93,    401,    659 }, {      0,      0,    0X1 }, 0x12BF },
 };
 
 u8 spot00_room_0_possiblePadding_000C44[] = {
