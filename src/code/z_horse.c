@@ -3,7 +3,7 @@
 #include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 s32 func_8006CFC0(s32 scene) {
-    s32 validScenes[] = { SCENE_SPOT00, SCENE_SPOT06, SCENE_SPOT09, SCENE_SPOT12, SCENE_SPOT20 };
+    s32 validScenes[] = { SCENE_SPOT00, SCENE_SPOT06, SCENE_SPOT09, SCENE_SPOT12, SCENE_SPOT20, SCENE_ENRUI, SCENE_MARKET_RUINS, SCENE_GANON_TOU };
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(validScenes); i++) {
@@ -45,7 +45,8 @@ void func_8006D0EC(PlayState* play, Player* player) {
     HorseSpawn horseSpawns[] = {
         { SCENE_SPOT00, -460, 100, 6640, 0, 2 }, { SCENE_SPOT06, -1929, -1025, 768, 0, 2 },
         { SCENE_SPOT09, 2566, -259, 767, 0, 2 }, { SCENE_SPOT12, -328, 10, 953, 0, 2 },
-        { SCENE_SPOT20, 928, 0, -2280, 0, 2 },
+        { SCENE_SPOT20, 928, 0, -2280, 0, 2 }, { SCENE_ENRUI, -152, 0, 3060, 0, 2 },
+        { SCENE_MARKET_RUINS, -670, 0, 584, 0, 2 }, { SCENE_GANON_TOU, -852, 1375, 2396, 0, 2 },
     };
 
     if ((AREG(6) != 0) && (Flags_GetEventChkInf(EVENTCHKINF_18) || (DREG(1) != 0))) {

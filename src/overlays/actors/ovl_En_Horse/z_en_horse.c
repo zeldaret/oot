@@ -332,6 +332,15 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_SPOT20, -1003, 0, -755, 0 }, // Hardcoded to always load in lon lon
     { SCENE_SPOT20, -2254, 0, -629, 0 },
     { SCENE_SPOT20, 907, 0, -2336, 0 },
+
+    // Market Entrance (Adult)
+    { SCENE_ENRUI, -152, 0, 3060, 0 },
+
+    // Market (Adult)
+    { SCENE_MARKET_RUINS, -670, 0, 584, 0 },
+
+    // Ganon's Tower (Outside)
+    { SCENE_GANON_TOU, -852, 1375, 2396, 0 },
 };
 
 typedef struct {
