@@ -37,7 +37,7 @@ SceneCmd MIZUsin_room_5Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&MIZUsin_room_5PolygonType2_000190),
     SCENE_CMD_OBJECT_LIST(12, MIZUsin_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(19, MIZUsin_room_5ActorList_000058),
+    SCENE_CMD_ACTOR_LIST(23, MIZUsin_room_5ActorList_000058),
     SCENE_CMD_END(),
 };
 
@@ -76,6 +76,10 @@ ActorEntry MIZUsin_room_5ActorList_000058[] = {
     { ACTOR_OBJ_HSBLOCK,    {  -2145,     83,   -201 }, {      0,      0,      0 }, 0x3EC1 },
     { ACTOR_OBJ_HSBLOCK,    {  -2405,    344,   -116 }, {      0,      0,      0 }, 0x3EC1 },
     { ACTOR_OBJ_SWITCH,     {  -1244,    995,   -180 }, {      0,      0, 0X4000 }, 0x3E03 },
+    { ACTOR_EN_FIREFLY,     {  -1645,    249,    -74 }, {      0, 0XC000,      0 }, 0x0003 },
+    { ACTOR_EN_FIREFLY,     {  -1594,    312,   -298 }, {      0, 0XC000,      0 }, 0x0003 },
+    { ACTOR_EN_FIREFLY,     {  -1236,    877,   -247 }, {      0,      0,      0 }, 0x0003 },
+    { ACTOR_EN_FIREFLY,     {  -1235,    878,   -108 }, {      0, 0X8000,      0 }, 0x0003 },
 };
 
 u8 MIZUsin_room_5_possiblePadding_000188[] = {
