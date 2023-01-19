@@ -70,7 +70,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 static void* sEyeTexturesAOB[] = { gHylianWoman1EyeOpenTex, gHylianWoman1EyeHalfTex, gHylianWoman1EyeClosedTex, NULL };
 static void* sEyeTexturesAHG7[] = { object_ahg_Tex_00057C, object_ahg_Tex_00067C, object_ahg_Tex_00077C, NULL };
 static void* sEyeTexturesBBA[] = { gHylianOldWomanEyeTex, NULL };
-static void* sEyeTexturesBJI13[] = { object_bji_Tex_0005FC, object_bji_Tex_0009FC, object_bji_Tex_000DFC, NULL };
+static void* sEyeTexturesBJI13[] = { gHylianOldManEyeOpenTex, gHylianOldManEyeHalfTex, gHylianOldManEyeClosedTex, NULL };
 static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC, object_boj_Tex_0007FC, NULL };
 static void* sEyeTexturesBOB[] = { gHylianWoman2EyeOpenTex, gHylianWoman2EyeHalfTex, gHylianWoman2EyeClosedTex, NULL };
 
@@ -113,8 +113,8 @@ static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_BBA */ { OBJECT_BBA, gHylianOldWomanHeadDL, sEyeTexturesBBA },
     /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, gHylianYoungWomanHeadBrownHairDL, NULL },
     /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, gHylianYoungWomanHeadOrangeHairDL, NULL },
-    /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, object_bji_DL_002560, sEyeTexturesBJI13 },
-    /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, object_bji_DL_003F68, NULL },
+    /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, gHylianOldManHeadDL, sEyeTexturesBJI13 },
+    /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, gHylianOldManHeadBaldDL, NULL },
     /* ENHY_HEAD_COB */ { OBJECT_COB, gHylianWoman3HeadDL, NULL },
 };
 
@@ -141,7 +141,7 @@ static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_AHG */ { OBJECT_AHG, &object_ahg_Skel_0000F0 },
     /* ENHY_SKEL_BBA */ { OBJECT_BBA, &gHylianOldWomanSkel },
     /* ENHY_SKEL_CNE */ { OBJECT_CNE, &gHylianYoungWomanSkel },
-    /* ENHY_SKEL_BJI */ { OBJECT_BJI, &object_bji_Skel_0000F0 },
+    /* ENHY_SKEL_BJI */ { OBJECT_BJI, &gHylianOldManSkel },
     /* ENHY_SKEL_COB */ { OBJECT_COB, &gHylianWoman3Skel },
 };
 

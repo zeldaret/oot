@@ -502,7 +502,7 @@ void DemoEc_DrawKokiriGirl(DemoEc* this, PlayState* play) {
 }
 void DemoEc_InitOldMan(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_bji_Skel_0000F0);
+    DemoEc_InitSkelAnime(this, play, &gHylianOldManSkel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -520,9 +520,9 @@ void DemoEc_UpdateOldMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawOldMan(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_bji_Tex_0005FC,
-        object_bji_Tex_0009FC,
-        object_bji_Tex_000DFC,
+        gHylianOldManEyeOpenTex,
+        gHylianOldManEyeHalfTex,
+        gHylianOldManEyeClosedTex,
     };
     static u8 color1[] = { 0, 50, 100, 255 };
     static u8 color2[] = { 0, 50, 160, 255 };
