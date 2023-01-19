@@ -541,29 +541,29 @@ void MapSelect_PrintMenu(MapSelectState* this, GfxPrint* printer) {
 
 static const char* sLoadingMessages[] = {
     // "Please wait a minute"
-    GFXP_HIRAGANA "ｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",
+    GFXP_HIRAGANA "Please wait a minute",
     // "Hold on a sec"
-    GFXP_HIRAGANA "ﾁｮｯﾄ ﾏｯﾃﾈ",
+    GFXP_HIRAGANA "Hold on a sec",
     // "Wait a moment"
-    GFXP_KATAKANA "ｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",
+    GFXP_KATAKANA "Wait a moment",
     // "Loading"
-    GFXP_KATAKANA "ﾛｰﾄﾞ" GFXP_HIRAGANA "ﾁｭｳ",
+    GFXP_KATAKANA "Loading" GFXP_HIRAGANA "",
     // "Now working"
-    GFXP_HIRAGANA "ﾅｳ ﾜｰｷﾝｸﾞ",
+    GFXP_HIRAGANA "Now working",
     // "Now creating"
-    GFXP_HIRAGANA "ｲﾏ ﾂｸｯﾃﾏｽ",
+    GFXP_HIRAGANA "Now creating",
     // "It's not broken"
-    GFXP_HIRAGANA "ｺｼｮｳｼﾞｬﾅｲﾖ",
+    GFXP_HIRAGANA "It's not broken",
     // "Coffee Break"
-    GFXP_KATAKANA "ｺｰﾋｰ ﾌﾞﾚｲｸ",
+    GFXP_KATAKANA "Coffee Break",
     // "Please set B side"
-    GFXP_KATAKANA "Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",
+    GFXP_KATAKANA "Please set B side",
     // "Be patient, now"
-    GFXP_HIRAGANA "ｼﾞｯﾄ" GFXP_KATAKANA "ｶﾞﾏﾝ" GFXP_HIRAGANA "ﾉ" GFXP_KATAKANA "ｺ" GFXP_HIRAGANA "ﾃﾞｱｯﾀ",
+    GFXP_HIRAGANA "Be patient, now" GFXP_KATAKANA "" GFXP_HIRAGANA "" GFXP_KATAKANA "" GFXP_HIRAGANA "",
     // "Please wait just a minute"
-    GFXP_HIRAGANA "ｲﾏｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",
+    GFXP_HIRAGANA "Please wait just a minute",
     // "Don't worry, don't worry. Take a break, take a break."
-    GFXP_HIRAGANA "ｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡",
+    GFXP_HIRAGANA "Don't worry, take a break.",
 };
 
 void MapSelect_PrintLoadingMessage(MapSelectState* this, GfxPrint* printer) {
