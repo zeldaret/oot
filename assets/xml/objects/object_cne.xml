@@ -31,7 +31,7 @@
         <Texture Name="gHylianYoungWomanCollarTex" OutName="collar" Format="ci8" Width="8" Height="8" Offset="0x4BC" TlutOffset="0xFC"/>
 
         <!-- DLs -->
-        <DList Name="gHylianYoungWomanHeadBrownHairDL" Offset="0x1300"/>
+        <DList Name="gHylianYoungWomanBrownHairHeadDL" Offset="0x1300"/>
         <DList Name="gHylianYoungWomanRightHandDL" Offset="0x1608"/>
         <DList Name="gHylianYoungWomanRightForearmDL" Offset="0x16E8"/>
         <DList Name="gHylianYoungWomanRightUpperArmDL" Offset="0x1808"/>
@@ -52,6 +52,6 @@
         <Texture Name="gHylianYoungWomanOrangeHairSkinTex" OutName="orange_hair_skin" Format="rgba16" Width="8" Height="8" Offset="0x24D0"/>
 
         <!-- Orange Hair DL -->
-        <DList Name="gHylianYoungWomanHeadOrangeHairDL" Offset="0x2860"/>
+        <DList Name="gHylianYoungWomanOrangeHairHeadDL" Offset="0x2860"/>
     </File>
 </Root>

@@ -36,7 +36,7 @@
         <Texture Name="gHylianMan1PantsBeltTex" OutName="pants_belt" Format="ci8" Width="16" Height="16" Offset="0xBFC" TlutOffset="0xFC"/>
 
         <!-- DLs -->
-        <DList Name="gHylianMan1HeadBeardedDL" Offset="0x30F0"/>
+        <DList Name="gHylianMan1BeardedHeadDL" Offset="0x30F0"/>
         <DList Name="gHylianMan1RightHandDL" Offset="0x3500"/>
         <DList Name="gHylianMan1RightForearmDL" Offset="0x3670"/>
         <DList Name="gHylianMan1RightUpperArmDL" Offset="0x37A0"/>
@@ -60,7 +60,7 @@
         <Texture Name="gHylianMan1BowlCutHairTex" OutName="bowl_cut_hair" Format="ci8" Width="8" Height="16" Offset="0x4C88" TlutOffset="0x47C8"/>
 
         <!-- Alternate Heads DLs -->
-        <DList Name="gHylianMan1HeadShavedDL" Offset="0x5508"/>
-        <DList Name="gHylianMan1HeadBowlCutDL" Offset="0x5728"/>
+        <DList Name="gHylianMan1ShavedHeadDL" Offset="0x5508"/>
+        <DList Name="gHylianMan1BowlCutHeadDL" Offset="0x5728"/>
     </File>
 </Root>

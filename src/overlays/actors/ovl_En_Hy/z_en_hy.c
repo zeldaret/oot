@@ -71,7 +71,7 @@ static void* sEyeTexturesAOB[] = { gHylianWoman1EyeOpenTex, gHylianWoman1EyeHalf
 static void* sEyeTexturesAHG7[] = { gHylianMan1BeardedEyeOpenTex, gHylianMan1BeardedEyeHalfTex, gHylianMan1BeardedEyeClosedTex, NULL };
 static void* sEyeTexturesBBA[] = { gHylianOldWomanEyeTex, NULL };
 static void* sEyeTexturesBJI13[] = { gHylianOldManEyeOpenTex, gHylianOldManEyeHalfTex, gHylianOldManEyeClosedTex, NULL };
-static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC, object_boj_Tex_0007FC, NULL };
+static void* sEyeTexturesBOJ2[] = { gHylianMan2MustachedEyeOpenTex, gHylianMan2MustachedEyeHalfTex, gHylianMan2MustachedEyeClosedTex, NULL };
 static void* sEyeTexturesBOB[] = { gHylianWoman2EyeOpenTex, gHylianWoman2EyeHalfTex, gHylianWoman2EyeClosedTex, NULL };
 
 typedef struct {
@@ -102,19 +102,19 @@ typedef enum {
 static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_AOB */ { OBJECT_AOB, gHylianWoman1HeadDL, sEyeTexturesAOB },
     /* ENHY_HEAD_BOB */ { OBJECT_BOB, gHylianWoman2HeadDL, sEyeTexturesBOB },
-    /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, object_boj_DL_0026F0, sEyeTexturesBOJ2 },
-    /* ENHY_HEAD_BOJ_3 */ { OBJECT_BOJ, object_boj_DL_0052E0, NULL },
-    /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, object_boj_DL_005528, NULL },
-    /* ENHY_HEAD_BOJ_5 */ { OBJECT_BOJ, object_boj_DL_005738, NULL },
-    /* ENHY_HEAD_BOJ_6 */ { OBJECT_BOJ, object_boj_DL_0059B0, NULL },
-    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, gHylianMan1HeadBeardedDL, sEyeTexturesAHG7 },
-    /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, gHylianMan1HeadShavedDL, NULL },
-    /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, gHylianMan1HeadBowlCutDL, NULL },
+    /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, gHylianMan2MustachedHeadDL, sEyeTexturesBOJ2 },
+    /* ENHY_HEAD_BOJ_3 */ { OBJECT_BOJ, gHylianMan2BaldHeadDL, NULL },
+    /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, gHylianMan2LongHairHeadDL, NULL },
+    /* ENHY_HEAD_BOJ_5 */ { OBJECT_BOJ, gHylianMan2AltMustachedHeadDL, NULL },
+    /* ENHY_HEAD_BOJ_6 */ { OBJECT_BOJ, gHylianMan2BeardedHeadDL, NULL },
+    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, gHylianMan1BeardedHeadDL, sEyeTexturesAHG7 },
+    /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, gHylianMan1ShavedHeadDL, NULL },
+    /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, gHylianMan1BowlCutHeadDL, NULL },
     /* ENHY_HEAD_BBA */ { OBJECT_BBA, gHylianOldWomanHeadDL, sEyeTexturesBBA },
-    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, gHylianYoungWomanHeadBrownHairDL, NULL },
-    /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, gHylianYoungWomanHeadOrangeHairDL, NULL },
+    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, gHylianYoungWomanBrownHairHeadDL, NULL },
+    /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, gHylianYoungWomanOrangeHairHeadDL, NULL },
     /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, gHylianOldManHeadDL, sEyeTexturesBJI13 },
-    /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, gHylianOldManHeadBaldDL, NULL },
+    /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, gHylianOldManBaldHeadDL, NULL },
     /* ENHY_HEAD_COB */ { OBJECT_COB, gHylianWoman3HeadDL, NULL },
 };
 
@@ -137,7 +137,7 @@ typedef enum {
 static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gHylianWoman1Skel },
     /* ENHY_SKEL_BOB */ { OBJECT_BOB, &gHylianWoman2Skel },
-    /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &object_boj_Skel_0000F0 },
+    /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &gHylianMan2Skel },
     /* ENHY_SKEL_AHG */ { OBJECT_AHG, &gHylianMan1Skel },
     /* ENHY_SKEL_BBA */ { OBJECT_BBA, &gHylianOldWomanSkel },
     /* ENHY_SKEL_CNE */ { OBJECT_CNE, &gHylianYoungWomanSkel },
@@ -1160,7 +1160,7 @@ void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     }
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_3 && limbIndex == 8) {
-        gSPDisplayList(POLY_OPA_DISP++, object_boj_DL_005BC8);
+        gSPDisplayList(POLY_OPA_DISP++, gHylianMan2BagDL);
     }
 
     if (limbIndex == 15) {

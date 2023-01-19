@@ -56,6 +56,6 @@
         <Texture Name="gHylianOldManBaldEyeTex" OutName="bald_eye" Format="rgba16" Width="8" Height="8" Offset="0x3A08"/>
 
         <!-- Bald Head DL -->
-        <DList Name="gHylianOldManHeadBaldDL" Offset="0x3F68"/>
+        <DList Name="gHylianOldManBaldHeadDL" Offset="0x3F68"/>
     </File>
 </Root>
