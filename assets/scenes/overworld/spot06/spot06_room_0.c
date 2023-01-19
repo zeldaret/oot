@@ -152,7 +152,7 @@ SceneCmd spot06_room_0Set_000520[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_MESH(&spot06_room_0PolygonType2_000400),
     SCENE_CMD_OBJECT_LIST(16, spot06_room_0ObjectList_000560),
-    SCENE_CMD_ACTOR_LIST(47, spot06_room_0ActorList_000580),
+    SCENE_CMD_ACTOR_LIST(48, spot06_room_0ActorList_000580),
     SCENE_CMD_END(),
 };
 
@@ -223,6 +223,7 @@ ActorEntry spot06_room_0ActorList_000580[] = {
     { ACTOR_EN_TITE,           {   -839,  -1243,   7656 }, {      0, 0X9A7E,      0 }, 0xFFFE },
     { ACTOR_OBJ_TSUBO,         {  -2378,  -1033,   3928 }, {      0,      0,      0 }, 0x7F03 },
     { ACTOR_OBJ_TSUBO,         {  -2378,  -1033,   3967 }, {      0,      0,      0 }, 0x7F03 },
+    { ACTOR_EN_KAKASI,         {     12,  -1253,   2664 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 SceneCmd spot06_room_0Set_000840[] = {
