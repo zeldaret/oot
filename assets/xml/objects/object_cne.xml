@@ -1,5 +1,6 @@
 <Root>
     <File Name="object_cne" Segment="6">
+        <!-- Skeleton -->
         <!-- The textures used by these limbs aren't 64-bit aligned -->
         <Limb Name="gHylianYoungWomanPelvisLimb" LimbType="Standard" Offset="0x0"/>
         <Limb Name="gHylianYoungWomanLeftThighLimb" LimbType="Standard" Offset="0xC"/>
@@ -16,9 +17,9 @@
         <Limb Name="gHylianYoungWomanRightForearmLimb" LimbType="Standard" Offset="0x90"/>
         <Limb Name="gHylianYoungWomanRightHandLimb" LimbType="Standard" Offset="0x9C"/>
         <Limb Name="gHylianYoungWomanHeadLimb" LimbType="Standard" Offset="0xA8"/>
-
         <Skeleton Name="gHylianYoungWomanSkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
 
+        <!-- Textures -->
         <!-- 32-bit aligned textures. -->
         <Texture Name="gHylianYoungWomanTLUT" OutName="tlut" Format="rgba16" Width="16" Height="16" Offset="0xFC"/>
         <Texture Name="gHylianYoungWomanSkinTex" OutName="skin" Format="ci8" Width="8" Height="8" Offset="0x2FC" TlutOffset="0xFC"/>
@@ -29,6 +30,7 @@
         <Texture Name="gHylianYoungWomanDressTex" OutName="dress" Format="i8" Width="8" Height="8" Offset="0x47C"/>
         <Texture Name="gHylianYoungWomanCollarTex" OutName="collar" Format="ci8" Width="8" Height="8" Offset="0x4BC" TlutOffset="0xFC"/>
 
+        <!-- DLs -->
         <DList Name="gHylianYoungWomanHeadBrownHairDL" Offset="0x1300"/>
         <DList Name="gHylianYoungWomanRightHandDL" Offset="0x1608"/>
         <DList Name="gHylianYoungWomanRightForearmDL" Offset="0x16E8"/>
@@ -45,9 +47,11 @@
         <DList Name="gHylianYoungWomanLeftThighDL" Offset="0x2238"/> <!-- Renders a single triangle instead of a normal-looking limb -->
         <DList Name="gHylianYoungWomanPelvisDL" Offset="0x2300"/>
 
+        <!-- Orange Hair Textures -->
         <Texture Name="gHylianYoungWomanOrangeHairFaceTex" OutName="orange_hair_face" Format="rgba16" Width="8" Height="16" Offset="0x23D0"/>
         <Texture Name="gHylianYoungWomanOrangeHairSkinTex" OutName="orange_hair_skin" Format="rgba16" Width="8" Height="8" Offset="0x24D0"/>
 
+        <!-- Orange Hair DL -->
         <DList Name="gHylianYoungWomanHeadOrangeHairDL" Offset="0x2860"/>
     </File>
 </Root>

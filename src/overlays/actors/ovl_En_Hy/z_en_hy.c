@@ -68,7 +68,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 // NULL-terminated arrays of eye textures
 static void* sEyeTexturesAOB[] = { gHylianWoman1EyeOpenTex, gHylianWoman1EyeHalfTex, gHylianWoman1EyeClosedTex, NULL };
-static void* sEyeTexturesAHG7[] = { object_ahg_Tex_00057C, object_ahg_Tex_00067C, object_ahg_Tex_00077C, NULL };
+static void* sEyeTexturesAHG7[] = { gHylianMan1BeardedEyeOpenTex, gHylianMan1BeardedEyeHalfTex, gHylianMan1BeardedEyeClosedTex, NULL };
 static void* sEyeTexturesBBA[] = { gHylianOldWomanEyeTex, NULL };
 static void* sEyeTexturesBJI13[] = { gHylianOldManEyeOpenTex, gHylianOldManEyeHalfTex, gHylianOldManEyeClosedTex, NULL };
 static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC, object_boj_Tex_0007FC, NULL };
@@ -107,9 +107,9 @@ static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, object_boj_DL_005528, NULL },
     /* ENHY_HEAD_BOJ_5 */ { OBJECT_BOJ, object_boj_DL_005738, NULL },
     /* ENHY_HEAD_BOJ_6 */ { OBJECT_BOJ, object_boj_DL_0059B0, NULL },
-    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, object_ahg_DL_0030F0, sEyeTexturesAHG7 },
-    /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, object_ahg_DL_005508, NULL },
-    /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, object_ahg_DL_005728, NULL },
+    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, gHylianMan1HeadBeardedDL, sEyeTexturesAHG7 },
+    /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, gHylianMan1HeadShavedDL, NULL },
+    /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, gHylianMan1HeadBowlCutDL, NULL },
     /* ENHY_HEAD_BBA */ { OBJECT_BBA, gHylianOldWomanHeadDL, sEyeTexturesBBA },
     /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, gHylianYoungWomanHeadBrownHairDL, NULL },
     /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, gHylianYoungWomanHeadOrangeHairDL, NULL },
@@ -138,7 +138,7 @@ static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gHylianWoman1Skel },
     /* ENHY_SKEL_BOB */ { OBJECT_BOB, &gHylianWoman2Skel },
     /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &object_boj_Skel_0000F0 },
-    /* ENHY_SKEL_AHG */ { OBJECT_AHG, &object_ahg_Skel_0000F0 },
+    /* ENHY_SKEL_AHG */ { OBJECT_AHG, &gHylianMan1Skel },
     /* ENHY_SKEL_BBA */ { OBJECT_BBA, &gHylianOldWomanSkel },
     /* ENHY_SKEL_CNE */ { OBJECT_CNE, &gHylianYoungWomanSkel },
     /* ENHY_SKEL_BJI */ { OBJECT_BJI, &gHylianOldManSkel },

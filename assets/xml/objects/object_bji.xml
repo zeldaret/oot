@@ -51,9 +51,9 @@
         <DList Name="gHylianOldManPelvisDL" Offset="0x37D8"/>
 
         <!-- Bald Head Textures -->
-        <Texture Name="gHylianOldManHeadBaldSkinEarTex" OutName="bald_head_skin_ear" Format="rgba16" Width="8" Height="8" Offset="0x3908"/>
-        <Texture Name="gHylianOldManHeadBaldFacialHairTex" OutName="bald_head_facial_hair" Format="rgba16" Width="8" Height="8" Offset="0x3988"/>
-        <Texture Name="gHylianOldManHeadBaldEyeTex" OutName="bald_head_eye" Format="rgba16" Width="8" Height="8" Offset="0x3A08"/>
+        <Texture Name="gHylianOldManBaldSkinEarTex" OutName="bald_skin_ear" Format="rgba16" Width="8" Height="8" Offset="0x3908"/>
+        <Texture Name="gHylianOldManBaldFacialHairTex" OutName="bald_facial_hair" Format="rgba16" Width="8" Height="8" Offset="0x3988"/>
+        <Texture Name="gHylianOldManBaldEyeTex" OutName="bald_eye" Format="rgba16" Width="8" Height="8" Offset="0x3A08"/>
 
         <!-- Bald Head DL -->
         <DList Name="gHylianOldManHeadBaldDL" Offset="0x3F68"/>

@@ -534,7 +534,7 @@ void DemoEc_DrawOldMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_InitBeardedMan(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
-    DemoEc_InitSkelAnime(this, play, &object_ahg_Skel_0000F0);
+    DemoEc_InitSkelAnime(this, play, &gHylianMan1Skel);
     DemoEc_UseAnimationObject(this, play);
     DemoEc_ChangeAnimation(this, &gDemoEcOldManAnim, 0, 0.0f, false);
     func_8096D5D4(this, play);
@@ -552,9 +552,9 @@ void DemoEc_UpdateBeardedMan(DemoEc* this, PlayState* play) {
 
 void DemoEc_DrawBeardedMan(DemoEc* this, PlayState* play) {
     static void* eyeTextures[] = {
-        object_ahg_Tex_00057C,
-        object_ahg_Tex_00067C,
-        object_ahg_Tex_00077C,
+        gHylianMan1BeardedEyeOpenTex,
+        gHylianMan1BeardedEyeHalfTex,
+        gHylianMan1BeardedEyeClosedTex,
     };
     static u8 color1[] = { 255, 255, 255, 255 };
     static u8 color2[] = { 255, 255, 255, 255 };
