@@ -17,7 +17,7 @@ SceneCmd ganon_tou_room_0Commands[] = {
     SCENE_CMD_WIND_SETTINGS(0, 0, 15, 50),
     SCENE_CMD_MESH(&ganon_tou_room_0PolygonType0_000140),
     SCENE_CMD_OBJECT_LIST(8, ganon_tou_room_0ObjectList_000060),
-    SCENE_CMD_ACTOR_LIST(13, ganon_tou_room_0ActorList_000070),
+    SCENE_CMD_ACTOR_LIST(14, ganon_tou_room_0ActorList_000070),
     SCENE_CMD_END(),
 };
 
@@ -53,6 +53,7 @@ ActorEntry ganon_tou_room_0ActorList_000070[] = {
     { ACTOR_DEMO_EFFECT,     {   -335,   1626,    583 }, {      0,      0,      0 }, 0x1012 },
     { ACTOR_DEMO_6K,         {    100,   1358,   1466 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_WONDER_TALK2, {   2896,   1237,    521 }, {      0, 0XC000,   0X33 }, 0x8EC1 },
+    { ACTOR_EN_HORSE,        {   -852,   1375,   2396 }, {      0, 0x4111,      0 }, 0x0FFF },
 };
 
 PolygonType0 ganon_tou_room_0PolygonType0_000140 = { 

@@ -15,7 +15,7 @@ SceneCmd market_ruins_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&market_ruins_room_0PolygonType0_0000D0),
     SCENE_CMD_OBJECT_LIST(2, market_ruins_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(8, market_ruins_room_0ActorList_000044),
+    SCENE_CMD_ACTOR_LIST(9, market_ruins_room_0ActorList_000044),
     SCENE_CMD_END(),
 };
 
@@ -33,6 +33,7 @@ ActorEntry market_ruins_room_0ActorList_000044[] = {
     { ACTOR_EN_RD, {   -283,      0,   -154 }, {      0, 0X27D2,      0 }, 0x8102 },
     { ACTOR_EN_RD, {    223,      0,     17 }, {      0, 0XC38E,      0 }, 0x8102 },
     { ACTOR_EN_RD, {   -170,      0,   -425 }, {      0, 0X1333,      0 }, 0x8100 },
+    { ACTOR_EN_HORSE,       {   -670,      0,    584 }, {      0, 0x5555,      0 }, 0x0FFF },
 };
 
 u8 market_ruins_room_0_possiblePadding_0000C4[] = {

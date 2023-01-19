@@ -15,7 +15,7 @@ SceneCmd enrui_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&enrui_room_0MeshHeader1Single_000060),
     SCENE_CMD_OBJECT_LIST(1, enrui_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(1, enrui_room_0ActorList_000044),
+    SCENE_CMD_ACTOR_LIST(2, enrui_room_0ActorList_000044),
     SCENE_CMD_END(),
 };
 
@@ -25,6 +25,7 @@ s16 enrui_room_0ObjectList_000040[] = {
 
 ActorEntry enrui_room_0ActorList_000044[] = {
     { ACTOR_EN_WEATHER_TAG, {      0,      0,   3060 }, {      0,      0,      0 }, 0x0200 },
+    { ACTOR_EN_HORSE,       {   -152,      0,   3060 }, {      0, 0x8000,      0 }, 0x0FFF },
 };
 
 u8 enrui_room_0_possiblePadding_000054[] = {
