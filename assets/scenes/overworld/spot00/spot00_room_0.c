@@ -177,7 +177,7 @@ SceneCmd spot00_room_0Set_000770[] = {
     SCENE_CMD_WIND_SETTINGS(80, 80, 80, 0),
     SCENE_CMD_MESH(&spot00_room_0PolygonType2_000520),
     SCENE_CMD_OBJECT_LIST(7, spot00_room_0ObjectList_0007B8),
-    SCENE_CMD_ACTOR_LIST(76, spot00_room_0ActorList_0007C4),
+    SCENE_CMD_ACTOR_LIST(77, spot00_room_0ActorList_0007C4),
     SCENE_CMD_END(),
 };
 
@@ -268,6 +268,7 @@ ActorEntry spot00_room_0ActorList_0007C4[] = {
     { ACTOR_EN_WONDER_ITEM,     {    -99,    405,    662 }, {      0,      0,    0X1 }, 0x12BF },
     { ACTOR_EN_WONDER_ITEM,     {     -1,    401,    665 }, {      0,      0,    0X1 }, 0x12BF },
     { ACTOR_EN_WONDER_ITEM,     {     93,    401,    659 }, {      0,      0,    0X1 }, 0x12BF },
+    { ACTOR_BG_SPOT00_HANEBASI, {   5122,    -22,   3252 }, {      0, 0xE000,      0 }, 0xFFFF },
 };
 
 u8 spot00_room_0_possiblePadding_000C44[] = {

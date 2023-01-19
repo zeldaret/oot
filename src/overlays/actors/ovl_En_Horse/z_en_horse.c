@@ -341,6 +341,9 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
 
     // Ganon's Tower (Outside)
     { SCENE_GANON_TOU, -852, 1375, 2396, 0 },
+
+    // Zora's River
+    { SCENE_SPOT03, -1693, -20, 1711, 0 },
 };
 
 typedef struct {
