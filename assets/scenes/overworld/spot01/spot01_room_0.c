@@ -632,8 +632,8 @@ SceneCmd spot01_room_0Set_001480[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(12, 0, 0),
     SCENE_CMD_MESH(&spot01_room_0PolygonType2_000420),
-    SCENE_CMD_OBJECT_LIST(14, spot01_room_0ObjectList_0014C0),
-    SCENE_CMD_ACTOR_LIST(30, spot01_room_0ActorList_0014DC),
+    SCENE_CMD_OBJECT_LIST(16, spot01_room_0ObjectList_0014C0),
+    SCENE_CMD_ACTOR_LIST(26, spot01_room_0ActorList_0014DC),
     SCENE_CMD_END(),
 };
 
@@ -652,6 +652,8 @@ s16 spot01_room_0ObjectList_0014C0[] = {
     OBJECT_EFC_ERUPC,
     OBJECT_EFC_DOUGHNUT,
     OBJECT_SPOT01_MATOYAB,
+    OBJECT_SPOT01_MATOYA,
+    OBJECT_KIBAKO2,
 };
 
 ActorEntry spot01_room_0ActorList_0014DC[] = {
@@ -678,12 +680,9 @@ ActorEntry spot01_room_0ActorList_0014DC[] = {
     { ACTOR_BG_SPOT16_DOUGHNUT,   {  -1409,   2767,  -4417 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_WOOD02,            {   -540,      0,    260 }, {      0,      0,      0 }, 0x020A },
     { ACTOR_EN_WOOD02,            {     60,      0,    660 }, {      0, 0xC000,      0 }, 0x020A },
-    { ACTOR_EN_INSECT,            {   -577,      0,    411 }, {      0,      0,      0 }, 0x0000 },
-    { ACTOR_EN_INSECT,            {   -500,      0,    451 }, {      0,      0,      0 }, 0x0000 },
-    { ACTOR_EN_INSECT,            {   -478,      0,    401 }, {      0,      0,      0 }, 0x0000 },
-    { ACTOR_EN_INSECT,            {   -133,    400,  -1184 }, {      0,      0,      0 }, 0x0000 },
-    { ACTOR_EN_BUTTE,             {    821,    133,   1479 }, {      0,      0,      0 }, 0xFFFF },
-    { ACTOR_EN_BUTTE,             {    814,    133,   1452 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_BG_SPOT01_OBJECTS2,   {    210,    250,    795 }, {      0, 0X8000,      0 }, 0x0001 },
+    { ACTOR_BG_SPOT01_OBJECTS2,   {    324,    160,   1000 }, {      0,      0,      0 }, 0xFF04 },
+    { ACTOR_OBJ_KIBAKO2,          {    185,    160,    776 }, { 0xFFFF,      0,      0 }, 0xFFFF },
 };
 
 u8 spot01_room_0_possiblePadding_00162C[] = {
