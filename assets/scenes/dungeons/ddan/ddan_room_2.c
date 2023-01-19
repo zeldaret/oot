@@ -30,8 +30,8 @@ SceneCmd ddan_room_2Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_2PolygonType2_000320),
-    SCENE_CMD_OBJECT_LIST(10, ddan_room_2ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(44, ddan_room_2ActorList_000054),
+    SCENE_CMD_OBJECT_LIST(11, ddan_room_2ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(46, ddan_room_2ActorList_000054),
     SCENE_CMD_END(),
 };
 
@@ -46,6 +46,7 @@ s16 ddan_room_2ObjectList_000040[] = {
     OBJECT_VM,
     OBJECT_SHOPNUTS,
     OBJECT_DEKUBABA,
+    OBJECT_D_HSBLOCK,
 };
 
 ActorEntry ddan_room_2ActorList_000054[] = {
@@ -93,6 +94,8 @@ ActorEntry ddan_room_2ActorList_000054[] = {
     { ACTOR_OBJ_KIBAKO2,  {  -1730,      0,  -1836 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,  {  -1511,    531,  -1084 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,  {  -1510,    380,  -1837 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_HSBLOCK,  {  -2083,    444,  -1858 }, {      0,      0,      0 }, 0xFFC2 },
+    { ACTOR_OBJ_HSBLOCK,  {  -1835,    443,  -1858 }, {      0,      0,      0 }, 0xFFC2 },
 };
 
 u8 ddan_room_2_possiblePadding_000314[] = {
