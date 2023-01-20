@@ -31,7 +31,7 @@ SceneCmd ddan_room_1Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_1PolygonType2_000210),
     SCENE_CMD_OBJECT_LIST(16, ddan_room_1ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(27, ddan_room_1ActorList_000060),
+    SCENE_CMD_ACTOR_LIST(36, ddan_room_1ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -51,7 +51,7 @@ s16 ddan_room_1ObjectList_000040[] = {
     OBJECT_DODOJR,
     OBJECT_FIREFLY,
     OBJECT_KIBAKO2,
-    OBJECT_AM,
+    OBJECT_DODONGO,
 };
 
 ActorEntry ddan_room_1ActorList_000060[] = {
@@ -82,6 +82,15 @@ ActorEntry ddan_room_1ActorList_000060[] = {
     { ACTOR_OBJ_BOMBIWA,  {   2464,      0,   -402 }, {      0,      0,      0 }, 0x0008 },
     { ACTOR_OBJ_BOMBIWA,  {   2942,    240,   -495 }, {      0,      0,      0 }, 0x8012 },
     { ACTOR_OBJ_SWITCH,   {   2942,    260,   -500 }, {      0, 0X11C7,      0 }, 0x3602 },
+    { ACTOR_EN_DODONGO,   {   3224,     43,   -314 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_DODOJR,    {   1841,      0,   -333 }, {      0, 0XC000,      0 }, 0x0000 },
+    { ACTOR_EN_DODOJR,    {   1911,      0,   -273 }, {      0, 0XC000,      0 }, 0x0000 },
+    { ACTOR_EN_DODOJR,    {   1972,      0,   -222 }, {      0, 0XC000,      0 }, 0x0000 },
+    { ACTOR_EN_DODOJR,    {   2498,      0,   -265 }, {      0, 0X8000,      0 }, 0x0000 },
+    { ACTOR_EN_DODOJR,    {   2757,      0,   -464 }, {      0, 0XE000,      0 }, 0x0000 },
+    { ACTOR_EN_DODOJR,    {   2817,      0,   -404 }, {      0, 0XE000,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,   {   3483,    155,   -966 }, { 0X4000, 0X4000,      0 }, 0x0003 },
+    { ACTOR_EN_FIREFLY,   {   3639,    154,   -906 }, { 0X4000, 0XC000,      0 }, 0x0003 },
 };
 
 PolygonType2 ddan_room_1PolygonType2_000210 = { 

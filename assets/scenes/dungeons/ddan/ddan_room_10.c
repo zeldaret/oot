@@ -51,7 +51,7 @@ s16 ddan_room_10ObjectList_000040[] = {
     OBJECT_DODOJR,
     OBJECT_FIREFLY,
     OBJECT_KIBAKO2,
-    OBJECT_AM,
+    OBJECT_DODONGO,
 };
 
 ActorEntry ddan_room_10ActorList_000060[] = {
