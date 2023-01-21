@@ -8184,11 +8184,14 @@ SHIFT("\x23") "du haut de la falaise?" QUICKTEXT_DISABLE
 )
 
 DEFINE_MESSAGE(0x032C, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
-"032c"
+QUICKTEXT_ENABLE  SHIFT("\x27") COLOR(RED) "Waterfall of Wishing\n"
+COLOR(DEFAULT)"Make a wish, and the path will open.\n"
 ,
-"032c"
+QUICKTEXT_ENABLE  SHIFT("\x27") COLOR(RED)"Wasserfall des Wünschens\n"
+COLOR(DEFAULT)"Wünsch dir was und der Weg öffnet sich.\n"
 ,
-"032c"
+QUICKTEXT_ENABLE  SHIFT("\x27") COLOR(RED) "Cascade du souhait\n"
+COLOR(DEFAULT)"Faites un vœu et le chemin s'ouvrira.\n"
 )
 
 DEFINE_MESSAGE(0x032D, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
