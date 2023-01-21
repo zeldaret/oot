@@ -87,8 +87,8 @@ s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     polyNormal.x = COLPOLY_GET_NORMAL(poly->normal.x);
     polyNormal.y = COLPOLY_GET_NORMAL(poly->normal.y);
     polyNormal.z = COLPOLY_GET_NORMAL(poly->normal.z);
-    dot = Math_FAcosF(DOTXYZ(polyNormal, this->wallPolyNormal));
-    EnSw_CrossProduct(&this->wallPolyNormal, &polyNormal, &sp38);
+    dot = Math_FAcosF(DOTXYZ(polyNormal, this->surfaceNormal));
+    EnSw_CrossProduct(&this->surfaceNormal, &polyNormal, &sp38);
     Matrix_RotateAxis(dot, &sp38, MTXMODE_NEW);
     Matrix_MultVec3f(&this->unk_370, &sp38);
     this->unk_370 = sp38;
@@ -100,14 +100,14 @@ s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     this->unk_37C.x *= (1.0f / length);
     this->unk_37C.y *= (1.0f / length);
     this->unk_37C.z *= (1.0f / length);
-    this->wallPolyNormal = polyNormal;
+    this->surfaceNormal = polyNormal;
     this->unk_3D8.xx = this->unk_370.x;
     this->unk_3D8.yx = this->unk_370.y;
     this->unk_3D8.zx = this->unk_370.z;
     this->unk_3D8.wx = 0.0f;
-    this->unk_3D8.xy = this->wallPolyNormal.x;
-    this->unk_3D8.yy = this->wallPolyNormal.y;
-    this->unk_3D8.zy = this->wallPolyNormal.z;
+    this->unk_3D8.xy = this->surfaceNormal.x;
+    this->unk_3D8.yy = this->surfaceNormal.y;
+    this->unk_3D8.zy = this->surfaceNormal.z;
     this->unk_3D8.wy = 0.0f;
     this->unk_3D8.xz = this->unk_37C.x;
     this->unk_3D8.yz = this->unk_37C.y;
@@ -156,12 +156,12 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 arg2) {
     ret = false;
     this->unk_42C = 1;
     posA = posB = this->actor.world.pos;
-    posA.x += this->wallPolyNormal.x * 18.0f;
-    posA.y += this->wallPolyNormal.y * 18.0f;
-    posA.z += this->wallPolyNormal.z * 18.0f;
-    posB.x -= this->wallPolyNormal.x * 18.0f;
-    posB.y -= this->wallPolyNormal.y * 18.0f;
-    posB.z -= this->wallPolyNormal.z * 18.0f;
+    posA.x += this->surfaceNormal.x * 18.0f;
+    posA.y += this->surfaceNormal.y * 18.0f;
+    posA.z += this->surfaceNormal.z * 18.0f;
+    posB.x -= this->surfaceNormal.x * 18.0f;
+    posB.y -= this->surfaceNormal.y * 18.0f;
+    posB.z -= this->surfaceNormal.z * 18.0f;
     temp_s1 = EnSw_GetPoly(play, &posA, &posB, &posOut, &bgId);
 
     if ((temp_s1 != NULL) && (this->goldIsHidden == false)) {
@@ -265,9 +265,9 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         this->unk_370.x = Math_SinS(thisx->shape.rot.y + 0x4000);
         this->unk_370.y = 0.0f;
         this->unk_370.z = Math_CosS(thisx->shape.rot.y + 0x4000);
-        this->wallPolyNormal.x = 0.0f;
-        this->wallPolyNormal.y = 1.0f;
-        this->wallPolyNormal.z = 0.0f;
+        this->surfaceNormal.x = 0.0f;
+        this->surfaceNormal.y = 1.0f;
+        this->surfaceNormal.z = 0.0f;
         this->unk_37C.x = Math_SinS(thisx->shape.rot.y);
         this->unk_37C.y = 0.0f;
         this->unk_37C.z = Math_CosS(thisx->shape.rot.y);
@@ -415,7 +415,7 @@ s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     Matrix_RotateAxis(*angle, &floorPolyNormal, MTXMODE_NEW);
     Matrix_MultVec3f(&this->unk_370, &floorPolyNormal);
     this->unk_370 = floorPolyNormal;
-    EnSw_CrossProduct(&this->unk_370, &this->wallPolyNormal, &this->unk_37C);
+    EnSw_CrossProduct(&this->unk_370, &this->surfaceNormal, &this->unk_37C);
     length = Math3D_Vec3fMagnitude(&this->unk_37C);
     if (length < 0.001f) {
         return false;
@@ -428,9 +428,9 @@ s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     rotMtxF.yx = this->unk_370.y;
     rotMtxF.zx = this->unk_370.z;
     rotMtxF.wx = 0.0f;
-    rotMtxF.xy = this->wallPolyNormal.x;
-    rotMtxF.yy = this->wallPolyNormal.y;
-    rotMtxF.zy = this->wallPolyNormal.z;
+    rotMtxF.xy = this->surfaceNormal.x;
+    rotMtxF.yy = this->surfaceNormal.y;
+    rotMtxF.zy = this->surfaceNormal.z;
     rotMtxF.wy = 0.0f;
     rotMtxF.xz = this->unk_37C.x;
     rotMtxF.yz = this->unk_37C.y;
@@ -520,9 +520,9 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
     Math_ApproachF(&this->actor.scale.x, 0.02f, 0.2f, 0.01f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
 
-    this->actor.world.pos.x += this->wallPolyNormal.x * this->actor.velocity.y;
-    this->actor.world.pos.y += this->wallPolyNormal.y * this->actor.velocity.y;
-    this->actor.world.pos.z += this->wallPolyNormal.z * this->actor.velocity.y;
+    this->actor.world.pos.x += this->surfaceNormal.x * this->actor.velocity.y;
+    this->actor.world.pos.y += this->surfaceNormal.y * this->actor.velocity.y;
+    this->actor.world.pos.z += this->surfaceNormal.z * this->actor.velocity.y;
     this->actor.world.pos.x += this->unk_37C.x * this->actor.speed;
     this->actor.world.pos.y += this->unk_37C.y * this->actor.speed;
     this->actor.world.pos.z += this->unk_37C.z * this->actor.speed;
@@ -628,9 +628,9 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
     if ((this->deathFlames == 0) && (this->painTimer == 0)) {
         Audio_PlaySfxGeneral(NA_SE_SY_KINSTA_MARK_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        x = (this->wallPolyNormal.x * 10.0f);
-        y = (this->wallPolyNormal.y * 10.0f);
-        z = (this->wallPolyNormal.z * 10.0f);
+        x = (this->surfaceNormal.x * 10.0f);
+        y = (this->surfaceNormal.y * 10.0f);
+        z = (this->surfaceNormal.z * 10.0f);
         token =
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_SI, this->actor.world.pos.x + x,
                                this->actor.world.pos.y + y, this->actor.world.pos.z + z, 0, 0, 0, this->actor.params);

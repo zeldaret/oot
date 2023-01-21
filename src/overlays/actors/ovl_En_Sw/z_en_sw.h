@@ -18,7 +18,7 @@ typedef struct EnSw {
     /* 0x01F8 */ Vec3s jointTable[30];
     /* 0x02AC */ Vec3s morphTable[30];
     /* 0x0360 */ u8 goldIsHidden; // set when revealed, unset when landing.
-    /* 0x0364 */ Vec3f wallPolyNormal;
+    /* 0x0364 */ Vec3f surfaceNormal;
     /* 0x0370 */ Vec3f unk_370;
     /* 0x037C */ Vec3f unk_37C;
     /* 0x0388 */ s16 animTimer;
