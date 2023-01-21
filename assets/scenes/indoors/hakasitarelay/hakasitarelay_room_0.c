@@ -21,7 +21,7 @@ SceneCmd hakasitarelay_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&hakasitarelay_room_0PolygonType0_0000F0),
     SCENE_CMD_OBJECT_LIST(8, hakasitarelay_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(10, hakasitarelay_room_0ActorList_000050),
+    SCENE_CMD_ACTOR_LIST(11, hakasitarelay_room_0ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -47,6 +47,7 @@ ActorEntry hakasitarelay_room_0ActorList_000050[] = {
     { ACTOR_BG_RELAY_OBJECTS, {   2010,   -730,  -4211 }, {      0, 0X8000,      0 }, 0x0136 },
     { ACTOR_BG_RELAY_OBJECTS, {   2894,   -410,  -1893 }, {      0, 0X8000,      0 }, 0x0137 },
     { ACTOR_EN_PO_RELAY,      {    -63,   -530,  -2177 }, {      0,      0,      0 }, 0x0007 },
+    { ACTOR_EN_KANBAN,        {     20,   -470,  -1835 }, {      0,      0,      0 }, 0x0328 },
 };
 
 PolygonType0 hakasitarelay_room_0PolygonType0_0000F0 = { 
