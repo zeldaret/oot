@@ -183,19 +183,19 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
     }
     if (this->dropTimer == 0) {
         this->flashYScale = 0.0f;
-        Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
-        Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
+        Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speed);
+        Math_ApproachF(&this->dyna.actor.speed, 100.0f, 1.0f, 2.0f);
         if (!(this->unwalledSides & OTYUKA_SIDE_EAST)) {
-            this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
+            this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speed * 30.0f);
         }
         if (!(this->unwalledSides & OTYUKA_SIDE_WEST)) {
-            this->dyna.actor.shape.rot.z += (s16)(this->dyna.actor.speedXZ * 30.0f);
+            this->dyna.actor.shape.rot.z += (s16)(this->dyna.actor.speed * 30.0f);
         }
         if (!(this->unwalledSides & OTYUKA_SIDE_SOUTH)) {
-            this->dyna.actor.shape.rot.x += (s16)(this->dyna.actor.speedXZ * 30.0f);
+            this->dyna.actor.shape.rot.x += (s16)(this->dyna.actor.speed * 30.0f);
         }
         if (!(this->unwalledSides & OTYUKA_SIDE_NORTH)) {
-            this->dyna.actor.shape.rot.x -= (s16)(this->dyna.actor.speedXZ * 30.0f);
+            this->dyna.actor.shape.rot.x -= (s16)(this->dyna.actor.speed * 30.0f);
         }
         if (this->dyna.actor.world.pos.y < -750.0f) {
             if (player->actor.world.pos.y < -400.0f) {
@@ -224,8 +224,8 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
             Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
-        Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
-        Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
+        Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speed);
+        Math_ApproachF(&this->dyna.actor.speed, 100.0f, 1.0f, 0.1f);
     }
     osSyncPrintf("MODE DOWN END\n");
 }

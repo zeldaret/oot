@@ -97,7 +97,7 @@ void ItemShield_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80B86AC8(ItemShield* this, PlayState* play) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     if (Actor_HasParent(&this->actor, play)) {
         Actor_Kill(&this->actor);
         return;
@@ -130,7 +130,7 @@ void func_80B86BC8(ItemShield* this, PlayState* play) {
         this->actor.velocity.y = 4.0f;
         this->actor.minVelocityY = -4.0f;
         this->actor.gravity = -0.8f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->timer = 160;
     } else {
         Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -147,7 +147,7 @@ void func_80B86CA8(ItemShield* this, PlayState* play) {
     s32 i;
     s32 temp;
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actor.shape.yOffset = ABS(Math_SinS(this->actor.shape.rot.x)) * 1500.0f;
 
@@ -205,7 +205,7 @@ void func_80B86F68(ItemShield* this, PlayState* play) {
     this->actor.gravity = -0.8;
     this->unk_198 = 0;
     this->timer = 70;
-    this->actor.speedXZ = 0;
+    this->actor.speed = 0;
 }
 
 void ItemShield_Update(Actor* thisx, PlayState* play) {

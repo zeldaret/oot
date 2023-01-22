@@ -204,7 +204,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
         }
 
         func_800F436C(&sSfxPos, NA_SE_EV_NAVY_FLY - SFX_FLAG, (0.4f * dist) + 0.6f);
-        switch (play->csCtx.frames) {
+        switch (play->csCtx.curFrame) {
             case 473:
                 func_800788CC(NA_SE_VO_NA_HELLO_3);
                 break;
@@ -722,11 +722,11 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
 }
 
 void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL) {
+    if (play->csCtx.state != 0 && play->csCtx.actorCues[0] != NULL) {
         switch (this->effects[0].state) {
             case 0:
                 this->effects[0].timer = 0;
-                if (play->csCtx.npcActions[0]->action == 2) {
+                if (play->csCtx.actorCues[0]->id == 2) {
                     this->effects[0].state++;
                 }
                 break;
@@ -738,7 +738,7 @@ void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
                 break;
 
             case 2:
-                if (play->csCtx.npcActions[0]->action == 1) {
+                if (play->csCtx.actorCues[0]->id == 1) {
                     this->effects[0].state = 0;
                 }
                 break;
@@ -756,8 +756,8 @@ void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 1182);
 
     if (this->effects[0].state == 1) {
-        Matrix_Translate(play->csCtx.npcActions[0]->startPos.x, play->csCtx.npcActions[0]->startPos.y,
-                         play->csCtx.npcActions[0]->startPos.z, MTXMODE_NEW);
+        Matrix_Translate(play->csCtx.actorCues[0]->startPos.x, play->csCtx.actorCues[0]->startPos.y,
+                         play->csCtx.actorCues[0]->startPos.z, MTXMODE_NEW);
         Matrix_RotateX(DEG_TO_RAD(20), MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(20), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 5.0f, 2.0f, MTXMODE_APPLY);
@@ -798,7 +798,7 @@ void ObjectKankyo_WaitForSunGraveSparkObject(ObjectKankyo* this, PlayState* play
 
 void ObjectKankyo_SunGraveSpark(ObjectKankyo* this, PlayState* play) {
     if (play->csCtx.state != 0) {
-        if (play->csCtx.npcActions[1] != NULL && play->csCtx.npcActions[1]->action == 2) {
+        if (play->csCtx.actorCues[1] != NULL && play->csCtx.actorCues[1]->id == 2) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
             if ((s16)this->effects[0].alpha + 20 > 255) {
                 this->effects[0].alpha = 255;
@@ -819,7 +819,7 @@ void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 1324);
     if (play->csCtx.state != 0) {
-        if (play->csCtx.npcActions[1] != NULL && play->csCtx.npcActions[1]->action == 2 && this->requiredObjectLoaded) {
+        if (play->csCtx.actorCues[1] != NULL && play->csCtx.actorCues[1]->id == 2 && this->requiredObjectLoaded) {
             // apparently, light waves with larger amplitudes look brighter, so the name 'amplitude' kind of works here
             if (this->effects[0].state == 0) {
                 this->effects[0].amplitude += 1.0f / 7.0f;
@@ -839,16 +839,16 @@ void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
                 this->effects[0].timer = 0;
             }
 
-            start.x = play->csCtx.npcActions[1]->startPos.x;
-            start.y = play->csCtx.npcActions[1]->startPos.y;
-            start.z = play->csCtx.npcActions[1]->startPos.z;
+            start.x = play->csCtx.actorCues[1]->startPos.x;
+            start.y = play->csCtx.actorCues[1]->startPos.y;
+            start.z = play->csCtx.actorCues[1]->startPos.z;
 
-            end.x = play->csCtx.npcActions[1]->endPos.x;
-            end.y = play->csCtx.npcActions[1]->endPos.y;
-            end.z = play->csCtx.npcActions[1]->endPos.z;
+            end.x = play->csCtx.actorCues[1]->endPos.x;
+            end.y = play->csCtx.actorCues[1]->endPos.y;
+            end.z = play->csCtx.actorCues[1]->endPos.z;
 
-            weight = Environment_LerpWeight(play->csCtx.npcActions[1]->endFrame, play->csCtx.npcActions[1]->startFrame,
-                                            play->csCtx.frames);
+            weight = Environment_LerpWeight(play->csCtx.actorCues[1]->endFrame, play->csCtx.actorCues[1]->startFrame,
+                                            play->csCtx.curFrame);
             Matrix_Translate(LERP(start.x, end.x, weight), LERP(start.y, end.y, weight), LERP(start.z, end.z, weight),
                              MTXMODE_NEW);
             Matrix_Scale(this->effects[0].size, this->effects[0].size, this->effects[0].size, MTXMODE_APPLY);
@@ -898,7 +898,7 @@ void ObjectKankyo_Beams(ObjectKankyo* this, PlayState* play) {
 
     if (play->csCtx.state != 0) {
         for (i = 0; i < 6; i++) {
-            if (play->csCtx.npcActions[i + 1] != NULL && play->csCtx.npcActions[i + 1]->action == 2) {
+            if (play->csCtx.actorCues[i + 1] != NULL && play->csCtx.actorCues[i + 1]->id == 2) {
                 if (this->effects[i].size == 0.1f) {
                     Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TRIAL_DESTROY);
                 }

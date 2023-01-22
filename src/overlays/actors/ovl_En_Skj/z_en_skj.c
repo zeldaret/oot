@@ -440,7 +440,7 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             this->backflipFlag = 0;
             this->needlesToShoot = 3;
             this->hitsUntilDodge = 3;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -1.0f;
             EnSkj_CalculateCenter(this);
@@ -508,7 +508,7 @@ s32 EnSkj_ShootNeedle(EnSkj* this, PlayState* play) {
                                        this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 0);
     if (needle != NULL) {
         needle->killTimer = 100;
-        needle->actor.speedXZ = 24.0f;
+        needle->actor.speed = 24.0f;
         return 1;
     }
     return 0;
@@ -646,7 +646,7 @@ s32 func_80AFEDF8(EnSkj* this, PlayState* play) {
 
 void EnSkj_Backflip(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
 
     EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     EnSkj_SetupAction(this, SKJ_ACTION_FADE);
@@ -764,7 +764,7 @@ void EnSkj_PickNextFightAction(EnSkj* this, PlayState* play) {
 
 void func_80AFF2A0(EnSkj* this) {
     EnSkj_CalculateCenter(this);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_LAND);
     EnSkj_SetupAction(this, SKJ_ACTION_WAIT_FOR_LAND_ANIM);
 }
@@ -910,7 +910,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
         EnSkj_TurnPlayer(sSmallStumpSkullKid.skullkid, player);
-        func_8010BD88(play, OCARINA_ACTION_CHECK_SARIA);
+        Message_StartOcarinaSunsSongDisabled(play, OCARINA_ACTION_CHECK_SARIA);
         EnSkj_SetupWaitForSong(this);
     } else if (D_80B01EA0 != 0) {
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
@@ -992,7 +992,7 @@ void EnSkj_WaitForSong(EnSkj* this, PlayState* play) {
             player->stateFlags2 |= PLAYER_STATE2_23;
         } else {
             if (play->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
-                gSaveContext.sunsSongState = 0;
+                gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                 if (GET_ITEMGETINF(ITEMGETINF_16)) {
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
@@ -1082,7 +1082,7 @@ void EnSkj_StartMaskTrade(EnSkj* this, PlayState* play) {
 
 void EnSkj_JumpFromStump(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
-    this->actor.speedXZ = 2.0f;
+    this->actor.speed = 2.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     Animation_Reverse(&this->skelAnime);
     this->skelAnime.curFrame = this->skelAnime.startFrame;
@@ -1093,7 +1093,7 @@ void EnSkj_WaitForLanding(EnSkj* this, PlayState* play) {
     if (this->actor.velocity.y <= 0.0f) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             EnSkj_SetupWaitForLandAnimFinish(this);
         }
     }
@@ -1114,7 +1114,7 @@ void EnSkj_WaitForLandAnimFinish(EnSkj* this, PlayState* play) {
 
 void EnSkj_SetupWalkToPlayer(EnSkj* this) {
     this->unk_2F0 = 0.0f;
-    this->actor.speedXZ = 2.0f;
+    this->actor.speed = 2.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_WALK_TO_PLAYER);
     EnSkj_SetupAction(this, SKJ_ACTION_SARIA_SONG_WALK_TO_PLAYER);
 }
@@ -1124,7 +1124,7 @@ void EnSkj_WalkToPlayer(EnSkj* this, PlayState* play) {
     Math_ApproachF(&this->unk_2F0, 2000.0f, 1.0f, 100.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if (this->actor.xzDistToPlayer < 120.0f) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnSkj_SetupAskForMask(this, play);
     }
 }
@@ -1268,7 +1268,7 @@ void EnSkj_PlayOcarinaGame(EnSkj* this, PlayState* play) {
 
 void EnSkj_SetupLeaveOcarinaGame(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     EnSkj_SetupAction(this, SKJ_ACTION_OCARINA_GAME_LEAVE);
 }
@@ -1336,7 +1336,7 @@ void EnSkj_Update(Actor* thisx, PlayState* play) {
 
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
 }
@@ -1356,7 +1356,7 @@ void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, PlayState* play) {
 void EnSkj_TurnPlayer(EnSkj* this, Player* player) {
     Math_SmoothStepToS(&player->actor.shape.rot.y, this->actor.world.rot.y, 5, 2000, 0);
     player->actor.world.rot.y = player->actor.shape.rot.y;
-    player->currentYaw = player->actor.shape.rot.y;
+    player->yaw = player->actor.shape.rot.y;
 }
 
 void EnSkj_SetupWaitForOcarina(EnSkj* this, PlayState* play) {
@@ -1401,7 +1401,7 @@ void EnSkj_StartOcarinaMinigame(EnSkj* this, PlayState* play) {
     EnSkj_TurnPlayer(this, player);
 
     if (dialogState == TEXT_STATE_CLOSING) {
-        func_8010BD58(play, OCARINA_ACTION_MEMORY_GAME);
+        Message_StartOcarina(play, OCARINA_ACTION_MEMORY_GAME);
         if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
             sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCARINA_PLAY_NOTES;
         }

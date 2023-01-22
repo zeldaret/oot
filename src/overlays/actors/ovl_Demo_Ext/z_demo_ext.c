@@ -50,10 +50,11 @@ void DemoExt_PlayVortexSFX(DemoExt* this) {
     }
 }
 
-CsCmdActorAction* DemoExt_GetNpcAction(PlayState* play, s32 npcActionIndex) {
+CsCmdActorCue* DemoExt_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[npcActionIndex];
+        return play->csCtx.actorCues[cueChannel];
     }
+
     return NULL;
 }
 
@@ -63,13 +64,13 @@ void DemoExt_SetupWait(DemoExt* this) {
 }
 
 void DemoExt_SetupMaintainVortex(DemoExt* this, PlayState* play) {
-    CsCmdActorAction* npcAction = DemoExt_GetNpcAction(play, 5);
+    CsCmdActorCue* cue = DemoExt_GetCue(play, 5);
 
-    if (npcAction != NULL) {
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
-        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+    if (cue != NULL) {
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
     this->action = EXT_MAINTAIN;
     this->drawMode = EXT_DRAW_VORTEX;
@@ -87,17 +88,17 @@ void DemoExt_FinishClosing(DemoExt* this) {
     }
 }
 
-void DemoExt_CheckCsMode(DemoExt* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction = DemoExt_GetNpcAction(play, 5);
-    s32 csAction;
-    s32 previousCsAction;
+void DemoExt_HandleCues(DemoExt* this, PlayState* play) {
+    CsCmdActorCue* cue = DemoExt_GetCue(play, 5);
+    s32 nextCueId;
+    s32 currentCueId;
 
-    if (csCmdNPCAction != NULL) {
-        csAction = csCmdNPCAction->action;
-        previousCsAction = this->previousCsAction;
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        currentCueId = this->cueId;
 
-        if (csAction != previousCsAction) {
-            switch (csAction) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     DemoExt_SetupWait(this);
                     break;
@@ -112,7 +113,7 @@ void DemoExt_CheckCsMode(DemoExt* this, PlayState* play) {
                     osSyncPrintf("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
-            this->previousCsAction = csAction;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -145,13 +146,13 @@ void DemoExt_SetColorsAndScales(DemoExt* this) {
 }
 
 void DemoExt_Wait(DemoExt* this, PlayState* play) {
-    DemoExt_CheckCsMode(this, play);
+    DemoExt_HandleCues(this, play);
 }
 
 void DemoExt_MaintainVortex(DemoExt* this, PlayState* play) {
     DemoExt_PlayVortexSFX(this);
     DemoExt_SetScrollAndRotation(this);
-    DemoExt_CheckCsMode(this, play);
+    DemoExt_HandleCues(this, play);
 }
 
 void DemoExt_DispellVortex(DemoExt* this, PlayState* play) {

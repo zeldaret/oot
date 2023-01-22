@@ -75,37 +75,37 @@ static Color_RGB8 sWarpSparkleEnvColors[] = {
 };
 
 static CutsceneCameraPoint sWarpOutCameraPoints[] = {
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0x0000, 0x0000 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0017, 0x0024 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x001C, 0x0032, 0xFFFF } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0001, 0x0018, 0xFFD9 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0xFFFA, 0x0003 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0025, 0x0037 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x004F, 0x0066, 0x0029 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x00A6, 0x00AD, 0x0006 } },
-    { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
-    { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0x0000, 0x0000 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0017, 0x0024 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x001C, 0x0032, 0xFFFF } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0001, 0x0018, 0xFFD9 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0xFFFA, 0x0003 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0025, 0x0037 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x004F, 0x0066, 0x0029 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x00A6, 0x00AD, 0x0006 } },
+    { CS_CAM_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
+    { CS_CAM_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
+    { CS_CAM_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
+    { CS_CAM_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
 };
 
 static CutsceneCameraPoint sWarpInCameraPoints[] = {
-    { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
-    { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x00A6, 0x00AD, 0x0006 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x004F, 0x0066, 0x0029 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0025, 0x0037 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0xFFFA, 0x0003 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0001, 0x0018, 0xFFD9 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x001C, 0x0032, 0xFFFF } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0017, 0x0024 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0x0000, 0x0000 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
+    { CS_CAM_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
+    { CS_CAM_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x00A6, 0x00AD, 0x0006 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x004F, 0x0066, 0x0029 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0025, 0x0037 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0xFFFA, 0x0003 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0001, 0x0018, 0xFFD9 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x001C, 0x0032, 0xFFFF } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0017, 0x0024 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0x0000, 0x0000 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
+    { CS_CAM_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
+    { CS_CAM_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
 };
 
 static Color_RGB8 sSparkleEnvColors[] = {
@@ -114,60 +114,60 @@ static Color_RGB8 sSparkleEnvColors[] = {
 };
 
 static CutsceneCameraPoint sSparklesCameraPoints[] = {
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0000, 0xFFE9 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD3, 0x0000, 0x000A } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE8, 0x0001, 0x0027 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0015, 0x0000, 0x002B } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002F, 0x0005, 0x000E } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0031, 0x0005, 0xFFF5 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0020, 0x0005, 0xFFDA } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF5, 0x0005, 0xFFD1 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0006, 0xFFEA } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD5, 0x0009, 0x000D } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE9, 0x0009, 0x0027 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0014, 0x000B, 0x0029 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002D, 0x000B, 0x000F } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002E, 0x000B, 0xFFF0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x001E, 0x000B, 0xFFDA } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x000E, 0xFFD3 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFDA, 0x000E, 0xFFEB } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0010, 0x0008 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE9, 0x0010, 0x0024 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0011, 0x0010, 0x0028 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002C, 0x0010, 0x000D } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002C, 0x0012, 0xFFF5 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x001F, 0x0011, 0xFFDE } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFFB, 0x0014, 0xFFD5 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFDD, 0x0014, 0xFFEC } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFDA, 0x0017, 0x0008 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE8, 0x0014, 0x001F } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x000C, 0x0018, 0x0026 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0027, 0x0018, 0x000D } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0027, 0x001B, 0xFFF6 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x001C, 0x001A, 0xFFE2 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x000E, 0xFFD4 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD9, 0x001B, 0xFFEF } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x001B, 0x000A } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE6, 0x001B, 0x0022 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x000F, 0x001F, 0x002C } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0032, 0x0020, 0x0009 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0030, 0x0021, 0xFFF0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x001C, 0x0025, 0xFFD9 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x0028, 0xFFD4 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD8, 0x002B, 0xFFF5 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x002B, 0x0006 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFDF, 0x002B, 0x0019 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x000E, 0x002E, 0x002C } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0032, 0x002E, 0x0003 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002A, 0x0030, 0xFFE7 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
-    { CS_CMD_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
-    { CS_CMD_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0000, 0xFFE9 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD3, 0x0000, 0x000A } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE8, 0x0001, 0x0027 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0015, 0x0000, 0x002B } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002F, 0x0005, 0x000E } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0031, 0x0005, 0xFFF5 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0020, 0x0005, 0xFFDA } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF5, 0x0005, 0xFFD1 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0006, 0xFFEA } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD5, 0x0009, 0x000D } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE9, 0x0009, 0x0027 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0014, 0x000B, 0x0029 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002D, 0x000B, 0x000F } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002E, 0x000B, 0xFFF0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x001E, 0x000B, 0xFFDA } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x000E, 0xFFD3 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFDA, 0x000E, 0xFFEB } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0010, 0x0008 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE9, 0x0010, 0x0024 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0011, 0x0010, 0x0028 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002C, 0x0010, 0x000D } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002C, 0x0012, 0xFFF5 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x001F, 0x0011, 0xFFDE } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFFB, 0x0014, 0xFFD5 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFDD, 0x0014, 0xFFEC } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFDA, 0x0017, 0x0008 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE8, 0x0014, 0x001F } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x000C, 0x0018, 0x0026 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0027, 0x0018, 0x000D } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0027, 0x001B, 0xFFF6 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x001C, 0x001A, 0xFFE2 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x000E, 0xFFD4 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD9, 0x001B, 0xFFEF } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x001B, 0x000A } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE6, 0x001B, 0x0022 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x000F, 0x001F, 0x002C } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0032, 0x0020, 0x0009 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0030, 0x0021, 0xFFF0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x001C, 0x0025, 0xFFD9 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x0028, 0xFFD4 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD8, 0x002B, 0xFFF5 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x002B, 0x0006 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFDF, 0x002B, 0x0019 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x000E, 0x002E, 0x002C } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0032, 0x002E, 0x0003 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002A, 0x0030, 0xFFE7 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
+    { CS_CAM_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
+    { CS_CAM_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
 };
 
 static s16 D_8098CF80;
@@ -292,7 +292,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                 DemoKankyo_SetupAction(this, DemoKankyo_UpdateClouds);
                 break;
             case DEMOKANKYO_DOOR_OF_TIME:
-                if (Flags_GetEnv(play, 2)) {
+                if (CutsceneFlags_Get(play, 2)) {
                     DemoKankyo_SetupAction(this, DemoKankyo_UpdateDoorOfTime);
                 }
                 break;
@@ -321,16 +321,16 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                     if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
                         D_8098CF84 = 25;
                         if (!LINK_IS_ADULT) {
-                            play->csCtx.segment = gChildWarpInToTCS;
+                            play->csCtx.script = gChildWarpInToTCS;
                         } else {
-                            play->csCtx.segment = gAdultWarpInToTCS;
+                            play->csCtx.script = gAdultWarpInToTCS;
                         }
                     } else {
                         D_8098CF84 = 32;
                         if (!LINK_IS_ADULT) {
-                            play->csCtx.segment = gChildWarpInCS;
+                            play->csCtx.script = gChildWarpInCS;
                         } else {
-                            play->csCtx.segment = gAdultWarpInCS;
+                            play->csCtx.script = gAdultWarpInCS;
                         }
                     }
                     if (Play_CamIsNotFixed(play)) {
@@ -342,15 +342,15 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
             case DEMOKANKYO_WARP_IN:
                 if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
                     if (!LINK_IS_ADULT) {
-                        play->csCtx.segment = gChildWarpOutToTCS;
+                        play->csCtx.script = gChildWarpOutToTCS;
                     } else {
-                        play->csCtx.segment = gAdultWarpOutToTCS;
+                        play->csCtx.script = gAdultWarpOutToTCS;
                     }
                 } else {
                     if (!LINK_IS_ADULT) {
-                        play->csCtx.segment = gChildWarpOutCS;
+                        play->csCtx.script = gChildWarpOutCS;
                     } else {
-                        play->csCtx.segment = gAdultWarpOutCS;
+                        play->csCtx.script = gAdultWarpOutCS;
                     }
                 }
                 gSaveContext.cutsceneTrigger = 1;
@@ -370,28 +370,32 @@ void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play) {
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
 
-void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 npcActionIndex) {
+void DemoKankyo_SetPosFromCue(DemoKankyo* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
-    CsCmdActorAction* csAction = play->csCtx.npcActions[npcActionIndex];
-    f32 temp_f0;
+    CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+    f32 lerp;
 
-    startPos.x = csAction->startPos.x;
-    startPos.y = csAction->startPos.y;
-    startPos.z = csAction->startPos.z;
-    endPos.x = csAction->endPos.x;
-    endPos.y = csAction->endPos.y;
-    endPos.z = csAction->endPos.z;
-    temp_f0 = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, play->csCtx.frames);
-    this->actor.world.pos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
-    this->actor.world.pos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
-    this->actor.world.pos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
+    startPos.x = cue->startPos.x;
+    startPos.y = cue->startPos.y;
+    startPos.z = cue->startPos.z;
+
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
+
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
+
+    this->actor.world.pos.x = ((endPos.x - startPos.x) * lerp) + startPos.x;
+    this->actor.world.pos.y = ((endPos.y - startPos.y) * lerp) + startPos.y;
+    this->actor.world.pos.z = ((endPos.z - startPos.z) * lerp) + startPos.z;
 }
 
 void DemoKankyo_UpdateRock(DemoKankyo* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
-        DemoKankyo_SetRockPos(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
+        DemoKankyo_SetPosFromCue(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
     }
+
     this->unk_150[0].unk_C.x += this->unk_150[0].unk_0.x;
     this->unk_150[0].unk_C.y += this->unk_150[0].unk_0.y;
     this->unk_150[0].unk_C.z += this->unk_150[0].unk_0.z;
@@ -433,17 +437,17 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_BLUE_RAIN_2:
                 if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
-                    if (!Flags_GetEnv(play, 1)) {
+                    if (!CutsceneFlags_Get(play, 1)) {
                         break;
                     } else if (!Actor_IsFacingAndNearPlayer(&this->actor, 300.0f, 0x7530)) {
                         break;
                     } else {
                         if (!LINK_IS_ADULT) {
-                            if (play->csCtx.frames < 170 || play->csCtx.state == CS_STATE_IDLE) {
+                            if (play->csCtx.curFrame < 170 || play->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
                         } else {
-                            if (play->csCtx.frames < 120 || play->csCtx.state == CS_STATE_IDLE) {
+                            if (play->csCtx.curFrame < 120 || play->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
                         }
@@ -799,7 +803,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
                     }
-                    if (play->sceneId == SCENE_TEMPLE_OF_TIME && play->csCtx.frames == 25) {
+                    if (play->sceneId == SCENE_TEMPLE_OF_TIME && play->csCtx.curFrame == 25) {
                         this->unk_150[i].unk_22++;
                     }
                 } else {
@@ -809,7 +813,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
                     }
-                    if (D_8098CF84 < play->csCtx.frames && this->actor.params == DEMOKANKYO_WARP_OUT) {
+                    if (D_8098CF84 < play->csCtx.curFrame && this->actor.params == DEMOKANKYO_WARP_OUT) {
                         this->unk_150[i].unk_22++;
                     }
                 }

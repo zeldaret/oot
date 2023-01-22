@@ -178,12 +178,13 @@ void EnReeba_Destroy(Actor* thisx, PlayState* play) {
 void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
     f32 frames = Animation_GetLastFrame(&object_reeba_Anim_0001E4);
     Player* player = GET_PLAYER(play);
-    s16 playerSpeed;
+    s16 absPlayerSpeedXZ;
 
     Animation_Change(&this->skelanime, &object_reeba_Anim_0001E4, 2.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
 
-    playerSpeed = fabsf(player->linearVelocity);
-    this->waitTimer = 20 - playerSpeed * 2;
+    absPlayerSpeedXZ = fabsf(player->speedXZ);
+    this->waitTimer = 20 - absPlayerSpeedXZ * 2;
+
     if (this->waitTimer < 0) {
         this->waitTimer = 2;
     }
@@ -205,7 +206,7 @@ void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
 
 void EnReeba_Surface(EnReeba* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    f32 playerLinearVel;
+    f32 playerSpeedXZ;
 
     SkelAnime_Update(&this->skelanime);
 
@@ -222,23 +223,23 @@ void EnReeba_Surface(EnReeba* this, PlayState* play) {
         } else {
             this->yOffsetStep = 0.0f;
             this->actor.shape.yOffset = 0.0f;
-            playerLinearVel = player->linearVelocity;
+            playerSpeedXZ = player->speedXZ;
 
             switch (this->aimType) {
                 case 0:
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                     break;
                 case 1:
-                    this->actor.world.rot.y = this->actor.yawTowardsPlayer + (800.0f * playerLinearVel);
+                    this->actor.world.rot.y = this->actor.yawTowardsPlayer + (800.0f * playerSpeedXZ);
                     break;
                 case 2:
                 case 3:
                     this->actor.world.rot.y =
                         this->actor.yawTowardsPlayer +
-                        (player->actor.shape.rot.y - this->actor.yawTowardsPlayer) * (playerLinearVel * 0.15f);
+                        (player->actor.shape.rot.y - this->actor.yawTowardsPlayer) * (playerSpeedXZ * 0.15f);
                     break;
                 case 4:
-                    this->actor.world.rot.y = this->actor.yawTowardsPlayer - (800.0f * playerLinearVel);
+                    this->actor.world.rot.y = this->actor.yawTowardsPlayer - (800.0f * playerSpeedXZ);
                     break;
             }
 
@@ -246,7 +247,7 @@ void EnReeba_Surface(EnReeba* this, PlayState* play) {
                 this->actionfunc = EnReeba_SetupMoveBig;
             } else {
                 this->moveTimer = 130;
-                this->actor.speedXZ = Rand_ZeroFloat(4.0f) + 6.0f;
+                this->actor.speed = Rand_ZeroFloat(4.0f) + 6.0f;
                 this->actionfunc = EnReeba_Move;
             }
         }
@@ -265,7 +266,7 @@ void EnReeba_Move(EnReeba* this, PlayState* play) {
     surfaceType = SurfaceType_GetFloorType(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
     if ((surfaceType != FLOOR_TYPE_4) && (surfaceType != FLOOR_TYPE_7)) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actionfunc = EnReeba_SetupSink;
     } else if ((this->moveTimer == 0) || (this->actor.xzDistToPlayer < 30.0f) ||
                (this->actor.xzDistToPlayer > 400.0f) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
@@ -282,7 +283,7 @@ void EnReeba_SetupMoveBig(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
-    f32 speed;
+    f32 accel;
     s16 yawDiff;
     s16 yaw;
     s32 surfaceType;
@@ -303,13 +304,14 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
             this->bigLeeverTimer = 30;
         }
 
-        speed = (this->actor.xzDistToPlayer - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
-        this->actor.speedXZ += speed * 1.8f;
-        if (this->actor.speedXZ >= 3.0f) {
-            this->actor.speedXZ = 3.0f;
+        accel = (this->actor.xzDistToPlayer - 20.0f) / ((Rand_ZeroOne() * 50.0f) + 150.0f);
+        this->actor.speed += accel * 1.8f;
+
+        if (this->actor.speed >= 3.0f) {
+            this->actor.speed = 3.0f;
         }
-        if (this->actor.speedXZ < -3.0f) {
-            this->actor.speedXZ = -3.0f;
+        if (this->actor.speed < -3.0f) {
+            this->actor.speed = -3.0f;
         }
 
         yawDiff = (this->bigLeeverTimer == 0) ? this->actor.yawTowardsPlayer : -this->actor.yawTowardsPlayer;
@@ -325,7 +327,7 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_Bumped(EnReeba* this, PlayState* play) {
-    Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.3f);
+    Math_ApproachZeroF(&this->actor.speed, 1.0f, 0.3f);
 
     if (this->moveTimer == 0) {
         if (this->type != LEEVER_TYPE_SMALL) {
@@ -346,7 +348,7 @@ void EnReeba_SetupSink(EnReeba* this, PlayState* play) {
 
 void EnReeba_Sink(EnReeba* this, PlayState* play) {
     Math_ApproachZeroF(&this->actor.shape.shadowScale, 1.0f, 0.3f);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.1f, 0.3f);
+    Math_ApproachZeroF(&this->actor.speed, 0.1f, 0.3f);
     SkelAnime_Update(&this->skelanime);
 
     if ((this->yOffsetTarget + 10.0f) <= this->actor.shape.yOffset) {
@@ -364,7 +366,7 @@ void EnReeba_Sink(EnReeba* this, PlayState* play) {
 
 void EnReeba_SetupDamaged(EnReeba* this, PlayState* play) {
     this->damagedTimer = 14;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->actionfunc = EnReeba_Damaged;
@@ -373,8 +375,8 @@ void EnReeba_SetupDamaged(EnReeba* this, PlayState* play) {
 void EnReeba_Damaged(EnReeba* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
 
-    if (this->actor.speedXZ < 0.0f) {
-        this->actor.speedXZ += 1.0f;
+    if (this->actor.speed < 0.0f) {
+        this->actor.speed += 1.0f;
     }
 
     if (this->damagedTimer == 0) {
@@ -390,7 +392,7 @@ void EnReeba_Damaged(EnReeba* this, PlayState* play) {
 void EnReeba_SetupStunned(EnReeba* this, PlayState* play) {
     this->waitTimer = 14;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
     this->actor.flags |= ACTOR_FLAG_27;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = EnReeba_Stunned;
@@ -401,11 +403,11 @@ void EnReeba_Stunned(EnReeba* this, PlayState* play) {
     f32 scale;
 
     if (this->waitTimer != 0) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 1.0f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 1.0f;
         }
     } else {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
 
         if ((this->stunType == LEEVER_STUN_OTHER) || (this->actor.colChkInfo.health != 0)) {
             if (this->stunType == LEEVER_STUN_ICE) {
@@ -455,7 +457,7 @@ void EnReeba_StunDie(EnReeba* this, PlayState* play) {
 }
 
 void EnReeba_SetupDie(EnReeba* this, PlayState* play) {
-    this->actor.speedXZ = -8.0f;
+    this->actor.speed = -8.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
     this->waitTimer = 14;
@@ -469,11 +471,11 @@ void EnReeba_Die(EnReeba* this, PlayState* play) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
 
     if (this->waitTimer != 0) {
-        if (this->actor.speedXZ < 0.0f) {
-            this->actor.speedXZ += 1.0f;
+        if (this->actor.speed < 0.0f) {
+            this->actor.speed += 1.0f;
         }
     } else {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         Math_ApproachZeroF(&this->scale, 0.1f, 0.01f);
 
         if (this->scale < 0.01f) {
@@ -625,7 +627,7 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
         this->damagedTimer--;
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 35.0f, 60.0f, 60.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
@@ -634,7 +636,7 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
         this->collider.base.atFlags &= ~AT_BOUNCED;
 
         if ((this->actionfunc == EnReeba_Move) || (this->actionfunc == EnReeba_MoveBig)) {
-            this->actor.speedXZ = 8.0f;
+            this->actor.speed = 8.0f;
             this->actor.world.rot.y *= -1.0f;
             this->moveTimer = 14;
             this->actionfunc = EnReeba_Bumped;

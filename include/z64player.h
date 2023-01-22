@@ -10,7 +10,7 @@ typedef enum {
     /* 0 */ PLAYER_SWORD_NONE,
     /* 1 */ PLAYER_SWORD_KOKIRI,
     /* 2 */ PLAYER_SWORD_MASTER,
-    /* 3 */ PLAYER_SWORD_BGS,
+    /* 3 */ PLAYER_SWORD_BIGGORON,
     /* 4 */ PLAYER_SWORD_MAX
 } PlayerSword;
 
@@ -75,7 +75,7 @@ typedef enum {
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
     /* 0x03 */ PLAYER_IA_SWORD_MASTER,
     /* 0x04 */ PLAYER_IA_SWORD_KOKIRI,
-    /* 0x05 */ PLAYER_IA_SWORD_BGS,
+    /* 0x05 */ PLAYER_IA_SWORD_BIGGORON,
     /* 0x06 */ PLAYER_IA_DEKU_STICK,
     /* 0x07 */ PLAYER_IA_HAMMER,
     /* 0x08 */ PLAYER_IA_BOW,
@@ -632,7 +632,7 @@ typedef struct Player {
     /* 0x0440 */ Actor*     rideActor;
     /* 0x0444 */ u8         csMode;
     /* 0x0445 */ u8         prevCsMode;
-    /* 0x0446 */ u8         unk_446;
+    /* 0x0446 */ u8         cueId;
     /* 0x0447 */ u8         unk_447;
     /* 0x0448 */ Actor*     unk_448;
     /* 0x044C */ char       unk_44C[0x004];
@@ -686,9 +686,9 @@ typedef struct Player {
     /* 0x0834 */ s16        unk_834;
     /* 0x0836 */ s8         unk_836;
     /* 0x0837 */ u8         unk_837;
-    /* 0x0838 */ f32        linearVelocity;
-    /* 0x083C */ s16        currentYaw;
-    /* 0x083E */ s16        targetYaw;
+    /* 0x0838 */ f32        speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
+    /* 0x083C */ s16        yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
+    /* 0x083E */ s16        zTargetYaw; // yaw relating to Z targeting/"parallel" mode
     /* 0x0840 */ u16        underwaterTimer;
     /* 0x0842 */ s8         meleeWeaponAnimation;
     /* 0x0843 */ s8         meleeWeaponState;

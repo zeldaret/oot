@@ -664,7 +664,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             Play_SetCameraAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
             subCam->fov = 75.0f;
-            player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = spD0.yaw + 0x7FFF;
+            player->actor.shape.rot.y = player->actor.world.rot.y = player->yaw = spD0.yaw + 0x7FFF;
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             break;
 
@@ -708,7 +708,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 3390:
-            player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = -0x3FD9;
+            player->actor.shape.rot.y = player->actor.world.rot.y = player->yaw = -0x3FD9;
 
             csInfo->keyFrames = D_80121DB4;
             csInfo->keyFrameCount = ARRAY_COUNT(D_80121DB4);
@@ -733,7 +733,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80121F1C[0].eyeTargetInit = play->view.eye;
             D_80121F1C[0].fovTargetInit = play->view.fovy;
             Actor_GetFocus(&spA0, actor);
-            player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = spA0.rot.y;
+            player->actor.shape.rot.y = player->actor.world.rot.y = player->yaw = spA0.rot.y;
 
             csInfo->keyFrames = D_80121F1C;
             csInfo->keyFrameCount = ARRAY_COUNT(D_80121F1C);
@@ -857,7 +857,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             csInfo->keyFrames = D_801225D4;
             csInfo->keyFrameCount = ARRAY_COUNT(D_801225D4);
 
-            player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = 0x3FFC;
+            player->actor.shape.rot.y = player->actor.world.rot.y = player->yaw = 0x3FFC;
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_CS_C);
             func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             break;

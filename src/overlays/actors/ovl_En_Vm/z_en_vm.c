@@ -362,7 +362,7 @@ void EnVm_SetupDie(EnVm* this) {
     this->actor.world.pos.y += 5000.0f * this->actor.scale.y;
     this->actor.velocity.y = 8.0f;
     this->actor.gravity = -0.5f;
-    this->actor.speedXZ = Rand_ZeroOne() + 1.0f;
+    this->actor.speed = Rand_ZeroOne() + 1.0f;
     this->actor.world.rot.y = Rand_CenteredFloat(65535.0f);
     EnVm_SetupAction(this, EnVm_Die);
 }
@@ -372,7 +372,7 @@ void EnVm_Die(EnVm* this, PlayState* play) {
 
     this->beamRot.x += 0x5DC;
     this->headRotY += 0x9C4;
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (--this->timer == 0) {
         bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
