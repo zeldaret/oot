@@ -35886,16 +35886,16 @@ DEFINE_MESSAGE(0x706E, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 UNSKIPPABLE "Oh sealed door opened by the \n"
 "Sages... Close forever with \n"
 "the Evil Incarnation of Darkness\n"
-"within!!"
+"within!!"FADE("\x1E")
 ,
 UNSKIPPABLE "Oh, heiliges Portal, entriegelt von\n"
 "den Weisen... Schließe Dich für\n"
 "immer und schütze unsere Welt vor\n"
-"dieser üblen Kreatur des Bösen!"
+"dieser üblen Kreatur des Bösen!"FADE("\x1E")
 ,
 UNSKIPPABLE "Ô, sceau dimensionnel ouvert par \n"
 "les Sages... Referme-toi sur \n"
-"l'Incarnation du Malin!!"
+"l'Incarnation du Malin!!"FADE("\x1E")
 )
 
 DEFINE_MESSAGE(0x706F, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
@@ -38003,14 +38003,14 @@ UNSKIPPABLE "Mes pouvoirs paralysent Ganon!\n"
 
 DEFINE_MESSAGE(0x70D9, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 UNSKIPPABLE  SHIFT("\x41") "Six Sages...\n"
-QUICKTEXT_ENABLE  SHIFT("\x50") "Now!!" QUICKTEXT_DISABLE  FADE("\x1E")
+QUICKTEXT_ENABLE  SHIFT("\x50") "Now!!" QUICKTEXT_DISABLE  TEXTID("\x70\x6E")
 ,
 UNSKIPPABLE  SHIFT("\x28") "Oh, ihr Sechs Weisen...\n"
 QUICKTEXT_ENABLE  SHIFT("\x3F") "Es ist soweit!\n"
-SHIFT("\x32") "Sendet Eure Kraft!" QUICKTEXT_DISABLE  FADE("\x1E")
+SHIFT("\x32") "Sendet Eure Kraft!" QUICKTEXT_DISABLE  TEXTID("\x70\x6E")
 ,
 UNSKIPPABLE  SHIFT("\x41") "Six Sages...\n"
-QUICKTEXT_ENABLE  SHIFT("\x3D") "Maintenant!!" QUICKTEXT_DISABLE  FADE("\x1E")
+QUICKTEXT_ENABLE  SHIFT("\x3D") "Maintenant!!" QUICKTEXT_DISABLE  TEXTID("\x70\x6E")
 )
 
 DEFINE_MESSAGE(0x70DA, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
