@@ -14642,15 +14642,15 @@ SHIFT("\x3C") "reçoit sa fée." FADE("\x3C")
 )
 
 DEFINE_MESSAGE(0x109F, TEXTBOX_TYPE_NONE_BOTTOM, TEXTBOX_POS_VARIABLE,
-SHIFT("\x0B") "However, there is one boy" COLOR(RED) " " COLOR(DEFAULT) "who\n"
+SHIFT("\x0B") "However, there is one" COLOR(RED)" boy "COLOR(DEFAULT) "who\n"
 SHIFT("\x20") "does not have a fairy..." FADE("\x3C")
 ,
 SHIFT("\x11") "Das Schicksal hat jedoch einen\n"
-SHIFT("\x08") "auserkoren, dessen Bestimmung es\n"
+SHIFT("\x08") "auserkoren, dessen" COLOR(RED) " Bestimmung "COLOR(DEFAULT) "es\n"
 SHIFT("\x11") "ist, den Gesetzen vergangener\n"
 SHIFT("\x2B") "Zeiten zu entfliehen..." FADE("\x3C")
 ,
-SHIFT("\x19") "Mais seul un jeune garçon\n"
+SHIFT("\x19") "Mais seul un jeune" COLOR(RED) " garçon \n"COLOR(DEFAULT)
 SHIFT("\x2A") "n'avait pas de fée..." FADE("\x3C")
 )
 
