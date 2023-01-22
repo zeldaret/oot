@@ -13586,7 +13586,7 @@ BOX_BREAK
 UNSKIPPABLE "That song..."
 BOX_BREAK
 UNSKIPPABLE "Saria taught that song only \n"
-"to her friends..." TEXTID("\x10\x6F")
+"to her friends..." TEXTID("\x10\x6E")
 ,
 UNSKIPPABLE  SHIFT("\x37") "Diese Melodie?!"
 BOX_BREAK
@@ -13596,7 +13596,7 @@ BOX_BREAK
 UNSKIPPABLE "Das Lied..."
 BOX_BREAK
 UNSKIPPABLE "Salia hat das Lied nur ihren \n"
-"engsten Freunden beigebracht..." TEXTID("\x10\x6F")
+"engsten Freunden beigebracht..." TEXTID("\x10\x6E")
 ,
 UNSKIPPABLE  SHIFT("\x34") "Cette melodie?!"
 BOX_BREAK
@@ -13606,7 +13606,7 @@ BOX_BREAK
 UNSKIPPABLE "Cette chanson..."
 BOX_BREAK
 UNSKIPPABLE "Saria ne l'a enseignée qu'à ses\n"
-"amis..." TEXTID("\x10\x6F")
+"amis..." TEXTID("\x10\x6E")
 )
 
 DEFINE_MESSAGE(0x1068, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
@@ -13724,15 +13724,15 @@ UNSKIPPABLE  NAME "...\n"
 
 DEFINE_MESSAGE(0x106E, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "Saria hasn't come back yet...\n"
-"But I know she'll return someday..."
+"But I know she'll return someday..."TEXTID("\x10\x6F")
 ,
 "Salia ist noch immer nicht zurück...\n"
 "Doch ich weiß, eines Tages wird \n"
-"sie wiederkommen..."
+"sie wiederkommen..."TEXTID("\x10\x6F")
 ,
 "Saria n'est pas encore revenue...\n"
 "Mais je sais qu'elle reviendra \n"
-"bientôt..."
+"bientôt..."TEXTID("\x10\x6F")
 )
 
 DEFINE_MESSAGE(0x106F, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
@@ -20370,6 +20370,32 @@ DEFINE_MESSAGE(0x3017, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "his room saying,\n"
 "\"" COLOR(RED) "I will wait in here for the \n"
 "Royal Family's messenger!" COLOR(DEFAULT) "\""
+BOX_BREAK
+"By the way, us Gorons break rocks and eat\n"
+"them. Bombs are the best way to break\n"
+"'em apart, too. Bombs made outta bomb\n"
+"flower's fruit are the Goron's 'special crop.'\n"
+BOX_BREAK
+"When you pluck bomb flowers from their\n"
+"stems, they'll blow up in a matter\n"
+"of seconds. That's why we make\n"
+BOX_BREAK
+"bomb bags out of Dodongo stomachs, so\n"
+"we can safely store them! You saw\n"
+"that cave on the way up here, right?\n"
+BOX_BREAK
+"That's Dodongo's Cavern. Long ago, these\n"
+"beasts called Dodongos lived there.\n"
+"They were supposed to have gone\n"
+"extinct, but now the cavern \n"
+BOX_BREAK
+"is full of them.\n"
+"Something's not right...\n"
+BOX_BREAK
+"Right now, the entrance to Dodongo's Cavern\n"
+"is blocked off by a huge boulder...\n"
+"If you wanna get rid of the boulder,\n"
+"a single bomb oughta do it.\n"
 ,
 "Darunia hat sich in seinem Raum\n"
 "eingeschlossen. Er sprach:\n"
