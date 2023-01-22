@@ -12982,23 +12982,23 @@ DEFINE_MESSAGE(0x1048, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 
 DEFINE_MESSAGE(0x1049, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "Did something happen to the \n"
-"Great Deku Tree?"
+"Great Deku Tree?"TEXTID("\x10\x4A")
 ,
 "Ist etwas mit dem Deku-Baum \n"
-"geschehen?"
+"geschehen?"TEXTID("\x10\x4A")
 ,
 "Il est arrivé quelque chose au \n"
-"très vénérable Arbre Mojo?"
+"très vénérable Arbre Mojo?"TEXTID("\x10\x4A")
 )
 
 DEFINE_MESSAGE(0x104A, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "Somehow, it seems that the air in\n"
-"the forest has changed."
+"the forest has changed."TEXTID("\x10\x4B")
 ,
 "Mir scheint, es ist kühler\n"
-"geworden im Wald..."
+"geworden im Wald..."TEXTID("\x10\x4B")
 ,
-"La forêt a changé... "
+"La forêt a changé... "TEXTID("\x10\x4B")
 )
 
 DEFINE_MESSAGE(0x104B, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
@@ -13275,12 +13275,12 @@ DEFINE_MESSAGE(0x1059, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 
 DEFINE_MESSAGE(0x105A, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "Haven't I seen you somewhere\n"
-"before, mister?"
+"before, mister?"TEXTID("\x10\x5B")
 ,
 "Irgendwie kommen Sie mir bekannt\n"
-"vor, mein Herr!"
+"vor, mein Herr!"TEXTID("\x10\x5B")
 ,
-"On s'connaît, monsieur?"
+"On s'connaît, monsieur?"TEXTID("\x10\x5B")
 )
 
 DEFINE_MESSAGE(0x105B, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
@@ -19260,7 +19260,7 @@ UNSKIPPABLE "Oh...! I'm proud to present to\n"
 BOX_BREAK
 UNSKIPPABLE "After you drink it, you can \n"
 "bring back the " COLOR(RED) "bottle " COLOR(DEFAULT) "and buy a\n"
-"refill, anytime you want!" EVENT
+"refill, anytime you want!"TEXTID("\x20\x89")
 ,
 UNSKIPPABLE "Hahaha, war doch nur Spaß!"
 BOX_BREAK
@@ -19272,7 +19272,7 @@ BOX_BREAK
 UNSKIPPABLE "Hast Du die " COLOR(RED) "Flasche" COLOR(DEFAULT) " geleert,\n"
 "kannst Du jederzeit zurückkommen\n"
 "und sie Dir gegen ein geringes\n"
-"Entgelt auffüllen lassen!" EVENT
+"Entgelt auffüllen lassen!"TEXTID("\x20\x89")
 ,
 UNSKIPPABLE "Ha ha! Je blaguais! \n"
 "T'es peut-être un peu jeune pour \n"
@@ -19285,7 +19285,7 @@ UNSKIPPABLE "Voici un échantillon de notre\n"
 "seconde!"
 BOX_BREAK
 UNSKIPPABLE "Après l'avoir bu, rapporte la \n"
-COLOR(RED) "bouteille" COLOR(DEFAULT) " pour faire le plein!" EVENT
+COLOR(RED) "bouteille" COLOR(DEFAULT) " pour faire le plein!"TEXTID("\x20\x89")
 )
 
 DEFINE_MESSAGE(0x2088, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
@@ -20739,13 +20739,13 @@ COLOR(RED) "Dodongos Höhle " COLOR(DEFAULT) "und beweise, daß \n"
 
 DEFINE_MESSAGE(0x301E, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "Hey, Brother, play that tune\n"
-"again sometime soon!"
+"again sometime soon!"TEXTID("\x30\x29")
 ,
 "Hey, Bruder! Komm mal wieder\n"
-"vorbei und spiele ein paar Lieder!"
+"vorbei und spiele ein paar Lieder!"TEXTID("\x30\x29")
 ,
 "Hé! Mon Frère! Rejoue-moi cette \n"
-"chanson quand tu veux!"
+"chanson quand tu veux!"TEXTID("\x30\x29")
 )
 
 DEFINE_MESSAGE(0x301F, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
@@ -21829,11 +21829,11 @@ NAME "!"
 )
 
 DEFINE_MESSAGE(0x3043, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
-"Thank you, " NAME "!!"
+"Thank you, " NAME "!!"TEXTID("\x30\x44")
 ,
-"Danke, " NAME "!"
+"Danke, " NAME "!"TEXTID("\x30\x44")
 ,
-"Merci, " NAME "!!"
+"Merci, " NAME "!!"TEXTID("\x30\x44")
 )
 
 DEFINE_MESSAGE(0x3044, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
@@ -29713,7 +29713,7 @@ BOX_BREAK
 "Head east and you'll find a\n"
 COLOR(RED) "graveyard" COLOR(DEFAULT) ". Legends say you can \n"
 "calm the souls of the dead with\n"
-"an " COLOR(BLUE) "old song of the Royal Family" COLOR(DEFAULT) "."
+"an " COLOR(BLUE) "old song of the Royal Family" COLOR(DEFAULT) "."TEXTID("\x50\x68")
 ,
 "Es ist jetzt " TIME " Uhr.\n"
 "Genau die richtige Zeit, um\n"
@@ -29722,7 +29722,7 @@ BOX_BREAK
 "Geh nach Osten zum " COLOR(RED) "Friedhof" COLOR(DEFAULT) ".\n"
 "Legenden besagen, man könne die\n"
 "ruhelosen Seelen mit einem\n"
-COLOR(BLUE) "königlichen Schlaflied" COLOR(DEFAULT) " besänftigen..."
+COLOR(BLUE) "königlichen Schlaflied" COLOR(DEFAULT) " besänftigen..."TEXTID("\x50\x68")
 ,
 "Ding dong, ding dong!\n"
 "Au quatrième top il sera: " TIME "."
@@ -29730,7 +29730,7 @@ BOX_BREAK
 "A l'Est du village tu trouveras le\n"
 COLOR(RED) "cimetière" COLOR(DEFAULT) ". On dit souvent qu'une\n"
 COLOR(BLUE) "mélodie de la Famille Royale " COLOR(DEFAULT) "a le\n"
-"pouvoir d'apaiser les âmes..."
+"pouvoir d'apaiser les âmes..."TEXTID("\x50\x68")
 )
 
 DEFINE_MESSAGE(0x5068, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
@@ -31539,12 +31539,12 @@ UNSKIPPABLE "Esclave! Entends-moi..."
 
 DEFINE_MESSAGE(0x602E, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 UNSKIPPABLE "Destroy this intruder on \n"
-"our behalf!"
+"our behalf!"TEXTID("\x60\x2F")
 ,
-UNSKIPPABLE "Zerstöre diesen Eindringling!"
+UNSKIPPABLE "Zerstöre diesen Eindringling!"TEXTID("\x60\x2F")
 ,
 UNSKIPPABLE "Mon verbe est ton ordre...\n"
-"Tue ce jeune sot! Tue!!!"
+"Tue ce jeune sot! Tue!!!"TEXTID("\x60\x2F")
 )
 
 DEFINE_MESSAGE(0x602F, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_TOP,
@@ -33635,11 +33635,11 @@ TEXT_SPEED("\x03")  QUICKTEXT_ENABLE "Vite" QUICKTEXT_DISABLE "..." QUICKTEXT_EN
 )
 
 DEFINE_MESSAGE(0x7008, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
-"He's not moving anymore...."
+"He's not moving anymore...."TEXTID("\x20\x17")
 ,
-"Er rührt sich nicht mehr..."
+"Er rührt sich nicht mehr..."TEXTID("\x20\x17")
 ,
-"Il ne bouge plus...."
+"Il ne bouge plus...."TEXTID("\x20\x17")
 )
 
 DEFINE_MESSAGE(0x7009, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
