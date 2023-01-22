@@ -366,7 +366,7 @@ u16 func_80A96FD0(PlayState* play, Actor* thisx) {
             return 0x1038;
         case ENKO_TYPE_CHILD_9:
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-                return 0x104B;
+                return 0x1049;
             }
             return 0x103C;
         case ENKO_TYPE_CHILD_10:
