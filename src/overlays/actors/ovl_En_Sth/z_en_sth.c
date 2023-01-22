@@ -61,8 +61,7 @@ static s16 sObjectIds[6] = {
 };
 
 static FlexSkeletonHeader* sSkeletons[6] = {
-    &gHylianMan1Skel, &gHylianMan2Skel, &gHylianMan2Skel,
-    &gHylianMan2Skel, &gHylianMan2Skel, &gHylianMan2Skel,
+    &gHylianMan1Skel, &gHylianMan2Skel, &gHylianMan2Skel, &gHylianMan2Skel, &gHylianMan2Skel, &gHylianMan2Skel,
 };
 
 static AnimationHeader* sAnimations[6] = {
