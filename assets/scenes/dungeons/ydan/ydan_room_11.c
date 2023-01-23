@@ -25,7 +25,7 @@ SceneCmd ydan_room_11Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ydan_room_11PolygonType2_000050),
-    SCENE_CMD_OBJECT_LIST(9, ydan_room_11ObjectList_000038),
+    SCENE_CMD_OBJECT_LIST(10, ydan_room_11ObjectList_000038),
     SCENE_CMD_END(),
 };
 
@@ -39,6 +39,7 @@ s16 ydan_room_11ObjectList_000038[] = {
     OBJECT_KUSA,
     OBJECT_GI_HEART,
     OBJECT_GI_SUTARU,
+    OBJECT_KANBAN,
 };
 
 u8 ydan_room_11_possiblePadding_00004C[] = {

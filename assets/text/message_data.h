@@ -8722,6 +8722,33 @@ QUICKTEXT_ENABLE COLOR(ADJUSTABLE)"Forêt de Kokiri\n"
 COLOR(DEFAULT)"Aucun étranger n'est autorisé !" QUICKTEXT_DISABLE
 )
 
+DEFINE_MESSAGE(0x0349, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
+QUICKTEXT_ENABLE COLOR(RED)"Death Mountain Summit up north\n"
+    "City of the Goron Tribe to the right" QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE COLOR(RED)"Todesberg-Gipfel im Norden\n"
+    "Stadt des Goronenstammes zur Rechten" QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE COLOR(RED)"Sommet de la Montagne de la Mort au nord\n"
+    "Ville de la tribu des gorons à droite" QUICKTEXT_DISABLE
+)
+
+DEFINE_MESSAGE(0x034A, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
+QUICKTEXT_ENABLE COLOR(RED)"Gohma " COLOR(DEFAULT) "is lurking in the darkness. Switch\n"
+"views using the" COLOR(YELLOW)" C-Up button"COLOR(DEFAULT) ", and look\n"
+"for Gohma's bright " COLOR(RED)"eye"COLOR(DEFAULT)"!" QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "Gohma lauert in der Dunkelheit. Wechseln\n"
+"Sie die Ansicht mit der Taste C-Up und\n"
+"halte Ausschau nach Gohmas\n"
+"leuchtendem Auge!" QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "Gohma se cache dans l'obscurité. Changer\n"
+"vue en appuyant sur la touche C-Up et\n"
+"guette l'oeil de Gohma\n"
+"oeil lumineux !" QUICKTEXT_DISABLE
+)
+
 DEFINE_MESSAGE(0x0400, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 "This is a " COLOR(RED) "Gossip Stone" COLOR(DEFAULT) "!"
 ,

@@ -15,8 +15,8 @@ SceneCmd ddan_boss_room_1Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_boss_room_1PolygonType2_0000D0),
-    SCENE_CMD_OBJECT_LIST(6, ddan_boss_room_1ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(8, ddan_boss_room_1ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(7, ddan_boss_room_1ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(9, ddan_boss_room_1ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -27,6 +27,7 @@ s16 ddan_boss_room_1ObjectList_000040[] = {
     OBJECT_BOMBF,
     OBJECT_WARP1,
     OBJECT_GI_HEARTS,
+    OBJECT_KANBAN,
 };
 
 ActorEntry ddan_boss_room_1ActorList_00004C[] = {
@@ -38,6 +39,7 @@ ActorEntry ddan_boss_room_1ActorList_00004C[] = {
     { ACTOR_EN_BOMBF,       {   -352,  -1504,  -2781 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BOX,         {  -1109,   -744,  -2786 }, {      0, 0XC000,      0 }, 0x5020 },
     { ACTOR_BG_BREAKWALL,   {   -890,   -744,  -2784 }, {      0,      0,      0 }, 0x4001 },
+    { ACTOR_EN_KANBAN,      {   -900,   -744,  -2960 }, {      0, 0x2FC7,      0 }, 0x0347 },
 };
 
 u8 ddan_boss_room_1_possiblePadding_0000CC[] = {

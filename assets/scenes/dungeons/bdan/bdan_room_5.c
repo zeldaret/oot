@@ -30,8 +30,8 @@ SceneCmd bdan_room_5Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_5PolygonType0_000160),
-    SCENE_CMD_OBJECT_LIST(10, bdan_room_5ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(15, bdan_room_5ActorList_00006C),
+    SCENE_CMD_OBJECT_LIST(11, bdan_room_5ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(16, bdan_room_5ActorList_00006C),
     SCENE_CMD_END(),
 };
 
@@ -53,6 +53,7 @@ s16 bdan_room_5ObjectList_000058[] = {
     OBJECT_GI_SHIELD_1,
     OBJECT_GI_SUTARU,
     OBJECT_ST,
+    OBJECT_KANBAN,
 };
 
 ActorEntry bdan_room_5ActorList_00006C[] = {
@@ -71,6 +72,7 @@ ActorEntry bdan_room_5ActorList_00006C[] = {
     { ACTOR_OBJ_SWITCH,     {   1456,    -60,  -1188 }, {      0,      0,      0 }, 0x1403 },
     { ACTOR_OBJ_TSUBO,      {   1305,   -294,  -2005 }, {      0,      0,      0 }, 0x6212 },
     { ACTOR_EN_BOX,         {   1293,   -126,  -1930 }, {      0, 0XBF4A,   0X28 }, 0x852A },
+    { ACTOR_EN_KANBAN,      {   1320,   -321,  -1946 }, {      0, 0x3EEE,      0 }, 0x0346 },
 };
 
 u8 bdan_room_5_possiblePadding_00015C[] = {
