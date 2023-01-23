@@ -8663,6 +8663,23 @@ COLOR(DEFAULT)  SHIFT("\x0F") "Et vos questions ne resteront\n"
 SHIFT("\x29") "plus sans réponse!!" QUICKTEXT_DISABLE
 )
 
+DEFINE_MESSAGE(0x0347, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
+QUICKTEXT_ENABLE "The skin of a" COLOR(RED)" Dodongo "COLOR(DEFAULT) "has unrivaled\n"
+"hardness. But it seems to be weak\n"COLOR(RED)
+"against bombs."COLOR(DEFAULT) " It's a secret\n"
+"to everybody." QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "Die Haut eines"COLOR(RED) " Dodongo "COLOR(DEFAULT) "ist\n"
+"unübertroffen hart. Aber sie\n"
+"scheint" COLOR(RED)" schwach gegen "COLOR(DEFAULT) "Bomben zu sein.\n"
+"Das ist ein Geheimnis für alle." QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "La peau d'un" COLOR(RED)" Dodongo "COLOR(DEFAULT) "a une\n"
+"dureté inégalée. Mais elle semble\n"
+"être faible face aux bombes. C'est\n"
+"un secret pour tout le monde." QUICKTEXT_DISABLE
+)
+
 DEFINE_MESSAGE(0x0400, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 "This is a " COLOR(RED) "Gossip Stone" COLOR(DEFAULT) "!"
 ,
