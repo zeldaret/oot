@@ -8663,6 +8663,37 @@ COLOR(DEFAULT)  SHIFT("\x0F") "Et vos questions ne resteront\n"
 SHIFT("\x29") "plus sans réponse!!" QUICKTEXT_DISABLE
 )
 
+DEFINE_MESSAGE(0x0346, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
+QUICKTEXT_ENABLE "The Tentacles of a Jellyfish seem to be\n"
+"very high up. But it seems to be weak\n"
+"against the Boomarang. Jellyfishes are\n"
+"also weak to it too. You can\n"
+BOX_BREAK
+QUICKTEXT_ENABLE"also attack it with your sword to\n"
+"destroy them. It's a secret to\n"
+"everybody."QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "Die Tentakel einer Qualle scheinen\n"
+"sehr weit oben zu sein. Aber sie\n"
+"scheint schwach zu sein gegen\n"
+"den Boomarang. Quallen sind auch\n"
+BOX_BREAK
+QUICKTEXT_ENABLE"schwach gegen ihn. Du kannst auch\n"
+"mit deinem Schwert angreifen, um sie\n"
+"zu zerstören sie zu zerstören. Es\n"
+"ist ein Geheimnis für alle."
+,
+QUICKTEXT_ENABLE "Les tentacules d'une méduse semblent\n"
+"très haut. Mais elle\n"
+"semble faible face à\n"
+"le boomarang. Les méduses sont aussi\n"
+BOX_BREAK
+QUICKTEXT_ENABLE"faible contre lui. Tu peux aussi\n"
+"attaquer avec ton épée pour les\n"
+"pour la détruire. Il\n"
+"est un secret pour tous."QUICKTEXT_DISABLE
+)
+
 DEFINE_MESSAGE(0x0347, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE "The skin of a" COLOR(RED)" Dodongo "COLOR(DEFAULT) "has unrivaled\n"
 "hardness. But it seems to be weak\n"COLOR(RED)
