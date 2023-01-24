@@ -8749,6 +8749,20 @@ QUICKTEXT_ENABLE "Gohma se cache dans l'obscurité. Changer\n"
 "oeil lumineux !" QUICKTEXT_DISABLE
 )
 
+DEFINE_MESSAGE(0x034B, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
+QUICKTEXT_ENABLE "Pass through the woods to the\n"
+COLOR(ADJUSTABLE)"Sacred Forest Meadow "COLOR(DEFAULT) "when in\n"
+"need."
+,
+QUICKTEXT_ENABLE"Gehen Sie durch den Wald zum\n"
+COLOR(ADJUSTABLE)"Sacred Forest Meadow "COLOR(DEFAULT) "wenn drin\n"
+"müssen."
+,
+QUICKTEXT_ENABLE"Traverser les bois jusqu'au\n"
+COLOR(ADJUSTABLE)"Prairie de la forêt sacrée "COLOR(DEFAULT) "quand\n"
+"besoin."
+)
+
 DEFINE_MESSAGE(0x0400, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 "This is a " COLOR(RED) "Gossip Stone" COLOR(DEFAULT) "!"
 ,
@@ -18785,7 +18799,9 @@ UNSKIPPABLE "Je vais te révéler la légende du\n"
 )
 
 DEFINE_MESSAGE(0x2076, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
-SHIFT("\x26") "The Ocarina of Time!" EVENT
+SHIFT("\x26") "The Ocarina of Time!\n"
+"And finally, the legendary blade\n"
+"of evil's bane, the Master Sword!" EVENT
 ,
 SHIFT("\x23") "Die Okarina der Zeit!" EVENT
 ,
@@ -34536,7 +34552,8 @@ QUICKTEXT_ENABLE  SHIFT("\x0F") "Hé! Le mioche! Viens par là!" QUICKTEXT_DISAB
 )
 
 DEFINE_MESSAGE(0x702E, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
-UNSKIPPABLE  SHIFT("\x5F") "!" BOX_BREAK_DELAYED("\x0A")  UNSKIPPABLE  SHIFT("\x4E")  QUICKTEXT_ENABLE "Who?!" QUICKTEXT_DISABLE  EVENT
+UNSKIPPABLE  SHIFT("\x5F") "!" BOX_BREAK_DELAYED("\x09") UNSKIPPABLE"Hey, little kid!\n"
+"How did you get in here!?" BOX_BREAK_DELAYED("\x0A") UNSKIPPABLE  SHIFT("\x4E")  QUICKTEXT_ENABLE "Who?!" QUICKTEXT_DISABLE EVENT
 ,
 UNSKIPPABLE  SHIFT("\x53")  QUICKTEXT_ENABLE "Nanu?" QUICKTEXT_DISABLE  EVENT
 ,
@@ -34599,7 +34616,9 @@ BOX_BREAK
 )
 
 DEFINE_MESSAGE(0x7032, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
-UNSKIPPABLE  SHIFT("\x2D") "Just as I thought!" EVENT
+UNSKIPPABLE  SHIFT("\x2D") "Just as I thought!\n"
+"You are definitely the messenger from\n"
+"the forest sent by Goddess Nayru!" EVENT
 ,
 UNSKIPPABLE "Wie ich mir dachte!" EVENT
 ,
@@ -34642,8 +34661,8 @@ UNSKIPPABLE "Voici ce que dit la légende..." EVENT
 )
 
 DEFINE_MESSAGE(0x7036, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_MIDDLE,
-UNSKIPPABLE  SHIFT("\x12") "The three goddesses hid the\n"
-SHIFT("\x07")  COLOR(RED) "Triforce " COLOR(DEFAULT) "containing the power of\n"
+UNSKIPPABLE  SHIFT("\x04") "The three goddesses 'Din, Nayru, and Farore'\n"
+SHIFT("\x07")   "hid the"COLOR(RED) " Triforce " COLOR(DEFAULT) "containing the power of\n"
 SHIFT("\x0D") "the gods somewhere in Hyrule." BOX_BREAK_DELAYED("\x50")  UNSKIPPABLE  SHIFT("\x45") "The power\n"
 SHIFT("\x03") "to grant the wish of the one who\n"
 SHIFT("\x0A") "holds the Triforce in his hands." BOX_BREAK_DELAYED("\x50")  UNSKIPPABLE  SHIFT("\x03") "If someone with a righteous heart\n"
@@ -34693,7 +34712,11 @@ COLOR(LIGHTBLUE) "Door of Time" COLOR(DEFAULT) "."
 BOX_BREAK
 "And, in order to open the door,\n"
 "it is said that you need to collect\n"
-"three " COLOR(RED) "Spiritual Stones" COLOR(DEFAULT) "."
+"three " COLOR(RED) "Spiritual Stones "COLOR(DEFAULT) "which are\n"
+"kept by the"
+BOX_BREAK
+"elders of the Kokiri, Goron,\n"
+"and Zora tribes...."
 BOX_BREAK
 "And another thing you need...is\n"
 "the treasure that the Royal Family\n"
@@ -38743,7 +38766,11 @@ UNSKIPPABLE "Alors...mais alors...tu dois avoir\n"
 )
 
 DEFINE_MESSAGE(0x70FC, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
-UNSKIPPABLE "I had a dream...In the dream,\n"
+UNSKIPPABLE"...So the time has come...\n"
+"This is just as the Goddess\n"
+"Nayru told me in my dream..."
+BOX_BREAK
+UNSKIPPABLE "In the dream,\n"
 "dark storm clouds were billowing\n"
 "over the land of Hyrule..."
 BOX_BREAK

@@ -25,7 +25,7 @@ SceneCmd spot10_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot10_room_0PolygonType0_000090),
     SCENE_CMD_OBJECT_LIST(12, spot10_room_0ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(2, spot10_room_0ActorList_000070),
+    SCENE_CMD_ACTOR_LIST(3, spot10_room_0ActorList_000070),
     SCENE_CMD_END(),
 };
 
@@ -54,6 +54,7 @@ s16 spot10_room_0ObjectList_000058[] = {
 ActorEntry spot10_room_0ActorList_000070[] = {
     { ACTOR_EN_RIVER_SOUND, {    287,      0,     -2 }, {      0,      0,      0 }, 0x000C },
     { ACTOR_OBJECT_KANKYO,  {     52,      0,    -52 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_A_OBJ,       {      0,      0,      0 }, {      0,      0,      0 }, 0x4B09 },
 };
 
 PolygonType0 spot10_room_0PolygonType0_000090 = { 
@@ -79,7 +80,7 @@ SceneCmd spot10_room_0Set_0000B0[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot10_room_0PolygonType0_000090),
     SCENE_CMD_OBJECT_LIST(12, spot10_room_0ObjectList_0000F0),
-    SCENE_CMD_ACTOR_LIST(2, spot10_room_0ActorList_000108),
+    SCENE_CMD_ACTOR_LIST(3, spot10_room_0ActorList_000108),
     SCENE_CMD_END(),
 };
 
@@ -101,6 +102,7 @@ s16 spot10_room_0ObjectList_0000F0[] = {
 ActorEntry spot10_room_0ActorList_000108[] = {
     { ACTOR_EN_RIVER_SOUND, {    287,      0,     -2 }, {      0,      0,      0 }, 0x000C },
     { ACTOR_OBJECT_KANKYO,  {     52,      0,    -52 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_A_OBJ,       {      0,      0,      0 }, {      0,      0,      0 }, 0x4B09 },
 };
 
 u8 spot10_room_0_possiblePadding_000128[] = {
