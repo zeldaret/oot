@@ -128,8 +128,8 @@ SceneCmd spot07_room_0Set_000300[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot07_room_0PolygonType2_000150),
-    SCENE_CMD_OBJECT_LIST(3, spot07_room_0ObjectList_000340),
-    SCENE_CMD_ACTOR_LIST(6, spot07_room_0ActorList_000348),
+    SCENE_CMD_OBJECT_LIST(4, spot07_room_0ObjectList_000340),
+    SCENE_CMD_ACTOR_LIST(7, spot07_room_0ActorList_000348),
     SCENE_CMD_END(),
 };
 
@@ -137,6 +137,7 @@ s16 spot07_room_0ObjectList_000340[] = {
     OBJECT_SPOT07_OBJECT,
     OBJECT_SYOKUDAI,
     OBJECT_KANBAN,
+    OBJECT_GS,
 };
 
 ActorEntry spot07_room_0ActorList_000348[] = {
@@ -146,6 +147,7 @@ ActorEntry spot07_room_0ActorList_000348[] = {
     { ACTOR_EN_KANBAN,      {    230,    857,  -1440 }, {      0, 0X4000,      0 }, 0x032B },
     { ACTOR_BG_SPOT07_TAKI, {    445,   1008,  -1742 }, {      0,      0,      0 }, 0x0001 },
     { ACTOR_EN_A_OBJ,       {    345,    857,  -1572 }, {      0, 0X8000,      0 }, 0x2B0A },
+    { ACTOR_EN_GS,          {    620,    857,  -1600 }, {      0,      0,      0 }, 0x3809 },
 };
 
 u8 spot07_room_0_possiblePadding_000398[] = {

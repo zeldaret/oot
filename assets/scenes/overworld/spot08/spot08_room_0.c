@@ -267,8 +267,8 @@ SceneCmd spot08_room_0Set_0008E0[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(12, 0, 0),
     SCENE_CMD_MESH(&spot08_room_0PolygonType2_000200),
-    SCENE_CMD_OBJECT_LIST(9, spot08_room_0ObjectList_000920),
-    SCENE_CMD_ACTOR_LIST(6, spot08_room_0ActorList_000934),
+    SCENE_CMD_OBJECT_LIST(10, spot08_room_0ObjectList_000920),
+    SCENE_CMD_ACTOR_LIST(15, spot08_room_0ActorList_000934),
     SCENE_CMD_END(),
 };
 
@@ -282,6 +282,7 @@ s16 spot08_room_0ObjectList_000920[] = {
     OBJECT_EFC_FLASH,
     OBJECT_GI_JEWEL,
     OBJECT_RU1,
+    OBJECT_WOOD02,
 };
 
 ActorEntry spot08_room_0ActorList_000934[] = {
@@ -291,6 +292,15 @@ ActorEntry spot08_room_0ActorList_000934[] = {
     { ACTOR_EN_JJ,                 {   -949,     69,    -48 }, {      0, 0XC000,      0 }, 0xFFFF },
     { ACTOR_BG_SPOT08_BAKUDANKABE, {    316,     60,   2634 }, {      0,      0,      0 }, 0x00FF },
     { ACTOR_EN_ISHI,               {    316,     60,   2634 }, {      0, 0X7BBC,      0 }, 0xFF01 },
+    { ACTOR_OBJ_MURE,              {  -1247,   -173,   2406 }, {      0,      0,      0 }, 0x5322 },
+    { ACTOR_EN_WOOD02,             {    551,     35,   2184 }, {      0,      0,      0 }, 0xFF0B },
+    { ACTOR_EN_WOOD02,             {    386,     43,   2265 }, {      0,      0,      0 }, 0xFF0B },
+    { ACTOR_EN_WOOD02,             {    544,     45,   2373 }, {      0,      0,      0 }, 0xFF0B },
+    { ACTOR_EN_WOOD02,             {    231,     52,   2406 }, {      0,      0,      0 }, 0xFF0B },
+    { ACTOR_EN_WOOD02,             {    394,     55,   2510 }, {      0,      0,      0 }, 0xFF0B },
+    { ACTOR_EN_WOOD02,             {    167,     56,   2514 }, {      0,      0,      0 }, 0xFF0B },
+    { ACTOR_OBJ_MURE,              {  -1385,    169,   1460 }, {      0,      0,      0 }, 0x2324 },
+    { ACTOR_OBJ_MURE,              {   -441,   -151,   2139 }, {      0,      0,      0 }, 0xA322 },
 };
 
 u8 spot08_room_0_possiblePadding_000994[] = {

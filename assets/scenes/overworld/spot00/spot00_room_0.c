@@ -384,8 +384,8 @@ SceneCmd spot00_room_0Set_001120[] = {
     SCENE_CMD_TIME_SETTINGS(21, 0, 0),
     SCENE_CMD_WIND_SETTINGS(80, 80, 80, 1),
     SCENE_CMD_MESH(&spot00_room_0PolygonType2_000520),
-    SCENE_CMD_OBJECT_LIST(7, spot00_room_0ObjectList_001168),
-    SCENE_CMD_ACTOR_LIST(7, spot00_room_0ActorList_001178),
+    SCENE_CMD_OBJECT_LIST(9, spot00_room_0ObjectList_001168),
+    SCENE_CMD_ACTOR_LIST(12, spot00_room_0ActorList_001178),
     SCENE_CMD_END(),
 };
 
@@ -397,6 +397,8 @@ s16 spot00_room_0ObjectList_001168[] = {
     OBJECT_GNDD,
     OBJECT_OPENING_DEMO1,
     OBJECT_IM,
+    OBJECT_BOMBIWA,
+    OBJECT_WOOD02,
 };
 
 ActorEntry spot00_room_0ActorList_001178[] = {
@@ -407,6 +409,11 @@ ActorEntry spot00_room_0ActorList_001178[] = {
     { ACTOR_EN_VIEWER,          {   2395,     -2,   2098 }, {      0,      0,      0 }, 0x0303 },
     { ACTOR_EN_VIEWER,          {   2361,     -9,   2062 }, {      0,      0,      0 }, 0x0404 },
     { ACTOR_EN_RIVER_SOUND,     {  -2862,   -315,   -500 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_EN_A_OBJ,           {   -130,      0,   2105 }, {      0, 0XC000,      0 }, 0x3A0A },
+    { ACTOR_EN_WOOD02,          {  -1244,      0,    819 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,          {  -1041,      0,   1022 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,          {  -1448,      0,    620 }, {      0,      0,      0 }, 0x0B07 },
+    { ACTOR_OBJ_BOMBIWA,        {  -1425,      0,    810 }, {      0,      0,      0 }, 0x800E },
 };
 
 u8 spot00_room_0_possiblePadding_0011E8[] = {
@@ -420,8 +427,8 @@ SceneCmd spot00_room_0Set_0011F0[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 50),
     SCENE_CMD_WIND_SETTINGS(80, 80, 80, 0),
     SCENE_CMD_MESH(&spot00_room_0PolygonType2_000520),
-    SCENE_CMD_OBJECT_LIST(9, spot00_room_0ObjectList_001238),
-    SCENE_CMD_ACTOR_LIST(7, spot00_room_0ActorList_00124C),
+    SCENE_CMD_OBJECT_LIST(11, spot00_room_0ObjectList_001238),
+    SCENE_CMD_ACTOR_LIST(15, spot00_room_0ActorList_00124C),
     SCENE_CMD_END(),
 };
 
@@ -435,6 +442,8 @@ s16 spot00_room_0ObjectList_001238[] = {
     OBJECT_IM,
     OBJECT_GI_OCARINA,
     OBJECT_GND_MAGIC,
+    OBJECT_BOMBIWA,
+    OBJECT_WOOD02,
 };
 
 ActorEntry spot00_room_0ActorList_00124C[] = {
@@ -445,6 +454,14 @@ ActorEntry spot00_room_0ActorList_00124C[] = {
     { ACTOR_EN_VIEWER,          {   2395,     -2,   2098 }, {      0,      0,      0 }, 0x0303 },
     { ACTOR_EN_VIEWER,          {   2361,     -9,   2062 }, {      0,      0,      0 }, 0x0404 },
     { ACTOR_EN_RIVER_SOUND,     {  -2862,   -315,   -500 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_EN_A_OBJ,           {   -130,      0,   2105 }, {      0, 0XC000,      0 }, 0x3A0A },
+    { ACTOR_EN_WOOD02,          {  -1244,      0,    819 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,          {  -1041,      0,   1022 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,          {  -1448,      0,    620 }, {      0,      0,      0 }, 0x0B07 },
+    { ACTOR_OBJ_BOMBIWA,        {  -1425,      0,    810 }, {      0,      0,      0 }, 0x800E },
+    { ACTOR_EN_WOOD02,          {   3276,    -20,    971 }, {      0,      0,      0 }, 0x0B00 },
+    { ACTOR_EN_WOOD02,          {   2076,     20,    -91 }, {      0,      0,      0 }, 0x0D02 },
+    { ACTOR_EN_WOOD02,          {  -1907,     66,   5409 }, {      0,      0,      0 }, 0x0B00 },
 };
 
 u8 spot00_room_0_possiblePadding_0012BC[] = {
@@ -458,8 +475,8 @@ SceneCmd spot00_room_0Set_0012C0[] = {
     SCENE_CMD_TIME_SETTINGS(4, 0, 0),
     SCENE_CMD_WIND_SETTINGS(80, 80, 80, 0),
     SCENE_CMD_MESH(&spot00_room_0PolygonType2_000520),
-    SCENE_CMD_OBJECT_LIST(6, spot00_room_0ObjectList_001308),
-    SCENE_CMD_ACTOR_LIST(4, spot00_room_0ActorList_001314),
+    SCENE_CMD_OBJECT_LIST(7, spot00_room_0ObjectList_001308),
+    SCENE_CMD_ACTOR_LIST(8, spot00_room_0ActorList_001314),
     SCENE_CMD_END(),
 };
 
@@ -470,6 +487,7 @@ s16 spot00_room_0ObjectList_001308[] = {
     OBJECT_OPENING_DEMO1,
     OBJECT_IM,
     OBJECT_GI_OCARINA,
+    OBJECT_WOOD02,
 };
 
 ActorEntry spot00_room_0ActorList_001314[] = {
@@ -477,6 +495,10 @@ ActorEntry spot00_room_0ActorList_001314[] = {
     { ACTOR_EN_VIEWER,          {   2313,    -11,   2013 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_VIEWER,          {   2398,    -12,   2017 }, {      0,      0,      0 }, 0x0101 },
     { ACTOR_EN_VIEWER,          {   2313,     -7,   2098 }, {      0,      0,      0 }, 0x0202 },
+    { ACTOR_EN_A_OBJ,           {   -130,      0,   2105 }, {      0, 0XC000,      0 }, 0x3A0A },
+    { ACTOR_EN_WOOD02,          {   3276,    -20,    971 }, {      0,      0,      0 }, 0x0B00 },
+    { ACTOR_EN_WOOD02,          {   2076,     20,    -91 }, {      0,      0,      0 }, 0x0D02 },
+    { ACTOR_EN_WOOD02,          {  -1907,     66,   5409 }, {      0,      0,      0 }, 0x0B00 },
 };
 
 u8 spot00_room_0_possiblePadding_001354[] = {
@@ -490,8 +512,8 @@ SceneCmd spot00_room_0Set_001360[] = {
     SCENE_CMD_TIME_SETTINGS(4, 0, 5),
     SCENE_CMD_WIND_SETTINGS(80, 80, 80, 0),
     SCENE_CMD_MESH(&spot00_room_0PolygonType2_000520),
-    SCENE_CMD_OBJECT_LIST(4, spot00_room_0ObjectList_0013A8),
-    SCENE_CMD_ACTOR_LIST(28, spot00_room_0ActorList_0013B0),
+    SCENE_CMD_OBJECT_LIST(6, spot00_room_0ObjectList_0013A8),
+    SCENE_CMD_ACTOR_LIST(38, spot00_room_0ActorList_0013B0),
     SCENE_CMD_END(),
 };
 
@@ -500,6 +522,8 @@ s16 spot00_room_0ObjectList_0013A8[] = {
     OBJECT_WOOD02,
     OBJECT_HORSE,
     OBJECT_MAG,
+    OBJECT_BOMBIWA,
+    OBJECT_SPOT00_BREAK,
 };
 
 ActorEntry spot00_room_0ActorList_0013B0[] = {
@@ -531,6 +555,16 @@ ActorEntry spot00_room_0ActorList_0013B0[] = {
     { ACTOR_EN_WOOD02,          {   5322,    -23,   3275 }, {      0,      0,      0 }, 0xFF00 },
     { ACTOR_EN_RIVER_SOUND,     {  -2862,   -315,   -500 }, {      0,      0,      0 }, 0x0001 },
     { ACTOR_EN_RIVER_SOUND,     {  -2862,   -315,   -500 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_EN_A_OBJ,           {   -130,      0,   2105 }, {      0, 0XC000,      0 }, 0x3A0A },
+    { ACTOR_EN_WOOD02,          {  -1244,      0,    819 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,          {  -1041,      0,   1022 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,          {  -1448,      0,    620 }, {      0,      0,      0 }, 0x0B07 },
+    { ACTOR_OBJ_BOMBIWA,        {  -1425,      0,    810 }, {      0,      0,      0 }, 0x800E },
+    { ACTOR_EN_WOOD02,          {   3276,    -20,    971 }, {      0,      0,      0 }, 0x0B00 },
+    { ACTOR_EN_WOOD02,          {   2076,     20,    -91 }, {      0,      0,      0 }, 0x0D02 },
+    { ACTOR_EN_A_OBJ,           {   5925,    -20,   3805 }, {      0,  0X71C,      0 }, 0x0C0A },
+    { ACTOR_BG_SPOT00_BREAK,    {  -3713,   -400,  11456 }, {      0, 0X6AAB,  0X4FA }, 0x0001 },
+    { ACTOR_EN_A_OBJ,           {   3952,   -143,   7232 }, {      0, 0X5555,      0 }, 0x390A },
 };
 
 SceneCmd spot00_room_0Set_001570[] = {
@@ -737,8 +771,8 @@ SceneCmd spot00_room_0Set_001CF0[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_WIND_SETTINGS(80, 80, 80, 0),
     SCENE_CMD_MESH(&spot00_room_0PolygonType2_000520),
-    SCENE_CMD_OBJECT_LIST(4, spot00_room_0ObjectList_001D38),
-    SCENE_CMD_ACTOR_LIST(42, spot00_room_0ActorList_001D40),
+    SCENE_CMD_OBJECT_LIST(5, spot00_room_0ObjectList_001D38),
+    SCENE_CMD_ACTOR_LIST(49, spot00_room_0ActorList_001D40),
     SCENE_CMD_END(),
 };
 
@@ -747,6 +781,7 @@ s16 spot00_room_0ObjectList_001D38[] = {
     OBJECT_WOOD02,
     OBJECT_GI_OCARINA,
     OBJECT_IM,
+    OBJECT_BOMBIWA,
 };
 
 ActorEntry spot00_room_0ActorList_001D40[] = {
@@ -792,6 +827,13 @@ ActorEntry spot00_room_0ActorList_001D40[] = {
     { ACTOR_EN_WOOD02,          {    989,   -500,  12499 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_EN_RIVER_SOUND,     {  -2862,   -315,   -500 }, {      0,      0,      0 }, 0x0001 },
     { ACTOR_DEMO_IM,            {    274,      0,   1698 }, {      0,      0,      0 }, 0x0004 },
+    { ACTOR_EN_A_OBJ,           {   -130,      0,   2105 }, {      0, 0XC000,      0 }, 0x3A0A },
+    { ACTOR_EN_WOOD02,          {   3276,    -20,    971 }, {      0,      0,      0 }, 0x0B00 },
+    { ACTOR_EN_A_OBJ,           {   3230,    -20,    570 }, {      0,      0,      0 }, 0x050A },
+    { ACTOR_OBJ_BOMBIWA,        {  -1425,      0,    810 }, {      0,      0,      0 }, 0x800E },
+    { ACTOR_EN_WOOD02,          {  -1244,      0,    819 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,          {  -1041,      0,   1022 }, {      0,      0,      0 }, 0x0205 },
+    { ACTOR_EN_WOOD02,          {  -1448,      0,    620 }, {      0,      0,      0 }, 0x0B07 },
     { 0x1600,                   {      0,      0,     15 }, {  0X800,      0,      0 }, 0x0000 },
     { 0x1200,                   {      0,      0,      0 }, { 0X1000,      0, 0X1220 }, 0x0000 },
     { 0x0A00,                   {      0,    768,   1312 }, {  0XB03,      0,  0X300 }, 0x2020 },

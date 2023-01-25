@@ -281,7 +281,7 @@ SceneCmd spot17_room_1Set_000940[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot17_room_1PolygonType2_000300),
     SCENE_CMD_OBJECT_LIST(8, spot17_room_1ObjectList_000980),
-    SCENE_CMD_ACTOR_LIST(12, spot17_room_1ActorList_000990),
+    SCENE_CMD_ACTOR_LIST(18, spot17_room_1ActorList_000990),
     SCENE_CMD_END(),
 };
 
@@ -309,6 +309,12 @@ ActorEntry spot17_room_1ActorList_000990[] = {
     { ACTOR_EN_XC,                 {   -821,    769,   1396 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_DEMO_KANKYO,           {   -820,    769,   1164 }, {      0,      0,      0 }, 0x0008 },
     { ACTOR_BG_SPOT17_BAKUDANKABE, {   1310,   1476,   1566 }, {      0,      0,      0 }, 0x00FF },
+    { ACTOR_BG_MJIN,               {      0,    421,      0 }, {      0,      0,      0 }, 0x0003 },
+    { ACTOR_EN_ISHI,               {    -50,    476,   -714 }, {      0,      0,      0 }, 0x0700 },
+    { ACTOR_EN_ISHI,               {    -26,    476,   -807 }, {      0,  0XFA5,      0 }, 0x0700 },
+    { ACTOR_EN_ISHI,               {     61,    476,   -763 }, {      0, 0XECCD,      0 }, 0x0700 },
+    { ACTOR_EN_ISHI,               {     71,    471,   -610 }, {      0, 0XA9F5,      0 }, 0x0700 },
+    { ACTOR_EN_ISHI,               {     79,    476,   -700 }, {      0, 0XE444,      0 }, 0x0700 },
 };
 
 Vtx spot17_room_1Vtx_000A50[] = {
