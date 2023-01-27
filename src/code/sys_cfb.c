@@ -19,7 +19,7 @@ void SysCfb_Init(s32 n64dd) {
             osSyncPrintf("このバージョンのマージンは %dK バイトです\n", (0x4BC00 / 1024));
             sSysCfbEnd = tmpFbEnd;
         }
-    } else if (osMemSize >= 0x800000) {
+    } else if (osMemSize >= 0x400000) {
         osSyncPrintf("RAM4M mode\n");
         sSysCfbEnd = 0x80400000;
     } else {
