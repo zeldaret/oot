@@ -1,0 +1,57 @@
+#ifndef OBJECT_SPOT09_OBJ_H
+#define OBJECT_SPOT09_OBJ_H 1
+
+extern Vtx object_spot09_objVtx_000000[];
+extern Gfx gValleyBridgeSidesDL[];
+extern Vtx object_spot09_objVtx_000280[];
+extern Gfx gValleyBridgeChildDL[];
+extern CamData gValleyObjects2ColCamDataList[];
+extern SurfaceType gValleyObjects2ColSurfaceType[];
+extern CollisionPoly gValleyObjects2ColPolygons[];
+extern Vec3s gValleyObjects2ColVertices[];
+extern CollisionHeader gValleyObjects2Col;
+extern Vtx object_spot09_objVtx_002870[];
+extern Gfx gValleyBrokenBridgeDL[];
+extern CamData gValleyObjects1ColCamDataList[];
+extern SurfaceType gValleyObjects1ColSurfaceType[];
+extern CollisionPoly gValleyObjects1ColPolygons[];
+extern Vec3s gValleyObjects1ColVertices[];
+extern CollisionHeader gValleyObjects1Col;
+extern Vtx object_spot09_objVtx_005550[];
+extern Gfx gValleyRepairedBridgeDL[];
+extern CamData gValleyObjects4ColCamDataList[];
+extern SurfaceType gValleyObjects4ColSurfaceType[];
+extern CollisionPoly gValleyObjects4ColPolygons[];
+extern Vec3s gValleyObjects4ColVertices[];
+extern CollisionHeader gValleyObjects4Col;
+extern Vtx object_spot09_objVtx_0075B0[];
+extern Gfx gCarpentersTentDL[];
+extern Gfx gCarpentersTentEntranceDL[];
+extern CamData gValleyObjects3ColCamDataList[];
+extern SurfaceType gValleyObjects3ColSurfaceType[];
+extern CollisionPoly gValleyObjects3ColPolygons[];
+extern Vec3s gValleyObjects3ColVertices[];
+extern CollisionHeader gValleyObjects3Col;
+extern u64 object_spot09_objTex_008490[];
+extern u64 object_spot09_objTex_008C90[];
+extern u64 object_spot09_objTex_009490[];
+extern u64 object_spot09_objTex_00A490[];
+extern u64 object_spot09_objTex_00AC90[];
+extern u64 object_spot09_objTex_00B490[];
+extern u64 object_spot09_objTex_00BC90[];
+extern u64 object_spot09_objTex_00CC90[];
+extern u64 object_spot09_objTex_00DC90[];
+extern u64 object_spot09_objTex_00EC90[];
+extern u64 object_spot09_objTex_00FC90[];
+extern u64 object_spot09_objTex_010090[];
+extern u64 object_spot09_objTex_011090[];
+extern u64 object_spot09_objTex_012090[];
+extern u64 object_spot09_objTex_013090[];
+extern u64 object_spot09_objTex_014090[];
+extern u64 object_spot09_objTex_015090[];
+extern u64 object_spot09_objTex_016090[];
+extern u64 object_spot09_objTex_017090[];
+extern u64 object_spot09_objTex_017490[];
+extern u64 object_spot09_objTex_017890[];
+
+#endif

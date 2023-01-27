@@ -1,0 +1,23 @@
+#ifndef OBJECT_OE_ANIME_H
+#define OBJECT_OE_ANIME_H 1
+
+extern s16 object_oE_anime_Anim_00001034FrameData[];
+extern JointIndex object_oE_anime_Anim_00001034JointIndices[];
+extern AnimationHeader object_oE_anime_Anim_00001034;
+extern s16 object_oE_anime_Anim_000019BCFrameData[];
+extern JointIndex object_oE_anime_Anim_000019BCJointIndices[];
+extern AnimationHeader object_oE_anime_Anim_000019BC;
+extern s16 object_oE_anime_Anim_0000242CFrameData[];
+extern JointIndex object_oE_anime_Anim_0000242CJointIndices[];
+extern AnimationHeader object_oE_anime_Anim_0000242C;
+extern s16 object_oE_anime_Anim_00002DC8FrameData[];
+extern JointIndex object_oE_anime_Anim_00002DC8JointIndices[];
+extern AnimationHeader object_oE_anime_Anim_00002DC8;
+extern s16 object_oE_anime_Anim_000047D4FrameData[];
+extern JointIndex object_oE_anime_Anim_000047D4JointIndices[];
+extern AnimationHeader object_oE_anime_Anim_000047D4;
+extern s16 object_oE_anime_Anim_00005044FrameData[];
+extern JointIndex object_oE_anime_Anim_00005044JointIndices[];
+extern AnimationHeader object_oE_anime_Anim_00005044;
+
+#endif

@@ -23,8 +23,8 @@ SceneCmd ganon_room_3Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ganon_room_3PolygonType0_0000B0),
-    SCENE_CMD_OBJECT_LIST(7, ganon_room_3ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(6, ganon_room_3ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(8, ganon_room_3ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(7, ganon_room_3ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -36,6 +36,7 @@ s16 ganon_room_3ObjectList_000040[] = {
     OBJECT_ZF,
     OBJECT_SK2,
     OBJECT_BOX,
+    OBJECT_WALLMASTER,
 };
 
 ActorEntry ganon_room_3ActorList_000050[] = {
@@ -45,6 +46,7 @@ ActorEntry ganon_room_3ActorList_000050[] = {
     { ACTOR_EN_LIGHT,       {    537,    500,    451 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT,       {    385,    500,    361 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT,       {    520,    600,    -84 }, {      0,      0,      0 }, 0x03F4 },
+    { ACTOR_EN_FLOORMAS,    {    467,    434,    391 }, {      0, 0xEACC,      0 }, 0xFFFF },
 };
 
 PolygonType0 ganon_room_3PolygonType0_0000B0 = { 

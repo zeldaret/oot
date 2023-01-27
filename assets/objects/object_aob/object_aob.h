@@ -1,0 +1,50 @@
+#ifndef OBJECT_AOB_H
+#define OBJECT_AOB_H 1
+
+extern StandardLimb gDogLadyRootLimb;
+extern StandardLimb gDogLadyLimb_00C;
+extern StandardLimb gDogLadyLimb_018;
+extern StandardLimb gDogLadyLimb_024;
+extern StandardLimb gDogLadyLimb_030;
+extern StandardLimb gDogLadyLimb_03C;
+extern StandardLimb gDogLadyLimb_048;
+extern StandardLimb gDogLadyTorsoLimb;
+extern StandardLimb gDogLadyLimb_060;
+extern StandardLimb gDogLadyLimb_06C;
+extern StandardLimb gDogLadyLimb_078;
+extern StandardLimb gDogLadyLimb_084;
+extern StandardLimb gDogLadyLimb_090;
+extern StandardLimb gDogLadyLimb_09C;
+extern StandardLimb gDogLadyHeadLimb;
+extern void* gDogLadySkelLimbs[];
+extern FlexSkeletonHeader gDogLadySkel;
+extern u64 gDogLadyTLUT[];
+extern u64 gDogLadyHairTex[];
+extern u64 gDogLadySkinGradientTex[];
+extern u64 gDogLadyEarTex[];
+extern u64 gDogLadyLipGradientTex[];
+extern u64 gDogLadyNostrilTex[];
+extern u64 gDogLadyEyeOpenTex[];
+extern u64 gDogLadyEyeHalfTex[];
+extern u64 gDogLadyEyeClosedTex[];
+extern u64 gDogLadyBackOfHandTex[];
+extern u64 gDogLadyDressShoulderPatternTex[];
+extern u64 gDogLadyDressTex[];
+extern Vtx object_aobVtx_001F48[];
+extern Gfx gDogLadyHeadDL[];
+extern Gfx gDogLadyDL_4448[];
+extern Gfx gDogLadyDL_4650[];
+extern Gfx gDogLadyDL_4780[];
+extern Gfx gDogLadyDL_4928[];
+extern Gfx gDogLadyDL_4B30[];
+extern Gfx gDogLadyDL_4C60[];
+extern Gfx gDogLadyTorsoDL[];
+extern Gfx gDogLadyDL_50A8[];
+extern Gfx gDogLadyDL_5178[];
+extern Gfx gDogLadyDL_5248[];
+extern Gfx gDogLadyDL_5318[];
+extern Gfx gDogLadyDL_53E8[];
+extern Gfx gDogLadyDL_54B8[];
+extern Gfx gDogLadyDressDL[];
+
+#endif

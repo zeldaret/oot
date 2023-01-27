@@ -1,0 +1,50 @@
+#ifndef OBJECT_CNE_H
+#define OBJECT_CNE_H 1
+
+extern StandardLimb object_cne_Limb_000000;
+extern StandardLimb object_cne_Limb_00000C;
+extern StandardLimb object_cne_Limb_000018;
+extern StandardLimb object_cne_Limb_000024;
+extern StandardLimb object_cne_Limb_000030;
+extern StandardLimb object_cne_Limb_00003C;
+extern StandardLimb object_cne_Limb_000048;
+extern StandardLimb object_cne_Limb_000054;
+extern StandardLimb object_cne_Limb_000060;
+extern StandardLimb object_cne_Limb_00006C;
+extern StandardLimb object_cne_Limb_000078;
+extern StandardLimb object_cne_Limb_000084;
+extern StandardLimb object_cne_Limb_000090;
+extern StandardLimb object_cne_Limb_00009C;
+extern StandardLimb object_cne_Limb_0000A8;
+extern void* object_cne_Skel_0000F0Limbs[];
+extern FlexSkeletonHeader object_cne_Skel_0000F0;
+extern u32 object_cne_TLUT_0000FC[];
+extern u32 object_cne_Tex_0002FC[];
+extern u32 object_cne_Tex_00033C[];
+extern u32 object_cne_Tex_00037C[];
+extern u32 object_cne_Tex_0003BC[];
+extern u32 object_cne_Tex_0003FC[];
+extern u32 object_cne_Tex_00047C[];
+extern u32 object_cne_Tex_0004BC[];
+extern Vtx object_cneVtx_000500[];
+extern Gfx object_cne_DL_001300[];
+extern Gfx object_cne_DL_001608[];
+extern Gfx object_cne_DL_0016E8[];
+extern Gfx object_cne_DL_001808[];
+extern Gfx object_cne_DL_0018C8[];
+extern Gfx object_cne_DL_0019A8[];
+extern Gfx object_cne_DL_001AC8[];
+extern Gfx object_cne_DL_001B88[];
+extern Gfx object_cne_DL_001E50[];
+extern Gfx object_cne_DL_001F18[];
+extern Gfx object_cne_DL_001FE0[];
+extern Gfx object_cne_DL_0020A8[];
+extern Gfx object_cne_DL_002170[];
+extern Gfx object_cne_DL_002238[];
+extern Gfx object_cne_DL_002300[];
+extern u64 object_cne_Tex_0023D0[];
+extern u64 object_cne_Tex_0024D0[];
+extern Vtx object_cneVtx_002550[];
+extern Gfx object_cne_DL_002860[];
+
+#endif

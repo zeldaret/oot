@@ -36,8 +36,8 @@ SceneCmd HAKAdan_room_2Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HAKAdan_room_2PolygonType2_0001A0),
-    SCENE_CMD_OBJECT_LIST(6, HAKAdan_room_2ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(21, HAKAdan_room_2ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(7, HAKAdan_room_2ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(22, HAKAdan_room_2ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -48,6 +48,7 @@ s16 HAKAdan_room_2ObjectList_000040[] = {
     OBJECT_SYOKUDAI,
     OBJECT_D_HSBLOCK,
     OBJECT_DEMO_KEKKAI,
+    OBJECT_VM,
 };
 
 ActorEntry HAKAdan_room_2ActorList_00004C[] = {
@@ -72,6 +73,7 @@ ActorEntry HAKAdan_room_2ActorList_00004C[] = {
     { ACTOR_OBJ_KIBAKO,       {    363,    -63,     -7 }, {      0,      0,      0 }, 0x310E },
     { ACTOR_OBJ_KIBAKO,       {    363,    -63,    -62 }, {      0,      0,      0 }, 0x3904 },
     { ACTOR_OBJ_KIBAKO,       {    365,    336,     52 }, {      0,      0,      0 }, 0x3A03 },
+    { ACTOR_EN_VM,            {   3358,   -543,     55 }, {      0, 0XC000,      0 }, 0x0C00 },
 };
 
 u8 HAKAdan_room_2_possiblePadding_00019C[] = {

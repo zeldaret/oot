@@ -1,0 +1,53 @@
+#ifndef OBJECT_JS_H
+#define OBJECT_JS_H 1
+
+extern s16 sCarpetMerchantIdleAnimFrameData[];
+extern JointIndex sCarpetMerchantIdleAnimJointIndices[];
+extern AnimationHeader gCarpetMerchantIdleAnim;
+extern s16 sCarpetMerchantSlappingKneeAnimFrameData[];
+extern JointIndex sCarpetMerchantSlappingKneeAnimJointIndices[];
+extern AnimationHeader gCarpetMerchantSlappingKneeAnim;
+extern Vtx object_jsVtx_000470[];
+extern Gfx gCarpetMerchantBlanketAndLowerBodyDL[];
+extern Gfx gCarpetMerchantUpperHairDL[];
+extern Gfx gCarpetMerchantLowerHairDL[];
+extern Gfx gCarpetMerchantTorsoDL[];
+extern Gfx gCarpetMerchantHeadDL[];
+extern Gfx gCarpetMerchantUpperArmRightDL[];
+extern Gfx gCarpetMerchantForearmRightDL[];
+extern Gfx gCarpetMerchantRightHandDL[];
+extern Gfx gCarpetMerchantUpperArmLeftDL[];
+extern Gfx gCarpetMerchantForearmLeftDL[];
+extern Gfx gCarpetMerchantLeftHandDL[];
+extern u64 gCarpetMerchantTLUT[];
+extern u64 gCarpetMerchantPantsTex[];
+extern u64 gCarpetMerchantHairTex[];
+extern u64 gCarpetMerchantFootTex[];
+extern u64 gCarpetMerchantSkinGradientTex[];
+extern u64 gCarpetMerchantFootSoleTex[];
+extern u64 gCarpetMerchantHandTex[];
+extern u64 gCarpetMerchantBraceletTex[];
+extern u64 gCarpetMerchantShirtTex[];
+extern u64 gCarpetMerchantChestTex[];
+extern u64 gCarpetMerchantHatTex[];
+extern StandardLimb gCarpetMerchantRootLimb;
+extern StandardLimb gCarpetMerchantTopRootLimb;
+extern StandardLimb gCarpetMerchantLowerHairLimb;
+extern StandardLimb gCarpetMerchantUpperHairLimb;
+extern StandardLimb gCarpetMerchantTorsoLimb;
+extern StandardLimb gCarpetMerchantUpperArmLeftLimb;
+extern StandardLimb gCarpetMerchantForearmLeftLimb;
+extern StandardLimb gCarpetMerchantLeftHandLimb;
+extern StandardLimb gCarpetMerchantUpperArmRightLimb;
+extern StandardLimb gCarpetMerchantForearmRightLimb;
+extern StandardLimb gCarpetMerchantRightHandLimb;
+extern StandardLimb gCarpetMerchantHeadLimb;
+extern void* gCarpetMerchantSkelLimbs[];
+extern FlexSkeletonHeader gCarpetMerchantSkel;
+extern CamData gCarpetMerchantColCamDataList[];
+extern SurfaceType gCarpetMerchantColSurfaceType[];
+extern CollisionPoly gCarpetMerchantColPolygons[];
+extern Vec3s gCarpetMerchantColVertices[];
+extern CollisionHeader gCarpetMerchantCol;
+
+#endif

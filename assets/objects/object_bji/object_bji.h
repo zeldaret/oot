@@ -1,0 +1,54 @@
+#ifndef OBJECT_BJI_H
+#define OBJECT_BJI_H 1
+
+extern StandardLimb object_bji_Limb_000000;
+extern StandardLimb object_bji_Limb_00000C;
+extern StandardLimb object_bji_Limb_000018;
+extern StandardLimb object_bji_Limb_000024;
+extern StandardLimb object_bji_Limb_000030;
+extern StandardLimb object_bji_Limb_00003C;
+extern StandardLimb object_bji_Limb_000048;
+extern StandardLimb object_bji_Limb_000054;
+extern StandardLimb object_bji_Limb_000060;
+extern StandardLimb object_bji_Limb_00006C;
+extern StandardLimb object_bji_Limb_000078;
+extern StandardLimb object_bji_Limb_000084;
+extern StandardLimb object_bji_Limb_000090;
+extern StandardLimb object_bji_Limb_00009C;
+extern StandardLimb object_bji_Limb_0000A8;
+extern void* object_bji_Skel_0000F0Limbs[];
+extern FlexSkeletonHeader object_bji_Skel_0000F0;
+extern u32 object_bji_TLUT_0000FC[];
+extern u32 object_bji_Tex_0002FC[];
+extern u32 object_bji_Tex_00033C[];
+extern u32 object_bji_Tex_00037C[];
+extern u32 object_bji_Tex_00047C[];
+extern u32 object_bji_Tex_0004BC[];
+extern u32 object_bji_Tex_0004FC[];
+extern u32 object_bji_Tex_0005FC[];
+extern u32 object_bji_Tex_0009FC[];
+extern u32 object_bji_Tex_000DFC[];
+extern u32 object_bji_Tex_0011FC[];
+extern Vtx object_bjiVtx_001240[];
+extern Gfx object_bji_DL_002560[];
+extern Gfx object_bji_DL_002B88[];
+extern Gfx object_bji_DL_002C50[];
+extern Gfx object_bji_DL_002D40[];
+extern Gfx object_bji_DL_002E40[];
+extern Gfx object_bji_DL_002F08[];
+extern Gfx object_bji_DL_002FF8[];
+extern Gfx object_bji_DL_0030F8[];
+extern Gfx object_bji_DL_003328[];
+extern Gfx object_bji_DL_0033F0[];
+extern Gfx object_bji_DL_0034B8[];
+extern Gfx object_bji_DL_003580[];
+extern Gfx object_bji_DL_003648[];
+extern Gfx object_bji_DL_003710[];
+extern Gfx object_bji_DL_0037D8[];
+extern u64 object_bji_Tex_003908[];
+extern u64 object_bji_Tex_003988[];
+extern u64 object_bji_Tex_003A08[];
+extern Vtx object_bjiVtx_003A88[];
+extern Gfx object_bji_DL_003F68[];
+
+#endif

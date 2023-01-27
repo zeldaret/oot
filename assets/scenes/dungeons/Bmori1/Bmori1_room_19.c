@@ -59,7 +59,7 @@ ActorEntry Bmori1_room_19ActorList_000054[] = {
     { ACTOR_ELF_MSG2,       {  -1552,   1429,  -3468 }, {      0,   0X14,      0 }, 0x3F92 },
     { ACTOR_BG_MORI_HINERI, {  -1761,   1278,  -3015 }, {      0,      0,      0 }, 0x3F13 },
     { ACTOR_ELF_MSG,        {  -1773,   1206,  -3127 }, {      0,      0,      0 }, 0x1691 },
-    { ACTOR_EN_BB,          {  -1759,   1276,  -2255 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BB,          {  -1759,   1276,  -2255 }, {      0,      0,      0 }, 0x01FC },
 };
 
 u8 Bmori1_room_19_possiblePadding_000094[] = {

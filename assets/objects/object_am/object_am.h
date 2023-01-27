@@ -1,0 +1,55 @@
+#ifndef OBJECT_AM_H
+#define OBJECT_AM_H 1
+
+extern CamData gArmosColCamDataList[];
+extern SurfaceType gArmosColSurfaceType[];
+extern CollisionPoly gArmosColPolygons[];
+extern Vec3s gArmosColVertices[];
+extern CollisionHeader gArmosCol;
+extern s16 sArmosHopAnimFrameData[];
+extern JointIndex sArmosHopAnimJointIndices[];
+extern AnimationHeader gArmosHopAnim;
+extern s16 sArmosRicochetAnimFrameData[];
+extern JointIndex sArmosRicochetAnimJointIndices[];
+extern AnimationHeader gArmosRicochetAnim;
+extern Vtx object_amVtx_000350[];
+extern Gfx gArmosSkelLimbsLimb_005908DL_0005D0[];
+extern Vtx object_amVtx_000838[];
+extern Gfx gArmosSkelLimbsLimb_00589CDL_0016C8[];
+extern Vtx object_amVtx_001EA8[];
+extern Gfx gArmosSkelLimbsLimb_0058E4DL_002278[];
+extern Vtx object_amVtx_002440[];
+extern Gfx gArmosSkelLimbsLimb_0058C0DL_002550[];
+extern u64 object_amTex_002638[];
+extern u64 object_amTex_002838[];
+extern u64 object_amTex_002938[];
+extern u64 object_amTex_002D38[];
+extern u64 object_amTex_002E38[];
+extern u64 object_amTex_003038[];
+extern u64 object_amTex_003238[];
+extern u64 object_amTex_003A38[];
+extern u64 object_amTex_003C38[];
+extern u64 object_amTex_004438[];
+extern u64 object_amTex_004C38[];
+extern u64 object_amTex_005438[];
+extern u64 object_amTex_005478[];
+extern StandardLimb gArmosSkelLimbsLimb_005878;
+extern StandardLimb gArmosSkelLimbsLimb_005884;
+extern StandardLimb gArmosSkelLimbsLimb_005890;
+extern StandardLimb gArmosSkelLimbsLimb_00589C;
+extern StandardLimb gArmosSkelLimbsLimb_0058A8;
+extern StandardLimb gArmosSkelLimbsLimb_0058B4;
+extern StandardLimb gArmosSkelLimbsLimb_0058C0;
+extern StandardLimb gArmosSkelLimbsLimb_0058CC;
+extern StandardLimb gArmosSkelLimbsLimb_0058D8;
+extern StandardLimb gArmosSkelLimbsLimb_0058E4;
+extern StandardLimb gArmosSkelLimbsLimb_0058F0;
+extern StandardLimb gArmosSkelLimbsLimb_0058FC;
+extern StandardLimb gArmosSkelLimbsLimb_005908;
+extern void* gArmosSkelLimbs[];
+extern SkeletonHeader gArmosSkel;
+extern s16 sArmosDamagedAnimFrameData[];
+extern JointIndex sArmosDamagedAnimJointIndices[];
+extern AnimationHeader gArmosDamagedAnim;
+
+#endif

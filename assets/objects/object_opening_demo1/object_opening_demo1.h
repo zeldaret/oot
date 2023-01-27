@@ -1,0 +1,26 @@
+#ifndef OBJECT_OPENING_DEMO1_H
+#define OBJECT_OPENING_DEMO1_H 1
+
+extern s16 object_opening_demo1_Anim_000450FrameData[];
+extern JointIndex object_opening_demo1_Anim_000450JointIndices[];
+extern AnimationHeader object_opening_demo1_Anim_000450;
+extern s16 object_opening_demo1_Anim_001410FrameData[];
+extern JointIndex object_opening_demo1_Anim_001410JointIndices[];
+extern AnimationHeader object_opening_demo1_Anim_001410;
+extern s16 object_opening_demo1_Anim_002574FrameData[];
+extern JointIndex object_opening_demo1_Anim_002574JointIndices[];
+extern AnimationHeader object_opening_demo1_Anim_002574;
+extern s16 object_opening_demo1_Anim_0029CCFrameData[];
+extern JointIndex object_opening_demo1_Anim_0029CCJointIndices[];
+extern AnimationHeader object_opening_demo1_Anim_0029CC;
+extern s16 object_opening_demo1_Anim_00420CFrameData[];
+extern JointIndex object_opening_demo1_Anim_00420CJointIndices[];
+extern AnimationHeader object_opening_demo1_Anim_00420C;
+extern s16 object_opening_demo1_Anim_0048FCFrameData[];
+extern JointIndex object_opening_demo1_Anim_0048FCJointIndices[];
+extern AnimationHeader object_opening_demo1_Anim_0048FC;
+extern s16 object_opening_demo1_Anim_00504CFrameData[];
+extern JointIndex object_opening_demo1_Anim_00504CJointIndices[];
+extern AnimationHeader object_opening_demo1_Anim_00504C;
+
+#endif

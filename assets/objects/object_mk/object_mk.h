@@ -1,0 +1,55 @@
+#ifndef OBJECT_MK_H
+#define OBJECT_MK_H 1
+
+extern s16 object_mk_Anim_000368FrameData[];
+extern JointIndex object_mk_Anim_000368JointIndices[];
+extern AnimationHeader object_mk_Anim_000368;
+extern s16 object_mk_Anim_000724FrameData[];
+extern JointIndex object_mk_Anim_000724JointIndices[];
+extern AnimationHeader object_mk_Anim_000724;
+extern s16 object_mk_Anim_000AC0FrameData[];
+extern JointIndex object_mk_Anim_000AC0JointIndices[];
+extern AnimationHeader object_mk_Anim_000AC0;
+extern s16 object_mk_Anim_000D88FrameData[];
+extern JointIndex object_mk_Anim_000D88JointIndices[];
+extern AnimationHeader object_mk_Anim_000D88;
+extern Vtx object_mkVtx_000DA0[];
+extern Gfx object_mk_DL_003470[];
+extern Gfx object_mk_DL_003760[];
+extern Gfx object_mk_DL_003AB0[];
+extern Gfx object_mk_DL_003BC8[];
+extern Gfx object_mk_DL_0042D0[];
+extern Gfx object_mk_DL_004650[];
+extern Gfx object_mk_DL_004780[];
+extern Gfx object_mk_DL_0048B0[];
+extern Gfx object_mk_DL_004A00[];
+extern Gfx object_mk_DL_004B30[];
+extern Gfx object_mk_DL_004C60[];
+extern Gfx object_mk_DL_004DB0[];
+extern u64 object_mk_TLUT_004F30[];
+extern u64 object_mk_Tex_005130[];
+extern u64 object_mk_Tex_005170[];
+extern u64 object_mk_Tex_005270[];
+extern u64 object_mk_Tex_0052B0[];
+extern u64 object_mk_Tex_0052F0[];
+extern u64 object_mk_Tex_005370[];
+extern u64 object_mk_Tex_005B70[];
+extern u64 object_mk_Tex_005BB0[];
+extern u64 object_mk_Tex_005BF0[];
+extern u64 object_mk_Tex_005C30[];
+extern StandardLimb object_mk_Limb_005D30;
+extern StandardLimb object_mk_Limb_005D3C;
+extern StandardLimb object_mk_Limb_005D48;
+extern StandardLimb object_mk_Limb_005D54;
+extern StandardLimb object_mk_Limb_005D60;
+extern StandardLimb object_mk_Limb_005D6C;
+extern StandardLimb object_mk_Limb_005D78;
+extern StandardLimb object_mk_Limb_005D84;
+extern StandardLimb object_mk_Limb_005D90;
+extern StandardLimb object_mk_Limb_005D9C;
+extern StandardLimb object_mk_Limb_005DA8;
+extern StandardLimb object_mk_Limb_005DB4;
+extern void* object_mk_Skel_005DF0Limbs[];
+extern FlexSkeletonHeader object_mk_Skel_005DF0;
+
+#endif

@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_0PolygonType2_000100),
-    SCENE_CMD_OBJECT_LIST(4, HIDAN_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(11, HIDAN_room_0ActorList_000048),
+    SCENE_CMD_OBJECT_LIST(5, HIDAN_room_0ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(13, HIDAN_room_0ActorList_000048),
     SCENE_CMD_END(),
 };
 
@@ -50,6 +50,7 @@ s16 HIDAN_room_0ObjectList_000040[] = {
     OBJECT_BOX,
     OBJECT_SYOKUDAI,
     OBJECT_DOOR_KILLER,
+    OBJECT_FIREFLY,
 };
 
 ActorEntry HIDAN_room_0ActorList_000048[] = {
@@ -64,6 +65,8 @@ ActorEntry HIDAN_room_0ActorList_000048[] = {
     { ACTOR_OBJ_SYOKUDAI,      {    131,    160,    329 }, {      0,      0,      0 }, 0x1128 },
     { ACTOR_OBJ_TSUBO,         {   -357,      0,    957 }, {      0,      0,      0 }, 0x560F },
     { ACTOR_OBJ_TSUBO,         {    356,      1,    959 }, {      0,      0,      0 }, 0x580F },
+    { ACTOR_EN_FIREFLY,        {   -186,    404,    -42 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,        {    185,    362,    -17 }, {      0,      0,      0 }, 0x0000 },
 };
 
 u8 HIDAN_room_0_possiblePadding_0000F8[] = {

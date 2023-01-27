@@ -1,0 +1,50 @@
+#ifndef OBJECT_BOB_H
+#define OBJECT_BOB_H 1
+
+extern StandardLimb object_bob_Limb_000000;
+extern StandardLimb object_bob_Limb_00000C;
+extern StandardLimb object_bob_Limb_000018;
+extern StandardLimb object_bob_Limb_000024;
+extern StandardLimb object_bob_Limb_000030;
+extern StandardLimb object_bob_Limb_00003C;
+extern StandardLimb object_bob_Limb_000048;
+extern StandardLimb object_bob_Limb_000054;
+extern StandardLimb object_bob_Limb_000060;
+extern StandardLimb object_bob_Limb_00006C;
+extern StandardLimb object_bob_Limb_000078;
+extern StandardLimb object_bob_Limb_000084;
+extern StandardLimb object_bob_Limb_000090;
+extern StandardLimb object_bob_Limb_00009C;
+extern StandardLimb object_bob_Limb_0000A8;
+extern void* object_bob_Skel_0000F0Limbs[];
+extern FlexSkeletonHeader object_bob_Skel_0000F0;
+extern u64 object_bob_TLUT_000108[];
+extern u64 object_bob_Tex_000308[];
+extern u64 object_bob_Tex_000348[];
+extern u64 object_bob_Tex_000388[];
+extern u64 object_bob_Tex_000788[];
+extern u64 object_bob_Tex_0007C8[];
+extern u64 object_bob_Tex_000FC8[];
+extern u64 object_bob_Tex_0017C8[];
+extern u64 object_bob_Tex_001FC8[];
+extern u64 object_bob_Tex_0020C8[];
+extern u64 object_bob_Tex_0021C8[];
+extern u64 object_bob_Tex_002208[];
+extern Vtx object_bobVtx_002308[];
+extern Gfx object_bob_DL_003B78[];
+extern Gfx object_bob_DL_003F68[];
+extern Gfx object_bob_DL_0040B0[];
+extern Gfx object_bob_DL_0041E0[];
+extern Gfx object_bob_DL_004310[];
+extern Gfx object_bob_DL_004458[];
+extern Gfx object_bob_DL_004588[];
+extern Gfx object_bob_DL_0046B8[];
+extern Gfx object_bob_DL_004A48[];
+extern Gfx object_bob_DL_004B18[];
+extern Gfx object_bob_DL_004BE8[];
+extern Gfx object_bob_DL_004C38[];
+extern Gfx object_bob_DL_004D08[];
+extern Gfx object_bob_DL_004DD8[];
+extern Gfx object_bob_DL_004E28[];
+
+#endif

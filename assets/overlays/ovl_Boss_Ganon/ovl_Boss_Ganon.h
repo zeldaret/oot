@@ -1,0 +1,50 @@
+#ifndef OVL_BOSS_GANON_H
+#define OVL_BOSS_GANON_H 1
+
+extern Gfx gDorfShadowSetupDL[];
+extern Gfx gDorfShadowModelDL[];
+extern Gfx gDorfTriforceDL[];
+extern Gfx gDorfWindowShardMaterialDL[];
+extern Gfx gDorfWindowShardModelDL[];
+extern u64 gDorfWindowShatterTemplateTex[];
+extern Gfx gDorfLightBallMaterialDL[];
+extern Gfx gDorfSquareDL[];
+extern u64 gDorfLightning1Tex[];
+extern u64 gDorfLightning2Tex[];
+extern u64 gDorfLightning3Tex[];
+extern u64 gDorfLightning4Tex[];
+extern u64 gDorfLightning5Tex[];
+extern u64 gDorfLightning6Tex[];
+extern u64 gDorfLightning7Tex[];
+extern u64 gDorfLightning8Tex[];
+extern u64 gDorfLightning9Tex[];
+extern u64 gDorfLightning10Tex[];
+extern u64 gDorfLightning11Tex[];
+extern u64 gDorfLightning12Tex[];
+extern Gfx gDorfLightningDL[];
+extern Gfx gDorfUnusedDL[];
+extern Gfx gDorfLightRayTriDL[];
+extern Gfx gDorfLightFlecksDL[];
+extern Gfx gDorfBigMagicBGCircleDL[];
+extern Gfx gDorfDotDL[];
+extern Gfx gDorfShockwaveDL[];
+extern Gfx gDorfImpactDarkDL[];
+extern Gfx gDorfImpactLightDL[];
+extern Gfx gDorfShockGlowDL[];
+extern Gfx gDorfLightStreak1DL[];
+extern Gfx gDorfLightStreak2DL[];
+extern Gfx gDorfLightStreak3DL[];
+extern Gfx gDorfLightStreak4DL[];
+extern Gfx gDorfLightStreak5DL[];
+extern Gfx gDorfLightStreak6DL[];
+extern Gfx gDorfLightStreak7DL[];
+extern Gfx gDorfLightStreak8DL[];
+extern Gfx gDorfLightStreak9DL[];
+extern Gfx gDorfLightStreak10DL[];
+extern Gfx gDorfLightStreak11DL[];
+extern Gfx gDorfLightStreak12DL[];
+extern Gfx gDorfLightCoreDL[];
+extern Gfx gDorfShockDL[];
+extern Gfx gDorfVortexDL[];
+
+#endif

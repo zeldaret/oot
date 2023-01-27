@@ -23,8 +23,8 @@ SceneCmd ganon_room_1Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ganon_room_1PolygonType0_0000A0),
-    SCENE_CMD_OBJECT_LIST(5, ganon_room_1ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(5, ganon_room_1ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(6, ganon_room_1ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(6, ganon_room_1ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -34,6 +34,7 @@ s16 ganon_room_1ObjectList_000040[] = {
     OBJECT_TRAP,
     OBJECT_FIREFLY,
     OBJECT_ZF,
+    OBJECT_WALLMASTER,
 };
 
 ActorEntry ganon_room_1ActorList_00004C[] = {
@@ -42,6 +43,7 @@ ActorEntry ganon_room_1ActorList_00004C[] = {
     { ACTOR_EN_LIGHT, {    491,    180,   -254 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT, {    362,    240,   -382 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT, {    -84,    340,   -519 }, {      0,      0,      0 }, 0x03F4 },
+    { ACTOR_EN_FLOORMAS, {    425,    160,   -451 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 ganon_room_1_possiblePadding_00009C[] = {

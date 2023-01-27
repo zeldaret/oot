@@ -1,0 +1,49 @@
+#ifndef OBJECT_TORCH2_H
+#define OBJECT_TORCH2_H 1
+
+extern Vtx object_torch2Vtx_000000[];
+extern Gfx gDarkLinkSkelLimbsLimb_0045D0FarDL_002BD0[];
+extern Gfx gDarkLinkSkelLimbsLimb_0045F0FarDL_002CD0[];
+extern Gfx gDarkLinkSkelLimbsLimb_004600FarDL_002E10[];
+extern Gfx gDarkLinkSkelLimbsLimb_004610FarDL_002F38[];
+extern Gfx gDarkLinkSkelLimbsLimb_004620FarDL_003030[];
+extern Gfx gDarkLinkSkelLimbsLimb_004630FarDL_003178[];
+extern Gfx gDarkLinkSkelLimbsLimb_004640FarDL_0032A0[];
+extern Gfx gDarkLinkSkelLimbsLimb_004670FarDL_003398[];
+extern Gfx gDarkLinkSkelLimbsLimb_004660FarDL_003490[];
+extern Gfx sDarkLinkSheathDL[];
+extern Gfx gDarkLinkSkelLimbsLimb_004680FarDL_003820[];
+extern Gfx gDarkLinkSkelLimbsLimb_004700FarDL_0038D0[];
+extern Gfx gDarkLinkSkelLimbsLimb_0046C0FarDL_0039E8[];
+extern Gfx gDarkLinkSkelLimbsLimb_0046D0FarDL_003B08[];
+extern Gfx gDarkLinkSkelLimbsLimb_0046E0FarDL_003C10[];
+extern Gfx gDarkLinkSkelLimbsLimb_004690FarDL_003D70[];
+extern Gfx gDarkLinkSkelLimbsLimb_0046A0FarDL_003E90[];
+extern Gfx gDarkLinkSkelLimbsLimb_0046B0FarDL_003F98[];
+extern u64 object_torch2Tex_0041C0[];
+extern u64 object_torch2Tex_0043C0[];
+extern LodLimb gDarkLinkSkelLimbsLimb_0045C0;
+extern LodLimb gDarkLinkSkelLimbsLimb_0045D0;
+extern LodLimb gDarkLinkSkelLimbsLimb_0045E0;
+extern LodLimb gDarkLinkSkelLimbsLimb_0045F0;
+extern LodLimb gDarkLinkSkelLimbsLimb_004600;
+extern LodLimb gDarkLinkSkelLimbsLimb_004610;
+extern LodLimb gDarkLinkSkelLimbsLimb_004620;
+extern LodLimb gDarkLinkSkelLimbsLimb_004630;
+extern LodLimb gDarkLinkSkelLimbsLimb_004640;
+extern LodLimb gDarkLinkSkelLimbsLimb_004650;
+extern LodLimb gDarkLinkSkelLimbsLimb_004660;
+extern LodLimb gDarkLinkSkelLimbsLimb_004670;
+extern LodLimb gDarkLinkSkelLimbsLimb_004680;
+extern LodLimb gDarkLinkSkelLimbsLimb_004690;
+extern LodLimb gDarkLinkSkelLimbsLimb_0046A0;
+extern LodLimb gDarkLinkSkelLimbsLimb_0046B0;
+extern LodLimb gDarkLinkSkelLimbsLimb_0046C0;
+extern LodLimb gDarkLinkSkelLimbsLimb_0046D0;
+extern LodLimb gDarkLinkSkelLimbsLimb_0046E0;
+extern LodLimb gDarkLinkSkelLimbsLimb_0046F0;
+extern LodLimb gDarkLinkSkelLimbsLimb_004700;
+extern void* gDarkLinkSkelLimbs[];
+extern FlexSkeletonHeader gDarkLinkSkel;
+
+#endif

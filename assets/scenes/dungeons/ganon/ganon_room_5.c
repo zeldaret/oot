@@ -23,14 +23,15 @@ SceneCmd ganon_room_5Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ganon_room_5PolygonType0_0000A0),
-    SCENE_CMD_OBJECT_LIST(2, ganon_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(5, ganon_room_5ActorList_000044),
+    SCENE_CMD_OBJECT_LIST(3, ganon_room_5ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(6, ganon_room_5ActorList_000044),
     SCENE_CMD_END(),
 };
 
 s16 ganon_room_5ObjectList_000040[] = {
     OBJECT_GANON_OBJECTS,
     OBJECT_BDOOR,
+    OBJECT_SK2,
 };
 
 ActorEntry ganon_room_5ActorList_000044[] = {
@@ -39,6 +40,7 @@ ActorEntry ganon_room_5ActorList_000044[] = {
     { ACTOR_EN_LIGHT,       {   -490,    720,    355 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT,       {   -363,    780,    484 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT,       {   -451,    780,    639 }, {      0,      0,      0 }, 0x03F4 },
+    { ACTOR_EN_TEST,        {      0,    794,    569 }, {      0, 0xC444,      0 }, 0xFFFF },
 };
 
 u8 ganon_room_5_possiblePadding_000094[] = {

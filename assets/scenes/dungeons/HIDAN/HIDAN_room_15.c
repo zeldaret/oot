@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_15Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_15PolygonType2_000090),
-    SCENE_CMD_OBJECT_LIST(3, HIDAN_room_15ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(4, HIDAN_room_15ActorList_000048),
+    SCENE_CMD_OBJECT_LIST(5, HIDAN_room_15ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(12, HIDAN_room_15ActorList_000048),
     SCENE_CMD_END(),
 };
 
@@ -49,6 +49,8 @@ s16 HIDAN_room_15ObjectList_000040[] = {
     OBJECT_HIDAN_OBJECTS,
     OBJECT_SK2,
     OBJECT_FIREFLY,
+    OBJECT_BW,
+    OBJECT_SYOKUDAI,
 };
 
 ActorEntry HIDAN_room_15ActorList_000048[] = {
@@ -56,6 +58,14 @@ ActorEntry HIDAN_room_15ActorList_000048[] = {
     { ACTOR_SHOT_SUN,   {    100,      0,   -551 }, {      0,      0,      0 }, 0xFF40 },
     { ACTOR_EN_TEST,    {    102,      0,   -598 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_TEST,    {    283,      0,   -320 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_FIREFLY, {    -50,     97,   -401 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_BW,      {    -29,      0,   -536 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_FIREFLY, {    -17,    159,   -734 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_BW,      {     83,      0,   -723 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_SYOKUDAI, {     97,      0,   -548 }, {      0,      0,      0 }, 0x2400 },
+    { ACTOR_EN_BW,      {    115,      0,   -343 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_FIREFLY, {    220,    138,   -448 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_BW,      {    251,      0,   -583 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 HIDAN_room_15_possiblePadding_000088[] = {

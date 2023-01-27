@@ -1,0 +1,102 @@
+#include "ultra64.h"
+#include "z64.h"
+#include "macros.h"
+#include "object_gi_eye_lotion.h"
+#include "assets/misc/link_animetion/link_animetion.h"
+#include "assets/objects/gameplay_keep/gameplay_keep.h"
+
+Vtx object_gi_eye_lotionVtx_000000[] = {
+#include "assets/objects/object_gi_eye_lotion/object_gi_eye_lotionVtx_000000.vtx.inc"
+};
+
+Gfx gGiEyeDropsCapDL[] = {
+    gsDPPipeSync(),
+    gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2),
+    gsDPSetCombineLERP(TEXEL0, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, 0, 0, 0, 0, PRIMITIVE, ENVIRONMENT, COMBINED,
+                       ENVIRONMENT, 0, 0, 0, 1),
+    gsDPSetPrimColor(0, 0x80, 255, 255, 170, 255),
+    gsDPSetEnvColor(150, 120, 0, 255),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsSPTexture(0x0FA0, 0x0FA0, 0, G_TX_RENDERTILE, G_ON),
+    gsDPLoadTextureBlock(gEffUnknown10Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR
+                         | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPClearGeometryMode(G_CULL_BACK | G_FOG),
+    gsSPSetGeometryMode(G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
+    gsSPVertex(object_gi_eye_lotionVtx_000000, 3, 0),
+    gsSP1Triangle(0, 1, 2, 0),
+    gsSPVertex(&object_gi_eye_lotionVtx_000000[3], 20, 0),
+    gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0),
+    gsSP2Triangles(4, 5, 6, 0, 6, 7, 4, 0),
+    gsSP2Triangles(7, 6, 8, 0, 8, 9, 7, 0),
+    gsSP2Triangles(9, 8, 10, 0, 10, 11, 9, 0),
+    gsSP2Triangles(11, 10, 12, 0, 12, 13, 11, 0),
+    gsSP2Triangles(12, 1, 13, 0, 14, 11, 13, 0),
+    gsSP2Triangles(15, 9, 11, 0, 7, 9, 16, 0),
+    gsSP2Triangles(4, 7, 17, 0, 18, 0, 3, 0),
+    gsSP1Triangle(19, 13, 0, 0),
+    gsSPEndDisplayList(),
+};
+
+Gfx gGiEyeDropsBottleDL[] = {
+    gsDPPipeSync(),
+    gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_SURF2),
+    gsDPSetCombineLERP(TEXEL0, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL0, TEXEL0, PRIM_LOD_FRAC, TEXEL0, PRIMITIVE,
+                       ENVIRONMENT, COMBINED, ENVIRONMENT, 0, 0, 0, COMBINED),
+    gsDPSetPrimColor(0, 0x80, 255, 255, 255, 255),
+    gsDPSetEnvColor(150, 200, 255, 255),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsSPTexture(0x0BB8, 0x0BB8, 0, G_TX_RENDERTILE, G_ON),
+    gsDPLoadTextureBlock(gEffUnknown10Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR
+                         | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD),
+    gsSPClearGeometryMode(G_CULL_BACK | G_FOG),
+    gsSPSetGeometryMode(G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
+    gsSPVertex(&object_gi_eye_lotionVtx_000000[23], 3, 0),
+    gsSP1Triangle(0, 1, 2, 0),
+    gsSPVertex(&object_gi_eye_lotionVtx_000000[26], 16, 0),
+    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+    gsSP2Triangles(4, 5, 3, 0, 3, 2, 4, 0),
+    gsSP2Triangles(6, 7, 8, 0, 9, 10, 11, 0),
+    gsSP2Triangles(12, 9, 11, 0, 12, 6, 8, 0),
+    gsSP2Triangles(8, 9, 12, 0, 7, 6, 5, 0),
+    gsSP2Triangles(13, 14, 1, 0, 5, 15, 7, 0),
+    gsSP1Triangle(1, 0, 13, 0),
+    gsDPPipeSync(),
+    gsDPSetPrimColor(0, 0x80, 170, 255, 255, 255),
+    gsDPSetEnvColor(0, 150, 255, 255),
+    gsSPVertex(&object_gi_eye_lotionVtx_000000[42], 32, 0),
+    gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
+    gsSP2Triangles(4, 5, 6, 0, 7, 5, 4, 0),
+    gsSP2Triangles(4, 6, 3, 0, 4, 3, 0, 0),
+    gsSP2Triangles(8, 9, 10, 0, 10, 9, 11, 0),
+    gsSP2Triangles(12, 13, 14, 0, 14, 13, 7, 0),
+    gsSP2Triangles(11, 12, 14, 0, 10, 11, 14, 0),
+    gsSP2Triangles(7, 4, 14, 0, 14, 0, 10, 0),
+    gsSP2Triangles(4, 0, 14, 0, 15, 16, 17, 0),
+    gsSP2Triangles(17, 16, 18, 0, 19, 20, 21, 0),
+    gsSP2Triangles(21, 20, 22, 0, 18, 19, 21, 0),
+    gsSP2Triangles(17, 18, 21, 0, 23, 24, 25, 0),
+    gsSP2Triangles(26, 24, 23, 0, 27, 28, 29, 0),
+    gsSP2Triangles(22, 28, 27, 0, 27, 29, 26, 0),
+    gsSP2Triangles(27, 26, 23, 0, 27, 21, 22, 0),
+    gsSP2Triangles(23, 17, 27, 0, 27, 17, 21, 0),
+    gsSP2Triangles(15, 2, 1, 0, 16, 1, 3, 0),
+    gsSP2Triangles(19, 18, 3, 0, 19, 6, 5, 0),
+    gsSP2Triangles(20, 5, 7, 0, 8, 30, 31, 0),
+    gsSPVertex(&object_gi_eye_lotionVtx_000000[74], 21, 0),
+    gsSP2Triangles(0, 1, 2, 0, 2, 3, 4, 0),
+    gsSP2Triangles(4, 3, 5, 0, 6, 5, 7, 0),
+    gsSP2Triangles(8, 9, 10, 0, 11, 12, 9, 0),
+    gsSP2Triangles(11, 13, 14, 0, 15, 16, 14, 0),
+    gsSP2Triangles(17, 18, 16, 0, 1, 0, 19, 0),
+    gsSP2Triangles(2, 20, 0, 0, 4, 20, 2, 0),
+    gsSP2Triangles(5, 6, 4, 0, 7, 17, 6, 0),
+    gsDPPipeSync(),
+    gsDPSetPrimColor(0, 0x80, 170, 255, 255, 255),
+    gsDPSetEnvColor(0, 200, 255, 255),
+    gsSPVertex(&object_gi_eye_lotionVtx_000000[95], 9, 0),
+    gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0),
+    gsSP2Triangles(2, 4, 3, 0, 5, 6, 3, 0),
+    gsSP2Triangles(5, 7, 6, 0, 7, 8, 6, 0),
+    gsSPEndDisplayList(),
+};
+

@@ -1,0 +1,56 @@
+#ifndef OBJECT_OF1S_H
+#define OBJECT_OF1S_H 1
+
+extern StandardLimb object_oF1s_Limb_000000;
+extern StandardLimb object_oF1s_Limb_00000C;
+extern StandardLimb object_oF1s_Limb_000018;
+extern StandardLimb object_oF1s_Limb_000024;
+extern StandardLimb object_oF1s_Limb_000030;
+extern StandardLimb object_oF1s_Limb_00003C;
+extern StandardLimb object_oF1s_Limb_000048;
+extern StandardLimb object_oF1s_Limb_000054;
+extern StandardLimb object_oF1s_Limb_000060;
+extern StandardLimb object_oF1s_Limb_00006C;
+extern StandardLimb object_oF1s_Limb_000078;
+extern StandardLimb object_oF1s_Limb_000084;
+extern StandardLimb object_oF1s_Limb_000090;
+extern StandardLimb object_oF1s_Limb_00009C;
+extern StandardLimb object_oF1s_Limb_0000A8;
+extern StandardLimb object_oF1s_Limb_0000B4;
+extern StandardLimb object_oF1s_Limb_0000C0;
+extern void* object_oF1s_Skel_000110Limbs[];
+extern FlexSkeletonHeader object_oF1s_Skel_000110;
+extern u32 object_oF1s_TLUT_00011C[];
+extern u32 object_oF1sTLUT_0002CC[];
+extern u32 object_oF1s_Tex_0004BC[];
+extern u32 object_oF1s_Tex_0008BC[];
+extern u32 object_oF1s_Tex_0018BC[];
+extern u32 object_oF1s_Tex_0018FC[];
+extern u32 object_oF1s_Tex_0019FC[];
+extern u32 object_oF1s_Tex_001AFC[];
+extern u32 object_oF1s_Tex_001B7C[];
+extern u32 object_oF1s_Tex_001F7C[];
+extern u8 object_oF1s_Blob_00217C[];
+extern u32 object_oF1s_Tex_00257C[];
+extern u32 object_oF1s_Tex_0025BC[];
+extern u8 object_oF1s_Blob_0029BC[];
+extern u32 object_oF1s_Tex_002DBC[];
+extern Vtx object_oF1sVtx_0035C0[];
+extern Gfx object_oF1s_DL_006A40[];
+extern Gfx object_oF1s_DL_006DE8[];
+extern Gfx object_oF1s_DL_006FF8[];
+extern Gfx object_oF1s_DL_0071C8[];
+extern Gfx object_oF1s_DL_007328[];
+extern Gfx object_oF1s_DL_007548[];
+extern Gfx object_oF1s_DL_007748[];
+extern Gfx object_oF1s_DL_007880[];
+extern Gfx object_oF1s_DL_007A40[];
+extern Gfx object_oF1s_DL_007C10[];
+extern Gfx object_oF1s_DL_007D70[];
+extern Gfx object_oF1s_DL_007F90[];
+extern Gfx object_oF1s_DL_008190[];
+extern Gfx object_oF1s_DL_0082C8[];
+extern Gfx object_oF1s_DL_008488[];
+extern Gfx object_oF1s_DL_0084E0[];
+
+#endif

@@ -26,7 +26,7 @@ SceneCmd ydan_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ydan_room_0PolygonType2_000270),
     SCENE_CMD_OBJECT_LIST(14, ydan_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(33, ydan_room_0ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(36, ydan_room_0ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -81,6 +81,9 @@ ActorEntry ydan_room_0ActorList_00005C[] = {
     { ACTOR_BG_YDAN_SP,   {      0,      0,      0 }, {      0, 0X4000,      0 }, 0x0FC5 },
     { ACTOR_BG_YDAN_SP,   {   -491,    800,     -1 }, {      0, 0X4000,      0 }, 0x19CA },
     { ACTOR_BG_YDAN_SP,   {   -388,    400,    389 }, {      0, 0X6000,      0 }, 0x1FD6 },
+    { ACTOR_EN_DEKUBABA,  {   -218,      0,     63 }, {      0, 0XCFA5,      0 }, 0x0000 },
+    { ACTOR_EN_DEKUBABA,  {    -41,      0,   -230 }, {      0, 0X8000,      0 }, 0x0000 },
+    { ACTOR_EN_DEKUBABA,  {    194,      0,    105 }, {      0, 0X305B,      0 }, 0x0000 },
 };
 
 u8 ydan_room_0_possiblePadding_00026C[] = {

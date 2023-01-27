@@ -1,0 +1,51 @@
+#ifndef OBJECT_KM1_H
+#define OBJECT_KM1_H 1
+
+extern StandardLimb gKm1SkelLimb_000000;
+extern StandardLimb gKm1SkelLimb_00000C;
+extern StandardLimb gKm1SkelLimb_000018;
+extern StandardLimb gKm1SkelLimb_000024;
+extern StandardLimb gKm1SkelLimb_000030;
+extern StandardLimb gKm1SkelLimb_00003C;
+extern StandardLimb gKm1SkelLimb_000048;
+extern StandardLimb gKm1SkelLimb_000054;
+extern StandardLimb gKm1SkelLimb_000060;
+extern StandardLimb gKm1SkelLimb_00006C;
+extern StandardLimb gKm1SkelLimb_000078;
+extern StandardLimb gKm1SkelLimb_000084;
+extern StandardLimb gKm1SkelLimb_000090;
+extern StandardLimb gKm1SkelLimb_00009C;
+extern StandardLimb gKm1SkelLimb_0000A8;
+extern void* gKm1SkelLimbs[];
+extern FlexSkeletonHeader gKm1Skel;
+extern u32 gKm1TLUT_0000FC[];
+extern u32 gKm1TunicTex[];
+extern u32 gKm1BootWrinkleTex[];
+extern u32 gKm1Skin1Tex[];
+extern u32 gKm1TunicFringeTex[];
+extern u32 gKm1UnusedHairTex[];
+extern u32 gKm1Ear1Tex[];
+extern u32 gKm1HandTex[];
+extern u32 gKm1TLUT_00083C[];
+extern u32 gKm1Ear2Tex[];
+extern u32 gKm1Skin2Tex[];
+extern u32 gKm1HairTex[];
+extern Vtx object_km1Vtx_000B80[];
+extern Gfx gKm1DL[];
+extern Vtx object_km1Vtx_001DC8[];
+extern Gfx gKm1SkelLimb_000054DL_003F08[];
+extern Gfx gKm1SkelLimb_000084DL_004138[];
+extern Gfx gKm1SkelLimb_000090DL_004370[];
+extern Gfx gKm1SkelLimb_00009CDL_0044A8[];
+extern Gfx gKm1SkelLimb_000060DL_0047A0[];
+extern Gfx gKm1SkelLimb_00006CDL_0049D8[];
+extern Gfx gKm1SkelLimb_000078DL_004B10[];
+extern Gfx gKm1SkelLimb_000000DL_004D90[];
+extern Gfx gKm1SkelLimb_000030DL_004E98[];
+extern Gfx gKm1SkelLimb_00003CDL_0050D8[];
+extern Gfx gKm1SkelLimb_000048DL_005320[];
+extern Gfx gKm1SkelLimb_00000CDL_005428[];
+extern Gfx gKm1SkelLimb_000018DL_005668[];
+extern Gfx gKm1SkelLimb_000024DL_0058B0[];
+
+#endif

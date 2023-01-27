@@ -1,0 +1,56 @@
+#ifndef OBJECT_GANON_ANIME2_H
+#define OBJECT_GANON_ANIME2_H 1
+
+extern s16 object_ganon_anime2_Anim_001F58FrameData[];
+extern JointIndex object_ganon_anime2_Anim_001F58JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_001F58;
+extern s16 object_ganon_anime2_Anim_003018FrameData[];
+extern JointIndex object_ganon_anime2_Anim_003018JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_003018;
+extern s16 object_ganon_anime2_Anim_004304FrameData[];
+extern JointIndex object_ganon_anime2_Anim_004304JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_004304;
+extern s16 object_ganon_anime2_Anim_004F64FrameData[];
+extern JointIndex object_ganon_anime2_Anim_004F64JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_004F64;
+extern s16 object_ganon_anime2_Anim_005FFCFrameData[];
+extern JointIndex object_ganon_anime2_Anim_005FFCJointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_005FFC;
+extern s16 object_ganon_anime2_Anim_006AF4FrameData[];
+extern JointIndex object_ganon_anime2_Anim_006AF4JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_006AF4;
+extern s16 object_ganon_anime2_Anim_007268FrameData[];
+extern JointIndex object_ganon_anime2_Anim_007268JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_007268;
+extern s16 object_ganon_anime2_Anim_007A64FrameData[];
+extern JointIndex object_ganon_anime2_Anim_007A64JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_007A64;
+extern s16 object_ganon_anime2_Anim_0089F8FrameData[];
+extern JointIndex object_ganon_anime2_Anim_0089F8JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_0089F8;
+extern s16 object_ganon_anime2_Anim_009AE0FrameData[];
+extern JointIndex object_ganon_anime2_Anim_009AE0JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_009AE0;
+extern s16 object_ganon_anime2_Anim_00ADDCFrameData[];
+extern JointIndex object_ganon_anime2_Anim_00ADDCJointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_00ADDC;
+extern s16 object_ganon_anime2_Anim_00B668FrameData[];
+extern JointIndex object_ganon_anime2_Anim_00B668JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_00B668;
+extern s16 object_ganon_anime2_Anim_00BE38FrameData[];
+extern JointIndex object_ganon_anime2_Anim_00BE38JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_00BE38;
+extern s16 object_ganon_anime2_Anim_00EA00FrameData[];
+extern JointIndex object_ganon_anime2_Anim_00EA00JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_00EA00;
+extern s16 object_ganon_anime2_Anim_00F19CFrameData[];
+extern JointIndex object_ganon_anime2_Anim_00F19CJointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_00F19C;
+extern s16 object_ganon_anime2_Anim_010298FrameData[];
+extern JointIndex object_ganon_anime2_Anim_010298JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_010298;
+extern s16 object_ganon_anime2_Anim_010514FrameData[];
+extern JointIndex object_ganon_anime2_Anim_010514JointIndices[];
+extern AnimationHeader object_ganon_anime2_Anim_010514;
+
+#endif
