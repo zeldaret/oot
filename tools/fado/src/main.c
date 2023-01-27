@@ -15,7 +15,7 @@
 
 #include "version.inc"
 
-void PrintVersion() {
+void PrintVersion(void) {
     printf("Fado (Fairy-Assisted relocations for Decompiled Overlays), version %s\n", versionNumber);
     printf("Copyright (C) 2021 Elliptic Ellipsis\n");
     printf("%s\n", credits);
@@ -88,7 +88,7 @@ static size_t posArgCount = ARRAY_COUNT(posArgInfo);
 static size_t optCount = ARRAY_COUNT(optInfo);
 static struct option longOptions[ARRAY_COUNT(optInfo)];
 
-void ConstructLongOpts() {
+void ConstructLongOpts(void) {
     size_t i;
 
     for (i = 0; i < optCount; i++) {
