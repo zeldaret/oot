@@ -46,6 +46,8 @@ typedef enum {
     /* 0x03 */ KNOB_ANIM_CHILD_R
 } KnobDoorAnim;
 
+typedef enum { TURN_NONE, TURN_MID, TURN_FINISH } TurnStates;
+
 typedef struct {
     /* 0x00 */ u8 itemId;
     /* 0x02 */ s16 actorId;
@@ -9239,8 +9241,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 static EffectBlureInit2 D_8085470C = {
-    0, 8, 0, { 255, 255, 255, 255 }, { 255, 255, 255, 64 }, { 255, 255, 255, 0 }, { 255, 255, 255, 0 }, 4,
-    0, 2, 0, { 0, 0, 0, 0 },         { 0, 0, 0, 0 },
+    0, 4, 0, { 0, 255, 200, 255 }, { 0, 255, 255, 255 }, { 0, 255, 200, 0 }, { 255, 255, 255, 0 }, 5,
+    0, 2, 0, { 255, 255, 170, 255 }, { 0, 150, 0, 0 },
 };
 
 static Vec3s D_80854730 = { -57, 3377, 0 };
