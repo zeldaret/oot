@@ -13,13 +13,13 @@ void SysCfb_Init(s32 n64dd) {
         tmpFbEnd = 0x8044BE80;
         if (n64dd == 1) {
             osSyncPrintf("RAM 8M mode (N64DD対応)\n"); // "RAM 8M mode (N64DD compatible)"
-            sSysCfbEnd = 0x805FB000;
+            sSysCfbEnd = 0x80800000;
         } else {
             // "The margin for this version is %dK bytes"
             osSyncPrintf("このバージョンのマージンは %dK バイトです\n", (0x4BC00 / 1024));
             sSysCfbEnd = tmpFbEnd;
         }
-    } else if (osMemSize >= 0x400000) {
+    } else if (osMemSize >= 0x800000) {
         osSyncPrintf("RAM4M mode\n");
         sSysCfbEnd = 0x80400000;
     } else {
