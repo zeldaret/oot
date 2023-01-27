@@ -8327,7 +8327,7 @@ COLOR(DEFAULT) "Pour faire une fente avec votre \n"
 )
 
 DEFINE_MESSAGE(0x0337, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
-QUICKTEXT_ENABLE  COLOR(PURPLE) "Hole of \"Z\"\n"
+QUICKTEXT_ENABLE  COLOR(PURPLE) "Hole of \"L\"\n"
 COLOR(DEFAULT) "Let's go through this small\n"
 "hole!" QUICKTEXT_DISABLE 
 BOX_BREAK
@@ -12388,7 +12388,7 @@ UNSKIPPABLE "Sans fée t'es même pas un vrai \n"
 
 DEFINE_MESSAGE(0x1030, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "If you want to pass through here,\n"
-"you should at least " COLOR(BLUE) "equip" COLOR(DEFAULT) " a " COLOR(ADJUSTABLE) "sword" COLOR(RED) "\n"
+"you should at least " COLOR(ADJUSTABLE) "equip" COLOR(DEFAULT) " a " COLOR(RED) "sword" COLOR(RED) "\n"
 COLOR(DEFAULT) "and " COLOR(LIGHTBLUE) "shield" COLOR(DEFAULT) "!"
 BOX_BREAK
 SHIFT("\x51")  QUICKTEXT_ENABLE "Sheesh!" QUICKTEXT_DISABLE
@@ -25887,9 +25887,9 @@ BOX_BREAK
 "down " COLOR(ADJUSTABLE) "[A]" COLOR(DEFAULT) " and " COLOR(LIGHTBLUE) "[R] " COLOR(DEFAULT) "to reel it in \n"
 "faster."
 BOX_BREAK
-"If you feel a hit, press " COLOR(BLUE) "[A]" COLOR(ADJUSTABLE) " " COLOR(DEFAULT) "and\n"
+"If you feel a hit, press " COLOR(ADJUSTABLE) "[A]" COLOR(ADJUSTABLE) " " COLOR(DEFAULT) "and\n"
 COLOR(LIGHTBLUE) "[Control-Pad] down " COLOR(DEFAULT) "to set the hook.\n"
-"After that, reel it in with " COLOR(BLUE) "[A]" COLOR(DEFAULT) "."
+"After that, reel it in with " COLOR(ADJUSTABLE) "[A]" COLOR(DEFAULT) "."
 BOX_BREAK
 "Do you understand?\n"
 "\n"
