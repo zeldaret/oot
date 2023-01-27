@@ -1615,7 +1615,7 @@ ITEM_ICON("\x3E")  QUICKTEXT_ENABLE "You got a " COLOR(LIGHTBLUE) "Deku Shield" 
 BOX_BREAK
 ITEM_ICON("\x3E") "Press " COLOR(LIGHTBLUE) "[R]" COLOR(DEFAULT) " to crouch and\n"
 "defend. If you press " COLOR(LIGHTBLUE) "[R]" COLOR(DEFAULT) " while \n"
-COLOR(LIGHTBLUE) "[Z] Targeting" COLOR(DEFAULT) ", you can move\n"
+COLOR(LIGHTBLUE) "[L] Targeting" COLOR(DEFAULT) ", you can move\n"
 "while defending."
 ,
 ITEM_ICON("\x3E")  QUICKTEXT_ENABLE "Der " COLOR(LIGHTBLUE) "Deku-Schild" COLOR(DEFAULT) "!" QUICKTEXT_DISABLE "\n"
@@ -3133,7 +3133,7 @@ COLOR(DEFAULT) "Utilisez " COLOR(YELLOW) "[C]" COLOR(DEFAULT) " pour allumer et 
 
 DEFINE_MESSAGE(0x00A4, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_MIDDLE,
 UNSKIPPABLE  ITEM_ICON("\x3B")  QUICKTEXT_ENABLE "You got the " COLOR(ADJUSTABLE) "Kokiri Sword" COLOR(DEFAULT) "!" QUICKTEXT_DISABLE "\n"
-"On the " COLOR(BLUE) "Equipment Subscreen" COLOR(DEFAULT) ",\n"
+"On the " COLOR(ADJUSTABLE) "Equipment Subscreen" COLOR(DEFAULT) ",\n"
 "select it with the cursor and\n"
 "equip it with " COLOR(ADJUSTABLE) "[A]" COLOR(DEFAULT) "."
 BOX_BREAK
@@ -4731,13 +4731,13 @@ UNSKIPPABLE  COLOR(LIGHTBLUE) "From here on, we'll be going\n"
 "If you take it slow, maybe you\n"
 "can sneak up on some enemies."
 BOX_BREAK
-COLOR(DEFAULT)  UNSKIPPABLE  COLOR(LIGHTBLUE) "Use " COLOR(DEFAULT) "[Z] Targeting " COLOR(LIGHTBLUE) "to always look\n"
+COLOR(DEFAULT)  UNSKIPPABLE  COLOR(LIGHTBLUE) "Use " COLOR(DEFAULT) "[L] Targeting " COLOR(LIGHTBLUE) "to always look\n"
 "in the proper direction. Set your\n"
 "view so you can see down the next\n"
 "corridor before you turn a corner."
 BOX_BREAK
 COLOR(DEFAULT)  UNSKIPPABLE  COLOR(LIGHTBLUE) "Once your view is set, hold down\n"
-COLOR(DEFAULT) "[Z] " COLOR(LIGHTBLUE) "to " COLOR(DEFAULT) "sidestep " COLOR(LIGHTBLUE) "around the corner.\n"
+COLOR(DEFAULT) "[L] " COLOR(LIGHTBLUE) "to " COLOR(DEFAULT) "sidestep " COLOR(LIGHTBLUE) "around the corner.\n"
 "That way you won't be surprised\n"
 "by an enemy waiting in ambush." COLOR(DEFAULT)
 ,
@@ -4973,7 +4973,7 @@ UNSKIPPABLE  COLOR(LIGHTBLUE) "You never know what will be \n"
 "around the corner in these narrow\n"
 "paths...."
 BOX_BREAK
-COLOR(DEFAULT)  UNSKIPPABLE  COLOR(LIGHTBLUE) "Use " COLOR(DEFAULT) "[Z] Targeting " COLOR(LIGHTBLUE) "to always look\n"
+COLOR(DEFAULT)  UNSKIPPABLE  COLOR(LIGHTBLUE) "Use " COLOR(DEFAULT) "[L] Targeting " COLOR(LIGHTBLUE) "to always look\n"
 "in the proper direction. This is a\n"
 "useful technique, isn't it?" COLOR(DEFAULT)
 ,
@@ -7094,7 +7094,7 @@ DEFINE_MESSAGE(0x0218, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 UNSKIPPABLE  SFX("\x68\x6D")  QUICKTEXT_ENABLE "Hi, " NAME "!" QUICKTEXT_DISABLE "\n"
 "Look this way!"
 BOX_BREAK
-"Look over here with " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) ", and talk \n"
+"Look over here with " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) ", and talk \n"
 "to me with " COLOR(ADJUSTABLE) "[A]" COLOR(DEFAULT) "."
 ,
 UNSKIPPABLE  SFX("\x68\x6D")  QUICKTEXT_ENABLE "Hi " NAME "!" QUICKTEXT_DISABLE "\n"
@@ -8313,7 +8313,7 @@ DEFINE_MESSAGE(0x0336, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE  COLOR(PURPLE) "Thrust Attack Signs!\n"
 COLOR(DEFAULT) "To thrust with your sword, press\n"
 COLOR(LIGHTBLUE) "[Control-Pad]" COLOR(DEFAULT) " toward your target while \n"
-COLOR(LIGHTBLUE) "[Z] Targeting" COLOR(DEFAULT) ", then press " COLOR(RED) "[B]" COLOR(DEFAULT) "." QUICKTEXT_DISABLE
+COLOR(LIGHTBLUE) "[L] Targeting" COLOR(DEFAULT) ", then press " COLOR(RED) "[B]" COLOR(DEFAULT) "." QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE  SHIFT("\x40")  COLOR(PURPLE) "Stoßattacke\n"
 COLOR(DEFAULT) "Um mit dem Schwert zuzustoßen,\n"
@@ -8366,7 +8366,7 @@ COLOR(ADJUSTABLE) "l'icône d'action" COLOR(DEFAULT) "!" QUICKTEXT_DISABLE
 DEFINE_MESSAGE(0x0338, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE  COLOR(PURPLE) "Cut Grass With Your Sword\n"
 COLOR(DEFAULT) "If you just swing with " COLOR(RED) "[B]" COLOR(DEFAULT) ", you'll \n"
-"cut horizontally. If you hold " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " as" COLOR(LIGHTBLUE) " \n"
+"cut horizontally. If you hold " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " as" COLOR(LIGHTBLUE) " \n"
 COLOR(DEFAULT) "you swing, you'll cut vertically." QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE  SHIFT("\x13")  COLOR(PURPLE) "Trainiere Deine Schwertkunst!\n"
@@ -8452,20 +8452,20 @@ QUICKTEXT_ENABLE  SHIFT("\x33") "Cabane de " COLOR(RED) "Saria" COLOR(DEFAULT)  
 )
 
 DEFINE_MESSAGE(0x0340, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
-QUICKTEXT_ENABLE  COLOR(PURPLE) "View Point with [Z] Targeting\n"
+QUICKTEXT_ENABLE  COLOR(PURPLE) "View Point with [L] Targeting\n"
 COLOR(DEFAULT) "When you have no object to look\n"
 "at, you can just look forward\n"
-"with " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) "." QUICKTEXT_DISABLE 
+"with " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) "." QUICKTEXT_DISABLE 
 BOX_BREAK
 QUICKTEXT_ENABLE "Stop moving and then change the\n"
 "direction you are facing, or " COLOR(LIGHTBLUE) "hold\n"
-"down [Z] " COLOR(DEFAULT) "for a little while." QUICKTEXT_DISABLE 
+"down [L] " COLOR(DEFAULT) "for a little while." QUICKTEXT_DISABLE 
 BOX_BREAK
 QUICKTEXT_ENABLE "This can help you get oriented in\n"
 "the direction you want to face.\n"
 "It's quite convenient!" QUICKTEXT_DISABLE 
 BOX_BREAK
-QUICKTEXT_ENABLE "If " COLOR(LIGHTBLUE) "you hold down [Z]" COLOR(DEFAULT) ", you can\n"
+QUICKTEXT_ENABLE "If " COLOR(LIGHTBLUE) "you hold down [L]" COLOR(DEFAULT) ", you can\n"
 COLOR(RED) "walk sideways" COLOR(DEFAULT) " while facing \n"
 "straight ahead." QUICKTEXT_DISABLE 
 BOX_BREAK
@@ -8559,20 +8559,20 @@ COLOR(DEFAULT)  SHIFT("\x32") "(L'eau ça mouille)" QUICKTEXT_DISABLE
 DEFINE_MESSAGE(0x0343, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE  COLOR(PURPLE) "Switch Targeting\n"
 COLOR(DEFAULT) "If you see a " COLOR(ADJUSTABLE) "▼" COLOR(DEFAULT) " icon above an \n"
-"object, you can target it with " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) "." QUICKTEXT_DISABLE 
+"object, you can target it with " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) "." QUICKTEXT_DISABLE 
 BOX_BREAK
-QUICKTEXT_ENABLE "In other words, if you press " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " \n"
+QUICKTEXT_ENABLE "In other words, if you press " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " \n"
 "when you see " COLOR(ADJUSTABLE) "▼" COLOR(YELLOW) " " COLOR(DEFAULT) "above an object,\n"
 "you can lock on to it." QUICKTEXT_DISABLE 
 BOX_BREAK
-QUICKTEXT_ENABLE "If you press " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " again, the lock\n"
+QUICKTEXT_ENABLE "If you press " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " again, the lock\n"
 "will either " COLOR(RED) "release" COLOR(DEFAULT) " or it will\n"
 "transfer to the next object with\n"
 "the " COLOR(ADJUSTABLE) "▼" COLOR(DEFAULT) " above it." QUICKTEXT_DISABLE 
 BOX_BREAK
 QUICKTEXT_ENABLE "When you have many enemies in\n"
 "your field of view and you want\n"
-"to escape, press " COLOR(LIGHTBLUE) "[Z] " COLOR(DEFAULT) "while holding\n"
+"to escape, press " COLOR(LIGHTBLUE) "[L] " COLOR(DEFAULT) "while holding\n"
 "back on " COLOR(LIGHTBLUE) "[Control-Pad]" COLOR(DEFAULT) " to cancel targeting." QUICKTEXT_DISABLE 
 BOX_BREAK
 QUICKTEXT_ENABLE "You can target the " COLOR(RED) "stones" COLOR(DEFAULT) " next to\n"
@@ -9424,7 +9424,7 @@ COLOR(LIGHTBLUE) "Cet énorme Dodongo avalerait \n"
 DEFINE_MESSAGE(0x060D, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE "Dodongo\n"
 COLOR(LIGHTBLUE) "Watch out for its fiery breath!\n"
-"Use " COLOR(DEFAULT) "[Z] Targeting " COLOR(LIGHTBLUE) "techniques!" COLOR(DEFAULT)  QUICKTEXT_DISABLE
+"Use " COLOR(DEFAULT) "[L] Targeting " COLOR(LIGHTBLUE) "techniques!" COLOR(DEFAULT)  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE "Ein Dodongo greift an!\n"
 COLOR(LIGHTBLUE) "Achte auf seinen feurigen Atem!\n"
@@ -9453,7 +9453,7 @@ COLOR(LIGHTBLUE) "Prends garde à ses sauts!\n"
 DEFINE_MESSAGE(0x060F, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE "Lizalfos \n"
 COLOR(LIGHTBLUE) "Use your shield well and fight \n"
-"with " COLOR(DEFAULT) "[Z] Targeting " COLOR(LIGHTBLUE) "techniques!" COLOR(DEFAULT)  QUICKTEXT_DISABLE
+"with " COLOR(DEFAULT) "[L] Targeting " COLOR(LIGHTBLUE) "techniques!" COLOR(DEFAULT)  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE "Ein Echsodorus! \n"
 COLOR(LIGHTBLUE) "Setze Deinen Schild geschickt ein\n"
@@ -9468,7 +9468,7 @@ COLOR(LIGHTBLUE) "Utilise souvent ton bouclier et \n"
 DEFINE_MESSAGE(0x0610, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE "Dinolfos \n"
 COLOR(LIGHTBLUE) "Use your shield well and fight \n"
-"with " COLOR(DEFAULT) "[Z] Targeting " COLOR(LIGHTBLUE) "techniques!" COLOR(DEFAULT)  QUICKTEXT_DISABLE
+"with " COLOR(DEFAULT) "[L] Targeting " COLOR(LIGHTBLUE) "techniques!" COLOR(DEFAULT)  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE "Ein Dinodorus! \n"
 COLOR(LIGHTBLUE) "Setze Deinen Schild geschickt ein\n"
@@ -9500,7 +9500,7 @@ COLOR(DEFAULT) "Bouclier Mojo" COLOR(LIGHTBLUE) "!" COLOR(DEFAULT)  QUICKTEXT_DI
 DEFINE_MESSAGE(0x0612, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE "Keese\n"
 COLOR(LIGHTBLUE) "When you get close to it, use \n"
-COLOR(DEFAULT) "[Z] Targeting" COLOR(LIGHTBLUE) ". Even if it flies\n"
+COLOR(DEFAULT) "[L] Targeting" COLOR(LIGHTBLUE) ". Even if it flies\n"
 "away, you can still target it." COLOR(DEFAULT)  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE "Ein Flederbeißer!\n"
@@ -10241,7 +10241,7 @@ COLOR(LIGHTBLUE) "Fais rebondir ses rochers!" COLOR(DEFAULT)  QUICKTEXT_DISABLE
 
 DEFINE_MESSAGE(0x0643, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE "Poe of the graveyard?\n"
-COLOR(LIGHTBLUE) "If you stare at it with " COLOR(DEFAULT) "[Z] \n"
+COLOR(LIGHTBLUE) "If you stare at it with " COLOR(DEFAULT) "[L] \n"
 "Targeting" COLOR(LIGHTBLUE) ", it will disappear..." COLOR(DEFAULT)  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE "Ein Irrlicht auf dem Friedhof!\n"
@@ -10255,7 +10255,7 @@ COLOR(LIGHTBLUE) "Fixe-le avec la " COLOR(DEFAULT) "Visée [L] " COLOR(LIGHTBLUE
 
 DEFINE_MESSAGE(0x0644, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE "Poe\n"
-COLOR(LIGHTBLUE) "If you stare at it with " COLOR(DEFAULT) "[Z] \n"
+COLOR(LIGHTBLUE) "If you stare at it with " COLOR(DEFAULT) "[L] \n"
 "Targeting" COLOR(LIGHTBLUE) ", it will disappear..." COLOR(DEFAULT)  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE "Ein Irrlicht!\n"
@@ -10269,7 +10269,7 @@ COLOR(LIGHTBLUE) "Fixe-le avec la " COLOR(DEFAULT) "Visée [L] " COLOR(LIGHTBLUE
 
 DEFINE_MESSAGE(0x0645, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 QUICKTEXT_ENABLE "Red Tektite\n"
-COLOR(LIGHTBLUE) "Lock on to it as it jumps with " COLOR(DEFAULT) "[Z]\n"
+COLOR(LIGHTBLUE) "Lock on to it as it jumps with " COLOR(DEFAULT) "[L]\n"
 "Targeting" COLOR(LIGHTBLUE) "!" COLOR(DEFAULT)  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE "Ein roter Arachno!\n"
@@ -10594,7 +10594,7 @@ COLOR(LIGHTBLUE) "This Poe doesn't disappear even if\n"
 ,
 QUICKTEXT_ENABLE "Ein Irrlicht!\n"
 COLOR(LIGHTBLUE) "Dieses Irrlicht flüchtet nicht,\n"
-"wenn Du versuchst, es mit " COLOR(DEFAULT) "[Z]" COLOR(LIGHTBLUE) "\n"
+"wenn Du versuchst, es mit " COLOR(DEFAULT) "[L]" COLOR(LIGHTBLUE) "\n"
 "anzustarren. Ganz im Gegenteil..." COLOR(DEFAULT)  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE "Esprit\n"
@@ -11364,25 +11364,25 @@ COLOR(RED) "vénérable Arbre Mojo " COLOR(DEFAULT) "a créé\n"
 DEFINE_MESSAGE(0x1007, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "Hey, let's work on some moves!"
 BOX_BREAK
-"To " COLOR(RED) "jump sideways " COLOR(DEFAULT) "while " COLOR(LIGHTBLUE) "[Z] \n"
+"To " COLOR(RED) "jump sideways " COLOR(DEFAULT) "while " COLOR(LIGHTBLUE) "[L] \n"
 "Targeting" COLOR(DEFAULT) ", press " COLOR(ADJUSTABLE) "[A] " COLOR(DEFAULT) "as you move\n"
 "right or left."
 BOX_BREAK
-"To do a " COLOR(RED) "backflip" COLOR(DEFAULT) " while " COLOR(LIGHTBLUE) "[Z] \n"
+"To do a " COLOR(RED) "backflip" COLOR(DEFAULT) " while " COLOR(LIGHTBLUE) "[L] \n"
 "Targeting" COLOR(DEFAULT) ", press " COLOR(ADJUSTABLE) "[A] " COLOR(DEFAULT) "as you move\n"
 "backwards."
 BOX_BREAK
-"To do a " COLOR(RED) "roll attack" COLOR(DEFAULT) " while " COLOR(LIGHTBLUE) "[Z] \n"
+"To do a " COLOR(RED) "roll attack" COLOR(DEFAULT) " while " COLOR(LIGHTBLUE) "[L] \n"
 "Targeting" COLOR(DEFAULT) ", press " COLOR(ADJUSTABLE) "[A] " COLOR(DEFAULT) "as you move\n"
 "forward. While you roll, you can\n"
 "avoid damage."
 BOX_BREAK
 "If you have your sword ready while\n"
-COLOR(LIGHTBLUE) "[Z] Targeting" COLOR(DEFAULT) ", you can do a " COLOR(RED) "jump \n"
+COLOR(LIGHTBLUE) "[L] Targeting" COLOR(DEFAULT) ", you can do a " COLOR(RED) "jump \n"
 "attack" COLOR(DEFAULT) " by pressing " COLOR(ADJUSTABLE) "[A]" COLOR(DEFAULT) "! A jump \n"
 "attack does double damage!"
 BOX_BREAK
-"You can use " COLOR(LIGHTBLUE) "[Z] Targeting " COLOR(DEFAULT) "on the\n"
+"You can use " COLOR(LIGHTBLUE) "[L] Targeting " COLOR(DEFAULT) "on the\n"
 COLOR(RED) "stone" COLOR(DEFAULT) " next to me, so let's \n"
 "practice!"
 ,
@@ -11545,15 +11545,15 @@ UNSKIPPABLE "Je vais t'apprendre à parler aux \n"
 
 DEFINE_MESSAGE(0x100D, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 "When a fairy flies near a person \n"
-"or thing, press " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " to " COLOR(RED) "look " COLOR(DEFAULT) "in that\n"
+"or thing, press " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " to " COLOR(RED) "look " COLOR(DEFAULT) "in that\n"
 "direction."
 BOX_BREAK
-"If you use " COLOR(LIGHTBLUE) "[Z] Targeting" COLOR(DEFAULT) ", you can \n"
+"If you use " COLOR(LIGHTBLUE) "[L] Targeting" COLOR(DEFAULT) ", you can \n"
 "talk to people from a distance, \n"
 "like we're doing now."
 BOX_BREAK
 "When you have nothing that you\n"
-"can target, you can press " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " just\n"
+"can target, you can press " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " just\n"
 "to " COLOR(RED) "look forward" COLOR(DEFAULT) ".\n"
 "Try it!"
 ,
@@ -11838,7 +11838,7 @@ DEFINE_MESSAGE(0x1018, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 "learn the skills of combat..."
 BOX_BREAK
 "When thou art ready, return here \n"
-"and speak with me by using " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) "..."
+"and speak with me by using " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) "..."
 ,
 "Womöglich fehlt Dir das Vertrauen \n"
 "in Deine eigenen Fähigkeiten.\n"
@@ -12095,7 +12095,7 @@ COLOR(YELLOW) "[C]" COLOR(DEFAULT) " and shoot by releasing the\n"
 "button! How cool!"
 BOX_BREAK
 "If you have the Slingshot ready,\n"
-"you can use " COLOR(LIGHTBLUE) "[Z] Targeting" COLOR(DEFAULT) " to \n"
+"you can use " COLOR(LIGHTBLUE) "[L] Targeting" COLOR(DEFAULT) " to \n"
 COLOR(RED) "shoot while moving" COLOR(DEFAULT) ".... Did you \n"
 "know that?"
 ,
@@ -12693,7 +12693,7 @@ BOX_BREAK
 "You will get into the Subscreens."
 BOX_BREAK
 "Switch to one of the four \n"
-"different Subscreens with " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " or\n"
+"different Subscreens with " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " or\n"
 COLOR(LIGHTBLUE) "[R] " COLOR(DEFAULT) "and change or check items as\n"
 "you please. Take a look around!"
 BOX_BREAK
@@ -12834,10 +12834,10 @@ COLOR(RED) "Deku Shield" COLOR(DEFAULT) "? Tee hee!"
 BOX_BREAK
 "When you get the shield, press\n"
 COLOR(RED) "START " COLOR(DEFAULT) "to get into the Subscreens.\n"
-"Select the " COLOR(BLUE) "Equipment Subscreen\n"
-COLOR(DEFAULT) "with " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " or " COLOR(LIGHTBLUE) "[R]" COLOR(DEFAULT) "."
+"Select the " COLOR(ADJUSTABLE) "Equipment Subscreen\n"
+COLOR(DEFAULT) "with " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " or " COLOR(LIGHTBLUE) "[R]" COLOR(DEFAULT) "."
 BOX_BREAK
-"On the " COLOR(BLUE) "Equipment Subscreen" COLOR(DEFAULT) ", \n"
+"On the " COLOR(ADJUSTABLE) "Equipment Subscreen" COLOR(DEFAULT) ", \n"
 "choose the item you want to equip\n"
 "and press " COLOR(ADJUSTABLE) "[A]" COLOR(DEFAULT) " to equip that item."
 BOX_BREAK
@@ -17332,7 +17332,7 @@ BOX_BREAK
 )
 
 DEFINE_MESSAGE(0x2036, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
-"If you use " COLOR(LIGHTBLUE) "[Z] Targeting" COLOR(DEFAULT) ", you can \n"
+"If you use " COLOR(LIGHTBLUE) "[L] Targeting" COLOR(DEFAULT) ", you can \n"
 "talk to me from horseback."
 BOX_BREAK
 "Are you ready to go home so \n"
@@ -18407,7 +18407,7 @@ BOX_BREAK
 "The areas you have explored will \n"
 "be shown on the Map. Press \n"
 COLOR(RED) "START " COLOR(DEFAULT) "to enter the Subscreens\n"
-"and " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " or " COLOR(LIGHTBLUE) "[R]" COLOR(DEFAULT) " to find the Map."
+"and " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " or " COLOR(LIGHTBLUE) "[R]" COLOR(DEFAULT) " to find the Map."
 BOX_BREAK
 "On the " COLOR(RED) "Map Subscreen" COLOR(DEFAULT) ", you will\n"
 "also see a " COLOR(RED) "flashing dot" COLOR(DEFAULT) " showing\n"
@@ -18698,7 +18698,7 @@ DEFINE_MESSAGE(0x2071, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 BOX_BREAK
 "If you want to confirm its location \n"
 "on the map, press " COLOR(RED) "START " COLOR(DEFAULT) "to \n"
-"switch to the Subscreens and " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " \n"
+"switch to the Subscreens and " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " \n"
 "or " COLOR(LIGHTBLUE) "[R]" COLOR(DEFAULT) " to find the Map."
 BOX_BREAK
 "All the places you have visited \n"
@@ -25872,7 +25872,7 @@ DEFINE_MESSAGE(0x407F, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 "OK, listen up!"
 BOX_BREAK
 "Walk up to the water's edge and\n"
-"press " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) " to look at a fish."
+"press " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) " to look at a fish."
 BOX_BREAK
 "While looking at a fish, you can \n"
 "cast your line with " COLOR(RED) "[B]" COLOR(DEFAULT) ". Press " COLOR(ADJUSTABLE) "[A]\n"
@@ -25965,7 +25965,7 @@ BOX_BREAK
 "weighed " COLOR(RED)  FISH_INFO " pounds" COLOR(DEFAULT) "."
 BOX_BREAK
 "After you cast, you can change\n"
-"your view with " COLOR(LIGHTBLUE) "[Z]" COLOR(DEFAULT) "."
+"your view with " COLOR(LIGHTBLUE) "[L]" COLOR(DEFAULT) "."
 BOX_BREAK
 SHIFT("\x41") "Let's fish!" EVENT
 ,
