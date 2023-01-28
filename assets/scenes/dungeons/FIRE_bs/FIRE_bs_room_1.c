@@ -16,7 +16,7 @@ SceneCmd FIRE_bs_room_1Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&FIRE_bs_room_1PolygonType0_000070),
     SCENE_CMD_OBJECT_LIST(7, FIRE_bs_room_1ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(2, FIRE_bs_room_1ActorList_000050),
+    SCENE_CMD_ACTOR_LIST(3, FIRE_bs_room_1ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -33,6 +33,7 @@ s16 FIRE_bs_room_1ObjectList_000040[] = {
 ActorEntry FIRE_bs_room_1ActorList_000050[] = {
     { ACTOR_EN_RIVER_SOUND, {     -4,   -100,      5 }, {      0,      0,      0 }, 0x0007 },
     { ACTOR_BOSS_FD,        {     -2,     90,     11 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_WONDER_TALK2,{   1025,    200,     11 }, {      0,      0,      0 }, 0x4F41 },
 };
 
 PolygonType0 FIRE_bs_room_1PolygonType0_000070 = { 
