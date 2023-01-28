@@ -202,11 +202,11 @@ build/src/code/__osMemmove.o: OPTFLAGS := -g
 build/src/audio/%.o: OPTFLAGS := -O2
 
 # Use signed chars instead of unsigned for this audio file (needed to match AudioDebug_ScrPrt)
-build/src/audio/external/general.o: CFLAGS += -signed
+build/src/audio/general.o: CFLAGS += -signed
 
 # Put string literals in .data for some audio files (needed to match these files with literals)
-build/src/audio/external/sfx.o: CFLAGS += -use_readwrite_const
-build/src/audio/external/sequence.o: CFLAGS += -use_readwrite_const
+build/src/audio/sfx.o: CFLAGS += -use_readwrite_const
+build/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
 build/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 build/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
