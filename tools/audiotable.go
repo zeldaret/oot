@@ -94,6 +94,7 @@ func audiotable(varname, fname string) {
 }
 
 func main() {
+	os.Mkdir("assets/misc/sounds", 0755)
 	os.Stdout, _ = os.Create("assets/misc/sounds/sounds.c")
 
 	printHeader()
