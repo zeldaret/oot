@@ -64,7 +64,7 @@ N_THREADS ?= $(shell nproc)
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-  $(error Please install or build $(MIPS_BINUTILS_PREFIX))
+  $(error Please install or build mips-linux-gnu [Unable to find $(MIPS_BINUTILS_PREFIX)ld])
 endif
 
 # Detect compiler and set variables appropriately.
