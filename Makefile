@@ -276,6 +276,8 @@ setup:
 	python3 extract_assets.py -j$(N_THREADS)
 	python3 tools/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/soundfonts build/include
 	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
+	python3 tools/assemble_sequences.py $(SEQUENCE_DIR) build/include build
+	python3 tools/assemble_sound.py $(SOUNDFONT_DIR) build/assets build/include assets/samples --build-bank --match=ocarina
 	go run tools/audiotable.go
 
 test: $(ROM)
