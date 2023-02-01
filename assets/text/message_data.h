@@ -7631,6 +7631,25 @@ SHIFT("\x0A")  COLOR(RED) "vérité" COLOR(DEFAULT) " du Village Cocorico sera\n
 SHIFT("\x23") "porté par les Ombres." QUICKTEXT_DISABLE
 )
 
+DEFINE_MESSAGE(0x023D, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
+UNSKIPPABLE  NAME "...Can't hold... \n"
+"anymore...I can't hold\n"
+"it any longer..."
+BOX_BREAK
+UNSKIPPABLE "Get out of here!!"
+,
+UNSKIPPABLE  NAME "... Schnell... \n"
+"Ich kann die Last nicht\n"
+"länger tragen..."
+BOX_BREAK
+UNSKIPPABLE "Raus hier!"
+,
+UNSKIPPABLE  NAME "...Vite...\n"
+"Je ne peux plus tenir..."
+BOX_BREAK
+UNSKIPPABLE "Sors vite d'ici!!"
+)
+
 DEFINE_MESSAGE(0x0300, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
 BACKGROUND("\x00", "\x01", "\x10")
 ,
@@ -8761,6 +8780,46 @@ COLOR(ADJUSTABLE)"Sacred Forest Meadow "COLOR(DEFAULT) "wenn drin\n"
 QUICKTEXT_ENABLE"Traverser les bois jusqu'au\n"
 COLOR(ADJUSTABLE)"Prairie de la forêt sacrée "COLOR(DEFAULT) "quand\n"
 "besoin."
+)
+
+DEFINE_MESSAGE(0x034C, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
+QUICKTEXT_ENABLE "Welcome to the Gerudo Training\n"
+"Ground! If you go left or right,\n"
+"you will face challenges ahead like\n"
+"defeating enemies and solving puzzles."
+BOX_BREAK
+QUICKTEXT_ENABLE "You will find keys in chests on your\n"
+"way. And if you go up north, you will enter\n"
+"the key room with a bunch of locked\n"
+"doors. Unlock all the doors to"
+BOX_BREAK
+QUICKTEXT_ENABLE "get the treasure!"
+,
+QUICKTEXT_ENABLE "Willkommen beim Gerudo-Training\n"
+"Boden! Wenn du nach links oder\n"
+"rechts gehst, Sie werden vor\n"
+"Herausforderungen stehen wie Feinde"
+BOX_BREAK
+QUICKTEXT_ENABLE "besiegen und Rätsel lösen. Sie\n"
+"finden Schlüssel in Truhen auf Weg.\n"
+"Und wenn du nach Norden gehst, wirst du\n"
+"eintreten der Schlüsselraum mit einem"
+BOX_BREAK
+QUICKTEXT_ENABLE "Haufen verschlossener\n"
+"Türen. Schließe alle Türen auf hol den Schatz!"
+,
+QUICKTEXT_ENABLE "Bienvenue dans la formation Gerudo\n"
+"Sol ! Si vous allez à gauche ou à droite,\n"
+"vous ferez face à des défis comme\n"
+"vaincre des ennemis et résoudre des."
+BOX_BREAK
+QUICKTEXT_ENABLE "énigmes. Vous trouverez des clés dans des\n"
+"coffres sur votre chemin. Et si vous\n"
+"montez vers le nord, vous entrerez la\n"
+"salle des clés avec un tas de"
+BOX_BREAK
+QUICKTEXT_ENABLE "portes. Déverrouillez toutes les\n"
+"portes récupérez le trésor !"
 )
 
 DEFINE_MESSAGE(0x0400, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
@@ -23863,7 +23922,7 @@ UNSKIPPABLE  QUICKTEXT_ENABLE "J'avais peur..." QUICKTEXT_DISABLE  QUICKTEXT_ENA
 "Enfin juste un peu!!"
 )
 
-DEFINE_MESSAGE(0x4024, TEXTBOX_TYPE_NONE_NO_SHADOW, TEXTBOX_POS_BOTTOM,
+DEFINE_MESSAGE(0x4024, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 UNSKIPPABLE  NAME "!\n"
 NAME "!"
 ,
