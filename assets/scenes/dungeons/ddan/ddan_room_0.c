@@ -31,7 +31,7 @@ SceneCmd ddan_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_0PolygonType2_000240),
     SCENE_CMD_OBJECT_LIST(16, ddan_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(30, ddan_room_0ActorList_000060),
+    SCENE_CMD_ACTOR_LIST(35, ddan_room_0ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -50,7 +50,7 @@ s16 ddan_room_0ObjectList_000040[] = {
     OBJECT_YDAN_OBJECTS,
     OBJECT_DODOJR,
     OBJECT_FIREFLY,
-    OBJECT_KIBAKO2,
+    OBJECT_VM,
     OBJECT_DODONGO,
 };
 
@@ -65,16 +65,16 @@ ActorEntry ddan_room_0ActorList_000060[] = {
     { ACTOR_BG_BREAKWALL,    {    820,      0,   -320 }, {      0, 0XC000,      0 }, 0xA01F },
     { ACTOR_BG_DODOAGO,      {      0,    196,  -1750 }, {      0,      0,      0 }, 0x001A },
     { ACTOR_ELF_MSG,         {     16,   -153,  -1019 }, {   0X96,      0,   0X32 }, 0x0C15 },
-    { ACTOR_EN_WONDER_ITEM,  {    -40,      0,     20 }, {      0,      0,      0 }, 0x3FD8 },
-    { ACTOR_EN_WONDER_ITEM,  {      0,      0,     20 }, {      0,      0,      0 }, 0x3FD8 },
-    { ACTOR_EN_WONDER_ITEM,  {     40,      0,     20 }, {      0,      0,      0 }, 0x3FD8 },
+    { ACTOR_EN_WONDER_ITEM,  {    -40,      0,     20 }, {      0,      0,      0 }, 0x3FFE },
+    { ACTOR_EN_WONDER_ITEM,  {      0,      0,     20 }, {      0,      0,      0 }, 0x3FFE },
+    { ACTOR_EN_WONDER_ITEM,  {     40,      0,     20 }, {      0,      0,      0 }, 0x3FFE },
     { ACTOR_OBJ_SWITCH,      {   -873,    531,  -1540 }, {      0, 0X4000,      0 }, 0x0300 },
     { ACTOR_OBJ_SWITCH,      {    429,   -160,  -1717 }, {      0,      0,      0 }, 0x0A00 },
     { ACTOR_EN_WONDER_TALK2, {    578,    568,   -929 }, {      0, 0X4000,      0 }, 0x0338 },
     { ACTOR_EN_SHOPNUTS,     {   -898,      0,   -281 }, {      0, 0X4000,      0 }, 0x0003 },
     { ACTOR_EN_SHOPNUTS,     {   -957,      0,   -348 }, {      0, 0X4000,      0 }, 0x0001 },
     { ACTOR_EN_BOMBF,        {   -293,     20,    307 }, {      0,      0,      0 }, 0xFFFF },
-    { ACTOR_EN_BOMBF,        {     -2,      0,  -1170 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BOMBF,        {     70,      0,  -1170 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BOMBF,        {    290,     20,    307 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BOMBF,        {    850,    531,   -923 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_BOMBIWA,     {    432,   -160,  -1719 }, {      0,      0,      0 }, 0x000E },
@@ -85,6 +85,11 @@ ActorEntry ddan_room_0ActorList_000060[] = {
     { ACTOR_EN_BOX,          {    950,      0,  -1519 }, {      0, 0X4000,      0 }, 0x0820 },
     { ACTOR_EN_BOX,          {    869,     80,   -920 }, {      0, 0XC000,      0 }, 0x0644 },
     { ACTOR_OBJ_SYOKUDAI,    {   -765,      0,  -1405 }, {      0,      0,      0 }, 0x03C3 },
+    { ACTOR_EN_FIREFLY,      {   -222,    546,   -322 }, {      0, 0XC000,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,      {    541,    566,   -307 }, {      0, 0XC000,      0 }, 0x0000 },
+    { ACTOR_EN_VM,           {   -694,      0,   -622 }, {      0, 0X4000,      0 }, 0x0401 },
+    { ACTOR_EN_VM,           {    696,      0,   -618 }, {      0, 0XBF4A,      0 }, 0x0401 },
+    { ACTOR_EN_VM,           {     -2,      0,  -1168 }, {      0,      0,      0 }, 0x0501 },
 };
 
 PolygonType2 ddan_room_0PolygonType2_000240 = { 

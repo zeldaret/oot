@@ -30,8 +30,8 @@ SceneCmd ddan_room_8Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_8PolygonType2_000270),
-    SCENE_CMD_OBJECT_LIST(11, ddan_room_8ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(33, ddan_room_8ActorList_000058),
+    SCENE_CMD_OBJECT_LIST(12, ddan_room_8ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(35, ddan_room_8ActorList_000058),
     SCENE_CMD_END(),
 };
 
@@ -47,6 +47,7 @@ s16 ddan_room_8ObjectList_000040[] = {
     OBJECT_KA,
     OBJECT_DEMO_KEKKAI,
     OBJECT_KUSA,
+    OBJECT_FIREFLY,
 };
 
 ActorEntry ddan_room_8ActorList_000058[] = {
@@ -83,6 +84,8 @@ ActorEntry ddan_room_8ActorList_000058[] = {
     { ACTOR_BG_HAKA,          {   1715,     16,  -3494 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_BG_HAKA,          {   1502,     16,  -3495 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_BG_HAKA,          {   1630,     16,  -3879 }, {      0, 0XC000,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,       {   1310,    309,  -3535 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,       {   1656,    313,  -3872 }, {      0,      0,      0 }, 0x0000 },
 };
 
 u8 ddan_room_8_possiblePadding_000268[] = {

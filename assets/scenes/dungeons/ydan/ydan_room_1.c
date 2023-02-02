@@ -25,8 +25,8 @@ SceneCmd ydan_room_1Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ydan_room_1PolygonType2_000120),
-    SCENE_CMD_OBJECT_LIST(10, ydan_room_1ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(12, ydan_room_1ActorList_000054),
+    SCENE_CMD_OBJECT_LIST(11, ydan_room_1ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(13, ydan_room_1ActorList_000054),
     SCENE_CMD_END(),
 };
 
@@ -41,6 +41,7 @@ s16 ydan_room_1ObjectList_000040[] = {
     OBJECT_KUSA,
     OBJECT_GI_HEART,
     OBJECT_GI_SUTARU,
+    OBJECT_HINTNUTS,
 };
 
 ActorEntry ydan_room_1ActorList_000054[] = {
@@ -56,6 +57,7 @@ ActorEntry ydan_room_1ActorList_000054[] = {
     { ACTOR_EN_GOMA,     {   -724,    400,    916 }, {      0,      0,      0 }, 0x0006 },
     { ACTOR_EN_GOMA,     {   -887,    400,    731 }, {      0,      0,      0 }, 0x0006 },
     { ACTOR_OBJ_SWITCH,  {   -920,    542,    918 }, {      0, 0X6000,      0 }, 0x0C02 },
+    { ACTOR_EN_HINTNUTS, {   -816,    400,    605 }, {      0,      0,      0 }, 0x1A00 },
 };
 
 u8 ydan_room_1_possiblePadding_000114[] = {

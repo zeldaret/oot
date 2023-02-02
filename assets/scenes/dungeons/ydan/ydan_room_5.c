@@ -26,7 +26,7 @@ SceneCmd ydan_room_5Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ydan_room_5PolygonType2_000180),
     SCENE_CMD_OBJECT_LIST(14, ydan_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(18, ydan_room_5ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(23, ydan_room_5ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -60,12 +60,17 @@ ActorEntry ydan_room_5ActorList_00005C[] = {
     { ACTOR_OBJ_SYOKUDAI,   {   -528,   -880,    984 }, {      0,      0,      0 }, 0x03FE },
     { ACTOR_OBJ_SYOKUDAI,   {  -1161,   -880,   1147 }, {      0,      0,      0 }, 0x1089 },
     { ACTOR_OBJ_SYOKUDAI,   {  -1160,   -880,    993 }, {      0,      0,      0 }, 0x1089 },
-    { ACTOR_OBJ_SWITCH,     {   -527,   -880,   1114 }, {      0,      0,      0 }, 0x3E20 },
     { ACTOR_EN_BOX,         {  -1376,   -880,   1078 }, {      0, 0XC000,      0 }, 0x5AA0 },
     { ACTOR_EN_BOX,         {   -380,   -880,   1029 }, {      0, 0X4000,      0 }, 0x5905 },
     { ACTOR_BG_YDAN_HASI,   {   -835,   -905,   1050 }, {      0, 0X4000,      0 }, 0xFF00 },
     { ACTOR_BG_YDAN_MARUTA, {   -835,   -860,   1050 }, {      0, 0X4000,      0 }, 0x00FF },
-    { ACTOR_BG_YDAN_HASI,   {   -835,   -915,   1050 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_BG_YDAN_HASI,   {   -835,   -900,   1050 }, {      0,      0,      0 }, 0x3E01 },
+    { ACTOR_ELF_MSG,        {   -700,   -880,    941 }, {   0X3C,      0,      0 }, 0x510C },
+    { ACTOR_ELF_MSG,        {   -435,   -880,   1163 }, {   0X1E,      0,      0 }, 0x510C },
+    { ACTOR_OBJ_SWITCH,     {   -675,  -1020,   1264 }, {      0,      0,      0 }, 0x3E00 },
+    { ACTOR_EN_KUSA,        {  -1361,   -870,    840 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_EN_KUSA,        {  -1310,   -870,    840 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_OBJ_OSHIHIKI,   {  -1365,   -880,   1200 }, {      0,      0,      0 }, 0xFFC0 },
 };
 
 u8 ydan_room_5_possiblePadding_00017C[] = {

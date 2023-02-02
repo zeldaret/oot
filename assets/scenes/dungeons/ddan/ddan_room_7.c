@@ -30,8 +30,8 @@ SceneCmd ddan_room_7Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_7PolygonType2_000100),
-    SCENE_CMD_OBJECT_LIST(11, ddan_room_7ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(10, ddan_room_7ActorList_000058),
+    SCENE_CMD_OBJECT_LIST(12, ddan_room_7ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(16, ddan_room_7ActorList_000058),
     SCENE_CMD_END(),
 };
 
@@ -47,6 +47,7 @@ s16 ddan_room_7ObjectList_000040[] = {
     OBJECT_KA,
     OBJECT_DEMO_KEKKAI,
     OBJECT_KUSA,
+    OBJECT_FIREFLY,
 };
 
 ActorEntry ddan_room_7ActorList_000058[] = {
@@ -58,8 +59,14 @@ ActorEntry ddan_room_7ActorList_000058[] = {
     { ACTOR_EN_WONDER_ITEM, {     60,     76,  -2206 }, {      0,      0,      0 }, 0x3FF0 },
     { ACTOR_OBJ_TSUBO,      {    258,     16,  -3055 }, {      0,      0,      0 }, 0x7A04 },
     { ACTOR_OBJ_TSUBO,      {   -265,     16,  -2499 }, {      0,      0,      0 }, 0x7C03 },
-    { ACTOR_OBJ_SWITCH,     {     -1,    126,  -3220 }, {      0,      0,      0 }, 0x2000 },
-    { ACTOR_BG_HAKA,        {      0,    126,  -3212 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_OBJ_TSUBO,      {     78,    136,  -3835 }, {      0,      0,      0 }, 0x6A04 },
+    { ACTOR_OBJ_TSUBO,      {    125,    136,  -3854 }, {      0,      0,      0 }, 0x6C03 },
+    { ACTOR_OBJ_SWITCH,     {      0,    -44,  -2774 }, {      0,      0,      0 }, 0x2020 },
+    { ACTOR_EN_FIREFLY,     {   -226,    335,  -2988 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,     {    219,    332,  -2981 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_OBJ_OSHIHIKI,   {      0,    126,  -3354 }, {      0,      0,      0 }, 0x2040 },
+    { ACTOR_OBJ_OSHIHIKI,   {      0,    -23,  -2774 }, {      0,      0,      0 }, 0x2044 },
+    { ACTOR_EN_KUSA,        {   -249,     16,  -2600 }, {      0,      0,      0 }, 0xFF01 },
 };
 
 u8 ddan_room_7_possiblePadding_0000F8[] = {

@@ -50,7 +50,7 @@ s16 ddan_room_1ObjectList_000040[] = {
     OBJECT_YDAN_OBJECTS,
     OBJECT_DODOJR,
     OBJECT_FIREFLY,
-    OBJECT_KIBAKO2,
+    OBJECT_VM,
     OBJECT_DODONGO,
 };
 
