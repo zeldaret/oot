@@ -1341,6 +1341,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
             }
             if ((this->unk_1A2[1] < 30) && (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE)) {
                 mainCam2 = Play_GetCamera(play, CAM_ID_MAIN);
+                Message_StartTextbox(play, 0x706D, NULL);
                 mainCam2->eye = this->subCamEye;
                 mainCam2->eyeNext = this->subCamEye;
                 mainCam2->at = this->subCamAt;
