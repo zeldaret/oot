@@ -14691,8 +14691,8 @@ UNSKIPPABLE  SFX("\x38\x80") "You will never beat my brothers \n"
 "up ahead unless you punish them \n"
 "in the proper order."
 BOX_BREAK
-UNSKIPPABLE  SFX("\x38\x80") "The order is..." TEXT_SPEED("\x05")  COLOR(LIGHTBLUE) "2  3  1" COLOR(DEFAULT)  TEXT_SPEED("\x00") "\n"
-QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Twenty-three is number one!" COLOR(DEFAULT)  QUICKTEXT_DISABLE 
+UNSKIPPABLE  SFX("\x38\x80") "The order is..." TEXT_SPEED("\x05")  COLOR(LIGHTBLUE) "3  1  2" COLOR(DEFAULT)  TEXT_SPEED("\x00") "\n"
+QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Thirty-one is number two!" COLOR(DEFAULT)  QUICKTEXT_DISABLE 
 BOX_BREAK
 UNSKIPPABLE  SFX("\x38\x80") "Do you think I'm a traitor?" EVENT
 ,
@@ -14704,7 +14704,7 @@ UNSKIPPABLE  SFX("\x38\x80") "Nie wirst Du meine Brüder \n"
 "bezwingen, wenn Du sie nicht in \n"
 "richtiger Reihenfolge besiegst!"
 BOX_BREAK
-UNSKIPPABLE  SFX("\x38\x80") "Merke Dir... " TEXT_SPEED("\x05")  COLOR(LIGHTBLUE) "2  3  1" COLOR(DEFAULT)  TEXT_SPEED("\x00") "\n"
+UNSKIPPABLE  SFX("\x38\x80") "Merke Dir... " TEXT_SPEED("\x05")  COLOR(LIGHTBLUE) "3  1  2" COLOR(DEFAULT)  TEXT_SPEED("\x00") "\n"
 UNSKIPPABLE  SFX("\x38\x80")  QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Rechts vor links, aber\n"
 "die goldene Mitte geht vor!" COLOR(DEFAULT)  QUICKTEXT_DISABLE "\n"
 "Bin ich jetzt ein Verräter?" EVENT
@@ -14717,8 +14717,8 @@ UNSKIPPABLE  SFX("\x38\x80") "Tu ne pourras jamais battre mes \n"
 "frères si tu ne respectes pas un\n"
 "ordre précis!"
 BOX_BREAK
-UNSKIPPABLE  SFX("\x38\x80") "Le bon ordre est..." TEXT_SPEED("\x05")  COLOR(LIGHTBLUE) "2 - 3 - 1!" COLOR(DEFAULT)  TEXT_SPEED("\x00") "\n"
-QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Vingt-trois est numéro un! Ha ha!" COLOR(DEFAULT)  QUICKTEXT_DISABLE 
+UNSKIPPABLE  SFX("\x38\x80") "Le bon ordre est..." TEXT_SPEED("\x05")  COLOR(LIGHTBLUE) "3 - 1 - 2!" COLOR(DEFAULT)  TEXT_SPEED("\x00") "\n"
+QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Trente et un est le numéro deux! Ha ha!" COLOR(DEFAULT)  QUICKTEXT_DISABLE 
 BOX_BREAK
 UNSKIPPABLE  SFX("\x38\x80") "Tu crois que j'suis un traître?" EVENT
 )

@@ -26,7 +26,7 @@ SceneCmd ydan_room_3Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ydan_room_3PolygonType2_0001B0),
     SCENE_CMD_OBJECT_LIST(14, ydan_room_3ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(31, ydan_room_3ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(36, ydan_room_3ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -79,6 +79,11 @@ ActorEntry ydan_room_3ActorList_00005C[] = {
     { ACTOR_EN_DEKUBABA,      {   -453,   -820,     -4 }, {      0, 0X9D28,      0 }, 0x0000 },
     { ACTOR_EN_DEKUBABA,      {    -73,   -845,   -328 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_DEKUBABA,      {    -50,   -880,    204 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_OBJ_KIBAKO,       {    -14,   -880,    446 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO,       {    -14,   -880,    542 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO2,      {   -764,   -820,    280 }, {      0, 0XE000,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO2,      {   -805,   -820,    237 }, {      0, 0XE000,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO2,      {   -807,   -810,   -228 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 ydan_room_3_possiblePadding_0001AC[] = {

@@ -37,7 +37,7 @@ SceneCmd Bmori1_room_8Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&Bmori1_room_8PolygonType0_000130),
     SCENE_CMD_OBJECT_LIST(12, Bmori1_room_8ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(13, Bmori1_room_8ActorList_000058),
+    SCENE_CMD_ACTOR_LIST(15, Bmori1_room_8ActorList_000058),
     SCENE_CMD_END(),
 };
 
@@ -70,6 +70,8 @@ ActorEntry Bmori1_room_8ActorList_000058[] = {
     { ACTOR_EN_ITEM00,       {  -1124,    504,  -2855 }, {      0,      0,      0 }, 0x2D03 },
     { ACTOR_EN_ITEM00,       {  -1157,    504,  -2798 }, {      0,      0,      0 }, 0x2E03 },
     { ACTOR_EN_ITEM00,       {  -1184,    504,  -2744 }, {      0,      0,      0 }, 0x2F03 },
+    { ACTOR_EN_DEKUBABA,     {   -929,    204,  -2501 }, {      0, 0X238E,      0 }, 0x0001 },
+    { ACTOR_EN_DEKUBABA,     {  -1509,    523,  -2368 }, {      0, 0X3E94,      0 }, 0x0001 },
 };
 
 u8 Bmori1_room_8_possiblePadding_000128[] = {

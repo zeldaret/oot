@@ -26,7 +26,7 @@ SceneCmd ydan_room_5Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ydan_room_5PolygonType2_000180),
     SCENE_CMD_OBJECT_LIST(14, ydan_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(23, ydan_room_5ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(25, ydan_room_5ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -61,7 +61,7 @@ ActorEntry ydan_room_5ActorList_00005C[] = {
     { ACTOR_OBJ_SYOKUDAI,   {  -1161,   -880,   1147 }, {      0,      0,      0 }, 0x1089 },
     { ACTOR_OBJ_SYOKUDAI,   {  -1160,   -880,    993 }, {      0,      0,      0 }, 0x1089 },
     { ACTOR_EN_BOX,         {  -1376,   -880,   1078 }, {      0, 0XC000,      0 }, 0x5AA0 },
-    { ACTOR_EN_BOX,         {   -380,   -880,   1029 }, {      0, 0X4000,      0 }, 0x5905 },
+    { ACTOR_EN_BOX,         {   -380,   -740,   1029 }, {      0, 0X4000,   0X16 }, 0x8AC5 },
     { ACTOR_BG_YDAN_HASI,   {   -835,   -905,   1050 }, {      0, 0X4000,      0 }, 0xFF00 },
     { ACTOR_BG_YDAN_MARUTA, {   -835,   -860,   1050 }, {      0, 0X4000,      0 }, 0x00FF },
     { ACTOR_BG_YDAN_HASI,   {   -835,   -900,   1050 }, {      0,      0,      0 }, 0x3E01 },
@@ -71,6 +71,8 @@ ActorEntry ydan_room_5ActorList_00005C[] = {
     { ACTOR_EN_KUSA,        {  -1361,   -870,    840 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_EN_KUSA,        {  -1310,   -870,    840 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_OBJ_OSHIHIKI,   {  -1365,   -880,   1200 }, {      0,      0,      0 }, 0xFFC0 },
+    { ACTOR_BG_HAKA,        {   -519,   -880,    852 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_OBJ_SWITCH,     {   -519,   -910,    852 }, {      0,      0,      0 }, 0x1603 },
 };
 
 u8 ydan_room_5_possiblePadding_00017C[] = {

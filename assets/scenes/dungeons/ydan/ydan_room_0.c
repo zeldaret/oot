@@ -26,7 +26,7 @@ SceneCmd ydan_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ydan_room_0PolygonType2_000270),
     SCENE_CMD_OBJECT_LIST(14, ydan_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(38, ydan_room_0ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(45, ydan_room_0ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -73,19 +73,26 @@ ActorEntry ydan_room_0ActorList_00005C[] = {
     { ACTOR_EN_GOMA,      {    402,    360,    197 }, {      0, 0XB333,      0 }, 0x0006 },
     { ACTOR_EN_GOMA,      {    321,    981,    285 }, {      0, 0XA000,      0 }, 0x0008 },
     { ACTOR_OBJ_SYOKUDAI, {   -153,      0,      2 }, {      0,      0,      0 }, 0x03E7 },
-    { ACTOR_OBJ_SYOKUDAI, {    400,    360,    121 }, {      0, 0XB555,      0 }, 0x03E7 },
+    { ACTOR_OBJ_SYOKUDAI, {    400,    360,    121 }, {      0, 0XB555,      0 }, 0x10CC },
     { ACTOR_OBJ_SYOKUDAI, {   -490,    800,    -36 }, {      0, 0XCAAB,      0 }, 0x03E7 },
     { ACTOR_OBJ_SWITCH,   {    276,    800,   -294 }, {      0, 0XE000,      0 }, 0x2700 },
     { ACTOR_OBJ_KIBAKO2,  {    279,    360,    333 }, {      0, 0X6000,      0 }, 0xFFFF },
     { ACTOR_EN_BOX,       {    333,    360,    253 }, {      0, 0X20B6,      0 }, 0x0823 },
     { ACTOR_BG_YDAN_SP,   {      0,      0,      0 }, {      0, 0X4000,      0 }, 0x0FC5 },
     { ACTOR_BG_YDAN_SP,   {   -491,    800,     -1 }, {      0, 0X4000,      0 }, 0x19CA },
-    { ACTOR_BG_YDAN_SP,   {   -388,    400,    389 }, {      0, 0X6000,      0 }, 0x1FD6 },
     { ACTOR_EN_DEKUBABA,  {   -218,      0,     63 }, {      0, 0XCFA5,      0 }, 0x0000 },
     { ACTOR_EN_DEKUBABA,  {    -41,      0,   -230 }, {      0, 0X8000,      0 }, 0x0000 },
     { ACTOR_EN_DEKUBABA,  {    194,      0,    105 }, {      0, 0X305B,      0 }, 0x0000 },
     { ACTOR_OBJ_KIBAKO2,  {    233,    360,    379 }, {      0, 0X6000,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,  {    430,    360,     91 }, {      0, 0X6000,      0 }, 0xFFFF },
+    { ACTOR_EN_SW,        {    283,    478,    357 }, {      0, 0XA38E,      0 }, 0x0000 },
+    { ACTOR_EN_SW,        {    416,    520,    179 }, {      0, 0XB333,      0 }, 0x0000 },
+    { ACTOR_EN_SW,        {    327,    678,    321 }, {      0, 0XA4FA,      0 }, 0x0000 },
+    { ACTOR_OBJ_SYOKUDAI, {    175,      0,      2 }, {      0,      0,      0 }, 0x10CC },
+    { ACTOR_OBJ_SYOKUDAI, {    -80,    280,   -282 }, {      0,  0xBFA,      0 }, 0x10CC },
+    { ACTOR_EN_BOX,       {   -119,    100,   -416 }, {      0, 0X9000,    0xC }, 0x8AAD },
+    { ACTOR_OBJ_KIBAKO2,  {   -301,    402,    224 }, {      0, 0X1CCC,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO2,  {   -345,    402,    268 }, {      0, 0X1CCC,      0 }, 0xFFFF },
 };
 
 u8 ydan_room_0_possiblePadding_00026C[] = {

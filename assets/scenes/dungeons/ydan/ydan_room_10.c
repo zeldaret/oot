@@ -63,7 +63,7 @@ ActorEntry ydan_room_10ActorList_000054[] = {
     { ACTOR_OBJ_KIBAKO2,  {   -805,    720,     -2 }, {      0, 0X4000,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,  {   -805,    720,    -62 }, {      0, 0X4000,      0 }, 0xFFFF },
     { ACTOR_EN_BOX,       {  -1491,   1179,      1 }, {      0, 0XC000,   0X13 }, 0x8522 },
-    { ACTOR_EN_BOX,       {  -1082,    820,    387 }, {      0,      0,      0 }, 0x10A6 },
+    { ACTOR_EN_BOX,       {  -1082,    820,    387 }, {      0,      0,      0 }, 0x1806 },
     { ACTOR_BG_YDAN_HASI, {  -1080,    600,      0 }, {      0,      0,      0 }, 0x3D02 },
 };
 

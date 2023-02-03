@@ -71,7 +71,7 @@ ActorEntry ydan_room_2ActorList_00005C[] = {
     { ACTOR_OBJ_BOMBIWA,    {  -1129,    656,   1469 }, {      0, 0XA000,      0 }, 0x0003 },
     { ACTOR_OBJ_BOMBIWA,    {  -1183,    656,   1522 }, {      0, 0XA000,      0 }, 0x0004 },
     { ACTOR_OBJ_BOMBIWA,    {  -1237,    656,   1558 }, {      0, 0XA000,      0 }, 0x0008 },
-    { ACTOR_EN_BOX,         {  -1391,    480,   1391 }, {      0, 0XE000,      0 }, 0x0801 },
+    { ACTOR_EN_BOX,         {  -1391,    480,   1391 }, {      0, 0XE000,      0 }, 0x00A1 },
     { ACTOR_BG_YDAN_SP,     {  -1047,    613,   1077 }, {  0XCCD, 0XE5B0,  0XEEF }, 0x1FFF },
     { ACTOR_BG_YDAN_MARUTA, {  -1066,    560,   1066 }, {      0, 0XE000,      0 }, 0x0121 },
 };

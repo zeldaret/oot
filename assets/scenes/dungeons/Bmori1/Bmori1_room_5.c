@@ -37,7 +37,7 @@ SceneCmd Bmori1_room_5Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&Bmori1_room_5PolygonType0_0000B0),
     SCENE_CMD_OBJECT_LIST(7, Bmori1_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(6, Bmori1_room_5ActorList_000050),
+    SCENE_CMD_ACTOR_LIST(7, Bmori1_room_5ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -58,6 +58,7 @@ ActorEntry Bmori1_room_5ActorList_000050[] = {
     { ACTOR_EN_LIGHT,      {  -1344,    438,  -1383 }, {      0, 0X4000,      0 }, 0x83F0 },
     { ACTOR_EN_TEST,       {  -1000,    383,  -1440 }, {      0, 0X4000,      0 }, 0xFFFF },
     { ACTOR_OBJ_ROOMTIMER, {   -830,    383,  -1440 }, {      0,      0,      0 }, 0x4FFF },
+    { ACTOR_EN_ST,         {  -1083,    495,  -1435 }, {      0, 0X4000,      0 }, 0x0000 },
 };
 
 PolygonType0 Bmori1_room_5PolygonType0_0000B0 = { 
