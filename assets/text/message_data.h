@@ -4669,7 +4669,7 @@ UNSKIPPABLE  COLOR(LIGHTBLUE) "You can open a " COLOR(DEFAULT) "door" COLOR(LIGH
 "in front of it and pressing " COLOR(ADJUSTABLE) "[A]" COLOR(LIGHTBLUE) "." COLOR(DEFAULT) 
 BOX_BREAK
 UNSKIPPABLE  COLOR(LIGHTBLUE) "Pay attention to what the\n"
-COLOR(ADJUSTABLE) "Action" COLOR(LIGHTBLUE) " " COLOR(BLUE) "Icon" COLOR(LIGHTBLUE) " says.\n"
+COLOR(ADJUSTABLE) "Action" COLOR(LIGHTBLUE) " " COLOR(ADJUSTABLE) "Icon" COLOR(LIGHTBLUE) " says.\n"
 "That's the " COLOR(ADJUSTABLE) "green icon" COLOR(LIGHTBLUE) " at the top of\n"
 "the screen!" COLOR(DEFAULT)
 ,
