@@ -31,7 +31,7 @@ SceneCmd ddan_room_9Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_9PolygonType2_000140),
     SCENE_CMD_OBJECT_LIST(16, ddan_room_9ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(14, ddan_room_9ActorList_000060),
+    SCENE_CMD_ACTOR_LIST(21, ddan_room_9ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -41,7 +41,7 @@ s16 ddan_room_9ObjectList_000040[] = {
     OBJECT_BOMBF,
     OBJECT_BOX,
     OBJECT_KUSA,
-    OBJECT_SHOPNUTS,
+    OBJECT_TRAP,
     OBJECT_D_ELEVATOR,
     OBJECT_BOMBIWA,
     OBJECT_ST,
@@ -50,25 +50,32 @@ s16 ddan_room_9ObjectList_000040[] = {
     OBJECT_YDAN_OBJECTS,
     OBJECT_DODOJR,
     OBJECT_FIREFLY,
-    OBJECT_KIBAKO2,
+    OBJECT_VM,
     OBJECT_DODONGO,
 };
 
 ActorEntry ddan_room_9ActorList_000060[] = {
     { ACTOR_EN_KUSA,      {   1713,    411,  -1246 }, {      0,      0,      0 }, 0xFF01 },
     { ACTOR_OBJ_OSHIHIKI, {   1620,    351,   -630 }, {      0,      0,      0 }, 0xFF40 },
-    { ACTOR_OBJ_OSHIHIKI, {   1740,    351,   -450 }, {      0,      0,      0 }, 0xFF40 },
-    { ACTOR_OBJ_OSHIHIKI, {   1740,    351,   -270 }, {      0,      0,      0 }, 0xFF40 },
     { ACTOR_OBJ_OSHIHIKI, {   2030,    351,   -320 }, {      0,      0,      0 }, 0xFF40 },
     { ACTOR_EN_ITEM00,    {   1955,    351,   -596 }, {      0,      0,      0 }, 0x3003 },
     { ACTOR_OBJ_SYOKUDAI, {   1248,    531,   -352 }, {      0,      0,      0 }, 0x2400 },
-    { ACTOR_OBJ_SYOKUDAI, {   1831,    471,   -241 }, {      0,      0,      0 }, 0x03E7 },
+    { ACTOR_OBJ_SYOKUDAI, {   1801,    471,   -241 }, {      0,      0,      0 }, 0x03E7 },
     { ACTOR_OBJ_SYOKUDAI, {   1581,    411,   -220 }, {      0,      0,      0 }, 0x10E7 },
     { ACTOR_OBJ_SYOKUDAI, {   1582,    411,   -365 }, {      0,      0,      0 }, 0x10E7 },
     { ACTOR_OBJ_SYOKUDAI, {   1582,    411,   -491 }, {      0,      0,      0 }, 0x10E7 },
     { ACTOR_OBJ_TSUBO,    {   1827,    591,   -587 }, {      0,      0,      0 }, 0x4C01 },
     { ACTOR_OBJ_TSUBO,    {   1532,    591,  -1225 }, {      0,      0,      0 }, 0x4E03 },
     { ACTOR_EN_BOX,       {   1650,    591,   -518 }, {      0,      0,      0 }, 0x59A3 },
+    { ACTOR_BG_BREAKWALL, {   2020,    531,   -320 }, {      0, 0XC000,      0 }, 0xA021 },
+    { ACTOR_EN_BOMBF,     {   1850,    471,   -210 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_TRAP,      {   1747,    351,   -155 }, {      0, 0X8000,      0 }, 0x5F01 },
+    { ACTOR_EN_TRAP,      {   1554,    351,   -157 }, {      0, 0X8000,      0 }, 0x6F01 },
+    { ACTOR_BG_BREAKWALL, {   1840,    411,  -1300 }, {      0,      0,      0 }, 0xA022 },
+    { ACTOR_ELF_MSG,      {   1703,    351,   -627 }, {      0,      0,      0 }, 0x0E19 },
+    { ACTOR_ELF_MSG,      {   1703,    351,   -448 }, {      0,      0,      0 }, 0x0E19 },
+    { ACTOR_ELF_MSG,      {   1703,    351,   -266 }, {      0,      0,      0 }, 0x0E19 },
+    { ACTOR_EN_BOX,       {   1568,    591,  -1162 }, {      0, 0X8000,      0 }, 0x0644 },
 };
 
 PolygonType2 ddan_room_9PolygonType2_000140 = { 

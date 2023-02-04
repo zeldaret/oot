@@ -30,7 +30,7 @@ SceneCmd bdan_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_0PolygonType0_000190),
-    SCENE_CMD_OBJECT_LIST(11, bdan_room_0ObjectList_000058),
+    SCENE_CMD_OBJECT_LIST(12, bdan_room_0ObjectList_000058),
     SCENE_CMD_ACTOR_LIST(18, bdan_room_0ActorList_000070),
     SCENE_CMD_END(),
 };
@@ -44,7 +44,7 @@ SceneCmd* bdan_room_0AlternateHeaders0x000048[] = {
 
 s16 bdan_room_0ObjectList_000058[] = {
     OBJECT_BDAN_OBJECTS,
-    OBJECT_COW,
+    OBJECT_RU1,
     OBJECT_KUSA,
     OBJECT_BOX,
     OBJECT_BOMBIWA,
@@ -54,6 +54,7 @@ s16 bdan_room_0ObjectList_000058[] = {
     OBJECT_TIMEBLOCK,
     OBJECT_EFC_TW,
     OBJECT_BOMBF,
+    OBJECT_COW,
 };
 
 ActorEntry bdan_room_0ActorList_000070[] = {

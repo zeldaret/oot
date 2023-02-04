@@ -30,8 +30,8 @@ SceneCmd bdan_room_2Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_2PolygonType0_000160),
-    SCENE_CMD_OBJECT_LIST(14, bdan_room_2ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(14, bdan_room_2ActorList_000074),
+    SCENE_CMD_OBJECT_LIST(15, bdan_room_2ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(19, bdan_room_2ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -57,6 +57,7 @@ s16 bdan_room_2ObjectList_000058[] = {
     OBJECT_ST,
     OBJECT_GI_SUTARU,
     OBJECT_BXA,
+    OBJECT_VALI,
 };
 
 ActorEntry bdan_room_2ActorList_000074[] = {
@@ -74,6 +75,11 @@ ActorEntry bdan_room_2ActorList_000074[] = {
     { ACTOR_OBJ_BOMBIWA,    {    274,   -179,  -2790 }, {      0, 0XBB06,      0 }, 0x001A },
     { ACTOR_ELF_MSG2,       {    248,   -159,  -2785 }, {      0,   0X14,    0X1 }, 0x3F00 },
     { ACTOR_EN_WONDER_ITEM, {    248,   -165,  -2771 }, {      0,      0,    0X4 }, 0x1953 },
+    { ACTOR_EN_VALI,        {   -127,     60,  -3272 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_VALI,        {      3,     60,  -3612 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,        {     38,   -318,  -3232 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,        {   -110,   -325,  -3038 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,        {    -50,   -319,  -3394 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 bdan_room_2_possiblePadding_000154[] = {

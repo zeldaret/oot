@@ -41,7 +41,7 @@ s16 ddan_room_12ObjectList_000040[] = {
     OBJECT_BOMBF,
     OBJECT_BOX,
     OBJECT_KUSA,
-    OBJECT_SHOPNUTS,
+    OBJECT_TRAP,
     OBJECT_D_ELEVATOR,
     OBJECT_BOMBIWA,
     OBJECT_ST,
@@ -50,7 +50,7 @@ s16 ddan_room_12ObjectList_000040[] = {
     OBJECT_YDAN_OBJECTS,
     OBJECT_DODOJR,
     OBJECT_FIREFLY,
-    OBJECT_KIBAKO2,
+    OBJECT_VM,
     OBJECT_DODONGO,
 };
 
@@ -65,8 +65,8 @@ ActorEntry ddan_room_12ActorList_000060[] = {
     { ACTOR_OBJ_SWITCH,       {   2739,    411,  -1060 }, {      0,      0,      0 }, 0x3A00 },
     { ACTOR_EN_BOMBF,         {   3088,    551,   -658 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_BOMBIWA,      {   2737,    411,  -1058 }, {      0,      0,      0 }, 0x8004 },
-    { ACTOR_OBJ_KIBAKO2,      {   2776,    411,   -810 }, {      0, 0X4000,      0 }, 0xFFFF },
-    { ACTOR_OBJ_KIBAKO2,      {   3191,    411,   -897 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO,       {   2776,    411,   -810 }, {      0, 0X4000,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO,       {   3191,    411,   -897 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 PolygonType2 ddan_room_12PolygonType2_000120 = { 

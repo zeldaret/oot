@@ -66,7 +66,7 @@ TransitionActorEntry ddan_sceneTransitionActorList_000080[] = {
     { 0, 255, 5, 255, ACTOR_DOOR_SHUTTER, -1548, 531, -320, -16384, 0x007F },
     { 1, 255, 1, 255, ACTOR_DOOR_SHUTTER, 3560, 100, -560, 0, 0x00B6 },
     { 16, 255, 7, 255, ACTOR_DOOR_SHUTTER, -360, 16, -2784, 16384, 0x00A0 },
-    { 2, 255, 0, 255, ACTOR_DOOR_SHUTTER, -840, 0, -1520, 16384, 0x0083 },
+    { 2, 255, 0, 255, ACTOR_DOOR_SHUTTER, -840, 0, -1520, 16384, 0x0099 },
     { 0, 255, 4, 255, ACTOR_DOOR_SHUTTER, 1460, 80, -920, 16384, 0x009B },
 };
 

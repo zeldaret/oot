@@ -30,7 +30,7 @@ SceneCmd bdan_room_7Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_7PolygonType0_000130),
-    SCENE_CMD_OBJECT_LIST(11, bdan_room_7ObjectList_000058),
+    SCENE_CMD_OBJECT_LIST(12, bdan_room_7ObjectList_000058),
     SCENE_CMD_ACTOR_LIST(14, bdan_room_7ActorList_00006C),
     SCENE_CMD_END(),
 };
@@ -44,7 +44,7 @@ SceneCmd* bdan_room_7AlternateHeaders0x000048[] = {
 
 s16 bdan_room_7ObjectList_000058[] = {
     OBJECT_BDAN_OBJECTS,
-    OBJECT_TP,
+    OBJECT_RU1,
     OBJECT_BXA,
     OBJECT_BUBBLE,
     OBJECT_VALI,
@@ -54,6 +54,7 @@ s16 bdan_room_7ObjectList_000058[] = {
     OBJECT_ZF,
     OBJECT_VALI,
     OBJECT_BL,
+    OBJECT_TP,
 };
 
 ActorEntry bdan_room_7ActorList_00006C[] = {

@@ -30,8 +30,8 @@ SceneCmd bdan_room_14Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_14PolygonType0_000170),
-    SCENE_CMD_OBJECT_LIST(15, bdan_room_14ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(15, bdan_room_14ActorList_000078),
+    SCENE_CMD_OBJECT_LIST(16, bdan_room_14ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(25, bdan_room_14ActorList_000078),
     SCENE_CMD_END(),
 };
 
@@ -44,7 +44,7 @@ SceneCmd* bdan_room_14AlternateHeaders0x000048[] = {
 
 s16 bdan_room_14ObjectList_000058[] = {
     OBJECT_BDAN_OBJECTS,
-    OBJECT_BOX,
+    OBJECT_RU1,
     OBJECT_EI,
     OBJECT_ZF,
     OBJECT_TIMEBLOCK,
@@ -55,9 +55,10 @@ s16 bdan_room_14ObjectList_000058[] = {
     OBJECT_GI_SHIELD_2,
     OBJECT_GI_SUTARU,
     OBJECT_ST,
-    OBJECT_EFC_FLASH,
+    OBJECT_BOX,
     OBJECT_MIZU_OBJECTS,
     OBJECT_SIOFUKI,
+    OBJECT_BUBBLE,
 };
 
 ActorEntry bdan_room_14ActorList_000078[] = {
@@ -76,6 +77,16 @@ ActorEntry bdan_room_14ActorList_000078[] = {
     { ACTOR_EN_SIOFUKI,      {    588,  -1073,  -2385 }, {    0X5,    0X5,    0X2 }, 0x15C6 },
     { ACTOR_EN_BOX,          {    699,  -1073,  -2376 }, {      0, 0XC000,      0 }, 0x10C6 },
     { ACTOR_OBJ_TSUBO,       {    699,  -1047,  -2445 }, {      0,      0,      0 }, 0x6808 },
+    { ACTOR_EN_EIYER,        {   1100,  -1293,  -2521 }, {      0,      0,      0 }, 0x000A },
+    { ACTOR_EN_EIYER,        {    936,  -1283,  -2277 }, {      0,      0,      0 }, 0x000A },
+    { ACTOR_EN_EIYER,        {   1264,  -1293,  -2281 }, {      0,      0,      0 }, 0x000A },
+    { ACTOR_EN_BUBBLE,       {    668,  -1085,  -3239 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,       {    770,  -1099,  -3203 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,       {   1092,  -1176,  -1770 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,       {   1048,  -1185,  -1619 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,       {    882,  -1105,  -3171 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,       {    999,  -1105,  -3192 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,       {    889,  -1185,  -1552 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 bdan_room_14_possiblePadding_000168[] = {
