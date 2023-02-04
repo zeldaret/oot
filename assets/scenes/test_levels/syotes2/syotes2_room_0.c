@@ -14,17 +14,19 @@ SceneCmd syotes2_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&syotes2_room_0PolygonType0_000060),
-    SCENE_CMD_OBJECT_LIST(1, syotes2_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(1, syotes2_room_0ActorList_000044),
+    SCENE_CMD_OBJECT_LIST(2, syotes2_room_0ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(2, syotes2_room_0ActorList_000044),
     SCENE_CMD_END(),
 };
 
 s16 syotes2_room_0ObjectList_000040[] = {
     OBJECT_WARP1,
+    OBJECT_SK2,
 };
 
 ActorEntry syotes2_room_0ActorList_000044[] = {
-    { ACTOR_DOOR_WARP1, {      0,      0,    -37 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_DOOR_WARP1, {      0,      0,    -37 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_EN_TEST,    {      0,     20,    384 }, {      0, 0x8000,      0 }, 0x0003 },
 };
 
 u8 syotes2_room_0_possiblePadding_000054[] = {
