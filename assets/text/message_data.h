@@ -14705,8 +14705,8 @@ UNSKIPPABLE  SFX("\x38\x80") "Nie wirst Du meine Brüder \n"
 "richtiger Reihenfolge besiegst!"
 BOX_BREAK
 UNSKIPPABLE  SFX("\x38\x80") "Merke Dir... " TEXT_SPEED("\x05")  COLOR(LIGHTBLUE) "3  1  2" COLOR(DEFAULT)  TEXT_SPEED("\x00") "\n"
-UNSKIPPABLE  SFX("\x38\x80")  QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Rechts vor links, aber\n"
-"die goldene Mitte geht vor!" COLOR(DEFAULT)  QUICKTEXT_DISABLE "\n"
+UNSKIPPABLE  SFX("\x38\x80")  QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Links vor Mitte, aber\n"
+"die Summe kommt zuerst!" COLOR(DEFAULT)  QUICKTEXT_DISABLE "\n"
 "Bin ich jetzt ein Verräter?" EVENT
 ,
 UNSKIPPABLE  SFX("\x38\x82") "Pitié, Seigneur! Je ne le ferai \n"
