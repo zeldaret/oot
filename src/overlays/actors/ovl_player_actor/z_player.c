@@ -9248,23 +9248,55 @@ static EffectBlureInit2 D_8085470C = {
 static Vec3s D_80854730 = { -57, 3377, 0 };
 
 void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHeader) {
+    EffectBlureInit1 blureInit; // added
     this->ageProperties = &sAgeProperties[gSaveContext.linkAge];
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->meleeWeaponEffectIndex = TOTAL_EFFECT_COUNT;
     this->currentYaw = this->actor.world.rot.y;
     func_80834644(play, this);
-
-    SkelAnime_InitLink(play, &this->skelAnime, skelHeader, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType), 9,
-                       this->jointTable, this->morphTable, PLAYER_LIMB_MAX);
+ 
+    SkelAnime_InitLink(play, &this->skelAnime, skelHeader, D_80853914[this->modelAnimType], 9, this->jointTable,
+                       this->morphTable, PLAYER_LIMB_MAX);
     this->skelAnime.baseTransl = D_80854730;
     SkelAnime_InitLink(play, &this->skelAnime2, skelHeader, func_80833338(this), 9, this->jointTable2,
                        this->morphTable2, PLAYER_LIMB_MAX);
     this->skelAnime2.baseTransl = D_80854730;
+ 
+    // Stalfos blure settings
+    blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p1StartColor[2] = blureInit.p1StartColor[3] =
+        blureInit.p2StartColor[0] = blureInit.p2StartColor[1] = blureInit.p2StartColor[2] =
+            blureInit.p1EndColor[0] = blureInit.p1EndColor[1] = blureInit.p1EndColor[2] = blureInit.p2EndColor[0] =
+                blureInit.p2EndColor[1] = blureInit.p2EndColor[2] = 255;
+ 
+    blureInit.p1StartColor[0] = 255; // R
+    blureInit.p1StartColor[1] = 255; // G
+    blureInit.p1StartColor[2] = 255; // B
+    blureInit.p1StartColor[3] = 148; // A
 
-    Effect_Add(play, &this->meleeWeaponEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
+    blureInit.p2StartColor[0] = 0;   // R
+    blureInit.p2StartColor[1] = 150; // G
+    blureInit.p2StartColor[2] = 0;   // B
+    blureInit.p2StartColor[3] = 148; // A
+
+    blureInit.p1EndColor[0] = 255;   // R
+    blureInit.p1EndColor[1] = 255;   // G
+    blureInit.p1EndColor[2] = 255;   // B
+    blureInit.p1EndColor[3] = 148;   // A
+
+    blureInit.p2EndColor[0] = 0;   // R
+    blureInit.p2EndColor[1] = 150; // G
+    blureInit.p2EndColor[2] = 0;   // B
+    blureInit.p2EndColor[3] = 148; // A
+ 
+    blureInit.elemDuration = 9;
+    blureInit.unkFlag = 0;
+    blureInit.calcMode = 2;
+    
+    // Effect_Add(play, &this->meleeWeaponEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);; // original
+    Effect_Add(play, &this->meleeWeaponEffectIndex, EFFECT_BLURE1, 0, 0, &blureInit); // added
+ 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
     this->subCamId = CAM_ID_NONE;
-
     Collider_InitCylinder(play, &this->cylinder);
     Collider_SetCylinder(play, &this->cylinder, &this->actor, &D_80854624);
     Collider_InitQuad(play, &this->meleeWeaponQuads[0]);
