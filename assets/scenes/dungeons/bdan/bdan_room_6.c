@@ -63,7 +63,7 @@ ActorEntry bdan_room_6ActorList_000070[] = {
     { ACTOR_EN_RU1,          {  -1360,   -980,  -3342 }, {      0, 0X4000,      0 }, 0x0004 },
     { ACTOR_BG_BDAN_OBJECTS, {  -1360,  -1025,  -3343 }, {      0, 0XC000,      0 }, 0x1F00 },
     { ACTOR_EN_KUSA,         {  -1086,     80,  -3346 }, {      0,      0,      0 }, 0xFF01 },
-    { ACTOR_EN_KUSA,         {  -1360,     80,  -3606 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_EN_KUSA,         {  -1529,     80,  -3575 }, {      0, 0x2000,      0 }, 0xFF01 },
     { ACTOR_DEMO_EFFECT,     {  -1360,   -948,  -3343 }, {      0, 0X4000,      0 }, 0x1015 },
     { ACTOR_EN_WONDER_ITEM,  {  -1633,    225,  -3351 }, {      0,      0,    0X4 }, 0x1920 },
     { ACTOR_ELF_MSG2,        {  -1360,   -930,  -3343 }, {    0X6,    0X3,      0 }, 0x3F3A },

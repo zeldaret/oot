@@ -30,8 +30,8 @@ SceneCmd bdan_room_8Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_8PolygonType0_000080),
-    SCENE_CMD_OBJECT_LIST(4, bdan_room_8ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(2, bdan_room_8ActorList_000060),
+    SCENE_CMD_OBJECT_LIST(5, bdan_room_8ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(6, bdan_room_8ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -47,11 +47,16 @@ s16 bdan_room_8ObjectList_000058[] = {
     OBJECT_RU1,
     OBJECT_BXA,
     OBJECT_BOX,
+    OBJECT_BL,
 };
 
 ActorEntry bdan_room_8ActorList_000060[] = {
     { ACTOR_OBJ_ROOMTIMER, {   -113,   -340,  -5669 }, {      0,      0,      0 }, 0x2FFF },
     { ACTOR_EN_BA,         {      1,     20,  -5801 }, {      0,      0,      0 }, 0x0B00 },
+    { ACTOR_EN_BILI,       {   -181,   -262,  -5982 }, {      0, 0X2222,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,       {   -184,   -271,  -5623 }, {      0, 0X5DDE,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,       {    184,   -253,  -5621 }, {      0, 0XA38E,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,       {    182,   -275,  -5978 }, {      0, 0XE000,      0 }, 0xFFFF },
 };
 
 PolygonType0 bdan_room_8PolygonType0_000080 = { 

@@ -30,8 +30,8 @@ SceneCmd bdan_room_9Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_9PolygonType0_000080),
-    SCENE_CMD_OBJECT_LIST(4, bdan_room_9ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(2, bdan_room_9ActorList_000060),
+    SCENE_CMD_OBJECT_LIST(5, bdan_room_9ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(7, bdan_room_9ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -47,11 +47,17 @@ s16 bdan_room_9ObjectList_000058[] = {
     OBJECT_RU1,
     OBJECT_BXA,
     OBJECT_BOX,
+    OBJECT_EI,
 };
 
 ActorEntry bdan_room_9ActorList_000060[] = {
     { ACTOR_OBJ_ROOMTIMER, {   1543,   -340,  -4829 }, {      0,      0,      0 }, 0x2BFF },
     { ACTOR_EN_BA,         {   1561,     20,  -4679 }, {      0, 0XC000,      0 }, 0x0A02 },
+    { ACTOR_EN_EIYER,      {   1563,   -340,  -4828 }, {      0, 0XC000,      0 }, 0x000A },
+    { ACTOR_EN_EIYER,      {   1567,   -340,  -4561 }, {      0, 0X4000,      0 }, 0x000A },
+    { ACTOR_EN_EIYER,      {   1431,   -340,  -4692 }, {      0,      0,      0 }, 0x000A },
+    { ACTOR_EN_EIYER,      {   1700,   -340,  -4692 }, {      0, 0X8000,      0 }, 0x000A },
+    { ACTOR_EN_EIYER,      {   1544,   -340,  -4836 }, {      0, 0XE000,      0 }, 0x0000 },
 };
 
 PolygonType0 bdan_room_9PolygonType0_000080 = { 
