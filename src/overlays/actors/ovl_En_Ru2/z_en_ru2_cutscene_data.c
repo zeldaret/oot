@@ -15,7 +15,7 @@ static CutsceneData D_80AF411C[] = {
     CS_PLAYER_ACTION_LIST(5),
         CS_PLAYER_ACTION(0x000D, 0, 240, 0x0000, 0x0000, 0x0000, 0, 6, 0, 0, 6, 0, 0.0f, 0.0f, 0.0f),
         CS_PLAYER_ACTION(0x0005, 240, 520, 0x0000, 0x4000, 0x0000, 0, 6, 0, 0, 6, 0, 0.0f, 0.0f, 0.0f),
-        CS_PLAYER_ACTION(0x0003, 520, 550, 0x0000, 0x4000, 0x0000, 0, 6, 0, 0, 6, 0, 0.0f, 0.0f, 0.0f),
+        CS_PLAYER_ACTION(0x0003, 500, 530, 0x0000, 0x4000, 0x0000, 0, 6, 0, 0, 6, 0, 0.0f, 0.0f, 0.0f),
         CS_PLAYER_ACTION(0x0005, 550, 801, 0x0000, 0x4000, 0x0000, 0, 6, 0, 0, 6, 0, 0.0f, 0.0f, 0.0f),
         CS_PLAYER_ACTION(0x0013, 801, 1956, 0x0000, 0xC000, 0x0000, 0, 6, 0, 0, 6, 0, 0.0f, 0.0f, 0.0f),
     CS_NPC_ACTION_LIST(49, 1),

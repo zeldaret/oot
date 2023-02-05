@@ -11701,11 +11701,11 @@ UNSKIPPABLE "C'est un véritable honneur d'être\n"
 )
 
 DEFINE_MESSAGE(0x1011, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
-UNSKIPPABLE "Oh, you're leaving..."
+UNSKIPPABLE SFX("\x68\x36")"Oh, you're leaving..."
 ,
-UNSKIPPABLE "Oh, Du verläßt uns?"
+UNSKIPPABLE SFX("\x68\x36")"Oh, Du verläßt uns?"
 ,
-UNSKIPPABLE  SHIFT("\x1C") "Oh...alors tu pars...déjà..."
+UNSKIPPABLE  SHIFT("\x1C") SFX("\x68\x36")"Oh...alors tu pars...déjà..."
 )
 
 DEFINE_MESSAGE(0x1012, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
@@ -24507,7 +24507,7 @@ BOX_BREAK
 UNSKIPPABLE "It's me, your fiancée, " COLOR(BLUE) "Ruto" COLOR(DEFAULT) "!\n"
 "Princess of the Zoras!"
 BOX_BREAK
-UNSKIPPABLE "I never forgot the vows we\n"
+UNSKIPPABLE SFX("\x68\x16")"I never forgot the vows we\n"
 "made to each other seven years \n"
 "ago!"
 BOX_BREAK
@@ -24554,7 +24554,7 @@ BOX_BREAK
 UNSKIPPABLE "Ich bin es! " COLOR(BLUE) "Ruto" COLOR(DEFAULT) ", Deine Braut!\n"
 "Die Prinzessin der Zoras!"
 BOX_BREAK
-UNSKIPPABLE "Ich werde nie vergessen, was\n"
+UNSKIPPABLE SFX("\x68\x16")"Ich werde nie vergessen, was\n"
 "wir uns vor Jahren\n"
 "geschworen haben!"
 BOX_BREAK
@@ -24603,7 +24603,7 @@ BOX_BREAK
 UNSKIPPABLE "C'est moi, " COLOR(BLUE) "Ruto" COLOR(DEFAULT) "!" COLOR(BLUE) " " COLOR(DEFAULT) "Ta fiancée!\n"
 "Princesse des Zoras!"
 BOX_BREAK
-UNSKIPPABLE "Je n'ai pas oublié notre promesse!"
+UNSKIPPABLE SFX("\x68\x16")"Je n'ai pas oublié notre promesse!"
 BOX_BREAK
 UNSKIPPABLE "Tu ne manques pas d'air!\n"
 "Me faire attendre pendant sept \n"
@@ -24752,21 +24752,21 @@ DEFINE_MESSAGE(0x4045, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 
 DEFINE_MESSAGE(0x4046, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 UNSKIPPABLE "As a reward...\n"
-"I grant my eternal love to you."
+"I grant my eternal love to you."SFX("\x68\x16")
 BOX_BREAK
 UNSKIPPABLE "Well, that's what I want to say, \n"
 "but I don't think I can offer that\n"
 "now."
 ,
 UNSKIPPABLE "Als meinen Lohn... gewähre\n"
-"ich Dir meine ewige Liebe!"
+"ich Dir meine ewige Liebe!"SFX("\x68\x16")
 BOX_BREAK
 UNSKIPPABLE "Äh, naja, das würde ich gern,\n"
 "aber ich merke, daß Du an eine \n"
 "andere denkst..."
 ,
 UNSKIPPABLE "Comme récompense...\n"
-"Je t'offre mon amour éternel."
+"Je t'offre mon amour éternel."SFX("\x68\x16")
 BOX_BREAK
 UNSKIPPABLE "Même si pour l'instant je ne peux\n"
 "t'en offrir davantage."
@@ -25101,12 +25101,12 @@ UNSKIPPABLE "Bon...on peut partir maintenant!"
 )
 
 DEFINE_MESSAGE(0x4052, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
-"So, take me home, right now!"
+UNSKIPPABLE "So, take me home, right now!"SFX("\x68\x36")
 ,
-"Bring mich jetzt schnell heim!"
+UNSKIPPABLE "Bring mich jetzt schnell heim!"SFX("\x68\x36")
 ,
-"Ramène-moi à la maison!\n"
-"Tout de suite!"
+UNSKIPPABLE "Ramène-moi à la maison!\n"
+"Tout de suite!"SFX("\x68\x36")
 )
 
 DEFINE_MESSAGE(0x4053, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
