@@ -31,7 +31,7 @@ SceneCmd bdan_room_3Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_3PolygonType0_0001F0),
     SCENE_CMD_OBJECT_LIST(14, bdan_room_3ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(23, bdan_room_3ActorList_000074),
+    SCENE_CMD_ACTOR_LIST(25, bdan_room_3ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -83,6 +83,8 @@ ActorEntry bdan_room_3ActorList_000074[] = {
     { ACTOR_ELF_MSG,        {   -531,  -1113,  -2785 }, {   0X1E,    0XC,      0 }, 0x3731 },
     { ACTOR_EN_BX,          {   -531,  -1015,  -2785 }, {      0, 0X6000,      0 }, 0x0B80 },
     { ACTOR_EN_BX,          {   -560,  -1015,  -3340 }, {      0, 0X4000,      0 }, 0x0C81 },
+    { ACTOR_OBJ_KIBAKO,     {   -160,  -1114,  -3618 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO,     {    -82,  -1114,  -3618 }, {      0,      0,      0 }, 0xFFFF },
 };
 
 u8 bdan_room_3_possiblePadding_0001E4[] = {

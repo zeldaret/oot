@@ -30,8 +30,8 @@ SceneCmd bdan_room_5Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_5PolygonType0_000160),
-    SCENE_CMD_OBJECT_LIST(11, bdan_room_5ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(16, bdan_room_5ActorList_00006C),
+    SCENE_CMD_OBJECT_LIST(12, bdan_room_5ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(26, bdan_room_5ActorList_00006C),
     SCENE_CMD_END(),
 };
 
@@ -54,6 +54,7 @@ s16 bdan_room_5ObjectList_000058[] = {
     OBJECT_GI_SUTARU,
     OBJECT_ST,
     OBJECT_KANBAN,
+    OBJECT_BL,
 };
 
 ActorEntry bdan_room_5ActorList_00006C[] = {
@@ -73,6 +74,16 @@ ActorEntry bdan_room_5ActorList_00006C[] = {
     { ACTOR_OBJ_TSUBO,      {   1305,   -294,  -2005 }, {      0,      0,      0 }, 0x6212 },
     { ACTOR_EN_BOX,         {   1293,   -126,  -1930 }, {      0, 0XBF4A,   0X28 }, 0x852A },
     { ACTOR_EN_KANBAN,      {   1320,   -321,  -1946 }, {      0, 0x3EEE,      0 }, 0x0346 },
+    { ACTOR_EN_BILI,        {   1277,   -440,  -1473 }, {      0, 0X91C7,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,        {   1525,   -420,  -1646 }, {      0, 0XBB06,      0 }, 0xFFFF },
+    { ACTOR_ELF_MSG,        {   1547,    -80,  -1518 }, {      0,      0,      0 }, 0xAC39 },
+    { ACTOR_EN_BILI,        {   1374,   -440,  -1323 }, {      0, 0X91C7,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,        {   1626,   -420,  -1829 }, {      0, 0XBB06,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,        {   1622,   -203,  -1619 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,        {   1352,   -197,  -1467 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BILI,        {   1253,    -85,  -1438 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_BG_BDAN_SWITCH, {   1351,     21,  -1716 }, { 0X8000,      0,      0 }, 0x3D04 },
+    { ACTOR_EN_BOX,         {   1798,   -222,  -1727 }, {      0, 0x4277,   0X3D }, 0x8AAD },
 };
 
 u8 bdan_room_5_possiblePadding_00015C[] = {

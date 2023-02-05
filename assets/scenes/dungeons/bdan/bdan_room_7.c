@@ -31,7 +31,7 @@ SceneCmd bdan_room_7Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_7PolygonType0_000130),
     SCENE_CMD_OBJECT_LIST(12, bdan_room_7ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(14, bdan_room_7ActorList_00006C),
+    SCENE_CMD_ACTOR_LIST(23, bdan_room_7ActorList_00006C),
     SCENE_CMD_END(),
 };
 
@@ -66,12 +66,21 @@ ActorEntry bdan_room_7ActorList_00006C[] = {
     { ACTOR_OBJ_KIBAKO,     {   -666,   -340,  -4671 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO,     {   -512,   -340,  -4592 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_BG_YDAN_SP,     {    827,   -340,  -4687 }, {      0, 0XC000,      0 }, 0x1FD6 },
-    { ACTOR_ELF_MSG,        {   -840,   -340,  -4685 }, {   0X1E,    0XB,      0 }, 0x3432 },
-    { ACTOR_ELF_MSG,        {   -655,   -340,  -4955 }, {   0X1E,    0XB,      0 }, 0x3532 },
-    { ACTOR_EN_BX,          {   -655,   -340,  -4955 }, {      0,      0,      0 }, 0x0A82 },
+    { ACTOR_ELF_MSG,        {   -840,   -340,  -4685 }, {   0X1E,   0X1B,      0 }, 0x3432 },
+    { ACTOR_ELF_MSG,        {   -655,   -340,  -4955 }, {   0X1E,    0XB,      0 }, 0x3531 },
+    { ACTOR_EN_BX,          {   -655,   -340,  -4955 }, {      0,      0,      0 }, 0x1A80 },
     { ACTOR_EN_BX,          {   -840,   -340,  -4685 }, {      0, 0X4000,      0 }, 0x0A82 },
     { ACTOR_EN_VALI,        {   -410,   -220,  -4550 }, {      0, 0X2EEF,      0 }, 0xFFFF },
     { ACTOR_EN_VALI,        {    410,   -220,  -4550 }, {      0, 0XD49F,      0 }, 0xFFFF },
+    { ACTOR_BG_BDAN_SWITCH, {   -731,   -340,  -4683 }, {      0,      0,      0 }, 0x3800 },
+    { ACTOR_BG_BDAN_SWITCH, {    774,   -340,  -4686 }, {      0,      0,      0 }, 0x1101 },
+    { ACTOR_ELF_MSG,        {    776,   -340,  -4686 }, {    0X6,   0X12,      0 }, 0x3F33 },
+    { ACTOR_EN_TP,          {     -4,   -340,  -4517 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_TP,          {   -334,   -340,  -4517 }, {      0, 0X2B61,      0 }, 0xFFFF },
+    { ACTOR_EN_TP,          {    507,   -340,  -4631 }, {      0, 0XD60B,      0 }, 0xFFFF },
+    { ACTOR_EN_BX,          {    659,   -340,  -5021 }, {      0,      0,      0 }, 0x0C81 },
+    { ACTOR_ELF_MSG,        {    665,   -340,  -5012 }, {   0X1E,    0XB,      0 }, 0x1B2F },
+    { ACTOR_ELF_MSG,        {   -840,   -340,  -4685 }, {   0X1E,   0X4B,      0 }, 0x1D37 },
 };
 
 u8 bdan_room_7_possiblePadding_00012C[] = {

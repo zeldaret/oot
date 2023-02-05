@@ -30,8 +30,8 @@ SceneCmd bdan_room_12Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_12PolygonType0_000130),
-    SCENE_CMD_OBJECT_LIST(11, bdan_room_12ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(12, bdan_room_12ActorList_000070),
+    SCENE_CMD_OBJECT_LIST(12, bdan_room_12ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(25, bdan_room_12ActorList_000070),
     SCENE_CMD_END(),
 };
 
@@ -54,6 +54,7 @@ s16 bdan_room_12ObjectList_000058[] = {
     OBJECT_BOMBIWA,
     OBJECT_TP,
     OBJECT_BUBBLE,
+    OBJECT_OKUTA,
 };
 
 ActorEntry bdan_room_12ActorList_000070[] = {
@@ -69,6 +70,19 @@ ActorEntry bdan_room_12ActorList_000070[] = {
     { ACTOR_EN_BUBBLE,      {   -530,    -55,  -5841 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BUBBLE,      {   -826,   -168,  -5577 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_SW,          {   -399,    -59,  -5690 }, { 0X9E94, 0X4EEF,      0 }, 0x8304 },
+    { ACTOR_EN_BUBBLE,      {   -776,   -340,  -5894 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {   -560,   -340,  -5746 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {   -552,   -340,  -5606 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {   -749,    -47,  -5771 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {   -744,    -83,  -5579 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {   -643,   -340,  -5552 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {   -445,   -138,  -5823 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {   -786,   -340,  -5667 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {   -852,   -340,  -5480 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_OKUTA,       {   -832,   -340,  -5861 }, {      0, 0X20B6,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {   -839,   -340,  -5503 }, {      0, 0X5F4A,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {   -476,   -340,  -5499 }, {      0, 0XA000,      0 }, 0x0000 },
+    { ACTOR_EN_OKUTA,       {   -481,   -340,  -5860 }, {      0, 0XDD28,      0 }, 0x0000 },
 };
 
 PolygonType0 bdan_room_12PolygonType0_000130 = { 

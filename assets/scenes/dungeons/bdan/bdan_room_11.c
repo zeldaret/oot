@@ -30,8 +30,8 @@ SceneCmd bdan_room_11Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_11PolygonType0_000270),
-    SCENE_CMD_OBJECT_LIST(13, bdan_room_11ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(31, bdan_room_11ActorList_000074),
+    SCENE_CMD_OBJECT_LIST(14, bdan_room_11ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(32, bdan_room_11ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -56,6 +56,7 @@ s16 bdan_room_11ObjectList_000058[] = {
     OBJECT_GI_SHIELD_2,
     OBJECT_EFC_FLASH,
     OBJECT_SYOKUDAI,
+    OBJECT_BXA,
 };
 
 ActorEntry bdan_room_11ActorList_000074[] = {
@@ -90,6 +91,7 @@ ActorEntry bdan_room_11ActorList_000074[] = {
     { ACTOR_EN_WONDER_ITEM, {    652,   -340,  -5688 }, {      0,      0,    0X3 }, 0x1AFF },
     { ACTOR_EN_WONDER_ITEM, {    653,   -340,  -5689 }, {      0,      0,    0X3 }, 0x1AFF },
     { ACTOR_OBJ_TSUBO,      {    718,   -340,  -5929 }, {      0,      0,      0 }, 0x7E0B },
+    { ACTOR_EN_BA,          {    660,     20,  -5680 }, {      0,      0,      0 }, 0x1A00 },
 };
 
 u8 bdan_room_11_possiblePadding_000264[] = {

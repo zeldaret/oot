@@ -31,7 +31,7 @@ SceneCmd bdan_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&bdan_room_0PolygonType0_000190),
     SCENE_CMD_OBJECT_LIST(12, bdan_room_0ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(18, bdan_room_0ActorList_000070),
+    SCENE_CMD_ACTOR_LIST(22, bdan_room_0ActorList_000070),
     SCENE_CMD_END(),
 };
 
@@ -76,6 +76,10 @@ ActorEntry bdan_room_0ActorList_000070[] = {
     { ACTOR_OBJ_TSUBO,      {   -183,   -330,   -449 }, {      0,      0,      0 }, 0x7804 },
     { ACTOR_OBJ_TSUBO,      {    202,   -340,    -62 }, {      0,      0,      0 }, 0x640C },
     { ACTOR_EN_BOX,         {      0,   -340,   -111 }, {      0,      0,   0X3D }, 0xB823 },
+    { ACTOR_EN_BUBBLE,      {   -129,   -340,   -157 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {     93,   -330,   -268 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BUBBLE,      {    -73,   -340,   -398 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_OKUTA,       {    131,   -330,   -361 }, {      0,      0,      0 }, 0x0000 },
 };
 
 PolygonType0 bdan_room_0PolygonType0_000190 = { 

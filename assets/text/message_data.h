@@ -5305,18 +5305,18 @@ DEFINE_MESSAGE(0x0136, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 )
 
 DEFINE_MESSAGE(0x0137, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
-UNSKIPPABLE  COLOR(LIGHTBLUE) "The " COLOR(RED) "red slimy thing " COLOR(LIGHTBLUE) "is gone! \n"
+UNSKIPPABLE  COLOR(LIGHTBLUE) "The " COLOR(BLUE) "blue slimy thing " COLOR(LIGHTBLUE) "is gone! \n"
 "That must be because you cut the\n"
-COLOR(RED) "red tail" COLOR(LIGHTBLUE) "! Will that work with \n"
+COLOR(BLUE) "blue tail" COLOR(LIGHTBLUE) "! Will that work with \n"
 "the other ones too?" COLOR(DEFAULT)
 ,
-UNSKIPPABLE  COLOR(LIGHTBLUE) "Das " COLOR(RED) "rote, schleimige Ding " COLOR(LIGHTBLUE) "ist fort!\n"
+UNSKIPPABLE  COLOR(LIGHTBLUE) "Das " COLOR(BLUE) "blaue, schleimige Ding " COLOR(LIGHTBLUE) "ist fort!\n"
 "Es verschwand, als Du den\n"
 "Tentakel zerstört hast! Ob das\n"
 "bei den anderen auch funktioniert?" COLOR(DEFAULT)
 ,
 UNSKIPPABLE  COLOR(LIGHTBLUE) "Depuis que tu as tranché le \n"
-COLOR(RED) "tentacule rouge" COLOR(LIGHTBLUE) ", la chose " COLOR(RED) "rouge et \n"
+COLOR(BLUE) "tentacule bleue" COLOR(LIGHTBLUE) ", la chose " COLOR(BLUE) "bleue et \n"
 "visqueuse " COLOR(LIGHTBLUE) "n'est plus là! Cela\n"
 "fonctionnera-t-il avec les autres?" COLOR(DEFAULT)
 )
