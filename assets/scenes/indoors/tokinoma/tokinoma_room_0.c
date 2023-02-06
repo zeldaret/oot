@@ -16,8 +16,8 @@ SceneCmd tokinoma_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&tokinoma_room_0PolygonType0_000100),
-    SCENE_CMD_OBJECT_LIST(8, tokinoma_room_0ObjectList_000080),
-    SCENE_CMD_ACTOR_LIST(7, tokinoma_room_0ActorList_000090),
+    SCENE_CMD_OBJECT_LIST(10, tokinoma_room_0ObjectList_000080),
+    SCENE_CMD_ACTOR_LIST(11, tokinoma_room_0ActorList_000090),
     SCENE_CMD_END(),
 };
 
@@ -46,6 +46,8 @@ s16 tokinoma_room_0ObjectList_000080[] = {
     OBJECT_EFC_STAR_FIELD,
     OBJECT_EFC_TW,
     OBJECT_EFC_FLASH,
+    OBJECT_MJIN,
+    OBJECT_MJIN_FLASH,
     OBJECT_SPOT02_OBJECTS,
 };
 
@@ -57,6 +59,10 @@ ActorEntry tokinoma_room_0ActorList_000090[] = {
     { ACTOR_DEMO_KANKYO,       {    -14,    939,   -652 }, {      0,      0,      0 }, 0x000E },
     { ACTOR_EN_XC,             {      0,     71,     11 }, {      0,      0,      0 }, 0x0009 },
     { ACTOR_BG_SPOT02_OBJECTS, {    697,      0,    -99 }, {      0,      0,      0 }, 0x0004 },
+    { ACTOR_BG_MJIN,           {      0,    -40,   2024 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_DEMO_EFFECT,       {    -38,     16,   1335 }, {      0,      0,      0 }, 0x0013 },
+    { ACTOR_DEMO_EFFECT,       {      0,     16,   1335 }, {      0,      0,      0 }, 0x0014 },
+    { ACTOR_DEMO_EFFECT,       {     40,     16,   1335 }, {      0,      0,      0 }, 0x0015 },
 };
 
 PolygonType0 tokinoma_room_0PolygonType0_000100 = { 
@@ -81,13 +87,15 @@ SceneCmd tokinoma_room_0Set_000120[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(12, 0, 0),
     SCENE_CMD_MESH(&tokinoma_room_0PolygonType0_000100),
-    SCENE_CMD_OBJECT_LIST(8, tokinoma_room_0ObjectList_000160),
-    SCENE_CMD_ACTOR_LIST(7, tokinoma_room_0ActorList_000170),
+    SCENE_CMD_OBJECT_LIST(10, tokinoma_room_0ObjectList_000160),
+    SCENE_CMD_ACTOR_LIST(11, tokinoma_room_0ActorList_000170),
     SCENE_CMD_END(),
 };
 
 s16 tokinoma_room_0ObjectList_000160[] = {
     OBJECT_TOKI_OBJECTS,
+    OBJECT_MJIN,
+    OBJECT_MJIN_FLASH,
     OBJECT_XC,
     OBJECT_EFC_FLASH,
     OBJECT_GI_JEWEL,
@@ -105,6 +113,10 @@ ActorEntry tokinoma_room_0ActorList_000170[] = {
     { ACTOR_DEMO_KANKYO,       {    -14,    939,   -652 }, {      0,      0,      0 }, 0x000E },
     { ACTOR_EN_XC,             {    -60,     71,      6 }, {      0, 0XFC72,      0 }, 0x0001 },
     { ACTOR_BG_SPOT02_OBJECTS, {    679,    680,     34 }, {      0,      0,      0 }, 0x0004 },
+    { ACTOR_BG_MJIN,           {      0,    -40,   2024 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_DEMO_EFFECT,       {    -38,     16,   1335 }, {      0,      0,      0 }, 0x0013 },
+    { ACTOR_DEMO_EFFECT,       {      0,     16,   1335 }, {      0,      0,      0 }, 0x0014 },
+    { ACTOR_DEMO_EFFECT,       {     40,     16,   1335 }, {      0,      0,      0 }, 0x0015 },
 };
 
 SceneCmd tokinoma_room_0Set_0001E0[] = {

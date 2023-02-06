@@ -99,12 +99,12 @@ s16 tokinoma_room_1ObjectList_000190[] = {
     OBJECT_MJIN,
     OBJECT_MJIN_FLASH,
     OBJECT_XC,
-    OBJECT_ZL2,
     OBJECT_EFC_FLASH,
     OBJECT_GI_JEWEL,
     OBJECT_GI_MELODY,
     OBJECT_EFC_STAR_FIELD,
     OBJECT_EFC_TW,
+    OBJECT_ZL2,
 };
 
 ActorEntry tokinoma_room_1ActorList_0001A4[] = {
