@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_14Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_14PolygonType2_0000A0),
-    SCENE_CMD_OBJECT_LIST(4, HIDAN_room_14ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(5, HIDAN_room_14ActorList_000048),
+    SCENE_CMD_OBJECT_LIST(5, HIDAN_room_14ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(12, HIDAN_room_14ActorList_000048),
     SCENE_CMD_END(),
 };
 
@@ -50,14 +50,22 @@ s16 HIDAN_room_14ObjectList_000040[] = {
     OBJECT_SYOKUDAI,
     OBJECT_BOX,
     OBJECT_SK2,
+    OBJECT_FIREFLY,
 };
 
 ActorEntry HIDAN_room_14ActorList_000048[] = {
     { ACTOR_BG_HIDAN_HAMSTEP, {  -1884,   4200,   -892 }, {      0, 0XA000,      0 }, 0x0F00 },
-    { ACTOR_EN_WONDER_ITEM,   {  -1335,   3930,   -344 }, {      0,      0,    0X6 }, 0x1AFD },
     { ACTOR_EN_TEST,          {  -2021,   4180,  -1019 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_TEST,          {  -1625,   4120,   -627 }, {      0,      0,      0 }, 0x0003 },
-    { ACTOR_ELF_MSG2,         {  -1336,   3935,   -343 }, {      0,   0X3E,    0X1 }, 0x3F00 },
+    { ACTOR_EN_FIREFLY,       {  -2172,   4276,   -991 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,       {  -2078,   4290,   -854 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_OBJ_KIBAKO,       {  -2072,   4180,  -1135 }, {      0, 0XE000,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO,       {  -2030,   4180,  -1172 }, {      0, 0XE000,      0 }, 0xFFFF },
+    { ACTOR_OBJ_SYOKUDAI,     {  -1970,   4180,   -808 }, {      0, 0XE000,      0 }, 0x2400 },
+    { ACTOR_OBJ_SYOKUDAI,     {  -1800,   4180,   -978 }, {      0, 0XE000,      0 }, 0x2400 },
+    { ACTOR_EN_FIREFLY,       {  -1737,   4304,   -741 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,       {  -1513,   4264,   -518 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_OBJ_SWITCH,       {  -1342,   3680,   -258 }, {      0, 0XE000,      0 }, 0x3D20 },
 };
 
 u8 HIDAN_room_14_possiblePadding_000098[] = {

@@ -41,7 +41,7 @@ SceneCmd HIDAN_room_19Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_19PolygonType2_000150),
     SCENE_CMD_OBJECT_LIST(8, HIDAN_room_19ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(17, HIDAN_room_19ActorList_00004C),
+    SCENE_CMD_ACTOR_LIST(16, HIDAN_room_19ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -72,7 +72,6 @@ ActorEntry HIDAN_room_19ActorList_00004C[] = {
     { ACTOR_OBJ_SYOKUDAI,   {    878,    260,  -1699 }, {      0,      0,      0 }, 0x2400 },
     { ACTOR_OBJ_TSUBO,      {    845,    260,  -1591 }, {      0,      0,      0 }, 0x6E12 },
     { ACTOR_OBJ_TSUBO,      {    901,    260,  -1593 }, {      0,      0,      0 }, 0x700F },
-    { ACTOR_EN_BOX,         {    856,    260,  -1832 }, {      0, 0XC000,      0 }, 0x27E4 },
     { ACTOR_EN_RR,          {    879,    260,  -1828 }, {      0,      0,      0 }, 0xFFFF },
 };
 

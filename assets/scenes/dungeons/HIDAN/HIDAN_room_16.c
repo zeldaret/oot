@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_16Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_16PolygonType2_000170),
-    SCENE_CMD_OBJECT_LIST(5, HIDAN_room_16ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(18, HIDAN_room_16ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(7, HIDAN_room_16ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(20, HIDAN_room_16ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -51,27 +51,31 @@ s16 HIDAN_room_16ObjectList_000040[] = {
     OBJECT_BOX,
     OBJECT_D_HSBLOCK,
     OBJECT_KIBAKO2,
+    OBJECT_BB,
+    OBJECT_GI_HEART,
 };
 
 ActorEntry HIDAN_room_16ActorList_00004C[] = {
     { ACTOR_EN_WONDER_ITEM, {    523,   2863,    246 }, {      0,      0,    0X6 }, 0x1AFF },
-    { ACTOR_OBJ_SYOKUDAI,   {   1220,   3370,    -50 }, { 0XE38E, 0X4000,      0 }, 0x03FC },
-    { ACTOR_OBJ_SYOKUDAI,   {    862,   2905,   -174 }, {      0,      0,      0 }, 0x03FC },
-    { ACTOR_OBJ_SYOKUDAI,   {    604,   2905,   -194 }, {      0,      0,      0 }, 0x03FC },
-    { ACTOR_OBJ_SYOKUDAI,   {   1220,   3290,    -50 }, { 0XE38E, 0X4000,      0 }, 0x105F },
-    { ACTOR_OBJ_TSUBO,      {   1493,   2800,    386 }, {      0,      0,      0 }, 0x5209 },
-    { ACTOR_OBJ_TSUBO,      {   1445,   2800,    445 }, {      0,      0,      0 }, 0x5409 },
-    { ACTOR_OBJ_SWITCH,     {   1199,   2800,   -156 }, {      0, 0X2000,      0 }, 0x3C20 },
-    { ACTOR_OBJ_KIBAKO2,    {   1210,   2940,    163 }, {      0, 0XE000,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,    {    999,   2780,   -402 }, {      0, 0X4000,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,    {   1409,   2800,  -1176 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,    {    384,   2940,    351 }, {      0, 0X4000,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,    {   1407,   2840,   -756 }, {      0, 0X4000,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO,     {   1267,   2940,    200 }, {      0, 0X2000,      0 }, 0xFFFF },
-    { ACTOR_OBJ_KIBAKO,     {   1210,   2995,    163 }, {      0, 0X1E94,      0 }, 0xFFFF },
+    { ACTOR_OBJ_KIBAKO,     {   1210,   2940,    163 }, {      0, 0X1E94,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO,     {    685,   2780,    183 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO,     {   1405,   2800,   -975 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO,     {    460,   2940,    370 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_BB,          {    518,   2740,   -269 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_BB,          {    600,   2740,     55 }, {      0, 0X1C72,      0 }, 0xFFFE },
+    { ACTOR_EN_BB,          {    744,   2740,   -600 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_BB,          {    941,   2740,    142 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_BB,          {   1144,   2740,   -449 }, {      0, 0XD82E,      0 }, 0xFFFE },
+    { ACTOR_BG_HIDAN_FWBIG, {   1200,   2650,    760 }, {      0, 0XB27D,      0 }, 0x01FF },
+    { ACTOR_EN_BOX,         {   1243,   2800,   -240 }, {      0, 0X6000,      0 }, 0x082A },
+    { ACTOR_EN_ITEM00,      {    603,   2940,   -190 }, {      0,      0,      0 }, 0x3103 },
+    { ACTOR_EN_ITEM00,      {    862,   2940,   -169 }, {      0,      0,      0 }, 0x3203 },
+    { ACTOR_EN_ITEM00,      {   1381,   2800,  -1120 }, {      0,      0,      0 }, 0x3303 },
 };
 
 u8 HIDAN_room_16_possiblePadding_00016C[] = {

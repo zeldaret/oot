@@ -41,7 +41,7 @@ SceneCmd HIDAN_room_12Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_12PolygonType2_000060),
     SCENE_CMD_OBJECT_LIST(7, HIDAN_room_12ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(1, HIDAN_room_12ActorList_000050),
+    SCENE_CMD_ACTOR_LIST(3, HIDAN_room_12ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -57,6 +57,8 @@ s16 HIDAN_room_12ObjectList_000040[] = {
 
 ActorEntry HIDAN_room_12ActorList_000050[] = {
     { ACTOR_EN_WONDER_ITEM, {  -2482,   4149,    153 }, {      0,      0,    0X6 }, 0x1AFF },
+    { ACTOR_BG_HIDAN_CURTAIN, {  -2758,   4180,    -79 }, {      0,      0,      0 }, 0x3FE4 },
+    { ACTOR_OBJ_SWITCH,       {  -2651,   4000,    243 }, {      0,      0,      0 }, 0x2403 },
 };
 
 PolygonType2 HIDAN_room_12PolygonType2_000060 = { 

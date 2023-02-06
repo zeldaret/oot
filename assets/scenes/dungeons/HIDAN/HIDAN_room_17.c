@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_17Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_17PolygonType2_000110),
-    SCENE_CMD_OBJECT_LIST(5, HIDAN_room_17ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(12, HIDAN_room_17ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(6, HIDAN_room_17ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(10, HIDAN_room_17ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -51,21 +51,20 @@ s16 HIDAN_room_17ObjectList_000040[] = {
     OBJECT_BOX,
     OBJECT_RR,
     OBJECT_GI_CLOTHES,
+    OBJECT_GI_SHIELD_2,
 };
 
 ActorEntry HIDAN_room_17ActorList_00004C[] = {
-    { ACTOR_ELF_MSG,        {   -280,      0,   -580 }, {      0,      0,      0 }, 0x12A9 },
     { ACTOR_OBJ_SWITCH,     {   -280,      0,   -580 }, {      0,      0,      0 }, 0x0901 },
     { ACTOR_EN_RR,          {   -282,    130,   -144 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_BG_HIDAN_KOUSI, {   -280,      0,   -480 }, {      0, 0X8000,      0 }, 0x0900 },
     { ACTOR_BG_HIDAN_KOUSI, {   -275,      0,   -280 }, {      0,      0,      0 }, 0x0900 },
-    { ACTOR_EN_GO2,         {   -310,      0,   -318 }, {      0,      0,      0 }, 0x2403 },
+    { ACTOR_EN_GO2,         {   -310,      0,   -318 }, {      0,      0,      0 }, 0x2603 },
     { ACTOR_EN_LIGHT,       {   -355,     50,   -580 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT,       {   -355,     50,   -180 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT,       {   -205,     50,   -580 }, {      0,      0,      0 }, 0x03F4 },
     { ACTOR_EN_LIGHT,       {   -205,     50,   -180 }, {      0,      0,      0 }, 0x03F4 },
-    { ACTOR_EN_BOX,         {   -220,      0,   -220 }, {      0, 0X4000,      0 }, 0x7542 },
-    { ACTOR_EN_BOX,         {   -240,      0,   -370 }, {      0,      0,      0 }, 0x082C },
+    { ACTOR_EN_BOX,         {   -240,      0,   -369 }, {      0,      0,      0 }, 0x27EC },
 };
 
 u8 HIDAN_room_17_possiblePadding_00010C[] = {

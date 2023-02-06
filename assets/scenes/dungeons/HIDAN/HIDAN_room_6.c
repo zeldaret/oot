@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_6Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_6PolygonType2_000090),
-    SCENE_CMD_OBJECT_LIST(6, HIDAN_room_6ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(4, HIDAN_room_6ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(7, HIDAN_room_6ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(8, HIDAN_room_6ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -52,6 +52,7 @@ s16 HIDAN_room_6ObjectList_000040[] = {
     OBJECT_BOX,
     OBJECT_ST,
     OBJECT_GI_SUTARU,
+    OBJECT_GI_HEART,
 };
 
 ActorEntry HIDAN_room_6ActorList_00004C[] = {
@@ -59,6 +60,10 @@ ActorEntry HIDAN_room_6ActorList_00004C[] = {
     { ACTOR_OBJ_TSUBO,   {   1756,   2800,   -155 }, {      0,      0,      0 }, 0x7212 },
     { ACTOR_OBJ_TSUBO,   {   1819,   2800,    -82 }, {      0,      0,      0 }, 0x7409 },
     { ACTOR_OBJ_TSUBO,   {   1789,   2800,   -122 }, {      0,      0,      0 }, 0x760B },
+    { ACTOR_EN_ITEM00,   {   1813,   2800,    -37 }, {      0,      0,      0 }, 0x3503 },
+    { ACTOR_EN_ITEM00,   {   1783,   2800,    -91 }, {      0,      0,      0 }, 0x3603 },
+    { ACTOR_EN_ITEM00,   {   1753,   2800,   -136 }, {      0,      0,      0 }, 0x3703 },
+    { ACTOR_OBJ_SWITCH,  {   1353,   3069,    190 }, {      0, 0X6000,      0 }, 0x3C12 },
 };
 
 u8 HIDAN_room_6_possiblePadding_00008C[] = {

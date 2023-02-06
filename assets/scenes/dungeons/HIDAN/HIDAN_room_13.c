@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_13Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_13PolygonType2_000110),
-    SCENE_CMD_OBJECT_LIST(7, HIDAN_room_13ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(12, HIDAN_room_13ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(9, HIDAN_room_13ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(19, HIDAN_room_13ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -53,6 +53,8 @@ s16 HIDAN_room_13ObjectList_000040[] = {
     OBJECT_ST,
     OBJECT_GI_SUTARU,
     OBJECT_KA,
+    OBJECT_FIREFLY,
+    OBJECT_GOROIWA,
 };
 
 ActorEntry HIDAN_room_13ActorList_000050[] = {
@@ -65,9 +67,16 @@ ActorEntry HIDAN_room_13ActorList_000050[] = {
     { ACTOR_EN_LIGHT,         {  -2180,   4755,    260 }, {      0, 0X4000,      0 }, 0x03F5 },
     { ACTOR_EN_LIGHT,         {  -2180,   4755,    500 }, {      0, 0X4000,      0 }, 0x03F5 },
     { ACTOR_EN_LIGHT,         {  -2060,   4755,    380 }, {      0, 0X4000,      0 }, 0x03F5 },
-    { ACTOR_OBJ_SWITCH,       {  -2390,   4400,   -256 }, {      0,      0,      0 }, 0x3C03 },
-    { ACTOR_OBJ_SWITCH,       {  -1484,   4400,    300 }, {      0, 0X2000,      0 }, 0x3A00 },
-    { ACTOR_EN_BOX,           {  -2180,   4680,    380 }, {      0, 0XE000,      0 }, 0x5845 },
+    { ACTOR_ELF_MSG,          {  -2357,   4180,   -719 }, {   0X1E,   0X16,      0 }, 0xBFA7 },
+    { ACTOR_EN_FIREFLY,       {  -2198,   4801,     13 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_GOROIWA,       {  -1794,   4400,   -422 }, {      0,      0,      0 }, 0x0F01 },
+    { ACTOR_OBJ_SYOKUDAI,     {  -1785,   4620,    719 }, {      0,      0,      0 }, 0x2400 },
+    { ACTOR_EN_FIREFLY,       {  -1456,   4729,   -520 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,       {  -1395,   4675,    440 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_BOX,           {  -2180,   4680,    380 }, {      0, 0XE000,      0 }, 0x01A5 },
+    { ACTOR_BG_HIDAN_DALM,    {  -2359,   4240,   -727 }, {      0, 0XE000,      0 }, 0x1501 },
+    { ACTOR_BG_HIDAN_DALM,    {  -2359,   4180,   -727 }, {      0, 0XE000,      0 }, 0x1600 },
+    { ACTOR_OBJ_SWITCH,       {  -2005,   4500,   -331 }, {      0, 0XE000,      0 }, 0x3A00 },
 };
 
 PolygonType2 HIDAN_room_13PolygonType2_000110 = { 

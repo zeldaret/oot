@@ -41,7 +41,7 @@ SceneCmd HIDAN_room_8Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_8PolygonType2_0000D0),
     SCENE_CMD_OBJECT_LIST(6, HIDAN_room_8ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(8, HIDAN_room_8ActorList_00004C),
+    SCENE_CMD_ACTOR_LIST(9, HIDAN_room_8ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -63,6 +63,7 @@ ActorEntry HIDAN_room_8ActorList_00004C[] = {
     { ACTOR_OBJ_OSHIHIKI,     {   1938,   4680,   -395 }, {      0, 0X2000,      0 }, 0xFF00 },
     { ACTOR_EN_SW,            {   1938,   4680,   -394 }, { 0XFF4A, 0X2000,      0 }, 0x8504 },
     { ACTOR_OBJ_SWITCH,       {   1221,   4400,   -591 }, {      0,      0,      0 }, 0x3800 },
+    { ACTOR_EN_BOX,           {   1944,   4681,   -393 }, {      0, 0X5F4A,      0 }, 0x5ACD },
 };
 
 u8 HIDAN_room_8_possiblePadding_0000CC[] = {

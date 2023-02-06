@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_4Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_4PolygonType2_000170),
-    SCENE_CMD_OBJECT_LIST(10, HIDAN_room_4ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(19, HIDAN_room_4ActorList_000054),
+    SCENE_CMD_OBJECT_LIST(9, HIDAN_room_4ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(22, HIDAN_room_4ActorList_000054),
     SCENE_CMD_END(),
 };
 
@@ -52,16 +52,14 @@ s16 HIDAN_room_4ObjectList_000040[] = {
     OBJECT_SYOKUDAI,
     OBJECT_ZF,
     OBJECT_KIBAKO2,
-    OBJECT_TIMEBLOCK,
-    OBJECT_EFC_TW,
     OBJECT_ST,
     OBJECT_BW,
+    OBJECT_OF1D_MAP,
 };
 
 ActorEntry HIDAN_room_4ActorList_000054[] = {
-    { ACTOR_OBJ_HSBLOCK,    {   2195,   2260,    362 }, {      0,      0,      0 }, 0x2BC1 },
     { ACTOR_OBJ_HSBLOCK,    {   2442,   2926,      4 }, { 0X4000,      0,      0 }, 0xFFC2 },
-    { ACTOR_OBJ_SWITCH,     {   2190,   2080,    -57 }, {      0, 0XC000,      0 }, 0x0401 },
+    { ACTOR_OBJ_SWITCH,     {   2190,   2080,    -57 }, {      0, 0XC000,      0 }, 0x0400 },
     { ACTOR_EN_ZF,          {   2351,   2520,    -26 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_BG_HIDAN_KOUSI, {   2384,   2080,      0 }, {      0, 0X4000,      0 }, 0x0401 },
     { ACTOR_BG_HIDAN_KOUSI, {   2576,   2080,      0 }, {      0, 0XC000,      0 }, 0x0401 },
@@ -75,9 +73,13 @@ ActorEntry HIDAN_room_4ActorList_000054[] = {
     { ACTOR_OBJ_KIBAKO2,    {   2150,   2080,     55 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,    {   2189,   2080,    -56 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_OBJ_KIBAKO2,    {   2249,   2080,    -56 }, {      0,      0,      0 }, 0xFFFF },
-    { ACTOR_EN_BOX,         {   2474,   2080,    -50 }, {      0, 0X8000,      0 }, 0x080B },
+    { ACTOR_EN_BOX,         {   2474,   2080,    -50 }, {      0, 0X8000,      0 }, 0x584B },
     { ACTOR_EN_BW,          {   2206,   2260,    699 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BW,          {   2733,   2160,    699 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_GO2,         {   2526,   2080,     27 }, {      0, 0X4000,      0 }, 0x11A3 },
+    { ACTOR_OBJ_OSHIHIKI,   {   2279,   2260,    340 }, {      0,      0,      0 }, 0xFF42 },
+    { ACTOR_OBJ_SWITCH,     {   2126,   2260,    339 }, {      0,      0,      0 }, 0x2303 },
+    { ACTOR_BG_HIDAN_CURTAIN, {   2346,   2520,    -90 }, {      0,      0,      0 }, 0x3FE3 },
 };
 
 u8 HIDAN_room_4_possiblePadding_000164[] = {

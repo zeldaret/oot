@@ -40,8 +40,8 @@ SceneCmd HIDAN_room_25Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HIDAN_room_25PolygonType2_000090),
-    SCENE_CMD_OBJECT_LIST(4, HIDAN_room_25ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(4, HIDAN_room_25ActorList_000048),
+    SCENE_CMD_OBJECT_LIST(5, HIDAN_room_25ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(5, HIDAN_room_25ActorList_000048),
     SCENE_CMD_END(),
 };
 
@@ -50,6 +50,7 @@ s16 HIDAN_room_25ObjectList_000040[] = {
     OBJECT_ST,
     OBJECT_GI_SUTARU,
     OBJECT_ZF,
+    OBJECT_BOX,
 };
 
 ActorEntry HIDAN_room_25ActorList_000048[] = {
@@ -57,6 +58,7 @@ ActorEntry HIDAN_room_25ActorList_000048[] = {
     { ACTOR_EN_SW,    {   -626,   2870,  -1338 }, {      0, 0XE000,      0 }, 0x8510 },
     { ACTOR_EN_LIGHT, {   -882,   2851,  -1183 }, {      0, 0X2000,      0 }, 0x03F5 },
     { ACTOR_EN_LIGHT, {   -781,   2855,  -1080 }, {      0, 0XA000,      0 }, 0x03F5 },
+    { ACTOR_EN_BOX,   {   -668,   2800,  -1300 }, {      0, 0X6000,      0 }, 0x0807 },
 };
 
 u8 HIDAN_room_25_possiblePadding_000088[] = {

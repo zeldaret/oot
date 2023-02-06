@@ -59,11 +59,11 @@ s16 HIDAN_room_23ObjectList_000040[] = {
 
 ActorEntry HIDAN_room_23ActorList_000054[] = {
     { ACTOR_BG_HIDAN_KOUSI, {   1500,   2800,  -1792 }, {      0, 0X4000,      0 }, 0x0500 },
-    { ACTOR_EN_GO2,         {   1462,   2800,  -1817 }, {      0, 0X4000,      0 }, 0x1463 },
+    { ACTOR_EN_GO2,         {   1462,   2800,  -1817 }, {      0, 0X4000,      0 }, 0x15C3 },
     { ACTOR_EN_LIGHT,       {   1600,   2852,  -1875 }, {      0, 0X4000,      0 }, 0x03F5 },
     { ACTOR_EN_LIGHT,       {   1600,   2852,  -1725 }, {      0, 0X4000,      0 }, 0x03F5 },
     { ACTOR_OBJ_SWITCH,     {   1600,   2800,  -1800 }, {      0, 0X4000,      0 }, 0x0500 },
-    { ACTOR_EN_BOX,         {   1360,   2800,  -1850 }, {      0, 0X8000,      0 }, 0x5848 },
+    { ACTOR_EN_BOX,         {   1363,   2800,  -1852 }, {      0, 0X8000,      0 }, 0x5848 },
 };
 
 u8 HIDAN_room_23_possiblePadding_0000B4[] = {

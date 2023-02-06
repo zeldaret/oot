@@ -55,7 +55,7 @@ ActorEntry HIDAN_room_24ActorList_000048[] = {
     { ACTOR_EN_FD,            {  -2928,   2920,    139 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_BG_HIDAN_SYOKU,   {  -2928,   2840,    139 }, {      0, 0X4000,      0 }, 0xFFFF },
     { ACTOR_BG_HIDAN_CURTAIN, {  -2928,   2920,    139 }, {      0, 0X4000,      0 }, 0x0FFF },
-    { ACTOR_EN_ITEM00,        {  -2929,   2840,    137 }, {      0,      0,      0 }, 0x1C11 },
+    { ACTOR_EN_ITEM00,        {  -2929,   2840,    137 }, {      0,      0,      0 }, 0x1C06 },
 };
 
 u8 HIDAN_room_24_possiblePadding_000088[] = {

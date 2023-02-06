@@ -55,7 +55,7 @@ s16 HIDAN_room_3ObjectList_000040[] = {
 ActorEntry HIDAN_room_3ActorList_000048[] = {
     { ACTOR_EN_FD,            {   -361,     80,  -1300 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_BG_HIDAN_CURTAIN, {   -361,     80,  -1300 }, {      0,      0,      0 }, 0x0FFF },
-    { ACTOR_EN_BOX,           {   -361,     80,  -1300 }, {      0,      0,      0 }, 0x11A0 },
+    { ACTOR_EN_BOX,           {   -361,     80,  -1300 }, {      0,      0,      0 }, 0x7CC0 },
 };
 
 u8 HIDAN_room_3_possiblePadding_000078[] = {
