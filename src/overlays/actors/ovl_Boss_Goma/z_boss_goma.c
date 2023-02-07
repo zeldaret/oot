@@ -897,7 +897,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
         case 130: // focus Gohma on the ground
             Math_ApproachF(&this->subCamEye.x, this->actor.world.pos.x + 8.0f + 90.0f, 0.1f,
                            this->subCamFollowSpeed * 30.0f);
-            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.1f,
+            Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 12.0f, 0.1f,
                            this->subCamFollowSpeed * 30.0f);
             Math_ApproachF(&this->subCamEye.z, this->actor.world.pos.z + 45.0f + 40.0f, 0.1f,
                            this->subCamFollowSpeed * 30.0f);
