@@ -9271,22 +9271,22 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
     blureInit.p1StartColor[0] = 255; // R
     blureInit.p1StartColor[1] = 255; // G
     blureInit.p1StartColor[2] = 255; // B
-    blureInit.p1StartColor[3] = 148; // A
+    blureInit.p1StartColor[3] = 165; // A
 
     blureInit.p2StartColor[0] = 0;   // R
     blureInit.p2StartColor[1] = 150; // G
     blureInit.p2StartColor[2] = 0;   // B
-    blureInit.p2StartColor[3] = 148; // A
+    blureInit.p2StartColor[3] = 165; // A
 
     blureInit.p1EndColor[0] = 255;   // R
     blureInit.p1EndColor[1] = 255;   // G
     blureInit.p1EndColor[2] = 255;   // B
-    blureInit.p1EndColor[3] = 148;   // A
+    blureInit.p1EndColor[3] = 165;   // A
 
     blureInit.p2EndColor[0] = 0;   // R
     blureInit.p2EndColor[1] = 150; // G
     blureInit.p2EndColor[2] = 0;   // B
-    blureInit.p2EndColor[3] = 148; // A
+    blureInit.p2EndColor[3] = 165; // A
  
     blureInit.elemDuration = 9;
     blureInit.unkFlag = 0;
