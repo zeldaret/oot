@@ -20,8 +20,8 @@ SceneCmd HAKAdanCH_room_2Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HAKAdanCH_room_2PolygonType2_000110),
-    SCENE_CMD_OBJECT_LIST(8, HAKAdanCH_room_2ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(12, HAKAdanCH_room_2ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(10, HAKAdanCH_room_2ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(18, HAKAdanCH_room_2ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -34,6 +34,8 @@ s16 HAKAdanCH_room_2ObjectList_000040[] = {
     OBJECT_ST,
     OBJECT_SYOKUDAI,
     OBJECT_POH,
+    OBJECT_GI_HEART,
+    OBJECT_FIREFLY,
 };
 
 ActorEntry HAKAdanCH_room_2ActorList_000050[] = {
@@ -49,6 +51,12 @@ ActorEntry HAKAdanCH_room_2ActorList_000050[] = {
     { ACTOR_BG_HAKA_HUTA, {  -2370,     40,   -800 }, {      0, 0X8000,      0 }, 0x0111 },
     { ACTOR_EN_ITEM00,    {  -1945,     10,   -863 }, {      0,      0,      0 }, 0x2003 },
     { ACTOR_EN_ITEM00,    {  -2143,     10,   -621 }, {      0,      0,      0 }, 0x2303 },
+    { ACTOR_EN_ITEM00,    {  -2346,     10,   -614 }, {      0,      0,      0 }, 0x0106 },
+    { ACTOR_EN_ITEM00,    {  -1947,     10,   -625 }, {      0,      0,      0 }, 0x2F03 },
+    { ACTOR_EN_ITEM00,    {  -2144,     10,   -859 }, {      0,      0,      0 }, 0x2003 },
+    { ACTOR_EN_RD,        {  -2070,      0,   -854 }, {      0,      0,      0 }, 0x7FFE },
+    { ACTOR_BG_HAKA_HUTA, {  -2320,     40,   -680 }, {      0,      0,      0 }, 0x0212 },
+    { ACTOR_OBJ_SYOKUDAI, {  -2285,      0,   -520 }, {      0,      0,      0 }, 0x1012 },
 };
 
 PolygonType2 HAKAdanCH_room_2PolygonType2_000110 = { 

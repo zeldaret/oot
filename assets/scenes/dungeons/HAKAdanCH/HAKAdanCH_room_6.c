@@ -20,8 +20,8 @@ SceneCmd HAKAdanCH_room_6Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HAKAdanCH_room_6PolygonType2_0000C0),
-    SCENE_CMD_OBJECT_LIST(7, HAKAdanCH_room_6ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(7, HAKAdanCH_room_6ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(8, HAKAdanCH_room_6ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(12, HAKAdanCH_room_6ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -33,6 +33,7 @@ s16 HAKAdanCH_room_6ObjectList_000040[] = {
     OBJECT_ST,
     OBJECT_GI_KEY,
     OBJECT_GI_SUTARU,
+    OBJECT_DEKUBABA,
 };
 
 ActorEntry HAKAdanCH_room_6ActorList_000050[] = {
@@ -43,6 +44,11 @@ ActorEntry HAKAdanCH_room_6ActorList_000050[] = {
     { ACTOR_EN_ST,      {   -332,      0,   -997 }, {      0,      0,      0 }, 0x0002 },
     { ACTOR_BG_HAKA,    {   -329,      0,  -1085 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_SW,      {   -330,      0,  -1095 }, {      0,      0,      0 }, 0x8902 },
+    { ACTOR_EN_TUBO_TRAP, {   -241,      0,  -1238 }, {      0,      0,      0 }, 0x00B4 },
+    { ACTOR_EN_TUBO_TRAP, {   -413,      0,  -1238 }, {      0,      0,      0 }, 0x00F5 },
+    { ACTOR_EN_TUBO_TRAP, {   -326,      0,  -1234 }, {      0,      0,      0 }, 0x03F6 },
+    { ACTOR_EN_DEKUBABA,  {   -333,      0,  -1212 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_SW,        {   -325,    126,  -1282 }, { 0XC000, 0X8000,      0 }, 0x8920 },
 };
 
 PolygonType2 HAKAdanCH_room_6PolygonType2_0000C0 = { 

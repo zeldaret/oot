@@ -21,7 +21,7 @@ SceneCmd HAKAdanCH_room_5Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HAKAdanCH_room_5PolygonType2_0000F0),
     SCENE_CMD_OBJECT_LIST(14, HAKAdanCH_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(9, HAKAdanCH_room_5ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(13, HAKAdanCH_room_5ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -38,7 +38,7 @@ s16 HAKAdanCH_room_5ObjectList_000040[] = {
     OBJECT_WALLMASTER,
     OBJECT_GI_KEY,
     OBJECT_GOROIWA,
-    OBJECT_EFC_FLASH,
+    OBJECT_FIREFLY,
     OBJECT_GI_HEART,
 };
 
@@ -52,6 +52,10 @@ ActorEntry HAKAdanCH_room_5ActorList_00005C[] = {
     { ACTOR_OBJ_TSUBO,      {    288,      0,  -1240 }, {      0,      0,      0 }, 0x4803 },
     { ACTOR_OBJ_TSUBO,      {    438,      0,  -1234 }, {      0,      0,      0 }, 0x4A03 },
     { ACTOR_OBJ_TSUBO,      {    444,      0,  -1114 }, {      0,      0,      0 }, 0x4C03 },
+    { ACTOR_EN_FIREFLY,     {    247,    150,   -998 }, {      0,      0,      0 }, 0x0003 },
+    { ACTOR_EN_FIREFLY,     {    260,     57,  -1211 }, {      0, 0X1A50,      0 }, 0x0003 },
+    { ACTOR_EN_FIREFLY,     {    314,    110,  -1096 }, {      0,      0,      0 }, 0x0003 },
+    { ACTOR_EN_FIREFLY,     {    393,     66,  -1078 }, {      0, 0XDBBC,      0 }, 0x0003 },
 };
 
 u8 HAKAdanCH_room_5_possiblePadding_0000EC[] = {

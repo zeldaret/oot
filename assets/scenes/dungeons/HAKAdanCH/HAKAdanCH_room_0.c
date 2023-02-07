@@ -21,7 +21,7 @@ SceneCmd HAKAdanCH_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&HAKAdanCH_room_0PolygonType2_0003C0),
     SCENE_CMD_OBJECT_LIST(16, HAKAdanCH_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(60, HAKAdanCH_room_0ActorList_00005C),
+    SCENE_CMD_ACTOR_LIST(65, HAKAdanCH_room_0ActorList_00005C),
     SCENE_CMD_END(),
 };
 
@@ -105,6 +105,11 @@ ActorEntry HAKAdanCH_room_0ActorList_00005C[] = {
     { ACTOR_EN_ST,           {    323,    160,   -532 }, {      0, 0x8000,      0 }, 0x0001 },
     { ACTOR_EN_ST,           {    598,    140,    214 }, {      0, 0xC000,      0 }, 0x0001 },
     { ACTOR_EN_RR,           {    944,      0,   -710 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_ELF_MSG2,        {      9,     73,  -1633 }, {      0,      0,      0 }, 0x272B },
+    { ACTOR_ELF_MSG2,        {    637,     97,  -1549 }, {      0,      0,      0 }, 0x282A },
+    { ACTOR_ELF_MSG2,        {   -627,     97,  -1553 }, {      0,      0,      0 }, 0x2929 },
+    { ACTOR_OBJ_TSUBO,       {      3,    -92,  -1641 }, {      0,      0,      0 }, 0x4C04 },
+    { ACTOR_EN_WONDER_TALK2, {     10,      0,  -1502 }, {      0,      0,    0XB }, 0x8AC3 },
 };
 
 u8 HAKAdanCH_room_0_possiblePadding_0003BC[] = {
