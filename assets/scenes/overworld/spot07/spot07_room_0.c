@@ -56,7 +56,7 @@ ActorEntry spot07_room_0ActorList_000068[] = {
     { ACTOR_EN_GS,          {    620,    857,  -1600 }, {      0,      0,      0 }, 0x3809 },
     { ACTOR_OBJ_SYOKUDAI,   {    809,    857,  -1560 }, {      0,      0,      0 }, 0x2400 },
     { ACTOR_OBJ_SYOKUDAI,   {    428,    857,  -1560 }, {      0,      0,      0 }, 0x2400 },
-    { ACTOR_EN_KANBAN,      {    230,    857,  -1440 }, {      0, 0X4000,      0 }, 0x032B },
+    { ACTOR_EN_KANBAN,      {    230,    857,  -1440 }, {      0, 0X4000,      0 }, 0x034D },
 };
 
 u8 spot07_room_0_possiblePadding_000148[] = {
@@ -119,7 +119,7 @@ ActorEntry spot07_room_0ActorList_000270[] = {
     { ACTOR_OBJECT_KANKYO,  {    624,    857,  -1555 }, {      0,      0,      0 }, 0x0003 },
     { ACTOR_OBJ_SYOKUDAI,   {    809,    857,  -1560 }, {      0,      0,      0 }, 0x2400 },
     { ACTOR_OBJ_SYOKUDAI,   {    428,    857,  -1560 }, {      0,      0,      0 }, 0x2400 },
-    { ACTOR_EN_KANBAN,      {    230,    857,  -1440 }, {      0, 0X4000,      0 }, 0x032B },
+    { ACTOR_EN_KANBAN,      {    230,    857,  -1440 }, {      0, 0X4000,      0 }, 0x034D },
 };
 
 SceneCmd spot07_room_0Set_000300[] = {
@@ -144,7 +144,7 @@ ActorEntry spot07_room_0ActorList_000348[] = {
     { ACTOR_OBJ_SYOKUDAI,   {    809,    857,  -1560 }, {      0,      0,      0 }, 0x2400 },
     { ACTOR_OBJ_SYOKUDAI,   {    428,    857,  -1560 }, {      0,      0,      0 }, 0x2400 },
     { ACTOR_EN_KANBAN,      {    720,    890,  -1345 }, {      0,      0,      0 }, 0x0324 },
-    { ACTOR_EN_KANBAN,      {    230,    857,  -1440 }, {      0, 0X4000,      0 }, 0x032B },
+    { ACTOR_EN_KANBAN,      {    230,    857,  -1440 }, {      0, 0X4000,      0 }, 0x034D },
     { ACTOR_BG_SPOT07_TAKI, {    445,   1008,  -1742 }, {      0,      0,      0 }, 0x0001 },
     { ACTOR_EN_A_OBJ,       {    345,    857,  -1572 }, {      0, 0X8000,      0 }, 0x2B0A },
     { ACTOR_EN_GS,          {    620,    857,  -1600 }, {      0,      0,      0 }, 0x3809 },

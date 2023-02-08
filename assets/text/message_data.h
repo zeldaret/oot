@@ -8822,6 +8822,20 @@ QUICKTEXT_ENABLE "portes. Déverrouillez toutes les\n"
 "portes récupérez le trésor !"
 )
 
+DEFINE_MESSAGE(0x034D, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
+QUICKTEXT_ENABLE COLOR(ADJUSTABLE)"Quests" COLOR(DEFAULT)", much like prayers, are a very\n"
+"sacred act.\n"
+      "-King Zora the Third"
+,
+QUICKTEXT_ENABLE COLOR(ADJUSTABLE)"Quests" COLOR(DEFAULT)", ähnlich wie Gebete, sind eine\n"
+"sehr heilige Handlung.\n"
+      "-König Zora der Dritte"
+,
+QUICKTEXT_ENABLE COLOR(ADJUSTABLE)"Quests" COLOR(DEFAULT)", tout comme les prières, sont\n"
+"un acte très sacré.\n"
+      "-Roi Zora le Troisième"
+)
+
 DEFINE_MESSAGE(0x0400, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 "This is a " COLOR(RED) "Gossip Stone" COLOR(DEFAULT) "!"
 ,
