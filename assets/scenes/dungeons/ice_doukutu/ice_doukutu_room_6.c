@@ -27,7 +27,7 @@ SceneCmd ice_doukutu_room_6Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ice_doukutu_room_6PolygonType0_0000F0),
     SCENE_CMD_OBJECT_LIST(13, ice_doukutu_room_6ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(7, ice_doukutu_room_6ActorList_000074),
+    SCENE_CMD_ACTOR_LIST(24, ice_doukutu_room_6ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -62,6 +62,23 @@ ActorEntry ice_doukutu_room_6ActorList_000074[] = {
     { ACTOR_EN_FIREFLY,    {  -1330,    348,    159 }, {      0, 0X3333,      0 }, 0x0004 },
     { ACTOR_OBJ_TSUBO,     {  -1352,    273,    639 }, {      0,      0,      0 }, 0x5412 },
     { ACTOR_OBJ_TSUBO,     {  -1396,    267,    596 }, {      0,      0,      0 }, 0x560E },
+    { ACTOR_BG_ICE_TURARA, {  -1624,    227,    431 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA, {  -1595,    248,    600 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA, {  -1587,    240,    497 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA, {  -1514,    203,    307 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA, {  -1507,    226,    443 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA, {  -1367,    177,    206 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA, {  -1349,    188,    270 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA, {  -1288,    172,    184 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA, {  -1571,    473,    422 }, {      0,      0,      0 }, 0x0001 },
+    { ACTOR_BG_ICE_TURARA, {  -1412,    398,    246 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_TURARA, {  -1328,    385,    215 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_TURARA, {  -1231,    350,    170 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_SHELTER, {  -1459,    267,    625 }, {      0,      0,      0 }, 0x0111 },
+    { ACTOR_BG_ICE_SHELTER, {  -1488,    271,    676 }, {      0,      0,      0 }, 0x0011 },
+    { ACTOR_BG_ICE_SHELTER, {  -1422,    265,    586 }, {      0,      0,      0 }, 0x0011 },
+    { ACTOR_EN_FZ,         {  -1513,    246,    560 }, {      0, 0X8000,      0 }, 0x0000 },
+    { ACTOR_EN_FZ,         {  -1508,    209,    358 }, {      0, 0X6444,      0 }, 0x0000 },
 };
 
 u8 ice_doukutu_room_6_possiblePadding_0000E4[] = {

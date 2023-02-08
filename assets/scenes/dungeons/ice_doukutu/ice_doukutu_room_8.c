@@ -27,7 +27,7 @@ SceneCmd ice_doukutu_room_8Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ice_doukutu_room_8PolygonType0_0000E0),
     SCENE_CMD_OBJECT_LIST(13, ice_doukutu_room_8ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(6, ice_doukutu_room_8ActorList_000074),
+    SCENE_CMD_ACTOR_LIST(17, ice_doukutu_room_8ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -43,7 +43,7 @@ s16 ice_doukutu_room_8ObjectList_000058[] = {
     OBJECT_TITE,
     OBJECT_GOROIWA,
     OBJECT_FZ,
-    OBJECT_DEMO_KEKKAI,
+    OBJECT_TRAP,
     OBJECT_ST,
     OBJECT_GI_SUTARU,
     OBJECT_TIMEBLOCK,
@@ -61,6 +61,17 @@ ActorEntry ice_doukutu_room_8ActorList_000074[] = {
     { ACTOR_EN_GOROIWA,     {    897,    687,  -1687 }, {      0,      0,    0X1 }, 0x0D04 },
     { ACTOR_EN_WONDER_ITEM, {   1074,    172,   -722 }, {      0,      0,      0 }, 0x3FE7 },
     { ACTOR_EN_WONDER_ITEM, {   1110,    172,   -656 }, {      0,      0,      0 }, 0x3FE7 },
+    { ACTOR_BG_ICE_TURARA,  {    951,    172,  -1217 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {   1029,    172,  -1217 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {   1187,    172,  -1217 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {   1063,    365,  -1300 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_TURARA,  {   1088,    351,  -1505 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_TURARA,  {   1141,    402,   -946 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_TURARA,  {   1229,    334,  -1134 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_TURARA,  {   1264,    348,   -890 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_EN_FZ,          {   1028,    172,  -1216 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_TRAP,        {    950,    172,  -1061 }, {      0, 0X4000,      0 }, 0x0710 },
+    { ACTOR_EN_TRAP,        {    980,    172,  -1390 }, {      0, 0X4000,      0 }, 0x0910 },
 };
 
 u8 ice_doukutu_room_8_possiblePadding_0000D4[] = {

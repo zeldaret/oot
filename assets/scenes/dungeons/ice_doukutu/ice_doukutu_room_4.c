@@ -27,7 +27,7 @@ SceneCmd ice_doukutu_room_4Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ice_doukutu_room_4PolygonType0_0000D0),
     SCENE_CMD_OBJECT_LIST(13, ice_doukutu_room_4ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(5, ice_doukutu_room_4ActorList_000074),
+    SCENE_CMD_ACTOR_LIST(13, ice_doukutu_room_4ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -60,6 +60,14 @@ ActorEntry ice_doukutu_room_4ActorList_000074[] = {
     { ACTOR_EN_WONDER_ITEM, {   -400,     19,   -440 }, {      0,      0,      0 }, 0x3FE6 },
     { ACTOR_EN_WONDER_ITEM, {   -439,     19,   -411 }, {      0,      0,      0 }, 0x3FE6 },
     { ACTOR_EN_WONDER_ITEM, {   -482,     20,   -386 }, {      0,      0,      0 }, 0x3FE6 },
+    { ACTOR_BG_ICE_TURARA,  {   -518,     23,   -601 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {   -487,     22,   -600 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {   -451,     22,   -604 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {   -414,     22,   -610 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {   -373,     22,   -605 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {   -385,    135,   -686 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_TURARA,  {   -359,    138,   -862 }, {      0,      0,      0 }, 0x0002 },
+    { ACTOR_BG_ICE_TURARA,  {   -314,    122,   -768 }, {      0,      0,      0 }, 0x0002 },
 };
 
 u8 ice_doukutu_room_4_possiblePadding_0000C4[] = {

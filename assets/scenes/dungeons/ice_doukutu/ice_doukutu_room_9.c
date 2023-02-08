@@ -26,8 +26,8 @@ SceneCmd ice_doukutu_room_9Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ice_doukutu_room_9PolygonType0_0001B0),
-    SCENE_CMD_OBJECT_LIST(13, ice_doukutu_room_9ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(19, ice_doukutu_room_9ActorList_000074),
+    SCENE_CMD_OBJECT_LIST(14, ice_doukutu_room_9ObjectList_000058),
+    SCENE_CMD_ACTOR_LIST(28, ice_doukutu_room_9ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -52,6 +52,7 @@ s16 ice_doukutu_room_9ObjectList_000058[] = {
     OBJECT_BOX,
     OBJECT_KA,
     OBJECT_FIREFLY,
+    OBJECT_TRAP,
 };
 
 ActorEntry ice_doukutu_room_9ActorList_000074[] = {
@@ -74,6 +75,15 @@ ActorEntry ice_doukutu_room_9ActorList_000074[] = {
     { ACTOR_BG_GND_DARKMEIRO, {   1192,    222,  -2236 }, {      0, 0X1C72,      0 }, 0x2701 },
     { ACTOR_BG_GND_DARKMEIRO, {   1192,    262,  -2236 }, {      0, 0X1C72,      0 }, 0x2701 },
     { ACTOR_BG_ICE_SHELTER,   {    376,    213,  -2048 }, {      0,      0,      0 }, 0x003B },
+    { ACTOR_EN_FIREFLY,       {    429,    356,  -2385 }, {      0, 0X5555,      0 }, 0x0004 },
+    { ACTOR_EN_FIREFLY,       {    451,    340,  -2601 }, {      0,      0,      0 }, 0x0004 },
+    { ACTOR_EN_FIREFLY,       {    963,    303,  -2046 }, {      0, 0XB27D,      0 }, 0x0004 },
+    { ACTOR_ELF_MSG,          {    603,    202,  -2468 }, {   0X14,      0,   0X14 }, 0x6889 },
+    { ACTOR_EN_FZ,            {    577,     22,  -2212 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_TRAP,          {    600,     22,  -2467 }, {      0,      0,      0 }, 0x4520 },
+    { ACTOR_BG_ICE_SHELTER,   {    277,    262,  -2600 }, {      0,  0XAAB,      0 }, 0x0007 },
+    { ACTOR_EN_FZ,            {    405,    213,  -2221 }, {      0, 0X7333,      0 }, 0x0000 },
+    { ACTOR_EN_FZ,            {    993,    162,  -2216 }, {      0, 0XC5B0,      0 }, 0x0000 },
 };
 
 u8 ice_doukutu_room_9_possiblePadding_0001A4[] = {

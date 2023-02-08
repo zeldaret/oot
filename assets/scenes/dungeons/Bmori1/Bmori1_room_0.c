@@ -36,8 +36,8 @@ SceneCmd Bmori1_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&Bmori1_room_0PolygonType0_0000D0),
-    SCENE_CMD_OBJECT_LIST(7, Bmori1_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(8, Bmori1_room_0ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(8, Bmori1_room_0ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(11, Bmori1_room_0ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -49,6 +49,7 @@ s16 Bmori1_room_0ObjectList_000040[] = {
     OBJECT_BB,
     OBJECT_ST,
     OBJECT_GI_SUTARU,
+    OBJECT_WF,
 };
 
 ActorEntry Bmori1_room_0ActorList_000050[] = {
@@ -60,6 +61,9 @@ ActorEntry Bmori1_room_0ActorList_000050[] = {
     { ACTOR_EN_ST,      {    105,   1021,    504 }, {      0, 0X671C,      0 }, 0x0000 },
     { ACTOR_EN_BOX,     {    396,   1151,    404 }, {      0, 0X4000,    0XD }, 0x8843 },
     { ACTOR_OBJ_SWITCH, {   -168,    860,    579 }, {      0, 0X505B,      0 }, 0x0D00 },
+    { ACTOR_EN_WF,      {     74,    309,    389 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WF,      {    161,    309,    393 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_SW,      {    452,   1058,    642 }, {      0, 0XC000,      0 }, 0x8420 },
 };
 
 PolygonType0 Bmori1_room_0PolygonType0_0000D0 = { 

@@ -27,7 +27,7 @@ SceneCmd ice_doukutu_room_3Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ice_doukutu_room_3PolygonType0_0001B0),
     SCENE_CMD_OBJECT_LIST(13, ice_doukutu_room_3ObjectList_000058),
-    SCENE_CMD_ACTOR_LIST(19, ice_doukutu_room_3ActorList_000074),
+    SCENE_CMD_ACTOR_LIST(31, ice_doukutu_room_3ActorList_000074),
     SCENE_CMD_END(),
 };
 
@@ -69,11 +69,23 @@ ActorEntry ice_doukutu_room_3ActorList_000074[] = {
     { ACTOR_BG_ICE_SHELTER, {   -142,      0,   -377 }, {      0,      0,      0 }, 0x0023 },
     { ACTOR_OBJ_TSUBO,      {    433,      0,   -732 }, {      0,      0,      0 }, 0x4E12 },
     { ACTOR_OBJ_TSUBO,      {    569,      0,   -175 }, {      0,      0,      0 }, 0x5001 },
-    { ACTOR_BG_ICE_SHELTER, {    577,    172,   -818 }, {      0,      0,      0 }, 0x0029 },
     { ACTOR_OBJ_TSUBO,      {    521,      0,   -131 }, {      0,      0,      0 }, 0x5203 },
-    { ACTOR_BG_ICE_SHELTER, {    614,    172,   -770 }, {      0,      0,      0 }, 0x002A },
-    { ACTOR_BG_ICE_SHELTER, {    656,    172,   -722 }, {      0,      0,      0 }, 0x002B },
     { ACTOR_OBJ_TSUBO,      {    138,      0,   -672 }, {      0,      0,      0 }, 0x5812 },
+    { ACTOR_ELF_MSG,        {    296,      9,     -4 }, {   0X16,      0,      0 }, 0x0580 },
+    { ACTOR_EN_SW,          {    -16,    199,   -167 }, { 0X4000, 0X5F4A,      0 }, 0x8A10 },
+    { ACTOR_EN_G_SWITCH,    {      1,      0,   -143 }, {      0,      0,      0 }, 0x1FC8 },
+    { ACTOR_EN_G_SWITCH,    {    198,      0,   -388 }, {      0,      0,      0 }, 0x1FC8 },
+    { ACTOR_EN_G_SWITCH,    {    278,      0,   -637 }, {      0,      0,      0 }, 0x1FC8 },
+    { ACTOR_EN_G_SWITCH,    {    389,      0,   -382 }, {      0,      0,      0 }, 0x1FC8 },
+    { ACTOR_EN_G_SWITCH,    {    414,    178,   -579 }, {      0,      0,      0 }, 0x1FC8 },
+    { ACTOR_EN_G_SWITCH,    {    605,      0,   -247 }, {      0,      0,      0 }, 0x0148 },
+    { ACTOR_EN_TUBO_TRAP,   {     62,      0,   -660 }, {      0,      0,      0 }, 0x00EC },
+    { ACTOR_BG_ICE_TURARA,  {     -9,      0,   -175 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {     22,      0,   -170 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_ICE_TURARA,  {     44,      0,   -139 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_BG_HAKA_SGAMI,  {    293,      0,   -384 }, {      0,      0,      0 }, 0x0100 },
+    { ACTOR_BG_ICE_SHELTER, {    651,      0,   -232 }, {      0, 0XB333,      0 }, 0x030C },
+    { ACTOR_BG_ICE_SHUTTER, {    575,    172,   -728 }, {      0, 0XD555,      0 }, 0x0801 },
 };
 
 u8 ice_doukutu_room_3_possiblePadding_0001A4[] = {
