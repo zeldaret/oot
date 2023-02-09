@@ -15268,7 +15268,7 @@ TWO_CHOICE  COLOR(ADJUSTABLE) "Oui\n"
 
 DEFINE_MESSAGE(0x10B9, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "Heh heh heh.\n"
-"Are you going to be... too?\n"
+"Are you going to be one... too?\n"
 "Heh heh!"
 ,
 "Wirst auch Du Dich verwandeln?"
