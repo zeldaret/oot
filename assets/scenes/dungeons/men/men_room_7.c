@@ -24,8 +24,8 @@ SceneCmd men_room_7Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&men_room_7PolygonType2_0000F0),
-    SCENE_CMD_OBJECT_LIST(6, men_room_7ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(10, men_room_7ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(9, men_room_7ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(22, men_room_7ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -36,6 +36,9 @@ s16 men_room_7ObjectList_000040[] = {
     OBJECT_AM,
     OBJECT_DODONGO,
     OBJECT_ZF,
+    OBJECT_VM,
+    OBJECT_HIDAN_OBJECTS,
+    OBJECT_GI_HEART,
 };
 
 ActorEntry men_room_7ActorList_00004C[] = {
@@ -46,9 +49,21 @@ ActorEntry men_room_7ActorList_00004C[] = {
     { ACTOR_EN_DODONGO,      {   1550,    -80,     35 }, {      0, 0XB555,      0 }, 0xFFFF },
     { ACTOR_EN_AM,           {   1191,    -20,     97 }, {      0, 0X6000,      0 }, 0xFFFF },
     { ACTOR_EN_BOX,          {   1481,    120,   -187 }, {      0, 0X8000,   0X1E }, 0x8841 },
-    { ACTOR_OBJ_ROOMTIMER,   {   1553,    -59,   -171 }, {      0,      0,      0 }, 0x783C },
+    { ACTOR_OBJ_ROOMTIMER,   {   1553,    -59,   -171 }, {      0,      0,      0 }, 0x7852 },
     { ACTOR_EN_WONDER_TALK2, {   1251,    -58,   -374 }, {      0,      0,   0X45 }, 0x4C9E },
     { ACTOR_EN_WONDER_ITEM,  {   1481,    112,   -560 }, {      0,      0,    0X1 }, 0x1AE7 },
+    { ACTOR_EN_VM,           {   1481,    -58,   -179 }, {      0,      0,      0 }, 0x0A01 },
+    { ACTOR_EN_ZF,           {   1494,    -80,     70 }, {      0, 0XB8E4,      0 }, 0xFFFE },
+    { ACTOR_BG_HIDAN_FIREWALL, {   1756,    -80,   -420 }, {      0, 0XE000,      0 }, 0x00FF },
+    { ACTOR_BG_HIDAN_FIREWALL, {   1819,    -80,   -264 }, {      0, 0XBF4A,      0 }, 0x00FF },
+    { ACTOR_BG_HIDAN_FIREWALL, {   1730,    -80,     75 }, {      0, 0XA000,      0 }, 0x00FF },
+    { ACTOR_BG_HIDAN_FIREWALL, {   1242,    -80,     96 }, {      0, 0X6000,      0 }, 0x00FF },
+    { ACTOR_BG_HIDAN_FIREWALL, {   1219,    -80,   -434 }, {      0, 0X2000,      0 }, 0x00FF },
+    { ACTOR_BG_HIDAN_FIREWALL, {   1397,    -80,    162 }, {      0, 0X8000,      0 }, 0x00FF },
+    { ACTOR_BG_HIDAN_FIREWALL, {   1817,    -80,   -108 }, {      0, 0XC000,      0 }, 0x00FF },
+    { ACTOR_BG_HIDAN_FIREWALL, {   1563,    -80,    163 }, {      0, 0X8000,      0 }, 0x00FF },
+    { ACTOR_EN_ITEM00,       {   1486,    -20,    204 }, {      0,      0,      0 }, 0x2203 },
+    { ACTOR_EN_ITEM00,       {   1858,    -19,   -183 }, {      0,      0,      0 }, 0x2303 },
 };
 
 u8 men_room_7_possiblePadding_0000EC[] = {

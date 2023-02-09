@@ -24,8 +24,8 @@ SceneCmd men_room_1Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&men_room_1PolygonType2_000090),
-    SCENE_CMD_OBJECT_LIST(5, men_room_1ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(4, men_room_1ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(7, men_room_1ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(8, men_room_1ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -35,13 +35,19 @@ s16 men_room_1ObjectList_000040[] = {
     OBJECT_EFC_FLASH,
     OBJECT_IK,
     OBJECT_WF,
+    OBJECT_SK2,
+    OBJECT_TRAP,
 };
 
 ActorEntry men_room_1ActorList_00004C[] = {
     { ACTOR_EN_IK,           {  -1629,    -90,    -19 }, {      0, 0X4E39,      0 }, 0xFF03 },
     { ACTOR_EN_BOX,          {  -1674,    120,   -494 }, {      0, 0X8000,   0X1F }, 0x89A0 },
-    { ACTOR_OBJ_ROOMTIMER,   {  -1606,    -90,   -123 }, {      0,      0,      0 }, 0x7C3C },
+    { ACTOR_OBJ_ROOMTIMER,   {  -1606,    -90,   -123 }, {      0,      0,      0 }, 0x7C6C },
     { ACTOR_EN_WONDER_TALK2, {  -1395,    -82,   -233 }, {      0,      0,   0X45 }, 0x4C9F },
+    { ACTOR_EN_TEST,         {  -1755,    -90,    -67 }, {      0, 0X4E39,      0 }, 0x0002 },
+    { ACTOR_EN_TEST,         {  -1870,    -90,   -357 }, {      0, 0X3333,      0 }, 0x0002 },
+    { ACTOR_EN_TRAP,         {  -1150,    -80,   -281 }, {      0,      0,      0 }, 0x0510 },
+    { ACTOR_EN_WF,           {  -1544,    -90,     10 }, {      0, 0x7E39,      0 }, 0xFF00 },
 };
 
 u8 men_room_1_possiblePadding_00008C[] = {

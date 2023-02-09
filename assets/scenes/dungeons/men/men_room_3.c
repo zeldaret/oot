@@ -24,8 +24,8 @@ SceneCmd men_room_3Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&men_room_3PolygonType2_000160),
-    SCENE_CMD_OBJECT_LIST(9, men_room_3ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(16, men_room_3ActorList_000054),
+    SCENE_CMD_OBJECT_LIST(11, men_room_3ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(22, men_room_3ActorList_000054),
     SCENE_CMD_END(),
 };
 
@@ -39,6 +39,8 @@ s16 men_room_3ObjectList_000040[] = {
     OBJECT_SK2,
     OBJECT_ST,
     OBJECT_ICE_OBJECTS,
+    OBJECT_WF,
+    OBJECT_DOOR_KILLER,
 };
 
 ActorEntry men_room_3ActorList_000054[] = {
@@ -51,13 +53,19 @@ ActorEntry men_room_3ActorList_000054[] = {
     { ACTOR_EN_ST,               {  -1604,    449,  -2483 }, {      0,      0,      0 }, 0x0001 },
     { ACTOR_EN_ST,               {  -1231,    449,  -2737 }, {      0, 0XC000,      0 }, 0x0001 },
     { ACTOR_EN_ST,               {  -1562,    449,  -2735 }, {      0,  0XD83,      0 }, 0x0001 },
-    { ACTOR_OBJ_ROOMTIMER,       {  -1533,    279,  -2572 }, {      0,      0,      0 }, 0x0C3C },
+    { ACTOR_OBJ_ROOMTIMER,       {  -1533,    279,  -2572 }, {      0,      0,      0 }, 0x0C44 },
     { ACTOR_EN_WONDER_TALK2,     {  -1576,    231,  -2307 }, {      0,      0,    0XB }, 0x4C83 },
     { ACTOR_OBJ_BLOCKSTOP,       {  -1577,    -41,  -3257 }, {      0,      0,      0 }, 0x000B },
     { ACTOR_OBJ_OSHIHIKI,        {  -1577,    -41,  -3257 }, {      0,      0,      0 }, 0x0BC7 },
     { ACTOR_OBJ_OSHIHIKI,        {  -1577,    159,  -3057 }, {      0,      0,      0 }, 0x0BC3 },
     { ACTOR_BG_ICE_SHELTER,      {   -864,    239,  -2745 }, {      0, 0XC000,      0 }, 0x030F },
     { ACTOR_EN_BOX,              {  -1331,    159,  -2858 }, {      0, 0X8000,      0 }, 0x7951 },
+    { ACTOR_EN_WONDER_TALK2,     {  -1574,    231,  -2930 }, {      0,      0,    0XB }, 0x4DE0 },
+    { ACTOR_EN_WONDER_TALK2,     {  -1422,    159,  -2512 }, {      0,      0,   0X45 }, 0x4E21 },
+    { ACTOR_EN_WF,               {  -1604,    159,  -2483 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WF,               {  -1322,    159,  -2579 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_EN_WF,               {  -1377,    159,  -2795 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_DOOR_KILLER,         {  -1159,    159,  -2748 }, {      0, 0XC000,      0 }, 0xFF00 },
 };
 
 u8 men_room_3_possiblePadding_000154[] = {

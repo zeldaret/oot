@@ -25,7 +25,7 @@ SceneCmd men_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&men_room_0PolygonType2_0000E0),
     SCENE_CMD_OBJECT_LIST(7, men_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(10, men_room_0ActorList_000050),
+    SCENE_CMD_ACTOR_LIST(13, men_room_0ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -50,6 +50,9 @@ ActorEntry men_room_0ActorList_000050[] = {
     { ACTOR_OBJ_TSUBO,    {    197,    -20,   -179 }, {      0,      0,      0 }, 0x7A0E },
     { ACTOR_OBJ_TSUBO,    {    199,    -20,    -79 }, {      0,      0,      0 }, 0x7C03 },
     { ACTOR_EN_KANBAN,    {    -94,    -20,   -467 }, {      0,      0,      0 }, 0x034C },
+    { ACTOR_EN_WONDER_TALK2, {    -43,    -64,   -629 }, {      0,      0,    0XB }, 0x4C2F },
+    { ACTOR_EN_WONDER_TALK2, {    468,    -64,   -188 }, {      0,      0,    0XB }, 0x4C2F },
+    { ACTOR_EN_WONDER_TALK2, {   -590,    -74,   -176 }, {      0,      0,    0XB }, 0x4C2F },
 };
 
 PolygonType2 men_room_0PolygonType2_0000E0 = { 

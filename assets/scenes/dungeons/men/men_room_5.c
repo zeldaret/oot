@@ -24,8 +24,8 @@ SceneCmd men_room_5Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&men_room_5PolygonType2_0000F0),
-    SCENE_CMD_OBJECT_LIST(6, men_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(10, men_room_5ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(8, men_room_5ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(24, men_room_5ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -36,6 +36,8 @@ s16 men_room_5ObjectList_000040[] = {
     OBJECT_GI_HEART,
     OBJECT_IK,
     OBJECT_BW,
+    OBJECT_HIDAN_OBJECTS,
+    OBJECT_FIREFLY,
 };
 
 ActorEntry men_room_5ActorList_00004C[] = {
@@ -49,6 +51,20 @@ ActorEntry men_room_5ActorList_00004C[] = {
     { ACTOR_OBJ_ROOMTIMER,    {   1448,    -65,  -2750 }, {      0,      0,      0 }, 0x643C },
     { ACTOR_EN_WONDER_TALK2,  {   1447,    -65,  -2744 }, {      0,      0,   0X45 }, 0x4C99 },
     { ACTOR_OBJ_SWITCH,       {   1443,    110,  -2380 }, { 0XC000,      0,      0 }, 0x3803 },
+    { ACTOR_EN_BW,            {   1594,    -81,  -2594 }, {      0, 0XD555,      0 }, 0xFFFF },
+    { ACTOR_EN_FIREFLY,       {   1579,    117,  -2648 }, {      0, 0X5B06,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY,       {   1313,    123,  -2877 }, {      0, 0XECCD,      0 }, 0x0000 },
+    { ACTOR_BG_HIDAN_DALM,    {   1559,    -21,  -2458 }, {      0, 0X8000,      0 }, 0xFF01 },
+    { ACTOR_BG_HIDAN_DALM,    {   1564,     39,  -3038 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_BG_HIDAN_DALM,    {   1152,    -81,  -2865 }, {      0, 0X4000,      0 }, 0xFF01 },
+    { ACTOR_BG_HIDAN_DALM,    {   1325,    -21,  -3038 }, {      0,      0,      0 }, 0xFF01 },
+    { ACTOR_BG_HIDAN_DALM,    {   1733,    -21,  -2629 }, {      0, 0XC000,      0 }, 0xFF01 },
+    { ACTOR_BG_HIDAN_DALM,    {   1732,    -81,  -2866 }, {      0, 0XC000,      0 }, 0xFF01 },
+    { ACTOR_BG_HIDAN_DALM,    {   1559,    -81,  -2458 }, {      0, 0X8000,      0 }, 0xFF00 },
+    { ACTOR_BG_HIDAN_DALM,    {   1564,    -81,  -3038 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_BG_HIDAN_DALM,    {   1325,    -81,  -3038 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_BG_HIDAN_DALM,    {   1564,    -21,  -3038 }, {      0,      0,      0 }, 0xFF00 },
+    { ACTOR_BG_HIDAN_DALM,    {   1733,    -81,  -2629 }, {      0, 0XC000,      0 }, 0xFF00 },
 };
 
 u8 men_room_5_possiblePadding_0000EC[] = {

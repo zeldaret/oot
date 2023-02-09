@@ -25,7 +25,7 @@ SceneCmd men_room_8Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&men_room_8PolygonType2_000150),
     SCENE_CMD_OBJECT_LIST(9, men_room_8ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(15, men_room_8ActorList_000054),
+    SCENE_CMD_ACTOR_LIST(16, men_room_8ActorList_000054),
     SCENE_CMD_END(),
 };
 
@@ -57,6 +57,7 @@ ActorEntry men_room_8ActorList_000054[] = {
     { ACTOR_EN_BOX,              {   -299,    -80,  -2001 }, {      0, 0XC000,      0 }, 0x5E49 },
     { ACTOR_EN_BOX,              {   -440,    -80,  -2020 }, {      0, 0X8000,      0 }, 0x59CA },
     { ACTOR_EN_BOX,              {    -21,    201,  -1239 }, {      0, 0X4000,      0 }, 0x5AAB },
+    { ACTOR_EN_WONDER_TALK2,     {    -32,    -80,  -1400 }, {      0,      0,   0X45 }, 0x4C62 },
 };
 
 u8 men_room_8_possiblePadding_000144[] = {
