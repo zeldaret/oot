@@ -209,7 +209,7 @@ CamData spot01_sceneCollisionHeader_004A1CCamDataList[] = {
     { 0x0020, 3, &spot01_sceneCollisionHeader_004A1CCamPosData[18] },
     { 0x0020, 3, &spot01_sceneCollisionHeader_004A1CCamPosData[21] },
     { 0x0020, 3, &spot01_sceneCollisionHeader_004A1CCamPosData[24] },
-    { 0x0000, 0, NULL },
+    { 0x0001, 0, NULL },
     { 0x0005, 0, NULL },
     { 0x0004, 0, NULL },
     { 0x0002, 0, NULL },
