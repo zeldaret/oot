@@ -42,8 +42,8 @@ SceneCmd jyasinzou_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&jyasinzou_room_0PolygonType2_000210),
-    SCENE_CMD_OBJECT_LIST(11, jyasinzou_room_0ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(27, jyasinzou_room_0ActorList_000054),
+    SCENE_CMD_OBJECT_LIST(12, jyasinzou_room_0ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(30, jyasinzou_room_0ActorList_000054),
     SCENE_CMD_END(),
 };
 
@@ -59,6 +59,7 @@ s16 jyasinzou_room_0ObjectList_000040[] = {
     OBJECT_NB,
     OBJECT_GI_HEART,
     OBJECT_FIREFLY,
+    OBJECT_KANBAN,
 };
 
 ActorEntry jyasinzou_room_0ActorList_000054[] = {
@@ -89,6 +90,9 @@ ActorEntry jyasinzou_room_0ActorList_000054[] = {
     { ACTOR_EN_WONDER_TALK2, {   -282,    -51,    312 }, {      0, 0X1555,   0X16 }, 0x087F },
     { ACTOR_EN_BOX,          {    132,    111,     33 }, {      0, 0X8000,   0X37 }, 0x885B },
     { ACTOR_EN_BOX,          {   -135,    111,   -177 }, {      0, 0X8000,   0X25 }, 0x885E },
+    { ACTOR_EN_KANBAN,       {   -344,    -50,    134 }, {      0, 0X4000,      0 }, 0x0351 },
+    { ACTOR_EN_KANBAN,       {     -2,    -50,   -266 }, {      0,      0,      0 }, 0x0352 },
+    { ACTOR_EN_KANBAN,       {    335,    -50,    127 }, {      0, 0xC000,      0 }, 0x0353 },
 };
 
 u8 jyasinzou_room_0_possiblePadding_000204[] = {

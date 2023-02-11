@@ -42,7 +42,7 @@ SceneCmd jyasinzou_room_1Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&jyasinzou_room_1PolygonType2_000150),
-    SCENE_CMD_OBJECT_LIST(11, jyasinzou_room_1ObjectList_000040),
+    SCENE_CMD_OBJECT_LIST(12, jyasinzou_room_1ObjectList_000040),
     SCENE_CMD_ACTOR_LIST(15, jyasinzou_room_1ActorList_000054),
     SCENE_CMD_END(),
 };
@@ -59,6 +59,7 @@ s16 jyasinzou_room_1ObjectList_000040[] = {
     OBJECT_NB,
     OBJECT_GI_HEART,
     OBJECT_FIREFLY,
+    OBJECT_KANBAN,
 };
 
 ActorEntry jyasinzou_room_1ActorList_000054[] = {

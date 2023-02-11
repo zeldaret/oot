@@ -17,7 +17,7 @@ SceneCmd spot02_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot02_room_0PolygonType2_0001F0),
     SCENE_CMD_OBJECT_LIST(2, spot02_room_0ObjectList_00005C),
-    SCENE_CMD_ACTOR_LIST(25, spot02_room_0ActorList_000060),
+    SCENE_CMD_ACTOR_LIST(26, spot02_room_0ActorList_000060),
     SCENE_CMD_END(),
 };
 
@@ -60,6 +60,7 @@ ActorEntry spot02_room_0ActorList_000060[] = {
     { ACTOR_OBJ_SYOKUDAI,      {   2343,     95,    199 }, {      0, 0XAAAB,      0 }, 0x129F },
     { ACTOR_OBJ_SYOKUDAI,      {   2376,     95,     82 }, {      0, 0XBF4A,      0 }, 0x129F },
     { ACTOR_BG_SPOT02_OBJECTS, {   2676,    100,     80 }, {      0, 0XC000,      0 }, 0x1F00 },
+    { ACTOR_EN_A_OBJ,          {   2403,    100,    217 }, {      0, 0xC000,      0 }, 0x5009 },
 };
 
 PolygonType2 spot02_room_0PolygonType2_0001F0 = { 
@@ -89,7 +90,7 @@ SceneCmd spot02_room_0Set_000290[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot02_room_0PolygonType2_0001F0),
     SCENE_CMD_OBJECT_LIST(2, spot02_room_0ObjectList_0002D0),
-    SCENE_CMD_ACTOR_LIST(25, spot02_room_0ActorList_0002D4),
+    SCENE_CMD_ACTOR_LIST(26, spot02_room_0ActorList_0002D4),
     SCENE_CMD_END(),
 };
 
@@ -124,6 +125,7 @@ ActorEntry spot02_room_0ActorList_0002D4[] = {
     { ACTOR_OBJ_SYOKUDAI,      {   2343,     95,    199 }, {      0, 0XAAAB,      0 }, 0x129E },
     { ACTOR_OBJ_SYOKUDAI,      {   2376,     95,     82 }, {      0, 0XBF4A,      0 }, 0x129E },
     { ACTOR_BG_SPOT02_OBJECTS, {   2676,    100,     80 }, {      0, 0XC000,      0 }, 0x1E00 },
+    { ACTOR_EN_A_OBJ,          {   2403,    100,    217 }, {      0, 0xC000,      0 }, 0x5009 },
 };
 
 u8 spot02_room_0_possiblePadding_000464[] = {

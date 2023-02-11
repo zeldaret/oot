@@ -65,7 +65,7 @@ SceneCmd spot17_room_0Set_0000C0[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot17_room_0PolygonType2_000070),
     SCENE_CMD_OBJECT_LIST(8, spot17_room_0ObjectList_000100),
-    SCENE_CMD_ACTOR_LIST(1, spot17_room_0ActorList_000110),
+    SCENE_CMD_ACTOR_LIST(2, spot17_room_0ActorList_000110),
     SCENE_CMD_END(),
 };
 
@@ -82,6 +82,7 @@ s16 spot17_room_0ObjectList_000100[] = {
 
 ActorEntry spot17_room_0ActorList_000110[] = {
     { ACTOR_EN_WEATHER_TAG, {      0,    421,      0 }, {      0,      0,      0 }, 0x2804 },
+    { ACTOR_EN_KANBAN,      {    -98,   -350,  -1669 }, {      0, 0x4000,      0 }, 0x034E },
 };
 
 SceneCmd spot17_room_0Set_000120[] = {
