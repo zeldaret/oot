@@ -191,7 +191,7 @@ CamData spot12_sceneCollisionHeader_005030CamDataList[] = {
     { 0x0020, 3, &spot12_sceneCollisionHeader_005030CamPosData[30] },
     { 0x0020, 3, &spot12_sceneCollisionHeader_005030CamPosData[33] },
     { 0x0020, 3, &spot12_sceneCollisionHeader_005030CamPosData[36] },
-    { 0x0000, 0, NULL },
+    { 0x0001, 0, NULL },
     { 0x0002, 0, NULL },
     { 0x003A, 0, NULL },
     { 0x0004, 0, NULL },
