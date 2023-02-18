@@ -29,8 +29,8 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
     ovlRelocs = (OverlayRelocationSection*)(end - relocSectionOffset);
 
     if (gOverlayLogSeverity >= 3) {
-        osSyncPrintf("TEXT(%08x), DATA(%08x), RODATA(%08x), BSS(%08x)\n", ovlRelocs->textSize, ovlRelocs->dataSize, ovlRelocs->rodataSize,
-                     ovlRelocs->bssSize);
+        osSyncPrintf("TEXT(%08x), DATA(%08x), RODATA(%08x), BSS(%08x)\n", ovlRelocs->textSize, ovlRelocs->dataSize,
+                     ovlRelocs->rodataSize, ovlRelocs->bssSize);
     }
 
     if (gOverlayLogSeverity >= 3) {
