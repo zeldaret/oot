@@ -7,6 +7,8 @@
 #include "z_item_ocarina.h"
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 
+//ocarina object for the zelda escaping with impa cutscene and flashback in light arrow cutscene
+
 #define FLAGS ACTOR_FLAG_4
 
 void ItemOcarina_Init(Actor* thisx, PlayState* play);
@@ -14,12 +16,12 @@ void ItemOcarina_Destroy(Actor* thisx, PlayState* play);
 void ItemOcarina_Update(Actor* thisx, PlayState* play);
 void ItemOcarina_Draw(Actor* thisx, PlayState* play);
 
-void ItemOcarina_GetThrown(ItemOcarina* this, PlayState* play);
-void ItemOcarina_Fly(ItemOcarina* this, PlayState* play);
+void ItemOcarina_Thrown_Escape(ItemOcarina* this, PlayState* play);
+void ItemOcarina_Falling_Escape(ItemOcarina* this, PlayState* play);
 void ItemOcarina_WaitInWater(ItemOcarina* this, PlayState* play);
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, PlayState* play);
-void func_80B864EC(ItemOcarina* this, PlayState* play);
-void func_80B865E0(ItemOcarina* this, PlayState* play);
+void ItemOcarina_Falling_LACS(ItemOcarina* this, PlayState* play);
+void ItemOcarina_Thrown_LACS(ItemOcarina* this, PlayState* play);
 void ItemOcarina_DoNothing(ItemOcarina* this, PlayState* play);
 
 ActorInit Item_Ocarina_InitVars = {
@@ -47,10 +49,10 @@ void ItemOcarina_Init(Actor* thisx, PlayState* play) {
 
     switch (params) {
         case 0:
-            ItemOcarina_SetupAction(this, ItemOcarina_GetThrown);
+            ItemOcarina_SetupAction(this, ItemOcarina_Thrown_Escape);
             break;
         case 1:
-            ItemOcarina_SetupAction(this, func_80B865E0);
+            ItemOcarina_SetupAction(this, ItemOcarina_Thrown_LACS);
             break;
         case 2:
             ItemOcarina_SetupAction(this, ItemOcarina_DoNothing);
@@ -76,7 +78,8 @@ void ItemOcarina_Init(Actor* thisx, PlayState* play) {
 void ItemOcarina_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void ItemOcarina_Fly(ItemOcarina* this, PlayState* play) {
+//ocarina after being thrown in the escape cutscene and beginning to fall
+void ItemOcarina_Falling_Escape(ItemOcarina* this, PlayState* play) {
     Vec3f ripplePos;
 
     Actor_UpdatePos(&this->actor);
@@ -120,16 +123,19 @@ void ItemOcarina_Fly(ItemOcarina* this, PlayState* play) {
     }
 }
 
-void ItemOcarina_GetThrown(ItemOcarina* this, PlayState* play) {
+//ocarina being thrown in the escape cutscene
+void ItemOcarina_Thrown_Escape(ItemOcarina* this, PlayState* play) {
     this->actor.gravity = -0.3f;
     this->actor.minVelocityY = -5.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 6.0f;
     this->actor.velocity.z = 0.0f;
-    ItemOcarina_SetupAction(this, ItemOcarina_Fly);
+    ItemOcarina_SetupAction(this, ItemOcarina_Falling_Escape);
 }
 
-void func_80B864EC(ItemOcarina* this, PlayState* play) {
+
+//ocarina after being thrown in the light arrow cutscene and beginning to fall
+void ItemOcarina_Falling_LACS(ItemOcarina* this, PlayState* play) {
     Actor_UpdatePos(&this->actor);
     this->actor.shape.rot.x += this->spinRotOffset * 2;
     this->actor.shape.rot.y += this->spinRotOffset * 3;
@@ -154,18 +160,20 @@ void func_80B864EC(ItemOcarina* this, PlayState* play) {
     }
 }
 
-void func_80B865E0(ItemOcarina* this, PlayState* play) {
+//ocarina being thrown in the light arrow cutscene
+void ItemOcarina_Thrown_LACS(ItemOcarina* this, PlayState* play) {
     this->actor.gravity = -0.3f;
     this->actor.minVelocityY = -5.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 4.0f;
     this->actor.velocity.z = 6.0f;
-    ItemOcarina_SetupAction(this, func_80B864EC);
+    ItemOcarina_SetupAction(this, ItemOcarina_Falling_LACS);
 }
 
 void ItemOcarina_DoNothing(ItemOcarina* this, PlayState* play) {
 }
 
+//song of time cutscene
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gHyruleFieldZeldaSongOfTimeCs);
@@ -173,6 +181,7 @@ void ItemOcarina_StartSoTCutscene(ItemOcarina* this, PlayState* play) {
     }
 }
 
+//ocarina's collectible state
 void ItemOcarina_WaitInWater(ItemOcarina* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         SET_EVENTCHKINF(EVENTCHKINF_43);

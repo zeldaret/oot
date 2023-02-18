@@ -14,7 +14,7 @@ LDFLAGS     :=
 
 ifeq ($(DEBUG),0)
   OPTFLAGS  := -O2
-  CFLAGS    += -Werror
+  CFLAGS    += -Werror -Wno-error=strict-prototypes
 else
   OPTFLAGS  := -O0 -g3 -DDEBUG_ON
 endif
