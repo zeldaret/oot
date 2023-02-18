@@ -103,74 +103,74 @@ static void* sHylianWoman2EyeTextures[] = {
 };
 
 typedef struct {
-    /* 0x00 */ s16 objectId;
-    /* 0x04 */ Gfx* headDList;
-    /* 0x08 */ void** eyeTextures;
+    /* 0x0 */ s16 objectId;
+    /* 0x4 */ Gfx* headDList;
+    /* 0x8 */ void** eyeTextures;
 } EnHyHeadInfo; // size = 0xC
 
 typedef enum {
-    /*  0 */ ENHY_HEAD_AOB,
-    /*  1 */ ENHY_HEAD_BOB,
-    /*  2 */ ENHY_HEAD_BOJ_2,
-    /*  3 */ ENHY_HEAD_BOJ_3,
-    /*  4 */ ENHY_HEAD_BOJ_4,
-    /*  5 */ ENHY_HEAD_BOJ_5,
-    /*  6 */ ENHY_HEAD_BOJ_6,
-    /*  7 */ ENHY_HEAD_AHG_7,
-    /*  8 */ ENHY_HEAD_AHG_8,
-    /*  9 */ ENHY_HEAD_AHG_9,
-    /* 10 */ ENHY_HEAD_BBA,
-    /* 11 */ ENHY_HEAD_CNE_11,
-    /* 12 */ ENHY_HEAD_CNE_12,
-    /* 13 */ ENHY_HEAD_BJI_13,
-    /* 14 */ ENHY_HEAD_BJI_14,
-    /* 15 */ ENHY_HEAD_COB
+    /*  0 */ ENHY_HEAD_WOMAN_1,
+    /*  1 */ ENHY_HEAD_WOMAN_2,
+    /*  2 */ ENHY_HEAD_MAN_2_MUSTACHE,
+    /*  3 */ ENHY_HEAD_MAN_2_BALD,
+    /*  4 */ ENHY_HEAD_MAN_2_LONG_HAIR,
+    /*  5 */ ENHY_HEAD_MAN_2_ALT_MUSTACHE,
+    /*  6 */ ENHY_HEAD_MAN_2_BEARD,
+    /*  7 */ ENHY_HEAD_MAN_1_BEARD,
+    /*  8 */ ENHY_HEAD_MAN_1_SHAVED,
+    /*  9 */ ENHY_HEAD_MAN_1_BOWL_CUT,
+    /* 10 */ ENHY_HEAD_OLD_WOMAN,
+    /* 11 */ ENHY_HEAD_YOUNG_WOMAN_BROWN_HAIR,
+    /* 12 */ ENHY_HEAD_YOUNG_WOMAN_ORANGE_HAIR,
+    /* 13 */ ENHY_HEAD_OLD_MAN,
+    /* 14 */ ENHY_HEAD_OLD_MAN_BALD,
+    /* 15 */ ENHY_HEAD_WOMAN_3
 } EnHyHeadIndex;
 
 static EnHyHeadInfo sHeadInfo[] = {
-    /* ENHY_HEAD_AOB */ { OBJECT_AOB, gHylianWoman1HeadDL, sHylianWoman1EyeTextures },
-    /* ENHY_HEAD_BOB */ { OBJECT_BOB, gHylianWoman2HeadDL, sHylianWoman2EyeTextures },
-    /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, gHylianMan2MustachedHeadDL, sHylianMan2EyeTextures },
-    /* ENHY_HEAD_BOJ_3 */ { OBJECT_BOJ, gHylianMan2BaldHeadDL, NULL },
-    /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, gHylianMan2LongHairHeadDL, NULL },
-    /* ENHY_HEAD_BOJ_5 */ { OBJECT_BOJ, gHylianMan2AltMustachedHeadDL, NULL },
-    /* ENHY_HEAD_BOJ_6 */ { OBJECT_BOJ, gHylianMan2BeardedHeadDL, NULL },
-    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, gHylianMan1BeardedHeadDL, sHylianMan1EyeTextures },
-    /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, gHylianMan1ShavedHeadDL, NULL },
-    /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, gHylianMan1BowlCutHeadDL, NULL },
-    /* ENHY_HEAD_BBA */ { OBJECT_BBA, gHylianOldWomanHeadDL, sHylainOldWomanEyeTextures },
-    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, gHylianYoungWomanBrownHairHeadDL, NULL },
-    /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, gHylianYoungWomanOrangeHairHeadDL, NULL },
-    /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, gHylianOldManHeadDL, sHylianOldManEyeTextures },
-    /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, gHylianOldManBaldHeadDL, NULL },
-    /* ENHY_HEAD_COB */ { OBJECT_COB, gHylianWoman3HeadDL, NULL },
+    /* ENHY_HEAD_WOMAN_1 */ { OBJECT_AOB, gHylianWoman1HeadDL, sHylianWoman1EyeTextures },
+    /* ENHY_HEAD_WOMAN_2 */ { OBJECT_BOB, gHylianWoman2HeadDL, sHylianWoman2EyeTextures },
+    /* ENHY_HEAD_MAN_2_MUSTACHE */ { OBJECT_BOJ, gHylianMan2MustachedHeadDL, sHylianMan2EyeTextures },
+    /* ENHY_HEAD_MAN_2_BALD */ { OBJECT_BOJ, gHylianMan2BaldHeadDL, NULL },
+    /* ENHY_HEAD_MAN_2_LONG_HAIR */ { OBJECT_BOJ, gHylianMan2LongHairHeadDL, NULL },
+    /* ENHY_HEAD_MAN_2_ALT_MUSTACHE */ { OBJECT_BOJ, gHylianMan2AltMustachedHeadDL, NULL },
+    /* ENHY_HEAD_MAN_2_BEARD */ { OBJECT_BOJ, gHylianMan2BeardedHeadDL, NULL },
+    /* ENHY_HEAD_MAN_1_BEARD */ { OBJECT_AHG, gHylianMan1BeardedHeadDL, sHylianMan1EyeTextures },
+    /* ENHY_HEAD_MAN_1_SHAVED */ { OBJECT_AHG, gHylianMan1ShavedHeadDL, NULL },
+    /* ENHY_HEAD_MAN_1_BOWL_CUT */ { OBJECT_AHG, gHylianMan1BowlCutHeadDL, NULL },
+    /* ENHY_HEAD_OLD_WOMAN */ { OBJECT_BBA, gHylianOldWomanHeadDL, sHylainOldWomanEyeTextures },
+    /* ENHY_HEAD_YOUNG_WOMAN_BROWN_HAIR */ { OBJECT_CNE, gHylianYoungWomanBrownHairHeadDL, NULL },
+    /* ENHY_HEAD_YOUNG_WOMAN_ORANGE_HAIR */ { OBJECT_CNE, gHylianYoungWomanOrangeHairHeadDL, NULL },
+    /* ENHY_HEAD_OLD_MAN */ { OBJECT_BJI, gHylianOldManHeadDL, sHylianOldManEyeTextures },
+    /* ENHY_HEAD_OLD_MAN_BALD */ { OBJECT_BJI, gHylianOldManBaldHeadDL, NULL },
+    /* ENHY_HEAD_WOMAN_3 */ { OBJECT_COB, gHylianWoman3HeadDL, NULL },
 };
 
 typedef struct {
-    /* 0x00 */ s16 objectId;
-    /* 0x04 */ FlexSkeletonHeader* skeleton;
+    /* 0x0 */ s16 objectId;
+    /* 0x4 */ FlexSkeletonHeader* skeleton;
 } EnHySkeletonInfo; // size = 0x8
 
 typedef enum {
-    /* 0 */ ENHY_SKEL_AOB,
-    /* 1 */ ENHY_SKEL_BOB,
-    /* 2 */ ENHY_SKEL_BOJ,
-    /* 3 */ ENHY_SKEL_AHG,
-    /* 4 */ ENHY_SKEL_BBA,
-    /* 5 */ ENHY_SKEL_CNE,
-    /* 6 */ ENHY_SKEL_BJI,
-    /* 7 */ ENHY_SKEL_COB
+    /* 0 */ ENHY_SKEL_WOMAN_1,
+    /* 1 */ ENHY_SKEL_WOMAN_2,
+    /* 2 */ ENHY_SKEL_MAN_2,
+    /* 3 */ ENHY_SKEL_MAN_1,
+    /* 4 */ ENHY_SKEL_OLD_WOMAN,
+    /* 5 */ ENHY_SKEL_YOUNG_WOMAN,
+    /* 6 */ ENHY_SKEL_OLD_MAN,
+    /* 7 */ ENHY_SKEL_WOMAN_3
 } EnHySkeletonIndex;
 
 static EnHySkeletonInfo sSkeletonInfo[] = {
-    /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gHylianWoman1Skel },
-    /* ENHY_SKEL_BOB */ { OBJECT_BOB, &gHylianWoman2Skel },
-    /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &gHylianMan2Skel },
-    /* ENHY_SKEL_AHG */ { OBJECT_AHG, &gHylianMan1Skel },
-    /* ENHY_SKEL_BBA */ { OBJECT_BBA, &gHylianOldWomanSkel },
-    /* ENHY_SKEL_CNE */ { OBJECT_CNE, &gHylianYoungWomanSkel },
-    /* ENHY_SKEL_BJI */ { OBJECT_BJI, &gHylianOldManSkel },
-    /* ENHY_SKEL_COB */ { OBJECT_COB, &gHylianWoman3Skel },
+    /* ENHY_SKEL_WOMAN_1 */ { OBJECT_AOB, &gHylianWoman1Skel },
+    /* ENHY_SKEL_WOMAN_2 */ { OBJECT_BOB, &gHylianWoman2Skel },
+    /* ENHY_SKEL_MAN_2 */ { OBJECT_BOJ, &gHylianMan2Skel },
+    /* ENHY_SKEL_MAN_1 */ { OBJECT_AHG, &gHylianMan1Skel },
+    /* ENHY_SKEL_OLD_WOMAN */ { OBJECT_BBA, &gHylianOldWomanSkel },
+    /* ENHY_SKEL_YOUNG_WOMAN */ { OBJECT_CNE, &gHylianYoungWomanSkel },
+    /* ENHY_SKEL_OLD_MAN */ { OBJECT_BJI, &gHylianOldManSkel },
+    /* ENHY_SKEL_WOMAN_3 */ { OBJECT_COB, &gHylianWoman3Skel },
 };
 
 typedef enum {
@@ -234,87 +234,234 @@ static AnimationInfo sAnimationInfo[] = {
 };
 
 typedef struct {
-    /* 0x00 */ u8 headInfoIndex;      // EnHyHeadIndex
-    /* 0x01 */ u8 upperSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objBankIndexUpperSkel
-    /* 0x02 */ Color_RGBA8 envColorSeg8;
-    /* 0x06 */ u8 lowerSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objBankIndexLowerSkel
-    /* 0x07 */ Color_RGBA8 envColorSeg9;
-    /* 0x0B */ u8 animInfoIndex; // EnHyAnimationIndex
-} EnHyModelInfo;                 // size = 0xC
+    /* 0x0 */ u8 headInfoIndex;      // EnHyHeadIndex
+    /* 0x1 */ u8 upperSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objBankIndexUpperSkel
+    /* 0x2 */ Color_RGBA8 envColorSeg8;
+    /* 0x6 */ u8 lowerSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objBankIndexLowerSkel
+    /* 0x7 */ Color_RGBA8 envColorSeg9;
+    /* 0xB */ u8 animInfoIndex; // EnHyAnimationIndex
+} EnHyModelInfo;                // size = 0xC
 
 static EnHyModelInfo sModelInfo[] = {
-    /* ENHY_TYPE_AOB */
-    { ENHY_HEAD_AOB, ENHY_SKEL_AOB, { 255, 255, 255, 255 }, ENHY_SKEL_AOB, { 255, 255, 255, 255 }, ENHY_ANIM_0 },
-    /* ENHY_TYPE_COB */
-    { ENHY_HEAD_COB, ENHY_SKEL_COB, { 255, 255, 255, 255 }, ENHY_SKEL_COB, { 255, 255, 255, 255 }, ENHY_ANIM_22 },
-    /* ENHY_TYPE_AHG_2 */
-    { ENHY_HEAD_AHG_7, ENHY_SKEL_AHG, { 255, 255, 255, 255 }, ENHY_SKEL_AHG, { 255, 255, 255, 255 }, ENHY_ANIM_1 },
-    /* ENHY_TYPE_BOJ_3 */
-    { ENHY_HEAD_BOJ_3, ENHY_SKEL_BOJ, { 255, 255, 255, 0 }, ENHY_SKEL_BOJ, { 55, 55, 255, 0 }, ENHY_ANIM_15 },
-    /* ENHY_TYPE_AHG_4 */
-    { ENHY_HEAD_AHG_8, ENHY_SKEL_AHG, { 0, 0, 0, 0 }, ENHY_SKEL_AHG, { 255, 0, 0, 0 }, ENHY_ANIM_11 },
-    /* ENHY_TYPE_BOJ_5 */
-    { ENHY_HEAD_BOJ_4, ENHY_SKEL_BOJ, { 50, 80, 0, 0 }, ENHY_SKEL_BOJ, { 50, 80, 0, 0 }, ENHY_ANIM_16 },
-    /* ENHY_TYPE_BBA */
-    { ENHY_HEAD_BBA, ENHY_SKEL_BBA, { 255, 255, 255, 255 }, ENHY_SKEL_BBA, { 255, 255, 255, 255 }, ENHY_ANIM_10 },
-    /* ENHY_TYPE_BJI_7 */
-    { ENHY_HEAD_BJI_13, ENHY_SKEL_BJI, { 0, 50, 160, 0 }, ENHY_SKEL_BJI, { 255, 255, 255, 0 }, ENHY_ANIM_4 },
-    /* ENHY_TYPE_CNE_8 */
-    { ENHY_HEAD_CNE_11, ENHY_SKEL_CNE, { 160, 180, 255, 0 }, ENHY_SKEL_CNE, { 160, 180, 255, 0 }, ENHY_ANIM_9 },
-    /* ENHY_TYPE_BOJ_9 */
-    { ENHY_HEAD_BOJ_2, ENHY_SKEL_BOJ, { 220, 0, 80, 0 }, ENHY_SKEL_BOJ, { 255, 255, 255, 0 }, ENHY_ANIM_13 },
-    /* ENHY_TYPE_BOJ_10 */
-    { ENHY_HEAD_BOJ_2, ENHY_SKEL_BOJ, { 0, 130, 220, 0 }, ENHY_SKEL_BOJ, { 255, 255, 255, 0 }, ENHY_ANIM_14 },
-    /* ENHY_TYPE_CNE_11 */
-    { ENHY_HEAD_CNE_12, ENHY_SKEL_CNE, { 70, 160, 230, 0 }, ENHY_SKEL_CNE, { 255, 255, 100, 0 }, ENHY_ANIM_20 },
-    /* ENHY_TYPE_BOJ_12 */
-    { ENHY_HEAD_BOJ_5, ENHY_SKEL_BOJ, { 150, 60, 90, 0 }, ENHY_SKEL_BOJ, { 255, 240, 150, 0 }, ENHY_ANIM_18 },
-    /* ENHY_TYPE_AHG_13 */
-    { ENHY_HEAD_AHG_9, ENHY_SKEL_AHG, { 200, 180, 255, 0 }, ENHY_SKEL_AHG, { 200, 180, 255, 0 }, ENHY_ANIM_12 },
-    /* ENHY_TYPE_BOJ_14 */
-    { ENHY_HEAD_BOJ_6, ENHY_SKEL_BOJ, { 140, 255, 110, 0 }, ENHY_SKEL_BOJ, { 255, 255, 255, 0 }, ENHY_ANIM_19 },
-    /* ENHY_TYPE_BJI_15 */
-    { ENHY_HEAD_BJI_14, ENHY_SKEL_BJI, { 130, 70, 20, 0 }, ENHY_SKEL_BJI, { 130, 180, 255, 0 }, ENHY_ANIM_21 },
-    /* ENHY_TYPE_BOJ_16 */
-    { ENHY_HEAD_BOJ_2, ENHY_SKEL_BOJ, { 255, 255, 255, 255 }, ENHY_SKEL_BOJ, { 255, 255, 255, 255 }, ENHY_ANIM_5 },
-    /* ENHY_TYPE_AHG_17 */
-    { ENHY_HEAD_AHG_8, ENHY_SKEL_AHG, { 90, 100, 20, 255 }, ENHY_SKEL_AHG, { 100, 140, 50, 255 }, ENHY_ANIM_11 },
-    /* ENHY_TYPE_BOB_18 */
-    { ENHY_HEAD_BOB, ENHY_SKEL_BOB, { 255, 255, 255, 255 }, ENHY_SKEL_BOB, { 255, 255, 255, 255 }, ENHY_ANIM_6 },
-    /* ENHY_TYPE_BJI_19 */
-    { ENHY_HEAD_BJI_14, ENHY_SKEL_BJI, { 160, 0, 100, 0 }, ENHY_SKEL_BJI, { 70, 130, 210, 0 }, ENHY_ANIM_21 },
-    /* ENHY_TYPE_AHG_20 */
-    { ENHY_HEAD_AHG_9, ENHY_SKEL_AHG, { 160, 230, 0, 0 }, ENHY_SKEL_AHG, { 0, 150, 110, 0 }, ENHY_ANIM_12 },
+    /* ENHY_TYPE_DOG_LADY */
+    {
+        ENHY_HEAD_WOMAN_1,
+        ENHY_SKEL_WOMAN_1,
+        { 255, 255, 255, 255 },
+        ENHY_SKEL_WOMAN_1,
+        { 255, 255, 255, 255 },
+        ENHY_ANIM_0,
+    },
+    /* ENHY_TYPE_WOMAN_3 */
+    {
+        ENHY_HEAD_WOMAN_3,
+        ENHY_SKEL_WOMAN_3,
+        { 255, 255, 255, 255 },
+        ENHY_SKEL_WOMAN_3,
+        { 255, 255, 255, 255 },
+        ENHY_ANIM_22,
+    },
+    /* ENHY_TYPE_MAN_1_BEARD */
+    {
+        ENHY_HEAD_MAN_1_BEARD,
+        ENHY_SKEL_MAN_1,
+        { 255, 255, 255, 255 },
+        ENHY_SKEL_MAN_1,
+        { 255, 255, 255, 255 },
+        ENHY_ANIM_1,
+    },
+    /* ENHY_TYPE_MAN_2_BALD */
+    {
+        ENHY_HEAD_MAN_2_BALD,
+        ENHY_SKEL_MAN_2,
+        { 255, 255, 255, 0 },
+        ENHY_SKEL_MAN_2,
+        { 55, 55, 255, 0 },
+        ENHY_ANIM_15,
+    },
+    /* ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT */
+    {
+        ENHY_HEAD_MAN_1_SHAVED,
+        ENHY_SKEL_MAN_1,
+        { 0, 0, 0, 0 },
+        ENHY_SKEL_MAN_1,
+        { 255, 0, 0, 0 },
+        ENHY_ANIM_11,
+    },
+    /* ENHY_TYPE_BEGGAR */
+    {
+        ENHY_HEAD_MAN_2_LONG_HAIR,
+        ENHY_SKEL_MAN_2,
+        { 50, 80, 0, 0 },
+        ENHY_SKEL_MAN_2,
+        { 50, 80, 0, 0 },
+        ENHY_ANIM_16,
+    },
+    /* ENHY_TYPE_OLD_WOMAN */
+    {
+        ENHY_HEAD_OLD_WOMAN,
+        ENHY_SKEL_OLD_WOMAN,
+        { 255, 255, 255, 255 },
+        ENHY_SKEL_OLD_WOMAN,
+        { 255, 255, 255, 255 },
+        ENHY_ANIM_10,
+    },
+    /* ENHY_TYPE_OLD_MAN */
+    {
+        ENHY_HEAD_OLD_MAN,
+        ENHY_SKEL_OLD_MAN,
+        { 0, 50, 160, 0 },
+        ENHY_SKEL_OLD_MAN,
+        { 255, 255, 255, 0 },
+        ENHY_ANIM_4,
+    },
+    /* ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR */
+    {
+        ENHY_HEAD_YOUNG_WOMAN_BROWN_HAIR,
+        ENHY_SKEL_YOUNG_WOMAN,
+        { 160, 180, 255, 0 },
+        ENHY_SKEL_YOUNG_WOMAN,
+        { 160, 180, 255, 0 },
+        ENHY_ANIM_9,
+    },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT */
+    {
+        ENHY_HEAD_MAN_2_MUSTACHE,
+        ENHY_SKEL_MAN_2,
+        { 220, 0, 80, 0 },
+        ENHY_SKEL_MAN_2,
+        { 255, 255, 255, 0 },
+        ENHY_ANIM_13,
+    },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT */
+    {
+        ENHY_HEAD_MAN_2_MUSTACHE,
+        ENHY_SKEL_MAN_2,
+        { 0, 130, 220, 0 },
+        ENHY_SKEL_MAN_2,
+        { 255, 255, 255, 0 },
+        ENHY_ANIM_14,
+    },
+    /* ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR */
+    {
+        ENHY_HEAD_YOUNG_WOMAN_ORANGE_HAIR,
+        ENHY_SKEL_YOUNG_WOMAN,
+        { 70, 160, 230, 0 },
+        ENHY_SKEL_YOUNG_WOMAN,
+        { 255, 255, 100, 0 },
+        ENHY_ANIM_20,
+    },
+    /* ENHY_TYPE_MAN_2_ALT_MUSTACHE */
+    {
+        ENHY_HEAD_MAN_2_ALT_MUSTACHE,
+        ENHY_SKEL_MAN_2,
+        { 150, 60, 90, 0 },
+        ENHY_SKEL_MAN_2,
+        { 255, 240, 150, 0 },
+        ENHY_ANIM_18,
+    },
+    /* ENHY_TYPE_MAN_1_BOWL_CUT_PURPLE_SHIRT */
+    {
+        ENHY_HEAD_MAN_1_BOWL_CUT,
+        ENHY_SKEL_MAN_1,
+        { 200, 180, 255, 0 },
+        ENHY_SKEL_MAN_1,
+        { 200, 180, 255, 0 },
+        ENHY_ANIM_12,
+    },
+    /* ENHY_TYPE_MAN_2_BEARD */
+    {
+        ENHY_HEAD_MAN_2_BEARD,
+        ENHY_SKEL_MAN_2,
+        { 140, 255, 110, 0 },
+        ENHY_SKEL_MAN_2,
+        { 255, 255, 255, 0 },
+        ENHY_ANIM_19,
+    },
+    /* ENHY_TYPE_OLD_MAN_BALD_BROWN_ROBE */
+    {
+        ENHY_HEAD_OLD_MAN_BALD,
+        ENHY_SKEL_OLD_MAN,
+        { 130, 70, 20, 0 },
+        ENHY_SKEL_OLD_MAN,
+        { 130, 180, 255, 0 },
+        ENHY_ANIM_21,
+    },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_WHITE_SHIRT */
+    {
+        ENHY_HEAD_MAN_2_MUSTACHE,
+        ENHY_SKEL_MAN_2,
+        { 255, 255, 255, 255 },
+        ENHY_SKEL_MAN_2,
+        { 255, 255, 255, 255 },
+        ENHY_ANIM_5,
+    },
+    /* ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT */
+    {
+        ENHY_HEAD_MAN_1_SHAVED,
+        ENHY_SKEL_MAN_1,
+        { 90, 100, 20, 255 },
+        ENHY_SKEL_MAN_1,
+        { 100, 140, 50, 255 },
+        ENHY_ANIM_11,
+    },
+    /* ENHY_TYPE_WOMAN_2 */
+    {
+        ENHY_HEAD_WOMAN_2,
+        ENHY_SKEL_WOMAN_2,
+        { 255, 255, 255, 255 },
+        ENHY_SKEL_WOMAN_2,
+        { 255, 255, 255, 255 },
+        ENHY_ANIM_6,
+    },
+    /* ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE */
+    {
+        ENHY_HEAD_OLD_MAN_BALD,
+        ENHY_SKEL_OLD_MAN,
+        { 160, 0, 100, 0 },
+        ENHY_SKEL_OLD_MAN,
+        { 70, 130, 210, 0 },
+        ENHY_ANIM_21,
+    },
+    /* ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT */
+    {
+        ENHY_HEAD_MAN_1_BOWL_CUT,
+        ENHY_SKEL_MAN_1,
+        { 160, 230, 0, 0 },
+        ENHY_SKEL_MAN_1,
+        { 0, 150, 110, 0 },
+        ENHY_ANIM_12,
+    },
 };
 
 typedef struct {
-    /* 0x00 */ Vec3s offset;
-    /* 0x06 */ s16 radius;
-    /* 0x08 */ s16 height;
+    /* 0x0 */ Vec3s offset;
+    /* 0x6 */ s16 radius;
+    /* 0x8 */ s16 height;
 } EnHyColliderInfo; // size 0xA
 
 static EnHyColliderInfo sColliderInfo[] = {
-    /* ENHY_TYPE_AOB */ { { 0, 0, 4 }, 24, 70 },
-    /* ENHY_TYPE_COB */ { { 0, 0, 8 }, 28, 62 },
-    /* ENHY_TYPE_AHG_2 */ { { 0, 0, 4 }, 20, 60 },
-    /* ENHY_TYPE_BOJ_3 */ { { 0, 0, 2 }, 20, 60 },
-    /* ENHY_TYPE_AHG_4 */ { { 0, 0, -2 }, 20, 60 },
-    /* ENHY_TYPE_BOJ_5 */ { { 0, 0, 8 }, 24, 40 },
-    /* ENHY_TYPE_BBA */ { { 0, 0, 10 }, 26, 40 },
-    /* ENHY_TYPE_BJI_7 */ { { 0, 0, 12 }, 26, 58 },
-    /* ENHY_TYPE_CNE_8 */ { { 0, 0, 2 }, 18, 68 },
-    /* ENHY_TYPE_BOJ_9 */ { { 0, 0, 4 }, 20, 60 },
-    /* ENHY_TYPE_BOJ_10 */ { { 0, 0, 4 }, 20, 60 },
-    /* ENHY_TYPE_CNE_11 */ { { 0, 0, 6 }, 20, 64 },
-    /* ENHY_TYPE_BOJ_12 */ { { 0, 0, 0 }, 18, 60 },
-    /* ENHY_TYPE_AHG_13 */ { { 0, 0, 0 }, 16, 60 },
-    /* ENHY_TYPE_BOJ_14 */ { { 0, 0, 0 }, 16, 64 },
-    /* ENHY_TYPE_BJI_15 */ { { 0, 0, 8 }, 20, 58 },
-    /* ENHY_TYPE_BOJ_16 */ { { 4, 0, 0 }, 18, 62 },
-    /* ENHY_TYPE_AHG_17 */ { { 4, 0, 0 }, 18, 62 },
-    /* ENHY_TYPE_BOB_18 */ { { 0, 0, 8 }, 28, 62 },
-    /* ENHY_TYPE_BJI_19 */ { { 0, 0, 0 }, 16, 60 },
-    /* ENHY_TYPE_AHG_20 */ { { 0, 0, 8 }, 20, 58 },
+    /* ENHY_TYPE_DOG_LADY */ { { 0, 0, 4 }, 24, 70 },
+    /* ENHY_TYPE_WOMAN_3 */ { { 0, 0, 8 }, 28, 62 },
+    /* ENHY_TYPE_MAN_1_BEARD */ { { 0, 0, 4 }, 20, 60 },
+    /* ENHY_TYPE_MAN_2_BALD */ { { 0, 0, 2 }, 20, 60 },
+    /* ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT */ { { 0, 0, -2 }, 20, 60 },
+    /* ENHY_TYPE_BEGGAR */ { { 0, 0, 8 }, 24, 40 },
+    /* ENHY_TYPE_OLD_WOMAN */ { { 0, 0, 10 }, 26, 40 },
+    /* ENHY_TYPE_OLD_MAN */ { { 0, 0, 12 }, 26, 58 },
+    /* ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR */ { { 0, 0, 2 }, 18, 68 },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT */ { { 0, 0, 4 }, 20, 60 },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT */ { { 0, 0, 4 }, 20, 60 },
+    /* ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR */ { { 0, 0, 6 }, 20, 64 },
+    /* ENHY_TYPE_MAN_2_ALT_MUSTACHE */ { { 0, 0, 0 }, 18, 60 },
+    /* ENHY_TYPE_MAN_1_BOWL_CUT_PURPLE_SHIRT */ { { 0, 0, 0 }, 16, 60 },
+    /* ENHY_TYPE_MAN_2_BEARD */ { { 0, 0, 0 }, 16, 64 },
+    /* ENHY_TYPE_OLD_MAN_BALD_BROWN_ROBE */ { { 0, 0, 8 }, 20, 58 },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_WHITE_SHIRT */ { { 4, 0, 0 }, 18, 62 },
+    /* ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT */ { { 4, 0, 0 }, 18, 62 },
+    /* ENHY_TYPE_WOMAN_2 */ { { 0, 0, 8 }, 28, 62 },
+    /* ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE */ { { 0, 0, 0 }, 16, 60 },
+    /* ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT */ { { 0, 0, 8 }, 20, 58 },
 };
 
 typedef struct {
@@ -324,27 +471,27 @@ typedef struct {
 } EnHyPlayerTrackingInfo; // size = 0xC
 
 static EnHyPlayerTrackingInfo sPlayerTrackingInfo[] = {
-    /* ENHY_TYPE_AOB */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_COB */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_AHG_2 */ { 7, 40.0f, 20.0f },
-    /* ENHY_TYPE_BOJ_3 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_AHG_4 */ { 7, 40.0f, 20.0f },
-    /* ENHY_TYPE_BOJ_5 */ { 8, 0.0f, -20.0f },
-    /* ENHY_TYPE_BBA */ { 9, 20.0f, 0.0f },
-    /* ENHY_TYPE_BJI_7 */ { 9, 20.0f, 0.0f },
-    /* ENHY_TYPE_CNE_8 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_BOJ_9 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_BOJ_10 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_CNE_11 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_BOJ_12 */ { 0, 0.0f, 0.0f },
-    /* ENHY_TYPE_AHG_13 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_BOJ_14 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_BJI_15 */ { 10, 20.0f, 0.0f },
-    /* ENHY_TYPE_BOJ_16 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_AHG_17 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_BOB_18 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_BJI_19 */ { 6, 20.0f, 10.0f },
-    /* ENHY_TYPE_AHG_20 */ { 10, 20.0f, 0.0f },
+    /* ENHY_TYPE_DOG_LADY */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_WOMAN_3 */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_MAN_1_BEARD */ { 7, 40.0f, 20.0f },
+    /* ENHY_TYPE_MAN_2_BALD */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT */ { 7, 40.0f, 20.0f },
+    /* ENHY_TYPE_BEGGAR */ { 8, 0.0f, -20.0f },
+    /* ENHY_TYPE_OLD_WOMAN */ { 9, 20.0f, 0.0f },
+    /* ENHY_TYPE_OLD_MAN */ { 9, 20.0f, 0.0f },
+    /* ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_MAN_2_ALT_MUSTACHE */ { 0, 0.0f, 0.0f },
+    /* ENHY_TYPE_MAN_1_BOWL_CUT_PURPLE_SHIRT */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_MAN_2_BEARD */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_OLD_MAN_BALD_BROWN_ROBE */ { 10, 20.0f, 0.0f },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_WHITE_SHIRT */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_WOMAN_2 */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE */ { 6, 20.0f, 10.0f },
+    /* ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT */ { 10, 20.0f, 0.0f },
 };
 
 typedef struct {
@@ -356,27 +503,27 @@ typedef struct {
 } EnHyInit2Info; // size = 0x1C
 
 static EnHyInit2Info sInit2Info[] = {
-    /* ENHY_TYPE_AOB */ { 36.0f, { 0.0f, 0.0f, 600.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_COB */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_AHG_2 */ { 22.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BOJ_3 */ { 20.0f, { -100.0f, 0.0f, 0.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_AHG_4 */ { 22.0f, { 0.0f, 0.0f, 0.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BOJ_5 */ { 21.0f, { 0.0f, 0.0f, 0.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BBA */ { 25.0f, { -100.0f, 0.0f, 600.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BJI_7 */ { 28.0f, { -100.0f, 0.0f, 800.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_CNE_8 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BOJ_9 */ { 18.0f, { 0.0f, 0.0f, 100.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BOJ_10 */ { 18.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_CNE_11 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BOJ_12 */ { 21.0f, { 0.0f, 0.0f, -300.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_AHG_13 */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BOJ_14 */ { 18.0f, { -200.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BJI_15 */ { 27.0f, { -100.0f, 0.0f, 800.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BOJ_16 */ { 19.0f, { 400.0f, 0.0f, 0.0f }, 0.01f, 4, 30.0f },
-    /* ENHY_TYPE_AHG_17 */ { 19.0f, { 400.0f, 0.0f, 0.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BOB_18 */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_BJI_19 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 6, 30.0f },
-    /* ENHY_TYPE_AHG_20 */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_DOG_LADY */ { 36.0f, { 0.0f, 0.0f, 600.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_WOMAN_3 */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_1_BEARD */ { 22.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_2_BALD */ { 20.0f, { -100.0f, 0.0f, 0.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT */ { 22.0f, { 0.0f, 0.0f, 0.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_BEGGAR */ { 21.0f, { 0.0f, 0.0f, 0.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_OLD_WOMAN */ { 25.0f, { -100.0f, 0.0f, 600.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_OLD_MAN */ { 28.0f, { -100.0f, 0.0f, 800.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT */ { 18.0f, { 0.0f, 0.0f, 100.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT */ { 18.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_2_ALT_MUSTACHE */ { 21.0f, { 0.0f, 0.0f, -300.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_1_BOWL_CUT_PURPLE_SHIRT */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_2_BEARD */ { 18.0f, { -200.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_OLD_MAN_BALD_BROWN_ROBE */ { 27.0f, { -100.0f, 0.0f, 800.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_2_MUSTACHE_WHITE_SHIRT */ { 19.0f, { 400.0f, 0.0f, 0.0f }, 0.01f, 4, 30.0f },
+    /* ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT */ { 19.0f, { 400.0f, 0.0f, 0.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_WOMAN_2 */ { 40.0f, { -100.0f, 0.0f, 400.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 6, 30.0f },
+    /* ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 6, 30.0f },
 };
 
 s32 EnHy_FindSkelAndHeadObjects(EnHy* this, PlayState* play) {
@@ -448,14 +595,14 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
     u16 textId = Text_GetFaceReaction(play, ENHY_GET_TYPE(&this->actor) + 37);
 
     if (textId != 0) {
-        if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BOJ_5) {
+        if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BEGGAR) {
             player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
         }
         return textId;
     }
 
     switch (ENHY_GET_TYPE(&this->actor)) {
-        case ENHY_TYPE_AOB:
+        case ENHY_TYPE_DOG_LADY:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return (this->talonEventChkInf & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
                            ? 0x508D
@@ -475,14 +622,14 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return 0x70A0;
             }
 
-        case ENHY_TYPE_COB:
+        case ENHY_TYPE_WOMAN_3:
             if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return GET_INFTABLE(INFTABLE_C1) ? 0x7017 : 0x7045;
             } else {
                 return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
             }
 
-        case ENHY_TYPE_AHG_2:
+        case ENHY_TYPE_MAN_1_BEARD:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return 0x5086;
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
@@ -499,20 +646,20 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return 0x701A;
             }
 
-        case ENHY_TYPE_BOJ_3:
+        case ENHY_TYPE_MAN_2_BALD:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? (GET_INFTABLE(INFTABLE_C4) ? 0x7001 : 0x70EB) : 0x7001;
 
-        case ENHY_TYPE_AHG_4:
+        case ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
 
-        case ENHY_TYPE_BOJ_5:
+        case ENHY_TYPE_BEGGAR:
             player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
             return 0x700C;
 
-        case ENHY_TYPE_BBA:
+        case ENHY_TYPE_OLD_WOMAN:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
 
-        case ENHY_TYPE_BJI_7:
+        case ENHY_TYPE_OLD_MAN:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return 0x5088;
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
@@ -521,14 +668,14 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
             }
 
-        case ENHY_TYPE_CNE_8:
+        case ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR:
             if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return GET_INFTABLE(INFTABLE_C9) ? 0x701E : 0x7048;
             } else {
                 return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
             }
 
-        case ENHY_TYPE_BOJ_9:
+        case ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT:
             if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x5082 : 0x5081;
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
@@ -537,7 +684,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
 
-        case ENHY_TYPE_BOJ_10:
+        case ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT:
             if (play->sceneId == SCENE_IMPAS_HOUSE) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x507E : 0x507D;
             } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
@@ -546,29 +693,29 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
             }
 
-        case ENHY_TYPE_CNE_11:
+        case ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR:
             return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
 
-        case ENHY_TYPE_BOJ_12:
+        case ENHY_TYPE_MAN_2_ALT_MUSTACHE:
             if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return !IS_DAY ? 0x5084 : 0x5083;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7044 : 0x7015;
             }
 
-        case ENHY_TYPE_AHG_13:
+        case ENHY_TYPE_MAN_1_BOWL_CUT_PURPLE_SHIRT:
             return 0x7055;
 
-        case ENHY_TYPE_BOJ_14:
+        case ENHY_TYPE_MAN_2_BEARD:
             return 0x7089;
 
-        case ENHY_TYPE_BJI_15:
+        case ENHY_TYPE_OLD_MAN_BALD_BROWN_ROBE:
             return 0x708A;
 
-        case ENHY_TYPE_BOJ_16:
+        case ENHY_TYPE_MAN_2_MUSTACHE_WHITE_SHIRT:
             return 0x700E;
 
-        case ENHY_TYPE_AHG_17:
+        case ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT:
             if (!LINK_IS_ADULT) {
                 if (IS_DAY) {
                     return GET_INFTABLE(INFTABLE_160) ? 0x5058 : 0x5057;
@@ -581,7 +728,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return 0x5058;
             }
 
-        case ENHY_TYPE_BOB_18:
+        case ENHY_TYPE_WOMAN_2:
             if (!LINK_IS_ADULT) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
@@ -590,10 +737,10 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                            : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
 
-        case ENHY_TYPE_BJI_19:
+        case ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE:
             return 0x7120;
 
-        case ENHY_TYPE_AHG_20:
+        case ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT:
             return 0x7121;
 
         default:
@@ -797,7 +944,7 @@ void EnHy_UpdateCollider(EnHy* this, PlayState* play) {
 void EnHy_OfferBuyBottledItem(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BOJ_5) {
+    if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BEGGAR) {
         if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG) &&
             !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
             switch (func_8002F368(play)) {
@@ -844,25 +991,25 @@ void EnHy_UpdateNPC(EnHy* this, PlayState* play) {
     s16 trackingMode;
 
     switch (ENHY_GET_TYPE(&this->actor)) {
-        case ENHY_TYPE_BOJ_3:
-        case ENHY_TYPE_BJI_7:
-        case ENHY_TYPE_BOJ_9:
-        case ENHY_TYPE_BOJ_10:
+        case ENHY_TYPE_MAN_2_BALD:
+        case ENHY_TYPE_OLD_MAN:
+        case ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT:
+        case ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT:
             trackingMode =
                 (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_TRACKING_NONE : NPC_TRACKING_HEAD_AND_TORSO;
             break;
 
-        case ENHY_TYPE_BOJ_12:
+        case ENHY_TYPE_MAN_2_ALT_MUSTACHE:
             trackingMode = NPC_TRACKING_NONE;
             break;
 
-        case ENHY_TYPE_AHG_2:
-        case ENHY_TYPE_AHG_17:
+        case ENHY_TYPE_MAN_1_BEARD:
+        case ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT:
             trackingMode = NPC_TRACKING_FULL_BODY;
             break;
 
-        case ENHY_TYPE_AOB:
-        case ENHY_TYPE_BOB_18:
+        case ENHY_TYPE_DOG_LADY:
+        case ENHY_TYPE_WOMAN_2:
             trackingMode = (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_TRACKING_HEAD_AND_TORSO
                                                                                  : NPC_TRACKING_FULL_BODY;
             break;
@@ -892,31 +1039,33 @@ void EnHy_UpdateNPC(EnHy* this, PlayState* play) {
 s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
     switch (play->sceneId) {
         case SCENE_KAKARIKO_VILLAGE:
-            if (!(ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BOJ_9 || ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BOJ_10 ||
-                  ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BOJ_12 || ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_AHG_2 ||
-                  ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BJI_7)) {
+            if (!(ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT ||
+                  ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT ||
+                  ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_2_ALT_MUSTACHE ||
+                  ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_1_BEARD ||
+                  ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_OLD_MAN)) {
                 return true;
             } else if (!LINK_IS_ADULT) {
                 return true;
-            } else if (ENHY_GET_TYPE(&this->actor) != ENHY_TYPE_BOJ_12 && IS_NIGHT) {
+            } else if (ENHY_GET_TYPE(&this->actor) != ENHY_TYPE_MAN_2_ALT_MUSTACHE && IS_NIGHT) {
                 return false;
             } else {
                 return true;
             }
 
         case SCENE_IMPAS_HOUSE:
-            if (ENHY_GET_TYPE(&this->actor) != ENHY_TYPE_BOJ_10) {
+            if (ENHY_GET_TYPE(&this->actor) != ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT) {
                 return true;
             } else if (LINK_IS_CHILD) {
                 return false;
-            } else if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BOJ_10 && IS_DAY) {
+            } else if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT && IS_DAY) {
                 return false;
             } else {
                 return true;
             }
 
         case SCENE_DOG_LADY_HOUSE:
-            if (ENHY_GET_TYPE(&this->actor) != ENHY_TYPE_AOB) {
+            if (ENHY_GET_TYPE(&this->actor) != ENHY_TYPE_DOG_LADY) {
                 return true;
             } else if (IS_DAY) {
                 return false;
@@ -924,11 +1073,11 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
                 return true;
             }
         case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
-            if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_AOB) {
+            if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_DOG_LADY) {
                 return !LINK_IS_ADULT ? false : true;
-            } else if (!(ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BOJ_9 ||
-                         ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_AHG_2 ||
-                         ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BJI_7)) {
+            } else if (!(ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT ||
+                         ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_1_BEARD ||
+                         ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_OLD_MAN)) {
                 return true;
             } else if (IS_DAY) {
                 return false;
@@ -940,7 +1089,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
 
         case SCENE_BACK_ALLEY_DAY:
         case SCENE_BACK_ALLEY_NIGHT:
-            if (ENHY_GET_TYPE(&this->actor) != ENHY_TYPE_BOJ_14) {
+            if (ENHY_GET_TYPE(&this->actor) != ENHY_TYPE_MAN_2_BEARD) {
                 return true;
             } else if (IS_NIGHT) {
                 return false;
@@ -952,8 +1101,8 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
 
         default:
             switch (ENHY_GET_TYPE(&this->actor)) {
-                case ENHY_TYPE_BJI_19:
-                case ENHY_TYPE_AHG_20:
+                case ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE:
+                case ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT:
                     if (LINK_IS_ADULT) {
                         return false;
                     }
@@ -1013,45 +1162,45 @@ void EnHy_WaitForObjects(EnHy* this, PlayState* play) {
         this->path = Path_GetByIndex(play, ENHY_GET_PATH_INDEX(&this->actor), 15);
 
         switch (ENHY_GET_TYPE(&this->actor)) {
-            case ENHY_TYPE_BOJ_3:
+            case ENHY_TYPE_MAN_2_BALD:
                 if (this->path != NULL) {
                     this->actor.speed = 3.0f;
                 }
                 this->actionFunc = EnHy_Walk;
                 break;
 
-            case ENHY_TYPE_BJI_7:
+            case ENHY_TYPE_OLD_MAN:
                 this->pathReverse = false;
                 this->actionFunc = EnHy_SetupPace;
                 break;
 
-            case ENHY_TYPE_AOB:
+            case ENHY_TYPE_DOG_LADY:
                 if (play->sceneId == SCENE_MARKET_DAY) {
                     this->actionFunc = EnHy_WatchDog;
                     break;
                 }
                 FALLTHROUGH;
-            case ENHY_TYPE_COB:
-            case ENHY_TYPE_AHG_2:
-            case ENHY_TYPE_AHG_4:
-            case ENHY_TYPE_BBA:
-            case ENHY_TYPE_CNE_8:
-            case ENHY_TYPE_AHG_13:
-            case ENHY_TYPE_BOJ_14:
-            case ENHY_TYPE_BJI_15:
-            case ENHY_TYPE_BOJ_16:
-            case ENHY_TYPE_AHG_17:
-            case ENHY_TYPE_BOB_18:
-            case ENHY_TYPE_BJI_19:
-            case ENHY_TYPE_AHG_20:
+            case ENHY_TYPE_WOMAN_3:
+            case ENHY_TYPE_MAN_1_BEARD:
+            case ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT:
+            case ENHY_TYPE_OLD_WOMAN:
+            case ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR:
+            case ENHY_TYPE_MAN_1_BOWL_CUT_PURPLE_SHIRT:
+            case ENHY_TYPE_MAN_2_BEARD:
+            case ENHY_TYPE_OLD_MAN_BALD_BROWN_ROBE:
+            case ENHY_TYPE_MAN_2_MUSTACHE_WHITE_SHIRT:
+            case ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT:
+            case ENHY_TYPE_WOMAN_2:
+            case ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE:
+            case ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT:
                 this->actionFunc = EnHy_Fidget;
                 break;
 
-            case ENHY_TYPE_BOJ_5:
-            case ENHY_TYPE_BOJ_9:
-            case ENHY_TYPE_BOJ_10:
-            case ENHY_TYPE_CNE_11:
-            case ENHY_TYPE_BOJ_12:
+            case ENHY_TYPE_BEGGAR:
+            case ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT:
+            case ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT:
+            case ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR:
+            case ENHY_TYPE_MAN_2_ALT_MUSTACHE:
                 this->actionFunc = EnHy_DoNothing;
                 break;
 
@@ -1254,7 +1403,7 @@ void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexUpperSkel].segment);
     }
 
-    if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BOJ_3 && limbIndex == ENHY_LIMB_TORSO) {
+    if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_2_BALD && limbIndex == ENHY_LIMB_TORSO) {
         gSPDisplayList(POLY_OPA_DISP++, gHylianMan2BagDL);
     }
 
@@ -1289,27 +1438,27 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
         envColorSeg9 = sModelInfo[ENHY_GET_TYPE(&this->actor)].envColorSeg9;
 
         switch (ENHY_GET_TYPE(&this->actor)) {
-            // ENHY_TYPE_AOB
-            // ENHY_TYPE_COB
-            case ENHY_TYPE_AHG_2:
-            case ENHY_TYPE_BOJ_3:
-            case ENHY_TYPE_AHG_4:
-            case ENHY_TYPE_BOJ_5:
-            // ENHY_TYPE_BBA
-            case ENHY_TYPE_BJI_7:
-            case ENHY_TYPE_CNE_8:
-            case ENHY_TYPE_BOJ_9:
-            case ENHY_TYPE_BOJ_10:
-            case ENHY_TYPE_CNE_11:
-            case ENHY_TYPE_BOJ_12:
-            case ENHY_TYPE_AHG_13:
-            case ENHY_TYPE_BOJ_14:
-            case ENHY_TYPE_BJI_15:
-            case ENHY_TYPE_BOJ_16:
-            case ENHY_TYPE_AHG_17:
-            // ENHY_TYPE_BOB_18
-            case ENHY_TYPE_BJI_19:
-            case ENHY_TYPE_AHG_20:
+            // ENHY_TYPE_DOG_LADY
+            // ENHY_TYPE_WOMAN_3
+            case ENHY_TYPE_MAN_1_BEARD:
+            case ENHY_TYPE_MAN_2_BALD:
+            case ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT:
+            case ENHY_TYPE_BEGGAR:
+            // ENHY_TYPE_OLD_WOMAN
+            case ENHY_TYPE_OLD_MAN:
+            case ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR:
+            case ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT:
+            case ENHY_TYPE_MAN_2_MUSTACHE_BLUE_SHIRT:
+            case ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR:
+            case ENHY_TYPE_MAN_2_ALT_MUSTACHE:
+            case ENHY_TYPE_MAN_1_BOWL_CUT_PURPLE_SHIRT:
+            case ENHY_TYPE_MAN_2_BEARD:
+            case ENHY_TYPE_OLD_MAN_BALD_BROWN_ROBE:
+            case ENHY_TYPE_MAN_2_MUSTACHE_WHITE_SHIRT:
+            case ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT:
+            // ENHY_TYPE_WOMAN_2
+            case ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE:
+            case ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT:
                 gSPSegment(POLY_OPA_DISP++, 0x08,
                            EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg8.r, envColorSeg8.g, envColorSeg8.b,
                                             envColorSeg8.a));
@@ -1317,11 +1466,12 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
                            EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg9.r, envColorSeg9.g, envColorSeg9.b,
                                             envColorSeg9.a));
 
-                if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_CNE_8 || ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_CNE_11) {
-                    if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_CNE_8) {
+                if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR ||
+                    ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR) {
+                    if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR) {
                         envColorSeg10 = envColorSeg8;
                     }
-                    if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_CNE_11) {
+                    if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR) {
                         envColorSeg10.r = envColorSeg10.g = envColorSeg10.b = 255;
                         envColorSeg10.a = 0;
                     }
@@ -1330,7 +1480,7 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
                                                 envColorSeg10.a));
                 }
                 break;
-            
+
             default:
                 break;
         }
