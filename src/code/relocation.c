@@ -135,7 +135,7 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
                 // Check address is valid for relocation
                 if ((((*regValP << 0x10) + (s16)*relocDataP) & 0x0F000000) == 0) {
                     relocOffset = ((*regValP << 0x10) + (s16)*relocDataP) - (uintptr_t)vramStart;
-                    isLoNeg = (((relocOffset + allocu32) & 0x8000) ? 1 : 0); // adjust for signed immediate
+                    isLoNeg = ((relocOffset + allocu32) & 0x8000) ? 1 : 0; // adjust for signed immediate
                     unrelocatedAddress = (*luiInstRef << 0x10) + (s16)relocData;
                     *luiInstRef =
                         (*luiInstRef & 0xFFFF0000) | ((((relocOffset + allocu32) >> 0x10) & 0xFFFF) + isLoNeg);

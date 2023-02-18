@@ -3,8 +3,8 @@
 s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
     s32 pad[3];
     uintptr_t end;
-    OverlayRelocationSection* ovl;
-    u32 ovlOffset;
+    OverlayRelocationSection* ovlRelocs;
+    u32 relocSectionOffset;
     size_t size;
 
     size = vromEnd - vromStart;
@@ -25,12 +25,12 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
 
     // The overlay file is expected to contain a 32-bit offset from the end of the file to the start of the
     // relocation section.
-    ovlOffset = ((s32*)end)[-1];
-    ovl = (OverlayRelocationSection*)(end - ovlOffset);
+    relocSectionOffset = ((s32*)end)[-1];
+    ovlRelocs = (OverlayRelocationSection*)(end - relocSectionOffset);
 
     if (gOverlayLogSeverity >= 3) {
-        osSyncPrintf("TEXT(%08x), DATA(%08x), RODATA(%08x), BSS(%08x)\n", ovl->textSize, ovl->dataSize, ovl->rodataSize,
-                     ovl->bssSize);
+        osSyncPrintf("TEXT(%08x), DATA(%08x), RODATA(%08x), BSS(%08x)\n", ovlRelocs->textSize, ovlRelocs->dataSize, ovlRelocs->rodataSize,
+                     ovlRelocs->bssSize);
     }
 
     if (gOverlayLogSeverity >= 3) {
@@ -38,26 +38,26 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
     }
 
     // Relocate pointers in overlay code and data
-    Overlay_Relocate(allocatedRamAddr, ovl, vramStart);
+    Overlay_Relocate(allocatedRamAddr, ovlRelocs, vramStart);
 
     // Clear bss if present, bss is located immediately following the relocations
-    if (ovl->bssSize != 0) {
+    if (ovlRelocs->bssSize != 0) {
         if (gOverlayLogSeverity >= 3) {
             // "Clear BSS area (% 08x-% 08x)"
-            osSyncPrintf("BSS領域をクリアします(%08x-%08x)\n", end, end + ovl->bssSize);
+            osSyncPrintf("BSS領域をクリアします(%08x-%08x)\n", end, end + ovlRelocs->bssSize);
         }
-        bzero((void*)end, ovl->bssSize);
+        bzero((void*)end, ovlRelocs->bssSize);
     }
 
-    size = (uintptr_t)&ovl->relocations[ovl->nRelocations] - (uintptr_t)ovl;
+    size = (uintptr_t)&ovlRelocs->relocations[ovlRelocs->nRelocations] - (uintptr_t)ovlRelocs;
 
     if (gOverlayLogSeverity >= 3) {
         // "Clear REL area (%08x-%08x)"
-        osSyncPrintf("REL領域をクリアします(%08x-%08x)\n", ovl, (uintptr_t)ovl + size);
+        osSyncPrintf("REL領域をクリアします(%08x-%08x)\n", ovlRelocs, (uintptr_t)ovlRelocs + size);
     }
 
     // Clear relocations, this space remains allocated and goes unused
-    bzero(ovl, size);
+    bzero(ovlRelocs, size);
 
     // Manually flush caches
     size = (uintptr_t)vramEnd - (uintptr_t)vramStart;

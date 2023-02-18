@@ -1179,12 +1179,11 @@ typedef struct ArenaNode {
 
 /* Reloc section id, must fit in 2 bits otherwise the relocation format must be modified */
 typedef enum {
-    REL_SECTION_NULL,
-    REL_SECTION_TEXT,
-    REL_SECTION_DATA,
-    REL_SECTION_RODATA,
-
-    REL_SECTION_MAX
+    /* 0 */ REL_SECTION_NULL,
+    /* 1 */ REL_SECTION_TEXT,
+    /* 2 */ REL_SECTION_DATA,
+    /* 3 */ REL_SECTION_RODATA,
+    /* 4 */ REL_SECTION_MAX
 } RelocSectionId;
 
 typedef struct OverlayRelocationSection {
