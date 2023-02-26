@@ -1166,10 +1166,10 @@ typedef struct ArenaNode {
 } ArenaNode; // size = 0x30
 
 /* Relocation entry field getters */
-#define REL_SECTION(reloc)   ((reloc) >> 30)
-#define REL_OFFSET(reloc)    ((reloc) & 0xFFFFFF)
-#define REL_TYPE_MASK(reloc) ((reloc) & 0x3F000000)
-#define REL_TYPE_SHIFT 24
+#define RELOC_SECTION(reloc)   ((reloc) >> 30)
+#define RELOC_OFFSET(reloc)    ((reloc) & 0xFFFFFF)
+#define RELOC_TYPE_MASK(reloc) ((reloc) & 0x3F000000)
+#define RELOC_TYPE_SHIFT 24
 
 /* MIPS Relocation Types, matches the MIPS ELF spec */
 #define R_MIPS_32   2
@@ -1179,11 +1179,11 @@ typedef struct ArenaNode {
 
 /* Reloc section id, must fit in 2 bits otherwise the relocation format must be modified */
 typedef enum {
-    /* 0 */ REL_SECTION_NULL,
-    /* 1 */ REL_SECTION_TEXT,
-    /* 2 */ REL_SECTION_DATA,
-    /* 3 */ REL_SECTION_RODATA,
-    /* 4 */ REL_SECTION_MAX
+    /* 0 */ RELOC_SECTION_NULL,
+    /* 1 */ RELOC_SECTION_TEXT,
+    /* 2 */ RELOC_SECTION_DATA,
+    /* 3 */ RELOC_SECTION_RODATA,
+    /* 4 */ RELOC_SECTION_MAX
 } RelocSectionId;
 
 typedef struct OverlayRelocationSection {

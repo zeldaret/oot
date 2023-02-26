@@ -38,7 +38,7 @@
  * @param vramStart Virtual RAM address that the overlay was compiled at.
  */
 void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRelocs, void* vramStart) {
-    uintptr_t sections[REL_SECTION_MAX];
+    uintptr_t sections[RELOC_SECTION_MAX];
     u32 relocatedValue;
     u32 dbg;
     u32 relocOffset;
@@ -73,21 +73,21 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
                      ovlRelocs->rodataSize, ovlRelocs->bssSize);
     }
 
-    sections[REL_SECTION_NULL] = 0;
-    sections[REL_SECTION_TEXT] = allocu32;
-    sections[REL_SECTION_DATA] = allocu32 + ovlRelocs->textSize;
-    sections[REL_SECTION_RODATA] = sections[REL_SECTION_DATA] + ovlRelocs->dataSize;
+    sections[RELOC_SECTION_NULL] = 0;
+    sections[RELOC_SECTION_TEXT] = allocu32;
+    sections[RELOC_SECTION_DATA] = allocu32 + ovlRelocs->textSize;
+    sections[RELOC_SECTION_RODATA] = sections[RELOC_SECTION_DATA] + ovlRelocs->dataSize;
 
     for (i = 0; i < ovlRelocs->nRelocations; i++) {
         reloc = ovlRelocs->relocations[i];
         // This will always resolve to a 32-bit aligned address as each section containing code or pointers must be
         // aligned to at least 4 bytes and the MIPS ABI defines the offset of both 16-bit and 32-bit relocations to
         // be the start of the 32-bit word containing the target.
-        relocDataP = (u32*)(sections[REL_SECTION(reloc)] + REL_OFFSET(reloc));
+        relocDataP = (u32*)(sections[RELOC_SECTION(reloc)] + RELOC_OFFSET(reloc));
         relocData = *relocDataP;
 
-        switch (REL_TYPE_MASK(reloc)) {
-            case R_MIPS_32 << REL_TYPE_SHIFT:
+        switch (RELOC_TYPE_MASK(reloc)) {
+            case R_MIPS_32 << RELOC_TYPE_SHIFT:
                 // Handles 32-bit address relocation, used for things such as jump tables and pointers in data.
                 // Just relocate the full address.
 
@@ -101,7 +101,7 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
                 }
                 break;
 
-            case R_MIPS_26 << REL_TYPE_SHIFT:
+            case R_MIPS_26 << RELOC_TYPE_SHIFT:
                 // Handles 26-bit address relocation, used for jumps and jals.
                 // Extract the address from the target field of the J-type MIPS instruction.
                 // Relocate the address and update the instruction.
@@ -113,7 +113,7 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
                 *relocDataP = relocatedValue;
                 break;
 
-            case R_MIPS_HI16 << REL_TYPE_SHIFT:
+            case R_MIPS_HI16 << RELOC_TYPE_SHIFT:
                 // Handles relocation for a hi/lo pair, part 1.
                 // Store the reference to the LUI instruction (hi) using the `rt` register of the instruction.
                 // This will be updated later in the `R_MIPS_LO16` section.
@@ -122,7 +122,7 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
                 luiVals[MIPS_REG_RT(*relocDataP)] = *relocDataP;
                 break;
 
-            case R_MIPS_LO16 << REL_TYPE_SHIFT:
+            case R_MIPS_LO16 << RELOC_TYPE_SHIFT:
                 // Handles relocation for a hi/lo pair, part 2.
                 // Grab the stored LUI (hi) from the `R_MIPS_HI16` section using the `rs` register of the instruction.
                 // The full address is calculated, relocated, and then used to update both the LUI and lo instructions.
@@ -148,14 +148,14 @@ void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRe
         }
 
         dbg = 16;
-        switch (REL_TYPE_MASK(reloc)) {
-            case R_MIPS_32 << REL_TYPE_SHIFT:
+        switch (RELOC_TYPE_MASK(reloc)) {
+            case R_MIPS_32 << RELOC_TYPE_SHIFT:
                 dbg += 6;
                 FALLTHROUGH;
-            case R_MIPS_26 << REL_TYPE_SHIFT:
+            case R_MIPS_26 << RELOC_TYPE_SHIFT:
                 dbg += 10;
                 FALLTHROUGH;
-            case R_MIPS_LO16 << REL_TYPE_SHIFT:
+            case R_MIPS_LO16 << RELOC_TYPE_SHIFT:
                 if (gOverlayLogSeverity >= 3) {
                     osSyncPrintf("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
                     osSyncPrintf(" %08x %08x %08x %08x\n", (uintptr_t)relocDataP + (uintptr_t)vramStart - allocu32,
