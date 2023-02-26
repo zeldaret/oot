@@ -94,7 +94,7 @@
 typedef struct{
     /* 0x00 */ char unk[0x4];
     /* 0x04 */ MtxF mf;
-} HorseStruct; // size = 0x44
+} HorseStruct;
 
 typedef struct {
     /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
@@ -679,10 +679,10 @@ typedef struct {
 #define SRAM_HEADER_SIZE 0x10
 
 typedef enum {
-    /* 0 */ SRAM_HEADER_SOUND,
-    /* 1 */ SRAM_HEADER_ZTARGET,
-    /* 2 */ SRAM_HEADER_LANGUAGE,
-    /* 3 */ SRAM_HEADER_MAGIC // must be the value of `sZeldaMagic` for save to be considered valid
+    /* 0x00 */ SRAM_HEADER_SOUND,
+    /* 0x01 */ SRAM_HEADER_ZTARGET,
+    /* 0x02 */ SRAM_HEADER_LANGUAGE,
+    /* 0x03 */ SRAM_HEADER_MAGIC // must be the value of `sZeldaMagic` for save to be considered valid
 } SramHeaderField;
 
 typedef struct GameAllocEntry {
