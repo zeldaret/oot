@@ -1,6 +1,6 @@
 # VSCode
 
-A lot of people on this project use VSCode as their coding environment. 
+A lot of people on this project use VSCode as their coding environment.
 
 ## Extensions
 
@@ -23,7 +23,7 @@ There are a number of useful extensions available to make work more efficient:
 - Ctrl + P offers a box to use to search for and open files.
 - Ctrl + Shift + P offers a box for commands like editing settings or reloading the window.
 
-- Make use of VSCode's search/search-and-replace features. 
+- Make use of VSCode's search/search-and-replace features.
     - Ctrl + Click goes to a definition.
     - Ctrl + F for search in current file
     - Ctrl + H for replace in current file
