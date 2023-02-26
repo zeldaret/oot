@@ -377,7 +377,7 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
     sp1C = temp_v1;
     play = play;
     func_80A87800(this, &func_80A87EF0);
-    play->csCtx.segment = &D_80A88164;
+    play->csCtx.script = &D_80A88164;
     gSaveContext.cutsceneTrigger = (u8)1U;
     func_8003EBF8(play, &play->colCtx.dyna, (s32) temp_v1->bgId);
     func_8005B1A4(play->cameraPtrs[play->activeCamId]);
@@ -415,7 +415,7 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
         return;
     }
     func_80A87800(this, func_80A87EF0);
-    play->csCtx.segment = &D_80A88164;
+    play->csCtx.script = &D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
     func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
     func_8005B1A4(GET_ACTIVE_CAM(play));
@@ -434,7 +434,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
         this->unk_30C--;
     } else {
         func_80A87800(this, func_80A87EF0);
-        play->csCtx.segment = &D_80A88164;
+        play->csCtx.script = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
         func_8005B1A4(GET_ACTIVE_CAM(play));
@@ -516,12 +516,12 @@ This has several problems: firstly, the action function is called with the wrong
 
 `unk40` of an array of `Vec3s`s is `0x40 = 0x6 * 0xA + 0x4`, so is actually `this->skelAnime.jointTable[10].z`
 
-Lastly, what is `play->unk1D94`? It is at `play->csCtx + 0x30`, or `play->csCtx.npcActions + 0x8`, which is `play->csCtx.npcActions[2]` since this is an array of pointers. Hence it is a pointer, and so should be compared to `NULL`. Looking up the sfx Id again, we end up with
+Lastly, what is `play->unk1D94`? It is at `play->csCtx + 0x30`, or `play->csCtx.actorCues + 0x8`, which is `play->csCtx.actorCues[2]` since this is an array of pointers. Hence it is a pointer, and so should be compared to `NULL`. Looking up the sfx Id again, we end up with
 ```C
 void EnJj_Update(Actor *thisx, PlayState *play) {
     EnJj* this = THIS;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL)) {
         func_80A87D94(this, play);
     } else {
         this->actionFunc(this, play);
@@ -703,7 +703,7 @@ At the top we have
         if (temp_v0 != 2) {
             if (temp_v0 != 3) {
 ```
-Firstly, we are now comparing with the value of `play->unk1D94`, not just using a pointer, so we need the first thing in `play->csCtx.npcActions[2]`. This turns out to be `play->csCtx.npcActions[2]->action`.
+Firstly, we are now comparing with the value of `play->unk1D94`, not just using a pointer, so we need the first thing in `play->csCtx.actorCues[2]`. This turns out to be `play->csCtx.actorCues[2]->id`.
 
 The if structure here is another classic indicator of a switch: nested, with the same variable compared multiple times. If you were to diff this as-is, you would find that the code is in completely the wrong order. Reading how the ifs work, we see that if `temp_v0` is `1`, it executes the outermost else block, if it is `2`, the middle, if `3`, the innermost, and if it is anything else, the contents of the innermost if. Hence this becomes
 ```C
@@ -719,7 +719,7 @@ void func_80A87D94(EnJj *this, PlayState *play) {
     u16 temp_v1_3;
     u16 phi_v1;
 
-    switch (play->csCtx.npcActions[2]->action) {
+    switch (play->csCtx.actorCues[2]->id) {
         case 1:
             temp_v1_3 = this->unk_30A;
             phi_v1 = temp_v1_3;
@@ -785,7 +785,7 @@ As usual, most of the remaining temps look fake. The only one that does not is p
 
 ```C
 void func_80A87D94(EnJj* this, PlayState* play) {
-    switch (play->csCtx.npcActions[2]->action) {
+    switch (play->csCtx.actorCues[2]->id) {
         case 1:
             if ((this->unk_30A & 2) != 0) {
                 this->unk_30E = 0;

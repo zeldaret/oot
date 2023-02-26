@@ -158,8 +158,8 @@ void DemoKekkai_SpawnParticles(DemoKekkai* this, PlayState* play) {
 }
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
-        (play->csCtx.npcActions[0]->action != 1) && (play->csCtx.npcActions[0]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL) &&
+        (play->csCtx.actorCues[0]->id != 1) && (play->csCtx.actorCues[0]->id == 2)) {
         if (!(this->sfxFlag & 1)) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_DISPEL_BARRIER);
             this->sfxFlag |= 1;
@@ -207,7 +207,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
     s32 pad;
     DemoKekkai* this = (DemoKekkai*)thisx;
 
-    if (play->csCtx.frames == csFrames[this->actor.params]) {
+    if (play->csCtx.curFrame == csFrames[this->actor.params]) {
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TRIAL_WARP);
     }
     if (this->energyAlpha >= 0.05f) {
@@ -256,7 +256,7 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play) {
         LOG_STRING("当ったよ", "../z_demo_kekkai.c", 572);
         this->actor.update = DemoKekkai_TrialBarrierDispel;
         this->timer = 0;
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);
         gSaveContext.cutsceneTrigger = 1;
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);

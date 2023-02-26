@@ -92,7 +92,7 @@ void EnGm_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80A3D7C8(void) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 0;
-    } else if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BGS)) {
+    } else if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BIGGORON)) {
         return 1;
     } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
         return 2;
@@ -119,7 +119,7 @@ void func_80A3D838(EnGm* this, PlayState* play) {
         this->actor.textId = 0x3049;
         this->updateFunc = func_80A3DFBC;
         this->actionFunc = func_80A3DB04;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.gravity = -1.0f;
         this->actor.velocity.y = 0.0f;
     }

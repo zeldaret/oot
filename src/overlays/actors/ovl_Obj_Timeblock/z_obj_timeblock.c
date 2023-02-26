@@ -171,7 +171,7 @@ s32 ObjTimeblock_WaitForOcarina(ObjTimeblock* this, PlayState* play) {
 
     if (ObjTimeblock_PlayerIsInRange(this, play)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
-            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+            Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->songObserverFunc = ObjTimeblock_WaitForSong;
         } else {
             player->stateFlags2 |= PLAYER_STATE2_23;

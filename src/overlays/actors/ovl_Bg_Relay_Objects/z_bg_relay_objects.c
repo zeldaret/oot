@@ -179,7 +179,7 @@ void func_808A932C(BgRelayObjects* this, PlayState* play) {
 }
 
 void func_808A939C(BgRelayObjects* this, PlayState* play) {
-    if (Flags_GetEnv(play, 5)) {
+    if (CutsceneFlags_Get(play, 5)) {
         SET_EVENTCHKINF(EVENTCHKINF_65);
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_65)) {

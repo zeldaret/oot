@@ -215,7 +215,7 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         this->cutsceneCountdownTimer--;
     } else {
         EnJj_SetupAction(this, EnJj_RemoveDust);
-        play->csCtx.segment = D_80A88164;
+        play->csCtx.script = D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         func_8005B1A4(GET_ACTIVE_CAM(play));
@@ -225,7 +225,7 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
 }
 
 void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
-    switch (play->csCtx.npcActions[2]->action) {
+    switch (play->csCtx.actorCues[2]->id) {
         case 1:
             if (this->unk_30A & 2) {
                 this->eyeIndex = 0;
@@ -286,7 +286,7 @@ void EnJj_UpdateStaticCollision(Actor* thisx, PlayState* play) {
 void EnJj_Update(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL)) {
         EnJj_CutsceneUpdate(this, play);
     } else {
         this->actionFunc(this, play);

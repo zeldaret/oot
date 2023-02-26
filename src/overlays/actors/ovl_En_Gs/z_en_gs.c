@@ -145,7 +145,7 @@ void func_80A4E470(EnGs* this, PlayState* play) {
         if (this->unk_19D == 0) {
             player->stateFlags2 |= PLAYER_STATE2_23;
             if (player->stateFlags2 & PLAYER_STATE2_24) {
-                func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+                Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
                 this->unk_19D |= 1;
             }
 
@@ -374,7 +374,7 @@ void func_80A4ED34(EnGs* this, PlayState* play) {
             func_8002F974(&this->actor, NA_SE_EV_STONE_LAUNCH - SFX_FLAG);
         }
 
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         if (this->actor.yDistToPlayer < -12000.0f) {
             Actor_Kill(&this->actor);
         }

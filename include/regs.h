@@ -51,6 +51,7 @@
 #define R_ROOM_IMAGE_NODRAW_FLAGS                SREG(25)
 #define R_ROOM_BG2D_FORCE_SCALEBG                SREG(26)
 #define R_UPDATE_RATE                            SREG(30)
+#define R_GRAPH_TASKSET00_FLAGS                  SREG(33)
 #define R_ENABLE_AUDIO_DBG                       SREG(36)
 #define R_VI_MODE_EDIT_STATE                     SREG(48)
 #define R_VI_MODE_EDIT_WIDTH                     SREG(49)
@@ -64,7 +65,7 @@
 #define R_FB_FILTER_A                            SREG(84)
 #define R_FB_FILTER_ENV_COLOR(c)                 SREG(85 + (c))
 #define R_ENABLE_FB_FILTER                       SREG(88)
-#define R_PAUSE_MENU_MODE                        SREG(94)
+#define R_PAUSE_BG_PRERENDER_STATE               SREG(94) // `PauseBgPreRenderState`
 #define R_CAM_XZ_OFFSET_UPDATE_RATE              OREG(2)
 #define R_CAM_Y_OFFSET_UPDATE_RATE               OREG(3)
 #define R_CAM_FOV_UPDATE_RATE                    OREG(4)
@@ -89,7 +90,8 @@
 #define R_CAM_AT_LERP_STEP_SCALE_FAC             OREG(42)
 #define R_CAM_YOFFSET_NORM                       OREG(46)
 #define R_CAM_DATA(type)                         PREG(0 + (type))
-#define R_DBG_CAM_UPDATE                         PREG(80)
+#define R_CAM_PARALLEL_LOCKON_CALC_SLOPE_Y_ADJ   PREG(76)
+#define R_DEBUG_CAM_UPDATE                       PREG(80)
 #define R_DBG_REG_UPDATE                         PREG(82)
 #define R_RELOAD_CAM_PARAMS                      QREG(0)
 #define R_SCENE_CAM_TYPE                         YREG(15)
@@ -153,6 +155,7 @@
 #define R_TEXTBOX_TEXHEIGHT_TARGET               XREG(77)
 #define R_ENV_LIGHT1_DIR(i)                      cREG(3 + (i))
 #define R_ENV_LIGHT2_DIR(i)                      cREG(6 + (i))
+#define R_TRANS_FADE_FLASH_ALPHA_STEP            iREG(50) // Set to a negative number to start the flash
 #define R_ROOM_CULL_DEBUG_MODE                   iREG(86)
 #define R_ROOM_CULL_NUM_ENTRIES                  iREG(87)
 #define R_ROOM_CULL_USED_ENTRIES                 iREG(88)
@@ -198,6 +201,7 @@
 #define R_ENABLE_PLAY_LOGS                       HREG(63)
 #define R_EN_GOROIWA_SPEED                       mREG(12)
 #define R_NAVI_MSG_REGION_ALPHA                  nREG(87)
+#define R_USE_DEBUG_CUTSCENE                     dREG(95)
 
 
 #define R_HREG_MODE  HREG(80) // see `HRegMode` for mode options

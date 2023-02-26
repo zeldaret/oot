@@ -761,7 +761,7 @@ void BossGanondrof_Stunned(BossGanondrof* this, PlayState* play) {
         this->actor.gravity = 0.0f;
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 }
 
 void BossGanondrof_SetupBlock(BossGanondrof* this, PlayState* play) {
@@ -821,7 +821,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
             if (this->timers[0] == 0) {
                 this->work[GND_ACTION_STATE] = CHARGE_START;
                 this->timers[0] = 10;
-                thisx->speedXZ = 0.0f;
+                thisx->speed = 0.0f;
                 this->fwork[GND_END_FRAME] = Animation_GetLastFrame(&gPhantomGanonChargeStartAnim);
                 Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonChargeStartAnim, 0.0f);
             }
@@ -847,9 +847,9 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
                 thisx->world.rot.x = RAD_TO_BINANG(Math_FAtan2F(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))));
             }
 
-            func_8002D908(thisx);
-            func_8002D7EC(thisx);
-            Math_ApproachF(&thisx->speedXZ, 10.0f, 1.0f, 0.5f);
+            Actor_UpdateVelocityXYZ(thisx);
+            Actor_UpdatePos(thisx);
+            Math_ApproachF(&thisx->speed, 10.0f, 1.0f, 0.5f);
             if ((sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) || (thisx->xyzDistToPlayerSq < SQ(100.0f))) {
                 this->work[GND_ACTION_STATE] = CHARGE_FINISH;
                 this->timers[0] = 20;
@@ -857,7 +857,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
             break;
         case CHARGE_FINISH:
             thisx->gravity = 0.2f;
-            Actor_MoveForward(thisx);
+            Actor_MoveXZGravity(thisx);
             osSyncPrintf("YP %f @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", thisx->world.pos.y);
             if (thisx->world.pos.y < 5.0f) {
                 thisx->world.pos.y = 5.0f;
@@ -865,15 +865,15 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
             }
 
             if (sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) {
-                Math_ApproachZeroF(&thisx->speedXZ, 1.0f, 2.0f);
+                Math_ApproachZeroF(&thisx->speed, 1.0f, 2.0f);
                 this->timers[0] = 0;
             }
 
             if (this->timers[0] == 0) {
-                Math_ApproachZeroF(&thisx->speedXZ, 1.0f, 2.0f);
+                Math_ApproachZeroF(&thisx->speed, 1.0f, 2.0f);
                 Math_ApproachZeroF(&thisx->velocity.y, 1.0f, 2.0f);
                 Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsPlayer, 5, 0x7D0);
-                if ((thisx->speedXZ <= 0.5f) && (fabsf(thisx->velocity.y) <= 0.1f)) {
+                if ((thisx->speed <= 0.5f) && (fabsf(thisx->velocity.y) <= 0.1f)) {
                     BossGanondrof_SetupNeutral(this, -10.0f);
                     this->timers[0] = 30;
                     this->flyMode = GND_FLY_NEUTRAL;
@@ -955,7 +955,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
 
     switch (this->deathState) {
         case DEATH_START:
-            func_80064520(play, &play->csCtx);
+            Cutscene_StartManual(play, &play->csCtx);
             func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -963,7 +963,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
             osSyncPrintf("8\n");
             this->deathState = DEATH_THROES;
-            player->actor.speedXZ = 0.0f;
+            player->actor.speed = 0.0f;
             this->timers[0] = 50;
             this->subCamEye = mainCam->eye;
             this->subCamAt = mainCam->at;
@@ -1117,7 +1117,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
                 mainCam->at = this->subCamAt;
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
-                func_80064534(play, &play->csCtx);
+                Cutscene_StopManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, GND_BOSSROOM_CENTER_X, GND_BOSSROOM_CENTER_Y,
                             GND_BOSSROOM_CENTER_Z + 200.0f, 0, 0, 0, 0);

@@ -140,7 +140,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
     if (IS_CUTSCENE_LAYER || !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ||
         !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) || GET_EVENTCHKINF(EVENTCHKINF_80)) {
         if (this->dyna.actor.shape.rot.x != 0) {
-            if (Flags_GetEnv(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY)) {
+            if (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY)) {
                 this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
                 this->destAngle = 0;
                 child->destAngle = 0;
