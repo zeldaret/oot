@@ -1353,7 +1353,7 @@ void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_24;
     this->animTimer = 10;
     this->actor.shape.yOffset = 1800.0f;
-    this->actor.speed += this->actor.speed; // Speeding up
+    this->actor.speed *= 2.0f; // Speeding up
     this->actionFunc = EnGo2_ContinueRolling;
 }
 

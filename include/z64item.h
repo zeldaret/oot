@@ -2,7 +2,7 @@
 #define Z64ITEM_H
 
 // Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
-// texture format for MAP_NAME_TEX1_* 
+// texture format for MAP_NAME_TEX1_*
 #define ITEM_NAME_TEX_WIDTH 128
 #define ITEM_NAME_TEX_HEIGHT 16
 #define ITEM_NAME_TEX_SIZE ((ITEM_NAME_TEX_WIDTH * ITEM_NAME_TEX_HEIGHT) / 2) // 128x16 IA4 texture
@@ -20,7 +20,7 @@ typedef enum {
 typedef enum {
     /* 0 */ EQUIP_INV_SWORD_KOKIRI,
     /* 1 */ EQUIP_INV_SWORD_MASTER,
-    /* 2 */ EQUIP_INV_SWORD_BGS,
+    /* 2 */ EQUIP_INV_SWORD_BIGGORON,
     /* 3 */ EQUIP_INV_SWORD_BROKENGIANTKNIFE
 } EquipInvSword;
 
@@ -48,7 +48,7 @@ typedef enum {
     /* 0 */ EQUIP_VALUE_SWORD_NONE,
     /* 1 */ EQUIP_VALUE_SWORD_KOKIRI,
     /* 2 */ EQUIP_VALUE_SWORD_MASTER,
-    /* 3 */ EQUIP_VALUE_SWORD_BGS,
+    /* 3 */ EQUIP_VALUE_SWORD_BIGGORON,
     /* 4 */ EQUIP_VALUE_SWORD_MAX
 } EquipValueSword;
 

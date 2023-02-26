@@ -42,7 +42,7 @@
 #define CAM_LETTERBOX_MEDIUM CAM_LETTERBOX(2)
 #define CAM_LETTERBOX_LARGE  CAM_LETTERBOX(3)
 
-#define CAM_LETTERBOX_INSTANT CAM_LETTERBOX(8) // Bit to determine whether to set the current value directly (on), or to set the size target (off) 
+#define CAM_LETTERBOX_INSTANT CAM_LETTERBOX(8) // Bit to determine whether to set the current value directly (on), or to set the size target (off)
 #define CAM_LETTERBOX_IGNORE  CAM_LETTERBOX(0xF) // No change in letterbox size, keep the previous size
 
 // Camera-unique hud visibility mode macros
@@ -50,26 +50,28 @@
 #define CAM_HUD_VISIBILITY_MASK (0xF << CAM_HUD_VISIBILITY_SHIFT)
 #define CAM_HUD_VISIBILITY(hudVisibility) (((hudVisibility) & 0xF) << CAM_HUD_VISIBILITY_SHIFT)
 
-//! @note: since `interfaceField` can only have `0 - 0xF` values,
-//! there is no cam value mapped to `HUD_VISIBILITY_NOTHING_INSTANT`.
-//! @note: since 0 means `HUD_VISIBILITY_ALL`,
-//! there is no cam value mapped to `HUD_VISIBILITY_NO_CHANGE`.
-#define CAM_HUD_VISIBILITY_ALL                          CAM_HUD_VISIBILITY(0) // HUD_VISIBILITY_ALL
-#define CAM_HUD_VISIBILITY_NOTHING                      CAM_HUD_VISIBILITY(HUD_VISIBILITY_NOTHING)
-#define CAM_HUD_VISIBILITY_NOTHING_ALT                  CAM_HUD_VISIBILITY(HUD_VISIBILITY_NOTHING_ALT)
-#define CAM_HUD_VISIBILITY_HEARTS_FORCE                 CAM_HUD_VISIBILITY(HUD_VISIBILITY_HEARTS_FORCE)
-#define CAM_HUD_VISIBILITY_A                            CAM_HUD_VISIBILITY(HUD_VISIBILITY_A)
-#define CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE         CAM_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE)
-#define CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE CAM_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE)
-#define CAM_HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS CAM_HUD_VISIBILITY(HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS)
-#define CAM_HUD_VISIBILITY_B                            CAM_HUD_VISIBILITY(HUD_VISIBILITY_B)
-#define CAM_HUD_VISIBILITY_HEARTS_MAGIC                 CAM_HUD_VISIBILITY(HUD_VISIBILITY_HEARTS_MAGIC)
-#define CAM_HUD_VISIBILITY_B_ALT                        CAM_HUD_VISIBILITY(HUD_VISIBILITY_B_ALT)
-#define CAM_HUD_VISIBILITY_HEARTS                       CAM_HUD_VISIBILITY(HUD_VISIBILITY_HEARTS)
-#define CAM_HUD_VISIBILITY_A_B_MINIMAP                  CAM_HUD_VISIBILITY(HUD_VISIBILITY_A_B_MINIMAP)
-#define CAM_HUD_VISIBILITY_HEARTS_MAGIC_FORCE           CAM_HUD_VISIBILITY(HUD_VISIBILITY_HEARTS_MAGIC_FORCE)
+// These defines exist to clarify exactly which HUD visibility modes are supported by the camera system. While most of
+// them map 1 to 1 with their HUD visibility counterparts, not all HUD visibility mode values will work as expected if
+// used directly. Notably:
+// - CAM_HUD_VISIBILITY_ALL (0) maps to HUD_VISIBILITY_ALL (50), not HUD_VISIBILITY_NO_CHANGE (0)
+// - HUD_VISIBILITY_NOTHING_INSTANT (52) has no CAM_HUD_VISIBILITY_* mapping,
+//   because camera HUD visibility values are restricted to the 0-0xF range
+#define CAM_HUD_VISIBILITY_ALL                          (0) // HUD_VISIBILITY_ALL
+#define CAM_HUD_VISIBILITY_NOTHING                      (HUD_VISIBILITY_NOTHING)
+#define CAM_HUD_VISIBILITY_NOTHING_ALT                  (HUD_VISIBILITY_NOTHING_ALT)
+#define CAM_HUD_VISIBILITY_HEARTS_FORCE                 (HUD_VISIBILITY_HEARTS_FORCE)
+#define CAM_HUD_VISIBILITY_A                            (HUD_VISIBILITY_A)
+#define CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE         (HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE)
+#define CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE (HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE)
+#define CAM_HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS (HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS)
+#define CAM_HUD_VISIBILITY_B                            (HUD_VISIBILITY_B)
+#define CAM_HUD_VISIBILITY_HEARTS_MAGIC                 (HUD_VISIBILITY_HEARTS_MAGIC)
+#define CAM_HUD_VISIBILITY_B_ALT                        (HUD_VISIBILITY_B_ALT)
+#define CAM_HUD_VISIBILITY_HEARTS                       (HUD_VISIBILITY_HEARTS)
+#define CAM_HUD_VISIBILITY_A_B_MINIMAP                  (HUD_VISIBILITY_A_B_MINIMAP)
+#define CAM_HUD_VISIBILITY_HEARTS_MAGIC_FORCE           (HUD_VISIBILITY_HEARTS_MAGIC_FORCE)
 // Unique to camera, does not change hud visibility mode (similar effect as HUD_VISIBILITY_NO_CHANGE)
-#define CAM_HUD_VISIBILITY_IGNORE                       CAM_HUD_VISIBILITY(0xF)
+#define CAM_HUD_VISIBILITY_IGNORE                       (0xF)
 
 /**
  * letterboxFlag: Determines the size of the letter-box window. See CAM_LETTERBOX_* defines.
@@ -80,7 +82,7 @@
  * funcFlags: Custom flags for functions
  */
 #define CAM_INTERFACE_FIELD(letterboxFlag, hudVisibilityMode, funcFlags) \
-    (((letterboxFlag) & CAM_LETTERBOX_MASK) | (hudVisibilityMode) | ((funcFlags) & 0xFF))
+    (((letterboxFlag) & CAM_LETTERBOX_MASK) | CAM_HUD_VISIBILITY(hudVisibilityMode) | ((funcFlags) & 0xFF))
 
 // Camera behaviorFlags. Flags specifically for settings, modes, and bgCam
 // Used to store current state, only CAM_BEHAVIOR_SETTING_1 and CAM_BEHAVIOR_BG_2 are read from and used in logic
@@ -119,7 +121,7 @@
 #define CAM_VIEW_FOV (1 << 5) // camera->fov
 #define CAM_VIEW_ROLL (1 << 6) // camera->roll
 
-// All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected 
+// All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected
 // to have their first two bgCamInfo entries be the following:
 #define BGCAM_INDEX_TOGGLE_LOCKED 0
 #define BGCAM_INDEX_TOGGLE_PIVOT 1
@@ -1249,13 +1251,22 @@ typedef enum {
 
 #define ONEPOINT_CS_GET_ACTION(onePointCsFull) ((onePointCsFull)->actionFlags & 0x1F)
 
-/** initFlags
- * & 0x00FF = atInitFlags
- * & 0xFF00 = eyeInitFlags
+#define ONEPOINT_CS_INIT_FIELD_NONE 0xFF
+#define ONEPOINT_CS_INIT_FIELD_ACTORCAT(actorCat) (0x80 | ((actorCat) & 0x0F))
+#define ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(camHudVisibility) (0xC0 | ((camHudVisibility) & 0x0F))
+#define ONEPOINT_CS_INIT_FIELD_PLAYER_CS(csMode) ((csMode) & 0x7F)
+
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_ACTORCAT(field) ((field & 0xF0) == 0x80)
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_HUD_VISIBILITY(field) ((field & 0xF0) == 0xC0)
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_PLAYER_CS(field) !(field & 0x80)
+
+/** viewFlags
+ * & 0x00FF = atFlags
+ * & 0xFF00 = eyeFlags
  * 0x1: Direct Copy of atTargetInit
- *      if initFlags & 0x6060: use head for focus point
+ *      if viewFlags & 0x6060: use head for focus point
  * 0x2: Add atTargetInit to view's lookAt
- *      if initFlags & 0x6060: use world for focus point
+ *      if viewFlags & 0x6060: use world for focus point
  * 0x3: Add atTargetInit to camera's at
  * 0x4: Don't update targets?
  * 0x8: flag to use atTagetInit as f32 pitch, yaw, r
@@ -1264,8 +1275,8 @@ typedef enum {
 */
 typedef struct {
     /* 0x00 */ u8 actionFlags;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ s16 initFlags;
+    /* 0x01 */ u8 initField;
+    /* 0x02 */ s16 viewFlags;
     /* 0x04 */ s16 timerInit;
     /* 0x06 */ s16 rollTargetInit;
     /* 0x08 */ f32 fovTargetInit;
@@ -1628,7 +1639,7 @@ typedef struct {
     /* 0x1046 */ s16 demoCtrlActionIdx; // e (?), s (save), l (load), c (clear)
     /* 0x1048 */ s16 demoCtrlToggleSwitch;
     /* 0x104A */ Vec3s unk_104A;
-} DbCameraSub; // size = 0x1050
+} DebugCamSub; // size = 0x1050
 
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -1650,8 +1661,8 @@ typedef struct {
     /* 0x6C */ Vec3f unk_6C;
     /* 0x78 */ s16 unk_78;
     /* 0x7A */ s16 unk_7A;
-    /* 0x7C */ DbCameraSub sub;
-} DbCamera; // size = 0x10CC
+    /* 0x7C */ DebugCamSub sub;
+} DebugCam; // size = 0x10CC
 
 typedef struct {
     /* 0x00 */ char letter;
@@ -1661,7 +1672,7 @@ typedef struct {
     /* 0x08 */ CutsceneCameraPoint* lookAt;
     /* 0x0C */ s16 nFrames;
     /* 0x0E */ s16 nPoints;
-} DbCameraCut; // size = 0x10
+} DebugCamCut; // size = 0x10
 
 typedef struct {
     /* 0x00 */ f32 curFrame;
@@ -1673,17 +1684,17 @@ typedef struct {
     /* 0x1C */ Vec3f lookAtPos;
     /* 0x28 */ f32 roll;
     /* 0x2C */ f32 fov;
-} DbCameraAnim; // size = 0x30
+} DebugCamAnim; // size = 0x30
 
 typedef enum {
-    /* 0 */ DBCAMERA_TEXT_YELLOW,
-    /* 1 */ DBCAMERA_TEXT_PEACH,
-    /* 2 */ DBCAMERA_TEXT_BROWN,
-    /* 3 */ DBCAMERA_TEXT_ORANGE,
-    /* 4 */ DBCAMERA_TEXT_GOLD,
-    /* 5 */ DBCAMERA_TEXT_WHITE,
-    /* 6 */ DBCAMERA_TEXT_BLUE,
-    /* 7 */ DBCAMERA_TEXT_GREEN
-} DbCameraTextColor;
+    /* 0 */ DEBUG_CAM_TEXT_YELLOW,
+    /* 1 */ DEBUG_CAM_TEXT_PEACH,
+    /* 2 */ DEBUG_CAM_TEXT_BROWN,
+    /* 3 */ DEBUG_CAM_TEXT_ORANGE,
+    /* 4 */ DEBUG_CAM_TEXT_GOLD,
+    /* 5 */ DEBUG_CAM_TEXT_WHITE,
+    /* 6 */ DEBUG_CAM_TEXT_BLUE,
+    /* 7 */ DEBUG_CAM_TEXT_GREEN
+} DebugCamTextColor;
 
 #endif

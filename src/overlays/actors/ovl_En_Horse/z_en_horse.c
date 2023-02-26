@@ -1001,7 +1001,7 @@ void EnHorse_UpdateSpeed(EnHorse* this, PlayState* play, f32 brakeDecel, f32 bra
     EnHorse_StickDirection(&this->curStick, &stickMag, &stickAngle);
     if (Math_CosS(stickAngle) <= brakeAngle) {
         this->actor.speed -= brakeDecel;
-        this->actor.speed = this->actor.speed < 0.0f ? 0.0f : this->actor.speed;
+        this->actor.speed = CLAMP_MIN(this->actor.speed, 0.0f);
         return;
     }
 

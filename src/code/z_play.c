@@ -370,7 +370,7 @@ void Play_Init(GameState* thisx) {
     this->state.destroy = Play_Destroy;
     this->transitionTrigger = TRANS_TRIGGER_END;
     this->unk_11E16 = 0xFF;
-    this->unk_11E18 = 0;
+    this->bgCoverAlpha = 0;
     this->haltAllActors = false;
 
     if (gSaveContext.gameMode != GAMEMODE_TITLE_SCREEN) {
@@ -988,7 +988,7 @@ void Play_Update(PlayState* this) {
 skip:
     PLAY_LOG(3801);
 
-    if ((sp80 == 0) || gDbgCamEnabled) {
+    if ((sp80 == 0) || gDebugCamEnabled) {
         s32 pad3[5];
         s32 i;
 
@@ -1207,7 +1207,7 @@ void Play_Draw(PlayState* this) {
                 }
 
                 if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
-                    Environment_FillScreen(gfxCtx, 0, 0, 0, this->unk_11E18, FILL_SCREEN_OPA);
+                    Environment_FillScreen(gfxCtx, 0, 0, 0, this->bgCoverAlpha, FILL_SCREEN_OPA);
                 }
 
                 if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
