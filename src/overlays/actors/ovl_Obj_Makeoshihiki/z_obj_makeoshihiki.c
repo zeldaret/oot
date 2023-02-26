@@ -113,7 +113,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
                 }
 
                 if (sfxCond1 || sfxCond2) {
-                    Lib_PlaySfx(NA_SE_SY_TRE_BOX_APPEAR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
 

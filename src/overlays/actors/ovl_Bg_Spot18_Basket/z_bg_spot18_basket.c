@@ -415,9 +415,9 @@ void func_808B81A0(BgSpot18Basket* this, PlayState* play) {
         }
     } else if (this->unk_216 == 2) {
         if (this->unk_218 == 2) {
-            Lib_PlaySfx(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         } else {
-            Lib_PlaySfx(NA_SE_SY_TRE_BOX_APPEAR);
+            Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
         }
     } else if (this->unk_216 == 200) {
         func_808B7BB0(this);

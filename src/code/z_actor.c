@@ -489,7 +489,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
 
             lockOnSfxId = CHECK_FLAG_ALL(actorArg->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
                                                                                        : NA_SE_SY_LOCK_ON_HUMAN;
-            Lib_PlaySfx(lockOnSfxId);
+            Sfx_PlaySfxCentered(lockOnSfxId);
         }
 
         targetCtx->targetCenterPos.x = actorArg->world.pos.x;
@@ -1751,7 +1751,7 @@ void Player_PlaySfx(Player* player, u16 sfxId) {
  * Play a sound effect at the actor's position
  */
 void Actor_PlaySfx(Actor* actor, u16 sfxId) {
-    Lib_PlaySfx_AtPos(&actor->projectedPos, sfxId);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, sfxId);
 }
 
 void func_8002F850(PlayState* play, Actor* actor) {
@@ -1767,8 +1767,8 @@ void func_8002F850(PlayState* play, Actor* actor) {
         surfaceSfxOffset = SurfaceType_GetSfxOffset(&play->colCtx, actor->floorPoly, actor->floorBgId);
     }
 
-    Lib_PlaySfx_AtPos(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
-    Lib_PlaySfx_AtPos(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
@@ -2209,7 +2209,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         actor = NULL;
         if (actorCtx->targetCtx.unk_4B != 0) {
             actorCtx->targetCtx.unk_4B = 0;
-            Lib_PlaySfx(NA_SE_SY_LOCK_OFF);
+            Sfx_PlaySfxCentered(NA_SE_SY_LOCK_OFF);
         }
     }
 
@@ -2311,13 +2311,13 @@ void func_80030ED8(Actor* actor) {
         Audio_PlaySfxGeneral(actor->sfx, &actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (actor->flags & ACTOR_FLAG_20) {
-        Lib_PlaySfx(actor->sfx);
+        Sfx_PlaySfxCentered(actor->sfx);
     } else if (actor->flags & ACTOR_FLAG_21) {
-        Lib_PlaySfx_Centered(actor->sfx);
+        Sfx_PlaySfxCentered2(actor->sfx);
     } else if (actor->flags & ACTOR_FLAG_28) {
         func_800F4C58(&gSfxDefaultPos, NA_SE_SY_TIMER - SFX_FLAG, (s8)(actor->sfx - 1));
     } else {
-        Lib_PlaySfx_AtPos(&actor->projectedPos, actor->sfx);
+        Sfx_PlaySfxAtPos(&actor->projectedPos, actor->sfx);
     }
 }
 

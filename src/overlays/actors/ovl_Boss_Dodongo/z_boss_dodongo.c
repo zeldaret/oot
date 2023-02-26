@@ -671,7 +671,7 @@ void BossDodongo_Walk(BossDodongo* this, PlayState* play) {
             }
 
             if (this->unk_1BC != 0) {
-                Lib_PlaySfx(NA_SE_EN_DODO_K_WALK);
+                Sfx_PlaySfxCentered(NA_SE_EN_DODO_K_WALK);
             } else {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_WALK);
             }
