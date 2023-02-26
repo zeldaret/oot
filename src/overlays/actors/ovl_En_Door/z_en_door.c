@@ -226,7 +226,7 @@ void EnDoor_Idle(EnDoor* this, PlayState* play) {
         Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->openAnim],
                                    (player->stateFlags1 & PLAYER_STATE1_27) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
-            gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
+            gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
             Flags_SetSwitch(play, ENDOOR_GET_LOCKED_SWITCH_FLAG(&this->actor));
             Actor_PlaySfx(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
