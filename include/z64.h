@@ -94,7 +94,7 @@
 typedef struct{
     /* 0x00 */ char unk[0x4];
     /* 0x04 */ MtxF mf;
-} HorseStruct;
+} HorseStruct; // size = 0x44
 
 typedef struct {
     /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
@@ -448,9 +448,9 @@ typedef struct {
 } KaleidoMgrOverlay; // size = 0x1C
 
 typedef enum {
-    /* 0x00 */ KALEIDO_OVL_KALEIDO_SCOPE,
-    /* 0x01 */ KALEIDO_OVL_PLAYER_ACTOR,
-    /* 0x02 */ KALEIDO_OVL_MAX
+    /* 0 */ KALEIDO_OVL_KALEIDO_SCOPE,
+    /* 1 */ KALEIDO_OVL_PLAYER_ACTOR,
+    /* 2 */ KALEIDO_OVL_MAX
 } KaleidoOverlayType;
 
 typedef enum {
@@ -679,10 +679,10 @@ typedef struct {
 #define SRAM_HEADER_SIZE 0x10
 
 typedef enum {
-    /* 0x00 */ SRAM_HEADER_SOUND,
-    /* 0x01 */ SRAM_HEADER_ZTARGET,
-    /* 0x02 */ SRAM_HEADER_LANGUAGE,
-    /* 0x03 */ SRAM_HEADER_MAGIC // must be the value of `sZeldaMagic` for save to be considered valid
+    /* 0 */ SRAM_HEADER_SOUND,
+    /* 1 */ SRAM_HEADER_ZTARGET,
+    /* 2 */ SRAM_HEADER_LANGUAGE,
+    /* 3 */ SRAM_HEADER_MAGIC // must be the value of `sZeldaMagic` for save to be considered valid
 } SramHeaderField;
 
 typedef struct GameAllocEntry {
@@ -781,7 +781,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 numActors;
     /* 0x04 */ TransitionActorEntry* list;
-} TransitionActorContext;
+} TransitionActorContext; // size = 0x8
 
 typedef enum {
     /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
@@ -1076,8 +1076,8 @@ typedef struct DebugDispObject {
 } DebugDispObject; // size = 0x2C
 
 typedef enum {
-    MTXMODE_NEW,  // generates a new matrix
-    MTXMODE_APPLY // applies transformation to the current matrix
+    /* 0 */ MTXMODE_NEW,  // generates a new matrix
+    /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
 
 typedef struct StackEntry {
@@ -1091,9 +1091,9 @@ typedef struct StackEntry {
 } StackEntry;
 
 typedef enum {
-    STACK_STATUS_OK = 0,
-    STACK_STATUS_WARNING = 1,
-    STACK_STATUS_OVERFLOW = 2
+    /* 0 */ STACK_STATUS_OK,
+    /* 1 */ STACK_STATUS_WARNING,
+    /* 2 */ STACK_STATUS_OVERFLOW
 } StackStatus;
 
 typedef struct {
@@ -1103,7 +1103,7 @@ typedef struct {
     /* 0x14 */ u32 put;
     /* 0x18 */ u8 unk_18[0x20-0x18];
     /* 0x20 */ u8 data[0x10000-0x20];
-} ISVDbg;
+} ISVDbg; // size = 0x10000
 
 typedef struct {
     /* 0x00 */ char name[0x18];
@@ -1308,22 +1308,22 @@ typedef enum {
 } ViModeEditState;
 
 typedef struct {
-    /* 0x0000 */ OSViMode customViMode;
-    /* 0x0050 */ s32 viHeight;
-    /* 0x0054 */ s32 viWidth;
-    /* 0x0058 */ s32 rightAdjust;
-    /* 0x005C */ s32 leftAdjust;
-    /* 0x0060 */ s32 lowerAdjust;
-    /* 0x0064 */ s32 upperAdjust;
-    /* 0x0068 */ s32 editState;
-    /* 0x006C */ s32 tvType;
-    /* 0x0070 */ u32 loRes;
-    /* 0x0074 */ u32 antialiasOff;
-    /* 0x0078 */ u32 modeN; // Controls interlacing, the meaning of this mode is different based on choice of resolution
-    /* 0x007C */ u32 fb16Bit;
-    /* 0x0080 */ u32 viFeatures;
-    /* 0x0084 */ u32 unk_84;
-} ViMode;
+    /* 0x00 */ OSViMode customViMode;
+    /* 0x50 */ s32 viHeight;
+    /* 0x54 */ s32 viWidth;
+    /* 0x58 */ s32 rightAdjust;
+    /* 0x5C */ s32 leftAdjust;
+    /* 0x60 */ s32 lowerAdjust;
+    /* 0x64 */ s32 upperAdjust;
+    /* 0x68 */ s32 editState;
+    /* 0x6C */ s32 tvType;
+    /* 0x70 */ u32 loRes;
+    /* 0x74 */ u32 antialiasOff;
+    /* 0x78 */ u32 modeN; // Controls interlacing, the meaning of this mode is different based on choice of resolution
+    /* 0x7C */ u32 fb16Bit;
+    /* 0x80 */ u32 viFeatures;
+    /* 0x84 */ u32 unk_84;
+} ViMode; // size = 0x88
 
 // Vis...
 typedef struct {
