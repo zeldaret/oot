@@ -466,7 +466,7 @@ static s32 sFloorType = FLOOR_TYPE_0;
 static f32 D_808535E8 = 1.0f;
 static f32 D_808535EC = 1.0f;
 static u32 sTouchedWallFlags = 0;
-static u32 sConveyorSpeedIndex = CONVEYOR_SPEED_DISABLED;
+static u32 sConveyorSpeed = CONVEYOR_SPEED_DISABLED;
 static s16 sIsFloorConveyor = false;
 static s16 sConveyorYaw = 0;
 static f32 sDistanceToFloorY = 0.0f;
@@ -4219,16 +4219,17 @@ s32 func_80838A14(Player* this, PlayState* play) {
     f32 wallPolyNormalZ;
     f32 sp24;
 
-    if (!(this->stateFlags1 & PLAYER_STATE1_11) && (this->ledgeClimbType >= 2) &&
+    if (!(this->stateFlags1 & PLAYER_STATE1_11) && (this->ledgeClimbType >= PLAYER_LEDGE_CLIMB_2) &&
         (!(this->stateFlags1 & PLAYER_STATE1_27) || (this->ageProperties->unk_14 > this->yDistToLedge))) {
         sp3C = 0;
 
         if (func_808332B8(this)) {
             if (this->actor.yDistToWater < 50.0f) {
-                if ((this->ledgeClimbType < 2) || (this->yDistToLedge > this->ageProperties->unk_10)) {
+                if ((this->ledgeClimbType < PLAYER_LEDGE_CLIMB_2) ||
+                    (this->yDistToLedge > this->ageProperties->unk_10)) {
                     return 0;
                 }
-            } else if ((this->currentBoots != PLAYER_BOOTS_IRON) || (this->ledgeClimbType > 2)) {
+            } else if ((this->currentBoots != PLAYER_BOOTS_IRON) || (this->ledgeClimbType > PLAYER_LEDGE_CLIMB_2)) {
                 return 0;
             }
         } else if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
@@ -4294,7 +4295,7 @@ s32 func_80838A14(Player* this, PlayState* play) {
 
             return 1;
         }
-    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->ledgeClimbType == 1) &&
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->ledgeClimbType == PLAYER_LEDGE_CLIMB_1) &&
                (this->ledgeClimbDelayTimer >= 3)) {
         temp = (this->yDistToLedge * 0.08f) + 5.5f;
         func_808389E8(this, &gPlayerAnim_link_normal_jump, temp, play);
@@ -4474,7 +4475,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
                         gSaveContext.entranceSpeed = speedXZ;
                     }
 
-                    if (sConveyorSpeedIndex != CONVEYOR_SPEED_DISABLED) {
+                    if (sConveyorSpeed != CONVEYOR_SPEED_DISABLED) {
                         yaw = sConveyorYaw;
                     } else {
                         yaw = this->actor.world.rot.y;
@@ -8603,7 +8604,7 @@ void func_8084411C(Player* this, PlayState* play) {
                         !(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_27)) && (this->speedXZ > 0.0f)) {
                         if ((this->yDistToLedge >= 150.0f) && (this->unk_84B[this->unk_846] == 0)) {
                             func_8083EC18(this, play, sTouchedWallFlags);
-                        } else if ((this->ledgeClimbType >= 2) && (this->yDistToLedge < 150.0f) &&
+                        } else if ((this->ledgeClimbType >= PLAYER_LEDGE_CLIMB_2) && (this->yDistToLedge < 150.0f) &&
                                    (((this->actor.world.pos.y - this->actor.floorHeight) + this->yDistToLedge) >
                                     (70.0f * this->ageProperties->unk_08))) {
                             AnimationContext_DisableQueue(play);
@@ -9204,7 +9205,7 @@ void func_80845CA4(Player* this, PlayState* play) {
             if (this->stateFlags1 & PLAYER_STATE1_0) {
                 sp34 = gSaveContext.entranceSpeed;
 
-                if (sConveyorSpeedIndex != CONVEYOR_SPEED_DISABLED) {
+                if (sConveyorSpeed != CONVEYOR_SPEED_DISABLED) {
                     this->unk_450.x = (Math_SinS(sConveyorYaw) * 400.0f) + this->actor.world.pos.x;
                     this->unk_450.z = (Math_CosS(sConveyorYaw) * 400.0f) + this->actor.world.pos.z;
                 }
@@ -9976,10 +9977,9 @@ s32 Player_UpdateHoverBoots(Player* this) {
  * This includes:
  * - Update BgCheckInfo, parameters adjusted due to various state flags
  * - Update floor type, floor property and floor sfx offset
- * - Update reverb and light settings according to the current floor poly
- * - Update conveyor information
+ * - Update conveyor, reverb and light settings according to the current floor poly
  * - Handle exits and voids
- * - Update information relating to the interact wall
+ * - Update information relating to the "interact wall"
  * - Update information for ledge climbing
  * - Update hover boots
  * - Calculate floor poly angles
@@ -9987,11 +9987,11 @@ s32 Player_UpdateHoverBoots(Player* this) {
  */
 void Player_ProcessSceneCollision(PlayState* play, Player* this) {
     static Vec3f sInteractWallCheckOffset = { 0.0f, 18.0f, 0.0f };
-    u8 nextLedgeClimbType = 0;
+    u8 nextLedgeClimbType = PLAYER_LEDGE_CLIMB_NONE;
     CollisionPoly* floorPoly;
     Vec3f unusedWorldPos;
-    f32 float0;
-    f32 float1;
+    f32 float0; // multi-purpose variable, see define names (fake match?)
+    f32 float1; // multi-purpose variable, see define names (fake match?)
     f32 ceilingCheckHeight;
     u32 flags;
 
@@ -10046,7 +10046,7 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
     }
 
     sDistanceToFloorY = this->actor.world.pos.y - this->actor.floorHeight;
-    sConveyorSpeedIndex = CONVEYOR_SPEED_DISABLED;
+    sConveyorSpeed = CONVEYOR_SPEED_DISABLED;
     floorPoly = this->actor.floorPoly;
 
     if (floorPoly != NULL) {
@@ -10078,9 +10078,9 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
             }
         }
 
-        sConveyorSpeedIndex = SurfaceType_GetConveyorSpeed(&play->colCtx, floorPoly, this->actor.floorBgId);
+        sConveyorSpeed = SurfaceType_GetConveyorSpeed(&play->colCtx, floorPoly, this->actor.floorBgId);
 
-        if (sConveyorSpeedIndex != CONVEYOR_SPEED_DISABLED) {
+        if (sConveyorSpeed != CONVEYOR_SPEED_DISABLED) {
             sIsFloorConveyor = SurfaceType_IsFloorConveyor(&play->colCtx, floorPoly, this->actor.floorBgId);
 
             if ((!sIsFloorConveyor && (this->actor.yDistToWater > 20.0f) &&
@@ -10089,7 +10089,7 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
                 sConveyorYaw = CONVEYOR_DIRECTION_TO_BINANG(
                     SurfaceType_GetConveyorDirection(&play->colCtx, floorPoly, this->actor.floorBgId));
             } else {
-                sConveyorSpeedIndex = CONVEYOR_SPEED_DISABLED;
+                sConveyorSpeed = CONVEYOR_SPEED_DISABLED;
             }
         }
     }
@@ -10151,12 +10151,12 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
                 f32 wallPolyNormalZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
                 f32 yDistToLedge;
                 CollisionPoly* ledgeFloorPoly;
-                CollisionPoly* sp78;
-                s32 sp74;
+                CollisionPoly* poly;
+                s32 bgId;
                 Vec3f ledgeCheckPos;
                 f32 ledgePosY;
                 f32 ceillingPosY;
-                s32 temp3;
+                s32 wallYawDiff;
 
                 this->distToInteractWall = Math3D_UDistPlaneToPos(wallPolyNormalX, wallPolyNormalY, wallPolyNormalZ,
                                                                   wallPoly->dist, &this->actor.world.pos);
@@ -10175,31 +10175,31 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
 
                 if ((this->yDistToLedge < 18.0f) ||
                     BgCheck_EntityCheckCeiling(&play->colCtx, &ceillingPosY, &this->actor.world.pos,
-                                               (ledgePosY - this->actor.world.pos.y) + 20.0f, &sp78, &sp74,
+                                               (ledgePosY - this->actor.world.pos.y) + 20.0f, &poly, &bgId,
                                                &this->actor)) {
                     this->yDistToLedge = LEDGE_DIST_MAX;
                 } else {
                     sInteractWallCheckOffset.y = (ledgePosY + 5.0f) - this->actor.world.pos.y;
 
-                    if (Player_PosVsWallLineTest(play, this, &sInteractWallCheckOffset, &sp78, &sp74,
+                    if (Player_PosVsWallLineTest(play, this, &sInteractWallCheckOffset, &poly, &bgId,
                                                  &sInteractWallCheckResult) &&
-                        (temp3 = this->actor.wallYaw - Math_Atan2S(sp78->normal.z, sp78->normal.x),
-                         ABS(temp3) < 0x4000) &&
-                        !SurfaceType_CheckWallFlag1(&play->colCtx, sp78, sp74)) {
+                        (wallYawDiff = this->actor.wallYaw - Math_Atan2S(poly->normal.z, poly->normal.x),
+                         ABS(wallYawDiff) < 0x4000) &&
+                        !SurfaceType_CheckWallFlag1(&play->colCtx, poly, bgId)) {
                         this->yDistToLedge = LEDGE_DIST_MAX;
                     } else if (SurfaceType_CheckWallFlag0(&play->colCtx, wallPoly, this->actor.wallBgId) == 0) {
                         if (this->ageProperties->unk_1C <= this->yDistToLedge) {
-                            if (ABS(ledgeFloorPoly->normal.y) > 28000) {
+                            if (ABS(ledgeFloorPoly->normal.y) > 0x6D60) {
                                 if (this->ageProperties->unk_14 <= this->yDistToLedge) {
-                                    nextLedgeClimbType = 4;
+                                    nextLedgeClimbType = PLAYER_LEDGE_CLIMB_4;
                                 } else if (this->ageProperties->unk_18 <= this->yDistToLedge) {
-                                    nextLedgeClimbType = 3;
+                                    nextLedgeClimbType = PLAYER_LEDGE_CLIMB_3;
                                 } else {
-                                    nextLedgeClimbType = 2;
+                                    nextLedgeClimbType = PLAYER_LEDGE_CLIMB_2;
                                 }
                             }
                         } else {
-                            nextLedgeClimbType = 1;
+                            nextLedgeClimbType = PLAYER_LEDGE_CLIMB_1;
                         }
                     }
                 }
@@ -10720,25 +10720,25 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 }
             }
 
-            sConveyorSpeedIndex = CONVEYOR_SPEED_DISABLED;
+            sConveyorSpeed = CONVEYOR_SPEED_DISABLED;
             this->pushedSpeed = 0.0f;
         }
 
         // This block applies the bg conveyor to pushedSpeed
-        if ((sConveyorSpeedIndex != CONVEYOR_SPEED_DISABLED) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
+        if ((sConveyorSpeed != CONVEYOR_SPEED_DISABLED) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
             f32 conveyorSpeed;
 
             // converts 1-index to 0-index
-            sConveyorSpeedIndex--;
+            sConveyorSpeed--;
 
             if (!sIsFloorConveyor) {
-                conveyorSpeed = sWaterConveyorSpeeds[sConveyorSpeedIndex];
+                conveyorSpeed = sWaterConveyorSpeeds[sConveyorSpeed];
 
                 if (!(this->stateFlags1 & PLAYER_STATE1_27)) {
                     conveyorSpeed *= 0.25f;
                 }
             } else {
-                conveyorSpeed = sFloorConveyorSpeeds[sConveyorSpeedIndex];
+                conveyorSpeed = sFloorConveyorSpeeds[sConveyorSpeed];
             }
 
             Math_StepToF(&this->pushedSpeed, conveyorSpeed, conveyorSpeed * 0.1f);

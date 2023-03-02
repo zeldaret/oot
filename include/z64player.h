@@ -459,6 +459,14 @@ typedef enum {
     /* 0x67 */ PLAYER_CSMODE_MAX
 } PlayerCutsceneMode;
 
+typedef enum {
+    /* 0 */ PLAYER_LEDGE_CLIMB_NONE,
+    /* 1 */ PLAYER_LEDGE_CLIMB_1,
+    /* 2 */ PLAYER_LEDGE_CLIMB_2,
+    /* 3 */ PLAYER_LEDGE_CLIMB_3,
+    /* 4 */ PLAYER_LEDGE_CLIMB_4
+} PlayerLedgeClimbType;
+
 typedef struct {
     /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
