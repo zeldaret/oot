@@ -469,7 +469,7 @@ static u32 sTouchedWallFlags = 0;
 static u32 sConveyorSpeed = CONVEYOR_SPEED_DISABLED;
 static s16 sIsFloorConveyor = false;
 static s16 sConveyorYaw = 0;
-static f32 sDistanceToFloorY = 0.0f;
+static f32 sYDistToFloor = 0.0f;
 static s32 sPrevFloorProperty = FLOOR_PROPERTY_0; // floor property from the previous frame
 static s32 sShapeYawToTouchedWall = 0;
 static s32 sWorldYawToTouchedWall = 0;
@@ -4416,7 +4416,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
             sp34 = this->unk_A84 - (s32)this->actor.world.pos.y;
 
             if (!(this->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_27 | PLAYER_STATE1_29)) &&
-                !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (sp34 < 100) && (sDistanceToFloorY > 100.0f)) {
+                !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (sp34 < 100) && (sYDistToFloor > 100.0f)) {
                 return 0;
             }
 
@@ -4498,7 +4498,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
 
                 if ((this->actor.world.pos.y < -4000.0f) ||
                     (((this->floorProperty == FLOOR_PROPERTY_5) || (this->floorProperty == FLOOR_PROPERTY_12)) &&
-                     ((sDistanceToFloorY < 100.0f) || (this->fallDistance > 400.0f) ||
+                     ((sYDistToFloor < 100.0f) || (this->fallDistance > 400.0f) ||
                       ((play->sceneId != SCENE_SHADOW_TEMPLE) && (this->fallDistance > 200.0f)))) ||
                     ((play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) && (this->fallDistance > 320.0f))) {
 
@@ -5074,7 +5074,7 @@ void func_8083AA10(Player* this, PlayState* play) {
 
                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_LEAVE) && !(this->stateFlags1 & PLAYER_STATE1_27) &&
                     (sPrevFloorProperty != FLOOR_PROPERTY_6) && (sPrevFloorProperty != FLOOR_PROPERTY_9) &&
-                    (sDistanceToFloorY > 20.0f) && (this->meleeWeaponState == 0) && (ABS(sp5C) < 0x2000) &&
+                    (sYDistToFloor > 20.0f) && (this->meleeWeaponState == 0) && (ABS(sp5C) < 0x2000) &&
                     (this->speedXZ > 3.0f)) {
 
                     if ((sPrevFloorProperty == FLOOR_PROPERTY_11) && !(this->stateFlags1 & PLAYER_STATE1_11)) {
@@ -5093,7 +5093,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                     func_8083A4A8(this, play);
                     return;
                 }
-                if ((sPrevFloorProperty == FLOOR_PROPERTY_9) || (sDistanceToFloorY <= this->ageProperties->unk_34) ||
+                if ((sPrevFloorProperty == FLOOR_PROPERTY_9) || (sYDistToFloor <= this->ageProperties->unk_34) ||
                     !func_8083A6AC(this, play)) {
                     func_80832284(play, this, &gPlayerAnim_link_normal_landing_wait);
                     return;
@@ -8584,7 +8584,7 @@ void func_8084411C(Player* this, PlayState* play) {
                 if (this->unk_850 >= 0) {
                     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->unk_850 == 0) ||
                         (this->fallDistance > 0)) {
-                        if ((sDistanceToFloorY > 800.0f) || (this->stateFlags1 & PLAYER_STATE1_2)) {
+                        if ((sYDistToFloor > 800.0f) || (this->stateFlags1 & PLAYER_STATE1_2)) {
                             func_80843E14(this, NA_SE_VO_LI_FALL_S);
                             this->stateFlags1 &= ~PLAYER_STATE1_2;
                         }
@@ -8594,7 +8594,7 @@ void func_8084411C(Player* this, PlayState* play) {
                         this->unk_850 = -1;
                     }
                 } else {
-                    if ((this->unk_850 == -1) && (this->fallDistance > 120.0f) && (sDistanceToFloorY > 280.0f)) {
+                    if ((this->unk_850 == -1) && (this->fallDistance > 120.0f) && (sYDistToFloor > 280.0f)) {
                         this->unk_850 = -2;
                         func_80843E14(this, NA_SE_VO_LI_FALL_L);
                     }
@@ -10045,7 +10045,7 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
         this->actor.velocity.y = 0.0f;
     }
 
-    sDistanceToFloorY = this->actor.world.pos.y - this->actor.floorHeight;
+    sYDistToFloor = this->actor.world.pos.y - this->actor.floorHeight;
     sConveyorSpeed = CONVEYOR_SPEED_DISABLED;
     floorPoly = this->actor.floorPoly;
 
@@ -13102,7 +13102,7 @@ void func_8084F710(Player* this, PlayState* play) {
     if ((this->unk_84F != 0) && (play->csCtx.curFrame < 0x131)) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
-    } else if (sDistanceToFloorY < 150.0f) {
+    } else if (sYDistToFloor < 150.0f) {
         if (LinkAnimation_Update(play, &this->skelAnime)) {
             if (this->unk_850 == 0) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
