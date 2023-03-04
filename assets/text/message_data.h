@@ -18102,8 +18102,21 @@ TEXT_SPEED("\x02") "Z Z Z Z Z Z Z Z Z Z Z Z Z" TEXT_SPEED("\x00") "...\n"
 DEFINE_MESSAGE(0x204F, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 UNSKIPPABLE "Take a good look at that \n"
 "mountain. That is " COLOR(RED) "Death Mountain" COLOR(DEFAULT) ",\n"
-"home of the Gorons. They hold\n"
-"the Spiritual Stone of Fire."
+"it's a volcano inhabited by the Gorons\n"
+"and their home."
+BOX_BREAK
+UNSKIPPABLE "They hold the Spiritual Stone of Fire.\n"
+"The Gorons are an odd bunch.\n"
+"They'll usually be curled up into\n"
+"a ball, looking like a rock."
+BOX_BREAK
+UNSKIPPABLE "I heard the Gorons produce " COLOR(YELLOW) "bombs\n"
+COLOR(DEFAULT)"and use them to break rocks\n"
+"into pieces to eat them."
+BOX_BREAK
+"Munching on hard stuff like that\n"
+"certainly can't be good for one's teeth.\n"
+"Makes me jealous... Hrrm hrrm..."
 ,
 UNSKIPPABLE "Richte Deine Augen gen Osten.\n"
 "Dies ist der " COLOR(RED) "Todesberg" COLOR(DEFAULT) ", das\n"
