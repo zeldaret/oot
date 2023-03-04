@@ -56,6 +56,7 @@ void EnHata_Init(Actor* thisx, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gFlagpoleFlapAnim);
 
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
+    Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_FLUTTER_FLAG);
     SkelAnime_Init(play, &this->skelAnime, &gFlagpoleSkel, &gFlagpoleFlapAnim, NULL, NULL, 0);
     Animation_Change(&this->skelAnime, &gFlagpoleFlapAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
