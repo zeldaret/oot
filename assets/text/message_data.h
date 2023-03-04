@@ -3842,14 +3842,15 @@ UNSKIPPABLE  ITEM_ICON("\x54")  QUICKTEXT_ENABLE "Vous recevez l'" COLOR(BLUE) "
 
 DEFINE_MESSAGE(0x00CF, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_MIDDLE,
 QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "It looks like this item doesn't \n"
-"work here..." COLOR(DEFAULT)  QUICKTEXT_DISABLE
+"work here... & it's: " COLOR(RED)TIME COLOR(DEFAULT)"."  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Es sieht ganz so aus, als würde\n"
 "dieser Gegenstand hier nicht\n"
-"benötigt..." COLOR(DEFAULT)  QUICKTEXT_DISABLE
+"benötigt... & c'est: " COLOR(RED)TIME COLOR(DEFAULT)"."  QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE  COLOR(LIGHTBLUE) "Ceci n'a pas l'air de servir à \n"
-"grand chose dans le coin..." COLOR(DEFAULT)  QUICKTEXT_DISABLE
+"grand chose dans le coin... &\n"
+"es ist: " COLOR(RED)TIME COLOR(DEFAULT)"."  QUICKTEXT_DISABLE
 )
 
 DEFINE_MESSAGE(0x00D0, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
