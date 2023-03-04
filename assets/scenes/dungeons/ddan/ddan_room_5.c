@@ -30,8 +30,8 @@ SceneCmd ddan_room_5Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_5PolygonType2_0000E0),
-    SCENE_CMD_OBJECT_LIST(7, ddan_room_5ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(9, ddan_room_5ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(8, ddan_room_5ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(15, ddan_room_5ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -43,6 +43,7 @@ s16 ddan_room_5ObjectList_000040[] = {
     OBJECT_FIREFLY,
     OBJECT_BOX,
     OBJECT_KUSA,
+    OBJECT_AM,
 };
 
 ActorEntry ddan_room_5ActorList_000050[] = {
@@ -55,6 +56,12 @@ ActorEntry ddan_room_5ActorList_000050[] = {
     { ACTOR_EN_DODONGO, {  -1817,    531,   -448 }, {      0, 0XB05B,      0 }, 0xFFFF },
     { ACTOR_EN_BOMBF,   {  -1957,    631,   -322 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_BOX,     {  -1960,    531,    -28 }, {      0,      0,      0 }, 0x1805 },
+    { ACTOR_EN_FIREFLY, {  -2123,    660,    -81 }, {      0, 0X4000,      0 }, 0x0000 },
+    { ACTOR_EN_FIREFLY, {  -1791,    621,   -432 }, {      0, 0X2000,      0 }, 0x0000 },
+    { ACTOR_EN_AM,      {  -1959,    531,   -227 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_AM,      {  -2051,    531,   -321 }, {      0, 0XC000,      0 }, 0x0000 },
+    { ACTOR_EN_AM,      {  -1960,    531,   -410 }, {      0, 0X8000,      0 }, 0x0000 },
+    { ACTOR_EN_AM,      {  -1870,    531,   -320 }, {      0, 0X4000,      0 }, 0x0000 },
 };
 
 PolygonType2 ddan_room_5PolygonType2_0000E0 = { 
