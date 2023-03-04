@@ -10941,7 +10941,7 @@ void func_8084B1D8(Player* this, PlayState* play) {
           CHECK_BTN_ANY(sControlInput->press.button,
                         BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)))) {
         func_8083C148(this, play);
-        func_80078884(NA_SE_SY_CAMERA_ZOOM_UP);
+        func_80078884(NA_SE_SY_CAMERA_ZOOM_DOWN);
     } else if ((DECR(this->unk_850) == 0) || (this->unk_6AD != 2)) {
         if (func_8008F128(this)) {
             this->unk_6AE |= 0x43;
