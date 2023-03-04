@@ -918,7 +918,7 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
             case MESSAGE_TEXTID:
                 msgCtx->textboxEndType = TEXTBOX_ENDTYPE_HAS_NEXT;
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
-                    Audio_PlaySoundGeneral(0, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                    Audio_PlaySoundGeneral(NA_SE_SY_ATTENTION_ON_OLD, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     msgCtx->msgMode = MSGMODE_TEXT_DONE;
                     Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_TRIANGLE);
