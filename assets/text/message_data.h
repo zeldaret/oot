@@ -12560,16 +12560,16 @@ COLOR(LIGHTBLUE) "Schild" COLOR(DEFAULT) " kannst Du im Laden kaufen."
 )
 
 DEFINE_MESSAGE(0x1033, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
-UNSKIPPABLE "If you want to see the \n"
+UNSKIPPABLE SFX("\x48\x02")"If you want to see the \n"
 "Great Deku Tree, you should at \n"
 "least equip a " COLOR(ADJUSTABLE) "sword" COLOR(DEFAULT) " and " COLOR(LIGHTBLUE) "shield" COLOR(DEFAULT) "!" TEXTID("\x10\xD2")
 ,
-UNSKIPPABLE "Bevor Du zum Deku-Baum darfst, \n"
+UNSKIPPABLE SFX("\x48\x02")"Bevor Du zum Deku-Baum darfst, \n"
 "mußt Du Dich zunächst mit einem\n"
 COLOR(RED) "Schwert" COLOR(DEFAULT) " und einem " COLOR(LIGHTBLUE) "Schild" COLOR(DEFAULT) " \n"
 "ausrüsten!" TEXTID("\x10\xD2")
 ,
-UNSKIPPABLE "Si tu veux voir le Vénérable Arbre\n"
+UNSKIPPABLE SFX("\x48\x02")"Si tu veux voir le Vénérable Arbre\n"
 "Mojo, Il te faut d'abord une " COLOR(RED) "épée" COLOR(DEFAULT) " \n"
 "et un " COLOR(LIGHTBLUE) "bouclier" COLOR(DEFAULT) "!" TEXTID("\x10\xD2")
 )
