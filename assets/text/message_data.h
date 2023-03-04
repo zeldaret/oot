@@ -8356,7 +8356,7 @@ QUICKTEXT_ENABLE "Stand in front of the hole and\n"
 COLOR(ADJUSTABLE) "Action Icon " COLOR(DEFAULT) "shows \"Enter,\" press\n"
 COLOR(ADJUSTABLE) "[A] " COLOR(DEFAULT) "to crawl into the hole." QUICKTEXT_DISABLE 
 BOX_BREAK
-QUICKTEXT_ENABLE "Pay attention to what the " COLOR(BLUE) "Action\n"
+QUICKTEXT_ENABLE "Pay attention to what the " COLOR(ADJUSTABLE) "Action\n"
 "Icon " COLOR(DEFAULT) "says!" QUICKTEXT_DISABLE
 ,
 QUICKTEXT_ENABLE  SHIFT("\x3F")  COLOR(PURPLE) "Enge Passagen\n"
