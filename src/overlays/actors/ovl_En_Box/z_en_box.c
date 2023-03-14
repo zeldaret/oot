@@ -335,6 +335,7 @@ void EnBox_AppearOnSwitchFlag(EnBox* this, PlayState* play) {
 
 void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
+    Player* player = GET_PLAYER(play);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
         func_8002F5F0(&this->dyna.actor, play);
@@ -343,6 +344,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play) {
     if (Flags_GetTempClear(play, this->dyna.actor.room) && !Player_InCsMode(play)) {
         Flags_SetClear(play, this->dyna.actor.room);
         EnBox_SetupAction(this, EnBox_AppearInit);
+        func_8002F7DC(&player->actor, player->ageProperties->unk_92 + NA_SE_VO_LI_SURPRISE);
         OnePointCutscene_Attention(play, &this->dyna.actor);
         if (OnePointCutscene_CheckForCategory(play, this->dyna.actor.category)) {
             this->unk_1A8 = 0;
