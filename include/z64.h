@@ -697,6 +697,16 @@ typedef struct {
     /* 0x10 */ GameAllocEntry* head;
 } GameAlloc; // size = 0x14
 
+// Used in Graph_GetNextGameState in graph.c
+#define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) enumName,
+#define DEFINE_GAMESTATE(typeName, enumName, name) DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
+typedef enum {
+#include "tables/gamestate_table.h"
+    GAMESTATE_ID_MAX
+} GameStateId;
+#undef DEFINE_GAMESTATE
+#undef DEFINE_GAMESTATE_INTERNAL
+
 struct GameState;
 
 typedef void (*GameStateFunc)(struct GameState* gameState);

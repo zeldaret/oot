@@ -1,20 +1,20 @@
 #include "global.h"
 
-#define DEFINE_GAMESTATE_INTERNAL(typeName) \
+#define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) \
     { NULL, 0, 0, NULL, NULL, NULL, typeName##_Init, typeName##_Destroy, NULL, NULL, 0, sizeof(typeName##State) },
 
-#define DEFINE_GAMESTATE(typeName, name)       \
-    { NULL,                                    \
-      (uintptr_t)_ovl_##name##SegmentRomStart, \
-      (uintptr_t)_ovl_##name##SegmentRomEnd,   \
-      _ovl_##name##SegmentStart,               \
-      _ovl_##name##SegmentEnd,                 \
-      NULL,                                    \
-      typeName##_Init,                         \
-      typeName##_Destroy,                      \
-      NULL,                                    \
-      NULL,                                    \
-      0,                                       \
+#define DEFINE_GAMESTATE(typeName, enumName, name) \
+    { NULL,                                        \
+      (uintptr_t)_ovl_##name##SegmentRomStart,     \
+      (uintptr_t)_ovl_##name##SegmentRomEnd,       \
+      _ovl_##name##SegmentStart,                   \
+      _ovl_##name##SegmentEnd,                     \
+      NULL,                                        \
+      typeName##_Init,                             \
+      typeName##_Destroy,                          \
+      NULL,                                        \
+      NULL,                                        \
+      0,                                           \
       sizeof(typeName##State) },
 
 GameStateOverlay gGameStateOverlayTable[] = {

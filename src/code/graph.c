@@ -113,25 +113,15 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->unk_014 = 0;
 }
 
-// Used below in `Graph_GetNextGameState`
-#define DEFINE_GAMESTATE_INTERNAL(typeName) GAMESTATE_INDEX_##typeName,
-#define DEFINE_GAMESTATE(typeName, name) DEFINE_GAMESTATE_INTERNAL(typeName)
-typedef enum {
-#include "tables/gamestate_table.h"
-    GAMESTATE_INDEX_MAX
-} GameStateTableIndex;
-#undef DEFINE_GAMESTATE
-#undef DEFINE_GAMESTATE_INTERNAL
-
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     void* gameStateInitFunc = GameState_GetInit(gameState);
 
     // Generates code to match gameStateInitFunc to a gamestate entry and returns it if found
-#define DEFINE_GAMESTATE_INTERNAL(typeName)                         \
-    if (gameStateInitFunc == typeName##_Init) {                     \
-        return &gGameStateOverlayTable[GAMESTATE_INDEX_##typeName]; \
+#define DEFINE_GAMESTATE_INTERNAL(typeName, enumName) \
+    if (gameStateInitFunc == typeName##_Init) {       \
+        return &gGameStateOverlayTable[enumName];     \
     }
-#define DEFINE_GAMESTATE(typeName, name) DEFINE_GAMESTATE_INTERNAL(typeName)
+#define DEFINE_GAMESTATE(typeName, enumName, name) DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
 #include "tables/gamestate_table.h"
 #undef DEFINE_GAMESTATE
 #undef DEFINE_GAMESTATE_INTERNAL
