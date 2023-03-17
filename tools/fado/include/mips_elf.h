@@ -473,6 +473,14 @@ typedef struct {
     Elf32_Word r_info;   /* Relocation type and symbol index */
 } Elf32_Rel;
 
+/* Relocation table entry with addend (in section of type SHT_RELA).  */
+
+typedef struct {
+    Elf32_Addr  r_offset;   /* Address */
+    Elf32_Word  r_info;     /* Relocation type and symbol index */
+    Elf32_Sword r_addend;   /* Addend */
+} Elf32_Rela;
+
 /* How to extract and insert information held in the r_info field.  */
 
 #define ELF32_R_SYM(val) ((val) >> 8)

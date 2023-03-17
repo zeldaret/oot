@@ -136,7 +136,7 @@ void EffDust_UpdateFunc_8099DB28(EffDust* this, PlayState* play) {
             this->initialPositions[i].y = -800.0f * Math_SinS(theta);
             this->initialPositions[i].z = -800.0f * Math_SinS(fi) * Math_CosS(theta);
             this->distanceTraveled[i] = 0.0f;
-            this->index += 1;
+            this->index++;
         }
     }
 }
@@ -165,7 +165,7 @@ void EffDust_UpdateFunc_8099DD74(EffDust* this, PlayState* play) {
             this->initialPositions[i].y = 400.0f * Math_SinS(theta);
             this->initialPositions[i].z = 400.0f * Math_SinS(fi) * Math_CosS(theta);
             this->distanceTraveled[i] = 0.0f;
-            this->index += 1;
+            this->index++;
         }
     }
 }
@@ -180,7 +180,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play) {
 
     if (parent == NULL || parent->update == NULL || !(player->stateFlags1 & PLAYER_STATE1_12)) {
         if (this->life != 0) {
-            this->life -= 1;
+            this->life--;
         } else {
             Actor_Kill(&this->actor);
         }
@@ -248,7 +248,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play) {
             }
 
             this->distanceTraveled[i] = 0.0f;
-            this->index += 1;
+            this->index++;
         }
     }
 }

@@ -295,7 +295,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, PlayState* play) {
 }
 
 void EnExRuppy_Kill(EnExRuppy* this, PlayState* play) {
-    this->invisible += 1;
+    this->invisible++;
     this->invisible &= 1; // Net effect is this->invisible = !this->invisible;
     if (this->timer == 0) {
         Actor_Kill(&this->actor);
