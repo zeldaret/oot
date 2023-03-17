@@ -187,7 +187,7 @@ SceneCmd spot04_room_0Set_0006B0[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot04_room_0PolygonType2_000580),
     SCENE_CMD_OBJECT_LIST(10, spot04_room_0ObjectList_0006F0),
-    SCENE_CMD_ACTOR_LIST(56, spot04_room_0ActorList_000700),
+    SCENE_CMD_ACTOR_LIST(57, spot04_room_0ActorList_000700),
     SCENE_CMD_END(),
 };
 
@@ -261,6 +261,7 @@ ActorEntry spot04_room_0ActorList_000700[] = {
     { ACTOR_EN_KO,          {    853,    100,   -311 }, {      0,      0,      0 }, 0xFF05 },
     { ACTOR_EN_KO,          {   -678,      1,   -179 }, {      0, 0X3777,      0 }, 0xFF06 },
     { ACTOR_EN_KANBAN,      {  -1182,    -49,   -144 }, {      0, 0XB8E4,      0 }, 0x0348 },
+    { ACTOR_EN_A_OBJ,       {   -170,    380,  -1335 }, {      0, 0X6B61,      0 }, 0x140A },
 };
 
 SceneCmd spot04_room_0Set_000940[] = {
@@ -270,7 +271,7 @@ SceneCmd spot04_room_0Set_000940[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot04_room_0PolygonType2_000580),
     SCENE_CMD_OBJECT_LIST(7, spot04_room_0ObjectList_000980),
-    SCENE_CMD_ACTOR_LIST(44, spot04_room_0ActorList_000990),
+    SCENE_CMD_ACTOR_LIST(45, spot04_room_0ActorList_000990),
     SCENE_CMD_END(),
 };
 
@@ -329,6 +330,7 @@ ActorEntry spot04_room_0ActorList_000990[] = {
     { ACTOR_EN_ISHI,        {    901,      0,    745 }, {      0, 0x1000,      0 }, 0x0702 },
     { ACTOR_EN_ISHI,        {    959,      0,    697 }, {      0, 0x3755,      0 }, 0x0702 },
     { ACTOR_EN_KANBAN,      {  -1182,    -49,   -144 }, {      0, 0XB8E4,      0 }, 0x0348 },
+    { ACTOR_EN_A_OBJ,       {   -170,    380,  -1335 }, {      0, 0X6B61,      0 }, 0x140A },
 };
 
 SceneCmd spot04_room_0Set_000BA0[] = {
