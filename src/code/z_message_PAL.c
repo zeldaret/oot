@@ -264,8 +264,6 @@ void Message_GrowTextbox(MessageContext* msgCtx) {
     f32 texWidth =
         R_TEXTBOX_TEXWIDTH_TARGET / (sWidthCoefficients[msgCtx->stateTimer] + sWidthCoefficients[msgCtx->stateTimer]);
     f32 texHeight = R_TEXTBOX_TEXHEIGHT_TARGET / sHeightCoefficients[msgCtx->stateTimer];
-    Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP_2, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
     // Adjust y pos
     R_TEXTBOX_Y = R_TEXTBOX_Y_TARGET +
@@ -273,7 +271,7 @@ void Message_GrowTextbox(MessageContext* msgCtx) {
 
     msgCtx->textboxColorAlphaCurrent += msgCtx->textboxColorAlphaTarget / 8;
     msgCtx->stateTimer++;
-    if (msgCtx->stateTimer == 4) {
+    if (msgCtx->stateTimer == 8) {
         // Reached the end
         R_TEXTBOX_X = R_TEXTBOX_X_TARGET;
         R_TEXTBOX_Y = R_TEXTBOX_Y_TARGET;
