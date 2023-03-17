@@ -514,7 +514,7 @@ void Play_Update(PlayState* this) {
             }
         }
 
-        if (this->transitionMode) { // != TRANS_MODE_OFF
+        if ((u32)this->transitionMode != TRANS_MODE_OFF) {
             switch (this->transitionMode) {
                 case TRANS_MODE_SETUP:
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {

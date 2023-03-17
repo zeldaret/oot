@@ -1904,7 +1904,7 @@ void func_80B57AE0(EnZl3* this, PlayState* play) {
     f32 zDiff;
 
     this->unk_344 = 0;
-    this->unk_314 += 1;
+    this->unk_314++;
     this->unk_360 = 0.0f;
     this->unk_364 = 0.0f;
     this->unk_368 = 0.0f;
@@ -1947,7 +1947,7 @@ void func_80B57CB4(EnZl3* this, PlayState* play) {
     Vec3f* thisPos = &this->actor.world.pos;
     f32 temp_f0;
 
-    this->unk_344 += 1;
+    this->unk_344++;
     temp_f0 = Environment_LerpWeightAccelDecel(this->unk_346, 0, this->unk_344, 3, 3);
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;
@@ -2002,7 +2002,7 @@ void func_80B57F1C(EnZl3* this, PlayState* play) {
     if (func_80B57D80(this, play) == 0) {
         func_80B54E14(this, &gZelda2Anime2Anim_009BE4, 0, -8.0f, 0);
         this->action = 34;
-        this->unk_314 -= 1;
+        this->unk_314--;
         func_80B57AE0(this, play);
     }
 }
@@ -2248,7 +2248,7 @@ void func_80B58C08(EnZl3* this, PlayState* play) {
     s32 sp28;
     f32 temp_f0;
 
-    this->unk_344 += 1;
+    this->unk_344++;
 
     unk_344 = this->unk_344;
     unk_346 = this->unk_346;

@@ -164,7 +164,7 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
 
     if (isFree == true && play->sceneId == SCENE_THIEVES_HIDEOUT) {
         noKill = false;
-    } else if (isFree == false && play->sceneId == SCENE_CARPENTERS_TENT) {
+    } else if (!isFree && play->sceneId == SCENE_CARPENTERS_TENT) {
         noKill = false;
     }
 
