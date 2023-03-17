@@ -5084,7 +5084,7 @@ static s16 sOwnerBlinkIndex[] = { 0, 1, 2, 2, 1 };
 
 static Vec3f sStreamSfxPos = { 670.0f, 0.0f, -600.0f };
 
-static Vec3s sSinkingLureLocationPos[] = {
+static Vec3s sSinkingLureLocations[] = {
     { -364, -30, -269 }, // in the pond, log past the lilies.
     { 1129, 3, -855 },   // rock next to stream
     { -480, 0, -1055 },  // wall opposite of entrance
@@ -5218,9 +5218,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     if ((sSinkingLureLocation != 0) &&
-        (fabsf(player->actor.world.pos.x - sSinkingLureLocationPos[sSinkingLureLocation - 1].x) < 25.0f) &&
-        (fabsf(player->actor.world.pos.y - sSinkingLureLocationPos[sSinkingLureLocation - 1].y) < 10.0f) &&
-        (fabsf(player->actor.world.pos.z - sSinkingLureLocationPos[sSinkingLureLocation - 1].z) < 25.0f)) {
+        (fabsf(player->actor.world.pos.x - sSinkingLureLocations[sSinkingLureLocation - 1].x) < 25.0f) &&
+        (fabsf(player->actor.world.pos.y - sSinkingLureLocations[sSinkingLureLocation - 1].y) < 10.0f) &&
+        (fabsf(player->actor.world.pos.z - sSinkingLureLocations[sSinkingLureLocation - 1].z) < 25.0f)) {
         sSinkingLureLocation = 0;
         sFishingPlayerCinematicState = 20;
         Rumble_Override(0.0f, 150, 10, 10);
