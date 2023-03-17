@@ -857,9 +857,9 @@ typedef struct {
     /* 0x1E38 */ OSMesg externalLoadMsgBuf[16];
     /* 0x1E78 */ OSMesgQueue preloadSampleQueue;
     /* 0x1E90 */ OSMesg preloadSampleMsgBuf[16];
-    /* 0x1ED0 */ OSMesgQueue currAudioFrameDmaQueue;
-    /* 0x1EE8 */ OSMesg currAudioFrameDmaMsgBuf[64];
-    /* 0x1FE8 */ OSIoMesg currAudioFrameDmaIoMsgBuf[64];
+    /* 0x1ED0 */ OSMesgQueue curAudioFrameDmaQueue;
+    /* 0x1EE8 */ OSMesg curAudioFrameDmaMsgBuf[64];
+    /* 0x1FE8 */ OSIoMesg curAudioFrameDmaIoMsgBuf[64];
     /* 0x25E8 */ OSMesgQueue syncDmaQueue;
     /* 0x2600 */ OSMesg syncDmaMesg;
     /* 0x2604 */ OSIoMesg syncDmaIoMesg;

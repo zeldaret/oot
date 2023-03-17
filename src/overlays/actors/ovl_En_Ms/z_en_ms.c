@@ -161,7 +161,7 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
     EnMs* this = (EnMs*)thisx;
     s32 pad;
 
-    this->activeTimer += 1;
+    this->activeTimer++;
     Actor_SetFocus(&this->actor, 20.0f);
     this->actor.targetArrowOffset = 500.0f;
     Actor_SetScale(&this->actor, 0.015f);

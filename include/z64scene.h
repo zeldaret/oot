@@ -43,7 +43,7 @@ typedef struct {
 } Spawn;
 
 // TODO: ZAPD Compatibility
-typedef Spawn EntranceEntry; 
+typedef Spawn EntranceEntry;
 
 typedef struct {
     /* 0x00 */ u8 count; // number of points in the path
