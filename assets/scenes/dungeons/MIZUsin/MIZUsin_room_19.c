@@ -36,8 +36,8 @@ SceneCmd MIZUsin_room_19Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&MIZUsin_room_19PolygonType2_0000B0),
-    SCENE_CMD_OBJECT_LIST(4, MIZUsin_room_19ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(6, MIZUsin_room_19ActorList_000048),
+    SCENE_CMD_OBJECT_LIST(5, MIZUsin_room_19ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(10, MIZUsin_room_19ActorList_000048),
     SCENE_CMD_END(),
 };
 
@@ -46,6 +46,7 @@ s16 MIZUsin_room_19ObjectList_000040[] = {
     OBJECT_BOX,
     OBJECT_D_HSBLOCK,
     OBJECT_SK2,
+    OBJECT_NY,
 };
 
 ActorEntry MIZUsin_room_19ActorList_000048[] = {
@@ -55,6 +56,10 @@ ActorEntry MIZUsin_room_19ActorList_000048[] = {
     { ACTOR_ELF_MSG2,       {   1821,    864,    181 }, {      0,    0XA,    0X1 }, 0x3F00 },
     { ACTOR_EN_BOX,         {   1508,    784,    182 }, {      0, 0XC000,    0X9 }, 0xB822 },
     { ACTOR_EN_WONDER_ITEM, {   1822,    854,    181 }, {      0,      0,    0X6 }, 0x1AC9 },
+    { ACTOR_EN_NY,          {   1368,    780,     85 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_NY,          {   1557,    780,     87 }, {      0,      0,      0 }, 0x0000 },
+    { ACTOR_EN_NY,          {   1372,    780,    284 }, {      0, 0X8000,      0 }, 0x0000 },
+    { ACTOR_EN_NY,          {   1562,    780,    289 }, {      0, 0X8000,      0 }, 0x0000 },
 };
 
 u8 MIZUsin_room_19_possiblePadding_0000A8[] = {

@@ -36,8 +36,8 @@ SceneCmd MIZUsin_room_10Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&MIZUsin_room_10PolygonType2_000190),
-    SCENE_CMD_OBJECT_LIST(7, MIZUsin_room_10ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(20, MIZUsin_room_10ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(8, MIZUsin_room_10ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(21, MIZUsin_room_10ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -49,6 +49,7 @@ s16 MIZUsin_room_10ObjectList_000040[] = {
     OBJECT_ST,
     OBJECT_GI_SUTARU,
     OBJECT_ZF,
+    OBJECT_TITE,
 };
 
 ActorEntry MIZUsin_room_10ActorList_000050[] = {
@@ -72,6 +73,7 @@ ActorEntry MIZUsin_room_10ActorList_000050[] = {
     { ACTOR_OBJ_TSUBO,      {   -989,    460,    255 }, {      0,      0,      0 }, 0x7003 },
     { ACTOR_OBJ_TSUBO,      {  -1026,    460,    257 }, {      0,      0,      0 }, 0x7203 },
     { ACTOR_OBJ_TSUBO,      {  -1062,    460,    256 }, {      0,      0,      0 }, 0x7403 },
+    { ACTOR_EN_TITE,        {  -1018,    860,    295 }, {      0, 0X8000,      0 }, 0xFFFE },
 };
 
 PolygonType2 MIZUsin_room_10PolygonType2_000190 = { 

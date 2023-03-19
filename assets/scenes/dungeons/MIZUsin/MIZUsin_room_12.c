@@ -36,8 +36,8 @@ SceneCmd MIZUsin_room_12Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&MIZUsin_room_12PolygonType2_0001C0),
-    SCENE_CMD_OBJECT_LIST(8, MIZUsin_room_12ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(23, MIZUsin_room_12ActorList_000050),
+    SCENE_CMD_OBJECT_LIST(10, MIZUsin_room_12ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(30, MIZUsin_room_12ActorList_000050),
     SCENE_CMD_END(),
 };
 
@@ -50,6 +50,8 @@ s16 MIZUsin_room_12ObjectList_000040[] = {
     OBJECT_KIBAKO2,
     OBJECT_ST,
     OBJECT_GI_SUTARU,
+    OBJECT_TITE,
+    OBJECT_SB,
 };
 
 ActorEntry MIZUsin_room_12ActorList_000050[] = {
@@ -76,6 +78,13 @@ ActorEntry MIZUsin_room_12ActorList_000050[] = {
     { ACTOR_OBJ_KIBAKO2,     {   -455,   -160,  -2394 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_EN_SW,           {   -394,      0,  -3128 }, {      0, 0X4000,      0 }, 0x8608 },
     { ACTOR_EN_KAKASI2,      {   -698,     60,  -2270 }, {      0,      0,    0X5 }, 0x18CC },
+    { ACTOR_EN_TITE,         {   -341,    -15,  -2758 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_TITE,         {   -331,      0,  -3037 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_TITE,         {   -327,    -15,  -2422 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_TITE,         {    -45,      0,  -3036 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_TITE,         {    -34,    -15,  -2751 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_TITE,         {    -20,    -15,  -2429 }, {      0,      0,      0 }, 0xFFFE },
+    { ACTOR_EN_SB,           {  -1287,   -100,  -2488 }, {      0, 0X3F4A,      0 }, 0xFFFF },
 };
 
 PolygonType2 MIZUsin_room_12PolygonType2_0001C0 = { 

@@ -36,8 +36,8 @@ SceneCmd MIZUsin_room_18Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&MIZUsin_room_18PolygonType2_0000F0),
-    SCENE_CMD_OBJECT_LIST(5, MIZUsin_room_18ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(10, MIZUsin_room_18ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(6, MIZUsin_room_18ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(13, MIZUsin_room_18ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -47,6 +47,7 @@ s16 MIZUsin_room_18ObjectList_000040[] = {
     OBJECT_D_HSBLOCK,
     OBJECT_NY,
     OBJECT_ZF,
+    OBJECT_SB,
 };
 
 ActorEntry MIZUsin_room_18ActorList_00004C[] = {
@@ -60,6 +61,9 @@ ActorEntry MIZUsin_room_18ActorList_00004C[] = {
     { ACTOR_OBJ_HSBLOCK,    {   1210,    -60,    260 }, {      0,      0,      0 }, 0x1FC1 },
     { ACTOR_OBJ_HSBLOCK,    {   1210,    -60,    100 }, {      0,      0,      0 }, 0x1FC1 },
     { ACTOR_OBJ_ROOMTIMER,  {   1492,      0,    248 }, {      0,      0,      0 }, 0x7FFF },
+    { ACTOR_EN_SB,          {   1509,      0,    111 }, {      0,      0,      0 }, 0xFFFF },
+    { ACTOR_EN_SB,          {   1444,      0,    216 }, {      0, 0X8000,      0 }, 0xFFFF },
+    { ACTOR_EN_SB,          {   1536,      0,    245 }, {      0, 0X8000,      0 }, 0xFFFF },
 };
 
 u8 MIZUsin_room_18_possiblePadding_0000EC[] = {

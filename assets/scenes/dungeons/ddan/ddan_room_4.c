@@ -30,8 +30,8 @@ SceneCmd ddan_room_4Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&ddan_room_4PolygonType2_000250),
-    SCENE_CMD_OBJECT_LIST(6, ddan_room_4ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(32, ddan_room_4ActorList_00004C),
+    SCENE_CMD_OBJECT_LIST(7, ddan_room_4ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(35, ddan_room_4ActorList_00004C),
     SCENE_CMD_END(),
 };
 
@@ -42,6 +42,7 @@ s16 ddan_room_4ObjectList_000040[] = {
     OBJECT_HAKA,
     OBJECT_POH,
     OBJECT_KIBAKO2,
+    OBJECT_DODONGO,
 };
 
 ActorEntry ddan_room_4ActorList_00004C[] = {
@@ -77,6 +78,9 @@ ActorEntry ddan_room_4ActorList_00004C[] = {
     { ACTOR_OBJ_KIBAKO2,    {   1886,     80,   -744 }, {      0,      0,      0 }, 0xFFFF },
     { ACTOR_BG_HAKA,        {   1757,    357,  -1007 }, { 0XACCD, 0X6000,      0 }, 0x0000 },
     { ACTOR_BG_HAKA,        {   2038,    344,  -1925 }, { 0XBA50, 0XD27D,      0 }, 0x0000 },
+    { ACTOR_EN_DODONGO,     {   1707,     80,  -1722 }, {      0, 0X8000,      0 }, 0xFFFF },
+    { ACTOR_EN_DODONGO,     {   1715,     80,   -943 }, {      0, 0X96C1,      0 }, 0xFFFF },
+    { ACTOR_EN_DODONGO,     {   2176,     80,  -1820 }, {      0, 0X8000,      0 }, 0xFFFF },
 };
 
 u8 ddan_room_4_possiblePadding_00024C[] = {
