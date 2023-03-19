@@ -1464,6 +1464,7 @@ void EnZf_SetupHopAway(EnZf* this, PlayState* play) {
     this->hopAnimIndex = 0;
     Animation_PlayOnce(&this->skelAnime, sHoppingAnims[0]);
     this->action = ENZF_ACTION_HOP_AWAY;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WARAU);
     this->curPlatform = EnZf_FindPlatform(&this->actor.world.pos, this->curPlatform);
     this->nextPlatform =
         EnZf_FindNextPlatformAwayFromPlayer(&this->actor.world.pos, this->curPlatform, this->homePlatform, play);
