@@ -101,6 +101,8 @@ void func_80865044(ArmsHook* this) {
 s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
     player->actor.child = &this->actor;
     player->heldActor = &this->actor;
+    Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_RECEIVE, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     if (this->actor.child != NULL) {
         player->actor.parent = NULL;
         this->actor.child = NULL;
