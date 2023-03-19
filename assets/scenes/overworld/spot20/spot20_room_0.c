@@ -15,8 +15,8 @@ SceneCmd spot20_room_0Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot20_room_0PolygonType2_000220),
-    SCENE_CMD_OBJECT_LIST(9, spot20_room_0ObjectList_000074),
-    SCENE_CMD_ACTOR_LIST(30, spot20_room_0ActorList_000084),
+    SCENE_CMD_OBJECT_LIST(10, spot20_room_0ObjectList_000074),
+    SCENE_CMD_ACTOR_LIST(31, spot20_room_0ActorList_000084),
     SCENE_CMD_END(),
 };
 
@@ -44,6 +44,7 @@ s16 spot20_room_0ObjectList_000074[] = {
     OBJECT_WOOD02,
     OBJECT_ST,
     OBJECT_NIW,
+    OBJECT_NWC,
 };
 
 ActorEntry spot20_room_0ActorList_000084[] = {
@@ -77,6 +78,7 @@ ActorEntry spot20_room_0ActorList_000084[] = {
     { ACTOR_EN_NIW,              {   1272,      0,  -2200 }, {      0, 0X9555,      0 }, 0xFFFF },
     { ACTOR_EN_NIW,              {   1106,      0,  -2209 }, {      0, 0X6889,      0 }, 0xFFFF },
     { ACTOR_EN_NIW,              {   1207,      0,  -2264 }, {      0, 0XACCD,      0 }, 0xFFFF },
+    { ACTOR_EN_NWC,              {   1207,      0,  -2264 }, {      0, 0XACCD,      0 }, 0x0000 },
 };
 
 u8 spot20_room_0_possiblePadding_000214[] = {
@@ -112,8 +114,8 @@ SceneCmd spot20_room_0Set_0002F0[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&spot20_room_0PolygonType2_000220),
-    SCENE_CMD_OBJECT_LIST(8, spot20_room_0ObjectList_000330),
-    SCENE_CMD_ACTOR_LIST(28, spot20_room_0ActorList_000340),
+    SCENE_CMD_OBJECT_LIST(9, spot20_room_0ObjectList_000330),
+    SCENE_CMD_ACTOR_LIST(29, spot20_room_0ActorList_000340),
     SCENE_CMD_END(),
 };
 
@@ -126,6 +128,7 @@ s16 spot20_room_0ObjectList_000330[] = {
     OBJECT_HNI,
     OBJECT_INGATE,
     OBJECT_MA2,
+    OBJECT_NWC,
 };
 
 ActorEntry spot20_room_0ActorList_000340[] = {
@@ -157,6 +160,7 @@ ActorEntry spot20_room_0ActorList_000340[] = {
     { ACTOR_EN_WONDER_ITEM,  {   -443,    119,   -311 }, {      0,      0,    0X1 }, 0x1279 },
     { ACTOR_EN_RIVER_SOUND,  {  -1817,      0,   1466 }, {      0,      0,      0 }, 0x0015 },
     { ACTOR_EN_RIVER_SOUND,  {     73,     46,  -2644 }, {      0,      0,      0 }, 0x0015 },
+    { ACTOR_EN_NWC,          {   1207,      0,  -2264 }, {      0, 0XACCD,      0 }, 0x0000 },
 };
 
 SceneCmd spot20_room_0Set_000500[] = {
