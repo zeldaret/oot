@@ -822,9 +822,9 @@ int main(int argc, char **argv)
             nSamples = (CommChunk.numFramesH << 16) + CommChunk.numFramesL;
 
             // Allow broken input lengths
-                if (nSamples % 16) {
-                    nSamples -= (nSamples % 16);
-                }
+            if (nSamples % 16) {
+                nSamples -= (nSamples % 16);
+            }
 
             if (nSamples % 16 != 0) {
                 fail_parse("number of chunks must be a multiple of 16, found %d with remainder %d", nSamples, nSamples % 16);

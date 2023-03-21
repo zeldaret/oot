@@ -160,8 +160,6 @@ SRC_DIRS := $(shell find src -type d)
 endif
 
 ASSET_BIN_DIRS := $(shell find assets/code/* assets/misc/* assets/objects/* assets/overlays/* assets/scenes/* assets/textures/* -type d)
-SEQUENCE_DIR    := assets/sequences
-SOUNDFONT_DIR   := assets/soundfonts
 SAMPLES_DIR     := $(shell find assets/samples/* -type d)
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
@@ -172,11 +170,10 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
 # source files
-SEQ_FILES     := $(foreach dir,$(SRC_DIRS) $(SEQUENCE_DIR),$(wildcard $(dir)/*.seq))
-FONT_FILES    := $(foreach dir,$(SOUNDFONT_DIR),$(wildcard $(dir)/*.xml))
+SEQ_FILES     := $(foreach dir,$(SRC_DIRS) assets/sequences,$(wildcard $(dir)/*.seq))
+FONT_FILES    := $(foreach dir,assets/soundfonts,$(wildcard $(dir)/*.xml))
 AIFC_FILES    := $(foreach dir,$(SAMPLES_DIR),$(wildcard $(dir)/*.aifc))
 INC_FILES     := $(foreach f,$(SEQ_FILES:.seq=.inc),build/include/$f)
-BANK_OUT      := $(foreach dir,$(SAMPLES_DIR:.=.o),build/assets/samplebanks/$(dir))
 SEQ_OUT       := $(foreach f,$(SEQ_FILES:.seq=.o),build/$f)
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
@@ -258,8 +255,8 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
-	$(RM) -r $(SOUNDFONT_DIR)
-	$(RM) $(shell find $(SEQUENCE_DIR)/*.seq -not -path "*.prg.seq")
+	$(RM) -r assets/soundfonts
+	$(RM) $(shell find assets/sequences/*.seq -not -path "*.prg.seq")
 	$(RM) -r assets/samples/
 	$(RM) -r assets/text/*.h
 	$(RM) -r build/assets
@@ -276,8 +273,8 @@ setup:
 	python3 extract_assets.py -j$(N_THREADS)
 	python3 tools/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/soundfonts build/include
 	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
-	python3 tools/assemble_sequences.py $(SEQUENCE_DIR) build/include build
-	python3 tools/assemble_sound.py $(SOUNDFONT_DIR) build/assets build/include assets/samples --build-bank --match=ocarina
+	python3 tools/assemble_sequences.py assets/sequences build/include build
+	python3 tools/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina
 	go run tools/audiotable.go
 
 test: $(ROM)
@@ -369,7 +366,7 @@ build/%.o: %.seq
 	$(SEQ_ASM) $< $@ --font-path build/include --elf big 32 mips
 
 build/include/%.inc: $(FONT_FILES)
-	python3 tools/assemble_font_includes.py $(SOUNDFONT_DIR) build/include
+	python3 tools/assemble_font_includes.py assets/soundfonts build/include
 
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@

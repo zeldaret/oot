@@ -471,7 +471,7 @@ class SampleHeader:
         #Okay so the frame count is calculated weird.
         #To get the original data length, looks like we gotta reverse it.
         self.length = (self.frameCount * blockSize) // 16
-        if(self.length % 2) != 0:
+        if self.length % 2 != 0:
             self.length += 1
 
     def loadInfoFromAif(self, aif_path):

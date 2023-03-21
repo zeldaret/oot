@@ -105,31 +105,26 @@ def orderWaveBlocksInstOrder(font, ser_blocks, base_addr):
     for i in range(slots):
         if i in font.instIdxLookup:
             inst = font.instIdxLookup[i]
-            if inst.keyLowSample:
-                if inst.keyLowSample not in slist:
-                    slist.append(inst.keyLowSample)
-            if inst.keyMedSample:
-                if inst.keyMedSample not in slist:
-                    slist.append(inst.keyMedSample)
-            if inst.keyHighSample:
-                if inst.keyHighSample not in slist:
-                    slist.append(inst.keyHighSample)
+            if inst.keyLowSample and inst.keyLowSample not in slist:
+                slist.append(inst.keyLowSample)
+            if inst.keyMedSample and inst.keyMedSample not in slist:
+                slist.append(inst.keyMedSample)
+            if inst.keyHighSample and inst.keyHighSample not in slist:
+                slist.append(inst.keyHighSample)
 
     slots = font.percSlotCount()
     for i in range(slots):
         if i in font.percIdxLookup:
             drum = font.percIdxLookup[i]
-            if drum.sample:
-                if drum.sample not in slist:
-                    slist.append(drum.sample)
+            if drum.sample and drum.sample not in slist:
+                slist.append(drum.sample)
 
     slots = font.sfxSlotCount()
     for i in range(slots):
         if i in font.sfxIdxLookup:
             sfx = font.sfxIdxLookup[i]
-            if sfx.sample:
-                if sfx.sample not in slist:
-                    slist.append(sfx.sample)
+            if sfx.sample and sfx.sample not in slist:
+                slist.append(sfx.sample)
 
     for sample in slist:
         sample.addr = -1
@@ -148,13 +143,13 @@ def orderWaveBlocksInstOrder(font, ser_blocks, base_addr):
         current_addr += block_size
 
         # Add book if not added
-        if sample.book and (sample.book.addr < 0):
+        if sample.book and sample.book.addr < 0:
             ser_blocks.append(sample.book)
             sample.book.addr = current_addr
-            current_addr += (sample.book.order * sample.book.predictorCount * 16) + 8
+            current_addr += sample.book.order * sample.book.predictorCount * 16 + 8
             current_addr = align(current_addr, 16)
 
-        if sample.loop and (sample.loop.addr < 0):
+        if sample.loop and sample.loop.addr < 0:
             ser_blocks.append(sample.loop)
             sample.loop.addr = current_addr
             if sample.loop.count != 0:
@@ -169,20 +164,19 @@ def orderWaveBlocksBankOrder(font, ser_blocks, base_addr):
     s_dict = {}
     for inst in font.instruments:
         if inst.keyLowSample and inst.keyLowSample.idx not in s_dict:
-                s_dict[inst.keyLowSample.idx] = inst.keyLowSample
+            s_dict[inst.keyLowSample.idx] = inst.keyLowSample
         if inst.keyMedSample and inst.keyMedSample.idx not in s_dict:
-                s_dict[inst.keyMedSample.idx] = inst.keyMedSample
+            s_dict[inst.keyMedSample.idx] = inst.keyMedSample
         if inst.keyHighSample and inst.keyHighSample.idx not in s_dict:
-                s_dict[inst.keyHighSample.idx] = inst.keyHighSample
+            s_dict[inst.keyHighSample.idx] = inst.keyHighSample
 
     for drum in font.percussion:
-        if drum.sample:
-            if drum.sample.idx not in s_dict:
-                s_dict[drum.sample.idx] = drum.sample
+        if drum.sample and drum.sample.idx not in s_dict:
+            s_dict[drum.sample.idx] = drum.sample
 
     for sfx in font.soundEffects:
         if sfx.sample and sfx.sample.idx not in s_dict:
-                s_dict[sfx.sample.idx] = sfx.sample
+            s_dict[sfx.sample.idx] = sfx.sample
 
     dict_items = sorted(s_dict.items())
     for item in dict_items:
@@ -248,13 +242,13 @@ def orderWaveBlocksMatchOrder(font, ser_blocks, base_addr):
         current_addr += block_size
 
         # Add book if not added
-        if sample.book and (sample.book.addr < 0):
+        if sample.book and sample.book.addr < 0:
             ser_blocks.append(sample.book)
             sample.book.addr = current_addr
-            current_addr += (sample.book.order * sample.book.predictorCount * 16) + 8
+            current_addr += sample.book.order * sample.book.predictorCount * 16 + 8
             current_addr = align(current_addr, 16)
 
-        if sample.loop and (sample.loop.addr < 0):
+        if sample.loop and sample.loop.addr < 0:
             ser_blocks.append(sample.loop)
             sample.loop.addr = current_addr
             if sample.loop.count != 0:
@@ -268,11 +262,11 @@ def orderEnvelopeBlocks(font, ser_blocks, base_addr):
     # Scan inst and perc to make sure all envelopes are in font map
     for inst in font.instruments:
         if inst.envelope and not inst.envelope.name in font.envelopes:
-                font.envelopes[inst.envelope.name] = inst.envelope
+            font.envelopes[inst.envelope.name] = inst.envelope
 
     for drum in font.percussion:
         if drum.envelope and not drum.envelope.name in font.envelopes:
-                font.envelopes[drum.envelope.name] = drum.envelope
+            font.envelopes[drum.envelope.name] = drum.envelope
 
     # Nab envelopes from font
     eitems = sorted(font.envelopes.items())
@@ -595,7 +589,7 @@ def splitSampleName(filepath):
             inum = int(istr)
 
     # Return number, name
-    return (inum, sname)
+    return inum, sname
 
 def get_sym_name(name):
     result = ''
@@ -629,10 +623,9 @@ def processBanks(sampledir, builddir, tabledir):
         return
     elist_bank = e_banks.findall("SampleBank")
 
-    i = 0
     audiotable_paths = []
 
-    for e_bank in elist_bank:
+    for i, e_bank in enumerate(elist_bank):
         bankname = e_bank.get("Name")
         if bankname is None:
             bankname = f"{i} - REF"
@@ -642,7 +635,6 @@ def processBanks(sampledir, builddir, tabledir):
                 print("Bank reference discovered:", bankname)
             audiotable_paths.append(None)
             banks.append(mybank)
-            i += 1
             continue
 
         if not quiet:
@@ -664,9 +656,7 @@ def processBanks(sampledir, builddir, tabledir):
 
         for file in os.listdir(bankdir):
             if file.endswith(".aifc"):
-                tup = splitSampleName(file)
-                si = tup[0]
-                samplename = tup[1]
+                si, samplename = splitSampleName(file)
                 mysample = SampleHeader()
                 if samplename in mybank.samplesByName:
                     print("WARNING: Duplicate sample key found:", samplename, file=sys.stderr)
@@ -745,11 +735,9 @@ def processBanks(sampledir, builddir, tabledir):
                 binpath = output.name
                 audiotable_paths.append(binpath)
 
-            j = 0
             offset = 0
-            for sample in sorted_samples:
+            for j, sample in enumerate(sorted_samples):
                 sample.idx = j
-                j += 1
                 sample.offsetInBank = offset
                 # Need to add padding as well...
                 offset += sample.length
@@ -826,17 +814,14 @@ def processBanks(sampledir, builddir, tabledir):
                 elftable.append_symbol(get_sym_name(bankname + "_end"), data, len(bankdata), 4, STB.STB_GLOBAL, STT.STT_OBJECT)
                 elffile.write(bytes(elftable))
 
-        i += 1
-
     # Code table
     banktable_path = None
     with tempfile.NamedTemporaryFile("wb", prefix="SampleBankTable", suffix=".tmp", delete=False) as output:
         banktable_path = output.name
         bnk_ordered = sorted(bank_lookup.items())
         output.write(struct.pack(packspecs.genPackString("H14x"), len(bnk_ordered)))
-        i = 0
         offset = 0
-        for bnk_pair in bnk_ordered:
+        for i, bnk_pair in enumerate(bnk_ordered):
             mybank = bnk_pair[1]
             if mybank.idx == i:
                 if debug_mode:
@@ -851,7 +836,6 @@ def processBanks(sampledir, builddir, tabledir):
             else:
                 output.write(struct.pack("8x"))
             output.write(struct.pack(packspecs.genPackString("BB6x"), mybank.medium, mybank.cachePolicy))
-            i += 1
 
     for tmpbank in audiotable_paths:
         if tmpbank and tmpbank.endswith(".tmp"):
@@ -859,7 +843,7 @@ def processBanks(sampledir, builddir, tabledir):
 
     os.makedirs(tabledir, exist_ok=True)
     with open(os.path.join(tabledir, "sample_bank_table.bin"), "wb") as f:
-            f.write(open(banktable_path, "rb").read())
+        f.write(open(banktable_path, "rb").read())
 
     Path(banktable_path).unlink(missing_ok=True)
 

@@ -126,9 +126,9 @@ const Command commands[] = {
 	{ { SectionType::Chan }, 0xEB, "fontinstr", {} },
 	{ { SectionType::Chan }, 0xEA, "stop", {} },
 	{ { SectionType::Chan }, 0xE9, "notepri", { Arg::u8 } },
-    { { SectionType::Chan }, 0xE8, "params", { Arg::u8, Arg::u8, Arg::u8, Arg::s8, Arg::s8, Arg::u8, Arg::u8, Arg::u8 } },  // TODO: Params for E8 to E6
-    { { SectionType::Chan }, 0xE7, "ldparams", { Arg::addr } },
-    { { SectionType::Chan }, 0xE6, "samplbook", { Arg::addr } },
+	{ { SectionType::Chan }, 0xE8, "params", { Arg::u8, Arg::u8, Arg::u8, Arg::s8, Arg::s8, Arg::u8, Arg::u8, Arg::u8 } },  // TODO: Params for E8 to E6
+	{ { SectionType::Chan }, 0xE7, "ldparams", { Arg::addr } },
+	{ { SectionType::Chan }, 0xE6, "samplbook", { Arg::addr } },
 	{ { SectionType::Chan }, 0xE5, "rvrbidx", { Arg::u8 } },
 	{ { SectionType::Chan }, 0xE4, "dyncall", {} },
 	{ { SectionType::Chan }, 0xE3, "vibdelay", { Arg::u8 } },
