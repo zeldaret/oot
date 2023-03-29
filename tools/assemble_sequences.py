@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-from argparse import ArgumentParser
-import subprocess
+
+import argparse
 import io
 import os
-from pathlib import Path
+import pathlib
+import subprocess
 import struct
 import sys
+
 import xml.etree.ElementTree as XmlTree
+
 from audio_common import StructPackSpec, parse_machine, toCachePolicy
-from makeelf.elf import ELF
 
 class SequenceDefinition:
     def __init__(self):
@@ -22,7 +24,7 @@ def process_sequence_file(sequence, soundfont_path, output_path):
     defn = SequenceDefinition()
 
     defn.name = os.path.basename(sequence)
-    seq_path = Path(sequence)
+    seq_path = pathlib.Path(sequence)
 
     if seq_path.is_symlink():
         defn.ref = seq_path.resolve().relative_to(seq_path.parent)
@@ -32,35 +34,38 @@ def process_sequence_file(sequence, soundfont_path, output_path):
         assembleseq = os.path.join(os.path.dirname(__file__), "assemble_sequence")
         common_dir = os.getcwd()
         rel_assembleseq = "./" + os.path.relpath(assembleseq, common_dir).replace("\\", "/")
-        sequence_out_path = Path(os.path.join(output_path, seq_path)).with_suffix(".o")
+        sequence_out_path = pathlib.Path(os.path.join(output_path, seq_path)).with_suffix(".bin")
         os.makedirs(sequence_out_path.parent, exist_ok=True)
-        result = subprocess.run([rel_assembleseq, sequence, sequence_out_path, "--font-path", soundfont_path, "--elf", "big", "32", "mips", "--print-fonts"], capture_output=True, text=True)
+        result = subprocess.run([
+            rel_assembleseq, sequence, sequence_out_path, "--font-path", soundfont_path, "--print-fonts"
+        ], capture_output=True, text=True)
     except subprocess.CalledProcessError:
         print(f"Failed to convert {sequence} to binary format", file=sys.stderr)
         exit(1)
 
-    fontlines = result.stdout.split("\n")
-    for line in fontlines:
-        try:
-            if line.startswith("Cache="):
-                defn.cachePolicy = int(line.split("=")[1])
-            fontid = int(line)
-            defn.fonts.append(fontid)
-        except:
+    for line in result.stdout.split("\n"):
+        if not line:
             continue
+        if line.startswith("Cache="):
+            defn.cachePolicy = int(line.split("=")[1])
+            continue
+        defn.fonts.append(int(line))
 
-    output_elf = ELF.from_file(sequence_out_path)[0]
-    data_section = output_elf.get_section_by_name(".data")[0]
-    defn.size = data_section.sh_size
+    defn.size = os.stat(sequence_out_path).st_size
 
+    # Add padding which is added during linking too.
+    defn.size += 16 - defn.size%16 if defn.size%16 else 0
+
+    seqname = "seq_" + pathlib.Path(pathlib.Path(sequence).stem).stem
+    hexdump(sequence_out_path, sequence_out_path.with_suffix(".c"), seqname)
     return defn
 
 def process_sequence_files(sequence_path, soundfont_path, output_path):
     result = []
 
-    for file in os.listdir(sequence_path):
-        if file.endswith(".seq"):
-            result.append(process_sequence_file(os.path.join(sequence_path, file), soundfont_path, output_path))
+    for fname in os.listdir(sequence_path):
+        if fname.endswith(".seq"):
+            result.append(process_sequence_file(os.path.join(sequence_path, fname), soundfont_path, output_path))
 
     refpath = os.path.join(args.sequences, "References.xml")
     refxml = XmlTree.parse(refpath)
@@ -83,7 +88,7 @@ def get_seq_index(refname, seqdefs):
 
     raise Exception(f"Sequence {refname} not found but referenced")
 
-def generate_sequence_table(sequences, output_path, machine, packspecs):
+def generate_sequence_table(sequences, output_path, packspecs):
     stream = io.BytesIO()
     stream.write(struct.pack(packspecs.genPackString("H14x"), len(sequences)))
     start_offset = 0
@@ -99,7 +104,7 @@ def generate_sequence_table(sequences, output_path, machine, packspecs):
     with open(os.path.join(output_path, "assets", "data", "sequence_table.bin"), "wb") as f:
         f.write(stream.getbuffer())
 
-def generate_sequence_font_table(sequences, output_path, machine, packspecs):
+def generate_sequence_font_table(sequences, output_path, packspecs):
     stream = io.BytesIO()
     seqoffsets = {}
 
@@ -129,10 +134,20 @@ def generate_sequence_font_table(sequences, output_path, machine, packspecs):
     with open(os.path.join(output_path, "assets", "data", "sequence_font_table.bin"), "wb") as f:
         f.write(stream.getbuffer())
 
+def hexdump(src, dst, varname):
+    buf = open(src, "rb").read()
+
+    f = open(dst, "wb")
+    f.write(b"unsigned char %s[] = {\n" % varname.encode())
+    for idx in range(0, len(buf), 16):
+        f.write(b"    " + b" ".join(
+            b"0x%02x," % ch for ch in buf[idx:idx+min(len(buf)-idx, 16)]
+        ) + b"\n")
+    f.write(b"};\n")
+    f.close()
+
 def main(args):
-    packspecs = StructPackSpec(args.le, args.arch64)
-    if args.machine:
-        machine = parse_machine(args.machine[0])
+    packspecs = StructPackSpec()
 
     if not args.sequences.is_dir():
         print("Sequence asset path does not exist or is not a directory.", file=sys.stderr)
@@ -144,16 +159,13 @@ def main(args):
 
     sequences = process_sequence_files(args.sequences,args.soundfonts, args.output)
 
-    generate_sequence_table(sequences, args.output, machine, packspecs)
-    generate_sequence_font_table(sequences, args.output, machine, packspecs)
+    generate_sequence_table(sequences, args.output, packspecs)
+    generate_sequence_font_table(sequences, args.output, packspecs)
 
 if __name__ == "__main__":
-    parser = ArgumentParser(add_help=False)
-    parser.add_argument("sequences", metavar="<sequence asset path>", type=Path, help="The path to sequence assets.")
-    parser.add_argument("soundfonts", metavar="<soundfont build path>", type=Path, help="The path to the soundfont include files.")
-    parser.add_argument("output", metavar="<output path>", type=Path, help="The path to where built machine files should be stored.")
-    parser.add_argument("--little-endian", dest="le", action="store_true", help="Use this flag if building for Little-Endian target. Overrides --match and --debug")
-    parser.add_argument("--64", dest="arch64", action="store_true", help="Use this flag if building for 64-bit target. (Importantly, this does NOT include N64 itself). Overrides --match and --debug")
-    parser.add_argument("--machine", nargs=1, required=False, default=["mips"], help="The machine type to use for the output ELF files.")
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("sequences", metavar="<sequence asset path>", type=pathlib.Path, help="The path to sequence assets.")
+    parser.add_argument("soundfonts", metavar="<soundfont build path>", type=pathlib.Path, help="The path to the soundfont include files.")
+    parser.add_argument("output", metavar="<output path>", type=pathlib.Path, help="The path to where built machine files should be stored.")
     args = parser.parse_args()
     main(args)

@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
+
 import argparse
-from audio_common import *
-from collections import defaultdict
-from pathlib import Path
-from xml.dom import minidom
-import subprocess
-import math
-import shutil
-import xml.etree.ElementTree as XmlTree
+import collections
 import json
+import math
 import os
+import pathlib
+import shutil
+import subprocess
 import struct
 import sys
+
+from xml.dom import minidom
+import xml.etree.ElementTree as XmlTree
+
+from audio_common import *
 
 usedTuning = {}
 refBanks = {}
@@ -94,7 +97,7 @@ class ElementDefinition:
         self.enum = enum
 
 def read_soundfont_xmls(xml_dir):
-    results = defaultdict(lambda: None)
+    results = collections.defaultdict(lambda: None)
 
     for file in os.listdir(xml_dir):
         if file.endswith(".xml"):
@@ -130,7 +133,7 @@ def read_soundfont_xmls(xml_dir):
     return results
 
 def read_samplebank_xml(xml_dir, version, sampleNames):
-    results = defaultdict(lambda: None)
+    results = collections.defaultdict(lambda: None)
 
     for xmlfile in os.listdir(xml_dir):
         if xmlfile.endswith(".xml"):
@@ -144,7 +147,7 @@ def read_samplebank_xml(xml_dir, version, sampleNames):
                     continue
                 offset = int(offsetElement.get("At"), 0)
                 if index not in sampleNames:
-                    sampleNames[index] = defaultdict(lambda: None)
+                    sampleNames[index] = collections.defaultdict(lambda: None)
                 if offset not in sampleNames[index]:
                     sampleNames[index][offset] = sample.get("Name")
                 if "SampleRate" in sample.attrib:
@@ -541,10 +544,10 @@ if __name__ == "__main__":
     parser.add_argument("code", metavar="<code file>", type=argparse.FileType("rb"), help="Path to the 'code' file, usually in baserom.")
     parser.add_argument("audiotable", metavar="<Audiotable file>", type=argparse.FileType("rb"), help="Path to the 'AudioTable' file, usually in baserom.")
     parser.add_argument("audiobank", metavar="<Audiobank file>", type=argparse.FileType("rb"), help="Path to the 'Audiobank' file, usually in baserom.")
-    parser.add_argument("assetxml", metavar="<assets XML dir>", type=Path, help="The asset XML path where the definitions are stored.")
-    parser.add_argument("sampleout", metavar="<samples out dir>", type=Path, help="The output path for extracted samples.")
-    parser.add_argument("fontout", metavar="<soundfont out dir>", type=Path, help="The output path for extracted soundfonts.")
-    parser.add_argument("fontinc", metavar="<soundfont includes out dir>", type=Path, help="The output path for generated soundfont include files.")
+    parser.add_argument("assetxml", metavar="<assets XML dir>", type=pathlib.Path, help="The asset XML path where the definitions are stored.")
+    parser.add_argument("sampleout", metavar="<samples out dir>", type=pathlib.Path, help="The output path for extracted samples.")
+    parser.add_argument("fontout", metavar="<soundfont out dir>", type=pathlib.Path, help="The output path for extracted soundfonts.")
+    parser.add_argument("fontinc", metavar="<soundfont includes out dir>", type=pathlib.Path, help="The output path for generated soundfont include files.")
     parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
     parser.add_argument("--detect-gaps", "-g", dest="gaps", action='store_true', help="Outputs unreferenced data ranges to standard out.")
     args = parser.parse_args()

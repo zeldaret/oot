@@ -9,9 +9,8 @@
 #include <vector>
 #include <map>
 #include <cassert>
-#include "elfio/elfio.hpp"
+
 using namespace std;
-using namespace ELFIO;
 
 bool tryLoadFile(string_view filename, ifstream* outStream);
 
@@ -1150,27 +1149,6 @@ void Compiler::balign(int32_t to) {
 	}
 }
 
-int getMachine(string_view machineName, uint8_t width) {
-	if (machineName.compare("mips") == 0) {
-		return EM_MIPS;
-	}
-	if (machineName.compare("x86") == 0) {
-		return width == 32 ? EM_486 : EM_X86_64;
-	}
-	if (width == 64 && (machineName.compare("x86_64") == 0 || machineName.compare("x86-64") == 0)) {
-		return EM_X86_64;
-	}
-	if (machineName.compare("arm") == 0) {
-		return width == 32 ? EM_ARM : EM_AARCH64;
-	}
-	if (machineName.compare("aarch64") == 0 && width == 64) {
-		return EM_AARCH64;
-	}
-
-	cerr << "Machine " << machineName << " and width " << width << " not supported" << endl;
-	exit(1);
-}
-
 bool tryLoadFile(string_view filename, ifstream* outStream) {
 	outStream->open(string(filename));
 
@@ -1178,16 +1156,9 @@ bool tryLoadFile(string_view filename, ifstream* outStream) {
 }
 
 int main(int argc, char** argv) {
-	struct ElfOptions {
-		bool littleEndian;
-		uint8_t width;
-		string machine;
-	};
-
 	bool printHelp = false;
 	bool printFonts = false;
 	bool printLabels = false;
-	ElfOptions elf;
 	char optParams = '\0';
 	string fontpath;
 	string cwd = filesystem::current_path();
@@ -1196,38 +1167,6 @@ int main(int argc, char** argv) {
 		string arg = argv[i];
 		if (optParams == 'f') {
 			fontpath = arg;
-			optParams = '\0';
-			continue;
-		}
-
-		if (optParams == 'e') {
-			transform(arg.begin(), arg.end(), arg.begin(), [](uint8_t c) { return tolower(c); });
-			if (arg.compare("little") == 0) {
-				elf.littleEndian = true;
-			} else if (arg.compare("big") == 0) {
-				elf.littleEndian = false;
-			} else {
-				cerr << "Only big or little accepted, " << arg << " is not recognized" << endl;
-				exit(1);
-			}
-			optParams = 'w';
-			continue;
-		}
-
-		if (optParams == 'w') {
-			uint8_t width = std::stoi(arg);
-			if (width != 32 && width != 64) {
-				cerr << "Bit width must be 32 or 64" << endl;
-				exit(1);
-			}
-			elf.width = width;
-			optParams = 'm';
-			continue;
-		}
-
-		if (optParams == 'm') {
-			transform(arg.begin(), arg.end(), arg.begin(), [](uint8_t c) { return tolower(c); });
-			elf.machine = arg;
 			optParams = '\0';
 			continue;
 		}
@@ -1243,8 +1182,6 @@ int main(int argc, char** argv) {
 			printFonts = true;
 		} else if (arg == "--font-path") {
 			optParams = 'f';
-		} else if (arg == "--elf") {
-			optParams = 'e';
 		} else if (arg == "--write-labels") {
 			printLabels = true;
 		} else if (!arg.empty() && arg[0] == '-') {
@@ -1261,7 +1198,7 @@ int main(int argc, char** argv) {
 	}
 
 	if (printHelp || positionalArgs.size() != 2) {
-		cerr << "Usage: " << argv[0] << " [--elf <big/little> <bits> <target>] [--print-fonts] [--font-path <path>] infile.mus outfile.bin" << endl;
+		cerr << "Usage: " << argv[0] << " [--print-fonts] [--font-path <path>] infile.mus outfile.bin" << endl;
 		return 1;
 	}
 
@@ -1304,44 +1241,11 @@ int main(int argc, char** argv) {
 
 	string outFilename = positionalArgs[1];
 
-	if (elf.machine.empty()) {
-		ofstream fout(outFilename, ios::binary);
-		c.write(fout);
-		if (!fout) {
-			cerr << "Failed to write to output file" << endl;
-			return 1;
-		}
-	} else {
-		elfio writer;
-		writer.create(elf.width == 32 ? ELFCLASS32 : ELFCLASS64,
-			elf.littleEndian ? ELFDATA2LSB : ELFDATA2MSB);
-		writer.set_abi_version(ELFOSABI_NONE);
-		writer.set_type(ET_NONE);
-		writer.set_machine(getMachine(elf.machine, elf.width));
-
-		section* dataSection = writer.sections.add(".data");
-		dataSection->set_type(SHT_PROGBITS);
-		dataSection->set_flags(SHF_ALLOC | SHF_WRITE);
-		dataSection->set_addr_align(16);
-
-		stringstream datastream;
-		c.write(datastream);
-		while ((datastream.tellp() & 15) != 0) {
-			datastream.put(0);
-		}
-
-		dataSection->set_data(datastream.str());
-
-		segment* dataSegment = writer.segments.add();
-		dataSegment->set_type(PT_LOAD);
-		dataSegment->set_virtual_address(0);
-		dataSegment->set_physical_address(0);
-		dataSegment->set_flags(PF_R | PF_W);
-		dataSegment->set_align(16);
-
-		dataSegment->add_section(dataSection, dataSection->get_addr_align());
-
-		writer.save(outFilename);
+	ofstream fout(outFilename, ios::binary);
+	c.write(fout);
+	if (!fout) {
+		cerr << "Failed to write to output file" << endl;
+		return 1;
 	}
 
 	if (printFonts) {

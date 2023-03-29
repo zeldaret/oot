@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
+
 import argparse
-from pathlib import Path
-import subprocess
-import tempfile
-from xml.dom import minidom
-import xml.etree.ElementTree as XmlTree
-import os
 import json
+import os
+import subprocess
 import struct
 import sys
+import tempfile
+
+from pathlib import Path
+from xml.dom import minidom
+import xml.etree.ElementTree as XmlTree
 
 from audio_common import toCachePolicy, toMedium
 
@@ -112,7 +114,7 @@ def main(args):
             if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
                 convert_aseq_to_mus(aseq.name, mus_file, os.path.join(soundfont_inc_path, f"{font_id}.inc"), args.seqinc, sequence.cache)
 
-    if len(refseqs.keys()) > 0:
+    if refseqs:
         with open(os.path.join(midi_out_dir, "References.xml"), "w") as refxml:
             root = XmlTree.Element("References")
 
@@ -121,16 +123,12 @@ def main(args):
                 targetentry = sequence_names[v.offset]
                 target_name = targetentry.get("Name") if targetentry.get("Name") else f"{v.offset:08x}"
                 sequence_name = seqentry.get("Name") if seqentry.get("Name") else f"{k:08x}"
-                XmlTree.SubElement(
-                    root,
-                    "Reference",
-                    {
-                        "Name": sequence_name,
-                        "Target": f"{target_name}.seq",
-                        "Medium": toMedium(v.medium),
-                        "CachePolicy": toCachePolicy(v.cache)
-                    }
-                )
+                XmlTree.SubElement(root, "Reference", {
+                    "Name": sequence_name,
+                    "Target": f"{target_name}.seq",
+                    "Medium": toMedium(v.medium),
+                    "CachePolicy": toCachePolicy(v.cache)
+                })
 
             xmlstring = XmlTree.tostring(root, "unicode")
             prettyxml = minidom.parseString(xmlstring).toprettyxml(indent="\t")

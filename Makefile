@@ -363,7 +363,12 @@ build/src/overlays/%_reloc.o: build/$(SPEC)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 build/%.o: %.seq
-	$(SEQ_ASM) $< $@ --font-path build/include --elf big 32 mips
+	$(SEQ_ASM) $< $@ --font-path build/include
+
+build/assets/sequences/%.o: build/assets/sequences/%.c
+	$(CC_CHECK) $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 build/include/%.inc: $(FONT_FILES)
 	python3 tools/assemble_font_includes.py assets/soundfonts build/include
