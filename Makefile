@@ -371,6 +371,8 @@ build/assets/misc/sounds/sounds.o: data/sounds.c assets/misc/sounds/*.h
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
+build/src/code/audio_init_params.o: src/code/audio_init_params.c assets/misc/sounds/*.h
+
 build/include/%.inc: $(FONT_FILES)
 	python3 tools/assemble_font_includes.py assets/soundfonts build/include
 

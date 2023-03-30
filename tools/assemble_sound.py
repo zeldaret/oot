@@ -1014,6 +1014,14 @@ def main(args):
         lfonts.append(myentry)
 
     l = [
+        b"#ifdef AUDIOHEADER",
+        b"",
+        b"#define NUM_SOUNDFONTS %d" % len(lfonts),
+        b"#define SFX_SOUNDFONT_1_SIZE %d" % lfonts[0].length,
+        b"#define SFX_SOUNDFONT_2_SIZE %d" % lfonts[1].length,
+        b"",
+        b"#else",
+        b"",
         b"AudioTable gSoundFontTable = {",
         b"    %d, 0, 0x00000000, {0, 0, 0, 0, 0, 0, 0, 0}, {" % total_fonts,
         b"    "+onerow(*lfonts[0].serialize()),
@@ -1023,7 +1031,7 @@ def main(args):
     ]
     for font in lfonts[1:]:
         l.append(onerow(*font.serialize()))
-    l.append(b"};\n")
+    l.append(b"};\n\n#endif\n")
 
     open("assets/misc/sounds/sound_font_table.h", "wb").write(b"\n".join(l))
 

@@ -97,6 +97,12 @@ def generate_sequence_table(sequences, output_path):
 
     start_offset = 0
     l = [
+        b"#ifdef AUDIOHEADER",
+        b"",
+        b"#define SFX_SEQ_SIZE %d" % sequences[0].size,
+        b"",
+        b"#else",
+        b"",
         b"AudioTable gSequenceTable = {",
         b"    %d, 0, 0x00000000, {0, 0, 0, 0, 0, 0, 0, 0}, {" % len(sequences),
         b"    "+onerow(0, sequences[0].size, 2, sequences[0].cachePolicy, 0, 0, 0),
@@ -111,7 +117,7 @@ def generate_sequence_table(sequences, output_path):
         else:
             l.append(onerow(start_offset, defn.size, 2, defn.cachePolicy, 0, 0, 0))
             start_offset += defn.size
-    l.append(b"};\n")
+    l.append(b"};\n\n#endif\n")
 
     open("assets/misc/sounds/sequence_table.h", "wb").write(b"\n".join(l))
 
