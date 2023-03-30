@@ -441,7 +441,7 @@ stseq 0, @+1
 vol 60
 .channel chan_2D6
 instr FONT02_INSTR_WIND_HOWL
-env envelope_FFA
+envelope envelope_FFA
 reverb 20
 ldlayer 0, layer_368
 ldlayer 1, layer_362
@@ -545,7 +545,7 @@ rjump layer_37C
 .layer layer_37A
 notepan 54
 .layer layer_37C
-env envelope_1006, 255
+envelope envelope_1006, 255
 legato
 portamento 0x85, 39, 255
 .layer layer_385
@@ -1592,7 +1592,7 @@ vol 80
 volexp 127
 panweight 0
 instr FONT02_INSTR_RAIN
-env envelope_1012
+envelope envelope_1012
 ldlayer 0, layer_DED
 ldlayer 1, layer_DF9
 ldlayer 2, layer_DFF
@@ -1741,7 +1741,7 @@ rjump layer_EAD
 
 .layer layer_EAD
 instr FONT02_INSTR_THUNDER_RUMBLE
-env envelope_101E, 97
+envelope envelope_101E, 97
 .layer layer_EB3
 portamento 0x85, 27, 255
 legato

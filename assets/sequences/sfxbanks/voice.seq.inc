@@ -1060,7 +1060,7 @@ jump play_random_voice
 
 .layer layer_6598
 instr FONT00_INSTR_FAIRY_MAGIC
-env envelope_66B8, 251
+envelope envelope_66B8, 251
 legato
 portamento 0x81, 51, 255
 notedv PITCH_F5, 0x30, 65

@@ -953,7 +953,7 @@ jump loop_start        # Plays the same melody indefinitely.
 | 07 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | randtoptr   | stseq        | vibfreq     | ldparams     | *loopend      |
 | 08 | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | randvel     | sub          | vibdepth    | params       | *loop         |
 | 09 | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | randgate    | and          | releaserate | notepri      | *bltz         |
-| 0A | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    |             | mutebhv      | env         | stop         | *beqz         |
+| 0A | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    |             | mutebhv      | envelope    | stop         | *beqz         |
 | 0B | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | ptradd      | ldseq        | transpose   | fontinstr    | *jump         |
 | 0C | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | randptr     | ldi          | panweight   | reset        | *call         |
 | 0D | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | instr       | stopchan     | pan         | gain         | *delay        |

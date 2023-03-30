@@ -501,7 +501,7 @@ entry enemy_skulltula_quiver
 
 .channel enemy_dodongo_walk
 instr FONT01_INSTR_GUNSHOT
-env envelope_68DC
+envelope envelope_68DC
 ldlayer 0, layer_354D
 end
 
@@ -560,7 +560,7 @@ end
 
 .channel enemy_boss_dodongo_exhale
 instr FONT01_INSTR_DODONGO_ROAR
-env envelope_683C
+envelope envelope_683C
 ldlayer 0, layer_35AC
 ldlayer 1, layer_35AE
 end
@@ -625,14 +625,14 @@ end
 transpose -8
 
 .layer layer_35F7
-env envelope_69DC, 240
+envelope envelope_69DC, 240
 portamento 0x81, 34, 64
 notedv PITCH_C3, 0x32, 100
 notedv PITCH_C1, 0x5A, 100
 end
 
 .layer layer_3606
-env envelope_69DC, 240
+envelope envelope_69DC, 240
 portamento 0x81, 38, 64
 notedv PITCH_E3, 0x32, 100
 end
@@ -647,7 +647,7 @@ end
 transpose -8
 
 .layer layer_361D
-env envelope_69DC, 250
+envelope envelope_69DC, 250
 portamento 0x81, 34, 64
 notedv PITCH_C3, 0x62, 100
 end
@@ -659,10 +659,10 @@ gain 18
 end
 
 .layer layer_3631
-env envelope_690C, 250
+envelope envelope_690C, 250
 portamento 0x81, 29, 150
 notedv PITCH_C3, 0x8, 100
-env envelope_68EC, 250
+envelope envelope_68EC, 250
 portamento 0x81, 27, 150
 notedv PITCH_F2, 0x1E, 100
 end
@@ -673,14 +673,14 @@ end
 
 .layer layer_364C
 instr FONT01_INSTR_SMASH
-env envelope_68DC, 250
+envelope envelope_68DC, 250
 portamento 0x81, 36, 64
 notedv PITCH_D3, 0x1E, 100
 end
 
 .channel enemy_boss_gohma_walk
 instr FONT01_INSTR_SMASH
-env envelope_68EC
+envelope envelope_68EC
 ldlayer 0, layer_3665
 gain 16
 end
@@ -706,7 +706,7 @@ end
 
 .channel enemy_boss_gohma_birth
 instr FONT01_INSTR_MONSTER_ROAR
-env envelope_698C
+envelope envelope_698C
 ldlayer 0, layer_368B
 gain 18
 end
@@ -842,14 +842,14 @@ end
 
 .layer layer_376F
 legato
-env envelope_68FC, 255
+envelope envelope_68FC, 255
 portamento 0x85, 25, 230
 notedv PITCH_EF3, 0x5, 100
 notedv PITCH_BF2, 0x5, 100
 nolegato
 ldelay 0x5
 legato
-env envelope_68FC, 255
+envelope envelope_68FC, 255
 portamento 0x85, 25, 220
 notedv PITCH_EF3, 0x5, 100
 notedv PITCH_BF2, 0xA, 100
@@ -901,7 +901,7 @@ end
 
 .layer layer_37D3
 instr FONT01_INSTR_GUNSHOT
-env envelope_686C, 240
+envelope envelope_686C, 240
 transpose 6
 portamento 0x81, 26, 100
 notedv PITCH_B5, 0x32, 100
@@ -1235,7 +1235,7 @@ end
 
 .layer layer_39DD
 instr FONT01_INSTR_GUNSHOT
-env envelope_686C, 240
+envelope envelope_686C, 240
 transpose 4
 portamento 0x81, 26, 50
 notedv PITCH_B5, 0x50, 100
@@ -1262,7 +1262,7 @@ end
 
 .channel enemy_armos_awaken
 instr FONT01_INSTR_SMASH
-env envelope_690C
+envelope envelope_690C
 ldlayer 1, layer_3A18
 ldlayer 0, layer_3A2E
 end
@@ -1279,7 +1279,7 @@ end
 
 .layer layer_3A2E
 instr FONT01_INSTR_PHANTOM_WAIL
-env envelope_699C, 250
+envelope envelope_699C, 250
 legato
 portamento 0x85, 23, 255
 notedv PITCH_C4, 0x1E, 100
@@ -1293,7 +1293,7 @@ end
 
 .layer layer_3A47
 instr FONT01_INSTR_PHANTOM_WAIL
-env envelope_699C, 240
+envelope envelope_699C, 240
 legato
 portamento 0x85, 37, 200
 notedv PITCH_GF4, 0x1E, 100
@@ -1302,7 +1302,7 @@ end
 
 .channel enemy_armos_roar
 instr FONT01_INSTR_PHANTOM_WAIL
-env envelope_699C
+envelope envelope_699C
 gain 19
 ldlayer 0, layer_3A64
 end
@@ -1330,7 +1330,7 @@ end
 
 .layer layer_3A87
 instr FONT01_INSTR_GERUDO_ATTACK
-env envelope_682C, 240
+envelope envelope_682C, 240
 ldelay 0xA
 notedv PITCH_B3, 0x1E, 100
 end
@@ -1357,19 +1357,19 @@ end
 
 .layer layer_3AB4
 notedv PITCH_GF3, 0x14, 100
-env envelope_688C, 240
+envelope envelope_688C, 240
 notedv PITCH_AF2, 0x64, 100
 end
 
 .layer layer_3ABF
 notedv PITCH_BF3, 0x14, 100
-env envelope_688C, 240
+envelope envelope_688C, 240
 notedv PITCH_C3, 0x64, 100
 end
 
 .layer layer_3ACA
 notedv PITCH_DF4, 0x14, 100
-env envelope_688C, 240
+envelope envelope_688C, 240
 notedv PITCH_EF3, 0x64, 100
 end
 
@@ -1381,13 +1381,13 @@ end
 
 .layer layer_3ADE
 notedv PITCH_GF3, 0x14, 100
-env envelope_688C, 240
+envelope envelope_688C, 240
 notedv PITCH_AF2, 0x32, 100
 end
 
 .layer layer_3AE9
 notedv PITCH_B3, 0x14, 100
-env envelope_688C, 240
+envelope envelope_688C, 240
 notedv PITCH_DF3, 0x32, 100
 end
 
@@ -1440,7 +1440,7 @@ end
 
 .channel enemy_boss_dodongo_paralyzed
 instr FONT01_INSTR_DODONGO_ROAR
-env envelope_683C
+envelope envelope_683C
 ldlayer 0, layer_3B40
 ldlayer 1, layer_3B42
 end
@@ -1507,7 +1507,7 @@ end
 
 .layer layer_3B99
 instr FONT01_INSTR_MONSTER_ROAR
-env envelope_69AC, 255
+envelope envelope_69AC, 255
 legato
 portamento 0x85, 31, 255
 notedv PITCH_C4, 0x1E, 100
@@ -1548,7 +1548,7 @@ end
 
 .channel enemy_deku_baba_die
 instr FONT01_INSTR_MONSTER_ROAR
-env envelope_684C
+envelope envelope_684C
 ldlayer 0, layer_3BE7
 ldlayer 1, layer_4829
 vibfreq 100
@@ -1565,7 +1565,7 @@ end
 .channel enemy_deku_baba_slide
 ldlayer 0, layer_3BFC
 instr FONT01_INSTR_TEKTITE_ROTATE
-env envelope_68BC
+envelope envelope_68BC
 end
 
 .layer layer_3BFC
@@ -1658,7 +1658,7 @@ end
 
 .channel enemy_skulltula_quiver
 instr FONT01_INSTR_LAUGHTER
-env envelope_699C
+envelope envelope_699C
 ldlayer 0, layer_3C9B
 gain 16
 vibfreq 100
@@ -1695,7 +1695,7 @@ end
 
 .channel enemy_poe_float
 instr FONT01_INSTR_POE_DISAPPEAR
-env envelope_69AC
+envelope envelope_69AC
 ldlayer 0, layer_3CC9
 vibfreq 20
 vibdepth 127
@@ -1719,7 +1719,7 @@ rjump layer_3CD9
 
 .channel enemy_poe_vanish
 instr FONT01_INSTR_POE_DISAPPEAR
-env envelope_69BC
+envelope envelope_69BC
 ldlayer 0, layer_3CED
 vibfreq 100
 vibdepth 100
@@ -1827,19 +1827,19 @@ portamento 0x85, 38, 255
 notedv PITCH_E4, 0x1E, 100
 notedv PITCH_B2, 0x96, 100
 transpose -5
-env envelope_69DC, 127
+envelope envelope_69DC, 127
 portamento 0x85, 31, 255
 notedv PITCH_A3, 0x3C, 80
-env envelope_6A3C, 127
+envelope envelope_6A3C, 127
 notedv PITCH_D2, 0xE6, 80
 end
 
 .layer layer_3DB4
 instr FONT01_INSTR_MONSTER_ROAR
-env envelope_69CC, 230
+envelope envelope_69CC, 230
 portamento 0x81, 15, 20
 notedv PITCH_E3, 0x96, 100
-env envelope_6A2C, 240
+envelope envelope_6A2C, 240
 portamento 0x81, 31, 100
 notedv PITCH_C2, 0x10E, 100
 end
@@ -1889,7 +1889,7 @@ rjump layer_3E11
 
 .channel enemy_boss_dodongo_lava
 instr FONT01_INSTR_EXPLOSION_LAVA
-env envelope_682C
+envelope envelope_682C
 gain 20
 ldlayer 0, layer_3E25
 ldlayer 1, layer_3E29
@@ -1914,7 +1914,7 @@ end
 
 .channel enemy_boss_dodongo_hurt
 instr FONT01_INSTR_DODONGO_ROAR
-env envelope_683C
+envelope envelope_683C
 ldlayer 0, layer_3E60
 ldlayer 1, layer_3E56
 ldlayer 2, layer_3E58
@@ -1941,14 +1941,14 @@ end
 
 .layer layer_3E6F
 instr FONT01_INSTR_GUNSHOT
-env envelope_686C, 255
+envelope envelope_686C, 255
 transpose 4
 portamento 0x81, 26, 50
 notedv PITCH_B5, 0x50, 100
 end
 
 .channel enemy_boss_gohma_die
-env envelope_687C
+envelope envelope_687C
 ldlayer 0, layer_3E93
 ldlayer 1, layer_3E95
 ldlayer 2, layer_3EB4
@@ -1968,16 +1968,16 @@ notedv PITCH_B2, 0x96, 100
 transpose -5
 portamento 0x85, 32, 255
 notedv PITCH_C4, 0x3C, 80
-env envelope_6A3C, 200
+envelope envelope_6A3C, 200
 notedv PITCH_B2, 0xC8, 80
 end
 
 .layer layer_3EB4
 instr FONT01_INSTR_MONSTER_ROAR
-env envelope_69CC, 200
+envelope envelope_69CC, 200
 portamento 0x81, 15, 20
 notedv PITCH_E3, 0x96, 100
-env envelope_6A2C, 200
+envelope envelope_6A2C, 200
 portamento 0x81, 31, 100
 notedv PITCH_C2, 0x12C, 100
 end
@@ -2074,7 +2074,7 @@ rjump layer_3F4D
 
 .channel enemy_tektite_hurt
 instr FONT01_INSTR_GUAY_HURT
-env envelope_65D8
+envelope envelope_65D8
 ldlayer 0, layer_3F5F
 ldlayer 1, layer_4829
 end
@@ -2188,7 +2188,7 @@ end
 
 .channel enemy_dissolve
 instr 2
-env envelope_68DC
+envelope envelope_68DC
 ldlayer 0, layer_4023
 end
 
@@ -2199,7 +2199,7 @@ end
 
 .channel enemy_boss_gohma_thrust
 instr FONT01_INSTR_MONSTER_ROAR
-env envelope_68EC
+envelope envelope_68EC
 ldlayer 0, layer_4038
 vibfreq 100
 vibdepth 50
@@ -2251,14 +2251,14 @@ end
 
 .layer layer_4081
 instr FONT01_INSTR_GERUDO_ATTACK
-env envelope_682C, 240
+envelope envelope_682C, 240
 ldelay 0xA
 notedv PITCH_D4, 0x1E, 100
 end
 
 .channel enemy_dodongo_swipe
 instr FONT01_INSTR_GUNSHOT
-env envelope_686C
+envelope envelope_686C
 ldlayer 0, layer_4098
 gain 20
 end
@@ -2271,7 +2271,7 @@ end
 
 .channel enemy_poe_transform
 instr FONT01_INSTR_POE_DISAPPEAR
-env envelope_69BC
+envelope envelope_69BC
 ldlayer 0, layer_40B0
 vibfreq 100
 vibdepth 100
@@ -2297,7 +2297,7 @@ end
 
 .channel enemy_wallmaster_retreat
 instr FONT01_INSTR_POE_DISAPPEAR
-env envelope_69FC
+envelope envelope_69FC
 ldlayer 0, layer_40D3
 gain 16
 end
@@ -2350,7 +2350,7 @@ end
 
 .channel enemy_biri_float
 instr FONT01_INSTR_STALFOS_ATTACK
-env envelope_6A0C
+envelope envelope_6A0C
 ldlayer 0, layer_4126
 end
 
@@ -2368,7 +2368,7 @@ end
 
 .layer layer_4139
 instr 2
-env envelope_6A0C, 220
+envelope envelope_6A0C, 220
 legato
 portamento 0x85, 27, 200
 notedv PITCH_F3, 0x14, 60
@@ -2377,7 +2377,7 @@ end
 
 .layer layer_414B
 instr FONT01_INSTR_STALFOS_ATTACK
-env envelope_6A0C, 128
+envelope envelope_6A0C, 128
 legato
 portamento 0x85, 31, 200
 notedv PITCH_A3, 0x32, 100
@@ -2446,14 +2446,14 @@ end
 
 .layer layer_41C0
 instr FONT01_INSTR_WATER_BUBBLES
-env envelope_6A1C, 249
+envelope envelope_6A1C, 249
 portamento 0x81, 25, 255
 notedv PITCH_G3, 0x90, 100
 end
 
 .channel enemy_phantom_reveal
 instr FONT01_INSTR_DINO_ROAR
-env envelope_69CC
+envelope envelope_69CC
 ldlayer 0, layer_41E0
 vibfreqgrad 70, 110, 18
 vibdepthgrad 20, 80, 10
@@ -2562,7 +2562,7 @@ end
 
 .channel enemy_phantom_attack_unused
 instr FONT01_INSTR_THUNDERBURST
-env envelope_6A5C
+envelope envelope_6A5C
 ldlayer 0, layer_4273
 gain 16
 end
@@ -2591,7 +2591,7 @@ end
 
 .channel enemy_phantom_eyes
 instr FONT01_INSTR_GANONDORF_CHARGE
-env envelope_699C
+envelope envelope_699C
 ldlayer 0, layer_42AA
 gain 20
 vibfreq 128
@@ -2735,7 +2735,7 @@ end
 
 .channel enemy_moblin_walk
 instr FONT01_INSTR_SMASH
-env envelope_68EC
+envelope envelope_68EC
 ldlayer 0, layer_438E
 end
 
@@ -2746,7 +2746,7 @@ end
 
 .channel enemy_moblin_dash
 instr FONT01_INSTR_SMASH
-env envelope_68EC
+envelope envelope_68EC
 ldlayer 0, layer_439F
 end
 
@@ -2823,7 +2823,7 @@ end
 
 .layer layer_43FC
 instr FONT01_INSTR_EXPLOSION_LAVA
-env envelope_68EC, 251
+envelope envelope_68EC, 251
 notedv PITCH_A2, 0x2C, 100
 end
 
@@ -2852,7 +2852,7 @@ end
 
 .channel enemy_bubble_flame_appear
 instr FONT01_INSTR_DODONGO_ROAR
-env envelope_6A0C
+envelope envelope_6A0C
 ldlayer 0, layer_443A
 vibfreqgrad 70, 110, 18
 vibdepthgrad 20, 80, 10
@@ -2865,7 +2865,7 @@ end
 
 .channel enemy_bubble_flame_vanish
 instr FONT01_INSTR_DODONGO_ROAR
-env envelope_6A0C
+envelope envelope_6A0C
 ldlayer 0, layer_4453
 vibfreqgrad 70, 110, 18
 vibdepthgrad 20, 80, 10
@@ -3089,7 +3089,7 @@ end
 
 .layer layer_45A0
 instr FONT01_INSTR_EXPLOSION_LAVA
-env envelope_68B4, 220
+envelope envelope_68B4, 220
 .layer layer_45A6
 notedv PITCH_GF2, 0x118, 100
 rjump layer_45A6
@@ -3187,7 +3187,7 @@ end
 
 .channel enemy_poe_sister_attack
 instr FONT01_INSTR_GUNSHOT
-env envelope_686C
+envelope envelope_686C
 ldlayer 0, layer_4634
 end
 
@@ -3203,14 +3203,14 @@ end
 
 .layer layer_4643
 instr FONT01_INSTR_GORON_YAWN
-env envelope_68EC, 250
+envelope envelope_68EC, 250
 portamento 0x81, 30, 255
 notedv PITCH_B2, 0x30, 100
 end
 
 .layer layer_4651
 instr FONT01_INSTR_SMASH
-env envelope_692C, 250
+envelope envelope_692C, 250
 portamento 0x81, 17, 50
 notedv PITCH_D1, 0x1E, 100
 end
@@ -3250,7 +3250,7 @@ vibdepth 36
 end
 
 .layer layer_468B
-env envelope_6A4C, 220
+envelope envelope_6A4C, 220
 .layer layer_468F
 notedv PITCH_A1, 0xFA, 100
 rjump layer_468F
@@ -3263,7 +3263,7 @@ vibdepth 84
 end
 
 .layer layer_469F
-env envelope_6A2C, 220
+envelope envelope_6A2C, 220
 portamento 0x81, 12, 120
 .layer layer_46A7
 notedv PITCH_A3, 0xD0, 100
@@ -3277,7 +3277,7 @@ vibdepth 36
 end
 
 .layer layer_46B7
-env envelope_69BC, 235
+envelope envelope_69BC, 235
 legato
 portamento 0x85, 0, 255
 notedv PITCH_A2, 0x2A, 100
@@ -3297,7 +3297,7 @@ end
 
 .channel enemy_octorok_death_gasp
 instr FONT01_INSTR_LIZALFOS
-env envelope_68FC
+envelope envelope_68FC
 ldlayer 0, layer_46E0
 end
 
@@ -3337,7 +3337,7 @@ rjump layer_4712
 
 .channel enemy_boss_morpha_demo_bubble
 instr FONT01_INSTR_WATER_BUBBLES
-env envelope_6A1C
+envelope envelope_6A1C
 ldlayer 0, layer_472A
 ldlayer 1, layer_472C
 panweight 0
@@ -3434,7 +3434,7 @@ rjump layer_47B3
 
 .channel enemy_boss_morpha_water_move
 instr FONT01_INSTR_WATER_BUBBLES
-env envelope_699C
+envelope envelope_699C
 ldlayer 0, layer_47C9
 ldlayer 1, layer_47CB
 gain 20
@@ -3653,12 +3653,12 @@ end
 
 .layer layer_4913
 notedv PITCH_AF3, 0x110, 100
-env envelope_68AC, 240
+envelope envelope_68AC, 240
 ldelay 0x88
 rjump layer_4913
 
 .layer layer_4920
-env envelope_68AC, 240
+envelope envelope_68AC, 240
 ldelay 0xCC
 rjump layer_4913
 
@@ -3748,7 +3748,7 @@ end
 
 .channel enemy_boss_twinrova_appear
 instr FONT01_INSTR_GANONDORF_CHARGE
-env envelope_699C
+envelope envelope_699C
 ldlayer 0, layer_49C0
 gain 18
 vibfreq 128
@@ -3805,14 +3805,14 @@ transpose -12
 
 .layer layer_4A0B
 instr 2
-env envelope_6A7C, 200
+envelope envelope_6A7C, 200
 .layer layer_4A11
 notedv PITCH_G3, 30000, 100
 rjump layer_4A11
 
 .layer layer_4A17
 instr FONT01_INSTR_THUNDERBURST
-env envelope_6A5C, 200
+envelope envelope_6A5C, 200
 notedv PITCH_GF2, 0x180, 100
 end
 
@@ -3889,7 +3889,7 @@ end
 instr FONT01_INSTR_DINO_INHALE
 
 .layer layer_4A96
-env envelope_68B4, 249
+envelope envelope_68B4, 249
 transpose -4
 rjump layer_4A56
 
@@ -3925,7 +3925,7 @@ ldlayer 0, layer_4AC9
 end
 
 .layer layer_4AC9
-env envelope_68DC, 250
+envelope envelope_68DC, 250
 .layer layer_4ACD
 portamento 0x81, 26, 64
 notedv PITCH_E2, 0xC, 100
@@ -3933,7 +3933,7 @@ rjump layer_4ACD
 
 .channel enemy_darunia_head_pat
 instr FONT01_INSTR_SMASH
-env envelope_692C
+envelope envelope_692C
 ldlayer 0, layer_4ADF
 end
 
@@ -3986,7 +3986,7 @@ vibdepth 128
 end
 
 .layer layer_4B22
-env envelope_69DC, 240
+envelope envelope_69DC, 240
 legato
 portamento 0x85, 3, 255
 notedv PITCH_F2, 0x1A, 100
@@ -3995,7 +3995,7 @@ end
 
 .layer layer_4B32
 instr FONTANY_INSTR_8PULSE
-env envelope_6A7C, 249
+envelope envelope_6A7C, 249
 .layer layer_4B38
 notedv PITCH_GF3, 30000, 100
 rjump layer_4B38
@@ -4020,7 +4020,7 @@ end
 
 .layer layer_4B59
 instr FONT01_INSTR_GUNSHOT
-env envelope_68DC, 249
+envelope envelope_68DC, 249
 portamento 0x81, 26, 96
 notedv PITCH_DF2, 0x1E, 100
 end
@@ -4184,7 +4184,7 @@ rjump layer_4C36
 .channel enemy_floormaster_attack
 instr FONT01_INSTR_DODONGO_ROAR
 ldlayer 0, layer_4C6A
-env envelope_699C
+envelope envelope_699C
 vibfreq 112
 vibdepth 96
 end
@@ -4221,7 +4221,7 @@ end
 .channel enemy_floormaster_mini_grow
 instr FONT01_INSTR_DINO_ROAR
 ldlayer 0, layer_4CA2
-env envelope_69DC
+envelope envelope_69DC
 vibfreq 62
 vibdepth 96
 end
@@ -4236,7 +4236,7 @@ end
 
 .layer layer_4CAB
 instr FONT01_INSTR_EXPLOSION_LAVA
-env envelope_694C, 249
+envelope envelope_694C, 249
 legato
 portamento 0x85, 7, 150
 notedv PITCH_DF1, 0xA, 100
@@ -4255,7 +4255,7 @@ end
 .channel enemy_floormaster_mini_grab
 instr FONT01_INSTR_DINO_ROAR
 ldlayer 0, layer_4CD3
-env envelope_69FC
+envelope envelope_69FC
 vibfreq 80
 vibdepth 64
 end
@@ -4274,14 +4274,14 @@ end
 
 .layer layer_4CE6
 legato
-env envelope_68FC, 255
+envelope envelope_68FC, 255
 portamento 0x85, 25, 230
 notedv PITCH_EF3, 0x5, 80
 notedv PITCH_BF2, 0x5, 80
 nolegato
 ldelay 0x5
 legato
-env envelope_68FC, 255
+envelope envelope_68FC, 255
 portamento 0x85, 25, 220
 notedv PITCH_EF3, 0x5, 80
 notedv PITCH_BF2, 0xA, 80
@@ -4400,7 +4400,7 @@ end
 
 .layer layer_4DAB
 instr FONT01_INSTR_SLIDE_BOOTS
-env envelope_695C, 249
+envelope envelope_695C, 249
 loop 5
 notedv PITCH_C2, 0xA, 100
 notedv PITCH_G1, 0x8, 100
@@ -4506,7 +4506,7 @@ transpose 6
 
 .layer layer_4E47
 instr FONT01_INSTR_EXPLOSION_LAVA
-env envelope_694C, 249
+envelope envelope_694C, 249
 legato
 portamento 0x85, 19, 150
 notedv PITCH_C1, 0xA, 100
@@ -4628,7 +4628,7 @@ end
 .channel enemy_shabom_bounce
 instr FONT01_INSTR_WATER_BUBBLES
 ldlayer 0, layer_4F0C
-env envelope_692C
+envelope envelope_692C
 end
 
 .layer layer_4F0C
@@ -4640,7 +4640,7 @@ end
 .channel enemy_stinger_submerge
 instr FONT01_INSTR_WATER_SPLASH_L
 ldlayer 0, layer_4F20
-env envelope_68CC
+envelope envelope_68CC
 end
 
 .layer layer_4F20
@@ -4656,7 +4656,7 @@ vibdepth 96
 end
 
 .layer layer_4F32
-env envelope_6A2C, 230
+envelope envelope_6A2C, 230
 .layer layer_4F36
 notedv PITCH_E2, 0xD0, 80
 rjump layer_4F36
@@ -4787,7 +4787,7 @@ vibdepth 128
 end
 
 .layer layer_4FF2
-env envelope_6A2C, 230
+envelope envelope_6A2C, 230
 .layer layer_4FF6
 notedv PITCH_GF1, 0x70, 100
 rjump layer_4FF6
@@ -4804,7 +4804,7 @@ transpose 2
 
 .layer layer_5008
 instr FONT01_INSTR_DODONGO_ROAR
-env envelope_6A2C, 230
+envelope envelope_6A2C, 230
 .layer layer_500E
 notedv PITCH_C1, 0x70, 100
 rjump layer_500E
@@ -4905,14 +4905,14 @@ transpose 2
 
 .layer layer_5095
 instr FONT01_INSTR_SMASH
-env envelope_696C, 250
+envelope envelope_696C, 250
 portamento 0x81, 19, 50
 notedv PITCH_E1, 0x20, 100
 end
 
 .layer layer_50A3
 instr FONT01_INSTR_EGG_CRACK
-env envelope_696C, 250
+envelope envelope_696C, 250
 portamento 0x81, 15, 50
 notedv PITCH_A1, 0x20, 100
 end
@@ -5079,7 +5079,7 @@ notedv PITCH_E5, 0x9, 100
 loopend
 
 .layer layer_51A8
-env envelope_697C, 255
+envelope envelope_697C, 255
 .layer layer_51AC
 notedv PITCH_GF5, 0x6, 100
 notedv PITCH_AF5, 0x6, 100
@@ -5105,7 +5105,7 @@ end
 instr FONT01_INSTR_BOULDER
 .layer layer_51CD
 transpose 12
-env envelope_6A7C, 224
+envelope envelope_6A7C, 224
 .layer layer_51D3
 notedv PITCH_C5, 30000, 100
 rjump layer_51D3
@@ -5186,7 +5186,7 @@ rjump layer_523C
 .channel enemy_peahat_jr_fly
 instr FONT01_INSTR_SWOOSH
 ldlayer 0, layer_524B
-env envelope_697C
+envelope envelope_697C
 end
 
 .layer layer_524B
@@ -5240,7 +5240,7 @@ end
 .layer layer_529A
 instr FONT01_INSTR_DINO_INHALE
 .layer layer_529C
-env envelope_6A7C, 200
+envelope envelope_6A7C, 200
 .layer layer_52A0
 notedv PITCH_C2, 30000, 100
 rjump layer_52A0
@@ -5406,7 +5406,7 @@ end
 
 .layer layer_538D
 instr FONT01_INSTR_EXPLOSION_LAVA
-env envelope_68B4, 220
+envelope envelope_68B4, 220
 notedv PITCH_D4, 0x64, 100
 end
 
@@ -5922,7 +5922,7 @@ vibdepth 64
 end
 
 .layer layer_5684
-env envelope_6A2C, 230
+envelope envelope_6A2C, 230
 .layer layer_5688
 notedv PITCH_DF2, 0xD0, 56
 rjump layer_5688

@@ -74,7 +74,7 @@ entry system_z_shift_threat
 
 .channel system_menu_open
 instr FONTANY_INSTR_SAWTOOTH
-env envelope_6660
+envelope envelope_6660
 releaserate 240
 ldlayer 0, layer_57C7
 ldlayer 1, layer_57DF
@@ -95,7 +95,7 @@ end
 .layer layer_57DF
 instr FONT00_INSTR_DING
 transpose 24
-env envelope_65D8, 245
+envelope envelope_65D8, 245
 notepan 74
 portamento 0x81, 20, 255
 notedv PITCH_F3, 0x18, 73
@@ -105,7 +105,7 @@ end
 
 .channel system_menu_close
 instr FONTANY_INSTR_SAWTOOTH
-env envelope_6660
+envelope envelope_6660
 releaserate 240
 ldlayer 0, layer_5804
 ldlayer 1, layer_581C
@@ -126,7 +126,7 @@ end
 .layer layer_581C
 instr FONT00_INSTR_DING
 transpose 24
-env envelope_65D8, 245
+envelope envelope_65D8, 245
 notepan 74
 portamento 0x81, 20, 255
 notedv PITCH_F3, 0xC, 73
@@ -136,7 +136,7 @@ end
 
 .channel system_puzzle_solved
 instr FONTANY_INSTR_SQUARE
-env envelope_664C
+envelope envelope_664C
 releaserate 248
 ldlayer 0, layer_5841
 ldlayer 1, layer_5850
@@ -166,7 +166,7 @@ end
 
 .layer layer_5868
 instr FONTANY_INSTR_SAWTOOTH
-env envelope_6660, 250
+envelope envelope_6660, 250
 transpose 24
 notedv PITCH_BF4, 0x6, 80
 notedv PITCH_F4, 0x6, 80
@@ -184,7 +184,7 @@ end
 
 .layer layer_5884
 instr FONTANY_INSTR_TRIANGLE
-env envelope_6720, 250
+envelope envelope_6720, 250
 notedv PITCH_A4, 0x6, 60
 end
 
@@ -194,14 +194,14 @@ end
 
 .layer layer_5892
 instr FONTANY_INSTR_SAWTOOTH
-env envelope_664C, 250
+envelope envelope_664C, 250
 notedv PITCH_E2, 0x9, 80
 notedv PITCH_E2, 0x24, 80
 end
 
 .channel system_treasure_appear
 instr FONTANY_INSTR_SQUARE
-env envelope_664C
+envelope envelope_664C
 releaserate 250
 ldlayer 0, layer_58AD
 ldlayer 1, layer_58C3
@@ -237,7 +237,7 @@ end
 
 .channel system_item_equipped
 instr FONT00_INSTR_DING
-env envelope_6660
+envelope envelope_6660
 releaserate 240
 ldlayer 0, layer_58F7
 ldlayer 1, layer_590D
@@ -277,7 +277,7 @@ end
 
 .layer layer_5937
 instr FONTANY_INSTR_SQUARE
-env envelope_6660, 242
+envelope envelope_6660, 242
 portamento 0x81, 36, 72
 notedv PITCH_D4, 0xA, 45
 notedv PITCH_D4, 0x6, 45
@@ -285,13 +285,13 @@ end
 
 .channel system_cursor_cancel
 instr FONTANY_INSTR_TRIANGLE
-env envelope_664C
+envelope envelope_664C
 ldlayer 0, layer_5951
 end
 
 .layer layer_5951
 instr FONTANY_INSTR_TRIANGLE
-env envelope_664C, 250
+envelope envelope_664C, 250
 notedv PITCH_A4, 0x6, 60
 notedv PITCH_E4, 0x6, 60
 notedv PITCH_D4, 0x6, 60
@@ -307,7 +307,7 @@ end
 
 .layer layer_5971
 instr FONTANY_INSTR_SINE
-env envelope_6720, 246
+envelope envelope_6720, 246
 portamento 0x81, 34, 127
 notedv PITCH_A3, 0x8, 100
 portamento 0x81, 46, 127
@@ -322,7 +322,7 @@ end
 
 .layer layer_5991
 instr FONT00_INSTR_DING
-env envelope_6688, 251
+envelope envelope_6688, 251
 portamento 0x81, 36, 192
 notedv PITCH_A5, 0x38, 110
 end
@@ -342,14 +342,14 @@ end
 
 .layer layer_59AD
 instr FONT00_INSTR_SWORD_STRIKE
-env envelope_664C, 255
+envelope envelope_664C, 255
 transpose -5
 notedv PITCH_F4, 0x20, 105
 end
 
 .layer layer_unused_59B9
 instr FONT00_INSTR_SWORD_HIT_SHIELD
-env envelope_66B0, 250
+envelope envelope_66B0, 250
 legato
 portamento 0x85, 46, 255
 notedv PITCH_B4, 0x12, 90
@@ -363,7 +363,7 @@ end
 .layer layer_59CF
 instr FONTANY_INSTR_SQUARE
 transpose 9
-env envelope_6660, 250
+envelope envelope_6660, 250
 portamento 0x81, 24, 64
 notedv PITCH_D3, 0x2, 65
 notedv PITCH_A2, 0xC, 65
@@ -376,7 +376,7 @@ end
 
 .layer layer_59E9
 instr FONT00_INSTR_DING
-env envelope_6660, 250
+envelope envelope_6660, 250
 notedv PITCH_D4, 0x6, 90
 notedv PITCH_G4, 0x6, 90
 notedv PITCH_GF4, 0x6, 90
@@ -391,7 +391,7 @@ end
 
 .layer layer_5A06
 instr FONT00_INSTR_DING
-env envelope_6660, 250
+envelope envelope_6660, 250
 transpose 12
 notedv PITCH_GF4, 0xA, 78
 notedv PITCH_D4, 0xA, 78
@@ -405,7 +405,7 @@ end
 
 .layer layer_5A1F
 instr FONT00_INSTR_DING
-env envelope_6660, 250
+envelope envelope_6660, 250
 transpose 12
 notedv PITCH_A3, 0xA, 78
 notedv PITCH_B3, 0xA, 78
@@ -419,7 +419,7 @@ end
 
 .layer layer_5A38
 instr FONT00_INSTR_DING
-env envelope_6660, 250
+envelope envelope_6660, 250
 transpose 12
 notedv PITCH_D4, 0xA, 78
 notedv PITCH_A3, 0x14, 78
@@ -431,7 +431,7 @@ end
 
 .layer layer_5A4B
 instr FONT00_INSTR_DING
-env envelope_6660, 250
+envelope envelope_6660, 250
 transpose 12
 notedv PITCH_A3, 0xA, 78
 notedv PITCH_D4, 0x14, 78
@@ -452,7 +452,7 @@ end
 
 .layer layer_5A68
 instr FONT00_INSTR_DING
-env envelope_6660, 248
+envelope envelope_6660, 248
 notedv PITCH_G4, 0x2E, 95
 end
 
@@ -462,7 +462,7 @@ end
 
 .layer layer_5A76
 instr FONTANY_INSTR_SAWTOOTH
-env envelope_6660, 250
+envelope envelope_6660, 250
 notedv PITCH_C4, 0x6, 60
 notedv PITCH_C4, 0x4, 40
 notedv PITCH_C4, 0x4, 20
@@ -475,7 +475,7 @@ end
 
 .layer layer_5A8C
 instr FONTANY_INSTR_SAWTOOTH
-env envelope_6660, 250
+envelope envelope_6660, 250
 notedv PITCH_C4, 0x6, 65
 notepan 34
 notedv PITCH_C5, 0x4, 45
@@ -491,7 +491,7 @@ end
 
 .layer layer_5AA9
 instr FONTANY_INSTR_SAWTOOTH
-env envelope_6660, 248
+envelope envelope_6660, 248
 notedvg PITCH_DF5, 0xD, 60, 128
 notedv PITCH_DF5, 0xD, 60
 end
@@ -504,14 +504,14 @@ end
 
 .layer layer_5AC0
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_6610, 251
+envelope envelope_6610, 251
 notepan 54
 notedv PITCH_DF4, 0x60, 107
 end
 
 .layer layer_5ACC
 instr FONT00_INSTR_FLAME_THUNDER
-env envelope_6610, 251
+envelope envelope_6610, 251
 notepan 54
 notedv PITCH_A1, 0x60, 104
 end
@@ -523,14 +523,14 @@ end
 
 .layer layer_5ADF
 instr FONT00_INSTR_FAIRY_MAGIC
-env envelope_66D0, 246
+envelope envelope_66D0, 246
 portamento 0x81, 58, 246
 notedv PITCH_A4, 0x20, 49
 end
 
 .layer layer_5AED
 instr FONTANY_INSTR_SINE
-env envelope_6660, 248
+envelope envelope_6660, 248
 notedv PITCH_A5, 0x9, 50
 end
 
@@ -567,7 +567,7 @@ end
 
 .layer layer_5B28
 legato
-env envelope_6674, 245
+envelope envelope_6674, 245
 portamento 0x81, 36, 255
 notedv PITCH_F2, 0x8, 68
 portamento 0x81, 20, 225
@@ -584,7 +584,7 @@ ldelay 0x1
 end
 
 .layer layer_unused_5B45
-env envelope_6674, 245
+envelope envelope_6674, 245
 portamento 0x83, 32, 255
 notedv PITCH_F2, 0xC, 80
 notedv PITCH_F2, 0xC, 40
@@ -600,7 +600,7 @@ end
 
 .channel system_title_screen
 instr FONTANY_INSTR_TRIANGLE
-env envelope_664C
+envelope envelope_664C
 releaserate 240
 ldlayer 0, layer_5B69
 ldlayer 1, layer_5B88
@@ -613,7 +613,7 @@ notedv PITCH_G3, 0xC, 80
 notedv PITCH_C4, 0xC, 80
 notedv PITCH_G4, 0xC, 80
 notedv PITCH_C5, 0xC, 80
-env envelope_6660, 222
+envelope envelope_6660, 222
 notepan 44
 notedv PITCH_E5, 0x18, 30
 notepan 84
@@ -632,7 +632,7 @@ end
 
 .channel system_get_item
 instr FONTANY_INSTR_TRIANGLE
-env envelope_664C
+envelope envelope_664C
 releaserate 240
 ldlayer 0, layer_5BA7
 end
@@ -653,7 +653,7 @@ end
 
 .channel system_menu_scroll_left
 instr FONT00_INSTR_DING
-env envelope_664C
+envelope envelope_664C
 releaserate 245
 ldlayer 0, layer_5BCC
 ldlayer 1, layer_5BE1
@@ -677,7 +677,7 @@ end
 
 .channel system_menu_scroll_right
 instr FONT00_INSTR_DING
-env envelope_664C
+envelope envelope_664C
 releaserate 245
 ldlayer 0, layer_5BF6
 ldlayer 1, layer_5BE1
@@ -689,7 +689,7 @@ rjump layer_5BCE
 
 .channel system_ocarina_system_error
 instr FONT00_INSTR_FAIL_BELLS
-env envelope_65E8
+envelope envelope_65E8
 ldlayer 0, layer_5C03
 end
 
@@ -705,7 +705,7 @@ end
 instr FONT00_INSTR_DING
 releaserate 250
 notedv PITCH_A3, 0x6, 90
-env envelope_6674, 245
+envelope envelope_6674, 245
 portamento 0x81, 36, 144
 notedv PITCH_A4, 0x18, 90
 end
@@ -718,14 +718,14 @@ end
 instr FONT00_INSTR_DING
 releaserate 250
 notedv PITCH_A4, 0x6, 90
-env envelope_6674, 245
+envelope envelope_6674, 245
 portamento 0x82, 36, 144
 notedv PITCH_E4, 0x18, 60
 end
 
 .channel system_lens_on
 instr FONT00_INSTR_EYE_OF_TRUTH
-env envelope_65D8
+envelope envelope_65D8
 ldlayer 0, layer_5C3E
 end
 
@@ -737,7 +737,7 @@ end
 
 .channel system_lens_off
 instr FONT00_INSTR_EYE_OF_TRUTH
-env envelope_65D8
+envelope envelope_65D8
 ldlayer 0, layer_5C4F
 end
 
@@ -800,7 +800,7 @@ end
 .layer layer_5CA1
 transpose 24
 instr FONTANY_INSTR_SAWTOOTH
-env envelope_6660, 250
+envelope envelope_6660, 250
 notedv PITCH_F4, 0x3, 52
 end
 
@@ -816,7 +816,7 @@ end
 
 .channel system_get_treasure_item
 instr FONTANY_INSTR_TRIANGLE
-env envelope_664C
+envelope envelope_664C
 releaserate 240
 ldlayer 0, layer_5CC4
 end
@@ -837,14 +837,14 @@ end
 .layer layer_5CDC
 ldelay 0x64
 instr FONT00_INSTR_WHISTLE_PERSON
-env envelope_67CC, 221
+envelope envelope_67CC, 221
 transpose 24
 notedv PITCH_B5, 0x96, 100
 end
 
 .layer layer_5CEB
 instr FONT00_INSTR_SLIDE_HEAVY
-env envelope_67D8, 221
+envelope envelope_67D8, 221
 transpose 12
 portamento 0x81, 2, 255
 notedv PITCH_B5, 0xFA, 85
@@ -858,14 +858,14 @@ end
 
 .layer layer_5D05
 instr FONT00_INSTR_WHISTLE_PERSON
-env envelope_67D8, 200
+envelope envelope_67D8, 200
 transpose 24
 notedv PITCH_B5, 0xC8, 100
 end
 
 .layer layer_5D12
 instr FONT00_INSTR_SLIDE_HEAVY
-env envelope_67D8, 200
+envelope envelope_67D8, 200
 transpose 12
 notedv PITCH_B5, 0xC8, 85
 end
@@ -878,14 +878,14 @@ end
 
 .layer layer_5D28
 instr FONT00_INSTR_WARP
-env envelope_6638, 221
+envelope envelope_6638, 221
 transpose 24
 notedv PITCH_B5, 0x40, 95
 end
 
 .layer layer_5D34
 instr FONT00_INSTR_DISTORTION
-env envelope_66D0, 224
+envelope envelope_66D0, 224
 transpose 12
 notedv PITCH_B5, 0x20, 65
 end
@@ -899,7 +899,7 @@ end
 
 .layer layer_5D4B
 ldelay 0x2A
-env envelope_66A0, 251
+envelope envelope_66A0, 251
 
 .layer layer_5D51
 transpose 48
@@ -951,12 +951,12 @@ end
 
 .layer layer_fn_5D8E
 instr FONTANY_INSTR_SINE
-env envelope_664C, 251
+envelope envelope_664C, 251
 end
 
 .layer layer_fn_5D95
 instr FONT00_INSTR_WARP
-env envelope_667C, 232
+envelope envelope_667C, 232
 transpose 36
 end
 
@@ -967,7 +967,7 @@ end
 
 .layer layer_5DA5
 instr FONT00_INSTR_WARP
-env envelope_6610, 232
+envelope envelope_6610, 232
 transpose 36
 notedv PITCH_E3, 0x1E, 95
 end
@@ -987,7 +987,7 @@ end
 transpose 36
 .layer layer_5DC4
 instr FONT00_INSTR_WARP
-env envelope_6610, 232
+envelope envelope_6610, 232
 notedv PITCH_A3, 0x60, 112
 end
 
@@ -1020,7 +1020,7 @@ end
 
 .layer layer_5DF7
 instr FONTANY_INSTR_SINE
-env envelope_6718, 240
+envelope envelope_6718, 240
 notedv PITCH_BF2, 0x9, 70
 notedv PITCH_A2, 0x9, 70
 notedv PITCH_BF2, 0x9, 70
@@ -1065,7 +1065,7 @@ end
 
 .channel system_skulltula_token_appears
 instr FONT00_INSTR_DING
-env envelope_6660
+envelope envelope_6660
 releaserate 250
 ldlayer 0, layer_5E51
 ldlayer 1, layer_5E4B
@@ -1095,7 +1095,7 @@ end
 
 .layer layer_5E6F
 instr FONTANY_INSTR_SINE
-env envelope_66D0, 248
+envelope envelope_66D0, 248
 notedv PITCH_BF3, 0xC, 80
 notedv PITCH_F3, 0xC, 80
 notedv PITCH_D4, 0xC, 80
@@ -1110,7 +1110,7 @@ end
 
 .layer layer_5E8C
 instr FONTANY_INSTR_SINE
-env envelope_6720, 246
+envelope envelope_6720, 246
 portamento 0x83, 32, 127
 notedv PITCH_C4, 0x8, 80
 notedv PITCH_C5, 0xC, 80

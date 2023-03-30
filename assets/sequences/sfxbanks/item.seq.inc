@@ -140,7 +140,7 @@ end
 
 .channel item_shield_strike
 instr FONT00_INSTR_SWORD_HIT_SHIELD
-env envelope_664C
+envelope envelope_664C
 ldlayer 0, layer_FD4
 end
 
@@ -161,7 +161,7 @@ end
 
 .channel item_shield_blade_bounce
 instr FONT00_INSTR_SWORD_HIT_SHIELD
-env envelope_65E8
+envelope envelope_65E8
 ldlayer 0, layer_FF5
 ldlayer 1, layer_FF9
 end
@@ -195,7 +195,7 @@ instr FONT00_INSTR_SWORD_STRIKE
 releaserate 236
 notedv PITCH_DF1, 0x6, 76
 instr FONT00_INSTR_SLAM_HEAVY
-env envelope_65E8, 240
+envelope envelope_65E8, 240
 notedv PITCH_B3, 0x24, 110
 end
 
@@ -206,7 +206,7 @@ end
 
 .layer layer_1029
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_664C, 255
+envelope envelope_664C, 255
 notedv PITCH_B5, 0xC, 108
 end
 
@@ -227,7 +227,7 @@ transpose -9
 
 .layer layer_1045
 instr FONT00_INSTR_SWORD_HIT_SHIELD
-env envelope_65E8, 251
+envelope envelope_65E8, 251
 portamento 0x81, 16, 100
 notedv PITCH_F4, 0x6, 102
 portamento 0x81, 20, 100
@@ -239,7 +239,7 @@ transpose -9
 
 .layer layer_105C
 instr FONT00_INSTR_SYNTH_BUZZ
-env envelope_6610, 251
+envelope envelope_6610, 251
 portamento 0x81, 32, 208
 notedv PITCH_B5, 0x28, 80
 end
@@ -261,7 +261,7 @@ end
 
 .layer layer_107A
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_66D0, 225
+envelope envelope_66D0, 225
 notedv PITCH_F4, 0xA0, 110
 end
 
@@ -271,7 +271,7 @@ end
 
 .layer layer_1089
 instr FONT00_INSTR_BOMB
-env envelope_65E8, 245
+envelope envelope_65E8, 245
 portamento 0x85, 34, 255
 notedv PITCH_E4, 0x8, 105
 notedv PITCH_F3, 0x18, 105
@@ -284,7 +284,7 @@ end
 
 .channel item_boomerang_fly
 instr FONT00_INSTR_SWORD_SWING
-env envelope_6688
+envelope envelope_6688
 ldlayer 0, layer_10AB
 end
 
@@ -309,7 +309,7 @@ jump layer_10C3
 
 .channel item_sword_strike
 instr FONT00_INSTR_SOFT_HIT
-env envelope_66C8
+envelope envelope_66C8
 ldlayer 0, layer_10DB
 end
 
@@ -422,7 +422,7 @@ end
 
 .channel item_sword_strike_wall
 instr FONT00_INSTR_SWORD_STRIKE
-env envelope_6674
+envelope envelope_6674
 ldlayer 0, layer_1196
 .channel chan_118F
 vibfreq 127
@@ -440,7 +440,7 @@ ldlayer 1, layer_11AF
 end
 
 .layer layer_11A3
-env envelope_6674, 251
+envelope envelope_6674, 251
 portamento 0x1, 27, 30
 notedv PITCH_A3, 0x60, 100
 end
@@ -455,14 +455,14 @@ end
 
 .layer layer_11B7
 instr FONT00_INSTR_SWORD_STRIKE
-env envelope_6610, 251
+envelope envelope_6610, 251
 notedv PITCH_A1, 0x8, 110
 notedv PITCH_F1, 0x30, 110
 end
 
 .channel item_stick_break
 instr FONT00_INSTR_WOOD_BREAK
-env envelope_6660
+envelope envelope_6660
 ldlayer 0, layer_11CD
 end
 
@@ -479,7 +479,7 @@ end
 instr FONT00_INSTR_SWORD_SWING
 notedv PITCH_A3, 0x8, 105
 instr FONT00_INSTR_WHIP_CORK
-env envelope_6624, 255
+envelope envelope_6624, 255
 notedv PITCH_GF3, 0x16, 87
 end
 
@@ -496,7 +496,7 @@ end
 .layer layer_11F5
 instr FONT00_INSTR_SWORD_STRIKE
 transpose 48
-env envelope_6720, 251
+envelope envelope_6720, 251
 notedv PITCH_C3, 0xA, 75
 notedvg PITCH_E3, 0x4, 75, 127
 notedv PITCH_E3, 0x4, 75
@@ -568,7 +568,7 @@ end
 
 .channel item_sword_strike_unused
 instr FONT00_INSTR_SOFT_HIT
-env envelope_66C8
+envelope envelope_66C8
 ldlayer 0, layer_127D
 ldlayer 1, layer_113A
 end
@@ -606,7 +606,7 @@ end
 .layer layer_12AD
 instr FONT00_INSTR_SWORD_STRIKE
 transpose 48
-env envelope_6720, 251
+envelope envelope_6720, 251
 notedv PITCH_F3, 0xA, 75
 notedvg PITCH_E3, 0x4, 75, 127
 notedv PITCH_E2, 0x4, 75
@@ -624,7 +624,7 @@ end
 
 .layer layer_12CD
 instr FONT00_INSTR_SWORD_STRIKE
-env envelope_664C, 251
+envelope envelope_664C, 251
 notedv PITCH_AF3, 0x4, 86
 notedv PITCH_A2, 0x4, 64
 end
@@ -654,14 +654,14 @@ end
 
 .layer layer_12FB
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_6624, 251
+envelope envelope_6624, 251
 portamento 0x81, 50, 144
 notedv PITCH_B2, 0x20, 110
 end
 
 .layer layer_1309
 instr FONT00_INSTR_SWORD_STRIKE
-env envelope_664C, 241
+envelope envelope_664C, 241
 notedv PITCH_AF2, 0x4, 64
 notedv PITCH_A3, 0xC, 56
 end
@@ -689,7 +689,7 @@ end
 .layer layer_1334
 instr FONT00_INSTR_SWORD_STRIKE
 transpose 48
-env envelope_66D0, 232
+envelope envelope_66D0, 232
 portamento 0x81, 19, 72
 notedv PITCH_GF2, 0x4, 83
 end
@@ -715,7 +715,7 @@ end
 .layer layer_1361
 legato
 instr FONT00_INSTR_OCARINA_0
-env envelope_6674, 251
+envelope envelope_6674, 251
 portamento 0x85, 11, 255
 notedv PITCH_AF2, 0x24, 60
 notedv PITCH_AF1, 0x24, 60
@@ -733,7 +733,7 @@ transpose -6
 .layer layer_137F
 ldelay 0x1
 instr FONT00_INSTR_ROAR_BARK
-env envelope_65D8, 251
+envelope envelope_65D8, 251
 portamento 0x81, 20, 255
 notedv PITCH_AF2, 0x8, 85
 portamento 0x81, 27, 255
@@ -761,7 +761,7 @@ end
 transpose 17
 .layer layer_13B3
 instr FONT00_INSTR_SYNTH_BUZZ
-env envelope_6638, 251
+envelope envelope_6638, 251
 legato
 portamento 0x85, 44, 255
 notedv PITCH_F5, 0x10, 68
@@ -798,7 +798,7 @@ end
 
 .layer layer_13EE
 instr FONT00_INSTR_BOW
-env envelope_65D8, 251
+envelope envelope_65D8, 251
 transpose 48
 portamento 0x81, 43, 127
 notedv PITCH_AF4, 0x60, 95
@@ -859,7 +859,7 @@ end
 .layer layer_1448
 call layer_fn_145A
 instr FONT00_INSTR_SYNTH
-env envelope_66C8, 251
+envelope envelope_66C8, 251
 .layer layer_1451
 portamento 0x81, 3, 255
 .layer layer_1455
@@ -882,7 +882,7 @@ rjump chan_1414
 
 .channel item_slingshot_empty
 instr FONT00_INSTR_BOW
-env envelope_67BC
+envelope envelope_67BC
 gain 8
 ldlayer 0, layer_1472
 end
@@ -916,14 +916,14 @@ end
 
 .layer layer_149A
 instr FONT00_INSTR_STICK_ATTACK
-env envelope_65E8, 244
+envelope envelope_65E8, 244
 notedv PITCH_GF4, 0x8, 110
 end
 
 .layer layer_14A4
 instr FONT00_INSTR_STEP_BRIDGE
 ldelay 0x3
-env envelope_65E8, 244
+envelope envelope_65E8, 244
 notedv PITCH_GF2, 0x5, 110
 end
 
@@ -954,7 +954,7 @@ end
 
 .layer layer_14D6
 instr FONT00_INSTR_IGNITE
-env envelope_6688, 200
+envelope envelope_6688, 200
 notedv PITCH_C3, 0x44, 100
 end
 
@@ -969,7 +969,7 @@ rjump chan_14CD
 .layer layer_14EA
 instr FONT00_INSTR_WARP
 transpose 10
-env envelope_6688, 200
+envelope envelope_6688, 200
 notedv PITCH_C5, 0x44, 100
 end
 
@@ -979,7 +979,7 @@ rjump chan_14CD
 
 .layer layer_14FB
 instr FONT00_INSTR_FAIRY
-env envelope_667C, 200
+envelope envelope_667C, 200
 notedv PITCH_A4, 0x44, 54
 end
 
@@ -1022,7 +1022,7 @@ end
 
 .layer layer_153C
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_66D0, 231
+envelope envelope_66D0, 231
 portamento 0x81, 51, 255
 notedv PITCH_A2, 0x30, 72
 end
@@ -1042,14 +1042,14 @@ end
 
 .layer layer_1561
 instr FONT00_INSTR_MECH_CHARGE
-env envelope_66F4, 231
+envelope envelope_66F4, 231
 portamento 0x82, 51, 255
 notedv PITCH_D4, 0x48, 112
 end
 
 .layer layer_156F
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_66D0, 231
+envelope envelope_66D0, 231
 portamento 0x82, 51, 255
 notedv PITCH_A2, 0x30, 85
 end
@@ -1067,21 +1067,21 @@ instr FONT00_INSTR_SHIMMER
 portamento 0x81, 48, 231
 notedv PITCH_A2, 0x18, 75
 instr 77
-env envelope_6740, 231
+envelope envelope_6740, 231
 portamento 0x81, 38, 255
 notedv PITCH_B2, 0xE8, 105
 end
 
 .layer layer_15A2
 instr FONT00_INSTR_DISTORTION
-env envelope_67CC, 231
+envelope envelope_67CC, 231
 portamento 0x81, 14, 255
 notedv PITCH_B2, 0xE8, 95
 end
 
 .layer layer_15B1
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_6610, 231
+envelope envelope_6610, 231
 notedv PITCH_A3, 0x48, 105
 end
 
@@ -1117,7 +1117,7 @@ end
 
 .layer layer_15E3
 instr FONT00_INSTR_BOW
-env envelope_65D8, 251
+envelope envelope_65D8, 251
 transpose 48
 portamento 0x81, 19, 255
 notedv PITCH_AF4, 0x30, 80
@@ -1149,7 +1149,7 @@ end
 
 .channel item_explosion_unused2
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_66D0
+envelope envelope_66D0
 ldlayer 0, layer_1620
 end
 
@@ -1159,7 +1159,7 @@ end
 
 .channel item_sword_break
 instr FONT00_INSTR_SWORD_HIT_SHIELD
-env envelope_6610
+envelope envelope_6610
 ldlayer 0, layer_1633
 ldlayer 1, layer_105A
 ldlayer 2, layer_11B7
@@ -1189,7 +1189,7 @@ jump item_hammer_swing
 
 .layer layer_1651
 instr FONT00_INSTR_SHIMMER
-env envelope_6610, 235
+envelope envelope_6610, 235
 portamento 0x82, 29, 127
 notedv PITCH_GF2, 0x28, 74
 end

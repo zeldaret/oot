@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from argparse import ArgumentParser
+
 import argparse
 import sys
 import re
@@ -133,7 +133,7 @@ commands['chan'] = join(control_flow_commands, {
     0xDD: ['pan', 'u8'],
     0xDC: ['panweight', 'u8'],
     0xDB: ['transpose', 's8'],
-    0xDA: ['env', 'addr'],
+    0xDA: ['envelope', 'addr'],
     0xD9: ['releaserate', 'u8'],
     0xD8: ['vibdepth', 'u8'],
     0xD7: ['vibfreq', 'u8'],
@@ -202,7 +202,7 @@ commands_layer_base = join(control_flow_commands, {
     0xC8: ['noportamento'],
     0xC9: ['shortgate', 'u8'],
     0xCA: ['notepan', 'u8'],
-    0xCB: ['env', 'addr', 'u8'],
+    0xCB: ['envelope', 'addr', 'u8'],
     0xCC: ['nodrumpan'],
     0xCD: ['stereo', 'u8'],
     0xCE: ['bendfine', 's8'],
@@ -233,7 +233,7 @@ def valid_cmd_for_nbits(cmd_list, nbits):
             return int(arg.split(':')[1]) == nbits
     return nbits == 0
 
-parser = ArgumentParser(add_help=False)
+parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument("filename", metavar="input.aseq", type=argparse.FileType("rb"), help="Input binary sequence to convert to a text sequence.")
 parser.add_argument("header", metavar="soundfont.inc", type=argparse.FileType("r"), help="Soundfont include file defining instruments and drums symbols.")
 parser.add_argument("sequence", metavar="sequence.inc", type=argparse.FileType("r"), help="sequence.inc file containing global defines")
@@ -491,7 +491,7 @@ def decode_one(state):
                 kind = 'layer'
             elif cmd_mn in ('dyntbl', 'dyncall'):
                 kind = 'table'
-            elif cmd_mn == 'env':
+            elif cmd_mn == 'envelope':
                 kind = 'envelope'
             elif cmd_mn == 'ldfilter':
                 kind = 'filter'

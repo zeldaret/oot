@@ -51,7 +51,7 @@ end
 notepan 127
 instr FONT00_INSTR_WARP
 transpose 24
-env envelope_78A, 230
+envelope envelope_78A, 230
 notedv PITCH_A4, 0x10E, 80
 notedv PITCH_A5, 0x12C, 80
 end
@@ -61,7 +61,7 @@ notepan 0
 ldelay 0x1
 instr FONT00_INSTR_WATER_FLOWING
 transpose 48
-env envelope_78A, 180
+envelope envelope_78A, 180
 portamento 0x81, 56, 255
 notedv PITCH_F5, 0xFA, 72
 notedv PITCH_A5, 0x140, 72
@@ -70,7 +70,7 @@ end
 .layer layer_71
 ldelay 1
 instr FONT00_INSTR_SHIMMER
-env envelope_78A, 230
+envelope envelope_78A, 230
 # The last argument here is represented with a single byte, even though the format
 # should use two bytes instead.
 portamentofix 0x1, 15, 133
@@ -91,7 +91,7 @@ end
 
 .layer layer_99
 instr FONT00_INSTR_WARP
-env envelope_8D2, 221
+envelope envelope_8D2, 221
 transpose 24
 notedv PITCH_C5, 0x190, 105
 end
@@ -99,7 +99,7 @@ end
 .layer layer_A6
 ldelay 0x1
 instr FONT00_INSTR_FAIRY_MAGIC
-env envelope_90A, 224
+envelope envelope_90A, 224
 portamento 0x81, 3, 255
 notedv PITCH_E3, 0x12C, 65
 end
@@ -109,7 +109,7 @@ instr FONT00_INSTR_SYNTH
 portamento 0x81, 24, 25
 notedv PITCH_D3, 0x46, 85
 ldelay 0xC8
-env envelope_916, 221
+envelope envelope_916, 221
 portamento 0x81, 27, 25
 notedv PITCH_F3, 0x96, 85
 end
@@ -133,7 +133,7 @@ end
 
 .layer layer_EF
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_72A, 221
+envelope envelope_72A, 221
 rjump layer_FD
 
 .layer layer_F7
@@ -143,7 +143,7 @@ releaserate 221
 .layer layer_FD
 portamento 0x85, 46, 255
 notedv PITCH_A2, 0x3C, 90
-env envelope_712, 221
+envelope envelope_712, 221
 notedv PITCH_A3, 0x24, 90
 portamento 0x85, 51, 255
 notedv PITCH_C3, 0x7F, 90
@@ -157,19 +157,19 @@ end
 .layer layer_11A
 transpose 36
 instr FONT00_INSTR_SHIMMER
-env envelope_87A, 180
+envelope envelope_87A, 180
 notedv PITCH_E4, 0x226, 70
 end
 
 .layer layer_127
 transpose 30
 instr FONT00_INSTR_WARP
-env envelope_87A, 221
+envelope envelope_87A, 221
 notedv PITCH_F3, 0x9B, 100
 notedv PITCH_F4, 0x7F, 100
 transpose 36
 instr FONT00_INSTR_WARP
-env envelope_88A, 221
+envelope envelope_88A, 221
 notedv PITCH_C4, 0xF8, 100
 end
 
@@ -196,21 +196,21 @@ vibdepthgrad 0, 48, 9
 end
 
 .layer layer_165
-env envelope_78A, 231
+envelope envelope_78A, 231
 portamento 0x81, 38, 255
 notedv PITCH_F3, 0x24E, 75
 end
 
 .layer layer_172
 ldelay 0x15E
-env envelope_792, 231
+envelope envelope_792, 231
 portamento 0x81, 3, 255
 notedv PITCH_C3, 0xF0, 100
 end
 
 .layer layer_182
 instr FONT00_INSTR_MECH_CHARGE
-env envelope_792, 231
+envelope envelope_792, 231
 notedv PITCH_AF3, 0x208, 92
 end
 
@@ -246,7 +246,7 @@ end
 
 .layer layer_1D4
 instr FONT00_INSTR_SWORD_SWING
-env envelope_75E, 251
+envelope envelope_75E, 251
 portamento 0x81, 55, 127
 notedv PITCH_DF1, 0x8, 115
 portamento 0x81, 6, 255
@@ -268,7 +268,7 @@ end
 
 .layer layer_201
 instr FONT00_INSTR_SLAM_GUNSHOT
-env envelope_746, 250
+envelope envelope_746, 250
 portamento 0x81, 38, 200
 notedvg PITCH_BF3, 0x24, 115, 100
 end
@@ -283,7 +283,7 @@ end
 .layer layer_21B
 ldelay 0x7
 instr FONT00_INSTR_SWORD_HIT_SHIELD
-env envelope_6F6, 250
+envelope envelope_6F6, 250
 notedvg PITCH_C5, 0x6, 39, 127
 instr FONT00_INSTR_SWORD_STRIKE
 notedvg PITCH_D4, 0x4, 49, 127
@@ -370,7 +370,7 @@ end
 .layer layer_2AE
 transpose -4
 instr FONT01_INSTR_DINO_INHALE
-env envelope_8C2, 251
+envelope envelope_8C2, 251
 .layer layer_2B6
 legato
 portamento 0x85, 24, 255
@@ -382,7 +382,7 @@ rjump layer_2BB
 .layer layer_2C3
 transpose 4
 instr FONT01_INSTR_BOULDER
-env envelope_8C2, 251
+envelope envelope_8C2, 251
 .layer layer_2CB
 legato
 portamento 0x85, 48, 255
@@ -407,13 +407,13 @@ end
 .layer layer_2EC
 transpose -4
 instr FONT01_INSTR_DINO_INHALE
-env envelope_8EA, 251
+envelope envelope_8EA, 251
 rjump layer_2B6
 
 .layer layer_2F6
 transpose 4
 instr FONT01_INSTR_BOULDER
-env envelope_8EA, 251
+envelope envelope_8EA, 251
 rjump layer_2CB
 
 .channel bongo_death
@@ -427,7 +427,7 @@ end
 
 .layer layer_312
 instr FONT01_INSTR_MONSTER_ROAR
-env envelope_916, 221
+envelope envelope_916, 221
 notedvg PITCH_GF4, 0x64, 90, 50
 portamento 0x81, 48, 255
 notedv PITCH_C4, 0x64, 90
@@ -470,13 +470,13 @@ end
 .layer layer_36A
 transpose -4
 instr FONT01_INSTR_DINO_INHALE
-env envelope_91E, 200
+envelope envelope_91E, 200
 jump layer_2B6
 
 .layer layer_375
 transpose 4
 instr FONT01_INSTR_BOULDER
-env envelope_91E, 200
+envelope envelope_91E, 200
 jump layer_2CB
 
 .channel trial_warp
@@ -491,14 +491,14 @@ transpose -4
 
 .layer layer_38E
 instr FONT00_INSTR_WIND_HOWL_S
-env envelope_78A, 241
+envelope envelope_78A, 241
 portamento 0x81, 3, 224
 notedv PITCH_B4, 0xC6, 80
 end
 
 .layer layer_39D
 instr FONT00_INSTR_SLIDE_HEAVY
-env envelope_86E, 221
+envelope envelope_86E, 221
 transpose 12
 portamento 0x81, 2, 255
 notedv PITCH_B5, 0xFA, 85
@@ -517,7 +517,7 @@ end
 
 .layer layer_3C5
 instr FONT00_INSTR_POTTERY_ELECTRIC
-env envelope_6CE, 245
+envelope envelope_6CE, 245
 portamento 0x82, 27, 255
 notedv PITCH_C4, 0x96, 80
 ldelay 0x96
@@ -530,7 +530,7 @@ end
 .layer layer_3DB
 transpose 24
 instr FONT00_INSTR_SLIDE_BLOCK
-env envelope_78A, 200
+envelope envelope_78A, 200
 portamento 0x82, 51, 180
 notedv PITCH_B5, 0xB4, 75
 end
@@ -565,7 +565,7 @@ end
 
 .layer layer_424
 instr FONT00_INSTR_FLAME_THUNDER
-env envelope_78A, 211
+envelope envelope_78A, 211
 legato
 portamento 0x85, 3, 255
 notedv PITCH_F2, 0x60, 100
@@ -590,7 +590,7 @@ instr FONT00_INSTR_WARP
 transpose 12
 notepan 40
 .layer layer_452
-env envelope_78A, 211
+envelope envelope_78A, 211
 legato
 portamento 0x85, 15, 255
 notedv PITCH_F3, 0x60, 74
@@ -616,7 +616,7 @@ end
 
 .layer layer_486
 instr FONT00_INSTR_SLIDE_BLOCK
-env envelope_78A, 231
+envelope envelope_78A, 231
 ldelay 0x96
 portamento 0x81, 27, 255
 notedv PITCH_C5, 0x1B8, 45
@@ -624,7 +624,7 @@ end
 
 .layer layer_498
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_792, 231
+envelope envelope_792, 231
 ldelay 0xDC
 portamento 0x81, 15, 255
 notedv PITCH_C3, 0x172, 110
@@ -657,7 +657,7 @@ end
 
 .layer layer_4DB
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_792, 221
+envelope envelope_792, 221
 stereo 20
 notepan 84
 notedv PITCH_F2, 0x91, 72
@@ -669,7 +669,7 @@ rjump layer_4E9
 
 .layer layer_4F5
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_792, 221
+envelope envelope_792, 221
 stereo 20
 notepan 44
 notedv PITCH_D3, 0x10B, 72
@@ -686,7 +686,7 @@ rjump layer_51A
 
 .layer layer_514
 instr FONT00_INSTR_EXPLOSION_0
-env envelope_71E, 230
+envelope envelope_71E, 230
 .layer layer_51A
 ldelay 0xA82
 portamento 0x81, 55, 60
@@ -718,7 +718,7 @@ rjump layer_589
 
 .layer layer_fn_552
 instr FONT00_INSTR_MECH_CHARGE
-env envelope_792, 211
+envelope envelope_792, 211
 legato
 portamento 0x85, 51, 255
 notedv PITCH_E5, 0xC8, 90
@@ -738,7 +738,7 @@ instr FONT00_INSTR_BLOCK_LOCK
 rjump layer_589
 
 .layer layer_unused_578
-env envelope_792, 200
+envelope envelope_792, 200
 legato
 portamento 0x81, 17, 255
 
@@ -773,7 +773,7 @@ filter 0, 0, 0, 0, 0, 0, 0, 0
 
 .channel rainfall
 instr FONTANY_INSTR_DRUM
-env envelope_90A
+envelope envelope_90A
 releaserate 200
 panweight 0
 ldlayer 0, layer_5DA
@@ -836,7 +836,7 @@ rjump layer_635
 transpose 48
 .layer layer_635
 instr FONT00_INSTR_FLAME_THUNDER
-env envelope_692, 200
+envelope envelope_692, 200
 notedv PITCH_G4, 0x0, 110
 end
 

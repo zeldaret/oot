@@ -335,7 +335,7 @@ rjump use_table_enemy
 dyntbl table_enemy
 
 .channel use_table_enemy
-env envelope_6A7C
+envelope envelope_6A7C
 releaserate 251
 dyncall
 
@@ -485,7 +485,7 @@ ldfilter filter_voice1
 .channel channel_voice
 call setup_chan_common
 instr FONTANY_INSTR_SFX
-env envelope_65D0
+envelope envelope_65D0
 releaserate 251
 bend 0
 filter 0

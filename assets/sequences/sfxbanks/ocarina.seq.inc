@@ -71,7 +71,7 @@ vibfreq 64
 vibdepthgrad 4, 8, 8
 stseq 0, layer_5F5C+1
 instr FONT00_INSTR_FAIRY
-env envelope_66FC
+envelope envelope_66FC
 releaserate 240
 ldlayer 0, layer_5F5A
 ldlayer 1, layer_5F5C
@@ -106,7 +106,7 @@ end
 .layer layer_5F84
 instr FONT00_INSTR_SHIMMER
 transpose 48
-env envelope_6740, 251
+envelope envelope_6740, 251
 .layer layer_5F8C
 portamento 0x81, 32, 224
 .layer layer_5F90
