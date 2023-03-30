@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ge1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ge1/object_ge1.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
@@ -39,7 +39,7 @@ void EnGe1_Wait_Archery(EnGe1* this, PlayState* play);
 void EnGe1_CueUpAnimation(EnGe1* this);
 void EnGe1_StopFidget(EnGe1* this);
 
-const ActorInit En_Ge1_InitVars = {
+ActorInit En_Ge1_InitVars = {
     ACTOR_EN_GE1,
     ACTORCAT_NPC,
     FLAGS,
@@ -101,8 +101,7 @@ void EnGe1_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
 
-    // In Gerudo Valley
-    this->actor.uncullZoneForward = ((play->sceneNum == SCENE_SPOT09) ? 1000.0f : 1200.0f);
+    this->actor.uncullZoneForward = ((play->sceneId == SCENE_GERUDO_VALLEY) ? 1000.0f : 1200.0f);
 
     switch (this->actor.params & 0xFF) {
 
@@ -228,11 +227,11 @@ void EnGe1_KickPlayer(EnGe1* this, PlayState* play) {
         func_8006D074(play);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            play->nextEntranceIndex = ENTR_SPOT09_1;
+            play->nextEntranceIndex = ENTR_GERUDO_VALLEY_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) { // Caught previously
-            play->nextEntranceIndex = ENTR_SPOT12_18;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_18;
         } else {
-            play->nextEntranceIndex = ENTR_SPOT12_17;
+            play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_17;
         }
 
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
@@ -243,7 +242,7 @@ void EnGe1_KickPlayer(EnGe1* this, PlayState* play) {
 void EnGe1_SpotPlayer(EnGe1* this, PlayState* play) {
     this->cutsceneTimer = 30;
     this->actionFunc = EnGe1_KickPlayer;
-    func_8002DF54(play, &this->actor, 0x5F);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
     func_80078884(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
@@ -334,7 +333,7 @@ void EnGe1_Open_GTGGuard(EnGe1* this, PlayState* play) {
         this->cutsceneTimer = 50;
         Message_CloseTextbox(play);
     } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_HAND_CLAP);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_HAND_CLAP);
     }
 }
 
@@ -389,7 +388,7 @@ void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_CheckForCard_GTGGuard(EnGe1* this, PlayState* play) {
-    if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
+    if (CHECK_QUEST_ITEM(QUEST_GERUDOS_CARD)) {
         EnGe1_SetTalkAction(this, play, 0x6014, 100.0f, EnGe1_OfferOpen_GTGGuard);
     } else {
         //! @bug This outcome is inaccessible in normal gameplay since this function it is unreachable without
@@ -427,7 +426,7 @@ void EnGe1_OpenGate_GateOp(EnGe1* this, PlayState* play) {
         this->cutsceneTimer = 50;
         Message_CloseTextbox(play);
     } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_HAND_CLAP);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_HAND_CLAP);
     }
 }
 
@@ -513,7 +512,7 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, PlayState* play) {
         } else {
             getItemId = GI_HEART_PIECE;
         }
-        func_8002F434(&this->actor, play, getItemId, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, getItemId, 10000.0f, 50.0f);
     }
 }
 
@@ -542,7 +541,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, PlayState* play) {
         getItemId = GI_HEART_PIECE;
     }
 
-    func_8002F434(&this->actor, play, getItemId, 10000.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, getItemId, 10000.0f, 50.0f);
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, PlayState* play) {
@@ -579,7 +578,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
                     this->actionFunc = EnGe1_TalkTooPoor_Archery;
                 } else {
                     Rupees_ChangeBy(-20);
-                    play->nextEntranceIndex = ENTR_SPOT12_0;
+                    play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
                     play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -587,7 +586,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
                     SET_EVENTCHKINF(EVENTCHKINF_68);
 
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
-                        func_8002DF54(play, &this->actor, 1);
+                        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
                     } else {
                         horse = Actor_FindNearby(play, &player->actor, ACTOR_EN_HORSE, ACTORCAT_BG, 1200.0f);
                         player->actor.freezeTimer = 1200;
@@ -723,7 +722,7 @@ void EnGe1_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->animFunc(this);
     this->actionFunc(this, play);

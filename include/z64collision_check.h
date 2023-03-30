@@ -231,16 +231,16 @@ typedef struct {
 } OcLine; // size = 0x1C
 
 typedef enum {
-    /* 0  */ COLTYPE_HIT0, // Blue blood, white hitmark
-    /* 1  */ COLTYPE_HIT1, // No blood, dust hitmark
-    /* 2  */ COLTYPE_HIT2, // Green blood, dust hitmark
-    /* 3  */ COLTYPE_HIT3, // No blood, white hitmark
-    /* 4  */ COLTYPE_HIT4, // Water burst, no hitmark
-    /* 5  */ COLTYPE_HIT5, // No blood, red hitmark
-    /* 6  */ COLTYPE_HIT6, // Green blood, white hitmark
-    /* 7  */ COLTYPE_HIT7, // Red blood, white hitmark
-    /* 8  */ COLTYPE_HIT8, // Blue blood, red hitmark
-    /* 9  */ COLTYPE_METAL,
+    /*  0 */ COLTYPE_HIT0, // Blue blood, white hitmark
+    /*  1 */ COLTYPE_HIT1, // No blood, dust hitmark
+    /*  2 */ COLTYPE_HIT2, // Green blood, dust hitmark
+    /*  3 */ COLTYPE_HIT3, // No blood, white hitmark
+    /*  4 */ COLTYPE_HIT4, // Water burst, no hitmark
+    /*  5 */ COLTYPE_HIT5, // No blood, red hitmark
+    /*  6 */ COLTYPE_HIT6, // Green blood, white hitmark
+    /*  7 */ COLTYPE_HIT7, // Red blood, white hitmark
+    /*  8 */ COLTYPE_HIT8, // Blue blood, red hitmark
+    /*  9 */ COLTYPE_METAL,
     /* 10 */ COLTYPE_NONE,
     /* 11 */ COLTYPE_WOOD,
     /* 12 */ COLTYPE_HARD,
@@ -332,7 +332,7 @@ typedef enum {
 #define BUMP_HOOKABLE (1 << 2) // Can be hooked if actor has hookability flags set.
 #define BUMP_NO_AT_INFO (1 << 3) // Does not give its info to the AT collider that hit it.
 #define BUMP_NO_DAMAGE (1 << 4) // Does not take damage.
-#define BUMP_NO_SWORD_SFX (1 << 5) // Does not have a sound when hit by player-attached AT colliders.
+#define BUMP_NO_SWORD_SFX (1 << 5) // Does not have a sound effect when hit by player-attached AT colliders.
 #define BUMP_NO_HITMARK (1 << 6) // Skips hit effects.
 #define BUMP_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
 

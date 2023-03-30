@@ -23,7 +23,7 @@ void BgJyaGoroiwa_SetupMove(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateRotation(BgJyaGoroiwa* this);
 void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this);
 
-const ActorInit Bg_Jya_Goroiwa_InitVars = {
+ActorInit Bg_Jya_Goroiwa_InitVars = {
     ACTOR_BG_JYA_GOROIWA,
     ACTORCAT_PROP,
     FLAGS,
@@ -122,19 +122,19 @@ void BgJyaGoroiwa_SetupMove(BgJyaGoroiwa* this) {
 void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
     Actor* thisx = &this->actor;
     s16 relYawTowardsPlayer;
-    f32 speedXZsqBase = (-100.0f - thisx->world.pos.y) * 2.5f;
+    f32 speedXZBaseSq = (-100.0f - thisx->world.pos.y) * 2.5f;
     f32 posYfac;
 
-    if (speedXZsqBase < 0.01f) {
-        speedXZsqBase = 0.01f;
+    if (speedXZBaseSq < 0.01f) {
+        speedXZBaseSq = 0.01f;
     }
 
-    thisx->speedXZ = sqrtf(speedXZsqBase) * this->speedFactor;
-    thisx->velocity.x = Math_SinS(thisx->world.rot.y) * thisx->speedXZ;
-    thisx->velocity.z = Math_CosS(thisx->world.rot.y) * thisx->speedXZ;
+    thisx->speed = sqrtf(speedXZBaseSq) * this->speedFactor;
+    thisx->velocity.x = Math_SinS(thisx->world.rot.y) * thisx->speed;
+    thisx->velocity.z = Math_CosS(thisx->world.rot.y) * thisx->speed;
 
-    thisx->world.pos.x = thisx->world.pos.x + thisx->velocity.x;
-    thisx->world.pos.z = thisx->world.pos.z + thisx->velocity.z;
+    thisx->world.pos.x += thisx->velocity.x;
+    thisx->world.pos.z += thisx->velocity.z;
 
     if ((thisx->world.pos.x > 1466.0f) && (thisx->world.pos.x < 1673.0f)) {
         thisx->world.pos.y = -129.5f;
@@ -153,7 +153,7 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
         }
 
         func_8002F6D4(play, thisx, 2.0f, thisx->yawTowardsPlayer, 0.0f, 0);
-        func_8002F7DC(&GET_PLAYER(play)->actor, NA_SE_PL_BODY_HIT);
+        Player_PlaySfx(GET_PLAYER(play), NA_SE_PL_BODY_HIT);
 
         this->yOffsetSpeed = 10.0f;
         this->speedFactor = 0.5f;
@@ -177,7 +177,7 @@ void BgJyaGoroiwa_Move(BgJyaGoroiwa* this, PlayState* play) {
         thisx->world.rot.y = 0x4000;
     }
 
-    Audio_PlayActorSound2(thisx, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
+    Actor_PlaySfx(thisx, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
 }
 
 void BgJyaGoroiwa_SetupWait(BgJyaGoroiwa* this) {
@@ -198,16 +198,16 @@ void BgJyaGoroiwa_Update(Actor* thisx, PlayState* play) {
     BgJyaGoroiwa* this = (BgJyaGoroiwa*)thisx;
     Player* player = GET_PLAYER(play);
     s32 bgId;
-    Vec3f pos;
+    Vec3f checkPos;
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         this->actionFunc(this, play);
         BgJyaGoroiwa_UpdateRotation(this);
-        pos.x = this->actor.world.pos.x;
-        pos.y = this->actor.world.pos.y + 59.5f;
-        pos.z = this->actor.world.pos.z;
+        checkPos.x = this->actor.world.pos.x;
+        checkPos.y = this->actor.world.pos.y + 59.5f;
+        checkPos.z = this->actor.world.pos.z;
         this->actor.floorHeight =
-            BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &pos);
+            BgCheck_EntityRaycastDown4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &checkPos);
         BgJyaGoroiwa_UpdateCollider(this);
         if (this->collider.base.atFlags & AT_ON) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

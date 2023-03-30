@@ -12,7 +12,7 @@
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void ObjTsubo_Init(Actor* thisx, PlayState* play);
-void ObjTsubo_Destroy(Actor* thisx, PlayState* play);
+void ObjTsubo_Destroy(Actor* thisx, PlayState* play2);
 void ObjTsubo_Update(Actor* thisx, PlayState* play);
 void ObjTsubo_Draw(Actor* thisx, PlayState* play);
 
@@ -36,7 +36,7 @@ static s16 D_80BA1B54 = 0;
 static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
-const ActorInit Obj_Tsubo_InitVars = {
+ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,
     ACTORCAT_PROP,
     FLAGS,
@@ -98,17 +98,17 @@ void ObjTsubo_ApplyGravity(ObjTsubo* this) {
 }
 
 s32 ObjTsubo_SnapToFloor(ObjTsubo* this, PlayState* play) {
-    CollisionPoly* floorPoly;
+    CollisionPoly* groundPoly;
     Vec3f pos;
-    s32 bgID;
-    f32 floorY;
+    s32 bgId;
+    f32 groundY;
 
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.world.pos.y + 20.0f;
     pos.z = this->actor.world.pos.z;
-    floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgID, &this->actor, &pos);
-    if (floorY > BGCHECK_Y_MIN) {
-        this->actor.world.pos.y = floorY;
+    groundY = BgCheck_EntityRaycastDown4(&play->colCtx, &groundPoly, &bgId, &this->actor, &pos);
+    if (groundY > BGCHECK_Y_MIN) {
+        this->actor.world.pos.y = groundY;
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
@@ -242,7 +242,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
         ObjTsubo_SetupLiftedUp(this);
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         ObjTsubo_WaterBreak(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         ObjTsubo_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->collider.base.acFlags & AC_HIT) &&
@@ -250,7 +250,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         if (this->actor.xzDistToPlayer < 600.0f) {
@@ -266,7 +266,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
             phi_v1 = ABS(temp_v0);
             if (phi_v1 >= 0x5556) {
                 // GI_NONE in this case allows the player to lift the actor
-                func_8002F434(&this->actor, play, GI_NONE, 30.0f, 30.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_NONE, 30.0f, 30.0f);
             }
         }
     }
@@ -275,7 +275,8 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
 void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actionFunc = ObjTsubo_LiftedUp;
     this->actor.room = -1;
-    func_8002F7DC(&this->actor, NA_SE_PL_PULL_UP_POT);
+    //! @bug: This is an unsafe cast, although the sound effect will still play
+    Player_PlaySfx((Player*)&this->actor, NA_SE_PL_PULL_UP_POT);
     this->actor.flags |= ACTOR_FLAG_4;
 }
 
@@ -284,15 +285,15 @@ void ObjTsubo_LiftedUp(ObjTsubo* this, PlayState* play) {
         this->actor.room = play->roomCtx.curRoom.num;
         ObjTsubo_SetupThrown(this);
         ObjTsubo_ApplyGravity(this);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 15.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     }
 }
 
 void ObjTsubo_SetupThrown(ObjTsubo* this) {
-    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
     this->actor.colChkInfo.mass = 240;
     D_80BA1B50 = (Rand_ZeroOne() - 0.7f) * 2800.0f;
     D_80BA1B58 = (Rand_ZeroOne() - 0.5f) * 2000.0f;
@@ -308,16 +309,16 @@ void ObjTsubo_Thrown(ObjTsubo* this, PlayState* play) {
         (this->collider.base.atFlags & AT_HIT)) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         ObjTsubo_WaterBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
     } else {
         ObjTsubo_ApplyGravity(this);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Math_StepToS(&D_80BA1B54, D_80BA1B50, 0x64);
         Math_StepToS(&D_80BA1B5C, D_80BA1B58, 0x64);
         this->actor.shape.rot.x += D_80BA1B54;

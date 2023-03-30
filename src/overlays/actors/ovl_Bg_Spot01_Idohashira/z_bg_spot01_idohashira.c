@@ -6,7 +6,7 @@
 
 #include "z_bg_spot01_idohashira.h"
 #include "assets/objects/object_spot01_objects/object_spot01_objects.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -36,7 +36,7 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
     func_808AB700,
 };
 
-const ActorInit Bg_Spot01_Idohashira_InitVars = {
+ActorInit Bg_Spot01_Idohashira_InitVars = {
     ACTOR_BG_SPOT01_IDOHASHIRA,
     ACTORCAT_PROP,
     FLAGS,
@@ -53,7 +53,7 @@ void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
 }
 
 void BgSpot01Idohashira_PlayBreakSfx2(BgSpot01Idohashira* this, PlayState* play) {
-    SoundSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
+    SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
 }
 
 void func_808AAD3C(PlayState* play, Vec3f* vec, u32 arg2) {
@@ -151,14 +151,14 @@ s32 BgSpot01Idohashira_NotInCsMode(PlayState* play) {
     return false;
 }
 
-CsCmdActorAction* BgSpot01Idohashira_GetNpcAction(PlayState* play, s32 actionIdx) {
+CsCmdActorCue* BgSpot01Idohashira_GetCue(PlayState* play, s32 cueChannel) {
     s32 pad[2];
-    CsCmdActorAction* npcAction = NULL;
+    CsCmdActorCue* cue = NULL;
 
     if (!BgSpot01Idohashira_NotInCsMode(play)) {
-        npcAction = play->csCtx.npcActions[actionIdx];
+        cue = play->csCtx.actorCues[cueChannel];
     }
-    return npcAction;
+    return cue;
 }
 
 void func_808AB18C(BgSpot01Idohashira* this) {
@@ -185,7 +185,7 @@ f32 func_808AB1DC(f32 arg0, f32 arg1, u16 arg2, u16 arg3, u16 arg4) {
 }
 
 s32 func_808AB29C(BgSpot01Idohashira* this, PlayState* play) {
-    CsCmdActorAction* npcAction;
+    CsCmdActorCue* cue;
     Vec3f* thisPos;
     f32 endX;
     f32 temp_f0;
@@ -195,17 +195,17 @@ s32 func_808AB29C(BgSpot01Idohashira* this, PlayState* play) {
     f32 tempY;
     f32 tempZ;
 
-    npcAction = BgSpot01Idohashira_GetNpcAction(play, 2);
-    if (npcAction != NULL) {
-        temp_f0 = Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames);
+    cue = BgSpot01Idohashira_GetCue(play, 2);
+
+    if (cue != NULL) {
+        temp_f0 = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
         initPos = this->dyna.actor.home.pos;
-        endX = npcAction->endPos.x;
-        tempY = ((kREG(10) + 1100.0f) / 10.0f) + npcAction->endPos.y;
-        endZ = npcAction->endPos.z;
+        endX = cue->endPos.x;
+        tempY = ((kREG(10) + 1100.0f) / 10.0f) + cue->endPos.y;
+        endZ = cue->endPos.z;
         thisPos = &this->dyna.actor.world.pos;
         thisPos->x = ((endX - initPos.x) * temp_f0) + initPos.x;
-        thisPos->y =
-            func_808AB1DC(initPos.y, tempY, npcAction->endFrame, npcAction->startFrame, play->csCtx.frames) + initPos.y;
+        thisPos->y = func_808AB1DC(initPos.y, tempY, cue->endFrame, cue->startFrame, play->csCtx.curFrame) + initPos.y;
         thisPos->z = ((endZ - initPos.z) * temp_f0) + initPos.z;
 
         if (temp_f0 >= 1.0f) {
@@ -235,15 +235,16 @@ void func_808AB414(BgSpot01Idohashira* this, PlayState* play) {
 }
 
 void func_808AB444(BgSpot01Idohashira* this, PlayState* play) {
-    CsCmdActorAction* npcAction = BgSpot01Idohashira_GetNpcAction(play, 2);
-    u32 action;
-    u32 currentNpcAction;
+    CsCmdActorCue* cue = BgSpot01Idohashira_GetCue(play, 2);
+    u32 nextCueId;
+    u32 currentCueId;
 
-    if (npcAction != NULL) {
-        action = npcAction->action;
-        currentNpcAction = this->npcAction;
-        if (action != currentNpcAction) {
-            switch (action) {
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        currentCueId = this->cueId;
+
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     func_808AB3E8(this);
                     break;
@@ -256,7 +257,8 @@ void func_808AB444(BgSpot01Idohashira* this, PlayState* play) {
                 default:
                     osSyncPrintf("Bg_Spot01_Idohashira_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->npcAction = action;
+
+            this->cueId = nextCueId;
         }
     }
 }
@@ -295,21 +297,21 @@ void BgSpot01Idohashira_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     colHeader = NULL;
     CollisionHeader_GetVirtual(&gKakarikoWellArchCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (gSaveContext.sceneSetupIndex < 4) {
+    if (!IS_CUTSCENE_LAYER) {
         if (GET_EVENTCHKINF(EVENTCHKINF_54) && LINK_IS_ADULT) {
             Actor_Kill(&this->dyna.actor);
         } else {
             this->action = 0;
         }
-    } else if (gSaveContext.sceneSetupIndex == 4) {
+    } else if (gSaveContext.sceneLayer == 4) {
         this->action = 1;
         this->dyna.actor.shape.yOffset = -(kREG(10) + 1100.0f);
-    } else if (gSaveContext.sceneSetupIndex == 6) {
+    } else if (gSaveContext.sceneLayer == 6) {
         this->action = 0;
     } else {
         Actor_Kill(&this->dyna.actor);

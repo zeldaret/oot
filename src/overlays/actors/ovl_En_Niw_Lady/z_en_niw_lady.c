@@ -2,7 +2,7 @@
 #include "assets/objects/object_ane/object_ane.h"
 #include "assets/objects/object_os_anime/object_os_anime.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
@@ -25,7 +25,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play);
 void func_80ABA654(EnNiwLady* this, PlayState* play);
 void func_80ABAD7C(EnNiwLady* this, PlayState* play);
 
-const ActorInit En_Niw_Lady_InitVars = {
+ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
     ACTORCAT_NPC,
     FLAGS,
@@ -77,7 +77,7 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
         return;
     }
     this->unk_278 = 0;
-    if (play->sceneNum == SCENE_LABO) {
+    if (play->sceneId == SCENE_IMPAS_HOUSE) {
         this->unk_278 = 1;
     }
     if ((this->unk_278 != 0) && IS_DAY) {
@@ -308,14 +308,14 @@ void func_80ABA654(EnNiwLady* this, PlayState* play) {
         this->unk_26E = 0xB;
         if (!GET_ITEMGETINF(ITEMGETINF_0C)) {
             this->actor.parent = NULL;
-            this->getItemId = GI_BOTTLE;
-            func_8002F434(&this->actor, play, GI_BOTTLE, 100.0f, 50.0f);
+            this->getItemId = GI_BOTTLE_EMPTY;
+            Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_EMPTY, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }
         if (this->unk_26C == 1) {
             this->getItemId = GI_RUPEE_PURPLE;
-            func_8002F434(&this->actor, play, GI_RUPEE_PURPLE, 100.0f, 50.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_RUPEE_PURPLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
         }
         this->actionFunc = func_80ABA244;
@@ -342,7 +342,7 @@ void func_80ABA778(EnNiwLady* this, PlayState* play) {
         this->unk_27A = 2;
         if (!GET_ITEMGETINF(ITEMGETINF_2E)) {
             this->unk_27A = 3;
-            if (GET_EVENTCHKINF(EVENTCHKINF_6A)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
                 this->unk_27A = 9;
                 if (this->unk_277 != 0) {
                     this->unk_27A = 10;
@@ -365,13 +365,13 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
     }
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         playerExchangeItemId = func_8002F368(play);
-        if ((playerExchangeItemId == 6) && GET_EVENTCHKINF(EVENTCHKINF_6A)) {
+        if ((playerExchangeItemId == EXCH_ITEM_POCKET_CUCCO) && GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;
             this->unk_262 = TEXT_STATE_CHOICE;
             this->actionFunc = func_80ABAB08;
-        } else if (playerExchangeItemId != 0) {
+        } else if (playerExchangeItemId != EXCH_ITEM_NONE) {
             player->actor.textId = sTradeItemTextIds[7];
             this->unk_26E = this->unk_27A + 21;
         } else {
@@ -380,7 +380,7 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
             this->actionFunc = !this->unk_273 ? func_80ABA778 : func_80ABA9B8;
         }
     } else {
-        func_8002F298(&this->actor, play, 50.0f, 6);
+        func_8002F298(&this->actor, play, 50.0f, EXCH_ITEM_POCKET_CUCCO);
     }
 }
 
@@ -390,7 +390,7 @@ void func_80ABA9B8(EnNiwLady* this, PlayState* play) {
             case 0:
                 Message_CloseTextbox(play);
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, play, GI_POCKET_EGG, 200.0f, 100.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_POCKET_EGG, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -418,7 +418,7 @@ void func_80ABAB08(EnNiwLady* this, PlayState* play) {
             case 0:
                 Message_CloseTextbox(play);
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, play, GI_COJIRO, 200.0f, 100.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_COJIRO, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -444,7 +444,7 @@ void func_80ABAC00(EnNiwLady* this, PlayState* play) {
         if (LINK_IS_ADULT) {
             getItemId = !GET_ITEMGETINF(ITEMGETINF_2C) ? GI_POCKET_EGG : GI_COJIRO;
         }
-        func_8002F434(&this->actor, play, getItemId, 200.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, getItemId, 200.0f, 100.0f);
     }
 }
 
@@ -496,15 +496,15 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Actor_SetFocus(thisx, 60.0f);
-    this->unk_288.unk_18 = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     if (!LINK_IS_ADULT) {
-        this->unk_288.unk_18.y = player->actor.world.pos.y - 10.0f;
+        this->interactInfo.trackPos.y = player->actor.world.pos.y - 10.0f;
     }
-    func_80034A14(thisx, &this->unk_288, 2, 4);
-    this->unk_254 = this->unk_288.unk_08;
-    this->unk_25A = this->unk_288.unk_0E;
+    Npc_TrackPoint(thisx, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
+    this->headRot = this->interactInfo.headRot;
+    this->torsoRot = this->interactInfo.torsoRot;
     if (this->unk_276 == 0) {
-        Math_SmoothStepToS(&this->unk_254.y, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->headRot.y, 0, 5, 3000, 0);
     }
     gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objectOsAnimeIndex].segment);
     if (this->objectOsAnimeIndex >= 0) {
@@ -556,11 +556,11 @@ s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
     s32 pad;
 
     if (limbIndex == 15) {
-        rot->x += this->unk_254.y;
-        rot->z += this->unk_254.x;
+        rot->x += this->headRot.y;
+        rot->z += this->headRot.x;
     }
     if (limbIndex == 8) {
-        rot->x += this->unk_25A.y;
+        rot->x += this->torsoRot.y;
     }
     if (this->unk_275 != 0) {
         if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {

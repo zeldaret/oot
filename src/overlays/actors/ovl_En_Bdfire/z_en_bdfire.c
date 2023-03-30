@@ -18,7 +18,7 @@ void EnBdfire_DrawFire(EnBdfire* this, PlayState* play);
 void func_809BC2A4(EnBdfire* this, PlayState* play);
 void func_809BC598(EnBdfire* this, PlayState* play);
 
-const ActorInit En_Bdfire_InitVars = {
+ActorInit En_Bdfire_InitVars = {
     0,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -54,7 +54,7 @@ void EnBdfire_Init(Actor* thisx, PlayState* play) {
     } else {
         EnBdfire_SetupAction(this, func_809BC598);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-        this->actor.speedXZ = 30.0f;
+        this->actor.speed = 30.0f;
         this->unk_154 = (25 - (s32)(this->actor.params * 0.8f));
         if (this->unk_154 < 0) {
             this->unk_154 = 0;
@@ -129,8 +129,8 @@ void func_809BC598(EnBdfire* this, PlayState* play) {
     this->unk_158 = bossDodongo->unk_1A2;
     quarterTurn = false;
     if (this->actor.params == 0) {
-        Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_FIRE - SFX_FLAG, &this->actor.projectedPos, 4,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_EN_DODO_K_FIRE - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     Math_SmoothStepToF(&this->actor.scale.x, this->unk_188, 0.3f, 0.5f, 0.0f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
@@ -181,7 +181,7 @@ void EnBdfire_Update(Actor* thisx, PlayState* play) {
 
     this->unk_156++;
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 }
 
 void EnBdfire_DrawFire(EnBdfire* this, PlayState* play) {

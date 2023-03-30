@@ -14,7 +14,7 @@ void BgMenkuriKaiten_Destroy(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Update(Actor* thisx, PlayState* play);
 void BgMenkuriKaiten_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Bg_Menkuri_Kaiten_InitVars = {
+ActorInit Bg_Menkuri_Kaiten_InitVars = {
     ACTOR_BG_MENKURI_KAITEN,
     ACTORCAT_BG,
     FLAGS,
@@ -36,7 +36,7 @@ void BgMenkuriKaiten_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK3);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     CollisionHeader_GetVirtual(&gGTGRotatingRingPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }
@@ -50,7 +50,7 @@ void BgMenkuriKaiten_Destroy(Actor* thisx, PlayState* play) {
 void BgMenkuriKaiten_Update(Actor* thisx, PlayState* play) {
     BgMenkuriKaiten* this = (BgMenkuriKaiten*)thisx;
 
-    if (!Flags_GetSwitch(play, this->dyna.actor.params) && func_80043590(&this->dyna)) {
+    if (!Flags_GetSwitch(play, this->dyna.actor.params) && DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
         this->dyna.actor.shape.rot.y += 0x80;
     }

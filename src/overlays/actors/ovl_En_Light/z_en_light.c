@@ -16,7 +16,7 @@ void EnLight_Update(Actor* thisx, PlayState* play);
 void EnLight_Draw(Actor* thisx, PlayState* play);
 void EnLight_UpdateSwitch(Actor* thisx, PlayState* play);
 
-const ActorInit En_Light_InitVars = {
+ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -49,8 +49,7 @@ void EnLight_Init(Actor* thisx, PlayState* play) {
     EnLight* this = (EnLight*)thisx;
     s16 yOffset;
 
-    if (gSaveContext.gameMode == 3) {
-        // special case for the credits
+    if (gSaveContext.gameMode == GAMEMODE_END_CREDITS) {
         yOffset = (this->actor.params < 0) ? 1 : 40;
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, yOffset + (s16)this->actor.world.pos.y,
                                   this->actor.world.pos.z, 255, 255, 180, -1);
@@ -102,7 +101,7 @@ void EnLight_Update(Actor* thisx, PlayState* play) {
     EnLight_UpdatePosRot(this, play);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 
@@ -145,7 +144,7 @@ void EnLight_UpdateSwitch(Actor* thisx, PlayState* play) {
     EnLight_UpdatePosRot(this, play);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 
@@ -165,7 +164,8 @@ void EnLight_Draw(Actor* thisx, PlayState* play) {
 
     if (this->actor.params >= 0) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511, 32, 128));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511,
+                                    32, 128));
 
         dList = gEffFire1DL;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
@@ -173,7 +173,7 @@ void EnLight_Draw(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, flameParams->envColor.r, flameParams->envColor.g, flameParams->envColor.b, 0);
     } else {
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) & 63),
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 16, 32, 1, ((this->timer * 2) & 63),
                                     (this->timer * -6) & 127 * 1, 16, 32));
 
         dList = gUnusedCandleDL;

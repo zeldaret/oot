@@ -16,7 +16,7 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play);
 
 void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play);
 
-const ActorInit Obj_Dekujr_InitVars = {
+ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORCAT_NPC,
     FLAGS,
@@ -71,55 +71,64 @@ void ObjDekujr_Init(Actor* thisx, PlayState* play) {
 void ObjDekujr_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void ObjDekujr_SetInitialPos(CsCmdActorAction* npcAction, Vec3f* initPos) {
-    initPos->x = npcAction->startPos.x;
-    initPos->y = npcAction->startPos.y;
-    initPos->z = npcAction->startPos.z;
+void ObjDekujr_GetCueStartPos(CsCmdActorCue* cue, Vec3f* dest) {
+    dest->x = cue->startPos.x;
+    dest->y = cue->startPos.y;
+    dest->z = cue->startPos.z;
 }
 
-void ObjDekujr_SetFinalPos(CsCmdActorAction* npcAction, Vec3f* finalPos) {
-    finalPos->x = npcAction->endPos.x;
-    finalPos->y = npcAction->endPos.y;
-    finalPos->z = npcAction->endPos.z;
+void ObjDekujr_GetCueEndPos(CsCmdActorCue* cue, Vec3f* dest) {
+    dest->x = cue->endPos.x;
+    dest->y = cue->endPos.y;
+    dest->z = cue->endPos.z;
 }
 
 void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorCue* cue;
     Vec3f initPos;
     Vec3f finalPos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-    f32 actionLength;
+    f32 cueDuration;
     f32 gravity;
 
     if (play->csCtx.state == CS_STATE_IDLE) {
         this->unk_19C = 2;
         this->unk_19B = 0;
     } else {
-        if (play->csCtx.frames == 351) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
+        if (play->csCtx.curFrame == 351) {
+            Actor_PlaySfx(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
         }
-        csCmdNPCAction = play->csCtx.npcActions[1];
-        if (csCmdNPCAction != NULL) {
-            ObjDekujr_SetInitialPos(csCmdNPCAction, &initPos);
-            ObjDekujr_SetFinalPos(csCmdNPCAction, &finalPos);
+
+        cue = play->csCtx.actorCues[1];
+
+        if (cue != NULL) {
+            ObjDekujr_GetCueStartPos(cue, &initPos);
+            ObjDekujr_GetCueEndPos(cue, &finalPos);
+
             if (this->unk_19C == 0) {
                 this->actor.world.pos = initPos;
                 this->unk_19C = 1;
             }
-            this->actor.shape.rot.x = csCmdNPCAction->urot.x;
-            this->actor.shape.rot.y = csCmdNPCAction->urot.y;
-            this->actor.shape.rot.z = csCmdNPCAction->urot.z;
+
+            this->actor.shape.rot.x = cue->rot.x;
+            this->actor.shape.rot.y = cue->rot.y;
+            this->actor.shape.rot.z = cue->rot.z;
+
             this->actor.velocity = velocity;
-            if (csCmdNPCAction->endFrame >= play->csCtx.frames) {
-                actionLength = csCmdNPCAction->endFrame - csCmdNPCAction->startFrame;
-                this->actor.velocity.x = (finalPos.x - initPos.x) / actionLength;
+
+            if (cue->endFrame >= play->csCtx.curFrame) {
+                cueDuration = cue->endFrame - cue->startFrame;
+
+                this->actor.velocity.x = (finalPos.x - initPos.x) / cueDuration;
                 gravity = this->actor.gravity;
-                this->actor.velocity.y = (finalPos.y - initPos.y) / actionLength;
+                this->actor.velocity.y = (finalPos.y - initPos.y) / cueDuration;
                 this->actor.velocity.y += gravity;
+
                 if (this->actor.velocity.y < this->actor.minVelocityY) {
                     this->actor.velocity.y = this->actor.minVelocityY;
                 }
-                this->actor.velocity.z = (finalPos.z - initPos.z) / actionLength;
+
+                this->actor.velocity.z = (finalPos.z - initPos.z) / cueDuration;
             }
         }
     }
@@ -160,7 +169,8 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play) {
 
     frameCount = play->state.frames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, frameCount % 128, 0, 32, 32, 1, frameCount % 128, 0, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frameCount % 128, 0, 32, 32, 1, frameCount % 128,
+                                0, 32, 32));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_dekujr.c", 399),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_dekujr_DL_0032D8);

@@ -11,7 +11,7 @@ void ArmsHook_Draw(Actor* thisx, PlayState* play);
 void ArmsHook_Wait(ArmsHook* this, PlayState* play);
 void ArmsHook_Shoot(ArmsHook* this, PlayState* play);
 
-const ActorInit Arms_Hook_InitVars = {
+ActorInit Arms_Hook_InitVars = {
     ACTOR_ARMS_HOOK,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -84,10 +84,10 @@ void ArmsHook_Wait(ArmsHook* this, PlayState* play) {
     if (this->actor.parent == NULL) {
         Player* player = GET_PLAYER(play);
         // get correct timer length for hookshot or longshot
-        s32 length = (player->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 13 : 26;
+        s32 length = (player->heldItemAction == PLAYER_IA_HOOKSHOT) ? 13 : 26;
 
         ArmsHook_SetupAction(this, ArmsHook_Shoot);
-        func_8002D9A4(&this->actor, 20.0f);
+        Actor_SetProjectileSpeed(&this->actor, 20.0f);
         this->actor.parent = &GET_PLAYER(play)->actor;
         this->timer = length;
     }
@@ -120,7 +120,7 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
 
     if (Player_HoldsHookshot(player)) {
-        if ((player->itemActionParam != player->heldItemActionParam) || (player->actor.flags & ACTOR_FLAG_8) ||
+        if ((player->itemAction != player->heldItemAction) || (player->actor.flags & ACTOR_FLAG_8) ||
             ((player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))) {
             this->timer = 0;
             ArmsHook_DetachHookFromActor(this);
@@ -180,8 +180,8 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
             }
         }
         this->timer = 0;
-        Audio_PlaySoundGeneral(NA_SE_IT_ARROW_STICK_CRE, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySfxGeneral(NA_SE_IT_ARROW_STICK_CRE, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (DECR(this->timer) == 0) {
         grabbed = this->grabbed;
         if (grabbed != NULL) {
@@ -250,10 +250,10 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
             }
         }
     } else {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Math_Vec3f_Diff(&this->actor.world.pos, &this->actor.prevPos, &prevFrameDiff);
         Math_Vec3f_Sum(&this->unk_1E8, &prevFrameDiff, &this->unk_1E8);
-        this->actor.shape.rot.x = Math_Atan2S(this->actor.speedXZ, -this->actor.velocity.y);
+        this->actor.shape.rot.x = Math_Atan2S(this->actor.speed, -this->actor.velocity.y);
         sp60.x = this->unk_1F4.x - (this->unk_1E8.x - this->unk_1F4.x);
         sp60.y = this->unk_1F4.y - (this->unk_1E8.y - this->unk_1F4.y);
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
@@ -266,7 +266,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
             this->actor.world.pos.x += 10.0f * polyNormalX;
             this->actor.world.pos.z += 10.0f * polyNormalZ;
             this->timer = 0;
-            if (SurfaceType_IsHookshotSurface(&play->colCtx, poly, bgId)) {
+            if (SurfaceType_CanHookshot(&play->colCtx, poly, bgId)) {
                 if (bgId != BGCHECK_SCENE) {
                     dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
                     if (dynaPolyActor != NULL) {
@@ -274,12 +274,12 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
                     }
                 }
                 func_80865044(this);
-                Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_STICK_OBJ, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_IT_HOOKSHOT_STICK_OBJ, &this->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
                 CollisionCheck_SpawnShieldParticlesMetal(play, &this->actor.world.pos);
-                Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         } else if (CHECK_BTN_ANY(play->state.input[0].press.button,
                                  (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN))) {

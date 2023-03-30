@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 // this should probably go elsewhere but right now viconfig.o is the only object between idle and z_std_dma
 OSPiHandle* gCartHandle = NULL;

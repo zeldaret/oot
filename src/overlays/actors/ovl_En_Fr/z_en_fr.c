@@ -1,6 +1,6 @@
 #include "z_en_fr.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_fr/object_fr.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
@@ -133,7 +133,7 @@ static s32 sSongToFrog[] = {
     FROG_PURPLE, FROG_WHITE, FROG_YELLOW, FROG_BLUE, FROG_RED,
 };
 
-const ActorInit En_Fr_InitVars = {
+ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORCAT_NPC,
     FLAGS,
@@ -224,7 +224,7 @@ void EnFr_OrientUnderwater(EnFr* this) {
     this->actor.world.pos.y = sLogSpotToFromWater[this->actor.params].yDist + this->posLogSpot.y;
     this->actor.world.rot.y = this->actor.shape.rot.y =
         RAD_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw) + 0x8000;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
 }
@@ -352,10 +352,10 @@ void EnFr_DivingIntoWater(EnFr* this, PlayState* play) {
         vec.z = this->actor.world.pos.z;
         EffectSsGSplash_Spawn(play, &vec, NULL, NULL, 1, 1);
 
-        if (this->isBelowWaterSurfaceCurrent == false) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
+        if (!this->isBelowWaterSurfaceCurrent) {
+            Actor_PlaySfx(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
         } else {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
         }
     }
 }
@@ -418,7 +418,7 @@ void EnFr_JumpingOutOfWater(EnFr* this, PlayState* play) {
         this->skelAnime.playSpeed = 0.0f;
     } else if (this->skelAnime.curFrame == 3.0f) {
         this->actor.gravity = -10.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.velocity.y = 47.0f;
     }
 
@@ -479,7 +479,7 @@ void EnFr_JumpingUp(EnFr* this, PlayState* play) {
         this->actor.velocity.y = 25.0f;
         if (this->isJumpingToFrogSong) {
             this->isJumpingToFrogSong = false;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_EAT);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_EAT);
         }
     }
 
@@ -501,7 +501,7 @@ void EnFr_JumpingBackIntoWater(EnFr* this, PlayState* play) {
     if (this->skelAnime.curFrame == 6.0f) {
         this->skelAnime.playSpeed = 0.0f;
     } else if (this->skelAnime.curFrame == 3.0f) {
-        this->actor.speedXZ = 6.0f;
+        this->actor.speed = 6.0f;
         this->actor.gravity = -10.0f;
         this->actor.velocity.y = 25.0f;
     }
@@ -586,7 +586,7 @@ void EnFr_UpdateActive(Actor* thisx, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         SkelAnime_Update(&this->skelAnimeButterfly);
         EnFr_ButterflyPath(this, play);
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     }
 }
 
@@ -594,13 +594,13 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
     EnFr* frog = sEnFrPointers.frogs[frogIndex];
     u8 semitone;
 
-    if (frog != NULL && frog->isJumpingUp == false) {
+    if ((frog != NULL) && !frog->isJumpingUp) {
         semitone = frog->growingScaleIndex == 3 ? sLargeFrogNotes[frogIndex] : sSmallFrogNotes[frogIndex];
         if (this->songIndex == FROG_CHOIR_SONG) {
             frog->isJumpingToFrogSong = true;
         }
         frog->isJumpingUp = true;
-        Audio_PlaySoundTransposed(&frog->actor.projectedPos, NA_SE_EV_FROG_JUMP, semitone);
+        Audio_PlaySfxTransposed(&frog->actor.projectedPos, NA_SE_EV_FROG_JUMP, semitone);
         return true;
     } else {
         return false;
@@ -620,7 +620,7 @@ void EnFr_Idle(EnFr* this, PlayState* play) {
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f
         player->actor.world.pos.z = this->actor.world.pos.z; // z = -1220.0f
-        player->currentYaw = player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y;
+        player->yaw = player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y;
         this->reward = GI_NONE;
         this->actionFunc = EnFr_Activate;
     } else if (EnFr_IsAboveAndWithin30DistXZ(player, this)) {
@@ -668,7 +668,7 @@ void func_80A1BE98(EnFr* this, PlayState* play) {
         }
     }
 
-    func_8010BD58(play, OCARINA_ACTION_CHECK_NOWARP);
+    Message_StartOcarina(play, OCARINA_ACTION_CHECK_NOWARP);
     this->actionFunc = EnFr_ListeningToOcarinaNotes;
 }
 
@@ -741,7 +741,7 @@ void EnFr_ChildSong(EnFr* this, PlayState* play) {
             if (frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
                 frog->isJumpingUp = true;
                 frog->isActive = true;
-                Audio_PlayActorSound2(&frog->actor, NA_SE_EV_FROG_GROW_UP);
+                Actor_PlaySfx(&frog->actor, NA_SE_EV_FROG_GROW_UP);
                 this->actionFunc = EnFr_ChildSongFirstTime;
             } else {
                 this->jumpCounter = 48;
@@ -756,7 +756,7 @@ void EnFr_ChildSong(EnFr* this, PlayState* play) {
 void EnFr_ChildSongFirstTime(EnFr* this, PlayState* play) {
     EnFr* frog = sEnFrPointers.frogs[sSongToFrog[this->songIndex]];
 
-    if (frog->isActive == false) {
+    if (!frog->isActive) {
         this->actor.textId = 0x40A9;
         EnFr_SetupReward(this, play, true);
     }
@@ -822,7 +822,7 @@ void EnFr_SetupFrogSong(EnFr* this, PlayState* play) {
     } else {
         this->frogSongTimer = 40;
         this->ocarinaNoteIndex = 0;
-        func_8010BD58(play, OCARINA_ACTION_FROGS);
+        Message_StartOcarina(play, OCARINA_ACTION_FROGS);
         this->ocarinaNote = EnFr_GetNextNoteFrogSong(this->ocarinaNoteIndex);
         EnFr_CheckOcarinaInputFrogSong(this->ocarinaNote);
         this->actionFunc = EnFr_ContinueFrogSong;
@@ -838,7 +838,6 @@ s32 EnFr_IsFrogSongComplete(EnFr* this, PlayState* play) {
     if (this->ocarinaNote == (*msgCtx).lastOcarinaButtonIndex) { // required to match, possibly an array?
         this->ocarinaNoteIndex++;
         ocarinaNoteIndex = this->ocarinaNoteIndex;
-        if (1) {}
         if (ocarinaNoteIndex >= 14) { // Frog Song is completed
             this->ocarinaNoteIndex = 13;
             return true;
@@ -1009,12 +1008,12 @@ void EnFr_Deactivate(EnFr* this, PlayState* play) {
     }
 
     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EV_FROG_CRY_0);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_FROG_CRY_0);
     if (this->reward == GI_NONE) {
         this->actionFunc = EnFr_Idle;
     } else {
         this->actionFunc = EnFr_GiveReward;
-        func_8002F434(&this->actor, play, this->reward, 30.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, this->reward, 30.0f, 100.0f);
     }
 }
 
@@ -1023,7 +1022,7 @@ void EnFr_GiveReward(EnFr* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnFr_SetIdle;
     } else {
-        func_8002F434(&this->actor, play, this->reward, 30.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, this->reward, 30.0f, 100.0f);
     }
 }
 

@@ -18,7 +18,7 @@ void MagicDark_DiamondDraw(Actor* thisx, PlayState* play);
 
 void MagicDark_DimLighting(PlayState* play, f32 intensity);
 
-const ActorInit Magic_Dark_InitVars = {
+ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -78,6 +78,12 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
+    //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
+    //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
+    //! This happens with all magic effects actors, but is especially visible with Nayru's Love as it lasts longer than
+    //! other magic actors, and the Nayru's Love actor is supposed to be spawned back after ocarina effects actors are
+    //! done. But with warp songs, whether the player warps away or not, the actor won't be spawned back.
     if ((msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(thisx);
         return;
@@ -224,8 +230,9 @@ void MagicDark_DiamondDraw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s32)(this->primAlpha * 0.6f) & 0xFF);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
         gSPDisplayList(POLY_XLU_DISP++, sDiamondMaterialDL);
-        gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, gameplayFrames * 2, gameplayFrames * -4,
-                                                         32, 32, 1, 0, gameplayFrames * -16, 64, 32));
+        gSPDisplayList(POLY_XLU_DISP++,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 2, gameplayFrames * -4,
+                                        32, 32, 1, 0, gameplayFrames * -16, 64, 32));
         gSPDisplayList(POLY_XLU_DISP++, sDiamondModelDL);
     }
 

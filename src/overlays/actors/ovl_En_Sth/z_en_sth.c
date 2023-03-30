@@ -4,7 +4,7 @@
  * Description: Uncursed House of Skulltula People
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_en_sth.h"
 #include "assets/objects/object_ahg/object_ahg.h"
 #include "assets/objects/object_boj/object_boj.h"
@@ -22,7 +22,7 @@ void EnSth_ParentRewardObtainedWait(EnSth* this, PlayState* play);
 void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play);
 void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play);
 
-const ActorInit En_Sth_InitVars = {
+ActorInit En_Sth_InitVars = {
     ACTOR_EN_STH,
     ACTORCAT_NPC,
     FLAGS,
@@ -250,7 +250,7 @@ void EnSth_GivePlayerItem(EnSth* this, PlayState* play) {
             break;
     }
 
-    func_8002F434(&this->actor, play, getItemId, 10000.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, getItemId, 10000.0f, 50.0f);
 }
 
 void EnSth_GiveReward(EnSth* this, PlayState* play) {
@@ -317,7 +317,7 @@ void EnSth_Update2(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;

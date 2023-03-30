@@ -23,7 +23,7 @@ void EnBa_RecoilFromDamage(EnBa* this, PlayState* play);
 void EnBa_Die(EnBa* this, PlayState* play);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
 
-const ActorInit En_Ba_InitVars = {
+ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -133,7 +133,7 @@ void EnBa_Destroy(Actor* thisx, PlayState* play) {
 void EnBa_SetupIdle(EnBa* this) {
     this->unk_14C = 2;
     this->unk_31C = 1500;
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
     EnBa_SetupAction(this, EnBa_Idle);
 }
 
@@ -159,7 +159,7 @@ void EnBa_Idle(EnBa* this, PlayState* play) {
     this->unk_2FC.y -= 448.0f;
     this->unk_2FC.x += this->unk_308.x;
     this->unk_2FC.z += this->unk_308.y;
-    func_80033AEC(&this->unk_2FC, &this->unk_158[13], 1.0f, this->actor.speedXZ, 0.0f, 0.0f);
+    func_80033AEC(&this->unk_2FC, &this->unk_158[13], 1.0f, this->actor.speed, 0.0f, 0.0f);
     for (i = 12; i >= 0; i--) {
         func_80035844(&this->unk_158[i + 1], &this->unk_158[i], &sp5C, 0);
         Matrix_Translate(this->unk_158[i + 1].x, this->unk_158[i + 1].y, this->unk_158[i + 1].z, MTXMODE_NEW);
@@ -192,7 +192,7 @@ void EnBa_Idle(EnBa* this, PlayState* play) {
 
 void EnBa_SetupFallAsBlob(EnBa* this) {
     this->unk_14C = 0;
-    this->actor.speedXZ = Rand_CenteredFloat(8.0f);
+    this->actor.speed = Rand_CenteredFloat(8.0f);
     this->actor.world.rot.y = Rand_CenteredFloat(65535.0f);
     this->unk_318 = 20;
     this->actor.gravity = -2.0f;
@@ -212,7 +212,7 @@ void EnBa_FallAsBlob(EnBa* this, PlayState* play) {
             Actor_Kill(&this->actor);
         }
     } else {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 30.0f, 28.0f, 80.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 }
@@ -223,7 +223,7 @@ void EnBa_SetupSwingAtPlayer(EnBa* this) {
     this->unk_31A = 0;
     this->unk_31C = 1500;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.speedXZ = 20.0f;
+    this->actor.speed = 20.0f;
     EnBa_SetupAction(this, EnBa_SwingAtPlayer);
 }
 
@@ -237,7 +237,7 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 60.0f, 1.0f, 10.0f, 0.0f);
     if ((this->actor.xzDistToPlayer <= 175.0f) || (this->unk_31A != 0)) {
         if (this->unk_318 == 20) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HAND_UP);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HAND_UP);
             this->unk_31C = 1500;
         }
         if (this->unk_318 != 0) {
@@ -267,11 +267,11 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
             }
         } else {
             if (this->unk_31A == 10) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HAND_DOWN);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HAND_DOWN);
             }
             if (this->unk_31A != 0) {
                 this->unk_31C = 8000;
-                this->actor.speedXZ = 30.0f;
+                this->actor.speed = 30.0f;
                 phi_fp = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_2FC);
                 temp = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk_158[0]) + 0x8000;
                 Math_SmoothStepToS(&this->actor.shape.rot.y, phi_fp, 1, this->unk_31C, 0);
@@ -323,9 +323,9 @@ void func_809B7174(EnBa* this) {
     this->unk_31C = 1500;
     this->unk_318 = 20;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.speedXZ = 10.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HAND_DAMAGE);
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 12);
+    this->actor.speed = 10.0f;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_HAND_DAMAGE);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
     EnBa_SetupAction(this, EnBa_RecoilFromDamage);
 }
 
@@ -344,7 +344,7 @@ void EnBa_RecoilFromDamage(EnBa* this, PlayState* play) {
     this->unk_2FC.y -= 448.0f;
     this->unk_2FC.x += this->unk_308.x;
     this->unk_2FC.z += this->unk_308.y;
-    func_80033AEC(&this->unk_2FC, &this->unk_158[13], 1.0f, this->actor.speedXZ, 0.0f, 0.0f);
+    func_80033AEC(&this->unk_2FC, &this->unk_158[13], 1.0f, this->actor.speed, 0.0f, 0.0f);
     for (i = 12; i >= 0; i--) {
         func_80035844(&this->unk_158[i + 1], &this->unk_158[i], &sp6C, 0);
         Matrix_Translate(this->unk_158[i + 1].x, this->unk_158[i + 1].y, this->unk_158[i + 1].z, MTXMODE_NEW);
@@ -413,7 +413,7 @@ void EnBa_Die(EnBa* this, PlayState* play) {
     s32 i;
 
     if (this->unk_31A != 0) {
-        this->actor.speedXZ = 30.0f;
+        this->actor.speed = 30.0f;
         this->unk_31C = 8000;
         this->actor.world.pos.y += 8.0f;
         temp = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk_158[0]) + 0x8000;
@@ -484,9 +484,9 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
         Matrix_Push();
         gSPSegment(POLY_OPA_DISP++, 0x0C, mtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B8118[this->actor.params]));
-        gSPSegment(
-            POLY_OPA_DISP++, 0x09,
-            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0, (play->gameplayFrames * -10) % 128, 32, 32));
+        gSPSegment(POLY_OPA_DISP++, 0x09,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 16, 16, 1, 0,
+                                    (play->gameplayFrames * -10) % 128, 32, 32));
         for (i = 0; i < 14; i++, mtx++) {
             Matrix_Translate(this->unk_158[i].x, this->unk_158[i].y, this->unk_158[i].z, MTXMODE_NEW);
             Matrix_RotateZYX(this->unk_2A8[i].x, this->unk_2A8[i].y, this->unk_2A8[i].z, MTXMODE_APPLY);
@@ -510,7 +510,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_000890);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->gameplayFrames * 2) % 128,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->gameplayFrames * 2) % 128,
                                     (play->gameplayFrames * 2) % 128, 32, 32, 1, (play->gameplayFrames * -5) % 128,
                                     (play->gameplayFrames * -5) % 128, 32, 32));
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 125, 100, 255);

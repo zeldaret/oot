@@ -19,7 +19,7 @@ void func_80B92C80(ObjElevator* this, PlayState* play);
 void func_80B92D20(ObjElevator* this);
 void func_80B92D44(ObjElevator* this, PlayState* play);
 
-const ActorInit Obj_Elevator_InitVars = {
+ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
     ACTORCAT_BG,
     FLAGS,
@@ -62,7 +62,7 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
     ObjElevator* this = (ObjElevator*)thisx;
     f32 temp_f0;
 
-    func_80B92B08(this, play, &object_d_elevator_Col_000360, DPM_PLAYER);
+    func_80B92B08(this, play, &object_d_elevator_Col_000360, DYNA_TRANSFORM_POS);
     Actor_SetScale(thisx, sScales[thisx->params & 1]);
     Actor_ProcessInitChain(thisx, sInitChain);
     temp_f0 = (thisx->params >> 8) & 0xF;
@@ -85,7 +85,7 @@ void func_80B92C80(ObjElevator* this, PlayState* play) {
     f32 sub;
     Actor* thisx = &this->dyna.actor;
 
-    if ((this->dyna.unk_160 & 2) && !(this->unk_170 & 2)) {
+    if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) && !(this->unk_170 & DYNA_INTERACT_PLAYER_ON_TOP)) {
         sub = thisx->world.pos.y - thisx->home.pos.y;
         if (fabsf(sub) < 0.1f) {
             this->unk_168 = thisx->home.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
@@ -104,10 +104,10 @@ void func_80B92D44(ObjElevator* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (fabsf(Math_SmoothStepToF(&thisx->world.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_FOOT_SWITCH);
+        Actor_PlaySfx(thisx, NA_SE_EV_FOOT_SWITCH);
         func_80B92C5C(this);
     } else {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        Actor_PlaySfx(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 
@@ -117,7 +117,7 @@ void ObjElevator_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc) {
         this->actionFunc(this, play);
     }
-    this->unk_170 = this->dyna.unk_160;
+    this->unk_170 = this->dyna.interactFlags;
 }
 
 void ObjElevator_Draw(Actor* thisx, PlayState* play) {

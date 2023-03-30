@@ -29,7 +29,7 @@ static WaterLevel sWaterLevels[] = {
     { WATER_TEMPLE_WATER_F1_FLAG, WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_F3_Y },
 };
 
-const ActorInit Bg_Mizu_Water_InitVars = {
+ActorInit Bg_Mizu_Water_InitVars = {
     ACTOR_BG_MIZU_WATER,
     ACTORCAT_BG,
     FLAGS,
@@ -282,10 +282,10 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, PlayState* play) {
     }
 
     if (this->targetY < this->actor.world.pos.y) {
-        func_800AA000(0.0f, 0x78, 0x14, 0xA);
+        Rumble_Request(0.0f, 120, 20, 10);
         func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else if (this->targetY > this->actor.world.pos.y) {
-        func_800AA000(0.0f, 0x78, 0x14, 0xA);
+        Rumble_Request(0.0f, 120, 20, 10);
         func_8002F948(&this->actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
 }
@@ -333,8 +333,8 @@ void BgMizuWater_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x0C,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1, 0,
-                                -gameplayFrames * 1, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1,
+                                0, -gameplayFrames * 1, 32, 32));
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mizu_water.c", 749),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

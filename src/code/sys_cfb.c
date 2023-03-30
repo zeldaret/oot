@@ -1,11 +1,11 @@
 #include "global.h"
 
-u32 sSysCfbFbPtr[2];
-u32 sSysCfbEnd;
+uintptr_t sSysCfbFbPtr[2];
+uintptr_t sSysCfbEnd;
 
 void SysCfb_Init(s32 n64dd) {
     u32 screenSize;
-    u32 tmpFbEnd;
+    uintptr_t tmpFbEnd;
 
     if (osMemSize >= 0x800000) {
         // "8MB or more memory is installed"
@@ -42,13 +42,13 @@ void SysCfb_Reset(void) {
     sSysCfbEnd = 0;
 }
 
-u32 SysCfb_GetFbPtr(s32 idx) {
+void* SysCfb_GetFbPtr(s32 idx) {
     if (idx < 2) {
-        return sSysCfbFbPtr[idx];
+        return (void*)sSysCfbFbPtr[idx];
     }
-    return 0;
+    return NULL;
 }
 
-u32 SysCfb_GetFbEnd(void) {
-    return sSysCfbEnd;
+void* SysCfb_GetFbEnd(void) {
+    return (void*)sSysCfbEnd;
 }

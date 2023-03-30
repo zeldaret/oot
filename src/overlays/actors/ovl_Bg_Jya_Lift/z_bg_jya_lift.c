@@ -11,7 +11,7 @@
 
 void BgJyaLift_Init(Actor* thisx, PlayState* play);
 void BgJyaLift_Destroy(Actor* thisx, PlayState* play);
-void BgJyaLift_Update(Actor* thisx, PlayState* play);
+void BgJyaLift_Update(Actor* thisx, PlayState* play2);
 void BgJyaLift_Draw(Actor* thisx, PlayState* play);
 
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
@@ -22,7 +22,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-const ActorInit Bg_Jya_Lift_InitVars = {
+ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
     ACTORCAT_BG,
     FLAGS,
@@ -61,7 +61,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
 
     // "Goddess lift CT"
     osSyncPrintf("女神リフト CT\n");
-    BgJyaLift_InitDynapoly(this, play, &gLiftCol, DPM_UNK);
+    BgJyaLift_InitDynapoly(this, play, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
         BgJyaLift_SetFinalPosY(this);
@@ -117,7 +117,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play) {
     }
     if (fabsf(distFromBottom) < 0.001f) {
         BgJyaLift_SetFinalPosY(this);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ELEVATOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
     }
@@ -135,13 +135,14 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, play);
     }
-    if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
+    if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && !(this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
-    } else if (((this->dyna.unk_160 & 4) == 0) && (this->unk_16B & 4) &&
+    } else if (!(this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) &&
+               (this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE) &&
                (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
-    this->unk_16B = this->dyna.unk_160;
+    this->unk_16B = this->dyna.interactFlags;
 
     // Spirit Temple room 5 is the main room with the statue room 25 is directly above room 5
     if ((play->roomCtx.curRoom.num != 5) && (play->roomCtx.curRoom.num != 25)) {

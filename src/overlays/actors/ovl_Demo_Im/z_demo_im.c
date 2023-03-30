@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "assets/scenes/indoors/nakaniwa/nakaniwa_scene.h"
 #include "assets/objects/object_im/object_im.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
@@ -73,7 +73,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 #pragma asmproc recurse
-#include "z_demo_im_cutscene_data.c"
+#include "z_demo_im_cutscene_data.inc.c"
 
 static DemoImActionFunc sActionFuncs[] = {
     func_809856F8, func_80985718, func_80985738, func_80985770, func_809857B0, func_809857F0, func_80985830,
@@ -91,7 +91,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
     DemoIm_DrawTranslucent,
 };
 
-const ActorInit Demo_Im_InitVars = {
+ActorInit Demo_Im_InitVars = {
     ACTOR_DEMO_IM,
     ACTORCAT_NPC,
     FLAGS,
@@ -166,44 +166,44 @@ void DemoIm_UpdateCollider(DemoIm* this, PlayState* play) {
 
 void func_80984DB8(DemoIm* this) {
     s32 pad[2];
-    Vec3s* vec1 = &this->unk_2D4.unk_08;
-    Vec3s* vec2 = &this->unk_2D4.unk_0E;
+    Vec3s* headRot = &this->interactInfo.headRot;
+    Vec3s* torsoRot = &this->interactInfo.torsoRot;
 
-    Math_SmoothStepToS(&vec1->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec1->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->y, 0, 20, 6200, 100);
 
-    Math_SmoothStepToS(&vec2->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&vec2->y, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 20, 6200, 100);
 }
 
 void func_80984E58(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 yawDiff;
-    s16 phi_a3;
+    s16 trackingMode;
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 4.0f;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 4.0f;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    phi_a3 = (ABS(yawDiff) < 0x18E3) ? 2 : 1;
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, phi_a3);
+    trackingMode = (ABS(yawDiff) < 0x18E3) ? NPC_TRACKING_HEAD_AND_TORSO : NPC_TRACKING_NONE;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, trackingMode);
 }
 
 void func_80984F10(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 12.0f;
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 12.0f;
 
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 2);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80984F94(DemoIm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_2D4.unk_18 = player->actor.world.pos;
-    this->unk_2D4.unk_14 = kREG(16) + 4.0f;
-    func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 4);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 4.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_FULL_BODY);
 }
 
 void DemoIm_UpdateBgCheckInfo(DemoIm* this, PlayState* play) {
@@ -214,7 +214,7 @@ s32 DemoIm_UpdateSkelAnime(DemoIm* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-s32 DemoIm_IsCsStateIdle(PlayState* play) {
+s32 DemoIm_IsCutsceneIdle(PlayState* play) {
     if (play->csCtx.state == CS_STATE_IDLE) {
         return true;
     } else {
@@ -222,57 +222,58 @@ s32 DemoIm_IsCsStateIdle(PlayState* play) {
     }
 }
 
-CsCmdActorAction* DemoIm_GetNpcAction(PlayState* play, s32 actionIdx) {
+CsCmdActorCue* DemoIm_GetCue(PlayState* play, s32 cueChannel) {
     s32 pad[2];
-    CsCmdActorAction* ret = NULL;
+    CsCmdActorCue* cue = NULL;
 
-    if (!DemoIm_IsCsStateIdle(play)) {
-        ret = play->csCtx.npcActions[actionIdx];
+    if (!DemoIm_IsCutsceneIdle(play)) {
+        cue = play->csCtx.actorCues[cueChannel];
     }
-    return ret;
+
+    return cue;
 }
 
-s32 func_809850E8(DemoIm* this, PlayState* play, u16 action, s32 actionIdx) {
-    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(play, actionIdx);
+s32 func_809850E8(DemoIm* this, PlayState* play, u16 action, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIm_GetCue(play, cueChannel);
 
-    if (npcAction != NULL) {
-        if (npcAction->action == action) {
+    if (cue != NULL) {
+        if (cue->id == action) {
             return true;
         }
     }
     return false;
 }
 
-s32 func_80985134(DemoIm* this, PlayState* play, u16 action, s32 actionIdx) {
-    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(play, actionIdx);
+s32 func_80985134(DemoIm* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIm_GetCue(play, cueChannel);
 
-    if (npcAction != NULL) {
-        if (npcAction->action != action) {
+    if (cue != NULL) {
+        if (cue->id != cueId) {
             return true;
         }
     }
     return false;
 }
 
-void func_80985180(DemoIm* this, PlayState* play, s32 actionIdx) {
-    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(play, actionIdx);
+void func_80985180(DemoIm* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIm_GetCue(play, cueChannel);
 
-    if (npcAction != NULL) {
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
-        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+    if (cue != NULL) {
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
-void func_80985200(DemoIm* this, PlayState* play, s32 actionIdx) {
-    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(play, actionIdx);
+void func_80985200(DemoIm* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = DemoIm_GetCue(play, cueChannel);
 
-    if (npcAction != NULL) {
-        this->actor.world.pos.x = npcAction->startPos.x;
-        this->actor.world.pos.y = npcAction->startPos.y;
-        this->actor.world.pos.z = npcAction->startPos.z;
-        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+    if (cue != NULL) {
+        this->actor.world.pos.x = cue->startPos.x;
+        this->actor.world.pos.y = cue->startPos.y;
+        this->actor.world.pos.z = cue->startPos.z;
+        this->actor.world.rot.y = this->actor.shape.rot.y = cue->rot.y;
     }
 }
 
@@ -325,11 +326,11 @@ void func_80985430(DemoIm* this, PlayState* play) {
 void func_8098544C(DemoIm* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 4) && (gSaveContext.sceneSetupIndex < 4)) {
+    if ((gSaveContext.chamberCutsceneNum == 4) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
-        play->csCtx.segment = D_8098786C;
+        play->csCtx.script = D_8098786C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SHADOW);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
@@ -337,8 +338,8 @@ void func_8098544C(DemoIm* this, PlayState* play) {
 }
 
 void func_809854DC(DemoIm* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[5] != NULL) &&
-        (play->csCtx.npcActions[5]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[5] != NULL) &&
+        (play->csCtx.actorCues[5]->id == 2)) {
         Animation_Change(&this->skelAnime, &gImpaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaIdleAnim),
                          ANIMMODE_LOOP, 0.0f);
         this->action = 2;
@@ -355,8 +356,8 @@ void func_8098557C(DemoIm* this) {
 }
 
 void func_809855A8(DemoIm* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[5] != NULL) &&
-        (play->csCtx.npcActions[5]->action == 3)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[5] != NULL) &&
+        (play->csCtx.actorCues[5]->id == 3)) {
         Animation_Change(&this->skelAnime, &gImpaRaiseArmsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gImpaRaiseArmsAnim),
                          ANIMMODE_ONCE, 4.0f);
         this->action = 4;
@@ -372,8 +373,8 @@ void func_80985640(DemoIm* this, s32 arg1) {
 }
 
 void func_809856AC(DemoIm* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[6] != NULL) &&
-        (play->csCtx.npcActions[6]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
+        (play->csCtx.actorCues[6]->id == 2)) {
         this->action = 6;
         func_809853B4(this, play);
     }
@@ -543,7 +544,7 @@ void func_80985E60(DemoIm* this, PlayState* play) {
 }
 
 void func_80985EAC(DemoIm* this, PlayState* play) {
-    if ((play->csCtx.frames >= 80) && (play->csCtx.frames < 243)) {
+    if ((play->csCtx.curFrame >= 80) && (play->csCtx.curFrame < 243)) {
         func_80984F10(this, play);
     } else {
         func_80984DB8(this);
@@ -606,14 +607,14 @@ void func_80986148(DemoIm* this) {
 }
 
 void func_809861C4(DemoIm* this, PlayState* play) {
-    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(play, 5);
+    CsCmdActorCue* cue = DemoIm_GetCue(play, 5);
 
-    if (npcAction != NULL) {
-        u32 action = npcAction->action;
-        u32 unk_274 = this->unk_274;
+    if (cue != NULL) {
+        u32 nextCueId = cue->id;
+        u32 currentCueId = this->cueId;
 
-        if (action != unk_274) {
-            switch (action) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 9:
                     func_80986148(this);
                     break;
@@ -625,13 +626,13 @@ void func_809861C4(DemoIm* this, PlayState* play) {
                 default:
                     osSyncPrintf("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->unk_274 = action;
+            this->cueId = nextCueId;
         }
     }
 }
 
 void func_8098629C(DemoIm* this, PlayState* play) {
-    if (DemoIm_IsCsStateIdle(play)) {
+    if (DemoIm_IsCutsceneIdle(play)) {
         this->action = 21;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -639,14 +640,14 @@ void func_8098629C(DemoIm* this, PlayState* play) {
 }
 
 void func_809862E0(DemoIm* this, PlayState* play) {
-    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(play, 5);
+    CsCmdActorCue* cue = DemoIm_GetCue(play, 5);
 
-    if (npcAction != NULL) {
-        u32 action = npcAction->action;
-        u32 unk_274 = this->unk_274;
+    if (cue != NULL) {
+        u32 nextCueId = cue->id;
+        u32 currentCueId = this->cueId;
 
-        if (action != unk_274) {
-            switch (action) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     func_80985F54(this);
                     break;
@@ -665,7 +666,7 @@ void func_809862E0(DemoIm* this, PlayState* play) {
                 default:
                     osSyncPrintf("Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->unk_274 = action;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -717,11 +718,11 @@ void func_8098652C(DemoIm* this, PlayState* play) {
 
 void func_80986570(DemoIm* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 7.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        u32 sfxId = SFX_FLAG;
+        u32 sfxId = NA_SE_PL_WALK_GROUND;
 
-        sfxId += SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        Audio_PlaySoundGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
+        Audio_PlaySfxGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -770,14 +771,14 @@ void func_80986794(DemoIm* this) {
 }
 
 void func_8098680C(DemoIm* this, PlayState* play) {
-    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(play, 5);
+    CsCmdActorCue* cue = DemoIm_GetCue(play, 5);
 
-    if (npcAction != NULL) {
-        u32 action = npcAction->action;
-        u32 unk_274 = this->unk_274;
+    if (cue != NULL) {
+        u32 nextCueId = cue->id;
+        u32 currentCueId = this->cueId;
 
-        if (action != unk_274) {
-            switch (action) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     func_80986700(this);
                     break;
@@ -793,7 +794,7 @@ void func_8098680C(DemoIm* this, PlayState* play) {
                 default:
                     osSyncPrintf("Demo_Im_Spot00_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->unk_274 = action;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -865,10 +866,10 @@ void func_80986B2C(PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
         Player* player = GET_PLAYER(play);
 
-        play->nextEntranceIndex = ENTR_SPOT00_0;
+        play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
-        func_8002DF54(play, &player->actor, 8);
+        func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
     }
 }
 
@@ -898,7 +899,7 @@ void func_80986BF8(DemoIm* this, PlayState* play) {
 
 void func_80986C30(DemoIm* this, PlayState* play) {
     if (func_80986A5C(this, play)) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
         gSaveContext.cutsceneTrigger = 1;
         SET_EVENTCHKINF(EVENTCHKINF_59);
         Item_Give(play, ITEM_SONG_LULLABY);
@@ -923,7 +924,7 @@ void func_80986CFC(DemoIm* this, PlayState* play) {
 }
 
 void func_80986D40(DemoIm* this, PlayState* play) {
-    if (gSaveContext.sceneSetupIndex == 6) {
+    if (gSaveContext.sceneLayer == 6) {
         this->action = 19;
         this->drawConfig = 1;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
@@ -1039,14 +1040,14 @@ void func_809871B4(DemoIm* this, s32 arg1) {
 }
 
 void func_809871E8(DemoIm* this, PlayState* play) {
-    CsCmdActorAction* npcAction = DemoIm_GetNpcAction(play, 5);
+    CsCmdActorCue* cue = DemoIm_GetCue(play, 5);
 
-    if (npcAction != NULL) {
-        u32 action = npcAction->action;
-        u32 unk_274 = this->unk_274;
+    if (cue != NULL) {
+        u32 nextCueId = cue->id;
+        u32 currentCueId = this->cueId;
 
-        if (action != unk_274) {
-            switch (action) {
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 12:
                     func_809870F0(this, play);
                     break;
@@ -1056,7 +1057,7 @@ void func_809871E8(DemoIm* this, PlayState* play) {
                 default:
                     osSyncPrintf("Demo_Im_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
-            this->unk_274 = action;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -1137,17 +1138,17 @@ s32 DemoIm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
     s32* unk_2D0 = &this->unk_2D0;
 
     if (this->unk_280 != 0) {
-        Vec3s* unk_2D4_unk_0E = &this->unk_2D4.unk_0E;
-        Vec3s* unk_2D4_unk_08 = &this->unk_2D4.unk_08;
+        Vec3s* torsoRot = &this->interactInfo.torsoRot;
+        Vec3s* headRot = &this->interactInfo.headRot;
 
         switch (limbIndex) {
             case IMPA_LIMB_CHEST:
-                rot->x += unk_2D4_unk_0E->y;
-                rot->y -= unk_2D4_unk_0E->x;
+                rot->x += torsoRot->y;
+                rot->y -= torsoRot->x;
                 break;
             case IMPA_LIMB_HEAD:
-                rot->x += unk_2D4_unk_08->y;
-                rot->z += unk_2D4_unk_08->x;
+                rot->x += headRot->y;
+                rot->z += headRot->x;
                 break;
         }
     }

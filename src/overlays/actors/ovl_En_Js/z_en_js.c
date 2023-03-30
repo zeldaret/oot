@@ -16,7 +16,7 @@ void EnJs_Draw(Actor* thisx, PlayState* play);
 
 void func_80A89304(EnJs* this, PlayState* play);
 
-const ActorInit En_Js_InitVars = {
+ActorInit En_Js_InitVars = {
     ACTOR_EN_JS,
     ACTORCAT_NPC,
     FLAGS,
@@ -128,7 +128,7 @@ void func_80A89160(EnJs* this, PlayState* play) {
         this->actor.parent = NULL;
         En_Js_SetupAction(this, func_80A8910C);
     } else {
-        func_8002F434(&this->actor, play, GI_BOMBCHUS_10, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOMBCHUS_10, 10000.0f, 50.0f);
     }
 }
 
@@ -170,11 +170,12 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (SurfaceType_GetSfx(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) == 1) {
+        if (SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) ==
+            SURFACE_SFX_OFFSET_SAND) {
             Math_ApproachF(&this->actor.shape.yOffset, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
     } else {

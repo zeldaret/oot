@@ -69,6 +69,7 @@ void RomFile::ParseRawData()
 
 	uint32_t currentPtr = rawDataIndex;
 
+	rooms.reserve(numRooms);
 	for (int32_t i = 0; i < numRooms; i++)
 	{
 		RoomEntry entry(parent->GetRawData(), currentPtr);
@@ -104,8 +105,9 @@ std::string RomFile::GetBodySourceCode() const
 				if (!isFirst)
 					declaration += "\n";
 
-				declaration += StringHelper::Sprintf("\t{ _%sSegmentRomStart, _%sSegmentRomEnd },",
-				                                     roomName.c_str(), roomName.c_str());
+				declaration += StringHelper::Sprintf(
+					"\t{ (uintptr_t)_%sSegmentRomStart, (uintptr_t)_%sSegmentRomEnd },",
+					roomName.c_str(), roomName.c_str());
 				isFirst = false;
 			}
 		}

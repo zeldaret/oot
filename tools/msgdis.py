@@ -254,8 +254,8 @@ textbox_type = {
 textbox_ypos = {
     0: "TEXTBOX_POS_VARIABLE",
     1: "TEXTBOX_POS_TOP",
-    2: "TEXTBOX_POS_BOTTOM",
-    3: "TEXTBOX_POS_MIDDLE",
+    2: "TEXTBOX_POS_MIDDLE",
+    3: "TEXTBOX_POS_BOTTOM",
 }
 
 # message entry tables vrom addresses
@@ -309,7 +309,7 @@ def cvt(m):
 
 doubles = re.compile(r"(?<!\\)(\"\")")
 def fixup_message(message):
-    return re.sub(doubles, cvt, ("\"" + message.replace("\n","\\n\"\n\"") + "\"")).replace("\n ","\n").replace("BOX_BREAK\"","\nBOX_BREAK\n\"").replace("BOX_BREAK ","\nBOX_BREAK\n").strip()
+    return re.sub(doubles, cvt, ("\"" + message.replace("\n","\\n\"\n\"") + "\"")).replace("\n ","\n").replace("BOX_BREAK\"","\nBOX_BREAK\n\"").replace("BOX_BREAK ","\nBOX_BREAK\n").replace(" \n", "\n").strip()
 ###
 
 def dump_all_text():

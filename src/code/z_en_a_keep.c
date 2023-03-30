@@ -1,5 +1,4 @@
 #include "global.h"
-#include "vt.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/object_d_hsblock/object_d_hsblock.h"
 
@@ -21,7 +20,7 @@ void EnAObj_SetupBlockRot(EnAObj* this, s16 type);
 void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
 void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
-const ActorInit En_A_Obj_InitVars = {
+ActorInit En_A_Obj_InitVars = {
     ACTOR_EN_A_OBJ,
     ACTORCAT_PROP,
     FLAGS,
@@ -113,8 +112,8 @@ void EnAObj_Init(Actor* thisx, PlayState* play) {
 
     thisx->focus.pos = thisx->world.pos;
     this->dyna.bgId = BGACTOR_NEG_ONE;
-    this->dyna.unk_160 = 0;
-    this->dyna.unk_15C = DPM_UNK;
+    this->dyna.interactFlags = 0;
+    this->dyna.transformFlags = 0;
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 200.0f;
 
@@ -224,7 +223,7 @@ void EnAObj_SetupBlockRot(EnAObj* this, s16 type) {
 
 void EnAObj_BlockRot(EnAObj* this, PlayState* play) {
     if (this->rotateState == 0) {
-        if (this->dyna.unk_160 != 0) {
+        if (this->dyna.interactFlags != 0) {
             this->rotateState++;
             this->rotateForTimer = 20;
 
@@ -266,11 +265,11 @@ void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type) {
 }
 
 void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
-    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.speed, 1.0f, 1.0f, 0.5f, 0.0f);
     this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x >> 1;
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z >> 1;
 
-    if (this->dyna.actor.speedXZ != 0.0f && this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL) {
+    if (this->dyna.actor.speed != 0.0f && this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->dyna.actor.world.rot.y =
             this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y + this->dyna.actor.wallYaw - 0x8000;
         if (1) {}
@@ -280,7 +279,7 @@ void EnAObj_BoulderFragment(EnAObj* this, PlayState* play) {
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->dyna.actor.velocity.y < -8.0f) {
             this->dyna.actor.velocity.y *= -0.6f;
-            this->dyna.actor.speedXZ *= 0.6f;
+            this->dyna.actor.speed *= 0.6f;
             this->dyna.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
         } else {
             Actor_Kill(&this->dyna.actor);
@@ -295,14 +294,14 @@ void EnAObj_SetupBlock(EnAObj* this, s16 type) {
 }
 
 void EnAObj_Block(EnAObj* this, PlayState* play) {
-    this->dyna.actor.speedXZ += this->dyna.unk_150;
+    this->dyna.actor.speed += this->dyna.unk_150;
     this->dyna.actor.world.rot.y = this->dyna.unk_158;
-    this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);
+    this->dyna.actor.speed = CLAMP(this->dyna.actor.speed, -2.5f, 2.5f);
 
-    Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->dyna.actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
 
-    if (this->dyna.actor.speedXZ != 0.0f) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    if (this->dyna.actor.speed != 0.0f) {
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 
     this->dyna.unk_154 = 0.0f;
@@ -313,7 +312,7 @@ void EnAObj_Update(Actor* thisx, PlayState* play) {
     EnAObj* this = (EnAObj*)thisx;
 
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     if (this->dyna.actor.gravity != 0.0f) {
         if (this->dyna.actor.params != A_OBJ_BOULDER_FRAGMENT) {

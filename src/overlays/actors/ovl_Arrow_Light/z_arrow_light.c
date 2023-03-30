@@ -21,7 +21,7 @@ void ArrowLight_Hit(ArrowLight* this, PlayState* play);
 
 #include "assets/overlays/ovl_Arrow_Light/ovl_Arrow_Light.c"
 
-const ActorInit Arrow_Light_InitVars = {
+ActorInit Arrow_Light_InitVars = {
     ACTOR_ARROW_LIGHT,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -109,7 +109,7 @@ void ArrowLight_Hit(ArrowLight* this, PlayState* play) {
 
     timer = this->timer;
     if (timer != 0) {
-        this->timer -= 1;
+        this->timer--;
 
         if (this->timer >= 8) {
             offset = ((this->timer - 8) * (1.0f / 24.0f));
@@ -163,7 +163,7 @@ void ArrowLight_Fly(ArrowLight* this, PlayState* play) {
     func_80869E6C(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_LIGHT);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_EXPLOSION_LIGHT);
         ArrowLight_SetupAction(this, ArrowLight_Hit);
         this->timer = 32;
         this->alpha = 255;
@@ -179,11 +179,15 @@ void ArrowLight_Fly(ArrowLight* this, PlayState* play) {
 void ArrowLight_Update(Actor* thisx, PlayState* play) {
     ArrowLight* this = (ArrowLight*)thisx;
 
-    if (play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK || play->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
+    //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
+    //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
-    } else {
-        this->actionFunc(this, play);
+        return;
     }
+
+    this->actionFunc(this, play);
 }
 
 void ArrowLight_Draw(Actor* thisx, PlayState* play) {
@@ -233,7 +237,7 @@ void ArrowLight_Draw(Actor* thisx, PlayState* play) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
         gSPDisplayList(POLY_XLU_DISP++,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 30) % 512, 8, 16));
         gSPDisplayList(POLY_XLU_DISP++, sModelDL);
 

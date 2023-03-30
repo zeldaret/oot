@@ -1,5 +1,5 @@
 #include "z_en_encount1.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
@@ -14,7 +14,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play);
 static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
-const ActorInit En_Encount1_InitVars = {
+ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
     ACTORCAT_PROP,
     FLAGS,
@@ -69,7 +69,7 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
         case SPAWNER_LEEVER:
             this->timer = 30;
             this->maxCurSpawns = 5;
-            if (play->sceneNum == SCENE_SPOT13) { // Haunted Wasteland
+            if (play->sceneId == SCENE_HAUNTED_WASTELAND) {
                 this->reduceLeevers = true;
                 this->maxCurSpawns = 3;
             }
@@ -81,7 +81,7 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
             break;
         case SPAWNER_STALCHILDREN:
         case SPAWNER_WOLFOS:
-            if (play->sceneNum == SCENE_SPOT00) { // Hyrule Field
+            if (play->sceneId == SCENE_HYRULE_FIELD) {
                 this->maxTotalSpawns = 10000;
             }
             this->updateFunc = EnEncount1_SpawnStalchildOrWolfos;
@@ -107,8 +107,8 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
 
     if ((this->timer == 0) && (play->csCtx.state == CS_STATE_IDLE) && (this->curNumSpawn <= this->maxCurSpawns) &&
         (this->curNumSpawn < 5)) {
-        floorType = func_80041D4C(&play->colCtx, player->actor.floorPoly, player->actor.floorBgId);
-        if ((floorType != 4) && (floorType != 7) && (floorType != 12)) {
+        floorType = SurfaceType_GetFloorType(&play->colCtx, player->actor.floorPoly, player->actor.floorBgId);
+        if ((floorType != FLOOR_TYPE_4) && (floorType != FLOOR_TYPE_7) && (floorType != FLOOR_TYPE_12)) {
             this->numLeeverSpawns = 0;
         } else if (!(this->reduceLeevers && (this->actor.xzDistToPlayer > 1300.0f))) {
             spawnLimit = 5;
@@ -118,20 +118,20 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
             while ((this->curNumSpawn < this->maxCurSpawns) && (this->curNumSpawn < spawnLimit) && (this->timer == 0)) {
                 spawnDist = sLeeverDists[this->leeverIndex];
                 spawnAngle = sLeeverAngles[this->leeverIndex] + player->actor.shape.rot.y;
-                spawnParams = LEEVER_SMALL;
+                spawnParams = LEEVER_TYPE_SMALL;
 
                 if ((this->killCount >= 10) && (this->bigLeever == NULL)) {
                     this->killCount = this->numLeeverSpawns = 0;
                     spawnAngle = sLeeverAngles[0];
                     spawnDist = sLeeverDists[2];
-                    spawnParams = LEEVER_BIG;
+                    spawnParams = LEEVER_TYPE_BIG;
                 }
 
                 spawnPos.x = player->actor.world.pos.x + Math_SinS(spawnAngle) * spawnDist;
                 spawnPos.y = player->actor.floorHeight + 120.0f;
                 spawnPos.z = player->actor.world.pos.z + Math_CosS(spawnAngle) * spawnDist;
 
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
@@ -144,7 +144,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
                 if (1) {}
                 if (leever != NULL) {
                     this->curNumSpawn++;
-                    leever->unk_280 = this->leeverIndex++;
+                    leever->aimType = this->leeverIndex++;
                     if (this->leeverIndex >= 5) {
                         this->leeverIndex = 0;
                     }
@@ -153,7 +153,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
                         this->timer = 150;
                         this->numLeeverSpawns = 0;
                     }
-                    if (spawnParams != LEEVER_SMALL) {
+                    if (spawnParams != LEEVER_TYPE_SMALL) {
                         this->timer = 300;
                         this->bigLeever = leever;
                     }
@@ -192,7 +192,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
                 spawnPos.x = this->actor.world.pos.x + Rand_CenteredFloat(50.0f);
                 spawnPos.y = this->actor.world.pos.y + 120.0f;
                 spawnPos.z = this->actor.world.pos.z + Rand_CenteredFloat(50.0f);
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     return;
                 }
@@ -225,7 +225,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     s32 bgId;
     f32 floorY;
 
-    if (play->sceneNum != SCENE_SPOT00) {
+    if (play->sceneId != SCENE_HYRULE_FIELD) {
         if ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) > 100.0f) ||
             (this->actor.xzDistToPlayer > this->spawnRange)) {
             this->outOfRangeTimer++;
@@ -240,8 +240,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
     spawnPos = this->actor.world.pos;
     if ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
         while ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
-            if (play->sceneNum == SCENE_SPOT00) {
-                if ((player->unk_89E == 0) || (player->actor.floorBgId != BGCHECK_SCENE) ||
+            if (play->sceneId == SCENE_HYRULE_FIELD) {
+                if ((player->floorSfxOffset == SURFACE_SFX_OFFSET_DIRT) || (player->actor.floorBgId != BGCHECK_SCENE) ||
                     !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (player->stateFlags1 & PLAYER_STATE1_27)) {
 
                     this->fieldSpawnTimer = 60;
@@ -266,7 +266,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 spawnPos.y = player->actor.floorHeight + 120.0f;
                 spawnPos.z =
                     player->actor.world.pos.z + (Math_CosS(spawnAngle) * spawnDist) + Rand_CenteredFloat(40.0f);
-                floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
+                floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= BGCHECK_Y_MIN) {
                     break;
                 }
@@ -298,7 +298,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 if (this->curNumSpawn >= this->maxCurSpawns) {
                     this->fieldSpawnTimer = 100;
                 }
-                if (play->sceneNum != SCENE_SPOT00) {
+                if (play->sceneId != SCENE_HYRULE_FIELD) {
                     this->totalNumSpawn++;
                 }
             } else {

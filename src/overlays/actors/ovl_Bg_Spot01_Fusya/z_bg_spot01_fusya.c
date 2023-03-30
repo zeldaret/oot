@@ -16,7 +16,7 @@ void BgSpot01Fusya_Draw(Actor* thisx, PlayState* play);
 
 void func_808AAA50(BgSpot01Fusya* this, PlayState* play);
 
-const ActorInit Bg_Spot01_Fusya_InitVars = {
+ActorInit Bg_Spot01_Fusya_InitVars = {
     ACTOR_BG_SPOT01_FUSYA,
     ACTORCAT_BG,
     FLAGS,
@@ -46,7 +46,7 @@ void BgSpot01Fusya_Init(Actor* thisx, PlayState* play) {
     this->unk_154 = 100.0f;
     this->unk_158 = 100.0f;
     this->unk_15C = 0.5f;
-    if (gSaveContext.sceneSetupIndex < 4) {
+    if (!IS_CUTSCENE_LAYER) {
         CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
     BgSpot01Fusya_SetupAction(this, func_808AAA50);

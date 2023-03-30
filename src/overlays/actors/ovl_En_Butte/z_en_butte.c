@@ -12,7 +12,7 @@
 #define FLAGS 0
 
 void EnButte_Init(Actor* thisx, PlayState* play);
-void EnButte_Destroy(Actor* thisx, PlayState* play);
+void EnButte_Destroy(Actor* thisx, PlayState* play2);
 void EnButte_Update(Actor* thisx, PlayState* play);
 void EnButte_Draw(Actor* thisx, PlayState* play);
 
@@ -49,7 +49,7 @@ static ColliderJntSphInit sColliderInit = {
     sJntSphElementsInit,
 };
 
-const ActorInit En_Butte_InitVars = {
+ActorInit En_Butte_InitVars = {
     ACTOR_EN_BUTTE,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -224,7 +224,7 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
     distSqFromHome = Math3D_Dist2DSq(this->actor.world.pos.x, this->actor.world.pos.z, this->actor.home.pos.x,
                                      this->actor.home.pos.z);
     func_809CD56C(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
+    Math_SmoothStepToF(&this->actor.speed, flightParams->speedXZTarget, flightParams->speedXZScale,
                        flightParams->speedXZStep, 0.0f);
 
     if (this->unk_257 == 1) {
@@ -259,7 +259,7 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
 
     EnButte_Turn(this);
 
-    animSpeed = this->actor.speedXZ / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
+    animSpeed = this->actor.speed / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
                 (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
     this->skelAnime.playSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
     SkelAnime_Update(&this->skelAnime);
@@ -268,7 +268,7 @@ void EnButte_FlyAround(EnButte* this, PlayState* play) {
         EnButte_SelectFlightParams(this, &sFlyAroundParams[this->flightParamsIdx]);
     }
 
-    if (((this->actor.params & 1) == 1) && (player->heldItemActionParam == PLAYER_AP_STICK) &&
+    if (((this->actor.params & 1) == 1) && (player->heldItemAction == PLAYER_IA_DEKU_STICK) &&
         (this->swordDownTimer <= 0) &&
         ((Math3D_Dist2DSq(player->actor.world.pos.x, player->actor.world.pos.z, this->actor.home.pos.x,
                           this->actor.home.pos.z) < SQ(120.0f)) ||
@@ -299,7 +299,7 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
     s16 yaw;
 
     func_809CD634(this);
-    Math_SmoothStepToF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
+    Math_SmoothStepToF(&this->actor.speed, flightParams->speedXZTarget, flightParams->speedXZScale,
                        flightParams->speedXZStep, 0.0f);
     minAnimSpeed = 0.0f;
 
@@ -322,7 +322,7 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
 
     EnButte_Turn(this);
 
-    animSpeed = this->actor.speedXZ / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
+    animSpeed = this->actor.speed / 2.0f + Rand_ZeroOne() * 0.2f + (1.0f - Math_SinS(this->unk_260)) * 0.15f +
                 (1.0f - Math_SinS(this->unk_25E)) * 0.3f + minAnimSpeed;
     this->skelAnime.playSpeed = CLAMP(animSpeed, 0.2f, 1.5f);
     SkelAnime_Update(&this->skelAnime);
@@ -334,7 +334,7 @@ void EnButte_FollowLink(EnButte* this, PlayState* play) {
 
     distSqFromHome = Math3D_Dist2DSq(this->actor.world.pos.x, this->actor.world.pos.z, this->actor.home.pos.x,
                                      this->actor.home.pos.z);
-    if (!((player->heldItemActionParam == PLAYER_AP_STICK) && (fabsf(player->actor.speedXZ) < 1.8f) &&
+    if (!((player->heldItemAction == PLAYER_IA_DEKU_STICK) && (fabsf(player->actor.speed) < 1.8f) &&
           (this->swordDownTimer <= 0) && (distSqFromHome < SQ(320.0f)))) {
         EnButte_SetupFlyAround(this);
     } else if (distSqFromHome > SQ(240.0f)) {
@@ -359,7 +359,7 @@ void EnButte_TransformIntoFairy(EnButte* this, PlayState* play) {
     EnButte_UpdateTransformationEffect();
 
     if (this->timer == 5) {
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
     } else if (this->timer == 4) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.focus.pos.x, this->actor.focus.pos.y,
                     this->actor.focus.pos.z, 0, this->actor.shape.rot.y, 0, FAIRY_HEAL_TIMED);
@@ -409,7 +409,7 @@ void EnButte_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->actor.update != NULL) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Math_StepToF(&this->actor.world.pos.y, this->posYTarget, 0.6f);
         if (this->actor.xyzDistToPlayerSq < 5000.0f) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

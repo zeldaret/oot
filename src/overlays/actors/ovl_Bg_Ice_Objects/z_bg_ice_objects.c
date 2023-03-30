@@ -23,7 +23,7 @@ static Color_RGBA8 sWhite = { 250, 250, 250, 255 };
 static Color_RGBA8 sGray = { 180, 180, 180, 255 };
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-const ActorInit Bg_Ice_Objects_InitVars = {
+ActorInit Bg_Ice_Objects_InitVars = {
     ACTOR_BG_ICE_OBJECTS,
     ACTORCAT_PROP,
     FLAGS,
@@ -45,7 +45,7 @@ void BgIceObjects_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_0003F0, &colHeader);
     Math_Vec3f_Copy(&this->targetPos, &this->dyna.actor.home.pos);
     this->actionFunc = BgIceObjects_Idle;
@@ -125,7 +125,7 @@ void BgIceObjects_CheckPits(BgIceObjects* this, PlayState* play) {
             thisx->world.pos.y = thisx->home.pos.y - 60.0f;
             thisx->world.pos.z = thisx->home.pos.z;
             if (thisx->params != 0) {
-                func_8002DF54(play, thisx, 7);
+                func_8002DF54(play, thisx, PLAYER_CSMODE_7);
             }
             this->actionFunc = BgIceObjects_Reset;
         }
@@ -142,7 +142,7 @@ void BgIceObjects_Idle(BgIceObjects* this, PlayState* play) {
             BgIceObjects_SetNextTarget(this, play);
             if (Actor_WorldDistXZToPoint(thisx, &this->targetPos) > 1.0f) {
                 thisx->flags |= ACTOR_FLAG_4;
-                func_8002DF54(play, thisx, 8);
+                func_8002DF54(play, thisx, PLAYER_CSMODE_8);
                 thisx->params = 1;
                 this->actionFunc = BgIceObjects_Slide;
             }
@@ -161,25 +161,25 @@ void BgIceObjects_Slide(BgIceObjects* this, PlayState* play) {
     f32 spread;
     Actor* thisx = &this->dyna.actor;
 
-    Math_StepToF(&thisx->speedXZ, 10.0f, 0.5f);
-    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speedXZ);
-    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speedXZ);
+    Math_StepToF(&thisx->speed, 10.0f, 0.5f);
+    atTarget = Math_StepToF(&thisx->world.pos.x, this->targetPos.x, thisx->speed);
+    atTarget &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, thisx->speed);
     if (atTarget) {
-        thisx->speedXZ = 0.0f;
+        thisx->speed = 0.0f;
         this->targetPos.x = thisx->world.pos.x;
         this->targetPos.z = thisx->world.pos.z;
         if (thisx->velocity.y <= 0.0f) {
             thisx->flags &= ~ACTOR_FLAG_4;
         }
         thisx->params = 0;
-        func_8002DF54(play, thisx, 7);
-        Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+        func_8002DF54(play, thisx, PLAYER_CSMODE_7);
+        Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
         if ((fabsf(thisx->world.pos.x + 1387.0f) < 1.0f) && (fabsf(thisx->world.pos.z + 260.0f) < 1.0f)) {
             this->actionFunc = BgIceObjects_Stuck;
         } else {
             this->actionFunc = BgIceObjects_Idle;
         }
-    } else if ((thisx->speedXZ > 6.0f) && (thisx->world.pos.y >= 0.0f)) {
+    } else if ((thisx->speed > 6.0f) && (thisx->world.pos.y >= 0.0f)) {
         spread = Rand_CenteredFloat(120.0f);
         velocity.x = -(1.5f + Rand_ZeroOne()) * Math_SinS(this->dyna.unk_158);
         velocity.y = Rand_ZeroOne() + 1.0f;
@@ -209,7 +209,7 @@ void BgIceObjects_Reset(BgIceObjects* this, PlayState* play) {
         thisx->flags &= ~ACTOR_FLAG_4;
         Math_Vec3f_Copy(&this->targetPos, &thisx->home.pos);
         this->actionFunc = BgIceObjects_Idle;
-        thisx->speedXZ = 0.0f;
+        thisx->speed = 0.0f;
     }
 }
 

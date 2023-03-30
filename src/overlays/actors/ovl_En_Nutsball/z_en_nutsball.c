@@ -22,7 +22,7 @@ void EnNutsball_Draw(Actor* thisx, PlayState* play);
 void func_80ABBB34(EnNutsball* this, PlayState* play);
 void func_80ABBBA8(EnNutsball* this, PlayState* play);
 
-const ActorInit En_Nutsball_InitVars = {
+ActorInit En_Nutsball_InitVars = {
     ACTOR_EN_NUTSBALL,
     ACTORCAT_PROP,
     FLAGS,
@@ -91,7 +91,7 @@ void func_80ABBB34(EnNutsball* this, PlayState* play) {
         this->actor.shape.rot.y = 0;
         this->timer = 30;
         this->actionFunc = func_80ABBBA8;
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
     }
 }
 
@@ -133,7 +133,7 @@ void func_80ABBBA8(EnNutsball* this, PlayState* play) {
         sp40.z = this->actor.world.pos.z;
 
         EffectSsHahen_SpawnBurst(play, &sp40, 6.0f, 0, 7, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
         Actor_Kill(&this->actor);
     } else {
         if (this->timer == -300) {
@@ -151,7 +151,7 @@ void EnNutsball_Update(Actor* thisx, PlayState* play) {
         (this->actionFunc == func_80ABBB34)) {
         this->actionFunc(this, play);
 
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);

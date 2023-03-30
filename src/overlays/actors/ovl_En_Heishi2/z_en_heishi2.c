@@ -4,7 +4,7 @@
  * Description: Hyrulian Guards
  */
 
-#include "vt.h"
+#include "terminal.h"
 #include "z_en_heishi2.h"
 #include "assets/objects/object_sd/object_sd.h"
 #include "assets/objects/object_link_child/object_link_child.h"
@@ -50,7 +50,7 @@ void func_80A546DC(EnHeishi2* this, PlayState* play);
 void func_80A541FC(EnHeishi2* this, PlayState* play);
 void func_80A53DF8(EnHeishi2* this, PlayState* play);
 
-const ActorInit En_Heishi2_InitVars = {
+ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
     ACTORCAT_NPC,
     FLAGS,
@@ -93,7 +93,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, 6);
+        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
 
@@ -111,7 +111,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             this->actor.world.pos.z += 90.0f;
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(play, &this->collider);
-            func_8002DF54(play, 0, 8);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
             this->actionFunc = func_80A544AC;
         }
@@ -262,7 +262,7 @@ void func_80A5344C(EnHeishi2* this, PlayState* play) {
 void func_80A53538(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_300 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, NULL, 8);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_80A535BC;
     }
@@ -284,7 +284,7 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_SPEAR_HIT);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
     if (this->unk_2EC <= frameCount) {
@@ -319,7 +319,7 @@ void func_80A5372C(EnHeishi2* this, PlayState* play) {
     this->subCamAt.y = 1145.0f;
     this->subCamAt.z = 3014.0f;
 
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     this->actionFunc = func_80A53850;
 }
 
@@ -327,14 +327,14 @@ void func_80A53850(EnHeishi2* this, PlayState* play) {
     BgSpot15Saku* gate;
 
     SkelAnime_Update(&this->skelAnime);
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgSpot15Saku*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Play_ClearCamera(play, this->subCamId);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         Message_CloseTextbox(play);
         this->unk_30C = 1;
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actionFunc = func_80A531E4;
     }
 }
@@ -403,7 +403,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
     this->unk_300 = TEXT_STATE_DONE;
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         exchangeItemId = func_8002F368(play);
-        if (exchangeItemId == EXCH_ITEM_LETTER_ZELDA) {
+        if (exchangeItemId == EXCH_ITEM_ZELDAS_LETTER) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             player->actor.textId = 0x2010;
             this->unk_300 = TEXT_STATE_EVENT;
@@ -415,7 +415,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
         yawDiffTemp = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
         if (!(120.0f < this->actor.xzDistToPlayer) && (yawDiff < 0x4300)) {
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_LETTER_ZELDA);
+            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_ZELDAS_LETTER);
         }
     }
 }
@@ -423,7 +423,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
 void func_80A53C0C(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk_300 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, 0, 8);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_80A53C90;
     }
@@ -447,7 +447,7 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (12.0f <= frameCount) {
         if (this->audioFlag == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_SPEAR_HIT);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_SPEAR_HIT);
             this->audioFlag = 1;
         }
     }
@@ -487,7 +487,7 @@ void func_80A53DF8(EnHeishi2* this, PlayState* play) {
     this->subCamAt.y = 417.0f;
     this->subCamAtInit.z = -1079.0f;
     this->subCamAt.z = -1079.0f;
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     this->actionFunc = func_80A53F30;
 }
 
@@ -495,7 +495,7 @@ void func_80A53F30(EnHeishi2* this, PlayState* play) {
     BgGateShutter* gate;
 
     SkelAnime_Update(&this->skelAnime);
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
         Play_ClearCamera(play, this->subCamId);
@@ -507,7 +507,7 @@ void func_80A53F30(EnHeishi2* this, PlayState* play) {
                 this->actionFunc = func_80A54038;
             } else {
                 Message_CloseTextbox(play);
-                func_8002DF54(play, NULL, 7);
+                func_8002DF54(play, NULL, PLAYER_CSMODE_7);
                 this->actionFunc = func_80A53908;
             }
         } else {
@@ -525,7 +525,7 @@ void func_80A54038(EnHeishi2* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         SET_INFTABLE(INFTABLE_76);
         Message_CloseTextbox(play);
-        func_8002DF54(play, 0, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actionFunc = func_80A53908;
     }
 }
@@ -605,7 +605,7 @@ void func_80A543A0(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_SPEAR_HIT);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
 
@@ -650,7 +650,7 @@ void func_80A5455C(EnHeishi2* this, PlayState* play) {
     EnBom* bomb;
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         Message_CloseTextbox(play);
 
         pos.x = Rand_CenteredFloat(20.0f) + this->unk_274.x;
@@ -659,7 +659,7 @@ void func_80A5455C(EnHeishi2* this, PlayState* play) {
         rotY = Rand_CenteredFloat(7000.0f) + this->actor.yawTowardsPlayer;
         bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, pos.x, pos.y, pos.z, 0, rotY, 0, 0);
         if (bomb != NULL) {
-            bomb->actor.speedXZ = Rand_CenteredFloat(5.0f) + 10.0f;
+            bomb->actor.speed = Rand_CenteredFloat(5.0f) + 10.0f;
             bomb->actor.velocity.y = Rand_CenteredFloat(5.0f) + 10.0f;
         }
 
@@ -780,7 +780,7 @@ void EnHeishi2_Update(Actor* thisx, PlayState* play) {
         }
     }
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     switch (this->type) {
         case 6:
             break;

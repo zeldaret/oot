@@ -1,6 +1,6 @@
 #include "z_en_fire_rock.h"
 #include "overlays/actors/ovl_En_Encount2/z_en_encount2.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_efc_star_field/object_efc_star_field.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
@@ -15,7 +15,7 @@ void FireRock_WaitOnFloor(EnFireRock* this, PlayState* play);
 void EnFireRock_Fall(EnFireRock* this, PlayState* play);
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play);
 
-const ActorInit En_Fire_Rock_InitVars = {
+ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -118,7 +118,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE1:
             this->actor.velocity.y = Rand_ZeroFloat(3.0f) + 4.0f;
-            this->actor.speedXZ = Rand_ZeroFloat(3.0f) + 3.0f;
+            this->actor.speed = Rand_ZeroFloat(3.0f) + 3.0f;
             this->scale = (Rand_ZeroFloat(1.0f) / 100.0f) + 0.02f;
             Actor_SetScale(&this->actor, this->scale);
             this->actor.gravity = -1.5f;
@@ -130,7 +130,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE2:
             this->actor.velocity.y = Rand_ZeroFloat(3.0f) + 4.0f;
-            this->actor.speedXZ = Rand_ZeroFloat(3.0f) + 2.0f;
+            this->actor.speed = Rand_ZeroFloat(3.0f) + 2.0f;
             this->scale = (Rand_ZeroFloat(1.0f) / 500.0f) + 0.01f;
             Actor_SetScale(&this->actor, this->scale);
             this->actor.gravity = -1.2f;
@@ -190,7 +190,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE1:
             if ((play->gameplayFrames & 3) == 0) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROCK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
             }
             break;
     }
@@ -198,7 +198,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
         switch (this->type) {
             case FIRE_ROCK_SPAWNED_FALLING1:
             case FIRE_ROCK_SPAWNED_FALLING2:
-                func_80033E88(&this->actor, play, 5, 2);
+                Actor_RequestQuakeAndRumble(&this->actor, play, 5, 2);
                 FALLTHROUGH;
             case FIRE_ROCK_BROKEN_PIECE1:
                 Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
@@ -214,7 +214,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
             default:
                 Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 3,
                                          8.0f, 200, 10, false);
-                SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_EXPLOSION);
+                SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_EXPLOSION);
                 Actor_Kill(&this->actor);
                 break;
         }
@@ -258,7 +258,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
                 osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
             }
         }
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_ROCK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
     }
     Actor_Kill(&this->actor);
 }
@@ -339,7 +339,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
             thisx->gravity = -0.3f - (this->scale * 7.0f);
         }
         if (this->type != FIRE_ROCK_ON_FLOOR) {
-            Actor_MoveForward(thisx);
+            Actor_MoveXZGravity(thisx);
             Actor_UpdateBgCheckInfo(play, thisx, 50.0f, 50.0f, 100.0f,
                                     UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
         }
@@ -350,9 +350,9 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
                 (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
                 if (this->collider.base.atFlags & AT_BOUNCED) {
                     this->collider.base.atFlags &= ~AT_BOUNCED;
-                    Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+                    Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
                     thisx->velocity.y = 0.0f;
-                    thisx->speedXZ = 0.0f;
+                    thisx->speed = 0.0f;
                     this->actionFunc = EnFireRock_SpawnMoreBrokenPieces;
                     // "☆☆☆☆☆ Shield Defense Lv1 ☆☆☆☆☆"
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ シールド防御 Lv１ ☆☆☆☆☆ \n" VT_RST);

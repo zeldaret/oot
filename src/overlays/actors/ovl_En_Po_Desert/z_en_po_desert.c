@@ -7,7 +7,7 @@
 #include "z_en_po_desert.h"
 #include "assets/objects/object_po_field/object_po_field.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoDesert_Init(Actor* thisx, PlayState* play);
 void EnPoDesert_Destroy(Actor* thisx, PlayState* play);
@@ -19,7 +19,7 @@ void EnPoDesert_WaitForPlayer(EnPoDesert* this, PlayState* play);
 void EnPoDesert_MoveToNextPoint(EnPoDesert* this, PlayState* play);
 void EnPoDesert_Disappear(EnPoDesert* this, PlayState* play);
 
-const ActorInit En_Po_Desert_InitVars = {
+ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORCAT_BG,
     FLAGS,
@@ -87,7 +87,7 @@ void EnPoDesert_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnPoDesert_SetNextPathPoint(EnPoDesert* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->actor.params];
+    Path* path = &play->pathList[this->actor.params];
     Vec3s* pathPoint;
 
     Animation_MorphToLoop(&this->skelAnime, &gPoeFieldDisappearAnim, -6.0f);
@@ -99,7 +99,7 @@ void EnPoDesert_SetNextPathPoint(EnPoDesert* this, PlayState* play) {
     this->initDistToNextPoint = CLAMP_MIN(this->initDistToNextPoint, 1.0f);
     this->currentPathPoint++;
     this->yDiff = this->actor.home.pos.y - this->actor.world.pos.y;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     if (path->count == this->currentPathPoint) {
         this->currentPathPoint = 0;
     }
@@ -114,8 +114,8 @@ void EnPoDesert_SetupMoveToNextPoint(EnPoDesert* this) {
 void EnPoDesert_SetupDisappear(EnPoDesert* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeFieldDisappearAnim, -6.0f);
     this->actionTimer = 16;
-    this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_DISAPPEAR);
+    this->actor.speed = 0.0f;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DISAPPEAR);
     this->actionFunc = EnPoDesert_Disappear;
 }
 
@@ -160,7 +160,7 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, PlayState* play) {
     temp_f20 = Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos);
     this->actor.world.rot.y = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y + 0x8000, 5, 0x400);
-    this->actor.speedXZ = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
+    this->actor.speed = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     this->targetY = this->actor.home.pos.y - ((temp_f20 * this->yDiff) / this->initDistToNextPoint);
     if (temp_f20 < 40.0f) {
@@ -190,7 +190,7 @@ void EnPoDesert_Update(Actor* thisx, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     EnPoDesert_UpdateSpeedModifier(this);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 27.0f, 60.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetFocus(&this->actor, 42.0f);

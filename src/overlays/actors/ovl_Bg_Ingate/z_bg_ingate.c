@@ -17,7 +17,7 @@ void BgInGate_Draw(Actor* thisx, PlayState* play);
 void func_80892890(BgInGate* this, PlayState* play);
 void BgInGate_DoNothing(BgInGate* this, PlayState* play);
 
-const ActorInit Bg_Ingate_InitVars = {
+ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORCAT_PROP,
     FLAGS,
@@ -39,20 +39,20 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gIngoGateCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if ((play->sceneNum != SCENE_SPOT20 || !LINK_IS_ADULT) ||
-        (GET_EVENTCHKINF(EVENTCHKINF_18) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
+    if ((play->sceneId != SCENE_LON_LON_RANCH || !LINK_IS_ADULT) ||
+        (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
 
     Actor_SetScale(&this->dyna.actor, 0.1f);
     if (((this->dyna.actor.params & 1) != 0) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
-        play->csCtx.frames = 0;
+        play->csCtx.curFrame = 0;
         BgInGate_SetupAction(this, func_80892890);
     } else {
         BgInGate_SetupAction(this, BgInGate_DoNothing);
@@ -70,15 +70,15 @@ void func_80892890(BgInGate* this, PlayState* play) {
     s16 phi1;
     s16 csFrames;
 
-    if (play->csCtx.frames >= 50) {
+    if (play->csCtx.curFrame >= 50) {
         phi0 = 0x4000;
         if ((this->dyna.actor.params & 2) == 0) {
             phi0 = -0x4000;
         }
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
         BgInGate_SetupAction(this, BgInGate_DoNothing);
-    } else if (play->csCtx.frames >= 10) {
-        csFrames = play->csCtx.frames - 10;
+    } else if (play->csCtx.curFrame >= 10) {
+        csFrames = play->csCtx.curFrame - 10;
         csFrames *= 400;
         phi1 = csFrames;
         if (csFrames > 0x4000) {

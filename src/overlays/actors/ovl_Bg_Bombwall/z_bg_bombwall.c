@@ -69,7 +69,7 @@ static ColliderTrisInit sTrisInit = {
     sTrisElementsInit,
 };
 
-const ActorInit Bg_Bombwall_InitVars = {
+ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
     ACTORCAT_BG,
     FLAGS,
@@ -86,7 +86,7 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
     s32 pad2;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gBgBombwallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 

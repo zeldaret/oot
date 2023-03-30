@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wonder_item.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -41,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 30, 0, { 0, 0, 0 } },
 };
 
-const ActorInit En_Wonder_Item_InitVars = {
+ActorInit En_Wonder_Item_InitVars = {
     ACTOR_EN_WONDER_ITEM,
     ACTORCAT_PROP,
     FLAGS,
@@ -67,9 +67,9 @@ void EnWonderItem_Destroy(Actor* thisx, PlayState* play) {
 
 void EnWonderItem_DropCollectible(EnWonderItem* this, PlayState* play, s32 autoCollect) {
     static s16 dropTable[] = {
-        ITEM00_NUTS,        ITEM00_HEART_PIECE,  ITEM00_MAGIC_LARGE,   ITEM00_MAGIC_SMALL,
-        ITEM00_HEART,       ITEM00_ARROWS_SMALL, ITEM00_ARROWS_MEDIUM, ITEM00_ARROWS_LARGE,
-        ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE,   ITEM00_RUPEE_RED,     ITEM00_FLEXIBLE,
+        ITEM00_NUTS,           ITEM00_HEART_PIECE,  ITEM00_MAGIC_LARGE,   ITEM00_MAGIC_SMALL,
+        ITEM00_RECOVERY_HEART, ITEM00_ARROWS_SMALL, ITEM00_ARROWS_MEDIUM, ITEM00_ARROWS_LARGE,
+        ITEM00_RUPEE_GREEN,    ITEM00_RUPEE_BLUE,   ITEM00_RUPEE_RED,     ITEM00_FLEXIBLE,
     };
     s32 i;
     s32 randomDrop;

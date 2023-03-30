@@ -68,16 +68,13 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
     light = &lights->l.l[0];
 
     while (i < lights->numLights) {
-        i++;
-        gSPLight(POLY_OPA_DISP++, light, i);
+        gSPLight(POLY_OPA_DISP++, light, ++i);
         gSPLight(POLY_XLU_DISP++, light, i);
         light++;
     }
 
-    if (0) {}
-
-    i++; // ambient light is total number of lights + 1
-    gSPLight(POLY_OPA_DISP++, &lights->l.a, i);
+    // ambient light is total number of lights + 1
+    gSPLight(POLY_OPA_DISP++, &lights->l.a, ++i);
     gSPLight(POLY_XLU_DISP++, &lights->l.a, i);
 
     CLOSE_DISPS(gfxCtx, "../z_lights.c", 352);
@@ -147,7 +144,7 @@ void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
  * a light to it. Then apply color and positional/directional info for each light
  * based on the parameters supplied by the node.
  *
- * Note: Lights in a given list can only be binded to however many free slots are
+ * Note: Lights in a given list can only be bound to however many free slots are
  * available in the Lights group. This is at most 7 slots for a new group, but could be less.
  */
 void Lights_BindAll(Lights* lights, LightNode* listHead, Vec3f* vec) {
@@ -198,7 +195,7 @@ s32 Lights_FreeNode(LightNode* light) {
 void LightContext_Init(PlayState* play, LightContext* lightCtx) {
     LightContext_InitList(play, lightCtx);
     LightContext_SetAmbientColor(lightCtx, 80, 80, 80);
-    LightContext_SetFog(lightCtx, 0, 0, 0, 996, 12800);
+    LightContext_SetFog(lightCtx, 0, 0, 0, ENV_FOGNEAR_MAX, ENV_ZFAR_MAX);
     bzero(&sLightsBuffer, sizeof(sLightsBuffer));
 }
 
@@ -208,16 +205,16 @@ void LightContext_SetAmbientColor(LightContext* lightCtx, u8 r, u8 g, u8 b) {
     lightCtx->ambientColor[2] = b;
 }
 
-void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 fogFar) {
+void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, s16 zFar) {
     lightCtx->fogColor[0] = r;
     lightCtx->fogColor[1] = g;
     lightCtx->fogColor[2] = b;
     lightCtx->fogNear = fogNear;
-    lightCtx->fogFar = fogFar;
+    lightCtx->zFar = zFar;
 }
 
 /**
- * Allocate a new Lights group and initilize the ambient color with that provided by LightContext
+ * Allocate a new Lights group and initialize the ambient color with that provided by LightContext
  */
 Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx) {
     return Lights_New(gfxCtx, lightCtx->ambientColor[0], lightCtx->ambientColor[1], lightCtx->ambientColor[2]);

@@ -27,7 +27,7 @@ void func_800AD950(struct_80166500* this) {
 void func_800AD958(struct_80166500* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
     u16* tex = D_0E000000;
-    s32 fmt = this->useRgba == false ? G_IM_FMT_IA : G_IM_FMT_RGBA;
+    s32 fmt = !this->useRgba ? G_IM_FMT_IA : G_IM_FMT_RGBA;
     s32 y;
     s32 height = 6;
 
@@ -50,8 +50,8 @@ void func_800AD958(struct_80166500* this, Gfx** gfxp) {
         gDPLoadTextureBlock(gfx++, tex, fmt, G_IM_SIZ_16b, SCREEN_WIDTH, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(gfx++, 0, (y) << 2, (SCREEN_WIDTH << 2), (y + height) << 2, G_TX_RENDERTILE, 0, 0,
-                            (1 << 10), (1 << 10));
+        gSPTextureRectangle(gfx++, 0, y << 2, SCREEN_WIDTH << 2, (y + height) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                            1 << 10);
         tex += SCREEN_WIDTH * height;
     }
 

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "quake.h"
 
 #include "assets/scenes/overworld/spot00/spot00_scene.h"
 #include "assets/scenes/overworld/spot00/spot00_room_0.h"
@@ -24,11 +25,11 @@
 #include "overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.h"
 
 // Entrance Table definition
-#define DEFINE_ENTRANCE(_0, scene, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
-    { scene, spawn,                                                                                    \
-      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                         \
-       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                              \
-       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |  \
+#define DEFINE_ENTRANCE(_0, sceneId, spawn, continueBgm, displayTitleCard, endTransType, startTransType) \
+    { sceneId, spawn,                                                                                    \
+      (((continueBgm) ? ENTRANCE_INFO_CONTINUE_BGM_FLAG : 0) |                                           \
+       ((displayTitleCard) ? ENTRANCE_INFO_DISPLAY_TITLE_CARD_FLAG : 0) |                                \
+       (((endTransType) << ENTRANCE_INFO_END_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_END_TRANS_TYPE_MASK) |    \
        (((startTransType) << ENTRANCE_INFO_START_TRANS_TYPE_SHIFT) & ENTRANCE_INFO_START_TRANS_TYPE_MASK)) },
 
 EntranceInfo gEntranceTable[] = {
@@ -110,14 +111,15 @@ void* D_8012A2F8[] = {
     gYdanTex_00CA18,
 };
 
-void Scene_DrawConfigYdan(PlayState* play) {
+void Scene_DrawConfigDekuTree(PlayState* play) {
     u32 gameplayFrames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4763);
 
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - (gameplayFrames % 128), (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - (gameplayFrames % 128),
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
@@ -127,14 +129,14 @@ void Scene_DrawConfigYdan(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4783);
 }
 
-void Scene_DrawConfigYdanBoss(PlayState* play) {
+void Scene_DrawConfigDekuTreeBoss(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4845);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (gameplayFrames * 2) % 256, 0, 64, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 2) % 256, 0, 64, 32, 1, 0,
                                 (gameplayFrames * 2) % 128, 64, 32));
 
     gDPPipeSync(POLY_XLU_DISP++);
@@ -152,7 +154,7 @@ void* sDCLavaFloorTextures[] = {
     gDCLavaFloor5Tex, gDCLavaFloor6Tex, gDCLavaFloor7Tex, gDCLavaFloor8Tex,
 };
 
-void Scene_DrawConfigDdan(PlayState* play) {
+void Scene_DrawConfigDodongosCavern(PlayState* play) {
     u32 gameplayFrames;
     s32 pad;
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Gfx[3]));
@@ -163,10 +165,10 @@ void Scene_DrawConfigDdan(PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDCEntranceTextures[((void)0, gSaveContext.nightFlag)]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sDCLavaFloorTextures[(s32)(gameplayFrames & 14) >> 1]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 0, 64, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 1) % 256, 0, 64, 32, 1, 0,
                                 (gameplayFrames * 1) % 128, 64, 32));
     gSPSegment(POLY_OPA_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 1) % 128, 32, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 128, 32, 32, 1, 0,
                                 (gameplayFrames * 2) % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -188,7 +190,7 @@ void Scene_DrawConfigDdan(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4956);
 }
 
-void Scene_DrawConfigTokinoma(PlayState* play) {
+void Scene_DrawConfigTempleOfTime(PlayState* play) {
     f32 temp;
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 18 * sizeof(Gfx));
 
@@ -238,7 +240,7 @@ void Scene_DrawConfigTokinoma(PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5145);
 
-    if (gSaveContext.sceneSetupIndex == 5) {
+    if (gSaveContext.sceneLayer == 5) {
         gCustomLensFlareOn = true;
         gCustomLensFlarePos.x = -20.0f;
         gCustomLensFlarePos.y = 1220.0f;
@@ -249,7 +251,7 @@ void Scene_DrawConfigTokinoma(PlayState* play) {
     }
 }
 
-void Scene_DrawConfigKakusiana(PlayState* play) {
+void Scene_DrawConfigGrottos(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5171);
@@ -257,16 +259,19 @@ void Scene_DrawConfigKakusiana(PlayState* play) {
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 64, 256, 16));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - (gameplayFrames % 128), (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - (gameplayFrames % 128),
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
     gSPSegment(POLY_OPA_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 127 - (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 32, 1, 0,
+                                127 - (gameplayFrames * 1) % 128, 32, 32));
     gSPSegment(POLY_OPA_DISP++, 0x0B, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 128, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0C,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 50) % 2048, 8, 512, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 50) % 2048, 8, 512, 1, 0,
                                 (gameplayFrames * 60) % 2048, 8, 512));
-    gSPSegment(POLY_OPA_DISP++, 0x0D,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (gameplayFrames * 1) % 128, 32, 32));
+    gSPSegment(
+        POLY_OPA_DISP++, 0x0D,
+        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0, (gameplayFrames * 1) % 128, 32, 32));
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
@@ -277,7 +282,7 @@ void Scene_DrawConfigKakusiana(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5212);
 }
 
-void Scene_DrawConfigKenjyanoma(PlayState* play) {
+void Scene_DrawConfigChamberOfTheSages(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5226);
@@ -289,11 +294,12 @@ void Scene_DrawConfigKenjyanoma(PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
 
     gSPSegment(POLY_OPA_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - (gameplayFrames * 1) % 128, (gameplayFrames * 1) % 256, 32,
-                                64, 1, 0, 0, 32, 128));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - (gameplayFrames * 1) % 128,
+                                (gameplayFrames * 1) % 256, 32, 64, 1, 0, 0, 32, 128));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -311,11 +317,13 @@ void Scene_DrawConfigGreatFairyFountain(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 3) % 256, 32, 64,
-                                1, gameplayFrames % 128, (gameplayFrames * 3) % 256, 32, 64));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 3) % 256, 32, 64, 1, gameplayFrames % 128, (gameplayFrames * 3) % 256,
+                                32, 64));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -343,15 +351,16 @@ void Scene_DrawConfigGraveExitLightShining(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5330);
 }
 
-void Scene_DrawConfigFairyFountain(PlayState* play) {
+void Scene_DrawConfigFairysFountain(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5346);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, gameplayFrames % 64, 256, 16));
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -363,20 +372,20 @@ void Scene_DrawConfigFairyFountain(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5367);
 }
 
-void Scene_DrawConfigHakadan(PlayState* play) {
+void Scene_DrawConfigShadowTempleAndWell(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5384);
 
     gameplayFrames = play->gameplayFrames;
 
-    if (play->sceneNum == SCENE_HAKADAN_BS) {
+    if (play->sceneId == SCENE_SHADOW_TEMPLE_BOSS) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (gameplayFrames * 2) % 128, 0, 32, 32, 1,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 2) % 128, 0, 32, 32, 1,
                                     (gameplayFrames * 2) % 128, 0, 32, 32));
     } else {
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (gameplayFrames * 2) % 128, 0, 32, 32, 1,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 2) % 128, 0, 32, 32, 1,
                                     (gameplayFrames * 2) % 128, 0, 32, 32));
     }
 
@@ -394,7 +403,7 @@ void* sThievesHideoutEntranceTextures[] = {
     gThievesHideoutNightEntranceTex,
 };
 
-void Scene_DrawConfigGerudoway(PlayState* play) {
+void Scene_DrawConfigThievesHideout(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5490);
@@ -413,7 +422,7 @@ void* D_8012A330[] = {
     gWaterTempleNightEntranceTex,
 };
 
-void Scene_DrawConfigMizusin(PlayState* play) {
+void Scene_DrawConfigWaterTemple(PlayState* play) {
     u32 gameplayFrames;
     s32 spB0;
     s32 spAC;
@@ -430,66 +439,66 @@ void Scene_DrawConfigMizusin(PlayState* play) {
 
     if (spB0 == 1) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, spAC));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, spAC));
     } else if (spB0 < 1) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, 255));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, 255));
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, 160));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, 160));
     }
 
     if (spB0 == 2) {
         gSPSegment(POLY_OPA_DISP++, 0x09,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, spAC));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, spAC));
     } else if (spB0 < 2) {
         gSPSegment(POLY_OPA_DISP++, 0x09,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, 255));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, 255));
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x09,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, 160));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, 160));
     }
 
     if (spB0 != 0) {
         gSPSegment(POLY_OPA_DISP++, 0x0A,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, 160));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, 160));
         gSPSegment(POLY_OPA_DISP++, 0x0B,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 3, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, 180));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 3, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, 180));
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x0A,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, (gameplayFrames * 1) % 128, 0, 32, 32, 1, 0, 0, 32,
-                                            32, 0, 0, 0, 160 + (s32)((spAC / 200.0f) * 95.0f)));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 1) % 128, 0, 32, 32,
+                                            1, 0, 0, 32, 32, 0, 0, 0, 160 + (s32)((spAC / 200.0f) * 95.0f)));
         gSPSegment(POLY_OPA_DISP++, 0x0B,
-                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 3, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0,
-                                            0, 185 + (s32)((spAC / 200.0f) * 70.0f)));
+                   Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 3, 0, 32, 32, 1, 0, 0,
+                                            32, 32, 0, 0, 0, 185 + (s32)((spAC / 200.0f) * 70.0f)));
     }
 
     gSPSegment(POLY_XLU_DISP++, 0x0C,
-               Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1, 0,
-                                        127 - (gameplayFrames * 1), 32, 32, 0, 0, 0, 128));
+               Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, gameplayFrames * 1, 32,
+                                        32, 1, 0, 127 - (gameplayFrames * 1), 32, 32, 0, 0, 0, 128));
     gSPSegment(POLY_XLU_DISP++, 0x0D,
-               Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames * 4, 0, 32, 32, 1, gameplayFrames * 4, 0,
-                                        32, 32, 0, 0, 0, 128));
+               Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 4, 0, 32, 32, 1,
+                                        gameplayFrames * 4, 0, 32, 32, 0, 0, 0, 128));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5644);
 }
 
-void Scene_DrawConfigMizusinBs(PlayState* play) {
+void Scene_DrawConfigWaterTempleBoss(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5791);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames * 1, 0, 32, 32, 1, 0, 0, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, play->roomCtx.unk_74[0]);
@@ -500,7 +509,7 @@ void Scene_DrawConfigMizusinBs(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5808);
 }
 
-void Scene_DrawConfigSyatekijyou(PlayState* play) {
+void Scene_DrawConfigShootingGallery(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5822);
@@ -514,17 +523,18 @@ void Scene_DrawConfigSyatekijyou(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5836);
 }
 
-void Scene_DrawConfigHairalNiwa(PlayState* play) {
+void Scene_DrawConfigCastleCourtyardGuards(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5850);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
+                                32, 32));
 
-    if (play->sceneNum == SCENE_HAIRAL_NIWA) {
+    if (play->sceneId == SCENE_CASTLE_COURTYARD_GUARDS_DAY) {
         gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 10) % 256, 32, 64));
     }
 
@@ -537,7 +547,7 @@ void Scene_DrawConfigHairalNiwa(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5876);
 }
 
-void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
+void Scene_DrawConfigOutsideGanonsCastle(PlayState* play) {
     u32 gameplayFrames;
     s8 sp83;
 
@@ -549,16 +559,17 @@ void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
 
-    if (play->sceneNum == SCENE_GANON_TOU) {
+    if (play->sceneId == SCENE_OUTSIDE_GANONS_CASTLE) {
         gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 64, 64));
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 255 - (gameplayFrames * 1) % 256, 64, 64, 1, 0,
-                                    (gameplayFrames * 1) % 256, 64, 64));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 255 - (gameplayFrames * 1) % 256, 64, 64, 1,
+                                    0, (gameplayFrames * 1) % 256, 64, 64));
     }
 
     gSPSegment(POLY_OPA_DISP++, 0x0B,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 255 - (gameplayFrames * 1) % 128, (gameplayFrames * 1) % 128, 32,
-                                32, 1, (gameplayFrames * 1) % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 255 - (gameplayFrames * 1) % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, (gameplayFrames * 1) % 128,
+                                (gameplayFrames * 1) % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -575,24 +586,24 @@ void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
 
 // Screen Shake for Ganon's Tower Collapse
 void func_8009BEEC(PlayState* play) {
-    s32 var;
+    s32 quakeIndex;
 
     if (play->gameplayFrames % 128 == 13) {
-        var = Quake_Add(GET_ACTIVE_CAM(play), 2);
-        Quake_SetSpeed(var, 10000);
-        Quake_SetQuakeValues(var, 4, 0, 0, 0);
-        Quake_SetCountdown(var, 127);
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_2);
+        Quake_SetSpeed(quakeIndex, 10000);
+        Quake_SetPerturbations(quakeIndex, 4, 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 127);
     }
 
     if ((play->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
-        var = Quake_Add(GET_ACTIVE_CAM(play), 3);
-        Quake_SetSpeed(var, 32000.0f + (Rand_ZeroOne() * 3000.0f));
-        Quake_SetQuakeValues(var, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        Quake_SetCountdown(var, 48.0f - (Rand_ZeroOne() * 15.0f));
+        quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+        Quake_SetSpeed(quakeIndex, 32000.0f + (Rand_ZeroOne() * 3000.0f));
+        Quake_SetPerturbations(quakeIndex, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetDuration(quakeIndex, 48.0f - (Rand_ZeroOne() * 15.0f));
     }
 }
 
-void Scene_DrawConfigGanonFinal(PlayState* play) {
+void Scene_DrawConfigGanonsTowerCollapseExterior(PlayState* play) {
     u32 gameplayFrames;
     s8 sp7B;
 
@@ -604,13 +615,13 @@ void Scene_DrawConfigGanonFinal(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 1) % 512, 64, 128, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 512, 64, 128, 1, 0,
                                 511 - (gameplayFrames * 1) % 512, 64, 128));
     gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 1) % 256, 32, 64, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 256, 32, 64, 1, 0,
                                 255 - (gameplayFrames * 1) % 256, 32, 64));
     gSPSegment(POLY_XLU_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 20) % 2048, 16, 512, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 20) % 2048, 16, 512, 1, 0,
                                 (gameplayFrames * 30) % 2048, 16, 512));
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -626,8 +637,9 @@ void Scene_DrawConfigGanonFinal(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6004);
 
     if (Flags_GetSwitch(play, 0x37)) {
-        if ((play->sceneNum == SCENE_GANON_DEMO) || (play->sceneNum == SCENE_GANON_FINAL) ||
-            (play->sceneNum == SCENE_GANON_SONOGO) || (play->sceneNum == SCENE_GANONTIKA_SONOGO)) {
+        if ((play->sceneId == SCENE_GANON_BOSS) || (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_EXTERIOR) ||
+            (play->sceneId == SCENE_GANONS_TOWER_COLLAPSE_INTERIOR) ||
+            (play->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE)) {
             func_8009BEEC(play);
         }
     }
@@ -638,7 +650,7 @@ void* sIceCavernEntranceTextures[] = {
     gIceCavernNightEntranceTex,
 };
 
-void Scene_DrawConfigIceDoukuto(PlayState* play) {
+void Scene_DrawConfigIceCavern(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -649,11 +661,13 @@ void Scene_DrawConfigIceDoukuto(PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                SEGMENTED_TO_VIRTUAL(sIceCavernEntranceTextures[((void)0, gSaveContext.nightFlag)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -664,7 +678,7 @@ void Scene_DrawConfigIceDoukuto(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6076);
 }
 
-void Scene_DrawConfigHakaanaOuke(PlayState* play) {
+void Scene_DrawConfigRoyalFamilysTomb(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6151);
@@ -672,14 +686,14 @@ void Scene_DrawConfigHakaanaOuke(PlayState* play) {
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 64, 256, 16));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 60) % 2048, 8, 512, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 60) % 2048, 8, 512, 1, 0,
                                 (gameplayFrames * 50) % 2048, 8, 512));
     gSPSegment(POLY_OPA_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - (gameplayFrames * 1) % 128, 0, 32, 32, 1,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - (gameplayFrames * 1) % 128, 0, 32, 32, 1,
                                 (gameplayFrames * 1) % 128, 0, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0B,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 1023 - (gameplayFrames * 6) % 1024, 16, 256, 1, 0,
-                                1023 - (gameplayFrames * 3) % 1024, 16, 256));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 1023 - (gameplayFrames * 6) % 1024, 16, 256, 1,
+                                0, 1023 - (gameplayFrames * 3) % 1024, 16, 256));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -690,17 +704,19 @@ void Scene_DrawConfigHakaanaOuke(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6187);
 }
 
-void Scene_DrawConfigHyliaLabo(PlayState* play) {
+void Scene_DrawConfigLakesideLaboratory(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6201);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, (gameplayFrames * 1) % 128, 32, 32));
+    gSPSegment(
+        POLY_OPA_DISP++, 0x08,
+        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 32, 1, 0, (gameplayFrames * 1) % 128, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, 255 - (gameplayFrames * 10) % 256, 32, 64));
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -719,8 +735,9 @@ void Scene_DrawConfigCalmWater(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -736,7 +753,7 @@ void* sGTGEntranceTextures[] = {
     gGTGNightEntranceTex,
 };
 
-void Scene_DrawConfigMen(PlayState* play) {
+void Scene_DrawConfigGerudoTrainingGround(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -746,11 +763,13 @@ void Scene_DrawConfigMen(PlayState* play) {
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGTGEntranceTextures[((void)0, gSaveContext.nightFlag)]));
     gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -765,22 +784,22 @@ Gfx* Gfx_TwoTexScrollPrimColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y
                                u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 10 * sizeof(Gfx));
 
-    x1 %= 2048;
-    y1 %= 2048;
-    x2 %= 2048;
-    y2 %= 2048;
+    x1 %= 512 << 2;
+    y1 %= 512 << 2;
+    x2 %= 512 << 2;
+    y2 %= 512 << 2;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList + 1, tile1, x1, y1, (x1 + ((width1 - 1) << 2)), (y1 + ((height1 - 1) << 2)));
+    gDPSetTileSize(displayList + 1, tile1, x1, y1, x1 + ((width1 - 1) << 2), y1 + ((height1 - 1) << 2));
     gDPTileSync(displayList + 2);
-    gDPSetTileSize(displayList + 3, tile2, x2, y2, (x2 + ((width2 - 1) << 2)), (y2 + ((height2 - 1) << 2)));
+    gDPSetTileSize(displayList + 3, tile2, x2, y2, x2 + ((width2 - 1) << 2), y2 + ((height2 - 1) << 2));
     gDPSetPrimColor(displayList + 4, 0, 0, r, g, b, a);
     gSPEndDisplayList(displayList + 5);
 
     return displayList;
 }
 
-void Scene_DrawConfigTuribori(PlayState* play) {
+void Scene_DrawConfigFishingPond(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6433);
@@ -800,7 +819,7 @@ void Scene_DrawConfigTuribori(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6449);
 }
 
-void Scene_DrawConfigBowling(PlayState* play) {
+void Scene_DrawConfigBombchuBowlingAlley(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6463);
@@ -810,7 +829,8 @@ void Scene_DrawConfigBowling(PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 5) % 64, 16, 16));
     gSPSegment(POLY_OPA_DISP++, 0x0A, Gfx_TexScroll(play->state.gfxCtx, 0, 63 - (gameplayFrames * 2) % 64, 16, 16));
     gSPSegment(POLY_XLU_DISP++, 0x0B,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 127 - (gameplayFrames * 3) % 128, 32, 32, 1, 0, 0, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 127 - (gameplayFrames * 3) % 128, 32, 32, 1, 0,
+                                0, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -826,7 +846,7 @@ void* sLonLonHouseEntranceTextures[] = {
     gLonLonHouseNightEntranceTex,
 };
 
-void Scene_DrawConfigSouko(PlayState* play) {
+void Scene_DrawConfigLonLonBuildings(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6515);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -850,7 +870,7 @@ void* sGuardHouseView1Textures[] = {
     gGuardHouseOutSideView2NightTex,
 };
 
-void Scene_DrawConfigMiharigoya(PlayState* play) {
+void Scene_DrawConfigMarketGuardHouse(PlayState* play) {
     s32 var;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6560);
@@ -873,7 +893,7 @@ void Scene_DrawConfigMiharigoya(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6581);
 }
 
-void Scene_DrawConfigMahouya(PlayState* play) {
+void Scene_DrawConfigPotionShopGranny(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6595);
@@ -881,8 +901,8 @@ void Scene_DrawConfigMahouya(PlayState* play) {
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x08, Gfx_TexScroll(play->state.gfxCtx, 0, (gameplayFrames * 3) % 128, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 1023 - (gameplayFrames * 3) % 1024, 16, 256, 1, 0,
-                                1023 - (gameplayFrames * 6) % 1024, 16, 256));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 1023 - (gameplayFrames * 3) % 1024, 16, 256, 1,
+                                0, 1023 - (gameplayFrames * 6) % 1024, 16, 256));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -898,7 +918,7 @@ void* sForestTempleEntranceTextures[] = {
     gForestTempleNightEntranceTex,
 };
 
-void Scene_DrawConfigBmori1(PlayState* play) {
+void Scene_DrawConfigForestTemple(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -909,11 +929,13 @@ void Scene_DrawConfigBmori1(PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                SEGMENTED_TO_VIRTUAL(sForestTempleEntranceTextures[((void)0, gSaveContext.nightFlag)]));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
     gSPSegment(POLY_OPA_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -929,7 +951,7 @@ void* sSpiritTempleEntranceTextures[] = {
     gSpiritTempleNightEntranceTex,
 };
 
-void Scene_DrawConfigJyasinzou(PlayState* play) {
+void Scene_DrawConfigSpiritTemple(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6752);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -938,7 +960,7 @@ void Scene_DrawConfigJyasinzou(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6762);
 }
 
-void Scene_DrawConfigSpot00(PlayState* play) {
+void Scene_DrawConfigHyruleField(PlayState* play) {
     u32 gameplayFrames;
     Gfx* displayListHead;
 
@@ -948,11 +970,13 @@ void Scene_DrawConfigSpot00(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 10) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 10) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 10) % 128, 32, 32, 1, gameplayFrames % 128,
+                                (gameplayFrames * 10) % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -988,7 +1012,7 @@ void* sKakarikoWindowTextures[] = {
     gKakarikoVillageNightWindowTex,
 };
 
-void Scene_DrawConfigSpot01(PlayState* play) {
+void Scene_DrawConfigKakarikoVillage(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6890);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sKakarikoWindowTextures[((void)0, gSaveContext.nightFlag)]));
@@ -1002,21 +1026,24 @@ void Scene_DrawConfigSpot01(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6903);
 }
 
-void Scene_DrawConfigSpot03(PlayState* play) {
+void Scene_DrawConfigZorasRiver(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6917);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 6) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 6) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 6) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 6) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1027,7 +1054,7 @@ void Scene_DrawConfigSpot03(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6948);
 }
 
-void Scene_DrawConfigSpot04(PlayState* play) {
+void Scene_DrawConfigKokiriForest(PlayState* play) {
     u32 gameplayFrames;
     u8 spA3;
     u16 spA0;
@@ -1044,11 +1071,13 @@ void Scene_DrawConfigSpot04(PlayState* play) {
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 10) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 10) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 10) % 128, 32, 32, 1, gameplayFrames % 128,
+                                (gameplayFrames * 10) % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1056,11 +1085,11 @@ void Scene_DrawConfigSpot04(PlayState* play) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    if (gSaveContext.sceneSetupIndex == 4) {
+    if (gSaveContext.sceneLayer == 4) {
         spA3 = 255 - (u8)play->roomCtx.unk_74[0];
-    } else if (gSaveContext.sceneSetupIndex == 6) {
+    } else if (gSaveContext.sceneLayer == 6) {
         spA0 = play->roomCtx.unk_74[0] + 500;
-    } else if (((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)) {
+    } else if ((!IS_CUTSCENE_LAYER || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)) {
         spA0 = 2150;
     }
 
@@ -1076,28 +1105,28 @@ void Scene_DrawConfigSpot04(PlayState* play) {
     gSPEndDisplayList(displayListHead);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (s16)(-play->roomCtx.unk_74[0] * 0.02f), 32, 16, 1, 0,
-                                (s16)(-play->roomCtx.unk_74[0] * 0.02f), 32, 16));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (s16)(-play->roomCtx.unk_74[0] * 0.02f), 32, 16,
+                                1, 0, (s16)(-play->roomCtx.unk_74[0] * 0.02f), 32, 16));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7044);
 }
 
-void Scene_DrawConfigSpot06(PlayState* play) {
+void Scene_DrawConfigLakeHylia(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7058);
 
-    if ((gSaveContext.sceneSetupIndex > 3) || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
+    if (IS_CUTSCENE_LAYER || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
         play->roomCtx.unk_74[0] = 87;
     }
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, gameplayFrames, gameplayFrames, 32, 32, 1, 0, 0, 32, 32,
-                                        0, 0, 0, play->roomCtx.unk_74[0] + 168));
+               Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames, gameplayFrames, 32, 32, 1,
+                                        0, 0, 32, 32, 0, 0, 0, play->roomCtx.unk_74[0] + 168));
     gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, 0, -gameplayFrames, -gameplayFrames, 32, 32, 1, 0, 0, 16,
-                                        64, 0, 0, 0, play->roomCtx.unk_74[0] + 168));
+               Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, -gameplayFrames, -gameplayFrames, 32, 32,
+                                        1, 0, 0, 16, 64, 0, 0, 0, play->roomCtx.unk_74[0] + 168));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 128);
@@ -1110,7 +1139,7 @@ void* sZorasDomainEntranceTextures[] = {
     gZorasDomainNightEntranceTex,
 };
 
-void Scene_DrawConfigSpot07(PlayState* play) {
+void Scene_DrawConfigZorasDomain(PlayState* play) {
     u32 gameplayFrames;
     u32 var;
 
@@ -1121,7 +1150,8 @@ void Scene_DrawConfigSpot07(PlayState* play) {
     if (LINK_IS_ADULT) {
         var = 0;
     }
-    gSPSegment(POLY_OPA_DISP++, 0x0C, Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 64, 32, 1, 0, var, 64, 32));
+    gSPSegment(POLY_OPA_DISP++, 0x0C,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 64, 32, 1, 0, var, 64, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1132,19 +1162,20 @@ void Scene_DrawConfigSpot07(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7147);
 }
 
-void Scene_DrawConfigSpot08(PlayState* play) {
+void Scene_DrawConfigZorasFountain(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7161);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (gameplayFrames * 1) % 128, 0, 32, 32, 1, 0, 0, 32, 32));
+    gSPSegment(
+        POLY_OPA_DISP++, 0x08,
+        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 1) % 128, 0, 32, 32, 1, 0, 0, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 255 - (gameplayFrames * 2) % 256, 64, 64, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 255 - (gameplayFrames * 2) % 256, 64, 64, 1, 0,
                                 255 - (gameplayFrames * 2) % 256, 64, 64));
     gSPSegment(POLY_XLU_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 1) % 128, 32, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 128, 32, 32, 1, 0,
                                 (gameplayFrames * 1) % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1156,28 +1187,29 @@ void Scene_DrawConfigSpot08(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7192);
 }
 
-void Scene_DrawConfigSpot09(PlayState* play) {
+void Scene_DrawConfigGerudoValley(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7206);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 3) % 1024, 32, 256, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 3) % 1024, 32, 256, 1, 0,
                                 (gameplayFrames * 3) % 1024, 32, 256));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 1) % 256, 64, 64, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 256, 64, 64, 1, 0,
                                 (gameplayFrames * 1) % 256, 64, 64));
     gSPSegment(POLY_XLU_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 2) % 128, 32, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 2) % 128, 32, 32, 1, 0,
                                 (gameplayFrames * 2) % 128, 32, 32));
     gSPSegment(POLY_OPA_DISP++, 0x0B,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 127 - (gameplayFrames * 3) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 32, 1, 0,
+                                127 - (gameplayFrames * 3) % 128, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0C,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 1) % 128, 32, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 128, 32, 32, 1, 0,
                                 (gameplayFrames * 1) % 128, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x0D,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (gameplayFrames * 1) % 64, 16, 16, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 64, 16, 16, 1, 0,
                                 (gameplayFrames * 1) % 64, 16, 16));
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1189,7 +1221,7 @@ void Scene_DrawConfigSpot09(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7260);
 }
 
-void Scene_DrawConfigSpot10(PlayState* play) {
+void Scene_DrawConfigLostWoods(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -1197,12 +1229,12 @@ void Scene_DrawConfigSpot10(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7274);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(
-        POLY_XLU_DISP++, 0x08,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, gameplayFrames % 128, 0, 32, 16, 1, gameplayFrames % 128, 0, 32, 16));
+    gSPSegment(POLY_XLU_DISP++, 0x08,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames % 128, 0, 32, 16, 1,
+                                gameplayFrames % 128, 0, 32, 16));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, gameplayFrames % 128, 32, 32, 1,
-                                gameplayFrames % 128, gameplayFrames % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128, gameplayFrames % 128,
+                                32, 32, 1, gameplayFrames % 128, gameplayFrames % 128, 32, 32));
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
@@ -1212,7 +1244,7 @@ void Scene_DrawConfigSpot10(PlayState* play) {
 
     if ((play->roomCtx.unk_74[0] == 0) && (INV_CONTENT(ITEM_COJIRO) == ITEM_COJIRO)) {
         if (play->roomCtx.unk_74[1] == 50) {
-            func_8002F7DC(&GET_PLAYER(play)->actor, NA_SE_EV_CHICKEN_CRY_M);
+            Player_PlaySfx(GET_PLAYER(play), NA_SE_EV_CHICKEN_CRY_M);
             play->roomCtx.unk_74[0] = 1;
         }
         play->roomCtx.unk_74[1]++;
@@ -1221,14 +1253,15 @@ void Scene_DrawConfigSpot10(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7309);
 }
 
-void Scene_DrawConfigSpot11(PlayState* play) {
+void Scene_DrawConfigDesertColossus(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7323);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 127 - gameplayFrames % 128, 32, 32));
+    gSPSegment(
+        POLY_OPA_DISP++, 0x08,
+        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 32, 1, 0, 127 - gameplayFrames % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1244,7 +1277,7 @@ void* D_8012A380[] = {
     gSpot12_00DE78Tex,
 };
 
-void Scene_DrawConfigSpot12(PlayState* play) {
+void Scene_DrawConfigGerudosFortress(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7363);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A380[((void)0, gSaveContext.nightFlag)]));
@@ -1252,18 +1285,18 @@ void Scene_DrawConfigSpot12(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7371);
 }
 
-void Scene_DrawConfigSpot13(PlayState* play) {
+void Scene_DrawConfigHauntedWasteland(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7385);
 
     gameplayFrames = play->gameplayFrames;
-    gSPSegment(
-        POLY_OPA_DISP++, 0x08,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, gameplayFrames % 128, 32, 32, 1, 0, gameplayFrames % 128, 32, 32));
-    gSPSegment(
-        POLY_XLU_DISP++, 0x09,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, gameplayFrames % 128, 32, 32, 1, 0, gameplayFrames % 128, 32, 32));
+    gSPSegment(POLY_OPA_DISP++, 0x08,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, gameplayFrames % 128, 32, 32, 1, 0,
+                                gameplayFrames % 128, 32, 32));
+    gSPSegment(POLY_XLU_DISP++, 0x09,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, gameplayFrames % 128, 32, 32, 1, 0,
+                                gameplayFrames % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1274,18 +1307,20 @@ void Scene_DrawConfigSpot13(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7409);
 }
 
-void Scene_DrawConfigSpot15(PlayState* play) {
+void Scene_DrawConfigHyruleCastle(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7423);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 10) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 10) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 10) % 128, 32, 32, 1, gameplayFrames % 128,
+                                (gameplayFrames * 10) % 128, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 3) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 3) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 3) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1296,7 +1331,7 @@ void Scene_DrawConfigSpot15(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7443);
 }
 
-void Scene_DrawConfigSpot16(PlayState* play) {
+void Scene_DrawConfigDeathMountainTrail(PlayState* play) {
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 3 * sizeof(Gfx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7461);
@@ -1330,7 +1365,7 @@ void Scene_DrawConfigSpot16(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7495);
 }
 
-void Scene_DrawConfigSpot17(PlayState* play) {
+void Scene_DrawConfigDeathMountainCrater(PlayState* play) {
     s8 sp6F = coss((play->gameplayFrames * 1500) & 0xFFFF) >> 8;
     s8 sp6E = coss((play->gameplayFrames * 1500) & 0xFFFF) >> 8;
     u32 gameplayFrames;
@@ -1341,9 +1376,9 @@ void Scene_DrawConfigSpot17(PlayState* play) {
     sp6F = (sp6F >> 1) + 192;
     sp6E = (sp6E >> 1) + 192;
 
-    gSPSegment(
-        POLY_OPA_DISP++, 0x08,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, gameplayFrames % 128, 32, 32, 1, 0, gameplayFrames % 128, 32, 32));
+    gSPSegment(POLY_OPA_DISP++, 0x08,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, gameplayFrames % 128, 32, 32, 1, 0,
+                                gameplayFrames % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, sp6F, sp6E, 255, 128);
@@ -1359,15 +1394,15 @@ void* sGoronCityEntranceTextures[] = {
     gGoronCityNightEntranceTex,
 };
 
-void Scene_DrawConfigSpot18(PlayState* play) {
+void Scene_DrawConfigGoronCity(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7555);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 127 - gameplayFrames % 128, 32, 32, 1, gameplayFrames % 128,
-                                0, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 127 - gameplayFrames % 128, 32, 32, 1,
+                                gameplayFrames % 128, 0, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1386,7 +1421,7 @@ void* sLonLonRanchWindowTextures[] = {
     gLonLonRangeNightWindowsTex,
 };
 
-void Scene_DrawConfigSpot20(PlayState* play) {
+void Scene_DrawConfigLonLonRanch(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7602);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -1401,18 +1436,19 @@ void Scene_DrawConfigSpot20(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7615);
 }
 
-void Scene_DrawConfigHidan(PlayState* play) {
+void Scene_DrawConfigFireTemple(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7630);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 127 - gameplayFrames % 128, 32, 32, 1,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 127 - gameplayFrames % 128, 32, 32, 1,
                                 127 - gameplayFrames % 128, 0, 32, 32));
     gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (gameplayFrames * 3) % 128, 127 - (gameplayFrames * 6) % 128, 32,
-                                32, 1, (gameplayFrames * 6) % 128, 127 - (gameplayFrames * 3) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (gameplayFrames * 3) % 128,
+                                127 - (gameplayFrames * 6) % 128, 32, 32, 1, (gameplayFrames * 6) % 128,
+                                127 - (gameplayFrames * 3) % 128, 32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 64);
@@ -1425,7 +1461,7 @@ void Scene_DrawConfigHidan(PlayState* play) {
 
 f32 D_8012A398 = 0.0f;
 
-void Scene_DrawConfigBdan(PlayState* play) {
+void Scene_DrawConfigJabuJabu(PlayState* play) {
     static s16 D_8012A39C = 538;
     static s16 D_8012A3A0 = 4272;
     u32 gameplayFrames;
@@ -1434,13 +1470,14 @@ void Scene_DrawConfigBdan(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7712);
 
     gameplayFrames = play->gameplayFrames;
-    if (play->sceneNum == SCENE_BDAN) {
+    if (play->sceneId == SCENE_JABU_JABU) {
         gSPSegment(POLY_OPA_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, gameplayFrames % 128, (gameplayFrames * 2) % 128, 32, 32, 1,
-                                    127 - gameplayFrames % 128, (gameplayFrames * 2) % 128, 32, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, gameplayFrames % 128,
+                                    (gameplayFrames * 2) % 128, 32, 32, 1, 127 - gameplayFrames % 128,
+                                    (gameplayFrames * 2) % 128, 32, 32));
         gSPSegment(POLY_OPA_DISP++, 0x0B,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 255 - (gameplayFrames * 4) % 256, 32, 64, 1, 0,
-                                    255 - (gameplayFrames * 4) % 256, 32, 64));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 255 - (gameplayFrames * 4) % 256, 32, 64, 1,
+                                    0, 255 - (gameplayFrames * 4) % 256, 32, 64));
     } else {
         gSPSegment(
             POLY_OPA_DISP++, 0x08,
@@ -1502,21 +1539,24 @@ void Scene_DrawConfigBdan(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7811);
 }
 
-void Scene_DrawConfigGanontika(PlayState* play) {
+void Scene_DrawConfigInsideGanonsCastle(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7825);
 
     gameplayFrames = play->gameplayFrames;
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 512, 32, 128,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 512, 32, 128));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 512, 32, 128, 1, gameplayFrames % 128,
+                                (gameplayFrames * 1) % 512, 32, 128));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
     gSPSegment(POLY_OPA_DISP++, 0x0A,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32,
-                                1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
+                                (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
+                                32, 32));
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1527,11 +1567,11 @@ void Scene_DrawConfigGanontika(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7852);
 }
 
-void Scene_DrawConfigGanontikaSonogo(PlayState* play) {
+void Scene_DrawConfigInsideGanonsCastleCollapse(PlayState* play) {
     func_8009BEEC(play);
 }
 
-void Scene_DrawConfigGanonSonogo(PlayState* play) {
+void Scene_DrawConfigGanonsTowerCollapseInterior(PlayState* play) {
     func_8009BEEC(play);
 }
 
@@ -1554,67 +1594,69 @@ void Scene_DrawConfigBesitu(PlayState* play) {
 }
 
 void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
-    Scene_DrawConfigDefault,               // SDC_DEFAULT
-    Scene_DrawConfigSpot00,                // SDC_SPOT00
-    Scene_DrawConfigSpot01,                // SDC_SPOT01
-    Scene_DrawConfigSpot03,                // SDC_SPOT03
-    Scene_DrawConfigSpot04,                // SDC_SPOT04
-    Scene_DrawConfigSpot06,                // SDC_SPOT06
-    Scene_DrawConfigSpot07,                // SDC_SPOT07
-    Scene_DrawConfigSpot08,                // SDC_SPOT08
-    Scene_DrawConfigSpot09,                // SDC_SPOT09
-    Scene_DrawConfigSpot10,                // SDC_SPOT10
-    Scene_DrawConfigSpot11,                // SDC_SPOT11
-    Scene_DrawConfigSpot12,                // SDC_SPOT12
-    Scene_DrawConfigSpot13,                // SDC_SPOT13
-    Scene_DrawConfigSpot15,                // SDC_SPOT15
-    Scene_DrawConfigSpot16,                // SDC_SPOT16
-    Scene_DrawConfigSpot17,                // SDC_SPOT17
-    Scene_DrawConfigSpot18,                // SDC_SPOT18
-    Scene_DrawConfigSpot20,                // SDC_SPOT20
-    Scene_DrawConfigHidan,                 // SDC_HIDAN
-    Scene_DrawConfigYdan,                  // SDC_YDAN
-    Scene_DrawConfigDdan,                  // SDC_DDAN
-    Scene_DrawConfigBdan,                  // SDC_BDAN
-    Scene_DrawConfigBmori1,                // SDC_BMORI1
-    Scene_DrawConfigMizusin,               // SDC_MIZUSIN
-    Scene_DrawConfigHakadan,               // SDC_HAKADAN
-    Scene_DrawConfigJyasinzou,             // SDC_JYASINZOU
-    Scene_DrawConfigGanontika,             // SDC_GANONTIKA
-    Scene_DrawConfigMen,                   // SDC_MEN
-    Scene_DrawConfigYdanBoss,              // SDC_YDAN_BOSS
-    Scene_DrawConfigMizusinBs,             // SDC_MIZUSIN_BS
-    Scene_DrawConfigTokinoma,              // SDC_TOKINOMA
-    Scene_DrawConfigKakusiana,             // SDC_KAKUSIANA
-    Scene_DrawConfigKenjyanoma,            // SDC_KENJYANOMA
-    Scene_DrawConfigGreatFairyFountain,    // SDC_GREAT_FAIRY_FOUNTAIN
-    Scene_DrawConfigSyatekijyou,           // SDC_SYATEKIJYOU
-    Scene_DrawConfigHairalNiwa,            // SDC_HAIRAL_NIWA
-    Scene_DrawConfigGanonCastleExterior,   // SDC_GANON_CASTLE_EXTERIOR
-    Scene_DrawConfigIceDoukuto,            // SDC_ICE_DOUKUTO
-    Scene_DrawConfigGanonFinal,            // SDC_GANON_FINAL
-    Scene_DrawConfigFairyFountain,         // SDC_FAIRY_FOUNTAIN
-    Scene_DrawConfigGerudoway,             // SDC_GERUDOWAY
-    Scene_DrawConfigBowling,               // SDC_BOWLING
-    Scene_DrawConfigHakaanaOuke,           // SDC_HAKAANA_OUKE
-    Scene_DrawConfigHyliaLabo,             // SDC_HYLIA_LABO
-    Scene_DrawConfigSouko,                 // SDC_SOUKO
-    Scene_DrawConfigMiharigoya,            // SDC_MIHARIGOYA
-    Scene_DrawConfigMahouya,               // SDC_MAHOUYA
-    Scene_DrawConfigCalmWater,             // SDC_CALM_WATER
-    Scene_DrawConfigGraveExitLightShining, // SDC_GRAVE_EXIT_LIGHT_SHINING
-    Scene_DrawConfigBesitu,                // SDC_BESITU
-    Scene_DrawConfigTuribori,              // SDC_TURIBORI
-    Scene_DrawConfigGanonSonogo,           // SDC_GANON_SONOGO
-    Scene_DrawConfigGanontikaSonogo,       // SDC_GANONTIKA_SONOGO
+    Scene_DrawConfigDefault,                     // SDC_DEFAULT
+    Scene_DrawConfigHyruleField,                 // SDC_HYRULE_FIELD
+    Scene_DrawConfigKakarikoVillage,             // SDC_KAKARIKO_VILLAGE
+    Scene_DrawConfigZorasRiver,                  // SDC_ZORAS_RIVER
+    Scene_DrawConfigKokiriForest,                // SDC_KOKIRI_FOREST
+    Scene_DrawConfigLakeHylia,                   // SDC_LAKE_HYLIA
+    Scene_DrawConfigZorasDomain,                 // SDC_ZORAS_DOMAIN
+    Scene_DrawConfigZorasFountain,               // SDC_ZORAS_FOUNTAIN
+    Scene_DrawConfigGerudoValley,                // SDC_GERUDO_VALLEY
+    Scene_DrawConfigLostWoods,                   // SDC_LOST_WOODS
+    Scene_DrawConfigDesertColossus,              // SDC_DESERT_COLOSSUS
+    Scene_DrawConfigGerudosFortress,             // SDC_GERUDOS_FORTRESS
+    Scene_DrawConfigHauntedWasteland,            // SDC_HAUNTED_WASTELAND
+    Scene_DrawConfigHyruleCastle,                // SDC_HYRULE_CASTLE
+    Scene_DrawConfigDeathMountainTrail,          // SDC_DEATH_MOUNTAIN_TRAIL
+    Scene_DrawConfigDeathMountainCrater,         // SDC_DEATH_MOUNTAIN_CRATER
+    Scene_DrawConfigGoronCity,                   // SDC_GORON_CITY
+    Scene_DrawConfigLonLonRanch,                 // SDC_LON_LON_RANCH
+    Scene_DrawConfigFireTemple,                  // SDC_FIRE_TEMPLE
+    Scene_DrawConfigDekuTree,                    // SDC_DEKU_TREE
+    Scene_DrawConfigDodongosCavern,              // SDC_DODONGOS_CAVERN
+    Scene_DrawConfigJabuJabu,                    // SDC_JABU_JABU
+    Scene_DrawConfigForestTemple,                // SDC_FOREST_TEMPLE
+    Scene_DrawConfigWaterTemple,                 // SDC_WATER_TEMPLE
+    Scene_DrawConfigShadowTempleAndWell,         // SDC_SHADOW_TEMPLE_AND_WELL
+    Scene_DrawConfigSpiritTemple,                // SDC_SPIRIT_TEMPLE
+    Scene_DrawConfigInsideGanonsCastle,          // SDC_INSIDE_GANONS_CASTLE
+    Scene_DrawConfigGerudoTrainingGround,        // SDC_GERUDO_TRAINING_GROUND
+    Scene_DrawConfigDekuTreeBoss,                // SDC_DEKU_TREE_BOSS
+    Scene_DrawConfigWaterTempleBoss,             // SDC_WATER_TEMPLE_BOSS
+    Scene_DrawConfigTempleOfTime,                // SDC_TEMPLE_OF_TIME
+    Scene_DrawConfigGrottos,                     // SDC_GROTTOS
+    Scene_DrawConfigChamberOfTheSages,           // SDC_CHAMBER_OF_THE_SAGES
+    Scene_DrawConfigGreatFairyFountain,          // SDC_GREAT_FAIRYS_FOUNTAIN
+    Scene_DrawConfigShootingGallery,             // SDC_SHOOTING_GALLERY
+    Scene_DrawConfigCastleCourtyardGuards,       // SDC_CASTLE_COURTYARD_GUARDS
+    Scene_DrawConfigOutsideGanonsCastle,         // SDC_OUTSIDE_GANONS_CASTLE
+    Scene_DrawConfigIceCavern,                   // SDC_ICE_CAVERN
+    Scene_DrawConfigGanonsTowerCollapseExterior, // SDC_GANONS_TOWER_COLLAPSE_EXTERIOR
+    Scene_DrawConfigFairysFountain,              // SDC_FAIRYS_FOUNTAIN
+    Scene_DrawConfigThievesHideout,              // SDC_THIEVES_HIDEOUT
+    Scene_DrawConfigBombchuBowlingAlley,         // SDC_BOMBCHU_BOWLING_ALLEY
+    Scene_DrawConfigRoyalFamilysTomb,            // SDC_ROYAL_FAMILYS_TOMB
+    Scene_DrawConfigLakesideLaboratory,          // SDC_LAKESIDE_LABORATORY
+    Scene_DrawConfigLonLonBuildings,             // SDC_LON_LON_BUILDINGS
+    Scene_DrawConfigMarketGuardHouse,            // SDC_MARKET_GUARD_HOUSE
+    Scene_DrawConfigPotionShopGranny,            // SDC_POTION_SHOP_GRANNY
+    Scene_DrawConfigCalmWater,                   // SDC_CALM_WATER
+    Scene_DrawConfigGraveExitLightShining,       // SDC_GRAVE_EXIT_LIGHT_SHINING
+    Scene_DrawConfigBesitu,                      // SDC_BESITU
+    Scene_DrawConfigFishingPond,                 // SDC_FISHING_POND
+    Scene_DrawConfigGanonsTowerCollapseInterior, // SDC_GANONS_TOWER_COLLAPSE_INTERIOR
+    Scene_DrawConfigInsideGanonsCastleCollapse,  // SDC_INSIDE_GANONS_CASTLE_COLLAPSE
 };
 
 void Scene_Draw(PlayState* play) {
-    if (HREG(80) == 17) {
-        if (HREG(95) != 17) {
-            HREG(95) = 17;
-            HREG(81) = 1;
-            HREG(82) = 1;
+    if (R_HREG_MODE == HREG_MODE_SCENE_CONFIG) {
+        if (R_SCENE_CONFIG_INIT != HREG_MODE_SCENE_CONFIG) {
+            R_SCENE_CONFIG_INIT = HREG_MODE_SCENE_CONFIG;
+            R_SCENE_CONFIG_DRAW_DEFAULT_DLIST = 1;
+            R_SCENE_CONFIG_DRAW_SCENE_CONFIG = 1;
+
+            // these regs are not used in this mode
             HREG(83) = 0;
             HREG(84) = 0;
             HREG(85) = 0;
@@ -1630,14 +1672,14 @@ void Scene_Draw(PlayState* play) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 8104);
 
-        if (HREG(81) == 1) {
+        if (R_SCENE_CONFIG_DRAW_DEFAULT_DLIST == 1) {
             gSPDisplayList(POLY_OPA_DISP++, sDefaultDisplayList);
             gSPDisplayList(POLY_XLU_DISP++, sDefaultDisplayList);
         }
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 8109);
 
-        if (HREG(82) == 1) {
+        if (R_SCENE_CONFIG_DRAW_SCENE_CONFIG == 1) {
             sSceneDrawConfigs[play->sceneDrawConfig](play);
         }
     } else {

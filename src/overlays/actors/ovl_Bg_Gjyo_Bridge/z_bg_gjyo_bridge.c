@@ -19,7 +19,7 @@ void func_808787A4(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play);
 
-const ActorInit Bg_Gjyo_Bridge_InitVars = {
+ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
     ACTORCAT_PROP,
     FLAGS,
@@ -44,7 +44,7 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
     colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gRainbowBridgeCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
@@ -53,7 +53,7 @@ void BgGjyoBridge_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = func_808787A4;
     } else {
         this->dyna.actor.draw = NULL;
-        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->actionFunc = BgGjyoBridge_TriggerCutscene;
     }
 }
@@ -74,17 +74,17 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play) {
         (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) && (player->actor.world.pos.x > -70.0f) &&
         (player->actor.world.pos.x < 300.0f) && (player->actor.world.pos.y > 1340.0f) &&
         (player->actor.world.pos.z > 1340.0f) && (player->actor.world.pos.z < 1662.0f) && !Play_InCsMode(play)) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = BgGjyoBridge_SpawnBridge;
     }
 }
 
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL) &&
-        (play->csCtx.npcActions[2]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL) &&
+        (play->csCtx.actorCues[2]->id == 2)) {
         this->dyna.actor.draw = BgGjyoBridge_Draw;
-        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         SET_EVENTCHKINF(EVENTCHKINF_4D);
     }
 }
@@ -106,7 +106,7 @@ void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
                Gfx_TexScroll(play->state.gfxCtx, play->gameplayFrames & 127, play->gameplayFrames * -3 & 127, 32, 32));
 
     gSPSegment(POLY_XLU_DISP++, 9,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,
                                 play->gameplayFrames & 127, 32, 32));
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),

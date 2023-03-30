@@ -1,5 +1,5 @@
 #include "z_en_syateki_itm.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Man/z_en_syateki_man.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 #include "overlays/actors/ovl_En_G_Switch/z_en_g_switch.h"
@@ -16,7 +16,7 @@ typedef enum {
     SYATEKI_ROUND_MAX
 } EnSyatekItemRound;
 
-void EnSyatekiItm_Init(Actor* thisx, PlayState* play);
+void EnSyatekiItm_Init(Actor* thisx, PlayState* play2);
 void EnSyatekiItm_Destroy(Actor* thisx, PlayState* play);
 void EnSyatekiItm_Update(Actor* thisx, PlayState* play);
 
@@ -27,7 +27,7 @@ void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, PlayState* play);
 void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, PlayState* play);
 void EnSyatekiItm_EndGame(EnSyatekiItm* this, PlayState* play);
 
-const ActorInit En_Syateki_Itm_InitVars = {
+ActorInit En_Syateki_Itm_InitVars = {
     ACTOR_EN_SYATEKI_ITM,
     ACTORCAT_PROP,
     FLAGS,
@@ -105,7 +105,7 @@ void EnSyatekiItm_Idle(EnSyatekiItm* this, PlayState* play) {
         player->actor.world.pos.x = -12.0f;
         player->actor.world.pos.y = 20.0f;
         player->actor.world.pos.z = 182.0f;
-        player->currentYaw = player->actor.world.rot.y = player->actor.shape.rot.y = 0x7F03;
+        player->yaw = player->actor.world.rot.y = player->actor.shape.rot.y = 0x7F03;
         player->actor.world.rot.x = player->actor.shape.rot.x = player->actor.world.rot.z = player->actor.shape.rot.z =
             0;
         func_8008EF44(play, 15);

@@ -18,7 +18,7 @@ void func_80886FCC(BgHidanFslift* this, PlayState* play);
 void func_8088706C(BgHidanFslift* this, PlayState* play);
 void func_808870D8(BgHidanFslift* this, PlayState* play);
 
-const ActorInit Bg_Hidan_Fslift_InitVars = {
+ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
     ACTORCAT_BG,
     FLAGS,
@@ -44,7 +44,7 @@ void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
     s32 pad2;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(&gFireTempleHookshotElevatorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_OBJ_HSBLOCK, this->dyna.actor.world.pos.x,
@@ -89,7 +89,7 @@ void func_80886FCC(BgHidanFslift* this, PlayState* play) {
         if ((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) < 0.5f) {
             heightBool = true;
         }
-        if (func_80043590(&this->dyna) && heightBool) {
+        if (DynaPolyActor_IsPlayerAbove(&this->dyna) && heightBool) {
             this->actionFunc = func_808870D8;
         } else if (!heightBool) {
             this->actionFunc = func_8088706C;
@@ -99,7 +99,7 @@ void func_80886FCC(BgHidanFslift* this, PlayState* play) {
 
 void func_8088706C(BgHidanFslift* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 4.0f)) {
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         func_80886FB4(this);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
@@ -108,9 +108,9 @@ void func_8088706C(BgHidanFslift* this, PlayState* play) {
 }
 
 void func_808870D8(BgHidanFslift* this, PlayState* play) {
-    if (func_80043590(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 790.0f, 4.0f)) {
-            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
             func_80886FB4(this);
         } else {
             func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
@@ -125,12 +125,12 @@ void BgHidanFslift_Update(Actor* thisx, PlayState* play) {
     BgHidanFslift* this = (BgHidanFslift*)thisx;
 
     this->actionFunc(this, play);
-    if (func_8004356C(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->unk_16A == 0) {
             this->unk_16A = 3;
         }
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
-    } else if (!func_8004356C(&this->dyna)) {
+        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+    } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->unk_16A != 0) {
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }

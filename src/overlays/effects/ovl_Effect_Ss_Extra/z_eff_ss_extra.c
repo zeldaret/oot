@@ -27,7 +27,7 @@ u32 EffectSsExtra_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
     s32 pad;
     s32 objBankIndex;
-    u32 oldSeg6;
+    uintptr_t oldSeg6;
 
     objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_YABUSAME_POINT);
 
@@ -81,7 +81,7 @@ void EffectSsExtra_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsExtra_Update(PlayState* play, u32 index, EffectSs* this) {
     if (this->rTimer != 0) {
-        this->rTimer -= 1;
+        this->rTimer--;
     } else {
         this->velocity.y = 0.0f;
     }

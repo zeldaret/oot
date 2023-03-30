@@ -10,12 +10,12 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "assets/objects/object_kusa/object_kusa.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void EnKusa_Init(Actor* thisx, PlayState* play);
-void EnKusa_Destroy(Actor* thisx, PlayState* play);
+void EnKusa_Destroy(Actor* thisx, PlayState* play2);
 void EnKusa_Update(Actor* thisx, PlayState* play);
 void EnKusa_Draw(Actor* thisx, PlayState* play);
 
@@ -41,7 +41,7 @@ static s16 rotSpeedX = 0;
 static s16 rotSpeedYtarget = 0;
 static s16 rotSpeedY = 0;
 
-const ActorInit En_Kusa_InitVars = {
+ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORCAT_PROP,
     FLAGS,
@@ -99,7 +99,7 @@ void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
 
 s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
     s32 pad;
-    CollisionPoly* poly;
+    CollisionPoly* groundPoly;
     Vec3f pos;
     s32 bgId;
     f32 floorY;
@@ -108,7 +108,7 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
     pos.y = this->actor.world.pos.y + 30.0f;
     pos.z = this->actor.world.pos.z;
 
-    floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->actor, &pos);
+    floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &groundPoly, &bgId, &this->actor, &pos);
 
     if (floorY > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = floorY + yOffset;
@@ -140,7 +140,7 @@ void EnKusa_DropCollectible(EnKusa* this, PlayState* play) {
             if (Rand_ZeroOne() < 0.5f) {
                 Item_DropCollectible(play, &this->actor.world.pos, ITEM00_SEEDS);
             } else {
-                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_HEART);
+                Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RECOVERY_HEART);
             }
             break;
     }
@@ -300,12 +300,12 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
 
     if (Actor_HasParent(&this->actor, play)) {
         EnKusa_SetupLiftedUp(this);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
     } else if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         EnKusa_SpawnFragments(this, play);
         EnKusa_DropCollectible(this, play);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
 
         if ((this->actor.params >> 4) & 1) {
             EnKusa_SpawnBugs(this, play);
@@ -330,7 +330,7 @@ void EnKusa_Main(EnKusa* this, PlayState* play) {
             if (this->actor.xzDistToPlayer < 400.0f) {
                 CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
                 if (this->actor.xzDistToPlayer < 100.0f) {
-                    func_8002F580(&this->actor, play);
+                    Actor_OfferCarry(&this->actor, play);
                 }
             }
         }
@@ -347,13 +347,13 @@ void EnKusa_LiftedUp(EnKusa* this, PlayState* play) {
     if (Actor_HasNoParent(&this->actor, play)) {
         this->actor.room = play->roomCtx.curRoom.num;
         EnKusa_SetupFall(this);
-        this->actor.velocity.x = this->actor.speedXZ * Math_SinS(this->actor.world.rot.y);
-        this->actor.velocity.z = this->actor.speedXZ * Math_CosS(this->actor.world.rot.y);
+        this->actor.velocity.x = this->actor.speed * Math_SinS(this->actor.world.rot.y);
+        this->actor.velocity.z = this->actor.speed * Math_CosS(this->actor.world.rot.y);
         this->actor.colChkInfo.mass = 240;
         this->actor.gravity = -0.1f;
         EnKusa_UpdateVelY(this);
         EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.005f);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
                                     UPDBGCHECKINFO_FLAG_7);
@@ -375,7 +375,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) {
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         EnKusa_SpawnFragments(this, play);
         EnKusa_DropCollectible(this, play);
@@ -406,7 +406,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
         rotSpeedY >>= 1;
         rotSpeedYtarget >>= 1;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
     }
 
     EnKusa_UpdateVelY(this);
@@ -415,7 +415,7 @@ void EnKusa_Fall(EnKusa* this, PlayState* play) {
     this->actor.shape.rot.x += rotSpeedX;
     this->actor.shape.rot.y += rotSpeedY;
     EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.05f);
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
                                 UPDBGCHECKINFO_FLAG_7);

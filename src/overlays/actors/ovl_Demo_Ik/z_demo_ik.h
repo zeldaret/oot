@@ -16,7 +16,7 @@ typedef struct DemoIk {
     /* 0x019C */ Vec3s morphTable[2];
     /* 0x01A8 */ s32 actionMode;
     /* 0x01AC */ s32 drawMode;
-    /* 0x01B0 */ s32 csAction;
+    /* 0x01B0 */ s32 cueId;
 } DemoIk; // size = 0x01B4
 
 #endif

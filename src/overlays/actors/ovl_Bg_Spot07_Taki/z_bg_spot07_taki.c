@@ -16,7 +16,7 @@ void BgSpot07Taki_Draw(Actor* thisx, PlayState* play);
 
 void BgSpot07Taki_DoNothing(BgSpot07Taki* this, PlayState* play);
 
-const ActorInit Bg_Spot07_Taki_InitVars = {
+ActorInit Bg_Spot07_Taki_InitVars = {
     ACTOR_BG_SPOT07_TAKI,
     ACTORCAT_BG,
     FLAGS,
@@ -37,7 +37,7 @@ void BgSpot07Taki_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (LINK_IS_ADULT) {
         if (this->dyna.actor.params == 0) {
@@ -87,26 +87,27 @@ void BgSpot07Taki_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, ((frames * -1) & 0x7F), ((frames * 1) & 0x7F), 32, 32, 1,
-                                ((frames * 1) & 0x7F), ((frames * 1) & 0x7F), 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, ((frames * -1) & 0x7F), ((frames * 1) & 0x7F), 32,
+                                32, 1, ((frames * 1) & 0x7F), ((frames * 1) & 0x7F), 32, 32));
 
     if (!LINK_IS_ADULT) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
         if (this->dyna.actor.params == 0) {
             gSPSegment(POLY_XLU_DISP++, 0x09,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, ((frames * -1) & 0x7F), ((frames * -3) & 0xFF), 64, 64,
-                                        1, ((frames * 1) & 0x7F), ((frames * -3) & 0xFF), 64, 64));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, ((frames * -1) & 0x7F),
+                                        ((frames * -3) & 0xFF), 64, 64, 1, ((frames * 1) & 0x7F),
+                                        ((frames * -3) & 0xFF), 64, 64));
             gSPSegment(POLY_XLU_DISP++, 0x0A,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, frames * 0, ((frames * 3) & 0x1FF), 32, 128, 1,
-                                        frames * 0, ((frames * 3) & 0x1FF), 32, 128));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 0, ((frames * 3) & 0x1FF), 32,
+                                        128, 1, frames * 0, ((frames * 3) & 0x1FF), 32, 128));
             gSPDisplayList(POLY_XLU_DISP++, object_spot07_object_DL_000460);
         } else {
             gSPSegment(POLY_XLU_DISP++, 0x09,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, frames * 0, ((frames * -1) & 0x7F), 32, 32, 1,
-                                        frames * 0, ((frames * -1) & 0x7F), 32, 32));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 0, ((frames * -1) & 0x7F), 32, 32,
+                                        1, frames * 0, ((frames * -1) & 0x7F), 32, 32));
             gSPSegment(POLY_XLU_DISP++, 0x0A,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, frames * 0, ((frames * 3) & 0x1FF), 32, 128, 1,
-                                        frames * 0, ((frames * 3) & 0x1FF), 32, 128));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 0, ((frames * 3) & 0x1FF), 32,
+                                        128, 1, frames * 0, ((frames * 3) & 0x1FF), 32, 128));
             gSPDisplayList(POLY_XLU_DISP++, object_spot07_object_DL_000BE0);
         }
     } else if (this->dyna.actor.params == 0) {

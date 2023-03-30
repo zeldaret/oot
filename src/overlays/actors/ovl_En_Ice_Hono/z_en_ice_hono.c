@@ -24,7 +24,7 @@ void EnIceHono_SetupActionDroppedFlame(EnIceHono* this);
 void EnIceHono_SetupActionSpreadFlames(EnIceHono* this);
 void EnIceHono_SetupActionSmallFlame(EnIceHono* this);
 
-const ActorInit En_Ice_Hono_InitVars = {
+ActorInit En_Ice_Hono_InitVars = {
     ACTOR_EN_ICE_HONO,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -215,7 +215,7 @@ void EnIceHono_CapturableFlame(EnIceHono* this, PlayState* play) {
         this->actor.parent = NULL;
     } else if (EnIceHono_InBottleRange(this, play)) {
         // GI_MAX in this case allows the player to catch the actor in a bottle
-        func_8002F434(&this->actor, play, GI_MAX, 60.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MAX, 60.0f, 100.0f);
     }
 
     if (this->actor.xzDistToPlayer < 200.0f) {
@@ -245,7 +245,7 @@ void EnIceHono_DropFlame(EnIceHono* this, PlayState* play) {
         }
         EnIceHono_SetupActionSpreadFlames(this);
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
@@ -274,7 +274,7 @@ void EnIceHono_SpreadFlames(EnIceHono* this, PlayState* play) {
         Math_StepToF(&this->actor.scale.y, 0.0001f, 0.00015f);
     }
     this->actor.scale.z = this->actor.scale.x;
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (this->timer < 25) {
         this->alpha -= 10;
@@ -307,10 +307,10 @@ void EnIceHono_SetupActionSmallFlame(EnIceHono* this) {
     this->alpha = 255;
     if (this->actor.params == 1) {
         this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.004f;
-        this->actor.speedXZ = (Rand_ZeroOne() * 1.6f) + 0.5f;
+        this->actor.speed = (Rand_ZeroOne() * 1.6f) + 0.5f;
     } else {
         this->smallFlameTargetYScale = (Rand_ZeroOne() * 0.005f) + 0.003f;
-        this->actor.speedXZ = (Rand_ZeroOne() * 2.0f) + 0.5f;
+        this->actor.speed = (Rand_ZeroOne() * 2.0f) + 0.5f;
     }
 }
 
@@ -323,8 +323,8 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, PlayState* play) {
         Math_StepToF(&this->actor.scale.y, 0.0001f, 0.00015f);
     }
     this->actor.scale.z = this->actor.scale.x;
-    Math_StepToF(&this->actor.speedXZ, 0, 0.06f);
-    Actor_MoveForward(&this->actor);
+    Math_StepToF(&this->actor.speed, 0, 0.06f);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (this->timer < 25) {
@@ -377,7 +377,8 @@ void EnIceHono_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (play->state.frames * -20) % 512, 32, 128));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0,
+                                (play->state.frames * -20) % 512, 32, 128));
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 170, 255, 255, this->alpha);
 

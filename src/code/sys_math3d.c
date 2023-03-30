@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 
 s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                       Vec3f* lineAClosestToB, Vec3f* lineBClosestToA);
@@ -427,14 +427,14 @@ f32 Math3D_Dist2D(f32 x0, f32 y0, f32 x1, f32 y1) {
 }
 
 /**
- * Returns the magntiude (length) squared of `vec`
+ * Returns the magnitude (length) squared of `vec`
  */
 f32 Math3D_Vec3fMagnitudeSq(Vec3f* vec) {
     return SQ(vec->x) + SQ(vec->y) + SQ(vec->z);
 }
 
 /**
- * Returns the magnitude(length) of `vec`
+ * Returns the magnitude (length) of `vec`
  */
 f32 Math3D_Vec3fMagnitude(Vec3f* vec) {
     return sqrt(Math3D_Vec3fMagnitudeSq(vec));

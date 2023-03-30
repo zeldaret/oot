@@ -10,7 +10,7 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void ObjOshihiki_Init(Actor* thisx, PlayState* play);
+void ObjOshihiki_Init(Actor* thisx, PlayState* play2);
 void ObjOshihiki_Destroy(Actor* thisx, PlayState* play);
 void ObjOshihiki_Update(Actor* thisx, PlayState* play);
 void ObjOshihiki_Draw(Actor* thisx, PlayState* play);
@@ -24,7 +24,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, PlayState* play);
 void ObjOshihiki_SetupFall(ObjOshihiki* this, PlayState* play);
 void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play);
 
-const ActorInit Obj_Oshihiki_InitVars = {
+ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
     ACTORCAT_PROP,
     FLAGS,
@@ -52,9 +52,10 @@ static Color_RGB8 sColors[][4] = {
     { { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 } }, // gerudo training grounds
 };
 
-static s16 sScenes[] = {
-    SCENE_YDAN,      SCENE_DDAN,    SCENE_BMORI1, SCENE_HIDAN, SCENE_MIZUSIN,
-    SCENE_JYASINZOU, SCENE_HAKADAN, SCENE_GANON,  SCENE_MEN,
+static s16 sSceneIds[] = {
+    SCENE_DEKU_TREE,     SCENE_DODONGOS_CAVERN, SCENE_FOREST_TEMPLE,
+    SCENE_FIRE_TEMPLE,   SCENE_WATER_TEMPLE,    SCENE_SPIRIT_TEMPLE,
+    SCENE_SHADOW_TEMPLE, SCENE_GANONS_TOWER,    SCENE_GERUDO_TRAINING_GROUND,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -249,8 +250,8 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
 
     paramsColorIdx = (this->dyna.actor.params >> 6) & 3;
 
-    for (i = 0; i < ARRAY_COUNT(sScenes); i++) {
-        if (sScenes[i] == play->sceneNum) {
+    for (i = 0; i < ARRAY_COUNT(sSceneIds); i++) {
+        if (sSceneIds[i] == play->sceneId) {
             break;
         }
     }
@@ -333,7 +334,7 @@ void ObjOshihiki_SetFloors(ObjOshihiki* this, PlayState* play) {
         floorPoly = &this->floorPolys[i];
         floorBgId = &this->floorBgIds[i];
         this->floorHeights[i] =
-            BgCheck_EntityRaycastFloor6(&play->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
+            BgCheck_EntityRaycastDown6(&play->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
     }
 }
 
@@ -482,7 +483,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
     DynaPolyActor* dynaPolyActor;
 
     this->stateFlags |= PUSHBLOCK_ON_ACTOR;
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     if (ObjOshihiki_CheckFloor(this, play)) {
         bgId = this->floorBgIds[this->highestFloor];
@@ -491,7 +492,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
         } else {
             dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
             if (dynaPolyActor != NULL) {
-                func_800434A8(dynaPolyActor);
+                DynaPolyActor_SetActorOnTop(dynaPolyActor);
                 func_80043538(dynaPolyActor);
 
                 if ((this->timer <= 0) && (fabsf(this->dyna.unk_150) > 0.001f)) {
@@ -519,8 +520,8 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
         } else {
             dynaPolyActor = DynaPoly_GetActor(&play->colCtx, bgId);
 
-            if ((dynaPolyActor != NULL) && (dynaPolyActor->unk_15C & 1)) {
-                func_800434A8(dynaPolyActor);
+            if ((dynaPolyActor != NULL) && (dynaPolyActor->transformFlags & DYNA_TRANSFORM_POS)) {
+                DynaPolyActor_SetActorOnTop(dynaPolyActor);
                 func_80043538(dynaPolyActor);
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             } else {
@@ -561,7 +562,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, PlayState* play) {
     } else if (stopFlag) {
         player = GET_PLAYER(play);
         if (ObjOshihiki_CheckWall(play, this->dyna.unk_158, this->dyna.unk_150, this)) {
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+            Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
         }
 
         thisx->home.pos.x = thisx->world.pos.x;
@@ -577,7 +578,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, PlayState* play) {
             ObjOshihiki_SetupOnActor(this, play);
         }
     }
-    Audio_PlayActorSound2(thisx, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    Actor_PlaySfx(thisx, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
 void ObjOshihiki_SetupFall(ObjOshihiki* this, PlayState* play) {
@@ -596,17 +597,17 @@ void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
     if (ObjOshihiki_CheckGround(this, play)) {
         if (this->floorBgIds[this->highestFloor] == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, play);
         } else {
             ObjOshihiki_SetupOnActor(this, play);
         }
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSound2(&this->dyna.actor, SurfaceType_GetSfx(&play->colCtx, this->floorPolys[this->highestFloor],
-                                                                    this->floorBgIds[this->highestFloor]) +
-                                                     SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(
+                                                                    &play->colCtx, this->floorPolys[this->highestFloor],
+                                                                    this->floorBgIds[this->highestFloor]));
     }
 }
 
@@ -648,15 +649,15 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    switch (play->sceneNum) {
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_MEN:
+    switch (play->sceneId) {
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_GERUDO_TRAINING_GROUND:
             gDPSetEnvColor(POLY_OPA_DISP++, this->color.r, this->color.g, this->color.b, 255);
             break;
         default:

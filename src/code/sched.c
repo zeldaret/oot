@@ -47,10 +47,10 @@
 
 vs32 sLogScheduler = false;
 
-OSTime sRSPGFXStartTime;
-OSTime sRSPAudioStartTime;
-OSTime sRSPOtherStartTime;
-OSTime sRDPStartTime;
+OSTime sRSPGfxTimeStart;
+OSTime sRSPAudioTimeStart;
+OSTime sRSPOtherTimeStart;
+OSTime sRDPTimeStart;
 
 /**
  * Set the current framebuffer to the swapbuffer pointed to by the provided cfb
@@ -73,12 +73,14 @@ void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
         width = (cfbInfo->viMode != NULL) ? cfbInfo->viMode->comRegs.width : (u32)gScreenWidth;
         Fault_SetFrameBuffer(cfbInfo->swapBuffer, width, 16);
 
-        if (HREG(80) == 0xD && HREG(95) != 0xD) {
-            HREG(81) = 0;
-            HREG(82) = 0;
-            HREG(83) = 1;
-            HREG(84) = 0;
-            HREG(85) = 1;
+        if (R_HREG_MODE == HREG_MODE_SCHED && R_SCHED_INIT != HREG_MODE_SCHED) {
+            R_SCHED_TOGGLE_SPECIAL_FEATURES = 0;
+            R_SCHED_GAMMA_ON = 0;
+            R_SCHED_DITHER_FILTER_ON = 1;
+            R_SCHED_GAMMA_DITHER_ON = 0;
+            R_SCHED_DIVOT_ON = 1;
+
+            // these regs are not used in this mode
             HREG(86) = 0;
             HREG(87) = 0;
             HREG(88) = 0;
@@ -88,15 +90,18 @@ void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
             HREG(92) = 0;
             HREG(93) = 0;
             HREG(94) = 0;
-            HREG(95) = 0xD;
+
+            R_SCHED_INIT = HREG_MODE_SCHED;
         }
-        if (HREG(80) == 0xD && HREG(81) == 2) {
-            osViSetSpecialFeatures((HREG(82) != 0) ? OS_VI_GAMMA_ON : OS_VI_GAMMA_OFF);
-            osViSetSpecialFeatures((HREG(83) != 0) ? OS_VI_DITHER_FILTER_ON : OS_VI_DITHER_FILTER_OFF);
-            osViSetSpecialFeatures((HREG(84) != 0) ? OS_VI_GAMMA_DITHER_ON : OS_VI_GAMMA_DITHER_OFF);
-            osViSetSpecialFeatures((HREG(85) != 0) ? OS_VI_DIVOT_ON : OS_VI_DIVOT_OFF);
+
+        if (R_HREG_MODE == HREG_MODE_SCHED && R_SCHED_TOGGLE_SPECIAL_FEATURES == 2) {
+            osViSetSpecialFeatures(R_SCHED_GAMMA_ON ? OS_VI_GAMMA_ON : OS_VI_GAMMA_OFF);
+            osViSetSpecialFeatures(R_SCHED_DITHER_FILTER_ON ? OS_VI_DITHER_FILTER_ON : OS_VI_DITHER_FILTER_OFF);
+            osViSetSpecialFeatures(R_SCHED_GAMMA_DITHER_ON ? OS_VI_GAMMA_DITHER_ON : OS_VI_GAMMA_DITHER_OFF);
+            osViSetSpecialFeatures(R_SCHED_DIVOT_ON ? OS_VI_DIVOT_ON : OS_VI_DIVOT_OFF);
         }
     }
+
     cfbInfo->unk_10 = 0;
 }
 
@@ -120,20 +125,20 @@ void Sched_HandlePreNMI(Scheduler* sc) {
         if (sc->curRSPTask->framebuffer == NULL) {
             // audio and jpeg tasks end up in here
             LOG_TIME("(((u64)(now - audio_rsp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
-                     OS_CYCLES_TO_USEC(now - sRSPAudioStartTime), "../sched.c", 421);
-        } else if (OS_CYCLES_TO_USEC(now - sRSPGFXStartTime) > 1000000 ||
-                   OS_CYCLES_TO_USEC(now - sRDPStartTime) > 1000000) {
+                     OS_CYCLES_TO_USEC(now - sRSPAudioTimeStart), "../sched.c", 421);
+        } else if (OS_CYCLES_TO_USEC(now - sRSPGfxTimeStart) > 1000000 ||
+                   OS_CYCLES_TO_USEC(now - sRDPTimeStart) > 1000000) {
             // More than 1 second since the RSP or RDP tasks began, halt the RSP and RDP
             RcpUtils_Reset();
             // Manually send RSP/RDP done messages to the scheduler interrupt queue if appropriate
             if (sc->curRSPTask != NULL) {
                 LOG_TIME("(((u64)(now - graph_rsp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
-                         OS_CYCLES_TO_USEC(now - sRSPGFXStartTime), "../sched.c", 427);
+                         OS_CYCLES_TO_USEC(now - sRSPGfxTimeStart), "../sched.c", 427);
                 osSendMesg(&sc->interruptQueue, (OSMesg)RSP_DONE_MSG, OS_MESG_NOBLOCK);
             }
             if (sc->curRDPTask != NULL) {
                 LOG_TIME("(((u64)(now - rdp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
-                         OS_CYCLES_TO_USEC(now - sRDPStartTime), "../sched.c", 431);
+                         OS_CYCLES_TO_USEC(now - sRDPTimeStart), "../sched.c", 431);
                 osSendMesg(&sc->interruptQueue, (OSMesg)RDP_DONE_MSG, OS_MESG_NOBLOCK);
             }
         }
@@ -390,11 +395,11 @@ void Sched_RunTask(Scheduler* sc, OSScTask* spTask, OSScTask* dpTask) {
 
         // Begin profiling timers
         if (spTask->list.t.type == M_AUDTASK) {
-            sRSPAudioStartTime = osGetTime();
+            sRSPAudioTimeStart = osGetTime();
         } else if (spTask->list.t.type == M_GFXTASK) {
-            sRSPGFXStartTime = osGetTime();
+            sRSPGfxTimeStart = osGetTime();
         } else {
-            sRSPOtherStartTime = osGetTime();
+            sRSPOtherTimeStart = osGetTime();
         }
 
         // Run RSP
@@ -412,7 +417,7 @@ void Sched_RunTask(Scheduler* sc, OSScTask* spTask, OSScTask* dpTask) {
         // If the task also uses the RDP, set current running RDP task
         if (spTask == dpTask && sc->curRDPTask == NULL) {
             sc->curRDPTask = dpTask;
-            sRDPStartTime = sRSPGFXStartTime;
+            sRDPTimeStart = sRSPGfxTimeStart;
         }
     }
 }
@@ -508,11 +513,11 @@ void Sched_HandleRSPDone(Scheduler* sc) {
 
     // Task profiling
     if (sc->curRSPTask->list.t.type == M_AUDTASK) {
-        gRSPAudioTotalTime += osGetTime() - sRSPAudioStartTime;
+        gRSPAudioTimeAcc += osGetTime() - sRSPAudioTimeStart;
     } else if (sc->curRSPTask->list.t.type == M_GFXTASK) {
-        gRSPGFXTotalTime += osGetTime() - sRSPGFXStartTime;
+        gRSPGfxTimeAcc += osGetTime() - sRSPGfxTimeStart;
     } else {
-        gRSPOtherTotalTime += osGetTime() - sRSPOtherStartTime;
+        gRSPOtherTimeAcc += osGetTime() - sRSPOtherTimeStart;
     }
 
     // Clear current RSP task
@@ -564,7 +569,7 @@ void Sched_HandleRDPDone(Scheduler* sc) {
     s32 state;
 
     // Task profiling
-    gRDPTotalTime = osGetTime() - sRDPStartTime;
+    gRDPTimeAcc = osGetTime() - sRDPTimeStart;
 
     // Sanity check
     ASSERT(sc->curRDPTask != NULL, "sc->curRDPTask", "../sched.c", 878);
@@ -650,7 +655,7 @@ void Sched_ThreadEntry(void* arg) {
     }
 }
 
-void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_TYPE arg4, IrqMgr* irqMgr) {
+void Sched_Init(Scheduler* sc, void* stack, OSPri priority, u8 viModeType, UNK_TYPE arg4, IrqMgr* irqMgr) {
     bzero(sc, sizeof(Scheduler));
     sc->isFirstSwap = true;
 

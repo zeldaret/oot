@@ -19,7 +19,7 @@ void MagicWind_FadeOut(MagicWind* this, PlayState* play);
 void MagicWind_WaitAtFullSize(MagicWind* this, PlayState* play);
 void MagicWind_Grow(MagicWind* this, PlayState* play);
 
-const ActorInit Magic_Wind_InitVars = {
+ActorInit Magic_Wind_InitVars = {
     ACTOR_MAGIC_WIND,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -61,7 +61,7 @@ void MagicWind_Init(Actor* thisx, PlayState* play) {
             MagicWind_SetupAction(this, MagicWind_Shrink);
             // "Means start"
             LOG_STRING("表示開始", "../z_magic_wind.c", 486);
-            func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_WIND_WARP);
+            Player_PlaySfx(player, NA_SE_PL_MAGIC_WIND_WARP);
             break;
     }
 }
@@ -92,7 +92,7 @@ void MagicWind_WaitForTimer(MagicWind* this, PlayState* play) {
 
     // "Means start"
     LOG_STRING("表示開始", "../z_magic_wind.c", 539);
-    func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_WIND_NORMAL);
+    Player_PlaySfx(player, NA_SE_PL_MAGIC_WIND_NORMAL);
     MagicWind_UpdateAlpha(1.0f);
     MagicWind_SetupAction(this, MagicWind_Grow);
     SkelCurve_Update(play, &this->skelCurve);
@@ -131,7 +131,11 @@ void MagicWind_Shrink(MagicWind* this, PlayState* play) {
 
 void MagicWind_Update(Actor* thisx, PlayState* play) {
     MagicWind* this = (MagicWind*)thisx;
-    if (play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK || play->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
+
+    // See `ACTOROVL_ALLOC_ABSOLUTE`
+    //! @bug This condition is too broad, the actor will also be killed by warp songs. But warp songs do not use an
+    //! actor which uses `ACTOROVL_ALLOC_ABSOLUTE`. There is no reason to kill the actor in this case.
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(thisx);
         return;
     }
@@ -146,14 +150,14 @@ s32 MagicWind_OverrideLimbDraw(PlayState* play, SkelCurve* skelCurve, s32 limbIn
 
     if (limbIndex == 1) {
         gSPSegment(POLY_XLU_DISP++, 8,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->state.frames * 9) & 0xFF,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->state.frames * 9) & 0xFF,
                                     0xFF - ((play->state.frames * 0xF) & 0xFF), 0x40, 0x40, 1,
                                     (play->state.frames * 0xF) & 0xFF, 0xFF - ((play->state.frames * 0x1E) & 0xFF),
                                     0x40, 0x40));
 
     } else if (limbIndex == 2) {
         gSPSegment(POLY_XLU_DISP++, 9,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->state.frames * 3) & 0xFF,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (play->state.frames * 3) & 0xFF,
                                     0xFF - ((play->state.frames * 5) & 0xFF), 0x40, 0x40, 1,
                                     (play->state.frames * 6) & 0xFF, 0xFF - ((play->state.frames * 0xA) & 0xFF), 0x40,
                                     0x40));

@@ -1,239 +1,306 @@
 #include "global.h"
 
 typedef struct {
-    u8 x;
-    u8 y;
-    u8 colorId;
-    char text[0x15];
-} PrintTextBuffer;
+    /* 0x0 */ u8 x;
+    /* 0x1 */ u8 y;
+    /* 0x2 */ u8 colorIndex;
+    /* 0x3 */ char text[21];
+} DebugCamTextBufferEntry; // size = 0x18
 
 typedef struct {
-    u16 push;
-    u16 held;
-} InputCombo;
+    /* 0x0 */ u16 hold;
+    /* 0x2 */ u16 press;
+} InputCombo; // size = 0x4
 
-GameInfo* gGameInfo;
-s32 D_8015FA94; // no known symbols
-PrintTextBuffer D_8015FA98[0x16];
+RegEditor* gRegEditor;
 
-s16 D_8011E0B0 = 0; // PrintTextBuffer index
-Color_RGBA8 printTextColors[] = {
-    { 255, 255, 32, 192 }, { 255, 150, 128, 192 }, { 128, 96, 0, 64 },     { 192, 128, 16, 128 },
-    { 255, 192, 32, 128 }, { 230, 230, 220, 64 },  { 128, 150, 255, 128 }, { 128, 255, 32, 128 },
+DebugCamTextBufferEntry sDebugCamTextBuffer[22];
+
+s16 sDebugCamTextEntryCount = 0;
+
+Color_RGBA8 sDebugCamTextColors[] = {
+    { 255, 255, 32, 192 },  // DEBUG_CAM_TEXT_YELLOW
+    { 255, 150, 128, 192 }, // DEBUG_CAM_TEXT_PEACH
+    { 128, 96, 0, 64 },     // DEBUG_CAM_TEXT_BROWN
+    { 192, 128, 16, 128 },  // DEBUG_CAM_TEXT_ORANGE
+    { 255, 192, 32, 128 },  // DEBUG_CAM_TEXT_GOLD
+    { 230, 230, 220, 64 },  // DEBUG_CAM_TEXT_WHITE
+    { 128, 150, 255, 128 }, // DEBUG_CAM_TEXT_BLUE
+    { 128, 255, 32, 128 },  // DEBUG_CAM_TEXT_GREEN
 };
 
-InputCombo inputCombos[REG_GROUPS] = {
-    { BTN_L, BTN_CUP },    { BTN_L, BTN_CLEFT }, { BTN_L, BTN_CDOWN }, { BTN_L, BTN_A },          { BTN_R, BTN_CDOWN },
-    { BTN_L, BTN_CRIGHT }, { BTN_L, BTN_R },     { BTN_L, BTN_DLEFT }, { BTN_L, BTN_DRIGHT },     { BTN_L, BTN_DUP },
-    { BTN_L, BTN_B },      { BTN_L, BTN_Z },     { BTN_L, BTN_DDOWN }, { BTN_R, BTN_A },          { BTN_R, BTN_B },
-    { BTN_R, BTN_Z },      { BTN_R, BTN_L },     { BTN_R, BTN_CUP },   { BTN_R, BTN_CRIGHT },     { BTN_R, BTN_DLEFT },
-    { BTN_R, BTN_CLEFT },  { BTN_R, BTN_START }, { BTN_L, BTN_START }, { BTN_R, BTN_DRIGHT },     { BTN_R, BTN_DUP },
-    { BTN_START, BTN_R },  { BTN_START, BTN_A }, { BTN_START, BTN_B }, { BTN_START, BTN_CRIGHT },
+InputCombo sRegGroupInputCombos[REG_GROUPS] = {
+    { BTN_L, BTN_CUP },        //  REG
+    { BTN_L, BTN_CLEFT },      // SREG
+    { BTN_L, BTN_CDOWN },      // OREG
+    { BTN_L, BTN_A },          // PREG
+    { BTN_R, BTN_CDOWN },      // QREG
+    { BTN_L, BTN_CRIGHT },     // MREG
+    { BTN_L, BTN_R },          // YREG
+    { BTN_L, BTN_DLEFT },      // DREG
+    { BTN_L, BTN_DRIGHT },     // UREG
+    { BTN_L, BTN_DUP },        // IREG
+    { BTN_L, BTN_B },          // ZREG
+    { BTN_L, BTN_Z },          // CREG
+    { BTN_L, BTN_DDOWN },      // NREG
+    { BTN_R, BTN_A },          // KREG
+    { BTN_R, BTN_B },          // XREG
+    { BTN_R, BTN_Z },          // cREG
+    { BTN_R, BTN_L },          // sREG
+    { BTN_R, BTN_CUP },        // iREG
+    { BTN_R, BTN_CRIGHT },     // WREG
+    { BTN_R, BTN_DLEFT },      // AREG
+    { BTN_R, BTN_CLEFT },      // VREG
+    { BTN_R, BTN_START },      // HREG
+    { BTN_L, BTN_START },      // GREG
+    { BTN_R, BTN_DRIGHT },     // mREG
+    { BTN_R, BTN_DUP },        // nREG
+    { BTN_START, BTN_R },      // BREG
+    { BTN_START, BTN_A },      // dREG
+    { BTN_START, BTN_B },      // kREG
+    { BTN_START, BTN_CRIGHT }, // bREG
+
 };
 
-char regChar[] = " SOPQMYDUIZCNKXcsiWAVHGmnBdkb";
+char sRegGroupChars[REG_GROUPS] = {
+    ' ', //  REG
+    'S', // SREG
+    'O', // OREG
+    'P', // PREG
+    'Q', // QREG
+    'M', // MREG
+    'Y', // YREG
+    'D', // DREG
+    'U', // UREG
+    'I', // IREG
+    'Z', // ZREG
+    'C', // CREG
+    'N', // NREG
+    'K', // KREG
+    'X', // XREG
+    'c', // cREG
+    's', // sREG
+    'i', // iREG
+    'W', // WREG
+    'A', // AREG
+    'V', // VREG
+    'H', // HREG
+    'G', // GREG
+    'm', // mREG
+    'n', // nREG
+    'B', // BREG
+    'd', // dREG
+    'k', // kREG
+    'b', // bREG
+};
 
-// initialize GameInfo
-void func_800636C0(void) {
+void Regs_Init(void) {
     s32 i;
 
-    gGameInfo = (GameInfo*)SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 260);
-    gGameInfo->regPage = 0;
-    gGameInfo->regGroup = 0;
-    gGameInfo->regCur = 0;
-    gGameInfo->dpadLast = 0;
-    gGameInfo->repeat = 0;
-    for (i = 0; i < ARRAY_COUNT(gGameInfo->data); i++) {
-        gGameInfo->data[i] = 0;
+    gRegEditor = SystemArena_MallocDebug(sizeof(RegEditor), "../z_debug.c", 260);
+    gRegEditor->regPage = 0;
+    gRegEditor->regGroup = 0;
+    gRegEditor->regCur = 0;
+    gRegEditor->dPadInputPrev = 0;
+    gRegEditor->inputRepeatTimer = 0;
+    for (i = 0; i < ARRAY_COUNT(gRegEditor->data); i++) {
+        gRegEditor->data[i] = 0;
     }
 }
 
-// Called when free movement is active.
-// 8011D394 to enable camera debugger
-void func_8006375C(s32 arg0, s32 arg1, const char* text) {
+// Function is stubbed. Name is assumed by similarities in signature to `DebugCamera_ScreenTextColored` and usage.
+void DebugCamera_ScreenText(u8 x, u8 y, const char* text) {
 }
 
-// Copy Camera Debugger Text
-void func_8006376C(u8 x, u8 y, u8 colorId, const char* text) {
-    PrintTextBuffer* buf;
-    char* bufText;
-    s16 i;
+void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
+    DebugCamTextBufferEntry* entry = &sDebugCamTextBuffer[sDebugCamTextEntryCount];
+    char* textDest;
+    s16 charCount;
 
-    buf = &D_8015FA98[D_8011E0B0];
-    if (D_8011E0B0 < 0x16) {
-        buf->x = x;
-        buf->y = y;
-        buf->colorId = colorId;
+    if (sDebugCamTextEntryCount < ARRAY_COUNT(sDebugCamTextBuffer)) {
+        entry->x = x;
+        entry->y = y;
+        entry->colorIndex = colorIndex;
 
-        i = 0;
-        bufText = buf->text;
-        while ((*bufText++ = *text++) != '\0') {
-            if (i++ > 0x14) {
+        // Copy text into the entry, truncating if needed
+        charCount = 0;
+        textDest = entry->text;
+
+        while ((*textDest++ = *text++) != '\0') {
+            if (charCount++ > (ARRAY_COUNT(entry->text) - 1)) {
                 break;
             }
         }
 
-        *bufText = '\0';
-        D_8011E0B0++;
+        *textDest = '\0';
+
+        sDebugCamTextEntryCount++;
     }
 }
 
-// Draw Text
-void func_80063828(GfxPrint* printer) {
+void DebugCamera_DrawScreenText(GfxPrint* printer) {
     s32 i;
     Color_RGBA8* color;
-    PrintTextBuffer* buffer;
-    char* text;
+    DebugCamTextBufferEntry* entry;
 
-    i = 0;
-    if (D_8011E0B0 > 0) {
-        do {
-            buffer = &D_8015FA98[i];
-            text = buffer->text;
+    for (i = 0; i < sDebugCamTextEntryCount; i++) {
+        entry = &sDebugCamTextBuffer[i];
+        color = &sDebugCamTextColors[entry->colorIndex];
 
-            color = &printTextColors[buffer->colorId];
-            GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
-            GfxPrint_SetPos(printer, buffer->x, buffer->y);
-            GfxPrint_Printf(printer, "%s", text);
-            i += 1;
-        } while (i < D_8011E0B0);
+        GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
+        GfxPrint_SetPos(printer, entry->x, entry->y);
+        GfxPrint_Printf(printer, "%s", entry->text);
     }
 }
 
-// Edit REG
-void func_8006390C(Input* input) {
-
-    s32 dpad;
-    s32 regGroup;
+/**
+ * Updates the state of the Reg Editor according to user input.
+ * Also contains a controller rumble test that can be interfaced with via related REGs.
+ */
+void Regs_UpdateEditor(Input* input) {
+    s32 dPadInputCur;
+    s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;
     s32 increment;
-    InputCombo* input_combo;
     s32 i;
 
-    regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
-    dpad = input->cur.button & (BTN_DUP | BTN_DLEFT | BTN_DRIGHT | BTN_DDOWN);
+    dPadInputCur = input->cur.button & (BTN_DUP | BTN_DLEFT | BTN_DRIGHT | BTN_DDOWN);
+
     if (CHECK_BTN_ALL(input->cur.button, BTN_L) || CHECK_BTN_ALL(input->cur.button, BTN_R) ||
         CHECK_BTN_ALL(input->cur.button, BTN_START)) {
-        input_combo = inputCombos;
+
         for (i = 0; i < REG_GROUPS; i++) {
-            if (~(~input_combo->push | input->cur.button) || ~(~input_combo->held | input->press.button)) {
-                input_combo++;
-            } else {
+            if (CHECK_BTN_ALL(input->cur.button, sRegGroupInputCombos[i].hold) &&
+                CHECK_BTN_ALL(input->press.button, sRegGroupInputCombos[i].press)) {
                 break;
             }
         }
 
+        // If a combo corresponding to a reg group was found
         if (i < REG_GROUPS) {
-            if (i == gGameInfo->regGroup) {
-                gGameInfo->regPage = (gGameInfo->regPage + 1) % (REG_PAGES + 1);
-                return;
+            if (i == gRegEditor->regGroup) {
+                // Same reg group as current, advance page index
+                gRegEditor->regPage = (gRegEditor->regPage + 1) % (REG_PAGES + 1);
+            } else {
+                gRegEditor->regGroup = i; // Switch current reg group
+                gRegEditor->regPage = 0;  // Disable reg editor
             }
-            gGameInfo->regGroup = i;
-            gGameInfo->regPage = 0;
         }
     } else {
-        switch (gGameInfo->regPage - 1) {
-            case 0:
+        switch (gRegEditor->regPage) {
             case 1:
             case 2:
             case 3:
             case 4:
             case 5:
-
-                if (dpad == gGameInfo->dpadLast) {
-                    gGameInfo->repeat--;
-                    if (gGameInfo->repeat < 0) {
-                        gGameInfo->repeat = 1;
+            case 6:
+                if (dPadInputCur == gRegEditor->dPadInputPrev) {
+                    gRegEditor->inputRepeatTimer--;
+                    if (gRegEditor->inputRepeatTimer < 0) {
+                        gRegEditor->inputRepeatTimer = 1;
                     } else {
-                        dpad ^= gGameInfo->dpadLast;
+                        dPadInputCur ^= gRegEditor->dPadInputPrev;
                     }
                 } else {
-                    gGameInfo->repeat = 0x10;
-                    gGameInfo->dpadLast = dpad;
+                    gRegEditor->inputRepeatTimer = 16;
+                    gRegEditor->dPadInputPrev = dPadInputCur;
                 }
 
-                increment = CHECK_BTN_ANY(dpad, BTN_DRIGHT)  ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B) ? 1000
+                increment =
+                    CHECK_BTN_ANY(dPadInputCur, BTN_DRIGHT)  ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B) ? 1000
                                                                 : CHECK_BTN_ALL(input->cur.button, BTN_A)       ? 100
                                                                 : CHECK_BTN_ALL(input->cur.button, BTN_B)       ? 10
                                                                                                                 : 1)
-                            : CHECK_BTN_ANY(dpad, BTN_DLEFT) ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B) ? -1000
+                    : CHECK_BTN_ANY(dPadInputCur, BTN_DLEFT) ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B) ? -1000
                                                                 : CHECK_BTN_ALL(input->cur.button, BTN_A)       ? -100
                                                                 : CHECK_BTN_ALL(input->cur.button, BTN_B)       ? -10
                                                                                                                 : -1)
                                                              : 0;
 
-                gGameInfo->data[gGameInfo->regCur + regGroup] += increment;
-                if (CHECK_BTN_ANY(dpad, BTN_DUP)) {
-                    gGameInfo->regCur--;
-                    if (gGameInfo->regCur < 0) {
-                        gGameInfo->regCur = REG_PER_PAGE - 1;
+                gRegEditor->data[gRegEditor->regCur + pageDataStart] += increment;
+
+                if (CHECK_BTN_ANY(dPadInputCur, BTN_DUP)) {
+                    gRegEditor->regCur--;
+                    if (gRegEditor->regCur < 0) {
+                        gRegEditor->regCur = REGS_PER_PAGE - 1;
                     }
-                } else if (CHECK_BTN_ANY(dpad, BTN_DDOWN)) {
-                    gGameInfo->regCur++;
-                    if (gGameInfo->regCur >= REG_PER_PAGE) {
-                        gGameInfo->regCur = 0;
+                } else if (CHECK_BTN_ANY(dPadInputCur, BTN_DDOWN)) {
+                    gRegEditor->regCur++;
+                    if (gRegEditor->regCur >= REGS_PER_PAGE) {
+                        gRegEditor->regCur = 0;
                     }
                 }
+
                 if (iREG(0)) {
                     iREG(0) = 0;
-                    func_800AA000(0, iREG(1), iREG(2), iREG(3));
+                    Rumble_Request(0.0f, iREG(1), iREG(2), iREG(3));
                 }
+
+                break;
+
+            default:
+                break;
         }
     }
 }
 
-// Draw Memory Viewer
-void func_80063C04(GfxPrint* printer) {
+void Regs_DrawEditor(GfxPrint* printer) {
     s32 i;
-    s32 page = (gGameInfo->regPage * REG_PER_PAGE) - REG_PER_PAGE;
-    s32 regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
+    s32 pageStart = (gRegEditor->regPage - 1) * REGS_PER_PAGE;
+    s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;
     s32 pad;
-    char name[3];
+    char regGroupName[3];
 
-    // set up register name string
-    name[0] = 'R';
-    name[1] = regChar[gGameInfo->regGroup]; // r_group type char
-    name[2] = '\0';
+    regGroupName[0] = 'R';
+    regGroupName[1] = sRegGroupChars[gRegEditor->regGroup];
+    regGroupName[2] = '\0';
+
     GfxPrint_SetColor(printer, 0, 128, 128, 128);
 
-    for (i = 0; i != REG_PER_PAGE; i++) {
-        if (i == gGameInfo->regCur) {
+    for (i = 0; i < REGS_PER_PAGE; i++) {
+        if (i == gRegEditor->regCur) {
             GfxPrint_SetColor(printer, 0, 255, 255, 255);
         }
+
         GfxPrint_SetPos(printer, 3, i + 5);
-        GfxPrint_Printf(printer, "%s%02d%6d", &name, page + i, gGameInfo->data[i + regGroup]);
-        if (i == gGameInfo->regCur) {
+        GfxPrint_Printf(printer, "%s%02d%6d", regGroupName, pageStart + i, gRegEditor->data[i + pageDataStart]);
+
+        if (i == gRegEditor->regCur) {
             GfxPrint_SetColor(printer, 0, 128, 128, 128);
         }
     }
 }
 
-void func_80063D7C(GraphicsContext* gfxCtx) {
-    Gfx* sp7C;
-    Gfx* sp78;
+/**
+ * Draws the Reg Editor and Debug Camera text on screen
+ */
+void Debug_DrawText(GraphicsContext* gfxCtx) {
+    Gfx* gfx;
+    Gfx* opaStart;
     GfxPrint printer;
-    Gfx* tempRet;
+    s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_debug.c", 628);
 
     GfxPrint_Init(&printer);
-    sp78 = POLY_OPA_DISP;
-    tempRet = Graph_GfxPlusOne(POLY_OPA_DISP);
-    gSPDisplayList(OVERLAY_DISP++, tempRet);
-    GfxPrint_Open(&printer, tempRet);
+    opaStart = POLY_OPA_DISP;
+    gfx = Graph_GfxPlusOne(POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, gfx);
+    GfxPrint_Open(&printer, gfx);
 
     if ((OREG(0) == 1) || (OREG(0) == 8)) {
-        func_80063828(&printer);
+        DebugCamera_DrawScreenText(&printer);
     }
 
-    if (gGameInfo->regPage != 0) {
-        func_80063C04(&printer);
+    if (gRegEditor->regPage != 0) {
+        Regs_DrawEditor(&printer);
     }
 
-    D_8011E0B0 = 0;
-    sp7C = GfxPrint_Close(&printer);
-    gSPEndDisplayList(sp7C++);
-    Graph_BranchDlist(sp78, sp7C);
-    POLY_OPA_DISP = sp7C;
+    sDebugCamTextEntryCount = 0;
+
+    gfx = GfxPrint_Close(&printer);
+    gSPEndDisplayList(gfx++);
+    Graph_BranchDlist(opaStart, gfx);
+    POLY_OPA_DISP = gfx;
 
     if (1) {}
 

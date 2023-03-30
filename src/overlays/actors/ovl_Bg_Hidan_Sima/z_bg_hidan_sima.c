@@ -21,7 +21,7 @@ void func_8088E760(BgHidanSima* this, PlayState* play);
 void func_8088E7A8(BgHidanSima* this, PlayState* play);
 void func_8088E90C(BgHidanSima* this);
 
-const ActorInit Bg_Hidan_Sima_InitVars = {
+ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
     ACTORCAT_BG,
     FLAGS,
@@ -87,7 +87,7 @@ void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     s32 i;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (this->dyna.actor.params == 0) {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
     } else {
@@ -117,7 +117,7 @@ void func_8088E518(BgHidanSima* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
-    if (func_8004356C(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
         this->timer = 20;
         this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
         if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
@@ -143,13 +143,13 @@ void func_8088E5D0(BgHidanSima* this, PlayState* play) {
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
     }
     if (!(this->timer % 4)) {
-        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
-        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+        Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
 void func_8088E6D0(BgHidanSima* this, PlayState* play) {
-    if (func_8004356C(&this->dyna)) {
+    if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         this->timer = 20;
     } else if (this->timer != 0) {
         this->timer--;

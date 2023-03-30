@@ -32,7 +32,7 @@ void func_80A7127C(EnHy* this, PlayState* play);
 void EnHy_DoNothing(EnHy* this, PlayState* play);
 void func_80A714C4(EnHy* this, PlayState* play);
 
-const ActorInit En_Hy_InitVars = {
+ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
     ACTORCAT_NPC,
     FLAGS,
@@ -111,8 +111,8 @@ static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, object_ahg_DL_005508, NULL },
     /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, object_ahg_DL_005728, NULL },
     /* ENHY_HEAD_BBA */ { OBJECT_BBA, object_bba_DL_002948, sEyeTexturesBBA },
-    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, object_cne_DL_001300, NULL },
-    /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, object_cne_DL_002860, NULL },
+    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, gCneHeadBrownHairDL, NULL },
+    /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, gCneHeadOrangeHairDL, NULL },
     /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, object_bji_DL_002560, sEyeTexturesBJI13 },
     /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, object_bji_DL_003F68, NULL },
     /* ENHY_HEAD_COB */ { OBJECT_COB, object_cob_DL_001300, NULL },
@@ -140,7 +140,7 @@ static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &object_boj_Skel_0000F0 },
     /* ENHY_SKEL_AHG */ { OBJECT_AHG, &object_ahg_Skel_0000F0 },
     /* ENHY_SKEL_BBA */ { OBJECT_BBA, &object_bba_Skel_0000F0 },
-    /* ENHY_SKEL_CNE */ { OBJECT_CNE, &object_cne_Skel_0000F0 },
+    /* ENHY_SKEL_CNE */ { OBJECT_CNE, &gCneSkel },
     /* ENHY_SKEL_BJI */ { OBJECT_BJI, &object_bji_Skel_0000F0 },
     /* ENHY_SKEL_COB */ { OBJECT_COB, &object_cob_Skel_0021F8 },
 };
@@ -290,12 +290,12 @@ static EnHyColliderInfo sColliderInfo[] = {
 };
 
 typedef struct {
-    /* 0x00 */ u8 unkPresetIndex;
-    /* 0x04 */ f32 unkValueChild;
-    /* 0x08 */ f32 unkValueAdult;
-} EnHyInit1Info; // size = 0xC
+    /* 0x00 */ u8 presetIndex;
+    /* 0x04 */ f32 childYOffset;
+    /* 0x08 */ f32 adultYOffset;
+} EnHyPlayerTrackingInfo; // size = 0xC
 
-static EnHyInit1Info sInit1Info[] = {
+static EnHyPlayerTrackingInfo sPlayerTrackingInfo[] = {
     /* ENHY_TYPE_AOB */ { 0x06, 20.0f, 10.0f },
     /* ENHY_TYPE_COB */ { 0x06, 20.0f, 10.0f },
     /* ENHY_TYPE_AHG_2 */ { 0x07, 40.0f, 20.0f },
@@ -324,7 +324,7 @@ typedef struct {
     /* 0x04 */ Vec3f modelOffset;
     /* 0x10 */ f32 scale;
     /* 0x14 */ s8 targetMode;
-    /* 0x18 */ f32 unkRange;
+    /* 0x18 */ f32 interactRange;
 } EnHyInit2Info; // size = 0x1C
 
 static EnHyInit2Info sInit2Info[] = {
@@ -410,27 +410,29 @@ s32 EnHy_IsOsAnimeObjectLoaded(EnHy* this, PlayState* play) {
 
 void func_80A6F7CC(EnHy* this, PlayState* play, s32 getItemId) {
     this->unkGetItemId = getItemId;
-    func_8002F434(&this->actor, play, getItemId, this->actor.xzDistToPlayer + 1.0f,
-                  fabsf(this->actor.yDistToPlayer) + 1.0f);
+    Actor_OfferGetItem(&this->actor, play, getItemId, this->actor.xzDistToPlayer + 1.0f,
+                       fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
-u16 func_80A6F810(PlayState* play, Actor* thisx) {
+u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnHy* this = (EnHy*)thisx;
     u16 textId = Text_GetFaceReaction(play, (this->actor.params & 0x7F) + 37);
 
     if (textId != 0) {
         if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
-            player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
+            player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
         }
         return textId;
     }
 
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
-            if (play->sceneNum == SCENE_KAKARIKO) {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
-            } else if (play->sceneNum == SCENE_MARKET_DAY) {
+            if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
+                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
+                           ? 0x508D
+                           : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
+            } else if (play->sceneId == SCENE_MARKET_DAY) {
                 return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
                 s16 followingDog = (gSaveContext.dogParams & 0xF00) >> 8;
@@ -451,13 +453,13 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
             }
         case ENHY_TYPE_AHG_2:
-            if (play->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return 0x5086;
-            } else if (play->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return 0x5085;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 return 0x701A;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_10)) {
                 return 0x701B;
@@ -471,14 +473,14 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_AHG_4:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
         case ENHY_TYPE_BOJ_5:
-            player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
+            player->exchangeItemId = EXCH_ITEM_BOTTLE_BLUE_FIRE;
             return 0x700C;
         case ENHY_TYPE_BBA:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
         case ENHY_TYPE_BJI_7:
-            if (play->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return 0x5088;
-            } else if (play->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return 0x5087;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
@@ -490,17 +492,17 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
             }
         case ENHY_TYPE_BOJ_9:
-            if (play->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x5082 : 0x5081;
-            } else if (play->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
         case ENHY_TYPE_BOJ_10:
-            if (play->sceneNum == SCENE_LABO) {
+            if (play->sceneId == SCENE_IMPAS_HOUSE) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x507E : 0x507D;
-            } else if (play->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
@@ -508,7 +510,7 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
         case ENHY_TYPE_CNE_11:
             return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
         case ENHY_TYPE_BOJ_12:
-            if (play->sceneNum == SCENE_SPOT01) {
+            if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return !IS_DAY ? 0x5084 : 0x5083;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7044 : 0x7015;
@@ -537,7 +539,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
             if (!LINK_IS_ADULT) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x5062 : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
+                return (this->unk_330 & EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_MASK)
+                           ? 0x5062
+                           : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;
@@ -548,9 +552,9 @@ u16 func_80A6F810(PlayState* play, Actor* thisx) {
     }
 }
 
-s16 func_80A70058(PlayState* play, Actor* thisx) {
+s16 EnHy_UpdateTalkState(PlayState* play, Actor* thisx) {
     EnHy* this = (EnHy*)thisx;
-    s16 beggarItems[] = { ITEM_BLUE_FIRE, ITEM_FISH, ITEM_BUG, ITEM_FAIRY };
+    s16 beggarItems[] = { ITEM_BOTTLE_BLUE_FIRE, ITEM_BOTTLE_FISH, ITEM_BOTTLE_BUG, ITEM_BOTTLE_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
     switch (Message_GetState(&play->msgCtx)) {
@@ -561,15 +565,15 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
         case TEXT_STATE_SONG_DEMO_DONE:
         case TEXT_STATE_8:
         case TEXT_STATE_9:
-            return 1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x709E:
                 case 0x709F:
                     if (!this->unk_215) {
-                        Audio_PlaySoundGeneral(this->actor.textId == 0x709F ? NA_SE_SY_CORRECT_CHIME : NA_SE_SY_ERROR,
-                                               &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(this->actor.textId == 0x709F ? NA_SE_SY_CORRECT_CHIME : NA_SE_SY_ERROR,
+                                             &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->unk_215 = true;
                     }
                     break;
@@ -583,7 +587,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                     }
                     break;
             }
-            return 1;
+            return NPC_TALK_STATE_TALKING;
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x70F0:
@@ -592,7 +596,7 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
                     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
-                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
                     break;
                 case 0x7016:
                     SET_INFTABLE(INFTABLE_C0);
@@ -659,16 +663,16 @@ s16 func_80A70058(PlayState* play, Actor* thisx) {
                     this->actionFunc = func_80A714C4;
                     break;
             }
-            return 0;
+            return NPC_TALK_STATE_IDLE;
         case TEXT_STATE_EVENT:
             if (!Message_ShouldAdvance(play)) {
-                return 1;
+                return NPC_TALK_STATE_TALKING;
             } else {
-                return 2;
+                return NPC_TALK_STATE_ACTION;
             }
     }
 
-    return 1;
+    return NPC_TALK_STATE_TALKING;
 }
 
 void EnHy_UpdateEyes(EnHy* this) {
@@ -698,8 +702,8 @@ void EnHy_InitSetProperties(EnHy* this) {
     Actor_SetScale(&this->actor, sInit2Info[type].scale);
     this->actor.targetMode = sInit2Info[type].targetMode;
     this->modelOffset = sInit2Info[type].modelOffset;
-    this->unkRange = sInit2Info[type].unkRange;
-    this->unkRange += this->collider.dim.radius;
+    this->interactRange = sInit2Info[type].interactRange;
+    this->interactRange += this->collider.dim.radius;
 }
 
 void EnHy_UpdateCollider(EnHy* this, PlayState* play) {
@@ -719,12 +723,12 @@ void func_80A70834(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
-        if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
-            !Inventory_HasSpecificBottle(ITEM_FISH)) {
+        if (!Inventory_HasSpecificBottle(ITEM_BOTTLE_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BOTTLE_BUG) &&
+            !Inventory_HasSpecificBottle(ITEM_BOTTLE_FISH)) {
             switch (func_8002F368(play)) {
-                case EXCH_ITEM_POE:
-                case EXCH_ITEM_BIG_POE:
-                case EXCH_ITEM_LETTER_RUTO:
+                case EXCH_ITEM_BOTTLE_POE:
+                case EXCH_ITEM_BOTTLE_BIG_POE:
+                case EXCH_ITEM_BOTTLE_RUTOS_LETTER:
                     this->actor.textId = 0x70EF;
                     break;
                 default:
@@ -735,13 +739,13 @@ void func_80A70834(EnHy* this, PlayState* play) {
             }
         } else {
             switch (func_8002F368(play)) {
-                case EXCH_ITEM_BLUE_FIRE:
+                case EXCH_ITEM_BOTTLE_BLUE_FIRE:
                     this->actor.textId = 0x70F0;
                     break;
-                case EXCH_ITEM_FISH:
+                case EXCH_ITEM_BOTTLE_FISH:
                     this->actor.textId = 0x70F1;
                     break;
-                case EXCH_ITEM_BUG:
+                case EXCH_ITEM_BOTTLE_BUG:
                     this->actor.textId = 0x70F2;
                     break;
                 default:
@@ -758,49 +762,53 @@ void func_80A70834(EnHy* this, PlayState* play) {
 
 void func_80A70978(EnHy* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s16 phi_a3;
+    s16 trackingMode;
 
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_BOJ_3:
         case ENHY_TYPE_BJI_7:
         case ENHY_TYPE_BOJ_9:
         case ENHY_TYPE_BOJ_10:
-            phi_a3 = (this->unk_1E8.unk_00 == 0) ? 1 : 2;
+            trackingMode =
+                (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_TRACKING_NONE : NPC_TRACKING_HEAD_AND_TORSO;
             break;
         case ENHY_TYPE_BOJ_12:
-            phi_a3 = 1;
+            trackingMode = NPC_TRACKING_NONE;
             break;
         case ENHY_TYPE_AHG_2:
         case ENHY_TYPE_AHG_17:
-            phi_a3 = 4;
+            trackingMode = NPC_TRACKING_FULL_BODY;
             break;
         case ENHY_TYPE_AOB:
         case ENHY_TYPE_BOB_18:
-            phi_a3 = (this->unk_1E8.unk_00 == 0) ? 2 : 4;
+            trackingMode = (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) ? NPC_TRACKING_HEAD_AND_TORSO
+                                                                                 : NPC_TRACKING_FULL_BODY;
             break;
         default:
-            phi_a3 = 2;
+            trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
             break;
     }
 
-    this->unk_1E8.unk_18 = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
-        this->unk_1E8.unk_14 = sInit1Info[this->actor.params & 0x7F].unkValueAdult;
+        this->interactInfo.yOffset = sPlayerTrackingInfo[this->actor.params & 0x7F].adultYOffset;
     } else {
-        this->unk_1E8.unk_14 = sInit1Info[this->actor.params & 0x7F].unkValueChild;
+        this->interactInfo.yOffset = sPlayerTrackingInfo[this->actor.params & 0x7F].childYOffset;
     }
 
-    func_80034A14(&this->actor, &this->unk_1E8, sInit1Info[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
+    Npc_TrackPoint(&this->actor, &this->interactInfo, sPlayerTrackingInfo[this->actor.params & 0x7F].presetIndex,
+                   trackingMode);
 
-    if (func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, this->unkRange, func_80A6F810, func_80A70058)) {
+    if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange, EnHy_GetTextId,
+                          EnHy_UpdateTalkState)) {
         func_80A70834(this, play);
     }
 }
 
 s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
-    switch (play->sceneNum) {
-        case SCENE_SPOT01:
+    switch (play->sceneId) {
+        case SCENE_KAKARIKO_VILLAGE:
             if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 ||
                   (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
                   (this->actor.params & 0x7F) == ENHY_TYPE_BJI_7)) {
@@ -812,7 +820,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_LABO:
+        case SCENE_IMPAS_HOUSE:
             if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_10) {
                 return true;
             } else if (LINK_IS_CHILD) {
@@ -822,7 +830,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_IMPA:
+        case SCENE_DOG_LADY_HOUSE:
             if ((this->actor.params & 0x7F) != ENHY_TYPE_AOB) {
                 return true;
             } else if (IS_DAY) {
@@ -830,7 +838,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_KAKARIKO:
+        case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
             if ((this->actor.params & 0x7F) == ENHY_TYPE_AOB) {
                 return !LINK_IS_ADULT ? false : true;
             } else if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 ||
@@ -844,8 +852,8 @@ s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_MARKET_ALLEY:
-        case SCENE_MARKET_ALLEY_N:
+        case SCENE_BACK_ALLEY_DAY:
+        case SCENE_BACK_ALLEY_NIGHT:
             if ((this->actor.params & 0x7F) != ENHY_TYPE_BOJ_14) {
                 return true;
             } else if (IS_NIGHT) {
@@ -903,13 +911,13 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
-        if ((play->sceneNum == SCENE_MARKET_ALLEY) || (play->sceneNum == SCENE_MARKET_DAY)) {
+        if ((play->sceneId == SCENE_BACK_ALLEY_DAY) || (play->sceneId == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.uncullZoneScale = 0.0f;
         }
 
-        if (play->sceneNum == SCENE_KAKARIKO) {
-            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_6B_INDEX];
+        if (play->sceneId == SCENE_KAKARIKO_CENTER_GUEST_HOUSE) {
+            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_TALON_RETURNED_FROM_KAKARIKO_INDEX];
         }
 
         EnHy_InitSetProperties(this);
@@ -918,7 +926,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         switch (this->actor.params & 0x7F) {
             case ENHY_TYPE_BOJ_3:
                 if (this->path != NULL) {
-                    this->actor.speedXZ = 3.0f;
+                    this->actor.speed = 3.0f;
                 }
                 this->actionFunc = func_80A711B4;
                 break;
@@ -927,7 +935,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
                 this->actionFunc = func_80A712C0;
                 break;
             case ENHY_TYPE_AOB:
-                if (play->sceneNum == SCENE_MARKET_DAY) {
+                if (play->sceneId == SCENE_MARKET_DAY) {
                     this->actionFunc = func_80A710F8;
                     break;
                 }
@@ -962,7 +970,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
 }
 
 void func_80A710F8(EnHy* this, PlayState* play) {
-    if (this->unk_1E8.unk_00 != 0) {
+    if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
         }
@@ -1001,7 +1009,7 @@ void EnHy_DoNothing(EnHy* this, PlayState* play) {
 void func_80A712C0(EnHy* this, PlayState* play) {
     if ((this->actor.xzDistToPlayer <= 100.0f) && (this->path != NULL)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
-        this->actor.speedXZ = 0.4f;
+        this->actor.speed = 0.4f;
         this->actionFunc = func_80A7134C;
     }
 
@@ -1012,15 +1020,15 @@ void func_80A7134C(EnHy* this, PlayState* play) {
     s16 yaw;
     f32 distSq;
 
-    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.unk_00 != 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->interactInfo.talkState != NPC_TALK_STATE_IDLE)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
     }
 
-    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.unk_00 == 0)) {
+    if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->interactInfo.talkState == NPC_TALK_STATE_IDLE)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
     }
 
-    this->actor.speedXZ = 0.4f;
+    this->actor.speed = 0.4f;
     distSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->waypoint, &yaw);
     Math_SmoothStepToS(&this->actor.world.rot.y, yaw, 10, 1000, 1);
     this->actor.shape.rot = this->actor.world.rot;
@@ -1046,8 +1054,8 @@ void func_80A714C4(EnHy* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = func_80A71530;
     } else {
-        func_8002F434(&this->actor, play, this->unkGetItemId, this->actor.xzDistToPlayer + 1.0f,
-                      fabsf(this->actor.yDistToPlayer) + 1.0f);
+        Actor_OfferGetItem(&this->actor, play, this->unkGetItemId, this->actor.xzDistToPlayer + 1.0f,
+                           fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 
@@ -1078,8 +1086,8 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
-        if (this->unk_1E8.unk_00 == 0) {
-            Actor_MoveForward(&this->actor);
+        if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
+            Actor_MoveXZGravity(&this->actor);
         }
 
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
@@ -1093,7 +1101,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
 s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHy* this = (EnHy*)thisx;
     s32 pad;
-    Vec3s sp48;
+    Vec3s limbRot;
     u8 i;
     void* ptr;
 
@@ -1117,16 +1125,16 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp48 = this->unk_1E8.unk_08;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp48.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp48 = this->unk_1E8.unk_0E;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp48.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
 
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {

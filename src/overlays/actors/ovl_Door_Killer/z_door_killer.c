@@ -21,7 +21,7 @@ typedef enum {
     /* 4 */ DOOR_KILLER_RUBBLE_PIECE_4
 } DoorKillerBehaviour;
 
-void DoorKiller_Init(Actor* thisx, PlayState* play);
+void DoorKiller_Init(Actor* thisx, PlayState* play2);
 void DoorKiller_Destroy(Actor* thisx, PlayState* play);
 void DoorKiller_Update(Actor* thisx, PlayState* play);
 void DoorKiller_Wait(DoorKiller* this, PlayState* play);
@@ -29,7 +29,7 @@ void DoorKiller_SetProperties(DoorKiller* this, PlayState* play);
 void DoorKiller_DrawDoor(Actor* thisx, PlayState* play);
 void DoorKiller_DrawRubble(Actor* thisx, PlayState* play);
 
-const ActorInit Door_Killer_InitVars = {
+ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
     ACTORCAT_BG,
     FLAGS,
@@ -117,8 +117,8 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, 0.01f);
     this->timer = 0;
     this->hasHitPlayerOrGround = 0;
-    this->animStyle = 0;
-    this->playerIsOpening = 0;
+    this->openAnim = 0;
+    this->playerIsOpening = false;
 
     switch ((u8)(this->actor.params & 0xFF)) {
         case DOOR_KILLER_DOOR:
@@ -222,7 +222,7 @@ void DoorKiller_FallAsRubble(DoorKiller* this, PlayState* play) {
     } else {
         Actor_Kill(&this->actor);
     }
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
 }
 
 s32 DoorKiller_IsHit(Actor* thisx, PlayState* play) {
@@ -353,13 +353,13 @@ void DoorKiller_FallOver(DoorKiller* this, PlayState* play) {
             (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
             this->hasHitPlayerOrGround |= 1;
             func_8002F6D4(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f, 16);
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_KDOOR_HIT);
-            func_8002F7DC(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_KDOOR_HIT);
+            Player_PlaySfx(player, NA_SE_PL_BODY_HIT);
         }
     }
     if (!(this->hasHitPlayerOrGround & 1) && (this->timer == 2)) {
         this->hasHitPlayerOrGround |= 1;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_KDOOR_HIT_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_KDOOR_HIT_GND);
     }
 }
 
@@ -371,7 +371,7 @@ void DoorKiller_Wobble(DoorKiller* this, PlayState* play) {
     s32 i;
 
     if ((this->timer == 16) || (this->timer == 8)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_KDOOR_WAVE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_KDOOR_WAVE);
     }
 
     if (this->timer > 0) {
@@ -416,7 +416,7 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
     if (this->playerIsOpening) {
         this->actionFunc = DoorKiller_WaitBeforeWobble;
         this->timer = 10;
-        this->playerIsOpening = 0;
+        this->playerIsOpening = false;
         return;
     }
 
@@ -428,13 +428,13 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
         } else if (this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & (DMG_HAMMER_SWING | DMG_EXPLOSIVE)) {
             DoorKiller_SpawnRubble(&this->actor, play);
             this->actionFunc = DoorKiller_Die;
-            SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
+            SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
         }
     } else if (Actor_GetCollidedExplosive(play, &this->colliderJntSph.base) != NULL) {
         // AC sphere: die if hit by explosive
         DoorKiller_SpawnRubble(&this->actor, play);
         this->actionFunc = DoorKiller_Die;
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
     } else if (!Player_InCsMode(play) && (fabsf(playerPosRelToDoor.y) < 20.0f) &&
                (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) &&
                (playerPosRelToDoor.z > 0.0f)) {

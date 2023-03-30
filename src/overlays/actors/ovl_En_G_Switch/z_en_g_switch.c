@@ -5,7 +5,7 @@
  */
 
 #include "z_en_g_switch.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
@@ -64,7 +64,7 @@ static s16 sRupeeTypes[] = {
     ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
 };
 
-const ActorInit En_G_Switch_InitVars = {
+ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
     ACTORCAT_PROP,
     FLAGS,
@@ -212,7 +212,7 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, PlayState* play) {
         if (sCollectedCount < 5) {
             // "sound?"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->noteIndex);
-            Audio_PlaySoundTransposed(&gSfxDefaultPos, NA_SE_EV_FIVE_COUNT_LUPY, majorScale[this->noteIndex]);
+            Audio_PlaySfxTransposed(&gSfxDefaultPos, NA_SE_EV_FIVE_COUNT_LUPY, majorScale[this->noteIndex]);
             this->noteIndex = sCollectedCount;
         }
     }
@@ -222,7 +222,7 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, PlayState* play) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         // "Last!"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n" VT_RST);
-        if ((play->sceneNum == SCENE_MEN) && (this->actor.room == 2)) {
+        if ((play->sceneId == SCENE_GERUDO_TRAINING_GROUND) && (this->actor.room == 2)) {
             Flags_SetTempClear(play, this->actor.room);
         } else {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -275,7 +275,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, PlayState* play) {
     if (this->delayTimer == 0) {
         switch (this->moveMode) {
             case GSWITCH_THROW:
-                Actor_MoveForward(&this->actor);
+                Actor_MoveXZGravity(&this->actor);
                 if ((this->actor.velocity.y < 0.0f) && (this->actor.world.pos.y < (this->actor.home.pos.y - 50.0f))) {
                     gallery = ((EnSyatekiItm*)this->actor.parent);
                     this->actor.velocity.y = 0.0f;
@@ -287,7 +287,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, PlayState* play) {
                 }
                 break;
             case GSWITCH_LEFT:
-                func_8002D7EC(&this->actor);
+                Actor_UpdatePos(&this->actor);
                 if ((this->actor.velocity.x < 0.0f) && (this->actor.world.pos.x < this->targetPos.x)) {
                     gallery = ((EnSyatekiItm*)this->actor.parent);
                     if (gallery->actor.update != NULL) {
@@ -297,7 +297,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, PlayState* play) {
                 }
                 break;
             case GSWITCH_RIGHT:
-                func_8002D7EC(&this->actor);
+                Actor_UpdatePos(&this->actor);
                 if (this->actor.world.pos.x > this->targetPos.x) {
                     gallery = ((EnSyatekiItm*)this->actor.parent);
                     if (gallery->actor.update != NULL) {
@@ -400,7 +400,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, PlayState* play) {
                                  KAKERA_COLOR_NONE, OBJECT_TSUBO, object_tsubo_DL_001960);
         }
         func_80033480(play, thisPos, 30.0f, 4, 20, 50, 0);
-        SoundSource_PlaySfxAtFixedWorldPos(play, thisPos, 40, NA_SE_EV_POT_BROKEN);
+        SfxSource_PlaySfxAtFixedWorldPos(play, thisPos, 40, NA_SE_EV_POT_BROKEN);
         EnGSwitch_Break(this, play);
         this->killTimer = 50;
         this->broken = true;
@@ -430,7 +430,7 @@ void EnGSwitch_Update(Actor* thisx, PlayState* play) {
     }
     if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) &&
         (this->type != ENGSWITCH_TARGET_RUPEE)) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 50.0f, 50.0f, 100.0f,
                                 UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }

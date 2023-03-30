@@ -13,10 +13,10 @@
 
 void ObjSyokudai_Init(Actor* thisx, PlayState* play);
 void ObjSyokudai_Destroy(Actor* thisx, PlayState* play);
-void ObjSyokudai_Update(Actor* thisx, PlayState* play);
+void ObjSyokudai_Update(Actor* thisx, PlayState* play2);
 void ObjSyokudai_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit Obj_Syokudai_InitVars = {
+ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
     ACTORCAT_PROP,
     FLAGS,
@@ -175,7 +175,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
             if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }
-        } else if (player->heldItemActionParam == PLAYER_AP_STICK) {
+        } else if (player->heldItemAction == PLAYER_IA_DEKU_STICK) {
             Math_Vec3f_Diff(&player->meleeWeaponInfo[0].tip, &this->actor.world.pos, &tipToFlame);
             tipToFlame.y -= 67.0f;
             if ((SQ(tipToFlame.x) + SQ(tipToFlame.y) + SQ(tipToFlame.z)) < SQ(20.0f)) {
@@ -187,9 +187,9 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                 if (interactionType < 0) {
                     if (player->unk_860 == 0) {
                         player->unk_860 = 210;
-                        Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4,
-                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                               &gSfxDefaultReverb);
+                        Audio_PlaySfxGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultReverb);
                     } else if (player->unk_860 < 200) {
                         player->unk_860 = 200;
                     }
@@ -225,8 +225,8 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                         this->litTimer = (litTimeScale * 50) + 110;
                     }
                 }
-                Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySfxGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }
     }
@@ -286,8 +286,8 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, (this->flameTexScroll * -20) & 0x1FF,
-                                    0x20, 0x80));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0,
+                                    (this->flameTexScroll * -20) & 0x1FF, 0x20, 0x80));
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
 

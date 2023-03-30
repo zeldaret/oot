@@ -19,7 +19,7 @@ void func_809B5670(EnAttackNiw* this, PlayState* play);
 void func_809B5C18(EnAttackNiw* this, PlayState* play);
 void func_809B59B0(EnAttackNiw* this, PlayState* play);
 
-const ActorInit En_Attack_Niw_InitVars = {
+ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -185,7 +185,7 @@ void func_809B5670(EnAttackNiw* this, PlayState* play) {
     f32 tmpf3;
     Vec3f sp34;
 
-    this->actor.speedXZ = 10.0f;
+    this->actor.speed = 10.0f;
 
     tmpf1 = (this->unk_298.x + play->view.at.x) - play->view.eye.x;
     tmpf2 = (this->unk_298.y + play->view.at.y) - play->view.eye.y;
@@ -266,7 +266,7 @@ void func_809B59B0(EnAttackNiw* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_2D4, 2, this->unk_2DC, 0);
     Math_SmoothStepToS(&this->actor.world.rot.x, this->unk_2D0, 2, this->unk_2DC, 0);
     Math_ApproachF(&this->unk_2DC, 10000.0f, 1.0f, 1000.0f);
-    Math_ApproachF(&this->actor.speedXZ, this->unk_2E0, 0.9f, 1.0f);
+    Math_ApproachF(&this->actor.speed, this->unk_2E0, 0.9f, 1.0f);
     if ((this->actor.gravity == -2.0f) && (this->unk_262 == 0) &&
         ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->unk_25C == 0))) {
         this->unk_2E0 = 0.0f;
@@ -332,9 +332,9 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
                                 UPDBGCHECKINFO_FLAG_4);
 
     if (this->actionFunc == func_809B5670) {
-        func_8002D97C(&this->actor);
+        Actor_MoveXYZ(&this->actor);
     } else {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     }
 
     if (this->actor.floorHeight <= BGCHECK_Y_MIN) {
@@ -345,7 +345,7 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actionFunc != func_809B5C18)) {
         Math_Vec3f_Copy(&sp30, &this->actor.world.pos);
         sp30.y += this->actor.yDistToWater;
-        EffectSsGSplash_Spawn(play, &sp30, 0, 0, 0, 0x190);
+        EffectSsGSplash_Spawn(play, &sp30, NULL, NULL, 0, 0x190);
         this->unk_2DC = 0.0f;
         this->actor.gravity = 0.0f;
         this->unk_2E0 = 0.0f;
@@ -365,11 +365,11 @@ void EnAttackNiw_Update(Actor* thisx, PlayState* play) {
     }
     if (this->unk_25E == 0) {
         this->unk_25E = 30;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
     }
     if (this->unk_260 == 0) {
         this->unk_260 = 7;
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_WAKEUP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DEKU_WAKEUP);
     }
 }
 

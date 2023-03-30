@@ -29,7 +29,7 @@ extern CutsceneData D_808BD2A0[];
 extern CutsceneData D_808BD520[];
 extern CutsceneData D_808BD790[];
 
-const ActorInit Bg_Treemouth_InitVars = {
+ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,
     ACTORCAT_BG,
     FLAGS,
@@ -64,15 +64,15 @@ void BgTreemouth_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gDekuTreeMouthCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Actor_SetFocus(thisx, 50.0f);
 
-    if ((gSaveContext.sceneSetupIndex < 4) && !LINK_IS_ADULT) {
+    if (!IS_CUTSCENE_LAYER && !LINK_IS_ADULT) {
         BgTreemouth_SetupAction(this, func_808BC8B8);
-    } else if (LINK_IS_ADULT || (gSaveContext.sceneSetupIndex == 7)) {
+    } else if (LINK_IS_ADULT || (gSaveContext.sceneLayer == 7)) {
         this->unk_168 = 0.0f;
         BgTreemouth_SetupAction(this, BgTreemouth_DoNothing);
     } else {
@@ -90,16 +90,16 @@ void BgTreemouth_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_808BC65C(BgTreemouth* this, PlayState* play) {
-    CsCmdActorAction* npcAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        npcAction = play->csCtx.npcActions[0];
-        if (npcAction != NULL) {
-            if (npcAction->action == 2) {
+        cue = play->csCtx.actorCues[0];
+        if (cue != NULL) {
+            if (cue->id == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
-            } else if (npcAction->action == 3) {
-                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            } else if (cue->id == 3) {
+                Audio_PlaySfxGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
         }
@@ -115,7 +115,7 @@ void func_808BC6F8(BgTreemouth* this, PlayState* play) {
         this->unk_168 = 1.0f;
     }
 
-    if ((gSaveContext.sceneSetupIndex == 6) && (play->csCtx.frames >= 0x2BD) && (play->state.frames % 8 == 0)) {
+    if ((gSaveContext.sceneLayer == 6) && (play->csCtx.curFrame > 700) && (play->state.frames % 8 == 0)) {
         sp34.x = (Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
         sp34.z = (Rand_ZeroOne() * 2026.0f) + -2163.0f;
@@ -145,14 +145,14 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
                     this->dyna.actor.flags |= ACTOR_FLAG_0;
                     if (this->dyna.actor.isTargeted) {
                         this->dyna.actor.flags &= ~ACTOR_FLAG_0;
-                        play->csCtx.segment = D_808BD2A0;
+                        play->csCtx.script = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);
                     }
                 }
             } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
                 Flags_SetEventChkInf(EVENTCHKINF_0C);
-                play->csCtx.segment = D_808BCE20;
+                play->csCtx.script = D_808BCE20;
                 gSaveContext.cutsceneTrigger = 1;
                 BgTreemouth_SetupAction(this, func_808BC9EC);
             }
@@ -165,45 +165,48 @@ void func_808BC8B8(BgTreemouth* this, PlayState* play) {
 void func_808BC9EC(BgTreemouth* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (play->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
+    if (play->csCtx.state == CS_STATE_STOP) {
         if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 350.0f, 0x7530)) {
             player->actor.world.pos.x = 3827.0f;
             player->actor.world.pos.y = -161.0f;
             player->actor.world.pos.z = -1142.0f;
         }
 
-        play->csCtx.frames = 0;
-        play->csCtx.unk_18 = 0xFFFF;
-        D_8015FCC0 = 0xFFFF;
-        D_8015FCC2 = 0xFFFF;
-        D_8015FCC4 = 0xFFFF;
-        play->csCtx.unk_1A = 0;
-        play->csCtx.unk_1B = 0;
-        play->csCtx.state = CS_STATE_SKIPPABLE_EXEC;
+        play->csCtx.curFrame = 0;
+
+        play->csCtx.camEyeSplinePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+        gCamAtSplinePointsAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+        gCamEyePointAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+        gCamAtPointAppliedFrame = CS_CAM_DATA_NOT_APPLIED;
+
+        play->csCtx.camAtReady = false;
+        play->csCtx.camEyeReady = false;
+
+        play->csCtx.state = CS_STATE_RUN;
 
         if (play->msgCtx.choiceIndex == 0) {
-            play->csCtx.segment = D_808BD520;
+            play->csCtx.script = D_808BD520;
             Flags_SetEventChkInf(EVENTCHKINF_05);
             BgTreemouth_SetupAction(this, func_808BCAF0);
         } else {
-            play->csCtx.segment = D_808BD790;
-            play->csCtx.frames = 0;
+            play->csCtx.script = D_808BD790;
+            play->csCtx.curFrame = 0;
             BgTreemouth_SetupAction(this, func_808BC8B8);
         }
     }
 }
 
 void func_808BCAF0(BgTreemouth* this, PlayState* play) {
-    CsCmdActorAction* npcAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        npcAction = play->csCtx.npcActions[0];
-        if (npcAction != NULL) {
-            if (npcAction->action == 2) {
+        cue = play->csCtx.actorCues[0];
+        if (cue != NULL) {
+            if (cue->id == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
-            } else if (npcAction->action == 3) {
-                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            } else if (cue->id == 3) {
+                Audio_PlaySfxGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
         }
@@ -232,14 +235,14 @@ void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if ((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) {
+    if (!IS_CUTSCENE_LAYER || LINK_IS_ADULT) {
         if (GET_EVENTCHKINF(EVENTCHKINF_07)) {
             alpha = 2150;
         }
-    } else { // neeeded to match
+    } else { // needed to match
     }
 
-    if (gSaveContext.sceneSetupIndex == 6) {
+    if (gSaveContext.sceneLayer == 6) {
         alpha = (play->roomCtx.unk_74[0] + 0x1F4);
     }
 

@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
 typedef struct {
@@ -16,8 +16,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr; // original name: "allocp"
-    /* 0x04 */ u32 vromStart;
-    /* 0x08 */ u32 vromEnd;
+    /* 0x04 */ uintptr_t vromStart;
+    /* 0x08 */ uintptr_t vromEnd;
     /* 0x0C */ void* vramStart;
     /* 0x10 */ void* vramEnd;
     /* 0x14 */ void* vramTable;
@@ -44,8 +44,8 @@ static MapMarkInfo sMapMarkInfoTable[] = {
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
     NULL,
-    (u32)_ovl_map_mark_dataSegmentRomStart,
-    (u32)_ovl_map_mark_dataSegmentRomEnd,
+    (uintptr_t)_ovl_map_mark_dataSegmentRomStart,
+    (uintptr_t)_ovl_map_mark_dataSegmentRomEnd,
     _ovl_map_mark_dataSegmentStart,
     _ovl_map_mark_dataSegmentEnd,
     gMapMarkDataTable,
@@ -132,22 +132,22 @@ void MapMark_DrawForDungeon(PlayState* play) {
 }
 
 void MapMark_Draw(PlayState* play) {
-    switch (play->sceneNum) {
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_HAKADANCH:
-        case SCENE_ICE_DOUKUTO:
-        case SCENE_YDAN_BOSS:
-        case SCENE_DDAN_BOSS:
-        case SCENE_BDAN_BOSS:
-        case SCENE_MORIBOSSROOM:
-        case SCENE_FIRE_BS:
+    switch (play->sceneId) {
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_JABU_JABU:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_BOTTOM_OF_THE_WELL:
+        case SCENE_ICE_CAVERN:
+        case SCENE_DEKU_TREE_BOSS:
+        case SCENE_DODONGOS_CAVERN_BOSS:
+        case SCENE_JABU_JABU_BOSS:
+        case SCENE_FOREST_TEMPLE_BOSS:
+        case SCENE_FIRE_TEMPLE_BOSS:
             MapMark_DrawForDungeon(play);
             break;
     }

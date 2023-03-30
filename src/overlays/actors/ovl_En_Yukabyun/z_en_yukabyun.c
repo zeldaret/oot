@@ -18,7 +18,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play);
 void func_80B43AD4(EnYukabyun* this, PlayState* play);
 void func_80B43B6C(EnYukabyun* this, PlayState* play);
 
-const ActorInit En_Yukabyun_InitVars = {
+ActorInit En_Yukabyun_InitVars = {
     ACTOR_EN_YUKABYUN,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -80,7 +80,7 @@ void func_80B43A94(EnYukabyun* this, PlayState* play) {
         this->unk_150--;
     }
     if (this->unk_150 == 0) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE;
         this->actionfunc = func_80B43AD4;
     }
 }
@@ -90,7 +90,7 @@ void func_80B43AD4(EnYukabyun* this, PlayState* play) {
     this->actor.shape.rot.y += this->unk_150;
     if (this->unk_150 >= 0x2000) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->actionfunc = func_80B43B6C;
     }
     Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 1.0f);
@@ -123,12 +123,12 @@ void EnYukabyun_Update(Actor* thisx, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->collider.base.ocFlags1 &= ~OC1_HIT;
         this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-        SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
+        SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = EnYukabyun_Break;
     }
 
     this->actionfunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 20.0f, 8.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);

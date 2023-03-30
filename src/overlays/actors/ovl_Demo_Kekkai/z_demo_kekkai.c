@@ -12,16 +12,16 @@
 
 void DemoKekkai_Init(Actor* thisx, PlayState* play);
 void DemoKekkai_Destroy(Actor* thisx, PlayState* play);
-void DemoKekkai_Update(Actor* thisx, PlayState* play);
+void DemoKekkai_Update(Actor* thisx, PlayState* play2);
 void DemoKekkai_DrawTowerBarrier(Actor* thisx, PlayState* play);
 
 void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play);
 void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play);
-void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play);
+void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2);
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play);
 
-const ActorInit Demo_Kekkai_InitVars = {
+ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -158,8 +158,8 @@ void DemoKekkai_SpawnParticles(DemoKekkai* this, PlayState* play) {
 }
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
-        (play->csCtx.npcActions[0]->action != 1) && (play->csCtx.npcActions[0]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[0] != NULL) &&
+        (play->csCtx.actorCues[0]->id != 1) && (play->csCtx.actorCues[0]->id == 2)) {
         if (!(this->sfxFlag & 1)) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_DISPEL_BARRIER);
             this->sfxFlag |= 1;
@@ -207,7 +207,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
     s32 pad;
     DemoKekkai* this = (DemoKekkai*)thisx;
 
-    if (play->csCtx.frames == csFrames[this->actor.params]) {
+    if (play->csCtx.curFrame == csFrames[this->actor.params]) {
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TRIAL_WARP);
     }
     if (this->energyAlpha >= 0.05f) {
@@ -220,7 +220,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
     } else if (this->timer < 50) {
         this->orbScale = 2.0f;
     } else if (this->timer == 50) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         DemoKekkai_SpawnParticles(this, play);
     } else {
         this->orbScale = 0.0f;
@@ -256,7 +256,7 @@ void DemoKekkai_TrialBarrierIdle(Actor* thisx, PlayState* play) {
         LOG_STRING("当ったよ", "../z_demo_kekkai.c", 572);
         this->actor.update = DemoKekkai_TrialBarrierDispel;
         this->timer = 0;
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(sSageCutscenes[this->actor.params]);
         gSaveContext.cutsceneTrigger = 1;
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);
@@ -295,16 +295,17 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kekkai.c", 639),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_XLU_DISP++, 0x09,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, frames * 5, frames * -10, 0x20, 0x20, 1, frames * 5,
-                                    frames * -10, 0x20, 0x20));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 5, frames * -10, 0x20, 0x20, 1,
+                                    frames * 5, frames * -10, 0x20, 0x20));
         gSPDisplayList(POLY_XLU_DISP++, gTrialBarrierOrbDL);
         Matrix_Pop();
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kekkai.c", 656),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 50, 0, 100, 255);
-        gSPSegment(POLY_XLU_DISP++, 0x0A,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, frames, frames, 0x20, 0x20));
+        gSPSegment(
+            POLY_XLU_DISP++, 0x0A,
+            Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x20, 1, frames, frames, 0x20, 0x20));
         gSPDisplayList(POLY_XLU_DISP++, gTrialBarrierFloorDL);
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, sEnergyColors[colorIndex + 0], sEnergyColors[colorIndex + 1],
@@ -312,8 +313,8 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
         gDPSetEnvColor(POLY_XLU_DISP++, sEnergyColors[colorIndex + 3], sEnergyColors[colorIndex + 4],
                        sEnergyColors[colorIndex + 5], 128);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, frames * 5, frames * -10, 0x20, 0x20, 1, frames * 5,
-                                    frames * -10, 0x20, 0x40));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 5, frames * -10, 0x20, 0x20, 1,
+                                    frames * 5, frames * -10, 0x20, 0x40));
         gSPDisplayList(POLY_XLU_DISP++, gTrialBarrierEnergyDL);
         CLOSE_DISPS(play->state.gfxCtx, "../z_demo_kekkai.c", 696);
     }
@@ -331,8 +332,8 @@ void DemoKekkai_DrawTowerBarrier(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 170, 255, 255);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 2, scroll * -4, 0x20, 0x40, 1, scroll * 2, scroll * -4,
-                                0x20, 0x40));
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * -4, 0x20, 0x40, 1, scroll * 2,
+                                scroll * -4, 0x20, 0x40));
     gSPDisplayList(POLY_XLU_DISP++, gTowerBarrierDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_kekkai.c", 722);
 }

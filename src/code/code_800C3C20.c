@@ -1,13 +1,13 @@
 #include "global.h"
 
-u8 D_8012D200[] = {
-    0, 1, 2, 3, 4, 5, 6,
+u8 sSfxBankIds[] = {
+    BANK_PLAYER, BANK_ITEM, BANK_ENV, BANK_ENEMY, BANK_SYSTEM, BANK_OCARINA, BANK_VOICE,
 };
 
-void func_800C3C20(void) {
-    s32 i;
+void AudioMgr_StopAllSfx(void) {
+    u8* bankIdPtr;
 
-    for (i = 0; (i < ARRAY_COUNT(D_8012D200)) & 0xFFFFFFFF; i++) {
-        Audio_StopSfxByBank(D_8012D200[i]);
+    for (bankIdPtr = &sSfxBankIds[0]; bankIdPtr < (sSfxBankIds + ARRAY_COUNT(sSfxBankIds)); bankIdPtr++) {
+        Audio_StopSfxByBank(*bankIdPtr);
     }
 }
