@@ -159,7 +159,7 @@ else
 SRC_DIRS := $(shell find src -type d)
 endif
 
-ASSET_BIN_DIRS := $(shell find assets/code/* assets/misc/* assets/objects/* assets/overlays/* assets/scenes/* assets/textures/* -type d)
+ASSET_BIN_DIRS := $(shell find assets/code/* assets/misc/* assets/objects/* assets/overlays/* assets/scenes/* assets/textures/* assets/samplebanks -type d)
 SAMPLES_DIR     := $(shell find assets/samples/* -type d)
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
@@ -180,7 +180,8 @@ S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard 
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(FONT_FILES:.xml=.o),build/$f) \
-                 $(foreach f,$(wildcard baserom/*),build/$f.o)
+                 $(foreach f,$(wildcard baserom/*),build/$f.o) \
+                 build/assets/misc/sounds/sounds.o
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
 
@@ -314,8 +315,6 @@ build/undefined_syms.txt: undefined_syms.txt
 build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
-build/assets/misc/sounds/sounds.o: assets/misc/sounds/sounds.c assets/misc/sounds/*.h
-
 build/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
@@ -365,12 +364,10 @@ build/%.o: %.seq
 	$(SEQ_ASM) $< $@ --font-path build/include
 
 build/assets/sequences/%.o: build/assets/sequences/%.c
-	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
-build/assets/misc/sounds/%.o: build/assets/misc/sounds/%.c
-	$(CC_CHECK) $<
+build/assets/misc/sounds/sounds.o: data/sounds.c assets/misc/sounds/*.h
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import argparse
 import math
 import os
@@ -9,7 +10,6 @@ import tempfile
 
 import xml.etree.ElementTree as XmlTree
 
-from makeelf.elf import ELF, STB, STT, STV, ELFCLASS, ELFDATA, ET, EM, SHF
 from audio_common import Soundbank, SampleHeader, padding16, loadSoundData, Soundfont, align
 
 # Script variables
@@ -494,7 +494,7 @@ def linkFontToBank(font):
                 sfx.pitch = sfx.sample.tuning
 
 def getFileName(idx=None, name=""):
-    name = f"{idx}_{name}" if idx is not None else name
+    name = "%02d_%s" % (idx, name) if idx is not None else name
     return ''.join('_' if c not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_' else c for c in name)
 
 def readFonts(dirpath):
@@ -613,6 +613,8 @@ def processBanks(sampledir, builddir, tabledir):
 
     audiotable_paths = []
 
+    os.makedirs("assets/samplebanks", exist_ok=True)
+
     for i, e_bank in enumerate(elist_bank):
         bankname = e_bank.get("Name")
         if bankname is None:
@@ -712,10 +714,6 @@ def processBanks(sampledir, builddir, tabledir):
             print(f"Bank {mybank.idx}: {len(sorted_samples)} samples found")
 
         binpath = None
-        opath = None
-        syms = []
-        if builddir is not None:
-            opath = os.path.join(builddir, f"{getFileName(name=mybank.name)}.o")
         if len(sorted_samples) > 0:
             output = None
             if builddir is not None:
@@ -736,16 +734,6 @@ def processBanks(sampledir, builddir, tabledir):
                     if not quiet:
                         print("Writing sample:", sample.name)
                     aifc_path = os.path.join(bankdir, sample.fileName)
-                    syms.append(
-                        (
-                            get_sym_name(sample.name),
-                            output.tell(),
-                            4,
-                            STB.STB_GLOBAL,
-                            STT.STT_OBJECT,
-                            STV.STV_DEFAULT
-                        )
-                    )
                     output.write(loadSoundData(aifc_path)[8:8 + sample.length])
                     if padding > 0:
                         output.write(b"\x00"*padding)
@@ -778,29 +766,9 @@ def processBanks(sampledir, builddir, tabledir):
                     binpath = os.path.join(bankdir, file)
                     audiotable_paths.append(binpath)
                     break
-        elftable = ELF(
-            e_class=ELFCLASS.ELFCLASS32,
-            e_data=ELFDATA.ELFDATA2MSB,
-            e_type=ET.ET_REL,
-            e_machine=EM.EM_MIPS,
-        )
-        with open(binpath, "rb") as datafile:
-            with open(opath, "wb") as elffile:
-                bankdata = datafile.read()
-                data = elftable._append_section(".data", bankdata, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
-                elftable.append_symbol(get_sym_name(bankname + "_start"), data, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT)
-                for name, value, size, binding, type, visibility in syms:
-                    elftable.append_symbol(
-                        name,
-                        data,
-                        value,
-                        size,
-                        binding,
-                        type,
-                        visibility
-                    )
-                elftable.append_symbol(get_sym_name(bankname + "_end"), data, len(bankdata), 4, STB.STB_GLOBAL, STT.STT_OBJECT)
-                elffile.write(bytes(elftable))
+
+        buf = hexdump(open(binpath, "rb").read(), "bank_"+bankname)
+        open("assets/samplebanks/"+getFileName(name=mybank.name)+".c", "wb").write(buf)
 
     # Code table
     lrows = []
@@ -867,6 +835,17 @@ def write_soundfont_define(font, fontcount, filename):
                 continue
 
             file.write(f".define FONT{index}_EFFECT_{effect.enum} {effect.idx}\n")
+
+def hexdump(buf, varname):
+    l = [
+        b"unsigned char %s[] = {\n" % varname.encode(),
+    ]
+    for idx in range(0, len(buf), 16):
+        l.append(b"    " + b" ".join(
+            b"0x%02x," % ch for ch in buf[idx:idx+min(len(buf)-idx, 16)]
+        ) + b"\n")
+    l.append(b"};\n")
+    return b"".join(l)
 
 def main(args):
     global debug_mode
@@ -1004,20 +983,10 @@ def main(args):
                 with open(fontpaths[font.idx], 'ab') as f:
                     f.write(b"\x00"*diff)
 
-        with open(os.path.join(audiobank_dir, f"{getFileName(idx=font.idx, name=font.name)}.o"), "wb") as elffile:
-            with open(fontpaths[font.idx], "rb") as bin:
-                elf = ELF(
-                    e_class=ELFCLASS.ELFCLASS32,
-                    e_data=ELFDATA.ELFDATA2MSB,
-                    e_type=ET.ET_REL,
-                    e_machine=EM.EM_MIPS,
-                )
-                fontbytes = bin.read()
-                fontsym = font.symbol if font.symbol else font.name
-                data = elf._append_section(".data", fontbytes, 0, sh_flags=SHF.SHF_ALLOC | SHF.SHF_WRITE, sh_addralign=16)
-                elf.append_symbol(f"{get_sym_name(fontsym)}_start", data, 0, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-                elf.append_symbol(f"{get_sym_name(fontsym)}_end", data, len(fontbytes), 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
-                elffile.write(bytes(elf))
+        fontsym = font.symbol if font.symbol else font.name
+        fname = getFileName(font.idx, font.name)
+        buf = hexdump(open(fontpaths[font.idx], "rb").read(), get_sym_name(fontsym))
+        open("assets/soundfonts/"+fname+".c", "wb").write(buf)
 
         os.makedirs(args.outinclude, exist_ok=True)
         inc_filename = os.path.join(args.outinclude, f"{font.idx}.inc")

@@ -167,6 +167,7 @@ def main(args):
 
     sequences = process_sequence_files(args.sequences,args.soundfonts, args.output)
 
+    os.makedirs("assets/misc/sounds", exist_ok=True)
     generate_sequence_table(sequences, args.output)
     generate_sequence_font_table(sequences, args.output)
 

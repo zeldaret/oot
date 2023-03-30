@@ -25,5 +25,3 @@
 /soundfonts/*.xml
 # Sample Bank Descriptor XML
 /samples/Banks.xml
-# Sound boiler plate file.
-!/misc/sounds/sounds.c

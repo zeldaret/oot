@@ -5,8 +5,6 @@ import struct
 
 import xml.etree.ElementTree as XmlTree
 
-from makeelf.elf import EM
-
 class AifReader:
     def __init__(self, filepath):
         self.path = filepath
@@ -255,18 +253,6 @@ def padding16(val):
     if mod16 > 0:
         return 16 - mod16
     return 0
-
-def parse_machine(machine):
-    return {
-        "mips": EM.EM_MIPS,
-        "mips2": EM.EM_MIPS,
-        "mips3": EM.EM_MIPS,
-        "x64": EM.EM_X86_64,
-        "x86-64": EM.EM_X86_64,
-        "x86": EM.EM_386,
-        "386": EM.EM_386,
-        "arm": EM.EM_ARM
-    }.get(machine.lower(), "mips")
 
 #Audio Class Definitions
 class PCMLoop:
