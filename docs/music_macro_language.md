@@ -49,12 +49,12 @@ Metainstructions are instructions that are read by the editor or parser, but do 
 
 **.define** *symbol* *value*
 
-**Description:** Defines a symbol that may be used elsewhere in the sequence script.  The symbol may consist of any Unicode letter, number, or underscores.  The value must be a primitive value.  Symbols must be defined only once in a sequence, similar to 
+**Description:** Defines a symbol that may be used elsewhere in the sequence script.  The symbol may consist of any Unicode letter, number, or underscores.  The value must be a primitive value.  Symbols must be defined only once in a sequence, their names are considered globals.
 
 **Parameters:**
 
 * `symbol` - The symbol being defined in the sequence.
-* `value` - A primitive that will the symbol represents.
+* `value` - A primitive that the symbol represents.
 
 **Example:**
 ```
@@ -148,7 +148,7 @@ The following metainstructions allow you to define a label that points to the re
 
 **Section Metainstructions**
 
-There are metainstructions specific to certain sections that will be documented in those sections specifically.  These will be described in those sections as appropriate.  Note that metainstructions are always distinguished by starting with a period, whereas instructions do not.
+There are metainstructions specific to certain sections that will be documented in those sections specifically.  Note that metainstructions are always distinguished by starting with a period, whereas instructions do not.
 
 ### Descriptor Section
 
@@ -182,9 +182,9 @@ The descriptor section is composed of instructions that provide information usef
 
 Tracks are composed of three different types of instructions: sequence, channel, and note layer.  The sequence contains instructions for controlling the overall sequence itself.  Channels are defined at the sequence level, with at most sixteen channels running at the same time.  Each channel can then reference zero or more note layers, where the actual note instructions will be referenced.  Most of the instructions are specific to these subsections and are not interchangeable, aside from the *Branching instructions*, which are supported with all three.  A sequence *always* starts with sequence instructions.
 
-Tracks are executed by the **sequence player**, as defined in `audio_seqplayer.c`.  The sequence player is capable of executing one track at a time, with sixteen simultaneous channels, each channel typically supporting four note layers.  A tick counter allows the player to track the execution time of a sequence.  Ticks increment based by the tempo.
+Tracks are executed by the **sequence player**, as defined in `audio_seqplayer.c`.  The sequence player is capable of executing one track at a time, with sixteen simultaneous channels, each channel typically supporting four note layers.  A tick counter allows the player to track the execution time of a sequence.  Ticks increment based on the tempo.
 
-All instructions in a track section are executed simultaneously unless a delay command is specified, in which case subsequent instructions will only run after that number of ticks have elapsed while playing the sequence.
+All instructions in a track section are executed simultaneously unless a delay command is specified, in which case subsequent instructions will only run after that number of ticks has elapsed while playing the sequence.
 
 A track can loop (potentially) indefinitely by using branching instructions, or can end if the sequence command `end` is encountered.  This will end processing of the sequence, and the sequence player will no longer process any further instructions until a new sequence is started.
 
@@ -210,7 +210,7 @@ Each sequence player contains 8 IO ports that are one byte in size each.  These 
 
 **.sequence** *label name*
 
-**Description:** Defines a label for the following subsection of sequence instructions.  Note that it is considered an error if a sequence label is proceeded with anything that is not a sequence command.
+**Description:** Defines a label for the following subsection of sequence instructions.  Note that it is considered an error if a sequence label is followed with anything that is not a sequence command.
 
 **Example:**
 ```
@@ -411,7 +411,7 @@ end
 .entry seqbuf
 
 .buffer seqbuf              # A buffer that the sequence will be loaded into.
-.space 0x2048               # The buffer is 2KB in size.
+.space 2048                 # The buffer is 2KB in size.
 ```
 
 **runseq** *player*, *index*
@@ -669,7 +669,7 @@ If this command is not used but the `ldshortvel` is used, the velocity value wil
 
 **Example:**
 ```
-ldshortvelarr shortvels    # Assigns the array shortgates to the player's short note lookup table
+ldshortvelarr shortvels    # Assigns the array shortvels to the player's short note lookup table
 ldchan 0, chan0            # Loads channel 0
 delay 500
 end
@@ -681,18 +681,18 @@ delay 500
 end
 
 .layer layer0
-ldshortvel 5               # Loads gate value at index 5 (27) to be used for subsequent notes.
+ldshortvel 5               # Loads velocity value at index 5 (27) to be used for subsequent notes.
 notedvg PITCH_C4, 6, 0     # Plays C4 with gate 27 and duration of 6 ticks.
 notevg PITCH_D4, 6, 0      # Plays D4 with gate 27 and the same duration as previous.
 notevg PITCH_F4, 6, 0
-ldshortgate 3              # Loads gate value at index 3 (10) to be used for subsequent notes.
+ldshortvel 3               # Loads velocity value at index 3 (10) to be used for subsequent notes.
 notevg PITCH_G4, 6, 0      # Plays G4 with gate 10 and same duration as previous.
 notevg PITCH_G4, 6, 0
 notevg PITCH_C5, 6, 0
 
 .data
 
-.array shortvel
+.array shortvels
 .byte 4
 .byte 5
 .byte 8
@@ -764,7 +764,7 @@ This scaling factor is only used if flag 0x20 is set in the sequence player's mu
 **Example:**
 ```
 mutebhv 0x20        # Sets mute behavior to reduce sequence volume when muted
-mutescale 40        # Reduce volume by 31.5% when muted
+mutescale 40        # Scale volume by 31.5% when muted
 ldchan 1, chan1     # Play channel 1 at 100% volume
 delay 500
 mute                # Channel 1 continues playing at 31.5% volume
@@ -772,9 +772,9 @@ mute                # Channel 1 continues playing at 31.5% volume
 
 **initchan** *mask*
 
-**Description:** Initializes the indicated channels on the sequence player and prepares them for playing audio.  This configure's the channels with the default soundfont, assigned mute behavior, and configured note allocation policy.  Each bit on the bitmask represents a different channel, with the most significant bit representing channel 16 and the least significant bit representing channel 1.
+**Description:** Initializes the indicated channels on the sequence player and prepares them for playing audio.  This configures the channels with the default soundfont, assigned mute behavior, and configured note allocation policy.  Each bit on the bitmask represents a different channel, with the most significant bit representing channel 16 and the least significant bit representing channel 1.
 
-It is not strictly necessary to use `initchan` for the channels to be used, however the previous mentioned settings will not be configured on the channel and will be in an undefined state.  For obvious reasons, this is not recommended.
+It is not strictly necessary to use `initchan` for the channels to be used, however the previously mentioned settings will not be configured on the channel and will be in an undefined state.  For obvious reasons, this is not recommended.
 
 **Parameters:**
 * `mask` [integer: 0-65535] - The bitmask defining the channels to initialize.
@@ -897,7 +897,7 @@ freenotelist      # Frees any reserved notes on the sequence player.
 
 It's recommended to avoid using this command while audio is playing on the sequence, as this can result in undefined behavior.
 
-In general, it is not necessary to use this command, as by default the sequence player will use any free notes in the global note pool.  This command also is not useful for addressing issues with notes cutting out on channels in a sequence, as this applies to the sequence player itself.  Howver, it can be useful for preventing other sequences from stealing notes from this sequence.
+In general, it is not necessary to use this command, as by default the sequence player will use any free notes in the global note pool.  This command also is not useful for addressing issues with notes cutting out on channels in a sequence, as this applies to the sequence player itself.  However, it can be useful for preventing other sequences from stealing notes from this sequence.
 
 **Parameters:**
 * `count` [integer: 0-255] - The number of notes to allocate.
@@ -929,7 +929,7 @@ Channels also have access to the sequence player's IO ports, allowing values to 
 
 **.channel** *label name*
 
-**Description:** Defines a label for the following subsection of channel instructions.  Note that it is considered an error if a channel label is proceeded with anything that is not a channel command.
+**Description:** Defines a label for the following subsection of channel instructions.  Note that it is considered an error if a channel label is followed with anything that is not a channel command.
 
 **Example:**
 ```
@@ -986,4 +986,4 @@ vol 75
 
 **sample** *IO*
 
-**Description:** Loads 
+**Description:** Loads
