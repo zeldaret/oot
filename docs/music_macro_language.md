@@ -949,7 +949,7 @@ jump loop_start        # Plays the same melody indefinitely.
 | 03 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | ldfilter    | short        | bend        | vibdelay     | *rbeqz        |
 | 04 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | ptrtodyntbl | noshort      | reverb      | dyncall      | *rjump        |
 | 05 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | dyntbltoptr | dyntbllookup |             | rvrbidx      | *bgez         |
-| 06 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | dyntblv     | font         |             | samplbook    | *break        |
+| 06 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | dyntblv     | font         |             | samplebook   | *break        |
 | 07 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | randtoptr   | stseq        | vibfreq     | ldparams     | *loopend      |
 | 08 | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | randvel     | sub          | vibdepth    | params       | *loop         |
 | 09 | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | randgate    | and          | releaserate | notepri      | *bltz         |

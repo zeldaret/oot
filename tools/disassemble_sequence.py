@@ -121,7 +121,7 @@ commands['chan'] = join(control_flow_commands, {
     0xE9: ['notepri', 'u8'],
     0xE8: ['params', 'u8', 'u8', 'u8', 's8', 's8', 'u8', 'u8', 'u8'],
     0xE7: ['ldparams', 'addr'],
-    0xE6: ['samplbook', 'addr'],
+    0xE6: ['samplebook', 'addr'],
     0xE5: ['rvrbidx', 'u8'],
     0xE4: ['dyncall'],
     0xE3: ['vibdelay', 'u8'],

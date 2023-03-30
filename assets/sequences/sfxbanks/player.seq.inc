@@ -1,4 +1,4 @@
-.table table_player_kid
+.table table_player_child
 entry player_child_step_dirt
 entry player_child_step_sand
 entry player_child_step_stone
@@ -127,7 +127,8 @@ entry player_cast_soul
 entry player_arrow_fire_charge
 entry player_arrow_ice_charge
 entry player_arrow_light_charge
-.table table_player_old
+
+.table table_player_adult
 entry player_adult_step_dirt
 entry player_adult_step_sand
 entry player_adult_step_stone

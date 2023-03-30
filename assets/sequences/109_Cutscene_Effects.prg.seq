@@ -416,7 +416,7 @@ instr FONT01_INSTR_BOULDER
 envelope envelope_8EA, 251
 rjump layer_2CB
 
-.channel bongo_death
+.channel bongo_emerges
 font SOUNDFONT_SFX_2
 ldchan 1, chan_344
 delay 0x102
@@ -858,7 +858,7 @@ entry din_magic         # FX5: Din's building of the earth
 entry lava_erupt        # FX6: Lava erupting from Volvagia's pit
 entry bongo_hurl_link   # FX7: Link screaming while attacked by invisible Bongo Bongo
 entry bongo_hover       # FX8: Bongo Bongo hovering menacingly
-entry bongo_death       # FX9: Bongo Bongo disintegrating
+entry bongo_emerges     # FX9: Bongo Bongo emerging from the wall
 entry trial_warp        # FXA: Warping from trial barrier
 entry trial_destroy     # FXB: Destroying the trial barrier
 entry dispel_barrier    # FXC: Dispelling the Tower barrier

@@ -125,11 +125,11 @@ vibdepth 0
 ldio 4  # read sound id from port 4
 bgez part1_player
 and 127
-dyntbl table_player_old
+dyntbl table_player_adult
 jump use_table_player
 
 .channel part1_player
-dyntbl table_player_kid
+dyntbl table_player_child
 
 .channel use_table_player
 dyncall
