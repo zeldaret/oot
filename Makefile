@@ -275,7 +275,6 @@ setup:
 	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
 	python3 tools/assemble_sequences.py assets/sequences build/include build
 	python3 tools/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina
-	go run tools/audiotable.go
 
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
@@ -315,7 +314,7 @@ build/undefined_syms.txt: undefined_syms.txt
 build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
-build/data/sounds.o: build/assets/data/sequence_font_table.bin build/assets/data/sound_font_table.bin
+build/assets/misc/sounds/sounds.o: assets/misc/sounds/sounds.c assets/misc/sounds/*.h
 
 build/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
@@ -366,6 +365,11 @@ build/%.o: %.seq
 	$(SEQ_ASM) $< $@ --font-path build/include
 
 build/assets/sequences/%.o: build/assets/sequences/%.c
+	$(CC_CHECK) $<
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+
+build/assets/misc/sounds/%.o: build/assets/misc/sounds/%.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)

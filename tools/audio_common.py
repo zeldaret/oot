@@ -1,36 +1,11 @@
 #!/usr/bin/env python3
-import xml.etree.ElementTree as XmlTree
-import struct
+
 import math
+import struct
+
+import xml.etree.ElementTree as XmlTree
+
 from makeelf.elf import EM
-
-# Common Class Definitions
-class StructPackSpec:
-    def __init__(self, archLE=False, arch64=False):
-        self.le = archLE
-        self.byte_order_char = ">"
-        if archLE:
-            self.byte_order_char = "<"
-        self.is_64 = arch64
-
-    def pointerSize(self):
-        if self.is_64:
-            return 8
-        else:
-            return 4
-
-    def pointerPaddingSize(self):
-        if self.is_64:
-            return 4
-        else:
-            return 0
-
-    def genPackString(self, base_string):
-        if self.is_64:
-            base_string = base_string.replace("P", "Q").replace("X", "xxxx")
-        else:
-            base_string = base_string.replace("P", "I").replace("X", "")
-        return self.byte_order_char + base_string
 
 class AifReader:
     def __init__(self, filepath):
@@ -312,13 +287,13 @@ class PCMLoop:
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + totalSize))
         return totalSize
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
+    def serializeTo(self, output):
         wcount = 16
         #Start and end are in sample frames, so just keep 32-bit regardless of target.
-        output.write(struct.pack(packspecs.genPackString("IIiI"), self.start, self.end, self.count, 0))
+        output.write(struct.pack(">IIiI", self.start, self.end, self.count, 0))
         if self.count != 0:
             for i in range(16):
-                output.write(struct.pack(packspecs.genPackString("h"), self.predictorState[i]))
+                output.write(struct.pack(">h", self.predictorState[i]))
                 wcount += 2
         return wcount
 
@@ -372,14 +347,13 @@ class PCMBook:
 
         return totalSize
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
+    def serializeTo(self, output):
         wcount = 8
-        output.write(struct.pack(packspecs.genPackString("LL"), self.order, self.predictorCount))
+        output.write(struct.pack(">LL", self.order, self.predictorCount))
         predictorSize = self.order * 8
-        hw_pack_str = packspecs.genPackString("h")
         for i in range(self.predictorCount):
             for j in range(predictorSize):
-                output.write(struct.pack(hw_pack_str, self.predictors[i][j]))
+                output.write(struct.pack(">h", self.predictors[i][j]))
                 wcount += 2
         return wcount
 
@@ -522,12 +496,12 @@ class SampleHeader:
 
         self.updateSize()
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
+    def serializeTo(self, output):
         self.updateReferences()
         modes = (self.codec & 0xF) << 4
         modes |= (self.medium & 0x3) << 2
-        output.write(struct.pack(packspecs.genPackString("bbHXPPP"), modes, self.u2, self.length, self.offsetInBank, self.loopOffset, self.bookOffset))
-        return 4 + (3 * packspecs.pointerSize()) + packspecs.pointerPaddingSize()
+        output.write(struct.pack(">bbHIII", modes, self.u2, self.length, self.offsetInBank, self.loopOffset, self.bookOffset))
+        return 16
 
     def toXML(self, root, bankNames, sampleNames):
         return XmlTree.SubElement(
@@ -596,7 +570,7 @@ class Envelope:
     def serialSize(self):
         return len(self.script) * 4
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
+    def serializeTo(self, output):
         if len(self.script) == 0:
             raise Exception("Not a valid envelope script")
         mysize = 0
@@ -628,7 +602,7 @@ class Envelope:
             elif cmd > 0 and val > 32767:
                 break
 
-            output.write(struct.pack(packspecs.genPackString("hH"), cmd, val))
+            output.write(struct.pack(">hH", cmd, val))
 
             i += 1
             mysize += 4
@@ -698,11 +672,11 @@ class SoundEffect:
         self.sample = SampleHeader()
         self.sample.parseFrom(datafile, datafile[self.headerOffset:self.headerOffset + 16], self.name, banks, baseOffset, self.headerOffset, self.pitch, usedFontData)
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
+    def serializeTo(self, output):
         if self.sample is not None:
             self.headerOffset = self.sample.addr
-        output.write(struct.pack(packspecs.genPackString("PfX"), self.headerOffset, self.pitch))
-        return packspecs.pointerSize() + 4 + packspecs.pointerPaddingSize()
+        output.write(struct.pack(">If", self.headerOffset, self.pitch))
+        return 8
 
     def fromXML(self, xml_element):
         if xml_element is None:
@@ -774,13 +748,13 @@ class Percussion:
         self.envelope = Envelope()
         self.envelope.parseFrom(datafile, baseOffset, self.envelopeOffset, usedFontData)
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
+    def serializeTo(self, output):
         if self.sample is not None:
             self.headerOffset = self.sample.addr
         if self.envelope is not None:
             self.envelopeOffset = self.envelope.addr
-        output.write(struct.pack(packspecs.genPackString("bbBxXPfXP"), self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset))
-        return 8 + (2*packspecs.pointerSize()) + (2*packspecs.pointerPaddingSize())
+        output.write(struct.pack(">bbBxIfI", self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset))
+        return 16
 
     def fromXML(self, xml_element):
         if xml_element is None:
@@ -898,28 +872,28 @@ class Instrument:
         if self.keyHighSample:
             self.keyHighSample.parseFrom(datafile, datafile[self.keyHighOffset:self.keyHighOffset + 16], self.name, banks, baseOffset, self.keyHighOffset, self.keyHighPitch, usedFontData)
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
+    def serializeTo(self, output):
         self.updateReferences()
-        output.write(struct.pack(packspecs.genPackString("BBBb"), self.loaded, self.lowRange, self.highRange, self.decay))
+        output.write(struct.pack("BBBb", self.loaded, self.lowRange, self.highRange, self.decay))
         if self.envelope is None:
-            output.write(struct.pack(packspecs.genPackString("X4x")))
+            output.write(struct.pack("4x"))
         else:
-            output.write(struct.pack(packspecs.genPackString("XP"), self.envelopeOffset))
+            output.write(struct.pack(">I", self.envelopeOffset))
 
         if self.keyLowSample is None:
-            output.write(struct.pack(str(packspecs.pointerSize() << 1) + "x"))
+            output.write(struct.pack("8x"))
         else:
-            output.write(struct.pack(packspecs.genPackString("PfX"), self.keyLowOffset, self.keyLowPitch))
+            output.write(struct.pack(">If", self.keyLowOffset, self.keyLowPitch))
         if self.keyMedSample is None:
-            output.write(struct.pack(str(packspecs.pointerSize() << 1) + "x"))
+            output.write(struct.pack("8x"))
         else:
-            output.write(struct.pack(packspecs.genPackString("PfX"), self.keyMedOffset, self.keyMedPitch))
+            output.write(struct.pack(">If", self.keyMedOffset, self.keyMedPitch))
         if self.keyHighSample is None:
-            output.write(struct.pack(str(packspecs.pointerSize() << 1) + "x"))
+            output.write(struct.pack("8x"))
         else:
-            output.write(struct.pack(packspecs.genPackString("PfX"), self.keyHighOffset, self.keyHighPitch))
+            output.write(struct.pack(">If", self.keyHighOffset, self.keyHighPitch))
 
-        return 16 + (packspecs.pointerSize() << 2) + (packspecs.pointerPaddingSize() << 2)
+        return 32
 
     def fromXML(self, xml_element):
         if xml_element is None:
@@ -1058,8 +1032,8 @@ class SampleTableEntry:
     def parseFrom(self, input):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBB6x", input)
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
-        output.write(struct.pack(packspecs.genPackString("LLBB6x"), self.offset, self.length, self.medium, self.cache))
+    def serializeTo(self, output):
+        output.write(struct.pack(">LLBB6x", self.offset, self.length, self.medium, self.cache))
 
 class SoundfontEntry:
     def __init__(self):
@@ -1076,8 +1050,11 @@ class SoundfontEntry:
     def parseFrom(self, input):
         self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBbbBBH", input)
 
-    def serializeTo(self, output, packspecs=StructPackSpec()):
-        output.write(struct.pack(packspecs.genPackString("LLBBbbBBH"), self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
+    def serializeTo(self, output):
+        output.write(struct.pack(">LLBBbbBBH", self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
+
+    def serialize(self):
+        return self.offset, self.length, self.medium, self.cache, self.bank * 256 + (self.bank2 % 256), self.instrumentCount * 256 + self.percussionCount, self.effectCount
 
 class Soundfont:
     def __init__(self):

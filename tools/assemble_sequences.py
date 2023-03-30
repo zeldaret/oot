@@ -10,7 +10,7 @@ import sys
 
 import xml.etree.ElementTree as XmlTree
 
-from audio_common import StructPackSpec, parse_machine, toCachePolicy
+from audio_common import toCachePolicy
 
 class SequenceDefinition:
     def __init__(self):
@@ -57,7 +57,8 @@ def process_sequence_file(sequence, soundfont_path, output_path):
     defn.size += 16 - defn.size%16 if defn.size%16 else 0
 
     seqname = "seq_" + pathlib.Path(pathlib.Path(sequence).stem).stem
-    hexdump(sequence_out_path, sequence_out_path.with_suffix(".c"), seqname)
+    buf = hexdump(open(sequence_out_path, "rb").read(), seqname)
+    open(sequence_out_path.with_suffix(".c"), "wb").write(buf)
     return defn
 
 def process_sequence_files(sequence_path, soundfont_path, output_path):
@@ -88,67 +89,74 @@ def get_seq_index(refname, seqdefs):
 
     raise Exception(f"Sequence {refname} not found but referenced")
 
-def generate_sequence_table(sequences, output_path, packspecs):
-    stream = io.BytesIO()
-    stream.write(struct.pack(packspecs.genPackString("H14x"), len(sequences)))
+def generate_sequence_table(sequences, output_path):
+    def onerow(romaddr, size, medium, cachepolicy, shortdata1, shortdata2, shortdata3):
+        return b"    {0x%08x, %d, %d, %d, 0x%04x, 0x%04x, 0x%04x}," % (
+            romaddr, size, medium, cachepolicy, shortdata1, shortdata2, shortdata3
+        )
+
     start_offset = 0
-    for defn in sequences:
-        spec = packspecs.genPackString("IIbbxxxxxx")
+    l = [
+        b"AudioTable gSequenceTable = {",
+        b"    %d, 0, 0x00000000, {0, 0, 0, 0, 0, 0, 0, 0}, {" % len(sequences),
+        b"    "+onerow(0, sequences[0].size, 2, sequences[0].cachePolicy, 0, 0, 0),
+        b"    }",
+        b"};",
+        b"AudioTableEntry gSequenceTableEntries[] = {",
+    ]
+    start_offset += sequences[0].size
+    for defn in sequences[1:]:
         if defn.ref:
-            packed = struct.pack(spec, get_seq_index(defn.ref, sequences), 0, 2, defn.cachePolicy)
+            l.append(onerow(get_seq_index(defn.ref, sequences), 0, 2, defn.cachePolicy, 0, 0, 0))
         else:
-            packed = struct.pack(spec, start_offset, defn.size, 2, defn.cachePolicy)
+            l.append(onerow(start_offset, defn.size, 2, defn.cachePolicy, 0, 0, 0))
             start_offset += defn.size
-        stream.write(packed)
+    l.append(b"};\n")
 
-    with open(os.path.join(output_path, "assets", "data", "sequence_table.bin"), "wb") as f:
-        f.write(stream.getbuffer())
+    open("assets/misc/sounds/sequence_table.h", "wb").write(b"\n".join(l))
 
-def generate_sequence_font_table(sequences, output_path, packspecs):
+def generate_sequence_font_table(sequences, output_path):
     stream = io.BytesIO()
     seqoffsets = {}
 
     for i in range(len(sequences)):
         defn = sequences[i]
-        seqoffsets[i] = stream.tell() + (len(sequences) * 2)
+        seqoffsets[i] = stream.tell() + len(sequences) * 2
         if defn.ref:
             defn = sequences[get_seq_index(defn.ref, sequences)]
-        stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
-        for id in defn.fonts:
-            stream.write(struct.pack(packspecs.genPackString("b"), id))
+        stream.write(struct.pack("b", len(defn.fonts)))
+        for fontid in defn.fonts:
+            stream.write(struct.pack("b", fontid))
 
     stream.seek(0)
 
     for offset in seqoffsets.values():
-        stream.write(struct.pack(packspecs.genPackString("H"), offset))
+        stream.write(struct.pack(">H", offset))
     for defn in sequences:
         if defn.ref:
             defn = sequences[get_seq_index(defn.ref, sequences)]
-        stream.write(struct.pack(packspecs.genPackString("b"), len(defn.fonts)))
-        for id in defn.fonts:
-            stream.write(struct.pack(packspecs.genPackString("b"), id))
+        stream.write(struct.pack("b", len(defn.fonts)))
+        for fontid in defn.fonts:
+            stream.write(struct.pack("b", fontid))
 
     while stream.getbuffer().nbytes & 0xF != 0:
-        stream.write(struct.pack(packspecs.genPackString("b"), 0))
+        stream.write(b"\x00")
 
-    with open(os.path.join(output_path, "assets", "data", "sequence_font_table.bin"), "wb") as f:
-        f.write(stream.getbuffer())
+    buf = hexdump(stream.getbuffer(), "gSequenceFontTable")
+    open("assets/misc/sounds/sequence_font_table.h", "wb").write(buf)
 
-def hexdump(src, dst, varname):
-    buf = open(src, "rb").read()
-
-    f = open(dst, "wb")
-    f.write(b"unsigned char %s[] = {\n" % varname.encode())
+def hexdump(buf, varname):
+    l = [
+        b"unsigned char %s[] = {\n" % varname.encode(),
+    ]
     for idx in range(0, len(buf), 16):
-        f.write(b"    " + b" ".join(
+        l.append(b"    " + b" ".join(
             b"0x%02x," % ch for ch in buf[idx:idx+min(len(buf)-idx, 16)]
         ) + b"\n")
-    f.write(b"};\n")
-    f.close()
+    l.append(b"};\n")
+    return b"".join(l)
 
 def main(args):
-    packspecs = StructPackSpec()
-
     if not args.sequences.is_dir():
         print("Sequence asset path does not exist or is not a directory.", file=sys.stderr)
         return 1
@@ -159,8 +167,8 @@ def main(args):
 
     sequences = process_sequence_files(args.sequences,args.soundfonts, args.output)
 
-    generate_sequence_table(sequences, args.output, packspecs)
-    generate_sequence_font_table(sequences, args.output, packspecs)
+    generate_sequence_table(sequences, args.output)
+    generate_sequence_font_table(sequences, args.output)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(add_help=False)
