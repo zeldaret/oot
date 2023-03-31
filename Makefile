@@ -109,7 +109,7 @@ MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
-SEQ_ASM    := tools/assemble_sequence
+SEQ_ASM    := tools/audio/assemble_sequence
 
 ifeq ($(COMPILER),gcc)
   OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
@@ -279,10 +279,10 @@ setup:
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py -j$(N_THREADS)
-	python3 tools/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/soundfonts build/include
-	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
-	python3 tools/assemble_sequences.py assets/sequences build/include build
-	python3 tools/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina
+	python3 tools/audio/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/soundfonts build/include
+	python3 tools/audio/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
+	python3 tools/audio/assemble_sequences.py assets/sequences build/include build
+	python3 tools/audio/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina
 
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
@@ -381,7 +381,7 @@ build/assets/misc/sounds/sounds.o: data/sounds.c assets/misc/sounds/*.h
 build/src/code/audio_init_params.o: src/code/audio_init_params.c assets/misc/sounds/*.h
 
 build/include/%.inc: $(FONT_FILES)
-	python3 tools/assemble_font_includes.py assets/soundfonts build/include
+	python3 tools/audio/assemble_font_includes.py assets/soundfonts build/include
 
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
