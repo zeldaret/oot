@@ -3428,15 +3428,18 @@ COLOR(DEFAULT) "Une prise de ce matin!\n"
 DEFINE_MESSAGE(0x00B4, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_MIDDLE,
 "You destroyed a " COLOR(RED) "Gold Skulltula" COLOR(DEFAULT) ".\n"
 "You got a token proving you \n"
-"destroyed it!"
+"destroyed it! You have " COLOR(RED) TOKENS COLOR(DEFAULT)" in\n"
+"total!"
 ,
 "Du hast eine " COLOR(RED) "Goldene Skulltula\n"
 COLOR(DEFAULT) "zerstört. Du erhältst dafür ein\n"
-"Skulltula-Symbol!"
+"Skulltula-Symbol! Vous avez " COLOR(RED) TOKENS COLOR(DEFAULT)" au\n"
+"total!"
 ,
 "Vous venez de détruire une\n"
 COLOR(RED) "Skulltula d'or" COLOR(DEFAULT) "! Ce symbole prouve\n"
-"votre haut fait!"
+"votre haut fait! Sie haben " COLOR(RED) TOKENS COLOR(DEFAULT)" in\n"
+"gesamt!"
 )
 
 DEFINE_MESSAGE(0x00B5, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_MIDDLE,
