@@ -5,6 +5,8 @@ import sys
 import re
 import os
 
+define_re = re.compile(r"\.define ([A-Z_0-9]+)\s+(\d+)")
+
 def join(*args):
     ret = {}
     for arg in args:
@@ -17,19 +19,21 @@ def get_symbols(header_file):
     effect_syms = {}
 
     current_mode = ""
-    for line in header_file.readlines():
+    for line in open(header_file, "r"):
         if current_mode == "" and " INSTRUMENTS " in line:
             current_mode = "instrument"
             continue
-        elif current_mode == "instrument" and " DRUMS " in line:
+
+        if current_mode == "instrument" and " DRUMS " in line:
             current_mode = "drum"
             continue
-        elif current_mode == "drum" and " EFFECTS " in line:
+
+        if current_mode == "drum" and " EFFECTS " in line:
             current_mode = "effect"
             continue
 
-        if ".define" in line and current_mode != "":
-            sym, index = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
+        if ".define" in line and current_mode:
+            sym, index = define_re.match(line).groups()
             if current_mode == "instrument":
                 inst_syms[int(index)] = sym
             elif current_mode == "drum":
@@ -37,21 +41,21 @@ def get_symbols(header_file):
             elif current_mode == "effect":
                 effect_syms[int(index)] = sym
 
-    return (inst_syms, drum_syms, effect_syms)
+    return inst_syms, drum_syms, effect_syms
 
 def get_sequence_symbols(seq_inc):
     pitches = {}
     fonts = {}
 
-    for line in seq_inc.readlines():
+    for line in open(seq_inc, "r"):
         if "PITCH" in line:
-            sym, id = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
-            pitches[int(id)] = sym
+            sym, value = define_re.match(line).groups()
+            pitches[int(value)] = sym
         if "SOUNDFONT" in line:
-            sym, id = re.match(r"\.define ([A-Z_0-9]+)\s+(\d+)", line).groups()
-            fonts[int(id)] = sym
+            sym, value = define_re.match(line).groups()
+            fonts[int(value)] = sym
 
-    return (pitches, fonts)
+    return pitches, fonts
 
 control_flow_commands = {
     0xFF: ['end'],
@@ -227,76 +231,85 @@ commands['layer_small'] = join(commands_layer_base, {
 
 branches = ['jump', 'beqz', 'bltz', 'bgez', 'rjump', 'rbeqz', 'rbltz']
 
+class seqfile:
+    pass
+
 def valid_cmd_for_nbits(cmd_list, nbits):
     for arg in cmd_list:
         if arg.startswith('bits:'):
             return int(arg.split(':')[1]) == nbits
     return nbits == 0
 
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("filename", metavar="input.aseq", type=argparse.FileType("rb"), help="Input binary sequence to convert to a text sequence.")
-parser.add_argument("header", metavar="soundfont.inc", type=argparse.FileType("r"), help="Soundfont include file defining instruments and drums symbols.")
-parser.add_argument("sequence", metavar="sequence.inc", type=argparse.FileType("r"), help="sequence.inc file containing global defines")
-parser.add_argument("--print-end-padding", action="store_true", help="Adds padding bytes to the end of the sequence.")
-parser.add_argument("--cache-policy", nargs=1, required=False, default=["2"], help="Specifies the cache policy for this sequence.")
-args = parser.parse_args()
+def main():
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("filename", metavar="input.aseq", type=str, help="Input binary sequence to convert to a text sequence.")
+    parser.add_argument("header", metavar="soundfont.inc", type=str, help="Soundfont include file defining instruments and drums symbols.")
+    parser.add_argument("sequence", metavar="sequence.inc", type=str, help="sequence.inc file containing global defines")
+    parser.add_argument("--print-end-padding", action="store_true", help="Adds padding bytes to the end of the sequence.")
+    parser.add_argument("--cache-policy", nargs=1, required=False, default=["2"], help="Specifies the cache policy for this sequence.")
+    args = parser.parse_args()
 
-print_end_padding = args.print_end_padding
-filename = args.filename
-header = args.header
-sequence = args.sequence
-cachePolicy = args.cache_policy[0]
+    sq = seqfile()
 
-try:
-    # should maybe renumber in hex?
-    seq_num = int(filename.name.split('/')[-1].split(' ')[0], 10)
-except Exception:
-    seq_num = -1
+    sq.print_end_padding = args.print_end_padding
+    sq.filename = args.filename
+    sq.header = args.header
+    sq.sequence = args.sequence
+    sq.cachePolicy = args.cache_policy[0]
 
-try:
-    data = filename.read()
-except Exception:
-    print(f"Error: could not open file {filename.name} for reading.", file=sys.stderr)
-    sys.exit(1)
+    try:
+        # should maybe renumber in hex?
+        sq.seq_num = int(args.filename.name.split('/')[-1].split(' ')[0], 10)
+    except Exception:
+        sq.seq_num = -1
 
-try:
-    inst_syms, drum_syms, effect_syms = get_symbols(header)
-except Exception as e:
-    print(f"Error: could not read symbols from {header.name}.", file=sys.stderr)
-    sys.exit(1)
+    try:
+        sq.data = open(args.filename, "rb").read()
+    except Exception:
+        print(f"Error: could not open file {args.filename} for reading.", file=sys.stderr)
+        sys.exit(1)
 
-try:
-    pitches, soundfonts = get_sequence_symbols(sequence)
-except Exception as e:
-    print(f"Error: could not read symbols from {sequence.name}.", file=sys.stderr)
-    sys.exit(1)
+    try:
+        sq.inst_syms, sq.drum_syms, sq.effect_syms = get_symbols(args.header)
+    except Exception as e:
+        print(f"Error: could not read symbols from {header.name}.", file=sys.stderr)
+        sys.exit(1)
 
-output = [None] * len(data)
-alignment = [None] * len(data)
-output_instate = [None] * len(data)
-label_name = [None] * len(data)
-label_kind = [None] * len(data)
-script_start = [False] * len(data)
-hit_eof = False
-errors = []
-seq_writes = []
+    try:
+        sq.pitches, sq.soundfonts = get_sequence_symbols(args.sequence)
+    except Exception as e:
+        print(f"Error: could not read symbols from {sequence.name}.", file=sys.stderr)
+        sys.exit(1)
 
-# Our analysis of large notes mode doesn't persist through multiple channel activations
-# For simplicity, we force large notes always instead, which is valid for oot.
-force_large_notes = True
+    sq.output = [None] * len(sq.data)
+    sq.alignment = [None] * len(sq.data)
+    sq.output_instate = [None] * len(sq.data)
+    sq.label_name = [None] * len(sq.data)
+    sq.label_kind = [None] * len(sq.data)
+    sq.script_start = [False] * len(sq.data)
+    sq.hit_eof = False
+    sq.errors = []
+    sq.seq_writes = []
+    sq.decode_list = []
 
-def gen_label(ind, tp):
+    # Our analysis of large notes mode doesn't persist through multiple channel activations
+    # For simplicity, we force large notes always instead, which is valid for oot.
+    sq.force_large_notes = True
+
+    realmain(sq)
+
+def gen_label(sq, ind, tp):
     nice_tp = tp.replace('_small', '').replace('_large', '').replace('lazy', '')
     addr = hex(ind)[2:].upper()
     ret = f"{nice_tp}_{addr}"
-    if ind >= len(data):
-        errors.append(f"reference to oob label {ret}")
+    if ind >= len(sq.data):
+        sq.errors.append(f"reference to oob label {ret}")
         return ret
 
-    if label_name[ind] is not None:
-        return label_name[ind]
-    label_name[ind] = ret
-    label_kind[ind] = {
+    if sq.label_name[ind] is not None:
+        return sq.label_name[ind]
+    sq.label_name[ind] = ret
+    sq.label_kind[ind] = {
         "seq": "sequence",
         "chan": "channel",
         "chan_fn": "channel",
@@ -310,33 +323,29 @@ def gen_mnemonic(tp, b):
         mn = f"{b:02X}"
     return f"{mn}"
 
-decode_list = []
-
-def decode_one(state):
+def decode_one(sq, state):
     pos, tp, nesting, large, current_channel = state
     orig_pos = pos
 
-    if pos >= len(data):
-        global hit_eof
-        hit_eof = True
+    if pos >= len(sq.data):
+        sq.hit_eof = True
         return
 
-    if seq_num == 0 and pos in (0x6197, 0x6197, 0x6197):
+    if sq.seq_num == 0 and pos in (0x6197, 0x6197, 0x6197):
         # unfinished code
         return
 
-    if output[pos] is not None:
-        if output_instate[pos][:-1] != state[:-1]:
-            errors.append(f"got to {gen_label(orig_pos, tp)} with both state {state} and {output_instate[pos]}")
+    if sq.output[pos] is not None:
+        if sq.output_instate[pos][:-1] != state[:-1]:
+            sq.errors.append(f"got to {gen_label(sq, orig_pos, tp)} with both state {state} and {sq.output_instate[pos]}")
         return
 
     def u8():
         nonlocal pos
-        global hit_eof
-        if pos == len(data):
-            hit_eof = True
+        if pos == len(sq.data):
+            sq.hit_eof = True
             return 0
-        ret = data[pos]
+        ret = sq.data[pos]
         pos += 1
         return ret
 
@@ -373,42 +382,42 @@ def decode_one(state):
             subtp = 'layer_large'
         addr = u16()
         if subtp != 'lazyseq' and subtp != 'writeseq':
-            decode_list.append((addr, subtp, 0, True, current_channel))
+            sq.decode_list.append((addr, subtp, 0, True, current_channel))
         for p in range(orig_pos, pos):
-            output[p] = ''
-            output_instate[p] = state
+            sq.output[p] = ''
+            sq.output_instate[p] = state
         if subtp == 'writeseq':
-            output[orig_pos] = 'entry <fixup>'
-            seq_writes.append((orig_pos, addr))
+            sq.output[orig_pos] = 'entry <fixup>'
+            sq.seq_writes.append((orig_pos, addr))
         else:
-            output[orig_pos] = 'entry ' + gen_label(addr, subtp)
-            if addr < len(data):
-                script_start[addr] = True
+            sq.output[orig_pos] = 'entry ' + gen_label(sq, addr, subtp)
+            if addr < len(sq.data):
+                sq.script_start[addr] = True
         return
 
     if tp == 'envelope':
         a = u16()
         b = u16()
         for p in range(orig_pos, pos):
-            output[p] = ''
-            output_instate[p] = state
+            sq.output[p] = ''
+            sq.output_instate[p] = state
         if a >= 2**16 - 3:
             a -= 2**16
         if a <= 0:
             mn = ['disable', 'hang', 'goto', 'restart'][-a]
-            output[orig_pos] = mn + (f' {b}' if mn == 'goto' else '')
+            sq.output[orig_pos] = mn + (f' {b}' if mn == 'goto' else '')
             # assume any goto is backwards and stop decoding
         else:
-            output[orig_pos] = f'point {a}, {b}'
-            decode_list.append((pos, tp, nesting, large, current_channel))
+            sq.output[orig_pos] = f'point {a}, {b}'
+            sq.decode_list.append((pos, tp, nesting, large, current_channel))
         return
 
     if tp == 'filter':
         filt_str = ", ".join(str(s16()) for _ in range(8))
         for p in range(orig_pos, pos):
-            output[p] = ''
-            output_instate[p] = state
-        output[orig_pos] = f'filter {filt_str}'
+            sq.output[p] = ''
+            sq.output_instate[p] = state
+        sq.output[orig_pos] = f'filter {filt_str}'
         return
 
     ins_byte = u8()
@@ -422,7 +431,7 @@ def decode_one(state):
         used_b &= ~(1 << nbits)
         nbits += 1
         if nbits == 8:
-            errors.append(f"unrecognized instruction {hex(ins_byte)} for type {tp} at label {gen_label(orig_pos, tp)}")
+            sq.errors.append(f"unrecognized instruction {hex(ins_byte)} for type {tp} at label {gen_label(sq, orig_pos, tp)}")
             return
 
     out_mn = gen_mnemonic(tp, used_b)
@@ -434,7 +443,7 @@ def decode_one(state):
     for a in cmd_args:
         if cmd_mn == 'portamento' and len(out_args) == 2 and (int(out_args[0], 0) & 0x80) == 0:
             a = 'var'
-        if cmd_mn == 'ldptr' and seq_num == 0 and peek16() not in (0, 0x7FBC):
+        if cmd_mn == 'ldptr' and sq.seq_num == 0 and peek16() not in (0, 0x7FBC):
             a = 'addr'
             out_mn = "ldptr"
 
@@ -443,7 +452,7 @@ def decode_one(state):
             if not (a.endswith(':ign') and low_bits == 0):
                 arg = str(low_bits)
                 if cmd_mn in ['notedvg', 'notedv', 'notevg', 'shortdvg', 'shortdv', 'shortvg']:
-                    arg = pitches[low_bits]
+                    arg = sq.pitches[low_bits]
                 out_args.append(arg)
         elif a == 'u8' and cmd_mn == 'instr':
             instr_num = u8()
@@ -452,7 +461,7 @@ def decode_one(state):
             elif instr_num == 126:
                 instr = "FONTANY_INSTR_SFX"
             else:
-                instr = inst_syms[instr_num]
+                instr = sq.inst_syms[instr_num]
             out_args.append(instr)
         elif a == 'u8':
             out_args.append(str(u8()))
@@ -496,37 +505,37 @@ def decode_one(state):
             elif cmd_mn == 'ldfilter':
                 kind = 'filter'
 
-            if v >= len(data):
-                label = gen_label(v, kind)
+            if v >= len(sq.data):
+                label = gen_label(sq, v, kind)
                 out_args.append(label)
-                errors.append(f"reference to oob label {label}")
+                sq.errors.append(f"reference to oob label {label}")
             elif cmd_mn in ('stseq', 'stptrtoseq'):
                 out_args.append('<fixup>')
-                seq_writes.append((orig_pos, v))
+                sq.seq_writes.append((orig_pos, v))
             else:
-                out_args.append(gen_label(v, kind))
+                out_args.append(gen_label(sq, v, kind))
                 if cmd_mn == 'call':
-                    decode_list.append((v, tp, 0, large, current_channel))
-                    script_start[v] = True
+                    sq.decode_list.append((v, tp, 0, large, current_channel))
+                    sq.script_start[v] = True
                 elif cmd_mn in branches:
-                    decode_list.append((v, tp, nesting, large, current_channel))
+                    sq.decode_list.append((v, tp, nesting, large, current_channel))
                 elif kind == 'chan':
-                    decode_list.append((v, 'chan', 0, force_large_notes, out_args[0]))
-                    script_start[v] = True
+                    sq.decode_list.append((v, 'chan', 0, sq.force_large_notes, out_args[0]))
+                    sq.script_start[v] = True
                 elif kind == 'layer':
                     if large:
-                        decode_list.append((v, 'layer_large', 0, True, current_channel))
+                        sq.decode_list.append((v, 'layer_large', 0, True, current_channel))
                     else:
-                        decode_list.append((v, 'layer_small', 0, True, current_channel))
-                    script_start[v] = True
+                        sq.decode_list.append((v, 'layer_small', 0, True, current_channel))
+                    sq.script_start[v] = True
                 elif kind == 'envelope':
-                    decode_list.append((v, 'envelope', 0, True, current_channel))
-                    script_start[v] = True
+                    sq.decode_list.append((v, 'envelope', 0, True, current_channel))
+                    sq.script_start[v] = True
                 elif kind == 'filter':
-                    decode_list.append((v, 'filter', 0, True, current_channel))
-                    script_start[v] = True
+                    sq.decode_list.append((v, 'filter', 0, True, current_channel))
+                    sq.script_start[v] = True
                 else:
-                    script_start[v] = True
+                    sq.script_start[v] = True
         else:
             raise Exception(f"bad arg kind {a}")
 
@@ -537,9 +546,9 @@ def decode_one(state):
         out_all += ' '
         out_all += ', '.join(out_args)
     for p in range(orig_pos, pos):
-        output[p] = ''
-        output_instate[p] = state
-    output[orig_pos] = out_all
+        sq.output[p] = ''
+        sq.output_instate[p] = state
+    sq.output[orig_pos] = out_all
 
     if cmd_mn in ['hang', 'jump', 'rjump']:
         return
@@ -558,24 +567,24 @@ def decode_one(state):
     if cmd_mn == 'short':
         large = False
     if nesting >= 0:
-        decode_list.append((pos, tp, nesting, large, current_channel))
+        sq.decode_list.append((pos, tp, nesting, large, current_channel))
 
-def decode_rec(state, initial):
+def decode_rec(sq, state, initial):
     if not initial:
         v = state[0]
-        gen_label(v, state[1])
-        script_start[v] = True
-    decode_list.append(state)
-    while decode_list:
-        decode_one(decode_list.pop())
+        gen_label(sq, v, state[1])
+        sq.script_start[v] = True
+    sq.decode_list.append(state)
+    while sq.decode_list:
+        decode_one(sq, sq.decode_list.pop())
 
-def main():
-    decode_rec((0, 'seq', 0, False, None), initial=True)
+def realmain(sq):
+    decode_rec(sq, (0, 'seq', 0, False, None), initial=True)
 
     tables = []
     unused = []
 
-    if seq_num == 0:
+    if sq.seq_num == 0:
         tables = [
             ('chan', 0xE1, 0xE1),
             ('chan', 0x1E1, 0x1E1),
@@ -620,7 +629,7 @@ def main():
             (0x6A6C, 'envelope'),
         ]
 
-    elif seq_num == 1:
+    elif sq.seq_num == 1:
         tables = [
             ('layer', 0x192, 20),
             ('layer', 0x1BA, 20),
@@ -631,13 +640,13 @@ def main():
             ('writeseq', 0x282, 20),
         ]
 
-    elif seq_num == 2:
+    elif sq.seq_num == 2:
         tables = [
             ('lazyseq', 0xC0, 2),
             ('seq', 0xBC, 2),
         ]
 
-    elif seq_num == 109:
+    elif sq.seq_num == 109:
         tables = [
             ('chan', 0x646, 16),
         ]
@@ -673,43 +682,43 @@ def main():
             (0x8BA, 'envelope'),
         ]
 
-    for (tp, addr, count) in tables:
+    for tp, addr, count in tables:
         for i in range(count):
-            decode_rec((addr + 2*i, tp + 'entry', 0, False), initial=True)
+            decode_rec(sq, (addr + 2*i, tp + 'entry', 0, False), initial=True)
 
-    for (addr, tp) in unused:
-        gen_label(addr, tp + '_unused')
-        decode_rec((addr, tp, 0, force_large_notes), initial=False)
+    for addr, tp in unused:
+        gen_label(sq, addr, tp + '_unused')
+        decode_rec(sq, (addr, tp, 0, sq.force_large_notes), initial=False)
 
-    for (pos, write_to) in seq_writes:
-        assert '<fixup>' in output[pos]
+    for pos, write_to in sq.seq_writes:
+        assert '<fixup>' in sq.output[pos]
         delta = 0
-        while output[write_to] == '':
+        while sq.output[write_to] == '':
             write_to -= 1
             delta += 1
-#        if write_to > pos and all(output[i] == '' for i in range(pos+1, write_to)):
+#        if write_to > pos and all(sq.output[i] == '' for i in range(pos+1, write_to)):
 #            nice_target = str(delta)
-#            output[pos] = output[pos].replace('writeseq', 'writeseq_nextinstr')
+#            sq.output[pos] = sq.output[pos].replace('writeseq', 'writeseq_nextinstr')
 #        else:
-        tp = output_instate[write_to][1] if output_instate[write_to] is not None else 'addr'
-        nice_target = gen_label(write_to, tp)
+        tp = sq.output_instate[write_to][1] if sq.output_instate[write_to] is not None else 'addr'
+        nice_target = gen_label(sq, write_to, tp)
         if delta:
             nice_target += "+" + str(delta)
-        output[pos] = output[pos].replace('<fixup>', nice_target)
+        sq.output[pos] = sq.output[pos].replace('<fixup>', nice_target)
 
     # Add unreachable 'end' markers
-    for i in range(1, len(data)):
-        if (data[i] == 0xFF and output[i] is None and output[i - 1] is not None
-                and label_name[i] is None):
-            tp = output_instate[i - 1][1]
+    for i in range(1, len(sq.data)):
+        if sq.data[i] == 0xFF and sq.output[i] is None and \
+                sq.output[i - 1] is not None and sq.label_name[i] is None:
+            tp = sq.output_instate[i - 1][1]
             if tp in ["seq", "chan", "layer_small", "layer_large"]:
-                output[i] = gen_mnemonic(tp, 0xFF)
+                sq.output[i] = gen_mnemonic(tp, 0xFF)
 
     # Add aligners and strip padding
-    for i in range(len(data)):
-        if not output[i]:
+    for i in range(len(sq.data)):
+        if not sq.output[i]:
             continue
-        tp = output_instate[i][1] if output_instate[i] else ''
+        tp = sq.output_instate[i][1] if sq.output_instate[i] else ''
         if tp == 'filter':
             align = 16
         elif tp == 'envelope':
@@ -717,76 +726,77 @@ def main():
         else:
             continue
         if i % align != 0:
-            errors.append(f"{label_name[i]} ({hex(i)}) is unaligned")
+            sq.errors.append(f"{sq.label_name[i]} ({hex(i)}) is unaligned")
             continue
-        alignment[i] = align
+        sq.alignment[i] = align
         for j in range(1, align):
             k = i - j
-            if k < 0 or output[k] is not None or data[k] != 0 or label_name[k]:
+            if k < 0 or sq.output[k] is not None or sq.data[k] != 0 or sq.label_name[k]:
                 break
-            output[k] = ""
+            sq.output[k] = ""
 
     # Add 'unused' marker labels
-    for i in range(1, len(data)):
-        if (output[i] is None and output[i - 1] is not None and label_name[i] is None):
-            script_start[i] = True
-            gen_label(i, 'unused')
+    for i in range(1, len(sq.data)):
+        if sq.output[i] is None and sq.output[i - 1] is not None and sq.label_name[i] is None:
+            sq.script_start[i] = True
+            gen_label(sq, i, 'unused')
 
     # Remove up to 15 bytes of padding at the end
     end_padding = 0
-    for i in range(len(data) - 1, -1, -1):
-        if output[i] is not None:
+    for i in range(len(sq.data) - 1, -1, -1):
+        if sq.output[i] is not None:
             break
         end_padding += 1
     if end_padding > 15:
         end_padding = 0
 
-    if print_end_padding:
+    if sq.print_end_padding:
         print(end_padding)
         sys.exit(0)
 
-    header_str = os.path.splitext(os.path.basename(header.name))[0]
-    header_id = soundfonts[int(header_str)] if header_str.isdigit() else header_str
+    header_str = os.path.splitext(os.path.basename(sq.header))[0]
+    header_id = sq.soundfonts[int(header_str)] if header_str.isdigit() else header_str
 
-    if cachePolicy != 2:
+    if sq.cachePolicy != 2:
         policyname = {
             "0": "CACHE_PERMANENT",
             "1": "CACHE_PERSISTENT",
             "2": "CACHE_TEMPORARY",
             "3": "CACHE_ANY",
             "4": "CACHE_ANYNOSYNC"
-        }.get(cachePolicy)
+        }.get(sq.cachePolicy)
         print(f".cache {policyname}")
     print(f".usefont {header_id}")
     print()
     print(".sequence sequence_start")
     last_tp = ""
-    for i in range(len(data) - end_padding):
-        if script_start[i] and i > 0:
+    for i in range(len(sq.data) - end_padding):
+        if sq.script_start[i] and i > 0:
             print()
-        tp = output_instate[i][1] if output_instate[i] else ''
-        if tp != last_tp and alignment[i] is not None:
-            print(f".balign {alignment[i]}\n")
+        tp = sq.output_instate[i][1] if sq.output_instate[i] else ''
+        if tp != last_tp and sq.alignment[i] is not None:
+            print(f".balign {sq.alignment[i]}\n")
         last_tp = tp
-        if label_name[i] is not None:
-            print(f".{label_kind[i]} {label_name[i]}")
-        o = output[i]
+        if sq.label_name[i] is not None:
+            print(f".{sq.label_kind[i]} {sq.label_name[i]}")
+        o = sq.output[i]
         if o is None:
-            print(f"byte {hex(data[i]).upper()}")
+            print(f"byte {hex(sq.data[i]).upper()}")
         elif o:
             print(o)
-        elif label_name[i] is not None:
+        elif sq.label_name[i] is not None:
             print("<mid-instruction>")
-            errors.append(f"mid-instruction label {label_name[i]}")
+            sq.errors.append(f"mid-instruction label {sq.label_name[i]}")
 
-    if not data:
+    if not sq.data:
         print("# empty")
-    elif hit_eof:
-        errors.append("hit eof!?")
+    elif sq.hit_eof:
+        sq.errors.append("hit eof!?")
 
-    if errors:
-        print(f"[{filename}] errors:", file=sys.stderr)
-        for w in errors:
+    if sq.errors:
+        print(f"[{sq.filename}] errors:", file=sys.stderr)
+        for w in sq.errors:
             print(w, file=sys.stderr)
 
-main()
+if __name__ == "__main__":
+    main()
