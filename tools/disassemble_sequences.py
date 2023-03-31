@@ -3,12 +3,11 @@
 import argparse
 import json
 import os
+import pathlib
 import subprocess
 import struct
 import sys
-import tempfile
 
-from pathlib import Path
 from xml.dom import minidom
 import xml.etree.ElementTree as XmlTree
 
@@ -49,7 +48,9 @@ def convert_aseq_to_seq(aseq_name, seq_name, font_path, seqinc, cacheid):
     rel_seqdecode = "./" + os.path.relpath(seqdecode, common_dir).replace("\\", "/")
     output_file = open(seq_name, "w", encoding="utf8")
     try:
-        subprocess.run(["python3", rel_seqdecode, aseq_name, font_path, seqinc, "--cache-policy", str(cacheid)], check=True, stdout=output_file)
+        subprocess.run([
+            "python3", rel_seqdecode, aseq_name, font_path, seqinc, "--cache-policy", str(cacheid)
+        ], check=True, stdout=output_file)
     except subprocess.CalledProcessError:
         exit(f"failed to convert {aseq_name} to seq format (header was {os.path.basename(font_path)})")
     finally:
@@ -69,8 +70,6 @@ def main(args):
     code_data = args.code.read()
     seq_data = args.audioseq.read()
     seq_def = args.seqdef
-    soundfont_inc_path = args.fontinc
-    midi_out_dir = args.output
 
     def check_offset(offset, type):
         if offset is None:
@@ -95,6 +94,8 @@ def main(args):
     # Export sequences
     sequences = parse_seq_def_data(seqdef_data, seq_data)
 
+    os.makedirs(args.output, exist_ok=True)
+
     for idx in range(len(sequences)):
         name = sequence_names[idx]
         sequence = sequences[idx]
@@ -103,19 +104,25 @@ def main(args):
             continue
 
         font_id = get_soundfont_ids_for_seq(idx, seqmap_data)
-        dir = os.path.join(midi_out_dir)
-        os.makedirs(dir, exist_ok=True)
-        aseq_dir = tempfile.mkdtemp(prefix=f"{version}_", suffix="_aseq")
         seq_name = name.get("Name") if name.get("Name") else f"{sequence.offset:08x}"
-        with open(os.path.join(aseq_dir, f"{seq_name}.aseq"), "wb") as aseq:
+
+        aseq_fname = os.path.join(args.output, f"{seq_name}.aseq")
+        seq_fname = os.path.join(args.output, f"{seq_name}.seq")
+        inc_fname = os.path.join(args.fontinc, f"{font_id}.inc")
+
+        with open(aseq_fname, "wb") as aseq:
             aseq.write(sequence.sequence)
-            aseq.flush()
-            mus_file = os.path.join(dir, f"{seq_name}.seq")
-            if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
-                convert_aseq_to_mus(aseq.name, mus_file, os.path.join(soundfont_inc_path, f"{font_id}.inc"), args.seqinc, sequence.cache)
+
+        if not os.path.exists(seq_fname) or not os.path.getsize(seq_fname):
+            convert_aseq_to_seq(
+                aseq.name, seq_fname, inc_fname, args.seqinc, sequence.cache
+            )
+
+        # TODO Keep the .aseq files?
+        os.unlink(aseq_fname)
 
     if refseqs:
-        with open(os.path.join(midi_out_dir, "References.xml"), "w") as refxml:
+        with open(os.path.join(args.output, "References.xml"), "w") as refxml:
             root = XmlTree.Element("References")
 
             for k, v in refseqs.items():
@@ -140,9 +147,9 @@ if __name__ == "__main__":
     parser.add_argument("code", metavar="<code file>", type=argparse.FileType("rb"), help="Path to the 'code' file, usually in baserom.")
     parser.add_argument("audioseq", metavar="<Audioseq file>", type=argparse.FileType("rb"), help="Path to the 'Audioseq' file, usually in baserom.")
     parser.add_argument("seqdef", metavar="<sequence defs XML>", type=argparse.FileType("r"), help="The asset XML where the sequence definitions are stored.")
-    parser.add_argument("fontinc", metavar="<soundfont include path>", type=Path, help="The path to the soundfont inc files.")
-    parser.add_argument("seqinc", metavar="<sequence.inc file>", type=Path, help="The path to the sequence.inc file.")
-    parser.add_argument("output", metavar="<sequences output dir>", type=Path, help="The output path for sequences.")
+    parser.add_argument("fontinc", metavar="<soundfont include path>", type=pathlib.Path, help="The path to the soundfont inc files.")
+    parser.add_argument("seqinc", metavar="<sequence.inc file>", type=pathlib.Path, help="The path to the sequence.inc file.")
+    parser.add_argument("output", metavar="<sequences output dir>", type=pathlib.Path, help="The output path for sequences.")
     parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
     args = parser.parse_args()
 
