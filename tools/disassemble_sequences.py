@@ -43,15 +43,15 @@ def parse_seq_def_data(seqdef_data, seq_data):
             entry.sequence = seq_data[entry.offset:entry.offset + entry.length]
     return entries
 
-def convert_aseq_to_mus(aseq_name, mus_name, font_path, seqinc, cacheid):
+def convert_aseq_to_seq(aseq_name, seq_name, font_path, seqinc, cacheid):
     seqdecode = os.path.join(os.path.dirname(__file__), "disassemble_sequence.py")
     common_dir = os.getcwd()
     rel_seqdecode = "./" + os.path.relpath(seqdecode, common_dir).replace("\\", "/")
-    output_file = open(mus_name, "w", encoding="utf8")
+    output_file = open(seq_name, "w", encoding="utf8")
     try:
         subprocess.run(["python3", rel_seqdecode, aseq_name, font_path, seqinc, "--cache-policy", str(cacheid)], check=True, stdout=output_file)
     except subprocess.CalledProcessError:
-        exit(f"failed to convert {aseq_name} to mus format (header was {os.path.basename(font_path)})")
+        exit(f"failed to convert {aseq_name} to seq format (header was {os.path.basename(font_path)})")
     finally:
         output_file.close()
 

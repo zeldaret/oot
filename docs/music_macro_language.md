@@ -74,9 +74,9 @@ Symbols and labels exist in a global scope across all included files.  This mean
 
 **Example:**
 
-The following example consists of three different files: `example.mus`, the main sequence; `constants.inc`, a file containing constants used across the sequence files; and `alternate.mus.inc`, containing an alternate section that plays when the game prompts it to do so.
+The following example consists of three different files: `example.seq`, the main sequence; `constants.inc`, a file containing constants used across the sequence files; and `alternate.seq.inc`, containing an alternate section that plays when the game prompts it to do so.
 
-**example.mus**
+**example.seq**
 ```
 .desc title Example Sequence
 .desc author zeldaret
@@ -109,7 +109,7 @@ end
 ... various instructions here ...
 end
 
-.include "alternate.mus.inc" # This is the same as though alternate.mus.inc was written directly here.
+.include "alternate.seq.inc" # This is the same as though alternate.seq.inc was written directly here.
 ```
 
 **constants.inc**
@@ -122,7 +122,7 @@ end
 .define FALSE 0
 ```
 
-**alternate.mus.inc**
+**alternate.seq.inc**
 ```
 .desc title Alternate Melody
 

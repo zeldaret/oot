@@ -1198,7 +1198,7 @@ int main(int argc, char** argv) {
 	}
 
 	if (printHelp || positionalArgs.size() != 2) {
-		cerr << "Usage: " << argv[0] << " [--print-fonts] [--font-path <path>] infile.mus outfile.bin" << endl;
+		cerr << "Usage: " << argv[0] << " [--print-fonts] [--font-path <path>] infile.seq outfile.bin" << endl;
 		return 1;
 	}
 
