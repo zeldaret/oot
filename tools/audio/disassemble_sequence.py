@@ -240,46 +240,38 @@ def valid_cmd_for_nbits(cmd_list, nbits):
             return int(arg.split(':')[1]) == nbits
     return nbits == 0
 
-def main():
-    parser = argparse.ArgumentParser(add_help=False)
-    parser.add_argument("filename", metavar="input.aseq", type=str, help="Input binary sequence to convert to a text sequence.")
-    parser.add_argument("header", metavar="soundfont.inc", type=str, help="Soundfont include file defining instruments and drums symbols.")
-    parser.add_argument("sequence", metavar="sequence.inc", type=str, help="sequence.inc file containing global defines")
-    parser.add_argument("--print-end-padding", action="store_true", help="Adds padding bytes to the end of the sequence.")
-    parser.add_argument("--cache-policy", nargs=1, required=False, default=["2"], help="Specifies the cache policy for this sequence.")
-    args = parser.parse_args()
-
+def main(filename, header, sequence, print_end_padding, cache_policy, seqnum=None):
     sq = seqfile()
 
-    sq.print_end_padding = args.print_end_padding
-    sq.filename = args.filename
-    sq.header = args.header
-    sq.sequence = args.sequence
-    sq.cachePolicy = args.cache_policy[0]
+    sq.print_end_padding = print_end_padding
+    sq.filename = filename
+    sq.header = header
+    sq.sequence = sequence
+    sq.cachePolicy = cache_policy[0]
+
+    if seqnum is None:
+        try:
+            # should maybe renumber in hex?
+            sq.seq_num = int(filename.name.split('/')[-1].split(' ')[0], 10)
+        except Exception:
+            sq.seq_num = -1
+    else:
+        sq.seq_num = seqnum
 
     try:
-        # should maybe renumber in hex?
-        sq.seq_num = int(args.filename.name.split('/')[-1].split(' ')[0], 10)
+        sq.data = open(filename, "rb").read()
     except Exception:
-        sq.seq_num = -1
+        return None, [f"Error: could not open file {filename} for reading."]
 
     try:
-        sq.data = open(args.filename, "rb").read()
-    except Exception:
-        print(f"Error: could not open file {args.filename} for reading.", file=sys.stderr)
-        sys.exit(1)
-
-    try:
-        sq.inst_syms, sq.drum_syms, sq.effect_syms = get_symbols(args.header)
+        sq.inst_syms, sq.drum_syms, sq.effect_syms = get_symbols(header)
     except Exception as e:
-        print(f"Error: could not read symbols from {header.name}.", file=sys.stderr)
-        sys.exit(1)
+        return None, [f"Error: could not read symbols from {header.name}."]
 
     try:
-        sq.pitches, sq.soundfonts = get_sequence_symbols(args.sequence)
+        sq.pitches, sq.soundfonts = get_sequence_symbols(sequence)
     except Exception as e:
-        print(f"Error: could not read symbols from {sequence.name}.", file=sys.stderr)
-        sys.exit(1)
+        return None, [f"Error: could not read symbols from {sequence.name}."]
 
     sq.output = [None] * len(sq.data)
     sq.alignment = [None] * len(sq.data)
@@ -288,7 +280,6 @@ def main():
     sq.label_kind = [None] * len(sq.data)
     sq.script_start = [False] * len(sq.data)
     sq.hit_eof = False
-    sq.errors = []
     sq.seq_writes = []
     sq.decode_list = []
 
@@ -296,7 +287,12 @@ def main():
     # For simplicity, we force large notes always instead, which is valid for oot.
     sq.force_large_notes = True
 
+    sq.lines = []
+    sq.errors = []
+
     realmain(sq)
+
+    return sq.lines, sq.errors
 
 def gen_label(sq, ind, tp):
     nice_tp = tp.replace('_small', '').replace('_large', '').replace('lazy', '')
@@ -751,8 +747,8 @@ def realmain(sq):
         end_padding = 0
 
     if sq.print_end_padding:
-        print(end_padding)
-        sys.exit(0)
+        sq.lines.append(end_padding)
+        return
 
     header_str = os.path.splitext(os.path.basename(sq.header))[0]
     header_id = sq.soundfonts[int(header_str)] if header_str.isdigit() else header_str
@@ -765,38 +761,40 @@ def realmain(sq):
             "3": "CACHE_ANY",
             "4": "CACHE_ANYNOSYNC"
         }.get(sq.cachePolicy)
-        print(f".cache {policyname}")
-    print(f".usefont {header_id}")
-    print()
-    print(".sequence sequence_start")
+        sq.lines.append(f".cache {policyname}")
+    sq.lines.append(f".usefont {header_id}")
+    sq.lines.append("")
+    sq.lines.append(".sequence sequence_start")
     last_tp = ""
     for i in range(len(sq.data) - end_padding):
         if sq.script_start[i] and i > 0:
-            print()
+            sq.lines.append("")
         tp = sq.output_instate[i][1] if sq.output_instate[i] else ''
         if tp != last_tp and sq.alignment[i] is not None:
-            print(f".balign {sq.alignment[i]}\n")
+            sq.lines.append(f".balign {sq.alignment[i]}\n")
         last_tp = tp
         if sq.label_name[i] is not None:
-            print(f".{sq.label_kind[i]} {sq.label_name[i]}")
+            sq.lines.append(f".{sq.label_kind[i]} {sq.label_name[i]}")
         o = sq.output[i]
         if o is None:
-            print(f"byte {hex(sq.data[i]).upper()}")
+            sq.lines.append(f"byte {hex(sq.data[i]).upper()}")
         elif o:
-            print(o)
+            sq.lines.append(o)
         elif sq.label_name[i] is not None:
-            print("<mid-instruction>")
+            sq.lines.append("<mid-instruction>")
             sq.errors.append(f"mid-instruction label {sq.label_name[i]}")
 
     if not sq.data:
-        print("# empty")
+        sq.lines.append("# empty")
     elif sq.hit_eof:
         sq.errors.append("hit eof!?")
 
-    if sq.errors:
-        print(f"[{sq.filename}] errors:", file=sys.stderr)
-        for w in sq.errors:
-            print(w, file=sys.stderr)
-
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("filename", metavar="input.aseq", type=str, help="Input binary sequence to convert to a text sequence.")
+    parser.add_argument("header", metavar="soundfont.inc", type=str, help="Soundfont include file defining instruments and drums symbols.")
+    parser.add_argument("sequence", metavar="sequence.inc", type=str, help="sequence.inc file containing global defines")
+    parser.add_argument("--print-end-padding", action="store_true", help="Adds padding bytes to the end of the sequence.")
+    parser.add_argument("--cache-policy", nargs=1, required=False, default=["2"], help="Specifies the cache policy for this sequence.")
+    args = parser.parse_args()
+    main(args.filename, args.header, args.sequence, args.print_end_padding, args.cache_policy)

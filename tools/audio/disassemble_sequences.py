@@ -12,6 +12,7 @@ from xml.dom import minidom
 import xml.etree.ElementTree as XmlTree
 
 from audio_common import toCachePolicy, toMedium
+from disassemble_sequence import main as disassemble
 
 refseqs = {}
 
@@ -43,18 +44,13 @@ def parse_seq_def_data(seqdef_data, seq_data):
     return entries
 
 def convert_aseq_to_seq(aseq_name, seq_name, font_path, seqinc, cacheid):
-    seqdecode = os.path.join(os.path.dirname(__file__), "disassemble_sequence.py")
-    common_dir = os.getcwd()
-    rel_seqdecode = "./" + os.path.relpath(seqdecode, common_dir).replace("\\", "/")
-    output_file = open(seq_name, "w", encoding="utf8")
-    try:
-        subprocess.run([
-            "python3", rel_seqdecode, aseq_name, font_path, seqinc, "--cache-policy", str(cacheid)
-        ], check=True, stdout=output_file)
-    except subprocess.CalledProcessError:
+    lines, errors = disassemble(aseq_name, font_path, seqinc, False, str(cacheid))
+    if errors:
+        for err in errors:
+            println("err:", err)
         exit(f"failed to convert {aseq_name} to seq format (header was {os.path.basename(font_path)})")
-    finally:
-        output_file.close()
+
+    open(seq_name, "w", encoding="utf8").write("\n".join(lines))
 
 def get_soundfont_ids_for_seq(index, data):
     seq_idx = struct.unpack(">h", data[index * 2: index * 2 + 2])[0]
