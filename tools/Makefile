@@ -21,8 +21,6 @@ all: $(PROGRAMS)
 	$(MAKE) -C ZAPD
 	$(MAKE) -C fado
 	$(MAKE) -C audio
-	$(MAKE) -C sdk-tools/adpcm
-	$(MAKE) -C sdk-tools/tabledesign
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
