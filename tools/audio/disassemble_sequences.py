@@ -4,7 +4,6 @@ import argparse
 import json
 import os
 import pathlib
-import subprocess
 import struct
 import sys
 

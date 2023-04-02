@@ -24,21 +24,21 @@ refBanks = {}
 usedFontData = []
 usedRawData = []
 
-offsets = {
+table_offsets = {
     "MQDebug": {
         "bankdefs": [1281424, 128],
         "fontdefs": [1278576, 624],
         "fontmaps": [1279200, 448],
-        "seqdefs": [1279648, 1776]
+        "seqdefs": [1279648, 1776],
     }
 }
 
-fixups = {
+sf_unused_fixups = {
     "MQDebug": {
-        "0": {
-            "0x2A50": ["Envelope", 16],
-            "0x2A80": ["Envelope", 12],
-            "0x2A90": ["Envelope", 16]
+        0: {
+            0x2A50: ["Envelope", 16],
+            0x2A80: ["Envelope", 12],
+            0x2A90: ["Envelope", 16],
         }
     }
 }
@@ -48,15 +48,12 @@ def parse_raw_def_data(raw_def_data, samplebanks):
     entries = []
 
     for i in range(count):
-        buffer = raw_def_data[16 + (i * 16):32 + (i * 16)]
         entry = SampleTableEntry(samplebanks[i] or str(i))
-        entry.parseFrom(buffer)
+        entry.parseFrom(raw_def_data[16+i*16:][:16])
         entry.index = i
         entries.append(entry)
 
-    for i in range(len(entries)):
-        entry = entries[i]
-
+    for i, entry in enumerate(entries):
         if entry.length == 0:
             refBanks[i] = entry.offset
             if entry.offset not in usedTuning:
@@ -73,9 +70,8 @@ def parse_soundfonts(fontdef_data, font_data, fontdefs):
     fonts = []
     for i in range(count):
         fontdef = fontdefs[i]
-        buffer = fontdef_data[16 + (i * 16):32 + (i * 16)]
         entry = SoundfontEntry()
-        entry.parseFrom(buffer)
+        entry.parseFrom(fontdef_data[16+i*16:][:16])
         font = Soundfont()
         font.parseFrom(entry, font_data, fontdef, usedFontData)
         fonts.append(font)
@@ -242,8 +238,7 @@ def getTuning(tunings):
     acceptedSampleRates = [32000, 16000, 22050, 10000, 22000, 24000, 20000]
     candidates = [32000 * tuning for tuning in tunings]
 
-    for i in range(len(tunings)):
-        tuning = tunings[i]
+    for i, tuning in enumerate(tunings):
         candidate = candidates[i]
 
         if candidate in acceptedSampleRates:
@@ -338,7 +333,7 @@ def write_aiff(entry, basedir, aifc_filename, aiff_filename):
             common_dir = os.getcwd()
             rel_aifc_decode = "./" + os.path.relpath(aifc_decode, common_dir).replace("\\", "/")
             os.makedirs(os.path.dirname(rel_aiff_file), exist_ok=True)
-            subprocess.run(["bash", "-c", f"{rel_aifc_decode} \"{aifc_filename}\" \"{rel_aiff_file}\" {frame_size}"], check=True)
+            subprocess.run([rel_aifc_decode, aifc_filename, rel_aiff_file, frame_size], check=True)
         except subprocess.CalledProcessError:
             print(f"File failed to decode {rel_aifc_decode}, codec was {entry.codec}")
             targetfile = os.path.join(basedir, "bad", str(entry.bank), os.path.basename(aifc_filename))
@@ -347,14 +342,13 @@ def write_aiff(entry, basedir, aifc_filename, aiff_filename):
             shutil.copy2(aifc_filename, targetfile)
 
 def write_soundfont(font, filename, samplebanks, sampleNames, tunings):
-    with open(filename, "w") as file:
+    with open(filename, "w") as f:
         xml = font.toXML(samplebanks, sampleNames, tunings)
         xmlstring = minidom.parseString(XmlTree.tostring(xml, "unicode")).toprettyxml(indent="\t")
-        file.write(xmlstring)
+        f.write(xmlstring)
 
 def populateRawSamples(fonts):
     rawSamples = {}
-
     for font in fonts:
         for sample in font.getSamples():
             if sample.bank not in rawSamples:
@@ -396,25 +390,18 @@ def populateTunings(fonts):
     return tunings
 
 def main(args):
-    table_offsets = offsets
-    sf_unused_fixups = fixups
-
     version = args.version
-    # code file
     code_data = args.code.read()
     bank_data = args.audiotable.read()
     font_data = args.audiobank.read()
-    asset_xml_dir = args.assetxml
-    samples_out_dir = args.sampleout
-    fonts_out_dir = args.fontout
 
     def check_dir(path):
         if not os.path.isdir(path):
             print(f"{path} must be a directory!", file=sys.stderr)
             sys.exit(1)
 
-    check_dir(os.path.join(asset_xml_dir, "samples"))
-    check_dir(os.path.join(asset_xml_dir, "soundfonts"))
+    check_dir(os.path.join(args.assetxml, "samples"))
+    check_dir(os.path.join(args.assetxml, "soundfonts"))
 
     def check_offset(offset, type):
         if offset is None:
@@ -433,8 +420,8 @@ def main(args):
     fontdef_data = code_data[fontdef_offset:fontdef_offset + fontdef_length]
     sampleNames = {}
 
-    soundfont_defs = read_soundfont_xmls(os.path.join(asset_xml_dir, "soundfonts"))
-    samplebanks = read_samplebank_xml(os.path.join(asset_xml_dir, "samples"), version, sampleNames)
+    soundfont_defs = read_soundfont_xmls(os.path.join(args.assetxml, "soundfonts"))
+    samplebanks = read_samplebank_xml(os.path.join(args.assetxml, "samples"), version, sampleNames)
     real_samplebanks = dict(samplebanks)
 
     bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
@@ -453,22 +440,15 @@ def main(args):
     populateSampleNames(fonts, sampleNames)
     tunings = populateTunings(fonts)
 
-    for fontIdStr in sf_unused_fixups[version]:
-        fontId = int(fontIdStr)
-        font = fonts[fontId]
-        for offsetStr in sf_unused_fixups[version][fontIdStr]:
-            offset = int(offsetStr, 0)
-            fixup = sf_unused_fixups[version][fontIdStr][offsetStr]
-            datatype = fixup[0]
-            length = fixup[1]
-            def makeEnvelope(data, baseOffset, offset):
-                env = Envelope()
-                env.parseFrom(data, baseOffset, offset, usedFontData)
-                return env
-            converted_data = {
-                "Envelope": makeEnvelope(font_data, font.offset, offset)
-            }.get(datatype)
-            font.unused.append(converted_data)
+    for fontidx in sf_unused_fixups[version]:
+        font = fonts[fontidx]
+        for offset in sf_unused_fixups[version][fontidx]:
+            datatype, _ = sf_unused_fixups[version][fontidx][offset]
+            env = Envelope()
+            env.parseFrom(font_data, font.offset, offset, usedFontData)
+            font.unused.append({
+                "Envelope": env,
+            }.get(datatype))
 
     if args.gaps:
         report_gaps("SOUNDFONT", usedFontData, font_data)
@@ -476,12 +456,11 @@ def main(args):
 
     for offset in soundfont_gaps:
         font = get_entry_from_absolute_offset(fonts, offset)
-        data_wrapper = UnusedData(offset, soundfont_gaps[offset])
-        font.unused.append(data_wrapper)
+        font.unused.append(UnusedData(offset, soundfont_gaps[offset]))
 
-    os.makedirs(samples_out_dir, exist_ok=True)
+    os.makedirs(args.sampleout, exist_ok=True)
 
-    with open(os.path.join(samples_out_dir, "Banks.xml"), "w") as bankdeffile:
+    with open(os.path.join(args.sampleout, "Banks.xml"), "w") as bankdeffile:
         bankdefxml = XmlTree.Element("SampleBanks")
         for bankdef in bank_defs:
             if bankdef.length == 0:
@@ -500,18 +479,16 @@ def main(args):
     # Export AIFF samples
     for bank in rawSamples:
         rawSamples[bank] = dict(sorted(rawSamples[bank].items()))
-        idx = 0
         width = len(str(len(rawSamples[bank])))
-        for address in rawSamples[bank]:
+        for idx, address in enumerate(rawSamples[bank]):
             sample = rawSamples[bank][address]
-            filename_base = os.path.join(samples_out_dir, samplebanks[bank])
+            filename_base = os.path.join(args.sampleout, samplebanks[bank])
             sampleName = sampleNames[sample.bank][sample.offsetInBank]
             os.makedirs(filename_base, exist_ok=True)
             aifc_filename = os.path.join(filename_base, f"{str(idx).zfill(width)}_{sampleName}.aifc")
             aiff_filename = f"{str(idx).zfill(width)}_{sampleName}.aiff"
             write_aifc(bank_data, bank_defs, sample, aifc_filename, tunings)
-            write_aiff(sample, samples_out_dir, aifc_filename, aiff_filename)
-            idx += 1
+            write_aiff(sample, args.sampleout, aifc_filename, aiff_filename)
 
     if len(usedRawData) > 0:
         if args.gaps:
@@ -519,18 +496,16 @@ def main(args):
         samplebank_gaps = get_data_gaps("SAMPLE", usedRawData, bank_data)
         for offset in samplebank_gaps:
             bank = get_entry_from_absolute_offset(bank_defs, offset)
-            filename = os.path.join(samples_out_dir, bank.name, f"{offset:0>8x}_Unused.bin")
+            filename = os.path.join(args.sampleout, bank.name, f"{offset:0>8x}_Unused.bin")
             os.makedirs(os.path.dirname(filename), exist_ok=True)
-            with open(filename, "wb") as bin_file:
-                bin_file.write(samplebank_gaps[offset])
+            open(filename, "wb").write(samplebank_gaps[offset])
 
-    os.makedirs(args.fontinc, exist_ok=True)
     # Export soundfonts
+    os.makedirs(args.fontinc, exist_ok=True)
     for font in fonts:
-        dir = os.path.join(fonts_out_dir)
-        os.makedirs(dir, exist_ok=True)
-        filename = os.path.join(dir, f"{font.name}.xml")
-        if font.name[0:1].isnumeric():
+        os.makedirs(args.fontout, exist_ok=True)
+        filename = os.path.join(args.fontout, f"{font.name}.xml")
+        if font.name[:1].isnumeric():
             idx = font.name.find('_')
             if idx >= 0:
                 font.name = font.name[idx + 1:]

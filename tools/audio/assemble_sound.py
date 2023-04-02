@@ -8,7 +8,6 @@ import os
 import pathlib
 import struct
 import sys
-import tempfile
 
 import xml.etree.ElementTree as XmlTree
 
