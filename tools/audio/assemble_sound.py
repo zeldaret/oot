@@ -743,8 +743,7 @@ def processBanks(sampledir, builddir, tabledir):
 
                 # Grab the 32-byte value at offset -0x10000 and place it at
                 # the last four bytes.
-                bugword = output[-0x10004:][:4]
-                output = output[:-0x10004] + bugword + output[-0x10000:][:0xfffc] + bugword
+                output = output[:-4] + output[-0x10004:][:4]
         else:
             # If no aifc files were found, look for a raw .bin file.
             for fname in os.listdir(bankdir):
