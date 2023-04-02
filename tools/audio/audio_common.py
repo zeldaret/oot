@@ -8,58 +8,57 @@ import xml.etree.ElementTree as XmlTree
 class AifReader:
     def __init__(self, filepath):
         self.path = filepath
-        input = open(filepath, 'rb')
         self.sections = {}
         self.appl_sections = []
         self.total_size = 0
         self.is_aifc = False
 
+        f = open(filepath, 'rb')
+
         #Read header
-        assert input.read(4) == b"FORM"
-        self.total_size = struct.unpack(">L", input.read(4))
-        assert input.read(3) == b"AIF"
-        typeb = input.read(1)
-        if typeb == b"C":
-            self.is_aifc = True
+        assert f.read(4) == b"FORM"
+        self.total_size = struct.unpack(">L", f.read(4))
+
+        typebuf = f.read(4)
+        assert typebuf in (b"AIFF", b"AIFC")
+        self.is_aifc = typebuf == b"AIFC"
 
         #Scan chunks and map
         offset = 12
 
         while True:
-            magicno = input.read(4)
+            magicno = f.read(4)
             if not magicno or len(magicno) < 4:
                 break
             secmagic = magicno.decode('utf-8')
-            secsize, = struct.unpack(">L", input.read(4))
+            secsize, = struct.unpack(">L", f.read(4))
             offset += 8
             if secmagic == "APPL":
                 self.appl_sections.append((offset, secsize))
             else:
-                self.sections[secmagic] = (offset, secsize)
-            input.seek(offset + secsize)
+                self.sections[secmagic] = offset, secsize
+            f.seek(offset + secsize)
             offset += secsize
 
-        input.close()
+        f.close()
 
     def loadData(self, offset, size):
-        sec_dat = None
         with open(self.path, 'rb') as f:
             f.seek(offset)
-            sec_dat = f.read(size)
-        return sec_dat
+            return f.read(size)
 
     def loadSectionData(self, magicno):
         section_loc = self.sections[magicno]
         if section_loc is None:
-            return None
+            return
         return self.loadData(section_loc[0], section_loc[1])
 
     def loadApplSectionData(self, idx):
         if idx < 0 or idx >= len(self.appl_sections):
-            return None
+            return
         section_loc = self.appl_sections[idx]
         if section_loc is None:
-            return None
+            return
         return self.loadData(section_loc[0], section_loc[1])
 
 class AifcWriter:
@@ -389,10 +388,12 @@ class SampleHeader:
 
     def parseFrom(self, datafile, input, name, banks, baseOffset, offset, tuning, usedData):
         modes, self.u2, self.length, self.offsetInBank, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", input)
+
         self.name = f"SampleHeader{offset:0>8x}"
         self.offset = baseOffset + offset
         self.codec = (modes >> 4) & 0xF
         assert self.codec == 0 or self.codec == 3
+
         bankIndex = (modes & 0xC) >> 2
         self.bank = banks[bankIndex]
         self.tuning = tuning
@@ -450,32 +451,29 @@ class SampleHeader:
         self.loop.count = 0
 
         #Go thru appl sections to get book and loop data
-        appl_count = len(aif_reader.appl_sections)
-        if appl_count > 0:
-            #Read pstr to determine what it is...
-            for i in range(appl_count):
-                appl_data = aif_reader.loadApplSectionData(i)
-                strlen = appl_data[4]
-                strdat = appl_data[5:(5+strlen)]
-                #appl_sec_name = strdat.decode('utf-8')
-                if strdat == b'VADPCMCODES':
-                    #Code table
-                    self.book = PCMBook()
-                    bookpos = 18
-                    self.book.order, self.book.predictorCount = struct.unpack(">HH", appl_data[bookpos:bookpos+4])
-                    bookpos += 4
-                    predictorSize = self.book.order * 8
-                    predictorBytes = predictorSize * 2
-                    for i in range(self.book.predictorCount):
-                        self.book.predictors.append(struct.unpack(">" + str(predictorSize) + "h", appl_data[bookpos:(bookpos+predictorBytes)]))
-                        bookpos += predictorBytes
-                elif strdat == b'VADPCMLOOPS':
-                    #Loop data
-                    looppos = 20
-                    self.loop.start, self.loop.end, self.loop.count = struct.unpack(">LLl", appl_data[looppos:looppos+12])
-                    looppos += 12
-                    if self.loop.count != 0:
-                        self.loop.predictorState = struct.unpack(">16h", appl_data[looppos:looppos+32])
+        #Read pstr to determine what it is...
+        for i in range(len(aif_reader.appl_sections)):
+            appl_data = aif_reader.loadApplSectionData(i)
+            strlen = appl_data[4]
+            strdat = appl_data[5:5+strlen]
+            if strdat == b'VADPCMCODES':
+                #Code table
+                self.book = PCMBook()
+                bookpos = 18
+                self.book.order, self.book.predictorCount = struct.unpack(">HH", appl_data[bookpos:bookpos+4])
+                bookpos += 4
+                predictorSize = self.book.order * 8
+                predictorBytes = predictorSize * 2
+                for _ in range(self.book.predictorCount):
+                    self.book.predictors.append(struct.unpack(">" + str(predictorSize) + "h", appl_data[bookpos:(bookpos+predictorBytes)]))
+                    bookpos += predictorBytes
+            elif strdat == b'VADPCMLOOPS':
+                #Loop data
+                looppos = 20
+                self.loop.start, self.loop.end, self.loop.count = struct.unpack(">LLl", appl_data[looppos:looppos+12])
+                looppos += 12
+                if self.loop.count != 0:
+                    self.loop.predictorState = struct.unpack(">16h", appl_data[looppos:looppos+32])
 
         #Scale sample rate
         self.tuning = sample_rate/32000.0
@@ -490,15 +488,11 @@ class SampleHeader:
         return 16
 
     def toXML(self, root, bankNames, sampleNames):
-        return XmlTree.SubElement(
-            root,
-            "Sample",
-            {
-                "Name": self.name,
-                "File": f"{sampleNames[self.bank][self.offsetInBank]}.aifc",
-                "Bank": bankNames[self.bank]
-            }
-        )
+        return XmlTree.SubElement(root, "Sample", {
+            "Name": self.name,
+            "File": f"{sampleNames[self.bank][self.offsetInBank]}.aifc",
+            "Bank": bankNames[self.bank]
+        })
 
 class Envelope:
     def __init__(self):
@@ -1421,10 +1415,7 @@ class Soundbank:
         return mysize
 
     def getSample(self, name):
-        if name in self.samplesByName:
-            return self.samplesByName[name]
-        else:
-            return None
+        return self.samplesByName.get(name)
 
     def fromXML(self, xml_element):
         #Read attr
@@ -1438,7 +1429,7 @@ class Soundbank:
 #Common Functions
 def loadBankDefTable(filepath):
     bankdeftbl = []
-    with open(filepath,'rb') as f:
+    with open(filepath, 'rb') as f:
         bankcount, = struct.unpack(">H", f.read(2))
         f.read(14)
         for i in range(bankcount):
@@ -1449,7 +1440,7 @@ def loadBankDefTable(filepath):
 
 def loadFontDefTable(filepath):
     fontdeftbl = []
-    with open(filepath,'rb') as f:
+    with open(filepath, 'rb') as f:
         fontcount, = struct.unpack(">H", f.read(2))
         f.read(14)
         for i in range(fontcount):

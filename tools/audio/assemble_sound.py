@@ -629,13 +629,15 @@ def processBanks(sampledir, builddir, tabledir):
 
         if not quiet:
             print("Bank discovered:", bankname)
+
         mybank = Soundbank()
-        banks.append(mybank)
+        mybank.idx = i
         mybank.name = bankname
         mybank.fromXML(e_bank)
+
+        banks.append(mybank)
         bank_lookup[bankname] = mybank
 
-        mybank.idx = i
         bankdir = os.path.join(sampledir, bankname)
 
         current_books = []
@@ -644,16 +646,18 @@ def processBanks(sampledir, builddir, tabledir):
         max_idx = -1
         need_index = []
 
-        for file in os.listdir(bankdir):
-            if file.endswith(".aifc"):
-                si, samplename = splitSampleName(file)
-                mysample = SampleHeader()
+        for fname in os.listdir(bankdir):
+            if fname.endswith(".aifc"):
+                si, samplename = splitSampleName(fname)
                 if samplename in mybank.samplesByName:
                     print("WARNING: Duplicate sample key found:", samplename, file=sys.stderr)
-                mybank.samplesByName[samplename] = mysample
+
+                mysample = SampleHeader()
                 mysample.name = samplename
                 mysample.idx = si
-                mysample.fileName = file
+                mysample.fileName = fname
+
+                mybank.samplesByName[samplename] = mysample
 
                 if si < 0:
                     need_index.append(mysample)
@@ -663,7 +667,7 @@ def processBanks(sampledir, builddir, tabledir):
                         max_idx = si
 
                 # load from aifc
-                mysample.loadInfoFromAif(os.path.join(bankdir, file))
+                mysample.loadInfoFromAif(os.path.join(bankdir, fname))
 
                 # If book or loop is identical to previous in bank, merge.
                 blmerge = False
@@ -676,6 +680,7 @@ def processBanks(sampledir, builddir, tabledir):
                     if not blmerge:
                         current_books.append(mysample.book)
 
+                # Note: this loop could be removed to decrease complexity.
                 if not match_mode:
                     # Looks like original tool does not merge (the very rare, but existing) identical loops
                     blmerge = False
@@ -689,6 +694,7 @@ def processBanks(sampledir, builddir, tabledir):
                             current_loops.append(mysample.loop)
 
         # Assign indices to yet unindexed samples.
+        # Note: this should only be used when modding.
         nextidx = 0
         for asample in need_index:
             while nextidx in index_map:
@@ -698,23 +704,17 @@ def processBanks(sampledir, builddir, tabledir):
             max_idx = max(max_idx, nextidx)
             nextidx += 1
 
-        # Order samples.
-        c = 0
-        while c <= max_idx:
-            if c in index_map:
-                mysample = index_map[c]
-                mybank.samples.append(mysample)
-            else:
-                mybank.samples.append(None)
-            c += 1
+        # Order samples, inserts the sample or None into the list.
+        for idx in range(max_idx+1):
+            mybank.samples.append(index_map.get(idx))
+
+        if not quiet:
+            print(f"Bank {mybank.idx}: {len(mybank.samples)} samples found")
 
         # Now, assign offsets/calculate sizes for samples
-        sorted_samples = mybank.samples
-        if not quiet:
-            print(f"Bank {mybank.idx}: {len(sorted_samples)} samples found")
 
         binpath = None
-        if len(sorted_samples) > 0:
+        if mybank.samples:
             output = None
             if builddir is not None:
                 output = tempfile.NamedTemporaryFile("wb", prefix="bank_", suffix=f"_{mybank.idx}.bank.tmp", delete=False)
@@ -722,7 +722,7 @@ def processBanks(sampledir, builddir, tabledir):
                 audiotable_paths.append(binpath)
 
             offset = 0
-            for j, sample in enumerate(sorted_samples):
+            for j, sample in enumerate(mybank.samples):
                 sample.idx = j
                 sample.offsetInBank = offset
                 # Need to add padding as well...
@@ -733,6 +733,7 @@ def processBanks(sampledir, builddir, tabledir):
                 if output is not None:
                     if not quiet:
                         print("Writing sample:", sample.name)
+
                     aifc_path = os.path.join(bankdir, sample.fileName)
                     output.write(loadSoundData(aifc_path)[8:8 + sample.length])
                     if padding > 0:
@@ -742,7 +743,7 @@ def processBanks(sampledir, builddir, tabledir):
                 output.close()
                 output = None
 
-            if (builddir is not None) and (mybank.idx == 0) and match_mode:
+            if builddir and not mybank.idx and match_mode:
                 # There appears to be a buffer clearing bug in the original authoring tool
                 # that only affects the end of bank 0.
                 # Must replicate to get a match
@@ -760,10 +761,10 @@ def processBanks(sampledir, builddir, tabledir):
                         output.write(bug_word)
                 pathlib.Path(temppath).unlink(missing_ok=True)
         else:
-            # If no aifc files were found, look for raw bin
-            for file in os.listdir(bankdir):
-                if file.endswith(".bin"):
-                    binpath = os.path.join(bankdir, file)
+            # If no aifc files were found, look for a raw .bin file.
+            for fname in os.listdir(bankdir):
+                if fname.endswith(".bin"):
+                    binpath = os.path.join(bankdir, fname)
                     audiotable_paths.append(binpath)
                     break
 
@@ -810,31 +811,31 @@ def write_soundfont_define(font, fontcount, filename):
     width = int(math.log10(fontcount)) + 1
     index = str(font.idx).zfill(width)
 
-    with open(filename, "w") as file:
-        file.write("#   Soundfont file constants\n")
-        file.write(f"#   ID: {font.idx}\n")
-        file.write(f"#   Name: {font.name}\n")
-        file.write("\n##### INSTRUMENTS #####\n")
+    with open(filename, "w") as f:
+        f.write("#   Soundfont file constants\n")
+        f.write(f"#   ID: {font.idx}\n")
+        f.write(f"#   Name: {font.name}\n")
+        f.write("\n##### INSTRUMENTS #####\n")
 
         for instrument in font.instruments:
             if instrument is None:
                 continue
 
-            file.write(f".define FONT{index}_INSTR_{instrument.enum} {instrument.idx}\n")
+            f.write(f".define FONT{index}_INSTR_{instrument.enum} {instrument.idx}\n")
 
-        file.write("\n##### DRUMS #####\n")
+        f.write("\n##### DRUMS #####\n")
         for drum in font.percussion:
             if drum is None:
                 continue
 
-            file.write(f".define FONT{index}_DRUM_{drum.enum} {drum.idx}\n")
+            f.write(f".define FONT{index}_DRUM_{drum.enum} {drum.idx}\n")
 
-        file.write("\n##### EFFECTS #####\n")
+        f.write("\n##### EFFECTS #####\n")
         for effect in font.soundEffects:
             if effect is None:
                 continue
 
-            file.write(f".define FONT{index}_EFFECT_{effect.enum} {effect.idx}\n")
+            f.write(f".define FONT{index}_EFFECT_{effect.enum} {effect.idx}\n")
 
 def hexdump(buf, varname):
     l = [
