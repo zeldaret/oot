@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
+import hashlib
+import io
 import math
 import os
 import pathlib
@@ -410,7 +412,7 @@ def compileFont(font, output, audiobank_off=0):
         wpos += block.serializeTo(output)
 
     # Pad to end, if needed
-    padding = align(wpos,16) - wpos
+    padding = align(wpos, 16) - wpos
     if padding > 0:
         output.write(b"\x00"*padding)
         wpos += padding
@@ -611,10 +613,9 @@ def processBanks(sampledir, builddir, tabledir):
         return
     elist_bank = e_banks.findall("SampleBank")
 
-    audiotable_paths = []
-
     os.makedirs("assets/samplebanks", exist_ok=True)
 
+    banklens = {}
     for i, e_bank in enumerate(elist_bank):
         bankname = e_bank.get("Name")
         if bankname is None:
@@ -623,7 +624,6 @@ def processBanks(sampledir, builddir, tabledir):
             bank_lookup[bankname] = mybank
             if not quiet:
                 print("Bank reference discovered:", bankname)
-            audiotable_paths.append(None)
             banks.append(mybank)
             continue
 
@@ -713,14 +713,8 @@ def processBanks(sampledir, builddir, tabledir):
 
         # Now, assign offsets/calculate sizes for samples
 
-        binpath = None
         if mybank.samples:
-            output = None
-            if builddir is not None:
-                output = tempfile.NamedTemporaryFile("wb", prefix="bank_", suffix=f"_{mybank.idx}.bank.tmp", delete=False)
-                binpath = output.name
-                audiotable_paths.append(binpath)
-
+            output = io.BytesIO()
             offset = 0
             for j, sample in enumerate(mybank.samples):
                 sample.idx = j
@@ -730,46 +724,39 @@ def processBanks(sampledir, builddir, tabledir):
                 padding = padding16(offset)
                 offset += padding
 
-                if output is not None:
-                    if not quiet:
-                        print("Writing sample:", sample.name)
+                if not quiet:
+                    print("Writing sample:", sample.name)
 
-                    aifc_path = os.path.join(bankdir, sample.fileName)
-                    output.write(loadSoundData(aifc_path)[8:8 + sample.length])
-                    if padding > 0:
-                        output.write(b"\x00"*padding)
+                aifc_path = os.path.join(bankdir, sample.fileName)
+                output.write(loadSoundData(aifc_path)[8:8 + sample.length])
+                output.write(b"\x00"*padding)
 
-            if output is not None:
-                output.close()
-                output = None
-
+            output = bytes(output.getbuffer())
             if builddir and not mybank.idx and match_mode:
                 # There appears to be a buffer clearing bug in the original authoring tool
                 # that only affects the end of bank 0.
                 # Must replicate to get a match
-                filesize = os.path.getsize(binpath)
-                temppath = binpath + ".tmp"
-                os.rename(binpath, temppath)
-                with open(temppath, "rb") as input:
-                    with open(binpath, "wb") as output:
-                        bug_trg = filesize - 4
-                        bug_src = bug_trg - 0x10000
-                        output.write(input.read(bug_src))
-                        bug_word = input.read(4)
-                        output.write(bug_word)
-                        output.write(input.read(0xFFFC))
-                        output.write(bug_word)
-                pathlib.Path(temppath).unlink(missing_ok=True)
+
+                if hashlib.md5(output).hexdigest() != "fd7246e41d2a2e04d076bcd4a693828c":
+                    print("WARNING: --match=ocarina enabled, but this is not an original 0_Sound_Effects.", file=sys.stderr)
+                    print("This means you probably modified or added some .aifc sounds.", file=sys.stderr)
+                    print("You should likely remove the --match=ocarina flag to keep a working sound system.", file=sys.stderr)
+
+                # Grab the 32-byte value at offset -0x10000 and place it at
+                # the last four bytes.
+                bugword = output[-0x10004:][:4]
+                output = output[:-0x10004] + bugword + output[-0x10000:][:0xfffc] + bugword
         else:
             # If no aifc files were found, look for a raw .bin file.
             for fname in os.listdir(bankdir):
                 if fname.endswith(".bin"):
-                    binpath = os.path.join(bankdir, fname)
-                    audiotable_paths.append(binpath)
+                    output = open(os.path.join(bankdir, fname), "rb").read()
                     break
 
-        buf = hexdump(open(binpath, "rb").read(), "bank_"+bankname)
-        open("assets/samplebanks/"+getFileName(name=mybank.name)+".c", "wb").write(buf)
+        banklens[mybank.idx] = len(output)
+        fname = getFileName(name=mybank.name)
+        buf = hexdump(output, "bank_"+bankname)
+        open("assets/samplebanks/"+fname+".c", "wb").write(buf)
 
     # Code table
     lrows = []
@@ -780,18 +767,11 @@ def processBanks(sampledir, builddir, tabledir):
             if debug_mode:
                 # Print csv stating what samples are in bank.
                 printBank2csv(os.path.join(tabledir, getBankbinName(mybank.idx) + "_contents.csv"), mybank)
-            banklen = mybank.calculateSize()
-            if banklen <= 0:
-                # Check for bin.
-                banklen = os.path.getsize(audiotable_paths[mybank.idx])
+            banklen = mybank.calculateSize() or banklens[mybank.idx]
             lrows.append((offset, banklen, mybank.medium, mybank.cachePolicy, 0, 0, 0))
             offset += banklen
         else:
             lrows.append((0, 0, mybank.medium, mybank.cachePolicy, 0, 0, 0))
-
-    for tmpbank in audiotable_paths:
-        if tmpbank and tmpbank.endswith(".tmp"):
-            pathlib.Path(tmpbank).unlink(missing_ok=True)
 
     l = [
         b"AudioTable gSampleBankTable = {",
@@ -893,26 +873,20 @@ def main(args):
         bankbuilddir = os.path.join(outpath, 'samplebanks')
     processBanks(sampledir, bankbuilddir, tablebuilddir)
 
-    # Check bank matches (if requested)
-    mydir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
     if debug_mode and args.build_bank and match_mode:
         # Find reference files.
         bankdat_path = os.path.join("baserom", "Audiotable")
         print("Extracted audiotable ref:", bankdat_path)
 
         # Iterate
-        banklist = sorted(bank_lookup.items())
         matchcount = 0
-        bankcount = 0
         checked = []
 
-        for item in banklist:
+        for item in sorted(bank_lookup.items()):
             bank = item[1]
             if bank.idx in checked:
                 print("Bank references already checked bank:", bank.idx)
                 continue
-            bankcount += 1
             binoutpath = os.path.join(bankbuilddir, getBankbinName(bank.idx))
             if os.path.isfile(binoutpath):
                 with open(binoutpath, 'rb') as f:
@@ -924,7 +898,7 @@ def main(args):
                 matchcount += 1
             checked.append(bank.idx)
 
-        print(f"{matchcount} of {bankcount} banks matched.")
+        print(f"{matchcount} of {len(checked)} banks matched.")
 
         # Check audiotable itself
         binoutpath = os.path.join(bankbuilddir, 'audiotable')
@@ -947,67 +921,40 @@ def main(args):
         readFonts(inpath)
 
     # compile font(s)
-    fonts_ordered = []
-    font_idict = {}
-    for pair in font_lookup.items():
-        font = pair[1]
-        font_idict[font.idx] = font
 
-    sorted_fonts = sorted(font_idict.items())
-    font_count = len(sorted_fonts)
-    aboff = 0
-    audiobank_dir = os.path.join(outpath, 'soundfonts')
+    os.makedirs(os.path.join(outpath, 'soundfonts'), exist_ok=True)
 
-    if not os.path.isdir(audiobank_dir):
-        os.makedirs(audiobank_dir)
+    fonts = sorted(font_lookup.values(), key=lambda x: x.idx)
+    fontbufs, aboff = {}, 0
+    for font in fonts:
+        output = io.BytesIO()
+        fontbufs[font.idx] = output
+        compileFont(font, output, aboff)
+        aboff += output.tell()
 
-    for pair in sorted_fonts:
-        fonts_ordered.append(pair[1])
-
-    fontpaths = {}
-
-    for font in fonts_ordered:
-        with tempfile.NamedTemporaryFile('wb', prefix=f'Bank{font.idx}_', suffix='.tmp', delete=False) as f:
-            fontpaths[font.idx] = f.name
-            compileFont(font, f, aboff)
-
-        aboff += os.path.getsize(fontpaths[font.idx])
-
-        if match_mode and font.idx == (font_count - 1):
+        if match_mode and font.idx == len(fonts)-1:
             if match_mode not in last_font_match_sizes:
                 if not quiet:
                     print(f"Match string \'{match_mode}\' not recognized! Ignoring...")
             else:
-                target_size = last_font_match_sizes[match_mode]
-                current_size = os.path.getsize(fontpaths[font.idx])
-                diff = target_size - current_size
-                with open(fontpaths[font.idx], 'ab') as f:
-                    f.write(b"\x00"*diff)
+                padding = last_font_match_sizes[match_mode] - output.tell()
+                output.write(b"\x00"*padding)
 
         fontsym = font.symbol if font.symbol else font.name
         fname = getFileName(font.idx, font.name)
-        buf = hexdump(open(fontpaths[font.idx], "rb").read(), get_sym_name(fontsym))
+        buf = hexdump(output.getbuffer(), get_sym_name(fontsym))
         open("assets/soundfonts/"+fname+".c", "wb").write(buf)
 
         os.makedirs(args.outinclude, exist_ok=True)
         inc_filename = os.path.join(args.outinclude, f"{font.idx}.inc")
-        write_soundfont_define(font, font_count, inc_filename)
-
-    # load table for matching
-    og_font_dat = None
-    if debug_mode and match_mode:
-        fontdat_path = os.path.join(mydir, 'baserom', 'Audiobank')
-        with open(fontdat_path, "rb") as f:
-            og_font_dat = f.read()
+        write_soundfont_define(font, len(fonts), inc_filename)
 
     # write audiobank & code table (and match banks one by one)
     current_pos = 0
-    total_fonts = len(fonts_ordered)
-    font_matches = 0
 
     lfonts = []
-    for font in fonts_ordered:
-        fontsize = os.path.getsize(fontpaths[font.idx])
+    for font in fonts:
+        fontsize = fontbufs[font.idx].tell()
         myentry = font.getTableEntry()
         myentry.offset = current_pos
         myentry.length = fontsize
@@ -1024,7 +971,7 @@ def main(args):
         b"#else",
         b"",
         b"AudioTable gSoundFontTable = {",
-        b"    %d, 0, 0x00000000, {0, 0, 0, 0, 0, 0, 0, 0}, {" % total_fonts,
+        b"    %d, 0, 0x00000000, {0, 0, 0, 0, 0, 0, 0, 0}, {" % len(fonts),
         b"    "+onerow(*lfonts[0].serialize()),
         b"    }",
         b"};",
@@ -1038,16 +985,17 @@ def main(args):
 
     # match audiobank
     if debug_mode and match_mode:
-        print(f"{font_matches} of {total_fonts} fonts matched.")
+        font_matches = 0
+        print(f"{font_matches} of {len(fonts)} fonts matched.")
+
+        # load table for matching
+        og_font_dat = open(os.path.join('baserom', 'Audiobank'), "rb").read()
 
         # TODO This match check doesn't work anymore.
         # with open(audiobank_tbl_tmp, "rb") as audiobank_file:
         #     abdat = audiobank_file.read()
 
         # checkMatch(og_font_dat, abdat, "audiobank")
-
-    for path in fontpaths.values():
-        pathlib.Path(path).unlink(missing_ok=True)
 
     return 0
 
