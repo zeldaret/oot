@@ -499,9 +499,9 @@ def getFileName(idx=None, name=""):
     return ''.join('_' if c not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_' else c for c in name)
 
 def readFonts(dirpath):
-    for file in os.listdir(dirpath):
-        if file.endswith(".xml"):
-            readFont(os.path.join(dirpath, file))
+    for fname in os.listdir(dirpath):
+        if fname.endswith(".xml"):
+            readFont(os.path.join(dirpath, fname))
 
 def readFont(filepath):
     filename = os.path.basename(filepath)
@@ -563,8 +563,7 @@ def splitSampleName(filepath):
     # Check for number
     inum = -1
     sname = rawname
-    firstchar = rawname[0:1]
-    if firstchar.isnumeric():
+    if rawname[:1].isnumeric():
         # Find the first space
         firstunderscore = rawname.find('_')
         if firstunderscore >= 0:

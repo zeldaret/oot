@@ -261,17 +261,17 @@ def main(filename, header, sequence, print_end_padding, cache_policy, seqnum=Non
     try:
         sq.data = open(filename, "rb").read()
     except Exception:
-        return None, [f"Error: could not open file {filename} for reading."]
+        return [], [f"Error: could not open file {filename} for reading."]
 
     try:
         sq.inst_syms, sq.drum_syms, sq.effect_syms = get_symbols(header)
     except Exception as e:
-        return None, [f"Error: could not read symbols from {header.name}."]
+        return [], [f"Error: could not read symbols from {header.name}."]
 
     try:
         sq.pitches, sq.soundfonts = get_sequence_symbols(sequence)
     except Exception as e:
-        return None, [f"Error: could not read symbols from {sequence.name}."]
+        return [], [f"Error: could not read symbols from {sequence.name}."]
 
     sq.output = [None] * len(sq.data)
     sq.alignment = [None] * len(sq.data)
@@ -797,4 +797,8 @@ if __name__ == "__main__":
     parser.add_argument("--print-end-padding", action="store_true", help="Adds padding bytes to the end of the sequence.")
     parser.add_argument("--cache-policy", nargs=1, required=False, default=["2"], help="Specifies the cache policy for this sequence.")
     args = parser.parse_args()
-    main(args.filename, args.header, args.sequence, args.print_end_padding, args.cache_policy)
+    out, err = main(args.filename, args.header, args.sequence, args.print_end_padding, args.cache_policy)
+    for line in out:
+        print(line)
+    for line in err:
+        print(line, file=sys.stderr)
