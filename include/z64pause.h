@@ -126,4 +126,27 @@ typedef struct {
 
 typedef PauseMapMarkData PauseMapMarksData[3];
 
+typedef enum {
+    PAUSECTX_0,
+    PAUSECTX_1,
+    PAUSECTX_2,
+    PAUSECTX_3,
+    PAUSECTX_4,
+    PAUSECTX_5,
+    PAUSECTX_6,
+    PAUSECTX_7,
+    PAUSECTX_8,
+    PAUSECTX_9,
+    PAUSECTX_10,
+    PAUSECTX_11,
+    PAUSECTX_12,
+    PAUSECTX_13,
+    PAUSECTX_14,
+    PAUSECTX_15,
+    PAUSECTX_16,
+    PAUSECTX_17,
+    PAUSECTX_18,
+    PAUSECTX_19
+} PauseContextState;
+
 #endif
