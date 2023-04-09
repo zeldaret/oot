@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
-import collections
 import json
 import math
 import os
 import pathlib
-import shutil
 import subprocess
 import struct
 import sys
@@ -14,7 +12,9 @@ import sys
 from xml.dom import minidom
 import xml.etree.ElementTree as XmlTree
 
-from audio_common import *
+from audio_common import SampleTableEntry, SoundfontEntry, Soundfont, \
+    Envelope, UnusedData, toCachePolicy, toMedium, AifcWriter, \
+    serialize_f80, toCodecID, toCodecName, write_soundfont_define
 
 usedTuning = {}
 refBanks = {}
@@ -93,7 +93,7 @@ class ElementDefinition:
         self.enum = enum
 
 def read_soundfont_xmls(xml_dir):
-    results = collections.defaultdict(lambda: None)
+    results = {}
 
     for file in os.listdir(xml_dir):
         if file.endswith(".xml"):
@@ -129,7 +129,7 @@ def read_soundfont_xmls(xml_dir):
     return results
 
 def read_samplebank_xml(xml_dir, version, sampleNames):
-    results = collections.defaultdict(lambda: None)
+    results = {}
 
     for xmlfile in os.listdir(xml_dir):
         if xmlfile.endswith(".xml"):
@@ -143,7 +143,7 @@ def read_samplebank_xml(xml_dir, version, sampleNames):
                     continue
                 offset = int(offsetElement.get("At"), 0)
                 if index not in sampleNames:
-                    sampleNames[index] = collections.defaultdict(lambda: None)
+                    sampleNames[index] = {}
                 if offset not in sampleNames[index]:
                     sampleNames[index][offset] = sample.get("Name")
                 if "SampleRate" in sample.attrib:
@@ -282,8 +282,8 @@ def write_aifc(raw, bank_defs, entry, filename, tunings):
 
     sample_rate = 32000 * tuning
 
-    with open(filename, "wb") as file:
-        writer = AifcWriter(file)
+    with open(filename, "wb") as f:
+        writer = AifcWriter(f)
         num_channels = 1
         if len(data) % 2 == 1:
             data += b"\0"
@@ -324,28 +324,19 @@ def write_aifc(raw, bank_defs, entry, filename, tunings):
             )
         writer.finish()
 
-def write_aiff(entry, basedir, aifc_filename, aiff_filename):
-    rel_aiff_file = os.path.join(os.path.dirname(aifc_filename).replace("\\", "/"), aiff_filename)
-    if not os.path.exists(rel_aiff_file) or os.path.getsize(rel_aiff_file) == 0 or os.path.exists(os.path.join(basedir, "bad", str(entry.bank), os.path.basename(aifc_filename))):
+def write_aiff(entry, aifc_filename, aiff_filename):
+    if not os.path.exists(aiff_filename):
         try:
             frame_size = "" if entry.codec == 0 else "5"
-            aifc_decode = os.path.join(os.path.dirname(__file__), "aifc_decode")
-            common_dir = os.getcwd()
-            rel_aifc_decode = "./" + os.path.relpath(aifc_decode, common_dir).replace("\\", "/")
-            os.makedirs(os.path.dirname(rel_aiff_file), exist_ok=True)
-            subprocess.run([rel_aifc_decode, aifc_filename, rel_aiff_file, frame_size], check=True)
+            aifc_decode = os.path.abspath(os.path.join(os.path.dirname(__file__), "aifc_decode"))
+            subprocess.run([aifc_decode, aifc_filename, aiff_filename, frame_size], check=True)
         except subprocess.CalledProcessError:
             print(f"File failed to decode {rel_aifc_decode}, codec was {entry.codec}")
-            targetfile = os.path.join(basedir, "bad", str(entry.bank), os.path.basename(aifc_filename))
-            os.makedirs(os.path.dirname(targetfile), exist_ok=True)
-            os.remove(rel_aiff_file)
-            shutil.copy2(aifc_filename, targetfile)
 
 def write_soundfont(font, filename, samplebanks, sampleNames, tunings):
-    with open(filename, "w") as f:
-        xml = font.toXML(samplebanks, sampleNames, tunings)
-        xmlstring = minidom.parseString(XmlTree.tostring(xml, "unicode")).toprettyxml(indent="\t")
-        f.write(xmlstring)
+    xml = font.toXML(samplebanks, sampleNames, tunings)
+    xmlstring = minidom.parseString(XmlTree.tostring(xml, "unicode")).toprettyxml(indent="\t")
+    open(filename, "w").write(xmlstring)
 
 def populateRawSamples(fonts):
     rawSamples = {}
@@ -422,7 +413,6 @@ def main(args):
 
     soundfont_defs = read_soundfont_xmls(os.path.join(args.assetxml, "soundfonts"))
     samplebanks = read_samplebank_xml(os.path.join(args.assetxml, "samples"), version, sampleNames)
-    real_samplebanks = dict(samplebanks)
 
     bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
@@ -458,9 +448,11 @@ def main(args):
         font = get_entry_from_absolute_offset(fonts, offset)
         font.unused.append(UnusedData(offset, soundfont_gaps[offset]))
 
-    os.makedirs(args.sampleout, exist_ok=True)
+    for bank in bank_defs:
+        os.makedirs(os.path.join(args.aiffout, bank.name), exist_ok=True)
+        os.makedirs(os.path.join(args.aifcout, bank.name), exist_ok=True)
 
-    with open(os.path.join(args.sampleout, "Banks.xml"), "w") as bankdeffile:
+    with open(os.path.join(args.aiffout, "Banks.xml"), "w") as bankdeffile:
         bankdefxml = XmlTree.Element("SampleBanks")
         for bankdef in bank_defs:
             if bankdef.length == 0:
@@ -476,41 +468,42 @@ def main(args):
         xmlstring = minidom.parseString(XmlTree.tostring(bankdefxml, "unicode")).toprettyxml(indent="\t")
         bankdeffile.write(xmlstring)
 
-    # Export AIFF samples
+    # Export AIFC and AIFF samples
     for bank in rawSamples:
         rawSamples[bank] = dict(sorted(rawSamples[bank].items()))
         width = len(str(len(rawSamples[bank])))
         for idx, address in enumerate(rawSamples[bank]):
             sample = rawSamples[bank][address]
-            filename_base = os.path.join(args.sampleout, samplebanks[bank])
             sampleName = sampleNames[sample.bank][sample.offsetInBank]
-            os.makedirs(filename_base, exist_ok=True)
-            aifc_filename = os.path.join(filename_base, f"{str(idx).zfill(width)}_{sampleName}.aifc")
-            aiff_filename = f"{str(idx).zfill(width)}_{sampleName}.aiff"
-            write_aifc(bank_data, bank_defs, sample, aifc_filename, tunings)
-            write_aiff(sample, args.sampleout, aifc_filename, aiff_filename)
 
-    if len(usedRawData) > 0:
+            aifcdir = os.path.join(args.aifcout, samplebanks[bank])
+            aifc_filename = os.path.join(aifcdir, f"{str(idx).zfill(width)}_{sampleName}.aifc")
+            write_aifc(bank_data, bank_defs, sample, aifc_filename, tunings)
+
+            aiffdir = os.path.join(args.aiffout, samplebanks[bank])
+            aiff_filename = os.path.join(aiffdir, f"{str(idx).zfill(width)}_{sampleName}.aiff")
+            write_aiff(sample, aifc_filename, aiff_filename)
+
+    if usedRawData:
         if args.gaps:
             report_gaps("SAMPLE", usedRawData, bank_data)
         samplebank_gaps = get_data_gaps("SAMPLE", usedRawData, bank_data)
         for offset in samplebank_gaps:
             bank = get_entry_from_absolute_offset(bank_defs, offset)
-            filename = os.path.join(args.sampleout, bank.name, f"{offset:0>8x}_Unused.bin")
-            os.makedirs(os.path.dirname(filename), exist_ok=True)
+            filename = os.path.join(args.aiffout, bank.name, f"{offset:0>8x}_Unused.bin")
             open(filename, "wb").write(samplebank_gaps[offset])
 
     # Export soundfonts
     os.makedirs(args.fontinc, exist_ok=True)
+    os.makedirs(args.fontout, exist_ok=True)
     for font in fonts:
-        os.makedirs(args.fontout, exist_ok=True)
         filename = os.path.join(args.fontout, f"{font.name}.xml")
         if font.name[:1].isnumeric():
             idx = font.name.find('_')
             if idx >= 0:
                 font.name = font.name[idx + 1:]
 
-        write_soundfont(font, filename, real_samplebanks, sampleNames, tunings)
+        write_soundfont(font, filename, samplebanks, sampleNames, tunings)
         write_soundfont_define(font, len(fonts), os.path.join(args.fontinc, f"{font.idx}.inc"))
 
 if __name__ == "__main__":
@@ -520,7 +513,8 @@ if __name__ == "__main__":
     parser.add_argument("audiotable", metavar="<Audiotable file>", type=argparse.FileType("rb"), help="Path to the 'AudioTable' file, usually in baserom.")
     parser.add_argument("audiobank", metavar="<Audiobank file>", type=argparse.FileType("rb"), help="Path to the 'Audiobank' file, usually in baserom.")
     parser.add_argument("assetxml", metavar="<assets XML dir>", type=pathlib.Path, help="The asset XML path where the definitions are stored.")
-    parser.add_argument("sampleout", metavar="<samples out dir>", type=pathlib.Path, help="The output path for extracted samples.")
+    parser.add_argument("aifcout", metavar="<aifc out dir>", type=pathlib.Path, help="The output path for extracted AIFC samples.")
+    parser.add_argument("aiffout", metavar="<aiff out dir>", type=pathlib.Path, help="The output path for extracted AIFF samples.")
     parser.add_argument("fontout", metavar="<soundfont out dir>", type=pathlib.Path, help="The output path for extracted soundfonts.")
     parser.add_argument("fontinc", metavar="<soundfont includes out dir>", type=pathlib.Path, help="The output path for generated soundfont include files.")
     parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
