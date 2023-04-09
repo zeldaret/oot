@@ -282,7 +282,7 @@ setup:
 	python3 tools/audio/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/samples assets/soundfonts build/include
 	python3 tools/audio/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
 	python3 tools/audio/assemble_sequences.py assets/sequences build/include build
-	python3 tools/audio/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina
+	python3 tools/audio/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina -q
 
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
