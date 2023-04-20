@@ -490,7 +490,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 }
                 if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
-                                           SEGMENTED_TO_VIRTUAL(gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
+                                           SEGMENTED_TO_VIRTUAL(gVolvagiaBossTitleCardTex), 160, 180, 128, 40);
                 }
                 if (this->timers[3] <= 100) {
                     this->subCamEyeVel.x = this->subCamEyeVel.y = this->subCamEyeVel.z = 2.0f;
