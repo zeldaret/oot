@@ -413,6 +413,7 @@ def main(args):
 
     soundfont_defs = read_soundfont_xmls(os.path.join(args.assetxml, "soundfonts"))
     samplebanks = read_samplebank_xml(os.path.join(args.assetxml, "samples"), version, sampleNames)
+    real_samplebanks = dict(samplebanks)
 
     bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
     fonts = parse_soundfonts(fontdef_data, font_data, soundfont_defs)
@@ -476,12 +477,16 @@ def main(args):
             sample = rawSamples[bank][address]
             sampleName = sampleNames[sample.bank][sample.offsetInBank]
 
-            aifcdir = os.path.join(args.aifcout, samplebanks[bank])
-            aifc_filename = os.path.join(aifcdir, f"{str(idx).zfill(width)}_{sampleName}.aifc")
+            aifc_filename = os.path.join(
+                args.aifcout, samplebanks[bank],
+                f"{str(idx).zfill(width)}_{sampleName}.aifc"
+            )
             write_aifc(bank_data, bank_defs, sample, aifc_filename, tunings)
 
-            aiffdir = os.path.join(args.aiffout, samplebanks[bank])
-            aiff_filename = os.path.join(aiffdir, f"{str(idx).zfill(width)}_{sampleName}.aiff")
+            aiff_filename = os.path.join(
+                args.aiffout, samplebanks[bank],
+                f"{str(idx).zfill(width)}_{sampleName}.aiff"
+            )
             write_aiff(sample, aifc_filename, aiff_filename)
 
     if usedRawData:
@@ -503,7 +508,7 @@ def main(args):
             if idx >= 0:
                 font.name = font.name[idx + 1:]
 
-        write_soundfont(font, filename, samplebanks, sampleNames, tunings)
+        write_soundfont(font, filename, real_samplebanks, sampleNames, tunings)
         write_soundfont_define(font, len(fonts), os.path.join(args.fontinc, f"{font.idx}.inc"))
 
 if __name__ == "__main__":

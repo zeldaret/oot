@@ -11,7 +11,8 @@ import sys
 
 import xml.etree.ElementTree as XmlTree
 
-from audio_common import Soundbank, SampleHeader, padding16, loadSoundData, Soundfont, align
+from audio_common import Soundbank, SampleHeader, padding16, loadSoundData, \
+    Soundfont, align
 
 # Script variables
 debug_mode = False
@@ -595,7 +596,7 @@ def onerow(romaddr, size, medium, cachePolicy, instrumentCount, percussionCount,
         romaddr, size, medium, cachePolicy, instrumentCount, percussionCount, effectCount
     )
 
-def processBanks(sampledir, builddir, tabledir):
+def processBanks(sampledir, builddir, tabledir, quiet):
     xmltree = XmlTree.parse(os.path.join(sampledir, "Banks.xml"))
     xmlroot = xmltree.getroot()
 
@@ -828,12 +829,10 @@ def hexdump(buf, varname):
 def main(args):
     global debug_mode
     global match_mode
-    global quiet
 
     if args.debug and not args.quiet:
         debug_mode = True
     match_mode = args.match
-    quiet = args.quiet
 
     outpath = args.outpath
     inpath = args.inpath
@@ -868,7 +867,7 @@ def main(args):
     tablebuilddir = os.path.join(outpath, 'data')
     if args.build_bank:
         bankbuilddir = os.path.join(outpath, 'samplebanks')
-    processBanks(sampledir, bankbuilddir, tablebuilddir)
+    processBanks(sampledir, bankbuilddir, tablebuilddir, args.quiet)
 
     if debug_mode and args.build_bank and match_mode:
         # Find reference files.
@@ -931,7 +930,7 @@ def main(args):
 
         if match_mode and font.idx == len(fonts)-1:
             if match_mode not in last_font_match_sizes:
-                if not quiet:
+                if not args.quiet:
                     print(f"Match string \'{match_mode}\' not recognized! Ignoring...")
             else:
                 padding = last_font_match_sizes[match_mode] - output.tell()
