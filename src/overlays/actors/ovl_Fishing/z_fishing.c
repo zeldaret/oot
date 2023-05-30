@@ -5372,6 +5372,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamAt.y = mainCam->at.y;
             sSubCamAt.z = mainCam->at.z;
             Message_StartTextbox(play, 0x409E, NULL);
+            func_8002F7DC(&player->actor, player->ageProperties->unk_92 + NA_SE_VO_LI_SURPRISE);
             D_80B7A6CC = 11;
             func_800A9F6C(0.0f, 150, 10, 10);
             FALLTHROUGH;
