@@ -4281,7 +4281,7 @@ LodLimb gLinkChildHeadLimb = {
 };
 
 LodLimb gLinkChildHatLimb = { 
-    { -365, -670, 0 }, LIMB_DONE, LIMB_DONE,
+    { -590, -670, 0 }, LIMB_DONE, LIMB_DONE,
     { gLinkChildHatNearDL, gLinkChildHatFarDL }
 };
 

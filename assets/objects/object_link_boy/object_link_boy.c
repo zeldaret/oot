@@ -5712,7 +5712,7 @@ LodLimb gLinkAdultHeadLimb = {
 };
 
 LodLimb gLinkAdultHatLimb = { 
-    { -298, -700, 0 }, LIMB_DONE, LIMB_DONE,
+    { -523, -700, 0 }, LIMB_DONE, LIMB_DONE,
     { gLinkAdultHatNearDL, gLinkAdultHatFarDL }
 };
 
