@@ -1160,6 +1160,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
                     temp = 11;
                     if (this->unk_2C7 == 0) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
+                        Audio_PlayActorSound2(&this->actor, NA_SE_SY_NAVY_CALL);
                     }
                 }
                 break;
