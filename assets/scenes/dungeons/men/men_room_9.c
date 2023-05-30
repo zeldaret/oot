@@ -24,8 +24,8 @@ SceneCmd men_room_9Commands[] = {
     SCENE_CMD_SKYBOX_DISABLES(true, true),
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&men_room_9PolygonType2_000160),
-    SCENE_CMD_OBJECT_LIST(12, men_room_9ObjectList_000040),
-    SCENE_CMD_ACTOR_LIST(16, men_room_9ActorList_000058),
+    SCENE_CMD_OBJECT_LIST(13, men_room_9ObjectList_000040),
+    SCENE_CMD_ACTOR_LIST(25, men_room_9ActorList_000058),
     SCENE_CMD_END(),
 };
 
@@ -42,6 +42,7 @@ s16 men_room_9ObjectList_000040[] = {
     OBJECT_YDAN_OBJECTS,
     OBJECT_VALI,
     OBJECT_WALLMASTER,
+    OBJECT_TRAP,
 };
 
 ActorEntry men_room_9ActorList_000058[] = {
@@ -56,11 +57,20 @@ ActorEntry men_room_9ActorList_000058[] = {
     { ACTOR_OBJ_HSBLOCK,     {   2307,   -671,  -1224 }, {      0, 0X8000,      0 }, 0xFFC2 },
     { ACTOR_EN_BOX,          {   2183,   -108,  -1584 }, {      0, 0XC000,   0X1B }, 0x884D },
     { ACTOR_EN_WONDER_TALK2, {   2196,   -179,  -1466 }, {      0,      0,   0X45 }, 0x4CDB },
-    { ACTOR_EN_G_SWITCH,     {   2109,   -154,  -1560 }, {      0,      0,      0 }, 0x00DB },
+    { ACTOR_EN_G_SWITCH,     {   2109,   -154,  -1560 }, {      0,      0,      0 }, 0x015B },
     { ACTOR_EN_G_SWITCH,     {   2453,   -890,  -1612 }, {      0,      0,      0 }, 0x1FDB },
     { ACTOR_EN_G_SWITCH,     {   2302,   -797,  -1464 }, {      0,      0,      0 }, 0x1FDB },
     { ACTOR_EN_G_SWITCH,     {   2160,   -900,  -1315 }, {      0,      0,      0 }, 0x1FDB },
     { ACTOR_BG_YDAN_SP,      {   2300,   -245,  -1465 }, {      0,      0,      0 }, 0x0FF9 },
+    { ACTOR_EN_G_SWITCH,     {   2308,   -961,  -1464 }, {      0,      0,      0 }, 0x1FDB },
+    { ACTOR_OBJ_MURE,        {   2211,   -709,  -1545 }, {      0,      0,      0 }, 0x8322 },
+    { ACTOR_OBJ_MURE,        {   2395,   -894,  -1378 }, {      0,      0,      0 }, 0x8322 },
+    { ACTOR_EN_TRAP,         {   2304,   -961,  -1468 }, {      0,      0,      0 }, 0x2220 },
+    { ACTOR_EN_SB,           {   2153,   -960,  -1601 }, {      0, 0X20B6,      0 }, 0xFFFF },
+    { ACTOR_EN_SB,           {   2450,   -961,  -1601 }, {      0, 0XE000,      0 }, 0xFFFF },
+    { ACTOR_EN_SB,           {   2450,   -961,  -1340 }, {      0, 0XA000,      0 }, 0xFFFF },
+    { ACTOR_EN_SB,           {   2160,   -961,  -1325 }, {      0, 0X6000,      0 }, 0xFFFF },
+    { ACTOR_EN_G_SWITCH,     {   2497,   -605,  -1465 }, {      0,      0,      0 }, 0x1FDB },
 };
 
 u8 men_room_9_possiblePadding_000158[] = {

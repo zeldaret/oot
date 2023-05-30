@@ -49,7 +49,7 @@ ActorEntry men_room_7ActorList_00004C[] = {
     { ACTOR_EN_DODONGO,      {   1550,    -80,     35 }, {      0, 0XB555,      0 }, 0xFFFF },
     { ACTOR_EN_AM,           {   1191,    -20,     97 }, {      0, 0X6000,      0 }, 0xFFFF },
     { ACTOR_EN_BOX,          {   1481,    120,   -187 }, {      0, 0X8000,   0X1E }, 0x8841 },
-    { ACTOR_OBJ_ROOMTIMER,   {   1553,    -59,   -171 }, {      0,      0,      0 }, 0x7852 },
+    { ACTOR_OBJ_ROOMTIMER,   {   1553,    -59,   -171 }, {      0,      0,      0 }, 0x7861 },
     { ACTOR_EN_WONDER_TALK2, {   1251,    -58,   -374 }, {      0,      0,   0X45 }, 0x4C9E },
     { ACTOR_EN_WONDER_ITEM,  {   1481,    112,   -560 }, {      0,      0,    0X1 }, 0x1AE7 },
     { ACTOR_EN_VM,           {   1481,    -58,   -179 }, {      0,      0,      0 }, 0x0A01 },
