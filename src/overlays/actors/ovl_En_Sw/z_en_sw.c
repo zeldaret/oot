@@ -182,7 +182,6 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
             if (phi_s1 == 0) {
                 sp78.x = sp84.x - (this->unk_37C.x * 24.0f);
                 sp78.y = sp84.y - (this->unk_37C.y * 24.0f);
-                if (0) {}
                 sp78.z = sp84.z - (this->unk_37C.z * 24.0f);
             } else if (phi_s1 == 1) {
                 sp78.x = sp84.x + (this->unk_370.x * 24.0f);
@@ -194,15 +193,17 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
                 sp78.z = sp84.z - (this->unk_370.z * 24.0f);
             }
             temp_v0_2 = func_80B0C020(play, &sp84, &sp78, &sp9C, &sp6C);
-            if (temp_v0_2 != NULL) {
-                if (arg2 == 1) {
-                    func_80B0BE20(this, temp_v0_2);
-                    this->actor.world.pos = sp9C;
-                    this->actor.floorBgId = sp6C;
-                }
-                sp64 = 1;
-                break;
+            if (temp_v0_2 == NULL) {
+                continue;
             }
+
+            if (arg2 == 1) {
+                func_80B0BE20(this, temp_v0_2);
+                this->actor.world.pos = sp9C;
+                this->actor.floorBgId = sp6C;
+            }
+            sp64 = 1;
+            break;
         }
     }
 

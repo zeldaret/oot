@@ -217,12 +217,12 @@ void func_80AAF3C0(EnMm2* this, PlayState* play) {
                         break;
                 };
                 if (this->unk_1F4 & 4) {
-                    if (1) {}
                     this->unk_1F4 &= ~4;
                     HIGH_SCORE(HS_MARATHON)++;
                 }
             }
-            return;
+            break;
+
         case 0x6081:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 this->unk_1F4 |= 4;
@@ -230,18 +230,20 @@ void func_80AAF3C0(EnMm2* this, PlayState* play) {
                 Message_ContinueTextbox(play, 0x607E);
                 this->actor.textId = 0x607E;
             }
-            return;
-    }
+            break;
 
-    if (Actor_TextboxIsClosing(&this->actor, play)) {
-        if (this->actor.textId == 0x607F) {
-            Interface_SetSubTimer(0);
-            this->actionFunc = func_80AAF57C;
-        } else {
-            this->actionFunc = func_80AAF57C;
-        }
-        this->actionFunc = func_80AAF57C;
-        func_80AAEF70(this, play);
+        default:
+            if (Actor_TextboxIsClosing(&this->actor, play)) {
+                if (this->actor.textId == 0x607F) {
+                    Interface_SetSubTimer(0);
+                    this->actionFunc = func_80AAF57C;
+                } else {
+                    this->actionFunc = func_80AAF57C;
+                }
+                this->actionFunc = func_80AAF57C;
+                func_80AAEF70(this, play);
+            }
+            break;
     }
 }
 
