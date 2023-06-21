@@ -404,7 +404,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             if (this->unk_198 == 0x5A) {
                 if (!GET_EVENTCHKINF(EVENTCHKINF_71)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
-                                           SEGMENTED_TO_VIRTUAL(gKingDodongoBossTitleCardTex), 160, 180, 128, 40);
+                                           SEGMENTED_TO_VIRTUAL(gKingDodongoTitleCardTex), 160, 180, 128, 40);
                 }
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_FIRE_BOSS);
             }
