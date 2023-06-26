@@ -363,7 +363,7 @@ void EnSyatekiNiw_SetupArchery(EnSyatekiNiw* this, PlayState* play) {
 
 void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    f32 phi_f16 = 0.0f;
+    f32 rotYTargetOffset = 0.0f;
 
     player->actor.freezeTimer = 10;
     switch (this->archeryState) {
@@ -386,7 +386,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
                 this->archeryTimer = 5;
             }
 
-            phi_f16 = (this->rotYFlip == 0) ? 5000.0f : -5000.0f;
+            rotYTargetOffset = (this->rotYFlip == 0) ? 5000.0f : -5000.0f;
             if (this->actor.world.pos.z > 100.0f) {
                 this->actor.speed = 2.0f;
                 this->actor.gravity = -0.3f;
@@ -475,7 +475,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.y,
                        RAD_TO_BINANG(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
                                                   player->actor.world.pos.z - this->actor.world.pos.z)) +
-                           phi_f16,
+                           rotYTargetOffset,
                        5, this->posRotStep.y, 0);
     Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
     if (this->archeryAnimationType == 2) {
@@ -492,13 +492,14 @@ void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play) {
 }
 
 void EnSyatekiNiw_SetupRemove(EnSyatekiNiw* this, PlayState* play) {
-    s16 sp26;
-    s16 sp24;
+    s16 screenX;
+    s16 screenY;
 
     Actor_SetFocus(&this->actor, this->focusYOffset);
-    Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
-    if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
-        (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
+    Actor_GetScreenPos(play, &this->actor, &screenX, &screenY);
+    if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f)
+        && (screenX > 0) && (screenX < SCREEN_WIDTH) && (screenY > 0)
+        && (screenY < SCREEN_HEIGHT)) {
         this->actor.speed = 5.0f;
         this->rotYFlip = Rand_ZeroFloat(1.99f);
         this->removeStateYaw = Rand_CenteredFloat(8000.0f) + -10000.0f;
@@ -510,7 +511,7 @@ void EnSyatekiNiw_SetupRemove(EnSyatekiNiw* this, PlayState* play) {
 
 void EnSyatekiNiw_Remove(EnSyatekiNiw* this, PlayState* play) {
     s32 pad;
-    f32 phi_f2;
+    f32 rotYTargetOffset;
     s16 screenX;
     s16 screenY;
     f32 rotYTarget;
@@ -533,8 +534,8 @@ void EnSyatekiNiw_Remove(EnSyatekiNiw* this, PlayState* play) {
         }
     }
 
-    phi_f2 = (this->rotYFlip == 0) ? 5000.0f : -5000.0f;
-    rotYTarget = this->removeStateYaw + phi_f2;
+    rotYTargetOffset = (this->rotYFlip == 0) ? 5000.0f : -5000.0f;
+    rotYTarget = this->removeStateYaw + rotYTargetOffset;
     Math_SmoothStepToS(&this->actor.world.rot.y, rotYTarget, 3, this->posRotStep.y, 0);
     Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
     EnSyatekiNiw_UpdateRotateTargets(this, play, 2);
@@ -647,20 +648,21 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
         }
     }
 
-    i = 0;
+    // here, "i" doubles as boolean value.
+    i = false;
     switch (this->minigameType) {
         case SYATEKI_MINIGAME_ARCHERY:
             if (play->shootingGalleryStatus != 0) {
-                i = 1;
+                i = true;
             }
             break;
 
         case SYATEKI_MINIGAME_ALLEY:
-            i = 1;
+            i = true;
             break;
     }
 
-    if (i != 0) {
+    if (i) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

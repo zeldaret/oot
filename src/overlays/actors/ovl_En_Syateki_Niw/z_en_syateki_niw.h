@@ -28,14 +28,14 @@ typedef struct EnSyatekiNiw {
     /* 0x0190 */ Vec3s jointTable[16];
     /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ EnSyatekiNiwActionFunc actionFunc;
-    /* 0x0254 */ s16 peckTimer;
+    /* 0x0254 */ s16 peckTimer; // intervals of bobbing head on ground
     /* 0x0256 */ s16 timer1; // sometimes set alongside peckTimer, never read.
-    /* 0x0258 */ s16 flapTimer;
+    /* 0x0258 */ s16 flapTimer; // intervals of beating wings
     /* 0x025A */ s16 archeryTimer;
-    /* 0x025C */ s16 hopTimer;
-    /* 0x025E */ s16 movementTimer;
-    /* 0x0260 */ s16 sootTimer; // cucco is covered in soot.
-    /* 0x0262 */ s16 cluckTimer;
+    /* 0x025C */ s16 hopTimer; // intervals of jumping
+    /* 0x025E */ s16 movementTimer; // intervals of changing location
+    /* 0x0260 */ s16 sootTimer; // cucco is covered in soot, smoke emmits
+    /* 0x0262 */ s16 cluckTimer; // intervals of clucking SFX
     /* 0x0264 */ f32 headRotXTarget;
     /* 0x0268 */ f32 rightWingRotXTarget;
     /* 0x026C */ f32 leftWingRotXTarget;
@@ -54,8 +54,8 @@ typedef struct EnSyatekiNiw {
     /* 0x0298 */ s16 rotYFlip;
     /* 0x029C */ s16 archeryState; // state index for "Archery" action
     /* 0x029C */ s16 isFalling; // set when hit in archery game
-    /* 0x029E */ s16 minigameType;
-    /* 0x02A0 */ s16 spawnFeathers;
+    /* 0x029E */ s16 minigameType; // uses EnSyatekiMinigame from params
+    /* 0x02A0 */ s16 spawnFeathers; // triggers feather particles
     /* 0x02A4 */ Vec3f leftWingRot;
     /* 0x02B0 */ Vec3f rightWingRot;
     /* 0x02BC */ Vec3f headRot;
@@ -67,10 +67,10 @@ typedef struct EnSyatekiNiw {
     /* 0x02F4 */ f32 scale;
     /* 0x02F8 */ u8 unkAlleyHitByte; // Set when hit in Bombchu Alley. Never read.
     /* 0x02FC */ ColliderCylinder collider;
-    /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECT_COUNT];
+    /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECT_COUNT]; // feather particles
 } EnSyatekiNiw; // size = 0x0460
 
-typedef enum{
+typedef enum {
     SYATEKI_MINIGAME_ARCHERY, // unused archery game behavior
     SYATEKI_MINIGAME_ALLEY // Bombchu Alley behavior
 } EnSyatekiMinigame;
