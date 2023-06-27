@@ -1643,7 +1643,7 @@ void FileSelect_Main(GameState* thisx) {
 
     if (this->stickAdjY < -30) {
         if (this->stickYDir == -1) {
-            this->inputTimerY -= 1;
+            this->inputTimerY--;
             if (this->inputTimerY < 0) {
                 this->inputTimerY = 2;
             } else {
@@ -1655,7 +1655,7 @@ void FileSelect_Main(GameState* thisx) {
         }
     } else if (this->stickAdjY > 30) {
         if (this->stickYDir == 1) {
-            this->inputTimerY -= 1;
+            this->inputTimerY--;
             if (this->inputTimerY < 0) {
                 this->inputTimerY = 2;
             } else {

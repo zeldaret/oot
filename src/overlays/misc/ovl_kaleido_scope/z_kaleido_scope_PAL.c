@@ -1329,7 +1329,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
-        if (!pauseCtx->pageIndex) { // pageIndex == PAUSE_ITEM
+        if ((u32)pauseCtx->pageIndex == PAUSE_ITEM) {
             pauseCtx->itemPageRoll = pauseCtx->rollRotSavePrompt_ + 314.0f;
 
             Matrix_Translate(0.0f, (f32)R_PAUSE_OFFSET_VERTICAL / 100.0f, -pauseCtx->savePromptOffsetDepth_ / 10.0f,
@@ -1703,7 +1703,8 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
     if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) &&
         (pauseCtx->nameDisplayTimer < R_PAUSE_NAME_DISPLAY_TIMER_THRESHOLD_) &&
-        (!pauseCtx->mainState /* PAUSE_MAIN_STATE_IDLE */ || (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
+        (((u32)pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) ||
+         (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
          ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) &&
           (pauseCtx->mainState <= PAUSE_MAIN_STATE_EQUIP_CHANGED)
           /* PAUSE_MAIN_STATE_SONG_PROMPT_INIT, PAUSE_MAIN_STATE_SONG_PROMPT,
@@ -1712,7 +1713,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
          (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
         (pauseCtx->cursorSpecialPos == 0)) {
 
-        if (!pauseCtx->mainState /* PAUSE_MAIN_STATE_IDLE */ ||
+        if (((u32)pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) ||
             (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PLAYBACK) ||
             ((pauseCtx->mainState >= PAUSE_MAIN_STATE_SONG_PROMPT_INIT) &&
              (pauseCtx->mainState <= PAUSE_MAIN_STATE_EQUIP_CHANGED)
@@ -1845,7 +1846,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 }
             }
         } else {
-            if (!pauseCtx->pageIndex) { // pageIndex == PAUSE_ITEM
+            if ((u32)pauseCtx->pageIndex == PAUSE_ITEM) {
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
                     WREG(49 + gSaveContext.language);
 
@@ -3480,7 +3481,7 @@ void KaleidoScope_Update(PlayState* play) {
              PAUSE_STATE_15, PAUSE_STATE_16, PAUSE_STATE_17, PAUSE_STATE_CLOSING */
           ))) {
 
-        if ((!pauseCtx->mainState /* PAUSE_MAIN_STATE_IDLE */ ||
+        if ((((u32)pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) ||
              (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
             (pauseCtx->state == PAUSE_STATE_MAIN)) {
 

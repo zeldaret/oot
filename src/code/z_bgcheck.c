@@ -1610,7 +1610,7 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
                 customNodeListMax = sceneSubdivisionList[i].nodeListMax;
             }
         }
-        if (useCustomSubdivisions == false) {
+        if (!useCustomSubdivisions) {
             colCtx->subdivAmount.x = 16;
             colCtx->subdivAmount.y = 4;
             colCtx->subdivAmount.z = 16;
@@ -2296,7 +2296,7 @@ s32 BgCheck_CheckLineImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, 
             sectorMin.z += colCtx->subdivLength.z;
             sectorMax.z += colCtx->subdivLength.z;
         }
-    } else if (BgCheck_PosInStaticBoundingBox(colCtx, posA) == false) {
+    } else if (!BgCheck_PosInStaticBoundingBox(colCtx, posA)) {
         return false;
     } else {
         result =
@@ -2722,7 +2722,7 @@ s32 DynaPoly_SetBgActor(PlayState* play, DynaCollisionContext* dyna, Actor* acto
         }
     }
 
-    if (foundSlot == false) {
+    if (!foundSlot) {
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("DynaPolyInfo_setActor():ダイナミックポリゴン 空きインデックスはありません\n");
         osSyncPrintf(VT_RST);
@@ -2788,7 +2788,7 @@ void DynaPoly_DeleteBgActor(PlayState* play, DynaCollisionContext* dyna, s32 bgI
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("DynaPolyInfo_delReserve():index %d\n", bgId);
     osSyncPrintf(VT_RST);
-    if (DynaPoly_IsBgIdBgActor(bgId) == false) {
+    if (!DynaPoly_IsBgIdBgActor(bgId)) {
 
         if (bgId == -1) {
             osSyncPrintf(VT_FGCOL(GREEN));
@@ -3178,8 +3178,8 @@ f32 BgCheck_RaycastDownDyna(DynaRaycastDown* dynaRaycastDown) {
 
         if (dynaRaycastDown->actor == dynaRaycastDown->colCtx->dyna.bgActors[i].actor ||
             dynaRaycastDown->pos->y < dynaRaycastDown->colCtx->dyna.bgActors[i].minY ||
-            Math3D_XZInSphere(&dynaRaycastDown->colCtx->dyna.bgActors[i].boundingSphere, dynaRaycastDown->pos->x,
-                              dynaRaycastDown->pos->z) == false) {
+            !Math3D_XZInSphere(&dynaRaycastDown->colCtx->dyna.bgActors[i].boundingSphere, dynaRaycastDown->pos->x,
+                               dynaRaycastDown->pos->z)) {
             continue;
         }
 

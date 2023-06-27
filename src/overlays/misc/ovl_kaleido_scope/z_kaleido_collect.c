@@ -161,7 +161,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_collect.c", 248);
 
-    if ((!pauseCtx->mainState /* PAUSE_MAIN_STATE_IDLE */ || (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT) ||
+    if ((((u32)pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) || (pauseCtx->mainState == PAUSE_MAIN_STATE_SONG_PROMPT) ||
          (pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE_CURSOR_ON_SONG)) &&
         (pauseCtx->pageIndex == PAUSE_QUEST)) {
 

@@ -2820,23 +2820,9 @@ void BossVa_Update(Actor* thisx, PlayState* play2) {
             BossVa_UpdateEffects(play);
 
             for (i = 2; i >= 0; i--) {
-                if ((play->envCtx.adjAmbientColor[i] - 1) > 0) {
-                    play->envCtx.adjAmbientColor[i] -= 1;
-                } else {
-                    play->envCtx.adjAmbientColor[i] = 0;
-                }
-
-                if ((play->envCtx.adjLight1Color[i] - 10) > 0) {
-                    play->envCtx.adjLight1Color[i] -= 10;
-                } else {
-                    play->envCtx.adjLight1Color[i] = 0;
-                }
-
-                if ((play->envCtx.adjFogColor[i] - 10) > 0) {
-                    play->envCtx.adjFogColor[i] -= 10;
-                } else {
-                    play->envCtx.adjFogColor[i] = 0;
-                }
+                play->envCtx.adjAmbientColor[i] = MAX(play->envCtx.adjAmbientColor[i] - 1, 0);
+                play->envCtx.adjLight1Color[i] = MAX(play->envCtx.adjLight1Color[i] - 10, 0);
+                play->envCtx.adjFogColor[i] = MAX(play->envCtx.adjFogColor[i] - 10, 0);
             }
 
             if (this->onCeiling > 0) {

@@ -591,7 +591,7 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
         if (this->unlockTimer != 0) {
             Flags_SetSwitch(play, DOORSHUTTER_GET_SWITCH_FLAG(&this->dyna.actor));
             if (this->doorType != SHUTTER_BOSS) {
-                gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
+                gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
             } else {
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);

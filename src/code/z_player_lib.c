@@ -1322,7 +1322,7 @@ void func_80090A28(Player* this, Vec3f* vecs) {
     D_8012608C.x = D_80126080.x;
 
     if (this->unk_845 >= 3) {
-        this->unk_845 += 1;
+        this->unk_845++;
         D_8012608C.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
     }
 

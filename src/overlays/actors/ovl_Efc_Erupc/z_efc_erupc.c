@@ -212,7 +212,7 @@ void EfcErupc_UpdateEffects(EfcErupc* this, PlayState* play) {
             cur->vel.x += cur->accel.x;
             cur->vel.y += cur->accel.y;
             cur->vel.z += cur->accel.z;
-            cur->animTimer += 1;
+            cur->animTimer++;
             index = cur->animTimer % 4;
             color = &effectColors[index];
             cur->color.r = color->r;
