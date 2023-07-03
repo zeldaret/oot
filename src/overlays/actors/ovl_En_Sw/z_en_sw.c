@@ -101,23 +101,23 @@ s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     this->unk_37C.y *= (1.0f / length);
     this->unk_37C.z *= (1.0f / length);
     this->surfaceNormal = polyNormal;
-    this->unk_3D8.xx = this->unk_370.x;
-    this->unk_3D8.yx = this->unk_370.y;
-    this->unk_3D8.zx = this->unk_370.z;
-    this->unk_3D8.wx = 0.0f;
-    this->unk_3D8.xy = this->surfaceNormal.x;
-    this->unk_3D8.yy = this->surfaceNormal.y;
-    this->unk_3D8.zy = this->surfaceNormal.z;
-    this->unk_3D8.wy = 0.0f;
-    this->unk_3D8.xz = this->unk_37C.x;
-    this->unk_3D8.yz = this->unk_37C.y;
-    this->unk_3D8.zz = this->unk_37C.z;
-    this->unk_3D8.wz = 0.0f;
-    this->unk_3D8.xw = 0.0f;
-    this->unk_3D8.yw = 0.0f;
-    this->unk_3D8.zw = 0.0f;
-    this->unk_3D8.ww = 1.0f;
-    Matrix_MtxFToYXZRotS(&this->unk_3D8, &this->actor.world.rot, 0);
+    this->rotMtxF.xx = this->unk_370.x;
+    this->rotMtxF.yx = this->unk_370.y;
+    this->rotMtxF.zx = this->unk_370.z;
+    this->rotMtxF.wx = 0.0f;
+    this->rotMtxF.xy = this->surfaceNormal.x;
+    this->rotMtxF.yy = this->surfaceNormal.y;
+    this->rotMtxF.zy = this->surfaceNormal.z;
+    this->rotMtxF.wy = 0.0f;
+    this->rotMtxF.xz = this->unk_37C.x;
+    this->rotMtxF.yz = this->unk_37C.y;
+    this->rotMtxF.zz = this->unk_37C.z;
+    this->rotMtxF.wz = 0.0f;
+    this->rotMtxF.xw = 0.0f;
+    this->rotMtxF.yw = 0.0f;
+    this->rotMtxF.zw = 0.0f;
+    this->rotMtxF.ww = 1.0f;
+    Matrix_MtxFToYXZRotS(&this->rotMtxF, &this->actor.world.rot, 0);
     //! @bug: Does not return.
 }
 
@@ -164,7 +164,7 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 arg2) {
     posB.z -= this->surfaceNormal.z * 18.0f;
     temp_s1 = EnSw_GetPoly(play, &posA, &posB, &posOut, &bgId);
 
-    if ((temp_s1 != NULL) && (this->goldIsHidden == false)) {
+    if ((temp_s1 != NULL) && (this->goldInAir == false)) {
         posB.x = posA.x + (this->unk_37C.x * 24);
         posB.y = posA.y + (this->unk_37C.y * 24);
         posB.z = posA.z + (this->unk_37C.z * 24);
@@ -283,7 +283,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         case SW_TYPE_GOLD_HIDDEN_SOIL:
         case SW_TYPE_GOLD_HIDDEN_TREE:
             // they spring out of their hidding spot
-            this->goldIsHidden = true;
+            this->goldInAir = true;
             this->actor.velocity.y = 8.0f;
             this->actor.speed = 4.0f;
             this->actor.gravity = -1.0f;
@@ -348,6 +348,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
             }
             Enemy_StartFinishingBlow(play, &this->actor);
             if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
+                // Gold Skultula spins in place as it dies.
                 this->skelAnime.playSpeed = 8.0f;
                 if ((play->state.frames & 1) == 0) {
                     this->rotateMag = 0.1f;
@@ -359,6 +360,7 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
                 this->rotateMag *= 4.0f;
                 this->actionFunc = EnSw_DieGold;
             } else {
+                // Skulwalltula detaches from surface before dying.
                 this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
                 this->actor.shape.shadowAlpha = 0xFF;
                 this->animSpeed = 2;
@@ -530,7 +532,7 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
     this->actor.velocity.y = CLAMP_MIN(this->actor.velocity.y, this->actor.minVelocityY);
 
     if (this->actor.velocity.y < 0.0f) {
-        this->goldIsHidden = false;
+        this->goldInAir = false;
     }
 
     if (EnSw_MoveGold(this, play, 1) == true) {
@@ -709,14 +711,18 @@ s32 EnSW_CanDashPlayer(EnSw* this, PlayState* play, s32 arg2) {
     s32 bgId;
     Vec3f pos;
 
+    // Check if Link is in climbing state.
     if (!(player->stateFlags1 & PLAYER_STATE1_21) && arg2) {
         return false;
     } else if (func_8002DDF4(play) && arg2) {
         return false;
+    // check Link's Angle
     } else if (ABS(EnSw_GetTargetPitch(this, &player->actor.world.pos) - this->actor.shape.rot.z) >= 0x1FC2) {
         return false;
+    // is Link in dash range?
     } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.world.pos) >= 130.0f) {
         return false;
+    // are there no obstructions?
     } else if (!BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &pos, &poly,
                                         true, false, false, true, &bgId)) {
         return true;
@@ -736,20 +742,20 @@ s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         ret = false;
     } else if (((play->state.frames % 4) == 0) &&
-               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->lineCast0, &posResult, &poly, true,
+               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine0, &posResult, &poly, true,
                                         false, false, true, &bgId)) {
         ret = false;
     } else if (((play->state.frames % 4) == 1) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->lineCast1, &posResult, &poly, true, false,
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine1, &posResult, &poly, true, false,
                                        false, true, &bgId)) {
         ret = false;
     } else if (((play->state.frames % 4) == 2) &&
-               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->lineCast2, &posResult, &poly, true,
+               !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine2, &posResult, &poly, true,
                                         false, false, true, &bgId)) {
         if (0) {}
         ret = false;
     } else if (((play->state.frames % 4) == 3) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->lineCast3, &posResult, &poly, true, false,
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine3, &posResult, &poly, true, false,
                                        false, true, &bgId)) {
         ret = false;
     }
@@ -913,13 +919,13 @@ void EnSw_Update(Actor* thisx, PlayState* play) {
 }
 
 s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    Vec3f sp7C = { 1400.0f, -2600.0f, -800.0f };
-    Vec3f sp70 = { 1400.0f, -1600.0f, 0.0f };
-    Vec3f sp64 = { -1400.0f, -2600.0f, -800.0f };
-    Vec3f sp58 = { -1400.0f, -1600.0f, 0.0f };
-    Vec3f sp4C = { 0.0, 0.0f, -600.0f };
+    Vec3f sightPos0 = { 1400.0f, -2600.0f, -800.0f };
+    Vec3f sightPos1 = { 1400.0f, -1600.0f, 0.0f };
+    Vec3f sightPos2 = { -1400.0f, -2600.0f, -800.0f };
+    Vec3f sightPos3 = { -1400.0f, -1600.0f, 0.0f };
+    Vec3f bottomPos = { 0.0, 0.0f, -600.0f };
     EnSw* this = (EnSw*)thisx;
-    Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2084);
 
@@ -958,16 +964,16 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
         }
     }
 
-    if (limbIndex == 1) { // eyes?
-        Matrix_MultVec3f(&sp7C, &this->lineCast0);
-        Matrix_MultVec3f(&sp70, &this->lineCast1);
-        Matrix_MultVec3f(&sp64, &this->lineCast2);
-        Matrix_MultVec3f(&sp58, &this->lineCast3);
-        Matrix_MultVec3f(&sp4C, &this->wallCast);
+    if (limbIndex == 1) { // calculate eyelines.
+        Matrix_MultVec3f(&sightPos0, &this->eyeLine0);
+        Matrix_MultVec3f(&sightPos1, &this->eyeLine1);
+        Matrix_MultVec3f(&sightPos2, &this->eyeLine2);
+        Matrix_MultVec3f(&sightPos3, &this->eyeLine3);
+        Matrix_MultVec3f(&bottomPos, &this->wallCast);
     }
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&sp3C, &this->actor.focus.pos);
+        Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
     }
 
     if (limbIndex == 4) { // head?
@@ -984,12 +990,12 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnSw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
 
-void EnSw_SetFog(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
+void EnSw_SetFog(PlayState* play, Color_RGBA8* color, s16 distA, s16 distB) {
     f32 far;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sw.c", 2181);
 
-    far = (11500.0f / arg3) * (arg3 - arg2);
+    far = (11500.0f / distB) * (distB - distA);
 
     if (0.0f == far) {
         far = 11500;
@@ -1012,7 +1018,7 @@ void EnSw_RestoreFog(PlayState* play) {
 
 void EnSw_Draw(Actor* thisx, PlayState* play) {
     EnSw* this = (EnSw*)thisx;
-    Color_RGBA8 color = { 184, 0, 228, 255 };
+    Color_RGBA8 color = { 184, 0, 228, 255 }; // violet tint when dashing.
 
     if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
         Matrix_RotateX(DEG_TO_RAD(-80), MTXMODE_APPLY);
