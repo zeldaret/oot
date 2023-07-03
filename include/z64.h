@@ -702,7 +702,7 @@ typedef struct {
 #define DEFINE_GAMESTATE(typeName, enumName, name) DEFINE_GAMESTATE_INTERNAL(typeName, enumName)
 typedef enum {
 #include "tables/gamestate_table.h"
-    GAMESTATE_ID_MAX
+    GAMESTATE_MAX
 } GameStateId;
 #undef DEFINE_GAMESTATE
 #undef DEFINE_GAMESTATE_INTERNAL

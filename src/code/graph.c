@@ -412,11 +412,9 @@ void Graph_ThreadEntry(void* arg0) {
     GraphicsContext gfxCtx;
     GameState* gameState;
     u32 size;
-    GameStateOverlay* nextOvl;
+    GameStateOverlay* nextOvl = &gGameStateOverlayTable[GAMESTATE_SETUP];
     GameStateOverlay* ovl;
     char faultMsg[0x50];
-
-    nextOvl = gGameStateOverlayTable;
 
     osSyncPrintf("グラフィックスレッド実行開始\n"); // "Start graphic thread execution"
     Graph_Init(&gfxCtx);
