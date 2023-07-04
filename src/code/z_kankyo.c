@@ -12,13 +12,14 @@ typedef enum {
 } LightningBoltState;
 
 typedef struct {
-    /* 0x00 */ s32 mantissa;
-    /* 0x04 */ s32 exponent;
-} ZBufValConversionEntry; // size = 0x8
+    /* 0x00 */ s32 mantissaShift; // shift applied to the mantissa of the z buffer value
+    /* 0x04 */ s32 base;          // 15.3 fixed-point base value for the exponent
+} ZBufValConversionEntry;         // size = 0x8
 
+// This table needs as many values as there are values for the 3-bit exponent
 ZBufValConversionEntry sZBufValConversionTable[1 << 3] = {
-    { 6, 0x00000 }, { 5, 0x20000 }, { 4, 0x30000 }, { 3, 0x38000 },
-    { 2, 0x3C000 }, { 1, 0x3E000 }, { 0, 0x3F000 }, { 0, 0x3F800 },
+    { 6, 0x0000 << 3 }, { 5, 0x4000 << 3 }, { 4, 0x6000 << 3 }, { 3, 0x7000 << 3 },
+    { 2, 0x7800 << 3 }, { 1, 0x7C00 << 3 }, { 0, 0x7E00 << 3 }, { 0, 0x7F00 << 3 },
 };
 
 u8 gWeatherMode = WEATHER_MODE_CLEAR; // "E_wether_flg"
@@ -225,9 +226,9 @@ u16 sSandstormScroll;
  *   4: dz value (unused)
  */
 s32 Environment_ZBufValToFixedPoint(s32 zBufferVal) {
-    // base[exp] + mantissa << shift[exp]
-    s32 ret = (ZBUFVAL_MANTISSA(zBufferVal) << sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].mantissa) +
-              sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].exponent;
+    // base[exp] + (mantissa << shift[exp])
+    s32 ret = (ZBUFVAL_MANTISSA(zBufferVal) << sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].mantissaShift) +
+              sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].base;
 
     return ret;
 }
