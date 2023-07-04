@@ -295,7 +295,7 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     Room_DecodeJpeg(SEGMENTED_TO_VIRTUAL(tex));
 
     bg = (uObjBg*)(gfx + 1);
-    gSPBranchList(gfx, (uintptr_t)bg + sizeof(uObjBg));
+    gSPBranchList(gfx, (Gfx*)(bg + 1));
 
     bg->b.imageX = 0;
     bg->b.imageW = width * (1 << 2);
@@ -310,7 +310,7 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     bg->b.imagePal = 0;
     bg->b.imageFlip = 0;
 
-    gfx = (Gfx*)((uintptr_t)bg + sizeof(uObjBg));
+    gfx = (Gfx*)(bg + 1);
 
     if (fmt == G_IM_FMT_CI) {
         gDPLoadTLUT(gfx++, tlutCount, 256, tlut);
