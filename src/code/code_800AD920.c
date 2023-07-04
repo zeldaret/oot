@@ -27,7 +27,7 @@ void func_800AD950(struct_80166500* this) {
 void func_800AD958(struct_80166500* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
     u16* tex = D_0E000000;
-    s32 fmt = this->useRgba == false ? G_IM_FMT_IA : G_IM_FMT_RGBA;
+    s32 fmt = !this->useRgba ? G_IM_FMT_IA : G_IM_FMT_RGBA;
     s32 y;
     s32 height = 6;
 

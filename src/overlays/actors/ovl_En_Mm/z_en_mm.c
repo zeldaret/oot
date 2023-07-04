@@ -387,8 +387,8 @@ s32 func_80AADEF0(EnMm* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->yawToWaypoint, 1, 2500, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
-    Actor_MoveForward(&this->actor);
+    Math_SmoothStepToF(&this->actor.speed, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     return 0;
@@ -401,7 +401,7 @@ void func_80AAE224(EnMm* this, PlayState* play) {
         this->mouthTexIndex = RM_MOUTH_CLOSED;
         this->unk_254 |= 1;
         this->unk_1E0 = 0;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnMm_ChangeAnim(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
     }
 }
@@ -415,7 +415,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
 
         if (this->curAnimIndex == 0) {
             if (((s32)this->skelAnime.curFrame == 1) || ((s32)this->skelAnime.curFrame == 6)) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_PL_WALK_GROUND);
+                Actor_PlaySfx(&this->actor, NA_SE_PL_WALK_GROUND);
             }
         }
 
@@ -423,7 +423,7 @@ void func_80AAE294(EnMm* this, PlayState* play) {
             if (((this->skelAnime.curFrame - this->skelAnime.playSpeed < 9.0f) && (this->skelAnime.curFrame >= 9.0f)) ||
                 ((this->skelAnime.curFrame - this->skelAnime.playSpeed < 19.0f) &&
                  (this->skelAnime.curFrame >= 19.0f))) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
             }
         }
 
@@ -526,9 +526,10 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
         s32 linkChildObjBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_LINK_CHILD);
 
+        // Draw Bunny Hood
         if (linkChildObjBankIndex >= 0) {
             Mtx* mtx;
-            Vec3s sp50;
+            Vec3s earRot;
             Mtx* mtx2;
 
             mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 2);
@@ -540,18 +541,20 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
 
-            sp50.x = 994;
-            sp50.y = 3518;
-            sp50.z = -13450;
+            // Draw the ears in the neutral position (unlike Player, no flopping physics)
 
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
+            // Right ear
+            earRot.x = 0x3E2;
+            earRot.y = 0xDBE;
+            earRot.z = -0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
             Matrix_ToMtx(mtx++, "../z_en_mm.c", 1124);
 
-            sp50.x = -994;
-            sp50.y = -3518;
-            sp50.z = -13450;
-
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
+            // Left ear
+            earRot.x = -0x3E2;
+            earRot.y = -0xDBE;
+            earRot.z = -0x348A;
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
             Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);

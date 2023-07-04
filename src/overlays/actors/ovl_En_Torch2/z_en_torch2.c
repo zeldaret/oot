@@ -153,7 +153,7 @@ s32 EnTorch2_SwingSword(PlayState* play, Input* input, Player* this) {
     s32 attackDelay = 7;
     Player* player = GET_PLAYER(play);
 
-    if ((this->linearVelocity < 0.0f) || (player->linearVelocity < 0.0f)) {
+    if ((this->speedXZ < 0.0f) || (player->speedXZ < 0.0f)) {
         return 0;
     }
     if (gSaveContext.health < 0x50) {
@@ -368,9 +368,9 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                                 this->actor.flags &= ~ACTOR_FLAG_0;
                                 sSwordJumpTimer = 27;
                                 player->meleeWeaponState = 0;
-                                player->linearVelocity = 0.0f;
+                                player->speedXZ = 0.0f;
                                 this->invincibilityTimer = -7;
-                                this->linearVelocity = 0.0f;
+                                this->speedXZ = 0.0f;
                                 player->skelAnime.curFrame = 2.0f;
                                 LinkAnimation_Update(play, &player->skelAnime);
                                 sHoldShieldTimer = 0;
@@ -562,7 +562,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     // Handles Dark Link being damaged
 
     if ((this->actor.colChkInfo.health == 0) && sDeathFlag) {
-        this->csMode = 0x18;
+        this->csMode = PLAYER_CSMODE_24;
         this->unk_448 = &player->actor;
         this->doorBgCamIndex = 1;
         sDeathFlag = false;
@@ -588,9 +588,9 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             func_800F5ACC(NA_BGM_MINI_BOSS);
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (sAlpha == 255) {
-                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
                 } else {
-                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
                 }
             } else {
                 this->actor.flags &= ~ACTOR_FLAG_0;
@@ -604,9 +604,9 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                 this->stateFlags3 |= PLAYER_STATE3_0;
                 sActionState = ENTORCH2_DAMAGE;
                 if (sAlpha == 255) {
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 12);
                 } else {
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0xC);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 12);
                 }
             }
         }
@@ -630,7 +630,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
          */
         input->cur.button = 0;
         input->press.button = 0;
-        this->linearVelocity = 0.0f;
+        this->speedXZ = 0.0f;
     }
 
     play->playerUpdate(this, play, input);
@@ -639,17 +639,17 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
      * Handles sword clanks and removes their recoil for both Links. Dark Link staggers
      * if he's had to counter with enough different sword animations in a row.
      */
-    if (this->linearVelocity == -18.0f) {
+    if (this->speedXZ == -18.0f) {
         staggerThreshold = (u32)Rand_CenteredFloat(2.0f) + 6;
         if (gSaveContext.health < 0x50) {
             staggerThreshold = (u32)Rand_CenteredFloat(2.0f) + 3;
         }
         if (this->actor.xzDistToPlayer > 80.0f) {
-            this->linearVelocity = 1.2f;
+            this->speedXZ = 1.2f;
         } else if (this->actor.xzDistToPlayer < 70.0f) {
-            this->linearVelocity = -1.5f;
+            this->speedXZ = -1.5f;
         } else {
-            this->linearVelocity = 1.0f;
+            this->speedXZ = 1.0f;
         }
         if (staggerThreshold < sStaggerCount) {
             this->skelAnime.playSpeed *= 0.6f;
@@ -658,13 +658,13 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
             sStaggerCount = 0;
         }
     }
-    if (player->linearVelocity == -18.0f) {
+    if (player->speedXZ == -18.0f) {
         if (this->actor.xzDistToPlayer > 80.0f) {
-            player->linearVelocity = 1.2f;
+            player->speedXZ = 1.2f;
         } else if (this->actor.xzDistToPlayer < 70.0f) {
-            player->linearVelocity = -1.5f;
+            player->speedXZ = -1.5f;
         } else {
-            player->linearVelocity = 1.0f;
+            player->speedXZ = 1.0f;
         }
     }
     /*

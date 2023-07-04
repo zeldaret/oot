@@ -141,7 +141,7 @@ void EnGe3_WaitTillCardGiven(EnGe3* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe3_Wait;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -150,7 +150,7 @@ void EnGe3_GiveCard(EnGe3* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe3_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -159,7 +159,7 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
         this->actionFunc = EnGe3_GiveCard;
     } else {
         if (!(this->unk_30C & 4)) {
-            func_8002DF54(play, &this->actor, 7);
+            func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
             this->unk_30C |= 4;
         }
         this->actor.textId = 0x6004;
@@ -184,7 +184,7 @@ void EnGe3_UpdateCollision(EnGe3* this, PlayState* play) {
 
 void EnGe3_MoveAndBlink(EnGe3* this, PlayState* play) {
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);

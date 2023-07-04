@@ -43,6 +43,7 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 
 	auto nodeMap = ZFile::GetNodeMap();
 	size_t childIndex = rawDataIndex;
+	resList.reserve(arrayCnt);
 	for (size_t i = 0; i < arrayCnt; i++)
 	{
 		ZResource* res = nodeMap->at(childName)(parent);
@@ -94,7 +95,7 @@ Declaration* ZArray::DeclareVar(const std::string& prefix, const std::string& bo
 
 std::string ZArray::GetBodySourceCode() const
 {
-	std::string output = "";
+	std::string output;
 
 	for (size_t i = 0; i < arrayCnt; i++)
 	{
@@ -107,6 +108,7 @@ std::string ZArray::GetBodySourceCode() const
 		case ZResourceType::Scalar:
 		case ZResourceType::Vertex:
 		case ZResourceType::CollisionPoly:
+		case ZResourceType::SurfaceType:
 			output += resList.at(i)->GetBodySourceCode();
 			break;
 
@@ -125,7 +127,7 @@ std::string ZArray::GetBodySourceCode() const
 size_t ZArray::GetRawDataSize() const
 {
 	size_t size = 0;
-	for (auto res : resList)
+	for (const auto res : resList)
 		size += res->GetRawDataSize();
 	return size;
 }

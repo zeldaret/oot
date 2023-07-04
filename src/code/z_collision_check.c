@@ -1610,11 +1610,11 @@ s32 CollisionCheck_SwordHitAudio(Collider* at, ColliderInfo* acInfo) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &at->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acInfo->elemType == ELEMTYPE_UNK2) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &at->actor->projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_NONE, &at->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acInfo->elemType == ELEMTYPE_UNK3) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &at->actor->projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_NONE, &at->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
     return true;
@@ -3537,7 +3537,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         return 0;
     }
 
-    if (intersect2 == false) {
+    if (!intersect2) {
         if (frac1 < 0.0f || 1.0f < frac1) {
             return 0;
         }
@@ -3564,7 +3564,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         ((frac2 * itemStep.y + actorToItem.y < 0.0f) || (height < frac2 * itemStep.y + actorToItem.y))) {
         intersect2 = false;
     }
-    if (intersect1 == false && intersect2 == false) {
+    if (!intersect1 && !intersect2) {
         return 0;
     } else if ((intersect1 == true) && (intersect2 == true)) {
         out1->x = frac1 * itemStep.x + actorToItem.x + actorPos->x;

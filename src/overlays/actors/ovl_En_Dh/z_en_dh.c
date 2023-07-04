@@ -189,7 +189,7 @@ void EnDh_SetupWait(EnDh* this) {
     this->actor.world.pos.x = Rand_CenteredFloat(600.0f) + this->actor.home.pos.x;
     this->actor.world.pos.z = Rand_CenteredFloat(600.0f) + this->actor.home.pos.z;
     this->actor.shape.yOffset = -15000.0f;
-    this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
+    this->dirtWaveSpread = this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.flags |= ACTOR_FLAG_7;
     this->dirtWavePhase = this->actionState = this->actor.params = ENDH_WAIT_UNDERGROUND;
@@ -211,7 +211,7 @@ void EnDh_Wait(EnDh* this, PlayState* play) {
                 this->actor.flags &= ~ACTOR_FLAG_7;
                 this->actionState++;
                 this->drawDirtWave++;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HIDE);
                 FALLTHROUGH;
             case 1:
                 this->dirtWavePhase += 0x3A7;
@@ -243,7 +243,7 @@ void EnDh_SetupWalk(EnDh* this) {
                      Animation_GetLastFrame(&object_dh_Anim_003A8C) - 3.0f, ANIMMODE_LOOP, -6.0f);
     this->curAction = DH_WALK;
     this->timer = 300;
-    this->actor.speedXZ = 1.0f;
+    this->actor.speed = 1.0f;
     EnDh_SetupAction(this, EnDh_Walk);
 }
 
@@ -252,13 +252,13 @@ void EnDh_Walk(EnDh* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
     if (((s32)this->skelAnime.curFrame % 8) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_WALK);
     }
     if ((play->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_LAUGH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_LAUGH);
     }
     if (this->actor.xzDistToPlayer <= 100.0f) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         if (Actor_IsFacingPlayer(&this->actor, 60 * 0x10000 / 360)) {
             EnDh_SetupAttack(this);
         }
@@ -271,7 +271,7 @@ void EnDh_SetupRetreat(EnDh* this, PlayState* play) {
     Animation_MorphToLoop(&this->skelAnime, &object_dh_Anim_005880, -4.0f);
     this->curAction = DH_RETREAT;
     this->timer = 70;
-    this->actor.speedXZ = 1.0f;
+    this->actor.speed = 1.0f;
     EnDh_SetupAction(this, EnDh_Retreat);
 }
 
@@ -291,7 +291,7 @@ void EnDh_SetupAttack(EnDh* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_004658, -6.0f);
     this->timer = this->actionState = 0;
     this->curAction = DH_ATTACK;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnDh_SetupAction(this, EnDh_Attack);
 }
 
@@ -311,7 +311,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
         case 1:
             Animation_PlayOnce(&this->skelAnime, &object_dh_Anim_001A3C);
             this->actionState++;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_BITE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_BITE);
             FALLTHROUGH;
         case 0:
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
@@ -360,12 +360,12 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
 void EnDh_SetupBurrow(EnDh* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_002148, -6.0f);
     this->curAction = DH_BURROW;
-    this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
+    this->dirtWaveSpread = this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->dirtWavePhase = 0;
     this->actionState = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HIDE);
     EnDh_SetupAction(this, EnDh_Burrow);
 }
 
@@ -403,16 +403,16 @@ void EnDh_Burrow(EnDh* this, PlayState* play) {
 void EnDh_SetupDamage(EnDh* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_003D6C, -6.0f);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        this->actor.speedXZ = -1.0f;
+        this->actor.speed = -1.0f;
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
     this->curAction = DH_DAMAGE;
     EnDh_SetupAction(this, EnDh_Damage);
 }
 
 void EnDh_Damage(EnDh* this, PlayState* play) {
-    if (this->actor.speedXZ < 0.0f) {
-        this->actor.speedXZ += 0.15f;
+    if (this->actor.speed < 0.0f) {
+        this->actor.speed += 0.15f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -436,10 +436,10 @@ void EnDh_SetupDeath(EnDh* this) {
     this->curAction = DH_DEATH;
     this->timer = 300;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     func_800F5B58();
     this->actor.params = ENDH_DEATH;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_DEAD);
     EnDh_SetupAction(this, EnDh_Death);
 }
 
@@ -461,7 +461,7 @@ void EnDh_Death(EnDh* this, PlayState* play) {
     } else {
         if (((s32)this->skelAnime.curFrame == 53) || ((s32)this->skelAnime.curFrame == 56) ||
             ((s32)this->skelAnime.curFrame == 61)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_RIZA_DOWN);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
         if ((s32)this->skelAnime.curFrame == 61) {
             Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
@@ -482,7 +482,7 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
             if (player->unk_844 != 0) {
                 this->unk_258 = player->unk_845;
             }
-            Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
             lastHealth = this->actor.colChkInfo.health;
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDh_SetupDeath(this);
@@ -508,7 +508,7 @@ void EnDh_Update(Actor* thisx, PlayState* play) {
 
     EnDh_CollisionCheck(this, play);
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 45.0f, 45.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);

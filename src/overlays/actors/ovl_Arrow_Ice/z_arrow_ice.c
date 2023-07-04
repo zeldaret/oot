@@ -110,7 +110,7 @@ void ArrowIce_Hit(ArrowIce* this, PlayState* play) {
 
     timer = this->timer;
     if (timer != 0) {
-        this->timer -= 1;
+        this->timer--;
 
         if (this->timer >= 8) {
             offset = ((this->timer - 8) * (1.0f / 24.0f));
@@ -165,7 +165,7 @@ void ArrowIce_Fly(ArrowIce* this, PlayState* play) {
     func_80867E8C(&this->unkPos, &this->actor.world.pos, 0.05f);
 
     if (arrow->hitFlags & 1) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_EXPLOSION_ICE);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_EXPLOSION_ICE);
         ArrowIce_SetupAction(this, ArrowIce_Hit);
         this->timer = 32;
         this->alpha = 255;

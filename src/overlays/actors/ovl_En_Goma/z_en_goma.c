@@ -128,7 +128,7 @@ void EnGoma_Init(Actor* thisx, PlayState* play) {
         this->eggScale = 1.0f;
         this->actor.velocity.y = Rand_ZeroOne() * 5.0f + 5.0f;
         this->actionFunc = EnGoma_Debris;
-        this->actor.speedXZ = Rand_ZeroOne() * 2.3f + 1.5f;
+        this->actor.speed = Rand_ZeroOne() * 2.3f + 1.5f;
         this->actionTimer = 30;
         this->actor.scale.x = Rand_ZeroOne() * 0.005f + 0.01f;
         this->actor.scale.y = Rand_ZeroOne() * 0.005f + 0.01f;
@@ -144,7 +144,7 @@ void EnGoma_Init(Actor* thisx, PlayState* play) {
         if (this->actor.params < 3) { // Spawned by boss
             this->actionFunc = EnGoma_EggFallToGround;
             this->invincibilityTimer = 10;
-            this->actor.speedXZ = 1.5f;
+            this->actor.speed = 1.5f;
         } else if (this->actor.params == 8 || this->actor.params == 6) {
             this->actionFunc = EnGoma_Egg;
             this->spawnNum = sSpawnNum++;
@@ -185,15 +185,15 @@ void EnGoma_SetupFlee(EnGoma* this) {
     this->actionTimer = 20;
 
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_DAM2);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_DAM2);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_DAM2);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_DAM2);
     }
 }
 
 void EnGoma_Flee(EnGoma* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
-    Math_ApproachF(&this->actor.speedXZ, 20.0f / 3.0f, 0.5f, 2.0f);
+    Math_ApproachF(&this->actor.speed, 20.0f / 3.0f, 0.5f, 2.0f);
     Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) + 0x8000,
                    3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
@@ -214,9 +214,9 @@ void EnGoma_EggFallToGround(EnGoma* this, PlayState* play) {
         case 0:
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 if (this->actor.params < 6) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_EGG1);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_EGG1);
                 } else {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_EGG1);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_EGG1);
                 }
 
                 if (this->actor.params > 5) {
@@ -235,7 +235,7 @@ void EnGoma_EggFallToGround(EnGoma* this, PlayState* play) {
                 this->actionTimer = 3;
                 Math_ApproachF(&this->eggScale, 0.75f, 0.5f, 1.0f);
                 this->actor.velocity.y = 5.0f;
-                this->actor.speedXZ = 2.0f;
+                this->actor.speed = 2.0f;
             } else {
                 Math_ApproachF(&this->eggScale, 1.5f, 0.5f, 1.0f);
             }
@@ -259,9 +259,9 @@ void EnGoma_EggFallToGround(EnGoma* this, PlayState* play) {
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_ApproachZeroF(&this->actor.speedXZ, 0.2f, 0.05f);
+        Math_ApproachZeroF(&this->actor.speed, 0.2f, 0.05f);
     }
-    this->eggPitch += (this->actor.speedXZ * 0.1f);
+    this->eggPitch += (this->actor.speed * 0.1f);
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
@@ -306,7 +306,7 @@ void EnGoma_SetupHatch(EnGoma* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnGoma_SpawnHatchDebris(this, play);
     this->eggScale = 1.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void EnGoma_Hatch(EnGoma* this, PlayState* play) {
@@ -328,12 +328,12 @@ void EnGoma_SetupHurt(EnGoma* this, PlayState* play) {
         this->actionTimer = 10;
     }
 
-    this->actor.speedXZ = 20.0f;
+    this->actor.speed = 20.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_DAM1);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_DAM1);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_DAM1);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_DAM1);
     }
 }
 
@@ -341,7 +341,7 @@ void EnGoma_Hurt(EnGoma* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
+        Math_ApproachZeroF(&this->actor.speed, 1.0f, 2.0f);
     }
 
     if (this->actionTimer == 0) {
@@ -360,9 +360,9 @@ void EnGoma_SetupDie(EnGoma* this) {
     this->actionTimer = 30;
 
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_DEAD);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_DEAD);
     }
 
     this->invincibilityTimer = 100;
@@ -373,14 +373,14 @@ void EnGoma_Die(EnGoma* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
+        Math_ApproachZeroF(&this->actor.speed, 1.0f, 2.0f);
     }
 
     if (this->actionTimer == 17) {
         if (this->actor.params < 6) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_LAND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_LAND);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_LAND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_LAND);
         }
     }
 
@@ -401,7 +401,7 @@ void EnGoma_Dead(EnGoma* this, PlayState* play) {
     Vec3f pos;
 
     SkelAnime_Update(&this->skelanime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
+    Math_ApproachZeroF(&this->actor.speed, 1.0f, 2.0f);
 
     if (this->actionTimer == 2) {
         pos.x = this->actor.world.pos.x;
@@ -454,7 +454,7 @@ void EnGoma_PrepareJump(EnGoma* this, PlayState* play) {
     s16 targetAngle;
 
     SkelAnime_Update(&this->skelanime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 2.0f);
 
     targetAngle = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor);
     Math_ApproachS(&this->actor.world.rot.y, targetAngle, 2, 4000);
@@ -477,7 +477,7 @@ void EnGoma_Land(EnGoma* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
+        Math_ApproachZeroF(&this->actor.speed, 1.0f, 2.0f);
     }
     if (this->actionTimer == 0) {
         EnGoma_SetupStand(this);
@@ -491,23 +491,23 @@ void EnGoma_SetupJump(EnGoma* this) {
     this->actor.velocity.y = 8.0f;
 
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_CRY);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_CRY);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_CRY);
     }
 }
 
 void EnGoma_Jump(EnGoma* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelanime);
-    Math_ApproachF(&this->actor.speedXZ, 10.0f, 0.5f, 5.0f);
+    Math_ApproachF(&this->actor.speed, 10.0f, 0.5f, 5.0f);
 
     if (this->actor.velocity.y <= 0.0f && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         EnGoma_SetupLand(this);
         if (this->actor.params < 6) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_LAND2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_LAND2);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_LAND2);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_LAND2);
         }
     }
     this->visualState = 0;
@@ -515,7 +515,7 @@ void EnGoma_Jump(EnGoma* this, PlayState* play) {
 
 void EnGoma_Stand(EnGoma* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
+    Math_ApproachZeroF(&this->actor.speed, 0.5f, 2.0f);
     Math_ApproachS(&this->actor.shape.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor), 2,
                    3000);
 
@@ -529,13 +529,13 @@ void EnGoma_ChasePlayer(EnGoma* this, PlayState* play) {
 
     if (Animation_OnFrame(&this->skelanime, 1.0f) || Animation_OnFrame(&this->skelanime, 5.0f)) {
         if (this->actor.params < 6) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_WALK);
         } else {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_WALK);
         }
     }
 
-    Math_ApproachF(&this->actor.speedXZ, 10.0f / 3.0f, 0.5f, 2.0f);
+    Math_ApproachF(&this->actor.speed, 10.0f / 3.0f, 0.5f, 2.0f);
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
 
@@ -554,14 +554,14 @@ void EnGoma_SetupStunned(EnGoma* this, PlayState* play) {
     this->actionTimer = (s16)Rand_ZeroFloat(15.0f) + 3;
 
     if (this->actor.params < 6) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_BJR_FREEZE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_BJR_FREEZE);
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     }
 }
 
 void EnGoma_Stunned(EnGoma* this, PlayState* play) {
-    Actor_SetColorFilter(&this->actor, 0, 180, 0, 2);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 180, COLORFILTER_BUFFLAG_OPA, 2);
     this->visualState = 2;
 
     if (this->actionTimer != 0) {
@@ -570,7 +570,7 @@ void EnGoma_Stunned(EnGoma* this, PlayState* play) {
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.velocity.y = 0.0f;
-        Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
+        Math_ApproachZeroF(&this->actor.speed, 0.5f, 2.0f);
     }
 
     if (this->stunTimer == 0) {
@@ -615,7 +615,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
 
         if ((this->colCyl1.base.atFlags & AT_HIT) && this->actionFunc == EnGoma_Jump) {
             EnGoma_SetupLand(this);
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             this->actor.velocity.y = 0.0f;
         }
 
@@ -630,7 +630,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
                     if (this->actionFunc == EnGoma_Jump) {
                         EnGoma_SetupLand(this);
                         this->actor.velocity.y = 0.0f;
-                        this->actor.speedXZ = -5.0f;
+                        this->actor.speed = -5.0f;
                     } else {
                         Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
@@ -652,7 +652,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
 
                     this->actor.colChkInfo.health -= swordDamage;
                     EnGoma_SetupHurt(this, play);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 5);
                     this->hurtTimer = 13;
                 }
             } else {
@@ -709,7 +709,7 @@ void EnGoma_Update(Actor* thisx, PlayState* play) {
     }
 
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     this->actor.world.pos.x = this->actor.world.pos.x + this->shieldKnockbackVel.x;
     this->actor.world.pos.z = this->actor.world.pos.z + this->shieldKnockbackVel.z;
     Math_ApproachZeroF(&this->shieldKnockbackVel.x, 1.0f, 3.0f);

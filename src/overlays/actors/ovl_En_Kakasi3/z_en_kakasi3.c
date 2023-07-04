@@ -112,7 +112,7 @@ void func_80A90EBC(EnKakasi3* this, PlayState* play, s32 arg) {
             this->unk_19A++;
             if (this->unk_1A4 == 0) {
                 this->unk_1A4 = 1;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_KAKASHI_ROLL);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_KAKASHI_ROLL);
             }
             break;
         case OCARINA_BTN_C_DOWN:
@@ -145,7 +145,7 @@ void func_80A90EBC(EnKakasi3* this, PlayState* play, s32 arg) {
         this->actor.gravity = -1.0f;
         if (this->unk_19A == 8 && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->actor.velocity.y = 3.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
         Math_ApproachF(&this->skelAnime.playSpeed, this->unk_1B8, 0.1f, 0.2f);
         Math_SmoothStepToS(&this->actor.shape.rot.x, this->unk_1AA, 0x5, 0x3E8, 0);
@@ -166,7 +166,7 @@ void func_80A90EBC(EnKakasi3* this, PlayState* play, s32 arg) {
         }
         currentFrame = this->skelAnime.curFrame;
         if (currentFrame == 11 || currentFrame == 17) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_KAKASHI_SWING);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_KAKASHI_SWING);
         }
         SkelAnime_Update(&this->skelAnime);
     }
@@ -269,7 +269,7 @@ void func_80A91348(EnKakasi3* this, PlayState* play) {
 void func_80A915B8(EnKakasi3* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        func_8010BD58(play, OCARINA_ACTION_SCARECROW_SPAWN_RECORDING);
+        Message_StartOcarina(play, OCARINA_ACTION_SCARECROW_SPAWN_RECORDING);
         this->actionFunc = func_80A91620;
     }
 }
@@ -295,7 +295,7 @@ void func_80A91620(EnKakasi3* this, PlayState* play) {
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_03 && play->msgCtx.msgMode == MSGMODE_NONE) {
         this->dialogState = TEXT_STATE_EVENT;
         Message_StartTextbox(play, 0x40A5, NULL);
-        func_8002DF54(play, NULL, 8);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         this->actionFunc = func_80A91A90;
         return;
     }
@@ -312,7 +312,7 @@ void func_80A91760(EnKakasi3* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->dialogState == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         play->msgCtx.msgMode = MSGMODE_PAUSED;
-        func_8010BD58(play, OCARINA_ACTION_SCARECROW_SPAWN_PLAYBACK);
+        Message_StartOcarina(play, OCARINA_ACTION_SCARECROW_SPAWN_PLAYBACK);
         this->actionFunc = func_80A917FC;
         this->subCamId = OnePointCutscene_Init(play, 2280, -99, &this->actor, CAM_ID_MAIN);
     }
@@ -333,7 +333,7 @@ void func_80A917FC(EnKakasi3* this, PlayState* play) {
 void func_80A9187C(EnKakasi3* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        func_8010BD58(play, OCARINA_ACTION_CHECK_SCARECROW_SPAWN);
+        Message_StartOcarina(play, OCARINA_ACTION_CHECK_SCARECROW_SPAWN);
         this->actionFunc = func_80A918E4;
     }
 }
@@ -353,7 +353,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
         this->dialogState = TEXT_STATE_EVENT;
         OnePointCutscene_EndCutscene(play, this->subCamId);
         this->subCamId = CAM_ID_NONE;
-        func_8002DF54(play, NULL, 8);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         this->actionFunc = func_80A91A90;
         return;
     }
@@ -368,7 +368,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
         this->unk_195 = true;
         Message_StartTextbox(play, 0x40A7, NULL);
         this->dialogState = TEXT_STATE_EVENT;
-        func_8002DF54(play, NULL, 8);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         this->actionFunc = func_80A91A90;
         return;
     }
@@ -382,7 +382,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
 void func_80A91A90(EnKakasi3* this, PlayState* play) {
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
-    func_8002DF54(play, NULL, 8);
+    func_8002DF54(play, NULL, PLAYER_CSMODE_8);
 
     if (this->dialogState == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         if (this->unk_195) {
@@ -398,7 +398,7 @@ void func_80A91A90(EnKakasi3* this, PlayState* play) {
         }
         Message_CloseTextbox(play);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actionFunc = func_80A911F0;
     }
 }
@@ -424,7 +424,7 @@ void EnKakasi3_Update(Actor* thisx, PlayState* play) {
 
     Actor_SetFocus(&this->actor, 60.0f);
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 50.0f, 50.0f, 100.0f,
                             UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);

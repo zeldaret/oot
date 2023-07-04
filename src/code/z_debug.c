@@ -1,30 +1,32 @@
 #include "global.h"
 
 typedef struct {
-    u8 x;
-    u8 y;
-    u8 colorIndex;
-    char text[21];
-} PrintTextBufferEntry; // size = 0x18
+    /* 0x0 */ u8 x;
+    /* 0x1 */ u8 y;
+    /* 0x2 */ u8 colorIndex;
+    /* 0x3 */ char text[21];
+} DebugCamTextBufferEntry; // size = 0x18
 
 typedef struct {
-    u16 hold;
-    u16 press;
+    /* 0x0 */ u16 hold;
+    /* 0x2 */ u16 press;
 } InputCombo; // size = 0x4
 
 RegEditor* gRegEditor;
 
-PrintTextBufferEntry sDebugPrintTextBuffer[22];
-s16 sDebugPrintTextBufferNumUsed = 0;
-Color_RGBA8 sDebugPrintTextColors[] = {
-    { 255, 255, 32, 192 },  // 0
-    { 255, 150, 128, 192 }, // 1
-    { 128, 96, 0, 64 },     // 2
-    { 192, 128, 16, 128 },  // 3
-    { 255, 192, 32, 128 },  // 4
-    { 230, 230, 220, 64 },  // 5
-    { 128, 150, 255, 128 }, // 6
-    { 128, 255, 32, 128 },  // 7
+DebugCamTextBufferEntry sDebugCamTextBuffer[22];
+
+s16 sDebugCamTextEntryCount = 0;
+
+Color_RGBA8 sDebugCamTextColors[] = {
+    { 255, 255, 32, 192 },  // DEBUG_CAM_TEXT_YELLOW
+    { 255, 150, 128, 192 }, // DEBUG_CAM_TEXT_PEACH
+    { 128, 96, 0, 64 },     // DEBUG_CAM_TEXT_BROWN
+    { 192, 128, 16, 128 },  // DEBUG_CAM_TEXT_ORANGE
+    { 255, 192, 32, 128 },  // DEBUG_CAM_TEXT_GOLD
+    { 230, 230, 220, 64 },  // DEBUG_CAM_TEXT_WHITE
+    { 128, 150, 255, 128 }, // DEBUG_CAM_TEXT_BLUE
+    { 128, 255, 32, 128 },  // DEBUG_CAM_TEXT_GREEN
 };
 
 InputCombo sRegGroupInputCombos[REG_GROUPS] = {
@@ -106,18 +108,16 @@ void Regs_Init(void) {
     }
 }
 
-// Called when free movement is active.
-void func_8006375C(s32 arg0, s32 arg1, const char* text) {
+// Function is stubbed. Name is assumed by similarities in signature to `DebugCamera_ScreenTextColored` and usage.
+void DebugCamera_ScreenText(u8 x, u8 y, const char* text) {
 }
 
-// Store text during Update, to be drawn later during Draw
-void func_8006376C(u8 x, u8 y, u8 colorIndex, const char* text) {
-    PrintTextBufferEntry* entry;
+void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
+    DebugCamTextBufferEntry* entry = &sDebugCamTextBuffer[sDebugCamTextEntryCount];
     char* textDest;
     s16 charCount;
 
-    entry = &sDebugPrintTextBuffer[sDebugPrintTextBufferNumUsed];
-    if (sDebugPrintTextBufferNumUsed < ARRAY_COUNT(sDebugPrintTextBuffer)) {
+    if (sDebugCamTextEntryCount < ARRAY_COUNT(sDebugCamTextBuffer)) {
         entry->x = x;
         entry->y = y;
         entry->colorIndex = colorIndex;
@@ -125,34 +125,38 @@ void func_8006376C(u8 x, u8 y, u8 colorIndex, const char* text) {
         // Copy text into the entry, truncating if needed
         charCount = 0;
         textDest = entry->text;
+
         while ((*textDest++ = *text++) != '\0') {
             if (charCount++ > (ARRAY_COUNT(entry->text) - 1)) {
                 break;
             }
         }
+
         *textDest = '\0';
 
-        sDebugPrintTextBufferNumUsed++;
+        sDebugCamTextEntryCount++;
     }
 }
 
-// Draw text previously stored by calls to `func_8006376C`
-void func_80063828(GfxPrint* printer) {
+void DebugCamera_DrawScreenText(GfxPrint* printer) {
     s32 i;
     Color_RGBA8* color;
-    PrintTextBufferEntry* entry;
+    DebugCamTextBufferEntry* entry;
 
-    for (i = 0; i < sDebugPrintTextBufferNumUsed; i++) {
-        entry = &sDebugPrintTextBuffer[i];
+    for (i = 0; i < sDebugCamTextEntryCount; i++) {
+        entry = &sDebugCamTextBuffer[i];
+        color = &sDebugCamTextColors[entry->colorIndex];
 
-        color = &sDebugPrintTextColors[entry->colorIndex];
         GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
         GfxPrint_SetPos(printer, entry->x, entry->y);
         GfxPrint_Printf(printer, "%s", entry->text);
     }
 }
 
-// Process inputs to control the reg editor
+/**
+ * Updates the state of the Reg Editor according to user input.
+ * Also contains a controller rumble test that can be interfaced with via related REGs.
+ */
 void Regs_UpdateEditor(Input* input) {
     s32 dPadInputCur;
     s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;
@@ -160,6 +164,7 @@ void Regs_UpdateEditor(Input* input) {
     s32 i;
 
     dPadInputCur = input->cur.button & (BTN_DUP | BTN_DLEFT | BTN_DRIGHT | BTN_DDOWN);
+
     if (CHECK_BTN_ALL(input->cur.button, BTN_L) || CHECK_BTN_ALL(input->cur.button, BTN_R) ||
         CHECK_BTN_ALL(input->cur.button, BTN_START)) {
 
@@ -188,7 +193,6 @@ void Regs_UpdateEditor(Input* input) {
             case 4:
             case 5:
             case 6:
-
                 if (dPadInputCur == gRegEditor->dPadInputPrev) {
                     gRegEditor->inputRepeatTimer--;
                     if (gRegEditor->inputRepeatTimer < 0) {
@@ -239,7 +243,6 @@ void Regs_UpdateEditor(Input* input) {
     }
 }
 
-// Draw the reg editor
 void Regs_DrawEditor(GfxPrint* printer) {
     s32 i;
     s32 pageStart = (gRegEditor->regPage - 1) * REGS_PER_PAGE;
@@ -267,7 +270,10 @@ void Regs_DrawEditor(GfxPrint* printer) {
     }
 }
 
-void func_80063D7C(GraphicsContext* gfxCtx) {
+/**
+ * Draws the Reg Editor and Debug Camera text on screen
+ */
+void Debug_DrawText(GraphicsContext* gfxCtx) {
     Gfx* gfx;
     Gfx* opaStart;
     GfxPrint printer;
@@ -282,14 +288,14 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     GfxPrint_Open(&printer, gfx);
 
     if ((OREG(0) == 1) || (OREG(0) == 8)) {
-        func_80063828(&printer);
+        DebugCamera_DrawScreenText(&printer);
     }
 
     if (gRegEditor->regPage != 0) {
         Regs_DrawEditor(&printer);
     }
 
-    sDebugPrintTextBufferNumUsed = 0;
+    sDebugCamTextEntryCount = 0;
 
     gfx = GfxPrint_Close(&printer);
     gSPEndDisplayList(gfx++);

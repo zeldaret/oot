@@ -20,6 +20,11 @@
  *
  */
 
+#define DOORSHUTTER_GET_TYPE(actor) (((actor)->params >> 6) & 0xF)
+#define DOORSHUTTER_GET_SWITCH_FLAG(actor) ((actor)->params & 0x3F)
+
+#define DOORSHUTTER_PARAMS(type, switchFlag) ((((type) & 0xF) << 6) | ((switchFlag) & 0x3F))
+
 typedef enum {
     /* 0x00 */ SHUTTER,
     /* 0x01 */ SHUTTER_FRONT_CLEAR,
@@ -29,14 +34,7 @@ typedef enum {
     /* 0x05 */ SHUTTER_BOSS,
     /* 0x06 */ SHUTTER_GOHMA_BLOCK,
     /* 0x07 */ SHUTTER_FRONT_SWITCH_BACK_CLEAR,
-    /* 0x08 */ SHUTTER_8,
-    /* 0x09 */ SHUTTER_9,
-    /* 0x0A */ SHUTTER_A,
-    /* 0x0B */ SHUTTER_KEY_LOCKED,
-    /* 0x0C */ SHUTTER_C,
-    /* 0x0D */ SHUTTER_D,
-    /* 0x0E */ SHUTTER_E,
-    /* 0x0F */ SHUTTER_F
+    /* 0x0B */ SHUTTER_KEY_LOCKED = 11
 } DoorShutterType;
 
 struct DoorShutter;
@@ -44,8 +42,7 @@ struct DoorShutter;
 typedef void (*DoorShutterActionFunc)(struct DoorShutter*, PlayState*);
 
 typedef struct DoorShutter {
-    /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ s16 unk_164;
+    /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;
     /* 0x0166 */ s16 jabuDoorClosedAmount; // Ranges from 0 (open) to 100 (closed)
     /* 0x0168 */ s16 bossDoorTexIndex;
     /* 0x016A */ u8 doorType;
@@ -53,8 +50,8 @@ typedef struct DoorShutter {
     /* 0x016C */ u8 gfxType;
     /* 0x016D */ s8 requiredObjBankIndex;
     /* 0x016E */ s8 unlockTimer; // non-0 if the door is locked, ticks down while the door is unlocking
-    /* 0x016F */ s8 unk_16F;
-    /* 0x0170 */ f32 barsClosedAmount; // Ranges from 0.0f (open) to 1.0f (locked)
+    /* 0x016F */ s8 actionTimer;
+    /* 0x0170 */ f32 barsClosedAmount; // Ranges from 0.0f (unbarred) to 1.0f (barred)
     /* 0x0174 */ DoorShutterActionFunc actionFunc;
 } DoorShutter; // size = 0x0178
 

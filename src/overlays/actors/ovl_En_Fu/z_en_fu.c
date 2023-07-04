@@ -172,7 +172,7 @@ void func_80A1DBD4(EnFu* this, PlayState* play) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
         this->actor.flags &= ~ACTOR_FLAG_16;
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(play, ITEM_SONG_STORMS);
         play->msgCtx.ocarinaMode = OCARINA_MODE_00;
@@ -191,7 +191,7 @@ void EnFu_WaitForPlayback(EnFu* this, PlayState* play) {
     player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 7, player has played back the song
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
-        func_8010BD58(play, OCARINA_ACTION_PLAYBACK_STORMS);
+        Message_StartOcarina(play, OCARINA_ACTION_PLAYBACK_STORMS);
         this->actionFunc = func_80A1DBD4;
     }
 }
@@ -205,7 +205,7 @@ void EnFu_TeachSong(EnFu* this, PlayState* play) {
         this->behaviorFlags &= ~FU_WAIT;
         // Ocarina is set to harp here but is immediately overwritten to the grind organ in the message system
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_HARP);
-        func_8010BD58(play, OCARINA_ACTION_TEACH_STORMS);
+        Message_StartOcarina(play, OCARINA_ACTION_TEACH_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }
 }
@@ -239,7 +239,7 @@ void EnFu_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (!(this->behaviorFlags & FU_WAIT) && SkelAnime_Update(&this->skelanime)) {
         Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,

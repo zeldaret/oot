@@ -64,13 +64,13 @@ N_THREADS ?= $(shell nproc)
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-  $(error Please install or build $(MIPS_BINUTILS_PREFIX))
+  $(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Please install or build MIPS binutils, commonly mips-linux-gnu. (or set MIPS_BINUTILS_PREFIX if your MIPS binutils install uses another prefix))
 endif
 
 # Detect compiler and set variables appropriately.
 ifeq ($(COMPILER),gcc)
   CC       := $(MIPS_BINUTILS_PREFIX)gcc
-else 
+else
 ifeq ($(COMPILER),ido)
   CC       := tools/ido_recomp/$(DETECTED_OS)/7.1/cc
   CC_OLD   := tools/ido_recomp/$(DETECTED_OS)/5.3/cc
@@ -121,7 +121,7 @@ ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
 ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
   MIPS_VERSION := -mips3
-else 
+else
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
   CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,649,838,712
   MIPS_VERSION := -mips2
@@ -281,7 +281,7 @@ $(ROM): $(ELF)
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
-## Order-only prerequisites 
+## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
 # The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
 

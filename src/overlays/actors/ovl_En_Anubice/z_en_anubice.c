@@ -344,7 +344,7 @@ void EnAnubice_Die(EnAnubice* this, PlayState* play) {
     rotatedFireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
     rotatedFireEffectPos.y += this->actor.world.pos.y + Rand_CenteredFloat(40.0f);
     rotatedFireEffectPos.z += this->actor.world.pos.z + Rand_CenteredFloat(30.0f);
-    Actor_SetColorFilter(&this->actor, 0x4000, 128, 0, 8);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 128, COLORFILTER_BUFFLAG_OPA, 8);
     EffectSsEnFire_SpawnVec3f(play, &this->actor, &rotatedFireEffectPos, 100, 0, 0, -1);
 
     if ((this->animLastFrame <= curFrame) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
@@ -376,7 +376,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
                 return;
             }
@@ -388,7 +388,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_DEAD);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_DEAD);
                 this->actionFunc = EnAnubice_SetupDie;
                 return;
             }
@@ -412,7 +412,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
                 this->knockbackRecoveryVelocity.x = -rotatedKnockbackVelocity.x;
                 this->knockbackRecoveryVelocity.z = -rotatedKnockbackVelocity.z;
 
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_CUTBODY);
             }
         }
 
@@ -445,7 +445,7 @@ void EnAnubice_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     this->actor.velocity.y += this->actor.gravity;
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
 
     if (!this->isPlayerOutOfRange) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 5.0f, 10.0f,

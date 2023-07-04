@@ -111,7 +111,7 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
             this->unk_264 = -10000.0f;
         }
 
-        this->unk_28E += 1;
+        this->unk_28E++;
         this->unk_254 = 3;
         if (!(this->unk_28E & 1)) {
             this->unk_264 = 0.0f;
@@ -375,7 +375,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
             break;
 
         case 1:
-            this->actor.speedXZ = 2.0f;
+            this->actor.speed = 2.0f;
             if (this->unk_25C == 0) {
                 this->unk_25C = 3;
                 this->actor.velocity.y = 3.5f;
@@ -389,7 +389,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
 
             phi_f16 = (this->unk_298 == 0) ? 5000.0f : -5000.0f;
             if (this->actor.world.pos.z > 100.0f) {
-                this->actor.speedXZ = 2.0f;
+                this->actor.speed = 2.0f;
                 this->actor.gravity = -0.3f;
                 this->actor.velocity.y = 5.0f;
                 this->unk_29A = 2;
@@ -398,7 +398,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
 
         case 2:
             if ((player->actor.world.pos.z - 40.0f) < this->actor.world.pos.z) {
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
             }
 
             if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.world.pos.z > 110.0f)) {
@@ -409,7 +409,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
                 this->unk_278 = 0.0f;
                 this->unk_280 = 0.0f;
                 this->unk_288 = 0.0f;
-                this->actor.speedXZ = 0.5f;
+                this->actor.speed = 0.5f;
                 this->unk_254 = this->unk_256 = 0;
                 this->unk_28E = this->unk_290 = 0;
                 this->unk_296 = 1;
@@ -419,7 +419,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
 
         case 3:
             if ((player->actor.world.pos.z - 50.0f) < this->actor.world.pos.z) {
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->unk_262 = 0x3C;
                 this->unk_25A = 0x14;
                 this->unk_264 = 10000.0f;
@@ -437,7 +437,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
                 this->unk_27C = 0.0f;
                 this->unk_280 = 14000.0f;
                 this->unk_278 = 14000.0f;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
                 this->unk_254 = this->unk_256 = this->unk_25A = 0x1E;
                 this->unk_29A = 5;
             }
@@ -449,7 +449,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
                 this->unk_296 = 5;
                 this->unk_256 = this->unk_258;
                 this->unk_254 = this->unk_258;
-                this->actor.speedXZ = 1.0f;
+                this->actor.speed = 1.0f;
             }
 
             if ((this->unk_25A == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
@@ -457,7 +457,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->unk_25E = 0x14;
                 this->unk_29A = 6;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
             }
             break;
 
@@ -501,7 +501,7 @@ void func_80B128F8(EnSyatekiNiw* this, PlayState* play) {
     Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
     if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
         (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
-        this->actor.speedXZ = 5.0f;
+        this->actor.speed = 5.0f;
         this->unk_298 = Rand_ZeroFloat(1.99f);
         this->unk_2D8 = Rand_CenteredFloat(8000.0f) + -10000.0f;
         this->unk_262 = 0x1E;
@@ -549,7 +549,7 @@ void func_80B12BA4(EnSyatekiNiw* this, PlayState* play) {
             case 0:
                 if (this->unk_29C == 0) {
                     this->unk_262 = 0x1E;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+                    Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                     this->unk_29C = 1;
                     this->unk_2A0 = 1;
                     this->actionFunc = func_80B123A8;
@@ -560,7 +560,7 @@ void func_80B12BA4(EnSyatekiNiw* this, PlayState* play) {
             case 1:
                 this->unk_262 = 0x1E;
                 this->unk_2F8 = 1;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
                 this->unk_260 = 100;
                 this->unk_2A0 = 1;
                 this->unk_25E = this->unk_260;
@@ -617,7 +617,7 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     this->actor.shape.shadowScale = 15.0f;
 
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
@@ -642,10 +642,10 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     if (this->unk_262 == 0) {
         if (this->actionFunc == func_80B11E78) {
             this->unk_262 = 0x12C;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
         } else {
             this->unk_262 = 0x1E;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
         }
     }
 

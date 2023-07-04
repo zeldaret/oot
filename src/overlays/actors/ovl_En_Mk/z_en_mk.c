@@ -95,14 +95,14 @@ void func_80AACA94(EnMk* this, PlayState* play) {
         Interface_SetSubTimer(240);
         CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     } else {
-        func_8002F434(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB14(EnMk* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = func_80AACA94;
-        func_8002F434(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
     }
 }
 
@@ -196,14 +196,14 @@ void func_80AACFA0(EnMk* this, PlayState* play) {
         this->actionFunc = func_80AACA40;
         SET_ITEMGETINF(ITEMGETINF_10);
     } else {
-        func_8002F434(&this->actor, play, GI_HEART_PIECE, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 }
 
 void func_80AAD014(EnMk* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = func_80AACFA0;
-        func_8002F434(&this->actor, play, GI_HEART_PIECE, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 
     this->flags |= 1;
@@ -288,7 +288,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (!(this->flags & 2) && SkelAnime_Update(&this->skelAnime)) {
