@@ -1113,7 +1113,7 @@ typedef struct {
     /* 0x14 */ u32 put;
     /* 0x18 */ u8 unk_18[0x20-0x18];
     /* 0x20 */ u8 data[0x10000-0x20];
-} ISVDbg; // size = 0x10000
+} ISVDbg;
 
 typedef struct {
     /* 0x00 */ char name[0x18];
