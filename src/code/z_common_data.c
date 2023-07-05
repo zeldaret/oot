@@ -14,7 +14,7 @@ void SaveContext_Init(void) {
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     gSaveContext.nextCutsceneIndex = 0xFFEF;
     gSaveContext.cutsceneTrigger = 0;
-    gSaveContext.chamberCutsceneNum = 0;
+    gSaveContext.chamberCutsceneNum = CHAMBER_CS_FOREST;
     gSaveContext.nextDayTime = NEXT_TIME_NONE;
     gSaveContext.skyboxTime = 0;
     gSaveContext.dogIsLost = true;

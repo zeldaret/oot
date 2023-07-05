@@ -1378,7 +1378,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 2266);
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         Math_SmoothStepToF(&play->envCtx.sunPos.x,
                            -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
                            0.8f, 0.8f);
