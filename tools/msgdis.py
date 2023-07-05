@@ -391,7 +391,7 @@ def extract_all_text(text_out, staff_text_out):
                 out += "\n#endif"
             out += "\n\n"
 
-        with open(text_out, "w") as outfile:
+        with open(text_out, "w", encoding="utf8") as outfile:
             outfile.write(out.strip() + "\n")
 
     if staff_text_out is not None:
@@ -402,5 +402,5 @@ def extract_all_text(text_out, staff_text_out):
 
             out += f"DEFINE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\n{message[3]}\n)\n\n"
 
-        with open(staff_text_out, "w") as outfile:
+        with open(staff_text_out, "w", encoding="utf8") as outfile:
             outfile.write(out.strip() + "\n")

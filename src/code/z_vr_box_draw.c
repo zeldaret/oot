@@ -23,8 +23,8 @@ void Skybox_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, blend);
     gSPTexture(POLY_OPA_DISP++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON);
 
+    // Prepare matrix
     sSkyboxDrawMatrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
-
     Matrix_Translate(x, y, z, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
     Matrix_RotateX(skyboxCtx->rot.x, MTXMODE_APPLY);
@@ -33,45 +33,61 @@ void Skybox_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId
     Matrix_ToMtx(sSkyboxDrawMatrix, "../z_vr_box_draw.c", 76);
     gSPMatrix(POLY_OPA_DISP++, sSkyboxDrawMatrix, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
+    // Enable magic square RGB dithering and bilinear filtering
     gDPSetColorDither(POLY_OPA_DISP++, G_CD_MAGICSQ);
     gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
 
+    // All skyboxes use CI8 textures with an RGBA16 palette
     gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[0]);
     gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_RGBA16);
+
+    // Enable texture filtering RDP pipeline stages for bilinear filtering
     gDPSetTextureConvert(POLY_OPA_DISP++, G_TC_FILT);
 
-    if (skyboxCtx->unk_140) {
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[0]);
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[1]);
+    if (skyboxCtx->drawType != SKYBOX_DRAW_128) {
+        // 256x256 textures, per-face palettes
+        // 2, 3 or 4 faces
+
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[0]); // -z face upper
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[1]); // -z face lower
 
         gDPPipeSync(POLY_OPA_DISP++);
         gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[1]);
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[2]);
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[3]);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[2]); // +x face upper
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[3]); // +x face lower
 
         if (skyboxId != SKYBOX_BAZAAR) {
-            if (skyboxId <= SKYBOX_HOUSE_KAKARIKO || skyboxId > SKYBOX_BOMBCHU_SHOP) {
-                gDPPipeSync(POLY_OPA_DISP++);
-                gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[2]);
-                gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[4]);
-                gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[5]);
+            if (skyboxId < SKYBOX_KOKIRI_SHOP || skyboxId > SKYBOX_BOMBCHU_SHOP) {
+                // Skip remaining faces for most shop skyboxes
 
                 gDPPipeSync(POLY_OPA_DISP++);
-                if (skyboxCtx->unk_140 != 2) {
+                gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[2]);
+                gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[4]); // +z face upper
+                gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[5]); // +z face lower
+
+                // Note this pipesync is slightly misplaced and would be better off inside the condition
+                gDPPipeSync(POLY_OPA_DISP++);
+
+                if (skyboxCtx->drawType != SKYBOX_DRAW_256_3FACE) {
                     gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->palettes[3]);
-                    gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[6]);
-                    gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[7]);
+                    gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[6]); // -x face upper
+                    gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[7]); // -x face lower
                 }
             }
         }
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[0]);
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[2]);
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[4]);
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[6]);
-        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[8]);
+        // 128x128 and 128x64 textures
+        // 5 or 6 faces
+
+        // Draw each face
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[0]); // -z face
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[2]); // +z face
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[4]); // -x face
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[6]); // +x face
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[8]); // +y face
         if (skyboxId == SKYBOX_CUTSCENE_MAP) {
-            gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[10]);
+            // Skip the bottom face in the cutscene map
+            gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dListBuf[10]); // -y face
         }
     }
 
