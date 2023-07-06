@@ -81,7 +81,7 @@ void EffectSsExtra_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsExtra_Update(PlayState* play, u32 index, EffectSs* this) {
     if (this->rTimer != 0) {
-        this->rTimer -= 1;
+        this->rTimer--;
     } else {
         this->velocity.y = 0.0f;
     }

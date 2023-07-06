@@ -51,7 +51,7 @@ typedef enum {
 
 typedef enum {
     /* 0 */ LIGHTNING_OFF, // no lightning
-    /* 1 */ LIGHTNING_ON, // request ligtning strikes at random intervals
+    /* 1 */ LIGHTNING_ON, // request lightning strikes at random intervals
     /* 2 */ LIGHTNING_LAST // request one lightning strike before turning off
 } LightningState;
 
@@ -148,8 +148,8 @@ typedef struct {
 
 // `EnvLightSettings` is very similar to `CurrentEnvLightSettings` with one key difference.
 // The light settings data in the scene packs blend rate information with the fog near value.
-// The blendRate determines how fast the current light settings fade to the next one 
-// (under LIGHT_MODE_SETTINGS, otherwise unused). 
+// The blendRate determines how fast the current light settings fade to the next one
+// (under LIGHT_MODE_SETTINGS, otherwise unused).
 
 // Get blend rate from `EnvLightSettings.blendRateAndFogNear` in 0-255 range
 #define ENV_LIGHT_SETTINGS_BLEND_RATE_U8(blendRateAndFogNear) (((blendRateAndFogNear) >> 10) * 4)
@@ -162,7 +162,7 @@ typedef struct {
     /* 0x09 */ s8 light2Dir[3];
     /* 0x0C */ u8 light2Color[3];
     /* 0x0F */ u8 fogColor[3];
-    /* 0x12 */ s16 blendRateAndFogNear; 
+    /* 0x12 */ s16 blendRateAndFogNear;
     /* 0x14 */ s16 zFar;
 } EnvLightSettings; // size = 0x16
 

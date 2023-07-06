@@ -1036,7 +1036,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
                     }
                 }
                 this->light.rotation += 6;
-                this->light.scaleFlag += 1;
+                this->light.scaleFlag++;
                 break;
 
             case 3:
