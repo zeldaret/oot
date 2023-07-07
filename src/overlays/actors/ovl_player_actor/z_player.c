@@ -11922,9 +11922,9 @@ void func_8084CBF4(Player* this, f32 arg1, f32 arg2) {
     if ((this->unk_878 != 0.0f) && (arg2 <= this->skelAnime.curFrame)) {
         if (arg1 < fabsf(this->unk_878)) {
             if (this->unk_878 >= 0.0f) {
-                dir = 1;
+                dir = 1.0f;
             } else {
-                dir = -1;
+                dir = -1.0f;
             }
             temp = dir * arg1;
         } else {
@@ -13052,7 +13052,7 @@ void func_8084F698(Player* this, PlayState* play) {
 void func_8084F710(Player* this, PlayState* play) {
     s32 pad;
 
-    if ((this->unk_84F != 0) && (play->csCtx.curFrame < 0x131)) {
+    if ((this->unk_84F != 0) && (play->csCtx.curFrame < 305)) {
         this->actor.gravity = 0.0f;
         this->actor.velocity.y = 0.0f;
     } else if (D_80853600 < 150.0f) {

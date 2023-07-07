@@ -786,7 +786,7 @@ void func_8097FCE4(DemoGt* this, PlayState* play) {
     Vec3f vec;
     u16 csCurFrame = play->csCtx.curFrame;
 
-    if (csCurFrame == 0x1F7 || kREG(1) == 4) {
+    if (csCurFrame == 503 || kREG(1) == 4) {
         vec.x = this->dyna.actor.world.pos.x + 300.0f;
         vec.y = this->dyna.actor.world.pos.y + 560.0f;
         vec.z = this->dyna.actor.world.pos.z - 377.0f;

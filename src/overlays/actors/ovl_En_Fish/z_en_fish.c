@@ -742,7 +742,7 @@ void EnFish_RespawningUpdate(EnFish* this, PlayState* play) {
 void EnFish_Update(Actor* thisx, PlayState* play) {
     EnFish* this = (EnFish*)thisx;
 
-    if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (play->csCtx.state != 0) &&
+    if ((D_80A17010 == NULL) && (this->actor.params == FISH_DROPPED) && (play->csCtx.state != CS_STATE_IDLE) &&
         (play->csCtx.actorCues[1] != NULL)) {
         EnFish_SetCutsceneData(this);
     }
