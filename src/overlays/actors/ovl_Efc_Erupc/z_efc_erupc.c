@@ -50,7 +50,7 @@ void EfcErupc_UpdateAction(EfcErupc* this, PlayState* play) {
     Vec3f accel;
     s32 i;
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         if (play->csCtx.actorCues[1] != NULL) {
             if (play->csCtx.actorCues[1]->id == 2) {
                 if (this->unk_150 == 30) {
@@ -73,7 +73,7 @@ void EfcErupc_UpdateAction(EfcErupc* this, PlayState* play) {
             }
         }
     }
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         if (play->csCtx.actorCues[2] != NULL) {
             switch (play->csCtx.actorCues[2]->id) {
                 case 2:
@@ -135,7 +135,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_efc_erupc.c", 321),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         if ((play->csCtx.actorCues[1] != NULL) && (play->csCtx.actorCues[1]->id == 2)) {
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002570);
         }
@@ -144,7 +144,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
     Matrix_Scale(3.4f, 3.4f, 3.4f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_efc_erupc.c", 333),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[2];
 
         if (cue != NULL) {
