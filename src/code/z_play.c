@@ -1151,7 +1151,7 @@ void Play_Draw(PlayState* this) {
                             Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
                             Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend,
                                         this->view.eye.x, this->view.eye.y, this->view.eye.z);
-                        } else if (this->skyboxCtx.unk_140 == 0) {
+                        } else if (this->skyboxCtx.drawType == SKYBOX_DRAW_128) {
                             Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
                                         this->view.eye.z);
                         }
@@ -1193,7 +1193,8 @@ void Play_Draw(PlayState* this) {
                 }
 
                 if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
-                    if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
+                    if ((this->skyboxCtx.drawType != SKYBOX_DRAW_128) &&
+                        (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
                         Vec3f quakeOffset;
 
                         Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
