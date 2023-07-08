@@ -30,12 +30,12 @@ distclean: clean
 
 .PHONY: all clean distclean
 
-mkdmadata_SOURCES    := mkdmadata.c spec.c util.c
-mkldscript_SOURCES   := mkldscript.c spec.c util.c
-reloc_prereq_SOURCES := reloc_prereq.c spec.c util.c
+mkdmadata_SOURCES        := mkdmadata.c spec.c util.c
+mkldscript_SOURCES       := mkldscript.c spec.c util.c
 n64checksum_6105_SOURCES := n64checksum_6105.c
-vtxdis_SOURCES       := vtxdis.c
-yaz0_SOURCES         := yaz0tool.c yaz0.c util.c
+reloc_prereq_SOURCES     := reloc_prereq.c spec.c util.c
+vtxdis_SOURCES           := vtxdis.c
+yaz0_SOURCES             := yaz0tool.c yaz0.c util.c
 
 
 define COMPILE =
