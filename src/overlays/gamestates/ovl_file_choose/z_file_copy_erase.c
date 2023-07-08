@@ -828,7 +828,7 @@ void FileSelect_SetupEraseConfirm2(GameState* thisx) {
 }
 
 /**
- * Allow the player to confirm their chioce to erase or return back to erase select.
+ * Allow the player to confirm their choice to erase or return back to erase select.
  * Update function for `CM_ERASE_CONFIRM`
  */
 void FileSelect_EraseConfirm(GameState* thisx) {
