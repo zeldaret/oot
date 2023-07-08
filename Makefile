@@ -158,7 +158,7 @@ $(error $(stdout))
 endif
 
 # Folders under which source files are to be found
-SRC_DIRS := assets/text src/boot src/buffers src/code src/dmadata src/elf_message src/libultra src/makerom src/overlays
+SRC_DIRS := assets/text src/audio src/boot src/buffers src/code src/dmadata src/elf_message src/libultra src/makerom src/overlays
 ifeq ($(COMPILER),gcc)
 SRC_DIRS += src/gcc_fix
 endif
