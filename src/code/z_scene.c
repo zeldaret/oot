@@ -11,11 +11,11 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
 
     osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f, objectCtx->status[objectCtx->num].segment);
 
-    osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[objectCtx->num].segment + size,
+    osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (uintptr_t)objectCtx->status[objectCtx->num].segment + size,
                  objectCtx->spaceEnd);
 
     ASSERT(((objectCtx->num < OBJECT_EXCHANGE_BANK_MAX) &&
-            (((s32)objectCtx->status[objectCtx->num].segment + size) < (u32)objectCtx->spaceEnd)),
+            (((uintptr_t)objectCtx->status[objectCtx->num].segment + size) < (uintptr_t)objectCtx->spaceEnd)),
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
 
@@ -24,7 +24,7 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
 
     if (objectCtx->num < OBJECT_EXCHANGE_BANK_MAX - 1) {
         objectCtx->status[objectCtx->num + 1].segment =
-            (void*)ALIGN16((s32)objectCtx->status[objectCtx->num].segment + size);
+            (void*)ALIGN16((uintptr_t)objectCtx->status[objectCtx->num].segment + size);
     }
 
     objectCtx->num++;
@@ -70,7 +70,7 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
 
     objectCtx->spaceStart = objectCtx->status[0].segment =
         GameState_Alloc(&play->state, spaceSize, "../z_scene.c", 219);
-    objectCtx->spaceEnd = (void*)((s32)objectCtx->spaceStart + spaceSize);
+    objectCtx->spaceEnd = (void*)((uintptr_t)objectCtx->spaceStart + spaceSize);
 
     objectCtx->mainKeepIndex = Object_Spawn(objectCtx, OBJECT_GAMEPLAY_KEEP);
     gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->status[objectCtx->mainKeepIndex].segment);
@@ -129,7 +129,7 @@ void func_800981B8(ObjectContext* objectCtx) {
         size = gObjectTable[id].vromEnd - gObjectTable[id].vromStart;
         osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->status[i].id, size / 1024.0f,
                      objectCtx->status[i].segment);
-        osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[i].segment + size,
+        osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (uintptr_t)objectCtx->status[i].segment + size,
                      objectCtx->spaceEnd);
         DmaMgr_RequestSyncDebug(objectCtx->status[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
     }
@@ -147,12 +147,12 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
     size = objectFile->vromEnd - objectFile->vromStart;
     osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
 
-    nextPtr = (void*)ALIGN16((s32)status->segment + size);
+    nextPtr = (void*)ALIGN16((uintptr_t)status->segment + size);
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
     // "Object exchange free size=%08x"
-    osSyncPrintf("オブジェクト入れ替え空きサイズ=%08x\n", (s32)objectCtx->spaceEnd - (s32)nextPtr);
+    osSyncPrintf("オブジェクト入れ替え空きサイズ=%08x\n", (uintptr_t)objectCtx->spaceEnd - (uintptr_t)nextPtr);
 
     return nextPtr;
 }
