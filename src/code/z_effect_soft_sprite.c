@@ -11,7 +11,8 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
     for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
         overlay = &gEffectSsOverlayTable[i];
         osSyncPrintf("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
-                     (u32)overlay->vramEnd - (u32)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
+                     (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart,
+                     overlay->vromEnd - overlay->vromStart);
     }
 
     sEffectSsInfo.table = GameState_Alloc(&play->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
@@ -180,7 +181,7 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     }
 
     sEffectSsInfo.searchStartIndex = index + 1;
-    overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
+    overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
     if (overlayEntry->vramStart == NULL) {
         // "Not an overlay"
@@ -212,10 +213,11 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
             osSyncPrintf(VT_RST);
         }
 
-        initInfo = (void*)(u32)((overlayEntry->initInfo != NULL)
-                                    ? (void*)((u32)overlayEntry->initInfo -
-                                              (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr))
-                                    : NULL);
+        initInfo = (void*)(uintptr_t)(
+            (overlayEntry->initInfo != NULL)
+                ? (void*)((uintptr_t)overlayEntry->initInfo -
+                          (intptr_t)((uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr))
+                : NULL);
     }
 
     if (initInfo->init == NULL) {

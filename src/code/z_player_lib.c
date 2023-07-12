@@ -1650,7 +1650,7 @@ u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime) {
     ptr = segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE;
     DmaMgr_RequestSyncDebug(ptr, gObjectTable[linkObjectId].vromStart, size, "../z_player_lib.c", 2988);
 
-    ptr = (void*)ALIGN16((u32)ptr + size);
+    ptr = (void*)ALIGN16((uintptr_t)ptr + size);
 
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE);
     gSegments[6] =
