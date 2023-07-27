@@ -213,11 +213,11 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
             osSyncPrintf(VT_RST);
         }
 
-        initInfo = (void*)(uintptr_t)(
-            (overlayEntry->initInfo != NULL)
-                ? (void*)((uintptr_t)overlayEntry->initInfo -
-                          (intptr_t)((uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr))
-                : NULL);
+        initInfo = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
+                                          ? (void*)((uintptr_t)overlayEntry->initInfo -
+                                                    (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                               (uintptr_t)overlayEntry->loadedRamAddr))
+                                          : NULL);
     }
 
     if (initInfo->init == NULL) {
