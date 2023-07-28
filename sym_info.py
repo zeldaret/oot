@@ -19,7 +19,7 @@ def symInfoMain():
 
     args = parser.parse_args()
 
-    BUILTMAP = Path(f"build") / f"mm.map"
+    BUILTMAP = Path(f"build") / f"z64.map"
 
     mapPath = BUILTMAP
     if args.use_expected:

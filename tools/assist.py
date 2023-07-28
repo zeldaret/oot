@@ -160,7 +160,7 @@ parser.add_argument("--num-out", help="number of functions to display", type=int
 args = parser.parse_args()
 
 rom_bytes = read_rom()
-map_syms = parse_map(build_dir + "mm.map")
+map_syms = parse_map(build_dir + "z64.map")
 map_offsets = get_map_offsets(map_syms)
 
 s_files = get_all_s_files()
