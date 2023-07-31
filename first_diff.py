@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
-from __future__ import annotations
-
 import argparse
 from pathlib import Path
-import rabbitizer
+
+try:
+    import rabbitizer
+except ImportError:
+    print("Missing dependency rabbitizer, install it with `python3 -m pip install rabbitizer`")
+    exit(1)
 
 try:
     import mapfile_parser
@@ -49,7 +52,7 @@ def firstDiffMain():
     EXPECTEDROM = Path("baserom.z64")
     EXPECTEDMAP = "expected" / BUILTMAP
 
-    exit(mapfile_parser.frontends.first_diff.doFirstDiff(BUILTMAP, EXPECTEDMAP, BUILTROM, EXPECTEDROM, args.count, mismatchSize=True, addColons=args.add_colons, bytesConverterCallback=decodeInstruction))
+    mapfile_parser.frontends.first_diff.doFirstDiff(BUILTMAP, EXPECTEDMAP, BUILTROM, EXPECTEDROM, args.count, mismatchSize=True, addColons=args.add_colons, bytesConverterCallback=decodeInstruction)
 
 if __name__ == "__main__":
     firstDiffMain()

@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 
-import argparse, os, sys
+import argparse
+import os
+import sys
 from collections import OrderedDict
 
 gAddressWidth = 18 # if your ld >= 2.40 change this to 10
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
-asm_dir = root_dir + "asm/non_matchings/overlays"
+asm_dir = root_dir + "asm/non_matchings/overlays/actors"
 build_dir = root_dir + "build/"
 
 def read_rom():
-    with open("baserom_uncompressed.z64", "rb") as f:
+    with open("baserom.z64", "rb") as f:
         return f.read()
 
 
