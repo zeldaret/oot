@@ -362,8 +362,8 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
     // Set the blend color to full white and set maximum depth.
-    // It is important that at least dz is set to full here as the blender will shift alpha values based on the value
-    // of dz even if depth compare is disabled. If per-pixel depth was enabled, fill rectangle always uses 0 z/dz,
+    // It is important that at least dz is set to full here as the blender will shift memory alpha values based on the
+    // value of dz even if depth compare is disabled. If per-pixel depth was enabled, fill rectangle always uses 0 z/dz,
     // resulting in a maximal shift of 4 to be applied to the coverage value. Full dz results in no shift, which is
     // desired here.
     gDPSetBlendColor(gfx++, 255, 255, 255, 8);
