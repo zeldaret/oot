@@ -217,8 +217,8 @@ void Play_Destroy(GameState* thisx) {
 void Play_Init(GameState* thisx) {
     PlayState* this = (PlayState*)thisx;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
-    u32 zAlloc;
-    u32 zAllocAligned;
+    uintptr_t zAlloc;
+    uintptr_t zAllocAligned;
     size_t zAllocSize;
     Player* player;
     s32 playerStartBgCamIndex;
@@ -332,7 +332,7 @@ void Play_Init(GameState* thisx) {
         gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
-        osSyncPrintf("出戻り？\n"); // "Return?"
+        osSyncPrintf("出戻り？\n");                 // "Return?"
     }
 
     Cutscene_HandleEntranceTriggers(this);
@@ -396,12 +396,11 @@ void Play_Init(GameState* thisx) {
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
     zAllocSize = THA_GetRemaining(&this->state.tha);
-    zAlloc = (u32)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
+    zAlloc = (uintptr_t)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
-    ZeldaArena_Init((void*)zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
+    ZeldaArena_Init((void*)zAllocAligned, zAllocSize - (zAllocAligned - zAlloc));
     // "Zelda Heap"
-    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
-                 (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
+    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned, zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
@@ -514,7 +513,7 @@ void Play_Update(PlayState* this) {
             }
         }
 
-        if (this->transitionMode) { // != TRANS_MODE_OFF
+        if ((u32)this->transitionMode != TRANS_MODE_OFF) {
             switch (this->transitionMode) {
                 case TRANS_MODE_SETUP:
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
@@ -1151,7 +1150,7 @@ void Play_Draw(PlayState* this) {
                     Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
                     Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend, this->view.eye.x,
                                 this->view.eye.y, this->view.eye.z);
-                } else if (this->skyboxCtx.unk_140 == 0) {
+                } else if (this->skyboxCtx.drawType == SKYBOX_DRAW_128) {
                     Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
                                 this->view.eye.z);
                 }
@@ -1195,7 +1194,8 @@ void Play_Draw(PlayState* this) {
         }
 
         if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
-            if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
+            if ((this->skyboxCtx.drawType != SKYBOX_DRAW_128) &&
+                (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
                 Vec3f quakeOffset;
 
                 Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));

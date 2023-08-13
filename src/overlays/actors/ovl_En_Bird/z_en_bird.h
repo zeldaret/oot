@@ -15,8 +15,8 @@ typedef struct EnBird {
     /* 0x0194 */ u32 unk_194; // set to 0 but otherwise unused
     /* 0x0198 */ s32 timer;
     /* 0x019C */ s16 scaleAnimSpeed; // when true, anim speed scales with XZ speed while slowing down. otherwise anim plays full speed
-    /* 0x01A0 */ f32 posYMag; 
-    /* 0x01A4 */ f32 rotYMag; 
+    /* 0x01A0 */ f32 posYMag;
+    /* 0x01A4 */ f32 rotYMag;
     /* 0x01A8 */ f32 speedTarget;
     /* 0x01AC */ f32 speedStep;
     /* 0x01B0 */ f32 flightDistance; // radius of "home" area

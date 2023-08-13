@@ -790,7 +790,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
             case CS_DEST_CHAMBER_OF_SAGES_FOREST_MEDALLION:
                 play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
-                gSaveContext.chamberCutsceneNum = 0;
+                gSaveContext.chamberCutsceneNum = CHAMBER_CS_FOREST;
                 play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
 
@@ -799,14 +799,14 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_WHITE;
                 Item_Give(play, ITEM_MEDALLION_FIRE);
-                gSaveContext.chamberCutsceneNum = 1;
+                gSaveContext.chamberCutsceneNum = CHAMBER_CS_FIRE;
                 break;
 
             case CS_DEST_CHAMBER_OF_SAGES_WATER_MEDALLION:
                 play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_WHITE;
-                gSaveContext.chamberCutsceneNum = 2;
+                gSaveContext.chamberCutsceneNum = CHAMBER_CS_WATER;
                 break;
 
             case CS_DEST_HYRULE_FIELD_FLASHBACK:

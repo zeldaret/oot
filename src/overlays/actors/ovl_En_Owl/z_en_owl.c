@@ -753,7 +753,7 @@ void func_80ACB748(EnOwl* this, PlayState* play) {
         case 8:
         case 9:
             func_800F436C(&D_80ACD62C, NA_SE_EV_FLYING_AIR - SFX_FLAG, weight * 2.0f);
-            if ((play->csCtx.curFrame >= 420) || ((0xC1 < play->csCtx.curFrame && (play->csCtx.curFrame <= 280)))) {
+            if ((play->csCtx.curFrame >= 420) || ((193 < play->csCtx.curFrame && (play->csCtx.curFrame <= 280)))) {
                 func_800F4414(&D_80ACD62C, NA_SE_EN_OWL_FLUTTER, weight * 2.0f);
             }
             if (play->csCtx.curFrame == 217) {

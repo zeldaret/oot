@@ -489,7 +489,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     }
     if (ret != NULL) {
         osSyncPrintf(VT_FGCOL(GREEN));
-        osSyncPrintf("game_alloc(%08x) %08x-%08x [%s:%d]\n", size, ret, (u32)ret + size, file, line);
+        osSyncPrintf("game_alloc(%08x) %08x-%08x [%s:%d]\n", size, ret, (uintptr_t)ret + size, file, line);
         osSyncPrintf(VT_RST);
     }
     return ret;
