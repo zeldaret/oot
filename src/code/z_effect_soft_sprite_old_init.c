@@ -771,7 +771,7 @@ void EffectSsFhgFlash_SpawnLightBall(PlayState* play, Vec3f* pos, Vec3f* velocit
 }
 
 /**
- * Spawn a purple shock/lighting effect.
+ * Spawn a purple shock effect (a ball of electrical arcs).
  *
  * @param actor If param is `FHGFLASH_SHOCK_PG`, the Phantom Ganon actor. Unused otherwise.
  * @param pos If param is `FHGFLASH_SHOCK_NO_ACTOR`, the position of the effect. Unused otherwise.
