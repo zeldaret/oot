@@ -235,7 +235,7 @@ void EnDivingGame_HandlePlayChoice(EnDivingGame* this, PlayState* play) {
         Message_ShouldAdvance(play)) { // Did the player select an answer?
         switch (play->msgCtx.choiceIndex) {
             case 0: // Yes
-                if (gSaveContext.rupees >= 20) {
+                if (gSaveContext.save.info.playerData.rupees >= 20) {
                     Rupees_ChangeBy(-20);
                     this->actor.textId = 0x4054;
                 } else {

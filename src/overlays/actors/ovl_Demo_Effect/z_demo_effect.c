@@ -315,7 +315,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             break;
 
         case DEMO_EFFECT_GOD_LGT_NAYRU:
-            if (gSaveContext.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0) {
+            if (gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0) {
                 Actor_SetScale(&this->actor, 1.0f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -336,7 +336,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
             break;
 
         case DEMO_EFFECT_GOD_LGT_FARORE:
-            if (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0) {
+            if (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0) {
                 Actor_SetScale(&this->actor, 2.4f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -612,7 +612,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
 
         Actor_SetScale(thisx, 0.20f);
 
-        if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
+        if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
             switch (play->csCtx.actorCues[this->cueChannel]->id) {
                 case 2:
                     DemoEffect_MedalSparkle(this, play, 0);
@@ -624,7 +624,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
         }
         switch (play->csCtx.actorCues[this->cueChannel]->id) {
             case 2:
-                if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
                     Actor_PlaySfx(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
@@ -639,7 +639,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
                 if (this->getItem.drawId != GID_ARROW_LIGHT) {
                     this->actor.shape.rot.y += this->getItem.rotation;
                 }
-                if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
                     Actor_PlaySfx(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
@@ -678,7 +678,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
             Actor_SetScale(&this->actor, 84 * 0.001f);
         }
     } else if (gSaveContext.sceneLayer == 5 || gSaveContext.sceneLayer == 4 ||
-               (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
+               (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(play, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -741,7 +741,7 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, PlaySta
     this->timeWarp.shrinkTimer++;
 
     if (this->timeWarp.shrinkTimer > 250) {
-        if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
+        if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
             SET_EVENTCHKINF(EVENTCHKINF_C9);
         }
 
@@ -833,7 +833,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0 && gSaveContext.sceneLayer == 6 &&
+        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0 && gSaveContext.sceneLayer == 6 &&
             play->csCtx.curFrame == 143) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
@@ -1131,7 +1131,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
+        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
                     if (play->csCtx.curFrame == 288) {
@@ -1186,7 +1186,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
+        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
                     if (play->csCtx.curFrame == 298) {
@@ -1208,7 +1208,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
             }
         }
 
-        if (gSaveContext.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0 && gSaveContext.sceneLayer == 4) {
+        if (gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_TRAIL_0 && gSaveContext.sceneLayer == 4) {
             if (play->csCtx.curFrame == 72) {
                 Actor_PlaySfx(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
@@ -1246,7 +1246,7 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
             Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_FARORE_MAGIC);
         }
 
-        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
+        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             switch (gSaveContext.sceneLayer) {
                 case 4:
                     if (play->csCtx.curFrame == 315) {
@@ -1556,14 +1556,14 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, PlayState* play) {
                 return;
             default:
                 DemoEffect_SetPosRotFromCue(this, play, this->cueChannel, 0);
-                if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                 }
                 break;
         }
     }
 
-    if (gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
+    if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
             hasCue = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[this->cueChannel] != NULL);
 
@@ -1758,7 +1758,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2737);
 
     if (!DemoEffect_CheckForCue(this, play, 2)) {
-        if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
+        if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             if (gSaveContext.sceneLayer == 4) {
                 if (play->csCtx.curFrame <= 680) {
                     func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
@@ -1907,7 +1907,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
     u32 frames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2994);
-    if (gSaveContext.entranceIndex != ENTR_CASTLE_COURTYARD_ZELDA_0 || play->csCtx.curFrame < 885) {
+    if (gSaveContext.save.entranceIndex != ENTR_CASTLE_COURTYARD_ZELDA_0 || play->csCtx.curFrame < 885) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (this->triforceSpot.lightColumnOpacity > 0) {
@@ -2009,7 +2009,7 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     u8 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
-        CutsceneFlags_Get(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
+        CutsceneFlags_Get(play, 1) || IS_CUTSCENE_LAYER || gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);

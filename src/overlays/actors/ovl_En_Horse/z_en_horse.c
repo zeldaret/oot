@@ -1741,7 +1741,7 @@ void EnHorse_Inactive(EnHorse* this, PlayState* play2) {
             Audio_PlaySfxGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->stateFlags &= ~ENHORSE_INACTIVE;
-            gSaveContext.horseData.sceneId = play->sceneId;
+            gSaveContext.save.info.horseData.sceneId = play->sceneId;
 
             // Focus the camera on Epona
             Camera_SetViewParam(play->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, &this->actor);
@@ -2530,7 +2530,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, PlayState* play) {
     EnHorse_UpdateHbaRaceInfo(this, play, &sHbaInfo);
     if ((this->hbaFlags & 1) || (this->hbaTimer >= 46)) {
         if ((isFanfarePlaying != true) && (gSaveContext.minigameState != 3)) {
-            gSaveContext.cutsceneIndex = 0;
+            gSaveContext.save.cutsceneIndex = 0;
             play->nextEntranceIndex = ENTR_GERUDOS_FORTRESS_16;
             play->transitionTrigger = TRANS_TRIGGER_START;
             play->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
@@ -3604,7 +3604,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
             this->cyl1.base.atFlags &= ~AT_ON;
         }
 
-        if (gSaveContext.entranceIndex != ENTR_LON_LON_RANCH_0 || gSaveContext.sceneLayer != 9) {
+        if (gSaveContext.save.entranceIndex != ENTR_LON_LON_RANCH_0 || gSaveContext.sceneLayer != 9) {
             if (this->dustFlags & 1) {
                 this->dustFlags &= ~1;
                 func_800287AC(play, &this->frontRightHoof, &dustVel, &dustAcc, EnHorse_RandInt(100) + 200,

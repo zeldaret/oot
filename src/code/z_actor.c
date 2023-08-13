@@ -1830,17 +1830,17 @@ f32 D_8015BC18;
 void func_8002FA60(PlayState* play) {
     Vec3f lightPos;
 
-    if (gSaveContext.fw.set) {
+    if (gSaveContext.save.info.fw.set) {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.fw.pos.x;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.fw.pos.y;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.fw.pos.z;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].yaw = gSaveContext.fw.yaw;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = gSaveContext.fw.playerParams;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex = gSaveContext.fw.entranceIndex;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex = gSaveContext.fw.roomIndex;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].tempSwchFlags = gSaveContext.fw.tempSwchFlags;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].tempCollectFlags = gSaveContext.fw.tempCollectFlags;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.save.info.fw.pos.x;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.save.info.fw.pos.y;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.save.info.fw.pos.z;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].yaw = gSaveContext.save.info.fw.yaw;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = gSaveContext.save.info.fw.playerParams;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex = gSaveContext.save.info.fw.entranceIndex;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex = gSaveContext.save.info.fw.roomIndex;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].tempSwchFlags = gSaveContext.save.info.fw.tempSwchFlags;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].tempCollectFlags = gSaveContext.save.info.fw.tempCollectFlags;
     } else {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
         gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = 0.0f;
@@ -1951,7 +1951,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             alpha = 255 - (temp * 30);
 
             if (alpha < 0) {
-                gSaveContext.fw.set = 0;
+                gSaveContext.save.info.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
                 alpha = 0;
             } else {
@@ -1968,7 +1968,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
         //! If a dungeon is entered through a different entrance than the one that was saved, the light ball will not draw.
         if ((play->csCtx.state == CS_STATE_IDLE) &&
             (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex) ==
-             ((void)0, gSaveContext.entranceIndex)) &&
+             ((void)0, gSaveContext.save.entranceIndex)) &&
             (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex) == play->roomCtx.curRoom.num)) {
             f32 scale = 0.025f * ratio;
 
@@ -2024,7 +2024,7 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
     SavedSceneFlags* savedSceneFlags;
     s32 i;
 
-    savedSceneFlags = &gSaveContext.sceneFlags[play->sceneId];
+    savedSceneFlags = &gSaveContext.save.info.sceneFlags[play->sceneId];
 
     bzero(actorCtx, sizeof(ActorContext));
 
@@ -4701,7 +4701,8 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 retTextId = 0x7002;
             } else if (Flags_GetInfTable(INFTABLE_6A)) {
                 retTextId = 0x7004;
-            } else if ((gSaveContext.dayTime >= CLOCK_TIME(6, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
+            } else if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 0)) &&
+                       (gSaveContext.save.dayTime <= CLOCK_TIME(18, 30))) {
                 retTextId = 0x7002;
             } else {
                 retTextId = 0x7003;
@@ -5501,7 +5502,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
         case 0x2030:
         case 0x2031:
             if (msgCtx->choiceIndex == 0) {
-                if (gSaveContext.rupees >= 10) {
+                if (gSaveContext.save.info.playerData.rupees >= 10) {
                     func_80035B18(play, actor, 0x2034);
                     Rupees_ChangeBy(-10);
                 } else {
@@ -5744,7 +5745,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
     actor->focus.pos.y += focusHeight;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
-          (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
+          (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
             Actor_TrackNone(headRot, torsoRot);
@@ -5753,7 +5754,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
-        (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
+        (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
         target = play->view.eye;
     } else {
         target = player->actor.focus.pos;
@@ -5788,7 +5789,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
     actor->focus.pos = focusPos;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
-          (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
+          (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
             Actor_TrackNone(headRot, torsoRot);
@@ -5797,7 +5798,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
-        (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
+        (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
         target = play->view.eye;
     } else {
         target = player->actor.focus.pos;
