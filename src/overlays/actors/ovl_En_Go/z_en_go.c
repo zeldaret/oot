@@ -865,7 +865,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
-                gSaveContext.timer2State = 0;
+                gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
                 OnePointCutscene_Init(play, 4190, -99, &this->actor, CAM_ID_MAIN);
             } else {
                 this->unk_1E0.unk_00 = 0;

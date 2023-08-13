@@ -433,11 +433,11 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
     func_8002DF54(play, &this->actor, 8);
-    Interface_ChangeAlpha(1);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
         AREG(6) = 0;
     }
-    gSaveContext.timer1State = 0;
+    gSaveContext.timerState = TIMER_STATE_OFF;
 }
 
 void func_80A79C78(EnIn* this, PlayState* play) {
@@ -471,7 +471,7 @@ void func_80A79C78(EnIn* this, PlayState* play) {
     player->actor.freezeTimer = 10;
     this->actor.flags &= ~ACTOR_FLAG_0;
     Letterbox_SetSizeTarget(32);
-    Interface_ChangeAlpha(2);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
 }
 
 static s32 D_80A7B998 = 0;
@@ -580,7 +580,7 @@ void func_80A79FB0(EnIn* this, PlayState* play) {
                         this->actor.targetMode = 3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
-                        func_80088B34(0x3C);
+                        Interface_SetTimer(60);
                         break;
                     case EVENTINF_HORSES_STATE_3:
                         EnIn_ChangeAnim(this, ENIN_ANIM_4);
@@ -657,12 +657,12 @@ void func_80A7A568(EnIn* this, PlayState* play) {
     if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         SET_INFTABLE(INFTABLE_AB);
     }
-    if (gSaveContext.timer1State == 10) {
+    if (gSaveContext.timerState == TIMER_STATE_STOP) {
         Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A79C78(this, play);
         this->actionFunc = func_80A7B024;
-        gSaveContext.timer1State = 0;
+        gSaveContext.timerState = TIMER_STATE_OFF;
     } else if (this->unk_308.unk_00 == 2) {
         if (play->msgCtx.choiceIndex == 0) {
             if (gSaveContext.save.info.playerData.rupees < 50) {
@@ -793,7 +793,7 @@ void func_80A7AA40(EnIn* this, PlayState* play) {
     this->unk_1FC = 0;
     play->csCtx.frames = 0;
     Letterbox_SetSizeTarget(32);
-    Interface_ChangeAlpha(2);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
     this->actionFunc = func_80A7ABD4;
 }
 
@@ -858,7 +858,7 @@ void func_80A7AE84(EnIn* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
     func_8002DF54(play, &this->actor, 7);
-    Interface_ChangeAlpha(0x32);
+    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->actionFunc = func_80A7AEF0;
 }
 
@@ -930,7 +930,8 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actionFunc != func_80A7A304) {
         func_80A79AB4(this, play);
-        if (gSaveContext.timer2Value < 6 && gSaveContext.timer2State != 0 && this->unk_308.unk_00 == 0) {
+        if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
+            (this->unk_308.unk_00 == 0)) {
             if (Actor_ProcessTalkRequest(&this->actor, play)) {}
         } else {
             func_800343CC(play, &this->actor, &this->unk_308.unk_00,

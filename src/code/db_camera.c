@@ -2136,14 +2136,14 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                     sDbCamAnim.unk_04 = 0;
                 } else if (CHECK_BTN_ALL(sPlay->state.input[DBCAM_CONTROLLER_PORT].press.button, BTN_CLEFT)) {
                     sDbCamAnim.unk_0A = 0;
-                    Interface_ChangeAlpha(2);
+                    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
                     Letterbox_SetSizeTarget(0);
                     D_8016110C = 0;
                     return 2;
                 }
 
                 if (func_800B91B0(cam, dbCamera) == 0) {
-                    Interface_ChangeAlpha(2);
+                    Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
                     Letterbox_SetSizeTarget(0);
                     Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2302,7 +2302,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 sDbCamAnim.unk_04 = 0.0f;
                 sDbCamAnim.unk_0A = 1;
                 sDbCamAnim.unk_0C = 0;
-                Interface_ChangeAlpha(50);
+                Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 Letterbox_SetSizeTarget(32);
                 D_8016110C = 0;
                 Audio_PlaySfxGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,

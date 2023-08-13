@@ -19,8 +19,8 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
 
-    DmaMgr_SendRequest1(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
-                        "../z_scene.c", 145);
+    DmaMgr_RequestSyncDebug(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
+                            "../z_scene.c", 145);
 
     if (objectCtx->num < OBJECT_EXCHANGE_BANK_MAX - 1) {
         objectCtx->status[objectCtx->num + 1].segment =
@@ -89,7 +89,7 @@ void Object_UpdateBank(ObjectContext* objectCtx) {
                 objectFile = &gObjectTable[-status->id];
                 size = objectFile->vromEnd - objectFile->vromStart;
                 osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, status->segment);
-                DmaMgr_SendRequest2(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
+                DmaMgr_RequestAsync(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
                                     &status->loadQueue, NULL, "../z_scene.c", 266);
             } else if (osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 status->id = -status->id;
@@ -131,7 +131,7 @@ void func_800981B8(ObjectContext* objectCtx) {
                      objectCtx->status[i].segment);
         osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[i].segment + size,
                      objectCtx->spaceEnd);
-        DmaMgr_SendRequest1(objectCtx->status[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
+        DmaMgr_RequestSyncDebug(objectCtx->status[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
     }
 }
 

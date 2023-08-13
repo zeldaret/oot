@@ -4,6 +4,28 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+// `_FORCE` means that this request will respond to `forceRisingButtonAlphas`.
+// If set, the buttons will also raise alphas but will also account for disabled buttons
+
+typedef enum {
+    /*  0 */ HUD_VISIBILITY_NO_CHANGE,
+    /*  1 */ HUD_VISIBILITY_NOTHING,
+    /*  2 */ HUD_VISIBILITY_NOTHING_ALT, // Identical to HUD_VISIBILITY_NOTHING
+    /*  3 */ HUD_VISIBILITY_HEARTS_FORCE, // See above
+    /*  4 */ HUD_VISIBILITY_A,
+    /*  5 */ HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE, // See above
+    /*  6 */ HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE, // See above
+    /*  7 */ HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS, // Only raises button alphas if not disabled
+    /*  8 */ HUD_VISIBILITY_B,
+    /*  9 */ HUD_VISIBILITY_HEARTS_MAGIC,
+    /* 10 */ HUD_VISIBILITY_B_ALT, // Identical to HUD_VISIBILITY_B
+    /* 11 */ HUD_VISIBILITY_HEARTS,
+    /* 12 */ HUD_VISIBILITY_A_B_MINIMAP,
+    /* 13 */ HUD_VISIBILITY_HEARTS_MAGIC_FORCE, // See above
+    /* 50 */ HUD_VISIBILITY_ALL = 50, // Only raises button alphas if not disabled
+    /* 52 */ HUD_VISIBILITY_NOTHING_INSTANT = 52
+} HudVisibilityMode;
+
 typedef enum {
     /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
     /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed at which magic border flashes
@@ -99,6 +121,49 @@ typedef struct {
     /* 0x24 */ s32 tempCollectFlags;
 } FaroresWindData; // size = 0x28
 
+typedef enum {
+    /* 0x0 */ TIMER_STATE_OFF,
+    /* 0x1 */ TIMER_STATE_ENV_HAZARD_INIT, // Init env timer that counts down, total time based on health, resets on void-out, kills at 0
+    /* 0x2 */ TIMER_STATE_ENV_HAZARD_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x3 */ TIMER_STATE_ENV_HAZARD_MOVE, // Move to top-left corner
+    /* 0x4 */ TIMER_STATE_ENV_HAZARD_TICK, // Counting down
+    /* 0x5 */ TIMER_STATE_DOWN_INIT, // Init timer that counts down
+    /* 0x6 */ TIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x7 */ TIMER_STATE_DOWN_MOVE, // Move to top-left corner
+    /* 0x8 */ TIMER_STATE_DOWN_TICK, // Counting down
+    /* 0xA */ TIMER_STATE_STOP = 10,
+    /* 0xB */ TIMER_STATE_UP_INIT, // Init timer that counts up
+    /* 0xC */ TIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0xD */ TIMER_STATE_UP_MOVE, // Move to top-left corner
+    /* 0xE */ TIMER_STATE_UP_TICK, // Counting up
+    /* 0xF */ TIMER_STATE_UP_FREEZE  // Stop counting the timer
+} TimerState;
+
+typedef enum {
+    /* 0x0 */ SUBTIMER_STATE_OFF,
+    /* 0x1 */ SUBTIMER_STATE_DOWN_INIT, // Init timer that counts down
+    /* 0x2 */ SUBTIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x3 */ SUBTIMER_STATE_DOWN_MOVE, // Move to top-left corner
+    /* 0x4 */ SUBTIMER_STATE_DOWN_TICK, // Counting down
+    /* 0x5 */ SUBTIMER_STATE_RESPAWN, // Time is up, trigger a transition, reset button items, spoil trade quest items
+    /* 0x6 */ SUBTIMER_STATE_STOP, // Time is up, stop counting
+    /* 0x7 */ SUBTIMER_STATE_UP_INIT, // Init timer that counts up
+    /* 0x8 */ SUBTIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x9 */ SUBTIMER_STATE_UP_MOVE, // Move to top-left corner
+    /* 0xA */ SUBTIMER_STATE_UP_TICK // Counting up
+} SubTimerState;
+
+typedef enum {
+    /* 0 */ TIMER_ID_MAIN, // Takes priority in both counting and drawing. See `timerState` and `timerSeconds`
+    /* 1 */ TIMER_ID_SUB, // See `subTimerState` and `subTimerSeconds`
+    /* 2 */ TIMER_ID_MAX
+} TimerId;
+
+#define MARATHON_TIME_LIMIT 240 // 4 minutes
+
+#define ENV_HAZARD_TEXT_TRIGGER_HOTROOM (1 << 0)
+#define ENV_HAZARD_TEXT_TRIGGER_UNDERWATER (1 << 1)
+
 // offsets in SavePlayerData and SaveContext/Save
 typedef struct {
     /* 0x00  0x001C */ char newf[6]; // string "ZELDAZ"
@@ -176,26 +241,26 @@ typedef struct {
     /* 0x13C2 */ char unk_13C2[0x0001];
     /* 0x13C3 */ u8 retainWeatherMode;
     /* 0x13C4 */ s16 dogParams;
-    /* 0x13C6 */ u8 textTriggerFlags;
+    /* 0x13C6 */ u8 envHazardTextTriggerFlags;
     /* 0x13C7 */ u8 showTitleCard;
     /* 0x13C8 */ s16 nayrusLoveTimer;
     /* 0x13CA */ char unk_13CA[0x0002];
     /* 0x13CC */ s16 rupeeAccumulator;
-    /* 0x13CE */ s16 timer1State;
-    /* 0x13D0 */ s16 timer1Value;
-    /* 0x13D2 */ s16 timer2State;
-    /* 0x13D4 */ s16 timer2Value;
-    /* 0x13D6 */ s16 timerX[2];
-    /* 0x13DA */ s16 timerY[2];
+    /* 0x13CE */ s16 timerState; // See `TimerState`
+    /* 0x13D0 */ s16 timerSeconds;
+    /* 0x13D2 */ s16 subTimerState; // See `SubTimerState`
+    /* 0x13D4 */ s16 subTimerSeconds;
+    /* 0x13D6 */ s16 timerX[TIMER_ID_MAX];
+    /* 0x13DA */ s16 timerY[TIMER_ID_MAX];
     /* 0x13DE */ char unk_13DE[0x0002];
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
-    /* 0x13E7 */ u8 unk_13E7; // alpha related
-    /* 0x13E8 */ u16 unk_13E8; // alpha type?
-    /* 0x13EA */ u16 unk_13EA; // also alpha type?
-    /* 0x13EC */ u16 unk_13EC; // alpha type counter?
-    /* 0x13EE */ u16 unk_13EE; // previous alpha type?
+    /* 0x13E7 */ u8 forceRisingButtonAlphas; // if btn alphas are updated through Interface_DimButtonAlphas, instead update them through Interface_RaiseButtonAlphas
+    /* 0x13E8 */ u16 nextHudVisibilityMode; // triggers the hud to change visibility mode to the requested value. Reset to HUD_VISIBILITY_NO_CHANGE when target is reached
+    /* 0x13EA */ u16 hudVisibilityMode; // current hud visibility mode
+    /* 0x13EC */ u16 hudVisibilityModeTimer; // number of frames in the transition to a new hud visibility mode. Used to step alpha
+    /* 0x13EE */ u16 prevHudVisibilityMode; // used to store and recover hud visibility mode for pause menu and text boxes
     /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
     /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
     /* 0x13F4 */ s16 magicCapacity; // maximum magic available
@@ -762,7 +827,8 @@ typedef enum {
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_0F_MASK) | ((v) << EVENTINF_HORSES_0F_SHIFT)
 
 
-#define EVENTINF_10 0x10
+// Is the running man race active
+#define EVENTINF_MARATHON_ACTIVE 0x10
 
 // 0x20-0x24
 #define EVENTINF_20_21_22_23_24_INDEX 2
