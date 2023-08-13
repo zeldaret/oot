@@ -1905,8 +1905,8 @@ void func_80832E48(Player* this, s32 flags) {
     func_808322FC(this);
 }
 
-#define FLAG_FUNC_80832F54_8 0x100
-#define FLAG_FUNC_80832F54_9 0x200
+#define FLAG_FUNC_80832F54_8 (1 << 8)
+#define FLAG_FUNC_80832F54_9 (1 << 9)
 
 void func_80832F54(PlayState* play, Player* this, s32 flags) {
     if (flags & FLAG_FUNC_80832F54_9) {
