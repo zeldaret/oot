@@ -6646,7 +6646,7 @@ s32 Camera_Special7(Camera* camera) {
 
     yOffset = Player_GetHeight(camera->player);
     if (camera->animState == 0) {
-        if (camera->play->sceneId == SCENE_JYASINZOU) {
+        if (camera->play->sceneId == SCENE_SPIRIT_TEMPLE) {
             // Spirit Temple
             rwData->index = 3;
         } else if (playerPosRot->pos.x < 1500.0f) {
@@ -7351,7 +7351,7 @@ s32 Camera_UpdateWater(Camera* camera) {
         if (camera->waterDistortionTimer > 0) {
             camera->waterDistortionTimer--;
             camera->distortionFlags |= DISTORTION_UNDERWATER_STRONG;
-        } else if (camera->play->sceneId == SCENE_TURIBORI) {
+        } else if (camera->play->sceneId == SCENE_FISHING_POND) {
             camera->distortionFlags |= DISTORTION_UNDERWATER_FISHING;
         } else {
             camera->distortionFlags |= DISTORTION_UNDERWATER_WEAK;
@@ -7708,7 +7708,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     Camera_UpdateDistortion(camera);
 
-    if ((camera->play->sceneId == SCENE_SPOT00) && (camera->fov < 59.0f)) {
+    if ((camera->play->sceneId == SCENE_HYRULE_FIELD) && (camera->fov < 59.0f)) {
         View_SetScale(&camera->play->view, 0.79f);
     } else {
         View_SetScale(&camera->play->view, 1.0f);
@@ -7952,7 +7952,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
         }
     }
     if (((setting == CAM_SET_MEADOW_BIRDS_EYE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
-        (camera->play->sceneId == SCENE_SPOT05)) {
+        (camera->play->sceneId == SCENE_SACRED_FOREST_MEADOW)) {
         camera->unk_14A |= 0x10;
         return -5;
     }

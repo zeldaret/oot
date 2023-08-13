@@ -149,10 +149,11 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
             if (this->switchFlag >= 0) {
                 Flags_SetSwitch(play, this->switchFlag);
             }
-            if (play->sceneId == SCENE_MIZUSIN) {
+            if (play->sceneId == SCENE_WATER_TEMPLE) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
             }
-            if ((play->sceneId != SCENE_DAIYOUSEI_IZUMI) && (play->sceneId != SCENE_YOUSEI_IZUMI_YOKO)) {
+            if ((play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_MAGIC) &&
+                (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS)) {
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
             func_80078884(NA_SE_SY_CORRECT_CHIME);

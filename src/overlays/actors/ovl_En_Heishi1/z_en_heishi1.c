@@ -347,7 +347,7 @@ void EnHeishi1_Kick(EnHeishi1* this, PlayState* play) {
             Message_CloseTextbox(play);
             if (!this->loadStarted) {
                 SET_EVENTCHKINF(EVENTCHKINF_4E);
-                play->nextEntranceIndex = ENTR_SPOT15_3;
+                play->nextEntranceIndex = ENTR_HYRULE_CASTLE_3;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 this->loadStarted = true;
                 sPlayerIsCaught = false;

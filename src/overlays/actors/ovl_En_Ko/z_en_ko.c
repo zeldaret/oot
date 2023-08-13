@@ -972,7 +972,7 @@ void func_80A9877C(EnKo* this, PlayState* play) {
     }
     if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->lookDist, func_80A97610,
                           func_80A97738) &&
-        ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_SPOT10) {
+        ENKO_TYPE == ENKO_TYPE_CHILD_FADO && play->sceneId == SCENE_LOST_WOODS) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
         if (func_8002F368(play) == EXCH_ITEM_ODD_POTION) {
@@ -986,7 +986,7 @@ void func_80A9877C(EnKo* this, PlayState* play) {
 // Checks if the Kokiri should spawn based on quest progress
 s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
     switch (play->sceneId) {
-        case SCENE_SPOT04:
+        case SCENE_KOKIRI_FOREST:
             if (ENKO_TYPE >= ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_FADO) {
                 return false;
             }
@@ -994,13 +994,13 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
                 return false;
             }
             return true;
-        case SCENE_KOKIRI_HOME:
+        case SCENE_KNOW_IT_ALL_BROS_HOUSE:
             if (ENKO_TYPE != ENKO_TYPE_CHILD_7 && ENKO_TYPE != ENKO_TYPE_CHILD_8 && ENKO_TYPE != ENKO_TYPE_CHILD_11) {
                 return false;
             } else {
                 return true;
             }
-        case SCENE_KOKIRI_HOME3:
+        case SCENE_TWINS_HOUSE:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (ENKO_TYPE != ENKO_TYPE_CHILD_1 && ENKO_TYPE != ENKO_TYPE_CHILD_9) {
                     return false;
@@ -1013,7 +1013,7 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
             } else {
                 return true;
             }
-        case SCENE_KOKIRI_HOME4:
+        case SCENE_MIDOS_HOUSE:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (ENKO_TYPE != ENKO_TYPE_CHILD_0 && ENKO_TYPE != ENKO_TYPE_CHILD_4) {
                     return false;
@@ -1023,7 +1023,7 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
             } else {
                 return false;
             }
-        case SCENE_KOKIRI_HOME5:
+        case SCENE_SARIAS_HOUSE:
             if (LINK_IS_ADULT && !CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 if (ENKO_TYPE != ENKO_TYPE_CHILD_6) {
                     return false;
@@ -1047,7 +1047,7 @@ s32 EnKo_CanSpawn(EnKo* this, PlayState* play) {
                 return true;
             }
 
-        case SCENE_SPOT10:
+        case SCENE_LOST_WOODS:
             return (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_ODD_POTION) ? true : false;
         default:
             return false;
@@ -1093,7 +1093,7 @@ s32 EnKo_GetForestQuestState2(EnKo* this) {
 void func_80A98DB4(EnKo* this, PlayState* play) {
     f32 dist;
 
-    if (play->sceneId != SCENE_SPOT10 && play->sceneId != SCENE_SPOT04) {
+    if (play->sceneId != SCENE_LOST_WOODS && play->sceneId != SCENE_KOKIRI_FOREST) {
         this->modelAlpha = 255.0f;
         return;
     }
@@ -1112,7 +1112,7 @@ void func_80A98DB4(EnKo* this, PlayState* play) {
 }
 
 s32 func_80A98ECC(EnKo* this, PlayState* play) {
-    if (play->sceneId == SCENE_SPOT10 && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
+    if (play->sceneId == SCENE_LOST_WOODS && ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
         return func_80A97E18(this, play);
     }
     switch (EnKo_GetForestQuestState(this)) {

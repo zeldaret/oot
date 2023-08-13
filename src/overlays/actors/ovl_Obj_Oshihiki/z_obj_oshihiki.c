@@ -53,8 +53,9 @@ static Color_RGB8 sColors[][4] = {
 };
 
 static s16 sSceneIds[] = {
-    SCENE_YDAN,      SCENE_DDAN,    SCENE_BMORI1, SCENE_HIDAN, SCENE_MIZUSIN,
-    SCENE_JYASINZOU, SCENE_HAKADAN, SCENE_GANON,  SCENE_MEN,
+    SCENE_DEKU_TREE,     SCENE_DODONGOS_CAVERN, SCENE_FOREST_TEMPLE,
+    SCENE_FIRE_TEMPLE,   SCENE_WATER_TEMPLE,    SCENE_SPIRIT_TEMPLE,
+    SCENE_SHADOW_TEMPLE, SCENE_GANONS_TOWER,    SCENE_GERUDO_TRAINING_GROUND,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -649,14 +650,14 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (play->sceneId) {
-        case SCENE_YDAN:
-        case SCENE_DDAN:
-        case SCENE_BMORI1:
-        case SCENE_HIDAN:
-        case SCENE_MIZUSIN:
-        case SCENE_JYASINZOU:
-        case SCENE_HAKADAN:
-        case SCENE_MEN:
+        case SCENE_DEKU_TREE:
+        case SCENE_DODONGOS_CAVERN:
+        case SCENE_FOREST_TEMPLE:
+        case SCENE_FIRE_TEMPLE:
+        case SCENE_WATER_TEMPLE:
+        case SCENE_SPIRIT_TEMPLE:
+        case SCENE_SHADOW_TEMPLE:
+        case SCENE_GERUDO_TRAINING_GROUND:
             gDPSetEnvColor(POLY_OPA_DISP++, this->color.r, this->color.g, this->color.b, 255);
             break;
         default:
