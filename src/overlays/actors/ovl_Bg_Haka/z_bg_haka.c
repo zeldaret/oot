@@ -127,7 +127,7 @@ void func_8087BAE4(BgHaka* this, PlayState* play) {
     s32 pad;
 
     if (this->dyna.actor.params != 0) {
-        this->dyna.actor.params -= 1;
+        this->dyna.actor.params--;
     }
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.unk_150 = 0.0f;

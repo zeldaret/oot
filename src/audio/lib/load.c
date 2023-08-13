@@ -192,8 +192,8 @@ void* AudioLoad_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, 
     dma->ttl = 3;
     dma->devAddr = dmaDevAddr;
     dma->sizeUnused = transfer;
-    AudioLoad_Dma(&gAudioCtx.currAudioFrameDmaIoMsgBuf[gAudioCtx.curAudioFrameDmaCount++], OS_MESG_PRI_NORMAL, OS_READ,
-                  dmaDevAddr, dma->ramAddr, transfer, &gAudioCtx.currAudioFrameDmaQueue, medium, "SUPERDMA");
+    AudioLoad_Dma(&gAudioCtx.curAudioFrameDmaIoMsgBuf[gAudioCtx.curAudioFrameDmaCount++], OS_MESG_PRI_NORMAL, OS_READ,
+                  dmaDevAddr, dma->ramAddr, transfer, &gAudioCtx.curAudioFrameDmaQueue, medium, "SUPERDMA");
     *dmaIndexRef = dmaIndex;
     return (devAddr - dmaDevAddr) + dma->ramAddr;
 }
@@ -1166,8 +1166,8 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
     gAudioCtx.rspTask[0].task.t.data_size = 0;
     gAudioCtx.rspTask[1].task.t.data_size = 0;
     osCreateMesgQueue(&gAudioCtx.syncDmaQueue, &gAudioCtx.syncDmaMesg, 1);
-    osCreateMesgQueue(&gAudioCtx.currAudioFrameDmaQueue, gAudioCtx.currAudioFrameDmaMsgBuf,
-                      ARRAY_COUNT(gAudioCtx.currAudioFrameDmaMsgBuf));
+    osCreateMesgQueue(&gAudioCtx.curAudioFrameDmaQueue, gAudioCtx.curAudioFrameDmaMsgBuf,
+                      ARRAY_COUNT(gAudioCtx.curAudioFrameDmaMsgBuf));
     osCreateMesgQueue(&gAudioCtx.externalLoadQueue, gAudioCtx.externalLoadMsgBuf,
                       ARRAY_COUNT(gAudioCtx.externalLoadMsgBuf));
     osCreateMesgQueue(&gAudioCtx.preloadSampleQueue, gAudioCtx.preloadSampleMsgBuf,
@@ -1824,7 +1824,7 @@ s32 AudioLoad_ProcessSamplePreloads(s32 resetStatus) {
         preloadIndex >>= 24;
         preload = &gAudioCtx.preloadSampleStack[preloadIndex];
 
-        if (preload->isFree == false) {
+        if (!preload->isFree) {
             sample = preload->sample;
             key = (u32)sample->sampleAddr + sample->size + sample->medium;
             if (key == preload->endAndMediumKey) {
