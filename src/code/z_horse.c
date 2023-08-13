@@ -68,7 +68,8 @@ void func_8006D0EC(PlayState* play, Player* player) {
         gSaveContext.minigameState = 0;
         horseActor = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, 1);
         horseActor->room = -1;
-    } else if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_7) && GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
+    } else if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_7) &&
+               GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         Actor* horseActor =
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
@@ -133,8 +134,10 @@ void func_8006D684(PlayState* play, Player* player) {
     s32 i;
     Vec3s spawnPos;
 
-    if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11 || gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12 ||
-         gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13 || gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15) &&
+    if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11 ||
+         gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12 ||
+         gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13 ||
+         gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15) &&
         (gSaveContext.respawnFlag == 0)) {
         Vec3s spawnPositions[] = {
             { -2961, 313, 7700 },
@@ -189,7 +192,8 @@ void func_8006D684(PlayState* play, Player* player) {
             if ((play->sceneId == D_8011F9B8[i].sceneId) &&
                 (((void)0, gSaveContext.save.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
                 if (D_8011F9B8[i].type == 7) {
-                    if ((play->sceneId == SCENE_LON_LON_RANCH) && (((void)0, gSaveContext.save.cutsceneIndex) == 0xFFF1)) {
+                    if ((play->sceneId == SCENE_LON_LON_RANCH) &&
+                        (((void)0, gSaveContext.save.cutsceneIndex) == 0xFFF1)) {
                         D_8011F9B8[i].pos.x = player->actor.world.pos.x;
                         D_8011F9B8[i].pos.y = player->actor.world.pos.y;
                         D_8011F9B8[i].pos.z = player->actor.world.pos.z;

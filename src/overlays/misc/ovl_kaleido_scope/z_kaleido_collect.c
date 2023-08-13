@@ -456,8 +456,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
 
         POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
             POLY_OPA_DISP,
-            gItemIcons[ITEM_HEART_PIECE_2 - 1 + (((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >>
-                               QUEST_HEART_PIECE_COUNT)],
+            gItemIcons[ITEM_HEART_PIECE_2 - 1 +
+                       (((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >>
+                        QUEST_HEART_PIECE_COUNT)],
             48, 48, 0);
     }
 

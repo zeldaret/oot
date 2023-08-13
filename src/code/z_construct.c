@@ -86,13 +86,13 @@ void Interface_Init(PlayState* play) {
 
     if (gSaveContext.save.info.equips.buttonItems[0] < 0xF0) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
-                                   
-                            GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
+
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
                                 "../z_construct.c", 198);
     } else if (gSaveContext.save.info.equips.buttonItems[0] != 0xFF) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
-                                   
-                            GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
+
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
                                 "../z_construct.c", 203);
     }
 

@@ -732,7 +732,8 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
 }
 
 s32 Player_HoldsBrokenKnife(Player* this) {
-    return (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) && (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
+    return (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) &&
+           (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
 }
 
 s32 Player_ActionToBottle(Player* this, s32 itemAction) {

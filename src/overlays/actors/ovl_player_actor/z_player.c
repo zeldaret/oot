@@ -2205,7 +2205,8 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
     u16 voiceSfx;
 
     if (this->meleeWeaponState == 0) {
-        if ((this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) && (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
+        if ((this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) &&
+            (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
         } else {
             itemSfx = NA_SE_IT_SWORD_SWING;
@@ -2403,8 +2404,9 @@ void func_80834298(Player* this, PlayState* play) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_8) &&
         ((this->heldItemAction == this->itemAction) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
         (gSaveContext.save.info.playerData.health != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
-        (this->csMode == PLAYER_CSMODE_NONE) && (play->shootingGalleryStatus == 0) && (play->activeCamId == CAM_ID_MAIN) &&
-        (play->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timerState != TIMER_STATE_STOP)) {
+        (this->csMode == PLAYER_CSMODE_NONE) && (play->shootingGalleryStatus == 0) &&
+        (play->activeCamId == CAM_ID_MAIN) && (play->transitionTrigger != TRANS_TRIGGER_START) &&
+        (gSaveContext.timerState != TIMER_STATE_STOP)) {
         func_80833DF8(this, play);
     }
 

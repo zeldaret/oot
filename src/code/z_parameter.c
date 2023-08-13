@@ -2560,7 +2560,7 @@ void Magic_Update(PlayState* play) {
                 (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
                 (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {
                 if ((gSaveContext.save.info.playerData.magic == 0) ||
-                   
+
                     ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
                      (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) ||
                     ((gSaveContext.save.info.equips.buttonItems[1] != ITEM_LENS_OF_TRUTH) &&
@@ -4238,7 +4238,7 @@ void Interface_Update(PlayState* play) {
     if (gSaveContext.timerState == TIMER_STATE_OFF) {
         if (((sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) || (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) ||
              (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FREE)) &&
-           
+
             ((gSaveContext.save.info.playerData.health >> 1) != 0)) {
             gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_INIT;
             gSaveContext.timerX[TIMER_ID_MAIN] = 140;
