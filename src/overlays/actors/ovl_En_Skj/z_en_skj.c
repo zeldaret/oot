@@ -1248,7 +1248,7 @@ void EnSkj_Appear(EnSkj* this) {
 void EnSkj_OcarinaGameIdle(EnSkj* this, PlayState* play) {
     EnSkj_Appear(this);
 
-    if ((EnSkj_IsLeavingGame(this) == false) && (this->minigameState != 0)) {
+    if (!EnSkj_IsLeavingGame(this) && (this->minigameState != 0)) {
         EnSkj_SetupPlayOcarinaGame(this);
     }
 }
@@ -1529,7 +1529,8 @@ void EnSkj_WonOcarinaMiniGame(EnSkj* this, PlayState* play) {
 
 void EnSkj_WaitToGiveReward(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        Actor_OfferGetItem(&this->actor, play, sOcarinaGameRewards[gSaveContext.ocarinaGameRoundNum], 26.0f, 26.0f);
+        Actor_OfferGetItem(&this->actor, play,
+                           sOcarinaGameRewards[gSaveContext.save.info.playerData.ocarinaGameRoundNum], 26.0f, 26.0f);
         this->actionFunc = EnSkj_GiveOcarinaGameReward;
     }
 }
@@ -1539,16 +1540,17 @@ void EnSkj_GiveOcarinaGameReward(EnSkj* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnSkj_FinishOcarinaGameRound;
     } else {
-        Actor_OfferGetItem(&this->actor, play, sOcarinaGameRewards[gSaveContext.ocarinaGameRoundNum], 26.0f, 26.0f);
+        Actor_OfferGetItem(&this->actor, play,
+                           sOcarinaGameRewards[gSaveContext.save.info.playerData.ocarinaGameRoundNum], 26.0f, 26.0f);
     }
 }
 
 void EnSkj_FinishOcarinaGameRound(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        s32 ocarinaGameRoundNum = gSaveContext.ocarinaGameRoundNum;
+        s32 ocarinaGameRoundNum = gSaveContext.save.info.playerData.ocarinaGameRoundNum;
 
-        if (gSaveContext.ocarinaGameRoundNum < 3) {
-            gSaveContext.ocarinaGameRoundNum++;
+        if (gSaveContext.save.info.playerData.ocarinaGameRoundNum < 3) {
+            gSaveContext.save.info.playerData.ocarinaGameRoundNum++;
         }
 
         if (ocarinaGameRoundNum == 2) {

@@ -1233,9 +1233,9 @@ void func_80B5154C(EnZl2* this, PlayState* play) {
         EnZl2_UpdateEyes(this);
     } else {
         csCtx = &play->csCtx;
-        if (csCtx->curFrame < 0x5F0) {
+        if (csCtx->curFrame < 1520) {
             func_80B4EBB8(this);
-        } else if (csCtx->curFrame == 0x5F0) {
+        } else if (csCtx->curFrame == 1520) {
             this->unk_27C = 0.0f;
         } else {
             func_80B4EC48(this);

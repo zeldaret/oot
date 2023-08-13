@@ -105,12 +105,12 @@ static EnFrPointers sEnFrPointers = {
     },
 };
 
-#define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                   \
-    (gSaveContext.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
+#define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                             \
+    (gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
      sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex])
 
-#define FROG_SET_SONG_PLAYED(frogSongIndex)                        \
-    gSaveContext.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
+#define FROG_SET_SONG_PLAYED(frogSongIndex)                                  \
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
         sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex];
 
 static u16 sFrogSongIndexToEventChkInfSongsForFrogsMask[] = {
@@ -352,7 +352,7 @@ void EnFr_DivingIntoWater(EnFr* this, PlayState* play) {
         vec.z = this->actor.world.pos.z;
         EffectSsGSplash_Spawn(play, &vec, NULL, NULL, 1, 1);
 
-        if (this->isBelowWaterSurfaceCurrent == false) {
+        if (!this->isBelowWaterSurfaceCurrent) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
@@ -594,7 +594,7 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
     EnFr* frog = sEnFrPointers.frogs[frogIndex];
     u8 semitone;
 
-    if (frog != NULL && frog->isJumpingUp == false) {
+    if ((frog != NULL) && !frog->isJumpingUp) {
         semitone = frog->growingScaleIndex == 3 ? sLargeFrogNotes[frogIndex] : sSmallFrogNotes[frogIndex];
         if (this->songIndex == FROG_CHOIR_SONG) {
             frog->isJumpingToFrogSong = true;
@@ -756,7 +756,7 @@ void EnFr_ChildSong(EnFr* this, PlayState* play) {
 void EnFr_ChildSongFirstTime(EnFr* this, PlayState* play) {
     EnFr* frog = sEnFrPointers.frogs[sSongToFrog[this->songIndex]];
 
-    if (frog->isActive == false) {
+    if (!frog->isActive) {
         this->actor.textId = 0x40A9;
         EnFr_SetupReward(this, play, true);
     }

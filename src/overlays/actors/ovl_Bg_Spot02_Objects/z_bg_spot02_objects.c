@@ -127,7 +127,7 @@ void func_808AC908(BgSpot02Objects* this, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         if (play->csCtx.actorCues[3] != NULL && play->csCtx.actorCues[3]->id == 2) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
             SET_EVENTCHKINF(EVENTCHKINF_1D);
@@ -199,7 +199,7 @@ void BgSpot02Objects_Draw(Actor* thisx, PlayState* play) {
 }
 
 void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
         this->unk_16A++;
 
         if (this->unk_16A >= 12) {
@@ -225,7 +225,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 600);
 
-    if (play->csCtx.state != 0 && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
         if (this->unk_16A < 5) {
             rate = (this->unk_16A / 5.0f);
             redPrim = greenPrim = bluePrim = 255;
@@ -265,7 +265,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 }
 
 void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.actorCues[2] != NULL && play->csCtx.actorCues[2]->id == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[2] != NULL && play->csCtx.actorCues[2]->id == 2) {
         if (this->timer == 2) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
         }
@@ -285,7 +285,7 @@ void func_808AD450(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 736);
 
-    if (play->csCtx.state != 0 && play->csCtx.actorCues[2] != NULL) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[2] != NULL) {
         u16 temp_v1 = CAM_BINANG_TO_DEG(play->csCtx.actorCues[2]->rot.z);
 
         if (this->unk_170 != temp_v1) {

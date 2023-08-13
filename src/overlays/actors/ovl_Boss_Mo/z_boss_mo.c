@@ -1420,8 +1420,8 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
             if (this->timers[2] == 130) {
-                TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 0xA0,
-                                       0xB4, 0x80, 0x28);
+                TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 160,
+                                       180, 128, 40);
                 SET_EVENTCHKINF(EVENTCHKINF_74);
             }
             break;

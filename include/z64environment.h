@@ -51,7 +51,7 @@ typedef enum {
 
 typedef enum {
     /* 0 */ LIGHTNING_OFF, // no lightning
-    /* 1 */ LIGHTNING_ON, // request ligtning strikes at random intervals
+    /* 1 */ LIGHTNING_ON, // request lightning strikes at random intervals
     /* 2 */ LIGHTNING_LAST // request one lightning strike before turning off
 } LightningState;
 

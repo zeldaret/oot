@@ -619,7 +619,7 @@ Mips2c is bad at arrays. We see this in the `(*(&gSaveContext + 0xEDA) & 0x400) 
 3. The entry in `SaveContext` that contains `0xEDA` is `/* 0x0ED4 */ u16 eventChkInf[14];`
 4. Since `0xEDA - 0xED4 = 0x6`, and `u16`s take up 2 bytes each, we conclude that it is `eventChkInf[3]` that is being referenced.
 
-Therefore, the condition should be `(gSaveContext.eventChkInf[3] & 0x400) != 0`. This is a flag comparison, so we can also leave off the `!= 0`.
+Therefore, the condition should be `(gSaveContext.save.info.eventChkInf[3] & 0x400) != 0`. This is a flag comparison, so we can also leave off the `!= 0`.
 
 With all of this implemented, the function should now compile without errors. The parts of the file that we have changed now look like
 
@@ -724,7 +724,7 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
         this->unk_30F = 0;
         this->unk_310 = 0;
         this->unk_311 = 0;
-        if ((gSaveContext.eventChkInf[3] & 0x400) != 0) {
+        if ((gSaveContext.save.info.eventChkInf[3] & 0x400) != 0) {
             func_80A87800(this, func_80A87BEC);
         } else {
             func_80A87800(this, func_80A87C30);
@@ -848,7 +848,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             this->unk_30F = 0;
             this->unk_310 = 0;
             this->unk_311 = 0;
-            if ((gSaveContext.eventChkInf[3] & 0x400) != 0) {
+            if ((gSaveContext.save.info.eventChkInf[3] & 0x400) != 0) {
                 func_80A87800(this, func_80A87BEC);
             } else {
                 func_80A87800(this, func_80A87C30);

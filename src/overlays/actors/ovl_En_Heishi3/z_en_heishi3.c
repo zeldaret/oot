@@ -215,9 +215,9 @@ void EnHeishi3_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     Actor_SetFocus(&this->actor, 60.0f);
-    this->unk_274 += 1;
+    this->unk_274++;
     if (this->caughtTimer != 0) {
-        this->caughtTimer -= 1;
+        this->caughtTimer--;
     }
     this->actionFunc(this, play);
     this->actor.shape.rot = this->actor.world.rot;

@@ -89,11 +89,11 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
     if (!Flags_GetSwitch(play, this->actor.params)) {
         if (this->framesUntilDisable != -1) {
             if (this->framesUntilDisable != 0) {
-                this->framesUntilDisable -= 1;
+                this->framesUntilDisable--;
             }
             if (this->framesUntilDisable == 0) {
                 this->framesUntilDisable = -1;
-                D_8089C1A0 -= 1;
+                D_8089C1A0--;
             }
         }
     }
@@ -102,7 +102,7 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->framesUntilDisable == -1) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_AMOS_DAMAGE);
-            D_8089C1A0 += 1;
+            D_8089C1A0++;
             D_8089C1A0 = CLAMP_MAX(D_8089C1A0, 4);
         }
         this->framesUntilDisable = 416;

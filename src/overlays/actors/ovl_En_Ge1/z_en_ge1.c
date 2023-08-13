@@ -362,7 +362,7 @@ void EnGe1_OfferOpen_GTGGuard(EnGe1* this, PlayState* play) {
 
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.rupees < 10) {
+                if (gSaveContext.save.info.playerData.rupees < 10) {
                     Message_ContinueTextbox(play, 0x6016);
                     this->actionFunc = EnGe1_RefuseEntryTooPoor_GTGGuard;
                 } else {
@@ -573,7 +573,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
 
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.rupees < 20) {
+                if (gSaveContext.save.info.playerData.rupees < 20) {
                     Message_ContinueTextbox(play, 0x85);
                     this->actionFunc = EnGe1_TalkTooPoor_Archery;
                 } else {
