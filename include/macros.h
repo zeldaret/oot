@@ -49,7 +49,7 @@
 #define SLOT(item) gItemSlots[item]
 #define INV_CONTENT(item) gSaveContext.save.info.inventory.items[SLOT(item)]
 #define AMMO(item) gSaveContext.save.info.inventory.ammo[SLOT(item)]
-#define BEANS_BOUGHT AMMO(ITEM_BEAN + 1)
+#define BEANS_BOUGHT AMMO(ITEM_MAGIC_BEAN + 1)
 
 #define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.save.info.inventory.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
 #define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.save.info.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
@@ -92,10 +92,10 @@
 #define SET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
 #define CLEAR_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
 
-#define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
-                        ? ITEM_NONE                                                \
-                        : (gSaveContext.save.info.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \
-                            ? ITEM_SWORD_BGS                                       \
+#define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                     \
+                        ? ITEM_NONE                                                 \
+                        : (gSaveContext.save.info.equips.buttonItems[0] == ITEM_GIANTS_KNIFE) \
+                            ? ITEM_SWORD_BIGGORON                                   \
                             : gSaveContext.save.info.equips.buttonItems[0])
 
 #define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[(button) + 1] != BTN_DISABLED) \

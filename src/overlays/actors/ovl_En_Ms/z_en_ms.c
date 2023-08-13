@@ -128,7 +128,7 @@ void EnMs_Talk(EnMs* this, PlayState* play) {
                     Message_ContinueTextbox(play, 0x4069); // not enough rupees text
                     return;
                 }
-                func_8002F434(&this->actor, play, GI_BEAN, 90.0f, 10.0f);
+                func_8002F434(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
                 this->actionFunc = EnMs_Sell;
                 return;
             case 1: // no
@@ -145,7 +145,7 @@ void EnMs_Sell(EnMs* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
     } else {
-        func_8002F434(&this->actor, play, GI_BEAN, 90.0f, 10.0f);
+        func_8002F434(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
     }
 }
 
