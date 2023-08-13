@@ -172,18 +172,18 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         this->subCamId = Play_CreateSubCamera(play);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
         Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
-        func_800C0808(play, this->subCamId, player, CAM_SET_FREE0);
+        Play_InitCameraDataUsingPlayer(play, this->subCamId, player, CAM_SET_FREE0);
         play->envCtx.screenFillColor[0] = 255;
         play->envCtx.screenFillColor[1] = 255;
         play->envCtx.screenFillColor[2] = 255;
         play->envCtx.screenFillColor[3] = 24;
         play->envCtx.fillScreen = true;
-        Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-        Play_CameraSetFov(play, this->subCamId, 30.0f);
+        Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+        Play_SetCameraFov(play, this->subCamId, 30.0f);
         Letterbox_SetSizeTarget(32);
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING_ALT);
         player->actor.world.pos = playerPos;
-        player->actor.speedXZ = 0.0f;
+        player->actor.speed = 0.0f;
         this->unk_1E2 = 0;
         this->actionFunc = func_80B4B240;
         Audio_PlayFanfare(NA_BGM_APPEAR);
@@ -232,8 +232,8 @@ void func_80B4B240(EnZl1* this, PlayState* play) {
         case 1:
             if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 play->envCtx.fillScreen = false;
-                Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-                Play_CameraSetFov(play, this->subCamId, 25.0f);
+                Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+                Play_SetCameraFov(play, this->subCamId, 25.0f);
                 player->actor.world.pos = sp58;
                 this->actor.textId = 0x702F;
                 Message_ContinueTextbox(play, this->actor.textId);
@@ -318,7 +318,7 @@ void func_80B4B240(EnZl1* this, PlayState* play) {
             if (this->skelAnime.curFrame == frameCount) {
                 animHeaderSeg = &gChildZelda1Anim_00438;
                 sp3C = 1;
-                play->csCtx.segment = D_80B4C5D0;
+                play->csCtx.script = D_80B4C5D0;
                 gSaveContext.cutsceneTrigger = 1;
                 this->actionFunc = func_80B4B8B4;
                 this->unk_1E2++;
@@ -332,16 +332,16 @@ void func_80B4B240(EnZl1* this, PlayState* play) {
     Actor_TrackPlayer(play, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
 }
 
-void func_80B4B7F4(CsCmdActorAction* npcAction, Vec3f* pos) {
-    pos->x = npcAction->startPos.x;
-    pos->y = npcAction->startPos.y;
-    pos->z = npcAction->startPos.z;
+void func_80B4B7F4(CsCmdActorCue* cue, Vec3f* dest) {
+    dest->x = cue->startPos.x;
+    dest->y = cue->startPos.y;
+    dest->z = cue->startPos.z;
 }
 
-void func_80B4B834(CsCmdActorAction* npcAction, Vec3f* pos) {
-    pos->x = npcAction->endPos.x;
-    pos->y = npcAction->endPos.y;
-    pos->z = npcAction->endPos.z;
+void func_80B4B834(CsCmdActorCue* cue, Vec3f* dest) {
+    dest->x = cue->endPos.x;
+    dest->y = cue->endPos.y;
+    dest->z = cue->endPos.z;
 }
 
 void func_80B4B874(EnZl1* this, PlayState* play) {
@@ -368,8 +368,8 @@ void func_80B4B8B4(EnZl1* this, PlayState* play) {
     Vec3f subCamAt = { -421.0f, 143.0f, -5.0f };
     Vec3f subCamEye = { -512.0f, 105.0f, -4.0f };
     s32 pad2;
-    f32 actionLength;
-    CsCmdActorAction* npcAction;
+    f32 cueDuration;
+    CsCmdActorCue* cue;
     Vec3f sp74;
     Vec3f sp68;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
@@ -384,35 +384,42 @@ void func_80B4B8B4(EnZl1* this, PlayState* play) {
         return;
     }
 
-    npcAction = play->csCtx.npcActions[0];
-    if (npcAction != NULL) {
-        func_80B4B7F4(npcAction, &sp74);
-        func_80B4B834(npcAction, &sp68);
+    cue = play->csCtx.actorCues[0];
+
+    if (cue != NULL) {
+        func_80B4B7F4(cue, &sp74);
+        func_80B4B834(cue, &sp68);
+
         if (this->unk_1E6 == 0) {
             sp48 = sp74;
             this->actor.home.pos = sp48;
             this->actor.world.pos = sp48;
         }
-        if (this->unk_1E6 != npcAction->action) {
-            frameCount = Animation_GetLastFrame(spB0[npcAction->action]);
-            Animation_Change(&this->skelAnime, spB0[npcAction->action], 1.0f, 0.0f, frameCount, spA4[npcAction->action],
-                             -10.0f);
-            this->unk_1E6 = npcAction->action;
+
+        if (this->unk_1E6 != cue->id) {
+            frameCount = Animation_GetLastFrame(spB0[cue->id]);
+            Animation_Change(&this->skelAnime, spB0[cue->id], 1.0f, 0.0f, frameCount, spA4[cue->id], -10.0f);
+            this->unk_1E6 = cue->id;
         }
+
         this->actor.velocity = velocity;
-        if (play->csCtx.frames < npcAction->endFrame) {
-            actionLength = npcAction->endFrame - npcAction->startFrame;
-            this->actor.velocity.x = (sp68.x - sp74.x) / actionLength;
-            this->actor.velocity.y = (sp68.y - sp74.y) / actionLength;
+
+        if (play->csCtx.curFrame < cue->endFrame) {
+            cueDuration = cue->endFrame - cue->startFrame;
+
+            this->actor.velocity.x = (sp68.x - sp74.x) / cueDuration;
+            this->actor.velocity.y = (sp68.y - sp74.y) / cueDuration;
             this->actor.velocity.y += this->actor.gravity;
+
             if (this->actor.velocity.y < this->actor.minVelocityY) {
                 this->actor.velocity.y = this->actor.minVelocityY;
             }
-            this->actor.velocity.z = (sp68.z - sp74.z) / actionLength;
+            this->actor.velocity.z = (sp68.z - sp74.z) / cueDuration;
         }
+
         Actor_TrackPlayer(play, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
-        Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-        Play_CameraSetFov(play, this->subCamId, 70.0f);
+        Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
+        Play_SetCameraFov(play, this->subCamId, 70.0f);
     }
 }
 
@@ -422,8 +429,8 @@ void func_80B4BBC4(EnZl1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    func_8002DF54(play, &this->actor, 1);
-    func_8002F7DC(&player->actor, NA_SE_VO_LI_SURPRISE_KID);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_PlaySfx(player, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
     Message_StartTextbox(play, this->actor.textId, NULL);
     this->unk_1E2 = 0;
@@ -447,11 +454,11 @@ void func_80B4BC78(EnZl1* this, PlayState* play) {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
     };
     s32 pad2;
-    f32 actionLength;
+    f32 cueDuration;
     Vec3f sp70;
     Vec3f sp64;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-    CsCmdActorAction* npcAction;
+    CsCmdActorCue* cue;
     s32 pad;
     f32 frameCount;
 
@@ -459,31 +466,39 @@ void func_80B4BC78(EnZl1* this, PlayState* play) {
         frameCount = Animation_GetLastFrame(&gChildZelda1Anim_11348);
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_11348, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -10.0f);
     }
+
     func_80B4B874(this, play);
-    npcAction = play->csCtx.npcActions[0];
-    if (npcAction != NULL) {
-        func_80B4B7F4(npcAction, &sp70);
-        func_80B4B834(npcAction, &sp64);
+
+    cue = play->csCtx.actorCues[0];
+
+    if (cue != NULL) {
+        func_80B4B7F4(cue, &sp70);
+        func_80B4B834(cue, &sp64);
+
         if (this->unk_1E6 == 0) {
             this->actor.world.pos = this->actor.home.pos = sp70;
         }
 
-        if (this->unk_1E6 != npcAction->action) {
-            frameCount = Animation_GetLastFrame(sp90[npcAction->action]);
-            Animation_Change(&this->skelAnime, sp90[npcAction->action], 1.0f, 0.0f, frameCount, sp84[npcAction->action],
-                             -10.0f);
-            this->unk_1E6 = npcAction->action;
+        if (this->unk_1E6 != cue->id) {
+            frameCount = Animation_GetLastFrame(sp90[cue->id]);
+            Animation_Change(&this->skelAnime, sp90[cue->id], 1.0f, 0.0f, frameCount, sp84[cue->id], -10.0f);
+            this->unk_1E6 = cue->id;
         }
+
         this->actor.velocity = velocity;
-        if (play->csCtx.frames < npcAction->endFrame) {
-            actionLength = npcAction->endFrame - npcAction->startFrame;
-            this->actor.velocity.x = (sp64.x - sp70.x) / actionLength;
-            this->actor.velocity.y = (sp64.y - sp70.y) / actionLength;
+
+        if (play->csCtx.curFrame < cue->endFrame) {
+            cueDuration = cue->endFrame - cue->startFrame;
+
+            this->actor.velocity.x = (sp64.x - sp70.x) / cueDuration;
+            this->actor.velocity.y = (sp64.y - sp70.y) / cueDuration;
             this->actor.velocity.y += this->actor.gravity;
+
             if (this->actor.velocity.y < this->actor.minVelocityY) {
                 this->actor.velocity.y = this->actor.minVelocityY;
             }
-            this->actor.velocity.z = (sp64.z - sp70.z) / actionLength;
+
+            this->actor.velocity.z = (sp64.z - sp70.z) / cueDuration;
         }
     }
 }
@@ -511,7 +526,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 this->actor.textId = 0xFFFF;
                 play->talkWithPlayer(play, &this->actor);
-                func_8002F434(&this->actor, play, GI_ZELDAS_LETTER, 120.0f, 10.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_ZELDAS_LETTER, 120.0f, 10.0f);
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 play->msgCtx.stateTimer = 4;
                 this->unk_1E2++;
@@ -526,7 +541,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
                 this->actor.parent = NULL;
                 this->unk_1E2++;
             } else {
-                func_8002F434(&this->actor, play, GI_ZELDAS_LETTER, 120.0f, 10.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_ZELDAS_LETTER, 120.0f, 10.0f);
             }
             break;
         case 3:
@@ -555,7 +570,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             break;
         case 6:
             if (Actor_TextboxIsClosing(&this->actor, play)) {
-                func_8002DF54(play, &this->actor, 7);
+                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_1E2 = 4;

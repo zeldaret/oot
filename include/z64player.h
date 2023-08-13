@@ -10,7 +10,7 @@ typedef enum {
     /* 0 */ PLAYER_SWORD_NONE,
     /* 1 */ PLAYER_SWORD_KOKIRI,
     /* 2 */ PLAYER_SWORD_MASTER,
-    /* 3 */ PLAYER_SWORD_BGS,
+    /* 3 */ PLAYER_SWORD_BIGGORON,
     /* 4 */ PLAYER_SWORD_MAX
 } PlayerSword;
 
@@ -75,7 +75,7 @@ typedef enum {
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
     /* 0x03 */ PLAYER_IA_SWORD_MASTER,
     /* 0x04 */ PLAYER_IA_SWORD_KOKIRI,
-    /* 0x05 */ PLAYER_IA_SWORD_BGS,
+    /* 0x05 */ PLAYER_IA_SWORD_BIGGORON,
     /* 0x06 */ PLAYER_IA_DEKU_STICK,
     /* 0x07 */ PLAYER_IA_HAMMER,
     /* 0x08 */ PLAYER_IA_BOW,
@@ -352,6 +352,113 @@ typedef enum {
 #define LIMB_BUF_COUNT(limbCount) ((ALIGN16((limbCount) * sizeof(Vec3s)) + sizeof(Vec3s) - 1) / sizeof(Vec3s))
 #define PLAYER_LIMB_BUF_COUNT LIMB_BUF_COUNT(PLAYER_LIMB_MAX)
 
+typedef enum {
+    /* 0x00 */ PLAYER_CSMODE_NONE,
+    /* 0x01 */ PLAYER_CSMODE_1,
+    /* 0x02 */ PLAYER_CSMODE_2,
+    /* 0x03 */ PLAYER_CSMODE_3,
+    /* 0x04 */ PLAYER_CSMODE_4,
+    /* 0x05 */ PLAYER_CSMODE_5,
+    /* 0x06 */ PLAYER_CSMODE_6,
+    /* 0x07 */ PLAYER_CSMODE_7,
+    /* 0x08 */ PLAYER_CSMODE_8,
+    /* 0x09 */ PLAYER_CSMODE_9,
+    /* 0x0A */ PLAYER_CSMODE_10,
+    /* 0x0B */ PLAYER_CSMODE_11,
+    /* 0x0C */ PLAYER_CSMODE_12,
+    /* 0x0D */ PLAYER_CSMODE_13,
+    /* 0x0E */ PLAYER_CSMODE_14,
+    /* 0x0F */ PLAYER_CSMODE_15,
+    /* 0x10 */ PLAYER_CSMODE_16,
+    /* 0x11 */ PLAYER_CSMODE_17,
+    /* 0x12 */ PLAYER_CSMODE_18,
+    /* 0x13 */ PLAYER_CSMODE_19,
+    /* 0x14 */ PLAYER_CSMODE_20,
+    /* 0x15 */ PLAYER_CSMODE_21,
+    /* 0x16 */ PLAYER_CSMODE_22,
+    /* 0x17 */ PLAYER_CSMODE_23,
+    /* 0x18 */ PLAYER_CSMODE_24,
+    /* 0x19 */ PLAYER_CSMODE_25,
+    /* 0x1A */ PLAYER_CSMODE_26,
+    /* 0x1B */ PLAYER_CSMODE_27,
+    /* 0x1C */ PLAYER_CSMODE_28,
+    /* 0x1D */ PLAYER_CSMODE_29,
+    /* 0x1E */ PLAYER_CSMODE_30,
+    /* 0x1F */ PLAYER_CSMODE_31,
+    /* 0x20 */ PLAYER_CSMODE_32,
+    /* 0x21 */ PLAYER_CSMODE_33,
+    /* 0x22 */ PLAYER_CSMODE_34,
+    /* 0x23 */ PLAYER_CSMODE_35,
+    /* 0x24 */ PLAYER_CSMODE_36,
+    /* 0x25 */ PLAYER_CSMODE_37,
+    /* 0x26 */ PLAYER_CSMODE_38,
+    /* 0x27 */ PLAYER_CSMODE_39,
+    /* 0x28 */ PLAYER_CSMODE_40,
+    /* 0x29 */ PLAYER_CSMODE_41,
+    /* 0x2A */ PLAYER_CSMODE_42,
+    /* 0x2B */ PLAYER_CSMODE_43,
+    /* 0x2C */ PLAYER_CSMODE_44,
+    /* 0x2D */ PLAYER_CSMODE_45,
+    /* 0x2E */ PLAYER_CSMODE_46,
+    /* 0x2F */ PLAYER_CSMODE_47,
+    /* 0x30 */ PLAYER_CSMODE_48,
+    /* 0x31 */ PLAYER_CSMODE_49,
+    /* 0x32 */ PLAYER_CSMODE_50,
+    /* 0x33 */ PLAYER_CSMODE_51,
+    /* 0x34 */ PLAYER_CSMODE_52,
+    /* 0x35 */ PLAYER_CSMODE_53,
+    /* 0x36 */ PLAYER_CSMODE_54,
+    /* 0x37 */ PLAYER_CSMODE_55,
+    /* 0x38 */ PLAYER_CSMODE_56,
+    /* 0x39 */ PLAYER_CSMODE_57,
+    /* 0x3A */ PLAYER_CSMODE_58,
+    /* 0x3B */ PLAYER_CSMODE_59,
+    /* 0x3C */ PLAYER_CSMODE_60,
+    /* 0x3D */ PLAYER_CSMODE_61,
+    /* 0x3E */ PLAYER_CSMODE_62,
+    /* 0x3F */ PLAYER_CSMODE_63,
+    /* 0x40 */ PLAYER_CSMODE_64,
+    /* 0x41 */ PLAYER_CSMODE_65,
+    /* 0x42 */ PLAYER_CSMODE_66,
+    /* 0x43 */ PLAYER_CSMODE_67,
+    /* 0x44 */ PLAYER_CSMODE_68,
+    /* 0x45 */ PLAYER_CSMODE_69,
+    /* 0x46 */ PLAYER_CSMODE_70,
+    /* 0x47 */ PLAYER_CSMODE_71,
+    /* 0x48 */ PLAYER_CSMODE_72,
+    /* 0x49 */ PLAYER_CSMODE_73,
+    /* 0x4A */ PLAYER_CSMODE_74,
+    /* 0x4B */ PLAYER_CSMODE_75,
+    /* 0x4C */ PLAYER_CSMODE_76,
+    /* 0x4D */ PLAYER_CSMODE_77,
+    /* 0x4E */ PLAYER_CSMODE_78,
+    /* 0x4F */ PLAYER_CSMODE_79,
+    /* 0x50 */ PLAYER_CSMODE_80,
+    /* 0x51 */ PLAYER_CSMODE_81,
+    /* 0x52 */ PLAYER_CSMODE_82,
+    /* 0x53 */ PLAYER_CSMODE_83,
+    /* 0x54 */ PLAYER_CSMODE_84,
+    /* 0x55 */ PLAYER_CSMODE_85,
+    /* 0x56 */ PLAYER_CSMODE_86,
+    /* 0x57 */ PLAYER_CSMODE_87,
+    /* 0x58 */ PLAYER_CSMODE_88,
+    /* 0x59 */ PLAYER_CSMODE_89,
+    /* 0x5A */ PLAYER_CSMODE_90,
+    /* 0x5B */ PLAYER_CSMODE_91,
+    /* 0x5C */ PLAYER_CSMODE_92,
+    /* 0x5D */ PLAYER_CSMODE_93,
+    /* 0x5E */ PLAYER_CSMODE_94,
+    /* 0x5F */ PLAYER_CSMODE_95,
+    /* 0x60 */ PLAYER_CSMODE_96,
+    /* 0x61 */ PLAYER_CSMODE_97,
+    /* 0x62 */ PLAYER_CSMODE_98,
+    /* 0x63 */ PLAYER_CSMODE_99,
+    /* 0x64 */ PLAYER_CSMODE_100,
+    /* 0x65 */ PLAYER_CSMODE_101,
+    /* 0x66 */ PLAYER_CSMODE_102,
+    /* 0x67 */ PLAYER_CSMODE_MAX
+} PlayerCutsceneMode;
+
 typedef struct {
     /* 0x00 */ f32 unk_00;
     /* 0x04 */ f32 unk_04;
@@ -525,7 +632,7 @@ typedef struct Player {
     /* 0x0440 */ Actor*     rideActor;
     /* 0x0444 */ u8         csMode;
     /* 0x0445 */ u8         prevCsMode;
-    /* 0x0446 */ u8         unk_446;
+    /* 0x0446 */ u8         cueId;
     /* 0x0447 */ u8         unk_447;
     /* 0x0448 */ Actor*     unk_448;
     /* 0x044C */ char       unk_44C[0x004];
@@ -556,7 +663,7 @@ typedef struct Player {
     /* 0x0698 */ f32        targetActorDistance;
     /* 0x069C */ char       unk_69C[0x004];
     /* 0x06A0 */ f32        unk_6A0;
-    /* 0x06A4 */ f32        unk_6A4;
+    /* 0x06A4 */ f32        closestSecretDistSq;
     /* 0x06A8 */ Actor*     unk_6A8;
     /* 0x06AC */ s8         unk_6AC;
     /* 0x06AD */ u8         unk_6AD;
@@ -579,9 +686,9 @@ typedef struct Player {
     /* 0x0834 */ s16        unk_834;
     /* 0x0836 */ s8         unk_836;
     /* 0x0837 */ u8         unk_837;
-    /* 0x0838 */ f32        linearVelocity;
-    /* 0x083C */ s16        currentYaw;
-    /* 0x083E */ s16        targetYaw;
+    /* 0x0838 */ f32        speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
+    /* 0x083C */ s16        yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
+    /* 0x083E */ s16        zTargetYaw; // yaw relating to Z targeting/"parallel" mode
     /* 0x0840 */ u16        underwaterTimer;
     /* 0x0842 */ s8         meleeWeaponAnimation;
     /* 0x0843 */ s8         meleeWeaponState;
@@ -621,7 +728,7 @@ typedef struct Player {
     /* 0x0898 */ s16        unk_898;
     /* 0x089A */ s16        unk_89A;
     /* 0x089C */ s16        unk_89C;
-    /* 0x089E */ u16        unk_89E;
+    /* 0x089E */ u16        floorSfxOffset;
     /* 0x08A0 */ u8         unk_8A0;
     /* 0x08A1 */ u8         unk_8A1;
     /* 0x08A2 */ s16        unk_8A2;
@@ -643,7 +750,7 @@ typedef struct Player {
     /* 0x0A7B */ u8         unk_A7B;
     /* 0x0A7C */ f32        unk_A7C;
     /* 0x0A80 */ s16        unk_A80;
-    /* 0x0A82 */ u16        unk_A82;
+    /* 0x0A82 */ u16        prevFloorSfxOffset;
     /* 0x0A84 */ s16        unk_A84;
     /* 0x0A86 */ s8         unk_A86;
     /* 0x0A87 */ u8         unk_A87;

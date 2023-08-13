@@ -31,7 +31,7 @@ for directory in dirs:
         continue
 
     print("Processing asm//" + directory)
-    
+
     folderName = os.path.splitext(directory)[0]
     lines = ReadAllLines("asm//" + directory)
     functions = list()
@@ -65,5 +65,5 @@ for directory in dirs:
         cLines.insert(len(cLines), "#pragma GLOBAL_ASM(\"asm/non_matchings/code/" + folderName + "/" + func.funcName + ".s\")\n")
 
     WriteAllLines("c//" + folderName + ".c", cLines)
-    
+
 print("Done!")

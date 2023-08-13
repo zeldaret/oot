@@ -125,19 +125,19 @@ void BgHakaShip_Move(BgHakaShip* this, PlayState* play) {
     distanceFromHome = this->dyna.actor.home.pos.x - this->dyna.actor.world.pos.x;
     if (distanceFromHome > 7650.0f) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x - 7650.0f;
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
     }
     if (distanceFromHome > 7600.0f && !Play_InCsMode(play)) {
         this->counter = 40;
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
         Message_StartTextbox(play, 0x5071, NULL);
         this->actionFunc = BgHakaShip_SetupCrash;
     } else {
-        Math_StepToF(&this->dyna.actor.speedXZ, 4.0f, 0.2f);
+        Math_StepToF(&this->dyna.actor.speed, 4.0f, 0.2f);
     }
     child = this->dyna.actor.child;
     if (child != NULL && child->update != NULL) {
-        child->shape.rot.z += ((655.0f / 13.0f) * this->dyna.actor.speedXZ);
+        child->shape.rot.z += ((655.0f / 13.0f) * this->dyna.actor.speed);
     } else {
         this->dyna.actor.child = NULL;
     }
@@ -177,7 +177,7 @@ void BgHakaShip_CrashFall(BgHakaShip* this, PlayState* play) {
             Actor_Kill(child);
         }
     } else {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
         if ((this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 500.0f) &&
             DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             Play_TriggerVoidOut(play);
@@ -190,7 +190,7 @@ void BgHakaShip_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
     if (this->dyna.actor.params == 0) {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
     }
 }
 

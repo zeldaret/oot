@@ -12,13 +12,14 @@ typedef enum {
 } LightningBoltState;
 
 typedef struct {
-    /* 0x00 */ s32 mantissa;
-    /* 0x04 */ s32 exponent;
-} ZBufValConversionEntry; // size = 0x8
+    /* 0x00 */ s32 mantissaShift; // shift applied to the mantissa of the z buffer value
+    /* 0x04 */ s32 base;          // 15.3 fixed-point base value for the exponent
+} ZBufValConversionEntry;         // size = 0x8
 
+// This table needs as many values as there are values for the 3-bit exponent
 ZBufValConversionEntry sZBufValConversionTable[1 << 3] = {
-    { 6, 0x00000 }, { 5, 0x20000 }, { 4, 0x30000 }, { 3, 0x38000 },
-    { 2, 0x3C000 }, { 1, 0x3E000 }, { 0, 0x3F000 }, { 0, 0x3F800 },
+    { 6, 0x0000 << 3 }, { 5, 0x4000 << 3 }, { 4, 0x6000 << 3 }, { 3, 0x7000 << 3 },
+    { 2, 0x7800 << 3 }, { 1, 0x7C00 << 3 }, { 0, 0x7E00 << 3 }, { 0, 0x7F00 << 3 },
 };
 
 u8 gWeatherMode = WEATHER_MODE_CLEAR; // "E_wether_flg"
@@ -225,9 +226,9 @@ u16 sSandstormScroll;
  *   4: dz value (unused)
  */
 s32 Environment_ZBufValToFixedPoint(s32 zBufferVal) {
-    // base[exp] + mantissa << shift[exp]
-    s32 ret = (ZBUFVAL_MANTISSA(zBufferVal) << sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].mantissa) +
-              sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].exponent;
+    // base[exp] + (mantissa << shift[exp])
+    s32 ret = (ZBUFVAL_MANTISSA(zBufferVal) << sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].mantissaShift) +
+              sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].base;
 
     return ret;
 }
@@ -418,7 +419,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     cREG(12) = 0;
     cREG(13) = 0;
     cREG(14) = 0;
-    D_8015FCC8 = 1;
+    gUseCutsceneCam = true;
 
     for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
         sLightningBolts[i].state = LIGHTNING_BOLT_INACTIVE;
@@ -427,8 +428,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     play->roomCtx.unk_74[0] = 0;
     play->roomCtx.unk_74[1] = 0;
 
-    for (i = 0; i < ARRAY_COUNT(play->csCtx.npcActions); i++) {
-        play->csCtx.npcActions[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(play->csCtx.actorCues); i++) {
+        play->csCtx.actorCues[i] = NULL;
     }
 
     if (Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
@@ -1378,7 +1379,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 2266);
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         Math_SmoothStepToF(&play->envCtx.sunPos.x,
                            -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f,
                            1.0f, 0.8f, 0.8f);
@@ -1702,7 +1703,8 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(play);
 
-    if (!(play->cameraPtrs[0]->unk_14C & 0x100) && (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_8) &&
+        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
         vec.x = view->at.x - view->eye.x;

@@ -169,6 +169,18 @@ typedef struct {
 #define ACTOR_FLAG_27 (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
 
+#define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
+#define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)
+
+#define COLORFILTER_COLORFLAG_GRAY 0x8000
+#define COLORFILTER_COLORFLAG_RED  0x4000
+#define COLORFILTER_COLORFLAG_BLUE 0x0000
+
+#define COLORFILTER_INTENSITY_FLAG 0x8000
+
+#define COLORFILTER_BUFFLAG_XLU    0x2000
+#define COLORFILTER_BUFFLAG_OPA    0x0000
+
 #define BGCHECKFLAG_GROUND (1 << 0) // Standing on the ground
 #define BGCHECKFLAG_GROUND_TOUCH (1 << 1) // Has touched the ground (only active for 1 frame)
 #define BGCHECKFLAG_GROUND_LEAVE (1 << 2) // Has left the ground (only active for 1 frame)
@@ -195,9 +207,9 @@ typedef struct Actor {
     /* 0x04C */ f32 targetArrowOffset; // Height offset of the target arrow relative to `focus` position
     /* 0x050 */ Vec3f scale; // Scale of the actor in each axis
     /* 0x05C */ Vec3f velocity; // Velocity of the actor in each axis
-    /* 0x068 */ f32 speedXZ; // How fast the actor is traveling along the XZ plane
+    /* 0x068 */ f32 speed; // Context dependent speed value. Can be used for XZ or XYZ depending on which move function is used
     /* 0x06C */ f32 gravity; // Acceleration due to gravity. Value is added to Y velocity every frame
-    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
+    /* 0x070 */ f32 minVelocityY; // Sets the lower bounds cap for velocity along the Y axis. Only relevant when moved with gravity.
     /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon the actor is touching
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon directly below the actor
     /* 0x07C */ u8 wallBgId; // Bg ID of the wall polygon the actor is touching
@@ -514,6 +526,16 @@ typedef enum {
 typedef struct DoorActorBase {
     /* 0x0000 */ DOOR_ACTOR_BASE;
 } DoorActorBase;
+
+// DoorShutter and DoorGerudo share isActive
+// Due to alignment, a substruct cannot be used in the structs of these actors.
+#define SLIDING_DOOR_ACTOR_BASE      \
+    /* 0x0000 */ DynaPolyActor dyna; \
+    /* 0x0164 */ s16 isActive // Set to true by player when using the door. Also a timer for niche cases in DoorShutter
+
+typedef struct SlidingDoorActorBase {
+    /* 0x0000 */ SLIDING_DOOR_ACTOR_BASE;
+} SlidingDoorActorBase;
 
 typedef enum {
     /* 0x00 */ DOOR_OPEN_ANIM_ADULT_L,

@@ -59,7 +59,7 @@ void DynaPolyActor_UpdateCarriedActorRotY(CollisionContext* colCtx, s32 bgId, Ac
         s16 rotY = colCtx->dyna.bgActors[bgId].curTransform.rot.y - colCtx->dyna.bgActors[bgId].prevTransform.rot.y;
 
         if (carriedActor->id == ACTOR_PLAYER) {
-            ((Player*)carriedActor)->currentYaw += rotY;
+            ((Player*)carriedActor)->yaw += rotY;
         }
 
         carriedActor->shape.rot.y += rotY;

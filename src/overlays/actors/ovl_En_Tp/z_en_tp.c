@@ -215,7 +215,7 @@ void EnTp_Tail_FollowHead(EnTp* this, PlayState* play) {
         }
 
         if (this->head->unk_150 != 0) {
-            this->actor.speedXZ = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
+            this->actor.speed = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
             if (this->actor.world.pos.y < this->head->actor.home.pos.y) {
                 this->actor.flags &= ~ACTOR_FLAG_0;
             }
@@ -263,7 +263,7 @@ void EnTp_Head_ApproachPlayer(EnTp* this, PlayState* play) {
 
     this->actor.world.pos.y += Math_CosF(this->heightPhase) * (2.0f + this->extraHeightVariation);
     this->heightPhase += 0.2f;
-    Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     this->timer--;
 
     if (this->timer != 0) {
@@ -286,7 +286,7 @@ void EnTp_SetupDie(EnTp* this) {
         }
 
         this->timer = 13;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TAIL_DEAD);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
     this->actionIndex = TAILPASARAN_ACTION_DIE;
     EnTp_SetupAction(this, EnTp_Die);
@@ -355,7 +355,7 @@ void EnTp_Fragment_SetupFade(EnTp* this) {
 }
 
 void EnTp_Fragment_Fade(EnTp* this, PlayState* play) {
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     this->alpha -= 20;
 
     if (this->alpha < 20) {
@@ -377,9 +377,9 @@ void EnTp_Head_TakeOff(EnTp* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    Math_SmoothStepToF(&this->actor.speedXZ, 2.5f, 0.1f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 2.5f, 0.1f, 0.2f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, player->actor.world.pos.y + 85.0f + this->horizontalVariation, 1.0f,
-                       this->actor.speedXZ * 0.25f, 0.0f);
+                       this->actor.speed * 0.25f, 0.0f);
     Audio_PlaySfxGeneral(NA_SE_EN_TAIL_FLY - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
@@ -399,7 +399,7 @@ void EnTp_Head_TakeOff(EnTp* this, PlayState* play) {
     }
 
     this->actor.world.pos.y +=
-        Math_CosF(this->heightPhase) * ((this->actor.speedXZ * 0.25f) + this->extraHeightVariation);
+        Math_CosF(this->heightPhase) * ((this->actor.speed * 0.25f) + this->extraHeightVariation);
     this->actor.world.rot.y += this->unk_164;
     this->heightPhase += 0.2f;
 
@@ -423,7 +423,7 @@ void EnTp_Head_SetupWait(EnTp* this) {
     this->actor.shape.rot.x = -0x4000;
     this->timer = 60;
     this->unk_15C = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnTp_SetupAction(this, EnTp_Head_Wait);
 }
 
@@ -517,13 +517,13 @@ void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play) {
             if (this->actor.shape.rot.x != -0x4000) {
                 this->timer = 80;
                 this->actor.velocity.y = 0.0f;
-                this->actor.speedXZ = 0.0f;
+                this->actor.speed = 0.0f;
                 this->actor.world.pos = this->actor.home.pos;
                 this->actor.shape.rot.x = -0x4000;
 
                 for (now = (EnTp*)this->actor.child; now != NULL; now = (EnTp*)now->actor.child) {
                     now->actor.velocity.y = 0.0f;
-                    now->actor.speedXZ = 0.0f;
+                    now->actor.speed = 0.0f;
                     now->actor.world.pos = this->actor.home.pos;
                     now->actor.world.pos.y = this->actor.home.pos.y - 80.0f;
                 }
@@ -540,7 +540,7 @@ void EnTp_Head_BurrowReturnHome(EnTp* this, PlayState* play) {
             this->red -= 15;
         }
 
-        this->actor.speedXZ = 2.0f * Math_CosS(this->actor.shape.rot.x);
+        this->actor.speed = 2.0f * Math_CosS(this->actor.shape.rot.x);
         this->actor.velocity.y = Math_SinS(this->actor.shape.rot.x) * -2.0f;
 
         if ((this->actor.world.pos.y - this->actor.floorHeight) < 20.0f) {
@@ -605,11 +605,13 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
             } else {
                 if (phi_s4 != 0) {
                     this->actor.freezeTimer = 80;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (phi_s2 != 0) {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                             80);
                     } else {
-                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                             80);
                     }
                 }
 
@@ -618,12 +620,14 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
 
                     if (phi_s4 != 0) {
                         now->actor.freezeTimer = 80;
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
 
                         if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                                 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                                 80);
                         }
                     }
                 }
@@ -634,9 +638,11 @@ void EnTp_UpdateDamage(EnTp* this, PlayState* play) {
                         now->actor.freezeTimer = 80;
 
                         if (phi_s2 != 0) {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA,
+                                                 80);
                         } else {
-                            Actor_SetColorFilter(&now->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&now->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
+                                                 80);
                         }
                     }
                 }
@@ -667,7 +673,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
 
         if (this->actionIndex != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
             Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 15.0f, 10.0f,
@@ -675,7 +681,7 @@ void EnTp_Update(Actor* thisx, PlayState* play) {
         }
 
         // Turn away from wall
-        if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+        if ((this->actor.speed != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             yawToWall = this->actor.wallYaw - this->actor.world.rot.y;
 
             if (ABS(yawToWall) > 0x4000) {

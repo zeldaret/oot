@@ -131,7 +131,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 while (moveCursorResult == 0) {
                     if (pauseCtx->stickAdjX < -30) {
                         if (pauseCtx->cursorX[PAUSE_ITEM] != 0) {
-                            pauseCtx->cursorX[PAUSE_ITEM] -= 1;
+                            pauseCtx->cursorX[PAUSE_ITEM]--;
                             pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
 
                             if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
@@ -140,7 +140,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             }
                         } else {
                             pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
-                            pauseCtx->cursorY[PAUSE_ITEM] += 1;
+                            pauseCtx->cursorY[PAUSE_ITEM]++;
 
                             if (pauseCtx->cursorY[PAUSE_ITEM] >= 4) {
                                 pauseCtx->cursorY[PAUSE_ITEM] = 0;
@@ -164,7 +164,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                         }
                     } else if (pauseCtx->stickAdjX > 30) {
                         if (pauseCtx->cursorX[PAUSE_ITEM] < 5) {
-                            pauseCtx->cursorX[PAUSE_ITEM] += 1;
+                            pauseCtx->cursorX[PAUSE_ITEM]++;
                             pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
 
                             if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
@@ -173,7 +173,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             }
                         } else {
                             pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
-                            pauseCtx->cursorY[PAUSE_ITEM] += 1;
+                            pauseCtx->cursorY[PAUSE_ITEM]++;
 
                             if (pauseCtx->cursorY[PAUSE_ITEM] >= 4) {
                                 pauseCtx->cursorY[PAUSE_ITEM] = 0;
@@ -289,7 +289,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                     while (moveCursorResult == 0) {
                         if (pauseCtx->stickAdjY > 30) {
                             if (pauseCtx->cursorY[PAUSE_ITEM] != 0) {
-                                pauseCtx->cursorY[PAUSE_ITEM] -= 1;
+                                pauseCtx->cursorY[PAUSE_ITEM]--;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] -= 6;
 
                                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
@@ -304,7 +304,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             }
                         } else if (pauseCtx->stickAdjY < -30) {
                             if (pauseCtx->cursorY[PAUSE_ITEM] < 3) {
-                                pauseCtx->cursorY[PAUSE_ITEM] += 1;
+                                pauseCtx->cursorY[PAUSE_ITEM]++;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] += 6;
 
                                 if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
@@ -472,8 +472,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             }
 
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j + 0], 4, 0);
-            KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx,
-                                               gItemIcons[gSaveContext.save.info.inventory.items[i]], 32, 32, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[gSaveContext.save.info.inventory.items[i]],
+                                               ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 0);
         }
     }
 

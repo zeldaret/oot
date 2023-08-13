@@ -716,7 +716,7 @@ Gfx* SkelAnime_DrawFlex(PlayState* play, void** skeleton, Vec3s* jointTable, s32
 s32 SkelAnime_GetFrameDataLegacy(LegacyAnimationHeader* animation, s32 frame, Vec3s* frameTable) {
     LegacyAnimationHeader* animHeader = SEGMENTED_TO_VIRTUAL(animation);
     s32 limbCount = animHeader->limbCount;
-    JointKey* key = SEGMENTED_TO_VIRTUAL(animHeader->jointKey);
+    LegacyJointKey* key = SEGMENTED_TO_VIRTUAL(animHeader->jointKey);
     s16* frameData = SEGMENTED_TO_VIRTUAL(animHeader->frameData);
     s16* staticData = &frameData[0];
     s16* dynamicData = &frameData[frame];
@@ -828,6 +828,10 @@ AnimationEntry* AnimationContext_AddEntry(AnimationContext* animationCtx, Animat
     entry->type = type;
     return entry;
 }
+
+#define LINK_ANIMATION_OFFSET(addr, offset)                                                                         \
+    (((uintptr_t)_link_animetionSegmentRomStart) + ((uintptr_t)(addr)) - ((uintptr_t)_link_animetionSegmentStart) + \
+     (offset))
 
 /**
  * Requests loading frame data from the Link animation into frameTable
@@ -1011,6 +1015,8 @@ void AnimationContext_MoveActor(PlayState* play, AnimationEntryData* data) {
     actor->world.pos.z += diff.z * actor->scale.z;
 }
 
+typedef void (*AnimationEntryCallback)(struct PlayState* play, AnimationEntryData* data);
+
 /**
  * Performs all requests in the animation queue, then resets the queue flags.
  */
@@ -1067,8 +1073,8 @@ void SkelAnime_InitLink(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeade
     } else {
         ASSERT(limbBufCount == limbCount, "joint_buff_num == joint_num", "../z_skelanime.c", 2369);
 
-        skelAnime->jointTable = (Vec3s*)ALIGN16((u32)jointTable);
-        skelAnime->morphTable = (Vec3s*)ALIGN16((u32)morphTable);
+        skelAnime->jointTable = (Vec3s*)ALIGN16((uintptr_t)jointTable);
+        skelAnime->morphTable = (Vec3s*)ALIGN16((uintptr_t)morphTable);
     }
 
     if ((skelAnime->jointTable == NULL) || (skelAnime->morphTable == NULL)) {
@@ -1301,7 +1307,7 @@ void LinkAnimation_BlendToJoint(PlayState* play, SkelAnime* skelAnime, LinkAnima
 
     AnimationContext_SetLoadFrame(play, animation1, (s32)frame1, skelAnime->limbCount, skelAnime->jointTable);
 
-    alignedBlendTable = (Vec3s*)ALIGN16((u32)blendTable);
+    alignedBlendTable = (Vec3s*)ALIGN16((uintptr_t)blendTable);
 
     AnimationContext_SetLoadFrame(play, animation2, (s32)frame2, skelAnime->limbCount, alignedBlendTable);
     AnimationContext_SetInterp(play, skelAnime->limbCount, skelAnime->jointTable, alignedBlendTable, blendWeight);
@@ -1316,7 +1322,7 @@ void LinkAnimation_BlendToMorph(PlayState* play, SkelAnime* skelAnime, LinkAnima
 
     AnimationContext_SetLoadFrame(play, animation1, (s32)frame1, skelAnime->limbCount, skelAnime->morphTable);
 
-    alignedBlendTable = (Vec3s*)ALIGN16((u32)blendTable);
+    alignedBlendTable = (Vec3s*)ALIGN16((uintptr_t)blendTable);
 
     AnimationContext_SetLoadFrame(play, animation2, (s32)frame2, skelAnime->limbCount, alignedBlendTable);
     AnimationContext_SetInterp(play, skelAnime->limbCount, skelAnime->morphTable, alignedBlendTable, blendWeight);
@@ -1784,7 +1790,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     f32 sin;
     f32 cos;
 
-    if (skelAnime->moveFlags & ANIM_FLAG_NOMOVE) {
+    if (skelAnime->moveFlags & ANIM_FLAG_NO_MOVE) {
         diff->x = diff->z = 0.0f;
     } else {
         x = skelAnime->jointTable[0].x;
@@ -1806,8 +1812,8 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     skelAnime->jointTable[0].x = skelAnime->baseTransl.x;
     skelAnime->prevTransl.z = skelAnime->jointTable[0].z;
     skelAnime->jointTable[0].z = skelAnime->baseTransl.z;
-    if (skelAnime->moveFlags & ANIM_FLAG_UPDATEY) {
-        if (skelAnime->moveFlags & ANIM_FLAG_NOMOVE) {
+    if (skelAnime->moveFlags & ANIM_FLAG_UPDATE_Y) {
+        if (skelAnime->moveFlags & ANIM_FLAG_NO_MOVE) {
             diff->y = 0.0f;
         } else {
             diff->y = skelAnime->jointTable[0].y - skelAnime->prevTransl.y;
@@ -1818,7 +1824,7 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
         diff->y = 0.0f;
         skelAnime->prevTransl.y = skelAnime->jointTable[0].y;
     }
-    skelAnime->moveFlags &= ~ANIM_FLAG_NOMOVE;
+    skelAnime->moveFlags &= ~ANIM_FLAG_NO_MOVE;
 }
 
 /**

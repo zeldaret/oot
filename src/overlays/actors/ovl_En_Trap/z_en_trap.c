@@ -72,8 +72,8 @@ void EnTrap_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(thisx, 0.1f);
     thisx->gravity = -2.0f;
     if (thisx->params & SPIKETRAP_MODE_LINEAR) {
-        thisx->speedXZ = this->moveSpeedForwardBack.z = this->upperParams & 0xF;
-        Audio_PlayActorSfx2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+        thisx->speed = this->moveSpeedForwardBack.z = this->upperParams & 0xF;
+        Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
     } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
         this->vRadius = (this->upperParams & 0xF) * 40.0f;
         this->vAngularVel = ((this->upperParams & 0xF0) + 0x10) << 5;
@@ -150,7 +150,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         icePos = thisx->world.pos;
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetColorFilter(thisx, 0, 250, 0, 250);
+        Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_BLUE, 250, COLORFILTER_BUFFLAG_OPA, 250);
         icePos.y += 10.0f;
         icePos.z += 10.0f;
         EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
@@ -206,14 +206,14 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
             // If any of the above three conditions are met, turn around
             if (this->vContinue == 0.0f) {
                 thisx->world.rot.y += 0x8000;
-                Audio_PlayActorSfx2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
             }
         } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
             temp_cond = Math_SinS(this->vAngularPos);
             this->vAngularPos += this->vAngularVel;
             // Every full circle make a sound:
             if ((temp_cond < 0.0f) && (Math_SinS(this->vAngularPos) >= 0.0f)) {
-                Audio_PlayActorSfx2(thisx, NA_SE_EV_ROUND_TRAP_MOVE);
+                Actor_PlaySfx(thisx, NA_SE_EV_ROUND_TRAP_MOVE);
             }
             thisx->world.pos.x = (this->vRadius * Math_SinS(this->vAngularPos)) + thisx->home.pos.x;
             thisx->world.pos.z = (this->vRadius * Math_CosS(this->vAngularPos)) + thisx->home.pos.z;
@@ -234,7 +234,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                         }
                         if (this->vMovementMetric != 0.0f) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
-                                Audio_PlayActorSfx2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
                             this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.z, this->targetPosFwd.z, 1.0f,
                                                                        this->moveSpeedForwardBack.z, 0.0f);
@@ -257,7 +257,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                         }
                         if (this->vMovementMetric != 0.0f) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
-                                Audio_PlayActorSfx2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
                             this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.x, this->targetPosLeft.x, 1.0f,
                                                                        this->moveSpeedLeftRight.x, 0.0f);
@@ -278,7 +278,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                         }
                         if (this->vMovementMetric != 0.0f) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
-                                Audio_PlayActorSfx2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
                             this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.z, this->targetPosBack.z, 1.0f,
                                                                        this->moveSpeedForwardBack.z, 0.0f);
@@ -301,7 +301,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                         }
                         if (this->vMovementMetric != 0.0f) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
-                                Audio_PlayActorSfx2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
+                                Actor_PlaySfx(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
                             this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.x, this->targetPosRight.x,
                                                                        1.0f, this->moveSpeedLeftRight.x, 0.0f);
@@ -372,7 +372,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
                 }
             }
         }
-        Actor_MoveForward(thisx); // Only used by straight line logic
+        Actor_MoveXZGravity(thisx); // Only used by straight line logic
         // Adjust position using bgcheck, but do not adjust x, z position if in straight line mode:
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
             posTemp = thisx->world.pos;

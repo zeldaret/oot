@@ -148,14 +148,14 @@ void EnHintnuts_SetupStand(EnHintnuts* this) {
 
 void EnHintnuts_SetupBurrow(EnHintnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsBurrowAnim, -5.0f);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DOWN);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnHintnuts_Burrow;
 }
 
 void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsUnburrowAnim, -3.0f);
     this->collider.dim.height = 37;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
 
     if (this->actor.params > 0 && this->actor.params < 4 && this->actor.category == ACTORCAT_ENEMY) {
@@ -186,17 +186,17 @@ void EnHintnuts_SetupRun(EnHintnuts* this) {
 void EnHintnuts_SetupTalk(EnHintnuts* this) {
     Animation_MorphToLoop(&this->skelAnime, &gHintNutsTalkAnim, -5.0f);
     this->actionFunc = EnHintnuts_Talk;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void EnHintnuts_SetupLeave(EnHintnuts* this, PlayState* play) {
     Animation_MorphToLoop(&this->skelAnime, &gHintNutsRunAnim, -5.0f);
-    this->actor.speedXZ = 3.0f;
+    this->actor.speed = 3.0f;
     this->animFlagAndTimer = 100;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->collider.base.ocFlags1 &= ~OC1_ON;
     this->actor.flags |= ACTOR_FLAG_4;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ITEM00, this->actor.world.pos.x, this->actor.world.pos.y,
                 this->actor.world.pos.z, 0x0, 0x0, 0x0, 0x3); // recovery heart
     this->actionFunc = EnHintnuts_Leave;
@@ -205,10 +205,10 @@ void EnHintnuts_SetupLeave(EnHintnuts* this, PlayState* play) {
 void EnHintnuts_SetupFreeze(EnHintnuts* this) {
     Animation_PlayLoop(&this->skelAnime, &gHintNutsFreezeAnim);
     this->actor.flags &= ~ACTOR_FLAG_0;
-    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 100);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 100);
     this->actor.colorFilterTimer = 1;
     this->animFlagAndTimer = 0;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_FAINT);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_FAINT);
     if (sPuzzleCounter == -3) {
         func_80078884(NA_SE_SY_ERROR);
         sPuzzleCounter = -4;
@@ -228,7 +228,7 @@ void EnHintnuts_Wait(EnHintnuts* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
         this->collider.base.acFlags |= AC_ON;
     } else if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_UP);
     }
 
     this->collider.dim.height = 5.0f + ((CLAMP(this->skelAnime.curFrame, 9.0f, 12.0f) - 9.0f) * 9.0f);
@@ -288,7 +288,7 @@ void EnHintnuts_ThrowNut(EnHintnuts* this, PlayState* play) {
         nutPos.z = this->actor.world.pos.z + (Math_CosS(this->actor.shape.rot.y) * 23.0f);
         if (Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, nutPos.x, nutPos.y, nutPos.z, this->actor.shape.rot.x,
                         this->actor.shape.rot.y, this->actor.shape.rot.z, 1) != NULL) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_THROW);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     }
 }
@@ -347,10 +347,10 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
         this->animFlagAndTimer--;
     }
     if ((temp_ret != 0) || (Animation_OnFrame(&this->skelAnime, 6.0f))) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_WALK);
     }
 
-    Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);
+    Math_StepToF(&this->actor.speed, 7.5f, 1.0f);
     if (Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_196, 1, 0xE38, 0xB6) == 0) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             this->unk_196 = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
@@ -375,7 +375,7 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
         EnHintnuts_SetupTalk(this);
     } else if (this->animFlagAndTimer == 0 && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         if (this->actor.category == ACTORCAT_BG) {
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_16);
             this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
@@ -403,7 +403,7 @@ void EnHintnuts_Leave(EnHintnuts* this, PlayState* play) {
         this->animFlagAndTimer--;
     }
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         temp_a1 = this->actor.wallYaw;
@@ -434,7 +434,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play) {
     this->actor.colorFilterTimer = 1;
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_FAINT);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_FAINT);
     }
     if (this->animFlagAndTimer == 0) {
         if (sPuzzleCounter == 3) {
@@ -482,7 +482,7 @@ void EnHintnuts_Update(Actor* thisx, PlayState* play) {
         EnHintnuts_ColliderCheck(this, play);
         this->actionFunc(this, play);
         if (this->actionFunc != EnHintnuts_Freeze && this->actionFunc != EnHintnuts_BeginFreeze) {
-            Actor_MoveForward(&this->actor);
+            Actor_MoveXZGravity(&this->actor);
             Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                         UPDBGCHECKINFO_FLAG_4);

@@ -111,7 +111,7 @@ void* D_8012A2F8[] = {
     gYdanTex_00CA18,
 };
 
-void Scene_DrawConfigYdan(PlayState* play) {
+void Scene_DrawConfigDekuTree(PlayState* play) {
     u32 gameplayFrames = play->gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4763);
@@ -129,7 +129,7 @@ void Scene_DrawConfigYdan(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4783);
 }
 
-void Scene_DrawConfigYdanBoss(PlayState* play) {
+void Scene_DrawConfigDekuTreeBoss(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4845);
@@ -154,7 +154,7 @@ void* sDCLavaFloorTextures[] = {
     gDCLavaFloor5Tex, gDCLavaFloor6Tex, gDCLavaFloor7Tex, gDCLavaFloor8Tex,
 };
 
-void Scene_DrawConfigDdan(PlayState* play) {
+void Scene_DrawConfigDodongosCavern(PlayState* play) {
     u32 gameplayFrames;
     s32 pad;
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Gfx[3]));
@@ -191,7 +191,7 @@ void Scene_DrawConfigDdan(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4956);
 }
 
-void Scene_DrawConfigTokinoma(PlayState* play) {
+void Scene_DrawConfigTempleOfTime(PlayState* play) {
     f32 temp;
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 18 * sizeof(Gfx));
 
@@ -252,7 +252,7 @@ void Scene_DrawConfigTokinoma(PlayState* play) {
     }
 }
 
-void Scene_DrawConfigKakusiana(PlayState* play) {
+void Scene_DrawConfigGrottos(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5171);
@@ -283,7 +283,7 @@ void Scene_DrawConfigKakusiana(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5212);
 }
 
-void Scene_DrawConfigKenjyanoma(PlayState* play) {
+void Scene_DrawConfigChamberOfTheSages(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5226);
@@ -352,7 +352,7 @@ void Scene_DrawConfigGraveExitLightShining(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5330);
 }
 
-void Scene_DrawConfigFairyFountain(PlayState* play) {
+void Scene_DrawConfigFairysFountain(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5346);
@@ -373,7 +373,7 @@ void Scene_DrawConfigFairyFountain(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5367);
 }
 
-void Scene_DrawConfigHakadan(PlayState* play) {
+void Scene_DrawConfigShadowTempleAndWell(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5384);
@@ -404,7 +404,7 @@ void* sThievesHideoutEntranceTextures[] = {
     gThievesHideoutNightEntranceTex,
 };
 
-void Scene_DrawConfigGerudoway(PlayState* play) {
+void Scene_DrawConfigThievesHideout(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5490);
@@ -423,7 +423,7 @@ void* D_8012A330[] = {
     gWaterTempleNightEntranceTex,
 };
 
-void Scene_DrawConfigMizusin(PlayState* play) {
+void Scene_DrawConfigWaterTemple(PlayState* play) {
     u32 gameplayFrames;
     s32 spB0;
     s32 spAC;
@@ -492,7 +492,7 @@ void Scene_DrawConfigMizusin(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5644);
 }
 
-void Scene_DrawConfigMizusinBs(PlayState* play) {
+void Scene_DrawConfigWaterTempleBoss(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5791);
@@ -510,7 +510,7 @@ void Scene_DrawConfigMizusinBs(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5808);
 }
 
-void Scene_DrawConfigSyatekijyou(PlayState* play) {
+void Scene_DrawConfigShootingGallery(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5822);
@@ -524,7 +524,7 @@ void Scene_DrawConfigSyatekijyou(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5836);
 }
 
-void Scene_DrawConfigHairalNiwa(PlayState* play) {
+void Scene_DrawConfigCastleCourtyardGuards(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5850);
@@ -548,7 +548,7 @@ void Scene_DrawConfigHairalNiwa(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5876);
 }
 
-void Scene_DrawConfigGanonCastleExterior(PlayState* play) {
+void Scene_DrawConfigOutsideGanonsCastle(PlayState* play) {
     u32 gameplayFrames;
     s8 sp83;
 
@@ -604,7 +604,7 @@ void func_8009BEEC(PlayState* play) {
     }
 }
 
-void Scene_DrawConfigGanonFinal(PlayState* play) {
+void Scene_DrawConfigGanonsTowerCollapseExterior(PlayState* play) {
     u32 gameplayFrames;
     s8 sp7B;
 
@@ -651,7 +651,7 @@ void* sIceCavernEntranceTextures[] = {
     gIceCavernNightEntranceTex,
 };
 
-void Scene_DrawConfigIceDoukuto(PlayState* play) {
+void Scene_DrawConfigIceCavern(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -679,7 +679,7 @@ void Scene_DrawConfigIceDoukuto(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6076);
 }
 
-void Scene_DrawConfigHakaanaOuke(PlayState* play) {
+void Scene_DrawConfigRoyalFamilysTomb(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6151);
@@ -705,7 +705,7 @@ void Scene_DrawConfigHakaanaOuke(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6187);
 }
 
-void Scene_DrawConfigHyliaLabo(PlayState* play) {
+void Scene_DrawConfigLakesideLaboratory(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6201);
@@ -754,7 +754,7 @@ void* sGTGEntranceTextures[] = {
     gGTGNightEntranceTex,
 };
 
-void Scene_DrawConfigMen(PlayState* play) {
+void Scene_DrawConfigGerudoTrainingGround(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -801,7 +801,7 @@ Gfx* Gfx_TwoTexScrollPrimColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y
     return displayList;
 }
 
-void Scene_DrawConfigTuribori(PlayState* play) {
+void Scene_DrawConfigFishingPond(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6433);
@@ -821,7 +821,7 @@ void Scene_DrawConfigTuribori(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6449);
 }
 
-void Scene_DrawConfigBowling(PlayState* play) {
+void Scene_DrawConfigBombchuBowlingAlley(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6463);
@@ -848,7 +848,7 @@ void* sLonLonHouseEntranceTextures[] = {
     gLonLonHouseNightEntranceTex,
 };
 
-void Scene_DrawConfigSouko(PlayState* play) {
+void Scene_DrawConfigLonLonBuildings(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6515);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -872,7 +872,7 @@ void* sGuardHouseView1Textures[] = {
     gGuardHouseOutSideView2NightTex,
 };
 
-void Scene_DrawConfigMiharigoya(PlayState* play) {
+void Scene_DrawConfigMarketGuardHouse(PlayState* play) {
     s32 var;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6560);
@@ -895,7 +895,7 @@ void Scene_DrawConfigMiharigoya(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6581);
 }
 
-void Scene_DrawConfigMahouya(PlayState* play) {
+void Scene_DrawConfigPotionShopGranny(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6595);
@@ -920,7 +920,7 @@ void* sForestTempleEntranceTextures[] = {
     gForestTempleNightEntranceTex,
 };
 
-void Scene_DrawConfigBmori1(PlayState* play) {
+void Scene_DrawConfigForestTemple(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -953,7 +953,7 @@ void* sSpiritTempleEntranceTextures[] = {
     gSpiritTempleNightEntranceTex,
 };
 
-void Scene_DrawConfigJyasinzou(PlayState* play) {
+void Scene_DrawConfigSpiritTemple(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6752);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -962,7 +962,7 @@ void Scene_DrawConfigJyasinzou(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6762);
 }
 
-void Scene_DrawConfigSpot00(PlayState* play) {
+void Scene_DrawConfigHyruleField(PlayState* play) {
     u32 gameplayFrames;
     Gfx* displayListHead;
 
@@ -1014,7 +1014,7 @@ void* sKakarikoWindowTextures[] = {
     gKakarikoVillageNightWindowTex,
 };
 
-void Scene_DrawConfigSpot01(PlayState* play) {
+void Scene_DrawConfigKakarikoVillage(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6890);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -1029,7 +1029,7 @@ void Scene_DrawConfigSpot01(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6903);
 }
 
-void Scene_DrawConfigSpot03(PlayState* play) {
+void Scene_DrawConfigZorasRiver(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6917);
@@ -1057,7 +1057,7 @@ void Scene_DrawConfigSpot03(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6948);
 }
 
-void Scene_DrawConfigSpot04(PlayState* play) {
+void Scene_DrawConfigKokiriForest(PlayState* play) {
     u32 gameplayFrames;
     u8 spA3;
     u16 spA0;
@@ -1114,7 +1114,7 @@ void Scene_DrawConfigSpot04(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7044);
 }
 
-void Scene_DrawConfigSpot06(PlayState* play) {
+void Scene_DrawConfigLakeHylia(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7058);
@@ -1142,7 +1142,7 @@ void* sZorasDomainEntranceTextures[] = {
     gZorasDomainNightEntranceTex,
 };
 
-void Scene_DrawConfigSpot07(PlayState* play) {
+void Scene_DrawConfigZorasDomain(PlayState* play) {
     u32 gameplayFrames;
     u32 var;
 
@@ -1165,7 +1165,7 @@ void Scene_DrawConfigSpot07(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7147);
 }
 
-void Scene_DrawConfigSpot08(PlayState* play) {
+void Scene_DrawConfigZorasFountain(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7161);
@@ -1190,7 +1190,7 @@ void Scene_DrawConfigSpot08(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7192);
 }
 
-void Scene_DrawConfigSpot09(PlayState* play) {
+void Scene_DrawConfigGerudoValley(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7206);
@@ -1224,7 +1224,7 @@ void Scene_DrawConfigSpot09(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7260);
 }
 
-void Scene_DrawConfigSpot10(PlayState* play) {
+void Scene_DrawConfigLostWoods(PlayState* play) {
     u32 gameplayFrames;
 
     if (0) {} // Necessary to match
@@ -1247,7 +1247,7 @@ void Scene_DrawConfigSpot10(PlayState* play) {
 
     if ((play->roomCtx.unk_74[0] == 0) && (INV_CONTENT(ITEM_COJIRO) == ITEM_COJIRO)) {
         if (play->roomCtx.unk_74[1] == 50) {
-            func_8002F7DC(&GET_PLAYER(play)->actor, NA_SE_EV_CHICKEN_CRY_M);
+            Player_PlaySfx(GET_PLAYER(play), NA_SE_EV_CHICKEN_CRY_M);
             play->roomCtx.unk_74[0] = 1;
         }
         play->roomCtx.unk_74[1]++;
@@ -1256,7 +1256,7 @@ void Scene_DrawConfigSpot10(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7309);
 }
 
-void Scene_DrawConfigSpot11(PlayState* play) {
+void Scene_DrawConfigDesertColossus(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7323);
@@ -1280,7 +1280,7 @@ void* D_8012A380[] = {
     gSpot12_00DE78Tex,
 };
 
-void Scene_DrawConfigSpot12(PlayState* play) {
+void Scene_DrawConfigGerudosFortress(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7363);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A380[((void)0, gSaveContext.save.nightFlag)]));
@@ -1288,7 +1288,7 @@ void Scene_DrawConfigSpot12(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7371);
 }
 
-void Scene_DrawConfigSpot13(PlayState* play) {
+void Scene_DrawConfigHauntedWasteland(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7385);
@@ -1310,7 +1310,7 @@ void Scene_DrawConfigSpot13(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7409);
 }
 
-void Scene_DrawConfigSpot15(PlayState* play) {
+void Scene_DrawConfigHyruleCastle(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7423);
@@ -1334,7 +1334,7 @@ void Scene_DrawConfigSpot15(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7443);
 }
 
-void Scene_DrawConfigSpot16(PlayState* play) {
+void Scene_DrawConfigDeathMountainTrail(PlayState* play) {
     Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 3 * sizeof(Gfx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7461);
@@ -1368,7 +1368,7 @@ void Scene_DrawConfigSpot16(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7495);
 }
 
-void Scene_DrawConfigSpot17(PlayState* play) {
+void Scene_DrawConfigDeathMountainCrater(PlayState* play) {
     s8 sp6F = coss((play->gameplayFrames * 1500) & 0xFFFF) >> 8;
     s8 sp6E = coss((play->gameplayFrames * 1500) & 0xFFFF) >> 8;
     u32 gameplayFrames;
@@ -1397,7 +1397,7 @@ void* sGoronCityEntranceTextures[] = {
     gGoronCityNightEntranceTex,
 };
 
-void Scene_DrawConfigSpot18(PlayState* play) {
+void Scene_DrawConfigGoronCity(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7555);
@@ -1424,7 +1424,7 @@ void* sLonLonRanchWindowTextures[] = {
     gLonLonRangeNightWindowsTex,
 };
 
-void Scene_DrawConfigSpot20(PlayState* play) {
+void Scene_DrawConfigLonLonRanch(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7602);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -1439,7 +1439,7 @@ void Scene_DrawConfigSpot20(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7615);
 }
 
-void Scene_DrawConfigHidan(PlayState* play) {
+void Scene_DrawConfigFireTemple(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7630);
@@ -1464,7 +1464,7 @@ void Scene_DrawConfigHidan(PlayState* play) {
 
 f32 D_8012A398 = 0.0f;
 
-void Scene_DrawConfigBdan(PlayState* play) {
+void Scene_DrawConfigJabuJabu(PlayState* play) {
     static s16 D_8012A39C = 538;
     static s16 D_8012A3A0 = 4272;
     u32 gameplayFrames;
@@ -1542,7 +1542,7 @@ void Scene_DrawConfigBdan(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7811);
 }
 
-void Scene_DrawConfigGanontika(PlayState* play) {
+void Scene_DrawConfigInsideGanonsCastle(PlayState* play) {
     u32 gameplayFrames;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7825);
@@ -1570,11 +1570,11 @@ void Scene_DrawConfigGanontika(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7852);
 }
 
-void Scene_DrawConfigGanontikaSonogo(PlayState* play) {
+void Scene_DrawConfigInsideGanonsCastleCollapse(PlayState* play) {
     func_8009BEEC(play);
 }
 
-void Scene_DrawConfigGanonSonogo(PlayState* play) {
+void Scene_DrawConfigGanonsTowerCollapseInterior(PlayState* play) {
     func_8009BEEC(play);
 }
 
@@ -1597,59 +1597,59 @@ void Scene_DrawConfigBesitu(PlayState* play) {
 }
 
 void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
-    Scene_DrawConfigDefault,               // SDC_DEFAULT
-    Scene_DrawConfigSpot00,                // SDC_HYRULE_FIELD
-    Scene_DrawConfigSpot01,                // SDC_KAKARIKO_VILLAGE
-    Scene_DrawConfigSpot03,                // SDC_ZORAS_RIVER
-    Scene_DrawConfigSpot04,                // SDC_KOKIRI_FOREST
-    Scene_DrawConfigSpot06,                // SDC_LAKE_HYLIA
-    Scene_DrawConfigSpot07,                // SDC_ZORAS_DOMAIN
-    Scene_DrawConfigSpot08,                // SDC_ZORAS_FOUNTAIN
-    Scene_DrawConfigSpot09,                // SDC_GERUDO_VALLEY
-    Scene_DrawConfigSpot10,                // SDC_LOST_WOODS
-    Scene_DrawConfigSpot11,                // SDC_DESERT_COLOSSUS
-    Scene_DrawConfigSpot12,                // SDC_GERUDOS_FORTRESS
-    Scene_DrawConfigSpot13,                // SDC_HAUNTED_WASTELAND
-    Scene_DrawConfigSpot15,                // SDC_HYRULE_CASTLE
-    Scene_DrawConfigSpot16,                // SDC_DEATH_MOUNTAIN_TRAIL
-    Scene_DrawConfigSpot17,                // SDC_DEATH_MOUNTAIN_CRATER
-    Scene_DrawConfigSpot18,                // SDC_GORON_CITY
-    Scene_DrawConfigSpot20,                // SDC_LON_LON_RANCH
-    Scene_DrawConfigHidan,                 // SDC_FIRE_TEMPLE
-    Scene_DrawConfigYdan,                  // SDC_DEKU_TREE
-    Scene_DrawConfigDdan,                  // SDC_DODONGOS_CAVERN
-    Scene_DrawConfigBdan,                  // SDC_JABU_JABU
-    Scene_DrawConfigBmori1,                // SDC_FOREST_TEMPLE
-    Scene_DrawConfigMizusin,               // SDC_WATER_TEMPLE
-    Scene_DrawConfigHakadan,               // SDC_SHADOW_TEMPLE
-    Scene_DrawConfigJyasinzou,             // SDC_SPIRIT_TEMPLE
-    Scene_DrawConfigGanontika,             // SDC_INSIDE_GANONS_CASTLE
-    Scene_DrawConfigMen,                   // SDC_GERUDO_TRAINING_GROUND
-    Scene_DrawConfigYdanBoss,              // SDC_DEKU_TREE_BOSS
-    Scene_DrawConfigMizusinBs,             // SDC_WATER_TEMPLE_BOSS
-    Scene_DrawConfigTokinoma,              // SDC_TEMPLE_OF_TIME
-    Scene_DrawConfigKakusiana,             // SDC_GROTTOS
-    Scene_DrawConfigKenjyanoma,            // SDC_CHAMBER_OF_THE_SAGES
-    Scene_DrawConfigGreatFairyFountain,    // SDC_GREAT_FAIRYS_FOUNTAIN
-    Scene_DrawConfigSyatekijyou,           // SDC_SHOOTING_GALLERY
-    Scene_DrawConfigHairalNiwa,            // SDC_CASTLE_COURTYARD_GUARDS
-    Scene_DrawConfigGanonCastleExterior,   // SDC_OUTSIDE_GANONS_CASTLE
-    Scene_DrawConfigIceDoukuto,            // SDC_ICE_CAVERN
-    Scene_DrawConfigGanonFinal,            // SDC_GANONS_TOWER_COLLAPSE_EXTERIOR
-    Scene_DrawConfigFairyFountain,         // SDC_FAIRYS_FOUNTAIN
-    Scene_DrawConfigGerudoway,             // SDC_THIEVES_HIDEOUT
-    Scene_DrawConfigBowling,               // SDC_BOMBCHU_BOWLING_ALLEY
-    Scene_DrawConfigHakaanaOuke,           // SDC_ROYAL_FAMILYS_TOMB
-    Scene_DrawConfigHyliaLabo,             // SDC_LAKESIDE_LABORATORY
-    Scene_DrawConfigSouko,                 // SDC_LON_LON_BUILDINGS
-    Scene_DrawConfigMiharigoya,            // SDC_MARKET_GUARD_HOUSE
-    Scene_DrawConfigMahouya,               // SDC_POTION_SHOP_GRANNY
-    Scene_DrawConfigCalmWater,             // SDC_CALM_WATER
-    Scene_DrawConfigGraveExitLightShining, // SDC_GRAVE_EXIT_LIGHT_SHINING
-    Scene_DrawConfigBesitu,                // SDC_BESITU
-    Scene_DrawConfigTuribori,              // SDC_FISHING_POND
-    Scene_DrawConfigGanonSonogo,           // SDC_GANONS_TOWER_COLLAPSE_INTERIOR
-    Scene_DrawConfigGanontikaSonogo,       // SDC_INSIDE_GANONS_CASTLE_COLLAPSE
+    Scene_DrawConfigDefault,                     // SDC_DEFAULT
+    Scene_DrawConfigHyruleField,                 // SDC_HYRULE_FIELD
+    Scene_DrawConfigKakarikoVillage,             // SDC_KAKARIKO_VILLAGE
+    Scene_DrawConfigZorasRiver,                  // SDC_ZORAS_RIVER
+    Scene_DrawConfigKokiriForest,                // SDC_KOKIRI_FOREST
+    Scene_DrawConfigLakeHylia,                   // SDC_LAKE_HYLIA
+    Scene_DrawConfigZorasDomain,                 // SDC_ZORAS_DOMAIN
+    Scene_DrawConfigZorasFountain,               // SDC_ZORAS_FOUNTAIN
+    Scene_DrawConfigGerudoValley,                // SDC_GERUDO_VALLEY
+    Scene_DrawConfigLostWoods,                   // SDC_LOST_WOODS
+    Scene_DrawConfigDesertColossus,              // SDC_DESERT_COLOSSUS
+    Scene_DrawConfigGerudosFortress,             // SDC_GERUDOS_FORTRESS
+    Scene_DrawConfigHauntedWasteland,            // SDC_HAUNTED_WASTELAND
+    Scene_DrawConfigHyruleCastle,                // SDC_HYRULE_CASTLE
+    Scene_DrawConfigDeathMountainTrail,          // SDC_DEATH_MOUNTAIN_TRAIL
+    Scene_DrawConfigDeathMountainCrater,         // SDC_DEATH_MOUNTAIN_CRATER
+    Scene_DrawConfigGoronCity,                   // SDC_GORON_CITY
+    Scene_DrawConfigLonLonRanch,                 // SDC_LON_LON_RANCH
+    Scene_DrawConfigFireTemple,                  // SDC_FIRE_TEMPLE
+    Scene_DrawConfigDekuTree,                    // SDC_DEKU_TREE
+    Scene_DrawConfigDodongosCavern,              // SDC_DODONGOS_CAVERN
+    Scene_DrawConfigJabuJabu,                    // SDC_JABU_JABU
+    Scene_DrawConfigForestTemple,                // SDC_FOREST_TEMPLE
+    Scene_DrawConfigWaterTemple,                 // SDC_WATER_TEMPLE
+    Scene_DrawConfigShadowTempleAndWell,         // SDC_SHADOW_TEMPLE_AND_WELL
+    Scene_DrawConfigSpiritTemple,                // SDC_SPIRIT_TEMPLE
+    Scene_DrawConfigInsideGanonsCastle,          // SDC_INSIDE_GANONS_CASTLE
+    Scene_DrawConfigGerudoTrainingGround,        // SDC_GERUDO_TRAINING_GROUND
+    Scene_DrawConfigDekuTreeBoss,                // SDC_DEKU_TREE_BOSS
+    Scene_DrawConfigWaterTempleBoss,             // SDC_WATER_TEMPLE_BOSS
+    Scene_DrawConfigTempleOfTime,                // SDC_TEMPLE_OF_TIME
+    Scene_DrawConfigGrottos,                     // SDC_GROTTOS
+    Scene_DrawConfigChamberOfTheSages,           // SDC_CHAMBER_OF_THE_SAGES
+    Scene_DrawConfigGreatFairyFountain,          // SDC_GREAT_FAIRYS_FOUNTAIN
+    Scene_DrawConfigShootingGallery,             // SDC_SHOOTING_GALLERY
+    Scene_DrawConfigCastleCourtyardGuards,       // SDC_CASTLE_COURTYARD_GUARDS
+    Scene_DrawConfigOutsideGanonsCastle,         // SDC_OUTSIDE_GANONS_CASTLE
+    Scene_DrawConfigIceCavern,                   // SDC_ICE_CAVERN
+    Scene_DrawConfigGanonsTowerCollapseExterior, // SDC_GANONS_TOWER_COLLAPSE_EXTERIOR
+    Scene_DrawConfigFairysFountain,              // SDC_FAIRYS_FOUNTAIN
+    Scene_DrawConfigThievesHideout,              // SDC_THIEVES_HIDEOUT
+    Scene_DrawConfigBombchuBowlingAlley,         // SDC_BOMBCHU_BOWLING_ALLEY
+    Scene_DrawConfigRoyalFamilysTomb,            // SDC_ROYAL_FAMILYS_TOMB
+    Scene_DrawConfigLakesideLaboratory,          // SDC_LAKESIDE_LABORATORY
+    Scene_DrawConfigLonLonBuildings,             // SDC_LON_LON_BUILDINGS
+    Scene_DrawConfigMarketGuardHouse,            // SDC_MARKET_GUARD_HOUSE
+    Scene_DrawConfigPotionShopGranny,            // SDC_POTION_SHOP_GRANNY
+    Scene_DrawConfigCalmWater,                   // SDC_CALM_WATER
+    Scene_DrawConfigGraveExitLightShining,       // SDC_GRAVE_EXIT_LIGHT_SHINING
+    Scene_DrawConfigBesitu,                      // SDC_BESITU
+    Scene_DrawConfigFishingPond,                 // SDC_FISHING_POND
+    Scene_DrawConfigGanonsTowerCollapseInterior, // SDC_GANONS_TOWER_COLLAPSE_INTERIOR
+    Scene_DrawConfigInsideGanonsCastleCollapse,  // SDC_INSIDE_GANONS_CASTLE_COLLAPSE
 };
 
 void Scene_Draw(PlayState* play) {

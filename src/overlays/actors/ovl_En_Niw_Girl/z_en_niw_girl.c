@@ -106,7 +106,7 @@ void func_80AB9210(EnNiwGirl* this, PlayState* play) {
     f32 zDistBetween;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachF(&this->actor.speedXZ, 3.0f, 0.2f, 0.4f);
+    Math_ApproachF(&this->actor.speed, 3.0f, 0.2f, 0.4f);
 
     // Find the X and Z distance between the girl and the cuckoo she is chasing
     xDistBetween = this->chasedEnNiw->actor.world.pos.x - this->actor.world.pos.x;
@@ -169,7 +169,7 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE) {
         this->chasedEnNiw->path = 0;
     }
-    Math_ApproachZeroF(&this->actor.speedXZ, 0.8f, 0.2f);
+    Math_ApproachZeroF(&this->actor.speed, 0.8f, 0.2f);
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         if (this->actor.textId == 0x70EA) {
             this->unk_27A = 1;
@@ -207,12 +207,12 @@ void EnNiwGirl_Update(Actor* thisx, PlayState* play) {
             this->interactInfo.trackPos.y = player->actor.world.pos.y - 10.0f;
         }
         Npc_TrackPoint(&this->actor, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
-        this->unk_260 = this->interactInfo.headRot;
-        this->unk_266 = this->interactInfo.torsoRot;
+        this->headRot = this->interactInfo.headRot;
+        this->torsoRot = this->interactInfo.torsoRot;
     } else {
-        Math_SmoothStepToS(&this->unk_266.y, 0, 5, 3000, 0);
-        Math_SmoothStepToS(&this->unk_260.y, 0, 5, 3000, 0);
-        Math_SmoothStepToS(&this->unk_260.z, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->torsoRot.y, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->headRot.y, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->headRot.z, 0, 5, 3000, 0);
     }
     if (this->blinkTimer != 0) {
         this->blinkTimer--;
@@ -221,7 +221,7 @@ void EnNiwGirl_Update(Actor* thisx, PlayState* play) {
         this->jumpTimer--;
     }
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 100.0f, 100.0f, 200.0f,
                             UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -232,11 +232,11 @@ s32 EnNiwGirlOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
     EnNiwGirl* this = (EnNiwGirl*)thisx;
 
     if (limbIndex == 3) {
-        rot->x += this->unk_266.y;
+        rot->x += this->torsoRot.y;
     }
     if (limbIndex == 4) {
-        rot->x += this->unk_260.y;
-        rot->z += this->unk_260.z;
+        rot->x += this->headRot.y;
+        rot->z += this->headRot.z;
     }
     return false;
 }

@@ -127,9 +127,9 @@ void func_808AC908(BgSpot02Objects* this, PlayState* play) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
-    if (play->csCtx.state != 0) {
-        if (play->csCtx.npcActions[3] != NULL && play->csCtx.npcActions[3]->action == 2) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        if (play->csCtx.actorCues[3] != NULL && play->csCtx.actorCues[3]->id == 2) {
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
             SET_EVENTCHKINF(EVENTCHKINF_1D);
             this->timer = 25;
             pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * 50.0f) + this->dyna.actor.world.pos.x;
@@ -156,11 +156,11 @@ void func_808ACA08(BgSpot02Objects* this, PlayState* play) {
         Actor_Kill(&this->dyna.actor);
     }
 
-    if (play->csCtx.frames == 402) {
+    if (play->csCtx.curFrame == 402) {
         if (!LINK_IS_ADULT) {
-            func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE_KID);
+            Player_PlaySfx(player, NA_SE_VO_LI_DEMO_DAMAGE_KID);
         } else {
-            func_8002F7DC(&player->actor, NA_SE_VO_LI_DEMO_DAMAGE);
+            Player_PlaySfx(player, NA_SE_VO_LI_DEMO_DAMAGE);
         }
     }
 }
@@ -175,7 +175,7 @@ void func_808ACAFC(BgSpot02Objects* this, PlayState* play) {
 
 void func_808ACB58(BgSpot02Objects* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 255.0f, 1.0f)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808AC8FC;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_WALL_MOVE_SP - SFX_FLAG);
@@ -199,7 +199,7 @@ void BgSpot02Objects_Draw(Actor* thisx, PlayState* play) {
 }
 
 void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL && play->csCtx.npcActions[0]->action == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
         this->unk_16A++;
 
         if (this->unk_16A >= 12) {
@@ -207,7 +207,7 @@ void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
         }
     }
 
-    if (play->csCtx.frames == 245 || play->csCtx.frames == 351) {
+    if (play->csCtx.curFrame == 245 || play->csCtx.curFrame == 351) {
         func_800788CC(NA_SE_EV_LIGHTNING);
     }
 }
@@ -225,7 +225,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 600);
 
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL && play->csCtx.npcActions[0]->action == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL && play->csCtx.actorCues[0]->id == 2) {
         if (this->unk_16A < 5) {
             rate = (this->unk_16A / 5.0f);
             redPrim = greenPrim = bluePrim = 255;
@@ -242,11 +242,11 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
             blueEnv = 100.0f + (100.0f * rate);
         }
 
-        Matrix_Translate(play->csCtx.npcActions[0]->startPos.x, play->csCtx.npcActions[0]->startPos.y,
-                         play->csCtx.npcActions[0]->startPos.z, MTXMODE_NEW);
-        Matrix_RotateX(BINANG_TO_RAD(play->csCtx.npcActions[0]->urot.x), MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD(play->csCtx.npcActions[0]->urot.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(play->csCtx.npcActions[0]->urot.z), MTXMODE_APPLY);
+        Matrix_Translate(play->csCtx.actorCues[0]->startPos.x, play->csCtx.actorCues[0]->startPos.y,
+                         play->csCtx.actorCues[0]->startPos.z, MTXMODE_NEW);
+        Matrix_RotateX(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(play->csCtx.actorCues[0]->rot.z), MTXMODE_APPLY);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
@@ -265,9 +265,9 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 }
 
 void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[2] != NULL && play->csCtx.npcActions[2]->action == 2) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[2] != NULL && play->csCtx.actorCues[2]->id == 2) {
         if (this->timer == 2) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
         }
 
         if (this->timer < 32) {
@@ -285,8 +285,8 @@ void func_808AD450(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 736);
 
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[2] != NULL) {
-        u16 temp_v1 = CAM_BINANG_TO_DEG(play->csCtx.npcActions[2]->urot.z);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[2] != NULL) {
+        u16 temp_v1 = CAM_BINANG_TO_DEG(play->csCtx.actorCues[2]->rot.z);
 
         if (this->unk_170 != temp_v1) {
             if (this->unk_170 == 0xFFFF) {
@@ -298,15 +298,15 @@ void func_808AD450(Actor* thisx, PlayState* play) {
             }
         }
 
-        lerp = Environment_LerpWeight(play->csCtx.npcActions[2]->endFrame, play->csCtx.npcActions[2]->startFrame,
-                                      play->csCtx.frames);
+        lerp = Environment_LerpWeight(play->csCtx.actorCues[2]->endFrame, play->csCtx.actorCues[2]->startFrame,
+                                      play->csCtx.curFrame);
 
         // should be able to remove & 0xFFFF with some other change
-        if ((play->csCtx.npcActions[2]->action & 0xFFFF) == 2) {
-            Matrix_Translate(play->csCtx.npcActions[2]->startPos.x, play->csCtx.npcActions[2]->startPos.y,
-                             play->csCtx.npcActions[2]->startPos.z, MTXMODE_NEW);
-            Matrix_RotateX(BINANG_TO_RAD(play->csCtx.npcActions[2]->urot.x), MTXMODE_APPLY);
-            Matrix_RotateY(BINANG_TO_RAD(play->csCtx.npcActions[2]->urot.y), MTXMODE_APPLY);
+        if ((play->csCtx.actorCues[2]->id & 0xFFFF) == 2) {
+            Matrix_Translate(play->csCtx.actorCues[2]->startPos.x, play->csCtx.actorCues[2]->startPos.y,
+                             play->csCtx.actorCues[2]->startPos.z, MTXMODE_NEW);
+            Matrix_RotateX(BINANG_TO_RAD(play->csCtx.actorCues[2]->rot.x), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(play->csCtx.actorCues[2]->rot.y), MTXMODE_APPLY);
             Matrix_Scale(0.9f, 0.9f, (((this->unk_170 - this->unk_172) * lerp) + this->unk_172) * 0.1f, MTXMODE_APPLY);
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 

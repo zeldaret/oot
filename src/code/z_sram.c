@@ -151,7 +151,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.save.info.horseData.angle = -0x6AD9;
     gSaveContext.save.info.playerData.magicLevel = 0;
     gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] = 1;
-    gSaveContext.save.info.sceneFlags[5].swch = 0x40000000;
+    gSaveContext.save.info.sceneFlags[SCENE_WATER_TEMPLE].swch = 0x40000000;
 }
 
 static SavePlayerData sDebugSavePlayerData = {
@@ -245,7 +245,7 @@ static Inventory sDebugSaveInventory = {
     // equipment
     ((((1 << EQUIP_INV_SWORD_KOKIRI) << (EQUIP_TYPE_SWORD * 4)) |
       ((1 << EQUIP_INV_SWORD_MASTER) << (EQUIP_TYPE_SWORD * 4)) |
-      ((1 << EQUIP_INV_SWORD_BGS) << (EQUIP_TYPE_SWORD * 4))) |
+      ((1 << EQUIP_INV_SWORD_BIGGORON) << (EQUIP_TYPE_SWORD * 4))) |
      (((1 << EQUIP_INV_SHIELD_DEKU) << (EQUIP_TYPE_SHIELD * 4)) |
       ((1 << EQUIP_INV_SHIELD_HYLIAN) << (EQUIP_TYPE_SHIELD * 4)) |
       ((1 << EQUIP_INV_SHIELD_MIRROR) << (EQUIP_TYPE_SHIELD * 4))) |
@@ -308,7 +308,7 @@ void Sram_InitDebugSave(void) {
 
     gSaveContext.save.entranceIndex = ENTR_HYRULE_FIELD_0;
     gSaveContext.save.info.playerData.magicLevel = 0;
-    gSaveContext.save.info.sceneFlags[5].swch = 0x40000000;
+    gSaveContext.save.info.sceneFlags[SCENE_WATER_TEMPLE].swch = 0x40000000;
 }
 
 static s16 sDungeonEntrances[] = {

@@ -178,7 +178,7 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2) {
     this->actor.shape.rot.y += (s16)this->yRotVel;
     this->actor.velocity.y += -1.0f;
     this->actor.gravity = -1.0f;
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     if (this->actor.params >= 200) {
         EnVbBall_UpdateBones(this, play);
     } else {
@@ -289,7 +289,7 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2) {
             Player* player = GET_PLAYER(play);
 
             this->collider.base.atFlags &= ~AT_HIT;
-            Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
         }
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

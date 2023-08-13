@@ -164,7 +164,7 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
 
     if (isFree == true && play->sceneId == SCENE_THIEVES_HIDEOUT) {
         noKill = false;
-    } else if (isFree == false && play->sceneId == SCENE_CARPENTERS_TENT) {
+    } else if (!isFree && play->sceneId == SCENE_CARPENTERS_TENT) {
         noKill = false;
     }
 
@@ -467,9 +467,9 @@ void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
 
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
-    Play_CameraSetFov(play, this->subCamId, play->mainCamera.fov);
-    func_8002DF54(play, &this->actor, 1);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraFov(play, this->subCamId, play->mainCamera.fov);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
 }
 
 void EnDaiku_UpdateSubCamera(EnDaiku* this, PlayState* play) {
@@ -483,7 +483,7 @@ void EnDaiku_UpdateSubCamera(EnDaiku* this, PlayState* play) {
     Math_SmoothStepToF(&this->subCamAt.y, this->subCamAtNext.y, 1.0f, 1000.0f, 0.0f);
     Math_SmoothStepToF(&this->subCamAt.z, this->subCamAtNext.z, 1.0f, 1000.0f, 0.0f);
 
-    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
 
 void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
@@ -505,7 +505,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
             Actor_Kill(&this->actor);
         }
     } else {
-        func_8002DF54(play, &this->actor, 7);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
     }
 }
 
@@ -541,8 +541,8 @@ void EnDaiku_EscapeRun(EnDaiku* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, ry, 1, 0xFA0, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
-    Actor_MoveForward(&this->actor);
+    Math_SmoothStepToF(&this->actor.speed, this->runSpeed, 0.6f, dxz, 0.0f);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->subCamActive) {
@@ -563,7 +563,7 @@ void EnDaiku_Update(Actor* thisx, PlayState* play) {
     if (this->currentAnimIndex == ENDAIKU_ANIM_RUN) {
         curFrame = this->skelAnime.curFrame;
         if (curFrame == 6 || curFrame == 15) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 

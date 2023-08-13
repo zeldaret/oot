@@ -97,7 +97,7 @@ void DoorAna_WaitClosed(DoorAna* this, PlayState* play) {
 
     if (!(this->actor.params & 0x200)) {
         // opening with song of storms
-        if (this->actor.xyzDistToPlayerSq < SQ(200.0f) && Flags_GetEnv(play, 5)) {
+        if (this->actor.xyzDistToPlayerSq < SQ(200.0f) && CutsceneFlags_Get(play, 5)) {
             openGrotto = true;
             this->actor.flags &= ~ACTOR_FLAG_4;
         }
@@ -118,7 +118,7 @@ void DoorAna_WaitClosed(DoorAna* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
-    func_8002F5F0(&this->actor, play);
+    Actor_SetClosestSecretDistance(&this->actor, play);
 }
 
 // update routine for grottos that are open

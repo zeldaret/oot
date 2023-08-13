@@ -250,7 +250,7 @@ void EnSth_GivePlayerItem(EnSth* this, PlayState* play) {
             break;
     }
 
-    func_8002F434(&this->actor, play, getItemId, 10000.0f, 50.0f);
+    Actor_OfferGetItem(&this->actor, play, getItemId, 10000.0f, 50.0f);
 }
 
 void EnSth_GiveReward(EnSth* this, PlayState* play) {
@@ -317,7 +317,7 @@ void EnSth_Update2(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;

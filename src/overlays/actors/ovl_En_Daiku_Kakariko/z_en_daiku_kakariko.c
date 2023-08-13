@@ -369,7 +369,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
         run = false;
 
         if (runDist <= 10.0f) {
-            if (this->pathContinue == false) {
+            if (!this->pathContinue) {
                 this->waypoint++;
 
                 if (this->waypoint >= path->count) {
@@ -416,19 +416,19 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (this->run == false) {
+    if (!this->run) {
         if (angleStepDiff == 0) {
             this->run = true;
         } else {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     }
 
     if (this->run == true) {
-        Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.8f, runDist, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, this->runSpeed, 0.8f, runDist, 0.0f);
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (this->flags & 0x40) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
@@ -458,7 +458,7 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     if (this->currentAnimIndex == 3) {
         if (((s32)this->skelAnime.curFrame == 6) || ((s32)this->skelAnime.curFrame == 15)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 

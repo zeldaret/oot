@@ -731,7 +731,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b,
+        gDPLoadTextureBlock(OVERLAY_DISP++, (u8*)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b,
                             width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -742,7 +742,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
 
         // If texture is bigger than 0x1000, display the rest
         if (height > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA,
+            gDPLoadTextureBlock(OVERLAY_DISP++, (u8*)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA,
                                 G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                 G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -841,7 +841,10 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
     }
 }
 
-void func_8002D7EC(Actor* actor) {
+/**
+ * Update actor's position factoring in velocity and collider displacement
+ */
+void Actor_UpdatePos(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
 
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
@@ -849,46 +852,68 @@ void func_8002D7EC(Actor* actor) {
     actor->world.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
 }
 
-void func_8002D868(Actor* actor) {
-    actor->velocity.x = Math_SinS(actor->world.rot.y) * actor->speedXZ;
-    actor->velocity.z = Math_CosS(actor->world.rot.y) * actor->speedXZ;
+/**
+ * Update actor's velocity accounting for gravity (without dropping below minimum y velocity)
+ */
+void Actor_UpdateVelocityXZGravity(Actor* actor) {
+    actor->velocity.x = Math_SinS(actor->world.rot.y) * actor->speed;
+    actor->velocity.z = Math_CosS(actor->world.rot.y) * actor->speed;
 
     actor->velocity.y += actor->gravity;
+
     if (actor->velocity.y < actor->minVelocityY) {
         actor->velocity.y = actor->minVelocityY;
     }
 }
 
-void Actor_MoveForward(Actor* actor) {
-    func_8002D868(actor);
-    func_8002D7EC(actor);
+/**
+ * Move actor while accounting for its current velocity and gravity.
+ * `actor.speed` is used as the XZ velocity.
+ * The actor will move in the direction of its world yaw.
+ */
+void Actor_MoveXZGravity(Actor* actor) {
+    Actor_UpdateVelocityXZGravity(actor);
+    Actor_UpdatePos(actor);
 }
 
-void func_8002D908(Actor* actor) {
-    f32 sp24 = Math_CosS(actor->world.rot.x) * actor->speedXZ;
+/**
+ * Update actor's velocity without gravity.
+ */
+void Actor_UpdateVelocityXYZ(Actor* actor) {
+    f32 speedXZ = Math_CosS(actor->world.rot.x) * actor->speed;
 
-    actor->velocity.x = Math_SinS(actor->world.rot.y) * sp24;
-    actor->velocity.y = Math_SinS(actor->world.rot.x) * actor->speedXZ;
-    actor->velocity.z = Math_CosS(actor->world.rot.y) * sp24;
+    actor->velocity.x = Math_SinS(actor->world.rot.y) * speedXZ;
+    actor->velocity.y = Math_SinS(actor->world.rot.x) * actor->speed;
+    actor->velocity.z = Math_CosS(actor->world.rot.y) * speedXZ;
 }
 
-void func_8002D97C(Actor* actor) {
-    func_8002D908(actor);
-    func_8002D7EC(actor);
+/**
+ * Move actor while accounting for its current velocity.
+ * `actor.speed` is used as the XYZ velocity.
+ * The actor will move in the direction of its world yaw and pitch, with positive pitch moving upwards.
+ */
+void Actor_MoveXYZ(Actor* actor) {
+    Actor_UpdateVelocityXYZ(actor);
+    Actor_UpdatePos(actor);
 }
 
-void func_8002D9A4(Actor* actor, f32 arg1) {
-    actor->speedXZ = Math_CosS(actor->world.rot.x) * arg1;
-    actor->velocity.y = -Math_SinS(actor->world.rot.x) * arg1;
+/**
+ * From a given XYZ speed value, set the corresponding XZ speed as `actor.speed`, and Y speed as Y velocity.
+ * Only the actor's world pitch is factored in, with positive pitch moving downwards.
+ */
+void Actor_SetProjectileSpeed(Actor* actor, f32 speedXYZ) {
+    actor->speed = Math_CosS(actor->world.rot.x) * speedXYZ;
+    actor->velocity.y = -Math_SinS(actor->world.rot.x) * speedXYZ;
 }
 
-void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
-    Vec3f sp1C;
+void Actor_UpdatePosByAnimation(Actor* actor, SkelAnime* skelAnime) {
+    Vec3f posDiff;
 
-    SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
-    actor->world.pos.x += sp1C.x * actor->scale.x;
-    actor->world.pos.y += sp1C.y * actor->scale.y;
-    actor->world.pos.z += sp1C.z * actor->scale.z;
+    SkelAnime_UpdateTranslation(skelAnime, &posDiff, actor->shape.rot.y);
+
+    actor->world.pos.x += posDiff.x * actor->scale.x;
+    actor->world.pos.y += posDiff.y * actor->scale.y;
+    actor->world.pos.z += posDiff.z * actor->scale.z;
 }
 
 s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB) {
@@ -1025,7 +1050,7 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
 }
 
 s32 func_8002DEEC(Player* player) {
-    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csMode != 0);
+    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csMode != PLAYER_CSMODE_NONE);
 }
 
 void func_8002DF18(PlayState* play, Player* player) {
@@ -1570,7 +1595,30 @@ u32 Actor_HasParent(Actor* actor, PlayState* play) {
     }
 }
 
-s32 func_8002F434(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange, f32 yRange) {
+/**
+ * This function covers various interactions with the player actor, using Get Item IDs (see `GetItemID` enum).
+ * It is typically used to give items to the player, but also has other purposes.
+ *
+ * This function carries a get item request to the player actor if context allows it (e.g. the player is in range and
+ * not busy with certain things). The player actor performs the requested action itself.
+ *
+ * The following description of what the `getItemId` values can do is provided here for completeness, but these
+ * behaviors are entirely out of the scope of this function. All behavior is defined by the player actor.
+ *
+ * - Positive values (`GI_NONE < getItemId < GI_MAX`):
+ *    Give an item to the player. The player may not get it immediately (for example if diving), but is expected to
+ *    in the near future.
+ * - Negative values (`-GI_MAX < getItemId < GI_NONE`):
+ *    Used by treasure chests to indicate the chest can be opened (by pressing A).
+ *    The item gotten corresponds to the positive Get Item ID `abs(getItemId)`.
+ * - `GI_NONE`:
+ *    Allows the player to pick up the actor (by pressing A), to carry it around.
+ * - `GI_MAX`:
+ *    Allows the player to catch specific actors in a bottle.
+ *
+ * @return true If the player actor is capable of accepting the offer.
+ */
+s32 Actor_OfferGetItem(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = GET_PLAYER(play);
 
     if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
@@ -1596,12 +1644,12 @@ s32 func_8002F434(Actor* actor, PlayState* play, s32 getItemId, f32 xzRange, f32
     return false;
 }
 
-void func_8002F554(Actor* actor, PlayState* play, s32 getItemId) {
-    func_8002F434(actor, play, getItemId, 50.0f, 10.0f);
+s32 Actor_OfferGetItemNearby(Actor* actor, PlayState* play, s32 getItemId) {
+    return Actor_OfferGetItem(actor, play, getItemId, 50.0f, 10.0f);
 }
 
-void func_8002F580(Actor* actor, PlayState* play) {
-    func_8002F554(actor, play, GI_NONE);
+s32 Actor_OfferCarry(Actor* actor, PlayState* play) {
+    return Actor_OfferGetItemNearby(actor, play, GI_NONE);
 }
 
 u32 Actor_HasNoParent(Actor* actor, PlayState* play) {
@@ -1627,11 +1675,11 @@ void func_8002F5C4(Actor* actorA, Actor* actorB, PlayState* play) {
     actorA->parent = NULL;
 }
 
-void func_8002F5F0(Actor* actor, PlayState* play) {
+void Actor_SetClosestSecretDistance(Actor* actor, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (actor->xyzDistToPlayerSq < player->unk_6A4) {
-        player->unk_6A4 = actor->xyzDistToPlayerSq;
+    if (actor->xyzDistToPlayerSq < player->closestSecretDistSq) {
+        player->closestSecretDistSq = actor->xyzDistToPlayerSq;
     }
 }
 
@@ -1691,30 +1739,36 @@ void func_8002F7A0(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4) 
     func_8002F758(play, actor, arg2, arg3, arg4, 0);
 }
 
-void func_8002F7DC(Actor* actor, u16 sfxId) {
-    Audio_PlaySfxGeneral(sfxId, &actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultReverb);
+/**
+ * Play a sound effect at the player's position
+ */
+void Player_PlaySfx(Player* player, u16 sfxId) {
+    Audio_PlaySfxGeneral(sfxId, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
-void Audio_PlayActorSfx2(Actor* actor, u16 sfxId) {
+/**
+ * Play a sound effect at the actor's position
+ */
+void Actor_PlaySfx(Actor* actor, u16 sfxId) {
     func_80078914(&actor->projectedPos, sfxId);
 }
 
 void func_8002F850(PlayState* play, Actor* actor) {
-    s32 sfxId;
+    s32 surfaceSfxOffset;
 
     if (actor->bgCheckFlags & BGCHECKFLAG_WATER) {
         if (actor->yDistToWater < 20.0f) {
-            sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
+            surfaceSfxOffset = SURFACE_SFX_OFFSET_WATER_SHALLOW;
         } else {
-            sfxId = NA_SE_PL_WALK_WATER1 - SFX_FLAG;
+            surfaceSfxOffset = SURFACE_SFX_OFFSET_WATER_DEEP;
         }
     } else {
-        sfxId = SurfaceType_GetSfxId(&play->colCtx, actor->floorPoly, actor->floorBgId);
+        surfaceSfxOffset = SurfaceType_GetSfxOffset(&play->colCtx, actor->floorPoly, actor->floorBgId);
     }
 
     func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
-    func_80078914(&actor->projectedPos, sfxId + SFX_FLAG);
+    func_80078914(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
@@ -1740,15 +1794,18 @@ void func_8002F974(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
 }
 
-void func_8002F994(Actor* actor, s32 arg1) {
+void func_8002F994(Actor* actor, s32 timer) {
     actor->flags |= ACTOR_FLAG_28;
     actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21);
-    if (arg1 < 40) {
-        actor->sfx = NA_SE_PL_WALK_DIRT - SFX_FLAG;
-    } else if (arg1 < 100) {
-        actor->sfx = NA_SE_PL_WALK_CONCRETE - SFX_FLAG;
+
+    // The sfx field is not used for an actual sound effect here.
+    // Instead, it controls the tick speed of the timer sound effect.
+    if (timer < 40) {
+        actor->sfx = 3;
+    } else if (timer < 100) {
+        actor->sfx = 2;
     } else {
-        actor->sfx = NA_SE_PL_WALK_SAND - SFX_FLAG;
+        actor->sfx = 1;
     }
 }
 
@@ -1757,7 +1814,7 @@ s32 func_8002F9EC(PlayState* play, Actor* actor, CollisionPoly* poly, s32 bgId, 
     if (SurfaceType_GetFloorType(&play->colCtx, poly, bgId) == FLOOR_TYPE_8) {
         play->roomCtx.unk_74[0] = 1;
         CollisionCheck_BlueBlood(play, NULL, pos);
-        Audio_PlayActorSfx2(actor, NA_SE_IT_WALL_HIT_BUYO);
+        Actor_PlaySfx(actor, NA_SE_IT_WALL_HIT_BUYO);
         return true;
     }
 
@@ -2215,25 +2272,25 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     if (actor->colorFilterTimer != 0) {
         Color_RGBA8 color = { 0, 0, 0, 255 };
 
-        if (actor->colorFilterParams & 0x8000) {
-            color.r = color.g = color.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
-        } else if (actor->colorFilterParams & 0x4000) {
-            color.r = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+        if (actor->colorFilterParams & COLORFILTER_COLORFLAG_GRAY) {
+            color.r = color.g = color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
+        } else if (actor->colorFilterParams & COLORFILTER_COLORFLAG_RED) {
+            color.r = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
         } else {
-            color.b = ((actor->colorFilterParams & 0x1F00) >> 5) | 7;
+            color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
         }
 
-        if (actor->colorFilterParams & 0x2000) {
-            func_80026860(play, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+        if (actor->colorFilterParams & COLORFILTER_BUFFLAG_XLU) {
+            func_80026860(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
         } else {
-            func_80026400(play, &color, actor->colorFilterTimer, actor->colorFilterParams & 0xFF);
+            func_80026400(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
         }
     }
 
     actor->draw(actor, play);
 
     if (actor->colorFilterTimer != 0) {
-        if (actor->colorFilterParams & 0x2000) {
+        if (actor->colorFilterParams & COLORFILTER_BUFFLAG_XLU) {
             func_80026A6C(play);
         } else {
             func_80026608(play);
@@ -2497,7 +2554,10 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 6563);
 }
 
-void func_80031A28(PlayState* play, ActorContext* actorCtx) {
+/**
+ * Kill every actor which depends on an object that is not loaded.
+ */
+void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
 
@@ -2527,6 +2587,9 @@ void Actor_FreezeAllEnemies(PlayState* play, ActorContext* actorCtx, s32 duratio
     }
 }
 
+/**
+ * Kill actors on room change and update flags accordingly
+ */
 void func_80031B14(PlayState* play, ActorContext* actorCtx) {
     Actor* actor;
     s32 i;
@@ -2686,7 +2749,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
-    overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
+    overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
     if (HREG(20) != 0) {
         // "Actor class addition [%d:%s]"
@@ -2744,17 +2807,19 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             osSyncPrintf(VT_FGCOL(GREEN));
             osSyncPrintf("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart,
                          overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
-                         (u32)overlayEntry->loadedRamAddr + (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart,
-                         (u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr, name);
+                         (uintptr_t)overlayEntry->loadedRamAddr + (uintptr_t)overlayEntry->vramEnd -
+                             (uintptr_t)overlayEntry->vramStart,
+                         (uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr, name);
             osSyncPrintf(VT_RST);
 
             overlayEntry->numLoaded = 0;
         }
 
-        actorInit = (void*)(u32)((overlayEntry->initInfo != NULL)
-                                     ? (void*)((u32)overlayEntry->initInfo -
-                                               (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr))
-                                     : NULL);
+        actorInit = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
+                                           ? (void*)((uintptr_t)overlayEntry->initInfo -
+                                                     (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                                (uintptr_t)overlayEntry->loadedRamAddr))
+                                           : NULL);
     }
 
     objBankIndex = Object_GetIndex(&play->objectCtx, actorInit->objectId);
@@ -3312,9 +3377,9 @@ Actor* Actor_GetProjectileActor(PlayState* play, Actor* refActor, f32 radius) {
                 (((ArmsHook*)actor)->timer == 0)) {
                 actor = actor->next;
             } else {
-                deltaX = Math_SinS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
+                deltaX = Math_SinS(actor->world.rot.y) * (actor->speed * 10.0f);
                 deltaY = actor->velocity.y + (actor->gravity * 10.0f);
-                deltaZ = Math_CosS(actor->world.rot.y) * (actor->speedXZ * 10.0f);
+                deltaZ = Math_CosS(actor->world.rot.y) * (actor->speed * 10.0f);
 
                 spA8.x = actor->world.pos.x + deltaX;
                 spA8.y = actor->world.pos.y + deltaY;
@@ -3630,12 +3695,12 @@ void func_8003424C(PlayState* play, Vec3f* arg1) {
     CollisionCheck_SpawnShieldParticlesMetal(play, arg1);
 }
 
-void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
-    if ((colorFlag == 0x8000) && !(colorIntensityMax & 0x8000)) {
-        Audio_PlayActorSfx2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration) {
+    if ((colorFlag == COLORFILTER_COLORFLAG_GRAY) && !(colorIntensityMax & COLORFILTER_INTENSITY_FLAG)) {
+        Actor_PlaySfx(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 
-    actor->colorFilterParams = colorFlag | xluFlag | ((colorIntensityMax & 0xF8) << 5) | duration;
+    actor->colorFilterParams = colorFlag | bufFlag | ((colorIntensityMax & 0xF8) << 5) | duration;
     actor->colorFilterTimer = duration;
 }
 
@@ -3999,7 +4064,7 @@ s16 func_80034DD4(Actor* actor, PlayState* play, s16 arg2, f32 arg3) {
     Player* player = GET_PLAYER(play);
     f32 var;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
+    if ((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) {
         var = Math_Vec3f_DistXYZ(&actor->world.pos, &play->view.eye) * 0.25f;
     } else {
         var = Math_Vec3f_DistXYZ(&actor->world.pos, &player->actor.world.pos);
@@ -4052,13 +4117,13 @@ s32 func_80035124(Actor* actor, PlayState* play) {
             if (Actor_HasParent(actor, play)) {
                 actor->params = 1;
             } else if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-                Actor_MoveForward(actor);
-                Math_SmoothStepToF(&actor->speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
+                Actor_MoveXZGravity(actor);
+                Math_SmoothStepToF(&actor->speed, 0.0f, 1.0f, 0.1f, 0.0f);
             } else if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (actor->velocity.y < -4.0f)) {
                 ret = 1;
             } else {
                 actor->shape.rot.x = actor->shape.rot.z = 0;
-                func_8002F580(actor, play);
+                Actor_OfferCarry(actor, play);
             }
             break;
         case 1:
@@ -4261,7 +4326,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
                                                 spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
-        spawnedEnPart->actor.speedXZ = arg3[0];
+        spawnedEnPart->actor.speed = arg3[0];
         spawnedEnPart->displayList = dList;
         spawnedEnPart->action = 2;
         spawnedEnPart->timer = timer;
@@ -5674,7 +5739,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
     actor->focus.pos = actor->world.pos;
     actor->focus.pos.y += focusHeight;
 
-    if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
+    if (!(((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
           (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
@@ -5683,7 +5748,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
         }
     }
 
-    if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
+    if (((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
         (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
         target = play->view.eye;
     } else {
@@ -5718,7 +5783,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
 
     actor->focus.pos = focusPos;
 
-    if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
+    if (!(((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
           (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
@@ -5727,7 +5792,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
         }
     }
 
-    if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) &&
+    if (((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
         (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
         target = play->view.eye;
     } else {

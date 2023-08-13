@@ -210,10 +210,10 @@ void EnPoField_SetupAppear(EnPoField* this) {
     this->lightColor.a = 0;
     this->actor.shape.shadowAlpha = 0;
     this->actor.shape.yOffset = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_APPEAR);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PO_APPEAR);
     this->actor.home.pos.y = this->actor.world.pos.y;
     if (this->actor.params == EN_PO_FIELD_BIG) {
-        this->actor.speedXZ = 12.0f;
+        this->actor.speed = 12.0f;
         this->collider.dim.radius = 35;
         this->collider.dim.height = 100;
         this->collider.dim.yShift = 10;
@@ -221,7 +221,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
         this->scaleModifier = 0.014f;
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_POE;
     } else {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->collider.dim.radius = D_80AD7080.dim.radius;
         this->collider.dim.height = D_80AD7080.dim.height;
         this->collider.dim.yShift = D_80AD7080.dim.yShift;
@@ -252,7 +252,7 @@ void EnPoField_SetupFlee(EnPoField* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeFieldFleeAnim, -5.0f);
     this->collider.base.acFlags |= AC_ON;
     this->actionFunc = EnPoField_Flee;
-    this->actor.speedXZ = 12.0f;
+    this->actor.speed = 12.0f;
     if (this->actionFunc != EnPoField_Damage) {
         this->actor.flags |= ACTOR_FLAG_0;
         this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
@@ -269,15 +269,15 @@ void EnPoField_SetupDamage(EnPoField* this) {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
     this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
-    this->actor.speedXZ = 5.0f;
-    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 16);
+    this->actor.speed = 5.0f;
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 16);
     this->actionFunc = EnPoField_Damage;
 }
 
 void EnPoField_SetupDeath(EnPoField* this) {
     this->actionTimer = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.naviEnemyId = NAVI_ENEMY_NONE;
     if (this->flameTimer >= 20) {
@@ -290,9 +290,9 @@ void EnPoField_SetupDisappear(EnPoField* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeFieldDisappearAnim, -6.0f);
     this->actionTimer = 16;
     this->collider.base.acFlags &= ~(AC_HIT | AC_ON);
-    this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DISAPPEAR);
+    this->actor.speed = 0.0f;
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DISAPPEAR);
     this->actionFunc = EnPoField_Disappear;
 }
 
@@ -322,7 +322,7 @@ void func_80AD42B0(EnPoField* this) {
     this->actor.home.pos.y = this->actor.world.pos.y;
     this->actor.scale.x = 0.0f;
     this->actor.scale.y = 0.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_METAL_BOX_BOUND);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_METAL_BOX_BOUND);
     if (this->actor.params == EN_PO_FIELD_BIG) {
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
     }
@@ -379,18 +379,18 @@ void EnPoField_CorrectYPos(EnPoField* this, PlayState* play) {
 void EnPoField_SetFleeSpeed(EnPoField* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 speed =
-        ((player->stateFlags1 & PLAYER_STATE1_23) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;
+        ((player->stateFlags1 & PLAYER_STATE1_23) && player->rideActor != NULL) ? player->rideActor->speed : 12.0f;
 
     if (this->actor.xzDistToPlayer < 300.0f) {
-        this->actor.speedXZ = speed * 1.5f + 2.0f;
+        this->actor.speed = speed * 1.5f + 2.0f;
     } else if (this->actor.xzDistToPlayer < 400.0f) {
-        this->actor.speedXZ = speed * 1.25f + 2.0f;
+        this->actor.speed = speed * 1.25f + 2.0f;
     } else if (this->actor.xzDistToPlayer < 500.0f) {
-        this->actor.speedXZ = speed + 2.0f;
+        this->actor.speed = speed + 2.0f;
     } else {
-        this->actor.speedXZ = 12.0f;
+        this->actor.speed = 12.0f;
     }
-    this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 12.0f);
+    this->actor.speed = CLAMP_MIN(this->actor.speed, 12.0f);
 }
 
 void EnPoField_WaitForSpawn(EnPoField* this, PlayState* play) {
@@ -526,7 +526,7 @@ void EnPoField_Flee(EnPoField* this, PlayState* play) {
 }
 
 void EnPoField_Damage(EnPoField* this, PlayState* play) {
-    Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
+    Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnPoField_SetupDeath(this);
@@ -568,7 +568,7 @@ void EnPoField_Death(EnPoField* this, PlayState* play) {
         EffectSsDeadDb_Spawn(play, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255,
                              0, 0, 255, 1, 9, 1);
         if (this->actionTimer == 1) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_EXTINCT);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_EXTINCT);
         }
     } else if (this->actionTimer == 28) {
         EnPoField_SetupSoulIdle(this, play);
@@ -580,7 +580,7 @@ void EnPoField_Death(EnPoField* this, PlayState* play) {
         this->actor.scale.x = temp_f0;
     }
     if (this->actionTimer == 18) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DEAD2);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DEAD2);
     }
 }
 
@@ -608,7 +608,7 @@ void EnPoField_SoulIdle(EnPoField* this, PlayState* play) {
     } else if (this->actionTimer == 0) {
         EnPoField_SetupWaitForSpawn(this, play);
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 10.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
@@ -651,7 +651,7 @@ void func_80AD58D4(EnPoField* this, PlayState* play) {
         return;
     }
     if (this->actionTimer == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
         this->actor.flags &= ~ACTOR_FLAG_16;
         EnPoField_SetupSoulDisappear(this);
         return;
@@ -696,7 +696,7 @@ void EnPoField_SoulInteract(EnPoField* this, PlayState* play) {
             Audio_StopSfxByPosAndId(&this->actor.projectedPos, NA_SE_EN_PO_BIG_CRY - SFX_FLAG);
             if (play->msgCtx.choiceIndex == 0) {
                 if (Inventory_HasEmptyBottle()) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_BIG_GET);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_PO_BIG_GET);
                     if (this->actor.params == 0) {
                         Item_Give(play, ITEM_BOTTLE_POE);
                         this->actor.textId = 0x5008;
@@ -706,12 +706,12 @@ void EnPoField_SoulInteract(EnPoField* this, PlayState* play) {
                         Flags_SetSwitch(play, sSpawnSwitchFlags[this->spawnFlagIndex]);
                     }
                 } else {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
                     this->actor.textId = 0x5006;
                 }
             } else {
                 this->actor.textId = 0x5007;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_LAUGH);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_PO_LAUGH);
             }
             Message_ContinueTextbox(play, this->actor.textId);
             return;
@@ -727,9 +727,9 @@ void EnPoField_TestForDamage(EnPoField* this, PlayState* play) {
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(play, &this->actor);
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DEAD);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DEAD);
             } else {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DAMAGE);
             }
             EnPoField_SetupDamage(this);
         }
@@ -854,7 +854,7 @@ void EnPoField_Update(Actor* thisx, PlayState* play) {
     EnPoField_UpdateFlame(this, play);
     if (this->actionFunc == EnPoField_Flee || this->actionFunc == EnPoField_Damage ||
         this->actionFunc == EnPoField_Appear) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     }
     if (this->actionFunc != EnPoField_WaitForSpawn) {
         Actor_SetFocus(&this->actor, 42.0f);

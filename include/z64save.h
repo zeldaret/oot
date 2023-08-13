@@ -4,6 +4,13 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+typedef enum {
+    /* 0 */ LANGUAGE_ENG,
+    /* 1 */ LANGUAGE_GER,
+    /* 2 */ LANGUAGE_FRA,
+    /* 3 */ LANGUAGE_MAX
+} Language;
+
 // `_FORCE` means that this request will respond to `forceRisingButtonAlphas`.
 // If set, the buttons will also raise alphas but will also account for disabled buttons
 
@@ -299,12 +306,12 @@ typedef enum {
 } ButtonStatus;
 
 typedef enum {
-    /* 0x00 */ CHAMBER_CS_FOREST,
-    /* 0x01 */ CHAMBER_CS_FIRE,
-    /* 0x02 */ CHAMBER_CS_WATER,
-    /* 0x03 */ CHAMBER_CS_SPIRIT,
-    /* 0x04 */ CHAMBER_CS_SHADOW,
-    /* 0x05 */ CHAMBER_CS_LIGHT
+    /* 0 */ CHAMBER_CS_FOREST,
+    /* 1 */ CHAMBER_CS_FIRE,
+    /* 2 */ CHAMBER_CS_WATER,
+    /* 3 */ CHAMBER_CS_SPIRIT,
+    /* 4 */ CHAMBER_CS_SHADOW,
+    /* 5 */ CHAMBER_CS_LIGHT
 } ChamberCutsceneNum;
 
 typedef enum {

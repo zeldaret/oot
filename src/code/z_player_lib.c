@@ -26,7 +26,7 @@ u8 sActionModelGroups[PLAYER_IA_MAX] = {
     PLAYER_MODELGROUP_10,            // PLAYER_IA_FISHING_POLE
     PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_MASTER
     PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_KOKIRI
-    PLAYER_MODELGROUP_BGS,           // PLAYER_IA_SWORD_BGS
+    PLAYER_MODELGROUP_BGS,           // PLAYER_IA_SWORD_BIGGORON
     PLAYER_MODELGROUP_10,            // PLAYER_IA_DEKU_STICK
     PLAYER_MODELGROUP_HAMMER,        // PLAYER_IA_HAMMER
     PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW
@@ -488,7 +488,7 @@ void Player_SetBootData(PlayState* play, Player* this) {
 }
 
 s32 Player_InBlockingCsMode(PlayState* play, Player* this) {
-    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csMode != 0) ||
+    return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csMode != PLAYER_CSMODE_NONE) ||
            (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
            (this->stateFlags3 & PLAYER_STATE3_7) ||
            ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
@@ -578,7 +578,7 @@ void func_8008EC70(Player* this) {
 }
 
 void Player_SetEquipmentData(PlayState* play, Player* this) {
-    if (this->csMode != 0x56) {
+    if (this->csMode != PLAYER_CSMODE_86) {
         this->currentShield = SHIELD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD));
         this->currentTunic = TUNIC_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC));
         this->currentBoots = BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS));
@@ -625,8 +625,8 @@ void func_8008EEAC(PlayState* play, Actor* actor) {
     this->unk_664 = actor;
     this->unk_684 = actor;
     this->stateFlags1 |= PLAYER_STATE1_16;
-    Camera_SetParam(Play_GetCamera(play, CAM_ID_MAIN), 8, actor);
-    Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_FOLLOWTARGET);
+    Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
+    Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);
 }
 
 s32 func_8008EF30(PlayState* play) {
@@ -724,7 +724,7 @@ s32 Player_GetMeleeWeaponHeld(Player* this) {
 }
 
 s32 Player_HoldsTwoHandedWeapon(Player* this) {
-    if ((this->heldItemAction >= PLAYER_IA_SWORD_BGS) && (this->heldItemAction <= PLAYER_IA_HAMMER)) {
+    if ((this->heldItemAction >= PLAYER_IA_SWORD_BIGGORON) && (this->heldItemAction <= PLAYER_IA_HAMMER)) {
         return 1;
     } else {
         return 0;
@@ -732,7 +732,7 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
 }
 
 s32 Player_HoldsBrokenKnife(Player* this) {
-    return (this->heldItemAction == PLAYER_IA_SWORD_BGS) && (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
+    return (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) && (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
 }
 
 s32 Player_ActionToBottle(Player* this, s32 itemAction) {
@@ -1132,7 +1132,7 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
             } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & PLAYER_STATE1_25)) {
                 dLists = gPlayerLeftHandOpenDLs + gSaveContext.save.linkAge;
                 sLeftHandType = PLAYER_MODELTYPE_LH_OPEN;
-            } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speedXZ > 2.0f) &&
+            } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speed > 2.0f) &&
                        !(this->stateFlags1 & PLAYER_STATE1_27)) {
                 dLists = gPlayerLeftHandClosedDLs + gSaveContext.save.linkAge;
                 sLeftHandType = PLAYER_MODELTYPE_LH_CLOSED;
@@ -1144,7 +1144,7 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
 
             if (sRightHandType == PLAYER_MODELTYPE_RH_SHIELD) {
                 dLists += this->currentShield * 4;
-            } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_OPEN) && (this->actor.speedXZ > 2.0f) &&
+            } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_OPEN) && (this->actor.speed > 2.0f) &&
                        !(this->stateFlags1 & PLAYER_STATE1_27)) {
                 dLists = sPlayerRightHandClosedDLs + gSaveContext.save.linkAge;
                 sRightHandType = PLAYER_MODELTYPE_RH_CLOSED;
@@ -1325,7 +1325,7 @@ void func_80090A28(Player* this, Vec3f* vecs) {
     D_8012608C.x = D_80126080.x;
 
     if (this->unk_845 >= 3) {
-        this->unk_845 += 1;
+        this->unk_845++;
         D_8012608C.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
     }
 
@@ -1653,7 +1653,7 @@ u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime) {
     ptr = segment + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE;
     DmaMgr_RequestSyncDebug(ptr, gObjectTable[linkObjectId].vromStart, size, "../z_player_lib.c", 2988);
 
-    ptr = (void*)ALIGN16((u32)ptr + size);
+    ptr = (void*)ALIGN16((uintptr_t)ptr + size);
 
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + PAUSE_EQUIP_BUFFER_SIZE);
     gSegments[6] =
@@ -1669,7 +1669,7 @@ u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime) {
 u8 sPauseModelGroupBySword[] = {
     PLAYER_MODELGROUP_SWORD, // PLAYER_SWORD_KOKIRI
     PLAYER_MODELGROUP_SWORD, // PLAYER_SWORD_MASTER
-    PLAYER_MODELGROUP_BGS,   // PLAYER_SWORD_BGS
+    PLAYER_MODELGROUP_BGS,   // PLAYER_SWORD_BIGGORON
 };
 
 s32 Player_OverrideLimbDrawPause(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
@@ -1839,7 +1839,7 @@ void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f*
             srcTable = gLinkPauseChildJointTable;
         }
     } else {
-        if (sword == PLAYER_SWORD_BGS) {
+        if (sword == PLAYER_SWORD_BIGGORON) {
             srcTable = gLinkPauseAdultBgsJointTable;
         } else if (shield != PLAYER_SHIELD_NONE) {
             srcTable = gLinkPauseAdultShieldJointTable;

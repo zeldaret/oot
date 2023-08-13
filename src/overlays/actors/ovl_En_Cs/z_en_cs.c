@@ -312,8 +312,8 @@ s32 EnCs_HandleWalking(EnCs* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->walkAngle, 1, 2500, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.speedXZ = this->walkSpeed;
-    Actor_MoveForward(&this->actor);
+    this->actor.speed = this->walkSpeed;
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     return 0;
@@ -422,14 +422,14 @@ void EnCs_Update(Actor* thisx, PlayState* play) {
 
     if (this->currentAnimIndex == 0) {
         if (((s32)this->skelAnime.curFrame == 9) || ((s32)this->skelAnime.curFrame == 23)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     } else if (this->currentAnimIndex == 1) {
         if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
     } else if ((this->currentAnimIndex == 2) && ((s32)this->skelAnime.curFrame == 20)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_CHIBI_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_CHIBI_WALK);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->collider);

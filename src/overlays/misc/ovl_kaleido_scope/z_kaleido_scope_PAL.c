@@ -251,7 +251,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     Graph_BranchDlist(gfxRef, gfx);
     POLY_OPA_DISP = gfx;
 
-    SREG(33) |= 1;
+    R_GRAPH_TASKSET00_FLAGS |= 1;
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 509);
 }
@@ -790,7 +790,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA, G_CC_MODULATEIA);
 
-        if (!pauseCtx->pageIndex) { // pageIndex == PAUSE_ITEM
+        if ((u32)pauseCtx->pageIndex == PAUSE_ITEM) {
             pauseCtx->unk_1F4 = pauseCtx->unk_204 + 314.0f;
 
             Matrix_Translate(0.0f, (f32)WREG(2) / 100.0f, -pauseCtx->unk_1F0 / 10.0f, MTXMODE_NEW);
@@ -1120,11 +1120,11 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 20, 30, 40, 0);
 
     if ((pauseCtx->state == 6) && (pauseCtx->namedItem != PAUSE_ITEM_NONE) && (pauseCtx->nameDisplayTimer < WREG(89)) &&
-        (!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 2) || ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) ||
-         (pauseCtx->unk_1E4 == 8)) &&
+        (((u32)pauseCtx->unk_1E4 == 0) || (pauseCtx->unk_1E4 == 2) ||
+         ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) || (pauseCtx->unk_1E4 == 8)) &&
         (pauseCtx->cursorSpecialPos == 0)) {
-        if (!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 2) || ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) ||
-            (pauseCtx->unk_1E4 == 8)) {
+        if (((u32)pauseCtx->unk_1E4 == 0) || (pauseCtx->unk_1E4 == 2) ||
+            ((pauseCtx->unk_1E4 >= 4) && (pauseCtx->unk_1E4 <= 7)) || (pauseCtx->unk_1E4 == 8)) {
             pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] = -63;
 
             pauseCtx->infoPanelVtx[17].v.ob[0] = pauseCtx->infoPanelVtx[19].v.ob[0] =
@@ -1184,7 +1184,8 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gGoldSkulltulaIconTex, 24, 24, 0);
+                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gQuestIconGoldSkulltulaTex, QUEST_ICON_WIDTH,
+                                                   QUEST_ICON_HEIGHT, 0);
             }
         }
     } else if ((pauseCtx->unk_1E4 < 3) || (pauseCtx->unk_1E4 == 7) || (pauseCtx->unk_1E4 == 8)) {
@@ -1242,7 +1243,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                 }
             }
         } else {
-            if (!pauseCtx->pageIndex) { // pageIndex == PAUSE_ITEM
+            if ((u32)pauseCtx->pageIndex == PAUSE_ITEM) {
                 pauseCtx->infoPanelVtx[16].v.ob[0] = pauseCtx->infoPanelVtx[18].v.ob[0] =
                     WREG(49 + gSaveContext.language);
 
@@ -2499,10 +2500,11 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepA;
     s32 pad;
 
-    if ((R_PAUSE_MENU_MODE >= 3) && (((pauseCtx->state >= 4) && (pauseCtx->state <= 7)) ||
-                                     ((pauseCtx->state >= 0xA) && (pauseCtx->state <= 0x12)))) {
+    if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) &&
+        (((pauseCtx->state >= 4) && (pauseCtx->state <= 7)) ||
+         ((pauseCtx->state >= 0xA) && (pauseCtx->state <= 0x12)))) {
 
-        if ((!pauseCtx->unk_1E4 || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == 6)) {
+        if ((((u32)pauseCtx->unk_1E4 == 0) || (pauseCtx->unk_1E4 == 8)) && (pauseCtx->state == 6)) {
             pauseCtx->stickAdjX = input->rel.stick_x;
             pauseCtx->stickAdjY = input->rel.stick_y;
             KaleidoScope_UpdateCursorSize(play);
@@ -2550,7 +2552,8 @@ void KaleidoScope_Update(PlayState* play) {
 
             for (i = 0; i < ARRAY_COUNTU(gItemAgeReqs); i++) {
                 if ((gItemAgeReqs[i] != 9) && (gItemAgeReqs[i] != ((void)0, gSaveContext.save.linkAge))) {
-                    KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]), 0x400);
+                    KaleidoScope_GrayOutTextureRGBA32(SEGMENTED_TO_VIRTUAL(gItemIcons[i]),
+                                                      ITEM_ICON_WIDTH * ITEM_ICON_HEIGHT);
                 }
             }
 
@@ -3414,7 +3417,7 @@ void KaleidoScope_Update(PlayState* play) {
                     interfaceCtx->unk_244 = 255;
                     pauseCtx->state = 0;
                     R_UPDATE_RATE = 3;
-                    R_PAUSE_MENU_MODE = 0;
+                    R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
                     func_800981B8(&play->objectCtx);
                     func_800418D0(&play->colCtx, play);
                     if (pauseCtx->promptChoice == 0) {
@@ -3473,7 +3476,7 @@ void KaleidoScope_Update(PlayState* play) {
         case 0x13:
             pauseCtx->state = 0;
             R_UPDATE_RATE = 3;
-            R_PAUSE_MENU_MODE = 0;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
             func_800981B8(&play->objectCtx);
             func_800418D0(&play->colCtx, play);
 

@@ -19,9 +19,9 @@ void EnTr_ShrinkVanish(EnTr* this, PlayState* play);
 void EnTr_WaitToReappear(EnTr* this, PlayState* play);
 void EnTr_ChooseAction1(EnTr* this, PlayState* play);
 
-void EnTr_UpdateRotation(EnTr* this, PlayState* play, s32 actionIndex);
-void func_80B24038(EnTr* this, PlayState* play, s32 actionIndex);
-void EnTr_SetStartPosRot(EnTr* this, PlayState* play, s32 actionIndex);
+void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
+void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel);
+void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 
 ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
@@ -100,7 +100,7 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
             Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverRightShoulderAnim);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
-            this->actionIndex = 3;
+            this->cueChannel = 3;
             break;
 
         case TR_KOTAKE:
@@ -109,7 +109,7 @@ void EnTr_Init(Actor* thisx, PlayState* play) {
             Animation_PlayOnce(&this->skelAnime, &gKotakeKoumeStandingBroomOverLeftShoulderAnim);
             this->animation = NULL;
             EnTr_SetupAction(this, EnTr_ChooseAction1);
-            this->actionIndex = 2;
+            this->cueChannel = 2;
             break;
 
         default:
@@ -143,14 +143,14 @@ void EnTr_DoNothing(EnTr* this, PlayState* play) {
 
 void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.npcActions[this->actionIndex] != NULL) {
-            switch (play->csCtx.npcActions[this->actionIndex]->action) {
+        if (play->csCtx.actorCues[this->cueChannel] != NULL) {
+            switch (play->csCtx.actorCues[this->cueChannel]->id) {
 
                 case 4:
                     Actor_SetScale(&this->actor, 0.01f);
                     EnTr_SetupAction(this, EnTr_ShrinkVanish);
                     this->timer = 24;
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_PO_DEAD2);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_PO_DEAD2);
                     break;
 
                 case 6:
@@ -162,12 +162,12 @@ void EnTr_ChooseAction2(EnTr* this, PlayState* play) {
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_6K, this->actor.world.pos.x,
                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                        this->actor.params + 9);
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_MASIC1);
                     break;
 
                 default:
-                    func_80B24038(this, play, this->actionIndex);
-                    EnTr_UpdateRotation(this, play, this->actionIndex);
+                    func_80B24038(this, play, this->cueChannel);
+                    EnTr_SetRotFromCue(this, play, this->cueChannel);
                     break;
             }
             func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
@@ -179,14 +179,14 @@ void EnTr_FlyKidnapCutscene(EnTr* this, PlayState* play) {
     Vec3f originalPos = this->actor.world.pos;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.npcActions[this->actionIndex] != NULL) {
-            if (play->csCtx.npcActions[this->actionIndex]->action == 8) {
-                func_80B24038(this, play, this->actionIndex);
+        if (play->csCtx.actorCues[this->cueChannel] != NULL) {
+            if (play->csCtx.actorCues[this->cueChannel]->id == 8) {
+                func_80B24038(this, play, this->cueChannel);
                 this->actor.world.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
                 Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 10, 0x400, 0x100);
                 this->actor.world.rot.y = this->actor.shape.rot.y;
             } else {
-                EnTr_SetStartPosRot(this, play, this->actionIndex);
+                EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
                 this->actor.world.pos.x += Math_SinS(this->timer) * 150.0f;
                 this->actor.world.pos.y += -100.0f;
                 this->actor.world.pos.z += Math_CosS(this->timer) * 150.0f;
@@ -199,7 +199,7 @@ void EnTr_FlyKidnapCutscene(EnTr* this, PlayState* play) {
                 this->actor.velocity.z = this->actor.world.pos.z - originalPos.z;
             }
 
-            if (play->csCtx.frames < 670) {
+            if (play->csCtx.curFrame < 670) {
                 func_8002F974(&this->actor, NA_SE_EN_TWINROBA_FLY_DEMO - SFX_FLAG);
             }
         }
@@ -261,7 +261,7 @@ void EnTr_ShrinkVanish(EnTr* this, PlayState* play) {
     }
 
     if (this->timer == 4) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BUBLE_DOWN);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BUBLE_DOWN);
     }
 
     if (this->timer > 0) {
@@ -294,12 +294,11 @@ void EnTr_Reappear(EnTr* this, PlayState* play) {
 
 void EnTr_WaitToReappear(EnTr* this, PlayState* play) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if ((play->csCtx.npcActions[this->actionIndex] != NULL) &&
-            ((play->csCtx.npcActions[this->actionIndex]->action == 3) ||
-             (play->csCtx.npcActions[this->actionIndex]->action == 5))) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
+        if ((play->csCtx.actorCues[this->cueChannel] != NULL) && ((play->csCtx.actorCues[this->cueChannel]->id == 3) ||
+                                                                  (play->csCtx.actorCues[this->cueChannel]->id == 5))) {
+            Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
             this->timer = 34;
-            EnTr_SetStartPosRot(this, play, this->actionIndex);
+            EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
             EnTr_SetupAction(this, EnTr_Reappear);
             Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
             this->animation = NULL;
@@ -312,8 +311,7 @@ void EnTr_TakeOff(EnTr* this, PlayState* play) {
     f32 lastFrame = Animation_GetLastFrame(D_80B24378[this->actor.params]);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if ((play->csCtx.npcActions[this->actionIndex] != NULL) &&
-            (play->csCtx.npcActions[this->actionIndex]->action == 3)) {
+        if ((play->csCtx.actorCues[this->cueChannel] != NULL) && (play->csCtx.actorCues[this->cueChannel]->id == 3)) {
             Animation_Change(&this->skelAnime, D_80B24378[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP,
                              -10.0f);
             this->animation = NULL;
@@ -326,8 +324,7 @@ void EnTr_TurnLookOverShoulder(EnTr* this, PlayState* play) {
     f32 lastFrame = Animation_GetLastFrame(D_80B24368[this->actor.params]);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if ((play->csCtx.npcActions[this->actionIndex] != NULL) &&
-            (play->csCtx.npcActions[this->actionIndex]->action == 2)) {
+        if ((play->csCtx.actorCues[this->cueChannel] != NULL) && (play->csCtx.actorCues[this->cueChannel]->id == 2)) {
             Animation_Change(&this->skelAnime, D_80B24368[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE,
                              -4.0f);
             this->animation = D_80B24370[this->actor.params];
@@ -340,15 +337,15 @@ void EnTr_ChooseAction1(EnTr* this, PlayState* play) {
     u32 frames = play->gameplayFrames;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.npcActions[this->actionIndex] != NULL) {
-            switch (play->csCtx.npcActions[this->actionIndex]->action) {
+        if (play->csCtx.actorCues[this->cueChannel] != NULL) {
+            switch (play->csCtx.actorCues[this->cueChannel]->id) {
                 case 1:
-                    EnTr_SetStartPosRot(this, play, this->actionIndex);
+                    EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
                     EnTr_SetupAction(this, EnTr_TurnLookOverShoulder);
                     break;
 
                 case 3:
-                    EnTr_SetStartPosRot(this, play, this->actionIndex);
+                    EnTr_SetStartPosRotFromCue(this, play, this->cueChannel);
                     EnTr_SetupAction(this, EnTr_ChooseAction2);
                     Animation_PlayLoop(&this->skelAnime, &gKotakeKoumeFlyAnim);
                     this->animation = NULL;
@@ -383,9 +380,9 @@ void EnTr_Update(Actor* thisx, PlayState* play) {
             if ((this->animation == &gKotakeKoumeLookingOverLeftShoulderAnim) ||
                 (this->animation == &gKotakeKoumeLookingOverRightShoulderAnim)) {
                 if (this->actor.params != TR_KOUME) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_LAUGH2);
                 } else {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_LAUGH);
                 }
                 Animation_PlayLoop(&this->skelAnime, this->animation);
             } else if (this->animation == &gKotakeKoumeFlyAnim) {
@@ -432,7 +429,7 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.npcActions[this->actionIndex] == NULL)) {
+    if ((play->csCtx.state == CS_STATE_IDLE) || (play->csCtx.actorCues[this->cueChannel] == NULL)) {
         this->actor.shape.shadowDraw = NULL;
     } else {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
@@ -447,29 +444,29 @@ void EnTr_Draw(Actor* thisx, PlayState* play) {
     }
 }
 
-f32 func_80B23FDC(PlayState* play, s32 actionIndex) {
-    f32 phi_f2 = Environment_LerpWeight(play->csCtx.npcActions[actionIndex]->endFrame,
-                                        play->csCtx.npcActions[actionIndex]->startFrame, play->csCtx.frames);
+f32 func_80B23FDC(PlayState* play, s32 cueChannel) {
+    f32 phi_f2 = Environment_LerpWeight(play->csCtx.actorCues[cueChannel]->endFrame,
+                                        play->csCtx.actorCues[cueChannel]->startFrame, play->csCtx.curFrame);
     phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
     return phi_f2;
 }
 
-void func_80B24038(EnTr* this, PlayState* play, s32 actionIndex) {
+void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
     f32 temp_f0;
     f32 temp_f0_2;
     f32 phi_f12;
 
-    startPos.x = play->csCtx.npcActions[actionIndex]->startPos.x;
-    startPos.y = play->csCtx.npcActions[actionIndex]->startPos.y;
-    startPos.z = play->csCtx.npcActions[actionIndex]->startPos.z;
+    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
-    endPos.x = play->csCtx.npcActions[actionIndex]->endPos.x;
-    endPos.y = play->csCtx.npcActions[actionIndex]->endPos.y;
-    endPos.z = play->csCtx.npcActions[actionIndex]->endPos.z;
+    endPos.x = play->csCtx.actorCues[cueChannel]->endPos.x;
+    endPos.y = play->csCtx.actorCues[cueChannel]->endPos.y;
+    endPos.z = play->csCtx.actorCues[cueChannel]->endPos.z;
 
-    temp_f0 = func_80B23FDC(play, actionIndex);
+    temp_f0 = func_80B23FDC(play, cueChannel);
 
     startPos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
     startPos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
@@ -491,11 +488,11 @@ void func_80B24038(EnTr* this, PlayState* play, s32 actionIndex) {
     Math_StepToF(&this->actor.velocity.x, endPos.x, 1.0f);
     Math_StepToF(&this->actor.velocity.y, endPos.y, 1.0f);
     Math_StepToF(&this->actor.velocity.z, endPos.z, 1.0f);
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
 }
 
-void EnTr_UpdateRotation(EnTr* this, PlayState* play, s32 actionIndex) {
-    s16 rotY = play->csCtx.npcActions[actionIndex]->rot.y;
+void EnTr_SetRotFromCue(EnTr* this, PlayState* play, s32 cueChannel) {
+    s16 rotY = play->csCtx.actorCues[cueChannel]->rot.y;
     s32 rotDiff = this->actor.world.rot.y - rotY;
     s32 rotSign;
 
@@ -517,13 +514,13 @@ void EnTr_UpdateRotation(EnTr* this, PlayState* play, s32 actionIndex) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-void EnTr_SetStartPosRot(EnTr* this, PlayState* play, s32 actionIndex) {
+void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
 
-    startPos.x = play->csCtx.npcActions[actionIndex]->startPos.x;
-    startPos.y = play->csCtx.npcActions[actionIndex]->startPos.y;
-    startPos.z = play->csCtx.npcActions[actionIndex]->startPos.z;
+    startPos.x = play->csCtx.actorCues[cueChannel]->startPos.x;
+    startPos.y = play->csCtx.actorCues[cueChannel]->startPos.y;
+    startPos.z = play->csCtx.actorCues[cueChannel]->startPos.z;
 
     this->actor.world.pos = startPos;
-    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.npcActions[actionIndex]->rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.actorCues[cueChannel]->rot.y;
 }

@@ -139,7 +139,9 @@
     }                                      \
     (void)0
 
-extern GraphicsContext* __gfxCtx;
+struct GraphicsContext;
+
+extern struct GraphicsContext* __gfxCtx;
 
 #define WORK_DISP       __gfxCtx->work.p
 #define POLY_OPA_DISP   __gfxCtx->polyOpa.p

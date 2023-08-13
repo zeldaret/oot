@@ -113,7 +113,7 @@ void func_80A5046C(EnGuest* this) {
         if (this->unk_2CA != 0) {
             this->unk_2CA--;
         } else {
-            this->unk_30E += 1;
+            this->unk_30E++;
             if (this->unk_30E >= 3) {
                 this->unk_30E = 0;
                 this->unk_30D = 0;
@@ -181,23 +181,23 @@ Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 s32 EnGuest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnGuest* this = (EnGuest*)thisx;
-    Vec3s sp3C;
+    Vec3s limbRot;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_guest.c", 352);
 
     if (limbIndex == 15) {
         *dList = object_boj_DL_0059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        sp3C = this->interactInfo.headRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(sp3C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.headRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
-        sp3C = this->interactInfo.torsoRot;
-        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp3C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
+        limbRot = this->interactInfo.torsoRot;
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
     }
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {

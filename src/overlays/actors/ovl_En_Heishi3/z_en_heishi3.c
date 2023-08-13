@@ -133,7 +133,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
         Message_StartTextbox(play, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(play, &this->actor, 1);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }
@@ -161,7 +161,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
         Message_StartTextbox(play, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(play, &this->actor, 1);
+        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }
@@ -172,18 +172,18 @@ void EnHeishi3_CatchStart(EnHeishi3* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gEnHeishiWalkAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->caughtTimer = 20;
     this->actionFunc = func_80A55BD4;
-    this->actor.speedXZ = 2.5f;
+    this->actor.speed = 2.5f;
 }
 
 void func_80A55BD4(EnHeishi3* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 1.0f) || Animation_OnFrame(&this->skelAnime, 17.0f)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_KNIGHT_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
     if (this->caughtTimer == 0) {
         this->actionFunc = EnHeishi3_ResetAnimationToIdle;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     } else {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
@@ -215,13 +215,13 @@ void EnHeishi3_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     Actor_SetFocus(&this->actor, 60.0f);
-    this->unk_274 += 1;
+    this->unk_274++;
     if (this->caughtTimer != 0) {
-        this->caughtTimer -= 1;
+        this->caughtTimer--;
     }
     this->actionFunc(this, play);
     this->actor.shape.rot = this->actor.world.rot;
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 50.0f,
                             UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);

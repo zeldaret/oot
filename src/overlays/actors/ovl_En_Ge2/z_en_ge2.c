@@ -257,7 +257,7 @@ void EnGe2_CaptureCharge(EnGe2* this, PlayState* play) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->actor.xzDistToPlayer < 50.0f) {
         EnGe2_ChangeAction(this, GE2_ACTION_CAPTURECLOSE);
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     if (this->timer > 0) {
@@ -285,7 +285,7 @@ void EnGe2_CaptureTurn(EnGe2* this, PlayState* play) {
     if (this->actor.world.rot.y == this->actor.yawTowardsPlayer) {
         EnGe2_ChangeAction(this, GE2_ACTION_CAPTURECHARGE);
         this->timer = 50;
-        this->actor.speedXZ = 4.0f;
+        this->actor.speed = 4.0f;
     }
 }
 
@@ -311,7 +311,7 @@ void EnGe2_KnockedOut(EnGe2* this, PlayState* play) {
 void EnGe2_TurnPlayerSpotted(EnGe2* this, PlayState* play) {
     s32 playerSpotted;
 
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 
     if (this->stateFlags & GE2_STATE_TALKED) {
         this->stateFlags &= ~GE2_STATE_TALKED;
@@ -347,7 +347,7 @@ void EnGe2_TurnPlayerSpotted(EnGe2* this, PlayState* play) {
 void EnGe2_AboutTurn(EnGe2* this, PlayState* play) {
     s32 playerSpotted;
 
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     playerSpotted = Ge2_DetectPlayerInAction(play, this);
 
     if (playerSpotted != 0) {
@@ -370,7 +370,7 @@ void EnGe2_Walk(EnGe2* this, PlayState* play) {
 
     playerSpotted = Ge2_DetectPlayerInAction(play, this);
     if (playerSpotted != 0) {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         EnGe2_ChangeAction(this, GE2_ACTION_TURNPLAYERSPOTTED);
         this->timer = 100;
         this->playerSpottedParam = playerSpotted;
@@ -379,10 +379,10 @@ void EnGe2_Walk(EnGe2* this, PlayState* play) {
         this->walkTimer = 0;
         this->walkDirection += 0x8000;
         EnGe2_ChangeAction(this, GE2_ACTION_ABOUTTURN);
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     } else {
         this->walkTimer++;
-        this->actor.speedXZ = 2.0f;
+        this->actor.speed = 2.0f;
     }
 }
 
@@ -451,7 +451,7 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe2_SetActionAfterTalk;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -460,7 +460,7 @@ void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe2_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -478,9 +478,9 @@ void EnGe2_ForceTalk(EnGe2* this, PlayState* play) {
 
 void EnGe2_SetupCapturePlayer(EnGe2* this, PlayState* play) {
     this->stateFlags |= GE2_STATE_CAPTURING;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
-    func_8002DF54(play, &this->actor, 95);
+    func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
     func_80078884(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
@@ -499,7 +499,7 @@ void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, PlayState* play) {
 }
 
 void EnGe2_MoveAndBlink(EnGe2* this, PlayState* play) {
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);
@@ -521,7 +521,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play) {
 
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         if ((this->actor.params & 0xFF) == GE2_TYPE_PATROLLING) {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
         }
         this->actionFunc = EnGe2_SetActionAfterTalk;
@@ -556,7 +556,9 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     } else if (this->collider.base.acFlags & AC_HIT) {
         if ((this->collider.info.acHitInfo != NULL) &&
             (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
-            Actor_SetColorFilter(&this->actor, 0, 120, 0, 400);
+            //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter.
+            //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
             this->actor.update = EnGe2_UpdateStunned;
             return;
         }
@@ -564,8 +566,8 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
-        this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
+        this->actor.speed = 0.0f;
+        Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
     } else {
         this->actionFunc(this, play);
 
@@ -610,8 +612,8 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
-        this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_VO_SK_CRASH);
+        this->actor.speed = 0.0f;
+        Actor_PlaySfx(&this->actor, NA_SE_VO_SK_CRASH);
     }
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
 

@@ -127,7 +127,7 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
                         ocarinaSong = 0xA;
                     }
                     player->stateFlags2 |= PLAYER_STATE2_23;
-                    func_8010BD58(play, ocarinaSong + OCARINA_ACTION_CHECK_SARIA);
+                    Message_StartOcarina(play, ocarinaSong + OCARINA_ACTION_CHECK_SARIA);
                     this->actionFunc = func_80ABF0CC;
                 } else if ((this->actor.xzDistToPlayer < (50.0f + this->interactRange) &&
                             ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)))) {
@@ -197,16 +197,16 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
                 switch (this->type) {
                     case 1:
-                        func_8010BD58(play, OCARINA_ACTION_CHECK_LULLABY);
+                        Message_StartOcarina(play, OCARINA_ACTION_CHECK_LULLABY);
                         break;
                     case 2:
-                        func_8010BD58(play, OCARINA_ACTION_CHECK_STORMS);
+                        Message_StartOcarina(play, OCARINA_ACTION_CHECK_STORMS);
                         break;
                     case 4:
-                        func_8010BD58(play, OCARINA_ACTION_CHECK_TIME);
+                        Message_StartOcarina(play, OCARINA_ACTION_CHECK_TIME);
                         break;
                     case 6:
-                        func_8010BD58(play, OCARINA_ACTION_CHECK_LULLABY);
+                        Message_StartOcarina(play, OCARINA_ACTION_CHECK_LULLABY);
                         break;
                     default:
                         // "Ocarina Invisible-kun demo start check error source"
@@ -242,19 +242,19 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 SET_EVENTCHKINF(EVENTCHKINF_39);
                 break;
             case 2:
-                play->csCtx.segment = D_80ABF9D0;
+                play->csCtx.script = D_80ABF9D0;
                 gSaveContext.cutsceneTrigger = 1;
                 // Increase pitch by 3 semitones i.e. 2^(3/12), scale tempo by same ratio
                 // Applies to the windmill bgm once the song of storms fanfare is complete
                 Audio_SetMainBgmTempoFreqAfterFanfare(1.18921f, 90);
                 break;
             case 4:
-                play->csCtx.segment = D_80ABFB40;
+                play->csCtx.script = D_80ABFB40;
                 gSaveContext.cutsceneTrigger = 1;
                 break;
             case 6:
-                play->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
-                                                    : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
+                play->csCtx.script = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_003C80)
+                                                   : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -307,7 +307,7 @@ void func_80ABF7CC(EnOkarinaTag* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         if (!CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
-            play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSunSongGraveSunSongTeachCs);
+            play->csCtx.script = SEGMENTED_TO_VIRTUAL(gSunSongGraveSunSongTeachCs);
             gSaveContext.cutsceneTrigger = 1;
         }
         this->actionFunc = func_80ABF708;

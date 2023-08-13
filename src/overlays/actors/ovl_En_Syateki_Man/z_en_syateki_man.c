@@ -365,7 +365,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                             this->getItemId = GI_RUPEE_PURPLE;
                         }
                     }
-                    func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+                    Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
                     this->actionFunc = EnSyatekiMan_GivePrize;
                     break;
                 case SYATEKI_RESULT_ALMOST:
@@ -394,7 +394,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = EnSyatekiMan_FinishPrize;
     } else {
-        func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 
