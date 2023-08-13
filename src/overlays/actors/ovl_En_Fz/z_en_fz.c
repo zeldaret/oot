@@ -685,7 +685,7 @@ void EnFz_Update(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->actor, 50.0f);
     EnFz_ApplyDamage(this, play);
     this->actionFunc(this, play);
-    if (this->isDespawning == false) {
+    if (!this->isDespawning) {
         Collider_UpdateCylinder(&this->actor, &this->collider1);
         Collider_UpdateCylinder(&this->actor, &this->collider2);
         if (this->isFreezing) {

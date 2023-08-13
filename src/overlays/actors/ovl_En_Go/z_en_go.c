@@ -427,7 +427,7 @@ s32 EnGo_IsCameraModified(EnGo* this, PlayState* play) {
         return 0;
     }
 
-    xyzDistSq = (this->actor.scale.x / 0.01f) * 10000.0f;
+    xyzDistSq = (this->actor.scale.x / 0.01f) * SQ(100.0f);
     if ((this->actor.params & 0xF0) == 0x90) {
         Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
         xyzDistSq *= 4.8f;

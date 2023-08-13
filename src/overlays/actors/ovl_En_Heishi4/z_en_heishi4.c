@@ -355,7 +355,7 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
         this->headRot = this->interactInfo.headRot;
         this->torsoRot = this->interactInfo.torsoRot;
     }
-    this->unk_27E += 1;
+    this->unk_27E++;
     this->actionFunc(this, play);
     Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 10.0f, 10.0f, 30.0f,

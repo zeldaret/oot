@@ -9,13 +9,13 @@
 #include "spec.h"
 #include "util.h"
 
-// Note: *SECTION ALIGNMENT* Object files built with a compiler such as GCC can, by default, use narrower 
+// Note: *SECTION ALIGNMENT* Object files built with a compiler such as GCC can, by default, use narrower
 // alignment for sections size, compared to IDO padding sections to a 0x10-aligned size.
-// To properly generate relocations relative to section starts, sections currently need to be aligned 
-// explicitly (to 0x10 currently, a narrower alignment might work), otherwise the linker does implicit alignment 
-// and inserts padding between the address indicated by section start symbols (such as *SegmentRoDataStart) and 
+// To properly generate relocations relative to section starts, sections currently need to be aligned
+// explicitly (to 0x10 currently, a narrower alignment might work), otherwise the linker does implicit alignment
+// and inserts padding between the address indicated by section start symbols (such as *SegmentRoDataStart) and
 // the actual aligned start of the section.
-// With IDO, the padding of sections to an aligned size makes the section start at aligned addresses out of the box, 
+// With IDO, the padding of sections to an aligned size makes the section start at aligned addresses out of the box,
 // so the explicit alignment has no further effect.
 
 struct Segment *g_segments;

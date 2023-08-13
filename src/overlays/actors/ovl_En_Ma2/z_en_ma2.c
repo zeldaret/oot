@@ -175,7 +175,7 @@ s32 func_80AA1C68(EnMa2* this) {
 
 void EnMa2_UpdateEyes(EnMa2* this) {
     if ((!func_80AA1C68(this)) && (DECR(this->blinkTimer) == 0)) {
-        this->eyeIndex += 1;
+        this->eyeIndex++;
         if (this->eyeIndex >= 3) {
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIndex = 0;

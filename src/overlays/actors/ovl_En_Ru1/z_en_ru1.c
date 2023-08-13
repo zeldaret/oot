@@ -7,6 +7,7 @@
 #include "z_en_ru1.h"
 #include "assets/objects/object_ru1/object_ru1.h"
 #include "terminal.h"
+#include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
@@ -324,7 +325,7 @@ Actor* func_80AEB124(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIt != NULL) {
-        if ((actorIt->id == ACTOR_DEMO_EFFECT) && ((actorIt->params & 0xFF) == 0x15)) {
+        if ((actorIt->id == ACTOR_DEMO_EFFECT) && ((actorIt->params & 0xFF) == DEMO_EFFECT_JEWEL_ZORA)) {
             return actorIt;
         }
         actorIt = actorIt->next;
@@ -586,7 +587,7 @@ void func_80AEBBF4(EnRu1* this) {
 void func_80AEBC30(PlayState* play) {
     Player* player;
 
-    if (play->csCtx.curFrame == 0xCD) {
+    if (play->csCtx.curFrame == 205) {
         player = GET_PLAYER(play);
         Audio_PlaySfxGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -594,7 +595,7 @@ void func_80AEBC30(PlayState* play) {
 }
 
 void func_80AEBC84(EnRu1* this, PlayState* play) {
-    if (play->csCtx.curFrame == 0x82) {
+    if (play->csCtx.curFrame == 130) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
