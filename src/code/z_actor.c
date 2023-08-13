@@ -1963,6 +1963,9 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
 
         lightRadius = 500.0f * ratio;
 
+        //! @bug One of the conditions for this block checks an entrance index to see if the light ball should draw.
+        //! This does not account for the fact that some dungeons have multiple entrances.
+        //! If a dungeon is entered through a different entrance than the one that was saved, the light ball will not draw.
         if ((play->csCtx.state == CS_STATE_IDLE) &&
             (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex) ==
              ((void)0, gSaveContext.entranceIndex)) &&
@@ -1995,6 +1998,8 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
         }
 
+        //! @bug This function call is not contained in the above block, meaning the light for Farore's Wind will draw in 
+        //! every scene at the same position that it was originally set.
         Lights_PointNoGlowSetInfo(&D_8015BC00, ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
                                   ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
                                   ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), 255, 255, 255, lightRadius);
