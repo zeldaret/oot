@@ -23,7 +23,7 @@ void func_80A593A4(EnHoll* this, PlayState* play);
 void func_80A59520(EnHoll* this, PlayState* play);
 void func_80A59618(EnHoll* this, PlayState* play);
 
-const ActorInit En_Holl_InitVars = {
+ActorInit En_Holl_InitVars = {
     ACTOR_EN_HOLL,
     ACTORCAT_DOOR,
     FLAGS,

@@ -195,7 +195,7 @@ static DamageTable sDamageTableWhite = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-const ActorInit En_Bb_InitVars = {
+ActorInit En_Bb_InitVars = {
     ACTOR_EN_BB,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -858,7 +858,7 @@ void EnBb_FaceWaypoint(EnBb* this) {
 }
 
 void EnBb_SetWaypoint(EnBb* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->path];
+    Path* path = &play->pathList[this->path];
     Vec3s* point;
 
     if (this->waypoint == (s16)(path->count - 1)) {

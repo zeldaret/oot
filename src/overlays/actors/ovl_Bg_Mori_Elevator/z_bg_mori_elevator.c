@@ -19,7 +19,7 @@ void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-const ActorInit Bg_Mori_Elevator_InitVars = {
+ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
     ACTORCAT_BG,
     FLAGS,

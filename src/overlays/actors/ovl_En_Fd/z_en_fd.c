@@ -30,7 +30,7 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play);
 void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play);
 void EnFd_Land(EnFd* this, PlayState* play);
 
-const ActorInit En_Fd_InitVars = {
+ActorInit En_Fd_InitVars = {
     ACTOR_EN_FD,
     ACTORCAT_ENEMY,
     FLAGS,

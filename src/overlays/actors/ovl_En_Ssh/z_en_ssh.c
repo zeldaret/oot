@@ -30,7 +30,7 @@ void EnSsh_Start(EnSsh* this, PlayState* play);
 
 #include "assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c"
 
-const ActorInit En_Ssh_InitVars = {
+ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
     ACTORCAT_NPC,
     FLAGS,

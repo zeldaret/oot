@@ -1,5 +1,5 @@
 #include "global.h"
-#include "vt.h"
+#include "terminal.h"
 #include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 s32 func_8006CFC0(s32 sceneId) {

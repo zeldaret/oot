@@ -1,6 +1,6 @@
 #include "global.h"
 #include "quake.h"
-#include "vt.h"
+#include "terminal.h"
 
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
@@ -393,8 +393,8 @@ void Play_Init(GameState* thisx) {
     D_801614B0.a = 0;
     Flags_UnsetAllEnv(this);
 
-    osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&this->state.tha));
-    zAllocSize = THA_GetSize(&this->state.tha);
+    osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
+    zAllocSize = THA_GetRemaining(&this->state.tha);
     zAlloc = (u32)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init((void*)zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
@@ -403,7 +403,7 @@ void Play_Init(GameState* thisx) {
                  (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
-    func_800304DC(this, &this->actorCtx, this->linkActorEntry);
+    Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
     while (!func_800973FC(this, &this->roomCtx)) {
         ; // Empty Loop
@@ -1051,7 +1051,7 @@ void Play_Draw(PlayState* this) {
         POLY_OPA_DISP = Play_SetFog(this, POLY_OPA_DISP);
         POLY_XLU_DISP = Play_SetFog(this, POLY_XLU_DISP);
 
-        View_SetPerspective(&this->view, this->view.fovy, this->view.zNear, this->lightCtx.fogFar);
+        View_SetPerspective(&this->view, this->view.fovy, this->view.zNear, this->lightCtx.zFar);
         View_Apply(&this->view, VIEW_ALL);
 
         // The billboard matrix temporarily stores the viewing matrix
@@ -1399,14 +1399,17 @@ void Play_InitEnvironment(PlayState* this, s16 skyboxId) {
 }
 
 void Play_InitScene(PlayState* this, s32 spawn) {
-    this->curSpawn = spawn;
-    this->linkActorEntry = NULL;
+    this->spawn = spawn;
+
+    this->playerEntry = NULL;
     this->unk_11DFC = NULL;
-    this->setupEntranceList = NULL;
-    this->setupExitList = NULL;
+    this->spawnList = NULL;
+    this->exitList = NULL;
     this->naviQuestHints = NULL;
-    this->setupPathList = NULL;
-    this->numSetupActors = 0;
+    this->pathList = NULL;
+
+    this->numActorEntries = 0;
+
     Object_InitBank(this, &this->objectCtx);
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);

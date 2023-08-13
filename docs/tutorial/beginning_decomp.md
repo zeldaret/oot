@@ -639,7 +639,7 @@ void func_80A87BEC(EnJj* this, PlayState* play);
 void func_80A87C30(EnJj* this, PlayState* play);
 
 /*
-const ActorInit En_Jj_InitVars = {
+ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORTYPE_ITEMACTION,
     FLAGS,

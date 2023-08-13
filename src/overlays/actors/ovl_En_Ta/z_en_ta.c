@@ -5,7 +5,7 @@
  */
 
 #include "z_en_ta.h"
-#include "vt.h"
+#include "terminal.h"
 #include "assets/objects/object_ta/object_ta.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
@@ -59,7 +59,7 @@ void EnTa_AnimSleeping(EnTa* this);
 void EnTa_AnimSitSleeping(EnTa* this);
 void EnTa_AnimRunToEnd(EnTa* this);
 
-const ActorInit En_Ta_InitVars = {
+ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,
     ACTORCAT_NPC,
     FLAGS,
@@ -797,7 +797,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
     }
 
     if (gSaveContext.timer1Value == 10) {
-        func_800F5918();
+        Audio_SetFastTempoForTimedMinigame();
     }
 
     if (gSaveContext.timer1Value == 0 && !Play_InCsMode(play)) {

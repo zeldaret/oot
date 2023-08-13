@@ -53,7 +53,7 @@ void EnMb_Destroy(Actor* thisx, PlayState* play);
 void EnMb_Update(Actor* thisx, PlayState* play);
 void EnMb_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit En_Mb_InitVars = {
+ActorInit En_Mb_InitVars = {
     ACTOR_EN_MB,
     ACTORCAT_ENEMY,
     FLAGS,
@@ -348,7 +348,7 @@ void EnMb_NextWaypoint(EnMb* this, PlayState* play) {
     Path* path;
     Vec3s* waypointPos;
 
-    path = &play->setupPathList[this->path];
+    path = &play->pathList[this->path];
 
     if (this->waypoint == 0) {
         this->direction = 1;
@@ -404,7 +404,7 @@ s32 EnMb_IsPlayerInCorridor(EnMb* this, PlayState* play) {
 }
 
 void EnMb_FindWaypointTowardsPlayer(EnMb* this, PlayState* play) {
-    Path* path = &play->setupPathList[this->path];
+    Path* path = &play->pathList[this->path];
     s16 yawToWaypoint;
     Vec3f waypointPosF;
     Vec3s* waypointPosS;

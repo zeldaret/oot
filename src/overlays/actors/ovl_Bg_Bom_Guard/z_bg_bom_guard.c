@@ -7,7 +7,7 @@
 #include "z_bg_bom_guard.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
 #include "assets/objects/object_bowl/object_bowl.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -17,7 +17,7 @@ void BgBomGuard_Update(Actor* thisx, PlayState* play);
 
 void func_8086E638(BgBomGuard* this, PlayState* play);
 
-const ActorInit Bg_Bom_Guard_InitVars = {
+ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
     ACTORCAT_PROP,
     FLAGS,
