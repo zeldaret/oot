@@ -4572,7 +4572,7 @@ f32 func_8083973C(PlayState* play, Player* this, Vec3f* arg2, Vec3f* arg3) {
  * Point A and B are always at the same height, meaning this is a horizontal line test.
  */
 s32 Player_PosVsWallLineTest(PlayState* play, Player* this, Vec3f* offset, CollisionPoly** wallPoly, s32* bgId,
-                             Vec3f* result) {
+                             Vec3f* posResult) {
     Vec3f posA;
     Vec3f posB;
 
@@ -4582,7 +4582,7 @@ s32 Player_PosVsWallLineTest(PlayState* play, Player* this, Vec3f* offset, Colli
 
     Player_GetRelativePosition(this, &this->actor.world.pos, offset, &posB);
 
-    return BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, result, wallPoly, true, false, false, true, bgId);
+    return BgCheck_EntityLineTest1(&play->colCtx, &posA, &posB, posResult, wallPoly, true, false, false, true, bgId);
 }
 
 s32 func_80839800(Player* this, PlayState* play) {
@@ -9942,8 +9942,18 @@ void func_808473D4(PlayState* play, Player* this) {
     }
 }
 
+/**
+ * Updates state related to the Hover Boots.
+ * Handles a special case where the Hover Boots are able to activate when standing on certain floor types even if the
+ * player is standing on the ground.
+ *
+ * If the player is not on the ground, regardless of the usage of the Hover Boots, various floor related variables are
+ * reset.
+ *
+ * @return true if not on the ground, false otherwise. Note this is independent of the Hover Boots state.
+ */
 s32 Player_UpdateHoverBoots(Player* this) {
-    s32 cond;
+    s32 canHoverOnGround;
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && (this->hoverBootsTimer != 0)) {
         this->hoverBootsTimer--;
@@ -9951,24 +9961,26 @@ s32 Player_UpdateHoverBoots(Player* this) {
         this->hoverBootsTimer = 0;
     }
 
-    cond = (this->currentBoots == PLAYER_BOOTS_HOVER) &&
-           ((this->actor.yDistToWater >= 0.0f) || (func_80838144(sFloorType) >= 0) || func_8083816C(sFloorType));
+    canHoverOnGround =
+        (this->currentBoots == PLAYER_BOOTS_HOVER) &&
+        ((this->actor.yDistToWater >= 0.0f) || (func_80838144(sFloorType) >= 0) || func_8083816C(sFloorType));
 
-    if (cond && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->hoverBootsTimer != 0)) {
+    if (canHoverOnGround && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->hoverBootsTimer != 0)) {
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        if (!cond) {
+        if (!canHoverOnGround) {
             this->hoverBootsTimer = 19;
         }
+
         return false;
+    } else {
+        sFloorType = FLOOR_TYPE_0;
+        this->floorPitch = this->floorPitchAlt = sFloorPitchShape = 0;
+
+        return true;
     }
-
-    sFloorType = FLOOR_TYPE_0;
-    this->floorPitch = this->floorPitchAlt = sFloorPitchShape = 0;
-
-    return true;
 }
 
 /**
