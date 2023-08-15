@@ -368,7 +368,7 @@ s16 EnTk_UpdateTalkState(PlayState* play, Actor* thisx) {
                 if (play->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
                     thisx->textId = 0x0084;
-                } else if (gSaveContext.rupees < 10) {
+                } else if (gSaveContext.save.info.playerData.rupees < 10) {
                     /* "You don't have enough Rupees!" */
                     thisx->textId = 0x0085;
                 } else {
@@ -491,8 +491,8 @@ void EnTk_Init(Actor* thisx, PlayState* play) {
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
-    if (gSaveContext.dayTime <= CLOCK_TIME(18, 0) || gSaveContext.dayTime >= CLOCK_TIME(21, 0) || LINK_IS_ADULT ||
-        play->sceneId != SCENE_GRAVEYARD) {
+    if (gSaveContext.save.dayTime <= CLOCK_TIME(18, 0) || gSaveContext.save.dayTime >= CLOCK_TIME(21, 0) ||
+        LINK_IS_ADULT || play->sceneId != SCENE_GRAVEYARD) {
         Actor_Kill(&this->actor);
         return;
     }

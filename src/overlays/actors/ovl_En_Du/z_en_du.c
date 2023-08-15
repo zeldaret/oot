@@ -294,7 +294,7 @@ void EnDu_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 1;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 
-    if (gSaveContext.cutsceneIndex >= 0xFFF0) {
+    if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
         play->csCtx.script = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
         gSaveContext.cutsceneTrigger = 1;
         EnDu_SetupAction(this, func_809FE890);

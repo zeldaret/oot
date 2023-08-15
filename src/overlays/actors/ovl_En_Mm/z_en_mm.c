@@ -202,7 +202,7 @@ void EnMm_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80AADA70(void) {
     s32 isDay = false;
 
-    if ((gSaveContext.dayTime > CLOCK_TIME(5, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(20, 0) + 1)) {
+    if ((gSaveContext.save.dayTime > CLOCK_TIME(5, 0)) && (gSaveContext.save.dayTime <= CLOCK_TIME(20, 0) + 1)) {
         isDay = true;
     }
 
@@ -294,7 +294,7 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
             if (this->curAnimIndex != 5) {
                 if ((this->actor.textId == 0x202A) || (this->actor.textId == 0x202B)) {
                     EnMm_ChangeAnim(this, RM_ANIM_EXCITED, &this->curAnimIndex);
-                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
         } else {

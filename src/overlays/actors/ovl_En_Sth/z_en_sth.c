@@ -101,13 +101,13 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
 
     osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
-        if (gSaveContext.inventory.gsTokens < 100) {
+        if (gSaveContext.save.info.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
             // "Gold Skulltula Shop I still can't be a human"
             osSyncPrintf("金スタル屋 まだ 人間に戻れない \n");
             return;
         }
-    } else if (gSaveContext.inventory.gsTokens < (this->actor.params * 10)) {
+    } else if (gSaveContext.save.info.inventory.gsTokens < (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
         // "Gold Skulltula Shop I still can't be a human"
         osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
@@ -157,7 +157,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
 
     this->eventFlag = sEventFlags[this->actor.params];
     params = &this->actor.params;
-    if (gSaveContext.eventChkInf[EVENTCHKINF_DA_DB_DC_DD_DE_INDEX] & this->eventFlag) {
+    if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_DA_DB_DC_DD_DE_INDEX] & this->eventFlag) {
         EnSth_SetupAction(this, sRewardObtainedWaitActions[*params]);
     } else {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedWait);
@@ -257,7 +257,7 @@ void EnSth_GiveReward(EnSth* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
-        gSaveContext.eventChkInf[EVENTCHKINF_DA_DB_DC_DD_DE_INDEX] |= this->eventFlag;
+        gSaveContext.save.info.eventChkInf[EVENTCHKINF_DA_DB_DC_DD_DE_INDEX] |= this->eventFlag;
     } else {
         EnSth_GivePlayerItem(this, play);
     }
@@ -293,7 +293,7 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play) {
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
-        if (gSaveContext.inventory.gsTokens < 50) {
+        if (gSaveContext.save.info.inventory.gsTokens < 50) {
             this->actor.textId = 0x20;
         } else {
             this->actor.textId = 0x1F;

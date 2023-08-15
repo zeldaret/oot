@@ -957,7 +957,7 @@ s32 EnKo_AdultSaved(EnKo* this, PlayState* play) {
 void func_80A9877C(EnKo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if ((play->csCtx.state != 0) || gDebugCamEnabled) {
+    if ((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) {
         this->interactInfo.trackPos = play->view.eye;
         this->interactInfo.yOffset = 40.0f;
         if (ENKO_TYPE != ENKO_TYPE_CHILD_0) {

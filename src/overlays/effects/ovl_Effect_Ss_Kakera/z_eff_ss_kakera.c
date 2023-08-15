@@ -379,7 +379,7 @@ void func_809AA230(EffectSs* this, PlayState* play) {
                         this->velocity.z *= func_809A9818(0.9f, 0.2f);
 
                         if (this->rReg8 > 0) {
-                            this->rReg8 -= 1;
+                            this->rReg8--;
                         }
                     }
                 }

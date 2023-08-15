@@ -120,7 +120,7 @@ void func_80A686A8(EnHorseGanon* this, PlayState* play) {
 
     func_80A68660(D_80A69248, this->unk_1EC, &vec);
     if (Math3D_Vec3f_DistXYZ(&vec, &this->actor.world.pos) <= 400.0f) {
-        this->unk_1EC += 1;
+        this->unk_1EC++;
         if (this->unk_1EC >= 14) {
             this->unk_1EC = 0;
             func_80A68660(D_80A69248, 0, &vec);
