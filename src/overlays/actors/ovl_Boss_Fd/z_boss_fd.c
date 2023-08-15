@@ -489,8 +489,8 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_FIRE_BOSS);
                 }
                 if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
-                    TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
-                                           SEGMENTED_TO_VIRTUAL(gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
+                    TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gVolvagiaTitleCardTex),
+                                           160, 180, 128, 40);
                 }
                 if (this->timers[3] <= 100) {
                     this->subCamEyeVel.x = this->subCamEyeVel.y = this->subCamEyeVel.z = 2.0f;
@@ -1476,7 +1476,7 @@ void BossFd_UpdateEffects(BossFd* this, PlayState* play) {
                 if ((this->timers[3] == 0) && (sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z)) < 20.0f)) {
                     this->timers[3] = 50;
                     func_8002F6D4(play, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
-                    if (player->isBurning == false) {
+                    if (!player->isBurning) {
                         for (i2 = 0; i2 < PLAYER_BODYPART_MAX; i2++) {
                             player->flameTimers[i2] = Rand_S16Offset(0, 200);
                         }

@@ -113,7 +113,7 @@ void func_80A5046C(EnGuest* this) {
         if (this->unk_2CA != 0) {
             this->unk_2CA--;
         } else {
-            this->unk_30E += 1;
+            this->unk_30E++;
             if (this->unk_30E >= 3) {
                 this->unk_30E = 0;
                 this->unk_30D = 0;

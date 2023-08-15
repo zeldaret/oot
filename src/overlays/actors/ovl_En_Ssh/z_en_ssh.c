@@ -610,11 +610,11 @@ void EnSsh_Init(Actor* thisx, PlayState* play) {
 
     frameCount = Animation_GetLastFrame(&object_ssh_Anim_000304);
     if (this->actor.params == ENSSH_FATHER) {
-        if (gSaveContext.inventory.gsTokens >= 100) {
+        if (gSaveContext.save.info.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);
             return;
         }
-    } else if (gSaveContext.inventory.gsTokens >= (this->actor.params * 10)) {
+    } else if (gSaveContext.save.info.inventory.gsTokens >= (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -697,9 +697,9 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
                 this->actor.textId = Text_GetFaceReaction(play, 0xD);
                 if (this->actor.textId == 0) {
                     if (this->actor.params == ENSSH_FATHER) {
-                        if (gSaveContext.inventory.gsTokens >= 50) {
+                        if (gSaveContext.save.info.inventory.gsTokens >= 50) {
                             this->actor.textId = 0x29;
-                        } else if (gSaveContext.inventory.gsTokens >= 10) {
+                        } else if (gSaveContext.save.info.inventory.gsTokens >= 10) {
                             if (GET_INFTABLE(INFTABLE_197)) {
                                 this->actor.textId = 0x24;
                             } else {

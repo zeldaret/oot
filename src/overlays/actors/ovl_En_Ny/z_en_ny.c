@@ -230,7 +230,7 @@ void EnNy_Move(EnNy* this, PlayState* play) {
     func_80ABCD40(this);
     stoneTimer = this->stoneTimer;
     this->stoneTimer--;
-    if ((stoneTimer <= 0) || (this->hitPlayer != false)) {
+    if ((stoneTimer <= 0) || this->hitPlayer) {
         EnNy_SetupTurnToStone(this);
     } else {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xA, this->unk_1F4, 0);

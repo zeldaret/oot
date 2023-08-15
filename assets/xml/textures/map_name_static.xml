@@ -6,7 +6,7 @@
         <Texture Name="gHyliaLakesidePointNameENGTex" OutName="hylia_lakeside_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0xc00"/>
         <Texture Name="gLonLonRanchPointNameENGTex" OutName="lon_lon_ranch_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1000"/>
         <Texture Name="gMarketPointNameENGTex" OutName="market_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1400"/>
-        <Texture Name="gHyruleFieldPointNameENGTex" OutName="hyrulefield_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1800"/>
+        <Texture Name="gHyruleFieldPointNameENGTex" OutName="hyrule_field_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1800"/>
         <Texture Name="gDeathMountainPointNameENGTex" OutName="death_mountain_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x1c00"/>
         <Texture Name="gKakarikoVillagePointNameENGTex" OutName="kakariko_village_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2000"/>
         <Texture Name="gLostWoodsPointNameENGTex" OutName="lost_woods_point_name_eng" Format="ia4" Width="128" Height="16" Offset="0x2400"/>

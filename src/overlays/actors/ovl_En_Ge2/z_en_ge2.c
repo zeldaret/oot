@@ -223,7 +223,7 @@ s32 Ge2_DetectPlayerInUpdate(PlayState* play, EnGe2* this, Vec3f* pos, s16 yRot,
 }
 
 s32 EnGe2_CheckCarpentersFreed(void) {
-    if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
+    if (CHECK_FLAG_ALL(gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
                            (EVENTCHKINF_CARPENTERS_FREE_MASK_ALL | 0xF0),
                        EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)) {
         return 1;
@@ -481,7 +481,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, PlayState* play) {
     this->actor.speed = 0.0f;
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
     func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
-    func_80078884(NA_SE_SY_FOUND);
+    Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
 

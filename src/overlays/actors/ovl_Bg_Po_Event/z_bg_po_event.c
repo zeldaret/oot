@@ -341,7 +341,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             if (amy != NULL) {
                 OnePointCutscene_Init(play, 3170, 30, amy, CAM_ID_MAIN);
             }
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             gSaveContext.timerState = TIMER_STATE_STOP;
         }
     } else {
@@ -535,7 +535,7 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, thisx->world.pos.x, thisx->world.pos.y - 40.0f,
                         thisx->world.pos.z, 0, thisx->shape.rot.y, 0, thisx->params + ((this->type - 1) << 8));
             OnePointCutscene_Init(play, 3160, 80, thisx, CAM_ID_MAIN);
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 
         } else {
             Actor_PlaySfx(thisx, NA_SE_EN_PO_LAUGH2);

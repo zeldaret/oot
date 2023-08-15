@@ -225,10 +225,10 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, PlayState* play) {
         if ((play->sceneId == SCENE_GERUDO_TRAINING_GROUND) && (this->actor.room == 2)) {
             Flags_SetTempClear(play, this->actor.room);
         } else {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             Flags_SetSwitch(play, this->switchFlag);
         }
-        func_80078884(NA_SE_SY_GET_RUPY);
+        Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
         Actor_Kill(&this->actor);
     }
 }
@@ -240,7 +240,7 @@ void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, PlayState* play) {
     if (this->actor.xyzDistToPlayerSq < SQ(30.0f)) {
         Rupees_ChangeBy(5);
         sCollectedCount++;
-        func_80078884(NA_SE_SY_GET_RUPY);
+        Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
         this->actor.world.pos = player->actor.world.pos;
         this->actor.world.pos.y += 40.0f;
         if (LINK_IS_ADULT) {
@@ -342,8 +342,8 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, PlayState* play) {
             if (gallery->actor.update != NULL) {
                 gallery->hitCount++;
                 gallery->targetState[this->index] = ENSYATEKIHIT_HIT;
-                func_80078884(NA_SE_EV_HIT_SOUND);
-                func_80078884(NA_SE_SY_GET_RUPY);
+                Sfx_PlaySfxCentered(NA_SE_EV_HIT_SOUND);
+                Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
                 // "Yeah !"
                 osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->hitCount);
                 EnGSwitch_Break(this, play);

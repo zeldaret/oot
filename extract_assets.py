@@ -6,6 +6,7 @@ import os
 import signal
 import time
 import multiprocessing
+from pathlib import Path
 
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
@@ -21,7 +22,13 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
         # Don't extract if another file wasn't extracted properly.
         return
 
-    execStr = f"tools/ZAPD/ZAPD.out e -eh -i {xmlPath} -b baserom/ -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml {ZAPDArgs}"
+    zapdPath = Path("tools") / "ZAPD" / "ZAPD.out"
+    configPath = Path("tools") / "ZAPDConfigs" / "MqDbg" / "Config.xml"
+
+    Path(outputPath).mkdir(parents=True, exist_ok=True)
+    Path(outputSourcePath).mkdir(parents=True, exist_ok=True)
+
+    execStr = f"{zapdPath} e -eh -i {xmlPath} -b baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} {ZAPDArgs}"
 
     if "overlays" in xmlPath:
         execStr += " --static"
@@ -143,14 +150,21 @@ def main():
                 if file.endswith(".xml"):
                     xmlFiles.append(fullPath)
 
+        class CannotMultiprocessError(Exception):
+            pass
+
         try:
             numCores = int(args.jobs or 0)
             if numCores <= 0:
                 numCores = 1
             print("Extracting assets with " + str(numCores) + " CPU core" + ("s" if numCores > 1 else "") + ".")
-            with multiprocessing.get_context("fork").Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+            try:
+                mp_context = multiprocessing.get_context("fork")
+            except ValueError as e:
+                raise CannotMultiprocessError() from e
+            with mp_context.Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
                 p.map(ExtractFunc, xmlFiles)
-        except (multiprocessing.ProcessError, TypeError):
+        except (multiprocessing.ProcessError, TypeError, CannotMultiprocessError):
             print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
             print("Disabling mutliprocessing.", file=os.sys.stderr)
 

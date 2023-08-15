@@ -164,7 +164,7 @@ void EnDaiku_Init(Actor* thisx, PlayState* play) {
 
     if (isFree == true && play->sceneId == SCENE_THIEVES_HIDEOUT) {
         noKill = false;
-    } else if (isFree == false && play->sceneId == SCENE_CARPENTERS_TENT) {
+    } else if (!isFree && play->sceneId == SCENE_CARPENTERS_TENT) {
         noKill = false;
     }
 
@@ -270,7 +270,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
+                        if (gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
                             EVENTCHKINF_CARPENTERS_FREE_MASK(carpenterType)) {
                             freedCount++;
                         }
@@ -399,7 +399,7 @@ void EnDaiku_InitEscape(EnDaiku* this, PlayState* play) {
     EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
-    gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] |=
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] |=
         EVENTCHKINF_CARPENTERS_FREE_MASK(this->actor.params & 3);
 
     this->actor.gravity = -1.0f;

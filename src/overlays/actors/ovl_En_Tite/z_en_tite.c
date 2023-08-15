@@ -196,7 +196,7 @@ void EnTite_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == TEKTITE_BLUE) {
         this->unk_2DC |= UPDBGCHECKINFO_FLAG_6; // Don't use the actor engine's ripple spawning code
         thisx->colChkInfo.health = 4;
-        thisx->naviEnemyId += 1; // NAVI_ENEMY_BLUE_TEKTITE
+        thisx->naviEnemyId += NAVI_ENEMY_BLUE_TEKTITE - NAVI_ENEMY_RED_TEKTITE;
     }
     EnTite_SetupIdle(this);
 }
