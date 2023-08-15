@@ -24,16 +24,23 @@
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
+#include "z64message.h"
+#include "z64pause.h"
 #include "z64skin.h"
+#include "z64game.h"
 #include "z64transition.h"
+#include "z64transition_instances.h"
 #include "z64interface.h"
 #include "z64skybox.h"
+#include "z64sram.h"
+#include "z64view.h"
 #include "alignment.h"
 #include "audiothread_cmd.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "color.h"
+#include "gfxprint.h"
 #include "ichain.h"
 #include "regs.h"
 #include "irqmgr.h"
@@ -44,6 +51,10 @@
 #include "mempak.h"
 #include "tha.h"
 #include "thga.h"
+#include "speedmeter.h"
+#include "gfx.h"
+#include "jpeg.h"
+#include "prerender.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -82,16 +93,8 @@
 #define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
 
-// Texture memory size, 4 KiB
-#define TMEM_SIZE 0x1000
-
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
-
-typedef struct{
-    /* 0x00 */ char unk[0x4];
-    /* 0x04 */ MtxF mf;
-} HorseStruct;
 
 typedef struct {
     /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
@@ -101,167 +104,6 @@ typedef struct {
     /* 0x10 */ s32  inputRepeatTimer;
     /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
 } RegEditor; // size = 0x15D4
-
-typedef struct {
-    /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
-    /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
-    /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
-    /* 0x0FF08 */ Gfx overlayBuffer[0x400];
-    /* 0x11F08 */ Gfx workBuffer[0x80];
-    /* 0x11308 */ Gfx unusedBuffer[0x20];
-    /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC
-} GfxPool; // size = 0x12410
-
-typedef struct GraphicsContext {
-    /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
-    /* 0x0004 */ Gfx* polyXluBuffer; // Pointer to "Zelda 1"
-    /* 0x0008 */ char unk_008[0x08]; // Unused, could this be pointers to "Zelda 2" / "Zelda 3"
-    /* 0x0010 */ Gfx* overlayBuffer; // Pointer to "Zelda 4"
-    /* 0x0014 */ u32 unk_014;
-    /* 0x0018 */ char unk_018[0x20];
-    /* 0x0038 */ OSMesg msgBuff[0x08];
-    /* 0x0058 */ OSMesgQueue* schedMsgQueue;
-    /* 0x005C */ OSMesgQueue queue;
-    /* 0x0078 */ OSScTask task;
-    /* 0x00E0 */ char unk_0E0[0xD0];
-    /* 0x01B0 */ Gfx* workBuffer;
-    /* 0x01B4 */ TwoHeadGfxArena work;
-    /* 0x01C4 */ char unk_01C4[0xC0];
-    /* 0x0284 */ OSViMode* viMode;
-    /* 0x0288 */ char unk_0288[0x20]; // Unused, could this be Zelda 2/3 ?
-    /* 0x02A8 */ TwoHeadGfxArena overlay; // "Zelda 4"
-    /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"
-    /* 0x02C8 */ TwoHeadGfxArena polyXlu; // "Zelda 1"
-    /* 0x02D8 */ u32 gfxPoolIdx;
-    /* 0x02DC */ u16* curFrameBuffer;
-    /* 0x02E0 */ char unk_2E0[0x04];
-    /* 0x02E4 */ u32 viFeatures;
-    /* 0x02E8 */ s32 fbIdx;
-    /* 0x02EC */ void (*callback)(struct GraphicsContext*, void*);
-    /* 0x02F0 */ void* callbackParam;
-    /* 0x02F4 */ f32 xScale;
-    /* 0x02F8 */ f32 yScale;
-    /* 0x02FC */ char unk_2FC[0x04];
-} GraphicsContext; // size = 0x300
-
-typedef struct {
-   /* 0x0000 */ s32 topY;    // uly (upper left y)
-   /* 0x0004 */ s32 bottomY; // lry (lower right y)
-   /* 0x0008 */ s32 leftX;   // ulx (upper left x)
-   /* 0x000C */ s32 rightX;  // lrx (lower right x)
-} Viewport; // size = 0x10
-
-typedef struct {
-    /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
-    /* 0x0004 */ GraphicsContext* gfxCtx;
-    /* 0x0008 */ Viewport viewport;
-    /* 0x0018 */ f32    fovy;  // vertical field of view in degrees
-    /* 0x001C */ f32    zNear; // distance to near clipping plane
-    /* 0x0020 */ f32    zFar;  // distance to far clipping plane
-    /* 0x0024 */ f32    scale; // scale for matrix elements
-    /* 0x0028 */ Vec3f  eye;
-    /* 0x0034 */ Vec3f  at;
-    /* 0x0040 */ Vec3f  up;
-    /* 0x0050 */ Vp     vp;
-    /* 0x0060 */ Mtx    projection;
-    /* 0x00A0 */ Mtx    viewing;
-    /* 0x00E0 */ Mtx*   projectionPtr;
-    /* 0x00E4 */ Mtx*   viewingPtr;
-    /* 0x00E8 */ Vec3f  distortionOrientation;
-    /* 0x00F4 */ Vec3f  distortionScale;
-    /* 0x0100 */ f32    distortionSpeed;
-    /* 0x0104 */ Vec3f  curDistortionOrientation;
-    /* 0x0110 */ Vec3f  curDistortionScale;
-    /* 0x011C */ u16    normal; // used to normalize the projection matrix
-    /* 0x0120 */ s32    flags;
-    /* 0x0124 */ s32    unk_124;
-} View; // size = 0x128
-
-#define VIEW_VIEWING (1 << 0)
-#define VIEW_VIEWPORT (1 << 1)
-#define VIEW_PROJECTION_PERSPECTIVE (1 << 2)
-#define VIEW_PROJECTION_ORTHO (1 << 3)
-#define VIEW_ALL (VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE | VIEW_PROJECTION_ORTHO)
-
-#define VIEW_FORCE_VIEWING (VIEW_VIEWING << 4)
-#define VIEW_FORCE_VIEWPORT (VIEW_VIEWPORT << 4)
-#define VIEW_FORCE_PROJECTION_PERSPECTIVE (VIEW_PROJECTION_PERSPECTIVE << 4)
-#define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
-
-typedef enum {
-    /*  0 */ SETUPDL_0,
-    /*  1 */ SETUPDL_1,
-    /*  2 */ SETUPDL_2,
-    /*  3 */ SETUPDL_3,
-    /*  4 */ SETUPDL_4,
-    /*  5 */ SETUPDL_5,
-    /*  6 */ SETUPDL_6,
-    /*  7 */ SETUPDL_7,
-    /*  8 */ SETUPDL_8,
-    /*  9 */ SETUPDL_9,
-    /* 10 */ SETUPDL_10,
-    /* 11 */ SETUPDL_11,
-    /* 12 */ SETUPDL_12,
-    /* 13 */ SETUPDL_13,
-    /* 14 */ SETUPDL_14,
-    /* 15 */ SETUPDL_15,
-    /* 16 */ SETUPDL_16,
-    /* 17 */ SETUPDL_17,
-    /* 18 */ SETUPDL_18,
-    /* 19 */ SETUPDL_19,
-    /* 20 */ SETUPDL_20,
-    /* 21 */ SETUPDL_21,
-    /* 22 */ SETUPDL_22,
-    /* 23 */ SETUPDL_23,
-    /* 24 */ SETUPDL_24,
-    /* 25 */ SETUPDL_25,
-    /* 26 */ SETUPDL_26,
-    /* 27 */ SETUPDL_27,
-    /* 28 */ SETUPDL_28,
-    /* 29 */ SETUPDL_29,
-    /* 30 */ SETUPDL_30,
-    /* 31 */ SETUPDL_31,
-    /* 32 */ SETUPDL_32,
-    /* 33 */ SETUPDL_33,
-    /* 34 */ SETUPDL_34,
-    /* 35 */ SETUPDL_35,
-    /* 36 */ SETUPDL_36,
-    /* 37 */ SETUPDL_37,
-    /* 38 */ SETUPDL_38,
-    /* 39 */ SETUPDL_39,
-    /* 40 */ SETUPDL_40,
-    /* 41 */ SETUPDL_41,
-    /* 42 */ SETUPDL_42,
-    /* 43 */ SETUPDL_43,
-    /* 44 */ SETUPDL_44,
-    /* 45 */ SETUPDL_45,
-    /* 46 */ SETUPDL_46,
-    /* 47 */ SETUPDL_47,
-    /* 48 */ SETUPDL_48,
-    /* 49 */ SETUPDL_49,
-    /* 50 */ SETUPDL_50,
-    /* 51 */ SETUPDL_51,
-    /* 52 */ SETUPDL_52,
-    /* 53 */ SETUPDL_53,
-    /* 54 */ SETUPDL_54,
-    /* 55 */ SETUPDL_55,
-    /* 56 */ SETUPDL_56,
-    /* 57 */ SETUPDL_57,
-    /* 58 */ SETUPDL_58,
-    /* 59 */ SETUPDL_59,
-    /* 60 */ SETUPDL_60,
-    /* 61 */ SETUPDL_61,
-    /* 62 */ SETUPDL_62,
-    /* 63 */ SETUPDL_63,
-    /* 64 */ SETUPDL_64,
-    /* 65 */ SETUPDL_65,
-    /* 66 */ SETUPDL_66,
-    /* 67 */ SETUPDL_67,
-    /* 68 */ SETUPDL_68,
-    /* 69 */ SETUPDL_69,
-    /* 70 */ SETUPDL_70,
-    /* 71 */ SETUPDL_MAX
-} SetupDL;
 
 typedef struct {
     /* 0x00 */ u8   seqId;
@@ -342,323 +184,10 @@ typedef struct {
 } ActorContext; // size = 0x140
 
 typedef struct {
-    /* 0x00 */ char  unk_00[0x4];
-    /* 0x04 */ void* segment;
-    /* 0x08 */ u8    state;
-    /* 0x0C */ f32   unk_0C;
-    /* 0x10 */ u16   frames;
-    /* 0x12 */ u16   unk_12;
-    /* 0x14 */ s32   subCamId;
-    /* 0x18 */ u16   unk_18;
-    /* 0x1A */ u8    unk_1A;
-    /* 0x1B */ u8    unk_1B;
-    /* 0x1C */ CutsceneCameraPoint* subCamLookAtPoints;
-    /* 0x20 */ CutsceneCameraPoint* subCamEyePoints;
-    /* 0x24 */ CsCmdActorAction* linkAction;
-    /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
-} CutsceneContext; // size = 0x50
-
-typedef struct {
     /* 0x00 */ u16 countdown;
     /* 0x04 */ Vec3f worldPos;
     /* 0x10 */ Vec3f projectedPos;
 } SfxSource; // size = 0x1C
-
-typedef enum {
-    TEXTBOX_ICON_TRIANGLE,
-    TEXTBOX_ICON_SQUARE,
-    TEXTBOX_ICON_ARROW
-} TextBoxIcon;
-
-typedef enum {
-    LANGUAGE_ENG,
-    LANGUAGE_GER,
-    LANGUAGE_FRA,
-    LANGUAGE_MAX
-} Language;
-
-// TODO get these properties from the textures themselves
-#define FONT_CHAR_TEX_WIDTH  16
-#define FONT_CHAR_TEX_HEIGHT 16
-#define FONT_CHAR_TEX_SIZE ((FONT_CHAR_TEX_WIDTH * FONT_CHAR_TEX_HEIGHT) / 2) // 16x16 I4 texture
-
-// TODO get these properties from the textures themselves
-#define MESSAGE_STATIC_TEX_SIZE 0x1000
-
-// TODO get these properties from the textures themselves
-#define MESSAGE_TEXTURE_STATIC_TEX_SIZE 0x900
-
-typedef enum {
-    /* 0x00 */ MSGMODE_NONE,
-    /* 0x01 */ MSGMODE_TEXT_START,
-    /* 0x02 */ MSGMODE_TEXT_BOX_GROWING,
-    /* 0x03 */ MSGMODE_TEXT_STARTING,
-    /* 0x04 */ MSGMODE_TEXT_NEXT_MSG,
-    /* 0x05 */ MSGMODE_TEXT_CONTINUING,
-    /* 0x06 */ MSGMODE_TEXT_DISPLAYING,
-    /* 0x07 */ MSGMODE_TEXT_AWAIT_INPUT,
-    /* 0x08 */ MSGMODE_TEXT_DELAYED_BREAK,
-    /* 0x09 */ MSGMODE_OCARINA_STARTING,
-    /* 0x0A */ MSGMODE_SONG_DEMONSTRATION_STARTING,
-    /* 0x0B */ MSGMODE_SONG_PLAYBACK_STARTING,
-    /* 0x0C */ MSGMODE_OCARINA_PLAYING,
-    /* 0x0D */ MSGMODE_OCARINA_CORRECT_PLAYBACK,
-    /* 0x0E */ MSGMODE_OCARINA_FAIL, // Failed to play a valid song after entering 8 notes
-    /* 0x0F */ MSGMODE_OCARINA_FAIL_NO_TEXT, // Never set, only compared against
-    /* 0x10 */ MSGMODE_OCARINA_NOTES_DROP,
-    /* 0x11 */ MSGMODE_SONG_PLAYED, // Played a full named song correctly
-    /* 0x12 */ MSGMODE_SETUP_DISPLAY_SONG_PLAYED,
-    /* 0x13 */ MSGMODE_DISPLAY_SONG_PLAYED,
-    /* 0x14 */ MSGMODE_DISPLAY_SONG_PLAYED_TEXT_BEGIN,
-    /* 0x15 */ MSGMODE_DISPLAY_SONG_PLAYED_TEXT,
-    /* 0x16 */ MSGMODE_SONG_PLAYED_ACT_BEGIN,
-    /* 0x17 */ MSGMODE_SONG_PLAYED_ACT, // Act on a played song
-    /* 0x18 */ MSGMODE_SONG_DEMONSTRATION_SELECT_INSTRUMENT,
-    /* 0x19 */ MSGMODE_SONG_DEMONSTRATION,
-    /* 0x1A */ MSGMODE_SONG_DEMONSTRATION_DONE,
-    /* 0x1B */ MSGMODE_SONG_PLAYBACK,
-    /* 0x1C */ MSGMODE_SONG_PLAYBACK_SUCCESS,
-    /* 0x1D */ MSGMODE_SONG_PLAYBACK_FAIL,
-    /* 0x1E */ MSGMODE_SONG_PLAYBACK_NOTES_DROP,
-    /* 0x1F */ MSGMODE_OCARINA_AWAIT_INPUT,
-    /* 0x20 */ MSGMODE_UNK_20, // Never set and does nothing
-    /* 0x21 */ MSGMODE_SCARECROW_LONG_RECORDING_START,
-    /* 0x22 */ MSGMODE_SCARECROW_LONG_RECORDING_ONGOING,
-    /* 0x23 */ MSGMODE_SCARECROW_LONG_PLAYBACK,
-    /* 0x24 */ MSGMODE_SCARECROW_SPAWN_RECORDING_START,
-    /* 0x25 */ MSGMODE_SCARECROW_SPAWN_RECORDING_ONGOING,
-    /* 0x26 */ MSGMODE_SCARECROW_SPAWN_RECORDING_FAILED,
-    /* 0x27 */ MSGMODE_SCARECROW_SPAWN_RECORDING_DONE,
-    /* 0x28 */ MSGMODE_SCARECROW_SPAWN_PLAYBACK,
-    /* 0x29 */ MSGMODE_MEMORY_GAME_START,
-    /* 0x2A */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING,
-    /* 0x2B */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT,
-    /* 0x2C */ MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_PLAYING,
-    /* 0x2D */ MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT,
-    /* 0x2E */ MSGMODE_MEMORY_GAME_PLAYER_PLAYING,
-    /* 0x2F */ MSGMODE_MEMORY_GAME_ROUND_SUCCESS,
-    /* 0x30 */ MSGMODE_MEMORY_GAME_START_NEXT_ROUND,
-    /* 0x31 */ MSGMODE_FROGS_START,
-    /* 0x32 */ MSGMODE_FROGS_PLAYING,
-    /* 0x33 */ MSGMODE_FROGS_WAITING,
-    /* 0x34 */ MSGMODE_TEXT_AWAIT_NEXT,
-    /* 0x35 */ MSGMODE_TEXT_DONE,
-    /* 0x36 */ MSGMODE_TEXT_CLOSING,
-    /* 0x37 */ MSGMODE_PAUSED // Causes the message system to do nothing until external code sets a new message mode or calls a public function
-} MessageMode;
-
-typedef enum {
-    /*  0 */ TEXT_STATE_NONE,
-    /*  1 */ TEXT_STATE_DONE_HAS_NEXT,
-    /*  2 */ TEXT_STATE_CLOSING,
-    /*  3 */ TEXT_STATE_DONE_FADING,
-    /*  4 */ TEXT_STATE_CHOICE,
-    /*  5 */ TEXT_STATE_EVENT,
-    /*  6 */ TEXT_STATE_DONE,
-    /*  7 */ TEXT_STATE_SONG_DEMO_DONE,
-    /*  8 */ TEXT_STATE_8,
-    /*  9 */ TEXT_STATE_9,
-    /* 10 */ TEXT_STATE_AWAITING_NEXT
-} TextState;
-
-typedef struct {
-    /* 0x0000 */ u32    msgOffset;
-    /* 0x0004 */ u32    msgLength;
-    union {
-    /* 0x0008 */ u8     charTexBuf[FONT_CHAR_TEX_SIZE * 120];
-    /* 0x0008 */ u64    force_structure_alignment_charTex;
-    };
-    union {
-    /* 0x3C08 */ u8     iconBuf[FONT_CHAR_TEX_SIZE];
-    /* 0x3C08 */ u64    force_structure_alignment_icon;
-    };
-    union {
-    /* 0x3C88 */ u8     fontBuf[FONT_CHAR_TEX_SIZE * 320];
-    /* 0x3C88 */ u64    force_structure_alignment_font;
-    };
-    union {
-    /* 0xDC88 */ char   msgBuf[1280];
-    /* 0xDC88 */ u16    msgBufWide[640];
-    /* 0xDC88 */ u64    force_structure_alignment_msg;
-    };
-} Font; // size = 0xE188
-
-#define TEXTBOX_ENDTYPE_DEFAULT     0x00
-#define TEXTBOX_ENDTYPE_2_CHOICE    0x10
-#define TEXTBOX_ENDTYPE_3_CHOICE    0x20
-#define TEXTBOX_ENDTYPE_HAS_NEXT    0x30
-#define TEXTBOX_ENDTYPE_PERSISTENT  0x40
-#define TEXTBOX_ENDTYPE_EVENT       0x50
-#define TEXTBOX_ENDTYPE_FADING      0x60
-
-typedef struct {
-    /* 0x0000 */ View   view;
-    /* 0x0128 */ Font   font;
-    /* 0xE2B0 */ u8*    textboxSegment; // original name: "fukidashiSegment"
-    /* 0xE2B4 */ char   unk_E2B4[0x4];
-    /* 0xE2B8 */ OcarinaStaff* ocarinaStaff; // original name : "info"
-    /* 0xE2BC */ char   unk_E2BC[0x3C];
-    /* 0xE2F8 */ u16    textId;
-    /* 0xE2FA */ u16    choiceTextId;
-    /* 0xE2FC */ u8     textBoxProperties; // original name : "msg_disp_type"
-    /* 0xE2FD */ u8     textBoxType; // "Text Box Type"
-    /* 0xE2FE */ u8     textBoxPos; // text box position
-    /* 0xE300 */ s32    msgLength; // original name : "msg_data"
-    /* 0xE304 */ u8     msgMode; // original name: "msg_mode"
-    /* 0xE305 */ char   unk_E305[0x1];
-    /* 0xE306 */ u8     msgBufDecoded[200]; // decoded message buffer, may be smaller than this
-    /* 0xE3CE */ u16    msgBufPos; // original name : "rdp"
-    /* 0xE3D0 */ u16    unk_E3D0; // unused, only ever set to 0
-    /* 0xE3D2 */ u16    textDrawPos; // draw all decoded characters up to this buffer position
-    /* 0xE3D4 */ u16    decodedTextLen; // decoded message buffer length
-    /* 0xE3D6 */ u16    textUnskippable;
-    /* 0xE3D8 */ s16    textPosX;
-    /* 0xE3DA */ s16    textPosY;
-    /* 0xE3DC */ s16    textColorR;
-    /* 0xE3DE */ s16    textColorG;
-    /* 0xE3E0 */ s16    textColorB;
-    /* 0xE3E2 */ s16    textColorAlpha;
-    /* 0xE3E4 */ u8     textboxEndType; // original name : "select"
-    /* 0xE3E5 */ u8     choiceIndex;
-    /* 0xE3E6 */ u8     choiceNum; // textboxes that are not choice textboxes have a choiceNum of 1
-    /* 0xE3E7 */ u8     stateTimer;
-    /* 0xE3E8 */ u16    textDelayTimer;
-    /* 0xE3EA */ u16    textDelay;
-    /* 0xE3EA */ u16    lastPlayedSong; // original references : "Ocarina_Flog" , "Ocarina_Free"
-    /* 0xE3EE */ u16    ocarinaMode; // original name : "ocarina_mode"
-    /* 0xE3F0 */ u16    ocarinaAction; // original name : "ocarina_no"
-    /* 0xE3F2 */ u16    unk_E3F2; // this is like "lastPlayedSong" but set less often, original name : "chk_ocarina_no"
-    /* 0xE3F4 */ u16    unk_E3F4; // unused, only set to 0 in z_actor
-    /* 0xE3F6 */ u16    textboxBackgroundIdx;
-    /* 0xE3F8 */ u8     textboxBackgroundForeColorIdx;
-    /* 0xE3F8 */ u8     textboxBackgroundBackColorIdx;
-    /* 0xE3F8 */ u8     textboxBackgroundYOffsetIdx;
-    /* 0xE3F8 */ u8     textboxBackgroundUnkArg; // unused, set by the textbox background control character arguments
-    /* 0xE3FC */ char   unk_E3FC[0x2];
-    /* 0xE3FE */ s16    textboxColorRed;
-    /* 0xE400 */ s16    textboxColorGreen;
-    /* 0xE402 */ s16    textboxColorBlue;
-    /* 0xE404 */ s16    textboxColorAlphaTarget;
-    /* 0xE406 */ s16    textboxColorAlphaCurrent;
-    /* 0xE408 */ Actor* talkActor;
-    /* 0xE40C */ s16    disableWarpSongs; // warp song flag set by scene commands
-    /* 0xE40E */ s16    unk_E40E; // ocarina related
-    /* 0xE410 */ u8     lastOcarinaButtonIndex;
-} MessageContext; // size = 0xE418
-
-typedef enum {
-    /* 0x00 */ DO_ACTION_ATTACK,
-    /* 0x01 */ DO_ACTION_CHECK,
-    /* 0x02 */ DO_ACTION_ENTER,
-    /* 0x03 */ DO_ACTION_RETURN,
-    /* 0x04 */ DO_ACTION_OPEN,
-    /* 0x05 */ DO_ACTION_JUMP,
-    /* 0x06 */ DO_ACTION_DECIDE,
-    /* 0x07 */ DO_ACTION_DIVE,
-    /* 0x08 */ DO_ACTION_FASTER,
-    /* 0x09 */ DO_ACTION_THROW,
-    /* 0x0A */ DO_ACTION_NONE, // in do_action_static, the texture at this position is NAVI, however this value is in practice the "No Action" value
-    /* 0x0B */ DO_ACTION_CLIMB,
-    /* 0x0C */ DO_ACTION_DROP,
-    /* 0x0D */ DO_ACTION_DOWN,
-    /* 0x0E */ DO_ACTION_SAVE,
-    /* 0x0F */ DO_ACTION_SPEAK,
-    /* 0x10 */ DO_ACTION_NEXT,
-    /* 0x11 */ DO_ACTION_GRAB,
-    /* 0x12 */ DO_ACTION_STOP,
-    /* 0x13 */ DO_ACTION_PUTAWAY,
-    /* 0x14 */ DO_ACTION_REEL,
-    /* 0x15 */ DO_ACTION_1,
-    /* 0x16 */ DO_ACTION_2,
-    /* 0x17 */ DO_ACTION_3,
-    /* 0x18 */ DO_ACTION_4,
-    /* 0x19 */ DO_ACTION_5,
-    /* 0x1A */ DO_ACTION_6,
-    /* 0x1B */ DO_ACTION_7,
-    /* 0x1C */ DO_ACTION_8,
-    /* 0x1D */ DO_ACTION_MAX
-} DoAction;
-
-// TODO extract this information from the texture definitions themselves
-#define DO_ACTION_TEX_WIDTH 48
-#define DO_ACTION_TEX_HEIGHT 16
-#define DO_ACTION_TEX_SIZE ((DO_ACTION_TEX_WIDTH * DO_ACTION_TEX_HEIGHT) / 2) // (sizeof(gCheckDoActionENGTex))
-
-typedef struct {
-    /* 0x0000 */ View   view;
-    /* 0x0128 */ Vtx*   actionVtx;
-    /* 0x012C */ Vtx*   beatingHeartVtx;
-    /* 0x0130 */ u8*    parameterSegment;
-    /* 0x0134 */ u8*    doActionSegment;
-    /* 0x0138 */ u8*    iconItemSegment;
-    /* 0x013C */ u8*    mapSegment;
-    /* 0x0140 */ u8     mapPalette[32];
-    /* 0x0160 */ DmaRequest dmaRequest_160;
-    /* 0x0180 */ DmaRequest dmaRequest_180;
-    /* 0x01A0 */ char   unk_1A0[0x20];
-    /* 0x01C0 */ OSMesgQueue loadQueue;
-    /* 0x01D8 */ OSMesg loadMsg;
-    /* 0x01DC */ Viewport viewport;
-    /* 0x01EC */ s16    unk_1EC;
-    /* 0x01EE */ u16    unk_1EE;
-    /* 0x01F0 */ u16    unk_1F0;
-    /* 0x01F4 */ f32    unk_1F4;
-    /* 0x01F8 */ s16    naviCalling;
-    /* 0x01FA */ s16    unk_1FA;
-    /* 0x01FC */ s16    unk_1FC;
-    /* 0x01FE */ s16    heartColorOscillator;
-    /* 0x0200 */ s16    heartColorOscillatorDirection;
-    /* 0x0202 */ s16    beatingHeartPrim[3];
-    /* 0x0208 */ s16    beatingHeartEnv[3];
-    /* 0x020E */ s16    heartsPrimR[2];
-    /* 0x0212 */ s16    heartsPrimG[2];
-    /* 0x0216 */ s16    heartsPrimB[2];
-    /* 0x021A */ s16    heartsEnvR[2];
-    /* 0x021E */ s16    heartsEnvG[2];
-    /* 0x0222 */ s16    heartsEnvB[2];
-    /* 0x0226 */ s16    unk_226; // Used only in unused functions
-    /* 0x0228 */ s16    unk_228; // Used only in unused functions
-    /* 0x022A */ s16    beatingHeartOscillator;
-    /* 0x022C */ s16    beatingHeartOscillatorDirection;
-    /* 0x022E */ s16    unk_22E;
-    /* 0x0230 */ s16    lensMagicConsumptionTimer; // When lens is active, 1 unit of magic is consumed every time the timer reaches 0
-    /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
-    /* 0x023A */ u8     numHorseBoosts;
-    /* 0x023C */ u16    unk_23C;
-    /* 0x023E */ u16    hbaAmmo; // ammo while playing the horseback archery minigame
-    /* 0x0240 */ u16    unk_240;
-    /* 0x0242 */ u16    unk_242;
-    /* 0x0224 */ u16    unk_244; // screen fill alpha?
-    /* 0x0246 */ u16    aAlpha; // also carrots alpha
-    /* 0x0248 */ u16    bAlpha; // also HBA score alpha
-    /* 0x024A */ u16    cLeftAlpha;
-    /* 0x024C */ u16    cDownAlpha;
-    /* 0x024E */ u16    cRightAlpha;
-    /* 0x0250 */ u16    healthAlpha; // also max C-Up alpha
-    /* 0x0252 */ u16    magicAlpha; // also Rupee and Key counters alpha
-    /* 0x0254 */ u16    minimapAlpha;
-    /* 0x0256 */ s16    startAlpha;
-    /* 0x0258 */ s16    unk_258;
-    /* 0x025A */ s16    unk_25A;
-    /* 0x025C */ s16    mapRoomNum;
-    /* 0x025E */ s16    mapPaletteIndex; // "map_palete_no"
-    /* 0x0260 */ u8     unk_260;
-    /* 0x0261 */ u8     unk_261;
-    struct {
-        /* 0x0262 */ u8    hGauge;     // "h_gage"; unknown?
-        /* 0x0263 */ u8    bButton;    // "b_button"
-        /* 0x0264 */ u8    aButton;    // "a_button"
-        /* 0x0265 */ u8    bottles;    // "c_bottle"
-        /* 0x0266 */ u8    tradeItems; // "c_warasibe"
-        /* 0x0267 */ u8    hookshot;   // "c_hook"
-        /* 0x0268 */ u8    ocarina;    // "c_ocarina"
-        /* 0x0269 */ u8    warpSongs;  // "c_warp"
-        /* 0x026A */ u8    sunsSong;   // "m_sunmoon"
-        /* 0x026B */ u8    farores;    // "m_wind"
-        /* 0x026C */ u8    dinsNayrus; // "m_magic"; din's fire and nayru's love
-        /* 0x026D */ u8    all;        // "another"; enables all item restrictions
-    }                   restrictions;
-} InterfaceContext; // size = 0x270
 
 typedef struct {
     /* 0x00 */ void* loadedRamAddr;
@@ -671,99 +200,10 @@ typedef struct {
 } KaleidoMgrOverlay; // size = 0x1C
 
 typedef enum {
-    /* 0x00 */ KALEIDO_OVL_KALEIDO_SCOPE,
-    /* 0x01 */ KALEIDO_OVL_PLAYER_ACTOR,
-    /* 0x02 */ KALEIDO_OVL_MAX
+    /* 0 */ KALEIDO_OVL_KALEIDO_SCOPE,
+    /* 1 */ KALEIDO_OVL_PLAYER_ACTOR,
+    /* 2 */ KALEIDO_OVL_MAX
 } KaleidoOverlayType;
-
-#define PAUSE_ITEM_NONE 999
-
-#define PAUSE_CURSOR_PAGE_LEFT 10
-#define PAUSE_CURSOR_PAGE_RIGHT 11
-
-typedef enum {
-    /* 0x00 */ PAUSE_ITEM,
-    /* 0x01 */ PAUSE_MAP,
-    /* 0x02 */ PAUSE_QUEST,
-    /* 0x03 */ PAUSE_EQUIP,
-    /* 0x04 */ PAUSE_WORLD_MAP
-} PauseMenuPage;
-
-#define PAUSE_EQUIP_PLAYER_WIDTH 64
-#define PAUSE_EQUIP_PLAYER_HEIGHT 112
-
-#define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
-#define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
-
-typedef struct {
-    /* 0x0000 */ View   view;
-    /* 0x0128 */ u8*    iconItemSegment;
-    /* 0x012C */ u8*    iconItem24Segment;
-    /* 0x0130 */ u8*    iconItemAltSegment;
-    /* 0x0134 */ u8*    iconItemLangSegment;
-    /* 0x0138 */ u8*    nameSegment;
-    /* 0x013C */ u8*    playerSegment;
-    /* 0x0140 */ char   unk_140[0x04];
-    /* 0x0144 */ Vtx*   itemPageVtx;
-    /* 0x0148 */ Vtx*   equipPageVtx;
-    /* 0x014C */ Vtx*   mapPageVtx;
-    /* 0x0150 */ Vtx*   questPageVtx;
-    /* 0x0154 */ Vtx*   infoPanelVtx;
-    /* 0x0158 */ Vtx*   itemVtx;
-    /* 0x015C */ Vtx*   equipVtx;
-    /* 0x0160 */ char   unk_160[0x04];
-    /* 0x0164 */ Vtx*   questVtx;
-    /* 0x0168 */ Vtx*   cursorVtx;
-    /* 0x016C */ Vtx*   saveVtx;
-    /* 0x0170 */ char   unk_170[0x24];
-    /* 0x0194 */ OcarinaStaff* ocarinaStaff;
-    /* 0x0198 */ char   unk_198[0x20];
-    /* 0x01B8 */ OSMesgQueue loadQueue;
-    /* 0x01D0 */ OSMesg loadMsg;
-    /* 0x01D4 */ u16    state;
-    /* 0x01D6 */ u16    debugState;
-    /* 0x01D8 */ Vec3f  eye;
-    /* 0x01E4 */ u16    unk_1E4;
-    /* 0x01E6 */ u16    mode;
-    /* 0x01E8 */ u16    pageIndex; // "kscp_pos"
-    /* 0x01EA */ u16    unk_1EA;
-    /* 0x01EC */ u16    unk_1EC;
-    /* 0x01F0 */ f32    unk_1F0;
-    /* 0x01F4 */ f32    unk_1F4;
-    /* 0x01F8 */ f32    unk_1F8;
-    /* 0x01FC */ f32    unk_1FC;
-    /* 0x0200 */ f32    unk_200;
-    /* 0x0204 */ f32    unk_204; // "angle_s"
-    /* 0x0208 */ u16    alpha;
-    /* 0x020A */ s16    offsetY;
-    /* 0x020C */ char   unk_20C[0x08];
-    /* 0x0214 */ s16    stickAdjX;
-    /* 0x0216 */ s16    stickAdjY;
-    /* 0x0218 */ s16    cursorPoint[5]; // "cursor_point"
-    /* 0x0222 */ s16    cursorX[5]; // "cur_xpt"
-    /* 0x022C */ s16    cursorY[5]; // "cur_ypt"
-    /* 0x0236 */ s16    dungeonMapSlot;
-    /* 0x0238 */ s16    cursorSpecialPos; // "key_angle"
-    /* 0x023A */ s16    pageSwitchInputTimer; // Used to introduce a delay before switching page when arriving on the "scroll left/right" positions while holding stick left/right.
-    /* 0x023C */ u16    namedItem; // "zoom_name"
-    /* 0x023E */ u16    cursorItem[4]; // "select_name"
-    /* 0x0246 */ u16    cursorSlot[4];
-    /* 0x024E */ u16    equipTargetItem; // "sl_item_no"
-    /* 0x0250 */ u16    equipTargetSlot; // "sl_number"
-    /* 0x0252 */ u16    equipTargetCBtn;
-    /* 0x0254 */ s16    equipAnimX;
-    /* 0x0256 */ s16    equipAnimY;
-    /* 0x0258 */ s16    equipAnimAlpha;
-    /* 0x025A */ s16    infoPanelOffsetY;
-    /* 0x025C */ u16    nameDisplayTimer;
-    /* 0x025E */ u16    nameColorSet; // 0 = white; 1 = grey
-    /* 0x0260 */ s16    cursorColorSet; // 0 = white; 4 = yellow; 8 = green
-    /* 0x0262 */ s16    promptChoice; // save/continue choice: 0 = yes; 4 = no
-    /* 0x0264 */ s16    ocarinaSongIdx;
-    /* 0x0266 */ u8     worldMapPoints[20]; // 0 = hidden; 1 = displayed; 2 = highlighted
-    /* 0x027A */ u8     tradeQuestLocation;
-    /* 0x027C */ SkelAnime playerSkelAnime;
-} PauseContext; // size = 0x2C0
 
 typedef enum {
     /* 00 */ GAMEOVER_INACTIVE,
@@ -781,24 +221,6 @@ typedef enum {
 typedef struct {
     /* 0x00 */ u16 state;
 } GameOverContext; // size = 0x2
-
-typedef struct {
-    /* 0x00 */ s16      id;
-    /* 0x04 */ void*    segment;
-    /* 0x08 */ DmaRequest  dmaRequest;
-    /* 0x28 */ OSMesgQueue loadQueue;
-    /* 0x40 */ OSMesg   loadMsg;
-} ObjectStatus; // size = 0x44
-
-typedef struct {
-    /* 0x0000 */ void*  spaceStart;
-    /* 0x0004 */ void*  spaceEnd; // original name: "endSegment"
-    /* 0x0008 */ u8     num; // number of objects in bank
-    /* 0x0009 */ u8     unk_09;
-    /* 0x000A */ u8     mainKeepIndex; // "gameplay_keep" index in bank
-    /* 0x000B */ u8     subKeepIndex; // "gameplay_field_keep" or "gameplay_dangeon_keep" index in bank
-    /* 0x000C */ ObjectStatus status[OBJECT_EXCHANGE_BANK_MAX];
-} ObjectContext; // size = 0x518
 
 typedef enum {
     /* 0 */ LENS_MODE_HIDE_ACTORS, // lens actors are visible by default, and hidden by using lens (for example, fake walls)
@@ -860,172 +282,6 @@ typedef struct {
     /* 0x28C */ s32 colLineCount;
     /* 0x290 */ OcLine* colLine[COLLISION_CHECK_OC_LINE_MAX];
 } CollisionCheckContext; // size = 0x29C
-
-typedef struct ListAlloc {
-    /* 0x00 */ struct ListAlloc* prev;
-    /* 0x04 */ struct ListAlloc* next;
-} ListAlloc; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ s32 width;
-    /* 0x04 */ s32 height;
-    /* 0x08 */ s32 widthSave;
-    /* 0x0C */ s32 heightSave;
-    /* 0x10 */ u16* fbuf;
-    /* 0x14 */ u16* fbufSave;
-    /* 0x18 */ u8* cvgSave;
-    /* 0x1C */ u16* zbuf;
-    /* 0x20 */ u16* zbufSave;
-    /* 0x24 */ s32 ulxSave;
-    /* 0x28 */ s32 ulySave;
-    /* 0x2C */ s32 lrxSave;
-    /* 0x30 */ s32 lrySave;
-    /* 0x34 */ s32 ulx;
-    /* 0x38 */ s32 uly;
-    /* 0x3C */ s32 lrx;
-    /* 0x40 */ s32 lry;
-    /* 0x44 */ ListAlloc alloc;
-    /* 0x4C */ u32 unk_4C;
-} PreRender; // size = 0x50
-
-#define TRANS_TRIGGER_OFF 0 // transition is not active
-#define TRANS_TRIGGER_START 20 // start transition (exiting an area)
-#define TRANS_TRIGGER_END -20 // transition is ending (arriving in a new area)
-
-typedef enum {
-    /*  0 */ TRANS_MODE_OFF,
-    /*  1 */ TRANS_MODE_SETUP,
-    /*  2 */ TRANS_MODE_INSTANCE_INIT,
-    /*  3 */ TRANS_MODE_INSTANCE_RUNNING,
-    /*  4 */ TRANS_MODE_FILL_WHITE_INIT,
-    /*  5 */ TRANS_MODE_FILL_IN,
-    /*  6 */ TRANS_MODE_FILL_OUT,
-    /*  7 */ TRANS_MODE_FILL_BROWN_INIT,
-    /*  8 */ TRANS_MODE_08, // unused
-    /*  9 */ TRANS_MODE_09, // unused
-    /* 10 */ TRANS_MODE_INSTANT,
-    /* 11 */ TRANS_MODE_INSTANCE_WAIT,
-    /* 12 */ TRANS_MODE_SANDSTORM_INIT,
-    /* 13 */ TRANS_MODE_SANDSTORM,
-    /* 14 */ TRANS_MODE_SANDSTORM_END_INIT,
-    /* 15 */ TRANS_MODE_SANDSTORM_END,
-    /* 16 */ TRANS_MODE_CS_BLACK_FILL_INIT,
-    /* 17 */ TRANS_MODE_CS_BLACK_FILL
-} TransitionMode;
-
-typedef enum {
-    /*  0 */ TRANS_TYPE_WIPE,
-    /*  1 */ TRANS_TYPE_TRIFORCE,
-    /*  2 */ TRANS_TYPE_FADE_BLACK,
-    /*  3 */ TRANS_TYPE_FADE_WHITE,
-    /*  4 */ TRANS_TYPE_FADE_BLACK_FAST,
-    /*  5 */ TRANS_TYPE_FADE_WHITE_FAST,
-    /*  6 */ TRANS_TYPE_FADE_BLACK_SLOW,
-    /*  7 */ TRANS_TYPE_FADE_WHITE_SLOW,
-    /*  8 */ TRANS_TYPE_WIPE_FAST,
-    /*  9 */ TRANS_TYPE_FILL_WHITE2,
-    /* 10 */ TRANS_TYPE_FILL_WHITE,
-    /* 11 */ TRANS_TYPE_INSTANT,
-    /* 12 */ TRANS_TYPE_FILL_BROWN,
-    /* 13 */ TRANS_TYPE_FADE_WHITE_CS_DELAYED,
-    /* 14 */ TRANS_TYPE_SANDSTORM_PERSIST,
-    /* 15 */ TRANS_TYPE_SANDSTORM_END,
-    /* 16 */ TRANS_TYPE_CS_BLACK_FILL,
-    /* 17 */ TRANS_TYPE_FADE_WHITE_INSTANT,
-    /* 18 */ TRANS_TYPE_FADE_GREEN,
-    /* 19 */ TRANS_TYPE_FADE_BLUE,
-    // transition types 20 - 31 are unused
-    // transition types 32 - 55 are constructed using the TRANS_TYPE_CIRCLE macro
-    /* 56 */ TRANS_TYPE_MAX = 56
-} TransitionType;
-
-#define TRANS_NEXT_TYPE_DEFAULT 0xFF // when `nextTransitionType` is set to default, the type will be taken from the entrance table for the ending transition
-
-typedef enum {
-    /* 0 */ TCA_NORMAL,
-    /* 1 */ TCA_WAVE,
-    /* 2 */ TCA_RIPPLE,
-    /* 3 */ TCA_STARBURST
-} TransitionCircleAppearance;
-
-typedef enum {
-    /* 0 */ TCC_BLACK,
-    /* 1 */ TCC_WHITE,
-    /* 2 */ TCC_GRAY,
-    /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused and appears broken
-} TransitionCircleColor;
-
-typedef enum {
-    /* 0 */ TCS_FAST,
-    /* 1 */ TCS_SLOW
-} TransitionCircleSpeed;
-
-#define TC_SET_PARAMS (1 << 7)
-
-#define TRANS_TYPE_CIRCLE(appearance, color, speed) ((1 << 5) | ((color & 3) << 3) | ((appearance & 3) << 1) | (speed & 1))
-
-typedef struct {
-    union {
-        TransitionFade fade;
-        TransitionCircle circle;
-        TransitionTriforce triforce;
-        TransitionWipe wipe;
-    } instanceData;
-    /* 0x228 */ s32   transitionType;
-    /* 0x22C */ void* (*init)(void* transition);
-    /* 0x230 */ void  (*destroy)(void* transition);
-    /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
-    /* 0x238 */ void  (*draw)(void* transition, Gfx** gfxP);
-    /* 0x23C */ void  (*start)(void* transition);
-    /* 0x240 */ void  (*setType)(void* transition, s32 type);
-    /* 0x244 */ void  (*setColor)(void* transition, u32 color);
-    /* 0x248 */ void  (*setUnkColor)(void* transition, u32 color);
-    /* 0x24C */ s32   (*isDone)(void* transition);
-} TransitionContext; // size = 0x250
-
-typedef struct {
-    /* 0x00 */ u8* readBuff;
-} SramContext; // size = 0x4
-
-#define SRAM_SIZE 0x8000
-#define SRAM_HEADER_SIZE 0x10
-
-typedef enum {
-    /* 0x00 */ SRAM_HEADER_SOUND,
-    /* 0x01 */ SRAM_HEADER_ZTARGET,
-    /* 0x02 */ SRAM_HEADER_LANGUAGE,
-    /* 0x03 */ SRAM_HEADER_MAGIC // must be the value of `sZeldaMagic` for save to be considered valid
-} SramHeaderField;
-
-typedef struct GameAllocEntry {
-    /* 0x00 */ struct GameAllocEntry* next;
-    /* 0x04 */ struct GameAllocEntry* prev;
-    /* 0x08 */ u32 size;
-    /* 0x0C */ u32 unk_0C;
-} GameAllocEntry; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ GameAllocEntry base;
-    /* 0x10 */ GameAllocEntry* head;
-} GameAlloc; // size = 0x14
-
-struct GameState;
-
-typedef void (*GameStateFunc)(struct GameState* gameState);
-
-typedef struct GameState {
-    /* 0x00 */ GraphicsContext* gfxCtx;
-    /* 0x04 */ GameStateFunc main;
-    /* 0x08 */ GameStateFunc destroy; // "cleanup"
-    /* 0x0C */ GameStateFunc init;
-    /* 0x10 */ u32 size;
-    /* 0x14 */ Input input[MAXCONTROLLERS];
-    /* 0x74 */ TwoHeadArena tha;
-    /* 0x84 */ GameAlloc alloc;
-    /* 0x98 */ u32 running;
-    /* 0x9C */ u32 frames;
-    /* 0xA0 */ u32 inPreNMIState;
-} GameState; // size = 0xA4
 
 typedef struct {
     /* 0x00 */ GameState state;
@@ -1093,7 +349,22 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 numActors;
     /* 0x04 */ TransitionActorEntry* list;
-} TransitionActorContext;
+} TransitionActorContext; // size = 0x8
+
+typedef enum {
+    /* 0 */ PAUSE_BG_PRERENDER_OFF, // Inactive, do nothing.
+    /* 1 */ PAUSE_BG_PRERENDER_SETUP, // The current frame is only drawn for the purpose of serving as the pause background.
+    /* 2 */ PAUSE_BG_PRERENDER_PROCESS, // The previous frame was PAUSE_BG_PRERENDER_SETUP, now apply prerender filters.
+    /* 3 */ PAUSE_BG_PRERENDER_READY, // The pause background is ready to be used.
+    /* 4 */ PAUSE_BG_PRERENDER_MAX
+} PauseBgPreRenderState;
+
+typedef enum {
+    /* 0 */ TRANS_TILE_OFF, // Inactive, do nothing
+    /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
+    /* 2 */ TRANS_TILE_PROCESS, // Initialize the transition
+    /* 3 */ TRANS_TILE_READY // The transition is ready, so will update and draw each frame
+} TransitionTileState;
 
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
@@ -1130,7 +401,7 @@ typedef struct PlayState {
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct PlayState* play);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
     /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
-    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 mode);
+    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 csMode);
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct PlayState* play);
     /* 0x11D58 */ s32 (*damagePlayer)(struct PlayState* play, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct PlayState* play, Actor* actor);
@@ -1139,7 +410,7 @@ typedef struct PlayState {
     /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
-    /* 0x11DE9 */ u8 unk_11DE9;
+    /* 0x11DE9 */ u8 haltAllActors;
     /* 0x11DEA */ u8 spawn;
     /* 0x11DEB */ u8 numActorEntries;
     /* 0x11DEC */ u8 numRooms;
@@ -1155,21 +426,21 @@ typedef struct PlayState {
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 transitionTrigger; // "fade_direction"
     /* 0x11E16 */ s16 unk_11E16;
-    /* 0x11E18 */ s16 unk_11E18;
+    /* 0x11E18 */ s16 bgCoverAlpha;
     /* 0x11E1A */ s16 nextEntranceIndex;
     /* 0x11E1C */ char unk_11E1C[0x40];
     /* 0x11E5C */ s8 shootingGalleryStatus;
     /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
     /* 0x11E5E */ u8 transitionType;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
-    /* 0x120FC */ u16 envFlags[20];
+    /* 0x120FC */ u16 cutsceneFlags[20];
     /* 0x12124 */ PreRender pauseBgPreRender;
     /* 0x12174 */ char unk_12174[0x53];
     /* 0x121C7 */ s8 unk_121C7;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
     /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
-    /* 0x1241C */ TransitionFade transitionFade;
+    /* 0x1241C */ TransitionFade transitionFadeFlash; // Transition fade instance which flashes screen, see R_TRANS_FADE_FLASH_ALPHA_STEP
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 viewpoint; // toggleable camera setting by shops or player. Is also equal to the bgCamIndex + 1
     /* 0x1242C */ SceneTableEntry* loadedScene;
@@ -1363,36 +634,6 @@ typedef struct {
 #define MAP_48x85_TEX_HEIGHT 85
 #define MAP_48x85_TEX_SIZE ((MAP_48x85_TEX_WIDTH * MAP_48x85_TEX_HEIGHT) / 2) // 48x85 CI4 texture
 
-// Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
-// texture format for ITEM_NAME_TEX_* 
-#define MAP_NAME_TEX1_WIDTH 128
-#define MAP_NAME_TEX1_HEIGHT 16
-#define MAP_NAME_TEX1_SIZE ((MAP_NAME_TEX1_WIDTH * MAP_NAME_TEX1_HEIGHT) / 2) // 128x16 IA4 texture
-
-#define MAP_NAME_TEX2_WIDTH 80
-#define MAP_NAME_TEX2_HEIGHT 32
-#define MAP_NAME_TEX2_SIZE (MAP_NAME_TEX2_WIDTH * MAP_NAME_TEX2_HEIGHT) // 80x32 IA8 texture
-
-#define PAUSE_MAP_MARK_NONE -1
-#define PAUSE_MAP_MARK_CHEST 0
-#define PAUSE_MAP_MARK_BOSS 1
-
-typedef struct {
-    /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag
-    /* 0x04 */ f32 x, y; // coordinates to place the icon (top-left corner)
-} PauseMapMarkPoint; // size = 0x0C
-
-typedef struct {
-    /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ const Vtx* vtx;
-    /* 0x0C */ s32 vtxCount;
-    /* 0x10 */ s32 count; // number of icons to display
-    /* 0x14 */ PauseMapMarkPoint points[12];
-} PauseMapMarkData; // size = 0xA4
-
-typedef PauseMapMarkData PauseMapMarksData[3];
-
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3s rot;
@@ -1403,42 +644,9 @@ typedef struct DebugDispObject {
 } DebugDispObject; // size = 0x2C
 
 typedef enum {
-    MTXMODE_NEW,  // generates a new matrix
-    MTXMODE_APPLY // applies transformation to the current matrix
+    /* 0 */ MTXMODE_NEW,  // generates a new matrix
+    /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
-
-typedef struct {
-    /* 0x00 */ PrintCallback callback;
-    /* 0x04 */ Gfx* dList;
-    /* 0x08 */ u16 posX;
-    /* 0x0A */ u16 posY;
-    /* 0x0C */ u16 baseX;
-    /* 0x0E */ u8 baseY;
-    /* 0x0F */ u8 flags;
-    /* 0x10 */ Color_RGBA8_u32 color;
-    /* 0x14 */ char unk_14[0x1C]; // unused
-} GfxPrint; // size = 0x30
-
-#define GFX_CHAR_X_SPACING    8
-#define GFX_CHAR_Y_SPACING    8
-
-#define GFXP_UNUSED "\x8E"
-#define GFXP_UNUSED_CHAR 0x8E
-#define GFXP_HIRAGANA "\x8D"
-#define GFXP_HIRAGANA_CHAR 0x8D
-#define GFXP_KATAKANA "\x8C"
-#define GFXP_KATAKANA_CHAR 0x8C
-#define GFXP_RAINBOW_ON "\x8B"
-#define GFXP_RAINBOW_ON_CHAR 0x8B
-#define GFXP_RAINBOW_OFF "\x8A"
-#define GFXP_RAINBOW_OFF_CHAR 0x8A
-
-#define GFXP_FLAG_HIRAGANA (1 << 0)
-#define GFXP_FLAG_RAINBOW  (1 << 1)
-#define GFXP_FLAG_SHADOW   (1 << 2)
-#define GFXP_FLAG_UPDATE   (1 << 3)
-#define GFXP_FLAG_ENLARGE  (1 << 6)
-#define GFXP_FLAG_OPEN     (1 << 7)
 
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;
@@ -1451,9 +659,9 @@ typedef struct StackEntry {
 } StackEntry;
 
 typedef enum {
-    STACK_STATUS_OK = 0,
-    STACK_STATUS_WARNING = 1,
-    STACK_STATUS_OVERFLOW = 2
+    /* 0 */ STACK_STATUS_OK,
+    /* 1 */ STACK_STATUS_WARNING,
+    /* 2 */ STACK_STATUS_OVERFLOW
 } StackStatus;
 
 typedef struct {
@@ -1525,16 +733,26 @@ typedef struct ArenaNode {
     /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
 } ArenaNode; // size = 0x30
 
-#define RELOC_SECTION(reloc) ((reloc) >> 30)
-#define RELOC_OFFSET(reloc) ((reloc) & 0xFFFFFF)
+/* Relocation entry field getters */
+#define RELOC_SECTION(reloc)   ((reloc) >> 30)
+#define RELOC_OFFSET(reloc)    ((reloc) & 0xFFFFFF)
 #define RELOC_TYPE_MASK(reloc) ((reloc) & 0x3F000000)
 #define RELOC_TYPE_SHIFT 24
 
-/* MIPS Relocation Types */
-#define R_MIPS_32 2
-#define R_MIPS_26 4
+/* MIPS Relocation Types, matches the MIPS ELF spec */
+#define R_MIPS_32   2
+#define R_MIPS_26   4
 #define R_MIPS_HI16 5
 #define R_MIPS_LO16 6
+
+/* Reloc section id, must fit in 2 bits otherwise the relocation format must be modified */
+typedef enum {
+    /* 0 */ RELOC_SECTION_NULL,
+    /* 1 */ RELOC_SECTION_TEXT,
+    /* 2 */ RELOC_SECTION_DATA,
+    /* 3 */ RELOC_SECTION_RODATA,
+    /* 4 */ RELOC_SECTION_MAX
+} RelocSectionId;
 
 typedef struct OverlayRelocationSection {
     /* 0x00 */ u32 textSize;
@@ -1542,7 +760,7 @@ typedef struct OverlayRelocationSection {
     /* 0x08 */ u32 rodataSize;
     /* 0x0C */ u32 bssSize;
     /* 0x10 */ u32 nRelocations;
-    /* 0x14 */ u32 relocations[1];
+    /* 0x14 */ u32 relocations[1]; // size is nRelocations
 } OverlayRelocationSection; // size >= 0x18
 
 typedef struct {
@@ -1552,114 +770,6 @@ typedef struct {
     /* 0x10 */ OSTime resetTime;
 } PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
-#define UCODE_NULL      0
-#define UCODE_F3DZEX    1
-#define UCODE_UNK       2
-#define UCODE_S2DEX     3
-
-typedef struct {
-    /* 0x00 */ u32 type;
-    /* 0x04 */ void* ptr;
-} UCodeInfo; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ uintptr_t segments[NUM_SEGMENTS];
-    /* 0x40 */ Gfx* dlStack[18];
-    /* 0x88 */ s32 dlDepth;
-    /* 0x8C */ u32 dlCnt;
-    /* 0x90 */ u32 vtxCnt;
-    /* 0x94 */ u32 spvtxCnt;
-    /* 0x98 */ u32 tri1Cnt;
-    /* 0x9C */ u32 tri2Cnt;
-    /* 0xA0 */ u32 quadCnt;
-    /* 0xA4 */ u32 lineCnt;
-    /* 0xA8 */ u32 loaducodeCnt;
-    /* 0xAC */ u32 pipeSyncRequired;
-    /* 0xB0 */ u32 tileSyncRequired;
-    /* 0xB4 */ u32 loadSyncRequired;
-    /* 0xB8 */ u32 syncErr;
-    /* 0xBC */ s32 enableLog;
-    /* 0xC0 */ s32 ucodeType;
-    /* 0xC4 */ s32 ucodeInfoCount;
-    /* 0xC8 */ UCodeInfo* ucodeInfo;
-    /* 0xCC */ u32 modeH;
-    /* 0xD0 */ u32 modeL;
-    /* 0xD4 */ u32 geometryMode;
-} UCodeDisas; // size = 0xD8
-
-typedef struct {
-    /* 0x00 */ u16 table[8*8];
-} JpegQuantizationTable; // size = 0x80
-
-typedef struct {
-    /* 0x00 */ u8 codeOffs[16];
-    /* 0x10 */ u16 codesA[16];
-    /* 0x30 */ u16 codesB[16];
-    /* 0x50 */ u8* symbols;
-} JpegHuffmanTable; // size = 0x54
-
-// this struct might be inaccurate but it's not used outside jpegutils.c anyways
-typedef struct {
-    /* 0x000 */ u8 codeOffs[16];
-    /* 0x010 */ u16 dcCodes[120];
-    /* 0x100 */ u16 acCodes[256];
-} JpegHuffmanTableOld; // size = 0x300
-
-typedef union {
-    struct {
-    /* 0x00 */ u32 address;
-    /* 0x04 */ u32 mbCount;
-    /* 0x08 */ u32 mode;
-    /* 0x0C */ u32 qTableYPtr;
-    /* 0x10 */ u32 qTableUPtr;
-    /* 0x14 */ u32 qTableVPtr;
-    /* 0x18 */ u32 mbSize; // This field is used by the microcode to save the macroblock size during a yield
-    };
-    long long int force_structure_alignment;
-} JpegTaskData; // size = 0x20
-
-typedef struct {
-    /* 0x000 */ JpegTaskData taskData;
-    /* 0x020 */ u64 yieldData[0x200 / sizeof(u64)];
-    /* 0x220 */ JpegQuantizationTable qTableY;
-    /* 0x2A0 */ JpegQuantizationTable qTableU;
-    /* 0x320 */ JpegQuantizationTable qTableV;
-    /* 0x3A0 */ u8 codesLengths[0x110];
-    /* 0x4B0 */ u16 codes[0x108];
-    /* 0x6C0 */ u16 data[4][0x180];
-} JpegWork; // size = 0x12C0
-
-typedef struct {
-    /* 0x00 */ void* imageData;
-    /* 0x04 */ u8 mode;
-    /* 0x05 */ u8 unk_05;
-    /* 0x08 */ JpegHuffmanTable* hTablePtrs[4];
-    /* 0x18 */ u8 unk_18;
-} JpegDecoder; // size = 0x1C
-
-typedef struct {
-    /* 0x00 */ u8 dqtCount;
-    /* 0x04 */ u8* dqtPtr[3];
-    /* 0x10 */ u8 dhtCount;
-    /* 0x14 */ u8* dhtPtr[4];
-    /* 0x24 */ void* imageData;
-    /* 0x28 */ u32 mode; // 0 if Y V0 is 1 and 2 if Y V0 is 2
-    /* 0x30 */ OSScTask scTask;
-    /* 0x98 */ OSMesgQueue mq;
-    /* 0xB0 */ OSMesg msg;
-    /* 0xB4 */ JpegWork* workBuf;
-} JpegContext; // size = 0xB8
-
-typedef struct {
-    /* 0x00 */ u32 byteIdx;
-    /* 0x04 */ u8 bitIdx;
-    /* 0x05 */ u8 dontSkip;
-    /* 0x08 */ u32 curWord;
-    /* 0x0C */ s16 unk_0C;
-    /* 0x0E */ s16 unk_0E;
-    /* 0x10 */ s16 unk_10;
-} JpegDecoderState; // size = 0x14
-
 typedef enum {
     /* 0 */ VI_MODE_EDIT_STATE_INACTIVE,
     /* 1 */ VI_MODE_EDIT_STATE_ACTIVE,
@@ -1668,22 +778,22 @@ typedef enum {
 } ViModeEditState;
 
 typedef struct {
-    /* 0x0000 */ OSViMode customViMode;
-    /* 0x0050 */ s32 viHeight;
-    /* 0x0054 */ s32 viWidth;
-    /* 0x0058 */ s32 rightAdjust;
-    /* 0x005C */ s32 leftAdjust;
-    /* 0x0060 */ s32 lowerAdjust;
-    /* 0x0064 */ s32 upperAdjust;
-    /* 0x0068 */ s32 editState;
-    /* 0x006C */ s32 tvType;
-    /* 0x0070 */ u32 loRes;
-    /* 0x0074 */ u32 antialiasOff;
-    /* 0x0078 */ u32 modeN; // Controls interlacing, the meaning of this mode is different based on choice of resolution
-    /* 0x007C */ u32 fb16Bit;
-    /* 0x0080 */ u32 viFeatures;
-    /* 0x0084 */ u32 unk_84;
-} ViMode;
+    /* 0x00 */ OSViMode customViMode;
+    /* 0x50 */ s32 viHeight;
+    /* 0x54 */ s32 viWidth;
+    /* 0x58 */ s32 rightAdjust;
+    /* 0x5C */ s32 leftAdjust;
+    /* 0x60 */ s32 lowerAdjust;
+    /* 0x64 */ s32 upperAdjust;
+    /* 0x68 */ s32 editState;
+    /* 0x6C */ s32 tvType;
+    /* 0x70 */ u32 loRes;
+    /* 0x74 */ u32 antialiasOff;
+    /* 0x78 */ u32 modeN; // Controls interlacing, the meaning of this mode is different based on choice of resolution
+    /* 0x7C */ u32 fb16Bit;
+    /* 0x80 */ u32 viFeatures;
+    /* 0x84 */ u32 unk_84;
+} ViMode; // size = 0x88
 
 // Vis...
 typedef struct {
@@ -1709,70 +819,5 @@ typedef struct {
     /* 0x08 */ Color_RGBA8_u32 primColor;
     /* 0x08 */ Color_RGBA8_u32 envColor;
 } struct_80166500; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ char unk_00[0x18];
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 y;
-} SpeedMeter; // size = 0x20
-
-typedef struct {
-    /* 0x00 */ s32 maxval;
-    /* 0x04 */ s32 val;
-    /* 0x08 */ u16 backColor;
-    /* 0x0A */ u16 foreColor;
-    /* 0x0C */ s32 ulx;
-    /* 0x10 */ s32 lrx;
-    /* 0x14 */ s32 uly;
-    /* 0x18 */ s32 lry;
-} SpeedMeterAllocEntry; // size = 0x1C
-
-typedef struct {
-    /* 0x00 */ volatile OSTime* time;
-    /* 0x04 */ u8 x;
-    /* 0x05 */ u8 y;
-    /* 0x06 */ u16 color;
-} SpeedMeterTimeEntry; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ u32 value;
-    /* 0x04 */ const char* name;
-} F3dzexConst; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ u32 value;
-    /* 0x04 */ const char* setName;
-    /* 0x08 */ const char* unsetName;
-} F3dzexFlag; // size = 0x0C
-
-typedef struct {
-    /* 0x00 */ const char* name;
-    /* 0x04 */ u32 value;
-    /* 0x08 */ u32 mask;
-} F3dzexRenderMode; // size = 0x0C
-
-typedef struct {
-    /* 0x00 */ const char* name;
-    /* 0x04 */ u32 value;
-} F3dzexSetModeMacroValue; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ const char* name;
-    /* 0x04 */ u32 shift;
-    /* 0x08 */ u32 len;
-    /* 0x0C */ F3dzexSetModeMacroValue values[4];
-} F3dzexSetModeMacro; // size = 0x2C
-
-typedef struct {
-    /* 0x00 */ u16* value;
-    /* 0x04 */ const char* name;
-} FlagSetEntry; // size = 0x08
-
-#define ROM_FILE(name) \
-    { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomEnd }
-#define ROM_FILE_EMPTY(name) \
-    { (uintptr_t)_##name##SegmentRomStart, (uintptr_t)_##name##SegmentRomStart }
-#define ROM_FILE_UNSET \
-    { 0 }
 
 #endif

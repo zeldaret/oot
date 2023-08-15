@@ -92,9 +92,9 @@ void func_8087B938(BgHaka* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 sp38;
 
-    this->dyna.actor.speedXZ += 0.05f;
-    this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 1.5f);
-    sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
+    this->dyna.actor.speed += 0.05f;
+    this->dyna.actor.speed = CLAMP_MAX(this->dyna.actor.speed, 1.5f);
+    sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speed);
     this->dyna.actor.world.pos.x =
         Math_SinS(this->dyna.actor.world.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.home.pos.x;
     this->dyna.actor.world.pos.z =
@@ -103,7 +103,7 @@ void func_8087B938(BgHaka* this, PlayState* play) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         if (this->dyna.actor.params == 1) {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         } else if (!IS_DAY && play->sceneId == SCENE_GRAVEYARD) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_POH, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
                         this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0, 1);
@@ -127,7 +127,7 @@ void func_8087BAE4(BgHaka* this, PlayState* play) {
     s32 pad;
 
     if (this->dyna.actor.params != 0) {
-        this->dyna.actor.params -= 1;
+        this->dyna.actor.params--;
     }
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.unk_150 = 0.0f;

@@ -210,7 +210,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, PlayState* play) {
         if (this->textIdx == SYATEKI_TEXT_CHOICE) {
             switch (play->msgCtx.choiceIndex) {
                 case 0:
-                    if (gSaveContext.rupees >= 20) {
+                    if (gSaveContext.save.info.playerData.rupees >= 20) {
                         Rupees_ChangeBy(-20);
                         this->textIdx = SYATEKI_TEXT_START_GAME;
                         nextState = 1;
@@ -365,7 +365,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {
                             this->getItemId = GI_RUPEE_PURPLE;
                         }
                     }
-                    func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+                    Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
                     this->actionFunc = EnSyatekiMan_GivePrize;
                     break;
                 case SYATEKI_RESULT_ALMOST:
@@ -394,7 +394,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = EnSyatekiMan_FinishPrize;
     } else {
-        func_8002F434(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 2000.0f, 1000.0f);
     }
 }
 

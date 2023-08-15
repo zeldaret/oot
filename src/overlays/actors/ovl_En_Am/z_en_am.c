@@ -112,9 +112,9 @@ static ColliderQuadInit sQuadInit = {
 };
 
 typedef enum {
-    /* 00 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
-    /* 01 */ AM_DMGEFF_NUT,
-    /* 06 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts
+    /*  0 */ AM_DMGEFF_NONE, // used by anything that cant kill the armos
+    /*  1 */ AM_DMGEFF_NUT,
+    /*  6 */ AM_DMGEFF_STUN = 6, // doesn't include deku nuts
     /* 13 */ AM_DMGEFF_ICE = 13,
     /* 14 */ AM_DMGEFF_MAGIC_FIRE_LIGHT,
     /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isn't a special case)
@@ -266,7 +266,7 @@ void EnAm_SpawnEffects(EnAm* this, PlayState* play) {
         EffectSsKiraKira_SpawnSmall(play, &pos, &velocity, &accel, &primColor, &envColor);
     }
 
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_WALK);
+    Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_WALK);
     Actor_SpawnFloorDustRing(play, &this->dyna.actor, &this->dyna.actor.world.pos, 4.0f, 3, 8.0f, 300, 15, false);
 }
 
@@ -275,7 +275,7 @@ void EnAm_SetupSleep(EnAm* this) {
 
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->unk_258 = (this->textureBlend == 255) ? 0 : 1;
     EnAm_SetupAction(this, EnAm_Sleep);
 }
@@ -286,7 +286,7 @@ void EnAm_SetupStatue(EnAm* this) {
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->dyna.actor.flags &= ~ACTOR_FLAG_0;
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_Statue);
 }
 
@@ -294,7 +294,7 @@ void EnAm_SetupLunge(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->unk_258 = 3;
     this->behavior = AM_BEHAVIOR_AGGRO;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Lunge);
 }
@@ -304,7 +304,7 @@ void EnAm_SetupCooldown(EnAm* this) {
     this->unk_258 = 3;
     this->cooldownTimer = 40;
     this->behavior = AM_BEHAVIOR_AGGRO;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Cooldown);
 }
@@ -313,7 +313,7 @@ void EnAm_SetupMoveToHome(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
     this->unk_258 = 1;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_MoveToHome);
 }
 
@@ -321,14 +321,14 @@ void EnAm_SetupRotateToInit(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
     this->unk_258 = 1;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_RotateToInit);
 }
 
 void EnAm_SetupRotateToHome(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->behavior = AM_BEHAVIOR_GO_HOME;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_RotateToHome);
 }
@@ -338,10 +338,10 @@ void EnAm_SetupRecoilFromDamage(EnAm* this, PlayState* play) {
                      Animation_GetLastFrame(&gArmosDamagedAnim) - 6.0f, ANIMMODE_ONCE, 0.0f);
     this->behavior = AM_BEHAVIOR_DAMAGED;
     this->dyna.actor.world.rot.y = this->dyna.actor.yawTowardsPlayer;
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_DAMAGE);
+    Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_DAMAGE);
 
     if (EnAm_CanMove(this, play, -6.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = -6.0f;
+        this->dyna.actor.speed = -6.0f;
     }
 
     this->dyna.actor.colorFilterTimer = 0;
@@ -354,7 +354,7 @@ void EnAm_SetupRicochet(EnAm* this, PlayState* play) {
     this->dyna.actor.world.rot.y = this->dyna.actor.yawTowardsPlayer;
 
     if (EnAm_CanMove(this, play, -6.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = -6.0f;
+        this->dyna.actor.speed = -6.0f;
     }
 
     this->unk_264 = 0;
@@ -377,9 +377,9 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
         this->hurtCollider.base.acFlags &= ~AC_HIT;
 
         if (this->textureBlend == 0) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_WAVE);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
-            Actor_SetColorFilter(&this->dyna.actor, 0x4000, 255, 0, 8);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_WAVE);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
+            Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
         }
 
         if (this->textureBlend >= 240) {
@@ -412,14 +412,14 @@ void EnAm_Sleep(EnAm* this, PlayState* play) {
                 this->unk_264 = 0;
             }
 
-            this->dyna.actor.speedXZ += this->dyna.unk_150;
+            this->dyna.actor.speed += this->dyna.unk_150;
             this->shakeOrigin = this->dyna.actor.world.pos;
             this->dyna.actor.world.rot.y = this->dyna.unk_158;
-            this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);
-            Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+            this->dyna.actor.speed = CLAMP(this->dyna.actor.speed, -2.5f, 2.5f);
+            Math_SmoothStepToF(&this->dyna.actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
 
-            if (this->dyna.actor.speedXZ != 0.0f) {
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+            if (this->dyna.actor.speed != 0.0f) {
+                Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
             }
 
             this->dyna.unk_154 = 0.0f;
@@ -507,7 +507,7 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
 
     if (this->skelAnime.curFrame == 8.0f) {
         this->dyna.actor.velocity.y = 12.0f;
-        this->dyna.actor.speedXZ = 6.0f;
+        this->dyna.actor.speed = 6.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
         if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->skelAnime.curFrame = 11;
@@ -519,7 +519,7 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
             }
 
             this->dyna.actor.velocity.y = 0.0f;
-            this->dyna.actor.speedXZ = 0.0f;
+            this->dyna.actor.speed = 0.0f;
             this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             EnAm_SpawnEffects(this, play);
 
@@ -530,9 +530,9 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
     }
 
     // turn away from a wall if touching one
-    if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+    if ((this->dyna.actor.speed != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.wallYaw;
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -541,12 +541,12 @@ void EnAm_MoveToHome(EnAm* this, PlayState* play) {
 }
 
 void EnAm_RecoilFromDamage(EnAm* this, PlayState* play) {
-    if (this->dyna.actor.speedXZ < 0.0f) {
-        this->dyna.actor.speedXZ += 0.5f;
+    if (this->dyna.actor.speed < 0.0f) {
+        this->dyna.actor.speed += 0.5f;
     }
 
     if ((this->dyna.actor.velocity.y <= 0.0f) && !EnAm_CanMove(this, play, -8.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -588,7 +588,7 @@ void EnAm_Cooldown(EnAm* this, PlayState* play) {
 
         if (this->unk_258 == 0) {
             EnAm_SetupLunge(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
         }
 
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y;
@@ -605,9 +605,9 @@ void EnAm_Lunge(EnAm* this, PlayState* play) {
             this->dyna.actor.velocity.y = 12.0f;
 
             if (EnAm_CanMove(this, play, 80.0f, this->dyna.actor.world.rot.y)) {
-                this->dyna.actor.speedXZ = 6.0f;
+                this->dyna.actor.speed = 6.0f;
             } else {
-                this->dyna.actor.speedXZ = 0.0f;
+                this->dyna.actor.speed = 0.0f;
             }
 
             this->unk_264 = 1;
@@ -623,7 +623,7 @@ void EnAm_Lunge(EnAm* this, PlayState* play) {
                 }
 
                 this->dyna.actor.velocity.y = 0.0f;
-                this->dyna.actor.speedXZ = 0.0f;
+                this->dyna.actor.speed = 0.0f;
                 this->unk_264 = 0;
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
                 EnAm_SpawnEffects(this, play);
@@ -637,10 +637,10 @@ void EnAm_Lunge(EnAm* this, PlayState* play) {
         }
 
         // turn and move away from a wall if contact is made with one
-        if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
+        if ((this->dyna.actor.speed != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             this->dyna.actor.world.rot.y =
                 (this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw;
-            Actor_MoveForward(&this->dyna.actor);
+            Actor_MoveXZGravity(&this->dyna.actor);
             this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 
@@ -672,7 +672,7 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
         }
     } else {
         this->unk_258 -= 0x800;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 
         if (this->dyna.unk_150 < 0.0f) {
             temp158f = this->dyna.unk_158 + 0x8000;
@@ -690,16 +690,16 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
 
             this->unk_258 = 0;
             player->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_4 | PLAYER_STATE2_6 | PLAYER_STATE2_8);
-            player->actor.speedXZ = 0.0f;
+            player->actor.speed = 0.0f;
             this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
         }
 
         this->dyna.actor.world.rot.y = this->dyna.unk_158;
-        this->dyna.actor.speedXZ = Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f);
+        this->dyna.actor.speed = Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f);
     }
 
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     }
 
     this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
@@ -714,29 +714,29 @@ void EnAm_SetupStunned(EnAm* this, PlayState* play) {
     this->dyna.actor.world.rot.y = this->dyna.actor.yawTowardsPlayer;
 
     if (EnAm_CanMove(this, play, -6.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = -6.0f;
+        this->dyna.actor.speed = -6.0f;
     }
 
-    Actor_SetColorFilter(&this->dyna.actor, 0, 120, 0, 100);
+    Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 100);
 
     if (this->damageEffect == AM_DMGEFF_ICE) {
         this->iceTimer = 48;
     }
 
     this->behavior = AM_BEHAVIOR_STUNNED;
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnAm_SetupAction(this, EnAm_Stunned);
 }
 
 void EnAm_Stunned(EnAm* this, PlayState* play) {
     Math_SmoothStepToS(&this->dyna.actor.shape.rot.y, this->dyna.actor.world.rot.y, 1, 0xFA0, 0);
 
-    if (this->dyna.actor.speedXZ < 0.0f) {
-        this->dyna.actor.speedXZ += 0.5f;
+    if (this->dyna.actor.speed < 0.0f) {
+        this->dyna.actor.speed += 0.5f;
     }
 
     if ((this->dyna.actor.velocity.y <= 0.0f) && !EnAm_CanMove(this, play, -9.0f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
     }
 
     if (this->dyna.actor.colorFilterTimer == 0) {
@@ -749,17 +749,17 @@ void EnAm_Stunned(EnAm* this, PlayState* play) {
 }
 
 void EnAm_Ricochet(EnAm* this, PlayState* play) {
-    if (this->dyna.actor.speedXZ < 0.0f) {
-        this->dyna.actor.speedXZ += 0.5f;
+    if (this->dyna.actor.speed < 0.0f) {
+        this->dyna.actor.speed += 0.5f;
     }
 
     if ((this->dyna.actor.velocity.y <= 0.0f) &&
-        !EnAm_CanMove(this, play, this->dyna.actor.speedXZ * 1.5f, this->dyna.actor.world.rot.y)) {
-        this->dyna.actor.speedXZ = 0.0f;
+        !EnAm_CanMove(this, play, this->dyna.actor.speed * 1.5f, this->dyna.actor.world.rot.y)) {
+        this->dyna.actor.speed = 0.0f;
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->dyna.actor.speedXZ = 0.0f;
+        this->dyna.actor.speed = 0.0f;
         EnAm_SetupLunge(this);
     }
 }
@@ -864,7 +864,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
                     bomb->timer = 0;
                 }
 
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EN_AMOS_DEAD);
+                Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_DEAD);
                 Item_DropCollectibleRandom(play, &this->dyna.actor, &this->dyna.actor.world.pos, 0xA0);
 
                 for (i = 9; i >= 0; i--) {
@@ -881,11 +881,11 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
             }
 
             if ((this->deathTimer % 4) == 0) {
-                Actor_SetColorFilter(&this->dyna.actor, 0x4000, 255, 0, 4);
+                Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 4);
             }
         }
 
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
         Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 20.0f, 28.0f, 80.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);
@@ -910,7 +910,7 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
                     Player* player = GET_PLAYER(play);
 
                     if (this->hitCollider.base.at == &player->actor) {
-                        Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+                        Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
                     }
                 }
                 CollisionCheck_SetAT(play, &play->colChkCtx, &this->hitCollider.base);

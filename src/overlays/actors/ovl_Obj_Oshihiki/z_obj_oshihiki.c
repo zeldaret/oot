@@ -483,7 +483,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, PlayState* play) {
     DynaPolyActor* dynaPolyActor;
 
     this->stateFlags |= PUSHBLOCK_ON_ACTOR;
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
 
     if (ObjOshihiki_CheckFloor(this, play)) {
         bgId = this->floorBgIds[this->highestFloor];
@@ -562,7 +562,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, PlayState* play) {
     } else if (stopFlag) {
         player = GET_PLAYER(play);
         if (ObjOshihiki_CheckWall(play, this->dyna.unk_158, this->dyna.unk_150, this)) {
-            Audio_PlayActorSfx2(thisx, NA_SE_EV_BLOCK_BOUND);
+            Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
         }
 
         thisx->home.pos.x = thisx->world.pos.x;
@@ -578,7 +578,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, PlayState* play) {
             ObjOshihiki_SetupOnActor(this, play);
         }
     }
-    Audio_PlayActorSfx2(thisx, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
+    Actor_PlaySfx(thisx, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
 }
 
 void ObjOshihiki_SetupFall(ObjOshihiki* this, PlayState* play) {
@@ -597,18 +597,17 @@ void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
-    Actor_MoveForward(&this->dyna.actor);
+    Actor_MoveXZGravity(&this->dyna.actor);
     if (ObjOshihiki_CheckGround(this, play)) {
         if (this->floorBgIds[this->highestFloor] == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, play);
         } else {
             ObjOshihiki_SetupOnActor(this, play);
         }
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSfx2(&this->dyna.actor,
-                            NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(&play->colCtx,
-                                                                            this->floorPolys[this->highestFloor],
-                                                                            this->floorBgIds[this->highestFloor]));
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_PL_WALK_GROUND + SurfaceType_GetSfxOffset(
+                                                                    &play->colCtx, this->floorPolys[this->highestFloor],
+                                                                    this->floorBgIds[this->highestFloor]));
     }
 }
 

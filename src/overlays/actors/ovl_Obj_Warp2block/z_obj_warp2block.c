@@ -158,7 +158,7 @@ s32 func_80BA2218(ObjWarp2block* this, PlayState* play) {
 
     if (func_80BA1ECC(this, play)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
-            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+            Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->func_168 = func_80BA228C;
         } else {
             player->stateFlags2 |= PLAYER_STATE2_23;
@@ -288,7 +288,7 @@ void func_80BA2610(ObjWarp2block* this, PlayState* play) {
         }
     }
     if (this->unk_16C == 0x32) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
 }
 

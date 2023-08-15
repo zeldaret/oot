@@ -160,7 +160,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     this->maintainCollider = 1;
     this->standOnGround = 1;
     this->dropCollectible = 0;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
     this->dnsItemEntry = sItemEntries[this->actor.params];
@@ -188,7 +188,7 @@ u32 func_809EF5A4(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS))) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
@@ -201,7 +201,7 @@ u32 func_809EF658(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS))) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
@@ -211,7 +211,7 @@ u32 func_809EF658(EnDns* this) {
 }
 
 u32 func_809EF70C(EnDns* this) {
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -224,7 +224,7 @@ u32 func_809EF73C(EnDns* this) {
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
@@ -237,7 +237,7 @@ u32 func_809EF800(EnDns* this) {
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_DEKU)) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -250,7 +250,7 @@ u32 func_809EF854(EnDns* this) {
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -263,7 +263,7 @@ u32 func_809EF8F4(EnDns* this) {
     if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -273,7 +273,7 @@ u32 func_809EF9A4(EnDns* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -370,18 +370,18 @@ void EnDns_Talk(EnDns* this, PlayState* play) {
 void func_809EFDD0(EnDns* this, PlayState* play) {
     if (this->actor.params == 0x9) {
         if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < 2) {
-            func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
     } else if (this->actor.params == 0xA) {
         if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < 2) {
-            func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
-            func_8002F434(&this->actor, play, GI_DEKU_NUT_UPGRADE_40, 130.0f, 100.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_DEKU_NUT_UPGRADE_40, 130.0f, 100.0f);
         }
     } else {
-        func_8002F434(&this->actor, play, this->dnsItemEntry->getItemId, 130.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, this->dnsItemEntry->getItemId, 130.0f, 100.0f);
     }
 }
 
@@ -437,7 +437,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gBusinessScrubAnim_4404);
 
     if (this->skelAnime.curFrame == frameCount) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->actionFunc = EnDns_Burrow;
         this->standOnGround = 0;
         this->yInitPos = this->actor.world.pos.y;
@@ -480,7 +480,7 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Update(&this->skelAnime);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     this->actionFunc(this, play);
     if (this->standOnGround) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);

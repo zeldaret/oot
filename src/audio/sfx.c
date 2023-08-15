@@ -140,7 +140,7 @@ void Audio_RemoveMatchingSfxRequests(u8 aspect, SfxBankEntry* cmp) {
                 break;
         }
         if (remove) {
-            req->sfxId = 0;
+            req->sfxId = NA_SE_NONE;
         }
     }
 }
@@ -158,9 +158,11 @@ void Audio_ProcessSfxRequest(void) {
 
     req = &sSfxRequests[gSfxRequestReadIndex];
     evictIndex = 0x80;
-    if (req->sfxId == 0) {
+
+    if (req->sfxId == NA_SE_NONE) {
         return;
     }
+
     bankId = SFX_BANK(req->sfxId);
     if ((1 << bankId) & D_801333F0) {
         AudioDebug_ScrPrt("SE", req->sfxId);

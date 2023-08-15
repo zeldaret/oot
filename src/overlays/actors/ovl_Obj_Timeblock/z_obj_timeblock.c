@@ -171,7 +171,7 @@ s32 ObjTimeblock_WaitForOcarina(ObjTimeblock* this, PlayState* play) {
 
     if (ObjTimeblock_PlayerIsInRange(this, play)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
-            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+            Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->songObserverFunc = ObjTimeblock_WaitForSong;
         } else {
             player->stateFlags2 |= PLAYER_STATE2_23;
@@ -248,7 +248,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play) {
     this->isVisible = newIsVisible;
 
     if (this->demoEffectTimer == 50) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
 }
 
@@ -283,7 +283,7 @@ void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play) {
     func_80BA06AC(this, play);
 
     if (this->demoEffectTimer == 50) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
 
     if (!this->isVisible && this->demoEffectTimer <= 0) {

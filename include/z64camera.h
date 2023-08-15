@@ -3,10 +3,11 @@
 
 #include "ultra64.h"
 #include "z64cutscene.h"
+#include "z64math.h"
 #include "z64save.h"
 
 // these two angle conversion macros are slightly inaccurate
-#define CAM_DEG_TO_BINANG(degrees) (s16)((degrees) * 182.04167f + .5f)
+#define CAM_DEG_TO_BINANG(degrees) (s16)TRUNCF_BINANG((degrees) * 182.04167f + .5f)
 #define CAM_BINANG_TO_DEG(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
 
 #define CAM_STAT_CUT        0
@@ -41,7 +42,7 @@
 #define CAM_LETTERBOX_MEDIUM CAM_LETTERBOX(2)
 #define CAM_LETTERBOX_LARGE  CAM_LETTERBOX(3)
 
-#define CAM_LETTERBOX_INSTANT CAM_LETTERBOX(8) // Bit to determine whether to set the current value directly (on), or to set the size target (off) 
+#define CAM_LETTERBOX_INSTANT CAM_LETTERBOX(8) // Bit to determine whether to set the current value directly (on), or to set the size target (off)
 #define CAM_LETTERBOX_IGNORE  CAM_LETTERBOX(0xF) // No change in letterbox size, keep the previous size
 
 // Camera-unique hud visibility mode macros
@@ -49,26 +50,28 @@
 #define CAM_HUD_VISIBILITY_MASK (0xF << CAM_HUD_VISIBILITY_SHIFT)
 #define CAM_HUD_VISIBILITY(hudVisibility) (((hudVisibility) & 0xF) << CAM_HUD_VISIBILITY_SHIFT)
 
-//! @note: since `interfaceField` can only have `0 - 0xF` values,
-//! there is no cam value mapped to `HUD_VISIBILITY_NOTHING_INSTANT`.
-//! @note: since 0 means `HUD_VISIBILITY_ALL`,
-//! there is no cam value mapped to `HUD_VISIBILITY_NO_CHANGE`.
-#define CAM_HUD_VISIBILITY_ALL                          CAM_HUD_VISIBILITY(0) // HUD_VISIBILITY_ALL
-#define CAM_HUD_VISIBILITY_NOTHING                      CAM_HUD_VISIBILITY(HUD_VISIBILITY_NOTHING)
-#define CAM_HUD_VISIBILITY_NOTHING_ALT                  CAM_HUD_VISIBILITY(HUD_VISIBILITY_NOTHING_ALT)
-#define CAM_HUD_VISIBILITY_HEARTS_FORCE                 CAM_HUD_VISIBILITY(HUD_VISIBILITY_HEARTS_FORCE)
-#define CAM_HUD_VISIBILITY_A                            CAM_HUD_VISIBILITY(HUD_VISIBILITY_A)
-#define CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE         CAM_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE)
-#define CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE CAM_HUD_VISIBILITY(HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE)
-#define CAM_HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS CAM_HUD_VISIBILITY(HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS)
-#define CAM_HUD_VISIBILITY_B                            CAM_HUD_VISIBILITY(HUD_VISIBILITY_B)
-#define CAM_HUD_VISIBILITY_HEARTS_MAGIC                 CAM_HUD_VISIBILITY(HUD_VISIBILITY_HEARTS_MAGIC)
-#define CAM_HUD_VISIBILITY_B_ALT                        CAM_HUD_VISIBILITY(HUD_VISIBILITY_B_ALT)
-#define CAM_HUD_VISIBILITY_HEARTS                       CAM_HUD_VISIBILITY(HUD_VISIBILITY_HEARTS)
-#define CAM_HUD_VISIBILITY_A_B_MINIMAP                  CAM_HUD_VISIBILITY(HUD_VISIBILITY_A_B_MINIMAP)
-#define CAM_HUD_VISIBILITY_HEARTS_MAGIC_FORCE           CAM_HUD_VISIBILITY(HUD_VISIBILITY_HEARTS_MAGIC_FORCE)
+// These defines exist to clarify exactly which HUD visibility modes are supported by the camera system. While most of
+// them map 1 to 1 with their HUD visibility counterparts, not all HUD visibility mode values will work as expected if
+// used directly. Notably:
+// - CAM_HUD_VISIBILITY_ALL (0) maps to HUD_VISIBILITY_ALL (50), not HUD_VISIBILITY_NO_CHANGE (0)
+// - HUD_VISIBILITY_NOTHING_INSTANT (52) has no CAM_HUD_VISIBILITY_* mapping,
+//   because camera HUD visibility values are restricted to the 0-0xF range
+#define CAM_HUD_VISIBILITY_ALL                          (0) // HUD_VISIBILITY_ALL
+#define CAM_HUD_VISIBILITY_NOTHING                      (HUD_VISIBILITY_NOTHING)
+#define CAM_HUD_VISIBILITY_NOTHING_ALT                  (HUD_VISIBILITY_NOTHING_ALT)
+#define CAM_HUD_VISIBILITY_HEARTS_FORCE                 (HUD_VISIBILITY_HEARTS_FORCE)
+#define CAM_HUD_VISIBILITY_A                            (HUD_VISIBILITY_A)
+#define CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE         (HUD_VISIBILITY_A_HEARTS_MAGIC_FORCE)
+#define CAM_HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE (HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE)
+#define CAM_HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS (HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS)
+#define CAM_HUD_VISIBILITY_B                            (HUD_VISIBILITY_B)
+#define CAM_HUD_VISIBILITY_HEARTS_MAGIC                 (HUD_VISIBILITY_HEARTS_MAGIC)
+#define CAM_HUD_VISIBILITY_B_ALT                        (HUD_VISIBILITY_B_ALT)
+#define CAM_HUD_VISIBILITY_HEARTS                       (HUD_VISIBILITY_HEARTS)
+#define CAM_HUD_VISIBILITY_A_B_MINIMAP                  (HUD_VISIBILITY_A_B_MINIMAP)
+#define CAM_HUD_VISIBILITY_HEARTS_MAGIC_FORCE           (HUD_VISIBILITY_HEARTS_MAGIC_FORCE)
 // Unique to camera, does not change hud visibility mode (similar effect as HUD_VISIBILITY_NO_CHANGE)
-#define CAM_HUD_VISIBILITY_IGNORE                       CAM_HUD_VISIBILITY(0xF)
+#define CAM_HUD_VISIBILITY_IGNORE                       (0xF)
 
 /**
  * letterboxFlag: Determines the size of the letter-box window. See CAM_LETTERBOX_* defines.
@@ -79,7 +82,7 @@
  * funcFlags: Custom flags for functions
  */
 #define CAM_INTERFACE_FIELD(letterboxFlag, hudVisibilityMode, funcFlags) \
-    (((letterboxFlag) & CAM_LETTERBOX_MASK) | (hudVisibilityMode) | ((funcFlags) & 0xFF))
+    (((letterboxFlag) & CAM_LETTERBOX_MASK) | CAM_HUD_VISIBILITY(hudVisibilityMode) | ((funcFlags) & 0xFF))
 
 // Camera behaviorFlags. Flags specifically for settings, modes, and bgCam
 // Used to store current state, only CAM_BEHAVIOR_SETTING_1 and CAM_BEHAVIOR_BG_2 are read from and used in logic
@@ -118,7 +121,7 @@
 #define CAM_VIEW_FOV (1 << 5) // camera->fov
 #define CAM_VIEW_ROLL (1 << 6) // camera->roll
 
-// All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected 
+// All scenes using `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT` or `SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT` are expected
 // to have their first two bgCamInfo entries be the following:
 #define BGCAM_INDEX_TOGGLE_LOCKED 0
 #define BGCAM_INDEX_TOGGLE_PIVOT 1
@@ -167,7 +170,7 @@ typedef enum {
     /* 0x20 */ CAM_SET_START1, // Scene/room door transitions that snap the camera to a fixed location (example: ganon's towers doors climbing up)
     /* 0x21 */ CAM_SET_FREE0, // Full manual control is given over the camera
     /* 0x22 */ CAM_SET_FREE2, // Various OnePoint Cutscenes, 10 total (example: falling chest)
-    /* 0x23 */ CAM_SET_PIVOT_CORNER, // Inside the carpenter jail cells from theives hideout "CIRCLE4"
+    /* 0x23 */ CAM_SET_PIVOT_CORNER, // Inside the carpenter jail cells from thieves hideout "CIRCLE4"
     /* 0x24 */ CAM_SET_PIVOT_WATER_SURFACE, // Player diving from the surface of the water to underwater "CIRCLE5"
     /* 0x25 */ CAM_SET_CS_0, // Various cutscenes "DEMO0"
     /* 0x26 */ CAM_SET_CS_TWISTED_HALLWAY, // Never set to, but checked in twisting hallway (Forest Temple) "DEMO1"
@@ -203,26 +206,26 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ CAM_MODE_NORMAL,
-    /* 0x01 */ CAM_MODE_TARGET, // "PARALLEL"
-    /* 0x02 */ CAM_MODE_FOLLOWTARGET, // "KEEPON"
+    /* 0x01 */ CAM_MODE_Z_PARALLEL, // Holding Z but with no target, keeps the camera aligned
+    /* 0x02 */ CAM_MODE_Z_TARGET_FRIENDLY,
     /* 0x03 */ CAM_MODE_TALK,
-    /* 0x04 */ CAM_MODE_BATTLE,
-    /* 0x05 */ CAM_MODE_CLIMB,
-    /* 0x06 */ CAM_MODE_FIRSTPERSON, // "SUBJECT"
-    /* 0x07 */ CAM_MODE_BOWARROW,
-    /* 0x08 */ CAM_MODE_BOWARROWZ,
-    /* 0x09 */ CAM_MODE_HOOKSHOT, // "FOOKSHOT"
-    /* 0x0A */ CAM_MODE_BOOMERANG,
-    /* 0x0B */ CAM_MODE_SLINGSHOT, // "PACHINCO"
-    /* 0x0C */ CAM_MODE_CLIMBZ,
-    /* 0x0D */ CAM_MODE_JUMP,
-    /* 0x0E */ CAM_MODE_HANG,
-    /* 0x0F */ CAM_MODE_HANGZ,
-    /* 0x10 */ CAM_MODE_FREEFALL,
-    /* 0x11 */ CAM_MODE_CHARGE,
-    /* 0x12 */ CAM_MODE_STILL,
-    /* 0x13 */ CAM_MODE_PUSHPULL,
-    /* 0x14 */ CAM_MODE_FOLLOWBOOMERANG, // "BOOKEEPON"
+    /* 0x04 */ CAM_MODE_Z_TARGET_UNFRIENDLY,
+    /* 0x05 */ CAM_MODE_WALL_CLIMB, // Climbing a wall: ladders and vines
+    /* 0x06 */ CAM_MODE_FIRST_PERSON,
+    /* 0x07 */ CAM_MODE_AIM_ADULT, // First person aiming as adult: bow and hookshot
+    /* 0x08 */ CAM_MODE_Z_AIM, // Third person aiming for all items, child and adult
+    /* 0x09 */ CAM_MODE_HOOKSHOT_FLY, // Player being pulled by the hookshot to a target
+    /* 0x0A */ CAM_MODE_AIM_BOOMERANG, // Aiming the boomerang
+    /* 0x0B */ CAM_MODE_AIM_CHILD, // First person aiming as child: slingshot
+    /* 0x0C */ CAM_MODE_Z_WALL_CLIMB, // Climbing a wall with Z pressed: ladders and vines
+    /* 0x0D */ CAM_MODE_JUMP, // Falling in air from a ledge jump
+    /* 0x0E */ CAM_MODE_LEDGE_HANG, // Hanging from and climbing a ledge
+    /* 0x0F */ CAM_MODE_Z_LEDGE_HANG, // Hanging from and climbing a ledge with Z pressed
+    /* 0x10 */ CAM_MODE_FREE_FALL, // Falling in air except for a ledge jump or knockback
+    /* 0x11 */ CAM_MODE_CHARGE, // Charging a spin attack
+    /* 0x12 */ CAM_MODE_STILL, // Attacks without Z pressed, falling in air from knockback
+    /* 0x13 */ CAM_MODE_PUSH_PULL,
+    /* 0x14 */ CAM_MODE_FOLLOW_BOOMERANG, // Boomerang has been thrown, force-target the boomerang as it flies
     /* 0x15 */ CAM_MODE_MAX
 } CameraModeType;
 
@@ -1221,13 +1224,49 @@ typedef struct {
     { fov, CAM_DATA_FOV }, \
     { interfaceField, CAM_DATA_INTERFACE_FIELD }
 
-/** initFlags
- * & 0x00FF = atInitFlags
- * & 0xFF00 = eyeInitFlags
+typedef enum {
+    /*  0x1 */ ONEPOINT_CS_ACTION_ID_1 = 1,
+    /*  0x2 */ ONEPOINT_CS_ACTION_ID_2,
+    /*  0x3 */ ONEPOINT_CS_ACTION_ID_3,
+    /*  0x4 */ ONEPOINT_CS_ACTION_ID_4,
+    /*  0x9 */ ONEPOINT_CS_ACTION_ID_9 = 9,
+    /*  0xA */ ONEPOINT_CS_ACTION_ID_10,
+    /*  0xB */ ONEPOINT_CS_ACTION_ID_11,
+    /*  0xC */ ONEPOINT_CS_ACTION_ID_12,
+    /*  0xD */ ONEPOINT_CS_ACTION_ID_13,
+    /*  0xF */ ONEPOINT_CS_ACTION_ID_15 = 15,
+    /* 0x10 */ ONEPOINT_CS_ACTION_ID_16,
+    /* 0x11 */ ONEPOINT_CS_ACTION_ID_17,
+    /* 0x12 */ ONEPOINT_CS_ACTION_ID_18,
+    /* 0x13 */ ONEPOINT_CS_ACTION_ID_19,
+    /* 0x15 */ ONEPOINT_CS_ACTION_ID_21 = 21,
+    /* 0x18 */ ONEPOINT_CS_ACTION_ID_24 = 24
+} OnePointCsAction;
+
+#define ONEPOINT_CS_ACTION_FLAG_40 0x40
+#define ONEPOINT_CS_ACTION_FLAG_BGCHECK 0x80
+
+#define ONEPOINT_CS_ACTION(action, isBit40, checkBg) \
+    (((action) & 0x1F) | ((isBit40) ? ONEPOINT_CS_ACTION_FLAG_40 : 0) | ((checkBg) ? ONEPOINT_CS_ACTION_FLAG_BGCHECK : 0))
+
+#define ONEPOINT_CS_GET_ACTION(onePointCsFull) ((onePointCsFull)->actionFlags & 0x1F)
+
+#define ONEPOINT_CS_INIT_FIELD_NONE 0xFF
+#define ONEPOINT_CS_INIT_FIELD_ACTORCAT(actorCat) (0x80 | ((actorCat) & 0x0F))
+#define ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(camHudVisibility) (0xC0 | ((camHudVisibility) & 0x0F))
+#define ONEPOINT_CS_INIT_FIELD_PLAYER_CS(csMode) ((csMode) & 0x7F)
+
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_ACTORCAT(field) ((field & 0xF0) == 0x80)
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_HUD_VISIBILITY(field) ((field & 0xF0) == 0xC0)
+#define ONEPOINT_CS_INIT_FIELD_IS_TYPE_PLAYER_CS(field) !(field & 0x80)
+
+/** viewFlags
+ * & 0x00FF = atFlags
+ * & 0xFF00 = eyeFlags
  * 0x1: Direct Copy of atTargetInit
- *      if initFlags & 0x6060: use head for focus point
+ *      if viewFlags & 0x6060: use head for focus point
  * 0x2: Add atTargetInit to view's lookAt
- *      if initFlags & 0x6060: use world for focus point
+ *      if viewFlags & 0x6060: use world for focus point
  * 0x3: Add atTargetInit to camera's at
  * 0x4: Don't update targets?
  * 0x8: flag to use atTagetInit as f32 pitch, yaw, r
@@ -1236,8 +1275,8 @@ typedef struct {
 */
 typedef struct {
     /* 0x00 */ u8 actionFlags;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ s16 initFlags;
+    /* 0x01 */ u8 initField;
+    /* 0x02 */ s16 viewFlags;
     /* 0x04 */ s16 timerInit;
     /* 0x06 */ s16 rollTargetInit;
     /* 0x08 */ f32 fovTargetInit;
@@ -1247,7 +1286,7 @@ typedef struct {
 } OnePointCsFull; // size = 0x28
 
 typedef struct {
-    /* 0x0 */ s32 keyFrameCnt;
+    /* 0x0 */ s32 keyFrameCount;
     /* 0x4 */ OnePointCsFull* keyFrames;
 } OnePointCsInfo; // size = 0x8
 
@@ -1539,7 +1578,7 @@ typedef struct Camera {
     /* 0x0D8 */ f32 xzSpeed;
     /* 0x0DC */ f32 dist;
     /* 0x0E0 */ f32 speedRatio;
-    /* 0x0E4 */ Vec3f posOffset;
+    /* 0x0E4 */ Vec3f playerToAtOffset;
     /* 0x0F0 */ Vec3f playerPosDelta;
     /* 0x0FC */ f32 fov;
     /* 0x100 */ f32 atLERPStepScale;
@@ -1600,7 +1639,7 @@ typedef struct {
     /* 0x1046 */ s16 demoCtrlActionIdx; // e (?), s (save), l (load), c (clear)
     /* 0x1048 */ s16 demoCtrlToggleSwitch;
     /* 0x104A */ Vec3s unk_104A;
-} DbCameraSub; // size = 0x1050
+} DebugCamSub; // size = 0x1050
 
 typedef struct {
     /* 0x00 */ s32 unk_00;
@@ -1622,8 +1661,8 @@ typedef struct {
     /* 0x6C */ Vec3f unk_6C;
     /* 0x78 */ s16 unk_78;
     /* 0x7A */ s16 unk_7A;
-    /* 0x7C */ DbCameraSub sub;
-} DbCamera; // size = 0x10CC
+    /* 0x7C */ DebugCamSub sub;
+} DebugCam; // size = 0x10CC
 
 typedef struct {
     /* 0x00 */ char letter;
@@ -1633,7 +1672,7 @@ typedef struct {
     /* 0x08 */ CutsceneCameraPoint* lookAt;
     /* 0x0C */ s16 nFrames;
     /* 0x0E */ s16 nPoints;
-} DbCameraCut; // size = 0x10
+} DebugCamCut; // size = 0x10
 
 typedef struct {
     /* 0x00 */ f32 curFrame;
@@ -1645,6 +1684,17 @@ typedef struct {
     /* 0x1C */ Vec3f lookAtPos;
     /* 0x28 */ f32 roll;
     /* 0x2C */ f32 fov;
-} DbCameraAnim; // size = 0x30
+} DebugCamAnim; // size = 0x30
+
+typedef enum {
+    /* 0 */ DEBUG_CAM_TEXT_YELLOW,
+    /* 1 */ DEBUG_CAM_TEXT_PEACH,
+    /* 2 */ DEBUG_CAM_TEXT_BROWN,
+    /* 3 */ DEBUG_CAM_TEXT_ORANGE,
+    /* 4 */ DEBUG_CAM_TEXT_GOLD,
+    /* 5 */ DEBUG_CAM_TEXT_WHITE,
+    /* 6 */ DEBUG_CAM_TEXT_BLUE,
+    /* 7 */ DEBUG_CAM_TEXT_GREEN
+} DebugCamTextColor;
 
 #endif

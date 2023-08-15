@@ -89,11 +89,11 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
     if (!Flags_GetSwitch(play, this->actor.params)) {
         if (this->framesUntilDisable != -1) {
             if (this->framesUntilDisable != 0) {
-                this->framesUntilDisable -= 1;
+                this->framesUntilDisable--;
             }
             if (this->framesUntilDisable == 0) {
                 this->framesUntilDisable = -1;
-                D_8089C1A0 -= 1;
+                D_8089C1A0--;
             }
         }
     }
@@ -101,14 +101,14 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
         (ABS((s16)(this->collider.base.ac->world.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->framesUntilDisable == -1) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
-            D_8089C1A0 += 1;
+            Actor_PlaySfx(&this->actor, NA_SE_EN_AMOS_DAMAGE);
+            D_8089C1A0++;
             D_8089C1A0 = CLAMP_MAX(D_8089C1A0, 4);
         }
         this->framesUntilDisable = 416;
         if (D_8089C1A0 == 4) {
             Flags_SetSwitch(play, this->actor.params);
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
     }
     if (this->framesUntilDisable == -1) {

@@ -27,7 +27,7 @@ AudioTask* AudioThread_UpdateImpl(void) {
     s32 pad;
     s32 j;
     s32 sp5C;
-    s16* currAiBuffer;
+    s16* curAiBuffer;
     OSTask_t* task;
     s32 index;
     u32 sp4C;
@@ -69,21 +69,21 @@ AudioTask* AudioThread_UpdateImpl(void) {
 
     sp5C = gAudioCtx.curAudioFrameDmaCount;
     for (i = 0; i < gAudioCtx.curAudioFrameDmaCount; i++) {
-        if (osRecvMesg(&gAudioCtx.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK) == 0) {
+        if (osRecvMesg(&gAudioCtx.curAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             sp5C--;
         }
     }
 
     if (sp5C != 0) {
         for (i = 0; i < sp5C; i++) {
-            osRecvMesg(&gAudioCtx.currAudioFrameDmaQueue, NULL, OS_MESG_BLOCK);
+            osRecvMesg(&gAudioCtx.curAudioFrameDmaQueue, NULL, OS_MESG_BLOCK);
         }
     }
 
-    sp48 = MQ_GET_COUNT(&gAudioCtx.currAudioFrameDmaQueue);
+    sp48 = MQ_GET_COUNT(&gAudioCtx.curAudioFrameDmaQueue);
     if (sp48 != 0) {
         for (i = 0; i < sp48; i++) {
-            osRecvMesg(&gAudioCtx.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK);
+            osRecvMesg(&gAudioCtx.curAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK);
         }
     }
 
@@ -114,7 +114,7 @@ AudioTask* AudioThread_UpdateImpl(void) {
     gAudioCtx.curAbiCmdBuf = gAudioCtx.abiCmdBufs[gAudioCtx.rspTaskIndex];
 
     index = gAudioCtx.curAiBufIndex;
-    currAiBuffer = gAudioCtx.aiBuffers[index];
+    curAiBuffer = gAudioCtx.aiBuffers[index];
 
     gAudioCtx.aiBufLengths[index] =
         (s16)((((gAudioCtx.audioBufferParameters.samplesPerFrameTarget - samplesRemainingInAi) +
@@ -143,7 +143,7 @@ AudioTask* AudioThread_UpdateImpl(void) {
     }
 
     gAudioCtx.curAbiCmdBuf =
-        AudioSynth_Update(gAudioCtx.curAbiCmdBuf, &abiCmdCnt, currAiBuffer, gAudioCtx.aiBufLengths[index]);
+        AudioSynth_Update(gAudioCtx.curAbiCmdBuf, &abiCmdCnt, curAiBuffer, gAudioCtx.aiBufLengths[index]);
 
     // Update audioRandom to the next random number
     gAudioCtx.audioRandom = (gAudioCtx.audioRandom + gAudioCtx.totalTaskCount) * osGetCount();

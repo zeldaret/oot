@@ -169,7 +169,7 @@ void BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
 void BgYdanSp_BurnWeb(BgYdanSp* this, PlayState* play) {
     this->timer = 30;
     this = this;
-    func_80078884(NA_SE_SY_CORRECT_CHIME);
+    Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     Flags_SetSwitch(play, this->isDestroyedSwitchFlag);
     if (this->dyna.actor.params == WEB_FLOOR) {
         this->actionFunc = BgYdanSp_BurnFloorWeb;
@@ -252,7 +252,7 @@ void BgYdanSp_FloorWebBreaking(BgYdanSp* this, PlayState* play) {
     if (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 190.0f) {
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->timer = 40;
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Flags_SetSwitch(play, this->isDestroyedSwitchFlag);
         this->actionFunc = BgYdanSp_FloorWebBroken;
         pos.y = this->dyna.actor.world.pos.y - 60.0f;
@@ -296,7 +296,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
                 this->dyna.actor.room = -1;
                 this->dyna.actor.flags |= ACTOR_FLAG_4;
                 this->timer = 40;
-                Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WEB_BROKEN);
+                Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WEB_BROKEN);
                 this->actionFunc = BgYdanSp_FloorWebBreaking;
                 return;
             }
@@ -308,7 +308,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
                 this->timer = 14;
             }
         }
-        if (player->actor.speedXZ != 0.0f) {
+        if (player->actor.speed != 0.0f) {
             if (this->unk_16C < 0.1f) {
                 this->timer = 14;
             }
@@ -329,7 +329,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
     Math_ApproachZeroF(&this->unk_16C, 1.0f, 0.8f);
     if (this->timer == 13) {
         if (this->unk_16C > 3.0f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WEB_VIBRATION);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WEB_VIBRATION);
         } else {
             Audio_StopSfxById(NA_SE_EV_WEB_VIBRATION);
         }

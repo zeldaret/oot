@@ -371,9 +371,9 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
             if (this->actor.xzDistToPlayer < 90.0f) {
                 // GI_NONE in these cases allows the player to lift the actor
                 if (type == ROCK_LARGE) {
-                    func_8002F434(&this->actor, play, GI_NONE, 80.0f, 20.0f);
+                    Actor_OfferGetItem(&this->actor, play, GI_NONE, 80.0f, 20.0f);
                 } else {
-                    func_8002F434(&this->actor, play, GI_NONE, 50.0f, 10.0f);
+                    Actor_OfferGetItem(&this->actor, play, GI_NONE, 50.0f, 10.0f);
                 }
             }
         }
@@ -395,7 +395,7 @@ void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
         EnIshi_SetupFly(this);
         EnIshi_Fall(this);
         func_80A7ED94(&this->actor.velocity, D_80A7FA28[this->actor.params & 1]);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
                                     UPDBGCHECKINFO_FLAG_7);
@@ -403,8 +403,8 @@ void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
 }
 
 void EnIshi_SetupFly(EnIshi* this) {
-    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
     if ((this->actor.params & 1) == ROCK_SMALL) {
         sRotSpeedX = (Rand_ZeroOne() - 0.5f) * 16000.0f;
         sRotSpeedY = (Rand_ZeroOne() - 0.5f) * 2400.0f;
@@ -464,7 +464,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
     Math_StepToF(&this->actor.shape.yOffset, 0.0f, 2.0f);
     EnIshi_Fall(this);
     func_80A7ED94(&this->actor.velocity, D_80A7FA28[type]);
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     this->actor.shape.rot.x += sRotSpeedX;
     this->actor.shape.rot.y += sRotSpeedY;
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,

@@ -85,7 +85,7 @@ void EnMs_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.015f);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
 
@@ -124,11 +124,11 @@ void EnMs_Talk(EnMs* this, PlayState* play) {
     } else if (Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0: // yes
-                if (gSaveContext.rupees < sPrices[BEANS_BOUGHT]) {
+                if (gSaveContext.save.info.playerData.rupees < sPrices[BEANS_BOUGHT]) {
                     Message_ContinueTextbox(play, 0x4069); // not enough rupees text
                     return;
                 }
-                func_8002F434(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
                 this->actionFunc = EnMs_Sell;
                 return;
             case 1: // no
@@ -145,7 +145,7 @@ void EnMs_Sell(EnMs* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
     } else {
-        func_8002F434(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
     }
 }
 
@@ -161,16 +161,16 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
     EnMs* this = (EnMs*)thisx;
     s32 pad;
 
-    this->activeTimer += 1;
+    this->activeTimer++;
     Actor_SetFocus(&this->actor, 20.0f);
     this->actor.targetArrowOffset = 500.0f;
     Actor_SetScale(&this->actor, 0.015f);
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);
 
-    if (gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_0 &&
+    if (gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0 &&
         gSaveContext.sceneLayer == 8) { // ride carpet if in credits
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }

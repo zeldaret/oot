@@ -3537,7 +3537,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         return 0;
     }
 
-    if (intersect2 == false) {
+    if (!intersect2) {
         if (frac1 < 0.0f || 1.0f < frac1) {
             return 0;
         }
@@ -3564,7 +3564,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         ((frac2 * itemStep.y + actorToItem.y < 0.0f) || (height < frac2 * itemStep.y + actorToItem.y))) {
         intersect2 = false;
     }
-    if (intersect1 == false && intersect2 == false) {
+    if (!intersect1 && !intersect2) {
         return 0;
     } else if ((intersect1 == true) && (intersect2 == true)) {
         out1->x = frac1 * itemStep.x + actorToItem.x + actorPos->x;

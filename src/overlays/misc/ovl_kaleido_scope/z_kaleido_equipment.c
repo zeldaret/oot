@@ -172,7 +172,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             while (cursorMoveResult == 0) {
                 if (pauseCtx->stickAdjX < -30) {
                     if (pauseCtx->cursorX[PAUSE_EQUIP] != 0) {
-                        pauseCtx->cursorX[PAUSE_EQUIP] -= 1;
+                        pauseCtx->cursorX[PAUSE_EQUIP]--;
                         pauseCtx->cursorPoint[PAUSE_EQUIP] -= 1;
 
                         if (pauseCtx->cursorX[PAUSE_EQUIP] == 0) {
@@ -186,13 +186,14 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                                 }
                             }
                         } else {
-                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] & gSaveContext.inventory.equipment) {
+                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
+                                gSaveContext.save.info.inventory.equipment) {
                                 cursorMoveResult = 2;
                             }
                         }
                     } else {
                         pauseCtx->cursorX[PAUSE_EQUIP] = cursorX;
-                        pauseCtx->cursorY[PAUSE_EQUIP] += 1;
+                        pauseCtx->cursorY[PAUSE_EQUIP]++;
 
                         if (pauseCtx->cursorY[PAUSE_EQUIP] >= 4) {
                             pauseCtx->cursorY[PAUSE_EQUIP] = 0;
@@ -214,7 +215,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     }
                 } else if (pauseCtx->stickAdjX > 30) {
                     if (pauseCtx->cursorX[PAUSE_EQUIP] < 3) {
-                        pauseCtx->cursorX[PAUSE_EQUIP] += 1;
+                        pauseCtx->cursorX[PAUSE_EQUIP]++;
                         pauseCtx->cursorPoint[PAUSE_EQUIP] += 1;
 
                         if (pauseCtx->cursorX[PAUSE_EQUIP] == 0) {
@@ -222,13 +223,14 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                                 cursorMoveResult = 1;
                             }
                         } else {
-                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] & gSaveContext.inventory.equipment) {
+                            if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
+                                gSaveContext.save.info.inventory.equipment) {
                                 cursorMoveResult = 2;
                             }
                         }
                     } else {
                         pauseCtx->cursorX[PAUSE_EQUIP] = cursorX;
-                        pauseCtx->cursorY[PAUSE_EQUIP] += 1;
+                        pauseCtx->cursorY[PAUSE_EQUIP]++;
 
                         if (pauseCtx->cursorY[PAUSE_EQUIP] >= 4) {
                             pauseCtx->cursorY[PAUSE_EQUIP] = 0;
@@ -262,7 +264,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             while (cursorMoveResult == 0) {
                 if (pauseCtx->stickAdjY > 30) {
                     if (pauseCtx->cursorY[PAUSE_EQUIP] != 0) {
-                        pauseCtx->cursorY[PAUSE_EQUIP] -= 1;
+                        pauseCtx->cursorY[PAUSE_EQUIP]--;
                         pauseCtx->cursorPoint[PAUSE_EQUIP] -= 4;
 
                         if (pauseCtx->cursorX[PAUSE_EQUIP] == 0) {
@@ -274,7 +276,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                                 cursorMoveResult = 1;
                             }
                         } else if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
-                                   gSaveContext.inventory.equipment) {
+                                   gSaveContext.save.info.inventory.equipment) {
                             cursorMoveResult = 2;
                         }
                     } else {
@@ -284,7 +286,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     }
                 } else if (pauseCtx->stickAdjY < -30) {
                     if (pauseCtx->cursorY[PAUSE_EQUIP] < 3) {
-                        pauseCtx->cursorY[PAUSE_EQUIP] += 1;
+                        pauseCtx->cursorY[PAUSE_EQUIP]++;
                         pauseCtx->cursorPoint[PAUSE_EQUIP] += 4;
 
                         if (pauseCtx->cursorX[PAUSE_EQUIP] == 0) {
@@ -292,7 +294,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                                 cursorMoveResult = 1;
                             }
                         } else if (gBitFlags[pauseCtx->cursorPoint[PAUSE_EQUIP] - 1] &
-                                   gSaveContext.inventory.equipment) {
+                                   gSaveContext.save.info.inventory.equipment) {
                             cursorMoveResult = 2;
                         }
                     } else {
@@ -328,7 +330,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                             pauseCtx->cursorY[PAUSE_EQUIP] = cursorY;
                             break;
                         }
-                    } else if (gBitFlags[cursorPoint - 1] & gSaveContext.inventory.equipment) {
+                    } else if (gBitFlags[cursorPoint - 1] & gSaveContext.save.info.inventory.equipment) {
                         pauseCtx->cursorPoint[PAUSE_EQUIP] = cursorPoint;
                         pauseCtx->cursorX[PAUSE_EQUIP] = cursorX;
                         pauseCtx->cursorY[PAUSE_EQUIP] = cursorY;
@@ -369,7 +371,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                             pauseCtx->cursorY[PAUSE_EQUIP] = cursorY;
                             break;
                         }
-                    } else if (gBitFlags[cursorPoint - 1] & gSaveContext.inventory.equipment) {
+                    } else if (gBitFlags[cursorPoint - 1] & gSaveContext.save.info.inventory.equipment) {
                         pauseCtx->cursorPoint[PAUSE_EQUIP] = cursorPoint;
                         pauseCtx->cursorX[PAUSE_EQUIP] = cursorX;
                         pauseCtx->cursorY[PAUSE_EQUIP] = cursorY;
@@ -425,7 +427,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         }
 
         if ((pauseCtx->cursorY[PAUSE_EQUIP] == 0) && (pauseCtx->cursorX[PAUSE_EQUIP] == 3)) {
-            if (gSaveContext.bgsFlag != 0) {
+            if (gSaveContext.save.info.playerData.bgsFlag != 0) {
                 cursorItem = ITEM_HEART_PIECE_2;
             } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                 cursorItem = ITEM_GIANTS_KNIFE;
@@ -441,7 +443,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
         if (!((gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] == 9) ||
               (gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] ==
-               ((void)0, gSaveContext.linkAge)))) {
+               ((void)0, gSaveContext.save.linkAge)))) {
             pauseCtx->nameColorSet = 1;
         }
 
@@ -473,24 +475,25 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
             if ((gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] == 9) ||
                 (gEquipAgeReqs[pauseCtx->cursorY[PAUSE_EQUIP]][pauseCtx->cursorX[PAUSE_EQUIP]] ==
-                 ((void)0, gSaveContext.linkAge))) {
+                 ((void)0, gSaveContext.save.linkAge))) {
                 Inventory_ChangeEquipment(pauseCtx->cursorY[PAUSE_EQUIP], pauseCtx->cursorX[PAUSE_EQUIP]);
 
                 if (pauseCtx->cursorY[PAUSE_EQUIP] == 0) {
-                    gSaveContext.infTable[INFTABLE_1DX_INDEX] = 0;
-                    gSaveContext.equips.buttonItems[0] = cursorItem;
+                    gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] = 0;
+                    gSaveContext.save.info.equips.buttonItems[0] = cursorItem;
 
-                    if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && (gSaveContext.bgsFlag != 0)) {
-                        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
-                        gSaveContext.swordHealth = 8;
+                    if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && (gSaveContext.save.info.playerData.bgsFlag != 0)) {
+                        gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
+                        gSaveContext.save.info.playerData.swordHealth = 8;
                     } else {
-                        if (gSaveContext.equips.buttonItems[0] == ITEM_HEART_PIECE_2) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
+                        if (gSaveContext.save.info.equips.buttonItems[0] == ITEM_HEART_PIECE_2) {
+                            gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_BIGGORON;
                         }
-                        if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BIGGORON) &&
-                            (gSaveContext.bgsFlag == 0) &&
+                        if ((gSaveContext.save.info.equips.buttonItems[0] == ITEM_SWORD_BIGGORON) &&
+
+                            (gSaveContext.save.info.playerData.bgsFlag == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                            gSaveContext.equips.buttonItems[0] = ITEM_GIANTS_KNIFE;
+                            gSaveContext.save.info.equips.buttonItems[0] = ITEM_GIANTS_KNIFE;
                         }
                     }
 
@@ -525,8 +528,9 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
         for (k = 0, temp = rowStart + 1, bit = rowStart, j = point; k < 3; k++, bit++, j += 4, temp++) {
 
-            if ((gBitFlags[bit] & gSaveContext.inventory.equipment) && (pauseCtx->cursorSpecialPos == 0)) {
-                if ((gEquipAgeReqs[i][k + 1] == 9) || (gEquipAgeReqs[i][k + 1] == ((void)0, gSaveContext.linkAge))) {
+            if ((gBitFlags[bit] & gSaveContext.save.info.inventory.equipment) && (pauseCtx->cursorSpecialPos == 0)) {
+                if ((gEquipAgeReqs[i][k + 1] == 9) ||
+                    (gEquipAgeReqs[i][k + 1] == ((void)0, gSaveContext.save.linkAge))) {
                     if (temp == cursorSlot) {
                         pauseCtx->equipVtx[j].v.ob[0] = pauseCtx->equipVtx[j + 2].v.ob[0] =
                             pauseCtx->equipVtx[j].v.ob[0] - 2;
@@ -555,29 +559,32 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             if (1) {}
             if ((point != 0) && (CUR_UPG_VALUE(sChildUpgrades[i]) != 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx,
-                                                   gItemIcons[sChildUpgradeItemBases[i] + point - 1], 32, 32, 0);
+                                                   gItemIcons[sChildUpgradeItemBases[i] + point - 1], ITEM_ICON_WIDTH,
+                                                   ITEM_ICON_HEIGHT, 0);
             }
         } else {
             if ((i == 0) && (CUR_UPG_VALUE(sAdultUpgrades[i]) == 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(
                     play->state.gfxCtx, gItemIcons[sChildUpgradeItemBases[i] + CUR_UPG_VALUE(sChildUpgrades[i]) - 1],
-                    32, 32, 0);
+                    ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 0);
             } else if (CUR_UPG_VALUE(sAdultUpgrades[i]) != 0) {
                 KaleidoScope_DrawQuadTextureRGBA32(
                     play->state.gfxCtx, gItemIcons[sAdultUpgradeItemBases[i] + CUR_UPG_VALUE(sAdultUpgrades[i]) - 1],
-                    32, 32, 0);
+                    ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 0);
             }
         }
 
         for (k = 0, bit = rowStart, point = 4; k < 3; k++, point += 4, temp++, bit++) {
 
-            if (((u32)i == 0) && (k == 2) && (gSaveContext.bgsFlag != 0)) {
-                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gBiggoronSwordIconTex, 32, 32, point);
-            } else if ((i == 0) && (k == 2) && (gBitFlags[bit + 1] & gSaveContext.inventory.equipment)) {
-                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gBrokenGiantsKnifeIconTex, 32, 32, point);
-            } else if (gBitFlags[bit] & gSaveContext.inventory.equipment) {
-                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[ITEM_SWORD_KOKIRI + temp], 32, 32,
-                                                   point);
+            if (((u32)i == 0) && (k == 2) && (gSaveContext.save.info.playerData.bgsFlag != 0)) {
+                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIconSwordBiggoronTex, ITEM_ICON_WIDTH,
+                                                   ITEM_ICON_HEIGHT, point);
+            } else if ((i == 0) && (k == 2) && (gBitFlags[bit + 1] & gSaveContext.save.info.inventory.equipment)) {
+                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIconBrokenGiantsKnifeTex, ITEM_ICON_WIDTH,
+                                                   ITEM_ICON_HEIGHT, point);
+            } else if (gBitFlags[bit] & gSaveContext.save.info.inventory.equipment) {
+                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[ITEM_SWORD_KOKIRI + temp],
+                                                   ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, point);
             }
         }
     }

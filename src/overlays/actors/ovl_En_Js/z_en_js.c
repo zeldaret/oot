@@ -128,7 +128,7 @@ void func_80A89160(EnJs* this, PlayState* play) {
         this->actor.parent = NULL;
         En_Js_SetupAction(this, func_80A8910C);
     } else {
-        func_8002F434(&this->actor, play, GI_BOMBCHUS_10, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOMBCHUS_10, 10000.0f, 50.0f);
     }
 }
 
@@ -136,7 +136,7 @@ void func_80A891C4(EnJs* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0: // yes
-                if (gSaveContext.rupees < 200) {
+                if (gSaveContext.save.info.playerData.rupees < 200) {
                     Message_ContinueTextbox(play, 0x6075);
                     func_80A89008(this);
                 } else {
@@ -170,7 +170,7 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
