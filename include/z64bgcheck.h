@@ -100,10 +100,10 @@ typedef struct {
 #define WATERBOX_FLAG_19 (1 << 19)
 
 #define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19) \
-    ((((bgCamIndex) <<  0) & 0x000000FF) | \
-     (((lightIndex) <<  8) & 0x00001F00) | \
-     (((room)       << 13) & 0x0007E000) | \
-     (((setFlag19) & 1) << 19))
+    ((((bgCamIndex) & 0xFF) <<  0) | \
+     (((lightIndex) & 0x1F) <<  8) | \
+     (((room)       & 0x3F) << 13) | \
+     (((setFlag19)  &    1) << 19))
 
 typedef struct {
     /* 0x00 */ s16 xMin;
