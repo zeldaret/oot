@@ -39,8 +39,8 @@ void GameOver_Update(PlayState* play) {
 
                     // search c buttons for the found spoiling item and revert if necessary
                     for (j = IBTN_BC_C_FIRST; j <= IBTN_BC_C_LAST; j++) {
-                        if (gSaveContext.equips.buttonItems[j] == gSpoilingItems[i]) {
-                            gSaveContext.equips.buttonItems[j] = gSpoilingItemReverts[i];
+                        if (gSaveContext.save.info.equips.buttonItems[j] == gSpoilingItems[i]) {
+                            gSaveContext.save.info.equips.buttonItems[j] = gSpoilingItemReverts[i];
                             Interface_LoadItemIcon1(play, j);
                         }
                     }
@@ -48,20 +48,20 @@ void GameOver_Update(PlayState* play) {
             }
 
             // restore "temporary B" to the B Button if not a sword item
-            if (gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KOKIRI &&
-                gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_MASTER &&
-                gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_BIGGORON &&
-                gSaveContext.equips.buttonItems[IBTN_BC_B] != ITEM_GIANTS_KNIFE) {
+            if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KOKIRI &&
+                gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_MASTER &&
+                gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_BIGGORON &&
+                gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_GIANTS_KNIFE) {
 
                 if (gSaveContext.buttonStatus[IBTN_BCA_B] != BTN_ENABLED) {
-                    gSaveContext.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
+                    gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
                 } else {
-                    gSaveContext.equips.buttonItems[IBTN_BC_B] = ITEM_NONE;
+                    gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_NONE;
                 }
             }
 
             gSaveContext.nayrusLoveTimer = 2000;
-            gSaveContext.naviTimer = 0;
+            gSaveContext.save.info.playerData.naviTimer = 0;
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
             gSaveContext.eventInf[0] = 0;

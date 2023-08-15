@@ -114,7 +114,7 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(play, this->switchFlag))) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
+        if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
                 // "North! ! ! ! !"
                 osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToPlayer);
@@ -187,7 +187,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->unk_15A++;
-    if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
+    if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
         } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&

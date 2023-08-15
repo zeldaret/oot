@@ -80,35 +80,37 @@ void Interface_Init(PlayState* play) {
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.buttonItems[IBTN_BC_B],
-                 gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT], gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN],
-                 gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT]);
+    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.save.info.equips.buttonItems[IBTN_BC_B],
+                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT], gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN],
+                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]);
 
-    if (gSaveContext.equips.buttonItems[IBTN_BC_B] < 0xF0) {
+    if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] < 0xF0) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_B * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[IBTN_BC_B]), ITEM_ICON_SIZE,
+
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_B]), ITEM_ICON_SIZE,
                                 "../z_construct.c", 198);
-    } else if (gSaveContext.equips.buttonItems[IBTN_BC_B] != 0xFF) {
+    } else if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != 0xFF) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_B * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[IBTN_BC_B]), ITEM_ICON_SIZE,
+
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_B]), ITEM_ICON_SIZE,
                                 "../z_construct.c", 203);
     }
 
-    if (gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT] < 0xF0) {
+    if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] < 0xF0) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_C_LEFT * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[IBTN_BC_C_LEFT]), ITEM_ICON_SIZE,
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT]), ITEM_ICON_SIZE,
                                 "../z_construct.c", 209);
     }
 
-    if (gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN] < 0xF0) {
+    if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN] < 0xF0) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_C_DOWN * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[IBTN_BC_C_DOWN]), ITEM_ICON_SIZE,
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN]), ITEM_ICON_SIZE,
                                 "../z_construct.c", 214);
     }
 
-    if (gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT] < 0xF0) {
+    if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT] < 0xF0) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_C_RIGHT * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.equips.buttonItems[IBTN_BC_C_RIGHT]), ITEM_ICON_SIZE,
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]), ITEM_ICON_SIZE,
                                 "../z_construct.c", 219);
     }
 
@@ -137,7 +139,7 @@ void Interface_Init(PlayState* play) {
 
         gSaveContext.timerX[timerId] = 26;
 
-        if (gSaveContext.healthCapacity > 0xA0) {
+        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
             gSaveContext.timerY[timerId] = 54; // two rows of hearts
         } else {
             gSaveContext.timerY[timerId] = 46; // one row of hearts

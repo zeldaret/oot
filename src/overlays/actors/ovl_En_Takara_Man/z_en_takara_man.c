@@ -53,7 +53,7 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
     // "Bun! %x" (needs a better translation)
     osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, play->actorCtx.flags.chest);
     play->actorCtx.flags.chest = 0;
-    gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
+    gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,
                        this->morphTable, 10);
     thisx->focus.pos = thisx->world.pos;
@@ -130,7 +130,7 @@ void func_80B17934(EnTakaraMan* this, PlayState* play) {
     if (this->dialogState == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0: // Yes
-                if (gSaveContext.rupees >= 10) {
+                if (gSaveContext.save.info.playerData.rupees >= 10) {
                     Message_CloseTextbox(play);
                     Rupees_ChangeBy(-10);
                     this->unk_214 = 1;

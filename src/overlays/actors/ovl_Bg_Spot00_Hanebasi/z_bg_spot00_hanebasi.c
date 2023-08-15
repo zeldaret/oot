@@ -236,14 +236,14 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
             if (gTimeSpeed == 50) {
                 tmp = CLOCK_TIME(20, 0) + 1;
 
-                if (gSaveContext.dayTime > CLOCK_TIME(20, 0) + 1) {
+                if (gSaveContext.save.dayTime > CLOCK_TIME(20, 0) + 1) {
                     tmp = CLOCK_TIME(20, 0) + 1 + 0x10000;
                 }
 
-                gTimeSpeed = (tmp - gSaveContext.dayTime) * (1.0f / 350.0f);
+                gTimeSpeed = (tmp - gSaveContext.save.dayTime) * (1.0f / 350.0f);
             }
 
-            dayTime = gSaveContext.dayTime;
+            dayTime = gSaveContext.save.dayTime;
 
             if ((dayTime > CLOCK_TIME(4, 0)) && (dayTime < CLOCK_TIME(4, 30)) && (gSaveContext.sceneLayer == 5)) {
                 gTimeSpeed = 0;
