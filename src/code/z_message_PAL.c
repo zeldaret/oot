@@ -2486,7 +2486,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     } else {
                         Message_CloseTextbox(play);
                         if (msgCtx->lastPlayedSong == OCARINA_SONG_EPONAS) {
-                            R_PLAYED_EPONAS_SONG = true;
+                            R_EPONA_CALLED = true;
                         }
                         osSyncPrintf(VT_FGCOL(YELLOW));
                         osSyncPrintf("☆☆☆ocarina=%d   message->ocarina_no=%d  ", msgCtx->lastPlayedSong,
