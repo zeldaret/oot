@@ -212,7 +212,7 @@ typedef enum {
 } CutsceneTextType;
 
 typedef enum {
-    /* 0x03 */ CS_FADE_OUT_FANFARE = 3, 
+    /* 0x03 */ CS_FADE_OUT_FANFARE = 3,
     /* 0x04 */ CS_FADE_OUT_BGM_MAIN
 } CutsceneFadeOutSeqPlayer;
 

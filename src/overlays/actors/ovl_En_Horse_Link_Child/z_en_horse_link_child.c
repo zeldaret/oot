@@ -351,7 +351,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     player = GET_PLAYER(play);
     distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
-    if (gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_1) {
+    if (gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_1) {
         Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);
@@ -359,7 +359,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     }
 
     if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
-        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
+        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {
         this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);

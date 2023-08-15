@@ -24,13 +24,13 @@ void vc_vector_release(vc_vector* vector);
 bool vc_vector_is_equals(vc_vector* vector1, vc_vector* vector2);
 
 // Returns constant value of the vector growth factor.
-float vc_vector_get_growth_factor();
+float vc_vector_get_growth_factor(void);
 
 // Returns constant value of the vector default count of elements.
-size_t vc_vector_get_default_count_of_elements();
+size_t vc_vector_get_default_count_of_elements(void);
 
 // Returns constant value of the vector struct size.
-size_t vc_vector_struct_size();
+size_t vc_vector_struct_size(void);
 
 // ----------------------------------------------------------------------------
 // Element access

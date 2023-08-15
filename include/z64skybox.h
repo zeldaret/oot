@@ -41,14 +41,20 @@ typedef enum {
     /* 0x27 */ SKYBOX_UNSET_27 = 39
 } SkyboxId;
 
+typedef enum {
+    /* 0 */ SKYBOX_DRAW_128,       // 128x128 top/bottom faces, 128x64 side faces
+    /* 1 */ SKYBOX_DRAW_256_4FACE, // 256x256 all side faces with per-face palettes
+    /* 2 */ SKYBOX_DRAW_256_3FACE  // 256x256 3/4 side faces with per-face palettes
+} SkyboxDrawType;
+
 typedef struct SkyboxContext {
     /* 0x000 */ char unk_00[0x128];
     /* 0x128 */ void* staticSegments[2];
     /* 0x130 */ u16 (*palettes)[256];
     /* 0x134 */ Gfx (*dListBuf)[150];
-    /* 0x138 */ Gfx* unk_138;
+    /* 0x138 */ Gfx* gfx;
     /* 0x13C */ Vtx* roomVtx;
-    /* 0x140 */ s16 unk_140;
+    /* 0x140 */ s16 drawType;
     /* 0x144 */ Vec3f rot;
     /* 0x150 */ char unk_150[0x10];
 } SkyboxContext; // size = 0x160

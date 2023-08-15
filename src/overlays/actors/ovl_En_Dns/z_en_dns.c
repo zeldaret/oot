@@ -188,7 +188,7 @@ u32 func_809EF5A4(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS))) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
@@ -201,7 +201,7 @@ u32 func_809EF658(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS))) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
@@ -211,7 +211,7 @@ u32 func_809EF658(EnDns* this) {
 }
 
 u32 func_809EF70C(EnDns* this) {
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -224,7 +224,7 @@ u32 func_809EF73C(EnDns* this) {
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
@@ -237,7 +237,7 @@ u32 func_809EF800(EnDns* this) {
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_DEKU)) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -250,7 +250,7 @@ u32 func_809EF854(EnDns* this) {
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -263,7 +263,7 @@ u32 func_809EF8F4(EnDns* this) {
     if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;
@@ -273,7 +273,7 @@ u32 func_809EF9A4(EnDns* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 1;
     }
-    if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
+    if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return 0;
     }
     return 4;

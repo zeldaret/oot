@@ -105,12 +105,12 @@ static EnFrPointers sEnFrPointers = {
     },
 };
 
-#define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                   \
-    (gSaveContext.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
+#define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                             \
+    (gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
      sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex])
 
-#define FROG_SET_SONG_PLAYED(frogSongIndex)                        \
-    gSaveContext.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
+#define FROG_SET_SONG_PLAYED(frogSongIndex)                                  \
+    gSaveContext.save.info.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
         sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex];
 
 static u16 sFrogSongIndexToEventChkInfSongsForFrogsMask[] = {
@@ -352,7 +352,7 @@ void EnFr_DivingIntoWater(EnFr* this, PlayState* play) {
         vec.z = this->actor.world.pos.z;
         EffectSsGSplash_Spawn(play, &vec, NULL, NULL, 1, 1);
 
-        if (this->isBelowWaterSurfaceCurrent == false) {
+        if (!this->isBelowWaterSurfaceCurrent) {
             Actor_PlaySfx(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
         } else {
             Actor_PlaySfx(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
@@ -594,7 +594,7 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
     EnFr* frog = sEnFrPointers.frogs[frogIndex];
     u8 semitone;
 
-    if (frog != NULL && frog->isJumpingUp == false) {
+    if ((frog != NULL) && !frog->isJumpingUp) {
         semitone = frog->growingScaleIndex == 3 ? sLargeFrogNotes[frogIndex] : sSmallFrogNotes[frogIndex];
         if (this->songIndex == FROG_CHOIR_SONG) {
             frog->isJumpingToFrogSong = true;
@@ -737,7 +737,7 @@ void EnFr_ChildSong(EnFr* this, PlayState* play) {
             EnFr_SetupReward(this, play, false);
         } else if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
             frog = sEnFrPointers.frogs[sSongToFrog[songIndex]];
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             if (frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
                 frog->isJumpingUp = true;
                 frog->isActive = true;
@@ -756,7 +756,7 @@ void EnFr_ChildSong(EnFr* this, PlayState* play) {
 void EnFr_ChildSongFirstTime(EnFr* this, PlayState* play) {
     EnFr* frog = sEnFrPointers.frogs[sSongToFrog[this->songIndex]];
 
-    if (frog->isActive == false) {
+    if (!frog->isActive) {
         this->actor.textId = 0x40A9;
         EnFr_SetupReward(this, play, true);
     }
@@ -855,7 +855,7 @@ s32 EnFr_IsFrogSongComplete(EnFr* this, PlayState* play) {
 void EnFr_OcarinaMistake(EnFr* this, PlayState* play) {
     Message_CloseTextbox(play);
     this->reward = GI_NONE;
-    func_80078884(NA_SE_SY_OCARINA_ERROR);
+    Sfx_PlaySfxCentered(NA_SE_SY_OCARINA_ERROR);
     AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
     sEnFrPointers.flags = 12;
     EnFr_DeactivateButterfly();
@@ -916,9 +916,9 @@ void EnFr_ContinueFrogSong(EnFr* this, PlayState* play) {
 void EnFr_SetupReward(EnFr* this, PlayState* play, u8 unkCondition) {
     EnFr_DeactivateButterfly();
     if (unkCondition) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     } else {
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 
     AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
