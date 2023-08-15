@@ -382,7 +382,7 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
     func_8003EBF8(play, &play->colCtx.dyna, (s32) temp_v1->bgId);
     func_8005B1A4(play->cameraPtrs[play->activeCamId]);
     gSaveContext.unkEDA = (u16) (gSaveContext.unkEDA | 0x400);
-    func_80078884((u16)0x4802U);
+    Sfx_PlaySfxCentered((u16)0x4802U);
 }
 ```
 
@@ -420,7 +420,7 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
     func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
     func_8005B1A4(GET_ACTIVE_CAM(play));
     gSaveContext.save.info.eventChkInf[3] |= 0x400;
-    func_80078884(NA_SE_SY_CORRECT_CHIME);
+    Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 }
 ```
 
@@ -439,7 +439,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
         func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
         func_8005B1A4(GET_ACTIVE_CAM(play));
         gSaveContext.save.info.eventChkInf[3] |= 0x400;
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 }
 ```

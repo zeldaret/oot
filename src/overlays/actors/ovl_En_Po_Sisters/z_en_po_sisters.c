@@ -817,7 +817,7 @@ void func_80ADB17C(EnPoSisters* this, PlayState* play) {
             Flags_UnsetSwitch(play, 0x1B);
         }
         play->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->actor);
     } else if (this->unk_19A < 32) {
         func_80AD9240(this, this->unk_19A, &this->actor.world.pos);

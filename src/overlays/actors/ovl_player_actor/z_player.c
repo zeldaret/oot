@@ -2444,7 +2444,7 @@ s32 func_8083442C(Player* this, PlayState* play) {
 
     if ((this->heldItemAction >= PLAYER_IA_BOW_FIRE) && (this->heldItemAction <= PLAYER_IA_BOW_0E) &&
         (gSaveContext.magicState != MAGIC_STATE_IDLE)) {
-        func_80078884(NA_SE_SY_ERROR);
+        Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
     } else {
         func_80833638(this, func_808351D4);
 
@@ -3148,7 +3148,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                  (temp = Player_ActionToExplosive(this, itemAction),
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
                                    (play->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
-                func_80078884(NA_SE_SY_ERROR);
+                Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
             } else if (itemAction == PLAYER_IA_LENS_OF_TRUTH) {
                 if (Magic_RequestChange(play, 0, MAGIC_CONSUME_LENS)) {
                     if (play->actorCtx.lensActive) {
@@ -3157,15 +3157,15 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                         play->actorCtx.lensActive = true;
                     }
 
-                    func_80078884((play->actorCtx.lensActive) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
+                    Sfx_PlaySfxCentered((play->actorCtx.lensActive) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
                 } else {
-                    func_80078884(NA_SE_SY_ERROR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 }
             } else if (itemAction == PLAYER_IA_DEKU_NUT) {
                 if (AMMO(ITEM_DEKU_NUT) != 0) {
                     func_8083C61C(play, this);
                 } else {
-                    func_80078884(NA_SE_SY_ERROR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 }
             } else if ((temp = Player_ActionToMagicSpell(this, itemAction)) >= 0) {
                 if (((itemAction == PLAYER_IA_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
@@ -3174,7 +3174,7 @@ void func_80835F44(PlayState* play, Player* this, s32 item) {
                     this->itemAction = itemAction;
                     this->unk_6AD = 4;
                 } else {
-                    func_80078884(NA_SE_SY_ERROR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 }
             } else if (itemAction >= PLAYER_IA_MASK_KEATON) {
                 if (this->currentMask != PLAYER_MASK_NONE) {
@@ -4078,7 +4078,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
 
             func_80832698(this, NA_SE_VO_LI_TAKEN_AWAY);
             play->haltAllActors = true;
-            func_80078884(NA_SE_OC_ABYSS);
+            Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
         } else if ((this->unk_8A1 != 0) && ((this->unk_8A1 >= 2) || (this->invincibilityTimer == 0))) {
             u8 sp5C[] = { 2, 1, 1 };
 
@@ -4338,7 +4338,7 @@ s32 func_80838FB8(PlayState* play, Player* this) {
         func_80838F5C(play, this);
         func_80832284(play, this, &gPlayerAnim_link_normal_landing_wait);
         func_80832698(this, NA_SE_VO_LI_FALL_S);
-        func_800788CC(NA_SE_OC_SECRET_WARP_IN);
+        Sfx_PlaySfxCentered2(NA_SE_OC_SECRET_WARP_IN);
         return 1;
     }
 
@@ -4457,7 +4457,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                 ((sp34 < 100) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))) {
 
                 if (temp == FLOOR_TYPE_11) {
-                    func_800788CC(NA_SE_OC_SECRET_HOLE_OUT);
+                    Sfx_PlaySfxCentered2(NA_SE_OC_SECRET_HOLE_OUT);
                     func_800F6964(5);
                     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
                     gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
@@ -4509,7 +4509,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                             Play_TriggerVoidOut(play);
                         }
                         play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
-                        func_80078884(NA_SE_OC_ABYSS);
+                        Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
                     } else {
                         func_80838F5C(play, this);
                         this->unk_850 = 9999;
@@ -5326,12 +5326,12 @@ s32 func_8083B040(Player* this, PlayState* play) {
                     func_8083B010(this);
                 }
                 this->stateFlags1 |= PLAYER_STATE1_20;
-                func_80078884(NA_SE_SY_CAMERA_ZOOM_UP);
+                Sfx_PlaySfxCentered(NA_SE_SY_CAMERA_ZOOM_UP);
                 Player_ZeroSpeedXZ(this);
                 return 1;
             } else {
                 this->unk_6AD = 0;
-                func_80078884(NA_SE_SY_ERROR);
+                Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 return 0;
             }
 
@@ -5442,7 +5442,7 @@ s32 func_8083B998(Player* this, PlayState* play) {
     } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
                (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) &&
                (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) && !func_8083B8F4(this, play)) {
-        func_80078884(NA_SE_SY_ERROR);
+        Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
     }
 
     return 0;
@@ -5750,7 +5750,7 @@ s32 func_8083C6B8(PlayState* play, Player* this) {
 
             if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.world.pos.z > 1300.0f) ||
                 BgCheck_SphVsFirstPoly(&play->colCtx, &sp24, 20.0f)) {
-                func_80078884(NA_SE_SY_ERROR);
+                Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 return 0;
             }
 
@@ -6397,7 +6397,7 @@ void func_8083E4C4(PlayState* play, Player* this, GetItemEntry* giEntry) {
         Item_Give(play, giEntry->itemId);
     }
 
-    func_80078884((this->getItemId < 0) ? NA_SE_SY_GET_BOXITEM : NA_SE_SY_GET_ITEM);
+    Sfx_PlaySfxCentered((this->getItemId < 0) ? NA_SE_SY_GET_BOXITEM : NA_SE_SY_GET_ITEM);
 }
 
 s32 func_8083E5A8(Player* this, PlayState* play) {
@@ -10491,7 +10491,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->unk_A86++;
         if (this->unk_A86 == 0) {
             this->unk_A86 = 1;
-            func_80078884(NA_SE_OC_REVENGE);
+            Sfx_PlaySfxCentered(NA_SE_OC_REVENGE);
         }
     }
 
@@ -11283,7 +11283,7 @@ void func_8084B1D8(Player* this, PlayState* play) {
           CHECK_BTN_ANY(sControlInput->press.button,
                         BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)))) {
         func_8083C148(this, play);
-        func_80078884(NA_SE_SY_CAMERA_ZOOM_UP);
+        Sfx_PlaySfxCentered(NA_SE_SY_CAMERA_ZOOM_UP);
     } else if ((DECR(this->unk_850) == 0) || (this->unk_6AD != 2)) {
         if (func_8008F128(this)) {
             this->unk_6AE |= 0x43;
@@ -13103,7 +13103,7 @@ void func_8084F88C(Player* this, PlayState* play) {
             }
 
             play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
-            func_80078884(NA_SE_OC_ABYSS);
+            Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
         } else {
             play->transitionType = TRANS_TYPE_FADE_BLACK;
             gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
@@ -13447,7 +13447,7 @@ void func_8085063C(Player* this, PlayState* play) {
         if (play->msgCtx.choiceIndex == 1) {
             gSaveContext.respawn[RESPAWN_MODE_TOP].data = -respawnData;
             gSaveContext.save.info.fw.set = 0;
-            func_80078914(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_VANISH);
+            Sfx_PlaySfxAtPos(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_VANISH);
         }
 
         func_80853080(this, play);
@@ -13467,7 +13467,7 @@ void func_8085076C(Player* this, PlayState* play) {
 
     if (this->unk_850++ == 20) {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = respawnData + 1;
-        func_80078914(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_WARP);
+        Sfx_PlaySfxAtPos(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos, NA_SE_PL_MAGIC_WIND_WARP);
     }
 }
 

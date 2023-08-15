@@ -489,7 +489,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
 
             lockOnSfxId = CHECK_FLAG_ALL(actorArg->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
                                                                                        : NA_SE_SY_LOCK_ON_HUMAN;
-            func_80078884(lockOnSfxId);
+            Sfx_PlaySfxCentered(lockOnSfxId);
         }
 
         targetCtx->targetCenterPos.x = actorArg->world.pos.x;
@@ -1751,7 +1751,7 @@ void Player_PlaySfx(Player* player, u16 sfxId) {
  * Play a sound effect at the actor's position
  */
 void Actor_PlaySfx(Actor* actor, u16 sfxId) {
-    func_80078914(&actor->projectedPos, sfxId);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, sfxId);
 }
 
 void func_8002F850(PlayState* play, Actor* actor) {
@@ -1767,8 +1767,8 @@ void func_8002F850(PlayState* play, Actor* actor) {
         surfaceSfxOffset = SurfaceType_GetSfxOffset(&play->colCtx, actor->floorPoly, actor->floorBgId);
     }
 
-    func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
-    func_80078914(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
@@ -1965,7 +1965,8 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
 
         //! @bug One of the conditions for this block checks an entrance index to see if the light ball should draw.
         //! This does not account for the fact that some dungeons have multiple entrances.
-        //! If a dungeon is entered through a different entrance than the one that was saved, the light ball will not draw.
+        //! If a dungeon is entered through a different entrance than the one that was saved, the light ball will not
+        //! draw.
         if ((play->csCtx.state == CS_STATE_IDLE) &&
             (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex) ==
              ((void)0, gSaveContext.save.entranceIndex)) &&
@@ -1998,8 +1999,8 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
         }
 
-        //! @bug This function call is not contained in the above block, meaning the light for Farore's Wind will draw in 
-        //! every scene at the same position that it was originally set.
+        //! @bug This function call is not contained in the above block, meaning the light for Farore's Wind will draw
+        //! in every scene at the same position that it was originally set.
         Lights_PointNoGlowSetInfo(&D_8015BC00, ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
                                   ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
                                   ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), 255, 255, 255, lightRadius);
@@ -2214,7 +2215,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         actor = NULL;
         if (actorCtx->targetCtx.unk_4B != 0) {
             actorCtx->targetCtx.unk_4B = 0;
-            func_80078884(NA_SE_SY_LOCK_OFF);
+            Sfx_PlaySfxCentered(NA_SE_SY_LOCK_OFF);
         }
     }
 
@@ -2316,13 +2317,13 @@ void func_80030ED8(Actor* actor) {
         Audio_PlaySfxGeneral(actor->sfx, &actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (actor->flags & ACTOR_FLAG_20) {
-        func_80078884(actor->sfx);
+        Sfx_PlaySfxCentered(actor->sfx);
     } else if (actor->flags & ACTOR_FLAG_21) {
-        func_800788CC(actor->sfx);
+        Sfx_PlaySfxCentered2(actor->sfx);
     } else if (actor->flags & ACTOR_FLAG_28) {
         func_800F4C58(&gSfxDefaultPos, NA_SE_SY_TIMER - SFX_FLAG, (s8)(actor->sfx - 1));
     } else {
-        func_80078914(&actor->projectedPos, actor->sfx);
+        Sfx_PlaySfxAtPos(&actor->projectedPos, actor->sfx);
     }
 }
 
