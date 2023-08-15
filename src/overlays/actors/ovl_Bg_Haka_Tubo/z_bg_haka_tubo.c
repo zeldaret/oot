@@ -116,7 +116,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, PlayState* play) {
         this->flamesCollider.base.atFlags &= ~AT_HIT;
         func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 5.0f);
     }
-    // Colliding with hitbox inside the pot
+    // Colliding with collider inside the pot
     if (this->potCollider.base.acFlags & AC_HIT) {
         this->potCollider.base.acFlags &= ~AC_HIT;
         // If the colliding actor is within a 50 unit radius and 50 unit height cylinder centered

@@ -355,7 +355,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
             }
             break;
         case TEKTITE_MID_LUNGE:
-            // Generate sparkles at feet upon landing, set jumping animation and hurtbox and check if hit player
+            // Generate sparkles at feet upon landing, set jumping animation and attack collider and check if hit player
             if (this->actor.velocity.y >= 5.0f) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     func_800355B8(play, &this->frontLeftFootPos);

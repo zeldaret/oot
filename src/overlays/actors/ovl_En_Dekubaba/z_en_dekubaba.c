@@ -278,7 +278,7 @@ void EnDekubaba_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-void EnDekubaba_DisableHitboxes(EnDekubaba* this) {
+void EnDekubaba_DisableACColliderElems(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
@@ -441,7 +441,7 @@ void EnDekubaba_SetupSway(EnDekubaba* this) {
     this->stemSectionAngle[2] = -0x5000;
     this->stemSectionAngle[1] = -0x4800;
 
-    EnDekubaba_DisableHitboxes(this);
+    EnDekubaba_DisableACColliderElems(this);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 35);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekubaba_Sway;
@@ -896,7 +896,7 @@ void EnDekubaba_StunnedVertical(EnDekubaba* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        EnDekubaba_DisableHitboxes(this);
+        EnDekubaba_DisableACColliderElems(this);
 
         if (this->actor.xzDistToPlayer < 80.0f * this->size) {
             EnDekubaba_SetupPrepareLunge(this);
