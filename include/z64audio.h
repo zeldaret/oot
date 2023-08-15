@@ -315,7 +315,7 @@ typedef struct {
     /* 0x00C */ u16 tempoChange; // Used to adjust the tempo without altering the base tempo.
     /* 0x00E */ s16 transposition;
     /* 0x010 */ u16 delay;
-    /* 0x012 */ u16 fadeTimer;
+    /* 0x012 */ u16 fadeTimer; // in ticks
     /* 0x014 */ u16 fadeTimerUnkEu;
     /* 0x018 */ u8* seqData;
     /* 0x01C */ f32 fadeVolume;
@@ -652,7 +652,7 @@ typedef struct {
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
-    /* 0x0C */ s16 ticksPerUpdate; // for each frame of the audio thread (default 60 fps), number of updates to process audio
+    /* 0x0C */ s16 ticksPerUpdate; // for each audio thread update, number of ticks to process audio
     /* 0x0E */ s16 samplesPerTick;
     /* 0x10 */ s16 samplesPerTickMax;
     /* 0x12 */ s16 samplesPerTickMin;
@@ -897,7 +897,7 @@ typedef struct {
     /* 0x288C */ s32 sampleDmaBufSize;
     /* 0x2890 */ s32 maxAudioCmds;
     /* 0x2894 */ s32 numNotes;
-    /* 0x2898 */ s16 maxTempo; // Maximum possible tempo (ticks per minute) using every possible update to process a .seq file
+    /* 0x2898 */ s16 maxTempo; // Maximum possible tempo (seqTicks per minute), using every tick as a seqTick to process a .seq file
     /* 0x289A */ s8 soundMode;
     /* 0x289C */ s32 totalTaskCount; // The total number of times the top-level function on the audio thread has run since audio was initialized
     /* 0x28A0 */ s32 curAudioFrameDmaCount;
@@ -908,7 +908,7 @@ typedef struct {
     /* 0x28B8 */ AudioTask* curTask;
     /* 0x28BC */ char unk_28BC[0x4];
     /* 0x28C0 */ AudioTask rspTask[2];
-    /* 0x2960 */ f32 maxTempoTvTypeFactors; // tvType factors that impact maxTempo, in units of frames/millisecond
+    /* 0x2960 */ f32 maxTempoTvTypeFactors; // tvType factors that impact maxTempo, in units of milliseconds/frame
     /* 0x2964 */ s32 refreshRate;
     /* 0x2968 */ s16* aiBuffers[3];
     /* 0x2974 */ s16 aiBufLengths[3];
@@ -982,7 +982,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0 */ s16 unk_00; // set to 0x1C00, unused
-    /* 0x2 */ s16 seqticksPerBeat;
+    /* 0x2 */ s16 seqTicksPerBeat;
 } TempoData; // size = 0x4
 
 typedef struct {

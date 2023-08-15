@@ -12,8 +12,6 @@ void AudioHeap_DiscardSampleBanks(void);
 
 /**
  * Effectively scales `ticksPerUpdateInv` by the reciprocal of `scaleInv`
- * `ticksPerUpdateInvScaled` is just `ticksPerUpdateInv` scaled down by a factor of 256.0f
- * i.e. (256.0f * `ticksPerUpdateInvScaled`) is just `ticksPerUpdateInv`
  */
 f32 AudioHeap_CalculateAdsrDecay(f32 scaleInv) {
     return (256.0f * gAudioCtx.audioBufferParameters.ticksPerUpdateInvScaled) / scaleInv;
@@ -891,7 +889,7 @@ void AudioHeap_Init(void) {
     // (ticks / min)
     // 60 * 1000 is a conversion from milliseconds to minutes
     gAudioCtx.maxTempo = (u32)(gAudioCtx.audioBufferParameters.ticksPerUpdate * (f32)(60 * 1000 * SEQTICKS_PER_BEAT) /
-                               gTempoData.seqticksPerBeat / gAudioCtx.maxTempoTvTypeFactors);
+                               gTempoData.seqTicksPerBeat / gAudioCtx.maxTempoTvTypeFactors);
 
     gAudioCtx.unk_2870 = gAudioCtx.refreshRate;
     gAudioCtx.unk_2870 *= gAudioCtx.audioBufferParameters.ticksPerUpdate;

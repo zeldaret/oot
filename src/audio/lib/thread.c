@@ -204,7 +204,7 @@ void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
             AudioThread_SetFadeInTimer(cmd->arg0, cmd->asInt);
             break;
 
-        case AUDIOCMD_OP_GLOBAL_INIT_SEQPLAYER_SKIP_SEQTICKS:
+        case AUDIOCMD_OP_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS:
             AudioLoad_SyncInitSeqPlayerSkipSeqTicks(cmd->arg0, cmd->arg1, cmd->asInt);
             break;
 
@@ -678,6 +678,7 @@ void AudioThread_ProcessChannelCmd(SequenceChannel* channel, AudioCmd* cmd) {
             break;
 
         case AUDIOCMD_OP_CHANNEL_SET_PAN_WEIGHT:
+            //! @bug: Should compare `asSbyte` to `panChannelWeight`
             if (channel->newPan != cmd->asSbyte) {
                 channel->panChannelWeight = cmd->asSbyte;
                 channel->changes.s.pan = true;

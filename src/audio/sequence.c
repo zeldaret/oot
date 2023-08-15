@@ -46,7 +46,7 @@ void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDura
         if (seqArgs == 0x7F) {
             // `fadeInDuration` interpreted as seconds, 60 is refresh rate and does not account for PAL
             skipSeqTicks = (fadeInDuration >> 3) * 60 * gAudioCtx.audioBufferParameters.ticksPerUpdate;
-            AUDIOCMD_GLOBAL_INIT_SEQPLAYER_SKIP_SEQTICKS((u32)seqPlayerIndex, (u32)seqId, skipSeqTicks);
+            AUDIOCMD_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS((u32)seqPlayerIndex, (u32)seqId, skipSeqTicks);
         } else {
             // `fadeInDuration` interpreted as 1/30th of a second, does not account for change in refresh rate for PAL
             AUDIOCMD_GLOBAL_INIT_SEQPLAYER((u32)seqPlayerIndex, (u32)seqId,

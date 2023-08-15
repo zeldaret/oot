@@ -7,7 +7,7 @@ s32 D_801755D8[3]; // unused
 
 const TempoData gTempoData = {
     0x1C00,            // unk_00
-    SEQTICKS_PER_BEAT, // seqticksPerBeat
+    SEQTICKS_PER_BEAT, // seqTicksPerBeat
 };
 
 // TODO: Extract from table?

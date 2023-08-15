@@ -65,7 +65,7 @@ typedef enum {
  *
  * @param seqPlayerIndex the index of the seqPlayer to play the sequence
  * @param fadeInDuration effect will depend on seqArg. See below
- * @param seqArg no effect: < 0x7F, skip ticks: = 0x7F, will not play: >= 0x80 (see note)
+ * @param seqArg no effect: < 0x7F, skip ahead: = 0x7F, will not play: >= 0x80 (see note)
  * @param seqId the id of the sequence to play, see `SeqId`
  *
  * @note seqArg will also be stored in gActiveSeqs.seqId, any check against that seqId must also include seqArg.
