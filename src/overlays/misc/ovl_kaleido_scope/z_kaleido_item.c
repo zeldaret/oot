@@ -604,7 +604,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                             gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN] =
                                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT];
                             gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN] =
-                               
                                 gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT];
                             Interface_LoadItemIcon2(play, IBTN_BC_C_DOWN);
                         }
@@ -624,7 +623,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                             gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT] =
                                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT];
                             gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT] =
-                               
                                 gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT];
                             Interface_LoadItemIcon2(play, IBTN_BC_C_RIGHT);
                         }
@@ -669,7 +667,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                              gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]);
                 osSyncPrintf("Ｃ左sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT],
-                            
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN],
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT]);
             } else if (pauseCtx->equipTargetCBtn == 1) {
@@ -679,7 +676,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                              gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]);
                 osSyncPrintf("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT],
-                            
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN],
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT]);
 
@@ -695,7 +691,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                             gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] =
                                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN];
                             gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT] =
-                               
                                 gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN];
                             Interface_LoadItemIcon2(play, IBTN_BC_C_LEFT);
                         }
@@ -715,7 +710,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                             gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT] =
                                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN];
                             gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT] =
-                               
                                 gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN];
                             Interface_LoadItemIcon2(play, IBTN_BC_C_RIGHT);
                         }
@@ -756,7 +750,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                              gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]);
                 osSyncPrintf("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT],
-                            
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN],
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT]);
             } else {
@@ -766,7 +759,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                              gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]);
                 osSyncPrintf("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT],
-                            
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN],
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT]);
 
@@ -782,7 +774,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                             gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] =
                                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT];
                             gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT] =
-                               
                                 gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT];
                             Interface_LoadItemIcon2(play, IBTN_BC_C_LEFT);
                         }
@@ -802,7 +793,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                             gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN] =
                                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT];
                             gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN] =
-                               
                                 gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT];
                             Interface_LoadItemIcon2(play, IBTN_BC_C_DOWN);
                         }
@@ -843,7 +833,6 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                              gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]);
                 osSyncPrintf("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT],
-                            
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN],
                              gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT]);
             }

@@ -490,7 +490,6 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                             gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_BIGGORON;
                         }
                         if ((gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_SWORD_BIGGORON) &&
-
                             (gSaveContext.save.info.playerData.bgsFlag == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                             gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_GIANTS_KNIFE;

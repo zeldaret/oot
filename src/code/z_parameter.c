@@ -812,9 +812,11 @@ void func_80083108(PlayState* play) {
                             (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_MASTER) &&
                             (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_BIGGORON) &&
                             (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_GIANTS_KNIFE)) {
-                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
+                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] =
+                                gSaveContext.buttonStatus[IBTN_BCA_B];
                         } else {
-                            gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.save.info.equips.buttonItems[IBTN_BC_B];
+                            gSaveContext.buttonStatus[IBTN_BCA_B] =
+                                gSaveContext.save.info.equips.buttonItems[IBTN_BC_B];
                         }
                     }
                     sp28 = true;
@@ -855,7 +857,8 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_NONE) ||
                             (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
-                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
+                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] =
+                                gSaveContext.buttonStatus[IBTN_BCA_B];
                             sp28 = true;
 
                             if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_NONE) {
@@ -869,7 +872,8 @@ void func_80083108(PlayState* play) {
                             ((gSaveContext.buttonStatus[IBTN_BCA_B] & 0xFF) == BTN_ENABLED)) {
                             gSaveContext.buttonStatus[IBTN_BCA_B] = BTN_ENABLED;
                         } else {
-                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B] & 0xFF;
+                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] =
+                                gSaveContext.buttonStatus[IBTN_BCA_B] & 0xFF;
                         }
                     }
                 } else if (interfaceCtx->restrictions.bButton == 1) {
@@ -879,7 +883,8 @@ void func_80083108(PlayState* play) {
                         (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_NONE)) {
                         if ((gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_NONE) ||
                             (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
-                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
+                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] =
+                                gSaveContext.buttonStatus[IBTN_BCA_B];
                             sp28 = true;
 
                             if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_NONE) {
@@ -1189,7 +1194,6 @@ void Inventory_SwapAgeEquipment(void) {
 
             if (i != IBTN_BC_B) {
                 gSaveContext.save.info.playerData.childEquips.cButtonSlots[IBTN_BC_TO_C(i)] =
-                   
                     gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)];
             }
         }
@@ -1203,13 +1207,13 @@ void Inventory_SwapAgeEquipment(void) {
                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] = ITEM_DEKU_NUT;
                 gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT] = SLOT_DEKU_NUT;
             } else {
-                gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] = gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT] =
-                   
-                    ITEM_NONE;
+                gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] =
+                    gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT] = ITEM_NONE;
             }
 
             gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN] = ITEM_BOMB;
-            gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT] = gSaveContext.save.info.inventory.items[SLOT_OCARINA];
+            gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT] =
+                gSaveContext.save.info.inventory.items[SLOT_OCARINA];
             gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN] = SLOT_BOMB;
             gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT] = SLOT_OCARINA;
             gSaveContext.save.info.equips.equipment = (EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4)) |
@@ -1223,7 +1227,6 @@ void Inventory_SwapAgeEquipment(void) {
 
                 if (i != IBTN_BC_B) {
                     gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)] =
-                       
                         gSaveContext.save.info.playerData.adultEquips.cButtonSlots[IBTN_BC_TO_C(i)];
                 }
 
@@ -1231,9 +1234,11 @@ void Inventory_SwapAgeEquipment(void) {
                      (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) ||
                     ((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                      (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
-                    osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)]);
+                    osSyncPrintf("Register_Item_Pt(%d)=%d\n", i,
+                                 gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)]);
                     gSaveContext.save.info.equips.buttonItems[i] =
-                        gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)]];
+                        gSaveContext.save.info.inventory
+                            .items[gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)]];
                 }
             }
 
@@ -1245,7 +1250,6 @@ void Inventory_SwapAgeEquipment(void) {
 
             if (i != IBTN_BC_B) {
                 gSaveContext.save.info.playerData.adultEquips.cButtonSlots[IBTN_BC_TO_C(i)] =
-                   
                     gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)];
             }
         }
@@ -1259,7 +1263,6 @@ void Inventory_SwapAgeEquipment(void) {
 
                 if (i != IBTN_BC_B) {
                     gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)] =
-                       
                         gSaveContext.save.info.playerData.childEquips.cButtonSlots[IBTN_BC_TO_C(i)];
                 }
 
@@ -1267,9 +1270,11 @@ void Inventory_SwapAgeEquipment(void) {
                      (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_BOTTLE_POE)) ||
                     ((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_WEIRD_EGG) &&
                      (gSaveContext.save.info.equips.buttonItems[i] <= ITEM_CLAIM_CHECK))) {
-                    osSyncPrintf("Register_Item_Pt(%d)=%d\n", i, gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)]);
+                    osSyncPrintf("Register_Item_Pt(%d)=%d\n", i,
+                                 gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)]);
                     gSaveContext.save.info.equips.buttonItems[i] =
-                        gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)]];
+                        gSaveContext.save.info.inventory
+                            .items[gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(i)]];
                 }
             }
 
@@ -1335,7 +1340,6 @@ void func_80084BF4(PlayState* play, u16 flag) {
     if (flag) {
         if ((gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_SLINGSHOT) ||
             (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_BOW) ||
-           
             (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_BOMBCHU) ||
             (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_FISHING_POLE) ||
             (gSaveContext.buttonStatus[IBTN_BCA_B] == BTN_DISABLED)) {
@@ -1348,7 +1352,6 @@ void func_80084BF4(PlayState* play, u16 flag) {
             }
         } else if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_NONE) {
             if ((gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_NONE) ||
-               
                 (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
                 Interface_LoadItemIcon1(play, IBTN_BC_B);
@@ -1797,7 +1800,6 @@ u8 Item_Give(PlayState* play, u8 item) {
                     // "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
                     osSyncPrintf("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
                                  gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT],
-                                
                                  gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_DOWN],
                                  gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_RIGHT], temp + i, item);
 
@@ -2059,13 +2061,13 @@ s32 Inventory_HasSpecificBottle(u8 bottleItem) {
 }
 
 void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
-    osSyncPrintf("item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, button,
-                 gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(button)],
-                 gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(button)]]);
+    osSyncPrintf(
+        "item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, button,
+        gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(button)],
+        gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(button)]]);
 
     // Special case to only empty half of a Lon Lon Milk Bottle
     if ((gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[IBTN_BC_TO_C(button)]] ==
-        
          ITEM_BOTTLE_MILK_FULL) &&
         (item == ITEM_BOTTLE_EMPTY)) {
         item = ITEM_BOTTLE_MILK_HALF;
@@ -2572,7 +2574,6 @@ void Magic_Update(PlayState* play) {
                 (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
                 (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {
                 if ((gSaveContext.save.info.playerData.magic == 0) ||
-
                     ((Player_GetEnvironmentalHazard(play) >= PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) &&
                      (Player_GetEnvironmentalHazard(play) <= PLAYER_ENV_HAZARD_UNDERWATER_FREE)) ||
                     ((gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] != ITEM_LENS_OF_TRUTH) &&
@@ -4258,7 +4259,6 @@ void Interface_Update(PlayState* play) {
     if (gSaveContext.timerState == TIMER_STATE_OFF) {
         if (((sEnvHazard == PLAYER_ENV_HAZARD_HOTROOM) || (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FLOOR) ||
              (sEnvHazard == PLAYER_ENV_HAZARD_UNDERWATER_FREE)) &&
-
             ((gSaveContext.save.info.playerData.health >> 1) != 0)) {
             gSaveContext.timerState = TIMER_STATE_ENV_HAZARD_INIT;
             gSaveContext.timerX[TIMER_ID_MAIN] = 140;
