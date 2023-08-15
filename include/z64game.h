@@ -3,9 +3,10 @@
 // This file is named "game" after game.c for now, this may change later with the system name
 
 #include "ultra64/ultratypes.h"
-#include "gfx.h"
 #include "padmgr.h"
 #include "tha.h"
+
+struct GraphicsContext;
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
@@ -34,7 +35,7 @@ struct GameState;
 typedef void (*GameStateFunc)(struct GameState* gameState);
 
 typedef struct GameState {
-    /* 0x00 */ GraphicsContext* gfxCtx;
+    /* 0x00 */ struct GraphicsContext* gfxCtx;
     /* 0x04 */ GameStateFunc main;
     /* 0x08 */ GameStateFunc destroy; // "cleanup"
     /* 0x0C */ GameStateFunc init;
