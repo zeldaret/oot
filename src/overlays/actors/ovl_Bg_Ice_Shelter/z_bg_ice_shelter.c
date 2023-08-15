@@ -432,7 +432,7 @@ void BgIceShelter_Melt(BgIceShelter* this, PlayState* play) {
         }
 
         if (type == RED_ICE_KING_ZORA) {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
 
         Actor_Kill(&this->dyna.actor);
