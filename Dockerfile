@@ -18,7 +18,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN python3 -m pip install --user colorama ansiwrap attrs watchdog python-Levenshtein
+RUN python3 -m pip install --user colorama ansiwrap attrs watchdog python-Levenshtein "mapfile-parser>=1.2.1,<2.0.0" "rabbitizer>=1.0.0,<2.0.0"
 RUN python3 -m pip install --upgrade attrs pycparser
 
 ENV LANG C.UTF-8

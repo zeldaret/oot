@@ -180,7 +180,7 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 void EnKz_UpdateEyes(EnKz* this) {
     if (DECR(this->blinkTimer) == 0) {
-        this->eyeIdx += 1;
+        this->eyeIdx++;
         if (this->eyeIdx >= 3) {
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIdx = 0;

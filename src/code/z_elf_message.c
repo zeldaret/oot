@@ -35,7 +35,7 @@ u32 QuestHint_CheckCondition(QuestHintCmd* hintCmd) {
         case (QUEST_HINT_CONDITION_FLAG << 1):
             flag = 1 << (hintCmd->byte1 & 0x0F);
             return ((hintCmd->byte0 & 1) == 1) ==
-                   ((flag & gSaveContext.eventChkInf[(hintCmd->byte1 & 0xF0) >> 4]) != 0);
+                   ((flag & gSaveContext.save.info.eventChkInf[(hintCmd->byte1 & 0xF0) >> 4]) != 0);
 
         case (QUEST_HINT_CONDITION_DUNGEON_ITEM << 1):
             return ((hintCmd->byte0 & 1) == 1) ==
@@ -63,7 +63,8 @@ u32 QuestHint_CheckCondition(QuestHintCmd* hintCmd) {
                            (CHECK_QUEST_ITEM(hintCmd->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST) != 0);
 
                 case (QUEST_HINT_CONDITION_MAGIC << 4):
-                    return ((hintCmd->byte0 & 1) == 1) == (((void)0, gSaveContext.isMagicAcquired) != 0);
+                    return ((hintCmd->byte0 & 1) == 1) ==
+                           (((void)0, gSaveContext.save.info.playerData.isMagicAcquired) != 0);
             }
     }
 
