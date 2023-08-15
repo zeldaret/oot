@@ -1248,7 +1248,7 @@ void EnSkj_Appear(EnSkj* this) {
 void EnSkj_OcarinaGameIdle(EnSkj* this, PlayState* play) {
     EnSkj_Appear(this);
 
-    if ((EnSkj_IsLeavingGame(this) == false) && (this->minigameState != 0)) {
+    if (!EnSkj_IsLeavingGame(this) && (this->minigameState != 0)) {
         EnSkj_SetupPlayOcarinaGame(this);
     }
 }

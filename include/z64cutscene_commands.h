@@ -137,7 +137,7 @@
     CMD_W(cmdType), CMD_W(entries)
 
 /**
- * Defines a cue that an actor can listen for. 
+ * Defines a cue that an actor can listen for.
  * The actor can choose whether or not to use the position and rotation data supplied to it.
  * The cue `id` is a number that has an actor-specific meaning.
  */
@@ -154,7 +154,7 @@
     CS_CMD_PLAYER_CUE, CMD_W(entries)
 
 /**
- * A player cue is the same as `CS_ACTOR_CUE` but is specifically for player. 
+ * A player cue is the same as `CS_ACTOR_CUE` but is specifically for player.
  */
 #define CS_PLAYER_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2) \
     CS_ACTOR_CUE(id, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, unused0, unused1, unused2)
@@ -166,7 +166,7 @@
     CS_CMD_TEXT, CMD_W(entries)
 
 /**
- * Starts a textbox at the specified time. 
+ * Starts a textbox at the specified time.
  * For `CS_TEXT_OCARINA_ACTION`, `textId` is used as an ocarina action.
  * For a choice textbox, `altTextId1` is the top text id to branch to and `altTextId2` is the bottom.
  */
@@ -246,11 +246,11 @@
     CMD_HH(unused0, startFrame), CMD_HBB(endFrame, hour, min), CMD_W(0)
 
 /**
- * Sends the player to a new destination. 
+ * Sends the player to a new destination.
  * `destination` maps to a custom block of code that must implement the scene transition on its own.
  * This custom code can also do other tasks like changing age, setting flags, or any other setup that is needed
  * before going to the next destination.
- * 
+ *
  * @see `CutsceneDestination`
  * @note `endFrame` is not used in the implementation of the command, so its value does not matter
  */

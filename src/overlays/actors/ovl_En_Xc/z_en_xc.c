@@ -88,7 +88,7 @@ void EnXc_SetEyePattern(EnXc* this) {
     s16* blinkTimer = &this->blinkTimer;
     s16* eyePattern = &this->eyeIdx;
 
-    if (!DECR(*blinkTimer)) {
+    if (DECR(*blinkTimer) == 0) {
         *blinkTimer = Rand_S16Offset(60, 60);
     }
 
@@ -120,7 +120,7 @@ s32 EnXc_AnimIsFinished(EnXc* this) {
 CsCmdActorCue* EnXc_GetCue(PlayState* play, s32 cueChannel) {
     CsCmdActorCue* cue = NULL;
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         cue = play->csCtx.actorCues[cueChannel];
     }
     return cue;
@@ -422,15 +422,15 @@ void EnXc_SetColossusAppearSFX(EnXc* this, PlayState* play) {
         sceneId = play->sceneId;
         if (sceneId == SCENE_DESERT_COLOSSUS) {
             CutsceneContext* csCtx = &play->csCtx;
-            u16 frameCount = csCtx->curFrame;
+            u16 csCurFrame = csCtx->curFrame;
             f32 wDest[2];
 
-            if (frameCount == 119) {
+            if (csCurFrame == 119) {
                 Vec3f pos = { -611.0f, 728.0f, -2.0f };
 
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &sXyzDist, wDest);
                 func_80078914(&sXyzDist, NA_SE_EV_JUMP_CONC);
-            } else if (frameCount == 164) {
+            } else if (csCurFrame == 164) {
                 Vec3f pos = { -1069.0f, 38.0f, 0.0f };
                 s32 pad;
 
@@ -462,9 +462,9 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
 
         if (sceneId == SCENE_DESERT_COLOSSUS) {
             CutsceneContext* csCtx = &play->csCtx;
-            u16 frameCount = csCtx->curFrame;
+            u16 csCurFrame = csCtx->curFrame;
 
-            if ((frameCount >= 120) && (frameCount < 164)) {
+            if ((csCurFrame >= 120) && (csCurFrame < 164)) {
                 s32 pad;
                 Vec3f* eye = &play->view.eye;
 
@@ -723,9 +723,8 @@ void func_80B3DAF0(EnXc* this, PlayState* play) {
         cueId = cue->id;
 
         if (cueId == 3 || cueId == 11 || cueId == 12 || cueId == 13 || cueId == 23) {
-            f32 frameCount;
+            f32 frameCount = Animation_GetLastFrame(&gSheikPullingOutHarpAnim);
 
-            frameCount = Animation_GetLastFrame(&gSheikPullingOutHarpAnim);
             Animation_Change(&this->skelAnime, &gSheikPullingOutHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
             this->action = SHEIK_ACTION_7;
             this->drawMode = SHEIK_DRAW_PULLING_OUT_HARP;
@@ -765,7 +764,7 @@ void EnXc_SetupPlayingHarpAction(EnXc* this, PlayState* play, s32 animFinished) 
 void func_80B3DCA8(EnXc* this, PlayState* play) {
     f32 frameCount;
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[4];
 
         if (cue != NULL && cue->id == 8) {
@@ -814,7 +813,7 @@ void func_80B3DE78(EnXc* this, s32 animFinished) {
 }
 
 void EnXc_SetupReverseAccel(EnXc* this, PlayState* play) {
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[4];
 
         if (cue != NULL && cue->id == 4) {
@@ -866,7 +865,7 @@ void func_80B3E164(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetupDisappear(EnXc* this, PlayState* play) {
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorCue* cue = play->csCtx.actorCues[4];
 
         if (cue != NULL && cue->id == 9) {
@@ -1400,9 +1399,9 @@ void EnXc_LakeHyliaDive(PlayState* play) {
 
 void func_80B3F534(PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
-    u16 frameCount = csCtx->curFrame;
+    u16 csCurFrame = csCtx->curFrame;
 
-    if (frameCount == 310) {
+    if (csCurFrame == 310) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0, WARP_DESTINATION);
     }
 }

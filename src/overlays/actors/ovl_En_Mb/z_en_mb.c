@@ -308,7 +308,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
 
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
             this->actor.flags &= ~ACTOR_FLAG_0;
-            this->actor.naviEnemyId += 1; // NAVI_ENEMY_MOBLIN_CLUB
+            this->actor.naviEnemyId += NAVI_ENEMY_MOBLIN_CLUB - NAVI_ENEMY_MOBLIN;
             EnMb_SetupClubWaitPlayerNear(this);
             break;
         default: /* Spear Patrol */
