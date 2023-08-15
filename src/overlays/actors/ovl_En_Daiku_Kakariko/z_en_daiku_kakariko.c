@@ -369,7 +369,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
         run = false;
 
         if (runDist <= 10.0f) {
-            if (this->pathContinue == false) {
+            if (!this->pathContinue) {
                 this->waypoint++;
 
                 if (this->waypoint >= path->count) {
@@ -416,7 +416,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (this->run == false) {
+    if (!this->run) {
         if (angleStepDiff == 0) {
             this->run = true;
         } else {
