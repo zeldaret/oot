@@ -627,7 +627,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
                 if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
                     Actor_PlaySfx(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
-                    func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
+                    Sfx_PlaySfxCentered2(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
                 }
                 if (this->getItem.drawId != GID_ARROW_LIGHT) {
                     this->actor.shape.rot.y += 0x3E80;
@@ -642,7 +642,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, PlayState* play) {
                 if (gSaveContext.save.entranceIndex == ENTR_TEMPLE_OF_TIME_0) {
                     Actor_PlaySfx(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
-                    func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
+                    Sfx_PlaySfxCentered2(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
                 }
                 break;
             case 4:
@@ -946,7 +946,7 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, PlayState* play) {
         Actor_SetScale(&effect->actor, 0.2f);
     }
 
-    func_800788CC(NA_SE_IT_DM_RING_EXPLOSION);
+    Sfx_PlaySfxCentered2(NA_SE_IT_DM_RING_EXPLOSION);
     Actor_Kill(&this->actor);
 }
 
@@ -1761,13 +1761,13 @@ void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
         if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
             if (gSaveContext.sceneLayer == 4) {
                 if (play->csCtx.curFrame <= 680) {
-                    func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
+                    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
                 }
             } else {
-                func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
+                Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
             }
         } else {
-            func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
+            Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
         }
 
         gSPSegment(POLY_XLU_DISP++, 8,
