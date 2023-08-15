@@ -1172,7 +1172,7 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
     index = -1;
     for (i = 0; i < gAudioCtx.preloadSampleStackTop; i++) {
         preload = &gAudioCtx.preloadSampleStack[i];
-        if (preload->isFree == false) {
+        if (!preload->isFree) {
             startRamAddr = preload->ramAddr;
             endRamAddr = preload->ramAddr + preload->sample->size - 1;
 
@@ -1408,7 +1408,7 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
     }
 
     fakematch = &change.oldAddr;
-    if ((apply != false) && (apply == true)) {
+    if (apply && (apply == true)) {
         u32 temp = change.newAddr;
 
         change.newAddr = *fakematch; // = change.oldAddr
