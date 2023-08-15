@@ -136,6 +136,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
             this->actor.targetMode = 6;
             R_PLAYED_EPONAS_SONG = false;
             break;
+            
         case EN_COW_TYPE_TAIL:
             SkelAnime_InitFlex(play, &this->skelAnime, &gCowTailSkel, NULL,
                                this->jointTable, this->morphTable, COW_TAIL_LIMB_MAX);
@@ -145,7 +146,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnCow_IdleTail;
             EnCow_SetTailPos(this);
             this->actor.flags &= ~ACTOR_FLAG_0;
-            this->animationTimer = ((u32)(Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
+            this->animationTimer = (u16)Rand_ZeroFloat(1000.0f) + 40.0f;
             break;
     }
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
