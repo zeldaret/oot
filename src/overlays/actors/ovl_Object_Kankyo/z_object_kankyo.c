@@ -132,22 +132,22 @@ void ObjectKankyo_Init(Actor* thisx, PlayState* play) {
             }
 
             if (gSaveContext.cutsceneTrigger != 0) {
-                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_2) {
+                if (gSaveContext.save.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_2) {
                     this->effects[0].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_3) {
+                if (gSaveContext.save.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_3) {
                     this->effects[1].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_4) {
+                if (gSaveContext.save.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_4) {
                     this->effects[2].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_5) {
+                if (gSaveContext.save.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_5) {
                     this->effects[3].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_6) {
+                if (gSaveContext.save.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_6) {
                     this->effects[4].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_7) {
+                if (gSaveContext.save.entranceIndex == ENTR_INSIDE_GANONS_CASTLE_7) {
                     this->effects[5].size = 0.1f;
                 }
             }
@@ -206,7 +206,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
         func_800F436C(&sSfxPos, NA_SE_EV_NAVY_FLY - SFX_FLAG, (0.4f * dist) + 0.6f);
         switch (play->csCtx.curFrame) {
             case 473:
-                func_800788CC(NA_SE_VO_NA_HELLO_3);
+                Sfx_PlaySfxCentered2(NA_SE_VO_NA_HELLO_3);
                 break;
 
             case 583:
@@ -214,11 +214,11 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
                 break;
 
             case 763:
-                func_80078884(NA_SE_EV_NAVY_CRASH - SFX_FLAG);
+                Sfx_PlaySfxCentered(NA_SE_EV_NAVY_CRASH - SFX_FLAG);
                 break;
 
             case 771:
-                func_80078884(NA_SE_VO_RT_THROW);
+                Sfx_PlaySfxCentered(NA_SE_VO_RT_THROW);
                 break;
 
             default:
@@ -227,7 +227,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
     }
 
     if (play->envCtx.precipitation[PRECIP_SNOW_MAX] < 64 &&
-        (gSaveContext.entranceIndex != ENTR_KOKIRI_FOREST_0 || gSaveContext.sceneLayer != 4 ||
+        (gSaveContext.save.entranceIndex != ENTR_KOKIRI_FOREST_0 || gSaveContext.sceneLayer != 4 ||
          play->envCtx.precipitation[PRECIP_SNOW_MAX])) {
         play->envCtx.precipitation[PRECIP_SNOW_MAX] += 16;
     }
@@ -722,7 +722,7 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
 }
 
 void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.actorCues[0] != NULL) {
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[0] != NULL) {
         switch (this->effects[0].state) {
             case 0:
                 this->effects[0].timer = 0;
@@ -797,7 +797,7 @@ void ObjectKankyo_WaitForSunGraveSparkObject(ObjectKankyo* this, PlayState* play
 }
 
 void ObjectKankyo_SunGraveSpark(ObjectKankyo* this, PlayState* play) {
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         if (play->csCtx.actorCues[1] != NULL && play->csCtx.actorCues[1]->id == 2) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
             if ((s16)this->effects[0].alpha + 20 > 255) {
@@ -818,7 +818,7 @@ void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
     f32 weight;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 1324);
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         if (play->csCtx.actorCues[1] != NULL && play->csCtx.actorCues[1]->id == 2 && this->requiredObjectLoaded) {
             // apparently, light waves with larger amplitudes look brighter, so the name 'amplitude' kind of works here
             if (this->effects[0].state == 0) {
@@ -896,7 +896,7 @@ void ObjectKankyo_WaitForBeamObject(ObjectKankyo* this, PlayState* play) {
 void ObjectKankyo_Beams(ObjectKankyo* this, PlayState* play) {
     u8 i;
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         for (i = 0; i < 6; i++) {
             if (play->csCtx.actorCues[i + 1] != NULL && play->csCtx.actorCues[i + 1]->id == 2) {
                 if (this->effects[i].size == 0.1f) {

@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_mo" Segment="6">
         <!-- Morpha's Title Card -->
-        <Texture Name="gMorphaTitleCardTex" Format="i8" Width="128" Height="120" Offset="0x1010"/>
+        <Texture Name="gMorphaTitleCardTex" Format="ia8" Width="128" Height="120" Offset="0x1010"/>
 
         <!-- DLists for Morpha's Core -->
         <DList Name="gMorphaCoreMembraneDL" Offset="0x6700"/>
