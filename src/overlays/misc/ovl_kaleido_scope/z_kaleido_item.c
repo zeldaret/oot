@@ -171,7 +171,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
                 // Seems necessary to match
                 if (pauseCtx->cursorX[PAUSE_ITEM]) {}
-                if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]) {}
+                if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]]) {}
 
                 while (moveCursorResult == 0) {
                     // input says move left
@@ -183,7 +183,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorPoint[PAUSE_ITEM] -= 1;
 
                             // if there's an item there, stop there
-                            if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
+                            if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
+                                ITEM_NONE) {
                                 moveCursorResult = 1;
                             }
                         } else {
@@ -218,7 +219,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                             pauseCtx->cursorX[PAUSE_ITEM]++;
                             pauseCtx->cursorPoint[PAUSE_ITEM] += 1;
 
-                            if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
+                            if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
+                                ITEM_NONE) {
                                 moveCursorResult = 1;
                             }
                         } else {
@@ -249,7 +251,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 }
 
                 if (moveCursorResult == 1) {
-                    cursorItem = gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]];
+                    cursorItem = gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]];
                 }
 
                 osSyncPrintf("【Ｘ cursor=%d(%) (cur_xpt=%d)(ok_fg=%d)(ccc=%d)(key_angle=%d)】  ",
@@ -266,7 +268,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
                 cursorPoint = cursorX = cursorY = 0;
                 while (true) {
-                    if (gSaveContext.inventory.items[cursorPoint] != ITEM_NONE) {
+                    if (gSaveContext.save.info.inventory.items[cursorPoint] != ITEM_NONE) {
                         pauseCtx->cursorPoint[PAUSE_ITEM] = cursorPoint;
                         pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                         pauseCtx->cursorY[PAUSE_ITEM] = cursorY;
@@ -302,7 +304,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 cursorPoint = cursorX = ITEM_GRID_COLS - 1;
                 cursorY = 0;
                 while (true) {
-                    if (gSaveContext.inventory.items[cursorPoint] != ITEM_NONE) {
+                    if (gSaveContext.save.info.inventory.items[cursorPoint] != ITEM_NONE) {
                         pauseCtx->cursorPoint[PAUSE_ITEM] = cursorPoint;
                         pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                         pauseCtx->cursorY[PAUSE_ITEM] = cursorY;
@@ -342,7 +344,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 pauseCtx->cursorY[PAUSE_ITEM]--;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] -= ITEM_GRID_COLS;
 
-                                if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
+                                if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
+                                    ITEM_NONE) {
                                     moveCursorResult = 1;
                                 }
                             } else {
@@ -356,7 +359,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                 pauseCtx->cursorY[PAUSE_ITEM]++;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] += ITEM_GRID_COLS;
 
-                                if (gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] != ITEM_NONE) {
+                                if (gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]] !=
+                                    ITEM_NONE) {
                                     moveCursorResult = 1;
                                 }
                             } else {
@@ -380,9 +384,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             pauseCtx->cursorColorSet = 4;
 
             if (moveCursorResult == 1) {
-                cursorItem = gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]];
+                cursorItem = gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]];
             } else if (moveCursorResult != 2) {
-                cursorItem = gSaveContext.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]];
+                cursorItem = gSaveContext.save.info.inventory.items[pauseCtx->cursorPoint[PAUSE_ITEM]];
             }
 
             pauseCtx->cursorItem[PAUSE_ITEM] = cursorItem;
@@ -474,7 +478,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
     for (i = 0, j = QUAD_ITEM_GRID_SELECTED_C_LEFT * 4; i < 3; i++, j += 4) {
-        if (gSaveContext.equips.buttonItems[i + 1] != ITEM_NONE) {
+        if (gSaveContext.save.info.equips.buttonItems[i + 1] != ITEM_NONE) {
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j], 4, 0);
             POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, gEquippedItemOutlineTex, 32, 32, 0);
         }
@@ -486,7 +490,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     for (i = j = 0; i < (ITEM_GRID_ROWS * ITEM_GRID_COLS); i++, j += 4) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
-        if (gSaveContext.inventory.items[i] != ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[i] != ITEM_NONE) {
             if ((pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) && (pauseCtx->pageIndex == PAUSE_ITEM) &&
                 (pauseCtx->cursorSpecialPos == 0)) {
                 if (CHECK_AGE_REQ_SLOT(i)) {
@@ -529,8 +533,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             }
 
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j + 0], 4, 0);
-            KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[gSaveContext.inventory.items[i]],
-                                               ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx,
+                                               gItemIcons[gSaveContext.save.info.inventory.items[i]], ITEM_ICON_WIDTH,
+                                               ITEM_ICON_HEIGHT, 0);
         }
     }
 
@@ -543,8 +548,8 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
     for (i = 0; i < 15; i++) {
-        if ((gAmmoItems[i] != ITEM_NONE) && (gSaveContext.inventory.items[i] != ITEM_NONE)) {
-            KaleidoScope_DrawAmmoCount(pauseCtx, play->state.gfxCtx, gSaveContext.inventory.items[i]);
+        if ((gAmmoItems[i] != ITEM_NONE) && (gSaveContext.save.info.inventory.items[i] != ITEM_NONE)) {
+            KaleidoScope_DrawAmmoCount(pauseCtx, play->state.gfxCtx, gSaveContext.save.info.inventory.items[i]);
         }
     }
 
@@ -649,219 +654,230 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
 
             if (pauseCtx->equipTargetCBtn == 0) {
 
-                if (pauseCtx->equipTargetSlot == gSaveContext.equips.cButtonSlots[1]) {
-                    if (gSaveContext.equips.buttonItems[1] != ITEM_NONE) {
+                if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[1]) {
+                    if (gSaveContext.save.info.equips.buttonItems[1] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.equips.buttonItems[1] == ITEM_BOW) ||
-                             ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_LIGHT)))) {
+                            ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW) ||
+                             ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
+                              (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
-                            gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[1];
-                            gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[0];
+                            gSaveContext.save.info.equips.buttonItems[2] = gSaveContext.save.info.equips.buttonItems[1];
+                            gSaveContext.save.info.equips.cButtonSlots[1] =
+                                gSaveContext.save.info.equips.cButtonSlots[0];
                             Interface_LoadItemIcon2(play, 2);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[2] = ITEM_NONE;
-                        gSaveContext.equips.cButtonSlots[1] = SLOT_NONE;
+                        gSaveContext.save.info.equips.buttonItems[2] = ITEM_NONE;
+                        gSaveContext.save.info.equips.cButtonSlots[1] = SLOT_NONE;
                     }
-                } else if (pauseCtx->equipTargetSlot == gSaveContext.equips.cButtonSlots[2]) {
-                    if (gSaveContext.equips.buttonItems[1] != ITEM_NONE) {
+                } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[2]) {
+                    if (gSaveContext.save.info.equips.buttonItems[1] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.equips.buttonItems[1] == ITEM_BOW) ||
-                             ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_LIGHT)))) {
+                            ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW) ||
+                             ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
+                              (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
-                            gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[1];
-                            gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[0];
+                            gSaveContext.save.info.equips.buttonItems[3] = gSaveContext.save.info.equips.buttonItems[1];
+                            gSaveContext.save.info.equips.cButtonSlots[2] =
+                                gSaveContext.save.info.equips.cButtonSlots[0];
                             Interface_LoadItemIcon2(play, 3);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[3] = ITEM_NONE;
-                        gSaveContext.equips.cButtonSlots[2] = SLOT_NONE;
+                        gSaveContext.save.info.equips.buttonItems[3] = ITEM_NONE;
+                        gSaveContext.save.info.equips.cButtonSlots[2] = SLOT_NONE;
                     }
                 }
 
                 if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)) {
-                    if ((gSaveContext.equips.buttonItems[1] == ITEM_BOW) ||
-                        ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                         (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_LIGHT))) {
+                    if ((gSaveContext.save.info.equips.buttonItems[1] == ITEM_BOW) ||
+                        ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
+                         (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT))) {
                         pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                         pauseCtx->equipTargetSlot = SLOT_BOW;
                     }
                 } else if (pauseCtx->equipTargetItem == ITEM_BOW) {
-                    if ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                        (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_LIGHT)) {
-                        gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[1];
-                        gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[0];
+                    if ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
+                        (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)) {
+                        gSaveContext.save.info.equips.buttonItems[2] = gSaveContext.save.info.equips.buttonItems[1];
+                        gSaveContext.save.info.equips.cButtonSlots[1] = gSaveContext.save.info.equips.cButtonSlots[0];
                         Interface_LoadItemIcon2(play, 2);
-                    } else if ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                               (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_LIGHT)) {
-                        gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[1];
-                        gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[0];
+                    } else if ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
+                               (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)) {
+                        gSaveContext.save.info.equips.buttonItems[3] = gSaveContext.save.info.equips.buttonItems[1];
+                        gSaveContext.save.info.equips.cButtonSlots[2] = gSaveContext.save.info.equips.cButtonSlots[0];
                         Interface_LoadItemIcon2(play, 3);
                     }
                 }
 
-                gSaveContext.equips.buttonItems[1] = pauseCtx->equipTargetItem;
-                gSaveContext.equips.cButtonSlots[0] = pauseCtx->equipTargetSlot;
+                gSaveContext.save.info.equips.buttonItems[1] = pauseCtx->equipTargetItem;
+                gSaveContext.save.info.equips.cButtonSlots[0] = pauseCtx->equipTargetSlot;
                 Interface_LoadItemIcon1(play, 1);
 
                 osSyncPrintf("Ｃ左sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
-                             gSaveContext.equips.buttonItems[3]);
+                             gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
+                             gSaveContext.save.info.equips.buttonItems[3]);
                 osSyncPrintf("Ｃ左sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
-                             gSaveContext.equips.cButtonSlots[2]);
+                             gSaveContext.save.info.equips.cButtonSlots[0],
+                             gSaveContext.save.info.equips.cButtonSlots[1],
+                             gSaveContext.save.info.equips.cButtonSlots[2]);
             } else if (pauseCtx->equipTargetCBtn == 1) {
                 osSyncPrintf("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
-                             gSaveContext.equips.buttonItems[3]);
+                             gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
+                             gSaveContext.save.info.equips.buttonItems[3]);
                 osSyncPrintf("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
-                             gSaveContext.equips.cButtonSlots[2]);
+                             gSaveContext.save.info.equips.cButtonSlots[0],
+                             gSaveContext.save.info.equips.cButtonSlots[1],
+                             gSaveContext.save.info.equips.cButtonSlots[2]);
 
-                if (pauseCtx->equipTargetSlot == gSaveContext.equips.cButtonSlots[0]) {
-                    if (gSaveContext.equips.buttonItems[2] != ITEM_NONE) {
+                if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[0]) {
+                    if (gSaveContext.save.info.equips.buttonItems[2] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.equips.buttonItems[2] == ITEM_BOW) ||
-                             ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_LIGHT)))) {
+                            ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW) ||
+                             ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
+                              (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
-                            gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[2];
-                            gSaveContext.equips.cButtonSlots[0] = gSaveContext.equips.cButtonSlots[1];
+                            gSaveContext.save.info.equips.buttonItems[1] = gSaveContext.save.info.equips.buttonItems[2];
+                            gSaveContext.save.info.equips.cButtonSlots[0] =
+                                gSaveContext.save.info.equips.cButtonSlots[1];
                             Interface_LoadItemIcon2(play, 1);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[1] = ITEM_NONE;
-                        gSaveContext.equips.cButtonSlots[0] = SLOT_NONE;
+                        gSaveContext.save.info.equips.buttonItems[1] = ITEM_NONE;
+                        gSaveContext.save.info.equips.cButtonSlots[0] = SLOT_NONE;
                     }
-                } else if (pauseCtx->equipTargetSlot == gSaveContext.equips.cButtonSlots[2]) {
-                    if (gSaveContext.equips.buttonItems[2] != ITEM_NONE) {
+                } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[2]) {
+                    if (gSaveContext.save.info.equips.buttonItems[2] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.equips.buttonItems[2] == ITEM_BOW) ||
-                             ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_LIGHT)))) {
+                            ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW) ||
+                             ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
+                              (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
-                            gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[2];
-                            gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[1];
+                            gSaveContext.save.info.equips.buttonItems[3] = gSaveContext.save.info.equips.buttonItems[2];
+                            gSaveContext.save.info.equips.cButtonSlots[2] =
+                                gSaveContext.save.info.equips.cButtonSlots[1];
                             Interface_LoadItemIcon2(play, 3);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[3] = ITEM_NONE;
-                        gSaveContext.equips.cButtonSlots[2] = SLOT_NONE;
+                        gSaveContext.save.info.equips.buttonItems[3] = ITEM_NONE;
+                        gSaveContext.save.info.equips.cButtonSlots[2] = SLOT_NONE;
                     }
                 }
 
                 if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)) {
-                    if ((gSaveContext.equips.buttonItems[2] == ITEM_BOW) ||
-                        ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                         (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_LIGHT))) {
+                    if ((gSaveContext.save.info.equips.buttonItems[2] == ITEM_BOW) ||
+                        ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
+                         (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT))) {
                         pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                         pauseCtx->equipTargetSlot = SLOT_BOW;
                     }
                 } else if (pauseCtx->equipTargetItem == ITEM_BOW) {
-                    if ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                        (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_LIGHT)) {
-                        gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[2];
+                    if ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
+                        (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)) {
+                        gSaveContext.save.info.equips.buttonItems[1] = gSaveContext.save.info.equips.buttonItems[2];
                         Interface_LoadItemIcon2(play, 1);
-                    } else if ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                               (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_LIGHT)) {
-                        gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[2];
+                    } else if ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
+                               (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)) {
+                        gSaveContext.save.info.equips.buttonItems[3] = gSaveContext.save.info.equips.buttonItems[2];
                         Interface_LoadItemIcon2(play, 3);
                     }
                 }
 
-                gSaveContext.equips.buttonItems[2] = pauseCtx->equipTargetItem;
-                gSaveContext.equips.cButtonSlots[1] = pauseCtx->equipTargetSlot;
+                gSaveContext.save.info.equips.buttonItems[2] = pauseCtx->equipTargetItem;
+                gSaveContext.save.info.equips.cButtonSlots[1] = pauseCtx->equipTargetSlot;
                 Interface_LoadItemIcon1(play, 2);
 
                 osSyncPrintf("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
-                             gSaveContext.equips.buttonItems[3]);
+                             gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
+                             gSaveContext.save.info.equips.buttonItems[3]);
                 osSyncPrintf("Ｃ下sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
-                             gSaveContext.equips.cButtonSlots[2]);
+                             gSaveContext.save.info.equips.cButtonSlots[0],
+                             gSaveContext.save.info.equips.cButtonSlots[1],
+                             gSaveContext.save.info.equips.cButtonSlots[2]);
             } else {
                 osSyncPrintf("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
-                             gSaveContext.equips.buttonItems[3]);
+                             gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
+                             gSaveContext.save.info.equips.buttonItems[3]);
                 osSyncPrintf("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
-                             gSaveContext.equips.cButtonSlots[2]);
+                             gSaveContext.save.info.equips.cButtonSlots[0],
+                             gSaveContext.save.info.equips.cButtonSlots[1],
+                             gSaveContext.save.info.equips.cButtonSlots[2]);
 
-                if (pauseCtx->equipTargetSlot == gSaveContext.equips.cButtonSlots[0]) {
-                    if (gSaveContext.equips.buttonItems[3] != ITEM_NONE) {
+                if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[0]) {
+                    if (gSaveContext.save.info.equips.buttonItems[3] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.equips.buttonItems[3] == ITEM_BOW) ||
-                             ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_LIGHT)))) {
+                            ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW) ||
+                             ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
+                              (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
-                            gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[3];
-                            gSaveContext.equips.cButtonSlots[0] = gSaveContext.equips.cButtonSlots[2];
+                            gSaveContext.save.info.equips.buttonItems[1] = gSaveContext.save.info.equips.buttonItems[3];
+                            gSaveContext.save.info.equips.cButtonSlots[0] =
+                                gSaveContext.save.info.equips.cButtonSlots[2];
                             Interface_LoadItemIcon2(play, 1);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[1] = ITEM_NONE;
-                        gSaveContext.equips.cButtonSlots[0] = SLOT_NONE;
+                        gSaveContext.save.info.equips.buttonItems[1] = ITEM_NONE;
+                        gSaveContext.save.info.equips.cButtonSlots[0] = SLOT_NONE;
                     }
-                } else if (pauseCtx->equipTargetSlot == gSaveContext.equips.cButtonSlots[1]) {
-                    if (gSaveContext.equips.buttonItems[3] != ITEM_NONE) {
+                } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[1]) {
+                    if (gSaveContext.save.info.equips.buttonItems[3] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
-                            ((gSaveContext.equips.buttonItems[3] == ITEM_BOW) ||
-                             ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_LIGHT)))) {
+                            ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW) ||
+                             ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
+                              (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
-                            gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[3];
-                            gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[2];
+                            gSaveContext.save.info.equips.buttonItems[2] = gSaveContext.save.info.equips.buttonItems[3];
+                            gSaveContext.save.info.equips.cButtonSlots[1] =
+                                gSaveContext.save.info.equips.cButtonSlots[2];
                             Interface_LoadItemIcon2(play, 2);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[2] = ITEM_NONE;
-                        gSaveContext.equips.cButtonSlots[1] = SLOT_NONE;
+                        gSaveContext.save.info.equips.buttonItems[2] = ITEM_NONE;
+                        gSaveContext.save.info.equips.cButtonSlots[1] = SLOT_NONE;
                     }
                 }
 
                 if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1)) {
-                    if ((gSaveContext.equips.buttonItems[3] == ITEM_BOW) ||
-                        ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
-                         (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_LIGHT))) {
+                    if ((gSaveContext.save.info.equips.buttonItems[3] == ITEM_BOW) ||
+                        ((gSaveContext.save.info.equips.buttonItems[3] >= ITEM_BOW_FIRE) &&
+                         (gSaveContext.save.info.equips.buttonItems[3] <= ITEM_BOW_LIGHT))) {
                         pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                         pauseCtx->equipTargetSlot = SLOT_BOW;
                     }
                 } else if (pauseCtx->equipTargetItem == ITEM_BOW) {
-                    if ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
-                        (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_LIGHT)) {
-                        gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[3];
+                    if ((gSaveContext.save.info.equips.buttonItems[1] >= ITEM_BOW_FIRE) &&
+                        (gSaveContext.save.info.equips.buttonItems[1] <= ITEM_BOW_LIGHT)) {
+                        gSaveContext.save.info.equips.buttonItems[1] = gSaveContext.save.info.equips.buttonItems[3];
                         Interface_LoadItemIcon2(play, 1);
-                    } else if ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
-                               (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_LIGHT)) {
-                        gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[3];
+                    } else if ((gSaveContext.save.info.equips.buttonItems[2] >= ITEM_BOW_FIRE) &&
+                               (gSaveContext.save.info.equips.buttonItems[2] <= ITEM_BOW_LIGHT)) {
+                        gSaveContext.save.info.equips.buttonItems[2] = gSaveContext.save.info.equips.buttonItems[3];
                         Interface_LoadItemIcon2(play, 2);
                     }
                 }
 
-                gSaveContext.equips.buttonItems[3] = pauseCtx->equipTargetItem;
-                gSaveContext.equips.cButtonSlots[2] = pauseCtx->equipTargetSlot;
+                gSaveContext.save.info.equips.buttonItems[3] = pauseCtx->equipTargetItem;
+                gSaveContext.save.info.equips.cButtonSlots[2] = pauseCtx->equipTargetSlot;
                 Interface_LoadItemIcon1(play, 3);
 
                 osSyncPrintf("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
-                             gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
-                             gSaveContext.equips.buttonItems[3]);
+                             gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
+                             gSaveContext.save.info.equips.buttonItems[3]);
                 osSyncPrintf("Ｃ右sl_number=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetSlot,
-                             gSaveContext.equips.cButtonSlots[0], gSaveContext.equips.cButtonSlots[1],
-                             gSaveContext.equips.cButtonSlots[2]);
+                             gSaveContext.save.info.equips.cButtonSlots[0],
+                             gSaveContext.save.info.equips.cButtonSlots[1],
+                             gSaveContext.save.info.equips.cButtonSlots[2]);
             }
 
             pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;

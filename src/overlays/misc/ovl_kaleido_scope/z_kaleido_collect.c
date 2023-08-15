@@ -258,13 +258,13 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                                      0x18);
                     }
                 } else {
-                    if ((gSaveContext.inventory.questItems & 0xF0000000) != 0) {
+                    if ((gSaveContext.save.info.inventory.questItems & 0xF0000000) != 0) {
                         cursorItem = ITEM_HEART_CONTAINER;
                     } else {
                         cursorItem = PAUSE_ITEM_NONE;
                     }
                     osSyncPrintf("888 ccc=%d (%d,  %d,  %x)\n", cursorItem, pauseCtx->cursorPoint[PAUSE_QUEST],
-                                 ITEM_HEART_CONTAINER, gSaveContext.inventory.questItems & 0xF0000000);
+                                 ITEM_HEART_CONTAINER, gSaveContext.save.info.inventory.questItems & 0xF0000000);
                 }
 
                 cursor = pauseCtx->cursorPoint[PAUSE_QUEST];
@@ -587,7 +587,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    if ((gSaveContext.inventory.questItems >> QUEST_HEART_PIECE_COUNT) != 0) {
+    if ((gSaveContext.save.info.inventory.questItems >> QUEST_HEART_PIECE_COUNT) != 0) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -605,7 +605,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
             POLY_OPA_DISP,
             gItemIcons[ITEM_HEART_PIECE_2 - 1 +
-                       (((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT)],
+                       (((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >>
+                        QUEST_HEART_PIECE_COUNT)],
             48, 48, 0);
     }
 
@@ -813,7 +814,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
         gsTokensDigits[0] = gsTokensDigits[1] = 0;
-        gsTokensDigits[2] = gSaveContext.inventory.gsTokens;
+        gsTokensDigits[2] = gSaveContext.save.info.inventory.gsTokens;
 
         while (gsTokensDigits[2] >= 100) {
             gsTokensDigits[0]++;
@@ -833,7 +834,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, pauseCtx->alpha);
             } else {
                 // Text color
-                if (gSaveContext.inventory.gsTokens == 100) {
+                if (gSaveContext.save.info.inventory.gsTokens == 100) {
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 200, 50, 50, pauseCtx->alpha);
                 } else {
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);

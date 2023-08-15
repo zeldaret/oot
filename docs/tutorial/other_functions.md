@@ -399,7 +399,7 @@ Easy things to sort out:
 func_8005B1A4(GET_ACTIVE_CAM(play));
 ```
 
-- `gSaveContext.unkEDA` we have dealt with before: it is `gSaveContext.eventChkInf[3]`. This is a flag-setting function; it can be written more compactly as
+- `gSaveContext.unkEDA` we have dealt with before: it is `gSaveContext.save.info.eventChkInf[3]`. This is a flag-setting function; it can be written more compactly as
 ```C
 gSaveContext.unkEDA |= 0x400
 ```
@@ -419,7 +419,7 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
     gSaveContext.cutsceneTrigger = 1;
     func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
     func_8005B1A4(GET_ACTIVE_CAM(play));
-    gSaveContext.eventChkInf[3] |= 0x400;
+    gSaveContext.save.info.eventChkInf[3] |= 0x400;
     func_80078884(NA_SE_SY_CORRECT_CHIME);
 }
 ```
@@ -438,7 +438,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
         gSaveContext.cutsceneTrigger = 1;
         func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
         func_8005B1A4(GET_ACTIVE_CAM(play));
-        gSaveContext.eventChkInf[3] |= 0x400;
+        gSaveContext.save.info.eventChkInf[3] |= 0x400;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
 }

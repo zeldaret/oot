@@ -17,11 +17,11 @@ extern u8 gAreaGsFlags[];
 #define AGE_REQ_NONE 9
 
 #define CHECK_AGE_REQ_SLOT(slot) \
-    ((gSlotAgeReqs[slot] == AGE_REQ_NONE) || gSlotAgeReqs[slot] == ((void)0, gSaveContext.linkAge))
+    ((gSlotAgeReqs[slot] == AGE_REQ_NONE) || gSlotAgeReqs[slot] == ((void)0, gSaveContext.save.linkAge))
 #define CHECK_AGE_REQ_EQUIP(y, x) \
-    ((gEquipAgeReqs[y][x] == AGE_REQ_NONE) || (gEquipAgeReqs[y][x] == ((void)0, gSaveContext.linkAge)))
+    ((gEquipAgeReqs[y][x] == AGE_REQ_NONE) || (gEquipAgeReqs[y][x] == ((void)0, gSaveContext.save.linkAge)))
 #define CHECK_AGE_REQ_ITEM(item) \
-    ((gItemAgeReqs[item] == AGE_REQ_NONE) || (gItemAgeReqs[item] == ((void)0, gSaveContext.linkAge)))
+    ((gItemAgeReqs[item] == AGE_REQ_NONE) || (gItemAgeReqs[item] == ((void)0, gSaveContext.save.linkAge)))
 
 #define PAGE_BG_COLS 3
 #define PAGE_BG_ROWS 5

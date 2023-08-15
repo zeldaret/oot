@@ -822,10 +822,10 @@ void KaleidoScope_SetDefaultCursor(PlayState* play) {
     switch (pauseCtx->pageIndex) {
         case PAUSE_ITEM:
             s = pauseCtx->cursorSlot[PAUSE_ITEM];
-            if (gSaveContext.inventory.items[s] == ITEM_NONE) {
+            if (gSaveContext.save.info.inventory.items[s] == ITEM_NONE) {
                 i = s + 1;
                 while (true) {
-                    if (gSaveContext.inventory.items[i] != ITEM_NONE) {
+                    if (gSaveContext.save.info.inventory.items[i] != ITEM_NONE) {
                         break;
                     }
                     i++;
@@ -837,7 +837,7 @@ void KaleidoScope_SetDefaultCursor(PlayState* play) {
                         return;
                     }
                 }
-                pauseCtx->cursorItem[PAUSE_ITEM] = gSaveContext.inventory.items[i];
+                pauseCtx->cursorItem[PAUSE_ITEM] = gSaveContext.save.info.inventory.items[i];
                 pauseCtx->cursorSlot[PAUSE_ITEM] = i;
             }
             break;
@@ -1747,7 +1747,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
             if (YREG(7) != 0) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
-                             gAreaGsFlags[YREG(6)], gSaveContext.gsFlags[YREG(6) >> 2]);
+                             gAreaGsFlags[YREG(6)], gSaveContext.save.info.gsFlags[YREG(6) >> 2]);
                 osSyncPrintf(VT_RST);
 
                 YREG(7) = 0;
@@ -2846,8 +2846,8 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     // QUAD_ITEM_GRID_SELECTED_C_LEFT, QUAD_ITEM_GRID_SELECTED_C_DOWN, QUAD_ITEM_GRID_SELECTED_C_RIGHT
 
     for (j = 1; j < 4; j++, i += 4) {
-        if (gSaveContext.equips.cButtonSlots[j - 1] != ITEM_NONE) {
-            k = gSaveContext.equips.cButtonSlots[j - 1] * 4;
+        if (gSaveContext.save.info.equips.cButtonSlots[j - 1] != ITEM_NONE) {
+            k = gSaveContext.save.info.equips.cButtonSlots[j - 1] * 4;
 
             pauseCtx->itemVtx[i + 0].v.ob[0] = pauseCtx->itemVtx[i + 2].v.ob[0] =
                 pauseCtx->itemVtx[k].v.ob[0] + ITEM_GRID_SELECTED_QUAD_MARGIN;
@@ -3748,7 +3748,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_DEATH_MOUNTAIN] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            if (gBitFlags[WORLD_MAP_AREA_KAKARIKO_VILLAGE] & gSaveContext.worldMapAreaData) {
+            if (gBitFlags[WORLD_MAP_AREA_KAKARIKO_VILLAGE] & gSaveContext.save.info.worldMapAreaData) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
@@ -3776,7 +3776,7 @@ void KaleidoScope_Update(PlayState* play) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_KAKARIKO_VILLAGE] = WORLD_MAP_POINT_STATE_SHOW;
             }
 
-            if (gBitFlags[WORLD_MAP_AREA_LOST_WOODS] & gSaveContext.worldMapAreaData) {
+            if (gBitFlags[WORLD_MAP_AREA_LOST_WOODS] & gSaveContext.save.info.worldMapAreaData) {
                 pauseCtx->worldMapPoints[WORLD_MAP_POINT_LOST_WOODS] = WORLD_MAP_POINT_STATE_SHOW;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_0F)) {
@@ -3843,7 +3843,7 @@ void KaleidoScope_Update(PlayState* play) {
                 if (i == ITEM_EYEBALL_FROG) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_HYLIA_LAKESIDE;
                 }
-                if ((i == ITEM_CLAIM_CHECK) && !gSaveContext.bgsFlag) {
+                if ((i == ITEM_CLAIM_CHECK) && !gSaveContext.save.info.playerData.bgsFlag) {
                     pauseCtx->tradeQuestLocation = WORLD_MAP_POINT_DEATH_MOUNTAIN;
                 }
             }
@@ -4057,7 +4057,7 @@ void KaleidoScope_Update(PlayState* play) {
                                                  &gSfxDefaultReverb);
 
                             Play_SaveSceneFlags(play);
-                            gSaveContext.savedSceneId = play->sceneId;
+                            gSaveContext.save.info.playerData.savedSceneId = play->sceneId;
                             Sram_WriteSave(&play->sramCtx);
 
                             pauseCtx->savePromptState = PAUSE_SAVE_PROMPT_STATE_SAVED;
@@ -4286,9 +4286,9 @@ void KaleidoScope_Update(PlayState* play) {
                 R_PAUSE_OFFSET_VERTICAL = 0;
                 pauseCtx->alpha = 255;
                 pauseCtx->state = PAUSE_STATE_14;
-                gSaveContext.deaths++;
-                if (gSaveContext.deaths > 999) {
-                    gSaveContext.deaths = 999;
+                gSaveContext.save.info.playerData.deaths++;
+                if (gSaveContext.save.info.playerData.deaths > 999) {
+                    gSaveContext.save.info.playerData.deaths = 999;
                 }
             }
             osSyncPrintf("kscope->angle_s = %f\n", pauseCtx->rollRotSavePrompt_);
@@ -4307,7 +4307,7 @@ void KaleidoScope_Update(PlayState* play) {
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     pauseCtx->promptChoice = 0;
                     Play_SaveSceneFlags(play);
-                    gSaveContext.savedSceneId = play->sceneId;
+                    gSaveContext.save.info.playerData.savedSceneId = play->sceneId;
                     Sram_WriteSave(&play->sramCtx);
                     pauseCtx->state = PAUSE_STATE_15;
                     sDelayTimer = 3;
@@ -4335,7 +4335,7 @@ void KaleidoScope_Update(PlayState* play) {
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     Play_SaveSceneFlags(play);
 
-                    switch (gSaveContext.entranceIndex) {
+                    switch (gSaveContext.save.entranceIndex) {
                         case ENTR_DEKU_TREE_0:
                         case ENTR_DODONGOS_CAVERN_0:
                         case ENTR_JABU_JABU_0:
@@ -4354,39 +4354,39 @@ void KaleidoScope_Update(PlayState* play) {
                             break;
 
                         case ENTR_DEKU_TREE_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_DEKU_TREE_0;
+                            gSaveContext.save.entranceIndex = ENTR_DEKU_TREE_0;
                             break;
 
                         case ENTR_DODONGOS_CAVERN_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_DODONGOS_CAVERN_0;
+                            gSaveContext.save.entranceIndex = ENTR_DODONGOS_CAVERN_0;
                             break;
 
                         case ENTR_JABU_JABU_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_JABU_JABU_0;
+                            gSaveContext.save.entranceIndex = ENTR_JABU_JABU_0;
                             break;
 
                         case ENTR_FOREST_TEMPLE_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_FOREST_TEMPLE_0;
+                            gSaveContext.save.entranceIndex = ENTR_FOREST_TEMPLE_0;
                             break;
 
                         case ENTR_FIRE_TEMPLE_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_FIRE_TEMPLE_0;
+                            gSaveContext.save.entranceIndex = ENTR_FIRE_TEMPLE_0;
                             break;
 
                         case ENTR_WATER_TEMPLE_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_WATER_TEMPLE_0;
+                            gSaveContext.save.entranceIndex = ENTR_WATER_TEMPLE_0;
                             break;
 
                         case ENTR_SPIRIT_TEMPLE_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_SPIRIT_TEMPLE_0;
+                            gSaveContext.save.entranceIndex = ENTR_SPIRIT_TEMPLE_0;
                             break;
 
                         case ENTR_SHADOW_TEMPLE_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_SHADOW_TEMPLE_0;
+                            gSaveContext.save.entranceIndex = ENTR_SHADOW_TEMPLE_0;
                             break;
 
                         case ENTR_GANONDORF_BOSS_0:
-                            gSaveContext.entranceIndex = ENTR_GANONS_TOWER_0;
+                            gSaveContext.save.entranceIndex = ENTR_GANONS_TOWER_0;
                             break;
                     }
                 } else {
@@ -4412,21 +4412,21 @@ void KaleidoScope_Update(PlayState* play) {
                         Play_TriggerRespawn(play);
                         gSaveContext.respawnFlag = -2;
                         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
-                        gSaveContext.health = 0x30;
+                        gSaveContext.save.info.playerData.health = 0x30;
                         SEQCMD_RESET_AUDIO_HEAP(0, 10);
                         gSaveContext.healthAccumulator = 0;
                         gSaveContext.magicState = MAGIC_STATE_IDLE;
                         gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
                         osSyncPrintf(VT_FGCOL(YELLOW));
-                        osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
+                        osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.save.info.playerData.magic);
                         osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicFillTarget);
                         gSaveContext.magicCapacity = 0;
                         // Set the fill target to be the magic amount before game over
-                        gSaveContext.magicFillTarget = gSaveContext.magic;
+                        gSaveContext.magicFillTarget = gSaveContext.save.info.playerData.magic;
                         // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing
                         // to respectively the full capacity and `magicFillTarget`
-                        gSaveContext.magicLevel = gSaveContext.magic = 0;
-                        osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
+                        gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.magic = 0;
+                        osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.save.info.playerData.magic);
                         osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
                         osSyncPrintf(VT_RST);
                     } else {
