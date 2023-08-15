@@ -6,7 +6,6 @@
 #define COLLISION_CHECK_OC_MAX 50
 #define COLLISION_CHECK_OC_LINE_MAX 3
 
-// From z64.h
 struct Actor;
 
 typedef struct {
