@@ -222,24 +222,24 @@ typedef enum {
 #define CONVEYOR_DIRECTION_FROM_BINANG(conveyorDirectionBinang) ((conveyorDirectionBinang) * (64 / 0x10000))
 
 #define SURFACETYPE0(bgCamIndex, exitIndex, floorType, unk18, wallType, floorProperty, isSoft, isHorseBlocked) \
-    (((bgCamIndex)     <<  0) & 0x000000FF) | \
-    (((exitIndex)      <<  8) & 0x00001F00) | \
-    (((floorType)      << 13) & 0x0003E000) | \
-    (((unk18)          << 18) & 0x001C0000) | \
-    (((wallType)       << 21) & 0x03E00000) | \
-    (((floorProperty)  << 26) & 0x3C000000) | \
-    (((isSoft)         << 30) & 0x40000000) | \
-    (((isHorseBlocked) << 31) & 0x80000000)
+    ((((bgCamIndex)     & 0xFF) <<  0) | \
+     (((exitIndex)      & 0x1F) <<  8) | \
+     (((floorType)      & 0x1F) << 13) | \
+     (((unk18)          & 0x07) << 18) | \
+     (((wallType)       & 0x1F) << 21) | \
+     (((floorProperty)  & 0x0F) << 26) | \
+     (((isSoft)         &    1) << 30) | \
+     (((isHorseBlocked) &    1) << 31))
 
 #define SURFACETYPE1(material, floorEffect, lightSetting, echo, canHookshot, conveyorSpeed, conveyorDirection, unk27) \
-    (((material)          <<  0) & 0x0000000F) | \
-    (((floorEffect)       <<  4) & 0x00000030) | \
-    (((lightSetting)      <<  6) & 0x000007C0) | \
-    (((echo)              << 11) & 0x0001F800) | \
-    (((canHookshot)       << 17) & 0x00020000) | \
-    (((conveyorSpeed)     << 18) & 0x001C0000) | \
-    (((conveyorDirection) << 21) & 0x07E00000) | \
-    ((((unk27) & 1) << 27))
+    ((((material)          & 0x0F) <<  0) | \
+     (((floorEffect)       & 0x03) <<  4) | \
+     (((lightSetting)      & 0x1F) <<  6) | \
+     (((echo)              & 0x3F) << 11) | \
+     (((canHookshot)       &    1) << 17) | \
+     (((conveyorSpeed)     & 0x07) << 18) | \
+     (((conveyorDirection) & 0x3F) << 21) | \
+     (((unk27)             &    1) << 27))
 
 typedef struct {
     u32 data[2];
