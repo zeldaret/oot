@@ -21,7 +21,7 @@
         <Texture Name="gBombchuShopkeeperFingersTex" OutName="fingers" Format="ci8" Width="16" Height="16" Offset="0x4568" TlutOffset="0x2EE8"/>
         <Texture Name="gBombchuShopkeeperVestTex" OutName="vest" Format="i8" Width="8" Height="16" Offset="0x4668"/>
         <Texture Name="gBombchuShopkeeperTorsoTex" OutName="torso" Format="ci8" Width="8" Height="32" Offset="0x46E8" TlutOffset="0x2EE8"/>
-        
+
         <Limb Name="gBombchuShopkeeperTorsoLimb" LimbType="Standard" Offset="0x47E8"/>
         <Limb Name="gBombchuShopkeeperLeftUpperArmLimb" LimbType="Standard" Offset="0x47F4"/>
         <Limb Name="gBombchuShopkeeperLeftForearmLimb" LimbType="Standard" Offset="0x4800"/>

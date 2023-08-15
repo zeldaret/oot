@@ -2,7 +2,7 @@
 #define Z64ITEM_H
 
 // Note that z_kaleido_scope_PAL.c assumes that the dimensions and texture format here also matches the dimensions and
-// texture format for MAP_NAME_TEX1_* 
+// texture format for MAP_NAME_TEX1_*
 #define ITEM_NAME_TEX_WIDTH 128
 #define ITEM_NAME_TEX_HEIGHT 16
 #define ITEM_NAME_TEX_SIZE ((ITEM_NAME_TEX_WIDTH * ITEM_NAME_TEX_HEIGHT) / 2) // 128x16 IA4 texture

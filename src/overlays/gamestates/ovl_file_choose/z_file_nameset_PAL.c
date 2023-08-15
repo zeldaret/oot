@@ -438,9 +438,9 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
                             gSaveContext.fileNum = this->buttonIndex;
-                            dayTime = ((void)0, gSaveContext.dayTime);
+                            dayTime = ((void)0, gSaveContext.save.dayTime);
                             Sram_InitSave(this, &this->sramCtx);
-                            gSaveContext.dayTime = dayTime;
+                            gSaveContext.save.dayTime = dayTime;
                             this->configMode = CM_NAME_ENTRY_TO_MAIN;
                             this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
                             this->connectorAlpha[this->buttonIndex] = 255;
