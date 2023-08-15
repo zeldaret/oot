@@ -317,7 +317,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
             }
 
             if (csCtx->curFrame == 783) {
-                func_80078884(NA_SE_EV_DEKU_DEATH);
+                Sfx_PlaySfxCentered(NA_SE_EV_DEKU_DEATH);
             } else if (csCtx->curFrame == 717) {
                 play->roomCtx.unk_74[0] = 0;
             }
@@ -333,7 +333,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
 
         case CS_MISC_TRIFORCE_FLASH:
             if (play->roomCtx.unk_74[1] == 0) {
-                func_80078884(NA_SE_EV_TRIFORCE_FLASH);
+                Sfx_PlaySfxCentered(NA_SE_EV_TRIFORCE_FLASH);
             }
 
             if (play->roomCtx.unk_74[1] < 255) {
@@ -471,7 +471,7 @@ void CutsceneCmd_Misc(PlayState* play, CutsceneContext* csCtx, CsCmdMisc* cmd) {
                 play->envCtx.sandstormState = SANDSTORM_FILL;
             }
 
-            func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
+            Sfx_PlaySfxCentered2(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
 
         case CS_MISC_SUNSSONG_START:
@@ -1435,7 +1435,7 @@ void CutsceneCmd_Transition(PlayState* play, CutsceneContext* csCtx, CsCmdTransi
                         Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else if ((lerp == 0.0f) && (play->sceneId == SCENE_INSIDE_GANONS_CASTLE)) {
-                        func_800788CC(NA_SE_EV_WHITE_OUT);
+                        Sfx_PlaySfxCentered2(NA_SE_EV_WHITE_OUT);
                     }
                 } else {
                     play->envCtx.screenFillColor[3] = (1.0f - lerp) * 255.0f;

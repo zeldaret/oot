@@ -332,7 +332,7 @@ void Play_Init(GameState* thisx) {
         gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
-        osSyncPrintf("出戻り？\n");                 // "Return?"
+        osSyncPrintf("出戻り？\n"); // "Return?"
     }
 
     Cutscene_HandleEntranceTriggers(this);

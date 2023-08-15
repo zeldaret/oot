@@ -103,7 +103,7 @@ void func_8087B938(BgHaka* this, PlayState* play) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         if (this->dyna.actor.params == 1) {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         } else if (!IS_DAY && play->sceneId == SCENE_GRAVEYARD) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_POH, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
                         this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0, 1);

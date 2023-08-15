@@ -238,7 +238,7 @@ u32 EnToryo_ReactToExchangeItem(EnToryo* this, PlayState* play) {
 
     if (this->exchangeItemId != EXCH_ITEM_NONE) {
         if (this->exchangeItemId == EXCH_ITEM_POACHERS_SAW) {
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             if (GET_INFTABLE(INFTABLE_171)) {
                 ret = 0x606E;
             } else {

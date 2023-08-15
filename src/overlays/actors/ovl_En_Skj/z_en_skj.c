@@ -917,7 +917,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
         if ((Player_GetMask(play) == PLAYER_MASK_SKULL) && !GET_ITEMGETINF(ITEMGETINF_39)) {
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             EnSkj_SetupMaskTrade(this);
         } else {
             EnSkj_SetupTalk(this);
@@ -977,7 +977,7 @@ void EnSkj_WaitForSong(EnSkj* this, PlayState* play) {
             if (!GET_ITEMGETINF(ITEMGETINF_16)) {
                 // Saria's song has been played for the first titme
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-                func_80078884(NA_SE_SY_CORRECT_CHIME);
+                Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 player->unk_6A8 = &this->actor;
                 func_8002F2CC(&this->actor, play, EnSkj_GetItemXzRange(this));
                 this->textId = 0x10BB;
@@ -1423,7 +1423,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, PlayState* play) {
         this->textId = 0x102D;
         this->actionFunc = EnSkj_FailedMiniGame;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_0F) { // completed the game
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Message_CloseTextbox(play);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         player->unk_6A8 = &this->actor;
@@ -1457,7 +1457,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, PlayState* play) {
                 if (this->songFailTimer != 0) {
                     this->songFailTimer--;
                 } else { // took too long, game failed
-                    func_80078884(NA_SE_SY_OCARINA_ERROR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_OCARINA_ERROR);
                     Message_CloseTextbox(play);
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
