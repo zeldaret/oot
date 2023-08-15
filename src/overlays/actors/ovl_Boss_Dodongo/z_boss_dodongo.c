@@ -1225,7 +1225,7 @@ void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 params) {
 
 void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     s32 pad;
-    ColliderElement* item;
+    ColliderElement* acHitElem;
     u8 swordDamage;
     s32 damage;
     s16 i;
@@ -1240,9 +1240,10 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
         if (this->actionFunc == BossDodongo_Inhale) {
             for (i = 0; i < 19; i++) {
                 if (this->collider.elements[i].base.bumperFlags & BUMP_HIT) {
-                    item = this->collider.elements[i].base.acHitElem;
+                    acHitElem = this->collider.elements[i].base.acHitElem;
 
-                    if ((item->toucher.dmgFlags & DMG_BOOMERANG) || (item->toucher.dmgFlags & DMG_SLINGSHOT)) {
+                    if ((acHitElem->toucher.dmgFlags & DMG_BOOMERANG) ||
+                        (acHitElem->toucher.dmgFlags & DMG_SLINGSHOT)) {
                         this->collider.elements[i].base.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
@@ -1255,9 +1256,9 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
 
         if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
             this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
-            item = this->collider.elements[0].base.acHitElem;
+            acHitElem = this->collider.elements[0].base.acHitElem;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
-                swordDamage = damage = CollisionCheck_GetSwordDamage(item->toucher.dmgFlags);
+                swordDamage = damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags);
 
                 if (damage != 0) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_DAMAGE);

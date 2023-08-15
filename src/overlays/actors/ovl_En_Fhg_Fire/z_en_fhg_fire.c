@@ -476,7 +476,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                         ? true
                         : false;
                 if ((this->collider.base.acFlags & AC_HIT) || canBottleReflect1) {
-                    ColliderElement* hurtbox = this->collider.elem.acHitElem;
+                    ColliderElement* acHitElem = this->collider.elem.acHitElem;
                     s16 i2;
                     Vec3f spA8;
                     Vec3f sp9C = { 0.0f, -0.5f, 0.0f };
@@ -491,7 +491,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                                                         (s16)(Rand_ZeroOne() * 25.0f) + 50, FHGFLASH_LIGHTBALL_GREEN);
                     }
                     canBottleReflect2 = canBottleReflect1;
-                    if (!canBottleReflect2 && (hurtbox->toucher.dmgFlags & DMG_SHIELD)) {
+                    if (!canBottleReflect2 && (acHitElem->toucher.dmgFlags & DMG_SHIELD)) {
                         killMode = BALL_IMPACT;
                         Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
