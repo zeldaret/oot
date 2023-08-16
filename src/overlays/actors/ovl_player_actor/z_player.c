@@ -473,7 +473,7 @@ static f32 sYDistToFloor = 0.0f;
 static s32 sPrevFloorProperty = FLOOR_PROPERTY_0; // floor property from the previous frame
 static s32 sShapeYawToTouchedWall = 0;
 static s32 sWorldYawToTouchedWall = 0;
-static s16 sFloorPitchShape = 0;
+static s16 sFloorShapePitch = 0;
 static s32 D_80853614 = 0;
 static s32 D_80853618 = 0;
 
@@ -6394,7 +6394,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
             func_80835C58(play, this, func_8084F390, 0);
             func_80832564(play, this);
 
-            if (sFloorPitchShape >= 0) {
+            if (sFloorShapePitch >= 0) {
                 this->unk_84F = 1;
             }
 
@@ -7742,10 +7742,10 @@ void func_80841CC4(Player* this, s32 arg1, PlayState* play) {
     s16 target;
     f32 rate;
 
-    if (ABS(sFloorPitchShape) < 3640) {
+    if (ABS(sFloorShapePitch) < 3640) {
         target = 0;
     } else {
-        target = CLAMP(sFloorPitchShape, -10922, 10922);
+        target = CLAMP(sFloorShapePitch, -10922, 10922);
     }
 
     Math_ScaledStepToS(&this->unk_89C, target, 400);
@@ -10004,7 +10004,7 @@ s32 Player_UpdateHoverBoots(Player* this) {
         return false;
     } else {
         sFloorType = FLOOR_TYPE_0;
-        this->floorPitch = this->floorPitchAlt = sFloorPitchShape = 0;
+        this->floorPitch = this->floorPitchAlt = sFloorShapePitch = 0;
 
         return true;
     }
@@ -10290,7 +10290,7 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
             sin = Math_SinS(this->actor.shape.rot.y);
             cos = Math_CosS(this->actor.shape.rot.y);
 
-            sFloorPitchShape =
+            sFloorShapePitch =
                 Math_Atan2S(1.0f, (-(floorPolyNormalX * sin) - (floorPolyNormalZ * cos)) * invFloorPolyNormalY);
 
             Player_HandleSlopes(play, this, floorPoly);
