@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_bv" Segment="6">
         <!-- Boss title card -->
-        <Texture Name="gBarinadeTitleCardTex" OutName="barinade_title_card" Format="i8" Width="128" Height="120" Offset="0x1230"/>
+        <Texture Name="gBarinadeTitleCardTex" OutName="barinade_title_card" Format="ia8" Width="128" Height="120" Offset="0x1230"/>
 
         <Skeleton Name="gBarinadeBodySkel" Type="Normal" LimbType="Standard" Offset="0x15B18"/>
         <Skeleton Name="gBarinadeSupportSkel" Type="Flex" LimbType="Standard" Offset="0x17498"/>

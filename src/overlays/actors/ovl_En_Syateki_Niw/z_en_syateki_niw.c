@@ -111,7 +111,7 @@ void func_80B11A94(EnSyatekiNiw* this, PlayState* play, s16 arg2) {
             this->unk_264 = -10000.0f;
         }
 
-        this->unk_28E += 1;
+        this->unk_28E++;
         this->unk_254 = 3;
         if (!(this->unk_28E & 1)) {
             this->unk_264 = 0.0f;
@@ -464,7 +464,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
         case 6:
             if (this->unk_25E == 1) {
                 play->transitionTrigger = TRANS_TRIGGER_START;
-                play->nextEntranceIndex = gSaveContext.entranceIndex;
+                play->nextEntranceIndex = gSaveContext.save.entranceIndex;
                 play->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;
                 this->unk_25E = 0x14;

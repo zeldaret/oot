@@ -40,8 +40,7 @@ void Fado_ConstructStringVectors(vc_vector** stringVectors, FairyFileInfo* fileI
         stringVectors[currentFile] = vc_vector_create(0x40, sizeof(char**), NULL);
 
         /* Build a vector of pointers to defined symbols' names */
-        for (currentSym = 0; currentSym < fileInfo[currentFile].symtabInfo.sectionSize / sizeof(FairySym);
-             currentSym++) {
+        for (currentSym = 0; currentSym < fileInfo[currentFile].symtabInfo.sectionEntryCount; currentSym++) {
             if ((symtab[currentSym].st_shndx != STN_UNDEF) &&
                 Fado_CheckInProgBitsSections(symtab[currentSym].st_shndx, fileInfo[currentFile].progBitsSections)) {
                 /* Have to pass a double pointer so it copies the pointer instead of the start of the string */
@@ -86,7 +85,7 @@ typedef struct {
 } FadoRelocInfo;
 
 /* Construct the Zelda64ovl-compatible reloc word from an ELF reloc */
-FadoRelocInfo Fado_MakeReloc(int file, FairySection section, FairyRel* data) {
+FadoRelocInfo Fado_MakeReloc(int file, FairySection section, FairyRela* data) {
     FadoRelocInfo relocInfo = { 0 };
     uint32_t sectionPrefix = 0;
 
@@ -223,11 +222,10 @@ void Fado_Relocs(FILE* outputFile, int inputFilesCount, FILE** inputFiles, const
         relocList[section] = vc_vector_create(0x100, sizeof(FadoRelocInfo), NULL);
 
         for (currentFile = 0; currentFile < inputFilesCount; currentFile++) {
-            FairyRel* relSection = fileInfos[currentFile].relocTablesInfo[section].sectionData;
-            if (relSection != NULL) {
+            FairyRela* relSection = fileInfos[currentFile].relocTablesInfo[section].sectionData;
 
-                for (relocIndex = 0;
-                     relocIndex < fileInfos[currentFile].relocTablesInfo[section].sectionSize / sizeof(FairyRel);
+            if (relSection != NULL) {
+                for (relocIndex = 0; relocIndex < fileInfos[currentFile].relocTablesInfo[section].sectionEntryCount;
                      relocIndex++) {
                     FadoRelocInfo currentReloc = Fado_MakeReloc(currentFile, section, &relSection[relocIndex]);
 

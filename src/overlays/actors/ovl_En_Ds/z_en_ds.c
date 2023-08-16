@@ -104,7 +104,7 @@ void EnDs_TalkAfterBrewOddPotion(EnDs* this, PlayState* play) {
 
 void EnDs_BrewOddPotion3(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_TalkAfterBrewOddPotion;
         Message_ContinueTextbox(play, 0x504D);
@@ -116,7 +116,7 @@ void EnDs_BrewOddPotion3(EnDs* this, PlayState* play) {
 
 void EnDs_BrewOddPotion2(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_BrewOddPotion3;
         this->brewTimer = 60;
@@ -126,7 +126,7 @@ void EnDs_BrewOddPotion2(EnDs* this, PlayState* play) {
 
 void EnDs_BrewOddPotion1(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_BrewOddPotion2;
         this->brewTimer = 20;
@@ -156,7 +156,7 @@ void EnDs_OfferOddPotion(EnDs* this, PlayState* play) {
 }
 
 s32 EnDs_CheckRupeesAndBottle(void) {
-    if (gSaveContext.rupees < 100) {
+    if (gSaveContext.save.info.playerData.rupees < 100) {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {
         return 1;

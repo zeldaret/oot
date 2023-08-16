@@ -212,7 +212,7 @@ typedef enum {
 } CutsceneTextType;
 
 typedef enum {
-    /* 0x03 */ CS_FADE_OUT_FANFARE = 3, 
+    /* 0x03 */ CS_FADE_OUT_FANFARE = 3,
     /* 0x04 */ CS_FADE_OUT_BGM_MAIN
 } CutsceneFadeOutSeqPlayer;
 
@@ -512,5 +512,22 @@ typedef struct {
     /* 0x4 */ CutsceneCameraPoint* eyePoints;
     /* 0x8 */ s16 relativeToPlayer;
 } CutsceneCameraMove; // size = 0xC
+
+typedef struct {
+    /* 0x00 */ char  unk_00[0x4];
+    /* 0x04 */ void* script;
+    /* 0x08 */ u8 state;
+    /* 0x0C */ f32 timer;
+    /* 0x10 */ u16 curFrame; // current frame of the script that is running
+    /* 0x12 */ u16 unk_12; // set but never used
+    /* 0x14 */ s32 subCamId;
+    /* 0x18 */ u16 camEyeSplinePointsAppliedFrame; // stores the frame the cam eye spline points data was last applied on
+    /* 0x1A */ u8 camAtReady; // cam `at` data is ready to be applied
+    /* 0x1B */ u8 camEyeReady; // cam `eye` data is ready to be applied
+    /* 0x1C */ CutsceneCameraPoint* camAtPoints;
+    /* 0x20 */ CutsceneCameraPoint* camEyePoints;
+    /* 0x24 */ CsCmdActorCue* playerCue;
+    /* 0x28 */ CsCmdActorCue* actorCues[10]; // "npcdemopnt"
+} CutsceneContext; // size = 0x50
 
 #endif

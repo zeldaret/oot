@@ -76,10 +76,10 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
     FaultDrawer_Printf("No. RamStart- RamEnd cn  Name\n");
 
     for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxActorId; i++, overlayEntry++) {
-        overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
+        overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
         if (overlayEntry->loadedRamAddr != NULL) {
             FaultDrawer_Printf("%3d %08x-%08x %3d %s\n", i, overlayEntry->loadedRamAddr,
-                               (u32)overlayEntry->loadedRamAddr + overlaySize, overlayEntry->numLoaded,
+                               (uintptr_t)overlayEntry->loadedRamAddr + overlaySize, overlayEntry->numLoaded,
                                overlayEntry->name != NULL ? overlayEntry->name : "");
         }
     }
