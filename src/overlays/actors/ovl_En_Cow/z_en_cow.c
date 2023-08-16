@@ -147,7 +147,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
             this->animationTimer = Rand_ZeroFloat(1000.0f) + 40.0f;
             this->breathTimer = 0;
             this->actor.targetMode = 6;
-            R_EPONA_CALLED = false;
+            R_EPONAS_SONG_PLAYED = false;
             break;
 
         case COW_TYPE_TAIL:
@@ -274,24 +274,30 @@ void EnCow_Talk(EnCow* this, PlayState* play) {
 
 void EnCow_Idle(EnCow* this, PlayState* play) {
     if ((play->msgCtx.ocarinaMode == OCARINA_MODE_00) || (play->msgCtx.ocarinaMode == OCARINA_MODE_04)) {
-        if (R_EPONA_CALLED) {
-            if (this->cowFlags & COW_FLAG_DONT_GIVE_MILK) {
-                this->cowFlags &= ~COW_FLAG_DONT_GIVE_MILK;
-                R_EPONA_CALLED = false;
+        // There is a complex interaction between `R_EPONAS_SONG_PLAYED` and `COW_FLAG_FAILED_TO_GIVE_MILK` to allow
+        // multiple cows to try and give milk on the same frame.
+        // `COW_FLAG_FAILED_TO_GIVE_MILK` gets set if a cow is not in range with the player to interact.
+        // In the case of a failure, `R_EPONAS_SONG_PLAYED` is not set to false incase another cow can succeed.
+        // On the following frame, if both `R_EPONAS_SONG_PLAYED` and `COW_FLAG_FAILED_TO_GIVE_MILK` are set, the
+        // first cow that updates can assume all other cows also failed and can safely unset `R_EPONAS_SONG_PLAYED`.
+        if (R_EPONAS_SONG_PLAYED) {
+            if (this->cowFlags & COW_FLAG_FAILED_TO_GIVE_MILK) {
+                this->cowFlags &= ~COW_FLAG_FAILED_TO_GIVE_MILK;
+                R_EPONAS_SONG_PLAYED = false;
             } else {
                 if ((this->actor.xzDistToPlayer < 150.0f) &&
                     (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 25000)) {
-                    R_EPONA_CALLED = false;
+                    R_EPONAS_SONG_PLAYED = false;
                     this->actionFunc = EnCow_Talk;
                     this->actor.flags |= ACTOR_FLAG_16;
                     func_8002F2CC(&this->actor, play, 170.0f);
                     this->actor.textId = 0x2006;
                 } else {
-                    this->cowFlags |= COW_FLAG_DONT_GIVE_MILK;
+                    this->cowFlags |= COW_FLAG_FAILED_TO_GIVE_MILK;
                 }
             }
         } else {
-            this->cowFlags &= ~COW_FLAG_DONT_GIVE_MILK;
+            this->cowFlags &= ~COW_FLAG_FAILED_TO_GIVE_MILK;
         }
     }
 
