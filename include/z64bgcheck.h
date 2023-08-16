@@ -1,15 +1,12 @@
-#ifndef Z_BGCHECK_H
-#define Z_BGCHECK_H
+#ifndef Z64BGCHECK_H
+#define Z64BGCHECK_H
+
+#include "ultra64/ultratypes.h"
+#include "z64math.h"
 
 struct PlayState;
 struct Actor;
 struct DynaPolyActor;
-
-#define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
-#define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
-#define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
-#define COLPOLY_VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags)&7) << 13))
-#define COLPOLY_VTX_INDEX(vI) ((vI)&0x1FFF)
 
 #define DYNAPOLY_INVALIDATE_LOOKUP (1 << 0)
 
@@ -27,10 +24,30 @@ struct DynaPolyActor;
 #define FUNC_80041EA4_VOID_OUT 12
 
 typedef struct {
-    Vec3f scale;
-    Vec3s rot;
-    Vec3f pos;
-} ScaleRotPos;
+    /* 0x00 */ Vec3f scale;
+    /* 0x0C */ Vec3s rot;
+    /* 0x14 */ Vec3f pos;
+} ScaleRotPos; // size = 0x20
+
+// Macros for `CollisionPoly`
+
+#define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
+#define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
+#define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
+#define COLPOLY_VTX_CHECK_FLAGS_ANY(vI, flags) ((vI) & (((flags) & 7) << 13))
+#define COLPOLY_VTX_FLAGS_MASKED(vI) ((vI) & 0xE000)
+#define COLPOLY_VTX_INDEX(vI) ((vI) & 0x1FFF)
+#define COLPOLY_VTX(vtxId, flags) ((((flags) & 7) << 13) | ((vtxId) & 0x1FFF))
+
+// flags for flags_vIA
+// poly exclusion flags (xpFlags)
+#define COLPOLY_IGNORE_NONE 0
+#define COLPOLY_IGNORE_CAMERA (1 << 0)
+#define COLPOLY_IGNORE_ENTITY (1 << 1)
+#define COLPOLY_IGNORE_PROJECTILES (1 << 2)
+
+// flags for flags_vIB
+#define COLPOLY_IS_FLOOR_CONVEYOR (1 << 0)
 
 typedef struct {
     /* 0x00 */ u16 type;
@@ -39,7 +56,7 @@ typedef struct {
         struct {
             /* 0x02 */ u16 flags_vIA; // 0xE000 is poly exclusion flags (xpFlags), 0x1FFF is vtxId
             /* 0x04 */ u16 flags_vIB; // 0xE000 is flags, 0x1FFF is vtxId
-                                      // 0x2000 = poly IsConveyor surface
+                                      // 0x2000 = poly IsFloorConveyor surface
             /* 0x06 */ u16 vIC;
         };
     };
@@ -75,29 +92,18 @@ typedef struct {
 
 // Macros for `WaterBox.properties`
 
-#define WATERBOX_BGCAM_INDEX_SHIFT 0
-#define WATERBOX_BGCAM_INDEX_MASK 0x000000FF
-#define WATERBOX_BGCAM_INDEX(properties) \
-    (((properties) >> WATERBOX_BGCAM_INDEX_SHIFT) & (WATERBOX_BGCAM_INDEX_MASK >> WATERBOX_BGCAM_INDEX_SHIFT))
-
-#define WATERBOX_LIGHT_INDEX_SHIFT 8
-#define WATERBOX_LIGHT_INDEX_MASK 0x00001F00
-#define WATERBOX_LIGHT_INDEX(properties) \
-    (((properties) >> WATERBOX_LIGHT_INDEX_SHIFT) & (WATERBOX_LIGHT_INDEX_MASK >> WATERBOX_LIGHT_INDEX_SHIFT))
 #define WATERBOX_LIGHT_INDEX_NONE 0x1F // warns and defaults to 0
 
-#define WATERBOX_ROOM_SHIFT 13
-#define WATERBOX_ROOM_MASK 0x0007E000
-#define WATERBOX_ROOM(properties) (((properties) >> WATERBOX_ROOM_SHIFT) & (WATERBOX_ROOM_MASK >> WATERBOX_ROOM_SHIFT))
+#define WATERBOX_ROOM(properties) (((properties) >> 13) & 0x3F)
 #define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
 
-#define WATERBOX_FLAG_19_SHIFT 19
-#define WATERBOX_FLAG_19 (1 << WATERBOX_FLAG_19_SHIFT)
+#define WATERBOX_FLAG_19 (1 << 19)
 
-#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19)              \
-    ((((bgCamIndex) << WATERBOX_BGCAM_INDEX_SHIFT) & WATERBOX_BGCAM_INDEX_MASK) | \
-     (((lightIndex) << WATERBOX_LIGHT_INDEX_SHIFT) & WATERBOX_LIGHT_INDEX_MASK) | \
-     (((room) << WATERBOX_ROOM_SHIFT) & WATERBOX_ROOM_MASK) | (((setFlag19) & 1) << WATERBOX_FLAG_19_SHIFT))
+#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19) \
+    ((((bgCamIndex) & 0xFF) <<  0) | \
+     (((lightIndex) & 0x1F) <<  8) | \
+     (((room)       & 0x3F) << 13) | \
+     (((setFlag19)  &    1) << 19))
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -213,6 +219,27 @@ typedef enum {
 } ConveyorSpeed;
 
 #define CONVEYOR_DIRECTION_TO_BINANG(conveyorDirection) ((conveyorDirection) * (0x10000 / 64))
+#define CONVEYOR_DIRECTION_FROM_BINANG(conveyorDirectionBinang) ((conveyorDirectionBinang) * (64 / 0x10000))
+
+#define SURFACETYPE0(bgCamIndex, exitIndex, floorType, unk18, wallType, floorProperty, isSoft, isHorseBlocked) \
+    ((((bgCamIndex)     & 0xFF) <<  0) | \
+     (((exitIndex)      & 0x1F) <<  8) | \
+     (((floorType)      & 0x1F) << 13) | \
+     (((unk18)          & 0x07) << 18) | \
+     (((wallType)       & 0x1F) << 21) | \
+     (((floorProperty)  & 0x0F) << 26) | \
+     (((isSoft)         &    1) << 30) | \
+     (((isHorseBlocked) &    1) << 31))
+
+#define SURFACETYPE1(material, floorEffect, lightSetting, echo, canHookshot, conveyorSpeed, conveyorDirection, unk27) \
+    ((((material)          & 0x0F) <<  0) | \
+     (((floorEffect)       & 0x03) <<  4) | \
+     (((lightSetting)      & 0x1F) <<  6) | \
+     (((echo)              & 0x3F) << 11) | \
+     (((canHookshot)       &    1) << 17) | \
+     (((conveyorSpeed)     & 0x07) << 18) | \
+     (((conveyorDirection) & 0x3F) << 21) | \
+     (((unk27)             &    1) << 27))
 
 typedef struct {
     u32 data[2];

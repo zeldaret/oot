@@ -46,7 +46,7 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
-    MtxF mfTrans11DA0;
+    MtxF mfTransBillboard;
     s32 pad1;
     Mtx* mtx;
     void* object = play->objectCtx.status[this->rgObjBankIdx].segment;
@@ -56,8 +56,8 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     scale = this->rgScale * 0.0025f;
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&mfScale, scale, scale, scale);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
     gSPSegment(POLY_XLU_DISP++, 0x06, object);
 
@@ -316,15 +316,26 @@ void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Ve
 
 // EffectSsBlast Spawn Functions
 
-void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life) {
+/**
+ * Spawn a ring-shaped shockwave effect.
+ *
+ * @param pos Position from which to find collision to draw the shockwave along.
+ * @param innerColor Color on the inside of the ring. Alpha is effect's alpha.
+ * @param outerColor Color on the outside of the ring.
+ * @param scale How large the shockwave is initially. The shockwave will be `scale*64/400` units wide.
+ * @param scaleStep How much to increase `scale` by each frame.
+ * @param scaleStepDecay How much to decrease `scaleStep` by each frame
+ *   (should be a divisor of `scaleStep`, or small enough that `scaleStep` won't go negative).
+ */
+void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* innerColor,
+                         Color_RGBA8* outerColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life) {
     EffectSsBlastParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
-    Color_RGBA8_Copy(&initParams.primColor, primColor);
-    Color_RGBA8_Copy(&initParams.envColor, envColor);
+    Color_RGBA8_Copy(&initParams.innerColor, innerColor);
+    Color_RGBA8_Copy(&initParams.outerColor, outerColor);
     initParams.scale = scale;
     initParams.scaleStep = scaleStep;
     initParams.scaleStepDecay = scaleStepDecay;
@@ -333,24 +344,39 @@ void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* ac
     EffectSs_Spawn(play, EFFECT_SS_BLAST, 128, &initParams);
 }
 
-void EffectSsBlast_SpawnWhiteCustomScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
-                                         s16 scaleStep, s16 life) {
-    static Color_RGBA8 primColor = { 255, 255, 255, 255 };
-    static Color_RGBA8 envColor = { 200, 200, 200, 0 };
+/**
+ * Spawn a white shockwave effect.
+ *
+ * @see EffectSsBlast_Spawn
+ */
+void EffectSsBlast_SpawnWhiteShockwaveSetScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+                                               s16 scaleStep, s16 life) {
+    static Color_RGBA8 innerColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 outerColor = { 200, 200, 200, 0 };
 
-    EffectSsBlast_Spawn(play, pos, velocity, accel, &primColor, &envColor, scale, scaleStep, 35, life);
+    EffectSsBlast_Spawn(play, pos, velocity, accel, &innerColor, &outerColor, scale, scaleStep, 35, life);
 }
 
-void EffectSsBlast_SpawnShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                                  Color_RGBA8* envColor, s16 life) {
-    EffectSsBlast_Spawn(play, pos, velocity, accel, primColor, envColor, 100, 375, 35, life);
+/**
+ * Spawn a shockwave effect, quickly expanding.
+ *
+ * @see EffectSsBlast_Spawn
+ */
+void EffectSsBlast_SpawnShockwaveSetColor(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                          Color_RGBA8* innerColor, Color_RGBA8* outerColor, s16 life) {
+    EffectSsBlast_Spawn(play, pos, velocity, accel, innerColor, outerColor, 100, 375, 35, life);
 }
 
+/**
+ * Spawn a white shockwave effect, quickly expanding, for 10 frames.
+ *
+ * @see EffectSsBlast_Spawn
+ */
 void EffectSsBlast_SpawnWhiteShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
-    static Color_RGBA8 primColor = { 255, 255, 255, 255 };
-    static Color_RGBA8 envColor = { 200, 200, 200, 0 };
+    static Color_RGBA8 innerColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 outerColor = { 200, 200, 200, 0 };
 
-    EffectSsBlast_SpawnShockwave(play, pos, velocity, accel, &primColor, &envColor, 10);
+    EffectSsBlast_SpawnShockwaveSetColor(play, pos, velocity, accel, &innerColor, &outerColor, 10);
 }
 
 // EffectSsGSpk Spawn Functions
@@ -745,12 +771,12 @@ void EffectSsFhgFlash_SpawnLightBall(PlayState* play, Vec3f* pos, Vec3f* velocit
 }
 
 /**
- * Spawn a shock effect
+ * Spawn a purple shock effect (a ball of electrical arcs).
  *
- * param determines where the ligntning should go
- * 0: don't attach to any actor. spawns at the position specified by pos
- * 1: spawn at one of Player's body parts, chosen at random
- * 2: spawn at one of Phantom Ganon's body parts, chosen at random
+ * @param actor If param is `FHGFLASH_SHOCK_PG`, the Phantom Ganon actor. Unused otherwise.
+ * @param pos If param is `FHGFLASH_SHOCK_NO_ACTOR`, the position of the effect. Unused otherwise.
+ * @param scale The effect will be around `scale*20/100` units wide (randomized).
+ * @param param Determines what the effect attaches to. See `FhgFlashLightningParam`.
  */
 void EffectSsFhgFlash_SpawnShock(PlayState* play, Actor* actor, Vec3f* pos, s16 scale, u8 param) {
     EffectSsFhgFlashInitParams initParams;
