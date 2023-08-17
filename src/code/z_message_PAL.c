@@ -3173,7 +3173,8 @@ void Message_Update(PlayState* play) {
                 } else {
                     Message_GrowTextbox(msgCtx);
                     // TODO: this may be NA_SE_PL_WALK_GROUND - SFX_FLAG, or not, investigate sfxId=0
-                    Audio_PlaySoundIfNotInCutscene(0);
+                    Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP_2, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     msgCtx->stateTimer = 0;
                     msgCtx->msgMode = MSGMODE_TEXT_BOX_GROWING;
                 }
