@@ -418,12 +418,21 @@ s32 AudioLoad_SyncLoadInstrument(s32 fontId, s32 instId, s32 drumId) {
         if (instrument == NULL) {
             return -1;
         }
-        if (instrument->normalRangeLo != 0) {
-            AudioLoad_SyncLoadSample(instrument->lowPitchTunedSample.sample, fontId);
+        if (instrument->normalRange0to1 != 0) {
+            AudioLoad_SyncLoadSample(instrument->PitchTunedSample0.sample, fontId);
         }
-        AudioLoad_SyncLoadSample(instrument->normalPitchTunedSample.sample, fontId);
-        if (instrument->normalRangeHi != 0x7F) {
-            return AudioLoad_SyncLoadSample(instrument->highPitchTunedSample.sample, fontId);
+        if (instrument->normalRange1to2 != 0) {
+            AudioLoad_SyncLoadSample(instrument->PitchTunedSample1.sample, fontId);
+        }
+        if (instrument->normalRange2to3 != 0) {
+            AudioLoad_SyncLoadSample(instrument->PitchTunedSample2.sample, fontId);
+        }
+        if (instrument->normalRange3to4 != 0) {
+            AudioLoad_SyncLoadSample(instrument->PitchTunedSample3.sample, fontId);
+        }
+        AudioLoad_SyncLoadSample(instrument->PitchTunedSample4.sample, fontId);
+        if (instrument->normalRange4to5 != 0x7F) {
+            AudioLoad_SyncLoadSample(instrument->PitchTunedSample5.sample, fontId);
         }
     } else if (instId == 0x7F) {
         Drum* drum = Audio_GetDrum(fontId, drumId);
@@ -884,16 +893,21 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
             // The instrument may be in the list multiple times and already relocated
             if (!inst->isRelocated) {
                 // Some instruments have a different sample for low pitches
-                if (inst->normalRangeLo != 0) {
-                    AudioLoad_RelocateSample(&inst->lowPitchTunedSample, fontDataStartAddr, sampleBankReloc);
+                if (inst->normalRange0to1 != 0) {
+                    AudioLoad_RelocateSample(&inst->PitchTunedSample0, fontDataStartAddr, sampleBankReloc);
                 }
-
-                // Every instrument has a sample for the default range
-                AudioLoad_RelocateSample(&inst->normalPitchTunedSample, fontDataStartAddr, sampleBankReloc);
-
-                // Some instruments have a different sample for high pitches
-                if (inst->normalRangeHi != 0x7F) {
-                    AudioLoad_RelocateSample(&inst->highPitchTunedSample, fontDataStartAddr, sampleBankReloc);
+                if (inst->normalRange1to2 != 0) {
+                    AudioLoad_RelocateSample(&inst->PitchTunedSample1, fontDataStartAddr, sampleBankReloc);
+                }
+                if (inst->normalRange2to3 != 0) {
+                    AudioLoad_RelocateSample(&inst->PitchTunedSample2, fontDataStartAddr, sampleBankReloc);
+                }
+                if (inst->normalRange3to4 != 0) {
+                    AudioLoad_RelocateSample(&inst->PitchTunedSample3, fontDataStartAddr, sampleBankReloc);
+                }
+                AudioLoad_RelocateSample(&inst->PitchTunedSample4, fontDataStartAddr, sampleBankReloc);
+                if (inst->normalRange4to5 != 0x7F) {
+                    AudioLoad_RelocateSample(&inst->PitchTunedSample5, fontDataStartAddr, sampleBankReloc);
                 }
 
                 soundOffset = (u32)inst->envelope;
@@ -1296,7 +1310,7 @@ Sample* AudioLoad_GetFontSample(s32 fontId, s32 instId) {
         if (instrument == NULL) {
             return NULL;
         }
-        sample = instrument->normalPitchTunedSample.sample;
+        sample = instrument->PitchTunedSample4.sample;
     } else if (instId < 0x100) {
         Drum* drum = Audio_GetDrum(fontId, instId - 0x80);
 
@@ -1899,13 +1913,22 @@ s32 AudioLoad_GetSamplesForFont(s32 fontId, Sample** sampleSet) {
         Instrument* instrument = Audio_GetInstrumentInner(fontId, i);
 
         if (instrument != NULL) {
-            if (instrument->normalRangeLo != 0) {
-                numSamples = AudioLoad_AddToSampleSet(instrument->lowPitchTunedSample.sample, numSamples, sampleSet);
+            if (instrument->normalRange0to1 != 0) {
+                numSamples = AudioLoad_AddToSampleSet(instrument->PitchTunedSample0.sample, numSamples, sampleSet);
             }
-            if (instrument->normalRangeHi != 0x7F) {
-                numSamples = AudioLoad_AddToSampleSet(instrument->highPitchTunedSample.sample, numSamples, sampleSet);
+            if (instrument->normalRange1to2 != 0) {
+                numSamples = AudioLoad_AddToSampleSet(instrument->PitchTunedSample1.sample, numSamples, sampleSet);
             }
-            numSamples = AudioLoad_AddToSampleSet(instrument->normalPitchTunedSample.sample, numSamples, sampleSet);
+            if (instrument->normalRange2to3 != 0) {
+                numSamples = AudioLoad_AddToSampleSet(instrument->PitchTunedSample2.sample, numSamples, sampleSet);
+            }
+            if (instrument->normalRange3to4 != 0) {
+                numSamples = AudioLoad_AddToSampleSet(instrument->PitchTunedSample3.sample, numSamples, sampleSet);
+            }
+            if (instrument->normalRange4to5 != 0x7F) {
+                numSamples = AudioLoad_AddToSampleSet(instrument->PitchTunedSample5.sample, numSamples, sampleSet);
+            }
+            numSamples = AudioLoad_AddToSampleSet(instrument->PitchTunedSample4.sample, numSamples, sampleSet);
         }
     }
 
@@ -1951,13 +1974,22 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, SampleBankRelocInfo*
     for (i = 0; i < numInstruments; i++) {
         instrument = Audio_GetInstrumentInner(fontId, i);
         if (instrument != NULL) {
-            if (instrument->normalRangeLo != 0) {
-                AudioLoad_AddUsedSample(&instrument->lowPitchTunedSample);
+            if (instrument->normalRange0to1 != 0) {
+                AudioLoad_AddUsedSample(&instrument->PitchTunedSample0);
             }
-            if (instrument->normalRangeHi != 0x7F) {
-                AudioLoad_AddUsedSample(&instrument->highPitchTunedSample);
+            if (instrument->normalRange1to2 != 0) {
+                AudioLoad_AddUsedSample(&instrument->PitchTunedSample1);
             }
-            AudioLoad_AddUsedSample(&instrument->normalPitchTunedSample);
+            if (instrument->normalRange2to3 != 0) {
+                AudioLoad_AddUsedSample(&instrument->PitchTunedSample2);
+            }
+            if (instrument->normalRange3to4 != 0) {
+                AudioLoad_AddUsedSample(&instrument->PitchTunedSample3);
+            }
+            if (instrument->normalRange4to5 != 0x7F) {
+                AudioLoad_AddUsedSample(&instrument->PitchTunedSample5);
+            }
+            AudioLoad_AddUsedSample(&instrument->PitchTunedSample4);
         }
     }
 

@@ -1233,13 +1233,22 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
     for (instId = 0; instId < gAudioCtx.soundFontList[fontId].numInstruments; instId++) {
         inst = Audio_GetInstrumentInner(fontId, instId);
         if (inst != NULL) {
-            if (inst->normalRangeLo != 0) {
-                AudioHeap_UnapplySampleCache(entry, inst->lowPitchTunedSample.sample);
+            if (inst->normalRange0to1 != 0) {
+                AudioHeap_UnapplySampleCache(entry, inst->PitchTunedSample0.sample);
             }
-            if (inst->normalRangeHi != 0x7F) {
-                AudioHeap_UnapplySampleCache(entry, inst->highPitchTunedSample.sample);
+            if (inst->normalRange1to2 != 0) {
+                AudioHeap_UnapplySampleCache(entry, inst->PitchTunedSample1.sample);
             }
-            AudioHeap_UnapplySampleCache(entry, inst->normalPitchTunedSample.sample);
+            if (inst->normalRange2to3 != 0) {
+                AudioHeap_UnapplySampleCache(entry, inst->PitchTunedSample2.sample);
+            }
+            if (inst->normalRange3to4 != 0) {
+                AudioHeap_UnapplySampleCache(entry, inst->PitchTunedSample3.sample);
+            }
+            if (inst->normalRange4to5 != 0x7F) {
+                AudioHeap_UnapplySampleCache(entry, inst->PitchTunedSample5.sample);
+            }
+            AudioHeap_UnapplySampleCache(entry, inst->PitchTunedSample4.sample);
         }
     }
 
@@ -1434,13 +1443,22 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
             for (instId = 0; instId < gAudioCtx.soundFontList[fontId].numInstruments; instId++) {
                 inst = Audio_GetInstrumentInner(fontId, instId);
                 if (inst != NULL) {
-                    if (inst->normalRangeLo != 0) {
-                        AudioHeap_ChangeStorage(&change, inst->lowPitchTunedSample.sample);
+                    if (inst->normalRange0to1 != 0) {
+                        AudioHeap_ChangeStorage(&change, inst->PitchTunedSample0.sample);
                     }
-                    if (inst->normalRangeHi != 0x7F) {
-                        AudioHeap_ChangeStorage(&change, inst->highPitchTunedSample.sample);
+                    if (inst->normalRange1to2 != 0) {
+                        AudioHeap_ChangeStorage(&change, inst->PitchTunedSample1.sample);
                     }
-                    AudioHeap_ChangeStorage(&change, inst->normalPitchTunedSample.sample);
+                    if (inst->normalRange2to3 != 0) {
+                        AudioHeap_ChangeStorage(&change, inst->PitchTunedSample2.sample);
+                    }
+                    if (inst->normalRange3to4 != 0) {
+                        AudioHeap_ChangeStorage(&change, inst->PitchTunedSample3.sample);
+                    }
+                    if (inst->normalRange4to5 != 0x7F) {
+                        AudioHeap_ChangeStorage(&change, inst->PitchTunedSample5.sample);
+                    }
+                    AudioHeap_ChangeStorage(&change, inst->PitchTunedSample4.sample);
                 }
             }
 

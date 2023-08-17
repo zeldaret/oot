@@ -297,12 +297,23 @@ void Audio_ProcessNotes(void) {
 TunedSample* Audio_GetInstrumentTunedSample(Instrument* instrument, s32 semitone) {
     TunedSample* tunedSample;
 
-    if (semitone < instrument->normalRangeLo) {
-        tunedSample = &instrument->lowPitchTunedSample;
-    } else if (semitone <= instrument->normalRangeHi) {
-        tunedSample = &instrument->normalPitchTunedSample;
-    } else {
-        tunedSample = &instrument->highPitchTunedSample;
+    if (semitone < instrument->normalRange0to1) {
+        tunedSample = &instrument->PitchTunedSample0;
+    }
+    else if ((semitone < instrument->normalRange1to2) && (semitone > instrument->normalRange0to1)) {
+        tunedSample = &instrument->PitchTunedSample1;
+    }
+    else if ((semitone < instrument->normalRange2to3) && (semitone > instrument->normalRange1to2)) {
+        tunedSample = &instrument->PitchTunedSample2;
+    }
+    else if ((semitone < instrument->normalRange3to4) && (semitone > instrument->normalRange2to3)) {
+        tunedSample = &instrument->PitchTunedSample3;
+    } 
+    else if ((semitone <= instrument->normalRange4to5) && (semitone > instrument->normalRange3to4)) {
+        tunedSample = &instrument->PitchTunedSample4;
+    } 
+    else if ((semitone > instrument->normalRange4to5)) {
+        tunedSample = &instrument->PitchTunedSample5;
     }
     return tunedSample;
 }

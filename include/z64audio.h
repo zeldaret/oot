@@ -184,14 +184,22 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 isRelocated; // have the envelope and all samples been relocated (offsets to pointers)
-    /* 0x01 */ u8 normalRangeLo;
-    /* 0x02 */ u8 normalRangeHi;
-    /* 0x03 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
-    /* 0x04 */ EnvelopePoint* envelope;
-    /* 0x08 */ TunedSample lowPitchTunedSample;
-    /* 0x10 */ TunedSample normalPitchTunedSample;
-    /* 0x18 */ TunedSample highPitchTunedSample;
-} Instrument; // size = 0x20
+    /* 0x01 */ u8 normalRange0to1; // new split
+    /* 0x02 */ u8 normalRange1to2; // new split
+    /* 0x03 */ u8 normalRange2to3; // new split
+    /* 0x04 */ u8 normalRange3to4; // this is the new "low" range
+    /* 0x05 */ u8 normalRange4to5; // this is the new "hi" range
+    /* 0x06 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
+    /* 0x07 */ u8 padding;
+    /* 0x08 */ EnvelopePoint* envelope;
+    /* 0x0C */ u32 padding1;
+    /* 0x10 */ TunedSample PitchTunedSample0; // new sample
+    /* 0x18 */ TunedSample PitchTunedSample1; // new sample
+    /* 0x20 */ TunedSample PitchTunedSample2; // new sample
+    /* 0x28 */ TunedSample PitchTunedSample3; // this is the new "low" sample
+    /* 0x30 */ TunedSample PitchTunedSample4; // this is the new "normal" sample
+    /* 0x38 */ TunedSample PitchTunedSample5; // this is the new "high" sample
+} Instrument; // size = 0x40
 
 typedef struct {
     /* 0x00 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
