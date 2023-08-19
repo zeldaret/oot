@@ -13,7 +13,7 @@ NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
-COMPILER ?= ido
+COMPILER ?= gcc
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -111,7 +111,7 @@ ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
 
 ifeq ($(COMPILER),gcc)
-  OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
+  OPTFLAGS := -Og -g  -g3 -ffast-math -fno-unsafe-math-optimizations
 else
   OPTFLAGS := -O2
 endif

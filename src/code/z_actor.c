@@ -1,6 +1,7 @@
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "gdb.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
@@ -2703,6 +2704,8 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     osSyncPrintf(VT_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
+        GDB_OverlayUnload(actorOverlay->vromStart);
+
         if (HREG(20) != 0) {
             osSyncPrintf("アクタークライアントが０になりました\n"); // "Actor client is now 0"
         }
@@ -2803,6 +2806,12 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
             Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
                          overlayEntry->loadedRamAddr);
+
+            GDB_OverlayLoad(
+                (u32)overlayEntry->vramStart,
+                (u32)overlayEntry->loadedRamAddr,
+                overlayEntry->vramEnd - overlayEntry->vramStart
+            );
 
             osSyncPrintf(VT_FGCOL(GREEN));
             osSyncPrintf("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart,

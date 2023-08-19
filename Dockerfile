@@ -5,6 +5,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
     apt-get update && \
     apt-get install -y \
         binutils-mips-linux-gnu \
+        gcc-mips-linux-gnu \
         build-essential \
         pkg-config \
         python3 \
