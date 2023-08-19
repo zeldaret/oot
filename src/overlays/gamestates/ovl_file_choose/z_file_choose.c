@@ -1601,6 +1601,7 @@ void FileSelect_Main(GameState* thisx) {
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2898);
 
     this->n64ddFlag = 0;
+    gSaveContext.skyboxTime += 0x022;
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     gSPSegment(POLY_OPA_DISP++, 0x01, this->staticSegment);
