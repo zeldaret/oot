@@ -2704,7 +2704,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     osSyncPrintf(VT_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
-        GDB_OverlayUnload(actorOverlay->vromStart);
+        GDB_OverlayUnload((u32)actorOverlay->vramStart);
 
         if (HREG(20) != 0) {
             osSyncPrintf("アクタークライアントが０になりました\n"); // "Actor client is now 0"

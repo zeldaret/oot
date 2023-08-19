@@ -10,10 +10,10 @@
 
 struct GDB_Overlay
 {
-    u64 vma;
-    u64 size;
-    u64 lma;
-    u64 mapped;
+    u32 vma;
+    u32 size;
+    u32 lma;
+    u32 mapped;
 };
 
 static struct GDB_Overlay _ovly_table[GDB_MAX_OVERLAYS];
