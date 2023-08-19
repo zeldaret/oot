@@ -5,39 +5,34 @@
 #include "global.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 
-#define EN_DNS_TYPE(thisx) ((thisx)->actor.params)
+#define DNS_GET_TYPE(thisx) ((thisx)->actor.params)
 typedef enum {
-    /*  0 */ EN_DNS_TYPE_DEKU_NUTS_5,
-    /*  1 */ EN_DNS_TYPE_DEKU_STICKS_1,
-    /*  2 */ EN_DNS_TYPE_HEART_PIECE,
-    /*  3 */ EN_DNS_TYPE_DEKU_SEEDS_30,
-    /*  4 */ EN_DNS_TYPE_DEKU_SHIELD,
-    /*  5 */ EN_DNS_TYPE_BOMBS_5,
-    /*  6 */ EN_DNS_TYPE_ARROWS_30,
-    /*  7 */ EN_DNS_TYPE_RED_POTION,
-    /*  8 */ EN_DNS_TYPE_GREEN_POTION,
-    /*  9 */ EN_DNS_TYPE_DEKU_STICK_UPGRADE,
-    /* 10 */ EN_DNS_TYPE_DEKU_NUT_UPGRADE,
+    /*  0 */ DNS_TYPE_DEKU_NUTS_5,
+    /*  1 */ DNS_TYPE_DEKU_STICKS_1,
+    /*  2 */ DNS_TYPE_HEART_PIECE,
+    /*  3 */ DNS_TYPE_DEKU_SEEDS_30,
+    /*  4 */ DNS_TYPE_DEKU_SHIELD,
+    /*  5 */ DNS_TYPE_BOMBS_5,
+    /*  6 */ DNS_TYPE_ARROWS_30,
+    /*  7 */ DNS_TYPE_RED_POTION,
+    /*  8 */ DNS_TYPE_GREEN_POTION,
+    /*  9 */ DNS_TYPE_DEKU_STICK_UPGRADE,
+    /* 10 */ DNS_TYPE_DEKU_NUT_UPGRADE,
 } EnDnsType;
 
 typedef enum {
-    /*  0 */ EN_DNS_CANBUY_RESULT_NEED_RUPEES,
-    /*  1 */ EN_DNS_CANBUY_RESULT_CAPACITY_FULL,
-    /*  2 */ EN_DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM,
-    /*  3 */ EN_DNS_CANBUY_RESULT_CANT_GET_NOW,
-    /*  4 */ EN_DNS_CANBUY_RESULT_SUCCESS,
+    /*  0 */ DNS_CANBUY_RESULT_NEED_RUPEES,
+    /*  1 */ DNS_CANBUY_RESULT_CAPACITY_FULL,
+    /*  2 */ DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM,
+    /*  3 */ DNS_CANBUY_RESULT_CANT_GET_NOW,
+    /*  4 */ DNS_CANBUY_RESULT_SUCCESS,
 } EnDnsCanBuyResult;
 
 typedef enum {
-    /*  0 */ EN_DNS_ANIM_IDLE,
-    /*  1 */ EN_DNS_ANIM_BURROW,
-    /*  2 */ EN_DNS_ANIM_IDLE_TRANSITION,
+    /*  0 */ DNS_ANIM_IDLE,
+    /*  1 */ DNS_ANIM_BURROW,
+    /*  2 */ DNS_ANIM_IDLE_TRANSITION,
 } EnDnsAnimation;
-
-typedef enum {
-    /*  0 */ EN_DNS_MESSAGE_CHOICE_OK,
-    /*  1 */ EN_DNS_MESSAGE_CHOICE_NO_WAY,
-} EnDnsMessageChoice;
 
 struct EnDns;
 

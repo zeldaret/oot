@@ -73,9 +73,9 @@ void EnShopnuts_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    if (((EN_DNS_TYPE(this) == EN_DNS_TYPE_HEART_PIECE) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
-        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_DEKU_STICK_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
-        ((EN_DNS_TYPE(this) == EN_DNS_TYPE_DEKU_NUT_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
+    if (((DNS_GET_TYPE(this) == DNS_TYPE_HEART_PIECE) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
+        ((DNS_GET_TYPE(this) == DNS_TYPE_DEKU_STICK_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
+        ((DNS_GET_TYPE(this) == DNS_TYPE_DEKU_NUT_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
         Actor_Kill(&this->actor);
     } else {
         EnShopnuts_SetupIdle(this);
@@ -225,7 +225,7 @@ void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DNS,
                     this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                     this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z,
-                    EN_DNS_TYPE(this));
+                    DNS_GET_TYPE(this));
         Actor_Kill(&this->actor);
     } else {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0xE38);
