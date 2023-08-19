@@ -276,10 +276,11 @@ void EnCow_Idle(EnCow* this, PlayState* play) {
     if ((play->msgCtx.ocarinaMode == OCARINA_MODE_00) || (play->msgCtx.ocarinaMode == OCARINA_MODE_04)) {
         // There is a complex interaction between `R_EPONAS_SONG_PLAYED` and `COW_FLAG_FAILED_TO_GIVE_MILK` to allow
         // multiple cows to try and give milk on the same frame.
-        // `COW_FLAG_FAILED_TO_GIVE_MILK` gets set if a cow is not in range with the player to interact.
-        // In the case of a failure, `R_EPONAS_SONG_PLAYED` is not set to false incase another cow can succeed.
+        // `COW_FLAG_FAILED_TO_GIVE_MILK` gets set if this cow is not in range with the player to interact.
+        // In the case of a failure, `R_EPONAS_SONG_PLAYED` is not set to false in case another cow can succeed.
         // On the following frame, if both `R_EPONAS_SONG_PLAYED` and `COW_FLAG_FAILED_TO_GIVE_MILK` are set, the
         // first cow that updates can assume all other cows also failed and can safely unset `R_EPONAS_SONG_PLAYED`.
+        // All cows also unset their own `COW_FLAG_FAILED_TO_GIVE_MILK` flag.
         if (R_EPONAS_SONG_PLAYED) {
             if (this->cowFlags & COW_FLAG_FAILED_TO_GIVE_MILK) {
                 this->cowFlags &= ~COW_FLAG_FAILED_TO_GIVE_MILK;
