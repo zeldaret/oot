@@ -2691,7 +2691,8 @@ s32 func_80834C74(Player* this, PlayState* play) {
 
     if (sUseHeldItem || LinkAnimation_Update(play, &this->skelAnimeUpper)) {
         Player_SetItemActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
-        LinkAnimation_PlayLoop(play, &this->skelAnimeUpper, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
+        LinkAnimation_PlayLoop(play, &this->skelAnimeUpper,
+                               GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType));
         this->unk_6AC = 0;
         this->itemActionFunc(this, play);
         return 0;
@@ -3313,7 +3314,8 @@ s32 Player_CanUpdateItems(Player* this) {
     return (!(func_808458D0 == this->func_674) ||
             ((this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
              ((this->heldItemId == ITEM_LAST_USED) || (this->heldItemId == ITEM_NONE)))) &&
-           (!(Player_IA_ChangeHeldItem == this->itemActionFunc) || (Player_ItemToItemAction(this->heldItemId) == this->heldItemAction));
+           (!(Player_IA_ChangeHeldItem == this->itemActionFunc) ||
+            (Player_ItemToItemAction(this->heldItemId) == this->heldItemAction));
 }
 
 s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
@@ -3643,7 +3645,8 @@ s32 func_80837348(PlayState* play, Player* this, s8* arg2, s32 arg3) {
             return 1;
         }
 
-        if (!(this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) && (Player_IA_ChangeHeldItem != this->itemActionFunc)) {
+        if (!(this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
+            (Player_IA_ChangeHeldItem != this->itemActionFunc)) {
             while (*arg2 >= 0) {
                 if (D_80854448[*arg2](this, play)) {
                     return 1;
