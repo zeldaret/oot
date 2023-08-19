@@ -2,7 +2,7 @@
     <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="assets/objects/gameplay_keep/"/>
     <File Name="object_sst" Segment="6">
         <!-- Boss Title Card -->
-        <Texture Name="gBongoTitleCardTex" OutName="bongo_title_card" Format="i8" Width="128" Height="120" Offset="0x13D80"/>
+        <Texture Name="gBongoTitleCardTex" OutName="bongo_title_card" Format="ia8" Width="128" Height="120" Offset="0x13D80"/>
 
         <!-- Skeletons -->
         <Skeleton Name="gBongoLeftHandSkel" Type="Flex" LimbType="Standard" Offset="0x04DE0"/>

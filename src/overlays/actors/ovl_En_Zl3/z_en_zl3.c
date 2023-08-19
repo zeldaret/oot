@@ -759,7 +759,7 @@ void func_80B54EA4(EnZl3* this, PlayState* play) {
 }
 
 void func_80B54EF4(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B54F18(EnZl3* this, PlayState* play) {
@@ -997,7 +997,7 @@ void func_80B55780(EnZl3* this, PlayState* play) {
 }
 
 void func_80B55808(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 static Vec3f D_80B5A488 = { 0.0f, 0.0f, 0.0f };
@@ -1010,7 +1010,7 @@ void func_80B5585C(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 4.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
     }
 }
 
@@ -1519,18 +1519,18 @@ void func_80B56D44(EnZl3* this, PlayState* play) {
 }
 
 void func_80B56DA4(EnZl3* this) {
-    func_800788CC(NA_SE_EV_ZELDA_POWER);
+    Sfx_PlaySfxCentered2(NA_SE_EV_ZELDA_POWER);
 }
 
 void func_80B56DC8(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 9.0f) != 0) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
 }
 
@@ -1543,7 +1543,7 @@ void func_80B56E38(EnZl3* this, PlayState* play) {
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         sfxId = NA_SE_PL_WALK_GROUND;
         sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        func_80078914(&this->actor.projectedPos, sfxId);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, sfxId);
     }
 }
 
@@ -1904,7 +1904,7 @@ void func_80B57AE0(EnZl3* this, PlayState* play) {
     f32 zDiff;
 
     this->unk_344 = 0;
-    this->unk_314 += 1;
+    this->unk_314++;
     this->unk_360 = 0.0f;
     this->unk_364 = 0.0f;
     this->unk_368 = 0.0f;
@@ -1947,7 +1947,7 @@ void func_80B57CB4(EnZl3* this, PlayState* play) {
     Vec3f* thisPos = &this->actor.world.pos;
     f32 temp_f0;
 
-    this->unk_344 += 1;
+    this->unk_344++;
     temp_f0 = Environment_LerpWeightAccelDecel(this->unk_346, 0, this->unk_344, 3, 3);
     thisPos->x = unk_348->x + (temp_f0 * (unk_354->x - unk_348->x));
     thisPos->y = (unk_348->y + (temp_f0 * (unk_354->y - unk_348->y))) + this->unk_360;
@@ -2002,7 +2002,7 @@ void func_80B57F1C(EnZl3* this, PlayState* play) {
     if (func_80B57D80(this, play) == 0) {
         func_80B54E14(this, &gZelda2Anime2Anim_009BE4, 0, -8.0f, 0);
         this->action = 34;
-        this->unk_314 -= 1;
+        this->unk_314--;
         func_80B57AE0(this, play);
     }
 }
@@ -2248,7 +2248,7 @@ void func_80B58C08(EnZl3* this, PlayState* play) {
     s32 sp28;
     f32 temp_f0;
 
-    this->unk_344 += 1;
+    this->unk_344++;
 
     unk_344 = this->unk_344;
     unk_346 = this->unk_346;

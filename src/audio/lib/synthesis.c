@@ -1326,7 +1326,7 @@ Acmd* AudioSynth_ApplyHaasEffect(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         aDMEMMove(cmd++, DMEM_TEMP, DMEM_HAAS_TEMP + haasEffectDelaySize, size);
     }
 
-    if (haasEffectDelaySize) { // != 0
+    if ((u32)haasEffectDelaySize != 0) {
         // Save excessive samples for next iteration
         aSaveBuffer(cmd++, DMEM_HAAS_TEMP + size, synthState->synthesisBuffers->haasEffectDelayState,
                     ALIGN16(haasEffectDelaySize));

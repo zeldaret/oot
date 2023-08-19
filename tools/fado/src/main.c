@@ -15,7 +15,7 @@
 
 #include "version.inc"
 
-void PrintVersion() {
+void PrintVersion(void) {
     printf("Fado (Fairy-Assisted relocations for Decompiled Overlays), version %s\n", versionNumber);
     printf("Copyright (C) 2021 Elliptic Ellipsis\n");
     printf("%s\n", credits);
@@ -88,7 +88,7 @@ static size_t posArgCount = ARRAY_COUNT(posArgInfo);
 static size_t optCount = ARRAY_COUNT(optInfo);
 static struct option longOptions[ARRAY_COUNT(optInfo)];
 
-void ConstructLongOpts() {
+void ConstructLongOpts(void) {
     size_t i;
 
     for (i = 0; i < optCount; i++) {
@@ -133,14 +133,15 @@ int main(int argc, char** argv) {
                 outputFileName = optarg;
                 outputFile = fopen(optarg, "wb");
                 if (outputFile == NULL) {
-                    fprintf(stderr, "error: unable to open output file '%s' for writing", optarg);
+                    fprintf(stderr, "error: unable to open output file '%s' for writing\n", optarg);
                     return EXIT_FAILURE;
                 }
                 break;
 
             case 'v':
                 if (sscanf(optarg, "%u", &gVerbosity) == 0) {
-                    fprintf(stderr, "warning: verbosity argument '%s' should be a nonnegative decimal integer", optarg);
+                    fprintf(stderr, "warning: verbosity argument '%s' should be a nonnegative decimal integer\n",
+                            optarg);
                 }
                 break;
 
@@ -182,7 +183,7 @@ int main(int argc, char** argv) {
             FAIRY_INFO_PRINTF("Using input file %s\n", argv[optind + i]);
             inputFiles[i] = fopen(argv[optind + i], "rb");
             if (inputFiles[i] == NULL) {
-                fprintf(stderr, "error: unable to open input file '%s' for reading", argv[optind + i]);
+                fprintf(stderr, "error: unable to open input file '%s' for reading\n", argv[optind + i]);
                 return EXIT_FAILURE;
             }
         }
@@ -214,14 +215,14 @@ int main(int argc, char** argv) {
         FILE* dependencyFile = fopen(dependencyFileName, "w");
 
         if (dependencyFile == NULL) {
-            fprintf(stderr, "error: unable to open dependency file '%s' for writing", dependencyFileName);
+            fprintf(stderr, "error: unable to open dependency file '%s' for writing\n", dependencyFileName);
             return EXIT_FAILURE;
         }
 
         strcpy(objectFile, outputFileName);
         extensionStart = strrchr(objectFile, '.');
         if (extensionStart == objectFile + fileNameLength) {
-            fprintf(stderr, "error: file name should not end in a '.'");
+            fprintf(stderr, "error: file name should not end in a '.'\n");
             return EXIT_FAILURE;
         }
         strcpy(extensionStart, ".o");

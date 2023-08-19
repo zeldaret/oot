@@ -1592,7 +1592,7 @@ void func_8086318C(EnTest* this, PlayState* play) {
 
 void EnTest_SetupRecoil(EnTest* this) {
     this->swordState = 0;
-    this->skelAnime.moveFlags = 2;
+    this->skelAnime.moveFlags = ANIM_FLAG_UPDATE_Y;
     this->unk_7C8 = 0x13;
     this->skelAnime.playSpeed = -1.0f;
     this->skelAnime.startFrame = this->skelAnime.curFrame;
