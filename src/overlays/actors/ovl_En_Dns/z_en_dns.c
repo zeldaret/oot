@@ -73,7 +73,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 18, 32, 0, { 0, 0, 0 } },
 };
 
-static u16 sItemDialogRef[] = {
+static u16 sStartingTextIds[] = {
     0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
@@ -132,28 +132,36 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
+
     // Sell Seeds instead of Arrows if Link is child
     if ((DNS_GET_TYPE(this) == DNS_TYPE_ARROWS_30) && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
         DNS_GET_TYPE(this) = DNS_TYPE_DEKU_SEEDS_30;
     }
+
     // "Deku Salesman"
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(this)]);
+
     Actor_ProcessInitChain(&this->actor, sInitChain);
+
     SkelAnime_InitFlex(play, &this->skelAnime, &gBusinessScrubSkel, &gBusinessScrubNervousTransitionAnim,
                        this->jointTable, this->morphTable, BUSINESS_SCRUB_LIMB_MAX);
+
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit);
+
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
-    this->actor.textId = sItemDialogRef[DNS_GET_TYPE(this)];
+    this->actor.textId = sStartingTextIds[DNS_GET_TYPE(this)];
     Actor_SetScale(&this->actor, 0.01f);
+
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->maintainCollider = true;
+    this->bumpOn = true;
     this->standOnGround = true;
     this->dropCollectible = false;
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
     this->dnsItemEntry = sItemEntries[DNS_GET_TYPE(this)];
+
     this->actionFunc = EnDns_SetupIdle;
 }
 
@@ -166,7 +174,7 @@ void EnDns_Destroy(Actor* thisx, PlayState* play) {
 void EnDns_ChangeAnim(EnDns* this, u8 index) {
     s16 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    this->lastAnimation = index; // Not used anywhere else?
+    this->animIndex = index;
     Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount,
                      sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
@@ -177,12 +185,15 @@ u32 EnDns_CanBuyDekuNuts(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_NUTS) != 0) && (AMMO(ITEM_DEKU_NUT) >= CUR_CAPACITY(UPG_DEKU_NUTS))) {
         return DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
+
     if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return DNS_CANBUY_RESULT_NEED_RUPEES;
     }
+
     if (Item_CheckObtainability(ITEM_DEKU_NUT) == ITEM_NONE) {
         return DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM;
     }
+
     return DNS_CANBUY_RESULT_SUCCESS;
 }
 
@@ -190,12 +201,15 @@ u32 EnDns_CanBuyDekuSticks(EnDns* this) {
     if ((CUR_CAPACITY(UPG_DEKU_STICKS) != 0) && (AMMO(ITEM_DEKU_STICK) >= CUR_CAPACITY(UPG_DEKU_STICKS))) {
         return DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
+
     if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return DNS_CANBUY_RESULT_NEED_RUPEES;
     }
+
     if (Item_CheckObtainability(ITEM_DEKU_STICK) == ITEM_NONE) {
         return DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM;
     }
+
     return DNS_CANBUY_RESULT_SUCCESS;
 }
 
@@ -203,6 +217,7 @@ u32 EnDns_CanBuyPrice(EnDns* this) {
     if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return DNS_CANBUY_RESULT_NEED_RUPEES;
     }
+
     return DNS_CANBUY_RESULT_SUCCESS;
 }
 
@@ -210,15 +225,19 @@ u32 EnDns_CanBuyDekuSeeds(EnDns* this) {
     if (INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE) {
         return DNS_CANBUY_RESULT_CANT_GET_NOW;
     }
+
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
         return DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
+
     if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return DNS_CANBUY_RESULT_NEED_RUPEES;
     }
+
     if (Item_CheckObtainability(ITEM_DEKU_SEEDS) == ITEM_NONE) {
         return DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM;
     }
+
     return DNS_CANBUY_RESULT_SUCCESS;
 }
 
@@ -226,9 +245,11 @@ u32 EnDns_CanBuyDekuShield(EnDns* this) {
     if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_DEKU)) {
         return DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
+
     if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return DNS_CANBUY_RESULT_NEED_RUPEES;
     }
+
     return DNS_CANBUY_RESULT_SUCCESS;
 }
 
@@ -236,12 +257,15 @@ u32 EnDns_CanBuyBombs(EnDns* this) {
     if (!CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return DNS_CANBUY_RESULT_CANT_GET_NOW;
     }
+
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
         return DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
+
     if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return DNS_CANBUY_RESULT_NEED_RUPEES;
     }
+
     return DNS_CANBUY_RESULT_SUCCESS;
 }
 
@@ -249,12 +273,15 @@ u32 EnDns_CanBuyArrows(EnDns* this) {
     if (Item_CheckObtainability(ITEM_BOW) == ITEM_NONE) {
         return DNS_CANBUY_RESULT_CANT_GET_NOW;
     }
+
     if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
         return DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
+
     if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return DNS_CANBUY_RESULT_NEED_RUPEES;
     }
+
     return DNS_CANBUY_RESULT_SUCCESS;
 }
 
@@ -262,9 +289,11 @@ u32 EnDns_CanBuyBottle(EnDns* this) {
     if (!Inventory_HasEmptyBottle()) {
         return DNS_CANBUY_RESULT_CAPACITY_FULL;
     }
+
     if (gSaveContext.save.info.playerData.rupees < this->dnsItemEntry->itemPrice) {
         return DNS_CANBUY_RESULT_NEED_RUPEES;
     }
+
     return DNS_CANBUY_RESULT_SUCCESS;
 }
 
@@ -311,6 +340,7 @@ void EnDns_SetupIdle(EnDns* this, PlayState* play) {
 void EnDns_Idle(EnDns* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 2000, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
+
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         this->actionFunc = EnDns_Talk;
     } else {
@@ -402,7 +432,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
         if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
             this->dnsItemEntry->payment(this);
             this->dropCollectible = true;
-            this->maintainCollider = false;
+            this->bumpOn = false;
             this->actor.flags &= ~ACTOR_FLAG_0;
             EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
             this->actionFunc = EnDns_Burrow;
@@ -410,7 +440,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
     } else {
         this->dnsItemEntry->payment(this);
         this->dropCollectible = true;
-        this->maintainCollider = false;
+        this->bumpOn = false;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->actionFunc = EnDns_Burrow;
@@ -419,7 +449,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
 
 void EnDns_SetupNoSaleBurrow(EnDns* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        this->maintainCollider = false;
+        this->bumpOn = false;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->actionFunc = EnDns_Burrow;
@@ -438,7 +468,7 @@ void EnDns_Burrow(EnDns* this, PlayState* play) {
 }
 
 void EnDns_PostBurrow(EnDns* this, PlayState* play) {
-    f32 depth = this->yInitPos - this->actor.world.pos.y;
+    f32 depthInGround = this->yInitPos - this->actor.world.pos.y;
     Vec3f initPos;
     s32 i;
 
@@ -448,13 +478,15 @@ void EnDns_PostBurrow(EnDns* this, PlayState* play) {
         initPos.z = this->actor.world.pos.z;
         func_80028990(play, 20.0f, &initPos);
     }
+
     this->actor.shape.rot.y += 0x2000;
-    // Drops only if you bought its item
-    if (depth > 400.0f) {
+
+    if (depthInGround > 400.0f) {
         if (this->dropCollectible) {
             initPos.x = this->actor.world.pos.x;
             initPos.y = this->yInitPos;
             initPos.z = this->actor.world.pos.z;
+
             for (i = 0; i < 3; i++) {
                 Item_DropCollectible(play, &initPos, ITEM00_RECOVERY_HEART);
             }
@@ -468,16 +500,20 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
     s16 pad;
 
     this->dustTimer++;
-    this->actor.textId = sItemDialogRef[DNS_GET_TYPE(this)];
+    this->actor.textId = sStartingTextIds[DNS_GET_TYPE(this)];
+
     Actor_SetFocus(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_Update(&this->skelAnime);
     Actor_MoveXZGravity(&this->actor);
+
     this->actionFunc(this, play);
+
     if (this->standOnGround) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     }
-    if (this->maintainCollider) {
+
+    if (this->bumpOn) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
