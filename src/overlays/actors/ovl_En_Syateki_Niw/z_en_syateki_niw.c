@@ -103,7 +103,7 @@ void EnSyatekiNiw_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnSyatekiNiw_UpdateRotateTargets(EnSyatekiNiw* this, PlayState* play, s16 animationType) {
+void EnSyatekiNiw_UpdateRotations(EnSyatekiNiw* this, PlayState* play, s16 animationType) {
     if (this->peckTimer == 0) {
         if (animationType == 0) {
             this->headRotXTarget = 0.0f;
@@ -335,7 +335,7 @@ void EnSyatekiNiw_Default(EnSyatekiNiw* this, PlayState* play) {
     }
 
     if (this->sootTimer == 0) {
-        EnSyatekiNiw_UpdateRotateTargets(this, play, animationType);
+        EnSyatekiNiw_UpdateRotations(this, play, animationType);
     } else if ((play->gameplayFrames % 4) == 0) { // draw smoke from bombchu hit
         dustVelocity.y = Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
@@ -482,7 +482,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
         this->peckTimer = this->timer1 = 10;
     }
 
-    EnSyatekiNiw_UpdateRotateTargets(this, play, this->archeryAnimationType);
+    EnSyatekiNiw_UpdateRotations(this, play, this->archeryAnimationType);
 }
 
 void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play) {
@@ -538,7 +538,7 @@ void EnSyatekiNiw_Remove(EnSyatekiNiw* this, PlayState* play) {
     rotYTarget = this->removeStateYaw + rotYTargetOffset;
     Math_SmoothStepToS(&this->actor.world.rot.y, rotYTarget, 3, this->posRotStep.y, 0);
     Math_ApproachF(&this->posRotStep.y, 3000.0f, 1.0f, 500.0f);
-    EnSyatekiNiw_UpdateRotateTargets(this, play, 2);
+    EnSyatekiNiw_UpdateRotations(this, play, 2);
 }
 
 void EnSyatekiNiw_CheckHit(EnSyatekiNiw* this, PlayState* play) {
@@ -671,7 +671,7 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
 
 s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
-    Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
+    Vec3f unusedZeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->headRot.x;
