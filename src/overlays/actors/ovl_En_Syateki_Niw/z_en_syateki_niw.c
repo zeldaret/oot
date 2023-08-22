@@ -463,7 +463,7 @@ void EnSyatekiNiw_Archery(EnSyatekiNiw* this, PlayState* play) {
         case 6:
             if (this->movementTimer == 1) {
                 play->transitionTrigger = TRANS_TRIGGER_START;
-                play->nextEntranceIndex = gSaveContext.entranceIndex;
+                play->nextEntranceIndex = gSaveContext.save.entranceIndex;
                 play->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;
                 this->movementTimer = 20;

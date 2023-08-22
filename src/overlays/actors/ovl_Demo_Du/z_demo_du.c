@@ -303,14 +303,14 @@ void DemoDu_InitCs_GoronsRuby(DemoDu* this, PlayState* play) {
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Darunia lands at the floor at the start of the cutscene.
 void DemoDu_CsPlaySfx_GoronLanding(DemoDu* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_EN_GOLON_LAND_BIG);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EN_GOLON_LAND_BIG);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
 // Sfx played when Darunia is falling at the start of the cutscene.
 void DemoDu_CsPlaySfx_DaruniaFalling(PlayState* play) {
     if (play->csCtx.curFrame == 160) {
-        func_800788CC(NA_SE_EV_OBJECT_FALL);
+        Sfx_PlaySfxCentered2(NA_SE_EV_OBJECT_FALL);
     }
 }
 
@@ -319,14 +319,14 @@ void DemoDu_CsPlaySfx_DaruniaHitsLink(PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 pad;
 
-    func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
+    Sfx_PlaySfxAtPos(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
     Audio_PlaySfxGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
 void DemoDu_CsPlaySfx_HitBreast(DemoDu* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_BREAST - SFX_FLAG);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_BREAST - SFX_FLAG);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
@@ -709,7 +709,7 @@ void DemoDu_InitCs_AfterGanon(DemoDu* this, PlayState* play) {
 }
 
 void DemoDu_CsPlaySfx_WhiteOut(void) {
-    func_800788CC(NA_SE_SY_WHITE_OUT_T);
+    Sfx_PlaySfxCentered2(NA_SE_SY_WHITE_OUT_T);
 }
 
 void DemoDu_CsAfterGanon_SpawnDemo6K(DemoDu* this, PlayState* play) {

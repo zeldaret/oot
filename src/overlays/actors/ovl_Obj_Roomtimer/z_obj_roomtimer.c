@@ -70,7 +70,7 @@ void func_80B9D0B0(ObjRoomtimer* this, PlayState* play) {
         }
         Flags_SetClear(play, this->actor.room);
         Flags_SetSwitch(play, this->switchFlag);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->actor);
         return;
     }
