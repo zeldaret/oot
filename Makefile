@@ -253,6 +253,15 @@ endif
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
+clean_builtsrc:
+	$(RM) -r $(ROM) $(ELF) build/src build/data
+# Delete files directly inside build/ (but not in subfolders)
+	find build -maxdepth 1 -type f -exec $(RM) {} \;
+
+clean_builtassets:
+	$(RM) -r $(ROM) $(ELF) build/assets
+	find build -maxdepth 1 -type f -exec $(RM) {} \;
+
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
 	$(RM) -r assets/text/*.h
@@ -273,7 +282,7 @@ test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
 
-.PHONY: all clean setup test distclean assetclean
+.PHONY: all clean clean_builtsrc clean_builtassets setup test distclean assetclean
 
 #### Various Recipes ####
 
