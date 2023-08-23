@@ -7,7 +7,7 @@
 #include "z_eff_ss_hitmark.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
-#define rTexIdx regs[0]
+#define rTexIndex regs[0]
 #define rType regs[1]
 #define rPrimColorR regs[2]
 #define rPrimColorG regs[3]
@@ -56,7 +56,7 @@ u32 EffectSsHitMark_Init(PlayState* play, u32 index, EffectSs* this, void* initP
     this->draw = EffectSsHitMark_Draw;
     this->update = EffectSsHitMark_Update;
     colorIdx = initParams->type * 4;
-    this->rTexIdx = 0;
+    this->rTexIndex = 0;
     this->rType = initParams->type;
     this->rPrimColorR = sColors[colorIdx].r;
     this->rPrimColorG = sColors[colorIdx].g;
@@ -74,7 +74,7 @@ void EffectSsHitMark_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
-    MtxF mfTrans11DA0;
+    MtxF mfTransBillboard;
     Mtx* mtx;
     f32 scale;
     s32 pad;
@@ -84,15 +84,15 @@ void EffectSsHitMark_Draw(PlayState* play, u32 index, EffectSs* this) {
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     scale = this->rScale / 100.0f;
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
     gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[(this->rType * 8) + (this->rTexIdx)]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[(this->rType * 8) + (this->rTexIndex)]));
         Gfx_SetupDL_61Xlu(gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, 0);
@@ -105,18 +105,18 @@ void EffectSsHitMark_Update(PlayState* play, u32 index, EffectSs* this) {
     s32 colorIdx;
 
     if (this->rType == EFFECT_HITMARK_DUST) {
-        this->rTexIdx = (15 - this->life) / 2;
+        this->rTexIndex = (15 - this->life) / 2;
     } else {
-        this->rTexIdx = 7 - this->life;
+        this->rTexIndex = 7 - this->life;
     }
 
-    if (this->rTexIdx != 0) {
+    if (this->rTexIndex != 0) {
         colorIdx = this->rType * 4 + 2;
-        this->rPrimColorR = func_80027DD4(this->rPrimColorR, sColors[colorIdx].r, this->life + 1);
-        this->rPrimColorG = func_80027DD4(this->rPrimColorG, sColors[colorIdx].g, this->life + 1);
-        this->rPrimColorB = func_80027DD4(this->rPrimColorB, sColors[colorIdx].b, this->life + 1);
-        this->rEnvColorR = func_80027DD4(this->rEnvColorR, sColors[colorIdx + 1].r, this->life + 1);
-        this->rEnvColorG = func_80027DD4(this->rEnvColorG, sColors[colorIdx + 1].g, this->life + 1);
-        this->rEnvColorB = func_80027DD4(this->rEnvColorB, sColors[colorIdx + 1].b, this->life + 1);
+        this->rPrimColorR = EffectSs_LerpInv(this->rPrimColorR, sColors[colorIdx].r, this->life + 1);
+        this->rPrimColorG = EffectSs_LerpInv(this->rPrimColorG, sColors[colorIdx].g, this->life + 1);
+        this->rPrimColorB = EffectSs_LerpInv(this->rPrimColorB, sColors[colorIdx].b, this->life + 1);
+        this->rEnvColorR = EffectSs_LerpInv(this->rEnvColorR, sColors[colorIdx + 1].r, this->life + 1);
+        this->rEnvColorG = EffectSs_LerpInv(this->rEnvColorG, sColors[colorIdx + 1].g, this->life + 1);
+        this->rEnvColorB = EffectSs_LerpInv(this->rEnvColorB, sColors[colorIdx + 1].b, this->life + 1);
     }
 }
