@@ -5154,7 +5154,7 @@ void func_8083AF44(PlayState* play, Player* this, s32 magicSpell) {
 
     this->unk_84F = magicSpell - 3;
 
-    //! @bug `MAGIC_CONSUME_WAIT_PREVIEW` is not guranteed to succeed. Ideally, the return value of
+    //! @bug `MAGIC_CONSUME_WAIT_PREVIEW` is not guaranteed to succeed. Ideally, the return value of
     //! `Magic_RequestChange` should be checked before allowing the process of using a spell to continue.
     //! If the magic state change request fails, `magicTarget` will never be set correctly.
     //! When `MAGIC_STATE_CONSUME_SETUP` is set in `func_808507F4`, magic will eventually be consumed to a stale target
