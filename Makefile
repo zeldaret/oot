@@ -95,8 +95,8 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR ?= 
-EMU_FLAGS ?= 
+EMULATOR   ?= 
+EMU_FLAGS  ?= 
 
 INC        := -Iinclude -Isrc -Ibuild -I.
 
