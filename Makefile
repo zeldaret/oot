@@ -270,6 +270,9 @@ setup:
 	python3 extract_assets.py -j$(N_THREADS)
 
 run: $(ROM)
+ifeq ($(EMULATOR),)
+	$(error Emulator path not set. Set EMULATOR in the Makefile or define it as an environment variable)
+endif
 	$(EMULATOR) $(EMU_FLAGS) $<
 
 
