@@ -332,8 +332,8 @@ typedef enum {
 #define HS_FISH_PRIZE_CHILD 0x400 // won the Piece of Heart
 #define HS_FISH_PRIZE_ADULT 0x800 // won the Golden Scale
 #define HS_FISH_STOLE_HAT 0x1000 // Pond owner is visibly bald as Adult Link.
-#define HS_FISH_CHEAT_CHILD 0x80 // used Sinking Lure as child to catch record rish
-#define HS_FISH_CHEAT_ADULT 0x80000000 // used Sinking Lure as adult to catch record rish
+#define HS_FISH_CHEAT_CHILD 0x80 // used Sinking Lure as child to catch record fish
+#define HS_FISH_CHEAT_ADULT 0x80000000 // used Sinking Lure as adult to catch record fish
 #define HS_FISH_PLAYED 0x10000 // incremented for every play. controls weather.
 
 typedef enum {
