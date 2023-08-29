@@ -15,7 +15,7 @@ typedef struct Fishing {
     /* 0x0154 */ s16 unk_154;
     /* 0x0156 */ u8 unk_156;
     /* 0x0157 */ u8 unk_157;
-    /* 0x0158 */ s16 fishState;
+    /* 0x0158 */ s16 fishState;  // negative index for loach behavior
     /* 0x015A */ s16 fishStateNext;
     /* 0x015C */ s16 stateAndTimer; // fish use as timer that's AND'd, owner as talking state
     /* 0x015E */ s16 unk_15E;
@@ -57,5 +57,9 @@ typedef struct Fishing {
     /* 0x0230 */ ColliderJntSph collider;
     /* 0x0250 */ ColliderJntSphElement colliderElements[12];
 } Fishing; // size = 0x0550
+
+#define EN_FISH_OWNER 1 // param for owner of pond. default if params<100
+#define EN_FISH_PARAM 100 // param base for fish in pond.
+#define EN_FISH_AQUARIUM 200 // param for record fish in tank.
 
 #endif
