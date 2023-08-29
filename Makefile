@@ -95,8 +95,8 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR = mupen64plus
-EMU_FLAGS = --noosd
+EMULATOR   ?= 
+EMU_FLAGS  ?= 
 
 INC        := -Iinclude -Isrc -Ibuild -I.
 
@@ -269,11 +269,14 @@ setup:
 	python3 extract_baserom.py
 	python3 extract_assets.py -j$(N_THREADS)
 
-test: $(ROM)
+run: $(ROM)
+ifeq ($(EMULATOR),)
+	$(error Emulator path not set. Set EMULATOR in the Makefile or define it as an environment variable)
+endif
 	$(EMULATOR) $(EMU_FLAGS) $<
 
 
-.PHONY: all clean setup test distclean assetclean
+.PHONY: all clean setup run distclean assetclean
 
 #### Various Recipes ####
 

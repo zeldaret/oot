@@ -219,7 +219,8 @@ static void write_ld_script(FILE *fout)
 
     // Debugging sections
     fputs(
-        // mdebug debug sections
+        // mdebug sections
+          "    .pdr              : { *(.pdr) }"                                             "\n"
           "    .mdebug           : { *(.mdebug) }"                                          "\n"
           "    .mdebug.abi32     : { *(.mdebug.abi32) }"                                    "\n"
         // DWARF debug sections
@@ -249,8 +250,16 @@ static void write_ld_script(FILE *fout)
         // DWARF 3
           "    .debug_pubtypes 0 : { *(.debug_pubtypes) }"                                  "\n"
           "    .debug_ranges   0 : { *(.debug_ranges) }"                                    "\n"
-        // DWARF Extension
+        // DWARF 5
+          "    .debug_addr     0 : { *(.debug_addr) }"                                      "\n"
+          "    .debug_line_str 0 : { *(.debug_line_str) }"                                  "\n"
+          "    .debug_loclists 0 : { *(.debug_loclists) }"                                  "\n"
           "    .debug_macro    0 : { *(.debug_macro) }"                                     "\n"
+          "    .debug_names    0 : { *(.debug_names) }"                                     "\n"
+          "    .debug_rnglists 0 : { *(.debug_rnglists) }"                                  "\n"
+          "    .debug_str_offsets 0 : { *(.debug_str_offsets) }"                            "\n"
+          "    .debug_sup      0 : { *(.debug_sup) }\n"
+        // gnu attributes
           "    .gnu.attributes 0 : { KEEP (*(.gnu.attributes)) }"                           "\n", fout);
 
     // Discard all other sections not mentioned above

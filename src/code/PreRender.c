@@ -361,7 +361,11 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
 
     gDPPipeSync(gfx++);
-    // Set the blend color to full white and set maximum depth
+    // Set the blend color to full white and set maximum depth.
+    // It is important that at least dz is set to full here as the blender will shift memory alpha values based on the
+    // value of dz even if depth compare is disabled. If per-pixel depth was enabled, fill rectangle always uses 0 z/dz,
+    // causing a maximal shift of 4 to be applied to the memory alpha value. Full dz results in no shift, which is
+    // desired here.
     gDPSetBlendColor(gfx++, 255, 255, 255, 8);
     gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
 
@@ -372,9 +376,10 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxp) {
     //  FORCE_BL : Apply the blender to all pixels rather than just edges, skip the division step of the blend formula
     //  (G_BL_CLR_IN * G_BL_0 + G_BL_CLR_BL * G_BL_A_MEM) = G_BL_CLR_BL * G_BL_A_MEM
     //
-    // G_BL_A_MEM ("memory alpha") is coverage, therefore this blender configuration emits only the coverage (up to a
-    // constant factor determined by blend color) and discards any pixel colors. For an RGBA16 framebuffer, each of the
-    // three color channels r,g,b will receive the coverage value individually.
+    // G_BL_A_MEM ("memory alpha") is coverage (shifted into the most significant 3 bits of the 5-bit blender alpha
+    // input), therefore this blender configuration emits only the coverage (up to a constant factor determined by
+    // blend color) and discards any pixel colors. For an RGBA16 framebuffer, each of the three color channels r,g,b
+    // will receive the coverage value individually.
     //
     // Also disables other modes such as alpha compare and texture perspective correction
     gDPSetOtherMode(gfx++,
