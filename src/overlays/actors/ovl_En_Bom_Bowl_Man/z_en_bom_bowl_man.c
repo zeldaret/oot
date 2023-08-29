@@ -69,10 +69,10 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
 
     for (i = 0; i < 2; i++) {
         cucco = (EnSyatekiNiw*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SYATEKI_NIW, cuccoSpawnPos[i].x,
-                                           cuccoSpawnPos[i].y, cuccoSpawnPos[i].z, 0, 0, 0, 1);
-
+                                           cuccoSpawnPos[i].y, cuccoSpawnPos[i].z, 0, 0, 0, 
+                                           SYATEKI_MINIGAME_ALLEY);
         if (cucco != NULL) {
-            cucco->unk_2F4 = cuccoScales[i];
+            cucco->scale = cuccoScales[i];
             cucco->collider.dim.radius = (s16)cuccoColliderDims[i][0];
             cucco->collider.dim.height = (s16)cuccoColliderDims[i][1];
         }
@@ -290,7 +290,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, PlayState* play) {
 
         switch (play->msgCtx.choiceIndex) {
             case 0: // Yes
-                if (gSaveContext.rupees >= 30) {
+                if (gSaveContext.save.info.playerData.rupees >= 30) {
                     Rupees_ChangeBy(-30);
                     this->minigamePlayStatus = 1;
                     this->wallStatus[0] = this->wallStatus[1] = 0;
