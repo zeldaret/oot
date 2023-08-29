@@ -2028,7 +2028,7 @@ void Fishing_DrawRod(PlayState* play) {
         Math_ApproachF(&D_80B7A6AC, (Math_SinS(sLureTimer * 3000) * 0.025f) + -0.03f, 1.0f, 0.05f);
         Math_ApproachZeroF(&sRodBendRotY, 1.0f, 0.05f);
 
-        if ((sRodCastTimer > 20) && (sRodCastTimer < 25)) {
+        if ((sRodCastTimer > 18) && (sRodCastTimer < 25)) {
             Math_ApproachF(&D_80B7A6B8, 0.8f, 1.0f, 0.2f);
         } else {
             Math_ApproachF(&D_80B7A6B8, 0.0f, 1.0f, 0.4f);
@@ -2491,6 +2491,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                     spDC = 0x500;
                     sLureWiggleRotYTarget = sReelLineRot[LINE_SEG_COUNT - 2].y + M_PI;
                     sLureRot.x = 0.0f;
+                    // lure hopping on land
                     if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
                         sRodLineSpooled  += 6.0f;
                         Sfx_PlaySfxAtPos(&sSoundPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_SAND);
