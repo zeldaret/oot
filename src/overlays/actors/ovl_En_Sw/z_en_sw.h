@@ -22,7 +22,7 @@ typedef struct EnSw {
     /* 0x0370 */ Vec3f unk_370; // used for rotate calculation
     /* 0x037C */ Vec3f unk_37C; // used for rotate calculation
     /* 0x0388 */ s16 animTimer;
-    /* 0x038A */ s16 animSpeed;
+    /* 0x038A */ s16 animVar; // used to determine crawl and "death bounce" animations.
     /* 0x038C */ s16 waitTimer;
     /* 0x038E */ s16 crawlTimer;
     /* 0x0390 */ s16 attackTimer;
@@ -35,7 +35,7 @@ typedef struct EnSw {
     /* 0x0424 */ char unk_424[0x8];
     /* 0x042C */ u8 unk_42C; // set during EnSw_MoveGold, rever read.
     /* 0x0430 */ CollisionPoly* wallPoly;
-    /* 0x0434 */ Vec3f unk_434; // set during EnSW_LineTestWall, never read.
+    /* 0x0434 */ Vec3f unk_434; // set during EnSW_LineTestWall, never read. another target pos?
     /* 0x0440 */ s16 sfxTimer;
     /* 0x0442 */ s16 dashTimer;
     /* 0x0444 */ s16 rotZTarget;

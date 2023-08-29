@@ -356,14 +356,14 @@ s32 EnSw_CheckDamage(EnSw* this, PlayState* play) {
                     this->rotateMag = -0.1f;
                 }
                 this->deathFlames = 10;
-                this->animSpeed = 1;
+                this->animVar = 1;
                 this->rotateMag *= 4.0f;
                 this->actionFunc = EnSw_DieGold;
             } else {
                 // Skulwalltula detaches from surface before dying.
                 this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
                 this->actor.shape.shadowAlpha = 0xFF;
-                this->animSpeed = 2;
+                this->animVar = 2;
                 this->actor.shape.shadowScale = 16.0f;
                 this->actor.gravity = -1.0f;
                 this->actor.flags &= ~ACTOR_FLAG_0;
@@ -499,7 +499,7 @@ void EnSw_SetupGoldHidden(EnSw* this, PlayState* play) {
     if (ENSW_GET_TYPE_EN(this) == SW_TYPE_GOLD_HIDDEN_TREE) {
         this->waitTimer = 0;
         this->actionFunc = EnSw_GoldHiddenReveal;
-    } else {
+    } else { // slight delay for Gold Skulltula in soil.
         this->waitTimer = 10;
         this->actionFunc = EnSw_GoldHiddenReveal;
     }
@@ -573,7 +573,7 @@ void EnSw_Crawl(EnSw* this, PlayState* play) {
         if (this->crawlTimer == 0) {
             EnSw_PlaySfxRoll(this, play);
             this->rotateMag = ((play->state.frames % 2) == 0) ? 0.1f : -0.1f;
-            this->animSpeed = 1;
+            this->animVar = 1;
             this->waitTimer = Rand_S16Offset(30, 60);
             if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
                 this->waitTimer *= 2;
@@ -584,24 +584,25 @@ void EnSw_Crawl(EnSw* this, PlayState* play) {
         this->waitTimer--;
         if (this->waitTimer == 0) {
             this->crawlTimer = Rand_S16Offset(15, 30);
-            this->animSpeed = 0;
+            this->animVar = 0;
             this->skelAnime.playSpeed = 0.0f;
             if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
                 this->crawlTimer /= 2;
             }
-        } else if (this->animSpeed != 0) {
-            this->animSpeed--;
-            this->skelAnime.playSpeed = (this->animSpeed == 0) ? 4.0f : 0.0f;
+        } else if (this->animVar != 0) {
+            this->animVar--;
+            this->skelAnime.playSpeed = (this->animVar == 0) ? 4.0f : 0.0f;
 
             if (this->skelAnime.playSpeed > 0.0f) {
                 EnSw_PlaySfxRoll(this, play);
             }
+            // Gold Skulltulas move faster
             if (ENSW_GET_TYPE_EN(this) != SW_TYPE_NORMAL) {
                 this->skelAnime.playSpeed *= 2.0f;
             }
         } else {
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 1) {
-                this->animSpeed = 2;
+                this->animVar = 2;
             }
             rotAngle = 32768.0f / this->skelAnime.endFrame;
             rotAngle *= this->skelAnime.curFrame;
@@ -628,6 +629,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
     this->actor.shape.rot = this->actor.world.rot;
 
     if ((this->deathFlames == 0) && (this->painTimer == 0)) {
+        // spawn token 10 units from surface normal.
         Audio_PlaySfxGeneral(NA_SE_SY_KINSTA_MARK_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         x = (this->surfaceNormal.x * 10.0f);
@@ -643,6 +645,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
         return;
     }
 
+    // spawn death flames
     if ((this->painTimer == 0) && (DECR(this->deathFlames) != 0)) {
         pos = this->actor.world.pos;
         pos.y += 10.0f + ((Rand_ZeroOne() - 0.5f) * 6.0f);
@@ -659,6 +662,7 @@ void EnSw_FallNormal(EnSw* this, PlayState* play) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(0.0f <= this->actor.velocity.y)) {
+        // kill if out-of-bounds.
         if (this->actor.floorHeight <= BGCHECK_Y_MIN || this->actor.floorHeight >= 32000.0f) {
             Actor_Kill(&this->actor);
             return;
@@ -666,12 +670,14 @@ void EnSw_FallNormal(EnSw* this, PlayState* play) {
 
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
 
-        if (this->animSpeed == 0) {
+        if (this->animVar == 0) {
+            // start death flames if stopped bouncing
             this->actionFunc = EnSw_DieNormal;
             this->deathFlames = 10;
         } else {
-            this->actor.velocity.y = (this->animSpeed * 8.0f) * 0.5f;
-            this->animSpeed--;
+            // another bounce
+            this->actor.velocity.y = (this->animVar * 8.0f) * 0.5f;
+            this->animVar--;
         }
 
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -741,6 +747,7 @@ s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         ret = false;
+    // rotates through the 4 "eyes" each frame.
     } else if (((play->state.frames % 4) == 0) &&
                !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->eyeLine0, &posResult, &poly, true,
                                         false, false, true, &bgId)) {
