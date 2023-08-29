@@ -155,7 +155,7 @@ static u8 sFishingCaughtTextDelay = 0;
 
 static s32 sFishingTimePlayed = 0;
 
-static s16 sOwnerUnkTimer = 0;
+static s16 sOwnerTheftTimer = 0;
 
 typedef enum {
     /* 0x00 */ FS_OWNER_BALD,
@@ -368,12 +368,12 @@ static s16 D_80B7E0B2;
 static s16 sRodCastTimer; // used for the inital line casting
 static u8 sLureEquipped;
 static Vec3f sLurePos;
-static Vec3f D_80B7E0C8;
+static Vec3f sLureDrawPos;
 static Vec3f sLureRot;
 static Vec3f sLurePosDelta;
 static Vec3f sLureCastDelta;
 static f32 sLure1Rotate; // lure type 1 is programmed to change this.
-static f32 D_80B7E108;
+static f32 sLurePosZOffset;
 static f32 sLureRotXTarget;
 static f32 sLureRotXStep;
 static s8 D_80B7E114;
@@ -399,7 +399,7 @@ static Vec3f sReelLineRot[LINE_SEG_COUNT];
 static Vec3f sReelLineUnk[LINE_SEG_COUNT];
 static Vec3f sLureHookRefPos[2];
 static f32 sLureHookRotY[2];
-static u8 D_80B7FDA8;
+static u8 sRodHitTimer; // brief timer for bending rod when line is snapped
 static Vec3f sSinkingLurePos[SINKING_LURE_SEG_COUNT];
 static s16 sSinkingLureSegmentIndex;
 static f32 sProjectedW;
@@ -871,7 +871,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
             sOwnerHair = FS_OWNER_HAIR;
         }
 
-        sOwnerUnkTimer = 20;
+        sOwnerTheftTimer = 20;
         play->specialEffects = sEffects;
         gTimeSpeed = 1;
         sFishingPlayingState = 0;
@@ -1840,7 +1840,7 @@ void Fishing_DrawLureAndLine(PlayState* play, Vec3f* linePos, Vec3f* lineRot) {
         Matrix_RotateY(sLureRot.y + sLure1Rotate, MTXMODE_APPLY);
         Matrix_RotateX(sLureRot.x, MTXMODE_APPLY);
         Matrix_Scale(0.0039999997f, 0.0039999997f, 0.0039999997f, MTXMODE_APPLY);
-        Matrix_Translate(0.0f, 0.0f, D_80B7E108, MTXMODE_APPLY);
+        Matrix_Translate(0.0f, 0.0f, sLurePosZOffset, MTXMODE_APPLY);
         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
         Matrix_RotateY(M_PI / 2, MTXMODE_APPLY);
 
@@ -1853,7 +1853,7 @@ void Fishing_DrawLureAndLine(PlayState* play, Vec3f* linePos, Vec3f* lineRot) {
         posSrc.x = -850.0f;
         posSrc.y = 0.0f;
         posSrc.z = 0.0f;
-        Matrix_MultVec3f(&posSrc, &D_80B7E0C8);
+        Matrix_MultVec3f(&posSrc, &sLureDrawPos);
 
         posSrc.x = 500.0f;
         posSrc.z = -300.0f;
@@ -1907,9 +1907,9 @@ void Fishing_DrawLureAndLine(PlayState* play, Vec3f* linePos, Vec3f* lineRot) {
                 f32 dy;
                 f32 dz;
 
-                dx = D_80B7E0C8.x - (linePos + i)->x;
-                dy = D_80B7E0C8.y - (linePos + i)->y;
-                dz = D_80B7E0C8.z - (linePos + i)->z;
+                dx = sLureDrawPos.x - (linePos + i)->x;
+                dy = sLureDrawPos.y - (linePos + i)->y;
+                dz = sLureDrawPos.z - (linePos + i)->z;
 
                 ry = Math_FAtan2F(dx, dz);
                 dist = sqrtf(SQ(dx) + SQ(dz));
@@ -1969,8 +1969,8 @@ void Fishing_DrawRod(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 3600);
 
-    if (D_80B7FDA8 != 0) {
-        D_80B7FDA8--;
+    if (sRodHitTimer != 0) {
+        sRodHitTimer--;
 
         Math_ApproachF(&D_80B7A6C0, 35.0f, 1.0f, 100.0f);
         Math_ApproachF(&D_80B7A6BC, -0.8f, 1.0f, 0.4f);
@@ -2177,7 +2177,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
 
         sRodCastState = sLureEquipped = sLureTimer = D_80B7E0B0 = D_80B7E0B2 = sRodCastTimer = sWiggleAttraction = D_80B7E114 =
             D_80B7E150 = 0;
-        sLure1Rotate = sReelLinePosStep = D_80B7E108 = 0.0f;
+        sLure1Rotate = sReelLinePosStep = sLurePosZOffset = 0.0f;
 
         sLureLineSegPosDelta = zeroVec;
 
@@ -2191,9 +2191,9 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sLurePos, &sSoundPos, &sProjectedW);
 
     if (sRodCastState == 0) {
-        Math_ApproachF(&D_80B7E108, -800.0f, 1.0f, 20.0f);
+        Math_ApproachF(&sLurePosZOffset, -800.0f, 1.0f, 20.0f);
     } else {
-        Math_ApproachF(&D_80B7E108, 300.0f, 1.0f, 20.0f);
+        Math_ApproachF(&sLurePosZOffset, 300.0f, 1.0f, 20.0f);
     }
 
     switch (sRodCastState) {
@@ -2883,25 +2883,25 @@ void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
 
 void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     s16 i;
-    s16 sp134 = 10;
-    f32 sp130;
-    f32 sp12C;
-    f32 sp128;
+    s16 rotXYScale = 10;
+    f32 distX;
+    f32 distY;
+    f32 distZ;
     f32 distToTarget;
     f32 multiplier;
-    f32 sp11C;
+    f32 chance;
     f32 playerSpeedMod;
-    Vec3f sp10C;
+    Vec3f multiVecSrc;
     Vec3f targetPosOffset;
-    s16 spFE;
+    s16 rotXTarget;
     s16 rotYtarget;
-    s16 spFA;
+    s16 rotZScale;
     s16 timer;
     s16 spF6;
-    s16 spF4;
-    s16 spF2;
-    s16 spF0;
-    s16 spEE;
+    s16 rotXScale;
+    s16 rotXStep;
+    s16 rotYScale;
+    s16 rotYStep;
     Fishing* this = (Fishing*)thisx;
     PlayState* play = play2;
     Player* player = GET_PLAYER(play);
@@ -2916,7 +2916,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     f32 temp;
     s32 pad;
     f32 rumbleStrength;
-    u16 spA2;
+    u16 attempts;
     u8 rumbleStrength8;
 
     this->actor.uncullZoneForward = 700.0f;
@@ -3012,15 +3012,15 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         this->fishLimb23RotYDelta = (this->fishLimbRotPhaseMag * temp * 2.0f) * 0.6f;
     }
 
-    sp130 = this->fishTargetPos.x - this->actor.world.pos.x;
-    sp12C = this->fishTargetPos.y - this->actor.world.pos.y;
-    sp128 = this->fishTargetPos.z - this->actor.world.pos.z;
+    distX = this->fishTargetPos.x - this->actor.world.pos.x;
+    distY = this->fishTargetPos.y - this->actor.world.pos.y;
+    distZ = this->fishTargetPos.z - this->actor.world.pos.z;
 
-    rotYtarget = Math_Atan2S(sp128, sp130);
-    distToTarget = sqrtf(SQ(sp130) + SQ(sp128));
+    rotYtarget = Math_Atan2S(distZ, distX);
+    distToTarget = sqrtf(SQ(distX) + SQ(distZ));
 
-    spFE = Math_Atan2S(distToTarget, sp12C);
-    distToTarget = sqrtf(SQ(sp130) + SQ(sp128) + SQ(sp12C));
+    rotXTarget = Math_Atan2S(distToTarget, distY);
+    distToTarget = sqrtf(SQ(distX) + SQ(distZ) + SQ(distY));
 
     if ((this->bumpTimer != 0) && (this->fishState != 2) && (this->fishState != 3) && (this->fishState != 4)) {
         if ((this->stateAndTimer & 0x40) != 0) {
@@ -3029,9 +3029,9 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             rotYtarget -= 0x4000;
         }
         if (((this->stateAndTimer + 0x20) & 0x40) != 0) {
-            spFE += 0x2000;
+            rotXTarget += 0x2000;
         } else {
-            spFE -= 0x2000;
+            rotXTarget -= 0x2000;
         }
     }
 
@@ -3294,14 +3294,14 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
         case 2:
             if (((this->actor.params + D_80B7E118) & 1) != 0) {
-                sp10C.x = 10.0f;
+                multiVecSrc.x = 10.0f;
             } else {
-                sp10C.x = -10.0f;
+                multiVecSrc.x = -10.0f;
             }
-            sp10C.y = 0.0f;
-            sp10C.z = 0.0f;
+            multiVecSrc.y = 0.0f;
+            multiVecSrc.z = 0.0f;
             Matrix_RotateY(sLureRot.y, MTXMODE_NEW);
-            Matrix_MultVec3f(&sp10C, &targetPosOffset);
+            Matrix_MultVec3f(&multiVecSrc, &targetPosOffset);
 
             this->fishTargetPos.x = sLurePos.x + targetPosOffset.x;
             this->fishTargetPos.z = sLurePos.z + targetPosOffset.z;
@@ -3378,12 +3378,12 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 multiplier *= 3.0f;
             }
 
-            sp11C = 0.03f * multiplier;
+            chance = 0.03f * multiplier;
             if (sLureEquipped == FS_LURE_SINKING) {
-                sp11C *= 5.0f;
+                chance *= 5.0f;
             }
 
-            if (((this->timerArray[0] == 1) || (Rand_ZeroOne() < sp11C)) &&
+            if (((this->timerArray[0] == 1) || (Rand_ZeroOne() < chance)) &&
                 ((Rand_ZeroOne() < (this->perception * multiplier)) || ((this->isLoach + 1) == KREG(69)))) {
                 if (this->isLoach == 0) {
                     this->fishState = 3;
@@ -3423,18 +3423,18 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
         case 3:
             this->lilyTimer = 6;
-            sp134 = 2;
+            rotXYScale = 2;
 
             if ((((s16)player->actor.world.pos.x + D_80B7E118) & 1) != 0) {
-                sp10C.x = 30.0f;
+                multiVecSrc.x = 30.0f;
             } else {
-                sp10C.x = -30.0f;
+                multiVecSrc.x = -30.0f;
             }
-            sp10C.y = 0.0f;
-            sp10C.z = 30.0f;
+            multiVecSrc.y = 0.0f;
+            multiVecSrc.z = 30.0f;
 
             Matrix_RotateY(sLureRot.y, MTXMODE_NEW);
-            Matrix_MultVec3f(&sp10C, &targetPosOffset);
+            Matrix_MultVec3f(&multiVecSrc, &targetPosOffset);
 
             this->fishTargetPos.x = sLurePos.x + targetPosOffset.x;
             this->fishTargetPos.z = sLurePos.z + targetPosOffset.z;
@@ -3463,7 +3463,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             Math_ApproachS(&this->fishLimbDRotZDelta, 0x4E20, 4, 0x1388);
 
             this->lilyTimer = 50;
-            sp134 = 2;
+            rotXYScale = 2;
             this->fishTargetPos = sLurePos;
             Math_ApproachF(&this->actor.speed, this->speedTarget, 1.0f, 1.0f);
 
@@ -3618,7 +3618,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
                     Rumble_Override(0.0f, rumbleStrength, 120, 5);
                     sRumbleDelay = 40;
-                    D_80B7FDA8 = 10;
+                    sRodHitTimer = 10;
                     Sfx_PlaySfxCentered(NA_SE_IT_FISHING_HIT);
                 }
             }
@@ -3652,15 +3652,15 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
                 if (this->timerArray[1] > 30) {
                     if (this->timerArray[0] == 0) {
-                        sp10C.x = 0.0f;
-                        sp10C.y = 0.0f;
-                        sp10C.z = 200.0f;
+                        multiVecSrc.x = 0.0f;
+                        multiVecSrc.y = 0.0f;
+                        multiVecSrc.z = 200.0f;
 
-                        for (spA2 = 0; spA2 < 100; spA2++) {
+                        for (attempts = 0; attempts < 100; attempts++) {
                             Matrix_RotateY(Rand_CenteredFloat(3.0f * M_PI / 4.0f) +
                                                BINANG_TO_RAD_ALT(this->actor.yawTowardsPlayer + 0x8000),
                                            MTXMODE_NEW);
-                            Matrix_MultVec3f(&sp10C, &targetPosOffset);
+                            Matrix_MultVec3f(&multiVecSrc, &targetPosOffset);
 
                             this->fishTargetPos.x = this->actor.world.pos.x + targetPosOffset.x;
                             this->fishTargetPos.z = this->actor.world.pos.z + targetPosOffset.z;
@@ -3772,11 +3772,11 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             sReelLinePos[LINE_SEG_COUNT - 1] = this->fishMouthPos;
-            sp10C.x = sReelLinePos[LINE_SEG_COUNT - 1].x - sReelLinePos[LINE_SEG_COUNT - 2].x;
-            sp10C.y = sReelLinePos[LINE_SEG_COUNT - 1].y - sReelLinePos[LINE_SEG_COUNT - 2].y;
-            sp10C.z = sReelLinePos[LINE_SEG_COUNT - 1].z - sReelLinePos[LINE_SEG_COUNT - 2].z;
+            multiVecSrc.x = sReelLinePos[LINE_SEG_COUNT - 1].x - sReelLinePos[LINE_SEG_COUNT - 2].x;
+            multiVecSrc.y = sReelLinePos[LINE_SEG_COUNT - 1].y - sReelLinePos[LINE_SEG_COUNT - 2].y;
+            multiVecSrc.z = sReelLinePos[LINE_SEG_COUNT - 1].z - sReelLinePos[LINE_SEG_COUNT - 2].z;
 
-            if ((SQ(sp10C.x) + SQ(sp10C.y) + SQ(sp10C.z)) > SQ(20.0f)) {
+            if ((SQ(multiVecSrc.x) + SQ(multiVecSrc.y) + SQ(multiVecSrc.z)) > SQ(20.0f)) {
                 Math_ApproachF(&this->actor.world.pos.x, sReelLinePos[LINE_SEG_COUNT - 2].x, 0.2f,
                                2.0f * (this->actor.speed * 1.5f));
                 Math_ApproachF(&this->actor.world.pos.y, sReelLinePos[LINE_SEG_COUNT - 2].y, 0.2f,
@@ -3855,16 +3855,16 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             Math_ApproachS(&this->fishLimbDRotZDelta, 11000, 2, 4000);
             Math_ApproachF(&sCatchCamX, 15.0f, 0.05f, 0.75f);
 
-            sp10C.x = sCatchCamX;
+            multiVecSrc.x = sCatchCamX;
             if (sLinkAge != LINK_AGE_CHILD) {
-                sp10C.y = 30.0f;
-                sp10C.z = 55.0f;
+                multiVecSrc.y = 30.0f;
+                multiVecSrc.z = 55.0f;
             } else {
-                sp10C.y = 10.0f;
-                sp10C.z = 50.0f;
+                multiVecSrc.y = 10.0f;
+                multiVecSrc.z = 50.0f;
             }
             Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
-            Matrix_MultVec3f(&sp10C, &sSubCamEye);
+            Matrix_MultVec3f(&multiVecSrc, &sSubCamEye);
 
             sSubCamEye.x += player->actor.world.pos.x;
             sSubCamEye.y += player->actor.world.pos.y;
@@ -3903,10 +3903,10 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             this->actor.shape.rot.y = player->actor.shape.rot.y + 0x5000;
             this->actor.shape.rot.x = this->actor.shape.rot.z = this->unk_162 = this->unk_164 = this->unk_16E = 0;
 
-            sp10C.x = 4.0f;
-            sp10C.y = -10.0f;
-            sp10C.z = 5.0f;
-            Matrix_MultVec3f(&sp10C, &targetPosOffset);
+            multiVecSrc.x = 4.0f;
+            multiVecSrc.y = -10.0f;
+            multiVecSrc.z = 5.0f;
+            Matrix_MultVec3f(&multiVecSrc, &targetPosOffset);
             Math_ApproachF(&this->actor.world.pos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x + targetPosOffset.x, 1.0f,
                            6.0f);
             Math_ApproachF(&this->actor.world.pos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y + targetPosOffset.y, 1.0f,
@@ -4002,7 +4002,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
         case 7:
             this->lilyTimer = 50;
-            sp134 = 5;
+            rotXYScale = 5;
             this->rotationStep = 12288.0f;
 
             if (this->actor.params < (EN_FISH_PARAM + 4)) {
@@ -4051,23 +4051,24 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
             Math_ApproachS(&this->unk_16E, 0, 5, 0x7D0);
 
-            spF4 = spF0 = spFA = 3;
-            spF2 = spEE = 0x2000;
+            rotXScale = rotYScale = rotZScale = 3;
+            rotXStep = rotYStep = 0x2000;
 
             this->timerArray[2] = 0;
             this->unk_184 -= 1.0f;
         } else {
             Math_ApproachZeroF(&this->unk_184, 1.0f, 2.0f);
+            // check for Loach states
             if ((this->fishState != -1) && (this->fishState != -2) && (this->fishState != -25)) {
                 this->rotationTarget.x = 0;
             }
 
             this->rotationTarget.y = this->rotationTarget.z = 0;
-            spF4 = spF0 = spFA = 4;
-            spF2 = spEE = 0x2000;
+            rotXScale = rotYScale = rotZScale = 4;
+            rotXStep = rotYStep = 0x2000;
 
-            spF6 = Fishing_SmoothStepToS(&this->actor.world.rot.y, rotYtarget, sp134, this->rotationStep) * 3.0f;
-            Math_ApproachS(&this->actor.world.rot.x, spFE, sp134, this->rotationStep * 0.5f);
+            spF6 = Fishing_SmoothStepToS(&this->actor.world.rot.y, rotYtarget, rotXYScale, this->rotationStep) * 3.0f;
+            Math_ApproachS(&this->actor.world.rot.x, rotXTarget, rotXYScale, this->rotationStep * 0.5f);
 
             if (spF6 > 8000) {
                 spF6 = 8000;
@@ -4092,22 +4093,22 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             this->rotationTarget.y = this->unk_154;
             this->unk_152--;
             if (this->unk_156 != 0) {
-                spF0 = 5;
-                spEE = 0x4000;
+                rotYScale = 5;
+                rotYStep = 0x4000;
             } else {
-                spF0 = 10;
-                spEE = 0x800;
+                rotYScale = 10;
+                rotYStep = 0x800;
             }
             this->rotationTarget.x = -0x500 - this->actor.shape.rot.x;
-            spF4 = 5;
-            spF2 = 0x4000;
+            rotXScale = 5;
+            rotXStep = 0x4000;
         } else {
             this->unk_156 = 0;
         }
 
-        Math_ApproachS(&this->unk_160, this->rotationTarget.x, spF4, spF2);
-        Math_ApproachS(&this->unk_162, this->rotationTarget.y, spF0, spEE);
-        Math_ApproachS(&this->unk_164, this->rotationTarget.z, spFA, 0x2000);
+        Math_ApproachS(&this->unk_160, this->rotationTarget.x, rotXScale, rotXStep);
+        Math_ApproachS(&this->unk_162, this->rotationTarget.y, rotYScale, rotYStep);
+        Math_ApproachS(&this->unk_164, this->rotationTarget.z, rotZScale, 0x2000);
 
         if (this->actor.speed <= 0.5f) {
             Math_ApproachS(&this->actor.shape.rot.x, 0, 10, this->unk_178);
@@ -4844,7 +4845,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 play->interfaceCtx.unk_260 = 1;
                 play->startPlayerFishing(play);
                 sFishingPlayingState = 1;
-                sOwnerUnkTimer = 20;
+                sOwnerTheftTimer = 20;
                 this->stateAndTimer = 0;
 
                 if ((HIGH_SCORE(HS_FISHING) & 0xFF0000) < 0xFF0000) {
@@ -5100,7 +5101,7 @@ static Vec3s sSinkingLureLocations[] = {
 void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     Fishing* this = (Fishing*)thisx;
-    Vec3f sp114;
+    Vec3f multiVecSrc;
     Vec3f eyeTarget;
     Vec3f lureDist;
     s16 headRotTarget;
@@ -5133,7 +5134,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((sOwnerUnkTimer != 0) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
+    if ((sOwnerTheftTimer != 0) || (Message_GetState(&play->msgCtx) != TEXT_STATE_NONE)) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_5;
@@ -5151,7 +5152,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         headRotTarget = -10000;
     }
 
-    Math_ApproachS(&this->unk_164, headRotTarget, 3, 0x1388);
+    Math_ApproachS(&this->unk_164, headRotTarget, 3, 5000);
 
     if (((play->gameplayFrames % 32) == 0) && (Rand_ZeroOne() < 0.3f)) {
         this->unk_162 = 4;
@@ -5163,13 +5164,13 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         this->unk_162--;
     }
 
-    if (sOwnerUnkTimer != 0) {
-        sOwnerUnkTimer--;
+    if (sOwnerTheftTimer != 0) {
+        sOwnerTheftTimer--;
     }
 
     // steal the owner's hat
     if (!sIsOwnersHatHooked && (sLureEquipped != FS_LURE_SINKING) && (sRodCastState > 0) &&
-        (sOwnerHair == FS_OWNER_CAPPED) && (sOwnerUnkTimer == 0)) {
+        (sOwnerHair == FS_OWNER_CAPPED) && (sOwnerTheftTimer == 0)) {
         f32 dx = sOwnerHeadPos.x - sLurePos.x;
         f32 dy = sOwnerHeadPos.y - sLurePos.y;
         f32 dz = sOwnerHeadPos.z - sLurePos.z;
@@ -5281,10 +5282,10 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             lureDistXZ = sqrtf(SQXZ(lureDist));
             Matrix_RotateY(Math_Atan2F(lureDist.z, lureDist.x), MTXMODE_NEW);
 
-            sp114.x = 0.0f;
-            sp114.y = 0.0f;
-            sp114.z = 100.0f;
-            Matrix_MultVec3f(&sp114, &lureDist);
+            multiVecSrc.x = 0.0f;
+            multiVecSrc.y = 0.0f;
+            multiVecSrc.z = 100.0f;
+            Matrix_MultVec3f(&multiVecSrc, &lureDist);
 
             if (sRodCastState == 1) {
                 subCamAtMaxVelFrac = 0.2f;
@@ -5296,15 +5297,15 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             Math_ApproachF(&sSubCamAt.y, sLurePos.y, subCamAtMaxVelFrac, 50.0f * sSubCamVelFactor);
             Math_ApproachF(&sSubCamAt.z, sLurePos.z, subCamAtMaxVelFrac, fabsf(lureDist.z) * sSubCamVelFactor);
 
-            sp114.x = 0.0f - D_80B7FED0;
+            multiVecSrc.x = 0.0f - D_80B7FED0;
             if (sLinkAge != LINK_AGE_CHILD) {
-                sp114.y = 80.0f;
+                multiVecSrc.y = 80.0f;
             } else {
-                sp114.y = 55.0f;
+                multiVecSrc.y = 55.0f;
             }
-            sp114.z = -80.0f;
+            multiVecSrc.z = -80.0f;
 
-            Matrix_MultVec3f(&sp114, &eyeTarget);
+            Matrix_MultVec3f(&multiVecSrc, &eyeTarget);
             eyeTarget.x += player->actor.world.pos.x;
             eyeTarget.y += player->actor.world.pos.y;
             eyeTarget.z += player->actor.world.pos.z;
@@ -5357,10 +5358,10 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 sFishingLineScale = 0.0005000001f;
             }
 
-            sp114.x = 0.0f;
-            sp114.y = 0.0f;
-            sp114.z = 100.0f;
-            Matrix_MultVec3f(&sp114, &lureDist);
+            multiVecSrc.x = 0.0f;
+            multiVecSrc.y = 0.0f;
+            multiVecSrc.z = 100.0f;
+            Matrix_MultVec3f(&multiVecSrc, &lureDist);
 
             Math_ApproachF(&sSubCamEye.x, eyeTarget.x, 0.3f, fabsf(lureDist.x) * sSubCamVelFactor);
             Math_ApproachF(&sSubCamEye.y, eyeTarget.y, 0.3f, 20.0f * sSubCamVelFactor);
@@ -5468,14 +5469,14 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             Math_ApproachF(&sSinkingLureHeldY, 71.0f, 0.5f, 3.0f);
             Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
 
-            sp114.x = Math_SinS(play->gameplayFrames * 0x1000);
-            sp114.y = sSinkingLureHeldY;
-            sp114.z = -5.0f;
+            multiVecSrc.x = Math_SinS(play->gameplayFrames * 0x1000);
+            multiVecSrc.y = sSinkingLureHeldY;
+            multiVecSrc.z = -5.0f;
             if (sLinkAge == LINK_AGE_CHILD) {
-                sp114.y -= 20.0f;
+                multiVecSrc.y -= 20.0f;
             }
 
-            Matrix_MultVec3f(&sp114, &eyeTarget);
+            Matrix_MultVec3f(&multiVecSrc, &eyeTarget);
 
             sSinkingLureBasePos.x = player->actor.world.pos.x + eyeTarget.x;
             sSinkingLureBasePos.y = player->actor.world.pos.y + eyeTarget.y;
@@ -5483,17 +5484,17 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
             Math_ApproachF(&sCatchCamX, 15.0f, 0.1f, 0.75f);
 
-            sp114.x = sCatchCamX - 15.0f;
+            multiVecSrc.x = sCatchCamX - 15.0f;
 
             if (sLinkAge != LINK_AGE_CHILD) {
-                sp114.y = 60.0f;
-                sp114.z = -30.0f;
+                multiVecSrc.y = 60.0f;
+                multiVecSrc.z = -30.0f;
             } else {
-                sp114.y = 40.0f;
-                sp114.z = -35.0f;
+                multiVecSrc.y = 40.0f;
+                multiVecSrc.z = -35.0f;
             }
 
-            Matrix_MultVec3f(&sp114, &sSubCamEye);
+            Matrix_MultVec3f(&multiVecSrc, &sSubCamEye);
             sSubCamEye.x += player->actor.world.pos.x;
             sSubCamEye.y += player->actor.world.pos.y;
             sSubCamEye.z += player->actor.world.pos.z;
