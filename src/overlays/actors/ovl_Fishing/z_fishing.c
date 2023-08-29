@@ -976,7 +976,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
                         sFishInits[i].pos.z, 0, Rand_ZeroFloat(0x10000), 0, 100 + i);
         }
     } else {
-        if ((thisx->params < EN_FISH_PARAM + 15) || (thisx->params == EN_FISH_AQUARIUM)) {
+        if ((thisx->params < (EN_FISH_PARAM + 15)) || (thisx->params == EN_FISH_AQUARIUM)) {
             SkelAnime_InitFlex(play, &this->skelAnime, &gFishingFishSkel, &gFishingFishAnim, NULL, NULL, 0);
             Animation_MorphToLoop(&this->skelAnime, &gFishingFishAnim, 0.0f);
         } else {
@@ -2103,7 +2103,7 @@ static Vec3f sSoundPos = { 0.0f, 0.0f, 0.0f };
 void Fishing_UpdateLure(Fishing* this, PlayState* play) {
     f32 spE4;
     f32 spE0;
-    s16 phi_v0;
+    s16 timer;
     s16 spDC;
     f32 spD8;
     f32 spD4;
@@ -2611,12 +2611,12 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
 
             if ((sLurePos.y <= (WATER_SURFACE_Y(play) + 4.0f)) && (sLurePos.y >= (WATER_SURFACE_Y(play) - 4.0f))) {
 
-                phi_v0 = 63;
+                timer = 63;
                 if (CHECK_BTN_ALL(input->cur.button, BTN_A) || (sLureWigglePosY > 1.0f)) {
-                    phi_v0 = 1;
+                    timer = 1;
                 }
 
-                if ((sLureTimer & phi_v0) == 0) {
+                if ((sLureTimer & timer) == 0) {
                     spA8 = sLurePos;
                     spA8.y = WATER_SURFACE_Y(play);
                     Fishing_SpawnRipple(NULL, play->specialEffects, &spA8, 30.0f, 300.0f, 150, 90);
@@ -2895,7 +2895,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
     s16 spFE;
     s16 rotYtarget;
     s16 spFA;
-    s16 phi_v0;
+    s16 timer;
     s16 spF6;
     s16 spF4;
     s16 spF2;
@@ -3490,32 +3490,33 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 sFishingHookedFish = this;
                 sFishMouthOffset.y = 500.0f - Rand_ZeroFloat(400.0f);
 
+                // get rumble time based on size and lure used.
                 if (sLureEquipped == FS_LURE_SINKING) {
                     if (this->fishLength > 70.0f) {
-                        phi_v0 = (s16)Rand_ZeroFloat(20.0f) + 10;
+                        timer = (s16)Rand_ZeroFloat(20.0f) + 10;
                     } else if (this->fishLength > 60.0f) {
-                        phi_v0 = (s16)Rand_ZeroFloat(30.0f) + 20;
+                        timer = (s16)Rand_ZeroFloat(30.0f) + 20;
                     } else if (this->fishLength > 50.0f) {
-                        phi_v0 = (s16)Rand_ZeroFloat(30.0f) + 30;
+                        timer = (s16)Rand_ZeroFloat(30.0f) + 30;
                     } else {
-                        phi_v0 = (s16)Rand_ZeroFloat(40.0f) + 40;
+                        timer = (s16)Rand_ZeroFloat(40.0f) + 40;
                     }
-                    sLureBitTimer = phi_v0;
-                    sRumbleDelay = phi_v0;
-                    Rumble_Override(0.0f, 60, phi_v0 * 3, 10);
+                    sLureBitTimer = timer;
+                    sRumbleDelay = timer;
+                    Rumble_Override(0.0f, 60, timer * 3, 10);
                 } else {
                     if (this->fishLength > 70.0f) {
-                        phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 10;
+                        timer = (s16)Rand_ZeroFloat(5.0f) + 10;
                     } else if (this->fishLength > 60.0f) {
-                        phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 15;
+                        timer = (s16)Rand_ZeroFloat(5.0f) + 15;
                     } else if (this->fishLength > 50.0f) {
-                        phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 17;
+                        timer = (s16)Rand_ZeroFloat(5.0f) + 17;
                     } else {
-                        phi_v0 = (s16)Rand_ZeroFloat(5.0f) + 25;
+                        timer = (s16)Rand_ZeroFloat(5.0f) + 25;
                     }
-                    sLureBitTimer = phi_v0;
-                    sRumbleDelay = phi_v0;
-                    Rumble_Override(0.0f, 180, phi_v0 * 3, 10);
+                    sLureBitTimer = timer;
+                    sRumbleDelay = timer;
+                    Rumble_Override(0.0f, 180, timer * 3, 10);
                 }
 
                 sLineHooked = 0;
@@ -4003,10 +4004,10 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             sp134 = 5;
             this->rotationStep = 12288.0f;
 
-            if (this->actor.params < EN_FISH_PARAM + 4) {
+            if (this->actor.params < (EN_FISH_PARAM + 4)) {
                 this->fishTargetPos = sGroupFishes[this->actor.params - EN_FISH_PARAM].pos;
                 sFishGroupVar = 1;
-            } else if (this->actor.params < EN_FISH_PARAM + 8) {
+            } else if (this->actor.params < (EN_FISH_PARAM + 8)) {
                 this->fishTargetPos = sGroupFishes[this->actor.params - EN_FISH_PARAM + 16].pos;
                 sFishGroupVar = 2;
             } else {
