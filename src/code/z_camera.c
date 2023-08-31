@@ -7811,7 +7811,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
         if (camera->status == CAM_STAT_ACTIVE) {
             switch (modeChangeFlags) {
                 case 1:
-                    func_80078884(0);
+                    func_80078884(NA_SE_SY_DUMMY_13);
                     break;
                 case 2:
                     if (camera->play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_1) {
