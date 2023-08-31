@@ -188,14 +188,14 @@ void EnTite_Init(Actor* thisx, PlayState* play) {
     this->bodyBreak.val = BODYBREAK_STATUS_FINISHED;
     thisx->focus.pos = thisx->world.pos;
     thisx->focus.pos.y += 20.0f;
-    thisx->colChkInfo.health = 2;
+    thisx->colChkInfo.health = 3;
     thisx->colChkInfo.mass = MASS_HEAVY;
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, thisx, &sJntSphInit, &this->colliderItem);
     this->unk_2DC = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4;
     if (this->actor.params == TEKTITE_BLUE) {
         this->unk_2DC |= UPDBGCHECKINFO_FLAG_6; // Don't use the actor engine's ripple spawning code
-        thisx->colChkInfo.health = 4;
+        thisx->colChkInfo.health = 6;
         thisx->naviEnemyId += 1; // NAVI_ENEMY_BLUE_TEKTITE
     }
     EnTite_SetupIdle(this);
