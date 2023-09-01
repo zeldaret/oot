@@ -4032,6 +4032,26 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             break;
     }
 
+    // added for spaceworld, change the pitch of specific sounds
+    if (gPitchSound > 0) {
+        gPitchSound--;
+    }
+
+    if (gPitchSound != 0) {
+        switch (entry->sfxId) {
+            case NA_SE_SY_HP_RECOVER:
+                break;
+            case NA_SE_SY_MESSAGE_WOMAN:
+                freqScale /= 2.0f; // 1 octave lower
+                break;
+
+            case NA_SE_SY_ATTENTION_ON_OLD:
+                break;
+            default:
+                break;
+        }
+    }
+
     if (sSfxChannelState[channelIdx].vol != vol) {
         volS8 = (u8)(vol * 127.0f);
         sSfxChannelState[channelIdx].vol = vol;

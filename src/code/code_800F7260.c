@@ -162,6 +162,15 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32
     }
 }
 
+u8 gPitchSound = 0;
+
+// when using this function you MUST make sure that there is an entry for a given sfx id in func_800F3A08
+void Audio_PlaySoundPitched(u16 sfxId) {
+    gPitchSound = 40;
+    Audio_PlaySoundGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+}
+
 void Audio_RemoveMatchingSoundRequests(u8 aspect, SoundBankEntry* cmp) {
     SoundRequest* req;
     s32 remove;

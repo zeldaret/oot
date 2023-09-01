@@ -141,6 +141,7 @@ extern SoundParams* gSoundParams[7];
 extern char D_80133390[];
 extern char D_80133398[];
 extern SoundBankEntry* gSoundBanks[7];
+extern u8 gPitchSound;
 extern u8 gSfxChannelLayout;
 extern Vec3f gSfxDefaultPos;
 extern f32 gSfxDefaultFreqAndVolScale;
