@@ -69,8 +69,8 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
 
     DynaPolyActor_Init(&this->dyna, 0);
     Actor_SetFocus(thisx, 50.0f);
-    osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, PARAMS_GET(thisx->params, 0, 8),
-                 PARAMS_GET((s32)thisx->params, 8, 8));
+    osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params,
+                 PARAMS_GET(thisx->params, 0, 8), PARAMS_GET((s32)thisx->params, 8, 8));
 
     Actor_ProcessInitChain(thisx, sInitChain);
     if (PARAMS_GET(thisx->params, 0, 8) < 0 || PARAMS_GET(thisx->params, 0, 8) >= 3) {

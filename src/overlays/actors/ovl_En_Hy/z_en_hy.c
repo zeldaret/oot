@@ -797,8 +797,8 @@ void func_80A70978(EnHy* this, PlayState* play) {
         this->interactInfo.yOffset = sPlayerTrackingInfo[PARAMS_GET2(this->actor.params, 0, 7)].childYOffset;
     }
 
-    Npc_TrackPoint(&this->actor, &this->interactInfo, sPlayerTrackingInfo[PARAMS_GET2(this->actor.params, 0, 7)].presetIndex,
-                   trackingMode);
+    Npc_TrackPoint(&this->actor, &this->interactInfo,
+                   sPlayerTrackingInfo[PARAMS_GET2(this->actor.params, 0, 7)].presetIndex, trackingMode);
 
     if (Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->interactRange, EnHy_GetTextId,
                           EnHy_UpdateTalkState)) {
@@ -809,8 +809,10 @@ void func_80A70978(EnHy* this, PlayState* play) {
 s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
     switch (play->sceneId) {
         case SCENE_KAKARIKO_VILLAGE:
-            if (!(PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_BOJ_9 || PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_BOJ_10 ||
-                  PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_BOJ_12 || PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_AHG_2 ||
+            if (!(PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_BOJ_9 ||
+                  PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_BOJ_10 ||
+                  PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_BOJ_12 ||
+                  PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_AHG_2 ||
                   PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_BJI_7)) {
                 return true;
             } else if (!LINK_IS_ADULT) {
@@ -901,15 +903,16 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
         this->actor.objBankIndex = this->objBankIndexSkel1;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(play, &this->skelAnime,
-                           sSkeletonInfo[sModelInfo[PARAMS_GET2(this->actor.params, 0, 7)].skelInfoIndex1].skeleton, NULL,
-                           this->jointTable, this->morphTable, 16);
+                           sSkeletonInfo[sModelInfo[PARAMS_GET2(this->actor.params, 0, 7)].skelInfoIndex1].skeleton,
+                           NULL, this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexOsAnime].segment);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sColCylInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[PARAMS_GET2(this->actor.params, 0, 7)].animInfoIndex);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo,
+                               sModelInfo[PARAMS_GET2(this->actor.params, 0, 7)].animInfoIndex);
 
         if ((play->sceneId == SCENE_BACK_ALLEY_DAY) || (play->sceneId == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~ACTOR_FLAG_4;
@@ -1223,7 +1226,8 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
                            EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg9.r, envColorSeg9.g, envColorSeg9.b,
                                             envColorSeg9.a));
 
-                if (PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_CNE_8 || PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_CNE_11) {
+                if (PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_CNE_8 ||
+                    PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_CNE_11) {
                     if (PARAMS_GET2(this->actor.params, 0, 7) == ENHY_TYPE_CNE_8) {
                         envColorSeg10 = envColorSeg8;
                     }

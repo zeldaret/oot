@@ -184,7 +184,8 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = EnDaikuKakariko_Run;
     } else {
         if (this->flags & 8) {
-            if ((PARAMS_GET(this->actor.params, 0, 2) == CARPENTER_SABOORO) || (PARAMS_GET(this->actor.params, 0, 2) == CARPENTER_SHIRO)) {
+            if ((PARAMS_GET(this->actor.params, 0, 2) == CARPENTER_SABOORO) ||
+                (PARAMS_GET(this->actor.params, 0, 2) == CARPENTER_SHIRO)) {
                 EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_5, &this->currentAnimIndex);
                 this->flags |= 0x800;
             } else {

@@ -143,7 +143,8 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block* this, PlayState* play) {
     this->dyna.actor.child->focus.rot = tempRot;
 
     temp = PARAMS_GET(this->dyna.actor.params, 0, 15);
-    this->dyna.actor.params = PARAMS_GET_NOSHIFT(this->dyna.actor.params, 15, 1) | PARAMS_GET(this->dyna.actor.child->params, 0, 15);
+    this->dyna.actor.params =
+        PARAMS_GET_NOSHIFT(this->dyna.actor.params, 15, 1) | PARAMS_GET(this->dyna.actor.child->params, 0, 15);
     this->dyna.actor.child->params = PARAMS_GET_NOSHIFT(this->dyna.actor.child->params, 15, 1) | (temp & 0x7FFF);
 
     if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &this->dyna.actor.home.pos) < 0.01f) {
@@ -219,8 +220,9 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
         ObjWarp2block_SetInactive(this);
     }
 
-    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", PARAMS_GET(this->dyna.actor.params, 0, 16),
-                 this->dyna.actor.home.rot.z & 7, PARAMS_GET(this->dyna.actor.params, 11, 3));
+    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n",
+                 PARAMS_GET(this->dyna.actor.params, 0, 16), this->dyna.actor.home.rot.z & 7,
+                 PARAMS_GET(this->dyna.actor.params, 11, 3));
 }
 
 void ObjWarp2block_Destroy(Actor* thisx, PlayState* play) {

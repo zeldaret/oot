@@ -299,7 +299,8 @@ void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, PlayState* play) {
     s32 switchFlag = PARAMS_GET(this->dyna.actor.params, 0, 6);
     s8 switchFlagIsSet = (Flags_GetSwitch(play, switchFlag)) ? true : false;
 
-    if (this->unk_176 ^ switchFlagIsSet && switchFlagIsSet ^ (PARAMS_GET(this->dyna.actor.params, 15, 1) ? true : false)) {
+    if (this->unk_176 ^ switchFlagIsSet &&
+        switchFlagIsSet ^ (PARAMS_GET(this->dyna.actor.params, 15, 1) ? true : false)) {
         if (this->demoEffectTimer <= 0) {
             ObjTimeblock_SpawnDemoEffect(this, play);
             this->demoEffectTimer = 160;

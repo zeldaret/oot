@@ -392,8 +392,8 @@ void func_808B81A0(BgSpot18Basket* this, PlayState* play) {
                     collectible->actor.world.rot.y = D_808B85E4[1];
                 }
             } else {
-                collectible =
-                    Item_DropCollectible(play, &tempVector, (PARAMS_GET(actor->params, 0, 6) << 8) | ITEM00_HEART_PIECE);
+                collectible = Item_DropCollectible(play, &tempVector,
+                                                   (PARAMS_GET(actor->params, 0, 6) << 8) | ITEM00_HEART_PIECE);
                 if (collectible != NULL) {
                     collectible->actor.velocity.y = 11.0f;
                     collectible->actor.world.rot.y = D_808B85E4[1];

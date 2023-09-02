@@ -10,10 +10,10 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-#define OBJSWITCH_TYPE(thisx)           PARAMS_GET((thisx)->params, 0, 3)
-#define OBJSWITCH_SUBTYPE(thisx)        PARAMS_GET((thisx)->params, 4, 3)
-#define OBJSWITCH_SWITCH_FLAG(thisx)    PARAMS_GET((thisx)->params, 8, 6)
-#define OBJSWITCH_FROZEN(thisx)         PARAMS_GET((thisx)->params, 7, 1)
+#define OBJSWITCH_TYPE(thisx) PARAMS_GET((thisx)->params, 0, 3)
+#define OBJSWITCH_SUBTYPE(thisx) PARAMS_GET((thisx)->params, 4, 3)
+#define OBJSWITCH_SWITCH_FLAG(thisx) PARAMS_GET((thisx)->params, 8, 6)
+#define OBJSWITCH_FROZEN(thisx) PARAMS_GET((thisx)->params, 7, 1)
 
 #define OBJSWITCH_FROZEN_FLAG (1 << 7)
 

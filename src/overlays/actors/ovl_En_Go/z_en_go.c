@@ -351,25 +351,29 @@ s32 EnGo_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
 void EnGo_ChangeAnim(EnGo* this, s32 index) {
     Animation_Change(&this->skelAnime, sAnimationInfo[index].animation,
-                     sAnimationInfo[index].playSpeed * (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f), 0.0f,
-                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                     sAnimationInfo[index].playSpeed *
+                         (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f),
+                     0.0f, Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
                      sAnimationInfo[index].morphFrames);
 }
 
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     if (((this->actor.params) & 0xF0) == 0x90) {
         return true;
-    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8)) && LINK_IS_ADULT &&
-               PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10) {
+    } else if (play->sceneId == SCENE_FIRE_TEMPLE && !Flags_GetSwitch(play, PARAMS_GET_NOMASK(this->actor.params, 8)) &&
+               LINK_IS_ADULT && PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x10) {
         return true;
-    } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_ADULT && PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x00) {
+    } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_ADULT &&
+               PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x00) {
         return true;
     } else if (play->sceneId == SCENE_DEATH_MOUNTAIN_TRAIL && LINK_IS_CHILD &&
-               (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x20 || PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x30 ||
+               (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x20 ||
+                PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x30 ||
                 PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x40)) {
         return true;
     } else if (play->sceneId == SCENE_GORON_CITY && LINK_IS_CHILD &&
-               (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x50 || PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x60 ||
+               (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x50 ||
+                PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x60 ||
                 PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x70)) {
         return true;
     } else {
@@ -784,8 +788,9 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
-        Math_SmoothStepToF(&this->skelAnime.playSpeed, (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * 0.5f, 0.1f,
-                           1000.0f, 0.1f);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed,
+                           (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * 0.5f, 0.1f, 1000.0f,
+                           0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
 
@@ -815,8 +820,9 @@ void EnGo_WakeUp(EnGo* this, PlayState* play) {
 void func_80A40494(EnGo* this, PlayState* play) {
     f32 frame;
 
-    Math_SmoothStepToF(&this->skelAnime.playSpeed, (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * -0.5f, 0.1f,
-                       1000.0f, 0.1f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed,
+                       (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * -0.5f, 0.1f, 1000.0f,
+                       0.1f);
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
 
@@ -837,8 +843,8 @@ void func_80A405CC(EnGo* this, PlayState* play) {
     f32 frame;
 
     lastFrame = Animation_GetLastFrame(&gGoronAnim_004930);
-    Math_SmoothStepToF(&this->skelAnime.playSpeed, PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f, 0.1f, 1000.0f,
-                       0.1f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f,
+                       0.1f, 1000.0f, 0.1f);
 
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
@@ -856,7 +862,8 @@ void func_80A405CC(EnGo* this, PlayState* play) {
 }
 
 void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
-    if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) && (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
+    if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90) &&
+        (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
         if (gSaveContext.save.info.playerData.bgsFlag) {
             this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         } else {
@@ -875,7 +882,8 @@ void EnGo_BiggoronActionFunc(EnGo* this, PlayState* play) {
                 EnGo_GetItem(this, play);
             }
         }
-    } else if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0) && (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
+    } else if ((PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0) &&
+               (this->interactInfo.talkState == NPC_TALK_STATE_ACTION)) {
         EnGo_SetupAction(this, EnGo_GetItem);
         play->msgCtx.stateTimer = 4;
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -893,8 +901,9 @@ void func_80A408D8(EnGo* this, PlayState* play) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
-        Math_SmoothStepToF(&this->skelAnime.playSpeed, (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * -1.0f,
-                           0.1f, 1000.0f, 0.1f);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed,
+                           (PARAMS_GET_NOSHIFT(this->actor.params, 4, 4) == 0x90 ? 0.5f : 1.0f) * -1.0f, 0.1f, 1000.0f,
+                           0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
         if (frame >= 12.0f) {

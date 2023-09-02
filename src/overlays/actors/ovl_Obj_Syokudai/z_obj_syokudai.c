@@ -99,7 +99,8 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
                             this->actor.world.pos.z, 255, 255, 180, -1);
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
 
-    if (PARAMS_GET_NOSHIFT(this->actor.params, 10, 1) || ((torchType != 2) && Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 6)))) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 10, 1) ||
+        ((torchType != 2) && Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 6)))) {
         this->litTimer = -1;
     }
 

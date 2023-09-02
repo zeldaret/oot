@@ -280,7 +280,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
     rotY = !PARAMS_GET(this->dyna.actor.params, 0, 2) ? (this->dyna.actor.shape.rot.y + 0x4000)
-                                          : (this->dyna.actor.shape.rot.y - 0x4000);
+                                                      : (this->dyna.actor.shape.rot.y - 0x4000);
     Matrix_RotateY(BINANG_TO_RAD(rotY), MTXMODE_APPLY);
     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
 
@@ -399,7 +399,8 @@ void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
 
     BgJyaCobra_InitDynapoly(this, play, &gCobraCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (!PARAMS_GET(this->dyna.actor.params, 0, 2) && Flags_GetSwitch(play, PARAMS_GET((s32)this->dyna.actor.params, 8, 6))) {
+    if (!PARAMS_GET(this->dyna.actor.params, 0, 2) &&
+        Flags_GetSwitch(play, PARAMS_GET((s32)this->dyna.actor.params, 8, 6))) {
         this->dyna.actor.world.rot.y = this->dyna.actor.home.rot.y = this->dyna.actor.shape.rot.y = 0;
     }
 

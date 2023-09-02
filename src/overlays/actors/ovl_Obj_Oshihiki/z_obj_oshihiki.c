@@ -182,7 +182,7 @@ s32 ObjOshihiki_NoSwitchPress(ObjOshihiki* this, DynaPolyActor* dyna, PlayState*
     } else if (dyna->actor.id == ACTOR_OBJ_SWITCH) {
         dynaSwitchFlag = PARAMS_GET(dyna->actor.params, 8, 6);
         switch (dyna->actor.params & 0x33) { // Does not fit any standard params getter macro
-            case 0x20: // Normal blue switch
+            case 0x20:                       // Normal blue switch
                 if ((dynaSwitchFlag == PARAMS_GET(this->dyna.actor.params, 8, 6)) &&
                     Flags_GetSwitch(play, dynaSwitchFlag)) {
                     return 0;

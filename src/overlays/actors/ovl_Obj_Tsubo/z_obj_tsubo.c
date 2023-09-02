@@ -183,7 +183,8 @@ void ObjTsubo_AirBreak(ObjTsubo* this, PlayState* play) {
         }
         EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, -240, arg5, 10, 10, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
-                             sObjectIds[PARAMS_GET(this->actor.params, 8, 1)], D_80BA1B8C[PARAMS_GET(this->actor.params, 8, 1)]);
+                             sObjectIds[PARAMS_GET(this->actor.params, 8, 1)],
+                             D_80BA1B8C[PARAMS_GET(this->actor.params, 8, 1)]);
     }
     func_80033480(play, &this->actor.world.pos, 30.0f, 4, 20, 50, 1);
 }
@@ -212,7 +213,8 @@ void ObjTsubo_WaterBreak(ObjTsubo* this, PlayState* play) {
         phi_s0 = (Rand_ZeroOne() < .2f) ? 64 : 32;
         EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, -180, phi_s0, 30, 30, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
-                             sObjectIds[PARAMS_GET(this->actor.params, 8, 1)], D_80BA1B8C[PARAMS_GET(this->actor.params, 8, 1)]);
+                             sObjectIds[PARAMS_GET(this->actor.params, 8, 1)],
+                             D_80BA1B8C[PARAMS_GET(this->actor.params, 8, 1)]);
     }
 }
 

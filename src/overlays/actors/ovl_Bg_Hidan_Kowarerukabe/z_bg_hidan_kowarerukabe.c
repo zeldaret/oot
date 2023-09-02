@@ -101,7 +101,8 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, PlayState
 void BgHidanKowarerukabe_OffsetActorYPos(BgHidanKowarerukabe* this) {
     static f32 actorYPosOffsets[] = { 0.7f, 0.0f, 0.0f };
 
-    this->dyna.actor.world.pos.y = actorYPosOffsets[PARAMS_GET(this->dyna.actor.params, 0, 8)] + this->dyna.actor.home.pos.y;
+    this->dyna.actor.world.pos.y =
+        actorYPosOffsets[PARAMS_GET(this->dyna.actor.params, 0, 8)] + this->dyna.actor.home.pos.y;
 }
 
 static InitChainEntry sInitChain[] = {

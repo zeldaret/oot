@@ -477,8 +477,9 @@ void EnDog_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetEnvColor(POLY_OPA_DISP++, colors[PARAMS_GET2(this->actor.params, 0, 4)].r, colors[PARAMS_GET2(this->actor.params, 0, 4)].g,
-                   colors[PARAMS_GET2(this->actor.params, 0, 4)].b, colors[PARAMS_GET2(this->actor.params, 0, 4)].a);
+    gDPSetEnvColor(POLY_OPA_DISP++, colors[PARAMS_GET2(this->actor.params, 0, 4)].r,
+                   colors[PARAMS_GET2(this->actor.params, 0, 4)].g, colors[PARAMS_GET2(this->actor.params, 0, 4)].b,
+                   colors[PARAMS_GET2(this->actor.params, 0, 4)].a);
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, this);

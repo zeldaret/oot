@@ -437,8 +437,8 @@ void func_80B0CEA8(EnSw* this, PlayState* play) {
         Camera* activeCam = GET_ACTIVE_CAM(play);
 
         if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &activeCam->eye) >= 380.0f)) {
-            Actor_PlaySfx(&this->actor,
-                          (PARAMS_GET2(this->actor.params, 13, 3) > 0) ? NA_SE_EN_STALGOLD_ROLL : NA_SE_EN_STALWALL_ROLL);
+            Actor_PlaySfx(&this->actor, (PARAMS_GET2(this->actor.params, 13, 3) > 0) ? NA_SE_EN_STALGOLD_ROLL
+                                                                                     : NA_SE_EN_STALWALL_ROLL);
         }
     }
 }
