@@ -4,6 +4,8 @@ s32 D_8012CED0 = 0;
 
 s32 sShrinkWindowVal = 0;
 s32 sShrinkWindowCurrentVal = 0;
+s32 sShrinkWindowPreviousVal = 0;
+s32 sShrinkWindowOffset = 0;
 
 void ShrinkWindow_SetVal(s32 value) {
     if (HREG(80) == 0x13 && HREG(81) == 1) {
@@ -47,9 +49,13 @@ void ShrinkWindow_Update(s32 updateRate) {
     s32 off;
 
     if (updateRate == 3) {
-        off = 10;
+        if (sShrinkWindowVal == 0x20) {
+            sShrinkWindowOffset = 3;
+        } else if (sShrinkWindowPreviousVal != 0x20) {
+            sShrinkWindowOffset = 10;
+        }
     } else {
-        off = 30 / updateRate;
+        sShrinkWindowOffset = 30 / updateRate;
     }
 
     if (sShrinkWindowCurrentVal < sShrinkWindowVal) {
@@ -57,8 +63,11 @@ void ShrinkWindow_Update(s32 updateRate) {
             D_8012CED0 = 1;
         }
 
-        if (sShrinkWindowCurrentVal + off < sShrinkWindowVal) {
-            sShrinkWindowCurrentVal += off;
+        if ((sShrinkWindowCurrentVal == sShrinkWindowOffset) && (sShrinkWindowVal == 0x1B)) {
+        }
+
+        if (sShrinkWindowCurrentVal + sShrinkWindowOffset < sShrinkWindowVal) {
+            sShrinkWindowCurrentVal += sShrinkWindowOffset;
         } else {
             sShrinkWindowCurrentVal = sShrinkWindowVal;
         }
@@ -67,10 +76,11 @@ void ShrinkWindow_Update(s32 updateRate) {
             D_8012CED0 = 2;
         }
 
-        if (sShrinkWindowVal < sShrinkWindowCurrentVal - off) {
-            sShrinkWindowCurrentVal -= off;
+        if (sShrinkWindowVal < sShrinkWindowCurrentVal - sShrinkWindowOffset) {
+            sShrinkWindowCurrentVal -= sShrinkWindowOffset;
         } else {
             sShrinkWindowCurrentVal = sShrinkWindowVal;
+            sShrinkWindowPreviousVal = 0;
         }
     } else {
         D_8012CED0 = 0;
@@ -92,6 +102,6 @@ void ShrinkWindow_Update(s32 updateRate) {
         HREG(83) = D_8012CED0;
         HREG(84) = sShrinkWindowCurrentVal;
         HREG(85) = sShrinkWindowVal;
-        HREG(86) = off;
+        HREG(86) = sShrinkWindowOffset;
     }
 }
