@@ -69,11 +69,16 @@ void ShrinkWindow_Update(s32 updateRate) {
         if (sShrinkWindowCurrentVal + sShrinkWindowOffset < sShrinkWindowVal) {
             sShrinkWindowCurrentVal += sShrinkWindowOffset;
         } else {
-            sShrinkWindowCurrentVal = sShrinkWindowVal;
+            sShrinkWindowPreviousVal = sShrinkWindowCurrentVal = sShrinkWindowVal;
         }
     } else if (sShrinkWindowVal < sShrinkWindowCurrentVal) {
         if (D_8012CED0 != 2) {
             D_8012CED0 = 2;
+        }
+
+        if ((sShrinkWindowCurrentVal == sShrinkWindowPreviousVal - sShrinkWindowOffset) &&
+            (sShrinkWindowPreviousVal != 0x20)) {
+            func_80078884(NA_SE_SY_DUMMY_13);
         }
 
         if (sShrinkWindowVal < sShrinkWindowCurrentVal - sShrinkWindowOffset) {
