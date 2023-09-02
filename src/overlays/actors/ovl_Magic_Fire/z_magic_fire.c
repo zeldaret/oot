@@ -30,7 +30,7 @@ typedef enum {
     /* 0x04 */ DF_SCREEN_TINT_FINISHED
 } MagicFireScreenTint;
 
-const ActorInit Magic_Fire_InitVars = {
+ActorInit Magic_Fire_InitVars = {
     ACTOR_MAGIC_FIRE,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -111,7 +111,7 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play) {
         this->actionTimer--;
     } else {
         this->actor.update = MagicFire_Update;
-        func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_FIRE);
+        Player_PlaySfx(player, NA_SE_PL_MAGIC_FIRE);
     }
     this->actor.world.pos = player->actor.world.pos;
 }

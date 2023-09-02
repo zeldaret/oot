@@ -1,7 +1,7 @@
 #include "global.h"
 #include "ultra64/internal.h"
 
-OSMgrArgs __osPiDevMgr = { 0 };
+OSDevMgr __osPiDevMgr = { 0 };
 
 OSPiHandle __Dom1SpeedParam;
 OSPiHandle __Dom2SpeedParam;
@@ -22,7 +22,7 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQueue, OSMesg* cmdBuf, s32 cmd
     OSPri newPri;
     OSPri currentPri;
 
-    if (!__osPiDevMgr.initialized) {
+    if (!__osPiDevMgr.active) {
         osCreateMesgQueue(cmdQueue, cmdBuf, cmdMsgCnt);
         osCreateMesgQueue(&piEventQueue, piEventBuf, 1);
         if (!__osPiAccessQueueEnabled) {
@@ -38,13 +38,13 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQueue, OSMesg* cmdBuf, s32 cmd
         }
         prevInt = __osDisableInt();
 
-        __osPiDevMgr.initialized = true;
+        __osPiDevMgr.active = true;
         __osPiDevMgr.cmdQueue = cmdQueue;
-        __osPiDevMgr.mgrThread = &piThread;
-        __osPiDevMgr.eventQueue = &piEventQueue;
-        __osPiDevMgr.acccessQueue = &__osPiAccessQueue;
-        __osPiDevMgr.piDmaCallback = __osPiRawStartDma;
-        __osPiDevMgr.epiDmaCallback = __osEPiRawStartDma;
+        __osPiDevMgr.thread = &piThread;
+        __osPiDevMgr.evtQueue = &piEventQueue;
+        __osPiDevMgr.acsQueue = &__osPiAccessQueue;
+        __osPiDevMgr.dma = __osPiRawStartDma;
+        __osPiDevMgr.edma = __osEPiRawStartDma;
 
         osCreateThread(&piThread, 0, __osDevMgrMain, (void*)&__osPiDevMgr, STACK_TOP(piStackThread), pri);
         osStartThread(&piThread);

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wonder_item.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS 0
 
@@ -41,7 +41,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 30, 0, { 0, 0, 0 } },
 };
 
-const ActorInit En_Wonder_Item_InitVars = {
+ActorInit En_Wonder_Item_InitVars = {
     ACTOR_EN_WONDER_ITEM,
     ACTORCAT_PROP,
     FLAGS,
@@ -74,7 +74,7 @@ void EnWonderItem_DropCollectible(EnWonderItem* this, PlayState* play, s32 autoC
     s32 i;
     s32 randomDrop;
 
-    func_80078884(NA_SE_SY_GET_ITEM);
+    Sfx_PlaySfxCentered(NA_SE_SY_GET_ITEM);
 
     if (this->dropCount == 0) {
         this->dropCount++;

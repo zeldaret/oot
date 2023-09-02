@@ -6,6 +6,7 @@ import os
 import signal
 import time
 import multiprocessing
+from pathlib import Path
 
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
@@ -21,7 +22,13 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
         # Don't extract if another file wasn't extracted properly.
         return
 
-    execStr = f"tools/ZAPD/ZAPD.out e -eh -i {xmlPath} -b baserom/ -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml {ZAPDArgs}"
+    zapdPath = Path("tools") / "ZAPD" / "ZAPD.out"
+    configPath = Path("tools") / "ZAPDConfigs" / "MqDbg" / "Config.xml"
+
+    Path(outputPath).mkdir(parents=True, exist_ok=True)
+    Path(outputSourcePath).mkdir(parents=True, exist_ok=True)
+
+    execStr = f"{zapdPath} e -eh -i {xmlPath} -b baserom -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf {configPath} {ZAPDArgs}"
 
     if "overlays" in xmlPath:
         execStr += " --static"
@@ -89,7 +96,7 @@ def processZAPDArgs(argsZ):
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
     parser.add_argument("-s", "--single", help="asset path relative to assets/, e.g. objects/gameplay_keep")
-    parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones.", action="store_true")
+    parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones, and text (overwriting current files).", action="store_true")
     parser.add_argument("-j", "--jobs", help="Number of cpu cores to extract with.")
     parser.add_argument("-u", "--unaccounted", help="Enables ZAPD unaccounted detector warning system.", action="store_true")
     parser.add_argument("-Z", help="Pass the argument on to ZAPD, e.g. `-ZWunaccounted` to warn about unaccounted blocks in XMLs. Each argument should be passed separately, *without* the leading dash.", metavar="ZAPD_ARG", action="append")
@@ -122,13 +129,16 @@ def main():
         ExtractFunc(fullPath)
     else:
         extract_text_path = "assets/text/message_data.h"
-        if os.path.isfile(extract_text_path):
-            extract_text_path = None
         extract_staff_text_path = "assets/text/message_data_staff.h"
-        if os.path.isfile(extract_staff_text_path):
-            extract_staff_text_path = None
+
         # Only extract text if the header does not already exist, or if --force was passed
-        if args.force or extract_text_path is not None or extract_staff_text_path is not None:
+        if not args.force:
+            if os.path.isfile(extract_text_path):
+                extract_text_path = None
+            if os.path.isfile(extract_staff_text_path):
+                extract_staff_text_path = None
+
+        if extract_text_path is not None or extract_staff_text_path is not None:
             print("Extracting text")
             from tools import msgdis
             msgdis.extract_all_text(extract_text_path, extract_staff_text_path)
@@ -140,14 +150,21 @@ def main():
                 if file.endswith(".xml"):
                     xmlFiles.append(fullPath)
 
+        class CannotMultiprocessError(Exception):
+            pass
+
         try:
             numCores = int(args.jobs or 0)
             if numCores <= 0:
                 numCores = 1
             print("Extracting assets with " + str(numCores) + " CPU core" + ("s" if numCores > 1 else "") + ".")
-            with multiprocessing.get_context("fork").Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+            try:
+                mp_context = multiprocessing.get_context("fork")
+            except ValueError as e:
+                raise CannotMultiprocessError() from e
+            with mp_context.Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
                 p.map(ExtractFunc, xmlFiles)
-        except (multiprocessing.ProcessError, TypeError):
+        except (multiprocessing.ProcessError, TypeError, CannotMultiprocessError):
             print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
             print("Disabling mutliprocessing.", file=os.sys.stderr)
 

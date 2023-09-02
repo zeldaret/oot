@@ -28,7 +28,7 @@ void EnJj_WaitForFish(EnJj* this, PlayState* play);
 void EnJj_BeginCutscene(EnJj* this, PlayState* play);
 void EnJj_RemoveDust(EnJj* this, PlayState* play);
 
-const ActorInit En_Jj_InitVars = {
+ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -43,7 +43,7 @@ const ActorInit En_Jj_InitVars = {
 static s32 sUnused = 0;
 
 #pragma asmproc recurse
-#include "z_en_jj_cutscene_data.c"
+#include "z_en_jj_cutscene_data.inc.c"
 
 static s32 sUnused2[] = { 0, 0 };
 
@@ -215,17 +215,17 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         this->cutsceneCountdownTimer--;
     } else {
         EnJj_SetupAction(this, EnJj_RemoveDust);
-        play->csCtx.segment = &D_80A88164;
+        play->csCtx.script = D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         func_8005B1A4(GET_ACTIVE_CAM(play));
         SET_EVENTCHKINF(EVENTCHKINF_3A);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 }
 
 void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
-    switch (play->csCtx.npcActions[2]->action) {
+    switch (play->csCtx.actorCues[2]->id) {
         case 1:
             if (this->unk_30A & 2) {
                 this->eyeIndex = 0;
@@ -258,7 +258,7 @@ void EnJj_CutsceneUpdate(EnJj* this, PlayState* play) {
     }
 
     if (this->unk_30A & 1) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
 
         if (this->mouthOpenAngle >= -5200) {
             this->mouthOpenAngle -= 102;
@@ -286,13 +286,13 @@ void EnJj_UpdateStaticCollision(Actor* thisx, PlayState* play) {
 void EnJj_Update(Actor* thisx, PlayState* play) {
     EnJj* this = (EnJj*)thisx;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL)) {
         EnJj_CutsceneUpdate(this, play);
     } else {
         this->actionFunc(this, play);
 
         if (this->skelAnime.curFrame == 41.0f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
 

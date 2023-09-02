@@ -23,10 +23,18 @@ void Lib_MemSet(u8* dest, size_t len, u8 val) {
     // clang-format on
 }
 
+/**
+ * @param angle binang
+ * @return cos(angle)
+ */
 f32 Math_CosS(s16 angle) {
     return coss(angle) * SHT_MINV;
 }
 
+/**
+ * @param angle binang
+ * @return sin(angle)
+ */
 f32 Math_SinS(s16 angle) {
     return sins(angle) * SHT_MINV;
 }
@@ -582,16 +590,26 @@ void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src) {
     dst->a = src->a;
 }
 
-void func_80078884(u16 sfxId) {
+/**
+ * Play a sound effect at the center of the screen.
+ */
+void Sfx_PlaySfxCentered(u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
 }
 
-void func_800788CC(u16 sfxId) {
+/**
+ * Play a sound effect at the center of the screen. Identical to `Sfx_PlaySfxCentered`.
+ */
+void Sfx_PlaySfxCentered2(u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
 }
 
-void func_80078914(Vec3f* arg0, u16 sfxId) {
-    Audio_PlaySfxGeneral(sfxId, arg0, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+/**
+ * Play a sound effect at the requested position.
+ */
+void Sfx_PlaySfxAtPos(Vec3f* projectedPos, u16 sfxId) {
+    Audio_PlaySfxGeneral(sfxId, projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultReverb);
 }

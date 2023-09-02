@@ -16,7 +16,7 @@ void EnLight_Update(Actor* thisx, PlayState* play);
 void EnLight_Draw(Actor* thisx, PlayState* play);
 void EnLight_UpdateSwitch(Actor* thisx, PlayState* play);
 
-const ActorInit En_Light_InitVars = {
+ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -101,7 +101,7 @@ void EnLight_Update(Actor* thisx, PlayState* play) {
     EnLight_UpdatePosRot(this, play);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 
@@ -144,7 +144,7 @@ void EnLight_UpdateSwitch(Actor* thisx, PlayState* play) {
     EnLight_UpdatePosRot(this, play);
 
     if (this->actor.params >= 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
 }
 

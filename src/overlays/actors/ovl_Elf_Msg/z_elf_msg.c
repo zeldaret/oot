@@ -5,7 +5,7 @@
  */
 
 #include "z_elf_msg.h"
-#include "vt.h"
+#include "terminal.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS ACTOR_FLAG_4
@@ -18,7 +18,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play);
 void ElfMsg_CallNaviCuboid(ElfMsg* this, PlayState* play);
 void ElfMsg_CallNaviCylinder(ElfMsg* this, PlayState* play);
 
-const ActorInit Elf_Msg_InitVars = {
+ActorInit Elf_Msg_InitVars = {
     ACTOR_ELF_MSG,
     ACTORCAT_ITEMACTION,
     FLAGS,

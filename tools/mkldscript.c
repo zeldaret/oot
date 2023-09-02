@@ -9,13 +9,13 @@
 #include "spec.h"
 #include "util.h"
 
-// Note: *SECTION ALIGNMENT* Object files built with a compiler such as GCC can, by default, use narrower 
+// Note: *SECTION ALIGNMENT* Object files built with a compiler such as GCC can, by default, use narrower
 // alignment for sections size, compared to IDO padding sections to a 0x10-aligned size.
-// To properly generate relocations relative to section starts, sections currently need to be aligned 
-// explicitly (to 0x10 currently, a narrower alignment might work), otherwise the linker does implicit alignment 
-// and inserts padding between the address indicated by section start symbols (such as *SegmentRoDataStart) and 
+// To properly generate relocations relative to section starts, sections currently need to be aligned
+// explicitly (to 0x10 currently, a narrower alignment might work), otherwise the linker does implicit alignment
+// and inserts padding between the address indicated by section start symbols (such as *SegmentRoDataStart) and
 // the actual aligned start of the section.
-// With IDO, the padding of sections to an aligned size makes the section start at aligned addresses out of the box, 
+// With IDO, the padding of sections to an aligned size makes the section start at aligned addresses out of the box,
 // so the explicit alignment has no further effect.
 
 struct Segment *g_segments;
@@ -219,7 +219,8 @@ static void write_ld_script(FILE *fout)
 
     // Debugging sections
     fputs(
-        // mdebug debug sections
+        // mdebug sections
+          "    .pdr              : { *(.pdr) }"                                             "\n"
           "    .mdebug           : { *(.mdebug) }"                                          "\n"
           "    .mdebug.abi32     : { *(.mdebug.abi32) }"                                    "\n"
         // DWARF debug sections
@@ -249,8 +250,16 @@ static void write_ld_script(FILE *fout)
         // DWARF 3
           "    .debug_pubtypes 0 : { *(.debug_pubtypes) }"                                  "\n"
           "    .debug_ranges   0 : { *(.debug_ranges) }"                                    "\n"
-        // DWARF Extension
+        // DWARF 5
+          "    .debug_addr     0 : { *(.debug_addr) }"                                      "\n"
+          "    .debug_line_str 0 : { *(.debug_line_str) }"                                  "\n"
+          "    .debug_loclists 0 : { *(.debug_loclists) }"                                  "\n"
           "    .debug_macro    0 : { *(.debug_macro) }"                                     "\n"
+          "    .debug_names    0 : { *(.debug_names) }"                                     "\n"
+          "    .debug_rnglists 0 : { *(.debug_rnglists) }"                                  "\n"
+          "    .debug_str_offsets 0 : { *(.debug_str_offsets) }"                            "\n"
+          "    .debug_sup      0 : { *(.debug_sup) }\n"
+        // gnu attributes
           "    .gnu.attributes 0 : { KEEP (*(.gnu.attributes)) }"                           "\n", fout);
 
     // Discard all other sections not mentioned above

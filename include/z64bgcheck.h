@@ -1,15 +1,12 @@
-#ifndef Z_BGCHECK_H
-#define Z_BGCHECK_H
+#ifndef Z64BGCHECK_H
+#define Z64BGCHECK_H
+
+#include "ultra64/ultratypes.h"
+#include "z64math.h"
 
 struct PlayState;
 struct Actor;
 struct DynaPolyActor;
-
-#define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
-#define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
-#define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
-#define COLPOLY_VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags)&7) << 13))
-#define COLPOLY_VTX_INDEX(vI) ((vI)&0x1FFF)
 
 #define DYNAPOLY_INVALIDATE_LOOKUP (1 << 0)
 
@@ -26,13 +23,31 @@ struct DynaPolyActor;
 #define FUNC_80041EA4_STOP 8
 #define FUNC_80041EA4_VOID_OUT 12
 
-#define WATERBOX_ROOM(p) ((p >> 13) & 0x3F)
-
 typedef struct {
-    Vec3f scale;
-    Vec3s rot;
-    Vec3f pos;
-} ScaleRotPos;
+    /* 0x00 */ Vec3f scale;
+    /* 0x0C */ Vec3s rot;
+    /* 0x14 */ Vec3f pos;
+} ScaleRotPos; // size = 0x20
+
+// Macros for `CollisionPoly`
+
+#define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
+#define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
+#define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
+#define COLPOLY_VTX_CHECK_FLAGS_ANY(vI, flags) ((vI) & (((flags) & 7) << 13))
+#define COLPOLY_VTX_FLAGS_MASKED(vI) ((vI) & 0xE000)
+#define COLPOLY_VTX_INDEX(vI) ((vI) & 0x1FFF)
+#define COLPOLY_VTX(vtxId, flags) ((((flags) & 7) << 13) | ((vtxId) & 0x1FFF))
+
+// flags for flags_vIA
+// poly exclusion flags (xpFlags)
+#define COLPOLY_IGNORE_NONE 0
+#define COLPOLY_IGNORE_CAMERA (1 << 0)
+#define COLPOLY_IGNORE_ENTITY (1 << 1)
+#define COLPOLY_IGNORE_PROJECTILES (1 << 2)
+
+// flags for flags_vIB
+#define COLPOLY_IS_FLOOR_CONVEYOR (1 << 0)
 
 typedef struct {
     /* 0x00 */ u16 type;
@@ -41,7 +56,7 @@ typedef struct {
         struct {
             /* 0x02 */ u16 flags_vIA; // 0xE000 is poly exclusion flags (xpFlags), 0x1FFF is vtxId
             /* 0x04 */ u16 flags_vIB; // 0xE000 is flags, 0x1FFF is vtxId
-                                      // 0x2000 = poly IsConveyor surface
+                                      // 0x2000 = poly IsFloorConveyor surface
             /* 0x06 */ u16 vIC;
         };
     };
@@ -57,7 +72,9 @@ typedef struct {
     /* 0x4 */ Vec3s* bgCamFuncData; // s16 data grouped in threes (ex. Vec3s), is usually of type `BgCamFuncData`, but can be a list of points of type `Vec3s` for crawlspaces
 } BgCamInfo; // size = 0x8
 
-typedef BgCamInfo CamData; // Todo: Zapd compatibility
+// ZAPD compatibility typedefs
+// TODO: Remove when ZAPD adds support for them
+typedef BgCamInfo CamData;
 
 // The structure used for all instances of s16 data from `BgCamInfo` with the exception of crawlspaces.
 // See `Camera_Subj4` for Vec3s data usage in crawlspaces
@@ -66,12 +83,27 @@ typedef struct {
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
     /* 0x0E */ union {
-        s16 jfifId;
+        s16 roomImageOverrideBgCamIndex;
         s16 timer;
         s16 flags;
     };
     /* 0x10 */ s16 unk_10; // unused
 } BgCamFuncData; // size = 0x12
+
+// Macros for `WaterBox.properties`
+
+#define WATERBOX_LIGHT_INDEX_NONE 0x1F // warns and defaults to 0
+
+#define WATERBOX_ROOM(properties) (((properties) >> 13) & 0x3F)
+#define WATERBOX_ROOM_ALL 0x3F // value for "room index" indicating "all rooms"
+
+#define WATERBOX_FLAG_19 (1 << 19)
+
+#define WATERBOX_PROPERTIES(bgCamIndex, lightIndex, room, setFlag19) \
+    ((((bgCamIndex) & 0xFF) <<  0) | \
+     (((lightIndex) & 0x1F) <<  8) | \
+     (((room)       & 0x3F) << 13) | \
+     (((setFlag19)  &    1) << 19))
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -80,11 +112,6 @@ typedef struct {
     /* 0x06 */ s16 xLength;
     /* 0x08 */ s16 zLength;
     /* 0x0C */ u32 properties;
-
-    // 0x0008_0000 = ?
-    // 0x0007_E000 = Room Index, 0x3F = all rooms
-    // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = BgCam Index
 } WaterBox; // size = 0x10
 
 typedef enum {
@@ -124,9 +151,10 @@ typedef enum {
 #define WALL_FLAG_1 (1 << 1)
 #define WALL_FLAG_2 (1 << 2)
 #define WALL_FLAG_3 (1 << 3)
-#define WALL_FLAG_4 (1 << 4)
-#define WALL_FLAG_5 (1 << 5)
+#define WALL_FLAG_CRAWLSPACE_1 (1 << 4)
+#define WALL_FLAG_CRAWLSPACE_2 (1 << 5)
 #define WALL_FLAG_6 (1 << 6)
+#define WALL_FLAG_CRAWLSPACE (WALL_FLAG_CRAWLSPACE_1 | WALL_FLAG_CRAWLSPACE_2)
 
 typedef enum {
     /*  0 */ FLOOR_PROPERTY_0,
@@ -140,22 +168,41 @@ typedef enum {
 } FloorProperty;
 
 typedef enum {
-    /*  0 */ SURFACE_SFX_TYPE_0,
-    /*  1 */ SURFACE_SFX_TYPE_1,
-    /*  2 */ SURFACE_SFX_TYPE_2,
-    /*  3 */ SURFACE_SFX_TYPE_3,
-    /*  4 */ SURFACE_SFX_TYPE_4,
-    /*  5 */ SURFACE_SFX_TYPE_5,
-    /*  6 */ SURFACE_SFX_TYPE_6,
-    /*  7 */ SURFACE_SFX_TYPE_7,
-    /*  8 */ SURFACE_SFX_TYPE_8,
-    /*  9 */ SURFACE_SFX_TYPE_9,
-    /* 10 */ SURFACE_SFX_TYPE_10,
-    /* 11 */ SURFACE_SFX_TYPE_11,
-    /* 12 */ SURFACE_SFX_TYPE_12,
-    /* 13 */ SURFACE_SFX_TYPE_13,
-    /* 14 */ SURFACE_SFX_TYPE_MAX
-} SurfaceSfxType;
+    /*  0 */ SURFACE_SFX_OFFSET_DIRT,
+    /*  1 */ SURFACE_SFX_OFFSET_SAND,
+    /*  2 */ SURFACE_SFX_OFFSET_STONE,
+    /*  3 */ SURFACE_SFX_OFFSET_JABU,
+    /*  4 */ SURFACE_SFX_OFFSET_WATER_SHALLOW,
+    /*  5 */ SURFACE_SFX_OFFSET_WATER_DEEP,
+    /*  6 */ SURFACE_SFX_OFFSET_TALL_GRASS,
+    /*  7 */ SURFACE_SFX_OFFSET_LAVA, // MAGMA?
+    /*  8 */ SURFACE_SFX_OFFSET_GRASS,
+    /*  9 */ SURFACE_SFX_OFFSET_CARPET,
+    /* 10 */ SURFACE_SFX_OFFSET_WOOD,
+    /* 11 */ SURFACE_SFX_OFFSET_BRIDGE, // WOOD_PLANK?
+    /* 12 */ SURFACE_SFX_OFFSET_VINE,
+    /* 13 */ SURFACE_SFX_OFFSET_IRON_BOOTS,
+    /* 14 */ SURFACE_SFX_OFFSET_UNUSED,
+    /* 15 */ SURFACE_SFX_OFFSET_ICE
+} SurfaceSfxOffset;
+
+typedef enum {
+    /*  0 */ SURFACE_MATERIAL_DIRT,
+    /*  1 */ SURFACE_MATERIAL_SAND,
+    /*  2 */ SURFACE_MATERIAL_STONE,
+    /*  3 */ SURFACE_MATERIAL_JABU,
+    /*  4 */ SURFACE_MATERIAL_WATER_SHALLOW,
+    /*  5 */ SURFACE_MATERIAL_WATER_DEEP,
+    /*  6 */ SURFACE_MATERIAL_TALL_GRASS,
+    /*  7 */ SURFACE_MATERIAL_LAVA, // MAGMA?
+    /*  8 */ SURFACE_MATERIAL_GRASS,
+    /*  9 */ SURFACE_MATERIAL_BRIDGE, // WOOD_PLANK?
+    /* 10 */ SURFACE_MATERIAL_WOOD,
+    /* 11 */ SURFACE_MATERIAL_DIRT_SOFT,
+    /* 12 */ SURFACE_MATERIAL_ICE,
+    /* 13 */ SURFACE_MATERIAL_CARPET,
+    /* 14 */ SURFACE_MATERIAL_MAX
+} SurfaceMaterial;
 
 typedef enum {
     /*  0 */ FLOOR_EFFECT_0,
@@ -172,6 +219,27 @@ typedef enum {
 } ConveyorSpeed;
 
 #define CONVEYOR_DIRECTION_TO_BINANG(conveyorDirection) ((conveyorDirection) * (0x10000 / 64))
+#define CONVEYOR_DIRECTION_FROM_BINANG(conveyorDirectionBinang) ((conveyorDirectionBinang) * (64 / 0x10000))
+
+#define SURFACETYPE0(bgCamIndex, exitIndex, floorType, unk18, wallType, floorProperty, isSoft, isHorseBlocked) \
+    ((((bgCamIndex)     & 0xFF) <<  0) | \
+     (((exitIndex)      & 0x1F) <<  8) | \
+     (((floorType)      & 0x1F) << 13) | \
+     (((unk18)          & 0x07) << 18) | \
+     (((wallType)       & 0x1F) << 21) | \
+     (((floorProperty)  & 0x0F) << 26) | \
+     (((isSoft)         &    1) << 30) | \
+     (((isHorseBlocked) &    1) << 31))
+
+#define SURFACETYPE1(material, floorEffect, lightSetting, echo, canHookshot, conveyorSpeed, conveyorDirection, unk27) \
+    ((((material)          & 0x0F) <<  0) | \
+     (((floorEffect)       & 0x03) <<  4) | \
+     (((lightSetting)      & 0x1F) <<  6) | \
+     (((echo)              & 0x3F) << 11) | \
+     (((canHookshot)       &    1) << 17) | \
+     (((conveyorSpeed)     & 0x07) << 18) | \
+     (((conveyorDirection) & 0x3F) << 21) | \
+     (((unk27)             &    1) << 27))
 
 typedef struct {
     u32 data[2];
@@ -277,11 +345,11 @@ typedef struct {
     /* 0x14 */ Vec3f* pos;
     /* 0x18 */ s32* bgId;
     /* 0x1C */ struct Actor* actor;
-    /* 0x20 */ u32 unk_20;
+    /* 0x20 */ u32 downChkFlags;
     /* 0x24 */ f32 chkDist;
     /* 0x28 */ DynaCollisionContext* dyna;
     /* 0x2C */ SSList* ssList;
-} DynaRaycast;
+} DynaRaycastDown;
 
 typedef struct {
     /* 0x00 */ struct CollisionContext* colCtx;

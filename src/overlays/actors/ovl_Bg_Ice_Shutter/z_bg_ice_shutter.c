@@ -18,7 +18,7 @@ void func_80891CF4(BgIceShutter* this, PlayState* play);
 void func_80891D6C(BgIceShutter* this, PlayState* play);
 void func_80891DD4(BgIceShutter* this, PlayState* play);
 
-const ActorInit Bg_Ice_Shutter_InitVars = {
+ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
     ACTORCAT_PROP,
     FLAGS,
@@ -53,7 +53,7 @@ void BgIceShutter_Init(Actor* thisx, PlayState* play) {
 
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     sp28 = PARAMS_GET(this->dyna.actor.params, 0, 8);
     this->dyna.actor.params = PARAMS_GET(this->dyna.actor.params, 8, 8);
     CollisionHeader_GetVirtual(&object_ice_objects_Col_002854, &colHeader);
@@ -114,8 +114,8 @@ void func_80891D6C(BgIceShutter* this, PlayState* play) {
 }
 
 void func_80891DD4(BgIceShutter* this, PlayState* play) {
-    Math_StepToF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
-    if (Math_StepToF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speedXZ)) {
+    Math_StepToF(&this->dyna.actor.speed, 30.0f, 2.0f);
+    if (Math_StepToF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speed)) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

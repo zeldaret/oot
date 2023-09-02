@@ -25,7 +25,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, PlayState* play);
 
-const ActorInit Obj_Timeblock_InitVars = {
+ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORCAT_ITEMACTION,
     FLAGS,
@@ -72,9 +72,9 @@ u32 ObjTimeblock_CalculateIsVisible(ObjTimeblock* this) {
             if (this->unk_177 == 1) {
                 return this->unk_174 ^ temp;
             } else {
-                u8 linkIsYoung = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
+                u8 linkIsChild = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
 
-                return this->unk_174 ^ temp ^ linkIsYoung;
+                return this->unk_174 ^ temp ^ linkIsChild;
             }
         }
     } else {
@@ -101,7 +101,7 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
 
     CollisionHeader_GetVirtual(&gSongOfTimeBlockCol, &colHeader);
@@ -171,7 +171,7 @@ s32 ObjTimeblock_WaitForOcarina(ObjTimeblock* this, PlayState* play) {
 
     if (ObjTimeblock_PlayerIsInRange(this, play)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
-            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
+            Message_StartOcarina(play, OCARINA_ACTION_FREE_PLAY);
             this->songObserverFunc = ObjTimeblock_WaitForSong;
         } else {
             player->stateFlags2 |= PLAYER_STATE2_23;
@@ -248,7 +248,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play) {
     this->isVisible = newIsVisible;
 
     if (this->demoEffectTimer == 50) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
 }
 
@@ -283,7 +283,7 @@ void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play) {
     func_80BA06AC(this, play);
 
     if (this->demoEffectTimer == 50) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
 
     if (!this->isVisible && this->demoEffectTimer <= 0) {

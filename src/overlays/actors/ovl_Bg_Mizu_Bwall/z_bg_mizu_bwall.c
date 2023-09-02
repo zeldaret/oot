@@ -19,7 +19,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_Break(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_DoNothing(BgMizuBwall* this, PlayState* play);
 
-const ActorInit Bg_Mizu_Bwall_InitVars = {
+ActorInit Bg_Mizu_Bwall_InitVars = {
     ACTOR_BG_MIZU_BWALL,
     ACTORCAT_BG,
     FLAGS,
@@ -177,7 +177,7 @@ void BgMizuBwall_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->yRot = this->dyna.actor.world.pos.y;
     this->dList = sDLists[PARAMS_GET((u16)this->dyna.actor.params, 0, 4)];
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(sColHeaders[PARAMS_GET((u16)this->dyna.actor.params, 0, 4)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -470,7 +470,7 @@ void BgMizuBwall_Idle(BgMizuBwall* this, PlayState* play) {
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         this->dList = NULL;
         BgMizuBwall_SpawnDebris(this, play);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->actionFunc = BgMizuBwall_Break;

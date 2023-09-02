@@ -18,7 +18,7 @@ void ObjBombiwa_Draw(Actor* thisx, PlayState* play);
 
 void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play);
 
-const ActorInit Obj_Bombiwa_InitVars = {
+ActorInit Obj_Bombiwa_InitVars = {
     ACTOR_OBJ_BOMBIWA,
     ACTORCAT_PROP,
     FLAGS,
@@ -130,7 +130,7 @@ void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
         Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 0, 6));
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
         if (PARAMS_GET(this->actor.params, 15, 1) != 0) {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
         Actor_Kill(&this->actor);
     } else {

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wonder_talk.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
 
@@ -17,7 +17,7 @@ void func_80B391CC(EnWonderTalk* this, PlayState* play);
 void func_80B395F0(EnWonderTalk* this, PlayState* play);
 void func_80B3943C(EnWonderTalk* this, PlayState* play);
 
-const ActorInit En_Wonder_Talk_InitVars = {
+ActorInit En_Wonder_Talk_InitVars = {
     ACTOR_EN_WONDER_TALK,
     ACTORCAT_PROP,
     FLAGS,

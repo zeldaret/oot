@@ -109,7 +109,7 @@ static s16 D_808B5EB0[][7] = {
     { 0x0014, 0x0050, 0x0032, 0x0000, 0x0096, 0x00C8, 0x0008 },
 };
 
-const ActorInit Bg_Spot16_Bombstone_InitVars = {
+ActorInit Bg_Spot16_Bombstone_InitVars = {
     ACTOR_BG_SPOT16_BOMBSTONE,
     ACTORCAT_PROP,
     FLAGS,
@@ -196,7 +196,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
 
     Actor_ProcessInitChain(actor, sInitChainDebris);
 
-    actor->speedXZ = D_808B5DD8[actor->params][0];
+    actor->speed = D_808B5DD8[actor->params][0];
     actor->velocity.y = D_808B5DD8[actor->params][1];
 
     Actor_SetScale(actor, D_808B5DD8[actor->params][2] * scaleFactor);
@@ -312,7 +312,7 @@ void func_808B5240(BgSpot16Bombstone* this, PlayState* play) {
         func_800287AC(play, &position, &sVelocity, &sAcceleration, D_808B5EB0[index][4], D_808B5EB0[index][5],
                       D_808B5EB0[index][6]);
 
-        this->unk_158 += 1;
+        this->unk_158++;
     }
 }
 
@@ -345,7 +345,7 @@ void BgSpot16Bombstone_SpawnFragments(BgSpot16Bombstone* this, PlayState* play) 
 
             EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, -420, 0x31, 0xF, 0xF, 0, scale, 2, 0x40,
                                  160, KAKERA_COLOR_NONE, OBJECT_BOMBIWA, object_bombiwa_DL_0009E0);
-            index += 1;
+            index++;
         } while (index != ARRAY_COUNT(D_808B6074));
     }
 }
@@ -472,7 +472,7 @@ void func_808B5A94(BgSpot16Bombstone* this, PlayState* play) {
     func_808B5240(this, play);
 
     if (this->unk_154 == 56) {
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 
     if (this->unk_154 > 60) {
@@ -500,7 +500,7 @@ void func_808B5B58(BgSpot16Bombstone* this) {
 void func_808B5B6C(BgSpot16Bombstone* this, PlayState* play) {
     Actor* actor = &this->actor;
 
-    Actor_MoveForward(actor);
+    Actor_MoveXZGravity(actor);
     actor->shape.rot.x += this->unk_210;
     actor->shape.rot.z += this->unk_212;
 

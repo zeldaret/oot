@@ -8,7 +8,7 @@
 #include "assets/objects/object_dodongo/object_dodongo.h"
 
 #define rScale regs[0]
-#define rTexIdx regs[1]
+#define rTexIndex regs[1]
 #define rPrimColorR regs[2]
 #define rPrimColorG regs[3]
 #define rPrimColorB regs[4]
@@ -35,7 +35,12 @@ u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
+
+        //! @bug Segment 6 is not set to the required object before setting this display list.
+        //! It works out in practice because this effect is spawned from an actor who uses the same object
+        //! and previously already set it to segment 6.
         this->gfx = SEGMENTED_TO_VIRTUAL(gDodongoFireDL);
+
         this->life = initParams->life;
         this->rScale = initParams->scale;
         this->rScaleStep = initParams->scaleStep;
@@ -43,7 +48,7 @@ u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->rObjBankIdx = objBankIndex;
         this->draw = EffectSsDFire_Draw;
         this->update = EffectSsDFire_Update;
-        this->rTexIdx = ((s16)(play->state.frames % 4) ^ 3);
+        this->rTexIndex = ((s16)(play->state.frames % 4) ^ 3);
         this->rPrimColorR = 255;
         this->rPrimColorG = 255;
         this->rPrimColorB = 50;
@@ -63,7 +68,7 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
-    MtxF mfTrans11DA0;
+    MtxF mfTransBillboard;
     s32 pad;
     void* object;
     Mtx* mtx;
@@ -79,8 +84,8 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
         scale = this->rScale / 100.0f;
         SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
         SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-        SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-        SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+        SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+        SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
@@ -91,7 +96,7 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                             this->rPrimColorA);
             gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIndex]));
             gSPDisplayList(POLY_XLU_DISP++, this->gfx);
         }
     }
@@ -100,8 +105,8 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsDFire_Update(PlayState* play, u32 index, EffectSs* this) {
-    this->rTexIdx++;
-    this->rTexIdx &= 3;
+    this->rTexIndex++;
+    this->rTexIndex &= 3;
     this->rScale += this->rScaleStep;
 
     if (this->rFadeDelay >= this->life) {

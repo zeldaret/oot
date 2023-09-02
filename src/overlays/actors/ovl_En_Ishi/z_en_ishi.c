@@ -8,8 +8,8 @@
 #include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
-
-#include "vt.h"
+#include "quake.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_23
 
@@ -32,7 +32,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, PlayState* play);
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
-const ActorInit En_Ishi_InitVars = {
+ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORCAT_PROP,
     FLAGS,
@@ -112,14 +112,14 @@ void EnIshi_InitCollider(Actor* thisx, PlayState* play) {
 
 s32 EnIshi_SnapToFloor(EnIshi* this, PlayState* play, f32 arg2) {
     CollisionPoly* poly;
-    Vec3f pos;
+    Vec3f checkPos;
     s32 bgId;
     f32 floorY;
 
-    pos.x = this->actor.world.pos.x;
-    pos.y = this->actor.world.pos.y + 30.0f;
-    pos.z = this->actor.world.pos.z;
-    floorY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->actor, &pos);
+    checkPos.x = this->actor.world.pos.x;
+    checkPos.y = this->actor.world.pos.y + 30.0f;
+    checkPos.z = this->actor.world.pos.z;
+    floorY = BgCheck_EntityRaycastDown4(&play->colCtx, &poly, &bgId, &this->actor, &checkPos);
     if (floorY > BGCHECK_Y_MIN) {
         this->actor.world.pos.y = floorY + arg2;
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
@@ -371,9 +371,9 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
             if (this->actor.xzDistToPlayer < 90.0f) {
                 // GI_NONE in these cases allows the player to lift the actor
                 if (type == ROCK_LARGE) {
-                    func_8002F434(&this->actor, play, GI_NONE, 80.0f, 20.0f);
+                    Actor_OfferGetItem(&this->actor, play, GI_NONE, 80.0f, 20.0f);
                 } else {
-                    func_8002F434(&this->actor, play, GI_NONE, 50.0f, 10.0f);
+                    Actor_OfferGetItem(&this->actor, play, GI_NONE, 50.0f, 10.0f);
                 }
             }
         }
@@ -395,7 +395,7 @@ void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
         EnIshi_SetupFly(this);
         EnIshi_Fall(this);
         func_80A7ED94(&this->actor.velocity, D_80A7FA28[PARAMS_GET(this->actor.params, 0, 1)]);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
                                     UPDBGCHECKINFO_FLAG_7);
@@ -403,8 +403,8 @@ void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
 }
 
 void EnIshi_SetupFly(EnIshi* this) {
-    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
     if (PARAMS_GET(this->actor.params, 0, 1) == ROCK_SMALL) {
         sRotSpeedX = (Rand_ZeroOne() - 0.5f) * 16000.0f;
         sRotSpeedY = (Rand_ZeroOne() - 0.5f) * 2400.0f;
@@ -420,7 +420,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
     s32 pad;
     s16 type = PARAMS_GET(this->actor.params, 0, 1);
     s32 pad2;
-    s32 quakeIdx;
+    s32 quakeIndex;
     Vec3f contactPos;
 
     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
@@ -432,11 +432,11 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
             sDustSpawnFuncs[type](this, play);
         }
         if (type == ROCK_LARGE) {
-            quakeIdx = Quake_Add(GET_ACTIVE_CAM(play), 3);
-            Quake_SetSpeed(quakeIdx, -0x3CB0);
-            Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
-            Quake_SetCountdown(quakeIdx, 7);
-            func_800AA000(this->actor.xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
+            quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_3);
+            Quake_SetSpeed(quakeIndex, -0x3CB0);
+            Quake_SetPerturbations(quakeIndex, 3, 0, 0, 0);
+            Quake_SetDuration(quakeIndex, 7);
+            Rumble_Request(this->actor.xyzDistToPlayerSq, 255, 20, 150);
         }
         Actor_Kill(&this->actor);
         return;
@@ -445,7 +445,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
         contactPos.x = this->actor.world.pos.x;
         contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.world.pos.z;
-        EffectSsGSplash_Spawn(play, &contactPos, 0, 0, 0, 350);
+        EffectSsGSplash_Spawn(play, &contactPos, NULL, NULL, 0, 350);
         if (type == ROCK_SMALL) {
             EffectSsGRipple_Spawn(play, &contactPos, 150, 650, 0);
             EffectSsGRipple_Spawn(play, &contactPos, 400, 800, 4);
@@ -464,7 +464,7 @@ void EnIshi_Fly(EnIshi* this, PlayState* play) {
     Math_StepToF(&this->actor.shape.yOffset, 0.0f, 2.0f);
     EnIshi_Fall(this);
     func_80A7ED94(&this->actor.velocity, D_80A7FA28[type]);
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     this->actor.shape.rot.x += sRotSpeedX;
     this->actor.shape.rot.y += sRotSpeedY;
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.5f, 35.0f, 0.0f,

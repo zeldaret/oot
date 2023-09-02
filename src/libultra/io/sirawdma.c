@@ -1,20 +1,22 @@
 #include "global.h"
 
+#define PIF_RAM_SIZE (PIF_RAM_END + 1 - PIF_RAM_START)
+
 s32 __osSiRawStartDma(s32 dir, void* addr) {
-    if (HW_REG(SI_STATUS_REG, u32) & (SI_STATUS_DMA_BUSY | SI_STATUS_IO_READ_BUSY)) {
+    if (IO_READ(SI_STATUS_REG) & (SI_STATUS_DMA_BUSY | SI_STATUS_RD_BUSY)) {
         return -1;
     }
     if (dir == OS_WRITE) {
-        osWritebackDCache(addr, 0x40);
+        osWritebackDCache(addr, PIF_RAM_SIZE);
     }
-    HW_REG(SI_DRAM_ADDR_REG, void*) = (void*)osVirtualToPhysical(addr);
+    IO_WRITE(SI_DRAM_ADDR_REG, osVirtualToPhysical(addr));
     if (dir == OS_READ) {
-        HW_REG(SI_PIF_ADDR_RD64B_REG, void*) = (void*)PIF_RAM_START;
+        IO_WRITE(SI_PIF_ADDR_RD64B_REG, PIF_RAM_START);
     } else {
-        HW_REG(SI_PIF_ADDR_WR64B_REG, void*) = (void*)PIF_RAM_START;
+        IO_WRITE(SI_PIF_ADDR_WR64B_REG, PIF_RAM_START);
     }
     if (dir == OS_READ) {
-        osInvalDCache(addr, 0x40);
+        osInvalDCache(addr, PIF_RAM_SIZE);
     }
     return 0;
 }

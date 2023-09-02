@@ -19,7 +19,7 @@ void EnBlkobj_SpawnDarkLink(EnBlkobj* this, PlayState* play);
 void EnBlkobj_DarkLinkFight(EnBlkobj* this, PlayState* play);
 void EnBlkobj_DoNothing(EnBlkobj* this, PlayState* play);
 
-const ActorInit En_Blkobj_InitVars = {
+ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
     ACTORCAT_PROP,
     FLAGS,
@@ -59,7 +59,7 @@ void EnBlkobj_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, 0);
     if (Flags_GetClear(play, this->dyna.actor.room)) {
         this->alpha = 255;
         EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);

@@ -1,6 +1,6 @@
 #include "z_bg_spot18_basket.h"
 #include "assets/objects/object_spot18_obj/object_spot18_obj.h"
-#include "vt.h"
+#include "terminal.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -22,7 +22,7 @@ void func_808B7D50(BgSpot18Basket* this, PlayState* play);
 void func_808B7FC0(BgSpot18Basket* this, PlayState* play);
 void func_808B81A0(BgSpot18Basket* this, PlayState* play);
 
-const ActorInit Bg_Spot18_Basket_InitVars = {
+ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
     ACTORCAT_PROP,
     FLAGS,
@@ -133,7 +133,7 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
     BgSpot18Basket* this = (BgSpot18Basket*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna, DPM_UNK3);
+    DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
     func_808B7710(&this->dyna.actor, play);
     CollisionHeader_GetVirtual(&gGoronCityVaseCol, &colHeader);
 
@@ -415,9 +415,9 @@ void func_808B81A0(BgSpot18Basket* this, PlayState* play) {
         }
     } else if (this->unk_216 == 2) {
         if (this->unk_218 == 2) {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         } else {
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
         }
     } else if (this->unk_216 == 200) {
         func_808B7BB0(this);
@@ -431,8 +431,8 @@ void BgSpot18Basket_Update(Actor* thisx, PlayState* play) {
 
     this->unk_216++;
     this->actionFunc(this, play);
-    this->dyna.actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId,
-                                                               &this->dyna.actor, &this->dyna.actor.world.pos);
+    this->dyna.actor.floorHeight = BgCheck_EntityRaycastDown4(&play->colCtx, &this->dyna.actor.floorPoly, &bgId,
+                                                              &this->dyna.actor, &this->dyna.actor.world.pos);
     if (this->actionFunc != func_808B7AFC) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderJntSph.base);
         if (this->actionFunc != func_808B7B6C) {

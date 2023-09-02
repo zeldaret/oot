@@ -31,7 +31,7 @@ void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, PlayState* play);
 void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, PlayState* play);
 void BgHidanFwbig_Move(BgHidanFwbig* this, PlayState* play);
 
-const ActorInit Bg_Hidan_Fwbig_InitVars = {
+ActorInit Bg_Hidan_Fwbig_InitVars = {
     ACTOR_BG_HIDAN_FWBIG,
     ACTORCAT_PROP,
     FLAGS,

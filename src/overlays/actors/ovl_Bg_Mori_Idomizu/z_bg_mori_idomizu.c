@@ -21,7 +21,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
-const ActorInit Bg_Mori_Idomizu_InitVars = {
+ActorInit Bg_Mori_Idomizu_InitVars = {
     ACTOR_BG_MORI_IDOMIZU,
     ACTORCAT_BG,
     FLAGS,
@@ -133,9 +133,9 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play) {
             BgMoriIdomizu_SetWaterLevel(play, thisx->world.pos.y);
             if (this->drainTimer > 0) {
                 if (switchFlagSet) {
-                    func_800788CC(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+                    Sfx_PlaySfxCentered2(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
                 } else {
-                    func_800788CC(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
+                    Sfx_PlaySfxCentered2(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
                 }
             }
         }

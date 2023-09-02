@@ -20,7 +20,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, PlayState* play);
 void BgJyaMegami_SetupExplode(BgJyaMegami* this);
 void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play);
 
-const ActorInit Bg_Jya_Megami_InitVars = {
+ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
     ACTORCAT_BG,
     FLAGS,
@@ -159,7 +159,7 @@ void BgJyaMegami_SetupSpawnEffect(BgJyaMegami* this, PlayState* play, f32 arg2) 
 void BgJyaMegami_Init(Actor* thisx, PlayState* play) {
     BgJyaMegami* this = (BgJyaMegami*)thisx;
 
-    BgJyaMegami_InitDynaPoly(this, play, &GMegamiCol, DPM_UNK);
+    BgJyaMegami_InitDynaPoly(this, play, &GMegamiCol, 0);
     BgJyaMegami_InitCollider(this, play);
     if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6))) {
         Actor_Kill(&this->dyna.actor);
@@ -278,7 +278,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play) {
         func_80033480(play, &sp8C, 100.0f, 1, 150, 100, 1);
     }
     if (this->explosionTimer == 60) {
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
     if (this->explosionTimer >= 100) {
         Actor_Kill(&this->dyna.actor);
