@@ -579,7 +579,7 @@ typedef struct {
 } NpcInteractInfo; // size = 0x28
 
 // Converts a number of bits to a bitmask, helper for params macros
-// i.e. 3 becomes 0b111 / 7
+// e.g. 3 becomes 0b111 (7)
 #define NBITS_TO_MASK(n) \
     ((1 << (n)) - 1)
 
