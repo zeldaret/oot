@@ -4040,7 +4040,6 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
     if (gPitchSound != 0) {
         switch (entry->sfxId) {
             case NA_SE_SY_HP_RECOVER:
-                break;
             case NA_SE_SY_MESSAGE_WOMAN:
                 freqScale /= 2.0f; // 1 octave lower
                 break;

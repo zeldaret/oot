@@ -269,8 +269,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             break;
         case 1:
             func_80064520(play, &play->csCtx);
-            Audio_PlaySoundGeneral(NA_SE_SY_DUMMY_13, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySoundPitched(NA_SE_SY_HP_RECOVER);
             func_8002DF54(play, &this->actor, 1);
             Play_ClearAllSubCameras(play);
             this->subCamId = Play_CreateSubCamera(play);

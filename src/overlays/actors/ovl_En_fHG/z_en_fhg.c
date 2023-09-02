@@ -152,8 +152,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 break;
             }
             func_80064520(play, &play->csCtx);
-            Audio_PlaySoundGeneral(NA_SE_SY_DUMMY_13, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySoundPitched(NA_SE_SY_HP_RECOVER);
             func_8002DF54(play, &this->actor, 8);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);

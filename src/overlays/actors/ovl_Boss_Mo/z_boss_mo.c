@@ -1227,8 +1227,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                  (fabsf(player->actor.world.pos.x - -180.0f) < 40.0f))) {
                 // checks if Link is on one of the four platforms
                 func_80064520(play, &play->csCtx);
-                Audio_PlaySoundGeneral(NA_SE_SY_DUMMY_13, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySoundPitched(NA_SE_SY_HP_RECOVER);
                 func_8002DF54(play, &this->actor, 8);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1987,6 +1986,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                 if (this->work[MO_CORE_POS_IN_TENT] <= 0) {
                     this->work[MO_TENT_ACTION_STATE] = MO_CORE_MAKE_TENT;
                     this->timers[0] = 100;
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_FLY);
                     this->tentSpeed = 0.0f;
                     this->actor.speedXZ = 0.0f;
                 }

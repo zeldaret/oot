@@ -1505,8 +1505,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
         case 0:
             this->csState2 = 1;
             func_80064520(play, &play->csCtx);
-            Audio_PlaySoundGeneral(NA_SE_SY_DUMMY_13, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySoundPitched(NA_SE_SY_HP_RECOVER);
             func_8002DF54(play, &this->actor, 0x39);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -1803,8 +1802,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                 player->actor.world.pos.x = player->actor.world.pos.z = .0f;
                 this->csState2 = 1;
                 func_80064520(play, &play->csCtx);
-                Audio_PlaySoundGeneral(NA_SE_SY_DUMMY_13, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                Audio_PlaySoundPitched(NA_SE_SY_HP_RECOVER);
                 func_8002DF54(play, &this->actor, 0x39);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -5288,6 +5286,7 @@ void BossTw_TwinrovaStun(BossTw* this, PlayState* play) {
 
     cloudType = sTwinrovaBlastType == 0 ? 3 : 2;
 
+Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH - SFX_FLAG);
     if ((this->work[CS_TIMER_1] % 8) == 0) {
         Vec3f pos;
         Vec3f velocity;

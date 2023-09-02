@@ -629,6 +629,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
     this->actionState = 4;
     this->actor.flags |= ACTOR_FLAG_0;
     func_80064520(play, &play->csCtx);
+    Audio_PlaySoundPitched(NA_SE_SY_HP_RECOVER);
     func_8002DF54(play, &this->actor, 1);
     this->subCamId = Play_CreateSubCamera(play);
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
@@ -694,8 +695,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
 
         case 1: // player entered the room
             func_80064520(play, &play->csCtx);
-            Audio_PlaySoundGeneral(NA_SE_SY_DUMMY_13, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySoundPitched(NA_SE_SY_HP_RECOVER);
             this->subCamId = Play_CreateSubCamera(play);
             osSyncPrintf("MAKE CAMERA !!!   1   !!!!!!!!!!!!!!!!!!!!!!!!!!\n");
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
