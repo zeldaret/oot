@@ -16,7 +16,7 @@ SceneCmd syatekijyou_room_0Commands[] = {
     SCENE_CMD_TIME_SETTINGS(255, 255, 0),
     SCENE_CMD_MESH(&syatekijyou_room_0PolygonType0_0000A0),
     SCENE_CMD_OBJECT_LIST(13, syatekijyou_room_0ObjectList_000060),
-    SCENE_CMD_ACTOR_LIST(2, syatekijyou_room_0ActorList_00007C),
+    SCENE_CMD_ACTOR_LIST(3, syatekijyou_room_0ActorList_00007C),
     SCENE_CMD_END(),
 };
 
@@ -48,6 +48,7 @@ s16 syatekijyou_room_0ObjectList_000060[] = {
 ActorEntry syatekijyou_room_0ActorList_00007C[] = {
     { ACTOR_EN_SYATEKI_ITM, {    -20,     20,    181 }, {      0,      0,      0 }, 0x0000 },
     { ACTOR_EN_KANBAN,      {     59,      0,    365 }, {      0, 0XC000,      0 }, 0x0329 },
+    { ACTOR_EN_SYATEKI_NIW, {    -20,      0,      0 }, {      0,      0,      0 }, 0x0000 },
 };
 
 u8 syatekijyou_room_0_possiblePadding_00009C[] = {
