@@ -1234,6 +1234,7 @@ void EnZl4_TheEnd(EnZl4* this, PlayState* play) {
         this->blinkTimer = 3;
         this->eyeExpression = ZL4_EYES_NEUTRAL;
         this->mouthExpression = ZL4_MOUTH_SURPRISED;
+        Message_StartTextbox(play, 0x70DF, NULL);
     }
     npcAction = play->csCtx.npcActions[0];
     if (npcAction != NULL) {
