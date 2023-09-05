@@ -74,6 +74,7 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     // Draw title cards on the screen
     if ((frameCount > 890) && (this->endAlpha < 200)) {
         this->endAlpha += 7;
+        Message_StartTextbox(play, 0x6090, NULL);
     }
     if ((frameCount > 810) && (this->tlozAlpha < 200)) {
         this->tlozAlpha += 15;

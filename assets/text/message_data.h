@@ -8888,6 +8888,47 @@ QUICKTEXT_ENABLE  SHIFT("\x2D") "Portal in die Zukunft" QUICKTEXT_DISABLE
 QUICKTEXT_ENABLE  SHIFT("\x11") "Le Seuil ouvert sur le Futur" QUICKTEXT_DISABLE
 )
 
+DEFINE_MESSAGE(0x0354, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_TOP,
+QUICKTEXT_ENABLE "1." QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "2." QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "3." QUICKTEXT_DISABLE
+)
+
+DEFINE_MESSAGE(0x0355, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_VARIABLE,
+QUICKTEXT_ENABLE "Here's a tip from your old man\n"
+"Mr. Video. When you want to get\n"
+"something done, do it right. Want\n"
+"to attack enemies?" QUICKTEXT_DISABLE
+BOX_BREAK
+QUICKTEXT_ENABLE "Make sure to do it meticulously so\n"
+"they suffer. --Mario. Oh, and\n"
+"the current time is " TIME "." QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "Hier ist ein Tipp von deinem\n"
+"alten Herrn Mr. Video. Wann Sie wollen\n"
+"Etwas getan, mach es richtig. Will\n"
+"Feinde angreifen?" QUICKTEXT_DISABLE
+BOX_BREAK
+QUICKTEXT_ENABLE "Stellen Sie sicher, dass Sie dies\n"
+"sorgfältig tun Sie leiden. --Mario.\n"
+"Oh, und Die aktuelle Zeit ist\n"
+TIME "." QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "Voici un conseil de votre vieux\n"
+"M. Vidéo. Quand vous voulez obtenir\n"
+"quelque chose de fait, fais-le\n"
+"correctement. Tu veux" QUICKTEXT_DISABLE
+BOX_BREAK
+QUICKTEXT_ENABLE "pour attaquer les ennemis ?\n" 
+"Assurez-vous de le faire\n"
+"méticuleusement Ils souffrent. --Mario." QUICKTEXT_DISABLE
+BOX_BREAK
+QUICKTEXT_ENABLE "Oh, et l' heure actuelle est\n"
+TIME "." QUICKTEXT_DISABLE
+)
+
 DEFINE_MESSAGE(0x0400, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_VARIABLE,
 "This is a " COLOR(RED) "Gossip Stone" COLOR(DEFAULT) "!"
 ,
@@ -33672,6 +33713,22 @@ DEFINE_MESSAGE(0x608F, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
 "608F"
 ,
 "608F"
+)
+
+DEFINE_MESSAGE(0x6090, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_TOP,
+QUICKTEXT_ENABLE "It's been XXX Days since leaving\n"
+"Kokiri Forest. Link's adventures are at\n"
+"a end for now." QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "Es sind XXX Tage vergangen, seit wir\n"
+"den Kokiri-Wald verlassen haben.\n"
+"Links Abenteuer sind vorerst\n"
+"zu Ende." QUICKTEXT_DISABLE
+,
+QUICKTEXT_ENABLE "Cela fait XXX jours depuis que vous\n"
+"avez quitté la forêt de Kokiri. Les\n"
+"aventures de Link sont terminées\n"
+"pour le moment." QUICKTEXT_DISABLE
 )
 
 DEFINE_MESSAGE(0x7000, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
