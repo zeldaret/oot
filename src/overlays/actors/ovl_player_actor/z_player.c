@@ -3844,7 +3844,7 @@ void func_80837B60(Player* this) {
 }
 
 void func_80837B9C(Player* this, PlayState* play) {
-    Player_SetupAction(play, this, func_8084411C, 0);
+    Player_SetupAction(play, this, Player_Action_8084411C, 0);
     Player_AnimPlayLoop(play, this, &gPlayerAnim_link_normal_landing_wait);
     this->unk_850 = 1;
     if (this->unk_6AD != 3) {
