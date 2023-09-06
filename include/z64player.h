@@ -459,8 +459,16 @@ typedef enum {
     /* 0x67 */ PLAYER_CSMODE_MAX
 } PlayerCutsceneMode;
 
+typedef enum {
+    /* 0 */ PLAYER_LEDGE_CLIMB_NONE,
+    /* 1 */ PLAYER_LEDGE_CLIMB_1,
+    /* 2 */ PLAYER_LEDGE_CLIMB_2,
+    /* 3 */ PLAYER_LEDGE_CLIMB_3,
+    /* 4 */ PLAYER_LEDGE_CLIMB_4
+} PlayerLedgeClimbType;
+
 typedef struct {
-    /* 0x00 */ f32 unk_00;
+    /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
@@ -474,7 +482,7 @@ typedef struct {
     /* 0x2C */ f32 unk_2C;
     /* 0x30 */ f32 unk_30;
     /* 0x34 */ f32 unk_34;
-    /* 0x38 */ f32 unk_38;
+    /* 0x38 */ f32 wallCheckRadius;
     /* 0x3C */ f32 unk_3C;
     /* 0x40 */ f32 unk_40;
     /* 0x44 */ Vec3s unk_44;
@@ -500,6 +508,8 @@ typedef struct {
     /* 0x04 */ Vec3f tip;
     /* 0x10 */ Vec3f base;
 } WeaponInfo; // size = 0x1C
+
+#define LEDGE_DIST_MAX 399.96002f
 
 #define PLAYER_STATE1_0 (1 << 0)
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1)
@@ -543,7 +553,7 @@ typedef struct {
 #define PLAYER_STATE2_6 (1 << 6)
 #define PLAYER_STATE2_7 (1 << 7)
 #define PLAYER_STATE2_8 (1 << 8)
-#define PLAYER_STATE2_9 (1 << 9)
+#define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9)
 #define PLAYER_STATE2_10 (1 << 10)
 #define PLAYER_STATE2_11 (1 << 11)
 #define PLAYER_STATE2_12 (1 << 12)
@@ -713,10 +723,10 @@ typedef struct Player {
     /* 0x087C */ s16        unk_87C;
     /* 0x087E */ s16        unk_87E;
     /* 0x0880 */ f32        unk_880;
-    /* 0x0884 */ f32        wallHeight; // height used to determine whether link can climb or grab a ledge at the top
-    /* 0x0888 */ f32        wallDistance; // distance to the colliding wall plane
-    /* 0x088C */ u8         unk_88C;
-    /* 0x088D */ u8         unk_88D;
+    /* 0x0884 */ f32        yDistToLedge; // y distance to ground above an interact wall. LEDGE_DIST_MAX if no ground is found
+    /* 0x0888 */ f32        distToInteractWall; // xyz distance to the interact wall
+    /* 0x088C */ u8         ledgeClimbType;
+    /* 0x088D */ u8         ledgeClimbDelayTimer;
     /* 0x088E */ u8         unk_88E;
     /* 0x088F */ u8         unk_88F;
     /* 0x0890 */ u8         unk_890;
@@ -725,8 +735,8 @@ typedef struct Player {
     /* 0x0893 */ u8         hoverBootsTimer;
     /* 0x0894 */ s16        fallStartHeight; // last truncated Y position before falling
     /* 0x0896 */ s16        fallDistance; // truncated Y distance the player has fallen so far (positive is down)
-    /* 0x0898 */ s16        unk_898;
-    /* 0x089A */ s16        unk_89A;
+    /* 0x0898 */ s16        floorPitch; // angle of the floor slope in the direction of current world yaw (positive for ascending slope)
+    /* 0x089A */ s16        floorPitchAlt; // the calculation for this value is bugged and doesn't represent anything meaningful
     /* 0x089C */ s16        unk_89C;
     /* 0x089E */ u16        floorSfxOffset;
     /* 0x08A0 */ u8         unk_8A0;
@@ -745,9 +755,9 @@ typedef struct Player {
     /* 0x0A73 */ u8         unk_A73;
     /* 0x0A74 */ PlayerFuncA74 func_A74;
     /* 0x0A78 */ s8         invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
-    /* 0x0A79 */ u8         unk_A79;
-    /* 0x0A7A */ u8         unk_A7A;
-    /* 0x0A7B */ u8         unk_A7B;
+    /* 0x0A79 */ u8         floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
+    /* 0x0A7A */ u8         floorProperty;
+    /* 0x0A7B */ u8         prevFloorType;
     /* 0x0A7C */ f32        unk_A7C;
     /* 0x0A80 */ s16        unk_A80;
     /* 0x0A82 */ u16        prevFloorSfxOffset;
