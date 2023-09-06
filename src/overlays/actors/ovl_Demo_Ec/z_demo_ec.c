@@ -1083,7 +1083,7 @@ void DemoEc_UpdateFishingOwner(DemoEc* this, PlayState* play) {
 void DemoEc_FishingOwnerPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     DemoEc* this = (DemoEc*)thisx;
 
-    if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & 0x1000)) {
+    if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & HS_FISH_STOLE_HAT)) {
         gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
     }
 }
