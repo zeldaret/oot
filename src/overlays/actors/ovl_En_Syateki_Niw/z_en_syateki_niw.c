@@ -453,8 +453,7 @@ void func_80B12460(EnSyatekiNiw* this, PlayState* play) {
             }
 
             if ((this->unk_25A == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
-                Audio_PlaySoundGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
-                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                func_8002F7DC(&player->actor, player->ageProperties->unk_92 + NA_SE_VO_LI_DOWN);
                 this->unk_25E = 0x14;
                 this->unk_29A = 6;
                 this->actor.speedXZ = 0.0f;
