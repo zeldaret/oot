@@ -1,5 +1,10 @@
 #include "global.h"
 
+typedef struct {
+    /* 0x00 */ u16* value;
+    /* 0x04 */ const char* name;
+} FlagSetEntry; // size = 0x08
+
 void FlagSet_Update(PlayState* play) {
     static s32 entryIdx = 0;
     static u32 curBit = 0;

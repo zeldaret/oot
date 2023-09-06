@@ -184,9 +184,9 @@ void EffectSs_Insert(PlayState* play, EffectSs* effectSs);
 void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams);
 void EffectSs_UpdateAll(PlayState* play);
 void EffectSs_DrawAll(PlayState* play);
-s16 func_80027DD4(s16 arg0, s16 arg1, s32 arg2);
-s16 func_80027E34(s16 arg0, s16 arg1, f32 arg2);
-u8 func_80027E84(u8 arg0, u8 arg1, f32 arg2);
+s16 EffectSs_LerpInv(s16 a, s16 b, s32 weightInv);
+s16 EffectSs_LerpS16(s16 a, s16 b, f32 weight);
+u8 EffectSs_LerpU8(u8 a, u8 b, f32 weight);
 void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture);
 void EffectSsDust_Spawn(PlayState* play, u16 drawFlags, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                         Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life,
@@ -230,12 +230,12 @@ void EffectSsBomb_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* acc
 void EffectSsBomb2_SpawnFade(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                 s16 scaleStep);
-void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life);
-void EffectSsBlast_SpawnWhiteCustomScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* innerColor,
+                         Color_RGBA8* outerColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life);
+void EffectSsBlast_SpawnWhiteShockwaveSetScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                          s16 scaleStep, s16 life);
-void EffectSsBlast_SpawnShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                                  Color_RGBA8* primColor, Color_RGBA8* envColor, s16 life);
+void EffectSsBlast_SpawnShockwaveSetColor(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                          Color_RGBA8* innerColor, Color_RGBA8* outerColor, s16 life);
 void EffectSsBlast_SpawnWhiteShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void EffectSsGSpk_SpawnAccel(PlayState* play, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                              Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep);
@@ -1039,7 +1039,7 @@ s32 Player_OverrideLimbDrawGameplayCrawling(PlayState* play, s32 limbIndex, Gfx*
 u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
 void Player_DrawGetItem(PlayState* play, Player* this);
 void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime);
+u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime);
 void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
                       s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
@@ -1365,14 +1365,6 @@ void ListAlloc_Free(ListAlloc* this, void* data);
 void ListAlloc_FreeAll(ListAlloc* this);
 void Main_LogSystemHeap(void);
 void Main(void* arg);
-void SpeedMeter_InitImpl(SpeedMeter* this, u32 arg1, u32 y);
-void SpeedMeter_Init(SpeedMeter* this);
-void SpeedMeter_Destroy(SpeedMeter* this);
-void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx);
-void SpeedMeter_InitAllocEntry(SpeedMeterAllocEntry* this, u32 maxval, u32 val, u16 backColor, u16 foreColor, u32 ulx,
-                               u32 lrx, u32 uly, u32 lry);
-void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxCtx);
-void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state);
 void SysCfb_Init(s32 n64dd);
 void* SysCfb_GetFbPtr(s32 idx);
 void* SysCfb_GetFbEnd(void);

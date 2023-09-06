@@ -1871,8 +1871,8 @@ void func_80832DBC(Player* this) {
         func_808322FC(this);
         this->skelAnime.jointTable[0].x = this->skelAnime.baseTransl.x;
         this->skelAnime.jointTable[0].z = this->skelAnime.baseTransl.z;
-        if (this->skelAnime.moveFlags & 8) {
-            if (this->skelAnime.moveFlags & 2) {
+        if (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_SETMOVE) {
+            if (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_Y) {
                 this->skelAnime.jointTable[0].y = this->skelAnime.prevTransl.y;
             }
         } else {
@@ -1909,19 +1909,20 @@ void func_80832E48(Player* this, s32 flags) {
     func_808322FC(this);
 }
 
-// Apply the given flags when doing an "anim replace"
-// "anim replace" refers to this function seemingly clearing the influence the previous animation may have had.
+#define ANIM_REPLACE_APPLY_FLAG_8 (1 << 8)
+#define ANIM_REPLACE_APPLY_FLAG_9 (1 << 9)
+
 void Player_AnimReplaceApplyFlags(PlayState* play, Player* this, s32 flags) {
-    if (flags & 0x200) {
+    if (flags & ANIM_REPLACE_APPLY_FLAG_9) {
         Player_SkelAnimeResetPrevTranslRotAgeScale(this);
-    } else if ((flags & 0x100) || (this->skelAnime.moveFlags != 0)) {
+    } else if ((flags & ANIM_REPLACE_APPLY_FLAG_8) || (this->skelAnime.moveFlags != 0)) {
         Player_SkelAnimeResetPrevTranslRot(this);
     } else {
         this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
         this->skelAnime.prevRot = this->actor.shape.rot.y;
     }
 
-    this->skelAnime.moveFlags = flags;
+    this->skelAnime.moveFlags = flags & 0xFF;
     Player_ZeroSpeedXZ(this);
     AnimationContext_DisableQueue(play);
 }
@@ -1941,7 +1942,8 @@ void Player_AnimReplacePlayOnceAdjusted(PlayState* play, Player* this, LinkAnima
 }
 
 void Player_AnimReplaceNormalPlayOnceAdjusted(PlayState* play, Player* this, LinkAnimationHeader* anim) {
-    Player_AnimReplacePlayOnceAdjusted(play, this, anim, 0x1C);
+    Player_AnimReplacePlayOnceAdjusted(play, this, anim,
+                                       ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE);
 }
 
 void Player_AnimReplacePlayLoopSetSpeed(PlayState* play, Player* this, LinkAnimationHeader* anim, s32 flags,
@@ -1959,7 +1961,8 @@ void Player_AnimReplacePlayLoopAdjusted(PlayState* play, Player* this, LinkAnima
 }
 
 void Player_AnimReplaceNormalPlayLoopAdjusted(PlayState* play, Player* this, LinkAnimationHeader* anim) {
-    Player_AnimReplacePlayLoopAdjusted(play, this, anim, 0x1C);
+    Player_AnimReplacePlayLoopAdjusted(play, this, anim,
+                                       ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE);
 }
 
 void func_8083315C(PlayState* play, Player* this) {
@@ -2892,8 +2895,8 @@ s32 func_80835588(Player* this, PlayState* play) {
 void func_808355DC(Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_17;
 
-    if (!(this->skelAnime.moveFlags & 0x80) && (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
-        (D_80853608 < 0x2000)) {
+    if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_7) &&
+        (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) && (D_80853608 < 0x2000)) {
         this->yaw = this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
     }
 
@@ -3271,7 +3274,9 @@ s32 func_80836670(Player* this, PlayState* play) {
         func_80835C58(play, this, func_80850AEC, 1);
         this->stateFlags3 |= PLAYER_STATE3_7;
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_hook_fly_start);
-        Player_AnimReplaceApplyFlags(play, this, 0x9B);
+        Player_AnimReplaceApplyFlags(play, this,
+                                     ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                         ANIM_FLAG_PLAYER_7);
         func_80832224(this);
         this->yaw = this->actor.shape.rot.y;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
@@ -3790,7 +3795,7 @@ void func_80837948(PlayState* play, Player* this, s32 arg2) {
 
     Player_AnimPlayOnceAdjusted(play, this, D_80854190[arg2].unk_00);
     if ((arg2 != PLAYER_MWA_FLIPSLASH_START) && (arg2 != PLAYER_MWA_JUMPSLASH_START)) {
-        Player_AnimReplaceApplyFlags(play, this, 0x209);
+        Player_AnimReplaceApplyFlags(play, this, ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_0 | ANIM_FLAG_PLAYER_SETMOVE);
     }
 
     this->yaw = this->actor.shape.rot.y;
@@ -3835,7 +3840,7 @@ s32 func_80837B18(PlayState* play, Player* this, s32 damage) {
 
 void func_80837B60(Player* this) {
     this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
-    func_80832E48(this, 3);
+    func_80832E48(this, ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y);
 }
 
 void func_80837B9C(Player* this, PlayState* play) {
@@ -4694,7 +4699,9 @@ s32 func_80839800(Player* this, PlayState* play) {
                 }
 
                 func_80832224(this);
-                Player_AnimReplaceApplyFlags(play, this, 0x28F);
+                Player_AnimReplaceApplyFlags(play, this,
+                                             ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y |
+                                                 ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_PLAYER_7);
 
                 // If this door is the second half of a double door (spawned as child)
                 if (doorActor->parent != NULL) {
@@ -4997,7 +5004,9 @@ s32 func_8083A6AC(Player* this, PlayState* play) {
                 this->actor.shape.rot.y = this->yaw;
 
                 this->stateFlags1 |= PLAYER_STATE1_21;
-                Player_AnimReplaceApplyFlags(play, this, 0x9F);
+                Player_AnimReplaceApplyFlags(play, this,
+                                             ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
+                                                 ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
 
                 this->unk_850 = -1;
                 this->unk_84F = sp50;
@@ -5042,7 +5051,7 @@ void func_8083AA10(Player* this, PlayState* play) {
                 return;
             }
 
-            if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & 0x80) &&
+            if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_7) &&
                 (func_8084411C != this->func_674) && (func_80844A44 != this->func_674)) {
 
                 if ((D_80853604 == FLOOR_PROPERTY_7) || (this->meleeWeaponState != 0)) {
@@ -5668,7 +5677,7 @@ s32 func_8083C2B0(Player* this, PlayState* play) {
             LinkAnimation_Change(play, &this->skelAnime, anim, 1.0f, frame, frame, ANIMMODE_ONCE, 0.0f);
 
             if (Player_IsChildWithHylianShield(this)) {
-                Player_AnimReplaceApplyFlags(play, this, 4);
+                Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_PLAYER_2);
             }
 
             Player_PlaySfx(this, NA_SE_IT_SHIELD_POSTURE);
@@ -6321,7 +6330,9 @@ s32 func_8083E0FC(Player* this, PlayState* play) {
 
         Actor_MountHorse(play, this, &rideActor->actor);
         Player_AnimPlayOnce(play, this, D_80854578[temp].anim);
-        Player_AnimReplaceApplyFlags(play, this, 0x9B);
+        Player_AnimReplaceApplyFlags(play, this,
+                                     ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                         ANIM_FLAG_PLAYER_7);
         this->actor.parent = this->rideActor;
         func_80832224(this);
         Actor_DisableLens(play);
@@ -6476,7 +6487,10 @@ s32 func_8083E5A8(Player* this, PlayState* play) {
                 if ((giEntry->itemId != ITEM_NONE) && (giEntry->gi >= 0) &&
                     (Item_CheckObtainability(giEntry->itemId) == ITEM_NONE)) {
                     Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->unk_98);
-                    Player_AnimReplaceApplyFlags(play, this, 0x28F);
+                    Player_AnimReplaceApplyFlags(play, this,
+                                                 ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y |
+                                                     ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
+                                                     ANIM_FLAG_PLAYER_7);
                     chest->unk_1F4 = 1;
                     Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_SLOW_CHEST_CS);
                 } else {
@@ -6652,7 +6666,9 @@ s32 func_8083EC18(Player* this, PlayState* play, u32 interactWallFlags) {
                     func_80832224(this);
                     Math_Vec3f_Copy(&this->actor.prevPos, &this->actor.world.pos);
                     Player_AnimPlayOnce(play, this, anim);
-                    Player_AnimReplaceApplyFlags(play, this, 0x9F);
+                    Player_AnimReplaceApplyFlags(play, this,
+                                                 ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
+                                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
 
                     return true;
                 }
@@ -6731,7 +6747,9 @@ s32 Player_TryEnteringCrawlspace(Player* this, PlayState* play, u32 interactWall
                 func_80832224(this);
                 this->actor.prevPos = this->actor.world.pos;
                 Player_AnimPlayOnce(play, this, &gPlayerAnim_link_child_tunnel_start);
-                Player_AnimReplaceApplyFlags(play, this, 0x9D);
+                Player_AnimReplaceApplyFlags(play, this,
+                                             ANIM_FLAG_0 | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
+                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
 
                 return true;
             }
@@ -6819,7 +6837,9 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
                 // Leaving a crawlspace forwards
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 Player_AnimPlayOnce(play, this, &gPlayerAnim_link_child_tunnel_end);
-                Player_AnimReplaceApplyFlags(play, this, 0x9D);
+                Player_AnimReplaceApplyFlags(play, this,
+                                             ANIM_FLAG_0 | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
+                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
                 OnePointCutscene_Init(play, 9601, 999, NULL, CAM_ID_MAIN);
             } else {
                 // Leaving a crawlspace backwards
@@ -6827,7 +6847,9 @@ s32 Player_TryLeavingCrawlspace(Player* this, PlayState* play) {
                 LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_link_child_tunnel_start, -1.0f,
                                      Animation_GetLastFrame(&gPlayerAnim_link_child_tunnel_start), 0.0f, ANIMMODE_ONCE,
                                      0.0f);
-                Player_AnimReplaceApplyFlags(play, this, 0x9D);
+                Player_AnimReplaceApplyFlags(play, this,
+                                             ANIM_FLAG_0 | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE |
+                                                 ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
                 OnePointCutscene_Init(play, 9602, 999, NULL, CAM_ID_MAIN);
             }
 
@@ -8237,7 +8259,7 @@ void func_80843188(Player* this, PlayState* play) {
                     LinkAnimation_Change(play, &this->skelAnime, &gPlayerAnim_clink_normal_defense_ALL, 1.0f,
                                          Animation_GetLastFrame(&gPlayerAnim_clink_normal_defense_ALL), 0.0f,
                                          ANIMMODE_ONCE, 0.0f);
-                    Player_AnimReplaceApplyFlags(play, this, 4);
+                    Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_PLAYER_2);
                 } else {
                     if (this->itemAction < 0) {
                         func_8008EC70(this);
@@ -9536,7 +9558,9 @@ void func_808467D4(PlayState* play, Player* this) {
     this->yaw = this->actor.shape.rot.y = -0x8000;
     LinkAnimation_Change(play, &this->skelAnime, this->ageProperties->unk_A0, 2.0f / 3.0f, 0.0f, 0.0f, ANIMMODE_ONCE,
                          0.0f);
-    Player_AnimReplaceApplyFlags(play, this, 0x28F);
+    Player_AnimReplaceApplyFlags(play, this,
+                                 ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
+                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_PLAYER_7);
     if (LINK_IS_ADULT) {
         func_80846720(play, this, 0);
     }
@@ -9545,7 +9569,9 @@ void func_808467D4(PlayState* play, Player* this) {
 
 void func_808468A8(PlayState* play, Player* this) {
     func_80835C58(play, this, func_8084F9A0, 0);
-    Player_AnimReplaceApplyFlags(play, this, 0x9B);
+    Player_AnimReplaceApplyFlags(play, this,
+                                 ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                     ANIM_FLAG_PLAYER_7);
 }
 
 void func_808468E8(PlayState* play, Player* this) {
@@ -10590,7 +10616,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             func_8083A360(play, this);
             this->stateFlags1 |= PLAYER_STATE1_23;
             Player_AnimPlayOnce(play, this, &gPlayerAnim_link_uma_wait_1);
-            Player_AnimReplaceApplyFlags(play, this, 0x9B);
+            Player_AnimReplaceApplyFlags(play, this,
+                                         ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_SETMOVE |
+                                             ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
             this->unk_850 = 99;
         }
 
@@ -10615,7 +10643,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             func_8084FF7C(this);
         }
 
-        if (!(this->skelAnime.moveFlags & 0x80)) {
+        if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_7)) {
             if (((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (D_808535E4 == FLOOR_TYPE_5) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((this->currentBoots == PLAYER_BOOTS_HOVER) &&
@@ -10798,9 +10826,10 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
 
         Player_UpdateCamAndSeqModes(play, this);
 
-        if (this->skelAnime.moveFlags & 8) {
-            AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime,
-                                          (this->skelAnime.moveFlags & 4) ? 1.0f : this->ageProperties->unk_08);
+        if (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_SETMOVE) {
+            AnimationContext_SetMoveActor(
+                play, &this->actor, &this->skelAnime,
+                (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) ? 1.0f : this->ageProperties->unk_08);
         }
 
         func_808368EC(this, play);
@@ -11590,7 +11619,7 @@ void func_8084BDFC(Player* this, PlayState* play) {
     this->stateFlags2 |= PLAYER_STATE2_6;
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        func_80832E48(this, 1);
+        func_80832E48(this, ANIM_FLAG_0);
         func_8083C0E8(this, play);
         return;
     }
@@ -12854,9 +12883,9 @@ void func_8084ECA4(Player* this, PlayState* play) {
         }
     }
 
-    //! @bug If the animation is changed at any point above (such as by func_8083C0E8() or func_808322D0()), it will
-    //! change the curFrame to 0. This causes this flag to be set for one frame, at a time when it does not look like
-    //! Player is swinging the bottle.
+    //! @bug If the animation is changed at any point above (such as by func_8083C0E8() or
+    //! Player_AnimPlayOnceAdjusted()), it will change the curFrame to 0. This causes this flag to be set for one frame,
+    //! at a time when it does not look like Player is swinging the bottle.
     if (this->skelAnime.curFrame <= 7.0f) {
         this->stateFlags1 |= PLAYER_STATE1_SWINGING_BOTTLE;
     }
@@ -13947,7 +13976,8 @@ void func_808510D4(PlayState* play, Player* this, void* anim) {
 }
 
 void func_808510F4(PlayState* play, Player* this, void* anim) {
-    Player_AnimReplacePlayOnce(play, this, anim, 0x9C);
+    Player_AnimReplacePlayOnce(play, this, anim,
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
 }
 
 void func_80851114(PlayState* play, Player* this, void* anim) {
@@ -13955,7 +13985,8 @@ void func_80851114(PlayState* play, Player* this, void* anim) {
 }
 
 void func_80851134(PlayState* play, Player* this, void* anim) {
-    Player_AnimReplacePlayLoop(play, this, anim, 0x9C);
+    Player_AnimReplacePlayLoop(play, this, anim,
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
 }
 
 void func_80851154(PlayState* play, Player* this, void* anim) {
@@ -14200,7 +14231,9 @@ void func_808519EC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     Math_Vec3f_Copy(&this->actor.world.pos, &D_80855198);
     this->actor.shape.rot.y = -0x8000;
     Player_AnimPlayOnceAdjusted(play, this, this->ageProperties->unk_9C);
-    Player_AnimReplaceApplyFlags(play, this, 0x28F);
+    Player_AnimReplaceApplyFlags(play, this,
+                                 ANIM_REPLACE_APPLY_FLAG_9 | ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y | ANIM_FLAG_PLAYER_2 |
+                                     ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_PLAYER_7);
 }
 
 static struct_808551A4 D_808551A4[] = {
@@ -14310,17 +14343,21 @@ void func_80851E28(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_80851E64(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Player_AnimReplacePlayOnceAdjusted(play, this, &gPlayerAnim_link_swimer_swim_get, 0x98);
+    Player_AnimReplacePlayOnceAdjusted(play, this, &gPlayerAnim_link_swimer_swim_get,
+                                       ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
 }
 
 void func_80851E90(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Player_AnimReplacePlayOnce(play, this, &gPlayerAnim_clink_op3_negaeri, 0x9C);
+    Player_AnimReplacePlayOnce(play, this, &gPlayerAnim_clink_op3_negaeri,
+                               ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
     func_80832698(this, NA_SE_VO_LI_GROAN);
 }
 
 void func_80851ECC(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        Player_AnimReplacePlayLoop(play, this, &gPlayerAnim_clink_op3_wait2, 0x9C);
+        Player_AnimReplacePlayLoop(play, this, &gPlayerAnim_clink_op3_wait2,
+                                   ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                       ANIM_FLAG_PLAYER_7);
     }
 }
 
@@ -14346,7 +14383,9 @@ static struct_80832924 D_808551BC[] = {
 
 void func_80851FB0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (LinkAnimation_Update(play, &this->skelAnime)) {
-        Player_AnimReplacePlayLoop(play, this, &gPlayerAnim_clink_op3_wait3, 0x9C);
+        Player_AnimReplacePlayLoop(play, this, &gPlayerAnim_clink_op3_wait3,
+                                   ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                       ANIM_FLAG_PLAYER_7);
         this->unk_850 = 1;
     } else if (this->unk_850 == 0) {
         func_80832924(this, D_808551BC);
@@ -14369,7 +14408,9 @@ void func_80852048(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_80852080(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Player_AnimReplacePlayOnceAdjusted(play, this, &gPlayerAnim_clink_demo_futtobi, 0x9D);
+    Player_AnimReplacePlayOnceAdjusted(play, this, &gPlayerAnim_clink_demo_futtobi,
+                                       ANIM_FLAG_0 | ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE |
+                                           ANIM_FLAG_PLAYER_7);
     func_80832698(this, NA_SE_VO_LI_FALL_L);
 }
 
@@ -14417,7 +14458,7 @@ void func_80852234(PlayState* play, Player* this, CsCmdActorCue* cue) {
 }
 
 void func_8085225C(PlayState* play, Player* this, CsCmdActorCue* cue) {
-    Player_AnimReplaceApplyFlags(play, this, 0x98);
+    Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE | ANIM_FLAG_PLAYER_7);
 }
 
 void func_80852280(PlayState* play, Player* this, CsCmdActorCue* cue) {
@@ -14655,7 +14696,7 @@ void func_80852B4C(PlayState* play, Player* this, CsCmdActorCue* cue, struct_808
         arg3->func(play, this, cue);
     }
 
-    if ((D_80858AA0 & 4) && !(this->skelAnime.moveFlags & 4)) {
+    if ((D_80858AA0 & ANIM_FLAG_PLAYER_2) && !(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2)) {
         this->skelAnime.morphTable[0].y /= this->ageProperties->unk_08;
         D_80858AA0 = 0;
     }
@@ -14842,7 +14883,7 @@ void func_80853148(PlayState* play, Actor* actor) {
             }
 
             if (this->skelAnime.animation == &gPlayerAnim_link_normal_backspace) {
-                Player_AnimReplaceApplyFlags(play, this, 0x19);
+                Player_AnimReplaceApplyFlags(play, this, ANIM_FLAG_0 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE);
             }
 
             func_80832224(this);
