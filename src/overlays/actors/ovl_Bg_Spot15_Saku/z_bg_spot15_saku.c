@@ -31,9 +31,9 @@ ActorInit Bg_Spot15_Saku_InitVars = {
 };
 
 void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgSpot15Saku* this = (BgSpot15Saku*)thisx;
-    s32 pad2;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

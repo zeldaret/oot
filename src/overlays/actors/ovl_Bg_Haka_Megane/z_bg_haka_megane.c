@@ -127,7 +127,7 @@ void BgHakaMegane_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgHakaMegane_Draw(Actor* thisx, PlayState* play) {
-    BgHakaMegane* this = (BgHakaMegane*)thisx;
+    UNUSED BgHakaMegane* this = (BgHakaMegane*)thisx;
 
     if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(play, sDLists[thisx->params]);

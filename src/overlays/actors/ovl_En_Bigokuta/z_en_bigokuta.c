@@ -152,7 +152,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // possibly color data
-static s32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
+UNUSED static s32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     EnBigokuta* this = (EnBigokuta*)thisx;
@@ -477,7 +477,7 @@ void func_809BDB90(EnBigokuta* this, PlayState* play) {
 void func_809BDC08(EnBigokuta* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 phi_v0;
-    s16 pad;
+    STACK_PAD(s16);
     s16 phi_v1;
     Vec3f sp28;
 

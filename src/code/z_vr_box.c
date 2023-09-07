@@ -78,7 +78,7 @@ s32 Skybox_CalculateFace256(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 roomVtxS
     s32 zPoints[9 * 5];
     s32 tcS[9 * 5];
     s32 tcT[9 * 5];
-    s32 pad;
+    STACK_PAD(s32);
 
     // Collect all vertex positions for this face
     switch (faceNum) {
@@ -242,7 +242,7 @@ s32 Skybox_CalculateFace128(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 roomVtxS
     s32 zPoints[5 * 5];
     s32 tcS[5 * 5];
     s32 tcT[5 * 5];
-    s32 pad;
+    STACK_PAD(s32);
 
     // Collect all vertex positions for this face
     switch (faceNum) {

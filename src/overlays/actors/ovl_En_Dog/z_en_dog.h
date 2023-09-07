@@ -17,9 +17,9 @@ typedef struct EnDog {
     /* 0x01E4 */ u8 reverse;
     /* 0x01E6 */ s16 waypoint;
     /* 0x01E8 */ s16 unusedAngle;
-    /* 0x01EA */ s16 pad1;
+    /* 0x01EA */ char unk_1EA[0x2];
     /* 0x01EC */ s16 behaviorTimer;
-    /* 0x01EE */ s16 pad2;
+    /* 0x01EE */ char unk_1EE[0x2];
     /* 0x01F0 */ s16 nextBehavior;
     /* 0x01F2 */ s16 behavior;
     /* 0x01F4 */ Vec3s jointTable[13];

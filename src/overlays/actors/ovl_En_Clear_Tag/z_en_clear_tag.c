@@ -74,8 +74,8 @@ static ColliderCylinderInit sLaserCylinderInit = {
     { 15, 30, 10, { 0, 0, 0 } },
 };
 
-static UNK_TYPE4 D_809D5C98 = 0; // unused
-static UNK_TYPE4 D_809D5C9C = 0; // unused
+UNUSED static UNK_TYPE4 D_809D5C98 = 0;
+UNUSED static UNK_TYPE4 D_809D5C9C = 0;
 
 static EnClearTagEffect sEffects[CLEAR_TAG_EFFECT_COUNT];
 
@@ -341,7 +341,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                 s16 worldRotationTargetY;
                 f32 loseTargetLockDistance;
                 s16 worldRotationTargetZ;
-                s32 pad;
+                STACK_PAD(s32);
 
                 // Check if the Arwing should crash.
                 if (this->collider.base.acFlags & AC_HIT) {
@@ -679,7 +679,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
  * Arwing clear tage types will draw the Arwing, the backfire, and a shadow.
  */
 void EnClearTag_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnClearTag* this = (EnClearTag*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_clear_tag.c", 983);

@@ -292,18 +292,19 @@ void PadMgr_RumbleSet(PadMgr* padMgr, u8* enable) {
 void PadMgr_UpdateInputs(PadMgr* padMgr) {
     s32 i;
     Input* input;
-    OSContPad* pad; // original name: "padnow1"
+    OSContPad* contPad; // original name: "padnow1"
     s32 buttonDiff;
 
     PadMgr_LockPadData(padMgr);
 
-    for (input = &padMgr->inputs[0], pad = &padMgr->pads[0], i = 0; i < padMgr->nControllers; i++, input++, pad++) {
+    for (input = &padMgr->inputs[0], contPad = &padMgr->pads[0], i = 0; i < padMgr->nControllers;
+         i++, input++, contPad++) {
         input->prev = input->cur;
 
-        switch (pad->errno) {
+        switch (contPad->errno) {
             case 0:
                 // No error, copy inputs
-                input->cur = *pad;
+                input->cur = *contPad;
                 if (!padMgr->ctrlrIsConnected[i]) {
                     padMgr->ctrlrIsConnected[i] = true;
                     // "Recognized"
@@ -322,7 +323,7 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
                 input->cur.button = 0;
                 input->cur.stick_x = 0;
                 input->cur.stick_y = 0;
-                input->cur.errno = pad->errno;
+                input->cur.errno = contPad->errno;
                 if (padMgr->ctrlrIsConnected[i]) {
                     // If we get no response, consider the controller disconnected
                     padMgr->ctrlrIsConnected[i] = false;
@@ -334,7 +335,7 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
                 break;
             default:
                 // Unknown error response
-                LOG_HEX("padnow1->errno", pad->errno, "../padmgr.c", 396);
+                LOG_HEX("padnow1->errno", contPad->errno, "../padmgr.c", 396);
                 Fault_AddHungupAndCrash("../padmgr.c", 397);
                 break;
         }

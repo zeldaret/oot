@@ -110,7 +110,7 @@ static CutsceneData D_80AF0880[] = {
     CS_END(),
 };
 
-static u32 D_80AF10A0 = 0;
+UNUSED static u32 D_80AF10A0 = 0;
 
 static CutsceneData D_80AF10A4[] = {
     CS_BEGIN_CUTSCENE(14, 1299),
@@ -199,7 +199,7 @@ static CutsceneData D_80AF10A4[] = {
     CS_END(),
 };
 
-static u32 D_80AF1724 = 0;
+UNUSED static u32 D_80AF1724 = 0;
 
 static CutsceneData D_80AF1728[] = {
     CS_BEGIN_CUTSCENE(7, 1160),

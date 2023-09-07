@@ -248,9 +248,9 @@ void TransitionTile_Suck(TransitionTile* this) {
     }
 }
 
-void TransitionTile_Update(TransitionTile* this) {
+void TransitionTile_Update(UNUSED TransitionTile* this) {
 }
 
-s32 func_800B23F0(TransitionTile* this) {
+s32 func_800B23F0(UNUSED TransitionTile* this) {
     return 0;
 }

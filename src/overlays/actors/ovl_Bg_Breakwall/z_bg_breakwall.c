@@ -78,7 +78,7 @@ void BgBreakwall_SetupAction(BgBreakwall* this, BgBreakwallActionFunc actionFunc
 
 void BgBreakwall_Init(Actor* thisx, PlayState* play) {
     BgBreakwall* this = (BgBreakwall*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -132,7 +132,7 @@ Actor* BgBreakwall_SpawnFragments(PlayState* play, BgBreakwall* this, Vec3f* pos
     s32 i;
     s16 angle1;
     s16 angle2 = 0;
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3s actorRotList[] = { { 0, 0, 0 }, { 0, 0, 0x4000 }, { 0, 0, -0x4000 }, { 0, 0, 0 } };
     Vec3f actorScaleList[] = {
         { 0.004f, 0.004f, 0.004f },
@@ -146,7 +146,7 @@ Actor* BgBreakwall_SpawnFragments(PlayState* play, BgBreakwall* this, Vec3f* pos
         { { -40.0f, 14.0f, 0.0f }, { -50.0f, 57.0f, 0.0f }, { -30.0f, 57.0f, 0.0f }, { -40.0f, 70.0f, 0.0f } },
         { { -55.0f, -15.0f, 0.0f }, { -55.0f, -32.0f, 0.0f }, { -30.0f, -32.0f, 0.0f }, { -20.0f, -10.0f, 0.0f } },
     };
-    s32 pad;
+    STACK_PAD(s32);
 
     for (k = 3; k >= 0; k--) {
         if ((k == 0) || (k == 3)) {
@@ -290,7 +290,7 @@ static Vec3f sColQuadList[][4] = {
 };
 
 void BgBreakwall_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgBreakwall* this = (BgBreakwall*)thisx;
 
     if (this->bombableWallDList != NULL) {

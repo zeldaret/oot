@@ -171,7 +171,7 @@ void BossFd_UpdateCamera(BossFd* this, PlayState* play) {
 }
 
 void BossFd_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossFd* this = (BossFd*)thisx;
     s16 i;
 
@@ -224,7 +224,7 @@ void BossFd_Init(Actor* thisx, PlayState* play) {
 }
 
 void BossFd_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossFd* this = (BossFd*)thisx;
 
     SkelAnime_Free(&this->skelAnimeHead, play);
@@ -268,7 +268,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 angleToTarget;
     f32 pitchToTarget;
-    Vec3f* holePosition1;
+    STACK_PAD(s32);
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
@@ -760,7 +760,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 Vec3f sp170;
                 Vec3f sp164 = { 0.0f, 0.03f, 0.0f };
                 Vec3f sp158;
-                f32 pad154;
+                STACK_PAD(s32);
                 s16 temp_rand2;
                 s16 sp150;
 
@@ -922,9 +922,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
         Vec3f spE0[3];
         Vec3f spBC[3];
         f32 phi_f20;
-        f32 padB4;
-        f32 padB0;
-        f32 padAC;
+        STACK_PADS(s32, 3);
 
         Math_ApproachS(&this->actor.world.rot.y, angleToTarget, 0xA, this->fwork[BFD_TURN_RATE]);
 
@@ -1150,7 +1148,7 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
         Vec3f spawnVel1;
         Vec3f spawnAccel1;
         Vec3f spawnPos1;
-        s32 pad;
+        STACK_PAD(s32);
 
         Audio_PlaySfxGeneral(NA_SE_EN_VALVAISA_APPEAR - SFX_FLAG, &this->actor.projectedPos, 4,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1299,7 +1297,7 @@ void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
 }
 
 void BossFd_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossFd* this = (BossFd*)thisx;
     f32 headGlow;
     f32 rManeGlow;
@@ -1631,7 +1629,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
 }
 
 void BossFd_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BossFd* this = (BossFd*)thisx;
 
     osSyncPrintf("FD DRAW START\n");
@@ -1697,7 +1695,7 @@ s32 BossFd_OverrideLeftArmDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
 }
 
 static s16 sBodyIndex[] = { 0, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5 };
-static s16 sManeIndex[] = { 0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 }; // Unused
+UNUSED static s16 sManeIndex[] = { 0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 };
 
 void BossFd_DrawMane(PlayState* play, BossFd* this, Vec3f* manePos, Vec3f* maneRot, f32* maneScale, u8 mode) {
     f32 sp140[] = { 0.0f, 10.0f, 17.0f, 20.0f, 19.5f, 18.0f, 17.0f, 15.0f, 15.0f, 15.0f };
@@ -1883,7 +1881,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
             Vec3f spF0 = { 0.0f, 0.0f, 0.0f };
             Vec3f spE4;
             Vec3s spDC;
-            f32 padD8;
+            STACK_PAD(s32);
 
             if (this->bodyFallApart[i] < 2) {
                 f32 spD4 = 0.1f;

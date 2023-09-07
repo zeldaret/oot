@@ -2194,7 +2194,7 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
 /**
  * @return false if player is out of health
  */
-s32 Health_ChangeBy(PlayState* play, s16 amount) {
+s32 Health_ChangeBy(UNUSED PlayState* play, s16 amount) {
     u16 heartCount;
     u16 healthLevel;
 
@@ -2308,7 +2308,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
     osSyncPrintf("合計 = (%d)\n", AMMO(item)); // "Total = (%d)"
 }
 
-void Magic_Fill(PlayState* play) {
+void Magic_Fill(UNUSED PlayState* play) {
     if (gSaveContext.save.info.playerData.isMagicAcquired) {
         gSaveContext.prevMagicState = gSaveContext.magicState;
         gSaveContext.magicFillTarget =
@@ -2317,7 +2317,7 @@ void Magic_Fill(PlayState* play) {
     }
 }
 
-void Magic_Reset(PlayState* play) {
+void Magic_Reset(UNUSED PlayState* play) {
     if ((gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
         if (gSaveContext.magicState == MAGIC_STATE_ADD) {
             gSaveContext.prevMagicState = gSaveContext.magicState;
@@ -2729,7 +2729,7 @@ void Interface_SetSubTimer(s16 seconds) {
 /**
  * Set the subTimer to 1 second left
  */
-void Interface_SetSubTimerToFinalSecond(PlayState* play) {
+void Interface_SetSubTimerToFinalSecond(UNUSED PlayState* play) {
     if (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) {
         if (GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
             // The running-man race counts up and finished at MARATHON_TIME_LIMIT
@@ -3113,14 +3113,14 @@ void Interface_Draw(PlayState* play) {
     static s16 timerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
     static s16 sDigitWidths[] = { 9, 9, 8, 9, 9 };
     // unused, most likely colors
-    static s16 D_80125B1C[][3] = {
+    UNUSED static s16 D_80125B1C[][3] = {
         { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
     };
     static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
     static s16 rupeeDigitsCount[] = { 2, 3, 3 };
     static s16 spoilingItemEntrances[] = { ENTR_LOST_WOODS_2, ENTR_ZORAS_DOMAIN_3, ENTR_ZORAS_DOMAIN_3 };
-    static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
-    static s16 D_80125B5C[] = { 91, 91 };         // unused
+    UNUSED static f32 D_80125B54[] = { -40.0f, -35.0f };
+    UNUSED static s16 D_80125B5C[] = { 91, 91 };
     static s16 sTimerNextSecondTimer;
     static s16 sTimerStateTimer;
     static s16 sSubTimerNextSecondTimer;
@@ -3133,7 +3133,7 @@ void Interface_Draw(PlayState* play) {
     s16 svar1;
     s16 svar2;
     s16 svar3;
-    s16 svar4;
+    STACK_PAD(s16);
     s16 svar5;
     s16 timerId;
 

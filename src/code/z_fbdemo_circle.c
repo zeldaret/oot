@@ -106,7 +106,7 @@ void* TransitionCircle_Init(void* thisx) {
     return this;
 }
 
-void TransitionCircle_Destroy(void* thisx) {
+void TransitionCircle_Destroy(UNUSED void* thisx) {
 }
 
 void TransitionCircle_Update(void* thisx, s32 updateRate) {

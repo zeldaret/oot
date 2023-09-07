@@ -372,7 +372,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
     };
     static s16 pointPulseStage = 1;
     static s16 pointPulseTimer = 20;
-    static s16 D_8082A5B8[] = { 64, 64, 64, 28 };
+    UNUSED static s16 D_8082A5B8[] = { 64, 64, 64, 28 };
     static s16 areaBoxPosX[] = {
         -41, 19, 44, 40, 49, 51, -49, 83, 80, -67, 50, -109, -76, -86, -10, -6, 19, 24, 11, -17, 37, -6,
     };

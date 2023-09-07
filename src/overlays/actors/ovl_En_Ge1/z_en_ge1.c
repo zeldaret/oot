@@ -86,7 +86,7 @@ static void* sEyeTextures[] = {
 };
 
 void EnGe1_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGe1* this = (EnGe1*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
@@ -686,7 +686,7 @@ void EnGe1_Wait_Archery(EnGe1* this, PlayState* play) {
 // General functions
 
 void EnGe1_TurnToFacePlayer(EnGe1* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(angleDiff) <= 0x4000) {
@@ -717,7 +717,7 @@ void EnGe1_LookAtPlayer(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGe1* this = (EnGe1*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -763,7 +763,7 @@ void EnGe1_StopFidget(EnGe1* this) {
 }
 
 s32 EnGe1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGe1* this = (EnGe1*)thisx;
 
     if (limbIndex == GE1_LIMB_HEAD) {
@@ -799,7 +799,7 @@ void EnGe1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 void EnGe1_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnGe1* this = (EnGe1*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge1.c", 1442);

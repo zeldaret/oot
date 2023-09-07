@@ -1,7 +1,7 @@
 #include "global.h"
 
 s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     uintptr_t end;
     OverlayRelocationSection* ovlRelocs;
     u32 relocSectionOffset;

@@ -37,7 +37,7 @@ ActorInit En_Tr_InitVars = {
 
 // The first elements of these animation arrays are for Koume, the second for Kotake
 
-static AnimationHeader* unused[] = {
+UNUSED static AnimationHeader* unused[] = {
     &gKotakeKoumeStandingBroomOverRightShoulderAnim,
     &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
 };
@@ -369,7 +369,7 @@ void EnTr_ChooseAction1(EnTr* this, PlayState* play) {
 }
 
 void EnTr_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnTr* this = (EnTr*)thisx;
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
@@ -424,7 +424,7 @@ s32 EnTr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 }
 
 void EnTr_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnTr* this = (EnTr*)thisx;
 
     if (1) {}

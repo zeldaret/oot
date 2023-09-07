@@ -273,9 +273,9 @@ void EnFr_DrawActive(EnFr* this) {
 
 void EnFr_Update(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 frogIndex;
-    s32 pad2;
+    STACK_PAD(s32);
 
     if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
@@ -1052,7 +1052,7 @@ s32 EnFr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 }
 
 void EnFr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnFr* this = (EnFr*)thisx;
+    UNUSED EnFr* this = (EnFr*)thisx;
 
     if ((limbIndex == 7) || (limbIndex == 8)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1735);

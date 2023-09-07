@@ -7,7 +7,7 @@ void Setup_InitImpl(SetupState* this) {
     SET_NEXT_GAMESTATE(&this->state, ConsoleLogo_Init, ConsoleLogoState);
 }
 
-void Setup_Destroy(GameState* thisx) {
+void Setup_Destroy(UNUSED GameState* thisx) {
 }
 
 void Setup_Init(GameState* thisx) {

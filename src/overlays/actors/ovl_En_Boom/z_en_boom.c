@@ -112,13 +112,13 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
     s16 yawDiff;
     s16 pitchTarget;
     s16 pitchDiff;
-    s32 pad1;
+    STACK_PAD(s32);
     f32 distXYZScale;
     f32 distFromLink;
     DynaPolyActor* hitActor;
     s32 hitDynaID;
     Vec3f hitPoint;
-    s32 pad2;
+    STACK_PAD(s32);
 
     player = GET_PLAYER(play);
     target = this->moveTo;

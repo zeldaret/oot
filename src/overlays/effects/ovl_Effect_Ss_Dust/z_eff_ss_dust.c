@@ -85,7 +85,7 @@ void EffectSsDust_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfScale;
     MtxF mfResult;
     MtxF mfTransBillboard;
-    s32 pad;
+    STACK_PAD(s32);
     Mtx* mtx;
     f32 scale;
 

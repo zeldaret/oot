@@ -49,8 +49,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
-// unused
-static f32 D_808BD9C4[] = {
+UNUSED static f32 D_808BD9C4[] = {
     -2746.0f, 545.0f, 4694.0f, -2654.0f, 146.0f, 4534.0f,
 };
 
@@ -59,7 +58,7 @@ void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc
 }
 
 void BgTreemouth_Init(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     BgTreemouth* this = (BgTreemouth*)thisx;
     CollisionHeader* colHeader = NULL;
 
@@ -228,7 +227,7 @@ void BgTreemouth_Update(Actor* thisx, PlayState* play) {
 }
 
 void BgTreemouth_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     u16 alpha = 500;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_treemouth.c", 893);

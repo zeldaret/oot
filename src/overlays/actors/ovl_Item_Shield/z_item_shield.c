@@ -50,8 +50,8 @@ ActorInit Item_Shield_InitVars = {
     (ActorFunc)ItemShield_Draw,
 };
 
-static Color_RGBA8 unused = { 255, 255, 0, 255 };
-static Color_RGBA8 unused2 = { 255, 0, 0, 255 };
+UNUSED static Color_RGBA8 unused = { 255, 255, 0, 255 };
+UNUSED static Color_RGBA8 unused2 = { 255, 0, 0, 255 };
 
 void ItemShield_SetupAction(ItemShield* this, ItemShieldActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -182,7 +182,7 @@ void func_80B86CA8(ItemShield* this, PlayState* play) {
 }
 
 void func_80B86F68(ItemShield* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Player* player = GET_PLAYER(play);
     MtxF* shield = &player->shieldMf;
 

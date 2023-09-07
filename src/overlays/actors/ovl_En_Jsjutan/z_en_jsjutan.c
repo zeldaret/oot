@@ -31,13 +31,13 @@ static u8 sShadowTex[0x800];
 
 static Vec3s D_80A8EE10[0x90];
 
-static s32 sUnused[2] = { 0, 0 };
+UNUSED static u64 sForceAlignment = 0;
 
 #include "assets/overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
 
 void EnJsjutan_Init(Actor* thisx, PlayState* play) {
     EnJsjutan* this = (EnJsjutan*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* header = NULL;
 
     this->dyna.actor.flags &= ~ACTOR_FLAG_0;
@@ -322,7 +322,7 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
     for (i = 0; i < ARRAY_COUNT(sCarpetOddVtx); i++, carpetVtx++) {
         f32 rotX;
         f32 rotZ;
-        s32 pad;
+        STACK_PAD(s32);
 
         // Carpet size is 12x12.
         if ((i % 12) == 11) { // Last column.

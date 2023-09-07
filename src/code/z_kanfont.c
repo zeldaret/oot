@@ -1,7 +1,7 @@
 #include "global.h"
 #include "message_data_static.h"
 
-void func_8006EE50(Font* font, u16 arg1, u16 arg2) {
+void func_8006EE50(UNUSED Font* font, UNUSED u16 arg1, UNUSED u16 arg2) {
 }
 
 /**

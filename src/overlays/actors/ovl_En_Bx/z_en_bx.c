@@ -69,12 +69,12 @@ static ColliderQuadInit sQuadInit = {
 void EnBx_Init(Actor* thisx, PlayState* play) {
     EnBx* this = (EnBx*)thisx;
     Vec3f sp48 = { 0.015f, 0.015f, 0.015f };
-    Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
     static InitChainEntry sInitChain[] = {
         ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
     };
     s32 i;
-    s32 pad;
+    STACK_PAD(s32);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     thisx->scale.x = thisx->scale.z = 0.01f;
@@ -201,7 +201,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
         object_bxa_Tex_0029F0,
     };
     EnBx* this = (EnBx*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Mtx* mtx = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Mtx));
     s16 i;
 

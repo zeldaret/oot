@@ -160,7 +160,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     if (R_ENABLE_AUDIO_DBG & 1) {
-        s32 pad;
+        STACK_PAD(s32);
         GfxPrint printer;
 
         GfxPrint_Init(&printer);
@@ -171,7 +171,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     if (R_ENABLE_ARENA_DBG < 0) {
-        s32 pad;
+        STACK_PAD(s32);
 
         DebugArena_Display();
         SystemArena_Display();

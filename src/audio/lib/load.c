@@ -105,11 +105,11 @@ void AudioLoad_DecreaseSampleDmaTtls(void) {
 }
 
 void* AudioLoad_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, s32 medium) {
-    s32 pad1;
+    STACK_PAD(s32);
     SampleDma* dma;
     s32 hasDma = false;
     u32 dmaDevAddr;
-    u32 pad2;
+    STACK_PAD(s32);
     u32 dmaIndex;
     u32 transfer;
     s32 bufferPos;
@@ -198,7 +198,7 @@ void* AudioLoad_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, 
     return (devAddr - dmaDevAddr) + dma->ramAddr;
 }
 
-void AudioLoad_InitSampleDmaBuffers(s32 numNotes) {
+void AudioLoad_InitSampleDmaBuffers(UNUSED s32 numNotes) {
     SampleDma* dma;
     s32 i;
     s32 t2;
@@ -349,12 +349,12 @@ void AudioLoad_InitTable(AudioTable* table, u32 romAddr, u16 unkMediumParam) {
 }
 
 SoundFontData* AudioLoad_SyncLoadSeqFonts(s32 seqId, u32* outDefaultFontId) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 index;
     SoundFontData* fontData;
     s32 numFonts;
     s32 fontId;
-    s32 i;
+    STACK_PAD(s32);
 
     if (seqId >= gAudioCtx.numSequences) {
         return NULL;
@@ -375,7 +375,7 @@ SoundFontData* AudioLoad_SyncLoadSeqFonts(s32 seqId, u32* outDefaultFontId) {
 }
 
 void AudioLoad_SyncLoadSeqParts(s32 seqId, s32 arg1) {
-    s32 pad;
+    STACK_PAD(s32);
     u32 defaultFontId;
 
     if (seqId < gAudioCtx.numSequences) {
@@ -442,15 +442,15 @@ void AudioLoad_AsyncLoad(s32 tableType, s32 id, s32 nChunks, s32 retData, OSMesg
     }
 }
 
-void AudioLoad_AsyncLoadSeq(s32 seqId, s32 arg1, s32 retData, OSMesgQueue* retQueue) {
+void AudioLoad_AsyncLoadSeq(s32 seqId, UNUSED s32 arg1, s32 retData, OSMesgQueue* retQueue) {
     AudioLoad_AsyncLoad(SEQUENCE_TABLE, seqId, 0, retData, retQueue);
 }
 
-void AudioLoad_AsyncLoadSampleBank(s32 sampleBankId, s32 arg1, s32 retData, OSMesgQueue* retQueue) {
+void AudioLoad_AsyncLoadSampleBank(s32 sampleBankId, UNUSED s32 arg1, s32 retData, OSMesgQueue* retQueue) {
     AudioLoad_AsyncLoad(SAMPLE_TABLE, sampleBankId, 0, retData, retQueue);
 }
 
-void AudioLoad_AsyncLoadFont(s32 fontId, s32 arg1, s32 retData, OSMesgQueue* retQueue) {
+void AudioLoad_AsyncLoadFont(s32 fontId, UNUSED s32 arg1, s32 retData, OSMesgQueue* retQueue) {
     AudioLoad_AsyncLoad(FONT_TABLE, fontId, 0, retData, retQueue);
 }
 
@@ -523,7 +523,7 @@ s32 AudioLoad_SyncInitSeqPlayerSkipTicks(s32 playerIdx, s32 seqId, s32 skipTicks
     // Missing return, see above.
 }
 
-s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
+s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, UNUSED s32 arg2) {
     SequencePlayer* seqPlayer = &gAudioCtx.seqPlayers[playerIdx];
     u8* seqData;
     s32 index;
@@ -566,7 +566,7 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
 }
 
 u8* AudioLoad_SyncLoadSeq(s32 seqId) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 didAllocate;
 
     if (gAudioCtx.seqLoadStatus[AudioLoad_GetRealTableIndex(SEQUENCE_TABLE, seqId)] == LOAD_STATUS_IN_PROGRESS) {
@@ -654,7 +654,7 @@ SoundFontData* AudioLoad_SyncLoadFont(u32 fontId) {
 void* AudioLoad_SyncLoad(u32 tableType, u32 id, s32* didAllocate) {
     u32 size;
     AudioTable* table;
-    s32 pad;
+    STACK_PAD(s32);
     u32 medium;
     s32 loadStatus;
     u32 romAddr;
@@ -936,11 +936,11 @@ void AudioLoad_SyncDma(u32 devAddr, u8* ramAddr, u32 size, s32 medium) {
     }
 }
 
-void AudioLoad_SyncDmaUnkMedium(u32 devAddr, u8* addr, u32 size, s32 unkMediumParam) {
+void AudioLoad_SyncDmaUnkMedium(UNUSED u32 devAddr, UNUSED u8* addr, UNUSED u32 size, UNUSED s32 unkMediumParam) {
 }
 
 s32 AudioLoad_Dma(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size,
-                  OSMesgQueue* reqQueue, s32 medium, const char* dmaFuncType) {
+                  OSMesgQueue* reqQueue, s32 medium, UNUSED const char* dmaFuncType) {
     OSPiHandle* handle;
 
     if (gAudioCtx.resetTimer > 16) {
@@ -993,7 +993,7 @@ void* AudioLoad_AsyncLoadInner(s32 tableType, s32 id, s32 nChunks, s32 retData, 
     s8 cachePolicy;
     u32 devAddr;
     s32 loadStatus;
-    s32 pad;
+    STACK_PAD(s32);
     u32 realId = AudioLoad_GetRealTableIndex(tableType, id);
 
     switch (tableType) {
@@ -1117,7 +1117,7 @@ void AudioLoad_InitSoundFont(s32 fontId) {
 }
 
 void AudioLoad_Init(void* heap, u32 heapSize) {
-    s32 pad[18];
+    STACK_PADS(s32, 18);
     s32 numFonts;
     void* ramAddr;
     s32 i;
@@ -1391,7 +1391,7 @@ void AudioLoad_DmaSlowCopy(AudioSlowLoad* slowLoad, s32 size) {
                   &slowLoad->msgQueue, slowLoad->medium, "SLOWCOPY");
 }
 
-void AudioLoad_DmaSlowCopyUnkMedium(s32 devAddr, u8* ramAddr, s32 size, s32 arg3) {
+void AudioLoad_DmaSlowCopyUnkMedium(UNUSED s32 devAddr, UNUSED u8* ramAddr, UNUSED s32 size, UNUSED s32 arg3) {
 }
 
 s32 AudioLoad_SlowLoadSeq(s32 seqId, u8* ramAddr, s8* status) {
@@ -1530,13 +1530,13 @@ void AudioLoad_ProcessAsyncLoads(s32 resetStatus) {
     }
 }
 
-void AudioLoad_ProcessAsyncLoadUnkMedium(AudioAsyncLoad* asyncLoad, s32 resetStatus) {
+void AudioLoad_ProcessAsyncLoadUnkMedium(UNUSED AudioAsyncLoad* asyncLoad, UNUSED s32 resetStatus) {
 }
 
 void AudioLoad_FinishAsyncLoad(AudioAsyncLoad* asyncLoad) {
     u32 retMsg = asyncLoad->retMsg;
     u32 fontId;
-    u32 pad;
+    STACK_PAD(s32);
     OSMesg doneMsg;
     u32 sampleBankId1;
     u32 sampleBankId2;
@@ -1629,7 +1629,7 @@ void AudioLoad_AsyncDma(AudioAsyncLoad* asyncLoad, u32 size) {
                   &asyncLoad->msgQueue, asyncLoad->medium, "BGCOPY");
 }
 
-void AudioLoad_AsyncDmaUnkMedium(u32 devAddr, void* ramAddr, u32 size, s16 arg3) {
+void AudioLoad_AsyncDmaUnkMedium(UNUSED u32 devAddr, UNUSED void* ramAddr, UNUSED u32 size, UNUSED s16 arg3) {
 }
 
 /**
@@ -1807,7 +1807,7 @@ s32 AudioLoad_ProcessSamplePreloads(s32 resetStatus) {
     u32 preloadIndex;
     u32 key;
     u32 nChunks;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (gAudioCtx.preloadSampleStackTop > 0) {
         if (resetStatus != 0) {
@@ -2057,10 +2057,10 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, SampleBankRelocInfo*
 }
 
 void AudioLoad_LoadPermanentSamples(void) {
-    s32 pad;
+    STACK_PAD(s32);
     u32 fontId;
     AudioTable* sampleBankTable;
-    s32 pad2;
+    STACK_PAD(s32);
     s32 i;
 
     sampleBankTable = AudioLoad_GetLoadTable(SAMPLE_TABLE);

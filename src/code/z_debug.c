@@ -109,7 +109,7 @@ void Regs_Init(void) {
 }
 
 // Function is stubbed. Name is assumed by similarities in signature to `DebugCamera_ScreenTextColored` and usage.
-void DebugCamera_ScreenText(u8 x, u8 y, const char* text) {
+void DebugCamera_ScreenText(UNUSED u8 x, UNUSED u8 y, UNUSED const char* text) {
 }
 
 void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
@@ -247,7 +247,7 @@ void Regs_DrawEditor(GfxPrint* printer) {
     s32 i;
     s32 pageStart = (gRegEditor->regPage - 1) * REGS_PER_PAGE;
     s32 pageDataStart = ((gRegEditor->regGroup * REG_PAGES) + gRegEditor->regPage - 1) * REGS_PER_PAGE;
-    s32 pad;
+    STACK_PAD(s32);
     char regGroupName[3];
 
     regGroupName[0] = 'R';
@@ -277,7 +277,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
     Gfx* gfx;
     Gfx* opaStart;
     GfxPrint printer;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_debug.c", 628);
 

@@ -537,7 +537,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
 
 void EnWallmas_Update(Actor* thisx, PlayState* play) {
     EnWallmas* this = (EnWallmas*)thisx;
-    char pad[4];
+    STACK_PAD(s32);
 
     EnWallmas_ColUpdate(this, play);
     this->actionFunc(this, play);
@@ -581,7 +581,7 @@ void EnWallmas_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     f32 xzScale;
     MtxF mf;
 

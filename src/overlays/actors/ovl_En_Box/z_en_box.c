@@ -69,7 +69,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 0, ICHAIN_STOP),
 };
 
-static UNK_TYPE sUnused;
+UNUSED static UNK_TYPE sUnused;
 
 void EnBox_SetupAction(EnBox* this, EnBoxActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -390,7 +390,7 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
     f32 frameCount;
     AnimationHeader* anim;
     s32 linkAge;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sp4C;
     Player* player;
 
@@ -545,7 +545,7 @@ void EnBox_Update(Actor* thisx, PlayState* play) {
 
 void EnBox_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnBox* this = (EnBox*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (limbIndex == 1) {
         gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_box.c", 1492),

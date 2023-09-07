@@ -70,7 +70,7 @@ void SkelAnime_DrawLimbLod(PlayState* play, s32 limbIndex, void** skeleton, Vec3
 void SkelAnime_DrawLod(PlayState* play, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw,
                        PostLimbDrawOpa postLimbDraw, void* arg, s32 lod) {
     LodLimb* rootLimb;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* dList;
     Vec3f pos;
     Vec3s rot;
@@ -180,7 +180,7 @@ void SkelAnime_DrawFlexLimbLod(PlayState* play, s32 limbIndex, void** skeleton, 
 void SkelAnime_DrawFlexLod(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
                            OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, s32 lod) {
     LodLimb* rootLimb;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* newDList;
     Gfx* limbDList;
     Vec3f pos;
@@ -287,7 +287,7 @@ void SkelAnime_DrawLimbOpa(PlayState* play, s32 limbIndex, void** skeleton, Vec3
 void SkelAnime_DrawOpa(PlayState* play, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw,
                        PostLimbDrawOpa postLimbDraw, void* arg) {
     StandardLimb* rootLimb;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* dList;
     Vec3f pos;
     Vec3s rot;
@@ -397,7 +397,7 @@ void SkelAnime_DrawFlexLimbOpa(PlayState* play, s32 limbIndex, void** skeleton, 
 void SkelAnime_DrawFlexOpa(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
                            OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg) {
     StandardLimb* rootLimb;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* newDList;
     Gfx* limbDList;
     Vec3f pos;
@@ -550,7 +550,7 @@ Gfx* SkelAnime_DrawLimb(PlayState* play, s32 limbIndex, void** skeleton, Vec3s* 
 Gfx* SkelAnime_Draw(PlayState* play, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw,
                     PostLimbDraw postLimbDraw, void* arg, Gfx* gfx) {
     StandardLimb* rootLimb;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* dList;
     Vec3f pos;
     Vec3s rot;
@@ -657,7 +657,7 @@ Gfx* SkelAnime_DrawFlexLimb(PlayState* play, s32 limbIndex, void** skeleton, Vec
 Gfx* SkelAnime_DrawFlex(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount,
                         OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Gfx* gfx) {
     StandardLimb* rootLimb;
-    s32 pad;
+    STACK_PAD(s32);
     Gfx* newDList;
     Gfx* limbDList;
     Vec3f pos;
@@ -804,14 +804,14 @@ void AnimationContext_Reset(AnimationContext* animationCtx) {
 /**
  * Shifts the queue flag to the next queue
  */
-void AnimationContext_SetNextQueue(PlayState* play) {
+void AnimationContext_SetNextQueue(UNUSED PlayState* play) {
     sAnimQueueFlags <<= 1;
 }
 
 /**
  * Disables the current animation queue. Only load and move actor requests will be processed for that queue.
  */
-void AnimationContext_DisableQueue(PlayState* play) {
+void AnimationContext_DisableQueue(UNUSED PlayState* play) {
     sDisableAnimQueueFlags |= sAnimQueueFlags;
 }
 
@@ -842,7 +842,7 @@ void AnimationContext_SetLoadFrame(PlayState* play, LinkAnimationHeader* animati
 
     if (entry != NULL) {
         LinkAnimationHeader* linkAnimHeader = SEGMENTED_TO_VIRTUAL(animation);
-        s32 pad;
+        STACK_PAD(s32);
 
         osCreateMesgQueue(&entry->data.load.msgQueue, &entry->data.load.msg, 1);
         DmaMgr_RequestAsync(&entry->data.load.req, frameTable,
@@ -927,7 +927,7 @@ void AnimationContext_SetMoveActor(PlayState* play, Actor* actor, SkelAnime* ske
 /**
  * Receives the request for Link's animation frame data
  */
-void AnimationContext_LoadFrame(PlayState* play, AnimationEntryData* data) {
+void AnimationContext_LoadFrame(UNUSED PlayState* play, AnimationEntryData* data) {
     AnimEntryLoadFrame* entry = &data->load;
 
     osRecvMesg(&entry->msgQueue, NULL, OS_MESG_BLOCK);
@@ -936,7 +936,7 @@ void AnimationContext_LoadFrame(PlayState* play, AnimationEntryData* data) {
 /**
  * If the entry's queue is enabled, copies all vectors from src frame table to dst frame table
  */
-void AnimationContext_CopyAll(PlayState* play, AnimationEntryData* data) {
+void AnimationContext_CopyAll(UNUSED PlayState* play, AnimationEntryData* data) {
     AnimEntryCopyAll* entry = &data->copy;
 
     if (!(entry->queueFlag & sDisableAnimQueueFlags)) {
@@ -953,7 +953,7 @@ void AnimationContext_CopyAll(PlayState* play, AnimationEntryData* data) {
 /**
  * If the entry's queue is enabled, interpolates between the base and mod frame tables, placing the result in base
  */
-void AnimationContext_Interp(PlayState* play, AnimationEntryData* data) {
+void AnimationContext_Interp(UNUSED PlayState* play, AnimationEntryData* data) {
     AnimEntryInterp* entry = &data->interp;
 
     if (!(entry->queueFlag & sDisableAnimQueueFlags)) {
@@ -964,7 +964,7 @@ void AnimationContext_Interp(PlayState* play, AnimationEntryData* data) {
 /**
  * If the entry's queue is enabled, copies all vectors from src frame table to dst frame table whose copy flag is true
  */
-void AnimationContext_CopyTrue(PlayState* play, AnimationEntryData* data) {
+void AnimationContext_CopyTrue(UNUSED PlayState* play, AnimationEntryData* data) {
     AnimEntryCopyTrue* entry = &data->copy1;
 
     if (!(entry->queueFlag & sDisableAnimQueueFlags)) {
@@ -984,7 +984,7 @@ void AnimationContext_CopyTrue(PlayState* play, AnimationEntryData* data) {
 /**
  * If the entry's queue is enabled, copies all vectors from src frame table to dst frame table whose copy flag is false
  */
-void AnimationContext_CopyFalse(PlayState* play, AnimationEntryData* data) {
+void AnimationContext_CopyFalse(UNUSED PlayState* play, AnimationEntryData* data) {
     AnimEntryCopyFalse* entry = &data->copy0;
 
     if (!(entry->queueFlag & sDisableAnimQueueFlags)) {
@@ -1004,7 +1004,7 @@ void AnimationContext_CopyFalse(PlayState* play, AnimationEntryData* data) {
 /**
  * Moves an actor according to the translation of its root limb
  */
-void AnimationContext_MoveActor(PlayState* play, AnimationEntryData* data) {
+void AnimationContext_MoveActor(UNUSED PlayState* play, AnimationEntryData* data) {
     AnimEntryMoveActor* entry = &data->move;
     Actor* actor = entry->actor;
     Vec3f diff;
@@ -1187,7 +1187,7 @@ s32 LinkAnimation_Once(PlayState* play, SkelAnime* skelAnime) {
 /**
  * Sets a new morph and resets the morph weight for the current animation.
  */
-void Animation_SetMorph(PlayState* play, SkelAnime* skelAnime, f32 morphFrames) {
+void Animation_SetMorph(UNUSED PlayState* play, SkelAnime* skelAnime, f32 morphFrames) {
     skelAnime->morphWeight = 1.0f;
     skelAnime->morphRate = 1.0f / morphFrames;
 }
@@ -1376,8 +1376,8 @@ s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame) {
  * Initializes a normal skeleton to a looping animation, dynamically allocating the frame tables if not provided.
  */
 BAD_RETURN(s32)
-SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg, AnimationHeader* animation,
-               Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
+SkelAnime_Init(UNUSED PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
     SkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
     skelAnime->limbCount = skeletonHeader->limbCount + 1;
@@ -1407,7 +1407,7 @@ SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHe
  * Initializes a flex skeleton to a looping animation, dynamically allocating the frame tables if not given.
  */
 BAD_RETURN(s32)
-SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+SkelAnime_InitFlex(UNUSED PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount) {
     FlexSkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
@@ -1442,7 +1442,7 @@ SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* sk
  * Initializes a skeleton with SkinLimbs to a looping animation, dynamically allocating the frame tables.
  */
 BAD_RETURN(s32)
-SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+SkelAnime_InitSkin(UNUSED PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                    AnimationHeader* animation) {
     SkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
@@ -1837,7 +1837,7 @@ s32 Animation_OnFrame(SkelAnime* skelAnime, f32 frame) {
 /**
  * Frees the frame tables for a skelAnime with dynamically allocated tables.
  */
-void SkelAnime_Free(SkelAnime* skelAnime, PlayState* play) {
+void SkelAnime_Free(SkelAnime* skelAnime, UNUSED PlayState* play) {
     if (skelAnime->jointTable != NULL) {
         ZeldaArena_FreeDebug(skelAnime->jointTable, "../z_skelanime.c", 3729);
     } else {

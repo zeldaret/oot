@@ -198,7 +198,7 @@ void EnRr_Init(Actor* thisx, PlayState* play2) {
 }
 
 void EnRr_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnRr* this = (EnRr*)thisx;
 
     Collider_DestroyCylinder(play, &this->collider1);
@@ -656,7 +656,7 @@ void EnRr_Damage(EnRr* this, PlayState* play) {
 }
 
 void EnRr_Death(EnRr* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     if (this->frameCount < 40) {
@@ -761,7 +761,7 @@ void EnRr_Stunned(EnRr* this, PlayState* play) {
 }
 
 void EnRr_Update(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnRr* this = (EnRr*)thisx;
     s32 i;
 
@@ -845,7 +845,7 @@ static Vec3f sEffectOffsets[] = {
 };
 
 void EnRr_Draw(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f zeroVec;
     EnRr* this = (EnRr*)thisx;
     s32 i;

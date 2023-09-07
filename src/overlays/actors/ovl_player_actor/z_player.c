@@ -1788,7 +1788,7 @@ void func_80832924(Player* this, struct_80832924* entry) {
     s32 data;
     s32 flags;
     u32 cont;
-    s32 pad;
+    STACK_PAD(s32);
 
     do {
         data = ABS(entry->field);
@@ -3390,7 +3390,7 @@ void func_80836BEC(Player* this, PlayState* play) {
     s32 sp1C = 0;
     s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
     Actor* actorToTarget;
-    s32 pad;
+    STACK_PAD(s32);
     s32 holdTarget;
     s32 cond;
 
@@ -3580,8 +3580,6 @@ static s32 (*D_80854448[])(Player* this, PlayState* play) = {
 };
 
 s32 func_80837348(PlayState* play, Player* this, s8* arg2, s32 arg3) {
-    s32 i;
-
     if (!(this->stateFlags1 & (PLAYER_STATE1_0 | PLAYER_STATE1_7 | PLAYER_STATE1_29))) {
         if (arg3 != 0) {
             D_808535E0 = func_80836670(this, play);
@@ -3772,7 +3770,7 @@ static u32 D_80854488[][2] = {
 };
 
 void func_80837948(PlayState* play, Player* this, s32 arg2) {
-    s32 pad;
+    STACK_PAD(s32);
     u32 dmgFlags;
     s32 temp;
 
@@ -4047,7 +4045,7 @@ void func_808382BC(Player* this) {
 }
 
 s32 func_808382DC(Player* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 sp68 = false;
     s32 sp64;
 
@@ -4608,7 +4606,7 @@ s32 func_80839800(Player* this, PlayState* play) {
     f32 sp74;
     Actor* doorActor;
     f32 sp6C;
-    s32 pad3;
+    STACK_PAD(s32);
     s32 frontRoom;
     Actor* attachedActor;
     LinkAnimationHeader* sp5C;
@@ -5158,7 +5156,7 @@ s32 func_8083ADD4(PlayState* play, Player* this) {
 }
 
 void func_8083AE40(Player* this, s16 objectId) {
-    s32 pad;
+    STACK_PAD(s32);
     u32 size;
 
     if (objectId != OBJECT_INVALID) {
@@ -6373,7 +6371,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
         &gPlayerAnim_link_normal_down_slope_slip,
         &gPlayerAnim_link_normal_up_slope_slip,
     };
-    s32 pad;
+    STACK_PAD(s32);
     s16 playerVelYaw;
     Vec3f slopeNormal;
     s16 downwardSlopeYaw;
@@ -6419,7 +6417,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
 }
 
 // unknown data (unused)
-static s32 D_80854598[] = {
+UNUSED static s32 D_80854598[] = {
     0xFFDB0871, 0xF8310000, 0x00940470, 0xF3980000, 0xFFB504A9, 0x0C9F0000, 0x08010402,
 };
 
@@ -6611,7 +6609,7 @@ s32 func_8083EC18(Player* this, PlayState* play, u32 wallFlags) {
                     s32 i;
                     f32 sp48;
                     Vec3f* sp44 = &sp50[0];
-                    s32 pad;
+                    STACK_PAD(s32);
 
                     CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &play->colCtx, sp50);
 
@@ -8089,7 +8087,7 @@ static LinkAnimationHeader* D_808545CC[] = {
 };
 
 void func_80842D20(PlayState* play, Player* this) {
-    s32 pad;
+    STACK_PAD(s32);
     s32 sp28;
 
     if (func_80843188 != this->func_674) {
@@ -8709,7 +8707,7 @@ void func_80844708(Player* this, PlayState* play) {
     s32 temp;
     s32 sp44;
     DynaPolyActor* wallPolyActor;
-    s32 pad;
+    STACK_PAD(s32);
     f32 sp38;
     s16 sp36;
 
@@ -9213,7 +9211,7 @@ void func_80845CA4(Player* this, PlayState* play) {
     s32 temp;
     f32 sp34;
     s32 sp30;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (!func_8083B040(this, play)) {
         if (this->unk_850 == 0) {
@@ -10153,7 +10151,7 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
         CollisionPoly* wallPoly;
         s32 wallBgId;
         s16 yawDiff;
-        s32 pad;
+        STACK_PAD(s32);
 
         sInteractWallCheckOffset.y = 18.0f;
         sInteractWallCheckOffset.z = this->ageProperties->wallCheckRadius + 10.0f;
@@ -10279,9 +10277,9 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
             f32 invFloorPolyNormalY;
             f32 floorPolyNormalZ;
             f32 sin;
-            s32 pad2;
+            STACK_PAD(s32);
             f32 cos;
-            s32 pad3;
+            STACK_PAD(s32);
 
             if (this->actor.floorBgId != BGCHECK_SCENE) {
                 DynaPoly_SetPlayerOnTop(&play->colCtx, this->actor.floorBgId);
@@ -10321,7 +10319,7 @@ void Player_ProcessSceneCollision(PlayState* play, Player* this) {
 
 void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
     u8 seqMode;
-    s32 pad;
+    STACK_PAD(s32);
     Actor* unk_664;
     s32 camMode;
 
@@ -10577,7 +10575,7 @@ static f32 sFloorConveyorSpeeds[CONVEYOR_SPEED_MAX - 1] = {
 };
 
 void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
-    s32 pad;
+    STACK_PAD(s32);
 
     sControlInput = input;
 
@@ -10708,7 +10706,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 f32 speedXZTarget = this->speedXZ;
                 s16 yawTarget = this->yaw;
                 s16 yawDiff = this->actor.world.rot.y - yawTarget;
-                s32 pad;
+                STACK_PAD(s32);
 
                 if ((ABS(yawDiff) > 0x6000) && (this->actor.speed != 0.0f)) {
                     speedXZTarget = 0.0f;
@@ -10986,7 +10984,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
     static Vec3f sDogSpawnPos;
     Player* this = (Player*)thisx;
     s32 dogParams;
-    s32 pad;
+    STACK_PAD(s32);
     Input sp44;
     Actor* dog;
 
@@ -11136,7 +11134,7 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
     if (!(this->stateFlags2 & PLAYER_STATE2_29)) {
         OverrideLimbDrawOpa overrideLimbDraw = Player_OverrideLimbDrawGameplayDefault;
         s32 lod;
-        s32 pad;
+        STACK_PAD(s32);
 
         if ((this->csMode != PLAYER_CSMODE_NONE) || (func_8008E9C4(this) && 0) ||
             (this->actor.projectedPos.z < 160.0f)) {
@@ -13151,7 +13149,7 @@ void func_8084F698(Player* this, PlayState* play) {
 }
 
 void func_8084F710(Player* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((this->unk_84F != 0) && (play->csCtx.curFrame < 305)) {
         this->actor.gravity = 0.0f;
@@ -14277,8 +14275,7 @@ void func_808519C0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80845964(play, this, cue, 0.0f, 0, 1);
 }
 
-// unused
-static LinkAnimationHeader* D_80855190[] = {
+UNUSED static LinkAnimationHeader* D_80855190[] = {
     &gPlayerAnim_link_demo_back_to_past,
     &gPlayerAnim_clink_demo_goto_future,
 };
@@ -14769,7 +14766,7 @@ void func_80852C0C(PlayState* play, Player* this, s32 csMode) {
 
 void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
     CsCmdActorCue* cue = play->csCtx.playerCue;
-    s32 pad;
+    STACK_PAD(s32);
     s32 csMode;
 
     if (play->csCtx.state == CS_STATE_STOP) {
@@ -14890,7 +14887,7 @@ s32 Player_InflictDamage(PlayState* play, s32 damage) {
 // Start talking with the given actor
 void func_80853148(PlayState* play, Actor* actor) {
     Player* this = GET_PLAYER(play);
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((this->targetActor != NULL) || (actor == this->naviActor) ||
         CHECK_FLAG_ALL(actor->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18)) {

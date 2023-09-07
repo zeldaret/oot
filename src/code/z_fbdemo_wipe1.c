@@ -63,7 +63,7 @@ void* TransitionWipe_Init(void* thisx) {
     return this;
 }
 
-void TransitionWipe_Destroy(void* thisx) {
+void TransitionWipe_Destroy(UNUSED void* thisx) {
 }
 
 void TransitionWipe_Update(void* thisx, s32 updateRate) {
@@ -88,7 +88,7 @@ void TransitionWipe_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
     TransitionWipe* this = (TransitionWipe*)thisx;
-    s32 pad[4];
+    STACK_PADS(s32, 4);
     Gfx* texScroll;
 
     modelView = this->modelView[this->frame];

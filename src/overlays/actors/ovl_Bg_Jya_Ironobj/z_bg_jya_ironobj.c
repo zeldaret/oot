@@ -22,7 +22,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play);
 void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
 void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
 
-static int sUnused = 0;
+UNUSED static int sUnused = 0;
 
 ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,
@@ -104,7 +104,7 @@ void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk
     f32 coss;
     s16 rotY;
     f32 sins;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
         osSyncPrintf("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 233, enIk->unk_2FF);
@@ -167,7 +167,7 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
     f32 coss;
     s16 rotY;
     f32 sins;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (enIk->unk_2FF <= 0 || enIk->unk_2FF >= 4) {
         osSyncPrintf("Error 攻撃方法が分からない(%s %d)\n", "../z_bg_jya_ironobj.c", 362, enIk->unk_2FF);
@@ -215,7 +215,7 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
 
 void BgJyaIronobj_Init(Actor* thisx, PlayState* play) {
     BgJyaIronobj* this = (BgJyaIronobj*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);

@@ -46,7 +46,7 @@ void Sample_Main(GameState* thisx) {
     Sample_HandleStateChange(this);
 }
 
-void Sample_Destroy(GameState* thisx) {
+void Sample_Destroy(UNUSED GameState* thisx) {
 }
 
 void Sample_SetupView(SampleState* this) {

@@ -177,7 +177,7 @@ void Interface_Init(PlayState* play) {
 
 void Message_Init(PlayState* play) {
     MessageContext* msgCtx = &play->msgCtx;
-    s32 pad;
+    STACK_PAD(s32);
 
     Message_SetTables();
 
@@ -613,6 +613,6 @@ void Regs_InitDataImpl(void) {
     R_GAME_OVER_RUMBLE_DECREASE_RATE = -63;
 }
 
-void Regs_InitData(PlayState* play) {
+void Regs_InitData(UNUSED PlayState* play) {
     Regs_InitDataImpl();
 }

@@ -126,7 +126,7 @@ void Lights_BindPoint(Lights* lights, LightParams* params, Vec3f* vec) {
     }
 }
 
-void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
+void Lights_BindDirectional(Lights* lights, LightParams* params, UNUSED Vec3f* vec) {
     Light* light = Lights_FindSlot(lights);
 
     if (light != NULL) {
@@ -220,7 +220,7 @@ Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx) 
     return Lights_New(gfxCtx, lightCtx->ambientColor[0], lightCtx->ambientColor[1], lightCtx->ambientColor[2]);
 }
 
-void LightContext_InitList(PlayState* play, LightContext* lightCtx) {
+void LightContext_InitList(UNUSED PlayState* play, LightContext* lightCtx) {
     lightCtx->listHead = NULL;
 }
 
@@ -237,7 +237,7 @@ void LightContext_DestroyList(PlayState* play, LightContext* lightCtx) {
  * Note: Due to the limited number of slots in a Lights group, inserting too many lights in the
  * list may result in older entries not being bound to a Light when calling Lights_BindAll
  */
-LightNode* LightContext_InsertLight(PlayState* play, LightContext* lightCtx, LightInfo* info) {
+LightNode* LightContext_InsertLight(UNUSED PlayState* play, LightContext* lightCtx, LightInfo* info) {
     LightNode* node;
 
     node = Lights_FindBufSlot();
@@ -257,7 +257,7 @@ LightNode* LightContext_InsertLight(PlayState* play, LightContext* lightCtx, Lig
     return node;
 }
 
-void LightContext_RemoveLight(PlayState* play, LightContext* lightCtx, LightNode* node) {
+void LightContext_RemoveLight(UNUSED PlayState* play, LightContext* lightCtx, LightNode* node) {
     if (node != NULL) {
         if (node->prev != NULL) {
             node->prev->next = node->next;
@@ -361,7 +361,7 @@ void Lights_GlowCheck(PlayState* play) {
 }
 
 void Lights_DrawGlow(PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     LightNode* node;
 
     node = play->lightCtx.listHead;
@@ -377,7 +377,7 @@ void Lights_DrawGlow(PlayState* play) {
         LightInfo* info;
         LightPoint* params;
         f32 scale;
-        s32 pad[4];
+        STACK_PADS(s32, 4);
 
         info = node->info;
         params = &info->params.point;

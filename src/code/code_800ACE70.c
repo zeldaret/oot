@@ -60,7 +60,7 @@ void func_800ACE70(struct_801664F0* this) {
 }
 
 // Destroy
-void func_800ACE90(struct_801664F0* this) {
+void func_800ACE90(UNUSED struct_801664F0* this) {
 }
 
 // Draw

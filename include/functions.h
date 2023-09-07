@@ -507,7 +507,7 @@ u8 Actor_ApplyDamage(Actor* actor);
 void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag);
 void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
-Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
+Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* arg5,
                      PlayState* play, s16 params, Gfx* dList);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
 s32 Flags_GetEventChkInf(s32 flag);
@@ -808,7 +808,7 @@ void Font_LoadOrderedFont(Font* font);
 s32 Environment_ZBufValToFixedPoint(s32 zBufferVal);
 u16 Environment_GetPixelDepth(s32 x, s32 y);
 void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param);
-void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused);
+void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 arg2);
 u8 Environment_SmoothStepToU8(u8* pvalue, u8 target, u8 scale, u8 step, u8 minStep);
 u8 Environment_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minStep);
 f32 Environment_LerpWeight(u16 max, u16 min, u16 val);
@@ -820,15 +820,15 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         GraphicsContext* gfxCtx);
 void Environment_DrawSunAndMoon(PlayState* play);
 void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view,
-                                  GraphicsContext* gfxCtx, Vec3f pos, s32 unused);
+                                  GraphicsContext* gfxCtx, Vec3f pos, s32 arg5);
 void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view,
-                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
+                               GraphicsContext* gfxCtx, Vec3f pos, s32 arg5, s16 scale, f32 colorIntensity,
                                s16 glareStrength, u8 isSun);
 void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx);
 void Environment_ChangeLightSetting(PlayState* play, u32 lightSetting);
 void Environment_UpdateLightningStrike(PlayState* play);
 void Environment_AddLightningBolts(PlayState* play, u8 num);
-void Environment_DrawLightning(PlayState* play, s32 unused);
+void Environment_DrawLightning(PlayState* play, s32 arg1);
 void Environment_PlaySceneSequence(PlayState* play);
 void Environment_DrawCustomLensFlare(PlayState* play);
 void Environment_InitGameOverLights(PlayState* play);
@@ -1351,7 +1351,7 @@ void Graph_Init(GraphicsContext* gfxCtx);
 void Graph_Destroy(GraphicsContext* gfxCtx);
 void Graph_TaskSet00(GraphicsContext* gfxCtx);
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
-void Graph_ThreadEntry(void*);
+void Graph_ThreadEntry(void* arg);
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);

@@ -36,7 +36,7 @@ void OceffWipe_Init(Actor* thisx, PlayState* play) {
 }
 
 void OceffWipe_Destroy(Actor* thisx, PlayState* play) {
-    OceffWipe* this = (OceffWipe*)thisx;
+    UNUSED OceffWipe* this = (OceffWipe*)thisx;
     Player* player = GET_PLAYER(play);
 
     Magic_Reset(play);
@@ -67,7 +67,7 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
     u32 scroll = play->state.frames & 0xFF;
     OceffWipe* this = (OceffWipe*)thisx;
     f32 z;
-    s32 pad;
+    STACK_PAD(s32);
     u8 alphaTable[3];
     s32 i;
     Vec3f eye;

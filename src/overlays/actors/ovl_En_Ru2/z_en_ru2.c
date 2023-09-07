@@ -98,7 +98,7 @@ void func_80AF2550(Actor* thisx, PlayState* play) {
 }
 
 void func_80AF259C(EnRu2* this, PlayState* play) {
-    s32 pad[5];
+    STACK_PADS(s32, 5);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
@@ -111,7 +111,7 @@ void EnRu2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void func_80AF2608(EnRu2* this) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     s16* unk_2A6 = &this->unk_2A6;
     s16* unk_2A4 = &this->unk_2A4;
 
@@ -259,7 +259,7 @@ void func_80AF2A38(EnRu2* this, PlayState* play) {
 }
 
 void func_80AF2AB4(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Player* player;
     s16 temp;
 
@@ -467,7 +467,7 @@ void func_80AF31C8(EnRu2* this, PlayState* play) {
 }
 
 void func_80AF321C(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 temp = this->unk_2A4;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;
@@ -658,12 +658,12 @@ void func_80AF390C(EnRu2* this, PlayState* play) {
 }
 
 void func_80AF39DC(EnRu2* this, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     MessageContext* msgCtx;
-    s32 pad2;
+    STACK_PAD(s32);
     u8 dialogState;
     Player* player;
-    s32 pad3;
+    STACK_PAD(s32);
 
     msgCtx = &play->msgCtx;
     dialogState = Message_GetState(msgCtx);
@@ -796,7 +796,7 @@ void func_80AF3F14(EnRu2* this, PlayState* play) {
 }
 
 void func_80AF3F20(EnRu2* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s16 temp = this->unk_2A4;
     void* tex = sEyeTextures[temp];
     SkelAnime* skelAnime = &this->skelAnime;

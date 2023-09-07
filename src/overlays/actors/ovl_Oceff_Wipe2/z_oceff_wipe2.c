@@ -36,7 +36,7 @@ void OceffWipe2_Init(Actor* thisx, PlayState* play) {
 }
 
 void OceffWipe2_Destroy(Actor* thisx, PlayState* play) {
-    OceffWipe2* this = (OceffWipe2*)thisx;
+    UNUSED OceffWipe2* this = (OceffWipe2*)thisx;
     Player* player = GET_PLAYER(play);
 
     Magic_Reset(play);
@@ -63,7 +63,7 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     OceffWipe2* this = (OceffWipe2*)thisx;
     f32 z;
     u8 alpha;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     Vec3f eye;
     Vtx* vtxPtr;
     Vec3f quakeOffset;

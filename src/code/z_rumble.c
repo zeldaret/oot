@@ -20,7 +20,7 @@ RumbleMgr sRumbleMgr;
  *
  * Unlike every other function in this file, this runs on the padmgr thread.
  */
-void Rumble_Update(PadMgr* padMgr, void* arg) {
+void Rumble_Update(PadMgr* padMgr, UNUSED void* arg) {
     RumbleMgr_Update(&sRumbleMgr);
     PadMgr_RumbleSet(padMgr, sRumbleMgr.rumbleEnable);
 }

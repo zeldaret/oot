@@ -321,7 +321,7 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, PlayState* play) {
     s32 bgId;
     Vec3f colPoint;
     s16 angle;
-    s32 pad;
+    STACK_PAD(s32);
 
     // Check to see if `actor` is within 400 units of `this`
     if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &actor->world.pos) > 400.0f) {
@@ -648,7 +648,7 @@ void EnFd_WaitForCore(EnFd* this, PlayState* play) {
 
 void EnFd_Update(Actor* thisx, PlayState* play) {
     EnFd* this = (EnFd*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->firstUpdateFlag) {
         func_800F5ACC(NA_BGM_MINI_BOSS);
@@ -710,8 +710,8 @@ s32 EnFd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
 void EnFd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
     EnFd* this = (EnFd*)thisx;
-    Vec3f unused0 = { 6800.0f, 0.0f, 0.0f };
-    Vec3f unused1 = { 6800.0f, 0.0f, 0.0f };
+    UNUSED Vec3f unused0 = { 6800.0f, 0.0f, 0.0f };
+    UNUSED Vec3f unused1 = { 6800.0f, 0.0f, 0.0f };
     Vec3f initialPos = { 0.0f, 0.0f, 0.0f };
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
@@ -760,7 +760,7 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
         { 255, 0, 0, 255 },
     };
     u32 frames;
-    s32 pad;
+    STACK_PAD(s32);
 
     frames = play->state.frames;
 

@@ -195,7 +195,7 @@ void ItemOcarina_Update(Actor* thisx, PlayState* play) {
 }
 
 void ItemOcarina_Draw(Actor* thisx, PlayState* play) {
-    ItemOcarina* this = (ItemOcarina*)thisx;
+    UNUSED ItemOcarina* this = (ItemOcarina*)thisx;
 
     func_8002EBCC(thisx, play, 0);
     func_8002ED80(thisx, play, 0);

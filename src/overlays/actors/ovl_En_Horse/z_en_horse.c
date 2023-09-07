@@ -1607,7 +1607,7 @@ void EnHorse_Stub1(EnHorse* this) {
 }
 
 void EnHorse_LowJump(EnHorse* this, PlayState* play) {
-    Vec3f pad;
+    STACK_PADS(s32, 3);
     Vec3s* jointTable;
     f32 curFrame;
     f32 y;
@@ -1682,7 +1682,7 @@ void EnHorse_Stub2(EnHorse* this) {
 }
 
 void EnHorse_HighJump(EnHorse* this, PlayState* play) {
-    Vec3f pad;
+    STACK_PADS(s32, 3);
     Vec3s* jointTable;
     f32 curFrame;
     f32 y;
@@ -2920,7 +2920,7 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
     f32 dist;
     f32 waterHeight;
     WaterBox* waterBox;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterHeight,
                                 &waterBox) == 1 &&
@@ -3021,7 +3021,7 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
 s32 EnHorse_GetMountSide(EnHorse* this, PlayState* play);
 
 void EnHorse_MountDismount(EnHorse* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     s32 mountSide;
     Player* player = GET_PLAYER(play);
 
@@ -3115,12 +3115,11 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
     Vec3f startPos;
     Vec3f endPos;
     Vec3f obstaclePos;
-    f32 pad3;
+    STACK_PAD(s32);
     f32 intersectDist;
     CollisionPoly* wall = NULL;
     CollisionPoly* obstacleFloor = NULL;
@@ -3129,7 +3128,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
     f32 behindObstacleHeight;
     f32 ny;
     s32 movingFast;
-    s32 pad5;
+    STACK_PAD(s32);
     DynaPolyActor* dynaPoly;
     Vec3f intersect;
     Vec3f obstacleTop;
@@ -3319,7 +3318,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, PlayState* play) {
 void EnHorse_CheckBoost(EnHorse* thisx, PlayState* play2) {
     EnHorse* this = (EnHorse*)thisx;
     PlayState* play = play2;
-    s32 pad;
+    STACK_PAD(s32);
 
     if (this->action == ENHORSE_ACT_MOUNTED_WALK || this->action == ENHORSE_ACT_MOUNTED_TROT ||
         this->action == ENHORSE_ACT_MOUNTED_GALLOP) {
@@ -3404,7 +3403,7 @@ void EnHorse_RegenBoost(EnHorse* this, PlayState* play) {
 }
 
 void EnHorse_UpdatePlayerDir(EnHorse* this, PlayState* play) {
-    EnHorse* pad;
+    STACK_PAD(s32);
     s16 angle;
     f32 s;
     f32 c;
@@ -3677,14 +3676,13 @@ void EnHorse_RandomOffset(Vec3f* src, f32 dist, Vec3f* dst) {
 
 void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     EnHorse* this = (EnHorse*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     Vec3f sp94 = { 0.0f, 0.0f, 0.0f };
     Vec3f hoofOffset = { 5.0f, -4.0f, 5.0f };
     Vec3f riderOffset = { 600.0f, -1670.0f, 0.0f };
     Vec3f sp70;
-    Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp58 = { 0.0f, -1.0f, 0.0f };
-
+    UNUSED Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f sp58 = { 0.0f, -1.0f, 0.0f };
     f32 frame = this->skin.skelAnime.curFrame;
     Vec3f center;
     Vec3f newCenter;
@@ -3818,8 +3816,7 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->jntSph.base);
 }
 
-// unused
-static s32 D_80A667DC[] = { 0, 3, 7, 14 };
+UNUSED static s32 D_80A667DC[] = { 0, 3, 7, 14 };
 
 s32 EnHorse_OverrideLimbDraw(Actor* thisx, PlayState* play, s32 limbIndex, Skin* arg3) {
     static void* eyeTextures[] = {

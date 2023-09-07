@@ -1480,9 +1480,9 @@ void AudioOcarina_CheckIfStartedSong(void) {
  */
 void AudioOcarina_CheckSongsWithMusicStaff(void) {
     u16 curOcarinaSongFlag;
-    u16 pad;
+    STACK_PAD(s16);
     u8 noNewValidInput = false;
-    u16 pad2;
+    STACK_PAD(s16);
     s8 staffOcarinaPlayingPosOffset = 0;
     u8 songIndex;
     OcarinaNote* curNote;
@@ -1655,7 +1655,7 @@ void AudioOcarina_CheckSongsWithoutMusicStaff(void) {
 }
 
 // This unused argument is used in Majora's Mask as a u8
-void AudioOcarina_PlayControllerInput(u8 unused) {
+void AudioOcarina_PlayControllerInput(UNUSED u8 arg0) {
     u32 ocarinaBtnsHeld;
 
     // Prevents two different ocarina notes from being played on two consecutive frames
@@ -1927,13 +1927,12 @@ void AudioOcarina_PlaybackSong(void) {
 
 void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
     u16 i;
-    u16 i2;
-    u16 pad;
+    STACK_PADS(s16, 2);
     u8 pitch;
-    OcarinaNote* note;
+    STACK_PAD(s32);
     u8 j;
     u8 k;
-    s32 t;
+    STACK_PAD(s32);
     OcarinaNote* recordedSong;
 
     if (sRecordingState == OCARINA_RECORD_SCARECROW_LONG) {
@@ -2401,7 +2400,7 @@ char* AudioDebug_ToStringBinary(u32 num, u8 bits) {
 }
 
 void AudioDebug_Draw(GfxPrint* printer) {
-    s32 pad[3];
+    STACK_PADS(s32, 3);
     u8 i;
     u8 j;
     u8 ctr;
@@ -3723,10 +3722,10 @@ void func_800F3054(void) {
     }
 }
 
-void func_800F3138(UNK_TYPE arg0) {
+void func_800F3138(UNUSED UNK_TYPE arg0) {
 }
 
-void func_800F3140(UNK_TYPE arg0, UNK_TYPE arg1) {
+void func_800F3140(UNUSED UNK_TYPE arg0, UNUSED UNK_TYPE arg1) {
 }
 
 void func_800F314C(s8 arg0) {
@@ -3811,7 +3810,7 @@ s8 Audio_ComputeSfxReverb(u8 bankId, u8 entryIdx, u8 channelIdx) {
     return reverb;
 }
 
-s8 Audio_ComputeSfxPanSigned(f32 x, f32 z, u8 token) {
+s8 Audio_ComputeSfxPanSigned(f32 x, f32 z, UNUSED u8 token) {
     f32 absX;
     f32 absZ;
     f32 pan;
@@ -3954,7 +3953,7 @@ u8 func_800F37B8(f32 behindScreenZ, SfxBankEntry* arg1, s8 arg2) {
     return (phi_v1 * 0x10) + (u8)((phi_f0 * phi_f12) / (10000.0f / 5.2f));
 }
 
-s8 func_800F3990(f32 arg0, u16 sfxParams) {
+s8 func_800F3990(f32 arg0, UNUSED u16 sfxParams) {
     s8 ret = 0;
 
     if (arg0 >= 0.0f) {
@@ -4924,7 +4923,7 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
 }
 
 void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
-    s8 pad;
+    STACK_PAD(u8);
     s8 melodyVolume;
     s16 curSeqId;
 
@@ -5337,7 +5336,7 @@ void func_800F7170(void) {
     Audio_QueueCmdS32(0xF8000000, 0);
 }
 
-void func_800F71BC(s32 arg0) {
+void func_800F71BC(UNUSED s32 arg0) {
     D_80133418 = 1;
     func_800F6C34();
     AudioOcarina_ResetStaffs();

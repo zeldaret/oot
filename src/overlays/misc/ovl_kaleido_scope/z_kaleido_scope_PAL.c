@@ -208,7 +208,7 @@ static void* sSavePromptTexs[] = {
     gPauseSavePromptFRATex,
 };
 
-static void* sSaveConfirmationTexs[] = {
+UNUSED static void* sSaveConfirmationTexs[] = {
     gPauseSaveConfirmationENGTex,
     gPauseSaveConfirmationGERTex,
     gPauseSaveConfirmationFRATex,
@@ -933,7 +933,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     };
     static s16 D_8082AE00 = 20;
     static s16 D_8082AE04 = 0;
-    static s16 D_8082AE08[] = {
+    UNUSED static s16 D_8082AE08[] = {
         10, 16, 16, 17, 12, 13, 18, 17, 17, 19, 13, 21, 20, 21, 14, 15, 15, 15, 11, 14,
     };
     static s16 D_8082AE30[] = {
@@ -2451,7 +2451,7 @@ void KaleidoScope_UpdateCursorSize(PlayState* play) {
 
 void KaleidoScope_LoadDungeonMap(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
-    s32 pad;
+    STACK_PAD(s32);
 
     DmaMgr_RequestSyncDebug(interfaceCtx->mapSegment,
                             (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 0) * MAP_48x85_TEX_SIZE),
@@ -2504,7 +2504,7 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepG;
     s16 stepB;
     s16 stepA;
-    s32 pad;
+    STACK_PAD(s32);
 
     if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) &&
         (((pauseCtx->state >= PAUSE_STATE_OPENING_1) && (pauseCtx->state <= PAUSE_STATE_SAVE_PROMPT)) ||

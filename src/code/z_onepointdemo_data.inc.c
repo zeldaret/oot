@@ -43,7 +43,7 @@ static CutsceneCameraPoint sCrawlspaceForwardsEyePoints[9] = {
     { CS_CAM_CONTINUE, 0, 0, 60.0f, { 0, 63, 119 } }, { CS_CAM_STOP, 0, 0, 60.0f, { 0, 62, 119 } },
     { CS_CAM_STOP, 0, 0, 60.0f, { 0, 62, 119 } },
 };
-static s16 sCrawlspaceUnused = 9;
+UNUSED static s16 sCrawlspaceUnused = 9;
 static s16 sCrawlspaceTimer = 90;
 static s16 sCrawlspaceActionParam = 1;
 static CutsceneCameraPoint sCrawlspaceBackwardsEyePoints[10] = {
@@ -114,7 +114,7 @@ static CutsceneCameraPoint D_80120820[12] = {
     { CS_CAM_CONTINUE, 1, 0, 65.0f, { 75, 18, 123 } }, { CS_CAM_CONTINUE, 1, 0, 65.0f, { 75, 10, 123 } },
     { CS_CAM_STOP, 0, 0, 65.0f, { 75, 10, 122 } },     { CS_CAM_STOP, 0, 0, 65.0f, { 75, 10, 122 } },
 };
-static s16 D_801208E0 = 12;
+UNUSED static s16 D_801208E0 = 12;
 static s16 D_801208E4 = 90;
 static s16 D_801208E8 = 8;
 

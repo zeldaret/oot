@@ -234,7 +234,7 @@ void EnKanban_Init(Actor* thisx, PlayState* play) {
 }
 
 void EnKanban_Destroy(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     EnKanban* this = (EnKanban*)thisx;
 
     if (this->actionState == ENKANBAN_SIGN) {
@@ -795,7 +795,7 @@ static f32 sCutAngles[] = {
     /* CUT_VERT_R */ 0.00f * M_PI,
 };
 
-static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
+UNUSED static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
 #include "assets/overlays/ovl_En_Kanban/ovl_En_Kanban.c"
 

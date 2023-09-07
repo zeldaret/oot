@@ -33,7 +33,7 @@ void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFun
 }
 
 void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play) {
-    EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
+    UNUSED EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
     if ((gWeatherMode != WEATHER_MODE_RAIN) && (gWeatherMode != WEATHER_MODE_HEAVY_RAIN) &&

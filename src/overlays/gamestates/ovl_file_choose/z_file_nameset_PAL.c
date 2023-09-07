@@ -31,7 +31,6 @@ void FileSelect_DrawCharacter(GraphicsContext* gfxCtx, void* texture, s16 vtx) {
 
 void FileSelect_SetKeyboardVtx(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
-    s16 val;
     s16 phi_t2;
     s16 phi_t0;
     s16 phi_t3;
@@ -810,7 +809,7 @@ void FileSelect_DrawOptionsImpl(GameState* thisx) {
     s16 cursorGreen;
     s16 cursorBlue;
     s16 i;
-    s16 j;
+    STACK_PAD(s16);
     s16 vtx;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 848);

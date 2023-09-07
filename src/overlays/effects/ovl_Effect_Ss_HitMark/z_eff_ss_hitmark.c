@@ -77,7 +77,7 @@ void EffectSsHitMark_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTransBillboard;
     Mtx* mtx;
     f32 scale;
-    s32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_hitmark.c", 297);
 

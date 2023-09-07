@@ -36,7 +36,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         gOcarinaBtnIconCLeftTex,  // OCARINA_BTN_C_LEFT
         gOcarinaBtnIconCUpTex,    // OCARINA_BTN_C_UP
     };
-    static u16 D_8082A144[] = {
+    UNUSED static u16 D_8082A144[] = {
         0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC,
     };
     static s16 D_8082A150[] = {
@@ -71,9 +71,9 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     s16 sp21A;
     s16 sp218;
     s16 sp216;
-    s16 pad1;
+    STACK_PAD(s16);
     s16 phi_v1;
-    s16 pad2;
+    STACK_PAD(s16);
     s16 cursorItem;
     s16 sp208[3];
 

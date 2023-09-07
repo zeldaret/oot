@@ -121,7 +121,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnNiw_Init(Actor* thisx, PlayState* play) {
     EnNiw* this = (EnNiw*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s32 i;
 
     if (this->actor.params < 0) {
@@ -472,7 +472,7 @@ void func_80AB6450(EnNiw* this, PlayState* play) {
 }
 
 void func_80AB6570(EnNiw* this, PlayState* play) {
-    s32 pad[2];
+    STACK_PADS(s32, 2);
     f32 posY = Rand_CenteredFloat(100.0f);
     f32 posZ = Rand_CenteredFloat(100.0f);
     s16 tmp;
@@ -874,22 +874,22 @@ void func_80AB747C(EnNiw* this, PlayState* play) {
 }
 
 void EnNiw_Update(Actor* thisx, PlayState* play) {
-    s32 pad1;
+    STACK_PAD(s32);
     EnNiw* this = (EnNiw*)thisx;
     Player* player = GET_PLAYER(play);
     s16 i;
     s16 featherCount;
-    Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
     Vec3f vel;
     Vec3f accel;
-    s32 pad2;
+    STACK_PAD(s32);
     f32 scale;
     Vec3f cam;
     f32 dist;
     f32 camResult;
-    s32 pad3[10];
+    STACK_PADS(s32, 10);
 
     if (1) {} // Required to match
     if (1) {}
@@ -1114,7 +1114,7 @@ void EnNiw_Update(Actor* thisx, PlayState* play) {
 
 s32 EnNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNiw* this = (EnNiw*)thisx;
-    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 13) {
         rot->y += (s16)this->unk_2DC;
@@ -1139,7 +1139,7 @@ s32 EnNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnNiw_Draw(Actor* thisx, PlayState* play) {
     EnNiw* this = (EnNiw*)thisx;
     Vec3f scale = { 0.15f, 0.15f, 0.15f };
-    GraphicsContext* gfxCtx = play->state.gfxCtx;
+    STACK_PAD(s32);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
@@ -1205,7 +1205,7 @@ void EnNiw_UpdateEffects(EnNiw* this, PlayState* play) {
 void EnNiw_DrawEffects(EnNiw* this, PlayState* play) {
     u8 materialFlag = 0;
     s16 i;
-    s32 pad;
+    STACK_PAD(s32);
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     EnNiwEffect* effect = &this->effects[0];
 

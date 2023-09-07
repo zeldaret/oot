@@ -151,7 +151,7 @@ void EnIceHono_InitSmallFlame(Actor* thisx, PlayState* play) {
 
 void EnIceHono_Init(Actor* thisx, PlayState* play) {
     EnIceHono* this = (EnIceHono*)thisx;
-    s16 params = this->actor.params;
+    UNUSED s32 params = this->actor.params;
 
     switch (this->actor.params) {
         case -1:
@@ -338,9 +338,9 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, PlayState* play) {
 
 void EnIceHono_Update(Actor* thisx, PlayState* play) {
     EnIceHono* this = (EnIceHono*)thisx;
-    s32 pad1;
+    STACK_PAD(s32);
     f32 intensity;
-    s32 pad2;
+    STACK_PAD(s32);
     f32 sin154;
     f32 sin156;
 
@@ -371,7 +371,7 @@ void EnIceHono_Update(Actor* thisx, PlayState* play) {
 
 void EnIceHono_Draw(Actor* thisx, PlayState* play) {
     EnIceHono* this = (EnIceHono*)thisx;
-    u32 pad;
+    STACK_PAD(s32);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ice_hono.c", 695);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);

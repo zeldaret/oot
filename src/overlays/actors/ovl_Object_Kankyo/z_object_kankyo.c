@@ -64,7 +64,7 @@ void ObjectKankyo_SetupAction(ObjectKankyo* this, ObjectKankyoActionFunc action)
 
 void ObjectKankyo_Init(Actor* thisx, PlayState* play) {
     ObjectKankyo* this = (ObjectKankyo*)thisx;
-    s32 pad;
+    STACK_PAD(s32);
     s16 i;
 
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
@@ -183,8 +183,8 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
     f32 baseX;
     f32 baseY;
     f32 baseZ;
-    Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     f32 random;
     s16 i;
     Vec3f viewForwards;
@@ -497,8 +497,8 @@ void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     ObjectKankyo* this = (ObjectKankyo*)thisx;
     f32 alphaScale;
-    Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
     if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_8)) {
@@ -590,11 +590,10 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
     f32 baseX;
     f32 baseY;
     f32 baseZ;
-    Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
-    Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
+    UNUSED Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     s16 i;
-    s32 pad;
-    s32 pad2;
+    STACK_PADS(s32, 2);
 
     if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_8)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 958);
@@ -750,7 +749,7 @@ void ObjectKankyo_Lightning(ObjectKankyo* this, PlayState* play) {
 }
 
 void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play) {
-    s32 pad;
+    STACK_PAD(s32);
     ObjectKankyo* this = (ObjectKankyo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 1182);

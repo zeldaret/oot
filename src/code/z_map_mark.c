@@ -70,7 +70,7 @@ void MapMark_Init(PlayState* play) {
                                : NULL);
 }
 
-void MapMark_ClearPointers(PlayState* play) {
+void MapMark_ClearPointers(UNUSED PlayState* play) {
     sMapMarkDataOvl.loadedRamAddr = NULL;
     sLoadedMarkDataTable = NULL;
 }

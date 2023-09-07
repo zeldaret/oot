@@ -86,7 +86,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
     OSMesg msg;
     s32 ret;
     size_t buffSize = gDmaMgrDmaBuffSize;
-    s32 pad[2];
+    STACK_PADS(s32, 2);
 
     if (buffSize == 0) {
         buffSize = DMAMGR_DEFAULT_BUFSIZE;
@@ -410,7 +410,7 @@ void DmaMgr_ProcessRequest(DmaRequest* req) {
     }
 }
 
-void DmaMgr_ThreadEntry(void* arg) {
+void DmaMgr_ThreadEntry(UNUSED void* arg) {
     OSMesg msg;
     DmaRequest* req;
 
@@ -456,7 +456,7 @@ void DmaMgr_ThreadEntry(void* arg) {
  * @param msg Message to send to `queue` once the transfer is complete.
  * @return 0
  */
-s32 DmaMgr_SendRequest(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue,
+s32 DmaMgr_SendRequest(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, UNUSED u32 unk, OSMesgQueue* queue,
                        OSMesg msg) {
     static s32 sDmaMgrQueueFullLogged = 0;
 
@@ -595,7 +595,7 @@ s32 DmaMgr_RequestSyncDebug(void* ram, uintptr_t vrom, size_t size, const char* 
     s32 ret;
     OSMesgQueue queue;
     OSMesg msg;
-    s32 pad;
+    STACK_PAD(s32);
 
     req.filename = file;
     req.line = line;
