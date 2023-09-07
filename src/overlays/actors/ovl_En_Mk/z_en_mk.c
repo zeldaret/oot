@@ -92,17 +92,17 @@ void func_80AACA94(EnMk* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play) != 0) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
-        func_80088AA0(240);
-        CLEAR_EVENTINF(EVENTINF_10);
+        Interface_SetSubTimer(240);
+        CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
     } else {
-        func_8002F434(&this->actor, play, GI_EYEDROPS, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB14(EnMk* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = func_80AACA94;
-        func_8002F434(&this->actor, play, GI_EYEDROPS, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_EYE_DROPS, 10000.0f, 50.0f);
     }
 }
 
@@ -196,14 +196,14 @@ void func_80AACFA0(EnMk* this, PlayState* play) {
         this->actionFunc = func_80AACA40;
         SET_ITEMGETINF(ITEMGETINF_10);
     } else {
-        func_8002F434(&this->actor, play, GI_HEART_PIECE, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 }
 
 void func_80AAD014(EnMk* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actionFunc = func_80AACFA0;
-        func_8002F434(&this->actor, play, GI_HEART_PIECE, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 
     this->flags |= 1;
@@ -222,7 +222,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
             player->actor.textId = this->actor.textId;
             this->actionFunc = func_80AACA40;
         } else {
-            if (INV_CONTENT(ITEM_ODD_MUSHROOM) == ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_ODD_MUSHROOM) == ITEM_EYE_DROPS) {
                 player->actor.textId = 0x4032;
                 this->actionFunc = func_80AACA40;
             } else {
@@ -247,14 +247,14 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
                             }
                         }
                         break;
-                    case EXCH_ITEM_FROG:
+                    case EXCH_ITEM_EYEBALL_FROG:
                         player->actor.textId = 0x4019;
                         this->actionFunc = func_80AACEE8;
                         Animation_Change(&this->skelAnime, &object_mk_Anim_000368, 1.0f, 0.0f,
                                          Animation_GetLastFrame(&object_mk_Anim_000368), ANIMMODE_ONCE, -4.0f);
                         this->flags &= ~2;
-                        gSaveContext.timer2State = 0;
-                        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                        gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
+                        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                         break;
                     default:
                         player->actor.textId = 0x4018;
@@ -273,7 +273,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
         angle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
         if ((ABS(angle) < 0x2151) && (this->actor.xzDistToPlayer < 100.0f)) {
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_FROG);
+            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_EYEBALL_FROG);
             this->flags |= 1;
         }
     }
@@ -288,7 +288,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (!(this->flags & 2) && SkelAnime_Update(&this->skelAnime)) {
@@ -334,7 +334,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
 
                     if (!(this->flags & 4) && (this->swimFlag >= 8)) {
                         this->flags |= 4;
-                        func_80078884(NA_SE_SY_CORRECT_CHIME);
+                        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                     }
                 }
             }

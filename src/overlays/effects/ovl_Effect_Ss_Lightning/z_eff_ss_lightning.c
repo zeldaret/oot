@@ -76,8 +76,8 @@ void EffectSsLightning_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfRotate;
-    MtxF mfTrans11DA0;
-    MtxF mfTrans11DA0Rotate;
+    MtxF mfTransBillboard;
+    MtxF mfTransBillboardRotate;
     Mtx* mtx;
     f32 yScale;
     s16 texIdx;
@@ -96,9 +96,9 @@ void EffectSsLightning_Draw(PlayState* play, u32 index, EffectSs* this) {
     xzScale = yScale * 0.6f;
     SkinMatrix_SetScale(&mfScale, xzScale, yScale, xzScale);
     SkinMatrix_SetRotateZYX(&mfRotate, this->vec.x, this->vec.y, this->rYaw);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfRotate, &mfTrans11DA0Rotate);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0Rotate, &mfScale, &mfResult);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfRotate, &mfTransBillboardRotate);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboardRotate, &mfScale, &mfResult);
 
     gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 

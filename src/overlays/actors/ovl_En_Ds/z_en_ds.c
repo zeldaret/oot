@@ -88,9 +88,9 @@ void EnDs_GiveOddPotion(EnDs* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_DisplayOddPotionText;
-        gSaveContext.timer2State = 0;
+        gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
     } else {
-        func_8002F434(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
 
@@ -98,13 +98,13 @@ void EnDs_TalkAfterBrewOddPotion(EnDs* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         this->actionFunc = EnDs_GiveOddPotion;
-        func_8002F434(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
 
 void EnDs_BrewOddPotion3(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_TalkAfterBrewOddPotion;
         Message_ContinueTextbox(play, 0x504D);
@@ -116,7 +116,7 @@ void EnDs_BrewOddPotion3(EnDs* this, PlayState* play) {
 
 void EnDs_BrewOddPotion2(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_BrewOddPotion3;
         this->brewTimer = 60;
@@ -126,7 +126,7 @@ void EnDs_BrewOddPotion2(EnDs* this, PlayState* play) {
 
 void EnDs_BrewOddPotion1(EnDs* this, PlayState* play) {
     if (this->brewTimer > 0) {
-        this->brewTimer -= 1;
+        this->brewTimer--;
     } else {
         this->actionFunc = EnDs_BrewOddPotion2;
         this->brewTimer = 20;
@@ -156,7 +156,7 @@ void EnDs_OfferOddPotion(EnDs* this, PlayState* play) {
 }
 
 s32 EnDs_CheckRupeesAndBottle(void) {
-    if (gSaveContext.rupees < 100) {
+    if (gSaveContext.save.info.playerData.rupees < 100) {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {
         return 1;
@@ -170,7 +170,7 @@ void EnDs_GiveBluePotion(EnDs* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnDs_Talk;
     } else {
-        func_8002F434(&this->actor, play, GI_POTION_BLUE, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
     }
 }
 
@@ -189,7 +189,7 @@ void EnDs_OfferBluePotion(EnDs* this, PlayState* play) {
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
                         this->actor.flags &= ~ACTOR_FLAG_16;
-                        func_8002F434(&this->actor, play, GI_POTION_BLUE, 10000.0f, 50.0f);
+                        Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }

@@ -361,7 +361,11 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
 
     gDPPipeSync(gfx++);
-    // Set the blend color to full white and set maximum depth
+    // Set the blend color to full white and set maximum depth.
+    // It is important that at least dz is set to full here as the blender will shift memory alpha values based on the
+    // value of dz even if depth compare is disabled. If per-pixel depth was enabled, fill rectangle always uses 0 z/dz,
+    // causing a maximal shift of 4 to be applied to the memory alpha value. Full dz results in no shift, which is
+    // desired here.
     gDPSetBlendColor(gfx++, 255, 255, 255, 8);
     gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
 
@@ -369,12 +373,13 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxp) {
     //
     // G_RM_VISCVG is the following special render mode:
     //  IM_RD    : Allow read-modify-write operations on the framebuffer
-    //  FORCE_BL : Apply the blender to all pixels rather than just edges
-    //  (G_BL_CLR_IN * G_BL_0 + G_BL_CLR_BL * G_BL_A_MEM) / (G_BL_0 + G_BL_CLR_BL) = G_BL_A_MEM
+    //  FORCE_BL : Apply the blender to all pixels rather than just edges, skip the division step of the blend formula
+    //  (G_BL_CLR_IN * G_BL_0 + G_BL_CLR_BL * G_BL_A_MEM) = G_BL_CLR_BL * G_BL_A_MEM
     //
-    // G_BL_A_MEM ("memory alpha") is coverage, therefore this blender configuration emits only the coverage
-    // and discards any pixel colors. For an RGBA16 framebuffer, each of the three color channels r,g,b will
-    // receive the coverage value individually.
+    // G_BL_A_MEM ("memory alpha") is coverage (shifted into the most significant 3 bits of the 5-bit blender alpha
+    // input), therefore this blender configuration emits only the coverage (up to a constant factor determined by
+    // blend color) and discards any pixel colors. For an RGBA16 framebuffer, each of the three color channels r,g,b
+    // will receive the coverage value individually.
     //
     // Also disables other modes such as alpha compare and texture perspective correction
     gDPSetOtherMode(gfx++,
@@ -720,10 +725,11 @@ void PreRender_DivotFilter(PreRender* this) {
             }
 
             // This condition is checked before entering this function, it will always pass if it runs.
-            if ((HREG(80) == 15 ? HREG(81) : 0) != 0) {
-                if ((HREG(80) == 15 ? HREG(81) : 0) != 0) {}
+            if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
+                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {}
 
-                if ((HREG(80) == 15 ? HREG(81) : 0) == 5) {
+                if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                    PRERENDER_DIVOT_PARTIAL_CVG_RED) {
                     // Fill the pixel with full red, likely for debugging
                     pxR = 31;
                     pxG = 0;
@@ -734,7 +740,8 @@ void PreRender_DivotFilter(PreRender* this) {
                     u8* windowG = &buffG[x - 1];
                     u8* windowB = &buffB[x - 1];
 
-                    if ((HREG(80) == 15 ? HREG(81) : 0) == 3) {
+                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                        PRERENDER_DIVOT_PRINT_COLOR) {
                         osSyncPrintf("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", windowR[0],
                                      windowR[1], windowR[2], MEDIAN3(windowR[0], windowR[1], windowR[2]), windowG[0],
                                      windowG[1], windowG[2], MEDIAN3(windowG[0], windowG[1], windowG[2]), windowB[0],
@@ -744,7 +751,8 @@ void PreRender_DivotFilter(PreRender* this) {
                     // Sample the median value from the 3 pixel wide window
 
                     // (Both blocks contain the same code)
-                    if ((HREG(80) == 15 ? HREG(81) : 0) == 1) {
+                    if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
+                        PRERENDER_DIVOT_ALTERNATE_COLOR) {
                         pxR = MEDIAN3(windowR[0], windowR[1], windowR[2]);
                         pxG = MEDIAN3(windowG[0], windowG[1], windowG[2]);
                         pxB = MEDIAN3(windowB[0], windowB[1], windowB[2]);
@@ -754,6 +762,7 @@ void PreRender_DivotFilter(PreRender* this) {
                         pxB = MEDIAN3(windowB[0], windowB[1], windowB[2]);
                     }
                 }
+
                 pxOut.r = pxR;
                 pxOut.g = pxG;
                 pxOut.b = pxB;
@@ -787,7 +796,7 @@ void PreRender_ApplyFilters(PreRender* this) {
             }
         }
 
-        if ((HREG(80) == 15 ? HREG(81) : 0) != 0) {
+        if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) != 0) {
             // Apply divot filter
             PreRender_DivotFilter(this);
         }

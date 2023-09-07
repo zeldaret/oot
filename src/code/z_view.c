@@ -310,16 +310,17 @@ s32 View_ApplyPerspective(View* view) {
     height = view->viewport.bottomY - view->viewport.topY;
     aspect = (f32)width / (f32)height;
 
-    if (HREG(80) == 11) {
-        if (HREG(94) != 11) {
-            HREG(94) = 11;
-            HREG(83) = 60;
-            HREG(84) = 13333;
-            HREG(85) = 10;
-            HREG(86) = 12800;
-            HREG(87) = 100;
+    if (R_HREG_MODE == HREG_MODE_PERSPECTIVE) {
+        if (R_PERSPECTIVE_INIT != HREG_MODE_PERSPECTIVE) {
+            R_PERSPECTIVE_INIT = HREG_MODE_PERSPECTIVE;
+            R_PERSPECTIVE_FOVY = 60;
+            R_PERSPECTIVE_ASPECT = (10000 * 4) / 3;
+            R_PERSPECTIVE_NEAR = 10;
+            R_PERSPECTIVE_FAR = 12800;
+            R_PERSPECTIVE_SCALE = 100;
         }
-        guPerspective(projection, &view->normal, HREG(83), HREG(84) / 10000.0f, HREG(85), HREG(86), HREG(87) / 100.0f);
+        guPerspective(projection, &view->normal, R_PERSPECTIVE_FOVY, R_PERSPECTIVE_ASPECT / 10000.0f,
+                      R_PERSPECTIVE_NEAR, R_PERSPECTIVE_FAR, R_PERSPECTIVE_SCALE / 100.0f);
     } else {
         guPerspective(projection, &view->normal, view->fovy, aspect, view->zNear, view->zFar, view->scale);
     }

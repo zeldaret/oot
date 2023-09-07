@@ -16,7 +16,7 @@ void EnEg_Draw(Actor* thisx, PlayState* play);
 
 void func_809FFDC8(EnEg* this, PlayState* play);
 
-static s32 voided = false;
+static s32 sVoided = false;
 
 static EnEgActionFunc sActionFuncs[] = {
     func_809FFDC8,
@@ -35,7 +35,7 @@ ActorInit En_Eg_InitVars = {
 };
 
 void EnEg_PlayVoidOutSFX(void) {
-    func_800788CC(NA_SE_OC_ABYSS);
+    Sfx_PlaySfxCentered2(NA_SE_OC_ABYSS);
 }
 
 void EnEg_Destroy(Actor* thisx, PlayState* play) {
@@ -48,14 +48,14 @@ void EnEg_Init(Actor* thisx, PlayState* play) {
 }
 
 void func_809FFDC8(EnEg* this, PlayState* play) {
-    if (!voided && (gSaveContext.timer2Value < 1) && Flags_GetSwitch(play, 0x36) && (kREG(0) == 0)) {
+    if (!sVoided && (gSaveContext.subTimerSeconds <= 0) && Flags_GetSwitch(play, 0x36) && (kREG(0) == 0)) {
         // Void the player out
         Play_TriggerRespawn(play);
         gSaveContext.respawnFlag = -2;
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         play->transitionType = TRANS_TYPE_FADE_BLACK;
         EnEg_PlayVoidOutSFX();
-        voided = true;
+        sVoided = true;
     }
 }
 

@@ -7,7 +7,7 @@ OSMesgQueue viEventQueue;
 OSMesg viEventBuf[5];
 OSIoMesg viRetraceMsg;
 OSIoMesg viCounterMsg;
-OSMgrArgs __osViDevMgr = { 0 };
+OSDevMgr __osViDevMgr = { 0 };
 u32 __additional_scanline = 0;
 
 void viMgrMain(void*);
@@ -17,7 +17,7 @@ void osCreateViManager(OSPri pri) {
     OSPri newPri;
     OSPri currentPri;
 
-    if (!__osViDevMgr.initialized) {
+    if (!__osViDevMgr.active) {
         __osTimerServicesInit();
         __additional_scanline = 0;
         osCreateMesgQueue(&viEventQueue, viEventBuf, ARRAY_COUNT(viEventBuf));
@@ -37,13 +37,13 @@ void osCreateViManager(OSPri pri) {
         }
 
         prevInt = __osDisableInt();
-        __osViDevMgr.initialized = true;
-        __osViDevMgr.mgrThread = &viThread;
+        __osViDevMgr.active = true;
+        __osViDevMgr.thread = &viThread;
         __osViDevMgr.cmdQueue = &viEventQueue;
-        __osViDevMgr.eventQueue = &viEventQueue;
-        __osViDevMgr.acccessQueue = NULL;
-        __osViDevMgr.piDmaCallback = NULL;
-        __osViDevMgr.epiDmaCallback = NULL;
+        __osViDevMgr.evtQueue = &viEventQueue;
+        __osViDevMgr.acsQueue = NULL;
+        __osViDevMgr.dma = NULL;
+        __osViDevMgr.edma = NULL;
 
         osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, STACK_TOP(viThreadStack), pri);
         __osViInit();
@@ -55,27 +55,27 @@ void osCreateViManager(OSPri pri) {
     }
 }
 
-void viMgrMain(void* vargs) {
+void viMgrMain(void* arg) {
     static u16 viRetrace;
-    OSMgrArgs* args;
+    OSDevMgr* dm;
     u32 addTime;
-    OSIoMesg* msg = NULL;
-    u32 temp = 0; // always 0
+    OSIoMesg* mb = NULL;
+    u32 first = 0;
 
     viRetrace = __osViGetCurrentContext()->retraceCount;
     if (viRetrace == 0) {
         viRetrace = 1;
     }
 
-    args = (OSMgrArgs*)vargs;
+    dm = (OSDevMgr*)arg;
 
     while (true) {
-        osRecvMesg(args->eventQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
-        switch (msg->hdr.type) {
+        osRecvMesg(dm->evtQueue, (OSMesg*)&mb, OS_MESG_BLOCK);
+        switch (mb->hdr.type) {
             case OS_MESG_TYPE_VRETRACE:
                 __osViSwapContext();
                 viRetrace--;
-                if (!viRetrace) {
+                if (viRetrace == 0) {
                     OSViContext* ctx = __osViGetCurrentContext();
                     if (ctx->mq) {
                         osSendMesg(ctx->mq, ctx->msg, OS_MESG_NOBLOCK);
@@ -85,12 +85,12 @@ void viMgrMain(void* vargs) {
 
                 __osViIntrCount++;
 
-                // block optimized out since temp is always 0,
+                // block optimized out since first is always 0,
                 // but it changes register allocation and ordering for __osCurrentTime
-                if (temp != 0) {
+                if (first != 0) {
                     addTime = osGetCount();
                     __osCurrentTime = addTime;
-                    temp = 0;
+                    first = 0;
                 }
 
                 addTime = __osBaseCounter;

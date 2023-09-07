@@ -436,7 +436,7 @@ void ObjSwitch_FloorPress(ObjSwitch* this, PlayState* play) {
         this->dyna.actor.scale.y -= 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y <= 33.0f / 2000.0f) {
             ObjSwitch_FloorDownInit(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
             Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
         }
     }
@@ -496,7 +496,7 @@ void ObjSwitch_FloorRelease(ObjSwitch* this, PlayState* play) {
         this->dyna.actor.scale.y += 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y >= 33.0f / 200.0f) {
             ObjSwitch_FloorUpInit(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
             if (subType == OBJSWITCH_SUBTYPE_TOGGLE) {
                 Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
             }
@@ -555,7 +555,7 @@ void ObjSwitch_EyeClosing(ObjSwitch* this, PlayState* play) {
         this->eyeTexIndex++;
         if (this->eyeTexIndex >= 3) {
             ObjSwitch_EyeClosedInit(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
@@ -596,7 +596,7 @@ void ObjSwitch_EyeOpening(ObjSwitch* this, PlayState* play) {
         this->eyeTexIndex--;
         if (this->eyeTexIndex <= 0) {
             ObjSwitch_EyeOpenInit(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
@@ -652,7 +652,7 @@ void ObjSwitch_CrystalTurnOn(ObjSwitch* this, PlayState* play) {
         if (OBJSWITCH_SUBTYPE(&this->dyna.actor) == OBJSWITCH_SUBTYPE_TOGGLE) {
             ObjSwitch_UpdateTwoTexScrollXY(this);
         }
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
     }
 }
 
@@ -696,7 +696,7 @@ void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play) {
         func_8005B198() == this->dyna.actor.category || this->cooldownTimer <= 0) {
         ObjSwitch_CrystalOffInit(this);
         ObjSwitch_UpdateTwoTexScrollXY(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_DIAMOND_SWITCH);
     }
 }
 

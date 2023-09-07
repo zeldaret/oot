@@ -153,12 +153,12 @@ void func_80AFBE8C(EnSiofuki* this, PlayState* play) {
                 speedScale = dist2d / (this->dyna.actor.scale.x * 40.0f * 10.0f);
                 speedScale = CLAMP_MIN(speedScale, 0.0f);
                 speedScale = CLAMP_MAX(speedScale, 1.0f);
-                player->linearVelocity *= speedScale;
+                player->speedXZ *= speedScale;
                 Math_ApproachF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
                 Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.3f * speedScale);
             } else {
                 this->appliedYaw = player->actor.world.rot.y;
-                player->linearVelocity /= 2.0f;
+                player->speedXZ /= 2.0f;
                 Math_ApproachF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
                 Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.1f);
             }
@@ -168,8 +168,8 @@ void func_80AFBE8C(EnSiofuki* this, PlayState* play) {
         }
     } else {
         if (this->applySpeed) {
-            player->linearVelocity = this->appliedSpeed + player->linearVelocity;
-            player->currentYaw = this->appliedYaw;
+            player->speedXZ = this->appliedSpeed + player->speedXZ;
+            player->yaw = this->appliedYaw;
         }
 
         this->targetAppliedSpeed = 0.0f;

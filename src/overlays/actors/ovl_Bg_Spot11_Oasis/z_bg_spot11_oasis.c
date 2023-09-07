@@ -94,7 +94,7 @@ void func_808B2970(BgSpot11Oasis* this) {
 }
 
 void func_808B2980(BgSpot11Oasis* this, PlayState* play) {
-    if (Flags_GetEnv(play, 5) && func_808B280C(play)) {
+    if (CutsceneFlags_Get(play, 5) && func_808B280C(play)) {
         OnePointCutscene_Init(play, 4150, -99, &this->actor, CAM_ID_MAIN);
         func_808B29E0(this);
     }
@@ -109,7 +109,7 @@ void func_808B29F0(BgSpot11Oasis* this, PlayState* play) {
         func_808B2AA8(this);
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.world.pos.x, this->actor.world.pos.y + 40.0f,
                     this->actor.world.pos.z, 0, 0, 0, FAIRY_SPAWNER);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
     func_808B27F0(play, this->actor.world.pos.y);
 }

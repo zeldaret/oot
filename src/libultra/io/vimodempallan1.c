@@ -1,34 +1,46 @@
+/**
+ * @file vimodempallan1.c
+ *
+ * MPAL LAN1 Video Mode
+ *
+ * L = Low Resolution
+ * A = Anti-Aliased
+ * N = Deinterlaced
+ * 1 = 16-bit Framebuffer
+ */
 #include "global.h"
+#include "ultra64/viint.h"
 
 OSViMode osViModeMpalLan1 = {
-    0x1E, // type
+    OS_VI_MPAL_LAN1, // type
     {
         // comRegs
-        0x311E,       // ctrl
-        SCREEN_WIDTH, // width
-        0x4651E39,    // burst
-        0x20D,        // vSync
-        0x40C11,      // hSync
-        0xC190C1A,    // leap
-        0x6C02EC,     // hStart
-        0x200,        // xScale
-        0,            // vCurrent
+        VI_CTRL_TYPE_16 | VI_CTRL_GAMMA_DITHER_ON | VI_CTRL_GAMMA_ON | VI_CTRL_DIVOT_ON | VI_CTRL_ANTIALIAS_MODE_1 |
+            VI_CTRL_PIXEL_ADV(3), // ctrl
+        WIDTH(320),               // width
+        BURST(57, 30, 5, 70),     // burst
+        VSYNC(525),               // vSync
+        HSYNC(3089, 4),           // hSync
+        LEAP(3097, 3098),         // leap
+        HSTART(108, 748),         // hStart
+        SCALE(2, 0),              // xScale
+        VCURRENT(0),              // vCurrent
     },
     { // fldRegs
       {
           // [0]
-          0x280,    // origin
-          0x400,    // yScale
-          0x2501FF, // vStart
-          0xE0204,  // vBurst
-          2,        // vIntr
+          ORIGIN(640),        // origin
+          SCALE(1, 0),        // yScale
+          START(37, 511),     // vStart
+          BURST(4, 2, 14, 0), // vBurst
+          VINTR(2),           // vIntr
       },
       {
           // [1]
-          0x280,    // origin
-          0x400,    // yScale
-          0x2501FF, // vStart
-          0xE0204,  // vBurst
-          2,        // vIntr
+          ORIGIN(640),        // origin
+          SCALE(1, 0),        // yScale
+          START(37, 511),     // vStart
+          BURST(4, 2, 14, 0), // vBurst
+          VINTR(2),           // vIntr
       } },
 };

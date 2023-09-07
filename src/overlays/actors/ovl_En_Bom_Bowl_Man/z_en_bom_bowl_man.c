@@ -69,10 +69,10 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
 
     for (i = 0; i < 2; i++) {
         cucco = (EnSyatekiNiw*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SYATEKI_NIW, cuccoSpawnPos[i].x,
-                                           cuccoSpawnPos[i].y, cuccoSpawnPos[i].z, 0, 0, 0, 1);
-
+                                           cuccoSpawnPos[i].y, cuccoSpawnPos[i].z, 0, 0, 0, 
+                                           SYATEKI_MINIGAME_ALLEY);
         if (cucco != NULL) {
-            cucco->unk_2F4 = cuccoScales[i];
+            cucco->scale = cuccoScales[i];
             cucco->collider.dim.radius = (s16)cuccoColliderDims[i][0];
             cucco->collider.dim.height = (s16)cuccoColliderDims[i][1];
         }
@@ -262,7 +262,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, PlayState* play) {
         Message_StartTextbox(play, this->actor.textId, NULL);
 
         if (this->gameResult == 2) {
-            func_8002DF54(play, NULL, 8);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
         }
         this->actionFunc = EnBomBowlMan_HandlePlayChoice;
     } else {
@@ -290,7 +290,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, PlayState* play) {
 
         switch (play->msgCtx.choiceIndex) {
             case 0: // Yes
-                if (gSaveContext.rupees >= 30) {
+                if (gSaveContext.save.info.playerData.rupees >= 30) {
                     Rupees_ChangeBy(-30);
                     this->minigamePlayStatus = 1;
                     this->wallStatus[0] = this->wallStatus[1] = 0;
@@ -307,7 +307,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, PlayState* play) {
                         Message_ContinueTextbox(play, this->actor.textId);
                         this->dialogState = TEXT_STATE_EVENT;
                         OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
-                        func_8002DF54(play, NULL, 8);
+                        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
                         this->actionFunc = EnBomBowMan_SetupChooseShowPrize;
                     }
                 } else {
@@ -343,11 +343,11 @@ void func_809C41FC(EnBomBowlMan* this, PlayState* play) {
             Message_ContinueTextbox(play, this->actor.textId);
             this->dialogState = TEXT_STATE_EVENT;
             OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
-            func_8002DF54(play, NULL, 8);
+            func_8002DF54(play, NULL, PLAYER_CSMODE_8);
             this->actionFunc = EnBomBowMan_SetupChooseShowPrize;
         } else {
             if (this->gameResult == 2) {
-                func_8002DF54(play, NULL, 7);
+                func_8002DF54(play, NULL, PLAYER_CSMODE_7);
             }
             this->actionFunc = EnBomBowMan_SetupRunGame;
         }
@@ -366,7 +366,7 @@ void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
         pos.y = 40.0f;
         pos.z = 300.0f;
         EffectSsBomb2_SpawnLayered(play, &pos, &velocity, &accel, 50, 15);
-        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_GOODS_APPEAR);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_GOODS_APPEAR);
         this->prizeRevealTimer = 10;
         this->actionFunc = EnBomBowMan_ChooseShowPrize;
     }
@@ -459,7 +459,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play) {
 
         // "Wow"
         osSyncPrintf(VT_FGCOL(YELLOW) "☆ わー ☆ %d\n" VT_RST, play->bombchuBowlingStatus);
-        func_8002DF54(play, NULL, 7);
+        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
         this->actionFunc = EnBomBowMan_SetupRunGame;
     }
 }

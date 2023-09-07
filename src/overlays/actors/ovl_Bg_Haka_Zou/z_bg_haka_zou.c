@@ -83,7 +83,7 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
     if (thisx->params == STA_UNKNOWN) {
         Actor_SetScale(thisx, (Rand_ZeroOne() * 0.005f) + 0.025f);
 
-        thisx->speedXZ = Rand_ZeroOne();
+        thisx->speed = Rand_ZeroOne();
         thisx->world.rot.y = thisx->shape.rot.y * ((Rand_ZeroOne() < 0.5f) ? -1 : 1) + Rand_CenteredFloat(0x1000);
         this->timer = 20;
         thisx->world.rot.x = Rand_S16Offset(0x100, 0x300) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
@@ -209,7 +209,7 @@ void func_80882BDC(BgHakaZou* this, PlayState* play) {
             this->dyna.actor.velocity.y *= -0.6f;
             this->dyna.actor.velocity.y = CLAMP_MAX(this->dyna.actor.velocity.y, 10.0f);
             this->dyna.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
-            this->dyna.actor.speedXZ = 2.0f;
+            this->dyna.actor.speed = 2.0f;
         } else {
             Actor_Kill(&this->dyna.actor);
         }
@@ -278,12 +278,12 @@ void func_80883000(BgHakaZou* this, PlayState* play) {
             func_80882E54(this, play);
             this->dyna.actor.draw = NULL;
             this->timer = 1;
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_EXPLOSION);
             this->actionFunc = func_80883104;
         } else {
             func_80882CC4(this, play);
             this->timer = 1;
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
             this->actionFunc = func_80883104;
         }
     } else {
@@ -314,7 +314,7 @@ void func_80883144(BgHakaZou* this, PlayState* play) {
         explosionPos.z = Rand_CenteredFloat(200.0f) + (this->dyna.actor.world.pos.z + 56.0f);
 
         EffectSsBomb2_SpawnLayered(play, &explosionPos, &sZeroVec, &sZeroVec, 150, 70);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
     }
 
     if (this->timer == 0) {
@@ -365,7 +365,7 @@ void func_80883328(BgHakaZou* this, PlayState* play) {
             effectPos.x -= 112.0f;
         }
 
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         this->timer = 25;
         this->actionFunc = func_808834D8;
     }
@@ -395,7 +395,7 @@ void BgHakaZou_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->dyna.actor.params == 3) {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
     }
 }
 

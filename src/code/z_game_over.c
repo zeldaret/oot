@@ -28,9 +28,9 @@ void GameOver_Update(PlayState* play) {
         case GAMEOVER_DEATH_START:
             Message_CloseTextbox(play);
 
-            gSaveContext.timer1State = 0;
-            gSaveContext.timer2State = 0;
-            CLEAR_EVENTINF(EVENTINF_10);
+            gSaveContext.timerState = TIMER_STATE_OFF;
+            gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
+            CLEAR_EVENTINF(EVENTINF_MARATHON_ACTIVE);
 
             // search inventory for spoiling items and revert if necessary
             for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {
@@ -38,9 +38,9 @@ void GameOver_Update(PlayState* play) {
                     INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
 
                     // search c buttons for the found spoiling item and revert if necessary
-                    for (j = 1; j < ARRAY_COUNT(gSaveContext.equips.buttonItems); j++) {
-                        if (gSaveContext.equips.buttonItems[j] == gSpoilingItems[i]) {
-                            gSaveContext.equips.buttonItems[j] = gSpoilingItemReverts[i];
+                    for (j = 1; j < ARRAY_COUNT(gSaveContext.save.info.equips.buttonItems); j++) {
+                        if (gSaveContext.save.info.equips.buttonItems[j] == gSpoilingItems[i]) {
+                            gSaveContext.save.info.equips.buttonItems[j] = gSpoilingItemReverts[i];
                             Interface_LoadItemIcon1(play, j);
                         }
                     }
@@ -48,20 +48,20 @@ void GameOver_Update(PlayState* play) {
             }
 
             // restore "temporary B" to the B Button if not a sword item
-            if (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS &&
-                gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE) {
+            if (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_KOKIRI &&
+                gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_MASTER &&
+                gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_BIGGORON &&
+                gSaveContext.save.info.equips.buttonItems[0] != ITEM_GIANTS_KNIFE) {
 
                 if (gSaveContext.buttonStatus[0] != BTN_ENABLED) {
-                    gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
+                    gSaveContext.save.info.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 } else {
-                    gSaveContext.equips.buttonItems[0] = ITEM_NONE;
+                    gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
                 }
             }
 
             gSaveContext.nayrusLoveTimer = 2000;
-            gSaveContext.naviTimer = 0;
+            gSaveContext.save.info.playerData.naviTimer = 0;
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
             gSaveContext.eventInf[0] = 0;
@@ -70,7 +70,8 @@ void GameOver_Update(PlayState* play) {
             gSaveContext.eventInf[3] = 0;
             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                 gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
-            gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
+            gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
+                gSaveContext.hudVisibilityModeTimer = 0; // false, HUD_VISIBILITY_NO_CHANGE
 
             Environment_InitGameOverLights(play);
             gGameOverTimer = 20;
@@ -94,7 +95,7 @@ void GameOver_Update(PlayState* play) {
             gGameOverTimer--;
 
             if (gGameOverTimer == 0) {
-                play->pauseCtx.state = 8;
+                play->pauseCtx.state = PAUSE_STATE_8;
                 gameOverCtx->state++;
                 Rumble_Reset();
             }

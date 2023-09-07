@@ -1611,11 +1611,11 @@ s32 CollisionCheck_SwordHitAudio(Collider* at, ColliderInfo* acInfo) {
             Audio_PlaySfxGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &at->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acInfo->elemType == ELEMTYPE_UNK2) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &at->actor->projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_NONE, &at->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (acInfo->elemType == ELEMTYPE_UNK3) {
-            Audio_PlaySfxGeneral(NA_SE_PL_WALK_GROUND - SFX_FLAG, &at->actor->projectedPos, 4,
-                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_NONE, &at->actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
     return true;
@@ -2658,8 +2658,8 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     f32 zDelta;
     Actor* leftActor = left->actor;
     Actor* rightActor = right->actor;
-    s32 leftMassType;
     s32 rightMassType;
+    s32 leftMassType;
 
     left->ocFlags1 |= OC1_HIT;
     left->oc = rightActor;
@@ -2676,8 +2676,8 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     if (leftActor == NULL || rightActor == NULL || left->ocFlags1 & OC1_NO_PUSH || right->ocFlags1 & OC1_NO_PUSH) {
         return;
     }
-    rightMassType = CollisionCheck_GetMassType(leftActor->colChkInfo.mass);
-    leftMassType = CollisionCheck_GetMassType(rightActor->colChkInfo.mass);
+    leftMassType = CollisionCheck_GetMassType(leftActor->colChkInfo.mass);
+    rightMassType = CollisionCheck_GetMassType(rightActor->colChkInfo.mass);
     leftMass = leftActor->colChkInfo.mass;
     rightMass = rightActor->colChkInfo.mass;
     totalMass = leftMass + rightMass;
@@ -2689,30 +2689,30 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     zDelta = rightPos->z - leftPos->z;
     xzDist = sqrtf(SQ(xDelta) + SQ(zDelta));
 
-    if (rightMassType == MASSTYPE_IMMOVABLE) {
-        if (leftMassType == MASSTYPE_IMMOVABLE) {
+    if (leftMassType == MASSTYPE_IMMOVABLE) {
+        if (rightMassType == MASSTYPE_IMMOVABLE) {
             return;
-        } else { // leftMassType == MASS_HEAVY | MASS_NORMAL
+        } else { // rightMassType == MASSTYPE_HEAVY or MASSTYPE_NORMAL
             leftDispRatio = 0;
             rightDispRatio = 1;
         }
-    } else if (rightMassType == MASSTYPE_HEAVY) {
-        if (leftMassType == MASSTYPE_IMMOVABLE) {
+    } else if (leftMassType == MASSTYPE_HEAVY) {
+        if (rightMassType == MASSTYPE_IMMOVABLE) {
             leftDispRatio = 1;
             rightDispRatio = 0;
-        } else if (leftMassType == MASSTYPE_HEAVY) {
+        } else if (rightMassType == MASSTYPE_HEAVY) {
             leftDispRatio = 0.5f;
             rightDispRatio = 0.5f;
-        } else { // leftMassType == MASS_NORMAL
+        } else { // rightMassType == MASSTYPE_NORMAL
             leftDispRatio = 0;
             rightDispRatio = 1;
         }
-    } else { // rightMassType == MASS_NORMAL
-        if (leftMassType == MASSTYPE_NORMAL) {
+    } else { // leftMassType == MASSTYPE_NORMAL
+        if (rightMassType == MASSTYPE_NORMAL) {
             inverseTotalMass = 1 / totalMass;
             leftDispRatio = rightMass * inverseTotalMass;
             rightDispRatio = leftMass * inverseTotalMass;
-        } else { // leftMassType == MASS_HEAVY | MASS_IMMOVABLE
+        } else { // rightMassType == MASSTYPE_HEAVY or MASSTYPE_IMMOVABLE
             leftDispRatio = 1;
             rightDispRatio = 0;
         }
@@ -3506,7 +3506,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
     }
     radSqDiff = SQXZ(actorToItem) - SQ(radius);
     if (!IS_ZERO(SQXZ(itemStep))) {
-        actorDotItemXZ = DOTXZ(2.0f * itemStep, actorToItem);
+        actorDotItemXZ = (2.0f * itemStep.x * actorToItem.x) + (2.0f * itemStep.z * actorToItem.z);
         if (SQ(actorDotItemXZ) < (4.0f * SQXZ(itemStep) * radSqDiff)) {
             return 0;
         }
@@ -3523,10 +3523,10 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         if (intersect2 == true) {
             frac2 = (-actorDotItemXZ - closeDist) / (2.0f * SQXZ(itemStep));
         }
-    } else if (!IS_ZERO(DOTXZ(2.0f * itemStep, actorToItem))) {
+    } else if (!IS_ZERO((2.0f * itemStep.x * actorToItem.x) + (2.0f * itemStep.z * actorToItem.z))) {
         intersect1 = true;
         intersect2 = false;
-        frac1 = -radSqDiff / DOTXZ(2.0f * itemStep, actorToItem);
+        frac1 = -radSqDiff / ((2.0f * itemStep.x * actorToItem.x) + (2.0f * itemStep.z * actorToItem.z));
     } else {
         if (radSqDiff <= 0.0f) {
             test1 = (0.0f < actorToItem.y) && (actorToItem.y < height);
@@ -3549,7 +3549,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         return 0;
     }
 
-    if (intersect2 == false) {
+    if (!intersect2) {
         if (frac1 < 0.0f || 1.0f < frac1) {
             return 0;
         }
@@ -3576,7 +3576,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         ((frac2 * itemStep.y + actorToItem.y < 0.0f) || (height < frac2 * itemStep.y + actorToItem.y))) {
         intersect2 = false;
     }
-    if (intersect1 == false && intersect2 == false) {
+    if (!intersect1 && !intersect2) {
         return 0;
     } else if ((intersect1 == true) && (intersect2 == true)) {
         out1->x = frac1 * itemStep.x + actorToItem.x + actorPos->x;

@@ -64,7 +64,7 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
 
     OPEN_DISPS(gfxCtx, "../z_moji.c", 86);
 
-    if ((u32)gMojiFontTLUTs & 0xF) {
+    if ((uintptr_t)gMojiFontTLUTs & 0xF) {
         osSyncPrintf("moji_tlut --> %X\n", gMojiFontTLUTs);
     }
 
@@ -90,14 +90,14 @@ void Moji_DrawString(GraphicsContext* gfxCtx, const char* str) {
 
     OPEN_DISPS(gfxCtx, "../z_moji.c", 137);
 
-    if ((u32)gMojiFontTex & 0xF) {
+    if ((uintptr_t)gMojiFontTex & 0xF) {
         osSyncPrintf("font_ff --> %X\n", gMojiFontTex);
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sFontColorRed, sFontColorGreen, sFontColorBlue, sFontColorAlpha);
 
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (s32)gMojiFontTex, G_IM_FMT_CI, TEX_CHAR_COLS * TEX_CHAR_WIDTH,
+    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, (intptr_t)gMojiFontTex, G_IM_FMT_CI, TEX_CHAR_COLS * TEX_CHAR_WIDTH,
                            TEX_CHAR_ROWS * TEX_CHAR_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 

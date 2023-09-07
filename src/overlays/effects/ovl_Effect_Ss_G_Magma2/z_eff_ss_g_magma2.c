@@ -13,7 +13,7 @@
 #define rEnvColorR regs[3]
 #define rEnvColorG regs[4]
 #define rEnvColorA regs[5]
-#define rTexIdx regs[6]
+#define rTexIndex regs[6]
 #define rTimer regs[7]
 #define rUpdateRate regs[8]
 #define rDrawMode regs[9]
@@ -54,7 +54,7 @@ u32 EffectSsGMagma2_Init(PlayState* play, u32 index, EffectSs* this, void* initP
         this->draw = EffectSsGMagma2_Draw;
         this->update = EffectSsGMagma2_Update;
         this->gfx = SEGMENTED_TO_VIRTUAL(object_kingdodongo_DL_025A90);
-        this->rTexIdx = 0;
+        this->rTexIndex = 0;
         this->rDrawMode = initParams->drawMode;
         this->rUpdateRate = initParams->updateRate;
         this->rScale = initParams->scale;
@@ -97,7 +97,7 @@ void EffectSsGMagma2_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, 0, this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, 0, this->rEnvColorA);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIndex]));
     gSPDisplayList(POLY_XLU_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_magma2.c", 311);
@@ -108,9 +108,9 @@ void EffectSsGMagma2_Update(PlayState* play, u32 index, EffectSs* this) {
 
     if (this->rTimer >= 10) {
         this->rTimer -= 10;
-        this->rTexIdx++;
+        this->rTexIndex++;
 
-        if (this->rTexIdx >= 10) {
+        if (this->rTexIndex >= 10) {
             this->life = 0;
         }
 

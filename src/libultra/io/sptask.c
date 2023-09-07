@@ -32,7 +32,7 @@ void osSpTaskLoad(OSTask* intp) {
         intp->t.flags &= ~OS_TASK_YIELDED;
 
         if (tp->t.flags & OS_TASK_LOADABLE) {
-            tp->t.ucode = (u64*)HW_REG((u32)intp->t.yield_data_ptr + OS_YIELD_DATA_SIZE - 4, u32);
+            tp->t.ucode = (u64*)IO_READ((u32)intp->t.yield_data_ptr + OS_YIELD_DATA_SIZE - 4);
         }
     }
     osWritebackDCache(tp, sizeof(OSTask));
@@ -41,7 +41,7 @@ void osSpTaskLoad(OSTask* intp) {
     while (__osSpSetPc((void*)SP_IMEM_START) == -1) {
         ;
     }
-    while (__osSpRawStartDma(OS_WRITE, (void*)(SP_IMEM_START - sizeof(*tp)), tp, sizeof(OSTask)) == -1) {
+    while (__osSpRawStartDma(OS_WRITE, (void*)(SP_DMEM_END + 1 - sizeof(OSTask)), tp, sizeof(OSTask)) == -1) {
         ;
     }
     while (__osSpDeviceBusy()) {

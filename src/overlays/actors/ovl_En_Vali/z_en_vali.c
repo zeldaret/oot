@@ -216,7 +216,7 @@ void EnVali_SetupAttacked(EnVali* this) {
 
 void EnVali_SetupRetaliate(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariRetaliatingAnim, -5.0f);
-    Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
     this->actor.params = BARI_TYPE_NORMAL;
     this->bodyCollider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnVali_Retaliate;
@@ -230,7 +230,7 @@ void EnVali_SetupMoveArmsDown(EnVali* this) {
 void EnVali_SetupBurnt(EnVali* this) {
     this->timer = 2;
     this->bodyCollider.base.acFlags &= ~AC_ON;
-    Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
     this->actionFunc = EnVali_Burnt;
 }
 
@@ -257,16 +257,16 @@ void EnVali_SetupStunned(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariWaitingAnim, 10.0f);
     this->timer = 80;
     this->actor.velocity.y = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 80);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 80);
     this->bodyCollider.info.bumper.effect = 0;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actor.velocity.y = 1.0f;
     this->actionFunc = EnVali_Stunned;
 }
 
 void EnVali_SetupFrozen(EnVali* this) {
     this->actor.velocity.y = 0.0f;
-    Actor_SetColorFilter(&this->actor, 0, 255, 0x2000, 36);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU, 36);
     this->bodyCollider.base.acFlags &= ~AC_ON;
     this->timer = 36;
     this->actionFunc = EnVali_Frozen;
@@ -316,7 +316,7 @@ void EnVali_DropAppear(EnVali* this, PlayState* play) {
     this->actor.velocity.y = CLAMP_MAX(this->actor.velocity.y, 40.0f);
 
     if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnVali_SetupFloatIdle(this);
     }
 }
@@ -339,10 +339,10 @@ void EnVali_FloatIdle(EnVali* this, PlayState* play) {
         this->actor.shape.rot.y += 0x800;
 
         if (((this->slingshotReactionTimer % 6) == 0) && (curFrame > 15) && (curFrame <= 55)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_ROLL);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_ROLL);
         }
     } else if ((curFrame == 16) || (curFrame == 30) || (curFrame == 42) || (curFrame == 55)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_ROLL);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_ROLL);
     }
 
     curFrame = ((curFrame > 40) ? (80 - curFrame) : curFrame);
@@ -441,7 +441,7 @@ void EnVali_Stunned(EnVali* this, PlayState* play) {
     if (this->actor.velocity.y != 0.0f) {
         if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
             this->actor.velocity.y = 0.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {
             this->actor.velocity.y += 1.0f;
         }
@@ -500,12 +500,12 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
 
         if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_DEAD);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(play, &this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
                        (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_BARI_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_BARI_DAMAGE);
             }
 
             if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_STUN) {
@@ -514,7 +514,7 @@ void EnVali_UpdateDamage(EnVali* this, PlayState* play) {
                 }
             } else if (this->actor.colChkInfo.damageEffect == BARI_DMGEFF_SWORD) {
                 if (this->actionFunc != EnVali_Stunned) {
-                    Actor_SetColorFilter(&this->actor, 0x4000, 150, 0x2000, 30);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 150, COLORFILTER_BUFFLAG_XLU, 30);
                     this->actor.params = BARI_TYPE_SWORD_DAMAGE;
                     EnVali_SetupAttacked(this);
                 } else {

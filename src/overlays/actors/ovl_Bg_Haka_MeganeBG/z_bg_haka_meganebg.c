@@ -189,9 +189,9 @@ void func_8087E288(BgHakaMeganeBG* this, PlayState* play) {
 }
 
 void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play) {
-    Math_StepToF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
+    Math_StepToF(&this->dyna.actor.speed, 30.0f, 2.0f);
 
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.speedXZ)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.speed)) {
         Actor_SetFocus(&this->dyna.actor, 50.0f);
         this->actionFunc = func_8087E34C;
     } else {

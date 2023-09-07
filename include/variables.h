@@ -13,8 +13,6 @@ extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
 extern s8 D_80009430;
-extern u32 gDmaMgrVerbose;
-extern u32 gDmaMgrDmaBuffSize;
 extern vu8 gViConfigBlack;
 extern u8 gViConfigAdditionalScanLines;
 extern u32 gViConfigFeatures;
@@ -45,7 +43,7 @@ extern u8 gBuildDate[];
 extern u8 gBuildMakeOption[];
 extern OSMesgQueue gPiMgrCmdQueue;
 extern OSViMode gViConfigMode;
-extern u8 D_80013960;
+extern u8 gViConfigModeType;
 extern OSMesgQueue __osPiAccessQueue;
 extern OSPiHandle __Dom1SpeedParam;
 extern OSPiHandle __Dom2SpeedParam;
@@ -53,20 +51,16 @@ extern OSTime __osCurrentTime;
 extern u32 __osBaseCounter;
 extern u32 __osViIntrCount;
 extern u32 __osTimerCounter;
-extern DmaEntry gDmaDataTable[0x60C];
 extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
 extern Gfx D_80116280[];
 extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxActorId; // original name: "MaxProfile"
-extern s32 gDbgCamEnabled;
+extern s32 gDebugCamEnabled;
 extern GameStateOverlay gGameStateOverlayTable[6];
 extern u8 gWeatherMode;
 extern u8 gLightConfigAfterUnderwater;
 extern u8 gInterruptSongOfStorms;
-extern u8 gSkyboxIsChanging;
 extern u16 gTimeSpeed;
-extern TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9];
-extern SkyboxFile gNormalSkyFiles[];
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
@@ -104,7 +98,7 @@ extern u64 gMojiFontTex[]; // original name: "font_ff"
 extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
 extern u8 gBossMarkState;
-extern void* D_8012D1F0;
+extern void* gDebugCutsceneScript;
 extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
@@ -174,10 +168,12 @@ extern u8 gSampleBankTable[];
 
 extern SaveContext gSaveContext;
 extern RegEditor* gRegEditor;
-extern u16 D_8015FCC0;
-extern u16 D_8015FCC2;
-extern u16 D_8015FCC4;
-extern u8 D_8015FCC8;
+
+extern u16 gCamAtSplinePointsAppliedFrame;
+extern u16 gCamEyePointAppliedFrame;
+extern u16 gCamAtPointAppliedFrame;
+extern u8 gUseCutsceneCam;
+
 extern u8 gCustomLensFlareOn;
 extern Vec3f gCustomLensFlarePos;
 extern s16 gLensFlareScale;
@@ -187,8 +183,8 @@ extern LightningStrike gLightningStrike;
 extern MapData* gMapData;
 extern f32 gBossMarkScale;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
-extern s32 gTrnsnUnkState;
-extern Color_RGBA8_u32 D_801614B0;
+extern s32 gTransitionTileState;
+extern Color_RGBA8_u32 gVisMonoColor;
 extern PreNmiBuff* gAppNmiBufferPtr;
 extern Scheduler gScheduler;
 extern uintptr_t gSegments[NUM_SEGMENTS];

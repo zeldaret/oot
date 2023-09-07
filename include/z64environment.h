@@ -5,6 +5,9 @@
 #include "z64light.h"
 #include "z64dma.h"
 
+struct PlayState;
+struct SkyboxContext;
+
 #define FILL_SCREEN_OPA (1 << 0)
 #define FILL_SCREEN_XLU (1 << 1)
 
@@ -48,7 +51,7 @@ typedef enum {
 
 typedef enum {
     /* 0 */ LIGHTNING_OFF, // no lightning
-    /* 1 */ LIGHTNING_ON, // request ligtning strikes at random intervals
+    /* 1 */ LIGHTNING_ON, // request lightning strikes at random intervals
     /* 2 */ LIGHTNING_LAST // request one lightning strike before turning off
 } LightningState;
 
@@ -95,16 +98,16 @@ typedef enum {
 } StormState;
 
 typedef enum {
-    /*  0x00 */ TIMESEQ_DAY_BGM,
-    /*  0x01 */ TIMESEQ_FADE_DAY_BGM,
-    /*  0x02 */ TIMESEQ_NIGHT_BEGIN_SFX,
-    /*  0x03 */ TIMESEQ_EARLY_NIGHT_CRITTERS,
-    /*  0x04 */ TIMESEQ_NIGHT_DELAY,
-    /*  0x05 */ TIMESEQ_NIGHT_CRITTERS,
-    /*  0x06 */ TIMESEQ_DAY_BEGIN_SFX,
-    /*  0x07 */ TIMESEQ_MORNING_CRITTERS,
-    /*  0x08 */ TIMESEQ_DAY_DELAY,
-    /*  0xFF */ TIMESEQ_DISABLED = 0xFF
+    /* 0x00 */ TIMESEQ_DAY_BGM,
+    /* 0x01 */ TIMESEQ_FADE_DAY_BGM,
+    /* 0x02 */ TIMESEQ_NIGHT_BEGIN_SFX,
+    /* 0x03 */ TIMESEQ_EARLY_NIGHT_CRITTERS,
+    /* 0x04 */ TIMESEQ_NIGHT_DELAY,
+    /* 0x05 */ TIMESEQ_NIGHT_CRITTERS,
+    /* 0x06 */ TIMESEQ_DAY_BEGIN_SFX,
+    /* 0x07 */ TIMESEQ_MORNING_CRITTERS,
+    /* 0x08 */ TIMESEQ_DAY_DELAY,
+    /* 0xFF */ TIMESEQ_DISABLED = 0xFF
 } TimeBasedSeqState;
 
 typedef enum {
@@ -145,8 +148,8 @@ typedef struct {
 
 // `EnvLightSettings` is very similar to `CurrentEnvLightSettings` with one key difference.
 // The light settings data in the scene packs blend rate information with the fog near value.
-// The blendRate determines how fast the current light settings fade to the next one 
-// (under LIGHT_MODE_SETTINGS, otherwise unused). 
+// The blendRate determines how fast the current light settings fade to the next one
+// (under LIGHT_MODE_SETTINGS, otherwise unused).
 
 // Get blend rate from `EnvLightSettings.blendRateAndFogNear` in 0-255 range
 #define ENV_LIGHT_SETTINGS_BLEND_RATE_U8(blendRateAndFogNear) (((blendRateAndFogNear) >> 10) * 4)
@@ -159,7 +162,7 @@ typedef struct {
     /* 0x09 */ s8 light2Dir[3];
     /* 0x0C */ u8 light2Color[3];
     /* 0x0F */ u8 fogColor[3];
-    /* 0x12 */ s16 blendRateAndFogNear; 
+    /* 0x12 */ s16 blendRateAndFogNear;
     /* 0x14 */ s16 zFar;
 } EnvLightSettings; // size = 0x16
 
@@ -230,5 +233,11 @@ typedef struct {
     /* 0xEE */ u8 precipitation[PRECIP_MAX];
     /* 0xF3 */ char unk_F3[0x09];
 } EnvironmentContext; // size = 0xFC
+
+extern u8 gSkyboxIsChanging;
+extern TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9];
+
+void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, struct SkyboxContext* skyboxCtx);
+void Environment_DrawSkyboxFilters(struct PlayState* play);
 
 #endif

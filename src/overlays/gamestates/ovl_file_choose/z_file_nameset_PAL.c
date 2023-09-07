@@ -437,9 +437,9 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                  &gSfxDefaultReverb);
                             gSaveContext.fileNum = this->buttonIndex;
-                            dayTime = ((void)0, gSaveContext.dayTime);
+                            dayTime = ((void)0, gSaveContext.save.dayTime);
                             Sram_InitSave(this, &this->sramCtx);
-                            gSaveContext.dayTime = dayTime;
+                            gSaveContext.save.dayTime = dayTime;
                             this->configMode = CM_NAME_ENTRY_TO_MAIN;
                             this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
                             this->connectorAlpha[this->buttonIndex] = 255;
@@ -560,7 +560,7 @@ void FileSelect_UpdateKeyboardCursor(GameState* thisx) {
         this->kbdY--;
 
         if (this->kbdY < 0) {
-            // dont go to bottom row
+            // don't go to bottom row
             if (this->kbdX < 8) {
                 this->kbdY = 4;
                 this->charIndex = (s32)(this->kbdX + 52);

@@ -181,7 +181,7 @@ void EnFz_Init(Actor* thisx, PlayState* play) {
     this->isFreezing = false;
     this->isActive = true;
     this->isDespawning = false;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->posOrigin.y = this->actor.world.pos.y;
@@ -326,14 +326,14 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->isMoving = false;
         this->speedXZ = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     if (this->isFreezing) {
         if ((this->actor.params < 0) && (this->collider1.base.atFlags & AT_HIT)) {
             this->isMoving = false;
             this->collider1.base.acFlags &= ~AC_HIT;
-            this->actor.speedXZ = this->speedXZ = 0.0f;
+            this->actor.speed = this->speedXZ = 0.0f;
             this->timer = 10;
             EnFz_SetupDisappear(this);
         } else if (this->collider2.base.acFlags & AC_BOUNCED) {
@@ -344,17 +344,17 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
             switch (this->actor.colChkInfo.damageEffect) {
                 case 0xF:
                     Actor_ApplyDamage(&this->actor);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 8);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);
                     if (this->actor.colChkInfo.health != 0) {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
                         vec.x = this->actor.world.pos.x;
                         vec.y = this->actor.world.pos.y;
                         vec.z = this->actor.world.pos.z;
                         EnFz_Damaged(this, play, &vec, 10, 0.0f);
                         this->unusedCounter++;
                     } else {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_ICE_BROKEN);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_FREEZAD_DEAD);
+                        Actor_PlaySfx(&this->actor, NA_SE_EV_ICE_BROKEN);
                         vec.x = this->actor.world.pos.x;
                         vec.y = this->actor.world.pos.y;
                         vec.z = this->actor.world.pos.z;
@@ -365,12 +365,12 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
 
                 case 2:
                     Actor_ApplyDamage(&this->actor);
-                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 8);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_XLU, 8);
                     if (this->actor.colChkInfo.health == 0) {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_FREEZAD_DEAD);
                         EnFz_SetupMelt(this);
                     } else {
-                        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
+                        Actor_PlaySfx(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
                     }
                     break;
 
@@ -479,7 +479,7 @@ void EnFz_SetupAimForFreeze(EnFz* this) {
     this->timer = 40;
     this->actionFunc = EnFz_AimForFreeze;
     this->speedXZ = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
 }
 
 void EnFz_AimForFreeze(EnFz* this, PlayState* play) {
@@ -556,7 +556,7 @@ void EnFz_SetupDespawn(EnFz* this, PlayState* play) {
     this->speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x60);
     this->actionFunc = EnFz_Despawn;
@@ -574,7 +574,7 @@ void EnFz_SetupMelt(EnFz* this) {
     this->isDespawning = true;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnFz_Melt;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->speedXZ = 0.0f;
 }
 
@@ -685,7 +685,7 @@ void EnFz_Update(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->actor, 50.0f);
     EnFz_ApplyDamage(this, play);
     this->actionFunc(this, play);
-    if (this->isDespawning == false) {
+    if (!this->isDespawning) {
         Collider_UpdateCylinder(&this->actor, &this->collider1);
         Collider_UpdateCylinder(&this->actor, &this->collider2);
         if (this->isFreezing) {
@@ -697,8 +697,8 @@ void EnFz_Update(Actor* thisx, PlayState* play) {
         }
     }
 
-    Math_StepToF(&this->actor.speedXZ, this->speedXZ, 0.2f);
-    Actor_MoveForward(&this->actor);
+    Math_StepToF(&this->actor.speed, this->speedXZ, 0.2f);
+    Actor_MoveXZGravity(&this->actor);
 
     if (this->updateBgInfo) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);

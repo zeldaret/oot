@@ -1,158 +1,190 @@
 #include "global.h"
+#include "ultra64/viint.h"
 
 void ViMode_LogPrint(OSViMode* osViMode) {
     LOG_ADDRESS("osvimodep", osViMode, "../z_vimode.c", 87);
-    LOG_ADDRESS("osvimodep->comRegs.ctrl", osViMode->comRegs.ctrl, "../z_vimode.c", 88);
-    LOG_ADDRESS("osvimodep->comRegs.width", osViMode->comRegs.width, "../z_vimode.c", 89);
-    LOG_ADDRESS("osvimodep->comRegs.burst", osViMode->comRegs.burst, "../z_vimode.c", 90);
-    LOG_ADDRESS("osvimodep->comRegs.vSync", osViMode->comRegs.vSync, "../z_vimode.c", 91);
-    LOG_ADDRESS("osvimodep->comRegs.hSync", osViMode->comRegs.hSync, "../z_vimode.c", 92);
-    LOG_ADDRESS("osvimodep->comRegs.leap", osViMode->comRegs.leap, "../z_vimode.c", 93);
-    LOG_ADDRESS("osvimodep->comRegs.hStart", osViMode->comRegs.hStart, "../z_vimode.c", 94);
-    LOG_ADDRESS("osvimodep->comRegs.xScale", osViMode->comRegs.xScale, "../z_vimode.c", 95);
-    LOG_ADDRESS("osvimodep->fldRegs[0].vStart", osViMode->fldRegs[0].vStart, "../z_vimode.c", 96);
-    LOG_ADDRESS("osvimodep->fldRegs[0].vBurst", osViMode->fldRegs[0].vBurst, "../z_vimode.c", 97);
-    LOG_ADDRESS("osvimodep->fldRegs[0].origin", osViMode->fldRegs[0].origin, "../z_vimode.c", 98);
-    LOG_ADDRESS("osvimodep->fldRegs[0].yScale", osViMode->fldRegs[0].yScale, "../z_vimode.c", 99);
-    LOG_ADDRESS("osvimodep->fldRegs[0].vIntr", osViMode->fldRegs[0].vIntr, "../z_vimode.c", 100);
-    LOG_ADDRESS("osvimodep->fldRegs[1].vStart", osViMode->fldRegs[1].vStart, "../z_vimode.c", 101);
-    LOG_ADDRESS("osvimodep->fldRegs[1].vBurst", osViMode->fldRegs[1].vBurst, "../z_vimode.c", 102);
-    LOG_ADDRESS("osvimodep->fldRegs[1].origin", osViMode->fldRegs[1].origin, "../z_vimode.c", 103);
-    LOG_ADDRESS("osvimodep->fldRegs[1].yScale", osViMode->fldRegs[1].yScale, "../z_vimode.c", 104);
-    LOG_ADDRESS("osvimodep->fldRegs[1].vIntr", osViMode->fldRegs[1].vIntr, "../z_vimode.c", 105);
+    LOG_HEX32("osvimodep->comRegs.ctrl", osViMode->comRegs.ctrl, "../z_vimode.c", 88);
+    LOG_HEX32("osvimodep->comRegs.width", osViMode->comRegs.width, "../z_vimode.c", 89);
+    LOG_HEX32("osvimodep->comRegs.burst", osViMode->comRegs.burst, "../z_vimode.c", 90);
+    LOG_HEX32("osvimodep->comRegs.vSync", osViMode->comRegs.vSync, "../z_vimode.c", 91);
+    LOG_HEX32("osvimodep->comRegs.hSync", osViMode->comRegs.hSync, "../z_vimode.c", 92);
+    LOG_HEX32("osvimodep->comRegs.leap", osViMode->comRegs.leap, "../z_vimode.c", 93);
+    LOG_HEX32("osvimodep->comRegs.hStart", osViMode->comRegs.hStart, "../z_vimode.c", 94);
+    LOG_HEX32("osvimodep->comRegs.xScale", osViMode->comRegs.xScale, "../z_vimode.c", 95);
+    LOG_HEX32("osvimodep->fldRegs[0].vStart", osViMode->fldRegs[0].vStart, "../z_vimode.c", 96);
+    LOG_HEX32("osvimodep->fldRegs[0].vBurst", osViMode->fldRegs[0].vBurst, "../z_vimode.c", 97);
+    LOG_HEX32("osvimodep->fldRegs[0].origin", osViMode->fldRegs[0].origin, "../z_vimode.c", 98);
+    LOG_HEX32("osvimodep->fldRegs[0].yScale", osViMode->fldRegs[0].yScale, "../z_vimode.c", 99);
+    LOG_HEX32("osvimodep->fldRegs[0].vIntr", osViMode->fldRegs[0].vIntr, "../z_vimode.c", 100);
+    LOG_HEX32("osvimodep->fldRegs[1].vStart", osViMode->fldRegs[1].vStart, "../z_vimode.c", 101);
+    LOG_HEX32("osvimodep->fldRegs[1].vBurst", osViMode->fldRegs[1].vBurst, "../z_vimode.c", 102);
+    LOG_HEX32("osvimodep->fldRegs[1].origin", osViMode->fldRegs[1].origin, "../z_vimode.c", 103);
+    LOG_HEX32("osvimodep->fldRegs[1].yScale", osViMode->fldRegs[1].yScale, "../z_vimode.c", 104);
+    LOG_HEX32("osvimodep->fldRegs[1].vIntr", osViMode->fldRegs[1].vIntr, "../z_vimode.c", 105);
 }
 
-// This function configures the custom VI mode (`viMode.customViMode`) based on the other flags in `viMode`.
-void ViMode_Configure(ViMode* viMode, s32 mode, s32 type, s32 unk_70, s32 unk_74, s32 unk_78, s32 unk_7C, s32 width,
-                      s32 height, s32 unk_left, s32 unk_right, s32 unk_top, s32 unk_bottom) {
-    s32 not_70;
-    s32 not_74;
-    s32 not_78;
-    s32 not_7C;
-    s32 cond_4C;
-    s32 cond_48;
-    s32 cond_44;
-    s32 cond_40;
-    s32 cond_3C;
-    s32 cond_38;
-    s32 cond_34;
+/**
+ * Configures the custom OSViMode for this ViMode
+ *
+ * @param viMode        ViMode to configure the custom OSViMode for
+ * @param type          Identifying type for the OSViMode
+ * @param tvType        TV Type: NTSC, PAL, MPAL or FPAL
+ * @param loRes         Boolean: true = low resolution, false = high resolution.
+ *                      Corresponds to "L" or "H" in libultra VI mode names
+ * @param antialiasOff  Boolean: true = point-sampling, false = anti-aliasing.
+ *                      Corresponds to "P" or "A" in libultra VI mode names
+ * @param modeN         Boolean: controls interlacing mode, different based on resolution.
+ *                      Corresponds to "N" or "F" in libultra VI mode names
+ * @param fb16Bit       Bolean: true = 16-bit framebuffer, false = 32-bit framebuffer.
+ *                      Corresponds to "1" or "2" in libultra VI mode names
+ * @param width         Screen width
+ * @param height        Screen height
+ * @param leftAdjust    Left edge adjustment
+ * @param rightAdjust   Right edge adjustment
+ * @param upperAdjust   Upper edge adjustment
+ * @param lowerAdjust   Lower edge adjustment
+ */
+void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
+                      s32 width, s32 height, s32 leftAdjust, s32 rightAdjust, s32 upperAdjust, s32 lowerAdjust) {
+    s32 hiRes;
+    s32 antialiasOn;
+    s32 modeF;
+    s32 fb32Bit;
+    s32 hiResDeflicker; // deflickered interlacing
+    s32 hiResInterlaced;
+    s32 loResDeinterlaced;
+    s32 loResInterlaced;
+    s32 modeLAN1; // L=(lo res) A=(antialias)     N=(deinterlace)        1=(16-bit)
+    s32 modeLPN2; // L=(lo res) P=(point-sampled) N=(deinterlace)        2=(32-bit)
+    s32 modeHPN2; // H=(hi res) P=(point-sampled) N=(normal interlacing) 2=(32-bit)
     s32 yScaleLo;
-    s32 yScaleHi0;
-    s32 yScaleHi1;
+    s32 yScaleHiEvenField;
+    s32 yScaleHiOddField;
 
-    not_70 = !unk_70;
-    not_74 = !unk_74;
-    not_78 = !unk_78;
-    not_7C = !unk_7C;
+    hiRes = !loRes;
+    antialiasOn = !antialiasOff;
+    modeF = !modeN;
+    fb32Bit = !fb16Bit;
 
-    cond_4C = not_70 && not_78;
-    cond_48 = not_70 && unk_78;
-    cond_44 = unk_70 && unk_78;
-    cond_40 = unk_70 && not_78;
-    cond_3C = unk_70 && not_74 && unk_78 && unk_7C;
-    cond_38 = unk_70 && unk_74 && unk_78 && not_7C;
-    cond_34 = not_70 && unk_74 && unk_78 && not_7C;
+    hiResDeflicker = hiRes && modeF;
+    hiResInterlaced = hiRes && modeN;
+    loResDeinterlaced = loRes && modeN;
+    loResInterlaced = loRes && modeF;
 
-    unk_top &= ~1;
-    unk_bottom &= ~1;
+    modeLAN1 = loRes && antialiasOn && modeN && fb16Bit;
+    modeLPN2 = loRes && antialiasOff && modeN && fb32Bit;
+    modeHPN2 = hiRes && antialiasOff && modeN && fb32Bit;
 
-    yScaleLo = (cond_4C ? 2 : 1) * ((height << 11) / (SCREEN_HEIGHT * 2 + unk_bottom - unk_top) / (unk_70 ? 1 : 2));
+    upperAdjust &= ~1;
+    lowerAdjust &= ~1;
 
-    yScaleHi0 = not_78 ? (cond_40 ? 0x1000000 : 0x2000000) : 0;
-    yScaleHi1 = not_78 ? (cond_40 ? 0x3000000 : 0x2000000) : 0;
+    yScaleLo =
+        (hiResDeflicker ? 2 : 1) * ((height << 11) / (SCREEN_HEIGHT * 2 + lowerAdjust - upperAdjust) / (loRes ? 1 : 2));
 
-    viMode->customViMode.type = mode;
-    viMode->customViMode.comRegs.ctrl = OS_VI_UNK2000 | OS_VI_UNK1000 | OS_VI_GAMMA | OS_VI_GAMMA_DITHER |
-                                        (!cond_44 ? OS_VI_UNK40 : 0) | (not_74 ? OS_VI_DIVOT : 0) |
-                                        (not_7C ? OS_VI_UNK2 | OS_VI_UNK1 : OS_VI_UNK2);
+    yScaleHiEvenField = modeF ? (loResInterlaced ? (F210(0.25) << 16) : (F210(0.5) << 16)) : 0;
+    yScaleHiOddField = modeF ? (loResInterlaced ? (F210(0.75) << 16) : (F210(0.5) << 16)) : 0;
 
-    if (cond_3C) {
-        viMode->customViMode.comRegs.ctrl |= 0x100;
-    } else if (cond_38 | cond_34) {
-        viMode->customViMode.comRegs.ctrl |= 0x300;
-    } else if (unk_74) {
-        viMode->customViMode.comRegs.ctrl |= 0x200;
+    viMode->customViMode.type = type;
+    viMode->customViMode.comRegs.ctrl = VI_CTRL_PIXEL_ADV(3) | VI_CTRL_GAMMA_ON | VI_CTRL_GAMMA_DITHER_ON |
+                                        (!loResDeinterlaced ? VI_CTRL_SERRATE_ON : 0) |
+                                        (antialiasOn ? VI_CTRL_DIVOT_ON : 0) |
+                                        (fb32Bit ? VI_CTRL_TYPE_32 : VI_CTRL_TYPE_16);
+
+    if (modeLAN1) {
+        // Anti-aliased, fetch extra lines as-needed
+        viMode->customViMode.comRegs.ctrl |= VI_CTRL_ANTIALIAS_MODE_1;
+    } else if (modeLPN2 | modeHPN2) {
+        // Point-sampled, resampling disabled
+        viMode->customViMode.comRegs.ctrl |= VI_CTRL_ANTIALIAS_MODE_3;
     } else {
-        viMode->customViMode.comRegs.ctrl |= 0;
+        if (antialiasOff) {
+            // Point-sampled, resampling enabled
+            viMode->customViMode.comRegs.ctrl |= VI_CTRL_ANTIALIAS_MODE_2;
+        } else {
+            // Anti-aliased, always fetch extra lines
+            viMode->customViMode.comRegs.ctrl |= VI_CTRL_ANTIALIAS_MODE_0;
+        }
     }
 
-    viMode->customViMode.comRegs.width = width * (cond_48 ? 2 : 1);
+    viMode->customViMode.comRegs.width = width * (hiResInterlaced ? 2 : 1);
 
-    if (type == 1) {
-        viMode->customViMode.comRegs.burst = 0x3E52239;
-        viMode->customViMode.comRegs.vSync = 0x20C;
-        viMode->customViMode.comRegs.hSync = 0xC15;
-        viMode->customViMode.comRegs.leap = 0xC150C15;
-        viMode->customViMode.comRegs.hStart = 0x6C02EC;
-        viMode->customViMode.fldRegs[0].vStart = 0x2501FF;
-        viMode->customViMode.fldRegs[0].vBurst = 0xE0204;
-    } else if (type == 0) {
-        viMode->customViMode.comRegs.burst = 0x404233A;
-        viMode->customViMode.comRegs.vSync = 0x270;
-        viMode->customViMode.comRegs.hSync = 0x150C69;
-        viMode->customViMode.comRegs.leap = 0xC6F0C6E;
-        viMode->customViMode.comRegs.hStart = 0x800300;
-        viMode->customViMode.fldRegs[0].vStart = 0x5F0239;
-        viMode->customViMode.fldRegs[0].vBurst = 0x9026B;
-    } else if (type == 2) {
-        viMode->customViMode.comRegs.burst = 0x4651E39;
-        viMode->customViMode.comRegs.vSync = 0x20C;
-        viMode->customViMode.comRegs.hSync = 0xC10;
-        viMode->customViMode.comRegs.leap = 0xC1C0C1C;
-        viMode->customViMode.comRegs.hStart = 0x6C02EC;
-        viMode->customViMode.fldRegs[0].vStart = 0x2501FF;
-        viMode->customViMode.fldRegs[0].vBurst = 0xE0204;
+    if (tvType == OS_TV_NTSC) {
+        viMode->customViMode.comRegs.burst = BURST(57, 34, 5, 62);
+        viMode->customViMode.comRegs.vSync = VSYNC(524);
+        viMode->customViMode.comRegs.hSync = HSYNC(3093, 0);
+        viMode->customViMode.comRegs.leap = LEAP(3093, 3093);
+        viMode->customViMode.comRegs.hStart = HSTART(108, 748);
+        viMode->customViMode.fldRegs[0].vStart = START(37, 511);
+        viMode->customViMode.fldRegs[0].vBurst = BURST(4, 2, 14, 0);
+    } else if (tvType == OS_TV_PAL) {
+        viMode->customViMode.comRegs.burst = BURST(58, 35, 4, 64);
+        viMode->customViMode.comRegs.vSync = VSYNC(624);
+        viMode->customViMode.comRegs.hSync = HSYNC(3177, 21);
+        viMode->customViMode.comRegs.leap = LEAP(3183, 3182);
+        viMode->customViMode.comRegs.hStart = HSTART(128, 768);
+        viMode->customViMode.fldRegs[0].vStart = START(95, 569);
+        viMode->customViMode.fldRegs[0].vBurst = BURST(107, 2, 9, 0);
+    } else if (tvType == OS_TV_MPAL) {
+        viMode->customViMode.comRegs.burst = BURST(57, 30, 5, 70);
+        viMode->customViMode.comRegs.vSync = VSYNC(524);
+        viMode->customViMode.comRegs.hSync = HSYNC(3088, 0);
+        viMode->customViMode.comRegs.leap = LEAP(3100, 3100);
+        viMode->customViMode.comRegs.hStart = HSTART(108, 748);
+        viMode->customViMode.fldRegs[0].vStart = START(37, 511);
+        viMode->customViMode.fldRegs[0].vBurst = BURST(4, 2, 14, 0);
     }
 
     viMode->customViMode.fldRegs[1].vStart = viMode->customViMode.fldRegs[0].vStart;
 
-    viMode->customViMode.comRegs.hStart += (unk_left << 16) + (s16)unk_right;
-    viMode->customViMode.fldRegs[0].vStart += (unk_top << 16) + (s16)unk_bottom;
-    viMode->customViMode.fldRegs[1].vStart += (unk_top << 16) + (s16)unk_bottom;
+    viMode->customViMode.comRegs.hStart += (leftAdjust << 16) + (s16)rightAdjust;
+    viMode->customViMode.fldRegs[0].vStart += (upperAdjust << 16) + (s16)lowerAdjust;
+    viMode->customViMode.fldRegs[1].vStart += (upperAdjust << 16) + (s16)lowerAdjust;
 
     viMode->customViMode.fldRegs[1].vBurst = viMode->customViMode.fldRegs[0].vBurst;
 
-    if (cond_44) {
+    if (loResDeinterlaced) {
         viMode->customViMode.comRegs.vSync++;
-        if (type == 2) {
-            viMode->customViMode.comRegs.hSync += 0x40001;
+        if (tvType == OS_TV_MPAL) {
+            viMode->customViMode.comRegs.hSync += HSYNC(1, 4);
         }
-        if (type == 2) {
-            viMode->customViMode.comRegs.leap += 0xFFFCFFFE;
+        if (tvType == OS_TV_MPAL) {
+            viMode->customViMode.comRegs.leap += LEAP((u16)-4, (u16)-2);
         }
     } else {
-        viMode->customViMode.fldRegs[0].vStart += 0xFFFDFFFE;
-        if (type == 2) {
-            viMode->customViMode.fldRegs[0].vBurst += 0xFFFCFFFE;
+        viMode->customViMode.fldRegs[0].vStart += START((u16)-3, (u16)-2);
+        if (tvType == OS_TV_MPAL) {
+            viMode->customViMode.fldRegs[0].vBurst += BURST((u8)-2, (u8)-1, 12, -1);
         }
-        if (type == 0) {
-            viMode->customViMode.fldRegs[1].vBurst += 0x2FFFE;
+        if (tvType == OS_TV_PAL) {
+            viMode->customViMode.fldRegs[1].vBurst += BURST((u8)-2, (u8)-1, 2, 0);
         }
     }
 
-    viMode->customViMode.comRegs.xScale = (width << 10) / (SCREEN_WIDTH * 2 + unk_right - unk_left);
-    viMode->customViMode.comRegs.vCurrent = 0;
+    viMode->customViMode.comRegs.xScale = (width << 10) / (SCREEN_WIDTH * 2 + rightAdjust - leftAdjust);
+    viMode->customViMode.comRegs.vCurrent = VCURRENT(0);
 
-    viMode->customViMode.fldRegs[0].origin = width * 2 * (unk_7C ? 1 : 2);
-    viMode->customViMode.fldRegs[1].origin = width * 2 * (unk_7C ? 1 : 2) * (unk_70 ? 1 : 2);
+    viMode->customViMode.fldRegs[0].origin = ORIGIN(width * 2 * (fb16Bit ? 1 : 2));
+    viMode->customViMode.fldRegs[1].origin = ORIGIN(width * 2 * (fb16Bit ? 1 : 2) * (loRes ? 1 : 2));
 
-    viMode->customViMode.fldRegs[0].yScale = yScaleLo | yScaleHi0;
-    viMode->customViMode.fldRegs[1].yScale = yScaleLo | yScaleHi1;
+    viMode->customViMode.fldRegs[0].yScale = yScaleLo | yScaleHiEvenField;
+    viMode->customViMode.fldRegs[1].yScale = yScaleLo | yScaleHiOddField;
 
-    viMode->customViMode.fldRegs[0].vIntr = 2;
-    viMode->customViMode.fldRegs[1].vIntr = 2;
+    viMode->customViMode.fldRegs[0].vIntr = VINTR(2);
+    viMode->customViMode.fldRegs[1].vIntr = VINTR(2);
 }
 
 void ViMode_Save(ViMode* viMode) {
-    SREG(48) = viMode->viModeBase;
-    SREG(49) = viMode->viWidth;
-    SREG(50) = viMode->viHeight;
-    SREG(51) = viMode->unk_64;
-    SREG(52) = viMode->unk_60;
-    SREG(53) = viMode->unk_5C;
-    SREG(54) = viMode->unk_58;
+    R_VI_MODE_EDIT_STATE = viMode->editState;
+    R_VI_MODE_EDIT_WIDTH = viMode->viWidth;
+    R_VI_MODE_EDIT_HEIGHT = viMode->viHeight;
+    R_VI_MODE_EDIT_ULY_ADJ = viMode->upperAdjust;
+    R_VI_MODE_EDIT_LRY_ADJ = viMode->lowerAdjust;
+    R_VI_MODE_EDIT_ULX_ADJ = viMode->leftAdjust;
+    R_VI_MODE_EDIT_LRX_ADJ = viMode->rightAdjust;
+
     if (SREG(58) == 1) {
         SREG(58) = 0;
+
         switch (SREG(59)) {
             case 1:
                 osSyncPrintf("osViModePalLan1\n");
@@ -171,33 +203,34 @@ void ViMode_Save(ViMode* viMode) {
 }
 
 void ViMode_Load(ViMode* viMode) {
-    if ((SREG(49) & ~3) == 1) {
-        SREG(49) += 4;
+    //! @bug This condition never passes as the lowest bit is always masked out to 0
+    if ((R_VI_MODE_EDIT_WIDTH & ~3) == 1) {
+        R_VI_MODE_EDIT_WIDTH += 4;
     }
 
-    viMode->viModeBase = SREG(48);
-    viMode->viWidth = SREG(49) & ~3;
-    viMode->viHeight = SREG(50);
-    viMode->unk_64 = SREG(51);
-    viMode->unk_60 = SREG(52);
-    viMode->unk_5C = SREG(53);
-    viMode->unk_58 = SREG(54);
+    viMode->editState = R_VI_MODE_EDIT_STATE;
+    viMode->viWidth = R_VI_MODE_EDIT_WIDTH & ~3;
+    viMode->viHeight = R_VI_MODE_EDIT_HEIGHT;
+    viMode->upperAdjust = R_VI_MODE_EDIT_ULY_ADJ;
+    viMode->lowerAdjust = R_VI_MODE_EDIT_LRY_ADJ;
+    viMode->leftAdjust = R_VI_MODE_EDIT_ULX_ADJ;
+    viMode->rightAdjust = R_VI_MODE_EDIT_LRX_ADJ;
 }
 
 void ViMode_Init(ViMode* viMode) {
-    viMode->viModeBase = 0;
+    viMode->editState = VI_MODE_EDIT_STATE_INACTIVE;
     viMode->viWidth = SCREEN_WIDTH;
     viMode->viHeight = SCREEN_HEIGHT;
-    viMode->unk_5C = 0;
-    viMode->unk_58 = 0;
-    viMode->unk_64 = 0;
-    viMode->unk_60 = 0;
+    viMode->leftAdjust = 0;
+    viMode->rightAdjust = 0;
+    viMode->upperAdjust = 0;
+    viMode->lowerAdjust = 0;
     viMode->viFeatures = OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF;
-    viMode->viTvType = osTvType;
-    viMode->unk_7C = true;
-    viMode->unk_78 = true;
-    viMode->unk_74 = false;
-    viMode->unk_70 = true;
+    viMode->tvType = osTvType;
+    viMode->fb16Bit = true;
+    viMode->modeN = true;
+    viMode->antialiasOff = false;
+    viMode->loRes = true;
 
     ViMode_Save(viMode);
 }
@@ -209,113 +242,140 @@ void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures) {
     u32 ctrl = viMode->customViMode.comRegs.ctrl;
 
     if (viFeatures & OS_VI_GAMMA_ON) {
-        ctrl |= OS_VI_GAMMA;
+        ctrl |= VI_CTRL_GAMMA_ON;
     }
     if (viFeatures & OS_VI_GAMMA_OFF) {
-        ctrl &= ~OS_VI_GAMMA;
+        ctrl &= ~VI_CTRL_GAMMA_ON;
     }
     if (viFeatures & OS_VI_GAMMA_DITHER_ON) {
-        ctrl |= OS_VI_GAMMA_DITHER;
+        ctrl |= VI_CTRL_GAMMA_DITHER_ON;
     }
     if (viFeatures & OS_VI_GAMMA_DITHER_OFF) {
-        ctrl &= ~OS_VI_GAMMA_DITHER;
+        ctrl &= ~VI_CTRL_GAMMA_DITHER_ON;
     }
     if (viFeatures & OS_VI_DIVOT_ON) {
-        ctrl |= OS_VI_DIVOT;
+        ctrl |= VI_CTRL_DIVOT_ON;
     }
     if (viFeatures & OS_VI_DIVOT_OFF) {
-        ctrl &= ~OS_VI_DIVOT;
+        ctrl &= ~VI_CTRL_DIVOT_ON;
     }
     viMode->customViMode.comRegs.ctrl = ctrl;
 }
 
-// This function uses controller input (C buttons + D pad) to reconfigure the custom VI mode
+/**
+ * Updates the custom VI mode with controller input and any edits made with the REG editor
+ * (through R_VI_MODE_EDIT_* entries)
+ */
 void ViMode_Update(ViMode* viMode, Input* input) {
+    // Load state from REGs
     ViMode_Load(viMode);
-    if ((viMode->viModeBase == 1) || (viMode->viModeBase == 2) || (viMode->viModeBase == 3)) {
+
+    if ((viMode->editState == VI_MODE_EDIT_STATE_ACTIVE) || (viMode->editState == VI_MODE_EDIT_STATE_2) ||
+        (viMode->editState == VI_MODE_EDIT_STATE_3)) {
         gScreenWidth = viMode->viWidth;
         gScreenHeight = viMode->viHeight;
+
+        // Controls to reset the ViMode to defaults
         if (CHECK_BTN_ALL(input->cur.button, BTN_START | BTN_CUP | BTN_CRIGHT)) {
             ViMode_Init(viMode);
         }
+
+        // Controls to adjust the screen dimensions (upper-left)
         if (CHECK_BTN_ALL(input->cur.button, BTN_CUP)) {
+            // upper
             if (CHECK_BTN_ALL(input->cur.button, BTN_DUP)) {
-                viMode->unk_64--;
+                viMode->upperAdjust--;
             }
             if (CHECK_BTN_ALL(input->cur.button, BTN_DDOWN)) {
-                viMode->unk_64++;
+                viMode->upperAdjust++;
             }
+            // left
             if (CHECK_BTN_ALL(input->cur.button, BTN_DLEFT)) {
-                viMode->unk_5C--;
+                viMode->leftAdjust--;
             }
             if (CHECK_BTN_ALL(input->cur.button, BTN_DRIGHT)) {
-                viMode->unk_5C++;
+                viMode->leftAdjust++;
             }
         }
+
+        // Controls to adjust the screen dimensions (lower-right)
         if (CHECK_BTN_ALL(input->cur.button, BTN_CRIGHT)) {
+            // lower
             if (CHECK_BTN_ALL(input->cur.button, BTN_DUP)) {
-                viMode->unk_60--;
+                viMode->lowerAdjust--;
             }
             if (CHECK_BTN_ALL(input->cur.button, BTN_DDOWN)) {
-                viMode->unk_60++;
+                viMode->lowerAdjust++;
             }
+            // right
             if (CHECK_BTN_ALL(input->cur.button, BTN_DLEFT)) {
-                viMode->unk_58--;
+                viMode->rightAdjust--;
             }
             if (CHECK_BTN_ALL(input->cur.button, BTN_DRIGHT)) {
-                viMode->unk_58++;
+                viMode->rightAdjust++;
             }
         }
+
+        // Controls to adjust key features
         if (CHECK_BTN_ALL(input->cur.button, BTN_CDOWN)) {
             if (CHECK_BTN_ALL(input->press.button, BTN_DUP)) {
-                viMode->unk_70 = !viMode->unk_70;
+                viMode->loRes = !viMode->loRes;
             }
             if (CHECK_BTN_ALL(input->press.button, BTN_DDOWN)) {
-                viMode->unk_74 = !viMode->unk_74;
+                viMode->antialiasOff = !viMode->antialiasOff;
             }
             if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT)) {
-                viMode->unk_78 = !viMode->unk_78;
+                viMode->modeN = !viMode->modeN;
             }
             if (CHECK_BTN_ALL(input->press.button, BTN_DRIGHT)) {
-                viMode->unk_7C = !viMode->unk_7C;
+                viMode->fb16Bit = !viMode->fb16Bit;
             }
         }
-        if (viMode->viModeBase >= 2) {
-            if (viMode->unk_5C < -16) {
-                viMode->unk_5C = -16;
+
+        // Clamp adjustments
+        if (viMode->editState >= VI_MODE_EDIT_STATE_2) {
+            // Allow parts of the framebuffer to possibly be offscreen by a small margin
+            if (viMode->leftAdjust < -16) {
+                viMode->leftAdjust = -16;
             }
-            if (viMode->unk_64 < -50) {
-                viMode->unk_64 = -50;
+            if (viMode->upperAdjust < -50) {
+                viMode->upperAdjust = -50;
             }
-            if (viMode->unk_58 > 16) {
-                viMode->unk_58 = 16;
+            if (viMode->rightAdjust > 16) {
+                viMode->rightAdjust = 16;
             }
-            if (viMode->unk_60 > 50) {
-                viMode->unk_60 = 50;
+            if (viMode->lowerAdjust > 50) {
+                viMode->lowerAdjust = 50;
             }
         } else {
-            if (viMode->unk_5C < 0) {
-                viMode->unk_5C = 0;
+            // Do not allow parts of the framebuffer to end up offscreen
+            if (viMode->leftAdjust < 0) {
+                viMode->leftAdjust = 0;
             }
-            if (viMode->unk_64 < 0) {
-                viMode->unk_64 = 0;
+            if (viMode->upperAdjust < 0) {
+                viMode->upperAdjust = 0;
             }
-            if (viMode->unk_58 > 0) {
-                viMode->unk_58 = 0;
+            if (viMode->rightAdjust > 0) {
+                viMode->rightAdjust = 0;
             }
-            if (viMode->unk_60 > 0) {
-                viMode->unk_60 = 0;
+            if (viMode->lowerAdjust > 0) {
+                viMode->lowerAdjust = 0;
             }
         }
-        ViMode_Configure(viMode, OS_VI_UNK28, osTvType, viMode->unk_70, viMode->unk_74, viMode->unk_78, viMode->unk_7C,
-                         viMode->viWidth, viMode->viHeight, viMode->unk_5C, viMode->unk_58, viMode->unk_64,
-                         viMode->unk_60);
+
+        // Configure the custom VI mode with the selected settings
+        ViMode_Configure(viMode, OS_VI_MPAL_LPN1, osTvType, viMode->loRes, viMode->antialiasOff, viMode->modeN,
+                         viMode->fb16Bit, viMode->viWidth, viMode->viHeight, viMode->leftAdjust, viMode->rightAdjust,
+                         viMode->upperAdjust, viMode->lowerAdjust);
         ViMode_ConfigureFeatures(viMode, viMode->viFeatures);
-        if (viMode->viModeBase == 3) {
+
+        if (viMode->editState == VI_MODE_EDIT_STATE_3) {
+            // Log comparison between the NTSC LAN1 mode and the custom mode
             ViMode_LogPrint(&osViModeNtscLan1);
             ViMode_LogPrint(&viMode->customViMode);
-            viMode->viModeBase = 2;
+            viMode->editState = VI_MODE_EDIT_STATE_2;
         }
     }
+    // Save new state to REGs for interactive runtime editing
     ViMode_Save(viMode);
 }
