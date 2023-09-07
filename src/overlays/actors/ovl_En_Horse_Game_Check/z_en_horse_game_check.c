@@ -70,7 +70,7 @@ static f32 sFinishLine[4] = { -200.0f, 80.0f, -2300.0f, -1470.0f };
 
 static f32 sRanchExit[4] = { 800.0f, 1000.0f, -2900.0f, -2700.0f };
 
-static Vec3f sUnusedZeroVec = { 0.0f, 0.0f, 0.0f };
+UNUSED static Vec3f sUnusedZeroVec = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f sFencePos[] = {
     { 820.0f, -44.0f, -1655.0f }, { 1497.0f, -21.0f, -1198.0f },  { 1655.0f, -44.0f, -396.0f },

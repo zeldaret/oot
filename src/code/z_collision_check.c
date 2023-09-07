@@ -2221,8 +2221,8 @@ void CollisionCheck_AC_CylVsQuad(PlayState* play, UNUSED CollisionCheckContext* 
     }
 }
 
-static s8 sBssDummy0;
-static s8 sBssDummy1;
+UNUSED static s8 sBssDummy0;
+UNUSED static s8 sBssDummy1;
 
 /**
  * AC overlap check. Calculates the center of each collider element and the point of contact.
@@ -2272,10 +2272,10 @@ void CollisionCheck_AC_QuadVsCyl(PlayState* play, UNUSED CollisionCheckContext* 
     }
 }
 
-static s8 sBssDummy3;
-static s8 sBssDummy4;
-static s8 sBssDummy5;
-static s8 sBssDummy6;
+UNUSED static s8 sBssDummy3;
+UNUSED static s8 sBssDummy4;
+UNUSED static s8 sBssDummy5;
+UNUSED static s8 sBssDummy6;
 
 /**
  * AC overlap check. Calculates the center of each collider element and the point of contact.
@@ -2319,10 +2319,10 @@ void CollisionCheck_AC_TrisVsTris(PlayState* play, UNUSED CollisionCheckContext*
     }
 }
 
-static s8 sBssDummy7;
-static s8 sBssDummy8;
-static s8 sBssDummy9;
-static s8 sBssDummy10;
+UNUSED static s8 sBssDummy7;
+UNUSED static s8 sBssDummy8;
+UNUSED static s8 sBssDummy9;
+UNUSED static s8 sBssDummy10;
 
 /**
  * AC overlap check. Calculates the center of each collider element and the point of contact.
@@ -3237,10 +3237,10 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* collider, s32 index, Col
 // In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
 // For this, we introduce a certain amount of dummy variables throughout the file, which we fit inside padding added
 // by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
-static s8 sBssDummy11;
-static s8 sBssDummy12;
-static s8 sBssDummy13;
-static s8 sBssDummy14;
+UNUSED static s8 sBssDummy11;
+UNUSED static s8 sBssDummy12;
+UNUSED static s8 sBssDummy13;
+UNUSED static s8 sBssDummy14;
 
 /**
  * Updates the world spheres for all of the collider's JntSph elements attached to the specified limb

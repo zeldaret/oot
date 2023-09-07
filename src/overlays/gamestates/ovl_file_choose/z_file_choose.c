@@ -3,7 +3,7 @@
 #include "assets/textures/title_static/title_static.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
-static s16 sUnused = 106;
+UNUSED static s16 sUnused = 106;
 
 static s16 sScreenFillAlpha = 255;
 

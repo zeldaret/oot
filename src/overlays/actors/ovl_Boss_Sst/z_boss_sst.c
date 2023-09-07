@@ -227,8 +227,8 @@ static Vec3f sSubCamEyePoints[] = {
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 static u32 sBodyStatic = false;
 
-// Unreferenced. Maybe two zero vectors?
-static u32 sUnkValues[] = { 0, 0, 0, 0, 0, 0 };
+// Maybe two zero vectors?
+UNUSED static u32 sUnkValues[] = { 0, 0, 0, 0, 0, 0 };
 
 static Color_RGBA8 sBodyColor = { 255, 255, 255, 255 };
 static Color_RGBA8 sStaticColor = { 0, 0, 0, 255 };

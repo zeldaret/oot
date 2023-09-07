@@ -43,10 +43,10 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static Vec3f sUnusedVec1 = { 0.0f, 0.5f, 0.0f };
-static Vec3f sUnusedVec2 = { 0.0f, 0.5f, 0.0f };
+UNUSED static Vec3f sUnusedVec1 = { 0.0f, 0.5f, 0.0f };
+UNUSED static Vec3f sUnusedVec2 = { 0.0f, 0.5f, 0.0f };
 
-static Color_RGB8 sUnusedColors[] = {
+UNUSED static Color_RGB8 sUnusedColors[] = {
     { 255, 255, 100 },
     { 255, 255, 50 },
 };

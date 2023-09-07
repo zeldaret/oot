@@ -112,8 +112,7 @@ ActorInit En_Ossan_InitVars = {
     NULL,
 };
 
-// Unused collider
-static ColliderCylinderInitType1 sCylinderInit = {
+UNUSED static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -138,8 +137,7 @@ static s16 sMaskPaymentPrice[] = { 10, 30, 20, 50 };
 // item yaw offsets
 static s16 sItemShelfRot[] = { 0xEAAC, 0xEAAC, 0xEAAC, 0xEAAC, 0x1554, 0x1554, 0x1554, 0x1554 };
 
-// unused values?
-static s16 D_80AC8904[] = { 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
+UNUSED static s16 D_80AC8904[] = { 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
 
 static char* sShopkeeperPrintName[] = {
     "コキリの店  ", // "Kokiri Shop"

@@ -14,7 +14,7 @@ void DemoDu_Destroy(Actor* thisx, PlayState* play);
 void DemoDu_Update(Actor* thisx, PlayState* play);
 void DemoDu_Draw(Actor* thisx, PlayState* play);
 
-static s32 sUnused = 0;
+UNUSED static s32 sUnused = 0;
 
 #pragma asmproc recurse
 #include "z_demo_du_cutscene_data.inc.c"

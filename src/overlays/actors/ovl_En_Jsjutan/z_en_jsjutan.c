@@ -31,7 +31,7 @@ static u8 sShadowTex[0x800];
 
 static Vec3s D_80A8EE10[0x90];
 
-static s32 sUnused[2] = { 0, 0 };
+UNUSED static u64 sForceAlignment = 0;
 
 #include "assets/overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
 

@@ -126,24 +126,20 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
-// Unused
-static EnHorseNormalUnkStruct1 D_80A6D428[] = {
+UNUSED static EnHorseNormalUnkStruct1 D_80A6D428[] = {
     { { 1058, 1, 384 }, 7 },    { { 1653, 39, -381 }, 6 }, { { 1606, 1, -1048 }, 6 }, { { 1053, 1, -1620 }, 6 },
     { { -1012, 1, -1633 }, 7 }, { { -1655, 1, -918 }, 6 }, { { -1586, 1, -134 }, 6 }, { { -961, 1, 403 }, 7 },
 };
 
-// Unused
-static EnHorseNormalUnkStruct2 D_80A6D468 = { ARRAY_COUNT(D_80A6D428), D_80A6D428 };
+UNUSED static EnHorseNormalUnkStruct2 D_80A6D468 = { ARRAY_COUNT(D_80A6D428), D_80A6D428 };
 
-// Unused
-static EnHorseNormalUnkStruct1 D_80A6D470[] = {
+UNUSED static EnHorseNormalUnkStruct1 D_80A6D470[] = {
     { { 88, 0, 2078 }, 10 },       { { 2482, 376, 4631 }, 7 },    { { 2228, -28, 6605 }, 12 },
     { { 654, -100, 8864 }, 7 },    { { -297, -500, 10667 }, 12 }, { { -5303, -420, 10640 }, 10 },
     { { -6686, -500, 7760 }, 10 }, { { -5260, 100, 5411 }, 7 },   { { -3573, -269, 3893 }, 10 },
 };
 
-// Unused
-static EnHorseNormalUnkStruct2 D_80A6D4B8 = { ARRAY_COUNT(D_80A6D470), D_80A6D470 };
+UNUSED static EnHorseNormalUnkStruct2 D_80A6D4B8 = { ARRAY_COUNT(D_80A6D470), D_80A6D470 };
 
 void func_80A6B250(EnHorseNormal* this) {
     static s32 D_80A6D4C0[] = { 0, 16 };

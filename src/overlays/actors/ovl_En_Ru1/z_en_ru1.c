@@ -104,7 +104,7 @@ static void* sMouthTextures[] = {
     gRutoChildMouthOpenTex,
 };
 
-static s32 sUnused = 0;
+UNUSED static s32 sUnused = 0;
 
 #pragma asmproc recurse
 #include "z_en_ru1_cutscene_data.inc.c"

@@ -3270,7 +3270,7 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4673);
 }
 
-static s32 sUnkValue = 0x009B0000; // Unreferenced? Possibly a color
+UNUSED static s32 sUnkValue = 0x009B0000; // Possibly a color
 
 void BossVa_UpdateEffects(PlayState* play) {
     BossVaEffect* effect = sEffects;

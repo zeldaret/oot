@@ -60,7 +60,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 // Unused, but probably intended to be this
-static s16 sRupeeTypes[] = {
+UNUSED static s16 sRupeeTypes[] = {
     ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
 };
 

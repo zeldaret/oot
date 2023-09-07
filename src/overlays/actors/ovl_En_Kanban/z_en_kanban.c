@@ -795,7 +795,7 @@ static f32 sCutAngles[] = {
     /* CUT_VERT_R */ 0.00f * M_PI,
 };
 
-static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
+UNUSED static s32 sUnused[] = { 0, 0, 0 }; // Unused zero vector?
 
 #include "assets/overlays/ovl_En_Kanban/ovl_En_Kanban.c"
 

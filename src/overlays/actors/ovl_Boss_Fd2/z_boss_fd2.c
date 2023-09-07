@@ -392,7 +392,7 @@ void BossFd2_SetupBreatheFire(BossFd2* this, PlayState* play) {
     this->work[FD2_ACTION_STATE] = 0;
 }
 
-static Vec3f sUnkVec = { 0.0f, 0.0f, 50.0f }; // Unused? BossFd uses a similar array for its fire breath sfx.
+UNUSED static Vec3f sUnkVec = { 0.0f, 0.0f, 50.0f }; // Unused? BossFd uses a similar array for its fire breath sfx.
 
 void BossFd2_BreatheFire(BossFd2* this, PlayState* play) {
     s16 i;

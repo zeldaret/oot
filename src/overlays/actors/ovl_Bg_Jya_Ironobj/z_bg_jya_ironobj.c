@@ -22,7 +22,7 @@ void func_808992E8(BgJyaIronobj* this, PlayState* play);
 void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
 void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
 
-static int sUnused = 0;
+UNUSED static int sUnused = 0;
 
 ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,

@@ -185,7 +185,7 @@ void EfcErupc_DrawEffects(EfcErupcEffect* effect, PlayState* play) {
     CLOSE_DISPS(gfxCtx, "../z_efc_erupc.c", 399);
 }
 
-static Color_RGB8 D_8099D770[] = {
+UNUSED static Color_RGB8 D_8099D770[] = {
     { 255, 128, 0 },
     { 255, 0, 0 },
     { 255, 255, 0 },

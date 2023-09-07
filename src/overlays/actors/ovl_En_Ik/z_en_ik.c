@@ -897,8 +897,7 @@ s32 EnIk_OverrideLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
     return false;
 }
 
-// unused
-static Vec3f D_80A78470 = { 300.0f, 0.0f, 0.0f };
+UNUSED static Vec3f D_80A78470 = { 300.0f, 0.0f, 0.0f };
 
 static Vec3f D_80A7847C[] = {
     { 800.0f, -200.0f, -5200.0f },

@@ -84,7 +84,7 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 
-static f32 sUnused[] = { 10.0f, 9.2f };
+UNUSED static f32 sUnused[] = { 10.0f, 9.2f };
 
 void EnGoroiwa_UpdateCollider(EnGoroiwa* this) {
     static f32 yOffsets[] = { 0.0f, 59.5f };

@@ -329,7 +329,7 @@ static s16 D_809071CC[] = { 1, -1, 1, 1, 3, 4, 1, 6, 7, 2, 9, 10, 2, 12, 13 };
 static u8 D_809071EC[] = { 3, 2, 2, 1, 3, 3, 1, 3, 3, 1, 0, 3, 1, 0, 3 };
 
 // padding
-static u32 D_809071FC[2] = { 0 };
+UNUSED static u32 D_809071FC[2] = { 0 };
 
 #include "assets/overlays/ovl_Boss_Ganon2/ovl_Boss_Ganon2.c"
 
@@ -339,8 +339,7 @@ static EnZl3* sZelda;
 
 static Actor* D_8090EB30;
 
-// unused
-static UNK_TYPE D_8090EB34;
+UNUSED static UNK_TYPE D_8090EB34;
 
 static BossGanon2Effect sEffects[BOSS_GANON2_EFFECT_COUNT];
 
@@ -348,8 +347,7 @@ static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
 
-// unused
-static UNK_TYPE D_809105DC;
+UNUSED static UNK_TYPE D_809105DC;
 
 static Vec3f D_809105D8[4];
 

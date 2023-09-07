@@ -168,7 +168,7 @@ static EnGo2DustEffectData sDustEffectData[2][4] = {
     },
 };
 
-static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
+UNUSED static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
                            f32 scaleStep) {

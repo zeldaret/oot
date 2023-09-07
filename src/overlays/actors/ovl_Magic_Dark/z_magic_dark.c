@@ -32,8 +32,7 @@ ActorInit Magic_Dark_InitVars = {
 
 #include "assets/overlays/ovl_Magic_Dark/ovl_Magic_Dark.c"
 
-// unused
-static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
+UNUSED static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
 
 void MagicDark_Init(Actor* thisx, PlayState* play) {
     MagicDark* this = (MagicDark*)thisx;

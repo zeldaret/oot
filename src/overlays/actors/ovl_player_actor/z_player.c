@@ -6417,7 +6417,7 @@ s32 Player_HandleSlopes(PlayState* play, Player* this, CollisionPoly* floorPoly)
 }
 
 // unknown data (unused)
-static s32 D_80854598[] = {
+UNUSED static s32 D_80854598[] = {
     0xFFDB0871, 0xF8310000, 0x00940470, 0xF3980000, 0xFFB504A9, 0x0C9F0000, 0x08010402,
 };
 
@@ -14275,8 +14275,7 @@ void func_808519C0(PlayState* play, Player* this, CsCmdActorCue* cue) {
     func_80845964(play, this, cue, 0.0f, 0, 1);
 }
 
-// unused
-static LinkAnimationHeader* D_80855190[] = {
+UNUSED static LinkAnimationHeader* D_80855190[] = {
     &gPlayerAnim_link_demo_back_to_past,
     &gPlayerAnim_clink_demo_goto_future,
 };

@@ -209,7 +209,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
 
-static Vec3f sUnusedOffset = { 1100.0f, -700.0f, 0.0f };
+UNUSED static Vec3f sUnusedOffset = { 1100.0f, -700.0f, 0.0f };
 
 void EnGeldB_SetupAction(EnGeldB* this, EnGeldBActionFunc actionFunc) {
     this->actionFunc = actionFunc;

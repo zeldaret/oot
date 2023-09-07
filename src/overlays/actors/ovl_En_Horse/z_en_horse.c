@@ -3816,8 +3816,7 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->jntSph.base);
 }
 
-// unused
-static s32 D_80A667DC[] = { 0, 3, 7, 14 };
+UNUSED static s32 D_80A667DC[] = { 0, 3, 7, 14 };
 
 s32 EnHorse_OverrideLimbDraw(Actor* thisx, PlayState* play, s32 limbIndex, Skin* arg3) {
     static void* eyeTextures[] = {

@@ -1816,7 +1816,7 @@ void func_80B577BC(PlayState* play, Vec3f* vec) {
 
 static Vec3f D_80B5A498 = { 148.0f, 260.0f, -87.0f };
 static Vec3f D_80B5A4A4 = { -12.0f, 260.0f, -147.0f };
-static Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
+UNUSED static Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
 
 void func_80B57858(PlayState* play) {
     func_80B577BC(play, &D_80B5A498);

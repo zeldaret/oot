@@ -59,7 +59,7 @@ static f32 sBackSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 0.5f, 0.25f, 0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
-static f32 D_80A24DB4[] = {
+UNUSED static f32 D_80A24DB4[] = {
     0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
@@ -68,7 +68,7 @@ static f32 sSideSwayCoefficients[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f, 0.0f,
 };
 
-static f32 D_80A24E00[] = {
+UNUSED static f32 D_80A24E00[] = {
     0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 };
 
@@ -76,7 +76,7 @@ static f32 sDistMultipliers[GANON_MANT_NUM_JOINTS] = {
     0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f, 1.7f,
 };
 
-static f32 D_80A24E48[] = {
+UNUSED static f32 D_80A24E48[] = {
     1.8f,
 };
 
@@ -95,7 +95,7 @@ static u16 sVerticesMap[GANON_MANT_NUM_STRANDS * GANON_MANT_NUM_JOINTS] = {
 #define MANT_TEX_WIDTH 32
 #define MANT_TEX_HEIGHT 64
 
-static u64 sForceAlignment = 0;
+UNUSED static u64 sForceAlignment = 0;
 
 #include "assets/overlays/ovl_En_Ganon_Mant/ovl_En_Ganon_Mant.c"
 

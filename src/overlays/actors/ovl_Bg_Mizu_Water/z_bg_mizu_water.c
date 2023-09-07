@@ -41,8 +41,8 @@ ActorInit Bg_Mizu_Water_InitVars = {
     (ActorFunc)BgMizuWater_Draw,
 };
 
-static f32 sUnused1 = 0;
-static f32 sUnused2 = 110.0f;
+UNUSED static f32 sUnused1 = 0;
+UNUSED static f32 sUnused2 = 110.0f;
 
 static u32 sWaterBoxIndices[] = { 2, 3, 5, 7, 12, 20, 21, 22 };
 

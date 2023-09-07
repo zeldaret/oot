@@ -37,7 +37,7 @@ ActorInit En_Tr_InitVars = {
 
 // The first elements of these animation arrays are for Koume, the second for Kotake
 
-static AnimationHeader* unused[] = {
+UNUSED static AnimationHeader* unused[] = {
     &gKotakeKoumeStandingBroomOverRightShoulderAnim,
     &gKotakeKoumeStandingBroomOverLeftShoulderAnim,
 };

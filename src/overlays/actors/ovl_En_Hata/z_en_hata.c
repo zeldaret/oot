@@ -27,7 +27,8 @@ ActorInit En_Hata_InitVars = {
 };
 
 // Unused Collider and CollisionCheck data
-static ColliderCylinderInit sCylinderInit = {
+
+UNUSED static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -47,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 16, 246, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
+UNUSED static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 void EnHata_Init(Actor* thisx, PlayState* play) {
     EnHata* this = (EnHata*)thisx;

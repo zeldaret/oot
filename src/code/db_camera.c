@@ -1759,8 +1759,7 @@ char D_8012D128[] = GFXP_KATAKANA "ﾄ-ﾀﾙ         ";
 char D_8012D13C[] = GFXP_KATAKANA "ｷ-     /   ";
 
 s32 func_800B91B0(Camera* cam, DebugCam* debugCam) {
-    s32 pointCount;
-    s32 curPoint;
+    STACK_PADS(s32, 2);
 
     while (sDebugCamCuts[D_8016110C].letter == '?') {
         D_8016110C++;

@@ -69,7 +69,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 0, ICHAIN_STOP),
 };
 
-static UNK_TYPE sUnused;
+UNUSED static UNK_TYPE sUnused;
 
 void EnBox_SetupAction(EnBox* this, EnBoxActionFunc actionFunc) {
     this->actionFunc = actionFunc;

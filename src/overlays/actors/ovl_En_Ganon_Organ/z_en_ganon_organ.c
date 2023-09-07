@@ -26,7 +26,7 @@ ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Draw,
 };
 
-static u64 sForceAlignment = 0;
+UNUSED static u64 sForceAlignment = 0;
 
 #include "assets/overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 

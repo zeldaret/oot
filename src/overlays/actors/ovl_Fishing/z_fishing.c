@@ -339,7 +339,7 @@ static ColliderJntSphInit sJntSphInit = {
 static f32 sFishGroupVar = 0.0f;
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
-static Vec3f sUnusedVec = { 0.0f, 0.0f, 2000.0f };
+UNUSED static Vec3f sUnusedVec = { 0.0f, 0.0f, 2000.0f };
 
 static Fishing* sFishingMain;
 static u8 sReelLock;

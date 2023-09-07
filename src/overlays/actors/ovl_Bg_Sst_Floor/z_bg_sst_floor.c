@@ -14,7 +14,7 @@ void BgSstFloor_Destroy(Actor* thisx, PlayState* play);
 void BgSstFloor_Update(Actor* thisx, PlayState* play);
 void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 
-static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
+UNUSED static s32 sUnkValues[] = { 0, 0, 0 }; // Probably a zero vector
 
 ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,

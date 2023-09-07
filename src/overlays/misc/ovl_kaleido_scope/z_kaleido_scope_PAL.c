@@ -208,7 +208,7 @@ static void* sSavePromptTexs[] = {
     gPauseSavePromptFRATex,
 };
 
-static void* sSaveConfirmationTexs[] = {
+UNUSED static void* sSaveConfirmationTexs[] = {
     gPauseSaveConfirmationENGTex,
     gPauseSaveConfirmationGERTex,
     gPauseSaveConfirmationFRATex,

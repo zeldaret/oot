@@ -59,8 +59,7 @@ static s16 sObjIds[] = {
     OBJECT_GAMEPLAY_KEEP,  OBJECT_GAMEPLAY_KEEP,  OBJECT_GAMEPLAY_KEEP,
 };
 
-// unused, presumed to be floats
-static f32 D_8098C314[] = {
+UNUSED static f32 D_8098C314[] = {
     0.0f,
     150.0f,
 };

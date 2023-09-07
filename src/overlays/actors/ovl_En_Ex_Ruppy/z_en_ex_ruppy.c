@@ -24,7 +24,7 @@ static s16 sEnExRuppyCollectibleTypes[] = {
 };
 
 // Unused, as the function sets these directly
-static s16 sRupeeValues[] = {
+UNUSED static s16 sRupeeValues[] = {
     1, 5, 20, 500, 50,
 };
 
