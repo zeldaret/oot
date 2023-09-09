@@ -28,7 +28,7 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     }
 
     objectCtx->num++;
-    objectCtx->unk_09 = objectCtx->num;
+    objectCtx->numKeepObjects = objectCtx->num;
 
     return objectCtx->num - 1;
 }
@@ -56,7 +56,7 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
         spaceSize = 1024000;
     }
 
-    objectCtx->num = objectCtx->unk_09 = 0;
+    objectCtx->num = objectCtx->numKeepObjects = 0;
     objectCtx->mainKeepIndex = objectCtx->subKeepIndex = 0;
 
     for (i = 0; i < OBJECT_EXCHANGE_BANK_MAX; i++) {
@@ -257,7 +257,7 @@ void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     void* nextPtr;
 
     k = 0;
-    i = play->objectCtx.unk_09;
+    i = play->objectCtx.numKeepObjects;
     firstStatus = &play->objectCtx.status[0];
     status = &play->objectCtx.status[i];
 
