@@ -2093,6 +2093,8 @@ void func_80B582C8(EnZl3* this, PlayState* play) {
         func_80B57704(this, play);
     } else if (*unk_3CC == kREG(15) + 20.0f) {
         *unk_3CC += 1.0f;
+        this->actor.textId = 0x71AA;
+        Message_StartTextbox(play, this->actor.textId, NULL);
         func_80B56DC8(this);
         func_80B54E14(this, &gZelda2Anime2Anim_003FF8, 0, -12.0f, 0);
     } else if (*unk_3CC == kREG(16) + 30.0f) {
