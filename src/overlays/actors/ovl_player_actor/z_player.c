@@ -1947,6 +1947,13 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
             itemSfx = NA_SE_IT_SWORD_SWING;
         }
 
+        if (LINK_IS_ADULT) {
+        func_8002F7DC(&this->actor, NA_SE_IT_MASTER_SWORD_SWING);
+        func_8002F7DC(&this->actor, NA_SE_IT_SWORD_SWING);
+        } else {
+        itemSfx = NA_SE_IT_SWORD_SWING;
+        }
+
         voiceSfx = NA_SE_VO_LI_SWORD_N;
         if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
@@ -1956,6 +1963,13 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
         } else if (this->unk_845 >= 3) {
             itemSfx = NA_SE_IT_SWORD_SWING_HARD;
             voiceSfx = NA_SE_VO_LI_SWORD_L;
+        }
+
+        if (LINK_IS_ADULT & (this->unk_845 >= 3) ) {
+        func_8002F7DC(&this->actor, NA_SE_IT_MASTER_SWORD_SWING);
+        func_8002F7DC(&this->actor, NA_SE_IT_SWORD_SWING_HARD);
+        } else if (this->unk_845 >= 3) {
+        itemSfx = NA_SE_IT_SWORD_SWING_HARD;
         }
 
         if (itemSfx != 0) {

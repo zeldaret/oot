@@ -1659,6 +1659,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             if ((this->unk_398 == 20) || (this->unk_398 == 30) || (this->unk_398 == 65) || (this->unk_398 == 40)) {
                 func_80078884(NA_SE_VO_LI_SWORD_N);
                 func_80078884(NA_SE_IT_SWORD_SWING_HARD);
+                func_80078884(NA_SE_IT_MASTER_SWORD_SWING);
             }
             if ((this->unk_398 == 22) || (this->unk_398 == 35) || (this->unk_398 == 72) || (this->unk_398 == 45)) {
                 func_80078884(NA_SE_EN_MGANON_DAMAGE);
