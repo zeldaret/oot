@@ -2211,9 +2211,12 @@ s32 func_8083442C(Player* this, PlayState* play) {
 }
 
 void func_80834594(PlayState* play, Player* this) {
+    Player* player = GET_PLAYER(play);
+
     if (this->heldItemActionParam != PLAYER_AP_NONE) {
         if (func_8008F2BC(this, this->heldItemActionParam) >= 0) {
             func_808328EC(this, NA_SE_IT_SWORD_PUTAWAY);
+            func_8002F7DC(&player->actor, player->ageProperties->unk_92 + NA_SE_VO_LI_NULL_0x1b);
         } else {
             func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
         }
@@ -2593,7 +2596,10 @@ s32 func_808353D8(Player* this, PlayState* play) {
         }
 
         if (Player_HoldsHookshot(this)) {
-            func_80833638(this, func_8083501C);
+            // func_80833638(this, func_8083501C);
+            func_80833638(this, func_80835588);
+            LinkAnimation_PlayOnce(play, &this->skelAnime2, &gPlayerAnim_0026B0);
+            func_8002F7DC(&this->actor, NA_SE_IT_HOOKSHOT_RECEIVE);
         } else {
             func_80833638(this, func_80835588);
             LinkAnimation_PlayOnce(play, &this->skelAnime2, &gPlayerAnim_0026B0);
@@ -5124,8 +5130,10 @@ s32 func_8083B644(Player* this, PlayState* play) {
     return 0;
 }
 
+// spaceworld change to allow first person view when Link carries items
 s32 func_8083B8F4(Player* this, PlayState* play) {
-    if (!(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_23)) &&
+    // if (!(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_23)) &&
+    if (!(this->stateFlags1 & (0)) &&
         Camera_CheckValidMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_FIRSTPERSON)) {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
             (func_808332B8(this) && (this->actor.yDistToWater < this->ageProperties->unk_2C))) {
