@@ -1,14 +1,14 @@
 <Root>
     <File Name="object_cow" Segment="6">
         <!-- Cow Body Skeleton -->
-        <Skeleton Name="gCowBodySkel" Type="Flex" LimbType="Standard" Offset="0x4010"/>
+        <Skeleton Name="gCowBodySkel" Type="Flex" LimbType="Standard" LimbNone="COW_LIMB_NONE" LimbMax="COW_LIMB_MAX" EnumName="CowLimb" Offset="0x4010"/>
 
         <!-- Cow Body Limbs -->
-        <Limb Name="gCowRootLimb" LimbType="Standard" Offset="0x3FC0"/>
-        <Limb Name="gCowHeadLimb" LimbType="Standard" Offset="0x3FCC"/>
-        <Limb Name="gCowJawLimb" LimbType="Standard" Offset="0x3FD8"/>
-        <Limb Name="gCowNoseLimb" LimbType="Standard" Offset="0x3FE4"/>
-        <Limb Name="gCowNoseRingLimb" LimbType="Standard" Offset="0x3FF0"/>
+        <Limb Name="gCowRootLimb" LimbType="Standard" EnumName="COW_LIMB_ROOT" Offset="0x3FC0"/>
+        <Limb Name="gCowHeadLimb" LimbType="Standard" EnumName="COW_LIMB_HEAD" Offset="0x3FCC"/>
+        <Limb Name="gCowJawLimb" LimbType="Standard" EnumName="COW_LIMB_JAW" Offset="0x3FD8"/>
+        <Limb Name="gCowNoseLimb" LimbType="Standard" EnumName="COW_LIMB_NOSE" Offset="0x3FE4"/>
+        <Limb Name="gCowNoseRingLimb" LimbType="Standard" EnumName="COW_LIMB_NOSE_RING" Offset="0x3FF0"/>
 
         <!-- Cow Body Limb DisplayLists -->
         <DList Name="gCowTorsoDL" Offset="0x1A80"/>
@@ -18,14 +18,14 @@
         <DList Name="gCowNoseRingDL" Offset="0x2628"/>
 
         <!-- Cow Tail Skeleton -->
-        <Skeleton Name="gCowTailSkel" Type="Flex" LimbType="Standard" Offset="0x4C30"/>
+        <Skeleton Name="gCowTailSkel" Type="Flex" LimbType="Standard" LimbNone="COW_TAIL_LIMB_NONE" LimbMax="COW_TAIL_LIMB_MAX" EnumName="CowTailLimb" Offset="0x4C30"/>
 
         <!-- Cow Tail Limbs -->
-        <Limb Name="gCowTailRootLimb" LimbType="Standard" Offset="0x4BE0"/>
-        <Limb Name="gCowTailUpperLimb" LimbType="Standard" Offset="0x4BEC"/>
-        <Limb Name="gCowTailMiddleLimb" LimbType="Standard" Offset="0x4BF8"/>
-        <Limb Name="gCowTailLowerLimb" LimbType="Standard" Offset="0x4C04"/>
-        <Limb Name="gCowTailEndLimb" LimbType="Standard" Offset="0x4C10"/>
+        <Limb Name="gCowTailRootLimb" LimbType="Standard" EnumName="COW_TAIL_LIMB_ROOT" Offset="0x4BE0"/>
+        <Limb Name="gCowTailUpperLimb" LimbType="Standard" EnumName="COW_TAIL_LIMB_UPPER" Offset="0x4BEC"/>
+        <Limb Name="gCowTailMiddleLimb" LimbType="Standard" EnumName="COW_TAIL_LIMB_MIDDLE" Offset="0x4BF8"/>
+        <Limb Name="gCowTailLowerLimb" LimbType="Standard" EnumName="COW_TAIL_LIMB_LOWER" Offset="0x4C04"/>
+        <Limb Name="gCowTailEndLimb" LimbType="Standard" EnumName="COW_TAIL_LIMB_END" Offset="0x4C10"/>
 
         <!-- Cow Tail Limb DisplayLists -->
         <DList Name="gCowTailConnectionDL" Offset="0x46F0"/>
