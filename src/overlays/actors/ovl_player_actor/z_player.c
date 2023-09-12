@@ -2128,7 +2128,7 @@ void Player_InitItemActionWithAnim(PlayState* play, Player* this, s8 itemAction)
 
     this->stateFlags1 &= ~(PLAYER_STATE1_3 | PLAYER_STATE1_24);
 
-    for (animGroup = PLAYER_ANIMGROUP_wait; animGroup < PLAYER_ANIMGROUP_MAX; animGroup++) {
+    for (animGroup = 0; animGroup < PLAYER_ANIMGROUP_MAX; animGroup++) {
         if (current == *iter) {
             break;
         }
