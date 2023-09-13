@@ -1198,11 +1198,6 @@ void ViMode_Init(ViMode* viMode);
 void ViMode_Destroy(ViMode* viMode);
 void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures);
 void ViMode_Update(ViMode* viMode, Input* input);
-
-void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId);
-Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z);
-void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z);
-void SkyboxDraw_Update(SkyboxContext* skyboxCtx);
 void PlayerCall_InitFuncPtrs(void);
 void TransitionTile_Destroy(TransitionTile* this);
 TransitionTile* TransitionTile_Init(TransitionTile* this, s32 cols, s32 rows);
