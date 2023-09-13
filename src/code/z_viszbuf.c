@@ -1,19 +1,20 @@
 /**
  * @file z_viszbuf.c
- * Description: Visualise the z-buffer (AKA depth buffer), using cycling RGBA or a single fading color.
  *
- * This is done by reading the z-buffer as if it were a color image, the format of which is specified by `useRgba`:
- * - false will produce a monotonic fade from primColor to envColor as depth increases
- * - true produces vibrant almost-periodic-looking bands.
+ * This file implements a full-screen framebuffer effect for visualizing the z-buffer (AKA depth buffer), using either
+ * cycling RGBA or a single fading color.
+ *
+ * This is done by reading the z-buffer as if it were a color image, the format of which is specified by the selected
+ * vis type:
+ *  - VIS_ZBUF_TYPE_IA   : Produces a monotonic fade from primColor to envColor as depth increases.
+ *  - VIS_ZBUF_TYPE_RGBA : Produces vibrant almost-periodic-looking bands.
  *
  * In both cases this occurs because of the format the depth information takes: it is 18-bit, and is a nonnegative
  * floating-point number with
- *
  *     bbb      mmmmmmmmmmm dd|dd
  *     exponent mantissa    dz value (only first 16 bits visible to CPU, the least significant 2 bits of dz are ignored)
  *
  * Reading z-buffer as IA16:
- *
  *     bbbmmmmm mmmmmmdd
  *     iiiiiiii aaaaaaaa
  *
@@ -22,7 +23,6 @@
  * combine primColor and envColor. The alpha is ignored by the RenderMode.
  *
  * Reading z-buffer as RGBA16:
- *
  *     bbbmm mmmmm mmmmd d
  *     rrrrr ggggg bbbbb a
  *
@@ -45,16 +45,16 @@ extern u16 D_0E000000[];
  * Initialise to IA type with white and black as default colors.
  */
 void VisZBuf_Init(VisZBuf* this) {
-    this->base.type = VIS_ZBUF_TYPE_IA;
-    this->base.setScissor = VIS_NO_SETSCISSOR;
-    this->base.primColor.r = 255;
-    this->base.primColor.g = 255;
-    this->base.primColor.b = 255;
-    this->base.primColor.a = 255;
-    this->base.envColor.a = 255;
-    this->base.envColor.r = 0;
-    this->base.envColor.g = 0;
-    this->base.envColor.b = 0;
+    this->vis.type = VIS_ZBUF_TYPE_IA;
+    this->vis.setScissor = VIS_NO_SETSCISSOR;
+    this->vis.primColor.r = 255;
+    this->vis.primColor.g = 255;
+    this->vis.primColor.b = 255;
+    this->vis.primColor.a = 255;
+    this->vis.envColor.a = 255;
+    this->vis.envColor.r = 0;
+    this->vis.envColor.g = 0;
+    this->vis.envColor.b = 0;
 }
 
 void VisZBuf_Destroy(VisZBuf* this) {
@@ -67,7 +67,7 @@ void VisZBuf_Draw(VisZBuf* this, Gfx** gfxp) {
     s32 y;
     s32 height;
 
-    if (this->base.type == VIS_ZBUF_TYPE_IA) {
+    if (this->vis.type == VIS_ZBUF_TYPE_IA) {
         fmt = G_IM_FMT_IA;
     } else { // VIS_ZBUF_TYPE_RGBA
         fmt = G_IM_FMT_RGBA;
@@ -77,7 +77,7 @@ void VisZBuf_Draw(VisZBuf* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
     // Scissoring is only required if the scissor has not been set prior.
-    if (this->base.setScissor == VIS_SETSCISSOR) {
+    if (this->vis.setScissor == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
@@ -92,8 +92,8 @@ void VisZBuf_Draw(VisZBuf* this, Gfx** gfxp) {
     // LERP between primColor and envColor in 1-cycle mode using the z-buffer value.
     gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT,
                       PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT);
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->base.primColor.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->base.envColor.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->vis.primColor.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->vis.envColor.rgba);
 
     for (y = 0; y <= SCREEN_HEIGHT - height; y += height) {
         // Load a few lines of the z-buffer, as many as can fit in TMEM at once.

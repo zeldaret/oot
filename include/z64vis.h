@@ -42,7 +42,7 @@ typedef enum {
 } VisCvgType;
 
 typedef struct {
-    /* 0x00 */ Vis base;
+    /* 0x00 */ Vis vis;
 } VisCvg; // size = 0x10
 
 void VisCvg_Init(VisCvg* this);
@@ -56,7 +56,7 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp);
 // Only one type
 
 typedef struct {
-    /* 0x00 */ Vis base;
+    /* 0x00 */ Vis vis;
     /* 0x10 */ u16* tlut;
     /* 0x14 */ Gfx* dList;
 } VisMono; // size = 0x18
@@ -77,7 +77,7 @@ typedef enum {
 } VisZBufType;
 
 typedef struct {
-    /* 0x00 */ Vis base;
+    /* 0x00 */ Vis vis;
 } VisZBuf; // size = 0x10
 
 void VisZBuf_Init(VisZBuf* this);

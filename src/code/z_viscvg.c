@@ -1,17 +1,20 @@
 /**
  * @file z_viscvg.c
- * Description: Visualise Coverage in various ways.
  *
- * Coverage is roughly how much of a pixel is covered by a primitive; it is used for antialiasing, see PreRender.c and
- * §15 of the programming manual for details.
+ * This file implements full-screen frame buffer effects involving the visualization of Coverage in various ways.
+ *
+ * Coverage is roughly how much of a pixel is covered by a primitive; the final coverage for a frame is stored in the
+ * color image alpha component where it is used for antialiasing, see PreRender.c and §15 of the programming manual for
+ * details.
  *
  * To understand this file, it is helpful to remember that A_MEM is essentially synonymous with coverage, and that
  * `GBL_c1/2(p, a, m, b)` usually represents the RDP blender calculation `(p * a + m * b)`.
  * Note the division step that is often included in the blender calculation is omitted; the division is skipped if
  * force blending (FORCE_BL) is set, which is the case for all render modes used in this file.
  *
- * Coverage is full when not on an edge, while on an edge it is usually lower, and since coverage is treated as an
- * alpha value, edges with lower coverage will show up as darker than interiors in all of the available modes.
+ * Coverage is full when not on an edge, while on an edge it is usually lower. Since coverage is treated as an alpha
+ * value, edges of primitives where coverage is lower will show up darker than primitive interiors in all of the
+ * available modes.
  *
  * Coverage is abbreviated to "cvg"; "FB RGB" ("framebuffer red/green/blue") is the color the pixel originally had
  * before the filter is applied.
@@ -89,12 +92,12 @@ Gfx sCoverageRGBUniformDL[] = {
 };
 
 void VisCvg_Init(VisCvg* this) {
-    this->base.type = FB_FILTER_NONE;
-    this->base.setScissor = false;
-    this->base.primColor.r = 255;
-    this->base.primColor.g = 255;
-    this->base.primColor.b = 255;
-    this->base.primColor.a = 255;
+    this->vis.type = FB_FILTER_NONE;
+    this->vis.setScissor = false;
+    this->vis.primColor.r = 255;
+    this->vis.primColor.g = 255;
+    this->vis.primColor.b = 255;
+    this->vis.primColor.a = 255;
 }
 
 void VisCvg_Destroy(VisCvg* this) {
@@ -106,30 +109,30 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
     gDPPipeSync(gfx++);
     gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
 
-    if (this->base.setScissor == VIS_SETSCISSOR) {
+    if (this->vis.setScissor == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    switch (this->base.type) {
+    switch (this->vis.type) {
         case FB_FILTER_CVG_RGB:
             gSPDisplayList(gfx++, sCoverageRGBDL);
             break;
 
         case FB_FILTER_CVG_RGB_UNIFORM:
             // Set primitive color for uniform color filter in custom RenderMode
-            gDPSetColor(gfx++, G_SETPRIMCOLOR, this->base.primColor.rgba);
+            gDPSetColor(gfx++, G_SETPRIMCOLOR, this->vis.primColor.rgba);
             gSPDisplayList(gfx++, sCoverageRGBUniformDL);
             break;
 
         case FB_FILTER_CVG_ONLY:
             // Set background color for G_RM_VISCVG
-            gDPSetColor(gfx++, G_SETBLENDCOLOR, this->base.primColor.rgba);
+            gDPSetColor(gfx++, G_SETBLENDCOLOR, this->vis.primColor.rgba);
             gSPDisplayList(gfx++, sCoverageOnlyDL);
             break;
 
         case FB_FILTER_CVG_RGB_FOG:
             // Set fog color for custom RenderMode, needs to be close to 0 to not overflow
-            gDPSetColor(gfx++, G_SETFOGCOLOR, this->base.primColor.rgba);
+            gDPSetColor(gfx++, G_SETFOGCOLOR, this->vis.primColor.rgba);
             gSPDisplayList(gfx++, sCoverageRGBFogDL);
             break;
 

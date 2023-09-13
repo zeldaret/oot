@@ -1103,7 +1103,7 @@ void Play_Draw(PlayState* this) {
             TransitionFade_Draw(&this->transitionFadeFlash, &gfxP);
 
             if (gVisMonoColor.a > 0) {
-                D_80161498.base.primColor.rgba = gVisMonoColor.rgba;
+                D_80161498.vis.primColor.rgba = gVisMonoColor.rgba;
                 VisMono_Draw(&D_80161498, &gfxP);
             }
 

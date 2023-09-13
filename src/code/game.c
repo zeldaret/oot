@@ -26,36 +26,36 @@ void GameState_SetFBFilter(Gfx** gfx) {
     Gfx* gfxP = *gfx;
 
     if ((R_FB_FILTER_TYPE >= FB_FILTER_CVG_RGB) && (R_FB_FILTER_TYPE <= FB_FILTER_CVG_RGB_FOG)) {
-        // Visualise coverage
-        sVisCvg.base.type = FB_FILTER_TO_CVG_TYPE(R_FB_FILTER_TYPE);
-        sVisCvg.base.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        sVisCvg.base.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        sVisCvg.base.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        sVisCvg.base.primColor.a = R_FB_FILTER_A;
+        // Visualize coverage
+        sVisCvg.vis.type = FB_FILTER_TO_CVG_TYPE(R_FB_FILTER_TYPE);
+        sVisCvg.vis.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisCvg.vis.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisCvg.vis.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisCvg.vis.primColor.a = R_FB_FILTER_A;
         VisCvg_Draw(&sVisCvg, &gfxP);
     } else if ((R_FB_FILTER_TYPE == FB_FILTER_ZBUF_IA) || (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA)) {
-        // Visualise z-buffer
-        sVisZBuf.base.type = (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA);
-        sVisZBuf.base.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        sVisZBuf.base.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        sVisZBuf.base.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        sVisZBuf.base.primColor.a = R_FB_FILTER_A;
-        sVisZBuf.base.envColor.r = R_FB_FILTER_ENV_COLOR(0);
-        sVisZBuf.base.envColor.g = R_FB_FILTER_ENV_COLOR(1);
-        sVisZBuf.base.envColor.b = R_FB_FILTER_ENV_COLOR(2);
-        sVisZBuf.base.envColor.a = R_FB_FILTER_A;
+        // Visualize z-buffer
+        sVisZBuf.vis.type = (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA);
+        sVisZBuf.vis.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisZBuf.vis.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisZBuf.vis.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisZBuf.vis.primColor.a = R_FB_FILTER_A;
+        sVisZBuf.vis.envColor.r = R_FB_FILTER_ENV_COLOR(0);
+        sVisZBuf.vis.envColor.g = R_FB_FILTER_ENV_COLOR(1);
+        sVisZBuf.vis.envColor.b = R_FB_FILTER_ENV_COLOR(2);
+        sVisZBuf.vis.envColor.a = R_FB_FILTER_A;
         VisZBuf_Draw(&sVisZBuf, &gfxP);
     } else if (R_FB_FILTER_TYPE == FB_FILTER_MONO) {
         // Monochrome filter
-        sVisMono.base.type = 0;
-        sVisMono.base.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        sVisMono.base.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        sVisMono.base.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        sVisMono.base.primColor.a = R_FB_FILTER_A;
-        sVisMono.base.envColor.r = R_FB_FILTER_ENV_COLOR(0);
-        sVisMono.base.envColor.g = R_FB_FILTER_ENV_COLOR(1);
-        sVisMono.base.envColor.b = R_FB_FILTER_ENV_COLOR(2);
-        sVisMono.base.envColor.a = R_FB_FILTER_A;
+        sVisMono.vis.type = 0;
+        sVisMono.vis.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisMono.vis.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisMono.vis.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisMono.vis.primColor.a = R_FB_FILTER_A;
+        sVisMono.vis.envColor.r = R_FB_FILTER_ENV_COLOR(0);
+        sVisMono.vis.envColor.g = R_FB_FILTER_ENV_COLOR(1);
+        sVisMono.vis.envColor.b = R_FB_FILTER_ENV_COLOR(2);
+        sVisMono.vis.envColor.a = R_FB_FILTER_A;
         VisMono_Draw(&sVisMono, &gfxP);
     }
     *gfx = gfxP;

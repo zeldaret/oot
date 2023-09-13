@@ -1,7 +1,11 @@
 /**
  * @file z_vismono.c
  *
- * Color frame buffer effect to desaturate the colors.
+ * This file implements a full-screen framebuffer effect for desaturating the contents of the framebuffer image.
+ * 
+ * Broadly, this effect is achieved by reinterpreting the contents of the RGBA16 color image as indices into an IA16
+ * color palette that converts each color into the desaturated equivalent. More precise details can be found in inline
+ * comments.
  */
 
 #include "global.h"
@@ -28,16 +32,16 @@ extern u16 D_0F000000[];
 
 void VisMono_Init(VisMono* this) {
     bzero(this, sizeof(VisMono));
-    this->base.type = 0;
-    this->base.setScissor = VIS_NO_SETSCISSOR;
-    this->base.primColor.r = 255;
-    this->base.primColor.g = 255;
-    this->base.primColor.b = 255;
-    this->base.primColor.a = 255;
-    this->base.envColor.r = 0;
-    this->base.envColor.g = 0;
-    this->base.envColor.b = 0;
-    this->base.envColor.a = 0;
+    this->vis.type = 0;
+    this->vis.setScissor = VIS_NO_SETSCISSOR;
+    this->vis.primColor.r = 255;
+    this->vis.primColor.g = 255;
+    this->vis.primColor.b = 255;
+    this->vis.primColor.a = 255;
+    this->vis.envColor.r = 0;
+    this->vis.envColor.g = 0;
+    this->vis.envColor.b = 0;
+    this->vis.envColor.a = 0;
 }
 
 void VisMono_Destroy(VisMono* this) {
@@ -97,6 +101,8 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
 
         // Set texel 1 to be a CI8 image with width `SCREEN_WIDTH * 2` and height `VISMONO_CFBFRAG_HEIGHT`
         // Its position in texture image space is shifted along +S by 1
+        // Note the palette index for this tile has also been incremented from 0 to 1, however the palette index is
+        // ignored for CI8 texture sampling.
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2 * G_IM_SIZ_8b_LINE_BYTES / 8, 0x0, 1, 1,
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
         gDPSetTileSize(gfx++, 1, 1 << 2, 0, (SCREEN_WIDTH * 2) << 2, (VISMONO_CFBFRAG_HEIGHT - 1) << 2);
@@ -161,12 +167,12 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
 
-    if (this->base.setScissor == VIS_SETSCISSOR) {
+    if (this->vis.setScissor == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->base.primColor.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->base.envColor.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->vis.primColor.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->vis.envColor.rgba);
 
     gDPLoadTLUT_pal256(gfx++, tlut);
 
