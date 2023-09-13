@@ -6,7 +6,9 @@
  * §15 of the programming manual for details.
  *
  * To understand this file, it is helpful to remember that A_MEM is essentially synonymous with coverage, and that
- * `GBL_c1/2(p, a, m, b)` are usually `(p * a + m * b) / (a + b)`.
+ * `GBL_c1/2(p, a, m, b)` usually represents the RDP blender calculation `(p * a + m * b)`.
+ * Note the division step that is often included in the blender calculation is omitted; the division is skipped if
+ * force blending (FORCE_BL) is set, which is the case for all render modes used in this file.
  *
  * Coverage is full when not on an edge, while on an edge it is usually lower, and since coverage is treated as an
  * alpha value, edges with lower coverage will show up as darker than interiors in all of the available modes.
@@ -113,7 +115,7 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
             gSPDisplayList(gfx++, sCoverageRGBDL);
             break;
 
-        case FB_FILTER_CVG_RGB_UNIFORM:
+        case FB_FILTER_CVG_RGB_PRIMFOG:
             // Set primitive color for uniform color filter in custom RenderMode
             gDPSetColor(gfx++, G_SETPRIMCOLOR, this->primColor.rgba);
             gSPDisplayList(gfx++, sCoverageRGBUniformDL);

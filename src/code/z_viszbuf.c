@@ -3,7 +3,6 @@
  * Description: Visualise the z-buffer (AKA depth buffer), using cycling RGBA or a single fading color.
  *
  * This is done by reading the z-buffer as if it were a color image, the format of which is specified by `useRgba`:
- *
  * - false will produce a monotonic fade from primColor to envColor as depth increases
  * - true produces vibrant almost-periodic-looking bands.
  *
@@ -11,7 +10,7 @@
  * floating-point number with
  *
  *     bbb      mmmmmmmmmmm dd|dd
- *     exponent mantissa    dz value (only first 16 bits visible to CPU)
+ *     exponent mantissa    dz value (only first 16 bits visible to CPU, the least significant 2 bits of dz are ignored)
  *
  * Reading z-buffer as IA16:
  *
@@ -43,7 +42,7 @@
 extern u16 D_0E000000[];
 
 /**
- * Initialise to IA type with white and black as default colours.
+ * Initialise to IA type with white and black as default colors.
  */
 void VisZbuf_Init(VisZbuf* this) {
     this->useRgba = false;
@@ -64,7 +63,7 @@ void VisZbuf_Destroy(VisZbuf* this) {
 void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
     u16* zbufFrag = D_0E000000;
-    s32 fmt;// = (this->useRgba == false) ? G_IM_FMT_IA : G_IM_FMT_RGBA;
+    s32 fmt; // RGBA or IA only, depending on useRgba
     s32 y;
     s32 height;
 
@@ -73,7 +72,7 @@ void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp) {
     } else {
         fmt = G_IM_FMT_RGBA;
     }
-    
+
     height = VISZBUF_ZBUFFRAG_HEIGHT;
 
     gDPPipeSync(gfx++);
@@ -97,11 +96,11 @@ void VisZbuf_Draw(VisZbuf* this, Gfx** gfxp) {
     gDPSetColor(gfx++, G_SETENVCOLOR, this->envColor.rgba);
 
     for (y = 0; y <= SCREEN_HEIGHT - height; y += height) {
-        // Load a few lines of the z-buffer.
+        // Load a few lines of the z-buffer, as many as can fit in TMEM at once.
         gDPLoadTextureBlock(gfx++, zbufFrag, fmt, G_IM_SIZ_16b, SCREEN_WIDTH, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        // Overwrite them with the calculated colours.
+        // Overwrite them with the calculated colors.
         gSPTextureRectangle(gfx++, 0, y << 2, SCREEN_WIDTH << 2, (y + height) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
                             1 << 10);
         zbufFrag += SCREEN_WIDTH * height;
