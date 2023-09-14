@@ -22,8 +22,8 @@ void GameState_FaultPrint(void) {
     }
 }
 
-void GameState_SetFBFilter(Gfx** gfx) {
-    Gfx* gfxP = *gfx;
+void GameState_SetFBFilter(Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
 
     if ((R_FB_FILTER_TYPE >= FB_FILTER_CVG_RGB) && (R_FB_FILTER_TYPE <= FB_FILTER_CVG_RGB_FOG)) {
         // Visualize coverage
@@ -32,7 +32,7 @@ void GameState_SetFBFilter(Gfx** gfx) {
         sVisCvg.vis.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
         sVisCvg.vis.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
         sVisCvg.vis.primColor.a = R_FB_FILTER_A;
-        VisCvg_Draw(&sVisCvg, &gfxP);
+        VisCvg_Draw(&sVisCvg, &gfx);
     } else if ((R_FB_FILTER_TYPE == FB_FILTER_ZBUF_IA) || (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA)) {
         // Visualize z-buffer
         sVisZBuf.vis.type = (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA);
@@ -44,7 +44,7 @@ void GameState_SetFBFilter(Gfx** gfx) {
         sVisZBuf.vis.envColor.g = R_FB_FILTER_ENV_COLOR(1);
         sVisZBuf.vis.envColor.b = R_FB_FILTER_ENV_COLOR(2);
         sVisZBuf.vis.envColor.a = R_FB_FILTER_A;
-        VisZBuf_Draw(&sVisZBuf, &gfxP);
+        VisZBuf_Draw(&sVisZBuf, &gfx);
     } else if (R_FB_FILTER_TYPE == FB_FILTER_MONO) {
         // Monochrome filter
         sVisMono.vis.type = 0;
@@ -56,9 +56,9 @@ void GameState_SetFBFilter(Gfx** gfx) {
         sVisMono.vis.envColor.g = R_FB_FILTER_ENV_COLOR(1);
         sVisMono.vis.envColor.b = R_FB_FILTER_ENV_COLOR(2);
         sVisMono.vis.envColor.a = R_FB_FILTER_A;
-        VisMono_Draw(&sVisMono, &gfxP);
+        VisMono_Draw(&sVisMono, &gfx);
     }
-    *gfx = gfxP;
+    *gfxP = gfx;
 }
 
 void func_800C4344(GameState* gameState) {
@@ -113,7 +113,7 @@ void func_800C4344(GameState* gameState) {
     }
 }
 
-void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
+void GameState_DrawInputDisplay(u16 input, Gfx** gfxP) {
     static const u16 sInpDispBtnColors[] = {
         GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),
         GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(120, 120, 120, 1),
@@ -123,10 +123,10 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
         GPACK_RGBA5551(0, 0, 255, 1),
     };
     s32 i, j, k;
-    Gfx* gfxP = *gfx;
+    Gfx* gfx = *gfxP;
 
-    gDPPipeSync(gfxP++);
-    gDPSetOtherMode(gfxP++,
+    gDPPipeSync(gfx++);
+    gDPSetOtherMode(gfx++,
                     G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
@@ -134,14 +134,14 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
     for (i = 0; i < 16; i++) {
         j = i;
         if (input & (1 << i)) {
-            gDPSetFillColor(gfxP++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
+            gDPSetFillColor(gfx++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
             k = i + 1;
-            gDPFillRectangle(gfxP++, (j * 4) + 226, 220, (k * 4) + 225, 223);
-            gDPPipeSync(gfxP++);
+            gDPFillRectangle(gfx++, (j * 4) + 226, 220, (k * 4) + 225, 223);
+            gDPPipeSync(gfx++);
         }
     }
 
-    *gfx = gfxP;
+    *gfxP = gfx;
 }
 
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {

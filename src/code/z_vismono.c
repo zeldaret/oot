@@ -2,7 +2,7 @@
  * @file z_vismono.c
  *
  * This file implements a full-screen framebuffer effect for desaturating the contents of the framebuffer image.
- * 
+ *
  * Broadly, this effect is achieved by reinterpreting the contents of the RGBA16 color image as indices into an IA16
  * color palette that converts each color into the desaturated equivalent. More precise details can be found in inline
  * comments.
@@ -33,7 +33,7 @@ extern u16 D_0F000000[];
 void VisMono_Init(VisMono* this) {
     bzero(this, sizeof(VisMono));
     this->vis.type = 0;
-    this->vis.setScissor = VIS_NO_SETSCISSOR;
+    this->vis.scissorType = VIS_NO_SETSCISSOR;
     this->vis.primColor.r = 255;
     this->vis.primColor.g = 255;
     this->vis.primColor.b = 255;
@@ -137,8 +137,8 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     return gfx;
 }
 
-void VisMono_Draw(VisMono* this, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void VisMono_Draw(VisMono* this, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
     u16* tlut;
     Gfx* dList;
     Gfx* dListEnd;
@@ -167,7 +167,7 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
 
-    if (this->vis.setScissor == VIS_SETSCISSOR) {
+    if (this->vis.scissorType == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
@@ -180,7 +180,7 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
 
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 void VisMono_DrawOld(VisMono* this) {

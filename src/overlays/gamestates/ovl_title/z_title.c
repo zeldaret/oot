@@ -8,11 +8,11 @@
 #include "alloca.h"
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
-void ConsoleLogo_PrintBuildInfo(Gfx** gfxp) {
+void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
     Gfx* g;
     GfxPrint* printer;
 
-    g = *gfxp;
+    g = *gfxP;
     g = Gfx_SetupDL_28(g);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
@@ -27,7 +27,7 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxp) {
     GfxPrint_Printf(printer, "[Date:%s]", gBuildDate);
     g = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
-    *gfxp = g;
+    *gfxP = g;
 }
 
 // Note: In other rom versions this function also updates unk_1D4, coverAlpha, addAlpha, visibleDuration to calculate

@@ -22,7 +22,7 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ u32 type;
-    /* 0x04 */ u32 setScissor;
+    /* 0x04 */ u32 scissorType;
     /* 0x08 */ Color_RGBA8_u32 primColor;
     /* 0x0C */ Color_RGBA8_u32 envColor;
 } Vis; // size = 0x10
@@ -47,7 +47,7 @@ typedef struct {
 
 void VisCvg_Init(VisCvg* this);
 void VisCvg_Destroy(VisCvg* this);
-void VisCvg_Draw(VisCvg* this, Gfx** gfxp);
+void VisCvg_Draw(VisCvg* this, Gfx** gfxP);
 
 
 
@@ -63,7 +63,7 @@ typedef struct {
 
 void VisMono_Init(VisMono* this);
 void VisMono_Destroy(VisMono* this);
-void VisMono_Draw(VisMono* this, Gfx** gfxp);
+void VisMono_Draw(VisMono* this, Gfx** gfxP);
 
 
 
@@ -82,6 +82,6 @@ typedef struct {
 
 void VisZBuf_Init(VisZBuf* this);
 void VisZBuf_Destroy(VisZBuf* this);
-void VisZBuf_Draw(VisZBuf* this, Gfx** gfxp);
+void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP);
 
 #endif

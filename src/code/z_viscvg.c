@@ -93,7 +93,7 @@ Gfx sCoverageRGBUniformDL[] = {
 
 void VisCvg_Init(VisCvg* this) {
     this->vis.type = FB_FILTER_NONE;
-    this->vis.setScissor = false;
+    this->vis.scissorType = VIS_NO_SETSCISSOR;
     this->vis.primColor.r = 255;
     this->vis.primColor.g = 255;
     this->vis.primColor.b = 255;
@@ -103,13 +103,13 @@ void VisCvg_Init(VisCvg* this) {
 void VisCvg_Destroy(VisCvg* this) {
 }
 
-void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void VisCvg_Draw(VisCvg* this, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
 
     gDPPipeSync(gfx++);
     gDPSetPrimDepth(gfx++, 0xFFFF, 0xFFFF);
 
-    if (this->vis.setScissor == VIS_SETSCISSOR) {
+    if (this->vis.scissorType == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
@@ -141,5 +141,5 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxp) {
     }
 
     gDPPipeSync(gfx++);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }

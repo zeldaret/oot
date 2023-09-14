@@ -46,7 +46,7 @@ extern u16 D_0E000000[];
  */
 void VisZBuf_Init(VisZBuf* this) {
     this->vis.type = VIS_ZBUF_TYPE_IA;
-    this->vis.setScissor = VIS_NO_SETSCISSOR;
+    this->vis.scissorType = VIS_NO_SETSCISSOR;
     this->vis.primColor.r = 255;
     this->vis.primColor.g = 255;
     this->vis.primColor.b = 255;
@@ -60,8 +60,8 @@ void VisZBuf_Init(VisZBuf* this) {
 void VisZBuf_Destroy(VisZBuf* this) {
 }
 
-void VisZBuf_Draw(VisZBuf* this, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
     u16* zbufFrag = D_0E000000;
     s32 fmt;
     s32 y;
@@ -77,7 +77,7 @@ void VisZBuf_Draw(VisZBuf* this, Gfx** gfxp) {
 
     gDPPipeSync(gfx++);
     // Scissoring is only required if the scissor has not been set prior.
-    if (this->vis.setScissor == VIS_SETSCISSOR) {
+    if (this->vis.scissorType == VIS_SETSCISSOR) {
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
@@ -107,5 +107,5 @@ void VisZBuf_Draw(VisZBuf* this, Gfx** gfxp) {
     }
 
     gDPPipeSync(gfx++);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
