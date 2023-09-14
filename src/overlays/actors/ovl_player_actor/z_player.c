@@ -5183,7 +5183,7 @@ void func_8083AF44(PlayState* play, Player* this, s32 magicSpell) {
 
     //! @bug `MAGIC_CONSUME_WAIT_PREVIEW` is not guaranteed to succeed. Ideally, the return value of
     //! `Magic_RequestChange` should be checked before allowing the process of using a spell to continue.
-    //! If the magic state change request fails, `magicTarget` will never be set correctly.
+    //! If the magic state change request fails, `gSaveContext.magicTarget` will never be set correctly.
     //! When `MAGIC_STATE_CONSUME_SETUP` is set in `func_808507F4`, magic will eventually be consumed to a stale target
     //! value. If the stale target value is higher than the current magic value, it will be drained to zero.
     Magic_RequestChange(play, sMagicSpellCosts[magicSpell], MAGIC_CONSUME_WAIT_PREVIEW);
