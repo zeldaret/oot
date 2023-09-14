@@ -30,13 +30,13 @@ void Locale_ResetRegion(void);
 u32 func_80001F48(void);
 u32 func_80001F8C(void);
 u32 Locale_IsRegionNative(void);
-void __assert(const char* exp, const char* file, s32 line);
+NORETURN void __assert(const char* exp, const char* file, s32 line);
 void isPrintfInit(void);
 void osSyncPrintfUnused(const char* fmt, ...);
 void osSyncPrintf(const char* fmt, ...);
 void rmonPrintf(const char* fmt, ...);
 void* is_proutSyncPrintf(void* arg, const char* str, u32 count);
-void func_80002384(const char* exp, const char* file, u32 line);
+NORETURN void func_80002384(const char* exp, const char* file, u32 line);
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
@@ -1039,7 +1039,7 @@ s32 Player_OverrideLimbDrawGameplayCrawling(PlayState* play, s32 limbIndex, Gfx*
 u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
 void Player_DrawGetItem(PlayState* play, Player* this);
 void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime);
+u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime);
 void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
                       s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
@@ -1476,7 +1476,7 @@ u64* SysUcode_GetUCodeBoot(void);
 size_t SysUcode_GetUCodeBootSize(void);
 u64* SysUcode_GetUCode(void);
 u64* SysUcode_GetUCodeData(void);
-void func_800D31A0(void);
+NORETURN void func_800D31A0(void);
 void func_800D31F0(void);
 void func_800D3210(void);
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);

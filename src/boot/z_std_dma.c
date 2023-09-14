@@ -231,7 +231,7 @@ void DmaMgr_DmaFromDriveRom(void* ram, uintptr_t rom, size_t size) {
  *
  * This function does not return.
  */
-void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc) {
+NORETURN void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc) {
     uintptr_t vrom = req->vromAddr;
     void* ram = req->dramAddr;
     size_t size = req->size;
