@@ -353,7 +353,7 @@ static Input* sControlInput;
 
 // .data
 
-static u8 sUpperBodyLimbCopyMap[] = {
+static u8 sUpperBodyLimbCopyMap[PLAYER_LIMB_MAX] = {
     false, // PLAYER_LIMB_NONE
     false, // PLAYER_LIMB_ROOT
     false, // PLAYER_LIMB_WAIST
@@ -502,8 +502,9 @@ static s32 sPrevFloorProperty = FLOOR_PROPERTY_0; // floor property from the pre
 static s32 sShapeYawToTouchedWall = 0;
 static s32 sWorldYawToTouchedWall = 0;
 static s16 sFloorShapePitch = 0;
-static s32 sUseHeldItem = 0;          // When true, the current held item is used. Is reset to false every frame.
-static s32 sHeldItemButtonIsHeld = 0; // Indicates if the controller button for the current held item is held down.
+static s32 sUseHeldItem = false; // When true, the current held item is used. Is reset to false every frame.
+static s32 sHeldItemButtonIsHeldDown =
+    false; // Indicates if the controller button for the current held item is held down.
 
 static u16 D_8085361C[] = {
     NA_SE_VO_LI_SWEAT,
@@ -2348,7 +2349,7 @@ s32 Player_GetItemOnButton(PlayState* play, s32 index) {
  *    - Put away a mask if it is not present on any C button
  *    - Put away an item if it is not present on the B button or any C button
  *    - Use an item on the B button or any C button if the corresponding button is pressed
- *    - Keep track of the curent item button being held down
+ *    - Keep track of the current item button being held down
  *
  * Note: The item put-away/take-out process is not handled here.
  */
@@ -2394,7 +2395,7 @@ void Player_ItemHandler(Player* this, PlayState* play) {
             item = Player_GetItemOnButton(play, i);
 
             if ((item < ITEM_NONE_FE) && (Player_ItemToItemAction(item) == this->heldItemAction)) {
-                sHeldItemButtonIsHeld = true;
+                sHeldItemButtonIsHeldDown = true;
             }
         } else {
             this->heldItemButton = i;
@@ -2650,7 +2651,7 @@ s32 Player_IA_ChangeHeldItem(Player* this, PlayState* play) {
         Player_SetItemActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
         this->unk_834 = 0;
         this->unk_6AC = 0;
-        sHeldItemButtonIsHeld = sUseHeldItem;
+        sHeldItemButtonIsHeldDown = sUseHeldItem;
         return this->itemActionFunc(this, play);
     }
 
@@ -2695,7 +2696,7 @@ s32 func_80834BD4(Player* this, PlayState* play) {
 }
 
 s32 func_80834C74(Player* this, PlayState* play) {
-    sUseHeldItem = sHeldItemButtonIsHeld;
+    sUseHeldItem = sHeldItemButtonIsHeldDown;
 
     if (sUseHeldItem || LinkAnimation_Update(play, &this->skelAnimeUpper)) {
         Player_SetItemActionFunc(this, sItemActionUpdateFuncs[this->heldItemAction]);
@@ -2866,7 +2867,7 @@ s32 func_808351D4(Player* this, PlayState* play) {
 
     func_80834EB8(this, play);
 
-    if ((this->unk_836 > 0) && ((this->unk_860 < 0) || (!sHeldItemButtonIsHeld && !func_80834E7C(play)))) {
+    if ((this->unk_836 > 0) && ((this->unk_860 < 0) || (!sHeldItemButtonIsHeldDown && !func_80834E7C(play)))) {
         Player_SetItemActionFunc(this, func_808353D8);
         if (this->unk_860 >= 0) {
             if (sp2C == 0) {
@@ -2894,7 +2895,7 @@ s32 func_808353D8(Player* this, PlayState* play) {
     }
 
     if (!func_80834758(play, this) &&
-        (sUseHeldItem || ((this->unk_860 < 0) && sHeldItemButtonIsHeld) || func_80834E44(play))) {
+        (sUseHeldItem || ((this->unk_860 < 0) && sHeldItemButtonIsHeldDown) || func_80834E44(play))) {
         this->unk_860 = ABS(this->unk_860);
 
         if (func_8083442C(this, play)) {
@@ -3035,7 +3036,7 @@ s32 func_808358F0(Player* this, PlayState* play) {
 
     func_80834EB8(this, play);
 
-    if (!sHeldItemButtonIsHeld) {
+    if (!sHeldItemButtonIsHeldDown) {
         Player_SetItemActionFunc(this, func_808359FC);
         LinkAnimation_PlayOnce(play, &this->skelAnimeUpper,
                                (this->unk_870 < 0.5f) ? &gPlayerAnim_link_boom_throwR : &gPlayerAnim_link_boom_throwL);
@@ -3276,7 +3277,7 @@ void Player_UseItem(PlayState* play, Player* this, s32 item) {
                 }
             } else {
                 // Handle using the held item already in hand
-                sUseHeldItem = sHeldItemButtonIsHeld = true;
+                sUseHeldItem = sHeldItemButtonIsHeldDown = true;
             }
         }
     }
@@ -9691,7 +9692,7 @@ static EffectBlureInit2 D_8085470C = {
     0, 2, 0, { 0, 0, 0, 0 },         { 0, 0, 0, 0 },
 };
 
-static Vec3s sSekeltonBaseTransl = { -57, 3377, 0 };
+static Vec3s sSkeletonBaseTransl = { -57, 3377, 0 };
 
 void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHeader) {
     this->ageProperties = &sAgeProperties[gSaveContext.save.linkAge];
@@ -9702,10 +9703,10 @@ void Player_InitCommon(Player* this, PlayState* play, FlexSkeletonHeader* skelHe
 
     SkelAnime_InitLink(play, &this->skelAnime, skelHeader, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_wait, this->modelAnimType),
                        9, this->jointTable, this->morphTable, PLAYER_LIMB_MAX);
-    this->skelAnime.baseTransl = sSekeltonBaseTransl;
+    this->skelAnime.baseTransl = sSkeletonBaseTransl;
     SkelAnime_InitLink(play, &this->skelAnimeUpper, skelHeader, func_80833338(this), 9, this->jointTableUpper,
                        this->morphTableUpper, PLAYER_LIMB_MAX);
-    this->skelAnimeUpper.baseTransl = sSekeltonBaseTransl;
+    this->skelAnimeUpper.baseTransl = sSkeletonBaseTransl;
 
     Effect_Add(play, &this->meleeWeaponEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
@@ -10932,7 +10933,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         D_808535EC = 1.0f / D_808535E8;
-        sUseHeldItem = sHeldItemButtonIsHeld = 0;
+        sUseHeldItem = sHeldItemButtonIsHeldDown = 0;
         D_80858AA4 = this->currentMask;
 
         if (!(this->stateFlags3 & PLAYER_STATE3_2)) {
