@@ -503,8 +503,7 @@ static s32 sShapeYawToTouchedWall = 0;
 static s32 sWorldYawToTouchedWall = 0;
 static s16 sFloorShapePitch = 0;
 static s32 sUseHeldItem = false; // When true, the current held item is used. Is reset to false every frame.
-static s32 sHeldItemButtonIsHeldDown =
-    false; // Indicates if the controller button for the current held item is held down.
+static s32 sHeldItemButtonIsHeldDown = false; // Indicates if the button for the current held item is held down.
 
 static u16 D_8085361C[] = {
     NA_SE_VO_LI_SWEAT,
