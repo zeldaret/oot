@@ -19846,27 +19846,63 @@ BOX_BREAK
 )
 
 DEFINE_MESSAGE(0x2093, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
-"2093"
+"Why are you not answering me you\n"
+"little jerk?! You better spill\n"
+"the beans now or I'll\n"
+"take your head off!!"
+BOX_BREAK
+"So what's it gonna be sport?\n"
+"\n"
+TWO_CHOICE COLOR(ADJUSTABLE)
+"Who cares!?\n"
+"It turned and went left."
 ,
-"2093"
+"Warum antwortest du mir nicht\n"
+"du kleiner Idiot?! Du verschüttest\n"
+"besser die Bohnen Jetzt oder ich\n"
+"reiß dir den Kopf ab!!"
+BOX_BREAK
+"Also, was wird es sein Kleiner?\n"
+"\n"
+TWO_CHOICE COLOR(ADJUSTABLE)
+"Wen interessierts!?\n"
+"Sie sind links weiter geritten."
 ,
-"2093"
+"Pourquoi ne me réponds-tu\n"
+"pas petit Connard ? ! Tu ferais\n"
+"mieux de renverser la vapeur\n"
+"maintenant ou je te coupe la tête !!"
+BOX_BREAK
+"Alors, qu'est-ce que ça va être du sport ?\n"
+"\n"
+TWO_CHOICE COLOR(ADJUSTABLE)
+"Qui s'en soucie ! ?\n"
+"Il a tourné et est parti à gauche."
 )
 
 DEFINE_MESSAGE(0x2094, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
-"2094"
+"Heh heh heh...\n"
+"You're a stupid kid\n"
+"for defying me."
 ,
-"2094"
+"Hehhhhh...\n"
+"Du bist ein dummes Kind\n"
+"weil du dich mir widersetzt hast."
 ,
-"2094"
+"Hé hé hé...\n"
+"Tu es un enfant stupide\n"
+"pour m'avoir défié."
 )
 
 DEFINE_MESSAGE(0x2095, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
-"2095"
+"You're an honest one, kid.\n"
+"Heh heh heh..."
 ,
-"2095"
+"Du bist ehrlich, Kleiner.\n"
+"Hehhhhh…"
 ,
-"2095"
+"Tu es quelqu'un d'honnête, gamin.\n"
+"Hé hé hé..."
 )
 
 DEFINE_MESSAGE(0x2096, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
@@ -33729,6 +33765,14 @@ QUICKTEXT_ENABLE "Cela fait XXX jours depuis que vous\n"
 "avez quitté la forêt de Kokiri. Les\n"
 "aventures de Link sont terminées\n"
 "pour le moment." QUICKTEXT_DISABLE
+)
+
+DEFINE_MESSAGE(0x6091, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
+"1?"
+,
+"2"
+,
+"3"
 )
 
 DEFINE_MESSAGE(0x7000, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_VARIABLE,
