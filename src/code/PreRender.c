@@ -43,19 +43,19 @@ void PreRender_Destroy(PreRender* this) {
 /**
  * Copies RGBA16 image `img` to `imgDst`
  *
- * @param gfxp      Display list pointer
+ * @param gfxP      Display list pointer
  * @param img       Image to copy from
  * @param imgDst    Buffer to copy to
  */
-void PreRender_CopyImage(PreRender* this, Gfx** gfxp, void* img, void* imgDst) {
+void PreRender_CopyImage(PreRender* this, Gfx** gfxP, void* img, void* imgDst) {
     Gfx* gfx;
     s32 rowsRemaining;
     s32 curRow;
     s32 nRows;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 215);
-    LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 216);
-    gfx = *gfxp;
+    LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 216);
+    gfx = *gfxP;
     LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 218);
 
     gDPPipeSync(gfx++);
@@ -101,22 +101,22 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxp, void* img, void* imgDst) {
 
     gDPPipeSync(gfx++);
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 /**
  * Copies part of `this->fbufSave` in the region (this->ulx, this->uly), (this->lrx, this->lry) to the same location in
  * `this->fbuf`.
  */
-void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxp) {
+void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
     Gfx* gfx;
     s32 rowsRemaining;
     s32 curRow;
     s32 nRows;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 278);
-    LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 279);
-    gfx = *gfxp;
+    LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 279);
+    gfx = *gfxP;
     LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 281);
 
     gDPPipeSync(gfx++);
@@ -164,22 +164,22 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxp) {
     gDPPipeSync(gfx++);
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 /**
  * Copies `buf` to `bufSave`, discarding the alpha channel and modulating the RGB channel by
  * the color ('r', 'g', 'b', 'a')
  */
-void func_800C170C(PreRender* this, Gfx** gfxp, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a) {
+void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a) {
     Gfx* gfx;
     s32 rowsRemaining;
     s32 curRow;
     s32 nRows;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 343);
-    LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 344);
-    gfx = *gfxp;
+    LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 344);
+    gfx = *gfxP;
     LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 346);
 
     gDPPipeSync(gfx++);
@@ -232,33 +232,33 @@ void func_800C170C(PreRender* this, Gfx** gfxp, void* buf, void* bufSave, u32 r,
 
     gDPPipeSync(gfx++);
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 /**
  * Copies `fbuf` to `fbufSave`, discarding the alpha channel and leaving the rgb channel unchanged
  */
-void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave) {
-    func_800C170C(this, gfxp, fbuf, fbufSave, 255, 255, 255, 255);
+void func_800C1AE8(PreRender* this, Gfx** gfxP, void* fbuf, void* fbufSave) {
+    func_800C170C(this, gfxP, fbuf, fbufSave, 255, 255, 255, 255);
 }
 
 /**
  * Reads the coverage values stored in the RGBA16 format `img` with dimensions `this->width`, `this->height` and
  * converts it to an 8-bpp intensity image.
  *
- * @param gfxp      Display list pointer
+ * @param gfxP      Display list pointer
  * @param img       Image to read coverage from
  * @param cvgDst    Buffer to store coverage into
  */
-void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxp, void* img, void* cvgDst) {
+void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* cvgDst) {
     Gfx* gfx;
     s32 rowsRemaining;
     s32 curRow;
     s32 nRows;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 422);
-    LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 423);
-    gfx = *gfxp;
+    LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 423);
+    gfx = *gfxP;
     LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 425);
 
     gDPPipeSync(gfx++);
@@ -326,30 +326,30 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxp, void* img, void* 
     // Reset the color image to the current framebuffer
     gDPPipeSync(gfx++);
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 /**
  * Saves zbuf to zbufSave
  */
-void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxp) {
+void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxP) {
     LogUtils_CheckNullPointer("this->zbuf_save", this->zbufSave, "../PreRender.c", 481);
     LogUtils_CheckNullPointer("this->zbuf", this->zbuf, "../PreRender.c", 482);
 
     if ((this->zbufSave != NULL) && (this->zbuf != NULL)) {
-        PreRender_CopyImage(this, gfxp, this->zbuf, this->zbufSave);
+        PreRender_CopyImage(this, gfxP, this->zbuf, this->zbufSave);
     }
 }
 
 /**
  * Saves fbuf to fbufSave
  */
-void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxp) {
+void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxP) {
     LogUtils_CheckNullPointer("this->fbuf_save", this->fbufSave, "../PreRender.c", 495);
     LogUtils_CheckNullPointer("this->fbuf", this->fbuf, "../PreRender.c", 496);
 
     if ((this->fbufSave != NULL) && (this->fbuf != NULL)) {
-        func_800C1AE8(this, gfxp, this->fbuf, this->fbufSave);
+        func_800C1AE8(this, gfxP, this->fbuf, this->fbufSave);
     }
 }
 
@@ -357,8 +357,8 @@ void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxp) {
  * Fetches the coverage of the current framebuffer into an image of the same format as the current color image, storing
  * it over the framebuffer in memory.
  */
-void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
 
     gDPPipeSync(gfx++);
     // Set the blend color to full white and set maximum depth.
@@ -392,33 +392,33 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxp) {
     gDPFillRectangle(gfx++, 0, 0, this->width, this->height);
     gDPPipeSync(gfx++);
 
-    *gfxp = gfx;
+    *gfxP = gfx;
 }
 
 /**
  * Draws the coverage of the current framebuffer `this->fbuf` to an I8 image at `this->cvgSave`. Overwrites
  * `this->fbuf` in the process.
  */
-void PreRender_DrawCoverage(PreRender* this, Gfx** gfxp) {
-    PreRender_FetchFbufCoverage(this, gfxp);
+void PreRender_DrawCoverage(PreRender* this, Gfx** gfxP) {
+    PreRender_FetchFbufCoverage(this, gfxP);
     LogUtils_CheckNullPointer("this->cvg_save", this->cvgSave, "../PreRender.c", 532);
     if (this->cvgSave != NULL) {
-        PreRender_CoverageRgba16ToI8(this, gfxp, this->fbuf, this->cvgSave);
+        PreRender_CoverageRgba16ToI8(this, gfxP, this->fbuf, this->cvgSave);
     }
 }
 
 /**
  * Restores zbufSave to zbuf
  */
-void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxp) {
-    PreRender_CopyImage(this, gfxp, this->zbufSave, this->zbuf);
+void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxP) {
+    PreRender_CopyImage(this, gfxP, this->zbufSave, this->zbuf);
 }
 
 /**
  * Draws a full-screen image to the current framebuffer, that sources the rgb channel from `this->fbufSave` and
  * the alpha channel from `this->cvgSave` modulated by environment color.
  */
-void func_800C213C(PreRender* this, Gfx** gfxp) {
+void func_800C213C(PreRender* this, Gfx** gfxP) {
     Gfx* gfx;
     s32 rowsRemaining;
     s32 curRow;
@@ -427,8 +427,8 @@ void func_800C213C(PreRender* this, Gfx** gfxp) {
 
     if (this->cvgSave != NULL) {
         LogUtils_CheckNullPointer("this", this, "../PreRender.c", 563);
-        LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 564);
-        gfx = *gfxp;
+        LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 564);
+        gfx = *gfxP;
         LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 566);
 
         gDPPipeSync(gfx++);
@@ -482,23 +482,23 @@ void func_800C213C(PreRender* this, Gfx** gfxp) {
         }
 
         gDPPipeSync(gfx++);
-        *gfxp = gfx;
+        *gfxP = gfx;
     }
 }
 
 /**
  * Copies fbufSave to fbuf
  */
-void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxp) {
-    PreRender_CopyImage(this, gfxp, this->fbufSave, this->fbuf);
+void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP) {
+    PreRender_CopyImage(this, gfxP, this->fbufSave, this->fbuf);
 }
 
 /**
  * Copies part of `this->fbufSave` in the region (this->ulx, this->uly), (this->lrx, this->lry) to the same location in
  * `this->fbuf`.
  */
-void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp) {
-    PreRender_CopyImageRegionImpl(this, gfxp);
+void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP) {
+    PreRender_CopyImageRegionImpl(this, gfxP);
 }
 
 /**
