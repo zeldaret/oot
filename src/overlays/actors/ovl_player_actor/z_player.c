@@ -2342,17 +2342,15 @@ s32 Player_GetItemOnButton(PlayState* play, s32 index) {
 }
 
 /**
- * Handles the high level item usage and changing process.
+ * Handles the high level item usage and changing process based on the B and C buttons.
  *
  * Tasks include:
  *    - Put away a mask if it is not present on any C button
  *    - Put away an item if it is not present on the B button or any C button
  *    - Use an item on the B button or any C button if the corresponding button is pressed
  *    - Keep track of the current item button being held down
- *
- * Note: The item put-away/take-out process is not handled here.
  */
-void Player_ItemHandler(Player* this, PlayState* play) {
+void Player_ProcessItemButtons(Player* this, PlayState* play) {
     s32 maskItemAction;
     s32 item;
     s32 i;
@@ -2461,7 +2459,7 @@ void Player_UpdateItems(Player* this, PlayState* play) {
         (this->csMode == PLAYER_CSMODE_NONE) && (play->shootingGalleryStatus == 0) &&
         (play->activeCamId == CAM_ID_MAIN) && (play->transitionTrigger != TRANS_TRIGGER_START) &&
         (gSaveContext.timerState != TIMER_STATE_STOP)) {
-        Player_ItemHandler(this, play);
+        Player_ProcessItemButtons(this, play);
     }
 
     if (this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) {
