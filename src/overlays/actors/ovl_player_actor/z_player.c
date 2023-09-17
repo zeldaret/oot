@@ -7372,7 +7372,8 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
             if (DECR(this->actionVar2) == 0) {
                 this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
-            this->skelAnime.jointTable[0].y = (this->skelAnime.jointTable[0].y + ((this->actionVar2 & 1) * 0x50)) - 0x28;
+            this->skelAnime.jointTable[0].y =
+                (this->skelAnime.jointTable[0].y + ((this->actionVar2 & 1) * 0x50)) - 0x28;
         } else {
             func_80832DBC(this);
             func_808409CC(play, this);
@@ -9259,7 +9260,7 @@ void Player_Action_80845CA4(Player* this, PlayState* play) {
             temp = func_80845BA0(play, this, &sp34, sp30);
 
             if ((this->actionVar2 == 0) || ((temp == 0) && (this->speedXZ == 0.0f) &&
-                                         (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_4))) {
+                                            (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_4))) {
 
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
                 func_80845C68(play, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
@@ -11697,7 +11698,7 @@ void Player_Action_8084BDFC(Player* this, PlayState* play) {
 
 void func_8084BEE4(Player* this) {
     Player_PlaySfx(this, (this->actionVar1 != 0) ? NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_VINE
-                                              : NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD);
+                                                 : NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD);
 }
 
 void Player_Action_8084BF1C(Player* this, PlayState* play) {
