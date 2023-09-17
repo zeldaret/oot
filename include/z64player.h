@@ -594,13 +594,13 @@ typedef struct Player {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s8 currentTunic; // current tunic from `PlayerTunic`
     /* 0x014D */ s8 currentSwordItemId;
-    /* 0x014E */ s8 currentShield;  // current shield from `PlayerShield`
-    /* 0x014F */ s8 currentBoots;   // current boots from `PlayerBoots`
+    /* 0x014E */ s8 currentShield; // current shield from `PlayerShield`
+    /* 0x014F */ s8 currentBoots; // current boots from `PlayerBoots`
     /* 0x0150 */ s8 heldItemButton; // Button index for the item currently used
     /* 0x0151 */ s8 heldItemAction; // Item action for the item currently used
-    /* 0x0152 */ u8 heldItemId;     // Item id for the item currently used
-    /* 0x0153 */ s8 prevBoots;      // previous boots from `PlayerBoots`
-    /* 0x0154 */ s8 itemAction;     // the difference between this and heldItemAction is unclear
+    /* 0x0152 */ u8 heldItemId; // Item id for the item currently used
+    /* 0x0153 */ s8 prevBoots; // previous boots from `PlayerBoots`
+    /* 0x0154 */ s8 itemAction; // the difference between this and heldItemAction is unclear
     /* 0x0155 */ char unk_155[0x003];
     /* 0x0158 */ u8 modelGroup;
     /* 0x0159 */ u8 nextModelGroup;
