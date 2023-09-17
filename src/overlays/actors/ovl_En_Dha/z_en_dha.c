@@ -245,7 +245,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->unk_850 = 200;
+                player->actionVar2 = 200;
             }
 
             if (this->actor.home.rot.z != 0) {
@@ -285,7 +285,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
         if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             player->actor.parent = NULL;
-            player->unk_850 = 200;
+            player->actionVar2 = 200;
         }
 
         this->actor.home.rot.z = 1;
@@ -306,7 +306,7 @@ void EnDha_TakeDamage(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
+        player->actionVar2 = 200;
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 2000, 0);
@@ -344,7 +344,7 @@ void EnDha_Die(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
+        player->actionVar2 = 200;
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 0x7D0, 0);
