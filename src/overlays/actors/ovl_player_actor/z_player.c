@@ -2311,17 +2311,17 @@ void func_80833C3C(Player* this) {
 
 s32 Player_ItemIsInUse(Player* this, s32 item) {
     if ((item < ITEM_NONE_FE) && (Player_ItemToItemAction(item) == this->itemAction)) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
 s32 Player_ItemIsItemAction(s32 item1, s32 itemAction) {
     if ((item1 < ITEM_NONE_FE) && (Player_ItemToItemAction(item1) == itemAction)) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
