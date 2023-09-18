@@ -519,7 +519,7 @@ typedef struct {
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_6 (1 << 6)
 #define PLAYER_STATE1_7 (1 << 7)
-#define PLAYER_STATE1_8 (1 << 8)
+#define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8)
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
 #define PLAYER_STATE1_11 (1 << 11)
@@ -587,7 +587,7 @@ typedef struct {
 #define PLAYER_STATE3_7 (1 << 7)
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
-typedef s32 (*PlayerFunc82C)(struct Player*, struct PlayState*);
+typedef s32 (*ItemActionFunc)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
 typedef struct Player {
@@ -604,7 +604,7 @@ typedef struct Player {
     /* 0x0155 */ char unk_155[0x003];
     /* 0x0158 */ u8 modelGroup;
     /* 0x0159 */ u8 nextModelGroup;
-    /* 0x015A */ s8 unk_15A;
+    /* 0x015A */ s8 itemChangeType;
     /* 0x015B */ u8 modelAnimType;
     /* 0x015C */ u8 leftHandType;
     /* 0x015D */ u8 rightHandType;
@@ -688,11 +688,11 @@ typedef struct Player {
     /* 0x06C0 */ s16 unk_6C0;
     /* 0x06C2 */ s16 unk_6C2;
     /* 0x06C4 */ f32 unk_6C4;
-    /* 0x06C8 */ SkelAnime skelAnime2;
-    /* 0x070C */ Vec3s jointTable2[PLAYER_LIMB_BUF_COUNT];
-    /* 0x079C */ Vec3s morphTable2[PLAYER_LIMB_BUF_COUNT];
-    /* 0x082C */ PlayerFunc82C func_82C;
-    /* 0x0830 */ f32 unk_830;
+    /* 0x06C8 */ SkelAnime skelAnimeUpper;
+    /* 0x070C */ Vec3s jointTableUpper[PLAYER_LIMB_BUF_COUNT];
+    /* 0x079C */ Vec3s morphTableUpper[PLAYER_LIMB_BUF_COUNT];
+    /* 0x082C */ ItemActionFunc itemActionFunc;
+    /* 0x0830 */ f32 skelAnimeUpperBlendWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 unk_837;
