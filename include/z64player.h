@@ -707,8 +707,8 @@ typedef struct Player {
     /* 0x0846 */ u8 unk_846;
     /* 0x0847 */ s8 unk_847[4];
     /* 0x084B */ s8 unk_84B[4];
-    /* 0x084F */ s8 unk_84F;
-    /* 0x0850 */ s16 unk_850; // multipurpose timer
+    /* 0x084F */ s8 actionVar1; // context dependent variable that has different meanings depending on what action is currently running
+    /* 0x0850 */ s16 actionVar2; // context dependent variable that has different meanings depending on what action is currently running
     /* 0x0854 */ f32 unk_854;
     /* 0x0858 */ f32 unk_858;
     /* 0x085C */ f32 unk_85C; // stick length among other things
