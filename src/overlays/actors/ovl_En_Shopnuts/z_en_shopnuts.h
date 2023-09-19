@@ -8,6 +8,8 @@
 
 struct EnShopnuts;
 
+#define SHOPNUTS_GET_TYPE(thisx) ((thisx)->params)
+
 typedef void (*EnShopnutsActionFunc)(struct EnShopnuts*, PlayState*);
 
 typedef struct EnShopnuts {

@@ -75,9 +75,11 @@ void EnShopnuts_Init(Actor* thisx, PlayState* play) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    if (((NUTSBALL_GET_TYPE(&this->actor) == DNS_TYPE_HEART_PIECE) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
-        ((NUTSBALL_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_STICK_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
-        ((NUTSBALL_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_NUT_UPGRADE) && GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
+    if (((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_HEART_PIECE) && GET_ITEMGETINF(ITEMGETINF_DEKU_HEART_PIECE)) ||
+        ((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_STICK_UPGRADE) &&
+         GET_INFTABLE(INFTABLE_HAS_DEKU_STICK_UPGRADE)) ||
+        ((SHOPNUTS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_NUT_UPGRADE) &&
+         GET_INFTABLE(INFTABLE_HAS_DEKU_NUT_UPGRADE))) {
         Actor_Kill(&this->actor);
     } else {
         EnShopnuts_SetupIdle(this);
@@ -238,7 +240,7 @@ void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play) {
     if (SkelAnime_Update(&this->skelAnime)) {
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_DNS, this->actor.world.pos.x, this->actor.world.pos.y,
                     this->actor.world.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z,
-                    NUTSBALL_GET_TYPE(&this->actor));
+                    SHOPNUTS_GET_TYPE(&this->actor));
         Actor_Kill(&this->actor);
     } else {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0xE38);

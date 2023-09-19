@@ -18,7 +18,7 @@ typedef enum {
     /*  7 */ DNS_TYPE_RED_POTION,
     /*  8 */ DNS_TYPE_GREEN_POTION,
     /*  9 */ DNS_TYPE_DEKU_STICK_UPGRADE,
-    /* 10 */ DNS_TYPE_DEKU_NUT_UPGRADE,
+    /* 10 */ DNS_TYPE_DEKU_NUT_UPGRADE
 } EnDnsType;
 
 typedef enum {
@@ -26,13 +26,13 @@ typedef enum {
     /*  1 */ DNS_CANBUY_RESULT_CAPACITY_FULL,
     /*  2 */ DNS_CANBUY_RESULT_SUCCESS_NEW_ITEM,
     /*  3 */ DNS_CANBUY_RESULT_CANT_GET_NOW,
-    /*  4 */ DNS_CANBUY_RESULT_SUCCESS,
+    /*  4 */ DNS_CANBUY_RESULT_SUCCESS
 } EnDnsCanBuyResult;
 
 typedef enum {
     /*  0 */ DNS_ANIM_IDLE,
     /*  1 */ DNS_ANIM_BURROW,
-    /*  2 */ DNS_ANIM_IDLE_TRANSITION,
+    /*  2 */ DNS_ANIM_IDLE_TRANSITION
 } EnDnsAnimation;
 
 struct EnDns;
