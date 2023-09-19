@@ -235,9 +235,9 @@ static AnimationInfo sAnimationInfo[] = {
 
 typedef struct {
     /* 0x0 */ u8 headInfoIndex;      // EnHyHeadIndex
-    /* 0x1 */ u8 upperSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objBankIndexUpperSkel
+    /* 0x1 */ u8 upperSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objectSlotUpperSkel
     /* 0x2 */ Color_RGBA8 envColorSeg8;
-    /* 0x6 */ u8 lowerSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objBankIndexLowerSkel
+    /* 0x6 */ u8 lowerSkelInfoIndex; // EnHySkeletonIndex, see EnHy.objectSlotLowerSkel
     /* 0x7 */ Color_RGBA8 envColorSeg9;
     /* 0xB */ u8 animInfoIndex; // EnHyAnimationIndex
 } EnHyModelInfo;                // size = 0xC
@@ -531,18 +531,18 @@ s32 EnHy_FindSkelAndHeadObjects(EnHy* this, PlayState* play) {
     u8 upperSkelInfoIndex = sModelInfo[ENHY_GET_TYPE(&this->actor)].upperSkelInfoIndex;
     u8 lowerSkelInfoIndex = sModelInfo[ENHY_GET_TYPE(&this->actor)].lowerSkelInfoIndex;
 
-    this->objBankIndexLowerSkel = Object_GetIndex(&play->objectCtx, sSkeletonInfo[lowerSkelInfoIndex].objectId);
-    if (this->objBankIndexLowerSkel < 0) {
+    this->objectSlotLowerSkel = Object_GetSlot(&play->objectCtx, sSkeletonInfo[lowerSkelInfoIndex].objectId);
+    if (this->objectSlotLowerSkel < 0) {
         return false;
     }
 
-    this->objBankIndexUpperSkel = Object_GetIndex(&play->objectCtx, sSkeletonInfo[upperSkelInfoIndex].objectId);
-    if (this->objBankIndexUpperSkel < 0) {
+    this->objectSlotUpperSkel = Object_GetSlot(&play->objectCtx, sSkeletonInfo[upperSkelInfoIndex].objectId);
+    if (this->objectSlotUpperSkel < 0) {
         return false;
     }
 
-    this->objBankIndexHead = Object_GetIndex(&play->objectCtx, sHeadInfo[headInfoIndex].objectId);
-    if (this->objBankIndexHead < 0) {
+    this->objectSlotHead = Object_GetSlot(&play->objectCtx, sHeadInfo[headInfoIndex].objectId);
+    if (this->objectSlotHead < 0) {
         return false;
     }
 
@@ -550,15 +550,15 @@ s32 EnHy_FindSkelAndHeadObjects(EnHy* this, PlayState* play) {
 }
 
 s32 EnHy_AreSkelAndHeadObjectsLoaded(EnHy* this, PlayState* play) {
-    if (!Object_IsLoaded(&play->objectCtx, this->objBankIndexLowerSkel)) {
+    if (!Object_IsLoaded(&play->objectCtx, this->objectSlotLowerSkel)) {
         return false;
     }
 
-    if (!Object_IsLoaded(&play->objectCtx, this->objBankIndexUpperSkel)) {
+    if (!Object_IsLoaded(&play->objectCtx, this->objectSlotUpperSkel)) {
         return false;
     }
 
-    if (!Object_IsLoaded(&play->objectCtx, this->objBankIndexHead)) {
+    if (!Object_IsLoaded(&play->objectCtx, this->objectSlotHead)) {
         return false;
     }
 
@@ -566,9 +566,9 @@ s32 EnHy_AreSkelAndHeadObjectsLoaded(EnHy* this, PlayState* play) {
 }
 
 s32 EnHy_FindOsAnimeObject(EnHy* this, PlayState* play) {
-    this->objBankIndexOsAnime = Object_GetIndex(&play->objectCtx, OBJECT_OS_ANIME);
+    this->objectSlotOsAnime = Object_GetSlot(&play->objectCtx, OBJECT_OS_ANIME);
 
-    if (this->objBankIndexOsAnime < 0) {
+    if (this->objectSlotOsAnime < 0) {
         return false;
     }
 
@@ -576,7 +576,7 @@ s32 EnHy_FindOsAnimeObject(EnHy* this, PlayState* play) {
 }
 
 s32 EnHy_IsOsAnimeObjectLoaded(EnHy* this, PlayState* play) {
-    if (!Object_IsLoaded(&play->objectCtx, this->objBankIndexOsAnime)) {
+    if (!Object_IsLoaded(&play->objectCtx, this->objectSlotOsAnime)) {
         return false;
     }
 
@@ -1136,13 +1136,13 @@ void EnHy_Destroy(Actor* thisx, PlayState* play) {
 
 void EnHy_WaitForObjects(EnHy* this, PlayState* play) {
     if (EnHy_IsOsAnimeObjectLoaded(this, play) && EnHy_AreSkelAndHeadObjectsLoaded(this, play)) {
-        this->actor.objBankIndex = this->objBankIndexLowerSkel;
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->actor.objBankIndex].segment);
+        this->actor.objectSlot = this->objectSlotLowerSkel;
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime,
                            sSkeletonInfo[sModelInfo[ENHY_GET_TYPE(&this->actor)].lowerSkelInfoIndex].skeleton, NULL,
                            this->jointTable, this->morphTable, ENHY_LIMB_MAX);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexOsAnime].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotOsAnime].segment);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sColCylInit);
         EnHy_InitCollider(this);
@@ -1325,7 +1325,7 @@ void EnHy_Update(Actor* thisx, PlayState* play) {
     EnHy* this = (EnHy*)thisx;
 
     if (this->actionFunc != EnHy_WaitForObjects) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexOsAnime].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotOsAnime].segment);
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
@@ -1353,8 +1353,8 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
     OPEN_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2170);
 
     if (limbIndex == ENHY_LIMB_HEAD) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->objBankIndexHead].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexHead].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->objectSlotHead].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotHead].segment);
         headInfoIndex = sModelInfo[ENHY_GET_TYPE(&this->actor)].headInfoIndex;
         *dList = sHeadInfo[headInfoIndex].headDList;
 
@@ -1363,7 +1363,7 @@ s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(eyeTex));
         }
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexLowerSkel].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotLowerSkel].segment);
     }
 
     if (limbIndex == ENHY_LIMB_HEAD) {
@@ -1399,8 +1399,8 @@ void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2255);
 
     if (limbIndex == ENHY_LIMB_RIGHT_FOOT) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->objBankIndexUpperSkel].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexUpperSkel].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->objectSlotUpperSkel].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->objectSlotUpperSkel].segment);
     }
 
     if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_MAN_2_BALD && limbIndex == ENHY_LIMB_TORSO) {

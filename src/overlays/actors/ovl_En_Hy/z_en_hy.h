@@ -62,10 +62,10 @@ typedef struct EnHy {
     /* 0x0190 */ EnHyActionFunc actionFunc;
     /* 0x0194 */ char unk_194; // unused
     /* 0x0195 */ u8 pathReverse;
-    /* 0x0196 */ s8 objBankIndexHead;
-    /* 0x0197 */ s8 objBankIndexUpperSkel; // upper body limbs object, 7 < limb < 15 (always same as objBankIndexLowerSkel),
-    /* 0x0198 */ s8 objBankIndexLowerSkel; // lower body limbs object, limb <= 7
-    /* 0x0199 */ s8 objBankIndexOsAnime;
+    /* 0x0196 */ s8 objectSlotHead;
+    /* 0x0197 */ s8 objectSlotUpperSkel; // upper body limbs object, 7 < limb < 15 (always same as objectSlotLowerSkel),
+    /* 0x0198 */ s8 objectSlotLowerSkel; // lower body limbs object, limb <= 7
+    /* 0x0199 */ s8 objectSlotOsAnime;
     /* 0x019C */ ColliderCylinder collider;
     /* 0x01E8 */ NpcInteractInfo interactInfo;
     /* 0x0210 */ Path* path;
