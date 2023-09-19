@@ -3563,7 +3563,12 @@ void func_80836BEC(Player* this, PlayState* play) {
  * To see the difference between linear and curved mode, with interative toggles for
  * speed cap and floor pitch, see the following desmos graph: https://www.desmos.com/calculator/hri7dcws4c
  */
+
+// Linear mode is a straight line, increasing target speed at a steady rate relative to the control stick magnitude
 #define SPEED_MODE_LINEAR 0.0f
+
+// Curved mode drops any input below 20 units of magnitidue, resulting in zero for target speed. 
+// Beyond 20 units, a gradual curve slowly moves up until around the 40 unit mark when target speed ramps up very quickly.
 #define SPEED_MODE_CURVED 0.018f
 
 /**
