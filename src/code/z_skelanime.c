@@ -914,13 +914,13 @@ void AnimationContext_SetCopyFalse(PlayState* play, s32 vecCount, Vec3s* dst, Ve
 /**
  * Requests moving an actor according to the translation of its root limb
  */
-void AnimationContext_SetMoveActor(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 arg3) {
+void AnimationContext_SetMoveActor(PlayState* play, Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY) {
     AnimationEntry* entry = AnimationContext_AddEntry(&play->animationCtx, ANIMENTRY_MOVEACTOR);
 
     if (entry != NULL) {
         entry->data.move.actor = actor;
         entry->data.move.skelAnime = skelAnime;
-        entry->data.move.unk_08 = arg3;
+        entry->data.move.diffScaleY = moveDiffScaleY;
     }
 }
 
@@ -1011,7 +1011,7 @@ void AnimationContext_MoveActor(PlayState* play, AnimationEntryData* data) {
 
     SkelAnime_UpdateTranslation(entry->skelAnime, &diff, actor->shape.rot.y);
     actor->world.pos.x += diff.x * actor->scale.x;
-    actor->world.pos.y += diff.y * actor->scale.y * entry->unk_08;
+    actor->world.pos.y += diff.y * actor->scale.y * entry->diffScaleY;
     actor->world.pos.z += diff.z * actor->scale.z;
 }
 

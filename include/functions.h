@@ -30,13 +30,13 @@ void Locale_ResetRegion(void);
 u32 func_80001F48(void);
 u32 func_80001F8C(void);
 u32 Locale_IsRegionNative(void);
-void __assert(const char* exp, const char* file, s32 line);
+NORETURN void __assert(const char* exp, const char* file, s32 line);
 void isPrintfInit(void);
 void osSyncPrintfUnused(const char* fmt, ...);
 void osSyncPrintf(const char* fmt, ...);
 void rmonPrintf(const char* fmt, ...);
 void* is_proutSyncPrintf(void* arg, const char* str, u32 count);
-void func_80002384(const char* exp, const char* file, u32 line);
+NORETURN void func_80002384(const char* exp, const char* file, u32 line);
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
@@ -184,9 +184,9 @@ void EffectSs_Insert(PlayState* play, EffectSs* effectSs);
 void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams);
 void EffectSs_UpdateAll(PlayState* play);
 void EffectSs_DrawAll(PlayState* play);
-s16 func_80027DD4(s16 arg0, s16 arg1, s32 arg2);
-s16 func_80027E34(s16 arg0, s16 arg1, f32 arg2);
-u8 func_80027E84(u8 arg0, u8 arg1, f32 arg2);
+s16 EffectSs_LerpInv(s16 a, s16 b, s32 weightInv);
+s16 EffectSs_LerpS16(s16 a, s16 b, f32 weight);
+u8 EffectSs_LerpU8(u8 a, u8 b, f32 weight);
 void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture);
 void EffectSsDust_Spawn(PlayState* play, u16 drawFlags, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                         Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 life,
@@ -230,12 +230,12 @@ void EffectSsBomb_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* acc
 void EffectSsBomb2_SpawnFade(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void EffectSsBomb2_SpawnLayered(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                 s16 scaleStep);
-void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* primColor,
-                         Color_RGBA8* envColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life);
-void EffectSsBlast_SpawnWhiteCustomScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
+void EffectSsBlast_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8* innerColor,
+                         Color_RGBA8* outerColor, s16 scale, s16 scaleStep, s16 scaleStepDecay, s16 life);
+void EffectSsBlast_SpawnWhiteShockwaveSetScale(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
                                          s16 scaleStep, s16 life);
-void EffectSsBlast_SpawnShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
-                                  Color_RGBA8* primColor, Color_RGBA8* envColor, s16 life);
+void EffectSsBlast_SpawnShockwaveSetColor(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
+                                          Color_RGBA8* innerColor, Color_RGBA8* outerColor, s16 life);
 void EffectSsBlast_SpawnWhiteShockwave(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel);
 void EffectSsGSpk_SpawnAccel(PlayState* play, Actor* actor, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                              Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 scaleStep);
@@ -1039,7 +1039,7 @@ s32 Player_OverrideLimbDrawGameplayCrawling(PlayState* play, s32 limbIndex, Gfx*
 u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase);
 void Player_DrawGetItem(PlayState* play, Player* this);
 void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime);
+u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime);
 void Player_DrawPause(PlayState* play, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
                       s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
@@ -1069,7 +1069,7 @@ void Gfx_SetupDL_37Opa(GraphicsContext* gfxCtx);
 Gfx* Gfx_SetupDL_39(Gfx* gfx);
 void Gfx_SetupDL_39Opa(GraphicsContext* gfxCtx);
 void Gfx_SetupDL_39Overlay(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_39Ptr(Gfx** gfxp);
+void Gfx_SetupDL_39Ptr(Gfx** gfxP);
 void Gfx_SetupDL_40Opa(GraphicsContext* gfxCtx);
 void Gfx_SetupDL_41Opa(GraphicsContext* gfxCtx);
 void Gfx_SetupDL_47Xlu(GraphicsContext* gfxCtx);
@@ -1081,8 +1081,8 @@ void Gfx_SetupDL_42Overlay(GraphicsContext* gfxCtx);
 void Gfx_SetupDL_27Xlu(GraphicsContext* gfxCtx);
 void Gfx_SetupDL_60NoCDXlu(GraphicsContext* gfxCtx);
 void Gfx_SetupDL_61Xlu(GraphicsContext* gfxCtx);
-void Gfx_SetupDL_56Ptr(Gfx** gfxp);
-Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height);
+void Gfx_SetupDL_56Ptr(Gfx** gfxP);
+Gfx* Gfx_BranchTexScroll(Gfx** gfxP, u32 x, u32 y, s32 width, s32 height);
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
 Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
@@ -1186,7 +1186,7 @@ void View_Apply(View* view, s32 mask);
 s32 View_ApplyOrthoToOverlay(View* view);
 s32 View_ApplyPerspectiveToOverlay(View* view);
 s32 View_UpdateViewingMatrix(View* view);
-s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp);
+s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP);
 s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
 void ViMode_LogPrint(OSViMode* osViMode);
 void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
@@ -1197,15 +1197,6 @@ void ViMode_Init(ViMode* viMode);
 void ViMode_Destroy(ViMode* viMode);
 void ViMode_ConfigureFeatures(ViMode* viMode, s32 viFeatures);
 void ViMode_Update(ViMode* viMode, Input* input);
-void func_800ACE70(struct_801664F0* this);
-void func_800ACE90(struct_801664F0* this);
-void func_800ACE98(struct_801664F0* this, Gfx** gfxp);
-void VisMono_Init(VisMono* this);
-void VisMono_Destroy(VisMono* this);
-void VisMono_Draw(VisMono* this, Gfx** gfxp);
-void func_800AD920(struct_80166500* this);
-void func_800AD950(struct_80166500* this);
-void func_800AD958(struct_80166500* this, Gfx** gfxp);
 void PlayerCall_InitFuncPtrs(void);
 void TransitionTile_Destroy(TransitionTile* this);
 TransitionTile* TransitionTile_Init(TransitionTile* this, s32 cols, s32 rows);
@@ -1304,15 +1295,15 @@ void PreRender_SetValuesSave(PreRender* this, u32 width, u32 height, void* fbuf,
 void PreRender_Init(PreRender* this);
 void PreRender_SetValues(PreRender* this, u32 width, u32 height, void* fbuf, void* zbuf);
 void PreRender_Destroy(PreRender* this);
-void func_800C170C(PreRender* this, Gfx** gfxp, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a);
-void func_800C1AE8(PreRender* this, Gfx** gfxp, void* fbuf, void* fbufSave);
-void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxp);
-void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxp);
-void PreRender_DrawCoverage(PreRender* this, Gfx** gfxp);
-void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxp);
-void func_800C213C(PreRender* this, Gfx** gfxp);
-void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxp);
-void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxp);
+void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a);
+void func_800C1AE8(PreRender* this, Gfx** gfxP, void* fbuf, void* fbufSave);
+void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxP);
+void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxP);
+void PreRender_DrawCoverage(PreRender* this, Gfx** gfxP);
+void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxP);
+void func_800C213C(PreRender* this, Gfx** gfxP);
+void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP);
+void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP);
 void PreRender_ApplyFilters(PreRender* this);
 void AudioMgr_StopAllSfx(void);
 void func_800C3C80(AudioMgr* audioMgr);
@@ -1322,8 +1313,8 @@ void AudioMgr_ThreadEntry(void* arg0);
 void AudioMgr_Unlock(AudioMgr* audioMgr);
 void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Scheduler* sched, IrqMgr* irqMgr);
 void GameState_FaultPrint(void);
-void GameState_SetFBFilter(Gfx** gfx);
-void GameState_DrawInputDisplay(u16 input, Gfx** gfx);
+void GameState_SetFBFilter(Gfx** gfxP);
+void GameState_DrawInputDisplay(u16 input, Gfx** gfxP);
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx);
 void GameState_SetFrameBuffer(GraphicsContext* gfxCtx);
 void GameState_ReqPadData(GameState* gameState);
@@ -1357,21 +1348,13 @@ void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, 
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
 Gfx* Graph_GfxPlusOne(Gfx* gfx);
 Gfx* Graph_BranchDlist(Gfx* gfx, Gfx* dst);
-void* Graph_DlistAlloc(Gfx** gfx, u32 size);
+void* Graph_DlistAlloc(Gfx** gfxP, u32 size);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
 void ListAlloc_Free(ListAlloc* this, void* data);
 void ListAlloc_FreeAll(ListAlloc* this);
 void Main_LogSystemHeap(void);
 void Main(void* arg);
-void SpeedMeter_InitImpl(SpeedMeter* this, u32 arg1, u32 y);
-void SpeedMeter_Init(SpeedMeter* this);
-void SpeedMeter_Destroy(SpeedMeter* this);
-void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx);
-void SpeedMeter_InitAllocEntry(SpeedMeterAllocEntry* this, u32 maxval, u32 val, u16 backColor, u16 foreColor, u32 ulx,
-                               u32 lrx, u32 uly, u32 lry);
-void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxCtx);
-void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state);
 void SysCfb_Init(s32 n64dd);
 void* SysCfb_GetFbPtr(s32 idx);
 void* SysCfb_GetFbEnd(void);
@@ -1483,7 +1466,7 @@ u64* SysUcode_GetUCodeBoot(void);
 size_t SysUcode_GetUCodeBootSize(void);
 u64* SysUcode_GetUCode(void);
 u64* SysUcode_GetUCodeData(void);
-void func_800D31A0(void);
+NORETURN void func_800D31A0(void);
 void func_800D31F0(void);
 void func_800D3210(void);
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);

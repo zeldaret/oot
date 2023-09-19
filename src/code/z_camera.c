@@ -6876,7 +6876,7 @@ s32 Camera_Special9(Camera* camera) {
     f32 playerYOffset;
     s32 pad3;
     PosRot* playerPosRot = &camera->playerPosRot;
-    PosRot adjustedPlayerPosRot;
+    PosRot referencePosRot;
     f32 yNormal;
     DoorParams* doorParams = &camera->paramData.doorParams;
     Special9ReadOnlyData* roData = &camera->paramData.spec9.roData;
@@ -6902,11 +6902,11 @@ s32 Camera_Special9(Camera* camera) {
     }
 
     if (doorParams->doorActor != NULL) {
-        Actor_GetWorldPosShapeRot(&adjustedPlayerPosRot, doorParams->doorActor);
+        Actor_GetWorldPosShapeRot(&referencePosRot, doorParams->doorActor);
     } else {
-        adjustedPlayerPosRot = *playerPosRot;
-        adjustedPlayerPosRot.pos.y += playerYOffset + roData->yOffset;
-        adjustedPlayerPosRot.rot.x = 0;
+        referencePosRot = *playerPosRot;
+        referencePosRot.pos.y += playerYOffset + roData->yOffset;
+        referencePosRot.rot.x = 0;
     }
 
     OLib_Vec3fDiffToVecGeo(&atEyeOffsetGeo, at, eye);
@@ -6919,9 +6919,15 @@ s32 Camera_Special9(Camera* camera) {
         case 0:
             camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
             camera->animState++;
-            rwData->targetYaw = ABS(playerPosRot->rot.y - adjustedPlayerPosRot.rot.y) >= 0x4000
-                                    ? adjustedPlayerPosRot.rot.y - 0x7FFF
-                                    : adjustedPlayerPosRot.rot.y;
+
+            //! @bug The angle passed to ABS should be cast to s16.
+            //! The lack of a cast means that a door which has an angle of around 0x8000 will calculate an incorrect
+            //! angle and use an incorrect `targetYaw`.
+            //! In-game, this means if the player opens a susceptible door at a slanted angle, the camera will not
+            //! appear correctly on the other side after the player has walked through the door.
+            rwData->targetYaw = ABS(playerPosRot->rot.y - referencePosRot.rot.y) >= 0x4000
+                                    ? referencePosRot.rot.y - 0x7FFF
+                                    : referencePosRot.rot.y;
             FALLTHROUGH;
         case 1:
             doorParams->timer1--;
