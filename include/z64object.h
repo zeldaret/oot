@@ -4,8 +4,6 @@
 #include "ultra64.h"
 #include "z64dma.h"
 
-#define OBJECT_EXCHANGE_BANK_MAX 19
-
 typedef struct {
     /* 0x00 */ s16 id;
     /* 0x04 */ void* segment;
