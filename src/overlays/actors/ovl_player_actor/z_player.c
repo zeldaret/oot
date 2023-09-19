@@ -3553,17 +3553,17 @@ void func_80836BEC(Player* this, PlayState* play) {
  * These defines exist to simplify the variable used to toggle the different speed modes.
  * While the `speedMode` variable is a float and can contain a non-boolean value,
  * `Player_CalcSpeedAndYawFromControlStick` never actually uses the value for anything.
- * It simply checks if the value is non-zero to toggle the "curve" mode.
+ * It simply checks if the value is non-zero to toggle the "curved" mode.
  * In practice, 0.0f or 0.018f are the only values passed to this function.
  *
- * It's clear that this value was intended to mean something in the curve calculation at some point 
- * in development, but was either never implemented or removed.
+ * It's clear that this value was intended to mean something in the curved mofe calculation at
+ * some point in development, but was either never implemented or removed.
  *
- * To see the difference between linear and curve mode, with interative toggles for various variables
- * see the following desmos graph: https://www.desmos.com/calculator/hri7dcws4c
+ * To see the difference between linear and curved mode, with interative toggles for
+ * speed cap and floor pitch, see the following desmos graph: https://www.desmos.com/calculator/hri7dcws4c
  */
 #define SPEED_MODE_LINEAR 0.0f
-#define SPEED_MODE_CURVE 0.018f
+#define SPEED_MODE_CURVED 0.018f
 
 /**
  * Calculates target speed and yaw based on input from the control stick.
@@ -3587,7 +3587,7 @@ s32 Player_CalcSpeedAndYawFromControlStick(PlayState* play, Player* this, f32* o
         *outYawTarget = sControlStickAngle;
 
         // The value of `speedMode` is never actually used. It only toggles this condition.
-        // See the definition of `SPEED_MODE_LINEAR` and `SPEED_MODE_CURVE` for more information.
+        // See the definition of `SPEED_MODE_LINEAR` and `SPEED_MODE_CURVED` for more information.
         if (speedMode != SPEED_MODE_LINEAR) {
             *outSpeedTarget -= 20.0f;
 
@@ -3635,12 +3635,11 @@ s32 func_8083721C(Player* this) {
  * Control stick magnitude and angle are processed in `Player_CalcSpeedAndYawFromControlStick` to get target values.
  * Additionally, this function does extra processing on the target yaw value if the control stick is neutral.
  *
- * @param this            player instance
  * @param outSpeedTarget  a pointer to the variable that will hold the resulting target speed value
  * @param outYawTarget    a pointer to the variable that will hold the resulting target yaw value
  * @param speedMode       toggles between a linear and curved mode for the speed value
  *
- * See `Player_CalcSpeedAndYawFromControlStick` for more information on the linear vs curved speed mode.
+ * @see Player_CalcSpeedAndYawFromControlStick for more information on the linear vs curved speed mode.
  *
  * @return true if the control stick has any magnitude, false otherwise.
  */
