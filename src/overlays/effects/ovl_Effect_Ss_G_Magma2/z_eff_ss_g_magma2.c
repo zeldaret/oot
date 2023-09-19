@@ -17,7 +17,7 @@
 #define rTimer regs[7]
 #define rUpdateRate regs[8]
 #define rDrawMode regs[9]
-#define rObjBankIdx regs[10]
+#define rObjectSlot regs[10]
 #define rScale regs[11]
 
 u32 EffectSsGMagma2_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -38,15 +38,15 @@ EffectSsInit Effect_Ss_G_Magma2_InitVars = {
 };
 
 u32 EffectSsGMagma2_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
-    s32 objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_KINGDODONGO);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_KINGDODONGO);
     s32 pad;
 
-    if ((objBankIndex >= 0) && Object_IsLoaded(&play->objectCtx, objBankIndex)) {
+    if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[objBankIndex].segment);
-        this->rObjBankIdx = objBankIndex;
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+        this->rObjectSlot = objectSlot;
         this->pos = initParams->pos;
         this->velocity = zeroVec;
         this->accel = zeroVec;
@@ -75,17 +75,17 @@ void EffectSsGMagma2_Draw(PlayState* play, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s32 pad;
     f32 scale;
-    void* object;
+    void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    object = play->objectCtx.status[this->rObjBankIdx].segment;
+    objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_g_magma2.c", 261);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+    gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_g_magma2.c", 282),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 

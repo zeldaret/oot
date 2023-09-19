@@ -85,7 +85,7 @@ typedef enum {
 
 typedef struct BossGanon {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s32 animBankIndex;
+    /* 0x014C */ s32 animObjectSlot;
     /* 0x0150 */ SkelAnime skelAnime;
     /* 0x0194 */ BossGanonActionFunc actionFunc;
     /* 0x0198 */ u8 unk_198;

@@ -246,7 +246,7 @@ typedef struct {
 #define rgEnvColorG regs[8]
 #define rgEnvColorB regs[9]
 #define rgEnvColorA regs[10]
-#define rgObjBankIdx regs[11]
+#define rgObjectSlot regs[11]
 
 #define DEFINE_EFFECT_SS(_0, enum) enum,
 #define DEFINE_EFFECT_SS_UNSET(enum) enum,

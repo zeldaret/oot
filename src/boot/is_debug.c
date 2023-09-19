@@ -86,7 +86,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, u32 count) {
     return (void*)1;
 }
 
-void func_80002384(const char* exp, const char* file, u32 line) {
+NORETURN void func_80002384(const char* exp, const char* file, u32 line) {
     osSyncPrintf("File:%s Line:%d  %s \n", file, line, exp);
     while (true) {
         ;

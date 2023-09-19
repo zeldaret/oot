@@ -3154,7 +3154,7 @@ f32 BgCheck_RaycastDownDyna(DynaRaycastDown* dynaRaycastDown) {
     f32 result;
     f32 intersect2;
     s32 i2;
-    s32 pauseState;
+    s32 isPaused;
     DynaPolyActor* dynaActor;
     s32 pad;
     Vec3f polyVtx[3];
@@ -3223,11 +3223,8 @@ f32 BgCheck_RaycastDownDyna(DynaRaycastDown* dynaRaycastDown) {
 
     dynaActor = DynaPoly_GetActor(dynaRaycastDown->colCtx, *dynaRaycastDown->bgId);
     if ((result != BGCHECK_Y_MIN) && (dynaActor != NULL) && (dynaRaycastDown->play != NULL)) {
-        pauseState = dynaRaycastDown->play->pauseCtx.state != 0;
-        if (pauseState == 0) {
-            pauseState = dynaRaycastDown->play->pauseCtx.debugState != 0;
-        }
-        if (!pauseState && (dynaRaycastDown->colCtx->dyna.bgActorFlags[*dynaRaycastDown->bgId] & BGACTOR_1)) {
+        isPaused = IS_PAUSED(&dynaRaycastDown->play->pauseCtx);
+        if (!isPaused && (dynaRaycastDown->colCtx->dyna.bgActorFlags[*dynaRaycastDown->bgId] & BGACTOR_1)) {
             curTransform = &dynaRaycastDown->dyna->bgActors[*dynaRaycastDown->bgId].curTransform;
             polyMin =
                 &dynaRaycastDown->dyna

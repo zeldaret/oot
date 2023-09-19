@@ -9,7 +9,7 @@
 #include "assets/objects/object_fhg/object_fhg.h"
 
 #define rAlpha regs[0]
-#define rObjBankIdx regs[2]
+#define rObjectSlot regs[2]
 #define rXZRot regs[3]
 #define rParam regs[4]
 #define rScale regs[8]
@@ -32,18 +32,18 @@ static Gfx sShockDL[15];
 u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
     s32 pad;
-    s32 objBankIdx;
+    s32 objectSlot;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f farAwayVec = { 0.0f, -1000.0f, 0.0f };
-    uintptr_t oldSeg6;
+    uintptr_t prevSeg6;
 
     if (initParams->type == FHGFLASH_LIGHTBALL) {
-        objBankIdx = Object_GetIndex(&play->objectCtx, OBJECT_FHG);
+        objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FHG);
 
-        if ((objBankIdx > -1) && Object_IsLoaded(&play->objectCtx, objBankIdx)) {
-            oldSeg6 = gSegments[6];
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[objBankIdx].segment);
-            this->rObjBankIdx = objBankIdx;
+        if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
+            prevSeg6 = gSegments[6];
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
+            this->rObjectSlot = objectSlot;
             this->pos = initParams->pos;
             this->velocity = initParams->velocity;
             this->accel = initParams->accel;
@@ -54,7 +54,7 @@ u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* init
             this->draw = EffectSsFhgFlash_DrawLightBall;
             this->update = EffectSsFhgFlash_UpdateLightBall;
             this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
-            gSegments[6] = oldSeg6;
+            gSegments[6] = prevSeg6;
         } else {
             osSyncPrintf("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
             return 0;
@@ -89,17 +89,17 @@ void EffectSsFhgFlash_DrawLightBall(PlayState* play, u32 index, EffectSs* this) 
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s32 pad;
     f32 scale;
-    void* object;
+    void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    object = play->objectCtx.status[this->rObjBankIdx].segment;
+    objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 268);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+    gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->rAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, sLightBallColors[this->rParam].r, sLightBallColors[this->rParam].g,
