@@ -2373,7 +2373,8 @@ void Player_ProcessItemButtons(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_29)) && !func_8008F128(this)) {
         if (this->itemAction >= PLAYER_IA_FISHING_POLE) {
             if (!Player_ItemIsInUse(this, B_BTN_ITEM) && !Player_ItemIsInUse(this, C_BTN_ITEM(IBTN_C_C_LEFT)) &&
-                !Player_ItemIsInUse(this, C_BTN_ITEM(IBTN_C_C_DOWN)) && !Player_ItemIsInUse(this, C_BTN_ITEM(IBTN_C_C_RIGHT))) {
+                !Player_ItemIsInUse(this, C_BTN_ITEM(IBTN_C_C_DOWN)) &&
+                !Player_ItemIsInUse(this, C_BTN_ITEM(IBTN_C_C_RIGHT))) {
                 Player_UseItem(play, this, ITEM_NONE);
                 return;
             }
