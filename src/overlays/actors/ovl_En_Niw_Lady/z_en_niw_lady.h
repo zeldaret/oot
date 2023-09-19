@@ -35,8 +35,8 @@ typedef struct EnNiwLady {
     /* 0x027A */ s16 unk_27A;
     /* 0x027C */ s16 faceState;
     /* 0x027E */ s16 unk_27E;
-    /* 0x0280 */ s8 objectAneIndex;
-    /* 0x0281 */ s8 objectOsAnimeIndex;
+    /* 0x0280 */ s8 aneObjectSlot;
+    /* 0x0281 */ s8 osAnimeObjectSlot;
     /* 0x0284 */ s32 getItemId;
     /* 0x0288 */ NpcInteractInfo interactInfo;
     /* 0x02B0 */ ColliderCylinder collider;

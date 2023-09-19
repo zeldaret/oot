@@ -11061,7 +11061,7 @@ void Player_Update(Actor* thisx, PlayState* play) {
 
     if (func_8084FCAC(this, play)) {
         if (gSaveContext.dogParams < 0) {
-            if (Object_GetIndex(&play->objectCtx, OBJECT_DOG) < 0) {
+            if (Object_GetSlot(&play->objectCtx, OBJECT_DOG) < 0) {
                 gSaveContext.dogParams = 0;
             } else {
                 gSaveContext.dogParams &= 0x7FFF;

@@ -15,7 +15,7 @@ typedef struct EnGirlA {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnGirlAActionFunc actionFunc;
-    /* 0x0194 */ s8 objBankIndex;
+    /* 0x0194 */ s8 requiredObjectSlot;
     /* 0x0198 */ EnGirlAActionFunc actionFunc2;
     /* 0x019C */ s32 isInitialized;
     /* 0x01A0 */ s16 itemBuyPromptTextId;
