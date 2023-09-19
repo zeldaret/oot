@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Build (qemu-irix)') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
                 sh 'ORIG_COMPILER=1 make -j'
