@@ -758,8 +758,8 @@ typedef struct Player {
     /* 0x0A79 */ u8 floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
     /* 0x0A7A */ u8 floorProperty;
     /* 0x0A7B */ u8 prevFloorType;
-    /* 0x0A7C */ f32 unk_A7C;
-    /* 0x0A80 */ s16 unk_A80;
+    /* 0x0A7C */ f32 prevControlStickMagnitude;
+    /* 0x0A80 */ s16 prevControlStickAngle;
     /* 0x0A82 */ u16 prevFloorSfxOffset;
     /* 0x0A84 */ s16 unk_A84;
     /* 0x0A86 */ s8 unk_A86;
