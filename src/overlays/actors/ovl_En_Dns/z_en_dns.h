@@ -5,7 +5,8 @@
 #include "global.h"
 #include "assets/objects/object_shopnuts/object_shopnuts.h"
 
-#define DNS_GET_TYPE(thisx) ((thisx)->actor.params)
+#define DNS_GET_TYPE(thisx) ((thisx)->params)
+
 typedef enum {
     /*  0 */ DNS_TYPE_DEKU_NUTS_5,
     /*  1 */ DNS_TYPE_DEKU_STICKS_1,

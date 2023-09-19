@@ -4,7 +4,8 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define EN_NUTSBALL_TYPE(thisx) ((thisx)->actor.params)
+#define NUTSBALL_GET_TYPE(thisx) ((thisx)->params)
+
 typedef enum {
     /*  0 */ EN_NUTSBALL_TYPE_DEKUNUTS,
     /*  1 */ EN_NUTSBALL_TYPE_HINTNUTS,

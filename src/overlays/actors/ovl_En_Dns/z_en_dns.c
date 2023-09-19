@@ -126,7 +126,7 @@ static AnimationMinimalInfo sAnimationInfo[] = {
 void EnDns_Init(Actor* thisx, PlayState* play) {
     EnDns* this = (EnDns*)thisx;
 
-    if (DNS_GET_TYPE(this) < 0) {
+    if (DNS_GET_TYPE(&this->actor) < 0) {
         // "Function Error (Deku Salesman)"
         osSyncPrintf(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
         Actor_Kill(&this->actor);
@@ -134,12 +134,12 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     }
 
     // Sell Seeds instead of Arrows if Link is child
-    if ((DNS_GET_TYPE(this) == DNS_TYPE_ARROWS_30) && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
-        DNS_GET_TYPE(this) = DNS_TYPE_DEKU_SEEDS_30;
+    if ((DNS_GET_TYPE(&this->actor) == DNS_TYPE_ARROWS_30) && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
+        DNS_GET_TYPE(&this->actor) = DNS_TYPE_DEKU_SEEDS_30;
     }
 
     // "Deku Salesman"
-    osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(this)]);
+    osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -150,7 +150,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinderType1(play, &this->collider, &this->actor, &sCylinderInit);
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
-    this->actor.textId = sStartingTextIds[DNS_GET_TYPE(this)];
+    this->actor.textId = sStartingTextIds[DNS_GET_TYPE(&this->actor)];
     Actor_SetScale(&this->actor, 0.01f);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -160,7 +160,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
-    this->dnsItemEntry = sItemEntries[DNS_GET_TYPE(this)];
+    this->dnsItemEntry = sItemEntries[DNS_GET_TYPE(&this->actor)];
 
     this->actionFunc = EnDns_SetupIdle;
 }
@@ -391,13 +391,13 @@ void EnDns_Talk(EnDns* this, PlayState* play) {
 }
 
 void EnDns_OfferSaleItem(EnDns* this, PlayState* play) {
-    if (DNS_GET_TYPE(this) == DNS_TYPE_DEKU_STICK_UPGRADE) {
+    if (DNS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_STICK_UPGRADE) {
         if (CUR_UPG_VALUE(UPG_DEKU_STICKS) < 2) {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_20, 130.0f, 100.0f);
         } else {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
-    } else if (DNS_GET_TYPE(this) == DNS_TYPE_DEKU_NUT_UPGRADE) {
+    } else if (DNS_GET_TYPE(&this->actor) == DNS_TYPE_DEKU_NUT_UPGRADE) {
         if (CUR_UPG_VALUE(UPG_DEKU_NUTS) < 2) {
             Actor_OfferGetItem(&this->actor, play, GI_DEKU_NUT_UPGRADE_30, 130.0f, 100.0f);
         } else {
@@ -500,7 +500,7 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
     s16 pad;
 
     this->dustTimer++;
-    this->actor.textId = sStartingTextIds[DNS_GET_TYPE(this)];
+    this->actor.textId = sStartingTextIds[DNS_GET_TYPE(&this->actor)];
 
     Actor_SetFocus(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
