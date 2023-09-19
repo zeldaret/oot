@@ -5185,11 +5185,13 @@ void func_8083AF44(PlayState* play, Player* this, s32 magicSpell) {
 
     this->actionVar1 = magicSpell - 3;
 
-    //! @bug `MAGIC_CONSUME_WAIT_PREVIEW` is not guaranteed to succeed. Ideally, the return value of
-    //! `Magic_RequestChange` should be checked before allowing the process of using a spell to continue.
-    //! If the magic state change request fails, `gSaveContext.magicTarget` will never be set correctly.
-    //! When `MAGIC_STATE_CONSUME_SETUP` is set in `func_808507F4`, magic will eventually be consumed to a stale target
-    //! value. If that stale target value is higher than the current magic value, it will be consumed to zero.
+    //! @bug `MAGIC_CONSUME_WAIT_PREVIEW` is not guaranteed to succeed.
+    //! Ideally, the return value of `Magic_RequestChange` should be checked before allowing the process of
+    //! using a spell to continue. If the magic state change request fails, `gSaveContext.magicTarget` will
+    //! never be set correctly.
+    //! When `MAGIC_STATE_CONSUME_SETUP` is set in `Player_Action_808507F4`, magic will eventually be
+    //! consumed to a stale target value. If that stale target value is higher than the current
+    //! magic value, it will be consumed to zero.
     Magic_RequestChange(play, sMagicSpellCosts[magicSpell], MAGIC_CONSUME_WAIT_PREVIEW);
 
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, &gPlayerAnim_link_magic_tame, 0.83f);
