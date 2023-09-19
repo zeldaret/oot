@@ -11276,6 +11276,9 @@ void func_8084BDFC(Player* this, PlayState* play) {
 
 void func_8084BEE4(Player* this) {
     func_8002F7DC(&this->actor, (this->unk_84F != 0) ? NA_SE_PL_WALK_WALL : NA_SE_PL_WALK_LADDER);
+    if (LINK_IS_ADULT) {
+    func_8002F7DC(&this->actor, (this->unk_84F != 0) ? NA_SE_PL_DUMMY_140 : NA_SE_PL_WALK_LADDER);
+    }
 }
 
 void func_8084BF1C(Player* this, PlayState* play) {
