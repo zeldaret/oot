@@ -1712,9 +1712,10 @@ void func_80832564(PlayState* play, Player* this) {
 }
 
 s32 func_80832594(Player* this, s32 arg1, s32 arg2) {
-    s16 ctrlStickAngleDiff = this->prevControlStickAngle - sControlStickAngle;
+    s16 controlStickAngleDiff = this->prevControlStickAngle - sControlStickAngle;
 
-    this->actionVar2 += arg1 + (s16)(ABS(ctrlStickAngleDiff) * fabsf(sControlStickMagnitude) * 2.5415802156203426e-06f);
+    this->actionVar2 +=
+        arg1 + (s16)(ABS(controlStickAngleDiff) * fabsf(sControlStickMagnitude) * 2.5415802156203426e-06f);
 
     if (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B)) {
         this->actionVar2 += 5;
