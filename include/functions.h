@@ -1106,7 +1106,7 @@ void Sample_Init(GameState* thisx);
 void Inventory_ChangeEquipment(s16 equipment, u16 value);
 u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment);
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
-void func_80097DD8(PlayState* play, ObjectContext* objectCtx);
+void Object_InitContext(PlayState* play, ObjectContext* objectCtx);
 void Object_UpdateEntries(ObjectContext* objectCtx);
 s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId);
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot);

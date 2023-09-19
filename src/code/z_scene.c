@@ -46,7 +46,7 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     return objectCtx->numEntries - 1;
 }
 
-void func_80097DD8(PlayState* play, ObjectContext* objectCtx) {
+void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     PlayState* play2 = play;
     u32 spaceSize;
     s32 i;
