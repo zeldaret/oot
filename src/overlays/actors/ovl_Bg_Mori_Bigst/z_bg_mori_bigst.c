@@ -77,8 +77,8 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
                  GET_PLAYER(play)->actor.world.pos.y);
     BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
+    this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectSlot < 0) {
         // "【Big Stalfos key ceiling】 bank danger!"
         osSyncPrintf("【ビッグスタルフォス鍵型天井】 バンク危険！\n");
         osSyncPrintf("%s %d\n", "../z_bg_mori_bigst.c", 234);
@@ -108,7 +108,7 @@ void BgMoriBigst_SetupWaitForMoriTex(BgMoriBigst* this, PlayState* play) {
 void BgMoriBigst_WaitForMoriTex(BgMoriBigst* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
-    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)) {
         thisx->draw = BgMoriBigst_Draw;
         if (Flags_GetClear(play, thisx->room) && (GET_PLAYER(play)->actor.world.pos.y > 700.0f)) {
             if (Flags_GetSwitch(play, (thisx->params >> 8) & 0x3F)) {
@@ -248,7 +248,7 @@ void BgMoriBigst_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.status[this->moriTexObjIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

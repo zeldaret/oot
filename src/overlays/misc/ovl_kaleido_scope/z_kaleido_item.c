@@ -103,7 +103,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
     pauseCtx->cursorColorSet = 0;
     pauseCtx->nameColorSet = 0;
 
-    if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) && (pauseCtx->pageIndex == PAUSE_ITEM)) {
+    if ((pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->unk_1E4 == 0) && (pauseCtx->pageIndex == PAUSE_ITEM)) {
         moveCursorResult = 0;
         oldCursorPoint = pauseCtx->cursorPoint[PAUSE_ITEM];
 
@@ -349,7 +349,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                 index = cursorSlot * 4; // required to match?
                 KaleidoScope_SetCursorVtx(pauseCtx, index, pauseCtx->itemVtx);
 
-                if ((pauseCtx->debugState == 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
+                if ((pauseCtx->debugState == 0) && (pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->unk_1E4 == 0)) {
                     if (CHECK_BTN_ANY(input->press.button, BTN_CLEFT | BTN_CDOWN | BTN_CRIGHT)) {
                         if (((gSlotAgeReqs[cursorSlot] == 9) ||
                              (gSlotAgeReqs[cursorSlot] == ((void)0, gSaveContext.save.linkAge))) &&

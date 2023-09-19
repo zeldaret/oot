@@ -726,9 +726,9 @@ s32 func_80B54DD4(EnZl3* this) {
 }
 
 void func_80B54DE0(EnZl3* this, PlayState* play) {
-    s32 idx = this->unk_318;
+    s32 objectSlot = this->zl2Anime2ObjectSlot;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[idx].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
@@ -2612,17 +2612,17 @@ void func_80B59B6C(EnZl3* this, PlayState* play) {
 
 void func_80B59DB8(EnZl3* this, PlayState* play) {
     s32 pad;
-    ObjectContext* objCtx = &play->objectCtx;
-    s32 objIndex = Object_GetIndex(objCtx, OBJECT_ZL2_ANIME2);
+    ObjectContext* objectCtx = &play->objectCtx;
+    s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME2);
     s32 pad2;
 
-    if (objIndex < 0) {
+    if (objectSlot < 0) {
         osSyncPrintf(VT_FGCOL(RED) "En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    if (Object_IsLoaded(objCtx, objIndex)) {
-        this->unk_318 = objIndex;
+    if (Object_IsLoaded(objectCtx, objectSlot)) {
+        this->zl2Anime2ObjectSlot = objectSlot;
         func_80B54DE0(this, play);
         func_80B59B6C(this, play);
     }

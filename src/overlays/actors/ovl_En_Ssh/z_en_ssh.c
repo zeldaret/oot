@@ -122,7 +122,7 @@ void EnSsh_SpawnShockwave(EnSsh* this, PlayState* play) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.floorHeight;
     pos.z = this->actor.world.pos.z;
-    EffectSsBlast_SpawnWhiteCustomScale(play, &pos, &zeroVec, &zeroVec, 100, 220, 8);
+    EffectSsBlast_SpawnWhiteShockwaveSetScale(play, &pos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
 s32 EnSsh_CreateBlureEffect(PlayState* play) {

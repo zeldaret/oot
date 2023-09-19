@@ -15,7 +15,7 @@ void EnGirlA_Update(Actor* thisx, PlayState* play);
 
 void EnGirlA_SetItemOutOfStock(PlayState* play, EnGirlA* this);
 void EnGirlA_UpdateStockedItem(PlayState* play, EnGirlA* this);
-void EnGirlA_InitializeItemAction(EnGirlA* this, PlayState* play);
+void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play);
 void EnGirlA_Update2(EnGirlA* this, PlayState* play);
 void func_80A3C498(Actor* thisx, PlayState* play, s32 flags);
 void EnGirlA_Draw(Actor* thisx, PlayState* play);
@@ -387,9 +387,9 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
         return;
     }
 
-    this->objBankIndex = Object_GetIndex(&play->objectCtx, shopItemEntries[params].objID);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, shopItemEntries[params].objID);
 
-    if (this->objBankIndex < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
@@ -399,7 +399,7 @@ void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
     }
 
     this->actor.params = params;
-    this->actionFunc2 = EnGirlA_InitializeItemAction;
+    this->actionFunc2 = EnGirlA_WaitForObject;
 }
 
 void EnGirlA_Init(Actor* thisx, PlayState* play) {
@@ -976,13 +976,13 @@ s32 EnGirlA_TrySetMaskItemDescription(EnGirlA* this, PlayState* play) {
     return false;
 }
 
-void EnGirlA_InitializeItemAction(EnGirlA* this, PlayState* play) {
+void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
     s16 params = this->actor.params;
     ShopItemEntry* itemEntry = &shopItemEntries[params];
 
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objBankIndex = this->objBankIndex;
+        this->actor.objectSlot = this->requiredObjectSlot;
         switch (this->actor.params) {
             case SI_KEATON_MASK:
                 if (GET_ITEMGETINF(ITEMGETINF_38)) {
