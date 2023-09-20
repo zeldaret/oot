@@ -25,7 +25,7 @@ typedef struct DoorKiller {
     /* 0x0214 */ void* texture;
     /* 0x0218 */ u16 hasHitPlayerOrGround;
     /* 0x021A */ u16 timer;
-    /* 0x021C */ u8 doorObjBankIndex;
+    /* 0x021C */ u8 requiredObjectSlot;
     /* 0x021D */ u8 textureEntryIndex;
     /* 0x0220 */ ColliderJntSph colliderJntSph;
     /* 0x0240 */ ColliderJntSphElement colliderJntSphItems[1];

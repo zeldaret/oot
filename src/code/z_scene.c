@@ -3,64 +3,77 @@
 
 RomFile sNaviQuestHintFiles[];
 
-s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
+/**
+ * Spawn an object file of a specified ID that will persist through room changes.
+ *
+ * This waits for the file to be fully loaded, the data is available when the function returns.
+ *
+ * @return The new object slot corresponding to the requested object ID.
+ *
+ * @note This function is not meant to be called externally to spawn object files on the fly.
+ * When an object is spawned with this function, all objects that come before it in the entry list will be treated as
+ * persistent, which will likely cause either the amount of free slots or object space memory to run out.
+ * This function is only meant to be called internally on scene load, before the object list from any room is processed.
+ */
+s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
     u32 size;
 
-    objectCtx->status[objectCtx->num].id = objectId;
+    objectCtx->slots[objectCtx->numEntries].id = objectId;
     size = gObjectTable[objectId].vromEnd - gObjectTable[objectId].vromStart;
 
-    osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f, objectCtx->status[objectCtx->num].segment);
+    osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectId, size / 1024.0f,
+                 objectCtx->slots[objectCtx->numEntries].segment);
 
-    osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (uintptr_t)objectCtx->status[objectCtx->num].segment + size,
-                 objectCtx->spaceEnd);
+    osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->numEntries,
+                 (uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size, objectCtx->spaceEnd);
 
-    ASSERT(((objectCtx->num < OBJECT_EXCHANGE_BANK_MAX) &&
-            (((uintptr_t)objectCtx->status[objectCtx->num].segment + size) < (uintptr_t)objectCtx->spaceEnd)),
+    ASSERT(((objectCtx->numEntries < ARRAY_COUNT(objectCtx->slots)) &&
+            (((uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size) < (uintptr_t)objectCtx->spaceEnd)),
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
 
-    DmaMgr_RequestSyncDebug(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
+    DmaMgr_RequestSyncDebug(objectCtx->slots[objectCtx->numEntries].segment, gObjectTable[objectId].vromStart, size,
                             "../z_scene.c", 145);
 
-    if (objectCtx->num < OBJECT_EXCHANGE_BANK_MAX - 1) {
-        objectCtx->status[objectCtx->num + 1].segment =
-            (void*)ALIGN16((uintptr_t)objectCtx->status[objectCtx->num].segment + size);
+    if (objectCtx->numEntries < (ARRAY_COUNT(objectCtx->slots) - 1)) {
+        objectCtx->slots[objectCtx->numEntries + 1].segment =
+            (void*)ALIGN16((uintptr_t)objectCtx->slots[objectCtx->numEntries].segment + size);
     }
 
-    objectCtx->num++;
-    objectCtx->unk_09 = objectCtx->num;
+    objectCtx->numEntries++;
+    objectCtx->numPersistentEntries = objectCtx->numEntries;
 
-    return objectCtx->num - 1;
+    return objectCtx->numEntries - 1;
 }
 
-void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
-    PlayState* play2 = play; // Needs to be a new variable to match (possibly a sub struct?)
+void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
+    PlayState* play2 = play;
     u32 spaceSize;
     s32 i;
 
     if (play2->sceneId == SCENE_HYRULE_FIELD) {
-        spaceSize = 1024000;
+        spaceSize = 1000 * 1024;
     } else if (play2->sceneId == SCENE_GANON_BOSS) {
         if (gSaveContext.sceneLayer != 4) {
-            spaceSize = 1177600;
+            spaceSize = 1150 * 1024;
         } else {
-            spaceSize = 1024000;
+            spaceSize = 1000 * 1024;
         }
     } else if (play2->sceneId == SCENE_SPIRIT_TEMPLE_BOSS) {
-        spaceSize = 1075200;
+        spaceSize = 1050 * 1024;
     } else if (play2->sceneId == SCENE_CHAMBER_OF_THE_SAGES) {
-        spaceSize = 1075200;
+        spaceSize = 1050 * 1024;
     } else if (play2->sceneId == SCENE_GANONDORF_BOSS) {
-        spaceSize = 1075200;
+        spaceSize = 1050 * 1024;
     } else {
-        spaceSize = 1024000;
+        spaceSize = 1000 * 1024;
     }
 
-    objectCtx->num = objectCtx->unk_09 = 0;
-    objectCtx->mainKeepIndex = objectCtx->subKeepIndex = 0;
+    objectCtx->numEntries = objectCtx->numPersistentEntries = 0;
+    objectCtx->mainKeepSlot = objectCtx->subKeepSlot = 0;
 
-    for (i = 0; i < OBJECT_EXCHANGE_BANK_MAX; i++) {
-        objectCtx->status[i].id = OBJECT_INVALID;
+    for (i = 0; i < ARRAY_COUNT(objectCtx->slots); i++) {
+        objectCtx->slots[i].id = OBJECT_INVALID;
     }
 
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -68,42 +81,43 @@ void Object_InitBank(PlayState* play, ObjectContext* objectCtx) {
     osSyncPrintf("オブジェクト入れ替えバンク情報 %8.3fKB\n", spaceSize / 1024.0f);
     osSyncPrintf(VT_RST);
 
-    objectCtx->spaceStart = objectCtx->status[0].segment =
-        GameState_Alloc(&play->state, spaceSize, "../z_scene.c", 219);
+    objectCtx->spaceStart = objectCtx->slots[0].segment = GameState_Alloc(&play->state, spaceSize, "../z_scene.c", 219);
     objectCtx->spaceEnd = (void*)((uintptr_t)objectCtx->spaceStart + spaceSize);
 
-    objectCtx->mainKeepIndex = Object_Spawn(objectCtx, OBJECT_GAMEPLAY_KEEP);
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->status[objectCtx->mainKeepIndex].segment);
+    objectCtx->mainKeepSlot = Object_SpawnPersistent(objectCtx, OBJECT_GAMEPLAY_KEEP);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(objectCtx->slots[objectCtx->mainKeepSlot].segment);
 }
 
-void Object_UpdateBank(ObjectContext* objectCtx) {
+void Object_UpdateEntries(ObjectContext* objectCtx) {
     s32 i;
-    ObjectStatus* status = &objectCtx->status[0];
+    ObjectEntry* entry = &objectCtx->slots[0];
     RomFile* objectFile;
     u32 size;
 
-    for (i = 0; i < objectCtx->num; i++) {
-        if (status->id < 0) {
-            if (status->dmaRequest.vromAddr == 0) {
-                osCreateMesgQueue(&status->loadQueue, &status->loadMsg, 1);
-                objectFile = &gObjectTable[-status->id];
+    for (i = 0; i < objectCtx->numEntries; i++) {
+        if (entry->id < 0) {
+            if (entry->dmaRequest.vromAddr == 0) {
+                osCreateMesgQueue(&entry->loadQueue, &entry->loadMsg, 1);
+                objectFile = &gObjectTable[-entry->id];
                 size = objectFile->vromEnd - objectFile->vromStart;
-                osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, status->segment);
-                DmaMgr_RequestAsync(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
-                                    &status->loadQueue, NULL, "../z_scene.c", 266);
-            } else if (osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
-                status->id = -status->id;
+
+                osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, entry->segment);
+
+                DmaMgr_RequestAsync(&entry->dmaRequest, entry->segment, objectFile->vromStart, size, 0,
+                                    &entry->loadQueue, NULL, "../z_scene.c", 266);
+            } else if (osRecvMesg(&entry->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
+                entry->id = -entry->id;
             }
         }
-        status++;
+        entry++;
     }
 }
 
-s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId) {
+s32 Object_GetSlot(ObjectContext* objectCtx, s16 objectId) {
     s32 i;
 
-    for (i = 0; i < objectCtx->num; i++) {
-        if (ABS(objectCtx->status[i].id) == objectId) {
+    for (i = 0; i < objectCtx->numEntries; i++) {
+        if (ABS(objectCtx->slots[i].id) == objectId) {
             return i;
         }
     }
@@ -111,8 +125,8 @@ s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId) {
     return -1;
 }
 
-s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex) {
-    if (objectCtx->status[bankIndex].id > 0) {
+s32 Object_IsLoaded(ObjectContext* objectCtx, s32 slot) {
+    if (objectCtx->slots[slot].id > 0) {
         return true;
     } else {
         return false;
@@ -124,30 +138,30 @@ void func_800981B8(ObjectContext* objectCtx) {
     s32 id;
     u32 size;
 
-    for (i = 0; i < objectCtx->num; i++) {
-        id = objectCtx->status[i].id;
+    for (i = 0; i < objectCtx->numEntries; i++) {
+        id = objectCtx->slots[i].id;
         size = gObjectTable[id].vromEnd - gObjectTable[id].vromStart;
-        osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->status[i].id, size / 1024.0f,
-                     objectCtx->status[i].segment);
-        osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (uintptr_t)objectCtx->status[i].segment + size,
+        osSyncPrintf("OBJECT[%d] SIZE %fK SEG=%x\n", objectCtx->slots[i].id, size / 1024.0f,
+                     objectCtx->slots[i].segment);
+        osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->numEntries, (uintptr_t)objectCtx->slots[i].segment + size,
                      objectCtx->spaceEnd);
-        DmaMgr_RequestSyncDebug(objectCtx->status[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
+        DmaMgr_RequestSyncDebug(objectCtx->slots[i].segment, gObjectTable[id].vromStart, size, "../z_scene.c", 342);
     }
 }
 
-void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
-    ObjectStatus* status = &objectCtx->status[bankIndex];
+void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
+    ObjectEntry* entry = &objectCtx->slots[slot];
     RomFile* objectFile = &gObjectTable[objectId];
     u32 size;
     void* nextPtr;
 
-    status->id = -objectId;
-    status->dmaRequest.vromAddr = 0;
+    entry->id = -objectId;
+    entry->dmaRequest.vromAddr = 0;
 
     size = objectFile->vromEnd - objectFile->vromStart;
-    osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
+    osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", slot, objectId, size / 1024.0f);
 
-    nextPtr = (void*)ALIGN16((uintptr_t)status->segment + size);
+    nextPtr = (void*)ALIGN16((uintptr_t)entry->segment + size);
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
@@ -191,7 +205,7 @@ void Scene_CommandPlayerEntryList(PlayState* play, SceneCmd* cmd) {
     linkObjectId = gLinkObjectIds[((void)0, gSaveContext.save.linkAge)];
 
     gActorOverlayTable[playerEntry->id].initInfo->objectId = linkObjectId;
-    Object_Spawn(&play->objectCtx, linkObjectId);
+    Object_SpawnPersistent(&play->objectCtx, linkObjectId);
 }
 
 void Scene_CommandActorEntryList(PlayState* play, SceneCmd* cmd) {
@@ -226,8 +240,8 @@ void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
 
 void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
-        play->objectCtx.subKeepIndex = Object_Spawn(&play->objectCtx, cmd->specialFiles.keepObjectId);
-        gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[play->objectCtx.subKeepIndex].segment);
+        play->objectCtx.subKeepSlot = Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
+        gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[play->objectCtx.subKeepSlot].segment);
     }
 
     if (cmd->specialFiles.naviQuestHintFileId != NAVI_QUEST_HINTS_NONE) {
@@ -250,25 +264,27 @@ void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
     s32 i;
     s32 j;
     s32 k;
-    ObjectStatus* status;
-    ObjectStatus* status2;
-    ObjectStatus* firstStatus;
-    s16* objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.data);
+    ObjectEntry* entry;
+    ObjectEntry* invalidatedEntry;
+    ObjectEntry* entries;
+    s16* objectListEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.data);
     void* nextPtr;
 
     k = 0;
-    i = play->objectCtx.unk_09;
-    firstStatus = &play->objectCtx.status[0];
-    status = &play->objectCtx.status[i];
+    i = play->objectCtx.numPersistentEntries;
+    entries = play->objectCtx.slots;
+    entry = &play->objectCtx.slots[i];
 
-    while (i < play->objectCtx.num) {
-        if (status->id != *objectEntry) {
-            status2 = &play->objectCtx.status[i];
-            for (j = i; j < play->objectCtx.num; j++) {
-                status2->id = OBJECT_INVALID;
-                status2++;
+    while (i < play->objectCtx.numEntries) {
+        if (entry->id != *objectListEntry) {
+
+            invalidatedEntry = &play->objectCtx.slots[i];
+            for (j = i; j < play->objectCtx.numEntries; j++) {
+                invalidatedEntry->id = OBJECT_INVALID;
+                invalidatedEntry++;
             }
-            play->objectCtx.num = i;
+
+            play->objectCtx.numEntries = i;
             Actor_KillAllWithMissingObject(play, &play->actorCtx);
 
             continue;
@@ -276,24 +292,24 @@ void Scene_CommandObjectList(PlayState* play, SceneCmd* cmd) {
 
         i++;
         k++;
-        objectEntry++;
-        status++;
+        objectListEntry++;
+        entry++;
     }
 
-    ASSERT(cmd->objectList.length <= OBJECT_EXCHANGE_BANK_MAX,
+    ASSERT(cmd->objectList.length <= ARRAY_COUNT(play->objectCtx.slots),
            "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
 
     while (k < cmd->objectList.length) {
-        nextPtr = func_800982FC(&play->objectCtx, i, *objectEntry);
-        if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
-            firstStatus[i + 1].segment = nextPtr;
+        nextPtr = func_800982FC(&play->objectCtx, i, *objectListEntry);
+        if (i < (ARRAY_COUNT(play->objectCtx.slots) - 1)) {
+            entries[i + 1].segment = nextPtr;
         }
         i++;
         k++;
-        objectEntry++;
+        objectListEntry++;
     }
 
-    play->objectCtx.num = i;
+    play->objectCtx.numEntries = i;
 }
 
 void Scene_CommandLightList(PlayState* play, SceneCmd* cmd) {
