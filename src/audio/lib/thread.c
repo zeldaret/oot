@@ -593,7 +593,7 @@ void AudioThread_ProcessSeqPlayerCmd(SequencePlayer* seqPlayer, AudioCmd* cmd) {
             seqPlayer->tempoChange = cmd->asInt * SEQTICKS_PER_BEAT;
             break;
 
-        case AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO_TICKS:
+        case AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO_SEQTICKS:
             seqPlayer->tempoChange = cmd->asInt;
             break;
 

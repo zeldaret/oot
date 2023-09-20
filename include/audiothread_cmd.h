@@ -33,7 +33,7 @@ typedef enum {
     /* 0x4B */ AUDIOCMD_OP_SEQPLAYER_FADE_TO_SCALED_VOLUME,
     /* 0x4C */ AUDIOCMD_OP_SEQPLAYER_RESET_VOLUME,
     /* 0x4D */ AUDIOCMD_OP_SEQPLAYER_SET_BEND,
-    /* 0x4E */ AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO_TICKS,
+    /* 0x4E */ AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO_SEQTICKS,
     // Global Commands
     /* 0x81 */ AUDIOCMD_OP_GLOBAL_SYNC_LOAD_SEQ_PARTS = 0x81,
     /* 0x82 */ AUDIOCMD_OP_GLOBAL_INIT_SEQPLAYER,
@@ -275,8 +275,8 @@ typedef enum {
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param tempoChange (s32) difference in tempo to change, in seqTicks per minute
  */
-#define AUDIOCMD_SEQPLAYER_CHANGE_TEMPO_TICKS(seqPlayerIndex, tempoChange) \
-    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO_TICKS, seqPlayerIndex, 0, 0), tempoChange)
+#define AUDIOCMD_SEQPLAYER_CHANGE_TEMPO_SEQTICKS(seqPlayerIndex, tempoChange) \
+    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_SEQPLAYER_CHANGE_TEMPO_SEQTICKS, seqPlayerIndex, 0, 0), tempoChange)
 
 /**
  * Fade the volume to the target volume requested in the command
@@ -354,11 +354,11 @@ typedef enum {
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param seqId the id of the sequence to play, see `SeqId`
- * @param skipSeqTicks (s32) number of ticks to skip before starting the sequence
+ * @param skipTicks (s32) number of ticks to skip before starting the sequence
  */
-#define AUDIOCMD_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS(seqPlayerIndex, seqId, skipSeqTicks)                               \
+#define AUDIOCMD_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS(seqPlayerIndex, seqId, skipTicks)                               \
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS, seqPlayerIndex, seqId, 0), \
-                            skipSeqTicks)
+                            skipTicks)
 
 /**
  * When processing an audio thread channel command on all channels, set which channels to process
