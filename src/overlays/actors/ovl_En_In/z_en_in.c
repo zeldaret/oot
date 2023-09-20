@@ -894,6 +894,7 @@ void func_80A7B024(EnIn* this, PlayState* play) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
+
     if (this->interactInfo.talkState != NPC_TALK_STATE_ACTION) {
         return;
     }

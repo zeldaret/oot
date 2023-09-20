@@ -523,6 +523,7 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
         }
 
         this->actionFunc(this, play);
+
         if (this->unusedTimer2 != 0) {
             this->unusedTimer2--;
         }
