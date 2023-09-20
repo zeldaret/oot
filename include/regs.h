@@ -106,6 +106,7 @@
 #define R_MESSAGE_DEBUGGER_TEXTID                YREG(79)
 #define R_C_UP_ICON_X                            YREG(88)
 #define R_C_UP_ICON_Y                            YREG(89)
+#define R_EPONAS_SONG_PLAYED                     DREG(53)
 #define R_MAGIC_FILL_COLOR(i)                    ZREG(0 + (i))
 #define R_PAUSE_SWITCH_PAGE_FRAME_ADVANCE_ON     ZREG(13)
 #define R_PAUSE_CURSOR_L_R_SELECTED_PRIM_TIMER   ZREG(28)
