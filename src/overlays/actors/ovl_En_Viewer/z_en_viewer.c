@@ -872,28 +872,29 @@ void EnViewer_UpdateGanondorfCape(PlayState* play, EnViewer* this) {
     Vec3f forearmModelOffset;
     Vec3f forearmWorldOffset;
 
-    if ((this->actor.params >> 8) == ENVIEWER_TYPE_5_GANONDORF) {
-        if (1) {}
-        sGanondorfCape->backPush = BREG(54) / 10.0f;
-        sGanondorfCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
-        sGanondorfCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
-        sGanondorfCape->minY = -10000.0f;
-        sGanondorfCape->minDist = 0.0f;
-        sGanondorfCape->gravity = (BREG(67) - 10) / 10.0f;
-        forearmModelOffset.x = KREG(16) - 13.0f;
-        forearmModelOffset.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
-        forearmModelOffset.z = KREG(18) - 10.0f;
-        yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
-
-        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
-        Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
-        sGanondorfCape->rightForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
-        sGanondorfCape->rightForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
-        sGanondorfCape->rightForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
-        forearmModelOffset.x = -(KREG(16) - 13.0f);
-        Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
-        sGanondorfCape->leftForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
-        sGanondorfCape->leftForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
-        sGanondorfCape->leftForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
+    if ((this->actor.params >> 8) != ENVIEWER_TYPE_5_GANONDORF) {
+        return;
     }
+
+    sGanondorfCape->backPush = BREG(54) / 10.0f;
+    sGanondorfCape->backSwayMagnitude = (BREG(60) + 25) / 100.0f;
+    sGanondorfCape->sideSwayMagnitude = (BREG(55) - 45) / 10.0f;
+    sGanondorfCape->minY = -10000.0f;
+    sGanondorfCape->minDist = 0.0f;
+    sGanondorfCape->gravity = (BREG(67) - 10) / 10.0f;
+    forearmModelOffset.x = KREG(16) - 13.0f;
+    forearmModelOffset.y = KREG(17) + 3.0f + Math_SinS(yOscillationPhase) * KREG(20);
+    forearmModelOffset.z = KREG(18) - 10.0f;
+    yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
+
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
+    Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+    sGanondorfCape->rightForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
+    sGanondorfCape->rightForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
+    sGanondorfCape->rightForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
+    forearmModelOffset.x = -(KREG(16) - 13.0f);
+    Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
+    sGanondorfCape->leftForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
+    sGanondorfCape->leftForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
+    sGanondorfCape->leftForearmPos.z = sGanondorfNeckWorldPos.z + forearmWorldOffset.z;
 }

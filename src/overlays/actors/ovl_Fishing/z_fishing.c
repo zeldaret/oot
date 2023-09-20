@@ -4709,30 +4709,29 @@ void Fishing_DrawGroupFishes(PlayState* play) {
         scale = 0.00475f;
     }
 
-    if (1) {}
-
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 8048);
 
-    for (i = 0; i < GROUP_FISH_COUNT; i++) {
-        if (fish->type != FS_GROUP_FISH_NONE) {
-            if (materialFlag == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
-                materialFlag++;
-            }
-
-            if (fish->shouldDraw) {
-                Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
-                Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
-                Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
-                Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
-
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fishing.c", 8093),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
-            }
+    for (i = 0; i < GROUP_FISH_COUNT; i++, fish++) {
+        if (fish->type == FS_GROUP_FISH_NONE) {
+            continue;
         }
-        fish++;
+
+        if (!materialFlag) {
+            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
+            materialFlag++;
+        }
+
+        if (fish->shouldDraw) {
+            Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
+            Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
+
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fishing.c", 8093),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
+        }
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_fishing.c", 8099);
