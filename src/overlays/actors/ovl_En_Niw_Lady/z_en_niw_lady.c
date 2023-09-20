@@ -518,29 +518,31 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
             SkelAnime_Update(&this->skelAnime);
         }
         this->aneObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_ANE);
-        if (this->aneObjectSlot >= 0) {
-            this->actionFunc(this, play);
-            if (this->unusedTimer2 != 0) {
-                this->unusedTimer2--;
-            }
-            if (this->unusedRandomTimer != 0) {
-                this->unusedRandomTimer--;
-            }
-            this->unusedTimer++;
-            if (this->unusedRandomTimer == 0) {
-                this->faceState++;
-                if (this->faceState >= 3) {
-                    this->faceState = 0;
-                    this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
-                }
-            }
-            Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 20.0f, 60.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                        UPDBGCHECKINFO_FLAG_4);
-            Collider_UpdateCylinder(thisx, &this->collider);
-            if (1) {}
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+        if (this->aneObjectSlot < 0) {
+            return;
         }
+
+        this->actionFunc(this, play);
+
+        if (this->unusedTimer2 != 0) {
+            this->unusedTimer2--;
+        }
+        if (this->unusedRandomTimer != 0) {
+            this->unusedRandomTimer--;
+        }
+        this->unusedTimer++;
+        if (this->unusedRandomTimer == 0) {
+            this->faceState++;
+            if (this->faceState >= 3) {
+                this->faceState = 0;
+                this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
+            }
+        }
+        Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 20.0f, 60.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
+        Collider_UpdateCylinder(thisx, &this->collider);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
