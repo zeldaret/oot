@@ -1,4 +1,5 @@
 #include "global.h"
+#include "loadfragment.h"
 #include "quake.h"
 #include "terminal.h"
 

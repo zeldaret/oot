@@ -1,4 +1,5 @@
 #include "global.h"
+#include "loadfragment.h"
 
 s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
     s32 pad[3];

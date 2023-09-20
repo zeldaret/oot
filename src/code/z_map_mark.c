@@ -1,4 +1,5 @@
 #include "global.h"
+#include "loadfragment.h"
 #include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 

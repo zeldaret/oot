@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "loadfragment.h"
 
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry) {
     if (overlayEntry->loadedRamAddr != NULL) {

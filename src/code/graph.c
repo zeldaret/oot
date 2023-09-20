@@ -1,4 +1,5 @@
 #include "global.h"
+#include "loadfragment.h"
 #include "terminal.h"
 #include "overlays/gamestates/ovl_file_choose/file_select.h"
 #include "overlays/gamestates/ovl_opening/z_opening.h"

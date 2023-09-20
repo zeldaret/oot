@@ -1,4 +1,5 @@
 #include "global.h"
+#include "loadfragment.h"
 #include "terminal.h"
 
 #define KALEIDO_OVERLAY(name, nameString)                                                     \
