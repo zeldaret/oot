@@ -57,45 +57,19 @@
 #include "jpeg.h"
 #include "prerender.h"
 
-#define SCREEN_WIDTH  320
-#define SCREEN_HEIGHT 240
-
 #define REGION_NULL 0
 #define REGION_JP 1
 #define REGION_US 2
 #define REGION_EU 3
 
-#define THREAD_PRI_IDLE_INIT    10
-#define THREAD_PRI_MAIN_INIT    10
-#define THREAD_PRI_DMAMGR_LOW   10  // Used when decompressing files
-#define THREAD_PRI_GRAPH        11
-#define THREAD_PRI_AUDIOMGR     12
-#define THREAD_PRI_PADMGR       14
-#define THREAD_PRI_MAIN         15
-#define THREAD_PRI_SCHED        15
-#define THREAD_PRI_DMAMGR       16
-#define THREAD_PRI_IRQMGR       17
-#define THREAD_PRI_FAULT_CLIENT (OS_PRIORITY_APPMAX - 1)
-#define THREAD_PRI_FAULT        OS_PRIORITY_APPMAX
-
-#define THREAD_ID_IDLE        1
-#define THREAD_ID_FAULT       2
-#define THREAD_ID_MAIN        3
-#define THREAD_ID_GRAPH       4
-#define THREAD_ID_SCHED       5
-#define THREAD_ID_PADMGR      7
-#define THREAD_ID_AUDIOMGR   10
-#define THREAD_ID_DMAMGR     18
-#define THREAD_ID_IRQMGR     19
+// NOTE: Once we start supporting other builds, this can be changed with an ifdef
+#define REGION_NATIVE REGION_EU
 
 #define STACK(stack, size) \
     u64 stack[ALIGN8(size) / sizeof(u64)]
 
 #define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
-
-// NOTE: Once we start supporting other builds, this can be changed with an ifdef
-#define REGION_NATIVE REGION_EU
 
 typedef struct {
     /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page

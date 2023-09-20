@@ -34,6 +34,7 @@
  */
 #include "global.h"
 #include "terminal.h"
+#include "z64thread.h"
 
 vu32 gIrqMgrResetStatus = IRQ_RESET_STATUS_IDLE;
 volatile OSTime sIrqMgrResetTime = 0;

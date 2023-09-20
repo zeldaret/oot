@@ -1,5 +1,6 @@
 #include "global.h"
 #include "boot.h"
+#include "z64thread.h"
 
 StackEntry sBootThreadInfo;
 OSThread sIdleThread;

@@ -43,6 +43,7 @@
 #include "global.h"
 #include "terminal.h"
 #include "alloca.h"
+#include "z64thread.h"
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);

@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "z64thread.h"
 
 OSThread gMainThread;
 STACK(sMainStack, 0x900);

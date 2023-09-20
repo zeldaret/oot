@@ -20,6 +20,7 @@
  */
 #include "global.h"
 #include "terminal.h"
+#include "z64thread.h"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
