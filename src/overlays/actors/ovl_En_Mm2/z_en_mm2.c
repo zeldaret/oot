@@ -215,7 +215,8 @@ void func_80AAF3C0(EnMm2* this, PlayState* play) {
                         Message_ContinueTextbox(play, 0x6080);
                         this->actor.textId = 0x6080;
                         break;
-                };
+                }
+
                 if (this->unk_1F4 & 4) {
                     this->unk_1F4 &= ~4;
                     HIGH_SCORE(HS_MARATHON)++;

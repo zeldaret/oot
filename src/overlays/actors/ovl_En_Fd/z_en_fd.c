@@ -881,6 +881,7 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
     EnFdEffect* eff = this->effects;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1969);
+
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
@@ -907,6 +908,7 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
         gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
     }
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fd.c", 2020);
 }
 

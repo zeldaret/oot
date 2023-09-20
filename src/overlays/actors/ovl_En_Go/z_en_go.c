@@ -1226,5 +1226,6 @@ void EnGo_DrawEffects(EnGo* this, PlayState* play) {
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));
         gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
     }
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go.c", 2678);
 }
