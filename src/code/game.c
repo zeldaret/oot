@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "z64vimode.h"
 
 SpeedMeter D_801664D0;
 VisCvg sVisCvg;

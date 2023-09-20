@@ -1,3 +1,4 @@
+#include "z64vimode.h"
 #include "global.h"
 #include "ultra64/viint.h"
 
