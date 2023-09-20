@@ -2702,7 +2702,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
 
     if ((pauseCtx->state == PAUSE_STATE_OPENING_1) ||
         (pauseCtx->state >= PAUSE_STATE_CLOSING
-         /* PAUSE_STATE_CLOSING, PAUSE_STATE_UNPAUSE */) ||
+         /* PAUSE_STATE_CLOSING, PAUSE_STATE_RESUME_GAMEPLAY */) ||
         ((pauseCtx->state == PAUSE_STATE_SAVE_PROMPT) &&
          ((pauseCtx->savePromptState == PAUSE_SAVE_PROMPT_STATE_CLOSING) ||
           (pauseCtx->savePromptState == PAUSE_SAVE_PROMPT_STATE_CLOSING_AFTER_SAVED))) ||
@@ -3525,7 +3525,7 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->playerSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
 
             playerSegmentDrawPauseSize =
-                Player_InitDrawPause(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
+                Player_InitPauseDrawData(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
             osSyncPrintf("プレイヤー size1＝%x\n", playerSegmentDrawPauseSize);
 
             pauseCtx->iconItemSegment = (void*)ALIGN16((uintptr_t)pauseCtx->playerSegment + playerSegmentDrawPauseSize);
@@ -4129,7 +4129,7 @@ void KaleidoScope_Update(PlayState* play) {
                         }
                     } else {
                         pauseCtx->debugState = 0;
-                        pauseCtx->state = PAUSE_STATE_UNPAUSE;
+                        pauseCtx->state = PAUSE_STATE_RESUME_GAMEPLAY;
                         pauseCtx->itemPageRoll = pauseCtx->equipPageRoll = pauseCtx->mapPageRoll =
                             pauseCtx->questPageRoll = 160.0f;
                         pauseCtx->namedItem = PAUSE_ITEM_NONE;
@@ -4452,7 +4452,7 @@ void KaleidoScope_Update(PlayState* play) {
                 }
             } else {
                 pauseCtx->debugState = 0;
-                pauseCtx->state = PAUSE_STATE_UNPAUSE;
+                pauseCtx->state = PAUSE_STATE_RESUME_GAMEPLAY;
                 pauseCtx->itemPageRoll = pauseCtx->equipPageRoll = pauseCtx->mapPageRoll = pauseCtx->questPageRoll =
                     160.0f;
                 pauseCtx->namedItem = PAUSE_ITEM_NONE;
@@ -4460,7 +4460,7 @@ void KaleidoScope_Update(PlayState* play) {
             }
             break;
 
-        case PAUSE_STATE_UNPAUSE:
+        case PAUSE_STATE_RESUME_GAMEPLAY:
             pauseCtx->state = PAUSE_STATE_OFF;
             R_UPDATE_RATE = 3;
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;

@@ -365,7 +365,7 @@ void Minimap_Draw(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_map_exp.c", 626);
 
-    if (play->pauseCtx.state < PAUSE_STATE_OPENING_1) {
+    if (play->pauseCtx.state <= PAUSE_STATE_INIT) {
         /* PAUSE_STATE_OFF, PAUSE_STATE_WAIT_LETTERBOX, PAUSE_STATE_WAIT_BG_PRERENDER, PAUSE_STATE_INIT */
         switch (play->sceneId) {
             case SCENE_DEKU_TREE:

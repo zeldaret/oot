@@ -81,7 +81,7 @@ void PauseMapMark_DrawForDungeon(PlayState* play) {
         Matrix_Push();
 
         if ((play->pauseCtx.state == PAUSE_STATE_OPENING_1) || (play->pauseCtx.state >= PAUSE_STATE_CLOSING)
-            /* PAUSE_STATE_CLOSING, PAUSE_STATE_UNPAUSE */
+            /* PAUSE_STATE_CLOSING, PAUSE_STATE_RESUME_GAMEPLAY */
         ) {
             Matrix_Translate(-36.0f, 101.0f, 0.0f, MTXMODE_APPLY);
         } else {

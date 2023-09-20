@@ -59,7 +59,7 @@ typedef enum {
     /* 16 */ PAUSE_STATE_16,
     /* 17 */ PAUSE_STATE_17,
     /* 18 */ PAUSE_STATE_CLOSING, // Animate the pause menu closing
-    /* 19 */ PAUSE_STATE_UNPAUSE
+    /* 19 */ PAUSE_STATE_RESUME_GAMEPLAY // Handles returning to normal gameplay once the pause menu is visually closed
 } PauseState;
 
 #define IS_PAUSE_STATE_GAMEOVER(pauseCtx) \
