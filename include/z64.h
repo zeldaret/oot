@@ -72,15 +72,6 @@
     ((u8*)(stack) + sizeof(stack))
 
 typedef struct {
-    /* 0x00 */ s32  regPage; // 0: no page selected (reg editor is not active); 1: first page; `REG_PAGES`: last page
-    /* 0x04 */ s32  regGroup; // Indexed from 0 to `REG_GROUPS`-1. Each group has its own character to identify it.
-    /* 0x08 */ s32  regCur; // Selected reg, indexed from 0 as the page start
-    /* 0x0C */ s32  dPadInputPrev;
-    /* 0x10 */ s32  inputRepeatTimer;
-    /* 0x14 */ s16  data[REG_GROUPS * REGS_PER_GROUP]; // Accessed through *REG macros, see regs.h
-} RegEditor; // size = 0x15D4
-
-typedef struct {
     /* 0x00 */ u8   seqId;
     /* 0x01 */ u8   natureAmbienceId;
 } SequenceContext; // size = 0x2
