@@ -988,8 +988,6 @@ void Interface_Update(PlayState* play);
 Path* Path_GetByIndex(PlayState* play, s16 index, s16 max);
 f32 Path_OrientAndGetDistSq(Actor* actor, Path* path, s16 waypoint, s16* yaw);
 void Path_CopyLastPoint(Path* path, Vec3f* dest);
-void FrameAdvance_Init(FrameAdvanceContext* frameAdvCtx);
-s32 FrameAdvance_Update(FrameAdvanceContext* frameAdvCtx, Input* input);
 void Player_SetBootData(PlayState* play, Player* this);
 s32 Player_InBlockingCsMode(PlayState* play, Player* this);
 s32 Player_InCsMode(PlayState* play);

@@ -29,6 +29,7 @@
 #include "z64pause.h"
 #include "z64skin.h"
 #include "z64game.h"
+#include "z64frameadvance.h"
 #include "z64transition.h"
 #include "z64transition_instances.h"
 #include "z64interface.h"
@@ -75,11 +76,6 @@ typedef struct {
     /* 0x00 */ u8   seqId;
     /* 0x01 */ u8   natureAmbienceId;
 } SequenceContext; // size = 0x2
-
-typedef struct {
-    /* 0x00 */ s32 enabled;
-    /* 0x04 */ s32 timer;
-} FrameAdvanceContext; // size = 0x8
 
 typedef struct {
     /* 0x00 */ Vec3f    pos;
