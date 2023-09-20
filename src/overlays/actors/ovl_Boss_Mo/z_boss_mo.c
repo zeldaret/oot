@@ -929,9 +929,9 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     Matrix_MultVec3f(&spFC, &spF0);
                     spF0.x = player->actor.world.pos.x + spF0.x;
                     spF0.z = player->actor.world.pos.z + spF0.z;
-                    if ((!(fabsf(spF0.x - sTentSpawnPos[indS0].x) <= 320) ||
-                         !(fabsf(spF0.z - sTentSpawnPos[indS0].y) <= 320) ||
-                         ((sMorphaTent2 != NULL) && (sMorphaTent2->tentSpawnPos == indS0)))) {
+                    if (!(fabsf(spF0.x - sTentSpawnPos[indS0].x) <= 320) ||
+                        !(fabsf(spF0.z - sTentSpawnPos[indS0].y) <= 320) ||
+                        ((sMorphaTent2 != NULL) && (sMorphaTent2->tentSpawnPos == indS0))) {
                         continue;
                     }
                     this->targetPos.x = sTentSpawnPos[indS0].x;

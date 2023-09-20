@@ -99,7 +99,7 @@ void ArrowFire_Hit(ArrowFire* this, PlayState* play) {
     if (this->actor.projectedW < 50.0f) {
         scale = 10.0f;
     } else {
-        if (this->actor.projectedW > 950.0f) {
+        if (950.0f < this->actor.projectedW) {
             scale = 310.0f;
         } else {
             scale = this->actor.projectedW;
