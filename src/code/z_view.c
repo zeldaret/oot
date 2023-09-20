@@ -539,8 +539,8 @@ s32 View_UpdateViewingMatrix(View* view) {
     return 1;
 }
 
-s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
-    Gfx* gfx = *gfxp;
+s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
     GraphicsContext* gfxCtx = view->gfxCtx;
     s32 width;
     s32 height;
@@ -606,7 +606,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
     }
 
     view->flags = 0;
-    *gfxp = gfx;
+    *gfxP = gfx;
 
     return 1;
 }

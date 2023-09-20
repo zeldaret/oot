@@ -124,7 +124,7 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
     }
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
-    this->objId = -1;
+    this->objectId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
         osSyncPrintf("\n\n");
         // "Deku Scrub target"
@@ -132,21 +132,21 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         Collider_InitQuad(play, &this->targetQuad);
         Collider_SetQuad(play, &this->targetQuad, &this->actor, &sTargetQuadInit);
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-        this->objId = OBJECT_HINTNUTS;
+        this->objectId = OBJECT_HINTNUTS;
     } else {
         osSyncPrintf("\n\n");
         // "Deku Scrub mask show audience"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
         Collider_InitCylinder(play, &this->bodyCyl);
         Collider_SetCylinder(play, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
-        this->objId = OBJECT_DNK;
+        this->objectId = OBJECT_DNK;
     }
-    if (this->objId >= 0) {
-        this->objIndex = Object_GetIndex(&play->objectCtx, this->objId);
-        if (this->objIndex < 0) {
+    if (this->objectId >= 0) {
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->objectId);
+        if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
             // "What?"
-            osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
             // "Bank is funny"
             osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
@@ -169,9 +169,9 @@ void EnDntNomal_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnDntNomal_WaitForObject(EnDntNomal* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objIndex)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objIndex].segment);
-        this->actor.objBankIndex = this->objIndex;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
+        this->actor.objectSlot = this->requiredObjectSlot;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actor.gravity = -2.0f;
         Actor_SetScale(&this->actor, 0.01f);

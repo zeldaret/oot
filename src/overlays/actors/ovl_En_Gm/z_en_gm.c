@@ -70,9 +70,9 @@ void EnGm_Init(Actor* thisx, PlayState* play) {
     // "Medi Goron"
     osSyncPrintf(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", "../z_en_gm.c", 133, this->actor.params);
 
-    this->objGmBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GM);
+    this->gmObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GM);
 
-    if (this->objGmBankIndex < 0) {
+    if (this->gmObjectSlot < 0) {
         osSyncPrintf(VT_COL(RED, WHITE));
         // "There is no model bank! !! (Medi Goron)"
         osSyncPrintf("モデル バンクが無いよ！！（中ゴロン）\n");
@@ -102,10 +102,10 @@ s32 func_80A3D7C8(void) {
 }
 
 void func_80A3D838(EnGm* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objGmBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->gmObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objGmBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
         Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_gm_Anim_0002B8), ANIMMODE_LOOP, 0.0f);
         this->actor.draw = EnGm_Draw;
@@ -274,7 +274,7 @@ void func_80A3DF60(EnGm* this, PlayState* play) {
 }
 
 void func_80A3DFBC(EnGm* this, PlayState* play) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objGmBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
     this->timer++;
     this->actionFunc(this, play);
     this->actor.focus.rot.x = this->actor.world.rot.x;

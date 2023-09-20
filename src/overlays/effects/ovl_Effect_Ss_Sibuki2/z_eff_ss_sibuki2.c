@@ -15,7 +15,7 @@
 #define rEnvColorG regs[5]
 #define rEnvColorB regs[6]
 #define rEnvColorA regs[7]
-#define rTexIdx regs[8]
+#define rTexIndex regs[8]
 #define rScale regs[9]
 
 u32 EffectSsSibuki2_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -45,7 +45,7 @@ u32 EffectSsSibuki2_Init(PlayState* play, u32 index, EffectSs* this, void* initP
     this->rEnvColorG = 100;
     this->rEnvColorB = 100;
     this->rEnvColorA = 255;
-    this->rTexIdx = 0;
+    this->rTexIndex = 0;
 
     return 1;
 }
@@ -68,14 +68,14 @@ void EffectSsSibuki2_Draw(PlayState* play, u32 index, EffectSs* this) {
     Gfx_SetupDL_25Opa(gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(bubbleTextures[this->rTexIdx]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(bubbleTextures[this->rTexIndex]));
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffUnusedBubblesDL));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki2.c", 198);
 }
 
 void EffectSsSibuki2_Update(PlayState* play, u32 index, EffectSs* this) {
-    if (this->rTexIdx < 8) {
-        this->rTexIdx++;
+    if (this->rTexIndex < 8) {
+        this->rTexIndex++;
     }
 }

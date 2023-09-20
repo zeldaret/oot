@@ -1064,12 +1064,12 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         sCurBodyPartPos = &this->bodyPartsPos[-1];
 
         if (!LINK_IS_ADULT) {
-            if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
+            if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) || (this->skelAnime.moveFlags & ANIM_FLAG_0)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
             }
 
-            if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 2)) {
+            if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) || (this->skelAnime.moveFlags & ANIM_FLAG_UPDATE_Y)) {
                 pos->y *= 0.64f;
             }
         }
@@ -1370,7 +1370,7 @@ void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
 
         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_player_lib.c", 2587),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(OVERLAY_DISP++, 0x06, play->objectCtx.status[this->actor.objBankIndex].segment);
+        gSPSegment(OVERLAY_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         gSPDisplayList(OVERLAY_DISP++, gLinkAdultHookshotReticleDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2592);
@@ -1641,7 +1641,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     }
 }
 
-u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime) {
+u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime) {
     s16 linkObjectId = gLinkObjectIds[(void)0, gSaveContext.save.linkAge];
     u32 size;
     void* ptr;
@@ -1663,7 +1663,7 @@ u32 func_80091738(PlayState* play, u8* segment, SkelAnime* skelAnime) {
     SkelAnime_InitLink(play, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.save.linkAge],
                        &gPlayerAnim_link_normal_wait, 9, ptr, ptr, PLAYER_LIMB_MAX);
 
-    return size + PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE +
+    return PAUSE_EQUIP_BUFFER_SIZE + PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE + size +
            sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]);
 }
 

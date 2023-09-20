@@ -8,15 +8,15 @@
 #include "alloca.h"
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
-void ConsoleLogo_PrintBuildInfo(Gfx** gfxp) {
-    Gfx* g;
+void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
+    Gfx* gfx;
     GfxPrint* printer;
 
-    g = *gfxp;
-    g = Gfx_SetupDL_28(g);
+    gfx = *gfxP;
+    gfx = Gfx_SetupDL_28(gfx);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
-    GfxPrint_Open(printer, g);
+    GfxPrint_Open(printer, gfx);
     GfxPrint_SetColor(printer, 255, 155, 255, 255);
     GfxPrint_SetPos(printer, 9, 21);
     GfxPrint_Printf(printer, "NOT MARIO CLUB VERSION");
@@ -25,9 +25,9 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxp) {
     GfxPrint_Printf(printer, "[Creator:%s]", gBuildTeam);
     GfxPrint_SetPos(printer, 7, 24);
     GfxPrint_Printf(printer, "[Date:%s]", gBuildDate);
-    g = GfxPrint_Close(printer);
+    gfx = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
-    *gfxp = g;
+    *gfxP = gfx;
 }
 
 // Note: In other rom versions this function also updates unk_1D4, coverAlpha, addAlpha, visibleDuration to calculate

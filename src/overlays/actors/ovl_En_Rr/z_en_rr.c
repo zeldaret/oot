@@ -852,7 +852,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
     Mtx* segMtx = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Mtx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_rr.c", 1478);
-    if (1) {}
+
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x0C, segMtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -867,9 +867,11 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_Pop();
+
     zeroVec.x = 0.0f;
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
+
     for (i = 1; i < 5; i++) {
         Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, MTXMODE_APPLY);
 
@@ -883,28 +885,34 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
         segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);
     }
+
     this->effectPos[0] = this->actor.world.pos;
     Matrix_MultVec3f(&zeroVec, &this->mouthPos);
     gSPDisplayList(POLY_XLU_DISP++, gLikeLikeDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_rr.c", 1551);
+
     if (this->effectTimer != 0) {
         Vec3f effectPos;
         s16 effectTimer = this->effectTimer - 1;
+        s32 segIndex;
+        s32 offIndex;
 
         this->actor.colorFilterTimer++;
-        if ((effectTimer & 1) == 0) {
-            s32 segIndex = 4 - (effectTimer >> 2);
-            s32 offIndex = (effectTimer >> 1) & 3;
+        if ((effectTimer & 1) != 0) {
+            return;
+        }
 
-            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
-            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
-            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
-            if (this->actor.colorFilterParams & 0x4000) {
-                EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
-            } else {
-                EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);
-            }
+        segIndex = 4 - (effectTimer >> 2);
+        offIndex = (effectTimer >> 1) & 3;
+
+        effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
+        effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
+        effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
+        if (this->actor.colorFilterParams & 0x4000) {
+            EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
+        } else {
+            EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);
         }
     }
 }

@@ -16,7 +16,7 @@ typedef struct EnSth {
     /* 0x023C */ Vec3s morphTable[16];
     /* 0x029C */ u16 eventFlag;
     /* 0x02A0 */ ActorFunc drawFunc;
-    /* 0x02A4 */ u8 objectBankIdx;
+    /* 0x02A4 */ u8 requiredObjectSlot;
     /* 0x02A6 */ Vec3s headRot;
     /* 0x02AC */ Vec3s unk_2AC;
     /* 0x02B2 */ u16 unk_2B2;

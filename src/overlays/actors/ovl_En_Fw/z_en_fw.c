@@ -461,29 +461,30 @@ void EnFw_DrawEffects(EnFw* this, PlayState* play) {
 
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (1) {}
 
     for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
-        if (eff->type != 0) {
-            if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
-                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                materialFlag = true;
-            }
-
-            alpha = eff->timer * (255.0f / eff->initialTimer);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fw.c", 1229),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            idx = eff->timer * (8.0f / eff->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
-            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
+        if (eff->type == 0) {
+            continue;
         }
+
+        if (!materialFlag) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
+            materialFlag = true;
+        }
+
+        alpha = eff->timer * (255.0f / eff->initialTimer);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fw.c", 1229),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        idx = eff->timer * (8.0f / eff->initialTimer);
+        gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
+        gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fw.c", 1243);

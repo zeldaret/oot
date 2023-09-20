@@ -78,15 +78,15 @@ void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
 
 void BossGanon2_SetObjectSegment(BossGanon2* this, PlayState* play, s32 objectId, u8 setRSPSegment) {
     s32 pad;
-    s32 objectIdx = Object_GetIndex(&play->objectCtx, objectId);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, objectId);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[objectIdx].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 
     if (setRSPSegment) {
         OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 790);
 
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[objectIdx].segment);
-        gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.status[objectIdx].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[objectSlot].segment);
+        gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.slots[objectSlot].segment);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_boss_ganon2.c", 799);
     }
@@ -183,7 +183,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
     s16 pad;
     u8 sp8D;
     Player* player;
-    s32 objectIdx;
+    s32 objectSlot;
     s32 zero = 0;
     s32 pad2;
 
@@ -193,8 +193,8 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
 
     switch (this->unk_39C) {
         case 0:
-            objectIdx = Object_GetIndex(&play->objectCtx, OBJECT_GANON_ANIME3);
-            if (Object_IsLoaded(&play->objectCtx, objectIdx)) {
+            objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GANON_ANIME3);
+            if (Object_IsLoaded(&play->objectCtx, objectSlot)) {
                 Cutscene_StartManual(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
                 this->subCamId = Play_CreateSubCamera(play);
@@ -1040,10 +1040,10 @@ void func_808FFCFC(BossGanon2* this, PlayState* play) {
 
 void func_808FFDB0(BossGanon2* this, PlayState* play) {
     s32 sp28;
-    s32 objectIdx = Object_GetIndex(&play->objectCtx, OBJECT_GANON2);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GANON2);
 
-    if (Object_IsLoaded(&play->objectCtx, objectIdx)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[objectIdx].segment);
+    if (Object_IsLoaded(&play->objectCtx, objectSlot)) {
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         Animation_MorphToLoop(&this->skelAnime, &gGanonGuardIdleAnim, -10.0f);
         this->actionFunc = func_808FFEBC;
 

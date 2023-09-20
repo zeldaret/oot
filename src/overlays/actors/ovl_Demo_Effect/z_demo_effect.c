@@ -28,7 +28,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, PlayState* play);
 void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play);
 void DemoEffect_DrawJewel(Actor* thisx, PlayState* play2);
 
-void DemoEffect_Wait(DemoEffect* this, PlayState* play);
+void DemoEffect_WaitForObject(DemoEffect* this, PlayState* play);
 void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play);
 void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, PlayState* play);
 void DemoEffect_InitCreationFireball(DemoEffect* this, PlayState* play);
@@ -166,7 +166,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 effectType;
     s32 lightEffect;
-    s32 objectIndex;
+    s32 objectSlot;
     DemoEffect* crystalLight;
     DemoEffect* lightRing;
 
@@ -175,16 +175,16 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
 
     osSyncPrintf(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
 
-    objectIndex = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
-                      ? 0
-                      : Object_GetIndex(&play->objectCtx, sEffectTypeObjects[effectType]);
+    objectSlot = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
+                     ? 0
+                     : Object_GetSlot(&play->objectCtx, sEffectTypeObjects[effectType]);
 
-    osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectIndex);
+    osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectSlot);
 
-    if (objectIndex < 0) {
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_effect.c", 723);
     } else {
-        this->initObjectBankIndex = objectIndex;
+        this->requiredObjectSlot = objectSlot;
     }
 
     this->effectFlags = 0;
@@ -499,7 +499,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
     }
 
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
-    DemoEffect_SetupUpdate(this, DemoEffect_Wait);
+    DemoEffect_SetupUpdate(this, DemoEffect_WaitForObject);
 }
 
 void DemoEffect_Destroy(Actor* thisx, PlayState* play) {
@@ -518,9 +518,9 @@ void DemoEffect_Destroy(Actor* thisx, PlayState* play) {
  * They are copied to actor.draw and updateFunc.
  * initUpdateFunc/initDrawFunc are set during initialization and are NOT executed.
  */
-void DemoEffect_Wait(DemoEffect* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->initObjectBankIndex)) {
-        this->actor.objBankIndex = this->initObjectBankIndex;
+void DemoEffect_WaitForObject(DemoEffect* this, PlayState* play) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = this->initDrawFunc;
         this->updateFunc = this->initUpdateFunc;
 

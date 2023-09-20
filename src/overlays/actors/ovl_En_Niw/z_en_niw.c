@@ -229,7 +229,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
         case 0xD:
         case 0xE:
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit2);
-            if (play->sceneId == SCENE_LINKS_HOUSE && !GET_EVENTCHKINF(EVENTCHKINF_1E)) {
+            if (play->sceneId == SCENE_LINKS_HOUSE && !GET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK)) {
                 Actor_Kill(&this->actor);
             }
             break;
