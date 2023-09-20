@@ -165,7 +165,7 @@ typedef enum {
 
 static u8 sOwnerHair = FS_OWNER_BALD;
 static u8 sIsOwnersHatHooked = false; // hat is on fishing hook
-static u8 sIsOwnersHatSunk = false; // hat is sinking into pond.
+static u8 sIsOwnersHatSunk = false;   // hat is sinking into pond.
 
 static s16 sRodCastState = 0;
 
@@ -986,7 +986,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 
         SkelAnime_Update(&this->skelAnime);
 
-        if (thisx->params == EN_FISH_AQUARIUM) { 
+        if (thisx->params == EN_FISH_AQUARIUM) {
             this->fishState = 100;
             Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
             thisx->targetMode = 0;
@@ -2175,8 +2175,8 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
         D_80B7E148 = 520.0f;
         sRodLineSpooled = 195.0f;
 
-        sRodCastState = sLureEquipped = sLureTimer = D_80B7E0B0 = D_80B7E0B2 = sRodCastTimer = sWiggleAttraction = D_80B7E114 =
-            D_80B7E150 = 0;
+        sRodCastState = sLureEquipped = sLureTimer = D_80B7E0B0 = D_80B7E0B2 = sRodCastTimer = sWiggleAttraction =
+            D_80B7E114 = D_80B7E150 = 0;
         sLure1Rotate = sReelLinePosStep = sLurePosZOffset = 0.0f;
 
         sLureLineSegPosDelta = zeroVec;
@@ -2493,7 +2493,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                     sLureRot.x = 0.0f;
                     // lure hopping on land
                     if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        sRodLineSpooled  += 6.0f;
+                        sRodLineSpooled += 6.0f;
                         Sfx_PlaySfxAtPos(&sSoundPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_SAND);
                     }
                 } else {
@@ -2770,7 +2770,8 @@ void func_80B70ED4(Fishing* this, Input* input) {
                 this->rotationStep = 28672.0f;
                 this->speedTarget = 5.0f;
             } else {
-                if ((CHECK_BTN_ALL(input->cur.button, BTN_A) || (sLureWigglePosY > 1.0f)) && (lineLengthSQ < SQ(120.0f))) {
+                if ((CHECK_BTN_ALL(input->cur.button, BTN_A) || (sLureWigglePosY > 1.0f)) &&
+                    (lineLengthSQ < SQ(120.0f))) {
                     this->fishState = 2;
                     this->unk_15E = 0;
                     this->timerArray[0] = 0;
@@ -3061,7 +3062,8 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 Fishing_SpawnBubble(NULL, play->specialEffects, &bubblePos, Rand_ZeroFloat(0.02f) + 0.03f, 1);
             }
 
-            Math_ApproachS(&this->fishLimbEFRotYDelta, (Math_SinS(this->stateAndTimer * 0x800) * 2500.0f) + 2500.0f, 2, 0x7D0);
+            Math_ApproachS(&this->fishLimbEFRotYDelta, (Math_SinS(this->stateAndTimer * 0x800) * 2500.0f) + 2500.0f, 2,
+                           0x7D0);
             Math_ApproachS(&this->fishLimb89RotYDelta, Math_SinS(this->stateAndTimer * 0xA00) * 1500.0f, 2, 0x7D0);
 
             this->unk_190 = 0.3f;
@@ -3907,12 +3909,12 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             multiVecSrc.y = -10.0f;
             multiVecSrc.z = 5.0f;
             Matrix_MultVec3f(&multiVecSrc, &targetPosOffset);
-            Math_ApproachF(&this->actor.world.pos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x + targetPosOffset.x, 1.0f,
-                           6.0f);
-            Math_ApproachF(&this->actor.world.pos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y + targetPosOffset.y, 1.0f,
-                           6.0f);
-            Math_ApproachF(&this->actor.world.pos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z + targetPosOffset.z, 1.0f,
-                           6.0f);
+            Math_ApproachF(&this->actor.world.pos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x + targetPosOffset.x,
+                           1.0f, 6.0f);
+            Math_ApproachF(&this->actor.world.pos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y + targetPosOffset.y,
+                           1.0f, 6.0f);
+            Math_ApproachF(&this->actor.world.pos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z + targetPosOffset.z,
+                           1.0f, 6.0f);
 
             sRodLineSpooled = 188.0f;
 
@@ -4174,7 +4176,6 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
                     Actor_PlaySfx(&this->actor, NA_SE_EV_FISH_LEAP);
                     Fishing_SplashBySize2(this, play);
-
 
                     if (Rand_ZeroOne() < 0.5f) {
                         this->rotationTarget.z = 0x4000;

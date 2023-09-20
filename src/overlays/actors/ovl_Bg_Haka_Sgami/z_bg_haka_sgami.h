@@ -11,7 +11,7 @@ typedef void (*BgHakaSgamiActionFunc)(struct BgHakaSgami*, PlayState*);
 typedef struct BgHakaSgami {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ BgHakaSgamiActionFunc actionFunc;
-    /* 0x0150 */ s8 requiredObjBankIndex;
+    /* 0x0150 */ s8 requiredObjectSlot;
     /* 0x0151 */ s8 unk_151;
     /* 0x0152 */ s16 timer;
     /* 0x0154 */ s32 blureEffectIndex[2];
