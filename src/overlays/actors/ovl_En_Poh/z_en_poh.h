@@ -41,7 +41,7 @@ typedef struct EnPoh {
     /* 0x0190 */ EnPohActionFunc actionFunc;
     /* 0x0194 */ u8 unk_194;
     /* 0x0195 */ u8 unk_195;
-    /* 0x0196 */ s8 objectIdx;
+    /* 0x0196 */ s8 requiredObjectSlot;
     /* 0x0197 */ u8 infoIdx;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 visibilityTimer;

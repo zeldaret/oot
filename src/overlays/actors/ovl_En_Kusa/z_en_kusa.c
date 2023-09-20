@@ -20,7 +20,7 @@ void EnKusa_Update(Actor* thisx, PlayState* play);
 void EnKusa_Draw(Actor* thisx, PlayState* play);
 
 void EnKusa_SetupLiftedUp(EnKusa* this);
-void EnKusa_SetupWaitObject(EnKusa* this);
+void EnKusa_SetupWaitForObject(EnKusa* this);
 void EnKusa_SetupMain(EnKusa* this);
 void EnKusa_SetupFall(EnKusa* this);
 void EnKusa_SetupCut(EnKusa* this);
@@ -28,7 +28,7 @@ void EnKusa_SetupUprootedWaitRegrow(EnKusa* this);
 void EnKusa_SetupRegrow(EnKusa* this);
 
 void EnKusa_Fall(EnKusa* this, PlayState* play);
-void EnKusa_WaitObject(EnKusa* this, PlayState* play);
+void EnKusa_WaitForObject(EnKusa* this, PlayState* play);
 void EnKusa_Main(EnKusa* this, PlayState* play);
 void EnKusa_LiftedUp(EnKusa* this, PlayState* play);
 void EnKusa_CutWaitRegrow(EnKusa* this, PlayState* play);
@@ -253,16 +253,16 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    this->objBankIndex = Object_GetIndex(&play->objectCtx, sObjectIds[thisx->params & 3]);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[thisx->params & 3]);
 
-    if (this->objBankIndex < 0) {
+    if (this->requiredObjectSlot < 0) {
         // "Bank danger!"
         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, "../z_en_kusa.c", 561);
         Actor_Kill(&this->actor);
         return;
     }
 
-    EnKusa_SetupWaitObject(this);
+    EnKusa_SetupWaitForObject(this);
 }
 
 void EnKusa_Destroy(Actor* thisx, PlayState* play2) {
@@ -272,12 +272,12 @@ void EnKusa_Destroy(Actor* thisx, PlayState* play2) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnKusa_SetupWaitObject(EnKusa* this) {
-    EnKusa_SetupAction(this, EnKusa_WaitObject);
+void EnKusa_SetupWaitForObject(EnKusa* this) {
+    EnKusa_SetupAction(this, EnKusa_WaitForObject);
 }
 
-void EnKusa_WaitObject(EnKusa* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
+void EnKusa_WaitForObject(EnKusa* this, PlayState* play) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
             EnKusa_SetupCut(this);
         } else {
@@ -285,7 +285,7 @@ void EnKusa_WaitObject(EnKusa* this, PlayState* play) {
         }
 
         this->actor.draw = EnKusa_Draw;
-        this->actor.objBankIndex = this->objBankIndex;
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }

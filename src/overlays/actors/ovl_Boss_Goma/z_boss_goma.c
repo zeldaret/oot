@@ -921,7 +921,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
 
                 if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
                     TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex),
-                                           0xA0, 0xB4, 0x80, 0x28);
+                                           160, 180, 128, 40);
                 }
 
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
@@ -2083,7 +2083,7 @@ void BossGoma_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
                                                 sDeadLimbLifetime[limbIndex] + 100);
         if (babyGohma != NULL) {
             babyGohma->bossLimbDL = *dList;
-            babyGohma->actor.objBankIndex = this->actor.objBankIndex;
+            babyGohma->actor.objectSlot = this->actor.objectSlot;
         }
     }
 

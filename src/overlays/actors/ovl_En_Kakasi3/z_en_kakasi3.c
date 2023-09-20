@@ -188,14 +188,14 @@ void func_80A91284(EnKakasi3* this, PlayState* play) {
 
     if (!LINK_IS_ADULT) {
         this->unk_194 = false;
-        if (gSaveContext.scarecrowSpawnSongSet) {
+        if (gSaveContext.save.info.scarecrowSpawnSongSet) {
             this->actor.textId = 0x40A0;
             this->dialogState = TEXT_STATE_EVENT;
             this->unk_1A8 = 1;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.scarecrowSpawnSongSet) {
+        if (gSaveContext.save.info.scarecrowSpawnSongSet) {
             if (this->unk_195) {
                 this->actor.textId = 0x40A2;
             } else {
@@ -244,7 +244,7 @@ void func_80A91348(EnKakasi3* this, PlayState* play) {
                     if (this->actor.xzDistToPlayer < 80.0f) {
                         player->stateFlags2 |= PLAYER_STATE2_23;
                     }
-                } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
+                } else if (gSaveContext.save.info.scarecrowSpawnSongSet && !this->unk_195) {
 
                     if (player->stateFlags2 & PLAYER_STATE2_24) {
                         this->subCamId = OnePointCutscene_Init(play, 2260, -99, &this->actor, CAM_ID_MAIN);
@@ -411,7 +411,7 @@ void EnKakasi3_Update(Actor* thisx, PlayState* play) {
     if (BREG(2) != 0) {
         osSyncPrintf("\n\n");
         // "flag!"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowSpawnSongSet);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowSpawnSongSet);
     }
 
     this->unk_198++;

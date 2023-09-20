@@ -8,7 +8,7 @@
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
-#define rTexIdx regs[1]
+#define rTexIndex regs[1]
 #define rPrimColorR regs[2]
 #define rPrimColorG regs[3]
 #define rPrimColorB regs[4]
@@ -68,7 +68,7 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
-    MtxF mfTrans11DA0;
+    MtxF mfTransBillboard;
     Mtx* mtx;
     s32 pad;
     f32 scale;
@@ -78,8 +78,8 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
     scale = this->rScale * 0.01f;
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
@@ -89,7 +89,7 @@ void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                         this->rPrimColorA);
         gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, 0);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(textures[this->rTexIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(textures[this->rTexIndex]));
         gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     }
 
@@ -108,7 +108,7 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
-    MtxF mfTrans11DA0;
+    MtxF mfTransBillboard;
     MtxF mtx2F;
     Mtx* mtx2;
     Mtx* mtx;
@@ -124,8 +124,8 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
     scale = this->rScale * 0.01f;
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
@@ -139,7 +139,7 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                             this->rPrimColorA);
             gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, 0);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(textures[this->rTexIdx]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(textures[this->rTexIndex]));
             gSPDisplayList(POLY_XLU_DISP++, gEffBombExplosion2DL);
             gSPDisplayList(POLY_XLU_DISP++, gEffBombExplosion3DL);
 
@@ -167,7 +167,7 @@ void EffectSsBomb2_DrawLayered(PlayState* play, u32 index, EffectSs* this) {
 void EffectSsBomb2_Update(PlayState* play, u32 index, EffectSs* this) {
     s32 divisor;
 
-    this->rTexIdx = (23 - this->life) / 3;
+    this->rTexIndex = (23 - this->life) / 3;
     this->rScale += this->rScaleStep;
 
     if (this->rScaleStep == 30) {
@@ -178,21 +178,21 @@ void EffectSsBomb2_Update(PlayState* play, u32 index, EffectSs* this) {
 
     if ((this->life < 23) && (this->life > 13)) {
         divisor = this->life - 13;
-        this->rPrimColorR = func_80027DD4(this->rPrimColorR, 255, divisor);
-        this->rPrimColorG = func_80027DD4(this->rPrimColorG, 255, divisor);
-        this->rPrimColorB = func_80027DD4(this->rPrimColorB, 150, divisor);
-        this->rPrimColorA = func_80027DD4(this->rPrimColorA, 255, divisor);
-        this->rEnvColorR = func_80027DD4(this->rEnvColorR, 150, divisor);
-        this->rEnvColorG = func_80027DD4(this->rEnvColorG, 0, divisor);
-        this->rEnvColorB = func_80027DD4(this->rEnvColorB, 0, divisor);
+        this->rPrimColorR = EffectSs_LerpInv(this->rPrimColorR, 255, divisor);
+        this->rPrimColorG = EffectSs_LerpInv(this->rPrimColorG, 255, divisor);
+        this->rPrimColorB = EffectSs_LerpInv(this->rPrimColorB, 150, divisor);
+        this->rPrimColorA = EffectSs_LerpInv(this->rPrimColorA, 255, divisor);
+        this->rEnvColorR = EffectSs_LerpInv(this->rEnvColorR, 150, divisor);
+        this->rEnvColorG = EffectSs_LerpInv(this->rEnvColorG, 0, divisor);
+        this->rEnvColorB = EffectSs_LerpInv(this->rEnvColorB, 0, divisor);
     } else if ((this->life < 14) && (this->life > -1)) {
         divisor = this->life + 1;
-        this->rPrimColorR = func_80027DD4(this->rPrimColorR, 50, divisor);
-        this->rPrimColorG = func_80027DD4(this->rPrimColorG, 50, divisor);
-        this->rPrimColorB = func_80027DD4(this->rPrimColorB, 50, divisor);
-        this->rPrimColorA = func_80027DD4(this->rPrimColorA, 150, divisor);
-        this->rEnvColorR = func_80027DD4(this->rEnvColorR, 10, divisor);
-        this->rEnvColorG = func_80027DD4(this->rEnvColorG, 10, divisor);
-        this->rEnvColorB = func_80027DD4(this->rEnvColorB, 10, divisor);
+        this->rPrimColorR = EffectSs_LerpInv(this->rPrimColorR, 50, divisor);
+        this->rPrimColorG = EffectSs_LerpInv(this->rPrimColorG, 50, divisor);
+        this->rPrimColorB = EffectSs_LerpInv(this->rPrimColorB, 50, divisor);
+        this->rPrimColorA = EffectSs_LerpInv(this->rPrimColorA, 150, divisor);
+        this->rEnvColorR = EffectSs_LerpInv(this->rEnvColorR, 10, divisor);
+        this->rEnvColorG = EffectSs_LerpInv(this->rEnvColorG, 10, divisor);
+        this->rEnvColorB = EffectSs_LerpInv(this->rEnvColorB, 10, divisor);
     }
 }

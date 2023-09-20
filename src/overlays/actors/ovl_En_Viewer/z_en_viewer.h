@@ -89,7 +89,7 @@ typedef enum {
 typedef struct EnViewer {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Skin skin;
-    /* 0x01DC */ s8 animObjBankIndex;
+    /* 0x01DC */ s8 animObjectSlot;
     /* 0x01DD */ u8 drawFuncIndex;
     /* 0x01E0 */ EnViewerActionFunc actionFunc;
     /* 0x01E4 */ u8 unused;

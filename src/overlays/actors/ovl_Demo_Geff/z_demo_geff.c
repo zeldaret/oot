@@ -23,7 +23,7 @@ void func_80978308(DemoGeff* this, PlayState* play);
 void func_809784D4(DemoGeff* this, PlayState* play);
 void func_80978344(DemoGeff* this, PlayState* play);
 
-static s16 sObjectIDs[] = {
+static s16 sObjectIds[] = {
     OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
 };
 
@@ -86,13 +86,13 @@ void func_80977EA8(PlayState* play, Gfx* dlist) {
 
 void func_80977F80(DemoGeff* this, PlayState* play) {
     s32 pad[2];
-    s32 objBankIndex = this->objBankIndex;
+    s32 objectSlot = this->objectSlot;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[objBankIndex].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[objBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[objectSlot].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 
     // Necessary to match
     if (!play) {}
@@ -188,17 +188,17 @@ void func_809783D4(DemoGeff* this, PlayState* play) {
     ObjectContext* objCtx = &play->objectCtx;
     Actor* thisx = &this->actor;
     s32 params = thisx->params;
-    s16 objectId = sObjectIDs[params];
-    s32 objBankIndex = Object_GetIndex(objCtx, objectId);
+    s16 objectId = sObjectIds[params];
+    s32 objectSlot = Object_GetSlot(objCtx, objectId);
     s32 pad;
 
-    if (objBankIndex < 0) {
+    if (objectSlot < 0) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, params);
         Actor_Kill(thisx);
         return;
     }
-    if (Object_IsLoaded(objCtx, objBankIndex)) {
-        this->objBankIndex = objBankIndex;
+    if (Object_IsLoaded(objCtx, objectSlot)) {
+        this->objectSlot = objectSlot;
         func_80978370(this, play);
     }
 }

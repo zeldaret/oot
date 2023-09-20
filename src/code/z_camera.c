@@ -1644,7 +1644,7 @@ s32 Camera_Normal1(Camera* camera) {
         }
 
         // crit wiggle
-        if (gSaveContext.health <= 16 && ((camera->play->state.frames % 256) == 0)) {
+        if (gSaveContext.save.info.playerData.health <= 16 && ((camera->play->state.frames % 256) == 0)) {
             wiggleAdj = Rand_ZeroOne() * 10000.0f;
             camera->inputDir.y = wiggleAdj + camera->inputDir.y;
         }
@@ -1655,7 +1655,7 @@ s32 Camera_Normal1(Camera* camera) {
         *eye = *eyeNext;
     }
 
-    spA0 = (gSaveContext.health <= 16 ? 0.8f : 1.0f);
+    spA0 = (gSaveContext.save.info.playerData.health <= 16 ? 0.8f : 1.0f);
     camera->fov = Camera_LERPCeilF(roData->fovTarget * spA0, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, roData->atLERPScaleMax);
@@ -3004,9 +3004,9 @@ s32 Camera_Battle1(Camera* camera) {
     rwData->roll += ((R_CAM_BATTLE1_ROLL_TARGET_BASE * camera->speedRatio * (1.0f - distRatio)) - rwData->roll) *
                     CAM_DATA_SCALED(R_CAM_BATTLE1_ROLL_STEP_SCALE);
     camera->roll = CAM_DEG_TO_BINANG(rwData->roll);
-    camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0 ? 0.8f
-                                    : gSaveContext.health <= 0x10 ? 0.8f
-                                                                  : 1.0f) *
+    camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0                      ? 0.8f
+                                    : gSaveContext.save.info.playerData.health <= 0x10 ? 0.8f
+                                                                                       : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
 }
@@ -6220,7 +6220,7 @@ s32 Camera_Demo5(Camera* camera) {
 
     framesDiff = sDemo5PrevSfxFrame - camera->play->state.frames;
     if ((framesDiff > 50) || (framesDiff < -50)) {
-        func_80078884((u32)camera->data1);
+        Sfx_PlaySfxCentered((u32)camera->data1);
     }
 
     sDemo5PrevSfxFrame = camera->play->state.frames;
@@ -6876,7 +6876,7 @@ s32 Camera_Special9(Camera* camera) {
     f32 playerYOffset;
     s32 pad3;
     PosRot* playerPosRot = &camera->playerPosRot;
-    PosRot adjustedPlayerPosRot;
+    PosRot referencePosRot;
     f32 yNormal;
     DoorParams* doorParams = &camera->paramData.doorParams;
     Special9ReadOnlyData* roData = &camera->paramData.spec9.roData;
@@ -6902,11 +6902,11 @@ s32 Camera_Special9(Camera* camera) {
     }
 
     if (doorParams->doorActor != NULL) {
-        Actor_GetWorldPosShapeRot(&adjustedPlayerPosRot, doorParams->doorActor);
+        Actor_GetWorldPosShapeRot(&referencePosRot, doorParams->doorActor);
     } else {
-        adjustedPlayerPosRot = *playerPosRot;
-        adjustedPlayerPosRot.pos.y += playerYOffset + roData->yOffset;
-        adjustedPlayerPosRot.rot.x = 0;
+        referencePosRot = *playerPosRot;
+        referencePosRot.pos.y += playerYOffset + roData->yOffset;
+        referencePosRot.rot.x = 0;
     }
 
     OLib_Vec3fDiffToVecGeo(&atEyeOffsetGeo, at, eye);
@@ -6919,9 +6919,15 @@ s32 Camera_Special9(Camera* camera) {
         case 0:
             camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
             camera->animState++;
-            rwData->targetYaw = ABS(playerPosRot->rot.y - adjustedPlayerPosRot.rot.y) >= 0x4000
-                                    ? adjustedPlayerPosRot.rot.y - 0x7FFF
-                                    : adjustedPlayerPosRot.rot.y;
+
+            //! @bug The angle passed to ABS should be cast to s16.
+            //! The lack of a cast means that a door which has an angle of around 0x8000 will calculate an incorrect
+            //! angle and use an incorrect `targetYaw`.
+            //! In-game, this means if the player opens a susceptible door at a slanted angle, the camera will not
+            //! appear correctly on the other side after the player has walked through the door.
+            rwData->targetYaw = ABS(playerPosRot->rot.y - referencePosRot.rot.y) >= 0x4000
+                                    ? referencePosRot.rot.y - 0x7FFF
+                                    : referencePosRot.rot.y;
             FALLTHROUGH;
         case 1:
             doorParams->timer1--;
@@ -7456,11 +7462,11 @@ s32 Camera_DbgChangeMode(Camera* camera) {
     if (!gDebugCamEnabled && camera->play->activeCamId == CAM_ID_MAIN) {
         if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CUP)) {
             osSyncPrintf("attention sound URGENCY\n");
-            func_80078884(NA_SE_SY_ATTENTION_URGENCY);
+            Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_URGENCY);
         }
         if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CDOWN)) {
             osSyncPrintf("attention sound NORMAL\n");
-            func_80078884(NA_SE_SY_ATTENTION_ON);
+            Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_ON);
         }
 
         if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CRIGHT)) {
@@ -7884,7 +7890,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
     if (!((sCameraSettings[camera->setting].unk_00 & 0x3FFFFFFF) & (1 << mode))) {
         if (mode == CAM_MODE_FIRST_PERSON) {
             osSyncPrintf("camera: error sound\n");
-            func_80078884(NA_SE_SY_ERROR);
+            Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
         }
 
         if (camera->mode != CAM_MODE_NORMAL) {
@@ -7972,20 +7978,20 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
         if (camera->status == CAM_STAT_ACTIVE) {
             switch (modeChangeFlags) {
                 case 1:
-                    func_80078884(0);
+                    Sfx_PlaySfxCentered(0);
                     break;
                 case 2:
                     if (camera->play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_1) {
-                        func_80078884(NA_SE_SY_ATTENTION_URGENCY);
+                        Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_URGENCY);
                     } else {
-                        func_80078884(NA_SE_SY_ATTENTION_ON);
+                        Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_ON);
                     }
                     break;
                 case 4:
-                    func_80078884(NA_SE_SY_ATTENTION_URGENCY);
+                    Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_URGENCY);
                     break;
                 case 8:
-                    func_80078884(NA_SE_SY_ATTENTION_ON);
+                    Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_ON);
                     break;
             }
         }

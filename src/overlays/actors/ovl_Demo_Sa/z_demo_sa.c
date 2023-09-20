@@ -253,7 +253,7 @@ void func_8098E960(DemoSa* this, PlayState* play) {
     s32 pad[2];
     Player* player;
 
-    if ((gSaveContext.chamberCutsceneNum == 0) && !IS_CUTSCENE_LAYER) {
+    if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_FOREST) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = 1;
         play->csCtx.script = D_8099010C;
@@ -376,7 +376,7 @@ void func_8098EDB0(DemoSa* this) {
 }
 
 void func_8098EE08(void) {
-    func_800788CC(NA_SE_SY_WHITE_OUT_T);
+    Sfx_PlaySfxCentered2(NA_SE_SY_WHITE_OUT_T);
 }
 
 void func_8098EE28(DemoSa* this, PlayState* play) {

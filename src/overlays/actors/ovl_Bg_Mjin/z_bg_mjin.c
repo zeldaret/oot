@@ -45,7 +45,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
 };
 
-static s16 sObjectIDs[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
+static s16 sObjectIds[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
                             OBJECT_MJIN_ICE,   OBJECT_MJIN_SOUL, OBJECT_MJIN_WIND };
 
 void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
@@ -54,12 +54,12 @@ void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
 
 void BgMjin_Init(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
-    s8 objBankIndex;
+    s8 objectSlot;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    objBankIndex = Object_GetIndex(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
-    this->objBankIndex = objBankIndex;
-    if (objBankIndex < 0) {
+    objectSlot = Object_GetSlot(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
+    this->requiredObjectSlot = objectSlot;
+    if (objectSlot < 0) {
         Actor_Kill(thisx);
     } else {
         BgMjin_SetupAction(this, func_808A0850);
@@ -76,10 +76,10 @@ void func_808A0850(BgMjin* this, PlayState* play) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         colHeader = NULL;
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
-        this->dyna.actor.objBankIndex = this->objBankIndex;
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
@@ -106,10 +106,10 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
-        s32 objBankIndex = Object_GetIndex(&play->objectCtx, sObjectIDs[thisx->params - 1]);
+        s32 objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[thisx->params - 1]);
 
-        if (objBankIndex >= 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[objBankIndex].segment);
+        if (objectSlot >= 0) {
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         }
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
