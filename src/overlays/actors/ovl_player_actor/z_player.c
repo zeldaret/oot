@@ -3557,18 +3557,19 @@ void func_80836BEC(Player* this, PlayState* play) {
  * It simply checks if the value is non-zero to toggle the "curved" mode.
  * In practice, 0.0f or 0.018f are the only values passed to this function.
  *
- * It's clear that this value was intended to mean something in the curved mofe calculation at
+ * It's clear that this value was intended to mean something in the curved mode calculation at
  * some point in development, but was either never implemented or removed.
  *
- * To see the difference between linear and curved mode, with interative toggles for
+ * To see the difference between linear and curved mode, with interactive toggles for
  * speed cap and floor pitch, see the following desmos graph: https://www.desmos.com/calculator/hri7dcws4c
  */
 
 // Linear mode is a straight line, increasing target speed at a steady rate relative to the control stick magnitude
 #define SPEED_MODE_LINEAR 0.0f
 
-// Curved mode drops any input below 20 units of magnitidue, resulting in zero for target speed. 
-// Beyond 20 units, a gradual curve slowly moves up until around the 40 unit mark when target speed ramps up very quickly.
+// Curved mode drops any input below 20 units of magnitude, resulting in zero for target speed.
+// Beyond 20 units, a gradual curve slowly moves up until around the 40 unit mark when target speed ramps up very
+// quickly.
 #define SPEED_MODE_CURVED 0.018f
 
 /**
@@ -3602,7 +3603,7 @@ s32 Player_CalcSpeedAndYawFromControlStick(PlayState* play, Player* this, f32* o
                 *outSpeedTarget = 0.0f;
             } else {
                 // Cosine of the control stick magnitude isn't exactly meaningful, but
-                // it happens to give a desireable curve for grounded movement speed relative
+                // it happens to give a desirable curve for grounded movement speed relative
                 // to control stick magnitude.
                 temp = 1.0f - Math_CosS(*outSpeedTarget * 450.0f);
                 *outSpeedTarget = (SQ(temp) * 30.0f) + 7.0f;
