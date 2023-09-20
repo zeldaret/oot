@@ -928,7 +928,8 @@ void EnIk_PostLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 
     if (this->armorStatusFlag & ARMOR_BROKEN) {
         BodyBreak_SetInfo(&this->bodyBreak, limbIndex, IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT,
-                          IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK, IRON_KNUCKLE_LIMB_TORSO, dList, BODYBREAK_OBJECT_DEFAULT);
+                          IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK, IRON_KNUCKLE_LIMB_TORSO, dList,
+                          BODYBREAK_OBJECT_SLOT_DEFAULT);
     }
     if (limbIndex == IRON_KNUCKLE_LIMB_HELMET_ARMOR) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1217),

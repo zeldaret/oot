@@ -16,7 +16,7 @@ typedef struct {
     /* 0x0010 */ Vec3f velocity;
     /* 0x001C */ Vec3f accel;
     /* 0x0028 */ char unk_28[0x4];
-    /* 0x002C */ s16 primAlpha; // transparency in RGBA colour system
+    /* 0x002C */ s16 primAlpha; // transparency in RGBA color system
     /* 0x002E */ s16 primAlphaState; // 0: increasing (more opaque) 1: decreasing (more transparent) 2: collision
     /* 0x0030 */ f32 xyScale;
     /* 0x0034 */ f32 xyScaleTarget;
@@ -42,7 +42,7 @@ typedef struct EnFz {
     /* 0x024C */ f32 iceSmokeFreezingSpawnHeight; // Height for Ice Smoke Spawn, only when freezing
     /* 0x0250 */ f32 unusedFloat; // Set to 135.0f
     /* 0x0254 */ f32 speedXZ; // Set to 4.0f when moving
-    /* 0x0258 */ u32 envAlpha; // transparency in RGBA colour system
+    /* 0x0258 */ u32 envAlpha; // transparency in RGBA color system
     /* 0x025C */ u16 unusedNum1; // Only set to 0
     /* 0x025E */ u16 unusedNum2; // Set to either 0 when hidden or 4000 when growing
     /* 0x0260 */ u8 state; // 0 (hidden) 1 (growning/shrinking) 2 (full size) 3 (melting from fire)

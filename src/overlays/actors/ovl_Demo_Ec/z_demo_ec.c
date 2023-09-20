@@ -314,22 +314,22 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
 
 void DemoEc_UseDrawObject(DemoEc* this, PlayState* play) {
     s32 pad[2];
-    s32 drawObjBankIndex = this->drawObjBankIndex;
+    s32 drawObjectSlot = this->drawObjectSlot;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 662);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[drawObjBankIndex].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[drawObjBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[drawObjectSlot].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[drawObjectSlot].segment);
     if (!play) {}
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 670);
 }
 
 void DemoEc_UseAnimationObject(DemoEc* this, PlayState* play) {
-    s32 animObjBankIndex = this->animObjBankIndex;
+    s32 animObjectSlot = this->animObjectSlot;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[animObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[animObjectSlot].segment);
 }
 
 CsCmdActorCue* DemoEc_GetCue(PlayState* play, s32 cueChannel) {
@@ -1083,7 +1083,7 @@ void DemoEc_UpdateFishingOwner(DemoEc* this, PlayState* play) {
 void DemoEc_FishingOwnerPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     DemoEc* this = (DemoEc*)thisx;
 
-    if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & 0x1000)) {
+    if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & HS_FISH_STOLE_HAT)) {
         gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(gFishingOwnerHatDL));
     }
 }
@@ -1261,26 +1261,27 @@ void DemoEc_InitCommon(DemoEc* this, PlayState* play) {
     s32 type;
     s16 pad2;
     s16 sp28;
-    s32 primaryBankIndex;
-    s32 secondaryBankIndex;
+    s32 primaryObjectSlot;
+    s32 secondaryObjectSlot;
 
     type = this->actor.params;
     primary = sDrawObjects[type];
     sp28 = sAnimationObjects[type];
-    primaryBankIndex = Object_GetIndex(&play->objectCtx, primary);
-    secondaryBankIndex = Object_GetIndex(&play->objectCtx, sp28);
+    primaryObjectSlot = Object_GetSlot(&play->objectCtx, primary);
+    secondaryObjectSlot = Object_GetSlot(&play->objectCtx, sp28);
 
-    if ((secondaryBankIndex < 0) || (primaryBankIndex < 0)) {
+    if ((secondaryObjectSlot < 0) || (primaryObjectSlot < 0)) {
         // "Demo_Ec_main_bank: Bank unreadable arg_data = %d!"
         osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, type);
         Actor_Kill(&this->actor);
         return;
     }
 
-    if (Object_IsLoaded(&play->objectCtx, primaryBankIndex) && Object_IsLoaded(&play->objectCtx, secondaryBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, primaryObjectSlot) &&
+        Object_IsLoaded(&play->objectCtx, secondaryObjectSlot)) {
 
-        this->drawObjBankIndex = primaryBankIndex;
-        this->animObjBankIndex = secondaryBankIndex;
+        this->drawObjectSlot = primaryObjectSlot;
+        this->animObjectSlot = secondaryObjectSlot;
 
         DemoEc_InitNpc(this, play);
     }

@@ -2,9 +2,9 @@
 #include "terminal.h"
 
 SpeedMeter D_801664D0;
-struct_801664F0 D_801664F0;
-struct_80166500 D_80166500;
-VisMono sMonoColors;
+VisCvg sVisCvg;
+VisZBuf sVisZBuf;
+VisMono sVisMono;
 ViMode sViMode;
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
@@ -22,40 +22,43 @@ void GameState_FaultPrint(void) {
     }
 }
 
-void GameState_SetFBFilter(Gfx** gfx) {
-    Gfx* gfxP = *gfx;
+void GameState_SetFBFilter(Gfx** gfxP) {
+    Gfx* gfx = *gfxP;
 
-    if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
-        D_801664F0.type = R_FB_FILTER_TYPE;
-        D_801664F0.color.r = R_FB_FILTER_PRIM_COLOR(0);
-        D_801664F0.color.g = R_FB_FILTER_PRIM_COLOR(1);
-        D_801664F0.color.b = R_FB_FILTER_PRIM_COLOR(2);
-        D_801664F0.color.a = R_FB_FILTER_A;
-        func_800ACE98(&D_801664F0, &gfxP);
-    } else if ((R_FB_FILTER_TYPE == 5) || (R_FB_FILTER_TYPE == 6)) {
-        D_80166500.useRgba = (R_FB_FILTER_TYPE == 6);
-        D_80166500.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        D_80166500.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        D_80166500.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        D_80166500.primColor.a = R_FB_FILTER_A;
-        D_80166500.envColor.r = R_FB_FILTER_ENV_COLOR(0);
-        D_80166500.envColor.g = R_FB_FILTER_ENV_COLOR(1);
-        D_80166500.envColor.b = R_FB_FILTER_ENV_COLOR(2);
-        D_80166500.envColor.a = R_FB_FILTER_A;
-        func_800AD958(&D_80166500, &gfxP);
-    } else if (R_FB_FILTER_TYPE == 7) {
-        sMonoColors.unk_00 = 0;
-        sMonoColors.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
-        sMonoColors.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
-        sMonoColors.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
-        sMonoColors.primColor.a = R_FB_FILTER_A;
-        sMonoColors.envColor.r = R_FB_FILTER_ENV_COLOR(0);
-        sMonoColors.envColor.g = R_FB_FILTER_ENV_COLOR(1);
-        sMonoColors.envColor.b = R_FB_FILTER_ENV_COLOR(2);
-        sMonoColors.envColor.a = R_FB_FILTER_A;
-        VisMono_Draw(&sMonoColors, &gfxP);
+    if ((R_FB_FILTER_TYPE >= FB_FILTER_CVG_RGB) && (R_FB_FILTER_TYPE <= FB_FILTER_CVG_RGB_FOG)) {
+        // Visualize coverage
+        sVisCvg.vis.type = FB_FILTER_TO_CVG_TYPE(R_FB_FILTER_TYPE);
+        sVisCvg.vis.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisCvg.vis.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisCvg.vis.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisCvg.vis.primColor.a = R_FB_FILTER_A;
+        VisCvg_Draw(&sVisCvg, &gfx);
+    } else if ((R_FB_FILTER_TYPE == FB_FILTER_ZBUF_IA) || (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA)) {
+        // Visualize z-buffer
+        sVisZBuf.vis.type = (R_FB_FILTER_TYPE == FB_FILTER_ZBUF_RGBA);
+        sVisZBuf.vis.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisZBuf.vis.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisZBuf.vis.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisZBuf.vis.primColor.a = R_FB_FILTER_A;
+        sVisZBuf.vis.envColor.r = R_FB_FILTER_ENV_COLOR(0);
+        sVisZBuf.vis.envColor.g = R_FB_FILTER_ENV_COLOR(1);
+        sVisZBuf.vis.envColor.b = R_FB_FILTER_ENV_COLOR(2);
+        sVisZBuf.vis.envColor.a = R_FB_FILTER_A;
+        VisZBuf_Draw(&sVisZBuf, &gfx);
+    } else if (R_FB_FILTER_TYPE == FB_FILTER_MONO) {
+        // Monochrome filter
+        sVisMono.vis.type = 0;
+        sVisMono.vis.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        sVisMono.vis.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        sVisMono.vis.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        sVisMono.vis.primColor.a = R_FB_FILTER_A;
+        sVisMono.vis.envColor.r = R_FB_FILTER_ENV_COLOR(0);
+        sVisMono.vis.envColor.g = R_FB_FILTER_ENV_COLOR(1);
+        sVisMono.vis.envColor.b = R_FB_FILTER_ENV_COLOR(2);
+        sVisMono.vis.envColor.a = R_FB_FILTER_A;
+        VisMono_Draw(&sVisMono, &gfx);
     }
-    *gfx = gfxP;
+    *gfxP = gfx;
 }
 
 void func_800C4344(GameState* gameState) {
@@ -110,7 +113,7 @@ void func_800C4344(GameState* gameState) {
     }
 }
 
-void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
+void GameState_DrawInputDisplay(u16 input, Gfx** gfxP) {
     static const u16 sInpDispBtnColors[] = {
         GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),
         GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(120, 120, 120, 1), GPACK_RGBA5551(120, 120, 120, 1),
@@ -120,10 +123,10 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
         GPACK_RGBA5551(0, 0, 255, 1),
     };
     s32 i, j, k;
-    Gfx* gfxP = *gfx;
+    Gfx* gfx = *gfxP;
 
-    gDPPipeSync(gfxP++);
-    gDPSetOtherMode(gfxP++,
+    gDPPipeSync(gfx++);
+    gDPSetOtherMode(gfx++,
                     G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
@@ -131,14 +134,14 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
     for (i = 0; i < 16; i++) {
         j = i;
         if (input & (1 << i)) {
-            gDPSetFillColor(gfxP++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
+            gDPSetFillColor(gfx++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
             k = i + 1;
-            gDPFillRectangle(gfxP++, (j * 4) + 226, 220, (k * 4) + 225, 223);
-            gDPPipeSync(gfxP++);
+            gDPFillRectangle(gfx++, (j * 4) + 226, 220, (k * 4) + 225, 223);
+            gDPPipeSync(gfx++);
         }
     }
 
-    *gfx = gfxP;
+    *gfxP = gfx;
 }
 
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
@@ -413,9 +416,9 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 
     startTime = endTime;
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1088);
-    func_800ACE70(&D_801664F0);
-    func_800AD920(&D_80166500);
-    VisMono_Init(&sMonoColors);
+    VisCvg_Init(&sVisCvg);
+    VisZBuf_Init(&sVisZBuf);
+    VisMono_Init(&sVisMono);
     if (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Init(&sViMode);
     }
@@ -443,9 +446,9 @@ void GameState_Destroy(GameState* gameState) {
     }
     Rumble_Destroy();
     SpeedMeter_Destroy(&D_801664D0);
-    func_800ACE90(&D_801664F0);
-    func_800AD950(&D_80166500);
-    VisMono_Destroy(&sMonoColors);
+    VisCvg_Destroy(&sVisCvg);
+    VisZBuf_Destroy(&sVisZBuf);
+    VisMono_Destroy(&sVisMono);
     if (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) {
         ViMode_Destroy(&sViMode);
     }

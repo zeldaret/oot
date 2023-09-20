@@ -15,7 +15,7 @@
 #define rEnvColorG regs[5]
 #define rEnvColorB regs[6]
 #define rEnvColorA regs[7]
-#define rTexIdx regs[8]
+#define rTexIndex regs[8]
 #define rScale regs[9]
 #define rScaleStep regs[10]
 
@@ -57,7 +57,7 @@ u32 EffectSsGSpk_Init(PlayState* play, u32 index, EffectSs* this, void* initPara
     this->rEnvColorG = initParams->envColor.g;
     this->rEnvColorB = initParams->envColor.b;
     this->rEnvColorA = initParams->envColor.a;
-    this->rTexIdx = 0;
+    this->rTexIndex = 0;
     this->rScale = initParams->scale;
     this->rScaleStep = initParams->scaleStep;
     this->actor = initParams->actor;
@@ -76,7 +76,7 @@ void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
-    MtxF mfTrans11DA0;
+    MtxF mfTransBillboard;
     Mtx* mtx;
     f32 scale;
     s32 pad;
@@ -86,14 +86,14 @@ void EffectSsGSpk_Draw(PlayState* play, u32 index, EffectSs* this) {
     scale = this->rScale * 0.0025f;
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTrans11DA0);
-    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
+    SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sparkTextures[this->rTexIdx]));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sparkTextures[this->rTexIndex]));
         Gfx_SetupDL_60NoCDXlu(gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
@@ -122,8 +122,8 @@ void EffectSsGSpk_Update(PlayState* play, u32 index, EffectSs* this) {
     this->vec.x += this->accel.x;
     this->vec.z += this->accel.z;
 
-    this->rTexIdx++;
-    this->rTexIdx &= 3;
+    this->rTexIndex++;
+    this->rTexIndex &= 3;
     this->rScale += this->rScaleStep;
 }
 
@@ -137,7 +137,7 @@ void EffectSsGSpk_UpdateNoAccel(PlayState* play, u32 index, EffectSs* this) {
         }
     }
 
-    this->rTexIdx++;
-    this->rTexIdx &= 3;
+    this->rTexIndex++;
+    this->rTexIndex &= 3;
     this->rScale += this->rScaleStep;
 }
