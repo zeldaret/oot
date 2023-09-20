@@ -1279,13 +1279,13 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
 
 void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
     ColliderJntSphElement* headCollider = &this->collider.elements[0];
-    ColliderElement* hurtbox;
+    ColliderElement* acHitElem;
 
     if (headCollider->base.bumperFlags & BUMP_HIT) {
         headCollider->base.bumperFlags &= ~BUMP_HIT;
-        hurtbox = headCollider->base.acHitElem;
+        acHitElem = headCollider->base.acHitElem;
         this->actor.colChkInfo.health -= 2;
-        if (hurtbox->toucher.dmgFlags & DMG_ARROW_ICE) {
+        if (acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {
             this->actor.colChkInfo.health -= 2;
         }
         if ((s8)this->actor.colChkInfo.health <= 2) {

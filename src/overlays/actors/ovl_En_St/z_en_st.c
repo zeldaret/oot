@@ -305,15 +305,15 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
 }
 
 void EnSt_CheckBodyStickHit(EnSt* this, PlayState* play) {
-    ColliderElement* body = &this->colCylinder[0].elem;
+    ColliderElement* bodyElem = &this->colCylinder[0].elem;
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        body->bumper.dmgFlags |= DMG_DEKU_STICK;
+        bodyElem->bumper.dmgFlags |= DMG_DEKU_STICK;
         this->colCylinder[1].elem.bumper.dmgFlags &= ~DMG_DEKU_STICK;
         this->colCylinder[2].elem.bumper.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        body->bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        bodyElem->bumper.dmgFlags &= ~DMG_DEKU_STICK;
         this->colCylinder[1].elem.bumper.dmgFlags |= DMG_DEKU_STICK;
         this->colCylinder[2].elem.bumper.dmgFlags |= DMG_DEKU_STICK;
     }

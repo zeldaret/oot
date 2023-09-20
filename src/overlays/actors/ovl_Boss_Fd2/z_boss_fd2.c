@@ -806,7 +806,7 @@ void BossFd2_Wait(BossFd2* this, PlayState* play) {
 
 void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     s16 i;
-    ColliderElement* hurtbox;
+    ColliderElement* acHitElem;
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
@@ -830,9 +830,9 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
         this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
 
-        hurtbox = this->collider.elements[0].base.acHitElem;
+        acHitElem = this->collider.elements[0].base.acHitElem;
         if (!bossFd->faceExposed) {
-            if (hurtbox->toucher.dmgFlags & DMG_HAMMER) {
+            if (acHitElem->toucher.dmgFlags & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
@@ -863,12 +863,12 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             u8 canKill = false;
             u8 damage;
 
-            if ((damage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags)) == 0) {
-                damage = (hurtbox->toucher.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
+            if ((damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags)) == 0) {
+                damage = (acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
             } else {
                 canKill = true;
             }
-            if (hurtbox->toucher.dmgFlags & DMG_HOOKSHOT) {
+            if (acHitElem->toucher.dmgFlags & DMG_HOOKSHOT) {
                 damage = 0;
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {

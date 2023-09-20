@@ -97,12 +97,12 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
 }
 
 u32 func_809CBCBC(EnBubble* this) {
-    ColliderElement* info = &this->colliderSphere.elements[0].base;
+    ColliderElement* elem = &this->colliderSphere.elements[0].base;
 
-    info->toucher.dmgFlags = DMG_EXPLOSIVE;
-    info->toucher.effect = 0;
-    info->toucher.damage = 4;
-    info->toucherFlags = TOUCH_ON;
+    elem->toucher.dmgFlags = DMG_EXPLOSIVE;
+    elem->toucher.effect = 0;
+    elem->toucher.damage = 4;
+    elem->toucherFlags = TOUCH_ON;
     this->actor.velocity.y = 0.0f;
     return 6;
 }
