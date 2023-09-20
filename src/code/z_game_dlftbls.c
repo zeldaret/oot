@@ -1,4 +1,9 @@
 #include "global.h"
+#include "overlays/gamestates/ovl_file_choose/file_select.h"
+#include "overlays/gamestates/ovl_opening/z_opening.h"
+#include "overlays/gamestates/ovl_select/z_select.h"
+#include "overlays/gamestates/ovl_title/z_title.h"
+#include "z_title_setup.h"
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_GAMESTATE(typeName, enumName, name) DECLARE_OVERLAY_SEGMENT(name)

@@ -1,6 +1,8 @@
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "overlays/gamestates/ovl_file_choose/file_select.h"
+#include "overlays/gamestates/ovl_opening/z_opening.h"
 
 void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused

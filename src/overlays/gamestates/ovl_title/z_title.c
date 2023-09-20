@@ -4,8 +4,10 @@
  * Description: Displays the Nintendo Logo
  */
 
+#include "z_title.h"
 #include "global.h"
 #include "alloca.h"
+#include "overlays/gamestates/ovl_opening/z_opening.h"
 #include "assets/textures/nintendo_rogo_static/nintendo_rogo_static.h"
 
 void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
@@ -34,6 +36,7 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
 // the fade-in/fade-out + the duration of the n64 logo animation
 void ConsoleLogo_Calc(ConsoleLogoState* this) {
     this->exit = true;
+    sizeof(ConsoleLogoState);
 }
 
 void ConsoleLogo_SetupView(ConsoleLogoState* this, f32 x, f32 y, f32 z) {

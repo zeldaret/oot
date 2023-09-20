@@ -1,4 +1,6 @@
 #include "global.h"
+#include "z_title_setup.h"
+#include "overlays/gamestates/ovl_title/z_title.h"
 
 void Setup_InitImpl(SetupState* this) {
     osSyncPrintf("ゼルダ共通データ初期化\n"); // "Zelda common data initalization"

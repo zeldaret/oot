@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "overlays/gamestates/ovl_file_choose/file_select.h"
 
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)

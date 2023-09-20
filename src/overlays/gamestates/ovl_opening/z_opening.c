@@ -4,6 +4,7 @@
  * Description: Initializes the game into the title screen
  */
 
+#include "z_opening.h"
 #include "global.h"
 
 void TitleSetup_SetupTitleScreen(TitleSetupState* this) {

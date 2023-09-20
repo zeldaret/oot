@@ -1,5 +1,10 @@
 #include "global.h"
 #include "terminal.h"
+#include "overlays/gamestates/ovl_file_choose/file_select.h"
+#include "overlays/gamestates/ovl_opening/z_opening.h"
+#include "overlays/gamestates/ovl_select/z_select.h"
+#include "overlays/gamestates/ovl_title/z_title.h"
+#include "z_title_setup.h"
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678

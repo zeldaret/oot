@@ -4,6 +4,8 @@
 #include "z64.h"
 #include "macros.h"
 
+struct FileSelectState;
+
 f32 fabsf(f32 f);
 #ifndef __sgi
 #define fabsf(f) __builtin_fabsf((f32)(f))
@@ -1099,8 +1101,6 @@ s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum);
 s32 func_800973FC(PlayState* play, RoomContext* roomCtx);
 void Room_Draw(PlayState* play, Room* room, u32 flags);
 void func_80097534(PlayState* play, RoomContext* roomCtx);
-void Sample_Destroy(GameState* thisx);
-void Sample_Init(GameState* thisx);
 void Inventory_ChangeEquipment(s16 equipment, u16 value);
 u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment);
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
@@ -1148,10 +1148,10 @@ void Sram_InitNewSave(void);
 void Sram_InitDebugSave(void);
 void Sram_OpenSave(SramContext* sramCtx);
 void Sram_WriteSave(SramContext* sramCtx);
-void Sram_VerifyAndLoadAllSaves(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_InitSave(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_EraseSave(FileSelectState* fileSelect, SramContext* sramCtx);
-void Sram_CopySave(FileSelectState* fileSelect, SramContext* sramCtx);
+void Sram_VerifyAndLoadAllSaves(struct FileSelectState* fileSelect, SramContext* sramCtx);
+void Sram_InitSave(struct FileSelectState* fileSelect, SramContext* sramCtx);
+void Sram_EraseSave(struct FileSelectState* fileSelect, SramContext* sramCtx);
+void Sram_CopySave(struct FileSelectState* fileSelect, SramContext* sramCtx);
 void Sram_WriteSramHeader(SramContext* sramCtx);
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
@@ -1966,16 +1966,5 @@ void Interface_Destroy(PlayState* play);
 void Interface_Init(PlayState* play);
 void Message_Init(PlayState* play);
 void Regs_InitData(PlayState* play);
-
-void Setup_Init(GameState* thisx);
-void Setup_Destroy(GameState* thisx);
-void ConsoleLogo_Init(GameState* thisx);
-void ConsoleLogo_Destroy(GameState* thisx);
-void MapSelect_Init(GameState* thisx);
-void MapSelect_Destroy(GameState* thisx);
-void TitleSetup_Init(GameState* thisx);
-void TitleSetup_Destroy(GameState* thisx);
-void FileSelect_Init(GameState* thisx);
-void FileSelect_Destroy(GameState* thisx);
 
 #endif

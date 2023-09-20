@@ -1,3 +1,4 @@
+#include "z_sample.h"
 #include "global.h"
 
 void Sample_HandleStateChange(SampleState* this) {

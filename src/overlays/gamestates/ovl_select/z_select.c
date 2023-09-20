@@ -4,10 +4,12 @@
  * Description: Debug Scene Select Menu
  */
 
+#include "z_select.h"
 #include "ultra64.h"
 #include "global.h"
 #include "terminal.h"
 #include "alloca.h"
+#include "overlays/gamestates/ovl_title/z_title.h"
 
 void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;
