@@ -1914,8 +1914,6 @@ void BossGoma_Update(Actor* thisx, PlayState* play) {
         this->sfxFaintTimer--;
     }
 
-    if (1) {}
-
     this->eyeState = EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES;
     this->actionFunc(this, play);
     this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -1937,15 +1935,17 @@ void BossGoma_Update(Actor* thisx, PlayState* play) {
     BossGoma_UpdateEyeEnvColor(this);
     BossGoma_UpdateTailLimbsScale(this);
 
-    if (!this->disableGameplayLogic) {
-        BossGoma_UpdateHit(this, play);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+    if (this->disableGameplayLogic) {
+        return;
+    }
 
-        if (this->actionFunc != BossGoma_FloorStunned && this->actionFunc != BossGoma_FloorDamaged &&
-            (this->actionFunc != BossGoma_FloorMain || this->timer == 0)) {
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-        }
+    BossGoma_UpdateHit(this, play);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+
+    if (this->actionFunc != BossGoma_FloorStunned && this->actionFunc != BossGoma_FloorDamaged &&
+        (this->actionFunc != BossGoma_FloorMain || this->timer == 0)) {
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 }
 

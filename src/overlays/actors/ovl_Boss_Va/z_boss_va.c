@@ -3285,201 +3285,202 @@ void BossVa_UpdateEffects(PlayState* play) {
     BossVa* refActor;
 
     for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
-        if (effect->type != VA_NONE) {
-            effect->timer--;
+        if (effect->type == VA_NONE) {
+            continue;
+        }
 
-            effect->pos.x += effect->velocity.x;
-            effect->pos.y += effect->velocity.y;
-            effect->pos.z += effect->velocity.z;
+        effect->timer--;
 
-            effect->velocity.x += effect->accel.x;
-            effect->velocity.y += effect->accel.y;
-            effect->velocity.z += effect->accel.z;
+        effect->pos.x += effect->velocity.x;
+        effect->pos.y += effect->velocity.y;
+        effect->pos.z += effect->velocity.z;
 
-            if ((effect->type == VA_LARGE_SPARK) || (effect->type == VA_SMALL_SPARK)) {
-                refActor = effect->parent;
+        effect->velocity.x += effect->accel.x;
+        effect->velocity.y += effect->accel.y;
+        effect->velocity.z += effect->accel.z;
 
-                effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x2000;
-                effect->rot.y += (s16)(Rand_ZeroOne() * 0x2710) + 0x2000;
+        if ((effect->type == VA_LARGE_SPARK) || (effect->type == VA_SMALL_SPARK)) {
+            refActor = effect->parent;
 
-                if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
-                    pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &GET_BODY(refActor)->unk_1D8);
-                    spAC = Math_SinS(refActor->actor.world.rot.y);
-                    effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * spAC);
-                    spB0 = Math_CosS(refActor->actor.world.rot.y);
-                    effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * spB0);
-                    spB0 = Math_CosS(-pitch);
-                    effect->pos.y = (effect->offset.y * spB0) + refActor->actor.world.pos.y;
-                } else if ((effect->mode == SPARK_BARI) || (effect->mode == SPARK_BODY)) {
-                    effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
-                    effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
-                    effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
-                } else {
-                    spB6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
-                    effect->pos.x = player->bodyPartsPos[spB6].x + Rand_CenteredFloat(10.0f);
-                    effect->pos.y = player->bodyPartsPos[spB6].y + Rand_CenteredFloat(15.0f);
-                    effect->pos.z = player->bodyPartsPos[spB6].z + Rand_CenteredFloat(10.0f);
-                }
+            effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x2000;
+            effect->rot.y += (s16)(Rand_ZeroOne() * 0x2710) + 0x2000;
 
-                if (effect->timer < 100) {
-                    effect->primColor[3] -= 50;
-                    if (effect->primColor[3] < 0) {
-                        effect->primColor[3] = 0;
-                        effect->timer = 0;
-                        effect->type = VA_NONE;
-                    }
-                }
+            if ((effect->mode == SPARK_TETHER) || (effect->mode == SPARK_UNUSED)) {
+                pitch = effect->rot.x - Math_Vec3f_Pitch(&refActor->actor.world.pos, &GET_BODY(refActor)->unk_1D8);
+                spAC = Math_SinS(refActor->actor.world.rot.y);
+                effect->pos.x = refActor->actor.world.pos.x - (effect->offset.x * spAC);
+                spB0 = Math_CosS(refActor->actor.world.rot.y);
+                effect->pos.z = refActor->actor.world.pos.z - (effect->offset.x * spB0);
+                spB0 = Math_CosS(-pitch);
+                effect->pos.y = (effect->offset.y * spB0) + refActor->actor.world.pos.y;
+            } else if ((effect->mode == SPARK_BARI) || (effect->mode == SPARK_BODY)) {
+                effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
+                effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
+                effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
+            } else {
+                spB6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
+                effect->pos.x = player->bodyPartsPos[spB6].x + Rand_CenteredFloat(10.0f);
+                effect->pos.y = player->bodyPartsPos[spB6].y + Rand_CenteredFloat(15.0f);
+                effect->pos.z = player->bodyPartsPos[spB6].z + Rand_CenteredFloat(10.0f);
             }
 
-            if (effect->type == VA_BLAST_SPARK) {
-                effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x4000;
-                if (effect->timer < 100) {
-                    effect->primColor[3] -= 50;
-                    if (effect->primColor[3] < 0) {
-                        effect->primColor[3] = 0;
-                        effect->timer = 0;
-                        effect->type = VA_NONE;
-                    }
-                }
-            }
-
-            if (effect->type == VA_SPARK_BALL) {
-                refActor2 = effect->parent;
-
-                effect->rot.z += (s16)(Rand_ZeroOne() * 0x2710) + 0x24A8;
-                effect->pos.x = effect->offset.x + refActor2->actor.world.pos.x;
-                effect->pos.y =
-                    refActor2->actor.world.pos.y + 310.0f + (refActor2->actor.shape.yOffset * refActor2->actor.scale.y);
-                effect->pos.z = effect->offset.z + refActor2->actor.world.pos.z;
-                effect->mode = (effect->mode + 1) & 7;
-
-                if (effect->timer < 100) {
-                    effect->primColor[3] -= 50;
-                    if (effect->primColor[3] < 0) {
-                        effect->primColor[3] = 0;
-                        effect->timer = 0;
-                        effect->type = VA_NONE;
-                    }
-                }
-            }
-
-            if (effect->type == VA_ZAP_CHARGE) {
-                effect->mode = (effect->mode + 1) & 7;
-                effect->primColor[3] -= 20;
-                if (effect->primColor[3] <= 0) {
+            if (effect->timer < 100) {
+                effect->primColor[3] -= 50;
+                if (effect->primColor[3] < 0) {
                     effect->primColor[3] = 0;
                     effect->timer = 0;
                     effect->type = VA_NONE;
                 }
             }
+        }
 
-            if (effect->type == VA_BLOOD) {
-                if (effect->mode < BLOOD_SPOT) {
-                    Vec3f checkPos;
-                    CollisionPoly* groundPoly;
-                    f32 floorY;
+        if (effect->type == VA_BLAST_SPARK) {
+            effect->rot.z += (s16)(Rand_ZeroOne() * 0x4E20) + 0x4000;
+            if (effect->timer < 100) {
+                effect->primColor[3] -= 50;
+                if (effect->primColor[3] < 0) {
+                    effect->primColor[3] = 0;
+                    effect->timer = 0;
+                    effect->type = VA_NONE;
+                }
+            }
+        }
 
-                    checkPos = effect->pos;
-                    checkPos.y -= effect->velocity.y + 4.0f;
-                    floorY = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
-                    if ((groundPoly != NULL) && (effect->pos.y <= floorY)) {
-                        effect->mode = BLOOD_SPOT;
-                        effect->pos.y = floorY + 1.0f;
-                        if (sCsState <= DEATH_SHELL_BURST) {
-                            effect->timer = 80;
-                        } else {
-                            effect->timer = 60000;
-                        }
+        if (effect->type == VA_SPARK_BALL) {
+            refActor2 = effect->parent;
 
-                        effect->accel = effect->velocity = sZeroVec;
+            effect->rot.z += (s16)(Rand_ZeroOne() * 0x2710) + 0x24A8;
+            effect->pos.x = effect->offset.x + refActor2->actor.world.pos.x;
+            effect->pos.y =
+                refActor2->actor.world.pos.y + 310.0f + (refActor2->actor.shape.yOffset * refActor2->actor.scale.y);
+            effect->pos.z = effect->offset.z + refActor2->actor.world.pos.z;
+            effect->mode = (effect->mode + 1) & 7;
+
+            if (effect->timer < 100) {
+                effect->primColor[3] -= 50;
+                if (effect->primColor[3] < 0) {
+                    effect->primColor[3] = 0;
+                    effect->timer = 0;
+                    effect->type = VA_NONE;
+                }
+            }
+        }
+
+        if (effect->type == VA_ZAP_CHARGE) {
+            effect->mode = (effect->mode + 1) & 7;
+            effect->primColor[3] -= 20;
+            if (effect->primColor[3] <= 0) {
+                effect->primColor[3] = 0;
+                effect->timer = 0;
+                effect->type = VA_NONE;
+            }
+        }
+
+        if (effect->type == VA_BLOOD) {
+            if (effect->mode < BLOOD_SPOT) {
+                Vec3f checkPos;
+                CollisionPoly* groundPoly;
+                f32 floorY;
+
+                checkPos = effect->pos;
+                checkPos.y -= effect->velocity.y + 4.0f;
+                floorY = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
+                if ((groundPoly != NULL) && (effect->pos.y <= floorY)) {
+                    effect->mode = BLOOD_SPOT;
+                    effect->pos.y = floorY + 1.0f;
+                    if (sCsState <= DEATH_SHELL_BURST) {
+                        effect->timer = 80;
+                    } else {
+                        effect->timer = 60000;
                     }
-                    if (!effect->timer) {
-                        effect->type = VA_NONE;
-                    }
-                } else {
-                    if (effect->timer < 20) {
-                        effect->envColor[3] = effect->timer * 5;
-                        effect->primColor[3] = effect->timer * 10;
-                    } else if (effect->timer > 50000) {
-                        effect->timer++;
-                    }
+
+                    effect->accel = effect->velocity = sZeroVec;
+                }
+                if (!effect->timer) {
+                    effect->type = VA_NONE;
+                }
+            } else {
+                if (effect->timer < 20) {
+                    effect->envColor[3] = effect->timer * 5;
+                    effect->primColor[3] = effect->timer * 10;
+                } else if (effect->timer > 50000) {
+                    effect->timer++;
+                }
+            }
+
+            if (!effect->timer) {
+                effect->type = VA_NONE;
+            }
+        }
+
+        if (effect->type == VA_GORE) {
+            if (effect->mode == GORE_PERMANENT) {
+                Vec3f checkPos;
+                CollisionPoly* groundPoly;
+                f32 floorY;
+
+                checkPos = effect->pos;
+                checkPos.y -= effect->velocity.y + 4.0f;
+                effect->rot.x += 0x1770;
+                floorY = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
+                if ((groundPoly != NULL) && (effect->pos.y <= floorY)) {
+                    effect->mode = GORE_FLOOR;
+                    effect->timer = 30;
+                    effect->pos.y = floorY + 1.0f;
+                    effect->accel = effect->velocity = sZeroVec;
+                    effect->rot.x = -0x4000;
                 }
 
                 if (!effect->timer) {
                     effect->type = VA_NONE;
                 }
+
+            } else if (effect->mode == GORE_FADING) {
+                if (effect->timer == 0) {
+                    effect->type = VA_NONE;
+                    if (1) {}
+                }
+
+            } else {
+                Math_SmoothStepToF(&effect->scaleMod, 0.075f, 1.0f, 0.005f, 0.0f);
+                Math_SmoothStepToF(&effect->vaGorePulseRate, 0.0f, 0.6f, 0.005f, 0.0013f);
+                if ((play->gameplayFrames % 4) == 0) {
+                    Math_SmoothStepToS(&effect->primColor[0], 95, 1, 1, 0);
+                }
             }
+            effect->vaGorePulse += effect->vaGorePulseRate;
+        }
 
-            if (effect->type == VA_GORE) {
-                if (effect->mode == GORE_PERMANENT) {
-                    Vec3f checkPos;
-                    CollisionPoly* groundPoly;
-                    f32 floorY;
+        if (effect->type == VA_TUMOR) {
+            s16 yaw;
 
-                    checkPos = effect->pos;
-                    checkPos.y -= effect->velocity.y + 4.0f;
-                    effect->rot.x += 0x1770;
-                    floorY = BgCheck_EntityRaycastDown1(&play->colCtx, &groundPoly, &checkPos);
-                    if ((groundPoly != NULL) && (effect->pos.y <= floorY)) {
-                        effect->mode = GORE_FLOOR;
-                        effect->timer = 30;
-                        effect->pos.y = floorY + 1.0f;
-                        effect->accel = effect->velocity = sZeroVec;
-                        effect->rot.x = -0x4000;
-                    }
+            refActor = effect->parent;
 
-                    if (!effect->timer) {
-                        effect->type = VA_NONE;
-                    }
+            effect->rot.z += 0x157C;
+            effect->envColor[3] = (s16)(Math_SinS(effect->rot.z) * 50.0f) + 80;
+            Math_SmoothStepToF(&effect->scale, effect->scaleMod, 1.0f, 0.01f, 0.005f);
+            effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
+            effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
+            effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
 
-                } else if (effect->mode == GORE_FADING) {
+            switch (effect->mode) {
+                case TUMOR_UNUSED:
                     if (effect->timer == 0) {
+                        yaw = Math_Vec3f_Yaw(&refActor->actor.world.pos, &effect->pos);
                         effect->type = VA_NONE;
-                        if (1) {}
+                        BossVa_BloodSplatter(play, effect, yaw, effect->scale * 4500.0f, 1);
+                        BossVa_Gore(play, effect, yaw, effect->scale * 1.2f);
                     }
-
-                } else {
-                    Math_SmoothStepToF(&effect->scaleMod, 0.075f, 1.0f, 0.005f, 0.0f);
-                    Math_SmoothStepToF(&effect->vaGorePulseRate, 0.0f, 0.6f, 0.005f, 0.0013f);
-                    if ((play->gameplayFrames % 4) == 0) {
-                        Math_SmoothStepToS(&effect->primColor[0], 95, 1, 1, 0);
+                    break;
+                case TUMOR_BODY:
+                case TUMOR_ARM:
+                    if (refActor->burst) {
+                        effect->type = VA_NONE;
+                        yaw = Math_Vec3f_Yaw(&refActor->actor.world.pos, &effect->pos);
+                        BossVa_BloodSplatter(play, effect, yaw, effect->scale * 4500.0f, 1);
+                        BossVa_Gore(play, effect, yaw, effect->scale * 1.2f);
                     }
-                }
-                effect->vaGorePulse += effect->vaGorePulseRate;
-            }
-
-            if (effect->type == VA_TUMOR) {
-                s16 yaw;
-
-                refActor = effect->parent;
-
-                effect->rot.z += 0x157C;
-                effect->envColor[3] = (s16)(Math_SinS(effect->rot.z) * 50.0f) + 80;
-                Math_SmoothStepToF(&effect->scale, effect->scaleMod, 1.0f, 0.01f, 0.005f);
-                effect->pos.x = effect->offset.x + refActor->actor.world.pos.x;
-                effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
-                effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
-
-                switch (effect->mode) {
-                    case TUMOR_UNUSED:
-                        if (effect->timer == 0) {
-                            yaw = Math_Vec3f_Yaw(&refActor->actor.world.pos, &effect->pos);
-                            effect->type = VA_NONE;
-                            BossVa_BloodSplatter(play, effect, yaw, effect->scale * 4500.0f, 1);
-                            BossVa_Gore(play, effect, yaw, effect->scale * 1.2f);
-                        }
-                        break;
-                    case TUMOR_BODY:
-                    case TUMOR_ARM:
-                        if (refActor->burst) {
-                            effect->type = VA_NONE;
-                            yaw = Math_Vec3f_Yaw(&refActor->actor.world.pos, &effect->pos);
-                            BossVa_BloodSplatter(play, effect, yaw, effect->scale * 4500.0f, 1);
-                            BossVa_Gore(play, effect, yaw, effect->scale * 1.2f);
-                        }
-                        break;
-                }
-                if (1) {}
+                    break;
             }
         }
     }
