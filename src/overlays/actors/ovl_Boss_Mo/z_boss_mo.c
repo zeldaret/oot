@@ -835,7 +835,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     if (&this->actor == player->actor.parent) {
                         player->actionVar2 = 0x65;
                         player->actor.parent = NULL;
-                        player->csMode = PLAYER_CSMODE_NONE;
+                        player->csAction = PLAYER_CSACTION_NONE;
                         if (this->timers[0] == 0) {
                             func_8002F6D4(play, &this->actor, 20.0f, this->actor.shape.rot.y + 0x8000, 10.0f, 0);
                         }
@@ -865,7 +865,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
             if (&this->actor == player->actor.parent) {
                 player->actionVar2 = 0x65;
                 player->actor.parent = NULL;
-                player->csMode = PLAYER_CSMODE_NONE;
+                player->csAction = PLAYER_CSACTION_NONE;
             }
             Math_ApproachF(&this->tentRippleSize, 0.15f, 0.5f, 0.01);
             if (this->meltIndex < 41) {
@@ -1225,7 +1225,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                  (fabsf(player->actor.world.pos.x - -180.0f) < 40.0f))) {
                 // checks if Link is on one of the four platforms
                 Cutscene_StartManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1333,11 +1333,11 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
             Math_ApproachF(&this->actor.speed, sp80, 1.0f, sp78);
             Math_ApproachF(&this->subCamYawRate, sp7C, 1.0f, 128.0f);
             if (this->work[MO_TENT_MOVE_TIMER] == 525) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_2);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_2);
             }
             if (this->work[MO_TENT_MOVE_TIMER] > 540) {
                 this->csState = MO_INTRO_REVEAL;
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
                 sMorphaTent1->drawActor = true;
                 player->actor.world.pos.x = 180.0f;
                 player->actor.world.pos.z = -210.0f;
@@ -1446,7 +1446,7 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 // MO_BATTLE / SUB_CAM_ID_DONE
                 this->csState = this->subCamId = 0;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
             }
             break;
     }
@@ -1511,7 +1511,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
     switch (this->csState) {
         case MO_DEATH_START:
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1681,7 +1681,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
                     Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
                     Cutscene_StopManual(play, &play->csCtx);
-                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                    func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                     sMorphaTent1->actor.world.pos.y = -1000.0f;
                 }
             } else {
@@ -1786,7 +1786,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                         if (player->actor.parent != NULL) {
                             player->actionVar2 = 0x65;
                             player->actor.parent = NULL;
-                            player->csMode = PLAYER_CSMODE_NONE;
+                            player->csAction = PLAYER_CSACTION_NONE;
                         }
                     } else {
                         this->actor.colChkInfo.health = 1;
@@ -1805,7 +1805,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                     if (player->actor.parent == &sMorphaTent1->actor) {
                         player->actionVar2 = 0x65;
                         player->actor.parent = NULL;
-                        player->csMode = PLAYER_CSMODE_NONE;
+                        player->csAction = PLAYER_CSACTION_NONE;
                     }
                 }
                 this->work[MO_TENT_ACTION_STATE] = MO_CORE_STUNNED;
