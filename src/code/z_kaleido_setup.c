@@ -30,7 +30,7 @@ void KaleidoSetup_Update(PlayState* play) {
             WREG(16) = -175;
             WREG(17) = 155;
 
-            pauseCtx->unk_1EA = 0;
+            pauseCtx->switchPageTimer = 0;
             pauseCtx->unk_1E4 = 1;
 
             if (ZREG(48) == 0) {
@@ -43,10 +43,11 @@ void KaleidoSetup_Update(PlayState* play) {
                 pauseCtx->pageIndex = sKaleidoSetupKscpPos1[pauseCtx->pageIndex];
             }
 
-            pauseCtx->mode = (u16)(pauseCtx->pageIndex * 2) + 1;
+            // Set next page mode to scroll left
+            pauseCtx->nextPageMode = (u16)(pauseCtx->pageIndex * 2) + 1;
             pauseCtx->state = PAUSE_STATE_WAIT_LETTERBOX;
 
-            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x,
+            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->nextPageMode, pauseCtx->eye.x,
                          pauseCtx->eye.z, pauseCtx->pageIndex);
         }
 
@@ -70,9 +71,9 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->state = PAUSE_STATE_OFF;
     pauseCtx->debugState = 0;
     pauseCtx->alpha = 0;
-    pauseCtx->unk_1EA = 0;
+    pauseCtx->switchPageTimer = 0;
     pauseCtx->unk_1E4 = 0;
-    pauseCtx->mode = 0;
+    pauseCtx->nextPageMode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
 
     pauseCtx->unk_1F4 = 160.0f;
