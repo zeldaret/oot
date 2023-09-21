@@ -142,16 +142,11 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
         return;
     }
 
-    if (this->dyna.actor.shape.rot.x != 0) {
-        if (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY)) {
-            this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
-            this->destAngle = 0;
-            child->destAngle = 0;
-            return;
-        }
-    }
-
-    if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
+    if ((this->dyna.actor.shape.rot.x != 0) && (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY))) {
+        this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
+        this->destAngle = 0;
+        child->destAngle = 0;
+    } else if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
         this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
         this->destAngle = -0x4000;
         child->destAngle = -0xFE0;

@@ -201,11 +201,7 @@ void ArrowFire_Draw(Actor* thisx, PlayState* play2) {
     stateFrames = play->state.frames;
     arrow = (EnArrow*)this->actor.parent;
 
-    if (arrow == NULL) {
-        return;
-    }
-
-    if (arrow->actor.update == NULL) {
+    if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         return;
     }
 

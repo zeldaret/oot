@@ -2890,6 +2890,7 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
     if (this->actionFunc == BossTw_Wait) {
         return;
     }
+
     this->collider.dim.radius = 45;
 
     if (this->actionFunc == BossTw_Spin) {

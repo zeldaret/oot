@@ -199,11 +199,7 @@ void ArrowIce_Draw(Actor* thisx, PlayState* play) {
     u32 stateFrames = play->state.frames;
     EnArrow* arrow = (EnArrow*)this->actor.parent;
 
-    if (arrow == NULL) {
-        return;
-    }
-
-    if (arrow->actor.update == NULL) {
+    if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         return;
     }
 

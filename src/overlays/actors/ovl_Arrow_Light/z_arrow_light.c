@@ -197,11 +197,7 @@ void ArrowLight_Draw(Actor* thisx, PlayState* play) {
     EnArrow* arrow = (EnArrow*)this->actor.parent;
     Actor* transform;
 
-    if (arrow == NULL) {
-        return;
-    }
-
-    if (arrow->actor.update == NULL) {
+    if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         return;
     }
 
