@@ -1,4 +1,5 @@
 #include "global.h"
+#include "os_malloc.h"
 
 typedef void (*arg3_800FC868)(void*);
 typedef void (*arg3_800FC8D8)(void*, u32);

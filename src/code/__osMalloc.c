@@ -1,4 +1,5 @@
 #include "global.h"
+#include "os_malloc.h"
 #include "terminal.h"
 
 #define FILL_ALLOCBLOCK (1 << 0)
@@ -16,6 +17,8 @@
 
 OSMesg sArenaLockMsg;
 u32 __osMalloc_FreeBlockTest_Enable;
+
+void __osMallocAddBlock(Arena* arena, void* start, s32 size);
 
 u32 ArenaImpl_GetFillAllocBlock(Arena* arena) {
     return (arena->flag & FILL_ALLOCBLOCK) != 0;

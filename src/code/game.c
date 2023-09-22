@@ -1,4 +1,5 @@
 #include "global.h"
+#include "os_malloc.h"
 #include "terminal.h"
 #include "z64vimode.h"
 
