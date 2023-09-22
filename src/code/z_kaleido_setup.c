@@ -61,7 +61,7 @@ void KaleidoSetup_Update(PlayState* play) {
             WREG(17) = 155;
 
             pauseCtx->switchPageTimer = 0;
-            pauseCtx->mainState = PAUSE_MAIN_STATE_1;
+            pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE; // irrelevant
 
             if (R_START_LABEL_DD(0) == 0) {
                 // Never reached, unused, and the data would be wrong anyway

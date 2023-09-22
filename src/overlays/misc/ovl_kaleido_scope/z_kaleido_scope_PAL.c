@@ -533,7 +533,7 @@ void KaleidoScope_SetDefaultCursor(PlayState* play) {
 #define SWITCH_PAGE_RIGHT_PT 2
 
 void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
-    pauseCtx->mainState = PAUSE_MAIN_STATE_1;
+    pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
     pauseCtx->switchPageTimer = 0;
 
     if (!pt) { // SWITCH_PAGE_LEFT_PT
@@ -3133,7 +3133,7 @@ void KaleidoScope_Update(PlayState* play) {
                     }
                     break;
 
-                case PAUSE_MAIN_STATE_1:
+                case PAUSE_MAIN_STATE_SWITCHING_PAGE:
                     KaleidoScope_UpdateSwitchPage(play, play->state.input);
                     break;
 

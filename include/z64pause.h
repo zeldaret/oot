@@ -73,7 +73,7 @@ typedef enum {
 // Sub-states of PAUSE_STATE_MAIN
 typedef enum {
     /* 0 */ PAUSE_MAIN_STATE_IDLE,
-    /* 1 */ PAUSE_MAIN_STATE_1,
+    /* 1 */ PAUSE_MAIN_STATE_SWITCHING_PAGE,
     /* 2 */ PAUSE_MAIN_STATE_2,
     /* 3 */ PAUSE_MAIN_STATE_3,
     /* 4 */ PAUSE_MAIN_STATE_4,
