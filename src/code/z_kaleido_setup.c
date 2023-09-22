@@ -31,7 +31,7 @@ void KaleidoSetup_Update(PlayState* play) {
             WREG(17) = 155;
 
             pauseCtx->unk_1EA = 0;
-            pauseCtx->unk_1E4 = 1;
+            pauseCtx->mainState = PAUSE_MAIN_STATE_1;
 
             if (ZREG(48) == 0) {
                 pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
@@ -71,7 +71,7 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->debugState = 0;
     pauseCtx->alpha = 0;
     pauseCtx->unk_1EA = 0;
-    pauseCtx->unk_1E4 = 0;
+    pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
     pauseCtx->mode = 0;
     pauseCtx->pageIndex = PAUSE_ITEM;
 
