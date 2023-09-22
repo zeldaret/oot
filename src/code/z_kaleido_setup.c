@@ -1,12 +1,42 @@
 #include "global.h"
 
-s16 sKaleidoSetupKscpPos0[] = { PAUSE_QUEST, PAUSE_EQUIP, PAUSE_ITEM, PAUSE_MAP };
-f32 sKaleidoSetupEyeX0[] = { 0.0f, 64.0f, 0.0f, -64.0f };
-f32 sKaleidoSetupEyeZ0[] = { -64.0f, 0.0f, 64.0f, 0.0f };
+s16 sKaleidoSetupUnusedPageIndex[] = {
+    PAUSE_QUEST, // PAUSE_ITEM
+    PAUSE_EQUIP, // PAUSE_MAP
+    PAUSE_ITEM,  // PAUSE_QUEST
+    PAUSE_MAP,   // PAUSE_EQUIP
+};
+f32 sKaleidoSetupUnusedEyeX[] = {
+    PAUSE_EYE_DIST * -PAUSE_QUEST_X, // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_X, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_ITEM_X,  // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_MAP_X,   // PAUSE_EQUIP
+};
+f32 sKaleidoSetupUnusedEyeZ[] = {
+    PAUSE_EYE_DIST * -PAUSE_QUEST_Z, // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_Z, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_ITEM_Z,  // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_MAP_Z,   // PAUSE_EQUIP
+};
 
-s16 sKaleidoSetupKscpPos1[] = { PAUSE_MAP, PAUSE_QUEST, PAUSE_EQUIP, PAUSE_ITEM };
-f32 sKaleidoSetupEyeX1[] = { -64.0f, 0.0f, 64.0f, 0.0f };
-f32 sKaleidoSetupEyeZ1[] = { 0.0f, -64.0f, 0.0f, 64.0f };
+s16 sKaleidoSetupRightPageIndex[] = {
+    PAUSE_MAP,   // PAUSE_ITEM
+    PAUSE_QUEST, // PAUSE_MAP
+    PAUSE_EQUIP, // PAUSE_QUEST
+    PAUSE_ITEM,  // PAUSE_EQUIP
+};
+f32 sKaleidoSetupRightPageEyeX[] = {
+    PAUSE_EYE_DIST * -PAUSE_MAP_X,   // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_QUEST_X, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_X, // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_ITEM_X,  // PAUSE_EQUIP
+};
+f32 sKaleidoSetupRightPageEyeZ[] = {
+    PAUSE_EYE_DIST * -PAUSE_MAP_Z,   // PAUSE_ITEM
+    PAUSE_EYE_DIST * -PAUSE_QUEST_Z, // PAUSE_MAP
+    PAUSE_EYE_DIST * -PAUSE_EQUIP_Z, // PAUSE_QUEST
+    PAUSE_EYE_DIST * -PAUSE_ITEM_Z,  // PAUSE_EQUIP
+};
 
 void KaleidoSetup_Update(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
@@ -33,14 +63,16 @@ void KaleidoSetup_Update(PlayState* play) {
             pauseCtx->switchPageTimer = 0;
             pauseCtx->unk_1E4 = 1;
 
-            if (ZREG(48) == 0) {
-                pauseCtx->eye.x = sKaleidoSetupEyeX0[pauseCtx->pageIndex];
-                pauseCtx->eye.z = sKaleidoSetupEyeZ0[pauseCtx->pageIndex];
-                pauseCtx->pageIndex = sKaleidoSetupKscpPos0[pauseCtx->pageIndex];
+            if (R_START_LABEL_DD(0) == 0) {
+                // Never reached, unused, and the data would be wrong anyway
+                pauseCtx->eye.x = sKaleidoSetupUnusedEyeX[pauseCtx->pageIndex];
+                pauseCtx->eye.z = sKaleidoSetupUnusedEyeZ[pauseCtx->pageIndex];
+                pauseCtx->pageIndex = sKaleidoSetupUnusedPageIndex[pauseCtx->pageIndex];
             } else {
-                pauseCtx->eye.x = sKaleidoSetupEyeX1[pauseCtx->pageIndex];
-                pauseCtx->eye.z = sKaleidoSetupEyeZ1[pauseCtx->pageIndex];
-                pauseCtx->pageIndex = sKaleidoSetupKscpPos1[pauseCtx->pageIndex];
+                // Set eye position and pageIndex such that scrolling left brings to the desired page
+                pauseCtx->eye.x = sKaleidoSetupRightPageEyeX[pauseCtx->pageIndex];
+                pauseCtx->eye.z = sKaleidoSetupRightPageEyeZ[pauseCtx->pageIndex];
+                pauseCtx->pageIndex = sKaleidoSetupRightPageIndex[pauseCtx->pageIndex];
             }
 
             // Set next page mode to scroll left
