@@ -24,7 +24,7 @@ void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx,
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    if (!((gSlotAgeReqs[SLOT(item)] == 9) || gSlotAgeReqs[SLOT(item)] == ((void)0, gSaveContext.save.linkAge))) {
+    if (!CHECK_AGE_REQ_SLOT(SLOT(item))) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 100, 100, pauseCtx->alpha);
     } else {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
@@ -340,8 +340,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
             pauseCtx->cursorItem[PAUSE_ITEM] = cursorItem;
             pauseCtx->cursorSlot[PAUSE_ITEM] = cursorSlot;
 
-            if (!((gSlotAgeReqs[cursorSlot] == 9) ||
-                  (gSlotAgeReqs[cursorSlot] == ((void)0, gSaveContext.save.linkAge)))) {
+            if (!CHECK_AGE_REQ_SLOT(cursorSlot)) {
                 pauseCtx->nameColorSet = 1;
             }
 
@@ -351,9 +350,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
                 if ((pauseCtx->debugState == 0) && (pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->unk_1E4 == 0)) {
                     if (CHECK_BTN_ANY(input->press.button, BTN_CLEFT | BTN_CDOWN | BTN_CRIGHT)) {
-                        if (((gSlotAgeReqs[cursorSlot] == 9) ||
-                             (gSlotAgeReqs[cursorSlot] == ((void)0, gSaveContext.save.linkAge))) &&
-                            (cursorItem != ITEM_SOLD_OUT)) {
+                        if (CHECK_AGE_REQ_SLOT(cursorSlot) && (cursorItem != ITEM_SOLD_OUT)) {
                             if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                                 pauseCtx->equipTargetCBtn = 0;
                             } else if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN)) {
@@ -438,7 +435,7 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
 
         if (gSaveContext.save.info.inventory.items[i] != ITEM_NONE) {
             if ((pauseCtx->unk_1E4 == 0) && (pauseCtx->pageIndex == PAUSE_ITEM) && (pauseCtx->cursorSpecialPos == 0)) {
-                if ((gSlotAgeReqs[i] == 9) || (gSlotAgeReqs[i] == ((void)0, gSaveContext.save.linkAge))) {
+                if (CHECK_AGE_REQ_SLOT(i)) {
                     if ((sEquipState == 2) && (i == 3)) {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, magicArrowEffectsR[pauseCtx->equipTargetItem - 0xBF],
                                         magicArrowEffectsG[pauseCtx->equipTargetItem - 0xBF],

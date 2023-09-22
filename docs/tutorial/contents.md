@@ -6,7 +6,7 @@
 
 ## Pre-decompilation
 - Building the repo (follow the instructions in the README.md)
-- Most of us use VSCode. (You can watch Fig's video to get an idea of how this can be used). Some useful information is [here](vscode.md).
+- Most of us use VSCode. (You can watch Fig's video to get an idea of how this can be used). Some useful information is [here](../vscode.md).
 - Choosing a first actor (You want something small that has simple interactions with the environment. But OoT is far enough in that there are basically no unreserved actors left anyway now.)
 
 ## Decompilation
