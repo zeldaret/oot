@@ -62,7 +62,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
                 R_HREG_MODE = HREG_MODE_UCODE_DISAS;
                 R_UCODE_DISAS_LOG_MODE = 3;
                 R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
-                pauseCtx->unk_1E4 = 0;
+                pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
                 pauseCtx->unk_1EC = 0;
                 pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_WAIT_BG_PRERENDER
             }
@@ -70,7 +70,7 @@ void KaleidoScopeCall_Update(PlayState* play) {
             R_HREG_MODE = HREG_MODE_UCODE_DISAS;
             R_UCODE_DISAS_LOG_MODE = 3;
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_SETUP;
-            pauseCtx->unk_1E4 = 0;
+            pauseCtx->mainState = PAUSE_MAIN_STATE_IDLE;
             pauseCtx->unk_1EC = 0;
             pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1; // PAUSE_STATE_9
         } else if ((pauseCtx->state == PAUSE_STATE_WAIT_BG_PRERENDER) || (pauseCtx->state == PAUSE_STATE_9)) {
