@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "z64prenmi_buff.h"
 #include "z64thread.h"
 
 s32 gScreenWidth = SCREEN_WIDTH;

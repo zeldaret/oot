@@ -185,7 +185,7 @@ extern f32 gBossMarkScale;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 extern s32 gTransitionTileState;
 extern Color_RGBA8_u32 gVisMonoColor;
-extern PreNmiBuff* gAppNmiBufferPtr;
+
 extern Scheduler gScheduler;
 extern uintptr_t gSegments[NUM_SEGMENTS];
 extern volatile OSTime gAudioThreadUpdateTimeTotalPerGfxTask;

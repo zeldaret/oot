@@ -1,6 +1,7 @@
 #include "global.h"
 #include "loadfragment.h"
 #include "terminal.h"
+#include "z64prenmi_buff.h"
 #include "overlays/gamestates/ovl_file_choose/file_select.h"
 #include "overlays/gamestates/ovl_opening/z_opening.h"
 #include "overlays/gamestates/ovl_select/z_select.h"
