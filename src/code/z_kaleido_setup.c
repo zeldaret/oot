@@ -61,8 +61,12 @@ void KaleidoSetup_Update(PlayState* play) {
             R_PAUSE_CURSOR_RIGHT_X = 155;
 
             pauseCtx->switchPageTimer = 0;
-            pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE; // irrelevant
 
+            // irrelevant, the initial page switch animation is handled by KaleidoScope_UpdateOpening
+            // and mainState is reset to idle before reaching the main state anyway (KaleidoScopeCall_Update)
+            pauseCtx->mainState = PAUSE_MAIN_STATE_SWITCHING_PAGE;
+
+            //! @bug using an unrelated reg
             if (R_START_LABEL_DD(0) == 0) {
                 // Never reached, unused, and the data would be wrong anyway
                 pauseCtx->eye.x = sKaleidoSetupUnusedEyeX[pauseCtx->pageIndex];
@@ -109,9 +113,11 @@ void KaleidoSetup_Init(PlayState* play) {
     pauseCtx->pageIndex = PAUSE_ITEM;
 
     pauseCtx->itemPageRoll = pauseCtx->equipPageRoll = pauseCtx->mapPageRoll = pauseCtx->questPageRoll = 160.0f;
-    pauseCtx->eye.z = 64.0f;
+    // Setting the eye xz here is irrelevant, it's set on pausing in KaleidoSetup_Update
+    pauseCtx->eye.z = -PAUSE_EYE_DIST * PAUSE_ITEM_Z;
+    pauseCtx->eye.y = 0.0f;
+    pauseCtx->eye.x = 0.0f; // -PAUSE_EYE_DIST * PAUSE_ITEM_X
     pauseCtx->savePromptOffsetDepth_ = 936.0f;
-    pauseCtx->eye.x = pauseCtx->eye.y = 0.0f;
     pauseCtx->rollRotSavePrompt_ = -314.0f;
 
     pauseCtx->cursorPoint[PAUSE_ITEM] = 0;
