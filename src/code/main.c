@@ -1,4 +1,5 @@
 #include "global.h"
+#include "audiomgr.h"
 #include "terminal.h"
 #include "z64prenmi_buff.h"
 #include "z64thread.h"

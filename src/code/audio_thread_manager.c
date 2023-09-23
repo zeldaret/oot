@@ -1,4 +1,5 @@
 #include "global.h"
+#include "audiomgr.h"
 
 void func_800C3C80(AudioMgr* audioMgr) {
     AudioTask* task = audioMgr->rspTask;

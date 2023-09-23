@@ -371,18 +371,4 @@ typedef struct {
     /* 0x10 */ u8 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
-typedef struct {
-    /* 0x0000 */ IrqMgr*     irqMgr;
-    /* 0x0004 */ Scheduler*  sched;
-    /* 0x0008 */ OSScTask    audioTask;
-    /* 0x0070 */ AudioTask*  rspTask;
-    /* 0x0074 */ OSMesgQueue interruptQueue;
-    /* 0x008C */ OSMesg      interruptMsgBuf[8];
-    /* 0x00AC */ OSMesgQueue taskQueue;
-    /* 0x00C4 */ OSMesg      taskMsgBuf[1];
-    /* 0x00C8 */ OSMesgQueue lockQueue;
-    /* 0x00E0 */ OSMesg      lockMsgBuf[1];
-    /* 0x00E8 */ OSThread    thread;
-} AudioMgr; // size = 0x298
-
 #endif
