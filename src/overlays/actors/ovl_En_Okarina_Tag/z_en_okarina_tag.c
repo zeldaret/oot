@@ -8,6 +8,7 @@
 #include "assets/scenes/misc/hakaana_ouke/hakaana_ouke_scene.h"
 #include "assets/scenes/overworld/spot02/spot02_scene.h"
 #include "terminal.h"
+#include "z64debug_display.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 

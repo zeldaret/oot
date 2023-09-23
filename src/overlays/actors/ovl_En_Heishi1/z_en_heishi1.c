@@ -7,6 +7,7 @@
 #include "z_en_heishi1.h"
 #include "assets/objects/object_sd/object_sd.h"
 #include "terminal.h"
+#include "z64debug_display.h"
 
 #define FLAGS ACTOR_FLAG_4
 

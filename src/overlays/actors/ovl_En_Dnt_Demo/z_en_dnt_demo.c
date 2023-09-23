@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.h"
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
 #include "terminal.h"
+#include "z64debug_display.h"
 
 #define FLAGS 0
 

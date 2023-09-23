@@ -6,6 +6,7 @@
 
 #include "z_en_anubice_tag.h"
 #include "terminal.h"
+#include "z64debug_display.h"
 
 #define FLAGS ACTOR_FLAG_4
 

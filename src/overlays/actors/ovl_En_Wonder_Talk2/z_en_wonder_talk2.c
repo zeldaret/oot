@@ -6,6 +6,7 @@
 
 #include "z_en_wonder_talk2.h"
 #include "terminal.h"
+#include "z64debug_display.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
 

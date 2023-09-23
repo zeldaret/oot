@@ -6,6 +6,7 @@
 
 #include "z_en_wonder_item.h"
 #include "terminal.h"
+#include "z64debug_display.h"
 
 #define FLAGS 0
 

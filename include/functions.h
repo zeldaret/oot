@@ -759,11 +759,6 @@ void DebugCamera_ScreenText(u8 x, u8 y, const char* text);
 void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
 void Regs_UpdateEditor(Input* input);
 void Debug_DrawText(GraphicsContext* gfxCtx);
-void DebugDisplay_Init(void);
-DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, f32 scaleX,
-                                        f32 scaleY, f32 scaleZ, u8 red, u8 green, u8 blue, u8 alpha, s16 type,
-                                        GraphicsContext* gfxCtx);
-void DebugDisplay_DrawObjects(PlayState* play);
 void Cutscene_InitContext(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_StartManual(PlayState* play, CutsceneContext* csCtx);
 void Cutscene_StopManual(PlayState* play, CutsceneContext* csCtx);

@@ -312,15 +312,6 @@ typedef struct {
 #define MAP_48x85_TEX_HEIGHT 85
 #define MAP_48x85_TEX_SIZE ((MAP_48x85_TEX_WIDTH * MAP_48x85_TEX_HEIGHT) / 2) // 48x85 CI4 texture
 
-typedef struct DebugDispObject {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3s rot;
-    /* 0x14 */ Vec3f scale;
-    /* 0x20 */ Color_RGBA8 color;
-    /* 0x24 */ s16   type;
-    /* 0x28 */ struct DebugDispObject* next;
-} DebugDispObject; // size = 0x2C
-
 typedef struct {
     /* 0x00 */ u32 magic; // IS64
     /* 0x04 */ u32 get;
