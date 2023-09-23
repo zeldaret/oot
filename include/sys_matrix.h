@@ -35,8 +35,8 @@ void Matrix_RotateZ(f32 z, u8 mode);
 /* Compound operations */
 
 void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
-void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rot);
-void Matrix_SetTranslateRotateYXZ(f32 x, f32 y, f32 z, Vec3s* rot);
+void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
+void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot);
 
 /* Conversion and allocation operations */
 
