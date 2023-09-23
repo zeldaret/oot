@@ -1,5 +1,6 @@
 #include "global.h"
 #include "terminal.h"
+#include "overlays/misc/ovl_kaleido_scope/z_kaleido_scope.h"
 
 void (*sKaleidoScopeUpdateFunc)(PlayState* play);
 void (*sKaleidoScopeDrawFunc)(PlayState* play);

@@ -34,6 +34,11 @@ typedef struct {
 } TransitionActorEntry; // size = 0x10
 
 typedef struct {
+    /* 0x00 */ u8 numActors;
+    /* 0x04 */ TransitionActorEntry* list;
+} TransitionActorContext; // size = 0x8
+
+typedef struct {
     /* 0x00 */ u8 playerEntryIndex;
     /* 0x01 */ u8 room;
 } Spawn;

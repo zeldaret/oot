@@ -3,6 +3,7 @@
 #include "os_malloc.h"
 #include "terminal.h"
 #include "z64vimode.h"
+#include "overlays/misc/ovl_kaleido_scope/z_kaleido_scope.h"
 
 SpeedMeter D_801664D0;
 VisCvg sVisCvg;

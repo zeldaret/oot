@@ -24,6 +24,13 @@ typedef struct {
 } TransitionTile; // size = 0xE0
 
 typedef enum {
+    /* 0 */ TRANS_TILE_OFF, // Inactive, do nothing
+    /* 1 */ TRANS_TILE_SETUP, // Save the necessary buffers
+    /* 2 */ TRANS_TILE_PROCESS, // Initialize the transition
+    /* 3 */ TRANS_TILE_READY // The transition is ready, so will update and draw each frame
+} TransitionTileState;
+
+typedef enum {
     /* 1 */ TRANS_INSTANCE_TYPE_FILL_OUT = 1,
     /* 2 */ TRANS_INSTANCE_TYPE_FILL_IN
 } TransitionInstanceType;
