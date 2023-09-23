@@ -36,7 +36,6 @@ void ConsoleLogo_PrintBuildInfo(Gfx** gfxP) {
 // the fade-in/fade-out + the duration of the n64 logo animation
 void ConsoleLogo_Calc(ConsoleLogoState* this) {
     this->exit = true;
-    sizeof(ConsoleLogoState);
 }
 
 void ConsoleLogo_SetupView(ConsoleLogoState* this, f32 x, f32 y, f32 z) {

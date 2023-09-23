@@ -42,6 +42,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
+#include "sys_matrix.h"
 #include "color.h"
 #include "gfxprint.h"
 #include "ichain.h"
@@ -319,11 +320,6 @@ typedef struct DebugDispObject {
     /* 0x24 */ s16   type;
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C
-
-typedef enum {
-    /* 0 */ MTXMODE_NEW,  // generates a new matrix
-    /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
-} MatrixMode;
 
 typedef struct {
     /* 0x00 */ u32 magic; // IS64
