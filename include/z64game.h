@@ -5,8 +5,24 @@
 #include "ultra64/ultratypes.h"
 #include "padmgr.h"
 #include "tha.h"
+#include "unk.h"
 
 struct GraphicsContext;
+
+typedef struct {
+    /* 0x00 */ void* loadedRamAddr;
+    /* 0x04 */ uintptr_t vromStart; // if applicable
+    /* 0x08 */ uintptr_t vromEnd;   // if applicable
+    /* 0x0C */ void* vramStart; // if applicable
+    /* 0x10 */ void* vramEnd;   // if applicable
+    /* 0x14 */ void* unk_14;
+    /* 0x18 */ void* init;    // initializes and executes the given context
+    /* 0x1C */ void* destroy; // deconstructs the context, and sets the next context to load
+    /* 0x20 */ void* unk_20;
+    /* 0x24 */ void* unk_24;
+    /* 0x28 */ UNK_TYPE4 unk_28;
+    /* 0x2C */ u32 instanceSize;
+} GameStateOverlay; // size = 0x30
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
