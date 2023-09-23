@@ -229,12 +229,6 @@ typedef struct {
     /* 0x02 */ u16 field;
 } EntranceInfo; // size = 0x4
 
-typedef struct {
-    /* 0x00 */ GameState state;
-    /* 0xA4 */ u32       timer;
-    /* 0xA8 */ UNK_TYPE4 unk_A8;
-} PreNMIState; // size = 0xAC
-
 typedef enum {
     /*  1 */ F_8F = 1,
     /*  2 */ F_7F,

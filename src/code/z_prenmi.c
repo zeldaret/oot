@@ -1,3 +1,4 @@
+#include "z64prenmi.h"
 #include "global.h"
 #include "terminal.h"
 
