@@ -1,4 +1,5 @@
 #include "global.h"
+#include "stackcheck.h"
 #include "terminal.h"
 
 StackEntry* sStackInfoListStart = NULL;
@@ -40,7 +41,7 @@ void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 i
 
         if (entry->minSpace != -1) {
             addr = entry->head;
-            while (addr < entry->tail) {
+            while (addr < (u32*)entry->tail) {
                 *addr++ = entry->initValue;
             }
         }
@@ -78,7 +79,7 @@ u32 StackCheck_GetState(StackEntry* entry) {
     u32 free;
     u32 ret;
 
-    for (last = entry->head; last < entry->tail; last++) {
+    for (last = entry->head; last < (u32*)entry->tail; last++) {
         if (entry->initValue != *last) {
             break;
         }

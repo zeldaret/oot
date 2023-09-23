@@ -19,6 +19,7 @@
  * to be uncompressed and the request queue and address translation is skipped.
  */
 #include "global.h"
+#include "stackcheck.h"
 #include "terminal.h"
 #include "z64thread.h"
 

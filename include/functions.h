@@ -39,12 +39,6 @@ void rmonPrintf(const char* fmt, ...);
 void* is_proutSyncPrintf(void* arg, const char* str, u32 count);
 NORETURN void func_80002384(const char* exp, const char* file, u32 line);
 OSPiHandle* osDriveRomInit(void);
-void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
-                     const char* name);
-void StackCheck_Cleanup(StackEntry* entry);
-u32 StackCheck_GetState(StackEntry* entry);
-u32 StackCheck_CheckAll(void);
-u32 StackCheck_Check(StackEntry* entry);
 f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
                              const char* maxName, f32 max);
 s32 LogUtils_CheckIntRange(const char* exp, s32 line, const char* valueName, s32 value, const char* minName, s32 min,

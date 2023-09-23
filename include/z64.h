@@ -325,22 +325,6 @@ typedef enum {
     /* 1 */ MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
 
-typedef struct StackEntry {
-    /* 0x00 */ struct StackEntry* next;
-    /* 0x04 */ struct StackEntry* prev;
-    /* 0x08 */ u32* head;
-    /* 0x0C */ u32* tail;
-    /* 0x10 */ u32 initValue;
-    /* 0x14 */ s32 minSpace;
-    /* 0x18 */ const char* name;
-} StackEntry;
-
-typedef enum {
-    /* 0 */ STACK_STATUS_OK,
-    /* 1 */ STACK_STATUS_WARNING,
-    /* 2 */ STACK_STATUS_OVERFLOW
-} StackStatus;
-
 typedef struct {
     /* 0x00 */ u32 magic; // IS64
     /* 0x04 */ u32 get;

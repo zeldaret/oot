@@ -41,6 +41,7 @@
  * DPad-Down disables sending fault pages over osSyncPrintf.
  */
 #include "global.h"
+#include "stackcheck.h"
 #include "terminal.h"
 #include "alloca.h"
 #include "z64thread.h"

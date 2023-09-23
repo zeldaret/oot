@@ -33,6 +33,7 @@
  * @see sched.c
  */
 #include "global.h"
+#include "stackcheck.h"
 #include "terminal.h"
 #include "z64thread.h"
 
