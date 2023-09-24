@@ -28,7 +28,7 @@
 #include "z64message.h"
 #include "z64pause.h"
 #include "z64skin.h"
-#include "z64frameadvance.h"
+#include "z64frame_advance.h"
 #include "z64game.h"
 #include "z64game_over.h"
 #include "z64transition.h"
