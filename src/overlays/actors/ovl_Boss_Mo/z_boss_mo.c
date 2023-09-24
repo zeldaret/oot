@@ -920,7 +920,6 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Math_ApproachF(&this->baseAlpha, 0.0, 1.0f, 5.0f);
                 for (indS1 = 0; indS1 < 40; indS1++) {
-                    if (sMorphaTent2->tentSpawnPos) {}
                     indT5 = Rand_ZeroFloat(20.9f);
                     indS0 = sTentSpawnIndex[indT5];
                     spFC.x = 0;
@@ -930,16 +929,17 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     Matrix_MultVec3f(&spFC, &spF0);
                     spF0.x = player->actor.world.pos.x + spF0.x;
                     spF0.z = player->actor.world.pos.z + spF0.z;
-                    if ((fabsf(spF0.x - sTentSpawnPos[indS0].x) <= 320) &&
-                        (fabsf(spF0.z - sTentSpawnPos[indS0].y) <= 320) &&
-                        ((sMorphaTent2 == NULL) || (sMorphaTent2->tentSpawnPos != indS0))) {
-                        this->targetPos.x = sTentSpawnPos[indS0].x;
-                        this->targetPos.z = sTentSpawnPos[indS0].y;
-                        this->tentSpawnPos = indS0;
-                        this->timers[0] = (s16)Rand_ZeroFloat(20.0f) + 30;
-                        this->work[MO_TENT_ACTION_STATE] = MO_TENT_DESPAWN;
-                        break;
+                    if (!(fabsf(spF0.x - sTentSpawnPos[indS0].x) <= 320) ||
+                        !(fabsf(spF0.z - sTentSpawnPos[indS0].y) <= 320) ||
+                        ((sMorphaTent2 != NULL) && (sMorphaTent2->tentSpawnPos == indS0))) {
+                        continue;
                     }
+                    this->targetPos.x = sTentSpawnPos[indS0].x;
+                    this->targetPos.z = sTentSpawnPos[indS0].y;
+                    this->tentSpawnPos = indS0;
+                    this->timers[0] = (s16)Rand_ZeroFloat(20.0f) + 30;
+                    this->work[MO_TENT_ACTION_STATE] = MO_TENT_DESPAWN;
+                    break;
                 }
             }
             if ((this == sMorphaTent1) && (sMorphaCore->hitCount >= 3) && (sMorphaTent2 == NULL)) {

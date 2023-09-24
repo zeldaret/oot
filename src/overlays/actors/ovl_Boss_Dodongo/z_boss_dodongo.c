@@ -932,7 +932,6 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
         } else if (this->unk_224 > 1.7f) {
             phi_s0_3 = 3;
             sp90 = 1;
-            if (play) {}
             magma2DrawMode = 0;
         } else if (this->unk_224 > 1.4f) {
             phi_s0_3 = 7;
@@ -1025,9 +1024,10 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
     this->collider.elements[0].dim.scale = (this->actionFunc == BossDodongo_Inhale) ? 0.0f : 1.0f;
 
     for (i = 6; i < 19; i++) {
-        if (i != 12) {
-            this->collider.elements[i].dim.scale = (this->actionFunc == BossDodongo_Roll) ? 0.0f : 1.0f;
+        if (i == 12) {
+            continue;
         }
+        this->collider.elements[i].dim.scale = (this->actionFunc == BossDodongo_Roll) ? 0.0f : 1.0f;
     }
 
     if (this->unk_244 != 0) {
