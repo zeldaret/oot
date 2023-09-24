@@ -91,9 +91,9 @@ typedef struct {
     gDPFillRectangle(gfx, (ulx), (uly), (lrx), (lry)); \
     gDPPipeSync(gfx)
 
-void SpeedMeter_InitImpl(SpeedMeter* this, u32 arg1, u32 y) {
+void SpeedMeter_InitImpl(SpeedMeter* this, u32 x, u32 y) {
     LogUtils_CheckNullPointer("this", this, "../speed_meter.c", 181);
-    this->unk_18 = arg1;
+    this->x = x;
     this->y = y;
 }
 
