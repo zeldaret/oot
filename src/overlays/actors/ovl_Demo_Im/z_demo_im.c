@@ -869,7 +869,7 @@ void func_80986B2C(PlayState* play) {
         play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
-        func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
+        func_8002DF54(play, &player->actor, PLAYER_CSACTION_8);
     }
 }
 

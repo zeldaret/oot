@@ -3816,7 +3816,7 @@ void Interface_Draw(PlayState* play) {
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
                                                 gSaveContext.save.cutsceneIndex = 0;
                                                 Message_StartTextbox(play, 0x71B0, NULL);
-                                                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+                                                func_8002DF54(play, NULL, PLAYER_CSACTION_8);
                                             } else {
                                                 sSubTimerStateTimer = 40;
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_STOP;
