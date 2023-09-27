@@ -1552,10 +1552,10 @@ static u8 D_80854380[2] = { PLAYER_MWA_SPIN_ATTACK_1H, PLAYER_MWA_SPIN_ATTACK_2H
 static u8 D_80854384[2] = { PLAYER_MWA_BIG_SPIN_1H, PLAYER_MWA_BIG_SPIN_2H };
 
 static u16 sItemButtons[] = {
-    BTN_B,      // IBTN_BC_B
-    BTN_CLEFT,  // IBTN_BC_C_LEFT
-    BTN_CDOWN,  // IBTN_BC_C_DOWN
-    BTN_CRIGHT, // IBTN_BC_C_RIGHT
+    BTN_B,      // INTERACT_BC_BTN_B
+    BTN_CLEFT,  // INTERACT_BC_BTN_C_LEFT
+    BTN_CDOWN,  // INTERACT_BC_BTN_C_DOWN
+    BTN_CRIGHT, // INTERACT_BC_BTN_C_RIGHT
 };
 
 static u8 sMagicSpellCosts[] = { 12, 24, 24, 12, 24, 12 };
@@ -2332,18 +2332,18 @@ s32 Player_ItemIsItemAction(s32 item1, s32 itemAction) {
 }
 
 s32 Player_GetItemOnButton(PlayState* play, s32 index) {
-    if (index >= IBTN_BC_MAX) {
+    if (index >= INTERACT_BC_BTN_MAX) {
         return ITEM_NONE;
     } else if (play->bombchuBowlingStatus != 0) {
         return (play->bombchuBowlingStatus > 0) ? ITEM_BOMBCHU : ITEM_NONE;
-    } else if (index == IBTN_BC_B) {
+    } else if (index == INTERACT_BC_BTN_B) {
         return B_BTN_ITEM;
-    } else if (index == IBTN_BC_C_LEFT) {
-        return C_BTN_ITEM(IBTN_C_C_LEFT);
-    } else if (index == IBTN_BC_C_DOWN) {
-        return C_BTN_ITEM(IBTN_C_C_DOWN);
+    } else if (index == INTERACT_BC_BTN_C_LEFT) {
+        return C_BTN_ITEM(INTERACT_C_BTN_C_LEFT);
+    } else if (index == INTERACT_BC_BTN_C_DOWN) {
+        return C_BTN_ITEM(INTERACT_C_BTN_C_DOWN);
     } else {
-        return C_BTN_ITEM(IBTN_C_C_RIGHT);
+        return C_BTN_ITEM(INTERACT_C_BTN_C_RIGHT);
     }
 }
 
@@ -2364,18 +2364,18 @@ void Player_ProcessItemButtons(Player* this, PlayState* play) {
     if (this->currentMask != PLAYER_MASK_NONE) {
         maskItemAction = this->currentMask - 1 + PLAYER_IA_MASK_KEATON;
 
-        if (!Player_ItemIsItemAction(C_BTN_ITEM(IBTN_C_C_LEFT), maskItemAction) &&
-            !Player_ItemIsItemAction(C_BTN_ITEM(IBTN_C_C_DOWN), maskItemAction) &&
-            !Player_ItemIsItemAction(C_BTN_ITEM(IBTN_C_C_RIGHT), maskItemAction)) {
+        if (!Player_ItemIsItemAction(C_BTN_ITEM(INTERACT_C_BTN_C_LEFT), maskItemAction) &&
+            !Player_ItemIsItemAction(C_BTN_ITEM(INTERACT_C_BTN_C_DOWN), maskItemAction) &&
+            !Player_ItemIsItemAction(C_BTN_ITEM(INTERACT_C_BTN_C_RIGHT), maskItemAction)) {
             this->currentMask = PLAYER_MASK_NONE;
         }
     }
 
     if (!(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_29)) && !func_8008F128(this)) {
         if (this->itemAction >= PLAYER_IA_FISHING_POLE) {
-            if (!Player_ItemIsInUse(this, B_BTN_ITEM) && !Player_ItemIsInUse(this, C_BTN_ITEM(IBTN_C_C_LEFT)) &&
-                !Player_ItemIsInUse(this, C_BTN_ITEM(IBTN_C_C_DOWN)) &&
-                !Player_ItemIsInUse(this, C_BTN_ITEM(IBTN_C_C_RIGHT))) {
+            if (!Player_ItemIsInUse(this, B_BTN_ITEM) && !Player_ItemIsInUse(this, C_BTN_ITEM(INTERACT_C_BTN_C_LEFT)) &&
+                !Player_ItemIsInUse(this, C_BTN_ITEM(INTERACT_C_BTN_C_DOWN)) &&
+                !Player_ItemIsInUse(this, C_BTN_ITEM(INTERACT_C_BTN_C_RIGHT))) {
                 Player_UseItem(play, this, ITEM_NONE);
                 return;
             }
@@ -2390,7 +2390,7 @@ void Player_ProcessItemButtons(Player* this, PlayState* play) {
         item = Player_GetItemOnButton(play, i);
 
         if (item >= ITEM_NONE_FE) {
-            for (i = 0; i < IBTN_BC_MAX; i++) {
+            for (i = 0; i < INTERACT_BC_BTN_MAX; i++) {
                 if (CHECK_BTN_ALL(sControlInput->cur.button, sItemButtons[i])) {
                     break;
                 }
@@ -14772,7 +14772,7 @@ void func_80852648(PlayState* play, Player* this, CsCmdActorCue* cue) {
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_IA_NONE);
         this->leftHandDLists = gPlayerLeftHandOpenDLs;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
-        gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_MASTER;
+        gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_SWORD_MASTER;
         Inventory_DeleteEquipment(play, EQUIP_TYPE_SWORD);
     }
 }

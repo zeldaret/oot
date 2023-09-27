@@ -297,11 +297,11 @@ void Sram_InitDebugSave(void) {
     SET_EVENTCHKINF(EVENTCHKINF_C4);
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_KOKIRI;
+        gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_SWORD_KOKIRI;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_KOKIRI);
         if (gSaveContext.fileNum == 0xFF) {
-            gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] = ITEM_SLINGSHOT;
-            gSaveContext.save.info.equips.cButtonSlots[IBTN_C_C_LEFT] = SLOT_SLINGSHOT;
+            gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_LEFT] = ITEM_SLINGSHOT;
+            gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_LEFT] = SLOT_SLINGSHOT;
             Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_DEKU);
         }
     }
@@ -469,7 +469,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
         INV_CONTENT(ITEM_ZELDAS_LETTER) = ITEM_CHICKEN;
 
-        for (j = IBTN_BC_C_FIRST; j <= IBTN_BC_C_LAST; j++) {
+        for (j = INTERACT_BC_BTN_C_FIRST; j <= INTERACT_BC_BTN_C_LAST; j++) {
             if (gSaveContext.save.info.equips.buttonItems[j] == ITEM_ZELDAS_LETTER) {
                 gSaveContext.save.info.equips.buttonItems[j] = ITEM_CHICKEN;
             }
@@ -478,7 +478,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
         gSaveContext.save.info.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER);
-        gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_MASTER;
+        gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_SWORD_MASTER;
         gSaveContext.save.info.equips.equipment &= ~(0xF << (EQUIP_TYPE_SWORD * 4));
         gSaveContext.save.info.equips.equipment |= EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4);
     }
@@ -487,7 +487,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[i]) {
             INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
 
-            for (j = IBTN_BC_C_FIRST; j <= IBTN_BC_C_LAST; j++) {
+            for (j = INTERACT_BC_BTN_C_FIRST; j <= INTERACT_BC_BTN_C_LAST; j++) {
                 if (gSaveContext.save.info.equips.buttonItems[j] == gSpoilingItems[i]) {
                     gSaveContext.save.info.equips.buttonItems[j] = gSpoilingItemReverts[i];
                 }

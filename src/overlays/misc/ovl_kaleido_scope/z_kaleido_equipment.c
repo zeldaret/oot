@@ -477,23 +477,23 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
                 if (pauseCtx->cursorY[PAUSE_EQUIP] == 0) {
                     gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] = 0;
-                    gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = cursorItem;
+                    gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = cursorItem;
 
                     if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && (gSaveContext.save.info.playerData.bgsFlag != 0)) {
-                        gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_BIGGORON;
+                        gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_SWORD_BIGGORON;
                         gSaveContext.save.info.playerData.swordHealth = 8;
                     } else {
-                        if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_HEART_PIECE_2) {
-                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_SWORD_BIGGORON;
+                        if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] == ITEM_HEART_PIECE_2) {
+                            gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_SWORD_BIGGORON;
                         }
-                        if ((gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] == ITEM_SWORD_BIGGORON) &&
+                        if ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] == ITEM_SWORD_BIGGORON) &&
                             (gSaveContext.save.info.playerData.bgsFlag == 0) &&
                             CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
-                            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_GIANTS_KNIFE;
+                            gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_GIANTS_KNIFE;
                         }
                     }
 
-                    Interface_LoadItemIcon1(play, IBTN_BC_B);
+                    Interface_LoadItemIcon1(play, INTERACT_BC_BTN_B);
                 }
 
                 Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,

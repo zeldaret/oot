@@ -299,7 +299,7 @@ u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
         }
 
         if (equipment == EQUIP_TYPE_SWORD) {
-            gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_NONE;
+            gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_NONE;
             gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] = 1;
         }
 

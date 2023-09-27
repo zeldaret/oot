@@ -38,7 +38,7 @@ void GameOver_Update(PlayState* play) {
                     INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
 
                     // search c buttons for the found spoiling item and revert if necessary
-                    for (j = IBTN_BC_C_FIRST; j <= IBTN_BC_C_LAST; j++) {
+                    for (j = INTERACT_BC_BTN_C_FIRST; j <= INTERACT_BC_BTN_C_LAST; j++) {
                         if (gSaveContext.save.info.equips.buttonItems[j] == gSpoilingItems[i]) {
                             gSaveContext.save.info.equips.buttonItems[j] = gSpoilingItemReverts[i];
                             Interface_LoadItemIcon1(play, j);
@@ -48,15 +48,15 @@ void GameOver_Update(PlayState* play) {
             }
 
             // restore "temporary B" to the B Button if not a sword item
-            if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KOKIRI &&
-                gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_MASTER &&
-                gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_BIGGORON &&
-                gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_GIANTS_KNIFE) {
+            if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_KOKIRI &&
+                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_MASTER &&
+                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_BIGGORON &&
+                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_GIANTS_KNIFE) {
 
-                if (gSaveContext.buttonStatus[IBTN_BCA_B] != BTN_ENABLED) {
-                    gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = gSaveContext.buttonStatus[IBTN_BCA_B];
+                if (gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] != BTN_ENABLED) {
+                    gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
                 } else {
-                    gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_NONE;
+                    gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_NONE;
                 }
             }
 
@@ -68,9 +68,9 @@ void GameOver_Update(PlayState* play) {
             gSaveContext.eventInf[1] = 0;
             gSaveContext.eventInf[2] = 0;
             gSaveContext.eventInf[3] = 0;
-            gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
-                gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
-                    gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
+            gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
+                gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_A] = BTN_ENABLED;
             gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
                 gSaveContext.hudVisibilityModeTimer = 0; // false, HUD_VISIBILITY_NO_CHANGE
 

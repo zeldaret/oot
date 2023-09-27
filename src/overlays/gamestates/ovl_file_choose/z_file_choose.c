@@ -1483,9 +1483,9 @@ void FileSelect_LoadGame(GameState* thisx) {
     gSaveContext.nextDayTime = NEXT_TIME_NONE;
     gSaveContext.retainWeatherMode = false;
 
-    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
-        gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
-            gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
+    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
+        gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
+            gSaveContext.buttonStatus[INTERACT_BCA_BTN_A] = BTN_ENABLED;
 
     gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
         gSaveContext.hudVisibilityModeTimer = gSaveContext.magicCapacity = 0; // false, HUD_VISIBILITY_NO_CHANGE
@@ -1503,12 +1503,12 @@ void FileSelect_LoadGame(GameState* thisx) {
 
     gSaveContext.save.info.playerData.naviTimer = 0;
 
-    if ((gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KOKIRI) &&
-        (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_MASTER) &&
-        (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_BIGGORON) &&
-        (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_GIANTS_KNIFE)) {
+    if ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_KOKIRI) &&
+        (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_MASTER) &&
+        (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_BIGGORON) &&
+        (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_GIANTS_KNIFE)) {
 
-        gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] = ITEM_NONE;
+        gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_NONE;
         swordEquipValue =
             (gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.save.info.equips.equipment) >> (EQUIP_TYPE_SWORD * 4);
         gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
@@ -1854,9 +1854,9 @@ void FileSelect_InitContext(GameState* thisx) {
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
 
-    gSaveContext.buttonStatus[IBTN_BCA_B] = gSaveContext.buttonStatus[IBTN_BCA_C_LEFT] =
-        gSaveContext.buttonStatus[IBTN_BCA_C_DOWN] = gSaveContext.buttonStatus[IBTN_BCA_C_RIGHT] =
-            gSaveContext.buttonStatus[IBTN_BCA_A] = BTN_ENABLED;
+    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
+        gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
+            gSaveContext.buttonStatus[INTERACT_BCA_BTN_A] = BTN_ENABLED;
 
     this->n64ddFlags[0] = this->n64ddFlags[1] = this->n64ddFlags[2] = this->defense[0] = this->defense[1] =
         this->defense[2] = 0;

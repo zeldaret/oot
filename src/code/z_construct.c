@@ -4,7 +4,7 @@ void Interface_Destroy(PlayState* play) {
     Map_Destroy(play);
 }
 
-#define ICON_ITEM_SEGMENT_SIZE (IBTN_BC_MAX * ITEM_ICON_SIZE)
+#define ICON_ITEM_SEGMENT_SIZE (INTERACT_BC_BTN_MAX * ITEM_ICON_SIZE)
 
 void Interface_Init(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
@@ -80,38 +80,38 @@ void Interface_Init(PlayState* play) {
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.save.info.equips.buttonItems[IBTN_BC_B],
-                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT],
-                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN],
-                 gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]);
+    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B],
+                 gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_LEFT],
+                 gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_DOWN],
+                 gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT]);
 
-    if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_B * ITEM_ICON_SIZE),
+    if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] < 0xF0) {
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (INTERACT_BC_BTN_B * ITEM_ICON_SIZE),
 
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_B]),
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B]),
                                 ITEM_ICON_SIZE, "../z_construct.c", 198);
-    } else if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != 0xFF) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_B * ITEM_ICON_SIZE),
+    } else if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != 0xFF) {
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (INTERACT_BC_BTN_B * ITEM_ICON_SIZE),
 
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_B]),
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B]),
                                 ITEM_ICON_SIZE, "../z_construct.c", 203);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_C_LEFT * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_LEFT]),
+    if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_LEFT] < 0xF0) {
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (INTERACT_BC_BTN_C_LEFT * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_LEFT]),
                                 ITEM_ICON_SIZE, "../z_construct.c", 209);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_C_DOWN * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_DOWN]),
+    if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_DOWN] < 0xF0) {
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (INTERACT_BC_BTN_C_DOWN * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_DOWN]),
                                 ITEM_ICON_SIZE, "../z_construct.c", 214);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (IBTN_BC_C_RIGHT * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[IBTN_BC_C_RIGHT]),
+    if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] < 0xF0) {
+        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (INTERACT_BC_BTN_C_RIGHT * ITEM_ICON_SIZE),
+                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT]),
                                 ITEM_ICON_SIZE, "../z_construct.c", 219);
     }
 
@@ -160,12 +160,12 @@ void Interface_Init(PlayState* play) {
 
     interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
 
-    R_ITEM_BTN_X(IBTN_BC_B) = B_BUTTON_X;
+    R_ITEM_BTN_X(INTERACT_BC_BTN_B) = B_BUTTON_X;
     R_B_BTN_COLOR(0) = 255;
     R_B_BTN_COLOR(1) = 30;
     R_B_BTN_COLOR(2) = 30;
-    R_ITEM_ICON_X(IBTN_BC_B) = B_BUTTON_X;
-    R_ITEM_AMMO_X(IBTN_BC_B) = B_BUTTON_X + 2;
+    R_ITEM_ICON_X(INTERACT_BC_BTN_B) = B_BUTTON_X;
+    R_ITEM_AMMO_X(INTERACT_BC_BTN_B) = B_BUTTON_X + 2;
     R_A_BTN_X = A_BUTTON_X;
     R_A_ICON_X = A_BUTTON_X;
     R_A_BTN_COLOR(0) = 0;
@@ -327,28 +327,28 @@ void Regs_InitDataImpl(void) {
     ZREG(64) = 20;
     ZREG(65) = 21;
     ZREG(66) = 122;
-    R_ITEM_BTN_X(IBTN_BC_C_LEFT) = C_LEFT_BUTTON_X;
-    R_ITEM_BTN_X(IBTN_BC_C_DOWN) = C_DOWN_BUTTON_X;
-    R_ITEM_BTN_X(IBTN_BC_C_RIGHT) = C_RIGHT_BUTTON_X;
-    R_ITEM_BTN_Y(IBTN_BC_B) = B_BUTTON_Y;
-    R_ITEM_BTN_Y(IBTN_BC_C_LEFT) = C_LEFT_BUTTON_Y;
-    R_ITEM_BTN_Y(IBTN_BC_C_DOWN) = C_DOWN_BUTTON_Y;
-    R_ITEM_BTN_Y(IBTN_BC_C_RIGHT) = C_RIGHT_BUTTON_Y;
-    R_ITEM_BTN_DD(IBTN_BC_B) = 575;
-    R_ITEM_BTN_DD(IBTN_BC_C_LEFT) = 620;
-    R_ITEM_BTN_DD(IBTN_BC_C_DOWN) = 620;
-    R_ITEM_BTN_DD(IBTN_BC_C_RIGHT) = 620;
-    R_ITEM_ICON_X(IBTN_BC_C_LEFT) = C_LEFT_BUTTON_X;
-    R_ITEM_ICON_X(IBTN_BC_C_DOWN) = C_DOWN_BUTTON_X;
-    R_ITEM_ICON_X(IBTN_BC_C_RIGHT) = C_RIGHT_BUTTON_X;
-    R_ITEM_ICON_Y(IBTN_BC_B) = B_BUTTON_Y;
-    R_ITEM_ICON_Y(IBTN_BC_C_LEFT) = C_LEFT_BUTTON_Y;
-    R_ITEM_ICON_Y(IBTN_BC_C_DOWN) = C_DOWN_BUTTON_Y;
-    R_ITEM_ICON_Y(IBTN_BC_C_RIGHT) = C_RIGHT_BUTTON_Y;
-    R_ITEM_ICON_DD(IBTN_BC_B) = 550;
-    R_ITEM_ICON_DD(IBTN_BC_C_LEFT) = 680;
-    R_ITEM_ICON_DD(IBTN_BC_C_DOWN) = 680;
-    R_ITEM_ICON_DD(IBTN_BC_C_RIGHT) = 680;
+    R_ITEM_BTN_X(INTERACT_BC_BTN_C_LEFT) = C_LEFT_BUTTON_X;
+    R_ITEM_BTN_X(INTERACT_BC_BTN_C_DOWN) = C_DOWN_BUTTON_X;
+    R_ITEM_BTN_X(INTERACT_BC_BTN_C_RIGHT) = C_RIGHT_BUTTON_X;
+    R_ITEM_BTN_Y(INTERACT_BC_BTN_B) = B_BUTTON_Y;
+    R_ITEM_BTN_Y(INTERACT_BC_BTN_C_LEFT) = C_LEFT_BUTTON_Y;
+    R_ITEM_BTN_Y(INTERACT_BC_BTN_C_DOWN) = C_DOWN_BUTTON_Y;
+    R_ITEM_BTN_Y(INTERACT_BC_BTN_C_RIGHT) = C_RIGHT_BUTTON_Y;
+    R_ITEM_BTN_DD(INTERACT_BC_BTN_B) = 575;
+    R_ITEM_BTN_DD(INTERACT_BC_BTN_C_LEFT) = 620;
+    R_ITEM_BTN_DD(INTERACT_BC_BTN_C_DOWN) = 620;
+    R_ITEM_BTN_DD(INTERACT_BC_BTN_C_RIGHT) = 620;
+    R_ITEM_ICON_X(INTERACT_BC_BTN_C_LEFT) = C_LEFT_BUTTON_X;
+    R_ITEM_ICON_X(INTERACT_BC_BTN_C_DOWN) = C_DOWN_BUTTON_X;
+    R_ITEM_ICON_X(INTERACT_BC_BTN_C_RIGHT) = C_RIGHT_BUTTON_X;
+    R_ITEM_ICON_Y(INTERACT_BC_BTN_B) = B_BUTTON_Y;
+    R_ITEM_ICON_Y(INTERACT_BC_BTN_C_LEFT) = C_LEFT_BUTTON_Y;
+    R_ITEM_ICON_Y(INTERACT_BC_BTN_C_DOWN) = C_DOWN_BUTTON_Y;
+    R_ITEM_ICON_Y(INTERACT_BC_BTN_C_RIGHT) = C_RIGHT_BUTTON_Y;
+    R_ITEM_ICON_DD(INTERACT_BC_BTN_B) = 550;
+    R_ITEM_ICON_DD(INTERACT_BC_BTN_C_LEFT) = 680;
+    R_ITEM_ICON_DD(INTERACT_BC_BTN_C_DOWN) = 680;
+    R_ITEM_ICON_DD(INTERACT_BC_BTN_C_RIGHT) = 680;
     ZREG(94) = 1;
     ZREG(95) = 0;
     XREG(0) = 26;
@@ -593,14 +593,14 @@ void Regs_InitDataImpl(void) {
     VREG(73) = 0;
     VREG(74) = 0;
     VREG(75) = 0;
-    R_ITEM_ICON_WIDTH(IBTN_BC_B) = 30;
-    R_ITEM_ICON_WIDTH(IBTN_BC_C_LEFT) = 24;
-    R_ITEM_ICON_WIDTH(IBTN_BC_C_DOWN) = 24;
-    R_ITEM_ICON_WIDTH(IBTN_BC_C_RIGHT) = 24;
-    R_ITEM_BTN_WIDTH(IBTN_BC_B) = 29;
-    R_ITEM_BTN_WIDTH(IBTN_BC_C_LEFT) = 27;
-    R_ITEM_BTN_WIDTH(IBTN_BC_C_DOWN) = 27;
-    R_ITEM_BTN_WIDTH(IBTN_BC_C_RIGHT) = 27;
+    R_ITEM_ICON_WIDTH(INTERACT_BC_BTN_B) = 30;
+    R_ITEM_ICON_WIDTH(INTERACT_BC_BTN_C_LEFT) = 24;
+    R_ITEM_ICON_WIDTH(INTERACT_BC_BTN_C_DOWN) = 24;
+    R_ITEM_ICON_WIDTH(INTERACT_BC_BTN_C_RIGHT) = 24;
+    R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_B) = 29;
+    R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_LEFT) = 27;
+    R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_DOWN) = 27;
+    R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_RIGHT) = 27;
     VREG(84) = 0;
     VREG(85) = 50;
     VREG(86) = 0;

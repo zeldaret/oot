@@ -60,41 +60,41 @@ typedef enum {
 #define MAGIC_DOUBLE_METER (2 * MAGIC_NORMAL_METER)
 
 typedef enum {
-    /* 0 */ IBTN_BC_B,
-    /* 1 */ IBTN_BC_C_LEFT,
-    /* 2 */ IBTN_BC_C_DOWN,
-    /* 3 */ IBTN_BC_C_RIGHT,
-    /* 4 */ IBTN_BC_MAX
-} InteractButtonBC;
+    /* 0 */ INTERACT_BC_BTN_B,
+    /* 1 */ INTERACT_BC_BTN_C_LEFT,
+    /* 2 */ INTERACT_BC_BTN_C_DOWN,
+    /* 3 */ INTERACT_BC_BTN_C_RIGHT,
+    /* 4 */ INTERACT_BC_BTN_MAX
+} InteractBCButton;
 
-#define IBTN_BC_C_FIRST IBTN_BC_C_LEFT
-#define IBTN_BC_C_LAST IBTN_BC_C_RIGHT
-
-typedef enum {
-    /* 0 */ IBTN_C_C_LEFT,
-    /* 1 */ IBTN_C_C_DOWN,
-    /* 2 */ IBTN_C_C_RIGHT,
-    /* 3 */ IBTN_C_MAX
-} InteractButtonC;
-
-#define IBTN_C_TO_BC(btnsC) ((btnsC) + 1)
-#define IBTN_BC_TO_C(btnsBC) ((btnsBC) - 1)
+#define INTERACT_BC_BTN_C_FIRST INTERACT_BC_BTN_C_LEFT
+#define INTERACT_BC_BTN_C_LAST INTERACT_BC_BTN_C_RIGHT
 
 typedef enum {
-    /* 0 */ IBTN_BCA_B,
-    /* 1 */ IBTN_BCA_C_LEFT,
-    /* 2 */ IBTN_BCA_C_DOWN,
-    /* 3 */ IBTN_BCA_C_RIGHT,
-    /* 4 */ IBTN_BCA_A,
-    /* 5 */ IBTN_BCA_MAX
-} InteractButtonBCA;
+    /* 0 */ INTERACT_C_BTN_C_LEFT,
+    /* 1 */ INTERACT_C_BTN_C_DOWN,
+    /* 2 */ INTERACT_C_BTN_C_RIGHT,
+    /* 3 */ INTERACT_C_BTN_MAX
+} InteractCButton;
 
-#define IBTN_C_TO_BCA(btnsC) ((btnsC) + 1)
-#define IBTN_BC_TO_BCA(btnsBC) (btnsBC)
+#define INTERACT_C_BTN_TO_BC_BTN(btnsC) ((btnsC) + 1)
+#define INTERACT_BC_BTN_TO_C_BTN(btnsBC) ((btnsBC) - 1)
+
+typedef enum {
+    /* 0 */ INTERACT_BCA_BTN_B,
+    /* 1 */ INTERACT_BCA_BTN_C_LEFT,
+    /* 2 */ INTERACT_BCA_BTN_C_DOWN,
+    /* 3 */ INTERACT_BCA_BTN_C_RIGHT,
+    /* 4 */ INTERACT_BCA_BTN_A,
+    /* 5 */ INTERACT_BCA_BTN_MAX
+} InteractBCAButton;
+
+#define INTERACT_C_BTN_TO_BCA_BTN(btnsC) ((btnsC) + 1)
+#define INTERACT_BC_BTN_TO_BCA_BTN(btnsBC) (btnsBC)
 
 typedef struct {
-    /* 0x00 */ u8 buttonItems[IBTN_BC_MAX];
-    /* 0x04 */ u8 cButtonSlots[IBTN_C_MAX];
+    /* 0x00 */ u8 buttonItems[INTERACT_BC_BTN_MAX];
+    /* 0x04 */ u8 cButtonSlots[INTERACT_C_BTN_MAX];
     /* 0x08 */ u16 equipment; // a mask where each nibble corresponds to a type of equipment `EquipmentType`, and each nibble is a piece `EquipValue*`
 } ItemEquips; // size = 0x0A
 
@@ -295,7 +295,7 @@ typedef struct {
     /* 0x13DE */ char unk_13DE[0x0002];
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
-    /* 0x13E2 */ u8 buttonStatus[IBTN_BCA_MAX];
+    /* 0x13E2 */ u8 buttonStatus[INTERACT_BCA_BTN_MAX];
     /* 0x13E7 */ u8 forceRisingButtonAlphas; // if btn alphas are updated through Interface_DimButtonAlphas, instead update them through Interface_RaiseButtonAlphas
     /* 0x13E8 */ u16 nextHudVisibilityMode; // triggers the hud to change visibility mode to the requested value. Reset to HUD_VISIBILITY_NO_CHANGE when target is reached
     /* 0x13EA */ u16 hudVisibilityMode; // current hud visibility mode

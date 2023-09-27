@@ -1158,13 +1158,13 @@ s32 Player_OverrideLimbDrawGameplayDefault(PlayState* play, s32 limbIndex, Gfx**
             if ((this->sheathType == PLAYER_MODELTYPE_SHEATH_18) || (this->sheathType == PLAYER_MODELTYPE_SHEATH_19)) {
                 dLists += this->currentShield * 4;
                 if (!LINK_IS_ADULT && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
-                    (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KOKIRI)) {
+                    (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_KOKIRI)) {
                     dLists += PLAYER_SHIELD_MAX * 4;
                 }
             } else if (!LINK_IS_ADULT &&
                        ((this->sheathType == PLAYER_MODELTYPE_SHEATH_16) ||
                         (this->sheathType == PLAYER_MODELTYPE_SHEATH_17)) &&
-                       (gSaveContext.save.info.equips.buttonItems[IBTN_BC_B] != ITEM_SWORD_KOKIRI)) {
+                       (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_KOKIRI)) {
                 dLists = D_80125D28 + PLAYER_SHIELD_MAX * 4;
             }
 
