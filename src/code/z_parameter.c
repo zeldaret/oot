@@ -655,15 +655,16 @@ void func_80083108(PlayState* play) {
 
                 if (gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] == BTN_DISABLED) {
                     gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
-                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
-                            BTN_ENABLED;
+                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] =
+                            gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] = BTN_ENABLED;
                 }
 
                 if ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SLINGSHOT) &&
                     (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_BOW) &&
                     (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_BOMBCHU) &&
                     (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_NONE)) {
-                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B];
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] =
+                        gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B];
 
                     if ((play->sceneId == SCENE_BOMBCHU_BOWLING_ALLEY) && Flags_GetSwitch(play, 0x38)) {
                         gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_BOMBCHU;
@@ -685,8 +686,9 @@ void func_80083108(PlayState* play) {
                         }
                     }
 
-                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] =
-                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] = BTN_DISABLED;
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
+                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] =
+                            gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] = BTN_DISABLED;
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_HEARTS_MAGIC_MINIMAP_FORCE);
                 }
 
@@ -713,7 +715,8 @@ void func_80083108(PlayState* play) {
             gSaveContext.forceRisingButtonAlphas = 2;
             if (play->interfaceCtx.unk_260 != 0) {
                 if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_FISHING_POLE) {
-                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B];
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] =
+                        gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B];
                     gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_FISHING_POLE;
                     gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
                     Interface_LoadItemIcon1(play, INTERACT_BC_BTN_B);
@@ -724,7 +727,8 @@ void func_80083108(PlayState* play) {
                     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_A_B_MINIMAP);
                 }
             } else if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] == ITEM_FISHING_POLE) {
-                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
+                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] =
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
                 gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
 
                 if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_NONE) {
@@ -732,8 +736,8 @@ void func_80083108(PlayState* play) {
                 }
 
                 gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
-                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
-                        BTN_DISABLED;
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] =
+                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] = BTN_DISABLED;
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
             } else {
                 if (gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] == BTN_ENABLED) {
@@ -741,8 +745,8 @@ void func_80083108(PlayState* play) {
                 }
 
                 gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
-                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
-                        BTN_DISABLED;
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] =
+                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] = BTN_DISABLED;
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
             }
         } else if (msgCtx->msgMode == MSGMODE_NONE) {
@@ -1347,23 +1351,27 @@ void func_80084BF4(PlayState* play, u16 flag) {
                 (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] == ITEM_BOW) ||
                 (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] == ITEM_BOMBCHU) ||
                 (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] == ITEM_FISHING_POLE)) {
-                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
+                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] =
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
                 Interface_LoadItemIcon1(play, INTERACT_BC_BTN_B);
             }
         } else if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] == ITEM_NONE) {
             if ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_NONE) ||
                 (gSaveContext.save.info.infTable[INFTABLE_1DX_INDEX] == 0)) {
-                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
+                gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] =
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
                 Interface_LoadItemIcon1(play, INTERACT_BC_BTN_B);
             }
         }
 
         gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
-            gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] = BTN_ENABLED;
+            gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
+                BTN_ENABLED;
         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL_NO_MINIMAP_BY_BTN_STATUS);
     } else {
         gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
-            gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] = BTN_ENABLED;
+            gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
+                BTN_ENABLED;
         func_80083108(play);
     }
 }
@@ -2061,19 +2069,21 @@ s32 Inventory_HasSpecificBottle(u8 bottleItem) {
 }
 
 void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
-    osSyncPrintf(
-        "item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, button,
-        gSaveContext.save.info.equips.cButtonSlots[INTERACT_BC_BTN_TO_C_BTN(button)],
-        gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[INTERACT_BC_BTN_TO_C_BTN(button)]]);
+    osSyncPrintf("item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, button,
+                 gSaveContext.save.info.equips.cButtonSlots[INTERACT_BC_BTN_TO_C_BTN(button)],
+                 gSaveContext.save.info.inventory
+                     .items[gSaveContext.save.info.equips.cButtonSlots[INTERACT_BC_BTN_TO_C_BTN(button)]]);
 
     // Special case to only empty half of a Lon Lon Milk Bottle
-    if ((gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[INTERACT_BC_BTN_TO_C_BTN(button)]] ==
+    if ((gSaveContext.save.info.inventory
+             .items[gSaveContext.save.info.equips.cButtonSlots[INTERACT_BC_BTN_TO_C_BTN(button)]] ==
          ITEM_BOTTLE_MILK_FULL) &&
         (item == ITEM_BOTTLE_EMPTY)) {
         item = ITEM_BOTTLE_MILK_HALF;
     }
 
-    gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[INTERACT_BC_BTN_TO_C_BTN(button)]] = item;
+    gSaveContext.save.info.inventory
+        .items[gSaveContext.save.info.equips.cButtonSlots[INTERACT_BC_BTN_TO_C_BTN(button)]] = item;
     gSaveContext.save.info.equips.buttonItems[button] = item;
 
     Interface_LoadItemIcon1(play, button);
@@ -2800,33 +2810,37 @@ void Interface_DrawItemButtons(PlayState* play) {
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_B_BTN_COLOR(0), R_B_BTN_COLOR(1), R_B_BTN_COLOR(2), interfaceCtx->bAlpha);
     gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
     OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gButtonBackgroundTex, 32, 32, R_ITEM_BTN_X(INTERACT_BC_BTN_B),
-                                  R_ITEM_BTN_Y(INTERACT_BC_BTN_B), R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_B), R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_B),
-                                  R_ITEM_BTN_DD(INTERACT_BC_BTN_B) << 1, R_ITEM_BTN_DD(INTERACT_BC_BTN_B) << 1);
+                                  R_ITEM_BTN_Y(INTERACT_BC_BTN_B), R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_B),
+                                  R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_B), R_ITEM_BTN_DD(INTERACT_BC_BTN_B) << 1,
+                                  R_ITEM_BTN_DD(INTERACT_BC_BTN_B) << 1);
 
     // C-Left Button Color & Texture
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cLeftAlpha);
-    gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(INTERACT_BC_BTN_C_LEFT) << 2, R_ITEM_BTN_Y(INTERACT_BC_BTN_C_LEFT) << 2,
-                        (R_ITEM_BTN_X(INTERACT_BC_BTN_C_LEFT) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_LEFT)) << 2,
-                        (R_ITEM_BTN_Y(INTERACT_BC_BTN_C_LEFT) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_LEFT)) << 2, G_TX_RENDERTILE, 0, 0,
-                        R_ITEM_BTN_DD(INTERACT_BC_BTN_C_LEFT) << 1, R_ITEM_BTN_DD(INTERACT_BC_BTN_C_LEFT) << 1);
+    gSPTextureRectangle(
+        OVERLAY_DISP++, R_ITEM_BTN_X(INTERACT_BC_BTN_C_LEFT) << 2, R_ITEM_BTN_Y(INTERACT_BC_BTN_C_LEFT) << 2,
+        (R_ITEM_BTN_X(INTERACT_BC_BTN_C_LEFT) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_LEFT)) << 2,
+        (R_ITEM_BTN_Y(INTERACT_BC_BTN_C_LEFT) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_LEFT)) << 2, G_TX_RENDERTILE, 0, 0,
+        R_ITEM_BTN_DD(INTERACT_BC_BTN_C_LEFT) << 1, R_ITEM_BTN_DD(INTERACT_BC_BTN_C_LEFT) << 1);
 
     // C-Down Button Color & Texture
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cDownAlpha);
-    gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(INTERACT_BC_BTN_C_DOWN) << 2, R_ITEM_BTN_Y(INTERACT_BC_BTN_C_DOWN) << 2,
-                        (R_ITEM_BTN_X(INTERACT_BC_BTN_C_DOWN) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_DOWN)) << 2,
-                        (R_ITEM_BTN_Y(INTERACT_BC_BTN_C_DOWN) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_DOWN)) << 2, G_TX_RENDERTILE, 0, 0,
-                        R_ITEM_BTN_DD(INTERACT_BC_BTN_C_DOWN) << 1, R_ITEM_BTN_DD(INTERACT_BC_BTN_C_DOWN) << 1);
+    gSPTextureRectangle(
+        OVERLAY_DISP++, R_ITEM_BTN_X(INTERACT_BC_BTN_C_DOWN) << 2, R_ITEM_BTN_Y(INTERACT_BC_BTN_C_DOWN) << 2,
+        (R_ITEM_BTN_X(INTERACT_BC_BTN_C_DOWN) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_DOWN)) << 2,
+        (R_ITEM_BTN_Y(INTERACT_BC_BTN_C_DOWN) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_DOWN)) << 2, G_TX_RENDERTILE, 0, 0,
+        R_ITEM_BTN_DD(INTERACT_BC_BTN_C_DOWN) << 1, R_ITEM_BTN_DD(INTERACT_BC_BTN_C_DOWN) << 1);
 
     // C-Right Button Color & Texture
     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                     interfaceCtx->cRightAlpha);
-    gSPTextureRectangle(OVERLAY_DISP++, R_ITEM_BTN_X(INTERACT_BC_BTN_C_RIGHT) << 2, R_ITEM_BTN_Y(INTERACT_BC_BTN_C_RIGHT) << 2,
-                        (R_ITEM_BTN_X(INTERACT_BC_BTN_C_RIGHT) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_RIGHT)) << 2,
-                        (R_ITEM_BTN_Y(INTERACT_BC_BTN_C_RIGHT) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_RIGHT)) << 2, G_TX_RENDERTILE, 0, 0,
-                        R_ITEM_BTN_DD(INTERACT_BC_BTN_C_RIGHT) << 1, R_ITEM_BTN_DD(INTERACT_BC_BTN_C_RIGHT) << 1);
+    gSPTextureRectangle(
+        OVERLAY_DISP++, R_ITEM_BTN_X(INTERACT_BC_BTN_C_RIGHT) << 2, R_ITEM_BTN_Y(INTERACT_BC_BTN_C_RIGHT) << 2,
+        (R_ITEM_BTN_X(INTERACT_BC_BTN_C_RIGHT) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_RIGHT)) << 2,
+        (R_ITEM_BTN_Y(INTERACT_BC_BTN_C_RIGHT) + R_ITEM_BTN_WIDTH(INTERACT_BC_BTN_C_RIGHT)) << 2, G_TX_RENDERTILE, 0, 0,
+        R_ITEM_BTN_DD(INTERACT_BC_BTN_C_RIGHT) << 1, R_ITEM_BTN_DD(INTERACT_BC_BTN_C_RIGHT) << 1);
 
     if (!IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
         if (IS_PAUSED(&play->pauseCtx)) {
@@ -3352,7 +3366,8 @@ void Interface_Draw(PlayState* play) {
         if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cRightAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
-            Interface_DrawItemIconTexture(play, interfaceCtx->iconItemSegment + INTERACT_BC_BTN_C_RIGHT * ITEM_ICON_SIZE,
+            Interface_DrawItemIconTexture(play,
+                                          interfaceCtx->iconItemSegment + INTERACT_BC_BTN_C_RIGHT * ITEM_ICON_SIZE,
                                           INTERACT_BC_BTN_C_RIGHT);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -3514,7 +3529,8 @@ void Interface_Draw(PlayState* play) {
                 (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_SWORD_BIGGORON) &&
                 (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_GIANTS_KNIFE)) {
                 if (gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] != BTN_ENABLED) {
-                    gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
+                    gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] =
+                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
                 } else {
                     gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_NONE;
                 }

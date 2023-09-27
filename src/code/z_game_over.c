@@ -54,7 +54,8 @@ void GameOver_Update(PlayState* play) {
                 gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] != ITEM_GIANTS_KNIFE) {
 
                 if (gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] != BTN_ENABLED) {
-                    gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
+                    gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] =
+                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_B];
                 } else {
                     gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] = ITEM_NONE;
                 }
@@ -69,8 +70,9 @@ void GameOver_Update(PlayState* play) {
             gSaveContext.eventInf[2] = 0;
             gSaveContext.eventInf[3] = 0;
             gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_LEFT] =
-                gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] = gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
-                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_A] = BTN_ENABLED;
+                gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_DOWN] =
+                    gSaveContext.buttonStatus[INTERACT_BCA_BTN_C_RIGHT] =
+                        gSaveContext.buttonStatus[INTERACT_BCA_BTN_A] = BTN_ENABLED;
             gSaveContext.forceRisingButtonAlphas = gSaveContext.nextHudVisibilityMode = gSaveContext.hudVisibilityMode =
                 gSaveContext.hudVisibilityModeTimer = 0; // false, HUD_VISIBILITY_NO_CHANGE
 

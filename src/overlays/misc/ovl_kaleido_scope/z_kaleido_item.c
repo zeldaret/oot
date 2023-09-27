@@ -611,7 +611,8 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                         gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_DOWN] = ITEM_NONE;
                         gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_DOWN] = SLOT_NONE;
                     }
-                } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_RIGHT]) {
+                } else if (pauseCtx->equipTargetSlot ==
+                           gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_RIGHT]) {
                     if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_LEFT] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
                             ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_LEFT] == ITEM_BOW) ||
@@ -698,7 +699,8 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                         gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_LEFT] = ITEM_NONE;
                         gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_LEFT] = SLOT_NONE;
                     }
-                } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_RIGHT]) {
+                } else if (pauseCtx->equipTargetSlot ==
+                           gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_RIGHT]) {
                     if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_DOWN] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
                             ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_DOWN] == ITEM_BOW) ||
@@ -767,7 +769,8 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
                             ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] == ITEM_BOW) ||
                              ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] <= ITEM_BOW_LIGHT)))) {
+                              (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] <=
+                               ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
@@ -781,12 +784,14 @@ void KaleidoScope_UpdateItemEquip(PlayState* play) {
                         gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_LEFT] = ITEM_NONE;
                         gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_LEFT] = SLOT_NONE;
                     }
-                } else if (pauseCtx->equipTargetSlot == gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_DOWN]) {
+                } else if (pauseCtx->equipTargetSlot ==
+                           gSaveContext.save.info.equips.cButtonSlots[INTERACT_C_BTN_C_DOWN]) {
                     if (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] != ITEM_NONE) {
                         if ((pauseCtx->equipTargetItem >= 0xBF) && (pauseCtx->equipTargetItem <= 0xC1) &&
                             ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] == ITEM_BOW) ||
                              ((gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] >= ITEM_BOW_FIRE) &&
-                              (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] <= ITEM_BOW_LIGHT)))) {
+                              (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_C_RIGHT] <=
+                               ITEM_BOW_LIGHT)))) {
                             pauseCtx->equipTargetItem -= 0xBF - ITEM_BOW_FIRE;
                             pauseCtx->equipTargetSlot = SLOT_BOW;
                         } else {
