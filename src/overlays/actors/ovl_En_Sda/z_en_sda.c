@@ -290,7 +290,6 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, PlayState* pl
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp178.x), MTXMODE_APPLY);
         for (i = 0; i < 22; i++) {
             Matrix_MultVec3f(&D_80AFA180[i], &sp188);
-            if (1) {}
             sp64[i].x = (((KREG(82) / 100.0f) + 4.0f) * sp188.x) + sp16C.x;
             sp64[i].y = (((KREG(82) / 100.0f) + 4.0f) * sp188.y) + sp16C.y;
             sp64[i].z = (((KREG(82) / 100.0f) + 4.0f) * sp188.z) + sp16C.z;
@@ -306,7 +305,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, PlayState* pl
             temp_t0 = sp188.x + 32.0f;
             temp_t1 = (s16)sp188.y << 6;
 
-            do {
+            for (j = 0; j < 6; j++) {
                 for (j = 0, phi_a3 = -0xC0; j < 7; j++, phi_a3 += 0x40) {
                     for (phi_a0 = -D_80AFA0E8[j]; phi_a0 < D_80AFA0E8[j] - 1; phi_a0++) {
                         temp_v0 = temp_t0 + phi_a0;
@@ -318,8 +317,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, PlayState* pl
                         }
                     }
                 }
-                j++;
-            } while (j < 6);
+            }
         }
     }
     if (BREG(61) == 1) {

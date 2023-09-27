@@ -429,7 +429,7 @@ void func_80B4BBC4(EnZl1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
     Player_PlaySfx(player, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
     Message_StartTextbox(play, this->actor.textId, NULL);
@@ -570,7 +570,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             break;
         case 6:
             if (Actor_TextboxIsClosing(&this->actor, play)) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_1E2 = 4;

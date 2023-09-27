@@ -300,30 +300,33 @@ void EnShopnuts_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
     f32 y;
     f32 z;
 
-    if ((limbIndex == BUSINESS_SCRUB_LIMB_NOSE) && (this->actionFunc == EnShopnuts_ThrowNut)) {
-        OPEN_DISPS(play->state.gfxCtx, "../z_en_shopnuts.c", 682);
-        curFrame = this->skelAnime.curFrame;
-        if (curFrame <= 6.0f) {
-            y = 1.0f - (curFrame * 0.0833f);
-            x = z = (curFrame * 0.1167f) + 1.0f;
-        } else if (curFrame <= 7.0f) {
-            curFrame -= 6.0f;
-            y = 0.5f + curFrame;
-            x = z = 1.7f - (curFrame * 0.7f);
-        } else if (curFrame <= 10.0f) {
-            y = 1.5f - ((curFrame - 7.0f) * 0.1667f);
-            x = z = 1.0f;
-        } else {
-            x = y = z = 1.0f;
-        }
-
-        Matrix_Scale(x, y, z, MTXMODE_APPLY);
-        if (1) {}
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_shopnuts.c", 714),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gBusinessScrubNoseDL);
-        CLOSE_DISPS(play->state.gfxCtx, "../z_en_shopnuts.c", 717);
+    if ((limbIndex != BUSINESS_SCRUB_LIMB_NOSE) || (this->actionFunc != EnShopnuts_ThrowNut)) {
+        return;
     }
+
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_shopnuts.c", 682);
+
+    curFrame = this->skelAnime.curFrame;
+    if (curFrame <= 6.0f) {
+        y = 1.0f - (curFrame * 0.0833f);
+        x = z = (curFrame * 0.1167f) + 1.0f;
+    } else if (curFrame <= 7.0f) {
+        curFrame -= 6.0f;
+        y = 0.5f + curFrame;
+        x = z = 1.7f - (curFrame * 0.7f);
+    } else if (curFrame <= 10.0f) {
+        y = 1.5f - ((curFrame - 7.0f) * 0.1667f);
+        x = z = 1.0f;
+    } else {
+        x = y = z = 1.0f;
+    }
+
+    Matrix_Scale(x, y, z, MTXMODE_APPLY);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_shopnuts.c", 714),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, gBusinessScrubNoseDL);
+
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_shopnuts.c", 717);
 }
 
 void EnShopnuts_Draw(Actor* thisx, PlayState* play) {

@@ -61,9 +61,9 @@ If you can't match a function even with everyone's, don't worry overlong about i
 
 Run the formatting script `format.py`, to format the C files in the standard way we use.
 
-### Merge master
+### Merge main
 
-To make sure the PR builds correctly with the current master, you need to merge `upstream/master` before you make the PR. This tends to break things, that you have to fix to get it to compile correctly again.
+To make sure the PR builds correctly with the current main, you need to merge `upstream/main` before you make the PR. This tends to break things, that you have to fix to get it to compile correctly again.
 
 ## Pull Requests
 
@@ -81,7 +81,7 @@ and so on, although these four tend to cover most cases. Feel free to add a comm
 
 Pull requests may be reviewed by anyone (who knows enough about the conventions of the project), but all are usually reviewed by Fig and Roman.
 
-To implement suggestions made in reviews, it is generally easier to be consistent if you push more commits from your local branch. It is quite possible that in the meantime some other PR has gone in, and git will ask you to merge master before you add more commits. This is normally fairly painless, although often you have to resolve merge conflicts. If in doubt, backup your work before doing anything, and ask in Discord before doing anything drastic, or if you don't understand what git is telling you.
+To implement suggestions made in reviews, it is generally easier to be consistent if you push more commits from your local branch. It is quite possible that in the meantime some other PR has gone in, and git will ask you to merge main before you add more commits. This is normally fairly painless, although often you have to resolve merge conflicts. If in doubt, backup your work before doing anything, and ask in Discord before doing anything drastic, or if you don't understand what git is telling you.
 
 There is no need to wait for your PR to be approved and committed before working on your next actor.
 
@@ -94,4 +94,4 @@ It's helpful to use the labels on Trello.
 - Matched for when it is totally decompiled and matching
 - Documented if at least everything is named and odd code is commented. We'll likely wipe these and start over when proper documentation begins.
 
-We now have a PR label on the Trello that you can use to indicate your actor is in a PR. When the actor is committed to master, you can move the actor into the `Decompiled Files (Overlays)` column: it goes at the top if there is a non-matching, and below if not.
+We now have a PR label on the Trello that you can use to indicate your actor is in a PR. When the actor is committed to main, you can move the actor into the `Decompiled Files (Overlays)` column: it goes at the top if there is a non-matching, and below if not.

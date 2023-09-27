@@ -432,7 +432,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     }
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
         AREG(6) = 0;
@@ -859,7 +859,7 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
 void func_80A7AE84(EnIn* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->actionFunc = func_80A7AEF0;
 }
@@ -894,19 +894,22 @@ void func_80A7B024(EnIn* this, PlayState* play) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        if (1) {}
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
-            SET_EVENTCHKINF(EVENTCHKINF_1B);
-            SET_INFTABLE(INFTABLE_AB);
-        }
-        func_80A79BAC(this, play, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
-        SET_EVENTINF_HORSES_0F(1);
-        play->msgCtx.stateTimer = 4;
-        play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
+
+    if (this->interactInfo.talkState != NPC_TALK_STATE_ACTION) {
+        return;
     }
+
+    if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
+        SET_EVENTCHKINF(EVENTCHKINF_1B);
+        SET_INFTABLE(INFTABLE_AB);
+    }
+
+    func_80A79BAC(this, play, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
+    SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
+    SET_EVENTINF_HORSES_0F(1);
+    play->msgCtx.stateTimer = 4;
+    play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 }
 
 void EnIn_Update(Actor* thisx, PlayState* play) {

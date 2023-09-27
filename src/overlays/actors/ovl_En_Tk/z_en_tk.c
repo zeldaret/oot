@@ -93,33 +93,32 @@ void EnTkEff_Draw(EnTk* this, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    if (1) {}
-
-    for (i = 0; i < ARRAY_COUNT(this->eff); i++) {
-        if (eff->active != 0) {
-            if (gfxSetup == 0) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gDampeEff1DL);
-                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                gfxSetup = 1;
-            }
-
-            alpha = eff->timeLeft * (255.0f / eff->timeTotal);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
-
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tk_eff.c", 140),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-            imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustTextures) / eff->timeTotal);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[imageIdx]));
-
-            gSPDisplayList(POLY_XLU_DISP++, gDampeEff2DL);
+    for (i = 0; i < ARRAY_COUNT(this->eff); i++, eff++) {
+        if (eff->active == 0) {
+            continue;
         }
-        eff++;
+
+        if (gfxSetup == 0) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gDampeEff1DL);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
+            gfxSetup = 1;
+        }
+
+        alpha = eff->timeLeft * (255.0f / eff->timeTotal);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
+
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tk_eff.c", 140),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustTextures) / eff->timeTotal);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTextures[imageIdx]));
+
+        gSPDisplayList(POLY_XLU_DISP++, gDampeEff2DL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_tk_eff.c", 154);

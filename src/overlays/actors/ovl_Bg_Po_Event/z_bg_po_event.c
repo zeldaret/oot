@@ -320,7 +320,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, PlayState* play) {
             if (firstFall == 0) {
                 firstFall = 1;
             } else {
-                func_8002DF54(play, &GET_PLAYER(play)->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &GET_PLAYER(play)->actor, PLAYER_CSACTION_7);
             }
         }
         this->direction = 0;
@@ -356,7 +356,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             if (sPuzzleState == 0x10) {
                 sPuzzleState = 0x40;
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_RISING);
-                func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
+                func_8002DF54(play, &player->actor, PLAYER_CSACTION_8);
             }
         } else if (this->dyna.unk_150 != 0.0f) {
             if (this->direction == 0) {

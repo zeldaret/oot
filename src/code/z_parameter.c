@@ -3371,7 +3371,7 @@ void Interface_Draw(PlayState* play) {
 
         func_8008A994(interfaceCtx);
 
-        if ((pauseCtx->state == PAUSE_STATE_6) && (pauseCtx->unk_1E4 == 3)) {
+        if ((pauseCtx->state == PAUSE_STATE_MAIN) && (pauseCtx->mainState == PAUSE_MAIN_STATE_3)) {
             // Inventory Equip Effects
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             Gfx_SetupDL_42Overlay(play->state.gfxCtx);
@@ -3816,7 +3816,7 @@ void Interface_Draw(PlayState* play) {
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_RESPAWN;
                                                 gSaveContext.save.cutsceneIndex = 0;
                                                 Message_StartTextbox(play, 0x71B0, NULL);
-                                                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+                                                func_8002DF54(play, NULL, PLAYER_CSACTION_8);
                                             } else {
                                                 sSubTimerStateTimer = 40;
                                                 gSaveContext.subTimerState = SUBTIMER_STATE_STOP;

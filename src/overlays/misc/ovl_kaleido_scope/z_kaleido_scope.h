@@ -9,7 +9,21 @@ extern s16 D_8082AAEC[];
 extern s16 D_8082AB2C[];
 extern u8 gSlotAgeReqs[];
 extern u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4];
+extern u8 gItemAgeReqs[];
 extern u8 gAreaGsFlags[];
+
+#define AGE_REQ_ADULT LINK_AGE_ADULT
+#define AGE_REQ_CHILD LINK_AGE_CHILD
+#define AGE_REQ_NONE 9
+
+#define CHECK_AGE_REQ_SLOT(slot) \
+    ((gSlotAgeReqs[slot] == AGE_REQ_NONE) || gSlotAgeReqs[slot] == ((void)0, gSaveContext.save.linkAge))
+
+#define CHECK_AGE_REQ_EQUIP(y, x) \
+    ((gEquipAgeReqs[y][x] == AGE_REQ_NONE) || (gEquipAgeReqs[y][x] == ((void)0, gSaveContext.save.linkAge)))
+
+#define CHECK_AGE_REQ_ITEM(item) \
+    ((gItemAgeReqs[item] == AGE_REQ_NONE) || (gItemAgeReqs[item] == ((void)0, gSaveContext.save.linkAge)))
 
 void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx);
 s32 KaleidoScope_UpdateQuestStatusPoint(PauseContext* pauseCtx, s32 point);
