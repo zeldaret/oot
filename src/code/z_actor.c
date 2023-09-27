@@ -1050,27 +1050,27 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
 }
 
 s32 func_8002DEEC(Player* player) {
-    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csMode != PLAYER_CSMODE_NONE);
+    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csAction != PLAYER_CSACTION_NONE);
 }
 
 void func_8002DF18(PlayState* play, Player* player) {
     func_8006DC68(play, player);
 }
 
-s32 func_8002DF38(PlayState* play, Actor* actor, u8 csMode) {
+s32 func_8002DF38(PlayState* play, Actor* actor, u8 csAction) {
     Player* player = GET_PLAYER(play);
 
-    player->csMode = csMode;
+    player->csAction = csAction;
     player->unk_448 = actor;
     player->doorBgCamIndex = 0;
 
     return true;
 }
 
-s32 func_8002DF54(PlayState* play, Actor* actor, u8 csMode) {
+s32 func_8002DF54(PlayState* play, Actor* actor, u8 csAction) {
     Player* player = GET_PLAYER(play);
 
-    func_8002DF38(play, actor, csMode);
+    func_8002DF38(play, actor, csAction);
     player->doorBgCamIndex = 1;
 
     return true;

@@ -4,6 +4,16 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define NUTSBALL_GET_TYPE(thisx) ((thisx)->params)
+
+typedef enum {
+    /*  0 */ EN_NUTSBALL_TYPE_DEKUNUTS,
+    /*  1 */ EN_NUTSBALL_TYPE_HINTNUTS,
+    /*  2 */ EN_NUTSBALL_TYPE_SHOPNUTS,
+    /*  3 */ EN_NUTSBALL_TYPE_DNS,
+    /*  4 */ EN_NUTSBALL_TYPE_DNK
+} EnNutsballType;
+
 struct EnNutsball;
 
 typedef void (*EnNutsballActionFunc)(struct EnNutsball*, PlayState*);

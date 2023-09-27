@@ -298,15 +298,16 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
             z = (88.0f - spBC.z) * 0.64f + 0.5f;
             for (k = 0; k < 11; k++) {
                 temp_z = z - 5 + k;
-                if (!(temp_z & ~0x3F)) {
-                    temp_z *= 0x40;
-                    for (l = 0; l < 11; l++) {
-                        temp_x = x - 5 + l;
-                        if (!(temp_x & ~0x3F)) {
-                            shadowTex[temp_z + temp_x] |= D_8089731C[k][l];
-                        }
-                        if (1) {}
+                if (temp_z & ~0x3F) {
+                    continue;
+                }
+                temp_z *= 0x40;
+                for (l = 0; l < 11; l++) {
+                    temp_x = x - 5 + l;
+                    if (temp_x & ~0x3F) {
+                        continue;
                     }
+                    shadowTex[temp_z + temp_x] |= D_8089731C[k][l];
                 }
             }
         }
@@ -326,14 +327,16 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
             z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
             for (k = 0; k < 3; k++) {
                 temp_z = z - 1 + k;
-                if (!(temp_z & ~0x3F)) {
-                    temp_z *= 0x40;
-                    for (l = 0; l < 3; l++) {
-                        temp_x = x - 1 + l;
-                        if (!(temp_x & ~0x3F)) {
-                            shadowTex[temp_z + temp_x] |= D_80897398[k][l];
-                        }
+                if (temp_z & ~0x3F) {
+                    continue;
+                }
+                temp_z *= 0x40;
+                for (l = 0; l < 3; l++) {
+                    temp_x = x - 1 + l;
+                    if (temp_x & ~0x3F) {
+                        continue;
                     }
+                    shadowTex[temp_z + temp_x] |= D_80897398[k][l];
                 }
             }
         }
@@ -348,7 +351,6 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
         shadowTex[j * 0x40 + 0] = 0;
         shadowTex[j * 0x40 + 0x3F] = 0;
     }
-    if (D_80897398[0][0]) {}
 }
 
 /*

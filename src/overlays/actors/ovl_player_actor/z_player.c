@@ -251,7 +251,7 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cue);
 s32 Player_IsDroppingFish(PlayState* play);
 s32 Player_StartFishing(PlayState* play);
 s32 func_80852F38(PlayState* play, Player* this);
-s32 func_80852FFC(PlayState* play, Actor* actor, s32 csMode);
+s32 func_80852FFC(PlayState* play, Actor* actor, s32 csAction);
 void func_80853080(Player* this, PlayState* play);
 s32 Player_InflictDamage(PlayState* play, s32 damage);
 void func_80853148(PlayState* play, Actor* actor);
@@ -486,8 +486,8 @@ static PlayerAgeProperties sAgeProperties[] = {
 };
 
 static u32 D_808535D0 = false;
-static f32 D_808535D4 = 0.0f;
-static s16 D_808535D8 = 0;
+static f32 sControlStickMagnitude = 0.0f;
+static s16 sControlStickAngle = 0;
 static s16 D_808535DC = 0;
 static s32 D_808535E0 = 0;
 static s32 sFloorType = FLOOR_TYPE_0;
@@ -1717,9 +1717,10 @@ void func_80832564(PlayState* play, Player* this) {
 }
 
 s32 func_80832594(Player* this, s32 arg1, s32 arg2) {
-    s16 temp = this->unk_A80 - D_808535D8;
+    s16 controlStickAngleDiff = this->prevControlStickAngle - sControlStickAngle;
 
-    this->actionVar2 += arg1 + (s16)(ABS(temp) * fabsf(D_808535D4) * 2.5415802156203426e-06f);
+    this->actionVar2 +=
+        arg1 + (s16)(ABS(controlStickAngleDiff) * fabsf(sControlStickMagnitude) * 2.5415802156203426e-06f);
 
     if (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B)) {
         this->actionVar2 += 5;
@@ -1996,24 +1997,24 @@ void Player_AnimReplaceNormalPlayLoopAdjusted(PlayState* play, Player* this, Lin
                                        ANIM_FLAG_PLAYER_2 | ANIM_FLAG_PLAYER_SETMOVE | ANIM_FLAG_NO_MOVE);
 }
 
-void func_8083315C(PlayState* play, Player* this) {
+void Player_ProcessControlStick(PlayState* play, Player* this) {
     s8 phi_v1;
     s8 phi_v0;
 
-    this->unk_A7C = D_808535D4;
-    this->unk_A80 = D_808535D8;
+    this->prevControlStickMagnitude = sControlStickMagnitude;
+    this->prevControlStickAngle = sControlStickAngle;
 
-    func_80077D10(&D_808535D4, &D_808535D8, sControlInput);
+    Lib_GetControlStickData(&sControlStickMagnitude, &sControlStickAngle, sControlInput);
 
-    D_808535DC = Camera_GetInputDirYaw(GET_ACTIVE_CAM(play)) + D_808535D8;
+    D_808535DC = Camera_GetInputDirYaw(GET_ACTIVE_CAM(play)) + sControlStickAngle;
 
     this->unk_846 = (this->unk_846 + 1) % 4;
 
-    if (D_808535D4 < 55.0f) {
+    if (sControlStickMagnitude < 55.0f) {
         phi_v0 = -1;
         phi_v1 = -1;
     } else {
-        phi_v1 = (u16)(D_808535D8 + 0x2000) >> 9;
+        phi_v1 = (u16)(sControlStickAngle + 0x2000) >> 9;
         phi_v0 = (u16)((s16)(D_808535DC - this->actor.shape.rot.y) + 0x2000) >> 14;
     }
 
@@ -2462,7 +2463,7 @@ void Player_UpdateItems(Player* this, PlayState* play) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
         ((this->heldItemAction == this->itemAction) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
         (gSaveContext.save.info.playerData.health != 0) && (play->csCtx.state == CS_STATE_IDLE) &&
-        (this->csMode == PLAYER_CSMODE_NONE) && (play->shootingGalleryStatus == 0) &&
+        (this->csAction == PLAYER_CSACTION_NONE) && (play->shootingGalleryStatus == 0) &&
         (play->activeCamId == CAM_ID_MAIN) && (play->transitionTrigger != TRANS_TRIGGER_START) &&
         (gSaveContext.timerState != TIMER_STATE_STOP)) {
         Player_ProcessItemButtons(this, play);
@@ -3463,7 +3464,7 @@ void func_80836BEC(Player* this, PlayState* play) {
         this->stateFlags1 &= ~PLAYER_STATE1_30;
     }
 
-    if ((play->csCtx.state != CS_STATE_IDLE) || (this->csMode != PLAYER_CSMODE_NONE) ||
+    if ((play->csCtx.state != CS_STATE_IDLE) || (this->csAction != PLAYER_CSACTION_NONE) ||
         (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->stateFlags3 & PLAYER_STATE3_7)) {
         this->unk_66C = 0;
     } else if (zTrigPressed || (this->stateFlags2 & PLAYER_STATE2_13) || (this->unk_684 != NULL)) {
@@ -3555,75 +3556,124 @@ void func_80836BEC(Player* this, PlayState* play) {
     }
 }
 
-s32 func_80836FAC(PlayState* play, Player* this, f32* arg2, s16* arg3, f32 arg4) {
-    f32 temp_f2;
-    f32 temp_f0;
-    f32 temp_f14;
-    f32 temp_f12;
+/**
+ * These defines exist to simplify the variable used to toggle the different speed modes.
+ * While the `speedMode` variable is a float and can contain a non-boolean value,
+ * `Player_CalcSpeedAndYawFromControlStick` never actually uses the value for anything.
+ * It simply checks if the value is non-zero to toggle the "curved" mode.
+ * In practice, 0.0f or 0.018f are the only values passed to this function.
+ *
+ * It's clear that this value was intended to mean something in the curved mode calculation at
+ * some point in development, but was either never implemented or removed.
+ *
+ * To see the difference between linear and curved mode, with interactive toggles for
+ * speed cap and floor pitch, see the following desmos graph: https://www.desmos.com/calculator/hri7dcws4c
+ */
+
+// Linear mode is a straight line, increasing target speed at a steady rate relative to the control stick magnitude
+#define SPEED_MODE_LINEAR 0.0f
+
+// Curved mode drops any input below 20 units of magnitude, resulting in zero for target speed.
+// Beyond 20 units, a gradual curve slowly moves up until around the 40 unit mark
+// when target speed ramps up very quickly.
+#define SPEED_MODE_CURVED 0.018f
+
+/**
+ * Calculates target speed and yaw based on input from the control stick.
+ * See `Player_GetMovementSpeedAndYaw` for detailed argument descriptions.
+ *
+ * @return true if the control stick has any magnitude, false otherwise.
+ */
+s32 Player_CalcSpeedAndYawFromControlStick(PlayState* play, Player* this, f32* outSpeedTarget, s16* outYawTarget,
+                                           f32 speedMode) {
+    f32 temp;
+    f32 sinFloorPitch;
+    f32 floorPitchInfluence;
+    f32 speedCap;
 
     if ((this->unk_6AD != 0) || (play->transitionTrigger == TRANS_TRIGGER_START) ||
         (this->stateFlags1 & PLAYER_STATE1_0)) {
-        *arg2 = 0.0f;
-        *arg3 = this->actor.shape.rot.y;
+        *outSpeedTarget = 0.0f;
+        *outYawTarget = this->actor.shape.rot.y;
     } else {
-        *arg2 = D_808535D4;
-        *arg3 = D_808535D8;
+        *outSpeedTarget = sControlStickMagnitude;
+        *outYawTarget = sControlStickAngle;
 
-        if (arg4 != 0.0f) {
-            *arg2 -= 20.0f;
-            if (*arg2 < 0.0f) {
-                *arg2 = 0.0f;
+        // The value of `speedMode` is never actually used. It only toggles this condition.
+        // See the definition of `SPEED_MODE_LINEAR` and `SPEED_MODE_CURVED` for more information.
+        if (speedMode != SPEED_MODE_LINEAR) {
+            *outSpeedTarget -= 20.0f;
+
+            if (*outSpeedTarget < 0.0f) {
+                // If control stick magnitude is below 20, return zero speed.
+                *outSpeedTarget = 0.0f;
             } else {
-                temp_f2 = 1.0f - Math_CosS(*arg2 * 450.0f);
-                *arg2 = ((temp_f2 * temp_f2) * 30.0f) + 7.0f;
+                // Cosine of the control stick magnitude isn't exactly meaningful, but
+                // it happens to give a desirable curve for grounded movement speed relative
+                // to control stick magnitude.
+                temp = 1.0f - Math_CosS(*outSpeedTarget * 450.0f);
+                *outSpeedTarget = (SQ(temp) * 30.0f) + 7.0f;
             }
         } else {
-            *arg2 *= 0.8f;
+            // Speed increases linearly relative to control stick magnitude
+            *outSpeedTarget *= 0.8f;
         }
 
-        if (D_808535D4 != 0.0f) {
-            temp_f0 = Math_SinS(this->floorPitch);
-            temp_f12 = this->unk_880;
-            temp_f14 = CLAMP(temp_f0, 0.0f, 0.6f);
+        if (sControlStickMagnitude != 0.0f) {
+            sinFloorPitch = Math_SinS(this->floorPitch);
+            speedCap = this->unk_880;
+            floorPitchInfluence = CLAMP(sinFloorPitch, 0.0f, 0.6f);
 
             if (this->unk_6C4 != 0.0f) {
-                temp_f12 = temp_f12 - (this->unk_6C4 * 0.008f);
-                if (temp_f12 < 2.0f) {
-                    temp_f12 = 2.0f;
-                }
+                speedCap -= this->unk_6C4 * 0.008f;
+                speedCap = CLAMP_MIN(speedCap, 2.0f);
             }
 
-            *arg2 = (*arg2 * 0.14f) - (8.0f * temp_f14 * temp_f14);
-            *arg2 = CLAMP(*arg2, 0.0f, temp_f12);
+            *outSpeedTarget = (*outSpeedTarget * 0.14f) - (8.0f * floorPitchInfluence * floorPitchInfluence);
+            *outSpeedTarget = CLAMP(*outSpeedTarget, 0.0f, speedCap);
 
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8083721C(Player* this) {
     return Math_StepToF(&this->speedXZ, 0.0f, REG(43) / 100.0f);
 }
 
-s32 func_80837268(Player* this, f32* arg1, s16* arg2, f32 arg3, PlayState* play) {
-    if (!func_80836FAC(play, this, arg1, arg2, arg3)) {
-        *arg2 = this->actor.shape.rot.y;
+/**
+ * Gets target speed and yaw values for movement based on control stick input.
+ * Control stick magnitude and angle are processed in `Player_CalcSpeedAndYawFromControlStick` to get target values.
+ * Additionally, this function does extra processing on the target yaw value if the control stick is neutral.
+ *
+ * @param outSpeedTarget  a pointer to the variable that will hold the resulting target speed value
+ * @param outYawTarget    a pointer to the variable that will hold the resulting target yaw value
+ * @param speedMode       toggles between a linear and curved mode for the speed value
+ *
+ * @see Player_CalcSpeedAndYawFromControlStick for more information on the linear vs curved speed mode.
+ *
+ * @return true if the control stick has any magnitude, false otherwise.
+ */
+s32 Player_GetMovementSpeedAndYaw(Player* this, f32* outSpeedTarget, s16* outYawTarget, f32 speedMode,
+                                  PlayState* play) {
+    if (!Player_CalcSpeedAndYawFromControlStick(play, this, outSpeedTarget, outYawTarget, speedMode)) {
+        *outYawTarget = this->actor.shape.rot.y;
 
         if (this->unk_664 != NULL) {
             if ((play->actorCtx.targetCtx.unk_4B != 0) && !(this->stateFlags2 & PLAYER_STATE2_6)) {
-                *arg2 = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->focus.pos);
-                return 0;
+                *outYawTarget = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->focus.pos);
+                return false;
             }
         } else if (func_80833B2C(this)) {
-            *arg2 = this->zTargetYaw;
+            *outYawTarget = this->zTargetYaw;
         }
 
-        return 0;
+        return false;
     } else {
-        *arg2 += Camera_GetInputDirYaw(GET_ACTIVE_CAM(play));
-        return 1;
+        *outYawTarget += Camera_GetInputDirYaw(GET_ACTIVE_CAM(play));
+        return true;
     }
 }
 
@@ -3679,15 +3729,15 @@ s32 func_80837348(PlayState* play, Player* this, s8* arg2, s32 arg3) {
 }
 
 s32 func_808374A0(PlayState* play, Player* this, SkelAnime* skelAnime, f32 arg3) {
-    f32 sp24;
-    s16 sp22;
+    f32 speedTarget;
+    s16 yawTarget;
 
     if ((skelAnime->endFrame - arg3) <= skelAnime->curFrame) {
         if (func_80837348(play, this, D_80854418, 1)) {
             return 0;
         }
 
-        if (func_80837268(this, &sp24, &sp22, 0.018f, play)) {
+        if (Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play)) {
             return 1;
         }
     }
@@ -4218,7 +4268,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
             }
 
             if ((this->unk_A87 != 0) || (this->invincibilityTimer > 0) || (this->stateFlags1 & PLAYER_STATE1_26) ||
-                (this->csMode != PLAYER_CSMODE_NONE) || (this->meleeWeaponQuads[0].base.atFlags & AT_HIT) ||
+                (this->csAction != PLAYER_CSACTION_NONE) || (this->meleeWeaponQuads[0].base.atFlags & AT_HIT) ||
                 (this->meleeWeaponQuads[1].base.atFlags & AT_HIT)) {
                 return 0;
             }
@@ -4490,7 +4540,7 @@ s32 Player_HandleExitsAndVoids(PlayState* play, Player* this, CollisionPoly* pol
         exitIndex = 0;
 
         if (!(this->stateFlags1 & PLAYER_STATE1_7) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
-            (this->csMode == PLAYER_CSMODE_NONE) && !(this->stateFlags1 & PLAYER_STATE1_0) &&
+            (this->csAction == PLAYER_CSACTION_NONE) && !(this->stateFlags1 & PLAYER_STATE1_0) &&
             (((poly != NULL) && (exitIndex = SurfaceType_GetExitIndex(&play->colCtx, poly, bgId), exitIndex != 0)) ||
              (func_8083816C(sFloorType) && (this->floorProperty == FLOOR_PROPERTY_12)))) {
 
@@ -7229,8 +7279,8 @@ void func_8084029C(Player* this, f32 arg1) {
 }
 
 void Player_Action_80840450(Player* this, PlayState* play) {
-    f32 sp44;
-    s16 sp42;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp1;
     u32 temp2;
     s16 temp3;
@@ -7264,27 +7314,27 @@ void Player_Action_80840450(Player* this, PlayState* play) {
             return;
         }
 
-        func_80837268(this, &sp44, &sp42, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-        temp1 = func_8083FC68(this, sp44, sp42);
+        temp1 = func_8083FC68(this, speedTarget, yawTarget);
 
         if (temp1 > 0) {
-            func_8083C8DC(this, play, sp42);
+            func_8083C8DC(this, play, yawTarget);
             return;
         }
 
         if (temp1 < 0) {
-            func_8083CBF0(this, sp42, play);
+            func_8083CBF0(this, yawTarget, play);
             return;
         }
 
-        if (sp44 > 4.0f) {
+        if (speedTarget > 4.0f) {
             func_8083CC9C(this, play);
             return;
         }
 
         func_8084029C(this, (this->speedXZ * 0.3f) + 1.0f);
-        func_80840138(this, sp44, sp42);
+        func_80840138(this, speedTarget, yawTarget);
 
         temp2 = this->unk_868;
         if ((temp2 < 6) || ((temp2 - 0xE) < 6)) {
@@ -7292,27 +7342,27 @@ void Player_Action_80840450(Player* this, PlayState* play) {
             return;
         }
 
-        temp3 = sp42 - this->yaw;
+        temp3 = yawTarget - this->yaw;
         temp4 = ABS(temp3);
 
         if (temp4 > 0x4000) {
             if (Math_StepToF(&this->speedXZ, 0.0f, 1.5f)) {
-                this->yaw = sp42;
+                this->yaw = yawTarget;
             }
             return;
         }
 
-        Math_AsymStepToF(&this->speedXZ, sp44 * 0.3f, 2.0f, 1.5f);
+        Math_AsymStepToF(&this->speedXZ, speedTarget * 0.3f, 2.0f, 1.5f);
 
         if (!(this->stateFlags3 & PLAYER_STATE3_3)) {
-            Math_ScaledStepToS(&this->yaw, sp42, temp4 * 0.1f);
+            Math_ScaledStepToS(&this->yaw, yawTarget, temp4 * 0.1f);
         }
     }
 }
 
 void Player_Action_808407CC(Player* this, PlayState* play) {
-    f32 sp3C;
-    s16 sp3A;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp1;
     s16 temp2;
     s32 temp3;
@@ -7341,35 +7391,35 @@ void Player_Action_808407CC(Player* this, PlayState* play) {
             return;
         }
 
-        func_80837268(this, &sp3C, &sp3A, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-        temp1 = func_8083FD78(this, &sp3C, &sp3A, play);
+        temp1 = func_8083FD78(this, &speedTarget, &yawTarget, play);
 
         if (temp1 > 0) {
-            func_8083C8DC(this, play, sp3A);
+            func_8083C8DC(this, play, yawTarget);
             return;
         }
 
         if (temp1 < 0) {
-            func_8083CB2C(this, sp3A, play);
+            func_8083CB2C(this, yawTarget, play);
             return;
         }
 
-        if (sp3C > 4.9f) {
+        if (speedTarget > 4.9f) {
             func_8083CC9C(this, play);
             func_80833C3C(this);
             return;
         }
-        if (sp3C != 0.0f) {
+        if (speedTarget != 0.0f) {
             func_8083CB94(this, play);
             return;
         }
 
-        temp2 = sp3A - this->actor.shape.rot.y;
+        temp2 = yawTarget - this->actor.shape.rot.y;
         temp3 = ABS(temp2);
 
         if (temp3 > 800) {
-            func_8083CD54(play, this, sp3A);
+            func_8083CD54(play, this, yawTarget);
         }
     }
 }
@@ -7425,8 +7475,8 @@ void func_808409CC(PlayState* play, Player* this) {
 void Player_Action_80840BC8(Player* this, PlayState* play) {
     s32 sp44;
     s32 sp40;
-    f32 sp3C;
-    s16 sp3A;
+    f32 speedTarget;
+    s16 yawTarget;
     s16 temp;
 
     sp44 = func_80833350(this);
@@ -7463,20 +7513,20 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
                 return;
             }
 
-            func_80837268(this, &sp3C, &sp3A, 0.018f, play);
+            Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
-            if (sp3C != 0.0f) {
-                func_8083C8DC(this, play, sp3A);
+            if (speedTarget != 0.0f) {
+                func_8083C8DC(this, play, yawTarget);
                 return;
             }
 
-            temp = sp3A - this->actor.shape.rot.y;
+            temp = yawTarget - this->actor.shape.rot.y;
             if (ABS(temp) > 800) {
-                func_8083CD54(play, this, sp3A);
+                func_8083CD54(play, this, yawTarget);
                 return;
             }
 
-            Math_ScaledStepToS(&this->actor.shape.rot.y, sp3A, 1200);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, 1200);
             this->yaw = this->actor.shape.rot.y;
             if (func_80833338(this) == this->skelAnime.animation) {
                 func_8083DC54(this, play);
@@ -7488,8 +7538,8 @@ void Player_Action_80840BC8(Player* this, PlayState* play) {
 void Player_Action_80840DE4(Player* this, PlayState* play) {
     f32 frames;
     f32 coeff;
-    f32 sp44;
-    s16 sp42;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp1;
     s16 temp2;
     s32 temp3;
@@ -7536,42 +7586,42 @@ void Player_Action_80840DE4(Player* this, PlayState* play) {
             return;
         }
 
-        func_80837268(this, &sp44, &sp42, 0.0f, play);
-        temp1 = func_8083FD78(this, &sp44, &sp42, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
+        temp1 = func_8083FD78(this, &speedTarget, &yawTarget, play);
 
         if (temp1 > 0) {
-            func_8083C8DC(this, play, sp42);
+            func_8083C8DC(this, play, yawTarget);
             return;
         }
 
         if (temp1 < 0) {
-            func_8083CB2C(this, sp42, play);
+            func_8083CB2C(this, yawTarget, play);
             return;
         }
 
-        if (sp44 > 4.9f) {
+        if (speedTarget > 4.9f) {
             func_8083CC9C(this, play);
             func_80833C3C(this);
             return;
         }
 
-        if ((sp44 == 0.0f) && (this->speedXZ == 0.0f)) {
+        if ((speedTarget == 0.0f) && (this->speedXZ == 0.0f)) {
             func_80839F30(this, play);
             return;
         }
 
-        temp2 = sp42 - this->yaw;
+        temp2 = yawTarget - this->yaw;
         temp3 = ABS(temp2);
 
         if (temp3 > 0x4000) {
             if (Math_StepToF(&this->speedXZ, 0.0f, 1.5f)) {
-                this->yaw = sp42;
+                this->yaw = yawTarget;
             }
             return;
         }
 
-        Math_AsymStepToF(&this->speedXZ, sp44 * 0.4f, 1.5f, 1.5f);
-        Math_ScaledStepToS(&this->yaw, sp42, temp3 * 0.1f);
+        Math_AsymStepToF(&this->speedXZ, speedTarget * 0.4f, 1.5f, 1.5f);
+        Math_ScaledStepToS(&this->yaw, yawTarget, temp3 * 0.1f);
     }
 }
 
@@ -7640,8 +7690,8 @@ s32 func_80841458(Player* this, f32* arg1, s16* arg2, PlayState* play) {
 }
 
 void Player_Action_808414F8(Player* this, PlayState* play) {
-    f32 sp34;
-    s16 sp32;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 sp2C;
     s16 sp2A;
 
@@ -7653,26 +7703,26 @@ void Player_Action_808414F8(Player* this, PlayState* play) {
             return;
         }
 
-        func_80837268(this, &sp34, &sp32, 0.0f, play);
-        sp2C = func_8083FD78(this, &sp34, &sp32, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
+        sp2C = func_8083FD78(this, &speedTarget, &yawTarget, play);
 
         if (sp2C >= 0) {
-            if (!func_80841458(this, &sp34, &sp32, play)) {
+            if (!func_80841458(this, &speedTarget, &yawTarget, play)) {
                 if (sp2C != 0) {
                     func_8083C858(this, play);
-                } else if (sp34 > 4.9f) {
+                } else if (speedTarget > 4.9f) {
                     func_8083CC9C(this, play);
                 } else {
                     func_8083CB94(this, play);
                 }
             }
         } else {
-            sp2A = sp32 - this->yaw;
+            sp2A = yawTarget - this->yaw;
 
-            Math_AsymStepToF(&this->speedXZ, sp34 * 1.5f, 1.5f, 2.0f);
-            Math_ScaledStepToS(&this->yaw, sp32, sp2A * 0.1f);
+            Math_AsymStepToF(&this->speedXZ, speedTarget * 1.5f, 1.5f, 2.0f);
+            Math_ScaledStepToS(&this->yaw, yawTarget, sp2A * 0.1f);
 
-            if ((sp34 == 0.0f) && (this->speedXZ == 0.0f)) {
+            if ((speedTarget == 0.0f) && (this->speedXZ == 0.0f)) {
                 func_80839F30(this, play);
             }
         }
@@ -7686,21 +7736,21 @@ void func_808416C0(Player* this, PlayState* play) {
 
 void Player_Action_8084170C(Player* this, PlayState* play) {
     s32 sp34;
-    f32 sp30;
-    s16 sp2E;
+    f32 speedTarget;
+    s16 yawTarget;
 
     sp34 = LinkAnimation_Update(play, &this->skelAnime);
     func_8083721C(this);
 
     if (!func_80837348(play, this, D_80854400, 1)) {
-        func_80837268(this, &sp30, &sp2E, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
         if (this->speedXZ == 0.0f) {
             this->yaw = this->actor.shape.rot.y;
 
-            if (func_8083FD78(this, &sp30, &sp2E, play) > 0) {
+            if (func_8083FD78(this, &speedTarget, &yawTarget, play) > 0) {
                 func_8083C858(this, play);
-            } else if ((sp30 != 0.0f) || (sp34 != 0)) {
+            } else if ((speedTarget != 0.0f) || (sp34 != 0)) {
                 func_808416C0(this, play);
             }
         }
@@ -7733,8 +7783,8 @@ void func_80841860(PlayState* play, Player* this) {
 }
 
 void Player_Action_8084193C(Player* this, PlayState* play) {
-    f32 sp3C;
-    s16 sp3A;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp1;
     s16 temp2;
     s32 temp3;
@@ -7747,12 +7797,12 @@ void Player_Action_8084193C(Player* this, PlayState* play) {
             return;
         }
 
-        func_80837268(this, &sp3C, &sp3A, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
         if (func_80833B2C(this)) {
-            temp1 = func_8083FD78(this, &sp3C, &sp3A, play);
+            temp1 = func_8083FD78(this, &speedTarget, &yawTarget, play);
         } else {
-            temp1 = func_8083FC68(this, sp3C, sp3A);
+            temp1 = func_8083FC68(this, speedTarget, yawTarget);
         }
 
         if (temp1 > 0) {
@@ -7762,14 +7812,14 @@ void Player_Action_8084193C(Player* this, PlayState* play) {
 
         if (temp1 < 0) {
             if (func_80833B2C(this)) {
-                func_8083CB2C(this, sp3A, play);
+                func_8083CB2C(this, yawTarget, play);
             } else {
-                func_8083CBF0(this, sp3A, play);
+                func_8083CBF0(this, yawTarget, play);
             }
             return;
         }
 
-        if ((this->speedXZ < 3.6f) && (sp3C < 4.0f)) {
+        if ((this->speedXZ < 3.6f) && (speedTarget < 4.0f)) {
             if (!func_8008E9C4(this) && func_80833B2C(this)) {
                 func_8083CB94(this, play);
             } else {
@@ -7778,27 +7828,27 @@ void Player_Action_8084193C(Player* this, PlayState* play) {
             return;
         }
 
-        func_80840138(this, sp3C, sp3A);
+        func_80840138(this, speedTarget, yawTarget);
 
-        temp2 = sp3A - this->yaw;
+        temp2 = yawTarget - this->yaw;
         temp3 = ABS(temp2);
 
         if (temp3 > 0x4000) {
             if (Math_StepToF(&this->speedXZ, 0.0f, 3.0f) != 0) {
-                this->yaw = sp3A;
+                this->yaw = yawTarget;
             }
             return;
         }
 
-        sp3C *= 0.9f;
-        Math_AsymStepToF(&this->speedXZ, sp3C, 2.0f, 3.0f);
-        Math_ScaledStepToS(&this->yaw, sp3A, temp3 * 0.1f);
+        speedTarget *= 0.9f;
+        Math_AsymStepToF(&this->speedXZ, speedTarget, 2.0f, 3.0f);
+        Math_ScaledStepToS(&this->yaw, yawTarget, temp3 * 0.1f);
     }
 }
 
 void Player_Action_80841BA8(Player* this, PlayState* play) {
-    f32 sp34;
-    s16 sp32;
+    f32 speedTarget;
+    s16 yawTarget;
 
     LinkAnimation_Update(play, &this->skelAnime);
 
@@ -7809,13 +7859,13 @@ void Player_Action_80841BA8(Player* this, PlayState* play) {
                                      this->skelAnime.morphTable, sUpperBodyLimbCopyMap);
     }
 
-    func_80837268(this, &sp34, &sp32, 0.018f, play);
+    Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
     if (!func_80837348(play, this, D_80854414, 1)) {
-        if (sp34 != 0.0f) {
-            this->actor.shape.rot.y = sp32;
+        if (speedTarget != 0.0f) {
+            this->actor.shape.rot.y = yawTarget;
             func_8083C858(this, play);
-        } else if (Math_ScaledStepToS(&this->actor.shape.rot.y, sp32, this->unk_87E)) {
+        } else if (Math_ScaledStepToS(&this->actor.shape.rot.y, yawTarget, this->unk_87E)) {
             func_8083C0E8(this, play);
         }
 
@@ -7921,8 +7971,8 @@ void func_80841EE4(Player* this, PlayState* play) {
 }
 
 void Player_Action_80842180(Player* this, PlayState* play) {
-    f32 sp2C;
-    s16 sp2A;
+    f32 speedTarget;
+    s16 yawTarget;
 
     this->stateFlags2 |= PLAYER_STATE2_5;
     func_80841EE4(this, play);
@@ -7933,13 +7983,13 @@ void Player_Action_80842180(Player* this, PlayState* play) {
             return;
         }
 
-        func_80837268(this, &sp2C, &sp2A, 0.018f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
-        if (!func_8083C484(this, &sp2C, &sp2A)) {
-            func_8083DF68(this, sp2C, sp2A);
+        if (!func_8083C484(this, &speedTarget, &yawTarget)) {
+            func_8083DF68(this, speedTarget, yawTarget);
             func_8083DDC8(this, play);
 
-            if ((this->speedXZ == 0.0f) && (sp2C == 0.0f)) {
+            if ((this->speedXZ == 0.0f) && (speedTarget == 0.0f)) {
                 func_8083C0B8(this, play);
             }
         }
@@ -7947,8 +7997,8 @@ void Player_Action_80842180(Player* this, PlayState* play) {
 }
 
 void Player_Action_8084227C(Player* this, PlayState* play) {
-    f32 sp2C;
-    s16 sp2A;
+    f32 speedTarget;
+    s16 yawTarget;
 
     this->stateFlags2 |= PLAYER_STATE2_5;
     func_80841EE4(this, play);
@@ -7959,19 +8009,20 @@ void Player_Action_8084227C(Player* this, PlayState* play) {
             return;
         }
 
-        func_80837268(this, &sp2C, &sp2A, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-        if (!func_8083C484(this, &sp2C, &sp2A)) {
-            if ((func_80833B2C(this) && (sp2C != 0.0f) && (func_8083FD78(this, &sp2C, &sp2A, play) <= 0)) ||
-                (!func_80833B2C(this) && (func_8083FC68(this, sp2C, sp2A) <= 0))) {
+        if (!func_8083C484(this, &speedTarget, &yawTarget)) {
+            if ((func_80833B2C(this) && (speedTarget != 0.0f) &&
+                 (func_8083FD78(this, &speedTarget, &yawTarget, play) <= 0)) ||
+                (!func_80833B2C(this) && (func_8083FC68(this, speedTarget, yawTarget) <= 0))) {
                 func_80839F90(this, play);
                 return;
             }
 
-            func_8083DF68(this, sp2C, sp2A);
+            func_8083DF68(this, speedTarget, yawTarget);
             func_8083DDC8(this, play);
 
-            if ((this->speedXZ == 0) && (sp2C == 0)) {
+            if ((this->speedXZ == 0) && (speedTarget == 0)) {
                 func_80839F90(this, play);
             }
         }
@@ -7980,8 +8031,8 @@ void Player_Action_8084227C(Player* this, PlayState* play) {
 
 void Player_Action_808423EC(Player* this, PlayState* play) {
     s32 sp34;
-    f32 sp30;
-    s16 sp2E;
+    f32 speedTarget;
+    s16 yawTarget;
 
     sp34 = LinkAnimation_Update(play, &this->skelAnime);
 
@@ -7991,13 +8042,13 @@ void Player_Action_808423EC(Player* this, PlayState* play) {
             return;
         }
 
-        func_80837268(this, &sp30, &sp2E, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
         if ((this->skelAnime.morphWeight == 0.0f) && (this->skelAnime.curFrame > 5.0f)) {
             func_8083721C(this);
 
-            if ((this->skelAnime.curFrame > 10.0f) && (func_8083FC68(this, sp30, sp2E) < 0)) {
-                func_8083CBF0(this, sp2E, play);
+            if ((this->skelAnime.curFrame > 10.0f) && (func_8083FC68(this, speedTarget, yawTarget) < 0)) {
+                func_8083CBF0(this, yawTarget, play);
                 return;
             }
 
@@ -8010,25 +8061,25 @@ void Player_Action_808423EC(Player* this, PlayState* play) {
 
 void Player_Action_8084251C(Player* this, PlayState* play) {
     s32 sp34;
-    f32 sp30;
-    s16 sp2E;
+    f32 speedTarget;
+    s16 yawTarget;
 
     sp34 = LinkAnimation_Update(play, &this->skelAnime);
 
     func_8083721C(this);
 
     if (!func_80837348(play, this, D_80854440, 1)) {
-        func_80837268(this, &sp30, &sp2E, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
         if (this->speedXZ == 0.0f) {
             this->yaw = this->actor.shape.rot.y;
 
-            if (func_8083FC68(this, sp30, sp2E) > 0) {
+            if (func_8083FC68(this, speedTarget, yawTarget) > 0) {
                 func_8083C858(this, play);
                 return;
             }
 
-            if ((sp30 != 0.0f) || (sp34 != 0)) {
+            if ((speedTarget != 0.0f) || (sp34 != 0)) {
                 func_80839F90(this, play);
             }
         }
@@ -8660,8 +8711,8 @@ void func_8084409C(PlayState* play, Player* this, f32 speedXZ, f32 velocityY) {
 }
 
 void Player_Action_8084411C(Player* this, PlayState* play) {
-    f32 sp4C;
-    s16 sp4A;
+    f32 speedTarget;
+    s16 yawTarget;
 
     if (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 40) {
         this->actor.gravity = 0.0f;
@@ -8669,7 +8720,7 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
         this->actor.gravity = -1.2f;
     }
 
-    func_80837268(this, &sp4C, &sp4A, 0.0f, play);
+    Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->stateFlags1 & PLAYER_STATE1_11) {
@@ -8684,7 +8735,7 @@ void Player_Action_8084411C(Player* this, PlayState* play) {
         LinkAnimation_Update(play, &this->skelAnime);
 
         if (!(this->stateFlags2 & PLAYER_STATE2_19)) {
-            func_8083DFE0(this, &sp4C, &sp4A);
+            func_8083DFE0(this, &speedTarget, &yawTarget);
         }
 
         Player_UpdateUpperBody(this, play);
@@ -8785,8 +8836,8 @@ void Player_Action_80844708(Player* this, PlayState* play) {
     s32 sp44;
     DynaPolyActor* wallPolyActor;
     s32 pad;
-    f32 sp38;
-    s16 sp36;
+    f32 speedTarget;
+    s16 yawTarget;
 
     this->stateFlags2 |= PLAYER_STATE2_5;
 
@@ -8840,14 +8891,14 @@ void Player_Action_80844708(Player* this, PlayState* play) {
                     return;
                 }
 
-                func_80837268(this, &sp38, &sp36, 0.018f, play);
+                Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play);
 
-                sp38 *= 1.5f;
-                if ((sp38 < 3.0f) || (this->unk_84B[this->unk_846] != 0)) {
-                    sp38 = 3.0f;
+                speedTarget *= 1.5f;
+                if ((speedTarget < 3.0f) || (this->unk_84B[this->unk_846] != 0)) {
+                    speedTarget = 3.0f;
                 }
 
-                func_8083DF68(this, sp38, this->actor.shape.rot.y);
+                func_8083DF68(this, speedTarget, this->actor.shape.rot.y);
 
                 if (func_8084269C(play, this)) {
                     func_8002F8F0(&this->actor, NA_SE_PL_ROLL_DUST - SFX_FLAG);
@@ -8875,8 +8926,8 @@ void Player_Action_80844A44(Player* this, PlayState* play) {
 }
 
 void Player_Action_80844AF4(Player* this, PlayState* play) {
-    f32 sp2C;
-    s16 sp2A;
+    f32 speedTarget;
+    s16 yawTarget;
 
     this->stateFlags2 |= PLAYER_STATE2_5;
 
@@ -8887,8 +8938,8 @@ void Player_Action_80844AF4(Player* this, PlayState* play) {
         func_8084285C(this, 6.0f, 7.0f, 99.0f);
 
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-            func_80837268(this, &sp2C, &sp2A, 0.0f, play);
-            func_8083DFE0(this, &sp2C, &this->yaw);
+            Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
+            func_8083DFE0(this, &speedTarget, &this->yaw);
             return;
         }
 
@@ -8956,8 +9007,8 @@ void func_80844E3C(Player* this) {
 }
 
 void Player_Action_80844E68(Player* this, PlayState* play) {
-    f32 sp34;
-    s16 sp32;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp;
 
     this->stateFlags1 |= PLAYER_STATE1_12;
@@ -8983,9 +9034,9 @@ void Player_Action_80844E68(Player* this, PlayState* play) {
                 func_80844D68(this, play);
             }
         } else if (!func_80844BE4(this, play)) {
-            func_80837268(this, &sp34, &sp32, 0.0f, play);
+            Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-            temp = func_80840058(this, &sp34, &sp32, play);
+            temp = func_80840058(this, &speedTarget, &yawTarget, play);
             if (temp > 0) {
                 func_80844CF8(this, play);
             } else if (temp < 0) {
@@ -9000,8 +9051,8 @@ void Player_Action_80845000(Player* this, PlayState* play) {
     s32 temp2;
     f32 sp5C;
     f32 sp58;
-    f32 sp54;
-    s16 sp52;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp4;
     s16 temp5;
     s32 sp44;
@@ -9030,9 +9081,9 @@ void Player_Action_80845000(Player* this, PlayState* play) {
 
     if (!func_80842964(this, play) && !func_80844BE4(this, play)) {
         func_80844E3C(this);
-        func_80837268(this, &sp54, &sp52, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-        temp4 = func_80840058(this, &sp54, &sp52, play);
+        temp4 = func_80840058(this, &speedTarget, &yawTarget, play);
 
         if (temp4 < 0) {
             func_80844D30(this, play);
@@ -9040,24 +9091,24 @@ void Player_Action_80845000(Player* this, PlayState* play) {
         }
 
         if (temp4 == 0) {
-            sp54 = 0.0f;
-            sp52 = this->yaw;
+            speedTarget = 0.0f;
+            yawTarget = this->yaw;
         }
 
-        temp5 = sp52 - this->yaw;
+        temp5 = yawTarget - this->yaw;
         sp44 = ABS(temp5);
 
         if (sp44 > 0x4000) {
             if (Math_StepToF(&this->speedXZ, 0.0f, 1.0f)) {
-                this->yaw = sp52;
+                this->yaw = yawTarget;
             }
             return;
         }
 
-        Math_AsymStepToF(&this->speedXZ, sp54 * 0.2f, 1.0f, 0.5f);
-        Math_ScaledStepToS(&this->yaw, sp52, sp44 * 0.1f);
+        Math_AsymStepToF(&this->speedXZ, speedTarget * 0.2f, 1.0f, 0.5f);
+        Math_ScaledStepToS(&this->yaw, yawTarget, sp44 * 0.1f);
 
-        if ((sp54 == 0.0f) && (this->speedXZ == 0.0f)) {
+        if ((speedTarget == 0.0f) && (this->speedXZ == 0.0f)) {
             func_80844DC8(this, play);
         }
     }
@@ -9066,8 +9117,8 @@ void Player_Action_80845000(Player* this, PlayState* play) {
 void Player_Action_80845308(Player* this, PlayState* play) {
     f32 sp5C;
     f32 sp58;
-    f32 sp54;
-    s16 sp52;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp4;
     s16 temp5;
     s32 sp44;
@@ -9098,9 +9149,9 @@ void Player_Action_80845308(Player* this, PlayState* play) {
 
     if (!func_80842964(this, play) && !func_80844BE4(this, play)) {
         func_80844E3C(this);
-        func_80837268(this, &sp54, &sp52, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-        temp4 = func_80840058(this, &sp54, &sp52, play);
+        temp4 = func_80840058(this, &speedTarget, &yawTarget, play);
 
         if (temp4 > 0) {
             func_80844CF8(this, play);
@@ -9108,24 +9159,24 @@ void Player_Action_80845308(Player* this, PlayState* play) {
         }
 
         if (temp4 == 0) {
-            sp54 = 0.0f;
-            sp52 = this->yaw;
+            speedTarget = 0.0f;
+            yawTarget = this->yaw;
         }
 
-        temp5 = sp52 - this->yaw;
+        temp5 = yawTarget - this->yaw;
         sp44 = ABS(temp5);
 
         if (sp44 > 0x4000) {
             if (Math_StepToF(&this->speedXZ, 0.0f, 1.0f)) {
-                this->yaw = sp52;
+                this->yaw = yawTarget;
             }
             return;
         }
 
-        Math_AsymStepToF(&this->speedXZ, sp54 * 0.2f, 1.0f, 0.5f);
-        Math_ScaledStepToS(&this->yaw, sp52, sp44 * 0.1f);
+        Math_AsymStepToF(&this->speedXZ, speedTarget * 0.2f, 1.0f, 0.5f);
+        Math_ScaledStepToS(&this->yaw, yawTarget, sp44 * 0.1f);
 
-        if ((sp54 == 0.0f) && (this->speedXZ == 0.0f) && (sp5C == 0.0f)) {
+        if ((speedTarget == 0.0f) && (this->speedXZ == 0.0f) && (sp5C == 0.0f)) {
             func_80844DC8(this, play);
         }
     }
@@ -9528,13 +9579,14 @@ void Player_Action_808464B0(Player* this, PlayState* play) {
 }
 
 void Player_Action_80846578(Player* this, PlayState* play) {
-    f32 sp34;
-    s16 sp32;
+    f32 speedTarget;
+    s16 yawTarget;
 
     func_8083721C(this);
 
     if (LinkAnimation_Update(play, &this->skelAnime) ||
-        ((this->skelAnime.curFrame >= 8.0f) && func_80837268(this, &sp34, &sp32, 0.018f, play))) {
+        ((this->skelAnime.curFrame >= 8.0f) &&
+         Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_CURVED, play))) {
         func_80839F90(this, play);
         return;
     }
@@ -10403,7 +10455,7 @@ void Player_UpdateCamAndSeqModes(PlayState* play, Player* this) {
     if (this->actor.category == ACTORCAT_PLAYER) {
         seqMode = SEQ_MODE_DEFAULT;
 
-        if (this->csMode != PLAYER_CSMODE_NONE) {
+        if (this->csAction != PLAYER_CSACTION_NONE) {
             Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & PLAYER_STATE1_20)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & PLAYER_STATE3_7)) {
@@ -10623,19 +10675,22 @@ void func_80848EF8(Player* this) {
 }
 
 static s8 D_808547C4[] = {
-    PLAYER_CSMODE_NONE, PLAYER_CSMODE_3,    PLAYER_CSMODE_3,    PLAYER_CSMODE_5,   PLAYER_CSMODE_4,   PLAYER_CSMODE_8,
-    PLAYER_CSMODE_9,    PLAYER_CSMODE_13,   PLAYER_CSMODE_14,   PLAYER_CSMODE_15,  PLAYER_CSMODE_16,  PLAYER_CSMODE_17,
-    PLAYER_CSMODE_18,   -PLAYER_CSMODE_22,  PLAYER_CSMODE_23,   PLAYER_CSMODE_24,  PLAYER_CSMODE_25,  PLAYER_CSMODE_26,
-    PLAYER_CSMODE_27,   PLAYER_CSMODE_28,   PLAYER_CSMODE_29,   PLAYER_CSMODE_31,  PLAYER_CSMODE_32,  PLAYER_CSMODE_33,
-    PLAYER_CSMODE_34,   -PLAYER_CSMODE_35,  PLAYER_CSMODE_30,   PLAYER_CSMODE_36,  PLAYER_CSMODE_38,  -PLAYER_CSMODE_39,
-    -PLAYER_CSMODE_40,  -PLAYER_CSMODE_41,  PLAYER_CSMODE_42,   PLAYER_CSMODE_43,  PLAYER_CSMODE_45,  PLAYER_CSMODE_46,
-    PLAYER_CSMODE_NONE, PLAYER_CSMODE_NONE, PLAYER_CSMODE_NONE, PLAYER_CSMODE_67,  PLAYER_CSMODE_48,  PLAYER_CSMODE_47,
-    -PLAYER_CSMODE_50,  PLAYER_CSMODE_51,   -PLAYER_CSMODE_52,  -PLAYER_CSMODE_53, PLAYER_CSMODE_54,  PLAYER_CSMODE_55,
-    PLAYER_CSMODE_56,   PLAYER_CSMODE_57,   PLAYER_CSMODE_58,   PLAYER_CSMODE_59,  PLAYER_CSMODE_60,  PLAYER_CSMODE_61,
-    PLAYER_CSMODE_62,   PLAYER_CSMODE_63,   PLAYER_CSMODE_64,   -PLAYER_CSMODE_65, -PLAYER_CSMODE_66, PLAYER_CSMODE_68,
-    PLAYER_CSMODE_11,   PLAYER_CSMODE_69,   PLAYER_CSMODE_70,   PLAYER_CSMODE_71,  PLAYER_CSMODE_8,   PLAYER_CSMODE_8,
-    PLAYER_CSMODE_72,   PLAYER_CSMODE_73,   PLAYER_CSMODE_78,   PLAYER_CSMODE_79,  PLAYER_CSMODE_80,  PLAYER_CSMODE_89,
-    PLAYER_CSMODE_90,   PLAYER_CSMODE_91,   PLAYER_CSMODE_92,   PLAYER_CSMODE_77,  PLAYER_CSMODE_19,  PLAYER_CSMODE_94,
+    PLAYER_CSACTION_NONE, PLAYER_CSACTION_3,    PLAYER_CSACTION_3,    PLAYER_CSACTION_5,    PLAYER_CSACTION_4,
+    PLAYER_CSACTION_8,    PLAYER_CSACTION_9,    PLAYER_CSACTION_13,   PLAYER_CSACTION_14,   PLAYER_CSACTION_15,
+    PLAYER_CSACTION_16,   PLAYER_CSACTION_17,   PLAYER_CSACTION_18,   -PLAYER_CSACTION_22,  PLAYER_CSACTION_23,
+    PLAYER_CSACTION_24,   PLAYER_CSACTION_25,   PLAYER_CSACTION_26,   PLAYER_CSACTION_27,   PLAYER_CSACTION_28,
+    PLAYER_CSACTION_29,   PLAYER_CSACTION_31,   PLAYER_CSACTION_32,   PLAYER_CSACTION_33,   PLAYER_CSACTION_34,
+    -PLAYER_CSACTION_35,  PLAYER_CSACTION_30,   PLAYER_CSACTION_36,   PLAYER_CSACTION_38,   -PLAYER_CSACTION_39,
+    -PLAYER_CSACTION_40,  -PLAYER_CSACTION_41,  PLAYER_CSACTION_42,   PLAYER_CSACTION_43,   PLAYER_CSACTION_45,
+    PLAYER_CSACTION_46,   PLAYER_CSACTION_NONE, PLAYER_CSACTION_NONE, PLAYER_CSACTION_NONE, PLAYER_CSACTION_67,
+    PLAYER_CSACTION_48,   PLAYER_CSACTION_47,   -PLAYER_CSACTION_50,  PLAYER_CSACTION_51,   -PLAYER_CSACTION_52,
+    -PLAYER_CSACTION_53,  PLAYER_CSACTION_54,   PLAYER_CSACTION_55,   PLAYER_CSACTION_56,   PLAYER_CSACTION_57,
+    PLAYER_CSACTION_58,   PLAYER_CSACTION_59,   PLAYER_CSACTION_60,   PLAYER_CSACTION_61,   PLAYER_CSACTION_62,
+    PLAYER_CSACTION_63,   PLAYER_CSACTION_64,   -PLAYER_CSACTION_65,  -PLAYER_CSACTION_66,  PLAYER_CSACTION_68,
+    PLAYER_CSACTION_11,   PLAYER_CSACTION_69,   PLAYER_CSACTION_70,   PLAYER_CSACTION_71,   PLAYER_CSACTION_8,
+    PLAYER_CSACTION_8,    PLAYER_CSACTION_72,   PLAYER_CSACTION_73,   PLAYER_CSACTION_78,   PLAYER_CSACTION_79,
+    PLAYER_CSACTION_80,   PLAYER_CSACTION_89,   PLAYER_CSACTION_90,   PLAYER_CSACTION_91,   PLAYER_CSACTION_92,
+    PLAYER_CSACTION_77,   PLAYER_CSACTION_19,   PLAYER_CSACTION_94,
 };
 
 static Vec3f D_80854814 = { 0.0f, 0.0f, 200.0f };
@@ -10901,30 +10956,30 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             }
         }
 
-        if ((play->csCtx.state != CS_STATE_IDLE) && (this->csMode != PLAYER_CSMODE_6) &&
+        if ((play->csCtx.state != CS_STATE_IDLE) && (this->csAction != PLAYER_CSACTION_6) &&
             !(this->stateFlags1 & PLAYER_STATE1_23) && !(this->stateFlags2 & PLAYER_STATE2_7) &&
             (this->actor.category == ACTORCAT_PLAYER)) {
             CsCmdActorCue* cue = play->csCtx.playerCue;
 
-            if ((cue != NULL) && (D_808547C4[cue->id] != PLAYER_CSMODE_NONE)) {
-                func_8002DF54(play, NULL, PLAYER_CSMODE_6);
+            if ((cue != NULL) && (D_808547C4[cue->id] != PLAYER_CSACTION_NONE)) {
+                func_8002DF54(play, NULL, PLAYER_CSACTION_6);
                 Player_ZeroSpeedXZ(this);
-            } else if ((this->csMode == PLAYER_CSMODE_NONE) && !(this->stateFlags2 & PLAYER_STATE2_10) &&
+            } else if ((this->csAction == PLAYER_CSACTION_NONE) && !(this->stateFlags2 & PLAYER_STATE2_10) &&
                        (play->csCtx.state != CS_STATE_STOP)) {
-                func_8002DF54(play, NULL, PLAYER_CSMODE_49);
+                func_8002DF54(play, NULL, PLAYER_CSACTION_49);
                 Player_ZeroSpeedXZ(this);
             }
         }
 
-        if (this->csMode != PLAYER_CSMODE_NONE) {
-            if ((this->csMode != PLAYER_CSMODE_7) ||
+        if (this->csAction != PLAYER_CSACTION_NONE) {
+            if ((this->csAction != PLAYER_CSACTION_7) ||
                 !(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21 | PLAYER_STATE1_26))) {
                 this->unk_6AD = 3;
             } else if (Player_Action_80852E14 != this->actionFunc) {
                 func_80852944(play, this, NULL);
             }
         } else {
-            this->prevCsMode = PLAYER_CSMODE_NONE;
+            this->prevCsAction = PLAYER_CSACTION_NONE;
         }
 
         func_8083D6EC(play, this);
@@ -10940,7 +10995,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->stateFlags3 &= ~PLAYER_STATE3_4;
 
         func_80847298(this);
-        func_8083315C(play, this);
+        Player_ProcessControlStick(play, this);
 
         if (this->stateFlags1 & PLAYER_STATE1_27) {
             D_808535E8 = 0.5f;
@@ -11213,7 +11268,7 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
         s32 lod;
         s32 pad;
 
-        if ((this->csMode != PLAYER_CSMODE_NONE) || (func_8008E9C4(this) && 0) ||
+        if ((this->csAction != PLAYER_CSACTION_NONE) || (func_8008E9C4(this) && 0) ||
             (this->actor.projectedPos.z < 160.0f)) {
             lod = 0;
         } else {
@@ -11447,8 +11502,8 @@ void Player_Action_8084B1D8(Player* this, PlayState* play) {
         Player_UpdateUpperBody(this, play);
     }
 
-    if ((this->csMode != PLAYER_CSMODE_NONE) || (this->unk_6AD == 0) || (this->unk_6AD >= 4) || func_80833B54(this) ||
-        (this->unk_664 != NULL) || !func_8083AD4C(play, this) ||
+    if ((this->csAction != PLAYER_CSACTION_NONE) || (this->unk_6AD == 0) || (this->unk_6AD >= 4) ||
+        func_80833B54(this) || (this->unk_664 != NULL) || !func_8083AD4C(play, this) ||
         (((this->unk_6AD == 2) && (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_R) ||
                                    func_80833B2C(this) || (!func_8002DD78(this) && !func_808334B4(this)))) ||
          ((this->unk_6AD == 1) &&
@@ -11557,8 +11612,8 @@ void Player_Action_8084B530(Player* this, PlayState* play) {
 }
 
 void Player_Action_8084B78C(Player* this, PlayState* play) {
-    f32 sp34;
-    s16 sp32;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp;
 
     this->stateFlags2 |= PLAYER_STATE2_0 | PLAYER_STATE2_6 | PLAYER_STATE2_8;
@@ -11566,8 +11621,8 @@ void Player_Action_8084B78C(Player* this, PlayState* play) {
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         if (!func_8083F9D0(play, this)) {
-            func_80837268(this, &sp34, &sp32, 0.0f, play);
-            temp = func_8083FFB8(this, &sp34, &sp32);
+            Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
+            temp = func_8083FFB8(this, &speedTarget, &yawTarget);
             if (temp > 0) {
                 func_8083FAB8(this, play);
             } else if (temp < 0) {
@@ -11593,8 +11648,8 @@ static struct_80832924 D_80854870[] = {
 };
 
 void Player_Action_8084B898(Player* this, PlayState* play) {
-    f32 sp34;
-    s16 sp32;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp;
 
     this->stateFlags2 |= PLAYER_STATE2_0 | PLAYER_STATE2_6 | PLAYER_STATE2_8;
@@ -11611,8 +11666,8 @@ void Player_Action_8084B898(Player* this, PlayState* play) {
     func_8083F524(play, this);
 
     if (!func_8083F9D0(play, this)) {
-        func_80837268(this, &sp34, &sp32, 0.0f, play);
-        temp = func_8083FFB8(this, &sp34, &sp32);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
+        temp = func_8083FFB8(this, &speedTarget, &yawTarget);
         if (temp < 0) {
             func_8083FB14(this, play);
         } else if (temp == 0) {
@@ -11637,8 +11692,8 @@ static Vec3f D_80854880 = { 0.0f, 26.0f, -40.0f };
 
 void Player_Action_8084B9E4(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
-    f32 sp70;
-    s16 sp6E;
+    f32 speedTarget;
+    s16 yawTarget;
     s32 temp1;
     Vec3f sp5C;
     f32 temp2;
@@ -11665,8 +11720,8 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
     func_8083F524(play, this);
 
     if (!func_8083F9D0(play, this)) {
-        func_80837268(this, &sp70, &sp6E, 0.0f, play);
-        temp1 = func_8083FFB8(this, &sp70, &sp6E);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
+        temp1 = func_8083FFB8(this, &speedTarget, &yawTarget);
         if (temp1 > 0) {
             func_8083FAB8(this, play);
         } else if (temp1 == 0) {
@@ -11692,8 +11747,8 @@ void Player_Action_8084B9E4(Player* this, PlayState* play) {
 }
 
 void Player_Action_8084BBE4(Player* this, PlayState* play) {
-    f32 sp3C;
-    s16 sp3A;
+    f32 speedTarget;
+    s16 yawTarget;
     LinkAnimationHeader* anim;
     f32 temp;
 
@@ -11723,7 +11778,7 @@ void Player_Action_8084BBE4(Player* this, PlayState* play) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->yaw, 0x800);
 
     if (this->actionVar1 != 0) {
-        func_80837268(this, &sp3C, &sp3A, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
         if (this->unk_847[this->unk_846] >= 0) {
             if (this->actionVar1 > 0) {
                 anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_fall_up, this->modelAnimType);
@@ -12227,9 +12282,9 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
     AnimationContext_SetCopyAll(play, this->skelAnime.limbCount, this->skelAnime.morphTable,
                                 this->skelAnime.jointTable);
 
-    if ((play->csCtx.state != CS_STATE_IDLE) || (this->csMode != PLAYER_CSMODE_NONE)) {
-        if (this->csMode == PLAYER_CSMODE_7) {
-            this->csMode = PLAYER_CSMODE_NONE;
+    if ((play->csCtx.state != CS_STATE_IDLE) || (this->csAction != PLAYER_CSACTION_NONE)) {
+        if (this->csAction == PLAYER_CSACTION_7) {
+            this->csAction = PLAYER_CSACTION_NONE;
         }
         this->unk_6AD = 0;
         this->actionVar1 = 0;
@@ -12246,7 +12301,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
 
     this->yaw = this->actor.shape.rot.y = rideActor->actor.shape.rot.y;
 
-    if ((this->csMode != PLAYER_CSMODE_NONE) ||
+    if ((this->csAction != PLAYER_CSACTION_NONE) ||
         (!func_8083224C(play) && ((rideActor->actor.speed != 0.0f) || !func_8083B644(this, play)) &&
          !func_8083C1DC(this, play))) {
         if (D_808535E0 == 0) {
@@ -12304,7 +12359,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
             return;
         }
 
-        if ((this->csMode != PLAYER_CSMODE_NONE) || (!func_8084C9BC(this, play) && !func_8083B040(this, play))) {
+        if ((this->csAction != PLAYER_CSACTION_NONE) || (!func_8084C9BC(this, play) && !func_8083B040(this, play))) {
             if (this->unk_664 != NULL) {
                 if (func_8002DD78(this) != 0) {
                     this->unk_6BE = func_8083DB98(this, 1) - this->actor.shape.rot.y;
@@ -12383,8 +12438,8 @@ void func_8084D5CC(PlayState* play, Player* this) {
 }
 
 void Player_Action_8084D610(Player* this, PlayState* play) {
-    f32 sp34;
-    s16 sp32;
+    f32 speedTarget;
+    s16 yawTarget;
 
     func_80832CB0(play, this, &gPlayerAnim_link_swimer_swim_wait);
     func_8084B000(this);
@@ -12396,18 +12451,18 @@ void Player_Action_8084D610(Player* this, PlayState* play) {
         }
 
         if (this->currentBoots == PLAYER_BOOTS_IRON) {
-            sp34 = 0.0f;
-            sp32 = this->actor.shape.rot.y;
+            speedTarget = 0.0f;
+            yawTarget = this->actor.shape.rot.y;
 
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_short_landing, this->modelAnimType), play);
                 func_808328A0(this);
             }
         } else {
-            func_80837268(this, &sp34, &sp32, 0.0f, play);
+            Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-            if (sp34 != 0.0f) {
-                s16 temp = this->actor.shape.rot.y - sp32;
+            if (speedTarget != 0.0f) {
+                s16 temp = this->actor.shape.rot.y - yawTarget;
 
                 if ((ABS(temp) > 0x6000) && !Math_StepToF(&this->speedXZ, 0.0f, 1.0f)) {
                     return;
@@ -12416,12 +12471,12 @@ void Player_Action_8084D610(Player* this, PlayState* play) {
                 if (func_80833C04(this)) {
                     func_8084D5CC(play, this);
                 } else {
-                    func_8084D574(play, this, sp32);
+                    func_8084D574(play, this, yawTarget);
                 }
             }
         }
 
-        func_8084AEEC(this, &this->speedXZ, sp34, sp32);
+        func_8084AEEC(this, &this->speedXZ, speedTarget, yawTarget);
     }
 }
 
@@ -12439,8 +12494,8 @@ void Player_Action_8084D7C4(Player* this, PlayState* play) {
 }
 
 void Player_Action_8084D84C(Player* this, PlayState* play) {
-    f32 sp34;
-    s16 sp32;
+    f32 speedTarget;
+    s16 yawTarget;
     s16 temp;
 
     this->stateFlags2 |= PLAYER_STATE2_5;
@@ -12449,16 +12504,16 @@ void Player_Action_8084D84C(Player* this, PlayState* play) {
     func_8084B000(this);
 
     if (!func_80837348(play, this, D_80854444, 1) && !func_8083D12C(play, this, sControlInput)) {
-        func_80837268(this, &sp34, &sp32, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-        temp = this->actor.shape.rot.y - sp32;
-        if ((sp34 == 0.0f) || (ABS(temp) > 0x6000) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
+        temp = this->actor.shape.rot.y - yawTarget;
+        if ((speedTarget == 0.0f) || (ABS(temp) > 0x6000) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
             func_80838F18(play, this);
         } else if (func_80833C04(this)) {
             func_8084D5CC(play, this);
         }
 
-        func_8084D530(this, &this->speedXZ, sp34, sp32);
+        func_8084D530(this, &this->speedXZ, speedTarget, yawTarget);
     }
 }
 
@@ -12501,33 +12556,33 @@ s32 func_8084D980(PlayState* play, Player* this, f32* arg2, s16* arg3) {
 }
 
 void Player_Action_8084DAB4(Player* this, PlayState* play) {
-    f32 sp2C;
-    s16 sp2A;
+    f32 speedTarget;
+    s16 yawTarget;
 
     func_8084B158(play, this, sControlInput, this->speedXZ);
     func_8084B000(this);
 
     if (!func_80837348(play, this, D_80854444, 1) && !func_8083D12C(play, this, sControlInput)) {
-        func_80837268(this, &sp2C, &sp2A, 0.0f, play);
+        Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
 
-        if (sp2C == 0.0f) {
+        if (speedTarget == 0.0f) {
             func_80838F18(play, this);
         } else if (!func_80833C04(this)) {
-            func_8084D574(play, this, sp2A);
+            func_8084D574(play, this, yawTarget);
         } else {
-            func_8084D980(play, this, &sp2C, &sp2A);
+            func_8084D980(play, this, &speedTarget, &yawTarget);
         }
 
-        func_8084D530(this, &this->speedXZ, sp2C, sp2A);
+        func_8084D530(this, &this->speedXZ, speedTarget, yawTarget);
     }
 }
 
 void func_8084DBC4(PlayState* play, Player* this, f32 arg2) {
-    f32 sp2C;
-    s16 sp2A;
+    f32 speedTarget;
+    s16 yawTarget;
 
-    func_80837268(this, &sp2C, &sp2A, 0.0f, play);
-    func_8084AEEC(this, &this->speedXZ, sp2C * 0.5f, sp2A);
+    Player_GetMovementSpeedAndYaw(this, &speedTarget, &yawTarget, SPEED_MODE_LINEAR, play);
+    func_8084AEEC(this, &this->speedXZ, speedTarget * 0.5f, yawTarget);
     func_8084AEEC(this, &this->actor.velocity.y, arg2, this->yaw);
 }
 
@@ -12650,7 +12705,7 @@ s32 func_8084DFF4(PlayState* play, Player* this) {
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
                 play->transitionType = TRANS_TYPE_SANDSTORM_END;
                 this->stateFlags1 &= ~PLAYER_STATE1_29;
-                func_80852FFC(play, NULL, PLAYER_CSMODE_8);
+                func_80852FFC(play, NULL, PLAYER_CSACTION_8);
             }
             this->getItemId = GI_NONE;
         }
@@ -12747,10 +12802,10 @@ void Player_Action_8084E3C4(Player* this, PlayState* play) {
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
         gSaveContext.respawn[RESPAWN_MODE_RETURN].data = play->msgCtx.lastPlayedSong;
 
-        this->csMode = PLAYER_CSMODE_NONE;
+        this->csAction = PLAYER_CSACTION_NONE;
         this->stateFlags1 &= ~PLAYER_STATE1_29;
 
-        func_80852FFC(play, NULL, PLAYER_CSMODE_8);
+        func_80852FFC(play, NULL, PLAYER_CSACTION_8);
         play->mainCamera.stateFlags &= ~CAM_STATE_3;
 
         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
@@ -13851,216 +13906,216 @@ static struct_80832924 D_80854B14[] = {
     { 0, -0x300A },
 };
 
-static struct_80854B18 D_80854B18[PLAYER_CSMODE_MAX] = {
-    { 0, NULL },                                         // PLAYER_CSMODE_NONE
-    { -1, func_808515A4 },                               // PLAYER_CSMODE_1
-    { 2, &gPlayerAnim_link_demo_goma_furimuki },         // PLAYER_CSMODE_2
-    { 0, NULL },                                         // PLAYER_CSMODE_3
-    { 0, NULL },                                         // PLAYER_CSMODE_4
-    { 3, &gPlayerAnim_link_demo_bikkuri },               // PLAYER_CSMODE_5
-    { 0, NULL },                                         // PLAYER_CSMODE_6
-    { 0, NULL },                                         // PLAYER_CSMODE_7
-    { -1, func_808515A4 },                               // PLAYER_CSMODE_8
-    { 2, &gPlayerAnim_link_demo_furimuki },              // PLAYER_CSMODE_9
-    { -1, func_80851788 },                               // PLAYER_CSMODE_10
-    { 3, &gPlayerAnim_link_demo_warp },                  // PLAYER_CSMODE_11
-    { -1, func_808518DC },                               // PLAYER_CSMODE_12
-    { 7, &gPlayerAnim_clink_demo_get1 },                 // PLAYER_CSMODE_13
-    { 5, &gPlayerAnim_clink_demo_get2 },                 // PLAYER_CSMODE_14
-    { 5, &gPlayerAnim_clink_demo_get3 },                 // PLAYER_CSMODE_15
-    { 5, &gPlayerAnim_clink_demo_standup },              // PLAYER_CSMODE_16
-    { 7, &gPlayerAnim_clink_demo_standup_wait },         // PLAYER_CSMODE_17
-    { -1, func_808519EC },                               // PLAYER_CSMODE_18
-    { 2, &gPlayerAnim_link_demo_baru_op1 },              // PLAYER_CSMODE_19
-    { 2, &gPlayerAnim_link_demo_baru_op3 },              // PLAYER_CSMODE_20
-    { 0, NULL },                                         // PLAYER_CSMODE_21
-    { -1, func_80851B90 },                               // PLAYER_CSMODE_22
-    { 3, &gPlayerAnim_link_demo_jibunmiru },             // PLAYER_CSMODE_23
-    { 9, &gPlayerAnim_link_normal_back_downA },          // PLAYER_CSMODE_24
-    { 2, &gPlayerAnim_link_normal_back_down_wake },      // PLAYER_CSMODE_25
-    { -1, func_80851D2C },                               // PLAYER_CSMODE_26
-    { 2, &gPlayerAnim_link_normal_okarina_end },         // PLAYER_CSMODE_27
-    { 3, &gPlayerAnim_link_demo_get_itemA },             // PLAYER_CSMODE_28
-    { -1, func_808515A4 },                               // PLAYER_CSMODE_29
-    { 2, &gPlayerAnim_link_normal_normal2fighter_free }, // PLAYER_CSMODE_30
-    { 0, NULL },                                         // PLAYER_CSMODE_31
-    { 0, NULL },                                         // PLAYER_CSMODE_32
-    { 5, &gPlayerAnim_clink_demo_atozusari },            // PLAYER_CSMODE_33
-    { -1, func_80851368 },                               // PLAYER_CSMODE_34
-    { -1, func_80851E64 },                               // PLAYER_CSMODE_35
-    { 5, &gPlayerAnim_clink_demo_bashi },                // PLAYER_CSMODE_36
-    { 16, &gPlayerAnim_link_normal_hang_up_down },       // PLAYER_CSMODE_37
-    { -1, func_80851F84 },                               // PLAYER_CSMODE_38
-    { -1, func_80851E90 },                               // PLAYER_CSMODE_39
-    { 6, &gPlayerAnim_clink_op3_okiagari },              // PLAYER_CSMODE_40
-    { 6, &gPlayerAnim_clink_op3_tatiagari },             // PLAYER_CSMODE_41
-    { -1, func_80852080 },                               // PLAYER_CSMODE_42
-    { 5, &gPlayerAnim_clink_demo_miokuri },              // PLAYER_CSMODE_43
-    { -1, func_808521F4 },                               // PLAYER_CSMODE_44
-    { -1, func_8085225C },                               // PLAYER_CSMODE_45
-    { -1, func_80852280 },                               // PLAYER_CSMODE_46
-    { 5, &gPlayerAnim_clink_demo_nozoki },               // PLAYER_CSMODE_47
-    { 5, &gPlayerAnim_clink_demo_koutai },               // PLAYER_CSMODE_48
-    { -1, func_808515A4 },                               // PLAYER_CSMODE_49
-    { 5, &gPlayerAnim_clink_demo_koutai_kennuki },       // PLAYER_CSMODE_50
-    { 5, &gPlayerAnim_link_demo_kakeyori },              // PLAYER_CSMODE_51
-    { 5, &gPlayerAnim_link_demo_kakeyori_mimawasi },     // PLAYER_CSMODE_52
-    { 5, &gPlayerAnim_link_demo_kakeyori_miokuri },      // PLAYER_CSMODE_53
-    { 3, &gPlayerAnim_link_demo_furimuki2 },             // PLAYER_CSMODE_54
-    { 3, &gPlayerAnim_link_demo_kaoage },                // PLAYER_CSMODE_55
-    { 4, &gPlayerAnim_link_demo_kaoage_wait },           // PLAYER_CSMODE_56
-    { 3, &gPlayerAnim_clink_demo_mimawasi },             // PLAYER_CSMODE_57
-    { 3, &gPlayerAnim_link_demo_nozokikomi },            // PLAYER_CSMODE_58
-    { 6, &gPlayerAnim_kolink_odoroki_demo },             // PLAYER_CSMODE_59
-    { 6, &gPlayerAnim_link_shagamu_demo },               // PLAYER_CSMODE_60
-    { 14, &gPlayerAnim_link_okiru_demo },                // PLAYER_CSMODE_61
-    { 3, &gPlayerAnim_link_okiru_demo },                 // PLAYER_CSMODE_62
-    { 5, &gPlayerAnim_link_fighter_power_kiru_start },   // PLAYER_CSMODE_63
-    { 16, &gPlayerAnim_demo_link_nwait },                // PLAYER_CSMODE_64
-    { 15, &gPlayerAnim_demo_link_tewatashi },            // PLAYER_CSMODE_65
-    { 15, &gPlayerAnim_demo_link_orosuu },               // PLAYER_CSMODE_66
-    { 3, &gPlayerAnim_d_link_orooro },                   // PLAYER_CSMODE_67
-    { 3, &gPlayerAnim_d_link_imanodare },                // PLAYER_CSMODE_68
-    { 3, &gPlayerAnim_link_hatto_demo },                 // PLAYER_CSMODE_69
-    { 6, &gPlayerAnim_o_get_mae },                       // PLAYER_CSMODE_70
-    { 6, &gPlayerAnim_o_get_ato },                       // PLAYER_CSMODE_71
-    { 6, &gPlayerAnim_om_get_mae },                      // PLAYER_CSMODE_72
-    { 6, &gPlayerAnim_nw_modoru },                       // PLAYER_CSMODE_73
-    { 3, &gPlayerAnim_link_demo_gurad },                 // PLAYER_CSMODE_74
-    { 3, &gPlayerAnim_link_demo_look_hand },             // PLAYER_CSMODE_75
-    { 4, &gPlayerAnim_link_demo_sita_wait },             // PLAYER_CSMODE_76
-    { 3, &gPlayerAnim_link_demo_ue },                    // PLAYER_CSMODE_77
-    { 3, &gPlayerAnim_Link_muku },                       // PLAYER_CSMODE_78
-    { 3, &gPlayerAnim_Link_miageru },                    // PLAYER_CSMODE_79
-    { 6, &gPlayerAnim_Link_ha },                         // PLAYER_CSMODE_80
-    { 3, &gPlayerAnim_L_1kyoro },                        // PLAYER_CSMODE_81
-    { 3, &gPlayerAnim_L_2kyoro },                        // PLAYER_CSMODE_82
-    { 3, &gPlayerAnim_L_sagaru },                        // PLAYER_CSMODE_83
-    { 3, &gPlayerAnim_L_bouzen },                        // PLAYER_CSMODE_84
-    { 3, &gPlayerAnim_L_kamaeru },                       // PLAYER_CSMODE_85
-    { 3, &gPlayerAnim_L_hajikareru },                    // PLAYER_CSMODE_86
-    { 3, &gPlayerAnim_L_ken_miru },                      // PLAYER_CSMODE_87
-    { 3, &gPlayerAnim_L_mukinaoru },                     // PLAYER_CSMODE_88
-    { -1, func_808524B0 },                               // PLAYER_CSMODE_89
-    { 3, &gPlayerAnim_link_wait_itemD1_20f },            // PLAYER_CSMODE_90
-    { -1, func_80852544 },                               // PLAYER_CSMODE_91
-    { -1, func_80852564 },                               // PLAYER_CSMODE_92
-    { 3, &gPlayerAnim_link_normal_wait_typeB_20f },      // PLAYER_CSMODE_93
-    { -1, func_80852608 },                               // PLAYER_CSMODE_94
-    { 3, &gPlayerAnim_link_demo_kousan },                // PLAYER_CSMODE_95
-    { 3, &gPlayerAnim_link_demo_return_to_past },        // PLAYER_CSMODE_96
-    { 3, &gPlayerAnim_link_last_hit_motion1 },           // PLAYER_CSMODE_97
-    { 3, &gPlayerAnim_link_last_hit_motion2 },           // PLAYER_CSMODE_98
-    { 3, &gPlayerAnim_link_demo_zeldamiru },             // PLAYER_CSMODE_99
-    { 3, &gPlayerAnim_link_demo_kenmiru1 },              // PLAYER_CSMODE_100
-    { 3, &gPlayerAnim_link_demo_kenmiru2 },              // PLAYER_CSMODE_101
-    { 3, &gPlayerAnim_link_demo_kenmiru2_modori },       // PLAYER_CSMODE_102
+static struct_80854B18 D_80854B18[PLAYER_CSACTION_MAX] = {
+    { 0, NULL },                                         // PLAYER_CSACTION_NONE
+    { -1, func_808515A4 },                               // PLAYER_CSACTION_1
+    { 2, &gPlayerAnim_link_demo_goma_furimuki },         // PLAYER_CSACTION_2
+    { 0, NULL },                                         // PLAYER_CSACTION_3
+    { 0, NULL },                                         // PLAYER_CSACTION_4
+    { 3, &gPlayerAnim_link_demo_bikkuri },               // PLAYER_CSACTION_5
+    { 0, NULL },                                         // PLAYER_CSACTION_6
+    { 0, NULL },                                         // PLAYER_CSACTION_7
+    { -1, func_808515A4 },                               // PLAYER_CSACTION_8
+    { 2, &gPlayerAnim_link_demo_furimuki },              // PLAYER_CSACTION_9
+    { -1, func_80851788 },                               // PLAYER_CSACTION_10
+    { 3, &gPlayerAnim_link_demo_warp },                  // PLAYER_CSACTION_11
+    { -1, func_808518DC },                               // PLAYER_CSACTION_12
+    { 7, &gPlayerAnim_clink_demo_get1 },                 // PLAYER_CSACTION_13
+    { 5, &gPlayerAnim_clink_demo_get2 },                 // PLAYER_CSACTION_14
+    { 5, &gPlayerAnim_clink_demo_get3 },                 // PLAYER_CSACTION_15
+    { 5, &gPlayerAnim_clink_demo_standup },              // PLAYER_CSACTION_16
+    { 7, &gPlayerAnim_clink_demo_standup_wait },         // PLAYER_CSACTION_17
+    { -1, func_808519EC },                               // PLAYER_CSACTION_18
+    { 2, &gPlayerAnim_link_demo_baru_op1 },              // PLAYER_CSACTION_19
+    { 2, &gPlayerAnim_link_demo_baru_op3 },              // PLAYER_CSACTION_20
+    { 0, NULL },                                         // PLAYER_CSACTION_21
+    { -1, func_80851B90 },                               // PLAYER_CSACTION_22
+    { 3, &gPlayerAnim_link_demo_jibunmiru },             // PLAYER_CSACTION_23
+    { 9, &gPlayerAnim_link_normal_back_downA },          // PLAYER_CSACTION_24
+    { 2, &gPlayerAnim_link_normal_back_down_wake },      // PLAYER_CSACTION_25
+    { -1, func_80851D2C },                               // PLAYER_CSACTION_26
+    { 2, &gPlayerAnim_link_normal_okarina_end },         // PLAYER_CSACTION_27
+    { 3, &gPlayerAnim_link_demo_get_itemA },             // PLAYER_CSACTION_28
+    { -1, func_808515A4 },                               // PLAYER_CSACTION_29
+    { 2, &gPlayerAnim_link_normal_normal2fighter_free }, // PLAYER_CSACTION_30
+    { 0, NULL },                                         // PLAYER_CSACTION_31
+    { 0, NULL },                                         // PLAYER_CSACTION_32
+    { 5, &gPlayerAnim_clink_demo_atozusari },            // PLAYER_CSACTION_33
+    { -1, func_80851368 },                               // PLAYER_CSACTION_34
+    { -1, func_80851E64 },                               // PLAYER_CSACTION_35
+    { 5, &gPlayerAnim_clink_demo_bashi },                // PLAYER_CSACTION_36
+    { 16, &gPlayerAnim_link_normal_hang_up_down },       // PLAYER_CSACTION_37
+    { -1, func_80851F84 },                               // PLAYER_CSACTION_38
+    { -1, func_80851E90 },                               // PLAYER_CSACTION_39
+    { 6, &gPlayerAnim_clink_op3_okiagari },              // PLAYER_CSACTION_40
+    { 6, &gPlayerAnim_clink_op3_tatiagari },             // PLAYER_CSACTION_41
+    { -1, func_80852080 },                               // PLAYER_CSACTION_42
+    { 5, &gPlayerAnim_clink_demo_miokuri },              // PLAYER_CSACTION_43
+    { -1, func_808521F4 },                               // PLAYER_CSACTION_44
+    { -1, func_8085225C },                               // PLAYER_CSACTION_45
+    { -1, func_80852280 },                               // PLAYER_CSACTION_46
+    { 5, &gPlayerAnim_clink_demo_nozoki },               // PLAYER_CSACTION_47
+    { 5, &gPlayerAnim_clink_demo_koutai },               // PLAYER_CSACTION_48
+    { -1, func_808515A4 },                               // PLAYER_CSACTION_49
+    { 5, &gPlayerAnim_clink_demo_koutai_kennuki },       // PLAYER_CSACTION_50
+    { 5, &gPlayerAnim_link_demo_kakeyori },              // PLAYER_CSACTION_51
+    { 5, &gPlayerAnim_link_demo_kakeyori_mimawasi },     // PLAYER_CSACTION_52
+    { 5, &gPlayerAnim_link_demo_kakeyori_miokuri },      // PLAYER_CSACTION_53
+    { 3, &gPlayerAnim_link_demo_furimuki2 },             // PLAYER_CSACTION_54
+    { 3, &gPlayerAnim_link_demo_kaoage },                // PLAYER_CSACTION_55
+    { 4, &gPlayerAnim_link_demo_kaoage_wait },           // PLAYER_CSACTION_56
+    { 3, &gPlayerAnim_clink_demo_mimawasi },             // PLAYER_CSACTION_57
+    { 3, &gPlayerAnim_link_demo_nozokikomi },            // PLAYER_CSACTION_58
+    { 6, &gPlayerAnim_kolink_odoroki_demo },             // PLAYER_CSACTION_59
+    { 6, &gPlayerAnim_link_shagamu_demo },               // PLAYER_CSACTION_60
+    { 14, &gPlayerAnim_link_okiru_demo },                // PLAYER_CSACTION_61
+    { 3, &gPlayerAnim_link_okiru_demo },                 // PLAYER_CSACTION_62
+    { 5, &gPlayerAnim_link_fighter_power_kiru_start },   // PLAYER_CSACTION_63
+    { 16, &gPlayerAnim_demo_link_nwait },                // PLAYER_CSACTION_64
+    { 15, &gPlayerAnim_demo_link_tewatashi },            // PLAYER_CSACTION_65
+    { 15, &gPlayerAnim_demo_link_orosuu },               // PLAYER_CSACTION_66
+    { 3, &gPlayerAnim_d_link_orooro },                   // PLAYER_CSACTION_67
+    { 3, &gPlayerAnim_d_link_imanodare },                // PLAYER_CSACTION_68
+    { 3, &gPlayerAnim_link_hatto_demo },                 // PLAYER_CSACTION_69
+    { 6, &gPlayerAnim_o_get_mae },                       // PLAYER_CSACTION_70
+    { 6, &gPlayerAnim_o_get_ato },                       // PLAYER_CSACTION_71
+    { 6, &gPlayerAnim_om_get_mae },                      // PLAYER_CSACTION_72
+    { 6, &gPlayerAnim_nw_modoru },                       // PLAYER_CSACTION_73
+    { 3, &gPlayerAnim_link_demo_gurad },                 // PLAYER_CSACTION_74
+    { 3, &gPlayerAnim_link_demo_look_hand },             // PLAYER_CSACTION_75
+    { 4, &gPlayerAnim_link_demo_sita_wait },             // PLAYER_CSACTION_76
+    { 3, &gPlayerAnim_link_demo_ue },                    // PLAYER_CSACTION_77
+    { 3, &gPlayerAnim_Link_muku },                       // PLAYER_CSACTION_78
+    { 3, &gPlayerAnim_Link_miageru },                    // PLAYER_CSACTION_79
+    { 6, &gPlayerAnim_Link_ha },                         // PLAYER_CSACTION_80
+    { 3, &gPlayerAnim_L_1kyoro },                        // PLAYER_CSACTION_81
+    { 3, &gPlayerAnim_L_2kyoro },                        // PLAYER_CSACTION_82
+    { 3, &gPlayerAnim_L_sagaru },                        // PLAYER_CSACTION_83
+    { 3, &gPlayerAnim_L_bouzen },                        // PLAYER_CSACTION_84
+    { 3, &gPlayerAnim_L_kamaeru },                       // PLAYER_CSACTION_85
+    { 3, &gPlayerAnim_L_hajikareru },                    // PLAYER_CSACTION_86
+    { 3, &gPlayerAnim_L_ken_miru },                      // PLAYER_CSACTION_87
+    { 3, &gPlayerAnim_L_mukinaoru },                     // PLAYER_CSACTION_88
+    { -1, func_808524B0 },                               // PLAYER_CSACTION_89
+    { 3, &gPlayerAnim_link_wait_itemD1_20f },            // PLAYER_CSACTION_90
+    { -1, func_80852544 },                               // PLAYER_CSACTION_91
+    { -1, func_80852564 },                               // PLAYER_CSACTION_92
+    { 3, &gPlayerAnim_link_normal_wait_typeB_20f },      // PLAYER_CSACTION_93
+    { -1, func_80852608 },                               // PLAYER_CSACTION_94
+    { 3, &gPlayerAnim_link_demo_kousan },                // PLAYER_CSACTION_95
+    { 3, &gPlayerAnim_link_demo_return_to_past },        // PLAYER_CSACTION_96
+    { 3, &gPlayerAnim_link_last_hit_motion1 },           // PLAYER_CSACTION_97
+    { 3, &gPlayerAnim_link_last_hit_motion2 },           // PLAYER_CSACTION_98
+    { 3, &gPlayerAnim_link_demo_zeldamiru },             // PLAYER_CSACTION_99
+    { 3, &gPlayerAnim_link_demo_kenmiru1 },              // PLAYER_CSACTION_100
+    { 3, &gPlayerAnim_link_demo_kenmiru2 },              // PLAYER_CSACTION_101
+    { 3, &gPlayerAnim_link_demo_kenmiru2_modori },       // PLAYER_CSACTION_102
 };
 
-static struct_80854B18 D_80854E50[PLAYER_CSMODE_MAX] = {
-    { 0, NULL },                                          // PLAYER_CSMODE_NONE
-    { -1, func_808514C0 },                                // PLAYER_CSMODE_1
-    { -1, func_8085157C },                                // PLAYER_CSMODE_2
-    { -1, func_80851998 },                                // PLAYER_CSMODE_3
-    { -1, func_808519C0 },                                // PLAYER_CSMODE_4
-    { 11, NULL },                                         // PLAYER_CSMODE_5
-    { -1, func_80852C50 },                                // PLAYER_CSMODE_6
-    { -1, func_80852944 },                                // PLAYER_CSMODE_7
-    { -1, func_80851688 },                                // PLAYER_CSMODE_8
-    { -1, func_80851750 },                                // PLAYER_CSMODE_9
-    { -1, func_80851828 },                                // PLAYER_CSMODE_10
-    { -1, func_808521B8 },                                // PLAYER_CSMODE_11
-    { -1, func_8085190C },                                // PLAYER_CSMODE_12
-    { 11, NULL },                                         // PLAYER_CSMODE_13
-    { 11, NULL },                                         // PLAYER_CSMODE_14
-    { 11, NULL },                                         // PLAYER_CSMODE_15
-    { 18, D_80854AF0 },                                   // PLAYER_CSMODE_16
-    { 11, NULL },                                         // PLAYER_CSMODE_17
-    { -1, func_80851A50 },                                // PLAYER_CSMODE_18
-    { 12, &gPlayerAnim_link_demo_baru_op2 },              // PLAYER_CSMODE_19
-    { 11, NULL },                                         // PLAYER_CSMODE_20
-    { 0, NULL },                                          // PLAYER_CSMODE_21
-    { -1, func_80851BE8 },                                // PLAYER_CSMODE_22
-    { 11, NULL },                                         // PLAYER_CSMODE_23
-    { -1, func_80851CA4 },                                // PLAYER_CSMODE_24
-    { 11, NULL },                                         // PLAYER_CSMODE_25
-    { 17, &gPlayerAnim_link_normal_okarina_swing },       // PLAYER_CSMODE_26
-    { 11, NULL },                                         // PLAYER_CSMODE_27
-    { 11, NULL },                                         // PLAYER_CSMODE_28
-    { 11, NULL },                                         // PLAYER_CSMODE_29
-    { -1, func_80851D80 },                                // PLAYER_CSMODE_30
-    { -1, func_80851DEC },                                // PLAYER_CSMODE_31
-    { -1, func_80851E28 },                                // PLAYER_CSMODE_32
-    { 18, D_80854B00 },                                   // PLAYER_CSMODE_33
-    { -1, func_808513BC },                                // PLAYER_CSMODE_34
-    { 11, NULL },                                         // PLAYER_CSMODE_35
-    { 11, NULL },                                         // PLAYER_CSMODE_36
-    { 11, NULL },                                         // PLAYER_CSMODE_37
-    { 11, NULL },                                         // PLAYER_CSMODE_38
-    { -1, func_80851ECC },                                // PLAYER_CSMODE_39
-    { -1, func_80851FB0 },                                // PLAYER_CSMODE_40
-    { -1, func_80852048 },                                // PLAYER_CSMODE_41
-    { -1, func_80852174 },                                // PLAYER_CSMODE_42
-    { 13, &gPlayerAnim_clink_demo_miokuri_wait },         // PLAYER_CSMODE_43
-    { -1, func_80852234 },                                // PLAYER_CSMODE_44
-    { 0, NULL },                                          // PLAYER_CSMODE_45
-    { 0, NULL },                                          // PLAYER_CSMODE_46
-    { 11, NULL },                                         // PLAYER_CSMODE_47
-    { -1, func_80852450 },                                // PLAYER_CSMODE_48
-    { -1, func_80851688 },                                // PLAYER_CSMODE_49
-    { -1, func_80852298 },                                // PLAYER_CSMODE_50
-    { 13, &gPlayerAnim_link_demo_kakeyori_wait },         // PLAYER_CSMODE_51
-    { -1, func_80852480 },                                // PLAYER_CSMODE_52
-    { 13, &gPlayerAnim_link_demo_kakeyori_miokuri_wait }, // PLAYER_CSMODE_53
-    { -1, func_80852328 },                                // PLAYER_CSMODE_54
-    { 11, NULL },                                         // PLAYER_CSMODE_55
-    { 11, NULL },                                         // PLAYER_CSMODE_56
-    { 12, &gPlayerAnim_clink_demo_mimawasi_wait },        // PLAYER_CSMODE_57
-    { -1, func_80852358 },                                // PLAYER_CSMODE_58
-    { 11, NULL },                                         // PLAYER_CSMODE_59
-    { 18, D_80854B14 },                                   // PLAYER_CSMODE_60
-    { 11, NULL },                                         // PLAYER_CSMODE_61
-    { 11, NULL },                                         // PLAYER_CSMODE_62
-    { 11, NULL },                                         // PLAYER_CSMODE_63
-    { 11, NULL },                                         // PLAYER_CSMODE_64
-    { -1, func_80852388 },                                // PLAYER_CSMODE_65
-    { 17, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSMODE_66
-    { 12, &gPlayerAnim_d_link_orowait },                  // PLAYER_CSMODE_67
-    { 12, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSMODE_68
-    { 11, NULL },                                         // PLAYER_CSMODE_69
-    { -1, func_808526EC },                                // PLAYER_CSMODE_70
-    { 17, &gPlayerAnim_sude_nwait },                      // PLAYER_CSMODE_71
-    { -1, func_808526EC },                                // PLAYER_CSMODE_72
-    { 17, &gPlayerAnim_sude_nwait },                      // PLAYER_CSMODE_73
-    { 12, &gPlayerAnim_link_demo_gurad_wait },            // PLAYER_CSMODE_74
-    { 12, &gPlayerAnim_link_demo_look_hand_wait },        // PLAYER_CSMODE_75
-    { 11, NULL },                                         // PLAYER_CSMODE_76
-    { 12, &gPlayerAnim_link_demo_ue_wait },               // PLAYER_CSMODE_77
-    { 12, &gPlayerAnim_Link_m_wait },                     // PLAYER_CSMODE_78
-    { 13, &gPlayerAnim_Link_ue_wait },                    // PLAYER_CSMODE_79
-    { 12, &gPlayerAnim_Link_otituku_w },                  // PLAYER_CSMODE_80
-    { 12, &gPlayerAnim_L_kw },                            // PLAYER_CSMODE_81
-    { 11, NULL },                                         // PLAYER_CSMODE_82
-    { 11, NULL },                                         // PLAYER_CSMODE_83
-    { 11, NULL },                                         // PLAYER_CSMODE_84
-    { 11, NULL },                                         // PLAYER_CSMODE_85
-    { -1, func_80852648 },                                // PLAYER_CSMODE_86
-    { 11, NULL },                                         // PLAYER_CSMODE_87
-    { 12, &gPlayerAnim_L_kennasi_w },                     // PLAYER_CSMODE_88
-    { -1, func_808524D0 },                                // PLAYER_CSMODE_89
-    { -1, func_80852514 },                                // PLAYER_CSMODE_90
-    { -1, func_80852554 },                                // PLAYER_CSMODE_91
-    { -1, func_808525C0 },                                // PLAYER_CSMODE_92
-    { 11, NULL },                                         // PLAYER_CSMODE_93
-    { 11, NULL },                                         // PLAYER_CSMODE_94
-    { 11, NULL },                                         // PLAYER_CSMODE_95
-    { -1, func_8085283C },                                // PLAYER_CSMODE_96
-    { -1, func_808528C8 },                                // PLAYER_CSMODE_97
-    { -1, func_808528C8 },                                // PLAYER_CSMODE_98
-    { 12, &gPlayerAnim_link_demo_zeldamiru_wait },        // PLAYER_CSMODE_99
-    { 12, &gPlayerAnim_link_demo_kenmiru1_wait },         // PLAYER_CSMODE_100
-    { 12, &gPlayerAnim_link_demo_kenmiru2_wait },         // PLAYER_CSMODE_101
-    { 12, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSMODE_102
+static struct_80854B18 D_80854E50[PLAYER_CSACTION_MAX] = {
+    { 0, NULL },                                          // PLAYER_CSACTION_NONE
+    { -1, func_808514C0 },                                // PLAYER_CSACTION_1
+    { -1, func_8085157C },                                // PLAYER_CSACTION_2
+    { -1, func_80851998 },                                // PLAYER_CSACTION_3
+    { -1, func_808519C0 },                                // PLAYER_CSACTION_4
+    { 11, NULL },                                         // PLAYER_CSACTION_5
+    { -1, func_80852C50 },                                // PLAYER_CSACTION_6
+    { -1, func_80852944 },                                // PLAYER_CSACTION_7
+    { -1, func_80851688 },                                // PLAYER_CSACTION_8
+    { -1, func_80851750 },                                // PLAYER_CSACTION_9
+    { -1, func_80851828 },                                // PLAYER_CSACTION_10
+    { -1, func_808521B8 },                                // PLAYER_CSACTION_11
+    { -1, func_8085190C },                                // PLAYER_CSACTION_12
+    { 11, NULL },                                         // PLAYER_CSACTION_13
+    { 11, NULL },                                         // PLAYER_CSACTION_14
+    { 11, NULL },                                         // PLAYER_CSACTION_15
+    { 18, D_80854AF0 },                                   // PLAYER_CSACTION_16
+    { 11, NULL },                                         // PLAYER_CSACTION_17
+    { -1, func_80851A50 },                                // PLAYER_CSACTION_18
+    { 12, &gPlayerAnim_link_demo_baru_op2 },              // PLAYER_CSACTION_19
+    { 11, NULL },                                         // PLAYER_CSACTION_20
+    { 0, NULL },                                          // PLAYER_CSACTION_21
+    { -1, func_80851BE8 },                                // PLAYER_CSACTION_22
+    { 11, NULL },                                         // PLAYER_CSACTION_23
+    { -1, func_80851CA4 },                                // PLAYER_CSACTION_24
+    { 11, NULL },                                         // PLAYER_CSACTION_25
+    { 17, &gPlayerAnim_link_normal_okarina_swing },       // PLAYER_CSACTION_26
+    { 11, NULL },                                         // PLAYER_CSACTION_27
+    { 11, NULL },                                         // PLAYER_CSACTION_28
+    { 11, NULL },                                         // PLAYER_CSACTION_29
+    { -1, func_80851D80 },                                // PLAYER_CSACTION_30
+    { -1, func_80851DEC },                                // PLAYER_CSACTION_31
+    { -1, func_80851E28 },                                // PLAYER_CSACTION_32
+    { 18, D_80854B00 },                                   // PLAYER_CSACTION_33
+    { -1, func_808513BC },                                // PLAYER_CSACTION_34
+    { 11, NULL },                                         // PLAYER_CSACTION_35
+    { 11, NULL },                                         // PLAYER_CSACTION_36
+    { 11, NULL },                                         // PLAYER_CSACTION_37
+    { 11, NULL },                                         // PLAYER_CSACTION_38
+    { -1, func_80851ECC },                                // PLAYER_CSACTION_39
+    { -1, func_80851FB0 },                                // PLAYER_CSACTION_40
+    { -1, func_80852048 },                                // PLAYER_CSACTION_41
+    { -1, func_80852174 },                                // PLAYER_CSACTION_42
+    { 13, &gPlayerAnim_clink_demo_miokuri_wait },         // PLAYER_CSACTION_43
+    { -1, func_80852234 },                                // PLAYER_CSACTION_44
+    { 0, NULL },                                          // PLAYER_CSACTION_45
+    { 0, NULL },                                          // PLAYER_CSACTION_46
+    { 11, NULL },                                         // PLAYER_CSACTION_47
+    { -1, func_80852450 },                                // PLAYER_CSACTION_48
+    { -1, func_80851688 },                                // PLAYER_CSACTION_49
+    { -1, func_80852298 },                                // PLAYER_CSACTION_50
+    { 13, &gPlayerAnim_link_demo_kakeyori_wait },         // PLAYER_CSACTION_51
+    { -1, func_80852480 },                                // PLAYER_CSACTION_52
+    { 13, &gPlayerAnim_link_demo_kakeyori_miokuri_wait }, // PLAYER_CSACTION_53
+    { -1, func_80852328 },                                // PLAYER_CSACTION_54
+    { 11, NULL },                                         // PLAYER_CSACTION_55
+    { 11, NULL },                                         // PLAYER_CSACTION_56
+    { 12, &gPlayerAnim_clink_demo_mimawasi_wait },        // PLAYER_CSACTION_57
+    { -1, func_80852358 },                                // PLAYER_CSACTION_58
+    { 11, NULL },                                         // PLAYER_CSACTION_59
+    { 18, D_80854B14 },                                   // PLAYER_CSACTION_60
+    { 11, NULL },                                         // PLAYER_CSACTION_61
+    { 11, NULL },                                         // PLAYER_CSACTION_62
+    { 11, NULL },                                         // PLAYER_CSACTION_63
+    { 11, NULL },                                         // PLAYER_CSACTION_64
+    { -1, func_80852388 },                                // PLAYER_CSACTION_65
+    { 17, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSACTION_66
+    { 12, &gPlayerAnim_d_link_orowait },                  // PLAYER_CSACTION_67
+    { 12, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSACTION_68
+    { 11, NULL },                                         // PLAYER_CSACTION_69
+    { -1, func_808526EC },                                // PLAYER_CSACTION_70
+    { 17, &gPlayerAnim_sude_nwait },                      // PLAYER_CSACTION_71
+    { -1, func_808526EC },                                // PLAYER_CSACTION_72
+    { 17, &gPlayerAnim_sude_nwait },                      // PLAYER_CSACTION_73
+    { 12, &gPlayerAnim_link_demo_gurad_wait },            // PLAYER_CSACTION_74
+    { 12, &gPlayerAnim_link_demo_look_hand_wait },        // PLAYER_CSACTION_75
+    { 11, NULL },                                         // PLAYER_CSACTION_76
+    { 12, &gPlayerAnim_link_demo_ue_wait },               // PLAYER_CSACTION_77
+    { 12, &gPlayerAnim_Link_m_wait },                     // PLAYER_CSACTION_78
+    { 13, &gPlayerAnim_Link_ue_wait },                    // PLAYER_CSACTION_79
+    { 12, &gPlayerAnim_Link_otituku_w },                  // PLAYER_CSACTION_80
+    { 12, &gPlayerAnim_L_kw },                            // PLAYER_CSACTION_81
+    { 11, NULL },                                         // PLAYER_CSACTION_82
+    { 11, NULL },                                         // PLAYER_CSACTION_83
+    { 11, NULL },                                         // PLAYER_CSACTION_84
+    { 11, NULL },                                         // PLAYER_CSACTION_85
+    { -1, func_80852648 },                                // PLAYER_CSACTION_86
+    { 11, NULL },                                         // PLAYER_CSACTION_87
+    { 12, &gPlayerAnim_L_kennasi_w },                     // PLAYER_CSACTION_88
+    { -1, func_808524D0 },                                // PLAYER_CSACTION_89
+    { -1, func_80852514 },                                // PLAYER_CSACTION_90
+    { -1, func_80852554 },                                // PLAYER_CSACTION_91
+    { -1, func_808525C0 },                                // PLAYER_CSACTION_92
+    { 11, NULL },                                         // PLAYER_CSACTION_93
+    { 11, NULL },                                         // PLAYER_CSACTION_94
+    { 11, NULL },                                         // PLAYER_CSACTION_95
+    { -1, func_8085283C },                                // PLAYER_CSACTION_96
+    { -1, func_808528C8 },                                // PLAYER_CSACTION_97
+    { -1, func_808528C8 },                                // PLAYER_CSACTION_98
+    { 12, &gPlayerAnim_link_demo_zeldamiru_wait },        // PLAYER_CSACTION_99
+    { 12, &gPlayerAnim_link_demo_kenmiru1_wait },         // PLAYER_CSACTION_100
+    { 12, &gPlayerAnim_link_demo_kenmiru2_wait },         // PLAYER_CSACTION_101
+    { 12, &gPlayerAnim_demo_link_nwait },                 // PLAYER_CSACTION_102
 };
 
 void Player_AnimChangeOnceMorphZeroRootYawSpeed(PlayState* play, Player* this, LinkAnimationHeader* anim) {
@@ -14261,8 +14316,8 @@ void func_808515A4(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
 void func_80851688(PlayState* play, Player* this, CsCmdActorCue* cue) {
     if (func_8084B3CC(play, this) == 0) {
-        if ((this->csMode == PLAYER_CSMODE_49) && (play->csCtx.state == CS_STATE_IDLE)) {
-            func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        if ((this->csAction == PLAYER_CSACTION_49) && (play->csCtx.state == CS_STATE_IDLE)) {
+            func_8002DF54(play, NULL, PLAYER_CSACTION_7);
             return;
         }
 
@@ -14321,7 +14376,7 @@ void func_80851828(PlayState* play, Player* this, CsCmdActorCue* cue) {
 
     this->actionVar2++;
     if (this->actionVar2 > 20) {
-        this->csMode = PLAYER_CSMODE_11;
+        this->csAction = PLAYER_CSACTION_11;
     }
 }
 
@@ -14791,7 +14846,7 @@ void func_80852944(PlayState* play, Player* this, CsCmdActorCue* cue) {
         }
     }
 
-    this->csMode = PLAYER_CSMODE_NONE;
+    this->csAction = PLAYER_CSACTION_NONE;
     this->unk_6AD = 0;
 }
 
@@ -14835,9 +14890,9 @@ void func_80852B4C(PlayState* play, Player* this, CsCmdActorCue* cue, struct_808
     }
 }
 
-void func_80852C0C(PlayState* play, Player* this, s32 csMode) {
-    if ((csMode != PLAYER_CSMODE_1) && (csMode != PLAYER_CSMODE_8) && (csMode != PLAYER_CSMODE_49) &&
-        (csMode != PLAYER_CSMODE_7)) {
+void func_80852C0C(PlayState* play, Player* this, s32 csAction) {
+    if ((csAction != PLAYER_CSACTION_1) && (csAction != PLAYER_CSACTION_8) && (csAction != PLAYER_CSACTION_49) &&
+        (csAction != PLAYER_CSACTION_7)) {
         Player_DetachHeldActor(play, this);
     }
 }
@@ -14845,10 +14900,10 @@ void func_80852C0C(PlayState* play, Player* this, s32 csMode) {
 void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
     CsCmdActorCue* cue = play->csCtx.playerCue;
     s32 pad;
-    s32 csMode;
+    s32 csAction;
 
     if (play->csCtx.state == CS_STATE_STOP) {
-        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
         this->cueId = 0;
         Player_ZeroSpeedXZ(this);
         return;
@@ -14860,10 +14915,10 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
     }
 
     if (this->cueId != cue->id) {
-        csMode = D_808547C4[cue->id];
+        csAction = D_808547C4[cue->id];
 
-        if (csMode >= PLAYER_CSMODE_NONE) {
-            if ((csMode == PLAYER_CSMODE_3) || (csMode == PLAYER_CSMODE_4)) {
+        if (csAction >= PLAYER_CSACTION_NONE) {
+            if ((csAction == PLAYER_CSACTION_3) || (csAction == PLAYER_CSACTION_4)) {
                 func_80852A54(play, this, cue);
             } else {
                 func_808529D0(play, this, cue);
@@ -14873,31 +14928,31 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
         D_80858AA0 = this->skelAnime.moveFlags;
 
         func_80832DBC(this);
-        osSyncPrintf("TOOL MODE=%d\n", csMode);
-        func_80852C0C(play, this, ABS(csMode));
-        func_80852B4C(play, this, cue, &D_80854B18[ABS(csMode)]);
+        osSyncPrintf("TOOL MODE=%d\n", csAction);
+        func_80852C0C(play, this, ABS(csAction));
+        func_80852B4C(play, this, cue, &D_80854B18[ABS(csAction)]);
 
         this->actionVar2 = 0;
         this->actionVar1 = 0;
         this->cueId = cue->id;
     }
 
-    csMode = D_808547C4[this->cueId];
-    func_80852B4C(play, this, cue, &D_80854E50[ABS(csMode)]);
+    csAction = D_808547C4[this->cueId];
+    func_80852B4C(play, this, cue, &D_80854E50[ABS(csAction)]);
 }
 
 void Player_Action_80852E14(Player* this, PlayState* play) {
-    if (this->csMode != this->prevCsMode) {
+    if (this->csAction != this->prevCsAction) {
         D_80858AA0 = this->skelAnime.moveFlags;
 
         func_80832DBC(this);
-        this->prevCsMode = this->csMode;
-        osSyncPrintf("DEMO MODE=%d\n", this->csMode);
-        func_80852C0C(play, this, this->csMode);
-        func_80852B4C(play, this, NULL, &D_80854B18[this->csMode]);
+        this->prevCsAction = this->csAction;
+        osSyncPrintf("DEMO MODE=%d\n", this->csAction);
+        func_80852C0C(play, this, this->csAction);
+        func_80852B4C(play, this, NULL, &D_80854B18[this->csAction]);
     }
 
-    func_80852B4C(play, this, NULL, &D_80854E50[this->csMode]);
+    func_80852B4C(play, this, NULL, &D_80854E50[this->csAction]);
 }
 
 s32 Player_IsDroppingFish(PlayState* play) {
@@ -14930,13 +14985,13 @@ s32 func_80852F38(PlayState* play, Player* this) {
 }
 
 // Sets up player cutscene
-s32 func_80852FFC(PlayState* play, Actor* actor, s32 csMode) {
+s32 func_80852FFC(PlayState* play, Actor* actor, s32 csAction) {
     Player* this = GET_PLAYER(play);
 
     if (!Player_InBlockingCsMode(play, this)) {
         func_80832564(play, this);
         Player_SetupAction(play, this, Player_Action_80852E14, 0);
-        this->csMode = csMode;
+        this->csAction = csAction;
         this->unk_448 = actor;
         func_80832224(this);
         return 1;
@@ -14976,7 +15031,7 @@ void func_80853148(PlayState* play, Actor* actor) {
     this->exchangeItemId = EXCH_ITEM_NONE;
 
     if (actor->textId == 0xFFFF) {
-        func_8002DF54(play, actor, PLAYER_CSMODE_1);
+        func_8002DF54(play, actor, PLAYER_CSACTION_1);
         actor->flags |= ACTOR_FLAG_8;
         func_80832528(play, this);
     } else {

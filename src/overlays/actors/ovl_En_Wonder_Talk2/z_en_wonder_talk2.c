@@ -194,7 +194,7 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
                 this->unk_15A = true;
             }
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
-            func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+            func_8002DF54(play, NULL, PLAYER_CSACTION_7);
             this->unk_156 = true;
             this->actionFunc = func_80B3A4F8;
             break;
@@ -253,7 +253,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
             this->unk_158 = 0;
             if (!this->unk_156) {
                 Message_StartTextbox(play, this->actor.textId, NULL);
-                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+                func_8002DF54(play, NULL, PLAYER_CSACTION_8);
                 this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
                 this->actionFunc = func_80B3A3D4;
             }

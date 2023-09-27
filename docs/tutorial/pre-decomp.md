@@ -10,7 +10,7 @@ This is covered on the main page of the repository.
 
 First, make a GitHub fork of the repository, then clone it into a git-enabled local folder.
 
-Once you have decided on an actor, you should make a new git branch to work on: your master branch is meant to stay level with the main repository. Name it something sensible: my `EnFirefly` branch is called "en_firefly", for example, but you may prefer to use a more descriptive name: "Dark_Link" is rather more suggestive than "en_torch2", for example. You work on the branch, commit changes, and periodically push them to GitHub, if only for backup purposes.
+Once you have decided on an actor, you should make a new git branch to work on: your main branch is meant to stay level with the main repository. Name it something sensible: my `EnFirefly` branch is called "en_firefly", for example, but you may prefer to use a more descriptive name: "Dark_Link" is rather more suggestive than "en_torch2", for example. You work on the branch, commit changes, and periodically push them to GitHub, if only for backup purposes.
 
 Once you have finished an actor, you submit a pull request for other people to check your work complies with the project's conventions, and once it is deemed satisfactory, it will be merged in to the main repository.
 
