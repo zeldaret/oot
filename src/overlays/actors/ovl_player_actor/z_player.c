@@ -1827,7 +1827,7 @@ void func_808328EC(Player* this, u16 sfxId) {
  * The list will stop being processed after an entry that has a negative value for the `data` field.
  *
  * Some types do not make use of `sfxId`, the SFX function called will pick a sound on its own.
- * The `sfxId` field is not used in this case and can be any value, but 0 is typiclly used.
+ * The `sfxId` field is not used in this case and can be any value, but 0 is typically used.
  *
  * @param entry  A pointer to the first entry of an `AnimSfx` list.
  */
@@ -1862,7 +1862,7 @@ void Player_ProcessAnimSfxList(Player* this, AnimSfxEntry* entry) {
             }
         }
         
-        cont = (entry->data >= 0); // continue processing if `data` is positive
+        cont = (entry->data >= 0); // stop processing if `data` is negative
         entry++;
     } while (cont);
 }
