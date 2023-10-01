@@ -276,18 +276,18 @@ void Target_InitLockOn(TargetContext* targetCtx, s32 actorCategory, PlayState* p
 }
 
 void Target_SetFairyState(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
-    targetCtx->naviRefPos.x = actor->focus.pos.x;
-    targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
-    targetCtx->naviRefPos.z = actor->focus.pos.z;
+    targetCtx->fairyPos.x = actor->focus.pos.x;
+    targetCtx->fairyPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
+    targetCtx->fairyPos.z = actor->focus.pos.z;
 
-    targetCtx->naviInner.r = sNaviColorList[actorCategory].inner.r;
-    targetCtx->naviInner.g = sNaviColorList[actorCategory].inner.g;
-    targetCtx->naviInner.b = sNaviColorList[actorCategory].inner.b;
-    targetCtx->naviInner.a = sNaviColorList[actorCategory].inner.a;
-    targetCtx->naviOuter.r = sNaviColorList[actorCategory].outer.r;
-    targetCtx->naviOuter.g = sNaviColorList[actorCategory].outer.g;
-    targetCtx->naviOuter.b = sNaviColorList[actorCategory].outer.b;
-    targetCtx->naviOuter.a = sNaviColorList[actorCategory].outer.a;
+    targetCtx->fairyInnerColor.r = sNaviColorList[actorCategory].inner.r;
+    targetCtx->fairyInnerColor.g = sNaviColorList[actorCategory].inner.g;
+    targetCtx->fairyInnerColor.b = sNaviColorList[actorCategory].inner.b;
+    targetCtx->fairyInnerColor.a = sNaviColorList[actorCategory].inner.a;
+    targetCtx->fairyOuterColor.r = sNaviColorList[actorCategory].outer.r;
+    targetCtx->fairyOuterColor.g = sNaviColorList[actorCategory].outer.g;
+    targetCtx->fairyOuterColor.b = sNaviColorList[actorCategory].outer.b;
+    targetCtx->fairyOuterColor.a = sNaviColorList[actorCategory].outer.a;
 }
 
 void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
@@ -404,7 +404,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
     }
 
     actor = targetCtx->arrowPointedActor;
-    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_CANT_LOCK_ON)) {
+    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_27)) {
         NaviColor* color = &sNaviColorList[actor->category];
 
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_7);
@@ -474,13 +474,13 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* lockOnActor,
     if (!Math_StepToF(&targetCtx->fairyMoveProgressFactor, 0.0f, 0.25f)) {
         fairyMoveScale = 0.25f / targetCtx->fairyMoveProgressFactor;
 
-        velocityX = actor->world.pos.x - targetCtx->naviRefPos.x;
-        velocityY = (actor->world.pos.y + (actor->targetArrowOffset * actor->scale.y)) - targetCtx->naviRefPos.y;
-        velocityZ = actor->world.pos.z - targetCtx->naviRefPos.z;
+        velocityX = actor->world.pos.x - targetCtx->fairyPos.x;
+        velocityY = (actor->world.pos.y + (actor->targetArrowOffset * actor->scale.y)) - targetCtx->fairyPos.y;
+        velocityZ = actor->world.pos.z - targetCtx->fairyPos.z;
 
-        targetCtx->naviRefPos.x += velocityX * fairyMoveScale;
-        targetCtx->naviRefPos.y += velocityY * fairyMoveScale;
-        targetCtx->naviRefPos.z += velocityZ * fairyMoveScale;
+        targetCtx->fairyPos.x += velocityX * fairyMoveScale;
+        targetCtx->fairyPos.y += velocityY * fairyMoveScale;
+        targetCtx->fairyPos.z += velocityZ * fairyMoveScale;
     } else {
         Target_SetFairyState(targetCtx, actor, actorCategory, play);
     }
@@ -1496,7 +1496,7 @@ f32 Target_GetAdjustedDistSq(Actor* actor, Player* player, s16 playerShapeYaw) {
     yawDiff = ABS((s16)((s16)(actor->yawTowardsPlayer - 0x8000) - playerShapeYaw));
 
     if (player->lockOnActor != NULL) {
-        if ((yawDiff > 0x4000) || (actor->flags & ACTOR_FLAG_CANT_LOCK_ON)) {
+        if ((yawDiff > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
             return FLT_MAX;
         }
 
@@ -1584,7 +1584,7 @@ s32 func_8002F1C4(Actor* actor, PlayState* play, f32 arg2, f32 arg3, u32 exchang
     Player* player = GET_PLAYER(play);
 
     if ((player->actor.flags & ACTOR_FLAG_8) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
-        (!actor->isTargeted &&
+        (!actor->isLockedOn &&
          ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
           (arg2 < actor->xzDistToPlayer)))) {
         return false;
@@ -2223,9 +2223,9 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
                 if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_4 | ACTOR_FLAG_6))) {
                     if (actor == player->lockOnActor) {
-                        actor->isTargeted = true;
+                        actor->isLockedOn = true;
                     } else {
-                        actor->isTargeted = false;
+                        actor->isLockedOn = false;
                     }
 
                     if ((actor->targetPriority != 0) && (player->lockOnActor == NULL)) {
@@ -3081,7 +3081,7 @@ s16 sTargetPlayerRotY;
  * - Must not be blocked by a surface
  *
  * This function also checks for the nearest enemy actor, which allows determining if enemy background music should be
- * played. This actor is stored in `targetContext.bgmEnemy` and its distance is stored in `sBgmEnemyDistSq`
+ * played. This actor is stored in `targetCtx.bgmEnemy` and its distance is stored in `sBgmEnemyDistSq`
  *
  * This function is expected to be called with almost every actor category in each cycle. On a new cycle its global
  * variables must be reset by the caller, otherwise the information of the previous cycle will be retained on this one.
@@ -3613,7 +3613,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, PlayState* play, f32 distance, s16 
 s32 Actor_IsTargeted(PlayState* play, Actor* actor) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_4) && actor->isTargeted) {
+    if ((player->stateFlags1 & PLAYER_STATE1_4) && actor->isLockedOn) {
         return true;
     } else {
         return false;
@@ -3626,7 +3626,7 @@ s32 Actor_IsTargeted(PlayState* play, Actor* actor) {
 s32 Actor_OtherIsTargeted(PlayState* play, Actor* actor) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->stateFlags1 & PLAYER_STATE1_4) && !actor->isTargeted) {
+    if ((player->stateFlags1 & PLAYER_STATE1_4) && !actor->isLockedOn) {
         return true;
     } else {
         return false;
@@ -5765,7 +5765,7 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
         return false;
     }
 
-    if ((actor->xyzDistToPlayerSq > SQ(160.0f)) && !actor->isTargeted) {
+    if ((actor->xyzDistToPlayerSq > SQ(160.0f)) && !actor->isLockedOn) {
         return false;
     }
 

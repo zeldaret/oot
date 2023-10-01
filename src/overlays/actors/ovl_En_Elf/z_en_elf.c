@@ -935,7 +935,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
                 break;
             default:
                 func_80A029A8(this, 1);
-                nextPos = play->actorCtx.targetCtx.naviRefPos;
+                nextPos = play->actorCtx.targetCtx.fairyPos;
                 nextPos.y += (1500.0f * this->actor.scale.y);
                 fairyActor = play->actorCtx.targetCtx.fairyActor;
 
@@ -1016,18 +1016,18 @@ void func_80A04414(EnElf* this, PlayState* play) {
     } else {
         if (this->unk_2C6 == 0) {
             if ((fairyActor == NULL) ||
-                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.targetCtx.naviRefPos) < 50.0f)) {
+                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.targetCtx.fairyPos) < 50.0f)) {
                 this->unk_2C6 = 1;
             }
         } else if (this->unk_29C != 0.0f) {
             if (Math_StepToF(&this->unk_29C, 0.0f, 0.25f) != 0) {
-                this->innerColor = play->actorCtx.targetCtx.naviInner;
-                this->outerColor = play->actorCtx.targetCtx.naviOuter;
+                this->innerColor = play->actorCtx.targetCtx.fairyInnerColor;
+                this->outerColor = play->actorCtx.targetCtx.fairyOuterColor;
             } else {
                 transitionRate = 0.25f / this->unk_29C;
-                EnElf_ChangeColor(&this->innerColor, &play->actorCtx.targetCtx.naviInner, &this->innerColor,
+                EnElf_ChangeColor(&this->innerColor, &play->actorCtx.targetCtx.fairyInnerColor, &this->innerColor,
                                   transitionRate);
-                EnElf_ChangeColor(&this->outerColor, &play->actorCtx.targetCtx.naviOuter, &this->outerColor,
+                EnElf_ChangeColor(&this->outerColor, &play->actorCtx.targetCtx.fairyOuterColor, &this->outerColor,
                                   transitionRate);
             }
         }
@@ -1219,21 +1219,19 @@ void func_80A04D90(EnElf* this, PlayState* play) {
 void func_80A04DE4(EnElf* this, PlayState* play) {
     Vec3f headCopy;
     Player* player = GET_PLAYER(play);
-    Vec3f naviRefPos;
+    Vec3f fairyPos;
 
     if (this->fairyFlags & 0x10) {
-        naviRefPos = play->actorCtx.targetCtx.naviRefPos;
+        fairyPos = play->actorCtx.targetCtx.fairyPos;
 
         if ((player->lockOnActor == NULL) || (&player->actor == player->lockOnActor) ||
             (&this->actor == player->lockOnActor)) {
-            naviRefPos.x =
-                player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
-            naviRefPos.y = player->bodyPartsPos[PLAYER_BODYPART_HEAD].y + 5.0f;
-            naviRefPos.z =
-                player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
+            fairyPos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
+            fairyPos.y = player->bodyPartsPos[PLAYER_BODYPART_HEAD].y + 5.0f;
+            fairyPos.z = player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
         }
 
-        this->actor.focus.pos = naviRefPos;
+        this->actor.focus.pos = fairyPos;
         this->fairyFlags &= ~0x10;
     }
 

@@ -1217,7 +1217,7 @@ void EnZf_Slash(EnZf* this, PlayState* play) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                         func_80B483E4(this, play);
                     } else if (player->stateFlags1 & (PLAYER_STATE1_4 | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
-                        if (this->actor.isTargeted) {
+                        if (this->actor.isLockedOn) {
                             EnZf_SetupSlash(this);
                         } else {
                             func_80B483E4(this, play);

@@ -344,7 +344,7 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
         this->actionFunc = EnDns_Talk;
     } else {
-        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
+        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isLockedOn) {
             this->actor.flags |= ACTOR_FLAG_16;
         } else {
             this->actor.flags &= ~ACTOR_FLAG_16;

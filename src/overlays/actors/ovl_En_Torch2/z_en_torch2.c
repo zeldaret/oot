@@ -413,7 +413,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         sp50 = 0.0f;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
                             (ABS(sp5A) >= 0x7800) &&
-                            (this->actor.isTargeted || !(player->stateFlags1 & PLAYER_STATE1_22))) {
+                            (this->actor.isLockedOn || !(player->stateFlags1 & PLAYER_STATE1_22))) {
                             EnTorch2_SwingSword(play, input, this);
                         } else if (((this->actor.xzDistToPlayer <= 70.0f) ||
                                     ((this->actor.xzDistToPlayer <= 80.0f + sp50) &&
@@ -426,7 +426,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                         } else if (this->actor.xzDistToPlayer <= 50 + sp50) {
                             sStickTilt = 127.0f;
                             sStickAngle = this->actor.yawTowardsPlayer;
-                            if (!this->actor.isTargeted) {
+                            if (!this->actor.isLockedOn) {
                                 Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                             }
                         } else if (this->actor.xzDistToPlayer > 100.0f + sp50) {
@@ -436,7 +436,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                                 (this->actor.xzDistToPlayer >= 280.0f)) {
                                 sStickTilt = 127.0f;
                                 sStickAngle = this->actor.yawTowardsPlayer;
-                                if (!this->actor.isTargeted) {
+                                if (!this->actor.isLockedOn) {
                                     Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                                 }
                             } else {
@@ -446,7 +446,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                                    !EnTorch2_SwingSword(play, input, this)) {
                             sStickAngle = this->actor.yawTowardsPlayer;
                             sStickTilt = 127.0f;
-                            if (!this->actor.isTargeted) {
+                            if (!this->actor.isLockedOn) {
                                 Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                             }
                         }

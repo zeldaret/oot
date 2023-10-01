@@ -7,7 +7,7 @@
 #include "z_en_wonder_talk.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_CANT_LOCK_ON)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
 
 void EnWonderTalk_Init(Actor* thisx, PlayState* play);
 void EnWonderTalk_Destroy(Actor* thisx, PlayState* play);

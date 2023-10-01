@@ -166,8 +166,7 @@ typedef struct {
 #define ACTOR_FLAG_24 (1 << 24)
 #define ACTOR_FLAG_25 (1 << 25)
 #define ACTOR_FLAG_26 (1 << 26)
-// Prevents locking on with Z targeting an actor even if Navi is floating over it
-#define ACTOR_FLAG_CANT_LOCK_ON (1 << 27)
+#define ACTOR_FLAG_27 (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
 
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
@@ -231,7 +230,7 @@ typedef struct Actor {
     /* 0x0F8 */ f32 uncullZoneScale; // Amount to increase the uncull zone scale by (in projected space)
     /* 0x0FC */ f32 uncullZoneDownward; // Amount to increase uncull zone downward by (in projected space)
     /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
-    /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player
+    /* 0x10C */ u8 isLockedOn; // Set to true if the actor is currently being targeted by the player
     /* 0x10D */ u8 targetPriority; // Lower values have higher priority. Resets to 0 when player stops targeting
     /* 0x10E */ u16 textId; // Text ID to pass to player/display when interacting with the actor
     /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
@@ -513,17 +512,18 @@ typedef enum {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
+// A set of 4 triangles which appear around an actor when the player Z-Targets it
 typedef struct {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ f32 radius;
+    /* 0x0C */ f32 radius; // distance towards the center of the locked on
     /* 0x10 */ Color_RGB8 color;
 } LockOnTriangleSet; // size = 0x14
 
 typedef struct {
-    /* 0x00 */ Vec3f naviRefPos; // possibly wrong
+    /* 0x00 */ Vec3f fairyPos; // Used by Navi to indicate a targetable actor or general hint
     /* 0x0C */ Vec3f lockOnPos;
-    /* 0x18 */ Color_RGBAf naviInner;
-    /* 0x28 */ Color_RGBAf naviOuter;
+    /* 0x18 */ Color_RGBAf fairyInnerColor;
+    /* 0x28 */ Color_RGBAf fairyOuterColor;
     /* 0x38 */ Actor* fairyActor;
     /* 0x3C */ Actor* lockOnActor;
     /* 0x40 */ f32 fairyMoveProgressFactor; // Controls Navi so she can smootly transition to the target actor
@@ -533,12 +533,12 @@ typedef struct {
     /* 0x4B */ u8 rotZTick;
     /* 0x4C */ s8 lockOnIndex;
     /* 0x50 */ LockOnTriangleSet lockOnTriangleSets[3];
-    /* 0x8C */ Actor* forcedTargetActor;
+    /* 0x8C */ Actor* forcedTargetActor; // Never set to non-NULL
     /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
     /* 0x94 */ Actor* arrowPointedActor;
 } TargetContext; // size = 0x98
 
-typedef enum TargetMode {
+typedef enum {
     /*  0 */ TARGET_MODE_0,
     /*  1 */ TARGET_MODE_1,
     /*  2 */ TARGET_MODE_2,
