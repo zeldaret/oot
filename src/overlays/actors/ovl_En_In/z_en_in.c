@@ -520,7 +520,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
             return;
         }
         Actor_SetScale(&this->actor, 0.01f);
-        this->actor.targetMode = 6;
+        this->actor.targetMode = TARGET_MODE_6;
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80A7A4BC;
 
@@ -579,7 +579,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                         gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
                         break;
                     case EVENTINF_HORSES_STATE_1:
-                        this->actor.targetMode = 3;
+                        this->actor.targetMode = TARGET_MODE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
                         Interface_SetTimer(60);
@@ -595,7 +595,7 @@ void EnIn_WaitForObject(EnIn* this, PlayState* play) {
                         break;
                     case EVENTINF_HORSES_STATE_5:
                     case EVENTINF_HORSES_STATE_6:
-                        this->actor.targetMode = 3;
+                        this->actor.targetMode = TARGET_MODE_3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
@@ -940,7 +940,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
             if (Actor_ProcessTalkRequest(&this->actor, play)) {}
         } else {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
-                              ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
+                              ((this->actor.targetMode == TARGET_MODE_6) ? 80.0f : 320.0f) + this->collider.dim.radius,
                               EnIn_GetTextId, EnIn_UpdateTalkState);
             if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
                 this->unk_1FA = this->unk_1F8;

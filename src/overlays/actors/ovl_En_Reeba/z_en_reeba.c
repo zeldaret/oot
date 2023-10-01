@@ -10,7 +10,7 @@
 #include "terminal.h"
 #include "assets/objects/object_reeba/object_reeba.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_CANT_LOCK_ON)
 
 void EnReeba_Init(Actor* thisx, PlayState* play);
 void EnReeba_Destroy(Actor* thisx, PlayState* play);
@@ -113,7 +113,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
     s32 surfaceType;
 
     this->actor.naviEnemyId = NAVI_ENEMY_LEEVER;
-    this->actor.targetMode = 3;
+    this->actor.targetMode = TARGET_MODE_3;
     this->actor.gravity = -3.5f;
     this->actor.focus.pos = this->actor.world.pos;
     SkelAnime_Init(play, &this->skelanime, &object_reeba_Skel_001EE8, &object_reeba_Anim_0001E4, this->jointTable,
@@ -192,7 +192,7 @@ void EnReeba_SetupSurface(EnReeba* this, PlayState* play) {
         this->waitTimer = 20;
     }
 
-    this->actor.flags &= ~ACTOR_FLAG_27;
+    this->actor.flags &= ~ACTOR_FLAG_CANT_LOCK_ON;
     this->actor.world.pos.y = this->actor.floorHeight;
 
     if (this->type != LEEVER_TYPE_SMALL) {
@@ -341,7 +341,7 @@ void EnReeba_Bumped(EnReeba* this, PlayState* play) {
 void EnReeba_SetupSink(EnReeba* this, PlayState* play) {
     this->stunType = LEEVER_STUN_NONE;
     Actor_PlaySfx(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
-    this->actor.flags |= ACTOR_FLAG_27;
+    this->actor.flags |= ACTOR_FLAG_CANT_LOCK_ON;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = EnReeba_Sink;
 }
@@ -393,7 +393,7 @@ void EnReeba_SetupStunned(EnReeba* this, PlayState* play) {
     this->waitTimer = 14;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.speed = -8.0f;
-    this->actor.flags |= ACTOR_FLAG_27;
+    this->actor.flags |= ACTOR_FLAG_CANT_LOCK_ON;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = EnReeba_Stunned;
 }

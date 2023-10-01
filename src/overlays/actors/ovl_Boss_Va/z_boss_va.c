@@ -581,7 +581,7 @@ void BossVa_Init(Actor* thisx, PlayState* play2) {
     s16 warpId;
 
     Actor_SetScale(&this->actor, 0.1f);
-    this->actor.targetMode = 5;
+    this->actor.targetMode = TARGET_MODE_5;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     switch (this->actor.params) {

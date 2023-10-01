@@ -166,7 +166,8 @@ typedef struct {
 #define ACTOR_FLAG_24 (1 << 24)
 #define ACTOR_FLAG_25 (1 << 25)
 #define ACTOR_FLAG_26 (1 << 26)
-#define ACTOR_FLAG_27 (1 << 27)
+// Prevents locking on with Z targeting an actor even if Navi is floating over it
+#define ACTOR_FLAG_CANT_LOCK_ON (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
 
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
@@ -511,6 +512,45 @@ typedef enum {
     /* 0x5C */ NAVI_ENEMY_POE_WASTELAND,
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
+
+typedef struct {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ f32 radius;
+    /* 0x10 */ Color_RGB8 color;
+} LockOnTriangleSet; // size = 0x14
+
+typedef struct {
+    /* 0x00 */ Vec3f naviRefPos; // possibly wrong
+    /* 0x0C */ Vec3f lockOnPos;
+    /* 0x18 */ Color_RGBAf naviInner;
+    /* 0x28 */ Color_RGBAf naviOuter;
+    /* 0x38 */ Actor* fairyActor;
+    /* 0x3C */ Actor* lockOnActor;
+    /* 0x40 */ f32 fairyMoveProgressFactor; // Controls Navi so she can smootly transition to the target actor
+    /* 0x44 */ f32 lockOnRadius; // Control the circle lock-on triangles coming in from offscreen when you first target
+    /* 0x48 */ s16 lockOnAlpha;
+    /* 0x4A */ u8 fairyActorCategory;
+    /* 0x4B */ u8 rotZTick;
+    /* 0x4C */ s8 lockOnIndex;
+    /* 0x50 */ LockOnTriangleSet lockOnTriangleSets[3];
+    /* 0x8C */ Actor* forcedTargetActor;
+    /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
+    /* 0x94 */ Actor* arrowPointedActor;
+} TargetContext; // size = 0x98
+
+typedef enum TargetMode {
+    /*  0 */ TARGET_MODE_0,
+    /*  1 */ TARGET_MODE_1,
+    /*  2 */ TARGET_MODE_2,
+    /*  3 */ TARGET_MODE_3,
+    /*  4 */ TARGET_MODE_4,
+    /*  5 */ TARGET_MODE_5,
+    /*  6 */ TARGET_MODE_6,
+    /*  7 */ TARGET_MODE_7,
+    /*  8 */ TARGET_MODE_8,
+    /*  9 */ TARGET_MODE_9,
+    /* 10 */ TARGET_MODE_MAX
+} TargetMode;
 
 #define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
 #define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)

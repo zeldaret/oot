@@ -146,7 +146,7 @@ void EnCow_Init(Actor* thisx, PlayState* play) {
                                COW_TYPE_TAIL);
             this->animationTimer = Rand_ZeroFloat(1000.0f) + 40.0f;
             this->breathTimer = 0;
-            this->actor.targetMode = 6;
+            this->actor.targetMode = TARGET_MODE_6;
             R_EPONAS_SONG_PLAYED = false;
             break;
 

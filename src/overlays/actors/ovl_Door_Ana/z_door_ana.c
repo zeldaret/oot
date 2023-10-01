@@ -79,7 +79,7 @@ void DoorAna_Init(Actor* thisx, PlayState* play) {
     } else {
         DoorAna_SetupAction(this, DoorAna_WaitOpen);
     }
-    this->actor.targetMode = 0;
+    this->actor.targetMode = TARGET_MODE_0;
 }
 
 void DoorAna_Destroy(Actor* thisx, PlayState* play) {
@@ -128,7 +128,7 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
 
     player = GET_PLAYER(play);
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
-        if ((this->actor.targetMode != 0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
+        if ((this->actor.targetMode != TARGET_MODE_0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (player->stateFlags1 & PLAYER_STATE1_31) && (player->actionVar1 == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
             Play_SetupRespawnPoint(play, RESPAWN_MODE_RETURN, 0x4FF);
@@ -145,9 +145,9 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
                 this->actor.xzDistToPlayer <= 15.0f && -50.0f <= this->actor.yDistToPlayer &&
                 this->actor.yDistToPlayer <= 15.0f) {
                 player->stateFlags1 |= PLAYER_STATE1_31;
-                this->actor.targetMode = 1;
+                this->actor.targetMode = TARGET_MODE_1;
             } else {
-                this->actor.targetMode = 0;
+                this->actor.targetMode = TARGET_MODE_0;
             }
         }
     }

@@ -142,7 +142,7 @@ void EnRd_Init(Actor* thisx, PlayState* play) {
     EnRd* this = (EnRd*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->actor.targetMode = 0;
+    this->actor.targetMode = TARGET_MODE_0;
     this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->upperBodyYRotation = this->headYRotation = 0;
@@ -434,7 +434,7 @@ void EnRd_WalkToHome(EnRd* this, PlayState* play) {
                                  PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
         !(player->stateFlags2 & PLAYER_STATE2_7) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
-        this->actor.targetMode = 0;
+        this->actor.targetMode = TARGET_MODE_0;
         EnRd_SetupWalkToPlayer(this, play);
     } else if (this->actor.params > REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
         if (this->actor.parent != NULL) {
@@ -577,7 +577,7 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
             if (!LINK_IS_ADULT) {
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0, 1.0f, 400.0f, 0.0f);
             }
-            this->actor.targetMode = 0;
+            this->actor.targetMode = TARGET_MODE_0;
             this->actor.flags |= ACTOR_FLAG_0;
             this->playerStunWaitTimer = 0xA;
             this->grabWaitTimer = 0xF;

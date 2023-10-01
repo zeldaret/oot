@@ -642,7 +642,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
     }
 
     EnGo_ChangeAnim(this, ENGO_ANIM_0);
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     this->actor.gravity = -1.0f;
 
@@ -676,7 +676,7 @@ void EnGo_Init(Actor* thisx, PlayState* play) {
             EnGo_SetupAction(this, func_80A3FEB4);
             break;
         case 0x90:
-            this->actor.targetMode = 5;
+            this->actor.targetMode = TARGET_MODE_5;
             Actor_SetScale(&this->actor, 0.16f);
             EnGo_SetupAction(this, EnGo_CurledUp);
             break;

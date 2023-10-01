@@ -126,7 +126,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
         this->collider.dim.yShift = 0;
         this->collider.dim.radius = 15;
         this->collider.dim.height = 70;
-        this->actor.targetMode = 6;
+        this->actor.targetMode = TARGET_MODE_6;
 
         switch (this->type) {
 

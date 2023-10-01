@@ -332,7 +332,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play);
 void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
                       Vec3f* rightFootPos);
 void Actor_ProjectPos(PlayState* play, Vec3f* src, Vec3f* xyzDest, f32* cappedInvWDest);
-void func_8002C124(TargetContext* targetCtx, PlayState* play);
+void Target_Draw(TargetContext* targetCtx, PlayState* play);
 s32 Flags_GetSwitch(PlayState* play, s32 flag);
 void Flags_SetSwitch(PlayState* play, s32 flag);
 void Flags_UnsetSwitch(PlayState* play, s32 flag);
@@ -404,7 +404,7 @@ void func_8002ED80(Actor* actor, PlayState* play, s32 flag);
 PosRot* Actor_GetFocus(PosRot* dest, Actor* actor);
 PosRot* Actor_GetWorld(PosRot* dest, Actor* actor);
 PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor);
-s32 func_8002F0C8(Actor* actor, Player* player, s32 flag);
+s32 Target_OutsideLeashRange(Actor* actor, Player* player, s32 ignoreLeash);
 u32 Actor_ProcessTalkRequest(Actor* actor, PlayState* play);
 s32 func_8002F1C4(Actor* actor, PlayState* play, f32 arg2, f32 arg3, u32 exchangeItemId);
 s32 func_8002F298(Actor* actor, PlayState* play, f32 arg2, u32 exchangeItemId);
@@ -452,7 +452,7 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, PlayState* play
 void Actor_SpawnTransitionActors(PlayState* play, ActorContext* actorCtx);
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, PlayState* play);
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play);
-Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, Player* player);
+Actor* Target_GetTargetActor(PlayState* play, ActorContext* actorCtx, Actor** targetableP, Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
 void Enemy_StartFinishingBlow(PlayState* play, Actor* actor);
 s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3);

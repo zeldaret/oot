@@ -71,7 +71,7 @@ void ShotSun_Init(Actor* thisx, PlayState* play) {
         this->actor.flags |= ACTOR_FLAG_4;
         this->actor.flags |= ACTOR_FLAG_25;
         this->actionFunc = ShotSun_UpdateFairySpawner;
-        this->actor.flags |= ACTOR_FLAG_27;
+        this->actor.flags |= ACTOR_FLAG_CANT_LOCK_ON;
     } else {
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

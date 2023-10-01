@@ -150,7 +150,7 @@ void EnTa_Init(Actor* thisx, PlayState* play2) {
     this->blinkTimer = 20;
     this->blinkFunc = EnTa_BlinkWaitUntilNext;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
     this->actor.velocity.y = -4.0f;
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;

@@ -136,7 +136,7 @@ void EnMm2_Init(Actor* thisx, PlayState* play2) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->mouthTexIndex = RM2_MOUTH_CLOSED;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
     this->unk_1F4 |= 1;
     this->actor.gravity = -1.0f;
     if (this->actor.params == 1) {

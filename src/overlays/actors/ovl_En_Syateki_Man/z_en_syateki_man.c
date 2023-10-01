@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "assets/objects/object_ossan/object_ossan.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_CANT_LOCK_ON)
 
 typedef enum {
     /* 0 */ SYATEKI_RESULT_NONE,
@@ -156,7 +156,7 @@ void EnSyatekiMan_Init(Actor* thisx, PlayState* play) {
     osSyncPrintf("\n\n");
     // "Old man appeared!! Muhohohohohohohon"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
-    this->actor.targetMode = 1;
+    this->actor.targetMode = TARGET_MODE_1;
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(play, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, this->jointTable,
                        this->morphTable, 9);

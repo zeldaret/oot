@@ -52,7 +52,7 @@ typedef struct {
 typedef struct {
     f32 shape_unk_10;
     f32 scale;
-    s8 actor_unk_1F;
+    s8 targetMode;
     f32 interactRange;
 } EnGo2DataStruct2; // size = 0x10
 

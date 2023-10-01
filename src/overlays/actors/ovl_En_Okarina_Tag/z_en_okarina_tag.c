@@ -57,7 +57,7 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
         this->ocarinaSong = 0;
         this->unk_158 = 1;
     }
-    this->actor.targetMode = 1;
+    this->actor.targetMode = TARGET_MODE_1;
     if (this->actor.world.rot.z > 0) {
         this->interactRange = this->actor.world.rot.z * 40.0f;
     }

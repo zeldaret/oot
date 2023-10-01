@@ -138,21 +138,21 @@ void EnGe2_Init(Actor* thisx, PlayState* play) {
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
             if (EnGe2_CheckCarpentersFreed()) {
                 this->actor.update = EnGe2_UpdateFriendly;
-                this->actor.targetMode = 6;
+                this->actor.targetMode = TARGET_MODE_6;
             }
             break;
         case GE2_TYPE_STATIONARY:
             EnGe2_ChangeAction(this, GE2_ACTION_STAND);
             if (EnGe2_CheckCarpentersFreed()) {
                 this->actor.update = EnGe2_UpdateFriendly;
-                this->actor.targetMode = 6;
+                this->actor.targetMode = TARGET_MODE_6;
             }
             break;
         case GE2_TYPE_GERUDO_CARD_GIVER:
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
             this->actor.update = EnGe2_UpdateAfterTalk;
             this->actionFunc = EnGe2_ForceTalk;
-            this->actor.targetMode = 6;
+            this->actor.targetMode = TARGET_MODE_6;
             break;
         default:
             ASSERT(0, "0", "../z_en_ge2.c", 418);
@@ -594,7 +594,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
 
     if (EnGe2_CheckCarpentersFreed() && !(this->stateFlags & GE2_STATE_KO)) {
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.targetMode = 6;
+        this->actor.targetMode = TARGET_MODE_6;
     }
 }
 
@@ -619,7 +619,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
 
     if (EnGe2_CheckCarpentersFreed()) {
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.targetMode = 6;
+        this->actor.targetMode = TARGET_MODE_6;
         this->actor.colorFilterTimer = 0;
     } else if (this->actor.colorFilterTimer == 0) {
         this->actor.update = EnGe2_Update;

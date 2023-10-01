@@ -71,7 +71,7 @@ void EnKakasi3_Init(Actor* thisx, PlayState* play) {
     osSyncPrintf("\n\n");
     // "Obonur" -- Related to the name of the scarecrow (Bonooru)
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

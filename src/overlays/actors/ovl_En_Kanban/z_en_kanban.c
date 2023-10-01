@@ -209,7 +209,7 @@ void EnKanban_Init(Actor* thisx, PlayState* play) {
 
     Actor_SetScale(&this->actor, 0.01f);
     if (this->actor.params != ENKANBAN_PIECE) {
-        this->actor.targetMode = 0;
+        this->actor.targetMode = TARGET_MODE_0;
         this->actor.flags |= ACTOR_FLAG_0;
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);

@@ -7,7 +7,7 @@
 #include "z_en_wonder_talk.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_CANT_LOCK_ON)
 
 void EnWonderTalk_Init(Actor* thisx, PlayState* play);
 void EnWonderTalk_Destroy(Actor* thisx, PlayState* play);
@@ -45,7 +45,7 @@ void EnWonderTalk_Init(Actor* thisx, PlayState* play) {
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    this->actor.targetMode = 1;
+    this->actor.targetMode = TARGET_MODE_1;
     if (this->switchFlag >= 0) {
         if (Flags_GetSwitch(play, this->switchFlag)) {
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);

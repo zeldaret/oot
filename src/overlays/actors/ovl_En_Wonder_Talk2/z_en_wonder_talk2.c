@@ -7,7 +7,7 @@
 #include "z_en_wonder_talk2.h"
 #include "terminal.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_CANT_LOCK_ON)
 
 void EnWonderTalk2_Init(Actor* thisx, PlayState* play);
 void EnWonderTalk2_Destroy(Actor* thisx, PlayState* play);
@@ -31,7 +31,8 @@ ActorInit En_Wonder_Talk2_InitVars = {
     NULL,
 };
 
-static s16 D_80B3A8E0[] = { 6, 0, 1, 2, 3, 4, 5 };
+static s16 D_80B3A8E0[] = { TARGET_MODE_6, TARGET_MODE_0, TARGET_MODE_1, TARGET_MODE_2,
+                            TARGET_MODE_3, TARGET_MODE_4, TARGET_MODE_5 };
 
 void EnWonderTalk2_Destroy(Actor* thisx, PlayState* play) {
 }
@@ -91,7 +92,7 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
         this->talkMode = 4;
     }
     if (this->talkMode == 3) {
-        this->actor.flags &= ~ACTOR_FLAG_27;
+        this->actor.flags &= ~ACTOR_FLAG_CANT_LOCK_ON;
         this->actionFunc = EnWonderTalk2_DoNothing;
     } else {
         this->actionFunc = func_80B3A10C;

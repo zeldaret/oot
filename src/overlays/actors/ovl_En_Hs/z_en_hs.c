@@ -89,7 +89,7 @@ void EnHs_Init(Actor* thisx, PlayState* play) {
     }
 
     this->unk_2A8 = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 }
 
 void EnHs_Destroy(Actor* thisx, PlayState* play) {
