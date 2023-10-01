@@ -838,7 +838,7 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
     Vec3f nextPos;
     Vec3f prevPos;
     Player* player = GET_PLAYER(play);
-    Actor* fairyActor;
+    Actor* targetFairyActor;
     f32 xScale;
     f32 distFromPlayerHat;
 
@@ -937,9 +937,9 @@ void func_80A03CF8(EnElf* this, PlayState* play) {
                 func_80A029A8(this, 1);
                 nextPos = play->actorCtx.targetCtx.fairyPos;
                 nextPos.y += (1500.0f * this->actor.scale.y);
-                fairyActor = play->actorCtx.targetCtx.fairyActor;
+                targetFairyActor = play->actorCtx.targetCtx.fairyActor;
 
-                if (fairyActor != NULL) {
+                if (targetFairyActor != NULL) {
                     func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
 
                     if (this->actor.speed >= 5.0f) {
@@ -1000,7 +1000,7 @@ void EnElf_ChangeColor(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* cu
 }
 
 void func_80A04414(EnElf* this, PlayState* play) {
-    Actor* fairyActor = play->actorCtx.targetCtx.fairyActor;
+    Actor* targetFairyActor = play->actorCtx.targetCtx.fairyActor;
     Player* player = GET_PLAYER(play);
     f32 transitionRate;
     u16 sfxId;
@@ -1015,7 +1015,7 @@ void func_80A04414(EnElf* this, PlayState* play) {
 
     } else {
         if (this->unk_2C6 == 0) {
-            if ((fairyActor == NULL) ||
+            if ((targetFairyActor == NULL) ||
                 (Math_Vec3f_DistXYZ(&this->actor.world.pos, &play->actorCtx.targetCtx.fairyPos) < 50.0f)) {
                 this->unk_2C6 = 1;
             }
@@ -1034,15 +1034,15 @@ void func_80A04414(EnElf* this, PlayState* play) {
     }
 
     if (this->fairyFlags & 1) {
-        if ((fairyActor == NULL) || (player->lockOnActor == NULL)) {
+        if ((targetFairyActor == NULL) || (player->lockOnActor == NULL)) {
             this->fairyFlags ^= 1;
         }
     } else {
-        if ((fairyActor != NULL) && (player->lockOnActor != NULL)) {
-            if (fairyActor->category == ACTORCAT_NPC) {
+        if ((targetFairyActor != NULL) && (player->lockOnActor != NULL)) {
+            if (targetFairyActor->category == ACTORCAT_NPC) {
                 sfxId = NA_SE_VO_NAVY_HELLO;
             } else {
-                sfxId = (fairyActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
+                sfxId = (targetFairyActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
             }
 
             if (this->unk_2C7 == 0) {
@@ -1056,7 +1056,7 @@ void func_80A04414(EnElf* this, PlayState* play) {
 
 void func_80A0461C(EnElf* this, PlayState* play) {
     s32 temp;
-    Actor* fairyActor;
+    Actor* targetFairyActor;
     Player* player = GET_PLAYER(play);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
@@ -1081,7 +1081,7 @@ void func_80A0461C(EnElf* this, PlayState* play) {
         }
 
     } else {
-        fairyActor = play->actorCtx.targetCtx.fairyActor;
+        targetFairyActor = play->actorCtx.targetCtx.fairyActor;
 
         // `R_SCENE_CAM_TYPE` is not a bit field, but this conditional checks for a specific bit.
         // This `& 0x10` check will pass for either `SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT`, `SCENE_CAM_TYPE_FIXED`, or
@@ -1092,8 +1092,8 @@ void func_80A0461C(EnElf* this, PlayState* play) {
             ((R_SCENE_CAM_TYPE & 0x10) && Play_CheckViewpoint(play, VIEWPOINT_PIVOT))) {
             temp = 12;
             this->unk_2C0 = 100;
-        } else if (fairyActor == NULL || fairyActor->category == ACTORCAT_NPC) {
-            if (fairyActor != NULL) {
+        } else if ((targetFairyActor == NULL) || (targetFairyActor->category == ACTORCAT_NPC)) {
+            if (targetFairyActor != NULL) {
                 this->unk_2C0 = 100;
                 player->stateFlags2 |= PLAYER_STATE2_20;
                 temp = 0;
