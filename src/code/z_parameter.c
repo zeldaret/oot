@@ -3257,7 +3257,7 @@ void Interface_Draw(PlayState* play) {
 
         if ((R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_PROCESS) &&
             (R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_READY)) {
-            Target_Draw(&play->actorCtx.targetCtx, play); // Draw Z-Target
+            Target_Draw(&play->actorCtx.targetCtx, play);
         }
 
         Gfx_SetupDL_39Overlay(play->state.gfxCtx);
