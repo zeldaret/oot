@@ -248,14 +248,14 @@ Gfx D_80115FF0[] = {
 };
 
 void Target_SetLockOnPos(TargetContext* targetCtx, s32 index, f32 x, f32 y, f32 z) {
-    targetCtx->lockOnTriangleSets[index].pos.x = x;
-    targetCtx->lockOnTriangleSets[index].pos.y = y;
-    targetCtx->lockOnTriangleSets[index].pos.z = z;
-    targetCtx->lockOnTriangleSets[index].radius = targetCtx->lockOnRadius;
+    targetCtx->lockOnReticles[index].pos.x = x;
+    targetCtx->lockOnReticles[index].pos.y = y;
+    targetCtx->lockOnReticles[index].pos.z = z;
+    targetCtx->lockOnReticles[index].radius = targetCtx->lockOnRadius;
 }
 
 void Target_InitLockOn(TargetContext* targetCtx, s32 actorCategory, PlayState* play) {
-    LockOnTriangleSet* triangleSet;
+    LockOnReticle* reticle;
     NaviColor* naviColorEntry;
     s32 i;
 
@@ -265,40 +265,40 @@ void Target_InitLockOn(TargetContext* targetCtx, s32 actorCategory, PlayState* p
 
     naviColorEntry = &sNaviColorList[actorCategory];
 
-    triangleSet = &targetCtx->lockOnTriangleSets[0];
-    for (i = 0; i < ARRAY_COUNT(targetCtx->lockOnTriangleSets); i++, triangleSet++) {
+    reticle = &targetCtx->lockOnReticles[0];
+    for (i = 0; i < ARRAY_COUNT(targetCtx->lockOnReticles); i++, reticle++) {
         Target_SetLockOnPos(targetCtx, i, 0.0f, 0.0f, 0.0f);
 
-        triangleSet->color.r = naviColorEntry->inner.r;
-        triangleSet->color.g = naviColorEntry->inner.g;
-        triangleSet->color.b = naviColorEntry->inner.b;
+        reticle->color.r = naviColorEntry->inner.r;
+        reticle->color.g = naviColorEntry->inner.g;
+        reticle->color.b = naviColorEntry->inner.b;
     }
 }
 
-void Target_SetFairyState(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
-    targetCtx->fairyPos.x = actor->focus.pos.x;
-    targetCtx->fairyPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
-    targetCtx->fairyPos.z = actor->focus.pos.z;
+void Target_SetNaviState(TargetContext* targetCtx, Actor* actor, s32 actorCategory, PlayState* play) {
+    targetCtx->naviPos.x = actor->focus.pos.x;
+    targetCtx->naviPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
+    targetCtx->naviPos.z = actor->focus.pos.z;
 
-    targetCtx->fairyInnerColor.r = sNaviColorList[actorCategory].inner.r;
-    targetCtx->fairyInnerColor.g = sNaviColorList[actorCategory].inner.g;
-    targetCtx->fairyInnerColor.b = sNaviColorList[actorCategory].inner.b;
-    targetCtx->fairyInnerColor.a = sNaviColorList[actorCategory].inner.a;
-    targetCtx->fairyOuterColor.r = sNaviColorList[actorCategory].outer.r;
-    targetCtx->fairyOuterColor.g = sNaviColorList[actorCategory].outer.g;
-    targetCtx->fairyOuterColor.b = sNaviColorList[actorCategory].outer.b;
-    targetCtx->fairyOuterColor.a = sNaviColorList[actorCategory].outer.a;
+    targetCtx->naviInnerColor.r = sNaviColorList[actorCategory].inner.r;
+    targetCtx->naviInnerColor.g = sNaviColorList[actorCategory].inner.g;
+    targetCtx->naviInnerColor.b = sNaviColorList[actorCategory].inner.b;
+    targetCtx->naviInnerColor.a = sNaviColorList[actorCategory].inner.a;
+    targetCtx->naviOuterColor.r = sNaviColorList[actorCategory].outer.r;
+    targetCtx->naviOuterColor.g = sNaviColorList[actorCategory].outer.g;
+    targetCtx->naviOuterColor.b = sNaviColorList[actorCategory].outer.b;
+    targetCtx->naviOuterColor.a = sNaviColorList[actorCategory].outer.a;
 }
 
 void Target_Init(TargetContext* targetCtx, Actor* actor, PlayState* play) {
-    targetCtx->fairyActor = NULL;
+    targetCtx->naviActor = NULL;
     targetCtx->lockOnActor = NULL;
-    targetCtx->fairyMoveProgressFactor = 0.0f;
+    targetCtx->naviMoveProgressFactor = 0.0f;
     targetCtx->forcedTargetActor = NULL;
     targetCtx->bgmEnemy = NULL;
     targetCtx->rotZTick = 0;
     targetCtx->lockOnIndex = 0;
-    Target_SetFairyState(targetCtx, actor, actor->category, play);
+    Target_SetNaviState(targetCtx, actor, actor->category, play);
     Target_InitLockOn(targetCtx, actor->category, play);
 }
 
@@ -308,7 +308,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2029);
 
     if (targetCtx->lockOnAlpha != 0) {
-        LockOnTriangleSet* entry;
+        LockOnReticle* reticle;
         Player* player;
         s16 alpha;
         f32 temp1;
@@ -331,7 +331,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
         } else {
             // Use multiple triangle sets for the movement effect when the triangles are
             // getting closer to the actor from the margin of the screen
-            totalEntries = ARRAY_COUNT(targetCtx->lockOnTriangleSets);
+            totalEntries = ARRAY_COUNT(targetCtx->lockOnReticles);
         }
 
         if (actor != NULL) {
@@ -357,7 +357,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
 
         targetCtx->lockOnIndex--;
         if (targetCtx->lockOnIndex < 0) {
-            targetCtx->lockOnIndex = ARRAY_COUNT(targetCtx->lockOnTriangleSets) - 1;
+            targetCtx->lockOnIndex = ARRAY_COUNT(targetCtx->lockOnReticles) - 1;
         }
 
         Target_SetLockOnPos(targetCtx, targetCtx->lockOnIndex, projectedPos.x, projectedPos.y, projectedPos.z);
@@ -366,20 +366,21 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
             OVERLAY_DISP = Gfx_SetupDL(OVERLAY_DISP, SETUPDL_57);
 
             for (i = 0, index = targetCtx->lockOnIndex; i < totalEntries;
-                 i++, index = (index + 1) % ARRAY_COUNT(targetCtx->lockOnTriangleSets)) {
-                entry = &targetCtx->lockOnTriangleSets[index];
+                 i++, index = (index + 1) % ARRAY_COUNT(targetCtx->lockOnReticles)) {
+                reticle = &targetCtx->lockOnReticles[index];
 
-                if (entry->radius < 500.0f) {
-                    if (entry->radius <= 120.0f) {
+                if (reticle->radius < 500.0f) {
+                    if (reticle->radius <= 120.0f) {
                         lockOnScaleX = 0.15f;
                     } else {
-                        lockOnScaleX = ((entry->radius - 120.0f) * 0.001f) + 0.15f;
+                        lockOnScaleX = ((reticle->radius - 120.0f) * 0.001f) + 0.15f;
                     }
 
-                    Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
+                    Matrix_Translate(reticle->pos.x, reticle->pos.y, 0.0f, MTXMODE_NEW);
                     Matrix_Scale(lockOnScaleX, 0.15f, 1.0f, MTXMODE_APPLY);
 
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b, (u8)alpha);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, reticle->color.r, reticle->color.g, reticle->color.b,
+                                    (u8)alpha);
 
                     Matrix_RotateZ((targetCtx->rotZTick & 0x7F) * (M_PI / 64), MTXMODE_APPLY);
 
@@ -387,7 +388,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
                     for (triangleIndex = 0; triangleIndex < 4; triangleIndex++) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
-                        Matrix_Translate(entry->radius, entry->radius, 0.0f, MTXMODE_APPLY);
+                        Matrix_Translate(reticle->radius, reticle->radius, 0.0f, MTXMODE_APPLY);
                         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
                         gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
@@ -395,7 +396,7 @@ void Target_Draw(TargetContext* targetCtx, PlayState* play) {
                     }
                 }
 
-                alpha -= 255 / ARRAY_COUNT(targetCtx->lockOnTriangleSets);
+                alpha -= 255 / ARRAY_COUNT(targetCtx->lockOnReticles);
                 if (alpha < 0) {
                     alpha = 0;
                 }
@@ -460,28 +461,28 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* lockOnActor,
         actorCategory = player->actor.category;
     }
 
-    if ((actor != targetCtx->fairyActor) || (actorCategory != targetCtx->fairyActorCategory)) {
-        targetCtx->fairyActor = actor;
-        targetCtx->fairyActorCategory = actorCategory;
-        targetCtx->fairyMoveProgressFactor = 1.0f;
+    if ((actor != targetCtx->naviActor) || (actorCategory != targetCtx->naviActorCategory)) {
+        targetCtx->naviActor = actor;
+        targetCtx->naviActorCategory = actorCategory;
+        targetCtx->naviMoveProgressFactor = 1.0f;
     }
 
     if (actor == NULL) {
         actor = &player->actor;
     }
 
-    if (!Math_StepToF(&targetCtx->fairyMoveProgressFactor, 0.0f, 0.25f)) {
-        fairyMoveScale = 0.25f / targetCtx->fairyMoveProgressFactor;
+    if (!Math_StepToF(&targetCtx->naviMoveProgressFactor, 0.0f, 0.25f)) {
+        fairyMoveScale = 0.25f / targetCtx->naviMoveProgressFactor;
 
-        velocityX = actor->world.pos.x - targetCtx->fairyPos.x;
-        velocityY = (actor->world.pos.y + (actor->targetArrowOffset * actor->scale.y)) - targetCtx->fairyPos.y;
-        velocityZ = actor->world.pos.z - targetCtx->fairyPos.z;
+        velocityX = actor->world.pos.x - targetCtx->naviPos.x;
+        velocityY = (actor->world.pos.y + (actor->targetArrowOffset * actor->scale.y)) - targetCtx->naviPos.y;
+        velocityZ = actor->world.pos.z - targetCtx->naviPos.z;
 
-        targetCtx->fairyPos.x += velocityX * fairyMoveScale;
-        targetCtx->fairyPos.y += velocityY * fairyMoveScale;
-        targetCtx->fairyPos.z += velocityZ * fairyMoveScale;
+        targetCtx->naviPos.x += velocityX * fairyMoveScale;
+        targetCtx->naviPos.y += velocityY * fairyMoveScale;
+        targetCtx->naviPos.z += velocityZ * fairyMoveScale;
     } else {
-        Target_SetFairyState(targetCtx, actor, actorCategory, play);
+        Target_SetNaviState(targetCtx, actor, actorCategory, play);
     }
 
     if ((lockOnActor != NULL) && (targetCtx->rotZTick == 0)) {
@@ -3009,8 +3010,8 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
         Camera_ChangeMode(Play_GetCamera(play, Play_GetActiveCamId(play)), 0);
     }
 
-    if (actor == actorCtx->targetCtx.fairyActor) {
-        actorCtx->targetCtx.fairyActor = NULL;
+    if (actor == actorCtx->targetCtx.naviActor) {
+        actorCtx->targetCtx.naviActor = NULL;
     }
 
     if (actor == actorCtx->targetCtx.forcedTargetActor) {

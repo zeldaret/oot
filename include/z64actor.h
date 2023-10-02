@@ -517,22 +517,22 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ f32 radius; // distance towards the center of the locked on
     /* 0x10 */ Color_RGB8 color;
-} LockOnTriangleSet; // size = 0x14
+} LockOnReticle; // size = 0x14
 
 typedef struct {
-    /* 0x00 */ Vec3f fairyPos; // Used by Navi to indicate a targetable actor or general hint
+    /* 0x00 */ Vec3f naviPos; // Used by Navi to indicate a targetable actor or general hint
     /* 0x0C */ Vec3f lockOnPos;
-    /* 0x18 */ Color_RGBAf fairyInnerColor;
-    /* 0x28 */ Color_RGBAf fairyOuterColor;
-    /* 0x38 */ Actor* fairyActor;
+    /* 0x18 */ Color_RGBAf naviInnerColor;
+    /* 0x28 */ Color_RGBAf naviOuterColor;
+    /* 0x38 */ Actor* naviActor; // The actor that Navi hovers over
     /* 0x3C */ Actor* lockOnActor;
-    /* 0x40 */ f32 fairyMoveProgressFactor; // Controls Navi so she can smootly transition to the target actor
+    /* 0x40 */ f32 naviMoveProgressFactor; // Controls Navi so she can smootly transition to the target actor
     /* 0x44 */ f32 lockOnRadius; // Control the circle lock-on triangles coming in from offscreen when you first target
     /* 0x48 */ s16 lockOnAlpha;
-    /* 0x4A */ u8 fairyActorCategory;
+    /* 0x4A */ u8 naviActorCategory;
     /* 0x4B */ u8 rotZTick;
     /* 0x4C */ s8 lockOnIndex;
-    /* 0x50 */ LockOnTriangleSet lockOnTriangleSets[3];
+    /* 0x50 */ LockOnReticle lockOnReticles[3];
     /* 0x8C */ Actor* forcedTargetActor; // Never set to non-NULL
     /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
     /* 0x94 */ Actor* arrowPointedActor;
