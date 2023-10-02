@@ -434,7 +434,6 @@ void Target_Update(TargetContext* targetCtx, Player* player, Actor* lockOnActor,
     f32 velocityY;
     f32 velocityZ;
     f32 lockOnStep;
-    f32 temp6;
     s32 lockOnSfxId;
 
     actor = NULL;
