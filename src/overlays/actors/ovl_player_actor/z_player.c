@@ -75,15 +75,15 @@ typedef struct {
 } SpecialRespawnInfo; // size = 0x10
 
 typedef enum {
-    /*  1 */ ANIMSFX_TYPE_1 = 1,
-    /*  2 */ ANIMSFX_TYPE_2,
-    /*  3 */ ANIMSFX_TYPE_3,
-    /*  4 */ ANIMSFX_TYPE_4,
-    /*  5 */ ANIMSFX_TYPE_5,
-    /*  6 */ ANIMSFX_TYPE_6,
-    /*  7 */ ANIMSFX_TYPE_7,
-    /*  8 */ ANIMSFX_TYPE_8,
-    /*  9 */ ANIMSFX_TYPE_9
+    /* 1 */ ANIMSFX_TYPE_1 = 1,
+    /* 2 */ ANIMSFX_TYPE_2,
+    /* 3 */ ANIMSFX_TYPE_3,
+    /* 4 */ ANIMSFX_TYPE_4,
+    /* 5 */ ANIMSFX_TYPE_5,
+    /* 6 */ ANIMSFX_TYPE_6,
+    /* 7 */ ANIMSFX_TYPE_7,
+    /* 8 */ ANIMSFX_TYPE_8,
+    /* 9 */ ANIMSFX_TYPE_9
 } AnimSfxType;
 
 #define ANIMSFX_SHIFT_TYPE(type) ((type) << 11)
