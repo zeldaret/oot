@@ -225,8 +225,7 @@ typedef struct {
     /* 0x4 */ Color_RGBA8 outer;
 } NaviColor; // size = 0x8
 
-// Has an unnecessary extra entry
-NaviColor sNaviColorList[ACTORCAT_MAX + 1] = {
+NaviColor sNaviColorList[ACTORCAT_MAX] = {
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_SWITCH
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_BG
     { { 255, 255, 255, 255 }, { 0, 0, 255, 0 } },     // ACTORCAT_PLAYER
@@ -239,8 +238,9 @@ NaviColor sNaviColorList[ACTORCAT_MAX + 1] = {
     { { 255, 255, 0, 255 }, { 200, 155, 0, 0 } },     // ACTORCAT_BOSS
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_DOOR
     { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         // ACTORCAT_CHEST
-    { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } },         //
 };
+
+NaviColor sNaviColorUnused = { { 0, 255, 0, 255 }, { 0, 255, 0, 0 } };
 
 // unused
 Gfx D_80115FF0[] = {
