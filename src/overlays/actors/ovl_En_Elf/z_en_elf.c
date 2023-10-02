@@ -1219,19 +1219,21 @@ void func_80A04D90(EnElf* this, PlayState* play) {
 void func_80A04DE4(EnElf* this, PlayState* play) {
     Vec3f headCopy;
     Player* player = GET_PLAYER(play);
-    Vec3f naviPos;
+    Vec3f targetNaviPos;
 
     if (this->fairyFlags & 0x10) {
-        naviPos = play->actorCtx.targetCtx.naviPos;
+        targetNaviPos = play->actorCtx.targetCtx.naviPos;
 
         if ((player->lockOnActor == NULL) || (&player->actor == player->lockOnActor) ||
             (&this->actor == player->lockOnActor)) {
-            naviPos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
-            naviPos.y = player->bodyPartsPos[PLAYER_BODYPART_HEAD].y + 5.0f;
-            naviPos.z = player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
+            targetNaviPos.x =
+                player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
+            targetNaviPos.y = player->bodyPartsPos[PLAYER_BODYPART_HEAD].y + 5.0f;
+            targetNaviPos.z =
+                player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
         }
 
-        this->actor.focus.pos = naviPos;
+        this->actor.focus.pos = targetNaviPos;
         this->fairyFlags &= ~0x10;
     }
 
