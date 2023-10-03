@@ -10767,7 +10767,7 @@ void func_80848EF8(Player* this) {
     }
 }
 
-static s8 D_808547C4[PLAYER_CUEID_MAX] = {
+static s8 sCueToCsActionMap[PLAYER_CUEID_MAX] = {
     PLAYER_CSACTION_NONE, // PLAYER_CUEID_NONE
     PLAYER_CSACTION_3,    // PLAYER_CUEID_1
     PLAYER_CSACTION_3,    // PLAYER_CUEID_2
@@ -11116,7 +11116,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             (this->actor.category == ACTORCAT_PLAYER)) {
             CsCmdActorCue* cue = play->csCtx.playerCue;
 
-            if ((cue != NULL) && (D_808547C4[cue->id] != PLAYER_CSACTION_NONE)) {
+            if ((cue != NULL) && (sCueToCsActionMap[cue->id] != PLAYER_CSACTION_NONE)) {
                 func_8002DF54(play, NULL, PLAYER_CSACTION_6);
                 Player_ZeroSpeedXZ(this);
             } else if ((this->csAction == PLAYER_CSACTION_NONE) && !(this->stateFlags2 & PLAYER_STATE2_10) &&
@@ -15073,7 +15073,7 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
     }
 
     if (this->cueId != cue->id) {
-        csAction = D_808547C4[cue->id];
+        csAction = sCueToCsActionMap[cue->id];
 
         if (csAction >= PLAYER_CSACTION_NONE) {
             if ((csAction == PLAYER_CSACTION_3) || (csAction == PLAYER_CSACTION_4)) {
@@ -15095,7 +15095,7 @@ void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cueUnused) {
         this->cueId = cue->id;
     }
 
-    csAction = D_808547C4[this->cueId];
+    csAction = sCueToCsActionMap[this->cueId];
     func_80852B4C(play, this, cue, &D_80854E50[ABS(csAction)]);
 }
 
