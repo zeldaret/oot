@@ -2036,7 +2036,7 @@ s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overla
 
     *centerDist = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
 
-    // The combined radix are within the xz distance
+    // The combined radii are within the xz distance
     if ((caf.radius + cbf.radius) < *centerDist) {
         return false;
     }
