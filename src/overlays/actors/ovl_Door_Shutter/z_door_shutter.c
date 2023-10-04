@@ -637,7 +637,7 @@ void DoorShutter_InitOpeningDoorCam(DoorShutter* this, PlayState* play) {
         this->gfxType = savedGfxType;
         this->barsClosedAmount = 0.0f;
 
-        Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->doorBgCamIndex, 0.0f, 12,
+        Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->cv.slidingDoorBgCamIndex, 0.0f, 12,
                              doorCamTimer2, 10);
     }
 }
