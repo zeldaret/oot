@@ -9473,7 +9473,7 @@ void Player_Action_80845CA4(Player* this, PlayState* play) {
             temp = func_80845BA0(play, this, &sp34, sp30);
 
             if ((this->av2.actionVar2 == 0) || ((temp == 0) && (this->speedXZ == 0.0f) &&
-                                            (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_4))) {
+                                                (Play_GetCamera(play, CAM_ID_MAIN)->stateFlags & CAM_STATE_4))) {
 
                 func_8005B1A4(Play_GetCamera(play, CAM_ID_MAIN));
                 func_80845C68(play, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
@@ -11915,7 +11915,7 @@ void Player_Action_8084BDFC(Player* this, PlayState* play) {
 
 void func_8084BEE4(Player* this) {
     Player_PlaySfx(this, (this->av1.actionVar1 != 0) ? NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_VINE
-                                                 : NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD);
+                                                     : NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_WOOD);
 }
 
 void Player_Action_8084BF1C(Player* this, PlayState* play) {
@@ -12336,7 +12336,8 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
     func_8002DE74(play, this);
     this->skelAnime.prevTransl = D_8085499C;
 
-    if ((rideActor->animationIdx != this->av2.actionVar2) && ((rideActor->animationIdx >= 2) || (this->av2.actionVar2 >= 2))) {
+    if ((rideActor->animationIdx != this->av2.actionVar2) &&
+        ((rideActor->animationIdx >= 2) || (this->av2.actionVar2 >= 2))) {
         if ((this->av2.actionVar2 = rideActor->animationIdx) < 2) {
             f32 rand = Rand_ZeroOne();
             s32 temp = 0;
