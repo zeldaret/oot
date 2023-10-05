@@ -732,7 +732,7 @@ typedef struct Player {
     /* 0x045C */ Vec3f unk_45C;
     /* 0x0468 */ char unk_468[0x002];
     /* 0x046A */ union { 
-        s16 haltActorsDuringCsAction; // If true, freeze actors belonging to certain categories during a `csAction`
+        s16 haltActorsDuringCsAction; // If true, halt actors belonging to certain categories during a `csAction`
         s16 slidingDoorBgCamIndex; // `BgCamIndex` used during a sliding door cutscene
     } cv; // "Cutscene Variable": context dependent variable that has different meanings depending on what function is called
     /* 0x046C */ s16 subCamId;
