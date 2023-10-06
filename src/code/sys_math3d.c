@@ -1925,14 +1925,14 @@ s32 Math3D_SphVsSph(Sphere16* sphereA, Sphere16* sphereB) {
 s32 Math3D_SphVsSphOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize) {
     f32 centerDist;
 
-    return Math3D_SphVsSphOverlapCenter(sphereA, sphereB, overlapSize, &centerDist);
+    return Math3D_SphVsSphOverlapCenterDist(sphereA, sphereB, overlapSize, &centerDist);
 }
 
 /*
  * Determines if two spheres are touching  The distance from the centers is placed in `centerDist`,
  * and the amount that they're overlapping is placed in `overlapSize`
  */
-s32 Math3D_SphVsSphOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist) {
+s32 Math3D_SphVsSphOverlapCenterDist(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist) {
     Vec3f diff;
 
     diff.x = (f32)sphereA->center.x - (f32)sphereB->center.x;
@@ -1953,7 +1953,7 @@ s32 Math3D_SphVsSphOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* over
 /**
  * Checks if `sph` and `cyl` are touching, output the amount of xz overlap to `overlapSize`
  */
-s32 Math3D_SphVsCylOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize) {
+s32 Math3D_SphVsCylOverlap(Sphere16* sph, Cylinder16* cyl, f32* overlapSize) {
     f32 centerDist;
 
     return Math3D_SphVsCylOverlapCenterDist(sph, cyl, overlapSize, &centerDist);
@@ -2010,7 +2010,7 @@ s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overla
 /**
  * Checks if `ca` and `cb` are touching, output the amount of xz overlap to `overlapSize`
  */
-s32 Math3D_CylVsCylOverlapDist(Cylinder16* ca, Cylinder16* cb, f32* overlapSize) {
+s32 Math3D_CylVsCylOverlap(Cylinder16* ca, Cylinder16* cb, f32* overlapSize) {
     f32 xzDist;
 
     return Math3D_CylVsCylOverlapCenterDist(ca, cb, overlapSize, &xzDist);
