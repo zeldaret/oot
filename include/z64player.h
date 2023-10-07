@@ -731,7 +731,10 @@ typedef struct Player {
     /* 0x0450 */ Vec3f unk_450;
     /* 0x045C */ Vec3f unk_45C;
     /* 0x0468 */ char unk_468[0x002];
-    /* 0x046A */ s16 doorBgCamIndex;
+    /* 0x046A */ union { 
+        s16 haltActorsDuringCsAction; // If true, halt actors belonging to certain categories during a `csAction`
+        s16 slidingDoorBgCamIndex; // `BgCamIndex` used during a sliding door cutscene
+    } cv; // "Cutscene Variable": context dependent variable that has different meanings depending on what function is called
     /* 0x046C */ s16 subCamId;
     /* 0x046E */ char unk_46E[0x02A];
     /* 0x0498 */ ColliderCylinder cylinder;
@@ -789,8 +792,15 @@ typedef struct Player {
     /* 0x0846 */ u8 unk_846;
     /* 0x0847 */ s8 unk_847[4];
     /* 0x084B */ s8 unk_84B[4];
-    /* 0x084F */ s8 actionVar1; // context dependent variable that has different meanings depending on what action is currently running
-    /* 0x0850 */ s16 actionVar2; // context dependent variable that has different meanings depending on what action is currently running
+
+    /* 0x084F */ union { 
+        s8 actionVar1;
+    } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
+
+    /* 0x0850 */ union { 
+        s16 actionVar2;
+    } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
+
     /* 0x0854 */ f32 unk_854;
     /* 0x0858 */ f32 unk_858;
     /* 0x085C */ f32 unk_85C; // stick length among other things
