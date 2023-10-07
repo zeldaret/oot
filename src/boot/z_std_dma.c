@@ -130,7 +130,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
         }
 
         size -= buffSize;
-        rom += (u32)buffSize;
+        rom += buffSize;
         ram = (u8*)ram + buffSize;
     }
 
