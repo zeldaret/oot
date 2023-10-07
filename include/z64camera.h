@@ -1254,7 +1254,7 @@ typedef enum {
 #define ONEPOINT_CS_INIT_FIELD_NONE 0xFF
 #define ONEPOINT_CS_INIT_FIELD_ACTORCAT(actorCat) (0x80 | ((actorCat) & 0x0F))
 #define ONEPOINT_CS_INIT_FIELD_HUD_VISIBILITY(camHudVisibility) (0xC0 | ((camHudVisibility) & 0x0F))
-#define ONEPOINT_CS_INIT_FIELD_PLAYER_CS(csMode) ((csMode) & 0x7F)
+#define ONEPOINT_CS_INIT_FIELD_PLAYER_CS(csAction) ((csAction) & 0x7F)
 
 #define ONEPOINT_CS_INIT_FIELD_IS_TYPE_ACTORCAT(field) ((field & 0xF0) == 0x80)
 #define ONEPOINT_CS_INIT_FIELD_IS_TYPE_HUD_VISIBILITY(field) ((field & 0xF0) == 0xC0)
