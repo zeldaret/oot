@@ -5389,9 +5389,9 @@ s32 func_8083AD4C(PlayState* play, Player* this) {
 
 /**
  * If appropriate, setup action for performing a `csAction`
- * 
+ *
  * @return  true if a `csAction` is started, false if not
-*/
+ */
 s32 Player_StartCsAction(PlayState* play, Player* this) {
     // unk_6AD will get set to 3 in `Player_UpdateCommon` if `this->csAction` is non-zero
     // (with a special case for `PLAYER_CSACTION_7`)
@@ -15202,7 +15202,7 @@ s32 func_80852F38(PlayState* play, Player* this) {
  * A cutscene action will only start if player is not already in another form of cutscene.
  *
  * No actors will be halted over the duration of the cutscene action.
- * 
+ *
  * @return  true if successful starting a `csAction`, false if not
  */
 s32 Player_TryCsAction(PlayState* play, Actor* actor, s32 csAction) {
