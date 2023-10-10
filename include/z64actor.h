@@ -147,7 +147,8 @@ typedef struct {
 #define ACTOR_FLAG_5 (1 << 5)
 #define ACTOR_FLAG_6 (1 << 6)
 #define ACTOR_FLAG_7 (1 << 7)
-#define ACTOR_FLAG_8 (1 << 8)
+// Player has requested to talk to the actor; Player uses this flag differently than every other actor
+#define ACTOR_FLAG_TALK_REQUESTED (1 << 8)
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
