@@ -1074,7 +1074,7 @@ void EnSkj_SetupMaskTrade(EnSkj* this) {
 void EnSkj_StartMaskTrade(EnSkj* this, PlayState* play) {
     u8 sp1F = Message_GetState(&play->msgCtx);
 
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
     if ((sp1F == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         EnSkj_JumpFromStump(this);
     }
@@ -1172,7 +1172,7 @@ void EnSkj_SetupWaitForMaskTextClear(EnSkj* this) {
 
 void EnSkj_WaitForMaskTextClear(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
         this->backflipFlag = 1;
         EnSkj_Backflip(this);
     }

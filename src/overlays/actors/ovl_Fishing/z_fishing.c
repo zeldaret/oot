@@ -4709,30 +4709,29 @@ void Fishing_DrawGroupFishes(PlayState* play) {
         scale = 0.00475f;
     }
 
-    if (1) {}
-
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 8048);
 
-    for (i = 0; i < GROUP_FISH_COUNT; i++) {
-        if (fish->type != FS_GROUP_FISH_NONE) {
-            if (materialFlag == 0) {
-                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
-                materialFlag++;
-            }
-
-            if (fish->shouldDraw) {
-                Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
-                Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
-                Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
-                Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
-
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fishing.c", 8093),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
-            }
+    for (i = 0; i < GROUP_FISH_COUNT; i++, fish++) {
+        if (fish->type == FS_GROUP_FISH_NONE) {
+            continue;
         }
-        fish++;
+
+        if (!materialFlag) {
+            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
+            materialFlag++;
+        }
+
+        if (fish->shouldDraw) {
+            Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
+            Matrix_Scale(fish->scaleX * scale, scale, scale, MTXMODE_APPLY);
+
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_fishing.c", 8093),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishModelDL);
+        }
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_fishing.c", 8099);
@@ -5393,7 +5392,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5419,7 +5418,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 mainCam->at = sSubCamAt;
                 Play_ReturnToMainCam(play, sSubCamId, 0);
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                 sFishingPlayerCinematicState = 0;
 
                 sSubCamId = SUB_CAM_ID_DONE;
@@ -5436,7 +5435,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5455,7 +5454,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             if ((sFishingCinematicTimer == 0) && Message_ShouldAdvance(play)) {
                 sFishingPlayerCinematicState = 22;
                 sFishingCinematicTimer = 40;
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_28);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_28);
                 sSinkingLureHeldY = 0.0f;
             }
             break;
@@ -5524,7 +5523,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                         mainCam->at = sSubCamAt;
                         Play_ReturnToMainCam(play, sSubCamId, 0);
                         Cutscene_StopManual(play, &play->csCtx);
-                        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                         sFishingPlayerCinematicState = 0;
 
                         sSubCamId = SUB_CAM_ID_DONE;

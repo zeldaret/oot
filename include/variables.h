@@ -56,7 +56,7 @@ extern Gfx D_80116280[];
 extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDebugCamEnabled;
-extern GameStateOverlay gGameStateOverlayTable[6];
+extern GameStateOverlay gGameStateOverlayTable[GAMESTATE_ID_MAX];
 extern u8 gWeatherMode;
 extern u8 gLightConfigAfterUnderwater;
 extern u8 gInterruptSongOfStorms;

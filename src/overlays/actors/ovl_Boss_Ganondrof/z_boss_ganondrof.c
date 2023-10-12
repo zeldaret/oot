@@ -956,7 +956,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
     switch (this->deathState) {
         case DEATH_START:
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             osSyncPrintf("7\n");
@@ -1118,7 +1118,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, GND_BOSSROOM_CENTER_X, GND_BOSSROOM_CENTER_Y,
                             GND_BOSSROOM_CENTER_Z + 200.0f, 0, 0, 0, 0);
                 this->actor.child = &horse->actor;

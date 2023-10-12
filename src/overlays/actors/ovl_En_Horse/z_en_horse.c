@@ -409,7 +409,8 @@ typedef struct {
 } CsActionEntry; // size = 0x8
 
 static CsActionEntry sCsActionTable[] = {
-    { 36, 1 }, { 37, 2 }, { 38, 3 }, { 64, 4 }, { 65, 5 },
+    { PLAYER_CUEID_36, 1 }, { PLAYER_CUEID_37, 2 }, { PLAYER_CUEID_38, 3 },
+    { PLAYER_CUEID_64, 4 }, { PLAYER_CUEID_65, 5 },
 };
 
 static RaceWaypoint sHbaWaypoints[] = {
@@ -686,19 +687,20 @@ s32 EnHorse_Spawn(EnHorse* this, PlayState* play) {
                 spawnPos.z = sHorseSpawns[i].pos.z;
                 dist = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &spawnPos);
 
-                if (play->sceneId) {}
-                if (!((minDist < dist) || func_80A5BBBC(play, this, &spawnPos))) {
-                    minDist = dist;
-                    this->actor.world.pos.x = sHorseSpawns[i].pos.x;
-                    this->actor.world.pos.y = sHorseSpawns[i].pos.y;
-                    this->actor.world.pos.z = sHorseSpawns[i].pos.z;
-                    this->actor.prevPos = this->actor.world.pos;
-                    this->actor.world.rot.y = sHorseSpawns[i].angle;
-                    this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor);
-                    spawn = true;
-                    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->actor.world.pos,
-                                                 &this->actor.projectedPos, &this->actor.projectedW);
+                if ((minDist < dist) || func_80A5BBBC(play, this, &spawnPos)) {
+                    continue;
                 }
+
+                minDist = dist;
+                this->actor.world.pos.x = sHorseSpawns[i].pos.x;
+                this->actor.world.pos.y = sHorseSpawns[i].pos.y;
+                this->actor.world.pos.z = sHorseSpawns[i].pos.z;
+                this->actor.prevPos = this->actor.world.pos;
+                this->actor.world.rot.y = sHorseSpawns[i].angle;
+                this->actor.shape.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor);
+                spawn = true;
+                SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &this->actor.world.pos,
+                                             &this->actor.projectedPos, &this->actor.projectedW);
             }
         }
     }
