@@ -1525,9 +1525,10 @@ s32 Camera_Normal1(Camera* camera) {
     if (sp94 > 1.0f) {
         sp94 = 1.0f;
     }
-    //! @bug This is probably supposed to be "sp94 < -1.0f" to clamp the value between -1 and 1.
-    //! As written, the previous if statement will have no effect.
     if (sp94 > -1.0f) {
+        // The condition here is probably supposed to be "sp94 < -1.0f" to clamp the value between
+        // -1 and 1. As written, the previous if statement has no effect. However, trying to fix
+        // this causes the camera to yaw too quickly when the player is moving.
         sp94 = -1.0f;
     }
 
@@ -1549,9 +1550,9 @@ s32 Camera_Normal1(Camera* camera) {
             Camera_LERPCeilF(R_CAM_PITCH_UPDATE_RATE_INV, camera->pitchUpdateRateInv, sp9C, rate);
     }
 
-    //! @bug pitchUpdateRateInv is updated twice since both branches of the previous if statement
-    //! also update it. This is probably unintentional because all other camera functions update it
-    //! at most once.
+    // pitchUpdateRateInv is updated twice since both branches of the previous if statement also
+    // update it. This might be unintentional because all other camera functions update it at most
+    // once.
     camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_PITCH_UPDATE_RATE_INV, camera->pitchUpdateRateInv, sp9C, rate);
     camera->xzOffsetUpdateRate =
         Camera_LERPCeilF(CAM_DATA_SCALED(R_CAM_XZ_OFFSET_UPDATE_RATE), camera->xzOffsetUpdateRate, spA0, rate);
