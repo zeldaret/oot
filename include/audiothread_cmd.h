@@ -420,8 +420,6 @@ typedef enum {
 
 /**
  * Mute all sequence players
- *
- * @param seqPlayerIndex the index of the seqPlayer to modify
  */
 #define AUDIOCMD_GLOBAL_MUTE() \
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_MUTE, 0, 0, 0), 0)
