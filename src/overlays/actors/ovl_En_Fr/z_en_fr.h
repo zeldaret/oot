@@ -39,7 +39,7 @@ typedef struct EnFr {
     /* 0x0354 */ EnFrActionFunc actionFunc;
     /* 0x0358 */ LightNode* lightNode; // Frogs light up during the Frog Song, specifically the frog with the next note.
     /* 0x035C */ LightInfo lightInfo;
-    /* 0x036A */ s8 objBankIndex;
+    /* 0x036A */ s8 requiredObjectSlot;
     /* 0x036C */ s32 jumpCounter; // cyclic clock used to time celebratory frog jumps every 4 frames when child song is played.
     /* 0x0370 */ s32 blinkTimer; // blinking timer
     /* 0x0374 */ EnFrBlinkFunc blinkFunc; // unique case of using a function pointer for blinking

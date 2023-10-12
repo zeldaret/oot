@@ -8,7 +8,7 @@ Input* D_8012D1F8 = NULL;
 
 TransitionTile sTransitionTile;
 s32 gTransitionTileState;
-VisMono D_80161498;
+VisMono sPlayVisMono;
 Color_RGBA8_u32 gVisMonoColor;
 FaultClient D_801614B8;
 s16 sTransitionFillTimer;
@@ -35,7 +35,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
 
     this->viewpoint = viewpoint;
 
-    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+    if ((R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
         // Play a sfx when the player toggles the camera
         Audio_PlaySfxGeneral((viewpoint == VIEWPOINT_LOCKED) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP,
                              &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -199,9 +199,9 @@ void Play_Destroy(GameState* thisx) {
 
     Letterbox_Destroy();
     TransitionFade_Destroy(&this->transitionFadeFlash);
-    VisMono_Destroy(&D_80161498);
+    VisMono_Destroy(&sPlayVisMono);
 
-    if (gSaveContext.linkAge != this->linkAgeOnLoad) {
+    if (gSaveContext.save.linkAge != this->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
         Player_SetEquipmentData(this, player);
     }
@@ -217,8 +217,8 @@ void Play_Destroy(GameState* thisx) {
 void Play_Init(GameState* thisx) {
     PlayState* this = (PlayState*)thisx;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
-    u32 zAlloc;
-    u32 zAllocAligned;
+    uintptr_t zAlloc;
+    uintptr_t zAllocAligned;
     size_t zAllocSize;
     Player* player;
     s32 playerStartBgCamIndex;
@@ -226,8 +226,8 @@ void Play_Init(GameState* thisx) {
     u8 baseSceneLayer;
     s32 pad[2];
 
-    if (gSaveContext.entranceIndex == ENTR_LOAD_OPENING) {
-        gSaveContext.entranceIndex = 0;
+    if (gSaveContext.save.entranceIndex == ENTR_LOAD_OPENING) {
+        gSaveContext.save.entranceIndex = 0;
         this->state.running = false;
         SET_NEXT_GAMESTATE(&this->state, TitleSetup_Init, TitleSetupState);
         return;
@@ -270,31 +270,31 @@ void Play_Init(GameState* thisx) {
     Cutscene_InitContext(this, &this->csCtx);
 
     if (gSaveContext.nextCutsceneIndex != 0xFFEF) {
-        gSaveContext.cutsceneIndex = gSaveContext.nextCutsceneIndex;
+        gSaveContext.save.cutsceneIndex = gSaveContext.nextCutsceneIndex;
         gSaveContext.nextCutsceneIndex = 0xFFEF;
     }
 
-    if (gSaveContext.cutsceneIndex == 0xFFFD) {
-        gSaveContext.cutsceneIndex = 0;
+    if (gSaveContext.save.cutsceneIndex == 0xFFFD) {
+        gSaveContext.save.cutsceneIndex = 0;
     }
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
-        gSaveContext.dayTime = gSaveContext.nextDayTime;
+        gSaveContext.save.dayTime = gSaveContext.nextDayTime;
         gSaveContext.skyboxTime = gSaveContext.nextDayTime;
     }
 
-    if (gSaveContext.dayTime > CLOCK_TIME(18, 0) || gSaveContext.dayTime < CLOCK_TIME(6, 30)) {
-        gSaveContext.nightFlag = 1;
+    if (gSaveContext.save.dayTime > CLOCK_TIME(18, 0) || gSaveContext.save.dayTime < CLOCK_TIME(6, 30)) {
+        gSaveContext.save.nightFlag = 1;
     } else {
-        gSaveContext.nightFlag = 0;
+        gSaveContext.save.nightFlag = 0;
     }
 
     Cutscene_HandleConditionalTriggers(this);
 
-    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.cutsceneIndex >= 0xFFF0) {
+    if (gSaveContext.gameMode != GAMEMODE_NORMAL || gSaveContext.save.cutsceneIndex >= 0xFFF0) {
         gSaveContext.nayrusLoveTimer = 0;
         Magic_Reset(this);
-        gSaveContext.sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.cutsceneIndex & 0xF);
+        gSaveContext.sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF);
     } else if (!LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneLayer = SCENE_LAYER_CHILD_DAY;
     } else if (!LINK_IS_ADULT && !IS_DAY) {
@@ -308,7 +308,7 @@ void Play_Init(GameState* thisx) {
     // save the base scene layer (before accounting for the special cases below) to use later for the transition type
     baseSceneLayer = gSaveContext.sceneLayer;
 
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_HYRULE_FIELD) && !LINK_IS_ADULT &&
+    if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_HYRULE_FIELD) && !LINK_IS_ADULT &&
         !IS_CUTSCENE_LAYER) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
             CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
@@ -316,20 +316,20 @@ void Play_Init(GameState* thisx) {
         } else {
             gSaveContext.sceneLayer = 0;
         }
-    } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST) &&
+    } else if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_KOKIRI_FOREST) &&
                LINK_IS_ADULT && !IS_CUTSCENE_LAYER) {
         gSaveContext.sceneLayer = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
-    Play_SpawnScene(this,
-                    gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
-                    gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
+    Play_SpawnScene(
+        this, gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
+        gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
 
-    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.entranceIndex), gSaveContext.sceneLayer);
+    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.save.entranceIndex), gSaveContext.sceneLayer);
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
-    if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
+    if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
         gSaveContext.sceneLayer == 6) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
@@ -342,8 +342,8 @@ void Play_Init(GameState* thisx) {
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
         if (gSaveContext.nextDayTime == NEXT_TIME_DAY) {
-            gSaveContext.totalDays++;
-            gSaveContext.bgsDayCount++;
+            gSaveContext.save.totalDays++;
+            gSaveContext.save.bgsDayCount++;
             gSaveContext.dogIsLost = true;
 
             if (Inventory_ReplaceItem(this, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
@@ -377,7 +377,7 @@ void Play_Init(GameState* thisx) {
     if (gSaveContext.gameMode != GAMEMODE_TITLE_SCREEN) {
         if (gSaveContext.nextTransitionType == TRANS_NEXT_TYPE_DEFAULT) {
             this->transitionType = ENTRANCE_INFO_END_TRANS_TYPE(
-                gEntranceTable[((void)0, gSaveContext.entranceIndex) + baseSceneLayer].field);
+                gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + baseSceneLayer].field);
         } else {
             this->transitionType = gSaveContext.nextTransitionType;
             gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
@@ -391,18 +391,17 @@ void Play_Init(GameState* thisx) {
     TransitionFade_SetType(&this->transitionFadeFlash, TRANS_INSTANCE_TYPE_FADE_FLASH);
     TransitionFade_SetColor(&this->transitionFadeFlash, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&this->transitionFadeFlash);
-    VisMono_Init(&D_80161498);
+    VisMono_Init(&sPlayVisMono);
     gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
     zAllocSize = THA_GetRemaining(&this->state.tha);
-    zAlloc = (u32)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
+    zAlloc = (uintptr_t)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
-    ZeldaArena_Init((void*)zAllocAligned, zAllocSize - zAllocAligned + zAlloc);
+    ZeldaArena_Init((void*)zAllocAligned, zAllocSize - (zAllocAligned - zAlloc));
     // "Zelda Heap"
-    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
-                 (s32)(zAllocAligned + zAllocSize) - (s32)(zAllocAligned - zAlloc));
+    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned, zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
@@ -449,7 +448,7 @@ void Play_Init(GameState* thisx) {
 
 void Play_Update(PlayState* this) {
     s32 pad1;
-    s32 sp80;
+    s32 isPaused;
     Input* input;
     u32 i;
     s32 pad2;
@@ -484,8 +483,8 @@ void Play_Update(PlayState* this) {
         ActorOverlayTable_LogPrint();
     }
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
 
     if (FrameAdvance_Update(&this->frameAdvCtx, &input[1])) {
@@ -515,7 +514,7 @@ void Play_Update(PlayState* this) {
             }
         }
 
-        if (this->transitionMode) { // != TRANS_MODE_OFF
+        if ((u32)this->transitionMode != TRANS_MODE_OFF) {
             switch (this->transitionMode) {
                 case TRANS_MODE_SETUP:
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
@@ -523,8 +522,8 @@ void Play_Update(PlayState* this) {
 
                         Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
 
-                        if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-                            sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.cutsceneIndex & 0xF);
+                        if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+                            sceneLayer = SCENE_LAYER_CUTSCENE_FIRST + (gSaveContext.save.cutsceneIndex & 0xF);
                         }
 
                         // fade out bgm if "continue bgm" flag is not set
@@ -644,7 +643,7 @@ void Play_Update(PlayState* this) {
 
                             if (gSaveContext.gameMode != GAMEMODE_FILE_SELECT) {
                                 SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
-                                gSaveContext.entranceIndex = this->nextEntranceIndex;
+                                gSaveContext.save.entranceIndex = this->nextEntranceIndex;
 
                                 if (gSaveContext.minigameState == 1) {
                                     gSaveContext.minigameState = 3;
@@ -695,7 +694,7 @@ void Play_Update(PlayState* this) {
                     if (sTransitionFillTimer >= 20) {
                         this->state.running = false;
                         SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
-                        gSaveContext.entranceIndex = this->nextEntranceIndex;
+                        gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
                     } else {
@@ -737,7 +736,7 @@ void Play_Update(PlayState* this) {
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         this->state.running = false;
                         SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
-                        gSaveContext.entranceIndex = this->nextEntranceIndex;
+                        gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
                     } else {
@@ -781,7 +780,7 @@ void Play_Update(PlayState* this) {
                         if (this->envCtx.sandstormEnvA == 255) {
                             this->state.running = false;
                             SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
-                            gSaveContext.entranceIndex = this->nextEntranceIndex;
+                            gSaveContext.save.entranceIndex = this->nextEntranceIndex;
                             this->transitionTrigger = TRANS_TRIGGER_OFF;
                             this->transitionMode = TRANS_MODE_OFF;
                         }
@@ -851,17 +850,17 @@ void Play_Update(PlayState* this) {
             }
 
             PLAY_LOG(3551);
-            sp80 = (this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0);
+            isPaused = IS_PAUSED(&this->pauseCtx);
 
             PLAY_LOG(3555);
             AnimationContext_Reset(&this->animationCtx);
 
             PLAY_LOG(3561);
-            Object_UpdateBank(&this->objectCtx);
+            Object_UpdateEntries(&this->objectCtx);
 
             PLAY_LOG(3577);
 
-            if ((sp80 == 0) && (IREG(72) == 0)) {
+            if (!isPaused && (IREG(72) == 0)) {
                 PLAY_LOG(3580);
 
                 this->gameplayFrames++;
@@ -928,7 +927,7 @@ void Play_Update(PlayState* this) {
 
             if (this->viewpoint != VIEWPOINT_NONE) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
-                    if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+                    if (IS_PAUSED(&this->pauseCtx)) {
                         // "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (Player_InCsMode(this)) {
@@ -952,7 +951,7 @@ void Play_Update(PlayState* this) {
 
             PLAY_LOG(3716);
 
-            if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+            if (IS_PAUSED(&this->pauseCtx)) {
                 PLAY_LOG(3721);
                 KaleidoScopeCall_Update(this);
             } else if (this->gameOverCtx.state != GAMEOVER_INACTIVE) {
@@ -989,7 +988,7 @@ void Play_Update(PlayState* this) {
 skip:
     PLAY_LOG(3801);
 
-    if ((sp80 == 0) || gDebugCamEnabled) {
+    if (!isPaused || gDebugCamEnabled) {
         s32 pad3[5];
         s32 i;
 
@@ -1015,7 +1014,7 @@ skip:
 }
 
 void Play_DrawOverlayElements(PlayState* this) {
-    if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+    if (IS_PAUSED(&this->pauseCtx)) {
         KaleidoScopeCall_Draw(this);
     }
 
@@ -1037,21 +1036,21 @@ void Play_Draw(PlayState* this) {
 
     OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     gSPSegment(POLY_XLU_DISP++, 0x00, NULL);
     gSPSegment(OVERLAY_DISP++, 0x00, NULL);
 
-    gSPSegment(POLY_OPA_DISP++, 0x04, this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x04, this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x04, this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x04, this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x04, this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSPSegment(OVERLAY_DISP++, 0x04, this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
 
-    gSPSegment(POLY_OPA_DISP++, 0x05, this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x05, this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x05, this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x05, this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x05, this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
+    gSPSegment(OVERLAY_DISP++, 0x05, this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
 
     gSPSegment(POLY_OPA_DISP++, 0x02, this->sceneSegment);
     gSPSegment(POLY_XLU_DISP++, 0x02, this->sceneSegment);
@@ -1105,8 +1104,8 @@ void Play_Draw(PlayState* this) {
             TransitionFade_Draw(&this->transitionFadeFlash, &gfxP);
 
             if (gVisMonoColor.a > 0) {
-                D_80161498.primColor.rgba = gVisMonoColor.rgba;
-                VisMono_Draw(&D_80161498, &gfxP);
+                sPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
+                VisMono_Draw(&sPlayVisMono, &gfxP);
             }
 
             gSPEndDisplayList(gfxP++);
@@ -1120,167 +1119,170 @@ void Play_Draw(PlayState* this) {
             TransitionTile_Draw(&sTransitionTile, &sp88);
             POLY_OPA_DISP = sp88;
             goto Play_Draw_DrawOverlayElements;
-        } else {
-            PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
+        }
 
-            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
-                // Wait for the previous frame's display list to be processed,
-                // so that `pauseBgPreRender.fbufSave` and `pauseBgPreRender.cvgSave` are filled with the appropriate
-                // content and can be used by `PreRender_ApplyFilters` below.
-                Sched_FlushTaskQueue();
+        PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
-                PreRender_ApplyFilters(&this->pauseBgPreRender);
+        if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
+            // Wait for the previous frame's display list to be processed,
+            // so that `pauseBgPreRender.fbufSave` and `pauseBgPreRender.cvgSave` are filled with the appropriate
+            // content and can be used by `PreRender_ApplyFilters` below.
+            Sched_FlushTaskQueue();
 
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
-            } else if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_MAX) {
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
-            }
+            PreRender_ApplyFilters(&this->pauseBgPreRender);
 
-            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_READY) {
-                Gfx* gfxP = POLY_OPA_DISP;
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
+        } else if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_MAX) {
+            R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
+        }
 
-                PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &gfxP);
-                POLY_OPA_DISP = gfxP;
+        if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_READY) {
+            Gfx* gfxP = POLY_OPA_DISP;
 
-                goto Play_Draw_DrawOverlayElements;
-            } else {
-                s32 roomDrawFlags;
+            PreRender_RestoreFramebuffer(&this->pauseBgPreRender, &gfxP);
+            POLY_OPA_DISP = gfxP;
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
-                    if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
-                        if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
-                            Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
-                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend,
-                                        this->view.eye.x, this->view.eye.y, this->view.eye.z);
-                        } else if (this->skyboxCtx.unk_140 == 0) {
-                            Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
-                                        this->view.eye.z);
-                        }
-                    }
-                }
+            goto Play_Draw_DrawOverlayElements;
+        }
 
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
-                    if (!this->envCtx.sunMoonDisabled) {
-                        Environment_DrawSunAndMoon(this);
-                    }
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
-                    Environment_DrawSkyboxFilters(this);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTNING)) {
-                    Environment_UpdateLightningStrike(this);
-                    Environment_DrawLightning(this, 0);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTS)) {
-                    sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
-                    Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
-                    Lights_Draw(sp228, gfxCtx);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
-                    if (VREG(94) == 0) {
-                        if (R_HREG_MODE != HREG_MODE_PLAY) {
-                            roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
-                        } else {
-                            roomDrawFlags = R_PLAY_DRAW_ROOM_FLAGS;
-                        }
-                        Scene_Draw(this);
-                        Room_Draw(this, &this->roomCtx.curRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
-                        Room_Draw(this, &this->roomCtx.prevRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
-                    }
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
-                    if ((this->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
-                        Vec3f quakeOffset;
-
-                        Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
-                        Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
-                                    this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
-                    }
-                }
-
-                if (this->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
-                    Environment_DrawRain(this, &this->view, gfxCtx);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
-                    Environment_FillScreen(gfxCtx, 0, 0, 0, this->bgCoverAlpha, FILL_SCREEN_OPA);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
-                    func_800315AC(this, &this->actorCtx);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
-                    if (!this->envCtx.sunMoonDisabled) {
-                        sp21C.x = this->view.eye.x + this->envCtx.sunPos.x;
-                        sp21C.y = this->view.eye.y + this->envCtx.sunPos.y;
-                        sp21C.z = this->view.eye.z + this->envCtx.sunPos.z;
-                        Environment_DrawSunLensFlare(this, &this->envCtx, &this->view, gfxCtx, sp21C, 0);
-                    }
-                    Environment_DrawCustomLensFlare(this);
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SCREEN_FILLS) {
-                    if (MREG(64) != 0) {
-                        Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
-                                               FILL_SCREEN_OPA | FILL_SCREEN_XLU);
-                    }
-
-                    switch (this->envCtx.fillScreen) {
-                        case 1:
-                            Environment_FillScreen(gfxCtx, this->envCtx.screenFillColor[0],
-                                                   this->envCtx.screenFillColor[1], this->envCtx.screenFillColor[2],
-                                                   this->envCtx.screenFillColor[3], FILL_SCREEN_OPA | FILL_SCREEN_XLU);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SANDSTORM) {
-                    if (this->envCtx.sandstormState != SANDSTORM_OFF) {
-                        Environment_DrawSandstorm(this, this->envCtx.sandstormState);
-                    }
-                }
-
-                if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_DEBUG_OBJECTS) {
-                    DebugDisplay_DrawObjects(this);
-                }
-
-                if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) ||
-                    (gTransitionTileState == TRANS_TILE_SETUP)) {
-                    Gfx* gfxP = OVERLAY_DISP;
-
-                    // Copy the frame buffer contents at this point in the display list to the zbuffer
-                    // The zbuffer must then stay untouched until unpausing
-                    this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
-                    this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
-                    PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
-                    if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) {
-                        this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                        PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
-
-                        R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
-                    } else {
-                        gTransitionTileState = TRANS_TILE_PROCESS;
-                    }
-                    OVERLAY_DISP = gfxP;
-                    this->unk_121C7 = 2;
-                    R_GRAPH_TASKSET00_FLAGS |= 1;
-                } else {
-                Play_Draw_DrawOverlayElements:
-                    if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
-                        Play_DrawOverlayElements(this);
-                    }
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
+            if (this->skyboxId && (this->skyboxId != SKYBOX_UNSET_1D) && !this->envCtx.skyboxDisabled) {
+                if ((this->skyboxId == SKYBOX_NORMAL_SKY) || (this->skyboxId == SKYBOX_CUTSCENE_MAP)) {
+                    Environment_UpdateSkybox(this->skyboxId, &this->envCtx, &this->skyboxCtx);
+                    Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, this->envCtx.skyboxBlend, this->view.eye.x,
+                                this->view.eye.y, this->view.eye.z);
+                } else if (this->skyboxCtx.drawType == SKYBOX_DRAW_128) {
+                    Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x, this->view.eye.y,
+                                this->view.eye.z);
                 }
             }
         }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SUN_AND_MOON)) {
+            if (!this->envCtx.sunMoonDisabled) {
+                Environment_DrawSunAndMoon(this);
+            }
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_SKYBOX_FILTERS)) {
+            Environment_DrawSkyboxFilters(this);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTNING)) {
+            Environment_UpdateLightningStrike(this);
+            Environment_DrawLightning(this, 0);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ENV_FLAGS & PLAY_ENV_DRAW_LIGHTS)) {
+            sp228 = LightContext_NewLights(&this->lightCtx, gfxCtx);
+            Lights_BindAll(sp228, this->lightCtx.listHead, NULL);
+            Lights_Draw(sp228, gfxCtx);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
+            if (VREG(94) == 0) {
+                s32 roomDrawFlags;
+
+                if (R_HREG_MODE != HREG_MODE_PLAY) {
+                    roomDrawFlags = ROOM_DRAW_OPA | ROOM_DRAW_XLU;
+                } else {
+                    roomDrawFlags = R_PLAY_DRAW_ROOM_FLAGS;
+                }
+                Scene_Draw(this);
+                Room_Draw(this, &this->roomCtx.curRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
+                Room_Draw(this, &this->roomCtx.prevRoom, roomDrawFlags & (ROOM_DRAW_OPA | ROOM_DRAW_XLU));
+            }
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SKYBOX) {
+            if ((this->skyboxCtx.drawType != SKYBOX_DRAW_128) &&
+                (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
+                Vec3f quakeOffset;
+
+                Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
+                Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
+                            this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
+            }
+        }
+
+        if (this->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
+            Environment_DrawRain(this, &this->view, gfxCtx);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || (R_PLAY_DRAW_ROOM_FLAGS != 0)) {
+            Environment_FillScreen(gfxCtx, 0, 0, 0, this->bgCoverAlpha, FILL_SCREEN_OPA);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_ACTORS) {
+            func_800315AC(this, &this->actorCtx);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_LENS_FLARES) {
+            if (!this->envCtx.sunMoonDisabled) {
+                sp21C.x = this->view.eye.x + this->envCtx.sunPos.x;
+                sp21C.y = this->view.eye.y + this->envCtx.sunPos.y;
+                sp21C.z = this->view.eye.z + this->envCtx.sunPos.z;
+                Environment_DrawSunLensFlare(this, &this->envCtx, &this->view, gfxCtx, sp21C, 0);
+            }
+            Environment_DrawCustomLensFlare(this);
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SCREEN_FILLS) {
+            if (MREG(64) != 0) {
+                Environment_FillScreen(gfxCtx, MREG(65), MREG(66), MREG(67), MREG(68),
+                                       FILL_SCREEN_OPA | FILL_SCREEN_XLU);
+            }
+
+            switch (this->envCtx.fillScreen) {
+                case 1:
+                    Environment_FillScreen(gfxCtx, this->envCtx.screenFillColor[0], this->envCtx.screenFillColor[1],
+                                           this->envCtx.screenFillColor[2], this->envCtx.screenFillColor[3],
+                                           FILL_SCREEN_OPA | FILL_SCREEN_XLU);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_SANDSTORM) {
+            if (this->envCtx.sandstormState != SANDSTORM_OFF) {
+                Environment_DrawSandstorm(this, this->envCtx.sandstormState);
+            }
+        }
+
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_DEBUG_OBJECTS) {
+            DebugDisplay_DrawObjects(this);
+        }
+
+        if ((R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) || (gTransitionTileState == TRANS_TILE_SETUP)) {
+            Gfx* gfxP = OVERLAY_DISP;
+
+            // Copy the frame buffer contents at this point in the display list to the zbuffer
+            // The zbuffer must then stay untouched until unpausing
+            this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
+            this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
+            PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
+            if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) {
+                this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
+                PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
+
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
+            } else {
+                gTransitionTileState = TRANS_TILE_PROCESS;
+            }
+            OVERLAY_DISP = gfxP;
+            this->unk_121C7 = 2;
+            R_GRAPH_TASKSET00_FLAGS |= 1;
+            goto Play_Draw_skip;
+        }
+
+    Play_Draw_DrawOverlayElements:
+        if ((R_HREG_MODE != HREG_MODE_PLAY) || R_PLAY_DRAW_OVERLAY_ELEMENTS) {
+            Play_DrawOverlayElements(this);
+        }
     }
+
+Play_Draw_skip:
 
     if (this->view.unk_124 != 0) {
         Camera_Update(GET_ACTIVE_CAM(this));
@@ -1433,7 +1435,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
     this->numActorEntries = 0;
 
-    Object_InitBank(this, &this->objectCtx);
+    Object_InitContext(this, &this->objectCtx);
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);
     func_80096FD4(this, &this->roomCtx.curRoom);
@@ -1703,7 +1705,7 @@ s16 func_800C09D8(PlayState* this, s16 camId, s16 uid) {
 }
 
 void Play_SaveSceneFlags(PlayState* this) {
-    SavedSceneFlags* savedSceneFlags = &gSaveContext.sceneFlags[this->sceneId];
+    SavedSceneFlags* savedSceneFlags = &gSaveContext.save.info.sceneFlags[this->sceneId];
 
     savedSceneFlags->chest = this->actorCtx.flags.chest;
     savedSceneFlags->swch = this->actorCtx.flags.swch;
@@ -1731,7 +1733,7 @@ void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams) 
 
     if ((this->sceneId != SCENE_FAIRYS_FOUNTAIN) && (this->sceneId != SCENE_GROTTOS)) {
         roomIndex = this->roomCtx.curRoom.num;
-        entranceIndex = gSaveContext.entranceIndex;
+        entranceIndex = gSaveContext.save.entranceIndex;
         Play_SetRespawnData(this, respawnMode, entranceIndex, roomIndex, playerParams, &player->actor.world.pos,
                             player->actor.shape.rot.y);
     }
@@ -1755,13 +1757,13 @@ void Play_LoadToLastEntrance(PlayState* this) {
         (this->sceneId == SCENE_INSIDE_GANONS_CASTLE_COLLAPSE) || (this->sceneId == SCENE_GANON_BOSS)) {
         this->nextEntranceIndex = ENTR_GANONS_TOWER_COLLAPSE_EXTERIOR_0;
         Item_Give(this, ITEM_SWORD_MASTER);
-    } else if ((gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_11) ||
-               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_12) ||
-               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_13) ||
-               (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_15)) {
+    } else if ((gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_11) ||
+               (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_12) ||
+               (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_13) ||
+               (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_15)) {
         this->nextEntranceIndex = ENTR_HYRULE_FIELD_6;
     } else {
-        this->nextEntranceIndex = gSaveContext.entranceIndex;
+        this->nextEntranceIndex = gSaveContext.save.entranceIndex;
     }
 
     this->transitionType = TRANS_TYPE_FADE_BLACK;

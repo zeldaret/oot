@@ -180,7 +180,7 @@ s16 EnKz_UpdateTalkState(PlayState* play, Actor* thisx) {
 
 void EnKz_UpdateEyes(EnKz* this) {
     if (DECR(this->blinkTimer) == 0) {
-        this->eyeIdx += 1;
+        this->eyeIdx++;
         if (this->eyeIdx >= 3) {
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIdx = 0;
@@ -382,7 +382,7 @@ void EnKz_SetupMweep(EnKz* this, PlayState* play) {
     subCamEye.y += -100.0f;
     subCamEye.z += 260.0f;
     Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
     this->actor.speed = 0.1f;
     this->actionFunc = EnKz_Mweep;
 }
@@ -414,7 +414,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
 void EnKz_StopMweep(EnKz* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
     this->actionFunc = EnKz_Wait;
 }
 

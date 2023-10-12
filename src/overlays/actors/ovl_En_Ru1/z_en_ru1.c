@@ -7,6 +7,7 @@
 #include "z_en_ru1.h"
 #include "assets/objects/object_ru1/object_ru1.h"
 #include "terminal.h"
+#include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
@@ -324,7 +325,7 @@ Actor* func_80AEB124(PlayState* play) {
     Actor* actorIt = play->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
     while (actorIt != NULL) {
-        if ((actorIt->id == ACTOR_DEMO_EFFECT) && ((actorIt->params & 0xFF) == 0x15)) {
+        if ((actorIt->id == ACTOR_DEMO_EFFECT) && ((actorIt->params & 0xFF) == DEMO_EFFECT_JEWEL_ZORA)) {
             return actorIt;
         }
         actorIt = actorIt->next;
@@ -389,17 +390,17 @@ s32 EnRu1_UpdateSkelAnime(EnRu1* this) {
 }
 
 void func_80AEB364(EnRu1* this, PlayState* play) {
-    this->skelAnime.moveFlags |= 1;
+    this->skelAnime.moveFlags |= ANIM_FLAG_0;
     AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80AEB3A4(EnRu1* this, PlayState* play) {
-    this->skelAnime.moveFlags |= 1;
+    this->skelAnime.moveFlags |= ANIM_FLAG_0;
     func_80AEB364(this, play);
 }
 
 void func_80AEB3CC(EnRu1* this) {
-    this->skelAnime.moveFlags &= ~0x1;
+    this->skelAnime.moveFlags &= ~ANIM_FLAG_0;
 }
 
 void func_80AEB3DC(EnRu1* this, PlayState* play) {
@@ -460,7 +461,7 @@ void func_80AEB6E0(EnRu1* this, PlayState* play) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= 3;
+        skelAnime->moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
         AnimationContext_SetMoveActor(play, &this->actor, skelAnime, 1.0f);
     }
 }
@@ -471,13 +472,13 @@ void func_80AEB738(EnRu1* this, PlayState* play) {
     skelAnime->baseTransl = skelAnime->jointTable[0];
     skelAnime->prevTransl = skelAnime->jointTable[0];
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= 3;
+        skelAnime->moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
         AnimationContext_SetMoveActor(play, &this->actor, skelAnime, 1.0f);
     }
 }
 
 void func_80AEB7D0(EnRu1* this) {
-    this->skelAnime.moveFlags &= ~0x3;
+    this->skelAnime.moveFlags &= ~(ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y);
 }
 
 f32 func_80AEB7E0(CsCmdActorCue* cue, PlayState* play) {
@@ -557,14 +558,14 @@ void func_80AEBA2C(EnRu1* this, PlayState* play) {
 
 void func_80AEBAFC(EnRu1* this) {
     if (this->unk_298 == 0) {
-        func_80078914(&this->actor.projectedPos, NA_SE_EV_DIVE_INTO_WATER);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_DIVE_INTO_WATER);
         this->unk_298 = 1;
     }
 }
 
 void func_80AEBB3C(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_FACE_UP);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_FACE_UP);
     }
 }
 
@@ -573,20 +574,20 @@ void func_80AEBB78(EnRu1* this) {
 
     if (Animation_OnFrame(skelAnime, 4.0f) || Animation_OnFrame(skelAnime, 13.0f) ||
         Animation_OnFrame(skelAnime, 22.0f) || Animation_OnFrame(skelAnime, 31.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_SWIM);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_SWIM);
     }
 }
 
 void func_80AEBBF4(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_SUBMERGE);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_SUBMERGE);
     }
 }
 
 void func_80AEBC30(PlayState* play) {
     Player* player;
 
-    if (play->csCtx.curFrame == 0xCD) {
+    if (play->csCtx.curFrame == 205) {
         player = GET_PLAYER(play);
         Audio_PlaySfxGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -594,8 +595,8 @@ void func_80AEBC30(PlayState* play) {
 }
 
 void func_80AEBC84(EnRu1* this, PlayState* play) {
-    if (play->csCtx.curFrame == 0x82) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
+    if (play->csCtx.curFrame == 130) {
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
 
@@ -830,14 +831,14 @@ void func_80AEC650(EnRu1* this) {
 
     if (this->unk_280 == 0) {
         if (Animation_OnFrame(&this->skelAnime, 2.0f) || Animation_OnFrame(&this->skelAnime, 7.0f)) {
-            func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
+            Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
         }
     }
 }
 
 void func_80AEC6B0(EnRu1* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_EV_FALL_DOWN_DIRT);
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_FALL);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_FALL_DOWN_DIRT);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_FALL);
 }
 
 void func_80AEC6E4(EnRu1* this, PlayState* play) {
@@ -1188,7 +1189,7 @@ void func_80AED44C(EnRu1* this, PlayState* play) {
 }
 
 void func_80AED4FC(EnRu1* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
 }
 
 void func_80AED520(EnRu1* this, PlayState* play) {
@@ -1196,25 +1197,25 @@ void func_80AED520(EnRu1* this, PlayState* play) {
 
     Audio_PlaySfxGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
 }
 
 void func_80AED57C(EnRu1* this) {
     if (this->actor.speed != 0.0f) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
     }
 }
 
 void func_80AED5B8(EnRu1* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_CRASH);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_CRASH);
 }
 
 void func_80AED5DC(EnRu1* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_UNBALLANCE);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_UNBALLANCE);
 }
 
 void func_80AED600(EnRu1* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_DISCOVER);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_DISCOVER);
 }
 
 s32 func_80AED624(EnRu1* this, PlayState* play) {
@@ -1803,7 +1804,7 @@ void func_80AEEFEC(EnRu1* this, PlayState* play) {
 
 void func_80AEF080(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 11.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
     }
 }
 
@@ -1896,7 +1897,7 @@ void func_80AEF40C(EnRu1* this) {
     if (Animation_OnFrame(skelAnime, 2.0f) || Animation_OnFrame(skelAnime, 7.0f) ||
         Animation_OnFrame(skelAnime, 12.0f) || Animation_OnFrame(skelAnime, 18.0f) ||
         Animation_OnFrame(skelAnime, 25.0f) || Animation_OnFrame(skelAnime, 33.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_JABU);
     }
 }
 
@@ -1906,12 +1907,12 @@ void func_80AEF4A8(EnRu1* this, PlayState* play) {
 
 void func_80AEF4E0(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
 
 void func_80AEF51C(EnRu1* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
 }
 
 void func_80AEF540(EnRu1* this) {

@@ -225,29 +225,30 @@ void EnGo2_DrawEffects(EnGo2* this, PlayState* play) {
 
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (1) {}
 
     for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
-        if (dustEffect->type) {
-            if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
-                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                materialFlag = true;
-            }
-
-            alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go2_eff.c", 137),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDustTex[index]));
-            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
+        if (dustEffect->type == 0) {
+            continue;
         }
+
+        if (!materialFlag) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
+            materialFlag = true;
+        }
+
+        alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go2_eff.c", 137),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDustTex[index]));
+        gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2_eff.c", 151);
@@ -562,7 +563,7 @@ s16 EnGo2_UpdateTalkStateGoronCityLink(PlayState* play, EnGo2* this) {
 u16 EnGo2_GetTextIdGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     Player* player = GET_PLAYER(play);
 
-    if (gSaveContext.bgsFlag) {
+    if (gSaveContext.save.info.playerData.bgsFlag) {
         player->exchangeItemId = EXCH_ITEM_CLAIM_CHECK;
         return 0x305E;
     } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_CLAIM_CHECK) {
@@ -584,7 +585,7 @@ s16 EnGo2_UpdateTalkStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
     switch (EnGo2_GetDialogState(this, play)) {
         case TEXT_STATE_DONE:
             if (this->actor.textId == 0x305E) {
-                if (!gSaveContext.bgsFlag) {
+                if (!gSaveContext.save.info.playerData.bgsFlag) {
                     EnGo2_GetItem(this, play, GI_SWORD_BIGGORON);
                     this->actionFunc = EnGo2_SetupGetItem;
                     return NPC_TALK_STATE_ACTION;
@@ -1028,7 +1029,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
     u16 textId;
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        if (gSaveContext.bgsFlag) {
+        if (gSaveContext.save.info.playerData.bgsFlag) {
             if (func_8002F368(play) == EXCH_ITEM_CLAIM_CHECK) {
                 this->actor.textId = 0x3003;
             } else {
@@ -1036,7 +1037,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, PlayState* play, Player* player) {
             }
             player->actor.textId = this->actor.textId;
 
-        } else if (!gSaveContext.bgsFlag && (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK)) {
+        } else if (!gSaveContext.save.info.playerData.bgsFlag && (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK)) {
             if (func_8002F368(play) == EXCH_ITEM_CLAIM_CHECK) {
                 if (Environment_GetBgsDayCount() >= 3) {
                     textId = 0x305E;
@@ -1091,7 +1092,7 @@ void func_80A45288(EnGo2* this, PlayState* play) {
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
         this->interactInfo.trackPos = player->actor.world.pos;
         this->interactInfo.yOffset =
-            sPlayerTrackingYOffsets[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
+            sPlayerTrackingYOffsets[this->actor.params & 0x1F][((void)0, gSaveContext.save.linkAge)];
         Npc_TrackPoint(&this->actor, &this->interactInfo, 4, this->trackingMode);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
@@ -1809,7 +1810,7 @@ void EnGo2_SetGetItem(EnGo2* this, PlayState* play) {
                 EnGo2_GetItemAnimation(this, play);
                 return;
             case GI_SWORD_BIGGORON:
-                gSaveContext.bgsFlag = true;
+                gSaveContext.save.info.playerData.bgsFlag = true;
                 break;
             case GI_BOMB_BAG_30:
             case GI_BOMB_BAG_40:
@@ -1924,7 +1925,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
                     (f32)((Math_SinS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.x);
                 player->actor.world.pos.z =
                     (f32)((Math_CosS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.z);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
                 Audio_PlayFanfare(NA_BGM_APPEAR);
             }
             break;
@@ -1961,7 +1962,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
         case 4: // Finalize walking away
             Message_CloseTextbox(play);
             EnGo2_GoronFireClearCamera(this, play);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
             Actor_Kill(&this->actor);
             break;
         case 1:

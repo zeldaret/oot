@@ -266,7 +266,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play) {
     if ((this->unk_282 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_6C);
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = func_80A56A50;
     }
 }
@@ -284,7 +284,7 @@ void func_80A56ACC(EnHeishi4* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_288 <= currentFrame) {
-        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_80A5673C;
     }
 }
@@ -355,7 +355,7 @@ void EnHeishi4_Update(Actor* thisx, PlayState* play) {
         this->headRot = this->interactInfo.headRot;
         this->torsoRot = this->interactInfo.torsoRot;
     }
-    this->unk_27E += 1;
+    this->unk_27E++;
     this->actionFunc(this, play);
     Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(play, thisx, 10.0f, 10.0f, 30.0f,

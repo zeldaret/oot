@@ -489,7 +489,7 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
 
             lockOnSfxId = CHECK_FLAG_ALL(actorArg->flags, ACTOR_FLAG_0 | ACTOR_FLAG_2) ? NA_SE_SY_LOCK_ON
                                                                                        : NA_SE_SY_LOCK_ON_HUMAN;
-            func_80078884(lockOnSfxId);
+            Sfx_PlaySfxCentered(lockOnSfxId);
         }
 
         targetCtx->targetCenterPos.x = actorArg->world.pos.x;
@@ -731,7 +731,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b,
+        gDPLoadTextureBlock(OVERLAY_DISP++, (u8*)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b,
                             width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -742,7 +742,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
 
         // If texture is bigger than 0x1000, display the rest
         if (height > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA,
+            gDPLoadTextureBlock(OVERLAY_DISP++, (u8*)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA,
                                 G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                 G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -799,7 +799,7 @@ void Actor_SetScale(Actor* actor, f32 scale) {
 }
 
 void Actor_SetObjectDependency(PlayState* play, Actor* actor) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[actor->objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[actor->objectSlot].segment);
 }
 
 void Actor_Init(Actor* actor, PlayState* play) {
@@ -818,7 +818,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     CollisionCheck_InitInfo(&actor->colChkInfo);
     actor->floorBgId = BGCHECK_SCENE;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
-    if (Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
         Actor_SetObjectDependency(play, actor);
         actor->init(actor, play);
         actor->init = NULL;
@@ -1050,28 +1050,28 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
 }
 
 s32 func_8002DEEC(Player* player) {
-    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csMode != PLAYER_CSMODE_NONE);
+    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csAction != PLAYER_CSACTION_NONE);
 }
 
 void func_8002DF18(PlayState* play, Player* player) {
     func_8006DC68(play, player);
 }
 
-s32 func_8002DF38(PlayState* play, Actor* actor, u8 csMode) {
+s32 func_8002DF38(PlayState* play, Actor* actor, u8 csAction) {
     Player* player = GET_PLAYER(play);
 
-    player->csMode = csMode;
+    player->csAction = csAction;
     player->unk_448 = actor;
-    player->doorBgCamIndex = 0;
+    player->cv.haltActorsDuringCsAction = false;
 
     return true;
 }
 
-s32 func_8002DF54(PlayState* play, Actor* actor, u8 csMode) {
+s32 func_8002DF54(PlayState* play, Actor* actor, u8 csAction) {
     Player* player = GET_PLAYER(play);
 
-    func_8002DF38(play, actor, csMode);
-    player->doorBgCamIndex = 1;
+    func_8002DF38(play, actor, csAction);
+    player->cv.haltActorsDuringCsAction = true;
 
     return true;
 }
@@ -1751,7 +1751,7 @@ void Player_PlaySfx(Player* player, u16 sfxId) {
  * Play a sound effect at the actor's position
  */
 void Actor_PlaySfx(Actor* actor, u16 sfxId) {
-    func_80078914(&actor->projectedPos, sfxId);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, sfxId);
 }
 
 void func_8002F850(PlayState* play, Actor* actor) {
@@ -1767,8 +1767,8 @@ void func_8002F850(PlayState* play, Actor* actor) {
         surfaceSfxOffset = SurfaceType_GetSfxOffset(&play->colCtx, actor->floorPoly, actor->floorBgId);
     }
 
-    func_80078914(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
-    func_80078914(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, NA_SE_EV_BOMB_BOUND);
+    Sfx_PlaySfxAtPos(&actor->projectedPos, NA_SE_PL_WALK_GROUND + surfaceSfxOffset);
 }
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
@@ -1830,17 +1830,17 @@ f32 D_8015BC18;
 void func_8002FA60(PlayState* play) {
     Vec3f lightPos;
 
-    if (gSaveContext.fw.set) {
+    if (gSaveContext.save.info.fw.set) {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.fw.pos.x;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.fw.pos.y;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.fw.pos.z;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].yaw = gSaveContext.fw.yaw;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = gSaveContext.fw.playerParams;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex = gSaveContext.fw.entranceIndex;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex = gSaveContext.fw.roomIndex;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].tempSwchFlags = gSaveContext.fw.tempSwchFlags;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].tempCollectFlags = gSaveContext.fw.tempCollectFlags;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.save.info.fw.pos.x;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.save.info.fw.pos.y;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.save.info.fw.pos.z;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].yaw = gSaveContext.save.info.fw.yaw;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = gSaveContext.save.info.fw.playerParams;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex = gSaveContext.save.info.fw.entranceIndex;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex = gSaveContext.save.info.fw.roomIndex;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].tempSwchFlags = gSaveContext.save.info.fw.tempSwchFlags;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].tempCollectFlags = gSaveContext.save.info.fw.tempCollectFlags;
     } else {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
         gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = 0.0f;
@@ -1951,7 +1951,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             alpha = 255 - (temp * 30);
 
             if (alpha < 0) {
-                gSaveContext.fw.set = 0;
+                gSaveContext.save.info.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
                 alpha = 0;
             } else {
@@ -1963,9 +1963,13 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
 
         lightRadius = 500.0f * ratio;
 
+        //! @bug One of the conditions for this block checks an entrance index to see if the light ball should draw.
+        //! This does not account for the fact that some dungeons have multiple entrances.
+        //! If a dungeon is entered through a different entrance than the one that was saved, the light ball will not
+        //! draw.
         if ((play->csCtx.state == CS_STATE_IDLE) &&
             (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex) ==
-             ((void)0, gSaveContext.entranceIndex)) &&
+             ((void)0, gSaveContext.save.entranceIndex)) &&
             (((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex) == play->roomCtx.curRoom.num)) {
             f32 scale = 0.025f * ratio;
 
@@ -1995,6 +1999,8 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
         }
 
+        //! @bug This function call is not contained in the above block, meaning the light for Farore's Wind will draw
+        //! in every scene at the same position that it was originally set.
         Lights_PointNoGlowSetInfo(&D_8015BC00, ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x),
                                   ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y) + yOffset,
                                   ((void)0, gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z), 255, 255, 255, lightRadius);
@@ -2019,7 +2025,7 @@ void Actor_InitContext(PlayState* play, ActorContext* actorCtx, ActorEntry* play
     SavedSceneFlags* savedSceneFlags;
     s32 i;
 
-    savedSceneFlags = &gSaveContext.sceneFlags[play->sceneId];
+    savedSceneFlags = &gSaveContext.save.info.sceneFlags[play->sceneId];
 
     bzero(actorCtx, sizeof(ActorContext));
 
@@ -2137,13 +2143,13 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
             actor->sfx = 0;
 
             if (actor->init != NULL) {
-                if (Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
+                if (Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
                     Actor_SetObjectDependency(play, actor);
                     actor->init(actor, play);
                     actor->init = NULL;
                 }
                 actor = actor->next;
-            } else if (!Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
+            } else if (!Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
                 Actor_Kill(actor);
                 actor = actor->next;
             } else if ((requiredActorFlag && !(actor->flags & requiredActorFlag)) ||
@@ -2209,7 +2215,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         actor = NULL;
         if (actorCtx->targetCtx.unk_4B != 0) {
             actorCtx->targetCtx.unk_4B = 0;
-            func_80078884(NA_SE_SY_LOCK_OFF);
+            Sfx_PlaySfxCentered(NA_SE_SY_LOCK_OFF);
         }
     }
 
@@ -2266,8 +2272,8 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Matrix_Scale(actor->scale.x, actor->scale.y, actor->scale.z, MTXMODE_APPLY);
     Actor_SetObjectDependency(play, actor);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[actor->objBankIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.status[actor->objBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[actor->objectSlot].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.slots[actor->objectSlot].segment);
 
     if (actor->colorFilterTimer != 0) {
         Color_RGBA8 color = { 0, 0, 0, 255 };
@@ -2311,13 +2317,13 @@ void func_80030ED8(Actor* actor) {
         Audio_PlaySfxGeneral(actor->sfx, &actor->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (actor->flags & ACTOR_FLAG_20) {
-        func_80078884(actor->sfx);
+        Sfx_PlaySfxCentered(actor->sfx);
     } else if (actor->flags & ACTOR_FLAG_21) {
-        func_800788CC(actor->sfx);
+        Sfx_PlaySfxCentered2(actor->sfx);
     } else if (actor->flags & ACTOR_FLAG_28) {
         func_800F4C58(&gSfxDefaultPos, NA_SE_SY_TIMER - SFX_FLAG, (s8)(actor->sfx - 1));
     } else {
-        func_80078914(&actor->projectedPos, actor->sfx);
+        Sfx_PlaySfxAtPos(&actor->projectedPos, actor->sfx);
     }
 }
 
@@ -2564,7 +2570,7 @@ void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx) {
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
         actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
-            if (!Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
+            if (!Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
                 Actor_Kill(actor);
             }
             actor = actor->next;
@@ -2739,7 +2745,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     s32 pad;
     Actor* actor;
     ActorInit* actorInit;
-    s32 objBankIndex;
+    s32 objectSlot;
     ActorOverlay* overlayEntry;
     uintptr_t temp;
     char* name;
@@ -2749,7 +2755,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
-    overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
+    overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
     if (HREG(20) != 0) {
         // "Actor class addition [%d:%s]"
@@ -2807,26 +2813,28 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             osSyncPrintf(VT_FGCOL(GREEN));
             osSyncPrintf("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart,
                          overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
-                         (u32)overlayEntry->loadedRamAddr + (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart,
-                         (u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr, name);
+                         (uintptr_t)overlayEntry->loadedRamAddr + (uintptr_t)overlayEntry->vramEnd -
+                             (uintptr_t)overlayEntry->vramStart,
+                         (uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr, name);
             osSyncPrintf(VT_RST);
 
             overlayEntry->numLoaded = 0;
         }
 
-        actorInit = (void*)(u32)((overlayEntry->initInfo != NULL)
-                                     ? (void*)((u32)overlayEntry->initInfo -
-                                               (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr))
-                                     : NULL);
+        actorInit = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
+                                           ? (void*)((uintptr_t)overlayEntry->initInfo -
+                                                     (intptr_t)((uintptr_t)overlayEntry->vramStart -
+                                                                (uintptr_t)overlayEntry->loadedRamAddr))
+                                           : NULL);
     }
 
-    objBankIndex = Object_GetIndex(&play->objectCtx, actorInit->objectId);
+    objectSlot = Object_GetSlot(&play->objectCtx, actorInit->objectId);
 
-    if ((objBankIndex < 0) ||
+    if ((objectSlot < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
-                     objBankIndex, actorInit->objectId);
+                     objectSlot, actorInit->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -2856,10 +2864,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     actor->flags = actorInit->flags;
 
     if (actorInit->id == ACTOR_EN_PART) {
-        actor->objBankIndex = rotZ;
+        actor->objectSlot = rotZ;
         rotZ = 0;
     } else {
-        actor->objBankIndex = objBankIndex;
+        actor->objectSlot = objectSlot;
     }
 
     actor->init = actorInit->init;
@@ -3147,7 +3155,7 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
     u32 matricesSize;
     u32 dListsSize;
-    u32 objectIdsSize;
+    u32 objectSlotsSize;
 
     matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
     bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
@@ -3157,13 +3165,13 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
         bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
 
         if (bodyBreak->dLists != NULL) {
-            objectIdsSize = (count + 1) * sizeof(*bodyBreak->objectIds);
-            bodyBreak->objectIds = ZeldaArena_MallocDebug(objectIdsSize, "../z_actor.c", 7546);
+            objectSlotsSize = (count + 1) * sizeof(*bodyBreak->objectSlots);
+            bodyBreak->objectSlots = ZeldaArena_MallocDebug(objectSlotsSize, "../z_actor.c", 7546);
 
-            if (bodyBreak->objectIds != NULL) {
+            if (bodyBreak->objectSlots != NULL) {
                 Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
                 Lib_MemSet((u8*)bodyBreak->dLists, dListsSize, 0);
-                Lib_MemSet((u8*)bodyBreak->objectIds, objectIdsSize, 0);
+                Lib_MemSet((u8*)bodyBreak->objectSlots, objectSlotsSize, 0);
                 bodyBreak->val = 1;
                 return;
             }
@@ -3178,20 +3186,20 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
         ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
-    if (bodyBreak->objectIds != NULL) {
-        ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7564);
+    if (bodyBreak->objectSlots != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->objectSlots, "../z_actor.c", 7564);
     }
 }
 
 void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
-                       s16 objectId) {
+                       s16 objectSlot) {
     PlayState* play = Effect_GetPlayState();
 
     if ((play->actorCtx.freezeFlashTimer == 0) && (bodyBreak->val > 0)) {
         if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
             bodyBreak->dLists[bodyBreak->val] = *dList;
             Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
-            bodyBreak->objectIds[bodyBreak->val] = objectId;
+            bodyBreak->objectSlots[bodyBreak->val] = objectSlot;
             bodyBreak->val++;
         }
 
@@ -3211,7 +3219,7 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
-    s16 objBankIndex;
+    s16 objectSlot;
 
     if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
@@ -3223,17 +3231,17 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
         Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
         if (1) {
-            if (bodyBreak->objectIds[bodyBreak->count] >= 0) {
-                objBankIndex = bodyBreak->objectIds[bodyBreak->count];
+            if (bodyBreak->objectSlots[bodyBreak->count] > BODYBREAK_OBJECT_SLOT_DEFAULT) {
+                objectSlot = bodyBreak->objectSlots[bodyBreak->count];
             } else {
-                objBankIndex = actor->objBankIndex;
+                objectSlot = actor->objectSlot;
             }
         }
 
         mtx = &bodyBreak->matrices[bodyBreak->count];
 
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, mtx->xw, mtx->yw,
-                                                    mtx->zw, 0, 0, objBankIndex, type);
+                                                    mtx->zw, 0, 0, objectSlot, type);
 
         if (spawnedEnPart != NULL) {
             Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
@@ -3248,7 +3256,7 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
 
     ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
     ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7680);
+    ZeldaArena_FreeDebug(bodyBreak->objectSlots, "../z_actor.c", 7680);
 
     return true;
 }
@@ -4321,7 +4329,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
     EnPart* spawnedEnPart;
 
     spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
-                                                spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
+                                                spawnPos->z, spawnRot->x, spawnRot->y, actor->objectSlot, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speed = arg3[0];
@@ -4694,7 +4702,8 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 retTextId = 0x7002;
             } else if (Flags_GetInfTable(INFTABLE_6A)) {
                 retTextId = 0x7004;
-            } else if ((gSaveContext.dayTime >= CLOCK_TIME(6, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
+            } else if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 0)) &&
+                       (gSaveContext.save.dayTime <= CLOCK_TIME(18, 30))) {
                 retTextId = 0x7002;
             } else {
                 retTextId = 0x7003;
@@ -5494,7 +5503,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
         case 0x2030:
         case 0x2031:
             if (msgCtx->choiceIndex == 0) {
-                if (gSaveContext.rupees >= 10) {
+                if (gSaveContext.save.info.playerData.rupees >= 10) {
                     func_80035B18(play, actor, 0x2034);
                     Rupees_ChangeBy(-10);
                 } else {
@@ -5737,7 +5746,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
     actor->focus.pos.y += focusHeight;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
-          (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
+          (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
             Actor_TrackNone(headRot, torsoRot);
@@ -5746,7 +5755,7 @@ s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRo
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
-        (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
+        (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
         target = play->view.eye;
     } else {
         target = player->actor.focus.pos;
@@ -5781,7 +5790,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
     actor->focus.pos = focusPos;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
-          (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
+          (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0))) {
         yaw = ABS((s16)(actor->yawTowardsPlayer - actor->shape.rot.y));
         if (yaw >= 0x4300) {
             Actor_TrackNone(headRot, torsoRot);
@@ -5790,7 +5799,7 @@ s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tors
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDebugCamEnabled) &&
-        (gSaveContext.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
+        (gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0)) {
         target = play->view.eye;
     } else {
         target = player->actor.focus.pos;

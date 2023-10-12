@@ -188,14 +188,14 @@ void func_80A91284(EnKakasi3* this, PlayState* play) {
 
     if (!LINK_IS_ADULT) {
         this->unk_194 = false;
-        if (gSaveContext.scarecrowSpawnSongSet) {
+        if (gSaveContext.save.info.scarecrowSpawnSongSet) {
             this->actor.textId = 0x40A0;
             this->dialogState = TEXT_STATE_EVENT;
             this->unk_1A8 = 1;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.scarecrowSpawnSongSet) {
+        if (gSaveContext.save.info.scarecrowSpawnSongSet) {
             if (this->unk_195) {
                 this->actor.textId = 0x40A2;
             } else {
@@ -244,7 +244,7 @@ void func_80A91348(EnKakasi3* this, PlayState* play) {
                     if (this->actor.xzDistToPlayer < 80.0f) {
                         player->stateFlags2 |= PLAYER_STATE2_23;
                     }
-                } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
+                } else if (gSaveContext.save.info.scarecrowSpawnSongSet && !this->unk_195) {
 
                     if (player->stateFlags2 & PLAYER_STATE2_24) {
                         this->subCamId = OnePointCutscene_Init(play, 2260, -99, &this->actor, CAM_ID_MAIN);
@@ -295,7 +295,7 @@ void func_80A91620(EnKakasi3* this, PlayState* play) {
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_03 && play->msgCtx.msgMode == MSGMODE_NONE) {
         this->dialogState = TEXT_STATE_EVENT;
         Message_StartTextbox(play, 0x40A5, NULL);
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = func_80A91A90;
         return;
     }
@@ -353,7 +353,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
         this->dialogState = TEXT_STATE_EVENT;
         OnePointCutscene_EndCutscene(play, this->subCamId);
         this->subCamId = CAM_ID_NONE;
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = func_80A91A90;
         return;
     }
@@ -368,7 +368,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
         this->unk_195 = true;
         Message_StartTextbox(play, 0x40A7, NULL);
         this->dialogState = TEXT_STATE_EVENT;
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = func_80A91A90;
         return;
     }
@@ -382,7 +382,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
 void func_80A91A90(EnKakasi3* this, PlayState* play) {
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
-    func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+    func_8002DF54(play, NULL, PLAYER_CSACTION_8);
 
     if (this->dialogState == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         if (this->unk_195) {
@@ -398,7 +398,7 @@ void func_80A91A90(EnKakasi3* this, PlayState* play) {
         }
         Message_CloseTextbox(play);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_80A911F0;
     }
 }
@@ -411,7 +411,7 @@ void EnKakasi3_Update(Actor* thisx, PlayState* play) {
     if (BREG(2) != 0) {
         osSyncPrintf("\n\n");
         // "flag!"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowSpawnSongSet);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowSpawnSongSet);
     }
 
     this->unk_198++;

@@ -1,5 +1,34 @@
 #include "global.h"
 
+typedef struct {
+    /* 0x00 */ u32 value;
+    /* 0x04 */ const char* name;
+} F3dzexConst; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u32 value;
+    /* 0x04 */ const char* setName;
+    /* 0x08 */ const char* unsetName;
+} F3dzexFlag; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 value;
+    /* 0x08 */ u32 mask;
+} F3dzexRenderMode; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 value;
+} F3dzexSetModeMacroValue; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 shift;
+    /* 0x08 */ u32 len;
+    /* 0x0C */ F3dzexSetModeMacroValue values[4];
+} F3dzexSetModeMacro; // size = 0x2C
+
 typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 
 #define F3DZEX_CONST(name) \

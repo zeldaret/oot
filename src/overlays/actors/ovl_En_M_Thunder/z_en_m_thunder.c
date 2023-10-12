@@ -84,7 +84,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
     this->unk_1CA = 0;
 
     if (player->stateFlags2 & PLAYER_STATE2_17) {
-        if (!gSaveContext.isMagicAcquired || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
+        if (!gSaveContext.save.info.playerData.isMagicAcquired || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             (((this->actor.params & 0xFF00) >> 8) &&
              !(Magic_RequestChange(play, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_NOW)))) {
             Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,

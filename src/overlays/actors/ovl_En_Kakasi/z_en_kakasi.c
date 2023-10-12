@@ -178,13 +178,13 @@ void func_80A8F660(EnKakasi* this, PlayState* play) {
     this->unk_196 = TEXT_STATE_DONE;
     if (!LINK_IS_ADULT) {
         this->unk_194 = false;
-        if (gSaveContext.scarecrowLongSongSet) {
+        if (gSaveContext.save.info.scarecrowLongSongSet) {
             this->actor.textId = 0x407A;
             this->unk_196 = TEXT_STATE_EVENT;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.scarecrowLongSongSet) {
+        if (gSaveContext.save.info.scarecrowLongSongSet) {
             this->actor.textId = 0x4079;
             this->unk_196 = TEXT_STATE_EVENT;
         }
@@ -259,7 +259,7 @@ void func_80A8F8D0(EnKakasi* this, PlayState* play) {
 void func_80A8F9C8(EnKakasi* this, PlayState* play) {
     func_80A8F28C(this);
     SkelAnime_Update(&this->skelanime);
-    func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+    func_8002DF54(play, NULL, PLAYER_CSACTION_8);
 
     if (this->unk_196 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
 
@@ -268,7 +268,7 @@ void func_80A8F9C8(EnKakasi* this, PlayState* play) {
         }
         this->subCamId = OnePointCutscene_Init(play, 2270, -99, &this->actor, CAM_ID_MAIN);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
         Message_StartOcarina(play, OCARINA_ACTION_SCARECROW_LONG_PLAYBACK);
         this->actionFunc = func_80A8FAA4;
     }
@@ -307,7 +307,7 @@ void func_80A8FBB8(EnKakasi* this, PlayState* play) {
     if (this->unk_196 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         Camera_SetFinishedFlag(play->cameraPtrs[this->subCamId]);
         Message_CloseTextbox(play);
-        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_80A8F660;
     }
 }
@@ -341,7 +341,7 @@ void EnKakasi_Draw(Actor* thisx, PlayState* play) {
     if (BREG(3) != 0) {
         osSyncPrintf("\n\n");
         // "flag!"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowLongSongSet);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowLongSongSet);
     }
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount, NULL,

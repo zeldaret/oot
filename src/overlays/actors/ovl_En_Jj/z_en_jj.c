@@ -220,7 +220,7 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play) {
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, bodyCollisionActor->bgId);
         Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         SET_EVENTCHKINF(EVENTCHKINF_3A);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 }
 

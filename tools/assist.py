@@ -1,11 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import argparse
-from collections import OrderedDict
 import os
-import re
-import pickle
 import sys
+from collections import OrderedDict
+
+gAddressWidth = 18 # if your ld >= 2.40 change this to 10
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
@@ -54,8 +54,8 @@ def parse_map(fname):
                 if "noload" in line or "noload" in prev_line:
                     ram_offset = None
                     continue
-                ram = int(line[16 : 16 + 18], 0)
-                rom = int(line[59 : 59 + 18], 0)
+                ram = int(line[16 : 16 + gAddressWidth], 0)
+                rom = int(line[16 + gAddressWidth + 25 : 16 + gAddressWidth + 25 + gAddressWidth], 0)
                 ram_offset = ram - rom
                 continue
             prev_line = line
@@ -67,7 +67,7 @@ def parse_map(fname):
                 or " 0x" not in line
             ):
                 continue
-            ram = int(line[16 : 16 + 18], 0)
+            ram = int(line[16 : 16 + gAddressWidth], 0)
             rom = ram - ram_offset
             fn = line.split()[-1]
             if "0x" in fn:

@@ -88,8 +88,12 @@ typedef enum {
     /*  1 */ ANIMTAPER_ACCEL
 } AnimationTapers;
 
+#define ANIM_FLAG_0 (1 << 0) // (no effect outside of player) Related to scaling an animation from/to child/adult
 #define ANIM_FLAG_UPDATE_Y (1 << 1)
+#define ANIM_FLAG_PLAYER_2 (1 << 2) // (player-only) Related to scaling an animation from/to child/adult
+#define ANIM_FLAG_PLAYER_SETMOVE (1 << 3) // (player-only) Call AnimationContext_SetMoveActor
 #define ANIM_FLAG_NO_MOVE (1 << 4)
+#define ANIM_FLAG_PLAYER_7 (1 << 7) // (player-only)
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // Number of limbs in the skeleton
@@ -287,7 +291,7 @@ typedef struct {
 typedef struct {
     /* 0x000 */ struct Actor* actor;
     /* 0x004 */ struct SkelAnime* skelAnime;
-    /* 0x008 */ f32 unk_08;
+    /* 0x008 */ f32 diffScaleY;
 } AnimEntryMoveActor; // size = 0xC
 
 typedef union {
@@ -317,7 +321,7 @@ void AnimationContext_SetCopyAll(struct PlayState* play, s32 vecCount, Vec3s* ds
 void AnimationContext_SetCopyTrue(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
 void AnimationContext_SetCopyFalse(struct PlayState* play, s32 vecCount, Vec3s* dst, Vec3s* src, u8* copyFlag);
 void AnimationContext_SetInterp(struct PlayState* play, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight);
-void AnimationContext_SetMoveActor(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 arg3);
+void AnimationContext_SetMoveActor(struct PlayState* play, struct Actor* actor, SkelAnime* skelAnime, f32 moveDiffScaleY);
 
 void AnimationContext_SetNextQueue(struct PlayState* play);
 void AnimationContext_DisableQueue(struct PlayState* play);

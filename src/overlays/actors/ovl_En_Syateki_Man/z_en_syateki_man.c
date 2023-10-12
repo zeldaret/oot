@@ -210,7 +210,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, PlayState* play) {
         if (this->textIdx == SYATEKI_TEXT_CHOICE) {
             switch (play->msgCtx.choiceIndex) {
                 case 0:
-                    if (gSaveContext.rupees >= 20) {
+                    if (gSaveContext.save.info.playerData.rupees >= 20) {
                         Rupees_ChangeBy(-20);
                         this->textIdx = SYATEKI_TEXT_START_GAME;
                         nextState = 1;
@@ -287,33 +287,35 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, PlayState* play) {
     EnSyatekiItm* gallery;
 
     SkelAnime_Update(&this->skelAnime);
-    if (1) {}
+
     gallery = ((EnSyatekiItm*)this->actor.parent);
-    if ((gallery->actor.update != NULL) && (gallery->signal == ENSYATEKI_END)) {
-        this->subCamId = OnePointCutscene_Init(play, 8002, -99, &this->actor, CAM_ID_MAIN);
-        switch (gallery->hitCount) {
-            case 10:
-                this->gameResult = SYATEKI_RESULT_WINNER;
-                this->actor.textId = 0x71AF;
-                break;
-            case 8:
-            case 9:
-                this->gameResult = SYATEKI_RESULT_ALMOST;
-                this->actor.textId = 0x71AE;
-                break;
-            default:
-                this->gameResult = SYATEKI_RESULT_FAILURE;
-                this->actor.textId = 0x71AD;
-                if (play->shootingGalleryStatus == 15 + 1) {
-                    this->gameResult = SYATEKI_RESULT_REFUSE;
-                    this->actor.textId = 0x2D;
-                }
-                break;
-        }
-        play->shootingGalleryStatus = -2;
-        Message_StartTextbox(play, this->actor.textId, NULL);
-        this->actionFunc = EnSyatekiMan_EndGame;
+    if ((gallery->actor.update == NULL) || (gallery->signal != ENSYATEKI_END)) {
+        return;
     }
+
+    this->subCamId = OnePointCutscene_Init(play, 8002, -99, &this->actor, CAM_ID_MAIN);
+    switch (gallery->hitCount) {
+        case 10:
+            this->gameResult = SYATEKI_RESULT_WINNER;
+            this->actor.textId = 0x71AF;
+            break;
+        case 8:
+        case 9:
+            this->gameResult = SYATEKI_RESULT_ALMOST;
+            this->actor.textId = 0x71AE;
+            break;
+        default:
+            this->gameResult = SYATEKI_RESULT_FAILURE;
+            this->actor.textId = 0x71AD;
+            if (play->shootingGalleryStatus == 15 + 1) {
+                this->gameResult = SYATEKI_RESULT_REFUSE;
+                this->actor.textId = 0x2D;
+            }
+            break;
+    }
+    play->shootingGalleryStatus = -2;
+    Message_StartTextbox(play, this->actor.textId, NULL);
+    this->actionFunc = EnSyatekiMan_EndGame;
 }
 
 void EnSyatekiMan_EndGame(EnSyatekiMan* this, PlayState* play) {

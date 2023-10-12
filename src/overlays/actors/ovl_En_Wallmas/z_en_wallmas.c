@@ -259,7 +259,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, PlayState* play) {
     this->actor.velocity.y = 0.0f;
 
     this->yTarget = this->actor.yDistToPlayer;
-    func_8002DF38(play, &this->actor, PLAYER_CSMODE_37);
+    func_8002DF38(play, &this->actor, PLAYER_CSACTION_37);
     OnePointCutscene_Init(play, 9500, 9999, &this->actor, CAM_ID_MAIN);
 }
 
@@ -470,7 +470,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
     Math_StepToF(&this->actor.world.pos.z, player->actor.world.pos.z, 3.0f);
 
     if (this->timer == 0x1E) {
-        func_80078884(NA_SE_OC_ABYSS);
+        Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
         Play_TriggerRespawn(play);
     }
 }

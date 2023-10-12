@@ -100,10 +100,11 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgGndDarkmeiro* this = (BgGndDarkmeiro*)thisx;
 
-    if ((this->dyna.actor.params & 0xFF) == 1) {
-        if (1) {}
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    if ((this->dyna.actor.params & 0xFF) != 1) {
+        return;
     }
+
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgGndDarkmeiro_Noop(BgGndDarkmeiro* this, PlayState* play) {

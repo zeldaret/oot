@@ -115,7 +115,7 @@ void func_80AF2608(EnRu2* this) {
     s16* unk_2A6 = &this->unk_2A6;
     s16* unk_2A4 = &this->unk_2A4;
 
-    if (!DECR(*unk_2A6)) {
+    if (DECR(*unk_2A6) == 0) {
         *unk_2A6 = Rand_S16Offset(0x3C, 0x3C);
     }
 
@@ -263,7 +263,7 @@ void func_80AF2AB4(EnRu2* this, PlayState* play) {
     Player* player;
     s16 temp;
 
-    if ((gSaveContext.chamberCutsceneNum == 2) && !IS_CUTSCENE_LAYER) {
+    if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_WATER) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = 1;
         play->csCtx.script = D_80AF411C;
@@ -382,7 +382,7 @@ void func_80AF2E1C(EnRu2* this, PlayState* play) {
 }
 
 void func_80AF2E64(void) {
-    func_800788CC(NA_SE_SY_WHITE_OUT_T);
+    Sfx_PlaySfxCentered2(NA_SE_SY_WHITE_OUT_T);
 }
 
 void func_80AF2E84(EnRu2* this, PlayState* play) {

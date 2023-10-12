@@ -211,7 +211,7 @@ s32 func_80AA08C4(EnMa1* this, PlayState* play) {
 
 void EnMa1_UpdateEyes(EnMa1* this) {
     if (DECR(this->blinkTimer) == 0) {
-        this->eyeIndex += 1;
+        this->eyeIndex++;
         if (this->eyeIndex >= 3) {
             this->blinkTimer = Rand_S16Offset(30, 30);
             this->eyeIndex = 0;

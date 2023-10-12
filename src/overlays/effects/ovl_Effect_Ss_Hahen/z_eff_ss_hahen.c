@@ -12,7 +12,7 @@
 #define rUnused regs[2]
 #define rScale regs[3]
 #define rObjId regs[4]
-#define rObjBankIdx regs[5]
+#define rObjectSlot regs[5]
 #define rMinLife regs[6]
 
 u32 EffectSsHahen_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -26,8 +26,8 @@ EffectSsInit Effect_Ss_Hahen_InitVars = {
 };
 
 void EffectSsHahen_CheckForObject(EffectSs* this, PlayState* play) {
-    if (((this->rObjBankIdx = Object_GetIndex(&play->objectCtx, this->rObjId)) < 0) ||
-        !Object_IsLoaded(&play->objectCtx, this->rObjBankIdx)) {
+    if (((this->rObjectSlot = Object_GetSlot(&play->objectCtx, this->rObjId)) < 0) ||
+        !Object_IsLoaded(&play->objectCtx, this->rObjectSlot)) {
         this->life = -1;
         this->draw = NULL;
     }
@@ -74,7 +74,7 @@ void EffectSsHahen_Draw(PlayState* play, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_hahen.c", 208);
 
     if (this->rObjId != -1) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->rObjBankIdx].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);
     }
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
@@ -98,7 +98,7 @@ void EffectSsHahen_DrawGray(PlayState* play, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_hahen.c", 253);
 
     if (this->rObjId != -1) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->rObjBankIdx].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);
     }
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);

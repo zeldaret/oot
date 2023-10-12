@@ -320,7 +320,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, PlayState* play) {
             if (firstFall == 0) {
                 firstFall = 1;
             } else {
-                func_8002DF54(play, &GET_PLAYER(play)->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &GET_PLAYER(play)->actor, PLAYER_CSACTION_7);
             }
         }
         this->direction = 0;
@@ -341,7 +341,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             if (amy != NULL) {
                 OnePointCutscene_Init(play, 3170, 30, amy, CAM_ID_MAIN);
             }
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             gSaveContext.timerState = TIMER_STATE_STOP;
         }
     } else {
@@ -356,7 +356,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             if (sPuzzleState == 0x10) {
                 sPuzzleState = 0x40;
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_RISING);
-                func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
+                func_8002DF54(play, &player->actor, PLAYER_CSACTION_8);
             }
         } else if (this->dyna.unk_150 != 0.0f) {
             if (this->direction == 0) {
@@ -535,7 +535,7 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, thisx->world.pos.x, thisx->world.pos.y - 40.0f,
                         thisx->world.pos.z, 0, thisx->shape.rot.y, 0, thisx->params + ((this->type - 1) << 8));
             OnePointCutscene_Init(play, 3160, 80, thisx, CAM_ID_MAIN);
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 
         } else {
             Actor_PlaySfx(thisx, NA_SE_EN_PO_LAUGH2);

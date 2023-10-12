@@ -1,0 +1,9 @@
+<Root>
+    <File Name="ovl_Effect_Ss_Fhg_Flash" BaseAddress="0x809A4660" RangeStart="0xA60" RangeEnd="0xF18">
+        <Array Name="sShockVtx" Count="4" Offset="0xA60">
+            <Vtx/>
+        </Array>
+        <DList Name="sShockDL" Offset="0xAA0"/>
+        <Texture Name="sShockTex" OutName="shock" Format="i8" Width="32" Height="32" Offset="0xB18"/>
+    </File>
+</Root>

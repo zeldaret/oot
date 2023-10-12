@@ -351,15 +351,15 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
     player = GET_PLAYER(play);
     distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
-    if (gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_1) {
+    if (gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_1) {
         Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);
         return;
     }
 
-    if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
-        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
+    if ((GET_EVENTCHKINF(EVENTCHKINF_16) && R_EPONAS_SONG_PLAYED) ||
+        ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {
         this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);
@@ -434,7 +434,7 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
 void func_80A6A4DC(EnHorseLinkChild* this) {
     this->action = 5;
     this->animationIdx = Rand_ZeroOne() > 0.5f ? 0 : 1;
-    DREG(53) = 0;
+    R_EPONAS_SONG_PLAYED = false;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
                      Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
@@ -442,8 +442,8 @@ void func_80A6A4DC(EnHorseLinkChild* this) {
 void func_80A6A5A4(EnHorseLinkChild* this, PlayState* play) {
     s16 yawDiff;
 
-    if (DREG(53) != 0) {
-        DREG(53) = 0;
+    if (R_EPONAS_SONG_PLAYED) {
+        R_EPONAS_SONG_PLAYED = false;
         Audio_PlaySfxGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);

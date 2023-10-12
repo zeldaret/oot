@@ -560,7 +560,7 @@ void EnTa_IdleAtRanch(EnTa* this, PlayState* play) {
 }
 
 s32 EnTa_CheckCanBuyMilk(void) {
-    if (gSaveContext.rupees < 30) {
+    if (gSaveContext.save.info.playerData.rupees < 30) {
         return TALON_CANBUYMILK_NOT_ENOUGH_RUPEES;
     } else if (!Inventory_HasEmptyBottle()) {
         return TALON_CANBUYMILK_NO_EMPTY_BOTTLE;
@@ -757,7 +757,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                         case 1:
                             // Last cucco found, end the game
                             gSaveContext.timerState = TIMER_STATE_OFF;
-                            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+                            func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
 
                             Message_StartTextbox(play, 0x2084, &this->actor);
                             this->actionFunc = EnTa_TalkCuccoGameEnd;
@@ -803,9 +803,9 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
     if ((gSaveContext.timerSeconds == 0) && !Play_InCsMode(play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
         this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
-        func_80078884(NA_SE_SY_FOUND);
+        Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         gSaveContext.timerState = TIMER_STATE_OFF;
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
 
         // Time's up text
         Message_StartTextbox(play, 0x2081, &this->actor);
@@ -868,7 +868,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 10.0f);
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
     }
 }
 
@@ -885,7 +885,7 @@ void EnTa_StartingCuccoGame3(EnTa* this, PlayState* play) {
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         this->stateFlags |= TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         Message_CloseTextbox(play);
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
     }
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
@@ -986,7 +986,7 @@ void EnTa_WaitBuyMilkOrPlayCuccoGameResponse(EnTa* this, PlayState* play) {
                 break;
 
             case 1: // Play cucco game
-                if (gSaveContext.rupees < 10) {
+                if (gSaveContext.save.info.playerData.rupees < 10) {
                     Message_ContinueTextbox(play, 0x85);
                     EnTa_SetupAction(this, EnTa_TalkNotEnoughRupees, EnTa_AnimRunToEnd);
                 } else {
@@ -1020,7 +1020,7 @@ void EnTa_WaitForPlayCuccoGameResponse(EnTa* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.rupees < price) {
+                if (gSaveContext.save.info.playerData.rupees < price) {
                     Message_ContinueTextbox(play, 0x85);
                     EnTa_SetupAction(this, EnTa_TalkNotEnoughRupees, EnTa_AnimRunToEnd);
                 } else {

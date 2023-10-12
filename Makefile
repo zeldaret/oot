@@ -64,13 +64,13 @@ N_THREADS ?= $(shell nproc)
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-  $(error Please install or build $(MIPS_BINUTILS_PREFIX))
+  $(error Unable to find $(MIPS_BINUTILS_PREFIX)ld. Please install or build MIPS binutils, commonly mips-linux-gnu. (or set MIPS_BINUTILS_PREFIX if your MIPS binutils install uses another prefix))
 endif
 
 # Detect compiler and set variables appropriately.
 ifeq ($(COMPILER),gcc)
   CC       := $(MIPS_BINUTILS_PREFIX)gcc
-else 
+else
 ifeq ($(COMPILER),ido)
   CC       := tools/ido_recomp/$(DETECTED_OS)/7.1/cc
   CC_OLD   := tools/ido_recomp/$(DETECTED_OS)/5.3/cc
@@ -95,8 +95,8 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR = mupen64plus
-EMU_FLAGS = --noosd
+EMULATOR   ?= 
+EMU_FLAGS  ?= 
 
 INC        := -Iinclude -Isrc -Ibuild -I.
 
@@ -121,7 +121,7 @@ ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
 ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
   MIPS_VERSION := -mips3
-else 
+else
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
   CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,649,838,712
   MIPS_VERSION := -mips2
@@ -199,12 +199,14 @@ build/src/code/fmodf.o: OPTFLAGS := -g
 build/src/code/__osMemset.o: OPTFLAGS := -g
 build/src/code/__osMemmove.o: OPTFLAGS := -g
 
-# Use signed chars instead of unsigned for code_800EC960.c (needed to match AudioDebug_ScrPrt)
-build/src/code/code_800EC960.o: CFLAGS += -signed
+build/src/audio/%.o: OPTFLAGS := -O2
+
+# Use signed chars instead of unsigned for this audio file (needed to match AudioDebug_ScrPrt)
+build/src/audio/general.o: CFLAGS += -signed
 
 # Put string literals in .data for some audio files (needed to match these files with literals)
-build/src/code/code_800F7260.o: CFLAGS += -use_readwrite_const
-build/src/code/code_800F9280.o: CFLAGS += -use_readwrite_const
+build/src/audio/sfx.o: CFLAGS += -use_readwrite_const
+build/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
 build/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 build/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
@@ -267,11 +269,14 @@ setup:
 	python3 extract_baserom.py
 	python3 extract_assets.py -j$(N_THREADS)
 
-test: $(ROM)
+run: $(ROM)
+ifeq ($(EMULATOR),)
+	$(error Emulator path not set. Set EMULATOR in the Makefile or define it as an environment variable)
+endif
 	$(EMULATOR) $(EMU_FLAGS) $<
 
 
-.PHONY: all clean setup test distclean assetclean
+.PHONY: all clean setup run distclean assetclean
 
 #### Various Recipes ####
 
@@ -281,7 +286,7 @@ $(ROM): $(ELF)
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
-## Order-only prerequisites 
+## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
 # The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
 

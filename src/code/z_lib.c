@@ -219,14 +219,14 @@ s32 Math_AsymStepToF(f32* pValue, f32 target, f32 incrStep, f32 decrStep) {
     return 0;
 }
 
-void func_80077D10(f32* arg0, s16* arg1, Input* input) {
+void Lib_GetControlStickData(f32* outMagnitude, s16* outAngle, Input* input) {
     f32 relX = input->rel.stick_x;
     f32 relY = input->rel.stick_y;
 
-    *arg0 = sqrtf(SQ(relX) + SQ(relY));
-    *arg0 = (60.0f < *arg0) ? 60.0f : *arg0;
+    *outMagnitude = sqrtf(SQ(relX) + SQ(relY));
+    *outMagnitude = (60.0f < *outMagnitude) ? 60.0f : *outMagnitude;
 
-    *arg1 = Math_Atan2S(relY, -relX);
+    *outAngle = Math_Atan2S(relY, -relX);
 }
 
 s16 Rand_S16Offset(s16 base, s16 range) {
@@ -590,16 +590,26 @@ void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src) {
     dst->a = src->a;
 }
 
-void func_80078884(u16 sfxId) {
+/**
+ * Play a sound effect at the center of the screen.
+ */
+void Sfx_PlaySfxCentered(u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
 }
 
-void func_800788CC(u16 sfxId) {
+/**
+ * Play a sound effect at the center of the screen. Identical to `Sfx_PlaySfxCentered`.
+ */
+void Sfx_PlaySfxCentered2(u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
 }
 
-void func_80078914(Vec3f* arg0, u16 sfxId) {
-    Audio_PlaySfxGeneral(sfxId, arg0, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+/**
+ * Play a sound effect at the requested position.
+ */
+void Sfx_PlaySfxAtPos(Vec3f* projectedPos, u16 sfxId) {
+    Audio_PlaySfxGeneral(sfxId, projectedPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                         &gSfxDefaultReverb);
 }

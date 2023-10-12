@@ -326,7 +326,7 @@ void func_80985430(DemoIm* this, PlayState* play) {
 void func_8098544C(DemoIm* this, PlayState* play) {
     s32 pad[2];
 
-    if ((gSaveContext.chamberCutsceneNum == 4) && !IS_CUTSCENE_LAYER) {
+    if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_SHADOW) && !IS_CUTSCENE_LAYER) {
         Player* player = GET_PLAYER(play);
 
         this->action = 1;
@@ -431,7 +431,7 @@ void func_80985860(DemoIm* this, PlayState* play) {
 }
 
 void func_809858A8(void) {
-    func_800788CC(NA_SE_SY_WHITE_OUT_T);
+    Sfx_PlaySfxCentered2(NA_SE_SY_WHITE_OUT_T);
 }
 
 void DemoIm_SpawnLightBall(DemoIm* this, PlayState* play) {
@@ -869,7 +869,7 @@ void func_80986B2C(PlayState* play) {
         play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
-        func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
+        func_8002DF54(play, &player->actor, PLAYER_CSACTION_8);
     }
 }
 
