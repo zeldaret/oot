@@ -205,7 +205,7 @@ void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
             break;
 
         case AUDIOCMD_OP_GLOBAL_INIT_SEQPLAYER_SKIP_TICKS:
-            AudioLoad_SyncInitSeqPlayerSkipSeqTicks(cmd->arg0, cmd->arg1, cmd->asInt);
+            AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->asInt);
             break;
 
         case AUDIOCMD_OP_GLOBAL_DISABLE_SEQPLAYER:
@@ -232,7 +232,7 @@ void AudioThread_ProcessGlobalCmd(AudioCmd* cmd) {
             break;
 
         case AUDIOCMD_OP_GLOBAL_UNMUTE:
-            if (cmd->asUInt == true) {
+            if (cmd->asUInt == 1) {
                 for (i = 0; i < gAudioCtx.numNotes; i++) {
                     Note* note = &gAudioCtx.notes[i];
                     NoteSubEu* subEu = &note->noteSubEu;

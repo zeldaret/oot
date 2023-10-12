@@ -1083,7 +1083,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
         return PROCESS_SCRIPT_END;
     }
 
-    if (seqPlayer->skipSeqTicks != 0) {
+    if (seqPlayer->skipTicks != 0) {
         layer->muted = true;
         return PROCESS_SCRIPT_END;
     }
@@ -2056,10 +2056,10 @@ void AudioSeq_ProcessSequences(s32 arg0) {
 }
 
 void AudioSeq_SkipForwardSequence(SequencePlayer* seqPlayer) {
-    while (seqPlayer->skipSeqTicks > 0) {
+    while (seqPlayer->skipTicks > 0) {
         AudioSeq_SequencePlayerProcessSequence(seqPlayer);
         Audio_SequencePlayerProcessSound(seqPlayer);
-        seqPlayer->skipSeqTicks--;
+        seqPlayer->skipTicks--;
     }
 }
 

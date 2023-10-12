@@ -2,7 +2,7 @@
 
 u8 D_8016F0E0[0xA0]; // unused
 AudioContext gAudioCtx;
-void (*gAudioCustomUpdateFunction)(void);
+AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 s32 D_801755D8[3]; // unused
 
 const TempoData gTempoData = {

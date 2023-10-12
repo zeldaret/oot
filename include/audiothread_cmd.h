@@ -137,8 +137,9 @@ typedef enum {
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  * @param channelIndex the index of the channel to modify
- * @param panChannelWeight (s8) proportion of pan that comes from the channel. 
+ * @param panChannelWeight (s8) proportion of pan that comes from the channel.
  *                         Set to 0 for layer-only, and 128 for channel-only.
+*                         As the actual value is set to `u8`, use `(u8)-128` to produce 128
  */
 #define AUDIOCMD_CHANNEL_SET_PAN_WEIGHT(seqPlayerIndex, channelIndex, panChannelWeight)                       \
     AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_CHANNEL_SET_PAN_WEIGHT, seqPlayerIndex, channelIndex, 0), \
@@ -418,21 +419,21 @@ typedef enum {
     AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_SET_SOUND_MODE, 0, 0, 0), soundMode)
 
 /**
- * Mute a sequence player
+ * Mute all sequence players
  *
  * @param seqPlayerIndex the index of the seqPlayer to modify
  */
-#define AUDIOCMD_GLOBAL_MUTE(seqPlayerIndex) \
-    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_MUTE, seqPlayerIndex, 0, 0), 0)
+#define AUDIOCMD_GLOBAL_MUTE() \
+    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_MUTE, 0, 0, 0), 0)
 
 /**
- * Unmute a sequence player
+ * Unmute all sequence players
  *
- * @param seqPlayerIndex the index of the seqPlayer to modify
- * @param restart (s32) if set to 1, then notes with the `MUTE_BEHAVIOR_STOP_SAMPLES` flag set are marked as finished
+ * @param restartNotes (s32) if set to 1, then notes with the `MUTE_BEHAVIOR_STOP_SAMPLES` flag set 
+ * are marked as finished for all seqPlayers
  */
-#define AUDIOCMD_GLOBAL_UNMUTE(seqPlayerIndex, restart) \
-    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_UNMUTE, seqPlayerIndex, 0, 0), restart)
+#define AUDIOCMD_GLOBAL_UNMUTE(restartNotes) \
+    AudioThread_QueueCmdS32(AUDIO_MK_CMD(AUDIOCMD_OP_GLOBAL_UNMUTE, 0, 0, 0), restartNotes)
 
 /**
  * Synchronously load an instrument

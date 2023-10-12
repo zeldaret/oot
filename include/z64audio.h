@@ -9,6 +9,7 @@ typedef void (*AudioCustomUpdateFunction)(void);
 #define REFRESH_RATE_NTSC 60
 
 // Small deviation parameters used in estimating the max tempo
+// It is unclear why these vary by region, and aren't all just 1
 #define REFRESH_RATE_DEVIATION_PAL 1.001521f
 #define REFRESH_RATE_DEVIATION_MPAL 0.99276f
 #define REFRESH_RATE_DEVIATION_NTSC 1.00278f
@@ -330,7 +331,7 @@ typedef struct {
     /* 0x094 */ u8* shortNoteVelocityTable;
     /* 0x098 */ u8* shortNoteGateTimeTable;
     /* 0x09C */ NotePool notePool;
-    /* 0x0DC */ s32 skipSeqTicks;
+    /* 0x0DC */ s32 skipTicks;
     /* 0x0E0 */ u32 scriptCounter;
     /* 0x0E4 */ char unk_E4[0x74]; // unused struct members for sequence/sound font dma management, according to sm64 decomp
     /* 0x158 */ s8 seqScriptIO[8];

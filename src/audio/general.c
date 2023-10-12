@@ -4046,6 +4046,8 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
         sSfxChannelState[channelIndex].freqScale = freqScale;
     }
 
+    //! @bug: comparing a `u8` to an `s8`. if the most significant bit is set,
+    //! it'll always pass because the s8 value will be <0 and the u8 value is always >=0
     if (stereoBits != sSfxChannelState[channelIndex].stereoBits) {
         AUDIOCMD_CHANNEL_SET_STEREO(SEQ_PLAYER_SFX, channelIndex, stereoBits | 0x10);
         sSfxChannelState[channelIndex].stereoBits = stereoBits;
@@ -4985,11 +4987,11 @@ void func_800F64E0(u8 arg0) {
     if (arg0 != 0) {
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        AUDIOCMD_GLOBAL_MUTE(SEQ_PLAYER_BGM_MAIN);
+        AUDIOCMD_GLOBAL_MUTE();
     } else {
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        AUDIOCMD_GLOBAL_UNMUTE(SEQ_PLAYER_BGM_MAIN, false);
+        AUDIOCMD_GLOBAL_UNMUTE(0);
     }
 }
 
@@ -5320,7 +5322,7 @@ void Audio_InitSound(void) {
 
 void func_800F7170(void) {
     Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 1);
-    AUDIOCMD_GLOBAL_UNMUTE(SEQ_PLAYER_BGM_MAIN, true);
+    AUDIOCMD_GLOBAL_UNMUTE(1);
     AudioThread_ScheduleProcessCmds();
     AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
 }
@@ -5336,7 +5338,7 @@ void func_800F71BC(s32 arg0) {
 
 void func_800F7208(void) {
     Audio_ResetActiveSequences();
-    AUDIOCMD_GLOBAL_UNMUTE(SEQ_PLAYER_BGM_MAIN, true);
+    AUDIOCMD_GLOBAL_UNMUTE(1);
     func_800F6C34();
     Audio_ResetSfxChannelState();
     Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 1);

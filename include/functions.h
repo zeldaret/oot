@@ -1528,7 +1528,7 @@ void AudioLoad_AsyncLoadFont(s32 fontId, s32 arg1, s32 retData, OSMesgQueue* ret
 u8* AudioLoad_GetFontsForSequence(s32 seqId, u32* outNumFonts);
 void AudioLoad_DiscardSeqFonts(s32 seqId);
 s32 AudioLoad_SyncInitSeqPlayer(s32 playerIdx, s32 seqId, s32 arg2);
-s32 AudioLoad_SyncInitSeqPlayerSkipSeqTicks(s32 playerIdx, s32 seqId, s32 skipSeqTicks);
+s32 AudioLoad_SyncInitSeqPlayerSkipTicks(s32 playerIdx, s32 seqId, s32 skipTicks);
 void AudioLoad_ProcessLoads(s32 resetStatus);
 void AudioLoad_SetDmaHandler(DmaHandler callback);
 void AudioLoad_Init(void* heap, u32 heapSize);
