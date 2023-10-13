@@ -40,15 +40,25 @@ ActorInit Bg_Mizu_Movebg_InitVars = {
 static f32 dragonStatue1OffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
 
 static Gfx* dLists[] = {
-    gWaterTempleFloatPlatformWestDL, gWaterTempleFloatPlatformOutsideCentralPillarDL, gWaterTempleFloatPlatformInsideCentralPillarDL,
-    gWaterTempleDragonStatueDL,      gWaterTempleDragonStatueDL,                      gWaterTempleDragonStatueDL,
-    gWaterTempleDragonStatueDL,      gWaterTempleHookshotPlatformDL,
+    gWaterTempleFloatPlatformWestDL,                 // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST
+    gWaterTempleFloatPlatformOutsideCentralPillarDL, // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR
+    gWaterTempleFloatPlatformInsideCentralPillarDL,  // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR
+    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_1
+    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
+    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
+    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_4
+    gWaterTempleHookshotPlatformDL,                  // MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM
 };
 
 static CollisionHeader* colHeaders[] = {
-    &gWaterTempleFloatPlatformWestCol, &gWaterTempleFloatPlatformOutsideCentralPillarCol, &gWaterTempleFloatPlatformInsideCentralPillarCol,
-    &gWaterTempleDragonStatueCol, &gWaterTempleDragonStatueCol, &gWaterTempleDragonStatueCol,
-    &gWaterTempleDragonStatueCol, &gWaterTempleHookshotPlatformCol,
+    &gWaterTempleFloatPlatformWestCol,                 // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST
+    &gWaterTempleFloatPlatformOutsideCentralPillarCol, // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR
+    &gWaterTempleFloatPlatformInsideCentralPillarCol,  // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR
+    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_1
+    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
+    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
+    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_4
+    &gWaterTempleHookshotPlatformCol,                  // MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM
 };
 
 static InitChainEntry sInitChain[] = {
@@ -123,7 +133,8 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
-            thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY + dragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
+            thisx->world.pos.y =
+                ((BgMizuMovebg*)thisx)->homeY + dragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
@@ -158,8 +169,8 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             Matrix_MultVec3f(&offsetPosition1, &offsetPos);
 
             if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x + offsetPos.x,
-                                   thisx->world.pos.y + offsetPos.y, thisx->world.pos.z + offsetPos.z, thisx->world.rot.x,
-                                   thisx->world.rot.y, thisx->world.rot.z, 2) == NULL) {
+                                   thisx->world.pos.y + offsetPos.y, thisx->world.pos.z + offsetPos.z,
+                                   thisx->world.rot.x, thisx->world.rot.y, thisx->world.rot.z, 2) == NULL) {
                 Actor_Kill(thisx);
             }
             break;
@@ -337,7 +348,8 @@ void BgMizuMovebg_UpdateSmallBlockHookshotTarget(BgMizuMovebg* this, PlayState* 
         this->waypointId++;
         if (this->waypointId >= play->pathList[MOVEBG_PATH_ID(this->dyna.actor.params)].count) {
             this->waypointId = 0;
-            BgMizuMovebg_SetPosFromPath(play->pathList, &this->dyna.actor.world.pos, MOVEBG_PATH_ID(this->dyna.actor.params), 0);
+            BgMizuMovebg_SetPosFromPath(play->pathList, &this->dyna.actor.world.pos,
+                                        MOVEBG_PATH_ID(this->dyna.actor.params), 0);
         }
     }
     if (!(D_8089EE40 & 1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
