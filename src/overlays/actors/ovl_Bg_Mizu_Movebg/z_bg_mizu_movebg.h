@@ -4,6 +4,18 @@
 #include "ultra64.h"
 #include "global.h"
 
+typedef enum BgMizuMovebgType {
+    /* 0 */ MIZUMOVEBG_TYPE_SMALL_BLOCK,
+    /* 1 */ MIZUMOVEBG_TYPE_MEDIUM_BLOCK,
+    /* 2 */ MIZUMOVEBG_TYPE_LARGE_BLOCK,
+    /* 3 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_1,
+    /* 4 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_2,
+    /* 5 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_3,
+    /* 6 */ MIZUMOVEBG_TYPE_DRAGON_STATUE_4,
+    /* 7 */ MIZUMOVEBG_TYPE_SMALL_BLOCK_HOOKSHOT_TARGET,
+    /* 8 */ MIZUMOVEBG_TYPE_MAX
+} BgMizuMovebgType;
+
 struct BgMizuMovebg;
 
 typedef void (*BgMizuMovebgActionFunc)(struct BgMizuMovebg*, PlayState*);

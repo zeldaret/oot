@@ -21,9 +21,9 @@ void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play);
 void BgMizuMovebg_Update(Actor* thisx, PlayState* play);
 void BgMizuMovebg_Draw(Actor* thisx, PlayState* play2);
 
-void func_8089E318(BgMizuMovebg* this, PlayState* play);
-void func_8089E650(BgMizuMovebg* this, PlayState* play);
-s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
+void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play);
+void BgMizuMovebg_UpdateSmallBlockHookshotTarget(BgMizuMovebg* this, PlayState* play);
+s32 BgMizuMovebg_SetPosFromPath(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
 
 ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
@@ -37,18 +37,18 @@ ActorInit Bg_Mizu_Movebg_InitVars = {
     (ActorFunc)BgMizuMovebg_Draw,
 };
 
-static f32 D_8089EB40[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
+static f32 dragonStatue1OffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
 
-static Gfx* D_8089EB50[] = {
-    gObjectMizuObjectsMovebgDL_000190, gObjectMizuObjectsMovebgDL_000680, gObjectMizuObjectsMovebgDL_000C20,
-    gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_002E10,
-    gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_0011F0,
+static Gfx* dLists[] = {
+    gWaterTempleSmallBlockDL,   gWaterTempleMediumBlockDL,  gWaterTempleLargeBlockDL,
+    gWaterTempleDragonStatueDL, gWaterTempleDragonStatueDL, gWaterTempleDragonStatueDL,
+    gWaterTempleDragonStatueDL, gWaterTempleSmallBlockHookshotTargetDL,
 };
 
-static CollisionHeader* D_8089EB70[] = {
-    &gObjectMizuObjectsMovebgCol_0003F0, &gObjectMizuObjectsMovebgCol_000998, &gObjectMizuObjectsMovebgCol_000ED0,
-    &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_003590,
-    &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_0015F8,
+static CollisionHeader* colHeaders[] = {
+    &gWaterTempleSmallBlockCol,   &gWaterTempleMediumBlockCol,  &gWaterTempleLargeBlockCol,
+    &gWaterTempleDragonStatueCol, &gWaterTempleDragonStatueCol, &gWaterTempleDragonStatueCol,
+    &gWaterTempleDragonStatueCol, &gWaterTempleSmallBlockHookshotTargetCol,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -58,12 +58,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static Vec3f D_8089EBA0 = { 0.0f, 80.0f, 23.0f };
-static Vec3f D_8089EBAC = { 0.0f, 80.0f, 23.0f };
+static Vec3f offsetPosition1 = { 0.0f, 80.0f, 23.0f };
+static Vec3f offsetPosition2 = { 0.0f, 80.0f, 23.0f };
 
-static u8 D_8089EE40;
+static u8 D_8089EE40; // unknown flags
 
-s32 func_8089DC30(PlayState* play) {
+s32 BgMizuMovebg_GetDragonStatue1OffsetIndex(PlayState* play) {
     s32 result;
 
     if (Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG)) {
@@ -84,81 +84,82 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
     WaterBox* waterBoxes = play->colCtx.colHeader->waterBoxes;
     f32 temp;
     CollisionHeader* colHeader = NULL;
-    Vec3f sp48;
+    Vec3f offsetPos;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ((BgMizuMovebg*)thisx)->homeY = thisx->world.pos.y;
-    ((BgMizuMovebg*)thisx)->dlist = D_8089EB50[MOVEBG_TYPE(thisx->params)];
+    ((BgMizuMovebg*)thisx)->dlist = dLists[MOVEBG_TYPE(thisx->params)];
     DynaPolyActor_Init(&((BgMizuMovebg*)thisx)->dyna, DYNA_TRANSFORM_POS);
-    CollisionHeader_GetVirtual(D_8089EB70[MOVEBG_TYPE(thisx->params)], &colHeader);
+    CollisionHeader_GetVirtual(colHeaders[MOVEBG_TYPE(thisx->params)], &colHeader);
     ((BgMizuMovebg*)thisx)->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
-        case 0:
+        case MIZUMOVEBG_TYPE_SMALL_BLOCK:
             temp = waterBoxes[2].ySurface + 15.0f;
             if (temp < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
             } else {
                 thisx->world.pos.y = temp;
             }
-            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
+            ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case 1:
+        case MIZUMOVEBG_TYPE_MEDIUM_BLOCK:
             temp = waterBoxes[2].ySurface + 15.0f;
             if (temp < ((BgMizuMovebg*)thisx)->homeY - 710.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 710.0f;
             } else {
                 thisx->world.pos.y = temp;
             }
-            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
+            ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case 2:
+        case MIZUMOVEBG_TYPE_LARGE_BLOCK:
             temp = waterBoxes[2].ySurface + 15.0f;
             if (temp < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
             } else {
                 thisx->world.pos.y = temp;
             }
-            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
+            ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case 3:
-            thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY + D_8089EB40[func_8089DC30(play)];
-            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+            thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY + dragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
+            ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case 4:
-        case 5:
-        case 6:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
             if (Flags_GetSwitch(play, MOVEBG_FLAGS(thisx->params))) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY + 115.19999999999999;
             } else {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY;
             }
-            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E318;
+            ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case 7:
+        case MIZUMOVEBG_TYPE_SMALL_BLOCK_HOOKSHOT_TARGET:
             ((BgMizuMovebg*)thisx)->scrollAlpha1 = 160;
             ((BgMizuMovebg*)thisx)->scrollAlpha2 = 160;
             ((BgMizuMovebg*)thisx)->scrollAlpha3 = 160;
             ((BgMizuMovebg*)thisx)->scrollAlpha4 = 160;
             waypointId = MOVEBG_POINT_ID(thisx->params);
             ((BgMizuMovebg*)thisx)->waypointId = waypointId;
-            func_8089E108(play->pathList, &thisx->world.pos, MOVEBG_PATH_ID(thisx->params), waypointId);
-            ((BgMizuMovebg*)thisx)->actionFunc = func_8089E650;
+            BgMizuMovebg_SetPosFromPath(play->pathList, &thisx->world.pos, MOVEBG_PATH_ID(thisx->params), waypointId);
+            ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateSmallBlockHookshotTarget;
             break;
     }
 
+    // spawn the hookshot target actor and do unknown position stuff
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
-        case 3:
-        case 4:
-        case 5:
-        case 6:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
             Matrix_RotateY(BINANG_TO_RAD(thisx->world.rot.y), MTXMODE_NEW);
-            Matrix_MultVec3f(&D_8089EBA0, &sp48);
+            Matrix_MultVec3f(&offsetPosition1, &offsetPos);
 
-            if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x + sp48.x,
-                                   thisx->world.pos.y + sp48.y, thisx->world.pos.z + sp48.z, thisx->world.rot.x,
+            if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x + offsetPos.x,
+                                   thisx->world.pos.y + offsetPos.y, thisx->world.pos.z + offsetPos.z, thisx->world.rot.x,
                                    thisx->world.rot.y, thisx->world.rot.z, 2) == NULL) {
                 Actor_Kill(thisx);
             }
@@ -171,15 +172,15 @@ void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play) {
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     switch (MOVEBG_TYPE(thisx->params)) {
-        case 3:
-        case 4:
-        case 5:
-        case 6:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
             if (this->sfxFlags & 2) {
                 D_8089EE40 &= ~2;
             }
             break;
-        case 7:
+        case MIZUMOVEBG_TYPE_SMALL_BLOCK_HOOKSHOT_TARGET:
             if (this->sfxFlags & 1) {
                 D_8089EE40 &= ~1;
             }
@@ -187,7 +188,7 @@ void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
+s32 BgMizuMovebg_SetPosFromPath(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
     Path* path = pathList;
     Vec3s* point;
 
@@ -201,7 +202,7 @@ s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
     return 0;
 }
 
-void func_8089E198(BgMizuMovebg* this, PlayState* play) {
+void BgMizuMovebg_SetScrollAlphas(BgMizuMovebg* this, PlayState* play) {
     f32 waterLevel = play->colCtx.colHeader->waterBoxes[2].ySurface;
 
     if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
@@ -234,36 +235,36 @@ void func_8089E198(BgMizuMovebg* this, PlayState* play) {
     this->scrollAlpha4 = this->scrollAlpha3;
 }
 
-void func_8089E318(BgMizuMovebg* this, PlayState* play) {
+void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
     WaterBox* waterBoxes = play->colCtx.colHeader->waterBoxes;
-    f32 phi_f0;
+    f32 targetPosY;
     s32 type;
-    Vec3f sp28;
+    Vec3f offsetPos;
 
-    func_8089E198(this, play);
+    BgMizuMovebg_SetScrollAlphas(this, play);
 
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
-        case 0:
-        case 2:
-            phi_f0 = waterBoxes[2].ySurface + 15.0f;
-            if (phi_f0 < this->homeY - 700.0f) {
+        case MIZUMOVEBG_TYPE_SMALL_BLOCK:
+        case MIZUMOVEBG_TYPE_LARGE_BLOCK:
+            targetPosY = waterBoxes[2].ySurface + 15.0f;
+            if (targetPosY < this->homeY - 700.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 700.0f;
             } else {
-                this->dyna.actor.world.pos.y = phi_f0;
+                this->dyna.actor.world.pos.y = targetPosY;
             }
             break;
-        case 1:
-            phi_f0 = waterBoxes[2].ySurface + 15.0f;
-            if (phi_f0 < this->homeY - 710.0f) {
+        case MIZUMOVEBG_TYPE_MEDIUM_BLOCK:
+            targetPosY = waterBoxes[2].ySurface + 15.0f;
+            if (targetPosY < this->homeY - 710.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 710.0f;
             } else {
-                this->dyna.actor.world.pos.y = phi_f0;
+                this->dyna.actor.world.pos.y = targetPosY;
             }
             break;
-        case 3:
-            phi_f0 = this->homeY + D_8089EB40[func_8089DC30(play)];
-            if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+            targetPosY = this->homeY + dragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
+            if (!Math_StepToF(&this->dyna.actor.world.pos.y, targetPosY, 1.0f)) {
                 if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
                     this->sfxFlags |= 2;
@@ -277,15 +278,15 @@ void func_8089E318(BgMizuMovebg* this, PlayState* play) {
                 }
             }
             break;
-        case 4:
-        case 5:
-        case 6:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
             if (Flags_GetSwitch(play, MOVEBG_FLAGS(this->dyna.actor.params))) {
-                phi_f0 = this->homeY + 115.200005f;
+                targetPosY = this->homeY + 115.200005f;
             } else {
-                phi_f0 = this->homeY;
+                targetPosY = this->homeY;
             }
-            if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
+            if (!Math_StepToF(&this->dyna.actor.world.pos.y, targetPosY, 1.0f)) {
                 if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
                     this->sfxFlags |= 2;
@@ -299,23 +300,23 @@ void func_8089E318(BgMizuMovebg* this, PlayState* play) {
 
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
-        case 3:
-        case 4:
-        case 5:
-        case 6:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
             if (play->roomCtx.curRoom.num == this->dyna.actor.room) {
                 Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.world.rot.y), MTXMODE_NEW);
-                Matrix_MultVec3f(&D_8089EBAC, &sp28);
-                this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + sp28.x;
-                this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + sp28.y;
-                this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + sp28.z;
+                Matrix_MultVec3f(&offsetPosition2, &offsetPos);
+                this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + offsetPos.x;
+                this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + offsetPos.y;
+                this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + offsetPos.z;
                 this->dyna.actor.child->flags &= ~ACTOR_FLAG_0;
             }
             break;
     }
 }
 
-void func_8089E650(BgMizuMovebg* this, PlayState* play) {
+void BgMizuMovebg_UpdateSmallBlockHookshotTarget(BgMizuMovebg* this, PlayState* play) {
     Vec3f waypoint;
     f32 dist;
     f32 dx;
@@ -323,7 +324,7 @@ void func_8089E650(BgMizuMovebg* this, PlayState* play) {
     f32 dz;
 
     this->dyna.actor.speed = MOVEBG_SPEED(this->dyna.actor.params) * 0.1f;
-    func_8089E108(play->pathList, &waypoint, MOVEBG_PATH_ID(this->dyna.actor.params), this->waypointId);
+    BgMizuMovebg_SetPosFromPath(play->pathList, &waypoint, MOVEBG_PATH_ID(this->dyna.actor.params), this->waypointId);
     dist = Actor_WorldDistXYZToPoint(&this->dyna.actor, &waypoint);
     if (dist < this->dyna.actor.speed) {
         this->dyna.actor.speed = dist;
@@ -337,7 +338,7 @@ void func_8089E650(BgMizuMovebg* this, PlayState* play) {
         this->waypointId++;
         if (this->waypointId >= play->pathList[MOVEBG_PATH_ID(this->dyna.actor.params)].count) {
             this->waypointId = 0;
-            func_8089E108(play->pathList, &this->dyna.actor.world.pos, MOVEBG_PATH_ID(this->dyna.actor.params), 0);
+            BgMizuMovebg_SetPosFromPath(play->pathList, &this->dyna.actor.world.pos, MOVEBG_PATH_ID(this->dyna.actor.params), 0);
         }
     }
     if (!(D_8089EE40 & 1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
