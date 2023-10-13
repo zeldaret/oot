@@ -82,7 +82,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
     s32 type;
     s32 waypointId;
     WaterBox* waterBoxes = play->colCtx.colHeader->waterBoxes;
-    f32 temp;
+    f32 targetPosY;
     CollisionHeader* colHeader = NULL;
     Vec3f offsetPos;
 
@@ -96,29 +96,29 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
         case MIZUMOVEBG_TYPE_SMALL_BLOCK:
-            temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
+            targetPosY = waterBoxes[2].ySurface + 15.0f;
+            if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
             } else {
-                thisx->world.pos.y = temp;
+                thisx->world.pos.y = targetPosY;
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
         case MIZUMOVEBG_TYPE_MEDIUM_BLOCK:
-            temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < ((BgMizuMovebg*)thisx)->homeY - 710.0f) {
+            targetPosY = waterBoxes[2].ySurface + 15.0f;
+            if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 710.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 710.0f;
             } else {
-                thisx->world.pos.y = temp;
+                thisx->world.pos.y = targetPosY;
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
         case MIZUMOVEBG_TYPE_LARGE_BLOCK:
-            temp = waterBoxes[2].ySurface + 15.0f;
-            if (temp < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
+            targetPosY = waterBoxes[2].ySurface + 15.0f;
+            if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
             } else {
-                thisx->world.pos.y = temp;
+                thisx->world.pos.y = targetPosY;
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
