@@ -334,6 +334,15 @@ build/dmadata_table_spec.h: build/$(SPEC)
 build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 
+# Dependencies for files including from include/tables/
+# TODO rmeove when full header dependencies are used
+build/src/code/graph.o: include/tables/gamestate_table.h
+build/src/code/object_table.o: include/tables/object_table.h
+build/src/code/z_actor_dlftbls.o: include/tables/actor_table.h
+build/src/code/z_effect_soft_sprite_dlftbls.o: include/tables/effect_ss_table.h
+build/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
+build/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
+
 build/src/%.o: src/%.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
