@@ -148,7 +148,6 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    // spawn the hookshot target actor and do unknown position stuff
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
