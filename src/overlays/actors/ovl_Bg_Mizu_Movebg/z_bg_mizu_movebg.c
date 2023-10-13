@@ -40,15 +40,15 @@ ActorInit Bg_Mizu_Movebg_InitVars = {
 static f32 dragonStatue1OffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
 
 static Gfx* dLists[] = {
-    gWaterTempleSmallBlockDL,   gWaterTempleMediumBlockDL,  gWaterTempleLargeBlockDL,
-    gWaterTempleDragonStatueDL, gWaterTempleDragonStatueDL, gWaterTempleDragonStatueDL,
-    gWaterTempleDragonStatueDL, gWaterTempleSmallBlockHookshotTargetDL,
+    gWaterTempleFloatPlatformWestDL, gWaterTempleFloatPlatformOutsideCentralPillarDL, gWaterTempleFloatPlatformInsideCentralPillarDL,
+    gWaterTempleDragonStatueDL,      gWaterTempleDragonStatueDL,                      gWaterTempleDragonStatueDL,
+    gWaterTempleDragonStatueDL,      gWaterTempleHookshotPlatformDL,
 };
 
 static CollisionHeader* colHeaders[] = {
-    &gWaterTempleSmallBlockCol,   &gWaterTempleMediumBlockCol,  &gWaterTempleLargeBlockCol,
+    &gWaterTempleFloatPlatformWestCol, &gWaterTempleFloatPlatformOutsideCentralPillarCol, &gWaterTempleFloatPlatformInsideCentralPillarCol,
     &gWaterTempleDragonStatueCol, &gWaterTempleDragonStatueCol, &gWaterTempleDragonStatueCol,
-    &gWaterTempleDragonStatueCol, &gWaterTempleSmallBlockHookshotTargetCol,
+    &gWaterTempleDragonStatueCol, &gWaterTempleHookshotPlatformCol,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -95,7 +95,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
 
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
-        case MIZUMOVEBG_TYPE_SMALL_BLOCK:
+        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
@@ -104,7 +104,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case MIZUMOVEBG_TYPE_MEDIUM_BLOCK:
+        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 710.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 710.0f;
@@ -113,7 +113,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case MIZUMOVEBG_TYPE_LARGE_BLOCK:
+        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
@@ -136,7 +136,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case MIZUMOVEBG_TYPE_SMALL_BLOCK_HOOKSHOT_TARGET:
+        case MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM:
             ((BgMizuMovebg*)thisx)->scrollAlpha1 = 160;
             ((BgMizuMovebg*)thisx)->scrollAlpha2 = 160;
             ((BgMizuMovebg*)thisx)->scrollAlpha3 = 160;
@@ -179,7 +179,7 @@ void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play) {
                 D_8089EE40 &= ~2;
             }
             break;
-        case MIZUMOVEBG_TYPE_SMALL_BLOCK_HOOKSHOT_TARGET:
+        case MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM:
             if (this->sfxFlags & 1) {
                 D_8089EE40 &= ~1;
             }
@@ -244,8 +244,8 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
 
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
-        case MIZUMOVEBG_TYPE_SMALL_BLOCK:
-        case MIZUMOVEBG_TYPE_LARGE_BLOCK:
+        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST:
+        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < this->homeY - 700.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 700.0f;
@@ -253,7 +253,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 this->dyna.actor.world.pos.y = targetPosY;
             }
             break;
-        case MIZUMOVEBG_TYPE_MEDIUM_BLOCK:
+        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < this->homeY - 710.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 710.0f;

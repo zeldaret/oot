@@ -1,13 +1,13 @@
 <Root>
     <File Name="object_mizu_objects" Segment="6">
-        <DList Name="gWaterTempleSmallBlockDL" Offset="0x0190"/>
-        <Collision Name="gWaterTempleSmallBlockCol" Offset="0x03F0"/>
-        <DList Name="gWaterTempleMediumBlockDL" Offset="0x0680"/>
-        <Collision Name="gWaterTempleMediumBlockCol" Offset="0x0998"/>
-        <DList Name="gWaterTempleLargeBlockDL" Offset="0x0C20"/>
-        <Collision Name="gWaterTempleLargeBlockCol" Offset="0x0ED0"/>
-        <DList Name="gWaterTempleSmallBlockHookshotTargetDL" Offset="0x11F0"/>
-        <Collision Name="gWaterTempleSmallBlockHookshotTargetCol" Offset="0x15F8"/>
+        <DList Name="gWaterTempleFloatPlatformWestDL" Offset="0x0190"/>
+        <Collision Name="gWaterTempleFloatPlatformWestCol" Offset="0x03F0"/>
+        <DList Name="gWaterTempleFloatPlatformOutsideCentralPillarDL" Offset="0x0680"/>
+        <Collision Name="gWaterTempleFloatPlatformOutsideCentralPillarCol" Offset="0x0998"/>
+        <DList Name="gWaterTempleFloatPlatformInsideCentralPillarDL" Offset="0x0C20"/>
+        <Collision Name="gWaterTempleFloatPlatformInsideCentralPillarCol" Offset="0x0ED0"/>
+        <DList Name="gWaterTempleHookshotPlatformDL" Offset="0x11F0"/>
+        <Collision Name="gWaterTempleHookshotPlatformCol" Offset="0x15F8"/>
         <DList Name="gWaterTempleDragonStatueDL" Offset="0x2E10"/>
         <Collision Name="gWaterTempleDragonStatueCol" Offset="0x3590"/>
 
