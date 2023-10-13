@@ -1541,9 +1541,6 @@ u32 Actor_AcceptTalkRequest(Actor* actor, PlayState* play) {
  * This function carries a talk exchange request to the player actor if context allows it (e.g. the player is in range
  * and not busy with certain things). The player actor performs the requested action itself.
  *
- * The following description of what the `exchangeItemId` values can do is provided here for completeness, but these
- * behaviors are entirely out of the scope of this function. All behavior is defined by the player actor.
- *
  * @return true If the player actor is capable of accepting the offer.
  */
 s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId) {
