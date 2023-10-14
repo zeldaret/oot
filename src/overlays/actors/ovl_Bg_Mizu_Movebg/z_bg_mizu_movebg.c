@@ -37,9 +37,9 @@ ActorInit Bg_Mizu_Movebg_InitVars = {
     (ActorFunc)BgMizuMovebg_Draw,
 };
 
-static f32 dragonStatue1OffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
+static f32 sDragonStatue1OffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
 
-static Gfx* dLists[] = {
+static Gfx* sDLists[] = {
     gWaterTempleFloatPlatformWestDL,                 // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST
     gWaterTempleFloatPlatformOutsideCentralPillarDL, // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR
     gWaterTempleFloatPlatformInsideCentralPillarDL,  // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR
@@ -50,7 +50,7 @@ static Gfx* dLists[] = {
     gWaterTempleHookshotPlatformDL,                  // MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM
 };
 
-static CollisionHeader* colHeaders[] = {
+static CollisionHeader* sColHeaders[] = {
     &gWaterTempleFloatPlatformWestCol,                 // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST
     &gWaterTempleFloatPlatformOutsideCentralPillarCol, // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR
     &gWaterTempleFloatPlatformInsideCentralPillarCol,  // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR
@@ -68,8 +68,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static Vec3f offsetPosition1 = { 0.0f, 80.0f, 23.0f };
-static Vec3f offsetPosition2 = { 0.0f, 80.0f, 23.0f };
+static Vec3f sOffsetPosition1 = { 0.0f, 80.0f, 23.0f };
+static Vec3f sOffsetPosition2 = { 0.0f, 80.0f, 23.0f };
 
 static u8 D_8089EE40; // unknown flags
 
@@ -98,9 +98,9 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ((BgMizuMovebg*)thisx)->homeY = thisx->world.pos.y;
-    ((BgMizuMovebg*)thisx)->dlist = dLists[MOVEBG_TYPE(thisx->params)];
+    ((BgMizuMovebg*)thisx)->dlist = sDLists[MOVEBG_TYPE(thisx->params)];
     DynaPolyActor_Init(&((BgMizuMovebg*)thisx)->dyna, DYNA_TRANSFORM_POS);
-    CollisionHeader_GetVirtual(colHeaders[MOVEBG_TYPE(thisx->params)], &colHeader);
+    CollisionHeader_GetVirtual(sColHeaders[MOVEBG_TYPE(thisx->params)], &colHeader);
     ((BgMizuMovebg*)thisx)->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 
     type = MOVEBG_TYPE(thisx->params);
@@ -134,7 +134,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
             thisx->world.pos.y =
-                ((BgMizuMovebg*)thisx)->homeY + dragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
+                ((BgMizuMovebg*)thisx)->homeY + sDragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
@@ -166,7 +166,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
             Matrix_RotateY(BINANG_TO_RAD(thisx->world.rot.y), MTXMODE_NEW);
-            Matrix_MultVec3f(&offsetPosition1, &offsetPos);
+            Matrix_MultVec3f(&sOffsetPosition1, &offsetPos);
 
             if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x + offsetPos.x,
                                    thisx->world.pos.y + offsetPos.y, thisx->world.pos.z + offsetPos.z,
@@ -273,7 +273,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
             }
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
-            targetPosY = this->homeY + dragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
+            targetPosY = this->homeY + sDragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, targetPosY, 1.0f)) {
                 if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
@@ -316,7 +316,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
             if (play->roomCtx.curRoom.num == this->dyna.actor.room) {
                 Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.world.rot.y), MTXMODE_NEW);
-                Matrix_MultVec3f(&offsetPosition2, &offsetPos);
+                Matrix_MultVec3f(&sOffsetPosition2, &offsetPos);
                 this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + offsetPos.x;
                 this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + offsetPos.y;
                 this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + offsetPos.z;
