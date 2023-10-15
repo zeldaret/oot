@@ -756,7 +756,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                 }
             }
             if (this->work[MO_TENT_ACTION_STATE] == MO_TENT_GRAB) {
-                player->actionVar2 = 0xA;
+                player->av2.actionVar2 = 0xA;
                 player->actor.speed = player->actor.velocity.y = 0;
                 Math_ApproachF(&player->actor.world.pos.x, this->grabPosRot.pos.x, 0.5f, 20.0f);
                 Math_ApproachF(&player->actor.world.pos.y, this->grabPosRot.pos.y, 0.5f, 20.0f);
@@ -814,7 +814,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     Math_ApproachS(&this->tentRot[indS1].z, tempf2, 1.0f / this->tentMaxAngle, this->tentSpeed);
                 }
             }
-            player->actionVar2 = 0xA;
+            player->av2.actionVar2 = 0xA;
             player->actor.world.pos.x = this->grabPosRot.pos.x;
             player->actor.world.pos.y = this->grabPosRot.pos.y;
             player->actor.world.pos.z = this->grabPosRot.pos.z;
@@ -833,7 +833,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                     this->work[MO_TENT_ACTION_STATE] = MO_TENT_RETREAT;
                     this->work[MO_TENT_INVINC_TIMER] = 50;
                     if (&this->actor == player->actor.parent) {
-                        player->actionVar2 = 0x65;
+                        player->av2.actionVar2 = 0x65;
                         player->actor.parent = NULL;
                         player->csAction = PLAYER_CSACTION_NONE;
                         if (this->timers[0] == 0) {
@@ -863,7 +863,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
         case MO_TENT_CUT:
             Sfx_PlaySfxAtPos(&this->tentTipPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
             if (&this->actor == player->actor.parent) {
-                player->actionVar2 = 0x65;
+                player->av2.actionVar2 = 0x65;
                 player->actor.parent = NULL;
                 player->csAction = PLAYER_CSACTION_NONE;
             }
@@ -1784,7 +1784,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                             sMorphaTent2->tent2KillTimer = 1;
                         }
                         if (player->actor.parent != NULL) {
-                            player->actionVar2 = 0x65;
+                            player->av2.actionVar2 = 0x65;
                             player->actor.parent = NULL;
                             player->csAction = PLAYER_CSACTION_NONE;
                         }
@@ -1803,7 +1803,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                     sMorphaTent1->timers[0] = 40;
                     sMorphaTent1->actor.flags &= ~ACTOR_FLAG_0;
                     if (player->actor.parent == &sMorphaTent1->actor) {
-                        player->actionVar2 = 0x65;
+                        player->av2.actionVar2 = 0x65;
                         player->actor.parent = NULL;
                         player->csAction = PLAYER_CSACTION_NONE;
                     }
