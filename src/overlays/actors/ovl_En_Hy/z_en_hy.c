@@ -1438,13 +1438,10 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
         envColorSeg9 = sModelInfo[ENHY_GET_TYPE(&this->actor)].envColorSeg9;
 
         switch (ENHY_GET_TYPE(&this->actor)) {
-            // ENHY_TYPE_DOG_LADY
-            // ENHY_TYPE_WOMAN_3
             case ENHY_TYPE_MAN_1_BEARD:
             case ENHY_TYPE_MAN_2_BALD:
             case ENHY_TYPE_MAN_1_SHAVED_BLACK_SHIRT:
             case ENHY_TYPE_BEGGAR:
-            // ENHY_TYPE_OLD_WOMAN
             case ENHY_TYPE_OLD_MAN:
             case ENHY_TYPE_YOUNG_WOMAN_BROWN_HAIR:
             case ENHY_TYPE_MAN_2_MUSTACHE_RED_SHIRT:
@@ -1456,7 +1453,6 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
             case ENHY_TYPE_OLD_MAN_BALD_BROWN_ROBE:
             case ENHY_TYPE_MAN_2_MUSTACHE_WHITE_SHIRT:
             case ENHY_TYPE_MAN_1_SHAVED_GREEN_SHIRT:
-            // ENHY_TYPE_WOMAN_2
             case ENHY_TYPE_OLD_MAN_BALD_PURPLE_ROBE:
             case ENHY_TYPE_MAN_1_BOWL_CUT_GREEN_SHIRT:
                 gSPSegment(POLY_OPA_DISP++, 0x08,
