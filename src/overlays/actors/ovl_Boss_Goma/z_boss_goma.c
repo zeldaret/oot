@@ -629,7 +629,7 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
     this->actionState = 4;
     this->actor.flags |= ACTOR_FLAG_0;
     Cutscene_StartManual(play, &play->csCtx);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
     this->subCamId = Play_CreateSubCamera(play);
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
     Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -686,7 +686,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
                                        397.68002f, 0, -0x705C, 0, DOORSHUTTER_PARAMS(SHUTTER_GOHMA_BLOCK, 0));
                 } else {
-                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+                    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
                     this->actionState = 1;
                 }
             }
@@ -757,7 +757,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             }
 
             if (this->frameCount == 190) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_2);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_2);
             }
 
             if (this->frameCount >= 228) {
@@ -768,7 +768,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                 this->actionState = 3;
             }
             break;
@@ -964,7 +964,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 this->disableGameplayLogic = false;
                 this->patienceTimer = 200;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
             }
             break;
     }
@@ -1053,7 +1053,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
         case 0:
             this->actionState = 1;
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1181,7 +1181,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
                     Play_ReturnToMainCam(play, this->subCamId, 0);
                     this->subCamId = SUB_CAM_ID_DONE;
                     Cutscene_StopManual(play, &play->csCtx);
-                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                    func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                     Actor_Kill(&this->actor);
                 }
 
@@ -1914,8 +1914,6 @@ void BossGoma_Update(Actor* thisx, PlayState* play) {
         this->sfxFaintTimer--;
     }
 
-    if (1) {}
-
     this->eyeState = EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES;
     this->actionFunc(this, play);
     this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -1937,15 +1935,17 @@ void BossGoma_Update(Actor* thisx, PlayState* play) {
     BossGoma_UpdateEyeEnvColor(this);
     BossGoma_UpdateTailLimbsScale(this);
 
-    if (!this->disableGameplayLogic) {
-        BossGoma_UpdateHit(this, play);
-        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+    if (this->disableGameplayLogic) {
+        return;
+    }
 
-        if (this->actionFunc != BossGoma_FloorStunned && this->actionFunc != BossGoma_FloorDamaged &&
-            (this->actionFunc != BossGoma_FloorMain || this->timer == 0)) {
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-        }
+    BossGoma_UpdateHit(this, play);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+
+    if (this->actionFunc != BossGoma_FloorStunned && this->actionFunc != BossGoma_FloorDamaged &&
+        (this->actionFunc != BossGoma_FloorMain || this->timer == 0)) {
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
@@ -2083,7 +2083,7 @@ void BossGoma_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
                                                 sDeadLimbLifetime[limbIndex] + 100);
         if (babyGohma != NULL) {
             babyGohma->bossLimbDL = *dList;
-            babyGohma->actor.objBankIndex = this->actor.objBankIndex;
+            babyGohma->actor.objectSlot = this->actor.objectSlot;
         }
     }
 

@@ -87,7 +87,7 @@ u16 EnMa3_GetTextId(PlayState* play, Actor* thisx) {
             HIGH_SCORE(HS_HORSE_RACE) = 180;
         }
 
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (((void)0, gSaveContext.timerSeconds) < 50)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK) && (((void)0, gSaveContext.timerSeconds) < 50)) {
             return 0x208F;
         }
 
@@ -128,7 +128,7 @@ s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx) {
             if (Message_ShouldAdvance(play)) {
                 SET_INFTABLE(INFTABLE_B9);
                 if (play->msgCtx.choiceIndex == 0) {
-                    if (GET_EVENTCHKINF(EVENTCHKINF_1E)) {
+                    if (GET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK)) {
                         Message_ContinueTextbox(play, 0x2091);
                     } else if (HIGH_SCORE(HS_HORSE_RACE) == 0) {
                         Message_ContinueTextbox(play, 0x2092);
@@ -145,7 +145,7 @@ s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx) {
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x208F:
-                    SET_EVENTCHKINF(EVENTCHKINF_1E);
+                    SET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK);
                     FALLTHROUGH;
                 case 0x2004:
                 case 0x2012:

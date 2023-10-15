@@ -5263,10 +5263,10 @@ s32 Camera_Unique9(Camera* camera) {
                 } else if (ONEPOINT_CS_INIT_FIELD_IS_TYPE_HUD_VISIBILITY(rwData->curKeyFrame->initField)) {
                     Camera_UpdateInterface(
                         CAM_INTERFACE_FIELD(CAM_LETTERBOX_IGNORE, rwData->curKeyFrame->initField, 0));
-                } else { // initField is of type PlayerCsMode
+                } else { // initField is a PlayerCsAction
                     if ((camera->player->stateFlags1 & PLAYER_STATE1_27) &&
                         (player->currentBoots != PLAYER_BOOTS_IRON)) {
-                        func_8002DF38(camera->play, camera->target, PLAYER_CSMODE_8);
+                        func_8002DF38(camera->play, camera->target, PLAYER_CSACTION_8);
                         osSyncPrintf("camera: demo: player demo set WAIT\n");
                     } else {
                         osSyncPrintf("camera: demo: player demo set %d\n", rwData->curKeyFrame->initField);
@@ -6236,14 +6236,14 @@ s32 Camera_Demo5(Camera* camera) {
             framesDiff = camera->play->state.frames - sDemo5PrevAction12Frame;
             if (player->stateFlags1 & PLAYER_STATE1_11) {
                 // holding object over head.
-                func_8002DF54(camera->play, camera->target, PLAYER_CSMODE_8);
+                func_8002DF54(camera->play, camera->target, PLAYER_CSACTION_8);
             } else if (ABS(framesDiff) > 3000) {
-                func_8002DF54(camera->play, camera->target, PLAYER_CSMODE_12);
+                func_8002DF54(camera->play, camera->target, PLAYER_CSACTION_12);
             } else {
-                func_8002DF54(camera->play, camera->target, PLAYER_CSMODE_69);
+                func_8002DF54(camera->play, camera->target, PLAYER_CSACTION_69);
             }
         } else {
-            func_8002DF54(camera->play, camera->target, PLAYER_CSMODE_1);
+            func_8002DF54(camera->play, camera->target, PLAYER_CSACTION_1);
         }
     }
 
@@ -6305,7 +6305,7 @@ s32 Camera_Demo6(Camera* camera) {
             FALLTHROUGH;
         case 1:
             if (stateTimers[camera->animState] < rwData->animTimer) {
-                func_8002DF54(camera->play, &camera->player->actor, PLAYER_CSMODE_8);
+                func_8002DF54(camera->play, &camera->player->actor, PLAYER_CSACTION_8);
                 Actor_GetWorld(&focusPosRot, camFocus);
                 rwData->atTarget.x = focusPosRot.pos.x;
                 rwData->atTarget.y = focusPosRot.pos.y - 20.0f;
@@ -6876,7 +6876,7 @@ s32 Camera_Special9(Camera* camera) {
     f32 playerYOffset;
     s32 pad3;
     PosRot* playerPosRot = &camera->playerPosRot;
-    PosRot adjustedPlayerPosRot;
+    PosRot referencePosRot;
     f32 yNormal;
     DoorParams* doorParams = &camera->paramData.doorParams;
     Special9ReadOnlyData* roData = &camera->paramData.spec9.roData;
@@ -6902,11 +6902,11 @@ s32 Camera_Special9(Camera* camera) {
     }
 
     if (doorParams->doorActor != NULL) {
-        Actor_GetWorldPosShapeRot(&adjustedPlayerPosRot, doorParams->doorActor);
+        Actor_GetWorldPosShapeRot(&referencePosRot, doorParams->doorActor);
     } else {
-        adjustedPlayerPosRot = *playerPosRot;
-        adjustedPlayerPosRot.pos.y += playerYOffset + roData->yOffset;
-        adjustedPlayerPosRot.rot.x = 0;
+        referencePosRot = *playerPosRot;
+        referencePosRot.pos.y += playerYOffset + roData->yOffset;
+        referencePosRot.rot.x = 0;
     }
 
     OLib_Vec3fDiffToVecGeo(&atEyeOffsetGeo, at, eye);
@@ -6919,9 +6919,15 @@ s32 Camera_Special9(Camera* camera) {
         case 0:
             camera->stateFlags &= ~(CAM_STATE_1 | CAM_STATE_2);
             camera->animState++;
-            rwData->targetYaw = ABS(playerPosRot->rot.y - adjustedPlayerPosRot.rot.y) >= 0x4000
-                                    ? adjustedPlayerPosRot.rot.y - 0x7FFF
-                                    : adjustedPlayerPosRot.rot.y;
+
+            //! @bug The angle passed to ABS should be cast to s16.
+            //! The lack of a cast means that a door which has an angle of around 0x8000 will calculate an incorrect
+            //! angle and use an incorrect `targetYaw`.
+            //! In-game, this means if the player opens a susceptible door at a slanted angle, the camera will not
+            //! appear correctly on the other side after the player has walked through the door.
+            rwData->targetYaw = ABS(playerPosRot->rot.y - referencePosRot.rot.y) >= 0x4000
+                                    ? referencePosRot.rot.y - 0x7FFF
+                                    : referencePosRot.rot.y;
             FALLTHROUGH;
         case 1:
             doorParams->timer1--;
@@ -7835,8 +7841,8 @@ void Camera_Finish(Camera* camera) {
             player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~PLAYER_STATE1_29;
 
-            if (player->csMode != PLAYER_CSMODE_NONE) {
-                func_8002DF54(camera->play, &player->actor, PLAYER_CSMODE_7);
+            if (player->csAction != PLAYER_CSACTION_NONE) {
+                func_8002DF54(camera->play, &player->actor, PLAYER_CSACTION_7);
                 osSyncPrintf("camera: player demo end!!\n");
             }
 
