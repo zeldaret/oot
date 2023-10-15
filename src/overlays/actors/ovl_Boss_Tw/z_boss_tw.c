@@ -1499,7 +1499,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
         case 0:
             this->csState2 = 1;
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_57);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_57);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1639,7 +1639,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
                     Animation_MorphToPlayOnce(&this->skelAnime, &gTwinrovaIntroAnim, 0.0f);
                     this->workf[ANIM_SW_TGT] = Animation_GetLastFrame(&gTwinrovaIntroAnim);
                     this->timers[0] = 50;
-                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_2);
+                    func_8002DF54(play, &this->actor, PLAYER_CSACTION_2);
                     Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_TRANSFORM);
                     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
                 }
@@ -1682,7 +1682,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
             }
 
             if (this->timers[3] == 19) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_5);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_5);
             }
 
             if (this->timers[3] == 16) {
@@ -1715,7 +1715,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, PlayState* play) {
                 this->subCamId = SUB_CAM_ID_DONE;
                 this->csState2 = this->subCamId;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                 this->work[TW_PLLR_IDX] = 0;
                 this->targetPos = sTwinrovaPillarPos[0];
                 BossTw_TwinrovaSetupFly(this, play);
@@ -1795,7 +1795,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                 player->actor.world.pos.x = player->actor.world.pos.z = .0f;
                 this->csState2 = 1;
                 Cutscene_StartManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_57);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_57);
                 this->subCamId = Play_CreateSubCamera(play);
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -2278,7 +2278,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                 this->subCamId = SUB_CAM_ID_DONE;
                 this->csState2 = this->subCamId;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                 BossTw_SetupWait(this, play);
             }
             break;
@@ -2682,7 +2682,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
         case 0:
             this->csState2 = 1;
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -2721,7 +2721,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
                 sKoumePtr->actor.world.pos.z = sKotakePtr->actor.world.pos.z;
                 sKoumePtr->work[YAW_TGT] = sKotakePtr->work[YAW_TGT] = sKoumePtr->actor.shape.rot.x =
                     sKotakePtr->actor.shape.rot.x = sKoumePtr->actor.shape.rot.y = sKotakePtr->actor.shape.rot.y = 0;
-                func_8002DF54(play, &sKoumePtr->actor, PLAYER_CSMODE_1);
+                func_8002DF54(play, &sKoumePtr->actor, PLAYER_CSACTION_1);
                 sKoumePtr->actor.flags |= ACTOR_FLAG_0;
             }
             break;
@@ -2810,7 +2810,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, PlayState* play) {
                 this->csState2 = 4;
                 this->subCamId = SUB_CAM_ID_DONE;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 600.0f, 230.0f, 0.0f, 0, 0, 0,
                                    WARP_DUNGEON_ADULT);
@@ -2863,9 +2863,6 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
 
     this->blastTailPos[this->work[TAIL_IDX]] = this->actor.world.pos;
 
-    if (1) {}
-    if (1) {}
-
     for (i = 0; i < 5; i++) {
         if (this->timers[i] != 0) {
             this->timers[i]--;
@@ -2890,68 +2887,62 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    if (this->actionFunc != BossTw_Wait) {
-        this->collider.dim.radius = 45;
+    if (this->actionFunc == BossTw_Wait) {
+        return;
+    }
 
-        if (this->actionFunc == BossTw_Spin) {
-            this->collider.dim.radius *= 2;
+    this->collider.dim.radius = 45;
+
+    if (this->actionFunc == BossTw_Spin) {
+        this->collider.dim.radius *= 2;
+    }
+
+    this->collider.dim.height = 120;
+    this->collider.dim.yShift = -30;
+
+    if (this->work[INVINC_TIMER] == 0) {
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
         }
 
-        this->collider.dim.height = 120;
-        this->collider.dim.yShift = -30;
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
+    }
 
-        if (this->work[INVINC_TIMER] == 0) {
-            if (this->collider.base.acFlags & AC_HIT) {
-                this->collider.base.acFlags &= ~AC_HIT;
-            }
+    if (this->actor.params == TW_KOTAKE) {
+        this->workf[OUTR_CRWN_TX_X2] += 1.0f;
+        this->workf[OUTR_CRWN_TX_Y2] -= 7.0f;
+        this->workf[INNR_CRWN_TX_Y1] += 1.0f;
+    } else {
+        this->workf[OUTR_CRWN_TX_X2] += 0.0f;
+        this->workf[INNR_CRWN_TX_X2] += 0.0f;
+        this->workf[OUTR_CRWN_TX_Y2] += -15.0f;
+        this->workf[INNR_CRWN_TX_Y2] += -10.0f;
+    }
 
-            Collider_UpdateCylinder(&this->actor, &this->collider);
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
-            CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
-        }
+    if (((this->work[CS_TIMER_2] % 32) == 0) && (Rand_ZeroOne() < 0.3f)) {
+        this->work[BLINK_IDX] = 4;
+    }
 
-        if (this->actor.params == TW_KOTAKE) {
-            this->workf[OUTR_CRWN_TX_X2] += 1.0f;
-            this->workf[OUTR_CRWN_TX_Y2] -= 7.0f;
-            this->workf[INNR_CRWN_TX_Y1] += 1.0f;
-        } else {
-            this->workf[OUTR_CRWN_TX_X2] += 0.0f;
-            this->workf[INNR_CRWN_TX_X2] += 0.0f;
-            this->workf[OUTR_CRWN_TX_Y2] += -15.0f;
-            this->workf[INNR_CRWN_TX_Y2] += -10.0f;
-        }
+    this->eyeTexIdx = D_8094A900[this->work[BLINK_IDX]];
 
-        if (((this->work[CS_TIMER_2] % 32) == 0) && (Rand_ZeroOne() < 0.3f)) {
-            this->work[BLINK_IDX] = 4;
-        }
+    if (this->work[BLINK_IDX] != 0) {
+        this->work[BLINK_IDX]--;
+    }
 
-        this->eyeTexIdx = D_8094A900[this->work[BLINK_IDX]];
+    if ((this->actionFunc == BossTw_MergeCS) || (this->unk_5F8 == 0)) {
+        return;
+    }
 
-        if (this->work[BLINK_IDX] != 0) {
-            this->work[BLINK_IDX]--;
-        }
+    {
+        Vec3f pos;
+        Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+        Vec3f accel = { 0.0f, 0.0f, 0.0f };
 
-        if (this->actionFunc != BossTw_MergeCS && this->unk_5F8 != 0) {
-            Vec3f pos;
-            Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-            Vec3f accel = { 0.0f, 0.0f, 0.0f };
-
-            if (this->scepterAlpha > 0.0f) {
-                for (i = 0; i <= 0; i++) {
-                    pos = this->scepterFlamePos[0];
-                    pos.x += Rand_CenteredFloat(70.0f);
-                    pos.y += Rand_CenteredFloat(70.0f);
-                    pos.z += Rand_CenteredFloat(70.0f);
-                    accel.y = 0.4f;
-                    accel.x = Rand_CenteredFloat(0.5f);
-                    accel.z = Rand_CenteredFloat(0.5f);
-                    BossTw_AddDotEffect(play, &pos, &velocity, &accel, (s16)Rand_ZeroFloat(2.0f) + 8,
-                                        this->actor.params, 37);
-                }
-            }
-
+        if (this->scepterAlpha > 0.0f) {
             for (i = 0; i <= 0; i++) {
-                pos = this->crownPos;
+                pos = this->scepterFlamePos[0];
                 pos.x += Rand_CenteredFloat(70.0f);
                 pos.y += Rand_CenteredFloat(70.0f);
                 pos.z += Rand_CenteredFloat(70.0f);
@@ -2961,6 +2952,17 @@ void BossTw_Update(Actor* thisx, PlayState* play) {
                 BossTw_AddDotEffect(play, &pos, &velocity, &accel, (s16)Rand_ZeroFloat(2.0f) + 8, this->actor.params,
                                     37);
             }
+        }
+
+        for (i = 0; i <= 0; i++) {
+            pos = this->crownPos;
+            pos.x += Rand_CenteredFloat(70.0f);
+            pos.y += Rand_CenteredFloat(70.0f);
+            pos.z += Rand_CenteredFloat(70.0f);
+            accel.y = 0.4f;
+            accel.x = Rand_CenteredFloat(0.5f);
+            accel.z = Rand_CenteredFloat(0.5f);
+            BossTw_AddDotEffect(play, &pos, &velocity, &accel, (s16)Rand_ZeroFloat(2.0f) + 8, this->actor.params, 37);
         }
     }
 }

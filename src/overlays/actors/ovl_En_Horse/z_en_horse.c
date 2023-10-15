@@ -409,7 +409,8 @@ typedef struct {
 } CsActionEntry; // size = 0x8
 
 static CsActionEntry sCsActionTable[] = {
-    { 36, 1 }, { 37, 2 }, { 38, 3 }, { 64, 4 }, { 65, 5 },
+    { PLAYER_CUEID_36, 1 }, { PLAYER_CUEID_37, 2 }, { PLAYER_CUEID_38, 3 },
+    { PLAYER_CUEID_64, 4 }, { PLAYER_CUEID_65, 5 },
 };
 
 static RaceWaypoint sHbaWaypoints[] = {
