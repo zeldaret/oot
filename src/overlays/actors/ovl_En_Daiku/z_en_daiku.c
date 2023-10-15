@@ -469,7 +469,7 @@ void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
 
     Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     Play_SetCameraFov(play, this->subCamId, play->mainCamera.fov);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
 }
 
 void EnDaiku_UpdateSubCamera(EnDaiku* this, PlayState* play) {
@@ -505,7 +505,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
             Actor_Kill(&this->actor);
         }
     } else {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
     }
 }
 

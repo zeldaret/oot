@@ -137,23 +137,19 @@ void BgSpot00Hanebasi_Destroy(Actor* thisx, PlayState* play) {
 void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
     BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->dyna.actor.child;
 
-    if (IS_CUTSCENE_LAYER || !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ||
-        !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) || GET_EVENTCHKINF(EVENTCHKINF_80)) {
-        if (this->dyna.actor.shape.rot.x != 0) {
-            if (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY)) {
-                this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
-                this->destAngle = 0;
-                child->destAngle = 0;
-                return;
-            }
+    if (!IS_CUTSCENE_LAYER && CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
+        CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        return;
+    }
 
-            if (this) {} // required to match
-        }
-        if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
-            this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
-            this->destAngle = -0x4000;
-            child->destAngle = -0xFE0;
-        }
+    if ((this->dyna.actor.shape.rot.x != 0) && (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY))) {
+        this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
+        this->destAngle = 0;
+        child->destAngle = 0;
+    } else if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
+        this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
+        this->destAngle = -0x4000;
+        child->destAngle = -0xFE0;
     }
 }
 
@@ -218,7 +214,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     SET_EVENTCHKINF(EVENTCHKINF_80);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
-                    func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
+                    func_8002DF54(play, &player->actor, PLAYER_CSACTION_8);
                     play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
                     play->transitionTrigger = TRANS_TRIGGER_START;

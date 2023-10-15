@@ -1745,8 +1745,8 @@ void CollisionCheck_AC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* co
                 if (CollisionCheck_NoSharedFlags(&atItem->info, &acElem->info) == true) {
                     continue;
                 }
-                if (Math3D_SphVsSphOverlapCenter(&atItem->dim.worldSphere, &acElem->dim.worldSphere, &overlapSize,
-                                                 &centerDist) == true) {
+                if (Math3D_SphVsSphOverlapCenterDist(&atItem->dim.worldSphere, &acElem->dim.worldSphere, &overlapSize,
+                                                     &centerDist) == true) {
                     f32 acToHit;
                     Vec3f hitPos;
                     Vec3f atPos;
@@ -2070,8 +2070,8 @@ void CollisionCheck_AC_QuadVsJntSph(PlayState* play, CollisionCheckContext* colC
 void CollisionCheck_AC_CylVsCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* colAT, Collider* colAC) {
     ColliderCylinder* at = (ColliderCylinder*)colAT;
     ColliderCylinder* ac = (ColliderCylinder*)colAC;
-    f32 deadSpace;
-    f32 centerDistXZ;
+    f32 overlapSize;
+    f32 centerDist;
     Vec3f hitPos;
 
     if (at->dim.radius > 0 && at->dim.height > 0 && ac->dim.radius > 0 && ac->dim.height > 0) {
@@ -2084,15 +2084,15 @@ void CollisionCheck_AC_CylVsCyl(PlayState* play, CollisionCheckContext* colChkCt
         if (CollisionCheck_NoSharedFlags(&at->info, &ac->info) == true) {
             return;
         }
-        if (Math3D_CylOutsideCylDist(&at->dim, &ac->dim, &deadSpace, &centerDistXZ) == true) {
+        if (Math3D_CylVsCylOverlapCenterDist(&at->dim, &ac->dim, &overlapSize, &centerDist) == true) {
             Vec3f atPos;
             Vec3f acPos;
             f32 acToHit;
 
             Math_Vec3s_ToVec3f(&atPos, &at->dim.pos);
             Math_Vec3s_ToVec3f(&acPos, &ac->dim.pos);
-            if (!IS_ZERO(centerDistXZ)) {
-                acToHit = ac->dim.radius / centerDistXZ;
+            if (!IS_ZERO(centerDist)) {
+                acToHit = ac->dim.radius / centerDist;
                 hitPos.y = (f32)ac->dim.pos.y + ac->dim.yShift + ac->dim.height * 0.5f;
                 hitPos.x = ((f32)at->dim.pos.x - ac->dim.pos.x) * acToHit + ac->dim.pos.x;
                 hitPos.z = ((f32)at->dim.pos.z - ac->dim.pos.z) * acToHit + ac->dim.pos.z;
@@ -2732,7 +2732,7 @@ void CollisionCheck_OC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* co
     ColliderJntSphElement* leftElem;
     ColliderJntSph* right = (ColliderJntSph*)r;
     ColliderJntSphElement* rightElem;
-    f32 overlap;
+    f32 overlapSize;
 
     if (left->count > 0 && left->elements != NULL && right->count > 0 && right->elements != NULL) {
         for (leftElem = left->elements; leftElem < left->elements + left->count; leftElem++) {
@@ -2743,14 +2743,15 @@ void CollisionCheck_OC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* co
                 if (!(rightElem->info.ocElemFlags & OCELEM_ON)) {
                     continue;
                 }
-                if (Math3D_SphVsSphOverlap(&leftElem->dim.worldSphere, &rightElem->dim.worldSphere, &overlap) == true) {
+                if (Math3D_SphVsSphOverlap(&leftElem->dim.worldSphere, &rightElem->dim.worldSphere, &overlapSize) ==
+                    true) {
                     Vec3f leftPos;
                     Vec3f rightPos;
 
                     Math_Vec3s_ToVec3f(&leftPos, &leftElem->dim.worldSphere.center);
                     Math_Vec3s_ToVec3f(&rightPos, &rightElem->dim.worldSphere.center);
                     CollisionCheck_SetOCvsOC(&left->base, &leftElem->info, &leftPos, &right->base, &rightElem->info,
-                                             &rightPos, overlap);
+                                             &rightPos, overlapSize);
                 }
             }
         }
@@ -2764,7 +2765,7 @@ void CollisionCheck_OC_JntSphVsCyl(PlayState* play, CollisionCheckContext* colCh
     ColliderJntSph* left = (ColliderJntSph*)l;
     ColliderJntSphElement* leftElem;
     ColliderCylinder* right = (ColliderCylinder*)r;
-    f32 overlap;
+    f32 overlapSize;
 
     if (left->count > 0 && left->elements != NULL) {
         if ((right->base.ocFlags1 & OC1_ON) && (right->info.ocElemFlags & OCELEM_ON)) {
@@ -2772,14 +2773,14 @@ void CollisionCheck_OC_JntSphVsCyl(PlayState* play, CollisionCheckContext* colCh
                 if (!(leftElem->info.ocElemFlags & OCELEM_ON)) {
                     continue;
                 }
-                if (Math3D_SphVsCylOverlapDist(&leftElem->dim.worldSphere, &right->dim, &overlap) == true) {
+                if (Math3D_SphVsCylOverlap(&leftElem->dim.worldSphere, &right->dim, &overlapSize) == true) {
                     Vec3f leftPos;
                     Vec3f rightPos;
 
                     Math_Vec3s_ToVec3f(&leftPos, &leftElem->dim.worldSphere.center);
                     Math_Vec3s_ToVec3f(&rightPos, &right->dim.pos);
                     CollisionCheck_SetOCvsOC(&left->base, &leftElem->info, &leftPos, &right->base, &right->info,
-                                             &rightPos, overlap);
+                                             &rightPos, overlapSize);
                 }
             }
         }
@@ -2799,18 +2800,18 @@ void CollisionCheck_OC_CylVsJntSph(PlayState* play, CollisionCheckContext* colCh
 void CollisionCheck_OC_CylVsCyl(PlayState* play, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
     ColliderCylinder* right = (ColliderCylinder*)r;
-    f32 deadSpace;
+    f32 overlapSize;
 
     if ((left->base.ocFlags1 & OC1_ON) && (right->base.ocFlags1 & OC1_ON)) {
         if ((left->info.ocElemFlags & OCELEM_ON) && (right->info.ocElemFlags & OCELEM_ON)) {
-            if (Math3D_CylOutsideCyl(&left->dim, &right->dim, &deadSpace) == true) {
+            if (Math3D_CylVsCylOverlap(&left->dim, &right->dim, &overlapSize) == true) {
                 Vec3f leftPos;
                 Vec3f rightPos;
 
                 Math_Vec3s_ToVec3f(&leftPos, &left->dim.pos);
                 Math_Vec3s_ToVec3f(&rightPos, &right->dim.pos);
                 CollisionCheck_SetOCvsOC(&left->base, &left->info, &leftPos, &right->base, &right->info, &rightPos,
-                                         deadSpace);
+                                         overlapSize);
             }
         }
     }

@@ -1925,7 +1925,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
                     (f32)((Math_SinS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.x);
                 player->actor.world.pos.z =
                     (f32)((Math_CosS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.z);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+                func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
                 Audio_PlayFanfare(NA_BGM_APPEAR);
             }
             break;
@@ -1962,7 +1962,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
         case 4: // Finalize walking away
             Message_CloseTextbox(play);
             EnGo2_GoronFireClearCamera(this, play);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+            func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
             Actor_Kill(&this->actor);
             break;
         case 1:

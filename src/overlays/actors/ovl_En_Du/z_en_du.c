@@ -328,7 +328,7 @@ void func_809FE3C0(EnDu* this, PlayState* play) {
         return;
     }
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
     }
     if (this->actor.xzDistToPlayer < 116.0f + this->collider.dim.radius) {
@@ -423,7 +423,7 @@ void func_809FE890(EnDu* this, PlayState* play) {
     CsCmdActorCue* cue;
 
     if (play->csCtx.state == CS_STATE_IDLE) {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
         EnDu_SetupAction(this, func_809FEB08);
         return;
     }
@@ -503,7 +503,7 @@ void func_809FEB08(EnDu* this, PlayState* play) {
     this->unk_1EE = 0;
 
     if (this->unk_1E8 == 1) {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
         EnDu_SetupAction(this, func_809FE3C0);
         return;
@@ -522,7 +522,7 @@ void func_809FEB08(EnDu* this, PlayState* play) {
 
 void func_809FEC14(EnDu* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
         EnDu_SetupAction(this, func_809FEC70);
         func_809FEC70(this, play);
     }
