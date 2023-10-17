@@ -123,7 +123,7 @@ void BgMoriElevator_Destroy(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 BgMoriElevator_IsPlayerRiding(BgMoriElevator* this, PlayState* play) {
+int BgMoriElevator_IsPlayerRiding(BgMoriElevator* this, PlayState* play) {
     return ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ON_TOP) &&
             !(this->unk_170 & DYNA_INTERACT_PLAYER_ON_TOP) &&
             ((GET_PLAYER(play)->actor.world.pos.y - this->dyna.actor.world.pos.y) < 80.0f));

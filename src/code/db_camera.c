@@ -2369,6 +2369,6 @@ void func_800BB060(void) {
     sDebugCamAnim.unk_0A = 0;
 }
 
-s32 func_800BB06C(void) {
+int func_800BB06C(void) {
     return sDebugCamPtr->unk_00 == 2 && sDebugCamAnim.unk_0A != 0;
 }

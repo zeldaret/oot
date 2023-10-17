@@ -399,7 +399,7 @@ typedef struct PlayState {
     /* 0x11D34 */ TransitionActorContext transiActorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct PlayState* play, Input* input);
-    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct PlayState* play);
+    /* 0x11D44 */ int (*isPlayerDroppingFish)(struct PlayState* play);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
     /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
     /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 csAction);

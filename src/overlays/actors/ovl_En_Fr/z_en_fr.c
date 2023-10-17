@@ -371,7 +371,7 @@ s32 EnFr_IsBelowLogSpot(EnFr* this, f32* yDistToLogSpot) {
     }
 }
 
-s32 EnFr_IsAboveAndWithin30DistXZ(Player* player, EnFr* this) {
+int EnFr_IsAboveAndWithin30DistXZ(Player* player, EnFr* this) {
     f32 xDistToPlayer = player->actor.world.pos.x - this->actor.world.pos.x;
     f32 zDistToPlayer = player->actor.world.pos.z - this->actor.world.pos.z;
     f32 yDistToPlayer = player->actor.world.pos.y - this->actor.world.pos.y;

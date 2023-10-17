@@ -369,7 +369,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_t3;
     s32 phi_v0;
     s32 index1AC;
-    s32 phi_t5;
+    int phi_t5;
 
     if (this->unk_24C != 0) {
         temp_v1 = this->unk_1DC[arg2] - arg1;

@@ -253,7 +253,7 @@ void func_808528C8(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852944(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_808529D0(PlayState* play, Player* this, CsCmdActorCue* cue);
 void func_80852C50(PlayState* play, Player* this, CsCmdActorCue* cue);
-s32 Player_IsDroppingFish(PlayState* play);
+int Player_IsDroppingFish(PlayState* play);
 s32 Player_StartFishing(PlayState* play);
 s32 func_80852F38(PlayState* play, Player* this);
 s32 func_80852FFC(PlayState* play, Actor* actor, s32 csAction);
@@ -2041,7 +2041,7 @@ void func_8083328C(PlayState* play, Player* this, LinkAnimationHeader* linkAnim)
     LinkAnimation_PlayOnceSetSpeed(play, &this->skelAnime, linkAnim, D_808535E8);
 }
 
-s32 func_808332B8(Player* this) {
+int func_808332B8(Player* this) {
     return (this->stateFlags1 & PLAYER_STATE1_27) && (this->currentBoots != PLAYER_BOOTS_IRON);
 }
 
@@ -2092,7 +2092,7 @@ LinkAnimationHeader* func_80833438(Player* this) {
     }
 }
 
-s32 func_808334B4(Player* this) {
+int func_808334B4(Player* this) {
     return func_808332E4(this) && (this->unk_834 != 0);
 }
 
@@ -2318,11 +2318,11 @@ s32 func_80833B54(Player* this) {
     return 0;
 }
 
-s32 func_80833BCC(Player* this) {
+int func_80833BCC(Player* this) {
     return func_8008E9C4(this) || func_80833B2C(this);
 }
 
-s32 func_80833C04(Player* this) {
+int func_80833C04(Player* this) {
     return func_80833B54(this) || func_80833B2C(this);
 }
 
@@ -2757,11 +2757,11 @@ s32 func_80834D2C(Player* this, PlayState* play) {
     return 1;
 }
 
-s32 func_80834E44(PlayState* play) {
+int func_80834E44(PlayState* play) {
     return (play->shootingGalleryStatus > 0) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B);
 }
 
-s32 func_80834E7C(PlayState* play) {
+int func_80834E7C(PlayState* play) {
     return (play->shootingGalleryStatus != 0) &&
            ((play->shootingGalleryStatus < 0) ||
             CHECK_BTN_ANY(sControlInput->cur.button, BTN_A | BTN_B | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN));
@@ -3341,7 +3341,7 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
     }
 }
 
-s32 Player_CanUpdateItems(Player* this) {
+int Player_CanUpdateItems(Player* this) {
     return (!(Player_Action_808458D0 == this->actionFunc) ||
             ((this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
              ((this->heldItemId == ITEM_LAST_USED) || (this->heldItemId == ITEM_NONE)))) &&
@@ -4253,7 +4253,7 @@ s32 func_80838144(s32 arg0) {
     }
 }
 
-s32 func_8083816C(s32 arg0) {
+int func_8083816C(s32 arg0) {
     return (arg0 == FLOOR_TYPE_4) || (arg0 == FLOOR_TYPE_7) || (arg0 == FLOOR_TYPE_12);
 }
 
@@ -5080,7 +5080,7 @@ void func_8083A098(Player* this, LinkAnimationHeader* anim, PlayState* play) {
     func_8083328C(play, this, anim);
 }
 
-s32 func_8083A0D4(Player* this) {
+int func_8083A0D4(Player* this) {
     return (this->interactRangeActor != NULL) && (this->heldActor == NULL);
 }
 
@@ -8273,7 +8273,7 @@ s32 func_808428D8(Player* this, PlayState* play) {
     return 0;
 }
 
-s32 func_80842964(Player* this, PlayState* play) {
+int func_80842964(Player* this, PlayState* play) {
     return Player_ActionChange_13(this, play) || Player_ActionChange_4(this, play) || Player_ActionChange_2(this, play);
 }
 
@@ -12284,7 +12284,7 @@ static Vec3f D_8085492C[] = {
     { -60.0f, -20.0f, 0.0f },
 };
 
-s32 func_8084C89C(PlayState* play, Player* this, s32 arg2, f32* arg3) {
+int func_8084C89C(PlayState* play, Player* this, s32 arg2, f32* arg3) {
     EnHorse* rideActor = (EnHorse*)this->rideActor;
     f32 sp50;
     f32 sp4C;
@@ -15159,7 +15159,7 @@ void Player_Action_80852E14(Player* this, PlayState* play) {
     func_80852B4C(play, this, NULL, &D_80854E50[this->csAction]);
 }
 
-s32 Player_IsDroppingFish(PlayState* play) {
+int Player_IsDroppingFish(PlayState* play) {
     Player* this = GET_PLAYER(play);
 
     return (Player_Action_8084EFC0 == this->actionFunc) && (this->itemAction == PLAYER_IA_BOTTLE_FISH);

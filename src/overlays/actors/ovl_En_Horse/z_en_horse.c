@@ -633,7 +633,7 @@ void func_80A5BB90(PlayState* play, Vec3f* vec, Vec3f* arg2, f32* arg3) {
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, vec, arg2, arg3);
 }
 
-s32 func_80A5BBBC(PlayState* play, EnHorse* this, Vec3f* pos) {
+int func_80A5BBBC(PlayState* play, EnHorse* this, Vec3f* pos) {
     Vec3f sp24;
     f32 sp20;
     f32 eyeDist;
