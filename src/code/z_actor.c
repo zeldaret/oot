@@ -1538,8 +1538,8 @@ u32 Actor_AcceptTalkRequest(Actor* actor, PlayState* play) {
  * Passing an exchangeItemId (see `ExchangeItemID`) allows the player to also use the item to initiate the
  * conversation.
  *
- * This function carries a talk offer request to the player actor if context allows it (e.g. the player is in range
- * and not busy with certain things). The player actor performs the requested action itself.
+ * This function carries a talk exchange offer to the player actor if context allows it (e.g. the player is in range
+ * and not busy with certain things). The player actor performs the offered action itself.
  *
  * @return true If the player actor is capable of accepting the offer.
  */
