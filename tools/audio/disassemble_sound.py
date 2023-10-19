@@ -95,9 +95,9 @@ class ElementDefinition:
 def read_soundfont_xmls(xml_dir):
     results = {}
 
-    for file in os.listdir(xml_dir):
-        if file.endswith(".xml"):
-            xml = XmlTree.parse(os.path.join(xml_dir, file))
+    for fname in os.listdir(xml_dir):
+        if fname.endswith(".xml"):
+            xml = XmlTree.parse(os.path.join(xml_dir, fname))
             soundfontElement = xml.find("./Soundfont")
             soundfont = SoundfontDefinition(
                 soundfontElement.get("Name"),
@@ -105,21 +105,21 @@ def read_soundfont_xmls(xml_dir):
                 soundfontElement.get("Index"),
                 soundfontElement.get("OverrideSampleBank")
             )
-            instrumentsElement = soundfontElement.find("Instruments")
-            instrumentElements = (instrumentsElement and instrumentsElement.findall("Instrument")) or []
-            drumsElement = soundfontElement.find("Drums")
-            drumElements = (drumsElement and drumsElement.findall("Drum")) or []
-            effectsElement = soundfontElement.find("Effects")
-            effectsElements = (effectsElement and effectsElement.findall("Effect")) or []
 
+            instrumentsElement = soundfontElement.find("Instruments")
+            instrumentElements = instrumentsElement and instrumentsElement.findall("Instrument") or []
             for instrumentElement in instrumentElements:
                 instrument = ElementDefinition(instrumentElement.get("Name"), instrumentElement.get("Enum"))
                 soundfont.instruments.append(instrument)
 
+            drumsElement = soundfontElement.find("Drums")
+            drumElements = drumsElement and drumsElement.findall("Drum") or []
             for drumElement in drumElements:
                 drum = ElementDefinition(drumElement.get("Name"), drumElement.get("Enum"))
                 soundfont.drums.append(drum)
 
+            effectsElement = soundfontElement.find("Effects")
+            effectsElements = effectsElement and effectsElement.findall("Effect") or []
             for effectElement in effectsElements:
                 effect = ElementDefinition(effectElement.get("Name"), effectElement.get("Enum"))
                 soundfont.effects.append(effect)
@@ -128,8 +128,9 @@ def read_soundfont_xmls(xml_dir):
 
     return results
 
-def read_samplebank_xml(xml_dir, version, sampleNames):
+def read_samplebank_xml(xml_dir, version):
     results = {}
+    sampleNames = {}
 
     for xmlfile in os.listdir(xml_dir):
         if xmlfile.endswith(".xml"):
@@ -139,7 +140,7 @@ def read_samplebank_xml(xml_dir, version, sampleNames):
             root = XmlTree.parse(os.path.join(xml_dir, xmlfile))
             for sample in root.findall("Sample"):
                 offsetElement = sample.find(f"./Offset[@Version='{version}']")
-                if offsetElement == None:
+                if offsetElement is None:
                     continue
                 offset = int(offsetElement.get("At"), 0)
                 if index not in sampleNames:
@@ -150,7 +151,7 @@ def read_samplebank_xml(xml_dir, version, sampleNames):
                     if index not in usedTuning:
                         usedTuning[index] = {}
                     usedTuning[index][offset] = float(int(sample.get("SampleRate")) / 32000.0)
-    return results
+    return results, sampleNames
 
 def sort_data(data):
     seen = set()
@@ -162,9 +163,7 @@ def sort_data(data):
             seen.add(objUniqKey)
             results.append((obj, start, end))
 
-    sortedResults = sorted(set(results), key=lambda tup: (tup[1], tup[2]))
-
-    return sortedResults
+    return sorted(set(results), key=lambda tup: (tup[1], tup[2]))
 
 def report_gaps(report_type, data, bin):
     length = len(bin)
@@ -409,10 +408,9 @@ def main(args):
 
     bankdef_data = code_data[bankdef_offset:bankdef_offset + bankdef_length]
     fontdef_data = code_data[fontdef_offset:fontdef_offset + fontdef_length]
-    sampleNames = {}
 
     soundfont_defs = read_soundfont_xmls(os.path.join(args.assetxml, "soundfonts"))
-    samplebanks = read_samplebank_xml(os.path.join(args.assetxml, "samples"), version, sampleNames)
+    samplebanks, sampleNames = read_samplebank_xml(os.path.join(args.assetxml, "samples"), version)
     real_samplebanks = dict(samplebanks)
 
     bank_defs = parse_raw_def_data(bankdef_data, samplebanks)
