@@ -43,7 +43,7 @@ static Gfx* sDLists[] = {
     gWaterTempleFloatPlatformWestDL,                 // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST
     gWaterTempleFloatPlatformOutsideCentralPillarDL, // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR
     gWaterTempleFloatPlatformInsideCentralPillarDL,  // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR
-    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_1
+    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM
     gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
     gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
     gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_4
@@ -54,7 +54,7 @@ static CollisionHeader* sColHeaders[] = {
     &gWaterTempleFloatPlatformWestCol,                 // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST
     &gWaterTempleFloatPlatformOutsideCentralPillarCol, // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR
     &gWaterTempleFloatPlatformInsideCentralPillarCol,  // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR
-    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_1
+    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM
     &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
     &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
     &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_4
@@ -132,7 +132,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
             thisx->world.pos.y =
                 ((BgMizuMovebg*)thisx)->homeY + sDragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
@@ -161,7 +161,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
 
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
-        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
@@ -182,7 +182,7 @@ void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play) {
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     switch (MOVEBG_TYPE(thisx->params)) {
-        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
@@ -272,7 +272,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 this->dyna.actor.world.pos.y = targetPosY;
             }
             break;
-        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
             targetPosY = this->homeY + sDragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, targetPosY, 1.0f)) {
                 if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
@@ -310,7 +310,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
 
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
-        case MIZUMOVEBG_TYPE_DRAGON_STATUE_1:
+        case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
