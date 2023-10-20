@@ -1477,6 +1477,10 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
                 }
                 break;
 
+            // ENHY_TYPE_DOG_LADY
+            // ENHY_TYPE_WOMAN_3
+            // ENHY_TYPE_OLD_WOMAN
+            // ENHY_TYPE_WOMAN_2
             default:
                 break;
         }
