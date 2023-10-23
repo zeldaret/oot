@@ -1,16 +1,21 @@
 #ifndef ULTRA64_H
 #define ULTRA64_H
 
-#include "ultra64/ultratypes.h"
-#include "unk.h"
-
+#include "libc/assert.h"
+#include "libc/math.h"
 #include "libc/stdarg.h"
 #include "libc/stdbool.h"
 #include "libc/stddef.h"
 #include "libc/stdint.h"
+#include "libc/stdio.h"
 #include "libc/stdlib.h"
-#include "libc/math.h"
+#include "libc/string.h"
 
+#include "ultra64/ultratypes.h"
+#include "unk.h"
+
+#include "ultra64/libc.h"
+#include "ultra64/xstdio.h"
 #include "ultra64/exception.h"
 #include "ultra64/rcp.h"
 #include "ultra64/thread.h"

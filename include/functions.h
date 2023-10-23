@@ -5,15 +5,21 @@
 #include "macros.h"
 
 f32 fabsf(f32 f);
-#ifndef __sgi
-#define fabsf(f) __builtin_fabsf((f32)(f))
-#else
+#ifdef __sgi
 #pragma intrinsic(fabsf)
+#else
+#define fabsf(f) __builtin_fabsf((f32)(f))
 #endif
+
 f32 sqrtf(f32 f);
+#ifdef __sgi
 #pragma intrinsic(sqrtf)
+#endif
+
 f64 sqrt(f64 f);
+#ifdef __sgi
 #pragma intrinsic(sqrt)
+#endif
 
 void cleararena(void);
 void bootproc(void);
@@ -30,12 +36,9 @@ void Locale_ResetRegion(void);
 u32 func_80001F48(void);
 u32 func_80001F8C(void);
 u32 Locale_IsRegionNative(void);
-NORETURN void __assert(const char* exp, const char* file, s32 line);
 void isPrintfInit(void);
-void osSyncPrintfUnused(const char* fmt, ...);
-void osSyncPrintf(const char* fmt, ...);
 void rmonPrintf(const char* fmt, ...);
-void* is_proutSyncPrintf(void* arg, const char* str, u32 count);
+void* is_proutSyncPrintf(void* arg, const char* str, size_t count);
 NORETURN void func_80002384(const char* exp, const char* file, u32 line);
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
@@ -57,8 +60,6 @@ void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, s3
 void LogUtils_LogThreadId(const char* name, s32 line);
 void LogUtils_HungupThread(const char* name, s32 line);
 void LogUtils_ResetHungup(void);
-s32 vsprintf(char* dst, const char* fmt, va_list args);
-s32 sprintf(char* dst, const char* fmt, ...);
 void __osPiCreateAccessQueue(void);
 void __osPiGetAccess(void);
 void __osPiRelAccess(void);
@@ -75,7 +76,6 @@ void __osDispatchThread(void);
 void __osCleanupThread(void);
 void __osDequeueThread(OSThread** queue, OSThread* thread);
 void osDestroyThread(OSThread* thread);
-void bzero(void* __s, s32 __n);
 void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri);
 void __osSetSR(u32);
 u32 __osGetSR(void);
@@ -92,12 +92,8 @@ void osViSetMode(OSViMode* mode);
 u32 __osProbeTLB(void*);
 u32 osGetMemSize(void);
 void osSetEventMesg(OSEvent e, OSMesgQueue* mq, OSMesg msg);
-s32 _Printf(PrintCallback, void* arg, const char* fmt, va_list ap);
 void osUnmapTLBAll(void);
 s32 osEPiStartDma(OSPiHandle* handle, OSIoMesg* mb, s32 direction);
-const char* strchr(const char* str, s32 ch);
-u32 strlen(const char* str);
-void* memcpy(void* dst, const void* src, size_t size);
 void osInvalICache(void* vaddr, s32 nbytes);
 void osCreateMesgQueue(OSMesgQueue* mq, OSMesg* msg, s32 count);
 void osInvalDCache(void* vaddr, s32 nbytes);
@@ -108,7 +104,6 @@ OSPri osGetThreadPri(OSThread* thread);
 s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
 void osViSwapBuffer(void* frameBufPtr);
 s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dramAddr, size_t size);
-u32 bcmp(void* __sl, void* __s2, u32 __n);
 OSTime osGetTime(void);
 void __osTimerServicesInit(void);
 void __osTimerInterrupt(void);
@@ -116,7 +111,6 @@ void __osSetTimerIntr(OSTime time);
 OSTime __osInsertTimer(OSTimer* timer);
 u32 osGetCount(void);
 void __osSetCompare(u32);
-void* bcopy(void* __src, void* __dest, u32 __n);
 s32 __osDisableInt(void);
 void __osRestoreInt(s32);
 void __osViInit(void);
@@ -132,10 +126,6 @@ void osMapTLBRdb(void);
 void osYieldThread(void);
 u32 __osGetCause(void);
 s32 __osEPiRawWriteIo(OSPiHandle* handle, u32 devAddr, u32 data);
-void _Litob(_Pft* args, u8 type);
-ldiv_t ldiv(s32 num, s32 denom);
-lldiv_t lldiv(s64 num, s64 denom);
-void _Ldtob(_Pft* args, u8 type);
 s32 __osSiRawWriteIo(void* devAddr, u32 val);
 void osCreateViManager(OSPri pri);
 OSViContext* __osViGetCurrentContext(void);

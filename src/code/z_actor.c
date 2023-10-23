@@ -810,7 +810,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     Actor_SetScale(actor, 0.01f);
     actor->targetMode = 3;
     actor->minVelocityY = -20.0f;
-    actor->xyzDistToPlayerSq = FLT_MAX;
+    actor->xyzDistToPlayerSq = MAXFLOAT;
     actor->naviEnemyId = NAVI_ENEMY_NONE;
     actor->uncullZoneForward = 1000.0f;
     actor->uncullZoneScale = 350.0f;
@@ -1468,7 +1468,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
 
     if (player->unk_664 != NULL) {
         if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
-            return FLT_MAX;
+            return MAXFLOAT;
         } else {
             f32 ret =
                 actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
@@ -1478,7 +1478,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     }
 
     if (yawTempAbs > 0x2AAA) {
-        return FLT_MAX;
+        return MAXFLOAT;
     }
 
     return actor->xyzDistToPlayerSq;
@@ -1513,7 +1513,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
         f32 dist;
 
         if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
-            dist = FLT_MAX;
+            dist = MAXFLOAT;
         } else {
             dist = actor->xyzDistToPlayerSq;
         }
@@ -3067,7 +3067,7 @@ Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, 
     u8* entry;
 
     D_8015BBE8 = D_8015BBEC = NULL;
-    D_8015BBF0 = sbgmEnemyDistSq = FLT_MAX;
+    D_8015BBF0 = sbgmEnemyDistSq = MAXFLOAT;
     D_8015BBF8 = 0x7FFFFFFF;
 
     if (!Player_InCsMode(play)) {

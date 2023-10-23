@@ -1,5 +1,4 @@
 #include "global.h"
-#include "fp.h"
 
 s32 gUseAtanContFrac;
 
