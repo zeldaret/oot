@@ -3,10 +3,10 @@
 #include "ZCutscene.h"
 #include "ZRoom/ZRoomCommand.h"
 
-class CutsceneEntry
+class CutsceneScriptEntry
 {
 public:
-	CutsceneEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
+	CutsceneScriptEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 
 	segptr_t segmentPtr;
 	uint16_t exit;
@@ -17,8 +17,8 @@ public:
 class SetCutscenes : public ZRoomCommand
 {
 public:
-	std::vector<CutsceneEntry> cutsceneEntries;  // (MM Only)
-	uint8_t numCutscenes;                        // (MM Only)
+	std::vector<CutsceneScriptEntry> cutsceneEntries;  // (MM Only)
+	uint8_t numCutscenes;                              // (MM Only)
 
 	SetCutscenes(ZFile* nParent);
 
