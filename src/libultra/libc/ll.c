@@ -1,31 +1,31 @@
 // IDO Compiler Intrinsics for 64-bit arithmetic
 
-unsigned long long __ull_rshift(unsigned long long l, unsigned long long r) {
-    return l >> r;
+long long __ull_rshift(unsigned long long left, long long right) {
+    return left >> right;
 }
 
-unsigned long long __ull_rem(unsigned long long l, unsigned long long r) {
-    return l % r;
+unsigned long long __ull_rem(unsigned long long left, unsigned long long right) {
+    return left % right;
 }
 
-unsigned long long __ull_div(unsigned long long l, unsigned long long r) {
-    return l / r;
+unsigned long long __ull_div(unsigned long long left, unsigned long long right) {
+    return left / right;
 }
 
-unsigned long long __ll_lshift(unsigned long long l, unsigned long long r) {
-    return l << r;
+long long __ll_lshift(long long left, long long right) {
+    return left << right;
 }
 
-long long __ll_rem(unsigned long long l, long long r) {
-    return l % r;
+long long __ll_rem(long long left, unsigned long long right) {
+    return left % right;
 }
 
-long long __ll_div(long long l, long long r) {
-    return l / r;
+long long __ll_div(long long left, long long right) {
+    return left / right;
 }
 
-unsigned long long __ll_mul(unsigned long long l, unsigned long long r) {
-    return l * r;
+long long __ll_mul(long long left, long long right) {
+    return left * right;
 }
 
 void __ull_divremi(unsigned long long int* quotient, unsigned long long int* remainder,
@@ -34,15 +34,15 @@ void __ull_divremi(unsigned long long int* quotient, unsigned long long int* rem
     *remainder = dividend % divisor;
 }
 
-long long __ll_mod(long long l, long long r) {
-    long long remainder = l % r;
+long long __ll_mod(long long left, long long right) {
+    long long rem = left % right;
 
-    if ((remainder < 0 && r > 0) || (remainder > 0 && r < 0)) {
-        remainder += r;
+    if ((rem < 0 && right > 0) || (rem > 0 && right < 0)) {
+        rem += right;
     }
-    return remainder;
+    return rem;
 }
 
-long long __ll_rshift(long long l, long long r) {
-    return l >> r;
+long long __ll_rshift(long long left, long long right) {
+    return left >> right;
 }

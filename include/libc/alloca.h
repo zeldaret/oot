@@ -4,6 +4,6 @@
 #include "stddef.h"
 
 void* alloca(size_t);
-#define alloca __builtin_alloca
+#define alloca(size) __builtin_alloca(size)
 
 #endif

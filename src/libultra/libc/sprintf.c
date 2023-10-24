@@ -9,6 +9,7 @@ void* proutSprintf(void* dst, const char* fmt, size_t size) {
 
 int vsprintf(char* dst, const char* fmt, va_list args) {
     int ret = _Printf(proutSprintf, dst, fmt, args);
+
     if (ret > -1) {
         dst[ret] = '\0';
     }

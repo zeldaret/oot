@@ -1,5 +1,6 @@
 #include "stdarg.h"
 #include "stdbool.h"
+#include "stdint.h"
 #include "stdlib.h"
 #include "string.h"
 #include "ultra64/xstdio.h"
@@ -215,7 +216,7 @@ void _Putfld(_Pft* px, va_list* pap, char code, char* ac) {
             break;
 
         case 'p':
-            px->v.ll = (long)va_arg(*pap, void*);
+            px->v.ll = (intptr_t)va_arg(*pap, void*);
             px->s = &ac[px->n0];
             _Litob(px, 'x');
             break;
