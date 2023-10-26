@@ -108,7 +108,7 @@ void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
     this->actionFunc = func;
 }
 
-s32 EnHoll_IsKokiriLayer8(void) {
+int EnHoll_IsKokiriLayer8(void) {
     return gSaveContext.save.entranceIndex == ENTR_KOKIRI_FOREST_0 && gSaveContext.sceneLayer == 8;
 }
 

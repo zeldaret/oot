@@ -132,8 +132,13 @@ Declaration* ZBackground::DeclareVar(const std::string& prefix,
 
 	Declaration* decl = parent->AddDeclarationIncludeArray(rawDataIndex, incStr, GetRawDataSize(),
 	                                                       GetSourceTypeName(), auxName, 0);
-	decl->arrayItemCntStr = "SCREEN_WIDTH * SCREEN_HEIGHT / 4";
-	decl->forceArrayCnt = true;
+
+	if (Globals::Instance->cfg.useScreenWidthHeightConstants)
+	{
+		decl->arrayItemCntStr = "SCREEN_WIDTH * SCREEN_HEIGHT / 4";
+		decl->forceArrayCnt = true;
+	}
+
 	decl->staticConf = staticConf;
 	return decl;
 }

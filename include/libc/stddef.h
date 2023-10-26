@@ -3,7 +3,11 @@
 
 #define NULL ((void*)0)
 
+#if defined(_MIPS_SZLONG) && (_MIPS_SZLONG == 64)
 typedef unsigned long size_t;
+#else
+typedef unsigned int  size_t;
+#endif
 
 #ifdef __GNUC__
 #define offsetof(structure, member) __builtin_offsetof (structure, member)

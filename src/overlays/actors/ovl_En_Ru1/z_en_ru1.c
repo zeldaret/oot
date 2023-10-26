@@ -333,7 +333,7 @@ Actor* func_80AEB124(PlayState* play) {
     return NULL;
 }
 
-s32 func_80AEB174(PlayState* play) {
+int func_80AEB174(PlayState* play) {
     return (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play);
 }
 

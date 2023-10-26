@@ -464,7 +464,7 @@ void EnSkj_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-s32 EnSkj_RangeCheck(Player* player, EnSkj* this) {
+int EnSkj_RangeCheck(Player* player, EnSkj* this) {
     f32 xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
     f32 zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
     f32 yDiff = player->actor.world.pos.y - this->actor.world.pos.y;

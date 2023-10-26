@@ -1,28 +1,30 @@
 #pragma once
 
-#include <cstdint>
-#include <vector>
-
+#include "ZFile.h"
 #include "ZResource.h"
 
-class ZPlayerAnimationData : public ZResource
+class ZWaterbox : public ZResource
 {
 public:
-	int16_t frameCount = 0;
-	std::vector<int16_t> limbRotData;
+	int16_t xMin;
+	int16_t ySurface;
+	int16_t zMin;
+	int16_t xLength;
+	int16_t zLength;
+	int32_t properties;
 
-	ZPlayerAnimationData(ZFile* nParent);
+	ZWaterbox(ZFile* nParent);
+	~ZWaterbox();
 
-	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void ParseRawData() override;
-
-	Declaration* DeclareVar(const std::string& prefix, const std::string& bodyStr) override;
-
+	void DeclareReferences(const std::string& prefix) override;
 	std::string GetBodySourceCode() const override;
 	std::string GetDefaultName(const std::string& prefix) const override;
 
 	std::string GetSourceTypeName() const override;
 	ZResourceType GetResourceType() const override;
+
+	bool DoesSupportArray() const override;
 
 	size_t GetRawDataSize() const override;
 };

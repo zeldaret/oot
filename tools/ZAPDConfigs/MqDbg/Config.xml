@@ -4,5 +4,6 @@
     <ObjectList File="ObjectList_OoTMqDbg.txt"/>
     <EntranceList File="EntranceList_OoTMqDbg.txt"/>
     <SpecialEntranceList File="SpecialEntranceList_OoTMqDbg.txt"/>
+    <EnumData File="EnumData.xml"/>
     <ExternalXMLFolder Path="assets/xml/"/>
 </Root>
