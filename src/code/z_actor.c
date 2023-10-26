@@ -1064,6 +1064,10 @@ void func_8002DF18(PlayState* play, Player* player) {
  *
  * `haltActorsDuringCsAction` being set to false in this function means that all actors will
  * be able to update while Player is performing the cutscene action.
+ *
+ * Note: due to how player implements initializing the cutscene action state, `haltActorsDuringCsAction`
+ * will only be considered the first time player starts a `csAction`.
+ * Player must leave the cutscene action state and enter it again before halting actors can be toggled.
  */
 s32 Player_SetCsAction(PlayState* play, Actor* csActor, u8 csAction) {
     Player* player = GET_PLAYER(play);
@@ -1082,7 +1086,11 @@ s32 Player_SetCsAction(PlayState* play, Actor* csActor, u8 csAction) {
  *
  * `haltActorsDuringCsAction` being set to true in this function means that eventually `PLAYER_STATE1_29` will be set.
  * This makes it so actors belonging to categories `ACTORCAT_ENEMY` and `ACTORCAT_MISC` will not update
- * while Player is in the `csAction` state.
+ * while Player is performing the cutscene action.
+ *
+ * Note: due to how player implements initializing the cutscene action state, `haltActorsDuringCsAction`
+ * will only be considered the first time player starts a `csAction`.
+ * Player must leave the cutscene action state and enter it again before halting actors can be toggled.
  */
 s32 Player_SetCsActionWithHaltedActors(PlayState* play, Actor* csActor, u8 csAction) {
     Player* player = GET_PLAYER(play);
@@ -2838,11 +2846,11 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
             overlayEntry->numLoaded = 0;
         }
 
-        actorInit = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
-                                           ? (void*)((uintptr_t)overlayEntry->initInfo -
-                                                     (intptr_t)((uintptr_t)overlayEntry->vramStart -
-                                                                (uintptr_t)overlayEntry->loadedRamAddr))
-                                           : NULL);
+        actorInit = (void*)(uintptr_t)(
+            (overlayEntry->initInfo != NULL)
+                ? (void*)((uintptr_t)overlayEntry->initInfo -
+                          (intptr_t)((uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr))
+                : NULL);
     }
 
     objectSlot = Object_GetSlot(&play->objectCtx, actorInit->objectId);
