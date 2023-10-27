@@ -20,15 +20,15 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, PlayState* play);
 void EnPoDesert_Disappear(EnPoDesert* this, PlayState* play);
 
 ActorInit En_Po_Desert_InitVars = {
-    ACTOR_EN_PO_DESERT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_PO_FIELD,
-    sizeof(EnPoDesert),
-    (ActorFunc)EnPoDesert_Init,
-    (ActorFunc)EnPoDesert_Destroy,
-    (ActorFunc)EnPoDesert_Update,
-    (ActorFunc)EnPoDesert_Draw,
+    /**/ ACTOR_EN_PO_DESERT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_FIELD,
+    /**/ sizeof(EnPoDesert),
+    /**/ EnPoDesert_Init,
+    /**/ EnPoDesert_Destroy,
+    /**/ EnPoDesert_Update,
+    /**/ EnPoDesert_Draw,
 };
 
 static ColliderCylinderInit sColliderInit = {

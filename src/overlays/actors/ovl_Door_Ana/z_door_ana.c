@@ -19,15 +19,15 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play);
 void DoorAna_GrabPlayer(DoorAna* this, PlayState* play);
 
 ActorInit Door_Ana_InitVars = {
-    ACTOR_DOOR_ANA,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(DoorAna),
-    (ActorFunc)DoorAna_Init,
-    (ActorFunc)DoorAna_Destroy,
-    (ActorFunc)DoorAna_Update,
-    (ActorFunc)DoorAna_Draw,
+    /**/ ACTOR_DOOR_ANA,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(DoorAna),
+    /**/ DoorAna_Init,
+    /**/ DoorAna_Destroy,
+    /**/ DoorAna_Update,
+    /**/ DoorAna_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

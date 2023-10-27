@@ -40,15 +40,15 @@ typedef enum {
 } TailpasaranAction;
 
 ActorInit En_Tp_InitVars = {
-    ACTOR_EN_TP,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_TP,
-    sizeof(EnTp),
-    (ActorFunc)EnTp_Init,
-    (ActorFunc)EnTp_Destroy,
-    (ActorFunc)EnTp_Update,
-    (ActorFunc)EnTp_Draw,
+    /**/ ACTOR_EN_TP,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_TP,
+    /**/ sizeof(EnTp),
+    /**/ EnTp_Init,
+    /**/ EnTp_Destroy,
+    /**/ EnTp_Update,
+    /**/ EnTp_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {

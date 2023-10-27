@@ -17,15 +17,15 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play);
 void OceffSpot_GrowCylinder(OceffSpot* this, PlayState* play);
 
 ActorInit Oceff_Spot_InitVars = {
-    ACTOR_OCEFF_SPOT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(OceffSpot),
-    (ActorFunc)OceffSpot_Init,
-    (ActorFunc)OceffSpot_Destroy,
-    (ActorFunc)OceffSpot_Update,
-    (ActorFunc)OceffSpot_Draw,
+    /**/ ACTOR_OCEFF_SPOT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(OceffSpot),
+    /**/ OceffSpot_Init,
+    /**/ OceffSpot_Destroy,
+    /**/ OceffSpot_Update,
+    /**/ OceffSpot_Draw,
 };
 
 #include "assets/overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c"

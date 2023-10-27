@@ -30,15 +30,15 @@ static WaterLevel sWaterLevels[] = {
 };
 
 ActorInit Bg_Mizu_Water_InitVars = {
-    ACTOR_BG_MIZU_WATER,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuWater),
-    (ActorFunc)BgMizuWater_Init,
-    (ActorFunc)BgMizuWater_Destroy,
-    (ActorFunc)BgMizuWater_Update,
-    (ActorFunc)BgMizuWater_Draw,
+    /**/ ACTOR_BG_MIZU_WATER,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuWater),
+    /**/ BgMizuWater_Init,
+    /**/ BgMizuWater_Destroy,
+    /**/ BgMizuWater_Update,
+    /**/ BgMizuWater_Draw,
 };
 
 static f32 sUnused1 = 0;

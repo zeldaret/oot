@@ -97,15 +97,15 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 ActorInit En_Go2_InitVars = {
-    ACTOR_EN_GO2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(EnGo2),
-    (ActorFunc)EnGo2_Init,
-    (ActorFunc)EnGo2_Destroy,
-    (ActorFunc)EnGo2_Update,
-    (ActorFunc)EnGo2_Draw,
+    /**/ ACTOR_EN_GO2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(EnGo2),
+    /**/ EnGo2_Init,
+    /**/ EnGo2_Destroy,
+    /**/ EnGo2_Update,
+    /**/ EnGo2_Draw,
 };
 
 static EnGo2DataStruct1 D_80A4816C[14] = {

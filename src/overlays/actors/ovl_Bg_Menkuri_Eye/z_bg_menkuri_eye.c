@@ -15,15 +15,15 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play);
 void BgMenkuriEye_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Menkuri_Eye_InitVars = {
-    ACTOR_BG_MENKURI_EYE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MENKURI_OBJECTS,
-    sizeof(BgMenkuriEye),
-    (ActorFunc)BgMenkuriEye_Init,
-    (ActorFunc)BgMenkuriEye_Destroy,
-    (ActorFunc)BgMenkuriEye_Update,
-    (ActorFunc)BgMenkuriEye_Draw,
+    /**/ ACTOR_BG_MENKURI_EYE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MENKURI_OBJECTS,
+    /**/ sizeof(BgMenkuriEye),
+    /**/ BgMenkuriEye_Init,
+    /**/ BgMenkuriEye_Destroy,
+    /**/ BgMenkuriEye_Update,
+    /**/ BgMenkuriEye_Draw,
 };
 
 static s32 D_8089C1A0;

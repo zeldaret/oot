@@ -19,15 +19,15 @@ void EnHorseZelda_Gallop(EnHorseZelda* this, PlayState* play);
 void EnHorseZelda_SetupStop(EnHorseZelda* this);
 
 ActorInit En_Horse_Zelda_InitVars = {
-    ACTOR_EN_HORSE_ZELDA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HORSE_ZELDA,
-    sizeof(EnHorseZelda),
-    (ActorFunc)EnHorseZelda_Init,
-    (ActorFunc)EnHorseZelda_Destroy,
-    (ActorFunc)EnHorseZelda_Update,
-    (ActorFunc)EnHorseZelda_Draw,
+    /**/ ACTOR_EN_HORSE_ZELDA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HORSE_ZELDA,
+    /**/ sizeof(EnHorseZelda),
+    /**/ EnHorseZelda_Init,
+    /**/ EnHorseZelda_Destroy,
+    /**/ EnHorseZelda_Update,
+    /**/ EnHorseZelda_Draw,
 };
 
 static AnimationHeader* sAnimationHeaders[] = { &gHorseZeldaGallopingAnim };

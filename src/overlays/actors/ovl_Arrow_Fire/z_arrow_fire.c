@@ -21,15 +21,15 @@ void ArrowFire_Hit(ArrowFire* this, PlayState* play);
 #include "assets/overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
 
 ActorInit Arrow_Fire_InitVars = {
-    ACTOR_ARROW_FIRE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ArrowFire),
-    (ActorFunc)ArrowFire_Init,
-    (ActorFunc)ArrowFire_Destroy,
-    (ActorFunc)ArrowFire_Update,
-    (ActorFunc)ArrowFire_Draw,
+    /**/ ACTOR_ARROW_FIRE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ArrowFire),
+    /**/ ArrowFire_Init,
+    /**/ ArrowFire_Destroy,
+    /**/ ArrowFire_Update,
+    /**/ ArrowFire_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

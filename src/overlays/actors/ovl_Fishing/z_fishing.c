@@ -122,15 +122,15 @@ typedef enum {
 #define SINKING_LURE_SEG_COUNT 20
 
 ActorInit Fishing_InitVars = {
-    ACTOR_FISHING,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_FISH,
-    sizeof(Fishing),
-    (ActorFunc)Fishing_Init,
-    (ActorFunc)Fishing_Destroy,
-    (ActorFunc)Fishing_UpdateFish,
-    (ActorFunc)Fishing_DrawFish,
+    /**/ ACTOR_FISHING,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_FISH,
+    /**/ sizeof(Fishing),
+    /**/ Fishing_Init,
+    /**/ Fishing_Destroy,
+    /**/ Fishing_UpdateFish,
+    /**/ Fishing_DrawFish,
 };
 
 static f32 sStormStrength = 0.0f;

@@ -1034,13 +1034,13 @@ void DemoDu_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Du_InitVars = {
-    ACTOR_DEMO_DU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DU,
-    sizeof(DemoDu),
-    (ActorFunc)DemoDu_Init,
-    (ActorFunc)DemoDu_Destroy,
-    (ActorFunc)DemoDu_Update,
-    (ActorFunc)DemoDu_Draw,
+    /**/ ACTOR_DEMO_DU,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DU,
+    /**/ sizeof(DemoDu),
+    /**/ DemoDu_Init,
+    /**/ DemoDu_Destroy,
+    /**/ DemoDu_Update,
+    /**/ DemoDu_Draw,
 };

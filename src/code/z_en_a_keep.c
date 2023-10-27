@@ -21,15 +21,15 @@ void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
 void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
 ActorInit En_A_Obj_InitVars = {
-    ACTOR_EN_A_OBJ,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnAObj),
-    (ActorFunc)EnAObj_Init,
-    (ActorFunc)EnAObj_Destroy,
-    (ActorFunc)EnAObj_Update,
-    (ActorFunc)EnAObj_Draw,
+    /**/ ACTOR_EN_A_OBJ,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnAObj),
+    /**/ EnAObj_Init,
+    /**/ EnAObj_Destroy,
+    /**/ EnAObj_Update,
+    /**/ EnAObj_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

@@ -23,15 +23,15 @@ void func_80B85B28(ItemEtcetera* this, PlayState* play);
 void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, PlayState* play);
 
 ActorInit Item_Etcetera_InitVars = {
-    ACTOR_ITEM_ETCETERA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ItemEtcetera),
-    (ActorFunc)ItemEtcetera_Init,
-    (ActorFunc)ItemEtcetera_Destroy,
-    (ActorFunc)ItemEtcetera_Update,
-    NULL,
+    /**/ ACTOR_ITEM_ETCETERA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ItemEtcetera),
+    /**/ ItemEtcetera_Init,
+    /**/ ItemEtcetera_Destroy,
+    /**/ ItemEtcetera_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = {

@@ -70,15 +70,15 @@ void EnGeldB_Sidestep(EnGeldB* this, PlayState* play);
 void EnGeldB_Defeated(EnGeldB* this, PlayState* play);
 
 ActorInit En_GeldB_InitVars = {
-    ACTOR_EN_GELDB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GELDB,
-    sizeof(EnGeldB),
-    (ActorFunc)EnGeldB_Init,
-    (ActorFunc)EnGeldB_Destroy,
-    (ActorFunc)EnGeldB_Update,
-    (ActorFunc)EnGeldB_Draw,
+    /**/ ACTOR_EN_GELDB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GELDB,
+    /**/ sizeof(EnGeldB),
+    /**/ EnGeldB_Init,
+    /**/ EnGeldB_Destroy,
+    /**/ EnGeldB_Update,
+    /**/ EnGeldB_Draw,
 };
 
 static ColliderCylinderInit sBodyCylInit = {

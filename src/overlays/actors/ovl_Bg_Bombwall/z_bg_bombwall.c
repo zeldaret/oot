@@ -70,15 +70,15 @@ static ColliderTrisInit sTrisInit = {
 };
 
 ActorInit Bg_Bombwall_InitVars = {
-    ACTOR_BG_BOMBWALL,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(BgBombwall),
-    (ActorFunc)BgBombwall_Init,
-    (ActorFunc)BgBombwall_Destroy,
-    (ActorFunc)BgBombwall_Update,
-    (ActorFunc)BgBombwall_Draw,
+    /**/ ACTOR_BG_BOMBWALL,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(BgBombwall),
+    /**/ BgBombwall_Init,
+    /**/ BgBombwall_Destroy,
+    /**/ BgBombwall_Update,
+    /**/ BgBombwall_Draw,
 };
 
 void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {

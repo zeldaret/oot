@@ -23,15 +23,15 @@ void ObjKibako_SetupThrown(ObjKibako* this);
 void ObjKibako_Thrown(ObjKibako* this, PlayState* play);
 
 ActorInit Obj_Kibako_InitVars = {
-    ACTOR_OBJ_KIBAKO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(ObjKibako),
-    (ActorFunc)ObjKibako_Init,
-    (ActorFunc)ObjKibako_Destroy,
-    (ActorFunc)ObjKibako_Update,
-    (ActorFunc)ObjKibako_Draw,
+    /**/ ACTOR_OBJ_KIBAKO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjKibako),
+    /**/ ObjKibako_Init,
+    /**/ ObjKibako_Destroy,
+    /**/ ObjKibako_Update,
+    /**/ ObjKibako_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

@@ -24,15 +24,15 @@ void BgGndIceblock_Idle(BgGndIceblock* this, PlayState* play);
 void BgGndIceblock_Slide(BgGndIceblock* this, PlayState* play);
 
 ActorInit Bg_Gnd_Iceblock_InitVars = {
-    ACTOR_BG_GND_ICEBLOCK,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndIceblock),
-    (ActorFunc)BgGndIceblock_Init,
-    (ActorFunc)BgGndIceblock_Destroy,
-    (ActorFunc)BgGndIceblock_Update,
-    (ActorFunc)BgGndIceblock_Draw,
+    /**/ ACTOR_BG_GND_ICEBLOCK,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndIceblock),
+    /**/ BgGndIceblock_Init,
+    /**/ BgGndIceblock_Destroy,
+    /**/ BgGndIceblock_Update,
+    /**/ BgGndIceblock_Draw,
 };
 
 static Color_RGBA8 sWhite = { 250, 250, 250, 255 };

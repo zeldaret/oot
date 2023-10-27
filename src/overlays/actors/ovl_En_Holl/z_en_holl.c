@@ -77,15 +77,15 @@ void EnHoll_VerticalInvisible(EnHoll* this, PlayState* play);
 void EnHoll_HorizontalBgCoverSwitchFlag(EnHoll* this, PlayState* play);
 
 ActorInit En_Holl_InitVars = {
-    ACTOR_EN_HOLL,
-    ACTORCAT_DOOR,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnHoll),
-    (ActorFunc)EnHoll_Init,
-    (ActorFunc)EnHoll_Destroy,
-    (ActorFunc)EnHoll_Update,
-    (ActorFunc)EnHoll_Draw,
+    /**/ ACTOR_EN_HOLL,
+    /**/ ACTORCAT_DOOR,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnHoll),
+    /**/ EnHoll_Init,
+    /**/ EnHoll_Destroy,
+    /**/ EnHoll_Update,
+    /**/ EnHoll_Draw,
 };
 
 static EnHollActionFunc sActionFuncs[] = {

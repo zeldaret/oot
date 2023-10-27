@@ -17,15 +17,15 @@ void BgSpot17Bakudankabe_Update(Actor* thisx, PlayState* play);
 void BgSpot17Bakudankabe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Spot17_Bakudankabe_InitVars = {
-    ACTOR_BG_SPOT17_BAKUDANKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT17_OBJ,
-    sizeof(BgSpot17Bakudankabe),
-    (ActorFunc)BgSpot17Bakudankabe_Init,
-    (ActorFunc)BgSpot17Bakudankabe_Destroy,
-    (ActorFunc)BgSpot17Bakudankabe_Update,
-    (ActorFunc)BgSpot17Bakudankabe_Draw,
+    /**/ ACTOR_BG_SPOT17_BAKUDANKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT17_OBJ,
+    /**/ sizeof(BgSpot17Bakudankabe),
+    /**/ BgSpot17Bakudankabe_Init,
+    /**/ BgSpot17Bakudankabe_Destroy,
+    /**/ BgSpot17Bakudankabe_Update,
+    /**/ BgSpot17Bakudankabe_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

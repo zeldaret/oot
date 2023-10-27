@@ -189,15 +189,15 @@ void BossVa_Tumor(PlayState* play, BossVa* this, s32 count, s16 scale, f32 xzSpr
                   u8 fixed);
 
 ActorInit Boss_Va_InitVars = {
-    ACTOR_BOSS_VA,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_BV,
-    sizeof(BossVa),
-    (ActorFunc)BossVa_Init,
-    (ActorFunc)BossVa_Destroy,
-    (ActorFunc)BossVa_Update,
-    (ActorFunc)BossVa_Draw,
+    /**/ ACTOR_BOSS_VA,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_BV,
+    /**/ sizeof(BossVa),
+    /**/ BossVa_Init,
+    /**/ BossVa_Destroy,
+    /**/ BossVa_Update,
+    /**/ BossVa_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

@@ -19,15 +19,15 @@ void func_8088706C(BgHidanFslift* this, PlayState* play);
 void func_808870D8(BgHidanFslift* this, PlayState* play);
 
 ActorInit Bg_Hidan_Fslift_InitVars = {
-    ACTOR_BG_HIDAN_FSLIFT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanFslift),
-    (ActorFunc)BgHidanFslift_Init,
-    (ActorFunc)BgHidanFslift_Destroy,
-    (ActorFunc)BgHidanFslift_Update,
-    (ActorFunc)BgHidanFslift_Draw,
+    /**/ ACTOR_BG_HIDAN_FSLIFT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanFslift),
+    /**/ BgHidanFslift_Init,
+    /**/ BgHidanFslift_Destroy,
+    /**/ BgHidanFslift_Update,
+    /**/ BgHidanFslift_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

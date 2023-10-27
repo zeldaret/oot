@@ -24,15 +24,15 @@ void EnVm_Stun(EnVm* this, PlayState* play);
 void EnVm_Die(EnVm* this, PlayState* play);
 
 ActorInit En_Vm_InitVars = {
-    ACTOR_EN_VM,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_VM,
-    sizeof(EnVm),
-    (ActorFunc)EnVm_Init,
-    (ActorFunc)EnVm_Destroy,
-    (ActorFunc)EnVm_Update,
-    (ActorFunc)EnVm_Draw,
+    /**/ ACTOR_EN_VM,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_VM,
+    /**/ sizeof(EnVm),
+    /**/ EnVm_Init,
+    /**/ EnVm_Destroy,
+    /**/ EnVm_Update,
+    /**/ EnVm_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

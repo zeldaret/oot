@@ -18,15 +18,15 @@ void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, PlayState* play);
 void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, PlayState* play);
 
 ActorInit En_Anubice_Tag_InitVars = {
-    ACTOR_EN_ANUBICE_TAG,
-    ACTORCAT_SWITCH,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnAnubiceTag),
-    (ActorFunc)EnAnubiceTag_Init,
-    (ActorFunc)EnAnubiceTag_Destroy,
-    (ActorFunc)EnAnubiceTag_Update,
-    (ActorFunc)EnAnubiceTag_Draw,
+    /**/ ACTOR_EN_ANUBICE_TAG,
+    /**/ ACTORCAT_SWITCH,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnAnubiceTag),
+    /**/ EnAnubiceTag_Init,
+    /**/ EnAnubiceTag_Destroy,
+    /**/ EnAnubiceTag_Update,
+    /**/ EnAnubiceTag_Draw,
 };
 
 void EnAnubiceTag_Init(Actor* thisx, PlayState* play) {

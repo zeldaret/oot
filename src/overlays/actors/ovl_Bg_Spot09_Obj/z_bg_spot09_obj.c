@@ -19,15 +19,15 @@ s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play);
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play);
 
 ActorInit Bg_Spot09_Obj_InitVars = {
-    ACTOR_BG_SPOT09_OBJ,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT09_OBJ,
-    sizeof(BgSpot09Obj),
-    (ActorFunc)BgSpot09Obj_Init,
-    (ActorFunc)BgSpot09Obj_Destroy,
-    (ActorFunc)BgSpot09Obj_Update,
-    (ActorFunc)BgSpot09Obj_Draw,
+    /**/ ACTOR_BG_SPOT09_OBJ,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT09_OBJ,
+    /**/ sizeof(BgSpot09Obj),
+    /**/ BgSpot09Obj_Init,
+    /**/ BgSpot09Obj_Destroy,
+    /**/ BgSpot09Obj_Update,
+    /**/ BgSpot09Obj_Draw,
 };
 
 static CollisionHeader* D_808B1F90[] = {

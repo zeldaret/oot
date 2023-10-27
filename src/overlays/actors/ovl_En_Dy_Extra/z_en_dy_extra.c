@@ -19,15 +19,15 @@ void EnDyExtra_WaitForTrigger(EnDyExtra* this, PlayState* play);
 void EnDyExtra_FallAndKill(EnDyExtra* this, PlayState* play);
 
 ActorInit En_Dy_Extra_InitVars = {
-    ACTOR_EN_DY_EXTRA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DY_OBJ,
-    sizeof(EnDyExtra),
-    (ActorFunc)EnDyExtra_Init,
-    (ActorFunc)EnDyExtra_Destroy,
-    (ActorFunc)EnDyExtra_Update,
-    (ActorFunc)EnDyExtra_Draw,
+    /**/ ACTOR_EN_DY_EXTRA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DY_OBJ,
+    /**/ sizeof(EnDyExtra),
+    /**/ EnDyExtra_Init,
+    /**/ EnDyExtra_Destroy,
+    /**/ EnDyExtra_Update,
+    /**/ EnDyExtra_Draw,
 };
 
 void EnDyExtra_Destroy(Actor* thisx, PlayState* play) {

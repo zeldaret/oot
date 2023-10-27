@@ -43,15 +43,15 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play);
 static s16 D_80AE1A50 = 0;
 
 ActorInit En_Poh_InitVars = {
-    ACTOR_EN_POH,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnPoh),
-    (ActorFunc)EnPoh_Init,
-    (ActorFunc)EnPoh_Destroy,
-    (ActorFunc)EnPoh_Update,
-    NULL,
+    /**/ ACTOR_EN_POH,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnPoh),
+    /**/ EnPoh_Init,
+    /**/ EnPoh_Destroy,
+    /**/ EnPoh_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sCylinderInit = {

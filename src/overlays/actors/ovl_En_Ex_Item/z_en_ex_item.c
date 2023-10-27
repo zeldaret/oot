@@ -33,15 +33,15 @@ void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play);
 
 ActorInit En_Ex_Item_InitVars = {
-    ACTOR_EN_EX_ITEM,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnExItem),
-    (ActorFunc)EnExItem_Init,
-    (ActorFunc)EnExItem_Destroy,
-    (ActorFunc)EnExItem_Update,
-    (ActorFunc)EnExItem_Draw,
+    /**/ ACTOR_EN_EX_ITEM,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnExItem),
+    /**/ EnExItem_Init,
+    /**/ EnExItem_Destroy,
+    /**/ EnExItem_Update,
+    /**/ EnExItem_Draw,
 };
 
 void EnExItem_Destroy(Actor* thisx, PlayState* play) {

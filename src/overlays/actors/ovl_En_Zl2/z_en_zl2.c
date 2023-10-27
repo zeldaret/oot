@@ -86,15 +86,15 @@ static EnZl2DrawFunc sDrawFuncs[] = {
 };
 
 ActorInit En_Zl2_InitVars = {
-    ACTOR_EN_ZL2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnZl2),
-    (ActorFunc)EnZl2_Init,
-    (ActorFunc)EnZl2_Destroy,
-    (ActorFunc)EnZl2_Update,
-    (ActorFunc)EnZl2_Draw,
+    /**/ ACTOR_EN_ZL2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnZl2),
+    /**/ EnZl2_Init,
+    /**/ EnZl2_Destroy,
+    /**/ EnZl2_Update,
+    /**/ EnZl2_Draw,
 };
 
 void EnZl2_Destroy(Actor* thisx, PlayState* play) {

@@ -46,15 +46,15 @@ void BossGanon_UpdateEffects(PlayState* play);
 s32 BossGanon_CheckFallingPlatforms(BossGanon* this, PlayState* play, Vec3f* checkPos);
 
 ActorInit Boss_Ganon_InitVars = {
-    ACTOR_BOSS_GANON,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GANON,
-    sizeof(BossGanon),
-    (ActorFunc)BossGanon_Init,
-    (ActorFunc)BossGanon_Destroy,
-    (ActorFunc)BossGanon_Update,
-    (ActorFunc)BossGanon_Draw,
+    /**/ ACTOR_BOSS_GANON,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GANON,
+    /**/ sizeof(BossGanon),
+    /**/ BossGanon_Init,
+    /**/ BossGanon_Destroy,
+    /**/ BossGanon_Update,
+    /**/ BossGanon_Draw,
 };
 
 static ColliderCylinderInit sDorfCylinderInit = {

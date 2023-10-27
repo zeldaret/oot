@@ -17,15 +17,15 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play);
 void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play);
 
 ActorInit Obj_Dekujr_InitVars = {
-    ACTOR_OBJ_DEKUJR,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DEKUJR,
-    sizeof(ObjDekujr),
-    (ActorFunc)ObjDekujr_Init,
-    (ActorFunc)ObjDekujr_Destroy,
-    (ActorFunc)ObjDekujr_Update,
-    (ActorFunc)ObjDekujr_Draw,
+    /**/ ACTOR_OBJ_DEKUJR,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DEKUJR,
+    /**/ sizeof(ObjDekujr),
+    /**/ ObjDekujr_Init,
+    /**/ ObjDekujr_Destroy,
+    /**/ ObjDekujr_Update,
+    /**/ ObjDekujr_Draw,
 };
 
 static ColliderCylinderInitToActor sCylinderInit = {

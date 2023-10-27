@@ -21,15 +21,15 @@ void BgDodoago_DoNothing(BgDodoago* this, PlayState* play);
 void BgDodoago_LightOneEye(BgDodoago* this, PlayState* play);
 
 ActorInit Bg_Dodoago_InitVars = {
-    ACTOR_BG_DODOAGO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_DDAN_OBJECTS,
-    sizeof(BgDodoago),
-    (ActorFunc)BgDodoago_Init,
-    (ActorFunc)BgDodoago_Destroy,
-    (ActorFunc)BgDodoago_Update,
-    (ActorFunc)BgDodoago_Draw,
+    /**/ ACTOR_BG_DODOAGO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_DDAN_OBJECTS,
+    /**/ sizeof(BgDodoago),
+    /**/ BgDodoago_Init,
+    /**/ BgDodoago_Destroy,
+    /**/ BgDodoago_Update,
+    /**/ BgDodoago_Draw,
 };
 
 static ColliderCylinderInit sColCylinderInitMain = {

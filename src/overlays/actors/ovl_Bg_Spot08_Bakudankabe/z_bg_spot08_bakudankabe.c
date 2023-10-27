@@ -20,15 +20,15 @@ void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play);
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play);
 
 ActorInit Bg_Spot08_Bakudankabe_InitVars = {
-    ACTOR_BG_SPOT08_BAKUDANKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT08_OBJ,
-    sizeof(BgSpot08Bakudankabe),
-    (ActorFunc)BgSpot08Bakudankabe_Init,
-    (ActorFunc)BgSpot08Bakudankabe_Destroy,
-    (ActorFunc)BgSpot08Bakudankabe_Update,
-    (ActorFunc)BgSpot08Bakudankabe_Draw,
+    /**/ ACTOR_BG_SPOT08_BAKUDANKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT08_OBJ,
+    /**/ sizeof(BgSpot08Bakudankabe),
+    /**/ BgSpot08Bakudankabe_Init,
+    /**/ BgSpot08Bakudankabe_Destroy,
+    /**/ BgSpot08Bakudankabe_Update,
+    /**/ BgSpot08Bakudankabe_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {

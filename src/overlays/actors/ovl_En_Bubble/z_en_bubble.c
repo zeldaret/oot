@@ -13,15 +13,15 @@ void EnBubble_Pop(EnBubble* this, PlayState* play);
 void EnBubble_Regrow(EnBubble* this, PlayState* play);
 
 ActorInit En_Bubble_InitVars = {
-    ACTOR_EN_BUBBLE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BUBBLE,
-    sizeof(EnBubble),
-    (ActorFunc)EnBubble_Init,
-    (ActorFunc)EnBubble_Destroy,
-    (ActorFunc)EnBubble_Update,
-    (ActorFunc)EnBubble_Draw,
+    /**/ ACTOR_EN_BUBBLE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BUBBLE,
+    /**/ sizeof(EnBubble),
+    /**/ EnBubble_Init,
+    /**/ EnBubble_Destroy,
+    /**/ EnBubble_Update,
+    /**/ EnBubble_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {

@@ -134,15 +134,15 @@ static s32 sSongToFrog[] = {
 };
 
 ActorInit En_Fr_InitVars = {
-    ACTOR_EN_FR,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_FR,
-    sizeof(EnFr),
-    (ActorFunc)EnFr_Init,
-    (ActorFunc)EnFr_Destroy,
-    (ActorFunc)EnFr_Update,
-    NULL,
+    /**/ ACTOR_EN_FR,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_FR,
+    /**/ sizeof(EnFr),
+    /**/ EnFr_Init,
+    /**/ EnFr_Destroy,
+    /**/ EnFr_Update,
+    /**/ NULL,
 };
 
 static Color_RGBA8 sEnFrColor[] = {

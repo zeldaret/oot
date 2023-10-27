@@ -27,15 +27,15 @@ void EnGb_DrawCagedSouls(EnGb* this, PlayState* play);
 void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play);
 
 ActorInit En_Gb_InitVars = {
-    ACTOR_EN_GB,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_PS,
-    sizeof(EnGb),
-    (ActorFunc)EnGb_Init,
-    (ActorFunc)EnGb_Destroy,
-    (ActorFunc)EnGb_Update,
-    (ActorFunc)EnGb_Draw,
+    /**/ ACTOR_EN_GB,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_PS,
+    /**/ sizeof(EnGb),
+    /**/ EnGb_Init,
+    /**/ EnGb_Destroy,
+    /**/ EnGb_Update,
+    /**/ EnGb_Draw,
 };
 
 static EnGbCagedSoulInfo sCagedSoulInfo[] = {

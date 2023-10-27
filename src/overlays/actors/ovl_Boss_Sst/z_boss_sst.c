@@ -235,15 +235,15 @@ static Color_RGBA8 sStaticColor = { 0, 0, 0, 255 };
 static s32 sHandState[] = { HAND_WAIT, HAND_WAIT };
 
 ActorInit Boss_Sst_InitVars = {
-    ACTOR_BOSS_SST,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_SST,
-    sizeof(BossSst),
-    (ActorFunc)BossSst_Init,
-    (ActorFunc)BossSst_Destroy,
-    (ActorFunc)BossSst_UpdateHand,
-    (ActorFunc)BossSst_DrawHand,
+    /**/ ACTOR_BOSS_SST,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_SST,
+    /**/ sizeof(BossSst),
+    /**/ BossSst_Init,
+    /**/ BossSst_Destroy,
+    /**/ BossSst_UpdateHand,
+    /**/ BossSst_DrawHand,
 };
 
 #include "z_boss_sst_colchk.inc.c"

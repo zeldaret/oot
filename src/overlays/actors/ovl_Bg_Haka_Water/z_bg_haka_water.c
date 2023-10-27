@@ -19,15 +19,15 @@ void BgHakaWater_Wait(BgHakaWater* this, PlayState* play);
 void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, PlayState* play);
 
 ActorInit Bg_Haka_Water_InitVars = {
-    ACTOR_BG_HAKA_WATER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_HAKACH_OBJECTS,
-    sizeof(BgHakaWater),
-    (ActorFunc)BgHakaWater_Init,
-    (ActorFunc)BgHakaWater_Destroy,
-    (ActorFunc)BgHakaWater_Update,
-    (ActorFunc)BgHakaWater_Draw,
+    /**/ ACTOR_BG_HAKA_WATER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKACH_OBJECTS,
+    /**/ sizeof(BgHakaWater),
+    /**/ BgHakaWater_Init,
+    /**/ BgHakaWater_Destroy,
+    /**/ BgHakaWater_Update,
+    /**/ BgHakaWater_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

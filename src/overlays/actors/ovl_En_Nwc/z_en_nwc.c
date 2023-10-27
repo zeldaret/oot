@@ -31,15 +31,15 @@ typedef enum {
 } ChickTypes;
 
 ActorInit En_Nwc_InitVars = {
-    ACTOR_EN_NWC,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_NWC,
-    sizeof(EnNwc),
-    (ActorFunc)EnNwc_Init,
-    (ActorFunc)EnNwc_Destroy,
-    (ActorFunc)EnNwc_Update,
-    (ActorFunc)EnNwc_Draw,
+    /**/ ACTOR_EN_NWC,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_NWC,
+    /**/ sizeof(EnNwc),
+    /**/ EnNwc_Init,
+    /**/ EnNwc_Destroy,
+    /**/ EnNwc_Update,
+    /**/ EnNwc_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementInit = {

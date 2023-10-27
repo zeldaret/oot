@@ -20,15 +20,15 @@ void BgMizuBwall_Break(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_DoNothing(BgMizuBwall* this, PlayState* play);
 
 ActorInit Bg_Mizu_Bwall_InitVars = {
-    ACTOR_BG_MIZU_BWALL,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuBwall),
-    (ActorFunc)BgMizuBwall_Init,
-    (ActorFunc)BgMizuBwall_Destroy,
-    (ActorFunc)BgMizuBwall_Update,
-    (ActorFunc)BgMizuBwall_Draw,
+    /**/ ACTOR_BG_MIZU_BWALL,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuBwall),
+    /**/ BgMizuBwall_Init,
+    /**/ BgMizuBwall_Destroy,
+    /**/ BgMizuBwall_Update,
+    /**/ BgMizuBwall_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementInitFloor[2] = {

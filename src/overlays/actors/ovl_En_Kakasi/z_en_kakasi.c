@@ -43,15 +43,15 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 ActorInit En_Kakasi_InitVars = {
-    ACTOR_EN_KAKASI,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_KA,
-    sizeof(EnKakasi),
-    (ActorFunc)EnKakasi_Init,
-    (ActorFunc)EnKakasi_Destroy,
-    (ActorFunc)EnKakasi_Update,
-    (ActorFunc)EnKakasi_Draw,
+    /**/ ACTOR_EN_KAKASI,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_KA,
+    /**/ sizeof(EnKakasi),
+    /**/ EnKakasi_Init,
+    /**/ EnKakasi_Destroy,
+    /**/ EnKakasi_Update,
+    /**/ EnKakasi_Draw,
 };
 
 void EnKakasi_Destroy(Actor* thisx, PlayState* play) {

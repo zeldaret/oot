@@ -39,15 +39,15 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 ActorInit Item_Shield_InitVars = {
-    ACTOR_ITEM_SHIELD,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_LINK_CHILD,
-    sizeof(ItemShield),
-    (ActorFunc)ItemShield_Init,
-    (ActorFunc)ItemShield_Destroy,
-    (ActorFunc)ItemShield_Update,
-    (ActorFunc)ItemShield_Draw,
+    /**/ ACTOR_ITEM_SHIELD,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_LINK_CHILD,
+    /**/ sizeof(ItemShield),
+    /**/ ItemShield_Init,
+    /**/ ItemShield_Destroy,
+    /**/ ItemShield_Update,
+    /**/ ItemShield_Draw,
 };
 
 static Color_RGBA8 unused = { 255, 255, 0, 255 };

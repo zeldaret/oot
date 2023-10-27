@@ -45,15 +45,15 @@ void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, PlayState* pl
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, PlayState* play);
 
 ActorInit Bg_Spot06_Objects_InitVars = {
-    ACTOR_BG_SPOT06_OBJECTS,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT06_OBJECTS,
-    sizeof(BgSpot06Objects),
-    (ActorFunc)BgSpot06Objects_Init,
-    (ActorFunc)BgSpot06Objects_Destroy,
-    (ActorFunc)BgSpot06Objects_Update,
-    (ActorFunc)BgSpot06Objects_Draw,
+    /**/ ACTOR_BG_SPOT06_OBJECTS,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT06_OBJECTS,
+    /**/ sizeof(BgSpot06Objects),
+    /**/ BgSpot06Objects_Init,
+    /**/ BgSpot06Objects_Destroy,
+    /**/ BgSpot06Objects_Update,
+    /**/ BgSpot06Objects_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {

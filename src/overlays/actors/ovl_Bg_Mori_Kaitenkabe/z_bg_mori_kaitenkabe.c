@@ -21,15 +21,15 @@ void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, PlayState* play);
 
 ActorInit Bg_Mori_Kaitenkabe_InitVars = {
-    ACTOR_BG_MORI_KAITENKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriKaitenkabe),
-    (ActorFunc)BgMoriKaitenkabe_Init,
-    (ActorFunc)BgMoriKaitenkabe_Destroy,
-    (ActorFunc)BgMoriKaitenkabe_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_KAITENKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriKaitenkabe),
+    /**/ BgMoriKaitenkabe_Init,
+    /**/ BgMoriKaitenkabe_Destroy,
+    /**/ BgMoriKaitenkabe_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {

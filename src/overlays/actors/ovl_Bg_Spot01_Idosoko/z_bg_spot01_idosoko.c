@@ -17,15 +17,15 @@ void BgSpot01Idosoko_Draw(Actor* thisx, PlayState* play);
 void func_808ABF54(BgSpot01Idosoko* this, PlayState* play);
 
 ActorInit Bg_Spot01_Idosoko_InitVars = {
-    ACTOR_BG_SPOT01_IDOSOKO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT01_MATOYA,
-    sizeof(BgSpot01Idosoko),
-    (ActorFunc)BgSpot01Idosoko_Init,
-    (ActorFunc)BgSpot01Idosoko_Destroy,
-    (ActorFunc)BgSpot01Idosoko_Update,
-    (ActorFunc)BgSpot01Idosoko_Draw,
+    /**/ ACTOR_BG_SPOT01_IDOSOKO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_MATOYA,
+    /**/ sizeof(BgSpot01Idosoko),
+    /**/ BgSpot01Idosoko_Init,
+    /**/ BgSpot01Idosoko_Destroy,
+    /**/ BgSpot01Idosoko_Update,
+    /**/ BgSpot01Idosoko_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

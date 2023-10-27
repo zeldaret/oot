@@ -1368,13 +1368,13 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Ec_InitVars = {
-    ACTOR_DEMO_EC,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_EC,
-    sizeof(DemoEc),
-    (ActorFunc)DemoEc_Init,
-    (ActorFunc)DemoEc_Destroy,
-    (ActorFunc)DemoEc_Update,
-    (ActorFunc)DemoEc_Draw,
+    /**/ ACTOR_DEMO_EC,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_EC,
+    /**/ sizeof(DemoEc),
+    /**/ DemoEc_Init,
+    /**/ DemoEc_Destroy,
+    /**/ DemoEc_Update,
+    /**/ DemoEc_Draw,
 };

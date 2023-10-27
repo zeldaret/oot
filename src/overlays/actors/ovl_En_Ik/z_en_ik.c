@@ -1558,13 +1558,13 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
 }
 
 ActorInit En_Ik_InitVars = {
-    ACTOR_EN_IK,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_IK,
-    sizeof(EnIk),
-    (ActorFunc)EnIk_Init,
-    (ActorFunc)EnIk_Destroy,
-    (ActorFunc)EnIk_UpdateCutscene,
-    (ActorFunc)EnIk_DrawCutscene,
+    /**/ ACTOR_EN_IK,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_IK,
+    /**/ sizeof(EnIk),
+    /**/ EnIk_Init,
+    /**/ EnIk_Destroy,
+    /**/ EnIk_UpdateCutscene,
+    /**/ EnIk_DrawCutscene,
 };

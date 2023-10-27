@@ -16,15 +16,15 @@ void func_80B98320(ObjMakekinsuta* this, PlayState* play);
 void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, PlayState* play);
 
 ActorInit Obj_Makekinsuta_InitVars = {
-    ACTOR_OBJ_MAKEKINSUTA,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjMakekinsuta),
-    (ActorFunc)ObjMakekinsuta_Init,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)ObjMakekinsuta_Update,
-    NULL,
+    /**/ ACTOR_OBJ_MAKEKINSUTA,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjMakekinsuta),
+    /**/ ObjMakekinsuta_Init,
+    /**/ Actor_Noop,
+    /**/ ObjMakekinsuta_Update,
+    /**/ NULL,
 };
 
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play) {

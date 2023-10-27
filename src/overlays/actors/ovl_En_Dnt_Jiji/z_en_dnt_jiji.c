@@ -40,15 +40,15 @@ void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
 ActorInit En_Dnt_Jiji_InitVars = {
-    ACTOR_EN_DNT_JIJI,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DNS,
-    sizeof(EnDntJiji),
-    (ActorFunc)EnDntJiji_Init,
-    (ActorFunc)EnDntJiji_Destroy,
-    (ActorFunc)EnDntJiji_Update,
-    (ActorFunc)EnDntJiji_Draw,
+    /**/ ACTOR_EN_DNT_JIJI,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DNS,
+    /**/ sizeof(EnDntJiji),
+    /**/ EnDntJiji_Init,
+    /**/ EnDntJiji_Destroy,
+    /**/ EnDntJiji_Update,
+    /**/ EnDntJiji_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

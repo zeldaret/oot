@@ -15,15 +15,15 @@ void BgJyaBlock_Update(Actor* thisx, PlayState* play);
 void BgJyaBlock_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Jya_Block_InitVars = {
-    ACTOR_BG_JYA_BLOCK,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(BgJyaBlock),
-    (ActorFunc)BgJyaBlock_Init,
-    (ActorFunc)BgJyaBlock_Destroy,
-    (ActorFunc)BgJyaBlock_Update,
-    (ActorFunc)BgJyaBlock_Draw,
+    /**/ ACTOR_BG_JYA_BLOCK,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(BgJyaBlock),
+    /**/ BgJyaBlock_Init,
+    /**/ BgJyaBlock_Destroy,
+    /**/ BgJyaBlock_Update,
+    /**/ BgJyaBlock_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
