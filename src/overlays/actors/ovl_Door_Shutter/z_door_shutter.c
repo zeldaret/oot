@@ -511,7 +511,7 @@ f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offset
     func_8002DBD0(&this->dyna.actor, &relPlayerPos, &playerPos);
 
     if (fabsf(relPlayerPos.x) > maxDistSides || fabsf(relPlayerPos.y) > maxDistY) {
-        return FLT_MAX;
+        return MAXFLOAT;
     } else {
         return relPlayerPos.z;
     }

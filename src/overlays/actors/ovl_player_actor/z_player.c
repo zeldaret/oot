@@ -11214,7 +11214,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
             this->targetActorDistance = 0.0f;
         } else {
             this->targetActor = NULL;
-            this->targetActorDistance = FLT_MAX;
+            this->targetActorDistance = MAXFLOAT;
             this->exchangeItemId = EXCH_ITEM_NONE;
         }
 
@@ -11234,7 +11234,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         }
 
         this->stateFlags2 &= ~PLAYER_STATE2_23;
-        this->closestSecretDistSq = FLT_MAX;
+        this->closestSecretDistSq = MAXFLOAT;
 
         temp_f0 = this->actor.world.pos.y - this->actor.prevPos.y;
 
