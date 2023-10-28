@@ -757,7 +757,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                         case 1:
                             // Last cucco found, end the game
                             gSaveContext.timerState = TIMER_STATE_OFF;
-                            func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+                            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 
                             Message_StartTextbox(play, 0x2084, &this->actor);
                             this->actionFunc = EnTa_TalkCuccoGameEnd;
@@ -805,7 +805,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
         this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         gSaveContext.timerState = TIMER_STATE_OFF;
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 
         // Time's up text
         Message_StartTextbox(play, 0x2081, &this->actor);
@@ -868,7 +868,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 10.0f);
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
     }
 }
 
@@ -885,7 +885,7 @@ void EnTa_StartingCuccoGame3(EnTa* this, PlayState* play) {
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         this->stateFlags |= TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         Message_CloseTextbox(play);
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     }
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {

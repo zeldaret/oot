@@ -125,7 +125,7 @@ void BgIceObjects_CheckPits(BgIceObjects* this, PlayState* play) {
             thisx->world.pos.y = thisx->home.pos.y - 60.0f;
             thisx->world.pos.z = thisx->home.pos.z;
             if (thisx->params != 0) {
-                func_8002DF54(play, thisx, PLAYER_CSACTION_7);
+                Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
             }
             this->actionFunc = BgIceObjects_Reset;
         }
@@ -142,7 +142,7 @@ void BgIceObjects_Idle(BgIceObjects* this, PlayState* play) {
             BgIceObjects_SetNextTarget(this, play);
             if (Actor_WorldDistXZToPoint(thisx, &this->targetPos) > 1.0f) {
                 thisx->flags |= ACTOR_FLAG_4;
-                func_8002DF54(play, thisx, PLAYER_CSACTION_8);
+                Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_8);
                 thisx->params = 1;
                 this->actionFunc = BgIceObjects_Slide;
             }
@@ -172,7 +172,7 @@ void BgIceObjects_Slide(BgIceObjects* this, PlayState* play) {
             thisx->flags &= ~ACTOR_FLAG_4;
         }
         thisx->params = 0;
-        func_8002DF54(play, thisx, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, thisx, PLAYER_CSACTION_7);
         Actor_PlaySfx(thisx, NA_SE_EV_BLOCK_BOUND);
         if ((fabsf(thisx->world.pos.x + 1387.0f) < 1.0f) && (fabsf(thisx->world.pos.z + 260.0f) < 1.0f)) {
             this->actionFunc = BgIceObjects_Stuck;

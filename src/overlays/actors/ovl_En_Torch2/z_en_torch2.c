@@ -563,7 +563,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
 
     if ((this->actor.colChkInfo.health == 0) && sDeathFlag) {
         this->csAction = PLAYER_CSACTION_24;
-        this->unk_448 = &player->actor;
+        this->csActor = &player->actor;
         this->cv.haltActorsDuringCsAction = true;
         sDeathFlag = false;
     }
