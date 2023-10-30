@@ -45,15 +45,15 @@ void BossFd_UpdateEffects(BossFd* this, PlayState* play);
 void BossFd_DrawBody(PlayState* play, BossFd* this);
 
 ActorInit Boss_Fd_InitVars = {
-    ACTOR_BOSS_FD,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_FD,
-    sizeof(BossFd),
-    (ActorFunc)BossFd_Init,
-    (ActorFunc)BossFd_Destroy,
-    (ActorFunc)BossFd_Update,
-    (ActorFunc)BossFd_Draw,
+    /**/ ACTOR_BOSS_FD,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_FD,
+    /**/ sizeof(BossFd),
+    /**/ BossFd_Init,
+    /**/ BossFd_Destroy,
+    /**/ BossFd_Update,
+    /**/ BossFd_Draw,
 };
 
 #include "z_boss_fd_colchk.inc.c"

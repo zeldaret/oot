@@ -19,15 +19,15 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play);
 #include "assets/overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
 
 ActorInit Bg_Jya_Cobra_InitVars = {
-    ACTOR_BG_JYA_COBRA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaCobra),
-    (ActorFunc)BgJyaCobra_Init,
-    (ActorFunc)BgJyaCobra_Destroy,
-    (ActorFunc)BgJyaCobra_Update,
-    (ActorFunc)BgJyaCobra_Draw,
+    /**/ ACTOR_BG_JYA_COBRA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaCobra),
+    /**/ BgJyaCobra_Init,
+    /**/ BgJyaCobra_Destroy,
+    /**/ BgJyaCobra_Update,
+    /**/ BgJyaCobra_Draw,
 };
 
 static s16 D_80897308[] = { 0, 0, 0, 0 };

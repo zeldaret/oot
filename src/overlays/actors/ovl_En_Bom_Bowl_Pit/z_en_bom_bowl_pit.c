@@ -21,15 +21,15 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, PlayState* play);
 static s32 sGetItemIds[] = { GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_BOMBS_1, GI_RUPEE_PURPLE };
 
 ActorInit En_Bom_Bowl_Pit_InitVars = {
-    ACTOR_EN_BOM_BOWL_PIT,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnBomBowlPit),
-    (ActorFunc)EnBomBowlPit_Init,
-    (ActorFunc)EnBomBowlPit_Destroy,
-    (ActorFunc)EnBomBowlPit_Update,
-    NULL,
+    /**/ ACTOR_EN_BOM_BOWL_PIT,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnBomBowlPit),
+    /**/ EnBomBowlPit_Init,
+    /**/ EnBomBowlPit_Destroy,
+    /**/ EnBomBowlPit_Update,
+    /**/ NULL,
 };
 
 void EnBomBowlPit_Init(Actor* thisx, PlayState* play) {

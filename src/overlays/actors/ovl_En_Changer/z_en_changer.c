@@ -25,15 +25,15 @@ void EnChanger_OpenChests(EnChanger* this, PlayState* play);
 void EnChanger_SetHeartPieceFlag(EnChanger* this, PlayState* play);
 
 ActorInit En_Changer_InitVars = {
-    ACTOR_EN_CHANGER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnChanger),
-    (ActorFunc)EnChanger_Init,
-    (ActorFunc)EnChanger_Destroy,
-    (ActorFunc)EnChanger_Update,
-    NULL,
+    /**/ ACTOR_EN_CHANGER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnChanger),
+    /**/ EnChanger_Init,
+    /**/ EnChanger_Destroy,
+    /**/ EnChanger_Update,
+    /**/ NULL,
 };
 
 static Vec3f sLeftChestPos[] = {

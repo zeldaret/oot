@@ -39,15 +39,15 @@ void EnWallmas_Stun(EnWallmas* this, PlayState* play);
 void EnWallmas_Walk(EnWallmas* this, PlayState* play);
 
 ActorInit En_Wallmas_InitVars = {
-    ACTOR_EN_WALLMAS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_WALLMASTER,
-    sizeof(EnWallmas),
-    (ActorFunc)EnWallmas_Init,
-    (ActorFunc)EnWallmas_Destroy,
-    (ActorFunc)EnWallmas_Update,
-    (ActorFunc)EnWallmas_Draw,
+    /**/ ACTOR_EN_WALLMAS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_WALLMASTER,
+    /**/ sizeof(EnWallmas),
+    /**/ EnWallmas_Init,
+    /**/ EnWallmas_Destroy,
+    /**/ EnWallmas_Update,
+    /**/ EnWallmas_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

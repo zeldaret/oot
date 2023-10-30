@@ -18,15 +18,15 @@ void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play);
 void BgHidanDalm_Shrink(BgHidanDalm* this, PlayState* play);
 
 ActorInit Bg_Hidan_Dalm_InitVars = {
-    ACTOR_BG_HIDAN_DALM,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanDalm),
-    (ActorFunc)BgHidanDalm_Init,
-    (ActorFunc)BgHidanDalm_Destroy,
-    (ActorFunc)BgHidanDalm_Update,
-    (ActorFunc)BgHidanDalm_Draw,
+    /**/ ACTOR_BG_HIDAN_DALM,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanDalm),
+    /**/ BgHidanDalm_Init,
+    /**/ BgHidanDalm_Destroy,
+    /**/ BgHidanDalm_Update,
+    /**/ BgHidanDalm_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementInit[4] = {

@@ -50,15 +50,15 @@ void BossGoma_CeilingMoveToCenter(BossGoma* this, PlayState* play);
 void BossGoma_SpawnChildGohma(BossGoma* this, PlayState* play, s16 i);
 
 ActorInit Boss_Goma_InitVars = {
-    ACTOR_BOSS_GOMA,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GOMA,
-    sizeof(BossGoma),
-    (ActorFunc)BossGoma_Init,
-    (ActorFunc)BossGoma_Destroy,
-    (ActorFunc)BossGoma_Update,
-    (ActorFunc)BossGoma_Draw,
+    /**/ ACTOR_BOSS_GOMA,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GOMA,
+    /**/ sizeof(BossGoma),
+    /**/ BossGoma_Init,
+    /**/ BossGoma_Destroy,
+    /**/ BossGoma_Update,
+    /**/ BossGoma_Draw,
 };
 
 static ColliderJntSphElementInit sColliderJntSphElementInit[13] = {

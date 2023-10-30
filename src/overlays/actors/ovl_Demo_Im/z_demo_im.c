@@ -92,15 +92,15 @@ static DemoImDrawFunc sDrawFuncs[] = {
 };
 
 ActorInit Demo_Im_InitVars = {
-    ACTOR_DEMO_IM,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_IM,
-    sizeof(DemoIm),
-    (ActorFunc)DemoIm_Init,
-    (ActorFunc)DemoIm_Destroy,
-    (ActorFunc)DemoIm_Update,
-    (ActorFunc)DemoIm_Draw,
+    /**/ ACTOR_DEMO_IM,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_IM,
+    /**/ sizeof(DemoIm),
+    /**/ DemoIm_Init,
+    /**/ DemoIm_Destroy,
+    /**/ DemoIm_Update,
+    /**/ DemoIm_Draw,
 };
 
 void func_80984BE0(DemoIm* this) {

@@ -22,15 +22,15 @@ void ShotSun_UpdateFairySpawner(ShotSun* this, PlayState* play);
 void ShotSun_UpdateHyliaSun(ShotSun* this, PlayState* play);
 
 ActorInit Shot_Sun_InitVars = {
-    ACTOR_SHOT_SUN,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ShotSun),
-    (ActorFunc)ShotSun_Init,
-    (ActorFunc)ShotSun_Destroy,
-    (ActorFunc)ShotSun_Update,
-    NULL,
+    /**/ ACTOR_SHOT_SUN,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ShotSun),
+    /**/ ShotSun_Init,
+    /**/ ShotSun_Destroy,
+    /**/ ShotSun_Update,
+    /**/ NULL,
 };
 
 typedef enum {

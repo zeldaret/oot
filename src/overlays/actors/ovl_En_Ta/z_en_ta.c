@@ -60,15 +60,15 @@ void EnTa_AnimSitSleeping(EnTa* this);
 void EnTa_AnimRunToEnd(EnTa* this);
 
 ActorInit En_Ta_InitVars = {
-    ACTOR_EN_TA,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TA,
-    sizeof(EnTa),
-    (ActorFunc)EnTa_Init,
-    (ActorFunc)EnTa_Destroy,
-    (ActorFunc)EnTa_Update,
-    (ActorFunc)EnTa_Draw,
+    /**/ ACTOR_EN_TA,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TA,
+    /**/ sizeof(EnTa),
+    /**/ EnTa_Init,
+    /**/ EnTa_Destroy,
+    /**/ EnTa_Update,
+    /**/ EnTa_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

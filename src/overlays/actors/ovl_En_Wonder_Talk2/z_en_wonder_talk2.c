@@ -20,15 +20,15 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play);
 void EnWonderTalk2_DoNothing(EnWonderTalk2* this, PlayState* play);
 
 ActorInit En_Wonder_Talk2_InitVars = {
-    ACTOR_EN_WONDER_TALK2,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWonderTalk2),
-    (ActorFunc)EnWonderTalk2_Init,
-    (ActorFunc)EnWonderTalk2_Destroy,
-    (ActorFunc)EnWonderTalk2_Update,
-    NULL,
+    /**/ ACTOR_EN_WONDER_TALK2,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWonderTalk2),
+    /**/ EnWonderTalk2_Init,
+    /**/ EnWonderTalk2_Destroy,
+    /**/ EnWonderTalk2_Update,
+    /**/ NULL,
 };
 
 static s16 D_80B3A8E0[] = { 6, 0, 1, 2, 3, 4, 5 };

@@ -117,15 +117,15 @@ void BossTw_TwinrovaSetupSpin(BossTw* this, PlayState* play);
 void BossTw_UpdateEffects(PlayState* play);
 
 ActorInit Boss_Tw_InitVars = {
-    ACTOR_BOSS_TW,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_TW,
-    sizeof(BossTw),
-    (ActorFunc)BossTw_Init,
-    (ActorFunc)BossTw_Destroy,
-    (ActorFunc)BossTw_Update,
-    (ActorFunc)BossTw_Draw,
+    /**/ ACTOR_BOSS_TW,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_TW,
+    /**/ sizeof(BossTw),
+    /**/ BossTw_Init,
+    /**/ BossTw_Destroy,
+    /**/ BossTw_Update,
+    /**/ BossTw_Draw,
 };
 
 static Vec3f D_8094A7D0 = { 0.0f, 0.0f, 1000.0f };

@@ -17,15 +17,15 @@ void BgSpot03Taki_Draw(Actor* thisx, PlayState* play);
 void func_808ADEF0(BgSpot03Taki* this, PlayState* play);
 
 ActorInit Bg_Spot03_Taki_InitVars = {
-    ACTOR_BG_SPOT03_TAKI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT03_OBJECT,
-    sizeof(BgSpot03Taki),
-    (ActorFunc)BgSpot03Taki_Init,
-    (ActorFunc)BgSpot03Taki_Destroy,
-    (ActorFunc)BgSpot03Taki_Update,
-    (ActorFunc)BgSpot03Taki_Draw,
+    /**/ ACTOR_BG_SPOT03_TAKI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT03_OBJECT,
+    /**/ sizeof(BgSpot03Taki),
+    /**/ BgSpot03Taki_Init,
+    /**/ BgSpot03Taki_Destroy,
+    /**/ BgSpot03Taki_Update,
+    /**/ BgSpot03Taki_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

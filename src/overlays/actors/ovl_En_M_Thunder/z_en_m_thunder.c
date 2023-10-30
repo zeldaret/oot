@@ -13,15 +13,15 @@ void func_80A9F408(EnMThunder* this, PlayState* play);
 void func_80A9F9B4(EnMThunder* this, PlayState* play);
 
 ActorInit En_M_Thunder_InitVars = {
-    ACTOR_EN_M_THUNDER,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnMThunder),
-    (ActorFunc)EnMThunder_Init,
-    (ActorFunc)EnMThunder_Destroy,
-    (ActorFunc)EnMThunder_Update,
-    (ActorFunc)EnMThunder_Draw,
+    /**/ ACTOR_EN_M_THUNDER,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnMThunder),
+    /**/ EnMThunder_Init,
+    /**/ EnMThunder_Destroy,
+    /**/ EnMThunder_Update,
+    /**/ EnMThunder_Draw,
 };
 
 static ColliderCylinderInit D_80AA0420 = {

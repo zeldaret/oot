@@ -19,15 +19,15 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play);
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play);
 
 ActorInit En_Ge3_InitVars = {
-    ACTOR_EN_GE3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GELDB,
-    sizeof(EnGe3),
-    (ActorFunc)EnGe3_Init,
-    (ActorFunc)EnGe3_Destroy,
-    (ActorFunc)EnGe3_Update,
-    (ActorFunc)EnGe3_Draw,
+    /**/ ACTOR_EN_GE3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GELDB,
+    /**/ sizeof(EnGe3),
+    /**/ EnGe3_Init,
+    /**/ EnGe3_Destroy,
+    /**/ EnGe3_Update,
+    /**/ EnGe3_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

@@ -17,15 +17,15 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2);
 void ObjSyokudai_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Obj_Syokudai_InitVars = {
-    ACTOR_OBJ_SYOKUDAI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SYOKUDAI,
-    sizeof(ObjSyokudai),
-    (ActorFunc)ObjSyokudai_Init,
-    (ActorFunc)ObjSyokudai_Destroy,
-    (ActorFunc)ObjSyokudai_Update,
-    (ActorFunc)ObjSyokudai_Draw,
+    /**/ ACTOR_OBJ_SYOKUDAI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SYOKUDAI,
+    /**/ sizeof(ObjSyokudai),
+    /**/ ObjSyokudai_Init,
+    /**/ ObjSyokudai_Destroy,
+    /**/ ObjSyokudai_Update,
+    /**/ ObjSyokudai_Draw,
 };
 
 static ColliderCylinderInit sCylInitStand = {

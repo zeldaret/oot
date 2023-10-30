@@ -23,15 +23,15 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play);
 void EnKz_StartTimer(EnKz* this, PlayState* play);
 
 ActorInit En_Kz_InitVars = {
-    ACTOR_EN_KZ,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_KZ,
-    sizeof(EnKz),
-    (ActorFunc)EnKz_Init,
-    (ActorFunc)EnKz_Destroy,
-    (ActorFunc)EnKz_Update,
-    (ActorFunc)EnKz_Draw,
+    /**/ ACTOR_EN_KZ,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_KZ,
+    /**/ sizeof(EnKz),
+    /**/ EnKz_Init,
+    /**/ EnKz_Destroy,
+    /**/ EnKz_Update,
+    /**/ EnKz_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

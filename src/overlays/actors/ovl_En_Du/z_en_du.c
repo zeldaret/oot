@@ -23,15 +23,15 @@ void func_809FECE4(EnDu* this, PlayState* play);
 void func_809FEB08(EnDu* this, PlayState* play);
 
 ActorInit En_Du_InitVars = {
-    ACTOR_EN_DU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DU,
-    sizeof(EnDu),
-    (ActorFunc)EnDu_Init,
-    (ActorFunc)EnDu_Destroy,
-    (ActorFunc)EnDu_Update,
-    (ActorFunc)EnDu_Draw,
+    /**/ ACTOR_EN_DU,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DU,
+    /**/ sizeof(EnDu),
+    /**/ EnDu_Init,
+    /**/ EnDu_Destroy,
+    /**/ EnDu_Update,
+    /**/ EnDu_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

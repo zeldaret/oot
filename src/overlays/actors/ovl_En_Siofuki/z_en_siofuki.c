@@ -19,15 +19,15 @@ void func_80AFC544(EnSiofuki* this, PlayState* play);
 void func_80AFC478(EnSiofuki* this, PlayState* play);
 
 ActorInit En_Siofuki_InitVars = {
-    ACTOR_EN_SIOFUKI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SIOFUKI,
-    sizeof(EnSiofuki),
-    (ActorFunc)EnSiofuki_Init,
-    (ActorFunc)EnSiofuki_Destroy,
-    (ActorFunc)EnSiofuki_Update,
-    (ActorFunc)EnSiofuki_Draw,
+    /**/ ACTOR_EN_SIOFUKI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SIOFUKI,
+    /**/ sizeof(EnSiofuki),
+    /**/ EnSiofuki_Init,
+    /**/ EnSiofuki_Destroy,
+    /**/ EnSiofuki_Update,
+    /**/ EnSiofuki_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

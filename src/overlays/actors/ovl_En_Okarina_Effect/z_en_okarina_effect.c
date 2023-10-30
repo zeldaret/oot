@@ -17,15 +17,15 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play);
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play);
 
 ActorInit En_Okarina_Effect_InitVars = {
-    ACTOR_EN_OKARINA_EFFECT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnOkarinaEffect),
-    (ActorFunc)EnOkarinaEffect_Init,
-    (ActorFunc)EnOkarinaEffect_Destroy,
-    (ActorFunc)EnOkarinaEffect_Update,
-    NULL,
+    /**/ ACTOR_EN_OKARINA_EFFECT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnOkarinaEffect),
+    /**/ EnOkarinaEffect_Init,
+    /**/ EnOkarinaEffect_Destroy,
+    /**/ EnOkarinaEffect_Update,
+    /**/ NULL,
 };
 
 void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFunc actionFunc) {

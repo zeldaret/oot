@@ -37,15 +37,15 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
 };
 
 ActorInit Bg_Spot01_Idohashira_InitVars = {
-    ACTOR_BG_SPOT01_IDOHASHIRA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT01_OBJECTS,
-    sizeof(BgSpot01Idohashira),
-    (ActorFunc)BgSpot01Idohashira_Init,
-    (ActorFunc)BgSpot01Idohashira_Destroy,
-    (ActorFunc)BgSpot01Idohashira_Update,
-    (ActorFunc)BgSpot01Idohashira_Draw,
+    /**/ ACTOR_BG_SPOT01_IDOHASHIRA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_OBJECTS,
+    /**/ sizeof(BgSpot01Idohashira),
+    /**/ BgSpot01Idohashira_Init,
+    /**/ BgSpot01Idohashira_Destroy,
+    /**/ BgSpot01Idohashira_Update,
+    /**/ BgSpot01Idohashira_Draw,
 };
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {

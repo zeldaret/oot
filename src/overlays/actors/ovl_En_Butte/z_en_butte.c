@@ -50,15 +50,15 @@ static ColliderJntSphInit sColliderInit = {
 };
 
 ActorInit En_Butte_InitVars = {
-    ACTOR_EN_BUTTE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(EnButte),
-    (ActorFunc)EnButte_Init,
-    (ActorFunc)EnButte_Destroy,
-    (ActorFunc)EnButte_Update,
-    (ActorFunc)EnButte_Draw,
+    /**/ ACTOR_EN_BUTTE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(EnButte),
+    /**/ EnButte_Init,
+    /**/ EnButte_Destroy,
+    /**/ EnButte_Update,
+    /**/ EnButte_Draw,
 };
 
 typedef struct {

@@ -23,15 +23,15 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2);
 void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2);
 
 ActorInit Eff_Dust_InitVars = {
-    ACTOR_EFF_DUST,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EffDust),
-    (ActorFunc)EffDust_Init,
-    (ActorFunc)EffDust_Destroy,
-    (ActorFunc)EffDust_Update,
-    (ActorFunc)EffDust_Draw,
+    /**/ ACTOR_EFF_DUST,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EffDust),
+    /**/ EffDust_Init,
+    /**/ EffDust_Destroy,
+    /**/ EffDust_Update,
+    /**/ EffDust_Draw,
 };
 
 static Gfx sEmptyDL[] = {

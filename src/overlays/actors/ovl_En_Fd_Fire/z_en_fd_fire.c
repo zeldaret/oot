@@ -13,15 +13,15 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, PlayState* play);
 void EnFdFire_WaitToDie(EnFdFire* this, PlayState* play);
 
 ActorInit En_Fd_Fire_InitVars = {
-    ACTOR_EN_FD_FIRE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(EnFdFire),
-    (ActorFunc)EnFdFire_Init,
-    (ActorFunc)EnFdFire_Destroy,
-    (ActorFunc)EnFdFire_Update,
-    (ActorFunc)EnFdFire_Draw,
+    /**/ ACTOR_EN_FD_FIRE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(EnFdFire),
+    /**/ EnFdFire_Init,
+    /**/ EnFdFire_Destroy,
+    /**/ EnFdFire_Update,
+    /**/ EnFdFire_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

@@ -20,15 +20,15 @@ void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, PlayState* play);
 static s16 sIsSpawned = false;
 
 ActorInit Bg_Mori_Elevator_InitVars = {
-    ACTOR_BG_MORI_ELEVATOR,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriElevator),
-    (ActorFunc)BgMoriElevator_Init,
-    (ActorFunc)BgMoriElevator_Destroy,
-    (ActorFunc)BgMoriElevator_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_ELEVATOR,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriElevator),
+    /**/ BgMoriElevator_Init,
+    /**/ BgMoriElevator_Destroy,
+    /**/ BgMoriElevator_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {

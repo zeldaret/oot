@@ -20,15 +20,15 @@ void func_8099496C(DoorGerudo* this, PlayState* play);
 void func_809949C8(DoorGerudo* this, PlayState* play);
 
 ActorInit Door_Gerudo_InitVars = {
-    ACTOR_DOOR_GERUDO,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_DOOR_GERUDO,
-    sizeof(DoorGerudo),
-    (ActorFunc)DoorGerudo_Init,
-    (ActorFunc)DoorGerudo_Destroy,
-    (ActorFunc)DoorGerudo_Update,
-    (ActorFunc)DoorGerudo_Draw,
+    /**/ ACTOR_DOOR_GERUDO,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_DOOR_GERUDO,
+    /**/ sizeof(DoorGerudo),
+    /**/ DoorGerudo_Init,
+    /**/ DoorGerudo_Destroy,
+    /**/ DoorGerudo_Update,
+    /**/ DoorGerudo_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

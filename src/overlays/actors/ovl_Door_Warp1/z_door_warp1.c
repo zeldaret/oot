@@ -33,15 +33,15 @@ void DoorWarp1_ChooseInitialAction(DoorWarp1* this, PlayState* play);
 void DoorWarp1_FloatPlayer(DoorWarp1* this, PlayState* play);
 
 ActorInit Door_Warp1_InitVars = {
-    ACTOR_DOOR_WARP1,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_WARP1,
-    sizeof(DoorWarp1),
-    (ActorFunc)DoorWarp1_Init,
-    (ActorFunc)DoorWarp1_Destroy,
-    (ActorFunc)DoorWarp1_Update,
-    (ActorFunc)DoorWarp1_Draw,
+    /**/ ACTOR_DOOR_WARP1,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_WARP1,
+    /**/ sizeof(DoorWarp1),
+    /**/ DoorWarp1_Init,
+    /**/ DoorWarp1_Destroy,
+    /**/ DoorWarp1_Update,
+    /**/ DoorWarp1_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

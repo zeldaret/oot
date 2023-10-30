@@ -47,15 +47,15 @@ void BossFd2_Death(BossFd2* this, PlayState* play);
 void BossFd2_Wait(BossFd2* this, PlayState* play);
 
 ActorInit Boss_Fd2_InitVars = {
-    ACTOR_BOSS_FD2,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_FD2,
-    sizeof(BossFd2),
-    (ActorFunc)BossFd2_Init,
-    (ActorFunc)BossFd2_Destroy,
-    (ActorFunc)BossFd2_Update,
-    (ActorFunc)BossFd2_Draw,
+    /**/ ACTOR_BOSS_FD2,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_FD2,
+    /**/ sizeof(BossFd2),
+    /**/ BossFd2_Init,
+    /**/ BossFd2_Destroy,
+    /**/ BossFd2_Update,
+    /**/ BossFd2_Draw,
 };
 
 #include "z_boss_fd2_colchk.inc.c"

@@ -34,15 +34,15 @@ void func_809EEA90(EnDivingGame* this, PlayState* play);
 void func_809EEAF8(EnDivingGame* this, PlayState* play);
 
 ActorInit En_Diving_Game_InitVars = {
-    ACTOR_EN_DIVING_GAME,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZO,
-    sizeof(EnDivingGame),
-    (ActorFunc)EnDivingGame_Init,
-    (ActorFunc)EnDivingGame_Destroy,
-    (ActorFunc)EnDivingGame_Update,
-    (ActorFunc)EnDivingGame_Draw,
+    /**/ ACTOR_EN_DIVING_GAME,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZO,
+    /**/ sizeof(EnDivingGame),
+    /**/ EnDivingGame_Init,
+    /**/ EnDivingGame_Destroy,
+    /**/ EnDivingGame_Update,
+    /**/ EnDivingGame_Draw,
 };
 
 // used to ensure there's only one instance of this actor.

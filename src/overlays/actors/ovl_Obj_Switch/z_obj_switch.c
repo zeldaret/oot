@@ -51,15 +51,15 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play);
 
 ActorInit Obj_Switch_InitVars = {
-    ACTOR_OBJ_SWITCH,
-    ACTORCAT_SWITCH,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(ObjSwitch),
-    (ActorFunc)ObjSwitch_Init,
-    (ActorFunc)ObjSwitch_Destroy,
-    (ActorFunc)ObjSwitch_Update,
-    (ActorFunc)ObjSwitch_Draw,
+    /**/ ACTOR_OBJ_SWITCH,
+    /**/ ACTORCAT_SWITCH,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjSwitch),
+    /**/ ObjSwitch_Init,
+    /**/ ObjSwitch_Destroy,
+    /**/ ObjSwitch_Update,
+    /**/ ObjSwitch_Draw,
 };
 
 static f32 sFocusHeights[] = {

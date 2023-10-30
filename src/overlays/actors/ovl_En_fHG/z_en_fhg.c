@@ -46,15 +46,15 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play);
 void EnfHG_Done(EnfHG* this, PlayState* play);
 
 ActorInit En_fHG_InitVars = {
-    ACTOR_EN_FHG,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_FHG,
-    sizeof(EnfHG),
-    (ActorFunc)EnfHG_Init,
-    (ActorFunc)EnfHG_Destroy,
-    (ActorFunc)EnfHG_Update,
-    (ActorFunc)EnfHG_Draw,
+    /**/ ACTOR_EN_FHG,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_FHG,
+    /**/ sizeof(EnfHG),
+    /**/ EnfHG_Init,
+    /**/ EnfHG_Destroy,
+    /**/ EnfHG_Update,
+    /**/ EnfHG_Draw,
 };
 
 static EnfHGPainting sPaintings[] = {

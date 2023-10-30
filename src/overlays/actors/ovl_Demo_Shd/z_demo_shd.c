@@ -16,15 +16,15 @@ void DemoShd_Draw(Actor* thisx, PlayState* play);
 void func_80991298(DemoShd* this, PlayState* play);
 
 ActorInit Demo_Shd_InitVars = {
-    ACTOR_DEMO_SHD,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DemoShd),
-    (ActorFunc)DemoShd_Init,
-    (ActorFunc)DemoShd_Destroy,
-    (ActorFunc)DemoShd_Update,
-    (ActorFunc)DemoShd_Draw,
+    /**/ ACTOR_DEMO_SHD,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DemoShd),
+    /**/ DemoShd_Init,
+    /**/ DemoShd_Destroy,
+    /**/ DemoShd_Update,
+    /**/ DemoShd_Draw,
 };
 
 #include "assets/overlays/ovl_Demo_Shd/ovl_Demo_Shd.c"

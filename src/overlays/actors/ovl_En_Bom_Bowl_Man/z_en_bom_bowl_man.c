@@ -35,15 +35,15 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play);
 
 ActorInit En_Bom_Bowl_Man_InitVars = {
-    ACTOR_EN_BOM_BOWL_MAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_BG,
-    sizeof(EnBomBowlMan),
-    (ActorFunc)EnBomBowlMan_Init,
-    (ActorFunc)EnBomBowlMan_Destroy,
-    (ActorFunc)EnBomBowlMan_Update,
-    (ActorFunc)EnBomBowlMan_Draw,
+    /**/ ACTOR_EN_BOM_BOWL_MAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_BG,
+    /**/ sizeof(EnBomBowlMan),
+    /**/ EnBomBowlMan_Init,
+    /**/ EnBomBowlMan_Destroy,
+    /**/ EnBomBowlMan_Update,
+    /**/ EnBomBowlMan_Draw,
 };
 
 void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {

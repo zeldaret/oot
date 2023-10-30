@@ -66,15 +66,15 @@ typedef enum {
 } EnOwlMessageChoice;
 
 ActorInit En_Owl_InitVars = {
-    ACTOR_EN_OWL,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OWL,
-    sizeof(EnOwl),
-    (ActorFunc)EnOwl_Init,
-    (ActorFunc)EnOwl_Destroy,
-    (ActorFunc)EnOwl_Update,
-    (ActorFunc)EnOwl_Draw,
+    /**/ ACTOR_EN_OWL,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OWL,
+    /**/ sizeof(EnOwl),
+    /**/ EnOwl_Init,
+    /**/ EnOwl_Destroy,
+    /**/ EnOwl_Update,
+    /**/ EnOwl_Draw,
 };
 
 static ColliderCylinderInit sOwlCylinderInit = {

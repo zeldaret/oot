@@ -57,15 +57,15 @@ void EnDntNomal_StageAttack(EnDntNomal* this, PlayState* play);
 void EnDntNomal_StageReturn(EnDntNomal* this, PlayState* play);
 
 ActorInit En_Dnt_Nomal_InitVars = {
-    ACTOR_EN_DNT_NOMAL,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnDntNomal),
-    (ActorFunc)EnDntNomal_Init,
-    (ActorFunc)EnDntNomal_Destroy,
-    (ActorFunc)EnDntNomal_Update,
-    NULL,
+    /**/ ACTOR_EN_DNT_NOMAL,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnDntNomal),
+    /**/ EnDntNomal_Init,
+    /**/ EnDntNomal_Destroy,
+    /**/ EnDntNomal_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sBodyCylinderInit = {

@@ -35,15 +35,15 @@ void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
 ActorInit En_Go_InitVars = {
-    ACTOR_EN_GO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(EnGo),
-    (ActorFunc)EnGo_Init,
-    (ActorFunc)EnGo_Destroy,
-    (ActorFunc)EnGo_Update,
-    (ActorFunc)EnGo_Draw,
+    /**/ ACTOR_EN_GO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(EnGo),
+    /**/ EnGo_Init,
+    /**/ EnGo_Destroy,
+    /**/ EnGo_Update,
+    /**/ EnGo_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

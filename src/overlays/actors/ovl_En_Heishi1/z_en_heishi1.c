@@ -32,15 +32,15 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play);
 static s32 sPlayerIsCaught = false;
 
 ActorInit En_Heishi1_InitVars = {
-    0,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SD,
-    sizeof(EnHeishi1),
-    (ActorFunc)EnHeishi1_Init,
-    (ActorFunc)EnHeishi1_Destroy,
-    (ActorFunc)EnHeishi1_Update,
-    (ActorFunc)EnHeishi1_Draw,
+    /**/ 0,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SD,
+    /**/ sizeof(EnHeishi1),
+    /**/ EnHeishi1_Init,
+    /**/ EnHeishi1_Destroy,
+    /**/ EnHeishi1_Update,
+    /**/ EnHeishi1_Draw,
 };
 
 static f32 sAnimParamsInit[][8] = {

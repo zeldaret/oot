@@ -29,15 +29,15 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, PlayState* play);
 
 ActorInit Bg_Po_Event_InitVars = {
-    ACTOR_BG_PO_EVENT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_PO_SISTERS,
-    sizeof(BgPoEvent),
-    (ActorFunc)BgPoEvent_Init,
-    (ActorFunc)BgPoEvent_Destroy,
-    (ActorFunc)BgPoEvent_Update,
-    (ActorFunc)BgPoEvent_Draw,
+    /**/ ACTOR_BG_PO_EVENT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_SISTERS,
+    /**/ sizeof(BgPoEvent),
+    /**/ BgPoEvent_Init,
+    /**/ BgPoEvent_Destroy,
+    /**/ BgPoEvent_Update,
+    /**/ BgPoEvent_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {

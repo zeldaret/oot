@@ -29,15 +29,15 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play);
 static s16 sCamSetting = CAM_SET_NONE;
 
 ActorInit Bg_Mori_Rakkatenjo_InitVars = {
-    ACTOR_BG_MORI_RAKKATENJO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriRakkatenjo),
-    (ActorFunc)BgMoriRakkatenjo_Init,
-    (ActorFunc)BgMoriRakkatenjo_Destroy,
-    (ActorFunc)BgMoriRakkatenjo_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_RAKKATENJO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriRakkatenjo),
+    /**/ BgMoriRakkatenjo_Init,
+    /**/ BgMoriRakkatenjo_Destroy,
+    /**/ BgMoriRakkatenjo_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {

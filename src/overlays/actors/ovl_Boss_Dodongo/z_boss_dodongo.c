@@ -34,15 +34,15 @@ void BossDodongo_DrawEffects(PlayState* play);
 void BossDodongo_UpdateEffects(PlayState* play);
 
 ActorInit Boss_Dodongo_InitVars = {
-    ACTOR_EN_DODONGO,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_KINGDODONGO,
-    sizeof(BossDodongo),
-    (ActorFunc)BossDodongo_Init,
-    (ActorFunc)BossDodongo_Destroy,
-    (ActorFunc)BossDodongo_Update,
-    (ActorFunc)BossDodongo_Draw,
+    /**/ ACTOR_EN_DODONGO,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_KINGDODONGO,
+    /**/ sizeof(BossDodongo),
+    /**/ BossDodongo_Init,
+    /**/ BossDodongo_Destroy,
+    /**/ BossDodongo_Update,
+    /**/ BossDodongo_Draw,
 };
 
 #include "z_boss_dodongo_data.inc.c"

@@ -20,15 +20,15 @@ void func_80A6A4DC(EnHorseLinkChild* this);
 void func_80A6A724(EnHorseLinkChild* this);
 
 ActorInit En_Horse_Link_Child_InitVars = {
-    ACTOR_EN_HORSE_LINK_CHILD,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HORSE_LINK_CHILD,
-    sizeof(EnHorseLinkChild),
-    (ActorFunc)EnHorseLinkChild_Init,
-    (ActorFunc)EnHorseLinkChild_Destroy,
-    (ActorFunc)EnHorseLinkChild_Update,
-    (ActorFunc)EnHorseLinkChild_Draw,
+    /**/ ACTOR_EN_HORSE_LINK_CHILD,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HORSE_LINK_CHILD,
+    /**/ sizeof(EnHorseLinkChild),
+    /**/ EnHorseLinkChild_Init,
+    /**/ EnHorseLinkChild_Destroy,
+    /**/ EnHorseLinkChild_Update,
+    /**/ EnHorseLinkChild_Draw,
 };
 
 static AnimationHeader* sAnimations[] = {

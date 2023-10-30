@@ -55,15 +55,15 @@ static ColliderCylinderInit sCylinderInit = {
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 ActorInit Bg_Haka_Zou_InitVars = {
-    ACTOR_BG_HAKA_ZOU,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgHakaZou),
-    (ActorFunc)BgHakaZou_Init,
-    (ActorFunc)BgHakaZou_Destroy,
-    (ActorFunc)BgHakaZou_Update,
-    NULL,
+    /**/ ACTOR_BG_HAKA_ZOU,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgHakaZou),
+    /**/ BgHakaZou_Init,
+    /**/ BgHakaZou_Destroy,
+    /**/ BgHakaZou_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {

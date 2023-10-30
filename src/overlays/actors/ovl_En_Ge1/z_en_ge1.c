@@ -40,15 +40,15 @@ void EnGe1_CueUpAnimation(EnGe1* this);
 void EnGe1_StopFidget(EnGe1* this);
 
 ActorInit En_Ge1_InitVars = {
-    ACTOR_EN_GE1,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GE1,
-    sizeof(EnGe1),
-    (ActorFunc)EnGe1_Init,
-    (ActorFunc)EnGe1_Destroy,
-    (ActorFunc)EnGe1_Update,
-    (ActorFunc)EnGe1_Draw,
+    /**/ ACTOR_EN_GE1,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GE1,
+    /**/ sizeof(EnGe1),
+    /**/ EnGe1_Init,
+    /**/ EnGe1_Destroy,
+    /**/ EnGe1_Update,
+    /**/ EnGe1_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

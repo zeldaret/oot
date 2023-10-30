@@ -59,15 +59,15 @@ void EnZl4_Idle(EnZl4* this, PlayState* play);
 void EnZl4_TheEnd(EnZl4* this, PlayState* play);
 
 ActorInit En_Zl4_InitVars = {
-    ACTOR_EN_ZL4,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL4,
-    sizeof(EnZl4),
-    (ActorFunc)EnZl4_Init,
-    (ActorFunc)EnZl4_Destroy,
-    (ActorFunc)EnZl4_Update,
-    (ActorFunc)EnZl4_Draw,
+    /**/ ACTOR_EN_ZL4,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL4,
+    /**/ sizeof(EnZl4),
+    /**/ EnZl4_Init,
+    /**/ EnZl4_Destroy,
+    /**/ EnZl4_Update,
+    /**/ EnZl4_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

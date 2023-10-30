@@ -70,15 +70,15 @@ void BossGanondrof_Stunned(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Death(BossGanondrof* this, PlayState* play);
 
 ActorInit Boss_Ganondrof_InitVars = {
-    ACTOR_BOSS_GANONDROF,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GND,
-    sizeof(BossGanondrof),
-    (ActorFunc)BossGanondrof_Init,
-    (ActorFunc)BossGanondrof_Destroy,
-    (ActorFunc)BossGanondrof_Update,
-    (ActorFunc)BossGanondrof_Draw,
+    /**/ ACTOR_BOSS_GANONDROF,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GND,
+    /**/ sizeof(BossGanondrof),
+    /**/ BossGanondrof_Init,
+    /**/ BossGanondrof_Destroy,
+    /**/ BossGanondrof_Update,
+    /**/ BossGanondrof_Draw,
 };
 
 static ColliderCylinderInit sCylinderInitBody = {

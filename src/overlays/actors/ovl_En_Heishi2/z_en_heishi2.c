@@ -51,15 +51,15 @@ void func_80A541FC(EnHeishi2* this, PlayState* play);
 void func_80A53DF8(EnHeishi2* this, PlayState* play);
 
 ActorInit En_Heishi2_InitVars = {
-    ACTOR_EN_HEISHI2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SD,
-    sizeof(EnHeishi2),
-    (ActorFunc)EnHeishi2_Init,
-    (ActorFunc)EnHeishi2_Destroy,
-    (ActorFunc)EnHeishi2_Update,
-    (ActorFunc)EnHeishi2_Draw,
+    /**/ ACTOR_EN_HEISHI2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SD,
+    /**/ sizeof(EnHeishi2),
+    /**/ EnHeishi2_Init,
+    /**/ EnHeishi2_Destroy,
+    /**/ EnHeishi2_Update,
+    /**/ EnHeishi2_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

@@ -15,15 +15,15 @@ void ObjHana_Update(Actor* thisx, PlayState* play);
 void ObjHana_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Obj_Hana_InitVars = {
-    ACTOR_OBJ_HANA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(ObjHana),
-    (ActorFunc)ObjHana_Init,
-    (ActorFunc)ObjHana_Destroy,
-    (ActorFunc)ObjHana_Update,
-    (ActorFunc)ObjHana_Draw,
+    /**/ ACTOR_OBJ_HANA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(ObjHana),
+    /**/ ObjHana_Init,
+    /**/ ObjHana_Destroy,
+    /**/ ObjHana_Update,
+    /**/ ObjHana_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

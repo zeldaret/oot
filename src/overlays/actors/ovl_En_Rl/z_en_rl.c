@@ -384,13 +384,13 @@ void EnRl_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit En_Rl_InitVars = {
-    ACTOR_EN_RL,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_RL,
-    sizeof(EnRl),
-    (ActorFunc)EnRl_Init,
-    (ActorFunc)EnRl_Destroy,
-    (ActorFunc)EnRl_Update,
-    (ActorFunc)EnRl_Draw,
+    /**/ ACTOR_EN_RL,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_RL,
+    /**/ sizeof(EnRl),
+    /**/ EnRl_Init,
+    /**/ EnRl_Destroy,
+    /**/ EnRl_Update,
+    /**/ EnRl_Draw,
 };

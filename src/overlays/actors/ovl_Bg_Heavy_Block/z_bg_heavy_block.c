@@ -28,15 +28,15 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, PlayState* play);
 void BgHeavyBlock_DoNothing(BgHeavyBlock* this, PlayState* play);
 
 ActorInit Bg_Heavy_Block_InitVars = {
-    ACTOR_BG_HEAVY_BLOCK,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HEAVY_OBJECT,
-    sizeof(BgHeavyBlock),
-    (ActorFunc)BgHeavyBlock_Init,
-    (ActorFunc)BgHeavyBlock_Destroy,
-    (ActorFunc)BgHeavyBlock_Update,
-    (ActorFunc)BgHeavyBlock_Draw,
+    /**/ ACTOR_BG_HEAVY_BLOCK,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HEAVY_OBJECT,
+    /**/ sizeof(BgHeavyBlock),
+    /**/ BgHeavyBlock_Init,
+    /**/ BgHeavyBlock_Destroy,
+    /**/ BgHeavyBlock_Update,
+    /**/ BgHeavyBlock_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

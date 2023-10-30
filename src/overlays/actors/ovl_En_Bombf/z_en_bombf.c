@@ -22,15 +22,15 @@ void EnBombf_Explode(EnBombf* this, PlayState* play);
 void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 
 ActorInit En_Bombf_InitVars = {
-    ACTOR_EN_BOMBF,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_BOMBF,
-    sizeof(EnBombf),
-    (ActorFunc)EnBombf_Init,
-    (ActorFunc)EnBombf_Destroy,
-    (ActorFunc)EnBombf_Update,
-    (ActorFunc)EnBombf_Draw,
+    /**/ ACTOR_EN_BOMBF,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_BOMBF,
+    /**/ sizeof(EnBombf),
+    /**/ EnBombf_Init,
+    /**/ EnBombf_Destroy,
+    /**/ EnBombf_Update,
+    /**/ EnBombf_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

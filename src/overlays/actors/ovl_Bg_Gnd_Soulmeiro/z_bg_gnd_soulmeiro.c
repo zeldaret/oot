@@ -20,15 +20,15 @@ void func_8087B284(BgGndSoulmeiro* this, PlayState* play);
 void func_8087B350(BgGndSoulmeiro* this, PlayState* play);
 
 ActorInit Bg_Gnd_Soulmeiro_InitVars = {
-    ACTOR_BG_GND_SOULMEIRO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndSoulmeiro),
-    (ActorFunc)BgGndSoulmeiro_Init,
-    (ActorFunc)BgGndSoulmeiro_Destroy,
-    (ActorFunc)BgGndSoulmeiro_Update,
-    (ActorFunc)BgGndSoulmeiro_Draw,
+    /**/ ACTOR_BG_GND_SOULMEIRO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndSoulmeiro),
+    /**/ BgGndSoulmeiro_Init,
+    /**/ BgGndSoulmeiro_Destroy,
+    /**/ BgGndSoulmeiro_Update,
+    /**/ BgGndSoulmeiro_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

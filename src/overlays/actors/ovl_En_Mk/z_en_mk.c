@@ -17,15 +17,15 @@ void EnMk_Draw(Actor* thisx, PlayState* play);
 void EnMk_Wait(EnMk* this, PlayState* play);
 
 ActorInit En_Mk_InitVars = {
-    ACTOR_EN_MK,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MK,
-    sizeof(EnMk),
-    (ActorFunc)EnMk_Init,
-    (ActorFunc)EnMk_Destroy,
-    (ActorFunc)EnMk_Update,
-    (ActorFunc)EnMk_Draw,
+    /**/ ACTOR_EN_MK,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MK,
+    /**/ sizeof(EnMk),
+    /**/ EnMk_Init,
+    /**/ EnMk_Destroy,
+    /**/ EnMk_Update,
+    /**/ EnMk_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

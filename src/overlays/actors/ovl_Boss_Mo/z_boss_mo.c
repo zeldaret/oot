@@ -119,15 +119,15 @@ typedef enum {
 } BossMoCsState;
 
 ActorInit Boss_Mo_InitVars = {
-    ACTOR_BOSS_MO,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_MO,
-    sizeof(BossMo),
-    (ActorFunc)BossMo_Init,
-    (ActorFunc)BossMo_Destroy,
-    (ActorFunc)BossMo_UpdateTent,
-    (ActorFunc)BossMo_DrawTent,
+    /**/ ACTOR_BOSS_MO,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_MO,
+    /**/ sizeof(BossMo),
+    /**/ BossMo_Init,
+    /**/ BossMo_Destroy,
+    /**/ BossMo_UpdateTent,
+    /**/ BossMo_DrawTent,
 };
 
 static BossMo* sMorphaCore = NULL;
