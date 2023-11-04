@@ -100,7 +100,7 @@ void func_800FCB34(void) {
         initFunc = (InitFunc*)((s32)initFunc + nextOffset);
 
         if (initFunc->func != NULL) {
-            (*initFunc->func)();
+            initFunc->func();
         }
 
         nextOffset = initFunc->nextOffset;
