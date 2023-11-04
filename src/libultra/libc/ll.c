@@ -28,8 +28,8 @@ long long __ll_mul(long long left, long long right) {
     return left * right;
 }
 
-void __ull_divremi(unsigned long long int* quotient, unsigned long long int* remainder,
-                   unsigned long long dividend, unsigned short divisor) {
+void __ull_divremi(unsigned long long int* quotient, unsigned long long int* remainder, unsigned long long dividend,
+                   unsigned short divisor) {
     *quotient = dividend / divisor;
     *remainder = dividend % divisor;
 }
