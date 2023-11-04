@@ -1320,7 +1320,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    // Uodate and draw save / game over prompt
+    // Update and draw save / game over prompt
 
     Gfx_SetupDL_42Opa(gfxCtx);
 
