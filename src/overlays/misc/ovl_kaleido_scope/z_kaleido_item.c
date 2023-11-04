@@ -468,6 +468,9 @@ void KaleidoScope_DrawItemSelect(PlayState* play) {
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if ((pauseCtx->mainState == PAUSE_MAIN_STATE_3) && (pauseCtx->pageIndex == PAUSE_ITEM)) {
+        //! @bug cursorSlot is used uninitialized
+        // This leads to reading from the itemVtx array at some index, typically OOB, and setting the cursor to an
+        // unexpected position. However the cursor is not drawn in this state so it ends up not being an issue.
         KaleidoScope_SetCursorPos(pauseCtx, cursorSlot * 4, pauseCtx->itemVtx);
         pauseCtx->cursorColorSet = 4;
     }
