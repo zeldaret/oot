@@ -28,15 +28,15 @@ extern CutsceneData D_80B4C5D0[];
 #include "z_en_zl1_camera_data.inc.c"
 
 ActorInit En_Zl1_InitVars = {
-    ACTOR_EN_ZL1,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL1,
-    sizeof(EnZl1),
-    (ActorFunc)EnZl1_Init,
-    (ActorFunc)EnZl1_Destroy,
-    (ActorFunc)EnZl1_Update,
-    (ActorFunc)EnZl1_Draw,
+    /**/ ACTOR_EN_ZL1,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL1,
+    /**/ sizeof(EnZl1),
+    /**/ EnZl1_Init,
+    /**/ EnZl1_Destroy,
+    /**/ EnZl1_Update,
+    /**/ EnZl1_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -429,7 +429,7 @@ void func_80B4BBC4(EnZl1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     Player_PlaySfx(player, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
     Message_StartTextbox(play, this->actor.textId, NULL);
@@ -570,7 +570,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             break;
         case 6:
             if (Actor_TextboxIsClosing(&this->actor, play)) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
                 this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_1E2 = 4;

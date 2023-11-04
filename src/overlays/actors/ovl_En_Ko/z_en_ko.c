@@ -31,15 +31,15 @@ void func_80A99560(EnKo* this, PlayState* play);
 s32 func_80A98ECC(EnKo* this, PlayState* play);
 
 ActorInit En_Ko_InitVars = {
-    ACTOR_EN_KO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnKo),
-    (ActorFunc)EnKo_Init,
-    (ActorFunc)EnKo_Destroy,
-    (ActorFunc)EnKo_Update,
-    (ActorFunc)EnKo_Draw,
+    /**/ ACTOR_EN_KO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnKo),
+    /**/ EnKo_Init,
+    /**/ EnKo_Destroy,
+    /**/ EnKo_Update,
+    /**/ EnKo_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

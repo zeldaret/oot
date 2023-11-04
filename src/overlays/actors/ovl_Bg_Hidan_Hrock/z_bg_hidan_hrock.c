@@ -19,15 +19,15 @@ void func_808896B8(BgHidanHrock* this, PlayState* play);
 void func_808894A4(BgHidanHrock* this, PlayState* play);
 
 ActorInit Bg_Hidan_Hrock_InitVars = {
-    ACTOR_BG_HIDAN_HROCK,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanHrock),
-    (ActorFunc)BgHidanHrock_Init,
-    (ActorFunc)BgHidanHrock_Destroy,
-    (ActorFunc)BgHidanHrock_Update,
-    (ActorFunc)BgHidanHrock_Draw,
+    /**/ ACTOR_BG_HIDAN_HROCK,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanHrock),
+    /**/ BgHidanHrock_Init,
+    /**/ BgHidanHrock_Destroy,
+    /**/ BgHidanHrock_Update,
+    /**/ BgHidanHrock_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {

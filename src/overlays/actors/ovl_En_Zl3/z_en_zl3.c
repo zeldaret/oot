@@ -523,7 +523,7 @@ void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
         s32 temp_t3 = this->unk_25C[arg2];
         s32 phi_v0 = temp_t3;
         s32 index25C;
-        s32 phi_t5;
+        int phi_t5;
 
         temp_t3 = arg1 - this->unk_2BC[arg2];
 
@@ -2757,13 +2757,13 @@ void EnZl3_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit En_Zl3_InitVars = {
-    ACTOR_EN_ZL3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnZl3),
-    (ActorFunc)EnZl3_Init,
-    (ActorFunc)EnZl3_Destroy,
-    (ActorFunc)EnZl3_Update,
-    (ActorFunc)EnZl3_Draw,
+    /**/ ACTOR_EN_ZL3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnZl3),
+    /**/ EnZl3_Init,
+    /**/ EnZl3_Destroy,
+    /**/ EnZl3_Update,
+    /**/ EnZl3_Draw,
 };

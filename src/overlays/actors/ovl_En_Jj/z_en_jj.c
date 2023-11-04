@@ -29,15 +29,15 @@ void EnJj_BeginCutscene(EnJj* this, PlayState* play);
 void EnJj_RemoveDust(EnJj* this, PlayState* play);
 
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
 
 static s32 sUnused = 0;

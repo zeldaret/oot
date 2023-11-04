@@ -160,15 +160,15 @@ static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
 static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
 ActorInit En_Skj_InitVars = {
-    ACTOR_EN_SKJ,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SKJ,
-    sizeof(EnSkj),
-    (ActorFunc)EnSkj_Init,
-    (ActorFunc)EnSkj_Destroy,
-    (ActorFunc)EnSkj_Update,
-    (ActorFunc)EnSkj_Draw,
+    /**/ ACTOR_EN_SKJ,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SKJ,
+    /**/ sizeof(EnSkj),
+    /**/ EnSkj_Init,
+    /**/ EnSkj_Destroy,
+    /**/ EnSkj_Update,
+    /**/ EnSkj_Draw,
 };
 
 static ColliderCylinderInitType1 D_80B01678 = {
@@ -464,7 +464,7 @@ void EnSkj_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-s32 EnSkj_RangeCheck(Player* player, EnSkj* this) {
+int EnSkj_RangeCheck(Player* player, EnSkj* this) {
     f32 xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
     f32 zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
     f32 yDiff = player->actor.world.pos.y - this->actor.world.pos.y;
@@ -1074,7 +1074,7 @@ void EnSkj_SetupMaskTrade(EnSkj* this) {
 void EnSkj_StartMaskTrade(EnSkj* this, PlayState* play) {
     u8 sp1F = Message_GetState(&play->msgCtx);
 
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     if ((sp1F == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         EnSkj_JumpFromStump(this);
     }
@@ -1172,7 +1172,7 @@ void EnSkj_SetupWaitForMaskTextClear(EnSkj* this) {
 
 void EnSkj_WaitForMaskTextClear(EnSkj* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
         this->backflipFlag = 1;
         EnSkj_Backflip(this);
     }

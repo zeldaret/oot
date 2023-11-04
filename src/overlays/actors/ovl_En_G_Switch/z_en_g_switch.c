@@ -65,15 +65,15 @@ static s16 sRupeeTypes[] = {
 };
 
 ActorInit En_G_Switch_InitVars = {
-    ACTOR_EN_G_SWITCH,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnGSwitch),
-    (ActorFunc)EnGSwitch_Init,
-    (ActorFunc)EnGSwitch_Destroy,
-    (ActorFunc)EnGSwitch_Update,
-    NULL,
+    /**/ ACTOR_EN_G_SWITCH,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnGSwitch),
+    /**/ EnGSwitch_Init,
+    /**/ EnGSwitch_Destroy,
+    /**/ EnGSwitch_Update,
+    /**/ NULL,
 };
 
 void EnGSwitch_Init(Actor* thisx, PlayState* play) {

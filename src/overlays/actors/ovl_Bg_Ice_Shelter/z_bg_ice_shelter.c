@@ -24,15 +24,15 @@ void BgIceShelter_Idle(BgIceShelter* this, PlayState* play);
 void BgIceShelter_Melt(BgIceShelter* this, PlayState* play);
 
 ActorInit Bg_Ice_Shelter_InitVars = {
-    ACTOR_BG_ICE_SHELTER,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceShelter),
-    (ActorFunc)BgIceShelter_Init,
-    (ActorFunc)BgIceShelter_Destroy,
-    (ActorFunc)BgIceShelter_Update,
-    (ActorFunc)BgIceShelter_Draw,
+    /**/ ACTOR_BG_ICE_SHELTER,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceShelter),
+    /**/ BgIceShelter_Init,
+    /**/ BgIceShelter_Destroy,
+    /**/ BgIceShelter_Update,
+    /**/ BgIceShelter_Draw,
 };
 
 static f32 sRedIceScales[] = { 0.1f, 0.06f, 0.1f, 0.1f, 0.25f };

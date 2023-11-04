@@ -121,7 +121,7 @@ static s16 D_801208E8 = 8;
 static OnePointCsFull D_801208EC[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0101,
         1,
         0,
@@ -182,7 +182,7 @@ static OnePointCsFull D_80120964[2] = {
 static OnePointCsFull D_801209B4[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0101,
         1,
         0,
@@ -193,7 +193,7 @@ static OnePointCsFull D_801209B4[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0100,
         29,
         0,
@@ -287,7 +287,7 @@ static OnePointCsFull D_80120ACC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0442,
         10,
         0,
@@ -323,7 +323,7 @@ static OnePointCsFull D_80120ACC[5] = {
 static OnePointCsFull D_80120B94[11] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x2142,
         1,
         0,
@@ -447,7 +447,7 @@ static OnePointCsFull D_80120B94[11] = {
 static OnePointCsFull D_80120D4C[7] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x2142,
         1,
         0,
@@ -527,7 +527,7 @@ static OnePointCsFull D_80120D4C[7] = {
 static OnePointCsFull D_80120E64[8] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, true, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x2142,
         20,
         0,
@@ -618,7 +618,7 @@ static OnePointCsFull D_80120E64[8] = {
 static OnePointCsFull D_80120FA4[6] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x2143,
         30,
         0,
@@ -687,7 +687,7 @@ static OnePointCsFull D_80120FA4[6] = {
 static OnePointCsFull D_80121094[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x2101,
         20,
         0,
@@ -698,7 +698,7 @@ static OnePointCsFull D_80121094[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x2101,
         50,
         0,
@@ -723,7 +723,7 @@ static OnePointCsFull D_80121094[3] = {
 static OnePointCsFull D_8012110C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_5),
         0x2142,
         1,
         0,
@@ -759,7 +759,7 @@ static OnePointCsFull D_8012110C[3] = {
 static OnePointCsFull D_80121184[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0101,
         40,
         0,
@@ -784,7 +784,7 @@ static OnePointCsFull D_80121184[2] = {
 static OnePointCsFull D_801211D4[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0101,
         50,
         0,
@@ -809,7 +809,7 @@ static OnePointCsFull D_801211D4[2] = {
 static OnePointCsFull D_80121224[6] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x4141,
         2,
         0,
@@ -831,7 +831,7 @@ static OnePointCsFull D_80121224[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_52),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_52),
         0x4104,
         80,
         0,
@@ -842,7 +842,7 @@ static OnePointCsFull D_80121224[6] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0000,
         20,
         0,
@@ -878,7 +878,7 @@ static OnePointCsFull D_80121224[6] = {
 static OnePointCsFull D_80121314[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x4141,
         1000,
         0,
@@ -892,7 +892,7 @@ static OnePointCsFull D_80121314[1] = {
 static OnePointCsFull D_8012133C[3] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0141,
         40,
         0,
@@ -928,7 +928,7 @@ static OnePointCsFull D_8012133C[3] = {
 static OnePointCsFull D_801213B4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0xC2C2,
         40,
         0,
@@ -939,7 +939,7 @@ static OnePointCsFull D_801213B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0xC2C2,
         120,
         0,
@@ -950,7 +950,7 @@ static OnePointCsFull D_801213B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_83),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_83),
         0xC2C2,
         30,
         0,
@@ -961,7 +961,7 @@ static OnePointCsFull D_801213B4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_69),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_69),
         0x4222,
         30,
         0,
@@ -986,7 +986,7 @@ static OnePointCsFull D_801213B4[5] = {
 static OnePointCsFull D_8012147C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0101,
         40,
         0,
@@ -997,7 +997,7 @@ static OnePointCsFull D_8012147C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0142,
         1,
         0,
@@ -1008,7 +1008,7 @@ static OnePointCsFull D_8012147C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_3, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0142,
         89,
         -4,
@@ -1033,7 +1033,7 @@ static OnePointCsFull D_8012147C[4] = {
 static OnePointCsFull D_8012151C[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0101,
         29,
         0,
@@ -1058,7 +1058,7 @@ static OnePointCsFull D_8012151C[2] = {
 static OnePointCsFull D_8012156C[2] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, true),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_77),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_77),
         0x4242,
         1,
         0,
@@ -1097,7 +1097,7 @@ static OnePointCsFull D_801215BC[1] = {
 static OnePointCsFull D_801215E4[10] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x4141,
         20,
         0,
@@ -1108,7 +1108,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0101,
         1,
         4,
@@ -1141,7 +1141,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_9),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_9),
         0x0101,
         40,
         -5,
@@ -1152,7 +1152,7 @@ static OnePointCsFull D_801215E4[10] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0101,
         1,
         0,
@@ -1210,7 +1210,7 @@ static OnePointCsFull D_801215E4[10] = {
 static OnePointCsFull D_80121774[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0101,
         1,
         -2,
@@ -1221,7 +1221,7 @@ static OnePointCsFull D_80121774[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0142,
         39,
         2,
@@ -1232,7 +1232,7 @@ static OnePointCsFull D_80121774[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_5),
         0x0121,
         20,
         0,
@@ -1257,7 +1257,7 @@ static OnePointCsFull D_80121774[4] = {
 static OnePointCsFull D_80121814[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_76),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_76),
         0x0101,
         5,
         0,
@@ -1429,7 +1429,7 @@ static OnePointCsFull D_80121954[3][2] = {
 static OnePointCsFull D_80121A44[12] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_5),
         0x2121,
         10,
         0,
@@ -1440,7 +1440,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_2, true, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x4242,
         30,
         0,
@@ -1462,7 +1462,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_5),
         0x2222,
         40,
         5,
@@ -1473,7 +1473,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x4242,
         40,
         5,
@@ -1517,7 +1517,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, true, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x2242,
         40,
         0,
@@ -1528,7 +1528,7 @@ static OnePointCsFull D_80121A44[12] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, true, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x22C2,
         140,
         0,
@@ -1564,7 +1564,7 @@ static OnePointCsFull D_80121A44[12] = {
 static OnePointCsFull D_80121C24[7] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_5),
         0x0101,
         1,
         0,
@@ -1586,7 +1586,7 @@ static OnePointCsFull D_80121C24[7] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0101,
         40,
         4,
@@ -1724,7 +1724,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_57),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_57),
         0x2121,
         1,
         8,
@@ -1746,7 +1746,7 @@ static OnePointCsFull D_80121DB4[9] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_9, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_56),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_56),
         0x2121,
         149,
         -20,
@@ -1782,7 +1782,7 @@ static OnePointCsFull D_80121DB4[9] = {
 static OnePointCsFull D_80121F1C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0101,
         10,
         0,
@@ -1804,7 +1804,7 @@ static OnePointCsFull D_80121F1C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_2),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_2),
         0x2121,
         23,
         0,
@@ -1898,7 +1898,7 @@ static OnePointCsFull D_8012205C[3] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x21A1,
         10,
         0,
@@ -1912,7 +1912,7 @@ static OnePointCsFull D_8012205C[3] = {
 static OnePointCsFull D_801220D4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0101,
         5,
         0,
@@ -2282,7 +2282,7 @@ static OnePointCsFull D_801224BC[7] = {
 static OnePointCsFull D_801225D4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0101,
         1,
         0,
@@ -2293,7 +2293,7 @@ static OnePointCsFull D_801225D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_59),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_59),
         0x0101,
         60,
         4,
@@ -2315,7 +2315,7 @@ static OnePointCsFull D_801225D4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x2323,
         2,
         0,
@@ -2492,7 +2492,7 @@ static OnePointCsFull D_801227B4[6] = {
 static OnePointCsFull D_801228A4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0101,
         20,
         5,
@@ -2514,7 +2514,7 @@ static OnePointCsFull D_801228A4[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_8),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_8),
         0x0101,
         90,
         2,
@@ -2972,7 +2972,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-            ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+            ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
             0x4343,
             160,
             10,
@@ -3051,7 +3051,7 @@ static OnePointCsFull D_80122E44[2][7] = {
         },
         {
             ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_11, false, false),
-            ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+            ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
             0x4343,
             160,
             -10,
@@ -3254,7 +3254,7 @@ static OnePointCsFull D_80123254[2] = {
 static OnePointCsFull D_801232A4[1] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_69),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_69),
         0x0101,
         9999,
         0,
@@ -3384,7 +3384,7 @@ static OnePointCsFull D_80123394[5] = {
 static OnePointCsFull D_8012345C[4] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x4242,
         40,
         0,
@@ -3395,7 +3395,7 @@ static OnePointCsFull D_8012345C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_77),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_77),
         0x4242,
         40,
         0,
@@ -3406,7 +3406,7 @@ static OnePointCsFull D_8012345C[4] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_4, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x2121,
         10,
         0,
@@ -3431,7 +3431,7 @@ static OnePointCsFull D_8012345C[4] = {
 static OnePointCsFull D_801234FC[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_1, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_5),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_5),
         0x0441,
         10,
         0,
@@ -3453,7 +3453,7 @@ static OnePointCsFull D_801234FC[5] = {
     },
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_16, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x0000,
         1,
         0,
@@ -3489,7 +3489,7 @@ static OnePointCsFull D_801234FC[5] = {
 static OnePointCsFull D_801235C4[5] = {
     {
         ONEPOINT_CS_ACTION(ONEPOINT_CS_ACTION_ID_15, false, false),
-        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSMODE_1),
+        ONEPOINT_CS_INIT_FIELD_PLAYER_CS(PLAYER_CSACTION_1),
         0x4141,
         1,
         0,

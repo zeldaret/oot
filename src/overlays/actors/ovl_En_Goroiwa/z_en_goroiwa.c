@@ -44,15 +44,15 @@ void EnGoroiwa_SetupMoveDown(EnGoroiwa* this);
 void EnGoroiwa_MoveDown(EnGoroiwa* this, PlayState* play);
 
 ActorInit En_Goroiwa_InitVars = {
-    ACTOR_EN_GOROIWA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GOROIWA,
-    sizeof(EnGoroiwa),
-    (ActorFunc)EnGoroiwa_Init,
-    (ActorFunc)EnGoroiwa_Destroy,
-    (ActorFunc)EnGoroiwa_Update,
-    (ActorFunc)EnGoroiwa_Draw,
+    /**/ ACTOR_EN_GOROIWA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GOROIWA,
+    /**/ sizeof(EnGoroiwa),
+    /**/ EnGoroiwa_Init,
+    /**/ EnGoroiwa_Destroy,
+    /**/ EnGoroiwa_Update,
+    /**/ EnGoroiwa_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {

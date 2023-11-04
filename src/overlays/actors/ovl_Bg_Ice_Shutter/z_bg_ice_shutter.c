@@ -19,15 +19,15 @@ void func_80891D6C(BgIceShutter* this, PlayState* play);
 void func_80891DD4(BgIceShutter* this, PlayState* play);
 
 ActorInit Bg_Ice_Shutter_InitVars = {
-    ACTOR_BG_ICE_SHUTTER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceShutter),
-    (ActorFunc)BgIceShutter_Init,
-    (ActorFunc)BgIceShutter_Destroy,
-    (ActorFunc)BgIceShutter_Update,
-    (ActorFunc)BgIceShutter_Draw,
+    /**/ ACTOR_BG_ICE_SHUTTER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceShutter),
+    /**/ BgIceShutter_Init,
+    /**/ BgIceShutter_Destroy,
+    /**/ BgIceShutter_Update,
+    /**/ BgIceShutter_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

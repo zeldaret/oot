@@ -353,111 +353,193 @@ typedef enum {
 #define PLAYER_LIMB_BUF_COUNT LIMB_BUF_COUNT(PLAYER_LIMB_MAX)
 
 typedef enum {
-    /* 0x00 */ PLAYER_CSMODE_NONE,
-    /* 0x01 */ PLAYER_CSMODE_1,
-    /* 0x02 */ PLAYER_CSMODE_2,
-    /* 0x03 */ PLAYER_CSMODE_3,
-    /* 0x04 */ PLAYER_CSMODE_4,
-    /* 0x05 */ PLAYER_CSMODE_5,
-    /* 0x06 */ PLAYER_CSMODE_6,
-    /* 0x07 */ PLAYER_CSMODE_7,
-    /* 0x08 */ PLAYER_CSMODE_8,
-    /* 0x09 */ PLAYER_CSMODE_9,
-    /* 0x0A */ PLAYER_CSMODE_10,
-    /* 0x0B */ PLAYER_CSMODE_11,
-    /* 0x0C */ PLAYER_CSMODE_12,
-    /* 0x0D */ PLAYER_CSMODE_13,
-    /* 0x0E */ PLAYER_CSMODE_14,
-    /* 0x0F */ PLAYER_CSMODE_15,
-    /* 0x10 */ PLAYER_CSMODE_16,
-    /* 0x11 */ PLAYER_CSMODE_17,
-    /* 0x12 */ PLAYER_CSMODE_18,
-    /* 0x13 */ PLAYER_CSMODE_19,
-    /* 0x14 */ PLAYER_CSMODE_20,
-    /* 0x15 */ PLAYER_CSMODE_21,
-    /* 0x16 */ PLAYER_CSMODE_22,
-    /* 0x17 */ PLAYER_CSMODE_23,
-    /* 0x18 */ PLAYER_CSMODE_24,
-    /* 0x19 */ PLAYER_CSMODE_25,
-    /* 0x1A */ PLAYER_CSMODE_26,
-    /* 0x1B */ PLAYER_CSMODE_27,
-    /* 0x1C */ PLAYER_CSMODE_28,
-    /* 0x1D */ PLAYER_CSMODE_29,
-    /* 0x1E */ PLAYER_CSMODE_30,
-    /* 0x1F */ PLAYER_CSMODE_31,
-    /* 0x20 */ PLAYER_CSMODE_32,
-    /* 0x21 */ PLAYER_CSMODE_33,
-    /* 0x22 */ PLAYER_CSMODE_34,
-    /* 0x23 */ PLAYER_CSMODE_35,
-    /* 0x24 */ PLAYER_CSMODE_36,
-    /* 0x25 */ PLAYER_CSMODE_37,
-    /* 0x26 */ PLAYER_CSMODE_38,
-    /* 0x27 */ PLAYER_CSMODE_39,
-    /* 0x28 */ PLAYER_CSMODE_40,
-    /* 0x29 */ PLAYER_CSMODE_41,
-    /* 0x2A */ PLAYER_CSMODE_42,
-    /* 0x2B */ PLAYER_CSMODE_43,
-    /* 0x2C */ PLAYER_CSMODE_44,
-    /* 0x2D */ PLAYER_CSMODE_45,
-    /* 0x2E */ PLAYER_CSMODE_46,
-    /* 0x2F */ PLAYER_CSMODE_47,
-    /* 0x30 */ PLAYER_CSMODE_48,
-    /* 0x31 */ PLAYER_CSMODE_49,
-    /* 0x32 */ PLAYER_CSMODE_50,
-    /* 0x33 */ PLAYER_CSMODE_51,
-    /* 0x34 */ PLAYER_CSMODE_52,
-    /* 0x35 */ PLAYER_CSMODE_53,
-    /* 0x36 */ PLAYER_CSMODE_54,
-    /* 0x37 */ PLAYER_CSMODE_55,
-    /* 0x38 */ PLAYER_CSMODE_56,
-    /* 0x39 */ PLAYER_CSMODE_57,
-    /* 0x3A */ PLAYER_CSMODE_58,
-    /* 0x3B */ PLAYER_CSMODE_59,
-    /* 0x3C */ PLAYER_CSMODE_60,
-    /* 0x3D */ PLAYER_CSMODE_61,
-    /* 0x3E */ PLAYER_CSMODE_62,
-    /* 0x3F */ PLAYER_CSMODE_63,
-    /* 0x40 */ PLAYER_CSMODE_64,
-    /* 0x41 */ PLAYER_CSMODE_65,
-    /* 0x42 */ PLAYER_CSMODE_66,
-    /* 0x43 */ PLAYER_CSMODE_67,
-    /* 0x44 */ PLAYER_CSMODE_68,
-    /* 0x45 */ PLAYER_CSMODE_69,
-    /* 0x46 */ PLAYER_CSMODE_70,
-    /* 0x47 */ PLAYER_CSMODE_71,
-    /* 0x48 */ PLAYER_CSMODE_72,
-    /* 0x49 */ PLAYER_CSMODE_73,
-    /* 0x4A */ PLAYER_CSMODE_74,
-    /* 0x4B */ PLAYER_CSMODE_75,
-    /* 0x4C */ PLAYER_CSMODE_76,
-    /* 0x4D */ PLAYER_CSMODE_77,
-    /* 0x4E */ PLAYER_CSMODE_78,
-    /* 0x4F */ PLAYER_CSMODE_79,
-    /* 0x50 */ PLAYER_CSMODE_80,
-    /* 0x51 */ PLAYER_CSMODE_81,
-    /* 0x52 */ PLAYER_CSMODE_82,
-    /* 0x53 */ PLAYER_CSMODE_83,
-    /* 0x54 */ PLAYER_CSMODE_84,
-    /* 0x55 */ PLAYER_CSMODE_85,
-    /* 0x56 */ PLAYER_CSMODE_86,
-    /* 0x57 */ PLAYER_CSMODE_87,
-    /* 0x58 */ PLAYER_CSMODE_88,
-    /* 0x59 */ PLAYER_CSMODE_89,
-    /* 0x5A */ PLAYER_CSMODE_90,
-    /* 0x5B */ PLAYER_CSMODE_91,
-    /* 0x5C */ PLAYER_CSMODE_92,
-    /* 0x5D */ PLAYER_CSMODE_93,
-    /* 0x5E */ PLAYER_CSMODE_94,
-    /* 0x5F */ PLAYER_CSMODE_95,
-    /* 0x60 */ PLAYER_CSMODE_96,
-    /* 0x61 */ PLAYER_CSMODE_97,
-    /* 0x62 */ PLAYER_CSMODE_98,
-    /* 0x63 */ PLAYER_CSMODE_99,
-    /* 0x64 */ PLAYER_CSMODE_100,
-    /* 0x65 */ PLAYER_CSMODE_101,
-    /* 0x66 */ PLAYER_CSMODE_102,
-    /* 0x67 */ PLAYER_CSMODE_MAX
-} PlayerCutsceneMode;
+    /* 0x00 */ PLAYER_CSACTION_NONE,
+    /* 0x01 */ PLAYER_CSACTION_1,
+    /* 0x02 */ PLAYER_CSACTION_2,
+    /* 0x03 */ PLAYER_CSACTION_3,
+    /* 0x04 */ PLAYER_CSACTION_4,
+    /* 0x05 */ PLAYER_CSACTION_5,
+    /* 0x06 */ PLAYER_CSACTION_6,
+    /* 0x07 */ PLAYER_CSACTION_7,
+    /* 0x08 */ PLAYER_CSACTION_8,
+    /* 0x09 */ PLAYER_CSACTION_9,
+    /* 0x0A */ PLAYER_CSACTION_10,
+    /* 0x0B */ PLAYER_CSACTION_11,
+    /* 0x0C */ PLAYER_CSACTION_12,
+    /* 0x0D */ PLAYER_CSACTION_13,
+    /* 0x0E */ PLAYER_CSACTION_14,
+    /* 0x0F */ PLAYER_CSACTION_15,
+    /* 0x10 */ PLAYER_CSACTION_16,
+    /* 0x11 */ PLAYER_CSACTION_17,
+    /* 0x12 */ PLAYER_CSACTION_18,
+    /* 0x13 */ PLAYER_CSACTION_19,
+    /* 0x14 */ PLAYER_CSACTION_20,
+    /* 0x15 */ PLAYER_CSACTION_21,
+    /* 0x16 */ PLAYER_CSACTION_22,
+    /* 0x17 */ PLAYER_CSACTION_23,
+    /* 0x18 */ PLAYER_CSACTION_24,
+    /* 0x19 */ PLAYER_CSACTION_25,
+    /* 0x1A */ PLAYER_CSACTION_26,
+    /* 0x1B */ PLAYER_CSACTION_27,
+    /* 0x1C */ PLAYER_CSACTION_28,
+    /* 0x1D */ PLAYER_CSACTION_29,
+    /* 0x1E */ PLAYER_CSACTION_30,
+    /* 0x1F */ PLAYER_CSACTION_31,
+    /* 0x20 */ PLAYER_CSACTION_32,
+    /* 0x21 */ PLAYER_CSACTION_33,
+    /* 0x22 */ PLAYER_CSACTION_34,
+    /* 0x23 */ PLAYER_CSACTION_35,
+    /* 0x24 */ PLAYER_CSACTION_36,
+    /* 0x25 */ PLAYER_CSACTION_37,
+    /* 0x26 */ PLAYER_CSACTION_38,
+    /* 0x27 */ PLAYER_CSACTION_39,
+    /* 0x28 */ PLAYER_CSACTION_40,
+    /* 0x29 */ PLAYER_CSACTION_41,
+    /* 0x2A */ PLAYER_CSACTION_42,
+    /* 0x2B */ PLAYER_CSACTION_43,
+    /* 0x2C */ PLAYER_CSACTION_44,
+    /* 0x2D */ PLAYER_CSACTION_45,
+    /* 0x2E */ PLAYER_CSACTION_46,
+    /* 0x2F */ PLAYER_CSACTION_47,
+    /* 0x30 */ PLAYER_CSACTION_48,
+    /* 0x31 */ PLAYER_CSACTION_49,
+    /* 0x32 */ PLAYER_CSACTION_50,
+    /* 0x33 */ PLAYER_CSACTION_51,
+    /* 0x34 */ PLAYER_CSACTION_52,
+    /* 0x35 */ PLAYER_CSACTION_53,
+    /* 0x36 */ PLAYER_CSACTION_54,
+    /* 0x37 */ PLAYER_CSACTION_55,
+    /* 0x38 */ PLAYER_CSACTION_56,
+    /* 0x39 */ PLAYER_CSACTION_57,
+    /* 0x3A */ PLAYER_CSACTION_58,
+    /* 0x3B */ PLAYER_CSACTION_59,
+    /* 0x3C */ PLAYER_CSACTION_60,
+    /* 0x3D */ PLAYER_CSACTION_61,
+    /* 0x3E */ PLAYER_CSACTION_62,
+    /* 0x3F */ PLAYER_CSACTION_63,
+    /* 0x40 */ PLAYER_CSACTION_64,
+    /* 0x41 */ PLAYER_CSACTION_65,
+    /* 0x42 */ PLAYER_CSACTION_66,
+    /* 0x43 */ PLAYER_CSACTION_67,
+    /* 0x44 */ PLAYER_CSACTION_68,
+    /* 0x45 */ PLAYER_CSACTION_69,
+    /* 0x46 */ PLAYER_CSACTION_70,
+    /* 0x47 */ PLAYER_CSACTION_71,
+    /* 0x48 */ PLAYER_CSACTION_72,
+    /* 0x49 */ PLAYER_CSACTION_73,
+    /* 0x4A */ PLAYER_CSACTION_74,
+    /* 0x4B */ PLAYER_CSACTION_75,
+    /* 0x4C */ PLAYER_CSACTION_76,
+    /* 0x4D */ PLAYER_CSACTION_77,
+    /* 0x4E */ PLAYER_CSACTION_78,
+    /* 0x4F */ PLAYER_CSACTION_79,
+    /* 0x50 */ PLAYER_CSACTION_80,
+    /* 0x51 */ PLAYER_CSACTION_81,
+    /* 0x52 */ PLAYER_CSACTION_82,
+    /* 0x53 */ PLAYER_CSACTION_83,
+    /* 0x54 */ PLAYER_CSACTION_84,
+    /* 0x55 */ PLAYER_CSACTION_85,
+    /* 0x56 */ PLAYER_CSACTION_86,
+    /* 0x57 */ PLAYER_CSACTION_87,
+    /* 0x58 */ PLAYER_CSACTION_88,
+    /* 0x59 */ PLAYER_CSACTION_89,
+    /* 0x5A */ PLAYER_CSACTION_90,
+    /* 0x5B */ PLAYER_CSACTION_91,
+    /* 0x5C */ PLAYER_CSACTION_92,
+    /* 0x5D */ PLAYER_CSACTION_93,
+    /* 0x5E */ PLAYER_CSACTION_94,
+    /* 0x5F */ PLAYER_CSACTION_95,
+    /* 0x60 */ PLAYER_CSACTION_96,
+    /* 0x61 */ PLAYER_CSACTION_97,
+    /* 0x62 */ PLAYER_CSACTION_98,
+    /* 0x63 */ PLAYER_CSACTION_99,
+    /* 0x64 */ PLAYER_CSACTION_100,
+    /* 0x65 */ PLAYER_CSACTION_101,
+    /* 0x66 */ PLAYER_CSACTION_102,
+    /* 0x67 */ PLAYER_CSACTION_MAX
+} PlayerCsAction;
+
+typedef enum {
+    /* 0x00 */ PLAYER_CUEID_NONE,
+    /* 0x01 */ PLAYER_CUEID_1,
+    /* 0x02 */ PLAYER_CUEID_2,
+    /* 0x03 */ PLAYER_CUEID_3,
+    /* 0x04 */ PLAYER_CUEID_4,
+    /* 0x05 */ PLAYER_CUEID_5,
+    /* 0x06 */ PLAYER_CUEID_6,
+    /* 0x07 */ PLAYER_CUEID_7,
+    /* 0x08 */ PLAYER_CUEID_8,
+    /* 0x09 */ PLAYER_CUEID_9,
+    /* 0x0A */ PLAYER_CUEID_10,
+    /* 0x0B */ PLAYER_CUEID_11,
+    /* 0x0C */ PLAYER_CUEID_12,
+    /* 0x0D */ PLAYER_CUEID_13,
+    /* 0x0E */ PLAYER_CUEID_14,
+    /* 0x0F */ PLAYER_CUEID_15,
+    /* 0x10 */ PLAYER_CUEID_16,
+    /* 0x11 */ PLAYER_CUEID_17,
+    /* 0x12 */ PLAYER_CUEID_18,
+    /* 0x13 */ PLAYER_CUEID_19,
+    /* 0x14 */ PLAYER_CUEID_20,
+    /* 0x15 */ PLAYER_CUEID_21,
+    /* 0x16 */ PLAYER_CUEID_22,
+    /* 0x17 */ PLAYER_CUEID_23,
+    /* 0x18 */ PLAYER_CUEID_24,
+    /* 0x19 */ PLAYER_CUEID_25,
+    /* 0x1A */ PLAYER_CUEID_26,
+    /* 0x1B */ PLAYER_CUEID_27,
+    /* 0x1C */ PLAYER_CUEID_28,
+    /* 0x1D */ PLAYER_CUEID_29,
+    /* 0x1E */ PLAYER_CUEID_30,
+    /* 0x1F */ PLAYER_CUEID_31,
+    /* 0x20 */ PLAYER_CUEID_32,
+    /* 0x21 */ PLAYER_CUEID_33,
+    /* 0x22 */ PLAYER_CUEID_34,
+    /* 0x23 */ PLAYER_CUEID_35,
+    /* 0x24 */ PLAYER_CUEID_36,
+    /* 0x25 */ PLAYER_CUEID_37,
+    /* 0x26 */ PLAYER_CUEID_38,
+    /* 0x27 */ PLAYER_CUEID_39,
+    /* 0x28 */ PLAYER_CUEID_40,
+    /* 0x29 */ PLAYER_CUEID_41,
+    /* 0x2A */ PLAYER_CUEID_42,
+    /* 0x2B */ PLAYER_CUEID_43,
+    /* 0x2C */ PLAYER_CUEID_44,
+    /* 0x2D */ PLAYER_CUEID_45,
+    /* 0x2E */ PLAYER_CUEID_46,
+    /* 0x2F */ PLAYER_CUEID_47,
+    /* 0x30 */ PLAYER_CUEID_48,
+    /* 0x31 */ PLAYER_CUEID_49,
+    /* 0x32 */ PLAYER_CUEID_50,
+    /* 0x33 */ PLAYER_CUEID_51,
+    /* 0x34 */ PLAYER_CUEID_52,
+    /* 0x35 */ PLAYER_CUEID_53,
+    /* 0x36 */ PLAYER_CUEID_54,
+    /* 0x37 */ PLAYER_CUEID_55,
+    /* 0x38 */ PLAYER_CUEID_56,
+    /* 0x39 */ PLAYER_CUEID_57,
+    /* 0x3A */ PLAYER_CUEID_58,
+    /* 0x3B */ PLAYER_CUEID_59,
+    /* 0x3C */ PLAYER_CUEID_60,
+    /* 0x3D */ PLAYER_CUEID_61,
+    /* 0x3E */ PLAYER_CUEID_62,
+    /* 0x3F */ PLAYER_CUEID_63,
+    /* 0x40 */ PLAYER_CUEID_64,
+    /* 0x41 */ PLAYER_CUEID_65,
+    /* 0x42 */ PLAYER_CUEID_66,
+    /* 0x43 */ PLAYER_CUEID_67,
+    /* 0x44 */ PLAYER_CUEID_68,
+    /* 0x45 */ PLAYER_CUEID_69,
+    /* 0x46 */ PLAYER_CUEID_70,
+    /* 0x47 */ PLAYER_CUEID_71,
+    /* 0x48 */ PLAYER_CUEID_72,
+    /* 0x49 */ PLAYER_CUEID_73,
+    /* 0x4A */ PLAYER_CUEID_74,
+    /* 0x4B */ PLAYER_CUEID_75,
+    /* 0x4C */ PLAYER_CUEID_76,
+    /* 0x4D */ PLAYER_CUEID_77,
+    /* 0x4E */ PLAYER_CUEID_MAX
+} PlayerCueId;
 
 typedef enum {
     /* 0 */ PLAYER_LEDGE_CLIMB_NONE,
@@ -587,7 +669,7 @@ typedef struct {
 #define PLAYER_STATE3_7 (1 << 7)
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
-typedef s32 (*ItemActionFunc)(struct Player*, struct PlayState*);
+typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
 typedef struct Player {
@@ -640,16 +722,19 @@ typedef struct Player {
     /* 0x043C */ s8 mountSide;
     /* 0x043D */ char unk_43D[0x003];
     /* 0x0440 */ Actor* rideActor;
-    /* 0x0444 */ u8 csMode;
-    /* 0x0445 */ u8 prevCsMode;
+    /* 0x0444 */ u8 csAction;
+    /* 0x0445 */ u8 prevCsAction;
     /* 0x0446 */ u8 cueId;
     /* 0x0447 */ u8 unk_447;
-    /* 0x0448 */ Actor* unk_448;
+    /* 0x0448 */ Actor* csActor; // Actor involved in a `csAction`. Typically the actor that invoked the cutscene.
     /* 0x044C */ char unk_44C[0x004];
     /* 0x0450 */ Vec3f unk_450;
     /* 0x045C */ Vec3f unk_45C;
     /* 0x0468 */ char unk_468[0x002];
-    /* 0x046A */ s16 doorBgCamIndex;
+    /* 0x046A */ union { 
+        s16 haltActorsDuringCsAction; // If true, halt actors belonging to certain categories during a `csAction`
+        s16 slidingDoorBgCamIndex; // `BgCamIndex` used during a sliding door cutscene
+    } cv; // "Cutscene Variable": context dependent variable that has different meanings depending on what function is called
     /* 0x046C */ s16 subCamId;
     /* 0x046E */ char unk_46E[0x02A];
     /* 0x0498 */ ColliderCylinder cylinder;
@@ -688,11 +773,11 @@ typedef struct Player {
     /* 0x06C0 */ s16 unk_6C0;
     /* 0x06C2 */ s16 unk_6C2;
     /* 0x06C4 */ f32 unk_6C4;
-    /* 0x06C8 */ SkelAnime skelAnimeUpper;
-    /* 0x070C */ Vec3s jointTableUpper[PLAYER_LIMB_BUF_COUNT];
-    /* 0x079C */ Vec3s morphTableUpper[PLAYER_LIMB_BUF_COUNT];
-    /* 0x082C */ ItemActionFunc itemActionFunc;
-    /* 0x0830 */ f32 skelAnimeUpperBlendWeight;
+    /* 0x06C8 */ SkelAnime upperSkelAnime;
+    /* 0x070C */ Vec3s upperJointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x082C */ UpperActionFunc upperActionFunc;
+    /* 0x0830 */ f32 upperAnimBlendWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 unk_837;
@@ -707,8 +792,15 @@ typedef struct Player {
     /* 0x0846 */ u8 unk_846;
     /* 0x0847 */ s8 unk_847[4];
     /* 0x084B */ s8 unk_84B[4];
-    /* 0x084F */ s8 actionVar1; // context dependent variable that has different meanings depending on what action is currently running
-    /* 0x0850 */ s16 actionVar2; // context dependent variable that has different meanings depending on what action is currently running
+
+    /* 0x084F */ union { 
+        s8 actionVar1;
+    } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
+
+    /* 0x0850 */ union { 
+        s16 actionVar2;
+    } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
+
     /* 0x0854 */ f32 unk_854;
     /* 0x0858 */ f32 unk_858;
     /* 0x085C */ f32 unk_85C; // stick length among other things

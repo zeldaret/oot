@@ -29,15 +29,15 @@ void func_80A1DBD4(EnFu* this, PlayState* play);
 void func_80A1DB60(EnFu* this, PlayState* play);
 
 ActorInit En_Fu_InitVars = {
-    ACTOR_EN_FU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_FU,
-    sizeof(EnFu),
-    (ActorFunc)EnFu_Init,
-    (ActorFunc)EnFu_Destroy,
-    (ActorFunc)EnFu_Update,
-    (ActorFunc)EnFu_Draw,
+    /**/ ACTOR_EN_FU,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_FU,
+    /**/ sizeof(EnFu),
+    /**/ EnFu_Init,
+    /**/ EnFu_Destroy,
+    /**/ EnFu_Update,
+    /**/ EnFu_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

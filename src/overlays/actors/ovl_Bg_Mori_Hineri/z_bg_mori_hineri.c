@@ -30,15 +30,15 @@ void func_808A3D58(BgMoriHineri* this, PlayState* play);
 static s16 sSubCamId = CAM_ID_NONE;
 
 ActorInit Bg_Mori_Hineri_InitVars = {
-    ACTOR_BG_MORI_HINERI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgMoriHineri),
-    (ActorFunc)BgMoriHineri_Init,
-    (ActorFunc)BgMoriHineri_Destroy,
-    (ActorFunc)BgMoriHineri_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_HINERI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgMoriHineri),
+    /**/ BgMoriHineri_Init,
+    /**/ BgMoriHineri_Destroy,
+    /**/ BgMoriHineri_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {

@@ -25,15 +25,15 @@ void func_80A7AA40(EnIn* this, PlayState* play);
 void func_80A7A4BC(EnIn* this, PlayState* play);
 
 ActorInit En_In_InitVars = {
-    ACTOR_EN_IN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_IN,
-    sizeof(EnIn),
-    (ActorFunc)EnIn_Init,
-    (ActorFunc)EnIn_Destroy,
-    (ActorFunc)EnIn_Update,
-    (ActorFunc)EnIn_Draw,
+    /**/ ACTOR_EN_IN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_IN,
+    /**/ sizeof(EnIn),
+    /**/ EnIn_Init,
+    /**/ EnIn_Destroy,
+    /**/ EnIn_Update,
+    /**/ EnIn_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -432,7 +432,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     }
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
         AREG(6) = 0;
@@ -859,7 +859,7 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
 void func_80A7AE84(EnIn* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->actionFunc = func_80A7AEF0;
 }

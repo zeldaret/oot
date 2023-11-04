@@ -29,15 +29,15 @@ static s16 sRupeeValues[] = {
 };
 
 ActorInit En_Ex_Ruppy_InitVars = {
-    ACTOR_EN_EX_RUPPY,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnExRuppy),
-    (ActorFunc)EnExRuppy_Init,
-    (ActorFunc)EnExRuppy_Destroy,
-    (ActorFunc)EnExRuppy_Update,
-    (ActorFunc)EnExRuppy_Draw,
+    /**/ ACTOR_EN_EX_RUPPY,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnExRuppy),
+    /**/ EnExRuppy_Init,
+    /**/ EnExRuppy_Destroy,
+    /**/ EnExRuppy_Update,
+    /**/ EnExRuppy_Draw,
 };
 
 void EnExRuppy_Init(Actor* thisx, PlayState* play) {

@@ -20,15 +20,15 @@ void ObjMure_ActiveState(ObjMure* this, PlayState* play);
 s32 ObjMure_GetMaxChildSpawns(ObjMure* this);
 
 ActorInit Obj_Mure_InitVars = {
-    ACTOR_OBJ_MURE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjMure),
-    (ActorFunc)ObjMure_Init,
-    (ActorFunc)ObjMure_Destroy,
-    (ActorFunc)ObjMure_Update,
-    NULL,
+    /**/ ACTOR_OBJ_MURE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjMure),
+    /**/ ObjMure_Init,
+    /**/ ObjMure_Destroy,
+    /**/ ObjMure_Update,
+    /**/ NULL,
 };
 
 typedef enum {

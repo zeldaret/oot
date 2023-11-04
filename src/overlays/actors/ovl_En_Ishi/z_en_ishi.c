@@ -33,15 +33,15 @@ static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
 ActorInit En_Ishi_InitVars = {
-    ACTOR_EN_ISHI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(EnIshi),
-    (ActorFunc)EnIshi_Init,
-    (ActorFunc)EnIshi_Destroy,
-    (ActorFunc)EnIshi_Update,
-    (ActorFunc)EnIshi_Draw,
+    /**/ ACTOR_EN_ISHI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(EnIshi),
+    /**/ EnIshi_Init,
+    /**/ EnIshi_Destroy,
+    /**/ EnIshi_Update,
+    /**/ EnIshi_Draw,
 };
 
 static f32 sRockScales[] = { 0.1f, 0.4f };

@@ -97,15 +97,15 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 ActorInit En_Go2_InitVars = {
-    ACTOR_EN_GO2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(EnGo2),
-    (ActorFunc)EnGo2_Init,
-    (ActorFunc)EnGo2_Destroy,
-    (ActorFunc)EnGo2_Update,
-    (ActorFunc)EnGo2_Draw,
+    /**/ ACTOR_EN_GO2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(EnGo2),
+    /**/ EnGo2_Init,
+    /**/ EnGo2_Destroy,
+    /**/ EnGo2_Update,
+    /**/ EnGo2_Draw,
 };
 
 static EnGo2DataStruct1 D_80A4816C[14] = {
@@ -1925,7 +1925,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
                     (f32)((Math_SinS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.x);
                 player->actor.world.pos.z =
                     (f32)((Math_CosS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.z);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
                 Audio_PlayFanfare(NA_BGM_APPEAR);
             }
             break;
@@ -1962,7 +1962,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
         case 4: // Finalize walking away
             Message_CloseTextbox(play);
             EnGo2_GoronFireClearCamera(this, play);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
             Actor_Kill(&this->actor);
             break;
         case 1:

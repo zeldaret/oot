@@ -2,22 +2,22 @@
 
 #include "ZRoom/ZRoomCommand.h"
 
-class ActorCutsceneEntry
+class CutsceneEntry
 {
 protected:
 	int16_t priority;
 	int16_t length;
-	int16_t unk4;
-	int16_t unk6;
-	int16_t additionalCutscene;
-	uint8_t sound;
-	uint8_t unkB;
-	int16_t unkC;
-	uint8_t unkE;
+	int16_t csCamId;
+	int16_t scriptIndex;
+	int16_t additionalCsId;
+	uint8_t endSfx;
+	uint8_t customValue;
+	int16_t hudVisibility;
+	uint8_t endCam;
 	uint8_t letterboxSize;
 
 public:
-	ActorCutsceneEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
+	CutsceneEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex);
 
 	std::string GetBodySourceCode() const;
 	std::string GetSourceTypeName() const;
@@ -26,7 +26,7 @@ public:
 class SetActorCutsceneList : public ZRoomCommand
 {
 public:
-	std::vector<ActorCutsceneEntry> cutscenes;
+	std::vector<CutsceneEntry> cutscenes;
 
 	SetActorCutsceneList(ZFile* nParent);
 

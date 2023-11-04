@@ -17,16 +17,16 @@ void BgPushbox_Draw(Actor* thisx, PlayState* play);
 void BgPushbox_UpdateImpl(BgPushbox* this, PlayState* play);
 
 ActorInit Bg_Pushbox_InitVars = {
-    ACTOR_BG_PUSHBOX,
-    ACTORCAT_BG,
-    FLAGS,
+    /**/ ACTOR_BG_PUSHBOX,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
     //! @bug fixing this actor would involve using OBJECT_PU_BOX
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(BgPushbox),
-    (ActorFunc)BgPushbox_Init,
-    (ActorFunc)BgPushbox_Destroy,
-    (ActorFunc)BgPushbox_Update,
-    (ActorFunc)BgPushbox_Draw,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(BgPushbox),
+    /**/ BgPushbox_Init,
+    /**/ BgPushbox_Destroy,
+    /**/ BgPushbox_Update,
+    /**/ BgPushbox_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

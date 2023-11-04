@@ -19,15 +19,15 @@ void func_8088F514(BgHidanSyoku* this, PlayState* play);
 void func_8088F62C(BgHidanSyoku* this, PlayState* play);
 
 ActorInit Bg_Hidan_Syoku_InitVars = {
-    ACTOR_BG_HIDAN_SYOKU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanSyoku),
-    (ActorFunc)BgHidanSyoku_Init,
-    (ActorFunc)BgHidanSyoku_Destroy,
-    (ActorFunc)BgHidanSyoku_Update,
-    (ActorFunc)BgHidanSyoku_Draw,
+    /**/ ACTOR_BG_HIDAN_SYOKU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanSyoku),
+    /**/ BgHidanSyoku_Init,
+    /**/ BgHidanSyoku_Destroy,
+    /**/ BgHidanSyoku_Update,
+    /**/ BgHidanSyoku_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

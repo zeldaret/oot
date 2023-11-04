@@ -48,15 +48,15 @@ void EnHonotrap_SetupFlameVanish(EnHonotrap* this);
 void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play);
 
 ActorInit En_Honotrap_InitVars = {
-    ACTOR_EN_HONOTRAP,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(EnHonotrap),
-    (ActorFunc)EnHonotrap_Init,
-    (ActorFunc)EnHonotrap_Destroy,
-    (ActorFunc)EnHonotrap_Update,
-    (ActorFunc)EnHonotrap_Draw,
+    /**/ ACTOR_EN_HONOTRAP,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(EnHonotrap),
+    /**/ EnHonotrap_Init,
+    /**/ EnHonotrap_Destroy,
+    /**/ EnHonotrap_Update,
+    /**/ EnHonotrap_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {

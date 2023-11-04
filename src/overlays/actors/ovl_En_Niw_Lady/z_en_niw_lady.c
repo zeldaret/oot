@@ -26,15 +26,15 @@ void func_80ABA654(EnNiwLady* this, PlayState* play);
 void func_80ABAD7C(EnNiwLady* this, PlayState* play);
 
 ActorInit En_Niw_Lady_InitVars = {
-    ACTOR_EN_NIW_LADY,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ANE,
-    sizeof(EnNiwLady),
-    (ActorFunc)EnNiwLady_Init,
-    (ActorFunc)EnNiwLady_Destroy,
-    (ActorFunc)EnNiwLady_Update,
-    NULL,
+    /**/ ACTOR_EN_NIW_LADY,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ANE,
+    /**/ sizeof(EnNiwLady),
+    /**/ EnNiwLady_Init,
+    /**/ EnNiwLady_Destroy,
+    /**/ EnNiwLady_Update,
+    /**/ NULL,
 };
 
 static s16 sMissingCuccoTextIds[] = {

@@ -56,15 +56,15 @@ void EnGe2_UpdateAfterTalk(Actor* thisx, PlayState* play);
 void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
 
 ActorInit En_Ge2_InitVars = {
-    ACTOR_EN_GE2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GLA,
-    sizeof(EnGe2),
-    (ActorFunc)EnGe2_Init,
-    (ActorFunc)EnGe2_Destroy,
-    (ActorFunc)EnGe2_Update,
-    (ActorFunc)EnGe2_Draw,
+    /**/ ACTOR_EN_GE2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GLA,
+    /**/ sizeof(EnGe2),
+    /**/ EnGe2_Init,
+    /**/ EnGe2_Destroy,
+    /**/ EnGe2_Update,
+    /**/ EnGe2_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -480,7 +480,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, PlayState* play) {
     this->stateFlags |= GE2_STATE_CAPTURING;
     this->actor.speed = 0.0f;
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_95);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_95);
     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }

@@ -22,15 +22,15 @@ void func_80A56A50(EnHeishi4* this, PlayState* play);
 void func_80A56ACC(EnHeishi4* this, PlayState* play);
 
 ActorInit En_Heishi4_InitVars = {
-    ACTOR_EN_HEISHI4,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SD,
-    sizeof(EnHeishi4),
-    (ActorFunc)EnHeishi4_Init,
-    (ActorFunc)EnHeishi4_Destroy,
-    (ActorFunc)EnHeishi4_Update,
-    (ActorFunc)EnHeishi4_Draw,
+    /**/ ACTOR_EN_HEISHI4,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SD,
+    /**/ sizeof(EnHeishi4),
+    /**/ EnHeishi4_Init,
+    /**/ EnHeishi4_Destroy,
+    /**/ EnHeishi4_Update,
+    /**/ EnHeishi4_Draw,
 };
 
 static u32 sFaceReactionSets[] = { 6, 7 };
@@ -266,7 +266,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play) {
     if ((this->unk_282 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_6C);
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = func_80A56A50;
     }
 }
@@ -284,7 +284,7 @@ void func_80A56ACC(EnHeishi4* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_288 <= currentFrame) {
-        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_80A5673C;
     }
 }

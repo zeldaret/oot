@@ -15,15 +15,15 @@ void BgMenkuriNisekabe_Update(Actor* thisx, PlayState* play);
 void BgMenkuriNisekabe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Menkuri_Nisekabe_InitVars = {
-    ACTOR_BG_MENKURI_NISEKABE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_MENKURI_OBJECTS,
-    sizeof(BgMenkuriNisekabe),
-    (ActorFunc)BgMenkuriNisekabe_Init,
-    (ActorFunc)BgMenkuriNisekabe_Destroy,
-    (ActorFunc)BgMenkuriNisekabe_Update,
-    (ActorFunc)BgMenkuriNisekabe_Draw,
+    /**/ ACTOR_BG_MENKURI_NISEKABE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_MENKURI_OBJECTS,
+    /**/ sizeof(BgMenkuriNisekabe),
+    /**/ BgMenkuriNisekabe_Init,
+    /**/ BgMenkuriNisekabe_Destroy,
+    /**/ BgMenkuriNisekabe_Update,
+    /**/ BgMenkuriNisekabe_Draw,
 };
 
 static Gfx* sDLists[] = { gGTGFakeWallDL, gGTGFakeCeilingDL };

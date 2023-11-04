@@ -42,15 +42,15 @@ s32 EnDaiku_OverrideLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3f* pos,
 void EnDaiku_PostLimbDraw(PlayState* play, s32 limb, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Daiku_InitVars = {
-    ACTOR_EN_DAIKU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DAIKU,
-    sizeof(EnDaiku),
-    (ActorFunc)EnDaiku_Init,
-    (ActorFunc)EnDaiku_Destroy,
-    (ActorFunc)EnDaiku_Update,
-    (ActorFunc)EnDaiku_Draw,
+    /**/ ACTOR_EN_DAIKU,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DAIKU,
+    /**/ sizeof(EnDaiku),
+    /**/ EnDaiku_Init,
+    /**/ EnDaiku_Destroy,
+    /**/ EnDaiku_Update,
+    /**/ EnDaiku_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -469,7 +469,7 @@ void EnDaiku_InitSubCamera(EnDaiku* this, PlayState* play) {
 
     Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
     Play_SetCameraFov(play, this->subCamId, play->mainCamera.fov);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 }
 
 void EnDaiku_UpdateSubCamera(EnDaiku* this, PlayState* play) {
@@ -505,7 +505,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, PlayState* play) {
             Actor_Kill(&this->actor);
         }
     } else {
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
     }
 }
 
