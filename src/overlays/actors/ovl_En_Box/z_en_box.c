@@ -51,15 +51,15 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play);
 void EnBox_Open(EnBox* this, PlayState* play);
 
 ActorInit En_Box_InitVars = {
-    ACTOR_EN_BOX,
-    ACTORCAT_CHEST,
-    FLAGS,
-    OBJECT_BOX,
-    sizeof(EnBox),
-    (ActorFunc)EnBox_Init,
-    (ActorFunc)EnBox_Destroy,
-    (ActorFunc)EnBox_Update,
-    (ActorFunc)EnBox_Draw,
+    /**/ ACTOR_EN_BOX,
+    /**/ ACTORCAT_CHEST,
+    /**/ FLAGS,
+    /**/ OBJECT_BOX,
+    /**/ sizeof(EnBox),
+    /**/ EnBox_Init,
+    /**/ EnBox_Destroy,
+    /**/ EnBox_Update,
+    /**/ EnBox_Draw,
 };
 
 static AnimationHeader* sAnimations[4] = { &gTreasureChestAnim_00024C, &gTreasureChestAnim_000128,

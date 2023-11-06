@@ -34,15 +34,15 @@ void EnPoField_SoulInteract(EnPoField* this, PlayState* play);
 void EnPoField_SpawnFlame(EnPoField* this);
 
 ActorInit En_Po_Field_InitVars = {
-    ACTOR_EN_PO_FIELD,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_PO_FIELD,
-    sizeof(EnPoField),
-    (ActorFunc)EnPoField_Init,
-    (ActorFunc)EnPoField_Destroy,
-    (ActorFunc)EnPoField_Update,
-    (ActorFunc)EnPoField_Draw,
+    /**/ ACTOR_EN_PO_FIELD,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_FIELD,
+    /**/ sizeof(EnPoField),
+    /**/ EnPoField_Init,
+    /**/ EnPoField_Destroy,
+    /**/ EnPoField_Update,
+    /**/ EnPoField_Draw,
 };
 
 static ColliderCylinderInit D_80AD7080 = {

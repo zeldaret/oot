@@ -21,15 +21,15 @@ void func_808B9698(BgSpot18Shutter* this, PlayState* play);
 void func_808B971C(BgSpot18Shutter* this, PlayState* play);
 
 ActorInit Bg_Spot18_Shutter_InitVars = {
-    ACTOR_BG_SPOT18_SHUTTER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT18_OBJ,
-    sizeof(BgSpot18Shutter),
-    (ActorFunc)BgSpot18Shutter_Init,
-    (ActorFunc)BgSpot18Shutter_Destroy,
-    (ActorFunc)BgSpot18Shutter_Update,
-    (ActorFunc)BgSpot18Shutter_Draw,
+    /**/ ACTOR_BG_SPOT18_SHUTTER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT18_OBJ,
+    /**/ sizeof(BgSpot18Shutter),
+    /**/ BgSpot18Shutter_Init,
+    /**/ BgSpot18Shutter_Destroy,
+    /**/ BgSpot18Shutter_Update,
+    /**/ BgSpot18Shutter_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

@@ -29,15 +29,15 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, PlayState* play);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, PlayState* play);
 
 ActorInit Bg_Po_Event_InitVars = {
-    ACTOR_BG_PO_EVENT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_PO_SISTERS,
-    sizeof(BgPoEvent),
-    (ActorFunc)BgPoEvent_Init,
-    (ActorFunc)BgPoEvent_Destroy,
-    (ActorFunc)BgPoEvent_Update,
-    (ActorFunc)BgPoEvent_Draw,
+    /**/ ACTOR_BG_PO_EVENT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_SISTERS,
+    /**/ sizeof(BgPoEvent),
+    /**/ BgPoEvent_Init,
+    /**/ BgPoEvent_Destroy,
+    /**/ BgPoEvent_Update,
+    /**/ BgPoEvent_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
@@ -320,7 +320,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, PlayState* play) {
             if (firstFall == 0) {
                 firstFall = 1;
             } else {
-                func_8002DF54(play, &GET_PLAYER(play)->actor, PLAYER_CSACTION_7);
+                Player_SetCsActionWithHaltedActors(play, &GET_PLAYER(play)->actor, PLAYER_CSACTION_7);
             }
         }
         this->direction = 0;
@@ -356,7 +356,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, PlayState* play) {
             if (sPuzzleState == 0x10) {
                 sPuzzleState = 0x40;
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_RISING);
-                func_8002DF54(play, &player->actor, PLAYER_CSACTION_8);
+                Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
             }
         } else if (this->dyna.unk_150 != 0.0f) {
             if (this->direction == 0) {

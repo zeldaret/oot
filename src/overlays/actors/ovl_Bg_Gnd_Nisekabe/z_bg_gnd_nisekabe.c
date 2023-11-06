@@ -15,15 +15,15 @@ void BgGndNisekabe_Update(Actor* thisx, PlayState* play);
 void BgGndNisekabe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Gnd_Nisekabe_InitVars = {
-    ACTOR_BG_GND_NISEKABE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndNisekabe),
-    (ActorFunc)BgGndNisekabe_Init,
-    (ActorFunc)BgGndNisekabe_Destroy,
-    (ActorFunc)BgGndNisekabe_Update,
-    (ActorFunc)BgGndNisekabe_Draw,
+    /**/ ACTOR_BG_GND_NISEKABE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndNisekabe),
+    /**/ BgGndNisekabe_Init,
+    /**/ BgGndNisekabe_Destroy,
+    /**/ BgGndNisekabe_Update,
+    /**/ BgGndNisekabe_Draw,
 };
 
 void BgGndNisekabe_Init(Actor* thisx, PlayState* play) {

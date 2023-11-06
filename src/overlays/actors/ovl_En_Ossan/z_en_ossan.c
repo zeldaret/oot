@@ -101,15 +101,15 @@ void EnOssan_SetStateGiveDiscountDialog(PlayState* play, EnOssan* this);
 #define CURSOR_INVALID 0xFF
 
 ActorInit En_Ossan_InitVars = {
-    ACTOR_EN_OSSAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnOssan),
-    (ActorFunc)EnOssan_Init,
-    (ActorFunc)EnOssan_Destroy,
-    (ActorFunc)EnOssan_Update,
-    NULL,
+    /**/ ACTOR_EN_OSSAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnOssan),
+    /**/ EnOssan_Init,
+    /**/ EnOssan_Destroy,
+    /**/ EnOssan_Update,
+    /**/ NULL,
 };
 
 // Unused collider

@@ -26,15 +26,15 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play);
 
 ActorInit Bg_Spot00_Hanebasi_InitVars = {
-    ACTOR_BG_SPOT00_HANEBASI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT00_OBJECTS,
-    sizeof(BgSpot00Hanebasi),
-    (ActorFunc)BgSpot00Hanebasi_Init,
-    (ActorFunc)BgSpot00Hanebasi_Destroy,
-    (ActorFunc)BgSpot00Hanebasi_Update,
-    (ActorFunc)BgSpot00Hanebasi_Draw,
+    /**/ ACTOR_BG_SPOT00_HANEBASI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT00_OBJECTS,
+    /**/ sizeof(BgSpot00Hanebasi),
+    /**/ BgSpot00Hanebasi_Init,
+    /**/ BgSpot00Hanebasi_Destroy,
+    /**/ BgSpot00Hanebasi_Update,
+    /**/ BgSpot00Hanebasi_Draw,
 };
 
 static f32 sTorchFlameScale = 0.0f;
@@ -214,7 +214,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     SET_EVENTCHKINF(EVENTCHKINF_80);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
-                    func_8002DF54(play, &player->actor, PLAYER_CSACTION_8);
+                    Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
                     play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
                     play->transitionTrigger = TRANS_TRIGGER_START;

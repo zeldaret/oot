@@ -19,15 +19,15 @@ s32 EnToryo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
 void EnToryo_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Toryo_InitVars = {
-    ACTOR_EN_TORYO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TORYO,
-    sizeof(EnToryo),
-    (ActorFunc)EnToryo_Init,
-    (ActorFunc)EnToryo_Destroy,
-    (ActorFunc)EnToryo_Update,
-    (ActorFunc)EnToryo_Draw,
+    /**/ ACTOR_EN_TORYO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TORYO,
+    /**/ sizeof(EnToryo),
+    /**/ EnToryo_Init,
+    /**/ EnToryo_Destroy,
+    /**/ EnToryo_Update,
+    /**/ EnToryo_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

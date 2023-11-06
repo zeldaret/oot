@@ -43,15 +43,15 @@ static s16 sCaughtCount = 0;
 static s16 sDroppedCount = 0;
 
 ActorInit En_Insect_InitVars = {
-    ACTOR_EN_INSECT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnInsect),
-    (ActorFunc)EnInsect_Init,
-    (ActorFunc)EnInsect_Destroy,
-    (ActorFunc)EnInsect_Update,
-    (ActorFunc)EnInsect_Draw,
+    /**/ ACTOR_EN_INSECT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnInsect),
+    /**/ EnInsect_Init,
+    /**/ EnInsect_Destroy,
+    /**/ EnInsect_Update,
+    /**/ EnInsect_Draw,
 };
 
 static ColliderJntSphElementInit sColliderItemInit[1] = {

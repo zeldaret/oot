@@ -18,15 +18,15 @@ void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play);
 void func_80AF8F60(Player* player, u8* shadowTexture, f32 arg2);
 
 ActorInit En_Sda_InitVars = {
-    ACTOR_EN_SDA,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnSda),
-    (ActorFunc)EnSda_Init,
-    (ActorFunc)EnSda_Destroy,
-    (ActorFunc)EnSda_Update,
-    (ActorFunc)EnSda_Draw,
+    /**/ ACTOR_EN_SDA,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnSda),
+    /**/ EnSda_Init,
+    /**/ EnSda_Destroy,
+    /**/ EnSda_Update,
+    /**/ EnSda_Draw,
 };
 
 static Vec3f D_80AFA0D0 = { 0.0f, 0.0f, 0.0f };

@@ -36,15 +36,15 @@ s32 EnMm2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnMm2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Mm2_InitVars = {
-    ACTOR_EN_MM2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MM,
-    sizeof(EnMm2),
-    (ActorFunc)EnMm2_Init,
-    (ActorFunc)EnMm2_Destroy,
-    (ActorFunc)EnMm2_Update,
-    (ActorFunc)EnMm2_Draw,
+    /**/ ACTOR_EN_MM2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MM,
+    /**/ sizeof(EnMm2),
+    /**/ EnMm2_Init,
+    /**/ EnMm2_Destroy,
+    /**/ EnMm2_Update,
+    /**/ EnMm2_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

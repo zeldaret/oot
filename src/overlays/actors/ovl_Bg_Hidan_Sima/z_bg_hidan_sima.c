@@ -22,15 +22,15 @@ void func_8088E7A8(BgHidanSima* this, PlayState* play);
 void func_8088E90C(BgHidanSima* this);
 
 ActorInit Bg_Hidan_Sima_InitVars = {
-    ACTOR_BG_HIDAN_SIMA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanSima),
-    (ActorFunc)BgHidanSima_Init,
-    (ActorFunc)BgHidanSima_Destroy,
-    (ActorFunc)BgHidanSima_Update,
-    (ActorFunc)BgHidanSima_Draw,
+    /**/ ACTOR_BG_HIDAN_SIMA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanSima),
+    /**/ BgHidanSima_Init,
+    /**/ BgHidanSima_Destroy,
+    /**/ BgHidanSima_Update,
+    /**/ BgHidanSima_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {

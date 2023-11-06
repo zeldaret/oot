@@ -94,15 +94,15 @@ s32 D_80B18910[] = { 0x0A000039, 0x20010000, 0x00000000, 0x00000000, 0x00000000,
 s32 D_80B1893C[] = { 0x00000000, 0x00000000, 0xFF000000 };
 
 ActorInit En_Tg_InitVars = {
-    ACTOR_EN_TG,
-    ACTORTYPE_NPC,
-    FLAGS,
-    OBJECT_MU,
-    sizeof(EnTg),
-    (ActorFunc)EnTg_Init,
-    (ActorFunc)EnTg_Destroy,
-    (ActorFunc)EnTg_Update,
-    (ActorFunc)EnTg_Draw,
+    /**/ ACTOR_EN_TG,
+    /**/ ACTORTYPE_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MU,
+    /**/ sizeof(EnTg),
+    /**/ EnTg_Init,
+    /**/ EnTg_Destroy,
+    /**/ EnTg_Update,
+    /**/ EnTg_Draw,
 };
 
 s32 D_80B18968[] = { 0x00000000, 0x44480000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 };
@@ -490,15 +490,15 @@ To replace the `extern`, because the data is in a separate file, we include the 
 Lastly, uncomment the InitVars block that's been sitting there the whole time. The data section of the file now looks like
 ```C
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORTYPE_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
 
 #include "en_jj_cutscene_data.c" EARLY
@@ -567,15 +567,15 @@ Notice that the numbers in the bottom pane is all shifted one word to the left. 
 
 ```C
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORTYPE_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
 
 s32 usused = 0;

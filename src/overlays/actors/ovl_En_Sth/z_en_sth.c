@@ -23,15 +23,15 @@ void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play);
 void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play);
 
 ActorInit En_Sth_InitVars = {
-    ACTOR_EN_STH,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnSth),
-    (ActorFunc)EnSth_Init,
-    (ActorFunc)EnSth_Destroy,
-    (ActorFunc)EnSth_Update,
-    NULL,
+    /**/ ACTOR_EN_STH,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnSth),
+    /**/ EnSth_Init,
+    /**/ EnSth_Destroy,
+    /**/ EnSth_Update,
+    /**/ NULL,
 };
 
 #include "assets/overlays/ovl_En_Sth/ovl_En_Sth.c"

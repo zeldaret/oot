@@ -43,15 +43,15 @@ void EnDns_Burrow(EnDns* this, PlayState* play);
 void EnDns_PostBurrow(EnDns* this, PlayState* play);
 
 ActorInit En_Dns_InitVars = {
-    ACTOR_EN_DNS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SHOPNUTS,
-    sizeof(EnDns),
-    (ActorFunc)EnDns_Init,
-    (ActorFunc)EnDns_Destroy,
-    (ActorFunc)EnDns_Update,
-    (ActorFunc)EnDns_Draw,
+    /**/ ACTOR_EN_DNS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SHOPNUTS,
+    /**/ sizeof(EnDns),
+    /**/ EnDns_Init,
+    /**/ EnDns_Destroy,
+    /**/ EnDns_Update,
+    /**/ EnDns_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {

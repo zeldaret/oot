@@ -19,15 +19,15 @@ void BgHakaTubo_Idle(BgHakaTubo* this, PlayState* play);
 void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play);
 
 ActorInit Bg_Haka_Tubo_InitVars = {
-    ACTOR_BG_HAKA_TUBO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaTubo),
-    (ActorFunc)BgHakaTubo_Init,
-    (ActorFunc)BgHakaTubo_Destroy,
-    (ActorFunc)BgHakaTubo_Update,
-    (ActorFunc)BgHakaTubo_Draw,
+    /**/ ACTOR_BG_HAKA_TUBO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaTubo),
+    /**/ BgHakaTubo_Init,
+    /**/ BgHakaTubo_Destroy,
+    /**/ BgHakaTubo_Update,
+    /**/ BgHakaTubo_Draw,
 };
 
 static ColliderCylinderInit sPotColliderInit = {

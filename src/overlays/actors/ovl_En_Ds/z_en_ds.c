@@ -17,15 +17,15 @@ void EnDs_Draw(Actor* thisx, PlayState* play);
 void EnDs_Wait(EnDs* this, PlayState* play);
 
 ActorInit En_Ds_InitVars = {
-    ACTOR_EN_DS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DS,
-    sizeof(EnDs),
-    (ActorFunc)EnDs_Init,
-    (ActorFunc)EnDs_Destroy,
-    (ActorFunc)EnDs_Update,
-    (ActorFunc)EnDs_Draw,
+    /**/ ACTOR_EN_DS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DS,
+    /**/ sizeof(EnDs),
+    /**/ EnDs_Init,
+    /**/ EnDs_Destroy,
+    /**/ EnDs_Update,
+    /**/ EnDs_Draw,
 };
 
 void EnDs_Init(Actor* thisx, PlayState* play) {

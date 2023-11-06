@@ -19,15 +19,15 @@ void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play);
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, PlayState* play);
 
 ActorInit Elf_Msg2_InitVars = {
-    ACTOR_ELF_MSG2,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ElfMsg2),
-    (ActorFunc)ElfMsg2_Init,
-    (ActorFunc)ElfMsg2_Destroy,
-    (ActorFunc)ElfMsg2_Update,
-    (ActorFunc)ElfMsg2_Draw,
+    /**/ ACTOR_ELF_MSG2,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ElfMsg2),
+    /**/ ElfMsg2_Init,
+    /**/ ElfMsg2_Destroy,
+    /**/ ElfMsg2_Update,
+    /**/ ElfMsg2_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

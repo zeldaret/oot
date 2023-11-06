@@ -17,15 +17,15 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2);
 void EnVbBall_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Vb_Ball_InitVars = {
-    0,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_FD,
-    sizeof(EnVbBall),
-    (ActorFunc)EnVbBall_Init,
-    (ActorFunc)EnVbBall_Destroy,
-    (ActorFunc)EnVbBall_Update,
-    (ActorFunc)EnVbBall_Draw,
+    /**/ 0,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_FD,
+    /**/ sizeof(EnVbBall),
+    /**/ EnVbBall_Init,
+    /**/ EnVbBall_Destroy,
+    /**/ EnVbBall_Update,
+    /**/ EnVbBall_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

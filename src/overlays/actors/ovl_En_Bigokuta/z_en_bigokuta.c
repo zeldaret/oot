@@ -31,15 +31,15 @@ static Color_RGBA8 sEffectEnvColor = { 100, 255, 255, 255 };
 static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 
 ActorInit En_Bigokuta_InitVars = {
-    ACTOR_EN_BIGOKUTA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BIGOKUTA,
-    sizeof(EnBigokuta),
-    (ActorFunc)EnBigokuta_Init,
-    (ActorFunc)EnBigokuta_Destroy,
-    (ActorFunc)EnBigokuta_Update,
-    (ActorFunc)EnBigokuta_Draw,
+    /**/ ACTOR_EN_BIGOKUTA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BIGOKUTA,
+    /**/ sizeof(EnBigokuta),
+    /**/ EnBigokuta_Init,
+    /**/ EnBigokuta_Destroy,
+    /**/ EnBigokuta_Update,
+    /**/ EnBigokuta_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementInit[1] = {

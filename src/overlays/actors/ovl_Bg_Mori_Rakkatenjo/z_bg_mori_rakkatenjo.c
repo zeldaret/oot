@@ -29,15 +29,15 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play);
 static s16 sCamSetting = CAM_SET_NONE;
 
 ActorInit Bg_Mori_Rakkatenjo_InitVars = {
-    ACTOR_BG_MORI_RAKKATENJO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriRakkatenjo),
-    (ActorFunc)BgMoriRakkatenjo_Init,
-    (ActorFunc)BgMoriRakkatenjo_Destroy,
-    (ActorFunc)BgMoriRakkatenjo_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_RAKKATENJO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriRakkatenjo),
+    /**/ BgMoriRakkatenjo_Init,
+    /**/ BgMoriRakkatenjo_Destroy,
+    /**/ BgMoriRakkatenjo_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -85,13 +85,13 @@ void BgMoriRakkatenjo_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-s32 BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, PlayState* play) {
+int BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, PlayState* play) {
     Vec3f* pos = &GET_PLAYER(play)->actor.world.pos;
 
     return (-3300.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }
 
-s32 BgMoriRakkatenjo_IsLinkClose(BgMoriRakkatenjo* this, PlayState* play) {
+int BgMoriRakkatenjo_IsLinkClose(BgMoriRakkatenjo* this, PlayState* play) {
     Vec3f* pos = &GET_PLAYER(play)->actor.world.pos;
 
     return (-3360.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);

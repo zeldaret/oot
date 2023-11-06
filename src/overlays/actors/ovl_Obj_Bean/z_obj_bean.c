@@ -73,15 +73,15 @@ void ObjBean_WaitForStepOff(ObjBean* this, PlayState* play);
 static ObjBean* D_80B90E30 = NULL;
 
 ActorInit Obj_Bean_InitVars = {
-    ACTOR_OBJ_BEAN,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MAMENOKI,
-    sizeof(ObjBean),
-    (ActorFunc)ObjBean_Init,
-    (ActorFunc)ObjBean_Destroy,
-    (ActorFunc)ObjBean_Update,
-    (ActorFunc)ObjBean_Draw,
+    /**/ ACTOR_OBJ_BEAN,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MAMENOKI,
+    /**/ sizeof(ObjBean),
+    /**/ ObjBean_Init,
+    /**/ ObjBean_Destroy,
+    /**/ ObjBean_Update,
+    /**/ ObjBean_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

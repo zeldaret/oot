@@ -25,15 +25,15 @@ void EnDaikuKakariko_Wait(EnDaikuKakariko* this, PlayState* play);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play);
 
 ActorInit En_Daiku_Kakariko_InitVars = {
-    ACTOR_EN_DAIKU_KAKARIKO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DAIKU,
-    sizeof(EnDaikuKakariko),
-    (ActorFunc)EnDaikuKakariko_Init,
-    (ActorFunc)EnDaikuKakariko_Destroy,
-    (ActorFunc)EnDaikuKakariko_Update,
-    (ActorFunc)EnDaikuKakariko_Draw,
+    /**/ ACTOR_EN_DAIKU_KAKARIKO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DAIKU,
+    /**/ sizeof(EnDaikuKakariko),
+    /**/ EnDaikuKakariko_Init,
+    /**/ EnDaikuKakariko_Destroy,
+    /**/ EnDaikuKakariko_Update,
+    /**/ EnDaikuKakariko_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

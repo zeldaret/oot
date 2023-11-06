@@ -24,15 +24,15 @@ void func_80AA1150(EnMa1* this, PlayState* play);
 void EnMa1_DoNothing(EnMa1* this, PlayState* play);
 
 ActorInit En_Ma1_InitVars = {
-    ACTOR_EN_MA1,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MA1,
-    sizeof(EnMa1),
-    (ActorFunc)EnMa1_Init,
-    (ActorFunc)EnMa1_Destroy,
-    (ActorFunc)EnMa1_Update,
-    (ActorFunc)EnMa1_Draw,
+    /**/ ACTOR_EN_MA1,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MA1,
+    /**/ sizeof(EnMa1),
+    /**/ EnMa1_Init,
+    /**/ EnMa1_Destroy,
+    /**/ EnMa1_Update,
+    /**/ EnMa1_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

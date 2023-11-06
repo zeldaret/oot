@@ -15,15 +15,15 @@ void EnJsjutan_Update(Actor* thisx, PlayState* play2);
 void EnJsjutan_Draw(Actor* thisx, PlayState* play2);
 
 ActorInit En_Jsjutan_InitVars = {
-    ACTOR_EN_JSJUTAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnJsjutan),
-    (ActorFunc)EnJsjutan_Init,
-    (ActorFunc)EnJsjutan_Destroy,
-    (ActorFunc)EnJsjutan_Update,
-    (ActorFunc)EnJsjutan_Draw,
+    /**/ ACTOR_EN_JSJUTAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnJsjutan),
+    /**/ EnJsjutan_Init,
+    /**/ EnJsjutan_Destroy,
+    /**/ EnJsjutan_Update,
+    /**/ EnJsjutan_Draw,
 };
 
 // Shadow texture. 32x64 I8.

@@ -12,15 +12,15 @@ void ArmsHook_Wait(ArmsHook* this, PlayState* play);
 void ArmsHook_Shoot(ArmsHook* this, PlayState* play);
 
 ActorInit Arms_Hook_InitVars = {
-    ACTOR_ARMS_HOOK,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_LINK_BOY,
-    sizeof(ArmsHook),
-    (ActorFunc)ArmsHook_Init,
-    (ActorFunc)ArmsHook_Destroy,
-    (ActorFunc)ArmsHook_Update,
-    (ActorFunc)ArmsHook_Draw,
+    /**/ ACTOR_ARMS_HOOK,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_LINK_BOY,
+    /**/ sizeof(ArmsHook),
+    /**/ ArmsHook_Init,
+    /**/ ArmsHook_Destroy,
+    /**/ ArmsHook_Update,
+    /**/ ArmsHook_Draw,
 };
 
 static ColliderQuadInit sQuadInit = {

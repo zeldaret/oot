@@ -34,15 +34,15 @@ void func_809D03CC(EnBw* this);
 void func_809D0424(EnBw* this, PlayState* play);
 
 ActorInit En_Bw_InitVars = {
-    ACTOR_EN_BW,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BW,
-    sizeof(EnBw),
-    (ActorFunc)EnBw_Init,
-    (ActorFunc)EnBw_Destroy,
-    (ActorFunc)EnBw_Update,
-    (ActorFunc)EnBw_Draw,
+    /**/ ACTOR_EN_BW,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BW,
+    /**/ sizeof(EnBw),
+    /**/ EnBw_Init,
+    /**/ EnBw_Destroy,
+    /**/ EnBw_Update,
+    /**/ EnBw_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {

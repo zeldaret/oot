@@ -22,15 +22,15 @@ void EnShopnuts_Burrow(EnShopnuts* this, PlayState* play);
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play);
 
 ActorInit En_Shopnuts_InitVars = {
-    ACTOR_EN_SHOPNUTS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SHOPNUTS,
-    sizeof(EnShopnuts),
-    (ActorFunc)EnShopnuts_Init,
-    (ActorFunc)EnShopnuts_Destroy,
-    (ActorFunc)EnShopnuts_Update,
-    (ActorFunc)EnShopnuts_Draw,
+    /**/ ACTOR_EN_SHOPNUTS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SHOPNUTS,
+    /**/ sizeof(EnShopnuts),
+    /**/ EnShopnuts_Init,
+    /**/ EnShopnuts_Destroy,
+    /**/ EnShopnuts_Update,
+    /**/ EnShopnuts_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

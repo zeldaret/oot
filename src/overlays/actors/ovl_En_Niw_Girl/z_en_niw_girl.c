@@ -20,15 +20,15 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play);
 void func_80AB9210(EnNiwGirl* this, PlayState* play);
 
 ActorInit En_Niw_Girl_InitVars = {
-    ACTOR_EN_NIW_GIRL,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GR,
-    sizeof(EnNiwGirl),
-    (ActorFunc)EnNiwGirl_Init,
-    (ActorFunc)EnNiwGirl_Destroy,
-    (ActorFunc)EnNiwGirl_Update,
-    (ActorFunc)EnNiwGirl_Draw,
+    /**/ ACTOR_EN_NIW_GIRL,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GR,
+    /**/ sizeof(EnNiwGirl),
+    /**/ EnNiwGirl_Init,
+    /**/ EnNiwGirl_Destroy,
+    /**/ EnNiwGirl_Update,
+    /**/ EnNiwGirl_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

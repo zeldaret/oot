@@ -2418,13 +2418,13 @@ void EnXc_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit En_Xc_InitVars = {
-    ACTOR_EN_XC,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_XC,
-    sizeof(EnXc),
-    (ActorFunc)EnXc_Init,
-    (ActorFunc)EnXc_Destroy,
-    (ActorFunc)EnXc_Update,
-    (ActorFunc)EnXc_Draw,
+    /**/ ACTOR_EN_XC,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_XC,
+    /**/ sizeof(EnXc),
+    /**/ EnXc_Init,
+    /**/ EnXc_Destroy,
+    /**/ EnXc_Update,
+    /**/ EnXc_Draw,
 };

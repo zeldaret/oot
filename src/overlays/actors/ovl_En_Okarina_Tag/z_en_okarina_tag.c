@@ -23,15 +23,15 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play);
 void func_80ABF7CC(EnOkarinaTag* this, PlayState* play);
 
 ActorInit En_Okarina_Tag_InitVars = {
-    ACTOR_EN_OKARINA_TAG,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnOkarinaTag),
-    (ActorFunc)EnOkarinaTag_Init,
-    (ActorFunc)EnOkarinaTag_Destroy,
-    (ActorFunc)EnOkarinaTag_Update,
-    NULL,
+    /**/ ACTOR_EN_OKARINA_TAG,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnOkarinaTag),
+    /**/ EnOkarinaTag_Init,
+    /**/ EnOkarinaTag_Destroy,
+    /**/ EnOkarinaTag_Update,
+    /**/ NULL,
 };
 
 extern CutsceneData D_80ABF9D0[];

@@ -36,15 +36,15 @@ void ObjLightswitch_SetupDisappear(ObjLightswitch* this);
 void ObjLightswitch_Disappear(ObjLightswitch* this, PlayState* play);
 
 ActorInit Obj_Lightswitch_InitVars = {
-    ACTOR_OBJ_LIGHTSWITCH,
-    ACTORCAT_SWITCH,
-    FLAGS,
-    OBJECT_LIGHTSWITCH,
-    sizeof(ObjLightswitch),
-    (ActorFunc)ObjLightswitch_Init,
-    (ActorFunc)ObjLightswitch_Destroy,
-    (ActorFunc)ObjLightswitch_Update,
-    (ActorFunc)ObjLightswitch_Draw,
+    /**/ ACTOR_OBJ_LIGHTSWITCH,
+    /**/ ACTORCAT_SWITCH,
+    /**/ FLAGS,
+    /**/ OBJECT_LIGHTSWITCH,
+    /**/ sizeof(ObjLightswitch),
+    /**/ ObjLightswitch_Init,
+    /**/ ObjLightswitch_Destroy,
+    /**/ ObjLightswitch_Update,
+    /**/ ObjLightswitch_Draw,
 };
 
 static ColliderJntSphElementInit sColliderJntSphElementInit[] = {

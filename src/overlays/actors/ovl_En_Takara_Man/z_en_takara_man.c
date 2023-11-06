@@ -23,15 +23,15 @@ void func_80B17A6C(EnTakaraMan* this, PlayState* play);
 void func_80B17AC4(EnTakaraMan* this, PlayState* play);
 
 ActorInit En_Takara_Man_InitVars = {
-    ACTOR_EN_TAKARA_MAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TS,
-    sizeof(EnTakaraMan),
-    (ActorFunc)EnTakaraMan_Init,
-    (ActorFunc)EnTakaraMan_Destroy,
-    (ActorFunc)EnTakaraMan_Update,
-    (ActorFunc)EnTakaraMan_Draw,
+    /**/ ACTOR_EN_TAKARA_MAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TS,
+    /**/ sizeof(EnTakaraMan),
+    /**/ EnTakaraMan_Init,
+    /**/ EnTakaraMan_Destroy,
+    /**/ EnTakaraMan_Update,
+    /**/ EnTakaraMan_Draw,
 };
 
 static u8 sTakaraIsInitialized = false;

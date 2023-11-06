@@ -22,15 +22,15 @@ void BgGndDarkmeiro_UpdateStaticBlock(BgGndDarkmeiro* this, PlayState* play);
 void BgGndDarkmeiro_UpdateSwitchBlock(BgGndDarkmeiro* this, PlayState* play);
 
 ActorInit Bg_Gnd_Darkmeiro_InitVars = {
-    ACTOR_BG_GND_DARKMEIRO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndDarkmeiro),
-    (ActorFunc)BgGndDarkmeiro_Init,
-    (ActorFunc)BgGndDarkmeiro_Destroy,
-    (ActorFunc)BgGndDarkmeiro_Update,
-    NULL,
+    /**/ ACTOR_BG_GND_DARKMEIRO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndDarkmeiro),
+    /**/ BgGndDarkmeiro_Init,
+    /**/ BgGndDarkmeiro_Destroy,
+    /**/ BgGndDarkmeiro_Update,
+    /**/ NULL,
 };
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, PlayState* play) {

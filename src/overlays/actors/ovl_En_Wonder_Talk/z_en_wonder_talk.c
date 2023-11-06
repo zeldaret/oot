@@ -18,15 +18,15 @@ void func_80B395F0(EnWonderTalk* this, PlayState* play);
 void func_80B3943C(EnWonderTalk* this, PlayState* play);
 
 ActorInit En_Wonder_Talk_InitVars = {
-    ACTOR_EN_WONDER_TALK,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWonderTalk),
-    (ActorFunc)EnWonderTalk_Init,
-    (ActorFunc)EnWonderTalk_Destroy,
-    (ActorFunc)EnWonderTalk_Update,
-    NULL,
+    /**/ ACTOR_EN_WONDER_TALK,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWonderTalk),
+    /**/ EnWonderTalk_Init,
+    /**/ EnWonderTalk_Destroy,
+    /**/ EnWonderTalk_Update,
+    /**/ NULL,
 };
 
 void EnWonderTalk_Destroy(Actor* thisx, PlayState* play) {

@@ -21,10 +21,6 @@ typedef struct {
     /* 0x0A */ s16 z;
 } LegacyJointKey; // size = 0x0C
 
-// ZAPD compatibility typedefs
-// TODO: Remove when ZAPD adds support for them
-typedef LegacyJointKey JointKey;
-
 typedef struct {
     /* 0x00 */ s16 frameCount;
     /* 0x02 */ s16 limbCount;
