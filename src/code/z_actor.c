@@ -1550,8 +1550,8 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
 }
 
 u32 Actor_AcceptTalkRequest(Actor* actor, PlayState* play) {
-    if (actor->flags & ACTOR_FLAG_TALK_REQUESTED) {
-        actor->flags &= ~ACTOR_FLAG_TALK_REQUESTED;
+    if (actor->flags & ACTOR_FLAG_TALK) {
+        actor->flags &= ~ACTOR_FLAG_TALK;
         return true;
     }
 
@@ -1559,20 +1559,19 @@ u32 Actor_AcceptTalkRequest(Actor* actor, PlayState* play) {
 }
 
 /**
- * This function covers offering the ability to `Talk` with the player.
+ * This function covers offering the ability to talk with the player.
  * Passing an exchangeItemId (see `ExchangeItemID`) allows the player to also use the item to initiate the
  * conversation.
  *
  * This function carries a talk exchange offer to the player actor if context allows it (e.g. the player is in range
- * and not busy with certain things). The player actor performs the offered action itself.
+ * and not busy with certain things).
  *
  * @return true If the player actor is capable of accepting the offer.
  */
 s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->actor.flags & ACTOR_FLAG_TALK_REQUESTED) ||
-        ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
+    if ((player->actor.flags & ACTOR_FLAG_TALK) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
         (!actor->isTargeted &&
          ((yRange < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
           (xzRange < actor->xzDistToPlayer)))) {

@@ -1409,7 +1409,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         func_80A01C38(this, 3);
 
         if (this->elfMsg != NULL) {
-            this->elfMsg->actor.flags |= ACTOR_FLAG_TALK_REQUESTED;
+            this->elfMsg->actor.flags |= ACTOR_FLAG_TALK;
         }
 
         thisx->flags &= ~ACTOR_FLAG_16;

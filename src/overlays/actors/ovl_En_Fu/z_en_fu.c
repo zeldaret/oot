@@ -137,7 +137,7 @@ void EnFu_WaitChild(EnFu* this, PlayState* play) {
         textID = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
     }
 
-    // if ACTOR_FLAG_TALK_REQUESTED is set and textID is 0x5033, change animation
+    // if ACTOR_FLAG_TALK is set and textID is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, play, textID, func_80A1DA04)) {
         if (textID == 0x5033) {

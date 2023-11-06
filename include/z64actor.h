@@ -147,8 +147,10 @@ typedef struct {
 #define ACTOR_FLAG_5 (1 << 5)
 #define ACTOR_FLAG_6 (1 << 6)
 #define ACTOR_FLAG_7 (1 << 7)
-// Player has requested to talk to the actor; Player uses this flag differently than every other actor
-#define ACTOR_FLAG_TALK_REQUESTED (1 << 8)
+// Signals that player has accepted an offer to talk to an actor, and has made a return request to the actor to start talking
+// Player will retain this flag until the player is finished talking
+// Actor will retain this flag until `Actor_AcceptTalkRequest` is called or manually accepted by the actor
+#define ACTOR_FLAG_TALK (1 << 8)
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
