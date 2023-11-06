@@ -121,7 +121,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
     alpha = Math_SinS(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
 
-    Camera_GetCamDir(&camDir, GET_ACTIVE_CAM(play));
+    camDir = Camera_GetCamDir(GET_ACTIVE_CAM(play));
     Matrix_RotateY(BINANG_TO_RAD(camDir.y), MTXMODE_NEW);
     Matrix_RotateX(BINANG_TO_RAD(camDir.x), MTXMODE_APPLY);
     Matrix_RotateZ(BINANG_TO_RAD(camDir.z), MTXMODE_APPLY);

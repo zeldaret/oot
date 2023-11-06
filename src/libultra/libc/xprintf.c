@@ -8,9 +8,9 @@
 #define isdigit(x) (((x) >= '0' && (x) <= '9'))
 #define LDSIGN(x) (((unsigned short*)&(x))[0] & 0x8000)
 
-#define ATOI(i, a)                  \
-    for (i = 0; isdigit(*a); a++)   \
-        if (i < 999)                \
+#define ATOI(i, a)                \
+    for (i = 0; isdigit(*a); a++) \
+        if (i < 999)              \
             i = *a + i * 10 - '0';
 
 #define PUT(fmt, _size)             \
@@ -24,17 +24,17 @@
 
 #define MAX_PAD ((int)sizeof(spaces) - 1)
 
-#define PAD(src, m)                     \
-    if (m > 0) {                        \
-        int i;                          \
-        int j;                          \
-        for (j = m; j > 0; j -= i) {    \
-            if ((unsigned)j > MAX_PAD)  \
-                i = MAX_PAD;            \
-            else                        \
-                i = j;                  \
-            PUT(src, i);                \
-        }                               \
+#define PAD(src, m)                    \
+    if (m > 0) {                       \
+        int i;                         \
+        int j;                         \
+        for (j = m; j > 0; j -= i) {   \
+            if ((unsigned)j > MAX_PAD) \
+                i = MAX_PAD;           \
+            else                       \
+                i = j;                 \
+            PUT(src, i);               \
+        }                              \
     }
 
 char spaces[] = "                                ";
@@ -69,7 +69,7 @@ int _Printf(PrintCallback pfn, void* arg, const char* fmt, va_list ap) {
         for (x.flags = 0; (t = strchr(fchar, *s)) != NULL; s++) {
             x.flags |= fbit[t - fchar];
         }
-    
+
         if (*s == '*') {
             x.width = va_arg(ap, int);
             if (x.width < 0) {

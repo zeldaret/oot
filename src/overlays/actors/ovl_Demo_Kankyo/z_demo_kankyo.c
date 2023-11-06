@@ -734,19 +734,15 @@ void DemoKankyo_Vec3fCopy(Vec3f* src, Vec3f* dst) {
     dst->z = src->z;
 }
 
-Vec3f* DemoKankyo_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+Vec3f DemoKankyo_AddVecGeoToVec3f(Vec3f* a, VecGeo* geo) {
     Vec3f sum;
-    Vec3f b;
-
-    OLib_VecGeoToVec3f(&b, geo);
+    Vec3f b = OLib_VecGeoToVec3f(geo);
 
     sum.x = a->x + b.x;
     sum.y = a->y + b.y;
     sum.z = a->z + b.z;
 
-    *dest = sum;
-
-    return dest;
+    return sum;
 }
 
 void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
@@ -754,9 +750,9 @@ void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
     Vec3f vecCopy;
 
     DemoKankyo_Vec3fCopy(vec, &vecCopy);
-    OLib_Vec3fToVecGeo(&geo, &vecCopy);
+    geo = OLib_Vec3fToVecGeo(&vecCopy);
     geo.yaw += posRot->rot.y;
-    DemoKankyo_AddVecGeoToVec3f(dst, &posRot->pos, &geo);
+    *dst = DemoKankyo_AddVecGeoToVec3f(&posRot->pos, &geo);
 }
 
 void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
@@ -817,7 +813,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                         this->unk_150[i].unk_22++;
                     }
                 }
-                Actor_GetWorld(&posRot, &player->actor);
+                posRot = Actor_GetWorld(&player->actor);
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CF98);
                 break;
             case 2:
@@ -941,7 +937,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play) {
                                   &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
                     this->unk_150[i].unk_22++;
                 }
-                Actor_GetWorld(&posRot, &this->actor);
+                posRot = Actor_GetWorld(&this->actor);
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CFB8);
                 break;
             case 2:

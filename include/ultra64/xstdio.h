@@ -32,7 +32,7 @@ typedef struct {
 typedef void* (*PrintCallback)(void*, const char*, size_t);
 
 int _Printf(PrintCallback, void* arg, const char* fmt, va_list ap);
-void _Litob(_Pft* args, char code);
+void _Litob(_Pft* args, char type);
 void _Ldtob(_Pft* args, char code);
 
 #define FLAGS_SPACE (1 << 0)
