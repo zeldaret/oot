@@ -148,7 +148,7 @@ void Player_InitHookshotIA(PlayState* play, Player* this);
 void Player_InitBoomerangIA(PlayState* play, Player* this);
 
 s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play);
-s32 Player_UpperAction_CanShield(Player* this, PlayState* play);
+s32 func_8083485C(Player* this, PlayState* play);
 s32 Player_UpperAction_Sword(Player* this, PlayState* play);
 s32 func_80834B5C(Player* this, PlayState* play);
 s32 func_80834C74(Player* this, PlayState* play);
@@ -1247,73 +1247,73 @@ static s8 sItemActions[] = {
 };
 
 static s32 (*sItemActionUpdateFuncs[])(Player* this, PlayState* play) = {
-    Player_UpperAction_CanShield, // PLAYER_IA_NONE
-    Player_UpperAction_CanShield, // PLAYER_IA_LAST_USED
-    Player_UpperAction_CanShield, // PLAYER_IA_FISHING_POLE
-    Player_UpperAction_Sword, // PLAYER_IA_SWORD_MASTER
-    Player_UpperAction_Sword, // PLAYER_IA_SWORD_KOKIRI
-    Player_UpperAction_Sword, // PLAYER_IA_SWORD_BIGGORON
-    Player_UpperAction_CanShield, // PLAYER_IA_DEKU_STICK
-    Player_UpperAction_CanShield, // PLAYER_IA_HAMMER
-    func_8083501C, // PLAYER_IA_BOW
-    func_8083501C, // PLAYER_IA_BOW_FIRE
-    func_8083501C, // PLAYER_IA_BOW_ICE
-    func_8083501C, // PLAYER_IA_BOW_LIGHT
-    func_8083501C, // PLAYER_IA_BOW_0C
-    func_8083501C, // PLAYER_IA_BOW_0D
-    func_8083501C, // PLAYER_IA_BOW_0E
-    func_8083501C, // PLAYER_IA_SLINGSHOT
-    func_8083501C, // PLAYER_IA_HOOKSHOT
-    func_8083501C, // PLAYER_IA_LONGSHOT
+    func_8083485C,                 // PLAYER_IA_NONE
+    func_8083485C,                 // PLAYER_IA_LAST_USED
+    func_8083485C,                 // PLAYER_IA_FISHING_POLE
+    Player_UpperAction_Sword,      // PLAYER_IA_SWORD_MASTER
+    Player_UpperAction_Sword,      // PLAYER_IA_SWORD_KOKIRI
+    Player_UpperAction_Sword,      // PLAYER_IA_SWORD_BIGGORON
+    func_8083485C,                 // PLAYER_IA_DEKU_STICK
+    func_8083485C,                 // PLAYER_IA_HAMMER
+    func_8083501C,                 // PLAYER_IA_BOW
+    func_8083501C,                 // PLAYER_IA_BOW_FIRE
+    func_8083501C,                 // PLAYER_IA_BOW_ICE
+    func_8083501C,                 // PLAYER_IA_BOW_LIGHT
+    func_8083501C,                 // PLAYER_IA_BOW_0C
+    func_8083501C,                 // PLAYER_IA_BOW_0D
+    func_8083501C,                 // PLAYER_IA_BOW_0E
+    func_8083501C,                 // PLAYER_IA_SLINGSHOT
+    func_8083501C,                 // PLAYER_IA_HOOKSHOT
+    func_8083501C,                 // PLAYER_IA_LONGSHOT
     Player_UpperAction_CarryActor, // PLAYER_IA_BOMB
     Player_UpperAction_CarryActor, // PLAYER_IA_BOMBCHU
-    func_80835800, // PLAYER_IA_BOOMERANG
-    Player_UpperAction_CanShield, // PLAYER_IA_MAGIC_SPELL_15
-    Player_UpperAction_CanShield, // PLAYER_IA_MAGIC_SPELL_16
-    Player_UpperAction_CanShield, // PLAYER_IA_MAGIC_SPELL_17
-    Player_UpperAction_CanShield, // PLAYER_IA_FARORES_WIND
-    Player_UpperAction_CanShield, // PLAYER_IA_NAYRUS_LOVE
-    Player_UpperAction_CanShield, // PLAYER_IA_DINS_FIRE
-    Player_UpperAction_CanShield, // PLAYER_IA_DEKU_NUT
-    Player_UpperAction_CanShield, // PLAYER_IA_OCARINA_FAIRY
-    Player_UpperAction_CanShield, // PLAYER_IA_OCARINA_OF_TIME
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_FISH
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_FIRE
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_BUG
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_POE
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_BIG_POE
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_RUTOS_LETTER
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_POTION_RED
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_POTION_BLUE
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_POTION_GREEN
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_MILK_FULL
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_MILK_HALF
-    Player_UpperAction_CanShield, // PLAYER_IA_BOTTLE_FAIRY
-    Player_UpperAction_CanShield, // PLAYER_IA_ZELDAS_LETTER
-    Player_UpperAction_CanShield, // PLAYER_IA_WEIRD_EGG
-    Player_UpperAction_CanShield, // PLAYER_IA_CHICKEN
-    Player_UpperAction_CanShield, // PLAYER_IA_MAGIC_BEAN
-    Player_UpperAction_CanShield, // PLAYER_IA_POCKET_EGG
-    Player_UpperAction_CanShield, // PLAYER_IA_POCKET_CUCCO
-    Player_UpperAction_CanShield, // PLAYER_IA_COJIRO
-    Player_UpperAction_CanShield, // PLAYER_IA_ODD_MUSHROOM
-    Player_UpperAction_CanShield, // PLAYER_IA_ODD_POTION
-    Player_UpperAction_CanShield, // PLAYER_IA_POACHERS_SAW
-    Player_UpperAction_CanShield, // PLAYER_IA_BROKEN_GORONS_SWORD
-    Player_UpperAction_CanShield, // PLAYER_IA_PRESCRIPTION
-    Player_UpperAction_CanShield, // PLAYER_IA_FROG
-    Player_UpperAction_CanShield, // PLAYER_IA_EYEDROPS
-    Player_UpperAction_CanShield, // PLAYER_IA_CLAIM_CHECK
-    Player_UpperAction_CanShield, // PLAYER_IA_MASK_KEATON
-    Player_UpperAction_CanShield, // PLAYER_IA_MASK_SKULL
-    Player_UpperAction_CanShield, // PLAYER_IA_MASK_SPOOKY
-    Player_UpperAction_CanShield, // PLAYER_IA_MASK_BUNNY_HOOD
-    Player_UpperAction_CanShield, // PLAYER_IA_MASK_GORON
-    Player_UpperAction_CanShield, // PLAYER_IA_MASK_ZORA
-    Player_UpperAction_CanShield, // PLAYER_IA_MASK_GERUDO
-    Player_UpperAction_CanShield, // PLAYER_IA_MASK_TRUTH
-    Player_UpperAction_CanShield, // PLAYER_IA_LENS_OF_TRUTH
+    func_80835800,                 // PLAYER_IA_BOOMERANG
+    func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_15
+    func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_16
+    func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_17
+    func_8083485C,                 // PLAYER_IA_FARORES_WIND
+    func_8083485C,                 // PLAYER_IA_NAYRUS_LOVE
+    func_8083485C,                 // PLAYER_IA_DINS_FIRE
+    func_8083485C,                 // PLAYER_IA_DEKU_NUT
+    func_8083485C,                 // PLAYER_IA_OCARINA_FAIRY
+    func_8083485C,                 // PLAYER_IA_OCARINA_OF_TIME
+    func_8083485C,                 // PLAYER_IA_BOTTLE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_FISH
+    func_8083485C,                 // PLAYER_IA_BOTTLE_FIRE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_BUG
+    func_8083485C,                 // PLAYER_IA_BOTTLE_POE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_BIG_POE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_RUTOS_LETTER
+    func_8083485C,                 // PLAYER_IA_BOTTLE_POTION_RED
+    func_8083485C,                 // PLAYER_IA_BOTTLE_POTION_BLUE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_POTION_GREEN
+    func_8083485C,                 // PLAYER_IA_BOTTLE_MILK_FULL
+    func_8083485C,                 // PLAYER_IA_BOTTLE_MILK_HALF
+    func_8083485C,                 // PLAYER_IA_BOTTLE_FAIRY
+    func_8083485C,                 // PLAYER_IA_ZELDAS_LETTER
+    func_8083485C,                 // PLAYER_IA_WEIRD_EGG
+    func_8083485C,                 // PLAYER_IA_CHICKEN
+    func_8083485C,                 // PLAYER_IA_MAGIC_BEAN
+    func_8083485C,                 // PLAYER_IA_POCKET_EGG
+    func_8083485C,                 // PLAYER_IA_POCKET_CUCCO
+    func_8083485C,                 // PLAYER_IA_COJIRO
+    func_8083485C,                 // PLAYER_IA_ODD_MUSHROOM
+    func_8083485C,                 // PLAYER_IA_ODD_POTION
+    func_8083485C,                 // PLAYER_IA_POACHERS_SAW
+    func_8083485C,                 // PLAYER_IA_BROKEN_GORONS_SWORD
+    func_8083485C,                 // PLAYER_IA_PRESCRIPTION
+    func_8083485C,                 // PLAYER_IA_FROG
+    func_8083485C,                 // PLAYER_IA_EYEDROPS
+    func_8083485C,                 // PLAYER_IA_CLAIM_CHECK
+    func_8083485C,                 // PLAYER_IA_MASK_KEATON
+    func_8083485C,                 // PLAYER_IA_MASK_SKULL
+    func_8083485C,                 // PLAYER_IA_MASK_SPOOKY
+    func_8083485C,                 // PLAYER_IA_MASK_BUNNY_HOOD
+    func_8083485C,                 // PLAYER_IA_MASK_GORON
+    func_8083485C,                 // PLAYER_IA_MASK_ZORA
+    func_8083485C,                 // PLAYER_IA_MASK_GERUDO
+    func_8083485C,                 // PLAYER_IA_MASK_TRUTH
+    func_8083485C,                 // PLAYER_IA_LENS_OF_TRUTH
 };
 
 static void (*sItemActionInitFuncs[])(PlayState* play, Player* this) = {
@@ -2613,7 +2613,7 @@ s32 func_80834758(PlayState* play, Player* this) {
     }
 }
 
-s32 Player_UpperAction_CanShield(Player* this, PlayState* play) {
+s32 func_8083485C(Player* this, PlayState* play) {
     if (func_80834758(play, this)) {
         return 1;
     } else {
@@ -2656,6 +2656,11 @@ s32 func_8083499C(Player* this, PlayState* play) {
     return 1;
 }
 
+/**
+ * The actual sword weapon is not handled here.
+ * This upper body action allows for shielding or changing held items while a
+ * sword is in hand.
+*/
 s32 Player_UpperAction_Sword(Player* this, PlayState* play) {
     if (func_80834758(play, this) || func_8083499C(this, play)) {
         return 1;
@@ -3012,7 +3017,7 @@ s32 Player_UpperAction_CarryActor(Player* this, PlayState* play) {
         return 1;
     }
 
-    return Player_UpperAction_CanShield(this, play);
+    return func_8083485C(this, play);
 }
 
 void func_808357E8(Player* this, Gfx** dLists) {
