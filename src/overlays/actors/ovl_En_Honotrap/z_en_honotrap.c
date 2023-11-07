@@ -36,8 +36,8 @@ void EnHonotrap_EyeAttack(EnHonotrap* this, PlayState* play);
 void EnHonotrap_SetupEyeClose(EnHonotrap* this);
 void EnHonotrap_EyeClose(EnHonotrap* this, PlayState* play);
 
-void EnHonotrap_SetupFlame(EnHonotrap* this);
-void EnHonotrap_Flame(EnHonotrap* this, PlayState* play);
+void EnHonotrap_SetupFlameGrow(EnHonotrap* this);
+void EnHonotrap_FlameGrow(EnHonotrap* this, PlayState* play);
 void EnHonotrap_SetupFlameDrop(EnHonotrap* this);
 void EnHonotrap_FlameDrop(EnHonotrap* this, PlayState* play);
 
@@ -199,7 +199,7 @@ void EnHonotrap_InitFlame(Actor* thisx, PlayState* play) {
     this->targetPos = GET_PLAYER(play)->actor.world.pos;
     this->targetPos.y += 10.0f;
     this->flameScroll = Rand_ZeroOne() * 511.0f;
-    EnHonotrap_SetupFlame(this);
+    EnHonotrap_SetupFlameGrow(this);
     Actor_PlaySfx(&this->actor, NA_SE_EV_FLAME_IGNITION);
     if (this->actor.params == HONOTRAP_TYPE_FLAME_DROP) {
         this->actor.room = -1;
@@ -237,11 +237,14 @@ void EnHonotrap_SetupEyeIdle(EnHonotrap* this) {
 void EnHonotrap_EyeIdle(EnHonotrap* this, PlayState* play) {
     if (this->actor.child != NULL) {
         this->timer = 200;
-    } else if ((this->timer <= 0) && (this->actor.xzDistToPlayer < 750.0f) && (0.0f > this->actor.yDistToPlayer) &&
-               (this->actor.yDistToPlayer > -700.0f) &&
-               (-0x4000 < (this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) &&
-               ((this->actor.yawTowardsPlayer - this->actor.shape.rot.y) < 0x4000)) {
-        EnHonotrap_SetupEyeOpen(this);
+    } else if ((this->timer <= 0) && (this->actor.xzDistToPlayer < 750.0f)) {
+        if ((this->actor.yDistToPlayer < 0.0f) && (this->actor.yDistToPlayer > -700.0f)) {
+            s32 angle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+
+            if ((angle > -0x4000) && (angle < 0x4000)) {
+                EnHonotrap_SetupEyeOpen(this);
+            }
+        }
     }
 }
 
@@ -253,18 +256,14 @@ void EnHonotrap_SetupEyeOpen(EnHonotrap* this) {
 }
 
 void EnHonotrap_EyeOpen(EnHonotrap* this, PlayState* play) {
-    f32 cos;
-    f32 sin;
-
     this->eyeState--;
     if (this->eyeState <= HONOTRAP_EYE_OPEN) {
         EnHonotrap_SetupEyeAttack(this);
-        sin = Math_SinS(this->actor.shape.rot.y);
-        cos = Math_CosS(this->actor.shape.rot.y);
-        Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_HONOTRAP,
-                           (sin * 12.0f) + this->actor.home.pos.x, this->actor.home.pos.y - 10.0f,
-                           (cos * 12.0f) + this->actor.home.pos.z, this->actor.home.rot.x, this->actor.home.rot.y,
-                           this->actor.home.rot.z, HONOTRAP_TYPE_FLAME_MOVE);
+        Actor_SpawnAsChild(
+            &play->actorCtx, &this->actor, play, ACTOR_EN_HONOTRAP,
+            (Math_SinS(this->actor.shape.rot.y) * 12.0f) + this->actor.home.pos.x, this->actor.home.pos.y - 10.0f,
+            (Math_CosS(this->actor.shape.rot.y) * 12.0f) + this->actor.home.pos.z, this->actor.home.rot.x,
+            this->actor.home.rot.y, this->actor.home.rot.z, HONOTRAP_TYPE_FLAME_MOVE);
     }
 }
 
@@ -291,20 +290,19 @@ void EnHonotrap_EyeClose(EnHonotrap* this, PlayState* play) {
     }
 }
 
-void EnHonotrap_SetupFlame(EnHonotrap* this) {
-    this->actionFunc = EnHonotrap_Flame;
+void EnHonotrap_SetupFlameGrow(EnHonotrap* this) {
+    this->actionFunc = EnHonotrap_FlameGrow;
 }
 
-void EnHonotrap_Flame(EnHonotrap* this, PlayState* play) {
-    s32 pad;
-    s32 ready = Math_StepToF(&this->actor.scale.x, (this->actor.params == HONOTRAP_TYPE_FLAME_MOVE) ? 0.004f : 0.0048f,
-                             0.0006f);
+void EnHonotrap_FlameGrow(EnHonotrap* this, PlayState* play) {
+    f32 targetScale = (this->actor.params == HONOTRAP_TYPE_FLAME_MOVE) ? 0.004f : 0.0048f;
+    s32 targetReached = Math_StepToF(&this->actor.scale.x, targetScale, 0.0006f);
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
-    if (ready) {
+    if (targetReached) {
         if (this->actor.params == HONOTRAP_TYPE_FLAME_MOVE) {
             EnHonotrap_SetupFlameMove(this);
-        } else {
+        } else { // HONOTRAP_TYPE_FLAME_DROP
             EnHonotrap_SetupFlameDrop(this);
         }
     }
@@ -325,49 +323,46 @@ void EnHonotrap_FlameDrop(EnHonotrap* this, PlayState* play) {
         }
         this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
         EnHonotrap_SetupFlameVanish(this);
-    } else {
-        if (this->actor.velocity.y > 0.0f) {
-            this->actor.world.pos.x += this->actor.velocity.x;
-            this->actor.world.pos.z += this->actor.velocity.z;
-            Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 12.0f, 0.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-        }
-        if (!Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight + 1.0f, this->actor.velocity.y)) {
-            this->actor.velocity.y += 1.0f;
-        } else {
-            this->actor.velocity.y = 0.0f;
-        }
-        EnHonotrap_FlameCollisionCheck(this, play);
+        return;
     }
+    if (this->actor.velocity.y > 0.0f) {
+        this->actor.world.pos.x += this->actor.velocity.x;
+        this->actor.world.pos.z += this->actor.velocity.z;
+        Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 12.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    }
+    if (!Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight + 1.0f, this->actor.velocity.y)) {
+        this->actor.velocity.y += 1.0f;
+    } else {
+        this->actor.velocity.y = 0.0f;
+    }
+    EnHonotrap_FlameCollisionCheck(this, play);
 }
 
 void EnHonotrap_SetupFlameMove(EnHonotrap* this) {
     f32 distInverse;
 
     this->actionFunc = EnHonotrap_FlameMove;
-
     distInverse = 1.0f / (Actor_WorldDistXYZToPoint(&this->actor, &this->targetPos) + 1.0f);
     this->actor.velocity.x = (this->targetPos.x - this->actor.world.pos.x) * distInverse;
     this->actor.velocity.y = (this->targetPos.y - this->actor.world.pos.y) * distInverse;
     this->actor.velocity.z = (this->targetPos.z - this->actor.world.pos.z) * distInverse;
     this->speedMod = 0.0f;
-
     this->timer = 160;
 }
 
 void EnHonotrap_FlameMove(EnHonotrap* this, PlayState* play) {
-    s32 pad;
+    Actor* thisx = &this->actor;
     Vec3f speed;
-    s32 ready;
+    s32 targetReached;
 
     Math_StepToF(&this->speedMod, 13.0f, 0.5f);
-    speed.x = fabsf(this->speedMod * this->actor.velocity.x);
-    speed.y = fabsf(this->speedMod * this->actor.velocity.y);
-    speed.z = fabsf(this->speedMod * this->actor.velocity.z);
-    ready = true;
-    ready &= Math_StepToF(&this->actor.world.pos.x, this->targetPos.x, speed.x);
-    ready &= Math_StepToF(&this->actor.world.pos.y, this->targetPos.y, speed.y);
-    ready &= Math_StepToF(&this->actor.world.pos.z, this->targetPos.z, speed.z);
+    speed.x = fabsf(this->speedMod * thisx->velocity.x);
+    speed.y = fabsf(this->speedMod * thisx->velocity.y);
+    speed.z = fabsf(this->speedMod * thisx->velocity.z);
+    targetReached = true;
+    targetReached &= Math_StepToF(&thisx->world.pos.x, this->targetPos.x, speed.x);
+    targetReached &= Math_StepToF(&thisx->world.pos.y, this->targetPos.y, speed.y);
+    targetReached &= Math_StepToF(&thisx->world.pos.z, this->targetPos.z, speed.z);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 10.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
@@ -383,19 +378,20 @@ void EnHonotrap_FlameMove(EnHonotrap* this, PlayState* play) {
         shieldVec.z = -player->shieldMf.zz;
         EnHonotrap_GetNormal(&shieldNorm, &shieldVec);
 
-        tempVel = this->actor.velocity;
-        Math3D_Vec3fReflect(&tempVel, &shieldNorm, &this->actor.velocity);
-        this->actor.speed = this->speedMod * 0.5f;
-        this->actor.world.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
+        tempVel = thisx->velocity;
+        Math3D_Vec3fReflect(&tempVel, &shieldNorm, &thisx->velocity);
+        thisx->speed = this->speedMod * 0.5f;
+        thisx->world.rot.y = Math_Atan2S(thisx->velocity.z, thisx->velocity.x);
         EnHonotrap_SetupFlameVanish(this);
     } else if (this->collider.tris.base.atFlags & AT_HIT) {
-        this->actor.velocity.y = this->actor.speed = 0.0f;
+        thisx->speed = 0.0f;
+        thisx->velocity.y = 0.0f;
         EnHonotrap_SetupFlameVanish(this);
     } else if (this->timer <= 0) {
         EnHonotrap_SetupFlameVanish(this);
     } else {
         EnHonotrap_FlameCollisionCheck(this, play);
-        if (ready) {
+        if (targetReached) {
             EnHonotrap_SetupFlameChase(this);
         }
     }
@@ -403,10 +399,9 @@ void EnHonotrap_FlameMove(EnHonotrap* this, PlayState* play) {
 
 void EnHonotrap_SetupFlameChase(EnHonotrap* this) {
     this->actionFunc = EnHonotrap_FlameChase;
-
-    this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = this->actor.speed = 0.0f;
+    this->actor.speed = 0.0f;
+    this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
     this->actor.world.rot.x = this->actor.world.rot.y = this->actor.world.rot.z = 0;
-
     this->timer = 100;
 }
 
@@ -449,14 +444,14 @@ void EnHonotrap_SetupFlameVanish(EnHonotrap* this) {
 
 void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play) {
     s32 pad;
-    s32 ready = Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
+    s32 targetReached = Math_StepToF(&this->actor.scale.x, 0.0001f, 0.00015f);
 
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 7.0f, 10.0f, 0.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
-    if (ready) {
+    if (targetReached) {
         Actor_Kill(&this->actor);
     }
 }
@@ -464,7 +459,6 @@ void EnHonotrap_FlameVanish(EnHonotrap* this, PlayState* play) {
 void EnHonotrap_Update(Actor* thisx, PlayState* play) {
     static Vec3f sVelocity = { 0.0f, 0.0f, 0.0f };
     static Vec3f sAccel = { 0.0f, 0.1f, 0.0f };
-    s32 pad;
     EnHonotrap* this = (EnHonotrap*)thisx;
 
     if (this->timer > 0) {
@@ -521,10 +515,9 @@ void EnHonotrap_DrawFlame(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     this->flameScroll -= 20;
-    this->flameScroll &= 0x1FF;
-    gSPSegment(
-        POLY_XLU_DISP++, 0x08,
-        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x40, 1, 0, this->flameScroll, 0x20, 0x80));
+    this->flameScroll %= (128U << 2);
+    gSPSegment(POLY_XLU_DISP++, 0x08,
+               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 32, 64, 1, 0, this->flameScroll, 32, 128));
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 200, 0, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
