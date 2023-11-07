@@ -2657,9 +2657,8 @@ s32 func_8083499C(Player* this, PlayState* play) {
 }
 
 /**
- * The actual sword weapon is not handled here.
- * This upper body action allows for shielding or changing held items while a
- * sword is in hand.
+ * The actual sword weapon is not handled here. See `Player_ActionChange_7` for melee weapon usage.
+ * This upper body action allows for shielding or changing held items while a sword is in hand.
 */
 s32 Player_UpperAction_Sword(Player* this, PlayState* play) {
     if (func_80834758(play, this) || func_8083499C(this, play)) {
