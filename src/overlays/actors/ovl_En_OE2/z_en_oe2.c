@@ -16,15 +16,15 @@ void EnOE2_Draw(Actor* thisx, PlayState* play);
 void EnOE2_DoNothing(EnOE2* this, PlayState* play);
 
 ActorInit En_OE2_InitVars = {
-    ACTOR_EN_OE2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OE2,
-    sizeof(EnOE2),
-    (ActorFunc)EnOE2_Init,
-    (ActorFunc)EnOE2_Destroy,
-    (ActorFunc)EnOE2_Update,
-    (ActorFunc)EnOE2_Draw,
+    /**/ ACTOR_EN_OE2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OE2,
+    /**/ sizeof(EnOE2),
+    /**/ EnOE2_Init,
+    /**/ EnOE2_Destroy,
+    /**/ EnOE2_Update,
+    /**/ EnOE2_Draw,
 };
 
 void EnOE2_SetupAction(EnOE2* this, EnOE2ActionFunc actionFunc) {

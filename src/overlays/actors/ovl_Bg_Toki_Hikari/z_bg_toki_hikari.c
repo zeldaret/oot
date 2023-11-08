@@ -22,15 +22,15 @@ void func_808BA274(BgTokiHikari* this, PlayState* play);
 void func_808BA2CC(BgTokiHikari* this, PlayState* play);
 
 ActorInit Bg_Toki_Hikari_InitVars = {
-    ACTOR_BG_TOKI_HIKARI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_TOKI_OBJECTS,
-    sizeof(BgTokiHikari),
-    (ActorFunc)BgTokiHikari_Init,
-    (ActorFunc)BgTokiHikari_Destroy,
-    (ActorFunc)BgTokiHikari_Update,
-    (ActorFunc)BgTokiHikari_Draw,
+    /**/ ACTOR_BG_TOKI_HIKARI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_TOKI_OBJECTS,
+    /**/ sizeof(BgTokiHikari),
+    /**/ BgTokiHikari_Init,
+    /**/ BgTokiHikari_Destroy,
+    /**/ BgTokiHikari_Update,
+    /**/ BgTokiHikari_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

@@ -501,15 +501,15 @@ void DemoIk_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Ik_InitVars = {
-    ACTOR_DEMO_IK,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_IK,
-    sizeof(DemoIk),
-    (ActorFunc)DemoIk_Init,
-    (ActorFunc)DemoIk_Destroy,
-    (ActorFunc)DemoIk_Update,
-    (ActorFunc)DemoIk_Draw,
+    /**/ ACTOR_DEMO_IK,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_IK,
+    /**/ sizeof(DemoIk),
+    /**/ DemoIk_Init,
+    /**/ DemoIk_Destroy,
+    /**/ DemoIk_Update,
+    /**/ DemoIk_Draw,
 };
 
 void DemoIk_Init(Actor* thisx, PlayState* play) {

@@ -23,15 +23,15 @@ void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, PlayState* play
 void BgSpot08Iceblock_SetupNoAction(BgSpot08Iceblock* this);
 
 ActorInit Bg_Spot08_Iceblock_InitVars = {
-    ACTOR_BG_SPOT08_ICEBLOCK,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT08_OBJ,
-    sizeof(BgSpot08Iceblock),
-    (ActorFunc)BgSpot08Iceblock_Init,
-    (ActorFunc)BgSpot08Iceblock_Destroy,
-    (ActorFunc)BgSpot08Iceblock_Update,
-    (ActorFunc)BgSpot08Iceblock_Draw,
+    /**/ ACTOR_BG_SPOT08_ICEBLOCK,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT08_OBJ,
+    /**/ sizeof(BgSpot08Iceblock),
+    /**/ BgSpot08Iceblock_Init,
+    /**/ BgSpot08Iceblock_Destroy,
+    /**/ BgSpot08Iceblock_Update,
+    /**/ BgSpot08Iceblock_Draw,
 };
 
 void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockActionFunc actionFunc) {

@@ -669,7 +669,7 @@ typedef struct {
 #define PLAYER_STATE3_7 (1 << 7)
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
-typedef s32 (*ItemActionFunc)(struct Player*, struct PlayState*);
+typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
 typedef struct Player {
@@ -726,7 +726,7 @@ typedef struct Player {
     /* 0x0445 */ u8 prevCsAction;
     /* 0x0446 */ u8 cueId;
     /* 0x0447 */ u8 unk_447;
-    /* 0x0448 */ Actor* unk_448;
+    /* 0x0448 */ Actor* csActor; // Actor involved in a `csAction`. Typically the actor that invoked the cutscene.
     /* 0x044C */ char unk_44C[0x004];
     /* 0x0450 */ Vec3f unk_450;
     /* 0x045C */ Vec3f unk_45C;
@@ -773,11 +773,11 @@ typedef struct Player {
     /* 0x06C0 */ s16 unk_6C0;
     /* 0x06C2 */ s16 unk_6C2;
     /* 0x06C4 */ f32 unk_6C4;
-    /* 0x06C8 */ SkelAnime skelAnimeUpper;
-    /* 0x070C */ Vec3s jointTableUpper[PLAYER_LIMB_BUF_COUNT];
-    /* 0x079C */ Vec3s morphTableUpper[PLAYER_LIMB_BUF_COUNT];
-    /* 0x082C */ ItemActionFunc itemActionFunc;
-    /* 0x0830 */ f32 skelAnimeUpperBlendWeight;
+    /* 0x06C8 */ SkelAnime upperSkelAnime;
+    /* 0x070C */ Vec3s upperJointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x082C */ UpperActionFunc upperActionFunc;
+    /* 0x0830 */ f32 upperAnimBlendWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 unk_837;

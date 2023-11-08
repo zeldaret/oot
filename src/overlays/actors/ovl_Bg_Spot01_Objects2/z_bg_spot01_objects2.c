@@ -19,15 +19,15 @@ void func_808AC474(BgSpot01Objects2* this, PlayState* play);
 void func_808AC4A4(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Spot01_Objects2_InitVars = {
-    ACTOR_BG_SPOT01_OBJECTS2,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgSpot01Objects2),
-    (ActorFunc)BgSpot01Objects2_Init,
-    (ActorFunc)BgSpot01Objects2_Destroy,
-    (ActorFunc)BgSpot01Objects2_Update,
-    NULL,
+    /**/ ACTOR_BG_SPOT01_OBJECTS2,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgSpot01Objects2),
+    /**/ BgSpot01Objects2_Init,
+    /**/ BgSpot01Objects2_Destroy,
+    /**/ BgSpot01Objects2_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {

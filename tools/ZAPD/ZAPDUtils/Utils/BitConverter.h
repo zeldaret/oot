@@ -76,7 +76,7 @@ public:
 			fprintf(stderr, "\t Trying to read at offset: 0x%zX\n", offset);
 		}
 		return ((uint32_t)data.at(offset + 0) << 24) + ((uint32_t)data.at(offset + 1) << 16) +
-			   ((uint32_t)data.at(offset + 2) << 8) + (uint32_t)data.at(offset + 3);
+		       ((uint32_t)data.at(offset + 2) << 8) + (uint32_t)data.at(offset + 3);
 	}
 
 	static inline uint32_t ToUInt32BE(const std::vector<uint8_t>& data, size_t offset)
@@ -89,7 +89,7 @@ public:
 			fprintf(stderr, "\t Trying to read at offset: 0x%zX\n", offset);
 		}
 		return ((uint32_t)data.at(offset + 0) << 24) + ((uint32_t)data.at(offset + 1) << 16) +
-			   ((uint32_t)data.at(offset + 2) << 8) + (uint32_t)data.at(offset + 3);
+		       ((uint32_t)data.at(offset + 2) << 8) + (uint32_t)data.at(offset + 3);
 	}
 
 	static inline int64_t ToInt64BE(const std::vector<uint8_t>& data, size_t offset)
@@ -102,9 +102,9 @@ public:
 			fprintf(stderr, "\t Trying to read at offset: 0x%zX\n", offset);
 		}
 		return ((uint64_t)data.at(offset + 0) << 56) + ((uint64_t)data.at(offset + 1) << 48) +
-			   ((uint64_t)data.at(offset + 2) << 40) + ((uint64_t)data.at(offset + 3) << 32) +
-			   ((uint64_t)data.at(offset + 4) << 24) + ((uint64_t)data.at(offset + 5) << 16) +
-			   ((uint64_t)data.at(offset + 6) << 8) + ((uint64_t)data.at(offset + 7));
+		       ((uint64_t)data.at(offset + 2) << 40) + ((uint64_t)data.at(offset + 3) << 32) +
+		       ((uint64_t)data.at(offset + 4) << 24) + ((uint64_t)data.at(offset + 5) << 16) +
+		       ((uint64_t)data.at(offset + 6) << 8) + ((uint64_t)data.at(offset + 7));
 	}
 
 	static inline uint64_t ToUInt64BE(const std::vector<uint8_t>& data, size_t offset)
@@ -117,9 +117,9 @@ public:
 			fprintf(stderr, "\t Trying to read at offset: 0x%zX\n", offset);
 		}
 		return ((uint64_t)data.at(offset + 0) << 56) + ((uint64_t)data.at(offset + 1) << 48) +
-			   ((uint64_t)data.at(offset + 2) << 40) + ((uint64_t)data.at(offset + 3) << 32) +
-			   ((uint64_t)data.at(offset + 4) << 24) + ((uint64_t)data.at(offset + 5) << 16) +
-			   ((uint64_t)data.at(offset + 6) << 8) + ((uint64_t)data.at(offset + 7));
+		       ((uint64_t)data.at(offset + 2) << 40) + ((uint64_t)data.at(offset + 3) << 32) +
+		       ((uint64_t)data.at(offset + 4) << 24) + ((uint64_t)data.at(offset + 5) << 16) +
+		       ((uint64_t)data.at(offset + 6) << 8) + ((uint64_t)data.at(offset + 7));
 	}
 
 	static inline float ToFloatBE(const std::vector<uint8_t>& data, size_t offset)
@@ -133,8 +133,8 @@ public:
 		}
 		float value;
 		uint32_t floatData = ((uint32_t)data.at(offset + 0) << 24) +
-							 ((uint32_t)data.at(offset + 1) << 16) +
-							 ((uint32_t)data.at(offset + 2) << 8) + (uint32_t)data.at(offset + 3);
+		                     ((uint32_t)data.at(offset + 1) << 16) +
+		                     ((uint32_t)data.at(offset + 2) << 8) + (uint32_t)data.at(offset + 3);
 		static_assert(sizeof(uint32_t) == sizeof(float), "expected 32-bit float");
 		std::memcpy(&value, &floatData, sizeof(value));
 		return value;

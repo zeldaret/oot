@@ -23,15 +23,15 @@ void func_809CB354(EnBrob* this, PlayState* play);
 void func_809CB458(EnBrob* this, PlayState* play);
 
 ActorInit En_Brob_InitVars = {
-    ACTOR_EN_BROB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BROB,
-    sizeof(EnBrob),
-    (ActorFunc)EnBrob_Init,
-    (ActorFunc)EnBrob_Destroy,
-    (ActorFunc)EnBrob_Update,
-    (ActorFunc)EnBrob_Draw,
+    /**/ ACTOR_EN_BROB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BROB,
+    /**/ sizeof(EnBrob),
+    /**/ EnBrob_Init,
+    /**/ EnBrob_Destroy,
+    /**/ EnBrob_Update,
+    /**/ EnBrob_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

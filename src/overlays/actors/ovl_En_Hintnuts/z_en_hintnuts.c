@@ -28,15 +28,15 @@ void EnHintnuts_Leave(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play);
 
 ActorInit En_Hintnuts_InitVars = {
-    ACTOR_EN_HINTNUTS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_HINTNUTS,
-    sizeof(EnHintnuts),
-    (ActorFunc)EnHintnuts_Init,
-    (ActorFunc)EnHintnuts_Destroy,
-    (ActorFunc)EnHintnuts_Update,
-    (ActorFunc)EnHintnuts_Draw,
+    /**/ ACTOR_EN_HINTNUTS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_HINTNUTS,
+    /**/ sizeof(EnHintnuts),
+    /**/ EnHintnuts_Init,
+    /**/ EnHintnuts_Destroy,
+    /**/ EnHintnuts_Update,
+    /**/ EnHintnuts_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

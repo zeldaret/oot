@@ -24,15 +24,15 @@ void func_80889D28(BgHidanKousi* this, PlayState* play);
 static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
 ActorInit Bg_Hidan_Kousi_InitVars = {
-    ACTOR_BG_HIDAN_KOUSI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanKousi),
-    (ActorFunc)BgHidanKousi_Init,
-    (ActorFunc)BgHidanKousi_Destroy,
-    (ActorFunc)BgHidanKousi_Update,
-    (ActorFunc)BgHidanKousi_Draw,
+    /**/ ACTOR_BG_HIDAN_KOUSI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanKousi),
+    /**/ BgHidanKousi_Init,
+    /**/ BgHidanKousi_Destroy,
+    /**/ BgHidanKousi_Update,
+    /**/ BgHidanKousi_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

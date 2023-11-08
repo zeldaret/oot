@@ -53,15 +53,15 @@ static f32 sStatueDistToPlayer = 0;
 static s16 sStatueRotY;
 
 ActorInit Bg_Haka_Gate_InitVars = {
-    ACTOR_BG_HAKA_GATE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaGate),
-    (ActorFunc)BgHakaGate_Init,
-    (ActorFunc)BgHakaGate_Destroy,
-    (ActorFunc)BgHakaGate_Update,
-    (ActorFunc)BgHakaGate_Draw,
+    /**/ ACTOR_BG_HAKA_GATE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaGate),
+    /**/ BgHakaGate_Init,
+    /**/ BgHakaGate_Destroy,
+    /**/ BgHakaGate_Update,
+    /**/ BgHakaGate_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

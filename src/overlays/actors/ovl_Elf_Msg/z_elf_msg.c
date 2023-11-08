@@ -19,15 +19,15 @@ void ElfMsg_CallNaviCuboid(ElfMsg* this, PlayState* play);
 void ElfMsg_CallNaviCylinder(ElfMsg* this, PlayState* play);
 
 ActorInit Elf_Msg_InitVars = {
-    ACTOR_ELF_MSG,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ElfMsg),
-    (ActorFunc)ElfMsg_Init,
-    (ActorFunc)ElfMsg_Destroy,
-    (ActorFunc)ElfMsg_Update,
-    (ActorFunc)ElfMsg_Draw,
+    /**/ ACTOR_ELF_MSG,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ElfMsg),
+    /**/ ElfMsg_Init,
+    /**/ ElfMsg_Destroy,
+    /**/ ElfMsg_Update,
+    /**/ ElfMsg_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

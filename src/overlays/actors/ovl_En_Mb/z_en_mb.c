@@ -54,15 +54,15 @@ void EnMb_Update(Actor* thisx, PlayState* play);
 void EnMb_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Mb_InitVars = {
-    ACTOR_EN_MB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_MB,
-    sizeof(EnMb),
-    (ActorFunc)EnMb_Init,
-    (ActorFunc)EnMb_Destroy,
-    (ActorFunc)EnMb_Update,
-    (ActorFunc)EnMb_Draw,
+    /**/ ACTOR_EN_MB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_MB,
+    /**/ sizeof(EnMb),
+    /**/ EnMb_Init,
+    /**/ EnMb_Destroy,
+    /**/ EnMb_Update,
+    /**/ EnMb_Draw,
 };
 
 void EnMb_SetupSpearPatrolTurnTowardsWaypoint(EnMb* this, PlayState* play);

@@ -15,15 +15,15 @@ void EnGanonOrgan_Update(Actor* thisx, PlayState* play);
 void EnGanonOrgan_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Ganon_Organ_InitVars = {
-    ACTOR_EN_GANON_ORGAN,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GANON,
-    sizeof(EnGanonOrgan),
-    (ActorFunc)EnGanonOrgan_Init,
-    (ActorFunc)EnGanonOrgan_Destroy,
-    (ActorFunc)EnGanonOrgan_Update,
-    (ActorFunc)EnGanonOrgan_Draw,
+    /**/ ACTOR_EN_GANON_ORGAN,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GANON,
+    /**/ sizeof(EnGanonOrgan),
+    /**/ EnGanonOrgan_Init,
+    /**/ EnGanonOrgan_Destroy,
+    /**/ EnGanonOrgan_Update,
+    /**/ EnGanonOrgan_Draw,
 };
 
 static u64 sForceAlignment = 0;

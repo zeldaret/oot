@@ -18,15 +18,15 @@ void func_8088D434(BgHidanSekizou* this, PlayState* play);
 void func_8088D720(BgHidanSekizou* this, PlayState* play);
 
 ActorInit Bg_Hidan_Sekizou_InitVars = {
-    ACTOR_BG_HIDAN_SEKIZOU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanSekizou),
-    (ActorFunc)BgHidanSekizou_Init,
-    (ActorFunc)BgHidanSekizou_Destroy,
-    (ActorFunc)BgHidanSekizou_Update,
-    (ActorFunc)BgHidanSekizou_Draw,
+    /**/ ACTOR_BG_HIDAN_SEKIZOU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanSekizou),
+    /**/ BgHidanSekizou_Init,
+    /**/ BgHidanSekizou_Destroy,
+    /**/ BgHidanSekizou_Update,
+    /**/ BgHidanSekizou_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[6] = {

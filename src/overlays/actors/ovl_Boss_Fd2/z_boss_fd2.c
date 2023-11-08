@@ -47,15 +47,15 @@ void BossFd2_Death(BossFd2* this, PlayState* play);
 void BossFd2_Wait(BossFd2* this, PlayState* play);
 
 ActorInit Boss_Fd2_InitVars = {
-    ACTOR_BOSS_FD2,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_FD2,
-    sizeof(BossFd2),
-    (ActorFunc)BossFd2_Init,
-    (ActorFunc)BossFd2_Destroy,
-    (ActorFunc)BossFd2_Update,
-    (ActorFunc)BossFd2_Draw,
+    /**/ ACTOR_BOSS_FD2,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_FD2,
+    /**/ sizeof(BossFd2),
+    /**/ BossFd2_Init,
+    /**/ BossFd2_Destroy,
+    /**/ BossFd2_Update,
+    /**/ BossFd2_Draw,
 };
 
 #include "z_boss_fd2_colchk.inc.c"
@@ -653,7 +653,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
         case DEATH_START:
             this->deathState = DEATH_RETREAT;
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -747,7 +747,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
                     this->work[FD2_ACTION_STATE]++;
                     this->subCamVelFactor = 0.0f;
                     this->subCamAccel = 0.02f;
-                    func_8002DF54(play, &bossFd->actor, PLAYER_CSACTION_1);
+                    Player_SetCsActionWithHaltedActors(play, &bossFd->actor, PLAYER_CSACTION_1);
                 }
             }
             if ((bossFd->work[BFD_ACTION_STATE] == BOSSFD_BONES_FALL) && (bossFd->timers[0] == 5)) {
@@ -781,7 +781,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0, 0,
                                    WARP_DUNGEON_ADULT);
                 Flags_SetClear(play, play->roomCtx.curRoom.num);

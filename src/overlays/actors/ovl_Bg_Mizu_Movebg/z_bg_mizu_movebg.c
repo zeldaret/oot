@@ -26,15 +26,15 @@ void func_8089E650(BgMizuMovebg* this, PlayState* play);
 s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
 
 ActorInit Bg_Mizu_Movebg_InitVars = {
-    ACTOR_BG_MIZU_MOVEBG,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuMovebg),
-    (ActorFunc)BgMizuMovebg_Init,
-    (ActorFunc)BgMizuMovebg_Destroy,
-    (ActorFunc)BgMizuMovebg_Update,
-    (ActorFunc)BgMizuMovebg_Draw,
+    /**/ ACTOR_BG_MIZU_MOVEBG,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuMovebg),
+    /**/ BgMizuMovebg_Init,
+    /**/ BgMizuMovebg_Destroy,
+    /**/ BgMizuMovebg_Update,
+    /**/ BgMizuMovebg_Draw,
 };
 
 static f32 D_8089EB40[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };

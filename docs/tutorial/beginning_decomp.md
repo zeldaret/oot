@@ -638,19 +638,19 @@ void func_80A87F44(Actor* thisx, PlayState* play);
 void func_80A87BEC(EnJj* this, PlayState* play);
 void func_80A87C30(EnJj* this, PlayState* play);
 
-/*
+#if 0
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORTYPE_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
-*/
+#endif
 
 extern ColliderCylinderInit D_80A88CB4;
 // static ColliderCylinderInit sCylinderInit = {

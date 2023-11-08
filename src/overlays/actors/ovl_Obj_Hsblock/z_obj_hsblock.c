@@ -22,15 +22,15 @@ void func_80B93DB0(ObjHsblock* this);
 void func_80B93E38(ObjHsblock* this);
 
 ActorInit Obj_Hsblock_InitVars = {
-    ACTOR_OBJ_HSBLOCK,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_D_HSBLOCK,
-    sizeof(ObjHsblock),
-    (ActorFunc)ObjHsblock_Init,
-    (ActorFunc)ObjHsblock_Destroy,
-    (ActorFunc)ObjHsblock_Update,
-    (ActorFunc)ObjHsblock_Draw,
+    /**/ ACTOR_OBJ_HSBLOCK,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_D_HSBLOCK,
+    /**/ sizeof(ObjHsblock),
+    /**/ ObjHsblock_Init,
+    /**/ ObjHsblock_Destroy,
+    /**/ ObjHsblock_Update,
+    /**/ ObjHsblock_Draw,
 };
 
 static f32 D_80B940C0[] = { 85.0f, 85.0f, 0.0f };

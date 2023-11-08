@@ -31,15 +31,15 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play);
 void EnFd_Land(EnFd* this, PlayState* play);
 
 ActorInit En_Fd_InitVars = {
-    ACTOR_EN_FD,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FW,
-    sizeof(EnFd),
-    (ActorFunc)EnFd_Init,
-    (ActorFunc)EnFd_Destroy,
-    (ActorFunc)EnFd_Update,
-    (ActorFunc)EnFd_Draw,
+    /**/ ACTOR_EN_FD,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FW,
+    /**/ sizeof(EnFd),
+    /**/ EnFd_Init,
+    /**/ EnFd_Destroy,
+    /**/ EnFd_Update,
+    /**/ EnFd_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {

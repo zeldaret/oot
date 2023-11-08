@@ -41,15 +41,15 @@ extern CutsceneData gChildWarpInToTCS[];
 extern CutsceneData gChildWarpOutToTCS[];
 
 ActorInit Demo_Kankyo_InitVars = {
-    ACTOR_DEMO_KANKYO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DemoKankyo),
-    (ActorFunc)DemoKankyo_Init,
-    (ActorFunc)DemoKankyo_Destroy,
-    (ActorFunc)DemoKankyo_Update,
-    (ActorFunc)DemoKankyo_Draw,
+    /**/ ACTOR_DEMO_KANKYO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DemoKankyo),
+    /**/ DemoKankyo_Init,
+    /**/ DemoKankyo_Destroy,
+    /**/ DemoKankyo_Update,
+    /**/ DemoKankyo_Draw,
 };
 
 static s16 sObjectIds[] = {

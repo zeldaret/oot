@@ -62,15 +62,15 @@ static Color_RGBA8 D_80ADD700[4] = {
 };
 
 ActorInit En_Po_Sisters_InitVars = {
-    ACTOR_EN_PO_SISTERS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_PO_SISTERS,
-    sizeof(EnPoSisters),
-    (ActorFunc)EnPoSisters_Init,
-    (ActorFunc)EnPoSisters_Destroy,
-    (ActorFunc)EnPoSisters_Update,
-    (ActorFunc)EnPoSisters_Draw,
+    /**/ ACTOR_EN_PO_SISTERS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_SISTERS,
+    /**/ sizeof(EnPoSisters),
+    /**/ EnPoSisters_Init,
+    /**/ EnPoSisters_Destroy,
+    /**/ EnPoSisters_Update,
+    /**/ EnPoSisters_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

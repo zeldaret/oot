@@ -53,15 +53,15 @@ typedef enum {
 } EnRdGrabState;
 
 ActorInit En_Rd_InitVars = {
-    ACTOR_EN_RD,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_RD,
-    sizeof(EnRd),
-    (ActorFunc)EnRd_Init,
-    (ActorFunc)EnRd_Destroy,
-    (ActorFunc)EnRd_Update,
-    (ActorFunc)EnRd_Draw,
+    /**/ ACTOR_EN_RD,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_RD,
+    /**/ sizeof(EnRd),
+    /**/ EnRd_Init,
+    /**/ EnRd_Destroy,
+    /**/ EnRd_Update,
+    /**/ EnRd_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

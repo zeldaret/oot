@@ -19,15 +19,15 @@ void func_80A6E9AC(EnHs* this, PlayState* play);
 void func_80A6E6B0(EnHs* this, PlayState* play);
 
 ActorInit En_Hs_InitVars = {
-    ACTOR_EN_HS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_HS,
-    sizeof(EnHs),
-    (ActorFunc)EnHs_Init,
-    (ActorFunc)EnHs_Destroy,
-    (ActorFunc)EnHs_Update,
-    (ActorFunc)EnHs_Draw,
+    /**/ ACTOR_EN_HS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_HS,
+    /**/ sizeof(EnHs),
+    /**/ EnHs_Init,
+    /**/ EnHs_Destroy,
+    /**/ EnHs_Update,
+    /**/ EnHs_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

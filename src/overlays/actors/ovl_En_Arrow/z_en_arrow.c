@@ -20,15 +20,15 @@ void func_809B45E0(EnArrow* this, PlayState* play);
 void func_809B4640(EnArrow* this, PlayState* play);
 
 ActorInit En_Arrow_InitVars = {
-    ACTOR_EN_ARROW,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnArrow),
-    (ActorFunc)EnArrow_Init,
-    (ActorFunc)EnArrow_Destroy,
-    (ActorFunc)EnArrow_Update,
-    (ActorFunc)EnArrow_Draw,
+    /**/ ACTOR_EN_ARROW,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnArrow),
+    /**/ EnArrow_Init,
+    /**/ EnArrow_Destroy,
+    /**/ EnArrow_Update,
+    /**/ EnArrow_Draw,
 };
 
 static ColliderQuadInit sColliderInit = {
