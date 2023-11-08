@@ -59,14 +59,15 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
 
     if (audioMgr->rspTask != NULL) {
         // Wait for the audio rsp task scheduled on the previous retrace to complete. This looks like it should wait
-        // for the task scheduled on the current retrace, but since the queue is initially filled in AudioMgr_Init
-        // it doesn't wait for the task scheduler to post a message for the most recent task as there is already a
-        // message waiting.
+        // for the task scheduled on the current retrace, earlier in this function, but since the queue is initially
+        // filled in AudioMgr_Init this osRecvMesg call doesn't wait for the task scheduler to post a message for the
+        // most recent task as there is already a message waiting.
         osRecvMesg(&audioMgr->taskDoneQueue, NULL, OS_MESG_BLOCK);
         // Report task done
-        //! @bug As a result of above, the task done notification is sent to the next task instead of the task it was
-        //! intended for. In practice, task done notifications are not used by the audio driver so this is
-        //! inconsequential.
+        //! @bug As the above osRecvMesg is waiting for the previous task to complete rather than the current task,
+        //! the task done notification is sent to the task done queue for the current task as soon as the previous task
+        //! is completed, without waiting for the current task.
+        //! In practice, task done notifications are not used by the audio driver so this is inconsequential.
         AudioMgr_NotifyTaskDone(audioMgr);
     }
     // Update rsp task to be scheduled on next retrace

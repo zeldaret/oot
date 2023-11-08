@@ -825,6 +825,13 @@ typedef struct {
 } SampleDma; // size = 0x10
 
 typedef struct {
+    /* 0x00 */ OSTask task;
+    /* 0x40 */ OSMesgQueue* msgQueue;
+    /* 0x44 */ void* unk_44; // probably a message that gets unused.
+    /* 0x48 */ char unk_48[0x8];
+} AudioTask; // size = 0x50
+
+typedef struct {
     /* 0x0000 */ char unk_0000;
     /* 0x0001 */ s8 numSynthesisReverbs;
     /* 0x0002 */ u16 unk_2; // reads from audio spec unk_14, never used, always set to 0x7FFF
