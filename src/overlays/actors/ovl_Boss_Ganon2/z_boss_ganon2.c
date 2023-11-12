@@ -2522,8 +2522,8 @@ s32 BossGanon2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
     }
 
     if (limbIndex >= GANON_LIMB_TAIL1) {
-        rot->x += this->unk_2F4[limbIndex] + this->unk_346;
-        rot->y += this->unk_2FE[limbIndex];
+        rot->x += this->unk_348[limbIndex - GANON_LIMB_TAIL1] + this->unk_346;
+        rot->y += this->unk_352[limbIndex - GANON_LIMB_TAIL1];
 
         if (this->unk_342 & 1) {
             gDPSetEnvColor(POLY_OPA_DISP++, 255, 0, 0, 255);

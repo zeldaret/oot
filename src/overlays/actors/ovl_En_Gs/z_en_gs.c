@@ -435,7 +435,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
 
             tmp = this->unk_1A0[0].y;
             if (tmp > 0) {
-                tmp += 0xFFFF0000;
+                tmp -= 0x10000;
             }
             this->unk_1E8 = tmp;
 
@@ -446,7 +446,7 @@ void func_80A4F13C(EnGs* this, PlayState* play) {
     if (this->unk_19F == 5) {
         tmp = this->unk_1A0[0].y;
         if (tmp > 0) {
-            tmp += 0xFFFF0001;
+            tmp -= 0xFFFF;
         }
         this->unk_1E8 = tmp;
         tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 3640.0f, 0.001f);

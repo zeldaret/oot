@@ -1061,7 +1061,7 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         // Note: The increment would not be done for the root limb, even if it had a non-NULL `dList`.
         //       So if the root limb had a non-NULL `dList` (which is not the case in vanilla),
         //       an out-of-bounds write to `bodyPartsPos` would occur.
-        sCurBodyPartPos = &this->bodyPartsPos[-1];
+        sCurBodyPartPos = &this->bodyPartsPos[0] - 1;
 
         if (!LINK_IS_ADULT) {
             if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) || (this->skelAnime.moveFlags & ANIM_FLAG_0)) {
