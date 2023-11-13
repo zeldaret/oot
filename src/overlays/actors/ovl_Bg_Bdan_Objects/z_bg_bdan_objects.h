@@ -6,6 +6,10 @@
 
 struct BgBdanObjects;
 
+typedef enum {
+    BDAN_OBJECT_TYPE_WATERBOX_HEIGHT_CHANGER = 2, // hardcoded to use waterbox index 7
+} BgBdanObjectType;
+
 typedef void (*BgBdanObjectsActionFunc)(struct BgBdanObjects*, PlayState*);
 
 typedef struct BgBdanObjects {

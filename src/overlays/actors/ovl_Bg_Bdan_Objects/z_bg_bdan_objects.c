@@ -26,9 +26,9 @@ void func_8086C76C(BgBdanObjects* this, PlayState* play);
 void func_8086C7D0(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_DoNothing(BgBdanObjects* this, PlayState* play);
 void func_8086C874(BgBdanObjects* this, PlayState* play);
-void func_8086C9A8(BgBdanObjects* this, PlayState* play);
-void func_8086C9F0(BgBdanObjects* this, PlayState* play);
-void func_8086CABC(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_ChangeWaterboxLevel(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play);
 void func_8086CB10(BgBdanObjects* this, PlayState* play);
 void func_8086CB8C(BgBdanObjects* this, PlayState* play);
 
@@ -114,10 +114,10 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     this->switchFlag = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
-    if (thisx->params == 2) {
+    if (thisx->params == BDAN_OBJECT_TYPE_WATERBOX_HEIGHT_CHANGER) {
         thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
         play->colCtx.colHeader->waterBoxes[7].ySurface = thisx->world.pos.y;
-        this->actionFunc = func_8086C9A8;
+        this->actionFunc = BgBdanObjects_WaitForSwitch;
         return;
     }
     if (thisx->params == 0) {
@@ -378,36 +378,36 @@ void func_8086C874(BgBdanObjects* this, PlayState* play) {
     }
 }
 
-void func_8086C9A8(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
         this->timer = 100;
-        this->actionFunc = func_8086C9F0;
+        this->actionFunc = BgBdanObjects_ChangeWaterboxLevel;
     }
 }
 
-void func_8086C9F0(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_ChangeWaterboxLevel(BgBdanObjects* this, PlayState* play) {
     if (this->timer == 0) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 0.5f)) {
             Flags_UnsetSwitch(play, this->switchFlag);
-            this->actionFunc = func_8086C9A8;
+            this->actionFunc = BgBdanObjects_WaitForSwitch;
         }
         func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     } else {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 75.0f, 0.5f)) {
-            this->actionFunc = func_8086CABC;
+            this->actionFunc = BgBdanObjects_WaitForTimerExpired;
         }
         func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
     }
     play->colCtx.colHeader->waterBoxes[7].ySurface = this->dyna.actor.world.pos.y;
 }
 
-void func_8086CABC(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    func_8002F994(&this->dyna.actor, this->timer);
+    func_8002F994(&this->dyna.actor, this->timer); // play ticking sound effect
     if (this->timer == 0) {
-        this->actionFunc = func_8086C9F0;
+        this->actionFunc = BgBdanObjects_ChangeWaterboxLevel;
     }
 }
 
