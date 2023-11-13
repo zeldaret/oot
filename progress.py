@@ -86,15 +86,15 @@ for line in mapFile:
         objFile = lineSplit[3]
 
         if (section == ".text" and IsCFile(objFile)):
-            if (objFile.startswith("build/src")):
+            if objFile.startswith("build/src"):
                 src += size
 
-            if (objFile.startswith("build/src/code") or (objFile.startswith("build/src/libultra/") and curSegment == "code")):
-                code += size
-            elif (objFile.startswith("build/src/boot") or (objFile.startswith("build/src/libultra/") and curSegment == "boot")):
-                boot += size
-            elif (objFile.startswith("build/src/overlays")):
-                ovl += size
+                if curSegment == "code":
+                    code += size
+                elif curSegment == "boot":
+                    boot += size
+                else:
+                    ovl += size
 
 nonMatchingASM = GetNonMatchingSize("asm/non_matchings")
 nonMatchingASMBoot = GetNonMatchingSize("asm/non_matchings/boot")
