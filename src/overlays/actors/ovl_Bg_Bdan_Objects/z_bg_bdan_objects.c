@@ -237,7 +237,7 @@ void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlaySt
 }
 
 /**
- * Again, this actionFunc is inescapable until En_Ru1 (Ruto) sets this 
+ * Again, this actionFunc is inescapable until En_Ru1 (Ruto) sets this
  * actor's cameraSetting to DUNGEON1.
  */
 void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this, PlayState* play) {
