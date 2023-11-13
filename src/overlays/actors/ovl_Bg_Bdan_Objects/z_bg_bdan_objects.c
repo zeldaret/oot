@@ -10,8 +10,6 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-extern void Debug_Print(u8 line, const char* fmt, ...);
-
 typedef enum {
     GET_PROP_CAMERA_SETTING_NORMAL0 = 0,
     GET_PROP_CAMERA_SETTING_DUNGEON1 = 3,
@@ -28,12 +26,12 @@ void BgBdanObjects_Destroy(Actor* thisx, PlayState* play);
 void BgBdanObjects_Update(Actor* thisx, PlayState* play);
 void BgBdanObjects_Draw(Actor* thisx, PlayState* play);
 
-void func_8086C054(BgBdanObjects* this, PlayState* play);
-void func_8086C1A0(BgBdanObjects* this, PlayState* play);
-void func_8086C29C(BgBdanObjects* this, PlayState* play);
-void func_8086C55C(BgBdanObjects* this, PlayState* play);
-void func_8086C5BC(BgBdanObjects* this, PlayState* play);
-void BgBdanObjects_BigOktoBattleInProgress(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_PauseBeforeDescending(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_WaitForBigOctoToStartBattle(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_OctoPlatform_BattleInProgress(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_SinkToFloorHeight(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_WaitForPlayerInRange(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play);
@@ -90,11 +88,11 @@ static Gfx* sDLists[] = {
 
 s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case 0:
+        case GET_PROP_CAMERA_SETTING_NORMAL0:
             return this->cameraSetting == CAM_SET_NORMAL0;
-        case 4:
+        case GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
             return GET_INFTABLE(INFTABLE_146);
-        case 3:
+        case GET_PROP_CAMERA_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
             osSyncPrintf("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
@@ -104,13 +102,13 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
 
 void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case 1:
+        case SET_PROP_CAMERA_SETTING_NORMAL0:
             this->cameraSetting = CAM_SET_NORMAL1;
             break;
-        case 2:
+        case SET_PROP_CAMERA_SETTING_DUNGEON1:
             this->cameraSetting = CAM_SET_DUNGEON0;
             break;
-        case 4:
+        case SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
             SET_INFTABLE(INFTABLE_146);
             break;
         default:
@@ -142,19 +140,19 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
             Flags_SetSwitch(play, this->switchFlag);
             this->actionFunc = BgBdanObjects_SinkToFloorHeight;
         } else {
-            if (true || BgBdanObjects_GetProperty(this, GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE)) {
+            if (BgBdanObjects_GetProperty(this, GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE)) {
                 if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_BIGOKUTA, thisx->home.pos.x,
                                        thisx->home.pos.y, thisx->home.pos.z, 0, thisx->shape.rot.y + 0x8000, 0,
                                        3) != NULL) {
                     thisx->child->world.pos.z = thisx->child->home.pos.z + 263.0f;
                 }
                 thisx->world.rot.y = 0;
-                this->actionFunc = BgBdanObjects_BigOktoBattleInProgress;
+                this->actionFunc = BgBdanObjects_OctoPlatform_BattleInProgress;
                 thisx->world.pos.y = thisx->home.pos.y + -70.0f;
             } else {
                 Flags_SetSwitch(play, this->switchFlag);
                 this->timer = 0;
-                this->actionFunc = func_8086C054;
+                this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene;
             }
         }
     } else {
@@ -180,12 +178,17 @@ void BgBdanObjects_Destroy(Actor* thisx, PlayState* play) {
     BgBdanObjects* this = (BgBdanObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if (thisx->params == 0) {
+    if (thisx->params == BDAN_OBJECT_TYPE_BIG_OCTO_PLATFORM) {
         Collider_DestroyCylinder(play, &this->collider);
     }
 }
 
-void func_8086C054(BgBdanObjects* this, PlayState* play) {
+/**
+ * This actor will never escape this actionFunc on its own. It relies on
+ * En_Ru1 (Ruto) to change its cameraSetting to NORMAL0, which allows the
+ * state machine to proceed.
+ */
+void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     if (BgBdanObjects_GetProperty(this, GET_PROP_CAMERA_SETTING_NORMAL0)) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
@@ -202,7 +205,7 @@ void func_8086C054(BgBdanObjects* this, PlayState* play) {
             this->timer--;
         }
         if (this->timer == 0) {
-            this->actionFunc = func_8086C1A0;
+            this->actionFunc = BgBdanObjects_OctoPlatform_RaiseToUpperPosition;
         }
     }
 
@@ -213,11 +216,11 @@ void func_8086C054(BgBdanObjects* this, PlayState* play) {
     }
 }
 
-void func_8086C1A0(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play) {
     if (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 500.0f, 0.5f, 7.5f, 1.0f) <
         0.1f) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
-        this->actionFunc = func_8086C29C;
+        this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene;
         this->timer = 30;
         BgBdanObjects_SetProperty(this, SET_PROP_CAMERA_SETTING_DUNGEON1);
         Rumble_Request(0.0f, 255, 20, 150);
@@ -233,7 +236,11 @@ void func_8086C1A0(BgBdanObjects* this, PlayState* play) {
     }
 }
 
-void func_8086C29C(BgBdanObjects* this, PlayState* play) {
+/**
+ * Again, this actionFunc is inescapable until En_Ru1 (Ruto) sets this 
+ * actor's cameraSetting to DUNGEON1.
+ */
+void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this, PlayState* play) {
     s32 quakeIndex;
 
     if (this->timer != 0) {
@@ -252,12 +259,12 @@ void func_8086C29C(BgBdanObjects* this, PlayState* play) {
                            this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
         BgBdanObjects_SetProperty(this, SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE);
         this->timer = 10;
-        this->actionFunc = func_8086C55C;
+        this->actionFunc = BgBdanObjects_OctoPlatform_PauseBeforeDescending;
         func_8005B1A4(GET_ACTIVE_CAM(play));
     }
 }
 
-void func_8086C3D8(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_DescendWithBigOcto(BgBdanObjects* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->dyna.actor.velocity.y += 0.5f;
@@ -267,7 +274,7 @@ void func_8086C3D8(BgBdanObjects* this, PlayState* play) {
         this->timer = 60;
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 140.0f;
-        this->actionFunc = func_8086C5BC;
+        this->actionFunc = BgBdanObjects_OctoPlatform_WaitForBigOctoToStartBattle;
         OnePointCutscene_Init(play, 3080, -99, this->dyna.actor.child, CAM_ID_MAIN);
         player->actor.world.pos.x = -1130.0f;
         player->actor.world.pos.y = -1025.0f;
@@ -290,31 +297,31 @@ void func_8086C3D8(BgBdanObjects* this, PlayState* play) {
     }
 }
 
-void func_8086C55C(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_PauseBeforeDescending(BgBdanObjects* this, PlayState* play) {
     this->timer--;
 
     if (this->timer == 0) {
         Flags_UnsetSwitch(play, this->switchFlag);
     } else if (this->timer == -40) {
         this->timer = 0;
-        this->actionFunc = func_8086C3D8;
+        this->actionFunc = BgBdanObjects_OctoPlatform_DescendWithBigOcto;
     }
 }
 
-void func_8086C5BC(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_WaitForBigOctoToStartBattle(BgBdanObjects* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
     if ((this->timer == 0) && (this->dyna.actor.child != NULL)) {
         if (this->dyna.actor.child->params == 2) {
-            this->actionFunc = BgBdanObjects_BigOktoBattleInProgress;
+            this->actionFunc = BgBdanObjects_OctoPlatform_BattleInProgress;
         } else if (this->dyna.actor.child->params == 0) {
             this->dyna.actor.child->params = 1;
         }
     }
 }
 
-void BgBdanObjects_BigOktoBattleInProgress(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_OctoPlatform_BattleInProgress(BgBdanObjects* this, PlayState* play) {
     Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     if (Flags_GetClear(play, this->dyna.actor.room)) {
@@ -461,15 +468,15 @@ void BgBdanObjects_Update(Actor* thisx, PlayState* play) {
 void BgBdanObjects_Draw(Actor* thisx, PlayState* play) {
     BgBdanObjects* this = (BgBdanObjects*)thisx;
 
-    if (thisx->params == 0) {
-        if (this->actionFunc == func_8086C054) {
+    if (thisx->params == BDAN_OBJECT_TYPE_BIG_OCTO_PLATFORM) {
+        if (this->actionFunc == BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene) {
             if (((thisx->home.pos.y + -79.0f) - 5.0f) < thisx->world.pos.y) {
                 Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
             }
         }
     }
 
-    if (thisx->params == 2) {
+    if (thisx->params == BDAN_OBJECT_TYPE_WATERBOX_HEIGHT_CHANGER) {
         Gfx_DrawDListXlu(play, gJabuWaterDL);
     } else {
         Gfx_DrawDListOpa(play, sDLists[thisx->params]);
