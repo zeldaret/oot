@@ -11,13 +11,13 @@
 #define FLAGS ACTOR_FLAG_4
 
 typedef enum {
-    JABU_OBJECTS_GET_PROP_CAMERA_SETTING_NORMAL0 = 0,
-    JABU_OBJECTS_GET_PROP_CAMERA_SETTING_DUNGEON1 = 3,
+    JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
+    JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1 = 3,
     JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
 } BgBdanObjectPropertyGetter;
 typedef enum {
-    JABU_OBJECTS_SET_PROP_CAMERA_SETTING_NORMAL0 = 1,
-    JABU_OBJECTS_SET_PROP_CAMERA_SETTING_DUNGEON1 = 2,
+    JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL0 = 1,
+    JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1 = 2,
     JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
 } BgBdanObjectPropertySetter;
 
@@ -88,11 +88,11 @@ static Gfx* sDLists[] = {
 
 s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case JABU_OBJECTS_GET_PROP_CAMERA_SETTING_NORMAL0:
+        case JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0:
             return this->cameraSetting == CAM_SET_NORMAL0;
         case JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
             return GET_INFTABLE(INFTABLE_146);
-        case JABU_OBJECTS_GET_PROP_CAMERA_SETTING_DUNGEON1:
+        case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
             osSyncPrintf("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
@@ -102,10 +102,10 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
 
 void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case JABU_OBJECTS_SET_PROP_CAMERA_SETTING_NORMAL0:
+        case JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL0:
             this->cameraSetting = CAM_SET_NORMAL1;
             break;
-        case JABU_OBJECTS_SET_PROP_CAMERA_SETTING_DUNGEON1:
+        case JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1:
             this->cameraSetting = CAM_SET_DUNGEON0;
             break;
         case JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
@@ -190,9 +190,9 @@ void BgBdanObjects_Destroy(Actor* thisx, PlayState* play) {
  */
 void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAMERA_SETTING_NORMAL0)) {
+    if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
-            BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAMERA_SETTING_NORMAL0);
+            BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL0);
             this->timer = 20;
             OnePointCutscene_Init(play, 3070, -99, &this->dyna.actor, CAM_ID_MAIN);
             player->actor.world.pos.x = -1130.0f;
@@ -209,7 +209,7 @@ void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, 
         }
     }
 
-    if (!Play_InCsMode(play) && !BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAMERA_SETTING_NORMAL0)) {
+    if (!Play_InCsMode(play) && !BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + -79.0f;
     } else {
         this->dyna.actor.world.pos.y = (this->dyna.actor.home.pos.y + -79.0f) - 5.0f;
@@ -222,7 +222,7 @@ void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlaySt
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene;
         this->timer = 30;
-        BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAMERA_SETTING_DUNGEON1);
+        BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1);
         Rumble_Request(0.0f, 255, 20, 150);
     } else {
         if (this->timer != 0) {
@@ -253,7 +253,7 @@ void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this
         }
     }
 
-    if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAMERA_SETTING_DUNGEON1)) {
+    if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1)) {
         Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_BIGOKUTA, this->dyna.actor.world.pos.x,
                            this->dyna.actor.world.pos.y + 140.0f, this->dyna.actor.world.pos.z, 0,
                            this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
