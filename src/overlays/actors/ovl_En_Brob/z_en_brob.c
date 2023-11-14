@@ -20,7 +20,7 @@ void EnBrob_Extrude(EnBrob* this, PlayState* play);
 void EnBrob_Wobble(EnBrob* this, PlayState* play);
 void EnBrob_Stunned(EnBrob* this, PlayState* play);
 void EnBrob_Retract(EnBrob* this, PlayState* play);
-void EnBrob_ShockPlayer(EnBrob* this, PlayState* play);
+void EnBrob_Shock(EnBrob* this, PlayState* play);
 
 ActorInit En_Brob_InitVars = {
     /**/ ACTOR_EN_BROB,
@@ -141,10 +141,10 @@ void EnBrob_SetupRetract(EnBrob* this) {
     this->actionFunc = EnBrob_Retract;
 }
 
-void EnBrob_SetupShockPlayer(EnBrob* this) {
+void EnBrob_SetupShock(EnBrob* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBrobShockAnim, -5.0f);
     this->timer = 10;
-    this->actionFunc = EnBrob_ShockPlayer;
+    this->actionFunc = EnBrob_Shock;
 }
 
 void EnBrob_Idle(EnBrob* this, PlayState* play) {
@@ -219,7 +219,7 @@ void EnBrob_Retract(EnBrob* this, PlayState* play) {
     }
 }
 
-void EnBrob_ShockPlayer(EnBrob* this, PlayState* play) {
+void EnBrob_Shock(EnBrob* this, PlayState* play) {
     Vec3f pos;
     f32 dist1;
     f32 dist2;
@@ -281,7 +281,7 @@ void EnBrob_Update(Actor* thisx, PlayState* play2) {
             !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
             func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
         } else if (this->actionFunc != EnBrob_Extrude) {
-            EnBrob_SetupShockPlayer(this);
+            EnBrob_SetupShock(this);
         }
 
         for (i = 0; i < 2; i++) {
