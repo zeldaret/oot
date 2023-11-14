@@ -61,8 +61,7 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
     EnBrob* this = (EnBrob*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &gBrobSkel, &gBrobExtrudeAnim, this->jointTable,
-                       this->morphTable, 10);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBrobSkel, &gBrobExtrudeAnim, this->jointTable, this->morphTable, 10);
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&gBrobCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
@@ -135,8 +134,8 @@ void EnBrob_SetupStunned(EnBrob* this) {
 }
 
 void EnBrob_SetupRetract(EnBrob* this) {
-    Animation_Change(&this->skelAnime, &gBrobExtrudeAnim, -1.0f,
-                     Animation_GetLastFrame(&gBrobExtrudeAnim), 0.0f, ANIMMODE_ONCE, -5.0f);
+    Animation_Change(&this->skelAnime, &gBrobExtrudeAnim, -1.0f, Animation_GetLastFrame(&gBrobExtrudeAnim), 0.0f,
+                     ANIMMODE_ONCE, -5.0f);
     this->yOffset = 8250;
     this->actionFunc = EnBrob_Retract;
 }
