@@ -16,7 +16,7 @@ void EnBrob_Draw(Actor* thisx, PlayState* play);
 
 void EnBrob_SetupIdle(EnBrob* this, PlayState* play);
 void EnBrob_Idle(EnBrob* this, PlayState* play);
-void EnBrob_Grow(EnBrob* this, PlayState* play);
+void EnBrob_Extrude(EnBrob* this, PlayState* play);
 void EnBrob_Wobble(EnBrob* this, PlayState* play);
 void EnBrob_Stunned(EnBrob* this, PlayState* play);
 void EnBrob_Retract(EnBrob* this, PlayState* play);
@@ -61,10 +61,10 @@ void EnBrob_Init(Actor* thisx, PlayState* play) {
     EnBrob* this = (EnBrob*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &object_brob_Skel_0015D8, &object_brob_Anim_001750, this->jointTable,
+    SkelAnime_InitFlex(play, &this->skelAnime, &gBrobSkel, &gBrobExtrudeAnim, this->jointTable,
                        this->morphTable, 10);
     DynaPolyActor_Init(&this->dyna, 0);
-    CollisionHeader_GetVirtual(&object_brob_Col_001A70, &colHeader);
+    CollisionHeader_GetVirtual(&gBrobCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     Collider_InitCylinder(play, &this->colliders[0]);
     Collider_SetCylinder(play, &this->colliders[0], &this->dyna.actor, &sCylinderInit);
@@ -112,22 +112,22 @@ void EnBrob_SetupIdle(EnBrob* this, PlayState* play) {
     this->actionFunc = EnBrob_Idle;
 }
 
-void EnBrob_SetupGrow(EnBrob* this, PlayState* play) {
-    Animation_PlayOnce(&this->skelAnime, &object_brob_Anim_001750);
+void EnBrob_SetupExtrude(EnBrob* this, PlayState* play) {
+    Animation_PlayOnce(&this->skelAnime, &gBrobExtrudeAnim);
     DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     this->yOffset = 1000;
-    this->actionFunc = EnBrob_Grow;
+    this->actionFunc = EnBrob_Extrude;
 }
 
 void EnBrob_SetupWobble(EnBrob* this) {
-    Animation_MorphToLoop(&this->skelAnime, &object_brob_Anim_001958, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gBrobWobbleAnim, -5.0f);
     this->yOffset = 8000;
     this->timer = 1200;
     this->actionFunc = EnBrob_Wobble;
 }
 
 void EnBrob_SetupStunned(EnBrob* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &object_brob_Anim_000290, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gBrobStunnedAnim, -5.0f);
     this->yOffset -= 125.0f;
     Actor_SetColorFilter(&this->dyna.actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 80);
     Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -135,14 +135,14 @@ void EnBrob_SetupStunned(EnBrob* this) {
 }
 
 void EnBrob_SetupRetract(EnBrob* this) {
-    Animation_Change(&this->skelAnime, &object_brob_Anim_001750, -1.0f,
-                     Animation_GetLastFrame(&object_brob_Anim_001750), 0.0f, ANIMMODE_ONCE, -5.0f);
+    Animation_Change(&this->skelAnime, &gBrobExtrudeAnim, -1.0f,
+                     Animation_GetLastFrame(&gBrobExtrudeAnim), 0.0f, ANIMMODE_ONCE, -5.0f);
     this->yOffset = 8250;
     this->actionFunc = EnBrob_Retract;
 }
 
 void EnBrob_SetupShockPlayer(EnBrob* this) {
-    Animation_MorphToLoop(&this->skelAnime, &object_brob_Anim_001678, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gBrobShockAnim, -5.0f);
     this->timer = 10;
     this->actionFunc = EnBrob_ShockPlayer;
 }
@@ -154,16 +154,16 @@ void EnBrob_Idle(EnBrob* this, PlayState* play) {
     if (this->timer == 0) {
         if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
-            EnBrob_SetupGrow(this, play);
+            EnBrob_SetupExtrude(this, play);
         } else if (this->dyna.actor.xzDistToPlayer < 300.0f) {
-            EnBrob_SetupGrow(this, play);
+            EnBrob_SetupExtrude(this, play);
         }
     } else if (this->timer >= 81) {
         this->dyna.actor.colorFilterTimer = 80;
     }
 }
 
-void EnBrob_Grow(EnBrob* this, PlayState* play) {
+void EnBrob_Extrude(EnBrob* this, PlayState* play) {
     f32 curFrame;
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -277,10 +277,10 @@ void EnBrob_Update(Actor* thisx, PlayState* play2) {
                (acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & DMG_SLASH_KOKIRI)) ||
                (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & DMG_SLASH_KOKIRI))) {
 
-        if (this->actionFunc == EnBrob_Grow && !(this->colliders[0].base.atFlags & AT_BOUNCED) &&
+        if (this->actionFunc == EnBrob_Extrude && !(this->colliders[0].base.atFlags & AT_BOUNCED) &&
             !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
             func_8002F71C(play, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
-        } else if (this->actionFunc != EnBrob_Grow) {
+        } else if (this->actionFunc != EnBrob_Extrude) {
             EnBrob_SetupShockPlayer(this);
         }
 
@@ -291,12 +291,12 @@ void EnBrob_Update(Actor* thisx, PlayState* play2) {
     }
 
     this->actionFunc(this, play);
-    
+
     if (this->actionFunc != EnBrob_Idle && this->actionFunc != EnBrob_Retract) {
         if (this->actionFunc != EnBrob_Stunned) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliders[0].base);
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliders[1].base);
-            if (this->actionFunc != EnBrob_Grow) {
+            if (this->actionFunc != EnBrob_Extrude) {
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliders[0].base);
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliders[1].base);
             }
