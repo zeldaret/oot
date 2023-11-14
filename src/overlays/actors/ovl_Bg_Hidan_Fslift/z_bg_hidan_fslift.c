@@ -56,7 +56,7 @@ void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
     this->actionFunc = BgHidanFslift_WaitForPlayerOnTop;
 }
 
-void BgHidanFslift_CopyPosToHsblock(BgHidanFslift* this) {
+void BgHidanFslift_SetHookshotTargetPos(BgHidanFslift* this) {
     if (this->dyna.actor.child != NULL && this->dyna.actor.child->update != NULL) {
         this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x;
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 40.0f;
@@ -104,7 +104,7 @@ void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play) {
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
-    BgHidanFslift_CopyPosToHsblock(this);
+    BgHidanFslift_SetHookshotTargetPos(this);
 }
 
 void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play) {
@@ -118,7 +118,7 @@ void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play) {
     } else {
         BgHidanFslift_SetupWaitForPlayerOnTop(this);
     }
-    BgHidanFslift_CopyPosToHsblock(this);
+    BgHidanFslift_SetHookshotTargetPos(this);
 }
 
 void BgHidanFslift_Update(Actor* thisx, PlayState* play) {
