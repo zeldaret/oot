@@ -132,6 +132,13 @@ void BgHidanFslift_Update(Actor* thisx, PlayState* play) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
     } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->cameraSetting != CAM_SET_NONE) {
+            /** 
+             * It's unclear if the "cameraSetting" variable was perhaps meant to be used
+             * in this function call instead of the CAM_SET_DUNGEON0 literal. Without
+             * that, the variable's name or purpose is not obvious, so the chosen
+             * "cameraSetting" is somewhat speculative based on its role in controlling
+             * the main camera here.
+             */
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }
         this->cameraSetting = CAM_SET_NONE;
