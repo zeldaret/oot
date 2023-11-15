@@ -1474,12 +1474,12 @@ PosRot Actor_GetWorld(Actor* actor) {
 }
 
 PosRot Actor_GetWorldPosShapeRot(Actor* actor) {
-    PosRot sp1C;
+    PosRot worldPosRot;
 
-    Math_Vec3f_Copy(&sp1C.pos, &actor->world.pos);
-    sp1C.rot = actor->shape.rot;
+    Math_Vec3f_Copy(&worldPosRot.pos, &actor->world.pos);
+    worldPosRot.rot = actor->shape.rot;
 
-    return sp1C;
+    return worldPosRot;
 }
 
 f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {

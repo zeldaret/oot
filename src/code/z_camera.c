@@ -458,7 +458,7 @@ Vec3s* Camera_GetBgCamFuncData(Camera* camera) {
  */
 s32 Camera_GetBgCamIndex(Camera* camera, s32* bgId, CollisionPoly* poly) {
     s32 bgCamIndex;
-    UNUSED PosRot playerPosRot;
+    PosRot playerPosRot;
     s32 ret;
 
     playerPosRot = Actor_GetWorldPosShapeRot(&camera->player->actor); // unused.
@@ -2208,7 +2208,7 @@ s32 Camera_Jump1(Camera* camera) {
     VecGeo eyeDiffGeo;
     VecGeo eyeDiffTarget;
     PosRot* playerPosRot = &camera->playerPosRot;
-    UNUSED PosRot playerhead;
+    PosRot playerhead;
     s16 tangle;
     Jump1ReadOnlyData* roData = &camera->paramData.jump1.roData;
     Jump1ReadWriteData* rwData = &camera->paramData.jump1.rwData;
@@ -2357,7 +2357,7 @@ s32 Camera_Jump2(Camera* camera) {
     VecGeo adjAtToEyeDir;
     VecGeo bgChkPara;
     VecGeo atToEyeNextDir;
-    UNUSED VecGeo atToEyeDir;
+    VecGeo atToEyeDir;
     f32 temp_f14;
     f32 temp_f16;
     f32 sp90;
@@ -3356,13 +3356,13 @@ s32 Camera_KeepOn3(Camera* camera) {
     Actor* colChkActors[2];
     VecGeo targetToPlayerDir;
     VecGeo atToEyeAdj;
-    UNUSED VecGeo atToEyeDir;
+    VecGeo atToEyeDir;
     VecGeo atToEyeNextDir;
     s32 i;
     s32 angleCnt;
     s16 sp82;
     s16 sp80;
-    UNUSED PosRot playerPosRot;
+    PosRot playerPosRot;
     PosRot* camPlayerPosRot = &camera->playerPosRot;
     KeepOn3ReadOnlyData* roData = &camera->paramData.keep3.roData;
     KeepOn3ReadWriteData* rwData = &camera->paramData.keep3.rwData;
@@ -3542,7 +3542,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     f32 temp_f0_2;
     CollisionPoly* spC0;
     VecGeo spB8;
-    UNUSED VecGeo spB0;
+    VecGeo spB0;
     VecGeo spA8;
     s16* temp_s0 = &camera->data2;
     s16 spA2;
@@ -4086,7 +4086,7 @@ s32 Camera_Fixed3(Camera* camera) {
     Vec3f* eyeNext = &camera->eyeNext;
     VecGeo atGeo;
     BgCamFuncData* bgCamFuncData;
-    UNUSED VecGeo eyeAtOffset;
+    VecGeo eyeAtOffset;
     Fixed3ReadOnlyData* roData = &camera->paramData.fixd3.roData;
     Fixed3ReadWriteData* rwData = &camera->paramData.fixd3.rwData;
     s32 pad;
@@ -4249,7 +4249,7 @@ s32 Camera_Subj3(Camera* camera) {
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
     Vec3f sp98;
-    UNUSED Vec3f sp8C;
+    Vec3f sp8C;
     VecGeo sp84;
     VecGeo sp7C;
     VecGeo tGeo;
@@ -4646,7 +4646,7 @@ s32 Camera_Unique1(Camera* camera) {
     VecGeo eyeAtOffset;
     VecGeo eyeNextAtOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
-    UNUSED PosRot playerhead;
+    PosRot playerhead;
     Unique1ReadOnlyData* roData = &camera->paramData.uniq1.roData;
     Unique1ReadWriteData* rwData = &camera->paramData.uniq1.rwData;
     s32 pad;
@@ -6593,7 +6593,7 @@ s32 Camera_Special5(Camera* camera) {
     CamColChk sp7C;
     VecGeo sp74;
     VecGeo sp6C;
-    UNUSED VecGeo sp64;
+    VecGeo sp64;
     VecGeo sp5C;
     PosRot* playerPosRot = &camera->playerPosRot;
     Special5ReadOnlyData* roData = &camera->paramData.spec5.roData;
@@ -6752,7 +6752,7 @@ s32 Camera_Special6(Camera* camera) {
     Vec3f eyePosCalc;
     Vec3f eyeAnim;
     Vec3f atAnim;
-    UNUSED VecGeo eyeAtOffset;
+    VecGeo eyeAtOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
     BgCamFuncData* bgCamFuncData;
     Vec3s bgCamRot;
