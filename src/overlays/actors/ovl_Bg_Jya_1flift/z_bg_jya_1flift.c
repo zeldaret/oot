@@ -26,15 +26,15 @@ void BgJya1flift_DelayMove(BgJya1flift* this, PlayState* play);
 static u8 sIsSpawned = false;
 
 ActorInit Bg_Jya_1flift_InitVars = {
-    ACTOR_BG_JYA_1FLIFT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJya1flift),
-    (ActorFunc)BgJya1flift_Init,
-    (ActorFunc)BgJya1flift_Destroy,
-    (ActorFunc)BgJya1flift_Update,
-    (ActorFunc)BgJya1flift_Draw,
+    /**/ ACTOR_BG_JYA_1FLIFT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJya1flift),
+    /**/ BgJya1flift_Init,
+    /**/ BgJya1flift_Destroy,
+    /**/ BgJya1flift_Update,
+    /**/ BgJya1flift_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

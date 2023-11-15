@@ -27,15 +27,15 @@ void func_80B33338(EnWeiyer* this, PlayState* play);
 void func_80B3349C(EnWeiyer* this, PlayState* play);
 
 ActorInit En_Weiyer_InitVars = {
-    ACTOR_EN_WEIYER,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_EI,
-    sizeof(EnWeiyer),
-    (ActorFunc)EnWeiyer_Init,
-    (ActorFunc)EnWeiyer_Destroy,
-    (ActorFunc)EnWeiyer_Update,
-    (ActorFunc)EnWeiyer_Draw,
+    /**/ ACTOR_EN_WEIYER,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_EI,
+    /**/ sizeof(EnWeiyer),
+    /**/ EnWeiyer_Init,
+    /**/ EnWeiyer_Destroy,
+    /**/ EnWeiyer_Update,
+    /**/ EnWeiyer_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

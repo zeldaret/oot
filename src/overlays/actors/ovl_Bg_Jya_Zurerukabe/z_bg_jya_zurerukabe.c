@@ -24,15 +24,15 @@ void func_8089B870(BgJyaZurerukabe* this, PlayState* play);
 static f32 D_8089B9C0[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 ActorInit Bg_Jya_Zurerukabe_InitVars = {
-    ACTOR_BG_JYA_ZURERUKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaZurerukabe),
-    (ActorFunc)BgJyaZurerukabe_Init,
-    (ActorFunc)BgJyaZurerukabe_Destroy,
-    (ActorFunc)BgJyaZurerukabe_Update,
-    (ActorFunc)BgJyaZurerukabe_Draw,
+    /**/ ACTOR_BG_JYA_ZURERUKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaZurerukabe),
+    /**/ BgJyaZurerukabe_Init,
+    /**/ BgJyaZurerukabe_Destroy,
+    /**/ BgJyaZurerukabe_Update,
+    /**/ BgJyaZurerukabe_Draw,
 };
 
 static s16 D_8089B9F0[4] = { 943, 1043, 1243, 1343 };

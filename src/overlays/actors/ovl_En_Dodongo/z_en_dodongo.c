@@ -37,15 +37,15 @@ void EnDodongo_Death(EnDodongo* this, PlayState* play);
 void EnDodongo_SweepTail(EnDodongo* this, PlayState* play);
 
 ActorInit En_Dodongo_InitVars = {
-    ACTOR_EN_DODONGO,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_DODONGO,
-    sizeof(EnDodongo),
-    (ActorFunc)EnDodongo_Init,
-    (ActorFunc)EnDodongo_Destroy,
-    (ActorFunc)EnDodongo_Update,
-    (ActorFunc)EnDodongo_Draw,
+    /**/ ACTOR_EN_DODONGO,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_DODONGO,
+    /**/ sizeof(EnDodongo),
+    /**/ EnDodongo_Init,
+    /**/ EnDodongo_Destroy,
+    /**/ EnDodongo_Update,
+    /**/ EnDodongo_Draw,
 };
 
 static ColliderJntSphElementInit sBodyElementsInit[6] = {

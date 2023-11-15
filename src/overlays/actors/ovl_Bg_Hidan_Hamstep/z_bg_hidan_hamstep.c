@@ -64,15 +64,15 @@ static ColliderTrisInit sTrisInit = {
 };
 
 ActorInit Bg_Hidan_Hamstep_InitVars = {
-    ACTOR_BG_HIDAN_HAMSTEP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanHamstep),
-    (ActorFunc)BgHidanHamstep_Init,
-    (ActorFunc)BgHidanHamstep_Destroy,
-    (ActorFunc)BgHidanHamstep_Update,
-    (ActorFunc)BgHidanHamstep_Draw,
+    /**/ ACTOR_BG_HIDAN_HAMSTEP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanHamstep),
+    /**/ BgHidanHamstep_Init,
+    /**/ BgHidanHamstep_Destroy,
+    /**/ BgHidanHamstep_Update,
+    /**/ BgHidanHamstep_Draw,
 };
 
 static BgHidanHamstepActionFunc sActionFuncs[] = {

@@ -5,7 +5,8 @@
 #include <vector>
 #include "tinyxml2.h"
 
-#include "OtherStructs/Cutscene_Commands.h"
+#include "OtherStructs/CutsceneOoT_Commands.h"
+#include "OtherStructs/CutsceneMM_Commands.h"
 #include "ZFile.h"
 #include "ZResource.h"
 

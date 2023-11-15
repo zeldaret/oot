@@ -43,15 +43,15 @@ static DemoGeffDrawFunc sDrawFuncs[] = {
 };
 
 ActorInit Demo_Geff_InitVars = {
-    ACTOR_DEMO_GEFF,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GEFF,
-    sizeof(DemoGeff),
-    (ActorFunc)DemoGeff_Init,
-    (ActorFunc)DemoGeff_Destroy,
-    (ActorFunc)DemoGeff_Update,
-    (ActorFunc)DemoGeff_Draw,
+    /**/ ACTOR_DEMO_GEFF,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GEFF,
+    /**/ sizeof(DemoGeff),
+    /**/ DemoGeff_Init,
+    /**/ DemoGeff_Destroy,
+    /**/ DemoGeff_Update,
+    /**/ DemoGeff_Draw,
 };
 
 void DemoGeff_Destroy(Actor* thisx, PlayState* play) {

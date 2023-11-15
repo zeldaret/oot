@@ -36,15 +36,15 @@ static BgZgDrawFunc sDrawFuncs[] = {
 };
 
 ActorInit Bg_Zg_InitVars = {
-    ACTOR_BG_ZG,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZG,
-    sizeof(BgZg),
-    (ActorFunc)BgZg_Init,
-    (ActorFunc)BgZg_Destroy,
-    (ActorFunc)BgZg_Update,
-    (ActorFunc)BgZg_Draw,
+    /**/ ACTOR_BG_ZG,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZG,
+    /**/ sizeof(BgZg),
+    /**/ BgZg_Init,
+    /**/ BgZg_Destroy,
+    /**/ BgZg_Update,
+    /**/ BgZg_Draw,
 };
 
 void BgZg_Destroy(Actor* thisx, PlayState* play) {

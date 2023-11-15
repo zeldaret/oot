@@ -16,15 +16,15 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play);
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play);
 
 ActorInit En_Fire_Rock_InitVars = {
-    ACTOR_EN_FIRE_ROCK,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_EFC_STAR_FIELD,
-    sizeof(EnFireRock),
-    (ActorFunc)EnFireRock_Init,
-    (ActorFunc)EnFireRock_Destroy,
-    (ActorFunc)EnFireRock_Update,
-    (ActorFunc)EnFireRock_Draw,
+    /**/ ACTOR_EN_FIRE_ROCK,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_EFC_STAR_FIELD,
+    /**/ sizeof(EnFireRock),
+    /**/ EnFireRock_Init,
+    /**/ EnFireRock_Destroy,
+    /**/ EnFireRock_Update,
+    /**/ EnFireRock_Draw,
 };
 
 static ColliderCylinderInit D_80A12CA0 = {

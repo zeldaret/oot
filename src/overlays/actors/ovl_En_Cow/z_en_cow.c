@@ -27,15 +27,15 @@ void EnCow_UpdateTail(Actor* thisx, PlayState* play);
 void EnCow_IdleTail(EnCow* this, PlayState* play);
 
 ActorInit En_Cow_InitVars = {
-    ACTOR_EN_COW,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_COW,
-    sizeof(EnCow),
-    (ActorFunc)EnCow_Init,
-    (ActorFunc)EnCow_Destroy,
-    (ActorFunc)EnCow_Update,
-    (ActorFunc)EnCow_Draw,
+    /**/ ACTOR_EN_COW,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_COW,
+    /**/ sizeof(EnCow),
+    /**/ EnCow_Init,
+    /**/ EnCow_Destroy,
+    /**/ EnCow_Update,
+    /**/ EnCow_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

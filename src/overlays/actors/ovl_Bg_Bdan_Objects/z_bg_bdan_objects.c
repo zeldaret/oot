@@ -33,15 +33,15 @@ void func_8086CB10(BgBdanObjects* this, PlayState* play);
 void func_8086CB8C(BgBdanObjects* this, PlayState* play);
 
 ActorInit Bg_Bdan_Objects_InitVars = {
-    ACTOR_BG_BDAN_OBJECTS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_BDAN_OBJECTS,
-    sizeof(BgBdanObjects),
-    (ActorFunc)BgBdanObjects_Init,
-    (ActorFunc)BgBdanObjects_Destroy,
-    (ActorFunc)BgBdanObjects_Update,
-    (ActorFunc)BgBdanObjects_Draw,
+    /**/ ACTOR_BG_BDAN_OBJECTS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_BDAN_OBJECTS,
+    /**/ sizeof(BgBdanObjects),
+    /**/ BgBdanObjects_Init,
+    /**/ BgBdanObjects_Destroy,
+    /**/ BgBdanObjects_Update,
+    /**/ BgBdanObjects_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

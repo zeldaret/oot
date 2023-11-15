@@ -27,15 +27,15 @@ void func_80A3DF00(EnGm* this, PlayState* play);
 void func_80A3DF60(EnGm* this, PlayState* play);
 
 ActorInit En_Gm_InitVars = {
-    ACTOR_EN_GM,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(EnGm),
-    (ActorFunc)EnGm_Init,
-    (ActorFunc)EnGm_Destroy,
-    (ActorFunc)EnGm_Update,
-    NULL,
+    /**/ ACTOR_EN_GM,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(EnGm),
+    /**/ EnGm_Init,
+    /**/ EnGm_Destroy,
+    /**/ EnGm_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {

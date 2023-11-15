@@ -22,15 +22,15 @@ void BgHidanFirewall_Collide(BgHidanFirewall* this, PlayState* play);
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, PlayState* play);
 
 ActorInit Bg_Hidan_Firewall_InitVars = {
-    ACTOR_BG_HIDAN_FIREWALL,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanFirewall),
-    (ActorFunc)BgHidanFirewall_Init,
-    (ActorFunc)BgHidanFirewall_Destroy,
-    (ActorFunc)BgHidanFirewall_Update,
-    NULL,
+    /**/ ACTOR_BG_HIDAN_FIREWALL,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanFirewall),
+    /**/ BgHidanFirewall_Init,
+    /**/ BgHidanFirewall_Destroy,
+    /**/ BgHidanFirewall_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sCylinderInit = {

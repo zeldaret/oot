@@ -17,7 +17,7 @@ clean:
 	rm -rf build $(LIB)
 
 format:
-	clang-format-11 -i $(CPP_FILES) $(H_FILES)
+	clang-format-14 -i $(CPP_FILES) $(H_FILES)
 
 .PHONY: all clean format
 

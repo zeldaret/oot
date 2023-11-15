@@ -22,15 +22,15 @@ void func_808B3714(BgSpot12Saku* this);
 void func_808B37AC(BgSpot12Saku* this, PlayState* play);
 
 ActorInit Bg_Spot12_Saku_InitVars = {
-    ACTOR_BG_SPOT12_SAKU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT12_OBJ,
-    sizeof(BgSpot12Saku),
-    (ActorFunc)BgSpot12Saku_Init,
-    (ActorFunc)BgSpot12Saku_Destroy,
-    (ActorFunc)BgSpot12Saku_Update,
-    (ActorFunc)BgSpot12Saku_Draw,
+    /**/ ACTOR_BG_SPOT12_SAKU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT12_OBJ,
+    /**/ sizeof(BgSpot12Saku),
+    /**/ BgSpot12Saku_Init,
+    /**/ BgSpot12Saku_Destroy,
+    /**/ BgSpot12Saku_Update,
+    /**/ BgSpot12Saku_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

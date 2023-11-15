@@ -35,15 +35,15 @@ typedef enum {
 } KeeseAuraType;
 
 ActorInit En_Firefly_InitVars = {
-    ACTOR_EN_FIREFLY,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FIREFLY,
-    sizeof(EnFirefly),
-    (ActorFunc)EnFirefly_Init,
-    (ActorFunc)EnFirefly_Destroy,
-    (ActorFunc)EnFirefly_Update,
-    (ActorFunc)EnFirefly_Draw,
+    /**/ ACTOR_EN_FIREFLY,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FIREFLY,
+    /**/ sizeof(EnFirefly),
+    /**/ EnFirefly_Init,
+    /**/ EnFirefly_Destroy,
+    /**/ EnFirefly_Update,
+    /**/ EnFirefly_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {

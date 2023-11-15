@@ -21,73 +21,73 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
 
 // Used to map item actions to model groups
 u8 sActionModelGroups[PLAYER_IA_MAX] = {
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_NONE
-    PLAYER_MODELGROUP_15,            // PLAYER_IA_LAST_USED
-    PLAYER_MODELGROUP_10,            // PLAYER_IA_FISHING_POLE
-    PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_MASTER
-    PLAYER_MODELGROUP_SWORD,         // PLAYER_IA_SWORD_KOKIRI
-    PLAYER_MODELGROUP_BGS,           // PLAYER_IA_SWORD_BIGGORON
-    PLAYER_MODELGROUP_10,            // PLAYER_IA_DEKU_STICK
-    PLAYER_MODELGROUP_HAMMER,        // PLAYER_IA_HAMMER
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_FIRE
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_ICE
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_LIGHT
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_0C
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_0D
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_BOW_0E
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_SLINGSHOT
-    PLAYER_MODELGROUP_HOOKSHOT,      // PLAYER_IA_HOOKSHOT
-    PLAYER_MODELGROUP_HOOKSHOT,      // PLAYER_IA_LONGSHOT
-    PLAYER_MODELGROUP_EXPLOSIVES,    // PLAYER_IA_BOMB
-    PLAYER_MODELGROUP_EXPLOSIVES,    // PLAYER_IA_BOMBCHU
-    PLAYER_MODELGROUP_BOOMERANG,     // PLAYER_IA_BOOMERANG
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MAGIC_SPELL_15
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MAGIC_SPELL_16
-    PLAYER_MODELGROUP_BOW_SLINGSHOT, // PLAYER_IA_MAGIC_SPELL_17
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_FARORES_WIND
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_NAYRUS_LOVE
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_DINS_FIRE
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_DEKU_NUT
-    PLAYER_MODELGROUP_OCARINA,       // PLAYER_IA_OCARINA_FAIRY
-    PLAYER_MODELGROUP_OOT,           // PLAYER_IA_OCARINA_OF_TIME
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FISH
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FIRE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_BUG
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_BIG_POE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_RUTOS_LETTER
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_RED
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_BLUE
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_POTION_GREEN
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_MILK_FULL
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_MILK_HALF
-    PLAYER_MODELGROUP_BOTTLE,        // PLAYER_IA_BOTTLE_FAIRY
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_ZELDAS_LETTER
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_WEIRD_EGG
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_CHICKEN
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MAGIC_BEAN
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_POCKET_EGG
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_POCKET_CUCCO
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_COJIRO
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_ODD_MUSHROOM
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_ODD_POTION
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_POACHERS_SAW
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_BROKEN_GORONS_SWORD
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_PRESCRIPTION
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_FROG
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_EYEDROPS
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_CLAIM_CHECK
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_KEATON
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_SKULL
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_SPOOKY
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_BUNNY_HOOD
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_GORON
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_ZORA
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_GERUDO
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_MASK_TRUTH
-    PLAYER_MODELGROUP_DEFAULT,       // PLAYER_IA_LENS_OF_TRUTH
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_NONE
+    PLAYER_MODELGROUP_SWORD,            // PLAYER_IA_SWORD_CS
+    PLAYER_MODELGROUP_10,               // PLAYER_IA_FISHING_POLE
+    PLAYER_MODELGROUP_SWORD_AND_SHIELD, // PLAYER_IA_SWORD_MASTER
+    PLAYER_MODELGROUP_SWORD_AND_SHIELD, // PLAYER_IA_SWORD_KOKIRI
+    PLAYER_MODELGROUP_BGS,              // PLAYER_IA_SWORD_BIGGORON
+    PLAYER_MODELGROUP_10,               // PLAYER_IA_DEKU_STICK
+    PLAYER_MODELGROUP_HAMMER,           // PLAYER_IA_HAMMER
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_BOW
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_BOW_FIRE
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_BOW_ICE
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_BOW_LIGHT
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_BOW_0C
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_BOW_0D
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_BOW_0E
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_SLINGSHOT
+    PLAYER_MODELGROUP_HOOKSHOT,         // PLAYER_IA_HOOKSHOT
+    PLAYER_MODELGROUP_HOOKSHOT,         // PLAYER_IA_LONGSHOT
+    PLAYER_MODELGROUP_EXPLOSIVES,       // PLAYER_IA_BOMB
+    PLAYER_MODELGROUP_EXPLOSIVES,       // PLAYER_IA_BOMBCHU
+    PLAYER_MODELGROUP_BOOMERANG,        // PLAYER_IA_BOOMERANG
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MAGIC_SPELL_15
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MAGIC_SPELL_16
+    PLAYER_MODELGROUP_BOW_SLINGSHOT,    // PLAYER_IA_MAGIC_SPELL_17
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_FARORES_WIND
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_NAYRUS_LOVE
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_DINS_FIRE
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_DEKU_NUT
+    PLAYER_MODELGROUP_OCARINA,          // PLAYER_IA_OCARINA_FAIRY
+    PLAYER_MODELGROUP_OOT,              // PLAYER_IA_OCARINA_OF_TIME
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_FISH
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_FIRE
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_BUG
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_POE
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_BIG_POE
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_RUTOS_LETTER
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_POTION_RED
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_POTION_BLUE
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_POTION_GREEN
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_MILK_FULL
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_MILK_HALF
+    PLAYER_MODELGROUP_BOTTLE,           // PLAYER_IA_BOTTLE_FAIRY
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_ZELDAS_LETTER
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_WEIRD_EGG
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_CHICKEN
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MAGIC_BEAN
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_POCKET_EGG
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_POCKET_CUCCO
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_COJIRO
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_ODD_MUSHROOM
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_ODD_POTION
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_POACHERS_SAW
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_BROKEN_GORONS_SWORD
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_PRESCRIPTION
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_FROG
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_EYEDROPS
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_CLAIM_CHECK
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_KEATON
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_SKULL
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_SPOOKY
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_BUNNY_HOOD
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_GORON
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_ZORA
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_GERUDO
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_MASK_TRUTH
+    PLAYER_MODELGROUP_DEFAULT,          // PLAYER_IA_LENS_OF_TRUTH
 };
 
 typedef struct {
@@ -110,7 +110,7 @@ u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX] = {
     /* PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD */
     { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_19,
       PLAYER_MODELTYPE_WAIST },
-    /* PLAYER_MODELGROUP_SWORD */
+    /* PLAYER_MODELGROUP_SWORD_AND_SHIELD */
     { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_SHEATH_17,
       PLAYER_MODELTYPE_WAIST },
     /* PLAYER_MODELGROUP_DEFAULT */
@@ -149,7 +149,7 @@ u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX] = {
     /* PLAYER_MODELGROUP_BOTTLE */
     { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOTTLE, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
       PLAYER_MODELTYPE_WAIST },
-    /* PLAYER_MODELGROUP_15 */
+    /* PLAYER_MODELGROUP_SWORD */
     { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_19,
       PLAYER_MODELTYPE_WAIST },
 };
@@ -487,14 +487,14 @@ void Player_SetBootData(PlayState* play, Player* this) {
     }
 }
 
-s32 Player_InBlockingCsMode(PlayState* play, Player* this) {
+int Player_InBlockingCsMode(PlayState* play, Player* this) {
     return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csAction != PLAYER_CSACTION_NONE) ||
            (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
            (this->stateFlags3 & PLAYER_STATE3_7) ||
            ((gSaveContext.magicState != MAGIC_STATE_IDLE) && (Player_ActionToMagicSpell(this, this->itemAction) >= 0));
 }
 
-s32 Player_InCsMode(PlayState* play) {
+int Player_InCsMode(PlayState* play) {
     Player* this = GET_PLAYER(play);
 
     return Player_InBlockingCsMode(play, this) || (this->unk_6AD == 4);
@@ -504,14 +504,14 @@ s32 func_8008E9C4(Player* this) {
     return (this->stateFlags1 & PLAYER_STATE1_4);
 }
 
-s32 Player_IsChildWithHylianShield(Player* this) {
+int Player_IsChildWithHylianShield(Player* this) {
     return gSaveContext.save.linkAge != LINK_AGE_ADULT && (this->currentShield == PLAYER_SHIELD_HYLIAN);
 }
 
 s32 Player_ActionToModelGroup(Player* this, s32 itemAction) {
     s32 modelGroup = sActionModelGroups[itemAction];
 
-    if ((modelGroup == PLAYER_MODELGROUP_SWORD) && Player_IsChildWithHylianShield(this)) {
+    if ((modelGroup == PLAYER_MODELGROUP_SWORD_AND_SHIELD) && Player_IsChildWithHylianShield(this)) {
         // child, using kokiri sword with hylian shield equipped
         return PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD;
     } else {
@@ -640,7 +640,7 @@ s32 func_8008EF44(PlayState* play, s32 ammo) {
     return 1;
 }
 
-s32 Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange) {
+int Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 yRange) {
     Player* this = GET_PLAYER(play);
     Vec3f diff;
     s32 pad;
@@ -685,7 +685,7 @@ s32 Player_HasMirrorShieldEquipped(PlayState* play) {
     return (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
 
-s32 Player_HasMirrorShieldSetToDraw(PlayState* play) {
+int Player_HasMirrorShieldSetToDraw(PlayState* play) {
     Player* this = GET_PLAYER(play);
 
     return (this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) && (this->currentShield == PLAYER_SHIELD_MIRROR);
@@ -701,11 +701,11 @@ s32 Player_ActionToMagicSpell(Player* this, s32 itemAction) {
     }
 }
 
-s32 Player_HoldsHookshot(Player* this) {
+int Player_HoldsHookshot(Player* this) {
     return (this->heldItemAction == PLAYER_IA_HOOKSHOT) || (this->heldItemAction == PLAYER_IA_LONGSHOT);
 }
 
-s32 func_8008F128(Player* this) {
+int func_8008F128(Player* this) {
     return Player_HoldsHookshot(this) && (this->heldActor == NULL);
 }
 
@@ -731,7 +731,7 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
     }
 }
 
-s32 Player_HoldsBrokenKnife(Player* this) {
+int Player_HoldsBrokenKnife(Player* this) {
     return (this->heldItemAction == PLAYER_IA_SWORD_BIGGORON) &&
            (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
 }
@@ -767,7 +767,7 @@ s32 Player_GetExplosiveHeld(Player* this) {
 s32 func_8008F2BC(Player* this, s32 itemAction) {
     s32 sword = 0;
 
-    if (itemAction != PLAYER_IA_LAST_USED) {
+    if (itemAction != PLAYER_IA_SWORD_CS) {
         sword = itemAction - PLAYER_IA_SWORD_MASTER;
         if ((sword < 0) || (sword >= 3)) {
             goto return_neg;
@@ -1061,7 +1061,7 @@ s32 Player_OverrideLimbDrawGameplayCommon(PlayState* play, s32 limbIndex, Gfx** 
         // Note: The increment would not be done for the root limb, even if it had a non-NULL `dList`.
         //       So if the root limb had a non-NULL `dList` (which is not the case in vanilla),
         //       an out-of-bounds write to `bodyPartsPos` would occur.
-        sCurBodyPartPos = &this->bodyPartsPos[-1];
+        sCurBodyPartPos = &this->bodyPartsPos[0] - 1;
 
         if (!LINK_IS_ADULT) {
             if (!(this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) || (this->skelAnime.moveFlags & ANIM_FLAG_0)) {
@@ -1410,8 +1410,8 @@ Color_RGB8 sBottleColors[] = {
 Vec3f D_80126128 = { 398.0f, 1419.0f, 244.0f };
 
 BowSlingshotStringData sBowSlingshotStringData[] = {
-    { gLinkAdultBowStringDL, { 0.0f, -360.4f, 0.0f } },       // Bow
-    { gLinkChildSlinghotStringDL, { 606.0f, 236.0f, 0.0f } }, // Slingshot
+    { gLinkAdultBowStringDL, { 0.0f, -360.4f, 0.0f } },        // Bow
+    { gLinkChildSlingshotStringDL, { 606.0f, 236.0f, 0.0f } }, // Slingshot
 };
 
 // Coordinates of the shield quad collider vertices, in the right hand limb's own model space.
@@ -1668,9 +1668,9 @@ u32 Player_InitPauseDrawData(PlayState* play, u8* segment, SkelAnime* skelAnime)
 }
 
 u8 sPauseModelGroupBySword[] = {
-    PLAYER_MODELGROUP_SWORD, // PLAYER_SWORD_KOKIRI
-    PLAYER_MODELGROUP_SWORD, // PLAYER_SWORD_MASTER
-    PLAYER_MODELGROUP_BGS,   // PLAYER_SWORD_BIGGORON
+    PLAYER_MODELGROUP_SWORD_AND_SHIELD, // PLAYER_SWORD_KOKIRI
+    PLAYER_MODELGROUP_SWORD_AND_SHIELD, // PLAYER_SWORD_MASTER
+    PLAYER_MODELGROUP_BGS,              // PLAYER_SWORD_BIGGORON
 };
 
 s32 Player_OverrideLimbDrawPause(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
@@ -1682,7 +1682,7 @@ s32 Player_OverrideLimbDrawPause(PlayState* play, s32 limbIndex, Gfx** dList, Ve
     s32 dListOffset = 0;
     Gfx** dLists;
 
-    if ((modelGroup == PLAYER_MODELGROUP_SWORD) && !LINK_IS_ADULT &&
+    if ((modelGroup == PLAYER_MODELGROUP_SWORD_AND_SHIELD) && !LINK_IS_ADULT &&
         (playerSwordAndShield[1] == PLAYER_SHIELD_HYLIAN)) {
         modelGroup = PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD;
     }

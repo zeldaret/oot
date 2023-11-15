@@ -67,15 +67,15 @@ static f32 sPlaybackSpeeds[] = { 2.0f / 3.0f, 2.0f / 3.0f, 1.0f, 1.0f, 1.0f, 1.0
 static SkeletonHeader* sSkeletonHeaders[] = { &gEponaSkel, &gHorseIngoSkel };
 
 ActorInit En_Horse_InitVars = {
-    ACTOR_EN_HORSE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HORSE,
-    sizeof(EnHorse),
-    (ActorFunc)EnHorse_Init,
-    (ActorFunc)EnHorse_Destroy,
-    (ActorFunc)EnHorse_Update,
-    (ActorFunc)EnHorse_Draw,
+    /**/ ACTOR_EN_HORSE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HORSE,
+    /**/ sizeof(EnHorse),
+    /**/ EnHorse_Init,
+    /**/ EnHorse_Destroy,
+    /**/ EnHorse_Update,
+    /**/ EnHorse_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
@@ -633,7 +633,7 @@ void func_80A5BB90(PlayState* play, Vec3f* vec, Vec3f* arg2, f32* arg3) {
     SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, vec, arg2, arg3);
 }
 
-s32 func_80A5BBBC(PlayState* play, EnHorse* this, Vec3f* pos) {
+int func_80A5BBBC(PlayState* play, EnHorse* this, Vec3f* pos) {
     Vec3f sp24;
     f32 sp20;
     f32 eyeDist;

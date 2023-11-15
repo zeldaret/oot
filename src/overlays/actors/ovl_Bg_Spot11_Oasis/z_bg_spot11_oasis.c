@@ -21,15 +21,15 @@ void func_808B2AA8(BgSpot11Oasis* this);
 void func_808B2AB8(BgSpot11Oasis* this, PlayState* play);
 
 ActorInit Bg_Spot11_Oasis_InitVars = {
-    ACTOR_BG_SPOT11_OASIS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT11_OBJ,
-    sizeof(BgSpot11Oasis),
-    (ActorFunc)BgSpot11Oasis_Init,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)BgSpot11Oasis_Update,
-    NULL,
+    /**/ ACTOR_BG_SPOT11_OASIS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT11_OBJ,
+    /**/ sizeof(BgSpot11Oasis),
+    /**/ BgSpot11Oasis_Init,
+    /**/ Actor_Noop,
+    /**/ BgSpot11Oasis_Update,
+    /**/ NULL,
 };
 
 static s16 D_808B2E10[][2] = {

@@ -62,15 +62,15 @@ static Color_RGBA8 D_80ADD700[4] = {
 };
 
 ActorInit En_Po_Sisters_InitVars = {
-    ACTOR_EN_PO_SISTERS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_PO_SISTERS,
-    sizeof(EnPoSisters),
-    (ActorFunc)EnPoSisters_Init,
-    (ActorFunc)EnPoSisters_Destroy,
-    (ActorFunc)EnPoSisters_Update,
-    (ActorFunc)EnPoSisters_Draw,
+    /**/ ACTOR_EN_PO_SISTERS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_SISTERS,
+    /**/ sizeof(EnPoSisters),
+    /**/ EnPoSisters_Init,
+    /**/ EnPoSisters_Destroy,
+    /**/ EnPoSisters_Update,
+    /**/ EnPoSisters_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -1275,9 +1275,9 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
     if (limbIndex == 1 && (this->unk_199 & 0x40)) {
         if (this->unk_19A >= 284) {
-            rot->x += (this->unk_19A * 0x1000) + 0xFFEE4000;
+            rot->x += (this->unk_19A * 0x1000) - 0x11C000;
         } else {
-            rot->x += (this->unk_19A * 0x1000) + 0xFFFF1000;
+            rot->x += (this->unk_19A * 0x1000) - 0xF000;
         }
     }
     if (this->unk_22E.a == 0 || limbIndex == 8 || (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8)) {

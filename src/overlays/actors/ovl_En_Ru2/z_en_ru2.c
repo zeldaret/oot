@@ -79,15 +79,15 @@ static EnRu2DrawFunc sDrawFuncs[] = {
 };
 
 ActorInit En_Ru2_InitVars = {
-    ACTOR_EN_RU2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_RU2,
-    sizeof(EnRu2),
-    (ActorFunc)EnRu2_Init,
-    (ActorFunc)EnRu2_Destroy,
-    (ActorFunc)EnRu2_Update,
-    (ActorFunc)EnRu2_Draw,
+    /**/ ACTOR_EN_RU2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_RU2,
+    /**/ sizeof(EnRu2),
+    /**/ EnRu2_Init,
+    /**/ EnRu2_Destroy,
+    /**/ EnRu2_Update,
+    /**/ EnRu2_Draw,
 };
 
 void func_80AF2550(Actor* thisx, PlayState* play) {

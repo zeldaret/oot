@@ -38,15 +38,15 @@ void func_80968FB0(Actor* thisx, PlayState* play);
 void func_809691BC(Demo6K* this, PlayState* play, s32 cueChannel);
 
 ActorInit Demo_6K_InitVars = {
-    ACTOR_DEMO_6K,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(Demo6K),
-    (ActorFunc)Demo6K_Init,
-    (ActorFunc)Demo6K_Destroy,
-    (ActorFunc)Demo6K_Update,
-    NULL,
+    /**/ ACTOR_DEMO_6K,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(Demo6K),
+    /**/ Demo6K_Init,
+    /**/ Demo6K_Destroy,
+    /**/ Demo6K_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = {

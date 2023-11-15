@@ -46,15 +46,15 @@ void EnFz_UpdateIceSmoke(EnFz* this, PlayState* play);
 void EnFz_DrawEffects(EnFz* this, PlayState* play);
 
 ActorInit En_Fz_InitVars = {
-    ACTOR_EN_FZ,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FZ,
-    sizeof(EnFz),
-    (ActorFunc)EnFz_Init,
-    (ActorFunc)EnFz_Destroy,
-    (ActorFunc)EnFz_Update,
-    (ActorFunc)EnFz_Draw,
+    /**/ ACTOR_EN_FZ,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FZ,
+    /**/ sizeof(EnFz),
+    /**/ EnFz_Init,
+    /**/ EnFz_Destroy,
+    /**/ EnFz_Update,
+    /**/ EnFz_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit1 = {

@@ -17,15 +17,15 @@ void BgSpot01Fusya_Draw(Actor* thisx, PlayState* play);
 void func_808AAA50(BgSpot01Fusya* this, PlayState* play);
 
 ActorInit Bg_Spot01_Fusya_InitVars = {
-    ACTOR_BG_SPOT01_FUSYA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT01_OBJECTS,
-    sizeof(BgSpot01Fusya),
-    (ActorFunc)BgSpot01Fusya_Init,
-    (ActorFunc)BgSpot01Fusya_Destroy,
-    (ActorFunc)BgSpot01Fusya_Update,
-    (ActorFunc)BgSpot01Fusya_Draw,
+    /**/ ACTOR_BG_SPOT01_FUSYA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_OBJECTS,
+    /**/ sizeof(BgSpot01Fusya),
+    /**/ BgSpot01Fusya_Init,
+    /**/ BgSpot01Fusya_Destroy,
+    /**/ BgSpot01Fusya_Update,
+    /**/ BgSpot01Fusya_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

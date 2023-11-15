@@ -92,15 +92,15 @@ static DemoImDrawFunc sDrawFuncs[] = {
 };
 
 ActorInit Demo_Im_InitVars = {
-    ACTOR_DEMO_IM,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_IM,
-    sizeof(DemoIm),
-    (ActorFunc)DemoIm_Init,
-    (ActorFunc)DemoIm_Destroy,
-    (ActorFunc)DemoIm_Update,
-    (ActorFunc)DemoIm_Draw,
+    /**/ ACTOR_DEMO_IM,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_IM,
+    /**/ sizeof(DemoIm),
+    /**/ DemoIm_Init,
+    /**/ DemoIm_Destroy,
+    /**/ DemoIm_Update,
+    /**/ DemoIm_Draw,
 };
 
 void func_80984BE0(DemoIm* this) {
@@ -869,7 +869,7 @@ void func_80986B2C(PlayState* play) {
         play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
         play->transitionTrigger = TRANS_TRIGGER_START;
-        func_8002DF54(play, &player->actor, PLAYER_CSACTION_8);
+        Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
     }
 }
 

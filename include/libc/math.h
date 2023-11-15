@@ -5,24 +5,37 @@
 
 #define M_PI 3.14159265358979323846f
 #define M_SQRT2 1.41421356237309504880f
-#define FLT_MAX 340282346638528859811704183484516925440.0f
+#define MAXFLOAT 3.40282347e+38f
 #define SHT_MAX 32767.0f
 #define SHT_MINV (1.0f / SHT_MAX)
 
-typedef union {
-    struct {
-        u32 hi;
-        u32 lo;
-    } word;
+float floorf(float);
+double floor(double);
+long lfloorf(float);
+long lfloor(double);
 
-    f64 d;
-} du;
+float ceilf(float);
+double ceil(double);
+long lceilf(float);
+long lceil(double);
 
-typedef union {
-    u32 i;
-    f32 f;
-} fu;
+float truncf(float);
+double trunc(double);
+long ltruncf(float);
+long ltrunc(double);
 
-extern f32 __libm_qnan_f;
+float nearbyintf(float);
+double nearbyint(double);
+long lnearbyintf(float);
+long lnearbyint(double);
+
+float roundf(float);
+double round(double);
+long lroundf(float);
+long lround(double);
+
+extern float qNaN0x3FFFFF;
+extern float qNaN0x10000;
+extern float sNaN0x3FFFFF;
 
 #endif

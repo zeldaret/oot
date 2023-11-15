@@ -17,15 +17,15 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
 ActorInit Bg_Sst_Floor_InitVars = {
-    ACTOR_BG_SST_FLOOR,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SST,
-    sizeof(BgSstFloor),
-    (ActorFunc)BgSstFloor_Init,
-    (ActorFunc)BgSstFloor_Destroy,
-    (ActorFunc)BgSstFloor_Update,
-    (ActorFunc)BgSstFloor_Draw,
+    /**/ ACTOR_BG_SST_FLOOR,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SST,
+    /**/ sizeof(BgSstFloor),
+    /**/ BgSstFloor_Init,
+    /**/ BgSstFloor_Destroy,
+    /**/ BgSstFloor_Update,
+    /**/ BgSstFloor_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

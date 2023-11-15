@@ -45,15 +45,15 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play);
 void EnFhgFire_PhantomWarp(EnFhgFire* this, PlayState* play);
 
 ActorInit En_Fhg_Fire_InitVars = {
-    0,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_FHG,
-    sizeof(EnFhgFire),
-    (ActorFunc)EnFhgFire_Init,
-    (ActorFunc)EnFhgFire_Destroy,
-    (ActorFunc)EnFhgFire_Update,
-    (ActorFunc)EnFhgFire_Draw,
+    /**/ 0,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_FHG,
+    /**/ sizeof(EnFhgFire),
+    /**/ EnFhgFire_Init,
+    /**/ EnFhgFire_Destroy,
+    /**/ EnFhgFire_Update,
+    /**/ EnFhgFire_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

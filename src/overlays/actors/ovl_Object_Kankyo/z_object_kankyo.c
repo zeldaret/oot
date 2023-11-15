@@ -44,15 +44,15 @@ static void* D_80BA5900[] = {
 };
 
 ActorInit Object_Kankyo_InitVars = {
-    ACTOR_OBJECT_KANKYO,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjectKankyo),
-    (ActorFunc)ObjectKankyo_Init,
-    (ActorFunc)ObjectKankyo_Destroy,
-    (ActorFunc)ObjectKankyo_Update,
-    (ActorFunc)ObjectKankyo_Draw,
+    /**/ ACTOR_OBJECT_KANKYO,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjectKankyo),
+    /**/ ObjectKankyo_Init,
+    /**/ ObjectKankyo_Destroy,
+    /**/ ObjectKankyo_Update,
+    /**/ ObjectKankyo_Draw,
 };
 
 static u8 sIsSpawned = false;

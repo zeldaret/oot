@@ -21,7 +21,7 @@ void SetCsCamera::ParseRawData()
 	cameras.reserve(numCameras);
 	for (int32_t i = 0; i < numCameras; i++)
 	{
-		CsCameraEntry entry(parent->GetRawData(), currentPtr);
+		ActorCsCamInfo entry(parent->GetRawData(), currentPtr);
 		numPoints += entry.GetNumPoints();
 
 		currentPtr += entry.GetRawDataSize();
@@ -105,7 +105,7 @@ void SetCsCamera::DeclareReferences(const std::string& prefix)
 std::string SetCsCamera::GetBodySourceCode() const
 {
 	std::string listName;
-	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "CsCameraEntry", listName);
+	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "ActorCsCamInfo", listName);
 	return StringHelper::Sprintf("SCENE_CMD_ACTOR_CUTSCENE_CAM_LIST(%i, %s)", cameras.size(),
 	                             listName.c_str());
 }
@@ -120,7 +120,7 @@ RoomCommand SetCsCamera::GetRoomCommand() const
 	return RoomCommand::SetCsCamera;
 }
 
-CsCameraEntry::CsCameraEntry(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
+ActorCsCamInfo::ActorCsCamInfo(const std::vector<uint8_t>& rawData, uint32_t rawDataIndex)
 	: baseOffset(rawDataIndex), type(BitConverter::ToInt16BE(rawData, rawDataIndex + 0)),
 	  numPoints(BitConverter::ToInt16BE(rawData, rawDataIndex + 2))
 {
@@ -128,27 +128,27 @@ CsCameraEntry::CsCameraEntry(const std::vector<uint8_t>& rawData, uint32_t rawDa
 	segmentOffset = GETSEGOFFSET(camAddress);
 }
 
-std::string CsCameraEntry::GetSourceTypeName() const
+std::string ActorCsCamInfo::GetSourceTypeName() const
 {
-	return "CsCameraEntry";
+	return "ActorCsCamInfo";
 }
 
-int32_t CsCameraEntry::GetRawDataSize() const
+int32_t ActorCsCamInfo::GetRawDataSize() const
 {
 	return 8;
 }
 
-int16_t CsCameraEntry::GetNumPoints() const
+int16_t ActorCsCamInfo::GetNumPoints() const
 {
 	return numPoints;
 }
 
-segptr_t CsCameraEntry::GetCamAddress() const
+segptr_t ActorCsCamInfo::GetCamAddress() const
 {
 	return camAddress;
 }
 
-uint32_t CsCameraEntry::GetSegmentOffset() const
+uint32_t ActorCsCamInfo::GetSegmentOffset() const
 {
 	return segmentOffset;
 }
