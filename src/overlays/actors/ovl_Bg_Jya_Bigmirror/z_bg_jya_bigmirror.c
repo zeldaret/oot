@@ -84,7 +84,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                     curSpawnData->pos.z, 0, curCobraInfo->rotY, 0, curSpawnData->params);
                 this->actor.child = NULL;
 
-                if (&curCobraInfo->cobra->dyna.actor == NULL) {
+                if (curCobraInfo->cobra == NULL) {
                     // "Cobra generation failed"
                     osSyncPrintf("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
                 }

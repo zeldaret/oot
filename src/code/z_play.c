@@ -1447,6 +1447,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     SceneTableEntry* scene = &gSceneTable[sceneId];
+    u32 size;
 
     scene->unk_13 = 0;
     this->loadedScene = scene;
@@ -1463,7 +1464,9 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
 
     Play_InitScene(this, spawn);
 
-    osSyncPrintf("ROOM SIZE=%fK\n", func_80096FE8(this, &this->roomCtx) / 1024.0f);
+    size = func_80096FE8(this, &this->roomCtx);
+
+    osSyncPrintf("ROOM SIZE=%fK\n", size / 1024.0f);
 }
 
 void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest) {

@@ -7,24 +7,24 @@
 static char ldigs[] = "0123456789abcdef";
 static char udigs[] = "0123456789ABCDEF";
 
-void _Litob(_Pft* args, char type) {
+void _Litob(_Pft* args, char code) {
     char buff[BUFF_LEN];
     const char* digs;
     int base;
     int i;
     unsigned long long num;
 
-    if (type == 'X') {
+    if (code == 'X') {
         digs = udigs;
     } else {
         digs = ldigs;
     }
 
-    base = (type == 'o') ? 8 : ((type != 'x' && type != 'X') ? 10 : 16);
+    base = (code == 'o') ? 8 : ((code != 'x' && code != 'X') ? 10 : 16);
     i = BUFF_LEN;
     num = args->v.ll;
 
-    if ((type == 'd' || type == 'i') && args->v.ll < 0) {
+    if ((code == 'd' || code == 'i') && args->v.ll < 0) {
         num = -num;
     }
 
