@@ -10,8 +10,8 @@
         <Limb Name="gBrobRootLimb" LimbType="Standard" Offset="0x1548"/>
         <Limb Name="gBrobBaseSegmentRootLimb" LimbType="Standard" Offset="0x1554"/>
         <Limb Name="gBrobBaseSegmentLimb" LimbType="Standard" Offset="0x1560"/>
-        <Limb Name="gBrobLowerSegmentLimb" LimbType="Standard" Offset="0x156C"/>
-        <Limb Name="gBrobLowerSegmentRootLimb" LimbType="Standard" Offset="0x1578"/>
+        <Limb Name="gBrobLowerSegmentRootLimb" LimbType="Standard" Offset="0x156C"/>
+        <Limb Name="gBrobLowerSegmentLimb" LimbType="Standard" Offset="0x1578"/>
         <Limb Name="gBrobMiddleSegmentLimb" LimbType="Standard" Offset="0x1584"/>
         <Limb Name="gBrobUpperSegmentRootLimb" LimbType="Standard" Offset="0x1590"/>
         <Limb Name="gBrobUpperSegmentLimb" LimbType="Standard" Offset="0x159C"/>
