@@ -1550,7 +1550,11 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
 }
 
 /**
- * Provides a one-time notification to the actor that player has started talking to this specific actor.
+ * When a given talk offer is accepted, Player will set `ACTOR_FLAG_TALK` for that actor.
+ * This function serves to acknowledge that the offer was accepted by Player, and notifies the actor
+ * that it should proceed with its own internal processes for handling dialogue.
+ *
+ * @return  true if the talk offer was accepted, false otherwise
  */
 s32 Actor_TalkOfferAccepted(Actor* actor, PlayState* play) {
     if (actor->flags & ACTOR_FLAG_TALK) {
