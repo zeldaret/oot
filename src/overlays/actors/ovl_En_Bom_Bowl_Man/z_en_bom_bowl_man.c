@@ -18,20 +18,20 @@ void EnBomBowlMan_Destroy(Actor* thisx, PlayState* play);
 void EnBomBowlMan_Update(Actor* thisx, PlayState* play);
 void EnBomBowlMan_Draw(Actor* thisx, PlayState* play);
 
-void EnBomBowMan_SetupWaitAsleep(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_WakeUp(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_TalkNotBeatenDC(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_SetupRunGame(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_RunGame(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_SetupWaitAsleep(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_WaitAsleep(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_TalkAsleep(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_WakeUp(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_BlinkAwake(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_CheckBeatenDC(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_WaitNotBeatenDC(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_TalkNotBeatenDC(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_SetupRunGame(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_RunGame(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, PlayState* play);
 void func_809C41FC(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play);
-void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play);
+void EnBomBowlMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play);
 void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play);
 
 ActorInit En_Bom_Bowl_Man_InitVars = {
@@ -79,27 +79,27 @@ void EnBomBowlMan_Init(Actor* thisx, PlayState* play2) {
 
     this->prizeSelect = (s16)Rand_ZeroFloat(4.99f);
     this->actor.targetMode = 1;
-    this->actionFunc = EnBomBowMan_SetupWaitAsleep;
+    this->actionFunc = EnBomBowlMan_SetupWaitAsleep;
 }
 
 void EnBomBowlMan_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EnBomBowMan_SetupWaitAsleep(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_SetupWaitAsleep(EnBomBowlMan* this, PlayState* play) {
     this->frameCount = (f32)Animation_GetLastFrame(&gChuGirlNoddingOffAnim);
     Animation_Change(&this->skelAnime, &gChuGirlNoddingOffAnim, 1.0f, 0.0f, this->frameCount, ANIMMODE_LOOP, -10.0f);
     this->actor.textId = 0xC0;
     this->dialogState = TEXT_STATE_EVENT;
-    this->actionFunc = EnBomBowMan_WaitAsleep;
+    this->actionFunc = EnBomBowlMan_WaitAsleep;
 }
 
-void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_WaitAsleep(EnBomBowlMan* this, PlayState* play) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
 
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        this->actionFunc = EnBomBowMan_TalkAsleep;
+        this->actionFunc = EnBomBowlMan_TalkAsleep;
     } else {
         yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
@@ -109,23 +109,23 @@ void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, PlayState* play) {
     }
 }
 
-void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_TalkAsleep(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((Message_GetState(&play->msgCtx) == this->dialogState) && Message_ShouldAdvance(play)) {
         play->msgCtx.msgMode = MSGMODE_PAUSED;
-        this->actionFunc = EnBomBowMan_WakeUp;
+        this->actionFunc = EnBomBowlMan_WakeUp;
     }
 }
 
-void EnBomBowMan_WakeUp(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_WakeUp(EnBomBowlMan* this, PlayState* play) {
     this->frameCount = (f32)Animation_GetLastFrame(&gChuGirlWakeUpAnim);
     Animation_Change(&this->skelAnime, &gChuGirlWakeUpAnim, 1.0f, 0.0f, this->frameCount, ANIMMODE_ONCE, -10.0f);
     this->eyeMode = CHU_GIRL_EYES_OPEN_SLOWLY;
-    this->actionFunc = EnBomBowMan_BlinkAwake;
+    this->actionFunc = EnBomBowlMan_BlinkAwake;
 }
 
-void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_BlinkAwake(EnBomBowlMan* this, PlayState* play) {
     f32 frameCount = this->skelAnime.curFrame;
 
     SkelAnime_Update(&this->skelAnime);
@@ -146,12 +146,12 @@ void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, PlayState* play) {
         this->eyeTextureIndex = 2;
         this->blinkCount++;
         if (this->blinkCount >= 3) {
-            this->actionFunc = EnBomBowMan_CheckBeatenDC;
+            this->actionFunc = EnBomBowlMan_CheckBeatenDC;
         }
     }
 }
 
-void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_CheckBeatenDC(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((Message_GetState(&play->msgCtx) == this->dialogState) && Message_ShouldAdvance(play)) {
@@ -164,7 +164,7 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, PlayState* play) {
 
         // Check for beaten Dodongo's Cavern
         if (!(GET_EVENTCHKINF(EVENTCHKINF_25) || BREG(2))) {
-            this->actionFunc = EnBomBowMan_WaitNotBeatenDC;
+            this->actionFunc = EnBomBowlMan_WaitNotBeatenDC;
         } else {
             this->actor.textId = 0x18;
             this->dialogState = TEXT_STATE_CHOICE;
@@ -174,26 +174,26 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, PlayState* play) {
     }
 }
 
-void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_WaitNotBeatenDC(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        this->actionFunc = EnBomBowMan_TalkNotBeatenDC;
+        this->actionFunc = EnBomBowlMan_TalkNotBeatenDC;
     } else {
         func_8002F2CC(&this->actor, play, 120.0f);
     }
 }
 
-void EnBomBowMan_TalkNotBeatenDC(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_TalkNotBeatenDC(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if ((Message_GetState(&play->msgCtx) == this->dialogState) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        this->actionFunc = EnBomBowMan_WaitNotBeatenDC;
+        this->actionFunc = EnBomBowlMan_WaitNotBeatenDC;
     }
 }
 
-void EnBomBowMan_SetupRunGame(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_SetupRunGame(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->minigamePlayStatus == 0) {
@@ -209,10 +209,10 @@ void EnBomBowMan_SetupRunGame(EnBomBowlMan* this, PlayState* play) {
         this->dialogState = TEXT_STATE_EVENT;
     }
 
-    this->actionFunc = EnBomBowMan_RunGame;
+    this->actionFunc = EnBomBowlMan_RunGame;
 }
 
-void EnBomBowMan_RunGame(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_RunGame(EnBomBowlMan* this, PlayState* play) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
@@ -307,7 +307,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, PlayState* play) {
                         this->dialogState = TEXT_STATE_EVENT;
                         OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
                         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-                        this->actionFunc = EnBomBowMan_SetupChooseShowPrize;
+                        this->actionFunc = EnBomBowlMan_SetupChooseShowPrize;
                     }
                 } else {
                     this->playingAgain = false;
@@ -343,17 +343,17 @@ void func_809C41FC(EnBomBowlMan* this, PlayState* play) {
             this->dialogState = TEXT_STATE_EVENT;
             OnePointCutscene_Init(play, 8010, -99, NULL, CAM_ID_MAIN);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-            this->actionFunc = EnBomBowMan_SetupChooseShowPrize;
+            this->actionFunc = EnBomBowlMan_SetupChooseShowPrize;
         } else {
             if (this->gameResult == 2) {
                 Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
             }
-            this->actionFunc = EnBomBowMan_SetupRunGame;
+            this->actionFunc = EnBomBowlMan_SetupRunGame;
         }
     }
 }
 
-void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
     Vec3f accel = { 0.0f, 0.1f, 0.0f };
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
@@ -367,7 +367,7 @@ void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
         EffectSsBomb2_SpawnLayered(play, &pos, &velocity, &accel, 50, 15);
         Actor_PlaySfx(&this->actor, NA_SE_IT_GOODS_APPEAR);
         this->prizeRevealTimer = 10;
-        this->actionFunc = EnBomBowMan_ChooseShowPrize;
+        this->actionFunc = EnBomBowlMan_ChooseShowPrize;
     }
 }
 
@@ -377,7 +377,7 @@ static Vec3f sPrizePosOffset[] = {
 
 static s16 sPrizeRot[] = { 0x4268, 0x4268, -0x03E8, 0x0000, 0x4268, 0x0000 };
 
-void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
+void EnBomBowlMan_ChooseShowPrize(EnBomBowlMan* this, PlayState* play) {
     s16 prizeTemp;
     s32 pad;
 
@@ -459,7 +459,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play) {
         // "Wow"
         osSyncPrintf(VT_FGCOL(YELLOW) "☆ わー ☆ %d\n" VT_RST, play->bombchuBowlingStatus);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
-        this->actionFunc = EnBomBowMan_SetupRunGame;
+        this->actionFunc = EnBomBowlMan_SetupRunGame;
     }
 }
 
