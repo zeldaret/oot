@@ -395,7 +395,7 @@ PosRot* Actor_GetFocus(PosRot* dest, Actor* actor);
 PosRot* Actor_GetWorld(PosRot* dest, Actor* actor);
 PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor);
 s32 func_8002F0C8(Actor* actor, Player* player, s32 flag);
-u32 Actor_AcceptTalkRequest(Actor* actor, PlayState* play);
+s32 Actor_AcknowledgeTalking(Actor* actor, PlayState* play);
 s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId);
 s32 Actor_OfferTalkExchangeEquiCylinder(Actor* actor, PlayState* play, f32 radius, u32 exchangeItemId);
 s32 Actor_OfferTalk(Actor* actor, PlayState* play, f32 radius);

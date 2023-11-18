@@ -287,7 +287,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
     s16 posY;
 
     if (this->messageState == 3) {
-        Actor_AcceptTalkRequest(&this->actor, play);
+        Actor_AcknowledgeTalking(&this->actor, play);
         Message_ContinueTextbox(play, this->actor.textId);
         this->messageState = 1;
     }
@@ -317,7 +317,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
     }
 
     if (this->messageState == 0) {
-        if (Actor_AcceptTalkRequest(&this->actor, play)) {
+        if (Actor_AcknowledgeTalking(&this->actor, play)) {
             this->exchangeItemId = func_8002F368(play);
             if (this->exchangeItemId != EXCH_ITEM_NONE) {
                 player->actor.textId = EnToryo_ReactToExchangeItem(this, play);

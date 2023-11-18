@@ -1287,7 +1287,7 @@ void EnSkj_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     EnSkj* this = (EnSkj*)thisx;
 
-    D_80B01EA0 = Actor_AcceptTalkRequest(&this->actor, play);
+    D_80B01EA0 = Actor_AcknowledgeTalking(&this->actor, play);
 
     this->timer++;
 
@@ -1344,7 +1344,7 @@ void EnSkj_Update(Actor* thisx, PlayState* play) {
 void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, PlayState* play) {
     EnSkj* this = (EnSkj*)thisx;
 
-    D_80B01EA0 = Actor_AcceptTalkRequest(&this->actor, play);
+    D_80B01EA0 = Actor_AcknowledgeTalking(&this->actor, play);
 
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
@@ -1581,7 +1581,7 @@ void EnSkj_CleanupOcarinaGame(EnSkj* this, PlayState* play) {
 void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, PlayState* play) {
     EnSkj* this = (EnSkj*)thisx;
 
-    D_80B01EA0 = Actor_AcceptTalkRequest(&this->actor, play);
+    D_80B01EA0 = Actor_AcknowledgeTalking(&this->actor, play);
     this->timer++;
 
     this->actor.focus.pos.x = 1230.0f;

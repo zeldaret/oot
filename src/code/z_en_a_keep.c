@@ -204,7 +204,7 @@ void EnAObj_WaitTalk(EnAObj* this, PlayState* play) {
         relYawTowardsPlayer = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
         if (ABS(relYawTowardsPlayer) < 0x2800 ||
             (this->dyna.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
-            if (Actor_AcceptTalkRequest(&this->dyna.actor, play)) {
+            if (Actor_AcknowledgeTalking(&this->dyna.actor, play)) {
                 EnAObj_SetupAction(this, EnAObj_WaitFinishedTalking);
             } else {
                 Actor_OfferTalkNearColChkInfoCylinder(&this->dyna.actor, play);

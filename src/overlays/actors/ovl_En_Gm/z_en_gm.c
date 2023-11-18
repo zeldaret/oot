@@ -174,7 +174,7 @@ void func_80A3DB04(EnGm* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->actor.params)) {
         EnGm_SetTextID(this);
         this->actionFunc = func_80A3DC44;
-    } else if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    } else if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->actionFunc = func_80A3DBF4;
     } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
@@ -199,7 +199,7 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
     dx = this->talkPos.x - player->actor.world.pos.x;
     dz = this->talkPos.z - player->actor.world.pos.z;
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         switch (func_80A3D7C8()) {
             case 0:
                 SET_INFTABLE(INFTABLE_B0);

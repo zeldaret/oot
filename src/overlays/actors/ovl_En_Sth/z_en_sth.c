@@ -221,7 +221,7 @@ void EnSth_RewardObtainedTalk(EnSth* this, PlayState* play) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
@@ -274,7 +274,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, PlayState* play) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -290,7 +290,7 @@ void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play) {
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.save.info.inventory.gsTokens < 50) {

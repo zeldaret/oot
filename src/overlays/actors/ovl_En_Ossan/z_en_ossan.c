@@ -649,7 +649,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     // "End of conversation!"
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d]:★★★ 会話終了！！ ★★★" VT_RST "\n", "../z_en_oB1.c", 1337);
     YREG(31) = 0;
-    Actor_AcceptTalkRequest(&this->actor, play);
+    Actor_AcknowledgeTalking(&this->actor, play);
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
@@ -733,7 +733,7 @@ void EnOssan_SetLookToShopkeeperFromShelf(PlayState* play, EnOssan* this) {
 void EnOssan_State_Idle(EnOssan* this, PlayState* play, Player* player) {
     this->headTargetRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         // "Start conversation!!"
         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 会話開始！！ ★★★" VT_RST "\n");
         player->stateFlags2 |= PLAYER_STATE2_29;

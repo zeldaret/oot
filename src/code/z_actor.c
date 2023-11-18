@@ -1549,7 +1549,10 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     return false;
 }
 
-u32 Actor_AcceptTalkRequest(Actor* actor, PlayState* play) {
+/**
+ * Provides a one-time notification to the actor that player has started talking to this specific actor.
+ */
+s32 Actor_AcknowledgeTalking(Actor* actor, PlayState* play) {
     if (actor->flags & ACTOR_FLAG_TALK) {
         actor->flags &= ~ACTOR_FLAG_TALK;
         return true;
@@ -3796,7 +3799,7 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
     s16 x;
     s16 y;
 
-    if (Actor_AcceptTalkRequest(actor, play)) {
+    if (Actor_AcknowledgeTalking(actor, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
     }
@@ -5694,7 +5697,7 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     s16 sp2A;
     s16 abs_var;
 
-    if (Actor_AcceptTalkRequest(actor, play)) {
+    if (Actor_AcknowledgeTalking(actor, play)) {
         *arg3 = 1;
         return true;
     }

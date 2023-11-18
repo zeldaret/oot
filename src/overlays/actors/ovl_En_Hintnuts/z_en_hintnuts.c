@@ -371,7 +371,7 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         EnHintnuts_SetupTalk(this);
     } else if (this->animFlagAndTimer == 0 && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {

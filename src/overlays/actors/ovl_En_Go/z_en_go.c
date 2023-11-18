@@ -338,7 +338,7 @@ s32 EnGo_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     if (*talkState != NPC_TALK_STATE_IDLE) {
         *talkState = updateTalkState(play, thisx);
         return false;
-    } else if (Actor_AcceptTalkRequest(thisx, play)) {
+    } else if (Actor_AcknowledgeTalking(thisx, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
     } else if (!Actor_OfferTalk(thisx, play, interactRange)) {

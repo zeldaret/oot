@@ -260,7 +260,7 @@ void EnDaiku_UpdateText(EnDaiku* this, PlayState* play) {
 
     if (this->talkState == ENDAIKU_STATE_TALKING) {
         this->talkState = EnDaiku_UpdateTalking(this, play);
-    } else if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    } else if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->talkState = ENDAIKU_STATE_TALKING;
     } else {
         Actor_GetScreenPos(play, &this->actor, &sp2E, &sp2C);

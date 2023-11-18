@@ -117,7 +117,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_0;
             this->unk_15A = true;
         }
-    } else if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    } else if (Actor_AcknowledgeTalking(&this->actor, play)) {
         if ((this->switchFlag >= 0) && (this->talkMode != 2)) {
             Flags_SetSwitch(play, this->switchFlag);
             // "I saved it! All of it!"

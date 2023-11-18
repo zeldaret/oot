@@ -155,7 +155,7 @@ void EnGe3_GiveCard(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->actionFunc = EnGe3_GiveCard;
     } else {
         if (!(this->unk_30C & 4)) {
@@ -203,7 +203,7 @@ void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play) {
     EnGe3_UpdateCollision(this, play);
     this->actionFunc(this, play);
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->actionFunc = EnGe3_Wait;
         this->actor.update = EnGe3_Update;
     } else {

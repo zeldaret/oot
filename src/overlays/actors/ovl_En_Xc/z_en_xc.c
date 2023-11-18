@@ -2170,7 +2170,7 @@ void EnXc_InitTempleOfTime(EnXc* this, PlayState* play) {
 }
 
 void EnXc_SetupDialogueAction(EnXc* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->action = SHEIK_ACTION_IN_DIALOGUE;
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;

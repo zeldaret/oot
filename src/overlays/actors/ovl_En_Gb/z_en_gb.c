@@ -279,7 +279,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
             return;
         }
     }
-    if (Actor_AcceptTalkRequest(&this->dyna.actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->dyna.actor, play)) {
         switch (func_8002F368(play)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
@@ -366,7 +366,7 @@ void func_80A2FBB0(EnGb* this, PlayState* play) {
 
 void func_80A2FC0C(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        Actor_AcceptTalkRequest(&this->dyna.actor, play);
+        Actor_AcknowledgeTalking(&this->dyna.actor, play);
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
     }

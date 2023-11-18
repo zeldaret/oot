@@ -107,7 +107,7 @@ void func_80AACB14(EnMk* this, PlayState* play) {
 }
 
 void func_80AACB6C(EnMk* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->actionFunc = func_80AACB14;
     }
 
@@ -215,7 +215,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 playerExchangeItem;
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         playerExchangeItem = func_8002F368(play);
 
         if (this->actor.textId != 0x4018) {

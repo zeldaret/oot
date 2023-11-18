@@ -201,7 +201,7 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     f32 xzDistToPlayer;
     f32 yaw;
 
-    if (Actor_AcceptTalkRequest(thisx, play)) {
+    if (Actor_AcknowledgeTalking(thisx, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
     }

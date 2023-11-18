@@ -466,7 +466,7 @@ void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
 
 void EnGe2_ForceTalk(EnGe2* this, PlayState* play) {
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->actionFunc = EnGe2_GiveCard;
     } else {
         this->actor.textId = 0x6004;
@@ -519,7 +519,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play) {
     EnGe2_MaintainColliderAndSetAnimState(this, play);
     this->actionFunc(this, play);
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         if ((this->actor.params & 0xFF) == GE2_TYPE_PATROLLING) {
             this->actor.speed = 0.0f;
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);

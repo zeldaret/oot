@@ -103,7 +103,7 @@ void EnFu_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80A1D94C(EnFu* this, PlayState* play, u16 textID, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->actionFunc = actionFunc;
         return true;
     }
@@ -222,7 +222,7 @@ void EnFu_WaitAdult(EnFu* this, PlayState* play) {
         Message_StartTextbox(play, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
-    } else if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    } else if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
         if (this->actor.xzDistToPlayer < 100.0f) {

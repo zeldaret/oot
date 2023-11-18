@@ -1394,7 +1394,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         thisx->flags |= ACTOR_FLAG_16;
     }
 
-    if (Actor_AcceptTalkRequest(thisx, play)) {
+    if (Actor_AcknowledgeTalking(thisx, play)) {
         func_800F4524(&gSfxDefaultPos, NA_SE_VO_SK_LAUGH, 0x20);
         thisx->focus.pos = thisx->world.pos;
 

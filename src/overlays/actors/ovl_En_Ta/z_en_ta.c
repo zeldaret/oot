@@ -287,7 +287,7 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 EnTa_RequestTalk(EnTa* this, PlayState* play, u16 textId) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         return true;
     }
 
@@ -369,7 +369,7 @@ void EnTa_SleepTalkInCastle(EnTa* this, PlayState* play) {
 void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         s32 exchangeItemId = func_8002F368(play);
 
         switch (exchangeItemId) {
@@ -393,7 +393,7 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
 }
 
 void EnTa_IdleAsleepInLonLonHouse(EnTa* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         EnTa_SetupAction(this, EnTa_SleepTalkInLonLonHouse, EnTa_AnimSleeping);
     }
 
@@ -404,7 +404,7 @@ void EnTa_IdleAsleepInLonLonHouse(EnTa* this, PlayState* play) {
 void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         s32 exchangeItemId = func_8002F368(play);
 
         switch (exchangeItemId) {
@@ -667,7 +667,7 @@ void EnTa_TalkFoundSuperCucco(EnTa* this, PlayState* play) {
 }
 
 void EnTa_IdleFoundSuperCucco(EnTa* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->actionFunc = EnTa_TalkFoundSuperCucco;
         // Unset auto-talking
         this->actor.flags &= ~ACTOR_FLAG_16;
@@ -1118,7 +1118,7 @@ void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
 }
 
 void EnTa_IdleAfterCuccoGameFinished(EnTa* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         switch (this->actor.textId) {
             case 0x2085: // Retry?
                 this->actionFunc = EnTa_WaitForPlayCuccoGameResponse;

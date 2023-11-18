@@ -80,7 +80,7 @@ void EnJs_Destroy(Actor* thisx, PlayState* play) {
 u8 func_80A88F64(EnJs* this, PlayState* play, u16 textId) {
     s16 yawDiff;
 
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         return 1;
     } else {
         this->actor.textId = textId;
@@ -108,7 +108,7 @@ void func_80A89078(EnJs* this, PlayState* play) {
 }
 
 void func_80A890C0(EnJs* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         En_Js_SetupAction(this, func_80A89078);
     } else {
         Actor_OfferTalk(&this->actor, play, 1000.0f);

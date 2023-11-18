@@ -180,7 +180,7 @@ void func_80A4E648(EnGs* this, PlayState* play) {
         this->unk_19C = 2;
     } else if (this->unk_19C == 2) {
         this->unk_19C = func_80A4E3EC(this, play);
-    } else if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    } else if (Actor_AcknowledgeTalking(&this->actor, play)) {
         this->unk_19C = 2;
     } else {
         Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);

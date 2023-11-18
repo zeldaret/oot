@@ -537,7 +537,7 @@ void ObjBean_SetupWaitForBean(ObjBean* this) {
 }
 
 void ObjBean_WaitForBean(ObjBean* this, PlayState* play) {
-    if (Actor_AcceptTalkRequest(&this->dyna.actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->dyna.actor, play)) {
         if (func_8002F368(play) == EXCH_ITEM_MAGIC_BEAN) {
             func_80B8FE00(this);
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);

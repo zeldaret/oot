@@ -138,7 +138,7 @@ void func_80B3943C(EnWonderTalk* this, PlayState* play) {
         return;
     }
     if (this->switchFlag < 0 || !Flags_GetSwitch(play, this->switchFlag)) {
-        if ((Actor_AcceptTalkRequest(&this->actor, play))) {
+        if ((Actor_AcknowledgeTalking(&this->actor, play))) {
             if (this->unk_156 != TEXT_STATE_DONE) {
                 this->actionFunc = func_80B395F0;
             } else {

@@ -170,7 +170,7 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play) {
         this->chasedEnNiw->path = 0;
     }
     Math_ApproachZeroF(&this->actor.speed, 0.8f, 0.2f);
-    if (Actor_AcceptTalkRequest(&this->actor, play)) {
+    if (Actor_AcknowledgeTalking(&this->actor, play)) {
         if (this->actor.textId == 0x70EA) {
             this->unk_27A = 1;
         }
