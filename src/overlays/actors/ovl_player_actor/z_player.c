@@ -1245,7 +1245,7 @@ static s8 sItemActions[] = {
 
 static s32 (*sItemActionUpdateFuncs[])(Player* this, PlayState* play) = {
     func_8083485C, // PLAYER_IA_NONE
-    func_8083485C, // PLAYER_IA_LAST_USED
+    func_8083485C, // PLAYER_IA_SWORD_CS
     func_8083485C, // PLAYER_IA_FISHING_POLE
     func_808349DC, // PLAYER_IA_SWORD_MASTER
     func_808349DC, // PLAYER_IA_SWORD_KOKIRI
@@ -1315,7 +1315,7 @@ static s32 (*sItemActionUpdateFuncs[])(Player* this, PlayState* play) = {
 
 static void (*sItemActionInitFuncs[])(PlayState* play, Player* this) = {
     func_80833770, // PLAYER_IA_NONE
-    func_80833770, // PLAYER_IA_LAST_USED
+    func_80833770, // PLAYER_IA_SWORD_CS
     func_80833770, // PLAYER_IA_FISHING_POLE
     func_80833770, // PLAYER_IA_SWORD_MASTER
     func_80833770, // PLAYER_IA_SWORD_KOKIRI
@@ -2167,8 +2167,8 @@ void Player_InitItemActionWithAnim(PlayState* play, Player* this, s8 itemAction)
 s8 Player_ItemToItemAction(s32 item) {
     if (item >= ITEM_NONE_FE) {
         return PLAYER_IA_NONE;
-    } else if (item == ITEM_LAST_USED) {
-        return PLAYER_IA_LAST_USED;
+    } else if (item == ITEM_SWORD_CS) {
+        return PLAYER_IA_SWORD_CS;
     } else if (item == ITEM_FISHING_POLE) {
         return PLAYER_IA_FISHING_POLE;
     } else {
@@ -3344,7 +3344,7 @@ void func_80836448(PlayState* play, Player* this, LinkAnimationHeader* anim) {
 int Player_CanUpdateItems(Player* this) {
     return (!(Player_Action_808458D0 == this->actionFunc) ||
             ((this->stateFlags1 & PLAYER_STATE1_START_CHANGING_HELD_ITEM) &&
-             ((this->heldItemId == ITEM_LAST_USED) || (this->heldItemId == ITEM_NONE)))) &&
+             ((this->heldItemId == ITEM_SWORD_CS) || (this->heldItemId == ITEM_NONE)))) &&
            (!(Player_UpperAction_ChangeHeldItem == this->upperActionFunc) ||
             (Player_ItemToItemAction(this->heldItemId) == this->heldItemAction));
 }
@@ -6789,10 +6789,10 @@ s32 Player_ActionChange_2(Player* this, PlayState* play) {
                     func_80836898(play, this, func_8083A0F4);
 
                     if (sp24 == PLAYER_IA_SWORD_MASTER) {
-                        this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_IA_LAST_USED);
-                        Player_InitItemAction(play, this, PLAYER_IA_LAST_USED);
+                        this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_IA_SWORD_CS);
+                        Player_InitItemAction(play, this, PLAYER_IA_SWORD_CS);
                     } else {
-                        Player_UseItem(play, this, ITEM_LAST_USED);
+                        Player_UseItem(play, this, ITEM_SWORD_CS);
                     }
                 } else {
                     s32 strength = Player_GetStrength();

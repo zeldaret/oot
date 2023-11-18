@@ -1275,9 +1275,9 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
     if (limbIndex == 1 && (this->unk_199 & 0x40)) {
         if (this->unk_19A >= 284) {
-            rot->x += (this->unk_19A * 0x1000) + 0xFFEE4000;
+            rot->x += (this->unk_19A * 0x1000) - 0x11C000;
         } else {
-            rot->x += (this->unk_19A * 0x1000) + 0xFFFF1000;
+            rot->x += (this->unk_19A * 0x1000) - 0xF000;
         }
     }
     if (this->unk_22E.a == 0 || limbIndex == 8 || (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8)) {
