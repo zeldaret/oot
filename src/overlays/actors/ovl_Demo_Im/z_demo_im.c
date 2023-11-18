@@ -853,7 +853,7 @@ s32 func_80986A5C(DemoIm* this, PlayState* play) {
 
 s32 func_80986AD0(DemoIm* this, PlayState* play) {
     this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-    if (!Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.textId = 0x708E;
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {

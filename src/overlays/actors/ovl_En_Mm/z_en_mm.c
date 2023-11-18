@@ -288,7 +288,7 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, play);
     } else {
-        if (Actor_AcknowledgeTalking(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {

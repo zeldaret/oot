@@ -73,7 +73,7 @@ void EnHs2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 func_80A6F0B4(EnHs2* this, PlayState* play, u16 textId, EnHs2ActionFunc actionFunc) {
-    if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         return 1;
     }

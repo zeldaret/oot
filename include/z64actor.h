@@ -149,7 +149,7 @@ typedef struct {
 #define ACTOR_FLAG_7 (1 << 7)
 // Signals that player has accepted an offer to talk to an actor, and has made a return request to the actor to start talking
 // Player will retain this flag until the player is finished talking
-// Actor will retain this flag until `Actor_AcknowledgeTalking` is called or manually accepted by the actor
+// Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually accepted by the actor
 #define ACTOR_FLAG_TALK (1 << 8)
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)

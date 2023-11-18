@@ -181,7 +181,7 @@ void EnGe1_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 EnGe1_SetTalkAction(EnGe1* this, PlayState* play, u16 textId, f32 arg3, EnGe1ActionFunc actionFunc) {
-    if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
@@ -545,7 +545,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, PlayState* play) {
-    if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
         this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
@@ -616,7 +616,7 @@ void EnGe1_TalkOfferPlay_Archery(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_TalkNoPrize_Archery(EnGe1* this, PlayState* play) {
-    if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe1_TalkOfferPlay_Archery;
     } else {
         Actor_OfferTalk(&this->actor, play, 300.0f);

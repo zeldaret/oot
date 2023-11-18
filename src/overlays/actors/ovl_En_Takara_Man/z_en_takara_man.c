@@ -86,7 +86,7 @@ void func_80B1778C(EnTakaraMan* this, PlayState* play) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Actor_AcknowledgeTalking(&this->actor, play) && this->dialogState != TEXT_STATE_DONE) {
+    if (Actor_TalkOfferAccepted(&this->actor, play) && this->dialogState != TEXT_STATE_DONE) {
         if (!this->unk_214) {
             this->actionFunc = func_80B17934;
         } else {

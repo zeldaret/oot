@@ -67,7 +67,7 @@ void EnDs_TalkNoEmptyBottle(EnDs* this, PlayState* play) {
 }
 
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, PlayState* play) {
-    if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnDs_Talk;
     } else {
         this->actor.flags |= ACTOR_FLAG_16;
@@ -205,7 +205,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 yawDiff;
 
-    if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (func_8002F368(play) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

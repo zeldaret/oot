@@ -246,7 +246,7 @@ void EnKanban_Message(EnKanban* this, PlayState* play) {
     if (!this->msgFlag) {
         if (this->msgTimer == 0) {
             if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2800) {
-                if (Actor_AcknowledgeTalking(&this->actor, play)) {
+                if (Actor_TalkOfferAccepted(&this->actor, play)) {
                     this->msgFlag = true;
                 } else {
                     Actor_OfferTalk(&this->actor, play, 68.0f);

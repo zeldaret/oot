@@ -235,7 +235,7 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
         this->talkState = 1;
     } else if (this->talkState == 1) {
         this->talkState = EnCs_GetTalkState(this, play);
-    } else if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
             EnCs_ChangeAnim(this, ENCS_ANIM_3, &this->currentAnimIndex);
         }

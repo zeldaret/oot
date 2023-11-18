@@ -146,7 +146,7 @@ void func_80B4AF18(EnZl1* this, PlayState* play) {
         if (Actor_TextboxIsClosing(&this->actor, play)) {
             this->unk_1E6 = 0;
         }
-    } else if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk_1E6 = 1;
     } else if (this->actor.world.pos.y <= player->actor.world.pos.y) {
         Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
@@ -166,7 +166,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
-    if (Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
         this->subCamId = Play_CreateSubCamera(play);
@@ -556,7 +556,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             if (player->actor.world.pos.y < this->actor.world.pos.y) {
                 break;
             } else {
-                if (Actor_AcknowledgeTalking(&this->actor, play)) {
+                if (Actor_TalkOfferAccepted(&this->actor, play)) {
                     this->unk_1E2++;
                 } else {
                     Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);

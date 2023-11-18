@@ -1493,7 +1493,7 @@ void func_80AEE050(EnRu1* this) {
 }
 
 s32 func_80AEE264(EnRu1* this, PlayState* play) {
-    if (!Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         if (GET_INFTABLE(INFTABLE_143)) {
             this->actor.textId = 0x404E;
@@ -2126,7 +2126,7 @@ void func_80AEFD38(EnRu1* this, PlayState* play) {
 }
 
 s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
-    if (!Actor_AcknowledgeTalking(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->actor.textId = Text_GetFaceReaction(play, 0x1F);
         if (this->actor.textId == 0) {
