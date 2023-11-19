@@ -38,7 +38,7 @@ void BgBdanObjects_RaiseToUpperPosition(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_DoNothing(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play);
-void BgBdanObjects_ChangeWaterboxLevel(BgBdanObjects* this, PlayState* play);
+void BgBdanObjects_ChangeWaterBoxLevel(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play);
 void BgBdanObjects_FallToLowerPos(BgBdanObjects* this, PlayState* play);
@@ -401,11 +401,11 @@ void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play) {
 void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
         this->timer = 100;
-        this->actionFunc = BgBdanObjects_ChangeWaterboxLevel;
+        this->actionFunc = BgBdanObjects_ChangeWaterBoxLevel;
     }
 }
 
-void BgBdanObjects_ChangeWaterboxLevel(BgBdanObjects* this, PlayState* play) {
+void BgBdanObjects_ChangeWaterBoxLevel(BgBdanObjects* this, PlayState* play) {
     if (this->timer == 0) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 0.5f)) {
             Flags_UnsetSwitch(play, this->switchFlag);
@@ -427,7 +427,7 @@ void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play) {
     }
     func_8002F994(&this->dyna.actor, this->timer); // play ticking sound effect
     if (this->timer == 0) {
-        this->actionFunc = BgBdanObjects_ChangeWaterboxLevel;
+        this->actionFunc = BgBdanObjects_ChangeWaterBoxLevel;
     }
 }
 
