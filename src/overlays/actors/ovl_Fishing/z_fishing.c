@@ -2866,11 +2866,11 @@ void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
         if (this->aquariumWaitTimer == 0) {
             this->actor.flags |= ACTOR_FLAG_0;
 
-            if (Actor_ProcessTalkRequest(&this->actor, play)) {
+            if (Actor_TalkOfferAccepted(&this->actor, play)) {
                 sFishLengthToWeigh = sFishingRecordLength;
                 this->isAquariumMessage = true;
             } else {
-                func_8002F2F4(&this->actor, play);
+                Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
             }
         } else {
             this->aquariumWaitTimer--;
@@ -4759,7 +4759,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 this->actor.textId = 0x4097;
             }
 
-            if (Actor_ProcessTalkRequest(&this->actor, play)) {
+            if (Actor_TalkOfferAccepted(&this->actor, play)) {
                 if (sFishingPlayingState == 0) {
                     this->stateAndTimer = 1;
                     if (sLinkAge != LINK_AGE_CHILD) {
@@ -4771,7 +4771,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     this->stateAndTimer = 10;
                 }
             } else {
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
             break;
 

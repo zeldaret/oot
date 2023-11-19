@@ -155,7 +155,7 @@ void EnGe3_GiveCard(EnGe3* this, PlayState* play) {
 }
 
 void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe3_GiveCard;
     } else {
         if (!(this->unk_30C & 4)) {
@@ -164,7 +164,7 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
         }
         this->actor.textId = 0x6004;
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F1C4(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
+        Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     EnGe3_LookAtPlayer(this, play);
 }
@@ -203,13 +203,13 @@ void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play) {
     EnGe3_UpdateCollision(this, play);
     this->actionFunc(this, play);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe3_Wait;
         this->actor.update = EnGe3_Update;
     } else {
         this->actor.textId = 0x6005;
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
 

@@ -106,10 +106,10 @@ void EnMs_Wait(EnMs* this, PlayState* play) {
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     EnMs_SetOfferText(this, play);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) { // if talk is initiated
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnMs_Talk;
     } else if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
-        func_8002F2CC(&this->actor, play, 90.0f);
+        Actor_OfferTalk(&this->actor, play, 90.0f);
     }
 }
 

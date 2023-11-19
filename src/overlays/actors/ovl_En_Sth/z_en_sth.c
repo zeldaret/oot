@@ -221,12 +221,12 @@ void EnSth_RewardObtainedTalk(EnSth* this, PlayState* play) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);
@@ -274,7 +274,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, PlayState* play) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -283,14 +283,14 @@ void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play) {
             this->actor.textId = 0x21;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.save.info.inventory.gsTokens < 50) {
@@ -299,7 +299,7 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play) {
             this->actor.textId = 0x1F;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);

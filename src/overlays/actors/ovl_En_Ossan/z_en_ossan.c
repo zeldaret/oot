@@ -649,7 +649,7 @@ void EnOssan_EndInteraction(PlayState* play, EnOssan* this) {
     // "End of conversation!"
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d]:★★★ 会話終了！！ ★★★" VT_RST "\n", "../z_en_oB1.c", 1337);
     YREG(31) = 0;
-    Actor_ProcessTalkRequest(&this->actor, play);
+    Actor_TalkOfferAccepted(&this->actor, play);
     play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     play->msgCtx.stateTimer = 4;
     player->stateFlags2 &= ~PLAYER_STATE2_29;
@@ -733,14 +733,14 @@ void EnOssan_SetLookToShopkeeperFromShelf(PlayState* play, EnOssan* this) {
 void EnOssan_State_Idle(EnOssan* this, PlayState* play, Player* player) {
     this->headTargetRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         // "Start conversation!!"
         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 会話開始！！ ★★★" VT_RST "\n");
         player->stateFlags2 |= PLAYER_STATE2_29;
         Play_SetShopBrowsingViewpoint(play);
         EnOssan_SetStateStartShopping(play, this, false);
     } else if (this->actor.xzDistToPlayer < 100.0f) {
-        func_8002F2CC(&this->actor, play, 100);
+        Actor_OfferTalk(&this->actor, play, 100);
     }
 }
 
@@ -1699,7 +1699,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
                         Play_SetViewpoint(play, VIEWPOINT_PIVOT);
                         Message_StartTextbox(play, this->actor.textId, &this->actor);
                         EnOssan_SetStateStartShopping(play, this, true);
-                        func_8002F298(&this->actor, play, 100.0f, -1);
+                        Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, -1);
                         break;
                     case 1:
                     default:
@@ -1718,7 +1718,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, PlayState* play, Player
         Play_SetViewpoint(play, VIEWPOINT_PIVOT);
         Message_StartTextbox(play, this->actor.textId, &this->actor);
         EnOssan_SetStateStartShopping(play, this, true);
-        func_8002F298(&this->actor, play, 100.0f, -1);
+        Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, -1);
     }
 }
 

@@ -937,7 +937,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
         func_80A79AB4(this, play);
         if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
             this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            if (Actor_ProcessTalkRequest(&this->actor, play)) {}
+            if (Actor_TalkOfferAccepted(&this->actor, play)) {}
         } else {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
                               ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,

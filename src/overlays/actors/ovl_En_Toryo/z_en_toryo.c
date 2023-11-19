@@ -287,7 +287,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
     s16 posY;
 
     if (this->messageState == 3) {
-        Actor_ProcessTalkRequest(&this->actor, play);
+        Actor_TalkOfferAccepted(&this->actor, play);
         Message_ContinueTextbox(play, this->actor.textId);
         this->messageState = 1;
     }
@@ -317,7 +317,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
     }
 
     if (this->messageState == 0) {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->exchangeItemId = func_8002F368(play);
             if (this->exchangeItemId != EXCH_ITEM_NONE) {
                 player->actor.textId = EnToryo_ReactToExchangeItem(this, play);
@@ -330,7 +330,7 @@ void EnToryo_HandleTalking(EnToryo* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &posX, &posY);
         if ((posX >= 0) && (posX <= SCREEN_WIDTH) && (posY >= 0) && (posY <= SCREEN_HEIGHT)) {
             this->actor.textId = EnToryo_GetTextId(this, play);
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_POACHERS_SAW);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_POACHERS_SAW);
         }
     }
 }

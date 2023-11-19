@@ -120,7 +120,7 @@ void ElfMsg2_WaitForTextClose(ElfMsg2* this, PlayState* play) {
  * Runs while Navi text is not up.
  */
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextClose);
     }
 }

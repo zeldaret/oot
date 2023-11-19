@@ -103,7 +103,7 @@ void EnFu_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80A1D94C(EnFu* this, PlayState* play, u16 textID, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         return true;
     }
@@ -111,7 +111,7 @@ s32 func_80A1D94C(EnFu* this, PlayState* play, u16 textID, EnFuActionFunc action
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToPlayer < 100.0f)) {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     } else {
         this->behaviorFlags |= FU_RESET_LOOK_ANGLE;
     }
@@ -137,7 +137,7 @@ void EnFu_WaitChild(EnFu* this, PlayState* play) {
         textID = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
     }
 
-    // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
+    // if ACTOR_FLAG_TALK is set and textID is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, play, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
@@ -222,12 +222,12 @@ void EnFu_WaitAdult(EnFu* this, PlayState* play) {
         Message_StartTextbox(play, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
         if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
             player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }

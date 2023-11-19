@@ -149,7 +149,7 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
     ElfMsg* this = (ElfMsg*)thisx;
 
     if (!ElfMsg_KillCheck(this, play)) {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
                 Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
             }

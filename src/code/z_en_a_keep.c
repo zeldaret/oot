@@ -204,10 +204,10 @@ void EnAObj_WaitTalk(EnAObj* this, PlayState* play) {
         relYawTowardsPlayer = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
         if (ABS(relYawTowardsPlayer) < 0x2800 ||
             (this->dyna.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
-            if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
+            if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
                 EnAObj_SetupAction(this, EnAObj_WaitFinishedTalking);
             } else {
-                func_8002F2F4(&this->dyna.actor, play);
+                Actor_OfferTalkNearColChkInfoCylinder(&this->dyna.actor, play);
             }
         }
     }

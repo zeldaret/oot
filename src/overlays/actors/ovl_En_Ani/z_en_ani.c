@@ -99,7 +99,7 @@ void EnAni_Destroy(Actor* thisx, PlayState* play) {
 s32 EnAni_SetText(EnAni* this, PlayState* play, u16 textId) {
     this->actor.textId = textId;
     this->unk_2A8 |= 1;
-    func_8002F2CC(&this->actor, play, 100.0f);
+    Actor_OfferTalk(&this->actor, play, 100.0f);
     return 0;
 }
 
@@ -151,7 +151,7 @@ void func_809B064C(EnAni* this, PlayState* play) {
     }
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.textId == 0x5056) {
             EnAni_SetupAction(this, func_809B04F0);
         } else if (this->actor.textId == 0x5055) {
@@ -177,7 +177,7 @@ void func_809B07F8(EnAni* this, PlayState* play) {
     u16 textId;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.textId == 0x5056) {
             EnAni_SetupAction(this, func_809B0524);
         } else if (this->actor.textId == 0x5055) {

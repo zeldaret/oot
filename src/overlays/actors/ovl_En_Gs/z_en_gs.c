@@ -180,12 +180,12 @@ void func_80A4E648(EnGs* this, PlayState* play) {
         this->unk_19C = 2;
     } else if (this->unk_19C == 2) {
         this->unk_19C = func_80A4E3EC(this, play);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk_19C = 2;
     } else {
         Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
         if ((sp26 >= 0) && (sp26 <= SCREEN_WIDTH) && (sp24 >= 0) && (sp24 <= SCREEN_HEIGHT) && (this->unk_19C != 3)) {
-            if (func_8002F2CC(&this->actor, play, 40.0f) == 1) {
+            if (Actor_OfferTalk(&this->actor, play, 40.0f) == 1) {
                 if (Player_GetMask(play) == PLAYER_MASK_TRUTH) {
                     this->actor.textId = 0x2054;
                 } else {

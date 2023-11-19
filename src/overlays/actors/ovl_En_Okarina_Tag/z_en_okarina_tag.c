@@ -282,7 +282,7 @@ void func_80ABF708(EnOkarinaTag* this, PlayState* play) {
     s16 yawDiff;
     s16 yawDiffNew;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80ABF7CC;
     } else {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
@@ -294,7 +294,7 @@ void func_80ABF708(EnOkarinaTag* this, PlayState* play) {
             yawDiffNew = ABS(yawDiff);
             if (yawDiffNew < 0x4300) {
                 this->unk_15A = 0;
-                func_8002F2CC(&this->actor, play, 70.0f);
+                Actor_OfferTalk(&this->actor, play, 70.0f);
             }
         }
     }
