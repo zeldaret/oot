@@ -4776,7 +4776,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 Flags_GetEventChkInf(EVENTCHKINF_37)) {
                 retTextId = 0x7006;
             } else {
-                if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_GET)) {
+                if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
                     if (Flags_GetInfTable(INFTABLE_71)) {
                         retTextId = 0x7072;
                     } else {
@@ -5144,7 +5144,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 retTextId = 0x2048;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x2047;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_GET) &&
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG) &&
                        !Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x2044;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME)) {
@@ -5442,7 +5442,7 @@ void func_80036E50(u16 textId, s16 arg1) {
                 Flags_SetEventChkInf(EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME);
             }
             if (textId == 0x2044) {
-                Flags_SetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_GET);
+                Flags_SetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG);
             }
             if (textId == 0x2047) {
                 Flags_SetEventChkInf(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH);
@@ -5590,7 +5590,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
             ret = 0;
             break;
         case 0x2043:
-            if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_GET)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
                 break;
             }
             func_80035B18(play, actor, 0x2044);

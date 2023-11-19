@@ -110,7 +110,7 @@ u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
     if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 0x2047;
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_GET)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
         return 0x2044;
     }
     if (GET_INFTABLE(INFTABLE_TALKED_TO_MALON_FIRST_TIME)) {
@@ -340,7 +340,7 @@ void EnMa1_FinishGivingWeirdEgg(EnMa1* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = EnMa1_Idle;
-        SET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_GET);
+        SET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_EGG);
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
