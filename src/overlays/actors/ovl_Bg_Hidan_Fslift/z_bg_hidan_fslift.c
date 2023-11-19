@@ -14,7 +14,7 @@ void BgHidanFslift_Destroy(Actor* thisx, PlayState* play);
 void BgHidanFslift_Update(Actor* thisx, PlayState* play);
 void BgHidanFslift_Draw(Actor* thisx, PlayState* play);
 
-void BgHidanFslift_WaitForPlayerOnTop(BgHidanFslift* this, PlayState* play);
+void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play);
 void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play);
 void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play);
 
@@ -53,7 +53,7 @@ void BgHidanFslift_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    this->actionFunc = BgHidanFslift_WaitForPlayerOnTop;
+    this->actionFunc = BgHidanFslift_Idle;
 }
 
 void BgHidanFslift_SetHookshotTargetPos(BgHidanFslift* this) {
@@ -72,12 +72,12 @@ void BgHidanFslift_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgHidanFslift_SetupWaitForPlayerOnTop(BgHidanFslift* this) {
+void BgHidanFslift_SetupIdle(BgHidanFslift* this) {
     this->timer = 40;
-    this->actionFunc = BgHidanFslift_WaitForPlayerOnTop;
+    this->actionFunc = BgHidanFslift_Idle;
 }
 
-void BgHidanFslift_WaitForPlayerOnTop(BgHidanFslift* this, PlayState* play) {
+void BgHidanFslift_Idle(BgHidanFslift* this, PlayState* play) {
     s32 nearHomePos;
 
     if (this->timer) {
@@ -100,7 +100,7 @@ void BgHidanFslift_WaitForPlayerOnTop(BgHidanFslift* this, PlayState* play) {
 void BgHidanFslift_Descend(BgHidanFslift* this, PlayState* play) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 4.0f)) {
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        BgHidanFslift_SetupWaitForPlayerOnTop(this);
+        BgHidanFslift_SetupIdle(this);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
@@ -111,12 +111,12 @@ void BgHidanFslift_Ascend(BgHidanFslift* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerAbove(&this->dyna)) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 790.0f, 4.0f)) {
             Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-            BgHidanFslift_SetupWaitForPlayerOnTop(this);
+            BgHidanFslift_SetupIdle(this);
         } else {
             func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
         }
     } else {
-        BgHidanFslift_SetupWaitForPlayerOnTop(this);
+        BgHidanFslift_SetupIdle(this);
     }
     BgHidanFslift_SetHookshotTargetPos(this);
 }
