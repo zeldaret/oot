@@ -22,7 +22,7 @@ void BgMizuMovebg_Update(Actor* thisx, PlayState* play);
 void BgMizuMovebg_Draw(Actor* thisx, PlayState* play2);
 
 void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play);
-void BgMizuMovebg_UpdateSmallBlockHookshotTarget(BgMizuMovebg* this, PlayState* play);
+void BgMizuMovebg_UpdateHookshotPlatform(BgMizuMovebg* this, PlayState* play);
 s32 BgMizuMovebg_SetPosFromPath(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
 
 ActorInit Bg_Mizu_Movebg_InitVars = {
@@ -37,28 +37,28 @@ ActorInit Bg_Mizu_Movebg_InitVars = {
     /**/ BgMizuMovebg_Draw,
 };
 
-static f32 sDragonStatue1OffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
+static f32 sDragonStatueBossRoomOffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
 
 static Gfx* sDLists[] = {
-    gWaterTempleFloatPlatformWestDL,                 // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST
-    gWaterTempleFloatPlatformOutsideCentralPillarDL, // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR
-    gWaterTempleFloatPlatformInsideCentralPillarDL,  // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR
-    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM
-    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
-    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
-    gWaterTempleDragonStatueDL,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_4
-    gWaterTempleHookshotPlatformDL,                  // MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM
+    gWaterTempleFloatingPlatformOutsideCentralPillarDL, // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR
+    gWaterTempleFloatingPlatformWestDL,                 // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST
+    gWaterTempleFloatingPlatformInsideCentralPillarDL,  // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR
+    gWaterTempleDragonStatueDL,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM
+    gWaterTempleDragonStatueDL,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
+    gWaterTempleDragonStatueDL,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
+    gWaterTempleDragonStatueDL,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_4
+    gWaterTempleHookshotPlatformDL,                     // MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM
 };
 
 static CollisionHeader* sColHeaders[] = {
-    &gWaterTempleFloatPlatformWestCol,                 // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST
-    &gWaterTempleFloatPlatformOutsideCentralPillarCol, // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR
-    &gWaterTempleFloatPlatformInsideCentralPillarCol,  // MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR
-    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM
-    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
-    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
-    &gWaterTempleDragonStatueCol,                      // MIZUMOVEBG_TYPE_DRAGON_STATUE_4
-    &gWaterTempleHookshotPlatformCol,                  // MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM
+    &gWaterTempleFloatingPlatformOutsideCentralPillarCol, // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR
+    &gWaterTempleFloatingPlatformWestCol,                 // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST
+    &gWaterTempleFloatingPlatformInsideCentralPillarCol,  // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR
+    &gWaterTempleDragonStatueCol,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM
+    &gWaterTempleDragonStatueCol,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
+    &gWaterTempleDragonStatueCol,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
+    &gWaterTempleDragonStatueCol,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_4
+    &gWaterTempleHookshotPlatformCol,                     // MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM
 };
 
 static InitChainEntry sInitChain[] = {
@@ -73,7 +73,7 @@ static Vec3f sOffsetPosition2 = { 0.0f, 80.0f, 23.0f };
 
 static u8 D_8089EE40; // unknown flags
 
-s32 BgMizuMovebg_GetDragonStatue1OffsetIndex(PlayState* play) {
+s32 BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(PlayState* play) {
     s32 result;
 
     if (Flags_GetSwitch(play, WATER_TEMPLE_WATER_F1_FLAG)) {
@@ -105,7 +105,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
 
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
-        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
@@ -114,7 +114,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 710.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 710.0f;
@@ -123,7 +123,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
-        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
@@ -134,7 +134,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
             thisx->world.pos.y =
-                ((BgMizuMovebg*)thisx)->homeY + sDragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
+                ((BgMizuMovebg*)thisx)->homeY + sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
@@ -155,7 +155,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             waypointId = MOVEBG_POINT_ID(thisx->params);
             ((BgMizuMovebg*)thisx)->waypointId = waypointId;
             BgMizuMovebg_SetPosFromPath(play->pathList, &thisx->world.pos, MOVEBG_PATH_ID(thisx->params), waypointId);
-            ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateSmallBlockHookshotTarget;
+            ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateHookshotPlatform;
             break;
     }
 
@@ -255,8 +255,8 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
 
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
-        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_WEST:
-        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_INSIDE_CENTER_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < this->homeY - 700.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 700.0f;
@@ -264,7 +264,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 this->dyna.actor.world.pos.y = targetPosY;
             }
             break;
-        case MIZUMOVEBG_TYPE_FLOAT_PLATFORM_OUTSIDE_CENTER_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < this->homeY - 710.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 710.0f;
@@ -273,7 +273,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
             }
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
-            targetPosY = this->homeY + sDragonStatue1OffsetPosY[BgMizuMovebg_GetDragonStatue1OffsetIndex(play)];
+            targetPosY = this->homeY + sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, targetPosY, 1.0f)) {
                 if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
@@ -326,7 +326,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
     }
 }
 
-void BgMizuMovebg_UpdateSmallBlockHookshotTarget(BgMizuMovebg* this, PlayState* play) {
+void BgMizuMovebg_UpdateHookshotPlatform(BgMizuMovebg* this, PlayState* play) {
     Vec3f waypoint;
     f32 dist;
     f32 dx;
