@@ -113,7 +113,7 @@ void BgJyaLift_Move(BgJyaLift* this, PlayState* play) {
     tempVelocity = (this->dyna.actor.velocity.y < 0.2f) ? 0.2f : this->dyna.actor.velocity.y;
     distFromBottom = Math_SmoothStepToF(&this->dyna.actor.world.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
     if ((this->dyna.actor.world.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.prevPos.y)) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     }
     if (fabsf(distFromBottom) < 0.001f) {
         BgJyaLift_SetFinalPosY(this);
@@ -136,11 +136,11 @@ void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
         this->actionFunc(this, play);
     }
     if ((this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) && !(this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE)) {
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
     } else if (!(this->dyna.interactFlags & DYNA_INTERACT_PLAYER_ABOVE) &&
                (this->unk_16B & DYNA_INTERACT_PLAYER_ABOVE) &&
                (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
     this->unk_16B = this->dyna.interactFlags;
 

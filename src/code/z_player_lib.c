@@ -626,7 +626,7 @@ void func_8008EEAC(PlayState* play, Actor* actor) {
     this->unk_684 = actor;
     this->stateFlags1 |= PLAYER_STATE1_16;
     Camera_SetViewParam(Play_GetCamera(play, CAM_ID_MAIN), CAM_VIEW_TARGET, actor);
-    Camera_ChangeMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);
+    Camera_RequestMode(Play_GetCamera(play, CAM_ID_MAIN), CAM_MODE_Z_TARGET_FRIENDLY);
 }
 
 s32 func_8008EF30(PlayState* play) {

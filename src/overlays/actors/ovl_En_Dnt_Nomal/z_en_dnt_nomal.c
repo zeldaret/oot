@@ -337,7 +337,7 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         GET_ACTIVE_CAM(play)->csId = 0;
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = EnDntNomal_SetupTargetGivePrize;

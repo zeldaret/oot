@@ -449,7 +449,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, PlayState* play) {
 
     if ((Message_GetState(&play->msgCtx) == this->dialogState) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         this->startedPlaying = true;
 
         if (BREG(2)) {

@@ -112,10 +112,10 @@ void BgHidanSyoku_Update(Actor* thisx, PlayState* play) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
     } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->unk_168 != 0) {
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }
         this->unk_168 = 0;
     }

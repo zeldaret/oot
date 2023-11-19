@@ -429,13 +429,13 @@ s32 EnGo_IsCameraModified(EnGo* this, PlayState* play) {
 
     xyzDistSq = (this->actor.scale.x / 0.01f) * SQ(100.0f);
     if ((this->actor.params & 0xF0) == 0x90) {
-        Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
+        Camera_RequestSetting(mainCam, CAM_SET_DIRECTED_YAW);
         xyzDistSq *= 4.8f;
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDistSq) {
         if (mainCam->setting == CAM_SET_DIRECTED_YAW) {
-            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
+            Camera_RequestSetting(mainCam, CAM_SET_NORMAL0);
         }
         return 0;
     } else {
