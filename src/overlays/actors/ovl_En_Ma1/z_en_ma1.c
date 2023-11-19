@@ -14,16 +14,17 @@ void EnMa1_Destroy(Actor* thisx, PlayState* play);
 void EnMa1_Update(Actor* thisx, PlayState* play);
 void EnMa1_Draw(Actor* thisx, PlayState* play);
 
-void func_80AA0D88(EnMa1* this, PlayState* play);
-void EnMa1_GiveReward(EnMa1* this, PlayState* play);
-void func_80AA0EFC(EnMa1* this, PlayState* play);
-void func_80AA0F44(EnMa1* this, PlayState* play);
+void EnMa1_Idle(EnMa1* this, PlayState* play);
+void EnMa1_GiveWeirdEgg(EnMa1* this, PlayState* play);
+void EnMa1_FinishGivingWeirdEgg(EnMa1* this, PlayState* play);
+void EnMa1_IdleTeachSong(EnMa1* this, PlayState* play);
 void EnMa1_StartTeachSong(EnMa1* this, PlayState* play);
 void EnMa1_TeachSong(EnMa1* this, PlayState* play);
 void EnMa1_WaitForPlayback(EnMa1* this, PlayState* play);
 void EnMa1_DoNothing(EnMa1* this, PlayState* play);
 
-extern Debug_Print(u8 line, const char* fmt, ...);
+#define TURN_ON_MALON_SINGING false
+#define TURN_OFF_MALON_SINGING true
 
 ActorInit En_Ma1_InitVars = {
     /**/ ACTOR_EN_MA1,
@@ -60,10 +61,10 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
-    /* 0 */ ENMA1_ANIM_0,
-    /* 1 */ ENMA1_ANIM_1,
-    /* 2 */ ENMA1_ANIM_2,
-    /* 3 */ ENMA1_ANIM_3
+    /* 0 */ ENMA1_ANIM_UNUSED,
+    /* 1 */ ENMA1_ANIM_IDLE,
+    /* 2 */ ENMA1_ANIM_SING_NOMORPH,
+    /* 3 */ ENMA1_ANIM_SING
 } EnMa1Animation;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
@@ -73,7 +74,7 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonChildSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-static Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
+static Vec3f sMultVec = { 800.0f, 0.0f, 0.0f };
 
 static void* sMouthTextures[] = {
     gMalonChildNeutralMouthTex,
@@ -94,32 +95,32 @@ u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
         return faceReaction;
     }
     if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
-        return 0x204A; // has epona's song, she likes link now
+        return 0x204A;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG)) {
-        return 0x2049; // mother composed song
+        return 0x2049;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH)) {
         if (GET_INFTABLE(INFTABLE_TOLD_EPONA_IS_SCARED)) {
-            return 0x2049; // mother composed song
+            return 0x2049;
         } else {
-            return 0x2048; // epona afraid of link
+            return 0x2048;
         }
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        return 0x2047; // Idle talk at lon lon
+        return 0x2047;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_GET)) {
-        return 0x2044; // follow up about setting egg to C
+        return 0x2044;
     }
     if (GET_INFTABLE(INFTABLE_TALKED_TO_MALON_FIRST_TIME)) {
         if (GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
-            return 0x2043; // GIVE EGG
+            return 0x2043;
         } else {
-            return 0x2042; // dad went to the castle and hasn't come back
+            return 0x2042;
         }
     }
-    return 0x2041; // standard intro (first time talking)
+    return 0x2041;
 }
 
 s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx) {
@@ -183,13 +184,16 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
     if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneLayer == 5)) {
         return true;
     }
+
     if (!LINK_IS_CHILD) {
         return false;
     }
+
     if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
         !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) && !GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
         return true;
     }
+
     if ((play->sceneId == SCENE_HYRULE_CASTLE) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
             return true;
@@ -198,16 +202,21 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
             return false;
         }
     }
+
     if ((play->sceneId == SCENE_LON_LON_BUILDINGS) && IS_NIGHT &&
         GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return true;
     }
+
     if (play->sceneId != SCENE_LON_LON_RANCH) {
         return false;
     }
-    if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
+
+    if ((this->actor.shape.rot.z == 3) && IS_DAY && 
+        GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return true;
     }
+    
     return false;
 }
 
@@ -247,16 +256,14 @@ void EnMa1_HandleTracking(EnMa1* this, PlayState* play) {
 void EnMa1_HandleSinging(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            if (this->isNotSinging) {
-                // Turn on singing
-                this->isNotSinging = false;
-                Audio_ToggleMalonSinging(false);
+            if (!this->isSinging) {
+                this->isSinging = true;
+                Audio_ToggleMalonSinging(TURN_ON_MALON_SINGING);
             }
         } else {
-            if (!this->isNotSinging) {
-                // Turn off singing
-                this->isNotSinging = true;
-                Audio_ToggleMalonSinging(true);
+            if (this->isSinging) {
+                this->isSinging = false;
+                Audio_ToggleMalonSinging(TURN_OFF_MALON_SINGING);
             }
         }
     }
@@ -272,22 +279,10 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
-    // SET_INFTABLE(INFTABLE_TALKED_TO_MALON_FIRST_TIME); //talked to malon for first time
-    // SET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE); // Walked into Hyrule Castle for the first time
-    // SET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME); // guy with beard talks about talon at castle
-    // SET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_GET); // egg received
-    // SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE); // woke up talon
-    // SET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH); // talked at lon lon first time
-    // SET_INFTABLE(INFTABLE_TOLD_EPONA_IS_SCARED); // Talked to malon about epona being scared?
-    // SET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG); // got epona's song?
-
-    gSaveContext.save.info.inventory.questItems &= ~gBitFlags[ITEM_SONG_EPONA - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
-    
-
-    // if (!EnMa1_ShouldSpawn(this, play)) {
-    //     Actor_Kill(&this->actor);
-    //     return;
-    // }
+    if (!EnMa1_ShouldSpawn(this, play)) {
+        Actor_Kill(&this->actor);
+        return;
+    }
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
@@ -295,11 +290,11 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
     this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 
     if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
-        this->actionFunc = func_80AA0D88;
-        EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
+        this->actionFunc = EnMa1_Idle;
+        EnMa1_ChangeAnim(this, ENMA1_ANIM_SING_NOMORPH);
     } else {
-        this->actionFunc = func_80AA0F44;
-        EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
+        this->actionFunc = EnMa1_IdleTeachSong;
+        EnMa1_ChangeAnim(this, ENMA1_ANIM_SING_NOMORPH);
     }
 }
 
@@ -310,14 +305,14 @@ void EnMa1_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void func_80AA0D88(EnMa1* this, PlayState* play) {
+void EnMa1_Idle(EnMa1* this, PlayState* play) {
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_IDLE);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnim(this, ENMA1_ANIM_3);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_SING);
         }
     }
 
@@ -325,49 +320,47 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-            Debug_Print(3, "within");
-            this->actionFunc = EnMa1_GiveReward;
+            this->actionFunc = EnMa1_GiveWeirdEgg;
             play->msgCtx.stateTimer = 4;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
     }
 }
 
-void EnMa1_GiveReward(EnMa1* this, PlayState* play) {
+void EnMa1_GiveWeirdEgg(EnMa1* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
-        this->actionFunc = func_80AA0EFC;
+        this->actionFunc = EnMa1_FinishGivingWeirdEgg;
     } else {
         Actor_OfferGetItem(&this->actor, play, GI_WEIRD_EGG, 120.0f, 10.0f);
     }
 }
 
-// finish giving egg
-void func_80AA0EFC(EnMa1* this, PlayState* play) {
+void EnMa1_FinishGivingWeirdEgg(EnMa1* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
-        this->actionFunc = func_80AA0D88;
+        this->actionFunc = EnMa1_Idle;
         SET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_GET);
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
 
-void func_80AA0F44(EnMa1* this, PlayState* play) {
+void EnMa1_IdleTeachSong(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_IDLE);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnim(this, ENMA1_ANIM_3);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_SING);
         }
     }
 
     if (GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG)) {
-        if (player->stateFlags2 & PLAYER_STATE2_24) { // attempt to play ocarina for an actor
-            player->stateFlags2 |= PLAYER_STATE2_25; // set to playing ocarina for actor
+        if (player->stateFlags2 & PLAYER_STATE2_24) {
+            player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
             Message_StartTextbox(play, this->actor.textId, NULL);
@@ -375,7 +368,7 @@ void func_80AA0F44(EnMa1* this, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = EnMa1_StartTeachSong;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
-            player->stateFlags2 |= PLAYER_STATE2_23; // near actor that will accept ocarina playing
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
 }
@@ -418,13 +411,17 @@ void EnMa1_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+
     SkelAnime_Update(&this->skelAnime);
     EnMa1_UpdateEyes(this);
+
     this->actionFunc(this, play);
+
     if (this->actionFunc != EnMa1_DoNothing) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
                           EnMa1_GetTextId, EnMa1_UpdateTalkState);
     }
+
     EnMa1_HandleSinging(this);
     EnMa1_HandleTracking(this, play);
 }
@@ -453,7 +450,7 @@ s32 EnMa1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
 void EnMa1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnMa1* this = (EnMa1*)thisx;
-    Vec3f vec = D_80AA16B8;
+    Vec3f vec = sMultVec;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
