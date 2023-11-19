@@ -132,7 +132,7 @@ void BgHidanFslift_Update(Actor* thisx, PlayState* play) {
         Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
     } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->cameraSetting != CAM_SET_NONE) {
-            // Given the values that get set to `cameraSetting`, it seems likely that the variable was intended to be
+            // Given the values that get set to `cameraSetting`, it seems likely that it was intended to be
             // passed to the function call below. But instead `CAM_SET_DUNGEON0` is used directly.
             Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }
