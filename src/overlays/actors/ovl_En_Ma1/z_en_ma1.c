@@ -15,13 +15,15 @@ void EnMa1_Update(Actor* thisx, PlayState* play);
 void EnMa1_Draw(Actor* thisx, PlayState* play);
 
 void func_80AA0D88(EnMa1* this, PlayState* play);
-void func_80AA0EA0(EnMa1* this, PlayState* play);
+void EnMa1_GiveReward(EnMa1* this, PlayState* play);
 void func_80AA0EFC(EnMa1* this, PlayState* play);
 void func_80AA0F44(EnMa1* this, PlayState* play);
-void func_80AA106C(EnMa1* this, PlayState* play);
-void func_80AA10EC(EnMa1* this, PlayState* play);
-void func_80AA1150(EnMa1* this, PlayState* play);
+void EnMa1_StartTeachSong(EnMa1* this, PlayState* play);
+void EnMa1_TeachSong(EnMa1* this, PlayState* play);
+void EnMa1_WaitForPlayback(EnMa1* this, PlayState* play);
 void EnMa1_DoNothing(EnMa1* this, PlayState* play);
+
+extern Debug_Print(u8 line, const char* fmt, ...);
 
 ActorInit En_Ma1_InitVars = {
     /**/ ACTOR_EN_MA1,
@@ -92,32 +94,32 @@ u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
         return faceReaction;
     }
     if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
-        return 0x204A;
+        return 0x204A; // has epona's song, she likes link now
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_16)) {
-        return 0x2049;
+        return 0x2049; // mother composed song
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
         if (GET_INFTABLE(INFTABLE_85)) {
-            return 0x2049;
+            return 0x2049; // mother composed song
         } else {
-            return 0x2048;
+            return 0x2048; // epona afraid of link
         }
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        return 0x2047;
+        return 0x2047; // Idle talk at lon lon
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
-        return 0x2044;
+        return 0x2044; // follow up about setting egg to C
     }
     if (GET_INFTABLE(INFTABLE_84)) {
         if (GET_INFTABLE(INFTABLE_8B)) {
-            return 0x2043;
+            return 0x2043; // GIVE EGG
         } else {
-            return 0x2042;
+            return 0x2042; // dad went to the castle and hasn't come back
         }
     }
-    return 0x2041;
+    return 0x2041; // standard intro (first time talking)
 }
 
 s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx) {
@@ -177,36 +179,36 @@ s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx) {
     return talkState;
 }
 
-s32 func_80AA08C4(EnMa1* this, PlayState* play) {
+s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
     if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneLayer == 5)) {
-        return 1;
+        return true;
     }
     if (!LINK_IS_CHILD) {
-        return 0;
+        return false;
     }
     if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
         !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) && !GET_INFTABLE(INFTABLE_8B)) {
-        return 1;
+        return true;
     }
     if ((play->sceneId == SCENE_HYRULE_CASTLE) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         if (GET_INFTABLE(INFTABLE_8B)) {
-            return 1;
+            return true;
         } else {
             SET_INFTABLE(INFTABLE_8B);
-            return 0;
+            return false;
         }
     }
     if ((play->sceneId == SCENE_LON_LON_BUILDINGS) && IS_NIGHT &&
         GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        return 1;
+        return true;
     }
     if (play->sceneId != SCENE_LON_LON_RANCH) {
-        return 0;
+        return false;
     }
     if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void EnMa1_UpdateEyes(EnMa1* this) {
@@ -226,7 +228,7 @@ void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
                      sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
-void func_80AA0AF4(EnMa1* this, PlayState* play) {
+void EnMa1_HandleTracking(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
@@ -242,7 +244,7 @@ void func_80AA0AF4(EnMa1* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
-void func_80AA0B74(EnMa1* this) {
+void EnMa1_HandleSinging(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             if (this->isNotSinging) {
@@ -270,10 +272,22 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
-    if (!func_80AA08C4(this, play)) {
-        Actor_Kill(&this->actor);
-        return;
-    }
+    SET_INFTABLE(INFTABLE_84); //talked to malon for first time
+    SET_INFTABLE(INFTABLE_8B); // Walked into Hyrule Castle for the first time
+    SET_EVENTCHKINF(EVENTCHKINF_10); // guy with beard talks about talon at castle
+    SET_EVENTCHKINF(EVENTCHKINF_12); // egg received
+    SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE); // woke up talon
+    SET_EVENTCHKINF(EVENTCHKINF_15); // talked at lon lon first time
+    SET_INFTABLE(INFTABLE_85); // Talked to malon about epona being scared?
+    SET_EVENTCHKINF(EVENTCHKINF_16); // got epona's song?
+
+    //gSaveContext.save.info.inventory.questItems &= ~gBitFlags[ITEM_SONG_EPONA - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
+    
+
+    // if (!EnMa1_ShouldSpawn(this, play)) {
+    //     Actor_Kill(&this->actor);
+    //     return;
+    // }
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
@@ -311,14 +325,15 @@ void func_80AA0D88(EnMa1* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-            this->actionFunc = func_80AA0EA0;
+            Debug_Print(3, "within");
+            this->actionFunc = EnMa1_GiveReward;
             play->msgCtx.stateTimer = 4;
             play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
     }
 }
 
-void func_80AA0EA0(EnMa1* this, PlayState* play) {
+void EnMa1_GiveReward(EnMa1* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AA0EFC;
@@ -327,6 +342,7 @@ void func_80AA0EA0(EnMa1* this, PlayState* play) {
     }
 }
 
+// finish giving egg
 void func_80AA0EFC(EnMa1* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
@@ -350,39 +366,39 @@ void func_80AA0F44(EnMa1* this, PlayState* play) {
     }
 
     if (GET_EVENTCHKINF(EVENTCHKINF_16)) {
-        if (player->stateFlags2 & PLAYER_STATE2_24) {
-            player->stateFlags2 |= PLAYER_STATE2_25;
+        if (player->stateFlags2 & PLAYER_STATE2_24) { // attempt to play ocarina for an actor
+            player->stateFlags2 |= PLAYER_STATE2_25; // set to playing ocarina for actor
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
             Message_StartTextbox(play, this->actor.textId, NULL);
             this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
             this->actor.flags |= ACTOR_FLAG_16;
-            this->actionFunc = func_80AA106C;
+            this->actionFunc = EnMa1_StartTeachSong;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
-            player->stateFlags2 |= PLAYER_STATE2_23;
+            player->stateFlags2 |= PLAYER_STATE2_23; // near actor that will accept ocarina playing
         }
     }
 }
 
-void func_80AA106C(EnMa1* this, PlayState* play) {
+void EnMa1_StartTeachSong(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_MALON);
         Message_StartOcarina(play, OCARINA_ACTION_TEACH_EPONA);
         this->actor.flags &= ~ACTOR_FLAG_16;
-        this->actionFunc = func_80AA10EC;
+        this->actionFunc = EnMa1_TeachSong;
     }
 }
 
-void func_80AA10EC(EnMa1* this, PlayState* play) {
+void EnMa1_TeachSong(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         Message_StartOcarina(play, OCARINA_ACTION_PLAYBACK_EPONA);
-        this->actionFunc = func_80AA1150;
+        this->actionFunc = EnMa1_WaitForPlayback;
     }
 }
 
-void func_80AA1150(EnMa1* this, PlayState* play) {
+void EnMa1_WaitForPlayback(EnMa1* this, PlayState* play) {
     GET_PLAYER(play)->stateFlags2 |= PLAYER_STATE2_23;
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
@@ -409,8 +425,8 @@ void EnMa1_Update(Actor* thisx, PlayState* play) {
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
                           EnMa1_GetTextId, EnMa1_UpdateTalkState);
     }
-    func_80AA0B74(this);
-    func_80AA0AF4(this, play);
+    EnMa1_HandleSinging(this);
+    EnMa1_HandleTracking(this, play);
 }
 
 s32 EnMa1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
