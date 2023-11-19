@@ -1200,7 +1200,7 @@ void Play_Draw(PlayState* this) {
                 (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
                 Vec3f quakeOffset;
 
-                Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
+                quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(this));
                 Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
                             this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
             }

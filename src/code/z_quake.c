@@ -22,18 +22,15 @@ QuakeRequest sQuakeRequests[4];
 s16 sQuakeUnused = 1;
 s16 sQuakeRequestCount = 0;
 
-Vec3f* Quake_AddVecGeoToVec3f(Vec3f* dst, Vec3f* a, VecGeo* geo) {
-    Vec3f vec;
-    Vec3f b;
+Vec3f Quake_AddVecGeoToVec3f(Vec3f* a, VecGeo* geo) {
+    Vec3f sum;
+    Vec3f b = OLib_VecGeoToVec3f(geo);
 
-    OLib_VecGeoToVec3f(&b, geo);
-    vec.x = a->x + b.x;
-    vec.y = a->y + b.y;
-    vec.z = a->z + b.z;
+    sum.x = a->x + b.x;
+    sum.y = a->y + b.y;
+    sum.z = a->z + b.z;
 
-    *dst = vec;
-
-    return dst;
+    return sum;
 }
 
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
@@ -47,7 +44,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
         offset.x = 0;
         offset.y = 0;
         offset.z = 0;
-        OLib_Vec3fDiffToVecGeo(&eyeToAtGeo, eye, at);
+        eyeToAtGeo = OLib_Vec3fDiffToVecGeo(eye, at);
 
         // y shake
         geo.r = req->y * y;
@@ -55,7 +52,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
         geo.pitch = eyeToAtGeo.pitch + req->orientation.x + 0x4000;
         geo.yaw = eyeToAtGeo.yaw + req->orientation.y;
         // apply y shake
-        Quake_AddVecGeoToVec3f(&offset, &offset, &geo);
+        offset = Quake_AddVecGeoToVec3f(&offset, &geo);
 
         // x shake
         geo.r = req->x * x;
@@ -63,7 +60,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
         geo.pitch = eyeToAtGeo.pitch + req->orientation.x;
         geo.yaw = eyeToAtGeo.yaw + req->orientation.y + 0x4000;
         // apply x shake
-        Quake_AddVecGeoToVec3f(&offset, &offset, &geo);
+        offset = Quake_AddVecGeoToVec3f(&offset, &geo);
     } else {
         offset.x = 0;
         offset.y = req->y * y;
@@ -71,7 +68,7 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
         geo.r = req->x * x;
         geo.pitch = req->orientation.x;
         geo.yaw = req->orientation.y;
-        Quake_AddVecGeoToVec3f(&offset, &offset, &geo);
+        offset = Quake_AddVecGeoToVec3f(&offset, &geo);
     }
 
     shake->atOffset = shake->eyeOffset = offset;
