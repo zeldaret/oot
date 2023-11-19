@@ -16,7 +16,7 @@ typedef enum {
     JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
 } BgBdanObjectsPropertyGetter;
 typedef enum {
-    JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL0 = 1,
+    JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1 = 1,
     JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1 = 2,
     JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
 } BgBdanObjectsPropertySetter;
@@ -102,7 +102,7 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
 
 void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL0:
+        case JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1:
             this->cameraSetting = CAM_SET_NORMAL1;
             break;
         case JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1:
@@ -192,7 +192,7 @@ void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, 
     Player* player = GET_PLAYER(play);
     if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
-            BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL0);
+            BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1);
             this->timer = 20;
             OnePointCutscene_Init(play, 3070, -99, &this->dyna.actor, CAM_ID_MAIN);
             player->actor.world.pos.x = -1130.0f;
