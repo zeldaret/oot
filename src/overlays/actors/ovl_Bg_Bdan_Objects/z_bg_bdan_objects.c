@@ -161,7 +161,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
             this->timer = 512;
             this->camChangeTimer = 0;
             this->actionFunc = BgBdanObjects_ElevatorOscillate;
-        } else { // thisx->params == BDAN_OBJECT_TYPE_FALLING_PLATFORM
+        } else { // BDAN_OBJECT_TYPE_FALLING_PLATFORM
             CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
             if (Flags_GetSwitch(play, this->switchFlag)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
