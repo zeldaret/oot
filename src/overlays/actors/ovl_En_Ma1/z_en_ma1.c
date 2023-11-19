@@ -96,11 +96,11 @@ u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
     if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         return 0x204A; // has epona's song, she likes link now
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_16)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG)) {
         return 0x2049; // mother composed song
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
-        if (GET_INFTABLE(INFTABLE_85)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH)) {
+        if (GET_INFTABLE(INFTABLE_TOLD_EPONA_IS_SCARED)) {
             return 0x2049; // mother composed song
         } else {
             return 0x2048; // epona afraid of link
@@ -109,11 +109,11 @@ u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
     if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
         return 0x2047; // Idle talk at lon lon
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_GET)) {
         return 0x2044; // follow up about setting egg to C
     }
-    if (GET_INFTABLE(INFTABLE_84)) {
-        if (GET_INFTABLE(INFTABLE_8B)) {
+    if (GET_INFTABLE(INFTABLE_TALKED_TO_MALON_FIRST_TIME)) {
+        if (GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
             return 0x2043; // GIVE EGG
         } else {
             return 0x2042; // dad went to the castle and hasn't come back
@@ -129,23 +129,23 @@ s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2041:
-                    SET_INFTABLE(INFTABLE_84);
-                    SET_EVENTCHKINF(EVENTCHKINF_10);
+                    SET_INFTABLE(INFTABLE_TALKED_TO_MALON_FIRST_TIME);
+                    SET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2043:
                     talkState = NPC_TALK_STATE_TALKING;
                     break;
                 case 0x2047:
-                    SET_EVENTCHKINF(EVENTCHKINF_15);
+                    SET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2048:
-                    SET_INFTABLE(INFTABLE_85);
+                    SET_INFTABLE(INFTABLE_TOLD_EPONA_IS_SCARED);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2049:
-                    SET_EVENTCHKINF(EVENTCHKINF_16);
+                    SET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2061:
@@ -187,14 +187,14 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
         return false;
     }
     if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
-        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) && !GET_INFTABLE(INFTABLE_8B)) {
+        !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) && !GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
         return true;
     }
     if ((play->sceneId == SCENE_HYRULE_CASTLE) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        if (GET_INFTABLE(INFTABLE_8B)) {
+        if (GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
             return true;
         } else {
-            SET_INFTABLE(INFTABLE_8B);
+            SET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE);
             return false;
         }
     }
@@ -272,16 +272,16 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
-    SET_INFTABLE(INFTABLE_84); //talked to malon for first time
-    SET_INFTABLE(INFTABLE_8B); // Walked into Hyrule Castle for the first time
-    SET_EVENTCHKINF(EVENTCHKINF_10); // guy with beard talks about talon at castle
-    SET_EVENTCHKINF(EVENTCHKINF_12); // egg received
-    SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE); // woke up talon
-    SET_EVENTCHKINF(EVENTCHKINF_15); // talked at lon lon first time
-    SET_INFTABLE(INFTABLE_85); // Talked to malon about epona being scared?
-    SET_EVENTCHKINF(EVENTCHKINF_16); // got epona's song?
+    // SET_INFTABLE(INFTABLE_TALKED_TO_MALON_FIRST_TIME); //talked to malon for first time
+    // SET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE); // Walked into Hyrule Castle for the first time
+    // SET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME); // guy with beard talks about talon at castle
+    // SET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_GET); // egg received
+    // SET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE); // woke up talon
+    // SET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH); // talked at lon lon first time
+    // SET_INFTABLE(INFTABLE_TOLD_EPONA_IS_SCARED); // Talked to malon about epona being scared?
+    // SET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG); // got epona's song?
 
-    //gSaveContext.save.info.inventory.questItems &= ~gBitFlags[ITEM_SONG_EPONA - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
+    gSaveContext.save.info.inventory.questItems &= ~gBitFlags[ITEM_SONG_EPONA - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
     
 
     // if (!EnMa1_ShouldSpawn(this, play)) {
@@ -347,7 +347,7 @@ void func_80AA0EFC(EnMa1* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ITEM_GIVEN) {
         this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
         this->actionFunc = func_80AA0D88;
-        SET_EVENTCHKINF(EVENTCHKINF_12);
+        SET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_GET);
         play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
@@ -365,7 +365,7 @@ void func_80AA0F44(EnMa1* this, PlayState* play) {
         }
     }
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_16)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) { // attempt to play ocarina for an actor
             player->stateFlags2 |= PLAYER_STATE2_25; // set to playing ocarina for actor
             player->unk_6A8 = &this->actor;
