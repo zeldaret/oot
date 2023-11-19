@@ -256,13 +256,15 @@ void EnMa1_HandleTracking(EnMa1* this, PlayState* play) {
 void EnMa1_HandleSinging(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            if (!this->isSinging) {
-                this->isSinging = true;
+            if (this->isNotSinging) {
+                // turn off singing
+                this->isNotSinging = false;
                 Audio_ToggleMalonSinging(TURN_ON_MALON_SINGING);
             }
         } else {
-            if (this->isSinging) {
-                this->isSinging = false;
+            if (!this->isNotSinging) {
+                // turn on singing
+                this->isNotSinging = true;
                 Audio_ToggleMalonSinging(TURN_OFF_MALON_SINGING);
             }
         }
