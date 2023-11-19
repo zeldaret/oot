@@ -26,7 +26,7 @@ ActorInit Bg_Menkuri_Eye_InitVars = {
     /**/ BgMenkuriEye_Draw,
 };
 
-static s32 D_8089C1A0;
+static s32 sNumEyesShot;
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
@@ -72,7 +72,7 @@ void BgMenkuriEye_Init(Actor* thisx, PlayState* play) {
     colliderList = this->collider.elements;
     colliderList->dim.worldSphere.radius = colliderList->dim.modelSphere.radius;
     if (!Flags_GetSwitch(play, this->actor.params)) {
-        D_8089C1A0 = 0;
+        sNumEyesShot = 0;
     }
     this->framesUntilDisable = -1;
 }
@@ -93,7 +93,7 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
             }
             if (this->framesUntilDisable == 0) {
                 this->framesUntilDisable = -1;
-                D_8089C1A0--;
+                sNumEyesShot--;
             }
         }
     }
@@ -102,11 +102,11 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->framesUntilDisable == -1) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_AMOS_DAMAGE);
-            D_8089C1A0++;
-            D_8089C1A0 = CLAMP_MAX(D_8089C1A0, 4);
+            sNumEyesShot++;
+            sNumEyesShot = CLAMP_MAX(sNumEyesShot, 4);
         }
         this->framesUntilDisable = 416;
-        if (D_8089C1A0 == 4) {
+        if (sNumEyesShot == 4) {
             Flags_SetSwitch(play, this->actor.params);
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
