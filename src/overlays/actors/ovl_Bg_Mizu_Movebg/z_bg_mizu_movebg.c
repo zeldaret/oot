@@ -133,8 +133,8 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
-            thisx->world.pos.y =
-                ((BgMizuMovebg*)thisx)->homeY + sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
+            thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY +
+                                 sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
@@ -273,7 +273,8 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
             }
             break;
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
-            targetPosY = this->homeY + sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
+            targetPosY =
+                this->homeY + sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, targetPosY, 1.0f)) {
                 if (!(D_8089EE40 & 2) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
