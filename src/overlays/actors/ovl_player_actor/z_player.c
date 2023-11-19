@@ -137,30 +137,33 @@ typedef struct {
     };
 } struct_80854B18; // size = 0x08
 
-void func_80833770(PlayState* play, Player* this);
-void func_80833790(PlayState* play, Player* this);
-void func_8083379C(PlayState* play, Player* this);
-void func_8083377C(PlayState* play, Player* this);
-void func_808337D4(PlayState* play, Player* this);
-void func_80833910(PlayState* play, Player* this);
-void func_80833984(PlayState* play, Player* this);
 void Player_InitItemAction(PlayState* play, Player* this, s8 itemAction);
-s32 func_8083485C(Player* this, PlayState* play);
-s32 func_808349DC(Player* this, PlayState* play);
+
+void Player_InitDefaultIA(PlayState* play, Player* this);
+void Player_InitHammerIA(PlayState* play, Player* this);
+void Player_InitBowOrSlingshotIA(PlayState* play, Player* this);
+void Player_InitDekuStickIA(PlayState* play, Player* this);
+void Player_InitExplosiveIA(PlayState* play, Player* this);
+void Player_InitHookshotIA(PlayState* play, Player* this);
+void Player_InitBoomerangIA(PlayState* play, Player* this);
+
 s32 Player_UpperAction_ChangeHeldItem(Player* this, PlayState* play);
+s32 func_8083485C(Player* this, PlayState* play);
+s32 Player_UpperAction_Sword(Player* this, PlayState* play);
 s32 func_80834B5C(Player* this, PlayState* play);
 s32 func_80834C74(Player* this, PlayState* play);
 s32 func_8083501C(Player* this, PlayState* play);
 s32 func_808351D4(Player* this, PlayState* play);
 s32 func_808353D8(Player* this, PlayState* play);
 s32 func_80835588(Player* this, PlayState* play);
-s32 func_808356E8(Player* this, PlayState* play);
+s32 Player_UpperAction_CarryActor(Player* this, PlayState* play);
 s32 func_80835800(Player* this, PlayState* play);
 s32 func_80835884(Player* this, PlayState* play);
 s32 func_808358F0(Player* this, PlayState* play);
 s32 func_808359FC(Player* this, PlayState* play);
 s32 func_80835B60(Player* this, PlayState* play);
 s32 func_80835C08(Player* this, PlayState* play);
+
 void Player_UseItem(PlayState* play, Player* this, s32 item);
 void func_80839F90(Player* this, PlayState* play);
 s32 func_8083C61C(PlayState* play, Player* this);
@@ -1244,143 +1247,143 @@ static s8 sItemActions[] = {
 };
 
 static s32 (*sItemActionUpdateFuncs[])(Player* this, PlayState* play) = {
-    func_8083485C, // PLAYER_IA_NONE
-    func_8083485C, // PLAYER_IA_SWORD_CS
-    func_8083485C, // PLAYER_IA_FISHING_POLE
-    func_808349DC, // PLAYER_IA_SWORD_MASTER
-    func_808349DC, // PLAYER_IA_SWORD_KOKIRI
-    func_808349DC, // PLAYER_IA_SWORD_BIGGORON
-    func_8083485C, // PLAYER_IA_DEKU_STICK
-    func_8083485C, // PLAYER_IA_HAMMER
-    func_8083501C, // PLAYER_IA_BOW
-    func_8083501C, // PLAYER_IA_BOW_FIRE
-    func_8083501C, // PLAYER_IA_BOW_ICE
-    func_8083501C, // PLAYER_IA_BOW_LIGHT
-    func_8083501C, // PLAYER_IA_BOW_0C
-    func_8083501C, // PLAYER_IA_BOW_0D
-    func_8083501C, // PLAYER_IA_BOW_0E
-    func_8083501C, // PLAYER_IA_SLINGSHOT
-    func_8083501C, // PLAYER_IA_HOOKSHOT
-    func_8083501C, // PLAYER_IA_LONGSHOT
-    func_808356E8, // PLAYER_IA_BOMB
-    func_808356E8, // PLAYER_IA_BOMBCHU
-    func_80835800, // PLAYER_IA_BOOMERANG
-    func_8083485C, // PLAYER_IA_MAGIC_SPELL_15
-    func_8083485C, // PLAYER_IA_MAGIC_SPELL_16
-    func_8083485C, // PLAYER_IA_MAGIC_SPELL_17
-    func_8083485C, // PLAYER_IA_FARORES_WIND
-    func_8083485C, // PLAYER_IA_NAYRUS_LOVE
-    func_8083485C, // PLAYER_IA_DINS_FIRE
-    func_8083485C, // PLAYER_IA_DEKU_NUT
-    func_8083485C, // PLAYER_IA_OCARINA_FAIRY
-    func_8083485C, // PLAYER_IA_OCARINA_OF_TIME
-    func_8083485C, // PLAYER_IA_BOTTLE
-    func_8083485C, // PLAYER_IA_BOTTLE_FISH
-    func_8083485C, // PLAYER_IA_BOTTLE_FIRE
-    func_8083485C, // PLAYER_IA_BOTTLE_BUG
-    func_8083485C, // PLAYER_IA_BOTTLE_POE
-    func_8083485C, // PLAYER_IA_BOTTLE_BIG_POE
-    func_8083485C, // PLAYER_IA_BOTTLE_RUTOS_LETTER
-    func_8083485C, // PLAYER_IA_BOTTLE_POTION_RED
-    func_8083485C, // PLAYER_IA_BOTTLE_POTION_BLUE
-    func_8083485C, // PLAYER_IA_BOTTLE_POTION_GREEN
-    func_8083485C, // PLAYER_IA_BOTTLE_MILK_FULL
-    func_8083485C, // PLAYER_IA_BOTTLE_MILK_HALF
-    func_8083485C, // PLAYER_IA_BOTTLE_FAIRY
-    func_8083485C, // PLAYER_IA_ZELDAS_LETTER
-    func_8083485C, // PLAYER_IA_WEIRD_EGG
-    func_8083485C, // PLAYER_IA_CHICKEN
-    func_8083485C, // PLAYER_IA_MAGIC_BEAN
-    func_8083485C, // PLAYER_IA_POCKET_EGG
-    func_8083485C, // PLAYER_IA_POCKET_CUCCO
-    func_8083485C, // PLAYER_IA_COJIRO
-    func_8083485C, // PLAYER_IA_ODD_MUSHROOM
-    func_8083485C, // PLAYER_IA_ODD_POTION
-    func_8083485C, // PLAYER_IA_POACHERS_SAW
-    func_8083485C, // PLAYER_IA_BROKEN_GORONS_SWORD
-    func_8083485C, // PLAYER_IA_PRESCRIPTION
-    func_8083485C, // PLAYER_IA_FROG
-    func_8083485C, // PLAYER_IA_EYEDROPS
-    func_8083485C, // PLAYER_IA_CLAIM_CHECK
-    func_8083485C, // PLAYER_IA_MASK_KEATON
-    func_8083485C, // PLAYER_IA_MASK_SKULL
-    func_8083485C, // PLAYER_IA_MASK_SPOOKY
-    func_8083485C, // PLAYER_IA_MASK_BUNNY_HOOD
-    func_8083485C, // PLAYER_IA_MASK_GORON
-    func_8083485C, // PLAYER_IA_MASK_ZORA
-    func_8083485C, // PLAYER_IA_MASK_GERUDO
-    func_8083485C, // PLAYER_IA_MASK_TRUTH
-    func_8083485C, // PLAYER_IA_LENS_OF_TRUTH
+    func_8083485C,                 // PLAYER_IA_NONE
+    func_8083485C,                 // PLAYER_IA_SWORD_CS
+    func_8083485C,                 // PLAYER_IA_FISHING_POLE
+    Player_UpperAction_Sword,      // PLAYER_IA_SWORD_MASTER
+    Player_UpperAction_Sword,      // PLAYER_IA_SWORD_KOKIRI
+    Player_UpperAction_Sword,      // PLAYER_IA_SWORD_BIGGORON
+    func_8083485C,                 // PLAYER_IA_DEKU_STICK
+    func_8083485C,                 // PLAYER_IA_HAMMER
+    func_8083501C,                 // PLAYER_IA_BOW
+    func_8083501C,                 // PLAYER_IA_BOW_FIRE
+    func_8083501C,                 // PLAYER_IA_BOW_ICE
+    func_8083501C,                 // PLAYER_IA_BOW_LIGHT
+    func_8083501C,                 // PLAYER_IA_BOW_0C
+    func_8083501C,                 // PLAYER_IA_BOW_0D
+    func_8083501C,                 // PLAYER_IA_BOW_0E
+    func_8083501C,                 // PLAYER_IA_SLINGSHOT
+    func_8083501C,                 // PLAYER_IA_HOOKSHOT
+    func_8083501C,                 // PLAYER_IA_LONGSHOT
+    Player_UpperAction_CarryActor, // PLAYER_IA_BOMB
+    Player_UpperAction_CarryActor, // PLAYER_IA_BOMBCHU
+    func_80835800,                 // PLAYER_IA_BOOMERANG
+    func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_15
+    func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_16
+    func_8083485C,                 // PLAYER_IA_MAGIC_SPELL_17
+    func_8083485C,                 // PLAYER_IA_FARORES_WIND
+    func_8083485C,                 // PLAYER_IA_NAYRUS_LOVE
+    func_8083485C,                 // PLAYER_IA_DINS_FIRE
+    func_8083485C,                 // PLAYER_IA_DEKU_NUT
+    func_8083485C,                 // PLAYER_IA_OCARINA_FAIRY
+    func_8083485C,                 // PLAYER_IA_OCARINA_OF_TIME
+    func_8083485C,                 // PLAYER_IA_BOTTLE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_FISH
+    func_8083485C,                 // PLAYER_IA_BOTTLE_FIRE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_BUG
+    func_8083485C,                 // PLAYER_IA_BOTTLE_POE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_BIG_POE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_RUTOS_LETTER
+    func_8083485C,                 // PLAYER_IA_BOTTLE_POTION_RED
+    func_8083485C,                 // PLAYER_IA_BOTTLE_POTION_BLUE
+    func_8083485C,                 // PLAYER_IA_BOTTLE_POTION_GREEN
+    func_8083485C,                 // PLAYER_IA_BOTTLE_MILK_FULL
+    func_8083485C,                 // PLAYER_IA_BOTTLE_MILK_HALF
+    func_8083485C,                 // PLAYER_IA_BOTTLE_FAIRY
+    func_8083485C,                 // PLAYER_IA_ZELDAS_LETTER
+    func_8083485C,                 // PLAYER_IA_WEIRD_EGG
+    func_8083485C,                 // PLAYER_IA_CHICKEN
+    func_8083485C,                 // PLAYER_IA_MAGIC_BEAN
+    func_8083485C,                 // PLAYER_IA_POCKET_EGG
+    func_8083485C,                 // PLAYER_IA_POCKET_CUCCO
+    func_8083485C,                 // PLAYER_IA_COJIRO
+    func_8083485C,                 // PLAYER_IA_ODD_MUSHROOM
+    func_8083485C,                 // PLAYER_IA_ODD_POTION
+    func_8083485C,                 // PLAYER_IA_POACHERS_SAW
+    func_8083485C,                 // PLAYER_IA_BROKEN_GORONS_SWORD
+    func_8083485C,                 // PLAYER_IA_PRESCRIPTION
+    func_8083485C,                 // PLAYER_IA_FROG
+    func_8083485C,                 // PLAYER_IA_EYEDROPS
+    func_8083485C,                 // PLAYER_IA_CLAIM_CHECK
+    func_8083485C,                 // PLAYER_IA_MASK_KEATON
+    func_8083485C,                 // PLAYER_IA_MASK_SKULL
+    func_8083485C,                 // PLAYER_IA_MASK_SPOOKY
+    func_8083485C,                 // PLAYER_IA_MASK_BUNNY_HOOD
+    func_8083485C,                 // PLAYER_IA_MASK_GORON
+    func_8083485C,                 // PLAYER_IA_MASK_ZORA
+    func_8083485C,                 // PLAYER_IA_MASK_GERUDO
+    func_8083485C,                 // PLAYER_IA_MASK_TRUTH
+    func_8083485C,                 // PLAYER_IA_LENS_OF_TRUTH
 };
 
 static void (*sItemActionInitFuncs[])(PlayState* play, Player* this) = {
-    func_80833770, // PLAYER_IA_NONE
-    func_80833770, // PLAYER_IA_SWORD_CS
-    func_80833770, // PLAYER_IA_FISHING_POLE
-    func_80833770, // PLAYER_IA_SWORD_MASTER
-    func_80833770, // PLAYER_IA_SWORD_KOKIRI
-    func_80833770, // PLAYER_IA_SWORD_BIGGORON
-    func_8083377C, // PLAYER_IA_DEKU_STICK
-    func_80833790, // PLAYER_IA_HAMMER
-    func_8083379C, // PLAYER_IA_BOW
-    func_8083379C, // PLAYER_IA_BOW_FIRE
-    func_8083379C, // PLAYER_IA_BOW_ICE
-    func_8083379C, // PLAYER_IA_BOW_LIGHT
-    func_8083379C, // PLAYER_IA_BOW_0C
-    func_8083379C, // PLAYER_IA_BOW_0D
-    func_8083379C, // PLAYER_IA_BOW_0E
-    func_8083379C, // PLAYER_IA_SLINGSHOT
-    func_80833910, // PLAYER_IA_HOOKSHOT
-    func_80833910, // PLAYER_IA_LONGSHOT
-    func_808337D4, // PLAYER_IA_BOMB
-    func_808337D4, // PLAYER_IA_BOMBCHU
-    func_80833984, // PLAYER_IA_BOOMERANG
-    func_80833770, // PLAYER_IA_MAGIC_SPELL_15
-    func_80833770, // PLAYER_IA_MAGIC_SPELL_16
-    func_80833770, // PLAYER_IA_MAGIC_SPELL_17
-    func_80833770, // PLAYER_IA_FARORES_WIND
-    func_80833770, // PLAYER_IA_NAYRUS_LOVE
-    func_80833770, // PLAYER_IA_DINS_FIRE
-    func_80833770, // PLAYER_IA_DEKU_NUT
-    func_80833770, // PLAYER_IA_OCARINA_FAIRY
-    func_80833770, // PLAYER_IA_OCARINA_OF_TIME
-    func_80833770, // PLAYER_IA_BOTTLE
-    func_80833770, // PLAYER_IA_BOTTLE_FISH
-    func_80833770, // PLAYER_IA_BOTTLE_FIRE
-    func_80833770, // PLAYER_IA_BOTTLE_BUG
-    func_80833770, // PLAYER_IA_BOTTLE_POE
-    func_80833770, // PLAYER_IA_BOTTLE_BIG_POE
-    func_80833770, // PLAYER_IA_BOTTLE_RUTOS_LETTER
-    func_80833770, // PLAYER_IA_BOTTLE_POTION_RED
-    func_80833770, // PLAYER_IA_BOTTLE_POTION_BLUE
-    func_80833770, // PLAYER_IA_BOTTLE_POTION_GREEN
-    func_80833770, // PLAYER_IA_BOTTLE_MILK_FULL
-    func_80833770, // PLAYER_IA_BOTTLE_MILK_HALF
-    func_80833770, // PLAYER_IA_BOTTLE_FAIRY
-    func_80833770, // PLAYER_IA_ZELDAS_LETTER
-    func_80833770, // PLAYER_IA_WEIRD_EGG
-    func_80833770, // PLAYER_IA_CHICKEN
-    func_80833770, // PLAYER_IA_MAGIC_BEAN
-    func_80833770, // PLAYER_IA_POCKET_EGG
-    func_80833770, // PLAYER_IA_POCKET_CUCCO
-    func_80833770, // PLAYER_IA_COJIRO
-    func_80833770, // PLAYER_IA_ODD_MUSHROOM
-    func_80833770, // PLAYER_IA_ODD_POTION
-    func_80833770, // PLAYER_IA_POACHERS_SAW
-    func_80833770, // PLAYER_IA_BROKEN_GORONS_SWORD
-    func_80833770, // PLAYER_IA_PRESCRIPTION
-    func_80833770, // PLAYER_IA_FROG
-    func_80833770, // PLAYER_IA_EYEDROPS
-    func_80833770, // PLAYER_IA_CLAIM_CHECK
-    func_80833770, // PLAYER_IA_MASK_KEATON
-    func_80833770, // PLAYER_IA_MASK_SKULL
-    func_80833770, // PLAYER_IA_MASK_SPOOKY
-    func_80833770, // PLAYER_IA_MASK_BUNNY_HOOD
-    func_80833770, // PLAYER_IA_MASK_GORON
-    func_80833770, // PLAYER_IA_MASK_ZORA
-    func_80833770, // PLAYER_IA_MASK_GERUDO
-    func_80833770, // PLAYER_IA_MASK_TRUTH
-    func_80833770, // PLAYER_IA_LENS_OF_TRUTH
+    Player_InitDefaultIA,        // PLAYER_IA_NONE
+    Player_InitDefaultIA,        // PLAYER_IA_SWORD_CS
+    Player_InitDefaultIA,        // PLAYER_IA_FISHING_POLE
+    Player_InitDefaultIA,        // PLAYER_IA_SWORD_MASTER
+    Player_InitDefaultIA,        // PLAYER_IA_SWORD_KOKIRI
+    Player_InitDefaultIA,        // PLAYER_IA_SWORD_BIGGORON
+    Player_InitDekuStickIA,      // PLAYER_IA_DEKU_STICK
+    Player_InitHammerIA,         // PLAYER_IA_HAMMER
+    Player_InitBowOrSlingshotIA, // PLAYER_IA_BOW
+    Player_InitBowOrSlingshotIA, // PLAYER_IA_BOW_FIRE
+    Player_InitBowOrSlingshotIA, // PLAYER_IA_BOW_ICE
+    Player_InitBowOrSlingshotIA, // PLAYER_IA_BOW_LIGHT
+    Player_InitBowOrSlingshotIA, // PLAYER_IA_BOW_0C
+    Player_InitBowOrSlingshotIA, // PLAYER_IA_BOW_0D
+    Player_InitBowOrSlingshotIA, // PLAYER_IA_BOW_0E
+    Player_InitBowOrSlingshotIA, // PLAYER_IA_SLINGSHOT
+    Player_InitHookshotIA,       // PLAYER_IA_HOOKSHOT
+    Player_InitHookshotIA,       // PLAYER_IA_LONGSHOT
+    Player_InitExplosiveIA,      // PLAYER_IA_BOMB
+    Player_InitExplosiveIA,      // PLAYER_IA_BOMBCHU
+    Player_InitBoomerangIA,      // PLAYER_IA_BOOMERANG
+    Player_InitDefaultIA,        // PLAYER_IA_MAGIC_SPELL_15
+    Player_InitDefaultIA,        // PLAYER_IA_MAGIC_SPELL_16
+    Player_InitDefaultIA,        // PLAYER_IA_MAGIC_SPELL_17
+    Player_InitDefaultIA,        // PLAYER_IA_FARORES_WIND
+    Player_InitDefaultIA,        // PLAYER_IA_NAYRUS_LOVE
+    Player_InitDefaultIA,        // PLAYER_IA_DINS_FIRE
+    Player_InitDefaultIA,        // PLAYER_IA_DEKU_NUT
+    Player_InitDefaultIA,        // PLAYER_IA_OCARINA_FAIRY
+    Player_InitDefaultIA,        // PLAYER_IA_OCARINA_OF_TIME
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_FISH
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_FIRE
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_BUG
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_POE
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_BIG_POE
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_RUTOS_LETTER
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_POTION_RED
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_POTION_BLUE
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_POTION_GREEN
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_MILK_FULL
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_MILK_HALF
+    Player_InitDefaultIA,        // PLAYER_IA_BOTTLE_FAIRY
+    Player_InitDefaultIA,        // PLAYER_IA_ZELDAS_LETTER
+    Player_InitDefaultIA,        // PLAYER_IA_WEIRD_EGG
+    Player_InitDefaultIA,        // PLAYER_IA_CHICKEN
+    Player_InitDefaultIA,        // PLAYER_IA_MAGIC_BEAN
+    Player_InitDefaultIA,        // PLAYER_IA_POCKET_EGG
+    Player_InitDefaultIA,        // PLAYER_IA_POCKET_CUCCO
+    Player_InitDefaultIA,        // PLAYER_IA_COJIRO
+    Player_InitDefaultIA,        // PLAYER_IA_ODD_MUSHROOM
+    Player_InitDefaultIA,        // PLAYER_IA_ODD_POTION
+    Player_InitDefaultIA,        // PLAYER_IA_POACHERS_SAW
+    Player_InitDefaultIA,        // PLAYER_IA_BROKEN_GORONS_SWORD
+    Player_InitDefaultIA,        // PLAYER_IA_PRESCRIPTION
+    Player_InitDefaultIA,        // PLAYER_IA_FROG
+    Player_InitDefaultIA,        // PLAYER_IA_EYEDROPS
+    Player_InitDefaultIA,        // PLAYER_IA_CLAIM_CHECK
+    Player_InitDefaultIA,        // PLAYER_IA_MASK_KEATON
+    Player_InitDefaultIA,        // PLAYER_IA_MASK_SKULL
+    Player_InitDefaultIA,        // PLAYER_IA_MASK_SPOOKY
+    Player_InitDefaultIA,        // PLAYER_IA_MASK_BUNNY_HOOD
+    Player_InitDefaultIA,        // PLAYER_IA_MASK_GORON
+    Player_InitDefaultIA,        // PLAYER_IA_MASK_ZORA
+    Player_InitDefaultIA,        // PLAYER_IA_MASK_GERUDO
+    Player_InitDefaultIA,        // PLAYER_IA_MASK_TRUTH
+    Player_InitDefaultIA,        // PLAYER_IA_LENS_OF_TRUTH
 };
 
 typedef enum {
@@ -2176,17 +2179,17 @@ s8 Player_ItemToItemAction(s32 item) {
     }
 }
 
-void func_80833770(PlayState* play, Player* this) {
+void Player_InitDefaultIA(PlayState* play, Player* this) {
 }
 
-void func_8083377C(PlayState* play, Player* this) {
+void Player_InitDekuStickIA(PlayState* play, Player* this) {
     this->unk_85C = 1.0f;
 }
 
-void func_80833790(PlayState* play, Player* this) {
+void Player_InitHammerIA(PlayState* play, Player* this) {
 }
 
-void func_8083379C(PlayState* play, Player* this) {
+void Player_InitBowOrSlingshotIA(PlayState* play, Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_3;
 
     if (this->heldItemAction != PLAYER_IA_SLINGSHOT) {
@@ -2196,7 +2199,7 @@ void func_8083379C(PlayState* play, Player* this) {
     }
 }
 
-void func_808337D4(PlayState* play, Player* this) {
+void Player_InitExplosiveIA(PlayState* play, Player* this) {
     s32 explosiveType;
     ExplosiveInfo* explosiveInfo;
     Actor* spawnedActor;
@@ -2230,7 +2233,7 @@ void func_808337D4(PlayState* play, Player* this) {
     }
 }
 
-void func_80833910(PlayState* play, Player* this) {
+void Player_InitHookshotIA(PlayState* play, Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_3;
     this->unk_860 = -3;
 
@@ -2239,7 +2242,7 @@ void func_80833910(PlayState* play, Player* this) {
                            this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.shape.rot.y, 0, 0);
 }
 
-void func_80833984(PlayState* play, Player* this) {
+void Player_InitBoomerangIA(PlayState* play, Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_24;
 }
 
@@ -2653,7 +2656,11 @@ s32 func_8083499C(Player* this, PlayState* play) {
     return 1;
 }
 
-s32 func_808349DC(Player* this, PlayState* play) {
+/**
+ * The actual sword weapon is not handled here. See `Player_ActionChange_7` for melee weapon usage.
+ * This upper body action allows for shielding or changing held items while a sword is in hand.
+*/
+s32 Player_UpperAction_Sword(Player* this, PlayState* play) {
     if (func_80834758(play, this) || func_8083499C(this, play)) {
         return 1;
     } else {
@@ -2979,12 +2986,12 @@ s32 func_80835644(PlayState* play, Player* this, Actor* arg2) {
 
 void func_80835688(Player* this, PlayState* play) {
     if (!func_80835644(play, this, this->heldActor)) {
-        Player_SetUpperActionFunc(this, func_808356E8);
+        Player_SetUpperActionFunc(this, Player_UpperAction_CarryActor);
         LinkAnimation_PlayLoop(play, &this->upperSkelAnime, &gPlayerAnim_link_normal_carryB_wait);
     }
 }
 
-s32 func_808356E8(Player* this, PlayState* play) {
+s32 Player_UpperAction_CarryActor(Player* this, PlayState* play) {
     Actor* heldActor = this->heldActor;
 
     if (heldActor == NULL) {
