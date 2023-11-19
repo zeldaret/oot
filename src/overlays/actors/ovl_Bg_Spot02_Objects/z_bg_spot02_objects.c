@@ -74,7 +74,7 @@ void BgSpot02Objects_Init(Actor* thisx, PlayState* play) {
             } else if (thisx->params == 1) {
                 this->actionFunc = func_808AC8FC;
                 CollisionHeader_GetVirtual(&object_spot02_objects_Col_0128D8, &colHeader);
-                thisx->flags |= ACTOR_FLAG_22;
+                thisx->flags |= ACTOR_FLAG_IGNORE_POINT_LIGHTS;
             } else {
                 if (play->sceneId == SCENE_GRAVEYARD) {
                     this->actionFunc = func_808AC908;
