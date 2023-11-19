@@ -11,14 +11,14 @@
 #define FLAGS ACTOR_FLAG_4
 
 typedef enum {
-    JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
-    JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1 = 3,
-    JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
+    BDAN_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
+    BDAN_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1 = 3,
+    BDAN_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
 } BgBdanObjectsPropertyGetter;
 typedef enum {
-    JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1 = 1,
-    JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1 = 2,
-    JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
+    BDAN_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1 = 1,
+    BDAN_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1 = 2,
+    BDAN_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
 } BgBdanObjectsPropertySetter;
 
 void BgBdanObjects_Init(Actor* thisx, PlayState* play);
@@ -88,11 +88,11 @@ static Gfx* sDLists[] = {
 
 s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0:
+        case BDAN_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0:
             return this->cameraSetting == CAM_SET_NORMAL0;
-        case JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
+        case BDAN_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
             return GET_INFTABLE(INFTABLE_146);
-        case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
+        case BDAN_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
             osSyncPrintf("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
@@ -102,13 +102,13 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
 
 void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
-        case JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1:
+        case BDAN_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1:
             this->cameraSetting = CAM_SET_NORMAL1;
             break;
-        case JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1:
+        case BDAN_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1:
             this->cameraSetting = CAM_SET_DUNGEON0;
             break;
-        case JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
+        case BDAN_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE:
             SET_INFTABLE(INFTABLE_146);
             break;
         default:
@@ -125,13 +125,13 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     this->switchFlag = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
-    if (thisx->params == BDAN_OBJECT_TYPE_WATERBOX_HEIGHT_CHANGER) {
+    if (thisx->params == BDAN_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
         thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
         play->colCtx.colHeader->waterBoxes[7].ySurface = thisx->world.pos.y;
         this->actionFunc = BgBdanObjects_WaitForSwitch;
         return;
     }
-    if (thisx->params == BDAN_OBJECT_TYPE_BIG_OCTO_PLATFORM) {
+    if (thisx->params == BDAN_OBJECTS_TYPE_BIG_OCTO_PLATFORM) {
         CollisionHeader_GetVirtual(&gJabuBigOctoPlatformCol, &colHeader);
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
@@ -140,7 +140,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
             Flags_SetSwitch(play, this->switchFlag);
             this->actionFunc = BgBdanObjects_SinkToFloorHeight;
         } else {
-            if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE)) {
+            if (BgBdanObjects_GetProperty(this, BDAN_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE)) {
                 if (Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_BIGOKUTA, thisx->home.pos.x,
                                        thisx->home.pos.y, thisx->home.pos.z, 0, thisx->shape.rot.y + 0x8000, 0,
                                        3) != NULL) {
@@ -156,12 +156,12 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
             }
         }
     } else {
-        if (thisx->params == BDAN_OBJECT_TYPE_SMALL_AUTO_ELEVATOR) {
+        if (thisx->params == BDAN_OBJECTS_TYPE_SMALL_AUTO_ELEVATOR) {
             CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
             this->timer = 512;
             this->camChangeTimer = 0;
             this->actionFunc = BgBdanObjects_ElevatorOscillate;
-        } else { // BDAN_OBJECT_TYPE_FALLING_PLATFORM
+        } else { // BDAN_OBJECTS_TYPE_FALLING_PLATFORM
             CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
             if (Flags_GetSwitch(play, this->switchFlag)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
@@ -178,7 +178,7 @@ void BgBdanObjects_Destroy(Actor* thisx, PlayState* play) {
     BgBdanObjects* this = (BgBdanObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if (thisx->params == BDAN_OBJECT_TYPE_BIG_OCTO_PLATFORM) {
+    if (thisx->params == BDAN_OBJECTS_TYPE_BIG_OCTO_PLATFORM) {
         Collider_DestroyCylinder(play, &this->collider);
     }
 }
@@ -190,9 +190,9 @@ void BgBdanObjects_Destroy(Actor* thisx, PlayState* play) {
  */
 void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
+    if (BgBdanObjects_GetProperty(this, BDAN_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
-            BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1);
+            BgBdanObjects_SetProperty(this, BDAN_OBJECTS_SET_PROP_CAM_SETTING_NORMAL1);
             this->timer = 20;
             OnePointCutscene_Init(play, 3070, -99, &this->dyna.actor, CAM_ID_MAIN);
             player->actor.world.pos.x = -1130.0f;
@@ -209,7 +209,7 @@ void BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene(BgBdanObjects* this, 
         }
     }
 
-    if (!Play_InCsMode(play) && !BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
+    if (!Play_InCsMode(play) && !BgBdanObjects_GetProperty(this, BDAN_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0)) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + -79.0f;
     } else {
         this->dyna.actor.world.pos.y = (this->dyna.actor.home.pos.y + -79.0f) - 5.0f;
@@ -222,7 +222,7 @@ void BgBdanObjects_OctoPlatform_RaiseToUpperPosition(BgBdanObjects* this, PlaySt
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
         this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene;
         this->timer = 30;
-        BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1);
+        BgBdanObjects_SetProperty(this, BDAN_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1);
         Rumble_Request(0.0f, 255, 20, 150);
     } else {
         if (this->timer != 0) {
@@ -253,11 +253,11 @@ void BgBdanObjects_OctoPlatform_WaitForRutoToAdvanceCutscene(BgBdanObjects* this
         }
     }
 
-    if (BgBdanObjects_GetProperty(this, JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1)) {
+    if (BgBdanObjects_GetProperty(this, BDAN_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1)) {
         Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_BIGOKUTA, this->dyna.actor.world.pos.x,
                            this->dyna.actor.world.pos.y + 140.0f, this->dyna.actor.world.pos.z, 0,
                            this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
-        BgBdanObjects_SetProperty(this, JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE);
+        BgBdanObjects_SetProperty(this, BDAN_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE);
         this->timer = 10;
         this->actionFunc = BgBdanObjects_OctoPlatform_PauseBeforeDescending;
         func_8005B1A4(GET_ACTIVE_CAM(play));
@@ -468,7 +468,7 @@ void BgBdanObjects_Update(Actor* thisx, PlayState* play) {
 void BgBdanObjects_Draw(Actor* thisx, PlayState* play) {
     BgBdanObjects* this = (BgBdanObjects*)thisx;
 
-    if (thisx->params == BDAN_OBJECT_TYPE_BIG_OCTO_PLATFORM) {
+    if (thisx->params == BDAN_OBJECTS_TYPE_BIG_OCTO_PLATFORM) {
         if (this->actionFunc == BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene) {
             if (((thisx->home.pos.y + -79.0f) - 5.0f) < thisx->world.pos.y) {
                 Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
@@ -476,7 +476,7 @@ void BgBdanObjects_Draw(Actor* thisx, PlayState* play) {
         }
     }
 
-    if (thisx->params == BDAN_OBJECT_TYPE_WATERBOX_HEIGHT_CHANGER) {
+    if (thisx->params == BDAN_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
         Gfx_DrawDListXlu(play, gJabuWaterDL);
     } else {
         Gfx_DrawDListOpa(play, sDLists[thisx->params]);
