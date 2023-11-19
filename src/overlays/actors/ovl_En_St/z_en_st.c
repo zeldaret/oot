@@ -790,7 +790,7 @@ void EnSt_Init(Actor* thisx, PlayState* play) {
     this->blureIdx = EnSt_CreateBlureEffect(play);
     EnSt_InitColliders(this, play);
     if (thisx->params == 2) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     }
     if (this->actor.params == 1) {
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_SKULLTULA;

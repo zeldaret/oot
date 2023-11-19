@@ -292,9 +292,9 @@ void BgHakaGate_FalseSkull(BgHakaGate* this, PlayState* play) {
         Math_StepToS(&this->vFlameScale, 350, 20);
     }
     if (play->actorCtx.lensActive) {
-        this->dyna.actor.flags |= ACTOR_FLAG_7;
+        this->dyna.actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     } else {
-        this->dyna.actor.flags &= ~ACTOR_FLAG_7;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -345,7 +345,7 @@ void BgHakaGate_Draw(Actor* thisx, PlayState* play) {
     BgHakaGate* this = (BgHakaGate*)thisx;
     MtxF currentMtxF;
 
-    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, object_haka_objects_DL_00F1B0);
     } else {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);

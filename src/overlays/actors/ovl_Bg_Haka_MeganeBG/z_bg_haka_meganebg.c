@@ -72,7 +72,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, PlayState* play) {
 
         if (thisx->params == 0) {
             CollisionHeader_GetVirtual(&object_haka_objects_Col_009168, &colHeader);
-            thisx->flags |= ACTOR_FLAG_7;
+            thisx->flags |= ACTOR_FLAG_REACT_TO_LENS;
             this->unk_16A = 20;
             this->actionFunc = func_8087DFF8;
         } else if (thisx->params == 3) {
