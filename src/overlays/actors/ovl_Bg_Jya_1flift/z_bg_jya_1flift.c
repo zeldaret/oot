@@ -26,15 +26,15 @@ void BgJya1flift_DelayMove(BgJya1flift* this, PlayState* play);
 static u8 sIsSpawned = false;
 
 ActorInit Bg_Jya_1flift_InitVars = {
-    ACTOR_BG_JYA_1FLIFT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJya1flift),
-    (ActorFunc)BgJya1flift_Init,
-    (ActorFunc)BgJya1flift_Destroy,
-    (ActorFunc)BgJya1flift_Update,
-    (ActorFunc)BgJya1flift_Draw,
+    /**/ ACTOR_BG_JYA_1FLIFT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJya1flift),
+    /**/ BgJya1flift_Init,
+    /**/ BgJya1flift_Destroy,
+    /**/ BgJya1flift_Update,
+    /**/ BgJya1flift_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -189,9 +189,9 @@ void BgJya1flift_Update(Actor* thisx, PlayState* play2) {
         tempIsRiding = DynaPolyActor_IsPlayerOnTop(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
             } else if (!tempIsRiding && this->isLinkRiding) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
         }
         this->isLinkRiding = tempIsRiding;

@@ -26,15 +26,15 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_DoNothing(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Ganon_Otyuka_InitVars = {
-    ACTOR_BG_GANON_OTYUKA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GANON,
-    sizeof(BgGanonOtyuka),
-    (ActorFunc)BgGanonOtyuka_Init,
-    (ActorFunc)BgGanonOtyuka_Destroy,
-    (ActorFunc)BgGanonOtyuka_Update,
-    (ActorFunc)BgGanonOtyuka_Draw,
+    /**/ ACTOR_BG_GANON_OTYUKA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GANON,
+    /**/ sizeof(BgGanonOtyuka),
+    /**/ BgGanonOtyuka_Init,
+    /**/ BgGanonOtyuka_Destroy,
+    /**/ BgGanonOtyuka_Update,
+    /**/ BgGanonOtyuka_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

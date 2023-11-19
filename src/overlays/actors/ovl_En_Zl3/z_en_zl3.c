@@ -523,7 +523,7 @@ void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
         s32 temp_t3 = this->unk_25C[arg2];
         s32 phi_v0 = temp_t3;
         s32 index25C;
-        s32 phi_t5;
+        int phi_t5;
 
         temp_t3 = arg1 - this->unk_2BC[arg2];
 
@@ -2088,7 +2088,7 @@ void func_80B582C8(EnZl3* this, PlayState* play) {
         *unk_3CC += 1.0f;
         func_80B57858(play);
     } else if (*unk_3CC == kREG(17) + 40.0f) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         *unk_3CC += 1.0f;
     } else if (*unk_3CC >= ((kREG(17) + 40.0f) + 1.0f)) {
         this->action = 32;
@@ -2153,7 +2153,7 @@ void func_80B58624(EnZl3* this, PlayState* play) {
     } else {
         if (*unk_3CC >= kREG(20) + 30.0f) {
             this->action = 28;
-            func_8005B1A4(GET_ACTIVE_CAM(play));
+            Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
             func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, -12.0f, 0);
             *unk_3CC = 0.0f;
         } else {
@@ -2757,13 +2757,13 @@ void EnZl3_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit En_Zl3_InitVars = {
-    ACTOR_EN_ZL3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnZl3),
-    (ActorFunc)EnZl3_Init,
-    (ActorFunc)EnZl3_Destroy,
-    (ActorFunc)EnZl3_Update,
-    (ActorFunc)EnZl3_Draw,
+    /**/ ACTOR_EN_ZL3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnZl3),
+    /**/ EnZl3_Init,
+    /**/ EnZl3_Destroy,
+    /**/ EnZl3_Update,
+    /**/ EnZl3_Draw,
 };

@@ -22,15 +22,15 @@ void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play);
 void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play);
 
 ActorInit En_Wall_Tubo_InitVars = {
-    ACTOR_EN_WALL_TUBO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWallTubo),
-    (ActorFunc)EnWallTubo_Init,
-    (ActorFunc)EnWallTubo_Destroy,
-    (ActorFunc)EnWallTubo_Update,
-    NULL,
+    /**/ ACTOR_EN_WALL_TUBO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWallTubo),
+    /**/ EnWallTubo_Init,
+    /**/ EnWallTubo_Destroy,
+    /**/ EnWallTubo_Update,
+    /**/ NULL,
 };
 
 void EnWallTubo_Init(Actor* thisx, PlayState* play) {

@@ -15,15 +15,15 @@ void EnLightbox_Update(Actor* thisx, PlayState* play);
 void EnLightbox_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Lightbox_InitVars = {
-    ACTOR_EN_LIGHTBOX,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_LIGHTBOX,
-    sizeof(EnLightbox),
-    (ActorFunc)EnLightbox_Init,
-    (ActorFunc)EnLightbox_Destroy,
-    (ActorFunc)EnLightbox_Update,
-    (ActorFunc)EnLightbox_Draw,
+    /**/ ACTOR_EN_LIGHTBOX,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_LIGHTBOX,
+    /**/ sizeof(EnLightbox),
+    /**/ EnLightbox_Init,
+    /**/ EnLightbox_Destroy,
+    /**/ EnLightbox_Update,
+    /**/ EnLightbox_Draw,
 };
 
 void EnLightbox_Init(Actor* thisx, PlayState* play) {

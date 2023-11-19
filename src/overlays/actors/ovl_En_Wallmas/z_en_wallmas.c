@@ -39,15 +39,15 @@ void EnWallmas_Stun(EnWallmas* this, PlayState* play);
 void EnWallmas_Walk(EnWallmas* this, PlayState* play);
 
 ActorInit En_Wallmas_InitVars = {
-    ACTOR_EN_WALLMAS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_WALLMASTER,
-    sizeof(EnWallmas),
-    (ActorFunc)EnWallmas_Init,
-    (ActorFunc)EnWallmas_Destroy,
-    (ActorFunc)EnWallmas_Update,
-    (ActorFunc)EnWallmas_Draw,
+    /**/ ACTOR_EN_WALLMAS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_WALLMASTER,
+    /**/ sizeof(EnWallmas),
+    /**/ EnWallmas_Init,
+    /**/ EnWallmas_Destroy,
+    /**/ EnWallmas_Update,
+    /**/ EnWallmas_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -259,7 +259,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, PlayState* play) {
     this->actor.velocity.y = 0.0f;
 
     this->yTarget = this->actor.yDistToPlayer;
-    func_8002DF38(play, &this->actor, PLAYER_CSACTION_37);
+    Player_SetCsAction(play, &this->actor, PLAYER_CSACTION_37);
     OnePointCutscene_Init(play, 9500, 9999, &this->actor, CAM_ID_MAIN);
 }
 

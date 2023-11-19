@@ -30,15 +30,15 @@ extern CutsceneData D_808BD520[];
 extern CutsceneData D_808BD790[];
 
 ActorInit Bg_Treemouth_InitVars = {
-    ACTOR_BG_TREEMOUTH,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT04_OBJECTS,
-    sizeof(BgTreemouth),
-    (ActorFunc)BgTreemouth_Init,
-    (ActorFunc)BgTreemouth_Destroy,
-    (ActorFunc)BgTreemouth_Update,
-    (ActorFunc)BgTreemouth_Draw,
+    /**/ ACTOR_BG_TREEMOUTH,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT04_OBJECTS,
+    /**/ sizeof(BgTreemouth),
+    /**/ BgTreemouth_Init,
+    /**/ BgTreemouth_Destroy,
+    /**/ BgTreemouth_Update,
+    /**/ BgTreemouth_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

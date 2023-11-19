@@ -67,9 +67,9 @@ void ExporterExample_Collision::Save(ZResource* res, [[maybe_unused]] fs::path o
 
 	for (auto entry : col->camData->entries)
 	{
-		writer->Write(entry->cameraSType);
-		writer->Write(entry->numData);
-		writer->Write(entry->cameraPosDataSeg);
+		writer->Write(entry.cameraSType);
+		writer->Write(entry.numData);
+		writer->Write(entry.cameraPosDataSeg);
 	}
 
 	writer->Seek(oldOffset, SeekOffsetType::Start);

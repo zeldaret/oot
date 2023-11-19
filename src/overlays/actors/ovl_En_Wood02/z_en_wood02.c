@@ -34,15 +34,15 @@ typedef enum {
 } WoodDrawType;
 
 ActorInit En_Wood02_InitVars = {
-    ACTOR_EN_WOOD02,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_WOOD02,
-    sizeof(EnWood02),
-    (ActorFunc)EnWood02_Init,
-    (ActorFunc)EnWood02_Destroy,
-    (ActorFunc)EnWood02_Update,
-    (ActorFunc)EnWood02_Draw,
+    /**/ ACTOR_EN_WOOD02,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_WOOD02,
+    /**/ sizeof(EnWood02),
+    /**/ EnWood02_Init,
+    /**/ EnWood02_Destroy,
+    /**/ EnWood02_Update,
+    /**/ EnWood02_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

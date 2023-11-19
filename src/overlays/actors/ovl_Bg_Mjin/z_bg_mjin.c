@@ -25,15 +25,15 @@ void func_808A0850(BgMjin* this, PlayState* play);
 void BgMjin_DoNothing(BgMjin* this, PlayState* play);
 
 ActorInit Bg_Mjin_InitVars = {
-    ACTOR_BG_MJIN,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgMjin),
-    (ActorFunc)BgMjin_Init,
-    (ActorFunc)BgMjin_Destroy,
-    (ActorFunc)BgMjin_Update,
-    NULL,
+    /**/ ACTOR_BG_MJIN,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgMjin),
+    /**/ BgMjin_Init,
+    /**/ BgMjin_Destroy,
+    /**/ BgMjin_Update,
+    /**/ NULL,
 };
 
 extern UNK_TYPE D_06000000;

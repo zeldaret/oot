@@ -32,15 +32,15 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, PlayState* play);
 void BgHidanFwbig_Move(BgHidanFwbig* this, PlayState* play);
 
 ActorInit Bg_Hidan_Fwbig_InitVars = {
-    ACTOR_BG_HIDAN_FWBIG,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanFwbig),
-    (ActorFunc)BgHidanFwbig_Init,
-    (ActorFunc)BgHidanFwbig_Destroy,
-    (ActorFunc)BgHidanFwbig_Update,
-    (ActorFunc)BgHidanFwbig_Draw,
+    /**/ ACTOR_BG_HIDAN_FWBIG,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanFwbig),
+    /**/ BgHidanFwbig_Init,
+    /**/ BgHidanFwbig_Destroy,
+    /**/ BgHidanFwbig_Update,
+    /**/ BgHidanFwbig_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

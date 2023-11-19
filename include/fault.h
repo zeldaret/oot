@@ -2,6 +2,7 @@
 #define FAULT_H
 
 #include "ultra64.h"
+#include "attributes.h"
 #include "padmgr.h"
 
 // These are the same as the 3-bit ansi color codes

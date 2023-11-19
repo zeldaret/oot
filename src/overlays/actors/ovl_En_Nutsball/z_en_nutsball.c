@@ -23,15 +23,15 @@ void func_80ABBB34(EnNutsball* this, PlayState* play);
 void func_80ABBBA8(EnNutsball* this, PlayState* play);
 
 ActorInit En_Nutsball_InitVars = {
-    ACTOR_EN_NUTSBALL,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnNutsball),
-    (ActorFunc)EnNutsball_Init,
-    (ActorFunc)EnNutsball_Destroy,
-    (ActorFunc)EnNutsball_Update,
-    (ActorFunc)NULL,
+    /**/ ACTOR_EN_NUTSBALL,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnNutsball),
+    /**/ EnNutsball_Init,
+    /**/ EnNutsball_Destroy,
+    /**/ EnNutsball_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sCylinderInit = {

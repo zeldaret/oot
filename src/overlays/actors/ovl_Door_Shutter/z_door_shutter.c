@@ -49,15 +49,15 @@ void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play);
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play);
 
 ActorInit Door_Shutter_InitVars = {
-    ACTOR_DOOR_SHUTTER,
-    ACTORCAT_DOOR,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DoorShutter),
-    (ActorFunc)DoorShutter_Init,
-    (ActorFunc)DoorShutter_Destroy,
-    (ActorFunc)DoorShutter_Update,
-    (ActorFunc)DoorShutter_Draw,
+    /**/ ACTOR_DOOR_SHUTTER,
+    /**/ ACTORCAT_DOOR,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DoorShutter),
+    /**/ DoorShutter_Init,
+    /**/ DoorShutter_Destroy,
+    /**/ DoorShutter_Update,
+    /**/ DoorShutter_Draw,
 };
 
 typedef enum {
@@ -511,7 +511,7 @@ f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offset
     func_8002DBD0(&this->dyna.actor, &relPlayerPos, &playerPos);
 
     if (fabsf(relPlayerPos.x) > maxDistSides || fabsf(relPlayerPos.y) > maxDistY) {
-        return FLT_MAX;
+        return MAXFLOAT;
     } else {
         return relPlayerPos.z;
     }
@@ -819,7 +819,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
     if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_11)) {
         // The door is barred behind the player
         DoorShutter_SetupAction(this, DoorShutter_WaitPlayerSurprised);
-        func_8002DF54(play, NULL, PLAYER_CSACTION_2);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_2);
     }
 }
 
@@ -859,7 +859,7 @@ void DoorShutter_JabuDoorClose(DoorShutter* this, PlayState* play) {
 
 void DoorShutter_WaitPlayerSurprised(DoorShutter* this, PlayState* play) {
     if (this->actionTimer++ > 30) {
-        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         DoorShutter_SetupDoor(this, play);
     }
 }

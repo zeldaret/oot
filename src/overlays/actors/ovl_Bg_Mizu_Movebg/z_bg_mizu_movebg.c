@@ -26,15 +26,15 @@ void BgMizuMovebg_UpdateSmallBlockHookshotTarget(BgMizuMovebg* this, PlayState* 
 s32 BgMizuMovebg_SetPosFromPath(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
 
 ActorInit Bg_Mizu_Movebg_InitVars = {
-    ACTOR_BG_MIZU_MOVEBG,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuMovebg),
-    (ActorFunc)BgMizuMovebg_Init,
-    (ActorFunc)BgMizuMovebg_Destroy,
-    (ActorFunc)BgMizuMovebg_Update,
-    (ActorFunc)BgMizuMovebg_Draw,
+    /**/ ACTOR_BG_MIZU_MOVEBG,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuMovebg),
+    /**/ BgMizuMovebg_Init,
+    /**/ BgMizuMovebg_Destroy,
+    /**/ BgMizuMovebg_Update,
+    /**/ BgMizuMovebg_Draw,
 };
 
 static f32 sDragonStatue1OffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };

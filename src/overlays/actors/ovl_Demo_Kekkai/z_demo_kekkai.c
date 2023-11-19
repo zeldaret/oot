@@ -22,15 +22,15 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2);
 void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play);
 
 ActorInit Demo_Kekkai_InitVars = {
-    ACTOR_DEMO_KEKKAI,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(DemoKekkai),
-    (ActorFunc)DemoKekkai_Init,
-    (ActorFunc)DemoKekkai_Destroy,
-    (ActorFunc)DemoKekkai_Update,
-    (ActorFunc)DemoKekkai_DrawTowerBarrier,
+    /**/ ACTOR_DEMO_KEKKAI,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(DemoKekkai),
+    /**/ DemoKekkai_Init,
+    /**/ DemoKekkai_Destroy,
+    /**/ DemoKekkai_Update,
+    /**/ DemoKekkai_DrawTowerBarrier,
 };
 
 static ColliderCylinderInit sCylinderInit = {

@@ -7,7 +7,9 @@
  *   The strings are used in the message_data_static files themselves, as you can only concat strings with other strings
  */
 
+#ifndef GLUE
 #define GLUE(a, b) a##b
+#endif
 
 #define STRINGIFY(s) #s
 #define EXPAND_AND_STRINGIFY(s) STRINGIFY(s)

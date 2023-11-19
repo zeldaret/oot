@@ -43,15 +43,15 @@ void EnSyatekiMan_Blink(EnSyatekiMan* this);
 void EnSyatekiMan_SetBgm(void);
 
 ActorInit En_Syateki_Man_InitVars = {
-    ACTOR_EN_SYATEKI_MAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OSSAN,
-    sizeof(EnSyatekiMan),
-    (ActorFunc)EnSyatekiMan_Init,
-    (ActorFunc)EnSyatekiMan_Destroy,
-    (ActorFunc)EnSyatekiMan_Update,
-    (ActorFunc)EnSyatekiMan_Draw,
+    /**/ ACTOR_EN_SYATEKI_MAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OSSAN,
+    /**/ sizeof(EnSyatekiMan),
+    /**/ EnSyatekiMan_Init,
+    /**/ EnSyatekiMan_Destroy,
+    /**/ EnSyatekiMan_Update,
+    /**/ EnSyatekiMan_Draw,
 };
 
 static u16 sBgmList[] = {

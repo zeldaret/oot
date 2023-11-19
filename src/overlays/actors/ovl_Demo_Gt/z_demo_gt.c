@@ -1769,13 +1769,13 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Gt_InitVars = {
-    ACTOR_DEMO_GT,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GT,
-    sizeof(DemoGt),
-    (ActorFunc)DemoGt_Init,
-    (ActorFunc)DemoGt_Destroy,
-    (ActorFunc)DemoGt_Update,
-    (ActorFunc)DemoGt_Draw,
+    /**/ ACTOR_DEMO_GT,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GT,
+    /**/ sizeof(DemoGt),
+    /**/ DemoGt_Init,
+    /**/ DemoGt_Destroy,
+    /**/ DemoGt_Update,
+    /**/ DemoGt_Draw,
 };

@@ -21,15 +21,15 @@ void func_808783AC(BgGateShutter* this, PlayState* play);
 void func_808783D4(BgGateShutter* this, PlayState* play);
 
 ActorInit Bg_Gate_Shutter_InitVars = {
-    ACTOR_BG_GATE_SHUTTER,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_SPOT01_MATOYAB,
-    sizeof(BgGateShutter),
-    (ActorFunc)BgGateShutter_Init,
-    (ActorFunc)BgGateShutter_Destroy,
-    (ActorFunc)BgGateShutter_Update,
-    (ActorFunc)BgGateShutter_Draw,
+    /**/ ACTOR_BG_GATE_SHUTTER,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_MATOYAB,
+    /**/ sizeof(BgGateShutter),
+    /**/ BgGateShutter_Init,
+    /**/ BgGateShutter_Destroy,
+    /**/ BgGateShutter_Update,
+    /**/ BgGateShutter_Draw,
 };
 
 void BgGateShutter_Init(Actor* thisx, PlayState* play) {

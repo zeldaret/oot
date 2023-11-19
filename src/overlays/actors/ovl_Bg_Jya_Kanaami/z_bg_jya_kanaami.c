@@ -22,15 +22,15 @@ void func_80899950(BgJyaKanaami* this, PlayState* play);
 void func_80899A08(BgJyaKanaami* this);
 
 ActorInit Bg_Jya_Kanaami_InitVars = {
-    ACTOR_BG_JYA_KANAAMI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaKanaami),
-    (ActorFunc)BgJyaKanaami_Init,
-    (ActorFunc)BgJyaKanaami_Destroy,
-    (ActorFunc)BgJyaKanaami_Update,
-    (ActorFunc)BgJyaKanaami_Draw,
+    /**/ ACTOR_BG_JYA_KANAAMI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaKanaami),
+    /**/ BgJyaKanaami_Init,
+    /**/ BgJyaKanaami_Destroy,
+    /**/ BgJyaKanaami_Update,
+    /**/ BgJyaKanaami_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

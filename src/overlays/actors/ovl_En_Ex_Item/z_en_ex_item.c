@@ -33,15 +33,15 @@ void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play);
 
 ActorInit En_Ex_Item_InitVars = {
-    ACTOR_EN_EX_ITEM,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnExItem),
-    (ActorFunc)EnExItem_Init,
-    (ActorFunc)EnExItem_Destroy,
-    (ActorFunc)EnExItem_Update,
-    (ActorFunc)EnExItem_Draw,
+    /**/ ACTOR_EN_EX_ITEM,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnExItem),
+    /**/ EnExItem_Init,
+    /**/ EnExItem_Destroy,
+    /**/ EnExItem_Update,
+    /**/ EnExItem_Draw,
 };
 
 void EnExItem_Destroy(Actor* thisx, PlayState* play) {
@@ -386,7 +386,7 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play) {
         s32 getItemId;
 
         this->actor.draw = NULL;
-        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actor.parent = NULL;
         if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
             getItemId = GI_BULLET_BAG_40;

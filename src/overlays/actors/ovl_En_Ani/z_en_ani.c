@@ -27,15 +27,15 @@ void func_809B0A28(EnAni* this, PlayState* play);
 void func_809B0A6C(EnAni* this, PlayState* play);
 
 ActorInit En_Ani_InitVars = {
-    ACTOR_EN_ANI,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ANI,
-    sizeof(EnAni),
-    (ActorFunc)EnAni_Init,
-    (ActorFunc)EnAni_Destroy,
-    (ActorFunc)EnAni_Update,
-    (ActorFunc)EnAni_Draw,
+    /**/ ACTOR_EN_ANI,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ANI,
+    /**/ sizeof(EnAni),
+    /**/ EnAni_Init,
+    /**/ EnAni_Destroy,
+    /**/ EnAni_Update,
+    /**/ EnAni_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
