@@ -14,12 +14,12 @@ typedef enum {
     JABU_OBJECTS_GET_PROP_CAM_SETTING_NORMAL0 = 0,
     JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1 = 3,
     JABU_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
-} BgBdanObjectPropertyGetter;
+} BgBdanObjectsPropertyGetter;
 typedef enum {
     JABU_OBJECTS_SET_PROP_CAM_SETTING_NORMAL0 = 1,
     JABU_OBJECTS_SET_PROP_CAM_SETTING_DUNGEON1 = 2,
     JABU_OBJECTS_SET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE = 4
-} BgBdanObjectPropertySetter;
+} BgBdanObjectsPropertySetter;
 
 void BgBdanObjects_Init(Actor* thisx, PlayState* play);
 void BgBdanObjects_Destroy(Actor* thisx, PlayState* play);
