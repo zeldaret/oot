@@ -11,7 +11,7 @@ typedef enum {
     BDAN_OBJECT_TYPE_SMALL_AUTO_ELEVATOR = 1,
     BDAN_OBJECT_TYPE_WATERBOX_HEIGHT_CHANGER = 2,
     BDAN_OBJECT_TYPE_FALLING_PLATFORM = 3
-} BgBdanObjectType;
+} BgBdanObjectsType;
 
 typedef void (*BgBdanObjectsActionFunc)(struct BgBdanObjects*, PlayState*);
 
