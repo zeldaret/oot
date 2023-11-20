@@ -74,20 +74,6 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonChildSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-static Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
-
-static void* sMouthTextures[] = {
-    gMalonChildNeutralMouthTex,
-    gMalonChildSmilingMouthTex,
-    gMalonChildTalkingMouthTex,
-};
-
-static void* sEyeTextures[] = {
-    gMalonChildEyeOpenTex,
-    gMalonChildEyeHalfTex,
-    gMalonChildEyeClosedTex,
-};
-
 u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(play, 0x17);
 
@@ -450,7 +436,7 @@ s32 EnMa1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
 void EnMa1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnMa1* this = (EnMa1*)thisx;
-    Vec3f vec = sMultVec;
+    Vec3f vec = { 800.0f, 0.0f, 0.0f };
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
@@ -458,6 +444,17 @@ void EnMa1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 void EnMa1_Draw(Actor* thisx, PlayState* play) {
+    static void* sMouthTextures[] = {
+        gMalonChildNeutralMouthTex,
+        gMalonChildSmilingMouthTex,
+        gMalonChildTalkingMouthTex,
+    };
+
+    static void* sEyeTextures[] = {
+        gMalonChildEyeOpenTex,
+        gMalonChildEyeHalfTex,
+        gMalonChildEyeClosedTex,
+    };
     EnMa1* this = (EnMa1*)thisx;
     Camera* activeCam;
     f32 distFromCamEye;
