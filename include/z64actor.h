@@ -527,11 +527,11 @@ typedef struct {
     /* 0x0C */ Vec3f lockOnPos;
     /* 0x18 */ Color_RGBAf naviInnerColor;
     /* 0x28 */ Color_RGBAf naviOuterColor;
-    /* 0x38 */ Actor* naviActor; // The actor that Navi hovers over
+    /* 0x38 */ Actor* naviHoverActor; // The actor that Navi hovers over
     /* 0x3C */ Actor* lockOnActor;
     /* 0x40 */ f32 naviMoveProgressFactor; // Controls Navi so she can smootly transition to the target actor
-    /* 0x44 */ f32 lockOnRadius; // Control the circle lock-on triangles coming in from offscreen when you first target
-    /* 0x48 */ s16 lockOnAlpha;
+    /* 0x44 */ f32 reticleRadius; // Control the reticle coming in from offscreen when you first target
+    /* 0x48 */ s16 reticleFadeAlphaControl; // Set and fade the reticle alpha. Also controls the reticle drawnig with non-zero values.
     /* 0x4A */ u8 naviActorCategory;
     /* 0x4B */ u8 rotZTick;
     /* 0x4C */ s8 lockOnIndex;
