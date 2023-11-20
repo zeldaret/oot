@@ -5138,7 +5138,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             }
             break;
         case 71:
-            if (Flags_GetEventChkInf(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_CAN_LEARN_EPONAS_SONG)) {
                 retTextId = 0x2049;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH)) {
                 retTextId = 0x2048;
@@ -5448,7 +5448,7 @@ void func_80036E50(u16 textId, s16 arg1) {
                 Flags_SetEventChkInf(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH);
             }
             if (textId == 0x2048) {
-                Flags_SetEventChkInf(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG);
+                Flags_SetEventChkInf(EVENTCHKINF_CAN_LEARN_EPONAS_SONG);
             }
             return;
         case 72:

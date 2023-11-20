@@ -80,7 +80,7 @@ u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
     if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         return 0x204A;
     }
-    if (GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_CAN_LEARN_EPONAS_SONG)) {
         return 0x2049;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH)) {
@@ -97,7 +97,7 @@ u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
         return 0x2044;
     }
     if (GET_INFTABLE(INFTABLE_TALKED_TO_MALON_FIRST_TIME)) {
-        if (GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
+        if (GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE)) {
             return 0x2043;
         } else {
             return 0x2042;
@@ -129,7 +129,7 @@ s16 EnMa1_UpdateTalkState(PlayState* play, Actor* thisx) {
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2049:
-                    SET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG);
+                    SET_EVENTCHKINF(EVENTCHKINF_CAN_LEARN_EPONAS_SONG);
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x2061:
@@ -174,15 +174,15 @@ s32 EnMa1_ShouldSpawn(EnMa1* this, PlayState* play) {
 
     if (((play->sceneId == SCENE_MARKET_NIGHT) || (play->sceneId == SCENE_MARKET_DAY)) &&
         !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) &&
-        !GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
+        !GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE)) {
         return true;
     }
 
     if ((play->sceneId == SCENE_HYRULE_CASTLE) && !GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
-        if (GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE)) {
+        if (GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE)) {
             return true;
         } else {
-            SET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE);
+            SET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE);
             return false;
         }
     }
@@ -341,7 +341,7 @@ void EnMa1_IdleTeachSong(EnMa1* this, PlayState* play) {
         }
     }
 
-    if (GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_CAN_LEARN_EPONAS_SONG)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
             player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;

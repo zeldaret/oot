@@ -508,7 +508,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
             }
         case ENHY_TYPE_CNE_11:
-            return GET_INFTABLE(INFTABLE_ENTERED_HYRULE_CASTLE_SCENE) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
+            return GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
         case ENHY_TYPE_BOJ_12:
             if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
                 return !IS_DAY ? 0x5084 : 0x5083;

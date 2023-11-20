@@ -169,7 +169,7 @@ void EnHorseLinkChild_Init(Actor* thisx, PlayState* play) {
             Actor_Kill(&this->actor);
             return;
         }
-        this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG);
+        this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_CAN_LEARN_EPONAS_SONG);
         func_80A69EC0(this);
     } else {
         func_80A69EC0(this);
@@ -358,11 +358,11 @@ void func_80A6A068(EnHorseLinkChild* this, PlayState* play) {
         return;
     }
 
-    if ((GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG) && R_EPONAS_SONG_PLAYED) ||
+    if ((GET_EVENTCHKINF(EVENTCHKINF_CAN_LEARN_EPONAS_SONG) && R_EPONAS_SONG_PLAYED) ||
         ((play->sceneId == SCENE_LON_LON_RANCH) && (gSaveContext.save.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {
-        this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_CAN_OBTAIN_EPONA_SONG);
+        this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_CAN_LEARN_EPONAS_SONG);
     }
 
     newAnimationIdx = this->animationIdx;
