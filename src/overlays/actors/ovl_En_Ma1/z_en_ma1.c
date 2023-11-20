@@ -237,7 +237,7 @@ void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
                      sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
-void EnMa1_HandleTracking(EnMa1* this, PlayState* play) {
+void EnMa1_UpdateTracking(EnMa1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 trackingMode;
 
@@ -253,7 +253,7 @@ void EnMa1_HandleTracking(EnMa1* this, PlayState* play) {
     Npc_TrackPoint(&this->actor, &this->interactInfo, 0, trackingMode);
 }
 
-void EnMa1_HandleSinging(EnMa1* this) {
+void EnMa1_UpdateSinging(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
             if (this->isNotSinging) {
@@ -422,8 +422,8 @@ void EnMa1_Update(Actor* thisx, PlayState* play) {
                           EnMa1_GetTextId, EnMa1_UpdateTalkState);
     }
 
-    EnMa1_HandleSinging(this);
-    EnMa1_HandleTracking(this, play);
+    EnMa1_UpdateSinging(this);
+    EnMa1_UpdateTracking(this, play);
 }
 
 s32 EnMa1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
