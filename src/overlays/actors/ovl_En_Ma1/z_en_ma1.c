@@ -74,7 +74,7 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonChildSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
-static Vec3f sMultVec = { 800.0f, 0.0f, 0.0f };
+static Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
 
 static void* sMouthTextures[] = {
     gMalonChildNeutralMouthTex,
