@@ -40,15 +40,15 @@ void EnGe1_CueUpAnimation(EnGe1* this);
 void EnGe1_StopFidget(EnGe1* this);
 
 ActorInit En_Ge1_InitVars = {
-    ACTOR_EN_GE1,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GE1,
-    sizeof(EnGe1),
-    (ActorFunc)EnGe1_Init,
-    (ActorFunc)EnGe1_Destroy,
-    (ActorFunc)EnGe1_Update,
-    (ActorFunc)EnGe1_Draw,
+    /**/ ACTOR_EN_GE1,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GE1,
+    /**/ sizeof(EnGe1),
+    /**/ EnGe1_Init,
+    /**/ EnGe1_Destroy,
+    /**/ EnGe1_Update,
+    /**/ EnGe1_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -181,7 +181,7 @@ void EnGe1_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 EnGe1_SetTalkAction(EnGe1* this, PlayState* play, u16 textId, f32 arg3, EnGe1ActionFunc actionFunc) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
@@ -194,7 +194,7 @@ s32 EnGe1_SetTalkAction(EnGe1* this, PlayState* play, u16 textId, f32 arg3, EnGe
     this->actor.textId = textId;
 
     if (this->actor.xzDistToPlayer < arg3) {
-        func_8002F2CC(&this->actor, play, arg3);
+        Actor_OfferTalk(&this->actor, play, arg3);
     }
 
     return false;
@@ -242,7 +242,7 @@ void EnGe1_KickPlayer(EnGe1* this, PlayState* play) {
 void EnGe1_SpotPlayer(EnGe1* this, PlayState* play) {
     this->cutsceneTimer = 30;
     this->actionFunc = EnGe1_KickPlayer;
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_95);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_95);
     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
@@ -545,11 +545,11 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
         this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
-        func_8002F2CC(&this->actor, play, 200.0f);
+        Actor_OfferTalk(&this->actor, play, 200.0f);
     }
 }
 
@@ -586,7 +586,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, PlayState* play) {
                     SET_EVENTCHKINF(EVENTCHKINF_68);
 
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
-                        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+                        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                     } else {
                         horse = Actor_FindNearby(play, &player->actor, ACTOR_EN_HORSE, ACTORCAT_BG, 1200.0f);
                         player->actor.freezeTimer = 1200;
@@ -616,10 +616,10 @@ void EnGe1_TalkOfferPlay_Archery(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_TalkNoPrize_Archery(EnGe1* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe1_TalkOfferPlay_Archery;
     } else {
-        func_8002F2CC(&this->actor, play, 300.0f);
+        Actor_OfferTalk(&this->actor, play, 300.0f);
     }
 }
 

@@ -30,15 +30,15 @@ void EnDekubaba_DeadStickDrop(EnDekubaba* this, PlayState* play);
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 ActorInit En_Dekubaba_InitVars = {
-    ACTOR_EN_DEKUBABA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_DEKUBABA,
-    sizeof(EnDekubaba),
-    (ActorFunc)EnDekubaba_Init,
-    (ActorFunc)EnDekubaba_Destroy,
-    (ActorFunc)EnDekubaba_Update,
-    (ActorFunc)EnDekubaba_Draw,
+    /**/ ACTOR_EN_DEKUBABA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_DEKUBABA,
+    /**/ sizeof(EnDekubaba),
+    /**/ EnDekubaba_Init,
+    /**/ EnDekubaba_Destroy,
+    /**/ EnDekubaba_Update,
+    /**/ EnDekubaba_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[7] = {

@@ -43,15 +43,15 @@ void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, PlayState* play);
 
 ActorInit En_Goma_InitVars = {
-    ACTOR_BOSS_GOMA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GOL,
-    sizeof(EnGoma),
-    (ActorFunc)EnGoma_Init,
-    (ActorFunc)EnGoma_Destroy,
-    (ActorFunc)EnGoma_Update,
-    (ActorFunc)EnGoma_Draw,
+    /**/ ACTOR_BOSS_GOMA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GOL,
+    /**/ sizeof(EnGoma),
+    /**/ EnGoma_Init,
+    /**/ EnGoma_Destroy,
+    /**/ EnGoma_Update,
+    /**/ EnGoma_Draw,
 };
 
 static ColliderCylinderInit D_80A4B7A0 = {

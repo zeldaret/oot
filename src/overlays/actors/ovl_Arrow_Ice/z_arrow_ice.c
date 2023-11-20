@@ -22,15 +22,15 @@ void ArrowIce_Hit(ArrowIce* this, PlayState* play);
 #include "assets/overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c"
 
 ActorInit Arrow_Ice_InitVars = {
-    ACTOR_ARROW_ICE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ArrowIce),
-    (ActorFunc)ArrowIce_Init,
-    (ActorFunc)ArrowIce_Destroy,
-    (ActorFunc)ArrowIce_Update,
-    (ActorFunc)ArrowIce_Draw,
+    /**/ ACTOR_ARROW_ICE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ArrowIce),
+    /**/ ArrowIce_Init,
+    /**/ ArrowIce_Destroy,
+    /**/ ArrowIce_Update,
+    /**/ ArrowIce_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

@@ -54,15 +54,15 @@ static CollisionCheckInfoInit sCcInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 static BgHidanCurtainParams sHCParams[] = { { 81, 144, 0.090f, 144.0f, 5.0f }, { 46, 88, 0.055f, 88.0f, 3.0f } };
 
 ActorInit Bg_Hidan_Curtain_InitVars = {
-    ACTOR_BG_HIDAN_CURTAIN,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgHidanCurtain),
-    (ActorFunc)BgHidanCurtain_Init,
-    (ActorFunc)BgHidanCurtain_Destroy,
-    (ActorFunc)BgHidanCurtain_Update,
-    (ActorFunc)BgHidanCurtain_Draw,
+    /**/ ACTOR_BG_HIDAN_CURTAIN,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgHidanCurtain),
+    /**/ BgHidanCurtain_Init,
+    /**/ BgHidanCurtain_Destroy,
+    /**/ BgHidanCurtain_Update,
+    /**/ BgHidanCurtain_Draw,
 };
 
 void BgHidanCurtain_Init(Actor* thisx, PlayState* play) {

@@ -68,15 +68,15 @@ void EnGirlA_BuyEvent_GoronTunic(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_ZoraTunic(PlayState* play, EnGirlA* this);
 
 ActorInit En_GirlA_InitVars = {
-    ACTOR_EN_GIRLA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnGirlA),
-    (ActorFunc)EnGirlA_Init,
-    (ActorFunc)EnGirlA_Destroy,
-    (ActorFunc)EnGirlA_Update,
-    NULL,
+    /**/ ACTOR_EN_GIRLA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnGirlA),
+    /**/ EnGirlA_Init,
+    /**/ EnGirlA_Destroy,
+    /**/ EnGirlA_Update,
+    /**/ NULL,
 };
 
 static char* sShopItemDescriptions[] = {

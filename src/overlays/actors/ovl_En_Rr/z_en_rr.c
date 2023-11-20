@@ -65,15 +65,15 @@ void EnRr_Retreat(EnRr* this, PlayState* play);
 void EnRr_Stunned(EnRr* this, PlayState* play);
 
 ActorInit En_Rr_InitVars = {
-    ACTOR_EN_RR,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_RR,
-    sizeof(EnRr),
-    (ActorFunc)EnRr_Init,
-    (ActorFunc)EnRr_Destroy,
-    (ActorFunc)EnRr_Update,
-    (ActorFunc)EnRr_Draw,
+    /**/ ACTOR_EN_RR,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_RR,
+    /**/ sizeof(EnRr),
+    /**/ EnRr_Init,
+    /**/ EnRr_Destroy,
+    /**/ EnRr_Update,
+    /**/ EnRr_Draw,
 };
 
 static char* sDropNames[] = {

@@ -15,15 +15,15 @@ void EfcErupc_SpawnEffect(EfcErupcEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f*
 void EfcErupc_InitEffects(EfcErupcEffect* effect);
 
 ActorInit Efc_Erupc_InitVars = {
-    ACTOR_EFC_ERUPC,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_EFC_ERUPC,
-    sizeof(EfcErupc),
-    (ActorFunc)EfcErupc_Init,
-    (ActorFunc)EfcErupc_Destroy,
-    (ActorFunc)EfcErupc_Update,
-    (ActorFunc)EfcErupc_Draw,
+    /**/ ACTOR_EFC_ERUPC,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_EFC_ERUPC,
+    /**/ sizeof(EfcErupc),
+    /**/ EfcErupc_Init,
+    /**/ EfcErupc_Destroy,
+    /**/ EfcErupc_Update,
+    /**/ EfcErupc_Draw,
 };
 
 void EfcErupc_SetupAction(EfcErupc* this, EfcErupcActionFunc actionFunc) {

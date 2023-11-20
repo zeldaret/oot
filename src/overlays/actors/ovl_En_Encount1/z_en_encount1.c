@@ -15,15 +15,15 @@ static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
 ActorInit En_Encount1_InitVars = {
-    ACTOR_EN_ENCOUNT1,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnEncount1),
-    (ActorFunc)EnEncount1_Init,
-    NULL,
-    (ActorFunc)EnEncount1_Update,
-    NULL,
+    /**/ ACTOR_EN_ENCOUNT1,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnEncount1),
+    /**/ EnEncount1_Init,
+    /**/ NULL,
+    /**/ EnEncount1_Update,
+    /**/ NULL,
 };
 
 void EnEncount1_Init(Actor* thisx, PlayState* play) {

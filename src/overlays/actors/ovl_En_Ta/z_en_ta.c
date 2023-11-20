@@ -60,15 +60,15 @@ void EnTa_AnimSitSleeping(EnTa* this);
 void EnTa_AnimRunToEnd(EnTa* this);
 
 ActorInit En_Ta_InitVars = {
-    ACTOR_EN_TA,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TA,
-    sizeof(EnTa),
-    (ActorFunc)EnTa_Init,
-    (ActorFunc)EnTa_Destroy,
-    (ActorFunc)EnTa_Update,
-    (ActorFunc)EnTa_Draw,
+    /**/ ACTOR_EN_TA,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TA,
+    /**/ sizeof(EnTa),
+    /**/ EnTa_Init,
+    /**/ EnTa_Destroy,
+    /**/ EnTa_Update,
+    /**/ EnTa_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -287,7 +287,7 @@ void EnTa_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 EnTa_RequestTalk(EnTa* this, PlayState* play, u16 textId) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         return true;
     }
 
@@ -296,7 +296,7 @@ s32 EnTa_RequestTalk(EnTa* this, PlayState* play, u16 textId) {
     if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) &&
         (this->actor.xzDistToPlayer < 100.0f)) {
         this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
     return false;
 }
@@ -369,7 +369,7 @@ void EnTa_SleepTalkInCastle(EnTa* this, PlayState* play) {
 void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         s32 exchangeItemId = func_8002F368(play);
 
         switch (exchangeItemId) {
@@ -388,23 +388,23 @@ void EnTa_IdleAsleepInCastle(EnTa* this, PlayState* play) {
         }
     } else {
         this->actor.textId = 0x702A;
-        func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_CHICKEN);
+        Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_CHICKEN);
     }
 }
 
 void EnTa_IdleAsleepInLonLonHouse(EnTa* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnTa_SetupAction(this, EnTa_SleepTalkInLonLonHouse, EnTa_AnimSleeping);
     }
 
     this->actor.textId = 0x204B;
-    func_8002F2CC(&this->actor, play, 100.0f);
+    Actor_OfferTalk(&this->actor, play, 100.0f);
 }
 
 void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         s32 exchangeItemId = func_8002F368(play);
 
         switch (exchangeItemId) {
@@ -423,7 +423,7 @@ void EnTa_IdleAsleepInKakariko(EnTa* this, PlayState* play) {
         }
     } else {
         this->actor.textId = 0x5015;
-        func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_POCKET_CUCCO);
+        Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_POCKET_CUCCO);
     }
 }
 
@@ -667,12 +667,12 @@ void EnTa_TalkFoundSuperCucco(EnTa* this, PlayState* play) {
 }
 
 void EnTa_IdleFoundSuperCucco(EnTa* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnTa_TalkFoundSuperCucco;
         // Unset auto-talking
         this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
-        func_8002F2CC(&this->actor, play, 1000.0f);
+        Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }
@@ -757,7 +757,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
                         case 1:
                             // Last cucco found, end the game
                             gSaveContext.timerState = TIMER_STATE_OFF;
-                            func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+                            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 
                             Message_StartTextbox(play, 0x2084, &this->actor);
                             this->actionFunc = EnTa_TalkCuccoGameEnd;
@@ -787,7 +787,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
 
                     // Automatically talk to player
                     this->actor.flags |= ACTOR_FLAG_16;
-                    func_8002F2CC(&this->actor, play, 1000.0f);
+                    Actor_OfferTalk(&this->actor, play, 1000.0f);
                     return;
                 }
             } else {
@@ -805,7 +805,7 @@ void EnTa_RunCuccoGame(EnTa* this, PlayState* play) {
         this->stateFlags &= ~TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         gSaveContext.timerState = TIMER_STATE_OFF;
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
 
         // Time's up text
         Message_StartTextbox(play, 0x2081, &this->actor);
@@ -868,7 +868,7 @@ void EnTa_ThrowSuperCuccos(EnTa* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                          Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 10.0f);
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
     }
 }
 
@@ -885,7 +885,7 @@ void EnTa_StartingCuccoGame3(EnTa* this, PlayState* play) {
         func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         this->stateFlags |= TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY;
         Message_CloseTextbox(play);
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     }
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
@@ -1118,7 +1118,7 @@ void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
 }
 
 void EnTa_IdleAfterCuccoGameFinished(EnTa* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         switch (this->actor.textId) {
             case 0x2085: // Retry?
                 this->actionFunc = EnTa_WaitForPlayCuccoGameResponse;
@@ -1135,7 +1135,7 @@ void EnTa_IdleAfterCuccoGameFinished(EnTa* this, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F2CC(&this->actor, play, 1000.0f);
+        Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
     this->stateFlags |= TALON_STATE_FLAG_TRACKING_PLAYER;
 }

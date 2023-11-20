@@ -76,15 +76,15 @@ void EnKanban_Update(Actor* thisx, PlayState* play2);
 void EnKanban_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Kanban_InitVars = {
-    ACTOR_EN_KANBAN,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_KANBAN,
-    sizeof(EnKanban),
-    (ActorFunc)EnKanban_Init,
-    (ActorFunc)EnKanban_Destroy,
-    (ActorFunc)EnKanban_Update,
-    (ActorFunc)EnKanban_Draw,
+    /**/ ACTOR_EN_KANBAN,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_KANBAN,
+    /**/ sizeof(EnKanban),
+    /**/ EnKanban_Init,
+    /**/ EnKanban_Destroy,
+    /**/ EnKanban_Update,
+    /**/ EnKanban_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -246,10 +246,10 @@ void EnKanban_Message(EnKanban* this, PlayState* play) {
     if (!this->msgFlag) {
         if (this->msgTimer == 0) {
             if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2800) {
-                if (Actor_ProcessTalkRequest(&this->actor, play)) {
+                if (Actor_TalkOfferAccepted(&this->actor, play)) {
                     this->msgFlag = true;
                 } else {
-                    func_8002F2CC(&this->actor, play, 68.0f);
+                    Actor_OfferTalk(&this->actor, play, 68.0f);
                 }
             }
         } else {

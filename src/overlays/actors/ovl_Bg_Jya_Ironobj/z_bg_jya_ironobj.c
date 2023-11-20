@@ -25,15 +25,15 @@ void BgJyaIronobj_SpawnThroneParticles(BgJyaIronobj* this, PlayState* play, EnIk
 static int sUnused = 0;
 
 ActorInit Bg_Jya_Ironobj_InitVars = {
-    ACTOR_BG_JYA_IRONOBJ,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_JYA_IRON,
-    sizeof(BgJyaIronobj),
-    (ActorFunc)BgJyaIronobj_Init,
-    (ActorFunc)BgJyaIronobj_Destroy,
-    (ActorFunc)BgJyaIronobj_Update,
-    (ActorFunc)BgJyaIronobj_Draw,
+    /**/ ACTOR_BG_JYA_IRONOBJ,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_IRON,
+    /**/ sizeof(BgJyaIronobj),
+    /**/ BgJyaIronobj_Init,
+    /**/ BgJyaIronobj_Destroy,
+    /**/ BgJyaIronobj_Update,
+    /**/ BgJyaIronobj_Draw,
 };
 
 static Gfx* sOpaDL[] = { gPillarDL, gThroneDL };

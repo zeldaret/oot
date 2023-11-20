@@ -31,15 +31,15 @@ typedef enum {
 } MirRayBeamLocations;
 
 ActorInit Mir_Ray_InitVars = {
-    ACTOR_MIR_RAY,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_MIR_RAY,
-    sizeof(MirRay),
-    (ActorFunc)MirRay_Init,
-    (ActorFunc)MirRay_Destroy,
-    (ActorFunc)MirRay_Update,
-    (ActorFunc)MirRay_Draw,
+    /**/ ACTOR_MIR_RAY,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_MIR_RAY,
+    /**/ sizeof(MirRay),
+    /**/ MirRay_Init,
+    /**/ MirRay_Destroy,
+    /**/ MirRay_Update,
+    /**/ MirRay_Draw,
 };
 
 static u8 D_80B8E670 = 0;

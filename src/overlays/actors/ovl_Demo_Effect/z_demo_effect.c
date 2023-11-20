@@ -63,15 +63,15 @@ void DemoEffect_SetPosRotFromCue(DemoEffect* this, PlayState* play, s32 cueChann
 void DemoEffect_MoveTowardCuePos(DemoEffect* this, PlayState* play, s32 cueChannel, f32 speed);
 
 ActorInit Demo_Effect_InitVars = {
-    ACTOR_DEMO_EFFECT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DemoEffect),
-    (ActorFunc)DemoEffect_Init,
-    (ActorFunc)DemoEffect_Destroy,
-    (ActorFunc)DemoEffect_Update,
-    NULL,
+    /**/ ACTOR_DEMO_EFFECT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DemoEffect),
+    /**/ DemoEffect_Init,
+    /**/ DemoEffect_Destroy,
+    /**/ DemoEffect_Update,
+    /**/ NULL,
 };
 
 // This variable assures only one jewel will play SFX

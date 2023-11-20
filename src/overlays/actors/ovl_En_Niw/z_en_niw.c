@@ -37,15 +37,15 @@ void EnNiw_DrawEffects(EnNiw* this, PlayState* play);
 static s16 D_80AB85E0 = 0;
 
 ActorInit En_Niw_InitVars = {
-    ACTOR_EN_NIW,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_NIW,
-    sizeof(EnNiw),
-    (ActorFunc)EnNiw_Init,
-    (ActorFunc)EnNiw_Destroy,
-    (ActorFunc)EnNiw_Update,
-    (ActorFunc)EnNiw_Draw,
+    /**/ ACTOR_EN_NIW,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_NIW,
+    /**/ sizeof(EnNiw),
+    /**/ EnNiw_Init,
+    /**/ EnNiw_Destroy,
+    /**/ EnNiw_Update,
+    /**/ EnNiw_Draw,
 };
 
 static f32 D_80AB8604[] = {

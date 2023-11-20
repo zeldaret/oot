@@ -25,15 +25,15 @@ void BgMoriHashigo_LadderFall(BgMoriHashigo* this, PlayState* play);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
 ActorInit Bg_Mori_Hashigo_InitVars = {
-    ACTOR_BG_MORI_HASHIGO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriHashigo),
-    (ActorFunc)BgMoriHashigo_Init,
-    (ActorFunc)BgMoriHashigo_Destroy,
-    (ActorFunc)BgMoriHashigo_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_HASHIGO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriHashigo),
+    /**/ BgMoriHashigo_Init,
+    /**/ BgMoriHashigo_Destroy,
+    /**/ BgMoriHashigo_Update,
+    /**/ NULL,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {

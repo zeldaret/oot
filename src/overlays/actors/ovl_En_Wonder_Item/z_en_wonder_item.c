@@ -42,15 +42,15 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 ActorInit En_Wonder_Item_InitVars = {
-    ACTOR_EN_WONDER_ITEM,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWonderItem),
-    (ActorFunc)EnWonderItem_Init,
-    (ActorFunc)EnWonderItem_Destroy,
-    (ActorFunc)EnWonderItem_Update,
-    NULL,
+    /**/ ACTOR_EN_WONDER_ITEM,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWonderItem),
+    /**/ EnWonderItem_Init,
+    /**/ EnWonderItem_Destroy,
+    /**/ EnWonderItem_Update,
+    /**/ NULL,
 };
 
 static Vec3f sTagPointsFree[9];

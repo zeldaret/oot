@@ -32,15 +32,15 @@ void EnViewer_UpdateImpl(EnViewer* this, PlayState* play);
 static u8 sHorseSfxPlayed = false;
 
 ActorInit En_Viewer_InitVars = {
-    ACTOR_EN_VIEWER,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnViewer),
-    (ActorFunc)EnViewer_Init,
-    (ActorFunc)EnViewer_Destroy,
-    (ActorFunc)EnViewer_Update,
-    (ActorFunc)EnViewer_Draw,
+    /**/ ACTOR_EN_VIEWER,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnViewer),
+    /**/ EnViewer_Init,
+    /**/ EnViewer_Destroy,
+    /**/ EnViewer_Update,
+    /**/ EnViewer_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

@@ -25,15 +25,15 @@ void EnFw_JumpToParentInitPos(EnFw* this, PlayState* play);
 void EnFw_TurnToParentInitPos(EnFw* this, PlayState* play);
 
 ActorInit En_Fw_InitVars = {
-    ACTOR_EN_FW,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FW,
-    sizeof(EnFw),
-    (ActorFunc)EnFw_Init,
-    (ActorFunc)EnFw_Destroy,
-    (ActorFunc)EnFw_Update,
-    (ActorFunc)EnFw_Draw,
+    /**/ ACTOR_EN_FW,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FW,
+    /**/ sizeof(EnFw),
+    /**/ EnFw_Init,
+    /**/ EnFw_Destroy,
+    /**/ EnFw_Update,
+    /**/ EnFw_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {

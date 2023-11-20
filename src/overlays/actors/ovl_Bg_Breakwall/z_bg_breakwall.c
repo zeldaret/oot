@@ -27,15 +27,15 @@ void BgBreakwall_Wait(BgBreakwall* this, PlayState* play);
 void BgBreakwall_LavaCoverMove(BgBreakwall* this, PlayState* play);
 
 ActorInit Bg_Breakwall_InitVars = {
-    ACTOR_BG_BREAKWALL,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgBreakwall),
-    (ActorFunc)BgBreakwall_Init,
-    (ActorFunc)BgBreakwall_Destroy,
-    (ActorFunc)BgBreakwall_Update,
-    NULL,
+    /**/ ACTOR_BG_BREAKWALL,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgBreakwall),
+    /**/ BgBreakwall_Init,
+    /**/ BgBreakwall_Destroy,
+    /**/ BgBreakwall_Update,
+    /**/ NULL,
 };
 
 static ColliderQuadInit sQuadInit = {
@@ -254,7 +254,7 @@ void BgBreakwall_Wait(BgBreakwall* this, PlayState* play) {
             gSaveContext.cutsceneTrigger = 1;
             Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            func_8002DF54(play, NULL, PLAYER_CSACTION_49);
+            Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_49);
         }
 
         if (this->dyna.actor.params < 0) {

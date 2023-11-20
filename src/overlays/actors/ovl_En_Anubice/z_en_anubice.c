@@ -26,15 +26,15 @@ void EnAnubice_ShootFireball(EnAnubice* this, PlayState* play);
 void EnAnubice_Die(EnAnubice* this, PlayState* play);
 
 ActorInit En_Anubice_InitVars = {
-    ACTOR_EN_ANUBICE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_ANUBICE,
-    sizeof(EnAnubice),
-    (ActorFunc)EnAnubice_Init,
-    (ActorFunc)EnAnubice_Destroy,
-    (ActorFunc)EnAnubice_Update,
-    (ActorFunc)EnAnubice_Draw,
+    /**/ ACTOR_EN_ANUBICE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_ANUBICE,
+    /**/ sizeof(EnAnubice),
+    /**/ EnAnubice_Init,
+    /**/ EnAnubice_Destroy,
+    /**/ EnAnubice_Update,
+    /**/ EnAnubice_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

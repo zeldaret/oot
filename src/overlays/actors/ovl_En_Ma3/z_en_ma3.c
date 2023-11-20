@@ -21,15 +21,15 @@ void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
 ActorInit En_Ma3_InitVars = {
-    ACTOR_EN_MA3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MA2,
-    sizeof(EnMa3),
-    (ActorFunc)EnMa3_Init,
-    (ActorFunc)EnMa3_Destroy,
-    (ActorFunc)EnMa3_Update,
-    (ActorFunc)EnMa3_Draw,
+    /**/ ACTOR_EN_MA3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MA2,
+    /**/ sizeof(EnMa3),
+    /**/ EnMa3_Init,
+    /**/ EnMa3_Destroy,
+    /**/ EnMa3_Update,
+    /**/ EnMa3_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

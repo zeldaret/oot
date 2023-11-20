@@ -23,15 +23,15 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play);
 void func_80ABF7CC(EnOkarinaTag* this, PlayState* play);
 
 ActorInit En_Okarina_Tag_InitVars = {
-    ACTOR_EN_OKARINA_TAG,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnOkarinaTag),
-    (ActorFunc)EnOkarinaTag_Init,
-    (ActorFunc)EnOkarinaTag_Destroy,
-    (ActorFunc)EnOkarinaTag_Update,
-    NULL,
+    /**/ ACTOR_EN_OKARINA_TAG,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnOkarinaTag),
+    /**/ EnOkarinaTag_Init,
+    /**/ EnOkarinaTag_Destroy,
+    /**/ EnOkarinaTag_Update,
+    /**/ NULL,
 };
 
 extern CutsceneData D_80ABF9D0[];
@@ -282,7 +282,7 @@ void func_80ABF708(EnOkarinaTag* this, PlayState* play) {
     s16 yawDiff;
     s16 yawDiffNew;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80ABF7CC;
     } else {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
@@ -294,7 +294,7 @@ void func_80ABF708(EnOkarinaTag* this, PlayState* play) {
             yawDiffNew = ABS(yawDiff);
             if (yawDiffNew < 0x4300) {
                 this->unk_15A = 0;
-                func_8002F2CC(&this->actor, play, 70.0f);
+                Actor_OfferTalk(&this->actor, play, 70.0f);
             }
         }
     }

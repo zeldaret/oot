@@ -21,15 +21,15 @@ void func_8087BAAC(BgHaka* this, PlayState* play);
 void func_8087BAE4(BgHaka* this, PlayState* play);
 
 ActorInit Bg_Haka_InitVars = {
-    ACTOR_BG_HAKA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA,
-    sizeof(BgHaka),
-    (ActorFunc)BgHaka_Init,
-    (ActorFunc)BgHaka_Destroy,
-    (ActorFunc)BgHaka_Update,
-    (ActorFunc)BgHaka_Draw,
+    /**/ ACTOR_BG_HAKA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA,
+    /**/ sizeof(BgHaka),
+    /**/ BgHaka_Init,
+    /**/ BgHaka_Destroy,
+    /**/ BgHaka_Update,
+    /**/ BgHaka_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

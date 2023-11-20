@@ -66,15 +66,15 @@ typedef enum {
 } EnOwlMessageChoice;
 
 ActorInit En_Owl_InitVars = {
-    ACTOR_EN_OWL,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OWL,
-    sizeof(EnOwl),
-    (ActorFunc)EnOwl_Init,
-    (ActorFunc)EnOwl_Destroy,
-    (ActorFunc)EnOwl_Update,
-    (ActorFunc)EnOwl_Draw,
+    /**/ ACTOR_EN_OWL,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OWL,
+    /**/ sizeof(EnOwl),
+    /**/ EnOwl_Init,
+    /**/ EnOwl_Destroy,
+    /**/ EnOwl_Update,
+    /**/ EnOwl_Draw,
 };
 
 static ColliderCylinderInit sOwlCylinderInit = {
@@ -257,7 +257,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist
     s32 timer;
     f32 distCheck;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.params == 0xFFF) {
             this->actionFlags |= 0x40;
             timer = -100;
@@ -277,19 +277,19 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
             this->actor.flags |= ACTOR_FLAG_16;
-            func_8002F1C4(&this->actor, play, targetDist, distCheck, EXCH_ITEM_NONE);
+            Actor_OfferTalkExchange(&this->actor, play, targetDist, distCheck, EXCH_ITEM_NONE);
         }
         return false;
     }
 }
 
 s32 func_80ACA558(EnOwl* this, PlayState* play, u16 textId) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         return true;
     } else {
         this->actor.textId = textId;
         if (this->actor.xzDistToPlayer < 120.0f) {
-            func_8002F1C4(&this->actor, play, 350.0f, 1000.0f, EXCH_ITEM_NONE);
+            Actor_OfferTalkExchange(&this->actor, play, 350.0f, 1000.0f, EXCH_ITEM_NONE);
         }
         return false;
     }
@@ -337,7 +337,7 @@ void func_80ACA71C(EnOwl* this) {
 }
 
 void func_80ACA76C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -347,7 +347,7 @@ void func_80ACA76C(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACA7E0(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -547,7 +547,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB03C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);

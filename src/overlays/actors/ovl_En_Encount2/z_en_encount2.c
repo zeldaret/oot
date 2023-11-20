@@ -24,15 +24,15 @@ void EnEncount2_DrawEffects(Actor* thisx, PlayState* play);
 void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play);
 
 ActorInit En_Encount2_InitVars = {
-    ACTOR_EN_ENCOUNT2,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_EFC_STAR_FIELD,
-    sizeof(EnEncount2),
-    (ActorFunc)EnEncount2_Init,
-    NULL,
-    (ActorFunc)EnEncount2_Update,
-    (ActorFunc)EnEncount2_Draw,
+    /**/ ACTOR_EN_ENCOUNT2,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_EFC_STAR_FIELD,
+    /**/ sizeof(EnEncount2),
+    /**/ EnEncount2_Init,
+    /**/ NULL,
+    /**/ EnEncount2_Update,
+    /**/ EnEncount2_Draw,
 };
 
 void EnEncount2_Init(Actor* thisx, PlayState* play) {

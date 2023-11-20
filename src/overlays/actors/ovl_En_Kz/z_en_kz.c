@@ -23,15 +23,15 @@ void EnKz_SetupGetItem(EnKz* this, PlayState* play);
 void EnKz_StartTimer(EnKz* this, PlayState* play);
 
 ActorInit En_Kz_InitVars = {
-    ACTOR_EN_KZ,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_KZ,
-    sizeof(EnKz),
-    (ActorFunc)EnKz_Init,
-    (ActorFunc)EnKz_Destroy,
-    (ActorFunc)EnKz_Update,
-    (ActorFunc)EnKz_Draw,
+    /**/ ACTOR_EN_KZ,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_KZ,
+    /**/ sizeof(EnKz),
+    /**/ EnKz_Init,
+    /**/ EnKz_Destroy,
+    /**/ EnKz_Update,
+    /**/ EnKz_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -201,7 +201,7 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     f32 xzDistToPlayer;
     f32 yaw;
 
-    if (Actor_ProcessTalkRequest(thisx, play)) {
+    if (Actor_TalkOfferAccepted(thisx, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
     }
@@ -227,7 +227,7 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
     xzDistToPlayer = thisx->xzDistToPlayer;
     thisx->xzDistToPlayer = Math_Vec3f_DistXZ(&thisx->home.pos, &player->actor.world.pos);
-    if (func_8002F2CC(thisx, play, interactRange) == 0) {
+    if (Actor_OfferTalk(thisx, play, interactRange) == 0) {
         thisx->xzDistToPlayer = xzDistToPlayer;
         return false;
     }
@@ -382,7 +382,7 @@ void EnKz_SetupMweep(EnKz* this, PlayState* play) {
     subCamEye.y += -100.0f;
     subCamEye.z += 260.0f;
     Play_SetCameraAtEye(play, this->subCamId, &subCamAt, &subCamEye);
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
     this->actor.speed = 0.1f;
     this->actionFunc = EnKz_Mweep;
 }
@@ -414,7 +414,7 @@ void EnKz_Mweep(EnKz* this, PlayState* play) {
 void EnKz_StopMweep(EnKz* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
     this->actionFunc = EnKz_Wait;
 }
 

@@ -23,15 +23,15 @@ void func_80B17A6C(EnTakaraMan* this, PlayState* play);
 void func_80B17AC4(EnTakaraMan* this, PlayState* play);
 
 ActorInit En_Takara_Man_InitVars = {
-    ACTOR_EN_TAKARA_MAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TS,
-    sizeof(EnTakaraMan),
-    (ActorFunc)EnTakaraMan_Init,
-    (ActorFunc)EnTakaraMan_Destroy,
-    (ActorFunc)EnTakaraMan_Update,
-    (ActorFunc)EnTakaraMan_Draw,
+    /**/ ACTOR_EN_TAKARA_MAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TS,
+    /**/ sizeof(EnTakaraMan),
+    /**/ EnTakaraMan_Init,
+    /**/ EnTakaraMan_Destroy,
+    /**/ EnTakaraMan_Update,
+    /**/ EnTakaraMan_Draw,
 };
 
 static u8 sTakaraIsInitialized = false;
@@ -86,7 +86,7 @@ void func_80B1778C(EnTakaraMan* this, PlayState* play) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Actor_ProcessTalkRequest(&this->actor, play) && this->dialogState != TEXT_STATE_DONE) {
+    if (Actor_TalkOfferAccepted(&this->actor, play) && this->dialogState != TEXT_STATE_DONE) {
         if (!this->unk_214) {
             this->actionFunc = func_80B17934;
         } else {
@@ -120,7 +120,7 @@ void func_80B1778C(EnTakaraMan* this, PlayState* play) {
                     this->actor.flags |= ACTOR_FLAG_0;
                     this->unk_218 = 1;
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }

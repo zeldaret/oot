@@ -33,15 +33,15 @@ void EnHy_DoNothing(EnHy* this, PlayState* play);
 void func_80A714C4(EnHy* this, PlayState* play);
 
 ActorInit En_Hy_InitVars = {
-    ACTOR_EN_HY,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnHy),
-    (ActorFunc)EnHy_Init,
-    (ActorFunc)EnHy_Destroy,
-    (ActorFunc)EnHy_Update,
-    (ActorFunc)EnHy_Draw,
+    /**/ ACTOR_EN_HY,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnHy),
+    /**/ EnHy_Init,
+    /**/ EnHy_Destroy,
+    /**/ EnHy_Update,
+    /**/ EnHy_Draw,
 };
 
 static ColliderCylinderInit sColCylInit = {

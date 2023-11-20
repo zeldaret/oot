@@ -40,15 +40,15 @@ static ColliderCylinderInit D_80AB0BD0 = {
 static CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 ActorInit En_Mu_InitVars = {
-    ACTOR_EN_MU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MU,
-    sizeof(EnMu),
-    (ActorFunc)EnMu_Init,
-    (ActorFunc)EnMu_Destroy,
-    (ActorFunc)EnMu_Update,
-    (ActorFunc)EnMu_Draw,
+    /**/ ACTOR_EN_MU,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MU,
+    /**/ sizeof(EnMu),
+    /**/ EnMu_Init,
+    /**/ EnMu_Destroy,
+    /**/ EnMu_Update,
+    /**/ EnMu_Draw,
 };
 
 void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {

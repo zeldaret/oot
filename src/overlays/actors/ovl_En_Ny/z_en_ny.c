@@ -24,15 +24,15 @@ void EnNy_DrawDeathEffect(Actor* thisx, PlayState* play);
 void func_80ABD3B8(EnNy* this, f32, f32);
 
 ActorInit En_Ny_InitVars = {
-    ACTOR_EN_NY,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_NY,
-    sizeof(EnNy),
-    (ActorFunc)EnNy_Init,
-    (ActorFunc)EnNy_Destroy,
-    (ActorFunc)EnNy_Update,
-    (ActorFunc)EnNy_Draw,
+    /**/ ACTOR_EN_NY,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_NY,
+    /**/ sizeof(EnNy),
+    /**/ EnNy_Init,
+    /**/ EnNy_Destroy,
+    /**/ EnNy_Update,
+    /**/ EnNy_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {

@@ -42,15 +42,15 @@ void func_80A90578(EnKakasi2* this, PlayState* play);
 void func_80A906C4(EnKakasi2* this, PlayState* play);
 
 ActorInit En_Kakasi2_InitVars = {
-    ACTOR_EN_KAKASI2,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_KA,
-    sizeof(EnKakasi2),
-    (ActorFunc)EnKakasi2_Init,
-    (ActorFunc)EnKakasi2_Destroy,
-    (ActorFunc)EnKakasi2_Update,
-    NULL,
+    /**/ ACTOR_EN_KAKASI2,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_KA,
+    /**/ sizeof(EnKakasi2),
+    /**/ EnKakasi2_Init,
+    /**/ EnKakasi2_Destroy,
+    /**/ EnKakasi2_Update,
+    /**/ NULL,
 };
 
 void EnKakasi2_Init(Actor* thisx, PlayState* play) {

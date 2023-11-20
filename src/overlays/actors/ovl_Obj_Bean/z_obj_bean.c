@@ -73,15 +73,15 @@ void ObjBean_WaitForStepOff(ObjBean* this, PlayState* play);
 static ObjBean* D_80B90E30 = NULL;
 
 ActorInit Obj_Bean_InitVars = {
-    ACTOR_OBJ_BEAN,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MAMENOKI,
-    sizeof(ObjBean),
-    (ActorFunc)ObjBean_Init,
-    (ActorFunc)ObjBean_Destroy,
-    (ActorFunc)ObjBean_Update,
-    (ActorFunc)ObjBean_Draw,
+    /**/ ACTOR_OBJ_BEAN,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MAMENOKI,
+    /**/ sizeof(ObjBean),
+    /**/ ObjBean_Init,
+    /**/ ObjBean_Destroy,
+    /**/ ObjBean_Update,
+    /**/ ObjBean_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -537,13 +537,13 @@ void ObjBean_SetupWaitForBean(ObjBean* this) {
 }
 
 void ObjBean_WaitForBean(ObjBean* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
         if (func_8002F368(play) == EXCH_ITEM_MAGIC_BEAN) {
             func_80B8FE00(this);
             Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
         }
     } else {
-        func_8002F298(&this->dyna.actor, play, 40.0f, EXCH_ITEM_MAGIC_BEAN);
+        Actor_OfferTalkExchangeEquiCylinder(&this->dyna.actor, play, 40.0f, EXCH_ITEM_MAGIC_BEAN);
     }
 }
 
@@ -753,9 +753,9 @@ void ObjBean_WaitForPlayer(ObjBean* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         ObjBean_SetupFly(this);
         if (play->sceneId == SCENE_LOST_WOODS) {
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
         }
     }
     ObjBean_UpdatePosition(this);
@@ -781,7 +781,7 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
         mainCam = play->cameraPtrs[CAM_ID_MAIN];
 
         if ((mainCam->setting == CAM_SET_BEAN_LOST_WOODS) || (mainCam->setting == CAM_SET_BEAN_GENERIC)) {
-            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
+            Camera_RequestSetting(mainCam, CAM_SET_NORMAL0);
         }
 
     } else if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
@@ -789,15 +789,15 @@ void ObjBean_Fly(ObjBean* this, PlayState* play) {
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
         if (play->sceneId == SCENE_LOST_WOODS) {
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
         }
     } else if (this->stateFlags & BEAN_STATE_PLAYER_ON_TOP) {
         mainCam = play->cameraPtrs[CAM_ID_MAIN];
 
         if ((mainCam->setting == CAM_SET_BEAN_LOST_WOODS) || (mainCam->setting == CAM_SET_BEAN_GENERIC)) {
-            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
+            Camera_RequestSetting(mainCam, CAM_SET_NORMAL0);
         }
     }
 

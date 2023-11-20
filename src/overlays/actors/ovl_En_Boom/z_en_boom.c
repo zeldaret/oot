@@ -17,15 +17,15 @@ void EnBoom_Draw(Actor* thisx, PlayState* play);
 void EnBoom_Fly(EnBoom* this, PlayState* play);
 
 ActorInit En_Boom_InitVars = {
-    ACTOR_EN_BOOM,
-    ACTORCAT_MISC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnBoom),
-    (ActorFunc)EnBoom_Init,
-    (ActorFunc)EnBoom_Destroy,
-    (ActorFunc)EnBoom_Update,
-    (ActorFunc)EnBoom_Draw,
+    /**/ ACTOR_EN_BOOM,
+    /**/ ACTORCAT_MISC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnBoom),
+    /**/ EnBoom_Init,
+    /**/ EnBoom_Destroy,
+    /**/ EnBoom_Update,
+    /**/ EnBoom_Draw,
 };
 
 static ColliderQuadInit sQuadInit = {

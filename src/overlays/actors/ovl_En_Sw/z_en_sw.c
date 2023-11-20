@@ -21,15 +21,15 @@ void func_80B0DB00(EnSw* this, PlayState* play);
 void func_80B0D878(EnSw* this, PlayState* play);
 
 ActorInit En_Sw_InitVars = {
-    ACTOR_EN_SW,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ST,
-    sizeof(EnSw),
-    (ActorFunc)EnSw_Init,
-    (ActorFunc)EnSw_Destroy,
-    (ActorFunc)EnSw_Update,
-    (ActorFunc)EnSw_Draw,
+    /**/ ACTOR_EN_SW,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ST,
+    /**/ sizeof(EnSw),
+    /**/ EnSw_Init,
+    /**/ EnSw_Destroy,
+    /**/ EnSw_Update,
+    /**/ EnSw_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {

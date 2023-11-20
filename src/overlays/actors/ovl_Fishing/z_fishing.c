@@ -122,15 +122,15 @@ typedef enum {
 #define SINKING_LURE_SEG_COUNT 20
 
 ActorInit Fishing_InitVars = {
-    ACTOR_FISHING,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_FISH,
-    sizeof(Fishing),
-    (ActorFunc)Fishing_Init,
-    (ActorFunc)Fishing_Destroy,
-    (ActorFunc)Fishing_UpdateFish,
-    (ActorFunc)Fishing_DrawFish,
+    /**/ ACTOR_FISHING,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_FISH,
+    /**/ sizeof(Fishing),
+    /**/ Fishing_Init,
+    /**/ Fishing_Destroy,
+    /**/ Fishing_UpdateFish,
+    /**/ Fishing_DrawFish,
 };
 
 static f32 sStormStrength = 0.0f;
@@ -2866,11 +2866,11 @@ void Fishing_HandleAquariumDialog(Fishing* this, PlayState* play) {
         if (this->aquariumWaitTimer == 0) {
             this->actor.flags |= ACTOR_FLAG_0;
 
-            if (Actor_ProcessTalkRequest(&this->actor, play)) {
+            if (Actor_TalkOfferAccepted(&this->actor, play)) {
                 sFishLengthToWeigh = sFishingRecordLength;
                 this->isAquariumMessage = true;
             } else {
-                func_8002F2F4(&this->actor, play);
+                Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
             }
         } else {
             this->aquariumWaitTimer--;
@@ -4759,7 +4759,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                 this->actor.textId = 0x4097;
             }
 
-            if (Actor_ProcessTalkRequest(&this->actor, play)) {
+            if (Actor_TalkOfferAccepted(&this->actor, play)) {
                 if (sFishingPlayingState == 0) {
                     this->stateAndTimer = 1;
                     if (sLinkAge != LINK_AGE_CHILD) {
@@ -4771,7 +4771,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, PlayState* play) {
                     this->stateAndTimer = 10;
                 }
             } else {
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
             break;
 
@@ -5392,7 +5392,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, PLAYER_CSACTION_5);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5418,7 +5418,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                 mainCam->at = sSubCamAt;
                 Play_ReturnToMainCam(play, sSubCamId, 0);
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 sFishingPlayerCinematicState = 0;
 
                 sSubCamId = SUB_CAM_ID_DONE;
@@ -5435,7 +5435,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             sSubCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
-            func_8002DF54(play, &this->actor, PLAYER_CSACTION_5);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_5);
             mainCam = Play_GetCamera(play, CAM_ID_MAIN);
             sSubCamEye.x = mainCam->eye.x;
             sSubCamEye.y = mainCam->eye.y;
@@ -5454,7 +5454,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             if ((sFishingCinematicTimer == 0) && Message_ShouldAdvance(play)) {
                 sFishingPlayerCinematicState = 22;
                 sFishingCinematicTimer = 40;
-                func_8002DF54(play, &this->actor, PLAYER_CSACTION_28);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_28);
                 sSinkingLureHeldY = 0.0f;
             }
             break;
@@ -5523,7 +5523,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
                         mainCam->at = sSubCamAt;
                         Play_ReturnToMainCam(play, sSubCamId, 0);
                         Cutscene_StopManual(play, &play->csCtx);
-                        func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+                        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                         sFishingPlayerCinematicState = 0;
 
                         sSubCamId = SUB_CAM_ID_DONE;

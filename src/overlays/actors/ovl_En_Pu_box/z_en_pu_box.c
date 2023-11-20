@@ -15,15 +15,15 @@ void EnPubox_Update(Actor* thisx, PlayState* play);
 void EnPubox_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Pu_box_InitVars = {
-    ACTOR_EN_PU_BOX,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_PU_BOX,
-    sizeof(EnPubox),
-    (ActorFunc)EnPubox_Init,
-    (ActorFunc)EnPubox_Destroy,
-    (ActorFunc)EnPubox_Update,
-    (ActorFunc)EnPubox_Draw,
+    /**/ ACTOR_EN_PU_BOX,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_PU_BOX,
+    /**/ sizeof(EnPubox),
+    /**/ EnPubox_Init,
+    /**/ EnPubox_Destroy,
+    /**/ EnPubox_Update,
+    /**/ EnPubox_Draw,
 };
 
 void EnPubox_Init(Actor* thisx, PlayState* play) {

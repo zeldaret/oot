@@ -20,15 +20,15 @@ void func_809B5C18(EnAttackNiw* this, PlayState* play);
 void func_809B59B0(EnAttackNiw* this, PlayState* play);
 
 ActorInit En_Attack_Niw_InitVars = {
-    ACTOR_EN_ATTACK_NIW,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_NIW,
-    sizeof(EnAttackNiw),
-    (ActorFunc)EnAttackNiw_Init,
-    (ActorFunc)EnAttackNiw_Destroy,
-    (ActorFunc)EnAttackNiw_Update,
-    (ActorFunc)EnAttackNiw_Draw,
+    /**/ ACTOR_EN_ATTACK_NIW,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_NIW,
+    /**/ sizeof(EnAttackNiw),
+    /**/ EnAttackNiw_Init,
+    /**/ EnAttackNiw_Destroy,
+    /**/ EnAttackNiw_Update,
+    /**/ EnAttackNiw_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

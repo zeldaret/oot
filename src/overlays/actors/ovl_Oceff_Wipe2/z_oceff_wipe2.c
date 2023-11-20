@@ -15,15 +15,15 @@ void OceffWipe2_Update(Actor* thisx, PlayState* play);
 void OceffWipe2_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Oceff_Wipe2_InitVars = {
-    ACTOR_OCEFF_WIPE2,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(OceffWipe2),
-    (ActorFunc)OceffWipe2_Init,
-    (ActorFunc)OceffWipe2_Destroy,
-    (ActorFunc)OceffWipe2_Update,
-    (ActorFunc)OceffWipe2_Draw,
+    /**/ ACTOR_OCEFF_WIPE2,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(OceffWipe2),
+    /**/ OceffWipe2_Init,
+    /**/ OceffWipe2_Destroy,
+    /**/ OceffWipe2_Update,
+    /**/ OceffWipe2_Draw,
 };
 
 void OceffWipe2_Init(Actor* thisx, PlayState* play) {
@@ -69,7 +69,7 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(play));
+    quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
     if (this->timer < 32) {
         z = Math_SinS(this->timer << 9) * 1330;
     } else {

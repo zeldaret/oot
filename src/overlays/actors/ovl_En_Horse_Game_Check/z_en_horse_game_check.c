@@ -49,15 +49,15 @@ void EnHorseGameCheck_Update(Actor* thisx, PlayState* play);
 void EnHorseGameCheck_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Horse_Game_Check_InitVars = {
-    ACTOR_EN_HORSE_GAME_CHECK,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnHorseGameCheck),
-    (ActorFunc)EnHorseGameCheck_Init,
-    (ActorFunc)EnHorseGameCheck_Destroy,
-    (ActorFunc)EnHorseGameCheck_Update,
-    (ActorFunc)EnHorseGameCheck_Draw,
+    /**/ ACTOR_EN_HORSE_GAME_CHECK,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnHorseGameCheck),
+    /**/ EnHorseGameCheck_Init,
+    /**/ EnHorseGameCheck_Destroy,
+    /**/ EnHorseGameCheck_Update,
+    /**/ EnHorseGameCheck_Draw,
 };
 
 static Vec3f sIngoRaceCheckpoints[] = {

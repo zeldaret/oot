@@ -71,7 +71,7 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ PLAYER_IA_NONE,
-    /* 0x01 */ PLAYER_IA_LAST_USED,
+    /* 0x01 */ PLAYER_IA_SWORD_CS, // Hold sword without shield in hand. The sword is not useable.
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
     /* 0x03 */ PLAYER_IA_SWORD_MASTER,
     /* 0x04 */ PLAYER_IA_SWORD_KOKIRI,
@@ -229,9 +229,9 @@ typedef enum {
 } PlayerDoorType;
 
 typedef enum {
-    /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except with the `func_80091880` bug)
-    /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD, // kokiri/master sword, shield not in hand
-    /* 0x02 */ PLAYER_MODELGROUP_SWORD, // kokiri/master sword and possibly shield
+    /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
+    /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD,  //hold sword only. used for holding sword only as child link with hylian shield equipped
+    /* 0x02 */ PLAYER_MODELGROUP_SWORD_AND_SHIELD, // hold sword and shield or just sword if no shield is equipped
     /* 0x03 */ PLAYER_MODELGROUP_DEFAULT, // non-specific models, for items that don't have particular link models
     /* 0x04 */ PLAYER_MODELGROUP_4, // unused, same as PLAYER_MODELGROUP_DEFAULT
     /* 0x05 */ PLAYER_MODELGROUP_BGS, // biggoron sword
@@ -244,7 +244,7 @@ typedef enum {
     /* 0x0C */ PLAYER_MODELGROUP_OCARINA, // ocarina
     /* 0x0D */ PLAYER_MODELGROUP_OOT, // ocarina of time
     /* 0x0E */ PLAYER_MODELGROUP_BOTTLE, // bottles (drawn separately)
-    /* 0x0F */ PLAYER_MODELGROUP_15, // "last used"
+    /* 0x0F */ PLAYER_MODELGROUP_SWORD, // hold sword and no shield, even if one is equipped
     /* 0x10 */ PLAYER_MODELGROUP_MAX
 } PlayerModelGroup;
 
@@ -460,6 +460,88 @@ typedef enum {
 } PlayerCsAction;
 
 typedef enum {
+    /* 0x00 */ PLAYER_CUEID_NONE,
+    /* 0x01 */ PLAYER_CUEID_1,
+    /* 0x02 */ PLAYER_CUEID_2,
+    /* 0x03 */ PLAYER_CUEID_3,
+    /* 0x04 */ PLAYER_CUEID_4,
+    /* 0x05 */ PLAYER_CUEID_5,
+    /* 0x06 */ PLAYER_CUEID_6,
+    /* 0x07 */ PLAYER_CUEID_7,
+    /* 0x08 */ PLAYER_CUEID_8,
+    /* 0x09 */ PLAYER_CUEID_9,
+    /* 0x0A */ PLAYER_CUEID_10,
+    /* 0x0B */ PLAYER_CUEID_11,
+    /* 0x0C */ PLAYER_CUEID_12,
+    /* 0x0D */ PLAYER_CUEID_13,
+    /* 0x0E */ PLAYER_CUEID_14,
+    /* 0x0F */ PLAYER_CUEID_15,
+    /* 0x10 */ PLAYER_CUEID_16,
+    /* 0x11 */ PLAYER_CUEID_17,
+    /* 0x12 */ PLAYER_CUEID_18,
+    /* 0x13 */ PLAYER_CUEID_19,
+    /* 0x14 */ PLAYER_CUEID_20,
+    /* 0x15 */ PLAYER_CUEID_21,
+    /* 0x16 */ PLAYER_CUEID_22,
+    /* 0x17 */ PLAYER_CUEID_23,
+    /* 0x18 */ PLAYER_CUEID_24,
+    /* 0x19 */ PLAYER_CUEID_25,
+    /* 0x1A */ PLAYER_CUEID_26,
+    /* 0x1B */ PLAYER_CUEID_27,
+    /* 0x1C */ PLAYER_CUEID_28,
+    /* 0x1D */ PLAYER_CUEID_29,
+    /* 0x1E */ PLAYER_CUEID_30,
+    /* 0x1F */ PLAYER_CUEID_31,
+    /* 0x20 */ PLAYER_CUEID_32,
+    /* 0x21 */ PLAYER_CUEID_33,
+    /* 0x22 */ PLAYER_CUEID_34,
+    /* 0x23 */ PLAYER_CUEID_35,
+    /* 0x24 */ PLAYER_CUEID_36,
+    /* 0x25 */ PLAYER_CUEID_37,
+    /* 0x26 */ PLAYER_CUEID_38,
+    /* 0x27 */ PLAYER_CUEID_39,
+    /* 0x28 */ PLAYER_CUEID_40,
+    /* 0x29 */ PLAYER_CUEID_41,
+    /* 0x2A */ PLAYER_CUEID_42,
+    /* 0x2B */ PLAYER_CUEID_43,
+    /* 0x2C */ PLAYER_CUEID_44,
+    /* 0x2D */ PLAYER_CUEID_45,
+    /* 0x2E */ PLAYER_CUEID_46,
+    /* 0x2F */ PLAYER_CUEID_47,
+    /* 0x30 */ PLAYER_CUEID_48,
+    /* 0x31 */ PLAYER_CUEID_49,
+    /* 0x32 */ PLAYER_CUEID_50,
+    /* 0x33 */ PLAYER_CUEID_51,
+    /* 0x34 */ PLAYER_CUEID_52,
+    /* 0x35 */ PLAYER_CUEID_53,
+    /* 0x36 */ PLAYER_CUEID_54,
+    /* 0x37 */ PLAYER_CUEID_55,
+    /* 0x38 */ PLAYER_CUEID_56,
+    /* 0x39 */ PLAYER_CUEID_57,
+    /* 0x3A */ PLAYER_CUEID_58,
+    /* 0x3B */ PLAYER_CUEID_59,
+    /* 0x3C */ PLAYER_CUEID_60,
+    /* 0x3D */ PLAYER_CUEID_61,
+    /* 0x3E */ PLAYER_CUEID_62,
+    /* 0x3F */ PLAYER_CUEID_63,
+    /* 0x40 */ PLAYER_CUEID_64,
+    /* 0x41 */ PLAYER_CUEID_65,
+    /* 0x42 */ PLAYER_CUEID_66,
+    /* 0x43 */ PLAYER_CUEID_67,
+    /* 0x44 */ PLAYER_CUEID_68,
+    /* 0x45 */ PLAYER_CUEID_69,
+    /* 0x46 */ PLAYER_CUEID_70,
+    /* 0x47 */ PLAYER_CUEID_71,
+    /* 0x48 */ PLAYER_CUEID_72,
+    /* 0x49 */ PLAYER_CUEID_73,
+    /* 0x4A */ PLAYER_CUEID_74,
+    /* 0x4B */ PLAYER_CUEID_75,
+    /* 0x4C */ PLAYER_CUEID_76,
+    /* 0x4D */ PLAYER_CUEID_77,
+    /* 0x4E */ PLAYER_CUEID_MAX
+} PlayerCueId;
+
+typedef enum {
     /* 0 */ PLAYER_LEDGE_CLIMB_NONE,
     /* 1 */ PLAYER_LEDGE_CLIMB_1,
     /* 2 */ PLAYER_LEDGE_CLIMB_2,
@@ -587,7 +669,7 @@ typedef struct {
 #define PLAYER_STATE3_7 (1 << 7)
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
-typedef s32 (*ItemActionFunc)(struct Player*, struct PlayState*);
+typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
 typedef struct Player {
@@ -644,12 +726,15 @@ typedef struct Player {
     /* 0x0445 */ u8 prevCsAction;
     /* 0x0446 */ u8 cueId;
     /* 0x0447 */ u8 unk_447;
-    /* 0x0448 */ Actor* unk_448;
+    /* 0x0448 */ Actor* csActor; // Actor involved in a `csAction`. Typically the actor that invoked the cutscene.
     /* 0x044C */ char unk_44C[0x004];
     /* 0x0450 */ Vec3f unk_450;
     /* 0x045C */ Vec3f unk_45C;
     /* 0x0468 */ char unk_468[0x002];
-    /* 0x046A */ s16 doorBgCamIndex;
+    /* 0x046A */ union { 
+        s16 haltActorsDuringCsAction; // If true, halt actors belonging to certain categories during a `csAction`
+        s16 slidingDoorBgCamIndex; // `BgCamIndex` used during a sliding door cutscene
+    } cv; // "Cutscene Variable": context dependent variable that has different meanings depending on what function is called
     /* 0x046C */ s16 subCamId;
     /* 0x046E */ char unk_46E[0x02A];
     /* 0x0498 */ ColliderCylinder cylinder;
@@ -688,11 +773,11 @@ typedef struct Player {
     /* 0x06C0 */ s16 unk_6C0;
     /* 0x06C2 */ s16 unk_6C2;
     /* 0x06C4 */ f32 unk_6C4;
-    /* 0x06C8 */ SkelAnime skelAnimeUpper;
-    /* 0x070C */ Vec3s jointTableUpper[PLAYER_LIMB_BUF_COUNT];
-    /* 0x079C */ Vec3s morphTableUpper[PLAYER_LIMB_BUF_COUNT];
-    /* 0x082C */ ItemActionFunc itemActionFunc;
-    /* 0x0830 */ f32 skelAnimeUpperBlendWeight;
+    /* 0x06C8 */ SkelAnime upperSkelAnime;
+    /* 0x070C */ Vec3s upperJointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x082C */ UpperActionFunc upperActionFunc;
+    /* 0x0830 */ f32 upperAnimBlendWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 unk_837;
@@ -707,8 +792,15 @@ typedef struct Player {
     /* 0x0846 */ u8 unk_846;
     /* 0x0847 */ s8 unk_847[4];
     /* 0x084B */ s8 unk_84B[4];
-    /* 0x084F */ s8 actionVar1; // context dependent variable that has different meanings depending on what action is currently running
-    /* 0x0850 */ s16 actionVar2; // context dependent variable that has different meanings depending on what action is currently running
+
+    /* 0x084F */ union { 
+        s8 actionVar1;
+    } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
+
+    /* 0x0850 */ union { 
+        s16 actionVar2;
+    } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
+
     /* 0x0854 */ f32 unk_854;
     /* 0x0858 */ f32 unk_858;
     /* 0x085C */ f32 unk_85C; // stick length among other things

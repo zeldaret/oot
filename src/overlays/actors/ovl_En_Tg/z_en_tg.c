@@ -39,15 +39,15 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 ActorInit En_Tg_InitVars = {
-    ACTOR_EN_TG,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MU,
-    sizeof(EnTg),
-    (ActorFunc)EnTg_Init,
-    (ActorFunc)EnTg_Destroy,
-    (ActorFunc)EnTg_Update,
-    (ActorFunc)EnTg_Draw,
+    /**/ ACTOR_EN_TG,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MU,
+    /**/ sizeof(EnTg),
+    /**/ EnTg_Init,
+    /**/ EnTg_Destroy,
+    /**/ EnTg_Update,
+    /**/ EnTg_Draw,
 };
 
 u16 EnTg_GetTextId(PlayState* play, Actor* thisx) {

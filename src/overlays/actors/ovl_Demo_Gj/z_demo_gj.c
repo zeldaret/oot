@@ -1445,13 +1445,13 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Gj_InitVars = {
-    ACTOR_DEMO_GJ,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GJ,
-    sizeof(DemoGj),
-    (ActorFunc)DemoGj_Init,
-    (ActorFunc)DemoGj_Destroy,
-    (ActorFunc)DemoGj_Update,
-    (ActorFunc)DemoGj_Draw,
+    /**/ ACTOR_DEMO_GJ,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GJ,
+    /**/ sizeof(DemoGj),
+    /**/ DemoGj_Init,
+    /**/ DemoGj_Destroy,
+    /**/ DemoGj_Update,
+    /**/ DemoGj_Draw,
 };

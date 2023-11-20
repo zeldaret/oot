@@ -29,15 +29,15 @@ void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, PlayState* play);
 void BgMoriBigst_SetupDone(BgMoriBigst* this, PlayState* play);
 
 ActorInit Bg_Mori_Bigst_InitVars = {
-    ACTOR_BG_MORI_BIGST,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriBigst),
-    (ActorFunc)BgMoriBigst_Init,
-    (ActorFunc)BgMoriBigst_Destroy,
-    (ActorFunc)BgMoriBigst_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_BIGST,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriBigst),
+    /**/ BgMoriBigst_Init,
+    /**/ BgMoriBigst_Destroy,
+    /**/ BgMoriBigst_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -164,7 +164,7 @@ void BgMoriBigst_Fall(BgMoriBigst* this, PlayState* play) {
         BgMoriBigst_SetupLanding(this, play);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         OnePointCutscene_Init(play, 1020, 8, &this->dyna.actor, CAM_ID_MAIN);
-        func_8002DF38(play, NULL, PLAYER_CSACTION_60);
+        Player_SetCsAction(play, NULL, PLAYER_CSACTION_60);
     }
 }
 

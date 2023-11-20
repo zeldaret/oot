@@ -43,15 +43,15 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play);
 static s16 D_80AE1A50 = 0;
 
 ActorInit En_Poh_InitVars = {
-    ACTOR_EN_POH,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnPoh),
-    (ActorFunc)EnPoh_Init,
-    (ActorFunc)EnPoh_Destroy,
-    (ActorFunc)EnPoh_Update,
-    NULL,
+    /**/ ACTOR_EN_POH,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnPoh),
+    /**/ EnPoh_Init,
+    /**/ EnPoh_Destroy,
+    /**/ EnPoh_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -763,7 +763,7 @@ void func_80ADFE80(EnPoh* this, PlayState* play) {
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.params >= EN_POH_SHARP) {
             func_80ADE9BC(this);
         } else {
@@ -778,7 +778,7 @@ void func_80ADFE80(EnPoh* this, PlayState* play) {
     }
     if (this->colliderCyl.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
         this->actor.flags &= ~ACTOR_FLAG_16;
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCyl.base);

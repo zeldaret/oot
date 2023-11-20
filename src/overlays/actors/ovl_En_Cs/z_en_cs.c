@@ -16,15 +16,15 @@ s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnCs_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Cs_InitVars = {
-    ACTOR_EN_CS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_CS,
-    sizeof(EnCs),
-    (ActorFunc)EnCs_Init,
-    (ActorFunc)EnCs_Destroy,
-    (ActorFunc)EnCs_Update,
-    (ActorFunc)EnCs_Draw,
+    /**/ ACTOR_EN_CS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_CS,
+    /**/ sizeof(EnCs),
+    /**/ EnCs_Init,
+    /**/ EnCs_Destroy,
+    /**/ EnCs_Update,
+    /**/ EnCs_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -235,7 +235,7 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
         this->talkState = 1;
     } else if (this->talkState == 1) {
         this->talkState = EnCs_GetTalkState(this, play);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
             EnCs_ChangeAnim(this, ENCS_ANIM_3, &this->currentAnimIndex);
         }
@@ -253,7 +253,7 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &sp2A, &sp28);
 
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
-            (func_8002F2CC(&this->actor, play, 100.0f))) {
+            (Actor_OfferTalk(&this->actor, play, 100.0f))) {
             this->actor.textId = EnCs_GetTextID(this, play);
         }
     }

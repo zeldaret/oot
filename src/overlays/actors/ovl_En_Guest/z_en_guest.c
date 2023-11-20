@@ -21,15 +21,15 @@ void func_80A5057C(EnGuest* this, PlayState* play);
 void func_80A505CC(Actor* thisx, PlayState* play);
 
 ActorInit En_Guest_InitVars = {
-    ACTOR_EN_GUEST,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_BOJ,
-    sizeof(EnGuest),
-    (ActorFunc)EnGuest_Init,
-    (ActorFunc)EnGuest_Destroy,
-    (ActorFunc)EnGuest_Update,
-    NULL,
+    /**/ ACTOR_EN_GUEST,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_BOJ,
+    /**/ sizeof(EnGuest),
+    /**/ EnGuest_Init,
+    /**/ EnGuest_Destroy,
+    /**/ EnGuest_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -126,10 +126,10 @@ void func_80A5046C(EnGuest* this) {
 }
 
 void func_80A50518(EnGuest* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A5057C;
     } else if (this->actor.xzDistToPlayer < 100.0f) {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 }
 

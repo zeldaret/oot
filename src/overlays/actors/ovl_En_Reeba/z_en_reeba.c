@@ -76,15 +76,15 @@ static DamageTable sDamageTable = {
 };
 
 ActorInit En_Reeba_InitVars = {
-    ACTOR_EN_REEBA,
-    ACTORCAT_MISC,
-    FLAGS,
-    OBJECT_REEBA,
-    sizeof(EnReeba),
-    (ActorFunc)EnReeba_Init,
-    (ActorFunc)EnReeba_Destroy,
-    (ActorFunc)EnReeba_Update,
-    (ActorFunc)EnReeba_Draw,
+    /**/ ACTOR_EN_REEBA,
+    /**/ ACTORCAT_MISC,
+    /**/ FLAGS,
+    /**/ OBJECT_REEBA,
+    /**/ sizeof(EnReeba),
+    /**/ EnReeba_Init,
+    /**/ EnReeba_Destroy,
+    /**/ EnReeba_Update,
+    /**/ EnReeba_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

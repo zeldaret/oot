@@ -59,15 +59,15 @@ void EnZl4_Idle(EnZl4* this, PlayState* play);
 void EnZl4_TheEnd(EnZl4* this, PlayState* play);
 
 ActorInit En_Zl4_InitVars = {
-    ACTOR_EN_ZL4,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL4,
-    sizeof(EnZl4),
-    (ActorFunc)EnZl4_Init,
-    (ActorFunc)EnZl4_Destroy,
-    (ActorFunc)EnZl4_Update,
-    (ActorFunc)EnZl4_Draw,
+    /**/ ACTOR_EN_ZL4,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL4,
+    /**/ sizeof(EnZl4),
+    /**/ EnZl4_Init,
+    /**/ EnZl4_Destroy,
+    /**/ EnZl4_Update,
+    /**/ EnZl4_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -181,7 +181,7 @@ static AnimationInfo sAnimationInfo[] = {
 void EnZl4_SetActiveCamDir(PlayState* play, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
 
-    Camera_ChangeSetting(activeCam, CAM_SET_FREE0);
+    Camera_RequestSetting(activeCam, CAM_SET_FREE0);
     activeCam->at = sCamDirections[index].at;
     activeCam->eye = activeCam->eyeNext = sCamDirections[index].eye;
     activeCam->roll = sCamDirections[index].roll;
@@ -192,7 +192,7 @@ void EnZl4_SetActiveCamMove(PlayState* play, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
     Player* player = GET_PLAYER(play);
 
-    Camera_ChangeSetting(activeCam, CAM_SET_CS_0);
+    Camera_RequestSetting(activeCam, CAM_SET_CS_0);
     Camera_ResetAnim(activeCam);
     Camera_SetCSParams(activeCam, sCamMove[index].atPoints, sCamMove[index].eyePoints, player,
                        sCamMove[index].relativeToPlayer);
@@ -320,7 +320,7 @@ s32 EnZl4_SetupFromLegendCs(EnZl4* this, PlayState* play) {
     Actor* playerx = &GET_PLAYER(play)->actor;
     s16 rotY;
 
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
     playerx->world.pos = this->actor.world.pos;
     rotY = this->actor.shape.rot.y;
     playerx->world.pos.x += 56.0f * Math_SinS(rotY);
@@ -423,13 +423,13 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, PlayState* play) {
     s16 yawDiff;
     s16 absYawDiff;
 
-    if (!Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
         if ((playerx->world.pos.y != this->actor.world.pos.y) || (absYawDiff >= 0x3FFC)) {
             return false;
         } else {
-            func_8002F2CC(&this->actor, play, this->collider.dim.radius + 60.0f);
+            Actor_OfferTalk(&this->actor, play, this->collider.dim.radius + 60.0f);
             return false;
         }
     }
@@ -912,7 +912,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
                 play->csCtx.script = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
                 gSaveContext.cutsceneTrigger = 1;
                 this->talkState++;
-                func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
             }
             break;
         case 2:
@@ -922,7 +922,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, PlayState* play) {
                 }
             } else {
                 Rumble_Request(0.0f, 160, 10, 40);
-                func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_30);
                 EnZl4_SetActiveCamDir(play, 11);
                 Message_StartTextbox(play, 0x7039, NULL);
@@ -1111,7 +1111,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
             if (!((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play))) {
                 break;
             } else {
-                Camera_ChangeSetting(GET_ACTIVE_CAM(play), CAM_SET_NORMAL0);
+                Camera_RequestSetting(GET_ACTIVE_CAM(play), CAM_SET_NORMAL0);
                 this->talkState = 7;
                 play->talkWithPlayer(play, &this->actor);
                 Actor_OfferGetItem(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,
@@ -1193,7 +1193,7 @@ void EnZl4_Cutscene(EnZl4* this, PlayState* play) {
             break;
         case ZL4_CS_PLAN:
             if (EnZl4_CsMakePlan(this, play)) {
-                func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 gSaveContext.prevHudVisibilityMode = HUD_VISIBILITY_ALL;
                 SET_EVENTCHKINF(EVENTCHKINF_40);
                 this->actionFunc = EnZl4_Idle;

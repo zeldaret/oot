@@ -100,15 +100,15 @@ static s16 D_80B4A1B0 = 0;
 static s16 D_80B4A1B4 = 1;
 
 ActorInit En_Zf_InitVars = {
-    ACTOR_EN_ZF,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_ZF,
-    sizeof(EnZf),
-    (ActorFunc)EnZf_Init,
-    (ActorFunc)EnZf_Destroy,
-    (ActorFunc)EnZf_Update,
-    (ActorFunc)EnZf_Draw,
+    /**/ ACTOR_EN_ZF,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_ZF,
+    /**/ sizeof(EnZf),
+    /**/ EnZf_Init,
+    /**/ EnZf_Destroy,
+    /**/ EnZf_Update,
+    /**/ EnZf_Draw,
 };
 
 static ColliderCylinderInit sBodyCylinderInit = {

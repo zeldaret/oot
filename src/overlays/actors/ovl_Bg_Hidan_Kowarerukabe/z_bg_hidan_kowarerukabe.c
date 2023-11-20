@@ -23,15 +23,15 @@ void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
-    ACTOR_BG_HIDAN_KOWARERUKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanKowarerukabe),
-    (ActorFunc)BgHidanKowarerukabe_Init,
-    (ActorFunc)BgHidanKowarerukabe_Destroy,
-    (ActorFunc)BgHidanKowarerukabe_Update,
-    (ActorFunc)BgHidanKowarerukabe_Draw,
+    /**/ ACTOR_BG_HIDAN_KOWARERUKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanKowarerukabe),
+    /**/ BgHidanKowarerukabe_Init,
+    /**/ BgHidanKowarerukabe_Destroy,
+    /**/ BgHidanKowarerukabe_Update,
+    /**/ BgHidanKowarerukabe_Draw,
 };
 
 static Gfx* sBreakableWallDLists[] = {

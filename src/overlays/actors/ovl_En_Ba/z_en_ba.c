@@ -24,15 +24,15 @@ void EnBa_Die(EnBa* this, PlayState* play);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
 
 ActorInit En_Ba_InitVars = {
-    ACTOR_EN_BA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BXA,
-    sizeof(EnBa),
-    (ActorFunc)EnBa_Init,
-    (ActorFunc)EnBa_Destroy,
-    (ActorFunc)EnBa_Update,
-    (ActorFunc)EnBa_Draw,
+    /**/ ACTOR_EN_BA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BXA,
+    /**/ sizeof(EnBa),
+    /**/ EnBa_Init,
+    /**/ EnBa_Destroy,
+    /**/ EnBa_Update,
+    /**/ EnBa_Draw,
 };
 
 static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };

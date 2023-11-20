@@ -27,15 +27,15 @@ void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 
 ActorInit En_Syateki_Niw_InitVars = {
-    ACTOR_EN_SYATEKI_NIW,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_NIW,
-    sizeof(EnSyatekiNiw),
-    (ActorFunc)EnSyatekiNiw_Init,
-    (ActorFunc)EnSyatekiNiw_Destroy,
-    (ActorFunc)EnSyatekiNiw_Update,
-    (ActorFunc)EnSyatekiNiw_Draw,
+    /**/ ACTOR_EN_SYATEKI_NIW,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_NIW,
+    /**/ sizeof(EnSyatekiNiw),
+    /**/ EnSyatekiNiw_Init,
+    /**/ EnSyatekiNiw_Destroy,
+    /**/ EnSyatekiNiw_Update,
+    /**/ EnSyatekiNiw_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

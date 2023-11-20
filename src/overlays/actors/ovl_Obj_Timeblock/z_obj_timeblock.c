@@ -26,15 +26,15 @@ void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, PlayState* play);
 
 ActorInit Obj_Timeblock_InitVars = {
-    ACTOR_OBJ_TIMEBLOCK,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_TIMEBLOCK,
-    sizeof(ObjTimeblock),
-    (ActorFunc)ObjTimeblock_Init,
-    (ActorFunc)ObjTimeblock_Destroy,
-    (ActorFunc)ObjTimeblock_Update,
-    (ActorFunc)ObjTimeblock_Draw,
+    /**/ ACTOR_OBJ_TIMEBLOCK,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_TIMEBLOCK,
+    /**/ sizeof(ObjTimeblock),
+    /**/ ObjTimeblock_Init,
+    /**/ ObjTimeblock_Destroy,
+    /**/ ObjTimeblock_Update,
+    /**/ ObjTimeblock_Draw,
 };
 
 typedef struct {

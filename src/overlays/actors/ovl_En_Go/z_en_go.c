@@ -35,15 +35,15 @@ void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
 ActorInit En_Go_InitVars = {
-    ACTOR_EN_GO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(EnGo),
-    (ActorFunc)EnGo_Init,
-    (ActorFunc)EnGo_Destroy,
-    (ActorFunc)EnGo_Update,
-    (ActorFunc)EnGo_Draw,
+    /**/ ACTOR_EN_GO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(EnGo),
+    /**/ EnGo_Init,
+    /**/ EnGo_Destroy,
+    /**/ EnGo_Update,
+    /**/ EnGo_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -338,10 +338,10 @@ s32 EnGo_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     if (*talkState != NPC_TALK_STATE_IDLE) {
         *talkState = updateTalkState(play, thisx);
         return false;
-    } else if (Actor_ProcessTalkRequest(thisx, play)) {
+    } else if (Actor_TalkOfferAccepted(thisx, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
-    } else if (!func_8002F2CC(thisx, play, interactRange)) {
+    } else if (!Actor_OfferTalk(thisx, play, interactRange)) {
         return false;
     } else {
         thisx->textId = getTextId(play, thisx);
@@ -429,13 +429,13 @@ s32 EnGo_IsCameraModified(EnGo* this, PlayState* play) {
 
     xyzDistSq = (this->actor.scale.x / 0.01f) * SQ(100.0f);
     if ((this->actor.params & 0xF0) == 0x90) {
-        Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
+        Camera_RequestSetting(mainCam, CAM_SET_DIRECTED_YAW);
         xyzDistSq *= 4.8f;
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDistSq) {
         if (mainCam->setting == CAM_SET_DIRECTED_YAW) {
-            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
+            Camera_RequestSetting(mainCam, CAM_SET_NORMAL0);
         }
         return 0;
     } else {

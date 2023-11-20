@@ -35,15 +35,15 @@ void EnTrap_Update(Actor* thisx, PlayState* play);
 void EnTrap_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Trap_InitVars = {
-    ACTOR_EN_TRAP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_TRAP,
-    sizeof(EnTrap),
-    (ActorFunc)EnTrap_Init,
-    (ActorFunc)EnTrap_Destroy,
-    (ActorFunc)EnTrap_Update,
-    (ActorFunc)EnTrap_Draw,
+    /**/ ACTOR_EN_TRAP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_TRAP,
+    /**/ sizeof(EnTrap),
+    /**/ EnTrap_Init,
+    /**/ EnTrap_Destroy,
+    /**/ EnTrap_Update,
+    /**/ EnTrap_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
