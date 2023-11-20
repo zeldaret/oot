@@ -23,9 +23,6 @@ void EnMa1_TeachSong(EnMa1* this, PlayState* play);
 void EnMa1_WaitForPlayback(EnMa1* this, PlayState* play);
 void EnMa1_DoNothing(EnMa1* this, PlayState* play);
 
-#define TURN_ON_MALON_SINGING false
-#define TURN_OFF_MALON_SINGING true
-
 ActorInit En_Ma1_InitVars = {
     /**/ ACTOR_EN_MA1,
     /**/ ACTORCAT_NPC,
@@ -242,14 +239,14 @@ void EnMa1_UpdateTracking(EnMa1* this, PlayState* play) {
 void EnMa1_UpdateSinging(EnMa1* this) {
     if (this->skelAnime.animation == &gMalonChildSingAnim) {
         if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            if (this->isNotSinging) {
-                this->isNotSinging = false;
-                Audio_ToggleMalonSinging(TURN_ON_MALON_SINGING);
+            if (this->singingDisabled) {
+                this->singingDisabled = false;
+                Audio_ToggleMalonSinging(false);
             }
         } else {
-            if (!this->isNotSinging) {
-                this->isNotSinging = true;
-                Audio_ToggleMalonSinging(TURN_OFF_MALON_SINGING);
+            if (!this->singingDisabled) {
+                this->singingDisabled = true;
+                Audio_ToggleMalonSinging(true);
             }
         }
     }
