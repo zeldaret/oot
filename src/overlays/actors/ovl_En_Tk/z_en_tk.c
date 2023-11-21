@@ -330,11 +330,11 @@ s32 EnTk_Orient(EnTk* this, PlayState* play) {
 }
 
 u16 EnTk_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction;
+    u16 textId;
 
-    faceReaction = Text_GetFaceReaction(play, 14);
-    if (faceReaction != 0) {
-        return faceReaction;
+    textId = Text_GetFaceReaction(play, FACE_REACTION_SET_DAMPE);
+    if (textId != 0) {
+        return textId;
     }
 
     if (GET_INFTABLE(INFTABLE_D9)) {

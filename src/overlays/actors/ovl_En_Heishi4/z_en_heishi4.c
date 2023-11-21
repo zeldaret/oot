@@ -33,7 +33,7 @@ ActorInit En_Heishi4_InitVars = {
     /**/ EnHeishi4_Draw,
 };
 
-static u32 sFaceReactionSets[] = { 6, 7 };
+static u32 sFaceReactionSets[] = { FACE_REACTION_SET_HEISHI4_1, FACE_REACTION_SET_HEISHI4_2 };
 
 static ColliderCylinderInit sCylinderInit = {
     {

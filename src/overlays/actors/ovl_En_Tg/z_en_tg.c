@@ -52,13 +52,13 @@ ActorInit En_Tg_InitVars = {
 
 u16 EnTg_GetTextId(PlayState* play, Actor* thisx) {
     EnTg* this = (EnTg*)thisx;
-    u16 faceReaction;
+    u16 faceReactionTextId;
     u32 textId;
 
     // If the player is wearing a mask, return a special reaction text
-    faceReaction = Text_GetFaceReaction(play, 0x24);
-    if (faceReaction != 0) {
-        return faceReaction;
+    faceReactionTextId = Text_GetFaceReaction(play, FACE_REACTION_SET_DANCING_COUPLE);
+    if (faceReactionTextId != 0) {
+        return faceReactionTextId;
     }
     if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
         if (this->nextDialogue % 2 != 0) {

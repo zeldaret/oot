@@ -738,10 +738,10 @@ s16 EnGo2_UpdateTalkStateGoronDmtFairyHint(PlayState* play, EnGo2* this) {
 
 u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
     EnGo2* this = (EnGo2*)thisx;
-    u16 faceReaction = Text_GetFaceReaction(play, 0x20);
+    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_GORON);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     } else {
         switch (this->actor.params & 0x1F) {
             case GORON_CITY_ROLLING_BIG:
@@ -775,7 +775,7 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
         }
     }
 #ifdef AVOID_UB
-    return faceReaction; // faceReaction is always in the v0 return value register at this point
+    return textId; // textId is always in the v0 return value register at this point
 #endif
 }
 

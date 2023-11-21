@@ -86,10 +86,10 @@ static void* sEyeTextures[] = {
 };
 
 u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction = Text_GetFaceReaction(play, 0x17);
+    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_MALON);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         return 0x204A;

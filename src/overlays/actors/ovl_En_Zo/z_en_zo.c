@@ -357,11 +357,11 @@ void EnZo_SpawnSplashes(EnZo* this) {
 }
 
 u16 EnZo_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction;
+    u16 textId;
 
-    faceReaction = Text_GetFaceReaction(play, 29);
-    if (faceReaction != 0) {
-        return faceReaction;
+    textId = Text_GetFaceReaction(play, FACE_REACTION_SET_ZORA);
+    if (textId != 0) {
+        return textId;
     }
 
     switch (thisx->params & 0x3F) {

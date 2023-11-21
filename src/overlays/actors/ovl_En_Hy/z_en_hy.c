@@ -417,7 +417,7 @@ void func_80A6F7CC(EnHy* this, PlayState* play, s32 getItemId) {
 u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnHy* this = (EnHy*)thisx;
-    u16 textId = Text_GetFaceReaction(play, (this->actor.params & 0x7F) + 37);
+    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_37 + (this->actor.params & 0x7F));
 
     if (textId != 0) {
         if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {

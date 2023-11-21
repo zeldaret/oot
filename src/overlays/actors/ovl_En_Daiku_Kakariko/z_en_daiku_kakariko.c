@@ -226,7 +226,12 @@ s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, PlayState* play) {
 }
 
 void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, PlayState* play) {
-    static s32 maskReactionSets[] = { 1, 2, 3, 4 };
+    static s32 maskReactionSets[] = {
+        FACE_REACTION_SET_CARPENTER_1,
+        FACE_REACTION_SET_CARPENTER_2,
+        FACE_REACTION_SET_CARPENTER_3,
+        FACE_REACTION_SET_CARPENTER_4,
+    };
     s16 sp26;
     s16 sp24;
 

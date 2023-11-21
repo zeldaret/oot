@@ -100,10 +100,10 @@ void EnMu_Interact(EnMu* this, PlayState* play) {
 
 u16 EnMu_GetTextId(PlayState* play, Actor* thisx) {
     EnMu* this = (EnMu*)thisx;
-    u16 faceReaction = Text_GetFaceReaction(play, this->actor.params + 0x3A);
+    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_HAGGLING_TOWNSPEOPLE_1 + this->actor.params);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     return this->defaultTextId;
 }
