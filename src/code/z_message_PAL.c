@@ -848,7 +848,7 @@ void Message_HandleOcarina(PlayState* play) {
  */
 void Message_DrawText(PlayState* play, Gfx** gfxP) {
     MessageContext* msgCtx = &play->msgCtx;
-    u16 lookAheadCharacter;
+    s16 pad;
     u8 character;
     u16 j;
     u16 i;
@@ -928,15 +928,13 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                                                       msgCtx->msgMode < MSGMODE_SCARECROW_LONG_RECORDING_START))) {
                     j = i;
                     while (true) {
-                        lookAheadCharacter = msgCtx->msgBufDecoded[j];
-                        if (lookAheadCharacter == MESSAGE_SHIFT) {
+                        character = msgCtx->msgBufDecoded[j];
+                        if (character == MESSAGE_SHIFT) {
                             j += 2;
-                        } else if ((lookAheadCharacter != MESSAGE_QUICKTEXT_DISABLE) &&
-                                   (lookAheadCharacter != MESSAGE_PERSISTENT) &&
-                                   (lookAheadCharacter != MESSAGE_EVENT) &&
-                                   (lookAheadCharacter != MESSAGE_BOX_BREAK_DELAYED) &&
-                                   (lookAheadCharacter != MESSAGE_AWAIT_BUTTON_PRESS) &&
-                                   (lookAheadCharacter != MESSAGE_BOX_BREAK) && (lookAheadCharacter != MESSAGE_END)) {
+                        } else if ((character != MESSAGE_QUICKTEXT_DISABLE) && (character != MESSAGE_PERSISTENT) &&
+                                   (character != MESSAGE_EVENT) && (character != MESSAGE_BOX_BREAK_DELAYED) &&
+                                   (character != MESSAGE_AWAIT_BUTTON_PRESS) && (character != MESSAGE_BOX_BREAK) &&
+                                   (character != MESSAGE_END)) {
                             j++;
                         } else {
                             break;
@@ -944,8 +942,6 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                     }
                     i = j - 1;
                     msgCtx->textDrawPos = i + 1;
-
-                    if (character) {}
                 }
                 FALLTHROUGH;
             case MESSAGE_QUICKTEXT_DISABLE:
@@ -1435,7 +1431,6 @@ void Message_Decode(PlayState* play) {
                         digits[2]++;
                         digits[3] -= 10;
                     }
-                    if (curChar) {}
 
                     loadChar = false;
                     for (i = 0; i < 4; i++) {

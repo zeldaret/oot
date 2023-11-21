@@ -137,16 +137,10 @@ void func_809B05F0(EnAni* this, PlayState* play) {
 }
 
 void func_809B064C(EnAni* this, PlayState* play) {
-    u16 textId;
+    u16 textId = Text_GetFaceReaction(play, 0xA);
     s16 yawDiff;
-    u16 textId2;
 
-    textId2 = Text_GetFaceReaction(play, 0xA);
-    textId = textId2 & 0xFFFF;
-
-    if (!textId) {}
-
-    if (textId2 == 0) {
+    if (textId == 0) {
         textId = !IS_DAY ? 0x5051 : 0x5050;
     }
 
