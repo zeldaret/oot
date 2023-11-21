@@ -52,11 +52,9 @@ ActorInit En_Tg_InitVars = {
 
 u16 EnTg_GetTextId(PlayState* play, Actor* thisx) {
     EnTg* this = (EnTg*)thisx;
-    u16 faceReactionTextId;
+    u16 faceReactionTextId = Text_GetFaceReaction(play, FACE_REACTION_SET_DANCING_COUPLE);
     u32 textId;
 
-    // If the player is wearing a mask, return a special reaction text
-    faceReactionTextId = Text_GetFaceReaction(play, FACE_REACTION_SET_DANCING_COUPLE);
     if (faceReactionTextId != 0) {
         return faceReactionTextId;
     }
