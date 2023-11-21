@@ -1120,7 +1120,7 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecGeo* eyeAtDir, Vec3f* targetPos, f
         playerToTargetDir.r = (playerToTargetDir.r * CAM_DATA_SCALED(OREG(39))) -
                               (((CAM_DATA_SCALED(OREG(39)) - CAM_DATA_SCALED(OREG(38))) * playerToTargetDir.r) *
                                (playerToTargetDir.r / distance));
-        playerToTargetDir.r = playerToTargetDir.r - (playerToTargetDir.r * temp_f0_2) * temp_f0_2;
+        playerToTargetDir.r -= (playerToTargetDir.r * temp_f0_2) * temp_f0_2;
     }
 
     if (flags & CAM_LOCKON_AT_FLAG_OFF_GROUND) {
@@ -1160,7 +1160,7 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecGeo* eyeAtDir, Vec3f* targetPos, f
                 *yPosOffset = *yPosOffset + (yPosDelta + temp_f0_2);
                 yPosDelta = -temp_f0_2;
             }
-            playerToAtOffsetTarget.y = playerToAtOffsetTarget.y - yPosDelta;
+            playerToAtOffsetTarget.y -= yPosDelta;
         } else {
             yPosDelta = playerPosRot->pos.y - *yPosOffset;
             temp_f0_2 = Math_FAtan2F(yPosDelta, OLib_Vec3fDistXZ(at, &camera->eye));
@@ -4318,10 +4318,9 @@ s32 Camera_Subj3(Camera* camera) {
     tGeo.pitch = rwData->pitch;
     if (rwData->animTimer != 0) {
         temp_f0_3 = (1.0f / rwData->animTimer);
-        pad2 = at;
-        at->x = at->x + (sp98.x - pad2->x) * temp_f0_3;
-        at->y = at->y + (sp98.y - pad2->y) * temp_f0_3;
-        at->z = at->z + (sp98.z - pad2->z) * temp_f0_3;
+        at->x = F32_LERPIMP(at->x, sp98.x, temp_f0_3);
+        at->y = F32_LERPIMP(at->y, sp98.y, temp_f0_3);
+        at->z = F32_LERPIMP(at->z, sp98.z, temp_f0_3);
 
         temp_f0_3 = (1.0f / R_CAM_DEFAULT_ANIM_TIME);
         sp58 = (tGeo.r - sp84.r) * temp_f0_3;
@@ -6964,7 +6963,7 @@ s32 Camera_Special9(Camera* camera) {
             doorParams->timer2--;
             if (doorParams->timer2 <= 0) {
                 camera->animState++;
-                rwData->targetYaw = rwData->targetYaw - 0x7FFF;
+                rwData->targetYaw -= 0x7FFF;
             } else {
                 break;
             }

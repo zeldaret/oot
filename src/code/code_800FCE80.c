@@ -50,8 +50,8 @@ f32 Math_FAtanTaylorQF(f32 x) {
         if (poly + term == poly) {
             break;
         }
-        poly = poly + term;
-        exp = exp * sq;
+        poly += term;
+        exp *= sq;
     }
 
     return poly;

@@ -14,7 +14,7 @@ void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z) {
 
     guNormalize(&x, &y, &z);
 
-    a = a * D_80134D10;
+    a *= D_80134D10;
 
     sine = sinf(a);
     cosine = cosf(a);

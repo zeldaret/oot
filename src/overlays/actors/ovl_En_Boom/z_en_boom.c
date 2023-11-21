@@ -242,7 +242,7 @@ void EnBoom_Update(Actor* thisx, PlayState* play) {
     if (!(player->stateFlags1 & PLAYER_STATE1_29)) {
         this->actionFunc(this, play);
         Actor_SetFocus(&this->actor, 0.0f);
-        this->activeTimer = this->activeTimer + 1;
+        this->activeTimer++;
     }
 }
 

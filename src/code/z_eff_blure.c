@@ -973,14 +973,14 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
                                 vtx[j + 1].v.ob[2] = EffectSs_LerpS16(elem->p2.z, elem->p1.z, ratio);
                                 break;
                             case 3:
-                                ratio = ratio * 0.5f;
+                                ratio *= 0.5f;
                                 vtx[j].v.ob[0] = EffectSs_LerpS16(elem->p1.x, elem->p2.x, ratio);
                                 vtx[j].v.ob[1] = EffectSs_LerpS16(elem->p1.y, elem->p2.y, ratio);
                                 vtx[j].v.ob[2] = EffectSs_LerpS16(elem->p1.z, elem->p2.z, ratio);
                                 vtx[j + 1].v.ob[0] = EffectSs_LerpS16(elem->p2.x, elem->p1.x, ratio);
                                 vtx[j + 1].v.ob[1] = EffectSs_LerpS16(elem->p2.y, elem->p1.y, ratio);
                                 vtx[j + 1].v.ob[2] = EffectSs_LerpS16(elem->p2.z, elem->p1.z, ratio);
-                                ratio = ratio + ratio;
+                                ratio *= 2.0f;
                                 break;
                             case 0:
                             default:
