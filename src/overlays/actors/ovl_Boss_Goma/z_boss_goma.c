@@ -1690,7 +1690,7 @@ void BossGoma_CeilingMoveToCenter(BossGoma* this, PlayState* play) {
 
         if (angle < this->actor.wallYaw) {
             absDiff = this->actor.wallYaw - angle;
-            angle += absDiff / 2;
+            angle = angle + absDiff / 2;
         } else {
             absDiff = angle - this->actor.wallYaw;
             angle = this->actor.wallYaw + absDiff / 2;
