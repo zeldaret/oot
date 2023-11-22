@@ -80,7 +80,7 @@ void EffectSsIcePiece_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsIcePiece_Update(PlayState* play, u32 index, EffectSs* this) {
     this->rPitch += this->rRotSpeed;
-    this->velocity.x = this->velocity.x * 0.85f;
-    this->velocity.y = this->velocity.y * 0.85f;
-    this->velocity.z = this->velocity.z * 0.85f;
+    this->velocity.x *= 0.85f;
+    this->velocity.y *= 0.85f;
+    this->velocity.z *= 0.85f;
 }

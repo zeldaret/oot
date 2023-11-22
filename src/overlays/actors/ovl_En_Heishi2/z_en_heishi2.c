@@ -806,11 +806,11 @@ s32 EnHeishi2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
             break;
         default:
             if (limbIndex == 9) {
-                rot->x = rot->x + this->unk_26C.y;
+                rot->x += this->unk_26C.y;
             }
             if (limbIndex == 16) {
-                rot->x = rot->x + this->unk_260.y;
-                rot->z = rot->z + this->unk_260.z;
+                rot->x += this->unk_260.y;
+                rot->z += this->unk_260.z;
             }
     }
 

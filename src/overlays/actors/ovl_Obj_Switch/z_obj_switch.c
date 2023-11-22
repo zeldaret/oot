@@ -677,7 +677,6 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play) {
             if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
                 this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
-                play = play;
                 ObjSwitch_CrystalTurnOffInit(this);
                 ObjSwitch_SetOff(this, play);
             }

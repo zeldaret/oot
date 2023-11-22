@@ -2022,14 +2022,14 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                         Actor_SetScale(&sKotakePtr->actor, 0.014999999f);
                     }
                 } else {
-                    sKoumePtr->actor.shape.rot.y = sKoumePtr->actor.shape.rot.y + (s16)this->subCamYawStep;
+                    sKoumePtr->actor.shape.rot.y += (s16)this->subCamYawStep;
                 }
             } else {
                 if ((this->work[CS_TIMER_1] % 8) == 0) {
                     Actor_PlaySfx(&sKoumePtr->actor, NA_SE_EN_TWINROBA_ROLL);
                 }
 
-                sKoumePtr->actor.shape.rot.y = sKoumePtr->actor.shape.rot.y + (s16)this->subCamYawStep;
+                sKoumePtr->actor.shape.rot.y += (s16)this->subCamYawStep;
                 Math_ApproachF(&this->subCamYawStep, 12288.0f, 1.0f, 384.0f);
 
                 if (Animation_OnFrame(&sKoumePtr->skelAnime, this->workf[ANIM_SW_TGT])) {
@@ -2182,14 +2182,14 @@ void BossTw_TwinrovaIntroCS(BossTw* this, PlayState* play) {
                         this->spawnPortalAlpha = 0.0f;
                     }
                 } else {
-                    sKotakePtr->actor.shape.rot.y = sKotakePtr->actor.shape.rot.y + (s16)this->subCamYawStep;
+                    sKotakePtr->actor.shape.rot.y += (s16)this->subCamYawStep;
                 }
             } else {
                 if ((this->work[CS_TIMER_1] % 8) == 0) {
                     Actor_PlaySfx(&sKotakePtr->actor, NA_SE_EN_TWINROBA_ROLL);
                 }
 
-                sKotakePtr->actor.shape.rot.y = sKotakePtr->actor.shape.rot.y + (s16)this->subCamYawStep;
+                sKotakePtr->actor.shape.rot.y += (s16)this->subCamYawStep;
                 Math_ApproachF(&this->subCamYawStep, 12288.0f, 1.0f, 384.0f);
 
                 if (Animation_OnFrame(&sKotakePtr->skelAnime, this->workf[ANIM_SW_TGT])) {
@@ -3951,7 +3951,7 @@ void BossTw_BlastFire(BossTw* this, PlayState* play) {
                         this->actor.world.pos.y = -2000.0f;
                         Matrix_MtxFToYXZRotS(&player2->shieldMf, &blastDir, 0);
                         blastDir.x = -blastDir.x;
-                        blastDir.y = blastDir.y + 0x8000;
+                        blastDir.y += 0x8000;
                         Math_ApproachS(&this->magicDir.x, blastDir.x, 0xA, 0x800);
                         Math_ApproachS(&this->magicDir.y, blastDir.y, 0xA, 0x800);
 

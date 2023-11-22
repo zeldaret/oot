@@ -562,15 +562,15 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
         playerDist = this->actor.xzDistToPlayer;
         if (playerDist < 130.0f || this->jntSph.elements[0].info.ocElemFlags & OCELEM_HIT) {
             if (Math_SinS(this->actor.yawTowardsPlayer - this->actor.world.rot.y) > 0.0f) {
-                this->actor.world.rot.y = this->actor.world.rot.y - 280;
+                this->actor.world.rot.y -= 280;
             } else {
-                this->actor.world.rot.y = this->actor.world.rot.y + 280;
+                this->actor.world.rot.y += 280;
             }
         } else if (playerDist < 300.0f) {
             if (Math_SinS(this->actor.yawTowardsPlayer - this->actor.world.rot.y) > 0.0f) {
-                this->actor.world.rot.y = this->actor.world.rot.y + 280;
+                this->actor.world.rot.y += 280;
             } else {
-                this->actor.world.rot.y = this->actor.world.rot.y - 280;
+                this->actor.world.rot.y -= 280;
             }
         }
         this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -750,7 +750,7 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
     this->riderPos = this->actor.world.pos;
     this->noInputTimer = 0;
     this->noInputTimerMax = 0;
-    this->riderPos.y = this->riderPos.y + 70.0f;
+    this->riderPos.y += 70.0f;
 
     if (DREG(4) == 0) {
         DREG(4) = 70;
@@ -1172,7 +1172,7 @@ void EnHorse_MountedTurn(EnHorse* this, PlayState* play) {
             EnHorse_StartReversingInterruptable(this);
         } else if (Math_CosS(stickAngle) <= 0.7071) { // cos(45 degrees)
             clampedYaw = CLAMP(stickAngle, -800.0f, 800.0f);
-            this->actor.world.rot.y = this->actor.world.rot.y + clampedYaw;
+            this->actor.world.rot.y += clampedYaw;
             this->actor.shape.rot.y = this->actor.world.rot.y;
         } else {
             EnHorse_StartWalkingInterruptable(this);
@@ -1931,7 +1931,7 @@ void EnHorse_FollowPlayer(EnHorse* this, PlayState* play) {
         this->stateFlags &= ~ENHORSE_LAND2_SOUND;
         this->unk_21C = this->unk_228;
     } else if (this->stateFlags & ENHORSE_TURNING_TO_PLAYER) {
-        this->actor.world.rot.y = this->actor.world.rot.y + this->followPlayerTurnSpeed;
+        this->actor.world.rot.y += this->followPlayerTurnSpeed;
         this->actor.shape.rot.y = this->actor.world.rot.y;
         if (this->curFrame > 25.0f) {
             if (!(this->stateFlags & ENHORSE_LAND2_SOUND)) {
@@ -2755,7 +2755,7 @@ void EnHorse_BridgeJumpInit(EnHorse* this, PlayState* play) {
     this->stateFlags |= ENHORSE_JUMPING;
     this->animationIdx = ENHORSE_ANIM_HIGH_JUMP;
     y = this->skin.skelAnime.jointTable->y;
-    y = y * 0.01f;
+    y *= 0.01f;
     this->bridgeJumpStart = this->actor.world.pos;
     this->bridgeJumpStart.y += y;
     this->bridgeJumpYVel =
@@ -3106,7 +3106,7 @@ void EnHorse_BgCheckSlowMoving(EnHorse* this, PlayState* play) {
         yOffset = 40.0f;
     }
     Math_Vec3f_Copy(&start, &this->actor.world.pos);
-    start.y = start.y + yOffset;
+    start.y += yOffset;
 
     Math_Vec3f_Copy(&end, &start);
     end.x += 30.0f * Math_SinS(this->actor.world.rot.y);
@@ -3370,7 +3370,7 @@ void EnHorse_RegenBoost(EnHorse* this, PlayState* play) {
         this->boostTimer++;
 
         if (this->boostRegenTime <= 0) {
-            this->numBoosts = this->numBoosts + 1;
+            this->numBoosts++;
 
             if (!EN_HORSE_CHECK_4(this)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CARROT_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -3697,9 +3697,9 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
 
     if (!(this->stateFlags & ENHORSE_CALC_RIDER_POS)) {
         Skin_GetLimbPos(skin, 30, &riderOffset, &this->riderPos);
-        this->riderPos.x = this->riderPos.x - this->actor.world.pos.x;
-        this->riderPos.y = this->riderPos.y - this->actor.world.pos.y;
-        this->riderPos.z = this->riderPos.z - this->actor.world.pos.z;
+        this->riderPos.x -= this->actor.world.pos.x;
+        this->riderPos.y -= this->actor.world.pos.y;
+        this->riderPos.z -= this->actor.world.pos.z;
     } else {
         this->stateFlags &= ~ENHORSE_CALC_RIDER_POS;
     }
@@ -3712,7 +3712,7 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
         if (Rand_ZeroOne() < 0.6f) {
             this->dustFlags |= 1;
             Skin_GetLimbPos(skin, 28, &hoofOffset, &this->frontRightHoof);
-            this->frontRightHoof.y = this->frontRightHoof.y - 5.0f;
+            this->frontRightHoof.y -= 5.0f;
         }
     } else {
         if (this->action == ENHORSE_ACT_STOPPING) {
