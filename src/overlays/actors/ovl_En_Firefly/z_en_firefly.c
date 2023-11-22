@@ -426,7 +426,7 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
         this->actor.colorFilterTimer = 40;
     } else {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x6800, 0x200);
-        this->actor.shape.rot.y = this->actor.shape.rot.y - 0x300;
+        this->actor.shape.rot.y -= 0x300;
         if (this->timer != 0) {
             this->timer--;
         }

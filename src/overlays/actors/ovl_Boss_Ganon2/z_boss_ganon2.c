@@ -445,7 +445,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 this->unk_39C = 14;
                 this->unk_398 = 0;
                 this->actor.world.pos.x = -200.0f;
-                this->actor.world.pos.y = this->actor.world.pos.y - 30.0f;
+                this->actor.world.pos.y -= 30.0f;
                 this->actor.world.pos.z = -200.0f;
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_OPENING_GANON);
             } else {

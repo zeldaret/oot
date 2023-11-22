@@ -168,7 +168,6 @@ void BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
 
 void BgYdanSp_BurnWeb(BgYdanSp* this, PlayState* play) {
     this->timer = 30;
-    this = this;
     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     Flags_SetSwitch(play, this->isDestroyedSwitchFlag);
     if (this->dyna.actor.params == WEB_FLOOR) {
@@ -312,11 +311,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
             if (this->unk_16C < 0.1f) {
                 this->timer = 14;
             }
-            if (this->unk_16C < 2.0f) {
-                this->unk_16C = 2.0f;
-            } else {
-                this->unk_16C = this->unk_16C;
-            }
+            this->unk_16C = CLAMP_MIN(this->unk_16C, 2.0f);
         }
     }
     if (this->timer != 0) {

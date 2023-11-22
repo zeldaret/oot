@@ -696,7 +696,7 @@ void func_80A03610(EnElf* this, PlayState* play) {
     Math_SmoothStepToF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
 
     this->unk_28C.x = Math_CosS(this->unk_2AC) * this->unk_2B8;
-    this->unk_28C.y = this->unk_28C.y + this->unk_2B4;
+    this->unk_28C.y += this->unk_2B4;
 
     switch (this->unk_2AA) {
         case 0:

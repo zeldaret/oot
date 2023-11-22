@@ -145,7 +145,7 @@ static s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 void func_808B4C30(BgSpot16Bombstone* this) {
     this->switchFlag = (this->actor.params >> 8) & 0x3F;
-    this->actor.params = this->actor.params & 0xFF;
+    this->actor.params &= 0xFF;
 }
 
 void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
