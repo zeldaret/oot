@@ -95,7 +95,7 @@ void func_80A6F164(EnHs2* this, PlayState* play) {
 }
 
 void func_80A6F1A4(EnHs2* this, PlayState* play) {
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_CARPENTERS_SON);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CARPENTERS_SON);
 
     if (textId == 0) {
         textId = 0x5069;

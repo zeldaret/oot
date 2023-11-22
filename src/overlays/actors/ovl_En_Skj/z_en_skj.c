@@ -927,7 +927,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
         player->stateFlags2 |= PLAYER_STATE2_23;
         if (GET_ITEMGETINF(ITEMGETINF_16)) {
             if (GET_ITEMGETINF(ITEMGETINF_39)) {
-                this->textId = Text_GetFaceReaction(play, FACE_REACTION_SET_SKULL_KID);
+                this->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SKULL_KID);
                 if (this->textId == 0) {
                     this->textId = 0x1020;
                 }
@@ -936,7 +936,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
             } else if (Player_GetMask(play) == PLAYER_MASK_SKULL) {
                 this->textId = 0x101B;
             } else {
-                this->textId = Text_GetFaceReaction(play, FACE_REACTION_SET_SKULL_KID);
+                this->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SKULL_KID);
             }
             Actor_OfferTalk(&this->actor, play, EnSkj_GetItemXzRange(this));
         }

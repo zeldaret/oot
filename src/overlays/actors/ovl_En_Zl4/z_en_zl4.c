@@ -199,12 +199,12 @@ void EnZl4_SetActiveCamMove(PlayState* play, s16 index) {
 }
 
 u16 EnZl4_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReactionTextId = Text_GetFaceReaction(play, FACE_REACTION_SET_ZELDA);
+    u16 maskReactionTextId = MaskReaction_GetTextId(play, MASK_REACTION_SET_ZELDA);
     u16 stoneCount;
     s16 textId;
 
-    if (faceReactionTextId != 0) {
-        return faceReactionTextId;
+    if (maskReactionTextId != 0) {
+        return maskReactionTextId;
     }
 
     stoneCount = 0;

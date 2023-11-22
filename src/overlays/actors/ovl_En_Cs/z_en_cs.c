@@ -208,7 +208,7 @@ s32 EnCs_GetTalkState(EnCs* this, PlayState* play) {
 
 s32 EnCs_GetTextId(EnCs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_GRAVEYARD_KID);
+    s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GRAVEYARD_KID);
 
     if (GET_ITEMGETINF(ITEMGETINF_3A)) {
         if (textId == 0) {

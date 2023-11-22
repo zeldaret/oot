@@ -304,7 +304,7 @@ void EnGe1_WatchForAndSensePlayer(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_GetReaction_ValleyFloor(EnGe1* this, PlayState* play) {
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_GERUDO_WHITE);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GERUDO_WHITE);
 
     if (textId == 0) {
         textId = 0x6019;
@@ -463,7 +463,7 @@ void EnGe1_Talk_GateGuard(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_GetReaction_GateGuard(EnGe1* this, PlayState* play) {
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_GERUDO_WHITE);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GERUDO_WHITE);
 
     if (textId == 0) {
         textId = 0x6069;

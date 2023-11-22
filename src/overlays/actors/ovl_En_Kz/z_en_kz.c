@@ -102,7 +102,7 @@ u16 EnKz_GetTextIdAdult(PlayState* play, EnKz* this) {
 
 u16 EnKz_GetTextId(PlayState* play, Actor* thisx) {
     EnKz* this = (EnKz*)thisx;
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_KING_ZORA);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KING_ZORA);
 
     if (textId != 0) {
         return textId;

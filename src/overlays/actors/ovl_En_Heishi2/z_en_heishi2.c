@@ -184,8 +184,8 @@ void func_80A531E4(EnHeishi2* this, PlayState* play) {
 void func_80A53278(EnHeishi2* this, PlayState* play) {
     this->unk_30B = 0;
     this->unk_30E = 0;
-    if (Text_GetFaceReaction(play, FACE_REACTION_SET_HYRULIAN_GUARD) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, FACE_REACTION_SET_HYRULIAN_GUARD);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
         this->unk_30B = 1;
         this->unk_300 = TEXT_STATE_DONE;
         this->actionFunc = func_80A5475C;
@@ -372,9 +372,9 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
             this->unk_300 = TEXT_STATE_EVENT;
             this->unk_30E = 0;
         }
-        if (Text_GetFaceReaction(play, FACE_REACTION_SET_HYRULIAN_GUARD) != 0) {
+        if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
             if (var == 0) {
-                this->actor.textId = Text_GetFaceReaction(play, FACE_REACTION_SET_HYRULIAN_GUARD);
+                this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
                 this->unk_30B = 1;
                 this->unk_300 = TEXT_STATE_DONE;
                 this->unk_30E = 0;
@@ -395,8 +395,8 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Text_GetFaceReaction(play, FACE_REACTION_SET_HYRULIAN_GUARD) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, FACE_REACTION_SET_HYRULIAN_GUARD);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
     } else {
         this->actor.textId = 0x200E;
     }
@@ -683,7 +683,7 @@ void func_80A5475C(EnHeishi2* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (Text_GetFaceReaction(play, FACE_REACTION_SET_HYRULIAN_GUARD) != 0) {
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
         if (this->unk_30B == 0) {
             if (this->type == 2) {
                 this->actionFunc = func_80A53278;

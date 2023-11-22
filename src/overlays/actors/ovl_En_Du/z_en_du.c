@@ -99,7 +99,7 @@ void EnDu_SetupAction(EnDu* this, EnDuActionFunc actionFunc) {
 }
 
 u16 EnDu_GetTextId(PlayState* play, Actor* actor) {
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_DARUNIA);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_DARUNIA);
 
     if (textId != 0) {
         return textId;

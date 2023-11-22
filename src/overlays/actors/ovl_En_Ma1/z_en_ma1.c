@@ -86,7 +86,7 @@ static void* sEyeTextures[] = {
 };
 
 u16 EnMa1_GetTextId(PlayState* play, Actor* thisx) {
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_MALON);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MALON);
 
     if (textId != 0) {
         return textId;

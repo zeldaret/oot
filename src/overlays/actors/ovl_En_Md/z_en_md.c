@@ -385,7 +385,7 @@ s16 func_80AAAC78(EnMd* this, PlayState* play) {
 }
 
 u16 EnMd_GetTextIdKokiriForest(PlayState* play, EnMd* this) {
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_MIDO);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MIDO);
 
     if (textId != 0) {
         return textId;

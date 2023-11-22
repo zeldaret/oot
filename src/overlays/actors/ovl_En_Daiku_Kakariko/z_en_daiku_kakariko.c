@@ -226,11 +226,11 @@ s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, PlayState* play) {
 }
 
 void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, PlayState* play) {
-    static s32 maskReactionSets[] = {
-        FACE_REACTION_SET_CARPENTER_1,
-        FACE_REACTION_SET_CARPENTER_2,
-        FACE_REACTION_SET_CARPENTER_3,
-        FACE_REACTION_SET_CARPENTER_4,
+    static s32 sMaskReactionSets[] = {
+        MASK_REACTION_SET_CARPENTER_1,
+        MASK_REACTION_SET_CARPENTER_2,
+        MASK_REACTION_SET_CARPENTER_3,
+        MASK_REACTION_SET_CARPENTER_4,
     };
     s16 sp26;
     s16 sp24;
@@ -244,7 +244,7 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, PlayState* play) {
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
             (Actor_OfferTalk(&this->actor, play, 100.0f) == 1)) {
-            this->actor.textId = Text_GetFaceReaction(play, maskReactionSets[this->actor.params & 3]);
+            this->actor.textId = MaskReaction_GetTextId(play, sMaskReactionSets[this->actor.params & 3]);
 
             if (this->actor.textId == 0) {
                 switch (this->actor.params & 3) {

@@ -52,11 +52,11 @@ ActorInit En_Tg_InitVars = {
 
 u16 EnTg_GetTextId(PlayState* play, Actor* thisx) {
     EnTg* this = (EnTg*)thisx;
-    u16 faceReactionTextId = Text_GetFaceReaction(play, FACE_REACTION_SET_DANCING_COUPLE);
+    u16 maskReactionTextId = MaskReaction_GetTextId(play, MASK_REACTION_SET_DANCING_COUPLE);
     u32 textId;
 
-    if (faceReactionTextId != 0) {
-        return faceReactionTextId;
+    if (maskReactionTextId != 0) {
+        return maskReactionTextId;
     }
     if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
         if (this->nextDialogue % 2 != 0) {

@@ -140,7 +140,7 @@ s16 func_80AF5560(EnSa* this, PlayState* play) {
 
 u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
     EnSa* this = (EnSa*)thisx;
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_SARIA);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SARIA);
 
     if (textId != 0) {
         return textId;

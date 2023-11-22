@@ -131,7 +131,7 @@ void func_80A1DA04(EnFu* this, PlayState* play) {
 }
 
 void EnFu_WaitChild(EnFu* this, PlayState* play) {
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_WINDMILL_MAN);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_WINDMILL_MAN);
 
     if (textId == 0) {
         textId = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;

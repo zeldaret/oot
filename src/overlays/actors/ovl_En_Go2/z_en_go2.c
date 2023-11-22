@@ -738,7 +738,7 @@ s16 EnGo2_UpdateTalkStateGoronDmtFairyHint(PlayState* play, EnGo2* this) {
 
 u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
     EnGo2* this = (EnGo2*)thisx;
-    u16 textId = Text_GetFaceReaction(play, FACE_REACTION_SET_GORON);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GORON);
 
     if (textId != 0) {
         return textId;
