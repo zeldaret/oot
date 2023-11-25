@@ -532,7 +532,7 @@ s16 EnZf_FindNextPlatformTowardsPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, Pl
 
 // Player not targeting this or another EnZf?
 s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
-    Actor* lockOnActor;
+    Actor* unk_664;
     Player* player = GET_PLAYER(play);
 
     if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) {             // miniboss
@@ -546,16 +546,16 @@ s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
             return true;
         }
         if (this->actor.params == ENZF_TYPE_DINOLFOS) {
-            lockOnActor = player->unk_664;
-            if (lockOnActor == NULL) {
+            unk_664 = player->unk_664;
+            if (unk_664 == NULL) {
                 return false;
             } else {
-                if (lockOnActor->category != ACTORCAT_ENEMY) {
+                if (unk_664->category != ACTORCAT_ENEMY) {
                     return true;
                 }
-                if (lockOnActor->id != ACTOR_EN_ZF) {
+                if (unk_664->id != ACTOR_EN_ZF) {
                     return false;
-                } else if (lockOnActor->colorFilterTimer != 0) {
+                } else if (unk_664->colorFilterTimer != 0) {
                     return true;
                 }
             }

@@ -532,13 +532,13 @@ typedef struct {
     /* 0x40 */ f32 naviMoveProgressFactor; // Controls Navi so she can smootly transition to the target actor
     /* 0x44 */ f32 reticleRadius; // Control the reticle coming in from offscreen when you first target
     /* 0x48 */ s16 reticleFadeAlphaControl; // Set and fade the reticle alpha. Also controls the reticle drawing with non-zero values.
-    /* 0x4A */ u8 naviActorCategory;
-    /* 0x4B */ u8 rotZTick;
+    /* 0x4A */ u8 naviHoverActorCategory; // category of the actor Navi is currently hovering over
+    /* 0x4B */ u8 reticleSpinCounter; // counts up when a reticle is active, used for z rotation of reticle
     /* 0x4C */ s8 lockOnIndex;
     /* 0x50 */ LockOnReticle lockOnReticles[3];
-    /* 0x8C */ Actor* forcedTargetActor; // Never set to non-NULL
+    /* 0x8C */ Actor* forcedTargetActor; // Not used, always set to NULL
     /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
-    /* 0x94 */ Actor* arrowPointedActor;
+    /* 0x94 */ Actor* arrowHoverActor; // actor a target arrow is currently hovering over
 } TargetContext; // size = 0x98
 
 typedef enum {
