@@ -80,7 +80,8 @@ void EnBx_Init(Actor* thisx, PlayState* play) {
     thisx->scale.x = thisx->scale.z = 0.01f;
     thisx->scale.y = 0.03f;
 
-    thisx->world.pos.y = thisx->world.pos.y - 100.0f;
+    thisx->world.pos.y -= 100.0f;
+
     for (i = 0; i < 4; i++) {
         this->unk_184[i] = sp48;
         if (i == 0) {

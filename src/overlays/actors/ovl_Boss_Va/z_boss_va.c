@@ -922,7 +922,7 @@ void BossVa_BodyIntro(BossVa* this, PlayState* play) {
             sSubCamEyeMaxVelFrac.z = sSubCamEyeMaxVelFrac.x;
 
             sSubCamAtMaxVelFrac = sSubCamEyeMaxVelFrac;
-            sSubCamAtMaxVelFrac.z = sSubCamAtMaxVelFrac.z * 1.75f;
+            sSubCamAtMaxVelFrac.z *= 1.75f;
 
             this->timer--;
             if (this->timer == 0) {

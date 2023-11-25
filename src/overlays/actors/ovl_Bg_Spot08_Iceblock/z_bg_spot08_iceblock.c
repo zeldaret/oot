@@ -373,7 +373,7 @@ void BgSpot08Iceblock_FloatRotating(BgSpot08Iceblock* this, PlayState* play) {
     BgSpot08Iceblock_Bobbing(this);
     BgSpot08Iceblock_SinkUnderPlayer(this);
     BgSpot08Iceblock_SetWaterline(this);
-    this->dyna.actor.world.rot.y = this->dyna.actor.world.rot.y + 0x190;
+    this->dyna.actor.world.rot.y += 0x190;
     this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y;
     BgSpot08Iceblock_Roll(this, play);
 }

@@ -242,7 +242,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (this->actor.scale.x > 0.004f) {
         this->actionTarget = (rotDelta * (2.0f / 30.0f));
     } else {
-        this->skelAnime.playSpeed = this->skelAnime.playSpeed + this->skelAnime.playSpeed;
+        this->skelAnime.playSpeed *= 2.0f;
         this->actionTarget = rotDelta * (2.0f / 15.0f);
     }
     this->actionFunc = EnFloormas_Turn;

@@ -629,7 +629,6 @@ s32 func_80AFEDF8(EnSkj* this, PlayState* play) {
     s16 yawDiff;
 
     if (this->actor.xzDistToPlayer < this->unk_2EC) {
-        this = this;
         if (func_8002DDE4(play) != 0) {
             return 1;
         }

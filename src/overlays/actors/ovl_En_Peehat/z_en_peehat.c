@@ -556,7 +556,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, PlayState* play) {
     Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_SM_FLY - SFX_FLAG);
     if (this->colQuad.base.atFlags & AT_BOUNCED) {
         this->actor.colChkInfo.health = 0;
-        this->colQuad.base.acFlags = this->colQuad.base.acFlags & ~AC_BOUNCED;
+        this->colQuad.base.acFlags &= ~AC_BOUNCED;
         EnPeehat_SetStateAttackRecoil(this);
     } else if ((this->colQuad.base.atFlags & AT_HIT) || (this->colCylinder.base.acFlags & AC_HIT) ||
                (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {

@@ -354,7 +354,7 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, PlayState* play) {
         cos = Math_CosS(this->dyna.actor.shape.rot.x) * 4.3f;
         this->dyna.actor.world.pos.x += (cos * Math_SinS(this->dyna.actor.shape.rot.y));
         this->dyna.actor.world.pos.z += (cos * Math_CosS(this->dyna.actor.shape.rot.y));
-        this->dyna.actor.world.pos.y = this->dyna.actor.world.pos.y - 1.3f;
+        this->dyna.actor.world.pos.y -= 1.3f;
         BgSpot06Objects_LockSpawnWaterRipples(this, play, 0);
 
         if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, 0, 0x260) != 0) {

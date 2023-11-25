@@ -1410,7 +1410,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                     this->actor.velocity.y = 15.0f;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_COLI2);
                     if (this->unk_1A2 == 0) {
-                        this->unk_1A0 = this->unk_1A0 + 1;
+                        this->unk_1A0++;
                         if (this->unk_1A0 >= 4) {
                             this->unk_1A0 = 0;
                         }

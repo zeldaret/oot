@@ -11274,7 +11274,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->cylinder.dim.yShift = phi_f12 - this->actor.world.pos.y;
 
         if (this->stateFlags1 & PLAYER_STATE1_22) {
-            this->cylinder.dim.height = this->cylinder.dim.height * 0.8f;
+            this->cylinder.dim.height *= 0.8f;
         }
 
         Collider_UpdateCylinder(&this->actor, &this->cylinder);
@@ -11440,9 +11440,9 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
                 }
 
                 D_8085486C = (-sp5C * 4) + 36;
-                D_8085486C = D_8085486C * D_8085486C;
+                D_8085486C = SQ(D_8085486C);
                 D_8085486C = (s32)((Math_CosS(D_8085486C) * 100.0f) + 100.0f) + 55.0f;
-                D_8085486C = D_8085486C * (sp5C * (1.0f / 9.0f));
+                D_8085486C *= sp5C * (1.0f / 9.0f);
             }
 
             Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 2.0f,
