@@ -82,7 +82,7 @@ typedef enum {
     /* 0x37 */ MSGMODE_PAUSED // Causes the message system to do nothing until external code sets a new message mode or calls a public function
 } MessageMode;
 
-typedef enum MaskReactionSet  {
+typedef enum MaskReactionSet {
     /* 0x00 */ MASK_REACTION_SET_CARPENTER_BOSS,
     /* 0x01 */ MASK_REACTION_SET_CARPENTER_1,
     /* 0x02 */ MASK_REACTION_SET_CARPENTER_2,
@@ -144,7 +144,7 @@ typedef enum MaskReactionSet  {
     /* 0x3A */ MASK_REACTION_SET_HAGGLING_TOWNSPEOPLE_1,
     /* 0x3B */ MASK_REACTION_SET_HAGGLING_TOWNSPEOPLE_2,
     /* 0x3C */ MASK_REACTION_SET_MAX
-} MaskReactionSet ;
+} MaskReactionSet;
 
 typedef enum {
     /*  0 */ TEXT_STATE_NONE,
