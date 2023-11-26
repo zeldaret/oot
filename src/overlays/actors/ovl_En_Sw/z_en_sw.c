@@ -190,7 +190,6 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 arg2) {
             if (phi_s1 == 0) {
                 posB.x = posA.x - (this->unk_37C.x * 24.0f);
                 posB.y = posA.y - (this->unk_37C.y * 24.0f);
-                if (0) {}
                 posB.z = posA.z - (this->unk_37C.z * 24.0f);
             } else if (phi_s1 == 1) {
                 posB.x = posA.x + (this->unk_370.x * 24.0f);
