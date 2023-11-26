@@ -210,7 +210,7 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 arg2) {
                     this->actor.world.pos = sp9C;
                     this->actor.floorBgId = sp6C;
             }
-            sp64 = 1;
+            ret = true;
             break;
         }
     }
