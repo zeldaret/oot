@@ -76,6 +76,8 @@ void EnSw_CrossProduct(Vec3f* a, Vec3f* b, Vec3f* dst) {
     dst->z = (a->x * b->y) - (a->y * b->x);
 }
 
+/* adjusts rotation of (this) to (poly). returns false if failed,
+nothing(bug) if successful.*/
 s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     Vec3f polyNormal;
     Vec3f sp38;
@@ -118,10 +120,11 @@ s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     this->rotMtxF.zw = 0.0f;
     this->rotMtxF.ww = 1.0f;
     Matrix_MtxFToYXZRotS(&this->rotMtxF, &this->actor.world.rot, 0);
-
     //! @bug: Does not return.
 }
 
+/*returns a wall for the spider to cling to in range of (posA) and (PosB).
+returns NULL if none are available*/
 CollisionPoly* EnSw_GetPoly(PlayState* play, Vec3f* posA, Vec3f* posB, Vec3f* posOut, s32* bgId) {
     CollisionPoly* poly;
     s32 pad;
@@ -140,22 +143,23 @@ CollisionPoly* EnSw_GetPoly(PlayState* play, Vec3f* posA, Vec3f* posB, Vec3f* po
 
     return poly;
 }
-
-s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 arg2) {
-    CollisionPoly* temp_v0_2;
-    CollisionPoly* temp_s1;
-    Vec3f sp9C;
+/*Moves position of Gold Skulltula based on normal. will change
+surface poly if (ChangePoly) is true. returns true if successfully moved.*/
+s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 changePoly) {
+    CollisionPoly* newPoly;
+    CollisionPoly* poly0;
+    Vec3f newPos;
     Vec3f posOut;
     Vec3f posA;
     Vec3f posB;
     s32 pad;
     s32 bgId;
-    s32 sp6C;
-    s32 phi_s1;
+    s32 newBgId;
+    s32 i;
     s32 ret;
 
     ret = false;
-    this->unk_42C = 1;
+    this->moveGoldBool = true;
     posA = posB = this->actor.world.pos;
     posA.x += this->surfaceNormal.x * 18.0f;
     posA.y += this->surfaceNormal.y * 18.0f;
@@ -163,35 +167,36 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 arg2) {
     posB.x -= this->surfaceNormal.x * 18.0f;
     posB.y -= this->surfaceNormal.y * 18.0f;
     posB.z -= this->surfaceNormal.z * 18.0f;
-    temp_s1 = EnSw_GetPoly(play, &posA, &posB, &posOut, &bgId);
-
-    if ((temp_s1 != NULL) && (this->goldInAir == false)) {
+    poly0 = EnSw_GetPoly(play, &posA, &posB, &posOut, &bgId);
+    // move spider if poly avalable and not jumping/falling from hidding spot
+    if ((poly0 != NULL) && (this->goldInAir == false)) {
         posB.x = posA.x + (this->unk_37C.x * 24);
         posB.y = posA.y + (this->unk_37C.y * 24);
         posB.z = posA.z + (this->unk_37C.z * 24);
-        temp_v0_2 = EnSw_GetPoly(play, &posA, &posB, &sp9C, &sp6C);
-        if (temp_v0_2 != NULL) {
-            if (arg2 == 1) {
-                EnSw_ClingToWall(this, temp_v0_2);
-                this->actor.world.pos = sp9C;
-                this->actor.floorBgId = sp6C;
+        newPoly = EnSw_GetPoly(play, &posA, &posB, &newPos, &newBgId);
+        if (newPoly != NULL) {
+            if (changePoly == true) {
+                EnSw_ClingToWall(this, newPoly);
+                this->actor.world.pos = newPos;
+                this->actor.floorBgId = newBgId;
             }
         } else {
-            if (this->actor.floorPoly != temp_s1) {
-                EnSw_ClingToWall(this, temp_s1);
+            if (this->actor.floorPoly != poly0) {
+                EnSw_ClingToWall(this, poly0);
             }
             this->actor.world.pos = posOut;
             this->actor.floorBgId = bgId;
         }
         ret = true;
     } else {
+        // find a new poly based on 3 24-unit line casts
         posA = posB;
-        for (phi_s1 = 0; phi_s1 < 3; phi_s1++) {
-            if (phi_s1 == 0) {
+        for (i = 0; i < 3; i++) {
+            if (i == 0) {
                 posB.x = posA.x - (this->unk_37C.x * 24.0f);
                 posB.y = posA.y - (this->unk_37C.y * 24.0f);
                 posB.z = posA.z - (this->unk_37C.z * 24.0f);
-            } else if (phi_s1 == 1) {
+            } else if (i == 1) {
                 posB.x = posA.x + (this->unk_370.x * 24.0f);
                 posB.y = posA.y + (this->unk_370.y * 24.0f);
                 posB.z = posA.z + (this->unk_370.z * 24.0f);
@@ -200,14 +205,14 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 arg2) {
                 posB.y = posA.y - (this->unk_370.y * 24.0f);
                 posB.z = posA.z - (this->unk_370.z * 24.0f);
             }
-            temp_v0_2 = EnSw_GetPoly(play, &posA, &posB, &sp9C, &sp6C);
-            if (temp_v0_2 == NULL) {
+            newPoly = EnSw_GetPoly(play, &posA, &posB, &newPos, &newBgId);
+            if (newPoly == NULL) {
                 continue;
             }
-            if (arg2 == 1) {
-                    EnSw_ClingToWall(this, temp_v0_2);
-                    this->actor.world.pos = sp9C;
-                    this->actor.floorBgId = sp6C;
+            if (changePoly == true) {
+                    EnSw_ClingToWall(this, newPoly);
+                    this->actor.world.pos = newPos;
+                    this->actor.floorBgId = newBgId;
             }
             ret = true;
             break;
@@ -272,7 +277,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
         this->unk_37C.x = Math_SinS(thisx->shape.rot.y);
         this->unk_37C.y = 0.0f;
         this->unk_37C.z = Math_CosS(thisx->shape.rot.y);
-        EnSw_MoveGold(this, play, 1);
+        EnSw_MoveGold(this, play, true);
     }
 
     if (ENSW_GET_TYPE(thisx) >= SW_TYPE_GOLD_HIDDEN_SOIL) {
@@ -293,6 +298,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.0f; // they expand at night
             FALLTHROUGH;
         case SW_TYPE_GOLD_DEFAULT:
+            // Gold Skulltulas have double health and damage
             this->collider.elements[0].info.toucher.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
             this->actor.colChkInfo.health *= 2;
@@ -400,7 +406,7 @@ void EnSw_SetCollider(EnSw* this, PlayState* play) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 }
-
+/*Adjust rotation of (this) by (angle). returns true on success*/
 s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     CollisionPoly* floorPoly;
     f32 length;
@@ -446,7 +452,8 @@ s32 EnSw_GetRotate(EnSw* this, f32* angle) {
     Matrix_MtxFToYXZRotS(&rotMtxF, &this->actor.world.rot, 0);
     return true;
 }
-
+/*Play the Skulltula's "roll" sound if in range 
+(and in outdoor Gold's case, not "sleeping")*/
 void EnSw_PlaySfxRoll(EnSw* this, PlayState* play) {
     if (!(this->actor.scale.x < (140.0f * 0.0001f))) {
         Camera* activeCam = GET_ACTIVE_CAM(play);
@@ -457,7 +464,8 @@ void EnSw_PlaySfxRoll(EnSw* this, PlayState* play) {
         }
     }
 }
-
+/*Spawn (cnt) Dust particles when a Gold Skulltula is revealed
+from a tree or soil plot*/
 void EnSw_SpawnDust(EnSw* this, PlayState* play, s32 cnt) {
     Color_RGBA8 primColor = { 80, 80, 50, 255 };
     Color_RGBA8 envColor = { 100, 100, 80, 0 };
@@ -476,7 +484,8 @@ void EnSw_SpawnDust(EnSw* this, PlayState* play, s32 cnt) {
         func_8002836C(play, &pos, &velocity, &accel, &primColor, &envColor, 20, 30, 12);
     }
 }
-
+/*Spawn (cnt) Dust particles when a Gold Skulltula has landed
+from a tree or soil plot*/
 void EnSw_SpawnDustBig(EnSw* this, PlayState* play, s32 cnt) {
     Color_RGBA8 primColor = { 80, 80, 50, 255 };
     Color_RGBA8 envColor = { 100, 100, 80, 0 };
@@ -495,7 +504,8 @@ void EnSw_SpawnDustBig(EnSw* this, PlayState* play, s32 cnt) {
         func_8002836C(play, &pos, &velocity, &accel, &primColor, &envColor, 20, 40, 10);
     }
 }
-
+/*detrimes if a delay should be added for based on if (this) is
+a Gold Skulltula hidden in a tree or soil patch*/
 void EnSw_SetupGoldHidden(EnSw* this, PlayState* play) {
     if (ENSW_GET_TYPE_EN(this) == SW_TYPE_GOLD_HIDDEN_TREE) {
         this->waitTimer = 0;
@@ -506,6 +516,7 @@ void EnSw_SetupGoldHidden(EnSw* this, PlayState* play) {
     }
 }
 
+/*Animation for Gold Skulltula coming from tree or soil patch.*/
 void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
     if (this->waitTimer != 0) {
         if ((this->waitTimer & 4) != 0) {
@@ -536,7 +547,7 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
         this->goldInAir = false;
     }
 
-    if (EnSw_MoveGold(this, play, 1) == true) {
+    if (EnSw_MoveGold(this, play, true) == true) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnSw_SpawnDustBig(this, play, 8);
         this->actor.scale.x = 0.02f;
@@ -548,6 +559,7 @@ void EnSw_GoldHiddenReveal(EnSw* this, PlayState* play) {
     }
 }
 
+/*Skulltula crawling in place*/
 void EnSw_Crawl(EnSw* this, PlayState* play) {
     f32 rotAngle;
 
@@ -614,6 +626,7 @@ void EnSw_Crawl(EnSw* this, PlayState* play) {
     }
 }
 
+/*Death behavior for Gold Skulltula*/
 void EnSw_DieGold(EnSw* this, PlayState* play) {
     Actor* token;
     Vec3f pos;
@@ -656,6 +669,7 @@ void EnSw_DieGold(EnSw* this, PlayState* play) {
     }
 }
 
+/*Part of death animation for Skullwalltula*/
 void EnSw_FallNormal(EnSw* this, PlayState* play) {
     Actor_MoveXZGravity(&this->actor);
     this->actor.shape.rot.x += 0x1000;
@@ -686,6 +700,7 @@ void EnSw_FallNormal(EnSw* this, PlayState* play) {
     }
 }
 
+/*Second part of death animation for SkullWalltula*/
 void EnSw_DieNormal(EnSw* this, PlayState* play) {
     Vec3f velAndAccel = { 0.0f, 0.5f, 0.0f };
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
@@ -712,19 +727,21 @@ s16 EnSw_GetTargetPitch(EnSw* this, Vec3f* target) {
     return pitch * (yaw >= 0 ? -1 : 1);
 }
 
+/*used by Skullwalltula to determine if link can be rammed.
+(arg2) will be checked alongside 2 player state flags (asscociated w/ climbing?)*/
 s32 EnSW_CanDashPlayer(EnSw* this, PlayState* play, s32 arg2) {
     Player* player = GET_PLAYER(play);
     CollisionPoly* poly;
     s32 bgId;
     Vec3f pos;
 
-    // Check if Link is in climbing state.
+    // Check if Link is in climbing state(?)
     if (!(player->stateFlags1 & PLAYER_STATE1_21) && arg2) {
         return false;
     } else if (func_8002DDF4(play) && arg2) {
         return false;
     // check Link's Angle
-    } else if (ABS(EnSw_GetTargetPitch(this, &player->actor.world.pos) - this->actor.shape.rot.z) >= 0x1FC2) {
+    } else if (ABS(EnSw_GetTargetPitch(this, &player->actor.world.pos) - this->actor.shape.rot.z) >= 8130) {
         return false;
     // is Link in dash range?
     } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.world.pos) >= 130.0f) {
@@ -737,7 +754,8 @@ s32 EnSW_CanDashPlayer(EnSw* this, PlayState* play, s32 arg2) {
         return false;
     }
 }
-
+/*Skullwalltula uses to Linetest walls visible from its "eyes"
+and detect/adjust bottom position.*/
 s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
     s32 pad;
     CollisionPoly* poly;
@@ -781,7 +799,8 @@ s32 EnSW_LineTestWall(EnSw* this, PlayState* play) {
 
     return ret;
 }
-
+/*Used by Skullwalltulas to move to (targetPos) at a top speed of (speedTarget)
+While dashing or retreating*/
 void EnSw_Move(EnSw* this, Vec3f targetPos, f32 speedTarget) {
     f32 xDist;
     f32 yDist;
@@ -894,7 +913,7 @@ void EnSw_Dash(EnSw* this, PlayState* play) {
         }
     }
 }
-
+/*after dashing, a Skullwalltula will retreat to its spawn point*/
 void EnSw_SetupGoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
@@ -905,7 +924,7 @@ void EnSw_SetupGoHome(EnSw* this, PlayState* play) {
         this->actionFunc = EnSw_GoHome;
     }
 }
-
+/*Skullwalltula: return to spawn point then reset behavior.*/
 void EnSw_GoHome(EnSw* this, PlayState* play) {
     s32 pad;
 
@@ -997,7 +1016,8 @@ s32 EnSw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 
 void EnSw_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
-
+/*Give Skullwalltula a tint of (color) from (distA) to (distB)
+while dashing / preparing to dash*/
 void EnSw_SetFog(PlayState* play, Color_RGBA8* color, s16 distA, s16 distB) {
     f32 far;
 
