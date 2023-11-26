@@ -24,15 +24,15 @@ void func_80B24038(EnTr* this, PlayState* play, s32 cueChannel);
 void EnTr_SetStartPosRotFromCue(EnTr* this, PlayState* play, s32 cueChannel);
 
 ActorInit En_Tr_InitVars = {
-    ACTOR_EN_TR,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TR,
-    sizeof(EnTr),
-    (ActorFunc)EnTr_Init,
-    (ActorFunc)EnTr_Destroy,
-    (ActorFunc)EnTr_Update,
-    (ActorFunc)EnTr_Draw,
+    /**/ ACTOR_EN_TR,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TR,
+    /**/ sizeof(EnTr),
+    /**/ EnTr_Init,
+    /**/ EnTr_Destroy,
+    /**/ EnTr_Update,
+    /**/ EnTr_Draw,
 };
 
 // The first elements of these animation arrays are for Koume, the second for Kotake

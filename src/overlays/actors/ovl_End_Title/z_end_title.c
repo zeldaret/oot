@@ -15,15 +15,15 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play);
 void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play);
 
 ActorInit End_Title_InitVars = {
-    ACTOR_END_TITLE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EndTitle),
-    (ActorFunc)EndTitle_Init,
-    (ActorFunc)EndTitle_Destroy,
-    (ActorFunc)EndTitle_Update,
-    (ActorFunc)EndTitle_DrawFull,
+    /**/ ACTOR_END_TITLE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EndTitle),
+    /**/ EndTitle_Init,
+    /**/ EndTitle_Destroy,
+    /**/ EndTitle_Update,
+    /**/ EndTitle_DrawFull,
 };
 
 #include "assets/overlays/ovl_End_Title/ovl_End_Title.c"

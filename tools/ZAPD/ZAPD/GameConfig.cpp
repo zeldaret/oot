@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <string_view>
+#include <unordered_map>
 
 #include "Utils/Directory.h"
 #include "Utils/File.h"
@@ -124,6 +125,7 @@ void GameConfig::ConfigFunc_BGConfig(const tinyxml2::XMLElement& element)
 {
 	bgScreenWidth = element.IntAttribute("ScreenWidth", 320);
 	bgScreenHeight = element.IntAttribute("ScreenHeight", 240);
+	useScreenWidthHeightConstants = element.BoolAttribute("UseScreenWidthHeightConstants", true);
 }
 
 void GameConfig::ConfigFunc_ExternalXMLFolder(const tinyxml2::XMLElement& element)
@@ -163,6 +165,83 @@ void GameConfig::ConfigFunc_ExternalFile(const tinyxml2::XMLElement& element)
 	externalFiles.push_back(ExternalFile(fs::path(xmlPathValue), fs::path(outPathValue)));
 }
 
+void GameConfig::ConfigFunc_EnumData(const tinyxml2::XMLElement& element)
+{
+	std::string path = Path::GetDirectoryName(configFilePath);
+	path = path.append("/").append(element.Attribute("File"));
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLError eResult = doc.LoadFile(path.c_str());
+
+	if (eResult != tinyxml2::XML_SUCCESS)
+	{
+		throw std::runtime_error("Error: Unable to read enum data.");
+	}
+
+	tinyxml2::XMLNode* root = doc.FirstChild();
+
+	if (root == nullptr)
+		return;
+
+	for (tinyxml2::XMLElement* csEnum = root->FirstChildElement(); csEnum != nullptr;
+	     csEnum = csEnum->NextSiblingElement())
+	{
+		for (tinyxml2::XMLElement* item = csEnum->FirstChildElement(); item != nullptr;
+		     item = item->NextSiblingElement())
+		{
+			std::string enumKey = csEnum->Attribute("Key");
+			uint16_t itemIndex = atoi(item->Attribute("Index"));
+			const char* itemID = item->Attribute("ID");
+
+			// Common
+			if (enumKey == "cmd")
+				enumData.cutsceneCmd[itemIndex] = itemID;
+
+			else if (enumKey == "miscType")
+				enumData.miscType[itemIndex] = itemID;
+
+			else if (enumKey == "textType")
+				enumData.textType[itemIndex] = itemID;
+
+			else if (enumKey == "fadeOutSeqPlayer")
+				enumData.fadeOutSeqPlayer[itemIndex] = itemID;
+
+			else if (enumKey == "transitionType")
+				enumData.transitionType[itemIndex] = itemID;
+
+			else if (enumKey == "destination")
+				enumData.destination[itemIndex] = itemID;
+
+			else if (enumKey == "naviQuestHintType")
+				enumData.naviQuestHintType[itemIndex] = itemID;
+
+			// MM
+			else if (enumKey == "modifySeqType")
+				enumData.modifySeqType[itemIndex] = itemID;
+
+			else if (enumKey == "chooseCreditsSceneType")
+				enumData.chooseCreditsSceneType[itemIndex] = itemID;
+
+			else if (enumKey == "destinationType")
+				enumData.destinationType[itemIndex] = itemID;
+
+			else if (enumKey == "motionBlurType")
+				enumData.motionBlurType[itemIndex] = itemID;
+
+			else if (enumKey == "transitionGeneralType")
+				enumData.transitionGeneralType[itemIndex] = itemID;
+
+			else if (enumKey == "rumbleType")
+				enumData.rumbleType[itemIndex] = itemID;
+
+			else if (enumKey == "spawnFlag")
+				enumData.spawnFlag[itemIndex] = itemID;
+
+			else if (enumKey == "endSfx")
+				enumData.endSfx[itemIndex] = itemID;
+		}
+	}
+}
+
 void GameConfig::ReadConfigFile(const fs::path& argConfigFilePath)
 {
 	static const std::unordered_map<std::string, ConfigFunc> ConfigFuncDictionary = {
@@ -173,6 +252,7 @@ void GameConfig::ReadConfigFile(const fs::path& argConfigFilePath)
 		{"SpecialEntranceList", &GameConfig::ConfigFunc_specialEntranceList},
 		{"TexturePool", &GameConfig::ConfigFunc_TexturePool},
 		{"BGConfig", &GameConfig::ConfigFunc_BGConfig},
+		{"EnumData", &GameConfig::ConfigFunc_EnumData},
 		{"ExternalXMLFolder", &GameConfig::ConfigFunc_ExternalXMLFolder},
 		{"ExternalFile", &GameConfig::ConfigFunc_ExternalFile},
 	};

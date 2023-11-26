@@ -126,15 +126,15 @@ static u8 sJointCopyFlags[] = {
 };
 
 ActorInit En_Test_InitVars = {
-    ACTOR_EN_TEST,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SK2,
-    sizeof(EnTest),
-    (ActorFunc)EnTest_Init,
-    (ActorFunc)EnTest_Destroy,
-    (ActorFunc)EnTest_Update,
-    (ActorFunc)EnTest_Draw,
+    /**/ ACTOR_EN_TEST,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SK2,
+    /**/ sizeof(EnTest),
+    /**/ EnTest_Init,
+    /**/ EnTest_Destroy,
+    /**/ EnTest_Update,
+    /**/ EnTest_Draw,
 };
 
 static ColliderCylinderInit sBodyColliderInit = {
@@ -1865,7 +1865,7 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
     s32 pad;
     Vec3f sp50;
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 
     if (limbIndex == STALFOS_LIMB_SWORD) {
         Matrix_MultVec3f(&D_8086467C, &this->swordCollider.dim.quad[1]);

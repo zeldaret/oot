@@ -97,15 +97,15 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 ActorInit En_Go2_InitVars = {
-    ACTOR_EN_GO2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(EnGo2),
-    (ActorFunc)EnGo2_Init,
-    (ActorFunc)EnGo2_Destroy,
-    (ActorFunc)EnGo2_Update,
-    (ActorFunc)EnGo2_Draw,
+    /**/ ACTOR_EN_GO2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(EnGo2),
+    /**/ EnGo2_Init,
+    /**/ EnGo2_Destroy,
+    /**/ EnGo2_Update,
+    /**/ EnGo2_Draw,
 };
 
 static EnGo2DataStruct1 D_80A4816C[14] = {
@@ -225,29 +225,30 @@ void EnGo2_DrawEffects(EnGo2* this, PlayState* play) {
 
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (1) {}
 
     for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
-        if (dustEffect->type) {
-            if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
-                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                materialFlag = true;
-            }
-
-            alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go2_eff.c", 137),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDustTex[index]));
-            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
+        if (dustEffect->type == 0) {
+            continue;
         }
+
+        if (!materialFlag) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
+            materialFlag = true;
+        }
+
+        alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go2_eff.c", 137),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDustTex[index]));
+        gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2_eff.c", 151);
@@ -811,7 +812,7 @@ s16 EnGo2_UpdateTalkState(PlayState* play, Actor* thisx) {
             return EnGo2_UpdateTalkStateGoronMarketBazaar(play, this);
     }
 #ifdef AVOID_UB
-    // The v0 register isn't set in this function, the last value in v0 is the return value of Actor_ProcessTalkRequest
+    // The v0 register isn't set in this function, the last value in v0 is the return value of Actor_TalkOfferAccepted
     // called in the function below, which must be false for this function to be called
     return false;
 #endif
@@ -825,13 +826,13 @@ s32 func_80A44790(EnGo2* this, PlayState* play) {
                !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
         return false;
     } else {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
             return true;
         } else if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
             this->interactInfo.talkState = EnGo2_UpdateTalkState(play, &this->actor);
             return false;
-        } else if (func_8002F2CC(&this->actor, play, this->interactRange)) {
+        } else if (Actor_OfferTalk(&this->actor, play, this->interactRange)) {
             this->actor.textId = EnGo2_GetTextId(play, &this->actor);
         }
         return false;
@@ -1162,11 +1163,11 @@ s32 EnGo2_IsCameraModified(EnGo2* this, PlayState* play) {
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if (EnGo2_IsWakingUp(this)) {
-            Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
-            Camera_UnsetStateFlag(mainCam, CAM_STATE_2);
+            Camera_RequestSetting(mainCam, CAM_SET_DIRECTED_YAW);
+            Camera_UnsetStateFlag(mainCam, CAM_STATE_CHECK_BG);
         } else if (!EnGo2_IsWakingUp(this) && (mainCam->setting == CAM_SET_DIRECTED_YAW)) {
-            Camera_ChangeSetting(mainCam, CAM_SET_DUNGEON1);
-            Camera_SetStateFlag(mainCam, CAM_STATE_2);
+            Camera_RequestSetting(mainCam, CAM_SET_DUNGEON1);
+            Camera_SetStateFlag(mainCam, CAM_STATE_CHECK_BG);
         }
     }
 
@@ -1838,7 +1839,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, PlayState* play) {
         case 1:
             if (DECR(this->animTimer)) {
                 if (this->animTimer == 60 || this->animTimer == 120) {
-                    func_8005B1A4(GET_ACTIVE_CAM(play));
+                    Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
                     func_800F4524(&gSfxDefaultPos, NA_SE_EV_GORON_WATER_DROP, 60);
                 }
             } else {
@@ -1924,7 +1925,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
                     (f32)((Math_SinS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.x);
                 player->actor.world.pos.z =
                     (f32)((Math_CosS(this->actor.world.rot.y) * -30.0f) + this->actor.world.pos.z);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
                 Audio_PlayFanfare(NA_BGM_APPEAR);
             }
             break;
@@ -1961,7 +1962,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, PlayState* play) {
         case 4: // Finalize walking away
             Message_CloseTextbox(play);
             EnGo2_GoronFireClearCamera(this, play);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
             Actor_Kill(&this->actor);
             break;
         case 1:

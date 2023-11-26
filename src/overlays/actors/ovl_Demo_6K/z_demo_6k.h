@@ -27,7 +27,7 @@ typedef struct Demo6K {
     /* 0x028C */ u16 flags;
     /* 0x028E */ u16 timer1;
     /* 0x0290 */ u16 timer2;
-    /* 0x0292 */ u8 objBankIndex;
+    /* 0x0292 */ u8 requiredObjectSlot;
     /* 0x0293 */ u8 unk_293;
 } Demo6K; // size = 0x0294
 

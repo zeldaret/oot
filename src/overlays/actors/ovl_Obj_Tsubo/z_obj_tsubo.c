@@ -37,15 +37,15 @@ static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
 ActorInit Obj_Tsubo_InitVars = {
-    ACTOR_OBJ_TSUBO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjTsubo),
-    (ActorFunc)ObjTsubo_Init,
-    (ActorFunc)ObjTsubo_Destroy,
-    (ActorFunc)ObjTsubo_Update,
-    NULL,
+    /**/ ACTOR_OBJ_TSUBO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjTsubo),
+    /**/ ObjTsubo_Init,
+    /**/ ObjTsubo_Destroy,
+    /**/ ObjTsubo_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
@@ -135,8 +135,8 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->objTsuboBankIndex = Object_GetIndex(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
-    if (this->objTsuboBankIndex < 0) {
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
+    if (this->requiredObjectSlot < 0) {
         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
     } else {
@@ -221,9 +221,9 @@ void ObjTsubo_SetupWaitForObject(ObjTsubo* this) {
 }
 
 void ObjTsubo_WaitForObject(ObjTsubo* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objTsuboBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.draw = ObjTsubo_Draw;
-        this->actor.objBankIndex = this->objTsuboBankIndex;
+        this->actor.objectSlot = this->requiredObjectSlot;
         ObjTsubo_SetupIdle(this);
         this->actor.flags &= ~ACTOR_FLAG_4;
     }

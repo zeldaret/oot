@@ -43,15 +43,15 @@ void func_8086DDA8(BgBdanSwitch* this);
 void func_8086DDC0(BgBdanSwitch* this, PlayState* play);
 
 ActorInit Bg_Bdan_Switch_InitVars = {
-    ACTOR_BG_BDAN_SWITCH,
-    ACTORCAT_SWITCH,
-    FLAGS,
-    OBJECT_BDAN_OBJECTS,
-    sizeof(BgBdanSwitch),
-    (ActorFunc)BgBdanSwitch_Init,
-    (ActorFunc)BgBdanSwitch_Destroy,
-    (ActorFunc)BgBdanSwitch_Update,
-    (ActorFunc)BgBdanSwitch_Draw,
+    /**/ ACTOR_BG_BDAN_SWITCH,
+    /**/ ACTORCAT_SWITCH,
+    /**/ FLAGS,
+    /**/ OBJECT_BDAN_OBJECTS,
+    /**/ sizeof(BgBdanSwitch),
+    /**/ BgBdanSwitch_Init,
+    /**/ BgBdanSwitch_Destroy,
+    /**/ BgBdanSwitch_Update,
+    /**/ BgBdanSwitch_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {

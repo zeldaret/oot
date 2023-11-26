@@ -19,15 +19,15 @@ void func_809BC2A4(EnBdfire* this, PlayState* play);
 void func_809BC598(EnBdfire* this, PlayState* play);
 
 ActorInit En_Bdfire_InitVars = {
-    0,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_KINGDODONGO,
-    sizeof(EnBdfire),
-    (ActorFunc)EnBdfire_Init,
-    (ActorFunc)EnBdfire_Destroy,
-    (ActorFunc)EnBdfire_Update,
-    (ActorFunc)EnBdfire_Draw,
+    /**/ 0,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_KINGDODONGO,
+    /**/ sizeof(EnBdfire),
+    /**/ EnBdfire_Init,
+    /**/ EnBdfire_Destroy,
+    /**/ EnBdfire_Update,
+    /**/ EnBdfire_Draw,
 };
 
 void EnBdfire_SetupAction(EnBdfire* this, EnBdfireActionFunc actionFunc) {

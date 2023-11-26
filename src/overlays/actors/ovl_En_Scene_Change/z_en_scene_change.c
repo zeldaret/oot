@@ -16,15 +16,15 @@ void EnSceneChange_Draw(Actor* thisx, PlayState* play);
 void EnSceneChange_DoNothing(EnSceneChange* this, PlayState* play);
 
 ActorInit En_Scene_Change_InitVars = {
-    ACTOR_EN_SCENE_CHANGE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnSceneChange),
-    (ActorFunc)EnSceneChange_Init,
-    (ActorFunc)EnSceneChange_Destroy,
-    (ActorFunc)EnSceneChange_Update,
-    (ActorFunc)EnSceneChange_Draw,
+    /**/ ACTOR_EN_SCENE_CHANGE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnSceneChange),
+    /**/ EnSceneChange_Init,
+    /**/ EnSceneChange_Destroy,
+    /**/ EnSceneChange_Update,
+    /**/ EnSceneChange_Draw,
 };
 
 void EnSceneChange_SetupAction(EnSceneChange* this, EnSceneChangeActionFunc actionFunc) {

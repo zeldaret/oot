@@ -28,15 +28,15 @@ void EnSw_FallNormal(EnSw* this, PlayState* play);
 void EnSw_DieGold(EnSw* this, PlayState* play);
 
 ActorInit En_Sw_InitVars = {
-    ACTOR_EN_SW,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ST,
-    sizeof(EnSw),
-    (ActorFunc)EnSw_Init,
-    (ActorFunc)EnSw_Destroy,
-    (ActorFunc)EnSw_Update,
-    (ActorFunc)EnSw_Draw,
+    /**/ ACTOR_EN_SW,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ST,
+    /**/ sizeof(EnSw),
+    /**/ EnSw_Init,
+    /**/ EnSw_Destroy,
+    /**/ EnSw_Update,
+    /**/ EnSw_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {
@@ -118,6 +118,7 @@ s32 EnSw_ClingToWall(EnSw* this, CollisionPoly* poly) {
     this->rotMtxF.zw = 0.0f;
     this->rotMtxF.ww = 1.0f;
     Matrix_MtxFToYXZRotS(&this->rotMtxF, &this->actor.world.rot, 0);
+
     //! @bug: Does not return.
 }
 
@@ -201,15 +202,16 @@ s32 EnSw_MoveGold(EnSw* this, PlayState* play, s32 arg2) {
                 posB.z = posA.z - (this->unk_370.z * 24.0f);
             }
             temp_v0_2 = EnSw_GetPoly(play, &posA, &posB, &sp9C, &sp6C);
-            if (temp_v0_2 != NULL) {
-                if (arg2 == 1) {
+            if (temp_v0_2 == NULL) {
+                continue;
+            }
+            if (arg2 == 1) {
                     EnSw_ClingToWall(this, temp_v0_2);
                     this->actor.world.pos = sp9C;
                     this->actor.floorBgId = sp6C;
-                }
-                ret = true;
-                break;
             }
+            sp64 = 1;
+            break;
         }
     }
 

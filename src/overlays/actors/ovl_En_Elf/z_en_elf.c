@@ -55,15 +55,15 @@ void EnElf_SpawnSparkles(EnElf* this, PlayState* play, s32 sparkleLife);
 void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 cueChannel);
 
 ActorInit En_Elf_InitVars = {
-    ACTOR_EN_ELF,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnElf),
-    (ActorFunc)EnElf_Init,
-    (ActorFunc)EnElf_Destroy,
-    (ActorFunc)EnElf_Update,
-    (ActorFunc)EnElf_Draw,
+    /**/ ACTOR_EN_ELF,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnElf),
+    /**/ EnElf_Init,
+    /**/ EnElf_Destroy,
+    /**/ EnElf_Update,
+    /**/ EnElf_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -696,7 +696,7 @@ void func_80A03610(EnElf* this, PlayState* play) {
     Math_SmoothStepToF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
 
     this->unk_28C.x = Math_CosS(this->unk_2AC) * this->unk_2B8;
-    this->unk_28C.y = this->unk_28C.y + this->unk_2B4;
+    this->unk_28C.y += this->unk_2B4;
 
     switch (this->unk_2AA) {
         case 0:
@@ -1394,7 +1394,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         thisx->flags |= ACTOR_FLAG_16;
     }
 
-    if (Actor_ProcessTalkRequest(thisx, play)) {
+    if (Actor_TalkOfferAccepted(thisx, play)) {
         func_800F4524(&gSfxDefaultPos, NA_SE_VO_SK_LAUGH, 0x20);
         thisx->focus.pos = thisx->world.pos;
 
@@ -1409,7 +1409,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         func_80A01C38(this, 3);
 
         if (this->elfMsg != NULL) {
-            this->elfMsg->actor.flags |= ACTOR_FLAG_8;
+            this->elfMsg->actor.flags |= ACTOR_FLAG_TALK;
         }
 
         thisx->flags &= ~ACTOR_FLAG_16;

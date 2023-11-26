@@ -1,5 +1,9 @@
 #include "global.h"
 
-f32 absf(f32 a) {
-    return fabsf(a);
+float absf(float n) {
+#ifndef __GNUC__
+    return fabsf(n);
+#else
+    return __builtin_fabsf(n);
+#endif
 }

@@ -28,15 +28,15 @@ void EnHintnuts_Leave(EnHintnuts* this, PlayState* play);
 void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play);
 
 ActorInit En_Hintnuts_InitVars = {
-    ACTOR_EN_HINTNUTS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_HINTNUTS,
-    sizeof(EnHintnuts),
-    (ActorFunc)EnHintnuts_Init,
-    (ActorFunc)EnHintnuts_Destroy,
-    (ActorFunc)EnHintnuts_Update,
-    (ActorFunc)EnHintnuts_Draw,
+    /**/ ACTOR_EN_HINTNUTS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_HINTNUTS,
+    /**/ sizeof(EnHintnuts),
+    /**/ EnHintnuts_Init,
+    /**/ EnHintnuts_Destroy,
+    /**/ EnHintnuts_Update,
+    /**/ EnHintnuts_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -330,7 +330,7 @@ void EnHintnuts_CheckProximity(EnHintnuts* this, PlayState* play) {
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
             this->actor.textId = this->textIdCopy;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     }
 }
@@ -371,7 +371,7 @@ void EnHintnuts_Run(EnHintnuts* this, PlayState* play) {
     }
 
     this->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnHintnuts_SetupTalk(this);
     } else if (this->animFlagAndTimer == 0 && Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) < 20.0f &&
                fabsf(this->actor.world.pos.y - this->actor.home.pos.y) < 2.0f) {

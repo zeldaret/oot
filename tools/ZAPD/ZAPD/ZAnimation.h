@@ -67,7 +67,7 @@ public:
 	void ParseRawData() override;
 };
 
-class TransformData
+class CurveInterpKnot
 {
 protected:
 	ZFile* parent;
@@ -84,10 +84,10 @@ protected:
 	float unk_08;
 
 public:
-	TransformData() = default;
-	TransformData(ZFile* parent, const std::vector<uint8_t>& rawData, uint32_t fileOffset);
-	TransformData(ZFile* parent, const std::vector<uint8_t>& rawData, uint32_t fileOffset,
-	              size_t index);
+	CurveInterpKnot() = default;
+	CurveInterpKnot(ZFile* parent, const std::vector<uint8_t>& rawData, uint32_t fileOffset);
+	CurveInterpKnot(ZFile* parent, const std::vector<uint8_t>& rawData, uint32_t fileOffset,
+	                size_t index);
 
 	[[nodiscard]] std::string GetBody(const std::string& prefix) const;
 
@@ -102,7 +102,7 @@ protected:
 
 	///* 0x0000 */ u8* refIndex;
 	segptr_t refIndex = 0;
-	///* 0x0004 */ TransformData* transformData;
+	///* 0x0004 */ CurveInterpKnot* transformData;
 	segptr_t transformData = 0;
 	///* 0x0008 */ s16* copyValues;
 	segptr_t copyValues = 0;
@@ -114,7 +114,7 @@ protected:
 	uint8_t limbCount = 0;
 
 	std::vector<uint8_t> refIndexArr;
-	std::vector<TransformData> transformDataArr;
+	std::vector<CurveInterpKnot> transformDataArr;
 	std::vector<int16_t> copyValuesArr;
 
 public:
@@ -132,14 +132,14 @@ public:
 
 	std::string GetSourceTypeName() const override;
 };
-// TransformUpdateIndex
+// CurveAnimationHeader
 
 /* ZLegacyAnimation */
 
-class JointKey : public ZResource
+class LegacyJointKey : public ZResource
 {
 public:
-	JointKey(ZFile* nParent);
+	LegacyJointKey(ZFile* nParent);
 
 	void ParseRawData() override;
 	std::string GetBodySourceCode() const override;
@@ -172,8 +172,8 @@ public:
 protected:
 	int16_t limbCount;
 	segptr_t frameData;  // s16*
-	segptr_t jointKey;   // JointKey*
+	segptr_t jointKey;   // LegacyJointKey*
 
 	std::vector<uint16_t> frameDataArray;
-	std::vector<JointKey> jointKeyArray;
+	std::vector<LegacyJointKey> jointKeyArray;
 };

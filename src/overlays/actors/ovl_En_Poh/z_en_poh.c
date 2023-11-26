@@ -43,15 +43,15 @@ void EnPoh_TalkComposer(EnPoh* this, PlayState* play);
 static s16 D_80AE1A50 = 0;
 
 ActorInit En_Poh_InitVars = {
-    ACTOR_EN_POH,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnPoh),
-    (ActorFunc)EnPoh_Init,
-    (ActorFunc)EnPoh_Destroy,
-    (ActorFunc)EnPoh_Update,
-    NULL,
+    /**/ ACTOR_EN_POH,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnPoh),
+    /**/ EnPoh_Init,
+    /**/ EnPoh_Destroy,
+    /**/ EnPoh_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -230,16 +230,16 @@ void EnPoh_Init(Actor* thisx, PlayState* play) {
         }
     }
     if (this->actor.params < EN_POH_SHARP) {
-        this->objectIdx = Object_GetIndex(&play->objectCtx, OBJECT_POH);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_POH);
         this->infoIdx = EN_POH_INFO_NORMAL;
         this->actor.naviEnemyId = NAVI_ENEMY_POE;
     } else {
-        this->objectIdx = Object_GetIndex(&play->objectCtx, OBJECT_PO_COMPOSER);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_PO_COMPOSER);
         this->infoIdx = EN_POH_INFO_COMPOSER;
         this->actor.naviEnemyId = NAVI_ENEMY_POE_COMPOSER;
     }
     this->info = &sPoeInfo[this->infoIdx];
-    if (this->objectIdx < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
     }
 }
@@ -712,14 +712,14 @@ void func_80ADF894(EnPoh* this, PlayState* play) {
 }
 
 void EnPoh_Death(EnPoh* this, PlayState* play) {
-    s32 objId;
+    s32 objectId;
 
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        objId = (this->infoIdx == EN_POH_INFO_COMPOSER) ? OBJECT_PO_COMPOSER : OBJECT_POH;
-        EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, objId, 10,
+        objectId = (this->infoIdx == EN_POH_INFO_COMPOSER) ? OBJECT_PO_COMPOSER : OBJECT_POH;
+        EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, objectId, 10,
                                  this->info->lanternDisplayList);
         func_80ADE6D4(this);
     } else if (this->unk_198 == 0) {
@@ -763,7 +763,7 @@ void func_80ADFE80(EnPoh* this, PlayState* play) {
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.params >= EN_POH_SHARP) {
             func_80ADE9BC(this);
         } else {
@@ -778,7 +778,7 @@ void func_80ADFE80(EnPoh* this, PlayState* play) {
     }
     if (this->colliderCyl.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
         this->actor.flags &= ~ACTOR_FLAG_16;
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderCyl.base);
@@ -906,8 +906,8 @@ void EnPoh_UpdateVisibility(EnPoh* this) {
 void EnPoh_Update(Actor* thisx, PlayState* play) {
     EnPoh* this = (EnPoh*)thisx;
 
-    if (Object_IsLoaded(&play->objectCtx, this->objectIdx)) {
-        this->actor.objBankIndex = this->objectIdx;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.update = EnPoh_UpdateLiving;
         Actor_SetObjectDependency(play, &this->actor);
         if (this->infoIdx == EN_POH_INFO_NORMAL) {

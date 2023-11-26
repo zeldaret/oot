@@ -1572,7 +1572,7 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
     sp64 = kREG(75);
     sp62 = kREG(74) + 0x7FEC;
     sp60 = kREG(74) + 0x7FEC;
-    sp60 = sp60 + 0x4000;
+    sp60 += 0x4000;
     sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_CosS(sp6E);
 
@@ -1769,13 +1769,13 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Gt_InitVars = {
-    ACTOR_DEMO_GT,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GT,
-    sizeof(DemoGt),
-    (ActorFunc)DemoGt_Init,
-    (ActorFunc)DemoGt_Destroy,
-    (ActorFunc)DemoGt_Update,
-    (ActorFunc)DemoGt_Draw,
+    /**/ ACTOR_DEMO_GT,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GT,
+    /**/ sizeof(DemoGt),
+    /**/ DemoGt_Init,
+    /**/ DemoGt_Destroy,
+    /**/ DemoGt_Update,
+    /**/ DemoGt_Draw,
 };

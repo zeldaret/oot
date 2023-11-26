@@ -432,7 +432,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
         play->csCtx.actorCues[i] = NULL;
     }
 
-    if (Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
+    if (Object_GetSlot(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
         play->envCtx.sunMoonDisabled = true;
         // "Sun setting other than field keep! So forced release!"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
@@ -888,8 +888,8 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         Rumble_ClearRequests();
     }
 
-    if (pauseCtx->state == 0) {
-        if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
+    if (pauseCtx->state == PAUSE_STATE_OFF) {
+        if (!IS_PAUSED(&play->pauseCtx)) {
             if (play->skyboxId == SKYBOX_NORMAL_SKY) {
                 play->skyboxCtx.rot.y -= 0.001f;
             } else if (play->skyboxId == SKYBOX_CUTSCENE_MAP) {
@@ -920,7 +920,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             }
         }
 
-        if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
+        if ((pauseCtx->state == PAUSE_STATE_OFF) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == MSGMODE_NONE)) ||
                 (((void)0, gSaveContext.gameMode) == GAMEMODE_END_CREDITS)) {
                 if ((envCtx->changeSkyboxTimer == 0) && !FrameAdvance_IsEnabled(play) &&
@@ -1703,7 +1703,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(play);
 
-    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_8) &&
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER) &&
         (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
@@ -2419,17 +2419,17 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
     if (ABS(primA - primA1) < 9) {
         primA = primA1;
     } else if (primA1 < primA) {
-        primA = primA - 9;
+        primA -= 9;
     } else {
-        primA = primA + 9;
+        primA += 9;
     }
 
     if (ABS(envA - envA1) < 9) {
         envA = envA1;
     } else if (envA1 < envA) {
-        envA = envA - 9;
+        envA -= 9;
     } else {
-        envA = envA + 9;
+        envA += 9;
     }
 
     play->envCtx.sandstormPrimA = primA;

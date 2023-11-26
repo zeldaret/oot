@@ -35,15 +35,15 @@ void EnGo_UpdateEffects(EnGo* this);
 void EnGo_DrawEffects(EnGo* this, PlayState* play);
 
 ActorInit En_Go_InitVars = {
-    ACTOR_EN_GO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(EnGo),
-    (ActorFunc)EnGo_Init,
-    (ActorFunc)EnGo_Destroy,
-    (ActorFunc)EnGo_Update,
-    (ActorFunc)EnGo_Draw,
+    /**/ ACTOR_EN_GO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(EnGo),
+    /**/ EnGo_Init,
+    /**/ EnGo_Destroy,
+    /**/ EnGo_Update,
+    /**/ EnGo_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -338,10 +338,10 @@ s32 EnGo_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     if (*talkState != NPC_TALK_STATE_IDLE) {
         *talkState = updateTalkState(play, thisx);
         return false;
-    } else if (Actor_ProcessTalkRequest(thisx, play)) {
+    } else if (Actor_TalkOfferAccepted(thisx, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
-    } else if (!func_8002F2CC(thisx, play, interactRange)) {
+    } else if (!Actor_OfferTalk(thisx, play, interactRange)) {
         return false;
     } else {
         thisx->textId = getTextId(play, thisx);
@@ -429,13 +429,13 @@ s32 EnGo_IsCameraModified(EnGo* this, PlayState* play) {
 
     xyzDistSq = (this->actor.scale.x / 0.01f) * SQ(100.0f);
     if ((this->actor.params & 0xF0) == 0x90) {
-        Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
+        Camera_RequestSetting(mainCam, CAM_SET_DIRECTED_YAW);
         xyzDistSq *= 4.8f;
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDistSq) {
         if (mainCam->setting == CAM_SET_DIRECTED_YAW) {
-            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
+            Camera_RequestSetting(mainCam, CAM_SET_NORMAL0);
         }
         return 0;
     } else {
@@ -1200,29 +1200,32 @@ void EnGo_DrawEffects(EnGo* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go.c", 2626);
     materialFlag = false;
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    if (1) {}
+
     for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
-        if (dustEffect->type) {
-            if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
-                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                materialFlag = true;
-            }
-
-            alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go.c", 2664),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-            index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));
-            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
+        if (dustEffect->type == 0) {
+            continue;
         }
+
+        if (!materialFlag) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
+            materialFlag = true;
+        }
+
+        alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go.c", 2664),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));
+        gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD50);
     }
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_go.c", 2678);
 }

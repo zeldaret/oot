@@ -12,15 +12,15 @@ void ArmsHook_Wait(ArmsHook* this, PlayState* play);
 void ArmsHook_Shoot(ArmsHook* this, PlayState* play);
 
 ActorInit Arms_Hook_InitVars = {
-    ACTOR_ARMS_HOOK,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_LINK_BOY,
-    sizeof(ArmsHook),
-    (ActorFunc)ArmsHook_Init,
-    (ActorFunc)ArmsHook_Destroy,
-    (ActorFunc)ArmsHook_Update,
-    (ActorFunc)ArmsHook_Draw,
+    /**/ ACTOR_ARMS_HOOK,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_LINK_BOY,
+    /**/ sizeof(ArmsHook),
+    /**/ ArmsHook_Init,
+    /**/ ArmsHook_Destroy,
+    /**/ ArmsHook_Update,
+    /**/ ArmsHook_Draw,
 };
 
 static ColliderQuadInit sQuadInit = {
@@ -120,7 +120,7 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
 
     if (Player_HoldsHookshot(player)) {
-        if ((player->itemAction != player->heldItemAction) || (player->actor.flags & ACTOR_FLAG_8) ||
+        if ((player->itemAction != player->heldItemAction) || (player->actor.flags & ACTOR_FLAG_TALK) ||
             ((player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))) {
             this->timer = 0;
             ArmsHook_DetachHookFromActor(this);

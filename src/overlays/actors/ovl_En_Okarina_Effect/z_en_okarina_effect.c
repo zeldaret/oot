@@ -17,15 +17,15 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play);
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play);
 
 ActorInit En_Okarina_Effect_InitVars = {
-    ACTOR_EN_OKARINA_EFFECT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnOkarinaEffect),
-    (ActorFunc)EnOkarinaEffect_Init,
-    (ActorFunc)EnOkarinaEffect_Destroy,
-    (ActorFunc)EnOkarinaEffect_Update,
-    NULL,
+    /**/ ACTOR_EN_OKARINA_EFFECT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnOkarinaEffect),
+    /**/ EnOkarinaEffect_Init,
+    /**/ EnOkarinaEffect_Destroy,
+    /**/ EnOkarinaEffect_Update,
+    /**/ NULL,
 };
 
 void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFunc actionFunc) {
@@ -72,7 +72,7 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play) {
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
     CutsceneFlags_Unset(play, 5);
 
-    if (((play->pauseCtx.state == 0) && (play->gameOverCtx.state == GAMEOVER_INACTIVE) &&
+    if (((play->pauseCtx.state == PAUSE_STATE_OFF) && (play->gameOverCtx.state == GAMEOVER_INACTIVE) &&
          (play->msgCtx.msgLength == 0) && (!FrameAdvance_IsEnabled(play)) &&
          ((play->transitionMode == TRANS_MODE_OFF) || (gSaveContext.gameMode != GAMEMODE_NORMAL))) ||
         (this->timer >= 250)) {

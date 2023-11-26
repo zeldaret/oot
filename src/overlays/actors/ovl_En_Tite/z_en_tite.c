@@ -75,15 +75,15 @@ void EnTite_FlipOnBack(EnTite* this, PlayState* play);
 void EnTite_FlipUpright(EnTite* this, PlayState* play);
 
 ActorInit En_Tite_InitVars = {
-    ACTOR_EN_TITE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_TITE,
-    sizeof(EnTite),
-    (ActorFunc)EnTite_Init,
-    (ActorFunc)EnTite_Destroy,
-    (ActorFunc)EnTite_Update,
-    (ActorFunc)EnTite_Draw,
+    /**/ ACTOR_EN_TITE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_TITE,
+    /**/ sizeof(EnTite),
+    /**/ EnTite_Init,
+    /**/ EnTite_Destroy,
+    /**/ EnTite_Update,
+    /**/ EnTite_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
@@ -980,7 +980,7 @@ void EnTite_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** limbDList, Vec3s*
             break;
     }
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 24, 24, limbDList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 24, 24, limbDList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 }
 
 void EnTite_Draw(Actor* thisx, PlayState* play) {

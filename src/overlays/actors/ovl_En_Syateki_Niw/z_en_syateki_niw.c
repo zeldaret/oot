@@ -27,15 +27,15 @@ void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 
 ActorInit En_Syateki_Niw_InitVars = {
-    ACTOR_EN_SYATEKI_NIW,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_NIW,
-    sizeof(EnSyatekiNiw),
-    (ActorFunc)EnSyatekiNiw_Init,
-    (ActorFunc)EnSyatekiNiw_Destroy,
-    (ActorFunc)EnSyatekiNiw_Update,
-    (ActorFunc)EnSyatekiNiw_Draw,
+    /**/ ACTOR_EN_SYATEKI_NIW,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_NIW,
+    /**/ sizeof(EnSyatekiNiw),
+    /**/ EnSyatekiNiw_Init,
+    /**/ EnSyatekiNiw_Destroy,
+    /**/ EnSyatekiNiw_Update,
+    /**/ EnSyatekiNiw_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -497,9 +497,8 @@ void EnSyatekiNiw_SetupRemove(EnSyatekiNiw* this, PlayState* play) {
 
     Actor_SetFocus(&this->actor, this->focusYOffset);
     Actor_GetScreenPos(play, &this->actor, &screenX, &screenY);
-    if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f)
-        && (screenX > 0) && (screenX < SCREEN_WIDTH) && (screenY > 0)
-        && (screenY < SCREEN_HEIGHT)) {
+    if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (screenX > 0) &&
+        (screenX < SCREEN_WIDTH) && (screenY > 0) && (screenY < SCREEN_HEIGHT)) {
         this->actor.speed = 5.0f;
         this->rotYFlip = Rand_ZeroFloat(1.99f);
         this->removeStateYaw = Rand_CenteredFloat(8000.0f) + -10000.0f;

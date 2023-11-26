@@ -20,15 +20,15 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play);
 void func_809B2B48(EnAnubiceFire* this, PlayState* play);
 
 ActorInit En_Anubice_Fire_InitVars = {
-    ACTOR_EN_ANUBICE_FIRE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_ANUBICE,
-    sizeof(EnAnubiceFire),
-    (ActorFunc)EnAnubiceFire_Init,
-    (ActorFunc)EnAnubiceFire_Destroy,
-    (ActorFunc)EnAnubiceFire_Update,
-    (ActorFunc)EnAnubiceFire_Draw,
+    /**/ ACTOR_EN_ANUBICE_FIRE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_ANUBICE,
+    /**/ sizeof(EnAnubiceFire),
+    /**/ EnAnubiceFire_Init,
+    /**/ EnAnubiceFire_Destroy,
+    /**/ EnAnubiceFire_Update,
+    /**/ EnAnubiceFire_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

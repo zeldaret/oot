@@ -24,15 +24,15 @@ void func_808934FC(BgJyaAmishutter* this);
 void func_8089350C(BgJyaAmishutter* this);
 
 ActorInit Bg_Jya_Amishutter_InitVars = {
-    ACTOR_BG_JYA_AMISHUTTER,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaAmishutter),
-    (ActorFunc)BgJyaAmishutter_Init,
-    (ActorFunc)BgJyaAmishutter_Destroy,
-    (ActorFunc)BgJyaAmishutter_Update,
-    (ActorFunc)BgJyaAmishutter_Draw,
+    /**/ ACTOR_BG_JYA_AMISHUTTER,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaAmishutter),
+    /**/ BgJyaAmishutter_Init,
+    /**/ BgJyaAmishutter_Destroy,
+    /**/ BgJyaAmishutter_Update,
+    /**/ BgJyaAmishutter_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

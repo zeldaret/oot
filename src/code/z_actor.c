@@ -799,7 +799,7 @@ void Actor_SetScale(Actor* actor, f32 scale) {
 }
 
 void Actor_SetObjectDependency(PlayState* play, Actor* actor) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[actor->objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[actor->objectSlot].segment);
 }
 
 void Actor_Init(Actor* actor, PlayState* play) {
@@ -810,7 +810,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     Actor_SetScale(actor, 0.01f);
     actor->targetMode = 3;
     actor->minVelocityY = -20.0f;
-    actor->xyzDistToPlayerSq = FLT_MAX;
+    actor->xyzDistToPlayerSq = MAXFLOAT;
     actor->naviEnemyId = NAVI_ENEMY_NONE;
     actor->uncullZoneForward = 1000.0f;
     actor->uncullZoneScale = 350.0f;
@@ -818,7 +818,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     CollisionCheck_InitInfo(&actor->colChkInfo);
     actor->floorBgId = BGCHECK_SCENE;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
-    if (Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
         Actor_SetObjectDependency(play, actor);
         actor->init(actor, play);
         actor->init = NULL;
@@ -1000,15 +1000,15 @@ f32 func_8002DCE4(Player* player) {
     }
 }
 
-s32 func_8002DD6C(Player* player) {
+int func_8002DD6C(Player* player) {
     return player->stateFlags1 & PLAYER_STATE1_3;
 }
 
-s32 func_8002DD78(Player* player) {
+int func_8002DD78(Player* player) {
     return func_8002DD6C(player) && player->unk_834;
 }
 
-s32 func_8002DDA8(PlayState* play) {
+int func_8002DDA8(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     return (player->stateFlags1 & PLAYER_STATE1_11) || func_8002DD78(player);
@@ -1039,7 +1039,7 @@ void func_8002DE04(PlayState* play, Actor* actorA, Actor* actorB) {
 
 void func_8002DE74(PlayState* play, Player* player) {
     if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_4) && Play_CamIsNotFixed(play)) {
-        Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
+        Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
     }
 }
 
@@ -1049,29 +1049,54 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
     horse->child = &player->actor;
 }
 
-s32 func_8002DEEC(Player* player) {
-    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csMode != PLAYER_CSMODE_NONE);
+int func_8002DEEC(Player* player) {
+    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csAction != PLAYER_CSACTION_NONE);
 }
 
 void func_8002DF18(PlayState* play, Player* player) {
     func_8006DC68(play, player);
 }
 
-s32 func_8002DF38(PlayState* play, Actor* actor, u8 csMode) {
+/**
+ * Sets a Player Cutscene Action specified by `csAction`.
+ * There are no safety checks to see if Player is already in some form of a cutscene state.
+ * This will instantly take effect.
+ *
+ * `haltActorsDuringCsAction` being set to false in this function means that all actors will
+ * be able to update while Player is performing the cutscene action.
+ *
+ * Note: due to how player implements initializing the cutscene action state, `haltActorsDuringCsAction`
+ * will only be considered the first time player starts a `csAction`.
+ * Player must leave the cutscene action state and enter it again before halting actors can be toggled.
+ */
+s32 Player_SetCsAction(PlayState* play, Actor* csActor, u8 csAction) {
     Player* player = GET_PLAYER(play);
 
-    player->csMode = csMode;
-    player->unk_448 = actor;
-    player->doorBgCamIndex = 0;
+    player->csAction = csAction;
+    player->csActor = csActor;
+    player->cv.haltActorsDuringCsAction = false;
 
     return true;
 }
 
-s32 func_8002DF54(PlayState* play, Actor* actor, u8 csMode) {
+/**
+ * Sets a Player Cutscene Action specified by `csAction`.
+ * There are no safety checks to see if Player is already in some form of a cutscene state.
+ * This will instantly take effect.
+ *
+ * `haltActorsDuringCsAction` being set to true in this function means that eventually `PLAYER_STATE1_29` will be set.
+ * This makes it so actors belonging to categories `ACTORCAT_ENEMY` and `ACTORCAT_MISC` will not update
+ * while Player is performing the cutscene action.
+ *
+ * Note: due to how player implements initializing the cutscene action state, `haltActorsDuringCsAction`
+ * will only be considered the first time player starts a `csAction`.
+ * Player must leave the cutscene action state and enter it again before halting actors can be toggled.
+ */
+s32 Player_SetCsActionWithHaltedActors(PlayState* play, Actor* csActor, u8 csAction) {
     Player* player = GET_PLAYER(play);
 
-    func_8002DF38(play, actor, csMode);
-    player->doorBgCamIndex = 1;
+    Player_SetCsAction(play, csActor, csAction);
+    player->cv.haltActorsDuringCsAction = true;
 
     return true;
 }
@@ -1440,26 +1465,21 @@ void func_8002ED80(Actor* actor, PlayState* play, s32 flag) {
     }
 }
 
-PosRot* Actor_GetFocus(PosRot* dest, Actor* actor) {
-    *dest = actor->focus;
-
-    return dest;
+PosRot Actor_GetFocus(Actor* actor) {
+    return actor->focus;
 }
 
-PosRot* Actor_GetWorld(PosRot* dest, Actor* actor) {
-    *dest = actor->world;
-
-    return dest;
+PosRot Actor_GetWorld(Actor* actor) {
+    return actor->world;
 }
 
-PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor) {
-    PosRot sp1C;
+PosRot Actor_GetWorldPosShapeRot(Actor* actor) {
+    PosRot worldPosRot;
 
-    Math_Vec3f_Copy(&sp1C.pos, &actor->world.pos);
-    sp1C.rot = actor->shape.rot;
-    *arg0 = sp1C;
+    Math_Vec3f_Copy(&worldPosRot.pos, &actor->world.pos);
+    worldPosRot.rot = actor->shape.rot;
 
-    return arg0;
+    return worldPosRot;
 }
 
 f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
@@ -1468,7 +1488,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
 
     if (player->unk_664 != NULL) {
         if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
-            return FLT_MAX;
+            return MAXFLOAT;
         } else {
             f32 ret =
                 actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
@@ -1478,7 +1498,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     }
 
     if (yawTempAbs > 0x2AAA) {
-        return FLT_MAX;
+        return MAXFLOAT;
     }
 
     return actor->xyzDistToPlayerSq;
@@ -1513,7 +1533,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
         f32 dist;
 
         if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
-            dist = FLT_MAX;
+            dist = MAXFLOAT;
         } else {
             dist = actor->xyzDistToPlayerSq;
         }
@@ -1524,22 +1544,39 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     return false;
 }
 
-u32 Actor_ProcessTalkRequest(Actor* actor, PlayState* play) {
-    if (actor->flags & ACTOR_FLAG_8) {
-        actor->flags &= ~ACTOR_FLAG_8;
+/**
+ * When a given talk offer is accepted, Player will set `ACTOR_FLAG_TALK` for that actor.
+ * This function serves to acknowledge that the offer was accepted by Player, and notifies the actor
+ * that it should proceed with its own internal processes for handling dialogue.
+ *
+ * @return  true if the talk offer was accepted, false otherwise
+ */
+s32 Actor_TalkOfferAccepted(Actor* actor, PlayState* play) {
+    if (actor->flags & ACTOR_FLAG_TALK) {
+        actor->flags &= ~ACTOR_FLAG_TALK;
         return true;
     }
 
     return false;
 }
 
-s32 func_8002F1C4(Actor* actor, PlayState* play, f32 arg2, f32 arg3, u32 exchangeItemId) {
+/**
+ * This function covers offering the ability to talk with the player.
+ * Passing an exchangeItemId (see `ExchangeItemID`) allows the player to also use the item to initiate the
+ * conversation.
+ *
+ * This function carries a talk exchange offer to the player actor if context allows it (e.g. the player is in range
+ * and not busy with certain things).
+ *
+ * @return true If the player actor is capable of accepting the offer.
+ */
+s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->actor.flags & ACTOR_FLAG_8) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
+    if ((player->actor.flags & ACTOR_FLAG_TALK) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
         (!actor->isTargeted &&
-         ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
-          (arg2 < actor->xzDistToPlayer)))) {
+         ((yRange < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
+          (xzRange < actor->xzDistToPlayer)))) {
         return false;
     }
 
@@ -1550,18 +1587,28 @@ s32 func_8002F1C4(Actor* actor, PlayState* play, f32 arg2, f32 arg3, u32 exchang
     return true;
 }
 
-s32 func_8002F298(Actor* actor, PlayState* play, f32 arg2, u32 exchangeItemId) {
-    return func_8002F1C4(actor, play, arg2, arg2, exchangeItemId);
+/**
+ * Offers a talk exchange request within an equilateral cylinder with the radius specified.
+ */
+s32 Actor_OfferTalkExchangeEquiCylinder(Actor* actor, PlayState* play, f32 radius, u32 exchangeItemId) {
+    return Actor_OfferTalkExchange(actor, play, radius, radius, exchangeItemId);
 }
 
-s32 func_8002F2CC(Actor* actor, PlayState* play, f32 arg2) {
-    return func_8002F298(actor, play, arg2, EXCH_ITEM_NONE);
+/**
+ * Offers a talk request within an equilateral cylinder with the radius specified.
+ */
+s32 Actor_OfferTalk(Actor* actor, PlayState* play, f32 radius) {
+    return Actor_OfferTalkExchangeEquiCylinder(actor, play, radius, EXCH_ITEM_NONE);
 }
 
-s32 func_8002F2F4(Actor* actor, PlayState* play) {
-    f32 var1 = 50.0f + actor->colChkInfo.cylRadius;
+/**
+ * Offers a talk request within an equilateral cylinder whose radius is determined by the actor's collision check
+ * cylinder's radius.
+ */
+s32 Actor_OfferTalkNearColChkInfoCylinder(Actor* actor, PlayState* play) {
+    f32 cylRadius = 50.0f + actor->colChkInfo.cylRadius;
 
-    return func_8002F2CC(actor, play, var1);
+    return Actor_OfferTalk(actor, play, cylRadius);
 }
 
 u32 Actor_TextboxIsClosing(Actor* actor, PlayState* play) {
@@ -2143,13 +2190,13 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
             actor->sfx = 0;
 
             if (actor->init != NULL) {
-                if (Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
+                if (Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
                     Actor_SetObjectDependency(play, actor);
                     actor->init(actor, play);
                     actor->init = NULL;
                 }
                 actor = actor->next;
-            } else if (!Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
+            } else if (!Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
                 Actor_Kill(actor);
                 actor = actor->next;
             } else if ((requiredActorFlag && !(actor->flags & requiredActorFlag)) ||
@@ -2272,8 +2319,8 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     Matrix_Scale(actor->scale.x, actor->scale.y, actor->scale.z, MTXMODE_APPLY);
     Actor_SetObjectDependency(play, actor);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[actor->objBankIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.status[actor->objBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[actor->objectSlot].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.slots[actor->objectSlot].segment);
 
     if (actor->colorFilterTimer != 0) {
         Color_RGBA8 color = { 0, 0, 0, 255 };
@@ -2570,7 +2617,7 @@ void Actor_KillAllWithMissingObject(PlayState* play, ActorContext* actorCtx) {
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
         actor = actorCtx->actorLists[i].head;
         while (actor != NULL) {
-            if (!Object_IsLoaded(&play->objectCtx, actor->objBankIndex)) {
+            if (!Object_IsLoaded(&play->objectCtx, actor->objectSlot)) {
                 Actor_Kill(actor);
             }
             actor = actor->next;
@@ -2745,7 +2792,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     s32 pad;
     Actor* actor;
     ActorInit* actorInit;
-    s32 objBankIndex;
+    s32 objectSlot;
     ActorOverlay* overlayEntry;
     uintptr_t temp;
     char* name;
@@ -2828,13 +2875,13 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                                            : NULL);
     }
 
-    objBankIndex = Object_GetIndex(&play->objectCtx, actorInit->objectId);
+    objectSlot = Object_GetSlot(&play->objectCtx, actorInit->objectId);
 
-    if ((objBankIndex < 0) ||
+    if ((objectSlot < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
-                     objBankIndex, actorInit->objectId);
+                     objectSlot, actorInit->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -2864,10 +2911,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     actor->flags = actorInit->flags;
 
     if (actorInit->id == ACTOR_EN_PART) {
-        actor->objBankIndex = rotZ;
+        actor->objectSlot = rotZ;
         rotZ = 0;
     } else {
-        actor->objBankIndex = objBankIndex;
+        actor->objectSlot = objectSlot;
     }
 
     actor->init = actorInit->init;
@@ -2960,7 +3007,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
-        Camera_ChangeMode(Play_GetCamera(play, Play_GetActiveCamId(play)), 0);
+        Camera_RequestMode(Play_GetCamera(play, Play_GetActiveCamId(play)), CAM_MODE_NORMAL);
     }
 
     if (actor == actorCtx->targetCtx.arrowPointedActor) {
@@ -2996,7 +3043,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     return newHead;
 }
 
-s32 func_80032880(PlayState* play, Actor* actor) {
+int func_80032880(PlayState* play, Actor* actor) {
     s16 sp1E;
     s16 sp1C;
 
@@ -3067,7 +3114,7 @@ Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, 
     u8* entry;
 
     D_8015BBE8 = D_8015BBEC = NULL;
-    D_8015BBF0 = sbgmEnemyDistSq = FLT_MAX;
+    D_8015BBF0 = sbgmEnemyDistSq = MAXFLOAT;
     D_8015BBF8 = 0x7FFFFFFF;
 
     if (!Player_InCsMode(play)) {
@@ -3155,7 +3202,7 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
     u32 matricesSize;
     u32 dListsSize;
-    u32 objectIdsSize;
+    u32 objectSlotsSize;
 
     matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
     bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
@@ -3165,13 +3212,13 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
         bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
 
         if (bodyBreak->dLists != NULL) {
-            objectIdsSize = (count + 1) * sizeof(*bodyBreak->objectIds);
-            bodyBreak->objectIds = ZeldaArena_MallocDebug(objectIdsSize, "../z_actor.c", 7546);
+            objectSlotsSize = (count + 1) * sizeof(*bodyBreak->objectSlots);
+            bodyBreak->objectSlots = ZeldaArena_MallocDebug(objectSlotsSize, "../z_actor.c", 7546);
 
-            if (bodyBreak->objectIds != NULL) {
+            if (bodyBreak->objectSlots != NULL) {
                 Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
                 Lib_MemSet((u8*)bodyBreak->dLists, dListsSize, 0);
-                Lib_MemSet((u8*)bodyBreak->objectIds, objectIdsSize, 0);
+                Lib_MemSet((u8*)bodyBreak->objectSlots, objectSlotsSize, 0);
                 bodyBreak->val = 1;
                 return;
             }
@@ -3186,20 +3233,20 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
         ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
-    if (bodyBreak->objectIds != NULL) {
-        ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7564);
+    if (bodyBreak->objectSlots != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->objectSlots, "../z_actor.c", 7564);
     }
 }
 
 void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
-                       s16 objectId) {
+                       s16 objectSlot) {
     PlayState* play = Effect_GetPlayState();
 
     if ((play->actorCtx.freezeFlashTimer == 0) && (bodyBreak->val > 0)) {
         if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
             bodyBreak->dLists[bodyBreak->val] = *dList;
             Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
-            bodyBreak->objectIds[bodyBreak->val] = objectId;
+            bodyBreak->objectSlots[bodyBreak->val] = objectSlot;
             bodyBreak->val++;
         }
 
@@ -3219,7 +3266,7 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
-    s16 objBankIndex;
+    s16 objectSlot;
 
     if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
@@ -3231,17 +3278,17 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
         Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
         if (1) {
-            if (bodyBreak->objectIds[bodyBreak->count] >= 0) {
-                objBankIndex = bodyBreak->objectIds[bodyBreak->count];
+            if (bodyBreak->objectSlots[bodyBreak->count] > BODYBREAK_OBJECT_SLOT_DEFAULT) {
+                objectSlot = bodyBreak->objectSlots[bodyBreak->count];
             } else {
-                objBankIndex = actor->objBankIndex;
+                objectSlot = actor->objectSlot;
             }
         }
 
         mtx = &bodyBreak->matrices[bodyBreak->count];
 
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, mtx->xw, mtx->yw,
-                                                    mtx->zw, 0, 0, objBankIndex, type);
+                                                    mtx->zw, 0, 0, objectSlot, type);
 
         if (spawnedEnPart != NULL) {
             Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
@@ -3256,7 +3303,7 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
 
     ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
     ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7680);
+    ZeldaArena_FreeDebug(bodyBreak->objectSlots, "../z_actor.c", 7680);
 
     return true;
 }
@@ -3751,7 +3798,7 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
     s16 x;
     s16 y;
 
-    if (Actor_ProcessTalkRequest(actor, play)) {
+    if (Actor_TalkOfferAccepted(actor, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
     }
@@ -3767,7 +3814,7 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
         return false;
     }
 
-    if (!func_8002F2CC(actor, play, interactRange)) {
+    if (!Actor_OfferTalk(actor, play, interactRange)) {
         return false;
     }
 
@@ -4329,7 +4376,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
     EnPart* spawnedEnPart;
 
     spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&play->actorCtx, actor, play, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
-                                                spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
+                                                spawnPos->z, spawnRot->x, spawnRot->y, actor->objectSlot, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speed = arg3[0];
@@ -5649,7 +5696,7 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     s16 sp2A;
     s16 abs_var;
 
-    if (Actor_ProcessTalkRequest(actor, play)) {
+    if (Actor_TalkOfferAccepted(actor, play)) {
         *arg3 = 1;
         return true;
     }
@@ -5679,11 +5726,11 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     }
 
     if (actor->xyzDistToPlayerSq <= SQ(80.0f)) {
-        if (func_8002F2CC(actor, play, 80.0f)) {
+        if (Actor_OfferTalk(actor, play, 80.0f)) {
             actor->textId = func_80037C30(play, arg2);
         }
     } else {
-        if (func_8002F2F4(actor, play)) {
+        if (Actor_OfferTalkNearColChkInfoCylinder(actor, play)) {
             actor->textId = func_80037C30(play, arg2);
         }
     }

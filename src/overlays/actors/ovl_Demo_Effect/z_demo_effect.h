@@ -79,7 +79,7 @@ typedef struct {
 typedef struct DemoEffect {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelCurve skelCurve;
-    /* 0x016C */ u8 initObjectBankIndex;
+    /* 0x016C */ u8 requiredObjectSlot;
     /* 0x0170 */ Gfx* jewelDisplayList;
     /* 0x0174 */ Gfx* jewelHolderDisplayList;
     /* 0x0178 */ u8 primXluColor[3];

@@ -324,6 +324,18 @@ typedef enum {
     /* 0x06 */ HS_DAMPE_RACE
 } HighScores;
 
+// the score value for the fishing minigame also stores many flags.
+#define HS_FISH_LENGTH_CHILD 0x7F // mask for record length of catch as child.
+#define HS_FISH_LENGTH_ADULT 0x7F000000 // mask for record length of catch as adult.
+#define HS_FISH_PLAYED_CHILD 0x100 // set when first talking to owner as child
+#define HS_FISH_PLAYED_ADULT 0x200 // set when first talking to owner as adult
+#define HS_FISH_PRIZE_CHILD 0x400 // won the Piece of Heart
+#define HS_FISH_PRIZE_ADULT 0x800 // won the Golden Scale
+#define HS_FISH_STOLE_HAT 0x1000 // Pond owner is visibly bald as Adult Link.
+#define HS_FISH_CHEAT_CHILD 0x80 // used Sinking Lure as child to catch record fish
+#define HS_FISH_CHEAT_ADULT 0x80000000 // used Sinking Lure as adult to catch record fish
+#define HS_FISH_PLAYED 0x10000 // incremented for every play. controls weather.
+
 typedef enum {
     /* 0 */ SUNSSONG_INACTIVE,
     /* 1 */ SUNSSONG_START, // the suns ocarina effect signals that the song has finished playing
@@ -568,7 +580,7 @@ typedef enum {
 #define ITEMGETINF_08 0x08
 #define ITEMGETINF_09 0x09
 #define ITEMGETINF_0A 0x0A
-#define ITEMGETINF_0B 0x0B
+#define ITEMGETINF_DEKU_HEART_PIECE 0x0B
 #define ITEMGETINF_0C 0x0C
 #define ITEMGETINF_0D 0x0D
 #define ITEMGETINF_0E 0x0E
@@ -738,8 +750,8 @@ typedef enum {
 #define INFTABLE_17F 0x17F
 #define INFTABLE_190 0x190
 #define INFTABLE_191 0x191
-#define INFTABLE_192 0x192
-#define INFTABLE_193 0x193
+#define INFTABLE_HAS_DEKU_STICK_UPGRADE 0x192
+#define INFTABLE_HAS_DEKU_NUT_UPGRADE 0x193
 #define INFTABLE_195 0x195
 #define INFTABLE_196 0x196
 #define INFTABLE_197 0x197

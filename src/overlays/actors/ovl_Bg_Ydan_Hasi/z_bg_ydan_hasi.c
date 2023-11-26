@@ -22,15 +22,15 @@ void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, PlayState* play);
 
 ActorInit Bg_Ydan_Hasi_InitVars = {
-    ACTOR_BG_YDAN_HASI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_YDAN_OBJECTS,
-    sizeof(BgYdanHasi),
-    (ActorFunc)BgYdanHasi_Init,
-    (ActorFunc)BgYdanHasi_Destroy,
-    (ActorFunc)BgYdanHasi_Update,
-    (ActorFunc)BgYdanHasi_Draw,
+    /**/ ACTOR_BG_YDAN_HASI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_YDAN_OBJECTS,
+    /**/ sizeof(BgYdanHasi),
+    /**/ BgYdanHasi_Init,
+    /**/ BgYdanHasi_Destroy,
+    /**/ BgYdanHasi_Update,
+    /**/ BgYdanHasi_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -45,7 +45,7 @@ void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->type = ((thisx->params >> 8) & 0x3F);
-    thisx->params = thisx->params & 0xFF;
+    thisx->params &= 0xFF;
     waterBox = &play->colCtx.colHeader->waterBoxes[1];
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (thisx->params == HASI_WATER) {

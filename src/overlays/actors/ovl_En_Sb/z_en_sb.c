@@ -26,15 +26,15 @@ void EnSb_Bounce(EnSb* this, PlayState* play);
 void EnSb_Cooldown(EnSb* this, PlayState* play);
 
 ActorInit En_Sb_InitVars = {
-    ACTOR_EN_SB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SB,
-    sizeof(EnSb),
-    (ActorFunc)EnSb_Init,
-    (ActorFunc)EnSb_Destroy,
-    (ActorFunc)EnSb_Update,
-    (ActorFunc)EnSb_Draw,
+    /**/ ACTOR_EN_SB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SB,
+    /**/ sizeof(EnSb),
+    /**/ EnSb_Init,
+    /**/ EnSb_Destroy,
+    /**/ EnSb_Update,
+    /**/ EnSb_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -476,7 +476,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
 void EnSb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSb* this = (EnSb*)thisx;
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 }
 
 void EnSb_Draw(Actor* thisx, PlayState* play) {

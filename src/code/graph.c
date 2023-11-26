@@ -181,7 +181,6 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
             R_HREG_MODE = HREG_MODE_UCODE_DISAS;
             R_UCODE_DISAS_TOGGLE = 1;
             R_UCODE_DISAS_LOG_LEVEL = 2;
-            sPrevTaskWorkBuffer = sPrevTaskWorkBuffer;
             Graph_DisassembleUCode(sPrevTaskWorkBuffer);
         }
 
@@ -513,17 +512,17 @@ Gfx* Graph_BranchDlist(Gfx* gfx, Gfx* dst) {
     return dst;
 }
 
-void* Graph_DlistAlloc(Gfx** gfx, u32 size) {
+void* Graph_DlistAlloc(Gfx** gfxP, u32 size) {
     u8* ptr;
     Gfx* dst;
 
     size = ALIGN8(size);
 
-    ptr = (u8*)(*gfx + 1);
+    ptr = (u8*)(*gfxP + 1);
 
     dst = (Gfx*)(ptr + size);
-    gSPBranchList(*gfx, dst);
+    gSPBranchList(*gfxP, dst);
 
-    *gfx = dst;
+    *gfxP = dst;
     return ptr;
 }

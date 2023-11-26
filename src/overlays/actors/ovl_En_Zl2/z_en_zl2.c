@@ -86,15 +86,15 @@ static EnZl2DrawFunc sDrawFuncs[] = {
 };
 
 ActorInit En_Zl2_InitVars = {
-    ACTOR_EN_ZL2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnZl2),
-    (ActorFunc)EnZl2_Init,
-    (ActorFunc)EnZl2_Destroy,
-    (ActorFunc)EnZl2_Update,
-    (ActorFunc)EnZl2_Draw,
+    /**/ ACTOR_EN_ZL2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnZl2),
+    /**/ EnZl2_Init,
+    /**/ EnZl2_Destroy,
+    /**/ EnZl2_Update,
+    /**/ EnZl2_Draw,
 };
 
 void EnZl2_Destroy(Actor* thisx, PlayState* play) {
@@ -369,7 +369,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_t3;
     s32 phi_v0;
     s32 index1AC;
-    s32 phi_t5;
+    int phi_t5;
 
     if (this->unk_24C != 0) {
         temp_v1 = this->unk_1DC[arg2] - arg1;
@@ -559,9 +559,9 @@ void EnZl2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 void func_80B4FCCC(EnZl2* this, PlayState* play) {
-    s32 unk_274 = this->unk_274;
+    s32 objectSlot = this->zl2Anime1ObjectSlot;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[unk_274].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 }
 
 void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
@@ -1575,16 +1575,16 @@ void func_80B52114(EnZl2* this, PlayState* play) {
 void func_80B521A0(EnZl2* this, PlayState* play) {
     s32 pad;
     ObjectContext* objectCtx = &play->objectCtx;
-    s32 bankIndex = Object_GetIndex(objectCtx, OBJECT_ZL2_ANIME1);
+    s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME1);
     s32 pad2;
 
-    if (bankIndex < 0) {
+    if (objectSlot < 0) {
         osSyncPrintf(VT_FGCOL(RED) "En_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    if (Object_IsLoaded(objectCtx, bankIndex)) {
-        this->unk_274 = bankIndex;
+    if (Object_IsLoaded(objectCtx, objectSlot)) {
+        this->zl2Anime1ObjectSlot = objectSlot;
         func_80B4FCCC(this, play);
         this->unk_278 = Animation_GetLastFrame(&gZelda2Anime1Anim_0022D0);
         func_80B52114(this, play);

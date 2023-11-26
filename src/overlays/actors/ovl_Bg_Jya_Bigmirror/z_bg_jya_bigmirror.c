@@ -17,15 +17,15 @@ void BgJyaBigmirror_Draw(Actor* thisx, PlayState* play);
 static u8 sIsSpawned = false;
 
 ActorInit Bg_Jya_Bigmirror_InitVars = {
-    ACTOR_BG_JYA_BIGMIRROR,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaBigmirror),
-    (ActorFunc)BgJyaBigmirror_Init,
-    (ActorFunc)BgJyaBigmirror_Destroy,
-    (ActorFunc)BgJyaBigmirror_Update,
-    (ActorFunc)BgJyaBigmirror_Draw,
+    /**/ ACTOR_BG_JYA_BIGMIRROR,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaBigmirror),
+    /**/ BgJyaBigmirror_Init,
+    /**/ BgJyaBigmirror_Destroy,
+    /**/ BgJyaBigmirror_Update,
+    /**/ BgJyaBigmirror_Draw,
 };
 
 typedef struct {
@@ -84,7 +84,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                     curSpawnData->pos.z, 0, curCobraInfo->rotY, 0, curSpawnData->params);
                 this->actor.child = NULL;
 
-                if (&curCobraInfo->cobra->dyna.actor == NULL) {
+                if (curCobraInfo->cobra == NULL) {
                     // "Cobra generation failed"
                     osSyncPrintf("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
                 }
@@ -117,8 +117,8 @@ void BgJyaBigmirror_SetBombiwaFlag(Actor* thisx, PlayState* play) {
 }
 
 void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
-    static s16 sMirRayParamss[] = { 0x0005, 0x0007, 0x0008 };
-    static Vec3f sMirRayPoss[] = {
+    static s16 sMirRayParamsVals[] = { 0x0005, 0x0007, 0x0008 };
+    static Vec3f sMirRayPositions[] = {
         { 60.0f, 1802.0f, -1102.0f },
         { -560.0f, 1800.0f, -310.0f },
         { 60.0f, 1800.0f, -310.0f },
@@ -127,11 +127,11 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
     s32 puzzleSolved;
     s32 lightBeamToggles[3];
     s32 i;
-    s32 objBankIndex;
+    s32 mirRayObjectSlot;
 
-    objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_MIR_RAY);
+    mirRayObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MIR_RAY);
 
-    if ((objBankIndex < 0) || (objBankIndex != this->mirRayObjIndex)) {
+    if ((mirRayObjectSlot < 0) || (mirRayObjectSlot != this->mirRayObjectSlot)) {
         this->lightBeams[2] = NULL;
         this->lightBeams[1] = NULL;
         this->lightBeams[0] = NULL;
@@ -152,9 +152,11 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
 
         for (i = 0; i < 3; i++) {
             if (lightBeamToggles[i]) {
-                if ((this->lightBeams[i] == NULL) && Object_IsLoaded(&play->objectCtx, objBankIndex)) {
-                    this->lightBeams[i] = Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPoss[i].x,
-                                                      sMirRayPoss[i].y, sMirRayPoss[i].z, 0, 0, 0, sMirRayParamss[i]);
+                if ((this->lightBeams[i] == NULL) && Object_IsLoaded(&play->objectCtx, mirRayObjectSlot)) {
+
+                    this->lightBeams[i] =
+                        Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPositions[i].x, sMirRayPositions[i].y,
+                                    sMirRayPositions[i].z, 0, 0, 0, sMirRayParamsVals[i]);
 
                     if (this->lightBeams[i] == NULL) {
                         // "Mir Ray generation failed"
@@ -169,7 +171,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
             }
         }
     }
-    this->mirRayObjIndex = objBankIndex;
+    this->mirRayObjectSlot = mirRayObjectSlot;
 }
 
 void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
@@ -186,7 +188,7 @@ void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
     this->actor.room = -1;
     sIsSpawned = true;
     this->spawned = true;
-    this->mirRayObjIndex = -1;
+    this->mirRayObjectSlot = -1;
 
     // "jya Bigmirror"
     osSyncPrintf("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);

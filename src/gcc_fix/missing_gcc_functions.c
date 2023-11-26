@@ -47,7 +47,7 @@ u64 __fixunssfdi(f32 a) {
             u64 i;
         } m;
 
-        __asm__ ("cvt.l.s %0, %1" : "=f"(m.f) : "f"(a));
+        __asm__("cvt.l.s %0, %1" : "=f"(m.f) : "f"(a));
         return m.i;
     }
     return 0;
@@ -61,7 +61,7 @@ u64 __fixunsdfdi(f64 a) {
             u64 i;
         } m;
 
-        __asm__ ("cvt.l.d %0, %1" : "=f"(m.f) : "f"(a));
+        __asm__("cvt.l.d %0, %1" : "=f"(m.f) : "f"(a));
         return m.i;
     }
     return 0;
@@ -74,7 +74,7 @@ s64 __fixsfdi(f32 c) {
         s64 i;
     } m;
 
-    __asm__ ("cvt.l.s %0, %1" : "=f"(m.f) : "f"(c));
+    __asm__("cvt.l.s %0, %1" : "=f"(m.f) : "f"(c));
     return m.i;
 }
 
@@ -85,7 +85,7 @@ s64 __fixdfdi(f64 c) {
         s64 i;
     } m;
 
-    __asm__ ("cvt.l.d %0, %1" : "=f"(m.f) : "f"(c));
+    __asm__("cvt.l.d %0, %1" : "=f"(m.f) : "f"(c));
     return m.i;
 }
 
@@ -98,7 +98,7 @@ f32 __floatdisf(s64 c) {
     register f32 v;
 
     m.i = c;
-    __asm__ ("cvt.s.l %0, %1" : "=f"(v) : "f"(m.f));
+    __asm__("cvt.s.l %0, %1" : "=f"(v) : "f"(m.f));
     return v;
 }
 
@@ -111,7 +111,7 @@ f64 __floatdidf(s64 c) {
     register f64 v;
 
     m.i = c;
-    __asm__ ("cvt.d.l %0, %1" : "=f"(v) : "f"(m.f));
+    __asm__("cvt.d.l %0, %1" : "=f"(v) : "f"(m.f));
     return v;
 }
 
@@ -124,7 +124,7 @@ f32 __floatundisf(u64 c) {
     register f32 v;
 
     m.i = c;
-    __asm__ ("cvt.s.l %0, %1" : "=f"(v) : "f"(m.f));
+    __asm__("cvt.s.l %0, %1" : "=f"(v) : "f"(m.f));
     if ((s64)c < 0) {
         // cvt.s.l assumes signed input, adjust output
         v += 4294967296.0f; // 2^32
@@ -141,7 +141,7 @@ f64 __floatundidf(u64 c) {
     register f64 v;
 
     m.i = c;
-    __asm__ ("cvt.d.l %0, %1" : "=f"(v) : "f"(m.f));
+    __asm__("cvt.d.l %0, %1" : "=f"(v) : "f"(m.f));
     if ((s64)c < 0) {
         // cvt.d.l assumes signed input, adjust output
         v += 18446744073709551616.0; // 2^64

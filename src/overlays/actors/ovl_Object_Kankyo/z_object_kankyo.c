@@ -44,15 +44,15 @@ static void* D_80BA5900[] = {
 };
 
 ActorInit Object_Kankyo_InitVars = {
-    ACTOR_OBJECT_KANKYO,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjectKankyo),
-    (ActorFunc)ObjectKankyo_Init,
-    (ActorFunc)ObjectKankyo_Destroy,
-    (ActorFunc)ObjectKankyo_Update,
-    (ActorFunc)ObjectKankyo_Draw,
+    /**/ ACTOR_OBJECT_KANKYO,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjectKankyo),
+    /**/ ObjectKankyo_Init,
+    /**/ ObjectKankyo_Destroy,
+    /**/ ObjectKankyo_Update,
+    /**/ ObjectKankyo_Draw,
 };
 
 static u8 sIsSpawned = false;
@@ -501,7 +501,7 @@ void ObjectKankyo_DrawFairies(Actor* thisx, PlayState* play2) {
     Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
-    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_8)) {
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 807);
         POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSun1Tex));
@@ -596,7 +596,7 @@ void ObjectKankyo_DrawSnow(Actor* thisx, PlayState* play2) {
     s32 pad;
     s32 pad2;
 
-    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_8)) {
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 958);
         if (play->envCtx.precipitation[PRECIP_SNOW_CUR] < play->envCtx.precipitation[PRECIP_SNOW_MAX]) {
             if (play->state.frames % 16 == 0) {
@@ -776,21 +776,21 @@ void ObjectKankyo_DrawLightning(Actor* thisx, PlayState* play) {
 }
 
 void ObjectKankyo_SunGraveSparkInit(ObjectKankyo* this, PlayState* play) {
-    s32 objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_SPOT02_OBJECTS);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_SPOT02_OBJECTS);
 
-    if (objBankIndex < 0) {
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_object_kankyo.c", 1251);
     } else {
-        this->requiredObjBankIndex = objBankIndex;
+        this->requiredObjectSlot = objectSlot;
     }
     ObjectKankyo_SetupAction(this, ObjectKankyo_WaitForSunGraveSparkObject);
 }
 
 void ObjectKankyo_WaitForSunGraveSparkObject(ObjectKankyo* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->requiredObjectLoaded = true;
         this->effects[0].alpha = 0;
-        this->actor.objBankIndex = this->requiredObjBankIndex;
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->effects[0].size = 7.0f;
         ObjectKankyo_SetupAction(this, ObjectKankyo_SunGraveSpark);
     }
@@ -875,20 +875,20 @@ void ObjectKankyo_DrawSunGraveSpark(Actor* thisx, PlayState* play2) {
 }
 
 void ObjectKankyo_InitBeams(ObjectKankyo* this, PlayState* play) {
-    s32 objectIndex = Object_GetIndex(&play->objectCtx, OBJECT_DEMO_KEKKAI);
+    s32 objectIndex = Object_GetSlot(&play->objectCtx, OBJECT_DEMO_KEKKAI);
 
     if (objectIndex < 0) {
         ASSERT(0, "0", "../z_object_kankyo.c", 1449);
     } else {
-        this->requiredObjBankIndex = objectIndex;
+        this->requiredObjectSlot = objectIndex;
     }
     ObjectKankyo_SetupAction(this, ObjectKankyo_WaitForBeamObject);
 }
 
 void ObjectKankyo_WaitForBeamObject(ObjectKankyo* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->requiredObjectLoaded = true;
-        this->actor.objBankIndex = this->requiredObjBankIndex;
+        this->actor.objectSlot = this->requiredObjectSlot;
         ObjectKankyo_SetupAction(this, ObjectKankyo_Beams);
     }
 }

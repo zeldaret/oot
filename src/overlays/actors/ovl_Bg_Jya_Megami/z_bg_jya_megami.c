@@ -21,15 +21,15 @@ void BgJyaMegami_SetupExplode(BgJyaMegami* this);
 void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play);
 
 ActorInit Bg_Jya_Megami_InitVars = {
-    ACTOR_BG_JYA_MEGAMI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaMegami),
-    (ActorFunc)BgJyaMegami_Init,
-    (ActorFunc)BgJyaMegami_Destroy,
-    (ActorFunc)BgJyaMegami_Update,
-    (ActorFunc)BgJyaMegami_Draw,
+    /**/ ACTOR_BG_JYA_MEGAMI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaMegami),
+    /**/ BgJyaMegami_Init,
+    /**/ BgJyaMegami_Destroy,
+    /**/ BgJyaMegami_Update,
+    /**/ BgJyaMegami_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {

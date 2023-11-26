@@ -1,18 +1,11 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-#ifndef __GNUC__
-#define __attribute__(x)
-#endif
-
 #ifndef AVOID_UB
 #define BAD_RETURN(type) type
 #else
 #define BAD_RETURN(type) void
 #endif
-
-#define UNUSED __attribute__((unused))
-#define FALLTHROUGH __attribute__((fallthrough))
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
@@ -177,14 +170,6 @@ extern struct GraphicsContext* __gfxCtx;
 #define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
-
-#ifdef NDEBUG
-#define ASSERT(cond, msg, file, line) ((void)0)
-#elif defined(REAL_ASSERT_MACRO)
-#define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(#cond, __FILE__, __LINE__))
-#else
-#define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(msg, file, line))
-#endif
 
 #define gDPSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
     do {                                                                                                               \

@@ -6,7 +6,8 @@
 #include "WarningHandler.h"
 #include "ZFile.h"
 
-REGISTER_ZFILENODE(Path, ZPath);
+REGISTER_ZFILENODE(Path, ZPath);      // Old name that is being kept for backwards compatability
+REGISTER_ZFILENODE(PathList, ZPath);  // New name that may be used in future XMLs
 
 ZPath::ZPath(ZFile* nParent) : ZResource(nParent)
 {
@@ -144,8 +145,8 @@ void PathwayEntry::DeclareReferences(const std::string& prefix)
 		return;
 
 	std::string pointsName;
-	bool addressFound =
-		Globals::Instance->GetSegmentedPtrName(listSegmentAddress, parent, "Vec3s", pointsName);
+	bool addressFound = Globals::Instance->GetSegmentedPtrName(listSegmentAddress, parent, "Vec3s",
+	                                                           pointsName, false);
 	if (addressFound)
 		return;
 
@@ -172,7 +173,7 @@ void PathwayEntry::DeclareReferences(const std::string& prefix)
 		                            points.size(), declaration);
 	}
 	else
-		decl->text = declaration;
+		decl->declBody = declaration;
 }
 
 std::string PathwayEntry::GetBodySourceCode() const
@@ -185,7 +186,13 @@ std::string PathwayEntry::GetBodySourceCode() const
 		declaration +=
 			StringHelper::Sprintf("%i, %i, %i, %s", numPoints, unk1, unk2, listName.c_str());
 	else
-		declaration += StringHelper::Sprintf("%i, %s", numPoints, listName.c_str());
+	{
+		if (numPoints > 0)
+			declaration +=
+				StringHelper::Sprintf("ARRAY_COUNT(%s), %s", listName.c_str(), listName.c_str());
+		else
+			declaration += StringHelper::Sprintf("%i, %s", numPoints, listName.c_str());
+	}
 
 	return declaration;
 }

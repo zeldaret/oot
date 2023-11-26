@@ -134,15 +134,15 @@ static s32 sSongToFrog[] = {
 };
 
 ActorInit En_Fr_InitVars = {
-    ACTOR_EN_FR,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_FR,
-    sizeof(EnFr),
-    (ActorFunc)EnFr_Init,
-    (ActorFunc)EnFr_Destroy,
-    (ActorFunc)EnFr_Update,
-    NULL,
+    /**/ ACTOR_EN_FR,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_FR,
+    /**/ sizeof(EnFr),
+    /**/ EnFr_Init,
+    /**/ EnFr_Destroy,
+    /**/ EnFr_Update,
+    /**/ NULL,
 };
 
 static Color_RGBA8 sEnFrColor[] = {
@@ -250,8 +250,8 @@ void EnFr_Init(Actor* thisx, PlayState* play) {
             ASSERT(0, "0", "../z_en_fr.c", 372);
         }
 
-        this->objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
-        if (this->objBankIndex < 0) {
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
+        if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
             osSyncPrintf(VT_COL(RED, WHITE));
             // "There is no bank!!"
@@ -277,7 +277,7 @@ void EnFr_Update(Actor* thisx, PlayState* play) {
     s32 frogIndex;
     s32 pad2;
 
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
@@ -371,7 +371,7 @@ s32 EnFr_IsBelowLogSpot(EnFr* this, f32* yDistToLogSpot) {
     }
 }
 
-s32 EnFr_IsAboveAndWithin30DistXZ(Player* player, EnFr* this) {
+int EnFr_IsAboveAndWithin30DistXZ(Player* player, EnFr* this) {
     f32 xDistToPlayer = player->actor.world.pos.x - this->actor.world.pos.x;
     f32 zDistToPlayer = player->actor.world.pos.z - this->actor.world.pos.z;
     f32 yDistToPlayer = player->actor.world.pos.y - this->actor.world.pos.y;
@@ -776,19 +776,19 @@ void EnFr_CheckOcarinaInputFrogSong(u8 ocarinaNote) {
     s32 frogIndex;
 
     switch (ocarinaNote) {
-        case 0:
+        case OCARINA_BTN_A:
             frogIndexButterfly = FROG_BLUE;
             break;
-        case 1:
+        case OCARINA_BTN_C_DOWN:
             frogIndexButterfly = FROG_YELLOW;
             break;
-        case 2:
+        case OCARINA_BTN_C_RIGHT:
             frogIndexButterfly = FROG_RED;
             break;
-        case 3:
+        case OCARINA_BTN_C_LEFT:
             frogIndexButterfly = FROG_PURPLE;
             break;
-        case 4:
+        case OCARINA_BTN_C_UP:
             frogIndexButterfly = FROG_WHITE;
     }
     // Turn on or off butterfly above frog

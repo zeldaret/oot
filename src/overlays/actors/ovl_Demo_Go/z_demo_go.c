@@ -38,15 +38,15 @@ static DemoGoDrawFunc D_8097D468[] = {
 };
 
 ActorInit Demo_Go_InitVars = {
-    ACTOR_DEMO_GO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(DemoGo),
-    (ActorFunc)DemoGo_Init,
-    (ActorFunc)DemoGo_Destroy,
-    (ActorFunc)DemoGo_Update,
-    (ActorFunc)DemoGo_Draw,
+    /**/ ACTOR_DEMO_GO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(DemoGo),
+    /**/ DemoGo_Init,
+    /**/ DemoGo_Destroy,
+    /**/ DemoGo_Update,
+    /**/ DemoGo_Draw,
 };
 
 s32 DemoGo_GetCueChannel(DemoGo* this) {

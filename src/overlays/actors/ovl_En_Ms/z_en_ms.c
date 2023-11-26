@@ -21,15 +21,15 @@ void EnMs_Sell(EnMs* this, PlayState* play);
 void EnMs_TalkAfterPurchase(EnMs* this, PlayState* play);
 
 ActorInit En_Ms_InitVars = {
-    ACTOR_EN_MS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MS,
-    sizeof(EnMs),
-    (ActorFunc)EnMs_Init,
-    (ActorFunc)EnMs_Destroy,
-    (ActorFunc)EnMs_Update,
-    (ActorFunc)EnMs_Draw,
+    /**/ ACTOR_EN_MS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MS,
+    /**/ sizeof(EnMs),
+    /**/ EnMs_Init,
+    /**/ EnMs_Destroy,
+    /**/ EnMs_Update,
+    /**/ EnMs_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -106,10 +106,10 @@ void EnMs_Wait(EnMs* this, PlayState* play) {
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     EnMs_SetOfferText(this, play);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) { // if talk is initiated
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnMs_Talk;
     } else if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
-        func_8002F2CC(&this->actor, play, 90.0f);
+        Actor_OfferTalk(&this->actor, play, 90.0f);
     }
 }
 

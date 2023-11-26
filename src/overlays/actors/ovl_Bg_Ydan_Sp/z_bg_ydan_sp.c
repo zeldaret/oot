@@ -25,15 +25,15 @@ typedef enum {
 } BgYdanSpType;
 
 ActorInit Bg_Ydan_Sp_InitVars = {
-    ACTOR_BG_YDAN_SP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_YDAN_OBJECTS,
-    sizeof(BgYdanSp),
-    (ActorFunc)BgYdanSp_Init,
-    (ActorFunc)BgYdanSp_Destroy,
-    (ActorFunc)BgYdanSp_Update,
-    (ActorFunc)BgYdanSp_Draw,
+    /**/ ACTOR_BG_YDAN_SP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_YDAN_OBJECTS,
+    /**/ sizeof(BgYdanSp),
+    /**/ BgYdanSp_Init,
+    /**/ BgYdanSp_Destroy,
+    /**/ BgYdanSp_Update,
+    /**/ BgYdanSp_Draw,
 };
 
 static ColliderTrisElementInit sTrisItemsInit[2] = {
@@ -168,7 +168,6 @@ void BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
 
 void BgYdanSp_BurnWeb(BgYdanSp* this, PlayState* play) {
     this->timer = 30;
-    this = this;
     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     Flags_SetSwitch(play, this->isDestroyedSwitchFlag);
     if (this->dyna.actor.params == WEB_FLOOR) {
@@ -312,11 +311,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
             if (this->unk_16C < 0.1f) {
                 this->timer = 14;
             }
-            if (this->unk_16C < 2.0f) {
-                this->unk_16C = 2.0f;
-            } else {
-                this->unk_16C = this->unk_16C;
-            }
+            this->unk_16C = CLAMP_MIN(this->unk_16C, 2.0f);
         }
     }
     if (this->timer != 0) {

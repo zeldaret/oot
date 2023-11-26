@@ -19,15 +19,15 @@ void BgGndFiremeiro_Shake(BgGndFiremeiro* this, PlayState* play);
 void BgGndFiremeiro_Rise(BgGndFiremeiro* this, PlayState* play);
 
 ActorInit Bg_Gnd_Firemeiro_InitVars = {
-    ACTOR_BG_GND_FIREMEIRO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndFiremeiro),
-    (ActorFunc)BgGndFiremeiro_Init,
-    (ActorFunc)BgGndFiremeiro_Destroy,
-    (ActorFunc)BgGndFiremeiro_Update,
-    (ActorFunc)BgGndFiremeiro_Draw,
+    /**/ ACTOR_BG_GND_FIREMEIRO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndFiremeiro),
+    /**/ BgGndFiremeiro_Init,
+    /**/ BgGndFiremeiro_Destroy,
+    /**/ BgGndFiremeiro_Update,
+    /**/ BgGndFiremeiro_Draw,
 };
 
 void BgGndFiremeiro_Init(Actor* thisx, PlayState* play) {
@@ -51,10 +51,11 @@ void BgGndFiremeiro_Destroy(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     BgGndFiremeiro* this = (BgGndFiremeiro*)thisx;
 
-    if (this->dyna.actor.params == 0) {
-        if (1) {}
-        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    if (this->dyna.actor.params != 0) {
+        return;
     }
+
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgGndFiremeiro_Sink(BgGndFiremeiro* this, PlayState* play) {
