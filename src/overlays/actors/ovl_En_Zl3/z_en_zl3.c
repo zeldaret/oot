@@ -523,7 +523,7 @@ void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
         s32 temp_t3 = this->unk_25C[arg2];
         s32 phi_v0 = temp_t3;
         s32 index25C;
-        s32 phi_t5;
+        int phi_t5;
 
         temp_t3 = arg1 - this->unk_2BC[arg2];
 
@@ -726,9 +726,9 @@ s32 func_80B54DD4(EnZl3* this) {
 }
 
 void func_80B54DE0(EnZl3* this, PlayState* play) {
-    s32 idx = this->unk_318;
+    s32 objectSlot = this->zl2Anime2ObjectSlot;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[idx].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
@@ -759,7 +759,7 @@ void func_80B54EA4(EnZl3* this, PlayState* play) {
 }
 
 void func_80B54EF4(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B54F18(EnZl3* this, PlayState* play) {
@@ -997,7 +997,7 @@ void func_80B55780(EnZl3* this, PlayState* play) {
 }
 
 void func_80B55808(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 static Vec3f D_80B5A488 = { 0.0f, 0.0f, 0.0f };
@@ -1010,7 +1010,7 @@ void func_80B5585C(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 4.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
     }
 }
 
@@ -1103,13 +1103,13 @@ void func_80B55CCC(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55D00(EnZl3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = 13;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->actor.flags |= ACTOR_FLAG_0;
         this->actor.textId = 0x70D5;
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
         this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
         this->actor.flags &= ~ACTOR_FLAG_0;
@@ -1159,7 +1159,7 @@ void func_80B55F38(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55F6C(EnZl3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = 0x12;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, play);
@@ -1168,7 +1168,7 @@ void func_80B55F6C(EnZl3* this, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->actor.flags |= ACTOR_FLAG_0;
             this->actor.textId = 0x7059;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     } else {
         this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
@@ -1220,7 +1220,7 @@ void func_80B561E0(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56214(EnZl3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = 21;
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, play);
@@ -1230,7 +1230,7 @@ void func_80B56214(EnZl3* this, PlayState* play) {
                 this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
                 this->actor.flags |= ACTOR_FLAG_0;
                 this->actor.textId = 0x7059;
-                func_8002F2F4(&this->actor, play);
+                Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
             }
         }
     } else {
@@ -1519,18 +1519,18 @@ void func_80B56D44(EnZl3* this, PlayState* play) {
 }
 
 void func_80B56DA4(EnZl3* this) {
-    func_800788CC(NA_SE_EV_ZELDA_POWER);
+    Sfx_PlaySfxCentered2(NA_SE_EV_ZELDA_POWER);
 }
 
 void func_80B56DC8(EnZl3* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if ((skelAnime->mode == 2) && Animation_OnFrame(skelAnime, 9.0f) != 0) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
 }
 
@@ -1543,7 +1543,7 @@ void func_80B56E38(EnZl3* this, PlayState* play) {
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         sfxId = NA_SE_PL_WALK_GROUND;
         sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        func_80078914(&this->actor.projectedPos, sfxId);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, sfxId);
     }
 }
 
@@ -1671,7 +1671,7 @@ u16 func_80B572F0(PlayState* play) {
 }
 
 s32 func_80B57324(EnZl3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         return 1;
     }
     return 0;
@@ -1683,7 +1683,7 @@ void func_80B57350(EnZl3* this, PlayState* play) {
     if (ABS(temp_v0) <= 0x4300) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         this->actor.textId = func_80B572F0(play);
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 }
 
@@ -2088,7 +2088,7 @@ void func_80B582C8(EnZl3* this, PlayState* play) {
         *unk_3CC += 1.0f;
         func_80B57858(play);
     } else if (*unk_3CC == kREG(17) + 40.0f) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         *unk_3CC += 1.0f;
     } else if (*unk_3CC >= ((kREG(17) + 40.0f) + 1.0f)) {
         this->action = 32;
@@ -2153,7 +2153,7 @@ void func_80B58624(EnZl3* this, PlayState* play) {
     } else {
         if (*unk_3CC >= kREG(20) + 30.0f) {
             this->action = 28;
-            func_8005B1A4(GET_ACTIVE_CAM(play));
+            Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
             func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, -12.0f, 0);
             *unk_3CC = 0.0f;
         } else {
@@ -2612,17 +2612,17 @@ void func_80B59B6C(EnZl3* this, PlayState* play) {
 
 void func_80B59DB8(EnZl3* this, PlayState* play) {
     s32 pad;
-    ObjectContext* objCtx = &play->objectCtx;
-    s32 objIndex = Object_GetIndex(objCtx, OBJECT_ZL2_ANIME2);
+    ObjectContext* objectCtx = &play->objectCtx;
+    s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME2);
     s32 pad2;
 
-    if (objIndex < 0) {
+    if (objectSlot < 0) {
         osSyncPrintf(VT_FGCOL(RED) "En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    if (Object_IsLoaded(objCtx, objIndex)) {
-        this->unk_318 = objIndex;
+    if (Object_IsLoaded(objectCtx, objectSlot)) {
+        this->zl2Anime2ObjectSlot = objectSlot;
         func_80B54DE0(this, play);
         func_80B59B6C(this, play);
     }
@@ -2757,13 +2757,13 @@ void EnZl3_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit En_Zl3_InitVars = {
-    ACTOR_EN_ZL3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnZl3),
-    (ActorFunc)EnZl3_Init,
-    (ActorFunc)EnZl3_Destroy,
-    (ActorFunc)EnZl3_Update,
-    (ActorFunc)EnZl3_Draw,
+    /**/ ACTOR_EN_ZL3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnZl3),
+    /**/ EnZl3_Init,
+    /**/ EnZl3_Destroy,
+    /**/ EnZl3_Update,
+    /**/ EnZl3_Draw,
 };

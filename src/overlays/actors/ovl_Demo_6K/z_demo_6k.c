@@ -17,7 +17,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play);
 void Demo6K_Destroy(Actor* thisx, PlayState* play);
 void Demo6K_Update(Actor* thisx, PlayState* play);
 
-void func_80966DB0(Demo6K* this, PlayState* play);
+void Demo6K_WaitForObject(Demo6K* this, PlayState* play);
 void func_80966E04(Demo6K* this, PlayState* play);
 void func_80966E98(Demo6K* this, PlayState* play);
 void func_80966F84(Demo6K* this, PlayState* play);
@@ -38,15 +38,15 @@ void func_80968FB0(Actor* thisx, PlayState* play);
 void func_809691BC(Demo6K* this, PlayState* play, s32 cueChannel);
 
 ActorInit Demo_6K_InitVars = {
-    ACTOR_DEMO_6K,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(Demo6K),
-    (ActorFunc)Demo6K_Init,
-    (ActorFunc)Demo6K_Destroy,
-    (ActorFunc)Demo6K_Update,
-    NULL,
+    /**/ ACTOR_DEMO_6K,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(Demo6K),
+    /**/ Demo6K_Init,
+    /**/ Demo6K_Destroy,
+    /**/ Demo6K_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = {
@@ -69,26 +69,26 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
     Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     s32 params = this->actor.params;
-    s32 objBankIndex;
+    s32 objectSlot;
     s32 i;
 
     osSyncPrintf("no = %d\n", params);
 
     if (sObjectIds[params] != OBJECT_GAMEPLAY_KEEP) {
-        objBankIndex = Object_GetIndex(&play->objectCtx, sObjectIds[params]);
+        objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[params]);
     } else {
-        objBankIndex = 0;
+        objectSlot = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
+    osSyncPrintf("bank_ID = %d\n", objectSlot);
 
-    if (objBankIndex < 0) {
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_6k.c", 334);
     } else {
-        this->objBankIndex = objBankIndex;
+        this->requiredObjectSlot = objectSlot;
     }
 
-    Demo6K_SetupAction(this, func_80966DB0);
+    Demo6K_SetupAction(this, Demo6K_WaitForObject);
     this->timer1 = 0;
     this->flags = 0;
     this->timer2 = 0;
@@ -197,9 +197,9 @@ void Demo6K_Destroy(Actor* thisx, PlayState* play) {
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
 }
 
-void func_80966DB0(Demo6K* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
+void Demo6K_WaitForObject(Demo6K* this, PlayState* play) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = this->drawFunc;
         this->actionFunc = this->initActionFunc;
     }
@@ -231,7 +231,7 @@ void func_80966E98(Demo6K* this, PlayState* play) {
     }
 
     if (this->timer1 == 39) {
-        func_800788CC(NA_SE_EV_CONSENTRATION);
+        Sfx_PlaySfxCentered2(NA_SE_EV_CONSENTRATION);
         Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_6K, this->actor.world.pos.x, this->actor.world.pos.y + 10.0f,
                     this->actor.world.pos.z, 0, 0, 0, 2);
     }

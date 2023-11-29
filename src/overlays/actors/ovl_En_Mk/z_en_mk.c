@@ -17,15 +17,15 @@ void EnMk_Draw(Actor* thisx, PlayState* play);
 void EnMk_Wait(EnMk* this, PlayState* play);
 
 ActorInit En_Mk_InitVars = {
-    ACTOR_EN_MK,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MK,
-    sizeof(EnMk),
-    (ActorFunc)EnMk_Init,
-    (ActorFunc)EnMk_Destroy,
-    (ActorFunc)EnMk_Update,
-    (ActorFunc)EnMk_Draw,
+    /**/ ACTOR_EN_MK,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MK,
+    /**/ sizeof(EnMk),
+    /**/ EnMk_Init,
+    /**/ EnMk_Destroy,
+    /**/ EnMk_Update,
+    /**/ EnMk_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -107,7 +107,7 @@ void func_80AACB14(EnMk* this, PlayState* play) {
 }
 
 void func_80AACB6C(EnMk* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80AACB14;
     }
 
@@ -215,7 +215,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 playerExchangeItem;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         playerExchangeItem = func_8002F368(play);
 
         if (this->actor.textId != 0x4018) {
@@ -254,7 +254,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
                                          Animation_GetLastFrame(&object_mk_Anim_000368), ANIMMODE_ONCE, -4.0f);
                         this->flags &= ~2;
                         gSaveContext.subTimerState = SUBTIMER_STATE_OFF;
-                        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                         break;
                     default:
                         player->actor.textId = 0x4018;
@@ -273,7 +273,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
         angle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
         if ((ABS(angle) < 0x2151) && (this->actor.xzDistToPlayer < 100.0f)) {
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_EYEBALL_FROG);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_EYEBALL_FROG);
             this->flags |= 1;
         }
     }
@@ -334,7 +334,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
 
                     if (!(this->flags & 4) && (this->swimFlag >= 8)) {
                         this->flags |= 4;
-                        func_80078884(NA_SE_SY_CORRECT_CHIME);
+                        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                     }
                 }
             }

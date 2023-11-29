@@ -49,15 +49,15 @@ void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play);
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play);
 
 ActorInit Door_Shutter_InitVars = {
-    ACTOR_DOOR_SHUTTER,
-    ACTORCAT_DOOR,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DoorShutter),
-    (ActorFunc)DoorShutter_Init,
-    (ActorFunc)DoorShutter_Destroy,
-    (ActorFunc)DoorShutter_Update,
-    (ActorFunc)DoorShutter_Draw,
+    /**/ ACTOR_DOOR_SHUTTER,
+    /**/ ACTORCAT_DOOR,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DoorShutter),
+    /**/ DoorShutter_Init,
+    /**/ DoorShutter_Destroy,
+    /**/ DoorShutter_Update,
+    /**/ DoorShutter_Draw,
 };
 
 typedef enum {
@@ -402,7 +402,7 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     s32 styleType;
     s32 pad;
-    s32 objectIndex;
+    s32 objectSlot;
     s32 i;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -432,9 +432,8 @@ void DoorShutter_Init(Actor* thisx, PlayState* play2) {
     } else { // DOORSHUTTER_STYLE_PHANTOM_GANON, DOORSHUTTER_STYLE_GOHMA_BLOCK
         this->dyna.actor.room = -1;
     }
-
-    if (this->requiredObjBankIndex = objectIndex = Object_GetIndex(&play->objectCtx, sStyleInfo[styleType].objectId),
-        (s8)objectIndex < 0) {
+    if (this->requiredObjectSlot = objectSlot = Object_GetSlot(&play->objectCtx, sStyleInfo[styleType].objectId),
+        (s8)objectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -468,8 +467,8 @@ void DoorShutter_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DoorShutter_WaitForObject(DoorShutter* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->requiredObjBankIndex)) {
-        this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
             // Init dynapoly for shutters of the type that uses it
             CollisionHeader* colHeader = NULL;
@@ -512,7 +511,7 @@ f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offset
     func_8002DBD0(&this->dyna.actor, &relPlayerPos, &playerPos);
 
     if (fabsf(relPlayerPos.x) > maxDistSides || fabsf(relPlayerPos.y) > maxDistY) {
-        return FLT_MAX;
+        return MAXFLOAT;
     } else {
         return relPlayerPos.z;
     }
@@ -591,7 +590,7 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
         if (this->unlockTimer != 0) {
             Flags_SetSwitch(play, DOORSHUTTER_GET_SWITCH_FLAG(&this->dyna.actor));
             if (this->doorType != SHUTTER_BOSS) {
-                gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
+                gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
             } else {
                 Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
@@ -609,7 +608,7 @@ void DoorShutter_Idle(DoorShutter* this, PlayState* play) {
                         player->naviTextId = -0x204;
                         return;
                     }
-                } else if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
+                } else if (gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                     player->naviTextId = -0x203;
                     return;
                 }
@@ -638,8 +637,8 @@ void DoorShutter_InitOpeningDoorCam(DoorShutter* this, PlayState* play) {
         this->gfxType = savedGfxType;
         this->barsClosedAmount = 0.0f;
 
-        Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->doorBgCamIndex, 0.0f, 12,
-                             doorCamTimer2, 10);
+        Camera_ChangeDoorCam(play->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->cv.slidingDoorBgCamIndex, 0.0f,
+                             12, doorCamTimer2, 10);
     }
 }
 
@@ -820,7 +819,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
     if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_11)) {
         // The door is barred behind the player
         DoorShutter_SetupAction(this, DoorShutter_WaitPlayerSurprised);
-        func_8002DF54(play, NULL, PLAYER_CSMODE_2);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_2);
     }
 }
 
@@ -860,7 +859,7 @@ void DoorShutter_JabuDoorClose(DoorShutter* this, PlayState* play) {
 
 void DoorShutter_WaitPlayerSurprised(DoorShutter* this, PlayState* play) {
     if (this->actionTimer++ > 30) {
-        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         DoorShutter_SetupDoor(this, play);
     }
 }
@@ -977,7 +976,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     DoorShutter* this = (DoorShutter*)thisx;
 
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
-    //! In most cases, the check for objBankIndex to equal requiredObjBankIndex prevents the actor
+    //! In most cases, the check for objectSlot to equal requiredObjectSlot prevents the actor
     //! from drawing until initialization is complete. However if the required object is the same as the
     //! object dependency listed in init vars (gameplay_keep in this case), the check will pass even though
     //! initialization has not completed. When this happens, it will try to draw the display list of the
@@ -988,7 +987,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
     //! The best way to fix this issue (and what was done in Majora's Mask) is to null out the draw function in
     //! the init vars for the actor, and only set draw after initialization is complete.
 
-    if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
+    if (this->dyna.actor.objectSlot == this->requiredObjectSlot &&
         (this->styleType == DOORSHUTTER_STYLE_PHANTOM_GANON || DoorShutter_ShouldDraw(this, play))) {
         s32 pad[2];
         DoorShutterGfxInfo* gfxInfo = &sGfxInfo[this->gfxType];

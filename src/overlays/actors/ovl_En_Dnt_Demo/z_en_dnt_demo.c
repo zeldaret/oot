@@ -27,15 +27,15 @@ void EnDntDemo_Results(EnDntDemo* this, PlayState* play);
 void EnDntDemo_Prize(EnDntDemo* this, PlayState* play);
 
 ActorInit En_Dnt_Demo_InitVars = {
-    ACTOR_EN_DNT_DEMO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnDntDemo),
-    (ActorFunc)EnDntDemo_Init,
-    (ActorFunc)EnDntDemo_Destroy,
-    (ActorFunc)EnDntDemo_Update,
-    NULL,
+    /**/ ACTOR_EN_DNT_DEMO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnDntDemo),
+    /**/ EnDntDemo_Init,
+    /**/ EnDntDemo_Destroy,
+    /**/ EnDntDemo_Update,
+    /**/ NULL,
 };
 
 //! @bug

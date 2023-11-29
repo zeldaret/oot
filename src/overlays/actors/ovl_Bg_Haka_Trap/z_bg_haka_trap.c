@@ -30,15 +30,15 @@ void func_80880D68(BgHakaTrap* this);
 static UNK_TYPE D_80880F30 = 0;
 
 ActorInit Bg_Haka_Trap_InitVars = {
-    ACTOR_BG_HAKA_TRAP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaTrap),
-    (ActorFunc)BgHakaTrap_Init,
-    (ActorFunc)BgHakaTrap_Destroy,
-    (ActorFunc)BgHakaTrap_Update,
-    (ActorFunc)BgHakaTrap_Draw,
+    /**/ ACTOR_BG_HAKA_TRAP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaTrap),
+    /**/ BgHakaTrap_Init,
+    /**/ BgHakaTrap_Destroy,
+    /**/ BgHakaTrap_Update,
+    /**/ BgHakaTrap_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -544,6 +544,6 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
         sp2C.y = this->dyna.actor.world.pos.y + 110.0f;
 
         SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sp2C, &this->unk_16C);
-        func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

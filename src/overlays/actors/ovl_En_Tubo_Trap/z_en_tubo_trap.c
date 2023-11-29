@@ -41,15 +41,15 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 ActorInit En_Tubo_Trap_InitVars = {
-    ACTOR_EN_TUBO_TRAP,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(EnTuboTrap),
-    (ActorFunc)EnTuboTrap_Init,
-    (ActorFunc)EnTuboTrap_Destroy,
-    (ActorFunc)EnTuboTrap_Update,
-    (ActorFunc)EnTuboTrap_Draw,
+    /**/ ACTOR_EN_TUBO_TRAP,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(EnTuboTrap),
+    /**/ EnTuboTrap_Init,
+    /**/ EnTuboTrap_Destroy,
+    /**/ EnTuboTrap_Update,
+    /**/ EnTuboTrap_Draw,
 };
 
 void EnTuboTrap_Init(Actor* thisx, PlayState* play) {
@@ -230,7 +230,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 200.0f && this->actor.world.pos.y <= player->actor.world.pos.y) {
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_ENEMY);
         this->actor.flags |= ACTOR_FLAG_0;
-        targetHeight = 40.0f + -10.0f * gSaveContext.linkAge;
+        targetHeight = 40.0f + -10.0f * gSaveContext.save.linkAge;
 
         this->targetY = player->actor.world.pos.y + targetHeight;
         if (this->targetY < this->actor.world.pos.y) {

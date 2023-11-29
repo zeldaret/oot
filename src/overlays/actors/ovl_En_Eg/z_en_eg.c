@@ -23,19 +23,19 @@ static EnEgActionFunc sActionFuncs[] = {
 };
 
 ActorInit En_Eg_InitVars = {
-    ACTOR_EN_EG,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnEg),
-    (ActorFunc)EnEg_Init,
-    (ActorFunc)EnEg_Destroy,
-    (ActorFunc)EnEg_Update,
-    (ActorFunc)EnEg_Draw,
+    /**/ ACTOR_EN_EG,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnEg),
+    /**/ EnEg_Init,
+    /**/ EnEg_Destroy,
+    /**/ EnEg_Update,
+    /**/ EnEg_Draw,
 };
 
 void EnEg_PlayVoidOutSFX(void) {
-    func_800788CC(NA_SE_OC_ABYSS);
+    Sfx_PlaySfxCentered2(NA_SE_OC_ABYSS);
 }
 
 void EnEg_Destroy(Actor* thisx, PlayState* play) {

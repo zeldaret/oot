@@ -34,15 +34,15 @@ void EnPoField_SoulInteract(EnPoField* this, PlayState* play);
 void EnPoField_SpawnFlame(EnPoField* this);
 
 ActorInit En_Po_Field_InitVars = {
-    ACTOR_EN_PO_FIELD,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_PO_FIELD,
-    sizeof(EnPoField),
-    (ActorFunc)EnPoField_Init,
-    (ActorFunc)EnPoField_Destroy,
-    (ActorFunc)EnPoField_Update,
-    (ActorFunc)EnPoField_Draw,
+    /**/ ACTOR_EN_PO_FIELD,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_FIELD,
+    /**/ sizeof(EnPoField),
+    /**/ EnPoField_Init,
+    /**/ EnPoField_Destroy,
+    /**/ EnPoField_Update,
+    /**/ EnPoField_Draw,
 };
 
 static ColliderCylinderInit D_80AD7080 = {
@@ -324,7 +324,7 @@ void func_80AD42B0(EnPoField* this) {
     this->actor.scale.y = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EV_METAL_BOX_BOUND);
     if (this->actor.params == EN_PO_FIELD_BIG) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
     this->actionFunc = func_80AD587C;
 }
@@ -646,7 +646,7 @@ void func_80AD58D4(EnPoField* this, PlayState* play) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnPoField_SetupInteractWithSoul(this);
         return;
     }
@@ -658,7 +658,7 @@ void func_80AD58D4(EnPoField* this, PlayState* play) {
     }
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
         this->actor.flags &= ~ACTOR_FLAG_16;
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

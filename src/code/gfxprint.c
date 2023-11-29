@@ -301,7 +301,7 @@ void GfxPrint_PrintString(GfxPrint* this, const char* str) {
     }
 }
 
-void* GfxPrint_Callback(void* arg, const char* str, u32 size) {
+void* GfxPrint_Callback(void* arg, const char* str, size_t size) {
     GfxPrint* this = arg;
 
     GfxPrint_PrintStringWithSize(this, str, sizeof(char), size);

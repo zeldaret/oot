@@ -18,15 +18,15 @@ void func_80892890(BgInGate* this, PlayState* play);
 void BgInGate_DoNothing(BgInGate* this, PlayState* play);
 
 ActorInit Bg_Ingate_InitVars = {
-    ACTOR_BG_INGATE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_INGATE,
-    sizeof(BgInGate),
-    (ActorFunc)BgInGate_Init,
-    (ActorFunc)BgInGate_Destroy,
-    (ActorFunc)BgInGate_Update,
-    (ActorFunc)BgInGate_Draw,
+    /**/ ACTOR_BG_INGATE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_INGATE,
+    /**/ sizeof(BgInGate),
+    /**/ BgInGate_Init,
+    /**/ BgInGate_Destroy,
+    /**/ BgInGate_Update,
+    /**/ BgInGate_Draw,
 };
 
 void BgInGate_SetupAction(BgInGate* this, BgInGateActionFunc actionFunc) {
@@ -45,7 +45,7 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if ((play->sceneId != SCENE_LON_LON_RANCH || !LINK_IS_ADULT) ||
-        (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
+        (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED) && (gSaveContext.save.cutsceneIndex != 0xFFF0))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

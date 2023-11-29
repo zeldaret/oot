@@ -36,15 +36,15 @@ static BgZgDrawFunc sDrawFuncs[] = {
 };
 
 ActorInit Bg_Zg_InitVars = {
-    ACTOR_BG_ZG,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZG,
-    sizeof(BgZg),
-    (ActorFunc)BgZg_Init,
-    (ActorFunc)BgZg_Destroy,
-    (ActorFunc)BgZg_Update,
-    (ActorFunc)BgZg_Draw,
+    /**/ ACTOR_BG_ZG,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZG,
+    /**/ sizeof(BgZg),
+    /**/ BgZg_Init,
+    /**/ BgZg_Destroy,
+    /**/ BgZg_Update,
+    /**/ BgZg_Draw,
 };
 
 void BgZg_Destroy(Actor* thisx, PlayState* play) {
@@ -107,9 +107,9 @@ void BgZg_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
-        this->dyna.actor.scale.x = this->dyna.actor.scale.x * 1.3f;
-        this->dyna.actor.scale.z = this->dyna.actor.scale.z * 1.3f;
-        this->dyna.actor.scale.y = this->dyna.actor.scale.y * 1.2f;
+        this->dyna.actor.scale.x *= 1.3f;
+        this->dyna.actor.scale.z *= 1.3f;
+        this->dyna.actor.scale.y *= 1.2f;
     }
 
     this->action = 0;

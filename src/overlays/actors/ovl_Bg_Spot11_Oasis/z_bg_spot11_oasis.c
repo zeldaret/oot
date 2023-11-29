@@ -21,15 +21,15 @@ void func_808B2AA8(BgSpot11Oasis* this);
 void func_808B2AB8(BgSpot11Oasis* this, PlayState* play);
 
 ActorInit Bg_Spot11_Oasis_InitVars = {
-    ACTOR_BG_SPOT11_OASIS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT11_OBJ,
-    sizeof(BgSpot11Oasis),
-    (ActorFunc)BgSpot11Oasis_Init,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)BgSpot11Oasis_Update,
-    NULL,
+    /**/ ACTOR_BG_SPOT11_OASIS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT11_OBJ,
+    /**/ sizeof(BgSpot11Oasis),
+    /**/ BgSpot11Oasis_Init,
+    /**/ Actor_Noop,
+    /**/ BgSpot11Oasis_Update,
+    /**/ NULL,
 };
 
 static s16 D_808B2E10[][2] = {
@@ -109,7 +109,7 @@ void func_808B29F0(BgSpot11Oasis* this, PlayState* play) {
         func_808B2AA8(this);
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, this->actor.world.pos.x, this->actor.world.pos.y + 40.0f,
                     this->actor.world.pos.z, 0, 0, 0, FAIRY_SPAWNER);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
     func_808B27F0(play, this->actor.world.pos.y);
 }

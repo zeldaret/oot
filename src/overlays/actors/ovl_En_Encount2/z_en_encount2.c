@@ -24,15 +24,15 @@ void EnEncount2_DrawEffects(Actor* thisx, PlayState* play);
 void EnEncount2_UpdateEffects(EnEncount2* this, PlayState* play);
 
 ActorInit En_Encount2_InitVars = {
-    ACTOR_EN_ENCOUNT2,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_EFC_STAR_FIELD,
-    sizeof(EnEncount2),
-    (ActorFunc)EnEncount2_Init,
-    NULL,
-    (ActorFunc)EnEncount2_Update,
-    (ActorFunc)EnEncount2_Draw,
+    /**/ ACTOR_EN_ENCOUNT2,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_EFC_STAR_FIELD,
+    /**/ sizeof(EnEncount2),
+    /**/ EnEncount2_Init,
+    /**/ NULL,
+    /**/ EnEncount2_Update,
+    /**/ EnEncount2_Draw,
 };
 
 void EnEncount2_Init(Actor* thisx, PlayState* play) {
@@ -342,15 +342,15 @@ void EnEncount2_DrawEffects(Actor* thisx, PlayState* play) {
     EnEncount2Effect* effect = this->effects;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s16 i;
-    s32 objBankIndex;
+    s32 objectSlot;
 
     OPEN_DISPS(gfxCtx, "../z_en_encount2.c", 642);
 
-    objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_EFC_STAR_FIELD);
+    objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_EFC_STAR_FIELD);
 
-    if (objBankIndex >= 0) {
+    if (objectSlot >= 0) {
         gDPPipeSync(POLY_XLU_DISP++);
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[objBankIndex].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[objectSlot].segment);
 
         for (i = 0; i < EN_ENCOUNT2_EFFECT_COUNT; effect++, i++) {
             if (effect->isAlive) {

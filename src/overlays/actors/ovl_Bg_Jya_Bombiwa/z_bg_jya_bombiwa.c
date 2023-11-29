@@ -17,15 +17,15 @@ void BgJyaBombiwa_Update(Actor* thisx, PlayState* play);
 void BgJyaBombiwa_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Jya_Bombiwa_InitVars = {
-    ACTOR_BG_JYA_BOMBIWA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaBombiwa),
-    (ActorFunc)BgJyaBombiwa_Init,
-    (ActorFunc)BgJyaBombiwa_Destroy,
-    (ActorFunc)BgJyaBombiwa_Update,
-    (ActorFunc)BgJyaBombiwa_Draw,
+    /**/ ACTOR_BG_JYA_BOMBIWA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaBombiwa),
+    /**/ BgJyaBombiwa_Init,
+    /**/ BgJyaBombiwa_Destroy,
+    /**/ BgJyaBombiwa_Update,
+    /**/ BgJyaBombiwa_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {

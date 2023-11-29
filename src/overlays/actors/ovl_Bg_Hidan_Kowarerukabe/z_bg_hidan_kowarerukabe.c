@@ -23,15 +23,15 @@ void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
-    ACTOR_BG_HIDAN_KOWARERUKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanKowarerukabe),
-    (ActorFunc)BgHidanKowarerukabe_Init,
-    (ActorFunc)BgHidanKowarerukabe_Destroy,
-    (ActorFunc)BgHidanKowarerukabe_Update,
-    (ActorFunc)BgHidanKowarerukabe_Draw,
+    /**/ ACTOR_BG_HIDAN_KOWARERUKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanKowarerukabe),
+    /**/ BgHidanKowarerukabe_Init,
+    /**/ BgHidanKowarerukabe_Destroy,
+    /**/ BgHidanKowarerukabe_Update,
+    /**/ BgHidanKowarerukabe_Draw,
 };
 
 static Gfx* sBreakableWallDLists[] = {
@@ -312,7 +312,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play) {
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
 
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
         return;
     }

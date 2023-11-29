@@ -43,15 +43,15 @@ static s16 sCaughtCount = 0;
 static s16 sDroppedCount = 0;
 
 ActorInit En_Insect_InitVars = {
-    ACTOR_EN_INSECT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnInsect),
-    (ActorFunc)EnInsect_Init,
-    (ActorFunc)EnInsect_Destroy,
-    (ActorFunc)EnInsect_Update,
-    (ActorFunc)EnInsect_Draw,
+    /**/ ACTOR_EN_INSECT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnInsect),
+    /**/ EnInsect_Init,
+    /**/ EnInsect_Destroy,
+    /**/ EnInsect_Update,
+    /**/ EnInsect_Draw,
 };
 
 static ColliderJntSphElementInit sColliderItemInit[1] = {
@@ -674,7 +674,7 @@ void EnInsect_Dropped(EnInsect* this, PlayState* play) {
             if (this->soilActor != NULL) {
                 if (!(GET_GS_FLAGS(((this->soilActor->actor.params >> 8) & 0x1F) - 1) &
                       (this->soilActor->actor.params & 0xFF))) {
-                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
             this->insectFlags |= INSECT_FLAG_7;

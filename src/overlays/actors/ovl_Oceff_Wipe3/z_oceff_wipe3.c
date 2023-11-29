@@ -15,15 +15,15 @@ void OceffWipe3_Update(Actor* thisx, PlayState* play);
 void OceffWipe3_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Oceff_Wipe3_InitVars = {
-    ACTOR_OCEFF_WIPE3,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(OceffWipe3),
-    (ActorFunc)OceffWipe3_Init,
-    (ActorFunc)OceffWipe3_Destroy,
-    (ActorFunc)OceffWipe3_Update,
-    (ActorFunc)OceffWipe3_Draw,
+    /**/ ACTOR_OCEFF_WIPE3,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(OceffWipe3),
+    /**/ OceffWipe3_Init,
+    /**/ OceffWipe3_Destroy,
+    /**/ OceffWipe3_Update,
+    /**/ OceffWipe3_Draw,
 };
 
 #include "assets/overlays/ovl_Oceff_Wipe3/ovl_Oceff_Wipe3.c"
@@ -70,7 +70,7 @@ void OceffWipe3_Draw(Actor* thisx, PlayState* play) {
     Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(play));
+    quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
     if (this->counter < 32) {
         z = Math_SinS(this->counter << 9) * 1330;
     } else {

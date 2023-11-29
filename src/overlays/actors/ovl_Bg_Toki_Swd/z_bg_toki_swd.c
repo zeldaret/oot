@@ -23,15 +23,15 @@ extern CutsceneData D_808BB7A0[];
 extern CutsceneData D_808BBD90[];
 
 ActorInit Bg_Toki_Swd_InitVars = {
-    ACTOR_BG_TOKI_SWD,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_TOKI_OBJECTS,
-    sizeof(BgTokiSwd),
-    (ActorFunc)BgTokiSwd_Init,
-    (ActorFunc)BgTokiSwd_Destroy,
-    (ActorFunc)BgTokiSwd_Update,
-    (ActorFunc)BgTokiSwd_Draw,
+    /**/ ACTOR_BG_TOKI_SWD,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_TOKI_OBJECTS,
+    /**/ sizeof(BgTokiSwd),
+    /**/ BgTokiSwd_Init,
+    /**/ BgTokiSwd_Destroy,
+    /**/ BgTokiSwd_Update,
+    /**/ BgTokiSwd_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

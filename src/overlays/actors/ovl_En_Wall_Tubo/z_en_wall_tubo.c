@@ -22,15 +22,15 @@ void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play);
 void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play);
 
 ActorInit En_Wall_Tubo_InitVars = {
-    ACTOR_EN_WALL_TUBO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWallTubo),
-    (ActorFunc)EnWallTubo_Init,
-    (ActorFunc)EnWallTubo_Destroy,
-    (ActorFunc)EnWallTubo_Update,
-    NULL,
+    /**/ ACTOR_EN_WALL_TUBO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWallTubo),
+    /**/ EnWallTubo_Init,
+    /**/ EnWallTubo_Destroy,
+    /**/ EnWallTubo_Update,
+    /**/ NULL,
 };
 
 void EnWallTubo_Init(Actor* thisx, PlayState* play) {
@@ -89,7 +89,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play) {
                     (fabsf(chuPosDiff.z) < 40.0f || (BREG(2)))) {
                     this->chuGirl->wallStatus[this->actor.params] = 1;
                     chu->timer = 2;
-                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                     this->timer = 60;
                     EffectSsBomb2_SpawnLayered(play, &this->explosionCenter, &effVelocity, &effAccel, 200, 40);
                     quakeIndex = Quake_Request(GET_ACTIVE_CAM(play), QUAKE_TYPE_1);

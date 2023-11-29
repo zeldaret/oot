@@ -16,15 +16,15 @@ void EnTana_DrawWoodenShelves(Actor* thisx, PlayState* play);
 void EnTana_DrawStoneShelves(Actor* thisx, PlayState* play);
 
 ActorInit En_Tana_InitVars = {
-    ACTOR_EN_TANA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SHOP_DUNGEN,
-    sizeof(EnTana),
-    (ActorFunc)EnTana_Init,
-    (ActorFunc)EnTana_Destroy,
-    (ActorFunc)EnTana_Update,
-    NULL,
+    /**/ ACTOR_EN_TANA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SHOP_DUNGEN,
+    /**/ sizeof(EnTana),
+    /**/ EnTana_Init,
+    /**/ EnTana_Destroy,
+    /**/ EnTana_Update,
+    /**/ NULL,
 };
 
 //! @bug A third entry is missing here. When printing the string indexed by `params` for type 2, the

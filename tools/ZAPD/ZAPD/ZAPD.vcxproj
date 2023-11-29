@@ -249,6 +249,7 @@ mkdir build\ZAPD
     <ClCompile Include="ZTextureAnimation.cpp" />
     <ClCompile Include="ZVector.cpp" />
     <ClCompile Include="ZVtx.cpp" />
+    <ClCompile Include="ZWaterbox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\elfio\elfio\elfio.hpp" />
@@ -272,6 +273,7 @@ mkdir build\ZAPD
     <ClInclude Include="CrashHandler.h" />
     <ClInclude Include="CRC32.h" />
     <ClInclude Include="Declaration.h" />
+    <ClInclude Include="ExporterSet.h" />
     <ClInclude Include="GameConfig.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImageBackend.h" />
@@ -339,6 +341,7 @@ mkdir build\ZAPD
     <ClInclude Include="ZTextureAnimation.h" />
     <ClInclude Include="ZVector.h" />
     <ClInclude Include="ZVtx.h" />
+    <ClInclude Include="ZWaterbox.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\SymbolMap_OoTMqDbg.txt">

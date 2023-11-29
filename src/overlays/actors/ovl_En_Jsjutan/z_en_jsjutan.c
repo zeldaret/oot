@@ -15,15 +15,15 @@ void EnJsjutan_Update(Actor* thisx, PlayState* play2);
 void EnJsjutan_Draw(Actor* thisx, PlayState* play2);
 
 ActorInit En_Jsjutan_InitVars = {
-    ACTOR_EN_JSJUTAN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnJsjutan),
-    (ActorFunc)EnJsjutan_Init,
-    (ActorFunc)EnJsjutan_Destroy,
-    (ActorFunc)EnJsjutan_Update,
-    (ActorFunc)EnJsjutan_Draw,
+    /**/ ACTOR_EN_JSJUTAN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnJsjutan),
+    /**/ EnJsjutan_Init,
+    /**/ EnJsjutan_Destroy,
+    /**/ EnJsjutan_Update,
+    /**/ EnJsjutan_Draw,
 };
 
 // Shadow texture. 32x64 I8.
@@ -147,7 +147,7 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
     i = 1;
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
-    if ((gSaveContext.entranceIndex == ENTR_LON_LON_RANCH_0) && (gSaveContext.sceneLayer == 8)) {
+    if ((gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0) && (gSaveContext.sceneLayer == 8)) {
         isInCreditsScene = true;
 
         actorProfessor = play->actorCtx.actorLists[ACTORCAT_NPC].head;
@@ -297,7 +297,7 @@ void func_80A89A6C(EnJsjutan* this, PlayState* play) {
         this->dyna.actor.velocity.y = 0.0f;
         this->dyna.actor.world.pos.y = this->unk_168;
 
-        dayTime = gSaveContext.dayTime;
+        dayTime = gSaveContext.save.dayTime;
 
         if (dayTime >= CLOCK_TIME(12, 0)) {
             dayTime = 0xFFFF - dayTime;

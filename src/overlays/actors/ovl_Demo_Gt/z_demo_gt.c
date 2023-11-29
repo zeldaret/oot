@@ -20,7 +20,7 @@ void DemoGt_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DemoGt_PlayEarthquakeSfx(void) {
-    func_800788CC(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+    Sfx_PlaySfxCentered2(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
 }
 
 void DemoGt_PlayExplosion1Sfx(PlayState* play, Vec3f* pos) {
@@ -786,7 +786,7 @@ void func_8097FCE4(DemoGt* this, PlayState* play) {
     Vec3f vec;
     u16 csCurFrame = play->csCtx.curFrame;
 
-    if (csCurFrame == 0x1F7 || kREG(1) == 4) {
+    if (csCurFrame == 503 || kREG(1) == 4) {
         vec.x = this->dyna.actor.world.pos.x + 300.0f;
         vec.y = this->dyna.actor.world.pos.y + 560.0f;
         vec.z = this->dyna.actor.world.pos.z - 377.0f;
@@ -1189,7 +1189,7 @@ void func_80980F58(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 244) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1312,7 +1312,7 @@ void func_80981424(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 789) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1430,7 +1430,7 @@ void func_809818FC(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 845) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 void func_80981930(DemoGt* this, PlayState* play) {
@@ -1521,7 +1521,7 @@ void func_80981CEC(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 183) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1572,7 +1572,7 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
     sp64 = kREG(75);
     sp62 = kREG(74) + 0x7FEC;
     sp60 = kREG(74) + 0x7FEC;
-    sp60 = sp60 + 0x4000;
+    sp60 += 0x4000;
     sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_CosS(sp6E);
 
@@ -1612,7 +1612,7 @@ void func_809820AC(DemoGt* this, PlayState* play) {
     u16 csCurFrame = play->csCtx.curFrame;
 
     if (csCurFrame == 154) {
-        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1769,13 +1769,13 @@ void DemoGt_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Gt_InitVars = {
-    ACTOR_DEMO_GT,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GT,
-    sizeof(DemoGt),
-    (ActorFunc)DemoGt_Init,
-    (ActorFunc)DemoGt_Destroy,
-    (ActorFunc)DemoGt_Update,
-    (ActorFunc)DemoGt_Draw,
+    /**/ ACTOR_DEMO_GT,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GT,
+    /**/ sizeof(DemoGt),
+    /**/ DemoGt_Init,
+    /**/ DemoGt_Destroy,
+    /**/ DemoGt_Update,
+    /**/ DemoGt_Draw,
 };

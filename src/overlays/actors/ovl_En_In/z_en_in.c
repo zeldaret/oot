@@ -9,7 +9,7 @@ void EnIn_Destroy(Actor* thisx, PlayState* play);
 void EnIn_Update(Actor* thisx, PlayState* play);
 void EnIn_Draw(Actor* thisx, PlayState* play);
 
-void func_80A79FB0(EnIn* this, PlayState* play);
+void EnIn_WaitForObject(EnIn* this, PlayState* play);
 void func_80A7A304(EnIn* this, PlayState* play);
 void func_80A7A4C8(EnIn* this, PlayState* play);
 void func_80A7A568(EnIn* this, PlayState* play);
@@ -25,15 +25,15 @@ void func_80A7AA40(EnIn* this, PlayState* play);
 void func_80A7A4BC(EnIn* this, PlayState* play);
 
 ActorInit En_In_InitVars = {
-    ACTOR_EN_IN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_IN,
-    sizeof(EnIn),
-    (ActorFunc)EnIn_Init,
-    (ActorFunc)EnIn_Destroy,
-    (ActorFunc)EnIn_Update,
-    (ActorFunc)EnIn_Draw,
+    /**/ ACTOR_EN_IN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_IN,
+    /**/ sizeof(EnIn),
+    /**/ EnIn_Init,
+    /**/ EnIn_Destroy,
+    /**/ EnIn_Update,
+    /**/ EnIn_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -217,7 +217,7 @@ s16 EnIn_UpdateTalkStateOnChoice(PlayState* play, Actor* thisx) {
         case 0x2031:
             if (play->msgCtx.choiceIndex == 1) {
                 this->actor.textId = 0x2032;
-            } else if (gSaveContext.rupees < 10) {
+            } else if (gSaveContext.save.info.playerData.rupees < 10) {
                 this->actor.textId = 0x2033;
             } else {
                 this->actor.textId = 0x2034;
@@ -244,7 +244,7 @@ s16 EnIn_UpdateTalkStateOnChoice(PlayState* play, Actor* thisx) {
             }
             break;
         case 0x2038:
-            if (play->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
+            if (play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees >= 50) {
                 talkState = NPC_TALK_STATE_ACTION;
             } else {
                 this->actor.textId = 0x2039;
@@ -253,7 +253,7 @@ s16 EnIn_UpdateTalkStateOnChoice(PlayState* play, Actor* thisx) {
             }
             break;
         case 0x205B:
-            if (play->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
+            if (play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees >= 50) {
                 talkState = NPC_TALK_STATE_ACTION;
             } else {
                 Message_ContinueTextbox(play, this->actor.textId = 0x2039);
@@ -264,7 +264,7 @@ s16 EnIn_UpdateTalkStateOnChoice(PlayState* play, Actor* thisx) {
             }
             break;
     }
-    if (!gSaveContext.rupees) {}
+    if (!gSaveContext.save.info.playerData.rupees) {}
 
     return talkState;
 }
@@ -339,7 +339,7 @@ void func_80A795C8(EnIn* this, PlayState* play) {
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, PlayState* play) {
     if (skelAnime->baseTransl.y < skelAnime->jointTable[0].y) {
-        skelAnime->moveFlags |= 3;
+        skelAnime->moveFlags |= ANIM_FLAG_0 | ANIM_FLAG_UPDATE_Y;
         AnimationContext_SetMoveActor(play, &this->actor, skelAnime, 1.0f);
     }
 }
@@ -432,7 +432,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     }
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
         AREG(6) = 0;
@@ -481,8 +481,8 @@ void EnIn_Init(Actor* thisx, PlayState* play) {
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
-    this->ingoObjBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_IN);
-    if (this->ingoObjBankIndex < 0 && this->actor.params > 0) {
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_IN);
+    if (this->requiredObjectSlot < 0 && this->actor.params > 0) {
         this->actionFunc = NULL;
         Actor_Kill(&this->actor);
         return;
@@ -493,21 +493,23 @@ void EnIn_Init(Actor* thisx, PlayState* play) {
         gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
         D_80A7B998 = 1;
     }
-    this->actionFunc = func_80A79FB0;
+    this->actionFunc = EnIn_WaitForObject;
 }
 
 void EnIn_Destroy(Actor* thisx, PlayState* play) {
     EnIn* this = (EnIn*)thisx;
 
-    if (this->actionFunc != NULL && this->actionFunc != func_80A79FB0) {
+    if (this->actionFunc != NULL && this->actionFunc != EnIn_WaitForObject) {
         Collider_DestroyCylinder(play, &this->collider);
     }
 }
 
-void func_80A79FB0(EnIn* this, PlayState* play) {
+// This function does not actually wait since it waits for OBJECT_IN,
+// but the object is already loaded at this point from being set in the ActorInit data
+void EnIn_WaitForObject(EnIn* this, PlayState* play) {
     s32 sp3C = 0;
 
-    if (Object_IsLoaded(&play->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
         SkelAnime_InitFlex(play, &this->skelAnime, &gIngoSkel, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(play, &this->collider);
@@ -665,7 +667,7 @@ void func_80A7A568(EnIn* this, PlayState* play) {
         gSaveContext.timerState = TIMER_STATE_OFF;
     } else if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
         if (play->msgCtx.choiceIndex == 0) {
-            if (gSaveContext.rupees < 50) {
+            if (gSaveContext.save.info.playerData.rupees < 50) {
                 play->msgCtx.stateTimer = 4;
                 play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
@@ -717,7 +719,8 @@ void func_80A7A770(EnIn* this, PlayState* play) {
 
 void func_80A7A848(EnIn* this, PlayState* play) {
     if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.rupees < 50) || play->msgCtx.choiceIndex == 1) {
+        if ((play->msgCtx.choiceIndex == 0 && gSaveContext.save.info.playerData.rupees < 50) ||
+            play->msgCtx.choiceIndex == 1) {
             SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
             this->actionFunc = func_80A7A4C8;
         } else {
@@ -856,7 +859,7 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
 void func_80A7AE84(EnIn* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->actionFunc = func_80A7AEF0;
 }
@@ -891,26 +894,29 @@ void func_80A7B024(EnIn* this, PlayState* play) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    if (this->interactInfo.talkState == NPC_TALK_STATE_ACTION) {
-        if (1) {}
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
-            SET_EVENTCHKINF(EVENTCHKINF_1B);
-            SET_INFTABLE(INFTABLE_AB);
-        }
-        func_80A79BAC(this, play, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
-        SET_EVENTINF_HORSES_0F(1);
-        play->msgCtx.stateTimer = 4;
-        play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
-        this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
+
+    if (this->interactInfo.talkState != NPC_TALK_STATE_ACTION) {
+        return;
     }
+
+    if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
+        SET_EVENTCHKINF(EVENTCHKINF_1B);
+        SET_INFTABLE(INFTABLE_AB);
+    }
+
+    func_80A79BAC(this, play, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
+    SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
+    SET_EVENTINF_HORSES_0F(1);
+    play->msgCtx.stateTimer = 4;
+    play->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
+    this->interactInfo.talkState = NPC_TALK_STATE_IDLE;
 }
 
 void EnIn_Update(Actor* thisx, PlayState* play) {
     ColliderCylinder* collider;
     EnIn* this = (EnIn*)thisx;
 
-    if (this->actionFunc == func_80A79FB0) {
+    if (this->actionFunc == EnIn_WaitForObject) {
         this->actionFunc(this, play);
         return;
     }
@@ -931,7 +937,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
         func_80A79AB4(this, play);
         if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
             this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            if (Actor_ProcessTalkRequest(&this->actor, play)) {}
+            if (Actor_TalkOfferAccepted(&this->actor, play)) {}
         } else {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
                               ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,
@@ -999,7 +1005,7 @@ void EnIn_Draw(Actor* thisx, PlayState* play) {
     EnIn* this = (EnIn*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_in.c", 2384);
-    if (this->actionFunc != func_80A79FB0) {
+    if (this->actionFunc != EnIn_WaitForObject) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gIngoHeadGradient2Tex));

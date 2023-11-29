@@ -24,15 +24,15 @@ void EnSt_FinishBouncing(EnSt* this, PlayState* play);
 #include "assets/overlays/ovl_En_St/ovl_En_St.c"
 
 ActorInit En_St_InitVars = {
-    ACTOR_EN_ST,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_ST,
-    sizeof(EnSt),
-    (ActorFunc)EnSt_Init,
-    (ActorFunc)EnSt_Destroy,
-    (ActorFunc)EnSt_Update,
-    (ActorFunc)EnSt_Draw,
+    /**/ ACTOR_EN_ST,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_ST,
+    /**/ sizeof(EnSt),
+    /**/ EnSt_Init,
+    /**/ EnSt_Destroy,
+    /**/ EnSt_Update,
+    /**/ EnSt_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -161,7 +161,7 @@ void EnSt_SpawnBlastEffect(EnSt* this, PlayState* play) {
     blastPos.y = this->actor.floorHeight;
     blastPos.z = this->actor.world.pos.z;
 
-    EffectSsBlast_SpawnWhiteCustomScale(play, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
+    EffectSsBlast_SpawnWhiteShockwaveSetScale(play, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
 void EnSt_SpawnDeadEffect(EnSt* this, PlayState* play) {

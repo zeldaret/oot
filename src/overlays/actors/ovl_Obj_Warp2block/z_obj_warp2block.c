@@ -29,15 +29,15 @@ void func_80BA2600(ObjWarp2block* this);
 void func_80BA2610(ObjWarp2block* this, PlayState* play);
 
 ActorInit Obj_Warp2block_InitVars = {
-    ACTOR_OBJ_WARP2BLOCK,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_TIMEBLOCK,
-    sizeof(ObjWarp2block),
-    (ActorFunc)ObjWarp2block_Init,
-    (ActorFunc)ObjWarp2block_Destroy,
-    (ActorFunc)ObjWarp2block_Update,
-    (ActorFunc)ObjWarp2block_Draw,
+    /**/ ACTOR_OBJ_WARP2BLOCK,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_TIMEBLOCK,
+    /**/ sizeof(ObjWarp2block),
+    /**/ ObjWarp2block_Init,
+    /**/ ObjWarp2block_Destroy,
+    /**/ ObjWarp2block_Update,
+    /**/ ObjWarp2block_Draw,
 };
 
 typedef struct {
@@ -288,7 +288,7 @@ void func_80BA2610(ObjWarp2block* this, PlayState* play) {
         }
     }
     if (this->unk_16C == 0x32) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
 }
 

@@ -30,15 +30,15 @@ void EnVali_Frozen(EnVali* this, PlayState* play);
 void EnVali_ReturnToLurk(EnVali* this, PlayState* play);
 
 ActorInit En_Vali_InitVars = {
-    ACTOR_EN_VALI,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_VALI,
-    sizeof(EnVali),
-    (ActorFunc)EnVali_Init,
-    (ActorFunc)EnVali_Destroy,
-    (ActorFunc)EnVali_Update,
-    (ActorFunc)EnVali_Draw,
+    /**/ ACTOR_EN_VALI,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_VALI,
+    /**/ sizeof(EnVali),
+    /**/ EnVali_Init,
+    /**/ EnVali_Destroy,
+    /**/ EnVali_Update,
+    /**/ EnVali_Draw,
 };
 
 static ColliderQuadInit sQuadInit = {

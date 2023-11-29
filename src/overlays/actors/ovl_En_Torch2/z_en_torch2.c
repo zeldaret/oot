@@ -22,15 +22,15 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2);
 void EnTorch2_Draw(Actor* thisx, PlayState* play2);
 
 ActorInit En_Torch2_InitVars = {
-    ACTOR_EN_TORCH2,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_TORCH2,
-    sizeof(Player),
-    (ActorFunc)EnTorch2_Init,
-    (ActorFunc)EnTorch2_Destroy,
-    (ActorFunc)EnTorch2_Update,
-    (ActorFunc)EnTorch2_Draw,
+    /**/ ACTOR_EN_TORCH2,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_TORCH2,
+    /**/ sizeof(Player),
+    /**/ EnTorch2_Init,
+    /**/ EnTorch2_Destroy,
+    /**/ EnTorch2_Update,
+    /**/ EnTorch2_Draw,
 };
 
 static f32 sStickTilt = 0.0f;
@@ -97,7 +97,7 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     sInput.cur.stick_x = sInput.cur.stick_y = 0;
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemAction = this->heldItemId = PLAYER_IA_SWORD_MASTER;
-    Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD);
+    Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD_AND_SHIELD);
     play->playerInit(this, play, &gDarkLinkSkel);
     this->actor.naviEnemyId = NAVI_ENEMY_DARK_LINK;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
@@ -109,7 +109,7 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     this->shieldQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->shieldQuad.base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    this->actor.colChkInfo.health = gSaveContext.healthCapacity >> 3;
+    this->actor.colChkInfo.health = gSaveContext.save.info.playerData.healthCapacity >> 3;
     this->actor.colChkInfo.cylRadius = 60;
     this->actor.colChkInfo.cylHeight = 100;
     play->func_11D54(this, play);
@@ -156,7 +156,7 @@ s32 EnTorch2_SwingSword(PlayState* play, Input* input, Player* this) {
     if ((this->speedXZ < 0.0f) || (player->speedXZ < 0.0f)) {
         return 0;
     }
-    if (gSaveContext.health < 0x50) {
+    if (gSaveContext.save.info.playerData.health < 0x50) {
         attackDelay = 15;
         noAttackChance += 0.3f;
     }
@@ -266,7 +266,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
                  *  creating a hole in his defenses. This also makes Dark Link harder at low
                  *  health, while the other health checks are intended to make him easier.
                  */
-                if ((gSaveContext.health < 0x50) && (sCounterState != 0)) {
+                if ((gSaveContext.save.info.playerData.health < 0x50) && (sCounterState != 0)) {
                     sCounterState = 0;
                     sStaggerTimer = 50;
                 }
@@ -562,9 +562,9 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
     // Handles Dark Link being damaged
 
     if ((this->actor.colChkInfo.health == 0) && sDeathFlag) {
-        this->csMode = PLAYER_CSMODE_24;
-        this->unk_448 = &player->actor;
-        this->doorBgCamIndex = 1;
+        this->csAction = PLAYER_CSACTION_24;
+        this->csActor = &player->actor;
+        this->cv.haltActorsDuringCsAction = true;
         sDeathFlag = false;
     }
     if ((this->invincibilityTimer == 0) && (this->actor.colChkInfo.health != 0) &&
@@ -641,7 +641,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
      */
     if (this->speedXZ == -18.0f) {
         staggerThreshold = (u32)Rand_CenteredFloat(2.0f) + 6;
-        if (gSaveContext.health < 0x50) {
+        if (gSaveContext.save.info.playerData.health < 0x50) {
             staggerThreshold = (u32)Rand_CenteredFloat(2.0f) + 3;
         }
         if (this->actor.xzDistToPlayer > 80.0f) {

@@ -22,15 +22,15 @@ void BgHakaShip_CrashShake(BgHakaShip* this, PlayState* play);
 void BgHakaShip_CrashFall(BgHakaShip* this, PlayState* play);
 
 ActorInit Bg_Haka_Ship_InitVars = {
-    ACTOR_BG_HAKA_SHIP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaShip),
-    (ActorFunc)BgHakaShip_Init,
-    (ActorFunc)BgHakaShip_Destroy,
-    (ActorFunc)BgHakaShip_Update,
-    (ActorFunc)BgHakaShip_Draw,
+    /**/ ACTOR_BG_HAKA_SHIP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaShip),
+    /**/ BgHakaShip_Init,
+    /**/ BgHakaShip_Destroy,
+    /**/ BgHakaShip_Update,
+    /**/ BgHakaShip_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -230,6 +230,6 @@ void BgHakaShip_Draw(Actor* thisx, PlayState* play) {
         sp2C.z = this->dyna.actor.world.pos.z;
 
         SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sp2C, &this->bellSfxPos);
-        func_80078914(&this->bellSfxPos, NA_SE_EV_SHIP_BELL - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->bellSfxPos, NA_SE_EV_SHIP_BELL - SFX_FLAG);
     }
 }

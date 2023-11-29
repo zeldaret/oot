@@ -34,18 +34,28 @@ void SetLightingSettings::DeclareReferences(const std::string& prefix)
 				declaration += "\n";
 		}
 
-		parent->AddDeclarationArray(
-			segmentOffset, DeclarationAlignment::Align4,
-			settings.size() * settings.front().GetRawDataSize(), "LightSettings",
-			StringHelper::Sprintf("%sLightSettings0x%06X", prefix.c_str(), segmentOffset),
-			settings.size(), declaration);
+		if (Globals::Instance->game != ZGame::MM_RETAIL)
+			parent->AddDeclarationArray(
+				segmentOffset, DeclarationAlignment::Align4,
+				settings.size() * settings.front().GetRawDataSize(), "EnvLightSettings",
+				StringHelper::Sprintf("%sLightSettings0x%06X", prefix.c_str(), segmentOffset),
+				settings.size(), declaration);
+		else
+			parent->AddDeclarationArray(
+				segmentOffset, DeclarationAlignment::Align4,
+				settings.size() * settings.front().GetRawDataSize(), "LightSettings",
+				StringHelper::Sprintf("%sLightSettings0x%06X", prefix.c_str(), segmentOffset),
+				settings.size(), declaration);
 	}
 }
 
 std::string SetLightingSettings::GetBodySourceCode() const
 {
 	std::string listName;
-	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "LightSettings", listName);
+	if (Globals::Instance->game != ZGame::MM_RETAIL)
+		Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "EnvLightSettings", listName);
+	else
+		Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "LightSettings", listName);
 	return StringHelper::Sprintf("SCENE_CMD_ENV_LIGHT_SETTINGS(%i, %s)", settings.size(),
 	                             listName.c_str());
 }

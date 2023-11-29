@@ -41,18 +41,18 @@ extern CutsceneData gChildWarpInToTCS[];
 extern CutsceneData gChildWarpOutToTCS[];
 
 ActorInit Demo_Kankyo_InitVars = {
-    ACTOR_DEMO_KANKYO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DemoKankyo),
-    (ActorFunc)DemoKankyo_Init,
-    (ActorFunc)DemoKankyo_Destroy,
-    (ActorFunc)DemoKankyo_Update,
-    (ActorFunc)DemoKankyo_Draw,
+    /**/ ACTOR_DEMO_KANKYO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DemoKankyo),
+    /**/ DemoKankyo_Init,
+    /**/ DemoKankyo_Destroy,
+    /**/ DemoKankyo_Update,
+    /**/ DemoKankyo_Draw,
 };
 
-static s16 sObjIds[] = {
+static s16 sObjectIds[] = {
     OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD,
     OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_GAMEPLAY_KEEP,  OBJECT_GI_MELODY,      OBJECT_GI_MELODY,
     OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_TOKI_OBJECTS,   OBJECT_TOKI_OBJECTS,
@@ -181,13 +181,13 @@ void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
 void DemoKankyo_Init(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
-    s32 objBankIndex = Object_GetIndex(&play->objectCtx, sObjIds[this->actor.params]);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[this->actor.params]);
 
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
-    if (objBankIndex < 0) {
+    osSyncPrintf("bank_ID = %d\n", objectSlot);
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_kankyo.c", 521);
     } else {
-        this->objBankIndex = objBankIndex;
+        this->requiredObjectSlot = objectSlot;
     }
 
     switch (this->actor.params) {
@@ -279,7 +279,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 temp;
 
-    if (this->actor.objBankIndex == this->objBankIndex) {
+    if (this->actor.objectSlot == this->requiredObjectSlot) {
         switch (this->actor.params) {
             case DEMOKANKYO_ROCK_1:
             case DEMOKANKYO_ROCK_2:
@@ -432,7 +432,7 @@ void DemoKankyo_Update(Actor* thisx, PlayState* play) {
 void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
 
-    if (this->actor.objBankIndex == this->objBankIndex) {
+    if (this->actor.objectSlot == this->requiredObjectSlot) {
         switch (this->actor.params) {
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_BLUE_RAIN_2:
@@ -480,8 +480,8 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
                 break;
         }
     }
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
     }
 }
 
@@ -544,7 +544,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
         switch (this->unk_150[i].unk_22) {
             case 0:
                 func_80989B54(thisx, play, i);
-                if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * 500.0f;
                 } else {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * -500.0f;
@@ -553,16 +553,16 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
                 break;
             case 1:
                 temp_f12_2 = play->view.eye.y + (dy / norm) * 150.0f;
-                if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
                     this->unk_150[i].unk_0.y -= this->unk_150[i].unk_18;
                 } else {
                     this->unk_150[i].unk_0.y += this->unk_150[i].unk_18;
                 }
-                if (gSaveContext.entranceIndex == ENTR_CUTSCENE_MAP_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
                     if (this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y < temp_f12_2 - 300.0f) {
                         this->unk_150[i].unk_22++;
                     }
-                } else if (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_0) {
+                } else if (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_0) {
                     if (temp_f12_2 + 300.0f < this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y) {
                         this->unk_150[i].unk_22++;
                     }
@@ -582,13 +582,13 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
                          this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y,
                          this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z, MTXMODE_NEW);
 
-        if (gSaveContext.entranceIndex != ENTR_CUTSCENE_MAP_0) {
+        if (gSaveContext.save.entranceIndex != ENTR_CUTSCENE_MAP_0) {
             Matrix_RotateX(M_PI, MTXMODE_APPLY);
         }
 
         gDPPipeSync(POLY_XLU_DISP++);
 
-        if (gSaveContext.entranceIndex == ENTR_HYRULE_FIELD_0) {
+        if (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_0) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 255);
         } else {
@@ -734,19 +734,15 @@ void DemoKankyo_Vec3fCopy(Vec3f* src, Vec3f* dst) {
     dst->z = src->z;
 }
 
-Vec3f* DemoKankyo_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+Vec3f DemoKankyo_AddVecGeoToVec3f(Vec3f* a, VecGeo* geo) {
     Vec3f sum;
-    Vec3f b;
-
-    OLib_VecGeoToVec3f(&b, geo);
+    Vec3f b = OLib_VecGeoToVec3f(geo);
 
     sum.x = a->x + b.x;
     sum.y = a->y + b.y;
     sum.z = a->z + b.z;
 
-    *dest = sum;
-
-    return dest;
+    return sum;
 }
 
 void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
@@ -754,9 +750,9 @@ void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
     Vec3f vecCopy;
 
     DemoKankyo_Vec3fCopy(vec, &vecCopy);
-    OLib_Vec3fToVecGeo(&geo, &vecCopy);
+    geo = OLib_Vec3fToVecGeo(&vecCopy);
     geo.yaw += posRot->rot.y;
-    DemoKankyo_AddVecGeoToVec3f(dst, &posRot->pos, &geo);
+    *dst = DemoKankyo_AddVecGeoToVec3f(&posRot->pos, &geo);
 }
 
 void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
@@ -777,7 +773,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
     f32 translateY;
     f32 translateZ;
     PosRot posRot;
-    u8 linkAge = gSaveContext.linkAge;
+    u8 linkAge = gSaveContext.save.linkAge;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1824);
 
@@ -817,7 +813,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                         this->unk_150[i].unk_22++;
                     }
                 }
-                Actor_GetWorld(&posRot, &player->actor);
+                posRot = Actor_GetWorld(&player->actor);
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CF98);
                 break;
             case 2:
@@ -941,7 +937,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play) {
                                   &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
                     this->unk_150[i].unk_22++;
                 }
-                Actor_GetWorld(&posRot, &this->actor);
+                posRot = Actor_GetWorld(&this->actor);
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CFB8);
                 break;
             case 2:

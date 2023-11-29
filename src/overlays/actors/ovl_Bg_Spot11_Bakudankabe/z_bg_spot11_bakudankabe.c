@@ -17,15 +17,15 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Spot11_Bakudankabe_InitVars = {
-    ACTOR_BG_SPOT11_BAKUDANKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT11_OBJ,
-    sizeof(BgSpot11Bakudankabe),
-    (ActorFunc)BgSpot11Bakudankabe_Init,
-    (ActorFunc)BgSpot11Bakudankabe_Destroy,
-    (ActorFunc)BgSpot11Bakudankabe_Update,
-    (ActorFunc)BgSpot11Bakudankabe_Draw,
+    /**/ ACTOR_BG_SPOT11_BAKUDANKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT11_OBJ,
+    /**/ sizeof(BgSpot11Bakudankabe),
+    /**/ BgSpot11Bakudankabe_Init,
+    /**/ BgSpot11Bakudankabe_Destroy,
+    /**/ BgSpot11Bakudankabe_Update,
+    /**/ BgSpot11Bakudankabe_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -138,7 +138,7 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play) {
         func_808B2218(this, play);
         Flags_SetSwitch(play, (this->dyna.actor.params & 0x3F));
         SfxSource_PlaySfxAtFixedWorldPos(play, &D_808B2738, 40, NA_SE_EV_WALL_BROKEN);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
         return;
     }

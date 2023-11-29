@@ -22,15 +22,15 @@ void func_80AABC10(EnMd* this, PlayState* play);
 void func_80AABD0C(EnMd* this, PlayState* play);
 
 ActorInit En_Md_InitVars = {
-    ACTOR_EN_MD,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MD,
-    sizeof(EnMd),
-    (ActorFunc)EnMd_Init,
-    (ActorFunc)EnMd_Destroy,
-    (ActorFunc)EnMd_Update,
-    (ActorFunc)EnMd_Draw,
+    /**/ ACTOR_EN_MD,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MD,
+    /**/ sizeof(EnMd),
+    /**/ EnMd_Init,
+    /**/ EnMd_Destroy,
+    /**/ EnMd_Update,
+    /**/ EnMd_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -574,7 +574,7 @@ void func_80AAB158(EnMd* this, PlayState* play) {
         trackingMode = NPC_TRACKING_HEAD_AND_TORSO;
     } else {
         this->interactInfo.trackPos = player->actor.world.pos;
-        this->interactInfo.yOffset = (gSaveContext.linkAge > 0) ? 0.0f : -18.0f;
+        this->interactInfo.yOffset = (gSaveContext.save.linkAge > 0) ? 0.0f : -18.0f;
     }
 
     Npc_TrackPoint(&this->actor, &this->interactInfo, 2, trackingMode);
@@ -785,7 +785,7 @@ void func_80AABC10(EnMd* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->actor.textId = 0x1067;
-        func_8002F2CC(&this->actor, play, this->collider.dim.radius + 30.0f);
+        Actor_OfferTalk(&this->actor, play, this->collider.dim.radius + 30.0f);
 
         this->actionFunc = func_80AAB948;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;

@@ -20,15 +20,15 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play);
 void EnWonderTalk2_DoNothing(EnWonderTalk2* this, PlayState* play);
 
 ActorInit En_Wonder_Talk2_InitVars = {
-    ACTOR_EN_WONDER_TALK2,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWonderTalk2),
-    (ActorFunc)EnWonderTalk2_Init,
-    (ActorFunc)EnWonderTalk2_Destroy,
-    (ActorFunc)EnWonderTalk2_Update,
-    NULL,
+    /**/ ACTOR_EN_WONDER_TALK2,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWonderTalk2),
+    /**/ EnWonderTalk2_Init,
+    /**/ EnWonderTalk2_Destroy,
+    /**/ EnWonderTalk2_Update,
+    /**/ NULL,
 };
 
 static s16 D_80B3A8E0[] = { 6, 0, 1, 2, 3, 4, 5 };
@@ -117,7 +117,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_0;
             this->unk_15A = true;
         }
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->switchFlag >= 0) && (this->talkMode != 2)) {
             Flags_SetSwitch(play, this->switchFlag);
             // "I saved it! All of it!"
@@ -161,7 +161,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
             }
 
             this->unk_158 = 0;
-            func_8002F1C4(&this->actor, play, this->triggerRange + 50.0f, 100.0f, EXCH_ITEM_NONE);
+            Actor_OfferTalkExchange(&this->actor, play, this->triggerRange + 50.0f, 100.0f, EXCH_ITEM_NONE);
         }
     }
 }
@@ -194,7 +194,7 @@ void func_80B3A3D4(EnWonderTalk2* this, PlayState* play) {
                 this->unk_15A = true;
             }
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
-            func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+            Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
             this->unk_156 = true;
             this->actionFunc = func_80B3A4F8;
             break;
@@ -253,7 +253,7 @@ void func_80B3A4F8(EnWonderTalk2* this, PlayState* play) {
             this->unk_158 = 0;
             if (!this->unk_156) {
                 Message_StartTextbox(play, this->actor.textId, NULL);
-                func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+                Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
                 this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
                 this->actionFunc = func_80B3A3D4;
             }

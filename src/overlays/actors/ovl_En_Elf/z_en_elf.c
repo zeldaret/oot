@@ -55,15 +55,15 @@ void EnElf_SpawnSparkles(EnElf* this, PlayState* play, s32 sparkleLife);
 void EnElf_GetCuePos(Vec3f* dest, PlayState* play, s32 cueChannel);
 
 ActorInit En_Elf_InitVars = {
-    ACTOR_EN_ELF,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnElf),
-    (ActorFunc)EnElf_Init,
-    (ActorFunc)EnElf_Destroy,
-    (ActorFunc)EnElf_Update,
-    (ActorFunc)EnElf_Draw,
+    /**/ ACTOR_EN_ELF,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnElf),
+    /**/ EnElf_Init,
+    /**/ EnElf_Destroy,
+    /**/ EnElf_Update,
+    /**/ EnElf_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -346,8 +346,9 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             this->elfMsg = NULL;
             this->unk_2C7 = 0x14;
 
-            if ((gSaveContext.naviTimer >= 25800) || (gSaveContext.naviTimer < 3000)) {
-                gSaveContext.naviTimer = 0;
+            if ((gSaveContext.save.info.playerData.naviTimer >= 25800) ||
+                (gSaveContext.save.info.playerData.naviTimer < 3000)) {
+                gSaveContext.save.info.playerData.naviTimer = 0;
             }
             break;
         case FAIRY_REVIVE_BOTTLE:
@@ -695,7 +696,7 @@ void func_80A03610(EnElf* this, PlayState* play) {
     Math_SmoothStepToF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
 
     this->unk_28C.x = Math_CosS(this->unk_2AC) * this->unk_2B8;
-    this->unk_28C.y = this->unk_28C.y + this->unk_2B4;
+    this->unk_28C.y += this->unk_2B4;
 
     switch (this->unk_2AA) {
         case 0:
@@ -1378,7 +1379,9 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
 
     if (player->naviTextId == 0) {
         if (player->unk_664 == NULL) {
-            if (((gSaveContext.naviTimer >= 600) && (gSaveContext.naviTimer <= 3000)) || (nREG(89) != 0)) {
+            if (((gSaveContext.save.info.playerData.naviTimer >= 600) &&
+                 (gSaveContext.save.info.playerData.naviTimer <= 3000)) ||
+                (nREG(89) != 0)) {
                 player->naviTextId = QuestHint_GetNaviTextId(play);
 
                 if (player->naviTextId == 0x15F) {
@@ -1391,13 +1394,13 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         thisx->flags |= ACTOR_FLAG_16;
     }
 
-    if (Actor_ProcessTalkRequest(thisx, play)) {
+    if (Actor_TalkOfferAccepted(thisx, play)) {
         func_800F4524(&gSfxDefaultPos, NA_SE_VO_SK_LAUGH, 0x20);
         thisx->focus.pos = thisx->world.pos;
 
         if (thisx->textId == QuestHint_GetNaviTextId(play)) {
             this->fairyFlags |= 0x80;
-            gSaveContext.naviTimer = 3001;
+            gSaveContext.save.info.playerData.naviTimer = 3001;
         }
 
         this->fairyFlags |= 0x10;
@@ -1406,7 +1409,7 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         func_80A01C38(this, 3);
 
         if (this->elfMsg != NULL) {
-            this->elfMsg->actor.flags |= ACTOR_FLAG_8;
+            this->elfMsg->actor.flags |= ACTOR_FLAG_TALK;
         }
 
         thisx->flags &= ~ACTOR_FLAG_16;
@@ -1414,22 +1417,21 @@ void func_80A053F0(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
         thisx->shape.rot.y = this->unk_2BC;
 
-        // `gSaveContext.sceneFlags[127].chest` (like in the debug string) instead of `HIGH_SCORE(HS_HBA)` matches too,
-        // but, with how the `SaveContext` struct is currently defined, it is an out-of-bounds read in the `sceneFlags`
-        // array.
-        // It is theorized the original `room_inf` (currently `sceneFlags`) was an array of length 128, not broken up
-        // like currently into structs. Structs are currently used because they're easier to work with and still match.
-        // There is another occurrence of this elsewhere.
+        // `gSaveContext.save.info.sceneFlags[127].chest` (like in the debug string) instead of `HIGH_SCORE(HS_HBA)`
+        // matches too, but, with how the `SaveContext` struct is currently defined, it is an out-of-bounds read in the
+        // `sceneFlags` array. It is theorized the original `room_inf` (currently `sceneFlags`) was an array of length
+        // 128, not broken up like currently into structs. Structs are currently used because they're easier to work
+        // with and still match. There is another occurrence of this elsewhere.
         nREG(80) = HIGH_SCORE(HS_HBA);
         if ((nREG(81) != 0) && (HIGH_SCORE(HS_HBA) != 0)) {
             LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_elf.c", 2595);
         }
 
         if (!Play_InCsMode(play)) {
-            if (gSaveContext.naviTimer < 25800) {
-                gSaveContext.naviTimer++;
+            if (gSaveContext.save.info.playerData.naviTimer < 25800) {
+                gSaveContext.save.info.playerData.naviTimer++;
             } else if (!(this->fairyFlags & 0x80)) {
-                gSaveContext.naviTimer = 0;
+                gSaveContext.save.info.playerData.naviTimer = 0;
             }
         }
     }

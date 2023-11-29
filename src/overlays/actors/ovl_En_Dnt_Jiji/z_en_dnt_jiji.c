@@ -40,15 +40,15 @@ void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
 ActorInit En_Dnt_Jiji_InitVars = {
-    ACTOR_EN_DNT_JIJI,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DNS,
-    sizeof(EnDntJiji),
-    (ActorFunc)EnDntJiji_Init,
-    (ActorFunc)EnDntJiji_Destroy,
-    (ActorFunc)EnDntJiji_Update,
-    (ActorFunc)EnDntJiji_Draw,
+    /**/ ACTOR_EN_DNT_JIJI,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DNS,
+    /**/ sizeof(EnDntJiji),
+    /**/ EnDntJiji_Init,
+    /**/ EnDntJiji_Destroy,
+    /**/ EnDntJiji_Update,
+    /**/ EnDntJiji_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -119,7 +119,7 @@ void EnDntJiji_Wait(EnDntJiji* this, PlayState* play) {
         !(player->stateFlags1 & PLAYER_STATE1_11)) {
         OnePointCutscene_Init(play, 2230, -99, &this->actor, CAM_ID_MAIN);
         this->timer = 0;
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = EnDntJiji_SetupUnburrow;
     }
 }
@@ -233,10 +233,10 @@ void EnDntJiji_Cower(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if (frame >= this->endFrame) {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->actionFunc = EnDntJiji_SetupTalk;
         } else {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
 }
@@ -251,9 +251,9 @@ void EnDntJiji_Talk(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         Message_CloseTextbox(play);
-        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actor.parent = NULL;
         Actor_OfferGetItem(&this->actor, play, this->getItemId, 400.0f, 200.0f);
         this->actionFunc = EnDntJiji_SetupGivePrize;

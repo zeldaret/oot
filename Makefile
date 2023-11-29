@@ -95,10 +95,10 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR = mupen64plus
-EMU_FLAGS = --noosd
+EMULATOR   ?= 
+EMU_FLAGS  ?= 
 
-INC        := -Iinclude -Isrc -Ibuild -I.
+INC := -Iinclude -Iinclude/libc -Isrc -Ibuild -I.
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
@@ -209,12 +209,14 @@ build/src/code/fmodf.o: OPTFLAGS := -g
 build/src/code/__osMemset.o: OPTFLAGS := -g
 build/src/code/__osMemmove.o: OPTFLAGS := -g
 
-# Use signed chars instead of unsigned for code_800EC960.c (needed to match AudioDebug_ScrPrt)
-build/src/code/code_800EC960.o: CFLAGS += -signed
+build/src/audio/%.o: OPTFLAGS := -O2
+
+# Use signed chars instead of unsigned for this audio file (needed to match AudioDebug_ScrPrt)
+build/src/audio/general.o: CFLAGS += -signed
 
 # Put string literals in .data for some audio files (needed to match these files with literals)
-build/src/code/code_800F7260.o: CFLAGS += -use_readwrite_const
-build/src/code/code_800F9280.o: CFLAGS += -use_readwrite_const
+build/src/audio/sfx.o: CFLAGS += -use_readwrite_const
+build/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
 build/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 build/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
@@ -284,11 +286,14 @@ setup:
 	python3 tools/audio/assemble_sequences.py assets/sequences build/include build
 	python3 tools/audio/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina -q
 
-test: $(ROM)
+run: $(ROM)
+ifeq ($(EMULATOR),)
+	$(error Emulator path not set. Set EMULATOR in the Makefile or define it as an environment variable)
+endif
 	$(EMULATOR) $(EMU_FLAGS) $<
 
 
-.PHONY: all clean setup test distclean assetclean
+.PHONY: all clean setup run distclean assetclean
 
 #### Various Recipes ####
 
@@ -328,10 +333,13 @@ build/data/%.o: data/%.s
 build/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
 	python3 tools/msgenc.py assets/text/charmap.txt $< $@
 
+# Dependencies for files including message data headers
+# TODO remove when full header dependencies are used.
 build/assets/text/fra_message_data_static.o: build/assets/text/message_data.enc.h
 build/assets/text/ger_message_data_static.o: build/assets/text/message_data.enc.h
 build/assets/text/nes_message_data_static.o: build/assets/text/message_data.enc.h
 build/assets/text/staff_message_data_static.o: build/assets/text/message_data_staff.enc.h
+build/src/code/z_message_PAL.o: build/assets/text/message_data.enc.h build/assets/text/message_data_staff.enc.h
 
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
@@ -343,8 +351,19 @@ build/src/%.o: src/%.s
 build/dmadata_table_spec.h: build/$(SPEC)
 	$(MKDMADATA) $< $@
 
+# Dependencies for files that may include the dmadata header automatically generated from the spec file
 build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
+
+# Dependencies for files including from include/tables/
+# TODO remove when full header dependencies are used.
+build/src/code/graph.o: include/tables/gamestate_table.h
+build/src/code/object_table.o: include/tables/object_table.h
+build/src/code/z_actor.o: include/tables/actor_table.h # so uses of ACTOR_ID_MAX update when the table length changes
+build/src/code/z_actor_dlftbls.o: include/tables/actor_table.h
+build/src/code/z_effect_soft_sprite_dlftbls.o: include/tables/effect_ss_table.h
+build/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
+build/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
 
 build/src/%.o: src/%.c
 	$(CC_CHECK) $<

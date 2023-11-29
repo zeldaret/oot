@@ -24,15 +24,15 @@ void func_8087E2D8(BgHakaMeganeBG* this, PlayState* play);
 void func_8087E34C(BgHakaMeganeBG* this, PlayState* play);
 
 ActorInit Bg_Haka_MeganeBG_InitVars = {
-    ACTOR_BG_HAKA_MEGANEBG,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaMeganeBG),
-    (ActorFunc)BgHakaMeganeBG_Init,
-    (ActorFunc)BgHakaMeganeBG_Destroy,
-    (ActorFunc)BgHakaMeganeBG_Update,
-    (ActorFunc)BgHakaMeganeBG_Draw,
+    /**/ ACTOR_BG_HAKA_MEGANEBG,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaMeganeBG),
+    /**/ BgHakaMeganeBG_Init,
+    /**/ BgHakaMeganeBG_Destroy,
+    /**/ BgHakaMeganeBG_Update,
+    /**/ BgHakaMeganeBG_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -139,12 +139,7 @@ void func_8087E040(BgHakaMeganeBG* this, PlayState* play) {
 
 void func_8087E10C(BgHakaMeganeBG* this, PlayState* play) {
     this->dyna.actor.velocity.y += 1.0f;
-
-    if (this->dyna.actor.velocity.y > 20.0f) {
-        this->dyna.actor.velocity.y = 20.0f;
-    } else {
-        this->dyna.actor.velocity.y = this->dyna.actor.velocity.y;
-    }
+    this->dyna.actor.velocity.y = CLAMP_MAX(this->dyna.actor.velocity.y, 20.0f);
 
     if (this->unk_16A != 0) {
         this->unk_16A--;

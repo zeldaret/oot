@@ -147,7 +147,10 @@ typedef struct {
 #define ACTOR_FLAG_5 (1 << 5)
 #define ACTOR_FLAG_6 (1 << 6)
 #define ACTOR_FLAG_7 (1 << 7)
-#define ACTOR_FLAG_8 (1 << 8)
+// Signals that player has accepted an offer to talk to an actor
+// Player will retain this flag until the player is finished talking
+// Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually turned off by the actor
+#define ACTOR_FLAG_TALK (1 << 8)
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
@@ -199,7 +202,7 @@ typedef struct Actor {
     /* 0x004 */ u32 flags; // Flags used for various purposes
     /* 0x008 */ PosRot home; // Initial position/rotation when spawned. Can be used for other purposes
     /* 0x01C */ s16 params; // Configurable variable set by the actor's spawn data; original name: "args_data"
-    /* 0x01E */ s8 objBankIndex; // Object bank index of the actor's object dependency; original name: "bank"
+    /* 0x01E */ s8 objectSlot; // Object slot (in ObjectContext) corresponding to the actor's object; original name: "bank"
     /* 0x01F */ s8 targetMode; // Controls how far the actor can be targeted from and how far it can stay locked on
     /* 0x020 */ u16 sfx; // SFX ID to play. Sfx plays when value is set, then is cleared the following update cycle
     /* 0x024 */ PosRot world; // Position/rotation in the world
@@ -287,14 +290,14 @@ typedef struct DynaPolyActor {
 
 typedef struct {
     /* 0x00 */ MtxF* matrices;
-    /* 0x04 */ s16* objectIds;
+    /* 0x04 */ s16* objectSlots;
     /* 0x08 */ s16 count;
     /* 0x0C */ Gfx** dLists;
     /* 0x10 */ s32 val; // used for various purposes: both a status indicator and counter
     /* 0x14 */ s32 prevLimbIndex;
 } BodyBreak;
 
-#define BODYBREAK_OBJECT_DEFAULT -1 // use the same object as the actor
+#define BODYBREAK_OBJECT_SLOT_DEFAULT -1 // use the same object as the actor
 #define BODYBREAK_STATUS_READY -1
 #define BODYBREAK_STATUS_FINISHED 0
 

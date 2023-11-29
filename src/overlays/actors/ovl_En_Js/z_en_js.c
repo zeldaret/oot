@@ -17,15 +17,15 @@ void EnJs_Draw(Actor* thisx, PlayState* play);
 void func_80A89304(EnJs* this, PlayState* play);
 
 ActorInit En_Js_InitVars = {
-    ACTOR_EN_JS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_JS,
-    sizeof(EnJs),
-    (ActorFunc)EnJs_Init,
-    (ActorFunc)EnJs_Destroy,
-    (ActorFunc)EnJs_Update,
-    (ActorFunc)EnJs_Draw,
+    /**/ ACTOR_EN_JS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_JS,
+    /**/ sizeof(EnJs),
+    /**/ EnJs_Init,
+    /**/ EnJs_Destroy,
+    /**/ EnJs_Update,
+    /**/ EnJs_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -80,7 +80,7 @@ void EnJs_Destroy(Actor* thisx, PlayState* play) {
 u8 func_80A88F64(EnJs* this, PlayState* play, u16 textId) {
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         return 1;
     } else {
         this->actor.textId = textId;
@@ -88,7 +88,7 @@ u8 func_80A88F64(EnJs* this, PlayState* play, u16 textId) {
 
         if (ABS(yawDiff) <= 0x1800 && this->actor.xzDistToPlayer < 100.0f) {
             this->unk_284 |= 1;
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
         return 0;
     }
@@ -108,10 +108,10 @@ void func_80A89078(EnJs* this, PlayState* play) {
 }
 
 void func_80A890C0(EnJs* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         En_Js_SetupAction(this, func_80A89078);
     } else {
-        func_8002F2CC(&this->actor, play, 1000.0f);
+        Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
 }
 
@@ -136,7 +136,7 @@ void func_80A891C4(EnJs* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0: // yes
-                if (gSaveContext.rupees < 200) {
+                if (gSaveContext.save.info.playerData.rupees < 200) {
                     Message_ContinueTextbox(play, 0x6075);
                     func_80A89008(this);
                 } else {

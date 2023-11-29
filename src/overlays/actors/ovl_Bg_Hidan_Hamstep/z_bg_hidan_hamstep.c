@@ -64,15 +64,15 @@ static ColliderTrisInit sTrisInit = {
 };
 
 ActorInit Bg_Hidan_Hamstep_InitVars = {
-    ACTOR_BG_HIDAN_HAMSTEP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanHamstep),
-    (ActorFunc)BgHidanHamstep_Init,
-    (ActorFunc)BgHidanHamstep_Destroy,
-    (ActorFunc)BgHidanHamstep_Update,
-    (ActorFunc)BgHidanHamstep_Draw,
+    /**/ ACTOR_BG_HIDAN_HAMSTEP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanHamstep),
+    /**/ BgHidanHamstep_Init,
+    /**/ BgHidanHamstep_Destroy,
+    /**/ BgHidanHamstep_Update,
+    /**/ BgHidanHamstep_Draw,
 };
 
 static BgHidanHamstepActionFunc sActionFuncs[] = {
@@ -378,7 +378,7 @@ void func_80888A58(BgHidanHamstep* this, PlayState* play) {
                 func_808884C8(this, play);
 
                 if ((this->dyna.actor.params & 0xFF) == 5) {
-                    func_80078884(NA_SE_SY_CORRECT_CHIME);
+                    Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 }
 
                 osSyncPrintf("B(%d)\n", this->dyna.actor.params);

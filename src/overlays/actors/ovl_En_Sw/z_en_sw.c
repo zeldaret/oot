@@ -21,15 +21,15 @@ void func_80B0DB00(EnSw* this, PlayState* play);
 void func_80B0D878(EnSw* this, PlayState* play);
 
 ActorInit En_Sw_InitVars = {
-    ACTOR_EN_SW,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ST,
-    sizeof(EnSw),
-    (ActorFunc)EnSw_Init,
-    (ActorFunc)EnSw_Destroy,
-    (ActorFunc)EnSw_Update,
-    (ActorFunc)EnSw_Draw,
+    /**/ ACTOR_EN_SW,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ST,
+    /**/ sizeof(EnSw),
+    /**/ EnSw_Init,
+    /**/ EnSw_Destroy,
+    /**/ EnSw_Update,
+    /**/ EnSw_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {
@@ -90,9 +90,9 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     if (temp_f0 < 0.001f) {
         return 0;
     }
-    this->unk_37C.x = this->unk_37C.x * (1.0f / temp_f0);
-    this->unk_37C.y = this->unk_37C.y * (1.0f / temp_f0);
-    this->unk_37C.z = this->unk_37C.z * (1.0f / temp_f0);
+    this->unk_37C.x *= 1.0f / temp_f0;
+    this->unk_37C.y *= 1.0f / temp_f0;
+    this->unk_37C.z *= 1.0f / temp_f0;
     this->unk_364 = polyNormal;
     this->unk_3D8.xx = this->unk_370.x;
     this->unk_3D8.yx = this->unk_370.y;
@@ -182,7 +182,6 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
             if (phi_s1 == 0) {
                 sp78.x = sp84.x - (this->unk_37C.x * 24.0f);
                 sp78.y = sp84.y - (this->unk_37C.y * 24.0f);
-                if (0) {}
                 sp78.z = sp84.z - (this->unk_37C.z * 24.0f);
             } else if (phi_s1 == 1) {
                 sp78.x = sp84.x + (this->unk_370.x * 24.0f);
@@ -194,15 +193,17 @@ s32 func_80B0C0CC(EnSw* this, PlayState* play, s32 arg2) {
                 sp78.z = sp84.z - (this->unk_370.z * 24.0f);
             }
             temp_v0_2 = func_80B0C020(play, &sp84, &sp78, &sp9C, &sp6C);
-            if (temp_v0_2 != NULL) {
-                if (arg2 == 1) {
-                    func_80B0BE20(this, temp_v0_2);
-                    this->actor.world.pos = sp9C;
-                    this->actor.floorBgId = sp6C;
-                }
-                sp64 = 1;
-                break;
+            if (temp_v0_2 == NULL) {
+                continue;
             }
+
+            if (arg2 == 1) {
+                func_80B0BE20(this, temp_v0_2);
+                this->actor.world.pos = sp9C;
+                this->actor.floorBgId = sp6C;
+            }
+            sp64 = 1;
+            break;
         }
     }
 

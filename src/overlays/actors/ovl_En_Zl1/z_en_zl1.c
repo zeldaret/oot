@@ -28,15 +28,15 @@ extern CutsceneData D_80B4C5D0[];
 #include "z_en_zl1_camera_data.inc.c"
 
 ActorInit En_Zl1_InitVars = {
-    ACTOR_EN_ZL1,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL1,
-    sizeof(EnZl1),
-    (ActorFunc)EnZl1_Init,
-    (ActorFunc)EnZl1_Destroy,
-    (ActorFunc)EnZl1_Update,
-    (ActorFunc)EnZl1_Draw,
+    /**/ ACTOR_EN_ZL1,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL1,
+    /**/ sizeof(EnZl1),
+    /**/ EnZl1_Init,
+    /**/ EnZl1_Destroy,
+    /**/ EnZl1_Update,
+    /**/ EnZl1_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -146,10 +146,10 @@ void func_80B4AF18(EnZl1* this, PlayState* play) {
         if (Actor_TextboxIsClosing(&this->actor, play)) {
             this->unk_1E6 = 0;
         }
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk_1E6 = 1;
     } else if (this->actor.world.pos.y <= player->actor.world.pos.y) {
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -166,7 +166,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
         this->subCamId = Play_CreateSubCamera(play);
@@ -191,7 +191,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         if (1) {} // necessary to match
         rotDiff = ABS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
         if ((rotDiff < 0x238E) && !(player->actor.world.pos.y < this->actor.world.pos.y)) {
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     }
 }
@@ -345,7 +345,7 @@ void func_80B4B834(CsCmdActorCue* cue, Vec3f* dest) {
 }
 
 void func_80B4B874(EnZl1* this, PlayState* play) {
-    this->skelAnime.moveFlags |= 1;
+    this->skelAnime.moveFlags |= ANIM_FLAG_0;
     AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
@@ -429,7 +429,7 @@ void func_80B4BBC4(EnZl1* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
     Player_PlaySfx(player, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
     Message_StartTextbox(play, this->actor.textId, NULL);
@@ -556,10 +556,10 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             if (player->actor.world.pos.y < this->actor.world.pos.y) {
                 break;
             } else {
-                if (Actor_ProcessTalkRequest(&this->actor, play)) {
+                if (Actor_TalkOfferAccepted(&this->actor, play)) {
                     this->unk_1E2++;
                 } else {
-                    func_8002F2F4(&this->actor, play);
+                    Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
                 }
             }
             break;
@@ -570,9 +570,9 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             break;
         case 6:
             if (Actor_TextboxIsClosing(&this->actor, play)) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
-                this->actor.flags &= ~ACTOR_FLAG_8;
+                this->actor.flags &= ~ACTOR_FLAG_TALK;
                 this->unk_1E2 = 4;
             }
             break;

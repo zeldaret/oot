@@ -26,15 +26,15 @@ void func_80A55BD4(EnHeishi3* this, PlayState* play);
 static s16 sPlayerCaught = 0;
 
 ActorInit En_Heishi3_InitVars = {
-    ACTOR_EN_HEISHI3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SD,
-    sizeof(EnHeishi3),
-    (ActorFunc)EnHeishi3_Init,
-    (ActorFunc)EnHeishi3_Destroy,
-    (ActorFunc)EnHeishi3_Update,
-    (ActorFunc)EnHeishi3_Draw,
+    /**/ ACTOR_EN_HEISHI3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SD,
+    /**/ sizeof(EnHeishi3),
+    /**/ EnHeishi3_Init,
+    /**/ EnHeishi3_Destroy,
+    /**/ EnHeishi3_Update,
+    /**/ EnHeishi3_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -131,9 +131,9 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, PlayState* play) {
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) && (sPlayerCaught == 0)) {
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
-        func_80078884(NA_SE_SY_FOUND);
+        Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }
@@ -159,9 +159,9 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, PlayState* play) {
         }
         sPlayerCaught = 1;
         Message_StartTextbox(play, 0x702D, &this->actor);
-        func_80078884(NA_SE_SY_FOUND);
+        Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = EnHeishi3_CatchStart;
     }
 }

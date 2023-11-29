@@ -14,15 +14,15 @@ void EnRiverSound_Update(Actor* thisx, PlayState* play);
 void EnRiverSound_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_River_Sound_InitVars = {
-    ACTOR_EN_RIVER_SOUND,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnRiverSound),
-    (ActorFunc)EnRiverSound_Init,
-    (ActorFunc)EnRiverSound_Destroy,
-    (ActorFunc)EnRiverSound_Update,
-    (ActorFunc)EnRiverSound_Draw,
+    /**/ ACTOR_EN_RIVER_SOUND,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnRiverSound),
+    /**/ EnRiverSound_Init,
+    /**/ EnRiverSound_Destroy,
+    /**/ EnRiverSound_Update,
+    /**/ EnRiverSound_Draw,
 };
 
 void EnRiverSound_Init(Actor* thisx, PlayState* play) {
@@ -30,7 +30,7 @@ void EnRiverSound_Init(Actor* thisx, PlayState* play) {
 
     this->playSfx = false;
     this->pathIndex = (this->actor.params >> 8) & 0xFF;
-    this->actor.params = this->actor.params & 0xFF;
+    this->actor.params &= 0xFF;
 
     if (this->actor.params >= RS_GANON_TOWER_0) {
         // Incrementally increase volume of NA_BGM_GANON_TOWER for each new room during the climb of Ganon's Tower
@@ -289,7 +289,7 @@ void EnRiverSound_Draw(Actor* thisx, PlayState* play) {
     } else if ((this->actor.params == RS_SANDSTORM) || (this->actor.params == RS_CHAMBER_OF_SAGES_1) ||
                (this->actor.params == RS_CHAMBER_OF_SAGES_2) || (this->actor.params == RS_RUMBLING)) {
         // Play sfx in the fixed center of the screen
-        func_800788CC(soundEffects[this->actor.params]);
+        Sfx_PlaySfxCentered2(soundEffects[this->actor.params]);
     } else {
         // Play sfx at the location of riverSounds projected position
         Actor_PlaySfx(&this->actor, soundEffects[this->actor.params]);

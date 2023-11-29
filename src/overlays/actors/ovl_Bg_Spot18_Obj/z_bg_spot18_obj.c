@@ -31,15 +31,15 @@ void func_808B9030(BgSpot18Obj* this);
 void func_808B9040(BgSpot18Obj* this, PlayState* play);
 
 ActorInit Bg_Spot18_Obj_InitVars = {
-    ACTOR_BG_SPOT18_OBJ,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT18_OBJ,
-    sizeof(BgSpot18Obj),
-    (ActorFunc)BgSpot18Obj_Init,
-    (ActorFunc)BgSpot18Obj_Destroy,
-    (ActorFunc)BgSpot18Obj_Update,
-    (ActorFunc)BgSpot18Obj_Draw,
+    /**/ ACTOR_BG_SPOT18_OBJ,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT18_OBJ,
+    /**/ sizeof(BgSpot18Obj),
+    /**/ BgSpot18Obj_Init,
+    /**/ BgSpot18Obj_Destroy,
+    /**/ BgSpot18Obj_Update,
+    /**/ BgSpot18Obj_Draw,
 };
 
 static u8 D_808B90F0[2][2] = { { 0x01, 0x01 }, { 0x01, 0x00 } };
@@ -258,7 +258,7 @@ void func_808B8F08(BgSpot18Obj* this, PlayState* play) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~PLAYER_STATE2_4;
         Flags_SetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);

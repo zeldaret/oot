@@ -19,15 +19,15 @@ void EnBom_Move(EnBom* this, PlayState* play);
 void EnBom_WaitForRelease(EnBom* this, PlayState* play);
 
 ActorInit En_Bom_InitVars = {
-    ACTOR_EN_BOM,
-    ACTORCAT_EXPLOSIVE,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnBom),
-    (ActorFunc)EnBom_Init,
-    (ActorFunc)EnBom_Destroy,
-    (ActorFunc)EnBom_Update,
-    (ActorFunc)EnBom_Draw,
+    /**/ ACTOR_EN_BOM,
+    /**/ ACTORCAT_EXPLOSIVE,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnBom),
+    /**/ EnBom_Init,
+    /**/ EnBom_Destroy,
+    /**/ EnBom_Update,
+    /**/ EnBom_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

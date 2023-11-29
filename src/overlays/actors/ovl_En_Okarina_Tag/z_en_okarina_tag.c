@@ -23,15 +23,15 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play);
 void func_80ABF7CC(EnOkarinaTag* this, PlayState* play);
 
 ActorInit En_Okarina_Tag_InitVars = {
-    ACTOR_EN_OKARINA_TAG,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnOkarinaTag),
-    (ActorFunc)EnOkarinaTag_Init,
-    (ActorFunc)EnOkarinaTag_Destroy,
-    (ActorFunc)EnOkarinaTag_Update,
-    NULL,
+    /**/ ACTOR_EN_OKARINA_TAG,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnOkarinaTag),
+    /**/ EnOkarinaTag_Init,
+    /**/ EnOkarinaTag_Destroy,
+    /**/ EnOkarinaTag_Update,
+    /**/ NULL,
 };
 
 extern CutsceneData D_80ABF9D0[];
@@ -114,7 +114,7 @@ void func_80ABEF2C(EnOkarinaTag* this, PlayState* play) {
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(play, this->switchFlag))) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
+        if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
                 // "North! ! ! ! !"
                 osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToPlayer);
@@ -156,7 +156,7 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
                 (play->sceneId != SCENE_GREAT_FAIRYS_FOUNTAIN_SPELLS)) {
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             this->actionFunc = func_80ABEF2C;
             return;
         }
@@ -169,7 +169,7 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
                     Flags_SetSwitch(play, this->switchFlag);
                 }
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-                func_80078884(NA_SE_SY_CORRECT_CHIME);
+                Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 this->actionFunc = func_80ABEF2C;
                 return;
             }
@@ -187,7 +187,7 @@ void func_80ABF28C(EnOkarinaTag* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     this->unk_15A++;
-    if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
+    if ((this->ocarinaSong != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(play, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
         } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
@@ -232,7 +232,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->actionFunc = func_80ABF28C;
     } else if (play->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(play, this->switchFlag);
         }
@@ -257,7 +257,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                                                    : SEGMENTED_TO_VIRTUAL(spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
-                func_80078884(NA_SE_SY_CORRECT_CHIME);
+                Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
                 break;
             default:
                 break;
@@ -282,7 +282,7 @@ void func_80ABF708(EnOkarinaTag* this, PlayState* play) {
     s16 yawDiff;
     s16 yawDiffNew;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80ABF7CC;
     } else {
         yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
@@ -294,7 +294,7 @@ void func_80ABF708(EnOkarinaTag* this, PlayState* play) {
             yawDiffNew = ABS(yawDiff);
             if (yawDiffNew < 0x4300) {
                 this->unk_15A = 0;
-                func_8002F2CC(&this->actor, play, 70.0f);
+                Actor_OfferTalk(&this->actor, play, 70.0f);
             }
         }
     }

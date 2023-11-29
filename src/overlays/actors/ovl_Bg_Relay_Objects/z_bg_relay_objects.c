@@ -27,15 +27,15 @@ void func_808A932C(BgRelayObjects* this, PlayState* play);
 void func_808A939C(BgRelayObjects* this, PlayState* play);
 
 ActorInit Bg_Relay_Objects_InitVars = {
-    ACTOR_BG_RELAY_OBJECTS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_RELAY_OBJECTS,
-    sizeof(BgRelayObjects),
-    (ActorFunc)BgRelayObjects_Init,
-    (ActorFunc)BgRelayObjects_Destroy,
-    (ActorFunc)BgRelayObjects_Update,
-    (ActorFunc)BgRelayObjects_Draw,
+    /**/ ACTOR_BG_RELAY_OBJECTS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_RELAY_OBJECTS,
+    /**/ sizeof(BgRelayObjects),
+    /**/ BgRelayObjects_Init,
+    /**/ BgRelayObjects_Destroy,
+    /**/ BgRelayObjects_Update,
+    /**/ BgRelayObjects_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -108,7 +108,7 @@ void BgRelayObjects_Destroy(Actor* thisx, PlayState* play) {
     BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
-    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
+    if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.save.cutsceneIndex < 0xFFF0)) {
         CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
 }
@@ -148,7 +148,7 @@ void func_808A9234(BgRelayObjects* this, PlayState* play) {
         Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 180, 20, 100);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         if (this->unk_169 != play->roomCtx.curRoom.num) {
-            func_800788CC(NA_SE_EN_PO_LAUGH);
+            Sfx_PlaySfxCentered2(NA_SE_EN_PO_LAUGH);
             this->timer = 5;
             this->actionFunc = func_808A932C;
             return;
@@ -171,7 +171,7 @@ void func_808A932C(BgRelayObjects* this, PlayState* play) {
     }
     if (this->timer == 0) {
         if (!Player_InCsMode(play)) {
-            func_80078884(NA_SE_OC_ABYSS);
+            Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
             Play_TriggerRespawn(play);
             this->actionFunc = BgRelayObjects_DoNothing;
         }

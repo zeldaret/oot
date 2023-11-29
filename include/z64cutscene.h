@@ -494,10 +494,6 @@ typedef union {
 #define CS_CAM_CONTINUE 0
 #define CS_CAM_STOP -1
 
-// todo: remove after ZAPD is updated
-#define CS_CMD_CONTINUE CS_CAM_CONTINUE
-#define CS_CMD_STOP CS_CAM_STOP
-
 #define CS_CAM_DATA_NOT_APPLIED 0xFFFF
 
 typedef struct {
@@ -512,5 +508,22 @@ typedef struct {
     /* 0x4 */ CutsceneCameraPoint* eyePoints;
     /* 0x8 */ s16 relativeToPlayer;
 } CutsceneCameraMove; // size = 0xC
+
+typedef struct {
+    /* 0x00 */ char  unk_00[0x4];
+    /* 0x04 */ void* script;
+    /* 0x08 */ u8 state;
+    /* 0x0C */ f32 timer;
+    /* 0x10 */ u16 curFrame; // current frame of the script that is running
+    /* 0x12 */ u16 unk_12; // set but never used
+    /* 0x14 */ s32 subCamId;
+    /* 0x18 */ u16 camEyeSplinePointsAppliedFrame; // stores the frame the cam eye spline points data was last applied on
+    /* 0x1A */ u8 camAtReady; // cam `at` data is ready to be applied
+    /* 0x1B */ u8 camEyeReady; // cam `eye` data is ready to be applied
+    /* 0x1C */ CutsceneCameraPoint* camAtPoints;
+    /* 0x20 */ CutsceneCameraPoint* camEyePoints;
+    /* 0x24 */ CsCmdActorCue* playerCue;
+    /* 0x28 */ CsCmdActorCue* actorCues[10]; // "npcdemopnt"
+} CutsceneContext; // size = 0x50
 
 #endif

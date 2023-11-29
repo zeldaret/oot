@@ -19,15 +19,15 @@ void ObjBombiwa_Draw(Actor* thisx, PlayState* play);
 void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play);
 
 ActorInit Obj_Bombiwa_InitVars = {
-    ACTOR_OBJ_BOMBIWA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_BOMBIWA,
-    sizeof(ObjBombiwa),
-    (ActorFunc)ObjBombiwa_Init,
-    (ActorFunc)ObjBombiwa_Destroy,
-    (ActorFunc)ObjBombiwa_Update,
-    (ActorFunc)ObjBombiwa_Draw,
+    /**/ ACTOR_OBJ_BOMBIWA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_BOMBIWA,
+    /**/ sizeof(ObjBombiwa),
+    /**/ ObjBombiwa_Init,
+    /**/ ObjBombiwa_Destroy,
+    /**/ ObjBombiwa_Update,
+    /**/ ObjBombiwa_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -130,7 +130,7 @@ void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
         Flags_SetSwitch(play, this->actor.params & 0x3F);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
         if (((this->actor.params >> 0xF) & 1) != 0) {
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
         Actor_Kill(&this->actor);
     } else {

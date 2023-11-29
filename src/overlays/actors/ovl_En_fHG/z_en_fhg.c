@@ -46,15 +46,15 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play);
 void EnfHG_Done(EnfHG* this, PlayState* play);
 
 ActorInit En_fHG_InitVars = {
-    ACTOR_EN_FHG,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_FHG,
-    sizeof(EnfHG),
-    (ActorFunc)EnfHG_Init,
-    (ActorFunc)EnfHG_Destroy,
-    (ActorFunc)EnfHG_Update,
-    (ActorFunc)EnfHG_Draw,
+    /**/ ACTOR_EN_FHG,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_FHG,
+    /**/ sizeof(EnfHG),
+    /**/ EnfHG_Init,
+    /**/ EnfHG_Destroy,
+    /**/ EnfHG_Update,
+    /**/ EnfHG_Draw,
 };
 
 static EnfHGPainting sPaintings[] = {
@@ -151,7 +151,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 break;
             }
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -192,7 +192,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_GANON_HORSE_GROAN);
             }
             if (this->timers[0] == 20) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_9);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_9);
             }
             if (this->timers[0] == 1) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_OPENING_GANON);
@@ -290,11 +290,11 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 bossGnd->work[GND_EYE_STATE] = GND_EYESTATE_BRIGHTEN;
             }
             if (this->timers[0] == 35) {
-                func_80078914(&audioVec, NA_SE_EN_FANTOM_EYE);
+                Sfx_PlaySfxAtPos(&audioVec, NA_SE_EN_FANTOM_EYE);
             }
             if (this->timers[0] == 130) {
                 bossGnd->work[GND_EYE_STATE] = GND_EYESTATE_FADE;
-                func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
+                Sfx_PlaySfxAtPos(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
@@ -354,7 +354,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 this->bossGndSignal = FHG_FINISH;
             }
             if (this->timers[0] == 170) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_MASIC2);
             }
             Math_ApproachF(&this->subCamEye.z, this->subCamPanZ + (GND_BOSSROOM_CENTER_Z + 100.0f), 0.1f,
@@ -400,7 +400,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 this->actionFunc = EnfHG_Retreat;
             }
             break;
@@ -467,7 +467,7 @@ void EnfHG_Approach(EnfHG* this, PlayState* play) {
         this->hoofSfxPos.y = this->actor.projectedPos.y / (this->actor.scale.x * 100.0f);
         this->hoofSfxPos.z = this->actor.projectedPos.z / (this->actor.scale.x * 100.0f);
         if ((this->gallopTimer % 8) == 0) {
-            func_80078914(&this->hoofSfxPos, NA_SE_EV_HORSE_RUN);
+            Sfx_PlaySfxAtPos(&this->hoofSfxPos, NA_SE_EV_HORSE_RUN);
         }
     }
     SkelAnime_Update(&this->skin.skelAnime);
@@ -636,7 +636,7 @@ void EnfHG_Retreat(EnfHG* this, PlayState* play) {
         this->hoofSfxPos.y = this->actor.projectedPos.y / (this->actor.scale.x * 100.0f);
         this->hoofSfxPos.z = this->actor.projectedPos.z / (this->actor.scale.x * 100.0f);
         if ((this->gallopTimer % 8) == 0) {
-            func_80078914(&this->hoofSfxPos, NA_SE_EV_HORSE_RUN);
+            Sfx_PlaySfxAtPos(&this->hoofSfxPos, NA_SE_EV_HORSE_RUN);
         }
     }
     SkelAnime_Update(&this->skin.skelAnime);

@@ -45,15 +45,15 @@ void EnFloormas_BigDecideAction(EnFloormas* this, PlayState* play);
 void EnFloormas_Charge(EnFloormas* this, PlayState* play);
 
 ActorInit En_Floormas_InitVars = {
-    ACTOR_EN_FLOORMAS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_WALLMASTER,
-    sizeof(EnFloormas),
-    (ActorFunc)EnFloormas_Init,
-    (ActorFunc)EnFloormas_Destroy,
-    (ActorFunc)EnFloormas_Update,
-    (ActorFunc)EnFloormas_Draw,
+    /**/ ACTOR_EN_FLOORMAS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_WALLMASTER,
+    /**/ sizeof(EnFloormas),
+    /**/ EnFloormas_Init,
+    /**/ EnFloormas_Destroy,
+    /**/ EnFloormas_Update,
+    /**/ EnFloormas_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -242,7 +242,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (this->actor.scale.x > 0.004f) {
         this->actionTarget = (rotDelta * (2.0f / 30.0f));
     } else {
-        this->skelAnime.playSpeed = this->skelAnime.playSpeed + this->skelAnime.playSpeed;
+        this->skelAnime.playSpeed *= 2.0f;
         this->actionTarget = rotDelta * (2.0f / 15.0f);
     }
     this->actionFunc = EnFloormas_Turn;

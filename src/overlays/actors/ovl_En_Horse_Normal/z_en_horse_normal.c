@@ -40,15 +40,15 @@ void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
 ActorInit En_Horse_Normal_InitVars = {
-    ACTOR_EN_HORSE_NORMAL,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HORSE_NORMAL,
-    sizeof(EnHorseNormal),
-    (ActorFunc)EnHorseNormal_Init,
-    (ActorFunc)EnHorseNormal_Destroy,
-    (ActorFunc)EnHorseNormal_Update,
-    (ActorFunc)EnHorseNormal_Draw,
+    /**/ ACTOR_EN_HORSE_NORMAL,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HORSE_NORMAL,
+    /**/ sizeof(EnHorseNormal),
+    /**/ EnHorseNormal_Init,
+    /**/ EnHorseNormal_Destroy,
+    /**/ EnHorseNormal_Update,
+    /**/ EnHorseNormal_Draw,
 };
 
 static AnimationHeader* sAnimations[] = {

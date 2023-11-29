@@ -21,15 +21,15 @@ void BgJyaMegami_SetupExplode(BgJyaMegami* this);
 void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play);
 
 ActorInit Bg_Jya_Megami_InitVars = {
-    ACTOR_BG_JYA_MEGAMI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaMegami),
-    (ActorFunc)BgJyaMegami_Init,
-    (ActorFunc)BgJyaMegami_Destroy,
-    (ActorFunc)BgJyaMegami_Update,
-    (ActorFunc)BgJyaMegami_Draw,
+    /**/ ACTOR_BG_JYA_MEGAMI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaMegami),
+    /**/ BgJyaMegami_Init,
+    /**/ BgJyaMegami_Destroy,
+    /**/ BgJyaMegami_Update,
+    /**/ BgJyaMegami_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
@@ -278,7 +278,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, PlayState* play) {
         func_80033480(play, &sp8C, 100.0f, 1, 150, 100, 1);
     }
     if (this->explosionTimer == 60) {
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
     if (this->explosionTimer >= 100) {
         Actor_Kill(&this->dyna.actor);

@@ -34,15 +34,15 @@ typedef enum {
 } SariaMouthState;
 
 ActorInit En_Sa_InitVars = {
-    ACTOR_EN_SA,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SA,
-    sizeof(EnSa),
-    (ActorFunc)EnSa_Init,
-    (ActorFunc)EnSa_Destroy,
-    (ActorFunc)EnSa_Update,
-    (ActorFunc)EnSa_Draw,
+    /**/ ACTOR_EN_SA,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SA,
+    /**/ sizeof(EnSa),
+    /**/ EnSa_Init,
+    /**/ EnSa_Destroy,
+    /**/ EnSa_Update,
+    /**/ EnSa_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -381,7 +381,7 @@ void EnSa_ChangeAnim(EnSa* this, s32 index) {
 }
 
 s32 func_80AF5DFC(EnSa* this, PlayState* play) {
-    if (gSaveContext.cutsceneIndex >= 0xFFF0 && gSaveContext.cutsceneIndex != 0xFFFD) {
+    if (gSaveContext.save.cutsceneIndex >= 0xFFF0 && gSaveContext.save.cutsceneIndex != 0xFFFD) {
         if (play->sceneId == SCENE_KOKIRI_FOREST) {
             return 4;
         }

@@ -86,15 +86,15 @@ static EnZl2DrawFunc sDrawFuncs[] = {
 };
 
 ActorInit En_Zl2_InitVars = {
-    ACTOR_EN_ZL2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnZl2),
-    (ActorFunc)EnZl2_Init,
-    (ActorFunc)EnZl2_Destroy,
-    (ActorFunc)EnZl2_Update,
-    (ActorFunc)EnZl2_Draw,
+    /**/ ACTOR_EN_ZL2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ZL2,
+    /**/ sizeof(EnZl2),
+    /**/ EnZl2_Init,
+    /**/ EnZl2_Destroy,
+    /**/ EnZl2_Update,
+    /**/ EnZl2_Draw,
 };
 
 void EnZl2_Destroy(Actor* thisx, PlayState* play) {
@@ -369,7 +369,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_t3;
     s32 phi_v0;
     s32 index1AC;
-    s32 phi_t5;
+    int phi_t5;
 
     if (this->unk_24C != 0) {
         temp_v1 = this->unk_1DC[arg2] - arg1;
@@ -559,9 +559,9 @@ void EnZl2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 void func_80B4FCCC(EnZl2* this, PlayState* play) {
-    s32 unk_274 = this->unk_274;
+    s32 objectSlot = this->zl2Anime1ObjectSlot;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[unk_274].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
 }
 
 void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
@@ -590,34 +590,34 @@ void func_80B4FD90(EnZl2* this, PlayState* play) {
 
 void func_80B4FDD4(EnZl2* this) {
     if (Animation_OnFrame(&this->skelAnime, 14.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
 void func_80B4FE10(PlayState* play) {
     if ((play->csCtx.curFrame >= 830) && (play->csCtx.curFrame < 1081)) {
-        func_800788CC(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
+        Sfx_PlaySfxCentered2(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
     }
 }
 
 void func_80B4FE48(EnZl2* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_EV_GOTO_HEAVEN - SFX_FLAG);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_GOTO_HEAVEN - SFX_FLAG);
 }
 
 void func_80B4FE6C(EnZl2* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_EN_GANON_LAUGH);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EN_GANON_LAUGH);
 }
 
 void func_80B4FE90(EnZl2* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_SURPRISE);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_SURPRISE);
 }
 
 void func_80B4FEB4(EnZl2* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
 }
 
 void func_80B4FED8(EnZl2* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_CRY_0);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_Z1_CRY_0);
 }
 
 void EnZl2_GiveLightArrows(EnZl2* this, PlayState* play) {
@@ -1233,9 +1233,9 @@ void func_80B5154C(EnZl2* this, PlayState* play) {
         EnZl2_UpdateEyes(this);
     } else {
         csCtx = &play->csCtx;
-        if (csCtx->curFrame < 0x5F0) {
+        if (csCtx->curFrame < 1520) {
             func_80B4EBB8(this);
-        } else if (csCtx->curFrame == 0x5F0) {
+        } else if (csCtx->curFrame == 1520) {
             this->unk_27C = 0.0f;
         } else {
             func_80B4EC48(this);
@@ -1446,7 +1446,7 @@ void func_80B51D24(EnZl2* this, PlayState* play) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = NA_SE_PL_WALK_GROUND;
             sfxId += SurfaceType_GetSfxOffset(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-            func_80078914(&this->actor.projectedPos, sfxId);
+            Sfx_PlaySfxAtPos(&this->actor.projectedPos, sfxId);
         }
     }
 }
@@ -1575,16 +1575,16 @@ void func_80B52114(EnZl2* this, PlayState* play) {
 void func_80B521A0(EnZl2* this, PlayState* play) {
     s32 pad;
     ObjectContext* objectCtx = &play->objectCtx;
-    s32 bankIndex = Object_GetIndex(objectCtx, OBJECT_ZL2_ANIME1);
+    s32 objectSlot = Object_GetSlot(objectCtx, OBJECT_ZL2_ANIME1);
     s32 pad2;
 
-    if (bankIndex < 0) {
+    if (objectSlot < 0) {
         osSyncPrintf(VT_FGCOL(RED) "En_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    if (Object_IsLoaded(objectCtx, bankIndex)) {
-        this->unk_274 = bankIndex;
+    if (Object_IsLoaded(objectCtx, objectSlot)) {
+        this->zl2Anime1ObjectSlot = objectSlot;
         func_80B4FCCC(this, play);
         this->unk_278 = Animation_GetLastFrame(&gZelda2Anime1Anim_0022D0);
         func_80B52114(this, play);

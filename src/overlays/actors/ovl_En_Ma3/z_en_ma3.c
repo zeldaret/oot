@@ -21,15 +21,15 @@ void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
 ActorInit En_Ma3_InitVars = {
-    ACTOR_EN_MA3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MA2,
-    sizeof(EnMa3),
-    (ActorFunc)EnMa3_Init,
-    (ActorFunc)EnMa3_Destroy,
-    (ActorFunc)EnMa3_Update,
-    (ActorFunc)EnMa3_Draw,
+    /**/ ACTOR_EN_MA3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MA2,
+    /**/ sizeof(EnMa3),
+    /**/ EnMa3_Init,
+    /**/ EnMa3_Destroy,
+    /**/ EnMa3_Update,
+    /**/ EnMa3_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -87,7 +87,7 @@ u16 EnMa3_GetTextId(PlayState* play, Actor* thisx) {
             HIGH_SCORE(HS_HORSE_RACE) = 180;
         }
 
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (((void)0, gSaveContext.timerSeconds) < 50)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK) && (((void)0, gSaveContext.timerSeconds) < 50)) {
             return 0x208F;
         }
 
@@ -128,7 +128,7 @@ s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx) {
             if (Message_ShouldAdvance(play)) {
                 SET_INFTABLE(INFTABLE_B9);
                 if (play->msgCtx.choiceIndex == 0) {
-                    if (GET_EVENTCHKINF(EVENTCHKINF_1E)) {
+                    if (GET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK)) {
                         Message_ContinueTextbox(play, 0x2091);
                     } else if (HIGH_SCORE(HS_HORSE_RACE) == 0) {
                         Message_ContinueTextbox(play, 0x2092);
@@ -145,7 +145,7 @@ s16 EnMa3_UpdateTalkState(PlayState* play, Actor* thisx) {
                     talkState = NPC_TALK_STATE_IDLE;
                     break;
                 case 0x208F:
-                    SET_EVENTCHKINF(EVENTCHKINF_1E);
+                    SET_EVENTCHKINF(EVENTCHKINF_HORSE_RACE_COW_UNLOCK);
                     FALLTHROUGH;
                 case 0x2004:
                 case 0x2012:

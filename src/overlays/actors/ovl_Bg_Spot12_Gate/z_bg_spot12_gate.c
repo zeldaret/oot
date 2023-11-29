@@ -25,15 +25,15 @@ void func_808B3274(BgSpot12Gate* this);
 void func_808B3298(BgSpot12Gate* this, PlayState* play);
 
 ActorInit Bg_Spot12_Gate_InitVars = {
-    ACTOR_BG_SPOT12_GATE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT12_OBJ,
-    sizeof(BgSpot12Gate),
-    (ActorFunc)BgSpot12Gate_Init,
-    (ActorFunc)BgSpot12Gate_Destroy,
-    (ActorFunc)BgSpot12Gate_Update,
-    (ActorFunc)BgSpot12Gate_Draw,
+    /**/ ACTOR_BG_SPOT12_GATE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT12_OBJ,
+    /**/ sizeof(BgSpot12Gate),
+    /**/ BgSpot12Gate_Init,
+    /**/ BgSpot12Gate_Destroy,
+    /**/ BgSpot12Gate_Update,
+    /**/ BgSpot12Gate_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

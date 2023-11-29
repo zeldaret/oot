@@ -39,15 +39,15 @@ void EnWallmas_Stun(EnWallmas* this, PlayState* play);
 void EnWallmas_Walk(EnWallmas* this, PlayState* play);
 
 ActorInit En_Wallmas_InitVars = {
-    ACTOR_EN_WALLMAS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_WALLMASTER,
-    sizeof(EnWallmas),
-    (ActorFunc)EnWallmas_Init,
-    (ActorFunc)EnWallmas_Destroy,
-    (ActorFunc)EnWallmas_Update,
-    (ActorFunc)EnWallmas_Draw,
+    /**/ ACTOR_EN_WALLMAS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_WALLMASTER,
+    /**/ sizeof(EnWallmas),
+    /**/ EnWallmas_Init,
+    /**/ EnWallmas_Destroy,
+    /**/ EnWallmas_Update,
+    /**/ EnWallmas_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -125,7 +125,7 @@ void EnWallmas_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->switchFlag = (u8)(thisx->params >> 0x8);
-    thisx->params = thisx->params & 0xFF;
+    thisx->params &= 0xFF;
 
     if (thisx->params == WMT_FLAG) {
         if (Flags_GetSwitch(play, this->switchFlag) != 0) {
@@ -259,7 +259,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, PlayState* play) {
     this->actor.velocity.y = 0.0f;
 
     this->yTarget = this->actor.yDistToPlayer;
-    func_8002DF38(play, &this->actor, PLAYER_CSMODE_37);
+    Player_SetCsAction(play, &this->actor, PLAYER_CSACTION_37);
     OnePointCutscene_Init(play, 9500, 9999, &this->actor, CAM_ID_MAIN);
 }
 
@@ -365,7 +365,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame > 20.0f) {
         this->timer += 9;
-        this->actor.world.pos.y = this->actor.world.pos.y + 30.0f;
+        this->actor.world.pos.y += 30.0f;
     }
 
     if (Animation_OnFrame(&this->skelAnime, 20.0f) != 0) {
@@ -437,9 +437,9 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
         player->actor.world.pos.z = this->actor.world.pos.z;
 
         if (this->timer < 0) {
-            this->actor.world.pos.y = this->actor.world.pos.y + 2.0f;
+            this->actor.world.pos.y += 2.0f;
         } else {
-            this->actor.world.pos.y = this->actor.world.pos.y + 10.0f;
+            this->actor.world.pos.y += 10.0f;
         }
 
         if (!LINK_IS_ADULT) {
@@ -461,7 +461,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_UP);
         }
 
-        this->timer = this->timer + 2;
+        this->timer += 2;
     } else {
         Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y + (!LINK_IS_ADULT ? 30.0f : 50.0f), 5.0f);
     }
@@ -470,7 +470,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
     Math_StepToF(&this->actor.world.pos.z, player->actor.world.pos.z, 3.0f);
 
     if (this->timer == 0x1E) {
-        func_80078884(NA_SE_OC_ABYSS);
+        Sfx_PlaySfxCentered(NA_SE_OC_ABYSS);
         Play_TriggerRespawn(play);
     }
 }

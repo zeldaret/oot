@@ -31,15 +31,15 @@ void EnSsh_Start(EnSsh* this, PlayState* play);
 #include "assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c"
 
 ActorInit En_Ssh_InitVars = {
-    ACTOR_EN_SSH,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SSH,
-    sizeof(EnSsh),
-    (ActorFunc)EnSsh_Init,
-    (ActorFunc)EnSsh_Destroy,
-    (ActorFunc)EnSsh_Update,
-    (ActorFunc)EnSsh_Draw,
+    /**/ ACTOR_EN_SSH,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SSH,
+    /**/ sizeof(EnSsh),
+    /**/ EnSsh_Init,
+    /**/ EnSsh_Destroy,
+    /**/ EnSsh_Update,
+    /**/ EnSsh_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
@@ -122,7 +122,7 @@ void EnSsh_SpawnShockwave(EnSsh* this, PlayState* play) {
     pos.x = this->actor.world.pos.x;
     pos.y = this->actor.floorHeight;
     pos.z = this->actor.world.pos.z;
-    EffectSsBlast_SpawnWhiteCustomScale(play, &pos, &zeroVec, &zeroVec, 100, 220, 8);
+    EffectSsBlast_SpawnWhiteShockwaveSetScale(play, &pos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
 s32 EnSsh_CreateBlureEffect(PlayState* play) {
@@ -610,11 +610,11 @@ void EnSsh_Init(Actor* thisx, PlayState* play) {
 
     frameCount = Animation_GetLastFrame(&object_ssh_Anim_000304);
     if (this->actor.params == ENSSH_FATHER) {
-        if (gSaveContext.inventory.gsTokens >= 100) {
+        if (gSaveContext.save.info.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);
             return;
         }
-    } else if (gSaveContext.inventory.gsTokens >= (this->actor.params * 10)) {
+    } else if (gSaveContext.save.info.inventory.gsTokens >= (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -666,7 +666,7 @@ void EnSsh_Talk(EnSsh* this, PlayState* play) {
 
 void EnSsh_Idle(EnSsh* this, PlayState* play) {
     if (1) {}
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnSsh_Talk;
         if (this->actor.params == ENSSH_FATHER) {
             SET_EVENTCHKINF(EVENTCHKINF_96);
@@ -697,9 +697,9 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
                 this->actor.textId = Text_GetFaceReaction(play, 0xD);
                 if (this->actor.textId == 0) {
                     if (this->actor.params == ENSSH_FATHER) {
-                        if (gSaveContext.inventory.gsTokens >= 50) {
+                        if (gSaveContext.save.info.inventory.gsTokens >= 50) {
                             this->actor.textId = 0x29;
-                        } else if (gSaveContext.inventory.gsTokens >= 10) {
+                        } else if (gSaveContext.save.info.inventory.gsTokens >= 10) {
                             if (GET_INFTABLE(INFTABLE_197)) {
                                 this->actor.textId = 0x24;
                             } else {
@@ -716,7 +716,7 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
                         this->actor.textId = 0x22;
                     }
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }

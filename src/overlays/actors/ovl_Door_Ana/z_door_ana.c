@@ -19,15 +19,15 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play);
 void DoorAna_GrabPlayer(DoorAna* this, PlayState* play);
 
 ActorInit Door_Ana_InitVars = {
-    ACTOR_DOOR_ANA,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(DoorAna),
-    (ActorFunc)DoorAna_Init,
-    (ActorFunc)DoorAna_Destroy,
-    (ActorFunc)DoorAna_Update,
-    (ActorFunc)DoorAna_Draw,
+    /**/ ACTOR_DOOR_ANA,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(DoorAna),
+    /**/ DoorAna_Init,
+    /**/ DoorAna_Destroy,
+    /**/ DoorAna_Update,
+    /**/ DoorAna_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -129,7 +129,7 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
     player = GET_PLAYER(play);
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
         if ((this->actor.targetMode != 0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
-            (player->stateFlags1 & PLAYER_STATE1_31) && (player->unk_84F == 0)) {
+            (player->stateFlags1 & PLAYER_STATE1_31) && (player->av1.actionVar1 == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
             Play_SetupRespawnPoint(play, RESPAWN_MODE_RETURN, 0x4FF);
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.world.pos.y;

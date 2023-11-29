@@ -31,15 +31,15 @@ typedef enum {
 } MagicFireScreenTint;
 
 ActorInit Magic_Fire_InitVars = {
-    ACTOR_MAGIC_FIRE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(MagicFire),
-    (ActorFunc)MagicFire_Init,
-    (ActorFunc)MagicFire_Destroy,
-    (ActorFunc)MagicFire_Update,
-    (ActorFunc)MagicFire_Draw,
+    /**/ ACTOR_MAGIC_FIRE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(MagicFire),
+    /**/ MagicFire_Init,
+    /**/ MagicFire_Destroy,
+    /**/ MagicFire_Update,
+    /**/ MagicFire_Draw,
 };
 
 #include "assets/overlays/ovl_Magic_Fire/ovl_Magic_Fire.c"

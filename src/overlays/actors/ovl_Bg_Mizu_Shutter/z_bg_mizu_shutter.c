@@ -14,15 +14,15 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play);
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play);
 
 ActorInit Bg_Mizu_Shutter_InitVars = {
-    ACTOR_BG_MIZU_SHUTTER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuShutter),
-    (ActorFunc)BgMizuShutter_Init,
-    (ActorFunc)BgMizuShutter_Destroy,
-    (ActorFunc)BgMizuShutter_Update,
-    (ActorFunc)BgMizuShutter_Draw,
+    /**/ ACTOR_BG_MIZU_SHUTTER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuShutter),
+    /**/ BgMizuShutter_Init,
+    /**/ BgMizuShutter_Destroy,
+    /**/ BgMizuShutter_Update,
+    /**/ BgMizuShutter_Draw,
 };
 
 static Gfx* sDisplayLists[] = { gObjectMizuObjectsShutterDL_007130, gObjectMizuObjectsShutterDL_0072D0 };

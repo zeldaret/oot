@@ -32,15 +32,15 @@ void EnDh_Damage(EnDh* this, PlayState* play);
 void EnDh_Death(EnDh* this, PlayState* play);
 
 ActorInit En_Dh_InitVars = {
-    ACTOR_EN_DH,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_DH,
-    sizeof(EnDh),
-    (ActorFunc)EnDh_Init,
-    (ActorFunc)EnDh_Destroy,
-    (ActorFunc)EnDh_Update,
-    (ActorFunc)EnDh_Draw,
+    /**/ ACTOR_EN_DH,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_DH,
+    /**/ sizeof(EnDh),
+    /**/ EnDh_Init,
+    /**/ EnDh_Destroy,
+    /**/ EnDh_Update,
+    /**/ EnDh_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

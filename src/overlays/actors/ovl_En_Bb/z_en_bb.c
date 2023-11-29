@@ -196,15 +196,15 @@ static DamageTable sDamageTableWhite = {
 };
 
 ActorInit En_Bb_InitVars = {
-    ACTOR_EN_BB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BB,
-    sizeof(EnBb),
-    (ActorFunc)EnBb_Init,
-    (ActorFunc)EnBb_Destroy,
-    (ActorFunc)EnBb_Update,
-    (ActorFunc)EnBb_Draw,
+    /**/ ACTOR_EN_BB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BB,
+    /**/ sizeof(EnBb),
+    /**/ EnBb_Init,
+    /**/ EnBb_Destroy,
+    /**/ EnBb_Update,
+    /**/ EnBb_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementInit[1] = {
@@ -1267,7 +1267,7 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
 void EnBb_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnBb* this = (EnBb*)thisx;
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 4, 15, 15, dList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 4, 15, 15, dList, BODYBREAK_OBJECT_SLOT_DEFAULT);
 }
 
 static Vec3f sFireIceOffsets[] = {

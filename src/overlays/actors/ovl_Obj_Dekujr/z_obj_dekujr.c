@@ -17,15 +17,15 @@ void ObjDekujr_Draw(Actor* thisx, PlayState* play);
 void ObjDekujr_ComeUp(ObjDekujr* this, PlayState* play);
 
 ActorInit Obj_Dekujr_InitVars = {
-    ACTOR_OBJ_DEKUJR,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DEKUJR,
-    sizeof(ObjDekujr),
-    (ActorFunc)ObjDekujr_Init,
-    (ActorFunc)ObjDekujr_Destroy,
-    (ActorFunc)ObjDekujr_Update,
-    (ActorFunc)ObjDekujr_Draw,
+    /**/ ACTOR_OBJ_DEKUJR,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DEKUJR,
+    /**/ sizeof(ObjDekujr),
+    /**/ ObjDekujr_Init,
+    /**/ ObjDekujr_Destroy,
+    /**/ ObjDekujr_Update,
+    /**/ ObjDekujr_Draw,
 };
 
 static ColliderCylinderInitToActor sCylinderInit = {
@@ -44,7 +44,7 @@ void ObjDekujr_Init(Actor* thisx, PlayState* play) {
     ObjDekujr* this = (ObjDekujr*)thisx;
     s32 pad;
 
-    if (gSaveContext.cutsceneIndex < 0xFFF0) {
+    if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
         if (!LINK_IS_ADULT) {
             Actor_Kill(thisx);
             return;
@@ -140,7 +140,7 @@ void ObjDekujr_Update(Actor* thisx, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    if ((gSaveContext.cutsceneIndex >= 0xFFF0) && (this->unk_19B == 0)) {
+    if ((gSaveContext.save.cutsceneIndex >= 0xFFF0) && (this->unk_19B == 0)) {
         this->unk_19C = 0;
         this->unk_19B = 1;
     }

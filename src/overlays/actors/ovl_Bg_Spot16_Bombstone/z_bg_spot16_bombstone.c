@@ -110,15 +110,15 @@ static s16 D_808B5EB0[][7] = {
 };
 
 ActorInit Bg_Spot16_Bombstone_InitVars = {
-    ACTOR_BG_SPOT16_BOMBSTONE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT16_OBJ,
-    sizeof(BgSpot16Bombstone),
-    (ActorFunc)BgSpot16Bombstone_Init,
-    (ActorFunc)BgSpot16Bombstone_Destroy,
-    (ActorFunc)BgSpot16Bombstone_Update,
-    (ActorFunc)BgSpot16Bombstone_Draw,
+    /**/ ACTOR_BG_SPOT16_BOMBSTONE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT16_OBJ,
+    /**/ sizeof(BgSpot16Bombstone),
+    /**/ BgSpot16Bombstone_Init,
+    /**/ BgSpot16Bombstone_Destroy,
+    /**/ BgSpot16Bombstone_Update,
+    /**/ BgSpot16Bombstone_Draw,
 };
 
 static InitChainEntry sInitChainBoulder[] = {
@@ -145,7 +145,7 @@ static s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 void func_808B4C30(BgSpot16Bombstone* this) {
     this->switchFlag = (this->actor.params >> 8) & 0x3F;
-    this->actor.params = this->actor.params & 0xFF;
+    this->actor.params &= 0xFF;
 }
 
 void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
@@ -218,9 +218,9 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
     actor->shape.rot.z = D_808B5DD8[actor->params][9];
 
     this->dList = object_bombiwa_DL_0009E0;
-    this->bombiwaBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_BOMBIWA);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOMBIWA);
 
-    if (this->bombiwaBankIndex < 0) {
+    if (this->requiredObjectSlot < 0) {
         osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params, "../z_bg_spot16_bombstone.c",
                      589);
         return false;
@@ -472,7 +472,7 @@ void func_808B5A94(BgSpot16Bombstone* this, PlayState* play) {
     func_808B5240(this, play);
 
     if (this->unk_154 == 56) {
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }
 
     if (this->unk_154 > 60) {
@@ -486,7 +486,7 @@ void func_808B5AF0(BgSpot16Bombstone* this) {
 }
 
 void func_808B5B04(BgSpot16Bombstone* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->bombiwaBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         func_808B5B58(this);
         this->actor.draw = BgSpot16Bombstone_Draw;
     }
@@ -546,7 +546,7 @@ void BgSpot16Bombstone_Draw(Actor* thisx, PlayState* play) {
         gSPDisplayList(POLY_OPA_DISP++, this->dList);
     } else {
         // The boulder is debris
-        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->bombiwaBankIndex].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->requiredObjectSlot].segment);
         gSPDisplayList(POLY_OPA_DISP++, this->dList);
     }
 

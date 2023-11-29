@@ -14,15 +14,15 @@ void ObjBlockstop_Destroy(Actor* thisx, PlayState* play);
 void ObjBlockstop_Update(Actor* thisx, PlayState* play);
 
 ActorInit Obj_Blockstop_InitVars = {
-    ACTOR_OBJ_BLOCKSTOP,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjBlockstop),
-    (ActorFunc)ObjBlockstop_Init,
-    (ActorFunc)ObjBlockstop_Destroy,
-    (ActorFunc)ObjBlockstop_Update,
-    NULL,
+    /**/ ACTOR_OBJ_BLOCKSTOP,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjBlockstop),
+    /**/ ObjBlockstop_Init,
+    /**/ ObjBlockstop_Destroy,
+    /**/ ObjBlockstop_Update,
+    /**/ NULL,
 };
 
 void ObjBlockstop_Init(Actor* thisx, PlayState* play) {
@@ -52,9 +52,9 @@ void ObjBlockstop_Update(Actor* thisx, PlayState* play) {
         if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI) {
             if ((dynaPolyActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_ON ||
                 (dynaPolyActor->actor.params & 0x000F) == PUSHBLOCK_HUGE_START_OFF) {
-                func_80078884(NA_SE_SY_CORRECT_CHIME);
+                Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
             } else {
-                func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             }
 
             Flags_SetSwitch(play, this->actor.params);

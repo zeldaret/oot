@@ -27,15 +27,15 @@ void func_80A3DF00(EnGm* this, PlayState* play);
 void func_80A3DF60(EnGm* this, PlayState* play);
 
 ActorInit En_Gm_InitVars = {
-    ACTOR_EN_GM,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(EnGm),
-    (ActorFunc)EnGm_Init,
-    (ActorFunc)EnGm_Destroy,
-    (ActorFunc)EnGm_Update,
-    NULL,
+    /**/ ACTOR_EN_GM,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(EnGm),
+    /**/ EnGm_Init,
+    /**/ EnGm_Destroy,
+    /**/ EnGm_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -70,9 +70,9 @@ void EnGm_Init(Actor* thisx, PlayState* play) {
     // "Medi Goron"
     osSyncPrintf(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", "../z_en_gm.c", 133, this->actor.params);
 
-    this->objGmBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GM);
+    this->gmObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GM);
 
-    if (this->objGmBankIndex < 0) {
+    if (this->gmObjectSlot < 0) {
         osSyncPrintf(VT_COL(RED, WHITE));
         // "There is no model bank! !! (Medi Goron)"
         osSyncPrintf("モデル バンクが無いよ！！（中ゴロン）\n");
@@ -102,10 +102,10 @@ s32 func_80A3D7C8(void) {
 }
 
 void func_80A3D838(EnGm* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objGmBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->gmObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         SkelAnime_InitFlex(play, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objGmBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
         Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_gm_Anim_0002B8), ANIMMODE_LOOP, 0.0f);
         this->actor.draw = EnGm_Draw;
@@ -174,11 +174,11 @@ void func_80A3DB04(EnGm* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->actor.params)) {
         EnGm_SetTextID(this);
         this->actionFunc = func_80A3DC44;
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A3DBF4;
     } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8002F2CC(&this->actor, play, 415.0f);
+        Actor_OfferTalk(&this->actor, play, 415.0f);
     }
 }
 
@@ -199,7 +199,7 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
     dx = this->talkPos.x - player->actor.world.pos.x;
     dz = this->talkPos.z - player->actor.world.pos.z;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         switch (func_80A3D7C8()) {
             case 0:
                 SET_INFTABLE(INFTABLE_B0);
@@ -221,7 +221,7 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
     }
     if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8002F2CC(&this->actor, play, 415.0f);
+        Actor_OfferTalk(&this->actor, play, 415.0f);
     }
 }
 
@@ -241,7 +241,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0: // yes
-                if (gSaveContext.rupees < 200) {
+                if (gSaveContext.save.info.playerData.rupees < 200) {
                     Message_ContinueTextbox(play, 0xC8);
                     this->actionFunc = func_80A3DD7C;
                 } else {
@@ -274,7 +274,7 @@ void func_80A3DF60(EnGm* this, PlayState* play) {
 }
 
 void func_80A3DFBC(EnGm* this, PlayState* play) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objGmBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->gmObjectSlot].segment);
     this->timer++;
     this->actionFunc(this, play);
     this->actor.focus.rot.x = this->actor.world.rot.x;

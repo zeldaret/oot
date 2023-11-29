@@ -28,15 +28,15 @@ void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, PlayState* play);
 void EnSyatekiItm_EndGame(EnSyatekiItm* this, PlayState* play);
 
 ActorInit En_Syateki_Itm_InitVars = {
-    ACTOR_EN_SYATEKI_ITM,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnSyatekiItm),
-    (ActorFunc)EnSyatekiItm_Init,
-    (ActorFunc)EnSyatekiItm_Destroy,
-    (ActorFunc)EnSyatekiItm_Update,
-    NULL,
+    /**/ ACTOR_EN_SYATEKI_ITM,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnSyatekiItm),
+    /**/ EnSyatekiItm_Init,
+    /**/ EnSyatekiItm_Destroy,
+    /**/ EnSyatekiItm_Update,
+    /**/ NULL,
 };
 
 static Vec3f sGreenAppearHome = { 0.0f, -10.0f, -270.0f };
@@ -157,7 +157,7 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, PlayState* play) {
 
         this->timer = (this->roundNum == 1) ? 50 : 30;
 
-        func_80078884(NA_SE_SY_FOUND);
+        Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         this->actionFunc = EnSyatekiItm_SpawnTargets;
     }
 }

@@ -21,15 +21,15 @@ void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play);
 void EnItem00_DrawHeartPiece(EnItem00* this, PlayState* play);
 
 ActorInit En_Item00_InitVars = {
-    ACTOR_EN_ITEM00,
-    ACTORCAT_MISC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnItem00),
-    (ActorFunc)EnItem00_Init,
-    (ActorFunc)EnItem00_Destroy,
-    (ActorFunc)EnItem00_Update,
-    (ActorFunc)EnItem00_Draw,
+    /**/ ACTOR_EN_ITEM00,
+    /**/ ACTORCAT_MISC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnItem00),
+    /**/ EnItem00_Init,
+    /**/ EnItem00_Destroy,
+    /**/ EnItem00_Update,
+    /**/ EnItem00_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -236,7 +236,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             this->scale = 0.01f;
             break;
         case ITEM00_SHIELD_DEKU:
-            this->actor.objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GI_SHIELD_1);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_SHIELD_1);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -245,7 +245,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             this->actor.world.rot.x = 0x4000;
             break;
         case ITEM00_SHIELD_HYLIAN:
-            this->actor.objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GI_SHIELD_2);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_SHIELD_2);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -255,7 +255,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             break;
         case ITEM00_TUNIC_ZORA:
         case ITEM00_TUNIC_GORON:
-            this->actor.objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GI_CLOTHES);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_CLOTHES);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -765,10 +765,10 @@ void EnItem00_Draw(Actor* thisx, PlayState* play) {
             case ITEM00_RECOVERY_HEART:
                 if (this->despawnTimer < 0) {
                     if (this->despawnTimer == -1) {
-                        s8 bankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GI_HEART);
+                        s8 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_HEART);
 
-                        if (Object_IsLoaded(&play->objectCtx, bankIndex)) {
-                            this->actor.objBankIndex = bankIndex;
+                        if (Object_IsLoaded(&play->objectCtx, objectSlot)) {
+                            this->actor.objectSlot = objectSlot;
                             Actor_SetObjectDependency(play, &this->actor);
                             this->despawnTimer = -2;
                         }
@@ -930,12 +930,14 @@ s16 func_8001F404(s16 dropId) {
          INV_CONTENT(ITEM_BOMB) == ITEM_NONE) ||
         ((dropId == ITEM00_ARROWS_SMALL || dropId == ITEM00_ARROWS_MEDIUM || dropId == ITEM00_ARROWS_LARGE) &&
          INV_CONTENT(ITEM_BOW) == ITEM_NONE) ||
-        ((dropId == ITEM00_MAGIC_LARGE || dropId == ITEM00_MAGIC_SMALL) && gSaveContext.magicLevel == 0) ||
+        ((dropId == ITEM00_MAGIC_LARGE || dropId == ITEM00_MAGIC_SMALL) &&
+         gSaveContext.save.info.playerData.magicLevel == 0) ||
         ((dropId == ITEM00_SEEDS) && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE)) {
         return -1;
     }
 
-    if (dropId == ITEM00_RECOVERY_HEART && gSaveContext.healthCapacity == gSaveContext.health) {
+    if (dropId == ITEM00_RECOVERY_HEART &&
+        gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health) {
         return ITEM00_RUPEE_GREEN;
     }
 
@@ -1066,25 +1068,27 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
     }
 
     if (dropId == ITEM00_FLEXIBLE) {
-        if (gSaveContext.health <= 0x10) { // 1 heart or less
+        if (gSaveContext.save.info.playerData.health <= 0x10) { // 1 heart or less
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0,
                         FAIRY_HEAL_TIMED);
             EffectSsDeadSound_SpawnStationary(play, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true,
                                               DEADSOUND_REPEAT_MODE_OFF, 40);
             return;
-        } else if (gSaveContext.health <= 0x30) { // 3 hearts or less
+        } else if (gSaveContext.save.info.playerData.health <= 0x30) { // 3 hearts or less
             params = 0xB * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RECOVERY_HEART;
-        } else if (gSaveContext.health <= 0x50) { // 5 hearts or less
+        } else if (gSaveContext.save.info.playerData.health <= 0x50) { // 5 hearts or less
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RECOVERY_HEART;
-        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic == 0)) { // Empty magic meter
+        } else if ((gSaveContext.save.info.playerData.magicLevel != 0) &&
+                   (gSaveContext.save.info.playerData.magic == 0)) { // Empty magic meter
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_LARGE;
-        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) {
+        } else if ((gSaveContext.save.info.playerData.magicLevel != 0) &&
+                   (gSaveContext.save.info.playerData.magic <= (gSaveContext.save.info.playerData.magicLevel >> 1))) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_SMALL;
@@ -1100,7 +1104,7 @@ void Item_DropCollectibleRandom(PlayState* play, Actor* fromActor, Vec3f* spawnP
             params = 0xD * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_BOMBS_A;
-        } else if (gSaveContext.rupees < 11) {
+        } else if (gSaveContext.save.info.playerData.rupees < 11) {
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RUPEE_RED;

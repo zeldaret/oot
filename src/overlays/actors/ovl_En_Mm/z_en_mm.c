@@ -40,15 +40,15 @@ s32 EnMm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnMm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
 ActorInit En_Mm_InitVars = {
-    ACTOR_EN_MM,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MM,
-    sizeof(EnMm),
-    (ActorFunc)EnMm_Init,
-    (ActorFunc)EnMm_Destroy,
-    (ActorFunc)EnMm_Update,
-    (ActorFunc)EnMm_Draw,
+    /**/ ACTOR_EN_MM,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MM,
+    /**/ sizeof(EnMm),
+    /**/ EnMm_Init,
+    /**/ EnMm_Destroy,
+    /**/ EnMm_Update,
+    /**/ EnMm_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -179,7 +179,7 @@ void EnMm_Init(Actor* thisx, PlayState* play) {
     this->actor.targetMode = 2;
     this->actor.gravity = -1.0f;
     this->speedXZ = 3.0f;
-    this->unk_204 = this->actor.objBankIndex;
+    this->unk_204 = this->actor.objectSlot;
 
     if (func_80AADA70() == 1) {
         this->mouthTexIndex = RM_MOUTH_OPEN;
@@ -202,7 +202,7 @@ void EnMm_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80AADA70(void) {
     s32 isDay = false;
 
-    if ((gSaveContext.dayTime > CLOCK_TIME(5, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(20, 0) + 1)) {
+    if ((gSaveContext.save.dayTime > CLOCK_TIME(5, 0)) && (gSaveContext.save.dayTime <= CLOCK_TIME(20, 0) + 1)) {
         isDay = true;
     }
 
@@ -288,13 +288,13 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, play);
     } else {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {
                 if ((this->actor.textId == 0x202A) || (this->actor.textId == 0x202B)) {
                     EnMm_ChangeAnim(this, RM_ANIM_EXCITED, &this->curAnimIndex);
-                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
         } else {
@@ -302,7 +302,7 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&
-                (this->unk_1E0 != 3) && func_8002F2CC(&this->actor, play, 100.0f)) {
+                (this->unk_1E0 != 3) && Actor_OfferTalk(&this->actor, play, 100.0f)) {
                 this->actor.textId = EnMm_GetTextId(this, play);
             }
         }
@@ -524,10 +524,10 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
                           EnMm_OverrideLimbDraw, EnMm_PostLimbDraw, this);
 
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
-        s32 linkChildObjBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_LINK_CHILD);
+        s32 linkChildObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_LINK_CHILD);
 
         // Draw Bunny Hood
-        if (linkChildObjBankIndex >= 0) {
+        if (linkChildObjectSlot >= 0) {
             Mtx* mtx;
             Vec3s earRot;
             Mtx* mtx2;
@@ -537,7 +537,7 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             Matrix_Put(&this->unk_208);
             mtx2 = Matrix_NewMtx(play->state.gfxCtx, "../z_en_mm.c", 1111);
 
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[linkChildObjBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
 
@@ -558,7 +558,7 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->actor.objBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);
         }
     }
 

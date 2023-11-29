@@ -30,15 +30,15 @@ void func_8088BC40(PlayState* play, BgHidanRock* this);
 static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 
 ActorInit Bg_Hidan_Rock_InitVars = {
-    ACTOR_BG_HIDAN_ROCK,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanRock),
-    (ActorFunc)BgHidanRock_Init,
-    (ActorFunc)BgHidanRock_Destroy,
-    (ActorFunc)BgHidanRock_Update,
-    (ActorFunc)BgHidanRock_Draw,
+    /**/ ACTOR_BG_HIDAN_ROCK,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanRock),
+    /**/ BgHidanRock_Init,
+    /**/ BgHidanRock_Destroy,
+    /**/ BgHidanRock_Update,
+    /**/ BgHidanRock_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -264,10 +264,10 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
         } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 != 0) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
             this->unk_169 = 0;
         }
@@ -317,10 +317,10 @@ void func_8088B990(BgHidanRock* this, PlayState* play) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
         } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 != 0) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
             this->unk_169 = 0;
         }
@@ -393,7 +393,7 @@ void BgHidanRock_Draw(Actor* thisx, PlayState* play) {
             SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &this->dyna.actor.home.pos, &this->unk_170);
         }
 
-        func_80078914(&this->unk_170, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->unk_170, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         func_8088BC40(play, this);
     }
 }

@@ -26,15 +26,15 @@ void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, PlayState* play);
 
 ActorInit Obj_Timeblock_InitVars = {
-    ACTOR_OBJ_TIMEBLOCK,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_TIMEBLOCK,
-    sizeof(ObjTimeblock),
-    (ActorFunc)ObjTimeblock_Init,
-    (ActorFunc)ObjTimeblock_Destroy,
-    (ActorFunc)ObjTimeblock_Update,
-    (ActorFunc)ObjTimeblock_Draw,
+    /**/ ACTOR_OBJ_TIMEBLOCK,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_TIMEBLOCK,
+    /**/ sizeof(ObjTimeblock),
+    /**/ ObjTimeblock_Init,
+    /**/ ObjTimeblock_Destroy,
+    /**/ ObjTimeblock_Update,
+    /**/ ObjTimeblock_Draw,
 };
 
 typedef struct {
@@ -248,7 +248,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, PlayState* play) {
     this->isVisible = newIsVisible;
 
     if (this->demoEffectTimer == 50) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
 }
 
@@ -283,7 +283,7 @@ void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play) {
     func_80BA06AC(this, play);
 
     if (this->demoEffectTimer == 50) {
-        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+        Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
     }
 
     if (!this->isVisible && this->demoEffectTimer <= 0) {

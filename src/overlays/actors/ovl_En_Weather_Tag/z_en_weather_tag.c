@@ -32,15 +32,15 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, PlayState* play);
 #define WEATHER_TAG_RANGE100(x) ((x >> 8) * 100.0f)
 
 ActorInit En_Weather_Tag_InitVars = {
-    ACTOR_EN_WEATHER_TAG,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWeatherTag),
-    (ActorFunc)EnWeatherTag_Init,
-    (ActorFunc)EnWeatherTag_Destroy,
-    (ActorFunc)EnWeatherTag_Update,
-    NULL,
+    /**/ ACTOR_EN_WEATHER_TAG,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWeatherTag),
+    /**/ EnWeatherTag_Init,
+    /**/ EnWeatherTag_Destroy,
+    /**/ EnWeatherTag_Update,
+    /**/ NULL,
 };
 
 void EnWeatherTag_SetupAction(EnWeatherTag* this, EnWeatherTagActionFunc actionFunc) {
@@ -160,7 +160,7 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 s
             }
         } else {
             if (gTimeSpeed != 0) {
-                gSaveContext.dayTime += 20;
+                gSaveContext.save.dayTime += 20;
             }
         }
     }
@@ -197,7 +197,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, PlayState* play, u8 skybox
                 ret = true;
             }
         } else if (gTimeSpeed != 0) {
-            gSaveContext.dayTime += 20;
+            gSaveContext.save.dayTime += 20;
         }
     }
     return ret;
