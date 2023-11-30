@@ -123,7 +123,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-    this->switchFlag = (thisx->params >> 8) & 0x3F;
+    this->var.switchFlag = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
     if (thisx->params == BDAN_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
         thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
@@ -137,7 +137,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
         Collider_SetCylinder(play, &this->collider, &this->dyna.actor, &sCylinderInit);
         thisx->world.pos.y += -79.0f;
         if (Flags_GetClear(play, thisx->room)) {
-            Flags_SetSwitch(play, this->switchFlag);
+            Flags_SetSwitch(play, this->var.switchFlag);
             this->actionFunc = BgBdanObjects_SinkToFloorHeight;
         } else {
             if (BgBdanObjects_GetProperty(this, BDAN_OBJECTS_GET_PROP_WATCHED_BIGOCTO_INTRO_CUTSCENE)) {
@@ -150,7 +150,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
                 this->actionFunc = BgBdanObjects_OctoPlatform_BattleInProgress;
                 thisx->world.pos.y = thisx->home.pos.y + -70.0f;
             } else {
-                Flags_SetSwitch(play, this->switchFlag);
+                Flags_SetSwitch(play, this->var.switchFlag);
                 this->timer = 0;
                 this->actionFunc = BgBdanObjects_OctoPlatform_WaitForRutoToStartCutscene;
             }
@@ -159,11 +159,11 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
         if (thisx->params == BDAN_OBJECTS_TYPE_SMALL_AUTO_ELEVATOR) {
             CollisionHeader_GetVirtual(&gJabuElevatorCol, &colHeader);
             this->timer = 512;
-            this->camChangeTimer = 0;
+            this->var.camChangeTimer = 0;
             this->actionFunc = BgBdanObjects_ElevatorOscillate;
         } else { // BDAN_OBJECTS_TYPE_FALLING_PLATFORM
             CollisionHeader_GetVirtual(&gJabuLoweringPlatformCol, &colHeader);
-            if (Flags_GetSwitch(play, this->switchFlag)) {
+            if (Flags_GetSwitch(play, this->var.switchFlag)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
                 thisx->world.pos.y = thisx->home.pos.y - 400.0f;
             } else {
@@ -301,7 +301,7 @@ void BgBdanObjects_OctoPlatform_PauseBeforeDescending(BgBdanObjects* this, PlayS
     this->timer--;
 
     if (this->timer == 0) {
-        Flags_UnsetSwitch(play, this->switchFlag);
+        Flags_UnsetSwitch(play, this->var.switchFlag);
     } else if (this->timer == -40) {
         this->timer = 0;
         this->actionFunc = BgBdanObjects_OctoPlatform_DescendWithBigOcto;
@@ -325,13 +325,13 @@ void BgBdanObjects_OctoPlatform_BattleInProgress(BgBdanObjects* this, PlayState*
     Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     if (Flags_GetClear(play, this->dyna.actor.room)) {
-        Flags_SetSwitch(play, this->switchFlag);
+        Flags_SetSwitch(play, this->var.switchFlag);
         this->dyna.actor.home.rot.y = (s16)(this->dyna.actor.shape.rot.y + 0x2000) & 0xC000;
         this->actionFunc = BgBdanObjects_SinkToFloorHeight;
     } else {
         this->dyna.actor.shape.rot.y += this->dyna.actor.world.rot.y;
-        // This plays a sound effect id (0x2063) that is not present in environmentbank_table?
-        func_800F436C(&this->dyna.actor.projectedPos, 0x2063, ABS(this->dyna.actor.world.rot.y) / 512.0f);
+        func_800F436C(&this->dyna.actor.projectedPos, NA_SE_EV_ROLL_STAND - SFX_FLAG,
+                      ABS(this->dyna.actor.world.rot.y) / 512.0f);
     }
 }
 
@@ -371,21 +371,21 @@ void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
-    if (this->camChangeTimer == 0) {
+    if (this->var.camChangeTimer == 0) {
         if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             this->cameraSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
             Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
-            this->camChangeTimer = 10;
+            this->var.camChangeTimer = 10;
         }
     } else {
         Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
         if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
-            if (this->camChangeTimer != 0) {
-                this->camChangeTimer--;
+            if (this->var.camChangeTimer != 0) {
+                this->var.camChangeTimer--;
             }
         }
-        if (this->camChangeTimer == 0) {
+        if (this->var.camChangeTimer == 0) {
             if (1) {}
             Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], this->cameraSetting);
             Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
@@ -399,7 +399,7 @@ void BgBdanObjects_ElevatorOscillate(BgBdanObjects* this, PlayState* play) {
 }
 
 void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->switchFlag)) {
+    if (Flags_GetSwitch(play, this->var.switchFlag)) {
         this->timer = 100;
         this->actionFunc = BgBdanObjects_ChangeWaterBoxLevel;
     }
@@ -408,7 +408,7 @@ void BgBdanObjects_WaitForSwitch(BgBdanObjects* this, PlayState* play) {
 void BgBdanObjects_ChangeWaterBoxLevel(BgBdanObjects* this, PlayState* play) {
     if (this->timer == 0) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 0.5f)) {
-            Flags_UnsetSwitch(play, this->switchFlag);
+            Flags_UnsetSwitch(play, this->var.switchFlag);
             this->actionFunc = BgBdanObjects_WaitForSwitch;
         }
         func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
@@ -433,7 +433,7 @@ void BgBdanObjects_WaitForTimerExpired(BgBdanObjects* this, PlayState* play) {
 
 void BgBdanObjects_WaitForPlayerOnTop(BgBdanObjects* this, PlayState* play) {
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
-        Flags_SetSwitch(play, this->switchFlag);
+        Flags_SetSwitch(play, this->var.switchFlag);
         this->timer = 50;
         this->actionFunc = BgBdanObjects_FallToLowerPos;
         this->dyna.actor.home.pos.y -= 200.0f;
