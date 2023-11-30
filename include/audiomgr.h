@@ -5,9 +5,9 @@
 #include "z64audio.h"
 
 typedef enum {
-    AUDIOMGR_DEBUG_LEVEL_NONE = 0,
-    AUDIOMGR_DEBUG_LEVEL_NO_RSP = 1,
-    AUDIOMGR_DEBUG_LEVEL_NO_UPDATE = 2
+    /* 0 */ AUDIOMGR_DEBUG_LEVEL_NONE,
+    /* 1 */ AUDIOMGR_DEBUG_LEVEL_NO_RSP,
+    /* 2 */ AUDIOMGR_DEBUG_LEVEL_NO_UPDATE
 } AudioMgrDebugLevel;
 
 typedef struct {
