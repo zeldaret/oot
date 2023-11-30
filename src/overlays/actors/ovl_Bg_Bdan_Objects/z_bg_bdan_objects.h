@@ -1,5 +1,5 @@
-#ifndef Z_BG_JABU_OBJECTS_H
-#define Z_BG_JABU_OBJECTS_H
+#ifndef Z_BG_BDAN_OBJECTS_H
+#define Z_BG_BDAN_OBJECTS_H
 
 #include "ultra64.h"
 #include "global.h"
