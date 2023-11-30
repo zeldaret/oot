@@ -19,8 +19,8 @@ typedef struct BgBdanObjects {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgBdanObjectsActionFunc actionFunc;
     union {
-    /* 0x0168 */ u8 switchFlag;
-    /* 0x0168 */ u8 camChangeTimer;
+        /* 0x0168 */ u8 switchFlag;
+        /* 0x0168 */ u8 camChangeTimer;
     } var;
     /* 0x016A */ s16 timer;
     /* 0x016C */ ColliderCylinder collider;
