@@ -3397,6 +3397,12 @@ Actor* func_80033684(PlayState* play, Actor* explosiveActor) {
  * This is done by moving it to the corresponding category list and setting its category variable accordingly.
  */
 void Actor_ChangeCategory(PlayState* play, ActorContext* actorCtx, Actor* actor, u8 actorCategory) {
+    //! @bug Calling this function immediately moves an actor from one category list to the other.
+    //! So, if Actor_ChangeCategory is called during an actor update, the inner loop in
+    //! Actor_UpdateAll will continue from the next actor in the new category, rather than the next
+    //! actor in the old category. This will cause any actors after this one in the old category to
+    //! be skipped over and not updated, and any actors in the new category to be updated more than
+    //! once.
     Actor_RemoveFromCategory(play, actorCtx, actor);
     Actor_AddToCategory(actorCtx, actor, actorCategory);
 }
