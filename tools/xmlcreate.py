@@ -7,7 +7,7 @@ replacements = {}
 global_name = ''
 
 name_fmt = 'g{0}{1}_{2}'
-spec_fmt = '    include "build/assets/objects/{0}/{0}.o"\n    number 6\n'
+spec_fmt = '    include "$(BUILD_DIR)/assets/objects/{0}/{0}.o"\n    number 6\n'
 
 dlist_xml = '<DList Name="{0}" Offset="0x{1}"/>'
 collision_xml = '<Collision Name="{0}" Offset="0x{1}"/>'

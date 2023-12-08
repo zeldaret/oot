@@ -772,7 +772,7 @@ Once preliminary cleanup and struct filling is done, most time spent matching fu
 In order to use `diff.py` with the symbol names, we need a copy of the code to compare against. This is done by copying the `build` directory into a directory called `expected`. Copying in Windows on WSL is very slow, so run
 ```
 $ mkdir expected
-cp -r build/ expected/
+cp -r build expected/
 ```
 from the main directory of the repository. You should end up with the directory structure `expected/build/...`.
 
@@ -914,7 +914,7 @@ It turns out that this is enough to completely fix the diff:
 
 Everything *looks* fine, but we only know for sure when we run `make`. Thankfully doing so gives
 ```
-zelda_ocarina_mq_dbg.z64: OK
+oot-gc-eu-mq-dbg.z64: OK
 ```
 
 which is either a sense of triumph or relief depending on how long you've spent on a function.
