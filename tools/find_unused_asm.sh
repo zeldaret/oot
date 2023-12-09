@@ -5,15 +5,15 @@ shopt -s globstar
 ls asm/non_matchings/**/*.s > old_list.txt
 grep GLOBAL_ASM -r src | cut -d '"' -f2 - > cur_list.txt
 
-grep -F "build/data" spec | cut -d '"' -f2 - > data_list.txt
-grep -F "build/asm" spec | grep -v -E 'overlays' | cut -d '"' -f2 - >> data_list.txt
+grep -F "build/gc-eu-mq-dbg/data" spec | cut -d '"' -f2 - > data_list.txt
+grep -F "build/gc-eu-mq-dbg/asm" spec | grep -v -E 'overlays' | cut -d '"' -f2 - >> data_list.txt
 
 ls data/**/*.s > old_data_list.txt
 ls asm/*.s >> old_data_list.txt
 
 while read p; do
     tmp=${p%.o}.s
-    echo ${tmp#build/} >> list.txt
+    echo ${tmp#build/gc-eu-mq-dbg/} >> list.txt
 done < data_list.txt
 
 comm -3 <(sort old_list.txt) <(sort cur_list.txt) > diff.txt
