@@ -3415,9 +3415,9 @@ s32 func_80836898(PlayState* play, Player* this, PlayerFuncA74 func) {
  * This does not affect the direction Player will move in.
  *
  * There are 3 modes shape yaw can be updated with, based on player state:
- *     - Lock on: Rotates Player to face the lock on target.
- *     - Parallel: Keeps Player facing the Parallel angle, set by `func_808355DC` when Z is pressed.
- *     - Normal: Player faces the direction he is currently moving
+ *     - Lock on:  Rotates Player to face the lock on target.
+ *     - Parallel: Rotates Player to face the Parallel angle, set by `func_808355DC` when Z is pressed.
+ *     - Normal:   Rotates Player to face (`this->yaw`), the direction he is currently moving
  */
 void Player_UpdateShapeYaw(Player* this, PlayState* play) {
     s16 previousYaw = this->actor.shape.rot.y;
