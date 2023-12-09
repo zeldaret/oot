@@ -3410,7 +3410,16 @@ s32 func_80836898(PlayState* play, Player* this, PlayerFuncA74 func) {
     return func_80832528(play, this);
 }
 
-void func_808368EC(Player* this, PlayState* play) {
+/**
+ * Updates Shape Yaw (`shape.rot.y`). In other words, the Y rotation of Player's model.
+ * This does not affect the direction Player will move in.
+ *
+ * There are 3 modes shape yaw can be updated with, based on player state:
+ *     - Lock on: Rotates Player to face the lock on target.
+ *     - Parallel: Keeps Player facing the Parallel angle, set by `func_808355DC` when Z is pressed.
+ *     - Normal: Player faces the direction he is currently moving
+ */
+void Player_UpdateShapeYaw(Player* this, PlayState* play) {
     s16 previousYaw = this->actor.shape.rot.y;
 
     if (!(this->stateFlags2 & (PLAYER_STATE2_5 | PLAYER_STATE2_6))) {
@@ -3477,10 +3486,10 @@ s32 func_80836AB8(Player* this, s32 arg1) {
  * Update Z Targeting if the Z button is pressed.
  * This includes both sub-types of Z Targeting:
  *     - Lock On: Player locks onto an actor and a reticle appears on the target.
- *     - Parallel: Player's Y rotation is locked and he will move in a parallel fashion. 
- *                 Player will also snap to the angle of a wall, if in range when Z is pressed. 
- * 
-*/
+ *     - Parallel: Player's Y rotation is locked and he will move in a parallel fashion.
+ *                 Player will also snap to the angle of a wall, if in range when Z is pressed.
+ *
+ */
 void Player_UpdateZTarget(Player* this, PlayState* play) {
     s32 sp1C = 0;
     s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
@@ -10142,7 +10151,7 @@ static f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
  * Updates the two main interface elements that player is responsible for:
  *     - Do Action label on the A button
  *     - Navi C-up icon for hints
-*/
+ */
 void Player_UpdateInterface(PlayState* play, Player* this) {
     static u8 sDiveNumberDoActions[] = {
         DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4, DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8,
@@ -11240,7 +11249,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                 (this->skelAnime.moveFlags & ANIM_FLAG_PLAYER_2) ? 1.0f : this->ageProperties->unk_08);
         }
 
-        func_808368EC(this, play);
+        Player_UpdateShapeYaw(this, play);
 
         if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_TALK)) {
             this->targetActorDistance = 0.0f;
