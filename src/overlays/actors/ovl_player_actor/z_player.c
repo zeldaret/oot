@@ -3473,6 +3473,14 @@ s32 func_80836AB8(Player* this, s32 arg1) {
     return var;
 }
 
+/**
+ * Update Z Targeting if the Z button is pressed.
+ * This includes both sub-types of Z Targeting:
+ *     - Lock On: Player locks onto an actor and a reticle appears on the target.
+ *     - Parallel: Player's Y rotation is locked and he will move in a parallel fashion. 
+ *                 Player will also snap to the angle of a wall, if in range when Z is pressed. 
+ * 
+*/
 void Player_UpdateZTarget(Player* this, PlayState* play) {
     s32 sp1C = 0;
     s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
@@ -9882,12 +9890,11 @@ void func_808469BC(PlayState* play, Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_29;
 }
 
-
 Actor* Player_SpawnMagicSpell(PlayState* play, Player* this, s32 spell) {
     static s16 sMagicSpellActorIds[] = { ACTOR_MAGIC_WIND, ACTOR_MAGIC_DARK, ACTOR_MAGIC_FIRE };
 
-    return Actor_Spawn(&play->actorCtx, play, sMagicSpellActorIds[spell], this->actor.world.pos.x, this->actor.world.pos.y,
-                       this->actor.world.pos.z, 0, 0, 0, 0);
+    return Actor_Spawn(&play->actorCtx, play, sMagicSpellActorIds[spell], this->actor.world.pos.x,
+                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
 }
 
 void func_80846A68(PlayState* play, Player* this) {
@@ -10131,10 +10138,16 @@ void func_80847298(Player* this) {
 
 static f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
 
-static u8 sDiveDoActions[] = { DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4,
-                               DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8 };
-
+/**
+ * Updates the two main interface elements that player is responsible for:
+ *     - Do Action label on the A button
+ *     - Navi C-up icon for hints
+*/
 void Player_UpdateInterface(PlayState* play, Player* this) {
+    static u8 sDiveNumberDoActions[] = {
+        DO_ACTION_1, DO_ACTION_2, DO_ACTION_3, DO_ACTION_4, DO_ACTION_5, DO_ACTION_6, DO_ACTION_7, DO_ACTION_8,
+    };
+
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) && (this->actor.category == ACTORCAT_PLAYER)) {
         Actor* heldActor = this->heldActor;
         Actor* interactRangeActor = this->interactRangeActor;
@@ -10208,7 +10221,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                 } else if (this->stateFlags2 & PLAYER_STATE2_11) {
                     sp24 = (D_80854784[CUR_UPG_VALUE(UPG_SCALE)] - this->actor.yDistToWater) / 40.0f;
                     sp24 = CLAMP(sp24, 0, 7);
-                    doAction = sDiveDoActions[sp24];
+                    doAction = sDiveNumberDoActions[sp24];
                 } else if (sp1C && !(this->stateFlags2 & PLAYER_STATE2_10)) {
                     doAction = DO_ACTION_DIVE;
                 } else if (!sp1C && (!(this->stateFlags1 & PLAYER_STATE1_22) || func_80833BCC(this) ||
