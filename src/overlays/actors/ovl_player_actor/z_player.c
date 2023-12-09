@@ -11144,24 +11144,26 @@ s16 func_8084ABD8(PlayState* play, Player* this, s32 arg2, s16 arg3) {
     s16 temp2;
     s16 temp3;
 
+    Input* mouse =  &play->state.input[1];
+
     if (!func_8002DD78(this) && !func_808334B4(this) && (arg2 == 0)) {
-        temp2 = sControlInput->rel.stick_y * 240.0f;
+        temp2 = mouse->rel.stick_y * -240.0f;
         Math_SmoothStepToS(&this->actor.focus.rot.x, temp2, 14, 4000, 30);
 
-        temp2 = sControlInput->rel.stick_x * -16.0f;
+        temp2 = mouse->rel.stick_x * -16.0f;
         temp2 = CLAMP(temp2, -3000, 3000);
-        this->actor.focus.rot.y += temp2;
+        this->actor.focus.rot.y -= temp2;
     } else {
         temp1 = (this->stateFlags1 & PLAYER_STATE1_23) ? 3500 : 14000;
-        temp3 = ((sControlInput->rel.stick_y >= 0) ? 1 : -1) *
-                (s32)((1.0f - Math_CosS(sControlInput->rel.stick_y * 200)) * 1500.0f);
+        temp3 = ((mouse->rel.stick_y >= 0) ? -1 : 1) *
+                (s32)((1.0f - Math_CosS(mouse->rel.stick_y * 400)) * 1500.0f);
         this->actor.focus.rot.x += temp3;
         this->actor.focus.rot.x = CLAMP(this->actor.focus.rot.x, -temp1, temp1);
 
         temp1 = 19114;
         temp2 = this->actor.focus.rot.y - this->actor.shape.rot.y;
-        temp3 = ((sControlInput->rel.stick_x >= 0) ? 1 : -1) *
-                (s32)((1.0f - Math_CosS(sControlInput->rel.stick_x * 200)) * -1500.0f);
+        temp3 = ((mouse->rel.stick_x >= 0) ? 1 : -1) *
+                (s32)((1.0f - Math_CosS(mouse->rel.stick_x * -400)) * -1500.0f);
         temp2 += temp3;
         this->actor.focus.rot.y = CLAMP(temp2, -temp1, temp1) + this->actor.shape.rot.y;
     }

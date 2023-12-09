@@ -1,6 +1,7 @@
 #include "global.h"
 #include "quake.h"
 #include "terminal.h"
+#include "mui/microuiN64.h"
 
 void* gDebugCutsceneScript = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
@@ -444,6 +445,8 @@ void Play_Init(GameState* thisx) {
         // Presumably the ROM was larger at a previous point in development when this debug feature was used.
         DmaMgr_DmaRomToRam(0x03FEB000, gDebugCutsceneScript, sizeof(sDebugCutsceneScriptBuf));
     }
+
+    mu64_init();
 }
 
 void Play_Update(PlayState* this) {
@@ -481,6 +484,31 @@ void Play_Update(PlayState* this) {
     if ((HREG(81) == 18) && (HREG(82) < 0)) {
         HREG(82) = 0;
         ActorOverlayTable_LogPrint();
+    }
+
+    mu_Context *ctx = &mu_ctx;
+    if (mu_begin_window_ex(&mu_ctx, "ZPlay", mu_rect(12, 20, 90, 140), MU_OPT_NOCLOSE))
+    {
+        Player* player = GET_PLAYER(this);
+
+        char buff[12];
+        sprintf(buff, "Objs: %d", this->objectCtx.num);
+
+        mu_label(&mu_ctx, buff);
+
+        int lens = this->actorCtx.lensActive;
+        mu_checkbox(&mu_ctx, "Lens", &lens);
+        this->actorCtx.lensActive = lens;
+        
+        if (mu_header(ctx, "Ambient")) {
+            mu64_color_rgb8(
+                &this->envCtx.lightSettingsList[this->envCtx.lightSetting].ambientColor[0],
+                &this->envCtx.lightSettingsList[this->envCtx.lightSetting].ambientColor[1],
+                &this->envCtx.lightSettingsList[this->envCtx.lightSetting].ambientColor[2]
+            );
+        }
+
+        mu_end_window(&mu_ctx);
     }
 
     gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
@@ -1027,6 +1055,18 @@ void Play_DrawOverlayElements(PlayState* this) {
     if (this->gameOverCtx.state != GAMEOVER_INACTIVE) {
         GameOver_FadeInLights(this);
     }
+
+    {
+            Gfx* gfx = this->state.gfxCtx->polyOpa.p + 1;
+            gSPDisplayList(this->state.gfxCtx->overlay.p++, gfx);
+            gSPSegment(gfx++, 0x02, this->interfaceCtx.parameterSegment);
+
+            gfx = mu64_draw(gfx);
+
+            gSPEndDisplayList(gfx++);
+            gSPBranchList(this->state.gfxCtx->polyOpa.p, gfx);
+            this->state.gfxCtx->polyOpa.p = gfx;
+        }
 }
 
 void Play_Draw(PlayState* this) {
@@ -1303,6 +1343,9 @@ void Play_Main(GameState* thisx) {
 
     DebugDisplay_Init();
 
+    mu64_set_mouse_speed(0.002f);
+    mu64_start_frame(&this->state.input[1]);
+
     PLAY_LOG(4556);
 
     if ((R_HREG_MODE == HREG_MODE_PLAY) && (R_PLAY_INIT != HREG_MODE_PLAY)) {
@@ -1329,6 +1372,7 @@ void Play_Main(GameState* thisx) {
 
     PLAY_LOG(4583);
 
+    mu64_end_frame();
     Play_Draw(this);
 
     PLAY_LOG(4587);

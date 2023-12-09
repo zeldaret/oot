@@ -517,6 +517,8 @@ beginseg
     include "build/src/libultra/io/spsetpc.o"
     include "build/src/libultra/libc/sqrt.o"
     include "build/src/libultra/libc/absf.o"
+    include "build/src/code/mui/microui.o"
+    include "build/src/code/mui/microuiN64.o"
     include "build/src/code/fmodf.o"
     include "build/src/code/__osMemset.o"
     include "build/src/code/__osMemmove.o"
