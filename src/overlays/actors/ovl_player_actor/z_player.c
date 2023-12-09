@@ -10710,7 +10710,7 @@ void Player_UpdateBurningDekuStick(PlayState* play, Player* this) {
                   temp * 200.0f, 0, 8);
 }
 
-void Player_UpdateShock(PlayState* play, Player* this) {
+void func_80848B44(PlayState* play, Player* this) {
     Vec3f shockPos;
     Vec3f* randBodyPart;
     s32 shockScale;
@@ -10736,7 +10736,7 @@ void Player_UpdateShock(PlayState* play, Player* this) {
     }
 }
 
-void Player_UpdateBurning(PlayState* play, Player* this) {
+void func_80848C74(PlayState* play, Player* this) {
     s32 spawnedFlame;
     u8* timerPtr;
     s32 timerStep;
@@ -10960,11 +10960,11 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     }
 
     if (this->shockTimer != 0) {
-        Player_UpdateShock(play, this);
+        func_80848B44(play, this);
     }
 
     if (this->isBurning) {
-        Player_UpdateBurning(play, this);
+        func_80848C74(play, this);
     }
 
     if ((this->stateFlags3 & PLAYER_STATE3_RESTORE_NAYRUS_LOVE) && (gSaveContext.nayrusLoveTimer != 0) &&
