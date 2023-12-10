@@ -350,7 +350,7 @@ void EnMa1_IdleTeachSong(EnMa1* this, PlayState* play) {
             this->interactInfo.talkState = NPC_TALK_STATE_TALKING;
             this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = EnMa1_StartTeachSong;
-        } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
+        } else if (this->actor.xzDistToPlayer < 30.0f + this->collider.dim.radius) {
             player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
@@ -401,7 +401,7 @@ void EnMa1_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->actionFunc != EnMa1_DoNothing) {
-        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnMa1_GetTextId, EnMa1_UpdateTalkState);
     }
 
