@@ -1977,8 +1977,8 @@ void EnGo2_Update(Actor* thisx, PlayState* play) {
     EnGo2_SitDownAnimation(this);
     SkelAnime_Update(&this->skelAnime);
     EnGo2_RollForward(this);
-    Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f,
-                            this->collider.dim.radius * 0.6f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    Actor_UpdateBgCheckInfo(play, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius * 0.6f,
+                            0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         func_80A44AB0(this, play);
     }
