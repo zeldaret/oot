@@ -421,7 +421,7 @@ def create_project_settings(settings: Dict[str, Any]) -> ProjectSettings:
         ),
         objdump_executable=get_objdump_executable(settings.get("objdump_executable")),
         map_format=settings.get("map_format", "gnu"),
-        mw_build_dir=settings.get("mw_build_dir", "build/gc-eu-mq-dbg/"),
+        mw_build_dir=settings.get("mw_build_dir", "build/"),
         show_line_numbers_default=settings.get("show_line_numbers_default", True),
     )
 
