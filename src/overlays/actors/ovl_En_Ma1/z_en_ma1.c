@@ -274,10 +274,10 @@ void EnMa1_Init(Actor* thisx, PlayState* play) {
 
     if (!GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = EnMa1_Idle;
-        EnMa1_ChangeAnim(this, ENMA1_ANIM_SING_NOMORPH);
+        EnMa1_ChangeAnim(this, MALON_ANIM_SING_NOMORPH);
     } else {
         this->actionFunc = EnMa1_IdleTeachSong;
-        EnMa1_ChangeAnim(this, ENMA1_ANIM_SING_NOMORPH);
+        EnMa1_ChangeAnim(this, MALON_ANIM_SING_NOMORPH);
     }
 }
 
@@ -291,11 +291,11 @@ void EnMa1_Destroy(Actor* thisx, PlayState* play) {
 void EnMa1_Idle(EnMa1* this, PlayState* play) {
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnim(this, ENMA1_ANIM_IDLE);
+            EnMa1_ChangeAnim(this, MALON_ANIM_IDLE);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnim(this, ENMA1_ANIM_SING);
+            EnMa1_ChangeAnim(this, MALON_ANIM_SING);
         }
     }
 
@@ -333,11 +333,11 @@ void EnMa1_IdleTeachSong(EnMa1* this, PlayState* play) {
 
     if (this->interactInfo.talkState != NPC_TALK_STATE_IDLE) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnim(this, ENMA1_ANIM_IDLE);
+            EnMa1_ChangeAnim(this, MALON_ANIM_IDLE);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnim(this, ENMA1_ANIM_SING);
+            EnMa1_ChangeAnim(this, MALON_ANIM_SING);
         }
     }
 
@@ -413,17 +413,17 @@ s32 EnMa1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
     EnMa1* this = (EnMa1*)thisx;
     Vec3s limbRot;
 
-    if ((limbIndex == 2) || (limbIndex == 5)) {
+    if ((limbIndex == CHILD_MALON_LIMB_LEFT_THIGH) || (limbIndex == CHILD_MALON_LIMB_RIGHT_THIGH)) {
         *dList = NULL;
     }
-    if (limbIndex == 15) {
+    if (limbIndex == CHILD_MALON_LIMB_HEAD) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         limbRot = this->interactInfo.headRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(limbRot.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(limbRot.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
-    if (limbIndex == 8) {
+    if (limbIndex == CHILD_MALON_LIMB_CHEST) {
         limbRot = this->interactInfo.torsoRot;
         Matrix_RotateX(BINANG_TO_RAD_ALT(-limbRot.y), MTXMODE_APPLY);
         Matrix_RotateZ(BINANG_TO_RAD_ALT(-limbRot.x), MTXMODE_APPLY);
@@ -435,7 +435,7 @@ void EnMa1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     EnMa1* this = (EnMa1*)thisx;
     Vec3f offset = { 800.0f, 0.0f, 0.0f };
 
-    if (limbIndex == 15) {
+    if (limbIndex == CHILD_MALON_LIMB_HEAD) {
         Matrix_MultVec3f(&offset, &this->actor.focus.pos);
     }
 }
