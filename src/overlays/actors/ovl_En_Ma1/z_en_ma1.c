@@ -58,10 +58,10 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
-    /* 0 */ ENMA1_ANIM_NOMORPH,
-    /* 1 */ ENMA1_ANIM_IDLE,
-    /* 2 */ ENMA1_ANIM_SING_NOMORPH,
-    /* 3 */ ENMA1_ANIM_SING
+    /* 0 */ MALON_ANIM_IDLE_NOMORPH,
+    /* 1 */ MALON_ANIM_IDLE,
+    /* 2 */ MALON_ANIM_SING_NOMORPH,
+    /* 3 */ MALON_ANIM_SING
 } EnMa1Animation;
 
 static AnimationFrameCountInfo sAnimationInfo[] = {
@@ -433,10 +433,10 @@ s32 EnMa1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
 void EnMa1_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnMa1* this = (EnMa1*)thisx;
-    Vec3f vec = { 800.0f, 0.0f, 0.0f };
+    Vec3f offset = { 800.0f, 0.0f, 0.0f };
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
+        Matrix_MultVec3f(&offset, &this->actor.focus.pos);
     }
 }
 
