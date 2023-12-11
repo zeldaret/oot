@@ -1,3 +1,6 @@
 # Setup and compression
 crunch64>=0.3.1,<1.0.0
 ipl3checksum>=1.2.0,<2.0.0
+
+# Disassembly
+spimdisasm>=1.20.0,<2.0.0

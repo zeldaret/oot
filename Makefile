@@ -16,6 +16,8 @@ ORIG_COMPILER := 0
 COMPILER := ido
 # Target game version. Currently only the following version is supported:
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
+# The following versions are work-in-progress and not yet matching:
+#   gc-eu-mq       GameCube Europe/PAL Master Quest
 VERSION := gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS := $(shell nproc)
@@ -47,7 +49,14 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 # Version-specific settings
-ifeq ($(VERSION),gc-eu-mq-dbg)
+ifeq ($(VERSION),gc-eu-mq)
+  CFLAGS += -DNON_MATCHING -DNDEBUG
+  CPPFLAGS += -DNON_MATCHING -DNDEBUG
+  OPTFLAGS := -O2 -g3
+  COMPARE := 0
+else ifeq ($(VERSION),gc-eu-mq-dbg)
+  CFLAGS += -DOOT_DEBUG
+  CPPFLAGS += -DOOT_DEBUG
   OPTFLAGS := -O2
 else
 $(error Unsupported version $(VERSION))
@@ -55,10 +64,10 @@ endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
+EXPECTED_DIR := expected/$(BUILD_DIR)
 
 MAKE = make
-CFLAGS += -DOOT_DEBUG
-CPPFLAGS += -DOOT_DEBUG -fno-dollars-in-identifiers -P
+CPPFLAGS += -fno-dollars-in-identifiers -P
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
@@ -160,6 +169,10 @@ endif
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
 
+DISASM_DATA_DIR := tools/disasm/$(VERSION)
+DISASM_FLAGS += --custom-suffix _unknown --sequential-label-names --no-use-fpccsr --no-cop0-named-registers
+DISASM_FLAGS += --config-dir $(DISASM_DATA_DIR) --symbol-addrs $(DISASM_DATA_DIR)/functions.txt --symbol-addrs $(DISASM_DATA_DIR)/variables.txt
+
 #### Files ####
 
 # ROM image
@@ -184,15 +197,22 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
+BASEROM_SEGMENTS_DIR := baseroms/gc-eu-mq-dbg/segments
+BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
+
 # source files
 C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
-BASEROM_BIN_FILES := $(wildcard baseroms/$(VERSION)/segments/*)
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BASEROM_BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o)
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
+
+DISASM_BASEROM := baseroms/$(VERSION)/baserom-decompressed.z64
+DISASM_DATA_FILES := $(wildcard $(DISASM_DATA_DIR)/*.csv) $(wildcard $(DISASM_DATA_DIR)/*.txt)
+DISASM_S_FILES := $(shell tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
+DISASM_O_FILES := $(DISASM_S_FILES:.s=.o)
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
@@ -284,14 +304,19 @@ assetclean:
 	$(RM) -r .extracted-assets.json
 
 distclean: clean assetclean
-	$(RM) -r baseroms/$(VERSION)/segments
+	$(RM) -r $(BASEROM_SEGMENTS_DIR)
 	$(MAKE) -C tools distclean
 
 setup:
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
+# For now, only extract ROM segments and assets from the Debug ROM
+ifeq ($(VERSION),gc-eu-mq-dbg)
 	$(PYTHON) extract_baserom.py
 	$(PYTHON) extract_assets.py -j$(N_THREADS)
+endif
+
+disasm: $(DISASM_O_FILES)
 
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
@@ -300,7 +325,7 @@ endif
 	$(N64_EMULATOR) $<
 
 
-.PHONY: all rom compressed clean setup run distclean assetclean
+.PHONY: all rom compressed clean setup disasm run distclean assetclean
 .DEFAULT_GOAL := rom
 all: rom compressed
 
@@ -338,7 +363,7 @@ $(BUILD_DIR)/ldscript.txt: $(BUILD_DIR)/$(SPEC)
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
 
-$(BUILD_DIR)/baserom/%.o: baseroms/$(VERSION)/segments/%
+$(BUILD_DIR)/baserom/%.o: $(BASEROM_SEGMENTS_DIR)/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
@@ -408,6 +433,12 @@ $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
 
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
+
+$(DISASM_S_FILES) &: $(DISASM_DATA_FILES)
+	tools/disasm/disasm.py $(DISASM_FLAGS) $(DISASM_BASEROM) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
+
+$(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/%.s
+	$(AS) $(ASFLAGS) $< -o $@
 
 -include $(DEP_FILES)
 

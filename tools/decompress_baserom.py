@@ -33,10 +33,12 @@ def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
 
 
 FILE_TABLE_OFFSET = {
+    "gc-eu-mq":         0x07170,
     "gc-eu-mq-dbg":     0x12F70,
 }
 
 VERSIONS_MD5S = {
+    "gc-eu-mq":         "1a438f4235f8038856971c14a798122a",
     "gc-eu-mq-dbg":     "f0b7f35375f9cc8ca1b2d59d78e35405",
 }
 
