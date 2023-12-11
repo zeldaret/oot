@@ -108,7 +108,7 @@ void Lights_BindPoint(Lights* lights, LightParams* params, Vec3f* vec) {
 
             if (light != NULL) {
                 posDiff = sqrtf(posDiff);
-                if (1) {}
+
                 scale = posDiff / scale;
                 scale = 1 - SQ(scale);
 

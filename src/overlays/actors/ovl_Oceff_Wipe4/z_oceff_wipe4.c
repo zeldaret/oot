@@ -68,7 +68,7 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     Vec3f quakeOffset;
 
     eye = GET_ACTIVE_CAM(play)->eye;
-    Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(play));
+    quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
     if (this->timer < 16) {
         z = Math_SinS(this->timer * 1024) * 1330.0f;
     } else {

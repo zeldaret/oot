@@ -73,7 +73,7 @@ void EnHs2_Destroy(Actor* thisx, PlayState* play) {
 }
 
 s32 func_80A6F0B4(EnHs2* this, PlayState* play, u16 textId, EnHs2ActionFunc actionFunc) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         return 1;
     }
@@ -82,7 +82,7 @@ s32 func_80A6F0B4(EnHs2* this, PlayState* play, u16 textId, EnHs2ActionFunc acti
     if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x2151 &&
         this->actor.xzDistToPlayer < 100.0f) {
         this->unk_2A8 |= 0x1;
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
     return 0;
 }

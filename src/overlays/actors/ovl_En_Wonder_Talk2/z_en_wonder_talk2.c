@@ -117,7 +117,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_0;
             this->unk_15A = true;
         }
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->switchFlag >= 0) && (this->talkMode != 2)) {
             Flags_SetSwitch(play, this->switchFlag);
             // "I saved it! All of it!"
@@ -161,7 +161,7 @@ void func_80B3A15C(EnWonderTalk2* this, PlayState* play) {
             }
 
             this->unk_158 = 0;
-            func_8002F1C4(&this->actor, play, this->triggerRange + 50.0f, 100.0f, EXCH_ITEM_NONE);
+            Actor_OfferTalkExchange(&this->actor, play, this->triggerRange + 50.0f, 100.0f, EXCH_ITEM_NONE);
         }
     }
 }

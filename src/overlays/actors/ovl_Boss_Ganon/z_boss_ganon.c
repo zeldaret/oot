@@ -1851,10 +1851,8 @@ void BossGanon_PoundFloor(BossGanon* this, PlayState* play) {
 
     switch (this->unk_1C2) {
         case 0:
-            targetPosX = Math_SinS(this->unk_1A2 * 1280);
-            targetPosX = targetPosX * this->fwork[GDF_CENTER_POS];
-            targetPosZ = Math_CosS(this->unk_1A2 * 1792);
-            targetPosZ = targetPosZ * this->fwork[GDF_CENTER_POS];
+            targetPosX = Math_SinS(this->unk_1A2 * 1280) * this->fwork[GDF_CENTER_POS];
+            targetPosZ = Math_CosS(this->unk_1A2 * 1792) * this->fwork[GDF_CENTER_POS];
 
             Math_ApproachF(&this->actor.world.pos.x, targetPosX, 0.05f, this->fwork[GDF_FWORK_0]);
             Math_ApproachF(&this->actor.world.pos.z, targetPosZ, 0.05f, this->fwork[GDF_FWORK_0]);
@@ -1987,11 +1985,8 @@ void BossGanon_ChargeBigMagic(BossGanon* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    targetPosX = Math_SinS(this->unk_1A2 * 1280);
-    targetPosX = targetPosX * this->fwork[GDF_CENTER_POS];
-
-    targetPosZ = Math_CosS(this->unk_1A2 * 1792);
-    targetPosZ = targetPosZ * this->fwork[GDF_CENTER_POS];
+    targetPosX = Math_SinS(this->unk_1A2 * 1280) * this->fwork[GDF_CENTER_POS];
+    targetPosZ = Math_CosS(this->unk_1A2 * 1792) * this->fwork[GDF_CENTER_POS];
 
     Math_ApproachF(&this->actor.world.pos.x, targetPosX, 0.05f, this->fwork[GDF_FWORK_0]);
     Math_ApproachF(&this->actor.world.pos.z, targetPosZ, 0.05, this->fwork[GDF_FWORK_0]);
@@ -2556,7 +2551,7 @@ void BossGanon_Vulnerable(BossGanon* this, PlayState* play) {
 
         case 2:
             sCape->minDist = 0.0f;
-            this->actor.velocity.y = this->actor.velocity.y - 0.5f;
+            this->actor.velocity.y -= 0.5f;
 
             if (this->actor.world.pos.y < 40.0f) {
                 this->actor.world.pos.y = 40.0f;
@@ -3721,8 +3716,8 @@ void BossGanon_GenShadowTexture(u8* tex, BossGanon* this, PlayState* play) {
 
             Matrix_MultVec3f(&sp7C, &sp70);
 
-            sp70.x = sp70.x * 0.28f;
-            sp70.y = sp70.y * 0.28f;
+            sp70.x *= 0.28f;
+            sp70.y *= 0.28f;
 
             baseX = (s32)(sp70.x + 32.0f);
             baseY = (s16)sp70.y * 0x40;
@@ -4436,9 +4431,9 @@ void func_808E2544(Actor* thisx, PlayState* play) {
                     this->unk_1F0.y = Rand_CenteredFloat(200.0f) + dorf->unk_1FC.y;
                     this->unk_1F0.z = Rand_CenteredFloat(700.0f) + dorf->unk_1FC.z;
 
-                    this->unk_1F0.x = this->unk_1F0.x + ((this->unk_1F0.x - this->actor.world.pos.x) * 100.0f);
-                    this->unk_1F0.y = this->unk_1F0.y + ((this->unk_1F0.y - this->actor.world.pos.y) * 100.0f);
-                    this->unk_1F0.z = this->unk_1F0.z + ((this->unk_1F0.z - this->actor.world.pos.z) * 100.0f);
+                    this->unk_1F0.x += (this->unk_1F0.x - this->actor.world.pos.x) * 100.0f;
+                    this->unk_1F0.y += (this->unk_1F0.y - this->actor.world.pos.y) * 100.0f;
+                    this->unk_1F0.z += (this->unk_1F0.z - this->actor.world.pos.z) * 100.0f;
 
                     numEffects = 10;
                     break;

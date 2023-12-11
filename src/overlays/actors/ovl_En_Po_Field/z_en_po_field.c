@@ -646,7 +646,7 @@ void func_80AD58D4(EnPoField* this, PlayState* play) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnPoField_SetupInteractWithSoul(this);
         return;
     }
@@ -658,7 +658,7 @@ void func_80AD58D4(EnPoField* this, PlayState* play) {
     }
     if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     } else {
         this->actor.flags &= ~ACTOR_FLAG_16;
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);

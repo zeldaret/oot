@@ -235,7 +235,7 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
         this->talkState = 1;
     } else if (this->talkState == 1) {
         this->talkState = EnCs_GetTalkState(this, play);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
             EnCs_ChangeAnim(this, ENCS_ANIM_3, &this->currentAnimIndex);
         }
@@ -253,7 +253,7 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &sp2A, &sp28);
 
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
-            (func_8002F2CC(&this->actor, play, 100.0f))) {
+            (Actor_OfferTalk(&this->actor, play, 100.0f))) {
             this->actor.textId = EnCs_GetTextID(this, play);
         }
     }

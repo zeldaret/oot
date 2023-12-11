@@ -45,7 +45,7 @@ void BgYdanHasi_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->type = ((thisx->params >> 8) & 0x3F);
-    thisx->params = thisx->params & 0xFF;
+    thisx->params &= 0xFF;
     waterBox = &play->colCtx.colHeader->waterBoxes[1];
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     if (thisx->params == HASI_WATER) {

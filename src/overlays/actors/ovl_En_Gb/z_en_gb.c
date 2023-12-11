@@ -279,7 +279,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
             return;
         }
     }
-    if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
         switch (func_8002F368(play)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
@@ -297,7 +297,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
         return;
     }
     if (this->dyna.actor.xzDistToPlayer < 100.0f) {
-        func_8002F298(&this->dyna.actor, play, 100.0f, EXCH_ITEM_BOTTLE_POE);
+        Actor_OfferTalkExchangeEquiCylinder(&this->dyna.actor, play, 100.0f, EXCH_ITEM_BOTTLE_POE);
     }
 }
 
@@ -366,7 +366,7 @@ void func_80A2FBB0(EnGb* this, PlayState* play) {
 
 void func_80A2FC0C(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        Actor_ProcessTalkRequest(&this->dyna.actor, play);
+        Actor_TalkOfferAccepted(&this->dyna.actor, play);
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
     }

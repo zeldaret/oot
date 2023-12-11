@@ -183,7 +183,7 @@ void func_809EDCB0(EnDivingGame* this, PlayState* play) {
 void EnDivingGame_Talk(EnDivingGame* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->state != ENDIVINGGAME_STATE_PLAYING || !EnDivingGame_HasMinigameFinished(this, play)) {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             if (this->unk_292 != TEXT_STATE_DONE) {
                 switch (this->state) {
                     case ENDIVINGGAME_STATE_NOTPLAYING:
@@ -224,7 +224,7 @@ void EnDivingGame_Talk(EnDivingGame* this, PlayState* play) {
                         break;
                 }
             }
-            func_8002F2CC(&this->actor, play, 80.0f);
+            Actor_OfferTalk(&this->actor, play, 80.0f);
         }
     }
 }

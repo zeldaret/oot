@@ -1025,7 +1025,7 @@ void func_8008F87C(PlayState* play, Player* this, SkelAnime* skelAnime, Vec3f* p
             sp50 = Math_FAtan2F(sp58, sp60);
 
             temp1 = RAD_TO_BINANG(M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50)));
-            temp1 = temp1 - skelAnime->jointTable[shinLimbIndex].z;
+            temp1 -= skelAnime->jointTable[shinLimbIndex].z;
 
             if ((s16)(ABS(skelAnime->jointTable[shinLimbIndex].x) + ABS(skelAnime->jointTable[shinLimbIndex].y)) < 0) {
                 temp1 += 0x8000;
