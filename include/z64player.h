@@ -587,8 +587,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s32 active;
-    /* 0x04 */ Vec3f tip;
-    /* 0x10 */ Vec3f base;
+    /* 0x04 */ Vec3f posA; // For melee weapons, this is the tip (furthest from the player hand)
+    /* 0x10 */ Vec3f posB; // For melee weapons, this is the base (near the player hand)
 } WeaponInfo; // size = 0x1C
 
 #define LEDGE_DIST_MAX 399.96002f

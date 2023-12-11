@@ -646,7 +646,7 @@ int Player_IsBurningStickInRange(PlayState* play, Vec3f* pos, f32 xzRange, f32 y
     s32 pad;
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
-        Math_Vec3f_Diff(&this->meleeWeaponInfo[0].tip, pos, &diff);
+        Math_Vec3f_Diff(&this->meleeWeaponInfo[0].posA, pos, &diff);
         return ((SQ(diff.x) + SQ(diff.z)) <= SQ(xzRange)) && (0.0f <= diff.y) && (diff.y <= yRange);
     } else {
         return false;
@@ -1213,30 +1213,42 @@ s32 Player_OverrideLimbDrawGameplayCrawling(PlayState* play, s32 limbIndex, Gfx*
     return false;
 }
 
-u8 func_80090480(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip, Vec3f* newBase) {
-    if (weaponInfo->active == 0) {
+/**
+ * Handles colliders for player weapons, by creating a quad collider each frame between the weapon's previous position
+ * and its new position.
+ * This position is given as a pair, `newPosA` and `newPosB`, representing two ends of a line that can be thought of as
+ * the active part of the weapon. Note that this line is not necessarily following the weapon's shape: for example
+ * arrows use a line perpendicular to the shaft.
+ * @param collider The quad collider to use for the weapon.
+ * @param newPosA One end of the line. For melee weapons, this is the tip.
+ * @param newPosB One end of the line. For melee weapons, this is the base.
+ * @return true if the weapon is active at a new position.
+ */
+u8 Player_UpdateWeaponInfo(PlayState* play, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newPosA,
+                           Vec3f* newPosB) {
+    if (!weaponInfo->active) {
         if (collider != NULL) {
             Collider_ResetQuadAT(play, &collider->base);
         }
-        Math_Vec3f_Copy(&weaponInfo->tip, newTip);
-        Math_Vec3f_Copy(&weaponInfo->base, newBase);
-        weaponInfo->active = 1;
+        Math_Vec3f_Copy(&weaponInfo->posA, newPosA);
+        Math_Vec3f_Copy(&weaponInfo->posB, newPosB);
+        weaponInfo->active = true;
         return true;
-    } else if ((weaponInfo->tip.x == newTip->x) && (weaponInfo->tip.y == newTip->y) &&
-               (weaponInfo->tip.z == newTip->z) && (weaponInfo->base.x == newBase->x) &&
-               (weaponInfo->base.y == newBase->y) && (weaponInfo->base.z == newBase->z)) {
+    } else if ((weaponInfo->posA.x == newPosA->x) && (weaponInfo->posA.y == newPosA->y) &&
+               (weaponInfo->posA.z == newPosA->z) && (weaponInfo->posB.x == newPosB->x) &&
+               (weaponInfo->posB.y == newPosB->y) && (weaponInfo->posB.z == newPosB->z)) {
         if (collider != NULL) {
             Collider_ResetQuadAT(play, &collider->base);
         }
         return false;
     } else {
         if (collider != NULL) {
-            Collider_SetQuadVertices(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
+            Collider_SetQuadVertices(collider, newPosB, newPosA, &weaponInfo->posB, &weaponInfo->posA);
             CollisionCheck_SetAT(play, &play->colChkCtx, &collider->base);
         }
-        Math_Vec3f_Copy(&weaponInfo->base, newBase);
-        Math_Vec3f_Copy(&weaponInfo->tip, newTip);
-        weaponInfo->active = 1;
+        Math_Vec3f_Copy(&weaponInfo->posB, newPosB);
+        Math_Vec3f_Copy(&weaponInfo->posA, newPosA);
+        weaponInfo->active = true;
         return true;
     }
 }
@@ -1265,33 +1277,35 @@ void Player_UpdateShieldCollider(PlayState* play, Player* this, ColliderQuad* co
     }
 }
 
-Vec3f D_80126080 = { 5000.0f, 400.0f, 0.0f };
-Vec3f D_8012608C = { 5000.0f, -400.0f, 1000.0f };
-Vec3f D_80126098 = { 5000.0f, 1400.0f, -1000.0f };
+// Positions for the tip of melee weapons, in the left hand limb's own model space.
+Vec3f sMeleeWeaponTipLeftHandLimbModelPos0 = { 5000.0f, 400.0f, 0.0f };
+Vec3f sMeleeWeaponTipLeftHandLimbModelPos1 = { 5000.0f, -400.0f, 1000.0f };
+Vec3f sMeleeWeaponTipLeftHandLimbModelPos2 = { 5000.0f, 1400.0f, -1000.0f };
 
-Vec3f D_801260A4[3] = {
-    { 0.0f, 400.0f, 0.0f },
-    { 0.0f, 1400.0f, -1000.0f },
-    { 0.0f, -400.0f, 1000.0f },
-};
+// Positions for the base of melee weapons, in the left hand limb's own model space.
+Vec3f sMeleeWeaponBaseLeftHandLimbModelPos0 = { 0.0f, 400.0f, 0.0f };
+Vec3f sMeleeWeaponBaseLeftHandLimbModelPos1 = { 0.0f, 1400.0f, -1000.0f };
+Vec3f sMeleeWeaponBaseLeftHandLimbModelPos2 = { 0.0f, -400.0f, 1000.0f };
 
-void func_800906D4(PlayState* play, Player* this, Vec3f* newTipPos) {
-    Vec3f newBasePos[3];
+void Player_UpdateMeleeWeaponInfo(PlayState* play, Player* this, Vec3f* newTipPositions) {
+    Vec3f newBasePositions[3];
 
-    Matrix_MultVec3f(&D_801260A4[0], &newBasePos[0]);
-    Matrix_MultVec3f(&D_801260A4[1], &newBasePos[1]);
-    Matrix_MultVec3f(&D_801260A4[2], &newBasePos[2]);
+    Matrix_MultVec3f(&sMeleeWeaponBaseLeftHandLimbModelPos0, &newBasePositions[0]);
+    Matrix_MultVec3f(&sMeleeWeaponBaseLeftHandLimbModelPos1, &newBasePositions[1]);
+    Matrix_MultVec3f(&sMeleeWeaponBaseLeftHandLimbModelPos2, &newBasePositions[2]);
 
-    if (func_80090480(play, NULL, &this->meleeWeaponInfo[0], &newTipPos[0], &newBasePos[0]) &&
+    if (Player_UpdateWeaponInfo(play, NULL, &this->meleeWeaponInfo[0], &newTipPositions[0], &newBasePositions[0]) &&
         !(this->stateFlags1 & PLAYER_STATE1_22)) {
-        EffectBlure_AddVertex(Effect_GetByIndex(this->meleeWeaponEffectIndex), &this->meleeWeaponInfo[0].tip,
-                              &this->meleeWeaponInfo[0].base);
+        EffectBlure_AddVertex(Effect_GetByIndex(this->meleeWeaponEffectIndex), &this->meleeWeaponInfo[0].posA,
+                              &this->meleeWeaponInfo[0].posB);
     }
 
     if ((this->meleeWeaponState > 0) &&
         ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_17))) {
-        func_80090480(play, &this->meleeWeaponQuads[0], &this->meleeWeaponInfo[1], &newTipPos[1], &newBasePos[1]);
-        func_80090480(play, &this->meleeWeaponQuads[1], &this->meleeWeaponInfo[2], &newTipPos[2], &newBasePos[2]);
+        Player_UpdateWeaponInfo(play, &this->meleeWeaponQuads[0], &this->meleeWeaponInfo[1], &newTipPositions[1],
+                                &newBasePositions[1]);
+        Player_UpdateWeaponInfo(play, &this->meleeWeaponQuads[1], &this->meleeWeaponInfo[2], &newTipPositions[2],
+                                &newBasePositions[2]);
     }
 }
 
@@ -1322,20 +1336,20 @@ void Player_DrawGetItem(PlayState* play, Player* this) {
     }
 }
 
-void func_80090A28(Player* this, Vec3f* vecs) {
-    D_8012608C.x = D_80126080.x;
+void Player_CalcMeleeWeaponTipPositions(Player* this, Vec3f* tipPositions) {
+    sMeleeWeaponTipLeftHandLimbModelPos1.x = sMeleeWeaponTipLeftHandLimbModelPos0.x;
 
     if (this->unk_845 >= 3) {
         this->unk_845++;
-        D_8012608C.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
+        sMeleeWeaponTipLeftHandLimbModelPos1.x *= 1.0f + ((9 - this->unk_845) * 0.1f);
     }
 
-    D_8012608C.x += 1200.0f;
-    D_80126098.x = D_8012608C.x;
+    sMeleeWeaponTipLeftHandLimbModelPos1.x += 1200.0f;
+    sMeleeWeaponTipLeftHandLimbModelPos2.x = sMeleeWeaponTipLeftHandLimbModelPos1.x;
 
-    Matrix_MultVec3f(&D_80126080, &vecs[0]);
-    Matrix_MultVec3f(&D_8012608C, &vecs[1]);
-    Matrix_MultVec3f(&D_80126098, &vecs[2]);
+    Matrix_MultVec3f(&sMeleeWeaponTipLeftHandLimbModelPos0, &tipPositions[0]);
+    Matrix_MultVec3f(&sMeleeWeaponTipLeftHandLimbModelPos1, &tipPositions[1]);
+    Matrix_MultVec3f(&sMeleeWeaponTipLeftHandLimbModelPos2, &tipPositions[2]);
 }
 
 void Player_DrawHookshotReticle(PlayState* play, Player* this, f32 arg2) {
@@ -1457,17 +1471,17 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         Math_Vec3f_Copy(&this->leftHandPos, sCurBodyPartPos);
 
         if (this->itemAction == PLAYER_IA_DEKU_STICK) {
-            Vec3f sp124[3];
+            Vec3f tipPositions[3];
 
             OPEN_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2633);
 
             if (this->actor.scale.y >= 0.0f) {
-                D_80126080.x = this->unk_85C * 5000.0f;
-                func_80090A28(this, sp124);
+                sMeleeWeaponTipLeftHandLimbModelPos0.x = this->unk_85C * 5000.0f;
+                Player_CalcMeleeWeaponTipPositions(this, tipPositions);
                 if (this->meleeWeaponState != 0) {
-                    func_800906D4(play, this, sp124);
+                    Player_UpdateMeleeWeaponInfo(play, this, tipPositions);
                 } else {
-                    Math_Vec3f_Copy(&this->meleeWeaponInfo[0].tip, &sp124[0]);
+                    Math_Vec3f_Copy(&this->meleeWeaponInfo[0].posA, &tipPositions[0]);
                 }
             }
 
@@ -1481,16 +1495,16 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_player_lib.c", 2656);
         } else if ((this->actor.scale.y >= 0.0f) && (this->meleeWeaponState != 0)) {
-            Vec3f spE4[3];
+            Vec3f tipPositions[3];
 
             if (Player_HoldsBrokenKnife(this)) {
-                D_80126080.x = 1500.0f;
+                sMeleeWeaponTipLeftHandLimbModelPos0.x = 1500.0f;
             } else {
-                D_80126080.x = sMeleeWeaponLengths[Player_GetMeleeWeaponHeld(this)];
+                sMeleeWeaponTipLeftHandLimbModelPos0.x = sMeleeWeaponLengths[Player_GetMeleeWeaponHeld(this)];
             }
 
-            func_80090A28(this, spE4);
-            func_800906D4(play, this, spE4);
+            Player_CalcMeleeWeaponTipPositions(this, tipPositions);
+            Player_UpdateMeleeWeaponInfo(play, this, tipPositions);
         } else if ((*dList != NULL) && (this->leftHandType == PLAYER_MODELTYPE_LH_BOTTLE)) {
             Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemAction)];
 
