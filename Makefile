@@ -14,10 +14,8 @@ NON_MATCHING ?= 0
 ORIG_COMPILER ?= 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER ?= ido
-# Target game version. Currently the following versions are supported:
+# Target game version. Currently only the following version is supported:
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
-# The following versions are work-in-progress and not yet matching:
-#   gc-eu-mq       GameCube Europe/PAL Master Quest
 VERSION ?= gc-eu-mq-dbg
 
 CFLAGS ?=
@@ -47,12 +45,7 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 # Version-specific settings
-ifeq ($(VERSION),gc-eu-mq)
-  CFLAGS += -DNON_MATCHING -DNDEBUG
-  CPPFLAGS += -DNON_MATCHING -DNDEBUG
-  OPTFLAGS := -O2 -g3
-  COMPARE := 0
-else ifeq ($(VERSION),gc-eu-mq-dbg)
+ifeq ($(VERSION),gc-eu-mq-dbg)
   OPTFLAGS := -O2
 else
 $(error Unsupported version $(VERSION))
