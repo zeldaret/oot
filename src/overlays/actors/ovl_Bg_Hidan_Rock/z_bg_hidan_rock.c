@@ -264,10 +264,10 @@ void func_8088B79C(BgHidanRock* this, PlayState* play) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
         } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 != 0) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
             this->unk_169 = 0;
         }
@@ -317,10 +317,10 @@ void func_8088B990(BgHidanRock* this, PlayState* play) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
         } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
             if (this->unk_169 != 0) {
-                Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+                Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
             }
             this->unk_169 = 0;
         }
