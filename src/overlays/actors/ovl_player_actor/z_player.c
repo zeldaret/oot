@@ -3417,7 +3417,7 @@ s32 func_80836898(PlayState* play, Player* this, PlayerFuncA74 func) {
  * There are 3 modes shape yaw can be updated with, based on player state:
  *     - Lock on:  Rotates Player to face the lock on target.
  *     - Parallel: Rotates Player to face the Parallel angle, set by `func_808355DC` when Z is pressed.
- *     - Normal:   Rotates Player to face (`this->yaw`), the direction he is currently moving
+ *     - Normal:   Rotates Player to face `this->yaw`, the direction he is currently moving
  */
 void Player_UpdateShapeYaw(Player* this, PlayState* play) {
     s16 previousYaw = this->actor.shape.rot.y;
@@ -3486,9 +3486,8 @@ s32 func_80836AB8(Player* this, s32 arg1) {
  * Update Z Targeting if the Z button is pressed.
  * This includes both sub-types of Z Targeting:
  *     - Lock On: Player locks onto an actor and a reticle appears on the target.
- *     - Parallel: Player's Y rotation is locked and he will move in a parallel fashion.
+ *     - Parallel: Player's Y rotation is locked, he will keep facing the same direction as long as Z is held.
  *                 Player will also snap to the angle of a wall, if in range when Z is pressed.
- *
  */
 void Player_UpdateZTarget(Player* this, PlayState* play) {
     s32 sp1C = 0;
