@@ -1,5 +1,5 @@
 def add_custom_arguments(parser):
-    parser.add_argument("-v", "--version", help="Game version to diff", default="gc-eu-mq-dbg")
+    parser.add_argument("-v", "--oot-version", help="OOT version to diff", default="gc-eu-mq-dbg")
 
 def apply(config, args):
     version = args.version

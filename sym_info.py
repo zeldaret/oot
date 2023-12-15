@@ -13,7 +13,7 @@ except ImportError:
 def symInfoMain():
     parser = argparse.ArgumentParser(description="Display various information about a symbol or address.")
     parser.add_argument("symname", help="symbol name or VROM/VRAM address to lookup")
-    parser.add_argument("-v", "--version", help="game version", default="gc-eu-mq-dbg")
+    parser.add_argument("-v", "--oot-version", help="OOT game version", default="gc-eu-mq-dbg")
     parser.add_argument("-e", "--expected", dest="use_expected", action="store_true", help="use the map file in expected/build/ instead of build/")
 
     args = parser.parse_args()
