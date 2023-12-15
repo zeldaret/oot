@@ -98,7 +98,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ((BgMizuMovebg*)thisx)->homeY = thisx->world.pos.y;
-    ((BgMizuMovebg*)thisx)->dlist = sDLists[MOVEBG_TYPE(thisx->params)];
+    ((BgMizuMovebg*)thisx)->dList = sDLists[MOVEBG_TYPE(thisx->params)];
     DynaPolyActor_Init(&((BgMizuMovebg*)thisx)->dyna, DYNA_TRANSFORM_POS);
     CollisionHeader_GetVirtual(sColHeaders[MOVEBG_TYPE(thisx->params)], &colHeader);
     ((BgMizuMovebg*)thisx)->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
@@ -114,6 +114,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
+
         case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 710.0f) {
@@ -123,6 +124,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
+
         case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
@@ -132,11 +134,13 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
+
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
             thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY +
                                  sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
+
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
@@ -147,6 +151,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             }
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
+
         case MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM:
             ((BgMizuMovebg*)thisx)->scrollAlpha1 = 160;
             ((BgMizuMovebg*)thisx)->scrollAlpha2 = 160;
@@ -190,6 +195,7 @@ void BgMizuMovebg_Destroy(Actor* thisx, PlayState* play) {
                 D_8089EE40 &= ~2;
             }
             break;
+
         case MIZUMOVEBG_TYPE_HOOKSHOT_PLATFORM:
             if (this->sfxFlags & 1) {
                 D_8089EE40 &= ~1;
@@ -264,6 +270,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 this->dyna.actor.world.pos.y = targetPosY;
             }
             break;
+
         case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < this->homeY - 710.0f) {
@@ -272,6 +279,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 this->dyna.actor.world.pos.y = targetPosY;
             }
             break;
+
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM:
             targetPosY =
                 this->homeY + sDragonStatueBossRoomOffsetPosY[BgMizuMovebg_GetDragonStatueBossRoomOffsetIndex(play)];
@@ -289,6 +297,7 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
                 }
             }
             break;
+
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_2:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_3:
         case MIZUMOVEBG_TYPE_DRAGON_STATUE_4:
@@ -399,8 +408,8 @@ void BgMizuMovebg_Draw(Actor* thisx, PlayState* play2) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mizu_movebg.c", 788),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->dlist != NULL) {
-        gSPDisplayList(POLY_OPA_DISP++, this->dlist);
+    if (this->dList != NULL) {
+        gSPDisplayList(POLY_OPA_DISP++, this->dList);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_mizu_movebg.c", 795);
