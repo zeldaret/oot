@@ -123,8 +123,8 @@ void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHea
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG registration failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -186,7 +186,7 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 
     BgIceShelter_SetupIdle(this);
 
-    osSyncPrintf("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play) {

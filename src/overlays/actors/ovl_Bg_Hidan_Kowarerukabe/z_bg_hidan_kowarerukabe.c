@@ -118,8 +118,8 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
     if (((this->dyna.actor.params & 0xFF) < CRACKED_STONE_FLOOR) ||
         ((this->dyna.actor.params & 0xFF) > LARGE_BOMBABLE_WALL)) {
         // "Error: Fire Temple Breakable Walls. arg_data I can't determine the (%s %d)(arg_data 0x%04x)"
-        osSyncPrintf("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-                     "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
+        PRINTF("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -134,7 +134,7 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
     BgHidanKowarerukabe_InitColliderSphere(this, play);
     BgHidanKowarerukabe_OffsetActorYPos(this);
     // "(fire walls, floors, destroyed by bombs)(arg_data 0x%04x)"
-    osSyncPrintf("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play) {

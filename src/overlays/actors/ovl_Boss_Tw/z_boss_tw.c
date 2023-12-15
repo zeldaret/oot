@@ -3124,7 +3124,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     }
 
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
-    osSyncPrintf("OooooooooooooooooooooooooooooooooCC\n");
+    PRINTF("OooooooooooooooooooooooooooooooooCC\n");
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 
     play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;

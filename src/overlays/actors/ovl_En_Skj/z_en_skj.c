@@ -446,12 +446,12 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             EnSkj_CalculateCenter(this);
 
             player = GET_PLAYER(play);
-            osSyncPrintf("Player_X : %f\n", player->actor.world.pos.x);
-            osSyncPrintf("Player_Z : %f\n", player->actor.world.pos.z);
-            osSyncPrintf("World_X  : %f\n", this->actor.world.pos.x);
-            osSyncPrintf("World_Z  : %f\n", this->actor.world.pos.z);
-            osSyncPrintf("Center_X : %f\n", this->center.x);
-            osSyncPrintf("Center_Z : %f\n\n", this->center.z);
+            PRINTF("Player_X : %f\n", player->actor.world.pos.x);
+            PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
+            PRINTF("World_X  : %f\n", this->actor.world.pos.x);
+            PRINTF("World_Z  : %f\n", this->actor.world.pos.z);
+            PRINTF("Center_X : %f\n", this->center.x);
+            PRINTF("Center_Z : %f\n\n", this->center.z);
 
             break;
     }

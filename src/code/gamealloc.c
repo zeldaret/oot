@@ -3,11 +3,11 @@
 void GameAlloc_Log(GameAlloc* this) {
     GameAllocEntry* iter;
 
-    osSyncPrintf("this = %08x\n", this);
+    PRINTF("this = %08x\n", this);
 
     iter = this->base.next;
     while (iter != &this->base) {
-        osSyncPrintf("ptr = %08x size = %d\n", iter, iter->size);
+        PRINTF("ptr = %08x size = %d\n", iter, iter->size);
         iter = iter->next;
     }
 }

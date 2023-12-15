@@ -383,10 +383,10 @@ void EnFish_Dropped_Fall(EnFish* this, PlayState* play) {
         EnFish_Dropped_SetupSwimAway(this);
     } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) &&
                (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "BG missing? Running Actor_delete"
-        osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
-        osSyncPrintf(VT_RST);
+        PRINTF("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
+        PRINTF(VT_RST);
         Actor_Kill(&this->actor);
     }
 }
@@ -626,8 +626,8 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
 
     if (cue == NULL) {
         // "Warning : DEMO ended without dousa (action) 3 termination being called"
-        osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c",
-                     1169, this->actor.params);
+        PRINTF("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1169,
+               this->actor.params);
         EnFish_ClearCutsceneData(this);
         Actor_Kill(&this->actor);
         return;
@@ -645,13 +645,13 @@ void EnFish_UpdateCutscene(EnFish* this, PlayState* play) {
             break;
         case 3:
             // "DEMO fish termination"
-            osSyncPrintf("デモ魚消滅\n");
+            PRINTF("デモ魚消滅\n");
             EnFish_ClearCutsceneData(this);
             Actor_Kill(&this->actor);
             return;
         default:
             // "Improper DEMO action"
-            osSyncPrintf("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200, this->actor.params);
+            PRINTF("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200, this->actor.params);
             break;
     }
 

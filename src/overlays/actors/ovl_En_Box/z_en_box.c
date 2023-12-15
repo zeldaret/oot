@@ -417,7 +417,7 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
                     Audio_PlayFanfare(NA_BGM_OPEN_TRE_BOX | 0x900);
             }
         }
-        osSyncPrintf("Actor_Environment_Tbox_On() %d\n", this->dyna.actor.params & 0x1F);
+        PRINTF("Actor_Environment_Tbox_On() %d\n", this->dyna.actor.params & 0x1F);
         Flags_SetTreasure(play, this->dyna.actor.params & 0x1F);
     } else {
         player = GET_PLAYER(play);

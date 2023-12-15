@@ -56,7 +56,7 @@ u32 EffectSsFhgFlash_Init(PlayState* play, u32 index, EffectSs* this, void* init
             this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
             gSegments[6] = prevSeg6;
         } else {
-            osSyncPrintf("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
+            PRINTF("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
             return 0;
         }
     } else {

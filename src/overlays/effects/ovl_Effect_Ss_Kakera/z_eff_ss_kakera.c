@@ -53,7 +53,7 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
         }
 
     } else {
-        osSyncPrintf("shape_modelがNULL\n");
+        PRINTF("shape_modelがNULL\n");
         LogUtils_HungupThread("../z_eff_kakera.c", 178);
     }
 
@@ -79,7 +79,7 @@ f32 func_809A9818(f32 arg0, f32 arg1) {
     f32 temp_f2;
 
     if (arg1 < 0.0f) {
-        osSyncPrintf("範囲がマイナス！！(randomD_sectionUniformity)\n");
+        PRINTF("範囲がマイナス！！(randomD_sectionUniformity)\n");
     }
 
     temp_f2 = Rand_ZeroOne() * arg1;

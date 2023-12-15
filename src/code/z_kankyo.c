@@ -435,7 +435,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     if (Object_GetSlot(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
         play->envCtx.sunMoonDisabled = true;
         // "Sun setting other than field keep! So forced release!"
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
     }
 
     gCustomLensFlareOn = false;
@@ -554,8 +554,8 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
 
     if ((startFrameF >= endFrameF) || (accelDurationF + decelDurationF > totalFrames)) {
         // "The frame relation between end_frame and start_frame is wrong!!!"
-        osSyncPrintf(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
-        osSyncPrintf(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
 
         return 0.0f;
     }
@@ -702,7 +702,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
         if (newSkybox1Index == 0xFF) {
             // "Environment VR data acquisition failed! Report to Sasaki!"
-            osSyncPrintf(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
+            PRINTF(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
         }
 
         if ((envCtx->skybox1Index != newSkybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
@@ -788,7 +788,7 @@ void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex) {
     if (waterLightsIndex == WATERBOX_LIGHT_INDEX_NONE) {
         waterLightsIndex = 0;
         // "Underwater color is not set in the water poly data!"
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
     }
 
     if (play->envCtx.lightMode == LIGHT_MODE_TIME) {
@@ -902,7 +902,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
         if (((void)0, gSaveContext.nextDayTime) >= 0xFF00 && ((void)0, gSaveContext.nextDayTime) != NEXT_TIME_NONE) {
             gSaveContext.nextDayTime -= 0x10;
-            osSyncPrintf("\nnext_zelda_time=[%x]", ((void)0, gSaveContext.nextDayTime));
+            PRINTF("\nnext_zelda_time=[%x]", ((void)0, gSaveContext.nextDayTime));
 
             // nextDayTime is used as both a time of day value and a timer to delay sfx when changing days.
             // When Sun's Song is played, nextDayTime is set to 0x8001 or 0 for day and night respectively.
@@ -1127,12 +1127,12 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong!"
-                            osSyncPrintf(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
+                            PRINTF(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
 
                             // "Palette setting = [] Last palette number = []"
-                            osSyncPrintf(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
-                                         sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
-                                         envCtx->numLightSettings - 1);
+                            PRINTF(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
+                                   sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
+                                   envCtx->numLightSettings - 1);
                         }
                         break;
                     }
@@ -1203,11 +1203,11 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                 if (envCtx->lightSetting >= envCtx->numLightSettings) {
                     // "The color palette seems to be wrong!"
-                    osSyncPrintf("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
+                    PRINTF("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
 
                     // "Palette setting = [] Last palette number = []"
-                    osSyncPrintf("\n" VT_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" VT_RST,
-                                 envCtx->lightSetting, envCtx->numLightSettings);
+                    PRINTF("\n" VT_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" VT_RST, envCtx->lightSetting,
+                           envCtx->numLightSettings);
                 }
             }
         }
@@ -2058,8 +2058,8 @@ void Environment_PlaySceneSequence(PlayState* play) {
         }
     } else if (play->sequenceCtx.natureAmbienceId == NATURE_ID_NONE) {
         // "BGM Configuration"
-        osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sequenceCtx.seqId,
-                     ((void)0, gSaveContext.seqId));
+        PRINTF("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sequenceCtx.seqId,
+               ((void)0, gSaveContext.seqId));
         if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
             Audio_PlaySceneSequence(play->sequenceCtx.seqId);
         }
@@ -2086,11 +2086,11 @@ void Environment_PlaySceneSequence(PlayState* play) {
         }
     }
 
-    osSyncPrintf("\n-----------------\n", ((void)0, gSaveContext.forcedSeqId));
-    osSyncPrintf("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.forcedSeqId)); // "Forced BGM"
-    osSyncPrintf("\n     ＢＧＭ=[%d]", play->sequenceCtx.seqId);
-    osSyncPrintf("\n     エンブ=[%d]", play->sequenceCtx.natureAmbienceId);
-    osSyncPrintf("\n     status=[%d]", play->envCtx.timeSeqState);
+    PRINTF("\n-----------------\n", ((void)0, gSaveContext.forcedSeqId));
+    PRINTF("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.forcedSeqId)); // "Forced BGM"
+    PRINTF("\n     ＢＧＭ=[%d]", play->sequenceCtx.seqId);
+    PRINTF("\n     エンブ=[%d]", play->sequenceCtx.natureAmbienceId);
+    PRINTF("\n     status=[%d]", play->envCtx.timeSeqState);
 
     Audio_SetEnvReverb(play->roomCtx.curRoom.echo);
 }
@@ -2102,7 +2102,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
                                              CHANNEL_IO_PORT_1, 0);
 
             if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
-                osSyncPrintf("\n\n\nNa_StartMorinigBgm\n\n");
+                PRINTF("\n\n\nNa_StartMorinigBgm\n\n");
                 Audio_PlayMorningSceneSequence(play->sequenceCtx.seqId);
             }
 

@@ -283,7 +283,7 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
     if ((this->kbdButton == FS_KBD_BTN_HIRA) || (this->kbdButton == FS_KBD_BTN_KATA) ||
         (this->kbdButton == FS_KBD_BTN_END)) {
         if (this->kbdX != this->kbdButton) {
-            osSyncPrintf("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
+            PRINTF("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
         this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[0] - 4;
         this->nameEntryVtx[41].v.ob[0] = this->nameEntryVtx[43].v.ob[0] = this->nameEntryVtx[40].v.ob[0] + 52;
@@ -291,15 +291,15 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
 
     } else if ((this->kbdButton == FS_KBD_BTN_ENG) || (this->kbdButton == FS_KBD_BTN_BACKSPACE)) {
         if (this->kbdX != this->kbdButton) {
-            osSyncPrintf("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
+            PRINTF("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
         }
         this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[0] - 4;
         this->nameEntryVtx[41].v.ob[0] = this->nameEntryVtx[43].v.ob[0] = this->nameEntryVtx[40].v.ob[0] + 40;
         this->nameEntryVtx[40].v.ob[1] = this->nameEntryVtx[41].v.ob[1] = D_80811BB0[(this->kbdX + 1) * 4].v.ob[1] + 4;
     } else {
         if (this->charIndex >= 65) {
-            osSyncPrintf("mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n", this->charIndex, this->kbdX, this->kbdY,
-                         this->kbdButton);
+            PRINTF("mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n", this->charIndex, this->kbdX, this->kbdY,
+                   this->kbdButton);
         }
 
         this->nameEntryVtx[40].v.ob[0] = this->nameEntryVtx[42].v.ob[0] =
@@ -672,17 +672,17 @@ void FileSelect_UpdateOptionsMenu(GameState* thisx) {
         this->configMode = CM_OPTIONS_TO_MAIN;
         sramCtx->readBuff[0] = gSaveContext.audioSetting;
         sramCtx->readBuff[1] = gSaveContext.zTargetSetting;
-        osSyncPrintf("ＳＡＶＥ");
+        PRINTF("ＳＡＶＥ");
         Sram_WriteSramHeader(sramCtx);
-        osSyncPrintf(VT_FGCOL(YELLOW));
-        osSyncPrintf("sram->read_buff[2] = J_N = %x\n", sramCtx->readBuff[2]);
-        osSyncPrintf("sram->read_buff[2] = J_N = %x\n", &sramCtx->readBuff[2]);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF("sram->read_buff[2] = J_N = %x\n", sramCtx->readBuff[2]);
+        PRINTF("sram->read_buff[2] = J_N = %x\n", &sramCtx->readBuff[2]);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        PRINTF("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        PRINTF(VT_RST);
         func_800F6700(gSaveContext.audioSetting);
-        osSyncPrintf("終了\n");
+        PRINTF("終了\n");
         return;
     }
 

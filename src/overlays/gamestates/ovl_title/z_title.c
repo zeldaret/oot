@@ -158,7 +158,7 @@ void ConsoleLogo_Init(GameState* thisx) {
     ConsoleLogoState* this = (ConsoleLogoState*)thisx;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);
-    osSyncPrintf("z_title.c\n");
+    PRINTF("z_title.c\n");
     ASSERT(this->staticSegment != NULL, "this->staticSegment != NULL", "../z_title.c", 614);
     DmaMgr_RequestSyncDebug(this->staticSegment, (uintptr_t)_nintendo_rogo_staticSegmentRomStart, size, "../z_title.c",
                             615);

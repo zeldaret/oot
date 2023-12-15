@@ -128,7 +128,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
 
     if (DNS_GET_TYPE(&this->actor) < 0) {
         // "Function Error (Deku Salesman)"
-        osSyncPrintf(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
+        PRINTF(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
@@ -139,7 +139,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     }
 
     // "Deku Salesman"
-    osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
+    PRINTF(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", sItemDebugTxt[DNS_GET_TYPE(&this->actor)]);
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 

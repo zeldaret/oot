@@ -45,7 +45,7 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
         return 1;
     }
 
-    osSyncPrintf("Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n");
+    PRINTF("Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n");
 
     return 0;
 }

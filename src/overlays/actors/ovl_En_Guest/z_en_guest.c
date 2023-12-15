@@ -57,10 +57,10 @@ void EnGuest_Init(Actor* thisx, PlayState* play) {
     } else {
         this->osAnimeObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_OS_ANIME);
         if (this->osAnimeObjectSlot < 0) {
-            osSyncPrintf(VT_COL(RED, WHITE));
+            PRINTF(VT_COL(RED, WHITE));
             // "No such bank!!"
-            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
-            osSyncPrintf(VT_RST);
+            PRINTF("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
+            PRINTF(VT_RST);
             ASSERT(0, "0", "../z_en_guest.c", 132);
         }
     }

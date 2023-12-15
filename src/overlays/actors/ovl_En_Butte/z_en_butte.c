@@ -170,7 +170,7 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;
     // "field keep butterfly"
-    osSyncPrintf("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
+    PRINTF("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
 }
 
 void EnButte_Destroy(Actor* thisx, PlayState* play2) {

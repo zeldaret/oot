@@ -76,7 +76,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
 
                 if (curCobraInfo->cobra->dyna.actor.update == NULL) {
                     // "Cobra deleted"
-                    osSyncPrintf("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
+                    PRINTF("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
                 }
             } else {
                 curCobraInfo->cobra = (BgJyaCobra*)Actor_SpawnAsChild(
@@ -86,7 +86,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
 
                 if (curCobraInfo->cobra == NULL) {
                     // "Cobra generation failed"
-                    osSyncPrintf("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
+                    PRINTF("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
                 }
             }
         }
@@ -160,7 +160,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
 
                     if (this->lightBeams[i] == NULL) {
                         // "Mir Ray generation failed"
-                        osSyncPrintf("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
+                        PRINTF("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
                     }
                 }
             } else {
@@ -191,7 +191,7 @@ void BgJyaBigmirror_Init(Actor* thisx, PlayState* play) {
     this->mirRayObjectSlot = -1;
 
     // "jya Bigmirror"
-    osSyncPrintf("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);
+    PRINTF("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void BgJyaBigmirror_Destroy(Actor* thisx, PlayState* play) {

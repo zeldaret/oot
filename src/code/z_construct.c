@@ -32,11 +32,11 @@ void Interface_Init(PlayState* play) {
     parameterSize = (uintptr_t)_parameter_staticSegmentRomEnd - (uintptr_t)_parameter_staticSegmentRomStart;
 
     // "Permanent PARAMETER Segment = %x"
-    osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
+    PRINTF("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
 
     interfaceCtx->parameterSegment = GameState_Alloc(&play->state, parameterSize, "../z_construct.c", 159);
 
-    osSyncPrintf("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
+    PRINTF("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
     ASSERT(interfaceCtx->parameterSegment != NULL, "parameter->parameterSegment != NULL", "../z_construct.c", 161);
     DmaMgr_RequestSyncDebug(interfaceCtx->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, parameterSize,
@@ -44,8 +44,8 @@ void Interface_Init(PlayState* play) {
 
     interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 3 * DO_ACTION_TEX_SIZE, "../z_construct.c", 166);
 
-    osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 3 * DO_ACTION_TEX_SIZE); // "DO Action Texture Initialization"
-    osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
+    PRINTF("ＤＯアクション テクスチャ初期=%x\n", 3 * DO_ACTION_TEX_SIZE); // "DO Action Texture Initialization"
+    PRINTF("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
 
     ASSERT(interfaceCtx->doActionSegment != NULL, "parameter->do_actionSegment != NULL", "../z_construct.c", 169);
 
@@ -75,14 +75,14 @@ void Interface_Init(PlayState* play) {
     interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
 
     // "Icon Item Texture Initialization = %x"
-    osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", ICON_ITEM_SEGMENT_SIZE);
-    osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
+    PRINTF("アイコンアイテム テクスチャ初期=%x\n", ICON_ITEM_SEGMENT_SIZE);
+    PRINTF("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
     ASSERT(interfaceCtx->iconItemSegment != NULL, "parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.save.info.equips.buttonItems[0],
-                 gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
-                 gSaveContext.save.info.equips.buttonItems[3]);
+    PRINTF("Register_Item[%x, %x, %x, %x]\n", gSaveContext.save.info.equips.buttonItems[0],
+           gSaveContext.save.info.equips.buttonItems[1], gSaveContext.save.info.equips.buttonItems[2],
+           gSaveContext.save.info.equips.buttonItems[3]);
 
     if (gSaveContext.save.info.equips.buttonItems[0] < 0xF0) {
         DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
@@ -114,13 +114,13 @@ void Interface_Init(PlayState* play) {
                                 "../z_construct.c", 219);
     }
 
-    osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
+    PRINTF("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
 
     if ((gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) ||
         (gSaveContext.timerState == TIMER_STATE_DOWN_TICK) ||
         (gSaveContext.subTimerState == SUBTIMER_STATE_DOWN_TICK) ||
         (gSaveContext.subTimerState == SUBTIMER_STATE_UP_TICK)) {
-        osSyncPrintf("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
+        PRINTF("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
 
         if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
             if (gSaveContext.timerState == TIMER_STATE_ENV_HAZARD_TICK) {
@@ -149,10 +149,10 @@ void Interface_Init(PlayState* play) {
     if ((gSaveContext.timerState >= TIMER_STATE_UP_INIT) && (gSaveContext.timerState <= TIMER_STATE_UP_FREEZE)) {
         gSaveContext.timerState = TIMER_STATE_OFF;
         // "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timerState);
+        PRINTF("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timerState);
     }
 
-    osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
+    PRINTF("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
 
     Health_InitMeter(play);
     Map_Init(play);
@@ -192,9 +192,9 @@ void Message_Init(PlayState* play) {
 
     msgCtx->textboxSegment = GameState_Alloc(&play->state, TEXTBOX_SEGMENT_SIZE, "../z_construct.c", 349);
 
-    osSyncPrintf("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
+    PRINTF("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 
-    osSyncPrintf("吹き出しgame_alloc=%x\n", TEXTBOX_SEGMENT_SIZE); // "Textbox game_alloc=%x"
+    PRINTF("吹き出しgame_alloc=%x\n", TEXTBOX_SEGMENT_SIZE); // "Textbox game_alloc=%x"
     ASSERT(msgCtx->textboxSegment != NULL, "message->fukidashiSegment != NULL", "../z_construct.c", 352);
 
     Font_LoadOrderedFont(&play->msgCtx.font);

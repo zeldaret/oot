@@ -32,9 +32,9 @@ ActorInit En_Anubice_Tag_InitVars = {
 void EnAnubiceTag_Init(Actor* thisx, PlayState* play) {
     EnAnubiceTag* this = (EnAnubiceTag*)thisx;
 
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Anubis control tag generated"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
 
     if (this->actor.params < -1) {
         this->actor.params = 0;

@@ -36,9 +36,9 @@ void EnDyExtra_Destroy(Actor* thisx, PlayState* play) {
 void EnDyExtra_Init(Actor* thisx, PlayState* play) {
     EnDyExtra* this = (EnDyExtra*)thisx;
 
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Big fairy effect"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
     this->type = this->actor.params;
     this->scale.x = 0.025f;
     this->scale.y = 0.039f;

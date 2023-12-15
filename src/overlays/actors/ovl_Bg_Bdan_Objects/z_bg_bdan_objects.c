@@ -95,7 +95,7 @@ s32 BgBdanObjects_GetProperty(BgBdanObjects* this, s32 arg1) {
         case JABU_OBJECTS_GET_PROP_CAM_SETTING_DUNGEON1:
             return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
-            osSyncPrintf("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
+            PRINTF("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
             return -1;
     }
 }
@@ -112,7 +112,7 @@ void BgBdanObjects_SetProperty(BgBdanObjects* this, s32 arg1) {
             SET_INFTABLE(INFTABLE_146);
             break;
         default:
-            osSyncPrintf("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n");
+            PRINTF("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n");
     }
 }
 
