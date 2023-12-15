@@ -169,10 +169,10 @@ extern struct GraphicsContext* __gfxCtx;
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
 #define GAME_STATE_ALLOC(gameState, size, file, line) GameState_Alloc(gameState, size, file, line)
 #define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_MallocDebug(size, file, line)
-#define SYSTEM_ARENA_MALLOCR(size, file, line) SystemArena_MallocRDebug(size, file, line)
+#define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocRDebug(size, file, line)
 #define SYSTEM_ARENA_FREE(size, file, line) SystemArena_FreeDebug(size, file, line)
 #define ZELDA_ARENA_MALLOC(size, file, line) ZeldaArena_MallocDebug(size, file, line)
-#define ZELDA_ARENA_MALLOCR(size, file, line) ZeldaArena_MallocRDebug(size, file, line)
+#define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocRDebug(size, file, line)
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_FreeDebug(size, file, line)
 
 #else
@@ -195,10 +195,10 @@ extern struct GraphicsContext* __gfxCtx;
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg)
 #define GAME_STATE_ALLOC(gameState, size, file, line) THA_AllocTailAlign16(&(gameState)->tha, size)
 #define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_Malloc(size)
-#define SYSTEM_ARENA_MALLOCR(size, file, line) SystemArena_MallocR(size)
+#define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocR(size)
 #define SYSTEM_ARENA_FREE(size, file, line) SystemArena_Free(size)
 #define ZELDA_ARENA_MALLOC(size, file, line) ZeldaArena_Malloc(size)
-#define ZELDA_ARENA_MALLOCR(size, file, line) ZeldaArena_MallocR(size)
+#define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocR(size)
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
 
 #endif /* DEBUG */

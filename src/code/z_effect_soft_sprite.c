@@ -190,7 +190,7 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
         initInfo = overlayEntry->initInfo;
     } else {
         if (overlayEntry->loadedRamAddr == NULL) {
-            overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOCR(overlaySize, "../z_effect_soft_sprite.c", 585);
+            overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC_R(overlaySize, "../z_effect_soft_sprite.c", 585);
 
             if (overlayEntry->loadedRamAddr == NULL) {
                 osSyncPrintf(VT_FGCOL(RED));

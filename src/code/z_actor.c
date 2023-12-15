@@ -2832,7 +2832,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
                 if (actorCtx->absoluteSpace == NULL) {
                     // "AMF: absolute magic field"
-                    actorCtx->absoluteSpace = ZELDA_ARENA_MALLOCR(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
+                    actorCtx->absoluteSpace = ZELDA_ARENA_MALLOC_R(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
                     if (HREG(20) != 0) {
                         // "Absolute magic field reservation - %d bytes reserved"
                         osSyncPrintf("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
@@ -2841,7 +2841,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
                 overlayEntry->loadedRamAddr = actorCtx->absoluteSpace;
             } else if (overlayEntry->allocType & ACTOROVL_ALLOC_PERSISTENT) {
-                overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOCR(overlaySize, name, 0);
+                overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC_R(overlaySize, name, 0);
             } else {
                 overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC(overlaySize, name, 0);
             }
