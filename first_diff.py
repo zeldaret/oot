@@ -44,9 +44,9 @@ def firstDiffMain():
 
     args = parser.parse_args()
 
-    buildFolder = Path("build") / args.version
+    buildFolder = Path("build") / args.oot_version
 
-    BUILTROM = Path(f"oot-{args.version}.z64")
+    BUILTROM = Path(f"oot-{args.oot_version}.z64")
     BUILTMAP = buildFolder / f"z64.map"
 
     EXPECTEDROM = Path("baserom.z64")
