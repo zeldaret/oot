@@ -645,7 +645,7 @@ void DemoGt_Draw1(DemoGt* this, PlayState* play) {
     spBC = kREG(71);
     spB8 = (s16)((s32)kREG(70)) + 0x4000;
     spBA = kREG(70);
-    spB4 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    spB4 = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp98 = 1.0f - Math_CosS(spC6);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part1.c", 458);
@@ -661,7 +661,7 @@ void DemoGt_Draw1(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(spC0, &spA8, MTXMODE_APPLY);
     Matrix_Translate(sp9C.x, sp9C.y, sp9C.z, MTXMODE_APPLY);
-    Matrix_ToMtx(spB4, "../z_demo_gt_part1.c", 474);
+    MTXF_TO_MTX(spB4, "../z_demo_gt_part1.c", 474);
     unk198 = this->unk_198;
     unk188 = this->unk_188;
     unk178 = this->unk_178;
@@ -859,7 +859,7 @@ void DemoGt_Draw2(DemoGt* this, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, unk198[0], 0x20, 0x40, 1, 0, unk198[1], 0x20, 0x40, unk178[0],
                                         unk178[1], unk178[2], 128));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part2.c", 485),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_gt_part2.c", 485),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsCollapsedStructureInnerDL);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
@@ -1169,7 +1169,7 @@ void DemoGt_Draw3(DemoGt* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1026);
 
     Gfx_SetupDL_25Opa(gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part3.c", 1028),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_gt_part3.c", 1028),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsCollapsedStructureOuterDL);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
@@ -1266,7 +1266,7 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
         sp68 = (s16)((s32)kREG(58)) + 0x4000;
         sp6A = kREG(58);
         gfxCtx = play->state.gfxCtx;
-        sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+        sp60 = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
         sp44 = 1.0f - Math_CosS(sp76);
 
         OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 217);
@@ -1283,7 +1283,7 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
 
         Matrix_RotateAxis(sp70, &sp54, MTXMODE_APPLY);
         Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
-        Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232);
+        MTXF_TO_MTX(sp60, "../z_demo_gt_part4_1.c", 232);
 
         if (!FrameAdvance_IsEnabled(play)) {
             func_80980F8C(this, play);
@@ -1385,7 +1385,7 @@ void DemoGt_Draw5(DemoGt* this, PlayState* play) {
     sp6A = kREG(59) - 0x4000;
     sp68 = (s16)(kREG(59) - 0x4000) + 0x4000;
     gfxCtx = play->state.gfxCtx;
-    sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp60 = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp44 = 1 - Math_CosS(sp76);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_2.c", 212);
@@ -1402,7 +1402,7 @@ void DemoGt_Draw5(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp70, &sp54, MTXMODE_APPLY);
     Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
-    Matrix_ToMtx(sp60, "../z_demo_gt_part4_2.c", 227);
+    MTXF_TO_MTX(sp60, "../z_demo_gt_part4_2.c", 227);
 
     if (!FrameAdvance_IsEnabled(play)) {
         func_80981458(this, play);
@@ -1481,7 +1481,7 @@ void DemoGt_Draw6(DemoGt* this, PlayState* play) {
     sp6C = kREG(60) + 0x4000;
     sp6C += 0x4000;
     gfxCtx = play->state.gfxCtx;
-    sp64 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp64 = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp48 = 1.0f - Math_CosS(sp78);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_3.c", 276);
@@ -1498,7 +1498,7 @@ void DemoGt_Draw6(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp74, &sp58, MTXMODE_APPLY);
     Matrix_Translate(sp4C.x, sp4C.y, sp4C.z, MTXMODE_APPLY);
-    Matrix_ToMtx(sp64, "../z_demo_gt_part4_3.c", 291);
+    MTXF_TO_MTX(sp64, "../z_demo_gt_part4_3.c", 291);
 
     Matrix_Pop();
 
@@ -1573,7 +1573,7 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
     sp62 = kREG(74) + 0x7FEC;
     sp60 = kREG(74) + 0x7FEC;
     sp60 += 0x4000;
-    sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp5C = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_CosS(sp6E);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part5.c", 136);
@@ -1590,7 +1590,7 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp68, &sp50, MTXMODE_APPLY);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
-    Matrix_ToMtx(sp5C, "../z_demo_gt_part5.c", 152);
+    MTXF_TO_MTX(sp5C, "../z_demo_gt_part5.c", 152);
 
     Matrix_Pop();
 
@@ -1664,7 +1664,7 @@ void DemoGt_Draw8(DemoGt* this, PlayState* play) {
     sp62 = kREG(77) + 0xBE80;
     sp60 = kREG(77) + 0xBE80;
     sp60 += 0x4000;
-    sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp5C = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_CosS(sp6E);
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part6.c", 137);
@@ -1681,7 +1681,7 @@ void DemoGt_Draw8(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp68, &sp50, MTXMODE_APPLY);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
-    Matrix_ToMtx(sp5C, "../z_demo_gt_part6.c", 153);
+    MTXF_TO_MTX(sp5C, "../z_demo_gt_part6.c", 153);
 
     Matrix_Pop();
 

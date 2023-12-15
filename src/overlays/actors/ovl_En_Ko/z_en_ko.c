@@ -1347,7 +1347,7 @@ void EnKo_PostLimbDraw(PlayState* play2, s32 limbIndex, Gfx** dList, Vec3s* rot,
 }
 
 Gfx* EnKo_SetEnvColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
-    Gfx* dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
+    Gfx* dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 2);
 
     gDPSetEnvColor(dList, r, g, b, a);
     gSPEndDisplayList(dList + 1);

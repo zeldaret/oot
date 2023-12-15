@@ -191,14 +191,14 @@ void DemoExt_DrawVortex(Actor* thisx, PlayState* play) {
 
     scale = &this->scale;
     gfxCtx = play->state.gfxCtx;
-    mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    mtx = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
     Matrix_Scale(scale->x, scale->y, scale->z, MTXMODE_APPLY);
     Matrix_RotateZYX((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
     Matrix_Translate(kREG(22), kREG(23), kREG(24), MTXMODE_APPLY);
-    Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
+    MTXF_TO_MTX(mtx, "../z_demo_ext.c", 476);
     Matrix_Pop();
     Gfx_SetupDL_25Xlu(gfxCtx);
 

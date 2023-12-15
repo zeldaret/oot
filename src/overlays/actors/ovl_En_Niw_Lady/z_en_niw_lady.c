@@ -549,7 +549,7 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
 Gfx* EnNiwLady_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* dList;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gSPEndDisplayList(dList);
     return dList;
 }

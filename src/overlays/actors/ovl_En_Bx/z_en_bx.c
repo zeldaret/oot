@@ -203,7 +203,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     };
     EnBx* this = (EnBx*)thisx;
     s32 pad;
-    Mtx* mtx = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Mtx));
+    Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, 4 * sizeof(Mtx));
     s16 i;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bx.c", 464);
@@ -215,7 +215,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
     gSPSegment(POLY_OPA_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 16, 16, 1, 0,
                                 (play->gameplayFrames * -10) % 128, 32, 32));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bx.c", 478),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bx.c", 478),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params & 0x80) {
@@ -238,7 +238,7 @@ void EnBx_Draw(Actor* thisx, PlayState* play) {
         Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
         Matrix_RotateZYX(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
         Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
-        Matrix_ToMtx(mtx, "../z_en_bx.c", 507);
+        MTXF_TO_MTX(mtx, "../z_en_bx.c", 507);
     }
 
     gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_0022F0);

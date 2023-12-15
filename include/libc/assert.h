@@ -10,7 +10,7 @@
 __attribute__((noreturn)) void __assert(const char* assertion, const char* file, int line);
 
 // assert for matching
-#ifndef NDEBUG
+#ifdef DEBUG
 # ifndef NON_MATCHING
 #  define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(msg, file, line))
 # else
@@ -21,7 +21,7 @@ __attribute__((noreturn)) void __assert(const char* assertion, const char* file,
 #endif
 
 // standard assert macro
-#ifndef NDEBUG
+#ifdef DEBUG
 # define assert(cond) ASSERT(cond, #cond, __FILE__, __LINE__)
 #else
 # define assert(cond) ((void)0)

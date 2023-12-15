@@ -425,7 +425,7 @@ void Graph_ThreadEntry(void* arg0) {
         size = ovl->instanceSize;
         osSyncPrintf("クラスサイズ＝%dバイト\n", size); // "Class size = %d bytes"
 
-        gameState = SystemArena_MallocDebug(size, "../graph.c", 1196);
+        gameState = SYSTEM_ARENA_MALLOC(size, "../graph.c", 1196);
 
         if (gameState == NULL) {
             osSyncPrintf("確保失敗\n"); // "Failure to secure"
@@ -442,7 +442,7 @@ void Graph_ThreadEntry(void* arg0) {
 
         nextOvl = Graph_GetNextGameState(gameState);
         GameState_Destroy(gameState);
-        SystemArena_FreeDebug(gameState, "../graph.c", 1227);
+        SYSTEM_ARENA_FREE(gameState, "../graph.c", 1227);
         Overlay_FreeGameState(ovl);
     }
     Graph_Destroy(&gfxCtx);

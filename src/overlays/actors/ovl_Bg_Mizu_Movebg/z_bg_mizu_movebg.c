@@ -383,7 +383,7 @@ void BgMizuMovebg_Draw(Actor* thisx, PlayState* play2) {
                Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, frames * 3, 0, 32, 32, 1, 0, 0, 32, 32, 0,
                                         0, 0, this->scrollAlpha4));
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mizu_movebg.c", 788),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mizu_movebg.c", 788),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->dlist != NULL) {

@@ -1718,7 +1718,7 @@ void EnXc_DrawTriforce(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 565);
     if (this->unk_2BC != 0) {
-        Mtx* mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
+        Mtx* mtx = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
         s32* primColor = this->triforcePrimColor;
         s32* envColor = this->triforceEnvColor;
         f32* scale = this->triforceScale;
@@ -1727,7 +1727,7 @@ void EnXc_DrawTriforce(Actor* thisx, PlayState* play) {
         Matrix_Translate(kREG(16) + 100.0f, kREG(17) + 4460.0f, kREG(18) + 1190.0f, MTXMODE_APPLY);
         Matrix_RotateZYX(kREG(22), kREG(23), this->triforceAngle, MTXMODE_APPLY);
         Matrix_Scale(scale[0], scale[1], scale[2], MTXMODE_APPLY);
-        Matrix_ToMtx(mtx, "../z_en_oA2_inMetamol.c", 602);
+        MTXF_TO_MTX(mtx, "../z_en_oA2_inMetamol.c", 602);
         Matrix_Pop();
         Gfx_SetupDL_25Xlu(gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, primColor[2], primColor[3]);
