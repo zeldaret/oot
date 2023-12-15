@@ -1868,10 +1868,10 @@ void func_80902348(BossGanon2* this, PlayState* play) {
 
         if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) > 784.0f) {
             for (j = 0; j < PLAYER_BODYPART_MAX; j++) {
-                player->flameTimers[j] = Rand_S16Offset(0, 200);
+                player->bodyFlameTimers[j] = Rand_S16Offset(0, 200);
             }
 
-            player->isBurning = true;
+            player->bodyIsBurning = true;
             func_8002F6D4(play, &this->actor, 10.0f, Math_Atan2S(temp_f12, temp_f2), 0.0f, 0x10);
             sZelda->unk_3C8 = 8;
         }
