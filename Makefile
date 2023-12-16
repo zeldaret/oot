@@ -7,13 +7,13 @@ SHELL = /bin/bash
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
 # If COMPARE is 1, check the output md5sum after building
-COMPARE ?= 1
+COMPARE := 1
 # If NON_MATCHING is 1, define the NON_MATCHING C flag when building
-NON_MATCHING ?= 0
+NON_MATCHING := 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
-ORIG_COMPILER ?= 0
+ORIG_COMPILER := 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
-COMPILER ?= ido
+COMPILER := ido
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -33,7 +33,7 @@ endif
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+MIPS_BINUTILS_PREFIX := mips-linux-gnu-
 
 ifeq ($(NON_MATCHING),1)
   CFLAGS += -DNON_MATCHING -DAVOID_UB
@@ -60,7 +60,7 @@ else
     endif
 endif
 
-N_THREADS ?= $(shell nproc)
+N_THREADS := $(shell nproc)
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
@@ -95,8 +95,8 @@ AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR   ?= 
-EMU_FLAGS  ?= 
+EMULATOR   := 
+EMU_FLAGS  := 
 
 INC := -Iinclude -Iinclude/libc -Isrc -Ibuild -I.
 
