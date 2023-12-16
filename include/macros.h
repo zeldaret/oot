@@ -100,7 +100,7 @@
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
-#ifdef DEBUG
+#ifdef OOT_DEBUG
 #define PRINTF osSyncPrintf
 #else
 #ifdef __GNUC__

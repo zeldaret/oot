@@ -44,8 +44,8 @@ endif
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 MAKE = make
-CFLAGS += -DDEBUG
-CPPFLAGS += -DDEBUG -fno-dollars-in-identifiers -P
+CFLAGS += -DOOT_DEBUG
+CPPFLAGS += -DOOT_DEBUG -fno-dollars-in-identifiers -P
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
