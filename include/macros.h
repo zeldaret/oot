@@ -100,7 +100,7 @@
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
-#ifdef DEBUG
+#ifdef OOT_DEBUG
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
         LogUtils_LogThreadId(file, line);           \
@@ -144,7 +144,7 @@ extern struct GraphicsContext* __gfxCtx;
 #define POLY_XLU_DISP   __gfxCtx->polyXlu.p
 #define OVERLAY_DISP    __gfxCtx->overlay.p
 
-#ifdef DEBUG
+#ifdef OOT_DEBUG
 
 // __gfxCtx shouldn't be used directly.
 // Use the DISP macros defined above when writing to display buffers.
@@ -201,7 +201,7 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocR(size)
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
 
-#endif /* DEBUG */
+#endif /* OOT_DEBUG */
 
 /**
  * `x` vertex x

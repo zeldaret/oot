@@ -603,7 +603,7 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     return dest;
 }
 
-#ifdef DEBUG
+#ifdef OOT_DEBUG
 
 Mtx* Matrix_ToMtxDebug(Mtx* dest, char* file, s32 line) {
     return Matrix_MtxFToMtx(Matrix_CheckFloats(sCurrentMatrix, file, line), dest);

@@ -5119,7 +5119,7 @@ _DW({                                                   \
 #define gDPLoadSync(pkt)        gDPNoParam(pkt, G_RDPLOADSYNC)
 #define gsDPLoadSync()          gsDPNoParam(    G_RDPLOADSYNC)
 
-#ifdef DEBUG
+#ifdef OOT_DEBUG
 
 #define gDPNoOp(pkt)                        gDPNoParam(pkt, G_NOOP)
 #define gsDPNoOp()                          gsDPNoParam(G_NOOP)
@@ -5153,7 +5153,7 @@ _DW({                                                   \
 #define gDPNoOpCloseDisp(pkt, file, line)
 #define gDPNoOpTag3(pkt, type, data, n)
 
-#endif /* DEBUG */
+#endif /* OOT_DEBUG */
 
 #endif
 
