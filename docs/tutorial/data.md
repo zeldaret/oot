@@ -536,21 +536,21 @@ Oh no! What went wrong?
 To find out what went wrong, we need to use `firstdiff.py`. This tells us where our ROM starts to differ:
 ```
 $ ./firstdiff.py
-First difference at ROM addr 0x144F4, gDmaDataTable (RAM 0x80016DA0, ROM 0x12F70, build/gc-eu-mq-dbg/asm/dmadata.o)
+First difference at ROM addr 0x144F4, gDmaDataTable (RAM 0x80016DA0, ROM 0x12F70, build/asm/dmadata.o)
 Bytes: 00:E3:F9:D0 vs 00:E3:F9:E0
-Instruction difference at ROM addr 0xE3ED48, En_Jj_InitVars (RAM 0x80A88140, ROM 0xE3ED10, build/gc-eu-mq-dbg/src/overlays/actors/ovl_En_Jj/z_en_jj.o)
+Instruction difference at ROM addr 0xE3ED48, En_Jj_InitVars (RAM 0x80A88140, ROM 0xE3ED10, build/src/overlays/actors/ovl_En_Jj/z_en_jj.o)
 Bytes: 40:00:00:00 vs 00:F0:00:00
-Instruction difference at ROM addr 0xE3F900, D_80A88D40 (RAM 0x80A88D30, ROM 0xE3F900, build/gc-eu-mq-dbg/data/overlays/actors/z_en_jj.reloc.o)
+Instruction difference at ROM addr 0xE3F900, D_80A88D40 (RAM 0x80A88D30, ROM 0xE3F900, build/data/overlays/actors/z_en_jj.reloc.o)
 Bytes: 00:00:09:40 vs C4:89:80:00
-Instruction difference at ROM addr 0xE3F9D4, En_Js_SetupAction (RAM 0x80A88E00, ROM 0xE3F9D0, build/gc-eu-mq-dbg/src/overlays/actors/ovl_En_Js/z_en_js.o)
+Instruction difference at ROM addr 0xE3F9D4, En_Js_SetupAction (RAM 0x80A88E00, ROM 0xE3F9D0, build/src/overlays/actors/ovl_En_Js/z_en_js.o)
 Bytes: AC:85:02:8C vs 00:00:00:00
-Instruction difference at ROM addr 0xE3F9D8, EnJs_Init (RAM 0x80A88E08, ROM 0xE3F9D8, build/gc-eu-mq-dbg/src/overlays/actors/ovl_En_Js/z_en_js.o)
+Instruction difference at ROM addr 0xE3F9D8, EnJs_Init (RAM 0x80A88E08, ROM 0xE3F9D8, build/src/overlays/actors/ovl_En_Js/z_en_js.o)
 Bytes: 27:BD:FF:B0 vs 00:00:00:00
-Instruction difference at ROM addr 0xE3FAFC, EnJs_Destroy (RAM 0x80A88F2C, ROM 0xE3FAFC, build/gc-eu-mq-dbg/src/overlays/actors/ovl_En_Js/z_en_js.o)
+Instruction difference at ROM addr 0xE3FAFC, EnJs_Destroy (RAM 0x80A88F2C, ROM 0xE3FAFC, build/src/overlays/actors/ovl_En_Js/z_en_js.o)
 Bytes: 27:BD:FF:E8 vs 8F:B0:00:34
 
 Over 1000 differing words, must be a shifted ROM.
-Map appears to have shifted just before D_80A88D40 (build/gc-eu-mq-dbg/data/overlays/actors/z_en_jj.reloc.o) -- in En_Jj_InitVars?
+Map appears to have shifted just before D_80A88D40 (build/data/overlays/actors/z_en_jj.reloc.o) -- in En_Jj_InitVars?
 ```
 
 Ignore the first line: `gDmaDataTable` is always different if the ROM is shifted. The useful lines are usually the next line, and the guess it makes at the end.
@@ -586,22 +586,22 @@ s32 usused = 0;
 This isn't good enough: we still get Error 1, but:
 ```
 $ ./first_diff.py
-First difference at ROM addr 0x144F4, gDmaDataTable (RAM 0x80016DA0, ROM 0x12F70, build/gc-eu-mq-dbg/asm/dmadata.o)
+First difference at ROM addr 0x144F4, gDmaDataTable (RAM 0x80016DA0, ROM 0x12F70, build/asm/dmadata.o)
 Bytes: 00:E3:F9:D0 vs 00:E3:F9:E0
-Instruction difference at ROM addr 0xE3F87C, unused (RAM 0x80A88160, ROM 0xE3ED30, build/gc-eu-mq-dbg/src/overlays/actors/ovl_En_Jj/z_en_jj.o)
+Instruction difference at ROM addr 0xE3F87C, unused (RAM 0x80A88160, ROM 0xE3ED30, build/src/overlays/actors/ovl_En_Jj/z_en_jj.o)
 Bytes: 0A:00:09:39 vs 00:00:00:00
-Instruction difference at ROM addr 0xE3F900, D_80A88D40 (RAM 0x80A88D30, ROM 0xE3F900, build/gc-eu-mq-dbg/data/overlays/actors/z_en_jj.reloc.o)
+Instruction difference at ROM addr 0xE3F900, D_80A88D40 (RAM 0x80A88D30, ROM 0xE3F900, build/data/overlays/actors/z_en_jj.reloc.o)
 Bytes: 00:00:09:40 vs C4:89:80:00
-Instruction difference at ROM addr 0xE3F9D4, En_Js_SetupAction (RAM 0x80A88E00, ROM 0xE3F9D0, build/gc-eu-mq-dbg/src/overlays/actors/ovl_En_Js/z_en_js.o)
+Instruction difference at ROM addr 0xE3F9D4, En_Js_SetupAction (RAM 0x80A88E00, ROM 0xE3F9D0, build/src/overlays/actors/ovl_En_Js/z_en_js.o)
 Bytes: AC:85:02:8C vs 00:00:00:00
-Instruction difference at ROM addr 0xE3F9D8, EnJs_Init (RAM 0x80A88E08, ROM 0xE3F9D8, build/gc-eu-mq-dbg/src/overlays/actors/ovl_En_Js/z_en_js.o)
+Instruction difference at ROM addr 0xE3F9D8, EnJs_Init (RAM 0x80A88E08, ROM 0xE3F9D8, build/src/overlays/actors/ovl_En_Js/z_en_js.o)
 Bytes: 27:BD:FF:B0 vs 00:00:00:00
-Instruction difference at ROM addr 0xE3FAFC, EnJs_Destroy (RAM 0x80A88F2C, ROM 0xE3FAFC, build/gc-eu-mq-dbg/src/overlays/actors/ovl_En_Js/z_en_js.o)
+Instruction difference at ROM addr 0xE3FAFC, EnJs_Destroy (RAM 0x80A88F2C, ROM 0xE3FAFC, build/src/overlays/actors/ovl_En_Js/z_en_js.o)
 Bytes: 27:BD:FF:E8 vs 8F:B0:00:34
 
 Over 1000 differing words, must be a shifted ROM.
-Map appears to have shifted just before D_80A88D40 (build/gc-eu-mq-dbg/data/overlays/actors/z_en_jj.reloc.o) -- in unused?
-(Base map file expected/build/gc-eu-mq-dbg/z64.map out of date due to new or renamed symbols, so result may be imprecise.)
+Map appears to have shifted just before D_80A88D40 (build/data/overlays/actors/z_en_jj.reloc.o) -- in unused?
+(Base map file expected/build/z64.map out of date due to new or renamed symbols, so result may be imprecise.)
 ```
 We've managed to get rid of one issue, but there's still another one. Looking in vbindiff again,
 
