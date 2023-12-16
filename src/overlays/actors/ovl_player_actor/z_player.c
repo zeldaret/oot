@@ -4277,10 +4277,10 @@ void func_8083821C(Player* this) {
     s32 i;
 
     // clang-format off
-    for (i = 0; i < PLAYER_BODYPART_MAX; i++) { this->flameTimers[i] = Rand_S16Offset(0, 200); }
+    for (i = 0; i < PLAYER_BODYPART_MAX; i++) { this->bodyFlameTimers[i] = Rand_S16Offset(0, 200); }
     // clang-format on
 
-    this->isBurning = true;
+    this->bodyIsBurning = true;
 }
 
 void func_80838280(Player* this) {
@@ -4348,7 +4348,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
             func_80838280(this);
 
             if (this->unk_8A1 == 3) {
-                this->shockTimer = 40;
+                this->bodyShockTimer = 40;
             }
 
             this->actor.colChkInfo.damage += this->unk_8A0;
@@ -10709,16 +10709,16 @@ void func_80848A04(PlayState* play, Player* this) {
                   temp * 200.0f, 0, 8);
 }
 
-void func_80848B44(PlayState* play, Player* this) {
+void Player_UpdateBodyShock(PlayState* play, Player* this) {
     Vec3f shockPos;
     Vec3f* randBodyPart;
     s32 shockScale;
 
-    this->shockTimer--;
-    this->unk_892 += this->shockTimer;
+    this->bodyShockTimer--;
+    this->unk_892 += this->bodyShockTimer;
 
     if (this->unk_892 > 20) {
-        shockScale = this->shockTimer * 2;
+        shockScale = this->bodyShockTimer * 2;
         this->unk_892 -= 20;
 
         if (shockScale > 40) {
@@ -10735,7 +10735,7 @@ void func_80848B44(PlayState* play, Player* this) {
     }
 }
 
-void func_80848C74(PlayState* play, Player* this) {
+void Player_UpdateBodyBurn(PlayState* play, Player* this) {
     s32 spawnedFlame;
     u8* timerPtr;
     s32 timerStep;
@@ -10753,7 +10753,7 @@ void func_80848C74(PlayState* play, Player* this) {
     }
 
     spawnedFlame = false;
-    timerPtr = this->flameTimers;
+    timerPtr = this->bodyFlameTimers;
 
     if (this->stateFlags2 & PLAYER_STATE2_3) {
         sp58 = 100;
@@ -10798,7 +10798,7 @@ void func_80848C74(PlayState* play, Player* this) {
             Player_InflictDamage(play, -1);
         }
     } else {
-        this->isBurning = false;
+        this->bodyIsBurning = false;
     }
 }
 
@@ -10958,12 +10958,12 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
         this->unk_860++;
     }
 
-    if (this->shockTimer != 0) {
-        func_80848B44(play, this);
+    if (this->bodyShockTimer != 0) {
+        Player_UpdateBodyShock(play, this);
     }
 
-    if (this->isBurning) {
-        func_80848C74(play, this);
+    if (this->bodyIsBurning) {
+        Player_UpdateBodyBurn(play, this);
     }
 
     if ((this->stateFlags3 & PLAYER_STATE3_RESTORE_NAYRUS_LOVE) && (gSaveContext.nayrusLoveTimer != 0) &&
@@ -11147,9 +11147,9 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                     func_80837B9C(this, play);
                 } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->stateFlags1 & PLAYER_STATE1_27)) {
                     func_80836448(play, this,
-                                  func_808332B8(this)       ? &gPlayerAnim_link_swimer_swim_down
-                                  : (this->shockTimer != 0) ? &gPlayerAnim_link_normal_electric_shock_end
-                                                            : &gPlayerAnim_link_derth_rebirth);
+                                  func_808332B8(this)           ? &gPlayerAnim_link_swimer_swim_down
+                                  : (this->bodyShockTimer != 0) ? &gPlayerAnim_link_normal_electric_shock_end
+                                                                : &gPlayerAnim_link_derth_rebirth);
                 }
             } else {
                 if ((this->actor.parent == NULL) && ((play->transitionTrigger == TRANS_TRIGGER_START) ||
@@ -13629,7 +13629,7 @@ void Player_Action_8084FBF4(Player* this, PlayState* play) {
         }
     }
 
-    this->shockTimer = 40;
+    this->bodyShockTimer = 40;
     func_8002F8F0(&this->actor, NA_SE_VO_LI_TAKEN_AWAY - SFX_FLAG + this->ageProperties->unk_92);
 }
 

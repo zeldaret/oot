@@ -1476,11 +1476,11 @@ void BossFd_UpdateEffects(BossFd* this, PlayState* play) {
                 if ((this->timers[3] == 0) && (sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z)) < 20.0f)) {
                     this->timers[3] = 50;
                     func_8002F6D4(play, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
-                    if (!player->isBurning) {
+                    if (!player->bodyIsBurning) {
                         for (i2 = 0; i2 < PLAYER_BODYPART_MAX; i2++) {
-                            player->flameTimers[i2] = Rand_S16Offset(0, 200);
+                            player->bodyFlameTimers[i2] = Rand_S16Offset(0, 200);
                         }
-                        player->isBurning = true;
+                        player->bodyIsBurning = true;
                     }
                 }
                 if (effect->timer2 == 0) {
