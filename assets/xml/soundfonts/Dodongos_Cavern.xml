@@ -1,0 +1,12 @@
+<Root>
+    <Soundfont Name="11_Dodongos_Cavern" Index="11">
+        <Instruments>
+            <Instrument Name="Wind" Enum="WIND"/>
+            <Instrument Name="Echoing Sounds" Enum="ECHOES"/>
+            <Instrument Name="Rumbling" Enum="RUMBLE"/>
+            <Instrument Name="Rattling Scream" Enum="SCREAM"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

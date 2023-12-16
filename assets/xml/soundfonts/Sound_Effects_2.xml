@@ -1,0 +1,101 @@
+<Root>
+    <Soundfont Name="01_Sound_Effects_2" Index="1" Symbol="gSoundEffectsFont2">
+        <Instruments>
+            <Instrument Name="Heavy Gunshot" Enum="GUNSHOT"/>
+            <Instrument Name="Dodongo Roar" Enum="DODONGO_ROAR"/>
+            <Instrument Name="Flamethrower" Enum="FLAMETHROWER"/>
+            <Instrument Name="Monstrous Roaring" Enum="MONSTER_ROAR"/>
+            <Instrument Name="Rustling Thicket" Enum="GRASS_RUSTLE"/>
+            <Instrument Name="Cracking Egg" Enum="EGG_CRACK"/>
+            <Instrument Name="Resounding Smash" Enum="SMASH"/>
+            <Instrument Name="Mechanical Sound" Enum="MECH"/>
+            <Instrument Name="Cloaking Poe" Enum="POE_DISAPPEAR"/>
+            <Instrument Name="Chittering Keese" Enum="KEESE"/>
+            <Instrument Name="Fluttering Wings" Enum="OWL_FLAP"/>
+            <Instrument Name="Dinosaur Cry" Enum="DINO_ROAR"/>
+            <Instrument Name="Tektike Shuffle" Enum="TEKTITE_ROTATE"/>
+            <Instrument Name="Moblin Growl" Enum="MOBLIN_GROWL"/>
+            <Instrument Name="Laughing" Enum="LAUGHTER"/>
+            <Instrument Name="Lizalfos" Enum="LIZALFOS"/>
+            <Instrument Name="Deku Scrub Collapses" Enum="SCRUB_DEATH"/>
+            <Instrument Name="Broken Pottery" Enum="POT_BREAK"/>
+            <Instrument Name="Rolling Boulder" Enum="BOULDER"/>
+            <Instrument Name="Dodongo Inhaling" Enum="DINO_INHALE"/>
+            <Instrument Name="Gulp and Spear" Enum="GULP_SPEAR"/>
+            <Instrument Name="Deku Baba Chomp" Enum="BABA_ATTACK"/>
+            <Instrument Name="Howling Wind" Enum="WIND"/>
+            <Instrument Name="Guay Hurt" Enum="GUAY_HURT"/>
+            <Instrument Name="Motor and Deku Baba Lunge" Enum="BABA_LUNGE"/>
+            <Instrument Name="Stalfos Attack" Enum="STALFOS_ATTACK"/>
+            <Instrument Name="Moaning Phantom Ganon" Enum="PHANTOM_MOAN"/>
+            <Instrument Name="Phantom Ganon Laughing" Enum="PHANTOM_LAUGH_0"/>
+            <Instrument Name="Scimitar Slash" Enum="GERUDO_ATTACK"/>
+            <Instrument Name="Electric Burst" Enum="ELECTRIC_ATTACK"/>
+            <Instrument Name="Ganon's Electrical Charge" Enum="GANONDORF_ATTACK_0"/>
+            <Instrument Name="Ganondorf Flying" Enum="GANONDORF_FLY"/>
+            <Instrument Name="Charging Magic" Enum="GANONDORF_CHARGE"/>
+            <Instrument Name="Dramatic Swoosh" Enum="SWOOSH"/>
+            <Instrument Name="Thunder" Enum="THUNDERBURST"/>
+            <Instrument Name="Phantom Ganon Wails" Enum="PHANTOM_WAIL"/>
+            <Instrument Name="Phantom Ganon Rebuffs" Enum="PHANTOM_ATTACK"/>
+            <Instrument Name="Phantom Ganon Groans" Enum="PHANTOM_GROAN"/>
+            <Instrument Name="Large Water Splash" Enum="WATER_SPLASH_L"/>
+            <Instrument Name="Step - Water" Enum="STEP_WATER"/>
+            <Instrument Name="Explosion and Bubbling Lava" Enum="EXPLOSION_LAVA"/>
+            <Instrument Name="Thunder and Groaning" Enum="THUNDER_HURT"/>
+            <Instrument Name="Phantom Ganon Moans and Goron Yawns" Enum="GORON_YAWN"/>
+            <Instrument Name="Phantom Ganon's Laughter" Enum="PHANTOM_LAUGH_1"/>
+            <Instrument Name="Underwater Bubbles" Enum="WATER_BUBBLES"/>
+            <Instrument Name="Phantom Ganon Growls" Enum="PHANTOM_GROWL"/>
+            <Instrument Name="Goron Sounds" Enum="GORON"/>
+            <Instrument Name="Clink and Sliding Boots" Enum="SLIDE_BOOTS"/>
+            <Instrument Name="Bongo-Bongo" Enum="BONGO_BONGO"/>
+            <Instrument Name="Animal Calls" Enum="ANIMALS"/>
+            <Instrument Name="Iron Boots and Arguing Witches" Enum="WITCH_ARGUE"/>
+        </Instruments>
+        <Drums/>
+        <Effects>
+            <Effect Name="Twinrova Laughter 1" Enum="WITCH_LAUGH_0"/>
+            <Effect Name="Twinrova Laughter 2" Enum="WITCH_LAUGH_1"/>
+            <Effect Name="Twinrova Hurt" Enum="WITCH_HURT"/>
+            <Effect Name="Twinrova Attacks" Enum="WITCH_ATTACK"/>
+            <Effect Name="Twinrova Inquires" Enum="WITCH_QUESTION"/>
+            <Effect Name="Twinrova Dies" Enum="WITCH_DEATH"/>
+            <Effect Name="Twinrova Shudders" Enum="WITCH_SHOCK"/>
+            <Effect Name="Combined Twinrova Hurt" Enum="TWINROVA_HURT"/>
+            <Effect Name="Combined Twinrova Attacks" Enum="TWINROVA_ATTACK"/>
+            <Effect Name="Combined Twinrova Laughter" Enum="TWINROVA_LAUGH"/>
+            <Effect Name="Combined Twinrova Scream" Enum="TWINROVA_SCREAM"/>
+            <Effect Name="Combined Twinrova Wink" Enum="TWINROVA_WINK"/>
+            <Effect Name="Finger Snap" Enum="SNAP"/>
+            <Effect Name="Iron Knuckle Attacks" Enum="KNUCKLE_ATTACK"/>
+            <Effect Name="Iron Knuckle Hurt" Enum="KNUCKLE_HURT"/>
+            <Effect Name="Iron Knuckle Runs" Enum="KNUCKLE_CHARGE"/>
+            <Effect Name="Iron Knuckle Dies" Enum="KNUCKLE_DEATH"/>
+            <Effect Name="Iron Knuckle Pulls Weapon Back" Enum="KNUCKLE_GRUNT"/>
+            <Effect Name="Iron Knuckle Awakens" Enum="KNUCKLE_WAKE"/>
+            <Effect Name="Gerudo Attacks" Enum="GERUDO_ATTACK"/>
+            <Effect Name="Gerudo Hurt" Enum="GERUDO_HURT"/>
+            <Effect Name="Gerudo Scream" Enum="GERUDO_DEFEAT"/>
+            <Effect Name="Gerudo Breathes" Enum="GERUDO_BREATH"/>
+            <Effect Name="Ganondorf Laughing" Enum="GANONDORF_LAUGH_0"/>
+            <Effect Name="Ganondorf Attacks" Enum="GANONDORF_ATTACK_1"/>
+            <Effect Name="Ganondorf's Strong Attack" Enum="GANONDORF_STRONG"/>
+            <Effect Name="Ganondorf Rebuffs Attack" Enum="GANONDORF_REBOUND"/>
+            <Effect Name="Ganondorf Strikes Ground" Enum="GANONDORF_STRIKE"/>
+            <Effect Name="Ganondorf Hurt 1" Enum="GANONDORF_HURT_0"/>
+            <Effect Name="Ganondorf Hurt 2" Enum="GANONDORF_HURT_1"/>
+            <Effect Name="Ganondorf Stunned" Enum="GANONDORF_STUN"/>
+            <Effect Name="Ganondorf Recovered" Enum="GANONDORF_RECOVER"/>
+            <Effect Name="Ganondorf Dies" Enum="GANONDORF_DEATH"/>
+            <Effect Name="Ganondorf Breathes" Enum="GANONDORF_BREATH"/>
+            <Effect Name="Ganondorf Vomits" Enum="GANONDORF_VOMIT"/>
+            <Effect Name="Ganondorf's Last Wish" Enum="GANONDORF_DEFIANCE"/>
+            <Effect Name="Ganondorf Casts Magic" Enum="GANONDORF_MAGIC_0"/>
+            <Effect Name="Ganondorf's Darkwave Attack" Enum="GANONDORF_MAGIC_1"/>
+            <Effect Name="Ganondorf Chuckles" Enum="GANONDORF_LAUGH_1"/>
+            <Effect Name="Enemy Struck" Enum="ENEMY_HURT"/>
+            <Effect Name="Redead Scream" Enum="REDEAD_SCREAM"/>
+        </Effects>
+    </Soundfont>
+</Root>

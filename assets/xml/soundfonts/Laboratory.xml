@@ -1,0 +1,13 @@
+<Root>
+    <Soundfont Name="28_Lakeside_Laboratory" Index="28">
+        <Instruments>
+            <Instrument Name="Koto" Enum="KOTO"/>
+            <Instrument Name="Drum" Enum="DRUM_0"/>
+            <Instrument/>
+            <Instrument Name="Goron Drum" Enum="DRUM_1"/>
+            <Instrument Name="Windchimes" Enum="CHIMES"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

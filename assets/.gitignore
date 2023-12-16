@@ -1,7 +1,27 @@
+# Raw binary files included with assets
 *.bin
+# C code representing asset data
 *.c
+# But not for text code
 !text/*.c
+# Headers representing asset data
 *.h
-*.cfg
+# Vertex arrays
 *.vtx.inc
+# Display lists
 *.dlist.inc
+# Binary representation of a music sequence
+*.aseq
+# Music sequence
+*.seq
+# Uncompressed audio
+*.aiff
+# Compressed audio
+*.aifc
+
+# XML indicating sequences that are purely references to other sequences
+/sequences/References.xml
+# Soundfont XMLs
+/soundfonts/*.xml
+# Sample Bank Descriptor XML
+/samples/Banks.xml

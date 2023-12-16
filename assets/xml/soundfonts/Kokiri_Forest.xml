@@ -1,0 +1,24 @@
+<Root>
+    <Soundfont Name="15_Kokiri_Forest" Index="15">
+        <Instruments>
+            <Instrument Name="Pan Flute" Enum="FLUTE"/>
+            <Instrument Name="Oboe" Enum="OBOE"/>
+            <Instrument Name="Clarinet" Enum="CLARINET"/>
+            <Instrument Name="Bassoon" Enum="BASSOON"/>
+            <Instrument Name="Horn" Enum="HORN"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Glockenspiel" Enum="GLOCKENSPIEL"/>
+            <Instrument/>
+            <Instrument Name="Strings 1" Enum="STRINGS_0"/>
+            <Instrument Name="Strings 2" Enum="STRINGS_1"/>
+            <Instrument Name="Pizzicato Strings" Enum="PIZZICATO"/>
+            <Instrument Name="Harpsichord" Enum="HARPSICHORD"/>
+            <Instrument Name="Harp" Enum="HARP"/>
+            <Instrument Name="Marimba" Enum="MARIMBA"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

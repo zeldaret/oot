@@ -1,0 +1,85 @@
+<Root>
+    <Soundfont Name="29_Kotake_and_Koumes_Theme" Index="29">
+        <Instruments>
+            <Instrument Name="Koto" Enum="KOTO"/>
+            <Instrument Name="Drum" Enum="DRUM"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Pan Flute 1" Enum="FLUTE_0"/>
+            <Instrument/>
+            <Instrument Name="Pan Flute 2" Enum="FLUTE_1"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Strings 1" Enum="STRINGS_0"/>
+            <Instrument Name="Strings 2" Enum="STRINGS_1"/>
+        </Instruments>
+        <Drums>
+            <Drum Name="Gong 1" Enum="GONG_00"/>
+            <Drum Name="Gong 2" Enum="GONG_01"/>
+            <Drum Name="Gong 3" Enum="GONG_02"/>
+            <Drum Name="Gong 4" Enum="GONG_03"/>
+            <Drum Name="Gong 5" Enum="GONG_04"/>
+            <Drum Name="Gong 6" Enum="GONG_05"/>
+            <Drum Name="Gong 7" Enum="GONG_06"/>
+            <Drum Name="Gong 8" Enum="GONG_07"/>
+            <Drum Name="Gong 9" Enum="GONG_08"/>
+            <Drum Name="Gong 10" Enum="GONG_09"/>
+            <Drum Name="Gong 11" Enum="GONG_10"/>
+            <Drum Name="Gong 12" Enum="GONG_11"/>
+            <Drum Name="Gong 13" Enum="GONG_12"/>
+            <Drum Name="Gong 14" Enum="GONG_13"/>
+            <Drum Name="Gong 15" Enum="GONG_14"/>
+            <Drum Name="Gong 16" Enum="GONG_15"/>
+            <Drum Name="Gong 17" Enum="GONG_16"/>
+            <Drum Name="Gong 18" Enum="GONG_17"/>
+            <Drum Name="Gong 19" Enum="GONG_18"/>
+            <Drum Name="Gong 20" Enum="GONG_19"/>
+            <Drum Name="Gong 21" Enum="GONG_20"/>
+            <Drum Name="Gong 22" Enum="GONG_21"/>
+            <Drum Name="Gong 23" Enum="GONG_22"/>
+            <Drum Name="Gong 24" Enum="GONG_23"/>
+            <Drum Name="Gong 25" Enum="GONG_24"/>
+            <Drum Name="Gong 26" Enum="GONG_25"/>
+            <Drum Name="Gong 27" Enum="GONG_26"/>
+            <Drum Name="Gong 28" Enum="GONG_27"/>
+            <Drum Name="Gong 29" Enum="GONG_28"/>
+            <Drum Name="Gong 30" Enum="GONG_29"/>
+            <Drum Name="Gong 31" Enum="GONG_30"/>
+            <Drum Name="Gong 32" Enum="GONG_31"/>
+            <Drum Name="Gong 33" Enum="GONG_32"/>
+            <Drum Name="Gong 34" Enum="GONG_33"/>
+            <Drum Name="Windchimes 1" Enum="CHIMES_00"/>
+            <Drum Name="Windchimes 2" Enum="CHIMES_01"/>
+            <Drum Name="Windchimes 3" Enum="CHIMES_02"/>
+            <Drum Name="Windchimes 4" Enum="CHIMES_03"/>
+            <Drum Name="Windchimes 5" Enum="CHIMES_04"/>
+            <Drum Name="Windchimes 6" Enum="CHIMES_05"/>
+            <Drum Name="Windchimes 7" Enum="CHIMES_06"/>
+            <Drum Name="Windchimes 8" Enum="CHIMES_07"/>
+            <Drum Name="Windchimes 9" Enum="CHIMES_08"/>
+            <Drum Name="Windchimes 10" Enum="CHIMES_09"/>
+            <Drum Name="Windchimes 11" Enum="CHIMES_10"/>
+            <Drum Name="Windchimes 12" Enum="CHIMES_11"/>
+            <Drum Name="Windchimes 13" Enum="CHIMES_12"/>
+            <Drum Name="Windchimes 14" Enum="CHIMES_13"/>
+            <Drum Name="Windchimes 15" Enum="CHIMES_14"/>
+            <Drum Name="Windchimes 16" Enum="CHIMES_15"/>
+            <Drum Name="Windchimes 17" Enum="CHIMES_16"/>
+            <Drum Name="Windchimes 18" Enum="CHIMES_17"/>
+            <Drum Name="Windchimes 19" Enum="CHIMES_18"/>
+            <Drum Name="Windchimes 20" Enum="CHIMES_19"/>
+            <Drum Name="Windchimes 21" Enum="CHIMES_20"/>
+            <Drum Name="Windchimes 22" Enum="CHIMES_21"/>
+            <Drum Name="Windchimes 23" Enum="CHIMES_22"/>
+            <Drum Name="Windchimes 24" Enum="CHIMES_23"/>
+            <Drum Name="Windchimes 25" Enum="CHIMES_24"/>
+            <Drum Name="Windchimes 26" Enum="CHIMES_25"/>
+            <Drum Name="Windchimes 27" Enum="CHIMES_26"/>
+            <Drum Name="Windchimes 28" Enum="CHIMES_27"/>
+            <Drum Name="Windchimes 29" Enum="CHIMES_28"/>
+            <Drum Name="Windchimes 30" Enum="CHIMES_29"/>
+        </Drums>
+        <Effects/>
+    </Soundfont>
+</Root>

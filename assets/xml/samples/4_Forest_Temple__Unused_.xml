@@ -1,0 +1,17 @@
+<Root>
+    <Sample Name="Vocal_Ohs">
+        <Offset Version="MQDebug" At="0"/>
+    </Sample>
+	<Sample Name="Flute_and_Voice">
+        <Offset Version="MQDebug" At="0x6410"/>
+    </Sample>
+	<Sample Name="Off-Kilter_Flute">
+        <Offset Version="MQDebug" At="0x72D0"/>
+    </Sample>
+	<Sample Name="Voice">
+        <Offset Version="MQDebug" At="0x8230"/>
+    </Sample>
+	<Sample Name="Melodic_Wooden_Clacking">
+        <Offset Version="MQDebug" At="0x9030"/>
+    </Sample>
+</Root>

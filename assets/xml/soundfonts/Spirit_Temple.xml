@@ -1,0 +1,79 @@
+<Root>
+    <Soundfont Name="16_Spirit_Temple" Index="16">
+        <Instruments>
+            <Instrument Name="Windchimes" Enum="CHIMES"/>
+            <Instrument Name="Warm Synth 1" Enum="WARM_SYNTH_0"/>
+            <Instrument Name="Egyptian Flute 1" Enum="FLUTE_0"/>
+            <Instrument Name="Drum and Voice" Enum="DRUM_VOICE"/>
+            <Instrument Name="Warm Synth 2" Enum="WARM_SYNTH_1"/>
+            <Instrument Name="Egyptian Flute 2" Enum="FLUTE_1"/>
+        </Instruments>
+        <Drums>
+            <Drum Name="Gong 1" Enum="GONG_00"/>
+            <Drum Name="Gong 2" Enum="GONG_01"/>
+            <Drum Name="Gong 3" Enum="GONG_02"/>
+            <Drum Name="Gong 4" Enum="GONG_03"/>
+            <Drum Name="Gong 5" Enum="GONG_04"/>
+            <Drum Name="Gong 6" Enum="GONG_05"/>
+            <Drum Name="Gong 7" Enum="GONG_06"/>
+            <Drum Name="Gong 8" Enum="GONG_07"/>
+            <Drum Name="Gong 9" Enum="GONG_08"/>
+            <Drum Name="Gong 10" Enum="GONG_09"/>
+            <Drum Name="Gong 11" Enum="GONG_10"/>
+            <Drum Name="Gong 12" Enum="GONG_11"/>
+            <Drum Name="Gong 13" Enum="GONG_12"/>
+            <Drum Name="Gong 14" Enum="GONG_13"/>
+            <Drum Name="Gong 15" Enum="GONG_14"/>
+            <Drum Name="Gong 16" Enum="GONG_15"/>
+            <Drum Name="Gong 17" Enum="GONG_16"/>
+            <Drum Name="Gong 18" Enum="GONG_17"/>
+            <Drum Name="Gong 19" Enum="GONG_18"/>
+            <Drum Name="Gong 20" Enum="GONG_19"/>
+            <Drum Name="Gong 21" Enum="GONG_20"/>
+            <Drum Name="Gong 22" Enum="GONG_21"/>
+            <Drum Name="Gong 23" Enum="GONG_22"/>
+            <Drum Name="Gong 24" Enum="GONG_23"/>
+            <Drum Name="Gong 25" Enum="GONG_24"/>
+            <Drum Name="Gong 26" Enum="GONG_25"/>
+            <Drum Name="Gong 27" Enum="GONG_26"/>
+            <Drum Name="Gong 28" Enum="GONG_27"/>
+            <Drum Name="Gong 29" Enum="GONG_28"/>
+            <Drum Name="Gong 30" Enum="GONG_29"/>
+            <Drum Name="Gong 31" Enum="GONG_30"/>
+            <Drum Name="Gong 32" Enum="GONG_31"/>
+            <Drum Name="Gong 33" Enum="GONG_32"/>
+            <Drum Name="Gong 34" Enum="GONG_33"/>
+            <Drum Name="Bass Slap 1" Enum="BASS_SLAP_00"/>
+            <Drum Name="Bass Slap 2" Enum="BASS_SLAP_01"/>
+            <Drum Name="Bass Slap 3" Enum="BASS_SLAP_02"/>
+            <Drum Name="Bass Slap 4" Enum="BASS_SLAP_03"/>
+            <Drum Name="Bass Slap 5" Enum="BASS_SLAP_04"/>
+            <Drum Name="Bass Slap 6" Enum="BASS_SLAP_05"/>
+            <Drum Name="Bass Slap 7" Enum="BASS_SLAP_06"/>
+            <Drum Name="Bass Slap 8" Enum="BASS_SLAP_07"/>
+            <Drum Name="Bass Slap 9" Enum="BASS_SLAP_08"/>
+            <Drum Name="Bass Slap 10" Enum="BASS_SLAP_09"/>
+            <Drum Name="Bass Slap 11" Enum="BASS_SLAP_10"/>
+            <Drum Name="Bass Slap 12" Enum="BASS_SLAP_11"/>
+            <Drum Name="Bass Slap 13" Enum="BASS_SLAP_12"/>
+            <Drum Name="Bass Slap 14" Enum="BASS_SLAP_13"/>
+            <Drum Name="Bass Slap 15" Enum="BASS_SLAP_14"/>
+            <Drum Name="Bass Slap 16" Enum="BASS_SLAP_15"/>
+            <Drum Name="Bass Slap 17" Enum="BASS_SLAP_16"/>
+            <Drum Name="Bass Slap 18" Enum="BASS_SLAP_17"/>
+            <Drum Name="Bass Slap 19" Enum="BASS_SLAP_18"/>
+            <Drum Name="Bass Slap 20" Enum="BASS_SLAP_19"/>
+            <Drum Name="Bass Slap 21" Enum="BASS_SLAP_20"/>
+            <Drum Name="Bass Slap 22" Enum="BASS_SLAP_21"/>
+            <Drum Name="Bass Slap 23" Enum="BASS_SLAP_22"/>
+            <Drum Name="Bass Slap 24" Enum="BASS_SLAP_23"/>
+            <Drum Name="Bass Slap 25" Enum="BASS_SLAP_24"/>
+            <Drum Name="Bass Slap 26" Enum="BASS_SLAP_25"/>
+            <Drum Name="Bass Slap 27" Enum="BASS_SLAP_26"/>
+            <Drum Name="Bass Slap 28" Enum="BASS_SLAP_27"/>
+            <Drum Name="Bass Slap 29" Enum="BASS_SLAP_28"/>
+            <Drum Name="Bass Slap 30" Enum="BASS_SLAP_29"/>
+        </Drums>
+        <Effects/>
+    </Soundfont>
+</Root>

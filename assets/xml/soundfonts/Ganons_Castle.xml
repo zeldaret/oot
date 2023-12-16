@@ -1,0 +1,16 @@
+<Root>
+    <Soundfont Name="31_Ganons_Castle" Index="31">
+        <Instruments>
+            <Instrument/>
+            <Instrument Name="Ghostly Wind" Enum="WIND"/>
+            <Instrument Name="Echoing Sounds" Enum="ECHOES"/>
+            <Instrument Name="Vocals" Enum="VOCALS"/>
+            <Instrument Name="Piano 1" Enum="PIANO_0"/>
+            <Instrument Name="Piano 2" Enum="PIANO_1"/>
+            <Instrument/>
+            <Instrument Name="Rattling Scream" Enum="SCREAM"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

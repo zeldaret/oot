@@ -1,0 +1,20 @@
+<Root>
+    <Sample Name="Goron_Drum">
+        <Offset Version="MQDebug" At="0"/>
+    </Sample>
+    <Sample Name="Bass_Slap">
+        <Offset Version="MQDebug" At="0x2540"/>
+    </Sample>
+    <Sample Name="Goron_Ooh">
+        <Offset Version="MQDebug" At="0x4800"/>
+    </Sample>
+    <Sample Name="Goron_Ooh_High">
+        <Offset Version="MQDebug" At="0x72D0"/>
+    </Sample>
+    <Sample Name="Tom_Drum">
+        <Offset Version="MQDebug" At="0x7B70"/>
+    </Sample>
+    <Sample Name="Resonant_Bass_Marimba">
+        <Offset Version="MQDebug" At="0x8630"/>
+    </Sample>
+</Root>

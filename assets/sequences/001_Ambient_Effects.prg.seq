@@ -1,0 +1,2092 @@
+.desc title "Ambient Effects"
+.desc type "program"
+.usefont SOUNDFONT_AMBIENCE
+
+.sequence sequence_start
+mutebhv 0x20
+mutescale 70
+vol 115
+tempo 120
+ldio 0
+bgez seq_D
+end
+.sequence seq_D
+ldio 4
+stseq 32, seq_17+1
+ldio 5
+stseq 0, seq_17+2
+.sequence seq_17
+initchan 0xD000
+ldchan 13, chan_EDB
+ldio 5
+and 1
+rbeqz seq_25
+ldchan 0, chan_2AA
+.sequence seq_25
+ldio 5
+and 2
+rbeqz seq_2D
+ldchan 1, chan_91
+.sequence seq_2D
+ldio 5
+and 4
+rbeqz seq_35
+ldchan 2, chan_91
+.sequence seq_35
+ldio 5
+and 8
+rbeqz seq_3D
+ldchan 3, chan_91
+.sequence seq_3D
+ldio 5
+and 16
+rbeqz seq_45
+ldchan 4, chan_91
+.sequence seq_45
+ldio 5
+and 32
+rbeqz seq_4D
+ldchan 5, chan_91
+.sequence seq_4D
+ldio 5
+and 64
+rbeqz seq_55
+ldchan 6, chan_91
+.sequence seq_55
+ldio 5
+and 128
+rbeqz seq_5D
+ldchan 7, chan_91
+.sequence seq_5D
+ldio 4
+and 1
+rbeqz seq_65
+ldchan 8, chan_91
+.sequence seq_65
+ldio 4
+and 2
+rbeqz seq_6A
+.sequence seq_6A
+ldio 4
+and 4
+rbeqz seq_6F
+.sequence seq_6F
+ldio 4
+and 8
+rbeqz seq_74
+.sequence seq_74
+ldio 4
+and 16
+rbeqz seq_7C
+ldchan 12, chan_2AA
+.sequence seq_7C
+ldio 4
+and 64
+rbeqz seq_84
+ldchan 14, chan_DA3
+.sequence seq_84
+ldio 4
+and 128
+rbeqz seq_8C
+ldchan 15, chan_E0B
+.sequence seq_8C
+delay 0x7FD0
+rjump seq_8C
+
+.channel chan_91
+noshort
+rvrbidx 1
+ldfilter filter_1030
+filter 0
+.channel chan_99
+delay1
+panweight 0
+ldio 1
+sub 1
+rbeqz chan_A3
+rjump chan_99
+.channel chan_A3
+ldio 2
+sub 18
+rbltz chan_AB
+ldi 17
+stio 2
+.channel chan_AB
+ldio 2
+ldseq addr_16B
+stseq 0, chan_D7+1
+ldio 2
+ldseq addr_17F
+stseq 0, chan_D9+1
+ldio 2
+ldseqtoptr addr_192
+stptrtoseq chan_DE+1
+ldio 2
+ldseqtoptr addr_1BA
+stptrtoseq chan_E5+1
+ldio 2
+ldseqtoptr addr_1E2
+stptrtoseq chan_EC+1
+ldio 2
+ldseqtoptr addr_20A
+stptrtoseq chan_F3+1
+.channel chan_D7
+instr FONT02_INSTR_BIRD_CHIRP_0
+.channel chan_D9
+vol 60
+ldio 4
+and 3
+.channel chan_DE
+ldlayer 0, layer_393
+rbeqz chan_F9
+sub 1
+.channel chan_E5
+ldlayer 1, layer_3CE
+rbeqz chan_F9
+sub 1
+.channel chan_EC
+ldlayer 2, layer_38C
+rbeqz chan_F9
+sub 1
+.channel chan_F3
+ldlayer 3, layer_3C4
+ldi 1
+stio 7
+.channel chan_F9
+delay1
+ldio 5
+and 63
+stio 5
+ldseq addr_F7A
+stseq 10, chan_10E+1
+ldi 127
+subio 5
+stseq 0, @+1
+volexp 127
+.channel chan_10E
+reverb 0
+ldio 1
+sub 0
+rbeqz chan_164
+ldio 7
+sub 1
+stio 7
+rbeqz chan_11D
+rjump chan_F9
+.channel chan_11D
+ldio 2
+ldseqtoptr addr_232
+stptrtoseq chan_134+2
+ldio 2
+ldseqtoptr addr_25A
+stptrtoseq chan_146+2
+ldio 2
+ldseqtoptr addr_282
+stptrtoseq chan_15B+2
+rand 90
+.channel chan_134
+stseq 37, layer_fn_EFC+1
+ldio 3
+and 127
+stio 3
+ldi 0
+subio 3
+stseq 0, chan_144+1
+ldio 3
+.channel chan_144
+bendfine 0
+.channel chan_146
+stseq 0, layer_EFE+1
+ldi 0
+ldseq addr_EFB
+rbeqz chan_15B
+rand 3
+rbeqz chan_159
+ldi 0
+rjump chan_15B
+.channel chan_159
+ldi 20
+.channel chan_15B
+stseq 0, layer_F00+1
+ldi 50
+stio 7
+rjump chan_F9
+.channel chan_164
+dellayer 0
+dellayer 1
+dellayer 2
+dellayer 3
+jump chan_99
+
+.array addr_16B
+byte FONT02_INSTR_BIRD_CHIRP_0
+byte FONT02_INSTR_INSECTS
+byte FONT02_INSTR_BIRD_CHIRP_1
+byte FONT02_INSTR_BIRD_CHIRP_0
+byte FONT02_INSTR_CRICKETS
+byte FONT02_INSTR_BIRD_CHIRP_0
+byte FONT02_INSTR_BIRD_CHIRP_2
+byte FONT02_INSTR_BIRD_CHIRP_0
+byte FONT02_INSTR_BIRD_CHIRP_0
+byte FONT02_INSTR_CROWS
+byte FONT02_INSTR_BIRD_CHIRP_3
+byte FONT02_INSTR_BIRD_SCREECH
+byte FONT02_INSTR_BIRD_SONG
+byte FONT02_INSTR_OWL
+byte FONT02_INSTR_HAWK
+byte FONT02_INSTR_BIRD_CALL
+byte FONT02_INSTR_BIRD_CAW
+byte FONT02_INSTR_CUCCO
+byte FONT02_INSTR_BIRD_CHIRP_1
+byte FONT02_INSTR_BIRD_CHIRP_0
+
+.array addr_17F
+byte 0x4B
+byte 0x55
+byte 0x32
+byte 0x3C
+byte 0x50
+byte 0x50
+byte 0x50
+byte 0x50
+byte 0x50
+byte 0x64
+byte 0x50
+byte 0x50
+byte 0x50
+byte 0x52
+byte 0x50
+byte 0x4B
+byte 0x5A
+byte 0x50
+byte 0x0
+
+.table addr_192
+entry layer_393
+entry layer_404
+entry layer_48A
+entry layer_4D1
+entry layer_54E
+entry layer_5B2
+entry layer_665
+entry layer_6CE
+entry layer_734
+entry layer_78B
+entry layer_7E6
+entry layer_B39
+entry layer_C5E
+entry layer_9C2
+entry layer_A6C
+entry layer_D39
+entry layer_8A2
+entry layer_AE6
+entry layer_48A
+entry layer_4D1
+
+.table addr_1BA
+entry layer_3CE
+entry layer_449
+entry layer_487
+entry layer_516
+entry layer_560
+entry layer_612
+entry layer_676
+entry layer_6E8
+entry layer_731
+entry layer_794
+entry layer_849
+entry layer_BC9
+entry layer_CCD
+entry layer_A09
+entry layer_A59
+entry layer_D27
+entry layer_932
+entry layer_AFA
+entry layer_A59
+entry layer_D27
+
+.table addr_1E2
+entry layer_38C
+entry layer_3FD
+entry layer_484
+entry layer_4C7
+entry layer_572
+entry layer_5AC
+entry layer_68B
+entry layer_6FA
+entry layer_74E
+entry layer_7B2
+entry layer_7E0
+entry layer_B26
+entry layer_C4D
+entry layer_9B8
+entry layer_A62
+entry layer_D2A
+entry layer_898
+entry layer_AE5
+entry layer_A62
+entry layer_D2A
+
+.table addr_20A
+entry layer_3C4
+entry layer_43F
+entry layer_481
+entry layer_50C
+entry layer_58D
+entry layer_609
+entry layer_6B4
+entry layer_716
+entry layer_770
+entry layer_7C9
+entry layer_843
+entry layer_BB3
+entry layer_CB9
+entry layer_9FC
+entry layer_A4C
+entry layer_D24
+entry layer_924
+entry layer_AE5
+entry layer_A4C
+entry layer_D24
+
+.table addr_232
+entry layer_fn_EFC+1
+entry layer_fn_F03+1
+entry layer_fn_F0A+1
+entry layer_fn_F11+1
+entry layer_fn_F18+1
+entry layer_fn_F1F+1
+entry layer_fn_F26+1
+entry layer_fn_F2D+1
+entry layer_fn_F34+1
+entry layer_fn_F3B+1
+entry layer_fn_F42+1
+entry layer_fn_F49+1
+entry layer_fn_F50+1
+entry layer_fn_F57+1
+entry layer_fn_F5E+1
+entry layer_fn_F65+1
+entry layer_fn_F6C+1
+entry layer_fn_F73+1
+entry layer_fn_F0A+1
+entry layer_fn_F11+1
+
+.table addr_25A
+entry layer_EFE+1
+entry layer_F05+1
+entry layer_F0C+1
+entry layer_F13+1
+entry layer_F1A+1
+entry layer_F21+1
+entry layer_F28+1
+entry layer_F2F+1
+entry layer_F36+1
+entry layer_F3D+1
+entry layer_F44+1
+entry layer_F4B+1
+entry layer_F52+1
+entry layer_F59+1
+entry layer_F60+1
+entry layer_F67+1
+entry layer_F6E+1
+entry layer_F75+1
+entry layer_F60+1
+entry layer_F67+1
+
+.table addr_282
+entry layer_F00+1
+entry layer_F07+1
+entry layer_F0E+1
+entry layer_F15+1
+entry layer_F1C+1
+entry layer_F23+1
+entry layer_F2A+1
+entry layer_F31+1
+entry layer_F38+1
+entry layer_F3F+1
+entry layer_F46+1
+entry layer_F4D+1
+entry layer_F54+1
+entry layer_F5B+1
+entry layer_F62+1
+entry layer_F69+1
+entry layer_F70+1
+entry layer_F77+1
+entry layer_F62+1
+entry layer_F69+1
+
+.channel chan_2AA
+noshort
+rvrbidx 1
+transpose 12
+ldfilter filter_1030
+filter 0
+.channel chan_2B4
+delay1
+ldio 1
+sub 1
+rbeqz chan_2BC
+rjump chan_2B4
+.channel chan_2BC
+volexp 127
+panweight 0
+ldio 2
+and 3
+ldseq addr_35A
+stseq 0, chan_2D6+1
+ldio 2
+and 3
+ldseq addr_35E
+stseq 0, @+1
+vol 60
+.channel chan_2D6
+instr FONT02_INSTR_WIND_HOWL
+envelope envelope_FFA
+reverb 20
+ldlayer 0, layer_368
+ldlayer 1, layer_362
+ldi 1
+stio 7
+rjump chan_2F4
+.channel chan_2E8
+delay1
+ldio 1
+sub 0
+rbeqz chan_335
+ldio 0
+rbltz chan_2F4
+call chan_fn_33E
+.channel chan_2F4
+ldio 6
+rbltz chan_300
+stseq 0, chan_2FE+1
+ldi 255
+stio 6
+.channel chan_2FE
+filter 15
+.channel chan_300
+ldio 7
+sub 1
+stio 7
+rbeqz chan_308
+rjump chan_2E8
+.channel chan_308
+ldio 3
+and 63
+stio 3
+ldseq addr_FBA
+sub 255
+stseq 5, chan_31D+1
+ldio 3
+ldseq addr_F7A
+stseq 96, envelope_FFE+2
+.channel chan_31D
+rand 24
+stseq 98, layer_36F
+ldi 64
+subio 3
+stseq 0, @+1
+rand 64
+stseq 63, layer_36F+1
+ldi 100
+stio 7
+rjump chan_2E8
+.channel chan_335
+releaserate 112
+dellayer 0
+dellayer 1
+dellayer 2
+dellayer 3
+jump chan_2B4
+
+.channel chan_fn_33E
+ldlayer 2, layer_37A
+ldlayer 3, layer_374
+ldio 3
+and 63
+stio 3
+ldseq addr_FBA
+sub 255
+stseq 100, layer_385+2
+stseq 100, layer_388+2
+stseq 103, layer_385
+end
+
+.array addr_35A
+byte 0xF
+byte 0x10
+byte 0x11
+byte 0x11
+
+.array addr_35E
+byte 0x3C
+byte 0x73
+byte 0x64
+byte 0x64
+
+.layer layer_362
+stereo 20
+transpose 9
+rjump layer_368
+
+.layer layer_368
+releaserate 100
+legato
+portamento 0x85, 34, 255
+.layer layer_36F
+notedv PITCH_C3, 0x64, 75
+rjump layer_36F
+
+.layer layer_374
+transpose 9
+notepan 74
+rjump layer_37C
+
+.layer layer_37A
+notepan 54
+.layer layer_37C
+envelope envelope_1006, 255
+legato
+portamento 0x85, 39, 255
+.layer layer_385
+notedv PITCH_G4, 0xC, 40
+.layer layer_388
+notedv PITCH_G2, 0x73, 40
+end
+
+.layer layer_38C
+notepan 94
+call layer_fn_EFC
+rjump layer_395
+
+.layer layer_393
+notepan 84
+.layer layer_395
+call layer_fn_EFC
+notedv PITCH_E4, 0x7E, 100
+notedv PITCH_D4, 0x15F, 78
+call layer_fn_EFC
+notedv PITCH_D4, 0xE2, 95
+notedv PITCH_C4, 0x2D, 86
+notedv PITCH_F4, 0x144, 75
+notedv PITCH_D4, 0xC4, 97
+call layer_fn_EFC
+notedv PITCH_D4, 0xD3, 67
+notedv PITCH_E4, 0x3B, 106
+notedv PITCH_C4, 0x10B, 94
+call layer_fn_EFC
+rjump layer_395
+
+.layer layer_3C4
+notepan 34
+call layer_fn_EFC
+call layer_fn_EFC
+rjump layer_395
+
+.layer layer_3CE
+notepan 44
+.layer layer_3D0
+call layer_fn_EFC
+call layer_fn_EFC
+notedv PITCH_C4, 0x9, 64
+notedv PITCH_C4, 0x96, 75
+call layer_fn_EFC
+notedv PITCH_C4, 0x5F, 100
+notedv PITCH_C4, 0x137, 90
+notedv PITCH_C4, 0xCE, 75
+call layer_fn_EFC
+notedv PITCH_C4, 0x119, 86
+notedv PITCH_C4, 0x23, 69
+notedv PITCH_C4, 0x54, 77
+notedv PITCH_C4, 0x65, 81
+rjump layer_3D0
+
+.layer layer_3FD
+notepan 84
+call layer_fn_F03
+rjump layer_406
+
+.layer layer_404
+notepan 94
+.layer layer_406
+call layer_fn_F03
+notedv PITCH_D4, 0xC, 81
+notedv PITCH_E4, 0xFE, 99
+notedv PITCH_D4, 0x34, 89
+call layer_fn_F03
+notedv PITCH_C4, 0xF4, 86
+notedv PITCH_D4, 0x187, 97
+call layer_fn_F03
+notedv PITCH_C4, 0x15, 72
+notedv PITCH_D4, 0xD3, 67
+notedv PITCH_E4, 0x91, 98
+call layer_fn_F03
+notedv PITCH_E4, 0x8, 86
+notedv PITCH_D4, 0x13B, 94
+notedv PITCH_C4, 0xB, 94
+notedv PITCH_C4, 0x10F, 94
+rjump layer_406
+
+.layer layer_43F
+notepan 44
+call layer_fn_F03
+call layer_fn_F03
+rjump layer_44B
+
+.layer layer_449
+notepan 34
+.layer layer_44B
+call layer_fn_F03
+call layer_fn_F03
+notedv PITCH_C4, 0xD3, 72
+call layer_fn_F03
+notedv PITCH_C4, 0xB, 85
+notedv PITCH_E4, 0x126, 100
+notedv PITCH_D4, 0xA7, 90
+call layer_fn_F03
+notedv PITCH_D4, 0xA6, 75
+notedv PITCH_F4, 0x18, 86
+notedv PITCH_C4, 0x163, 84
+call layer_fn_F03
+notedv PITCH_D4, 0xDB, 94
+notedv PITCH_E4, 0x9, 67
+notedv PITCH_C4, 0xE0, 81
+rjump layer_44B
+
+.layer layer_481
+call layer_fn_F0A
+
+.layer layer_484
+call layer_fn_F0A
+
+.layer layer_487
+call layer_fn_F0A
+
+.layer layer_48A
+call layer_fn_F0A
+notepan 64
+notedvg PITCH_C4, 0x200, 90, 127
+call layer_fn_F0A
+notepan 91
+notedvg PITCH_D4, 0x7F, 61, 127
+ldelay 0x96
+notepan 77
+notedvg PITCH_DF4, 0x1C8, 100, 127
+call layer_fn_F0A
+notepan 38
+notedvg PITCH_C4, 0x174, 54, 127
+ldelay 0xAE
+notepan 87
+notedvg PITCH_DF4, 0x298, 73, 127
+call layer_fn_F0A
+notepan 54
+notedvg PITCH_C4, 0x1B5, 95, 127
+rjump layer_48A
+
+.layer layer_4C7
+notepan 74
+call layer_fn_F11
+call layer_fn_F11
+rjump layer_4D3
+
+.layer layer_4D1
+notepan 94
+.layer layer_4D3
+call layer_fn_F11
+call layer_fn_F11
+notedv PITCH_E4, 0x108, 100
+notedv PITCH_D4, 0xB, 78
+notedv PITCH_D4, 0x2D, 95
+call layer_fn_F11
+notedv PITCH_C4, 0xF6, 86
+notedv PITCH_D4, 0x155, 97
+call layer_fn_F11
+notedv PITCH_D4, 0xD3, 67
+notedv PITCH_C4, 0x15, 94
+notedv PITCH_E4, 0x91, 106
+call layer_fn_F11
+notedv PITCH_D4, 0x13B, 94
+notedv PITCH_E4, 0x8, 106
+notedv PITCH_C4, 0x10F, 94
+rjump layer_4D3
+
+.layer layer_50C
+notepan 54
+call layer_fn_F11
+call layer_fn_F11
+rjump layer_518
+
+.layer layer_516
+notepan 34
+.layer layer_518
+call layer_fn_F11
+call layer_fn_F11
+notedv PITCH_C4, 0xFA, 64
+call layer_fn_F11
+notedv PITCH_C4, 0xE, 75
+notedv PITCH_E4, 0x10F, 100
+notedv PITCH_D4, 0x8, 90
+call layer_fn_F11
+notedv PITCH_D4, 0x92, 75
+notedv PITCH_F4, 0x43, 86
+notedv PITCH_C4, 0x155, 69
+call layer_fn_F11
+notedv PITCH_D4, 0xF5, 77
+notedv PITCH_E4, 0xBD, 77
+notedv PITCH_C4, 0xDA, 81
+rjump layer_518
+
+.layer layer_54E
+call layer_fn_F18
+notepan 84
+notedv PITCH_E4, 0x126, 100
+notepan 74
+notedv PITCH_E4, 0x9, 78
+notedv PITCH_C4, 0x16F, 74
+
+.layer layer_560
+call layer_fn_F18
+call layer_fn_F18
+notepan 47
+notedv PITCH_C4, 0x1C2, 100
+notepan 58
+notedv PITCH_D4, 0xF8, 91
+
+.layer layer_572
+call layer_fn_F18
+ldelay 0x14
+call layer_fn_F18
+notepan 95
+notedv PITCH_F4, 0x4B, 67
+notepan 87
+notedv PITCH_D4, 0x9, 55
+notedv PITCH_D4, 0x18, 60
+notepan 91
+notedv PITCH_E4, 0x126, 100
+
+.layer layer_58D
+call layer_fn_F18
+call layer_fn_F18
+ldelay 0x30
+call layer_fn_F18
+notepan 72
+notedv PITCH_C4, 0xA, 91
+notedv PITCH_DF4, 0xC2, 88
+notepan 37
+notedv PITCH_D4, 0x9, 76
+notedv PITCH_D4, 0x155, 91
+rjump layer_54E
+
+.layer layer_5AC
+call layer_fn_F1F
+call layer_fn_F1F
+
+.layer layer_5B2
+call layer_fn_F1F
+notepan 84
+call layer_fn_F1F
+notedv PITCH_D4, 0xC2, 90
+notedv PITCH_EF4, 0x68, 94
+call layer_fn_F1F
+notedv PITCH_D4, 0x95, 100
+notedv PITCH_E4, 0x61, 105
+call layer_fn_F1F
+notedv PITCH_D4, 0x126, 78
+call layer_fn_F1F
+notedv PITCH_C4, 0x6, 84
+notedv PITCH_E4, 0x24, 76
+notedv PITCH_C4, 0x19D, 78
+notedv PITCH_C4, 0x5E, 57
+notepan 74
+call layer_fn_F1F
+notedv PITCH_D4, 0xA8, 88
+notedv PITCH_C4, 0x159, 67
+notedv PITCH_E4, 0x105, 84
+notedv PITCH_E4, 0x43, 67
+call layer_fn_F1F
+notedv PITCH_DF4, 0xD3, 81
+call layer_fn_F1F
+notedv PITCH_D4, 0xB, 91
+notedv PITCH_E4, 0x126, 88
+rjump layer_5B2
+
+.layer layer_609
+call layer_fn_F1F
+call layer_fn_F1F
+call layer_fn_F1F
+
+.layer layer_612
+call layer_fn_F1F
+notepan 44
+notedv PITCH_D4, 0x15, 75
+notedv PITCH_EF4, 0x3D, 94
+call layer_fn_F1F
+notedv PITCH_D4, 0x95, 81
+notedv PITCH_E4, 0x137, 42
+notedv PITCH_C4, 0x1F4, 69
+call layer_fn_F1F
+notedv PITCH_F4, 0xC8, 91
+notedv PITCH_D4, 0x95, 84
+notepan 54
+call layer_fn_F1F
+notedv PITCH_EF4, 0x95, 87
+notedv PITCH_D4, 0x163, 96
+call layer_fn_F1F
+notedv PITCH_EF4, 0xD8, 61
+call layer_fn_F1F
+notedv PITCH_C4, 0x1E0, 81
+noteldv 39, 0x4F, 68
+call layer_fn_F1F
+notedv PITCH_E4, 0x8, 75
+notedv PITCH_EF4, 0x1A5, 94
+call layer_fn_F1F
+rjump layer_612
+
+.layer layer_665
+loop 3
+notepan 104
+notedv PITCH_E4, 0x1CC, 75
+call layer_fn_F26
+notepan 50
+notedv PITCH_C4, 0x167, 87
+
+.layer layer_676
+call layer_fn_F26
+call layer_fn_F26
+notepan 34
+notedv PITCH_D4, 0x167, 94
+call layer_fn_F26
+notepan 64
+notedv PITCH_D4, 0x167, 62
+
+.layer layer_68B
+call layer_fn_F26
+ldelay 0x22
+call layer_fn_F26
+notepan 79
+notedv PITCH_E4, 0x167, 79
+call layer_fn_F26
+notepan 91
+notedv PITCH_F4, 0x167, 62
+call layer_fn_F26
+notepan 54
+notedv PITCH_C4, 0x167, 86
+call layer_fn_F26
+notepan 36
+notedv PITCH_D4, 0x167, 57
+
+.layer layer_6B4
+call layer_fn_F26
+call layer_fn_F26
+ldelay 0x37
+call layer_fn_F26
+loopend
+notepan 64
+notedv PITCH_C4, 0x9, 57
+notedv PITCH_E4, 0xD8, 69
+call layer_fn_F26
+rjump layer_665
+
+.layer layer_6CE
+call layer_fn_F2D
+notepan 74
+notedv PITCH_E4, 0x15F, 86
+call layer_fn_F2D
+notedv PITCH_E4, 0x126, 59
+notepan 90
+notedv PITCH_E4, 0x15F, 66
+notedv PITCH_C4, 0x126, 49
+
+.layer layer_6E8
+call layer_fn_F2D
+ldelay 0x47
+call layer_fn_F2D
+notedv PITCH_D4, 0x137, 81
+notepan 83
+notedv PITCH_E4, 0x10B, 99
+
+.layer layer_6FA
+call layer_fn_F2D
+call layer_fn_F2D
+ldelay 0x21
+call layer_fn_F2D
+notedv PITCH_C4, 0x18D, 49
+notedv PITCH_C4, 0x116, 78
+notepan 69
+call layer_fn_F2D
+notedv PITCH_C4, 0x1C4, 57
+
+.layer layer_716
+call layer_fn_F2D
+call layer_fn_F2D
+call layer_fn_F2D
+call layer_fn_F2D
+notedv PITCH_C4, 0x149, 92
+notepan 78
+notedv PITCH_C4, 0x108, 75
+call layer_fn_F2D
+rjump layer_6CE
+
+.layer layer_731
+call layer_fn_F34
+
+.layer layer_734
+notepan 54
+call layer_fn_F34
+notepan 49
+notedv PITCH_E4, 0xBF, 86
+notepan 41
+notedv PITCH_D4, 0x44, 59
+notedv PITCH_C4, 0x1CA, 91
+notepan 57
+notedv PITCH_C4, 0xEE, 77
+
+.layer layer_74E
+call layer_fn_F34
+call layer_fn_F34
+ldelay 0x19
+notepan 39
+notedv PITCH_E4, 0xC2, 59
+notedv PITCH_D4, 0xA4, 49
+notepan 51
+notedv PITCH_D4, 0x13F, 55
+notepan 59
+notedv PITCH_C4, 0xDB, 72
+notedv PITCH_C4, 0x2F9, 86
+
+.layer layer_770
+call layer_fn_F34
+call layer_fn_F34
+call layer_fn_F34
+ldelay 0x4B
+notepan 48
+notedv PITCH_D4, 0x34, 95
+notepan 53
+notedv PITCH_C4, 0xED, 64
+call layer_fn_F34
+rjump layer_734
+
+.layer layer_78B
+call layer_fn_F3B
+notedv PITCH_C4, 0x4F, 95
+notedv PITCH_C4, 0x4F, 95
+
+.layer layer_794
+call layer_fn_F3B
+call layer_fn_F3B
+notedv PITCH_C4, 0xA9, 75
+notedv PITCH_C4, 0x63, 73
+notedv PITCH_C4, 0x91, 71
+call layer_fn_F3B
+notedv PITCH_C4, 0x55, 78
+notedv PITCH_C4, 0xD3, 74
+call layer_fn_F3B
+
+.layer layer_7B2
+call layer_fn_F3B
+ldelay 0x29
+call layer_fn_F3B
+notedv PITCH_C4, 0x45, 57
+notedv PITCH_C4, 0x5E, 57
+call layer_fn_F3B
+notedv PITCH_C4, 0x4B, 49
+notedv PITCH_C4, 0x48, 46
+
+.layer layer_7C9
+call layer_fn_F3B
+ldelay 0x44
+call layer_fn_F3B
+call layer_fn_F3B
+notedv PITCH_C4, 0x54, 88
+notedv PITCH_C4, 0x5B, 88
+notedv PITCH_C4, 0xBF, 83
+rjump layer_78B
+
+.layer layer_7E0
+call layer_fn_F42
+call layer_fn_F42
+
+.layer layer_7E6
+call layer_fn_F42
+notepan 24
+notedvg PITCH_E4, 0x1AA, 86, 127
+notedvg PITCH_D4, 0x73, 56, 127
+call layer_fn_F42
+notepan 49
+notedvg PITCH_C4, 0x1F4, 94, 127
+call layer_fn_F42
+notedvg PITCH_E4, 0x349, 68, 127
+notedvg PITCH_F4, 0x167, 71, 127
+call layer_fn_F42
+notedvg PITCH_E4, 0x349, 68, 127
+notedvg PITCH_E4, 0x229, 91, 127
+notedvg PITCH_F4, 0xDB, 71, 127
+call layer_fn_F42
+notedvg PITCH_F4, 0x12C, 82, 220
+call layer_fn_F42
+notedvg PITCH_E4, 0x282, 81, 127
+notedvg PITCH_E4, 0x4F, 68, 127
+notedvg PITCH_F4, 0xDB, 71, 127
+call layer_fn_F42
+notedvg PITCH_F4, 0x1C3, 54, 127
+call layer_fn_F42
+rjump layer_7E6
+
+.layer layer_843
+call layer_fn_F42
+call layer_fn_F42
+
+.layer layer_849
+call layer_fn_F42
+call layer_fn_F42
+notepan 76
+call layer_fn_F42
+notedvg PITCH_E4, 0x142, 86, 127
+call layer_fn_F42
+notedvg PITCH_D4, 0x1F4, 94, 127
+call layer_fn_F42
+notedvg PITCH_E4, 0xFE, 49, 127
+notedvg PITCH_C4, 0xC3, 71, 127
+notedvg PITCH_D4, 0x1CB, 61, 127
+call layer_fn_F42
+notedvg PITCH_D4, 0x25, 51, 127
+call layer_fn_F42
+notedvg PITCH_DF4, 0x23D, 91, 127
+notedvg PITCH_C4, 0x2FD, 88, 127
+notepan 100
+call layer_fn_F42
+notedvg PITCH_E4, 0x15C, 76, 127
+notedvg PITCH_F4, 0x284, 59, 180
+rjump layer_849
+
+.layer layer_898
+notepan 84
+call layer_fn_EFC
+call layer_fn_EFC
+rjump layer_8A4
+
+.layer layer_8A2
+notepan 60
+.layer layer_8A4
+call layer_fn_EFC
+notedv PITCH_C3, 0x34, 89
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 77
+notedv PITCH_C3, 0x34, 77
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 71
+notedv PITCH_C3, 0x34, 71
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 76
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 89
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 64
+notedv PITCH_C3, 0x34, 66
+notedv PITCH_C3, 0x34, 69
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 75
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 85
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 79
+notedv PITCH_C3, 0x34, 77
+notedv PITCH_C3, 0x34, 71
+call layer_fn_F6C
+call layer_fn_F6C
+rjump layer_8A4
+
+.layer layer_924
+notepan 42
+call layer_fn_EFC
+call layer_fn_EFC
+call layer_fn_EFC
+jump layer_934
+
+.layer layer_932
+notepan 69
+.layer layer_934
+call layer_fn_EFC
+notedv PITCH_C3, 0x30, 45
+notedv PITCH_C3, 0x32, 48
+notedv PITCH_C3, 0x34, 47
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 80
+notedv PITCH_C3, 0x34, 81
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x32, 88
+notedv PITCH_C3, 0x34, 84
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x32, 94
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x32, 76
+call layer_fn_F6C
+notedv PITCH_C3, 0x32, 55
+call layer_fn_F6C
+notedv PITCH_C3, 0x32, 65
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x36, 83
+notedv PITCH_C3, 0x34, 87
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x36, 91
+notedv PITCH_C3, 0x34, 85
+call layer_fn_F6C
+call layer_fn_F6C
+call layer_fn_F6C
+notedv PITCH_C3, 0x34, 65
+notedv PITCH_C3, 0x30, 59
+call layer_fn_F6C
+jump layer_934
+
+.layer layer_9B8
+notepan 40
+call layer_fn_F57
+call layer_fn_F57
+rjump layer_A11
+
+.layer layer_9C2
+notepan 50
+.layer layer_9C4
+call layer_fn_F57
+notedv PITCH_C4, 0x41, 86
+ldelay 0x9F
+call layer_fn_F57
+notedv PITCH_DF4, 0x36, 56
+ldelay 0x123
+call layer_fn_F57
+notedv PITCH_C4, 0x45, 36
+ldelay 0x95
+call layer_fn_F57
+notedv PITCH_D4, 0x32, 70
+ldelay 0xE2
+call layer_fn_F57
+notedv PITCH_C4, 0x4C, 51
+ldelay 0x8F
+notedv PITCH_D4, 0x3D, 70
+ldelay 0x14E
+call layer_fn_F57
+rjump layer_9C4
+
+.layer layer_9FC
+notepan 88
+call layer_fn_F57
+call layer_fn_F57
+call layer_fn_F57
+rjump layer_A11
+
+.layer layer_A09
+call layer_fn_F57
+notepan 78
+ldelay 0xD3
+.layer layer_A11
+call layer_fn_F57
+ldelay 0x1BB
+call layer_fn_F57
+ldelay 0x108
+call layer_fn_F57
+notedv PITCH_C4, 0x47, 44
+ldelay 0x1A3
+call layer_fn_F57
+notedv PITCH_C4, 0x47, 64
+call layer_fn_F57
+notedv PITCH_DF4, 0x38, 71
+ldelay 0x15F
+call layer_fn_F57
+notedv PITCH_D4, 0x3C, 89
+ldelay 0x2C1
+call layer_fn_F57
+notedv PITCH_C4, 0x39, 57
+ldelay 0x160
+call layer_fn_F57
+rjump layer_A11
+
+.layer layer_A4C
+notepan 78
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+rjump layer_AAA
+
+.layer layer_A59
+notepan 70
+call layer_fn_F5E
+ldelay 0x38
+rjump layer_AAA
+
+.layer layer_A62
+notepan 40
+call layer_fn_F5E
+call layer_fn_F5E
+rjump layer_A6E
+
+.layer layer_A6C
+notepan 50
+.layer layer_A6E
+call layer_fn_F57
+notedv PITCH_E3, 0x61, 75
+notedv PITCH_E3, 0x5E, 79
+notedv PITCH_E3, 0x5F, 77
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+notedv PITCH_F3, 0x69, 78
+notedv PITCH_F3, 0x70, 79
+notedv PITCH_F3, 0x6B, 72
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+notedv PITCH_E3, 0x5F, 69
+notedv PITCH_E3, 0x59, 74
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+.layer layer_AAA
+notedv PITCH_E3, 0x58, 81
+notedv PITCH_E3, 0x5D, 83
+notedv PITCH_E3, 0x5B, 77
+call layer_fn_F5E
+call layer_fn_F5E
+notedv PITCH_E3, 0x66, 69
+notedv PITCH_E3, 0x64, 74
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+notedv PITCH_F3, 0x66, 74
+call layer_fn_F5E
+call layer_fn_F5E
+call layer_fn_F5E
+notedv PITCH_E3, 0x4E, 87
+notedv PITCH_E3, 0x51, 78
+call layer_fn_F5E
+call layer_fn_F5E
+rjump layer_A6E
+
+.layer layer_AE5
+end
+
+.layer layer_AE6
+call layer_fn_F73
+notedv PITCH_C4, 0xA6, 75
+call layer_fn_F73
+call layer_fn_F73
+call layer_fn_F73
+notedv PITCH_DF4, 0xA6, 79
+
+.layer layer_AFA
+call layer_fn_F73
+call layer_fn_F73
+call layer_fn_F73
+call layer_fn_F73
+notedv PITCH_DF4, 0xA6, 84
+call layer_fn_F73
+call layer_fn_F73
+call layer_fn_F73
+notedv PITCH_C4, 0xA6, 102
+call layer_fn_F73
+call layer_fn_F73
+call layer_fn_F73
+notedv PITCH_C4, 0xA6, 64
+rjump layer_AE6
+
+.layer layer_B26
+releaserate 236
+legato
+notepan 34
+notedv PITCH_C4, 0x2A, 85
+call layer_fn_F49
+call layer_fn_F49
+call layer_fn_F49
+rjump layer_B3F
+
+.layer layer_B39
+releaserate 236
+call layer_fn_F49
+legato
+.layer layer_B3F
+notepan 95
+portamento 0x85, 38, 255
+notedv PITCH_DF4, 0x34, 76
+notedv PITCH_C4, 0x4F, 76
+call layer_fn_F49
+call layer_fn_F49
+notepan 37
+portamento 0x81, 38, 127
+notedv PITCH_C4, 0xE1, 99
+call layer_fn_F49
+notepan 49
+notedv PITCH_C4, 0x1A, 81
+call layer_fn_F49
+notepan 39
+portamento 0x81, 38, 127
+notedv PITCH_C4, 0x112, 91
+call layer_fn_F49
+notepan 55
+portamento 0x85, 39, 255
+notedv PITCH_DF4, 0x112, 78
+notedv PITCH_DF4, 0x5E, 78
+call layer_fn_F49
+call layer_fn_F49
+notepan 74
+portamento 0x81, 38, 127
+notedv PITCH_C4, 0x16, 105
+call layer_fn_F49
+notepan 46
+portamento 0x81, 38, 127
+notedv PITCH_DF4, 0x24, 94
+call layer_fn_F49
+call layer_fn_F49
+call layer_fn_F49
+notepan 94
+portamento 0x85, 39, 255
+notedv PITCH_DF4, 0x112, 78
+notedv PITCH_DF4, 0x5E, 78
+rjump layer_B3F
+
+.layer layer_BB3
+releaserate 236
+legato
+call layer_fn_F49
+call layer_fn_F49
+call layer_fn_F49
+call layer_fn_F49
+notepan 84
+notedv PITCH_DF4, 0x5E, 64
+rjump layer_BD2
+
+.layer layer_BC9
+releaserate 236
+call layer_fn_F49
+call layer_fn_F49
+legato
+.layer layer_BD2
+notepan 94
+portamento 0x81, 38, 127
+notedv PITCH_C4, 0x74, 100
+call layer_fn_F49
+call layer_fn_F49
+notepan 76
+portamento 0x85, 39, 255
+notedv PITCH_DF4, 0x43, 85
+notedv PITCH_B3, 0xF1, 85
+call layer_fn_F49
+call layer_fn_F49
+call layer_fn_F49
+notepan 57
+notedv PITCH_C4, 0x44, 78
+call layer_fn_F49
+notepan 94
+portamento 0x81, 38, 127
+notedv PITCH_DF4, 0x91, 78
+call layer_fn_F49
+notepan 38
+portamento 0x81, 38, 127
+notedv PITCH_DF4, 0x59, 96
+call layer_fn_F49
+notepan 94
+portamento 0x85, 38, 255
+notedv PITCH_C4, 0xC3, 99
+notedv PITCH_B3, 0x17, 99
+call layer_fn_F49
+call layer_fn_F49
+notepan 64
+notedv PITCH_B3, 0x11, 76
+call layer_fn_F49
+notepan 37
+notedv PITCH_B3, 0x13, 105
+call layer_fn_F49
+notepan 43
+portamento 0x81, 38, 127
+notedv PITCH_C4, 0x112, 91
+call layer_fn_F49
+call layer_fn_F49
+rjump layer_BD2
+
+.layer layer_C4D
+releaserate 236
+notepan 34
+ldelay 0x18
+call layer_fn_F50
+notedv PITCH_C4, 0x2A, 85
+call layer_fn_F50
+rjump layer_C60
+
+.layer layer_C5E
+releaserate 236
+.layer layer_C60
+call layer_fn_F50
+notepan 75
+notedv PITCH_C4, 0x34, 94
+call layer_fn_F50
+notepan 34
+notedv PITCH_C4, 0x9F, 67
+call layer_fn_F50
+call layer_fn_F50
+notepan 72
+notedv PITCH_C4, 0xC5, 79
+call layer_fn_F50
+notepan 41
+notedv PITCH_C4, 0x85, 68
+call layer_fn_F50
+notepan 49
+notedv PITCH_C4, 0xD3, 99
+call layer_fn_F50
+call layer_fn_F50
+notepan 68
+notedv PITCH_C4, 0x3B, 94
+call layer_fn_F50
+call layer_fn_F50
+call layer_fn_F50
+notepan 105
+notedv PITCH_C4, 0xC5, 81
+call layer_fn_F50
+notepan 76
+notedv PITCH_C4, 0x3B, 86
+call layer_fn_F50
+call layer_fn_F50
+rjump layer_C60
+
+.layer layer_CB9
+releaserate 236
+notepan 34
+call layer_fn_F50
+ldelay 0x18
+notedv PITCH_C4, 0x5E, 77
+call layer_fn_F50
+call layer_fn_F50
+rjump layer_CD2
+
+.layer layer_CCD
+releaserate 236
+call layer_fn_F50
+.layer layer_CD2
+call layer_fn_F50
+notepan 75
+notedv PITCH_C4, 0x98, 94
+call layer_fn_F50
+notepan 34
+notedv PITCH_C4, 0xD2, 84
+call layer_fn_F50
+call layer_fn_F50
+notepan 59
+notedv PITCH_C4, 0xA8, 99
+call layer_fn_F50
+notepan 95
+notedv PITCH_C4, 0x25, 74
+call layer_fn_F50
+call layer_fn_F50
+notepan 81
+notedv PITCH_C4, 0x2C, 88
+call layer_fn_F50
+call layer_fn_F50
+notepan 64
+notedv PITCH_C4, 0x4E, 91
+call layer_fn_F50
+notepan 37
+notedv PITCH_C4, 0x9E, 68
+call layer_fn_F50
+notepan 45
+notedv PITCH_C4, 0x73, 78
+call layer_fn_F50
+rjump layer_CD2
+
+.layer layer_D24
+call layer_fn_F65
+
+.layer layer_D27
+call layer_fn_F65
+
+.layer layer_D2A
+notepan 34
+ldelay 0x18
+call layer_fn_F65
+notedv PITCH_C4, 0x2A, 85
+call layer_fn_F65
+rjump layer_D3C
+
+.layer layer_D39
+call layer_fn_F65
+.layer layer_D3C
+notepan 75
+notedv PITCH_C4, 0x34, 94
+call layer_fn_F65
+call layer_fn_F65
+notepan 47
+notedv PITCH_DF4, 0x28, 76
+notedv PITCH_DF4, 0x2A, 77
+call layer_fn_F65
+call layer_fn_F65
+call layer_fn_F65
+call layer_fn_F65
+notepan 61
+notedv PITCH_C4, 0x24, 76
+call layer_fn_F65
+call layer_fn_F65
+call layer_fn_F65
+notepan 37
+notedv PITCH_C4, 0x2B, 65
+notedv PITCH_C4, 0x33, 65
+call layer_fn_F65
+call layer_fn_F65
+call layer_fn_F65
+notepan 87
+notedv PITCH_C4, 0x21, 88
+notedv PITCH_C4, 0x2F, 88
+call layer_fn_F65
+notepan 71
+notedv PITCH_C4, 0x2D, 77
+notedv PITCH_C4, 0x27, 77
+call layer_fn_F65
+call layer_fn_F65
+call layer_fn_F65
+notepan 49
+notedv PITCH_C4, 0x37, 85
+call layer_fn_F65
+call layer_fn_F65
+rjump layer_D3C
+
+.channel chan_DA3
+noshort
+rvrbidx 1
+ldfilter filter_1030
+filter 0
+.channel chan_DAB
+delay1
+ldio 1
+sub 1
+rbeqz chan_DB3
+rjump chan_DAB
+.channel chan_DB3
+vol 80
+volexp 127
+panweight 0
+instr FONT02_INSTR_RAIN
+envelope envelope_1012
+ldlayer 0, layer_DED
+ldlayer 1, layer_DF9
+ldlayer 2, layer_DFF
+.channel chan_DC7
+delay1
+ldio 4
+rbltz chan_DDF
+and 63
+stseq 0, chan_DDD+1
+ldio 4
+and 63
+ldseq addr_F7A
+stseq 80, @+1
+vol 96
+.channel chan_DDD
+bend 0
+.channel chan_DDF
+ldio 1
+sub 0
+rbeqz chan_DE6
+rjump chan_DC7
+.channel chan_DE6
+releaserate 92
+dellayer 0
+dellayer 1
+dellayer 2
+rjump chan_DAB
+
+.layer layer_DED
+notepan 84
+.layer layer_DEF
+legato
+portamento 1, 34, 100
+.layer layer_DF4
+notedv PITCH_C4, 0x60, 100
+rjump layer_DF4
+
+.layer layer_DF9
+transpose 1
+notepan 44
+rjump layer_DEF
+
+.layer layer_DFF
+stereo 20
+legato
+portamento 1, 34, 100
+.layer layer_E06
+notedv PITCH_BF3, 0x60, 100
+rjump layer_E06
+
+.channel chan_E0B
+noshort
+rvrbidx 1
+ldfilter filter_1030
+filter 0
+.channel chan_E13
+delay1
+ldio 1
+sub 1
+rbeqz chan_E1B
+rjump chan_E13
+.channel chan_E1B
+vol 95
+volexp 127
+panweight 0
+reverb 24
+.channel chan_E23
+ldlayer 0, layer_EAD
+ldlayer 1, layer_EA7
+ldi 1
+stio 7
+.channel chan_E2C
+delay1
+ldio 0
+stio 2
+rbeqz chan_E5C
+ldio 1
+sub 0
+rbeqz chan_E58
+ldio 7
+sub 1
+stio 7
+rbeqz chan_E3E
+rjump chan_E2C
+.channel chan_E3E
+rand 90
+stseq 10, layer_EBC+1
+stseq 10, layer_EBF+1
+rand 40
+stseq 68, layer_EB8+3
+stseq 68, layer_EBF
+stio 6
+ldi 50
+stio 7
+rjump chan_E2C
+.channel chan_E58
+dellayer 0
+dellayer 1
+rjump chan_E13
+.channel chan_E5C
+vol 115
+ldio 5
+bgez chan_E64
+ldi 0
+.channel chan_E64
+and 63
+stio 5
+ldi 63
+subio 5
+sub 208
+stseq 0, chan_E72+1
+rand 16
+.channel chan_E72
+stseq 100, layer_ECF+3
+ldi 63
+subio 5
+ldseq addr_FBA
+ldseq addr_F7A
+stio 4
+stseq 103, chan_E87+1
+rand 2
+stio 3
+.channel chan_E87
+stseq 103, layer_ECF
+rand 30
+stseq 49, layer_ECB+1
+stio 6
+ldlayer 0, layer_EC7
+ldlayer 1, layer_EC5
+.channel chan_E98
+delay1
+ldio 0
+rbeqz chan_E5C
+ldio 1
+sub 0
+rbeqz chan_E58
+testlayer 0
+rbeqz chan_E98
+jump chan_E23
+
+.layer layer_EA7
+transpose -12
+.layer layer_EA9
+stereo 20
+rjump layer_EAD
+
+.layer layer_EAD
+instr FONT02_INSTR_THUNDER_RUMBLE
+envelope envelope_101E, 97
+.layer layer_EB3
+portamento 0x85, 27, 255
+legato
+.layer layer_EB8
+notedv PITCH_A2, 0x1C2, 110
+.layer layer_EBC
+notedv PITCH_A2, 0x64, 110
+.layer layer_EBF
+ldelay 0x60
+nolegato
+noportamento
+rjump layer_EB3
+
+.layer layer_EC5
+transpose -12
+
+.layer layer_EC7
+instr FONT02_INSTR_THUNDER_PEAL
+releaserate 97
+.layer layer_ECB
+notepan 64
+ldelay 0x1
+.layer layer_ECF
+notedv PITCH_C4, 0xC8, 127
+.layer layer_ED3
+stereo 20
+notedv PITCH_A1, 0x28, 80
+stereo 0
+end
+
+.channel chan_EDB
+ldio 7
+sub 2
+rbeqz chan_EE4
+ldi 0
+rjump chan_EE6
+.channel chan_EE4
+ldi 20
+.channel chan_EE6
+stseq 0, addr_EFB
+stseq 0, layer_DFF+1
+stseq 0, layer_EA9+1
+stseq 0, layer_ED3+1
+stseq 0, layer_362+1
+end
+
+.array addr_EFB
+byte 0x0
+
+.layer layer_fn_EFC
+ldelay 0x64
+.layer layer_EFE
+ldelay 0x7F
+.layer layer_F00
+stereo 0
+end
+
+.layer layer_fn_F03
+ldelay 0x64
+.layer layer_F05
+ldelay 0x7F
+.layer layer_F07
+stereo 0
+end
+
+.layer layer_fn_F0A
+ldelay 0x64
+.layer layer_F0C
+ldelay 0x7F
+.layer layer_F0E
+stereo 0
+end
+
+.layer layer_fn_F11
+ldelay 0x64
+.layer layer_F13
+ldelay 0x7F
+.layer layer_F15
+stereo 0
+end
+
+.layer layer_fn_F18
+ldelay 0x64
+.layer layer_F1A
+ldelay 0x7F
+.layer layer_F1C
+stereo 0
+end
+
+.layer layer_fn_F1F
+ldelay 0x64
+.layer layer_F21
+ldelay 0x7F
+.layer layer_F23
+stereo 0
+end
+
+.layer layer_fn_F26
+ldelay 0x64
+.layer layer_F28
+ldelay 0x7F
+.layer layer_F2A
+stereo 0
+end
+
+.layer layer_fn_F2D
+ldelay 0x64
+.layer layer_F2F
+ldelay 0x7F
+.layer layer_F31
+stereo 0
+end
+
+.layer layer_fn_F34
+ldelay 0x64
+.layer layer_F36
+ldelay 0x7F
+.layer layer_F38
+stereo 0
+end
+
+.layer layer_fn_F3B
+ldelay 0x64
+.layer layer_F3D
+ldelay 0x7F
+.layer layer_F3F
+stereo 0
+end
+
+.layer layer_fn_F42
+ldelay 0x64
+.layer layer_F44
+ldelay 0x7F
+.layer layer_F46
+stereo 0
+end
+
+.layer layer_fn_F49
+ldelay 0x64
+.layer layer_F4B
+ldelay 0x7F
+.layer layer_F4D
+stereo 0
+end
+
+.layer layer_fn_F50
+ldelay 0x64
+.layer layer_F52
+ldelay 0x7F
+.layer layer_F54
+stereo 0
+end
+
+.layer layer_fn_F57
+ldelay 0x64
+.layer layer_F59
+ldelay 0x7F
+.layer layer_F5B
+stereo 0
+end
+
+.layer layer_fn_F5E
+ldelay 0x64
+.layer layer_F60
+ldelay 0x7F
+.layer layer_F62
+stereo 0
+end
+
+.layer layer_fn_F65
+ldelay 0x64
+.layer layer_F67
+ldelay 0x7F
+.layer layer_F69
+stereo 0
+end
+
+.layer layer_fn_F6C
+ldelay 0x64
+.layer layer_F6E
+ldelay 0x7F
+.layer layer_F70
+stereo 0
+end
+
+.layer layer_fn_F73
+ldelay 0x64
+.layer layer_F75
+ldelay 0x7F
+.layer layer_F77
+stereo 0
+end
+
+.array addr_F7A
+byte 0x0
+byte 0x0
+byte 0x1
+byte 0x1
+byte 0x2
+byte 0x2
+byte 0x3
+byte 0x3
+byte 0x4
+byte 0x4
+byte 0x5
+byte 0x5
+byte 0x6
+byte 0x6
+byte 0x7
+byte 0x7
+byte 0x8
+byte 0x8
+byte 0x9
+byte 0x9
+byte 0xA
+byte 0xA
+byte 0xB
+byte 0xB
+byte 0xC
+byte 0xC
+byte 0xD
+byte 0xD
+byte 0xE
+byte 0xE
+byte 0xF
+byte 0xF
+byte 0x10
+byte 0x10
+byte 0x11
+byte 0x11
+byte 0x12
+byte 0x12
+byte 0x13
+byte 0x13
+byte 0x14
+byte 0x14
+byte 0x15
+byte 0x15
+byte 0x16
+byte 0x16
+byte 0x17
+byte 0x17
+byte 0x18
+byte 0x18
+byte 0x19
+byte 0x19
+byte 0x1A
+byte 0x1A
+byte 0x1B
+byte 0x1B
+byte 0x1C
+byte 0x1C
+byte 0x1D
+byte 0x1D
+byte 0x1E
+byte 0x1E
+byte 0x1F
+byte 0x1F
+
+.array addr_FBA
+byte 0x0
+byte 0x0
+byte 0x0
+byte 0x0
+byte 0x1
+byte 0x1
+byte 0x1
+byte 0x1
+byte 0x2
+byte 0x2
+byte 0x2
+byte 0x2
+byte 0x3
+byte 0x3
+byte 0x3
+byte 0x3
+byte 0x4
+byte 0x4
+byte 0x4
+byte 0x4
+byte 0x5
+byte 0x5
+byte 0x5
+byte 0x5
+byte 0x6
+byte 0x6
+byte 0x6
+byte 0x6
+byte 0x7
+byte 0x7
+byte 0x7
+byte 0x7
+byte 0x8
+byte 0x8
+byte 0x8
+byte 0x8
+byte 0x9
+byte 0x9
+byte 0x9
+byte 0x9
+byte 0xA
+byte 0xA
+byte 0xA
+byte 0xA
+byte 0xB
+byte 0xB
+byte 0xB
+byte 0xB
+byte 0xC
+byte 0xC
+byte 0xC
+byte 0xC
+byte 0xD
+byte 0xD
+byte 0xD
+byte 0xD
+byte 0xE
+byte 0xE
+byte 0xE
+byte 0xE
+byte 0xF
+byte 0xF
+byte 0xF
+byte 0xF
+
+.envelope envelope_FFA
+point 270, 32700
+.envelope envelope_FFE
+point 125, 32700
+goto 1
+
+.envelope envelope_1006
+point 25, 32700
+point 310, 5000
+hang
+
+.envelope envelope_1012
+point 2000, 32700
+point 32700, 32700
+hang
+
+.envelope envelope_101E
+point 100, 32700
+point 2000, 10000
+hang
+
+.filter filter_1030
+filter 0, 0, 0, 0, 0, 0, 0, 0

@@ -1,0 +1,20 @@
+<Root>
+    <Soundfont Name="27_Gerudo_Valley" Index="27">
+        <Instruments>
+            <Instrument Name="Trumpet" Enum="TRUMPET"/>
+            <Instrument Name="Trombone" Enum="TROMBONE"/>
+            <Instrument Name="Guitar 1" Enum="GUITAR_0"/>
+            <Instrument Name="Guitar 2" Enum="GUITAR_1"/>
+            <Instrument/>
+            <Instrument Name="Bass Guitar" Enum="BASS_GUITAR"/>
+            <Instrument/>
+            <Instrument Name="Guitar 3" Enum="GUITAR_2"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Clap 1" Enum="CLAP_0"/>
+            <Instrument Name="Clap 2" Enum="CLAP_1"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

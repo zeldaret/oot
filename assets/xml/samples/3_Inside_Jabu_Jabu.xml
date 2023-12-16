@@ -1,0 +1,17 @@
+<Root>
+    <Sample Name="Low_Rumbling">
+        <Offset Version="MQDebug" At="0"/>
+    </Sample>
+    <Sample Name="Drum_Sidestick">
+        <Offset Version="MQDebug" At="0xA590"/>
+    </Sample>
+    <Sample Name="Low_Drum">
+        <Offset Version="MQDebug" At="0x8BC0"/>
+    </Sample>
+    <Sample Name="Sweep_Pad">
+        <Offset Version="MQDebug" At="0xB3B0"/>
+    </Sample>
+    <Sample Name="Organic_Gurgling">
+        <Offset Version="MQDebug" At="0x16480"/>
+    </Sample>
+</Root>

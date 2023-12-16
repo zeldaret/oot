@@ -1,0 +1,86 @@
+<Root>
+    <Soundfont Name="05_Market" Index="5">
+        <Instruments>
+            <Instrument Name="Koto" Enum="KOTO"/>
+            <Instrument Name="Ocarina" Enum="OCARINA"/>
+            <Instrument Name="Bassoon" Enum="BASSOON"/>
+            <Instrument Name="Oboe" Enum="OBOE"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Pizzicato Strings" Enum="PIZZICATO"/>
+        </Instruments>
+        <Drums>
+            <Drum Name="Tom Drum 1" Enum="TOM_01"/>
+            <Drum Name="Tom Drum 2" Enum="TOM_02"/>
+            <Drum Name="Tom Drum 3" Enum="TOM_03"/>
+            <Drum Name="Tom Drum 4" Enum="TOM_04"/>
+            <Drum Name="Tom Drum 5" Enum="TOM_05"/>
+            <Drum Name="Tom Drum 6" Enum="TOM_06"/>
+            <Drum Name="Tom Drum 7" Enum="TOM_07"/>
+            <Drum Name="Tom Drum 8" Enum="TOM_08"/>
+            <Drum Name="Tom Drum 9" Enum="TOM_09"/>
+            <Drum Name="Tom Drum 10" Enum="TOM_10"/>
+            <Drum Name="Tom Drum 11" Enum="TOM_11"/>
+            <Drum Name="Tom Drum 12" Enum="TOM_12"/>
+            <Drum Name="Tom Drum 13" Enum="TOM_13"/>
+            <Drum Name="Tom Drum 14" Enum="TOM_14"/>
+            <Drum Name="Tom Drum 15" Enum="TOM_15"/>
+            <Drum Name="Tom Drum 16" Enum="TOM_16"/>
+            <Drum Name="Tom Drum 17" Enum="TOM_17"/>
+            <Drum Name="Tom Drum 18" Enum="TOM_18"/>
+            <Drum Name="Tom Drum 19" Enum="TOM_19"/>
+            <Drum Name="Tom Drum 20" Enum="TOM_20"/>
+            <Drum Name="Tom Drum 21" Enum="TOM_21"/>
+            <Drum Name="Tom Drum 22" Enum="TOM_22"/>
+            <Drum Name="Tom Drum 23" Enum="TOM_23"/>
+            <Drum Name="Tom Drum 24" Enum="TOM_24"/>
+            <Drum Name="Tom Drum 25" Enum="TOM_25"/>
+            <Drum Name="Tom Drum 26" Enum="TOM_26"/>
+            <Drum Name="Tom Drum 27" Enum="TOM_27"/>
+            <Drum Name="Sidestick 1" Enum="SIDESTICK_1"/>
+            <Drum Name="Sidestick 2" Enum="SIDESTICK_2"/>
+            <Drum Name="Cymbal 1" Enum="CYMBAL_01"/>
+            <Drum Name="Cymbal 2" Enum="CYMBAL_02"/>
+            <Drum Name="Cymbal 3" Enum="CYMBAL_03"/>
+            <Drum Name="Cymbal 4" Enum="CYMBAL_04"/>
+            <Drum Name="Cymbal 5" Enum="CYMBAL_05"/>
+            <Drum Name="Cymbal 6" Enum="CYMBAL_06"/>
+            <Drum Name="Cymbal 7" Enum="CYMBAL_07"/>
+            <Drum Name="Cymbal 8" Enum="CYMBAL_08"/>
+            <Drum Name="Cymbal 9" Enum="CYMBAL_09"/>
+            <Drum Name="Cymbal 10" Enum="CYMBAL_10"/>
+            <Drum Name="Cymbal 11" Enum="CYMBAL_11"/>
+            <Drum Name="Cymbal 12" Enum="CYMBAL_12"/>
+            <Drum Name="Cymbal 13" Enum="CYMBAL_13"/>
+            <Drum Name="Cymbal 14" Enum="CYMBAL_14"/>
+            <Drum Name="Cymbal 15" Enum="CYMBAL_15"/>
+            <Drum Name="Cymbal 16" Enum="CYMBAL_16"/>
+            <Drum Name="Cymbal 17" Enum="CYMBAL_17"/>
+            <Drum Name="Cymbal 18" Enum="CYMBAL_18"/>
+            <Drum Name="Cymbal 19" Enum="CYMBAL_19"/>
+            <Drum Name="Cymbal 20" Enum="CYMBAL_20"/>
+            <Drum Name="Cymbal 21" Enum="CYMBAL_21"/>
+            <Drum Name="Cymbal 22" Enum="CYMBAL_22"/>
+            <Drum Name="Cymbal 23" Enum="CYMBAL_23"/>
+            <Drum Name="Cymbal 24" Enum="CYMBAL_24"/>
+            <Drum Name="Cymbal 25" Enum="CYMBAL_25"/>
+            <Drum Name="Cymbal 26" Enum="CYMBAL_26"/>
+            <Drum Name="Cymbal 27" Enum="CYMBAL_27"/>
+            <Drum Name="Cymbal 28" Enum="CYMBAL_28"/>
+            <Drum Name="Cymbal 29" Enum="CYMBAL_29"/>
+            <Drum Name="Cymbal 30" Enum="CYMBAL_30"/>
+            <Drum Name="Cymbal 31" Enum="CYMBAL_31"/>
+            <Drum Name="Cymbal 32" Enum="CYMBAL_32"/>
+            <Drum Name="Cymbal 33" Enum="CYMBAL_33"/>
+            <Drum Name="Cymbal 34" Enum="CYMBAL_34"/>
+            <Drum Name="Cymbal 35" Enum="CYMBAL_35"/>
+        </Drums>
+        <Effects/>
+    </Soundfont>
+</Root>

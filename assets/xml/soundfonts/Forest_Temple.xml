@@ -1,0 +1,11 @@
+<Root>
+    <Soundfont Name="12_Forest_Temple" Index="12">
+        <Instruments>
+            <Instrument Name="Vocals" Enum="VOCAL_PAD"/>
+            <Instrument Name="Flute and Vocalization" Enum="FLUTE_VOICE"/>
+            <Instrument Name="Wooden Chimes" Enum="WOOD"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

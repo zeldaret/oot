@@ -1,0 +1,17 @@
+<Root>
+    <Soundfont Name="24_Shadow_Temple" Index="24">
+        <Instruments>
+            <Instrument Name="Melodic Drum" Enum="DRUM"/>
+            <Instrument Name="Ghostly Wind" Enum="WIND"/>
+            <Instrument Name="Echoing Sounds" Enum="ECHOES"/>
+            <Instrument Name="Vocals 1" Enum="VOCALS_0"/>
+            <Instrument Name="Vocals 2" Enum="VOCALS_1"/>
+            <Instrument/>
+            <Instrument Name="Islamic Chant" Enum="CHANTING"/>
+            <Instrument Name="Rattling Scream" Enum="SCREAM"/>
+            <Instrument Name="Harpsichord" Enum="HARPSICHORD"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

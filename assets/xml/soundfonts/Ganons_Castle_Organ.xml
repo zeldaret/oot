@@ -1,0 +1,13 @@
+<Root>
+    <Soundfont Name="30_Ganons_Castle_Organ" Index="30">
+        <Instruments>
+            <Instrument Name="Organ 1" Enum="ORGAN_0"/>
+            <Instrument Name="Organ 2" Enum="ORGAN_1"/>
+            <Instrument Name="Organ 3" Enum="ORGAN_2"/>
+            <Instrument/>
+            <Instrument Name="Horn" Enum="HORN"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

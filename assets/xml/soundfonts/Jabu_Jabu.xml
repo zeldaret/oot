@@ -1,0 +1,78 @@
+<Root>
+    <Soundfont Name="07_Jabu_Jabu" Index="7">
+        <Instruments>
+            <Instrument Name="Rumbling Insides" Enum="RUMBLE"/>
+            <Instrument/>
+            <Instrument Name="Sweep Pad" Enum="SWEEP"/>
+            <Instrument Name="Gurgling 1" Enum="GURGLE_1"/>
+            <Instrument Name="Gurgling 2" Enum="GURGLE_2"/>
+        </Instruments>
+        <Drums>
+            <Drum Name="Low Drum 1" Enum="LOW_01"/>
+            <Drum Name="Low Drum 2" Enum="LOW_02"/>
+            <Drum Name="Low Drum 3" Enum="LOW_03"/>
+            <Drum Name="Low Drum 4" Enum="LOW_04"/>
+            <Drum Name="Low Drum 5" Enum="LOW_05"/>
+            <Drum Name="Low Drum 6" Enum="LOW_06"/>
+            <Drum Name="Low Drum 7" Enum="LOW_07"/>
+            <Drum Name="Low Drum 8" Enum="LOW_08"/>
+            <Drum Name="Low Drum 9" Enum="LOW_09"/>
+            <Drum Name="Low Drum 10" Enum="LOW_10"/>
+            <Drum Name="Low Drum 11" Enum="LOW_11"/>
+            <Drum Name="Low Drum 12" Enum="LOW_12"/>
+            <Drum Name="Low Drum 13" Enum="LOW_13"/>
+            <Drum Name="Low Drum 14" Enum="LOW_14"/>
+            <Drum Name="Low Drum 15" Enum="LOW_15"/>
+            <Drum Name="Low Drum 16" Enum="LOW_16"/>
+            <Drum Name="Low Drum 17" Enum="LOW_17"/>
+            <Drum Name="Sidestick 1" Enum="SIDESTICK_00"/>
+            <Drum Name="Sidestick 2" Enum="SIDESTICK_01"/>
+            <Drum Name="Sidestick 3" Enum="SIDESTICK_02"/>
+            <Drum Name="Sidestick 4" Enum="SIDESTICK_03"/>
+            <Drum Name="Sidestick 5" Enum="SIDESTICK_04"/>
+            <Drum Name="Sidestick 6" Enum="SIDESTICK_05"/>
+            <Drum Name="Sidestick 7" Enum="SIDESTICK_06"/>
+            <Drum Name="Sidestick 8" Enum="SIDESTICK_07"/>
+            <Drum Name="Sidestick 9" Enum="SIDESTICK_08"/>
+            <Drum Name="Sidestick 10" Enum="SIDESTICK_09"/>
+            <Drum Name="Sidestick 11" Enum="SIDESTICK_10"/>
+            <Drum Name="Sidestick 12" Enum="SIDESTICK_11"/>
+            <Drum Name="Sidestick 13" Enum="SIDESTICK_12"/>
+            <Drum Name="Sidestick 14" Enum="SIDESTICK_13"/>
+            <Drum Name="Sidestick 15" Enum="SIDESTICK_14"/>
+            <Drum Name="Sidestick 16" Enum="SIDESTICK_15"/>
+            <Drum Name="Sidestick 17" Enum="SIDESTICK_16"/>
+            <Drum Name="Sidestick 18" Enum="SIDESTICK_17"/>
+            <Drum Name="Sidestick 19" Enum="SIDESTICK_18"/>
+            <Drum Name="Sidestick 20" Enum="SIDESTICK_19"/>
+            <Drum Name="Sidestick 21" Enum="SIDESTICK_20"/>
+            <Drum Name="Sidestick 22" Enum="SIDESTICK_21"/>
+            <Drum Name="Sidestick 23" Enum="SIDESTICK_22"/>
+            <Drum Name="Sidestick 24" Enum="SIDESTICK_23"/>
+            <Drum Name="Sidestick 25" Enum="SIDESTICK_24"/>
+            <Drum Name="Sidestick 26" Enum="SIDESTICK_25"/>
+            <Drum Name="Sidestick 27" Enum="SIDESTICK_26"/>
+            <Drum Name="Sidestick 28" Enum="SIDESTICK_27"/>
+            <Drum Name="Sidestick 29" Enum="SIDESTICK_28"/>
+            <Drum Name="Sidestick 30" Enum="SIDESTICK_29"/>
+            <Drum Name="Sidestick 31" Enum="SIDESTICK_30"/>
+            <Drum Name="Sidestick 32" Enum="SIDESTICK_31"/>
+            <Drum Name="Sidestick 33" Enum="SIDESTICK_32"/>
+            <Drum Name="Sidestick 34" Enum="SIDESTICK_33"/>
+            <Drum Name="Sidestick 35" Enum="SIDESTICK_34"/>
+            <Drum Name="Sidestick 36" Enum="SIDESTICK_35"/>
+            <Drum Name="Sidestick 37" Enum="SIDESTICK_36"/>
+            <Drum Name="Sidestick 38" Enum="SIDESTICK_37"/>
+            <Drum Name="Sidestick 39" Enum="SIDESTICK_38"/>
+            <Drum Name="Sidestick 40" Enum="SIDESTICK_39"/>
+            <Drum Name="Sidestick 41" Enum="SIDESTICK_40"/>
+            <Drum Name="Sidestick 42" Enum="SIDESTICK_41"/>
+            <Drum Name="Sidestick 43" Enum="SIDESTICK_42"/>
+            <Drum Name="Sidestick 44" Enum="SIDESTICK_43"/>
+            <Drum Name="Sidestick 45" Enum="SIDESTICK_44"/>
+            <Drum Name="Sidestick 46" Enum="SIDESTICK_45"/>
+            <Drum Name="Sidestick 47" Enum="SIDESTICK_46"/>
+        </Drums>
+        <Effects/>
+    </Soundfont>
+</Root>

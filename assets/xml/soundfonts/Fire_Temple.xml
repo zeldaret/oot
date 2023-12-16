@@ -1,0 +1,87 @@
+<Root>
+    <Soundfont Name="10_Fire_Temple" Index="10">
+        <Instruments>
+            <Instrument Name="Islamic Chant 1" Enum="CHANT_0"/>
+            <Instrument Name="Islamic Chant 2" Enum="CHANT_1"/>
+            <Instrument Name="Islamic Chant 3" Enum="CHANT_2"/>
+            <Instrument Name="Bass Marimba" Enum="MARIMBA"/>
+            <Instrument/>
+            <Instrument Name="Haunting Wind" Enum="WIND"/>
+            <Instrument Name="Hi Hat" Enum="HI_HAT"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Vocal Oohs and Eees 1" Enum="VOICE_0"/>
+            <Instrument Name="Vocal Oohs and Eees 2" Enum="VOICE_1"/>
+            <Instrument Name="Resonant Voices 1" Enum="VOICE_2"/>
+            <Instrument Name="Resonant Voices 2" Enum="VOICE_3"/>
+        </Instruments>
+        <Drums>
+            <Drum Name="Drum and Sitar 1" Enum="DRUM_STRING_0"/>
+            <Drum Name="Drum and Sitar 2" Enum="DRUM_STRING_1"/>
+            <Drum Name="Drum and Sitar 3" Enum="DRUM_STRING_2"/>
+            <Drum Name="Drum and Sitar 4" Enum="DRUM_STRING_3"/>
+            <Drum Name="Drum and Sitar 5" Enum="DRUM_STRING_4"/>
+            <Drum Name="Drum and Sitar 6" Enum="DRUM_STRING_5"/>
+            <Drum Name="Drum and Sitar 7" Enum="DRUM_STRING_6"/>
+            <Drum Name="Drum and Sitar 8" Enum="DRUM_STRING_7"/>
+            <Drum Name="Drum and Sitar 9" Enum="DRUM_STRING_8"/>
+            <Drum Name="Drum and Sitar 10" Enum="DRUM_STRING_9"/>
+            <Drum Name="Drum and Sitar 11" Enum="DRUM_STRING_10"/>
+            <Drum Name="Drum and Sitar 12" Enum="DRUM_STRING_11"/>
+            <Drum Name="Drum and Sitar 13" Enum="DRUM_STRING_12"/>
+            <Drum Name="Drum and Sitar 14" Enum="DRUM_STRING_13"/>
+            <Drum Name="Drum and Sitar 15" Enum="DRUM_STRING_14"/>
+            <Drum Name="Drum and Sitar 16" Enum="DRUM_STRING_15"/>
+            <Drum Name="Drum and Sitar 17" Enum="DRUM_STRING_16"/>
+            <Drum Name="Unknown Drum 1" Enum="UNKNOWN_00"/>
+            <Drum Name="Unknown Drum 2" Enum="UNKNOWN_01"/>
+            <Drum Name="Unknown Drum 3" Enum="UNKNOWN_02"/>
+            <Drum Name="Unknown Drum 4" Enum="UNKNOWN_03"/>
+            <Drum Name="Unknown Drum 5" Enum="UNKNOWN_04"/>
+            <Drum Name="Unknown Drum 6" Enum="UNKNOWN_05"/>
+            <Drum Name="Unknown Drum 7" Enum="UNKNOWN_06"/>
+            <Drum Name="Unknown Drum 8" Enum="UNKNOWN_07"/>
+            <Drum Name="Unknown Drum 9" Enum="UNKNOWN_08"/>
+            <Drum Name="Unknown Drum 10" Enum="UNKNOWN_09"/>
+            <Drum Name="Unknown Drum 11" Enum="UNKNOWN_10"/>
+            <Drum Name="Unknown Drum 12" Enum="UNKNOWN_11"/>
+            <Drum Name="Unknown Drum 13" Enum="UNKNOWN_12"/>
+            <Drum Name="Unknown Drum 14" Enum="UNKNOWN_13"/>
+            <Drum Name="Unknown Drum 15" Enum="UNKNOWN_14"/>
+            <Drum Name="Unknown Drum 16" Enum="UNKNOWN_15"/>
+            <Drum Name="Unknown Drum 17" Enum="UNKNOWN_16"/>
+            <Drum Name="Unknown Drum 18" Enum="UNKNOWN_17"/>
+            <Drum Name="Unknown Drum 19" Enum="UNKNOWN_18"/>
+            <Drum Name="Unknown Drum 20" Enum="UNKNOWN_19"/>
+            <Drum Name="Unknown Drum 21" Enum="UNKNOWN_20"/>
+            <Drum Name="Unknown Drum 22" Enum="UNKNOWN_21"/>
+            <Drum Name="Unknown Drum 23" Enum="UNKNOWN_22"/>
+            <Drum Name="Unknown Drum 24" Enum="UNKNOWN_23"/>
+            <Drum Name="Unknown Drum 25" Enum="UNKNOWN_24"/>
+            <Drum Name="Unknown Drum 26" Enum="UNKNOWN_25"/>
+            <Drum Name="Unknown Drum 27" Enum="UNKNOWN_26"/>
+            <Drum Name="Unknown Drum 28" Enum="UNKNOWN_27"/>
+            <Drum Name="Unknown Drum 29" Enum="UNKNOWN_28"/>
+            <Drum Name="Unknown Drum 30" Enum="UNKNOWN_29"/>
+            <Drum Name="Unknown Drum 31" Enum="UNKNOWN_30"/>
+            <Drum Name="Unknown Drum 32" Enum="UNKNOWN_31"/>
+            <Drum Name="Unknown Drum 33" Enum="UNKNOWN_32"/>
+            <Drum Name="Unknown Drum 34" Enum="UNKNOWN_33"/>
+            <Drum Name="Unknown Drum 35" Enum="UNKNOWN_34"/>
+            <Drum Name="Unknown Drum 36" Enum="UNKNOWN_35"/>
+            <Drum Name="Unknown Drum 37" Enum="UNKNOWN_36"/>
+            <Drum Name="Unknown Drum 38" Enum="UNKNOWN_37"/>
+            <Drum Name="Unknown Drum 39" Enum="UNKNOWN_38"/>
+            <Drum Name="Unknown Drum 40" Enum="UNKNOWN_39"/>
+            <Drum Name="Unknown Drum 41" Enum="UNKNOWN_40"/>
+            <Drum Name="Unknown Drum 42" Enum="UNKNOWN_41"/>
+            <Drum Name="Unknown Drum 43" Enum="UNKNOWN_42"/>
+            <Drum Name="Unknown Drum 44" Enum="UNKNOWN_43"/>
+            <Drum Name="Unknown Drum 45" Enum="UNKNOWN_44"/>
+            <Drum Name="Unknown Drum 46" Enum="UNKNOWN_45"/>
+            <Drum Name="Unknown Drum 47" Enum="UNKNOWN_46"/>
+        </Drums>
+        <Effects/>
+    </Soundfont>
+</Root>

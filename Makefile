@@ -109,6 +109,7 @@ MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
+SEQ_ASM    := tools/audio/assemble_sequence
 
 ifeq ($(COMPILER),gcc)
   OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
@@ -158,7 +159,8 @@ else
 SRC_DIRS := $(shell find src -type d)
 endif
 
-ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
+ASSET_BIN_DIRS := $(shell find assets/code/* assets/misc/* assets/objects/* assets/overlays/* assets/scenes/* assets/textures/* assets/samplebanks -type d)
+SAMPLES_DIR     := $(shell find assets/samples/* -type d)
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
@@ -168,11 +170,18 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
 # source files
+SEQ_FILES     := $(foreach dir,$(SRC_DIRS) assets/sequences,$(wildcard $(dir)/*.seq))
+FONT_FILES    := $(foreach dir,assets/soundfonts,$(wildcard $(dir)/*.xml))
+AIFC_FILES    := $(foreach dir,$(SAMPLES_DIR),$(wildcard $(dir)/*.aifc))
+INC_FILES     := $(foreach f,$(SEQ_FILES:.seq=.inc),build/include/$f)
+SEQ_OUT       := $(foreach f,$(SEQ_FILES:.seq=.o),build/$f)
 C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
-                 $(foreach f,$(wildcard baserom/*),build/$f.o)
+                 $(foreach f,$(FONT_FILES:.xml=.o),build/$f) \
+                 $(foreach f,$(wildcard baserom/*),build/$f.o) \
+                 build/assets/misc/sounds/sounds.o
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
 
@@ -187,6 +196,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
 
 # create build directories
+$(shell mkdir -p build/baserom build/assets/text build/assets/data assets/sequences assets/soundfonts assets/samples)
 $(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 ifeq ($(COMPILER),ido)
@@ -255,6 +265,9 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
+	$(RM) -r assets/soundfonts
+	$(RM) $(shell find assets/sequences/*.seq -not -path "*.prg.seq")
+	$(RM) -r assets/samples/
 	$(RM) -r assets/text/*.h
 	$(RM) -r build/assets
 	$(RM) -r .extracted-assets.json
@@ -268,6 +281,10 @@ setup:
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py -j$(N_THREADS)
+	python3 tools/audio/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/samples assets/soundfonts build/include
+	python3 tools/audio/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
+	python3 tools/audio/assemble_sequences.py assets/sequences build/include build
+	python3 tools/audio/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match=ocarina -q
 
 run: $(ROM)
 ifeq ($(EMULATOR),)
@@ -283,7 +300,7 @@ endif
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(SEQ_OUT) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 ## Order-only prerequisites
@@ -368,6 +385,22 @@ build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 build/src/overlays/%_reloc.o: build/$(SPEC)
 	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+
+build/%.o: %.seq
+	$(SEQ_ASM) $< $@ --font-path build/include
+
+build/assets/sequences/%.o: build/assets/sequences/%.c
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+
+build/assets/misc/sounds/sounds.o: data/sounds.c assets/misc/sounds/*.h
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+
+build/src/code/audio_init_params.o: src/code/audio_init_params.c assets/misc/sounds/*.h
+
+build/include/%.inc: $(FONT_FILES)
+	python3 tools/audio/assemble_font_includes.py assets/soundfonts build/include
 
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@

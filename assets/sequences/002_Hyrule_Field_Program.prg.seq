@@ -1,0 +1,234 @@
+.desc title "Hyrule Field Program"
+.desc type "program"
+.usefont SOUNDFONT_ORCHESTRA
+
+.sequence sequence_start
+
+# io slot 0 = temp, for communicating with loaded seqs. Initially time of day, with 1 = morning
+# io slot 1 = temp, for seq loading
+# io slot 2 = new external state (input from the game)
+# io slot 3 = current external state (0, 1 or 2)
+# io slot 4 = current internal state (0, 1 or 2, same as slot 3)
+# io slot 5 = last random index
+# io slot 6 = which sequence buffer to load into next (either 0 or 1)
+
+mutebhv 0x20
+mutescale 70
+initchan 0xFFFF
+ldi 0
+stio 3  # set current external state = 0 (moving)
+stio 6  # set buffer index = 0
+ldi 255
+stio 5  # set last random index = -1
+
+# Play intro sequence (either morning version or default)
+ldio 0
+sub 1
+rbeqz morning
+ldi 3  # "Initial Segment From Loading Area"
+call playseq
+rjump state_moving
+.sequence morning
+ldi 49  # "Hyrule Field Morning Theme"
+call playseq
+
+.sequence state_moving
+ldi 0
+stio 4  # set internal state = 0
+ldio 2
+rbltz playrandom_moving  # if new state = -1, goto moving
+subio 3
+rbeqz playrandom_moving  # if external state is unchanged, goto moving
+ldio 2
+stio 3  # set external state = new state
+sub 1
+rbeqz state_enemy_intro  # if new state = 1, goto enemy
+ldio 2
+sub 2
+rbeqz state_still_intro  # if new state = 2, goto still
+
+# Play a random sequence from among 4..14, but not the same as last time.
+# (If the same sequence is chosen as last time, choose the one just before it instead.)
+.sequence playrandom_moving
+rand 11
+subio 5
+rbeqz same_moving
+rand 11  # same audio frame, so reads the same random value as before
+rjump play_moving
+.sequence same_moving
+rand 11
+rbeqz iszero_moving
+sub 1
+rjump play_moving
+.sequence iszero_moving
+ldi 11
+sub 1
+.sequence play_moving
+stio 5
+sub 252  # += 4
+call playseq
+rjump state_moving
+
+.sequence state_enemy_intro
+ldi 1
+stio 4  # set internal state = 1
+ldi 255
+stio 5  # set last random index = -1
+ldi 15  # "Enemy Approaches"
+call playseq
+
+.sequence state_enemy
+ldio 2
+rbltz playrandom_enemy  # if new state = -1, goto enemy
+subio 3
+rbeqz playrandom_enemy  # if external state is unchanged, goto enemy
+ldio 2
+stio 3  # set external state = new state
+rbeqz state_moving  # if new state = 0, goto moving
+sub 2
+rbeqz state_still_intro  # if new state = 2, goto still
+
+# Play a random sequence from among 16..19, but not the same as last time.
+.sequence playrandom_enemy
+rand 4
+subio 5
+rbeqz same_enemy
+rand 4
+rjump play_enemy
+.sequence same_enemy
+rand 4
+rbeqz iszero_enemy
+sub 1
+rjump play_enemy
+.sequence iszero_enemy
+ldi 4
+sub 1
+.sequence play_enemy
+stio 5
+sub 240  # += 16
+call playseq
+rjump state_enemy
+
+.sequence state_still_intro
+ldi 2
+stio 4  # set internal state = 2
+ldi 255
+stio 5  # set last random index = -1
+ldi 20  # "Standing Still Segment 1"
+call playseq
+
+.sequence state_still
+ldio 2
+rbltz playrandom_still  # if new state = -1, goto still
+subio 3
+rbeqz playrandom_still  # if external state is unchanged, goto still
+ldio 2
+stio 3
+rbeqz state_moving  # if new state = 0, goto moving
+sub 1
+rbeqz state_enemy_intro  # if new state = 1, goto enemy
+
+# Play a random sequence from among 21..23, but not the same as last time.
+.sequence playrandom_still
+rand 3
+subio 5
+rbeqz same_still
+rand 3
+rjump play_still
+.sequence same_still
+rand 3
+rbeqz iszero_still
+sub 1
+rjump play_still
+.sequence iszero_still
+ldi 3
+sub 1
+.sequence play_still
+stio 5
+sub 235  # += 21
+call playseq
+rjump state_still
+
+.table loadseq_fns
+entry loadseq1
+entry loadseq2
+
+.table playseq_fns
+entry seqbuf1
+entry seqbuf2
+
+# Play the sequence given by the temp register
+.sequence playseq
+stio 7
+
+# Write 0 to port 0 to tell the top-level sequence script that we load to
+# return 30 ticks early, so we have time to load the next sequence.
+# Sound will continue playing during those 30 ticks.
+ldi 0
+stio 0
+
+# Load the chosen sequence into the free buffer. This may take a few ticks.
+ldio 6
+dyncall loadseq_fns
+
+# Wait for previous sequence to finish playing.
+.sequence playseq_retry
+delay1
+testchan 0
+rbeqz playseq_retry
+testchan 6
+rbeqz playseq_retry
+testchan 9
+rbeqz playseq_retry
+testchan 10
+rbeqz playseq_retry
+testchan 12
+rbeqz playseq_retry
+testchan 14
+rbeqz playseq_retry
+ldio 6
+dyncall playseq_fns
+ldi 1
+subio 6
+stio 6  # set buffer index = 1 - buffer index
+end
+
+# Synchronously load the sequence specified by io slot 7 at .seqbuf1
+.sequence loadseq1
+ldio 7
+stseq 0, loadseq1instr+1
+ldi 255
+stio 1
+.sequence loadseq1instr
+ldseq 1, 2, seqbuf1
+rjump loadseq_loop
+
+# Synchronously load the sequence specified by io slot 7 at .seqbuf2
+.sequence loadseq2
+ldio 7
+stseq 0, loadseq2instr+1
+ldi 255
+stio 1
+.sequence loadseq2instr
+ldseq 1, 2, seqbuf2
+
+# Wait for the sequence to load. This will be signalled by a write to io port 1,
+# as specified by the ldseq call.
+.sequence loadseq_loop
+delay1
+ldio 1
+rbeqz loadseq_done
+rbltz loadseq_loop
+end
+.sequence loadseq_done
+end
+
+.buffer seqbuf1
+space 4600
+
+# The alignment of this buffer is off by 8 bytes.  In practice this ends up
+# working anyway, as it DMAs 8 bytes into the buffer and the first 8 bytes are
+# interpreted as "testchan 0", which has no effect.
+.balign 8
+.buffer seqbuf2
+space 4600

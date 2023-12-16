@@ -1,0 +1,13 @@
+<Root>
+    <Soundfont Name="14_Goron_City" Index="14">
+        <Instruments>
+            <Instrument Name="Goron Drum" Enum="DRUM"/>
+            <Instrument Name="Voice and Slap" Enum="OOH_0"/>
+            <Instrument Name="Voice and Tom" Enum="OOH_1"/>
+            <Instrument Name="Marimba 1" Enum="MARIMBA_0"/>
+            <Instrument Name="Marimba 2" Enum="MARIMBA_1"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

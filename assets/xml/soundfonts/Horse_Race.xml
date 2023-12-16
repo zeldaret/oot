@@ -1,0 +1,23 @@
+<Root>
+    <Soundfont Name="17_Horse_Race" Index="17">
+        <Instruments>
+            <Instrument Name="Banjo 1" Enum="BANJO_0"/>
+            <Instrument Name="Banjo 2" Enum="BANJO_1"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Bass Guitar" Enum="BASS"/>
+            <Instrument Name="Fiddle" Enum="FIDDLE"/>
+            <Instrument Name="Guitar" Enum="GUITAR"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Viola 1" Enum="VIOLA_0"/>
+            <Instrument Name="Viola 2" Enum="VIOLA_1"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

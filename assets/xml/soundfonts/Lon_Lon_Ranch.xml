@@ -1,0 +1,24 @@
+<Root>
+    <Soundfont Name="13_Lon_Lon_Ranch" Index="13">
+        <Instruments>
+            <Instrument Name="Malon Voice 1" Enum="MALON_0"/>
+            <Instrument Name="Malon Voice 2" Enum="MALON_1"/>
+            <Instrument Name="Guitar" Enum="GUITAR"/>
+            <Instrument Name="Falsetto Guitar 1" Enum="HI_GUITAR_0"/>
+            <Instrument Name="Falsetto Guitar 2" Enum="HI_GUITAR_1"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Strings 1" Enum="STRINGS_0"/>
+            <Instrument Name="Strings 2" Enum="STRINGS_1"/>
+            <Instrument Name="Viola 1" Enum="VIOLA_0"/>
+            <Instrument Name="Viola 2" Enum="VIOLA_1"/>
+            <Instrument Name="Church Bell" Enum="BELL"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

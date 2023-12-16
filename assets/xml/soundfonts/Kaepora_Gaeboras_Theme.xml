@@ -1,0 +1,23 @@
+<Root>
+    <Soundfont Name="36_Kaepora_Gaeboras_Theme" Index="36">
+        <Instruments>
+            <Instrument/>
+            <Instrument Name="Oboe" Enum="OBOE"/>
+            <Instrument/>
+            <Instrument Name="Bassoon" Enum="BASSOON"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Strings 1" Enum="STRINGS_0"/>
+            <Instrument Name="Strings 2" Enum="STRINGS_1"/>
+            <Instrument Name="Pizzicato Strings" Enum="PIZZICATO"/>
+            <Instrument/>
+            <Instrument Name="Harp" Enum="HARP"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

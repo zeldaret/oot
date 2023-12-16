@@ -1,0 +1,12 @@
+<Root>
+    <Soundfont Name="23_Ice_Cavern" Index="23">
+        <Instruments>
+            <Instrument Name="Crystal Synth 1" Enum="CRYSTAL_SYNTH_0"/>
+            <Instrument Name="Crystal Synth 2" Enum="CRYSTAL_SYNTH_1"/>
+            <Instrument Name="Haunting Wind" Enum="WIND"/>
+            <Instrument Name="Crystal Synth 3" Enum="CRYSTAL_SYNTH_2"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

@@ -1,0 +1,23 @@
+<Root>
+    <Sample Name="Warm_Synth_Pad">
+        <Offset Version="MQDebug" At="0"/>
+    </Sample>
+    <Sample Name="Egyptian_Flute">
+        <Offset Version="MQDebug" At="0xB0D0"/>
+    </Sample>
+    <Sample Name="Tom_Drum">
+        <Offset Version="MQDebug" At="0xE120"/>
+    </Sample>
+    <Sample Name="Vocal_Synth">
+        <Offset Version="MQDebug" At="0x103E0"/>
+    </Sample>
+    <Sample Name="Gong">
+        <Offset Version="MQDebug" At="0x12EB0"/>
+    </Sample>
+    <Sample Name="Bass_Slap">
+        <Offset Version="MQDebug" At="0x1D3E0"/>
+    </Sample>
+    <Sample Name="Windchimes">
+        <Offset Version="MQDebug" At="0x22EE0"/>
+    </Sample>
+</Root>

@@ -1,0 +1,16 @@
+<Root>
+    <Soundfont Name="25_Water_Temple" Index="25">
+        <Instruments>
+            <Instrument Name="Flute" Enum="FLUTE"/>
+            <Instrument Name="Gong and Chimes" Enum="CHIMES"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Crystal Synth" Enum="CRYSTAL"/>
+            <Instrument Name="Melodic Wood" Enum="WOOD"/>
+            <Instrument Name="Vocals" Enum="VOCALS"/>
+            <Instrument Name="Koto" Enum="KOTO"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

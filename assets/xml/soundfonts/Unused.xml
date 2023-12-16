@@ -1,0 +1,21 @@
+<Root>
+    <Soundfont Name="26_Unused" Index="26">
+        <Instruments>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Piano 1" Enum="PIANO_0"/>
+            <Instrument Name="Piano 2" Enum="PIANO_1"/>
+        </Instruments>
+    </Soundfont>
+</Root>

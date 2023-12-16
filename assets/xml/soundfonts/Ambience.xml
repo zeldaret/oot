@@ -1,0 +1,29 @@
+<Root>
+    <Soundfont Name="02_Ambient_Sounds" Index="2">
+        <Instruments>
+            <Instrument/>
+            <Instrument Name="Bird Chirp 1" Enum="BIRD_CHIRP_0"/>
+            <Instrument Name="Insect Chirps" Enum="INSECTS"/>
+            <Instrument Name="Bird Chirp 2" Enum="BIRD_CHIRP_1"/>
+            <Instrument Name="Crickets" Enum="CRICKETS"/>
+            <Instrument Name="Loud Chirping" Enum="BIRD_CHIRP_2"/>
+            <Instrument Name="Crow Caws" Enum="CROWS"/>
+            <Instrument Name="Bird Call" Enum="BIRD_CALL"/>
+            <Instrument Name="Bird Screech" Enum="BIRD_SCREECH"/>
+            <Instrument Name="Bird Song" Enum="BIRD_SONG"/>
+            <Instrument Name="Cucco Crows" Enum="CUCCO"/>
+            <Instrument Name="Owl Hoot" Enum="OWL"/>
+            <Instrument Name="Hawk Screech" Enum="HAWK"/>
+            <Instrument Name="Small Bird Chirps" Enum="BIRD_CHIRP_3"/>
+            <Instrument Name="Cawing Bird" Enum="BIRD_CAW"/>
+            <Instrument Name="Rushing Water" Enum="WATER"/>
+            <Instrument Name="Howling Wind" Enum="WIND_HOWL"/>
+            <Instrument Name="Screeching Wind" Enum="WIND_SCREECH"/>
+            <Instrument Name="Heavy Rain" Enum="RAIN"/>
+            <Instrument Name="Rumbling Thunder" Enum="THUNDER_RUMBLE"/>
+            <Instrument Name="Thunder Peal" Enum="THUNDER_PEAL"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

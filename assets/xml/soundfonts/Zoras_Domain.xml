@@ -1,0 +1,76 @@
+<Root>
+    <Soundfont Name="21_Zoras_Domain" Index="21">
+        <Instruments>
+            <Instrument Name="Steel Drum" Enum="STEEL_DRUM"/>
+            <Instrument Name="Vocals" Enum="VOCALS"/>
+            <Instrument Name="Guitar" Enum="GUITAR"/>
+        </Instruments>
+        <Drums>
+            <Drum Name="Drum 1-1" Enum="DRUM_1_00"/>
+            <Drum Name="Drum 1-2" Enum="DRUM_1_01"/>
+            <Drum Name="Drum 1-3" Enum="DRUM_1_02"/>
+            <Drum Name="Drum 1-4" Enum="DRUM_1_03"/>
+            <Drum Name="Drum 1-5" Enum="DRUM_1_04"/>
+            <Drum Name="Drum 1-6" Enum="DRUM_1_05"/>
+            <Drum Name="Drum 1-7" Enum="DRUM_1_06"/>
+            <Drum Name="Drum 1-8" Enum="DRUM_1_07"/>
+            <Drum Name="Drum 1-9" Enum="DRUM_1_08"/>
+            <Drum Name="Drum 1-10" Enum="DRUM_1_09"/>
+            <Drum Name="Drum 1-11" Enum="DRUM_1_10"/>
+            <Drum Name="Drum 1-12" Enum="DRUM_1_11"/>
+            <Drum Name="Drum 1-13" Enum="DRUM_1_12"/>
+            <Drum Name="Drum 1-14" Enum="DRUM_1_13"/>
+            <Drum Name="Drum 1-15" Enum="DRUM_1_14"/>
+            <Drum Name="Drum 1-16" Enum="DRUM_1_15"/>
+            <Drum Name="Drum 1-17" Enum="DRUM_1_16"/>
+            <Drum Name="Drum 1-18" Enum="DRUM_1_17"/>
+            <Drum Name="Drum 1-19" Enum="DRUM_1_18"/>
+            <Drum Name="Drum 1-20" Enum="DRUM_1_19"/>
+            <Drum Name="Drum 1-21" Enum="DRUM_1_20"/>
+            <Drum Name="Drum 2-1" Enum="DRUM_2_00"/>
+            <Drum Name="Drum 2-2" Enum="DRUM_2_01"/>
+            <Drum Name="Drum 2-3" Enum="DRUM_2_02"/>
+            <Drum Name="Drum 2-4" Enum="DRUM_2_03"/>
+            <Drum Name="Drum 2-5" Enum="DRUM_2_04"/>
+            <Drum Name="Drum 2-6" Enum="DRUM_2_05"/>
+            <Drum Name="Drum 2-7" Enum="DRUM_2_06"/>
+            <Drum Name="Drum 2-8" Enum="DRUM_2_07"/>
+            <Drum Name="Drum 2-9" Enum="DRUM_2_08"/>
+            <Drum Name="Drum 2-10" Enum="DRUM_2_09"/>
+            <Drum Name="Drum 2-11" Enum="DRUM_2_10"/>
+            <Drum Name="Drum 2-12" Enum="DRUM_2_11"/>
+            <Drum Name="Drum 2-13" Enum="DRUM_2_12"/>
+            <Drum Name="Drum 2-14" Enum="DRUM_2_13"/>
+            <Drum Name="Drum 2-15" Enum="DRUM_2_14"/>
+            <Drum Name="Drum 2-16" Enum="DRUM_2_15"/>
+            <Drum Name="Drum 2-17" Enum="DRUM_2_16"/>
+            <Drum Name="Drum 2-18" Enum="DRUM_2_17"/>
+            <Drum Name="Drum 2-19" Enum="DRUM_2_18"/>
+            <Drum Name="Bass Drum 1" Enum="BASS_00"/>
+            <Drum Name="Bass Drum 2" Enum="BASS_01"/>
+            <Drum Name="Bass Drum 3" Enum="BASS_02"/>
+            <Drum Name="Bass Drum 4" Enum="BASS_03"/>
+            <Drum Name="Bass Drum 5" Enum="BASS_04"/>
+            <Drum Name="Bass Drum 6" Enum="BASS_05"/>
+            <Drum Name="Bass Drum 7" Enum="BASS_06"/>
+            <Drum Name="Bass Drum 8" Enum="BASS_07"/>
+            <Drum Name="Bass Drum 9" Enum="BASS_08"/>
+            <Drum Name="Bass Drum 10" Enum="BASS_09"/>
+            <Drum Name="Bass Drum 11" Enum="BASS_10"/>
+            <Drum Name="Bass Drum 12" Enum="BASS_11"/>
+            <Drum Name="Bass Drum 13" Enum="BASS_12"/>
+            <Drum Name="Bass Drum 14" Enum="BASS_13"/>
+            <Drum Name="Bass Drum 15" Enum="BASS_14"/>
+            <Drum Name="Bass Drum 16" Enum="BASS_15"/>
+            <Drum Name="Bass Drum 17" Enum="BASS_16"/>
+            <Drum Name="Bass Drum 18" Enum="BASS_17"/>
+            <Drum Name="Bass Drum 19" Enum="BASS_18"/>
+            <Drum Name="Bass Drum 20" Enum="BASS_19"/>
+            <Drum Name="Shaker 1" Enum="SHAKER_0"/>
+            <Drum Name="Shaker 2" Enum="SHAKER_1"/>
+            <Drum Name="Shaker 3" Enum="SHAKER_2"/>
+            <Drum Name="Shaker 4" Enum="SHAKER_3"/>
+        </Drums>
+        <Effects/>
+    </Soundfont>
+</Root>

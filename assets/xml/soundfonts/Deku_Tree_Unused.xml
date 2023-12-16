@@ -1,0 +1,10 @@
+<Root>
+    <Soundfont Name="37_Unused_Deku_Tree" Index="37" OverrideSampleBank="2">
+        <Instruments>
+            <Instrument Name="Warm Pad" Enum="WARM_PAD_1"/>
+            <Instrument Name="Quiet Warm Pad" Enum="WARM_PAD_2"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>

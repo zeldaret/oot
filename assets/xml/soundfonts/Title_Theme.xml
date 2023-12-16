@@ -1,0 +1,23 @@
+<Root>
+    <Soundfont Name="06_Title_Theme" Index="6">
+        <Instruments>
+            <Instrument/>
+            <Instrument Name="Ocarina" Enum="OCARINA"/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument/>
+            <Instrument Name="Strings 1" Enum="STRING_1"/>
+            <Instrument Name="Strings 2" Enum="STRING_2"/>
+            <Instrument/>
+            <Instrument Name="Piano" Enum="PIANO"/>
+            <Instrument Name="Sustained Piano" Enum="PIANO_SUSTAIN"/>
+        </Instruments>
+        <Drums/>
+        <Effects/>
+    </Soundfont>
+</Root>
