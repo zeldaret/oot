@@ -15,9 +15,6 @@ ORIG_COMPILER := 0
 # If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER := ido
 
-CFLAGS ?=
-CPPFLAGS ?=
-
 # ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
 ifneq ($(COMPILER),ido)
   ifeq ($(ORIG_COMPILER),1)
