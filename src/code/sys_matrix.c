@@ -605,12 +605,12 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
 
 #ifdef OOT_DEBUG
 
-Mtx* Matrix_ToMtxDebug(Mtx* dest, char* file, s32 line) {
-    return Matrix_MtxFToMtx(Matrix_CheckFloats(sCurrentMatrix, file, line), dest);
+Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line) {
+    return Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(sCurrentMatrix, file, line), dest);
 }
 
-Mtx* Matrix_NewMtxDebug(GraphicsContext* gfxCtx, char* file, s32 line) {
-    return Matrix_ToMtxDebug(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)), file, line);
+Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line) {
+    return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)), file, line);
 }
 
 #else
@@ -623,7 +623,7 @@ Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx) {
     return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
 }
 
-#endif
+#endif /* OOT_DEBUG */
 
 Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
     return Matrix_MtxFToMtx(src, GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));

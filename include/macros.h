@@ -162,8 +162,8 @@ extern struct GraphicsContext* __gfxCtx;
     (void)0
 
 #define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
-#define MTXF_TO_MTX(gfxCtx, line, file) Matrix_ToMtxDebug(gfxCtx, line, file)
-#define MATRIX_NEW(gfxCtx, line, file) Matrix_NewMtxDebug(gfxCtx, line, file)
+#define MTXF_TO_MTX(gfxCtx, line, file) Matrix_ToMtx(gfxCtx, line, file)
+#define MATRIX_NEW(gfxCtx, line, file) Matrix_NewMtx(gfxCtx, line, file)
 #define MATRIX_CHECK_FLOATS(mtx, file, line) Matrix_CheckFloats(mtx, file, line)
 #define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
 #define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)

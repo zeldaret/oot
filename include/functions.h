@@ -1430,11 +1430,13 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
 void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
 void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
+#ifdef OOT_DEBUG
+Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
+Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line);
+#else
 Mtx* Matrix_ToMtx(Mtx* dest);
-Mtx* Matrix_ToMtxDebug(Mtx* dest, char* file, s32 line);
 Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx);
-Mtx* Matrix_NewMtxDebug(GraphicsContext* gfxCtx, char* file, s32 line);
-Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx);
+#endif
 void Matrix_MultVec3f(Vec3f* src, Vec3f* dest);
 void Matrix_MtxFCopy(MtxF* dest, MtxF* src);
 void Matrix_MtxToMtxF(Mtx* src, MtxF* dest);
