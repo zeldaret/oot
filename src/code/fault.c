@@ -76,21 +76,11 @@ const char* sFpExceptionNames[] = {
     "Unimplemented operation", "Invalid operation", "Division by zero", "Overflow", "Underflow", "Inexact operation",
 };
 
-#ifndef NON_MATCHING
-// TODO: match .bss (has reordering issues)
-extern FaultMgr* sFaultInstance;
-extern u8 sFaultAwaitingInput;
-extern STACK(sFaultStack, 0x600);
-extern StackEntry sFaultThreadInfo;
-extern FaultMgr gFaultMgr;
-#else
-// Non-matching version for struct shiftability
 FaultMgr* sFaultInstance;
 u8 sFaultAwaitingInput;
 STACK(sFaultStack, 0x600);
 StackEntry sFaultThreadInfo;
 FaultMgr gFaultMgr;
-#endif
 
 typedef struct {
     /* 0x00 */ s32 (*callback)(void*, void*);
