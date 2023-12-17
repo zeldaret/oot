@@ -712,7 +712,7 @@ void EnGo_StopRolling(EnGo* this, PlayState* play) {
         if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
             this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
             play->damagePlayer(play, -4);
-            func_8002F71C(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
+            Actor_SetPlayerKnockbackLargeNoDamage(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
             this->unk_20E = 0x10;
         }
     }

@@ -549,6 +549,21 @@ typedef enum {
     /* 4 */ PLAYER_LEDGE_CLIMB_4
 } PlayerLedgeClimbType;
 
+typedef enum {
+    /* 0 */ PLAYER_KNOCKBACK_NONE,
+    /* 1 */ PLAYER_KNOCKBACK_SMALL,
+    /* 2 */ PLAYER_KNOCKBACK_LARGE,
+    /* 3 */ PLAYER_KNOCKBACK_LARGE_SHOCK
+} PlayerKnockbackType;
+
+typedef enum {
+    /* 0 */ PLAYER_DAMAGE_RESPONSE_NONE,
+    /* 1 */ PLAYER_DAMAGE_RESPONSE_KNOCKBACK_LARGE,
+    /* 2 */ PLAYER_DAMAGE_RESPONSE_KNOCKBACK_SMALL,
+    /* 3 */ PLAYER_DAMAGE_RESPONSE_ICE_TRAP,
+    /* 4 */ PLAYER_DAMAGE_RESPONSE_ELECTRIC_SHOCK
+} PlayerDamageResponseType;
+
 typedef struct {
     /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
@@ -731,7 +746,7 @@ typedef struct Player {
     /* 0x0450 */ Vec3f unk_450;
     /* 0x045C */ Vec3f unk_45C;
     /* 0x0468 */ char unk_468[0x002];
-    /* 0x046A */ union { 
+    /* 0x046A */ union {
         s16 haltActorsDuringCsAction; // If true, halt actors belonging to certain categories during a `csAction`
         s16 slidingDoorBgCamIndex; // `BgCamIndex` used during a sliding door cutscene
     } cv; // "Cutscene Variable": context dependent variable that has different meanings depending on what function is called
@@ -793,11 +808,11 @@ typedef struct Player {
     /* 0x0847 */ s8 unk_847[4];
     /* 0x084B */ s8 unk_84B[4];
 
-    /* 0x084F */ union { 
+    /* 0x084F */ union {
         s8 actionVar1;
     } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
 
-    /* 0x0850 */ union { 
+    /* 0x0850 */ union {
         s16 actionVar2;
     } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
 
@@ -831,11 +846,11 @@ typedef struct Player {
     /* 0x089A */ s16 floorPitchAlt; // the calculation for this value is bugged and doesn't represent anything meaningful
     /* 0x089C */ s16 unk_89C;
     /* 0x089E */ u16 floorSfxOffset;
-    /* 0x08A0 */ u8 unk_8A0;
-    /* 0x08A1 */ u8 unk_8A1;
-    /* 0x08A2 */ s16 unk_8A2;
-    /* 0x08A4 */ f32 unk_8A4;
-    /* 0x08A8 */ f32 unk_8A8;
+    /* 0x08A0 */ u8 knockbackDamage;
+    /* 0x08A1 */ u8 knockbackType;
+    /* 0x08A2 */ s16 knockbackRot;
+    /* 0x08A4 */ f32 knockbackSpeed;
+    /* 0x08A8 */ f32 knockbackYVelocity;
     /* 0x08AC */ f32 pushedSpeed; // Pushing player, examples include water currents, floor conveyors, climbing sloped surfaces
     /* 0x08B0 */ s16 pushedYaw; // Yaw direction of player being pushed
     /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
