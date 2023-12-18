@@ -1,25 +1,25 @@
 <Root>
     <File Name="object_ma1" Segment="6">
-        <Skeleton Name="gMalonChildSkel" Type="Flex" LimbType="Standard" Offset="0x8460"/>
+        <Skeleton Name="gMalonChildSkel" Type="Flex" LimbType="Standard" LimbNone="CHILD_MALON_LIMB_NONE" LimbMax="CHILD_MALON_LIMB_MAX" EnumName="ChildMalonLimb" Offset="0x8460"/>
 
-        <Limb Name="gMalonChildRootLimb" LimbType="Standard" Offset="0x8340"/>
-        <Limb Name="gMalonChildLeftThighLimb" LimbType="Standard" Offset="0x834C"/>
-        <Limb Name="gMalonChildLeftShinLimb" LimbType="Standard" Offset="0x8358"/>
-        <Limb Name="gMalonChildLeftFootLimb" LimbType="Standard" Offset="0x8364"/>
-        <Limb Name="gMalonChildRightThighLimb" LimbType="Standard" Offset="0x8370"/>
-        <Limb Name="gMalonChildRightShinLimb" LimbType="Standard" Offset="0x837C"/>
-        <Limb Name="gMalonChildRightFootLimb" LimbType="Standard" Offset="0x8388"/>
-        <Limb Name="gMalonChildChestLimb" LimbType="Standard" Offset="0x8394"/>
-        <Limb Name="gMalonChildLeftShoulderLimb" LimbType="Standard" Offset="0x83A0"/>
-        <Limb Name="gMalonChildLeftArmLimb" LimbType="Standard" Offset="0x83AC"/>
-        <Limb Name="gMalonChildLeftHandLimb" LimbType="Standard" Offset="0x83B8"/>
-        <Limb Name="gMalonChildRightShoulderLimb" LimbType="Standard" Offset="0x83C4"/>
-        <Limb Name="gMalonChildRightArmLimb" LimbType="Standard" Offset="0x83D0"/>
-        <Limb Name="gMalonChildRightHandLimb" LimbType="Standard" Offset="0x83DC"/>
-        <Limb Name="gMalonChildHeadLimb" LimbType="Standard" Offset="0x83E8"/>
-        <Limb Name="gMalonChildLimb_0083F4" LimbType="Standard" Offset="0x83F4"/>
-        <Limb Name="gMalonChildDressMiddleLimb" LimbType="Standard" Offset="0x8400"/>
-        <Limb Name="gMalonChildDressLowerLimb" LimbType="Standard" Offset="0x840C"/>
+        <Limb Name="gMalonChildRootLimb" LimbType="Standard" EnumName="CHILD_MALON_ROOT" Offset="0x8340"/>
+        <Limb Name="gMalonChildLeftThighLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_LEFT_THIGH" Offset="0x834C"/>
+        <Limb Name="gMalonChildLeftShinLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_LEFT_SHIN" Offset="0x8358"/>
+        <Limb Name="gMalonChildLeftFootLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_LEFT_FOOT" Offset="0x8364"/>
+        <Limb Name="gMalonChildRightThighLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_RIGHT_THIGH" Offset="0x8370"/>
+        <Limb Name="gMalonChildRightShinLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_RIGHT_SHIN" Offset="0x837C"/>
+        <Limb Name="gMalonChildRightFootLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_RIGHT_FOOT" Offset="0x8388"/>
+        <Limb Name="gMalonChildChestLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_CHEST" Offset="0x8394"/>
+        <Limb Name="gMalonChildLeftShoulderLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_LEFT_SHOULDER" Offset="0x83A0"/>
+        <Limb Name="gMalonChildLeftArmLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_LEFT_ARM" Offset="0x83AC"/>
+        <Limb Name="gMalonChildLeftHandLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_LEFT_HAND" Offset="0x83B8"/>
+        <Limb Name="gMalonChildRightShoulderLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_RIGHT_SHOULDER" Offset="0x83C4"/>
+        <Limb Name="gMalonChildRightArmLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_RIGHT_ARM" Offset="0x83D0"/>
+        <Limb Name="gMalonChildRightHandLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_RIGHT_HAND" Offset="0x83DC"/>
+        <Limb Name="gMalonChildHeadLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_HEAD" Offset="0x83E8"/>
+        <Limb Name="gMalonChildDressUpperLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_DRESS_UPPER" Offset="0x83F4"/>
+        <Limb Name="gMalonChildDressMiddleLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_DRESS_MIDDLE" Offset="0x8400"/>
+        <Limb Name="gMalonChildDressLowerLimb" LimbType="Standard" EnumName="CHILD_MALON_LIMB_DRESS_LOWER" Offset="0x840C"/>
 
         <Animation Name="gMalonChildRaiseHandsAnim" Offset="0x244"/>
         <Animation Name="gMalonChildIdleAnim" Offset="0x820"/>
