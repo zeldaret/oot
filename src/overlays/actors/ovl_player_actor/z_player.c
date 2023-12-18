@@ -3482,14 +3482,8 @@ s32 func_80836AB8(Player* this, s32 arg1) {
     return var;
 }
 
-/**
- * Update Z Targeting if the Z button is pressed.
- * This includes both sub-types of Z Targeting:
- *     - Lock On: Player locks onto an actor and a reticle appears on the target.
- *     - Parallel: Player's Y rotation is locked, he will keep facing the same direction as long as Z is held.
- *                 Player will also snap to the angle of a wall, if in range when Z is pressed.
- */
-void Player_UpdateZTarget(Player* this, PlayState* play) {
+// Update things related to Z Targeting
+void func_80836BEC(Player* this, PlayState* play) {
     s32 sp1C = 0;
     s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
     Actor* actorToTarget;
@@ -10972,7 +10966,7 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
     }
 
     Player_UpdateInterface(play, this);
-    Player_UpdateZTarget(this, play);
+    func_80836BEC(this, play);
 
     if ((this->heldItemAction == PLAYER_IA_DEKU_STICK) && (this->unk_860 != 0)) {
         Player_UpdateBurningDekuStick(play, this);
