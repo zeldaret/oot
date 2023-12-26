@@ -2,7 +2,6 @@
 import argparse
 import tempfile
 import struct
-import copy
 import sys
 import re
 import os

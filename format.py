@@ -108,7 +108,7 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
     if nb_jobs != 1:
         print(f"Formatting files with {nb_jobs} jobs")
     else:
-        print(f"Formatting files with a single job (consider using -j to make this faster)")
+        print("Formatting files with a single job (consider using -j to make this faster)")
 
     # Format files in chunks to improve performance while still utilizing jobs
     file_chunks = list(list_chunks(src_files, (len(src_files) // nb_jobs) + 1))

@@ -81,7 +81,7 @@ with tempfile.TemporaryDirectory(prefix="asm_processor") as tmpdirname:
 
     try:
         subprocess.check_call(compile_cmdline)
-    except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError:
         print("Failed to compile file " + str(in_file) + ". Command line:")
         print()
         print(" ".join(shlex.quote(x) for x in compile_cmdline))

@@ -47,7 +47,7 @@ def firstDiffMain():
     buildFolder = Path("build")
 
     BUILTROM = Path(f"zelda_ocarina_{args.version}.z64")
-    BUILTMAP = buildFolder / f"z64.map"
+    BUILTMAP = buildFolder / "z64.map"
 
     EXPECTEDROM = Path("baserom.z64")
     EXPECTEDMAP = "expected" / BUILTMAP

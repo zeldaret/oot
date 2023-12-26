@@ -319,7 +319,7 @@ if __name__ == "__main__":
 import abc
 import ast
 from collections import Counter, defaultdict
-from dataclasses import asdict, dataclass, field, replace
+from dataclasses import asdict, dataclass, field
 import difflib
 import enum
 import html
@@ -1043,9 +1043,9 @@ def search_map_file(
                     if cur_objfile is not None and ram_to_rom is not None:
                         cands.append((cur_objfile, ram + ram_to_rom))
                 last_line = line
-        except Exception as e:
+        except Exception:
             traceback.print_exc()
-            fail(f"Internal error while parsing map file")
+            fail("Internal error while parsing map file")
 
         if len(cands) > 1:
             fail(f"Found multiple occurrences of function {fn_name} in map file.")
