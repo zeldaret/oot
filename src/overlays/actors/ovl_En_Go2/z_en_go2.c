@@ -92,9 +92,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 65, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0, 0, 0, 0, MASS_IMMOVABLE,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 ActorInit En_Go2_InitVars = {
     /**/ ACTOR_EN_GO2,

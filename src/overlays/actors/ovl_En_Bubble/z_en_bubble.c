@@ -62,9 +62,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit2 = {
-    1, 2, 25, 25, MASS_IMMOVABLE,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit2 = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
 static Vec3f sEffectAccel = { 0.0f, -0.5f, 0.0f };
 
