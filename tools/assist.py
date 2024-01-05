@@ -10,7 +10,7 @@ gAddressWidth = 18 # if your ld >= 2.40 change this to 10
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
 asm_dir = root_dir + "asm/non_matchings/overlays/actors"
-build_dir = root_dir + "build/"
+build_dir = root_dir + "build/gc-eu-mq-dbg/"
 
 def read_rom():
     with open("baserom.z64", "rb") as f:
