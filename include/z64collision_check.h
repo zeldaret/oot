@@ -134,65 +134,18 @@ typedef struct {
 } ColliderElementInit; // size = 0x18
 
 /*
- * JntSph collider
+ * Cylinder collider structs
  */
 
-typedef struct {
-    /* 0x00 */ Sphere16 modelSphere; // model space sphere
-    /* 0x08 */ Sphere16 worldSphere; // world space sphere
-    /* 0x10 */ f32 scale; // world space sphere = model * scale * 0.01
-    /* 0x14 */ u8 limb; // attached limb
-} ColliderJntSphElementDim; // size = 0x18
-
-typedef struct {
-    /* 0x00 */ u8 limb; // attached limb
-    /* 0x02 */ Sphere16 modelSphere; // model space sphere
-    /* 0x0A */ s16 scale; // world space sphere = model * scale * 0.01
-} ColliderJntSphElementDimInit; // size = 0x0C
-
-typedef struct {
-    /* 0x00 */ ColliderElement base;
-    /* 0x28 */ ColliderJntSphElementDim dim;
-} ColliderJntSphElement; // size = 0x40
-
-typedef struct {
-    /* 0x00 */ ColliderElementInit base;
-    /* 0x18 */ ColliderJntSphElementDimInit dim;
-} ColliderJntSphElementInit; // size = 0x24
-
-typedef struct {
-    /* 0x00 */ Collider base;
-    /* 0x18 */ s32 count;
-    /* 0x1C */ ColliderJntSphElement* elements;
-} ColliderJntSph; // size = 0x20
-
-typedef struct {
-    /* 0x00 */ ColliderInit base;
-    /* 0x08 */ s32 count;
-    /* 0x0C */ ColliderJntSphElementInit* elements;
-} ColliderJntSphInit; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ ColliderInitType1 base;
-    /* 0x08 */ s32 count;
-    /* 0x0C */ ColliderJntSphElementInit* elements;
-} ColliderJntSphInitType1; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ ColliderInitToActor base;
-    /* 0x08 */ s32 count;
-    /* 0x0C */ ColliderJntSphElementInit* elements;
-} ColliderJntSphInitToActor; // size = 0x10
-
-/*
- * Cylinder collider
- */
+// collider structs
 
 typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderElement elem;
     /* 0x40 */ Cylinder16 dim;
 } ColliderCylinder; // size = 0x4C
+
+// init data structs
 
 typedef struct {
     /* 0x00 */ ColliderInit base;
@@ -213,12 +166,65 @@ typedef struct {
 } ColliderCylinderInitToActor; // size = 0x2C
 
 /*
- * Tris collider
+ * JntSph
  */
 
+// collider structs
+
 typedef struct {
-    /* 0x00 */ Vec3f vtx[3];
-} ColliderTrisElementDimInit; // size = 0x24
+    /* 0x00 */ Sphere16 modelSphere; // model space sphere
+    /* 0x08 */ Sphere16 worldSphere; // world space sphere
+    /* 0x10 */ f32 scale; // world space sphere = model * scale * 0.01
+    /* 0x14 */ u8 limb; // attached limb
+} ColliderJntSphElementDim; // size = 0x18
+
+typedef struct {
+    /* 0x00 */ ColliderElement base;
+    /* 0x28 */ ColliderJntSphElementDim dim;
+} ColliderJntSphElement; // size = 0x40
+
+typedef struct {
+    /* 0x00 */ Collider base;
+    /* 0x18 */ s32 count;
+    /* 0x1C */ ColliderJntSphElement* elements;
+} ColliderJntSph; // size = 0x20
+
+// init data structs
+
+typedef struct {
+    /* 0x00 */ u8 limb; // attached limb
+    /* 0x02 */ Sphere16 modelSphere; // model space sphere
+    /* 0x0A */ s16 scale; // world space sphere = model * scale * 0.01
+} ColliderJntSphElementDimInit; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ ColliderElementInit base;
+    /* 0x18 */ ColliderJntSphElementDimInit dim;
+} ColliderJntSphElementInit; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ ColliderInit base;
+    /* 0x08 */ s32 count;
+    /* 0x0C */ ColliderJntSphElementInit* elements;
+} ColliderJntSphInit; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ ColliderInitType1 base;
+    /* 0x08 */ s32 count;
+    /* 0x0C */ ColliderJntSphElementInit* elements;
+} ColliderJntSphInitType1; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ ColliderInitToActor base;
+    /* 0x08 */ s32 count;
+    /* 0x0C */ ColliderJntSphElementInit* elements;
+} ColliderJntSphInitToActor; // size = 0x10
+
+/*
+ * Tris
+ */
+
+// collider structs
 
 typedef struct {
     /* 0x00 */ ColliderElement base;
@@ -226,15 +232,21 @@ typedef struct {
 } ColliderTrisElement; // size = 0x5C
 
 typedef struct {
-    /* 0x00 */ ColliderElementInit base;
-    /* 0x18 */ ColliderTrisElementDimInit dim;
-} ColliderTrisElementInit; // size = 0x3C
-
-typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderTrisElement* elements;
 } ColliderTris; // size = 0x20
+
+// init data structs
+
+typedef struct {
+    /* 0x00 */ Vec3f vtx[3];
+} ColliderTrisElementDimInit; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ ColliderElementInit base;
+    /* 0x18 */ ColliderTrisElementDimInit dim;
+} ColliderTrisElementInit; // size = 0x3C
 
 typedef struct {
     /* 0x00 */ ColliderInit base;
@@ -252,6 +264,8 @@ typedef struct {
  * Quad collider
  */
 
+// collider structs
+
 typedef struct {
     /* 0x00 */ Vec3f quad[4];
     /* 0x30 */ Vec3s dcMid; // midpoint of vectors d, c
@@ -260,14 +274,16 @@ typedef struct {
 } ColliderQuadDim; // size = 0x40
 
 typedef struct {
-    /* 0x00 */ Vec3f quad[4];
-} ColliderQuadDimInit; // size = 0x30
-
-typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderElement elem;
     /* 0x40 */ ColliderQuadDim dim;
 } ColliderQuad; // size = 0x80
+
+// init data structs
+
+typedef struct {
+    /* 0x00 */ Vec3f quad[4];
+} ColliderQuadDimInit; // size = 0x30
 
 typedef struct {
     /* 0x00 */ ColliderInit base;
