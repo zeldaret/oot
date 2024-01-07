@@ -1878,8 +1878,8 @@ void func_80902348(BossGanon2* this, PlayState* play) {
     }
 }
 
-void func_80902524(BossGanon2* this, PlayState* play) {
-    s8 temp_v0_4;
+void BossGanon2_CollisionCheck(BossGanon2* this, PlayState* play) {
+    s8 health;
     ColliderInfo* acHitInfo;
     s16 i;
     u8 phi_v1_2;
@@ -1909,11 +1909,11 @@ void func_80902524(BossGanon2* this, PlayState* play) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
                     Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
                     this->actor.colChkInfo.health -= 2;
-                    temp_v0_4 = this->actor.colChkInfo.health;
-                    if (temp_v0_4 < 0x15 && this->unk_334 == 0) {
+                    health = this->actor.colChkInfo.health;
+                    if (health < 21 && this->unk_334 == 0) {
                         func_80900818(this, play);
                     } else {
-                        if (temp_v0_4 <= 0) {
+                        if (health <= 0) {
                             func_80901020(this, play);
                         } else {
                             func_80900210(this, play);
@@ -1943,13 +1943,13 @@ void func_80902524(BossGanon2* this, PlayState* play) {
                 }
             }
             this->actor.colChkInfo.health -= phi_v1_2;
-            temp_v0_4 = this->actor.colChkInfo.health;
-            if ((temp_v0_4 < 0x15) && (this->unk_334 == 0)) {
+            health = this->actor.colChkInfo.health;
+            if ((health < 21) && (this->unk_334 == 0)) {
                 func_80900818(this, play);
-            } else if ((temp_v0_4 <= 0) && (phi_v1_2 >= 2)) {
+            } else if ((health <= 0) && (phi_v1_2 >= 2)) {
                 func_80901020(this, play);
             } else {
-                if (temp_v0_4 <= 0) {
+                if (health <= 0) {
                     this->actor.colChkInfo.health = 1;
                 }
                 func_80900210(this, play);
@@ -2067,7 +2067,7 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
     func_80902348(this, play);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk_424.base);
     if (this->actionFunc != func_8090120C) {
-        func_80902524(this, play);
+        BossGanon2_CollisionCheck(this, play);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk_424.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk_444.base);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk_444.base);
