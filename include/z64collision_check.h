@@ -166,7 +166,7 @@ typedef struct {
 } ColliderCylinderInitToActor; // size = 0x2C
 
 /*
- * JntSph - A collection of sphere shaped colliders that can attach to limbs
+ * JntSph - A collider made of sphere shaped elements. Each sphere can attach to a skeleton joint (limb).
  */
 
 // collider structs
@@ -221,7 +221,7 @@ typedef struct {
 } ColliderJntSphInitToActor; // size = 0x10
 
 /*
- * Tris - A collection of triangle shaped colliders
+ * Tris - A collider made of triangle shaped elements
  */
 
 // collider structs
