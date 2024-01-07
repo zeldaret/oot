@@ -134,7 +134,7 @@ typedef struct {
 } ColliderElementInit; // size = 0x18
 
 /*
- * Cylinder collider structs
+ * Cylinder - A single cylinder shaped collider
  */
 
 // collider structs
@@ -166,7 +166,7 @@ typedef struct {
 } ColliderCylinderInitToActor; // size = 0x2C
 
 /*
- * JntSph
+ * JntSph - A collection of sphere shaped colliders that can attach to limbs
  */
 
 // collider structs
@@ -221,7 +221,7 @@ typedef struct {
 } ColliderJntSphInitToActor; // size = 0x10
 
 /*
- * Tris
+ * Tris - A collection of triangle shaped colliders
  */
 
 // collider structs
@@ -261,7 +261,7 @@ typedef struct {
 } ColliderTrisInitType1; // size = 0x10
 
 /*
- * Quad collider
+ * Quad - A single quad shaped collider
  */
 
 // collider structs
