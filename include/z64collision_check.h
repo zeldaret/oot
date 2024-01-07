@@ -134,38 +134,6 @@ typedef struct {
 } ColliderElementInit; // size = 0x18
 
 /*
- * Cylinder - A single cylinder shaped collider
- */
-
-// collider structs
-
-typedef struct {
-    /* 0x00 */ Collider base;
-    /* 0x18 */ ColliderElement elem;
-    /* 0x40 */ Cylinder16 dim;
-} ColliderCylinder; // size = 0x4C
-
-// init data structs
-
-typedef struct {
-    /* 0x00 */ ColliderInit base;
-    /* 0x08 */ ColliderElementInit elem;
-    /* 0x20 */ Cylinder16 dim;
-} ColliderCylinderInit; // size = 0x2C
-
-typedef struct {
-    /* 0x00 */ ColliderInitType1 base;
-    /* 0x08 */ ColliderElementInit elem;
-    /* 0x20 */ Cylinder16 dim;
-} ColliderCylinderInitType1; // size = 0x2C
-
-typedef struct {
-    /* 0x00 */ ColliderInitToActor base;
-    /* 0x08 */ ColliderElementInit elem;
-    /* 0x20 */ Cylinder16 dim;
-} ColliderCylinderInitToActor; // size = 0x2C
-
-/*
  * JntSph - A collider made of sphere shaped elements. Each sphere can attach to a skeleton joint (limb).
  */
 
@@ -219,6 +187,38 @@ typedef struct {
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
 } ColliderJntSphInitToActor; // size = 0x10
+
+/*
+ * Cylinder - A single cylinder shaped collider
+ */
+
+// collider structs
+
+typedef struct {
+    /* 0x00 */ Collider base;
+    /* 0x18 */ ColliderElement elem;
+    /* 0x40 */ Cylinder16 dim;
+} ColliderCylinder; // size = 0x4C
+
+// init data structs
+
+typedef struct {
+    /* 0x00 */ ColliderInit base;
+    /* 0x08 */ ColliderElementInit elem;
+    /* 0x20 */ Cylinder16 dim;
+} ColliderCylinderInit; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ ColliderInitType1 base;
+    /* 0x08 */ ColliderElementInit elem;
+    /* 0x20 */ Cylinder16 dim;
+} ColliderCylinderInitType1; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ ColliderInitToActor base;
+    /* 0x08 */ ColliderElementInit elem;
+    /* 0x20 */ Cylinder16 dim;
+} ColliderCylinderInitToActor; // size = 0x2C
 
 /*
  * Tris - A collider made of triangle shaped elements
