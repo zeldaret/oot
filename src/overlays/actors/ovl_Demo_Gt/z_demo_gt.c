@@ -661,7 +661,7 @@ void DemoGt_Draw1(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(spC0, &spA8, MTXMODE_APPLY);
     Matrix_Translate(sp9C.x, sp9C.y, sp9C.z, MTXMODE_APPLY);
-    MTXF_TO_MTX(spB4, "../z_demo_gt_part1.c", 474);
+    MATRIX_TO_MTX(spB4, "../z_demo_gt_part1.c", 474);
     unk198 = this->unk_198;
     unk188 = this->unk_188;
     unk178 = this->unk_178;
@@ -1283,7 +1283,7 @@ void DemoGt_Draw4(DemoGt* this, PlayState* play2) {
 
         Matrix_RotateAxis(sp70, &sp54, MTXMODE_APPLY);
         Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
-        MTXF_TO_MTX(sp60, "../z_demo_gt_part4_1.c", 232);
+        MATRIX_TO_MTX(sp60, "../z_demo_gt_part4_1.c", 232);
 
         if (!FrameAdvance_IsEnabled(play)) {
             func_80980F8C(this, play);
@@ -1402,7 +1402,7 @@ void DemoGt_Draw5(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp70, &sp54, MTXMODE_APPLY);
     Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
-    MTXF_TO_MTX(sp60, "../z_demo_gt_part4_2.c", 227);
+    MATRIX_TO_MTX(sp60, "../z_demo_gt_part4_2.c", 227);
 
     if (!FrameAdvance_IsEnabled(play)) {
         func_80981458(this, play);
@@ -1498,7 +1498,7 @@ void DemoGt_Draw6(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp74, &sp58, MTXMODE_APPLY);
     Matrix_Translate(sp4C.x, sp4C.y, sp4C.z, MTXMODE_APPLY);
-    MTXF_TO_MTX(sp64, "../z_demo_gt_part4_3.c", 291);
+    MATRIX_TO_MTX(sp64, "../z_demo_gt_part4_3.c", 291);
 
     Matrix_Pop();
 
@@ -1590,7 +1590,7 @@ void DemoGt_Draw7(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp68, &sp50, MTXMODE_APPLY);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
-    MTXF_TO_MTX(sp5C, "../z_demo_gt_part5.c", 152);
+    MATRIX_TO_MTX(sp5C, "../z_demo_gt_part5.c", 152);
 
     Matrix_Pop();
 
@@ -1681,7 +1681,7 @@ void DemoGt_Draw8(DemoGt* this, PlayState* play) {
 
     Matrix_RotateAxis(sp68, &sp50, MTXMODE_APPLY);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
-    MTXF_TO_MTX(sp5C, "../z_demo_gt_part6.c", 153);
+    MATRIX_TO_MTX(sp5C, "../z_demo_gt_part6.c", 153);
 
     Matrix_Pop();
 

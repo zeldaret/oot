@@ -11411,14 +11411,14 @@ void Player_DrawGameplay(PlayState* play, Player* this, s32 lod, Gfx* cullDList,
             earRot.y = sBunnyEarKinematics.rot.z + 0xDBE;
             earRot.z = sBunnyEarKinematics.rot.x - 0x348A;
             Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
-            MTXF_TO_MTX(bunnyEarMtx++, "../z_player.c", 19273);
+            MATRIX_TO_MTX(bunnyEarMtx++, "../z_player.c", 19273);
 
             // Left ear
             earRot.x = sBunnyEarKinematics.rot.y - 0x3E2;
             earRot.y = -sBunnyEarKinematics.rot.z - 0xDBE;
             earRot.z = sBunnyEarKinematics.rot.x - 0x348A;
             Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
-            MTXF_TO_MTX(bunnyEarMtx, "../z_player.c", 19279);
+            MATRIX_TO_MTX(bunnyEarMtx, "../z_player.c", 19279);
         }
 
         gSPDisplayList(POLY_OPA_DISP++, sMaskDlists[this->currentMask - 1]);

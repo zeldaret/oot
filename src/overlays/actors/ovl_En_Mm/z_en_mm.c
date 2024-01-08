@@ -548,14 +548,14 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             earRot.y = 0xDBE;
             earRot.z = -0x348A;
             Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
-            MTXF_TO_MTX(mtx++, "../z_en_mm.c", 1124);
+            MATRIX_TO_MTX(mtx++, "../z_en_mm.c", 1124);
 
             // Left ear
             earRot.x = -0x3E2;
             earRot.y = -0xDBE;
             earRot.z = -0x348A;
             Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
-            MTXF_TO_MTX(mtx, "../z_en_mm.c", 1131);
+            MATRIX_TO_MTX(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);

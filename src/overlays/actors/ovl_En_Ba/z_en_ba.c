@@ -502,7 +502,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
                         break;
                 }
             }
-            MTXF_TO_MTX(mtx, "../z_en_ba.c", 970);
+            MATRIX_TO_MTX(mtx, "../z_en_ba.c", 970);
         }
         Matrix_Pop();
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ba.c", 973),

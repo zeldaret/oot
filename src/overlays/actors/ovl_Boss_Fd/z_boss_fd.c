@@ -1875,7 +1875,7 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
                                  this->fwork[BFD_BODY_PULSE]),
                          1.0f, MTXMODE_APPLY);
             Matrix_RotateY(M_PI / 2.0f, MTXMODE_APPLY);
-            MTXF_TO_MTX(tempMat, "../z_boss_fd.c", 4719);
+            MATRIX_TO_MTX(tempMat, "../z_boss_fd.c", 4719);
             gSPMatrix(POLY_OPA_DISP++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, sBodyDLists[i]);
         } else {

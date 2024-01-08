@@ -296,7 +296,7 @@ void DemoGj_DrawRotated(DemoGj* this, PlayState* play, Gfx* displayList) {
 
     Matrix_Push();
     Matrix_RotateZYX(x, y, z, MTXMODE_APPLY);
-    MTXF_TO_MTX(matrix, "../z_demo_gj.c", 1193);
+    MATRIX_TO_MTX(matrix, "../z_demo_gj.c", 1193);
     Matrix_Pop();
 
     Gfx_SetupDL_25Opa(gfxCtx);

@@ -261,7 +261,7 @@ s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
     Matrix_RotateZ(-view->curDistortionOrientation.z, MTXMODE_APPLY);
     Matrix_RotateY(-view->curDistortionOrientation.y, MTXMODE_APPLY);
     Matrix_RotateX(-view->curDistortionOrientation.x, MTXMODE_APPLY);
-    MTXF_TO_MTX(projectionMtx, "../z_view.c", 566);
+    MATRIX_TO_MTX(projectionMtx, "../z_view.c", 566);
 
     return true;
 }

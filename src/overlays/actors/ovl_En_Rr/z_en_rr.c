@@ -880,7 +880,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
         Matrix_Scale((1.0f + this->bodySegs[i].scaleMod.x) * this->bodySegs[i].scale.x,
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
                      (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, MTXMODE_APPLY);
-        MTXF_TO_MTX(segMtx, "../z_en_rr.c", 1527);
+        MATRIX_TO_MTX(segMtx, "../z_en_rr.c", 1527);
         Matrix_Pop();
         segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);

@@ -2489,7 +2489,7 @@ void BossMo_DrawTentacle(BossMo* this, PlayState* play) {
                            MTXMODE_APPLY);
         }
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
-        MTXF_TO_MTX(matrix, "../z_boss_mo.c", 6452);
+        MATRIX_TO_MTX(matrix, "../z_boss_mo.c", 6452);
 
         gSPMatrix(POLY_XLU_DISP++, matrix, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 

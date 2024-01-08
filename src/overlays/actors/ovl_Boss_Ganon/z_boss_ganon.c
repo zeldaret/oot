@@ -4565,7 +4565,7 @@ void func_808E324C(Actor* thisx, PlayState* play) {
         Matrix_RotateX(-this->unk_3C4[temp].x, MTXMODE_APPLY);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         Matrix_RotateY(M_PI / 2, MTXMODE_APPLY);
-        MTXF_TO_MTX(mtx, "../z_boss_ganon.c", 10520);
+        MATRIX_TO_MTX(mtx, "../z_boss_ganon.c", 10520);
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, sBigMagicLightStreakDLists[i]);
         mtx++;
