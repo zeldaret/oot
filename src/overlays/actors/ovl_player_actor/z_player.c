@@ -4111,7 +4111,7 @@ static LinkAnimationHeader* D_808544B0[] = {
     &gPlayerAnim_link_normal_back_hit,   &gPlayerAnim_link_anchor_back_hitR,
 };
 
-void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 speed, f32 yVelocity, s16 rotation,
+void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 speed, f32 yVelocity, s16 yRot,
                    s32 invincibilityTimer) {
     LinkAnimationHeader* anim = NULL;
     LinkAnimationHeader** sp28;
@@ -4154,7 +4154,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
 
         this->av2.actionVar2 = 20;
     } else {
-        rotation -= this->actor.shape.rot.y;
+        yRot -= this->actor.shape.rot.y;
         if (this->stateFlags1 & PLAYER_STATE1_27) {
             Player_SetupAction(play, this, Player_Action_8084E30C, 0);
             Player_RequestRumble(this, 180, 20, 50, 0);
@@ -4190,7 +4190,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
                 this->speedXZ = speed;
                 this->actor.velocity.y = yVelocity;
 
-                if (ABS(rotation) > 0x4000) {
+                if (ABS(yRot) > 0x4000) {
                     anim = &gPlayerAnim_link_normal_front_downA;
                 } else {
                     anim = &gPlayerAnim_link_normal_back_downA;
@@ -4226,7 +4226,7 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
                 sp28 += 4;
             }
 
-            if (ABS(rotation) <= 0x4000) {
+            if (ABS(yRot) <= 0x4000) {
                 sp28 += 2;
             }
 
@@ -4239,10 +4239,10 @@ void func_80837C0C(PlayState* play, Player* this, s32 damageResponseType, f32 sp
             func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
         }
 
-        this->actor.shape.rot.y += rotation;
+        this->actor.shape.rot.y += yRot;
         this->yaw = this->actor.shape.rot.y;
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        if (ABS(rotation) > 0x4000) {
+        if (ABS(yRot) > 0x4000) {
             this->actor.shape.rot.y += 0x8000;
         }
     }
@@ -4280,7 +4280,7 @@ void func_8083819C(Player* this, PlayState* play) {
 }
 
 void func_8083821C(Player* this) {
-    s32 i = 0;
+    s32 i;
 
     // clang-format off
     for (i = 0; i < PLAYER_BODYPART_MAX; i++) { this->bodyFlameTimers[i] = Rand_S16Offset(0, 200); }
