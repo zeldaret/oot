@@ -1910,7 +1910,7 @@ void BossGanon2_CollisionCheck(BossGanon2* this, PlayState* play) {
                     Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
                     this->actor.colChkInfo.health -= 2;
                     health = this->actor.colChkInfo.health;
-                    if (health < 21 && this->unk_334 == 0) {
+                    if (health <= 20 && this->unk_334 == 0) {
                         func_80900818(this, play);
                     } else {
                         if (health <= 0) {
@@ -1944,7 +1944,7 @@ void BossGanon2_CollisionCheck(BossGanon2* this, PlayState* play) {
             }
             this->actor.colChkInfo.health -= phi_v1_2;
             health = this->actor.colChkInfo.health;
-            if ((health < 21) && (this->unk_334 == 0)) {
+            if ((health <= 20) && (this->unk_334 == 0)) {
                 func_80900818(this, play);
             } else if ((health <= 0) && (phi_v1_2 >= 2)) {
                 func_80901020(this, play);
