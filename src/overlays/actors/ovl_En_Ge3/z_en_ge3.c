@@ -80,7 +80,7 @@ void EnGe3_Init(Actor* thisx, PlayState* play2) {
     EnGe3_ChangeAction(this, 0);
     this->actionFunc = EnGe3_ForceTalk;
     this->unk_30C = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
 }

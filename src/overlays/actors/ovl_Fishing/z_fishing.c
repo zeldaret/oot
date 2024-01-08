@@ -817,7 +817,7 @@ static FishingFishInit sFishInits[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, TARGET_MODE_5, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
@@ -989,7 +989,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
         if (thisx->params == EN_FISH_AQUARIUM) {
             this->fishState = 100;
             Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_PROP);
-            thisx->targetMode = 0;
+            thisx->targetMode = TARGET_MODE_0;
             thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
         } else {

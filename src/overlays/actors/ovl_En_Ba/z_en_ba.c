@@ -103,7 +103,7 @@ void EnBa_Init(Actor* thisx, PlayState* play) {
         this->unk_158[i].y = this->actor.world.pos.y - (i + 1) * 32.0f;
     }
 
-    this->actor.targetMode = 4;
+    this->actor.targetMode = TARGET_MODE_4;
     this->upperParams = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
 

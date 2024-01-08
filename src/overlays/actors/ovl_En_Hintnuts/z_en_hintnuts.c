@@ -323,7 +323,7 @@ void EnHintnuts_BeginFreeze(EnHintnuts* this, PlayState* play) {
 
 void EnHintnuts_CheckProximity(EnHintnuts* this, PlayState* play) {
     if (this->actor.category != ACTORCAT_ENEMY) {
-        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
+        if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isLockedOn) {
             this->actor.flags |= ACTOR_FLAG_16;
         } else {
             this->actor.flags &= ~ACTOR_FLAG_16;

@@ -62,7 +62,7 @@ void EnHeishi4_Init(Actor* thisx, PlayState* play) {
     this->type = thisx->params & 0xFF;
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->pos = thisx->world.pos;
-    thisx->targetMode = 6;
+    thisx->targetMode = TARGET_MODE_6;
     if (this->type == HEISHI4_AT_MARKET_DYING) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);

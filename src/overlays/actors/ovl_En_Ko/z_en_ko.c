@@ -239,19 +239,19 @@ typedef struct {
 } EnKoInteractInfo; // size = 0xC
 
 static EnKoInteractInfo sInteractInfo[] = {
-    /* ENKO_TYPE_CHILD_0    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_1    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_2    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_3    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_4    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_5    */ { 1, 30.0f, 240.0f },
-    /* ENKO_TYPE_CHILD_6    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_7    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_8    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_9    */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_10   */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_11   */ { 6, 30.0f, 180.0f },
-    /* ENKO_TYPE_CHILD_FADO */ { 6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_0    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_1    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_2    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_3    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_4    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_5    */ { TARGET_MODE_1, 30.0f, 240.0f },
+    /* ENKO_TYPE_CHILD_6    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_7    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_8    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_9    */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_10   */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_11   */ { TARGET_MODE_6, 30.0f, 180.0f },
+    /* ENKO_TYPE_CHILD_FADO */ { TARGET_MODE_6, 30.0f, 180.0f },
 };
 
 s32 EnKo_AreObjectsAvailable(EnKo* this, PlayState* play) {
@@ -1250,7 +1250,7 @@ void func_80A995CC(EnKo* this, PlayState* play) {
     this->actor.world.pos.z += 80.0f * Math_CosS(homeYawToPlayer);
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE || !this->actor.isTargeted) {
+    if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE || !this->actor.isLockedOn) {
         temp_f2 = fabsf((f32)this->actor.yawTowardsPlayer - homeYawToPlayer) * 0.001f * 3.0f;
         if (temp_f2 < 1.0f) {
             this->skelAnime.playSpeed = 1.0f;

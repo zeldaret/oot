@@ -199,7 +199,7 @@ wordReplace = {
     "shape.unk_14":"shape.shadowAlpha",
     "actor.unk_CC":"actor.shape.feetPos",
     "actor.pos4":"actor.prevPos",
-    "actor.unk_10C":"actor.isTargeted",
+    "actor.unk_10C":"actor.isLockedOn",
     "actor.unk_10D":"actor.targetPriority",
     "actor.dmgEffectTimer":"actor.colorFilterTimer",
     "actor.dmgEffectParams":"actor.colorFilterParams",

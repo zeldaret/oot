@@ -172,7 +172,7 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
     this->actor.gravity = 0.0f;
     this->runSpeed = 3.0f;
     this->actor.uncullZoneForward = 1200.0f;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
     this->currentAnimIndex = -1;
 
     if (this->flags & 0x40) {

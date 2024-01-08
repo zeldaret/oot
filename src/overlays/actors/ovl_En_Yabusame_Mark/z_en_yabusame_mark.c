@@ -82,7 +82,7 @@ void EnYabusameMark_Init(Actor* thisx, PlayState* play) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->typeIndex = this->actor.params;
-    this->actor.targetMode = 5;
+    this->actor.targetMode = TARGET_MODE_5;
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
     switch (this->typeIndex) {
         case 0:

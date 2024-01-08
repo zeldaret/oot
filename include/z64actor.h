@@ -233,7 +233,7 @@ typedef struct Actor {
     /* 0x0F8 */ f32 uncullZoneScale; // Amount to increase the uncull zone scale by (in projected space)
     /* 0x0FC */ f32 uncullZoneDownward; // Amount to increase uncull zone downward by (in projected space)
     /* 0x100 */ Vec3f prevPos; // World position from the previous update cycle
-    /* 0x10C */ u8 isTargeted; // Set to true if the actor is currently being targeted by the player
+    /* 0x10C */ u8 isLockedOn; // Set to true if the actor is currently being targeted by the player
     /* 0x10D */ u8 targetPriority; // Lower values have higher priority. Resets to 0 when player stops targeting
     /* 0x10E */ u16 textId; // Text ID to pass to player/display when interacting with the actor
     /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
@@ -514,6 +514,46 @@ typedef enum {
     /* 0x5C */ NAVI_ENEMY_POE_WASTELAND,
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
+
+// A set of 4 triangles which appear as a ring around an actor when the player Z-Targets it
+typedef struct {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ f32 radius; // distance towards the center of the locked on actor
+    /* 0x10 */ Color_RGB8 color;
+} LockOnReticle; // size = 0x14
+
+typedef struct {
+    /* 0x00 */ Vec3f naviPos; // Used by Navi to indicate a targetable actor or general hint
+    /* 0x0C */ Vec3f lockOnPos;
+    /* 0x18 */ Color_RGBAf naviInnerColor;
+    /* 0x28 */ Color_RGBAf naviOuterColor;
+    /* 0x38 */ Actor* naviHoverActor; // The actor that Navi hovers over
+    /* 0x3C */ Actor* lockOnActor;
+    /* 0x40 */ f32 naviMoveProgressFactor; // Controls Navi so she can smootly transition to the target actor
+    /* 0x44 */ f32 reticleRadius; // Control the reticle coming in from offscreen when you first target
+    /* 0x48 */ s16 reticleFadeAlphaControl; // Set and fade the reticle alpha. Also controls the reticle drawing with non-zero values.
+    /* 0x4A */ u8 naviHoverActorCategory; // category of the actor Navi is currently hovering over
+    /* 0x4B */ u8 reticleSpinCounter; // counts up when a reticle is active, used for z rotation of reticle
+    /* 0x4C */ s8 lockOnIndex;
+    /* 0x50 */ LockOnReticle lockOnReticles[3];
+    /* 0x8C */ Actor* forcedTargetActor; // Not used, always set to NULL
+    /* 0x90 */ Actor* bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
+    /* 0x94 */ Actor* arrowHoverActor; // actor a target arrow is currently hovering over
+} TargetContext; // size = 0x98
+
+typedef enum {
+    /*  0 */ TARGET_MODE_0,
+    /*  1 */ TARGET_MODE_1,
+    /*  2 */ TARGET_MODE_2,
+    /*  3 */ TARGET_MODE_3,
+    /*  4 */ TARGET_MODE_4,
+    /*  5 */ TARGET_MODE_5,
+    /*  6 */ TARGET_MODE_6,
+    /*  7 */ TARGET_MODE_7,
+    /*  8 */ TARGET_MODE_8,
+    /*  9 */ TARGET_MODE_9,
+    /* 10 */ TARGET_MODE_MAX
+} TargetMode;
 
 #define TRANSITION_ACTOR_PARAMS_INDEX_SHIFT 10
 #define GET_TRANSITION_ACTOR_INDEX(actor) ((u16)(actor)->params >> TRANSITION_ACTOR_PARAMS_INDEX_SHIFT)

@@ -31,7 +31,8 @@ ActorInit En_Wonder_Talk2_InitVars = {
     /**/ NULL,
 };
 
-static s16 D_80B3A8E0[] = { 6, 0, 1, 2, 3, 4, 5 };
+static s16 D_80B3A8E0[] = { TARGET_MODE_6, TARGET_MODE_0, TARGET_MODE_1, TARGET_MODE_2,
+                            TARGET_MODE_3, TARGET_MODE_4, TARGET_MODE_5 };
 
 void EnWonderTalk2_Destroy(Actor* thisx, PlayState* play) {
 }

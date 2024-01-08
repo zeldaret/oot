@@ -66,7 +66,7 @@ void EnMk_Init(Actor* thisx, PlayState* play) {
     this->actionFunc = EnMk_Wait;
     this->flags = 0;
     this->swimFlag = 0;
-    this->actor.targetMode = 6;
+    this->actor.targetMode = TARGET_MODE_6;
 
     if (GET_ITEMGETINF(ITEMGETINF_10)) {
         this->flags |= 4;

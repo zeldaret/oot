@@ -405,7 +405,7 @@ void EnTest_ChooseAction(EnTest* this, PlayState* play) {
             if (this->actor.xzDistToPlayer < 110.0f) {
                 if (Rand_ZeroOne() > 0.2f) {
                     if (player->stateFlags1 & PLAYER_STATE1_4) {
-                        if (this->actor.isTargeted) {
+                        if (this->actor.isLockedOn) {
                             EnTest_SetupSlashDown(this);
                         } else {
                             func_808627C4(this, play);
@@ -664,7 +664,7 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
                     return;
                 }
             } else if (player->heldItemAction != PLAYER_IA_NONE) {
-                if (this->actor.isTargeted) {
+                if (this->actor.isLockedOn) {
                     if ((play->gameplayFrames % 2) != 0) {
                         func_808627C4(this, play);
                         return;
@@ -690,7 +690,7 @@ void EnTest_WalkAndBlock(EnTest* this, PlayState* play) {
         if (this->actor.xzDistToPlayer < 110.0f) {
             if (Rand_ZeroOne() > 0.2f) {
                 if (player->stateFlags1 & PLAYER_STATE1_4) {
-                    if (this->actor.isTargeted) {
+                    if (this->actor.isLockedOn) {
                         EnTest_SetupSlashDown(this);
                     } else {
                         func_808627C4(this, play);
@@ -975,7 +975,7 @@ void EnTest_SlashDownEnd(EnTest* this, PlayState* play) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
             } else if (player->stateFlags1 & PLAYER_STATE1_4) {
-                if (this->actor.isTargeted) {
+                if (this->actor.isLockedOn) {
                     EnTest_SetupSlashDown(this);
                 } else if ((play->gameplayFrames % 2) != 0) {
                     func_808627C4(this, play);
