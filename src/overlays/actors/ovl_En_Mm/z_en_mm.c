@@ -259,9 +259,7 @@ s32 func_80AADAA0(EnMm* this, PlayState* play) {
 
 s32 EnMm_GetTextId(EnMm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 textId;
-
-    textId = Text_GetFaceReaction(play, 0x1C);
+    s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUNNING_MAN);
 
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
         if (textId == 0) {

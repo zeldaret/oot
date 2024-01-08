@@ -489,23 +489,23 @@ u16 EnKo_GetTextIdAdult(PlayState* play, Actor* thisx) {
 }
 
 u16 EnKo_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction;
+    u16 textId;
     EnKo* this = (EnKo*)thisx;
 
     if (ENKO_TYPE == ENKO_TYPE_CHILD_0 || ENKO_TYPE == ENKO_TYPE_CHILD_2 || ENKO_TYPE == ENKO_TYPE_CHILD_3 ||
         ENKO_TYPE == ENKO_TYPE_CHILD_4 || ENKO_TYPE == ENKO_TYPE_CHILD_7 || ENKO_TYPE == ENKO_TYPE_CHILD_8 ||
         ENKO_TYPE == ENKO_TYPE_CHILD_11) {
-        faceReaction = Text_GetFaceReaction(play, 0x13);
+        textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KOKIRI_1);
     }
     if (ENKO_TYPE == ENKO_TYPE_CHILD_1 || ENKO_TYPE == ENKO_TYPE_CHILD_5 || ENKO_TYPE == ENKO_TYPE_CHILD_6 ||
         ENKO_TYPE == ENKO_TYPE_CHILD_9 || ENKO_TYPE == ENKO_TYPE_CHILD_10) {
-        faceReaction = Text_GetFaceReaction(play, 0x14);
+        textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KOKIRI_2);
     }
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO) {
-        faceReaction = Text_GetFaceReaction(play, 0x12);
+        textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_FADO);
     }
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (LINK_IS_ADULT) {
         return EnKo_GetTextIdAdult(play, thisx);

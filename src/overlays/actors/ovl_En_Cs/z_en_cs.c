@@ -206,9 +206,9 @@ s32 EnCs_GetTalkState(EnCs* this, PlayState* play) {
     return talkState;
 }
 
-s32 EnCs_GetTextID(EnCs* this, PlayState* play) {
+s32 EnCs_GetTextId(EnCs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 textId = Text_GetFaceReaction(play, 15);
+    s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GRAVEYARD_KID);
 
     if (GET_ITEMGETINF(ITEMGETINF_3A)) {
         if (textId == 0) {
@@ -253,8 +253,8 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &sp2A, &sp28);
 
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
-            (Actor_OfferTalk(&this->actor, play, 100.0f))) {
-            this->actor.textId = EnCs_GetTextID(this, play);
+            Actor_OfferTalk(&this->actor, play, 100.0f)) {
+            this->actor.textId = EnCs_GetTextId(this, play);
         }
     }
 }

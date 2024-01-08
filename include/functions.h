@@ -775,7 +775,7 @@ void SfxSource_UpdateAll(PlayState* play);
 void SfxSource_PlaySfxAtFixedWorldPos(PlayState* play, Vec3f* worldPos, s32 duration, u16 sfxId);
 u16 QuestHint_GetSariaTextId(PlayState* play);
 u16 QuestHint_GetNaviTextId(PlayState* play);
-u16 Text_GetFaceReaction(PlayState* play, u32 reactionSet);
+u16 MaskReaction_GetTextId(PlayState* play, u32 maskReactionSet);
 void CutsceneFlags_UnsetAll(PlayState* play);
 void CutsceneFlags_Set(PlayState* play, s16 flag);
 void CutsceneFlags_Unset(PlayState* play, s16 flag);

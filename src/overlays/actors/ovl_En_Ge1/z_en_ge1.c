@@ -304,13 +304,13 @@ void EnGe1_WatchForAndSensePlayer(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_GetReaction_ValleyFloor(EnGe1* this, PlayState* play) {
-    u16 reactionText = Text_GetFaceReaction(play, 0x22);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GERUDO_WHITE);
 
-    if (reactionText == 0) {
-        reactionText = 0x6019;
+    if (textId == 0) {
+        textId = 0x6019;
     }
 
-    EnGe1_SetTalkAction(this, play, reactionText, 100.0f, EnGe1_ChooseActionFromTextId);
+    EnGe1_SetTalkAction(this, play, textId, 100.0f, EnGe1_ChooseActionFromTextId);
 }
 
 // Gerudo Training Ground Guard functions
@@ -463,15 +463,13 @@ void EnGe1_Talk_GateGuard(EnGe1* this, PlayState* play) {
 }
 
 void EnGe1_GetReaction_GateGuard(EnGe1* this, PlayState* play) {
-    u16 reactionText;
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GERUDO_WHITE);
 
-    reactionText = Text_GetFaceReaction(play, 0x22);
-
-    if (reactionText == 0) {
-        reactionText = 0x6069;
+    if (textId == 0) {
+        textId = 0x6069;
     }
 
-    if (EnGe1_SetTalkAction(this, play, reactionText, 100.0f, EnGe1_Talk_GateGuard)) {
+    if (EnGe1_SetTalkAction(this, play, textId, 100.0f, EnGe1_Talk_GateGuard)) {
         this->animFunc = EnGe1_CueUpAnimation;
         this->animation = &gGerudoWhiteDismissiveAnim;
         Animation_Change(&this->skelAnime, &gGerudoWhiteDismissiveAnim, 1.0f, 0.0f,
