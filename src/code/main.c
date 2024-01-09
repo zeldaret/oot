@@ -61,7 +61,7 @@ void Main(void* arg) {
         debugHeapSize = PHYS_TO_K0(0x600000) - (uintptr_t)debugHeapStart;
     } else {
         debugHeapSize = 0x400;
-        debugHeapStart = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
+        debugHeapStart = SYSTEM_ARENA_MALLOC(debugHeapSize, "../main.c", 565);
     }
     osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
     DebugArena_Init(debugHeapStart, debugHeapSize);

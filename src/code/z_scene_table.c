@@ -157,7 +157,7 @@ void* sDCLavaFloorTextures[] = {
 void Scene_DrawConfigDodongosCavern(PlayState* play) {
     u32 gameplayFrames;
     s32 pad;
-    Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Gfx[3]));
+    Gfx* displayListHead = GRAPH_ALLOC(play->state.gfxCtx, 2 * sizeof(Gfx[3]));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4905);
 
@@ -193,7 +193,7 @@ void Scene_DrawConfigDodongosCavern(PlayState* play) {
 
 void Scene_DrawConfigTempleOfTime(PlayState* play) {
     f32 temp;
-    Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 18 * sizeof(Gfx));
+    Gfx* displayListHead = GRAPH_ALLOC(play->state.gfxCtx, 18 * sizeof(Gfx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5069);
 
@@ -784,7 +784,7 @@ void Scene_DrawConfigGerudoTrainingGround(PlayState* play) {
 
 Gfx* Gfx_TwoTexScrollPrimColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                                u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 10 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 10 * sizeof(Gfx));
 
     x1 %= 512 << 2;
     y1 %= 512 << 2;
@@ -966,7 +966,7 @@ void Scene_DrawConfigHyruleField(PlayState* play) {
     u32 gameplayFrames;
     Gfx* displayListHead;
 
-    displayListHead = Graph_Alloc(play->state.gfxCtx, 3 * sizeof(Gfx));
+    displayListHead = GRAPH_ALLOC(play->state.gfxCtx, 3 * sizeof(Gfx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 6814);
 
@@ -1065,7 +1065,7 @@ void Scene_DrawConfigKokiriForest(PlayState* play) {
 
     spA3 = 128;
     spA0 = 500;
-    displayListHead = Graph_Alloc(play->state.gfxCtx, 6 * sizeof(Gfx));
+    displayListHead = GRAPH_ALLOC(play->state.gfxCtx, 6 * sizeof(Gfx));
 
     if (1) {}
     if (1) {}
@@ -1335,7 +1335,7 @@ void Scene_DrawConfigHyruleCastle(PlayState* play) {
 }
 
 void Scene_DrawConfigDeathMountainTrail(PlayState* play) {
-    Gfx* displayListHead = Graph_Alloc(play->state.gfxCtx, 3 * sizeof(Gfx));
+    Gfx* displayListHead = GRAPH_ALLOC(play->state.gfxCtx, 3 * sizeof(Gfx));
 
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7461);
 
@@ -1537,7 +1537,7 @@ void Scene_DrawConfigJabuJabu(PlayState* play) {
         Matrix_Scale(1.005f, sinf(D_8012A398) * 0.8f, 1.005f, MTXMODE_NEW);
     }
 
-    gSPSegment(POLY_OPA_DISP++, 0x0D, Matrix_NewMtx(play->state.gfxCtx, "../z_scene_table.c", 7809));
+    gSPSegment(POLY_OPA_DISP++, 0x0D, MATRIX_NEW(play->state.gfxCtx, "../z_scene_table.c", 7809));
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7811);
 }

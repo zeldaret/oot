@@ -34,15 +34,15 @@ void Interface_Init(PlayState* play) {
     // "Permanent PARAMETER Segment = %x"
     osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
 
-    interfaceCtx->parameterSegment = GameState_Alloc(&play->state, parameterSize, "../z_construct.c", 159);
+    interfaceCtx->parameterSegment = GAME_STATE_ALLOC(&play->state, parameterSize, "../z_construct.c", 159);
 
     osSyncPrintf("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
     ASSERT(interfaceCtx->parameterSegment != NULL, "parameter->parameterSegment != NULL", "../z_construct.c", 161);
-    DmaMgr_RequestSyncDebug(interfaceCtx->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, parameterSize,
-                            "../z_construct.c", 162);
+    DMA_REQUEST_SYNC(interfaceCtx->parameterSegment, (uintptr_t)_parameter_staticSegmentRomStart, parameterSize,
+                     "../z_construct.c", 162);
 
-    interfaceCtx->doActionSegment = GameState_Alloc(&play->state, 3 * DO_ACTION_TEX_SIZE, "../z_construct.c", 166);
+    interfaceCtx->doActionSegment = GAME_STATE_ALLOC(&play->state, 3 * DO_ACTION_TEX_SIZE, "../z_construct.c", 166);
 
     osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 3 * DO_ACTION_TEX_SIZE); // "DO Action Texture Initialization"
     osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
@@ -57,8 +57,8 @@ void Interface_Init(PlayState* play) {
         doActionOffset = LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     }
 
-    DmaMgr_RequestSyncDebug(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
-                            2 * DO_ACTION_TEX_SIZE, "../z_construct.c", 174);
+    DMA_REQUEST_SYNC(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
+                     2 * DO_ACTION_TEX_SIZE, "../z_construct.c", 174);
 
     if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_ENG * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
@@ -68,11 +68,11 @@ void Interface_Init(PlayState* play) {
         doActionOffset = 3 * DO_ACTION_TEX_SIZE + LANGUAGE_FRA * DO_ACTION_MAX * DO_ACTION_TEX_SIZE;
     }
 
-    DmaMgr_RequestSyncDebug(interfaceCtx->doActionSegment + 2 * DO_ACTION_TEX_SIZE,
-                            (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,
-                            "../z_construct.c", 178);
+    DMA_REQUEST_SYNC(interfaceCtx->doActionSegment + 2 * DO_ACTION_TEX_SIZE,
+                     (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, DO_ACTION_TEX_SIZE,
+                     "../z_construct.c", 178);
 
-    interfaceCtx->iconItemSegment = GameState_Alloc(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
+    interfaceCtx->iconItemSegment = GAME_STATE_ALLOC(&play->state, ICON_ITEM_SEGMENT_SIZE, "../z_construct.c", 190);
 
     // "Icon Item Texture Initialization = %x"
     osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", ICON_ITEM_SEGMENT_SIZE);
@@ -85,33 +85,33 @@ void Interface_Init(PlayState* play) {
                  gSaveContext.save.info.equips.buttonItems[3]);
 
     if (gSaveContext.save.info.equips.buttonItems[0] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
 
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
-                                "../z_construct.c", 198);
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 198);
     } else if (gSaveContext.save.info.equips.buttonItems[0] != 0xFF) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (0 * ITEM_ICON_SIZE),
 
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
-                                "../z_construct.c", 203);
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[0]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 203);
     }
 
     if (gSaveContext.save.info.equips.buttonItems[1] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (1 * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[1]), ITEM_ICON_SIZE,
-                                "../z_construct.c", 209);
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (1 * ITEM_ICON_SIZE),
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[1]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 209);
     }
 
     if (gSaveContext.save.info.equips.buttonItems[2] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (2 * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[2]), ITEM_ICON_SIZE,
-                                "../z_construct.c", 214);
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (2 * ITEM_ICON_SIZE),
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[2]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 214);
     }
 
     if (gSaveContext.save.info.equips.buttonItems[3] < 0xF0) {
-        DmaMgr_RequestSyncDebug(interfaceCtx->iconItemSegment + (3 * ITEM_ICON_SIZE),
-                                GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[3]), ITEM_ICON_SIZE,
-                                "../z_construct.c", 219);
+        DMA_REQUEST_SYNC(interfaceCtx->iconItemSegment + (3 * ITEM_ICON_SIZE),
+                         GET_ITEM_ICON_VROM(gSaveContext.save.info.equips.buttonItems[3]), ITEM_ICON_SIZE,
+                         "../z_construct.c", 219);
     }
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timerState));
@@ -190,7 +190,7 @@ void Message_Init(PlayState* play) {
 
     View_Init(&msgCtx->view, play->state.gfxCtx);
 
-    msgCtx->textboxSegment = GameState_Alloc(&play->state, TEXTBOX_SEGMENT_SIZE, "../z_construct.c", 349);
+    msgCtx->textboxSegment = GAME_STATE_ALLOC(&play->state, TEXTBOX_SEGMENT_SIZE, "../z_construct.c", 349);
 
     osSyncPrintf("message->fukidashiSegment=%x\n", msgCtx->textboxSegment);
 

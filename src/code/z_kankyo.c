@@ -710,9 +710,9 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             size = gNormalSkyFiles[newSkybox1Index].file.vromEnd - gNormalSkyFiles[newSkybox1Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->staticSegments[0],
-                                gNormalSkyFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                "../z_kankyo.c", 1264);
+            DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->staticSegments[0],
+                              gNormalSkyFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                              "../z_kankyo.c", 1264);
             envCtx->skybox1Index = newSkybox1Index;
         }
 
@@ -721,9 +721,9 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             size = gNormalSkyFiles[newSkybox2Index].file.vromEnd - gNormalSkyFiles[newSkybox2Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->staticSegments[1],
-                                gNormalSkyFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                "../z_kankyo.c", 1281);
+            DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->staticSegments[1],
+                              gNormalSkyFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                              "../z_kankyo.c", 1281);
             envCtx->skybox2Index = newSkybox2Index;
         }
 
@@ -735,16 +735,16 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->palettes,
-                                    gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1307);
+                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->palettes,
+                                  gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                  "../z_kankyo.c", 1307);
             } else {
                 size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_RequestAsync(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
-                                    gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1320);
+                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
+                                  gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                  "../z_kankyo.c", 1320);
             }
         }
 
@@ -756,16 +756,16 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_RequestAsync(&envCtx->dmaRequest, skyboxCtx->palettes,
-                                    gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1342);
+                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->palettes,
+                                  gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                  "../z_kankyo.c", 1342);
             } else {
                 size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_RequestAsync(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
-                                    gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1355);
+                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
+                                  gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                  "../z_kankyo.c", 1355);
             }
         }
 
@@ -1427,7 +1427,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
         scale = (color * 2.0f) + 10.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 2364), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 2364), G_MTX_LOAD);
         Gfx_SetupDL_54Opa(play->state.gfxCtx);
         gSPDisplayList(POLY_OPA_DISP++, gSunDL);
 
@@ -1446,7 +1446,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         alpha = temp * 255.0f;
 
         if (alpha > 0.0f) {
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 2406), G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 2406), G_MTX_LOAD);
             Gfx_SetupDL_51Opa(play->state.gfxCtx);
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 240, 255, 180, alpha);
@@ -1620,7 +1620,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
             POLY_XLU_DISP = func_800947AC(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, lensFlareColors[i].r, lensFlareColors[i].g, lensFlareColors[i].b,
                             alpha * envCtx->lensFlareAlphaScale);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2662),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2662),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0,
                               0, PRIMITIVE, 0);
@@ -1754,7 +1754,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
             Matrix_RotateY(-rotY, MTXMODE_APPLY);
             Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);
             Matrix_Scale(0.4f, 1.2f, 0.4f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2887),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2887),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gRaindropDL);
         }
@@ -1781,7 +1781,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
                     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
                 }
 
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2940),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2940),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, gEffShockwaveDL);
             }
@@ -2025,7 +2025,7 @@ void Environment_DrawLightning(PlayState* play, s32 unused) {
             Matrix_Scale(22.0f, 100.0f, 22.0f, MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 3333),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 3333),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[sLightningBolts[i].textureIndex]));
             Gfx_SetupDL_61Xlu(play->state.gfxCtx);
