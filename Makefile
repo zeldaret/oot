@@ -283,7 +283,7 @@ setup:
 
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
-	$(error Emulator path not set. Set EMULATOR in the Makefile or define it as an environment variable)
+	$(error Emulator path not set. Set N64_EMULATOR in the Makefile or define it as an environment variable)
 endif
 	$(N64_EMULATOR) $<
 
