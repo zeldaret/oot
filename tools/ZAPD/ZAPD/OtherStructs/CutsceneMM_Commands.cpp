@@ -14,13 +14,13 @@ const std::unordered_map<CutsceneMM_CommandType, CsCommandListDescriptor> csComm
 	{CutsceneMM_CommandType::CS_CMD_TRANSITION, {"CS_TRANSITION", "(%s, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_MOTION_BLUR, {"CS_MOTION_BLUR", "(%s, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_GIVE_TATL, {"CS_GIVE_TATL", "(%s, %i, %i)"}},
-	{CutsceneMM_CommandType::CS_CMD_START_SEQ, {"CS_START_SEQ", "(0x%04X, %i, %i)"}},
+	{CutsceneMM_CommandType::CS_CMD_START_SEQ, {"CS_START_SEQ", "(%s, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_SFX_REVERB_INDEX_2,
      {"CS_SFX_REVERB_INDEX_2", "(0x%04X, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_SFX_REVERB_INDEX_1,
      {"CS_SFX_REVERB_INDEX_1", "(0x%04X, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_MODIFY_SEQ, {"CS_MODIFY_SEQ", "(%s, %i, %i)"}},
-	{CutsceneMM_CommandType::CS_CMD_STOP_SEQ, {"CS_STOP_SEQ", "(0x%04X, %i, %i, %i)"}},
+	{CutsceneMM_CommandType::CS_CMD_STOP_SEQ, {"CS_STOP_SEQ", "(%s, %i, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_START_AMBIENCE, {"CS_START_AMBIENCE", "(0x%04X, %i, %i)"}},
 	{CutsceneMM_CommandType::CS_CMD_FADE_OUT_AMBIENCE,
      {"CS_FADE_OUT_AMBIENCE", "(0x%04X, %i, %i)"}},
@@ -41,6 +41,7 @@ std::string CutsceneMMSubCommandEntry_GenericCmd::GetBodySourceCode() const
 	const auto& element = csCommandsDescMM.find(commandId);
 	std::string entryFmt = "CS_UNK_DATA(0x%02X, %i, %i, %i)";
 	std::string type = "";
+	bool isIndexInSeqId = enumData->seqId.find(base - 1) != enumData->seqId.end();
 
 	if (element != csCommandsDescMM.end())
 	{
@@ -71,6 +72,11 @@ std::string CutsceneMMSubCommandEntry_GenericCmd::GetBodySourceCode() const
 	else if (commandId == CutsceneMM_CommandType::CS_CMD_CHOOSE_CREDITS_SCENES &&
 	         enumData->chooseCreditsSceneType.find(base) != enumData->chooseCreditsSceneType.end())
 		type = enumData->chooseCreditsSceneType[base];
+
+	else if ((commandId == CutsceneMM_CommandType::CS_CMD_START_SEQ ||
+	          commandId == CutsceneMM_CommandType::CS_CMD_STOP_SEQ) &&
+	         isIndexInSeqId)
+		type = enumData->seqId[base - 1];
 
 	else if (commandId == CutsceneMM_CommandType::CS_CMD_GIVE_TATL)
 		type = base ? "true" : "false";
@@ -339,16 +345,18 @@ CutsceneMMSubCommandEntry_Text::CutsceneMMSubCommandEntry_Text(const std::vector
 
 std::string CutsceneMMSubCommandEntry_Text::GetBodySourceCode() const
 {
+	EnumData* enumData = &Globals::Instance->cfg.enumData;
+
 	if (type == 0xFFFF)
 	{
 		return StringHelper::Sprintf("CS_TEXT_NONE(%i, %i)", startFrame, endFrame);
 	}
 
-	if (type == 2)
+	if (type == 2 &&
+	    enumData->ocarinaSongActionId.find(base) != enumData->ocarinaSongActionId.end())
 	{
-		// TODO: set the enum name when it will be documented
-		// (https://github.com/Decompollaborate/mm/blob/3e1c568c084671c17836ced904714ea49d989621/include/z64ocarina.h#L35-L118)
-		return StringHelper::Sprintf("CS_TEXT_OCARINA_ACTION(%i, %i, %i, 0x%X)", base, startFrame,
+		return StringHelper::Sprintf("CS_TEXT_OCARINA_ACTION(%s, %i, %i, 0x%X)",
+		                             enumData->ocarinaSongActionId[base].c_str(), startFrame,
 		                             endFrame, textId1);
 	}
 
@@ -425,23 +433,24 @@ CutsceneMMSubCommandEntry_ActorCue::CutsceneMMSubCommandEntry_ActorCue(
 
 std::string CutsceneMMSubCommandEntry_ActorCue::GetBodySourceCode() const
 {
-	std::string result;
+	EnumData* enumData = &Globals::Instance->cfg.enumData;
 
 	if (static_cast<CutsceneMM_CommandType>(commandID) == CutsceneMM_CommandType::CS_CMD_PLAYER_CUE)
 	{
-		result = "CS_PLAYER_CUE";
+		return StringHelper::Sprintf("CS_PLAYER_CUE(%s, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
+		                             "%i, %i, %i, %i, %.8ef, %.8ef, %.8ef)",
+		                             enumData->playerCueId[base].c_str(), startFrame, endFrame,
+		                             rotX, rotY, rotZ, startPosX, startPosY, startPosZ, endPosX,
+		                             endPosY, endPosZ, normalX, normalY, normalZ);
 	}
 	else
 	{
-		result = "CS_ACTOR_CUE";
+		return StringHelper::Sprintf("CS_ACTOR_CUE(%i, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
+		                             "%i, %i, %i, %i, %.8ef, %.8ef, %.8ef)",
+		                             base, startFrame, endFrame, rotX, rotY, rotZ, startPosX,
+		                             startPosY, startPosZ, endPosX, endPosY, endPosZ, normalX,
+		                             normalY, normalZ);
 	}
-
-	result +=
-		StringHelper::Sprintf("(%i, %i, %i, 0x%04X, 0x%04X, 0x%04X, %i, %i, "
-	                          "%i, %i, %i, %i, %.8ef, %.8ef, %.8ef)",
-	                          base, startFrame, endFrame, rotX, rotY, rotZ, startPosX, startPosY,
-	                          startPosZ, endPosX, endPosY, endPosZ, normalX, normalY, normalZ);
-	return result;
 }
 
 size_t CutsceneMMSubCommandEntry_ActorCue::GetRawSize() const

@@ -23,8 +23,8 @@ void Main_ThreadEntry(void* arg) {
     DmaMgr_Init();
     PRINTF("codeセグメントロード中...");
     time = osGetTime();
-    DmaMgr_RequestSyncDebug(_codeSegmentStart, (uintptr_t)_codeSegmentRomStart,
-                            _codeSegmentRomEnd - _codeSegmentRomStart, "../idle.c", 238);
+    DMA_REQUEST_SYNC(_codeSegmentStart, (uintptr_t)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart,
+                     "../idle.c", 238);
     time -= osGetTime();
     PRINTF("\rcodeセグメントロード中...完了\n");
     PRINTF("転送時間 %6.3f\n");

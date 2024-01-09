@@ -50,7 +50,7 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
             "includePath": [ // Matches makefile's includes
                 "${workspaceFolder}/**",
                 "src",
-                "build",
+                "build/gc-eu-mq-dbg",
                 "include"
             ],
             "defines": [

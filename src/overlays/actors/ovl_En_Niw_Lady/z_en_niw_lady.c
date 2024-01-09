@@ -99,7 +99,7 @@ void EnNiwLady_Destroy(Actor* thisx, PlayState* play) {
 void EnNiwLady_ChoseAnimation(EnNiwLady* this, PlayState* play, s32 arg2) {
     f32 frames;
 
-    if (Text_GetFaceReaction(play, 8) != 0) {
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) != 0) {
         arg2 = 8;
     }
     if (arg2 != this->unk_270) {
@@ -240,8 +240,8 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
         phi_s1 = 9;
     }
     this->actor.textId = sMissingCuccoTextIds[phi_s1];
-    if (Text_GetFaceReaction(play, 8) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, 8);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY);
         this->unk_262 = TEXT_STATE_DONE;
     }
     if ((this->unk_26C != 0) && (phi_s1 != 9)) {
@@ -257,7 +257,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n" VT_RST, this->actor.textId);
         PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n" VT_RST, this->unk_262);
         PRINTF("\n\n");
-        if (Text_GetFaceReaction(play, 8) == 0) {
+        if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) == 0) {
             if (this->actor.textId == 0x503C) {
                 Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 this->unk_26C = 2;
@@ -475,8 +475,8 @@ void func_80ABAD38(EnNiwLady* this, PlayState* play) {
 
 void func_80ABAD7C(EnNiwLady* this, PlayState* play) {
     this->actor.textId = 0x503D;
-    if (Text_GetFaceReaction(play, 8) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, 8);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY);
     }
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 8;
@@ -548,7 +548,7 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
 Gfx* EnNiwLady_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* dList;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gSPEndDisplayList(dList);
     return dList;
 }

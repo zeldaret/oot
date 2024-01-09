@@ -26,9 +26,9 @@ Specifically, to use the automatically generated reloc, rather than the original
 ```
 beginseg
     name "ovl_En_Jj"
-    include "build/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
-    //include "build/data/overlays/actors/z_en_jj.data.o"
-    include "build/data/overlays/actors/z_en_jj.reloc.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
+    //include "$(BUILD_DIR)/data/overlays/actors/z_en_jj.data.o"
+    include "$(BUILD_DIR)/data/overlays/actors/z_en_jj.reloc.o"
 endseg
 ```
 
@@ -37,8 +37,8 @@ and change to use our reloc:
 ```
 beginseg
     name "ovl_En_Jj"
-    include "build/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
-    include "build/src/overlays/actors/ovl_En_Jj/ovl_En_Jj_reloc.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_En_Jj/ovl_En_Jj_reloc.o"
 endseg
 ```
 

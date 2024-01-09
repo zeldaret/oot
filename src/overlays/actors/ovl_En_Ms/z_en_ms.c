@@ -58,7 +58,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnMs_SetOfferText(EnMs* this, PlayState* play) {
-    this->actor.textId = Text_GetFaceReaction(play, 0x1B);
+    this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MAGIC_BEAN_SALESMAN);
     if (this->actor.textId == 0) {
         if (BEANS_BOUGHT >= 10) {
             this->actor.textId = 0x406B;

@@ -21,8 +21,6 @@
 #define TALON_STATE_FLAG_RAISING_HANDS (1 << 8)
 #define TALON_STATE_FLAG_RESTORE_BGM_ON_DESTROY (1 << 9)
 
-#define TALON_FACE_REACTION_SET 24
-
 typedef enum {
     /* 0 */ TALON_EYE_INDEX_OPEN,
     /* 1 */ TALON_EYE_INDEX_HALF,
@@ -97,7 +95,7 @@ void EnTa_SetupAction(EnTa* this, EnTaActionFunc actionFunc, EnTaAnimFunc animFu
 }
 
 void EnTa_SetTextForTalkInLonLonHouse(EnTa* this, PlayState* play) {
-    u16 faceReaction = Text_GetFaceReaction(play, TALON_FACE_REACTION_SET);
+    u16 maskReactionTextId = MaskReaction_GetTextId(play, MASK_REACTION_SET_TALON);
 
     // Check if cucco game was just finished
     if (GET_EVENTINF(EVENTINF_CUCCO_GAME_FINISHED)) {
@@ -115,7 +113,7 @@ void EnTa_SetTextForTalkInLonLonHouse(EnTa* this, PlayState* play) {
             this->actor.textId = 0x2085;
         }
         CLEAR_EVENTINF(EVENTINF_CUCCO_GAME_WON);
-    } else if (faceReaction == 0) {
+    } else if (maskReactionTextId == 0) {
         if (GET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE)) {
             if (GET_ITEMGETINF(ITEMGETINF_TALON_BOTTLE)) {
                 // Play cucco game or buy milk
@@ -129,7 +127,7 @@ void EnTa_SetTextForTalkInLonLonHouse(EnTa* this, PlayState* play) {
             this->actor.textId = 0x207E;
         }
     } else {
-        this->actor.textId = faceReaction;
+        this->actor.textId = maskReactionTextId;
     }
 }
 
@@ -1086,14 +1084,14 @@ void EnTa_TalkAfterCuccoGameWon(EnTa* this, PlayState* play) {
 }
 
 void EnTa_IdleSittingInLonLonHouse(EnTa* this, PlayState* play) {
-    u16 faceReaction = Text_GetFaceReaction(play, TALON_FACE_REACTION_SET);
+    u16 maskReactionTextId = MaskReaction_GetTextId(play, MASK_REACTION_SET_TALON);
 
     EnTa_SetTextForTalkInLonLonHouse(this, play);
 
     if (EnTa_RequestTalk(this, play, this->actor.textId)) {
         Actor_PlaySfx(&this->actor, NA_SE_VO_TA_SURPRISE);
 
-        if (faceReaction != 0) {
+        if (maskReactionTextId != 0) {
             EnTa_SetupActionWithWakeUpAnimation(this, EnTa_TalkGeneralInLonLonHouse);
         } else {
             SET_INFTABLE(INFTABLE_TALKED_TO_TALON_IN_RANCH_HOUSE);

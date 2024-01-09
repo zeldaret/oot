@@ -14,7 +14,8 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
                (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
     }
 
-    sEffectSsInfo.table = GameState_Alloc(&play->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
+    sEffectSsInfo.table =
+        GAME_STATE_ALLOC(&play->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
     ASSERT(sEffectSsInfo.table != NULL, "EffectSS2Info.data_table != NULL", "../z_effect_soft_sprite.c", 290);
 
     sEffectSsInfo.searchStartIndex = 0;
@@ -51,7 +52,7 @@ void EffectSs_ClearAll(PlayState* play) {
         addr = overlay->loadedRamAddr;
 
         if (addr != NULL) {
-            ZeldaArena_FreeDebug(addr, "../z_effect_soft_sprite.c", 337);
+            ZELDA_ARENA_FREE(addr, "../z_effect_soft_sprite.c", 337);
         }
 
         overlay->loadedRamAddr = NULL;
@@ -188,7 +189,7 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
         initInfo = overlayEntry->initInfo;
     } else {
         if (overlayEntry->loadedRamAddr == NULL) {
-            overlayEntry->loadedRamAddr = ZeldaArena_MallocRDebug(overlaySize, "../z_effect_soft_sprite.c", 585);
+            overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC_R(overlaySize, "../z_effect_soft_sprite.c", 585);
 
             if (overlayEntry->loadedRamAddr == NULL) {
                 PRINTF(VT_FGCOL(RED));
