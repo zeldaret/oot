@@ -261,11 +261,11 @@ void EnCow_CheckForEmptyBottle(EnCow* this, PlayState* play) {
 }
 
 void EnCow_Talk(EnCow* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnCow_CheckForEmptyBottle;
     } else {
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F2CC(&this->actor, play, 170.0f);
+        Actor_OfferTalk(&this->actor, play, 170.0f);
         this->actor.textId = 0x2006;
     }
 
@@ -291,7 +291,7 @@ void EnCow_Idle(EnCow* this, PlayState* play) {
                     R_EPONAS_SONG_PLAYED = false;
                     this->actionFunc = EnCow_Talk;
                     this->actor.flags |= ACTOR_FLAG_16;
-                    func_8002F2CC(&this->actor, play, 170.0f);
+                    Actor_OfferTalk(&this->actor, play, 170.0f);
                     this->actor.textId = 0x2006;
                 } else {
                     this->cowFlags |= COW_FLAG_FAILED_TO_GIVE_MILK;

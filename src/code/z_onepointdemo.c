@@ -9,19 +9,15 @@ static s32 sPrevFrameCs1100 = -4096;
 
 #include "z_onepointdemo_data.inc.c"
 
-Vec3f* OnePointCutscene_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+Vec3f OnePointCutscene_AddVecGeoToVec3f(Vec3f* a, VecGeo* geo) {
     Vec3f sum;
-    Vec3f b;
-
-    OLib_VecGeoToVec3f(&b, geo);
+    Vec3f b = OLib_VecGeoToVec3f(geo);
 
     sum.x = a->x + b.x;
     sum.y = a->y + b.y;
     sum.z = a->z + b.z;
 
-    *dest = sum;
-
-    return dest;
+    return sum;
 }
 
 s16 OnePointCutscene_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {
@@ -98,7 +94,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80120964[0].atTargetInit = play->view.at;
             D_80120964[0].eyeTargetInit = play->view.eye;
             D_80120964[0].fovTargetInit = play->view.fovy;
-            OLib_Vec3fDiffToVecGeo(&spD0, &mainCam->at, &mainCam->eye);
+            spD0 = OLib_Vec3fDiffToVecGeo(&mainCam->at, &mainCam->eye);
             D_80120964[1].eyeTargetInit.y = CAM_BINANG_TO_DEG(spD0.yaw);
             D_80120964[1].timerInit = timer - 1;
 
@@ -112,9 +108,9 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_801209B4[0].atTargetInit = D_801209B4[1].atTargetInit = play->view.at;
             D_801209B4[0].eyeTargetInit = play->view.eye;
             D_801209B4[0].fovTargetInit = D_801209B4[2].fovTargetInit = play->view.fovy;
-            OLib_Vec3fDiffToVecGeo(&spD0, &actor->focus.pos, &mainCam->at);
+            spD0 = OLib_Vec3fDiffToVecGeo(&actor->focus.pos, &mainCam->at);
             spD0.r = mainCam->dist;
-            OnePointCutscene_AddVecGeoToVec3f(&D_801209B4[1].eyeTargetInit, &D_801209B4[1].atTargetInit, &spD0);
+            D_801209B4[1].eyeTargetInit = OnePointCutscene_AddVecGeoToVec3f(&D_801209B4[1].atTargetInit, &spD0);
             D_801209B4[1].atTargetInit.y += 20.0f;
 
             csInfo->keyFrames = D_801209B4;
@@ -310,14 +306,14 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 4500:
-            Actor_GetFocus(&spA0, actor);
+            spA0 = Actor_GetFocus(actor);
             spC0 = spA0.pos;
             spC0.y = OnePointCutscene_RaycastDown(&play->colCtx, &spC0) + 40.0f;
             spD0.r = 150.0f;
             spD0.yaw = spA0.rot.y;
             spD0.pitch = 0x3E8;
 
-            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
+            spB4 = OnePointCutscene_AddVecGeoToVec3f(&spC0, &spD0);
             Play_RequestCameraSetting(play, subCamId, CAM_SET_FREE2);
             Play_SetCameraAtEye(play, subCamId, &spC0, &spB4);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
@@ -329,7 +325,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 2210:
-            OLib_Vec3fDiffToVecGeo(&spD0, &player->actor.world.pos, &actor->world.pos);
+            spD0 = OLib_Vec3fDiffToVecGeo(&player->actor.world.pos, &actor->world.pos);
             D_801213B4[0].eyeTargetInit.y = D_801213B4[1].eyeTargetInit.y = D_801213B4[2].eyeTargetInit.y =
                 D_801213B4[2].atTargetInit.y = CAM_BINANG_TO_DEG(spD0.yaw);
             if (Rand_ZeroOne() < 0.0f) {
@@ -454,7 +450,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
         case 3100:
             VEC_SET(spB4, 0.0f, -280.0f, -1400.0f);
 
-            Actor_GetFocus(&spA0, actor);
+            spA0 = Actor_GetFocus(actor);
             spC0 = spA0.pos;
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_PIVOT_VERTICAL);
             Play_SetCameraAtEye(play, subCamId, &spC0, &spB4);
@@ -556,14 +552,14 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 3170:
-            Actor_GetWorld(&spA0, actor);
+            spA0 = Actor_GetWorld(actor);
             spC0 = spA0.pos;
             spD0.pitch = -0x5DC;
             spC0.y += 50.0f;
             spD0.r = 250.0f;
-            Actor_GetWorld(&spA0, &player->actor);
+            spA0 = Actor_GetWorld(&player->actor);
             spD0.yaw = OnePointCutscene_Vec3fYaw(&spC0, &spA0.pos) - 0x7D0;
-            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
+            spB4 = OnePointCutscene_AddVecGeoToVec3f(&spC0, &spD0);
             Play_RequestCameraSetting(play, subCamId, CAM_SET_FREE2);
             Play_SetCameraAtEye(play, subCamId, &spC0, &spB4);
             Play_CopyCamera(play, CAM_ID_MAIN, subCamId);
@@ -573,12 +569,12 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 3160:
-            Actor_GetWorld(&spA0, actor);
+            spA0 = Actor_GetWorld(actor);
             spC0 = spA0.pos;
             spD0.pitch = 0;
             spD0.yaw = spA0.rot.y;
             spD0.r = 150.0f;
-            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
+            spB4 = OnePointCutscene_AddVecGeoToVec3f(&spC0, &spD0);
             Play_RequestCameraSetting(play, subCamId, CAM_SET_FREE2);
             Play_SetCameraAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
@@ -587,13 +583,13 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 3180:
-            Actor_GetWorldPosShapeRot(&spA0, actor);
+            spA0 = Actor_GetWorldPosShapeRot(actor);
             spC0 = spA0.pos;
             spC0.y += 120.0f;
             spD0.r = 300.0f;
             spD0.yaw = spA0.rot.y;
             spD0.pitch = -0xAF0;
-            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
+            spB4 = OnePointCutscene_AddVecGeoToVec3f(&spC0, &spD0);
             Play_RequestCameraSetting(play, subCamId, CAM_SET_FREE2);
             Play_SetCameraAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
@@ -619,15 +615,15 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             subCam->roll = 0x1E;
             subCam->fov = 75.0f;
             Player_SetCsAction(play, &player->actor, PLAYER_CSACTION_8);
-            Actor_GetWorldPosShapeRot(&spA0, actor);
-            Actor_GetFocus(&sp8C, &player->actor);
+            spA0 = Actor_GetWorldPosShapeRot(actor);
+            sp8C = Actor_GetFocus(&player->actor);
             spC0.x = sp8C.pos.x;
             spC0.y = sp8C.pos.y + 70.0f;
             spC0.z = sp8C.pos.z;
-            OLib_Vec3fDiffToVecGeo(&spD0, &spA0.pos, &sp8C.pos);
+            spD0 = OLib_Vec3fDiffToVecGeo(&spA0.pos, &sp8C.pos);
             spD0.pitch = 0x5DC;
             spD0.r = 120.0f;
-            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
+            spB4 = OnePointCutscene_AddVecGeoToVec3f(&spC0, &spD0);
             Play_SetCameraAtEye(play, CAM_ID_MAIN, &spC0, &spB4);
 
             i = Quake_Request(subCam, QUAKE_TYPE_3);
@@ -637,13 +633,13 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 6010:
-            Actor_GetWorld(&spA0, actor);
+            spA0 = Actor_GetWorld(actor);
             spC0 = spA0.pos;
             spD0.pitch = 0;
             spC0.y += 70.0f;
             spD0.yaw = spA0.rot.y + 0x7FFF;
             spD0.r = 300.0f;
-            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
+            spB4 = OnePointCutscene_AddVecGeoToVec3f(&spC0, &spD0);
             Play_RequestCameraSetting(play, subCamId, CAM_SET_FREE2);
             Play_SetCameraAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
@@ -652,14 +648,14 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 3220:
-            Actor_GetFocus(&spA0, actor);
+            spA0 = Actor_GetFocus(actor);
             spC0 = spA0.pos;
             Play_InitCameraDataUsingPlayer(play, subCamId, player, CAM_SET_PIVOT_VERTICAL);
-            Actor_GetWorld(&spA0, &player->actor);
-            OLib_Vec3fDiffToVecGeo(&spD0, &spC0, &spA0.pos);
+            spA0 = Actor_GetWorld(&player->actor);
+            spD0 = OLib_Vec3fDiffToVecGeo(&spC0, &spA0.pos);
             spD0.yaw += 0x3E8;
             spD0.r = 400.0f;
-            OnePointCutscene_AddVecGeoToVec3f(&spB4, &spC0, &spD0);
+            spB4 = OnePointCutscene_AddVecGeoToVec3f(&spC0, &spD0);
             spB4.y = spA0.pos.y + 60.0f;
             Play_SetCameraAtEye(play, subCamId, &spC0, &spB4);
             subCam->roll = 0;
@@ -681,7 +677,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
         case 6001:
             Play_RequestCameraSetting(play, subCamId, CAM_SET_CS_3);
             Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
-            Actor_GetWorld(&spA0, actor);
+            spA0 = Actor_GetWorld(actor);
             if (spA0.pos.z > -750.0f) {
                 OnePointCutscene_SetCsCamPoints(subCam, D_801208E8, D_801208E4, D_801206A0, D_80120820);
             } else {
@@ -732,7 +728,7 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             D_80121F1C[0].atTargetInit = play->view.at;
             D_80121F1C[0].eyeTargetInit = play->view.eye;
             D_80121F1C[0].fovTargetInit = play->view.fovy;
-            Actor_GetFocus(&spA0, actor);
+            spA0 = Actor_GetFocus(actor);
             player->actor.shape.rot.y = player->actor.world.rot.y = player->yaw = spA0.rot.y;
 
             csInfo->keyFrames = D_80121F1C;
@@ -1002,8 +998,8 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
             break;
 
         case 8700:
-            Actor_GetFocus(&spA0, actor);
-            Actor_GetFocus(&sp8C, &player->actor);
+            spA0 = Actor_GetFocus(actor);
+            sp8C = Actor_GetFocus(&player->actor);
             D_80122E44[timer & 1][0].atTargetInit.y = ((spA0.pos.y - sp8C.pos.y) / 10.0f) + 90.0f;
             D_80122E44[timer & 1][5].atTargetInit = mainCam->at;
 
@@ -1052,13 +1048,13 @@ s32 OnePointCutscene_SetInfo(PlayState* play, s16 subCamId, s16 csId, Actor* act
                 if (player->stateFlags1 & PLAYER_STATE1_27) {
                     D_801231B4[2].atTargetInit.z = 0.0f;
                 }
-                Actor_GetWorldPosShapeRot(&spA0, &player->actor);
-                OLib_Vec3fDiffToVecGeo(&spD0, &spA0.pos, &mainCam->at);
+                spA0 = Actor_GetWorldPosShapeRot(&player->actor);
+                spD0 = OLib_Vec3fDiffToVecGeo(&spA0.pos, &mainCam->at);
                 spD0.yaw -= spA0.rot.y;
-                OLib_VecGeoToVec3f(&D_801231B4[3].atTargetInit, &spD0);
-                OLib_Vec3fDiffToVecGeo(&spD0, &spA0.pos, &mainCam->eye);
+                D_801231B4[3].atTargetInit = OLib_VecGeoToVec3f(&spD0);
+                spD0 = OLib_Vec3fDiffToVecGeo(&spA0.pos, &mainCam->eye);
                 spD0.yaw -= spA0.rot.y;
-                OLib_VecGeoToVec3f(&D_801231B4[3].eyeTargetInit, &spD0);
+                D_801231B4[3].eyeTargetInit = OLib_VecGeoToVec3f(&spD0);
                 D_801231B4[3].fovTargetInit = mainCam->fov;
                 D_801231B4[3].timerInit = timer - 50;
 

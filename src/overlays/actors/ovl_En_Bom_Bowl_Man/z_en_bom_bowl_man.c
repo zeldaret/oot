@@ -98,13 +98,13 @@ void EnBomBowlMan_WaitAsleep(EnBomBowlMan* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnBomBowlMan_TalkAsleep;
     } else {
         yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
         if (!(this->actor.xzDistToPlayer > 120.0f) && (yawDiff < 0x4300)) {
-            func_8002F2CC(&this->actor, play, 120.0f);
+            Actor_OfferTalk(&this->actor, play, 120.0f);
         }
     }
 }
@@ -177,10 +177,10 @@ void EnBomBowlMan_CheckBeatenDC(EnBomBowlMan* this, PlayState* play) {
 void EnBomBowlMan_WaitNotBeatenDC(EnBomBowlMan* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnBomBowlMan_TalkNotBeatenDC;
     } else {
-        func_8002F2CC(&this->actor, play, 120.0f);
+        Actor_OfferTalk(&this->actor, play, 120.0f);
     }
 }
 
@@ -265,7 +265,7 @@ void EnBomBowlMan_RunGame(EnBomBowlMan* this, PlayState* play) {
         }
         this->actionFunc = EnBomBowlMan_HandlePlayChoice;
     } else {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             if (this->minigamePlayStatus == 0) {
                 this->actionFunc = EnBomBowlMan_HandlePlayChoice;
             } else {
@@ -275,7 +275,7 @@ void EnBomBowlMan_RunGame(EnBomBowlMan* this, PlayState* play) {
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if (!(this->actor.xzDistToPlayer > 120.0f) && (yawDiff < 0x4300)) {
-                func_8002F2CC(&this->actor, play, 120.0f);
+                Actor_OfferTalk(&this->actor, play, 120.0f);
             }
         }
     }

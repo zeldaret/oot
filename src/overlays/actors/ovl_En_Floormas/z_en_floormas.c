@@ -242,7 +242,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (this->actor.scale.x > 0.004f) {
         this->actionTarget = (rotDelta * (2.0f / 30.0f));
     } else {
-        this->skelAnime.playSpeed = this->skelAnime.playSpeed + this->skelAnime.playSpeed;
+        this->skelAnime.playSpeed *= 2.0f;
         this->actionTarget = rotDelta * (2.0f / 15.0f);
     }
     this->actionFunc = EnFloormas_Turn;
@@ -1092,7 +1092,7 @@ void EnFloormas_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         Matrix_RotateY(DEG_TO_RAD(60), MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(15), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
-        gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_floormas.c", 2299), G_MTX_LOAD);
+        gSPMatrix((*gfx)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_floormas.c", 2299), G_MTX_LOAD);
         gSPDisplayList((*gfx)++, gWallmasterFingerDL);
         Matrix_Pop();
     }

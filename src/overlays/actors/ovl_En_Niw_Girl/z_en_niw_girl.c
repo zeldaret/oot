@@ -170,7 +170,7 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play) {
         this->chasedEnNiw->path = 0;
     }
     Math_ApproachZeroF(&this->actor.speed, 0.8f, 0.2f);
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.textId == 0x70EA) {
             this->unk_27A = 1;
         }
@@ -179,7 +179,7 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play) {
             this->jumpTimer = Rand_ZeroFloat(100.0f) + 250.0f;
             this->actionFunc = EnNiwGirl_Jump;
         } else {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
 }

@@ -915,7 +915,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
 }
 
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
-    sramCtx->readBuff = GameState_Alloc(gameState, SRAM_SIZE, "../z_sram.c", 1294);
+    sramCtx->readBuff = GAME_STATE_ALLOC(gameState, SRAM_SIZE, "../z_sram.c", 1294);
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 

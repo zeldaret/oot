@@ -146,10 +146,10 @@ void func_80B4AF18(EnZl1* this, PlayState* play) {
         if (Actor_TextboxIsClosing(&this->actor, play)) {
             this->unk_1E6 = 0;
         }
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk_1E6 = 1;
     } else if (this->actor.world.pos.y <= player->actor.world.pos.y) {
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -166,7 +166,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
         this->subCamId = Play_CreateSubCamera(play);
@@ -191,7 +191,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         if (1) {} // necessary to match
         rotDiff = ABS(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
         if ((rotDiff < 0x238E) && !(player->actor.world.pos.y < this->actor.world.pos.y)) {
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     }
 }
@@ -556,10 +556,10 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             if (player->actor.world.pos.y < this->actor.world.pos.y) {
                 break;
             } else {
-                if (Actor_ProcessTalkRequest(&this->actor, play)) {
+                if (Actor_TalkOfferAccepted(&this->actor, play)) {
                     this->unk_1E2++;
                 } else {
-                    func_8002F2F4(&this->actor, play);
+                    Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
                 }
             }
             break;
@@ -572,7 +572,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
             if (Actor_TextboxIsClosing(&this->actor, play)) {
                 Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
-                this->actor.flags &= ~ACTOR_FLAG_8;
+                this->actor.flags &= ~ACTOR_FLAG_TALK;
                 this->unk_1E2 = 4;
             }
             break;

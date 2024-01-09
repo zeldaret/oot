@@ -446,9 +446,11 @@ void DmaMgr_ThreadEntry(void* arg) {
 }
 
 /**
- * Submits a DMA request to the DMA manager. For internal use only.
+ * Submit an asynchronous DMA request. Unlike other DMA requests, this will not block the current thread. Data arrival
+ * is not immediate however, ensure that the request has completed by awaiting a message sent to `queue` when the DMA
+ * operation has completed.
  *
- * @param req DMA request, filled out internally.
+ * @param req DMA request structure, filled out internally.
  * @param ram Location in DRAM for data to be written.
  * @param vrom Virtual ROM location for data to be read.
  * @param size Transfer size.
@@ -456,8 +458,8 @@ void DmaMgr_ThreadEntry(void* arg) {
  * @param msg Message to send to `queue` once the transfer is complete.
  * @return 0
  */
-s32 DmaMgr_SendRequest(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue,
-                       OSMesg msg) {
+s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue,
+                        OSMesg msg) {
     static s32 sDmaMgrQueueFullLogged = 0;
 
     if ((1 && (ram == NULL)) || (osMemSize < OS_K0_TO_PHYSICAL(ram) + size) || (vrom & 1) || (vrom > 0x4000000) ||
@@ -504,8 +506,8 @@ s32 DmaMgr_RequestSync(void* ram, uintptr_t vrom, size_t size) {
     s32 ret;
 
     osCreateMesgQueue(&queue, &msg, 1);
-    ret = DmaMgr_SendRequest(&req, ram, vrom, size, 0, &queue, NULL);
-    if (ret == -1) { // DmaMgr_SendRequest only returns 0
+    ret = DmaMgr_RequestAsync(&req, ram, vrom, size, 0, &queue, NULL);
+    if (ret == -1) { // DmaMgr_RequestAsync only returns 0
         return ret;
     }
 
@@ -564,25 +566,15 @@ void DmaMgr_Init(void) {
 }
 
 /**
- * Submit an asynchronous DMA request. Unlike other DMA requests, this will not block the current thread. Data arrival
- * is not immediate however, ensure that the request has completed by awaiting a message sent to `queue` when the DMA
- * operation has completed.
+ * Asynchronous DMA Request with source file and line info for debugging.
  *
- * @param req DMA request structure, filled out internally.
- * @param ram Location in DRAM for data to be written.
- * @param vrom Virtual ROM location for data to be read.
- * @param size Transfer size.
- * @param queue Message queue to notify with `msg` once the transfer is complete.
- * @param msg Message to send to `queue` once the transfer is complete.
- * @param file Debug filename of caller.
- * @param line Debug line number of caller.
- * @return 0
+ * @see DmaMgr_RequestAsync
  */
-s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
-                        OSMesg msg, const char* file, s32 line) {
+s32 DmaMgr_RequestAsyncDebug(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
+                             OSMesg msg, const char* file, s32 line) {
     req->filename = file;
     req->line = line;
-    return DmaMgr_SendRequest(req, ram, vrom, size, unk5, queue, msg);
+    return DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg);
 }
 
 /**
@@ -600,8 +592,8 @@ s32 DmaMgr_RequestSyncDebug(void* ram, uintptr_t vrom, size_t size, const char* 
     req.filename = file;
     req.line = line;
     osCreateMesgQueue(&queue, &msg, 1);
-    ret = DmaMgr_SendRequest(&req, ram, vrom, size, 0, &queue, NULL);
-    if (ret == -1) { // DmaMgr_SendRequest only returns 0
+    ret = DmaMgr_RequestAsync(&req, ram, vrom, size, 0, &queue, NULL);
+    if (ret == -1) { // DmaMgr_RequestAsync only returns 0
         return ret;
     }
 

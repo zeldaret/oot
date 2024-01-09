@@ -139,12 +139,7 @@ void func_8087E040(BgHakaMeganeBG* this, PlayState* play) {
 
 void func_8087E10C(BgHakaMeganeBG* this, PlayState* play) {
     this->dyna.actor.velocity.y += 1.0f;
-
-    if (this->dyna.actor.velocity.y > 20.0f) {
-        this->dyna.actor.velocity.y = 20.0f;
-    } else {
-        this->dyna.actor.velocity.y = this->dyna.actor.velocity.y;
-    }
+    this->dyna.actor.velocity.y = CLAMP_MAX(this->dyna.actor.velocity.y, 20.0f);
 
     if (this->unk_16A != 0) {
         this->unk_16A--;

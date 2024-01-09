@@ -59,10 +59,10 @@ u32 EffectSsGRipple_Init(PlayState* play, u32 index, EffectSs* this, void* initP
     return 1;
 }
 
-void EffectSsGRipple_DrawRipple(PlayState* play, EffectSs* this, void* segment) {
-    GraphicsContext* gfxCtx = play->state.gfxCtx;
+void EffectSsGRipple_DrawRipple(PlayState* play2, EffectSs* this, void* segment) {
+    PlayState* play = play2;
     f32 radius;
-    s32 pad;
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
     MtxF mfTrans;
     MtxF mfScale;
     MtxF mfResult;
@@ -70,8 +70,6 @@ void EffectSsGRipple_DrawRipple(PlayState* play, EffectSs* this, void* segment) 
     f32 yPos;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_g_ripple.c", 199);
-
-    if (play) {}
 
     radius = this->rRadius * 0.0025f;
 

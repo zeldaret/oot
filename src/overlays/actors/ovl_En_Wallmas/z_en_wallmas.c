@@ -125,7 +125,7 @@ void EnWallmas_Init(Actor* thisx, PlayState* play) {
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->switchFlag = (u8)(thisx->params >> 0x8);
-    thisx->params = thisx->params & 0xFF;
+    thisx->params &= 0xFF;
 
     if (thisx->params == WMT_FLAG) {
         if (Flags_GetSwitch(play, this->switchFlag) != 0) {
@@ -365,7 +365,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame > 20.0f) {
         this->timer += 9;
-        this->actor.world.pos.y = this->actor.world.pos.y + 30.0f;
+        this->actor.world.pos.y += 30.0f;
     }
 
     if (Animation_OnFrame(&this->skelAnime, 20.0f) != 0) {
@@ -437,9 +437,9 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
         player->actor.world.pos.z = this->actor.world.pos.z;
 
         if (this->timer < 0) {
-            this->actor.world.pos.y = this->actor.world.pos.y + 2.0f;
+            this->actor.world.pos.y += 2.0f;
         } else {
-            this->actor.world.pos.y = this->actor.world.pos.y + 10.0f;
+            this->actor.world.pos.y += 10.0f;
         }
 
         if (!LINK_IS_ADULT) {
@@ -461,7 +461,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_FALL_UP);
         }
 
-        this->timer = this->timer + 2;
+        this->timer += 2;
     } else {
         Math_StepToF(&this->actor.world.pos.y, player->actor.world.pos.y + (!LINK_IS_ADULT ? 30.0f : 50.0f), 5.0f);
     }
@@ -606,7 +606,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
     }
 
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_wallmas.c", 1426);
@@ -635,7 +635,7 @@ void EnWallMas_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
         Matrix_RotateZ(DEG_TO_RAD(15), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
         gSPDisplayList(POLY_OPA_DISP++, gWallmasterFingerDL);
 
         Matrix_Pop();

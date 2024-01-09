@@ -815,13 +815,6 @@ typedef struct {
 } AudioTable; // size >= 0x20
 
 typedef struct {
-    /* 0x00 */ OSTask task;
-    /* 0x40 */ OSMesgQueue* msgQueue;
-    /* 0x44 */ void* unk_44; // probably a message that gets unused.
-    /* 0x48 */ char unk_48[0x8];
-} AudioTask; // size = 0x50
-
-typedef struct {
     /* 0x00 */ u8* ramAddr;
     /* 0x04 */ u32 devAddr;
     /* 0x08 */ u16 sizeUnused;
@@ -830,6 +823,13 @@ typedef struct {
     /* 0x0D */ u8 reuseIndex; // position in sSampleDmaReuseQueue1/2, if ttl == 0
     /* 0x0E */ u8 ttl;        // duration after which the DMA can be discarded
 } SampleDma; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ OSTask task;
+    /* 0x40 */ OSMesgQueue* msgQueue;
+    /* 0x44 */ void* unk_44; // probably a message that gets unused.
+    /* 0x48 */ char unk_48[0x8];
+} AudioTask; // size = 0x50
 
 typedef struct {
     /* 0x0000 */ char unk_0000;

@@ -138,7 +138,7 @@ void func_80B3943C(EnWonderTalk* this, PlayState* play) {
         return;
     }
     if (this->switchFlag < 0 || !Flags_GetSwitch(play, this->switchFlag)) {
-        if ((Actor_ProcessTalkRequest(&this->actor, play))) {
+        if ((Actor_TalkOfferAccepted(&this->actor, play))) {
             if (this->unk_156 != TEXT_STATE_DONE) {
                 this->actionFunc = func_80B395F0;
             } else {
@@ -166,7 +166,7 @@ void func_80B3943C(EnWonderTalk* this, PlayState* play) {
                     osSyncPrintf("\n\n");
                 }
                 this->unk_15A = 0;
-                func_8002F2CC(&this->actor, play, this->unk_15C);
+                Actor_OfferTalk(&this->actor, play, this->unk_15C);
             }
         }
     }
