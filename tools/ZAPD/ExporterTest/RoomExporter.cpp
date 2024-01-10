@@ -290,7 +290,7 @@ void ExporterExample_Room::Save(ZResource* res, fs::path outPath, BinaryWriter* 
 			uint32_t oldOffset = writer->GetBaseAddress();
 			writer->Seek(baseStreamEnd, SeekOffsetType::Start);
 
-			for (EntranceEntry entry : cmdEntrance->entrances)
+			for (Spawn entry : cmdEntrance->entrances)
 			{
 				writer->Write((uint8_t)entry.startPositionIndex);
 				writer->Write((uint8_t)entry.roomToLoad);

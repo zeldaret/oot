@@ -32,15 +32,15 @@ static void* D_808AD850[] = {
 };
 
 ActorInit Bg_Spot02_Objects_InitVars = {
-    ACTOR_BG_SPOT02_OBJECTS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT02_OBJECTS,
-    sizeof(BgSpot02Objects),
-    (ActorFunc)BgSpot02Objects_Init,
-    (ActorFunc)BgSpot02Objects_Destroy,
-    (ActorFunc)BgSpot02Objects_Update,
-    (ActorFunc)BgSpot02Objects_Draw,
+    /**/ ACTOR_BG_SPOT02_OBJECTS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT02_OBJECTS,
+    /**/ sizeof(BgSpot02Objects),
+    /**/ BgSpot02Objects_Init,
+    /**/ BgSpot02Objects_Destroy,
+    /**/ BgSpot02Objects_Update,
+    /**/ BgSpot02Objects_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -253,7 +253,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, redPrim, greenPrim, bluePrim, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, redEnv, greenEnv, blueEnv, 255);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot02_objects.c", 679),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot02_objects.c", 679),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_808AD850[this->unk_16A]));
         gDPPipeSync(POLY_XLU_DISP++);
@@ -313,7 +313,7 @@ void func_808AD450(Actor* thisx, PlayState* play) {
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 120, 0, 128);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot02_objects.c", 795),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot02_objects.c", 795),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 2 * this->timer, -3 * this->timer, 32, 64,

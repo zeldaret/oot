@@ -19,15 +19,15 @@ void func_80AFC544(EnSiofuki* this, PlayState* play);
 void func_80AFC478(EnSiofuki* this, PlayState* play);
 
 ActorInit En_Siofuki_InitVars = {
-    ACTOR_EN_SIOFUKI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SIOFUKI,
-    sizeof(EnSiofuki),
-    (ActorFunc)EnSiofuki_Init,
-    (ActorFunc)EnSiofuki_Destroy,
-    (ActorFunc)EnSiofuki_Update,
-    (ActorFunc)EnSiofuki_Draw,
+    /**/ ACTOR_EN_SIOFUKI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SIOFUKI,
+    /**/ sizeof(EnSiofuki),
+    /**/ EnSiofuki_Init,
+    /**/ EnSiofuki_Destroy,
+    /**/ EnSiofuki_Update,
+    /**/ EnSiofuki_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -285,7 +285,7 @@ void EnSiofuki_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Translate(0.0f, this->unk_170, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_siofuki.c", 662),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_siofuki.c", 662),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     x = gameplayFrames * 15;
     y = gameplayFrames * -15;

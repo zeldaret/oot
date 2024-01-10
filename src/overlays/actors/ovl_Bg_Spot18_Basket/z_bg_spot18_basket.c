@@ -23,15 +23,15 @@ void func_808B7FC0(BgSpot18Basket* this, PlayState* play);
 void func_808B81A0(BgSpot18Basket* this, PlayState* play);
 
 ActorInit Bg_Spot18_Basket_InitVars = {
-    ACTOR_BG_SPOT18_BASKET,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT18_OBJ,
-    sizeof(BgSpot18Basket),
-    (ActorFunc)BgSpot18Basket_Init,
-    (ActorFunc)BgSpot18Basket_Destroy,
-    (ActorFunc)BgSpot18Basket_Update,
-    (ActorFunc)BgSpot18Basket_Draw,
+    /**/ ACTOR_BG_SPOT18_BASKET,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT18_OBJ,
+    /**/ sizeof(BgSpot18Basket),
+    /**/ BgSpot18Basket_Init,
+    /**/ BgSpot18Basket_Destroy,
+    /**/ BgSpot18Basket_Update,
+    /**/ BgSpot18Basket_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
@@ -249,7 +249,7 @@ void func_808B7D50(BgSpot18Basket* this, PlayState* play) {
         Math_StepToS(&this->unk_210, 0xBB8, 0x64);
     }
 
-    this->dyna.actor.shape.rot.y = this->dyna.actor.shape.rot.y + this->unk_210;
+    this->dyna.actor.shape.rot.y += this->unk_210;
 
     if (this->unk_216 < 70) {
         Math_StepToF(&this->unk_208, 100.0f, 2.0f);

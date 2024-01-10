@@ -26,15 +26,15 @@ void func_808B44CC(BgSpot15Rrbox* this, PlayState* play);
 static s16 D_808B4590 = 0;
 
 ActorInit Bg_Spot15_Rrbox_InitVars = {
-    ACTOR_BG_SPOT15_RRBOX,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT15_OBJ,
-    sizeof(BgSpot15Rrbox),
-    (ActorFunc)BgSpot15Rrbox_Init,
-    (ActorFunc)BgSpot15Rrbox_Destroy,
-    (ActorFunc)BgSpot15Rrbox_Update,
-    (ActorFunc)BgSpot15Rrbox_Draw,
+    /**/ ACTOR_BG_SPOT15_RRBOX,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT15_OBJ,
+    /**/ sizeof(BgSpot15Rrbox),
+    /**/ BgSpot15Rrbox_Init,
+    /**/ BgSpot15Rrbox_Destroy,
+    /**/ BgSpot15Rrbox_Update,
+    /**/ BgSpot15Rrbox_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

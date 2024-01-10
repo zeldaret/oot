@@ -4,7 +4,10 @@
 #include <string>
 #include "Utils/StringHelper.h"
 
-#if __has_include(<filesystem>)
+#ifdef USE_BOOST_FS
+#include <boost/filesystem.hpp>
+namespace fs = boost::filesystem;
+#elif __has_include(<filesystem>)
 #include <filesystem>
 namespace fs = std::filesystem;
 #else

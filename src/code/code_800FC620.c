@@ -13,7 +13,7 @@ typedef struct InitFunc {
 // .data
 void* sInitFuncs = NULL;
 
-char sNew[] = { 'n', 'e', 'w' };
+char sNew[] = "new";
 
 char D_80134488[0x18] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7F, 0x80, 0x00, 0x00,
@@ -100,7 +100,7 @@ void func_800FCB34(void) {
         initFunc = (InitFunc*)((s32)initFunc + nextOffset);
 
         if (initFunc->func != NULL) {
-            (*initFunc->func)();
+            initFunc->func();
         }
 
         nextOffset = initFunc->nextOffset;

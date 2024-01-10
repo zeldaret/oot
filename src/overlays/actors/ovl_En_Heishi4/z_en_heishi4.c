@@ -22,18 +22,18 @@ void func_80A56A50(EnHeishi4* this, PlayState* play);
 void func_80A56ACC(EnHeishi4* this, PlayState* play);
 
 ActorInit En_Heishi4_InitVars = {
-    ACTOR_EN_HEISHI4,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SD,
-    sizeof(EnHeishi4),
-    (ActorFunc)EnHeishi4_Init,
-    (ActorFunc)EnHeishi4_Destroy,
-    (ActorFunc)EnHeishi4_Update,
-    (ActorFunc)EnHeishi4_Draw,
+    /**/ ACTOR_EN_HEISHI4,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SD,
+    /**/ sizeof(EnHeishi4),
+    /**/ EnHeishi4_Init,
+    /**/ EnHeishi4_Destroy,
+    /**/ EnHeishi4_Update,
+    /**/ EnHeishi4_Draw,
 };
 
-static u32 sFaceReactionSets[] = { 6, 7 };
+static u32 sMaskReactionSets[] = { MASK_REACTION_SET_HEISHI4_1, MASK_REACTION_SET_HEISHI4_2 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -125,8 +125,8 @@ void func_80A563BC(EnHeishi4* this, PlayState* play) {
     if (reactionOffset >= 3) {
         reactionOffset = 1;
     }
-    if (Text_GetFaceReaction(play, sFaceReactionSets[reactionOffset]) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, sFaceReactionSets[reactionOffset]);
+    if (MaskReaction_GetTextId(play, sMaskReactionSets[reactionOffset]) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, sMaskReactionSets[reactionOffset]);
         this->unk_2B4 = 1;
         this->actionFunc = func_80A56B40;
     } else {
@@ -185,8 +185,8 @@ void func_80A56614(EnHeishi4* this, PlayState* play) {
     if (reactionOffset >= 3) {
         reactionOffset = 1;
     }
-    if (Text_GetFaceReaction(play, sFaceReactionSets[reactionOffset]) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, sFaceReactionSets[reactionOffset]);
+    if (MaskReaction_GetTextId(play, sMaskReactionSets[reactionOffset]) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, sMaskReactionSets[reactionOffset]);
         this->unk_2B4 = 1;
         this->actionFunc = func_80A56B40;
         return;
@@ -241,7 +241,7 @@ void func_80A56874(EnHeishi4* this, PlayState* play) {
     if (this->unk_284 != 0) {
         SkelAnime_Update(&this->skelAnime);
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->unk_284 == 0) {
             this->actionFunc = func_80A5673C;
 
@@ -249,7 +249,7 @@ void func_80A56874(EnHeishi4* this, PlayState* play) {
             this->actionFunc = func_80A56900;
         }
     } else {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 }
 
@@ -266,7 +266,7 @@ void func_80A56994(EnHeishi4* this, PlayState* play) {
     if ((this->unk_282 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_6C);
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = func_80A56A50;
     }
 }
@@ -284,7 +284,7 @@ void func_80A56ACC(EnHeishi4* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_288 <= currentFrame) {
-        func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_80A5673C;
     }
 }
@@ -300,7 +300,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
     if (reactionOffset >= 3) {
         reactionOffset = 1;
     }
-    if (Text_GetFaceReaction(play, sFaceReactionSets[reactionOffset]) != 0) {
+    if (MaskReaction_GetTextId(play, sMaskReactionSets[reactionOffset]) != 0) {
         if (this->unk_2B4 == 0) {
             if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
                 this->actionFunc = func_80A563BC;
@@ -323,7 +323,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
             }
         }
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
             this->unk_284 = 1;
             this->actionFunc = func_80A563BC;
@@ -334,7 +334,7 @@ void func_80A56B40(EnHeishi4* this, PlayState* play) {
             return;
         }
     }
-    func_8002F2F4(&this->actor, play);
+    Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
 }
 
 void EnHeishi4_Update(Actor* thisx, PlayState* play) {

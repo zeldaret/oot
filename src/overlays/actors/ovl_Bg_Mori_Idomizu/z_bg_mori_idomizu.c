@@ -22,15 +22,15 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play);
 static s16 sIsSpawned = false;
 
 ActorInit Bg_Mori_Idomizu_InitVars = {
-    ACTOR_BG_MORI_IDOMIZU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriIdomizu),
-    (ActorFunc)BgMoriIdomizu_Init,
-    (ActorFunc)BgMoriIdomizu_Destroy,
-    (ActorFunc)BgMoriIdomizu_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_IDOMIZU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriIdomizu),
+    /**/ BgMoriIdomizu_Init,
+    /**/ BgMoriIdomizu_Destroy,
+    /**/ BgMoriIdomizu_Update,
+    /**/ NULL,
 };
 
 void BgMoriIdomizu_SetupAction(BgMoriIdomizu* this, BgMoriIdomizuActionFunc actionFunc) {
@@ -166,7 +166,7 @@ void BgMoriIdomizu_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_idomizu.c", 360),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_idomizu.c", 360),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPSegment(POLY_XLU_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);

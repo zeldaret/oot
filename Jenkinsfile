@@ -4,11 +4,6 @@ pipeline {
     }
 
     stages {
-        stage('Check for unused asm') {
-            steps {
-                sh './tools/find_unused_asm.sh'
-            }
-        }
         stage('Setup') {
             steps {
                 sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
@@ -17,7 +12,7 @@ pipeline {
         }
         stage('Build (qemu-irix)') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
                 sh 'ORIG_COMPILER=1 make -j'
@@ -26,7 +21,7 @@ pipeline {
         stage('Build') {
             when {
                 not {
-                    branch 'master'
+                    branch 'main'
                 }
             }
             steps {
@@ -35,7 +30,7 @@ pipeline {
         }
         stage('Report Progress') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
                 sh 'mkdir reports'
@@ -47,7 +42,7 @@ pipeline {
         }
         stage('Update Progress') {
             when {
-                branch 'master'
+                branch 'main'
             }
             agent {
                 label 'zeldaret_website'

@@ -20,15 +20,15 @@ void MagicWind_WaitAtFullSize(MagicWind* this, PlayState* play);
 void MagicWind_Grow(MagicWind* this, PlayState* play);
 
 ActorInit Magic_Wind_InitVars = {
-    ACTOR_MAGIC_WIND,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(MagicWind),
-    (ActorFunc)MagicWind_Init,
-    (ActorFunc)MagicWind_Destroy,
-    (ActorFunc)MagicWind_Update,
-    (ActorFunc)MagicWind_Draw,
+    /**/ ACTOR_MAGIC_WIND,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(MagicWind),
+    /**/ MagicWind_Init,
+    /**/ MagicWind_Destroy,
+    /**/ MagicWind_Update,
+    /**/ MagicWind_Draw,
 };
 
 #include "assets/overlays/ovl_Magic_Wind/ovl_Magic_Wind.c"

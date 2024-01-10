@@ -8,6 +8,7 @@
 #endif
 
 #include <array>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>

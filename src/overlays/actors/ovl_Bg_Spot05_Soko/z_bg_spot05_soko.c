@@ -18,15 +18,15 @@ void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
 void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
 ActorInit Bg_Spot05_Soko_InitVars = {
-    ACTOR_BG_SPOT05_SOKO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT05_OBJECTS,
-    sizeof(BgSpot05Soko),
-    (ActorFunc)BgSpot05Soko_Init,
-    (ActorFunc)BgSpot05Soko_Destroy,
-    (ActorFunc)BgSpot05Soko_Update,
-    (ActorFunc)BgSpot05Soko_Draw,
+    /**/ ACTOR_BG_SPOT05_SOKO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT05_OBJECTS,
+    /**/ sizeof(BgSpot05Soko),
+    /**/ BgSpot05Soko_Init,
+    /**/ BgSpot05Soko_Destroy,
+    /**/ BgSpot05Soko_Update,
+    /**/ BgSpot05Soko_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

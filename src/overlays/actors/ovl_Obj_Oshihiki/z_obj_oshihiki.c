@@ -25,15 +25,15 @@ void ObjOshihiki_SetupFall(ObjOshihiki* this, PlayState* play);
 void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play);
 
 ActorInit Obj_Oshihiki_InitVars = {
-    ACTOR_OBJ_OSHIHIKI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(ObjOshihiki),
-    (ActorFunc)ObjOshihiki_Init,
-    (ActorFunc)ObjOshihiki_Destroy,
-    (ActorFunc)ObjOshihiki_Update,
-    (ActorFunc)ObjOshihiki_Draw,
+    /**/ ACTOR_OBJ_OSHIHIKI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjOshihiki),
+    /**/ ObjOshihiki_Init,
+    /**/ ObjOshihiki_Destroy,
+    /**/ ObjOshihiki_Update,
+    /**/ ObjOshihiki_Draw,
 };
 
 static f32 sScales[] = {
@@ -646,7 +646,7 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(this->texture));
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (play->sceneId) {

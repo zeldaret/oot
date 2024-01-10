@@ -70,15 +70,15 @@ void BossGanondrof_Stunned(BossGanondrof* this, PlayState* play);
 void BossGanondrof_Death(BossGanondrof* this, PlayState* play);
 
 ActorInit Boss_Ganondrof_InitVars = {
-    ACTOR_BOSS_GANONDROF,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GND,
-    sizeof(BossGanondrof),
-    (ActorFunc)BossGanondrof_Init,
-    (ActorFunc)BossGanondrof_Destroy,
-    (ActorFunc)BossGanondrof_Update,
-    (ActorFunc)BossGanondrof_Draw,
+    /**/ ACTOR_BOSS_GANONDROF,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GND,
+    /**/ sizeof(BossGanondrof),
+    /**/ BossGanondrof_Init,
+    /**/ BossGanondrof_Destroy,
+    /**/ BossGanondrof_Update,
+    /**/ BossGanondrof_Draw,
 };
 
 static ColliderCylinderInit sCylinderInitBody = {
@@ -956,7 +956,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
     switch (this->deathState) {
         case DEATH_START:
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             osSyncPrintf("7\n");
@@ -1118,7 +1118,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, GND_BOSSROOM_CENTER_X, GND_BOSSROOM_CENTER_Y,
                             GND_BOSSROOM_CENTER_Z + 200.0f, 0, 0, 0, 0);
                 this->actor.child = &horse->actor;
@@ -1463,7 +1463,7 @@ void BossGanondrof_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
 }
 
 Gfx* BossGanondrof_GetClearPixelDList(GraphicsContext* gfxCtx) {
-    Gfx* dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
+    Gfx* dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 4);
     Gfx* dListHead = dList;
 
     gDPPipeSync(dListHead++);
@@ -1475,7 +1475,7 @@ Gfx* BossGanondrof_GetClearPixelDList(GraphicsContext* gfxCtx) {
 }
 
 Gfx* BossGanondrof_EmptyDList(GraphicsContext* gfxCtx) {
-    Gfx* dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 1);
+    Gfx* dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 1);
     Gfx* dListHead = dList;
 
     gSPEndDisplayList(dListHead++);

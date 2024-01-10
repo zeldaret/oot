@@ -171,7 +171,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gSPSetGeometryMode(POLY_XLU_DISP++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
         gDPPipeSync(POLY_XLU_DISP++);
 
-        vertices = Graph_Alloc(gfxCtx, this->numElements * sizeof(Vtx[4]));
+        vertices = GRAPH_ALLOC(gfxCtx, this->numElements * sizeof(Vtx[4]));
         if (vertices == NULL) {
             // "Memory Allocation Failure graph_malloc"
             osSyncPrintf("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n");

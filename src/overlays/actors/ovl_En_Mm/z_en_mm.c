@@ -40,15 +40,15 @@ s32 EnMm_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnMm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
 ActorInit En_Mm_InitVars = {
-    ACTOR_EN_MM,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MM,
-    sizeof(EnMm),
-    (ActorFunc)EnMm_Init,
-    (ActorFunc)EnMm_Destroy,
-    (ActorFunc)EnMm_Update,
-    (ActorFunc)EnMm_Draw,
+    /**/ ACTOR_EN_MM,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MM,
+    /**/ sizeof(EnMm),
+    /**/ EnMm_Init,
+    /**/ EnMm_Destroy,
+    /**/ EnMm_Update,
+    /**/ EnMm_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -259,9 +259,7 @@ s32 func_80AADAA0(EnMm* this, PlayState* play) {
 
 s32 EnMm_GetTextId(EnMm* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 textId;
-
-    textId = Text_GetFaceReaction(play, 0x1C);
+    s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUNNING_MAN);
 
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
         if (textId == 0) {
@@ -288,7 +286,7 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
     } else if (this->unk_1E0 == 1) {
         this->unk_1E0 = func_80AADAA0(this, play);
     } else {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->unk_1E0 = 1;
 
             if (this->curAnimIndex != 5) {
@@ -302,7 +300,7 @@ void func_80AADCD0(EnMm* this, PlayState* play) {
             yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
             if ((sp26 >= 0) && (sp26 <= 0x140) && (sp24 >= 0) && (sp24 <= 0xF0) && (yawDiff <= 17152.0f) &&
-                (this->unk_1E0 != 3) && func_8002F2CC(&this->actor, play, 100.0f)) {
+                (this->unk_1E0 != 3) && Actor_OfferTalk(&this->actor, play, 100.0f)) {
                 this->actor.textId = EnMm_GetTextId(this, play);
             }
         }
@@ -532,10 +530,10 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             Vec3s earRot;
             Mtx* mtx2;
 
-            mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 2);
+            mtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 2);
 
             Matrix_Put(&this->unk_208);
-            mtx2 = Matrix_NewMtx(play->state.gfxCtx, "../z_en_mm.c", 1111);
+            mtx2 = MATRIX_NEW(play->state.gfxCtx, "../z_en_mm.c", 1111);
 
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
@@ -548,14 +546,14 @@ void EnMm_Draw(Actor* thisx, PlayState* play) {
             earRot.y = 0xDBE;
             earRot.z = -0x348A;
             Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &earRot);
-            Matrix_ToMtx(mtx++, "../z_en_mm.c", 1124);
+            MATRIX_TO_MTX(mtx++, "../z_en_mm.c", 1124);
 
             // Left ear
             earRot.x = -0x3E2;
             earRot.y = -0xDBE;
             earRot.z = -0x348A;
             Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &earRot);
-            Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
+            MATRIX_TO_MTX(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->actor.objectSlot].segment);

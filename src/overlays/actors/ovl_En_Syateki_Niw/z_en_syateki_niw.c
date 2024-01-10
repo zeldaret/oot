@@ -27,15 +27,15 @@ void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 
 ActorInit En_Syateki_Niw_InitVars = {
-    ACTOR_EN_SYATEKI_NIW,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_NIW,
-    sizeof(EnSyatekiNiw),
-    (ActorFunc)EnSyatekiNiw_Init,
-    (ActorFunc)EnSyatekiNiw_Destroy,
-    (ActorFunc)EnSyatekiNiw_Update,
-    (ActorFunc)EnSyatekiNiw_Draw,
+    /**/ ACTOR_EN_SYATEKI_NIW,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_NIW,
+    /**/ sizeof(EnSyatekiNiw),
+    /**/ EnSyatekiNiw_Init,
+    /**/ EnSyatekiNiw_Destroy,
+    /**/ EnSyatekiNiw_Update,
+    /**/ EnSyatekiNiw_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -780,7 +780,7 @@ void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, PlayState* play) {
             Matrix_RotateZ(effect->rot, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_syateki_niw.c", 1251),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherModelDL);
         }

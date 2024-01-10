@@ -87,15 +87,15 @@ static DemoSaDrawFunc sDrawFuncs[] = {
 };
 
 ActorInit Demo_Sa_InitVars = {
-    ACTOR_DEMO_SA,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SA,
-    sizeof(DemoSa),
-    (ActorFunc)DemoSa_Init,
-    (ActorFunc)DemoSa_Destroy,
-    (ActorFunc)DemoSa_Update,
-    (ActorFunc)DemoSa_Draw,
+    /**/ ACTOR_DEMO_SA,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SA,
+    /**/ sizeof(DemoSa),
+    /**/ DemoSa_Init,
+    /**/ DemoSa_Destroy,
+    /**/ DemoSa_Update,
+    /**/ DemoSa_Draw,
 };
 
 void DemoSa_Destroy(Actor* thisx, PlayState* play) {

@@ -20,15 +20,15 @@ void func_8087DBF0(BgHakaMegane* this, PlayState* play);
 void BgHakaMegane_DoNothing(BgHakaMegane* this, PlayState* play);
 
 ActorInit Bg_Haka_Megane_InitVars = {
-    ACTOR_BG_HAKA_MEGANE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgHakaMegane),
-    (ActorFunc)BgHakaMegane_Init,
-    (ActorFunc)BgHakaMegane_Destroy,
-    (ActorFunc)BgHakaMegane_Update,
-    NULL,
+    /**/ ACTOR_BG_HAKA_MEGANE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgHakaMegane),
+    /**/ BgHakaMegane_Init,
+    /**/ BgHakaMegane_Destroy,
+    /**/ BgHakaMegane_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {

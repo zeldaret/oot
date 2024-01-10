@@ -16,15 +16,15 @@ void EnStream_Draw(Actor* thisx, PlayState* play);
 void EnStream_WaitForPlayer(EnStream* this, PlayState* play);
 
 ActorInit En_Stream_InitVars = {
-    ACTOR_EN_STREAM,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_STREAM,
-    sizeof(EnStream),
-    (ActorFunc)EnStream_Init,
-    (ActorFunc)EnStream_Destroy,
-    (ActorFunc)EnStream_Update,
-    (ActorFunc)EnStream_Draw,
+    /**/ ACTOR_EN_STREAM,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_STREAM,
+    /**/ sizeof(EnStream),
+    /**/ EnStream_Init,
+    /**/ EnStream_Destroy,
+    /**/ EnStream_Update,
+    /**/ EnStream_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -133,7 +133,7 @@ void EnStream_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_stream.c", 295);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_stream.c", 299),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_stream.c", 299),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     multipliedFrames = frames * 20;
     gSPSegment(POLY_XLU_DISP++, 0x08,

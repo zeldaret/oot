@@ -235,15 +235,15 @@ static Color_RGBA8 sStaticColor = { 0, 0, 0, 255 };
 static s32 sHandState[] = { HAND_WAIT, HAND_WAIT };
 
 ActorInit Boss_Sst_InitVars = {
-    ACTOR_BOSS_SST,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_SST,
-    sizeof(BossSst),
-    (ActorFunc)BossSst_Init,
-    (ActorFunc)BossSst_Destroy,
-    (ActorFunc)BossSst_UpdateHand,
-    (ActorFunc)BossSst_DrawHand,
+    /**/ ACTOR_BOSS_SST,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_SST,
+    /**/ sizeof(BossSst),
+    /**/ BossSst_Init,
+    /**/ BossSst_Destroy,
+    /**/ BossSst_UpdateHand,
+    /**/ BossSst_DrawHand,
 };
 
 #include "z_boss_sst_colchk.inc.c"
@@ -371,7 +371,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     player->stateFlags1 |= PLAYER_STATE1_5;
 
     Cutscene_StartManual(play, &play->csCtx);
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
     sSubCamId = Play_CreateSubCamera(play);
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
@@ -404,7 +404,7 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
         sHands[LEFT]->actor.flags |= ACTOR_FLAG_0;
         player->stateFlags1 &= ~PLAYER_STATE1_5;
         Cutscene_StopManual(play, &play->csCtx);
-        func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
         sSubCamAt.y += 30.0f;
         sSubCamAt.z += 300.0f;
         Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
@@ -1024,7 +1024,7 @@ void BossSst_HeadSetupDeath(BossSst* this, PlayState* play) {
     Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
     Play_CopyCamera(play, sSubCamId, CAM_ID_MAIN);
-    func_8002DF54(play, &player->actor, PLAYER_CSMODE_8);
+    Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
     Cutscene_StartManual(play, &play->csCtx);
     Math_Vec3f_Copy(&sSubCamEye, &GET_ACTIVE_CAM(play)->eye);
     this->actionFunc = BossSst_HeadDeath;
@@ -1187,7 +1187,7 @@ void BossSst_HeadFinish(BossSst* this, PlayState* play) {
             Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
             Play_ClearCamera(play, sSubCamId);
-            func_8002DF54(play, &GET_PLAYER(play)->actor, PLAYER_CSMODE_7);
+            Player_SetCsActionWithHaltedActors(play, &GET_PLAYER(play)->actor, PLAYER_CSACTION_7);
             Cutscene_StopManual(play, &play->csCtx);
             Actor_Kill(&this->actor);
             Actor_Kill(&sHands[LEFT]->actor);
@@ -1749,7 +1749,7 @@ void BossSst_HandClap(BossSst* this, PlayState* play) {
     }
 
     if (player->actor.parent == &this->actor) {
-        player->actionVar2 = 0;
+        player->av2.actionVar2 = 0;
         player->actor.world.pos = this->actor.world.pos;
     }
 }
@@ -1844,7 +1844,7 @@ void BossSst_HandGrab(BossSst* this, PlayState* play) {
     this->actor.world.pos.x += this->actor.speed * Math_SinS(this->actor.world.rot.y);
     this->actor.world.pos.z += this->actor.speed * Math_CosS(this->actor.world.rot.y);
     if (player->stateFlags2 & PLAYER_STATE2_7) {
-        player->actionVar2 = 0;
+        player->av2.actionVar2 = 0;
         player->actor.world.pos = this->actor.world.pos;
         player->actor.shape.rot.y = this->actor.shape.rot.y;
     }
@@ -1938,7 +1938,7 @@ void BossSst_HandSwing(BossSst* this, PlayState* play) {
     }
 
     if (player->stateFlags2 & PLAYER_STATE2_7) {
-        player->actionVar2 = 0;
+        player->av2.actionVar2 = 0;
         Math_Vec3f_Copy(&player->actor.world.pos, &this->actor.world.pos);
         player->actor.shape.rot.x = this->actor.shape.rot.x;
         player->actor.shape.rot.z = (this->vParity * -0x4000) + this->actor.shape.rot.z;
@@ -2422,7 +2422,7 @@ void BossSst_HandReleasePlayer(BossSst* this, PlayState* play, s32 dropPlayer) {
 
     if (player->actor.parent == &this->actor) {
         player->actor.parent = NULL;
-        player->actionVar2 = 100;
+        player->av2.actionVar2 = 100;
         this->colliderJntSph.base.ocFlags1 |= OC1_ON;
         OTHER_HAND(this)->colliderJntSph.base.ocFlags1 |= OC1_ON;
         if (dropPlayer) {
@@ -2926,7 +2926,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
                          this->actor.world.pos.z + vanishMaskOffset.z, MTXMODE_NEW);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_sst.c", 6934),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_sst.c", 6934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, sIntroVanishDList);
     }
@@ -3186,7 +3186,7 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
                     Matrix_RotateZYX(effect->rot.x, effect->rot.y, effect->rot.z, MTXMODE_APPLY);
                     Matrix_Scale(effect->scale * 0.001f, effect->scale * 0.001f, effect->scale * 0.001f, MTXMODE_APPLY);
 
-                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_sst.c", 7350),
+                    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_sst.c", 7350),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPDisplayList(POLY_XLU_DISP++, gBongoIceShardDL);
                 }
@@ -3209,7 +3209,7 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
                     gDPPipeSync(POLY_XLU_DISP++);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 30, 0, 30, effect->alpha * effect->move);
                     gDPSetEnvColor(POLY_XLU_DISP++, 30, 0, 30, 0);
-                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_sst.c", 7396),
+                    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_sst.c", 7396),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPDisplayList(POLY_XLU_DISP++, gEffFireCircleDL);
                 }
@@ -3223,7 +3223,7 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                 Matrix_Scale(effect->scale * 0.001f, 1.0f, effect->scale * 0.001f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_sst.c", 7423),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_sst.c", 7423),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, sShadowDList);
                 effect++;

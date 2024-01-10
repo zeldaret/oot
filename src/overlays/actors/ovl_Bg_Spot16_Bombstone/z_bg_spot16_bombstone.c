@@ -110,15 +110,15 @@ static s16 D_808B5EB0[][7] = {
 };
 
 ActorInit Bg_Spot16_Bombstone_InitVars = {
-    ACTOR_BG_SPOT16_BOMBSTONE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT16_OBJ,
-    sizeof(BgSpot16Bombstone),
-    (ActorFunc)BgSpot16Bombstone_Init,
-    (ActorFunc)BgSpot16Bombstone_Destroy,
-    (ActorFunc)BgSpot16Bombstone_Update,
-    (ActorFunc)BgSpot16Bombstone_Draw,
+    /**/ ACTOR_BG_SPOT16_BOMBSTONE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT16_OBJ,
+    /**/ sizeof(BgSpot16Bombstone),
+    /**/ BgSpot16Bombstone_Init,
+    /**/ BgSpot16Bombstone_Destroy,
+    /**/ BgSpot16Bombstone_Update,
+    /**/ BgSpot16Bombstone_Draw,
 };
 
 static InitChainEntry sInitChainBoulder[] = {
@@ -145,7 +145,7 @@ static s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 void func_808B4C30(BgSpot16Bombstone* this) {
     this->switchFlag = (this->actor.params >> 8) & 0x3F;
-    this->actor.params = this->actor.params & 0xFF;
+    this->actor.params &= 0xFF;
 }
 
 void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
@@ -538,7 +538,7 @@ void BgSpot16Bombstone_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == 0xFF) {

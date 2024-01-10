@@ -21,15 +21,15 @@ void ObjComb_SetupWait(ObjComb* this);
 void ObjComb_Wait(ObjComb* this, PlayState* play);
 
 ActorInit Obj_Comb_InitVars = {
-    ACTOR_OBJ_COMB,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(ObjComb),
-    (ActorFunc)ObjComb_Init,
-    (ActorFunc)ObjComb_Destroy,
-    (ActorFunc)ObjComb_Update,
-    (ActorFunc)ObjComb_Draw,
+    /**/ ACTOR_OBJ_COMB,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(ObjComb),
+    /**/ ObjComb_Init,
+    /**/ ObjComb_Destroy,
+    /**/ ObjComb_Update,
+    /**/ ObjComb_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
@@ -216,7 +216,7 @@ void ObjComb_Draw(Actor* thisx, PlayState* play) {
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_comb.c", 394),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, gFieldBeehiveDL);

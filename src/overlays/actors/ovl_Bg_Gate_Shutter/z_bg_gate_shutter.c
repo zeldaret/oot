@@ -21,15 +21,15 @@ void func_808783AC(BgGateShutter* this, PlayState* play);
 void func_808783D4(BgGateShutter* this, PlayState* play);
 
 ActorInit Bg_Gate_Shutter_InitVars = {
-    ACTOR_BG_GATE_SHUTTER,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_SPOT01_MATOYAB,
-    sizeof(BgGateShutter),
-    (ActorFunc)BgGateShutter_Init,
-    (ActorFunc)BgGateShutter_Destroy,
-    (ActorFunc)BgGateShutter_Update,
-    (ActorFunc)BgGateShutter_Draw,
+    /**/ ACTOR_BG_GATE_SHUTTER,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_MATOYAB,
+    /**/ sizeof(BgGateShutter),
+    /**/ BgGateShutter_Init,
+    /**/ BgGateShutter_Destroy,
+    /**/ BgGateShutter_Update,
+    /**/ BgGateShutter_Draw,
 };
 
 void BgGateShutter_Init(Actor* thisx, PlayState* play) {
@@ -126,7 +126,7 @@ void BgGateShutter_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoGuardGateDL);
 

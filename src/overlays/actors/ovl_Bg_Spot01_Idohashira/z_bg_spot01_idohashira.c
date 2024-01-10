@@ -37,15 +37,15 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
 };
 
 ActorInit Bg_Spot01_Idohashira_InitVars = {
-    ACTOR_BG_SPOT01_IDOHASHIRA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT01_OBJECTS,
-    sizeof(BgSpot01Idohashira),
-    (ActorFunc)BgSpot01Idohashira_Init,
-    (ActorFunc)BgSpot01Idohashira_Destroy,
-    (ActorFunc)BgSpot01Idohashira_Update,
-    (ActorFunc)BgSpot01Idohashira_Draw,
+    /**/ ACTOR_BG_SPOT01_IDOHASHIRA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_OBJECTS,
+    /**/ sizeof(BgSpot01Idohashira),
+    /**/ BgSpot01Idohashira_Init,
+    /**/ BgSpot01Idohashira_Destroy,
+    /**/ BgSpot01Idohashira_Update,
+    /**/ BgSpot01Idohashira_Draw,
 };
 
 void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
@@ -325,7 +325,7 @@ void func_808AB700(BgSpot01Idohashira* this, PlayState* play) {
 
     Gfx_SetupDL_25Opa(localGfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_808AAF34(this, play);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoWellArchDL);

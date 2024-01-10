@@ -62,15 +62,15 @@ static Color_RGBA8 D_80ADD700[4] = {
 };
 
 ActorInit En_Po_Sisters_InitVars = {
-    ACTOR_EN_PO_SISTERS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_PO_SISTERS,
-    sizeof(EnPoSisters),
-    (ActorFunc)EnPoSisters_Init,
-    (ActorFunc)EnPoSisters_Destroy,
-    (ActorFunc)EnPoSisters_Update,
-    (ActorFunc)EnPoSisters_Draw,
+    /**/ ACTOR_EN_PO_SISTERS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_SISTERS,
+    /**/ sizeof(EnPoSisters),
+    /**/ EnPoSisters_Init,
+    /**/ EnPoSisters_Destroy,
+    /**/ EnPoSisters_Update,
+    /**/ EnPoSisters_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -1275,9 +1275,9 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
     if (limbIndex == 1 && (this->unk_199 & 0x40)) {
         if (this->unk_19A >= 284) {
-            rot->x += (this->unk_19A * 0x1000) + 0xFFEE4000;
+            rot->x += (this->unk_19A * 0x1000) - 0x11C000;
         } else {
-            rot->x += (this->unk_19A * 0x1000) + 0xFFFF1000;
+            rot->x += (this->unk_19A * 0x1000) - 0xF000;
         }
     }
     if (this->unk_22E.a == 0 || limbIndex == 8 || (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8)) {
@@ -1302,7 +1302,7 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     s32 pad;
 
     if (this->actionFunc == func_80ADAFC0 && this->unk_19A >= 8 && limbIndex == 9) {
-        gSPMatrix((*gfxP)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_sisters.c", 2876),
+        gSPMatrix((*gfxP)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 2876),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList((*gfxP)++, gPoSistersBurnDL);
     }
@@ -1367,7 +1367,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
     }
     if (!(this->unk_199 & 0x80)) {
         Matrix_Put(&this->unk_2F8);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_sisters.c", 3034),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 3034),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gPoSistersTorchDL);
     }
@@ -1411,7 +1411,7 @@ void EnPoSisters_Draw(Actor* thisx, PlayState* play) {
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;
         }
         Matrix_Scale(phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_sisters.c", 3132),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_sisters.c", 3132),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }

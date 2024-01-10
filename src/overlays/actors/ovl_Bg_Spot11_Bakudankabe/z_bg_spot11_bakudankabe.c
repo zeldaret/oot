@@ -17,15 +17,15 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, PlayState* play);
 void BgSpot11Bakudankabe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Spot11_Bakudankabe_InitVars = {
-    ACTOR_BG_SPOT11_BAKUDANKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT11_OBJ,
-    sizeof(BgSpot11Bakudankabe),
-    (ActorFunc)BgSpot11Bakudankabe_Init,
-    (ActorFunc)BgSpot11Bakudankabe_Destroy,
-    (ActorFunc)BgSpot11Bakudankabe_Update,
-    (ActorFunc)BgSpot11Bakudankabe_Draw,
+    /**/ ACTOR_BG_SPOT11_BAKUDANKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT11_OBJ,
+    /**/ sizeof(BgSpot11Bakudankabe),
+    /**/ BgSpot11Bakudankabe_Init,
+    /**/ BgSpot11Bakudankabe_Destroy,
+    /**/ BgSpot11Bakudankabe_Update,
+    /**/ BgSpot11Bakudankabe_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

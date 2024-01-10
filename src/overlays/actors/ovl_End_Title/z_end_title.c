@@ -15,15 +15,15 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play);
 void EndTitle_DrawNintendoLogo(Actor* thisx, PlayState* play);
 
 ActorInit End_Title_InitVars = {
-    ACTOR_END_TITLE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EndTitle),
-    (ActorFunc)EndTitle_Init,
-    (ActorFunc)EndTitle_Destroy,
-    (ActorFunc)EndTitle_Update,
-    (ActorFunc)EndTitle_DrawFull,
+    /**/ ACTOR_END_TITLE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EndTitle),
+    /**/ EndTitle_Init,
+    /**/ EndTitle_Destroy,
+    /**/ EndTitle_Update,
+    /**/ EndTitle_DrawFull,
 };
 
 #include "assets/overlays/ovl_End_Title/ovl_End_Title.c"
@@ -64,7 +64,7 @@ void EndTitle_DrawFull(Actor* thisx, PlayState* play) {
     Matrix_RotateX(BINANG_TO_RAD(0xBB8), MTXMODE_APPLY);
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
     Matrix_RotateZ(0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_end_title.c", 412), G_MTX_LOAD);
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_end_title.c", 412), G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, sTriforceDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_end_title.c", 417);

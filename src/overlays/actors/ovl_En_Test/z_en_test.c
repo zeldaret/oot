@@ -126,15 +126,15 @@ static u8 sJointCopyFlags[] = {
 };
 
 ActorInit En_Test_InitVars = {
-    ACTOR_EN_TEST,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SK2,
-    sizeof(EnTest),
-    (ActorFunc)EnTest_Init,
-    (ActorFunc)EnTest_Destroy,
-    (ActorFunc)EnTest_Update,
-    (ActorFunc)EnTest_Draw,
+    /**/ ACTOR_EN_TEST,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SK2,
+    /**/ sizeof(EnTest),
+    /**/ EnTest_Init,
+    /**/ EnTest_Destroy,
+    /**/ EnTest_Update,
+    /**/ EnTest_Draw,
 };
 
 static ColliderCylinderInit sBodyColliderInit = {

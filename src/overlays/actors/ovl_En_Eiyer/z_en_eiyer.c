@@ -36,15 +36,15 @@ void EnEiyer_Dead(EnEiyer* this, PlayState* play);
 void EnEiyer_Stunned(EnEiyer* this, PlayState* play);
 
 ActorInit En_Eiyer_InitVars = {
-    ACTOR_EN_EIYER,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_EI,
-    sizeof(EnEiyer),
-    (ActorFunc)EnEiyer_Init,
-    (ActorFunc)EnEiyer_Destroy,
-    (ActorFunc)EnEiyer_Update,
-    (ActorFunc)EnEiyer_Draw,
+    /**/ ACTOR_EN_EIYER,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_EI,
+    /**/ sizeof(EnEiyer),
+    /**/ EnEiyer_Init,
+    /**/ EnEiyer_Destroy,
+    /**/ EnEiyer_Update,
+    /**/ EnEiyer_Draw,
 };
 
 static ColliderCylinderInit sColCylInit = {

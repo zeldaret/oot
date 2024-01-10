@@ -26,15 +26,15 @@ void ObjTimeblock_AltBehaviorVisible(ObjTimeblock* this, PlayState* play);
 void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, PlayState* play);
 
 ActorInit Obj_Timeblock_InitVars = {
-    ACTOR_OBJ_TIMEBLOCK,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_TIMEBLOCK,
-    sizeof(ObjTimeblock),
-    (ActorFunc)ObjTimeblock_Init,
-    (ActorFunc)ObjTimeblock_Destroy,
-    (ActorFunc)ObjTimeblock_Update,
-    (ActorFunc)ObjTimeblock_Draw,
+    /**/ ACTOR_OBJ_TIMEBLOCK,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_TIMEBLOCK,
+    /**/ sizeof(ObjTimeblock),
+    /**/ ObjTimeblock_Init,
+    /**/ ObjTimeblock_Destroy,
+    /**/ ObjTimeblock_Update,
+    /**/ ObjTimeblock_Draw,
 };
 
 typedef struct {
@@ -337,7 +337,7 @@ void ObjTimeblock_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_obj_timeblock.c", 762);
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_timeblock.c", 766),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_timeblock.c", 766),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, primColor->r, primColor->g, primColor->b, 255);
         gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);

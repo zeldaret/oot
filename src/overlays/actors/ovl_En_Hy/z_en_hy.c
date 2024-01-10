@@ -33,15 +33,15 @@ void EnHy_DoNothing(EnHy* this, PlayState* play);
 void EnHy_WaitDogFoundRewardGiven(EnHy* this, PlayState* play);
 
 ActorInit En_Hy_InitVars = {
-    ACTOR_EN_HY,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnHy),
-    (ActorFunc)EnHy_Init,
-    (ActorFunc)EnHy_Destroy,
-    (ActorFunc)EnHy_Update,
-    (ActorFunc)EnHy_Draw,
+    /**/ ACTOR_EN_HY,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnHy),
+    /**/ EnHy_Init,
+    /**/ EnHy_Destroy,
+    /**/ EnHy_Update,
+    /**/ EnHy_Draw,
 };
 
 static ColliderCylinderInit sColCylInit = {
@@ -592,7 +592,7 @@ void EnHy_GiveItem(EnHy* this, PlayState* play, s32 getItemId) {
 u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnHy* this = (EnHy*)thisx;
-    u16 textId = Text_GetFaceReaction(play, ENHY_GET_TYPE(&this->actor) + 37);
+    u16 textId = MaskReaction_GetTextId(play, ENHY_GET_TYPE(&this->actor) + MASK_REACTION_SET_DOG_LADY);
 
     if (textId != 0) {
         if (ENHY_GET_TYPE(&this->actor) == ENHY_TYPE_BEGGAR) {
@@ -638,7 +638,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 return 0x701A;
-            } else if (GET_EVENTCHKINF(EVENTCHKINF_10)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME)) {
                 return 0x701B;
             } else if (GET_INFTABLE(INFTABLE_C2)) {
                 return 0x701C;
@@ -694,7 +694,7 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             }
 
         case ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR:
-            return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
+            return GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
 
         case ENHY_TYPE_MAN_2_ALT_MUSTACHE:
             if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
@@ -1415,7 +1415,7 @@ void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 }
 
 Gfx* EnHy_SetEnvColor(GraphicsContext* gfxCtx, u8 envR, u8 envG, u8 envB, u8 envA) {
-    Gfx* gfx = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    Gfx* gfx = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
     gDPSetEnvColor(&gfx[0], envR, envG, envB, envA);
     gSPEndDisplayList(&gfx[1]);

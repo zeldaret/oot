@@ -166,10 +166,6 @@ typedef struct {
     /* 0x14 */ s16 zFar;
 } EnvLightSettings; // size = 0x16
 
-// ZAPD compatibility typedefs
-// TODO: Remove when ZAPD adds support for them
-typedef EnvLightSettings LightSettings;
-
 typedef struct {
     /* 0x00 */ char unk_00[0x02];
     /* 0x02 */ u16 sceneTimeSpeed; // time speed value from the scene file

@@ -57,15 +57,15 @@ void EnDntNomal_StageAttack(EnDntNomal* this, PlayState* play);
 void EnDntNomal_StageReturn(EnDntNomal* this, PlayState* play);
 
 ActorInit En_Dnt_Nomal_InitVars = {
-    ACTOR_EN_DNT_NOMAL,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnDntNomal),
-    (ActorFunc)EnDntNomal_Init,
-    (ActorFunc)EnDntNomal_Destroy,
-    (ActorFunc)EnDntNomal_Update,
-    NULL,
+    /**/ ACTOR_EN_DNT_NOMAL,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnDntNomal),
+    /**/ EnDntNomal_Init,
+    /**/ EnDntNomal_Destroy,
+    /**/ EnDntNomal_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sBodyCylinderInit = {
@@ -250,7 +250,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
                 this->hitCounter++;
                 if (this->hitCounter >= 3) {
                     OnePointCutscene_Init(play, 4140, -99, &this->actor, CAM_ID_MAIN);
-                    func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+                    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                     this->timer4 = 50;
                     this->actionFunc = EnDntNomal_SetupTargetUnburrow;
                 }
@@ -337,9 +337,9 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         GET_ACTIVE_CAM(play)->csId = 0;
-        func_8002DF54(play, NULL, PLAYER_CSMODE_8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = EnDntNomal_SetupTargetGivePrize;
     }
 }
@@ -361,7 +361,7 @@ void EnDntNomal_TargetGivePrize(EnDntNomal* this, PlayState* play) {
 
         if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, itemX, itemY, itemZ, 0, 0, 0,
                                EXITEM_BULLET_BAG) == NULL) {
-            func_8002DF54(play, NULL, PLAYER_CSMODE_7);
+            Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
             Actor_Kill(&this->actor);
         }
         this->spawnedItem = true;
@@ -862,7 +862,7 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, PlayState* play) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, sLeafColors[this->type - ENDNTNOMAL_STAGE].r,
                    sLeafColors[this->type - ENDNTNOMAL_STAGE].g, sLeafColors[this->type - ENDNTNOMAL_STAGE].b, 255);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1814),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1814),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDntStageFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1817);
@@ -879,7 +879,7 @@ void EnDntNomal_DrawTargetScrub(Actor* thisx, PlayState* play) {
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnDntNomal_PostLimbDraw, this);
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1848),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1848),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gHintNutsFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1851);

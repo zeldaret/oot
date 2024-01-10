@@ -18,15 +18,15 @@ void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play);
 void func_80AF8F60(Player* player, u8* shadowTexture, f32 arg2);
 
 ActorInit En_Sda_InitVars = {
-    ACTOR_EN_SDA,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnSda),
-    (ActorFunc)EnSda_Init,
-    (ActorFunc)EnSda_Destroy,
-    (ActorFunc)EnSda_Update,
-    (ActorFunc)EnSda_Draw,
+    /**/ ACTOR_EN_SDA,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnSda),
+    /**/ EnSda_Init,
+    /**/ EnSda_Destroy,
+    /**/ EnSda_Update,
+    /**/ EnSda_Draw,
 };
 
 static Vec3f D_80AFA0D0 = { 0.0f, 0.0f, 0.0f };
@@ -115,7 +115,7 @@ void EnSda_Update(Actor* thisx, PlayState* play) {
 void EnSda_Draw(Actor* thisx, PlayState* play) {
     EnSda* this = (EnSda*)thisx;
     Player* player;
-    u8* shadowTexture = Graph_Alloc(play->state.gfxCtx, 0x1000);
+    u8* shadowTexture = GRAPH_ALLOC(play->state.gfxCtx, 0x1000);
 
     osSyncPrintf("SDA DRAW \n");
 
@@ -290,7 +290,6 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, PlayState* pl
         Matrix_RotateX(BINANG_TO_RAD_ALT(sp178.x), MTXMODE_APPLY);
         for (i = 0; i < 22; i++) {
             Matrix_MultVec3f(&D_80AFA180[i], &sp188);
-            if (1) {}
             sp64[i].x = (((KREG(82) / 100.0f) + 4.0f) * sp188.x) + sp16C.x;
             sp64[i].y = (((KREG(82) / 100.0f) + 4.0f) * sp188.y) + sp16C.y;
             sp64[i].z = (((KREG(82) / 100.0f) + 4.0f) * sp188.z) + sp16C.z;
@@ -306,7 +305,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, PlayState* pl
             temp_t0 = sp188.x + 32.0f;
             temp_t1 = (s16)sp188.y << 6;
 
-            do {
+            for (j = 0; j < 6; j++) {
                 for (j = 0, phi_a3 = -0xC0; j < 7; j++, phi_a3 += 0x40) {
                     for (phi_a0 = -D_80AFA0E8[j]; phi_a0 < D_80AFA0E8[j] - 1; phi_a0++) {
                         temp_v0 = temp_t0 + phi_a0;
@@ -318,8 +317,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, PlayState* pl
                         }
                     }
                 }
-                j++;
-            } while (j < 6);
+            }
         }
     }
     if (BREG(61) == 1) {
@@ -353,7 +351,7 @@ void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play) {
             20.0f;
     Matrix_Translate(tempx, 0.0f, tempz, MTXMODE_APPLY);
     Matrix_Scale(((BREG(56) - 250) / 1000.0f) + 0.6f, 1.0f, ((BREG(59) - 250) / 1000.0f) + 0.6f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_sda.c", 860),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_sda.c", 860),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_80AFA3D8);
     gDPLoadTextureBlock(POLY_XLU_DISP++, shadowTexture, G_IM_FMT_I, G_IM_SIZ_8b, 0x40, 0x40, 0,
@@ -362,7 +360,7 @@ void func_80AF9C70(u8* shadowTexture, Player* player, PlayState* play) {
 
     for (phi_s1 = 0; phi_s1 < KREG(78); phi_s1++) {
         Matrix_Scale((KREG(79) / 100.0f) + 1.0f, 1.0f, (KREG(79) / 100.0f) + 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_sda.c", 877),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_sda.c", 877),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_80AFA3F8);
     }

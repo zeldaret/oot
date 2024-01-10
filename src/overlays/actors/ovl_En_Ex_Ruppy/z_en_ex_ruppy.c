@@ -29,15 +29,15 @@ static s16 sRupeeValues[] = {
 };
 
 ActorInit En_Ex_Ruppy_InitVars = {
-    ACTOR_EN_EX_RUPPY,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnExRuppy),
-    (ActorFunc)EnExRuppy_Init,
-    (ActorFunc)EnExRuppy_Destroy,
-    (ActorFunc)EnExRuppy_Update,
-    (ActorFunc)EnExRuppy_Draw,
+    /**/ ACTOR_EN_EX_RUPPY,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnExRuppy),
+    /**/ EnExRuppy_Init,
+    /**/ EnExRuppy_Destroy,
+    /**/ EnExRuppy_Update,
+    /**/ EnExRuppy_Draw,
 };
 
 void EnExRuppy_Init(Actor* thisx, PlayState* play) {
@@ -386,7 +386,7 @@ void EnExRuppy_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         func_8002EBCC(thisx, play, 0);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(rupeeTextures[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);

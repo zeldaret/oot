@@ -39,14 +39,14 @@ def firstDiffMain():
     parser = argparse.ArgumentParser(description="Find the first difference(s) between the built ROM and the base ROM.")
 
     parser.add_argument("-c", "--count", type=int, default=5, help="find up to this many instruction difference(s)")
-    parser.add_argument("-v", "--version", help="Which version should be processed", default="mq_dbg")
+    parser.add_argument("-v", "--version", help="Which version should be processed", default="gc-eu-mq-dbg")
     parser.add_argument("-a", "--add-colons", action='store_true', help="Add colon between bytes" )
 
     args = parser.parse_args()
 
-    buildFolder = Path("build")
+    buildFolder = Path("build") / args.version
 
-    BUILTROM = Path(f"zelda_ocarina_{args.version}.z64")
+    BUILTROM = Path(f"oot-{args.version}.z64")
     BUILTMAP = buildFolder / f"z64.map"
 
     EXPECTEDROM = Path("baserom.z64")

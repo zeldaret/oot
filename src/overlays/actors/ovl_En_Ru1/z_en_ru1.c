@@ -134,15 +134,15 @@ static EnRu1DrawFunc sDrawFuncs[] = {
 };
 
 ActorInit En_Ru1_InitVars = {
-    ACTOR_EN_RU1,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_RU1,
-    sizeof(EnRu1),
-    (ActorFunc)EnRu1_Init,
-    (ActorFunc)EnRu1_Destroy,
-    (ActorFunc)EnRu1_Update,
-    (ActorFunc)EnRu1_Draw,
+    /**/ ACTOR_EN_RU1,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_RU1,
+    /**/ sizeof(EnRu1),
+    /**/ EnRu1_Init,
+    /**/ EnRu1_Destroy,
+    /**/ EnRu1_Update,
+    /**/ EnRu1_Draw,
 };
 
 void func_80AEAC10(EnRu1* this, PlayState* play) {
@@ -333,7 +333,7 @@ Actor* func_80AEB124(PlayState* play) {
     return NULL;
 }
 
-s32 func_80AEB174(PlayState* play) {
+int func_80AEB174(PlayState* play) {
     return (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play);
 }
 
@@ -1493,17 +1493,17 @@ void func_80AEE050(EnRu1* this) {
 }
 
 s32 func_80AEE264(EnRu1* this, PlayState* play) {
-    if (!Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         if (GET_INFTABLE(INFTABLE_143)) {
             this->actor.textId = 0x404E;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         } else if (GET_INFTABLE(INFTABLE_142)) {
             this->actor.textId = 0x404D;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         } else {
             this->actor.textId = 0x404C;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
         return false;
     }
@@ -2126,13 +2126,13 @@ void func_80AEFD38(EnRu1* this, PlayState* play) {
 }
 
 s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
-    if (!Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        this->actor.textId = Text_GetFaceReaction(play, 0x1F);
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
         if (this->actor.textId == 0) {
             this->actor.textId = 0x402C;
         }
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         return false;
     }
     return true;
