@@ -20,15 +20,15 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play);
 void func_80AB9210(EnNiwGirl* this, PlayState* play);
 
 ActorInit En_Niw_Girl_InitVars = {
-    ACTOR_EN_NIW_GIRL,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GR,
-    sizeof(EnNiwGirl),
-    (ActorFunc)EnNiwGirl_Init,
-    (ActorFunc)EnNiwGirl_Destroy,
-    (ActorFunc)EnNiwGirl_Update,
-    (ActorFunc)EnNiwGirl_Draw,
+    /**/ ACTOR_EN_NIW_GIRL,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GR,
+    /**/ sizeof(EnNiwGirl),
+    /**/ EnNiwGirl_Init,
+    /**/ EnNiwGirl_Destroy,
+    /**/ EnNiwGirl_Update,
+    /**/ EnNiwGirl_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -170,7 +170,7 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play) {
         this->chasedEnNiw->path = 0;
     }
     Math_ApproachZeroF(&this->actor.speed, 0.8f, 0.2f);
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.textId == 0x70EA) {
             this->unk_27A = 1;
         }
@@ -179,7 +179,7 @@ void func_80AB94D0(EnNiwGirl* this, PlayState* play) {
             this->jumpTimer = Rand_ZeroFloat(100.0f) + 250.0f;
             this->actionFunc = EnNiwGirl_Jump;
         } else {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
 }

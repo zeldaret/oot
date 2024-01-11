@@ -1530,7 +1530,7 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
             csCtx->camEyeSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
@@ -1569,7 +1569,7 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
             gCamAtSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
@@ -1616,7 +1616,7 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
 
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
                 roll = csCtx->camAtPoints->cameraRoll * 1.40625f;
                 Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &roll);
@@ -1664,7 +1664,7 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
 
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
                 at.x = csCtx->camAtPoints->pos.x;
                 at.y = csCtx->camAtPoints->pos.y;
@@ -2254,7 +2254,7 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
 
             Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_ACTIVE);
             Play_ClearCamera(play, csCtx->subCamId);
-            func_8005B1A4(play->cameraPtrs[sReturnToCamId]);
+            Camera_SetFinishedFlag(play->cameraPtrs[sReturnToCamId]);
         }
 
         Audio_SetCutsceneFlag(0);

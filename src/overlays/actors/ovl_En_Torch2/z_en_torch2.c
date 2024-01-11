@@ -22,15 +22,15 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2);
 void EnTorch2_Draw(Actor* thisx, PlayState* play2);
 
 ActorInit En_Torch2_InitVars = {
-    ACTOR_EN_TORCH2,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_TORCH2,
-    sizeof(Player),
-    (ActorFunc)EnTorch2_Init,
-    (ActorFunc)EnTorch2_Destroy,
-    (ActorFunc)EnTorch2_Update,
-    (ActorFunc)EnTorch2_Draw,
+    /**/ ACTOR_EN_TORCH2,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_TORCH2,
+    /**/ sizeof(Player),
+    /**/ EnTorch2_Init,
+    /**/ EnTorch2_Destroy,
+    /**/ EnTorch2_Update,
+    /**/ EnTorch2_Draw,
 };
 
 static f32 sStickTilt = 0.0f;
@@ -97,7 +97,7 @@ void EnTorch2_Init(Actor* thisx, PlayState* play2) {
     sInput.cur.stick_x = sInput.cur.stick_y = 0;
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemAction = this->heldItemId = PLAYER_IA_SWORD_MASTER;
-    Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD);
+    Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD_AND_SHIELD);
     play->playerInit(this, play, &gDarkLinkSkel);
     this->actor.naviEnemyId = NAVI_ENEMY_DARK_LINK;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
@@ -563,7 +563,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
 
     if ((this->actor.colChkInfo.health == 0) && sDeathFlag) {
         this->csAction = PLAYER_CSACTION_24;
-        this->unk_448 = &player->actor;
+        this->csActor = &player->actor;
         this->cv.haltActorsDuringCsAction = true;
         sDeathFlag = false;
     }

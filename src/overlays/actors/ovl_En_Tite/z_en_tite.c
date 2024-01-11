@@ -75,15 +75,15 @@ void EnTite_FlipOnBack(EnTite* this, PlayState* play);
 void EnTite_FlipUpright(EnTite* this, PlayState* play);
 
 ActorInit En_Tite_InitVars = {
-    ACTOR_EN_TITE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_TITE,
-    sizeof(EnTite),
-    (ActorFunc)EnTite_Init,
-    (ActorFunc)EnTite_Destroy,
-    (ActorFunc)EnTite_Update,
-    (ActorFunc)EnTite_Draw,
+    /**/ ACTOR_EN_TITE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_TITE,
+    /**/ sizeof(EnTite),
+    /**/ EnTite_Init,
+    /**/ EnTite_Destroy,
+    /**/ EnTite_Update,
+    /**/ EnTite_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {

@@ -54,7 +54,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist,
             temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
             Matrix_Scale(actor->scale.x * temp2, 1.0f, actor->scale.z * temp2, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 1588),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 1588),
                       G_MTX_MODELVIEW | G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, dlist);
 
@@ -94,7 +94,7 @@ void ActorShadow_DrawFoot(PlayState* play, Light* light, MtxF* arg2, s32 arg3, f
     Matrix_RotateY(sp58, MTXMODE_APPLY);
     Matrix_Scale(arg5, 1.0f, arg5 * arg6, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 1687), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 1687), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, gFootShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 1693);
@@ -377,7 +377,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
                         Matrix_RotateZ(M_PI / 2, MTXMODE_APPLY);
                         Matrix_Push();
                         Matrix_Translate(entry->unk_0C, entry->unk_0C, 0.0f, MTXMODE_APPLY);
-                        gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 2116),
+                        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
                         gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
                         Matrix_Pop();
@@ -404,8 +404,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 2153),
-                  G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 2153), G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, gZTargetArrowDL);
     }
 
@@ -679,7 +678,7 @@ void TitleCard_InitPlaceName(PlayState* play, TitleCardContext* titleCtx, void* 
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
     if ((size != 0) && (size <= 0x3000)) {
-        DmaMgr_RequestSyncDebug(texture, loadedScene->titleFile.vromStart, size, "../z_actor.c", 2765);
+        DMA_REQUEST_SYNC(texture, loadedScene->titleFile.vromStart, size, "../z_actor.c", 2765);
     }
 
     titleCtx->texture = texture;
@@ -810,7 +809,7 @@ void Actor_Init(Actor* actor, PlayState* play) {
     Actor_SetScale(actor, 0.01f);
     actor->targetMode = 3;
     actor->minVelocityY = -20.0f;
-    actor->xyzDistToPlayerSq = FLT_MAX;
+    actor->xyzDistToPlayerSq = MAXFLOAT;
     actor->naviEnemyId = NAVI_ENEMY_NONE;
     actor->uncullZoneForward = 1000.0f;
     actor->uncullZoneScale = 350.0f;
@@ -1000,15 +999,15 @@ f32 func_8002DCE4(Player* player) {
     }
 }
 
-s32 func_8002DD6C(Player* player) {
+int func_8002DD6C(Player* player) {
     return player->stateFlags1 & PLAYER_STATE1_3;
 }
 
-s32 func_8002DD78(Player* player) {
+int func_8002DD78(Player* player) {
     return func_8002DD6C(player) && player->unk_834;
 }
 
-s32 func_8002DDA8(PlayState* play) {
+int func_8002DDA8(PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     return (player->stateFlags1 & PLAYER_STATE1_11) || func_8002DD78(player);
@@ -1039,7 +1038,7 @@ void func_8002DE04(PlayState* play, Actor* actorA, Actor* actorB) {
 
 void func_8002DE74(PlayState* play, Player* player) {
     if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_4) && Play_CamIsNotFixed(play)) {
-        Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
+        Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
     }
 }
 
@@ -1049,7 +1048,7 @@ void Actor_MountHorse(PlayState* play, Player* player, Actor* horse) {
     horse->child = &player->actor;
 }
 
-s32 func_8002DEEC(Player* player) {
+int func_8002DEEC(Player* player) {
     return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csAction != PLAYER_CSACTION_NONE);
 }
 
@@ -1057,20 +1056,45 @@ void func_8002DF18(PlayState* play, Player* player) {
     func_8006DC68(play, player);
 }
 
-s32 func_8002DF38(PlayState* play, Actor* actor, u8 csAction) {
+/**
+ * Sets a Player Cutscene Action specified by `csAction`.
+ * There are no safety checks to see if Player is already in some form of a cutscene state.
+ * This will instantly take effect.
+ *
+ * `haltActorsDuringCsAction` being set to false in this function means that all actors will
+ * be able to update while Player is performing the cutscene action.
+ *
+ * Note: due to how player implements initializing the cutscene action state, `haltActorsDuringCsAction`
+ * will only be considered the first time player starts a `csAction`.
+ * Player must leave the cutscene action state and enter it again before halting actors can be toggled.
+ */
+s32 Player_SetCsAction(PlayState* play, Actor* csActor, u8 csAction) {
     Player* player = GET_PLAYER(play);
 
     player->csAction = csAction;
-    player->unk_448 = actor;
+    player->csActor = csActor;
     player->cv.haltActorsDuringCsAction = false;
 
     return true;
 }
 
-s32 func_8002DF54(PlayState* play, Actor* actor, u8 csAction) {
+/**
+ * Sets a Player Cutscene Action specified by `csAction`.
+ * There are no safety checks to see if Player is already in some form of a cutscene state.
+ * This will instantly take effect.
+ *
+ * `haltActorsDuringCsAction` being set to true in this function means that eventually `PLAYER_STATE1_29` will be set.
+ * This makes it so actors belonging to categories `ACTORCAT_ENEMY` and `ACTORCAT_MISC` will not update
+ * while Player is performing the cutscene action.
+ *
+ * Note: due to how player implements initializing the cutscene action state, `haltActorsDuringCsAction`
+ * will only be considered the first time player starts a `csAction`.
+ * Player must leave the cutscene action state and enter it again before halting actors can be toggled.
+ */
+s32 Player_SetCsActionWithHaltedActors(PlayState* play, Actor* csActor, u8 csAction) {
     Player* player = GET_PLAYER(play);
 
-    func_8002DF38(play, actor, csAction);
+    Player_SetCsAction(play, csActor, csAction);
     player->cv.haltActorsDuringCsAction = true;
 
     return true;
@@ -1338,11 +1362,11 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
     LookAt* lookAt;
     f32 correctedEyeX;
 
-    lookAt = Graph_Alloc(gfxCtx, sizeof(LookAt));
+    lookAt = GRAPH_ALLOC(gfxCtx, sizeof(LookAt));
 
     correctedEyeX = (eye->x == object->x) && (eye->z == object->z) ? eye->x + 0.001f : eye->x;
 
-    *hilite = Graph_Alloc(gfxCtx, sizeof(Hilite));
+    *hilite = GRAPH_ALLOC(gfxCtx, sizeof(Hilite));
 
     if (R_HREG_MODE == HREG_MODE_PRINT_HILITE_INFO) {
         osSyncPrintf("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n", correctedEyeX,
@@ -1401,7 +1425,7 @@ void func_8002EBCC(Actor* actor, PlayState* play, s32 flag) {
     hilite = func_8002EABC(&actor->world.pos, &play->view.eye, &lightDir, play->state.gfxCtx);
 
     if (flag != 0) {
-        displayList = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Gfx));
+        displayList = GRAPH_ALLOC(play->state.gfxCtx, 2 * sizeof(Gfx));
         displayListHead = displayList;
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 4384);
@@ -1427,7 +1451,7 @@ void func_8002ED80(Actor* actor, PlayState* play, s32 flag) {
     hilite = func_8002EB44(&actor->world.pos, &play->view.eye, &lightDir, play->state.gfxCtx);
 
     if (flag != 0) {
-        displayList = Graph_Alloc(play->state.gfxCtx, 2 * sizeof(Gfx));
+        displayList = GRAPH_ALLOC(play->state.gfxCtx, 2 * sizeof(Gfx));
         displayListHead = displayList;
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 4429);
@@ -1440,26 +1464,21 @@ void func_8002ED80(Actor* actor, PlayState* play, s32 flag) {
     }
 }
 
-PosRot* Actor_GetFocus(PosRot* dest, Actor* actor) {
-    *dest = actor->focus;
-
-    return dest;
+PosRot Actor_GetFocus(Actor* actor) {
+    return actor->focus;
 }
 
-PosRot* Actor_GetWorld(PosRot* dest, Actor* actor) {
-    *dest = actor->world;
-
-    return dest;
+PosRot Actor_GetWorld(Actor* actor) {
+    return actor->world;
 }
 
-PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor) {
-    PosRot sp1C;
+PosRot Actor_GetWorldPosShapeRot(Actor* actor) {
+    PosRot worldPosRot;
 
-    Math_Vec3f_Copy(&sp1C.pos, &actor->world.pos);
-    sp1C.rot = actor->shape.rot;
-    *arg0 = sp1C;
+    Math_Vec3f_Copy(&worldPosRot.pos, &actor->world.pos);
+    worldPosRot.rot = actor->shape.rot;
 
-    return arg0;
+    return worldPosRot;
 }
 
 f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
@@ -1468,7 +1487,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
 
     if (player->unk_664 != NULL) {
         if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
-            return FLT_MAX;
+            return MAXFLOAT;
         } else {
             f32 ret =
                 actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
@@ -1478,7 +1497,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     }
 
     if (yawTempAbs > 0x2AAA) {
-        return FLT_MAX;
+        return MAXFLOAT;
     }
 
     return actor->xyzDistToPlayerSq;
@@ -1513,7 +1532,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
         f32 dist;
 
         if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
-            dist = FLT_MAX;
+            dist = MAXFLOAT;
         } else {
             dist = actor->xyzDistToPlayerSq;
         }
@@ -1524,22 +1543,39 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
     return false;
 }
 
-u32 Actor_ProcessTalkRequest(Actor* actor, PlayState* play) {
-    if (actor->flags & ACTOR_FLAG_8) {
-        actor->flags &= ~ACTOR_FLAG_8;
+/**
+ * When a given talk offer is accepted, Player will set `ACTOR_FLAG_TALK` for that actor.
+ * This function serves to acknowledge that the offer was accepted by Player, and notifies the actor
+ * that it should proceed with its own internal processes for handling dialogue.
+ *
+ * @return  true if the talk offer was accepted, false otherwise
+ */
+s32 Actor_TalkOfferAccepted(Actor* actor, PlayState* play) {
+    if (actor->flags & ACTOR_FLAG_TALK) {
+        actor->flags &= ~ACTOR_FLAG_TALK;
         return true;
     }
 
     return false;
 }
 
-s32 func_8002F1C4(Actor* actor, PlayState* play, f32 arg2, f32 arg3, u32 exchangeItemId) {
+/**
+ * This function covers offering the ability to talk with the player.
+ * Passing an exchangeItemId (see `ExchangeItemID`) allows the player to also use the item to initiate the
+ * conversation.
+ *
+ * This function carries a talk exchange offer to the player actor if context allows it (e.g. the player is in range
+ * and not busy with certain things).
+ *
+ * @return true If the player actor is capable of accepting the offer.
+ */
+s32 Actor_OfferTalkExchange(Actor* actor, PlayState* play, f32 xzRange, f32 yRange, u32 exchangeItemId) {
     Player* player = GET_PLAYER(play);
 
-    if ((player->actor.flags & ACTOR_FLAG_8) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
+    if ((player->actor.flags & ACTOR_FLAG_TALK) || ((exchangeItemId != EXCH_ITEM_NONE) && Player_InCsMode(play)) ||
         (!actor->isTargeted &&
-         ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
-          (arg2 < actor->xzDistToPlayer)))) {
+         ((yRange < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
+          (xzRange < actor->xzDistToPlayer)))) {
         return false;
     }
 
@@ -1550,18 +1586,28 @@ s32 func_8002F1C4(Actor* actor, PlayState* play, f32 arg2, f32 arg3, u32 exchang
     return true;
 }
 
-s32 func_8002F298(Actor* actor, PlayState* play, f32 arg2, u32 exchangeItemId) {
-    return func_8002F1C4(actor, play, arg2, arg2, exchangeItemId);
+/**
+ * Offers a talk exchange request within an equilateral cylinder with the radius specified.
+ */
+s32 Actor_OfferTalkExchangeEquiCylinder(Actor* actor, PlayState* play, f32 radius, u32 exchangeItemId) {
+    return Actor_OfferTalkExchange(actor, play, radius, radius, exchangeItemId);
 }
 
-s32 func_8002F2CC(Actor* actor, PlayState* play, f32 arg2) {
-    return func_8002F298(actor, play, arg2, EXCH_ITEM_NONE);
+/**
+ * Offers a talk request within an equilateral cylinder with the radius specified.
+ */
+s32 Actor_OfferTalk(Actor* actor, PlayState* play, f32 radius) {
+    return Actor_OfferTalkExchangeEquiCylinder(actor, play, radius, EXCH_ITEM_NONE);
 }
 
-s32 func_8002F2F4(Actor* actor, PlayState* play) {
-    f32 var1 = 50.0f + actor->colChkInfo.cylRadius;
+/**
+ * Offers a talk request within an equilateral cylinder whose radius is determined by the actor's collision check
+ * cylinder's radius.
+ */
+s32 Actor_OfferTalkNearColChkInfoCylinder(Actor* actor, PlayState* play) {
+    f32 cylRadius = 50.0f + actor->colChkInfo.cylRadius;
 
-    return func_8002F2CC(actor, play, var1);
+    return Actor_OfferTalk(actor, play, cylRadius);
 }
 
 u32 Actor_TextboxIsClosing(Actor* actor, PlayState* play) {
@@ -1987,14 +2033,14 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
             gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
 
             Matrix_RotateZ(BINANG_TO_RAD_ALT2((play->gameplayFrames * 1500) & 0xFFFF), MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 5458),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 5458),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
 
             Matrix_Pop();
             Matrix_RotateZ(BINANG_TO_RAD_ALT2(~((play->gameplayFrames * 1200) & 0xFFFF)), MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 5463),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 5463),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
         }
@@ -2642,7 +2688,7 @@ void func_80031C3C(ActorContext* actorCtx, PlayState* play) {
     }
 
     if (actorCtx->absoluteSpace != NULL) {
-        ZeldaArena_FreeDebug(actorCtx->absoluteSpace, "../z_actor.c", 6731);
+        ZELDA_ARENA_FREE(actorCtx->absoluteSpace, "../z_actor.c", 6731);
         actorCtx->absoluteSpace = NULL;
     }
 
@@ -2728,7 +2774,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
                 if (HREG(20) != 0) {
                     osSyncPrintf("オーバーレイ解放します\n"); // "Overlay deallocated"
                 }
-                ZeldaArena_FreeDebug(actorOverlay->loadedRamAddr, "../z_actor.c", 6834);
+                ZELDA_ARENA_FREE(actorOverlay->loadedRamAddr, "../z_actor.c", 6834);
                 actorOverlay->loadedRamAddr = NULL;
             }
         }
@@ -2786,8 +2832,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
                 if (actorCtx->absoluteSpace == NULL) {
                     // "AMF: absolute magic field"
-                    actorCtx->absoluteSpace =
-                        ZeldaArena_MallocRDebug(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
+                    actorCtx->absoluteSpace = ZELDA_ARENA_MALLOC_R(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
                     if (HREG(20) != 0) {
                         // "Absolute magic field reservation - %d bytes reserved"
                         osSyncPrintf("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
@@ -2796,9 +2841,9 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
                 overlayEntry->loadedRamAddr = actorCtx->absoluteSpace;
             } else if (overlayEntry->allocType & ACTOROVL_ALLOC_PERSISTENT) {
-                overlayEntry->loadedRamAddr = ZeldaArena_MallocRDebug(overlaySize, name, 0);
+                overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC_R(overlaySize, name, 0);
             } else {
-                overlayEntry->loadedRamAddr = ZeldaArena_MallocDebug(overlaySize, name, 0);
+                overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC(overlaySize, name, 0);
             }
 
             if (overlayEntry->loadedRamAddr == NULL) {
@@ -2839,7 +2884,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
         return NULL;
     }
 
-    actor = ZeldaArena_MallocDebug(actorInit->instanceSize, name, 1);
+    actor = ZELDA_ARENA_MALLOC(actorInit->instanceSize, name, 1);
 
     if (actor == NULL) {
         // "Actor class cannot be reserved! %s <size＝%d bytes>"
@@ -2960,7 +3005,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
-        Camera_ChangeMode(Play_GetCamera(play, Play_GetActiveCamId(play)), 0);
+        Camera_RequestMode(Play_GetCamera(play, Play_GetActiveCamId(play)), CAM_MODE_NORMAL);
     }
 
     if (actor == actorCtx->targetCtx.arrowPointedActor) {
@@ -2980,7 +3025,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 
     newHead = Actor_RemoveFromCategory(play, actorCtx, actor);
 
-    ZeldaArena_FreeDebug(actor, "../z_actor.c", 7242);
+    ZELDA_ARENA_FREE(actor, "../z_actor.c", 7242);
 
     if (overlayEntry->vramStart == NULL) {
         if (HREG(20) != 0) {
@@ -2996,7 +3041,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     return newHead;
 }
 
-s32 func_80032880(PlayState* play, Actor* actor) {
+int func_80032880(PlayState* play, Actor* actor) {
     s16 sp1E;
     s16 sp1C;
 
@@ -3067,7 +3112,7 @@ Actor* func_80032AF0(PlayState* play, ActorContext* actorCtx, Actor** actorPtr, 
     u8* entry;
 
     D_8015BBE8 = D_8015BBEC = NULL;
-    D_8015BBF0 = sbgmEnemyDistSq = FLT_MAX;
+    D_8015BBF0 = sbgmEnemyDistSq = MAXFLOAT;
     D_8015BBF8 = 0x7FFFFFFF;
 
     if (!Player_InCsMode(play)) {
@@ -3158,15 +3203,15 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
     u32 objectSlotsSize;
 
     matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
-    bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
+    bodyBreak->matrices = ZELDA_ARENA_MALLOC(matricesSize, "../z_actor.c", 7540);
 
     if (bodyBreak->matrices != NULL) {
         dListsSize = (count + 1) * sizeof(*bodyBreak->dLists);
-        bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
+        bodyBreak->dLists = ZELDA_ARENA_MALLOC(dListsSize, "../z_actor.c", 7543);
 
         if (bodyBreak->dLists != NULL) {
             objectSlotsSize = (count + 1) * sizeof(*bodyBreak->objectSlots);
-            bodyBreak->objectSlots = ZeldaArena_MallocDebug(objectSlotsSize, "../z_actor.c", 7546);
+            bodyBreak->objectSlots = ZELDA_ARENA_MALLOC(objectSlotsSize, "../z_actor.c", 7546);
 
             if (bodyBreak->objectSlots != NULL) {
                 Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
@@ -3179,15 +3224,15 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, PlayState* play) {
     }
 
     if (bodyBreak->matrices != NULL) {
-        ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7558);
+        ZELDA_ARENA_FREE(bodyBreak->matrices, "../z_actor.c", 7558);
     }
 
     if (bodyBreak->dLists != NULL) {
-        ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
+        ZELDA_ARENA_FREE(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
     if (bodyBreak->objectSlots != NULL) {
-        ZeldaArena_FreeDebug(bodyBreak->objectSlots, "../z_actor.c", 7564);
+        ZELDA_ARENA_FREE(bodyBreak->objectSlots, "../z_actor.c", 7564);
     }
 }
 
@@ -3254,9 +3299,9 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, PlayState* play, s1
 
     bodyBreak->val = BODYBREAK_STATUS_FINISHED;
 
-    ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
-    ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(bodyBreak->objectSlots, "../z_actor.c", 7680);
+    ZELDA_ARENA_FREE(bodyBreak->matrices, "../z_actor.c", 7678);
+    ZELDA_ARENA_FREE(bodyBreak->dLists, "../z_actor.c", 7679);
+    ZELDA_ARENA_FREE(bodyBreak->objectSlots, "../z_actor.c", 7680);
 
     return true;
 }
@@ -3350,6 +3395,12 @@ Actor* func_80033684(PlayState* play, Actor* explosiveActor) {
  * This is done by moving it to the corresponding category list and setting its category variable accordingly.
  */
 void Actor_ChangeCategory(PlayState* play, ActorContext* actorCtx, Actor* actor, u8 actorCategory) {
+    //! @bug Calling this function immediately moves an actor from one category list to the other.
+    //! So, if Actor_ChangeCategory is called during an actor update, the inner loop in
+    //! Actor_UpdateAll will continue from the next actor in the new category, rather than the next
+    //! actor in the old category. This will cause any actors after this one in the old category to
+    //! be skipped over and not updated, and any actors in the new category to be updated more than
+    //! once.
     Actor_RemoveFromCategory(play, actorCtx, actor);
     Actor_AddToCategory(actorCtx, actor, actorCategory);
 }
@@ -3587,7 +3638,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, PlayState* play) {
 
     Matrix_Scale(arg1->x, 1.0f, arg1->z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 8149), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8149), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8155);
@@ -3675,8 +3726,7 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
             Matrix_Scale(entry->chainsScale, entry->chainsScale, entry->chainsScale, MTXMODE_APPLY);
         }
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 8299),
-                  G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8299), G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_OPA_DISP++, entry->chainDL);
 
         if (i % 2) {
@@ -3691,7 +3741,7 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
     Matrix_Put(&baseMtxF);
     Matrix_Scale(frame * 0.1f, frame * 0.1f, frame * 0.1f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_actor.c", 8314), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8314), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, entry->lockDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 8319);
@@ -3751,7 +3801,7 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
     s16 x;
     s16 y;
 
-    if (Actor_ProcessTalkRequest(actor, play)) {
+    if (Actor_TalkOfferAccepted(actor, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
     }
@@ -3767,7 +3817,7 @@ s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interac
         return false;
     }
 
-    if (!func_8002F2CC(actor, play, interactRange)) {
+    if (!Actor_OfferTalk(actor, play, interactRange)) {
         return false;
     }
 
@@ -4012,7 +4062,7 @@ void Npc_TrackPoint(Actor* actor, NpcInteractInfo* interactInfo, s16 presetIndex
 Gfx* func_80034B28(GraphicsContext* gfxCtx) {
     Gfx* displayList;
 
-    displayList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    displayList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gSPEndDisplayList(displayList);
 
     return displayList;
@@ -4022,7 +4072,7 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
     Gfx* displayListHead;
     Gfx* displayList;
 
-    displayList = displayListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    displayList = displayListHead = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A,
                      AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
@@ -4728,7 +4778,7 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
                 Flags_GetEventChkInf(EVENTCHKINF_37)) {
                 retTextId = 0x7006;
             } else {
-                if (Flags_GetEventChkInf(EVENTCHKINF_12)) {
+                if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
                     if (Flags_GetInfTable(INFTABLE_71)) {
                         retTextId = 0x7072;
                     } else {
@@ -5090,16 +5140,16 @@ u32 func_80035BFC(PlayState* play, s16 arg1) {
             }
             break;
         case 71:
-            if (Flags_GetEventChkInf(EVENTCHKINF_16)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_CAN_LEARN_EPONAS_SONG)) {
                 retTextId = 0x2049;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_15)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH)) {
                 retTextId = 0x2048;
             } else if (Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x2047;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_12) &&
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG) &&
                        !Flags_GetEventChkInf(EVENTCHKINF_TALON_RETURNED_FROM_CASTLE)) {
                 retTextId = 0x2044;
-            } else if (Flags_GetEventChkInf(EVENTCHKINF_10)) {
+            } else if (Flags_GetEventChkInf(EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME)) {
                 if (Flags_GetEventChkInf(EVENTCHKINF_11)) {
                     retTextId = 0x2043;
                 } else {
@@ -5391,16 +5441,16 @@ void func_80036E50(u16 textId, s16 arg1) {
             return;
         case 71:
             if (textId == 0x2041) {
-                Flags_SetEventChkInf(EVENTCHKINF_10);
+                Flags_SetEventChkInf(EVENTCHKINF_TALKED_TO_MALON_FIRST_TIME);
             }
             if (textId == 0x2044) {
-                Flags_SetEventChkInf(EVENTCHKINF_12);
+                Flags_SetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG);
             }
             if (textId == 0x2047) {
-                Flags_SetEventChkInf(EVENTCHKINF_15);
+                Flags_SetEventChkInf(EVENTCHKINF_TALKED_TO_CHILD_MALON_AT_RANCH);
             }
             if (textId == 0x2048) {
-                Flags_SetEventChkInf(EVENTCHKINF_16);
+                Flags_SetEventChkInf(EVENTCHKINF_CAN_LEARN_EPONAS_SONG);
             }
             return;
         case 72:
@@ -5542,7 +5592,7 @@ s32 func_800374E0(PlayState* play, Actor* actor, u16 textId) {
             ret = 0;
             break;
         case 0x2043:
-            if (Flags_GetEventChkInf(EVENTCHKINF_12)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
                 break;
             }
             func_80035B18(play, actor, 0x2044);
@@ -5648,7 +5698,7 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     s16 sp2A;
     s16 abs_var;
 
-    if (Actor_ProcessTalkRequest(actor, play)) {
+    if (Actor_TalkOfferAccepted(actor, play)) {
         *arg3 = 1;
         return true;
     }
@@ -5678,11 +5728,11 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     }
 
     if (actor->xyzDistToPlayerSq <= SQ(80.0f)) {
-        if (func_8002F2CC(actor, play, 80.0f)) {
+        if (Actor_OfferTalk(actor, play, 80.0f)) {
             actor->textId = func_80037C30(play, arg2);
         }
     } else {
-        if (func_8002F2F4(actor, play)) {
+        if (Actor_OfferTalkNearColChkInfoCylinder(actor, play)) {
             actor->textId = func_80037C30(play, arg2);
         }
     }

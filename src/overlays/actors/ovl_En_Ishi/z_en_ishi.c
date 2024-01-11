@@ -33,15 +33,15 @@ static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
 ActorInit En_Ishi_InitVars = {
-    ACTOR_EN_ISHI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(EnIshi),
-    (ActorFunc)EnIshi_Init,
-    (ActorFunc)EnIshi_Destroy,
-    (ActorFunc)EnIshi_Update,
-    (ActorFunc)EnIshi_Draw,
+    /**/ ACTOR_EN_ISHI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(EnIshi),
+    /**/ EnIshi_Init,
+    /**/ EnIshi_Destroy,
+    /**/ EnIshi_Update,
+    /**/ EnIshi_Draw,
 };
 
 static f32 sRockScales[] = { 0.1f, 0.4f };
@@ -488,7 +488,7 @@ void EnIshi_DrawLarge(EnIshi* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ishi.c", 1055),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ishi.c", 1055),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);

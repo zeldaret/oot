@@ -40,15 +40,15 @@ typedef enum {
 } ArmosBehavior;
 
 ActorInit En_Am_InitVars = {
-    ACTOR_EN_AM,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_AM,
-    sizeof(EnAm),
-    (ActorFunc)EnAm_Init,
-    (ActorFunc)EnAm_Destroy,
-    (ActorFunc)EnAm_Update,
-    (ActorFunc)EnAm_Draw,
+    /**/ ACTOR_EN_AM,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_AM,
+    /**/ sizeof(EnAm),
+    /**/ EnAm_Init,
+    /**/ EnAm_Destroy,
+    /**/ EnAm_Update,
+    /**/ EnAm_Draw,
 };
 
 static ColliderCylinderInit sHurtCylinderInit = {

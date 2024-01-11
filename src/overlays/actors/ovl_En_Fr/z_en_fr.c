@@ -134,15 +134,15 @@ static s32 sSongToFrog[] = {
 };
 
 ActorInit En_Fr_InitVars = {
-    ACTOR_EN_FR,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_FR,
-    sizeof(EnFr),
-    (ActorFunc)EnFr_Init,
-    (ActorFunc)EnFr_Destroy,
-    (ActorFunc)EnFr_Update,
-    NULL,
+    /**/ ACTOR_EN_FR,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_FR,
+    /**/ sizeof(EnFr),
+    /**/ EnFr_Init,
+    /**/ EnFr_Destroy,
+    /**/ EnFr_Update,
+    /**/ NULL,
 };
 
 static Color_RGBA8 sEnFrColor[] = {
@@ -371,7 +371,7 @@ s32 EnFr_IsBelowLogSpot(EnFr* this, f32* yDistToLogSpot) {
     }
 }
 
-s32 EnFr_IsAboveAndWithin30DistXZ(Player* player, EnFr* this) {
+int EnFr_IsAboveAndWithin30DistXZ(Player* player, EnFr* this) {
     f32 xDistToPlayer = player->actor.world.pos.x - this->actor.world.pos.x;
     f32 zDistToPlayer = player->actor.world.pos.z - this->actor.world.pos.z;
     f32 yDistToPlayer = player->actor.world.pos.y - this->actor.world.pos.y;
@@ -776,19 +776,19 @@ void EnFr_CheckOcarinaInputFrogSong(u8 ocarinaNote) {
     s32 frogIndex;
 
     switch (ocarinaNote) {
-        case 0:
+        case OCARINA_BTN_A:
             frogIndexButterfly = FROG_BLUE;
             break;
-        case 1:
+        case OCARINA_BTN_C_DOWN:
             frogIndexButterfly = FROG_YELLOW;
             break;
-        case 2:
+        case OCARINA_BTN_C_RIGHT:
             frogIndexButterfly = FROG_RED;
             break;
-        case 3:
+        case OCARINA_BTN_C_LEFT:
             frogIndexButterfly = FROG_PURPLE;
             break;
-        case 4:
+        case OCARINA_BTN_C_UP:
             frogIndexButterfly = FROG_WHITE;
     }
     // Turn on or off butterfly above frog
@@ -1058,7 +1058,7 @@ void EnFr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1735);
         Matrix_Push();
         Matrix_ReplaceRotation(&play->billboardMtxF);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fr.c", 1738),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fr.c", 1738),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();

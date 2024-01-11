@@ -21,15 +21,15 @@ void func_80B0DB00(EnSw* this, PlayState* play);
 void func_80B0D878(EnSw* this, PlayState* play);
 
 ActorInit En_Sw_InitVars = {
-    ACTOR_EN_SW,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ST,
-    sizeof(EnSw),
-    (ActorFunc)EnSw_Init,
-    (ActorFunc)EnSw_Destroy,
-    (ActorFunc)EnSw_Update,
-    (ActorFunc)EnSw_Draw,
+    /**/ ACTOR_EN_SW,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ST,
+    /**/ sizeof(EnSw),
+    /**/ EnSw_Init,
+    /**/ EnSw_Destroy,
+    /**/ EnSw_Update,
+    /**/ EnSw_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {
@@ -90,9 +90,9 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     if (temp_f0 < 0.001f) {
         return 0;
     }
-    this->unk_37C.x = this->unk_37C.x * (1.0f / temp_f0);
-    this->unk_37C.y = this->unk_37C.y * (1.0f / temp_f0);
-    this->unk_37C.z = this->unk_37C.z * (1.0f / temp_f0);
+    this->unk_37C.x *= 1.0f / temp_f0;
+    this->unk_37C.y *= 1.0f / temp_f0;
+    this->unk_37C.z *= 1.0f / temp_f0;
     this->unk_364 = polyNormal;
     this->unk_3D8.xx = this->unk_370.x;
     this->unk_3D8.yx = this->unk_370.y;

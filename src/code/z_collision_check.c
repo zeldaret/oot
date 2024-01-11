@@ -39,7 +39,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
     gSPSetGeometryMode(POLY_OPA_DISP++, G_LIGHTING);
     gDPPipeSync(POLY_OPA_DISP++);
 
-    vtxTbl = Graph_Alloc(gfxCtx, 3 * sizeof(Vtx));
+    vtxTbl = GRAPH_ALLOC(gfxCtx, 3 * sizeof(Vtx));
     ASSERT(vtxTbl != NULL, "vtx_tbl != NULL", "../z_collision_check.c", 726);
 
     vtxTbl[0].n.ob[0] = vA->x;
@@ -305,7 +305,7 @@ s32 Collider_FreeJntSph(PlayState* play, ColliderJntSph* jntSph) {
 
     jntSph->count = 0;
     if (jntSph->elements != NULL) {
-        ZeldaArena_FreeDebug(jntSph->elements, "../z_collision_check.c", 1393);
+        ZELDA_ARENA_FREE(jntSph->elements, "../z_collision_check.c", 1393);
     }
     jntSph->elements = NULL;
     return true;
@@ -336,7 +336,7 @@ s32 Collider_SetJntSphToActor(PlayState* play, ColliderJntSph* dest, ColliderJnt
 
     Collider_SetBaseToActor(play, &dest->base, &src->base);
     dest->count = src->count;
-    dest->elements = ZeldaArena_MallocDebug(src->count * sizeof(ColliderJntSphElement), "../z_collision_check.c", 1443);
+    dest->elements = ZELDA_ARENA_MALLOC(src->count * sizeof(ColliderJntSphElement), "../z_collision_check.c", 1443);
 
     if (dest->elements == NULL) {
         dest->count = 0;
@@ -364,7 +364,7 @@ s32 Collider_SetJntSphAllocType1(PlayState* play, ColliderJntSph* dest, Actor* a
 
     Collider_SetBaseType1(play, &dest->base, actor, &src->base);
     dest->count = src->count;
-    dest->elements = ZeldaArena_MallocDebug(src->count * sizeof(ColliderJntSphElement), "../z_collision_check.c", 1490);
+    dest->elements = ZELDA_ARENA_MALLOC(src->count * sizeof(ColliderJntSphElement), "../z_collision_check.c", 1490);
 
     if (dest->elements == NULL) {
         dest->count = 0;
@@ -392,7 +392,7 @@ s32 Collider_SetJntSphAlloc(PlayState* play, ColliderJntSph* dest, Actor* actor,
 
     Collider_SetBase(play, &dest->base, actor, &src->base);
     dest->count = src->count;
-    dest->elements = ZeldaArena_MallocDebug(src->count * sizeof(ColliderJntSphElement), "../z_collision_check.c", 1551);
+    dest->elements = ZELDA_ARENA_MALLOC(src->count * sizeof(ColliderJntSphElement), "../z_collision_check.c", 1551);
 
     if (dest->elements == NULL) {
         dest->count = 0;
@@ -667,7 +667,7 @@ s32 Collider_FreeTris(PlayState* play, ColliderTris* tris) {
 
     tris->count = 0;
     if (tris->elements != NULL) {
-        ZeldaArena_FreeDebug(tris->elements, "../z_collision_check.c", 2099);
+        ZELDA_ARENA_FREE(tris->elements, "../z_collision_check.c", 2099);
     }
     tris->elements = NULL;
     return true;
@@ -699,7 +699,7 @@ s32 Collider_SetTrisAllocType1(PlayState* play, ColliderTris* dest, Actor* actor
 
     Collider_SetBaseType1(play, &dest->base, actor, &src->base);
     dest->count = src->count;
-    dest->elements = ZeldaArena_MallocDebug(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2156);
+    dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2156);
     if (dest->elements == NULL) {
         dest->count = 0;
         osSyncPrintf(VT_FGCOL(RED));
@@ -725,7 +725,7 @@ s32 Collider_SetTrisAlloc(PlayState* play, ColliderTris* dest, Actor* actor, Col
 
     Collider_SetBase(play, &dest->base, actor, &src->base);
     dest->count = src->count;
-    dest->elements = ZeldaArena_MallocDebug(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2207);
+    dest->elements = ZELDA_ARENA_MALLOC(dest->count * sizeof(ColliderTrisElement), "../z_collision_check.c", 2207);
 
     if (dest->elements == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
@@ -3312,8 +3312,6 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, Col
 // by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
 static s8 sBssDummy11;
 static s8 sBssDummy12;
-static s8 sBssDummy13;
-static s8 sBssDummy14;
 
 /**
  * Updates the world spheres for all of the collider's JntSph elements attached to the specified limb

@@ -56,15 +56,15 @@ void EnGe2_UpdateAfterTalk(Actor* thisx, PlayState* play);
 void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2);
 
 ActorInit En_Ge2_InitVars = {
-    ACTOR_EN_GE2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GLA,
-    sizeof(EnGe2),
-    (ActorFunc)EnGe2_Init,
-    (ActorFunc)EnGe2_Destroy,
-    (ActorFunc)EnGe2_Update,
-    (ActorFunc)EnGe2_Draw,
+    /**/ ACTOR_EN_GE2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GLA,
+    /**/ sizeof(EnGe2),
+    /**/ EnGe2_Init,
+    /**/ EnGe2_Destroy,
+    /**/ EnGe2_Update,
+    /**/ EnGe2_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -466,12 +466,12 @@ void EnGe2_GiveCard(EnGe2* this, PlayState* play) {
 
 void EnGe2_ForceTalk(EnGe2* this, PlayState* play) {
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe2_GiveCard;
     } else {
         this->actor.textId = 0x6004;
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F1C4(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
+        Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     EnGe2_LookAtPlayer(this, play);
 }
@@ -480,7 +480,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, PlayState* play) {
     this->stateFlags |= GE2_STATE_CAPTURING;
     this->actor.speed = 0.0f;
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_95);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_95);
     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
     Message_StartTextbox(play, 0x6000, &this->actor);
 }
@@ -519,7 +519,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play) {
     EnGe2_MaintainColliderAndSetAnimState(this, play);
     this->actionFunc(this, play);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->actor.params & 0xFF) == GE2_TYPE_PATROLLING) {
             this->actor.speed = 0.0f;
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
@@ -530,7 +530,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, PlayState* play) {
         this->actor.textId = 0x6005;
 
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnGe2_MoveAndBlink(this, play);

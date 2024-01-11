@@ -21,15 +21,15 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, PlayState* play);
 static s32 sGetItemIds[] = { GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_BOMBS_1, GI_RUPEE_PURPLE };
 
 ActorInit En_Bom_Bowl_Pit_InitVars = {
-    ACTOR_EN_BOM_BOWL_PIT,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnBomBowlPit),
-    (ActorFunc)EnBomBowlPit_Init,
-    (ActorFunc)EnBomBowlPit_Destroy,
-    (ActorFunc)EnBomBowlPit_Update,
-    NULL,
+    /**/ ACTOR_EN_BOM_BOWL_PIT,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnBomBowlPit),
+    /**/ EnBomBowlPit_Init,
+    /**/ EnBomBowlPit_Destroy,
+    /**/ EnBomBowlPit_Update,
+    /**/ NULL,
 };
 
 void EnBomBowlPit_Init(Actor* thisx, PlayState* play) {
@@ -67,7 +67,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, PlayState* play) {
 
             if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2))) &&
                 ((fabsf(chuPosDiff.z) < 40.0f) || (BREG(2)))) {
-                func_8002DF54(play, NULL, PLAYER_CSACTION_8);
+                Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
                 chu->timer = 1;
 
                 this->subCamId = Play_CreateSubCamera(play);
@@ -106,7 +106,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, PlayState* play) {
                 Message_StartTextbox(play, this->actor.textId, NULL);
                 this->unk_154 = TEXT_STATE_EVENT;
                 Sfx_PlaySfxCentered(NA_SE_EV_HIT_SOUND);
-                func_8002DF54(play, NULL, PLAYER_CSACTION_8);
+                Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
                 this->status = 1;
                 this->actionFunc = EnBomBowlPit_CameraDollyIn;
                 break;
@@ -169,7 +169,7 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, PlayState* play) {
 
         Play_ClearCamera(play, this->subCamId);
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
-        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = EnBomBowlPit_GivePrize;
     }
 }
@@ -177,7 +177,7 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, PlayState* play) {
 void EnBomBowlPit_GivePrize(EnBomBowlPit* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    func_8002DF54(play, NULL, PLAYER_CSACTION_7);
+    Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
     this->getItemId = sGetItemIds[this->prizeIndex];
 
     if ((this->getItemId == GI_BOMB_BAG_30) && (CUR_CAPACITY(UPG_BOMB_BAG) == 30)) {

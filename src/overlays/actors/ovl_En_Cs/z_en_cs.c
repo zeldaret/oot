@@ -16,15 +16,15 @@ s32 EnCs_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
 void EnCs_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Cs_InitVars = {
-    ACTOR_EN_CS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_CS,
-    sizeof(EnCs),
-    (ActorFunc)EnCs_Init,
-    (ActorFunc)EnCs_Destroy,
-    (ActorFunc)EnCs_Update,
-    (ActorFunc)EnCs_Draw,
+    /**/ ACTOR_EN_CS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_CS,
+    /**/ sizeof(EnCs),
+    /**/ EnCs_Init,
+    /**/ EnCs_Destroy,
+    /**/ EnCs_Update,
+    /**/ EnCs_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -206,9 +206,9 @@ s32 EnCs_GetTalkState(EnCs* this, PlayState* play) {
     return talkState;
 }
 
-s32 EnCs_GetTextID(EnCs* this, PlayState* play) {
+s32 EnCs_GetTextId(EnCs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    s32 textId = Text_GetFaceReaction(play, 15);
+    s32 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_GRAVEYARD_KID);
 
     if (GET_ITEMGETINF(ITEMGETINF_3A)) {
         if (textId == 0) {
@@ -235,7 +235,7 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
         this->talkState = 1;
     } else if (this->talkState == 1) {
         this->talkState = EnCs_GetTalkState(this, play);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if ((this->actor.textId == 0x2022) || ((this->actor.textId != 0x2022) && (this->actor.textId != 0x2028))) {
             EnCs_ChangeAnim(this, ENCS_ANIM_3, &this->currentAnimIndex);
         }
@@ -253,8 +253,8 @@ void EnCs_HandleTalking(EnCs* this, PlayState* play) {
         Actor_GetScreenPos(play, &this->actor, &sp2A, &sp28);
 
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
-            (func_8002F2CC(&this->actor, play, 100.0f))) {
-            this->actor.textId = EnCs_GetTextID(this, play);
+            Actor_OfferTalk(&this->actor, play, 100.0f)) {
+            this->actor.textId = EnCs_GetTextId(this, play);
         }
     }
 }
@@ -477,7 +477,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
             Mtx* mtx;
 
             Matrix_Put(&this->spookyMaskMtx);
-            mtx = Matrix_NewMtx(play->state.gfxCtx, "../z_en_cs.c", 1000);
+            mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_cs.c", 1000);
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildSpookyMaskDL);

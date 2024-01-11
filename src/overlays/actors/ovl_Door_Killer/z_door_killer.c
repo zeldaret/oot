@@ -30,15 +30,15 @@ void DoorKiller_DrawDoor(Actor* thisx, PlayState* play);
 void DoorKiller_DrawRubble(Actor* thisx, PlayState* play);
 
 ActorInit Door_Killer_InitVars = {
-    ACTOR_DOOR_KILLER,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_DOOR_KILLER,
-    sizeof(DoorKiller),
-    (ActorFunc)DoorKiller_Init,
-    (ActorFunc)DoorKiller_Destroy,
-    (ActorFunc)DoorKiller_Update,
-    NULL,
+    /**/ ACTOR_DOOR_KILLER,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_DOOR_KILLER,
+    /**/ sizeof(DoorKiller),
+    /**/ DoorKiller_Init,
+    /**/ DoorKiller_Destroy,
+    /**/ DoorKiller_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sCylinderInit = {

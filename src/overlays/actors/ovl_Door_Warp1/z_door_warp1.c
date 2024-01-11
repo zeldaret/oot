@@ -33,15 +33,15 @@ void DoorWarp1_ChooseInitialAction(DoorWarp1* this, PlayState* play);
 void DoorWarp1_FloatPlayer(DoorWarp1* this, PlayState* play);
 
 ActorInit Door_Warp1_InitVars = {
-    ACTOR_DOOR_WARP1,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_WARP1,
-    sizeof(DoorWarp1),
-    (ActorFunc)DoorWarp1_Init,
-    (ActorFunc)DoorWarp1_Destroy,
-    (ActorFunc)DoorWarp1_Update,
-    (ActorFunc)DoorWarp1_Draw,
+    /**/ ACTOR_DOOR_WARP1,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_WARP1,
+    /**/ sizeof(DoorWarp1),
+    /**/ DoorWarp1_Init,
+    /**/ DoorWarp1_Destroy,
+    /**/ DoorWarp1_Update,
+    /**/ DoorWarp1_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -466,7 +466,7 @@ void DoorWarp1_ChildWarpIdle(DoorWarp1* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         OnePointCutscene_Init(play, 0x25E7, 999, &this->actor, CAM_ID_MAIN);
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_10);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_10);
 
         player->unk_450.x = this->actor.world.pos.x;
         player->unk_450.z = this->actor.world.pos.z;
@@ -542,7 +542,7 @@ void DoorWarp1_RutoWarpIdle(DoorWarp1* this, PlayState* play) {
 
     if (this->rutoWarpState != WARP_BLUE_RUTO_STATE_INITIAL && DoorWarp1_PlayerInRange(this, play)) {
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_ENTERED;
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_10);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_10);
         this->unk_1B2 = 1;
         DoorWarp1_SetupAction(this, func_80999EE0);
     }
@@ -650,7 +650,7 @@ void DoorWarp1_AdultWarpIdle(DoorWarp1* this, PlayState* play) {
         player = GET_PLAYER(play);
 
         OnePointCutscene_Init(play, 0x25E8, 999, &this->actor, CAM_ID_MAIN);
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_10);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_10);
         player->unk_450.x = this->actor.world.pos.x;
         player->unk_450.z = this->actor.world.pos.z;
         this->unk_1B2 = 20;
@@ -965,7 +965,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     gDPSetColorDither(POLY_XLU_DISP++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + 1.0f, this->actor.world.pos.z, MTXMODE_NEW);
-    gSPSegment(POLY_XLU_DISP++, 0x0A, Matrix_NewMtx(play->state.gfxCtx, "../z_door_warp1.c", 2247));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2247));
     Matrix_Push();
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -976,7 +976,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     Matrix_Translate(0.0f, this->unk_194 * 230.0f, 0.0f, MTXMODE_APPLY);
     xzScale = (((f32)this->unk_1AE * spE8) / 100.0f) + 1.0f;
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
-    gSPSegment(POLY_XLU_DISP++, 0x09, Matrix_NewMtx(play->state.gfxCtx, "../z_door_warp1.c", 2267));
+    gSPSegment(POLY_XLU_DISP++, 0x09, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2267));
     gSPDisplayList(POLY_XLU_DISP++, gWarpPortalDL);
     Matrix_Pop();
 
@@ -1014,7 +1014,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
         xzScale = (((f32)this->unk_1B0 * spE4) / 100.0f) + 1.0f;
         Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
 
-        gSPSegment(POLY_XLU_DISP++, 0x09, Matrix_NewMtx(play->state.gfxCtx, "../z_door_warp1.c", 2336));
+        gSPSegment(POLY_XLU_DISP++, 0x09, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2336));
         gSPDisplayList(POLY_XLU_DISP++, gWarpPortalDL);
     }
 

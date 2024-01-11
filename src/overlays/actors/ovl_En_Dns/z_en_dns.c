@@ -43,15 +43,15 @@ void EnDns_Burrow(EnDns* this, PlayState* play);
 void EnDns_PostBurrow(EnDns* this, PlayState* play);
 
 ActorInit En_Dns_InitVars = {
-    ACTOR_EN_DNS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SHOPNUTS,
-    sizeof(EnDns),
-    (ActorFunc)EnDns_Init,
-    (ActorFunc)EnDns_Destroy,
-    (ActorFunc)EnDns_Update,
-    (ActorFunc)EnDns_Draw,
+    /**/ ACTOR_EN_DNS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SHOPNUTS,
+    /**/ sizeof(EnDns),
+    /**/ EnDns_Init,
+    /**/ EnDns_Destroy,
+    /**/ EnDns_Update,
+    /**/ EnDns_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -341,7 +341,7 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 2000, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnDns_Talk;
     } else {
         if ((this->collider.base.ocFlags1 & OC1_HIT) || this->actor.isTargeted) {
@@ -350,7 +350,7 @@ void EnDns_Idle(EnDns* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_16;
         }
         if (this->actor.xzDistToPlayer < 130.0f) {
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
     }
 }

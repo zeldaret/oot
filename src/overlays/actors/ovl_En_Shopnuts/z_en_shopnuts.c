@@ -22,15 +22,15 @@ void EnShopnuts_Burrow(EnShopnuts* this, PlayState* play);
 void EnShopnuts_SpawnSalesman(EnShopnuts* this, PlayState* play);
 
 ActorInit En_Shopnuts_InitVars = {
-    ACTOR_EN_SHOPNUTS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SHOPNUTS,
-    sizeof(EnShopnuts),
-    (ActorFunc)EnShopnuts_Init,
-    (ActorFunc)EnShopnuts_Destroy,
-    (ActorFunc)EnShopnuts_Update,
-    (ActorFunc)EnShopnuts_Draw,
+    /**/ ACTOR_EN_SHOPNUTS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SHOPNUTS,
+    /**/ sizeof(EnShopnuts),
+    /**/ EnShopnuts_Init,
+    /**/ EnShopnuts_Destroy,
+    /**/ EnShopnuts_Update,
+    /**/ EnShopnuts_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -322,7 +322,7 @@ void EnShopnuts_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
     }
 
     Matrix_Scale(x, y, z, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_shopnuts.c", 714),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_shopnuts.c", 714),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gBusinessScrubNoseDL);
 

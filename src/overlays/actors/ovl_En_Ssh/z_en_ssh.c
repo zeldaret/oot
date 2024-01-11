@@ -31,15 +31,15 @@ void EnSsh_Start(EnSsh* this, PlayState* play);
 #include "assets/overlays/ovl_En_Ssh/ovl_En_Ssh.c"
 
 ActorInit En_Ssh_InitVars = {
-    ACTOR_EN_SSH,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SSH,
-    sizeof(EnSsh),
-    (ActorFunc)EnSsh_Init,
-    (ActorFunc)EnSsh_Destroy,
-    (ActorFunc)EnSsh_Update,
-    (ActorFunc)EnSsh_Draw,
+    /**/ ACTOR_EN_SSH,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SSH,
+    /**/ sizeof(EnSsh),
+    /**/ EnSsh_Init,
+    /**/ EnSsh_Destroy,
+    /**/ EnSsh_Update,
+    /**/ EnSsh_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
@@ -666,7 +666,7 @@ void EnSsh_Talk(EnSsh* this, PlayState* play) {
 
 void EnSsh_Idle(EnSsh* this, PlayState* play) {
     if (1) {}
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnSsh_Talk;
         if (this->actor.params == ENSSH_FATHER) {
             SET_EVENTCHKINF(EVENTCHKINF_96);
@@ -694,7 +694,7 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
             }
             EnSsh_Bob(this, play);
             if ((this->unkTimer == 0) && (this->animTimer == 0)) {
-                this->actor.textId = Text_GetFaceReaction(play, 0xD);
+                this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CURSED_SKULLTULA_MAN);
                 if (this->actor.textId == 0) {
                     if (this->actor.params == ENSSH_FATHER) {
                         if (gSaveContext.save.info.inventory.gsTokens >= 50) {
@@ -716,7 +716,7 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
                         this->actor.textId = 0x22;
                     }
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }

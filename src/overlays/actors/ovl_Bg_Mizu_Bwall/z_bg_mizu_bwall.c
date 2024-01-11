@@ -20,15 +20,15 @@ void BgMizuBwall_Break(BgMizuBwall* this, PlayState* play);
 void BgMizuBwall_DoNothing(BgMizuBwall* this, PlayState* play);
 
 ActorInit Bg_Mizu_Bwall_InitVars = {
-    ACTOR_BG_MIZU_BWALL,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuBwall),
-    (ActorFunc)BgMizuBwall_Init,
-    (ActorFunc)BgMizuBwall_Destroy,
-    (ActorFunc)BgMizuBwall_Update,
-    (ActorFunc)BgMizuBwall_Draw,
+    /**/ ACTOR_BG_MIZU_BWALL,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuBwall),
+    /**/ BgMizuBwall_Init,
+    /**/ BgMizuBwall_Destroy,
+    /**/ BgMizuBwall_Update,
+    /**/ BgMizuBwall_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementInitFloor[2] = {
@@ -519,7 +519,7 @@ void BgMizuBwall_Draw(Actor* thisx, PlayState* play2) {
     gSPSegment(POLY_OPA_DISP++, 0x0B,
                Gfx_TwoTexScrollEnvColor(play->state.gfxCtx, G_TX_RENDERTILE, 3 * frames, 0, 0x20, 0x20, 1, 0, 0, 0x20,
                                         0x20, 0, 0, 0, this->scrollAlpha4));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mizu_bwall.c", 1129), 2);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mizu_bwall.c", 1129), 2);
 
     if (this->dList != NULL) {
         gSPDisplayList(POLY_OPA_DISP++, this->dList);

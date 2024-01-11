@@ -16,15 +16,15 @@ void DemoShd_Draw(Actor* thisx, PlayState* play);
 void func_80991298(DemoShd* this, PlayState* play);
 
 ActorInit Demo_Shd_InitVars = {
-    ACTOR_DEMO_SHD,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DemoShd),
-    (ActorFunc)DemoShd_Init,
-    (ActorFunc)DemoShd_Destroy,
-    (ActorFunc)DemoShd_Update,
-    (ActorFunc)DemoShd_Draw,
+    /**/ ACTOR_DEMO_SHD,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DemoShd),
+    /**/ DemoShd_Init,
+    /**/ DemoShd_Destroy,
+    /**/ DemoShd_Update,
+    /**/ DemoShd_Draw,
 };
 
 #include "assets/overlays/ovl_Demo_Shd/ovl_Demo_Shd.c"
@@ -107,7 +107,7 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_shd.c", 729),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_shd.c", 729),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_809932D0);
 

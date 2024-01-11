@@ -64,15 +64,15 @@ static ColliderTrisInit sTrisInit = {
 };
 
 ActorInit Bg_Hidan_Hamstep_InitVars = {
-    ACTOR_BG_HIDAN_HAMSTEP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanHamstep),
-    (ActorFunc)BgHidanHamstep_Init,
-    (ActorFunc)BgHidanHamstep_Destroy,
-    (ActorFunc)BgHidanHamstep_Update,
-    (ActorFunc)BgHidanHamstep_Draw,
+    /**/ ACTOR_BG_HIDAN_HAMSTEP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanHamstep),
+    /**/ BgHidanHamstep_Init,
+    /**/ BgHidanHamstep_Destroy,
+    /**/ BgHidanHamstep_Update,
+    /**/ BgHidanHamstep_Draw,
 };
 
 static BgHidanHamstepActionFunc sActionFuncs[] = {
@@ -401,7 +401,7 @@ void BgHidanHamstep_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if ((thisx->params & 0xFF) == 0) {

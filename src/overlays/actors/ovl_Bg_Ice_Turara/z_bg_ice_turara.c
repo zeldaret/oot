@@ -41,15 +41,15 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 ActorInit Bg_Ice_Turara_InitVars = {
-    ACTOR_BG_ICE_TURARA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceTurara),
-    (ActorFunc)BgIceTurara_Init,
-    (ActorFunc)BgIceTurara_Destroy,
-    (ActorFunc)BgIceTurara_Update,
-    (ActorFunc)BgIceTurara_Draw,
+    /**/ ACTOR_BG_ICE_TURARA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceTurara),
+    /**/ BgIceTurara_Init,
+    /**/ BgIceTurara_Destroy,
+    /**/ BgIceTurara_Update,
+    /**/ BgIceTurara_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

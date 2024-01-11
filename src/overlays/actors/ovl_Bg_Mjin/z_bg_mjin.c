@@ -25,15 +25,15 @@ void func_808A0850(BgMjin* this, PlayState* play);
 void BgMjin_DoNothing(BgMjin* this, PlayState* play);
 
 ActorInit Bg_Mjin_InitVars = {
-    ACTOR_BG_MJIN,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgMjin),
-    (ActorFunc)BgMjin_Init,
-    (ActorFunc)BgMjin_Destroy,
-    (ActorFunc)BgMjin_Update,
-    NULL,
+    /**/ ACTOR_BG_MJIN,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgMjin),
+    /**/ BgMjin_Init,
+    /**/ BgMjin_Destroy,
+    /**/ BgMjin_Update,
+    /**/ NULL,
 };
 
 extern UNK_TYPE D_06000000;
@@ -119,7 +119,7 @@ void BgMjin_Draw(Actor* thisx, PlayState* play) {
     }
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mjin.c", 285),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, dlist);
 

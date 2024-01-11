@@ -36,15 +36,15 @@ s32 EnMm2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnMm2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Mm2_InitVars = {
-    ACTOR_EN_MM2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MM,
-    sizeof(EnMm2),
-    (ActorFunc)EnMm2_Init,
-    (ActorFunc)EnMm2_Destroy,
-    (ActorFunc)EnMm2_Update,
-    (ActorFunc)EnMm2_Draw,
+    /**/ ACTOR_EN_MM2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MM,
+    /**/ sizeof(EnMm2),
+    /**/ EnMm2_Init,
+    /**/ EnMm2_Destroy,
+    /**/ EnMm2_Update,
+    /**/ EnMm2_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -165,13 +165,13 @@ void EnMm2_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80AAF224(EnMm2* this, PlayState* play, EnMm2ActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         return 1;
     }
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(yawDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
     return 0;
 }

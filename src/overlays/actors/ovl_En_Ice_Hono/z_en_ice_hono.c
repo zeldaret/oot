@@ -25,15 +25,15 @@ void EnIceHono_SetupActionSpreadFlames(EnIceHono* this);
 void EnIceHono_SetupActionSmallFlame(EnIceHono* this);
 
 ActorInit En_Ice_Hono_InitVars = {
-    ACTOR_EN_ICE_HONO,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnIceHono),
-    (ActorFunc)EnIceHono_Init,
-    (ActorFunc)EnIceHono_Destroy,
-    (ActorFunc)EnIceHono_Update,
-    (ActorFunc)EnIceHono_Draw,
+    /**/ ACTOR_EN_ICE_HONO,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnIceHono),
+    /**/ EnIceHono_Init,
+    /**/ EnIceHono_Destroy,
+    /**/ EnIceHono_Update,
+    /**/ EnIceHono_Draw,
 };
 
 static ColliderCylinderInit sCylinderInitCapturableFlame = {
@@ -387,7 +387,7 @@ void EnIceHono_Draw(Actor* thisx, PlayState* play) {
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
                    MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ice_hono.c", 718),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ice_hono.c", 718),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 

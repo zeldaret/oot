@@ -25,15 +25,15 @@ void ObjLift_Shake(ObjLift* this, PlayState* play);
 void ObjLift_Fall(ObjLift* this, PlayState* play);
 
 ActorInit Obj_Lift_InitVars = {
-    ACTOR_OBJ_LIFT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_D_LIFT,
-    sizeof(ObjLift),
-    (ActorFunc)ObjLift_Init,
-    (ActorFunc)ObjLift_Destroy,
-    (ActorFunc)ObjLift_Update,
-    (ActorFunc)ObjLift_Draw,
+    /**/ ACTOR_OBJ_LIFT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_D_LIFT,
+    /**/ sizeof(ObjLift),
+    /**/ ObjLift_Init,
+    /**/ ObjLift_Destroy,
+    /**/ ObjLift_Update,
+    /**/ ObjLift_Draw,
 };
 
 static s16 sFallTimerDurations[] = { 0, 10, 20, 30, 40, 50, 60 };

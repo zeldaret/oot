@@ -61,7 +61,7 @@ void Main(void* arg) {
         debugHeapSize = PHYS_TO_K0(0x600000) - (uintptr_t)debugHeapStart;
     } else {
         debugHeapSize = 0x400;
-        debugHeapStart = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
+        debugHeapStart = SYSTEM_ARENA_MALLOC(debugHeapSize, "../main.c", 565);
     }
     osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
     DebugArena_Init(debugHeapStart, debugHeapSize);
@@ -90,7 +90,7 @@ void Main(void* arg) {
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, STACK_TOP(sPadMgrStack), 0, 0x100, "padmgr");
     PadMgr_Init(&gPadMgr, &sSerialEventQueue, &gIrqMgr, THREAD_ID_PADMGR, THREAD_PRI_PADMGR, STACK_TOP(sPadMgrStack));
 
-    AudioMgr_Unlock(&gAudioMgr);
+    AudioMgr_WaitForInit(&gAudioMgr);
 
     StackCheck_Init(&sGraphStackInfo, sGraphStack, STACK_TOP(sGraphStack), 0, 0x100, "graph");
     osCreateThread(&sGraphThread, THREAD_ID_GRAPH, Graph_ThreadEntry, arg, STACK_TOP(sGraphStack), THREAD_PRI_GRAPH);

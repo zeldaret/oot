@@ -20,15 +20,15 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play);
 void func_809B2B48(EnAnubiceFire* this, PlayState* play);
 
 ActorInit En_Anubice_Fire_InitVars = {
-    ACTOR_EN_ANUBICE_FIRE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_ANUBICE,
-    sizeof(EnAnubiceFire),
-    (ActorFunc)EnAnubiceFire_Init,
-    (ActorFunc)EnAnubiceFire_Destroy,
-    (ActorFunc)EnAnubiceFire_Update,
-    (ActorFunc)EnAnubiceFire_Draw,
+    /**/ ACTOR_EN_ANUBICE_FIRE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_ANUBICE,
+    /**/ sizeof(EnAnubiceFire),
+    /**/ EnAnubiceFire_Init,
+    /**/ EnAnubiceFire_Destroy,
+    /**/ EnAnubiceFire_Update,
+    /**/ EnAnubiceFire_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -243,7 +243,7 @@ void EnAnubiceFire_Draw(Actor* thisx, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_RotateZ(this->actor.world.rot.z + i * 1000.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_anubice_fire.c", 546),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_anubice_fire.c", 546),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, gAnubiceFireAttackDL);

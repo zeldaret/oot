@@ -70,15 +70,15 @@ void EnGeldB_Sidestep(EnGeldB* this, PlayState* play);
 void EnGeldB_Defeated(EnGeldB* this, PlayState* play);
 
 ActorInit En_GeldB_InitVars = {
-    ACTOR_EN_GELDB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GELDB,
-    sizeof(EnGeldB),
-    (ActorFunc)EnGeldB_Init,
-    (ActorFunc)EnGeldB_Destroy,
-    (ActorFunc)EnGeldB_Update,
-    (ActorFunc)EnGeldB_Draw,
+    /**/ ACTOR_EN_GELDB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GELDB,
+    /**/ sizeof(EnGeldB),
+    /**/ EnGeldB_Init,
+    /**/ EnGeldB_Destroy,
+    /**/ EnGeldB_Update,
+    /**/ EnGeldB_Draw,
 };
 
 static ColliderCylinderInit sBodyCylInit = {
@@ -919,7 +919,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, PlayState* play) {
             if (&player->actor == this->swordCollider.base.at) {
                 func_8002F71C(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f);
                 this->spinAttackState = 2;
-                func_8002DF54(play, &this->actor, PLAYER_CSACTION_24);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_24);
                 Message_StartTextbox(play, 0x6003, &this->actor);
                 this->timer = 30;
                 this->actor.speed = 0.0f;

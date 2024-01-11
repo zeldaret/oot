@@ -25,15 +25,15 @@ void BgBowlWall_FinishFall(BgBowlWall* this, PlayState* play);
 void BgBowlWall_Reset(BgBowlWall* this, PlayState* play);
 
 ActorInit Bg_Bowl_Wall_InitVars = {
-    ACTOR_BG_BOWL_WALL,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_BOWL,
-    sizeof(BgBowlWall),
-    (ActorFunc)BgBowlWall_Init,
-    (ActorFunc)BgBowlWall_Destroy,
-    (ActorFunc)BgBowlWall_Update,
-    (ActorFunc)BgBowlWall_Draw,
+    /**/ ACTOR_BG_BOWL_WALL,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_BOWL,
+    /**/ sizeof(BgBowlWall),
+    /**/ BgBowlWall_Init,
+    /**/ BgBowlWall_Destroy,
+    /**/ BgBowlWall_Update,
+    /**/ BgBowlWall_Draw,
 };
 
 static Vec3f sBullseyeOffset[] = {
@@ -207,7 +207,7 @@ void BgBowlWall_Draw(Actor* thisx, PlayState* play2) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x8, Gfx_TexScroll(play->state.gfxCtx, 0, -2 * (frames = play->state.frames), 16, 16));
     gDPPipeSync(POLY_OPA_DISP++);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_bowl_wall.c", 453),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_bowl_wall.c", 453),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->dyna.actor.params == 0) {

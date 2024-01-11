@@ -13,15 +13,15 @@ void EnBubble_Pop(EnBubble* this, PlayState* play);
 void EnBubble_Regrow(EnBubble* this, PlayState* play);
 
 ActorInit En_Bubble_InitVars = {
-    ACTOR_EN_BUBBLE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BUBBLE,
-    sizeof(EnBubble),
-    (ActorFunc)EnBubble_Init,
-    (ActorFunc)EnBubble_Destroy,
-    (ActorFunc)EnBubble_Update,
-    (ActorFunc)EnBubble_Draw,
+    /**/ ACTOR_EN_BUBBLE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BUBBLE,
+    /**/ sizeof(EnBubble),
+    /**/ EnBubble_Init,
+    /**/ EnBubble_Destroy,
+    /**/ EnBubble_Update,
+    /**/ EnBubble_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[2] = {
@@ -62,9 +62,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit2 = {
-    1, 2, 25, 25, MASS_IMMOVABLE,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit2 = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
 static Vec3f sEffectAccel = { 0.0f, -0.5f, 0.0f };
 
@@ -422,7 +420,7 @@ void EnBubble_Draw(Actor* thisx, PlayState* play) {
         Matrix_Scale(this->graphicEccentricity + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(-(f32)play->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bubble.c", 1220),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bubble.c", 1220),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gBubbleDL);
     }

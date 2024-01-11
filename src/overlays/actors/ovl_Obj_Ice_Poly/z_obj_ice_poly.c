@@ -18,15 +18,15 @@ void ObjIcePoly_Idle(ObjIcePoly* this, PlayState* play);
 void ObjIcePoly_Melt(ObjIcePoly* this, PlayState* play);
 
 ActorInit Obj_Ice_Poly_InitVars = {
-    ACTOR_OBJ_ICE_POLY,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjIcePoly),
-    (ActorFunc)ObjIcePoly_Init,
-    (ActorFunc)ObjIcePoly_Destroy,
-    (ActorFunc)ObjIcePoly_Update,
-    (ActorFunc)ObjIcePoly_Draw,
+    /**/ ACTOR_OBJ_ICE_POLY,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjIcePoly),
+    /**/ ObjIcePoly_Init,
+    /**/ ObjIcePoly_Destroy,
+    /**/ ObjIcePoly_Update,
+    /**/ ObjIcePoly_Draw,
 };
 
 static ColliderCylinderInit sCylinderInitIce = {
@@ -197,7 +197,7 @@ void ObjIcePoly_Draw(Actor* thisx, PlayState* play) {
     func_8002ED80(&this->actor, play, 0);
     Matrix_RotateZYX(0x500, 0, -0x500, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_ice_poly.c", 428),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_ice_poly.c", 428),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play->gameplayFrames % 0x100, 0x20, 0x10, 1, 0,

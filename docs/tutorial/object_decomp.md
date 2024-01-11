@@ -113,13 +113,13 @@ If in doubt, look at completed objects in the repo, and if still in doubt, ask.
 Just as when you decomp an actor you have to change the `spec` to tell it to use the new files, you have to do a similar thing for the object. Find the appropriate section for the object you have decompiled, and replace the line
 
 ```c
-include "build/baserom/object_name.o"
+include "$(BUILD_DIR)/baserom/object_name.o"
 ```
 
 by
 
 ```c
-include "build/assets/objects/object_name/object_name.o"
+include "$(BUILD_DIR)/assets/objects/object_name/object_name.o"
 number 6
 ```
 

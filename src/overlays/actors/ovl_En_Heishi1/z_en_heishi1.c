@@ -32,15 +32,15 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play);
 static s32 sPlayerIsCaught = false;
 
 ActorInit En_Heishi1_InitVars = {
-    0,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SD,
-    sizeof(EnHeishi1),
-    (ActorFunc)EnHeishi1_Init,
-    (ActorFunc)EnHeishi1_Destroy,
-    (ActorFunc)EnHeishi1_Update,
-    (ActorFunc)EnHeishi1_Draw,
+    /**/ 0,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SD,
+    /**/ sizeof(EnHeishi1),
+    /**/ EnHeishi1_Init,
+    /**/ EnHeishi1_Destroy,
+    /**/ EnHeishi1_Update,
+    /**/ EnHeishi1_Draw,
 };
 
 static f32 sAnimParamsInit[][8] = {
@@ -372,7 +372,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play) {
         Message_StartTextbox(play, 0x702D, &this->actor);
         Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
         this->actionFunc = EnHeishi1_SetupKick;
     }
 }
@@ -456,7 +456,7 @@ void EnHeishi1_Update(Actor* thisx, PlayState* play) {
                                     Sfx_PlaySfxCentered(NA_SE_SY_FOUND);
                                     // "Discovered!"
                                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
-                                    func_8002DF54(play, &this->actor, PLAYER_CSACTION_1);
+                                    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
                                     sPlayerIsCaught = true;
                                     this->actionFunc = EnHeishi1_SetupMoveToLink;
                                 }

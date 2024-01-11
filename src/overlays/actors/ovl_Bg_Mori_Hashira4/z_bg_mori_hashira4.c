@@ -22,15 +22,15 @@ void BgMoriHashira4_GateWait(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, PlayState* play);
 
 ActorInit Bg_Mori_Hashira4_InitVars = {
-    ACTOR_BG_MORI_HASHIRA4,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriHashira4),
-    (ActorFunc)BgMoriHashira4_Init,
-    (ActorFunc)BgMoriHashira4_Destroy,
-    (ActorFunc)BgMoriHashira4_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_HASHIRA4,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriHashira4),
+    /**/ BgMoriHashira4_Init,
+    /**/ BgMoriHashira4_Destroy,
+    /**/ BgMoriHashira4_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -165,7 +165,7 @@ void BgMoriHashira4_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, sDisplayLists[this->dyna.actor.params]);

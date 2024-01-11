@@ -14,9 +14,15 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play);
 void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Obj_Makeoshihiki_InitVars = {
-    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,           FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP, sizeof(ObjMakeoshihiki), (ActorFunc)ObjMakeoshihiki_Init,
-    (ActorFunc)Actor_Noop,        (ActorFunc)Actor_Noop,   (ActorFunc)ObjMakeoshihiki_Draw,
+    /**/ ACTOR_OBJ_MAKEOSHIHIKI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjMakeoshihiki),
+    /**/ ObjMakeoshihiki_Init,
+    /**/ Actor_Noop,
+    /**/ Actor_Noop,
+    /**/ ObjMakeoshihiki_Draw,
 };
 
 typedef struct {

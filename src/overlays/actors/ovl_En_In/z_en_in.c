@@ -25,15 +25,15 @@ void func_80A7AA40(EnIn* this, PlayState* play);
 void func_80A7A4BC(EnIn* this, PlayState* play);
 
 ActorInit En_In_InitVars = {
-    ACTOR_EN_IN,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_IN,
-    sizeof(EnIn),
-    (ActorFunc)EnIn_Init,
-    (ActorFunc)EnIn_Destroy,
-    (ActorFunc)EnIn_Update,
-    (ActorFunc)EnIn_Draw,
+    /**/ ACTOR_EN_IN,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_IN,
+    /**/ sizeof(EnIn),
+    /**/ EnIn_Init,
+    /**/ EnIn_Destroy,
+    /**/ EnIn_Update,
+    /**/ EnIn_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -56,9 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0, 0, 0, 0, MASS_IMMOVABLE,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
     /* 0 */ ENIN_ANIM_0,
@@ -126,10 +124,10 @@ u16 EnIn_GetTextIdChild(PlayState* play) {
 
 u16 EnIn_GetTextIdAdult(PlayState* play) {
     Player* player = GET_PLAYER(play);
-    u16 faceReaction = Text_GetFaceReaction(play, 25);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_INGO);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         if (IS_DAY) {
@@ -178,10 +176,10 @@ u16 EnIn_GetTextIdAdult(PlayState* play) {
 }
 
 u16 EnIn_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction = Text_GetFaceReaction(play, 25);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_INGO);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (!LINK_IS_ADULT) {
         return EnIn_GetTextIdChild(play);
@@ -432,7 +430,7 @@ void func_80A79BAC(EnIn* this, PlayState* play, s32 index, u32 transitionType) {
     }
     play->transitionType = transitionType;
     play->transitionTrigger = TRANS_TRIGGER_START;
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_NOTHING);
     if (index == 0) {
         AREG(6) = 0;
@@ -859,7 +857,7 @@ void func_80A7ABD4(EnIn* this, PlayState* play) {
 void func_80A7AE84(EnIn* this, PlayState* play) {
     Play_ChangeCameraStatus(play, this->returnToCamId, CAM_STAT_ACTIVE);
     Play_ClearCamera(play, this->subCamId);
-    func_8002DF54(play, &this->actor, PLAYER_CSACTION_7);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
     this->actionFunc = func_80A7AEF0;
 }
@@ -937,7 +935,7 @@ void EnIn_Update(Actor* thisx, PlayState* play) {
         func_80A79AB4(this, play);
         if ((gSaveContext.subTimerSeconds < 6) && (gSaveContext.subTimerState != SUBTIMER_STATE_OFF) &&
             this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
-            if (Actor_ProcessTalkRequest(&this->actor, play)) {}
+            if (Actor_TalkOfferAccepted(&this->actor, play)) {}
         } else {
             Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState,
                               ((this->actor.targetMode == 6) ? 80.0f : 320.0f) + this->collider.dim.radius,

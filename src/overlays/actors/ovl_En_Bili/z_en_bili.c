@@ -29,15 +29,15 @@ void EnBili_Stunned(EnBili* this, PlayState* play);
 void EnBili_Frozen(EnBili* this, PlayState* play);
 
 ActorInit En_Bili_InitVars = {
-    ACTOR_EN_BILI,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BL,
-    sizeof(EnBili),
-    (ActorFunc)EnBili_Init,
-    (ActorFunc)EnBili_Destroy,
-    (ActorFunc)EnBili_Update,
-    (ActorFunc)EnBili_Draw,
+    /**/ ACTOR_EN_BILI,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BL,
+    /**/ sizeof(EnBili),
+    /**/ EnBili_Init,
+    /**/ EnBili_Destroy,
+    /**/ EnBili_Update,
+    /**/ EnBili_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

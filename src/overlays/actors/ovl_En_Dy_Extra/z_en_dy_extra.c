@@ -19,15 +19,15 @@ void EnDyExtra_WaitForTrigger(EnDyExtra* this, PlayState* play);
 void EnDyExtra_FallAndKill(EnDyExtra* this, PlayState* play);
 
 ActorInit En_Dy_Extra_InitVars = {
-    ACTOR_EN_DY_EXTRA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DY_OBJ,
-    sizeof(EnDyExtra),
-    (ActorFunc)EnDyExtra_Init,
-    (ActorFunc)EnDyExtra_Destroy,
-    (ActorFunc)EnDyExtra_Update,
-    (ActorFunc)EnDyExtra_Draw,
+    /**/ ACTOR_EN_DY_EXTRA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DY_OBJ,
+    /**/ sizeof(EnDyExtra),
+    /**/ EnDyExtra_Init,
+    /**/ EnDyExtra_Destroy,
+    /**/ EnDyExtra_Update,
+    /**/ EnDyExtra_Draw,
 };
 
 void EnDyExtra_Destroy(Actor* thisx, PlayState* play) {
@@ -116,7 +116,7 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->state.frames * 2, 0, 0x20, 0x40, 1,
                                 play->state.frames, play->state.frames * -8, 0x10, 0x10));
     gDPPipeSync(POLY_XLU_DISP++);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dy_extra.c", 307),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dy_extra.c", 307),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);

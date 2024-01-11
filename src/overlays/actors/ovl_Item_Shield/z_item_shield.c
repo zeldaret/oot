@@ -39,15 +39,15 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 ActorInit Item_Shield_InitVars = {
-    ACTOR_ITEM_SHIELD,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_LINK_CHILD,
-    sizeof(ItemShield),
-    (ActorFunc)ItemShield_Init,
-    (ActorFunc)ItemShield_Destroy,
-    (ActorFunc)ItemShield_Update,
-    (ActorFunc)ItemShield_Draw,
+    /**/ ACTOR_ITEM_SHIELD,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_LINK_CHILD,
+    /**/ sizeof(ItemShield),
+    /**/ ItemShield_Init,
+    /**/ ItemShield_Destroy,
+    /**/ ItemShield_Update,
+    /**/ ItemShield_Draw,
 };
 
 static Color_RGBA8 unused = { 255, 255, 0, 255 };
@@ -220,7 +220,7 @@ void ItemShield_Draw(Actor* thisx, PlayState* play) {
     if (!(this->unk_19C & 2)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_item_shield.c", 457);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_shield.c", 460),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_item_shield.c", 460),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gLinkChildDekuShieldDL));
         CLOSE_DISPS(play->state.gfxCtx, "../z_item_shield.c", 465);

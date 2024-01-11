@@ -19,15 +19,15 @@ s32 func_808B1BA0(BgSpot09Obj* this, PlayState* play);
 s32 func_808B1BEC(BgSpot09Obj* this, PlayState* play);
 
 ActorInit Bg_Spot09_Obj_InitVars = {
-    ACTOR_BG_SPOT09_OBJ,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT09_OBJ,
-    sizeof(BgSpot09Obj),
-    (ActorFunc)BgSpot09Obj_Init,
-    (ActorFunc)BgSpot09Obj_Destroy,
-    (ActorFunc)BgSpot09Obj_Update,
-    (ActorFunc)BgSpot09Obj_Draw,
+    /**/ ACTOR_BG_SPOT09_OBJ,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT09_OBJ,
+    /**/ sizeof(BgSpot09Obj),
+    /**/ BgSpot09Obj_Init,
+    /**/ BgSpot09Obj_Destroy,
+    /**/ BgSpot09Obj_Update,
+    /**/ BgSpot09Obj_Draw,
 };
 
 static CollisionHeader* D_808B1F90[] = {
@@ -173,7 +173,7 @@ void BgSpot09Obj_Draw(Actor* thisx, PlayState* play) {
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gCarpentersTentEntranceDL);
 

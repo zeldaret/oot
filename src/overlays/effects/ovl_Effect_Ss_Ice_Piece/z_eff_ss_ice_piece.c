@@ -65,7 +65,7 @@ void EffectSsIcePiece_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(BINANG_TO_RAD(this->rYaw), MTXMODE_APPLY);
     Matrix_RotateX(BINANG_TO_RAD(this->rPitch), MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ice_piece.c", 185),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ice_piece.c", 185),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, (s32)alpha & 0xFF);
@@ -80,7 +80,7 @@ void EffectSsIcePiece_Draw(PlayState* play, u32 index, EffectSs* this) {
 
 void EffectSsIcePiece_Update(PlayState* play, u32 index, EffectSs* this) {
     this->rPitch += this->rRotSpeed;
-    this->velocity.x = this->velocity.x * 0.85f;
-    this->velocity.y = this->velocity.y * 0.85f;
-    this->velocity.z = this->velocity.z * 0.85f;
+    this->velocity.x *= 0.85f;
+    this->velocity.y *= 0.85f;
+    this->velocity.z *= 0.85f;
 }

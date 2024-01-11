@@ -20,15 +20,15 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, PlayState* play);
 void EnPoDesert_Disappear(EnPoDesert* this, PlayState* play);
 
 ActorInit En_Po_Desert_InitVars = {
-    ACTOR_EN_PO_DESERT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_PO_FIELD,
-    sizeof(EnPoDesert),
-    (ActorFunc)EnPoDesert_Init,
-    (ActorFunc)EnPoDesert_Destroy,
-    (ActorFunc)EnPoDesert_Update,
-    (ActorFunc)EnPoDesert_Draw,
+    /**/ ACTOR_EN_PO_DESERT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_FIELD,
+    /**/ sizeof(EnPoDesert),
+    /**/ EnPoDesert_Init,
+    /**/ EnPoDesert_Destroy,
+    /**/ EnPoDesert_Update,
+    /**/ EnPoDesert_Draw,
 };
 
 static ColliderCylinderInit sColliderInit = {
@@ -237,7 +237,7 @@ void EnPoDesert_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 255);
-            gSPMatrix((*gfxP)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_desert.c", 523),
+            gSPMatrix((*gfxP)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_desert.c", 523),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList((*gfxP)++, gPoeFieldLanternDL);
             gSPDisplayList((*gfxP)++, gPoeFieldLanternTopDL);

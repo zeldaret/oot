@@ -19,15 +19,15 @@ void BgHakaTubo_Idle(BgHakaTubo* this, PlayState* play);
 void BgHakaTubo_DropCollectible(BgHakaTubo* this, PlayState* play);
 
 ActorInit Bg_Haka_Tubo_InitVars = {
-    ACTOR_BG_HAKA_TUBO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaTubo),
-    (ActorFunc)BgHakaTubo_Init,
-    (ActorFunc)BgHakaTubo_Destroy,
-    (ActorFunc)BgHakaTubo_Update,
-    (ActorFunc)BgHakaTubo_Draw,
+    /**/ ACTOR_BG_HAKA_TUBO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaTubo),
+    /**/ BgHakaTubo_Init,
+    /**/ BgHakaTubo_Destroy,
+    /**/ BgHakaTubo_Update,
+    /**/ BgHakaTubo_Draw,
 };
 
 static ColliderCylinderInit sPotColliderInit = {
@@ -234,7 +234,7 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, this->fireScroll & 127, 0, 32, 64, 1, 0,
                                 (this->fireScroll * -15) & 0xFF, 32, 64));
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_haka_tubo.c", 497),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_tubo.c", 497),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gEffFireCircleDL);
 

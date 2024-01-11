@@ -29,15 +29,15 @@ void func_80BA2600(ObjWarp2block* this);
 void func_80BA2610(ObjWarp2block* this, PlayState* play);
 
 ActorInit Obj_Warp2block_InitVars = {
-    ACTOR_OBJ_WARP2BLOCK,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_TIMEBLOCK,
-    sizeof(ObjWarp2block),
-    (ActorFunc)ObjWarp2block_Init,
-    (ActorFunc)ObjWarp2block_Destroy,
-    (ActorFunc)ObjWarp2block_Update,
-    (ActorFunc)ObjWarp2block_Draw,
+    /**/ ACTOR_OBJ_WARP2BLOCK,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_TIMEBLOCK,
+    /**/ sizeof(ObjWarp2block),
+    /**/ ObjWarp2block_Init,
+    /**/ ObjWarp2block_Destroy,
+    /**/ ObjWarp2block_Update,
+    /**/ ObjWarp2block_Draw,
 };
 
 typedef struct {
@@ -309,7 +309,7 @@ void ObjWarp2block_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_warp2block.c", 584);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_warp2block.c", 588),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_warp2block.c", 588),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sp44->r, sp44->g, sp44->b, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSongOfTimeBlockDL);

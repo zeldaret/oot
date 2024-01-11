@@ -38,9 +38,6 @@ typedef struct {
     /* 0x01 */ u8 room;
 } Spawn;
 
-// TODO: ZAPD Compatibility
-typedef Spawn EntranceEntry;
-
 typedef struct {
     /* 0x00 */ u8 count; // number of points in the path
     /* 0x04 */ Vec3s* points; // Segment Address to the array of points
@@ -141,17 +138,6 @@ typedef union {
     } image;
     RoomShapeCullable cullable;
 } RoomShape; // "Ground Shape"
-
-// ZAPD compatibility typedefs
-// TODO: Remove when ZAPD adds support for them
-typedef RoomShapeDListsEntry PolygonDlist;
-typedef RoomShapeNormal PolygonType0;
-typedef RoomShapeImageSingle MeshHeader1Single;
-typedef RoomShapeImageMultiBgEntry BgImage;
-typedef RoomShapeImageMulti MeshHeader1Multi;
-typedef RoomShapeCullableEntry PolygonDlist2;
-typedef RoomShapeCullable PolygonType2;
-#define SCENE_CMD_MESH SCENE_CMD_ROOM_SHAPE
 
 #define ROOM_DRAW_OPA (1 << 0)
 #define ROOM_DRAW_XLU (1 << 1)
@@ -459,7 +445,6 @@ typedef enum {
 #define SCENE_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code, and used only by the main layer of the shooting gallery scene
 
 // navi hints
-// TODO: make ZAPD use this enum for `SCENE_CMD_SPECIAL_FILES`
 typedef enum {
     NAVI_QUEST_HINTS_NONE,
     NAVI_QUEST_HINTS_OVERWORLD,

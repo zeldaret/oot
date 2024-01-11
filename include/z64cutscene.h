@@ -494,10 +494,6 @@ typedef union {
 #define CS_CAM_CONTINUE 0
 #define CS_CAM_STOP -1
 
-// todo: remove after ZAPD is updated
-#define CS_CMD_CONTINUE CS_CAM_CONTINUE
-#define CS_CMD_STOP CS_CAM_STOP
-
 #define CS_CAM_DATA_NOT_APPLIED 0xFFFF
 
 typedef struct {

@@ -37,15 +37,15 @@ static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
 ActorInit Obj_Tsubo_InitVars = {
-    ACTOR_OBJ_TSUBO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjTsubo),
-    (ActorFunc)ObjTsubo_Init,
-    (ActorFunc)ObjTsubo_Destroy,
-    (ActorFunc)ObjTsubo_Update,
-    NULL,
+    /**/ ACTOR_OBJ_TSUBO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjTsubo),
+    /**/ ObjTsubo_Init,
+    /**/ ObjTsubo_Destroy,
+    /**/ ObjTsubo_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };

@@ -15,15 +15,15 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play);
 void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Hidan_Rsekizou_InitVars = {
-    ACTOR_BG_HIDAN_RSEKIZOU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanRsekizou),
-    (ActorFunc)BgHidanRsekizou_Init,
-    (ActorFunc)BgHidanRsekizou_Destroy,
-    (ActorFunc)BgHidanRsekizou_Update,
-    (ActorFunc)BgHidanRsekizou_Draw,
+    /**/ ACTOR_BG_HIDAN_RSEKIZOU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanRsekizou),
+    /**/ BgHidanRsekizou_Init,
+    /**/ BgHidanRsekizou_Destroy,
+    /**/ BgHidanRsekizou_Update,
+    /**/ BgHidanRsekizou_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[6] = {
@@ -214,8 +214,8 @@ Gfx* BgHidanRsekizou_DrawFireball(PlayState* play, BgHidanRsekizou* this, s16 fr
     mf->zw = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
 
     gSPMatrix(displayList++,
-              Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
-                               Graph_Alloc(play->state.gfxCtx, sizeof(Mtx))),
+              Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(mf, "../z_bg_hidan_rsekizou.c", 543),
+                               GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(displayList++, gFireTempleFireballDL);
 
@@ -232,7 +232,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gFireTempleSpinningFlamethrowerDL);
     Matrix_MtxFCopy(&mf, &gMtxFClear);

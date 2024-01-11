@@ -4,6 +4,7 @@
 #include "ultra64.h"
 #include "ultra64/gs2dex.h"
 #include "attributes.h"
+#include "audiomgr.h"
 #include "z64save.h"
 #include "z64light.h"
 #include "z64bgcheck.h"
@@ -401,10 +402,10 @@ typedef struct PlayState {
     /* 0x11D34 */ TransitionActorContext transiActorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct PlayState* play, Input* input);
-    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct PlayState* play);
+    /* 0x11D44 */ int (*isPlayerDroppingFish)(struct PlayState* play);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
     /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
-    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 csAction);
+    /* 0x11D50 */ s32 (*tryPlayerCsAction)(struct PlayState* play, Actor* actor, s32 csAction);
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct PlayState* play);
     /* 0x11D58 */ s32 (*damagePlayer)(struct PlayState* play, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct PlayState* play, Actor* actor);
@@ -696,20 +697,6 @@ typedef struct {
     /* 0x0C */ u32 uncompDataOffset; // only used in mio0
     /* 0x10 */ u8 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
-
-typedef struct {
-    /* 0x0000 */ IrqMgr*     irqMgr;
-    /* 0x0004 */ Scheduler*  sched;
-    /* 0x0008 */ OSScTask    audioTask;
-    /* 0x0070 */ AudioTask*  rspTask;
-    /* 0x0074 */ OSMesgQueue interruptQueue;
-    /* 0x008C */ OSMesg      interruptMsgBuf[8];
-    /* 0x00AC */ OSMesgQueue taskQueue;
-    /* 0x00C4 */ OSMesg      taskMsgBuf[1];
-    /* 0x00C8 */ OSMesgQueue lockQueue;
-    /* 0x00E0 */ OSMesg      lockMsgBuf[1];
-    /* 0x00E8 */ OSThread    thread;
-} AudioMgr; // size = 0x298
 
 struct ArenaNode;
 

@@ -242,7 +242,7 @@ void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f
 Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8* color) {
     Gfx* dList;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
+    dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 2);
     gDPSetEnvColor(dList, color[0], color[1], color[2], color[3]);
     gSPEndDisplayList(dList + 1);
 
@@ -1368,13 +1368,13 @@ void DemoEc_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Ec_InitVars = {
-    ACTOR_DEMO_EC,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_EC,
-    sizeof(DemoEc),
-    (ActorFunc)DemoEc_Init,
-    (ActorFunc)DemoEc_Destroy,
-    (ActorFunc)DemoEc_Update,
-    (ActorFunc)DemoEc_Draw,
+    /**/ ACTOR_DEMO_EC,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_EC,
+    /**/ sizeof(DemoEc),
+    /**/ DemoEc_Init,
+    /**/ DemoEc_Destroy,
+    /**/ DemoEc_Update,
+    /**/ DemoEc_Draw,
 };

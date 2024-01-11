@@ -25,15 +25,15 @@ void EnDaikuKakariko_Wait(EnDaikuKakariko* this, PlayState* play);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play);
 
 ActorInit En_Daiku_Kakariko_InitVars = {
-    ACTOR_EN_DAIKU_KAKARIKO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DAIKU,
-    sizeof(EnDaikuKakariko),
-    (ActorFunc)EnDaikuKakariko_Init,
-    (ActorFunc)EnDaikuKakariko_Destroy,
-    (ActorFunc)EnDaikuKakariko_Update,
-    (ActorFunc)EnDaikuKakariko_Draw,
+    /**/ ACTOR_EN_DAIKU_KAKARIKO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DAIKU,
+    /**/ sizeof(EnDaikuKakariko),
+    /**/ EnDaikuKakariko_Init,
+    /**/ EnDaikuKakariko_Destroy,
+    /**/ EnDaikuKakariko_Update,
+    /**/ EnDaikuKakariko_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -226,20 +226,25 @@ s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, PlayState* play) {
 }
 
 void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, PlayState* play) {
-    static s32 maskReactionSets[] = { 1, 2, 3, 4 };
+    static s32 sMaskReactionSets[] = {
+        MASK_REACTION_SET_CARPENTER_1,
+        MASK_REACTION_SET_CARPENTER_2,
+        MASK_REACTION_SET_CARPENTER_3,
+        MASK_REACTION_SET_CARPENTER_4,
+    };
     s16 sp26;
     s16 sp24;
 
     if (this->talkState == 2) {
         this->talkState = EnDaikuKakariko_GetTalkState(this, play);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->talkState = 2;
     } else {
         Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
-            (func_8002F2CC(&this->actor, play, 100.0f) == 1)) {
-            this->actor.textId = Text_GetFaceReaction(play, maskReactionSets[this->actor.params & 3]);
+            (Actor_OfferTalk(&this->actor, play, 100.0f) == 1)) {
+            this->actor.textId = MaskReaction_GetTextId(play, sMaskReactionSets[this->actor.params & 3]);
 
             if (this->actor.textId == 0) {
                 switch (this->actor.params & 3) {
