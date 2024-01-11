@@ -7017,7 +7017,7 @@ s32 Camera_Special9(Camera* camera) {
 }
 
 Camera* Camera_Create(View* view, CollisionContext* colCtx, PlayState* play) {
-    Camera* newCamera = ZeldaArena_MallocDebug(sizeof(*newCamera), "../z_camera.c", 9370);
+    Camera* newCamera = ZELDA_ARENA_MALLOC(sizeof(*newCamera), "../z_camera.c", 9370);
 
     if (newCamera != NULL) {
         osSyncPrintf(VT_FGCOL(BLUE) "camera: create --- allocate %d byte" VT_RST "\n", sizeof(*newCamera) * 4);
@@ -7031,7 +7031,7 @@ Camera* Camera_Create(View* view, CollisionContext* colCtx, PlayState* play) {
 void Camera_Destroy(Camera* camera) {
     if (camera != NULL) {
         osSyncPrintf(VT_FGCOL(BLUE) "camera: destroy ---" VT_RST "\n");
-        ZeldaArena_FreeDebug(camera, "../z_camera.c", 9391);
+        ZELDA_ARENA_FREE(camera, "../z_camera.c", 9391);
     } else {
         osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: destroy: already cleared\n" VT_RST);
     }

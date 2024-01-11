@@ -770,7 +770,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1462),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1462),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[subType][this->eyeTexIndex]));
     gSPDisplayList(POLY_OPA_DISP++, eyeSwitchDLs[subType]);
@@ -805,7 +805,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1494);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1497),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1497),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, xluDLists[subType]);
 
@@ -814,7 +814,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1507);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1511),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1511),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (subType == OBJSWITCH_SUBTYPE_TOGGLE) {

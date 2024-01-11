@@ -104,7 +104,7 @@ void Overlay_FreeGameState(GameStateOverlay* overlayEntry) {
                 overlayEntry->unk_24 = NULL;
             }
 
-            SystemArena_FreeDebug(overlayEntry->loadedRamAddr, "../z_DLF.c", 149);
+            SYSTEM_ARENA_FREE(overlayEntry->loadedRamAddr, "../z_DLF.c", 149);
             overlayEntry->loadedRamAddr = NULL;
         }
     }

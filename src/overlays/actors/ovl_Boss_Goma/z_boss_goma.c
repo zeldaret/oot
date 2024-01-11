@@ -1301,7 +1301,7 @@ void BossGoma_FloorAttack(BossGoma* this, PlayState* play) {
     switch (this->actionState) {
         case 0:
             for (i = 0; i < this->collider.count; i++) {
-                if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
+                if (this->collider.elements[i].base.toucherFlags & TOUCH_HIT) {
                     this->framesUntilNextAction = 10;
                     break;
                 }
@@ -1807,19 +1807,19 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
     if (this->invincibilityFrames != 0) {
         this->invincibilityFrames--;
     } else {
-        ColliderInfo* acHitInfo = this->collider.elements[0].info.acHitInfo;
+        ColliderElement* acHitElem = this->collider.elements[0].base.acHitElem;
         s32 damage;
 
         if (this->eyeClosedTimer == 0 && this->actionFunc != BossGoma_CeilingSpawnGohmas &&
-            (this->collider.elements[0].info.bumperFlags & BUMP_HIT)) {
-            this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
+            (this->collider.elements[0].base.bumperFlags & BUMP_HIT)) {
+            this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
 
             if (this->actionFunc == BossGoma_CeilingMoveToCenter || this->actionFunc == BossGoma_CeilingIdle ||
                 this->actionFunc == BossGoma_CeilingPrepareSpawnGohmas) {
                 BossGoma_SetupFallStruckDown(this);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_DAM2);
             } else if (this->actionFunc == BossGoma_FloorStunned &&
-                       (damage = CollisionCheck_GetSwordDamage(acHitInfo->toucher.dmgFlags)) != 0) {
+                       (damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags)) != 0) {
                 this->actor.colChkInfo.health -= damage;
 
                 if ((s8)this->actor.colChkInfo.health > 0) {
@@ -1833,14 +1833,14 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
 
                 this->invincibilityFrames = 10;
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
-                       (acHitInfo->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
+                       (acHitElem->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_DAM2);
                 Audio_StopSfxById(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
                 BossGoma_SetupFloorStunned(this);
                 this->sfxFaintTimer = 100;
 
-                if (acHitInfo->toucher.dmgFlags & DMG_DEKU_NUT) {
+                if (acHitElem->toucher.dmgFlags & DMG_DEKU_NUT) {
                     this->framesUntilNextAction = 40;
                 } else {
                     this->framesUntilNextAction = 90;
@@ -2004,7 +2004,7 @@ s32 BossGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
                 if (*dList != NULL) {
                     Matrix_Push();
                     Matrix_Scale(this->eyeIrisScaleX, this->eyeIrisScaleY, 1.0f, MTXMODE_APPLY);
-                    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_goma.c", 4815),
+                    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_goma.c", 4815),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPDisplayList(POLY_OPA_DISP++, *dList);
                     Matrix_Pop();
@@ -2025,7 +2025,7 @@ s32 BossGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
                 Matrix_Scale(this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4],
                              this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4],
                              this->tailLimbsScale[limbIndex - BOSSGOMA_LIMB_TAIL4], MTXMODE_APPLY);
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_goma.c", 4836),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_goma.c", 4836),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, *dList);
                 Matrix_Pop();
@@ -2094,7 +2094,7 @@ Gfx* BossGoma_EmptyDlist(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
     Gfx* dList;
 
-    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx) * 1);
+    dList = dListHead = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 1);
 
     gSPEndDisplayList(dListHead++);
 
@@ -2105,7 +2105,7 @@ Gfx* BossGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
     Gfx* dList;
 
-    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
+    dList = dListHead = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 4);
 
     gDPPipeSync(dListHead++);
     gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);

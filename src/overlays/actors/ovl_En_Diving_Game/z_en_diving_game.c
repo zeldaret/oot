@@ -199,8 +199,8 @@ void EnDivingGame_Talk(EnDivingGame* this, PlayState* play) {
                 }
             }
         } else {
-            if (Text_GetFaceReaction(play, 0x1D) != 0) {
-                this->actor.textId = Text_GetFaceReaction(play, 0x1D);
+            if (MaskReaction_GetTextId(play, MASK_REACTION_SET_ZORA) != 0) {
+                this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_ZORA);
                 this->unk_292 = TEXT_STATE_DONE;
             } else {
                 switch (this->state) {
@@ -539,7 +539,7 @@ void EnDivingGame_Update(Actor* thisx, PlayState* play2) {
 }
 
 Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
 
     gSPEndDisplayList(displayList);
     return displayList;

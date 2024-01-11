@@ -1303,9 +1303,9 @@ void func_80AB3B04(EnNb* this, PlayState* play) {
         this->action = NB_ACTION_30;
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        this->actor.textId = Text_GetFaceReaction(play, 0x23);
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_NABOORU);
 
-        if ((this->actor.textId) == 0) {
+        if (this->actor.textId == 0) {
             this->actor.textId = 0x6026;
         }
 

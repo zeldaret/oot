@@ -870,10 +870,10 @@ void BossSst_HeadStunned(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupVulnerable(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadStunnedAnim, -5.0f);
     this->colliderCyl.base.acFlags |= AC_ON;
-    this->colliderCyl.info.bumper.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
+    this->colliderCyl.elem.bumper.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
     this->actor.speed = 0.0f;
-    this->colliderJntSph.elements[10].info.bumperFlags |= (BUMP_ON | BUMP_HOOKABLE);
-    this->colliderJntSph.elements[0].info.bumperFlags &= ~BUMP_ON;
+    this->colliderJntSph.elements[10].base.bumperFlags |= (BUMP_ON | BUMP_HOOKABLE);
+    this->colliderJntSph.elements[0].base.bumperFlags &= ~BUMP_ON;
     if (this->actionFunc != BossSst_HeadDamage) {
         this->timer = 50;
     }
@@ -929,9 +929,9 @@ void BossSst_HeadDamage(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupRecover(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadRecoverAnim, -5.0f);
     this->colliderCyl.base.acFlags &= ~AC_ON;
-    this->colliderCyl.info.bumper.dmgFlags = DMG_DEFAULT;
-    this->colliderJntSph.elements[10].info.bumperFlags &= ~(BUMP_ON | BUMP_HOOKABLE);
-    this->colliderJntSph.elements[0].info.bumperFlags |= BUMP_ON;
+    this->colliderCyl.elem.bumper.dmgFlags = DMG_DEFAULT;
+    this->colliderJntSph.elements[10].base.bumperFlags &= ~(BUMP_ON | BUMP_HOOKABLE);
+    this->colliderJntSph.elements[0].base.bumperFlags |= BUMP_ON;
     this->vVanish = true;
     this->actor.speed = 5.0f;
     this->actionFunc = BossSst_HeadRecover;
@@ -2496,7 +2496,7 @@ void BossSst_HandSetDamage(BossSst* this, s32 damage) {
 
     this->colliderJntSph.base.atFlags |= AT_ON;
     for (i = 0; i < 11; i++) {
-        this->colliderJntSph.elements[i].info.toucher.damage = damage;
+        this->colliderJntSph.elements[i].base.toucher.damage = damage;
     }
 }
 
@@ -2926,7 +2926,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
                          this->actor.world.pos.z + vanishMaskOffset.z, MTXMODE_NEW);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_sst.c", 6934),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_sst.c", 6934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, sIntroVanishDList);
     }
@@ -3186,7 +3186,7 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
                     Matrix_RotateZYX(effect->rot.x, effect->rot.y, effect->rot.z, MTXMODE_APPLY);
                     Matrix_Scale(effect->scale * 0.001f, effect->scale * 0.001f, effect->scale * 0.001f, MTXMODE_APPLY);
 
-                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_sst.c", 7350),
+                    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_sst.c", 7350),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPDisplayList(POLY_XLU_DISP++, gBongoIceShardDL);
                 }
@@ -3209,7 +3209,7 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
                     gDPPipeSync(POLY_XLU_DISP++);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 30, 0, 30, effect->alpha * effect->move);
                     gDPSetEnvColor(POLY_XLU_DISP++, 30, 0, 30, 0);
-                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_sst.c", 7396),
+                    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_sst.c", 7396),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPDisplayList(POLY_XLU_DISP++, gEffFireCircleDL);
                 }
@@ -3223,7 +3223,7 @@ void BossSst_DrawEffects(Actor* thisx, PlayState* play) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                 Matrix_Scale(effect->scale * 0.001f, 1.0f, effect->scale * 0.001f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_sst.c", 7423),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_sst.c", 7423),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, sShadowDList);
                 effect++;

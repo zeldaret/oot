@@ -581,9 +581,9 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->actor.colChkInfo.damageEffect) {
             case 0xF:
-                effectPos.x = this->collider.info.bumper.hitPos.x;
-                effectPos.y = this->collider.info.bumper.hitPos.y;
-                effectPos.z = this->collider.info.bumper.hitPos.z;
+                effectPos.x = this->collider.elem.bumper.hitPos.x;
+                effectPos.y = this->collider.elem.bumper.hitPos.y;
+                effectPos.z = this->collider.elem.bumper.hitPos.z;
 
                 EnSkj_SpawnBlood(play, &effectPos);
                 EffectSsHitMark_SpawnFixedScale(play, 1, &effectPos);
@@ -927,7 +927,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
         player->stateFlags2 |= PLAYER_STATE2_23;
         if (GET_ITEMGETINF(ITEMGETINF_16)) {
             if (GET_ITEMGETINF(ITEMGETINF_39)) {
-                this->textId = Text_GetFaceReaction(play, 0x15);
+                this->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SKULL_KID);
                 if (this->textId == 0) {
                     this->textId = 0x1020;
                 }
@@ -936,7 +936,7 @@ void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
             } else if (Player_GetMask(play) == PLAYER_MASK_SKULL) {
                 this->textId = 0x101B;
             } else {
-                this->textId = Text_GetFaceReaction(play, 0x15);
+                this->textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SKULL_KID);
             }
             Actor_OfferTalk(&this->actor, play, EnSkj_GetItemXzRange(this));
         }
@@ -1610,7 +1610,7 @@ void EnSkj_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_skj.c", 2430),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_skj.c", 2430),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gSkullKidSkullMaskDL);
         Matrix_Pop();
@@ -1624,7 +1624,7 @@ Gfx* EnSkj_TranslucentDL(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dListHead;
 
     //! @bug This only allocates space for 1 command but uses 3
-    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    dList = dListHead = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gDPSetEnvColor(dListHead++, 0, 0, 0, alpha);
     gSPEndDisplayList(dListHead++);
@@ -1637,7 +1637,7 @@ Gfx* EnSkj_OpaqueDL(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dListHead;
 
     //! @bug This only allocates space for 1 command but uses 2
-    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    dList = dListHead = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gDPSetEnvColor(dListHead++, 0, 0, 0, alpha);
     gSPEndDisplayList(dListHead++);
 
