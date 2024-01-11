@@ -1842,10 +1842,10 @@ void func_80902348(BossGanon2* this, PlayState* play) {
 
     if (this->unk_316 == 0) {
         for (i = 0; i < ARRAY_COUNT(this->unk_864); i++) {
-            if (this->unk_444.elements[i].info.bumperFlags & BUMP_HIT) {
-                this->unk_444.elements[i].info.bumperFlags &= ~BUMP_HIT;
-            } else if (this->unk_444.elements[i].info.toucherFlags & TOUCH_HIT) {
-                this->unk_444.elements[i].info.toucherFlags &= ~TOUCH_HIT;
+            if (this->unk_444.elements[i].base.bumperFlags & BUMP_HIT) {
+                this->unk_444.elements[i].base.bumperFlags &= ~BUMP_HIT;
+            } else if (this->unk_444.elements[i].base.toucherFlags & TOUCH_HIT) {
+                this->unk_444.elements[i].base.toucherFlags &= ~TOUCH_HIT;
 
                 if (this->unk_312 == 1) {
                     phi_v0_2 = 0x1800;
@@ -1880,30 +1880,30 @@ void func_80902348(BossGanon2* this, PlayState* play) {
 
 void func_80902524(BossGanon2* this, PlayState* play) {
     s8 temp_v0_4;
-    ColliderInfo* acHitInfo;
+    ColliderElement* acHitElem;
     s16 i;
     u8 phi_v1_2;
 
     osSyncPrintf("this->no_hit_time %d\n", this->unk_316);
     if (this->unk_316 != 0 || ((this->unk_334 == 0) && (this->actionFunc == func_80900890))) {
         for (i = 0; i < ARRAY_COUNT(this->unk_464); i++) {
-            this->unk_424.elements[i].info.bumperFlags &= ~BUMP_HIT;
+            this->unk_424.elements[i].base.bumperFlags &= ~BUMP_HIT;
         }
     }
 
     osSyncPrintf("this->look_on %d\n", this->unk_313);
     if (this->unk_313) {
         if (this->actionFunc != func_808FFFE0) {
-            if (this->unk_424.elements[0].info.bumperFlags & BUMP_HIT) {
-                this->unk_424.elements[0].info.bumperFlags &= ~BUMP_HIT;
-                acHitInfo = this->unk_424.elements[0].info.acHitInfo;
-                if ((acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) && (this->actionFunc != func_80900890)) {
+            if (this->unk_424.elements[0].base.bumperFlags & BUMP_HIT) {
+                this->unk_424.elements[0].base.bumperFlags &= ~BUMP_HIT;
+                acHitElem = this->unk_424.elements[0].base.acHitElem;
+                if ((acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) && (this->actionFunc != func_80900890)) {
                     func_809000A0(this, play);
                     Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
                     Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
                 } else if ((this->actionFunc == func_80900890) &&
-                           (acHitInfo->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER))) {
+                           (acHitElem->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER))) {
                     this->unk_316 = 60;
                     this->unk_342 = 5;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
@@ -1926,17 +1926,17 @@ void func_80902524(BossGanon2* this, PlayState* play) {
             }
         }
     } else {
-        if (this->unk_424.elements[15].info.bumperFlags & BUMP_HIT) {
-            this->unk_424.elements[15].info.bumperFlags &= ~BUMP_HIT;
-            acHitInfo = this->unk_424.elements[15].info.acHitInfo;
+        if (this->unk_424.elements[15].base.bumperFlags & BUMP_HIT) {
+            this->unk_424.elements[15].base.bumperFlags &= ~BUMP_HIT;
+            acHitElem = this->unk_424.elements[15].base.acHitElem;
             this->unk_316 = 60;
             this->unk_344 = 0x32;
             this->unk_342 = 5;
             Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
             Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
             phi_v1_2 = 1;
-            if (acHitInfo->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER)) {
-                if (acHitInfo->toucher.dmgFlags & DMG_JUMP_MASTER) {
+            if (acHitElem->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER)) {
+                if (acHitElem->toucher.dmgFlags & DMG_JUMP_MASTER) {
                     phi_v1_2 = 4;
                 } else {
                     phi_v1_2 = 2;

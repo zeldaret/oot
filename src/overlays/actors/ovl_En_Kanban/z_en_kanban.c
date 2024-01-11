@@ -295,11 +295,11 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                                                       this->actor.world.pos.z, this->actor.shape.rot.x,
                                                       this->actor.shape.rot.y, this->actor.shape.rot.z, ENKANBAN_PIECE);
                 if (piece != NULL) {
-                    ColliderInfo* hitItem = this->collider.info.acHitInfo;
+                    ColliderElement* acHitElem = this->collider.elem.acHitElem;
                     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     u8 i;
 
-                    if (hitItem->toucher.dmgFlags & DMG_SLASH) {
+                    if (acHitElem->toucher.dmgFlags & DMG_SLASH) {
                         this->cutType = sCutTypes[player->meleeWeaponAnimation];
                     } else {
                         this->cutType = CUT_POST;

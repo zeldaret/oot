@@ -176,7 +176,7 @@ void ObjComb_Wait(ObjComb* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        dmgFlags = this->collider.elements[0].info.acHitInfo->toucher.dmgFlags;
+        dmgFlags = this->collider.elements[0].base.acHitElem->toucher.dmgFlags;
         if (dmgFlags & (DMG_HAMMER | DMG_ARROW | DMG_SLINGSHOT | DMG_DEKU_STICK)) {
             this->unk_1B0 = 1500;
         } else {

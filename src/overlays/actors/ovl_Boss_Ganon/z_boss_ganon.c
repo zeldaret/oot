@@ -2681,22 +2681,22 @@ void BossGanon_Damaged(BossGanon* this, PlayState* play) {
 void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
     s16 i;
     s16 j;
-    ColliderInfo* acHitInfo;
+    ColliderElement* acHitElem;
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->unk_2D4 = 2;
         this->collider.base.acFlags &= ~AC_HIT;
-        acHitInfo = this->collider.info.acHitInfo;
+        acHitElem = this->collider.elem.acHitElem;
 
         if ((this->actionFunc == BossGanon_HitByLightBall) || (this->actionFunc == BossGanon_ChargeBigMagic)) {
-            if (acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
+            if (acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) {
                 BossGanon_SetupVulnerable(this, play);
                 this->timers[2] = 0;
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_DAMAGE1);
                 this->unk_1A6 = 15;
             }
         } else if ((this->actionFunc == BossGanon_Vulnerable) && (this->unk_1C2 >= 3)) {
-            if (!(acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
+            if (!(acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
                 u8 hitWithSword = false;
                 u8 damage;
                 Vec3f sp50;
@@ -2710,7 +2710,7 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
                                               0x1E);
                 }
 
-                damage = flags = CollisionCheck_GetSwordDamage(acHitInfo->toucher.dmgFlags);
+                damage = flags = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags);
 
                 if (flags == 0) {
                     damage = 2;
@@ -2744,7 +2744,7 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
                     sCape->tearTimer = 1;
                 }
             }
-        } else if (acHitInfo->toucher.dmgFlags & DMG_RANGED) {
+        } else if (acHitElem->toucher.dmgFlags & DMG_RANGED) {
             Actor_PlaySfx(&this->actor, 0);
 
             for (i = 0; i < ARRAY_COUNT(sCape->strands); i++) {
@@ -3931,11 +3931,11 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                 }
 
                 if ((this->collider.base.acFlags & AC_HIT) || hitWithBottle) {
-                    ColliderInfo* acHitInfo = this->collider.info.acHitInfo;
+                    ColliderElement* acHitElem = this->collider.elem.acHitElem;
 
                     this->collider.base.acFlags &= ~AC_HIT;
 
-                    if ((hitWithBottle == false) && (acHitInfo->toucher.dmgFlags & DMG_SHIELD)) {
+                    if ((hitWithBottle == false) && (acHitElem->toucher.dmgFlags & DMG_SHIELD)) {
                         spBA = 2;
                         Audio_PlaySfxGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -4305,7 +4305,7 @@ void func_808E2544(Actor* thisx, PlayState* play) {
     BossGanon* dorf = (BossGanon*)this->actor.parent;
     s32 pad;
     Player* player = GET_PLAYER(play);
-    ColliderInfo* acHitInfo;
+    ColliderElement* acHitElem;
     Vec3f sp60;
 
     this->unk_1A2++;
@@ -4415,11 +4415,11 @@ void func_808E2544(Actor* thisx, PlayState* play) {
             }
 
             if (this->collider.base.acFlags & AC_HIT) {
-                acHitInfo = this->collider.info.acHitInfo;
+                acHitElem = this->collider.elem.acHitElem;
 
                 this->collider.base.acFlags &= ~AC_HIT;
 
-                if (!(acHitInfo->toucher.dmgFlags & DMG_SHIELD) || Player_HasMirrorShieldEquipped(play)) {
+                if (!(acHitElem->toucher.dmgFlags & DMG_SHIELD) || Player_HasMirrorShieldEquipped(play)) {
                     Rumble_Request(this->actor.xyzDistToPlayerSq, 180, 20, 100);
                     this->unk_1C2 = 0xC;
                     this->actor.speed = -30.0f;

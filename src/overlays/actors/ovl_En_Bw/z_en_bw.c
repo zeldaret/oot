@@ -690,7 +690,7 @@ void func_809D0584(EnBw* this, PlayState* play) {
                 return;
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->collider2.info, false);
+            Actor_SetDropFlag(&this->actor, &this->collider2.elem, false);
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);
@@ -766,7 +766,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
             func_8002836C(play, &thisx->world.pos, &velocity, &accel, &sp50, &sp4C, 0x3C, 0, 0x14);
         }
         if (this->unk_248 <= 0.4f) {
-            this->collider1.info.toucher.effect = 0;
+            this->collider1.elem.toucher.effect = 0;
             if (((play->gameplayFrames & 1) == 0) && (this->unk_220 < 5) && (this->unk_23C == 0)) {
                 accel.y = -0.1f;
                 velocity.x = Rand_CenteredFloat(4.0f);
@@ -786,7 +786,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
                               20.0f - (this->unk_248 * 40.0f));
             }
         } else {
-            this->collider1.info.toucher.effect = 1;
+            this->collider1.elem.toucher.effect = 1;
         }
 
         this->unk_234 = Actor_TestFloorInDirection(thisx, play, 50.0f, thisx->world.rot.y);
