@@ -275,15 +275,15 @@ s32 EnFd_CheckHammer(EnFd* this, PlayState* play) {
 
 s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    ColliderInfo* info;
+    ColliderElement* elem;
 
     if (this->collider.base.acFlags & AC_HIT || EnFd_CheckHammer(this, play)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
-        info = &this->collider.elements[0].info;
-        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
+        elem = &this->collider.elements[0].base;
+        if (elem->acHitElem != NULL && (elem->acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
             return false;
         }
 

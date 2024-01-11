@@ -355,7 +355,7 @@ void EnTite_Attack(EnTite* this, PlayState* play) {
             }
             break;
         case TEKTITE_MID_LUNGE:
-            // Generate sparkles at feet upon landing, set jumping animation and hurtbox and check if hit player
+            // Generate sparkles at feet upon landing, set jumping animation and attack collider and check if hit player
             if (this->actor.velocity.y >= 5.0f) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     func_800355B8(play, &this->frontLeftFootPos);
@@ -852,7 +852,7 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (thisx->colChkInfo.damageEffect != 0xE) { // Immune to fire magic
             this->damageEffect = thisx->colChkInfo.damageEffect;
-            Actor_SetDropFlag(thisx, &this->collider.elements[0].info, false);
+            Actor_SetDropFlag(thisx, &this->collider.elements[0].base, false);
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
             if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {

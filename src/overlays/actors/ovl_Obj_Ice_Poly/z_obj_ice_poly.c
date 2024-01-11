@@ -117,7 +117,7 @@ void ObjIcePoly_Idle(ObjIcePoly* this, PlayState* play) {
     Vec3f pos;
 
     if (this->colliderIce.base.acFlags & AC_HIT) {
-        this->meltTimer = -this->colliderIce.info.acHitInfo->toucher.damage;
+        this->meltTimer = -this->colliderIce.elem.acHitElem->toucher.damage;
         this->actor.focus.rot.y = this->actor.yawTowardsPlayer;
         OnePointCutscene_Init(play, 5120, 40, &this->actor, CAM_ID_MAIN);
         this->actionFunc = ObjIcePoly_Melt;

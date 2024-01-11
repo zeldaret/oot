@@ -1344,7 +1344,7 @@ void EnGo2_GetItemAnimation(EnGo2* this, PlayState* play) {
 
 void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG || (this->actor.params & 0x1F) == GORON_CITY_LINK) {
-        this->collider.info.bumperFlags = BUMP_ON;
+        this->collider.elem.bumperFlags = BUMP_ON;
         this->actor.speed = GET_INFTABLE(INFTABLE_11E) ? 6.0f : 3.6000001f;
     } else {
         this->actor.speed = 6.0f;
@@ -1368,7 +1368,7 @@ void EnGo2_StopRolling(EnGo2* this, PlayState* play) {
             }
         }
     } else {
-        this->collider.info.bumperFlags = BUMP_NONE;
+        this->collider.elem.bumperFlags = BUMP_NONE;
     }
 
     this->actor.shape.rot = this->actor.world.rot;

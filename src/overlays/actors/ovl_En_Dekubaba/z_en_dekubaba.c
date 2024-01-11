@@ -278,11 +278,11 @@ void EnDekubaba_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider);
 }
 
-void EnDekubaba_DisableHitboxes(EnDekubaba* this) {
+void EnDekubaba_DisableACColliderElems(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].info.bumperFlags &= ~BUMP_ON;
+        this->collider.elements[i].base.bumperFlags &= ~BUMP_ON;
     }
 }
 
@@ -323,7 +323,7 @@ void EnDekubaba_SetupGrow(EnDekubaba* this) {
     this->timer = 15;
 
     for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].info.ocElemFlags |= OCELEM_ON;
+        this->collider.elements[i].base.ocElemFlags |= OCELEM_ON;
     }
 
     this->collider.base.colType = COLTYPE_HIT6;
@@ -341,7 +341,7 @@ void EnDekubaba_SetupRetract(EnDekubaba* this) {
     this->timer = 15;
 
     for (i = 2; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].info.ocElemFlags &= ~OCELEM_ON;
+        this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }
 
     this->actionFunc = EnDekubaba_Retract;
@@ -417,7 +417,7 @@ void EnDekubaba_SetupStunnedVertical(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].info.bumperFlags |= BUMP_ON;
+        this->collider.elements[i].base.bumperFlags |= BUMP_ON;
     }
 
     if (this->timer == 1) {
@@ -441,7 +441,7 @@ void EnDekubaba_SetupSway(EnDekubaba* this) {
     this->stemSectionAngle[2] = -0x5000;
     this->stemSectionAngle[1] = -0x4800;
 
-    EnDekubaba_DisableHitboxes(this);
+    EnDekubaba_DisableACColliderElems(this);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 35);
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnDekubaba_Sway;
@@ -896,7 +896,7 @@ void EnDekubaba_StunnedVertical(EnDekubaba* this, PlayState* play) {
     }
 
     if (this->timer == 0) {
-        EnDekubaba_DisableHitboxes(this);
+        EnDekubaba_DisableACColliderElems(this);
 
         if (this->actor.xzDistToPlayer < 80.0f * this->size) {
             EnDekubaba_SetupPrepareLunge(this);

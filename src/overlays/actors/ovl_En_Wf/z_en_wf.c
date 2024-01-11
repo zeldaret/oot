@@ -241,7 +241,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
-        this->colliderSpheres.elements[0].info.toucher.damage = this->colliderSpheres.elements[1].info.toucher.damage =
+        this->colliderSpheres.elements[0].base.toucher.damage = this->colliderSpheres.elements[1].base.toucher.damage =
             8;
         thisx->naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
@@ -1266,7 +1266,7 @@ void EnWf_UpdateDamage(EnWf* this, PlayState* play) {
 
             if (this->actor.colChkInfo.damageEffect != ENWF_DMGEFF_ICE_MAGIC) {
                 this->damageEffect = this->actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->actor, &this->colliderCylinderBody.info, true);
+                Actor_SetDropFlag(&this->actor, &this->colliderCylinderBody.elem, true);
                 this->slashStatus = 0;
 
                 if ((this->actor.colChkInfo.damageEffect == ENWF_DMGEFF_STUN) ||

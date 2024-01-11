@@ -610,7 +610,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
     if (this->hurtTimer != 0) {
         this->hurtTimer--;
     } else {
-        ColliderInfo* acHitInfo;
+        ColliderElement* acHitElem;
         u8 swordDamage;
 
         if ((this->colCyl1.base.atFlags & AT_HIT) && this->actionFunc == EnGoma_Jump) {
@@ -620,11 +620,11 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
         }
 
         if ((this->colCyl2.base.acFlags & AC_HIT) && (s8)this->actor.colChkInfo.health > 0) {
-            acHitInfo = this->colCyl2.info.acHitInfo;
+            acHitElem = this->colCyl2.elem.acHitElem;
             this->colCyl2.base.acFlags &= ~AC_HIT;
 
             if (this->gomaType == ENGOMA_NORMAL) {
-                u32 dmgFlags = acHitInfo->toucher.dmgFlags;
+                u32 dmgFlags = acHitElem->toucher.dmgFlags;
 
                 if (dmgFlags & DMG_SHIELD) {
                     if (this->actionFunc == EnGoma_Jump) {

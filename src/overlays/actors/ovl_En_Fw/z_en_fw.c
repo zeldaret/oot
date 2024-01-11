@@ -135,11 +135,11 @@ Vec3f* EnFw_GetPosAdjAroundCircle(Vec3f* dst, EnFw* this, f32 radius, s16 dir) {
 }
 
 s32 EnFw_CheckCollider(EnFw* this, PlayState* play) {
-    ColliderInfo* info;
+    ColliderElement* elem;
 
     if (this->collider.base.acFlags & AC_HIT) {
-        info = &this->collider.elements[0].info;
-        if (info->acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT) {
+        elem = &this->collider.elements[0].base;
+        if (elem->acHitElem->toucher.dmgFlags & DMG_HOOKSHOT) {
             this->lastDmgHook = true;
         } else {
             this->lastDmgHook = false;

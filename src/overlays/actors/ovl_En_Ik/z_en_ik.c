@@ -731,7 +731,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         sparksPos = this->actor.world.pos;
         sparksPos.y += 50.0f;
 
-        Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
         this->damageEffect = this->actor.colChkInfo.damageEffect;
         this->bodyCollider.base.acFlags &= ~AC_HIT;

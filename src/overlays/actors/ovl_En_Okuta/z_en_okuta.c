@@ -490,7 +490,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, PlayState* play) {
             this->collider.base.atFlags & AT_BOUNCED) {
             this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->collider.base.atFlags |= AT_TYPE_PLAYER;
-            this->collider.info.toucher.dmgFlags = DMG_DEKU_STICK;
+            this->collider.elem.toucher.dmgFlags = DMG_DEKU_STICK;
             Matrix_MtxFToYXZRotS(&player->shieldMf, &shieldRot, 0);
             this->actor.world.rot.y = shieldRot.y + 0x8000;
             this->timer = 30;
@@ -555,7 +555,7 @@ void EnOkuta_UpdateHeadScale(EnOkuta* this) {
 void EnOkuta_ColliderCheck(EnOkuta* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             Enemy_StartFinishingBlow(play, &this->actor);
             this->actor.colChkInfo.health = 0;

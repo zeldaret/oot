@@ -113,7 +113,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
             this->cylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->cylinder.base.atFlags |= AT_TYPE_PLAYER;
-            this->cylinder.info.toucher.dmgFlags = DMG_DEKU_STICK;
+            this->cylinder.elem.toucher.dmgFlags = DMG_DEKU_STICK;
             this->unk_15A = 30;
             this->actor.params = 1;
             this->actor.velocity.x *= -1.0f;

@@ -2,7 +2,7 @@
 
 import os
 import argparse
-from filemap import FileResult, GetFromVRam, GetFromRom
+from filemap import GetFromVRam, GetFromRom
 
 damage_types = [
     'Deku nut',

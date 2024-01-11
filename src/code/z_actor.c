@@ -4294,28 +4294,27 @@ u8 Actor_ApplyDamage(Actor* actor) {
     return actor->colChkInfo.health;
 }
 
-void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
-    if (colInfo->acHitInfo == NULL) {
+void Actor_SetDropFlag(Actor* actor, ColliderElement* elem, s32 freezeFlag) {
+    if (elem->acHitElem == NULL) {
         actor->dropFlag = 0x00;
-    } else if (freezeFlag &&
-               (colInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
-        actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
+    } else if (freezeFlag && (elem->acHitElem->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
+        actor->freezeTimer = elem->acHitElem->toucher.damage;
         actor->dropFlag = 0x00;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
+    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_FIRE) {
         actor->dropFlag = 0x01;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
+    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {
         actor->dropFlag = 0x02;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK1) {
+    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK1) {
         actor->dropFlag = 0x04;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK2) {
+    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK2) {
         actor->dropFlag = 0x08;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK3) {
+    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK3) {
         actor->dropFlag = 0x10;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
+    } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) {
         actor->dropFlag = 0x20;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
+    } else if (elem->acHitElem->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
         if (freezeFlag) {
-            actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
+            actor->freezeTimer = elem->acHitElem->toucher.damage;
         }
         actor->dropFlag = 0x40;
     } else {
@@ -4324,35 +4323,35 @@ void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
 }
 
 void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
-    ColliderInfo* curColInfo;
+    ColliderElement* elem;
     s32 flag;
     s32 i;
 
     actor->dropFlag = 0x00;
 
     for (i = jntSph->count - 1; i >= 0; i--) {
-        curColInfo = &jntSph->elements[i].info;
-        if (curColInfo->acHitInfo == NULL) {
+        elem = &jntSph->elements[i].base;
+        if (elem->acHitElem == NULL) {
             flag = 0x00;
         } else if (freezeFlag &&
-                   (curColInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
-            actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
+                   (elem->acHitElem->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
+            actor->freezeTimer = elem->acHitElem->toucher.damage;
             flag = 0x00;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
+        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_FIRE) {
             flag = 0x01;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
+        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {
             flag = 0x02;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK1) {
+        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK1) {
             flag = 0x04;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK2) {
+        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK2) {
             flag = 0x08;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK3) {
+        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_UNK3) {
             flag = 0x10;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
+        } else if (elem->acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) {
             flag = 0x20;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
+        } else if (elem->acHitElem->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
             if (freezeFlag) {
-                actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
+                actor->freezeTimer = elem->acHitElem->toucher.damage;
             }
             flag = 0x40;
         } else {
