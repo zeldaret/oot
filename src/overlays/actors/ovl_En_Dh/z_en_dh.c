@@ -191,7 +191,7 @@ void EnDh_SetupWait(EnDh* this) {
     this->actor.shape.yOffset = -15000.0f;
     this->dirtWaveSpread = this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.flags |= ACTOR_FLAG_7;
+    this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     this->dirtWavePhase = this->actionState = this->actor.params = ENDH_WAIT_UNDERGROUND;
     EnDh_SetupAction(this, EnDh_Wait);
 }
@@ -208,7 +208,7 @@ void EnDh_Wait(EnDh* this, PlayState* play) {
             case 0:
                 this->actor.flags |= ACTOR_FLAG_0;
                 this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-                this->actor.flags &= ~ACTOR_FLAG_7;
+                this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
                 this->actionState++;
                 this->drawDirtWave++;
                 Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HIDE);
