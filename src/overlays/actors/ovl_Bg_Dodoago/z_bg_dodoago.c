@@ -314,7 +314,7 @@ void BgDodoago_Draw(Actor* thisx, PlayState* play) {
 
     if (Flags_GetEventChkInf(EVENTCHKINF_B0)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_dodoago.c", 677),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDodongoLowerJawDL);
     }

@@ -568,7 +568,7 @@ void func_8098F654(DemoSa* this, PlayState* play) {
                     func_8098F5D0(this);
                     break;
                 default:
-                    osSyncPrintf("Demo_Sa_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("Demo_Sa_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
             this->cueId = nextCueId;
         }
@@ -717,7 +717,7 @@ void func_8098FB68(DemoSa* this, PlayState* play) {
                     func_8098FAE0(this);
                     break;
                 default:
-                    osSyncPrintf("Demo_Sa_inPresent_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("Demo_Sa_inPresent_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
             this->cueId = nextCueId;
         }
@@ -757,7 +757,7 @@ void DemoSa_Update(Actor* thisx, PlayState* play) {
     DemoSa* this = (DemoSa*)thisx;
 
     if (this->action < 0 || this->action >= 21 || sActionFuncs[this->action] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -827,7 +827,7 @@ void DemoSa_Draw(Actor* thisx, PlayState* play) {
     DemoSa* this = (DemoSa*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

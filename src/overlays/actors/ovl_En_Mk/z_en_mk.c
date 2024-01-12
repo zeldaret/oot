@@ -264,7 +264,7 @@ void EnMk_Wait(EnMk* this, PlayState* play) {
             }
         }
     } else {
-        this->actor.textId = Text_GetFaceReaction(play, 0x1A);
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_LAKESIDE_PROFESSOR);
 
         if (this->actor.textId == 0) {
             this->actor.textId = 0x4018;

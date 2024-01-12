@@ -55,7 +55,8 @@ PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
 
 MAKE = make
-CPPFLAGS += -fno-dollars-in-identifiers -P
+CFLAGS += -DOOT_DEBUG
+CPPFLAGS += -DOOT_DEBUG -fno-dollars-in-identifiers -P
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
@@ -100,12 +101,12 @@ ifeq ($(ORIG_COMPILER),1)
   CC_OLD    = $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 endif
 
-AS         := $(MIPS_BINUTILS_PREFIX)as
-LD         := $(MIPS_BINUTILS_PREFIX)ld
-OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
-OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-EMULATOR   := 
-EMU_FLAGS  := 
+AS      := $(MIPS_BINUTILS_PREFIX)as
+LD      := $(MIPS_BINUTILS_PREFIX)ld
+OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
+OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
+
+N64_EMULATOR ?= 
 
 INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I.
 
@@ -133,8 +134,10 @@ ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
   MIPS_VERSION := -mips3
 else
-  # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-  CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,649,838,712
+  # Suppress warnings for wrong number of macro arguments (to fake variadic
+  # macros) and Microsoft extensions such as anonymous structs (which the
+  # compiler does support but warns for their usage).
+  CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712
   MIPS_VERSION := -mips2
 endif
 
@@ -281,10 +284,10 @@ setup:
 	python3 extract_assets.py -j$(N_THREADS)
 
 run: $(ROM)
-ifeq ($(EMULATOR),)
-	$(error Emulator path not set. Set EMULATOR in the Makefile or define it as an environment variable)
+ifeq ($(N64_EMULATOR),)
+	$(error Emulator path not set. Set N64_EMULATOR in the Makefile or define it as an environment variable)
 endif
-	$(EMULATOR) $(EMU_FLAGS) $<
+	$(N64_EMULATOR) $<
 
 
 .PHONY: all clean setup run distclean assetclean

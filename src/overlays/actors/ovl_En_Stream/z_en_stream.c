@@ -133,7 +133,7 @@ void EnStream_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_stream.c", 295);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_stream.c", 299),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_stream.c", 299),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     multipliedFrames = frames * 20;
     gSPSegment(POLY_XLU_DISP++, 0x08,

@@ -7,7 +7,7 @@
 #include "z_bg_bombwall.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS ACTOR_FLAG_22
+#define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS
 
 void BgBombwall_Init(Actor* thisx, PlayState* play);
 void BgBombwall_Destroy(Actor* thisx, PlayState* play);
@@ -92,8 +92,8 @@ void BgBombwall_InitDynapoly(BgBombwall* this, PlayState* play) {
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG login failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
-                     this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
+               this->dyna.actor.params);
     }
 }
 
@@ -149,8 +149,8 @@ void BgBombwall_Init(Actor* thisx, PlayState* play) {
         func_8086ED50(this, play);
     }
 
-    osSyncPrintf("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n", this->dyna.actor.params,
-                 this->dyna.actor.shape.rot.y);
+    PRINTF("(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n", this->dyna.actor.params,
+           this->dyna.actor.shape.rot.y);
 }
 
 void BgBombwall_DestroyCollision(BgBombwall* this, PlayState* play) {

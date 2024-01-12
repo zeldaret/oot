@@ -146,7 +146,7 @@ void BgHeavyBlock_Init(Actor* thisx, PlayState* play) {
             break;
     }
     // "Largest Block Save Bit %x"
-    osSyncPrintf(VT_FGCOL(CYAN) " 最大 ブロック セーブビット %x\n" VT_RST, thisx->params);
+    PRINTF(VT_FGCOL(CYAN) " 最大 ブロック セーブビット %x\n" VT_RST, thisx->params);
 }
 
 void BgHeavyBlock_Destroy(Actor* thisx, PlayState* play) {
@@ -503,7 +503,7 @@ void BgHeavyBlock_Draw(Actor* thisx, PlayState* play) {
     Matrix_MultVec3f(&D_80884ED4, &thisx->home.pos);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_heavy_block.c", 931),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_heavy_block.c", 931),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gHeavyBlockEntirePillarDL);
 

@@ -89,7 +89,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, PlayState* play);
 void EnMb_ClubWaitAfterAttack(EnMb* this, PlayState* play);
 void EnMb_ClubDamaged(EnMb* this, PlayState* play);
 
-static ColliderCylinderInit sHitboxInit = {
+static ColliderCylinderInit sBodyColliderInit = {
     {
         COLTYPE_HIT0,
         AT_NONE,
@@ -265,8 +265,8 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 46.0f);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.colChkInfo.damageTable = &sSpearMoblinDamageTable;
-    Collider_InitCylinder(play, &this->hitbox);
-    Collider_SetCylinder(play, &this->hitbox, &this->actor, &sHitboxInit);
+    Collider_InitCylinder(play, &this->bodyCollider);
+    Collider_SetCylinder(play, &this->bodyCollider, &this->actor, &sBodyColliderInit);
     Collider_InitTris(play, &this->frontShielding);
     Collider_SetTris(play, &this->frontShielding, &this->actor, &sFrontShieldingInit, this->frontShieldingTris);
     Collider_InitQuad(play, &this->attackCollider);
@@ -290,13 +290,13 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             this->actor.colChkInfo.mass = MASS_IMMOVABLE;
             this->actor.colChkInfo.damageTable = &sClubMoblinDamageTable;
             Actor_SetScale(&this->actor, 0.02f);
-            this->hitbox.dim.height = 170;
-            this->hitbox.dim.radius = 45;
+            this->bodyCollider.dim.height = 170;
+            this->bodyCollider.dim.radius = 45;
             this->actor.uncullZoneForward = 4000.0f;
             this->actor.uncullZoneScale = 800.0f;
             this->actor.uncullZoneDownward = 1800.0f;
             this->playerDetectionRange = 710.0f;
-            this->attackCollider.info.toucher.dmgFlags = DMG_UNBLOCKABLE;
+            this->attackCollider.elem.toucher.dmgFlags = DMG_UNBLOCKABLE;
 
             relYawFromPlayer =
                 this->actor.world.rot.y - Math_Vec3f_Yaw(&this->actor.world.pos, &player->actor.world.pos);
@@ -333,7 +333,7 @@ void EnMb_Destroy(Actor* thisx, PlayState* play) {
     EnMb* this = (EnMb*)thisx;
 
     Collider_DestroyTris(play, &this->frontShielding);
-    Collider_DestroyCylinder(play, &this->hitbox);
+    Collider_DestroyCylinder(play, &this->bodyCollider);
     Collider_DestroyQuad(play, &this->attackCollider);
 }
 
@@ -575,8 +575,8 @@ void EnMb_SetupClubDead(EnMb* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gEnMbClubFallOnItsBackAnim, -4.0f);
     this->state = ENMB_STATE_CLUB_DEAD;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->hitbox.dim.height = 80;
-    this->hitbox.dim.radius = 95;
+    this->bodyCollider.dim.height = 80;
+    this->bodyCollider.dim.radius = 95;
     this->timer1 = 30;
     this->actor.speed = 0.0f;
     Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
@@ -1373,9 +1373,9 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
 
     if (this->frontShielding.base.acFlags & AC_HIT) {
         this->frontShielding.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
-        this->hitbox.base.acFlags &= ~AC_HIT;
-    } else if ((this->hitbox.base.acFlags & AC_HIT) && this->state >= ENMB_STATE_STUNNED) {
-        this->hitbox.base.acFlags &= ~AC_HIT;
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
+    } else if ((this->bodyCollider.base.acFlags & AC_HIT) && this->state >= ENMB_STATE_STUNNED) {
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_IGNORE &&
             this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
@@ -1386,7 +1386,7 @@ void EnMb_CheckColliding(EnMb* this, PlayState* play) {
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             this->attack = ENMB_ATTACK_NONE;
-            Actor_SetDropFlag(&this->actor, &this->hitbox.info, false);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, false);
             if (this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN ||
                 this->actor.colChkInfo.damageEffect == ENMB_DMGEFF_STUN_ICE) {
                 if (this->state != ENMB_STATE_STUNNED) {
@@ -1426,15 +1426,15 @@ void EnMb_Update(Actor* thisx, PlayState* play) {
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);
         Actor_SetFocus(thisx, thisx->scale.x * 4500.0f);
-        Collider_UpdateCylinder(thisx, &this->hitbox);
+        Collider_UpdateCylinder(thisx, &this->bodyCollider);
         if (thisx->colChkInfo.health <= 0) {
-            this->hitbox.dim.pos.x += Math_SinS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
-            this->hitbox.dim.pos.z += Math_CosS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
+            this->bodyCollider.dim.pos.x += Math_SinS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
+            this->bodyCollider.dim.pos.z += Math_CosS(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y);
         }
-        CollisionCheck_SetOC(play, &play->colChkCtx, &this->hitbox.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
         if (this->state >= ENMB_STATE_STUNNED &&
             (thisx->params == ENMB_TYPE_CLUB || this->state != ENMB_STATE_ATTACK)) {
-            CollisionCheck_SetAC(play, &play->colChkCtx, &this->hitbox.base);
+            CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
         }
         if (this->state >= ENMB_STATE_IDLE) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->frontShielding.base);

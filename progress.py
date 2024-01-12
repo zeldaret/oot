@@ -2,7 +2,6 @@
 
 import argparse
 import json
-import csv
 import git
 import os
 import re

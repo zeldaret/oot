@@ -86,7 +86,7 @@ void func_808BA018(BgTokiHikari* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_toki_hikari.c", 246);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_toki_hikari.c", 252),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_toki_hikari.c", 252),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (LINK_IS_ADULT) {
@@ -98,7 +98,7 @@ void func_808BA018(BgTokiHikari* this, PlayState* play) {
 
         gSPSegment(POLY_XLU_DISP++, 9, Gfx_TexScroll(play->state.gfxCtx, 0, play->gameplayFrames % 128, 64, 32));
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_toki_hikari.c", 278),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_toki_hikari.c", 278),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_007EE0);
@@ -145,7 +145,7 @@ void func_808BA2CC(BgTokiHikari* this, PlayState* play) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->unk_14C * 155.0f) + 100, (u8)(255.0f * this->unk_14C), 0, 128);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_toki_hikari.c", 382),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_toki_hikari.c", 382),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -161,7 +161,7 @@ void func_808BA2CC(BgTokiHikari* this, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->unk_14C * 255.0f), (u8)(this->unk_14C * 255.0f),
                    (u8)(this->unk_14C * 255.0f), (u8)(200.0f * this->unk_14C));
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_toki_hikari.c", 415),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_toki_hikari.c", 415),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_0009C0);
@@ -173,7 +173,7 @@ void func_808BA2CC(BgTokiHikari* this, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->unk_14C * 255.0f), (u8)(this->unk_14C * 255.0f),
                    (u8)(this->unk_14C * 255.0f), (u8)(200.0f * this->unk_14C));
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_toki_hikari.c", 437),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_toki_hikari.c", 437),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_XLU_DISP++, &object_toki_objects_DL_0009C0[10]);

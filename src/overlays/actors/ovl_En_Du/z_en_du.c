@@ -97,10 +97,10 @@ void EnDu_SetupAction(EnDu* this, EnDuActionFunc actionFunc) {
 }
 
 u16 EnDu_GetTextId(PlayState* play, Actor* actor) {
-    u16 reaction = Text_GetFaceReaction(play, 0x21);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_DARUNIA);
 
-    if (reaction != 0) {
-        return reaction;
+    if (textId != 0) {
+        return textId;
     }
     if (CUR_UPG_VALUE(UPG_STRENGTH) != 0) {
         if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {

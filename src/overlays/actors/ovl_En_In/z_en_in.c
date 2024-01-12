@@ -124,10 +124,10 @@ u16 EnIn_GetTextIdChild(PlayState* play) {
 
 u16 EnIn_GetTextIdAdult(PlayState* play) {
     Player* player = GET_PLAYER(play);
-    u16 faceReaction = Text_GetFaceReaction(play, 25);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_INGO);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         if (IS_DAY) {
@@ -176,10 +176,10 @@ u16 EnIn_GetTextIdAdult(PlayState* play) {
 }
 
 u16 EnIn_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction = Text_GetFaceReaction(play, 25);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_INGO);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (!LINK_IS_ADULT) {
         return EnIn_GetTextIdChild(play);
@@ -283,7 +283,7 @@ s16 EnIn_UpdateTalkStateOnEvent(PlayState* play, Actor* thisx) {
 s16 EnIn_UpdateTalkState(PlayState* play, Actor* thisx) {
     s16 talkState = NPC_TALK_STATE_TALKING;
 
-    osSyncPrintf("message_check->(%d[%x])\n", Message_GetState(&play->msgCtx), thisx->textId);
+    PRINTF("message_check->(%d[%x])\n", Message_GetState(&play->msgCtx), thisx->textId);
     switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
