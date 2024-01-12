@@ -798,7 +798,7 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
             if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                 this->unk_264 = 0;
                 this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.info, false);
+                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.elem, false);
 
                 if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
                     (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||

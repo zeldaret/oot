@@ -811,7 +811,7 @@ static DamageTable sDamageTablePresets[] = {
 // Gets the pointer to one of the 23 preset damage tables. Returns NULL if index is out of range.
 DamageTable* DamageTable_Get(s32 index) {
     if (!(0 <= index && index < ARRAY_COUNT(sDamageTablePresets))) {
-        osSyncPrintf("CollisionBtlTbl_get():インデックスオーバー\n"); // "Index over"
+        PRINTF("CollisionBtlTbl_get():インデックスオーバー\n"); // "Index over"
         return NULL;
     }
     return &sDamageTablePresets[index];

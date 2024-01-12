@@ -1085,7 +1085,7 @@ s32 BossDodongo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_RotateX(-(this->unk_25C[limbIndex] * 0.115f), MTXMODE_APPLY);
         }
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_dodongo.c", 3822),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_dodongo.c", 3822),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
@@ -1225,7 +1225,7 @@ void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 params) {
 
 void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     s32 pad;
-    ColliderInfo* item;
+    ColliderElement* acHitElem;
     u8 swordDamage;
     s32 damage;
     s16 i;
@@ -1239,11 +1239,12 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     if (this->unk_1C0 == 0) {
         if (this->actionFunc == BossDodongo_Inhale) {
             for (i = 0; i < 19; i++) {
-                if (this->collider.elements[i].info.bumperFlags & BUMP_HIT) {
-                    item = this->collider.elements[i].info.acHitInfo;
+                if (this->collider.elements[i].base.bumperFlags & BUMP_HIT) {
+                    acHitElem = this->collider.elements[i].base.acHitElem;
 
-                    if ((item->toucher.dmgFlags & DMG_BOOMERANG) || (item->toucher.dmgFlags & DMG_SLINGSHOT)) {
-                        this->collider.elements[i].info.bumperFlags &= ~BUMP_HIT;
+                    if ((acHitElem->toucher.dmgFlags & DMG_BOOMERANG) ||
+                        (acHitElem->toucher.dmgFlags & DMG_SLINGSHOT)) {
+                        this->collider.elements[i].base.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
                         this->unk_1DA = 0x32;
@@ -1253,11 +1254,11 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
             }
         }
 
-        if (this->collider.elements->info.bumperFlags & BUMP_HIT) {
-            this->collider.elements->info.bumperFlags &= ~BUMP_HIT;
-            item = this->collider.elements[0].info.acHitInfo;
+        if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
+            this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
+            acHitElem = this->collider.elements[0].base.acHitElem;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
-                swordDamage = damage = CollisionCheck_GetSwordDamage(item->toucher.dmgFlags);
+                swordDamage = damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags);
 
                 if (damage != 0) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_DAMAGE);
@@ -1410,7 +1411,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                     this->actor.velocity.y = 15.0f;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_COLI2);
                     if (this->unk_1A2 == 0) {
-                        this->unk_1A0 = this->unk_1A0 + 1;
+                        this->unk_1A0++;
                         if (this->unk_1A0 >= 4) {
                             this->unk_1A0 = 0;
                         }
@@ -1693,7 +1694,7 @@ void BossDodongo_DrawEffects(PlayState* play) {
             Matrix_Translate(eff->unk_00.x, eff->unk_00.y, eff->unk_00.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(eff->unk_2C, eff->unk_2C, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_dodongo.c", 5253),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_dodongo.c", 5253),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_009DD0);
         }

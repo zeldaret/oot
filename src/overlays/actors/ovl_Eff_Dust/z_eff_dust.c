@@ -102,7 +102,7 @@ void EffDust_Init(Actor* thisx, PlayState* play) {
             this->scalingFactor = 20.0f;
             break;
         default:
-            SystemArena_FreeDebug(this, "../z_eff_dust.c", 202);
+            SYSTEM_ARENA_FREE(this, "../z_eff_dust.c", 202);
             break;
     }
 
@@ -295,7 +295,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2) {
         Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
         Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 449),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_dust.c", 449),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
     }
@@ -350,7 +350,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2) {
 
         Matrix_ReplaceRotation(&play->billboardMtxF);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 506),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_dust.c", 506),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffSparklesDL));
     }

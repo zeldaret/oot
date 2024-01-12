@@ -385,10 +385,10 @@ s16 func_80AAAC78(EnMd* this, PlayState* play) {
 }
 
 u16 EnMd_GetTextIdKokiriForest(PlayState* play, EnMd* this) {
-    u16 reactionText = Text_GetFaceReaction(play, 0x11);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MIDO);
 
-    if (reactionText != 0) {
-        return reactionText;
+    if (textId != 0) {
+        return textId;
     }
 
     this->unk_208 = 0;
@@ -785,7 +785,7 @@ void func_80AABC10(EnMd* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->actor.textId = 0x1067;
-        func_8002F2CC(&this->actor, play, this->collider.dim.radius + 30.0f);
+        Actor_OfferTalk(&this->actor, play, this->collider.dim.radius + 30.0f);
 
         this->actionFunc = func_80AAB948;
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;

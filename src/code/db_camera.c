@@ -95,25 +95,21 @@ static DebugCam* sDebugCamPtr;
 static s16 D_8016110C;
 static DebugCamAnim sDebugCamAnim;
 
-Vec3f* DebugCamera_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+Vec3f DebugCamera_AddVecGeoToVec3f(Vec3f* a, VecGeo* geo) {
     Vec3f sum;
-    Vec3f b;
-
-    OLib_VecGeoToVec3f(&b, geo);
+    Vec3f b = OLib_VecGeoToVec3f(geo);
 
     sum.x = a->x + b.x;
     sum.y = a->y + b.y;
     sum.z = a->z + b.z;
 
-    *dest = sum;
-
-    return dest;
+    return sum;
 }
 
 /**
  * Calculates a new Up vector from the pitch, yaw, roll
  */
-Vec3f* DebugCamera_CalcUpFromPitchYawRoll(Vec3f* viewUp, s16 pitch, s16 yaw, s16 roll) {
+Vec3f DebugCamera_CalcUpFromPitchYawRoll(s16 pitch, s16 yaw, s16 roll) {
     f32 sinP = Math_SinS(pitch);
     f32 cosP = Math_CosS(pitch);
     f32 sinY = Math_SinS(yaw);
@@ -155,9 +151,7 @@ Vec3f* DebugCamera_CalcUpFromPitchYawRoll(Vec3f* viewUp, s16 pitch, s16 yaw, s16
     up.y = DOTXYZ(baseUp, rollMtxRow2);
     up.z = DOTXYZ(baseUp, rollMtxRow3);
 
-    *viewUp = up;
-
-    return viewUp;
+    return up;
 }
 
 char* DebugCamera_SetTextValue(s16 value, char* str, u8 endIdx) {
@@ -221,9 +215,9 @@ void func_800B3F94(PosRot* posRot, Vec3f* vec, Vec3s* out) {
     VecGeo geo;
     Vec3f tempVec;
 
-    OLib_Vec3fDiffToVecGeo(&geo, &posRot->pos, vec);
+    geo = OLib_Vec3fDiffToVecGeo(&posRot->pos, vec);
     geo.yaw -= posRot->rot.y;
-    OLib_VecGeoToVec3f(&tempVec, &geo);
+    tempVec = OLib_VecGeoToVec3f(&geo);
     DebugCamera_Vec3FToS(&tempVec, out);
 }
 
@@ -232,9 +226,9 @@ void func_800B3FF4(PosRot* posRot, Vec3f* vec, Vec3f* out) {
     Vec3f tempVec;
 
     DebugCamera_CopyVec3f(vec, &tempVec);
-    OLib_Vec3fToVecGeo(&geo, &tempVec);
+    geo = OLib_Vec3fToVecGeo(&tempVec);
     geo.yaw += posRot->rot.y;
-    DebugCamera_AddVecGeoToVec3f(out, &posRot->pos, &geo);
+    *out = DebugCamera_AddVecGeoToVec3f(&posRot->pos, &geo);
 }
 
 void func_800B404C(PosRot* posRot, Vec3s* vec, Vec3f* out) {
@@ -335,7 +329,7 @@ s32 func_800B4370(DebugCam* debugCam, s16 idx, Camera* cam) {
     geo.pitch = 0x2000;
     geo.yaw -= 0x7FFF;
     geo.r = 250.0f;
-    DebugCamera_AddVecGeoToVec3f(&debugCam->eye, &debugCam->at, &geo);
+    debugCam->eye = DebugCamera_AddVecGeoToVec3f(&debugCam->at, &geo);
     debugCam->roll = lookAt->cameraRoll;
     debugCam->rollDegrees = debugCam->roll * (360.0f / 256.0f);
     debugCam->fov = lookAt->viewAngle;
@@ -414,24 +408,24 @@ void func_800B44E0(DebugCam* debugCam, Camera* cam) {
 void DebugCamera_PrintPoints(const char* name, s16 count, CutsceneCameraPoint* points) {
     s32 i;
 
-    osSyncPrintf("@@@static SplinedatZ  %s[] = {\n", name);
+    PRINTF("@@@static SplinedatZ  %s[] = {\n", name);
     for (i = 0; i < count; i++) {
-        osSyncPrintf("@@@    /* key frame %2d */ {\n", i);
-        osSyncPrintf("@@@    /*     code     */ %d,\n", points[i].continueFlag);
-        osSyncPrintf("@@@    /*     z        */ %d,\n", points[i].cameraRoll);
-        osSyncPrintf("@@@    /*     T        */ %d,\n", points[i].nextPointFrame);
-        osSyncPrintf("@@@    /*     zoom     */ %f,\n", points[i].viewAngle);
-        osSyncPrintf("@@@    /*     pos      */ { %d, %d, %d }\n", points[i].pos.x, points[i].pos.y, points[i].pos.z);
-        osSyncPrintf("@@@    },\n");
+        PRINTF("@@@    /* key frame %2d */ {\n", i);
+        PRINTF("@@@    /*     code     */ %d,\n", points[i].continueFlag);
+        PRINTF("@@@    /*     z        */ %d,\n", points[i].cameraRoll);
+        PRINTF("@@@    /*     T        */ %d,\n", points[i].nextPointFrame);
+        PRINTF("@@@    /*     zoom     */ %f,\n", points[i].viewAngle);
+        PRINTF("@@@    /*     pos      */ { %d, %d, %d }\n", points[i].pos.x, points[i].pos.y, points[i].pos.z);
+        PRINTF("@@@    },\n");
     }
-    osSyncPrintf("@@@};\n@@@\n");
+    PRINTF("@@@};\n@@@\n");
 }
 
 void DebugCamera_PrintF32Bytes(f32 value) {
     f32 b = value;
     char* a = (char*)&b;
 
-    osSyncPrintf("\n@@@%d,%d,%d,%d,", a[0], a[1], a[2], a[3]);
+    PRINTF("\n@@@%d,%d,%d,%d,", a[0], a[1], a[2], a[3]);
 }
 
 void DebugCamera_PrintU16Bytes(u16 value) {
@@ -439,7 +433,7 @@ void DebugCamera_PrintU16Bytes(u16 value) {
     u16 b = value;
     char* a = (char*)&b;
 
-    osSyncPrintf("\n@@@%d,%d,", a[0], a[1]);
+    PRINTF("\n@@@%d,%d,", a[0], a[1]);
 }
 
 void DebugCamera_PrintS16Bytes(s16 value) {
@@ -447,7 +441,7 @@ void DebugCamera_PrintS16Bytes(s16 value) {
     s16 b = value;
     char* a = (char*)&b;
 
-    osSyncPrintf("\n@@@%d,%d,", a[0], a[1]);
+    PRINTF("\n@@@%d,%d,", a[0], a[1]);
 }
 
 void DebugCamera_PrintCutBytes(DebugCamCut* cut) {
@@ -456,55 +450,55 @@ void DebugCamera_PrintCutBytes(DebugCamCut* cut) {
     s32 i;
 
     points = cut->lookAt;
-    osSyncPrintf("\n@@@ 0,0,0,2,\t/* Look Camera\t*/");
-    osSyncPrintf("\n@@@ 0,1,\t/* dousa\t*/");
+    PRINTF("\n@@@ 0,0,0,2,\t/* Look Camera\t*/");
+    PRINTF("\n@@@ 0,1,\t/* dousa\t*/");
 
-    osSyncPrintf("\n@@@ 0,0,\t/* Start Flame\t*/");
+    PRINTF("\n@@@ 0,0,\t/* Start Flame\t*/");
     DebugCamera_PrintU16Bytes(cut->nFrames);
-    osSyncPrintf("\t/*  End   Flame\t*/");
+    PRINTF("\t/*  End   Flame\t*/");
 
-    osSyncPrintf("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
+    PRINTF("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
     for (i = 0; i < cut->nPoints; i++) {
         point = points + i;
-        osSyncPrintf("\n@@@    %d, /*     code     */", point->continueFlag);
-        osSyncPrintf("\n@@@    %d,  /*     z        */", point->cameraRoll);
+        PRINTF("\n@@@    %d, /*     code     */", point->continueFlag);
+        PRINTF("\n@@@    %d,  /*     z        */", point->cameraRoll);
         DebugCamera_PrintU16Bytes(point->nextPointFrame);
-        osSyncPrintf("\t/*  sokudo\t*/");
+        PRINTF("\t/*  sokudo\t*/");
         DebugCamera_PrintF32Bytes(point->viewAngle);
-        osSyncPrintf("\t/*  zoom\t*/");
+        PRINTF("\t/*  zoom\t*/");
         DebugCamera_PrintS16Bytes(point->pos.x);
-        osSyncPrintf("\t/*  x pos\t*/");
+        PRINTF("\t/*  x pos\t*/");
         DebugCamera_PrintS16Bytes(point->pos.y);
-        osSyncPrintf("\t/*  y pos\t*/");
+        PRINTF("\t/*  y pos\t*/");
         DebugCamera_PrintS16Bytes(point->pos.z);
-        osSyncPrintf("\t/*  z pos\t*/\n");
-        osSyncPrintf("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
+        PRINTF("\t/*  z pos\t*/\n");
+        PRINTF("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
     }
 
     points = cut->position;
-    osSyncPrintf("\n@@@ 0,0,0,1,\t/* Position Camera */");
-    osSyncPrintf("\n@@@ 0,1,\t/* dousa\t*/");
+    PRINTF("\n@@@ 0,0,0,1,\t/* Position Camera */");
+    PRINTF("\n@@@ 0,1,\t/* dousa\t*/");
 
-    osSyncPrintf("\n@@@ 0,0,\t/* Start Flame\t*/");
+    PRINTF("\n@@@ 0,0,\t/* Start Flame\t*/");
     DebugCamera_PrintU16Bytes(cut->nFrames);
-    osSyncPrintf("\t/*  End   Flame\t*/");
+    PRINTF("\t/*  End   Flame\t*/");
 
-    osSyncPrintf("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
+    PRINTF("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
     for (i = 0; i < cut->nPoints; i++) {
         point = points + i;
-        osSyncPrintf("\n@@@    %d, /*     code     */", point->continueFlag);
-        osSyncPrintf("\n@@@    %d, /*     z        */", point->cameraRoll);
+        PRINTF("\n@@@    %d, /*     code     */", point->continueFlag);
+        PRINTF("\n@@@    %d, /*     z        */", point->cameraRoll);
         DebugCamera_PrintU16Bytes(point->nextPointFrame);
-        osSyncPrintf("\t/*  sokudo\t*/");
+        PRINTF("\t/*  sokudo\t*/");
         DebugCamera_PrintF32Bytes(point->viewAngle);
-        osSyncPrintf("\t/*  zoom\t*/");
+        PRINTF("\t/*  zoom\t*/");
         DebugCamera_PrintS16Bytes(point->pos.x);
-        osSyncPrintf("\t/*  x pos\t*/");
+        PRINTF("\t/*  x pos\t*/");
         DebugCamera_PrintS16Bytes(point->pos.y);
-        osSyncPrintf("\t/*  y pos\t*/");
+        PRINTF("\t/*  y pos\t*/");
         DebugCamera_PrintS16Bytes(point->pos.z);
-        osSyncPrintf("\t/*  z pos\t*/");
-        osSyncPrintf("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
+        PRINTF("\t/*  z pos\t*/");
+        PRINTF("\n@@@0,0,\t/*  Dammy\t*/\n@@@ ");
     }
 }
 
@@ -668,9 +662,9 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
     phi_s0 = sp124;
 
     if (!D_80161144) {
-        OLib_Vec3fDiffToVecGeo(&sp104, sp7C, sp80);
+        sp104 = OLib_Vec3fDiffToVecGeo(sp7C, sp80);
     } else {
-        OLib_Vec3fDiffToVecGeo(&sp104, sp80, sp7C);
+        sp104 = OLib_Vec3fDiffToVecGeo(sp80, sp7C);
     }
 
     if (debugCam->unk_44 > 100) {
@@ -706,11 +700,11 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
             spFC.r = temp_f2;
             if (!D_80161144) {
                 spFC.yaw = sp104.yaw;
-                DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+                *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
             } else {
                 spFC.pitch = -spFC.pitch;
                 spFC.yaw = sp104.yaw - 0x7FFF;
-                DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+                *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
             }
             if (debugCam->unk_40 == 0xB) {
                 debugCam->unk_44++;
@@ -734,11 +728,11 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
             spFC.r = -temp_f2;
             if (!D_80161144) {
                 spFC.yaw = sp104.yaw;
-                DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+                *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
             } else {
                 spFC.pitch = -spFC.pitch;
                 spFC.yaw = sp104.yaw - 0x7FFF;
-                DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+                *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
             }
             if (debugCam->unk_40 == 0xC) {
                 debugCam->unk_44++;
@@ -757,10 +751,10 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
         }
 
         if (debugCam->unk_40 == 1) {
@@ -775,10 +769,10 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
         }
         if (debugCam->unk_40 == 2) {
             debugCam->unk_44++;
@@ -792,9 +786,9 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         spFC.pitch = 0x3FFF;
         spFC.yaw = sp104.yaw;
         if (!D_80161144) {
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
         } else {
-            DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
         }
         if (debugCam->unk_40 == 3) {
             debugCam->unk_44++;
@@ -808,9 +802,9 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         spFC.pitch = -0x3FFF;
         spFC.yaw = sp104.yaw;
         if (!D_80161144) {
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
         } else {
-            DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
         }
         if (debugCam->unk_40 == 4) {
             debugCam->unk_44++;
@@ -825,10 +819,10 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw + 0x3FFF;
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw - 0x3FFF;
-            DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
         }
         if (debugCam->unk_40 == 5) {
             debugCam->unk_44++;
@@ -843,10 +837,10 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         spFC.pitch = 0;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw - 0x3FFF;
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
         } else {
             spFC.yaw = sp104.yaw + 0x3FFF;
-            DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
         }
         if (debugCam->unk_40 == 6) {
             debugCam->unk_44++;
@@ -870,11 +864,11 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         spFC.r = temp_f2;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
         } else {
             spFC.pitch = -spFC.pitch;
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
         }
         if (debugCam->unk_40 == 0xB) {
             debugCam->unk_44++;
@@ -899,11 +893,11 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         spFC.r = -temp_f2;
         if (!D_80161144) {
             spFC.yaw = sp104.yaw;
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp7C, &spFC);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp7C, &spFC);
         } else {
             spFC.pitch = -spFC.pitch;
             spFC.yaw = sp104.yaw - 0x7FFF;
-            DebugCamera_AddVecGeoToVec3f(sp80, sp80, &spFC);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp80, &spFC);
         }
         if (debugCam->unk_40 == 0xC) {
             debugCam->unk_44++;
@@ -961,20 +955,20 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         if (!D_80161144) {
             sp104.pitch += (s16)((temp_f0_5 >= 0.0f) ? pitch : -pitch);
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? yaw : -yaw);
-            DebugCamera_AddVecGeoToVec3f(sp80, sp7C, &sp104);
+            *sp80 = DebugCamera_AddVecGeoToVec3f(sp7C, &sp104);
             debugCam->sub.unk_104A.x = -sp104.pitch;
             debugCam->sub.unk_104A.y = sp104.yaw - 0x7FFF;
         } else {
             sp104.pitch += (s16)((temp_f0_5 >= 0.0f) ? -pitch : pitch);
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? -yaw : yaw);
-            DebugCamera_AddVecGeoToVec3f(sp7C, sp80, &sp104);
+            *sp7C = DebugCamera_AddVecGeoToVec3f(sp80, &sp104);
             debugCam->sub.unk_104A.x = sp104.pitch;
             debugCam->sub.unk_104A.y = sp104.yaw;
         }
 
-        OLib_Vec3fDiffToVecGeo(&spF4, sp80, sp7C);
-        DebugCamera_CalcUpFromPitchYawRoll(&debugCam->unk_1C, spF4.pitch, spF4.yaw,
-                                           CAM_DEG_TO_BINANG(debugCam->rollDegrees));
+        spF4 = OLib_Vec3fDiffToVecGeo(sp80, sp7C);
+        debugCam->unk_1C =
+            DebugCamera_CalcUpFromPitchYawRoll(spF4.pitch, spF4.yaw, CAM_DEG_TO_BINANG(debugCam->rollDegrees));
         if (debugCam->unk_00 == 1) {
             if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_CRIGHT)) {
                 cam->inputDir = debugCam->sub.unk_104A;
@@ -982,7 +976,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
                 cam->at = *sp7C;
                 spFC = sp104;
                 spFC.r = new_var2;
-                DebugCamera_AddVecGeoToVec3f(&cam->eye, &cam->at, &spFC);
+                cam->eye = DebugCamera_AddVecGeoToVec3f(&cam->at, &spFC);
             }
         }
     }
@@ -998,13 +992,13 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
                 CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                osSyncPrintf("@@@\n@@@\n@@@/* *** spline point data ** start here *** */\n@@@\n");
+                PRINTF("@@@\n@@@\n@@@/* *** spline point data ** start here *** */\n@@@\n");
                 DebugCamera_PrintPoints("Lookat", debugCam->sub.nPoints, debugCam->sub.lookAt);
                 DebugCamera_PrintPoints("Position", debugCam->sub.nPoints, debugCam->sub.position);
-                osSyncPrintf("@@@static short  nPoints = %d;\n@@@\n", debugCam->sub.nPoints);
-                osSyncPrintf("@@@static short  nFrames = %d;\n@@@\n", debugCam->sub.nFrames);
-                osSyncPrintf("@@@static short  Mode = %d;\n@@@\n", debugCam->sub.mode);
-                osSyncPrintf("@@@\n@@@\n@@@/* *** spline point data ** finish! *** */\n@@@\n");
+                PRINTF("@@@static short  nPoints = %d;\n@@@\n", debugCam->sub.nPoints);
+                PRINTF("@@@static short  nFrames = %d;\n@@@\n", debugCam->sub.nFrames);
+                PRINTF("@@@static short  Mode = %d;\n@@@\n", debugCam->sub.mode);
+                PRINTF("@@@\n@@@\n@@@/* *** spline point data ** finish! *** */\n@@@\n");
             } else if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CLEFT)) {
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1380,7 +1374,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
                 DebugCamera_ScreenTextColored(30, 25, DEBUG_CAM_TEXT_BROWN, &sp110);
             } else {
                 if (D_8012CEE0[0]) {}
-                OLib_Vec3fDiffToVecGeo(&spFC, sp90, sp7C);
+                spFC = OLib_Vec3fDiffToVecGeo(sp90, sp7C);
                 spFC.yaw -= cam->playerPosRot.rot.y;
                 DebugCamera_ScreenTextColored(
                     3, 22,
@@ -1394,7 +1388,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
                 DebugCamera_ScreenTextColored(3, 24, DEBUG_CAM_TEXT_ORANGE, D_8012D0F8);
                 DebugCamera_SetTextValue(spFC.r, &D_8012D0D4[7], 6);
                 DebugCamera_ScreenTextColored(3, 25, DEBUG_CAM_TEXT_ORANGE, D_8012D0D4);
-                OLib_Vec3fDiffToVecGeo(&spFC, sp90, sp80);
+                spFC = OLib_Vec3fDiffToVecGeo(sp90, sp80);
                 spFC.yaw -= cam->playerPosRot.rot.y;
                 DebugCamera_ScreenTextColored(30, 22,
                                               ((debugCam->sub.unk_08 == 1) && (debugCam->sub.unk_0A == 4) && D_80161144)
@@ -1425,7 +1419,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
                         func_800B404C(temp_s6, &(debugCam->sub.lookAt + i)->pos, &spB8);
                         func_800B404C(temp_s6, &(debugCam->sub.position + i)->pos, &spAC);
                     }
-                    OLib_Vec3fDiffToVecGeo(&spFC, &spAC, &spB8);
+                    spFC = OLib_Vec3fDiffToVecGeo(&spAC, &spB8);
                     spAA = debugCam->sub.lookAt[i].cameraRoll * 0xB6;
                     if (i == debugCam->sub.unkIdx) {
                         DebugDisplay_AddObject(spAC.x, spAC.y, spAC.z, spFC.pitch * -1, spFC.yaw, spAA, .5f, .5f, .5f,
@@ -1496,7 +1490,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
         D_8012D110++;
         D_8012D110 %= 50;
 
-        OLib_Vec3fDiffToVecGeo(&spA0, &cam->eye, &cam->at);
+        spA0 = OLib_Vec3fDiffToVecGeo(&cam->eye, &cam->at);
         DebugDisplay_AddObject(debugCam->at.x, debugCam->at.y + 1.0f, debugCam->at.z, 0, 0, 0, 0.02f, 2.0f, 0.02f, 0xFF,
                                0xFF, 0x7F, 0x2D, 0, cam->play->view.gfxCtx);
         DebugDisplay_AddObject(debugCam->at.x, debugCam->at.y + 1.0f, debugCam->at.z, 0, 0, 0, 2.0f, 0.02f, 0.02f, 0x7F,
@@ -1507,7 +1501,7 @@ void DebugCamera_Update(DebugCam* debugCam, Camera* cam) {
                                0x7F, 0x7F, 0x80, 5, cam->play->view.gfxCtx);
         DebugDisplay_AddObject(cam->at.x, cam->at.y, cam->at.z, spA0.pitch * -1, spA0.yaw, 0, 1.5f, 2.0f, 1.0f, 0xFF,
                                0x7F, 0x7F, 0x80, 4, cam->play->view.gfxCtx);
-        OLib_Vec3fDiffToVecGeo(&spA0, &cam->eyeNext, &cam->at);
+        spA0 = OLib_Vec3fDiffToVecGeo(&cam->eyeNext, &cam->at);
         DebugDisplay_AddObject(cam->eyeNext.x, cam->eyeNext.y, cam->eyeNext.z, spA0.pitch * -1, spA0.yaw, 0, .5f, .5f,
                                .5f, 0xFF, 0xC0, 0x7F, 0x50, 5, cam->play->view.gfxCtx);
     }
@@ -1547,14 +1541,14 @@ char DebugCamera_InitCut(s32 idx, DebugCamSub* sub) {
     sDebugCamCuts[idx].lookAt = DebugArena_MallocDebug(i, "../db_camera.c", 2748);
     if (sDebugCamCuts[idx].lookAt == NULL) {
         // "Debug camera memory allocation failure"
-        osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2751);
+        PRINTF("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2751);
         return '?';
     }
 
     sDebugCamCuts[idx].position = DebugArena_MallocDebug(i, "../db_camera.c", 2754);
     if (sDebugCamCuts[idx].position == NULL) {
         // "Debug camera memory allocation failure"
-        osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2757);
+        PRINTF("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2757);
         DebugArena_FreeDebug(sDebugCamCuts[idx].lookAt, "../db_camera.c", 2758);
         sDebugCamCuts[idx].lookAt = NULL;
         return '?';
@@ -1632,7 +1626,7 @@ s32 DebugCamera_LoadCallback(char* c) {
             sDebugCamCuts[i].lookAt = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2844);
             if (sDebugCamCuts[i].lookAt == NULL) {
                 // "Debug camera memory allocation failure"
-                osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2847);
+                PRINTF("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2847);
                 return false;
             }
             if (!Mempak_Read(DEBUG_CAM_CONTROLLER_PORT, *c, sDebugCamCuts[i].lookAt, off, ALIGN32(size))) {
@@ -1643,7 +1637,7 @@ s32 DebugCamera_LoadCallback(char* c) {
             sDebugCamCuts[i].position = DebugArena_MallocDebug(ALIGN32(size), "../db_camera.c", 2855);
             if (sDebugCamCuts[i].position == NULL) {
                 // "Debug camera memory allocation failure"
-                osSyncPrintf("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2858);
+                PRINTF("%s: %d: デバッグカメラ メモリ確保失敗！！\n", "../db_camera.c", 2858);
                 return false;
             }
             if (!Mempak_Read(DEBUG_CAM_CONTROLLER_PORT, *c, sDebugCamCuts[i].position, off, ALIGN32(size))) {
@@ -1734,24 +1728,24 @@ void DebugCamera_PrintAllCuts(Camera* cam) {
 
     Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** start here ***** */\n@@@\n");
+    PRINTF("@@@\n@@@\n@@@/* ****** spline point data ** start here ***** */\n@@@\n");
 
     for (i = 0; i < ARRAY_COUNT(sDebugCamCuts) - 1; i++) {
         DebugCamCut* cut = &sDebugCamCuts[i];
         if (cut->nPoints != 0) {
             if (i != 0) {
-                osSyncPrintf("@@@\n@@@/* ** %d ** */\n@@@\n", i);
+                PRINTF("@@@\n@@@/* ** %d ** */\n@@@\n", i);
             }
 
             DebugCamera_PrintPoints("Lookat", cut->nPoints, cut->lookAt);
             DebugCamera_PrintPoints("Position", cut->nPoints, cut->position);
-            osSyncPrintf("@@@static short  nPoints = %d;\n@@@\n", cut->nPoints);
-            osSyncPrintf("@@@static short  nFrames = %d;\n@@@\n", cut->nFrames);
-            osSyncPrintf("@@@static short  Mode = %d;\n@@@\n", cut->mode);
+            PRINTF("@@@static short  nPoints = %d;\n@@@\n", cut->nPoints);
+            PRINTF("@@@static short  nFrames = %d;\n@@@\n", cut->nFrames);
+            PRINTF("@@@static short  Mode = %d;\n@@@\n", cut->mode);
         }
     }
 
-    osSyncPrintf("@@@\n@@@\n@@@/* ****** spline point data ** finish! ***** */\n@@@\n");
+    PRINTF("@@@\n@@@\n@@@/* ****** spline point data ** finish! ***** */\n@@@\n");
 }
 
 char D_8012D114[] = GFXP_KATAKANA "ﾌﾚ-ﾑ         ";
@@ -2183,9 +2177,9 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
                     Audio_PlaySfxGeneral(NA_SE_SY_GET_RUPY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
-                OLib_Vec3fDiffToVecGeo(&sp5C, &debugCam->eye, &debugCam->at);
-                DebugCamera_CalcUpFromPitchYawRoll(&debugCam->unk_1C, sp5C.pitch, sp5C.yaw,
-                                                   CAM_DEG_TO_BINANG(debugCam->rollDegrees));
+                sp5C = OLib_Vec3fDiffToVecGeo(&debugCam->eye, &debugCam->at);
+                debugCam->unk_1C =
+                    DebugCamera_CalcUpFromPitchYawRoll(sp5C.pitch, sp5C.yaw, CAM_DEG_TO_BINANG(debugCam->rollDegrees));
                 return 2;
             }
 
@@ -2316,9 +2310,9 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
             if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L) &&
                 CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].press.button, BTN_CRIGHT)) {
                 for (i = 0; i < ARRAY_COUNT(sDebugCamCuts) - 1; i++) {
-                    osSyncPrintf("###%2d:(%c) (%d %d) %d %d %d\n", i, sDebugCamCuts[i].letter,
-                                 sDebugCamCuts[i].position, sDebugCamCuts[i].lookAt, sDebugCamCuts[i].nFrames,
-                                 sDebugCamCuts[i].nPoints, sDebugCamCuts[i].mode);
+                    PRINTF("###%2d:(%c) (%d %d) %d %d %d\n", i, sDebugCamCuts[i].letter, sDebugCamCuts[i].position,
+                           sDebugCamCuts[i].lookAt, sDebugCamCuts[i].nFrames, sDebugCamCuts[i].nPoints,
+                           sDebugCamCuts[i].mode);
                 }
                 DebugCamera_PrintAllCuts(cam);
             } else if (CHECK_BTN_ALL(sPlay->state.input[DEBUG_CAM_CONTROLLER_PORT].cur.button, BTN_L) &&
@@ -2327,7 +2321,7 @@ s32 DebugCamera_UpdateDemoControl(DebugCam* debugCam, Camera* cam) {
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 for (i = 0; i < ARRAY_COUNT(sDebugCamCuts) - 1; i++) {
                     if (sDebugCamCuts[i].nPoints != 0) {
-                        osSyncPrintf("\n@@@ /* CUT [%d]\t*/", i);
+                        PRINTF("\n@@@ /* CUT [%d]\t*/", i);
                         DebugCamera_PrintCutBytes(&sDebugCamCuts[i]);
                     }
                 }

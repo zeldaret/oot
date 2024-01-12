@@ -102,10 +102,10 @@ u16 EnKz_GetTextIdAdult(PlayState* play, EnKz* this) {
 
 u16 EnKz_GetTextId(PlayState* play, Actor* thisx) {
     EnKz* this = (EnKz*)thisx;
-    u16 reactionText = Text_GetFaceReaction(play, 0x1E);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KING_ZORA);
 
-    if (reactionText != 0) {
-        return reactionText;
+    if (textId != 0) {
+        return textId;
     }
 
     if (LINK_IS_ADULT) {
@@ -201,7 +201,7 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
     f32 xzDistToPlayer;
     f32 yaw;
 
-    if (Actor_ProcessTalkRequest(thisx, play)) {
+    if (Actor_TalkOfferAccepted(thisx, play)) {
         *talkState = NPC_TALK_STATE_TALKING;
         return true;
     }
@@ -227,7 +227,7 @@ s32 EnKz_UpdateTalking(PlayState* play, Actor* thisx, s16* talkState, f32 intera
 
     xzDistToPlayer = thisx->xzDistToPlayer;
     thisx->xzDistToPlayer = Math_Vec3f_DistXZ(&thisx->home.pos, &player->actor.world.pos);
-    if (func_8002F2CC(thisx, play, interactRange) == 0) {
+    if (Actor_OfferTalk(thisx, play, interactRange) == 0) {
         thisx->xzDistToPlayer = xzDistToPlayer;
         return false;
     }

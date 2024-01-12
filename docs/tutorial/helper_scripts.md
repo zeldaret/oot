@@ -120,7 +120,7 @@ Optional arguments are `-o output` to output to a different file and `-v` to giv
 
 ## vt_fmt
 
-This turns the strange strings in the `osSyncPrintf`s into the human-readable equivalent instructions. Copy the contents, including the quotation marks, and run
+This turns the strange strings in the `PRINTF`s into the human-readable equivalent instructions. Copy the contents, including the quotation marks, and run
 ```sh
 ./tools/vt_fmt.py "contents"
 ```

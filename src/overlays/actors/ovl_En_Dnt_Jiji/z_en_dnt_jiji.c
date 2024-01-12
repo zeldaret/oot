@@ -79,9 +79,9 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->stage = (EnDntDemo*)this->actor.parent;
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Deku Scrub mask show elder"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.targetMode = 6;
@@ -233,10 +233,10 @@ void EnDntJiji_Cower(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if (frame >= this->endFrame) {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->actionFunc = EnDntJiji_SetupTalk;
         } else {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
 }
@@ -251,7 +251,7 @@ void EnDntJiji_Talk(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         Message_CloseTextbox(play);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actor.parent = NULL;
@@ -274,23 +274,23 @@ void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         if ((this->getItemId == GI_DEKU_NUT_UPGRADE_30) || (this->getItemId == GI_DEKU_NUT_UPGRADE_40)) {
             // "nut"
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
             SET_ITEMGETINF(ITEMGETINF_1F);
         } else {
             // "stick"
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
             SET_ITEMGETINF(ITEMGETINF_1E);
         }
         this->actor.textId = 0;
@@ -375,7 +375,7 @@ void EnDntJiji_Update(Actor* thisx, PlayState* play) {
     this->unkTimer++;
     if (BREG(0)) {
         // "time"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n" VT_RST, this->timer);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n" VT_RST, this->timer);
     }
     if ((this->timer > 1) && (this->timer != 0)) {
         this->timer--;
@@ -439,7 +439,7 @@ void EnDntJiji_Draw(Actor* thisx, PlayState* play) {
     Matrix_Pop();
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1040),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1040),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDntJijiFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1043);

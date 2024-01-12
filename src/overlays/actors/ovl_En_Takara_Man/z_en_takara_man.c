@@ -44,14 +44,14 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
 
     if (sTakaraIsInitialized) {
         Actor_Kill(&this->actor);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST); // "Already initialized"
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST); // "Already initialized"
         return;
     }
 
     sTakaraIsInitialized = true;
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Bun! %x" (needs a better translation)
-    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, play->actorCtx.flags.chest);
+    PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, play->actorCtx.flags.chest);
     play->actorCtx.flags.chest = 0;
     gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,
@@ -86,7 +86,7 @@ void func_80B1778C(EnTakaraMan* this, PlayState* play) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Actor_ProcessTalkRequest(&this->actor, play) && this->dialogState != TEXT_STATE_DONE) {
+    if (Actor_TalkOfferAccepted(&this->actor, play) && this->dialogState != TEXT_STATE_DONE) {
         if (!this->unk_214) {
             this->actionFunc = func_80B17934;
         } else {
@@ -120,7 +120,7 @@ void func_80B1778C(EnTakaraMan* this, PlayState* play) {
                     this->actor.flags |= ACTOR_FLAG_0;
                     this->unk_218 = 1;
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }

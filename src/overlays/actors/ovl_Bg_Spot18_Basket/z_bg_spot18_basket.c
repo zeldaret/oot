@@ -155,9 +155,9 @@ void BgSpot18Basket_Init(Actor* thisx, PlayState* play) {
                        this->dyna.actor.shape.rot.y + 0x1555, this->dyna.actor.shape.rot.z, -1);
 
     if (this->dyna.actor.child == NULL) {
-        osSyncPrintf(VT_FGCOL(RED));
-        osSyncPrintf("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_FGCOL(RED));
+        PRINTF("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
+        PRINTF(VT_RST);
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -249,7 +249,7 @@ void func_808B7D50(BgSpot18Basket* this, PlayState* play) {
         Math_StepToS(&this->unk_210, 0xBB8, 0x64);
     }
 
-    this->dyna.actor.shape.rot.y = this->dyna.actor.shape.rot.y + this->unk_210;
+    this->dyna.actor.shape.rot.y += this->unk_210;
 
     if (this->unk_216 < 70) {
         Math_StepToF(&this->unk_208, 100.0f, 2.0f);

@@ -68,15 +68,15 @@ void EnGm_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
     // "Medi Goron"
-    osSyncPrintf(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", "../z_en_gm.c", 133, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", "../z_en_gm.c", 133, this->actor.params);
 
     this->gmObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GM);
 
     if (this->gmObjectSlot < 0) {
-        osSyncPrintf(VT_COL(RED, WHITE));
+        PRINTF(VT_COL(RED, WHITE));
         // "There is no model bank! !! (Medi Goron)"
-        osSyncPrintf("モデル バンクが無いよ！！（中ゴロン）\n");
-        osSyncPrintf(VT_RST);
+        PRINTF("モデル バンクが無いよ！！（中ゴロン）\n");
+        PRINTF(VT_RST);
         ASSERT(0, "0", "../z_en_gm.c", 145);
     }
 
@@ -174,11 +174,11 @@ void func_80A3DB04(EnGm* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->actor.params)) {
         EnGm_SetTextID(this);
         this->actionFunc = func_80A3DC44;
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A3DBF4;
     } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8002F2CC(&this->actor, play, 415.0f);
+        Actor_OfferTalk(&this->actor, play, 415.0f);
     }
 }
 
@@ -199,7 +199,7 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
     dx = this->talkPos.x - player->actor.world.pos.x;
     dz = this->talkPos.z - player->actor.world.pos.z;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         switch (func_80A3D7C8()) {
             case 0:
                 SET_INFTABLE(INFTABLE_B0);
@@ -221,7 +221,7 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
     }
     if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8002F2CC(&this->actor, play, 415.0f);
+        Actor_OfferTalk(&this->actor, play, 415.0f);
     }
 }
 

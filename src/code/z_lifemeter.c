@@ -475,7 +475,7 @@ void Health_DrawMeter(PlayState* play) {
             }
 
             {
-                Mtx* matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
+                Mtx* matrix = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
                 Matrix_SetTranslateScaleMtx2(
                     matrix, 1.0f - (0.32f * beatingHeartPulsingSize), 1.0f - (0.32f * beatingHeartPulsingSize),
                     1.0f - (0.32f * beatingHeartPulsingSize), -130.0f + offsetX, 94.5f - offsetY, 0.0f);

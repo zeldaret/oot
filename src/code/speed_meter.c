@@ -182,9 +182,9 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
     Gfx* gfx;
 
     if (this->maxval == 0) {
-        osSyncPrintf(VT_FGCOL(RED));
+        PRINTF(VT_FGCOL(RED));
         LOG_NUM("this->maxval", this->maxval, "../speed_meter.c", 313);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_RST);
     } else {
         OPEN_DISPS(gfxCtx, "../speed_meter.c", 318);
 

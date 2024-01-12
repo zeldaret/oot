@@ -66,10 +66,10 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
 };
 
 u16 EnMa2_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction = Text_GetFaceReaction(play, 23);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MALON);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         return 0x2056;
@@ -268,7 +268,7 @@ void func_80AA204C(EnMa2* this, PlayState* play) {
         player->stateFlags2 |= PLAYER_STATE2_25;
         Message_StartOcarina(play, OCARINA_ACTION_CHECK_EPONA);
         this->actionFunc = func_80AA20E4;
-    } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
+    } else if (this->actor.xzDistToPlayer < 30.0f + this->collider.dim.radius) {
         player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
@@ -319,7 +319,7 @@ void EnMa2_Update(Actor* thisx, PlayState* play) {
     func_80AA1DB4(this, play);
     func_80AA1AE4(this, play);
     if (this->actionFunc != func_80AA20E4) {
-        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 30.0f,
+        Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnMa2_GetTextId, EnMa2_UpdateTalkState);
     }
 }

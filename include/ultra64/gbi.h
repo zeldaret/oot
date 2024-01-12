@@ -5123,6 +5123,8 @@ _DW({                                                   \
 #define gDPNoOpTag(pkt, tag)    gDPParam(pkt,   G_NOOP, tag)
 #define gsDPNoOpTag(tag)        gsDPParam(      G_NOOP, tag)
 
+#ifdef OOT_DEBUG
+
 #define gDPNoOpHere(pkt, file, line)        gDma1p(pkt, G_NOOP, file, line, 1)
 #define gDPNoOpString(pkt, data, n)         gDma1p(pkt, G_NOOP, data, n, 2)
 #define gDPNoOpWord(pkt, data, n)           gDma1p(pkt, G_NOOP, data, n, 3)
@@ -5133,6 +5135,21 @@ _DW({                                                   \
 #define gDPNoOpOpenDisp(pkt, file, line)    gDma1p(pkt, G_NOOP, file, line, 7)
 #define gDPNoOpCloseDisp(pkt, file, line)   gDma1p(pkt, G_NOOP, file, line, 8)
 #define gDPNoOpTag3(pkt, type, data, n)     gDma1p(pkt, G_NOOP, data, n, type)
+
+#else
+
+#define gDPNoOpHere(pkt, file, line)
+#define gDPNoOpString(pkt, data, n)
+#define gDPNoOpWord(pkt, data, n)
+#define gDPNoOpFloat(pkt, data, n)
+#define gDPNoOpQuiet(pkt)
+#define gDPNoOpVerbose(pkt, n)
+#define gDPNoOpCallBack(pkt, callback, arg)
+#define gDPNoOpOpenDisp(pkt, file, line)
+#define gDPNoOpCloseDisp(pkt, file, line)
+#define gDPNoOpTag3(pkt, type, data, n)
+
+#endif /* OOT_DEBUG */
 
 #endif
 

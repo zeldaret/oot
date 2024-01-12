@@ -99,18 +99,18 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
     s32 params = this->actor.params;
     s32 objectSlot;
 
-    osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
+    PRINTF(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
         if (gSaveContext.save.info.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
             // "Gold Skulltula Shop I still can't be a human"
-            osSyncPrintf("金スタル屋 まだ 人間に戻れない \n");
+            PRINTF("金スタル屋 まだ 人間に戻れない \n");
             return;
         }
     } else if (gSaveContext.save.info.inventory.gsTokens < (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
         // "Gold Skulltula Shop I still can't be a human"
-        osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
+        PRINTF(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
         return;
     }
 
@@ -121,7 +121,7 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
         objectSlot = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objectSlot);
+    PRINTF("bank_ID = %d\n", objectSlot);
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_en_sth.c", 1564);
     }
@@ -221,12 +221,12 @@ void EnSth_RewardObtainedTalk(EnSth* this, PlayState* play) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);
@@ -274,7 +274,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, PlayState* play) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -283,14 +283,14 @@ void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play) {
             this->actor.textId = 0x21;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.save.info.inventory.gsTokens < 50) {
@@ -299,7 +299,7 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play) {
             this->actor.textId = 0x1F;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);
@@ -376,7 +376,7 @@ void EnSth_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 Gfx* EnSth_AllocColorDList(GraphicsContext* play, u8 envR, u8 envG, u8 envB, u8 envA) {
     Gfx* dList;
 
-    dList = Graph_Alloc(play, 2 * sizeof(Gfx));
+    dList = GRAPH_ALLOC(play, 2 * sizeof(Gfx));
     gDPSetEnvColor(dList, envR, envG, envB, envA);
     gSPEndDisplayList(dList + 1);
 

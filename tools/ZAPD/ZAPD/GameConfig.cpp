@@ -214,6 +214,15 @@ void GameConfig::ConfigFunc_EnumData(const tinyxml2::XMLElement& element)
 			else if (enumKey == "naviQuestHintType")
 				enumData.naviQuestHintType[itemIndex] = itemID;
 
+			else if (enumKey == "ocarinaSongActionId")
+				enumData.ocarinaSongActionId[itemIndex] = itemID;
+
+			else if (enumKey == "seqId")
+				enumData.seqId[itemIndex] = itemID;
+
+			else if (enumKey == "playerCueId")
+				enumData.playerCueId[itemIndex] = itemID;
+
 			// MM
 			else if (enumKey == "modifySeqType")
 				enumData.modifySeqType[itemIndex] = itemID;

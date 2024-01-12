@@ -68,9 +68,9 @@ void EnKakasi3_Destroy(Actor* thisx, PlayState* play) {
 void EnKakasi3_Init(Actor* thisx, PlayState* play) {
     EnKakasi3* this = (EnKakasi3*)thisx;
 
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Obonur" -- Related to the name of the scarecrow (Bonooru)
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n" VT_RST);
     this->actor.targetMode = 6;
 
     Collider_InitCylinder(play, &this->collider);
@@ -212,7 +212,7 @@ void func_80A91348(EnKakasi3* this, PlayState* play) {
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
     this->subCamId = CAM_ID_NONE;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (!this->unk_194) {
             if (this->unk_1A8 == 0) {
                 this->actionFunc = func_80A91284;
@@ -260,7 +260,7 @@ void func_80A91348(EnKakasi3* this, PlayState* play) {
                         player->stateFlags2 |= PLAYER_STATE2_23;
                     }
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }
@@ -286,7 +286,7 @@ void func_80A91620(EnKakasi3* this, PlayState* play) {
             this->subCamId = CAM_ID_NONE;
         }
         if (this->subCamId != CAM_ID_NONE) {
-            func_8005B1A4(play->cameraPtrs[this->subCamId]);
+            Camera_SetFinishedFlag(play->cameraPtrs[this->subCamId]);
         }
         this->actionFunc = func_80A911F0;
         return;
@@ -343,7 +343,7 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
 
     if (BREG(3) != 0) {
         // "No way!"
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
     }
     if ((play->msgCtx.ocarinaMode == OCARINA_MODE_04 ||
          (play->msgCtx.ocarinaMode >= OCARINA_MODE_05 && play->msgCtx.ocarinaMode < OCARINA_MODE_0B)) &&
@@ -361,9 +361,9 @@ void func_80A918E4(EnKakasi3* this, PlayState* play) {
     if (play->msgCtx.ocarinaMode == OCARINA_MODE_03 && play->msgCtx.msgMode == MSGMODE_NONE) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (BREG(3) != 0) {
-            osSyncPrintf("\n\n");
+            PRINTF("\n\n");
             // "With this, other guys are OK! That's it!"
-            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
+            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n" VT_RST, play->msgCtx.ocarinaMode);
         }
         this->unk_195 = true;
         Message_StartTextbox(play, 0x40A7, NULL);
@@ -394,7 +394,7 @@ void func_80A91A90(EnKakasi3* this, PlayState* play) {
             this->subCamId = CAM_ID_NONE;
         }
         if (this->subCamId != CAM_ID_NONE) {
-            func_8005B1A4(play->cameraPtrs[this->subCamId]);
+            Camera_SetFinishedFlag(play->cameraPtrs[this->subCamId]);
         }
         Message_CloseTextbox(play);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
@@ -409,9 +409,9 @@ void EnKakasi3_Update(Actor* thisx, PlayState* play) {
     s32 i;
 
     if (BREG(2) != 0) {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "flag!"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowSpawnSongSet);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.save.info.scarecrowSpawnSongSet);
     }
 
     this->unk_198++;

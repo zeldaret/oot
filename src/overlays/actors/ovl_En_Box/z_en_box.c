@@ -160,7 +160,7 @@ void EnBox_Init(Actor* thisx, PlayState* play2) {
         this->dyna.actor.flags |= ACTOR_FLAG_4;
     } else {
         if (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6) {
-            this->dyna.actor.flags |= ACTOR_FLAG_7;
+            this->dyna.actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
         }
         EnBox_SetupAction(this, EnBox_WaitOpen);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
@@ -417,7 +417,7 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
                     Audio_PlayFanfare(NA_BGM_OPEN_TRE_BOX | 0x900);
             }
         }
-        osSyncPrintf("Actor_Environment_Tbox_On() %d\n", this->dyna.actor.params & 0x1F);
+        PRINTF("Actor_Environment_Tbox_On() %d\n", this->dyna.actor.params & 0x1F);
         Flags_SetTreasure(play, this->dyna.actor.params & 0x1F);
     } else {
         player = GET_PLAYER(play);
@@ -438,7 +438,7 @@ void EnBox_WaitOpen(EnBox* this, PlayState* play) {
 void EnBox_Open(EnBox* this, PlayState* play) {
     u16 sfxId;
 
-    this->dyna.actor.flags &= ~ACTOR_FLAG_7;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
 
     if (SkelAnime_Update(&this->skelanime)) {
         if (this->unk_1F4 > 0) {
@@ -548,7 +548,7 @@ void EnBox_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
     s32 pad;
 
     if (limbIndex == 1) {
-        gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_box.c", 1492),
+        gSPMatrix((*gfx)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_box.c", 1492),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
             gSPDisplayList((*gfx)++, gTreasureChestChestFrontDL);
@@ -556,7 +556,7 @@ void EnBox_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
             gSPDisplayList((*gfx)++, gTreasureChestBossKeyChestFrontDL);
         }
     } else if (limbIndex == 3) {
-        gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_box.c", 1502),
+        gSPMatrix((*gfx)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_box.c", 1502),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
             gSPDisplayList((*gfx)++, gTreasureChestChestSideAndLidDL);
@@ -570,7 +570,7 @@ Gfx* EnBox_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
     Gfx* dList;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     ASSERT(dList != NULL, "gfxp != NULL", "../z_en_box.c", 1528);
 
     dListHead = dList;
@@ -584,7 +584,7 @@ Gfx* func_809CA4A0(GraphicsContext* gfxCtx) {
     Gfx* dList;
     Gfx* dListHead;
 
-    dListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    dListHead = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
     ASSERT(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1546);
 
     dList = dListHead;
@@ -602,7 +602,7 @@ Gfx* func_809CA518(GraphicsContext* gfxCtx) {
     Gfx* dList;
     Gfx* dListHead;
 
-    dListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    dListHead = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
     ASSERT(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1564);
 
     dList = dListHead;
@@ -621,11 +621,11 @@ void EnBox_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_box.c", 1581);
 
     /*
-    this->dyna.actor.flags & ACTOR_FLAG_7 is set by Init (if type is 4 or 6)
+    this->dyna.actor.flags & ACTOR_FLAG_REACT_TO_LENS is set by Init (if type is 4 or 6)
     and cleared by Open
     */
     if ((this->alpha == 255 && !(this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6)) ||
-        (!CHECK_FLAG_ALL(this->dyna.actor.flags, ACTOR_FLAG_7) &&
+        (!CHECK_FLAG_ALL(this->dyna.actor.flags, ACTOR_FLAG_REACT_TO_LENS) &&
          (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6))) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);

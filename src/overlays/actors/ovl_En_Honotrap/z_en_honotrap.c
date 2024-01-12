@@ -142,7 +142,7 @@ void EnHonotrap_GetNormal(Vec3f* normal, Vec3f* vec) {
     f32 magnitude = Math3D_Vec3fMagnitude(vec);
 
     if (magnitude < 0.001f) {
-        osSyncPrintf("Warning : vector size zero (%s %d)\n", "../z_en_honotrap.c", 328, normal);
+        PRINTF("Warning : vector size zero (%s %d)\n", "../z_en_honotrap.c", 328, normal);
 
         normal->x = normal->y = 0.0f;
         normal->z = 1.0f;
@@ -500,7 +500,7 @@ void EnHonotrap_DrawEye(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sSilverEyeTextures[this->eyeState]));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_honotrap.c", 987),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_honotrap.c", 987),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gEyeSwitch2DL);
 
@@ -522,7 +522,7 @@ void EnHonotrap_DrawFlame(Actor* thisx, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
                    MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_honotrap.c", 1024),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_honotrap.c", 1024),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
