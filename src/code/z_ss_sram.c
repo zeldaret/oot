@@ -50,7 +50,7 @@ void SsSram_Dma(void* dramAddr, size_t size, s32 direction) {
 }
 
 void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction) {
-    osSyncPrintf("ssSRAMReadWrite:%08x %08x %08x %d\n", addr, dramAddr, size, direction);
+    PRINTF("ssSRAMReadWrite:%08x %08x %08x %d\n", addr, dramAddr, size, direction);
     SsSram_Init(addr, DEVICE_TYPE_SRAM, PI_DOMAIN2, 5, 0xD, 2, 0xC, 0);
     SsSram_Dma(dramAddr, size, direction);
 }

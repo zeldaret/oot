@@ -101,6 +101,21 @@
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
 #ifdef OOT_DEBUG
+#define PRINTF osSyncPrintf
+#else
+#ifdef __GNUC__
+#define PRINTF(format, ...) (void)0
+#else
+// IDO doesn't support variadic macros, but it merely throws a warning for the
+// number of arguments not matching the definition (warning 609) instead of
+// throwing an error. We suppress this warning and rely on GCC to catch macro
+// argument errors instead.
+#define PRINTF(args) (void)0
+#endif
+#endif
+
+#ifdef OOT_DEBUG
+
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
         LogUtils_LogThreadId(file, line);           \

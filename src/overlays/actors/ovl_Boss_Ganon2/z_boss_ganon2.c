@@ -895,7 +895,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
     if (this->subCamId != SUB_CAM_ID_DONE) {
         // fake, tricks the compiler into putting some pointers on the stack
         if (zero) {
-            osSyncPrintf(NULL, 0, 0);
+            PRINTF(NULL, 0, 0);
         }
         this->subCamAt.y += this->unk_41C;
         Play_SetCameraAtEyeUp(play, this->subCamId, &this->subCamAt, &this->subCamEye, &this->subCamUp);
@@ -1884,14 +1884,14 @@ void func_80902524(BossGanon2* this, PlayState* play) {
     s16 i;
     u8 phi_v1_2;
 
-    osSyncPrintf("this->no_hit_time %d\n", this->unk_316);
+    PRINTF("this->no_hit_time %d\n", this->unk_316);
     if (this->unk_316 != 0 || ((this->unk_334 == 0) && (this->actionFunc == func_80900890))) {
         for (i = 0; i < ARRAY_COUNT(this->unk_464); i++) {
             this->unk_424.elements[i].base.bumperFlags &= ~BUMP_HIT;
         }
     }
 
-    osSyncPrintf("this->look_on %d\n", this->unk_313);
+    PRINTF("this->look_on %d\n", this->unk_313);
     if (this->unk_313) {
         if (this->actionFunc != func_808FFFE0) {
             if (this->unk_424.elements[0].base.bumperFlags & BUMP_HIT) {

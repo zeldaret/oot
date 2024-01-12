@@ -97,9 +97,9 @@ void ItemEtcetera_Init(Actor* thisx, PlayState* play) {
     s32 objectSlot;
 
     type = this->actor.params & 0xFF;
-    osSyncPrintf("no = %d\n", type);
+    PRINTF("no = %d\n", type);
     objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[type]);
-    osSyncPrintf("bank_ID = %d\n", objectSlot);
+    PRINTF("bank_ID = %d\n", objectSlot);
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_item_etcetera.c", 241);
     } else {

@@ -267,7 +267,7 @@ void EnSb_TurnAround(EnSb* this, PlayState* play) {
         this->bouncesLeft = 3;
         EnSb_SetupLunge(this);
         // "Attack!!"
-        osSyncPrintf("アタァ〜ック！！\n");
+        PRINTF("アタァ〜ック！！\n");
     }
 }
 
@@ -311,7 +311,7 @@ void EnSb_Bounce(EnSb* this, PlayState* play) {
             this->actor.speed = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
-            osSyncPrintf(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n"); // "Attack Complete!"
+            PRINTF(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n"); // "Attack Complete!"
         }
     }
 }

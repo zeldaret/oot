@@ -573,8 +573,8 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
 
         if (this->state < CLEAR_TAG_STATE_LASER) {
             // Play the Arwing cutscene.
-            osSyncPrintf("DEMO_MODE %d\n", this->cutsceneMode);
-            osSyncPrintf("CAMERA_NO %d\n", this->subCamId);
+            PRINTF("DEMO_MODE %d\n", this->cutsceneMode);
+            PRINTF("CAMERA_NO %d\n", this->subCamId);
 
             if (this->cutsceneMode != CLEAR_TAG_CUTSCENE_MODE_NONE) {
                 f32 subCamCircleX;

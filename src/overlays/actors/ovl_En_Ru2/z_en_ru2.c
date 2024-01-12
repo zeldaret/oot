@@ -555,7 +555,7 @@ void func_80AF3564(EnRu2* this, PlayState* play) {
                     break;
                 default:
                     // "There is no such action!"
-                    osSyncPrintf("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
             this->cueId = nextCueId;
@@ -671,12 +671,12 @@ void func_80AF39DC(EnRu2* this, PlayState* play) {
     if (dialogState == TEXT_STATE_DONE_FADING) {
         if (this->unk_2C3 != TEXT_STATE_DONE_FADING) {
             // "I'm Komatsu!" (cinema scene dev)
-            osSyncPrintf("おれが小松だ！ \n");
+            PRINTF("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
                 player = GET_PLAYER(play);
                 // "uorya-!" (screeming sound)
-                osSyncPrintf("うおりゃー！ \n");
+                PRINTF("うおりゃー！ \n");
                 Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
                 player->actor.world.pos.x = 820.0f;
                 player->actor.world.pos.y = 0.0f;
@@ -760,7 +760,7 @@ void EnRu2_Update(Actor* thisx, PlayState* play) {
 
     if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
         // "Main Mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sActionFuncs[this->action](this, play);
@@ -821,7 +821,7 @@ void EnRu2_Draw(Actor* thisx, PlayState* play) {
     if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
         (sDrawFuncs[this->drawConfig] == NULL)) {
         // "Draw Mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

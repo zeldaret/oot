@@ -10,9 +10,8 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
 
     for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
         overlay = &gEffectSsOverlayTable[i];
-        osSyncPrintf("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
-                     (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart,
-                     overlay->vromEnd - overlay->vromStart);
+        PRINTF("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
+               (uintptr_t)overlay->vramEnd - (uintptr_t)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
     }
 
     sEffectSsInfo.table =
@@ -186,32 +185,32 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
 
     if (overlayEntry->vramStart == NULL) {
         // "Not an overlay"
-        osSyncPrintf("EffectSoftSprite2_makeEffect():オーバーレイではありません。\n");
+        PRINTF("EffectSoftSprite2_makeEffect():オーバーレイではありません。\n");
         initInfo = overlayEntry->initInfo;
     } else {
         if (overlayEntry->loadedRamAddr == NULL) {
             overlayEntry->loadedRamAddr = ZELDA_ARENA_MALLOC_R(overlaySize, "../z_effect_soft_sprite.c", 585);
 
             if (overlayEntry->loadedRamAddr == NULL) {
-                osSyncPrintf(VT_FGCOL(RED));
+                PRINTF(VT_FGCOL(RED));
                 // "The memory of %d byte cannot be secured. Therefore, the program cannot be loaded.
                 // What a dangerous situation! Naturally, effects will not produced either."
-                osSyncPrintf("EffectSoftSprite2_makeEffect():zelda_malloc_r()により,%"
-                             "dbyteのメモリ確保ができま\nせん。そのため、プログラムのロードも\n出来ません。ただいま危険"
-                             "な状態です！\nもちろん,エフェクトも出ません。\n",
-                             overlaySize);
-                osSyncPrintf(VT_RST);
+                PRINTF("EffectSoftSprite2_makeEffect():zelda_malloc_r()により,%"
+                       "dbyteのメモリ確保ができま\nせん。そのため、プログラムのロードも\n出来ません。ただいま危険"
+                       "な状態です！\nもちろん,エフェクトも出ません。\n",
+                       overlaySize);
+                PRINTF(VT_RST);
                 return;
             }
 
             Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
                          overlayEntry->loadedRamAddr);
 
-            osSyncPrintf(VT_FGCOL(GREEN));
-            osSyncPrintf("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n",
-                         overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
-                         overlayEntry->loadedRamAddr, type);
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_FGCOL(GREEN));
+            PRINTF("EFFECT SS OVL:SegRom %08x %08x, Seg %08x %08x, RamStart %08x, type: %d\n", overlayEntry->vromStart,
+                   overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
+                   type);
+            PRINTF(VT_RST);
         }
 
         initInfo = (void*)(uintptr_t)((overlayEntry->initInfo != NULL)
@@ -224,9 +223,9 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     if (initInfo->init == NULL) {
         // "Effects have already been loaded, but the constructor is NULL so the addition will not occur.
         // Please fix this. (Waste of memory) %08x %d"
-        osSyncPrintf("EffectSoftSprite2_makeEffect():すでにエフェクトはロード済みで\nすが,"
-                     "コンストラクターがNULLなので追加をやめます。\n直してください。（メモリーの無駄) %08x %d\n",
-                     initInfo, type);
+        PRINTF("EffectSoftSprite2_makeEffect():すでにエフェクトはロード済みで\nすが,"
+               "コンストラクターがNULLなので追加をやめます。\n直してください。（メモリーの無駄) %08x %d\n",
+               initInfo, type);
         return;
     }
 
@@ -237,13 +236,13 @@ void EffectSs_Spawn(PlayState* play, s32 type, s32 priority, void* initParams) {
     sEffectSsInfo.table[index].priority = priority;
 
     if (initInfo->init(play, index, &sEffectSsInfo.table[index], initParams) == 0) {
-        osSyncPrintf(VT_FGCOL(GREEN));
+        PRINTF(VT_FGCOL(GREEN));
         // "Construction failed for some reason. The constructor returned an error.
         // Ceasing effect addition."
-        osSyncPrintf("EffectSoftSprite2_makeEffect():"
-                     "何らかの理由でコンストラクト失敗。コンストラクターがエラーを返しました。エフェクトの追加を中"
-                     "止します。\n");
-        osSyncPrintf(VT_RST);
+        PRINTF("EffectSoftSprite2_makeEffect():"
+               "何らかの理由でコンストラクト失敗。コンストラクターがエラーを返しました。エフェクトの追加を中"
+               "止します。\n");
+        PRINTF(VT_RST);
         EffectSs_Reset(&sEffectSsInfo.table[index]);
     }
 }
@@ -303,19 +302,19 @@ void EffectSs_DrawAll(PlayState* play) {
             if ((sEffectSsInfo.table[i].pos.x > 32000.0f) || (sEffectSsInfo.table[i].pos.x < -32000.0f) ||
                 (sEffectSsInfo.table[i].pos.y > 32000.0f) || (sEffectSsInfo.table[i].pos.y < -32000.0f) ||
                 (sEffectSsInfo.table[i].pos.z > 32000.0f) || (sEffectSsInfo.table[i].pos.z < -32000.0f)) {
-                osSyncPrintf(VT_FGCOL(RED));
+                PRINTF(VT_FGCOL(RED));
                 // "Since the position is outside the area, delete it.
                 // Effect label No. %d: Please respond by the program.
                 // Here is ==> pos (%f, %f, %f) and the label is in z_effect_soft_sprite_dlftbls.decl."
-                osSyncPrintf("EffectSoftSprite2_disp():位置が領域外のため "
-                             "削除します。エフェクトラベルNo.%d:プログラムの方で対応をお願いします。ここです ==> "
-                             "pos(%f, %f, %f)で、ラベルはz_effect_soft_sprite_dlftbls.declにあります。\n",
-                             sEffectSsInfo.table[i].type, sEffectSsInfo.table[i].pos.x, sEffectSsInfo.table[i].pos.y,
-                             sEffectSsInfo.table[i].pos.z);
-                osSyncPrintf(VT_FGCOL(GREEN));
+                PRINTF("EffectSoftSprite2_disp():位置が領域外のため "
+                       "削除します。エフェクトラベルNo.%d:プログラムの方で対応をお願いします。ここです ==> "
+                       "pos(%f, %f, %f)で、ラベルはz_effect_soft_sprite_dlftbls.declにあります。\n",
+                       sEffectSsInfo.table[i].type, sEffectSsInfo.table[i].pos.x, sEffectSsInfo.table[i].pos.y,
+                       sEffectSsInfo.table[i].pos.z);
+                PRINTF(VT_FGCOL(GREEN));
                 // "If you are using pos for something else, consult me."
-                osSyncPrintf("もし、posを別のことに使っている場合相談に応じます。\n");
-                osSyncPrintf(VT_RST);
+                PRINTF("もし、posを別のことに使っている場合相談に応じます。\n");
+                PRINTF(VT_RST);
 
                 EffectSs_Delete(&sEffectSsInfo.table[i]);
             } else {

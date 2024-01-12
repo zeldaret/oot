@@ -219,8 +219,8 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
         ObjWarp2block_SetInactive(this);
     }
 
-    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
-                 this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7);
+    PRINTF("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
+           this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7);
 }
 
 void ObjWarp2block_Destroy(Actor* thisx, PlayState* play) {
@@ -262,9 +262,9 @@ void func_80BA24F8(ObjWarp2block* this, PlayState* play) {
 
     this->unk_174++;
     if (this->unk_174 > 60) {
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("Error : 時のブロック(ワープ２)が対でセットされていません(%s %d)\n", "../z_obj_warp2block.c", 505);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_COL(RED, WHITE));
+        PRINTF("Error : 時のブロック(ワープ２)が対でセットされていません(%s %d)\n", "../z_obj_warp2block.c", 505);
+        PRINTF(VT_RST);
         Actor_Kill(&this->dyna.actor);
     }
 }

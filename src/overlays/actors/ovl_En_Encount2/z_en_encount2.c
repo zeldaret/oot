@@ -43,18 +43,18 @@ void EnEncount2_Init(Actor* thisx, PlayState* play) {
     }
 
     if (!this->isNotDeathMountain) {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "☆☆☆☆☆ Death Mountain Encount2 set ☆☆☆☆☆"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
-                     this->actor.params);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
+               this->actor.params);
         if (LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_49)) { // flag for having used fire temple blue warp
             Actor_Kill(thisx);
         }
     } else {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "☆☆☆☆☆ Ganon Tower Escape Encount2 set ☆☆☆☆☆"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
-                     this->actor.params);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
+               this->actor.params);
     }
 
     this->actionFunc = EnEncount2_Wait;
@@ -236,11 +236,11 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
                 return;
             }
             // "☆☆☆☆☆ Can't occur! ☆☆☆☆☆"
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n" VT_RST);
         }
     }
 }

@@ -895,13 +895,13 @@ void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play) {
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play) {
     f32 targetOffsetY;
 
-    osSyncPrintf("FHG SAKU START !!\n");
+    PRINTF("FHG SAKU START !!\n");
     if (this->isActive != 0) {
         this->isActive--;
     }
     targetOffsetY = (this->isActive % 2 != 0) ? -3.0f : 0.0f;
     Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -34.0f + targetOffsetY, 1.0f, 20.0f, 0.0f);
-    osSyncPrintf("FHG SAKU END !!\n");
+    PRINTF("FHG SAKU END !!\n");
 }
 
 void DoorShutter_Update(Actor* thisx, PlayState* play) {

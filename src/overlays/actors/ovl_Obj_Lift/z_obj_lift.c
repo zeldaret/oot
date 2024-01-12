@@ -71,8 +71,8 @@ void ObjLift_InitDynaPoly(ObjLift* this, PlayState* play, CollisionHeader* colli
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_lift.c", 188,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_lift.c", 188,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -120,7 +120,7 @@ void ObjLift_Init(Actor* thisx, PlayState* play) {
     this->shakeOrientation.y = Rand_ZeroOne() * 65535.5f;
     this->shakeOrientation.z = Rand_ZeroOne() * 65535.5f;
     ObjLift_SetupWait(this);
-    osSyncPrintf("(Dungeon Lift)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(Dungeon Lift)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void ObjLift_Destroy(Actor* thisx, PlayState* play) {

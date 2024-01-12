@@ -78,7 +78,7 @@ u32 EffectSsEnIce_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->rEnvColorB = initParams->envColor.b;
         this->rAlphaMode = 0;
     } else {
-        osSyncPrintf("Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n");
+        PRINTF("Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n");
         return 0;
     }
 

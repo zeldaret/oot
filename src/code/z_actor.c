@@ -836,7 +836,7 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
         name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
         // "No Actor class destruct [%s]"
-        osSyncPrintf("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
+        PRINTF("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
     }
 }
 
@@ -1369,8 +1369,8 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
     *hilite = GRAPH_ALLOC(gfxCtx, sizeof(Hilite));
 
     if (R_HREG_MODE == HREG_MODE_PRINT_HILITE_INFO) {
-        osSyncPrintf("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n", correctedEyeX,
-                     eye->x, eye->y, eye->z, object->x, object->y, object->z, lightDir->x, lightDir->y, lightDir->z);
+        PRINTF("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n", correctedEyeX,
+               eye->x, eye->y, eye->z, object->x, object->y, object->z, lightDir->x, lightDir->y, lightDir->z);
     }
 
     View_ErrorCheckEyePosition(correctedEyeX, eye->y, eye->z);
@@ -1418,8 +1418,8 @@ void func_8002EBCC(Actor* actor, PlayState* play, s32 flag) {
     lightDir.z = play->envCtx.dirLight1.params.dir.z;
 
     if (R_HREG_MODE == HREG_MODE_PRINT_HILITE_INFO) {
-        osSyncPrintf("z_actor.c 3637 game_play->view.eye=[%f(%f) %f %f]\n", play->view.eye.x, play->view.eye.y,
-                     play->view.eye.z);
+        PRINTF("z_actor.c 3637 game_play->view.eye=[%f(%f) %f %f]\n", play->view.eye.x, play->view.eye.y,
+               play->view.eye.z);
     }
 
     hilite = func_8002EABC(&actor->world.pos, &play->view.eye, &lightDir, play->state.gfxCtx);
@@ -1957,7 +1957,7 @@ void Actor_DrawFaroresWindPointer(PlayState* play) {
                 length *= 0.5f;
                 dx = diff - length;
                 yOffset += sqrtf(SQ(length) - SQ(dx)) * 0.2f;
-                osSyncPrintf("-------- DISPLAY Y=%f\n", yOffset);
+                PRINTF("-------- DISPLAY Y=%f\n", yOffset);
             }
 
             effectPos.x = curPos->x + Rand_CenteredFloat(6.0f);
@@ -2282,10 +2282,10 @@ void Actor_FaultPrint(Actor* actor, char* command) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-    osSyncPrintf("アクターの名前(%08x:%s)\n", actor, name); // "Actor name (%08x:%s)"
+    PRINTF("アクターの名前(%08x:%s)\n", actor, name); // "Actor name (%08x:%s)"
 
     if (command != NULL) {
-        osSyncPrintf("コメント:%s\n", command); // "Command:%s"
+        PRINTF("コメント:%s\n", command); // "Command:%s"
     }
 
     FaultDrawer_SetCursor(48, 24);
@@ -2684,7 +2684,7 @@ void func_80031C3C(ActorContext* actorCtx, PlayState* play) {
     }
 
     if (HREG(20) != 0) {
-        osSyncPrintf("絶対魔法領域解放\n"); // "Absolute magic field deallocation"
+        PRINTF("絶対魔法領域解放\n"); // "Absolute magic field deallocation"
     }
 
     if (actorCtx->absoluteSpace != NULL) {
@@ -2752,27 +2752,27 @@ Actor* Actor_RemoveFromCategory(PlayState* play, ActorContext* actorCtx, Actor* 
 }
 
 void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
-    osSyncPrintf(VT_FGCOL(CYAN));
+    PRINTF(VT_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
         if (HREG(20) != 0) {
-            osSyncPrintf("アクタークライアントが０になりました\n"); // "Actor client is now 0"
+            PRINTF("アクタークライアントが０になりました\n"); // "Actor client is now 0"
         }
 
         if (actorOverlay->loadedRamAddr != NULL) {
             if (actorOverlay->allocType & ACTOROVL_ALLOC_PERSISTENT) {
                 if (HREG(20) != 0) {
-                    osSyncPrintf("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
+                    PRINTF("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
                 }
             } else if (actorOverlay->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
                 if (HREG(20) != 0) {
                     // "Absolute magic field reserved, so deallocation will not occur"
-                    osSyncPrintf("絶対魔法領域確保なので解放しません\n");
+                    PRINTF("絶対魔法領域確保なので解放しません\n");
                 }
                 actorOverlay->loadedRamAddr = NULL;
             } else {
                 if (HREG(20) != 0) {
-                    osSyncPrintf("オーバーレイ解放します\n"); // "Overlay deallocated"
+                    PRINTF("オーバーレイ解放します\n"); // "Overlay deallocated"
                 }
                 ZELDA_ARENA_FREE(actorOverlay->loadedRamAddr, "../z_actor.c", 6834);
                 actorOverlay->loadedRamAddr = NULL;
@@ -2780,10 +2780,10 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
         }
     } else if (HREG(20) != 0) {
         // "%d of actor client remains"
-        osSyncPrintf("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
+        PRINTF("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
     }
 
-    osSyncPrintf(VT_RST);
+    PRINTF(VT_RST);
 }
 
 Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ, s16 rotX,
@@ -2805,25 +2805,25 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     if (HREG(20) != 0) {
         // "Actor class addition [%d:%s]"
-        osSyncPrintf("アクタークラス追加 [%d:%s]\n", actorId, name);
+        PRINTF("アクタークラス追加 [%d:%s]\n", actorId, name);
     }
 
     if (actorCtx->total > ACTOR_NUMBER_MAX) {
         // "Ａｃｔｏｒ set number exceeded"
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "Ａｃｔｏｒセット数オーバー\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) "Ａｃｔｏｒセット数オーバー\n" VT_RST);
         return NULL;
     }
 
     if (overlayEntry->vramStart == NULL) {
         if (HREG(20) != 0) {
-            osSyncPrintf("オーバーレイではありません\n"); // "Not an overlay"
+            PRINTF("オーバーレイではありません\n"); // "Not an overlay"
         }
 
         actorInit = overlayEntry->initInfo;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
             if (HREG(20) != 0) {
-                osSyncPrintf("既にロードされています\n"); // "Already loaded"
+                PRINTF("既にロードされています\n"); // "Already loaded"
             }
         } else {
             if (overlayEntry->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
@@ -2835,7 +2835,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                     actorCtx->absoluteSpace = ZELDA_ARENA_MALLOC_R(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
                     if (HREG(20) != 0) {
                         // "Absolute magic field reservation - %d bytes reserved"
-                        osSyncPrintf("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
+                        PRINTF("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
                     }
                 }
 
@@ -2848,20 +2848,20 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
             if (overlayEntry->loadedRamAddr == NULL) {
                 // "Cannot reserve actor program memory"
-                osSyncPrintf(VT_COL(RED, WHITE) "Ａｃｔｏｒプログラムメモリが確保できません\n" VT_RST);
+                PRINTF(VT_COL(RED, WHITE) "Ａｃｔｏｒプログラムメモリが確保できません\n" VT_RST);
                 return NULL;
             }
 
             Overlay_Load(overlayEntry->vromStart, overlayEntry->vromEnd, overlayEntry->vramStart, overlayEntry->vramEnd,
                          overlayEntry->loadedRamAddr);
 
-            osSyncPrintf(VT_FGCOL(GREEN));
-            osSyncPrintf("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart,
-                         overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
-                         (uintptr_t)overlayEntry->loadedRamAddr + (uintptr_t)overlayEntry->vramEnd -
-                             (uintptr_t)overlayEntry->vramStart,
-                         (uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr, name);
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_FGCOL(GREEN));
+            PRINTF("OVL(a):Seg:%08x-%08x Ram:%08x-%08x Off:%08x %s\n", overlayEntry->vramStart, overlayEntry->vramEnd,
+                   overlayEntry->loadedRamAddr,
+                   (uintptr_t)overlayEntry->loadedRamAddr + (uintptr_t)overlayEntry->vramEnd -
+                       (uintptr_t)overlayEntry->vramStart,
+                   (uintptr_t)overlayEntry->vramStart - (uintptr_t)overlayEntry->loadedRamAddr, name);
+            PRINTF(VT_RST);
 
             overlayEntry->numLoaded = 0;
         }
@@ -2878,8 +2878,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     if ((objectSlot < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(play, play->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
-        osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
-                     objectSlot, actorInit->objectId);
+        PRINTF(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST, objectSlot,
+               actorInit->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -2888,8 +2888,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     if (actor == NULL) {
         // "Actor class cannot be reserved! %s <size＝%d bytes>"
-        osSyncPrintf(VT_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", VT_RST, name,
-                     actorInit->instanceSize);
+        PRINTF(VT_COL(RED, WHITE) "Ａｃｔｏｒクラス確保できません！ %s <サイズ＝%dバイト>\n", VT_RST, name,
+               actorInit->instanceSize);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -2900,7 +2900,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     if (HREG(20) != 0) {
         // "Actor client No. %d"
-        osSyncPrintf("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
+        PRINTF("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
     }
 
     Lib_MemSet((u8*)actor, actorInit->instanceSize, 0);
@@ -3000,7 +3000,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
     if (HREG(20) != 0) {
-        osSyncPrintf("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
+        PRINTF("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
     }
 
     if ((player != NULL) && (actor == player->unk_664)) {
@@ -3029,7 +3029,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
 
     if (overlayEntry->vramStart == NULL) {
         if (HREG(20) != 0) {
-            osSyncPrintf("オーバーレイではありません\n"); // "Not an overlay"
+            PRINTF("オーバーレイではありません\n"); // "Not an overlay"
         }
     } else {
         ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);

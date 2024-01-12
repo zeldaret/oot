@@ -130,7 +130,7 @@ void EnReeba_Init(Actor* thisx, PlayState* play) {
         this->collider.dim.height = 45;
         this->scale *= 1.5f;
         // "Reeba Boss Appears %f"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
         this->collider.elem.toucher.effect = 4;
         this->collider.elem.toucher.damage = 16;
@@ -501,9 +501,9 @@ void EnReeba_Die(EnReeba* this, PlayState* play) {
                         spawner->killCount++;
                     }
                     // "How many are dead?"
-                    osSyncPrintf("\n\n");
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n" VT_RST, spawner->killCount);
-                    osSyncPrintf("\n\n");
+                    PRINTF("\n\n");
+                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n" VT_RST, spawner->killCount);
+                    PRINTF("\n\n");
                 }
 
                 Actor_Kill(&this->actor);

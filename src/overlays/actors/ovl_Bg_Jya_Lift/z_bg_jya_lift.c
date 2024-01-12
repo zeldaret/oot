@@ -60,7 +60,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
     }
 
     // "Goddess lift CT"
-    osSyncPrintf("女神リフト CT\n");
+    PRINTF("女神リフト CT\n");
     BgJyaLift_InitDynapoly(this, play, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
@@ -79,7 +79,7 @@ void BgJyaLift_Destroy(Actor* thisx, PlayState* play) {
     if (this->isSpawned) {
 
         // "Goddess Lift DT"
-        osSyncPrintf("女神リフト DT\n");
+        PRINTF("女神リフト DT\n");
         sIsSpawned = false;
         DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     }
