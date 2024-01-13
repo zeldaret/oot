@@ -99,7 +99,15 @@ FaultDrawer sFaultDrawerDefault = {
     NULL,
 };
 
+#ifndef NON_MATCHING
+// TODO: match .bss (has reordering issues)
 extern FaultDrawer sFaultDrawer;
+extern char D_8016B6BC[0x24];
+#else
+// Non-matching version for struct shiftability
+FaultDrawer sFaultDrawer;
+char D_8016B6BC[0x24];
+#endif
 
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
     sFaultDrawer.osSyncPrintfEnabled = enabled;
@@ -234,7 +242,7 @@ void FaultDrawer_FillScreen(void) {
     FaultDrawer_SetCursor(sFaultDrawer.xStart, sFaultDrawer.yStart);
 }
 
-void* FaultDrawer_PrintCallback(void* arg, const char* str, u32 count) {
+void* FaultDrawer_PrintCallback(void* arg, const char* str, size_t count) {
     for (; count != 0; count--, str++) {
         s32 curXStart;
         s32 curXEnd;

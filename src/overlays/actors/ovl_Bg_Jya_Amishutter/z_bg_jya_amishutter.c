@@ -24,15 +24,15 @@ void func_808934FC(BgJyaAmishutter* this);
 void func_8089350C(BgJyaAmishutter* this);
 
 ActorInit Bg_Jya_Amishutter_InitVars = {
-    ACTOR_BG_JYA_AMISHUTTER,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaAmishutter),
-    (ActorFunc)BgJyaAmishutter_Init,
-    (ActorFunc)BgJyaAmishutter_Destroy,
-    (ActorFunc)BgJyaAmishutter_Update,
-    (ActorFunc)BgJyaAmishutter_Draw,
+    /**/ ACTOR_BG_JYA_AMISHUTTER,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaAmishutter),
+    /**/ BgJyaAmishutter_Init,
+    /**/ BgJyaAmishutter_Destroy,
+    /**/ BgJyaAmishutter_Update,
+    /**/ BgJyaAmishutter_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -51,8 +51,8 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, Collis
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -87,7 +87,7 @@ void func_80893428(BgJyaAmishutter* this) {
 void func_80893438(BgJyaAmishutter* this) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 100.0f, 3.0f)) {
         func_808934B0(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }
@@ -110,7 +110,7 @@ void func_808934FC(BgJyaAmishutter* this) {
 void func_8089350C(BgJyaAmishutter* this) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f)) {
         BgJyaAmishutter_SetupWaitForPlayer(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
     }

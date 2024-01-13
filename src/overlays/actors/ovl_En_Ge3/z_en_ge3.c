@@ -19,15 +19,15 @@ void EnGe3_ForceTalk(EnGe3* this, PlayState* play);
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play);
 
 ActorInit En_Ge3_InitVars = {
-    ACTOR_EN_GE3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GELDB,
-    sizeof(EnGe3),
-    (ActorFunc)EnGe3_Init,
-    (ActorFunc)EnGe3_Destroy,
-    (ActorFunc)EnGe3_Update,
-    (ActorFunc)EnGe3_Draw,
+    /**/ ACTOR_EN_GE3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GELDB,
+    /**/ sizeof(EnGe3),
+    /**/ EnGe3_Init,
+    /**/ EnGe3_Destroy,
+    /**/ EnGe3_Update,
+    /**/ EnGe3_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -141,7 +141,7 @@ void EnGe3_WaitTillCardGiven(EnGe3* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnGe3_Wait;
     } else {
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
@@ -150,21 +150,21 @@ void EnGe3_GiveCard(EnGe3* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe3_WaitTillCardGiven;
-        func_8002F434(&this->actor, play, GI_GERUDO_CARD, 10000.0f, 50.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_GERUDOS_CARD, 10000.0f, 50.0f);
     }
 }
 
 void EnGe3_ForceTalk(EnGe3* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe3_GiveCard;
     } else {
         if (!(this->unk_30C & 4)) {
-            func_8002DF54(play, &this->actor, 7);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
             this->unk_30C |= 4;
         }
         this->actor.textId = 0x6004;
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F1C4(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
+        Actor_OfferTalkExchange(&this->actor, play, 300.0f, 300.0f, EXCH_ITEM_NONE);
     }
     EnGe3_LookAtPlayer(this, play);
 }
@@ -184,7 +184,7 @@ void EnGe3_UpdateCollision(EnGe3* this, PlayState* play) {
 
 void EnGe3_MoveAndBlink(EnGe3* this, PlayState* play) {
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);
@@ -203,13 +203,13 @@ void EnGe3_UpdateWhenNotTalking(Actor* thisx, PlayState* play) {
     EnGe3_UpdateCollision(this, play);
     this->actionFunc(this, play);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnGe3_Wait;
         this->actor.update = EnGe3_Update;
     } else {
         this->actor.textId = 0x6005;
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
 

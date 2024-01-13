@@ -19,15 +19,15 @@ void func_80B43AD4(EnYukabyun* this, PlayState* play);
 void func_80B43B6C(EnYukabyun* this, PlayState* play);
 
 ActorInit En_Yukabyun_InitVars = {
-    ACTOR_EN_YUKABYUN,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_YUKABYUN,
-    sizeof(EnYukabyun),
-    (ActorFunc)EnYukabyun_Init,
-    (ActorFunc)EnYukabyun_Destroy,
-    (ActorFunc)EnYukabyun_Update,
-    (ActorFunc)EnYukabyun_Draw,
+    /**/ ACTOR_EN_YUKABYUN,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_YUKABYUN,
+    /**/ sizeof(EnYukabyun),
+    /**/ EnYukabyun_Init,
+    /**/ EnYukabyun_Destroy,
+    /**/ EnYukabyun_Update,
+    /**/ EnYukabyun_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -90,7 +90,7 @@ void func_80B43AD4(EnYukabyun* this, PlayState* play) {
     this->actor.shape.rot.y += this->unk_150;
     if (this->unk_150 >= 0x2000) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        this->actor.speedXZ = 10.0f;
+        this->actor.speed = 10.0f;
         this->actionfunc = func_80B43B6C;
     }
     Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 30.0f, 1.0f);
@@ -128,7 +128,7 @@ void EnYukabyun_Update(Actor* thisx, PlayState* play) {
     }
 
     this->actionfunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 20.0f, 8.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
@@ -150,7 +150,7 @@ void EnYukabyun_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_yukabyun.c", 373),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_yukabyun.c", 373),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gFloorTileEnemyDL);
 

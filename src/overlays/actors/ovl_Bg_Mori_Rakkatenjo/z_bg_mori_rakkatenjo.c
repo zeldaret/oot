@@ -29,15 +29,15 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, PlayState* play);
 static s16 sCamSetting = CAM_SET_NONE;
 
 ActorInit Bg_Mori_Rakkatenjo_InitVars = {
-    ACTOR_BG_MORI_RAKKATENJO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriRakkatenjo),
-    (ActorFunc)BgMoriRakkatenjo_Init,
-    (ActorFunc)BgMoriRakkatenjo_Destroy,
-    (ActorFunc)BgMoriRakkatenjo_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_RAKKATENJO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriRakkatenjo),
+    /**/ BgMoriRakkatenjo_Init,
+    /**/ BgMoriRakkatenjo_Destroy,
+    /**/ BgMoriRakkatenjo_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -53,21 +53,21 @@ void BgMoriRakkatenjo_Init(Actor* thisx, PlayState* play) {
 
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
     // "Forest Temple obj. Falling Ceiling"
-    osSyncPrintf("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
+    PRINTF("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
         (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f) ||
         (fabsf(-2520.0f - this->dyna.actor.home.pos.z) > 0.001f)) {
         // "The set position has been changed. Let's fix the program."
-        osSyncPrintf("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
+        PRINTF("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
     }
     if (this->dyna.actor.home.rot.y != 0x8000) {
         // "The set Angle has changed. Let's fix the program."
-        osSyncPrintf("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
+        PRINTF("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
     }
-    this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
+    this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectSlot < 0) {
         // "Forest Temple obj Falling Ceiling Bank Danger!"
-        osSyncPrintf("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", "../z_bg_mori_rakkatenjo.c", 205);
+        PRINTF("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", "../z_bg_mori_rakkatenjo.c", 205);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -85,13 +85,13 @@ void BgMoriRakkatenjo_Destroy(Actor* thisx, PlayState* play) {
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-s32 BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, PlayState* play) {
+int BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, PlayState* play) {
     Vec3f* pos = &GET_PLAYER(play)->actor.world.pos;
 
     return (-3300.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }
 
-s32 BgMoriRakkatenjo_IsLinkClose(BgMoriRakkatenjo* this, PlayState* play) {
+int BgMoriRakkatenjo_IsLinkClose(BgMoriRakkatenjo* this, PlayState* play) {
     Vec3f* pos = &GET_PLAYER(play)->actor.world.pos;
 
     return (-3360.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
@@ -102,7 +102,7 @@ void BgMoriRakkatenjo_SetupWaitForMoriTex(BgMoriRakkatenjo* this) {
 }
 
 void BgMoriRakkatenjo_WaitForMoriTex(BgMoriRakkatenjo* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)) {
         BgMoriRakkatenjo_SetupWait(this);
         this->dyna.actor.draw = BgMoriRakkatenjo_Draw;
     }
@@ -133,7 +133,7 @@ void BgMoriRakkatenjo_Wait(BgMoriRakkatenjo* this, PlayState* play) {
         }
     }
     if (this->timer < 20) {
-        func_800788CC(NA_SE_EV_BLOCKSINK - SFX_FLAG);
+        Sfx_PlaySfxCentered2(NA_SE_EV_BLOCKSINK - SFX_FLAG);
     }
 }
 
@@ -149,14 +149,14 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     s32 quakeIndex;
 
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
     if ((thisx->velocity.y < 0.0f) && (thisx->world.pos.y <= 403.0f)) {
         if (this->bounceCount >= ARRAY_COUNT(bounceVel)) {
             BgMoriRakkatenjo_SetupRest(this);
         } else {
             if (this->bounceCount == 0) {
                 this->fallCount++;
-                func_800788CC(NA_SE_EV_STONE_BOUND);
+                Sfx_PlaySfxCentered2(NA_SE_EV_STONE_BOUND);
                 Rumble_Request(SQ(thisx->yDistToPlayer), 255, 20, 150);
             }
             thisx->world.pos.y =
@@ -207,14 +207,14 @@ void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (BgMoriRakkatenjo_IsLinkUnder(this, play)) {
         if (sCamSetting == CAM_SET_NONE) {
-            osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
+            PRINTF("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FOREST_BIRDS_EYE);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FOREST_BIRDS_EYE);
         }
     } else if (sCamSetting != CAM_SET_NONE) {
-        osSyncPrintf("camera changed (previous) ... \n");
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
+        PRINTF("camera changed (previous) ... \n");
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
         sCamSetting = CAM_SET_NONE;
     }
 }
@@ -226,9 +226,9 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 497);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.status[this->moriTexObjIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, gMoriRakkatenjoDL);

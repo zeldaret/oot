@@ -18,15 +18,15 @@ void func_808AE5B4(BgSpot05Soko* this, PlayState* play);
 void func_808AE630(BgSpot05Soko* this, PlayState* play);
 
 ActorInit Bg_Spot05_Soko_InitVars = {
-    ACTOR_BG_SPOT05_SOKO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SPOT05_OBJECTS,
-    sizeof(BgSpot05Soko),
-    (ActorFunc)BgSpot05Soko_Init,
-    (ActorFunc)BgSpot05Soko_Destroy,
-    (ActorFunc)BgSpot05Soko_Update,
-    (ActorFunc)BgSpot05Soko_Draw,
+    /**/ ACTOR_BG_SPOT05_SOKO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT05_OBJECTS,
+    /**/ sizeof(BgSpot05Soko),
+    /**/ BgSpot05Soko_Init,
+    /**/ BgSpot05Soko_Destroy,
+    /**/ BgSpot05Soko_Update,
+    /**/ BgSpot05Soko_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -82,13 +82,13 @@ void func_808AE5B4(BgSpot05Soko* this, PlayState* play) {
         Actor_SetFocus(&this->dyna.actor, 50.0f);
         OnePointCutscene_Attention(play, &this->dyna.actor);
         this->actionFunc = func_808AE630;
-        this->dyna.actor.speedXZ = 0.5f;
+        this->dyna.actor.speed = 0.5f;
     }
 }
 
 void func_808AE630(BgSpot05Soko* this, PlayState* play) {
-    this->dyna.actor.speedXZ *= 1.5f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) !=
+    this->dyna.actor.speed *= 1.5f;
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speed) !=
         0) {
         Actor_Kill(&this->dyna.actor);
     }

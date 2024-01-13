@@ -14,9 +14,15 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play);
 void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Obj_Makeoshihiki_InitVars = {
-    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,           FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP, sizeof(ObjMakeoshihiki), (ActorFunc)ObjMakeoshihiki_Init,
-    (ActorFunc)Actor_Noop,        (ActorFunc)Actor_Noop,   (ActorFunc)ObjMakeoshihiki_Draw,
+    /**/ ACTOR_OBJ_MAKEOSHIHIKI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjMakeoshihiki),
+    /**/ ObjMakeoshihiki_Init,
+    /**/ Actor_Noop,
+    /**/ Actor_Noop,
+    /**/ ObjMakeoshihiki_Draw,
 };
 
 typedef struct {
@@ -66,9 +72,9 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
     if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y, spawnPos->z, 0,
                            block->rotY, 0, ((block->color << 6) & 0xC0) | (block->type & 0xF) | 0xFF00) == NULL) {
         // "Push-pull block failure"
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_COL(RED, WHITE));
+        PRINTF("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);
+        PRINTF(VT_RST);
         Actor_Kill(thisx);
         return;
     }
@@ -76,7 +82,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
         ((ObjOshihiki*)thisx->child)->cantMove = true;
     }
     thisx->world.rot.z = thisx->shape.rot.z = 0;
-    osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params, thisx->home.rot.z);
+    PRINTF("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params, thisx->home.rot.z);
 }
 
 void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
@@ -113,7 +119,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, PlayState* play) {
                 }
 
                 if (sfxCond1 || sfxCond2) {
-                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
 

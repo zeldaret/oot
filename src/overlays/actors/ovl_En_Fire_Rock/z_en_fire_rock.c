@@ -16,15 +16,15 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play);
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play);
 
 ActorInit En_Fire_Rock_InitVars = {
-    ACTOR_EN_FIRE_ROCK,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_EFC_STAR_FIELD,
-    sizeof(EnFireRock),
-    (ActorFunc)EnFireRock_Init,
-    (ActorFunc)EnFireRock_Destroy,
-    (ActorFunc)EnFireRock_Update,
-    (ActorFunc)EnFireRock_Draw,
+    /**/ ACTOR_EN_FIRE_ROCK,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_EFC_STAR_FIELD,
+    /**/ sizeof(EnFireRock),
+    /**/ EnFireRock_Init,
+    /**/ EnFireRock_Destroy,
+    /**/ EnFireRock_Update,
+    /**/ EnFireRock_Draw,
 };
 
 static ColliderCylinderInit D_80A12CA0 = {
@@ -86,7 +86,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
         case FIRE_ROCK_CEILING_SPOT_SPAWNER:
             this->actor.draw = NULL;
             // "☆☆☆☆☆ ceiling waiting rock ☆☆☆☆☆"
-            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 天井待ち岩 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 天井待ち岩 ☆☆☆☆☆ \n" VT_RST);
             this->actionFunc = FireRock_WaitSpawnRocksFromCeiling;
             break;
         case FIRE_ROCK_ON_FLOOR:
@@ -94,7 +94,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &D_80A12CCC);
             // "☆☆☆☆☆ floor rock ☆☆☆☆☆"
-            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 床岩 ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 床岩 ☆☆☆☆☆ \n" VT_RST);
             this->collider.dim.radius = 23;
             this->collider.dim.height = 37;
             this->collider.dim.yShift = -10;
@@ -118,7 +118,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE1:
             this->actor.velocity.y = Rand_ZeroFloat(3.0f) + 4.0f;
-            this->actor.speedXZ = Rand_ZeroFloat(3.0f) + 3.0f;
+            this->actor.speed = Rand_ZeroFloat(3.0f) + 3.0f;
             this->scale = (Rand_ZeroFloat(1.0f) / 100.0f) + 0.02f;
             Actor_SetScale(&this->actor, this->scale);
             this->actor.gravity = -1.5f;
@@ -130,7 +130,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE2:
             this->actor.velocity.y = Rand_ZeroFloat(3.0f) + 4.0f;
-            this->actor.speedXZ = Rand_ZeroFloat(3.0f) + 2.0f;
+            this->actor.speed = Rand_ZeroFloat(3.0f) + 2.0f;
             this->scale = (Rand_ZeroFloat(1.0f) / 500.0f) + 0.01f;
             Actor_SetScale(&this->actor, this->scale);
             this->actor.gravity = -1.2f;
@@ -140,7 +140,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             // "☆☆☆☆☆ No such rock! ERR !!!!!! ☆☆☆☆☆"
-            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ そんな岩はねぇ！ERR!!!!!! ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ そんな岩はねぇ！ERR!!!!!! ☆☆☆☆☆ \n" VT_RST);
             Actor_Kill(&this->actor);
             break;
     }
@@ -153,10 +153,10 @@ void EnFireRock_Destroy(Actor* thisx, PlayState* play) {
         EnEncount2* spawner = (EnEncount2*)this->actor.parent;
         if ((spawner->actor.update != NULL) && (spawner->numSpawnedRocks > 0)) {
             spawner->numSpawnedRocks--;
-            osSyncPrintf("\n\n");
+            PRINTF("\n\n");
             // "☆☆☆☆☆ Number of spawned instances recovery ☆☆☆☆☆%d"
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生数回復 ☆☆☆☆☆%d\n" VT_RST, spawner->numSpawnedRocks);
-            osSyncPrintf("\n\n");
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生数回復 ☆☆☆☆☆%d\n" VT_RST, spawner->numSpawnedRocks);
+            PRINTF("\n\n");
         }
     }
     Collider_DestroyCylinder(play, &this->collider);
@@ -190,7 +190,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE1:
             if ((play->gameplayFrames & 3) == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_VALVAISA_ROCK);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
             }
             break;
     }
@@ -255,10 +255,10 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
                 }
                 spawnedFireRock->scale = this->scale - 0.01f;
             } else {
-                osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
             }
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_VALVAISA_ROCK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_VALVAISA_ROCK);
     }
     Actor_Kill(&this->actor);
 }
@@ -276,7 +276,7 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, PlayState* play) {
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->timer = 10;
             } else {
-                osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n" VT_RST);
             }
         }
         this->playerNearby = 1;
@@ -339,7 +339,7 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
             thisx->gravity = -0.3f - (this->scale * 7.0f);
         }
         if (this->type != FIRE_ROCK_ON_FLOOR) {
-            Actor_MoveForward(thisx);
+            Actor_MoveXZGravity(thisx);
             Actor_UpdateBgCheckInfo(play, thisx, 50.0f, 50.0f, 100.0f,
                                     UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
         }
@@ -350,12 +350,12 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
                 (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
                 if (this->collider.base.atFlags & AT_BOUNCED) {
                     this->collider.base.atFlags &= ~AT_BOUNCED;
-                    Audio_PlayActorSfx2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+                    Actor_PlaySfx(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
                     thisx->velocity.y = 0.0f;
-                    thisx->speedXZ = 0.0f;
+                    thisx->speed = 0.0f;
                     this->actionFunc = EnFireRock_SpawnMoreBrokenPieces;
                     // "☆☆☆☆☆ Shield Defense Lv1 ☆☆☆☆☆"
-                    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ シールド防御 Lv１ ☆☆☆☆☆ \n" VT_RST);
+                    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ シールド防御 Lv１ ☆☆☆☆☆ \n" VT_RST);
                     return;
                 }
                 setCollision = true;
@@ -396,7 +396,7 @@ void EnFireRock_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
     gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fire_rock.c", 768),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fire_rock.c", 768),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fire_rock.c", 773);

@@ -27,15 +27,15 @@ void BgBreakwall_Wait(BgBreakwall* this, PlayState* play);
 void BgBreakwall_LavaCoverMove(BgBreakwall* this, PlayState* play);
 
 ActorInit Bg_Breakwall_InitVars = {
-    ACTOR_BG_BREAKWALL,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgBreakwall),
-    (ActorFunc)BgBreakwall_Init,
-    (ActorFunc)BgBreakwall_Destroy,
-    (ActorFunc)BgBreakwall_Update,
-    NULL,
+    /**/ ACTOR_BG_BREAKWALL,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgBreakwall),
+    /**/ BgBreakwall_Init,
+    /**/ BgBreakwall_Destroy,
+    /**/ BgBreakwall_Update,
+    /**/ NULL,
 };
 
 static ColliderQuadInit sQuadInit = {
@@ -103,10 +103,10 @@ void BgBreakwall_Init(Actor* thisx, PlayState* play) {
         this->dyna.actor.world.pos.y -= 40.0f;
     }
 
-    this->bankIndex = (wallType >= BWALL_KD_FLOOR) ? Object_GetIndex(&play->objectCtx, OBJECT_KINGDODONGO)
-                                                   : Object_GetIndex(&play->objectCtx, OBJECT_BWALL);
+    this->requiredObjectSlot = (wallType >= BWALL_KD_FLOOR) ? Object_GetSlot(&play->objectCtx, OBJECT_KINGDODONGO)
+                                                            : Object_GetSlot(&play->objectCtx, OBJECT_BWALL);
 
-    if (this->bankIndex < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
     } else {
         BgBreakwall_SetupAction(this, BgBreakwall_WaitForObject);
@@ -180,7 +180,7 @@ Actor* BgBreakwall_SpawnFragments(PlayState* play, BgBreakwall* this, Vec3f* pos
                 }
 
                 if (actor != NULL) {
-                    actor->speedXZ = Rand_ZeroOne() + (accel * 0.6f);
+                    actor->speed = Rand_ZeroOne() + (accel * 0.6f);
                     actor->velocity.y = Rand_ZeroOne() + (accel * 0.6f);
                     actor->world.rot.y += (s16)((Rand_ZeroOne() - 0.5f) * 3000.0f);
                     actor->world.rot.x = (s16)(Rand_ZeroOne() * 3500.0f) + 2000;
@@ -201,11 +201,11 @@ Actor* BgBreakwall_SpawnFragments(PlayState* play, BgBreakwall* this, Vec3f* pos
  * Sets up the collision model as well is the object dependency and action function to use.
  */
 void BgBreakwall_WaitForObject(BgBreakwall* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->bankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         CollisionHeader* colHeader = NULL;
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
-        this->dyna.actor.objBankIndex = this->bankIndex;
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.draw = BgBreakwall_Draw;
@@ -243,18 +243,18 @@ void BgBreakwall_Wait(BgBreakwall* this, PlayState* play) {
         Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
 
         if (wallType == BWALL_KD_FLOOR) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_EXPLOSION);
         } else {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         }
 
         if ((wallType == BWALL_DC_ENTRANCE) && !Flags_GetEventChkInf(EVENTCHKINF_B0)) {
             Flags_SetEventChkInf(EVENTCHKINF_B0);
-            Cutscene_SetSegment(play, gDcOpeningCs);
+            Cutscene_SetScript(play, gDcOpeningCs);
             gSaveContext.cutsceneTrigger = 1;
             Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            func_8002DF54(play, NULL, 0x31);
+            Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_49);
         }
 
         if (this->dyna.actor.params < 0) {
@@ -297,7 +297,7 @@ void BgBreakwall_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_breakwall.c", 767);
 
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_breakwall.c", 771),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_breakwall.c", 771),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, this->bombableWallDList);
 

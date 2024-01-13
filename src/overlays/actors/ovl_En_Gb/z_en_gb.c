@@ -27,15 +27,15 @@ void EnGb_DrawCagedSouls(EnGb* this, PlayState* play);
 void EnGb_UpdateCagedSouls(EnGb* this, PlayState* play);
 
 ActorInit En_Gb_InitVars = {
-    ACTOR_EN_GB,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_PS,
-    sizeof(EnGb),
-    (ActorFunc)EnGb_Init,
-    (ActorFunc)EnGb_Destroy,
-    (ActorFunc)EnGb_Update,
-    (ActorFunc)EnGb_Draw,
+    /**/ ACTOR_EN_GB,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_PS,
+    /**/ sizeof(EnGb),
+    /**/ EnGb_Init,
+    /**/ EnGb_Destroy,
+    /**/ EnGb_Update,
+    /**/ EnGb_Draw,
 };
 
 static EnGbCagedSoulInfo sCagedSoulInfo[] = {
@@ -177,7 +177,7 @@ void EnGb_Init(Actor* thisx, PlayState* play) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->dyna.actor, 0.01f);
     this->dyna.actor.colChkInfo.mass = 0xFF;
-    this->dyna.actor.speedXZ = 0.0f;
+    this->dyna.actor.speed = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.gravity = -1.0f;
     this->actionTimer = (s16)Rand_ZeroFloat(100.0f) + 100;
@@ -264,7 +264,7 @@ s32 func_80A2F760(EnGb* this) {
 void func_80A2F7C0(EnGb* this) {
     Animation_Change(&this->skelAnime, &gPoeSellerSwingStickAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gPoeSellerSwingStickAnim), ANIMMODE_ONCE, 0.0f);
-    Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
+    Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
     this->actionFunc = func_80A2FC70;
 }
 
@@ -279,17 +279,17 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
             return;
         }
     }
-    if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
         switch (func_8002F368(play)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
                 this->actionFunc = func_80A2F94C;
                 break;
-            case EXCH_ITEM_POE:
+            case EXCH_ITEM_BOTTLE_POE:
                 player->actor.textId = 0x70F6;
                 this->actionFunc = func_80A2F9C0;
                 break;
-            case EXCH_ITEM_BIG_POE:
+            case EXCH_ITEM_BOTTLE_BIG_POE:
                 player->actor.textId = 0x70F7;
                 this->actionFunc = func_80A2FA50;
                 break;
@@ -297,7 +297,7 @@ void func_80A2F83C(EnGb* this, PlayState* play) {
         return;
     }
     if (this->dyna.actor.xzDistToPlayer < 100.0f) {
-        func_8002F298(&this->dyna.actor, play, 100.0f, EXCH_ITEM_POE);
+        Actor_OfferTalkExchangeEquiCylinder(&this->dyna.actor, play, 100.0f, EXCH_ITEM_BOTTLE_POE);
     }
 }
 
@@ -317,7 +317,7 @@ void func_80A2F9C0(EnGb* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_IA_BOTTLE);
+        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         Rupees_ChangeBy(10);
         this->actionFunc = func_80A2F83C;
     }
@@ -329,7 +329,7 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
-        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_IA_BOTTLE);
+        Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE_EMPTY, PLAYER_IA_BOTTLE);
         Rupees_ChangeBy(50);
         HIGH_SCORE(HS_POE_POINTS) += 100;
         if (HIGH_SCORE(HS_POE_POINTS) != 1000) {
@@ -350,7 +350,7 @@ void func_80A2FA50(EnGb* this, PlayState* play) {
 
 void func_80A2FB40(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE, 100.0f, 10.0f);
+        Actor_OfferGetItem(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
 }
@@ -360,13 +360,13 @@ void func_80A2FBB0(EnGb* this, PlayState* play) {
         this->dyna.actor.parent = NULL;
         this->actionFunc = func_80A2FC0C;
     } else {
-        func_8002F434(&this->dyna.actor, play, GI_BOTTLE, 100.0f, 10.0f);
+        Actor_OfferGetItem(&this->dyna.actor, play, GI_BOTTLE_EMPTY, 100.0f, 10.0f);
     }
 }
 
 void func_80A2FC0C(EnGb* this, PlayState* play) {
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(play)) {
-        Actor_ProcessTalkRequest(&this->dyna.actor, play);
+        Actor_TalkOfferAccepted(&this->dyna.actor, play);
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
     }
@@ -389,7 +389,7 @@ void func_80A2FC70(EnGb* this, PlayState* play) {
         this->cagedSouls[0].unk_3 = 1;
         if (this->actionFunc) {}
         this->actionTimer = (s16)Rand_ZeroFloat(600.0f) + 600;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_WOOD_HIT);
     }
 }
 
@@ -542,7 +542,7 @@ void EnGb_DrawCagedSouls(EnGb* this, PlayState* play) {
         }
         Matrix_Scale(0.007f, 0.007f, 1.0f, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_gb.c", 955),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_gb.c", 955),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gPoeSellerCagedSoulDL);
 

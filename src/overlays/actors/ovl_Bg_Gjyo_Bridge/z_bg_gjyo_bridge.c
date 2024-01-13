@@ -20,15 +20,15 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play);
 
 ActorInit Bg_Gjyo_Bridge_InitVars = {
-    ACTOR_BG_GJYO_BRIDGE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GJYO_OBJECTS,
-    sizeof(BgGjyoBridge),
-    (ActorFunc)BgGjyoBridge_Init,
-    (ActorFunc)BgGjyoBridge_Destroy,
-    (ActorFunc)BgGjyoBridge_Update,
-    (ActorFunc)BgGjyoBridge_Draw,
+    /**/ ACTOR_BG_GJYO_BRIDGE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GJYO_OBJECTS,
+    /**/ sizeof(BgGjyoBridge),
+    /**/ BgGjyoBridge_Init,
+    /**/ BgGjyoBridge_Destroy,
+    /**/ BgGjyoBridge_Update,
+    /**/ BgGjyoBridge_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -74,15 +74,15 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, PlayState* play) {
         (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) && (player->actor.world.pos.x > -70.0f) &&
         (player->actor.world.pos.x < 300.0f) && (player->actor.world.pos.y > 1340.0f) &&
         (player->actor.world.pos.z > 1340.0f) && (player->actor.world.pos.z < 1662.0f) && !Play_InCsMode(play)) {
-        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
+        play->csCtx.script = SEGMENTED_TO_VIRTUAL(gRainbowBridgeCs);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = BgGjyoBridge_SpawnBridge;
     }
 }
 
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, PlayState* play) {
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[2] != NULL) &&
-        (play->csCtx.npcActions[2]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[2] != NULL) &&
+        (play->csCtx.actorCues[2]->id == 2)) {
         this->dyna.actor.draw = BgGjyoBridge_Draw;
         DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
         SET_EVENTCHKINF(EVENTCHKINF_4D);
@@ -109,7 +109,7 @@ void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,
                                 play->gameplayFrames & 127, 32, 32));
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gjyo_bridge.c", 281),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_XLU_DISP++, gRainbowBridgeDL);

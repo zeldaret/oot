@@ -17,15 +17,15 @@ void BgSpot01Idomizu_Draw(Actor* thisx, PlayState* play);
 void func_808ABB84(BgSpot01Idomizu* this, PlayState* play);
 
 ActorInit Bg_Spot01_Idomizu_InitVars = {
-    ACTOR_BG_SPOT01_IDOMIZU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT01_OBJECTS,
-    sizeof(BgSpot01Idomizu),
-    (ActorFunc)BgSpot01Idomizu_Init,
-    (ActorFunc)BgSpot01Idomizu_Destroy,
-    (ActorFunc)BgSpot01Idomizu_Update,
-    (ActorFunc)BgSpot01Idomizu_Draw,
+    /**/ ACTOR_BG_SPOT01_IDOMIZU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_OBJECTS,
+    /**/ sizeof(BgSpot01Idomizu),
+    /**/ BgSpot01Idomizu_Init,
+    /**/ BgSpot01Idomizu_Destroy,
+    /**/ BgSpot01Idomizu_Update,
+    /**/ BgSpot01Idomizu_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -73,7 +73,7 @@ void BgSpot01Idomizu_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot01_idomizu.c", 232),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot01_idomizu.c", 232),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     frames = play->state.frames;

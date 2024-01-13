@@ -25,20 +25,20 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2);
 void DoorKiller_Destroy(Actor* thisx, PlayState* play);
 void DoorKiller_Update(Actor* thisx, PlayState* play);
 void DoorKiller_Wait(DoorKiller* this, PlayState* play);
-void DoorKiller_SetProperties(DoorKiller* this, PlayState* play);
+void DoorKiller_WaitForObject(DoorKiller* this, PlayState* play);
 void DoorKiller_DrawDoor(Actor* thisx, PlayState* play);
 void DoorKiller_DrawRubble(Actor* thisx, PlayState* play);
 
 ActorInit Door_Killer_InitVars = {
-    ACTOR_DOOR_KILLER,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_DOOR_KILLER,
-    sizeof(DoorKiller),
-    (ActorFunc)DoorKiller_Init,
-    (ActorFunc)DoorKiller_Destroy,
-    (ActorFunc)DoorKiller_Update,
-    NULL,
+    /**/ ACTOR_DOOR_KILLER,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_DOOR_KILLER,
+    /**/ sizeof(DoorKiller),
+    /**/ DoorKiller_Init,
+    /**/ DoorKiller_Destroy,
+    /**/ DoorKiller_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -99,18 +99,19 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     f32 randF;
     DoorKiller* this = (DoorKiller*)thisx;
-    s32 bankIndex;
+    s32 objectSlot;
     s32 i;
 
     // Look in the object bank for one of the four objects containing door textures
-    bankIndex = -1;
-    for (i = 0; bankIndex < 0; i++) {
-        bankIndex = Object_GetIndex(&play->objectCtx, sDoorTextures[i].objectId);
+    objectSlot = -1;
+    //! @bug If no objectSlot is found, `sDoorTextures` will be read out of bounds
+    for (i = 0; objectSlot < 0; i++) {
+        objectSlot = Object_GetSlot(&play->objectCtx, sDoorTextures[i].objectId);
         this->textureEntryIndex = i;
     }
-    osSyncPrintf("bank_ID = %d\n", bankIndex);
-    osSyncPrintf("status = %d\n", this->textureEntryIndex);
-    this->doorObjBankIndex = bankIndex;
+    PRINTF("bank_ID = %d\n", objectSlot);
+    PRINTF("status = %d\n", this->textureEntryIndex);
+    this->requiredObjectSlot = objectSlot;
     this->texture = sDoorTextures[this->textureEntryIndex].texture;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -126,8 +127,8 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             // play any animations it does not cause problems, but it would need to be changed otherwise.
             SkelAnime_InitFlex(play, &this->skelAnime, &object_door_killer_Skel_001BC8, NULL, this->jointTable,
                                this->jointTable, 9);
-            this->actionFunc = DoorKiller_SetProperties;
-            DoorKiller_SetProperties(this, play);
+            this->actionFunc = DoorKiller_WaitForObject;
+            DoorKiller_WaitForObject(this, play);
 
             // manually set the overall rotation of the door
             this->jointTable[1].x = this->jointTable[1].z = 0x4000;
@@ -152,8 +153,8 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
         case DOOR_KILLER_RUBBLE_PIECE_2:
         case DOOR_KILLER_RUBBLE_PIECE_3:
         case DOOR_KILLER_RUBBLE_PIECE_4:
-            this->actionFunc = DoorKiller_SetProperties;
-            DoorKiller_SetProperties(this, play);
+            this->actionFunc = DoorKiller_WaitForObject;
+            DoorKiller_WaitForObject(this, play);
 
             this->actor.gravity = -0.6f;
             this->actor.minVelocityY = -6.0f;
@@ -222,12 +223,12 @@ void DoorKiller_FallAsRubble(DoorKiller* this, PlayState* play) {
     } else {
         Actor_Kill(&this->actor);
     }
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
 }
 
 s32 DoorKiller_IsHit(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
-    if ((this->colliderCylinder.base.acFlags & AC_HIT) && (this->colliderCylinder.info.acHitInfo != NULL)) {
+    if ((this->colliderCylinder.base.acFlags & AC_HIT) && (this->colliderCylinder.elem.acHitElem != NULL)) {
         return true;
     }
     return false;
@@ -353,13 +354,13 @@ void DoorKiller_FallOver(DoorKiller* this, PlayState* play) {
             (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
             this->hasHitPlayerOrGround |= 1;
             func_8002F6D4(play, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f, 16);
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KDOOR_HIT);
-            func_8002F7DC(&player->actor, NA_SE_PL_BODY_HIT);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_KDOOR_HIT);
+            Player_PlaySfx(player, NA_SE_PL_BODY_HIT);
         }
     }
     if (!(this->hasHitPlayerOrGround & 1) && (this->timer == 2)) {
         this->hasHitPlayerOrGround |= 1;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KDOOR_HIT_GND);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_KDOOR_HIT_GND);
     }
 }
 
@@ -371,7 +372,7 @@ void DoorKiller_Wobble(DoorKiller* this, PlayState* play) {
     s32 i;
 
     if ((this->timer == 16) || (this->timer == 8)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_KDOOR_WAVE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_KDOOR_WAVE);
     }
 
     if (this->timer > 0) {
@@ -422,10 +423,10 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 
     if (DoorKiller_IsHit(&this->actor, play)) {
         // AC cylinder: wobble if hit by most weapons, die if hit by explosives or hammer
-        if (this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & (DMG_RANGED | DMG_SLASH | DMG_DEKU_STICK)) {
+        if (this->colliderCylinder.elem.acHitElem->toucher.dmgFlags & (DMG_RANGED | DMG_SLASH | DMG_DEKU_STICK)) {
             this->timer = 16;
             this->actionFunc = DoorKiller_Wobble;
-        } else if (this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & (DMG_HAMMER_SWING | DMG_EXPLOSIVE)) {
+        } else if (this->colliderCylinder.elem.acHitElem->toucher.dmgFlags & (DMG_HAMMER_SWING | DMG_EXPLOSIVE)) {
             DoorKiller_SpawnRubble(&this->actor, play);
             this->actionFunc = DoorKiller_Die;
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
@@ -459,17 +460,17 @@ void DoorKiller_Wait(DoorKiller* this, PlayState* play) {
 void DoorKiller_UpdateTexture(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->doorObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[thisx->objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->actor.objectSlot].segment);
 }
 
 /**
  * Gets the correct door texture, defines the appropriate draw fucntion and action function based on type behaviour
  * (door or rubble).
  */
-void DoorKiller_SetProperties(DoorKiller* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->doorObjBankIndex)) {
+void DoorKiller_WaitForObject(DoorKiller* this, PlayState* play) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         DoorKiller_UpdateTexture(&this->actor, play);
         switch (this->actor.params & 0xFF) {
             case DOOR_KILLER_DOOR:

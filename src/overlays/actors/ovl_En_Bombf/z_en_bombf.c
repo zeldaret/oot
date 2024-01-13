@@ -22,15 +22,15 @@ void EnBombf_Explode(EnBombf* this, PlayState* play);
 void EnBombf_SetupGrowBomb(EnBombf* this, s16 params);
 
 ActorInit En_Bombf_InitVars = {
-    ACTOR_EN_BOMBF,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_BOMBF,
-    sizeof(EnBombf),
-    (ActorFunc)EnBombf_Init,
-    (ActorFunc)EnBombf_Destroy,
-    (ActorFunc)EnBombf_Update,
-    (ActorFunc)EnBombf_Draw,
+    /**/ ACTOR_EN_BOMBF,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_BOMBF,
+    /**/ sizeof(EnBombf),
+    /**/ EnBombf_Init,
+    /**/ EnBombf_Destroy,
+    /**/ EnBombf_Update,
+    /**/ EnBombf_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -156,7 +156,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 func_8002F5C4(&this->actor, &bombFlower->actor, play);
                 this->timer = 180;
                 this->flowerBombScale = 0.0f;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_PL_PULL_UP_ROCK);
+                Actor_PlaySfx(&this->actor, NA_SE_PL_PULL_UP_ROCK);
                 this->actor.flags &= ~ACTOR_FLAG_0;
             } else {
                 player->actor.child = NULL;
@@ -191,7 +191,7 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
                 }
             } else {
                 if (!Actor_HasParent(&this->actor, play)) {
-                    func_8002F580(&this->actor, play);
+                    Actor_OfferCarry(&this->actor, play);
                 } else {
                     player->actor.child = NULL;
                     player->heldActor = NULL;
@@ -234,14 +234,14 @@ void EnBombf_Move(EnBombf* this, PlayState* play) {
     this->flowerBombScale = 1.0f;
 
     if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 0.025f, 0.0f);
     } else {
-        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.5f, 0.0f);
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -6.0f)) {
             func_8002F850(play, &this->actor);
             this->actor.velocity.y *= -0.5f;
         } else if (this->timer >= 4) {
-            func_8002F580(&this->actor, play);
+            Actor_OfferCarry(&this->actor, play);
         }
     }
 }
@@ -332,7 +332,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (thisx->params == BOMBFLOWER_BODY) {
-        Actor_MoveForward(thisx);
+        Actor_MoveXZGravity(thisx);
     }
 
     if (thisx->gravity != 0.0f) {
@@ -350,20 +350,20 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
         }
 
         // rebound bomb off the wall it hits
-        if ((thisx->speedXZ != 0.0f) && (thisx->bgCheckFlags & BGCHECKFLAG_WALL)) {
+        if ((thisx->speed != 0.0f) && (thisx->bgCheckFlags & BGCHECKFLAG_WALL)) {
 
             if (ABS((s16)(thisx->wallYaw - thisx->world.rot.y)) > 0x4000) {
                 if (1) {}
                 thisx->world.rot.y = ((thisx->wallYaw - thisx->world.rot.y) + thisx->wallYaw) - 0x8000;
             }
-            Audio_PlayActorSfx2(thisx, NA_SE_EV_BOMB_BOUND);
-            Actor_MoveForward(thisx);
+            Actor_PlaySfx(thisx, NA_SE_EV_BOMB_BOUND);
+            Actor_MoveXZGravity(thisx);
             DREG(6) = 1;
             Actor_UpdateBgCheckInfo(play, thisx, 5.0f, 10.0f, 0.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
                                         UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
             DREG(6) = 0;
-            thisx->speedXZ *= 0.7f;
+            thisx->speed *= 0.7f;
             thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 
@@ -387,7 +387,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 if ((play->gameplayFrames % 2) == 0) {
                     EffectSsGSpk_SpawnFuse(play, thisx, &effPos, &effVelocity, &effAccel);
                 }
-                Audio_PlayActorSfx2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
+                Actor_PlaySfx(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
                 effPos.y += 3.0f;
                 func_8002829C(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
@@ -424,7 +424,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                     EffectSsBlast_SpawnWhiteShockwave(play, &effPos, &effVelocity, &effAccel);
                 }
 
-                Audio_PlayActorSfx2(thisx, NA_SE_IT_BOMB_EXPLOSION);
+                Actor_PlaySfx(thisx, NA_SE_IT_BOMB_EXPLOSION);
                 play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = 250;
                 play->envCtx.adjAmbientColor[0] = play->envCtx.adjAmbientColor[1] = play->envCtx.adjAmbientColor[2] =
                     250;
@@ -460,7 +460,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
         }
         if (thisx->bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
             thisx->bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
-            Audio_PlayActorSfx2(thisx, NA_SE_EV_BOMB_DROP_WATER);
+            Actor_PlaySfx(thisx, NA_SE_EV_BOMB_DROP_WATER);
         }
     }
 }
@@ -469,10 +469,10 @@ Gfx* EnBombf_NewMtxDList(GraphicsContext* gfxCtx, PlayState* play) {
     Gfx* displayList;
     Gfx* displayListHead;
 
-    displayList = Graph_Alloc(gfxCtx, 5 * sizeof(Gfx));
+    displayList = GRAPH_ALLOC(gfxCtx, 5 * sizeof(Gfx));
     displayListHead = displayList;
     Matrix_ReplaceRotation(&play->billboardMtxF);
-    gSPMatrix(displayListHead++, Matrix_NewMtx(gfxCtx, "../z_en_bombf.c", 1021),
+    gSPMatrix(displayListHead++, MATRIX_NEW(gfxCtx, "../z_en_bombf.c", 1021),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPEndDisplayList(displayListHead);
     return displayList;
@@ -490,7 +490,7 @@ void EnBombf_Draw(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         if (thisx->params != BOMBFLOWER_BODY) {
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bombf.c", 1041),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bombf.c", 1041),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gBombFlowerLeavesDL);
             gSPDisplayList(POLY_OPA_DISP++, gBombFlowerBaseLeavesDL);
@@ -502,7 +502,7 @@ void EnBombf_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 200, 255, 200, 255);
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 20, 10, 0);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bombf.c", 1054),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bombf.c", 1054),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(EnBombf_NewMtxDList(play->state.gfxCtx, play)));
         gSPDisplayList(POLY_OPA_DISP++, gBombFlowerBombAndSparkDL);

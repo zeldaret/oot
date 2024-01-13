@@ -13,7 +13,7 @@ typedef struct BgSpot01Idohashira {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ s32 action;
     /* 0x0168 */ s32 drawConfig;
-    /* 0x016C */ u32 npcAction;
+    /* 0x016C */ u32 cueId;
     /* 0x0170 */ s32 unk_170;
 } BgSpot01Idohashira; // size = 0x0174
 

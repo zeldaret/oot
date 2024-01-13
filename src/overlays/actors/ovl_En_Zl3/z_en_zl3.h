@@ -36,7 +36,7 @@ typedef struct EnZl3 {
     /* 0x030C */ Path* unk_30C;
     /* 0x0310 */ s32 unk_310;
     /* 0x0314 */ s32 unk_314;
-    /* 0x0318 */ s32 unk_318;
+    /* 0x0318 */ s32 zl2Anime2ObjectSlot;
     /* 0x031C */ Vec3f unk_31C;
     /* 0x0328 */ s32 unk_328;
     /* 0x032C */ Vec3f unk_32C;
@@ -65,7 +65,7 @@ typedef struct EnZl3 {
     /* 0x03EC */ f32 unk_3EC;
     /* 0x03F0 */ f32 unk_3F0;
     /* 0x03F4 */ f32 unk_3F4;
-    /* 0x03F8 */ struct_80034A14_arg1 unk_3F8;
+    /* 0x03F8 */ NpcInteractInfo interactInfo;
 } EnZl3; // size = 0x0420
 
 #endif

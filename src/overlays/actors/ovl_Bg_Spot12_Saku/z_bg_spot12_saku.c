@@ -22,15 +22,15 @@ void func_808B3714(BgSpot12Saku* this);
 void func_808B37AC(BgSpot12Saku* this, PlayState* play);
 
 ActorInit Bg_Spot12_Saku_InitVars = {
-    ACTOR_BG_SPOT12_SAKU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT12_OBJ,
-    sizeof(BgSpot12Saku),
-    (ActorFunc)BgSpot12Saku_Init,
-    (ActorFunc)BgSpot12Saku_Destroy,
-    (ActorFunc)BgSpot12Saku_Update,
-    (ActorFunc)BgSpot12Saku_Draw,
+    /**/ ACTOR_BG_SPOT12_SAKU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT12_OBJ,
+    /**/ sizeof(BgSpot12Saku),
+    /**/ BgSpot12Saku_Init,
+    /**/ BgSpot12Saku_Destroy,
+    /**/ BgSpot12Saku_Update,
+    /**/ BgSpot12Saku_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -49,8 +49,8 @@ void func_808B3420(BgSpot12Saku* this, PlayState* play, CollisionHeader* collisi
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_saku.c", 140,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_saku.c", 140,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -103,7 +103,7 @@ void func_808B3604(BgSpot12Saku* this, PlayState* play) {
         this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
     if (fabsf(temp_ret) < 0.0001f) {
         func_808B3714(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }

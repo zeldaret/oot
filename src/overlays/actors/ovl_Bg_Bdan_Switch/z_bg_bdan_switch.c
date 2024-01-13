@@ -43,15 +43,15 @@ void func_8086DDA8(BgBdanSwitch* this);
 void func_8086DDC0(BgBdanSwitch* this, PlayState* play);
 
 ActorInit Bg_Bdan_Switch_InitVars = {
-    ACTOR_BG_BDAN_SWITCH,
-    ACTORCAT_SWITCH,
-    FLAGS,
-    OBJECT_BDAN_OBJECTS,
-    sizeof(BgBdanSwitch),
-    (ActorFunc)BgBdanSwitch_Init,
-    (ActorFunc)BgBdanSwitch_Destroy,
-    (ActorFunc)BgBdanSwitch_Update,
-    (ActorFunc)BgBdanSwitch_Draw,
+    /**/ ACTOR_BG_BDAN_SWITCH,
+    /**/ ACTORCAT_SWITCH,
+    /**/ FLAGS,
+    /**/ OBJECT_BDAN_OBJECTS,
+    /**/ sizeof(BgBdanSwitch),
+    /**/ BgBdanSwitch_Init,
+    /**/ BgBdanSwitch_Destroy,
+    /**/ BgBdanSwitch_Update,
+    /**/ BgBdanSwitch_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
@@ -98,8 +98,8 @@ void BgBdanSwitch_InitDynaPoly(BgBdanSwitch* this, PlayState* play, CollisionHea
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_bdan_switch.c", 325,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_bdan_switch.c", 325,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -192,12 +192,11 @@ void BgBdanSwitch_Init(Actor* thisx, PlayState* play) {
             }
             break;
         default:
-            osSyncPrintf("不正な ARG_DATA(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params, "../z_bg_bdan_switch.c",
-                         454);
+            PRINTF("不正な ARG_DATA(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params, "../z_bg_bdan_switch.c", 454);
             Actor_Kill(&this->dyna.actor);
             return;
     }
-    osSyncPrintf("(巨大魚ダンジョン 専用スイッチ)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(巨大魚ダンジョン 専用スイッチ)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgBdanSwitch_Destroy(Actor* thisx, PlayState* play) {
@@ -272,7 +271,7 @@ void func_8086D694(BgBdanSwitch* this, PlayState* play) {
         this->unk_1C8 -= 0.2f;
         if (this->unk_1C8 <= 0.1f) {
             func_8086D730(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
             Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
         }
     }
@@ -312,7 +311,7 @@ void func_8086D80C(BgBdanSwitch* this, PlayState* play) {
     this->unk_1C8 += 0.2f;
     if (this->unk_1C8 >= 1.0f) {
         func_8086D5C4(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
     }
 }
 
@@ -335,7 +334,7 @@ void func_8086D8CC(BgBdanSwitch* this, PlayState* play) {
     this->unk_1C8 -= 0.2f;
     if (this->unk_1C8 <= 0.6f) {
         func_8086D9F8(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
         Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
     }
 }
@@ -350,7 +349,7 @@ void func_8086D95C(BgBdanSwitch* this, PlayState* play) {
         this->unk_1C8 -= 0.2f;
         if (this->unk_1C8 <= 0.1f) {
             func_8086DB24(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
             Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
         }
     }
@@ -389,7 +388,7 @@ void func_8086DAC4(BgBdanSwitch* this, PlayState* play) {
     this->unk_1C8 += 0.2f;
     if (this->unk_1C8 >= 1.0f) {
         func_8086D86C(this);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
     }
 }
 
@@ -437,7 +436,7 @@ void func_8086DC48(BgBdanSwitch* this, PlayState* play) {
         this->unk_1C8 -= 0.3f;
         if (this->unk_1C8 <= 1.0f) {
             func_8086DCCC(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }
@@ -475,7 +474,7 @@ void func_8086DDC0(BgBdanSwitch* this, PlayState* play) {
         this->unk_1C8 += 0.3f;
         if (this->unk_1C8 >= 2.0f) {
             func_8086DB4C(this);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_FOOT_SWITCH);
         }
     }
 }

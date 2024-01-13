@@ -17,7 +17,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play);
 void Demo6K_Destroy(Actor* thisx, PlayState* play);
 void Demo6K_Update(Actor* thisx, PlayState* play);
 
-void func_80966DB0(Demo6K* this, PlayState* play);
+void Demo6K_WaitForObject(Demo6K* this, PlayState* play);
 void func_80966E04(Demo6K* this, PlayState* play);
 void func_80966E98(Demo6K* this, PlayState* play);
 void func_80966F84(Demo6K* this, PlayState* play);
@@ -35,18 +35,18 @@ void func_8096865C(Actor* thisx, PlayState* play);
 void func_809688C4(Actor* thisx, PlayState* play2);
 void func_80968B70(Actor* thisx, PlayState* play);
 void func_80968FB0(Actor* thisx, PlayState* play);
-void func_809691BC(Demo6K* this, PlayState* play, s32 params);
+void func_809691BC(Demo6K* this, PlayState* play, s32 cueChannel);
 
 ActorInit Demo_6K_InitVars = {
-    ACTOR_DEMO_6K,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(Demo6K),
-    (ActorFunc)Demo6K_Init,
-    (ActorFunc)Demo6K_Destroy,
-    (ActorFunc)Demo6K_Update,
-    NULL,
+    /**/ ACTOR_DEMO_6K,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(Demo6K),
+    /**/ Demo6K_Init,
+    /**/ Demo6K_Destroy,
+    /**/ Demo6K_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = {
@@ -69,26 +69,26 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
     Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     s32 params = this->actor.params;
-    s32 objBankIndex;
+    s32 objectSlot;
     s32 i;
 
-    osSyncPrintf("no = %d\n", params);
+    PRINTF("no = %d\n", params);
 
     if (sObjectIds[params] != OBJECT_GAMEPLAY_KEEP) {
-        objBankIndex = Object_GetIndex(&play->objectCtx, sObjectIds[params]);
+        objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[params]);
     } else {
-        objBankIndex = 0;
+        objectSlot = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
+    PRINTF("bank_ID = %d\n", objectSlot);
 
-    if (objBankIndex < 0) {
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_6k.c", 334);
     } else {
-        this->objBankIndex = objBankIndex;
+        this->requiredObjectSlot = objectSlot;
     }
 
-    Demo6K_SetupAction(this, func_80966DB0);
+    Demo6K_SetupAction(this, Demo6K_WaitForObject);
     this->timer1 = 0;
     this->flags = 0;
     this->timer2 = 0;
@@ -142,7 +142,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
             Actor_SetScale(&this->actor, 0.0f);
             this->initActionFunc = func_8096784C;
             this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EV_NABALL_VANISH);
+            Actor_PlaySfx(&this->actor, NA_SE_EV_NABALL_VANISH);
             break;
         case 12:
             Actor_SetScale(&this->actor, 0.0f);
@@ -197,41 +197,41 @@ void Demo6K_Destroy(Actor* thisx, PlayState* play) {
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
 }
 
-void func_80966DB0(Demo6K* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
+void Demo6K_WaitForObject(Demo6K* this, PlayState* play) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = this->drawFunc;
         this->actionFunc = this->initActionFunc;
     }
 }
 
 void func_80966E04(Demo6K* this, PlayState* play) {
-    if (play->csCtx.frames > 214) {
+    if (play->csCtx.curFrame > 214) {
         func_8002F948(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 
-    if (play->csCtx.frames > 264) {
+    if (play->csCtx.curFrame > 264) {
         func_8002F948(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
     }
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[6] != NULL) &&
-        (play->csCtx.npcActions[6]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
+        (play->csCtx.actorCues[6]->id == 2)) {
         Demo6K_SetupAction(this, func_80966E98);
     }
 }
 
 void func_80966E98(Demo6K* this, PlayState* play) {
-    if (play->csCtx.frames < 353) {
+    if (play->csCtx.curFrame < 353) {
         func_8002F948(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
         func_8002F948(&this->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
     }
 
-    if (play->csCtx.frames == 342) {
+    if (play->csCtx.curFrame == 342) {
         Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_SAGE_SEAL);
     }
 
     if (this->timer1 == 39) {
-        func_800788CC(NA_SE_EV_CONSENTRATION);
+        Sfx_PlaySfxCentered2(NA_SE_EV_CONSENTRATION);
         Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_6K, this->actor.world.pos.x, this->actor.world.pos.y + 10.0f,
                     this->actor.world.pos.z, 0, 0, 0, 2);
     }
@@ -288,8 +288,8 @@ void func_8096712C(Demo6K* this, PlayState* play) {
         this->actor.scale.x = 0.1f;
     }
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[6] != NULL) &&
-        (play->csCtx.npcActions[6]->action == 2)) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[6] != NULL) &&
+        (play->csCtx.actorCues[6]->id == 2)) {
         Demo6K_SetupAction(this, func_809670AC);
         this->timer1 = 0;
         this->actor.scale.x = 0.1f;
@@ -299,7 +299,7 @@ void func_8096712C(Demo6K* this, PlayState* play) {
 
     this->timer2++;
 
-    if ((play->sceneId == SCENE_GANONTIKA) && (play->csCtx.frames < D_8096932C[this->actor.params - 3])) {
+    if ((play->sceneId == SCENE_INSIDE_GANONS_CASTLE) && (play->csCtx.curFrame < D_8096932C[this->actor.params - 3])) {
         func_8002F974(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
     }
 }
@@ -331,9 +331,9 @@ void func_80967244(Demo6K* this, PlayState* play) {
     envColor.g = sEnvColors[this->unk_293].g;
     envColor.b = sEnvColors[this->unk_293].b;
 
-    if (play->sceneId == SCENE_TOKINOMA) {
+    if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
         scale = 6000;
-    } else if (play->csCtx.frames < 419) {
+    } else if (play->csCtx.curFrame < 419) {
         scale = 6000;
     } else {
         scale = 18000;
@@ -343,16 +343,16 @@ void func_80967244(Demo6K* this, PlayState* play) {
 }
 
 void func_80967410(Demo6K* this, PlayState* play) {
-    s32 params = this->actor.params - 14;
+    s32 cueChannel = this->actor.params - 14;
 
     this->timer2++;
 
     Actor_SetScale(&this->actor, 0.2f);
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[params] != NULL)) {
-        func_809691BC(this, play, params);
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[cueChannel] != NULL)) {
+        func_809691BC(this, play, cueChannel);
 
-        if (play->csCtx.npcActions[params]->action == 3) {
+        if (play->csCtx.actorCues[cueChannel]->id == 3) {
             this->flags &= ~1;
             func_80967244(this, play);
         } else {
@@ -388,7 +388,7 @@ void func_809674E0(Demo6K* this, PlayState* play) {
         this->actor.world.pos.y += (19.0f - this->actor.world.pos.y) * temp;
         this->actor.world.pos.z += (1613.0f - this->actor.world.pos.z) * temp;
 
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_FIRE - SFX_FLAG);
     }
 
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -462,8 +462,8 @@ void func_80967A04(Demo6K* this, s32 i) {
 void func_80967AD0(Demo6K* this, PlayState* play) {
     s32 i;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[1] != NULL)) {
-        if (play->csCtx.npcActions[1]->action == 2) {
+    if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[1] != NULL)) {
+        if (play->csCtx.actorCues[1]->id == 2) {
             this->unk_170++;
             func_8002F948(&this->actor, NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
         }
@@ -506,7 +506,7 @@ void func_80967BF8(Player* player, PlayState* play) {
 }
 
 void func_80967DBC(Demo6K* this, PlayState* play) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_ATTACK_DEMO - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_ATTACK_DEMO - SFX_FLAG);
 
     this->timer2++;
 
@@ -520,13 +520,13 @@ void func_80967DBC(Demo6K* this, PlayState* play) {
         if (this->timer2 > 104) {
             func_80967BF8(GET_PLAYER(play), play);
             Actor_Kill(&this->actor);
-            Audio_PlayActorSfx2(&GET_PLAYER(play)->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
+            Actor_PlaySfx(&GET_PLAYER(play)->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
         } else if (this->timer2 > 94) {
             Actor_SetScale(&this->actor, this->actor.scale.x + 0.03f);
 
             if (this->timer2 == 95) {
-                osSyncPrintf(VT_FGCOL(CYAN) "  NA_SE_EN_GANON_FIRE_DEMO\n" VT_RST);
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GANON_FIRE_DEMO);
+                PRINTF(VT_FGCOL(CYAN) "  NA_SE_EN_GANON_FIRE_DEMO\n" VT_RST);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_FIRE_DEMO);
             }
         }
 
@@ -582,7 +582,7 @@ void func_80967FFC(Actor* thisx, PlayState* play) {
 
         for (i = 0; i < 6; i++) {
             Matrix_RotateZ(M_PI / 3, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1115),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1115),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, colors[i][0].r, colors[i][0].g, colors[i][0].b, 255);
@@ -628,7 +628,7 @@ void func_80968298(Actor* thisx, PlayState* play) {
     }
 
     Matrix_RotateX(-M_PI / 2, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1170),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1170),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 210, 210, 210, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 100, 100, 100, 255);
@@ -638,7 +638,7 @@ void func_80968298(Actor* thisx, PlayState* play) {
                                 (timer1 * 12) & 0xFFF, 64, 32));
     gSPDisplayList(POLY_XLU_DISP++, object_demo_6k_DL_0039D0);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1189),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1189),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
@@ -669,12 +669,12 @@ void func_8096865C(Actor* thisx, PlayState* play) {
         Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_RotateZ(DEG_TO_RAD(this->timer2 * 6), MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1230),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1230),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, displayList);
         Matrix_Pop();
         Matrix_RotateZ(DEG_TO_RAD(-(f32)(this->timer2 * 6)), MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1236),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1236),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, displayList);
     }
@@ -688,8 +688,8 @@ void func_809688C4(Actor* thisx, PlayState* play2) {
     u32 frames = play->state.frames;
     s32 i;
 
-    if ((i = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[1] != NULL)) &&
-        (play->csCtx.npcActions[1]->action != 1)) {
+    if ((i = (play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.actorCues[1] != NULL)) &&
+        (play->csCtx.actorCues[1]->id != 1)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1277);
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
@@ -706,7 +706,7 @@ void func_809688C4(Actor* thisx, PlayState* play2) {
                          this->unk_234[i] * D_8096931C[(frames + i) & 3],
                          this->unk_234[i] * D_8096931C[(frames + i) & 3], MTXMODE_APPLY);
             Matrix_ReplaceRotation(&play->billboardMtxF);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1297),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1297),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
             Matrix_Pop();
@@ -732,7 +732,7 @@ void func_80968B70(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
     Matrix_RotateX(M_PI / 2, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1322),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1322),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0xFF - ((timer2 * 2) & 0xFF), 0, 32, 32, 1,
@@ -770,7 +770,7 @@ void func_80968B70(Actor* thisx, PlayState* play) {
 void func_80968FB0(Actor* thisx, PlayState* play) {
     static u8 D_809693CC[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1 };
     Demo6K* this = (Demo6K*)thisx;
-    Gfx* displayList = Graph_Alloc(play->state.gfxCtx, 4 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(play->state.gfxCtx, 4 * sizeof(Gfx));
     u16 frames = play->gameplayFrames;
     f32 scaleFactor;
     s32 pad;
@@ -783,7 +783,7 @@ void func_80968FB0(Actor* thisx, PlayState* play) {
     scaleFactor = ((s16)D_809693CC[(frames * 4) & 0xF] * 0.01f) + 1.0f;
     Matrix_Scale(this->actor.scale.x * scaleFactor, this->actor.scale.y * scaleFactor,
                  this->actor.scale.z * scaleFactor, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_6k.c", 1394),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08, displayList);
     gDPPipeSync(displayList++);
@@ -796,21 +796,21 @@ void func_80968FB0(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_6k.c", 1411);
 }
 
-void func_809691BC(Demo6K* this, PlayState* play, s32 params) {
+void func_809691BC(Demo6K* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
     f32 temp;
-    CsCmdActorAction* csAction = play->csCtx.npcActions[params];
+    CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
 
-    startPos.x = csAction->startPos.x;
-    startPos.y = csAction->startPos.y;
-    startPos.z = csAction->startPos.z;
+    startPos.x = cue->startPos.x;
+    startPos.y = cue->startPos.y;
+    startPos.z = cue->startPos.z;
 
-    endPos.x = csAction->endPos.x;
-    endPos.y = csAction->endPos.y;
-    endPos.z = csAction->endPos.z;
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
 
-    temp = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, play->csCtx.frames);
+    temp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
 
     this->actor.world.pos.x = LERP(startPos.x, endPos.x, temp);
     this->actor.world.pos.y = LERP(startPos.y, endPos.y, temp);

@@ -17,9 +17,9 @@ typedef struct DemoEc {
     /* 0x0192 */ s16 blinkTimer;
     /* 0x0194 */ s32 updateMode;
     /* 0x0198 */ s32 drawConfig;
-    /* 0x019C */ s32 npcAction;
-    /* 0x01A0 */ s32 drawObjBankIndex;
-    /* 0x01A4 */ s32 animObjBankIndex;
+    /* 0x019C */ s32 cueId;
+    /* 0x01A0 */ s32 drawObjectSlot;
+    /* 0x01A4 */ s32 animObjectSlot;
 } DemoEc; // size = 0x01A8
 
 #endif

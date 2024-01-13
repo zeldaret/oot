@@ -106,7 +106,7 @@ void ZLimb::ParseRawData()
 		skinSegmentType =
 			static_cast<ZLimbSkinType>(BitConverter::ToInt32BE(rawData, rawDataIndex + 8));
 		skinSegment = BitConverter::ToUInt32BE(rawData, rawDataIndex + 12);
-		if (skinSegmentType == ZLimbSkinType::SkinType_4)
+		if (skinSegmentType == ZLimbSkinType::SkinType_Animated)
 		{
 			if (skinSegment != 0 && GETSEGNUM(skinSegment) == parent->segment)
 			{
@@ -181,7 +181,7 @@ void ZLimb::DeclareReferences(const std::string& prefix)
 	case ZLimbType::Skin:
 		switch (skinSegmentType)
 		{
-		case ZLimbSkinType::SkinType_4:
+		case ZLimbSkinType::SkinType_Animated:
 			if (skinSegment != 0 && GETSEGNUM(skinSegment) == parent->segment)
 			{
 				segmentStruct.DeclareReferences(varPrefix);
@@ -189,7 +189,7 @@ void ZLimb::DeclareReferences(const std::string& prefix)
 			}
 			break;
 
-		case ZLimbSkinType::SkinType_DList:
+		case ZLimbSkinType::SkinType_Normal:
 			DeclareDList(skinSegment, varPrefix, "");
 			break;
 
@@ -394,7 +394,7 @@ void ZLimb::DeclareDList(segptr_t dListSegmentedPtr, const std::string& prefix,
 
 	std::string dlistName;
 	bool declFound = Globals::Instance->GetSegmentedArrayIndexedName(dListSegmentedPtr, 8, parent,
-	                                                                 "Gfx", dlistName);
+	                                                                 "Gfx", dlistName, false);
 	if (declFound)
 		return;
 

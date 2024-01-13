@@ -20,15 +20,15 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play);
 void func_809B2B48(EnAnubiceFire* this, PlayState* play);
 
 ActorInit En_Anubice_Fire_InitVars = {
-    ACTOR_EN_ANUBICE_FIRE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_ANUBICE,
-    sizeof(EnAnubiceFire),
-    (ActorFunc)EnAnubiceFire_Init,
-    (ActorFunc)EnAnubiceFire_Destroy,
-    (ActorFunc)EnAnubiceFire_Update,
-    (ActorFunc)EnAnubiceFire_Draw,
+    /**/ ACTOR_EN_ANUBICE_FIRE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_ANUBICE,
+    /**/ sizeof(EnAnubiceFire),
+    /**/ EnAnubiceFire_Init,
+    /**/ EnAnubiceFire_Destroy,
+    /**/ EnAnubiceFire_Update,
+    /**/ EnAnubiceFire_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -110,10 +110,10 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else if ((this->actor.params == 0) && (this->cylinder.base.atFlags & AT_BOUNCED)) {
         if (Player_HasMirrorShieldEquipped(play)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
             this->cylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->cylinder.base.atFlags |= AT_TYPE_PLAYER;
-            this->cylinder.info.toucher.dmgFlags = DMG_DEKU_STICK;
+            this->cylinder.elem.toucher.dmgFlags = DMG_DEKU_STICK;
             this->unk_15A = 30;
             this->actor.params = 1;
             this->actor.velocity.x *= -1.0f;
@@ -123,7 +123,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
             this->unk_15A = 0;
             EffectSsBomb2_SpawnLayered(play, &this->actor.world.pos, &sp78, &sp84, 10, 5);
             this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
             this->actionFunc = func_809B2B48;
         }
     } else if (!(this->scale < .4f)) {
@@ -137,7 +137,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
             pos.z = this->actor.world.pos.z;
             EffectSsKiraKira_SpawnDispersed(play, &pos, &velocity, &accel, &primColor, &envColor, scale, life);
         }
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_FIRE - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_FIRE - SFX_FLAG);
     }
 }
 
@@ -176,7 +176,7 @@ void EnAnubiceFire_Update(Actor* thisx, PlayState* play) {
 
     Actor_SetScale(&this->actor, this->scale);
     this->actionFunc(this, play);
-    func_8002D7EC(&this->actor);
+    Actor_UpdatePos(&this->actor);
     this->unk_160[0] = this->actor.world.pos;
 
     for (i = 4; i >= 0; i--) {
@@ -207,7 +207,7 @@ void EnAnubiceFire_Update(Actor* thisx, PlayState* play) {
 
         if (BgCheck_SphVsFirstPoly(&play->colCtx, &this->actor.world.pos, 30.0f)) {
             this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
             this->actionFunc = func_809B2B48;
         }
     }
@@ -243,7 +243,7 @@ void EnAnubiceFire_Draw(Actor* thisx, PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_RotateZ(this->actor.world.rot.z + i * 1000.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_anubice_fire.c", 546),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_anubice_fire.c", 546),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, gAnubiceFireAttackDL);

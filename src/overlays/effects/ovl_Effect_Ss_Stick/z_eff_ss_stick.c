@@ -8,7 +8,7 @@
 #include "assets/objects/object_link_boy/object_link_boy.h"
 #include "assets/objects/object_link_child/object_link_child.h"
 
-#define rObjBankIdx regs[0]
+#define rObjectSlot regs[0]
 #define rYaw regs[1]
 
 u32 EffectSsStick_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -21,7 +21,7 @@ EffectSsInit Effect_Ss_Stick_InitVars = {
 };
 
 typedef struct {
-    /* 0x00 */ s16 objectID;
+    /* 0x00 */ s16 objectId;
     /* 0x04 */ Gfx* displayList;
 } StickDrawInfo;
 
@@ -30,10 +30,10 @@ u32 EffectSsStick_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         { OBJECT_LINK_BOY, gLinkAdultBrokenGiantsKnifeBladeDL }, // adult, broken sword
         { OBJECT_LINK_CHILD, gLinkChildLinkDekuStickDL },        // child, broken stick
     };
-    StickDrawInfo* ageInfoEntry = gSaveContext.linkAge + drawInfo;
+    StickDrawInfo* ageInfoEntry = gSaveContext.save.linkAge + drawInfo;
     EffectSsStickInitParams* initParams = (EffectSsStickInitParams*)initParamsx;
 
-    this->rObjBankIdx = Object_GetIndex(&play->objectCtx, ageInfoEntry->objectID);
+    this->rObjectSlot = Object_GetSlot(&play->objectCtx, ageInfoEntry->objectId);
     this->gfx = ageInfoEntry->displayList;
     this->vec = this->pos = initParams->pos;
     this->rYaw = initParams->yaw;
@@ -64,10 +64,10 @@ void EffectSsStick_Draw(PlayState* play, u32 index, EffectSs* this) {
         Matrix_RotateZYX(0, this->rYaw, play->state.frames * 10000, MTXMODE_APPLY);
     }
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ss_stick.c", 176),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Gfx_SetupDL_25Opa(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->rObjBankIdx].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
     gSPDisplayList(POLY_OPA_DISP++, this->gfx);
 

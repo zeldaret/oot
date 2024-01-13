@@ -15,18 +15,18 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play);
 void BgMenkuriEye_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Menkuri_Eye_InitVars = {
-    ACTOR_BG_MENKURI_EYE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MENKURI_OBJECTS,
-    sizeof(BgMenkuriEye),
-    (ActorFunc)BgMenkuriEye_Init,
-    (ActorFunc)BgMenkuriEye_Destroy,
-    (ActorFunc)BgMenkuriEye_Update,
-    (ActorFunc)BgMenkuriEye_Draw,
+    /**/ ACTOR_BG_MENKURI_EYE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MENKURI_OBJECTS,
+    /**/ sizeof(BgMenkuriEye),
+    /**/ BgMenkuriEye_Init,
+    /**/ BgMenkuriEye_Destroy,
+    /**/ BgMenkuriEye_Update,
+    /**/ BgMenkuriEye_Draw,
 };
 
-static s32 D_8089C1A0;
+static s32 sNumEyesShot;
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
@@ -72,7 +72,7 @@ void BgMenkuriEye_Init(Actor* thisx, PlayState* play) {
     colliderList = this->collider.elements;
     colliderList->dim.worldSphere.radius = colliderList->dim.modelSphere.radius;
     if (!Flags_GetSwitch(play, this->actor.params)) {
-        D_8089C1A0 = 0;
+        sNumEyesShot = 0;
     }
     this->framesUntilDisable = -1;
 }
@@ -89,11 +89,11 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
     if (!Flags_GetSwitch(play, this->actor.params)) {
         if (this->framesUntilDisable != -1) {
             if (this->framesUntilDisable != 0) {
-                this->framesUntilDisable -= 1;
+                this->framesUntilDisable--;
             }
             if (this->framesUntilDisable == 0) {
                 this->framesUntilDisable = -1;
-                D_8089C1A0 -= 1;
+                sNumEyesShot--;
             }
         }
     }
@@ -101,14 +101,14 @@ void BgMenkuriEye_Update(Actor* thisx, PlayState* play) {
         (ABS((s16)(this->collider.base.ac->world.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->framesUntilDisable == -1) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
-            D_8089C1A0 += 1;
-            D_8089C1A0 = CLAMP_MAX(D_8089C1A0, 4);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_AMOS_DAMAGE);
+            sNumEyesShot++;
+            sNumEyesShot = CLAMP_MAX(sNumEyesShot, 4);
         }
         this->framesUntilDisable = 416;
-        if (D_8089C1A0 == 4) {
+        if (sNumEyesShot == 4) {
             Flags_SetSwitch(play, this->actor.params);
-            func_80078884(NA_SE_SY_CORRECT_CHIME);
+            Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         }
     }
     if (this->framesUntilDisable == -1) {
@@ -133,7 +133,7 @@ void BgMenkuriEye_Draw(Actor* thisx, PlayState* play) {
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_menkuri_eye.c", 331),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_menkuri_eye.c", 331),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_XLU_DISP++, gGTGEyeStatueEyeDL);

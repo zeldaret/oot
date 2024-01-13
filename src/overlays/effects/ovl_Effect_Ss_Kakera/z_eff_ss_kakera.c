@@ -17,7 +17,7 @@
 #define rReg8 regs[8]
 #define rReg9 regs[9]
 #define rObjId regs[10]
-#define rObjBankIdx regs[11]
+#define rObjectSlot regs[11]
 #define rColorIdx regs[12]
 
 u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -53,7 +53,7 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
         }
 
     } else {
-        osSyncPrintf("shape_modelがNULL\n");
+        PRINTF("shape_modelがNULL\n");
         LogUtils_HungupThread("../z_eff_kakera.c", 178);
     }
 
@@ -79,7 +79,7 @@ f32 func_809A9818(f32 arg0, f32 arg1) {
     f32 temp_f2;
 
     if (arg1 < 0.0f) {
-        osSyncPrintf("範囲がマイナス！！(randomD_sectionUniformity)\n");
+        PRINTF("範囲がマイナス！！(randomD_sectionUniformity)\n");
     }
 
     temp_f2 = Rand_ZeroOne() * arg1;
@@ -100,9 +100,9 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
 
     if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
         if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-            gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.status[this->rObjBankIdx].segment);
+            gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);
         } else {
-            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->rObjBankIdx].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);
         }
     }
 
@@ -112,7 +112,7 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
     if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 268),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_kakera.c", 268),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
@@ -122,7 +122,7 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
 
         gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     } else {
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 286),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_kakera.c", 286),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
@@ -137,9 +137,9 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void func_809A9BA8(EffectSs* this, PlayState* play) {
-    this->rObjBankIdx = Object_GetIndex(&play->objectCtx, this->rObjId);
+    this->rObjectSlot = Object_GetSlot(&play->objectCtx, this->rObjId);
 
-    if ((this->rObjBankIdx < 0) || !Object_IsLoaded(&play->objectCtx, this->rObjBankIdx)) {
+    if ((this->rObjectSlot < 0) || !Object_IsLoaded(&play->objectCtx, this->rObjectSlot)) {
         this->life = 0;
         this->draw = NULL;
     }
@@ -379,7 +379,7 @@ void func_809AA230(EffectSs* this, PlayState* play) {
                         this->velocity.z *= func_809A9818(0.9f, 0.2f);
 
                         if (this->rReg8 > 0) {
-                            this->rReg8 -= 1;
+                            this->rReg8--;
                         }
                     }
                 }

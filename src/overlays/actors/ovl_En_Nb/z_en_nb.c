@@ -121,10 +121,10 @@ void EnNb_UpdatePath(EnNb* this, PlayState* play) {
         this->pathYaw =
             RAD_TO_BINANG(Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z));
         // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
-        osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
+        PRINTF("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
     } else {
         // "En_Nb_Get_path_info Rail Data Doesn't Exist!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF("En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n");
     }
 }
 
@@ -152,30 +152,30 @@ void EnNb_Destroy(Actor* thisx, PlayState* play) {
 void func_80AB0FBC(EnNb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_300.unk_18 = player->actor.world.pos;
-    this->unk_300.unk_14 = kREG(16) + 9.0f;
-    func_80034A14(&this->actor, &this->unk_300, kREG(17) + 0xC, 2);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 9.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_HEAD_AND_TORSO);
 }
 
 void func_80AB1040(EnNb* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    this->unk_300.unk_18 = player->actor.world.pos;
-    this->unk_300.unk_14 = kREG(16) + 9.0f;
-    func_80034A14(&this->actor, &this->unk_300, kREG(17) + 0xC, 4);
+    this->interactInfo.trackPos = player->actor.world.pos;
+    this->interactInfo.yOffset = kREG(16) + 9.0f;
+    Npc_TrackPoint(&this->actor, &this->interactInfo, kREG(17) + 0xC, NPC_TRACKING_FULL_BODY);
 }
 
 void func_80AB10C4(EnNb* this) {
     s32 pad2[2];
-    Vec3s* tempPtr;
-    Vec3s* tempPtr2;
+    Vec3s* headRot;
+    Vec3s* torsoRot;
 
-    tempPtr = &this->unk_300.unk_08;
-    Math_SmoothStepToS(&tempPtr->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&tempPtr->y, 0, 20, 6200, 100);
-    tempPtr2 = &this->unk_300.unk_0E;
-    Math_SmoothStepToS(&tempPtr2->x, 0, 20, 6200, 100);
-    Math_SmoothStepToS(&tempPtr2->y, 0, 20, 6200, 100);
+    headRot = &this->interactInfo.headRot;
+    Math_SmoothStepToS(&headRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&headRot->y, 0, 20, 6200, 100);
+    torsoRot = &this->interactInfo.torsoRot;
+    Math_SmoothStepToS(&torsoRot->x, 0, 20, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 20, 6200, 100);
 }
 
 void EnNb_UpdateEyes(EnNb* this) {
@@ -229,57 +229,65 @@ s32 EnNb_UpdateSkelAnime(EnNb* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
-CsCmdActorAction* EnNb_GetNpcCsAction(PlayState* play, s32 npcActionIdx) {
+CsCmdActorCue* EnNb_GetCue(PlayState* play, s32 cueChannel) {
     if (play->csCtx.state != CS_STATE_IDLE) {
-        return play->csCtx.npcActions[npcActionIdx];
+        return play->csCtx.actorCues[cueChannel];
     }
+
     return NULL;
 }
 
-void EnNb_SetupCsPosRot(EnNb* this, PlayState* play, s32 npcActionIdx) {
-    CsCmdActorAction* csCmdNPCAction = EnNb_GetNpcCsAction(play, npcActionIdx);
-    s16 newRotY;
+void EnNb_SetStartPosRotFromCue1(EnNb* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = EnNb_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
 
-    if (csCmdNPCAction != NULL) {
-        thisx->world.pos.x = csCmdNPCAction->startPos.x;
-        thisx->world.pos.y = csCmdNPCAction->startPos.y;
-        thisx->world.pos.z = csCmdNPCAction->startPos.z;
-        thisx->world.rot.y = thisx->shape.rot.y = csCmdNPCAction->rot.y;
+    if (cue != NULL) {
+        thisx->world.pos.x = cue->startPos.x;
+        thisx->world.pos.y = cue->startPos.y;
+        thisx->world.pos.z = cue->startPos.z;
+
+        thisx->world.rot.y = thisx->shape.rot.y = cue->rot.y;
     }
 }
 
-s32 func_80AB1390(EnNb* this, PlayState* play, u16 arg2, s32 npcActionIdx) {
-    CsCmdActorAction* csCmdNPCAction;
+s32 func_80AB1390(EnNb* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) &&
-        (csCmdNPCAction = play->csCtx.npcActions[npcActionIdx], csCmdNPCAction != NULL) &&
-        (csCmdNPCAction->action == arg2)) {
-        return true;
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        cue = play->csCtx.actorCues[cueChannel];
+
+        if ((cue != NULL) && (cue->id == cueId)) {
+            return true;
+        }
     }
+
     return false;
 }
 
-s32 func_80AB13D8(EnNb* this, PlayState* play, u16 arg2, s32 npcActionIdx) {
-    CsCmdActorAction* csCmdNPCAction;
+s32 func_80AB13D8(EnNb* this, PlayState* play, u16 cueId, s32 cueChannel) {
+    CsCmdActorCue* cue;
 
-    if ((play->csCtx.state != CS_STATE_IDLE) &&
-        (csCmdNPCAction = play->csCtx.npcActions[npcActionIdx], csCmdNPCAction != NULL) &&
-        (csCmdNPCAction->action != arg2)) {
-        return true;
+    if (play->csCtx.state != CS_STATE_IDLE) {
+        cue = play->csCtx.actorCues[cueChannel];
+
+        if ((cue != NULL) && (cue->id != cueId)) {
+            return true;
+        }
     }
+
     return false;
 }
 
-void EnNb_SetInitialCsPosRot(EnNb* this, PlayState* play, s32 npcActionIdx) {
-    CsCmdActorAction* csCmdNPCAction = EnNb_GetNpcCsAction(play, npcActionIdx);
+void EnNb_SetStartPosRotFromCue2(EnNb* this, PlayState* play, s32 cueChannel) {
+    CsCmdActorCue* cue = EnNb_GetCue(play, cueChannel);
     Actor* thisx = &this->actor;
 
-    if (csCmdNPCAction != NULL) {
-        thisx->world.pos.x = csCmdNPCAction->startPos.x;
-        thisx->world.pos.y = csCmdNPCAction->startPos.y;
-        thisx->world.pos.z = csCmdNPCAction->startPos.z;
-        thisx->world.rot.y = thisx->shape.rot.y = csCmdNPCAction->rot.y;
+    if (cue != NULL) {
+        thisx->world.pos.x = cue->startPos.x;
+        thisx->world.pos.y = cue->startPos.y;
+        thisx->world.pos.z = cue->startPos.z;
+
+        thisx->world.rot.y = thisx->shape.rot.y = cue->rot.y;
     }
 }
 
@@ -333,10 +341,10 @@ void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
     s32 pad[2];
     Player* player;
 
-    if ((gSaveContext.chamberCutsceneNum == 3) && !IS_CUTSCENE_LAYER) {
+    if ((gSaveContext.chamberCutsceneNum == CHAMBER_CS_SPIRIT) && !IS_CUTSCENE_LAYER) {
         player = GET_PLAYER(play);
         this->action = NB_CHAMBER_UNDERGROUND;
-        play->csCtx.segment = D_80AB431C;
+        play->csCtx.script = D_80AB431C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(play, ITEM_MEDALLION_SPIRIT);
         player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
@@ -345,11 +353,11 @@ void EnNb_SetupChamberCsImpl(EnNb* this, PlayState* play) {
 
 void EnNb_SetupChamberWarpImpl(EnNb* this, PlayState* play) {
     CutsceneContext* csCtx = &play->csCtx;
-    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorCue* cue;
 
     if (csCtx->state != CS_STATE_IDLE) {
-        csCmdNPCAction = csCtx->npcActions[1];
-        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
+        cue = csCtx->actorCues[1];
+        if (cue != NULL && cue->id == 2) {
             this->action = NB_CHAMBER_APPEAR;
             this->drawMode = NB_DRAW_DEFAULT;
             EnNb_SpawnBlueWarp(this, play);
@@ -366,11 +374,11 @@ void EnNb_SetupDefaultChamberIdle(EnNb* this) {
 
 void EnNb_SetupArmRaise(EnNb* this, PlayState* play) {
     AnimationHeader* animation = &gNabooruRaisingArmsGivingMedallionAnim;
-    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        csCmdNPCAction = play->csCtx.npcActions[1];
-        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 3) {
+        cue = play->csCtx.actorCues[1];
+        if (cue != NULL && cue->id == 3) {
             Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
                              0.0f);
             this->action = NB_CHAMBER_RAISE_ARM;
@@ -389,11 +397,11 @@ void EnNb_SetupRaisedArmTransition(EnNb* this, s32 animFinished) {
 }
 
 void EnNb_SetupMedallion(EnNb* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorCue* cue;
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        csCmdNPCAction = play->csCtx.npcActions[6];
-        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
+        cue = play->csCtx.actorCues[6];
+        if (cue != NULL && cue->id == 2) {
             this->action = NB_GIVE_MEDALLION;
             EnNb_GiveMedallion(this, play);
         }
@@ -452,7 +460,7 @@ void EnNb_SetupLightArrowOrSealingCs(EnNb* this, PlayState* play) {
 }
 
 void EnNb_PlaySealingSfx(void) {
-    func_800788CC(NA_SE_SY_WHITE_OUT_T);
+    Sfx_PlaySfxCentered2(NA_SE_SY_WHITE_OUT_T);
 }
 
 void EnNb_InitializeDemo6K(EnNb* this, PlayState* play) {
@@ -566,42 +574,43 @@ void EnNb_InitKidnap(EnNb* this, PlayState* play) {
 }
 
 void EnNb_PlayCrySFX(EnNb* this, PlayState* play) {
-    if (play->csCtx.frames == 3) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
+    if (play->csCtx.curFrame == 3) {
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
     }
 }
 
 void EnNb_PlayAgonySFX(EnNb* this, PlayState* play) {
-    if (play->csCtx.frames == 420) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_AGONY);
+    if (play->csCtx.curFrame == 420) {
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_NB_AGONY);
     }
 }
 
 void EnNb_SetPosInPortal(EnNb* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction = EnNb_GetNpcCsAction(play, 1);
+    CsCmdActorCue* cue = EnNb_GetCue(play, 1);
     Vec3f* pos = &this->actor.world.pos;
-    f32 f0;
+    f32 lerp;
     s32 pad;
     Vec3f startPos;
     Vec3f endPos;
 
-    if (csCmdNPCAction != NULL) {
-        f0 = Environment_LerpWeightAccelDecel(csCmdNPCAction->endFrame, csCmdNPCAction->startFrame, play->csCtx.frames,
-                                              4, 4);
-        startPos.x = csCmdNPCAction->startPos.x;
-        startPos.y = csCmdNPCAction->startPos.y;
-        startPos.z = csCmdNPCAction->startPos.z;
-        endPos.x = csCmdNPCAction->endPos.x;
-        endPos.y = csCmdNPCAction->endPos.y;
-        endPos.z = csCmdNPCAction->endPos.z;
-        pos->x = ((endPos.x - startPos.x) * f0) + startPos.x;
-        pos->y = ((endPos.y - startPos.y) * f0) + startPos.y;
-        pos->z = ((endPos.z - startPos.z) * f0) + startPos.z;
+    if (cue != NULL) {
+        lerp = Environment_LerpWeightAccelDecel(cue->endFrame, cue->startFrame, play->csCtx.curFrame, 4, 4);
+        startPos.x = cue->startPos.x;
+        startPos.y = cue->startPos.y;
+        startPos.z = cue->startPos.z;
+
+        endPos.x = cue->endPos.x;
+        endPos.y = cue->endPos.y;
+        endPos.z = cue->endPos.z;
+
+        pos->x = ((endPos.x - startPos.x) * lerp) + startPos.x;
+        pos->y = ((endPos.y - startPos.y) * lerp) + startPos.y;
+        pos->z = ((endPos.z - startPos.z) * lerp) + startPos.z;
     }
 }
 
 void EnNb_SetupCaptureCutsceneState(EnNb* this, PlayState* play) {
-    EnNb_SetupCsPosRot(this, play, 1);
+    EnNb_SetStartPosRotFromCue1(this, play, 1);
     this->action = NB_KIDNAPPED;
     this->drawMode = NB_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
@@ -633,15 +642,16 @@ void EnNb_SetupKidnap(EnNb* this) {
 }
 
 void EnNb_CheckKidnapCsMode(EnNb* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction = EnNb_GetNpcCsAction(play, 1);
-    s32 action;
-    s32 previousCsAction;
+    CsCmdActorCue* cue = EnNb_GetCue(play, 1);
+    s32 nextCueId;
+    s32 currentCueId;
 
-    if (csCmdNPCAction != NULL) {
-        action = csCmdNPCAction->action;
-        previousCsAction = this->previousCsAction;
-        if (action != previousCsAction) {
-            switch (action) {
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        currentCueId = this->cueId;
+
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     EnNb_SetupCaptureCutsceneState(this, play);
                     break;
@@ -656,10 +666,10 @@ void EnNb_CheckKidnapCsMode(EnNb* this, PlayState* play) {
                     break;
                 default:
                     // "Operation Doesn't Exist!!!!!!!!"
-                    osSyncPrintf("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
-            this->previousCsAction = action;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -698,9 +708,9 @@ void EnNb_SetupConfrontation(EnNb* this, PlayState* play) {
 void EnNb_PlayKnuckleDefeatSFX(EnNb* this, PlayState* play) {
     s32 pad[2];
 
-    if (play->csCtx.frames == 548) {
-        func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
-        func_80078914(&this->actor.projectedPos, NA_SE_EN_FANTOM_HIT_THUNDER);
+    if (play->csCtx.curFrame == 548) {
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_NB_CRY_0);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EN_FANTOM_HIT_THUNDER);
     }
 }
 
@@ -709,7 +719,7 @@ void EnNb_PlayKneelingOnGroundSFX(EnNb* this) {
 
     if ((this->skelAnime.mode == 2) &&
         (Animation_OnFrame(&this->skelAnime, 18.0f) || Animation_OnFrame(&this->skelAnime, 25.0f))) {
-        func_80078914(&this->actor.projectedPos, NA_SE_EV_HUMAN_BOUND);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_EV_HUMAN_BOUND);
     }
 }
 
@@ -717,7 +727,7 @@ void EnNb_PlayLookRightSFX(EnNb* this) {
     s32 pad[2];
 
     if ((this->skelAnime.mode == 2) && Animation_OnFrame(&this->skelAnime, 9.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
@@ -725,7 +735,7 @@ void EnNb_PlayLookLeftSFX(EnNb* this) {
     s32 pad[2];
 
     if (Animation_OnFrame(&this->skelAnime, 9.0f) || Animation_OnFrame(&this->skelAnime, 13.0f)) {
-        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
+        Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_PL_WALK_GROUND + SURFACE_SFX_OFFSET_STONE);
     }
 }
 
@@ -735,7 +745,7 @@ void EnNb_InitDemo6KInConfrontation(EnNb* this, PlayState* play) {
 }
 
 void func_80AB2688(EnNb* this, PlayState* play) {
-    this->skelAnime.moveFlags |= 1;
+    this->skelAnime.moveFlags |= ANIM_FLAG_0;
     AnimationContext_SetMoveActor(play, &this->actor, &this->skelAnime, 1.0f);
 }
 
@@ -750,7 +760,7 @@ void func_80AB26DC(EnNb* this, PlayState* play) {
     AnimationHeader* animation = &gNabooruCollapseFromStandingToKneelingTransitionAnim;
     f32 lastFrame = Animation_GetLastFrame(animation);
 
-    EnNb_SetupCsPosRot(this, play, 1);
+    EnNb_SetStartPosRotFromCue1(this, play, 1);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->action = NB_ACTION_14;
     this->drawMode = NB_DRAW_KNEEL;
@@ -840,17 +850,18 @@ void EnNb_SetupConfrontationDestroy(EnNb* this) {
 }
 
 void EnNb_CheckConfrontationCsMode(EnNb* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction;
-    s32 csAction;
-    s32 previousCsAction;
+    CsCmdActorCue* cue;
+    s32 nextCueId;
+    s32 currentCueId;
 
-    csCmdNPCAction = EnNb_GetNpcCsAction(play, 1);
-    if (csCmdNPCAction != NULL) {
-        csAction = csCmdNPCAction->action;
-        previousCsAction = this->previousCsAction;
+    cue = EnNb_GetCue(play, 1);
 
-        if (csAction != previousCsAction) {
-            switch (csAction) {
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        currentCueId = this->cueId;
+
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 1:
                     func_80AB26C8(this);
                     break;
@@ -874,10 +885,10 @@ void EnNb_CheckConfrontationCsMode(EnNb* this, PlayState* play) {
                     break;
                 default:
                     // "En_Nb_Confrontion_Check_DemoMode: Operation doesn't exist!!!!!!!!"
-                    osSyncPrintf("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
-            this->previousCsAction = csAction;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -1020,7 +1031,7 @@ void EnNb_SetAlphaInCredits(EnNb* this) {
 }
 
 void EnNb_SetupCreditsFadeIn(EnNb* this, PlayState* play) {
-    EnNb_SetInitialCsPosRot(this, play, 1);
+    EnNb_SetStartPosRotFromCue2(this, play, 1);
     this->action = NB_CREDITS_FADEIN;
     this->drawMode = NB_DRAW_HIDE;
 }
@@ -1044,15 +1055,16 @@ void EnNb_CheckIfLookingUp(EnNb* this, s32 animFinished) {
 }
 
 void EnNb_CheckCreditsCsModeImpl(EnNb* this, PlayState* play) {
-    CsCmdActorAction* csCmdNPCAction = EnNb_GetNpcCsAction(play, 1);
-    s32 action;
-    s32 previousCsAction;
+    CsCmdActorCue* cue = EnNb_GetCue(play, 1);
+    s32 nextCueId;
+    s32 currentCueId;
 
-    if (csCmdNPCAction != NULL) {
-        action = csCmdNPCAction->action;
-        previousCsAction = this->previousCsAction;
-        if (action != previousCsAction) {
-            switch (action) {
+    if (cue != NULL) {
+        nextCueId = cue->id;
+        currentCueId = this->cueId;
+
+        if (nextCueId != currentCueId) {
+            switch (nextCueId) {
                 case 15:
                     EnNb_SetupCreditsFadeIn(this, play);
                     break;
@@ -1061,10 +1073,10 @@ void EnNb_CheckCreditsCsModeImpl(EnNb* this, PlayState* play) {
                     break;
                 default:
                     // "En_Nb_inEnding_Check_DemoMode: Operation doesn't exist!!!!!!!!"
-                    osSyncPrintf("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
-            this->previousCsAction = action;
+            this->cueId = nextCueId;
         }
     }
 }
@@ -1123,7 +1135,7 @@ void func_80AB359C(EnNb* this) {
     PosRot* world = &this->actor.world;
     Vec3f* initialPos = &this->initialPos;
     Vec3f* finalPos = &this->finalPos;
-    f32 f0;
+    f32 lerp;
     u16 temp_t1;
     s16 temp_2;
 
@@ -1133,15 +1145,16 @@ void func_80AB359C(EnNb* this) {
     temp_t1 += 25;
 
     if (temp_t1 >= this->movementTimer) {
-        f0 = Environment_LerpWeightAccelDecel(temp_t1, 0, this->movementTimer, 3, 3);
-        world->pos.x = initialPos->x + (f0 * (finalPos->x - initialPos->x));
-        world->pos.y = initialPos->y + (f0 * (finalPos->y - initialPos->y));
-        world->pos.z = initialPos->z + (f0 * (finalPos->z - initialPos->z));
+        lerp = Environment_LerpWeightAccelDecel(temp_t1, 0, this->movementTimer, 3, 3);
+
+        world->pos.x = initialPos->x + (lerp * (finalPos->x - initialPos->x));
+        world->pos.y = initialPos->y + (lerp * (finalPos->y - initialPos->y));
+        world->pos.z = initialPos->z + (lerp * (finalPos->z - initialPos->z));
     }
 }
 
 void EnNb_SetNoticeSFX(EnNb* this) {
-    func_80078914(&this->actor.projectedPos, NA_SE_VO_NB_NOTICE);
+    Sfx_PlaySfxAtPos(&this->actor.projectedPos, NA_SE_VO_NB_NOTICE);
 }
 
 s32 EnNb_GetNoticedStatus(EnNb* this, PlayState* play) {
@@ -1194,7 +1207,7 @@ void EnNb_SetupIdleCrawlspace(EnNb* this, s32 animFinished) {
 }
 
 void func_80AB3838(EnNb* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = NB_IN_DIALOG;
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
@@ -1205,7 +1218,7 @@ void func_80AB3838(EnNb* this, PlayState* play) {
             this->actor.textId = 0x6024;
         }
 
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 }
 
@@ -1286,17 +1299,17 @@ void func_80AB3A7C(EnNb* this, PlayState* play, s32 animFinished) {
 }
 
 void func_80AB3B04(EnNb* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->action = NB_ACTION_30;
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        this->actor.textId = Text_GetFaceReaction(play, 0x23);
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_NABOORU);
 
-        if ((this->actor.textId) == 0) {
+        if (this->actor.textId == 0) {
             this->actor.textId = 0x6026;
         }
 
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 }
 
@@ -1413,7 +1426,7 @@ void EnNb_Update(Actor* thisx, PlayState* play) {
 
     if (this->action < 0 || this->action > 30 || sActionFuncs[this->action] == NULL) {
         // "Main mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1452,17 +1465,17 @@ void EnNb_Init(Actor* thisx, PlayState* play) {
 
 s32 EnNb_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNb* this = (EnNb*)thisx;
-    struct_80034A14_arg1* unk_300 = &this->unk_300;
+    NpcInteractInfo* interactInfo = &this->interactInfo;
     s32 ret = false;
 
     if (this->headTurnFlag != 0) {
         if (limbIndex == NB_LIMB_TORSO) {
-            rot->x += unk_300->unk_0E.y;
-            rot->y -= unk_300->unk_0E.x;
+            rot->x += interactInfo->torsoRot.y;
+            rot->y -= interactInfo->torsoRot.x;
             ret = false;
         } else if (limbIndex == NB_LIMB_HEAD) {
-            rot->x += unk_300->unk_08.y;
-            rot->z += unk_300->unk_08.x;
+            rot->x += interactInfo->headRot.y;
+            rot->z += interactInfo->headRot.x;
             ret = false;
         }
     }
@@ -1519,7 +1532,7 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawMode < 0 || this->drawMode >= 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1527,13 +1540,13 @@ void EnNb_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit En_Nb_InitVars = {
-    ACTOR_EN_NB,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_NB,
-    sizeof(EnNb),
-    (ActorFunc)EnNb_Init,
-    (ActorFunc)EnNb_Destroy,
-    (ActorFunc)EnNb_Update,
-    (ActorFunc)EnNb_Draw,
+    /**/ ACTOR_EN_NB,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_NB,
+    /**/ sizeof(EnNb),
+    /**/ EnNb_Init,
+    /**/ EnNb_Destroy,
+    /**/ EnNb_Update,
+    /**/ EnNb_Draw,
 };

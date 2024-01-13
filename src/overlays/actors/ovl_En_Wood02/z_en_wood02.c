@@ -34,15 +34,15 @@ typedef enum {
 } WoodDrawType;
 
 ActorInit En_Wood02_InitVars = {
-    ACTOR_EN_WOOD02,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_WOOD02,
-    sizeof(EnWood02),
-    (ActorFunc)EnWood02_Init,
-    (ActorFunc)EnWood02_Destroy,
-    (ActorFunc)EnWood02_Update,
-    (ActorFunc)EnWood02_Draw,
+    /**/ ACTOR_EN_WOOD02,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_WOOD02,
+    /**/ sizeof(EnWood02),
+    /**/ EnWood02_Init,
+    /**/ EnWood02_Destroy,
+    /**/ EnWood02_Update,
+    /**/ EnWood02_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -334,7 +334,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
     if (this->actor.params <= WOOD_TREE_KAKARIKO_ADULT) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_IT_REFLECTION_WOOD);
+            Actor_PlaySfx(&this->actor, NA_SE_IT_REFLECTION_WOOD);
         }
 
         if (this->actor.home.rot.y != 0) {
@@ -361,7 +361,7 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                     (this->actor.params == WOOD_TREE_OVAL_YELLOW_SPAWNED)) {
                     leavesParams = WOOD_LEAF_YELLOW;
                 }
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TREE_SWING);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
 
                 for (i = 3; i >= 0; i--) {
                     Actor_Spawn(&play->actorCtx, play, ACTOR_EN_WOOD02, dropsSpawnPt.x, dropsSpawnPt.y, dropsSpawnPt.z,
@@ -382,22 +382,22 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
 
         if (this->unk_14C >= -1) {
             if (((player->rideActor == NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 20.0) &&
-                 (player->linearVelocity != 0.0f)) ||
+                 (player->speedXZ != 0.0f)) ||
                 ((player->rideActor != NULL) && (sqrt(this->actor.xyzDistToPlayerSq) < 60.0) &&
-                 (player->rideActor->speedXZ != 0.0f))) {
+                 (player->rideActor->speed != 0.0f))) {
                 if ((this->unk_14C >= 0) && (this->unk_14C < 0x64)) {
                     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos,
                                                ((this->unk_14C << 4) | 0x8000));
                 }
                 this->unk_14C = -0x15;
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EV_TREE_SWING);
+                Actor_PlaySfx(&this->actor, NA_SE_EV_TREE_SWING);
             }
         }
     } else { // Leaves
         this->unk_14C++;
         Math_ApproachF(&this->actor.velocity.x, 0.0f, 1.0f, 5 * 0.01f);
         Math_ApproachF(&this->actor.velocity.z, 0.0f, 1.0f, 5 * 0.01f);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         this->actor.shape.rot.z = Math_SinS(3000 * this->unk_14C) * 0x4000;
         this->unk_14E[0]--;
 
@@ -449,12 +449,12 @@ void EnWood02_Draw(Actor* thisx, PlayState* play) {
     } else if (D_80B3BF70[this->drawType & 0xF] != NULL) {
         Gfx_DrawDListOpa(play, D_80B3BF54[this->drawType & 0xF]);
         gDPSetEnvColor(POLY_XLU_DISP++, red, green, blue, 0);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 808),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 808),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_80B3BF70[this->drawType & 0xF]);
     } else {
         Gfx_SetupDL_25Xlu(gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 814),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 814),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_80B3BF54[this->drawType & 0xF]);
     }

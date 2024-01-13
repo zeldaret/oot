@@ -33,15 +33,15 @@ void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play);
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play);
 
 ActorInit En_Ex_Item_InitVars = {
-    ACTOR_EN_EX_ITEM,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnExItem),
-    (ActorFunc)EnExItem_Init,
-    (ActorFunc)EnExItem_Destroy,
-    (ActorFunc)EnExItem_Update,
-    (ActorFunc)EnExItem_Draw,
+    /**/ ACTOR_EN_EX_ITEM,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnExItem),
+    /**/ EnExItem_Init,
+    /**/ EnExItem_Destroy,
+    /**/ EnExItem_Update,
+    /**/ EnExItem_Draw,
 };
 
 void EnExItem_Destroy(Actor* thisx, PlayState* play) {
@@ -54,29 +54,29 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->type = this->actor.params & 0xFF;
     this->unusedParam = (this->actor.params >> 8) & 0xFF;
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "What will come out?"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->type);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->type);
     // "What will come out?"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->unusedParam);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->unusedParam);
     this->initPos = this->actor.world.pos;
-    this->getItemObjId = -1;
+    this->getItemObjectId = -1;
     switch (this->type) {
         case EXITEM_BOMB_BAG_BOWLING:
         case EXITEM_BOMB_BAG_COUNTER:
-            this->getItemObjId = OBJECT_GI_BOMBPOUCH;
+            this->getItemObjectId = OBJECT_GI_BOMBPOUCH;
             break;
         case EXITEM_HEART_PIECE_BOWLING:
         case EXITEM_HEART_PIECE_COUNTER:
-            this->getItemObjId = OBJECT_GI_HEARTS;
+            this->getItemObjectId = OBJECT_GI_HEARTS;
             break;
         case EXITEM_BOMBCHUS_BOWLING:
         case EXITEM_BOMBCHUS_COUNTER:
-            this->getItemObjId = OBJECT_GI_BOMB_2;
+            this->getItemObjectId = OBJECT_GI_BOMB_2;
             break;
         case EXITEM_BOMBS_BOWLING:
         case EXITEM_BOMBS_COUNTER:
-            this->getItemObjId = OBJECT_GI_BOMB_1;
+            this->getItemObjectId = OBJECT_GI_BOMB_1;
             break;
         case EXITEM_PURPLE_RUPEE_BOWLING:
         case EXITEM_PURPLE_RUPEE_COUNTER:
@@ -85,7 +85,7 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
         case EXITEM_RED_RUPEE_CHEST:
         case EXITEM_13:
         case EXITEM_14:
-            this->getItemObjId = OBJECT_GI_RUPY;
+            this->getItemObjectId = OBJECT_GI_RUPY;
             break;
         case EXITEM_SMALL_KEY_CHEST:
             this->scale = 0.05f;
@@ -96,21 +96,21 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
         case EXITEM_MAGIC_FIRE:
         case EXITEM_MAGIC_WIND:
         case EXITEM_MAGIC_DARK:
-            this->getItemObjId = OBJECT_GI_GODDESS;
+            this->getItemObjectId = OBJECT_GI_GODDESS;
             break;
         case EXITEM_BULLET_BAG:
-            this->getItemObjId = OBJECT_GI_DEKUPOUCH;
+            this->getItemObjectId = OBJECT_GI_DEKUPOUCH;
     }
 
-    if (this->getItemObjId >= 0) {
-        this->objectIdx = Object_GetIndex(&play->objectCtx, this->getItemObjId);
+    if (this->getItemObjectId >= 0) {
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, this->getItemObjectId);
         this->actor.draw = NULL;
-        if (this->objectIdx < 0) {
+        if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
             // "What?"
-            osSyncPrintf("なにみの？ %d\n", this->actor.params);
+            PRINTF("なにみの？ %d\n", this->actor.params);
             // "bank is funny"
-            osSyncPrintf(VT_FGCOL(MAGENTA) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            PRINTF(VT_FGCOL(MAGENTA) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
         this->actionFunc = EnExItem_WaitForObject;
@@ -120,14 +120,14 @@ void EnExItem_Init(Actor* thisx, PlayState* play) {
 void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
     s32 onCounter;
 
-    if (Object_IsLoaded(&play->objectCtx, this->objectIdx)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         // "End of transfer"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
-        this->actor.objBankIndex = this->objectIdx;
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actor.draw = EnExItem_Draw;
         this->stopRotate = false;
         onCounter = false;
@@ -157,7 +157,7 @@ void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
                 if (!onCounter) {
-                    func_80078884(NA_SE_SY_PIECE_OF_HEART);
+                    Sfx_PlaySfxCentered(NA_SE_SY_PIECE_OF_HEART);
                     this->actionFunc = EnExItem_BowlPrize;
                 } else {
                     this->actionFunc = EnExItem_SetupBowlCounter;
@@ -301,13 +301,13 @@ void EnExItem_BowlPrize(EnExItem* this, PlayState* play) {
         }
     } else {
         // "parent"
-        osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 母親ー？     ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent);
+        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 母親ー？     ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent);
         // "Can it move?"
-        osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent->update);
+        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n" VT_RST, this->actor.parent->update);
         if ((this->actor.parent != NULL) && (this->actor.parent->update != NULL)) {
             ((EnBomBowlPit*)this->actor.parent)->exItemDone = 1;
             // "It can't move!"
-            osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n" VT_RST);
         }
         Actor_Kill(&this->actor);
     }
@@ -337,7 +337,7 @@ void EnExItem_ExitChest(EnExItem* this, PlayState* play) {
             Actor_Kill(&this->actor);
         }
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 }
 
 void EnExItem_FairyMagic(EnExItem* this, PlayState* play) {
@@ -386,14 +386,14 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play) {
         s32 getItemId;
 
         this->actor.draw = NULL;
-        func_8002DF54(play, NULL, 7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actor.parent = NULL;
         if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
             getItemId = GI_BULLET_BAG_40;
         } else {
             getItemId = GI_BULLET_BAG_50;
         }
-        func_8002F434(&this->actor, play, getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, getItemId, 2000.0f, 1000.0f);
         this->actionFunc = EnExItem_TargetPrizeGive;
     }
 }
@@ -406,14 +406,14 @@ void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play) {
     } else {
         getItemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
 
-        func_8002F434(&this->actor, play, getItemId, 2000.0f, 1000.0f);
+        Actor_OfferGetItem(&this->actor, play, getItemId, 2000.0f, 1000.0f);
     }
 }
 
 void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         // "Successful completion"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         SET_ITEMGETINF(ITEMGETINF_1D);
         Actor_Kill(&this->actor);
     }
@@ -503,7 +503,7 @@ void EnExItem_DrawKey(EnExItem* this, PlayState* play, s32 index) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ex_item.c", 880);
 
     Gfx_SetupDL_41Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ex_item.c", 887),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ex_item.c", 887),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegments[index]));
     gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);

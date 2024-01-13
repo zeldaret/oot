@@ -23,15 +23,15 @@ void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play);
 void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
-    ACTOR_BG_HIDAN_KOWARERUKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanKowarerukabe),
-    (ActorFunc)BgHidanKowarerukabe_Init,
-    (ActorFunc)BgHidanKowarerukabe_Destroy,
-    (ActorFunc)BgHidanKowarerukabe_Update,
-    (ActorFunc)BgHidanKowarerukabe_Draw,
+    /**/ ACTOR_BG_HIDAN_KOWARERUKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanKowarerukabe),
+    /**/ BgHidanKowarerukabe_Init,
+    /**/ BgHidanKowarerukabe_Destroy,
+    /**/ BgHidanKowarerukabe_Update,
+    /**/ BgHidanKowarerukabe_Draw,
 };
 
 static Gfx* sBreakableWallDLists[] = {
@@ -118,8 +118,8 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
     if (((this->dyna.actor.params & 0xFF) < CRACKED_STONE_FLOOR) ||
         ((this->dyna.actor.params & 0xFF) > LARGE_BOMBABLE_WALL)) {
         // "Error: Fire Temple Breakable Walls. arg_data I can't determine the (%s %d)(arg_data 0x%04x)"
-        osSyncPrintf("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-                     "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
+        PRINTF("Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
+               "../z_bg_hidan_kowarerukabe.c", 254, this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -134,7 +134,7 @@ void BgHidanKowarerukabe_Init(Actor* thisx, PlayState* play) {
     BgHidanKowarerukabe_InitColliderSphere(this, play);
     BgHidanKowarerukabe_OffsetActorYPos(this);
     // "(fire walls, floors, destroyed by bombs)(arg_data 0x%04x)"
-    osSyncPrintf("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgHidanKowarerukabe_Destroy(Actor* thisx, PlayState* play) {
@@ -312,7 +312,7 @@ void BgHidanKowarerukabe_Update(Actor* thisx, PlayState* play) {
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
 
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
         return;
     }
@@ -327,7 +327,7 @@ void BgHidanKowarerukabe_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 568),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_kowarerukabe.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sBreakableWallDLists[this->dyna.actor.params & 0xFF]);
 

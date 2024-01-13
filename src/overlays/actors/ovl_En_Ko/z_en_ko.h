@@ -12,13 +12,13 @@ typedef struct EnKo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnKoActionFunc actionFunc;
-    /* 0x0194 */ s8 headObjectBankIdx;
-    /* 0x0195 */ s8 bodyObjectBankIdx;
-    /* 0x0196 */ s8 legsObjectBankIdx;
-    /* 0x0197 */ s8 osAnimeBankIndex;
+    /* 0x0194 */ s8 headObjectSlot;
+    /* 0x0195 */ s8 bodyObjectSlot;
+    /* 0x0196 */ s8 legsObjectSlot;
+    /* 0x0197 */ s8 osAnimeObjectSlot;
     /* 0x0198 */ ColliderCylinder collider;
     /* 0x01E4 */ Path* path;
-    /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
+    /* 0x01E8 */ NpcInteractInfo interactInfo;
     /* 0x0210 */ u8 unk_210; // block trade quest sfx
     /* 0x0212 */ s16 forestQuestState;
     /* 0x0214 */ s16 blinkTimer;

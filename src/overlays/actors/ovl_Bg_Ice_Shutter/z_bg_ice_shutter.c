@@ -19,15 +19,15 @@ void func_80891D6C(BgIceShutter* this, PlayState* play);
 void func_80891DD4(BgIceShutter* this, PlayState* play);
 
 ActorInit Bg_Ice_Shutter_InitVars = {
-    ACTOR_BG_ICE_SHUTTER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceShutter),
-    (ActorFunc)BgIceShutter_Init,
-    (ActorFunc)BgIceShutter_Destroy,
-    (ActorFunc)BgIceShutter_Update,
-    (ActorFunc)BgIceShutter_Draw,
+    /**/ ACTOR_BG_ICE_SHUTTER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceShutter),
+    /**/ BgIceShutter_Init,
+    /**/ BgIceShutter_Destroy,
+    /**/ BgIceShutter_Update,
+    /**/ BgIceShutter_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -114,8 +114,8 @@ void func_80891D6C(BgIceShutter* this, PlayState* play) {
 }
 
 void func_80891DD4(BgIceShutter* this, PlayState* play) {
-    Math_StepToF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
-    if (Math_StepToF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speedXZ)) {
+    Math_StepToF(&this->dyna.actor.speed, 30.0f, 2.0f);
+    if (Math_StepToF(&this->dyna.actor.velocity.y, 210.0f, this->dyna.actor.speed)) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

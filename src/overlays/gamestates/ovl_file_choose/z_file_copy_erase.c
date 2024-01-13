@@ -377,9 +377,9 @@ void FileSelect_CopyConfirm(GameState* thisx) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (CHECK_BTN_ANY(input->press.button, BTN_A | BTN_START)) {
-        dayTime = gSaveContext.dayTime;
+        dayTime = gSaveContext.save.dayTime;
         Sram_CopySave(this, sramCtx);
-        gSaveContext.dayTime = dayTime;
+        gSaveContext.save.dayTime = dayTime;
         this->fileInfoAlpha[this->copyDestFileIndex] = this->nameAlpha[this->copyDestFileIndex] = 0;
         this->nextTitleLabel = FS_TITLE_COPY_COMPLETE;
         this->actionTimer = 8;
@@ -455,8 +455,8 @@ void FileSelect_CopyAnim1(GameState* thisx) {
         this->titleAlpha[0] = 0;
         this->actionTimer = 8;
         this->configMode++;
-        osSyncPrintf("connect_alpha=%d  decision_alpha[%d]=%d\n", this->connectorAlpha[this->copyDestFileIndex],
-                     this->copyDestFileIndex, this->fileInfoAlpha[this->copyDestFileIndex]);
+        PRINTF("connect_alpha=%d  decision_alpha[%d]=%d\n", this->connectorAlpha[this->copyDestFileIndex],
+               this->copyDestFileIndex, this->fileInfoAlpha[this->copyDestFileIndex]);
     }
 }
 
@@ -828,7 +828,7 @@ void FileSelect_SetupEraseConfirm2(GameState* thisx) {
 }
 
 /**
- * Allow the player to confirm their chioce to erase or return back to erase select.
+ * Allow the player to confirm their choice to erase or return back to erase select.
  * Update function for `CM_ERASE_CONFIRM`
  */
 void FileSelect_EraseConfirm(GameState* thisx) {

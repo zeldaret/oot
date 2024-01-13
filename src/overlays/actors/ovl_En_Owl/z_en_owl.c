@@ -66,15 +66,15 @@ typedef enum {
 } EnOwlMessageChoice;
 
 ActorInit En_Owl_InitVars = {
-    ACTOR_EN_OWL,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OWL,
-    sizeof(EnOwl),
-    (ActorFunc)EnOwl_Init,
-    (ActorFunc)EnOwl_Destroy,
-    (ActorFunc)EnOwl_Update,
-    (ActorFunc)EnOwl_Draw,
+    /**/ ACTOR_EN_OWL,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OWL,
+    /**/ sizeof(EnOwl),
+    /**/ EnOwl_Init,
+    /**/ EnOwl_Destroy,
+    /**/ EnOwl_Update,
+    /**/ EnOwl_Draw,
 };
 
 static ColliderCylinderInit sOwlCylinderInit = {
@@ -132,10 +132,10 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         switchFlag = 0x20;
     }
     // "conversation owl %4x no = %d, sv = %d"
-    osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, owlType, switchFlag);
+    PRINTF(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, owlType, switchFlag);
 
     if ((owlType != OWL_DEFAULT) && (switchFlag < 0x20) && Flags_GetSwitch(play, switchFlag)) {
-        osSyncPrintf("savebitでフクロウ退避\n"); // "Save owl with savebit"
+        PRINTF("savebitでフクロウ退避\n"); // "Save owl with savebit"
         Actor_Kill(&this->actor);
         return;
     }
@@ -160,7 +160,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         case OWL_KAKARIKO:
             if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 // has zelda's letter
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -170,7 +170,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         case OWL_HYLIA_GERUDO:
             if (GET_EVENTCHKINF(EVENTCHKINF_43)) {
                 // has ocarina of time
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -182,7 +182,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         case OWL_ZORA_RIVER:
             if (GET_EVENTCHKINF(EVENTCHKINF_39) || !GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 // opened zora's domain or has zelda's letter
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -204,7 +204,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         case OWL_LOST_WOODS_PRESARIA:
             if (!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -212,7 +212,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         case OWL_LOST_WOODS_POSTSARIA:
             if (!CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -220,11 +220,11 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             // Outside kokiri forest
-            osSyncPrintf(VT_FGCOL(CYAN));
-            osSyncPrintf("no = %d  \n", owlType);
+            PRINTF(VT_FGCOL(CYAN));
+            PRINTF("no = %d  \n", owlType);
             // "Unfinished owl unfinished owl unfinished owl"
-            osSyncPrintf("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n");
-            osSyncPrintf(VT_RST);
+            PRINTF("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n");
+            PRINTF(VT_RST);
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
             this->actionFunc = EnOwl_WaitOutsideKokiri;
@@ -257,7 +257,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist
     s32 timer;
     f32 distCheck;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.params == 0xFFF) {
             this->actionFlags |= 0x40;
             timer = -100;
@@ -277,19 +277,19 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
             this->actor.flags |= ACTOR_FLAG_16;
-            func_8002F1C4(&this->actor, play, targetDist, distCheck, EXCH_ITEM_NONE);
+            Actor_OfferTalkExchange(&this->actor, play, targetDist, distCheck, EXCH_ITEM_NONE);
         }
         return false;
     }
 }
 
 s32 func_80ACA558(EnOwl* this, PlayState* play, u16 textId) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         return true;
     } else {
         this->actor.textId = textId;
         if (this->actor.xzDistToPlayer < 120.0f) {
-            func_8002F1C4(&this->actor, play, 350.0f, 1000.0f, EXCH_ITEM_NONE);
+            Actor_OfferTalkExchange(&this->actor, play, 350.0f, 1000.0f, EXCH_ITEM_NONE);
         }
         return false;
     }
@@ -306,7 +306,7 @@ void func_80ACA62C(EnOwl* this, PlayState* play) {
 
     if (switchFlag < 0x20) {
         Flags_SetSwitch(play, switchFlag);
-        osSyncPrintf(VT_FGCOL(CYAN) " Actor_Environment_sw = %d\n" VT_RST, Flags_GetSwitch(play, switchFlag));
+        PRINTF(VT_FGCOL(CYAN) " Actor_Environment_sw = %d\n" VT_RST, Flags_GetSwitch(play, switchFlag));
     }
     func_80ACA5C8(this);
 }
@@ -337,7 +337,7 @@ void func_80ACA71C(EnOwl* this) {
 }
 
 void func_80ACA76C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -347,7 +347,7 @@ void func_80ACA76C(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACA7E0(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -547,7 +547,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB03C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, 8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -616,7 +616,7 @@ void func_80ACB274(EnOwl* this, PlayState* play) {
 void EnOwl_WaitDeathMountainShortcut(EnOwl* this, PlayState* play) {
     EnOwl_LookAtLink(this, play);
 
-    if (!gSaveContext.isMagicAcquired) {
+    if (!gSaveContext.save.info.playerData.isMagicAcquired) {
         if (func_80ACA558(this, play, 0x3062)) {
             Audio_PlayFanfare(NA_BGM_OWL);
             this->actionFunc = func_80ACB274;
@@ -743,20 +743,20 @@ void func_80ACB748(EnOwl* this, PlayState* play) {
     switch (owlType) {
         case 7:
             func_800F436C(&D_80ACD62C, NA_SE_EV_FLYING_AIR - SFX_FLAG, weight * 2.0f);
-            if ((play->csCtx.frames > 324) || ((play->csCtx.frames >= 142 && (play->csCtx.frames <= 266)))) {
+            if ((play->csCtx.curFrame > 324) || ((play->csCtx.curFrame >= 142 && (play->csCtx.curFrame <= 266)))) {
                 func_800F4414(&D_80ACD62C, NA_SE_EN_OWL_FLUTTER, weight * 2.0f);
             }
-            if (play->csCtx.frames == 85) {
+            if (play->csCtx.curFrame == 85) {
                 func_800F436C(&D_80ACD62C, NA_SE_EV_PASS_AIR, weight * 2.0f);
             }
             break;
         case 8:
         case 9:
             func_800F436C(&D_80ACD62C, NA_SE_EV_FLYING_AIR - SFX_FLAG, weight * 2.0f);
-            if ((play->csCtx.frames >= 420) || ((0xC1 < play->csCtx.frames && (play->csCtx.frames <= 280)))) {
+            if ((play->csCtx.curFrame >= 420) || ((193 < play->csCtx.curFrame && (play->csCtx.curFrame <= 280)))) {
                 func_800F4414(&D_80ACD62C, NA_SE_EN_OWL_FLUTTER, weight * 2.0f);
             }
-            if (play->csCtx.frames == 217) {
+            if (play->csCtx.curFrame == 217) {
                 func_800F436C(&D_80ACD62C, NA_SE_EV_PASS_AIR, weight * 2.0f);
             }
             break;
@@ -764,8 +764,8 @@ void func_80ACB748(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB904(EnOwl* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.npcActions[7] != NULL)) {
-        if (this->unk_40A != play->csCtx.npcActions[7]->action) {
+    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.actorCues[7] != NULL)) {
+        if (this->unk_40A != play->csCtx.actorCues[7]->id) {
             func_80ACD130(this, play, 7);
             func_80ACBAB8(this, play);
         }
@@ -778,8 +778,8 @@ void func_80ACB904(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB994(EnOwl* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.npcActions[7] != NULL)) {
-        if (this->unk_40A != play->csCtx.npcActions[7]->action) {
+    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.actorCues[7] != NULL)) {
+        if (this->unk_40A != play->csCtx.actorCues[7]->id) {
             func_80ACD130(this, play, 7);
             func_80ACBAB8(this, play);
         }
@@ -792,13 +792,13 @@ void func_80ACB994(EnOwl* this, PlayState* play) {
 }
 
 void EnOwl_WaitDefault(EnOwl* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.npcActions[7] != NULL)) {
-        if (this->unk_40A != play->csCtx.npcActions[7]->action) {
+    if (play->csCtx.state != CS_STATE_IDLE && (play->csCtx.actorCues[7] != NULL)) {
+        if (this->unk_40A != play->csCtx.actorCues[7]->id) {
             this->actionFlags |= 4;
             func_80ACD130(this, play, 7);
             func_80ACBAB8(this, play);
         } else {
-            this->actor.world.rot.z = play->csCtx.npcActions[7]->urot.y;
+            this->actor.world.rot.z = play->csCtx.actorCues[7]->rot.y;
         }
     }
 
@@ -808,28 +808,28 @@ void EnOwl_WaitDefault(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACBAB8(EnOwl* this, PlayState* play) {
-    switch (play->csCtx.npcActions[7]->action - 1) {
-        case 0:
-            EnOwl_ChangeMode(this, func_80ACB904, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
-            break;
+    switch (play->csCtx.actorCues[7]->id) {
         case 1:
-            this->actor.draw = EnOwl_Draw;
-            EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime, &gOwlPerchAnim, 0.0f);
+            EnOwl_ChangeMode(this, func_80ACB904, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
             break;
         case 2:
             this->actor.draw = EnOwl_Draw;
-            EnOwl_ChangeMode(this, func_80ACB994, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
+            EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime, &gOwlPerchAnim, 0.0f);
             break;
         case 3:
+            this->actor.draw = EnOwl_Draw;
+            EnOwl_ChangeMode(this, func_80ACB994, func_80ACC540, &this->skelAnime, &gOwlFlyAnim, 0.0f);
+            break;
+        case 4:
             this->actor.draw = NULL;
             this->actionFunc = EnOwl_WaitDefault;
             break;
-        case 4:
+        case 5:
             Actor_Kill(&this->actor);
             break;
     }
 
-    this->unk_40A = play->csCtx.npcActions[7]->action;
+    this->unk_40A = play->csCtx.actorCues[7]->id;
 }
 
 void func_80ACBC0C(EnOwl* this, PlayState* play) {
@@ -842,8 +842,8 @@ void func_80ACBC0C(EnOwl* this, PlayState* play) {
     Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x80, 0x40);
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (this->actor.speedXZ < 16.0f) {
-        this->actor.speedXZ += 0.5f;
+    if (this->actor.speed < 16.0f) {
+        this->actor.speed += 0.5f;
     }
 
     if ((this->unk_3F8 + 1000.0f) < this->actor.world.pos.y) {
@@ -866,11 +866,11 @@ void func_80ACBD4C(EnOwl* this, PlayState* play) {
     if (this->skelAnime.curFrame > 45.0f) {
         this->actor.velocity.y = 2.0f;
         this->actor.gravity = 0.0f;
-        this->actor.speedXZ = 8.0f;
+        this->actor.speed = 8.0f;
     } else if (this->skelAnime.curFrame > 17.0f) {
         this->actor.velocity.y = 6.0f;
         this->actor.gravity = 0.0f;
-        this->actor.speedXZ = 4.0f;
+        this->actor.speed = 4.0f;
     }
 
     if (this->actionFlags & 1) {
@@ -911,7 +911,7 @@ void func_80ACBF50(EnOwl* this, PlayState* play) {
         this->unk_3FE = 6;
         this->actor.velocity.y = 2.0f;
         this->actor.gravity = 0.0f;
-        this->actor.speedXZ = 4.0f;
+        this->actor.speed = 4.0f;
     }
     this->actionFlags |= 8;
 }
@@ -927,20 +927,20 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 50.0f) {
         if (!Play_InCsMode(play)) {
             owlType = (this->actor.params & 0xFC0) >> 6;
-            osSyncPrintf(VT_FGCOL(CYAN));
-            osSyncPrintf("%dのフクロウ\n", owlType); // "%d owl"
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_FGCOL(CYAN));
+            PRINTF("%dのフクロウ\n", owlType); // "%d owl"
+            PRINTF(VT_RST);
             switch (owlType) {
                 case 7:
-                    osSyncPrintf(VT_FGCOL(CYAN));
-                    osSyncPrintf("SPOT 06 の デモがはしった\n"); // "Demo of SPOT 06 has been completed"
-                    osSyncPrintf(VT_RST);
-                    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
+                    PRINTF(VT_FGCOL(CYAN));
+                    PRINTF("SPOT 06 の デモがはしった\n"); // "Demo of SPOT 06 has been completed"
+                    PRINTF(VT_RST);
+                    play->csCtx.script = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;
                 case 8:
                 case 9:
-                    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gDMTOwlCs);
+                    play->csCtx.script = SEGMENTED_TO_VIRTUAL(gDMTOwlCs);
                     this->actor.draw = NULL;
                     break;
                 default:
@@ -948,7 +948,7 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
                     break;
             }
 
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             gSaveContext.cutsceneTrigger = 1;
             func_800F44EC(0x14, 0xA);
             this->actionFunc = EnOwl_WaitDefault;
@@ -972,9 +972,9 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
 
 void func_80ACC23C(EnOwl* this, PlayState* play) {
     if (this->skelAnime.curFrame < 20.0f) {
-        this->actor.speedXZ = 1.5f;
+        this->actor.speed = 1.5f;
     } else {
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x384, 0x258);
         this->actor.shape.rot.y = this->actor.world.rot.y;
     }
@@ -985,7 +985,7 @@ void func_80ACC23C(EnOwl* this, PlayState* play) {
         this->unk_3FE = 5;
         this->actor.velocity.y = 0.0f;
         this->actor.gravity = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     }
 
     this->actionFlags |= 8;
@@ -1059,13 +1059,13 @@ s32 func_80ACC5CC(EnOwl* this) {
 s32 func_80ACC624(EnOwl* this, PlayState* play) {
     s32 switchFlag = (this->actor.params & 0xFC0) >> 6;
 
-    if (play->sceneId != SCENE_SPOT11) {
+    if (play->sceneId != SCENE_DESERT_COLOSSUS) {
         return true;
     } else if (switchFlag == 0xA) {
         return true;
-    } else if (play->csCtx.frames >= 300 && play->csCtx.frames <= 430) {
+    } else if (play->csCtx.curFrame >= 300 && play->csCtx.curFrame <= 430) {
         return true;
-    } else if (play->csCtx.frames >= 1080 && play->csCtx.frames <= 1170) {
+    } else if (play->csCtx.curFrame >= 1080 && play->csCtx.curFrame <= 1170) {
         return true;
     } else {
         return false;
@@ -1085,7 +1085,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actor.update == NULL) {
         // "Owl disappears"
-        osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         return;
     }
 
@@ -1095,12 +1095,12 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
               this->skelAnime.curFrame == 23.0f || this->skelAnime.curFrame == 40.0f ||
               this->skelAnime.curFrame == 58.0f)) ||
             (this->skelAnime.animation == &gOwlFlyAnim && this->skelAnime.curFrame == 4.0f)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_OWL_FLUTTER);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_OWL_FLUTTER);
         }
     }
 
     if (this->actor.draw != NULL) {
-        Actor_MoveForward(&this->actor);
+        Actor_MoveXZGravity(&this->actor);
     }
 
     if (this->actionFlags & 2) {
@@ -1335,17 +1335,17 @@ void EnOwl_ChangeMode(EnOwl* this, EnOwlActionFunc actionFunc, OwlFunc arg2, Ske
 void func_80ACD130(EnOwl* this, PlayState* play, s32 idx) {
     Vec3f startPos;
 
-    startPos.x = play->csCtx.npcActions[idx]->startPos.x;
-    startPos.y = play->csCtx.npcActions[idx]->startPos.y;
-    startPos.z = play->csCtx.npcActions[idx]->startPos.z;
+    startPos.x = play->csCtx.actorCues[idx]->startPos.x;
+    startPos.y = play->csCtx.actorCues[idx]->startPos.y;
+    startPos.z = play->csCtx.actorCues[idx]->startPos.z;
     this->actor.world.pos = startPos;
-    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.npcActions[idx]->rot.y;
-    this->actor.shape.rot.z = play->csCtx.npcActions[idx]->urot.z;
+    this->actor.world.rot.y = this->actor.shape.rot.y = play->csCtx.actorCues[idx]->rot.y;
+    this->actor.shape.rot.z = play->csCtx.actorCues[idx]->rot.z;
 }
 
 f32 func_80ACD1C4(PlayState* play, s32 idx) {
-    f32 ret = Environment_LerpWeight(play->csCtx.npcActions[idx]->endFrame, play->csCtx.npcActions[idx]->startFrame,
-                                     play->csCtx.frames);
+    f32 ret = Environment_LerpWeight(play->csCtx.actorCues[idx]->endFrame, play->csCtx.actorCues[idx]->startFrame,
+                                     play->csCtx.curFrame);
 
     ret = CLAMP_MAX(ret, 1.0f);
     return ret;
@@ -1359,7 +1359,7 @@ void func_80ACD220(EnOwl* this, Vec3f* arg1, f32 arg2) {
     rpy.z = (arg1->z - this->actor.world.pos.z) * arg2;
 
     Math_StepToF(&this->actor.velocity.y, rpy.y, 1.0f);
-    this->actor.speedXZ = sqrtf(SQ(rpy.x) + SQ(rpy.z));
+    this->actor.speed = sqrtf(SQ(rpy.x) + SQ(rpy.z));
     this->actor.world.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, arg1);
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
@@ -1369,17 +1369,17 @@ void func_80ACD2CC(EnOwl* this, PlayState* play) {
     s32 angle;
     f32 t = func_80ACD1C4(play, 7);
 
-    pos.x = play->csCtx.npcActions[7]->startPos.x;
-    pos.y = play->csCtx.npcActions[7]->startPos.y;
-    pos.z = play->csCtx.npcActions[7]->startPos.z;
-    angle = (s16)play->csCtx.npcActions[7]->rot.y - this->actor.world.rot.z;
+    pos.x = play->csCtx.actorCues[7]->startPos.x;
+    pos.y = play->csCtx.actorCues[7]->startPos.y;
+    pos.z = play->csCtx.actorCues[7]->startPos.z;
+    angle = (s16)play->csCtx.actorCues[7]->rot.y - this->actor.world.rot.z;
     if (angle < 0) {
         angle += 0x10000;
     }
     angle = (s16)((t * angle) + this->actor.world.rot.z);
     angle = (u16)angle;
     if (this->actionFlags & 4) {
-        f32 phi_f2 = play->csCtx.npcActions[7]->urot.x;
+        f32 phi_f2 = play->csCtx.actorCues[7]->rot.x;
 
         phi_f2 *= 10.0f * (360.0f / 0x10000);
         if (phi_f2 < 0.0f) {
@@ -1391,7 +1391,7 @@ void func_80ACD2CC(EnOwl* this, PlayState* play) {
         this->actor.world.pos = pos;
         this->actor.draw = EnOwl_Draw;
         this->actionFlags &= ~4;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
     } else {
         pos.x -= Math_SinS(angle) * this->unk_3F8;
         pos.z += Math_CosS(angle) * this->unk_3F8;
@@ -1404,12 +1404,12 @@ void func_80ACD4D4(EnOwl* this, PlayState* play) {
     Vec3f endPosf;
     f32 temp_ret = func_80ACD1C4(play, 7);
 
-    pos.x = play->csCtx.npcActions[7]->startPos.x;
-    pos.y = play->csCtx.npcActions[7]->startPos.y;
-    pos.z = play->csCtx.npcActions[7]->startPos.z;
-    endPosf.x = play->csCtx.npcActions[7]->endPos.x;
-    endPosf.y = play->csCtx.npcActions[7]->endPos.y;
-    endPosf.z = play->csCtx.npcActions[7]->endPos.z;
+    pos.x = play->csCtx.actorCues[7]->startPos.x;
+    pos.y = play->csCtx.actorCues[7]->startPos.y;
+    pos.z = play->csCtx.actorCues[7]->startPos.z;
+    endPosf.x = play->csCtx.actorCues[7]->endPos.x;
+    endPosf.y = play->csCtx.actorCues[7]->endPos.y;
+    endPosf.z = play->csCtx.actorCues[7]->endPos.z;
     pos.x = (endPosf.x - pos.x) * temp_ret + pos.x;
     pos.y = (endPosf.y - pos.y) * temp_ret + pos.y;
     pos.z = (endPosf.z - pos.z) * temp_ret + pos.z;

@@ -9,7 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "assets/objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS ACTOR_FLAG_22
+#define FLAGS ACTOR_FLAG_IGNORE_POINT_LIGHTS
 
 void BgSpot08Bakudankabe_Init(Actor* thisx, PlayState* play);
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, PlayState* play);
@@ -20,15 +20,15 @@ void func_808B02D0(BgSpot08Bakudankabe* this, PlayState* play);
 void func_808B0324(BgSpot08Bakudankabe* this, PlayState* play);
 
 ActorInit Bg_Spot08_Bakudankabe_InitVars = {
-    ACTOR_BG_SPOT08_BAKUDANKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT08_OBJ,
-    sizeof(BgSpot08Bakudankabe),
-    (ActorFunc)BgSpot08Bakudankabe_Init,
-    (ActorFunc)BgSpot08Bakudankabe_Destroy,
-    (ActorFunc)BgSpot08Bakudankabe_Update,
-    (ActorFunc)BgSpot08Bakudankabe_Draw,
+    /**/ ACTOR_BG_SPOT08_BAKUDANKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT08_OBJ,
+    /**/ sizeof(BgSpot08Bakudankabe),
+    /**/ BgSpot08Bakudankabe_Init,
+    /**/ BgSpot08Bakudankabe_Destroy,
+    /**/ BgSpot08Bakudankabe_Update,
+    /**/ BgSpot08Bakudankabe_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
@@ -186,7 +186,7 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, PlayState* play) {
         func_808B0324(this, play);
         Flags_SetSwitch(play, (this->dyna.actor.params & 0x3F));
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
-        func_80078884(NA_SE_SY_CORRECT_CHIME);
+        Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
     } else if (this->dyna.actor.xzDistToPlayer < 800.0f) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);

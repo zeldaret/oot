@@ -1,5 +1,34 @@
 #include "global.h"
 
+typedef struct {
+    /* 0x00 */ u32 value;
+    /* 0x04 */ const char* name;
+} F3dzexConst; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u32 value;
+    /* 0x04 */ const char* setName;
+    /* 0x08 */ const char* unsetName;
+} F3dzexFlag; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 value;
+    /* 0x08 */ u32 mask;
+} F3dzexRenderMode; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 value;
+} F3dzexSetModeMacroValue; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ const char* name;
+    /* 0x04 */ u32 shift;
+    /* 0x08 */ u32 len;
+    /* 0x0C */ F3dzexSetModeMacroValue values[4];
+} F3dzexSetModeMacro; // size = 0x2C
+
 typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 
 #define F3DZEX_CONST(name) \
@@ -17,7 +46,7 @@ typedef void (*UcodeDisasCallback)(UCodeDisas*, u32);
 
 #define DISAS_LOG        \
     if (this->enableLog) \
-    osSyncPrintf
+    PRINTF
 
 void* UCodeDisas_TranslateAddr(UCodeDisas* this, uintptr_t addr) {
     uintptr_t physical = this->segments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr);
@@ -254,14 +283,14 @@ void UCodeDisas_PrintRenderMode(UCodeDisas* this, u32 mode) {
     b = (mode >> 16) & 0x3333;
 
     // clang-format off
-    if (this->enableLog == 0) {} else { osSyncPrintf("\nGBL_c1(%s, %s, %s, %s)|",
+    if (this->enableLog == 0) {} else { PRINTF("\nGBL_c1(%s, %s, %s, %s)|",
         sBlenderInputNames[0][a >> 12 & 3], sBlenderInputNames[1][a >> 8 & 3], sBlenderInputNames[2][a >> 4 & 3], sBlenderInputNames[3][a >> 0 & 3]);
     }
     // clang-format on
 
     if (this->enableLog) {
-        osSyncPrintf("\nGBL_c2(%s, %s, %s, %s)", sBlenderInputNames[0][b >> 12 & 3], sBlenderInputNames[1][b >> 8 & 3],
-                     sBlenderInputNames[2][b >> 4 & 3], sBlenderInputNames[3][b >> 0 & 3]);
+        PRINTF("\nGBL_c2(%s, %s, %s, %s)", sBlenderInputNames[0][b >> 12 & 3], sBlenderInputNames[1][b >> 8 & 3],
+               sBlenderInputNames[2][b >> 4 & 3], sBlenderInputNames[3][b >> 0 & 3]);
     }
 }
 

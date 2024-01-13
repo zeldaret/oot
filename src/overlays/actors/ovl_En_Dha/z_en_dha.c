@@ -24,15 +24,15 @@ void EnDha_Die(EnDha* this, PlayState* play);
 void EnDha_UpdateHealth(EnDha* this, PlayState* play);
 
 ActorInit En_Dha_InitVars = {
-    ACTOR_EN_DHA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_DH,
-    sizeof(EnDha),
-    (ActorFunc)EnDha_Init,
-    (ActorFunc)EnDha_Destroy,
-    (ActorFunc)EnDha_Update,
-    (ActorFunc)EnDha_Draw,
+    /**/ ACTOR_EN_DHA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_DH,
+    /**/ sizeof(EnDha),
+    /**/ EnDha_Init,
+    /**/ EnDha_Destroy,
+    /**/ EnDha_Update,
+    /**/ EnDha_Draw,
 };
 
 static DamageTable sDamageTable = {
@@ -182,7 +182,7 @@ void EnDha_SetupWait(EnDha* this) {
     Animation_PlayLoop(&this->skelAnime, &object_dh_Anim_0015B0);
     this->unk_1C0 = 0;
     this->actionTimer = ((Rand_ZeroOne() * 10.0f) + 5.0f);
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.home.rot.z = 1;
     EnDha_SetupAction(this, EnDha_Wait);
@@ -221,7 +221,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
                         this->actor.parent->params = ENDH_START_ATTACK_GRAB;
                     }
 
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
             } else {
                 this->timer += 0x1194;
@@ -234,7 +234,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
                 }
 
                 if (this->timer < -0x6E6B) {
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
             }
 
@@ -245,11 +245,11 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
             if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
                 player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
-                player->unk_850 = 200;
+                player->av2.actionVar2 = 200;
             }
 
             if (this->actor.home.rot.z != 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HAND_AT);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HAND_AT);
                 this->actor.home.rot.z = 0;
             }
         }
@@ -285,7 +285,7 @@ void EnDha_Wait(EnDha* this, PlayState* play) {
         if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
             player->stateFlags2 &= ~PLAYER_STATE2_7;
             player->actor.parent = NULL;
-            player->unk_850 = 200;
+            player->av2.actionVar2 = 200;
         }
 
         this->actor.home.rot.z = 1;
@@ -306,7 +306,7 @@ void EnDha_TakeDamage(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
+        player->av2.actionVar2 = 200;
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 2000, 0);
@@ -326,7 +326,7 @@ void EnDha_SetupDeath(EnDha* this) {
 
     if (this->actor.parent != NULL) {
         if (this->actor.parent->params != ENDH_DEATH) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
         }
         if (this->actor.parent->params <= ENDH_WAIT_UNDERGROUND) {
             this->actor.parent->params--;
@@ -344,7 +344,7 @@ void EnDha_Die(EnDha* this, PlayState* play) {
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
-        player->unk_850 = 200;
+        player->av2.actionVar2 = 200;
     }
 
     Math_SmoothStepToS(&this->limbAngleX[1], 0, 1, 0x7D0, 0);
@@ -383,13 +383,13 @@ void EnDha_UpdateHealth(EnDha* this, PlayState* play) {
         if (this->actor.colChkInfo.damageEffect == 0 || this->actor.colChkInfo.damageEffect == 6) {
             return;
         } else {
-            Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDha_SetupDeath(this);
                 this->actor.colChkInfo.health = 8;
                 Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
             } else {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
                 this->unk_1C0 = 9;
                 EnDha_SetupTakeDamage(this);
             }

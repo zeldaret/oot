@@ -14,15 +14,15 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play);
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play);
 
 ActorInit Bg_Mizu_Shutter_InitVars = {
-    ACTOR_BG_MIZU_SHUTTER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuShutter),
-    (ActorFunc)BgMizuShutter_Init,
-    (ActorFunc)BgMizuShutter_Destroy,
-    (ActorFunc)BgMizuShutter_Update,
-    (ActorFunc)BgMizuShutter_Draw,
+    /**/ ACTOR_BG_MIZU_SHUTTER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuShutter),
+    /**/ BgMizuShutter_Init,
+    /**/ BgMizuShutter_Destroy,
+    /**/ BgMizuShutter_Update,
+    /**/ BgMizuShutter_Draw,
 };
 
 static Gfx* sDisplayLists[] = { gObjectMizuObjectsShutterDL_007130, gObjectMizuObjectsShutterDL_0072D0 };
@@ -105,7 +105,7 @@ void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, PlayState* play) {
 
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play) {
     if (this->timer-- == 0) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
         this->actionFunc = BgMizuShutter_Move;
     }
 }
@@ -129,7 +129,7 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play) {
             (this->dyna.actor.world.pos.y == this->closedPos.y) &&
             (this->dyna.actor.world.pos.z == this->closedPos.z)) {
             Rumble_Request(this->dyna.actor.xyzDistToPlayerSq, 120, 20, 10);
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             this->actionFunc = BgMizuShutter_WaitForSwitch;
         }
     }
@@ -140,7 +140,7 @@ void BgMizuShutter_WaitForTimer(BgMizuShutter* this, PlayState* play) {
         this->timer--;
         func_8002F994(&this->dyna.actor, this->timer);
         if (this->timer == 0) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
             Flags_UnsetSwitch(play, BGMIZUSHUTTER_SWITCH_PARAM(&this->dyna.actor));
             this->actionFunc = BgMizuShutter_Move;
         }
@@ -160,7 +160,7 @@ void BgMizuShutter_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_shutter.c", 410);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mizu_shutter.c", 415),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mizu_shutter.c", 415),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->displayList != NULL) {

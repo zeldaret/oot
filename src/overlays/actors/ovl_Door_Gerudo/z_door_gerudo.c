@@ -20,15 +20,15 @@ void func_8099496C(DoorGerudo* this, PlayState* play);
 void func_809949C8(DoorGerudo* this, PlayState* play);
 
 ActorInit Door_Gerudo_InitVars = {
-    ACTOR_DOOR_GERUDO,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_DOOR_GERUDO,
-    sizeof(DoorGerudo),
-    (ActorFunc)DoorGerudo_Init,
-    (ActorFunc)DoorGerudo_Destroy,
-    (ActorFunc)DoorGerudo_Update,
-    (ActorFunc)DoorGerudo_Draw,
+    /**/ ACTOR_DOOR_GERUDO,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_DOOR_GERUDO,
+    /**/ sizeof(DoorGerudo),
+    /**/ DoorGerudo_Init,
+    /**/ DoorGerudo_Destroy,
+    /**/ DoorGerudo_Update,
+    /**/ DoorGerudo_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -70,7 +70,7 @@ f32 func_809946BC(PlayState* play, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg
     func_8002DBD0(&this->dyna.actor, &sp1C, &playerPos);
 
     if ((arg3 < fabsf(sp1C.x)) || (arg4 < fabsf(sp1C.y))) {
-        return FLT_MAX;
+        return MAXFLOAT;
     } else {
         return sp1C.z;
     }
@@ -97,18 +97,18 @@ s32 func_80994750(DoorGerudo* this, PlayState* play) {
 }
 
 void func_8099485C(DoorGerudo* this, PlayState* play) {
-    if (this->unk_164 != 0) {
+    if (this->isActive) {
         this->actionFunc = func_8099496C;
-        gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
+        gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
         Flags_SetSwitch(play, this->dyna.actor.params & 0x3F);
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
     } else {
         s32 direction = func_80994750(this, play);
 
         if (direction != 0) {
             Player* player = GET_PLAYER(play);
 
-            if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
+            if (gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                 player->naviTextId = -0x203;
             } else if (!Flags_GetCollectible(play, (this->dyna.actor.params >> 8) & 0x1F)) {
                 player->naviTextId = -0x225;
@@ -124,7 +124,7 @@ void func_8099485C(DoorGerudo* this, PlayState* play) {
 
 void func_8099496C(DoorGerudo* this, PlayState* play) {
     if (DECR(this->unk_166) == 0) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_809949C8;
     }
 }
@@ -147,7 +147,7 @@ void DoorGerudo_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_gerudo.c", 365),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_door_gerudo.c", 365),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gGerudoCellDoorDL);
 

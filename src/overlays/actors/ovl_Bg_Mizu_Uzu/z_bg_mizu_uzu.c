@@ -17,15 +17,15 @@ void BgMizuUzu_Draw(Actor* thisx, PlayState* play);
 void func_8089F788(BgMizuUzu* this, PlayState* play);
 
 ActorInit Bg_Mizu_Uzu_InitVars = {
-    ACTOR_BG_MIZU_UZU,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuUzu),
-    (ActorFunc)BgMizuUzu_Init,
-    (ActorFunc)BgMizuUzu_Destroy,
-    (ActorFunc)BgMizuUzu_Update,
-    (ActorFunc)BgMizuUzu_Draw,
+    /**/ ACTOR_BG_MIZU_UZU,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuUzu),
+    /**/ BgMizuUzu_Init,
+    /**/ BgMizuUzu_Destroy,
+    /**/ BgMizuUzu_Update,
+    /**/ BgMizuUzu_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -61,7 +61,7 @@ void func_8089F788(BgMizuUzu* this, PlayState* play) {
     } else {
         DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
-    Audio_PlayActorSfx2(thisx, NA_SE_EV_WATER_CONVECTION - SFX_FLAG);
+    Actor_PlaySfx(thisx, NA_SE_EV_WATER_CONVECTION - SFX_FLAG);
     thisx->shape.rot.y += 0x1C0;
 }
 

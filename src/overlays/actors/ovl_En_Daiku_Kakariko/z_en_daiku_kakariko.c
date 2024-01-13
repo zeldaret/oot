@@ -25,15 +25,15 @@ void EnDaikuKakariko_Wait(EnDaikuKakariko* this, PlayState* play);
 void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play);
 
 ActorInit En_Daiku_Kakariko_InitVars = {
-    ACTOR_EN_DAIKU_KAKARIKO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DAIKU,
-    sizeof(EnDaikuKakariko),
-    (ActorFunc)EnDaikuKakariko_Init,
-    (ActorFunc)EnDaikuKakariko_Destroy,
-    (ActorFunc)EnDaikuKakariko_Update,
-    (ActorFunc)EnDaikuKakariko_Draw,
+    /**/ ACTOR_EN_DAIKU_KAKARIKO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DAIKU,
+    /**/ sizeof(EnDaikuKakariko),
+    /**/ EnDaikuKakariko_Init,
+    /**/ EnDaikuKakariko_Destroy,
+    /**/ EnDaikuKakariko_Update,
+    /**/ EnDaikuKakariko_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -130,18 +130,18 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         switch (play->sceneId) {
-            case SCENE_SPOT01:
+            case SCENE_KAKARIKO_VILLAGE:
                 if (IS_DAY) {
                     this->flags |= 1;
                     this->flags |= initFlags[this->actor.params & 3];
                 }
                 break;
-            case SCENE_KAKARIKO:
+            case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
                 if (IS_NIGHT) {
                     this->flags |= 2;
                 }
                 break;
-            case SCENE_DRAG:
+            case SCENE_POTION_SHOP_KAKARIKO:
                 this->flags |= 4;
                 break;
         }
@@ -226,20 +226,25 @@ s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, PlayState* play) {
 }
 
 void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, PlayState* play) {
-    static s32 maskReactionSets[] = { 1, 2, 3, 4 };
+    static s32 sMaskReactionSets[] = {
+        MASK_REACTION_SET_CARPENTER_1,
+        MASK_REACTION_SET_CARPENTER_2,
+        MASK_REACTION_SET_CARPENTER_3,
+        MASK_REACTION_SET_CARPENTER_4,
+    };
     s16 sp26;
     s16 sp24;
 
     if (this->talkState == 2) {
         this->talkState = EnDaikuKakariko_GetTalkState(this, play);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->talkState = 2;
     } else {
         Actor_GetScreenPos(play, &this->actor, &sp26, &sp24);
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
-            (func_8002F2CC(&this->actor, play, 100.0f) == 1)) {
-            this->actor.textId = Text_GetFaceReaction(play, maskReactionSets[this->actor.params & 3]);
+            (Actor_OfferTalk(&this->actor, play, 100.0f) == 1)) {
+            this->actor.textId = MaskReaction_GetTextId(play, sMaskReactionSets[this->actor.params & 3]);
 
             if (this->actor.textId == 0) {
                 switch (this->actor.params & 3) {
@@ -369,7 +374,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
         run = false;
 
         if (runDist <= 10.0f) {
-            if (this->pathContinue == false) {
+            if (!this->pathContinue) {
                 this->waypoint++;
 
                 if (this->waypoint >= path->count) {
@@ -416,19 +421,19 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (this->run == false) {
+    if (!this->run) {
         if (angleStepDiff == 0) {
             this->run = true;
         } else {
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     }
 
     if (this->run == true) {
-        Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.8f, runDist, 0.0f);
+        Math_SmoothStepToF(&this->actor.speed, this->runSpeed, 0.8f, runDist, 0.0f);
     }
 
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
 
     if (this->flags & 0x40) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
@@ -458,7 +463,7 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     if (this->currentAnimIndex == 3) {
         if (((s32)this->skelAnime.curFrame == 6) || ((s32)this->skelAnime.curFrame == 15)) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
 
@@ -474,18 +479,18 @@ void EnDaikuKakariko_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
 
-    this->npcInfo.unk_18.x = player->actor.focus.pos.x;
-    this->npcInfo.unk_18.y = player->actor.focus.pos.y;
-    this->npcInfo.unk_18.z = player->actor.focus.pos.z;
+    this->interactInfo.trackPos.x = player->actor.focus.pos.x;
+    this->interactInfo.trackPos.y = player->actor.focus.pos.y;
+    this->interactInfo.trackPos.z = player->actor.focus.pos.z;
 
     if (this->flags & 0x100) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        func_80034A14(&this->actor, &this->npcInfo, 0, 2);
+        Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_HEAD_AND_TORSO);
     } else if (this->flags & 0x200) {
         this->neckAngleTarget.x = 5900;
         this->flags |= 0x1000;
-        func_80034A14(&this->actor, &this->npcInfo, 0, 4);
+        Npc_TrackPoint(&this->actor, &this->interactInfo, 0, NPC_TRACKING_FULL_BODY);
     }
 
     Math_SmoothStepToS(&this->neckAngle.x, this->neckAngleTarget.x, 1, 1820, 0);
@@ -497,16 +502,16 @@ s32 EnDaikuKakariko_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList
 
     switch (limbIndex) {
         case 8:
-            angle = this->npcInfo.unk_0E;
+            angle = this->interactInfo.torsoRot;
             Matrix_RotateX(-BINANG_TO_RAD(angle.y), MTXMODE_APPLY);
             Matrix_RotateZ(-BINANG_TO_RAD(angle.x), MTXMODE_APPLY);
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            angle = this->npcInfo.unk_08;
+            angle = this->interactInfo.headRot;
 
             if (this->flags & 0x1000) {
-                osSyncPrintf("<%d>\n", this->neckAngle.x);
+                PRINTF("<%d>\n", this->neckAngle.x);
                 Matrix_RotateX(BINANG_TO_RAD(angle.y + this->neckAngle.y), MTXMODE_APPLY);
                 Matrix_RotateZ(BINANG_TO_RAD(angle.x + this->neckAngle.x), MTXMODE_APPLY);
             } else {

@@ -76,12 +76,21 @@ const char* sFpExceptionNames[] = {
     "Unimplemented operation", "Invalid operation", "Division by zero", "Overflow", "Underflow", "Inexact operation",
 };
 
-// TODO: import .bss (has reordering issues)
+#ifndef NON_MATCHING
+// TODO: match .bss (has reordering issues)
 extern FaultMgr* sFaultInstance;
 extern u8 sFaultAwaitingInput;
 extern STACK(sFaultStack, 0x600);
 extern StackEntry sFaultThreadInfo;
 extern FaultMgr gFaultMgr;
+#else
+// Non-matching version for struct shiftability
+FaultMgr* sFaultInstance;
+u8 sFaultAwaitingInput;
+STACK(sFaultStack, 0x600);
+StackEntry sFaultThreadInfo;
+FaultMgr gFaultMgr;
+#endif
 
 typedef struct {
     /* 0x00 */ s32 (*callback)(void*, void*);
@@ -1295,19 +1304,25 @@ void Fault_HungupFaultClient(const char* exp1, const char* exp2) {
  * error occurs. The parameters specify two messages detailing the error, one
  * or both may be NULL.
  */
-void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
+NORETURN void Fault_AddHungupAndCrashImpl(const char* exp1, const char* exp2) {
     FaultClient client;
     s32 pad;
 
     Fault_AddClient(&client, Fault_HungupFaultClient, (void*)exp1, (void*)exp2);
     *(u32*)0x11111111 = 0; // trigger an exception via unaligned memory access
+
+    // Since the above line triggers an exception and transfers execution to the fault handler
+    // this function does not return and the rest of the function is unreachable.
+#ifdef __GNUC__
+    __builtin_unreachable();
+#endif
 }
 
 /**
  * Like `Fault_AddHungupAndCrashImpl`, however provides a fixed message containing
  * filename and line number
  */
-void Fault_AddHungupAndCrash(const char* file, s32 line) {
+NORETURN void Fault_AddHungupAndCrash(const char* file, s32 line) {
     char msg[256];
 
     sprintf(msg, "HungUp %s:%d", file, line);

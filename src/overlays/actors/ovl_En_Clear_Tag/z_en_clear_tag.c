@@ -19,15 +19,15 @@ void EnClearTag_CreateFlashEffect(PlayState* play, Vec3f* position, f32 scale, f
 void EnClearTag_CalculateFloorTangent(EnClearTag* this);
 
 ActorInit En_Clear_Tag_InitVars = {
-    ACTOR_EN_CLEAR_TAG,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnClearTag),
-    (ActorFunc)EnClearTag_Init,
-    (ActorFunc)EnClearTag_Destroy,
-    (ActorFunc)EnClearTag_Update,
-    (ActorFunc)EnClearTag_Draw,
+    /**/ ACTOR_EN_CLEAR_TAG,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnClearTag),
+    /**/ EnClearTag_Init,
+    /**/ EnClearTag_Destroy,
+    /**/ EnClearTag_Update,
+    /**/ EnClearTag_Draw,
 };
 
 static u8 sIsEffectsInitialized = false;
@@ -235,20 +235,20 @@ void EnClearTag_Init(Actor* thisx, PlayState* play) {
     if (this->actor.params == CLEAR_TAG_LASER) {
         this->state = CLEAR_TAG_STATE_LASER;
         this->timers[CLEAR_TAG_TIMER_LASER_DEATH] = 70;
-        this->actor.speedXZ = 35.0f;
-        func_8002D908(&this->actor);
+        this->actor.speed = 35.0f;
+        Actor_UpdateVelocityXYZ(&this->actor);
         for (j = 0; j <= 0; j++) {
-            func_8002D7EC(&this->actor);
+            Actor_UpdatePos(&this->actor);
         }
         this->actor.scale.x = 0.4f;
         this->actor.scale.y = 0.4f;
         this->actor.scale.z = 2.0f;
-        this->actor.speedXZ = 70.0f;
+        this->actor.speed = 70.0f;
         this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
-        func_8002D908(&this->actor);
+        Actor_UpdateVelocityXYZ(&this->actor);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sLaserCylinderInit);
-        Audio_PlayActorSfx2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
+        Actor_PlaySfx(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
         this->actor.flags |= ACTOR_FLAG_0;
         this->actor.targetMode = 5;
@@ -348,12 +348,12 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
 
                     this->collider.base.acFlags &= ~AC_HIT;
                     this->crashingTimer = 20;
-                    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5);
+                    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 5);
                     this->acceleration.x = Rand_CenteredFloat(15.0f);
                     this->acceleration.y = Rand_CenteredFloat(15.0f);
                     this->acceleration.z = Rand_CenteredFloat(15.0f);
 
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FANTOM_THUNDER_GND);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_THUNDER_GND);
                     this->actor.colChkInfo.health--;
                     if ((s8)this->actor.colChkInfo.health <= 0) {
                         this->state = CLEAR_TAG_STATE_CRASHING;
@@ -362,7 +362,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     }
                 }
                 Actor_SetScale(&this->actor, 0.2f);
-                this->actor.speedXZ = 7.0f;
+                this->actor.speed = 7.0f;
 
                 if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] == 0) {
                     if (this->timers[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] == 0) {
@@ -473,7 +473,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                 this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
                 // Update the Arwing's velocity.
-                func_8002D908(&this->actor);
+                Actor_UpdateVelocityXYZ(&this->actor);
                 this->actor.velocity.x += this->acceleration.x;
                 this->actor.velocity.y += this->acceleration.y;
                 this->actor.velocity.z += this->acceleration.z;
@@ -496,7 +496,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     this->crashingTimer--;
                 }
 
-                func_8002D7EC(&this->actor);
+                Actor_UpdatePos(&this->actor);
 
                 Actor_SetFocus(&this->actor, 0.0f);
 
@@ -524,7 +524,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     this->actor.velocity.y -= 0.2f;
                     this->actor.shape.rot.x += 0x10;
 
-                    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
+                    Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
 
                     // Check if the Arwing has hit the ground or a wall.
                     if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
@@ -542,7 +542,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                 break;
 
             case CLEAR_TAG_STATE_LASER:
-                func_8002D7EC(&this->actor);
+                Actor_UpdatePos(&this->actor);
 
                 // Check if the laser has hit a target.
                 if (this->collider.base.atFlags & AT_HIT) {
@@ -573,8 +573,8 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
 
         if (this->state < CLEAR_TAG_STATE_LASER) {
             // Play the Arwing cutscene.
-            osSyncPrintf("DEMO_MODE %d\n", this->cutsceneMode);
-            osSyncPrintf("CAMERA_NO %d\n", this->subCamId);
+            PRINTF("DEMO_MODE %d\n", this->cutsceneMode);
+            PRINTF("CAMERA_NO %d\n", this->subCamId);
 
             if (this->cutsceneMode != CLEAR_TAG_CUTSCENE_MODE_NONE) {
                 f32 subCamCircleX;
@@ -587,7 +587,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     case CLEAR_TAG_CUTSCENE_MODE_SETUP:
                         // Initializes Arwing cutscene camera data.
                         this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_PLAY;
-                        func_80064520(play, &play->csCtx);
+                        Cutscene_StartManual(play, &play->csCtx);
                         this->subCamId = Play_CreateSubCamera(play);
                         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                         Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -612,15 +612,15 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                     Math_ApproachF(&this->subCamAt.x, subCamAtNext.x, 0.2f, 500.0f);
                     Math_ApproachF(&this->subCamAt.y, subCamAtNext.y, 0.2f, 500.0f);
                     Math_ApproachF(&this->subCamAt.z, subCamAtNext.z, 0.2f, 500.0f);
-                    Play_CameraSetAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
+                    Play_SetCameraAtEye(play, this->subCamId, &this->subCamAt, &this->subCamEye);
                 }
 
                 // Cutscene has finished.
                 if (this->cutsceneTimer == 1) {
-                    func_800C08AC(play, this->subCamId, 0);
+                    Play_ReturnToMainCam(play, this->subCamId, 0);
                     // CLEAR_TAG_CUTSCENE_MODE_NONE / SUB_CAM_ID_DONE
                     this->cutsceneMode = this->subCamId = 0;
-                    func_80064534(play, &play->csCtx);
+                    Cutscene_StopManual(play, &play->csCtx);
                 }
             }
         }
@@ -691,12 +691,12 @@ void EnClearTag_Draw(Actor* thisx, PlayState* play) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 255, 0, 255);
 
             Matrix_Translate(25.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_clear_tag.c", 1004),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_clear_tag.c", 1004),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingLaserDL);
 
             Matrix_Translate(-50.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_clear_tag.c", 1011),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_clear_tag.c", 1011),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingLaserDL);
         } else {
@@ -714,7 +714,7 @@ void EnClearTag_Draw(Actor* thisx, PlayState* play) {
                 Matrix_RotateY(yRotation, MTXMODE_APPLY);
             }
             Matrix_RotateZ(this->roll, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_clear_tag.c", 1030),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_clear_tag.c", 1030),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gArwingDL);
 
@@ -728,7 +728,7 @@ void EnClearTag_Draw(Actor* thisx, PlayState* play) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, 155);
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 0);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_clear_tag.c", 1067),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_clear_tag.c", 1067),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingBackfireDL);
 
@@ -752,7 +752,7 @@ void EnClearTag_Draw(Actor* thisx, PlayState* play) {
                 Matrix_RotateY(yRotation, MTXMODE_APPLY);
             }
             Matrix_RotateZ(this->roll, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_clear_tag.c", 1104),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_clear_tag.c", 1104),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingShadowDL);
         }
@@ -910,7 +910,7 @@ void EnClearTag_DrawEffects(PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_RotateY(effect->rotationY, MTXMODE_APPLY);
             Matrix_RotateX(effect->rotationX, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1307),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_en_clear_tag.c", 1307),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gArwingDebrisEffectDL);
         }
@@ -934,7 +934,7 @@ void EnClearTag_DrawEffects(PlayState* play) {
             Matrix_RotateX(effect->floorTangent.x, MTXMODE_APPLY);
             Matrix_RotateZ(effect->floorTangent.z, MTXMODE_APPLY);
             Matrix_Scale(effect->scale + effect->scale, 1.0f, effect->scale * 2.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1342),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_clear_tag.c", 1342),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingFlashEffectGroundDL);
         }
@@ -964,7 +964,7 @@ void EnClearTag_DrawEffects(PlayState* play) {
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_Translate(0.0f, 20.0f, 0.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1392),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_clear_tag.c", 1392),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingFireEffectDL);
         }
@@ -990,7 +990,7 @@ void EnClearTag_DrawEffects(PlayState* play) {
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1439),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_clear_tag.c", 1439),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingFireEffectDL);
         }
@@ -1013,7 +1013,7 @@ void EnClearTag_DrawEffects(PlayState* play) {
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1470),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_clear_tag.c", 1470),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingFlashEffectDL);
         }

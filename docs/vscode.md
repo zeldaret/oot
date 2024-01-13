@@ -1,6 +1,6 @@
 # VSCode
 
-A lot of people on this project use VSCode as their coding environment. 
+A lot of people on this project use VSCode as their coding environment.
 
 ## Extensions
 
@@ -23,7 +23,7 @@ There are a number of useful extensions available to make work more efficient:
 - Ctrl + P offers a box to use to search for and open files.
 - Ctrl + Shift + P offers a box for commands like editing settings or reloading the window.
 
-- Make use of VSCode's search/search-and-replace features. 
+- Make use of VSCode's search/search-and-replace features.
     - Ctrl + Click goes to a definition.
     - Ctrl + F for search in current file
     - Ctrl + H for replace in current file
@@ -50,11 +50,12 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
             "includePath": [ // Matches makefile's includes
                 "${workspaceFolder}/**",
                 "src",
-                "build",
+                "build/gc-eu-mq-dbg",
                 "include"
             ],
             "defines": [
-                "_LANGUAGE_C" // For gbi.h
+                "_LANGUAGE_C", // For gbi.h
+                "OOT_DEBUG" // If targeting a debug version
             ],
             "cStandard": "gnu89", // C89 + some GNU extensions from C99 like C++ comments
             "cppStandard": "${default}" // Only ZAPD uses C++, so doesn't really matter

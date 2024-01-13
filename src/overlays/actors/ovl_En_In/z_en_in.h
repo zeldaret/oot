@@ -38,7 +38,7 @@ typedef struct EnIn {
     /* 0x0190 */ EnInActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ f32 unk_1E0;
-    /* 0x01E4 */ s8 ingoObjBankIndex;
+    /* 0x01E4 */ s8 requiredObjectSlot;
     /* 0x01E6 */ s16 animationIdx;
     /* 0x01E8 */ s16 unk_1E8;
     /* 0x01EA */ s16 blinkTimer;
@@ -54,7 +54,7 @@ typedef struct EnIn {
     /* 0x0276 */ Vec3s morphTable[INGO_LIMB_MAX];
     /* 0x02F0 */ Vec3f subCamAtOffset;
     /* 0x02FC */ Vec3f subCamEyeOffset;
-    /* 0x0308 */ struct_80034A14_arg1 unk_308;
+    /* 0x0308 */ NpcInteractInfo interactInfo;
     /* 0x0330 */ Vec3s unk_330[INGO_LIMB_MAX];
 } EnIn; // size = 0x03A8
 

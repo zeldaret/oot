@@ -120,11 +120,11 @@ void Math3D_LineClosestToPoint(InfiniteLine* line, Vec3f* pos, Vec3f* closestPoi
 
     dirVectorLengthSq = Math3D_Vec3fMagnitudeSq(&line->dir);
     if (IS_ZERO(dirVectorLengthSq)) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Math3D_lineVsPosSuisenCross(): No straight line length"
-        osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
-        osSyncPrintf("cross = pos を返します。\n"); // "Returns cross = pos."
-        osSyncPrintf(VT_RST);
+        PRINTF("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
+        PRINTF("cross = pos を返します。\n"); // "Returns cross = pos."
+        PRINTF(VT_RST);
         Math_Vec3f_Copy(closestPoint, pos);
         //! @bug Missing early return
     }
@@ -924,10 +924,10 @@ f32 Math3D_Plane(Plane* plane, Vec3f* pointOnPlane) {
 f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     if (IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f"
-        osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
-        osSyncPrintf(VT_RST);
+        PRINTF("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
+        PRINTF(VT_RST);
         return 0.0f;
     }
     return fabsf(Math3D_DistPlaneToPos(nx, ny, nz, originDist, p));
@@ -942,10 +942,10 @@ f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
     if (IS_ZERO(normMagnitude)) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f"
-        osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
-        osSyncPrintf(VT_RST);
+        PRINTF("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
+        PRINTF(VT_RST);
         return 0.0f;
     }
     return Math3D_Planef(nx, ny, nz, originDist, p) / normMagnitude;
@@ -1925,14 +1925,14 @@ s32 Math3D_SphVsSph(Sphere16* sphereA, Sphere16* sphereB) {
 s32 Math3D_SphVsSphOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize) {
     f32 centerDist;
 
-    return Math3D_SphVsSphOverlapCenter(sphereA, sphereB, overlapSize, &centerDist);
+    return Math3D_SphVsSphOverlapCenterDist(sphereA, sphereB, overlapSize, &centerDist);
 }
 
 /*
  * Determines if two spheres are touching  The distance from the centers is placed in `centerDist`,
  * and the amount that they're overlapping is placed in `overlapSize`
  */
-s32 Math3D_SphVsSphOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist) {
+s32 Math3D_SphVsSphOverlapCenterDist(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist) {
     Vec3f diff;
 
     diff.x = (f32)sphereA->center.x - (f32)sphereB->center.x;
@@ -1951,9 +1951,9 @@ s32 Math3D_SphVsSphOverlapCenter(Sphere16* sphereA, Sphere16* sphereB, f32* over
 }
 
 /**
- * Checks if `sph` and `cyl` are touching, output the amount of overlap to `overlapSize`
+ * Checks if `sph` and `cyl` are touching, output the amount of xz overlap to `overlapSize`
  */
-s32 Math3D_SphVsCylOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize) {
+s32 Math3D_SphVsCylOverlap(Sphere16* sph, Cylinder16* cyl, f32* overlapSize) {
     f32 centerDist;
 
     return Math3D_SphVsCylOverlapCenterDist(sph, cyl, overlapSize, &centerDist);
@@ -1961,7 +1961,7 @@ s32 Math3D_SphVsCylOverlapDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize)
 
 /**
  * Checks if `sph` and `cyl` are touching, output the xz distance of the centers to `centerDist`, and the amount of
- * overlap to `overlapSize`
+ * xz overlap to `overlapSize`
  */
 s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centerDist) {
     static Cylinderf cylf;
@@ -2007,22 +2007,20 @@ s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overla
     return false;
 }
 
-/*
- * returns 1 if cylinder `ca` is outside cylinder `cb`.
- * Sets `deadSpace` to the mininum space between the cylinders not occupied by the other.
+/**
+ * Checks if `ca` and `cb` are touching, output the amount of xz overlap to `overlapSize`
  */
-s32 Math3D_CylOutsideCyl(Cylinder16* ca, Cylinder16* cb, f32* deadSpace) {
+s32 Math3D_CylVsCylOverlap(Cylinder16* ca, Cylinder16* cb, f32* overlapSize) {
     f32 xzDist;
 
-    return Math3D_CylOutsideCylDist(ca, cb, deadSpace, &xzDist);
+    return Math3D_CylVsCylOverlapCenterDist(ca, cb, overlapSize, &xzDist);
 }
 
-/*
- * returns 1 if cylinder `ca` is outside cylinder `cb`.
- * Sets `xzDist` to the xz distance between the centers of the cylinders.
- * Sets `deadSpace` to the minimum space between the cylinders not occupied by the other.
+/**
+ * Checks if `ca` and `cb` are touching, output the xz distance of the centers to `centerDist`, and the amount of
+ * xz overlap to `overlapSize`
  */
-s32 Math3D_CylOutsideCylDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32* xzDist) {
+s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overlapSize, f32* centerDist) {
     static Cylinderf caf;
     static Cylinderf cbf;
 
@@ -2036,10 +2034,10 @@ s32 Math3D_CylOutsideCylDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32
     cbf.yShift = cb->yShift;
     cbf.height = cb->height;
 
-    *xzDist = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
+    *centerDist = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
 
-    // The combined radix are within the xz distance
-    if ((caf.radius + cbf.radius) < *xzDist) {
+    // The combined radii are within the xz distance
+    if ((caf.radius + cbf.radius) < *centerDist) {
         return false;
     }
 
@@ -2049,7 +2047,7 @@ s32 Math3D_CylOutsideCylDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32
         return false;
     }
 
-    *deadSpace = caf.radius + cbf.radius - *xzDist;
+    *overlapSize = caf.radius + cbf.radius - *centerDist;
     return true;
 }
 

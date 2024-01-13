@@ -43,6 +43,7 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 
 	auto nodeMap = ZFile::GetNodeMap();
 	size_t childIndex = rawDataIndex;
+	resList.reserve(arrayCnt);
 	for (size_t i = 0; i < arrayCnt; i++)
 	{
 		ZResource* res = nodeMap->at(childName)(parent);
@@ -55,7 +56,7 @@ void ZArray::ParseXML(tinyxml2::XMLElement* reader)
 		}
 		res->parent = parent;
 		res->SetInnerNode(true);
-		res->ExtractFromXML(child, childIndex);
+		res->ExtractWithXML(child, childIndex);
 
 		childIndex += res->GetRawDataSize();
 		resList.push_back(res);
@@ -74,11 +75,11 @@ Declaration* ZArray::DeclareVar(const std::string& prefix, const std::string& bo
 	if (res->IsExternalResource())
 	{
 		auto filepath = Globals::Instance->outputPath / name;
-		std::string includePath = StringHelper::Sprintf("%s.%s.inc", filepath.c_str(),
+		std::string includePath = StringHelper::Sprintf("%s.%s.inc", filepath.string().c_str(),
 		                                                res->GetExternalExtension().c_str());
 		decl = parent->AddDeclarationIncludeArray(rawDataIndex, includePath, GetRawDataSize(),
 		                                          GetSourceTypeName(), name, arrayCnt);
-		decl->text = bodyStr;
+		decl->declBody = bodyStr;
 		decl->isExternal = true;
 	}
 	else
@@ -94,7 +95,7 @@ Declaration* ZArray::DeclareVar(const std::string& prefix, const std::string& bo
 
 std::string ZArray::GetBodySourceCode() const
 {
-	std::string output = "";
+	std::string output;
 
 	for (size_t i = 0; i < arrayCnt; i++)
 	{
@@ -107,6 +108,8 @@ std::string ZArray::GetBodySourceCode() const
 		case ZResourceType::Scalar:
 		case ZResourceType::Vertex:
 		case ZResourceType::CollisionPoly:
+		case ZResourceType::SurfaceType:
+		case ZResourceType::Waterbox:
 			output += resList.at(i)->GetBodySourceCode();
 			break;
 
@@ -125,7 +128,7 @@ std::string ZArray::GetBodySourceCode() const
 size_t ZArray::GetRawDataSize() const
 {
 	size_t size = 0;
-	for (auto res : resList)
+	for (const auto res : resList)
 		size += res->GetRawDataSize();
 	return size;
 }

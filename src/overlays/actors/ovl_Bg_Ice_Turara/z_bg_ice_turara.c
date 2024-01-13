@@ -41,15 +41,15 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 ActorInit Bg_Ice_Turara_InitVars = {
-    ACTOR_BG_ICE_TURARA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceTurara),
-    (ActorFunc)BgIceTurara_Init,
-    (ActorFunc)BgIceTurara_Destroy,
-    (ActorFunc)BgIceTurara_Update,
-    (ActorFunc)BgIceTurara_Draw,
+    /**/ ACTOR_BG_ICE_TURARA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceTurara),
+    /**/ BgIceTurara_Init,
+    /**/ BgIceTurara_Destroy,
+    /**/ BgIceTurara_Update,
+    /**/ BgIceTurara_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -137,7 +137,7 @@ void BgIceTurara_Shiver(BgIceTurara* this, PlayState* play) {
         this->shiverTimer--;
     }
     if (!(this->shiverTimer % 4)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_ICE_SWING);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_ICE_SWING);
     }
     if (this->shiverTimer == 0) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
@@ -173,7 +173,7 @@ void BgIceTurara_Fall(BgIceTurara* this, PlayState* play) {
             return;
         }
     } else {
-        Actor_MoveForward(&this->dyna.actor);
+        Actor_MoveXZGravity(&this->dyna.actor);
         this->dyna.actor.world.pos.y += 40.0f;
         Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->dyna.actor.world.pos.y -= 40.0f;

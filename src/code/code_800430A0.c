@@ -39,13 +39,13 @@ void DynaPolyActor_UpdateCarriedActorPos(CollisionContext* colCtx, s32 bgId, Act
             if (BGCHECK_XYZ_ABSMAX <= pos.x || pos.x <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.y ||
                 pos.y <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.z || pos.z <= -BGCHECK_XYZ_ABSMAX) {
 
-                osSyncPrintf(VT_FGCOL(RED));
-                //! @bug file and line are not passed to osSyncPrintf
+                PRINTF(VT_FGCOL(RED));
+                //! @bug file and line are not passed to PRINTF
                 // "Position is not valid"
-                osSyncPrintf(
+                PRINTF(
                     "BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n",
                     pos.x, pos.y, pos.z);
-                osSyncPrintf(VT_RST);
+                PRINTF(VT_RST);
             }
         }
     }
@@ -59,7 +59,7 @@ void DynaPolyActor_UpdateCarriedActorRotY(CollisionContext* colCtx, s32 bgId, Ac
         s16 rotY = colCtx->dyna.bgActors[bgId].curTransform.rot.y - colCtx->dyna.bgActors[bgId].prevTransform.rot.y;
 
         if (carriedActor->id == ACTOR_PLAYER) {
-            ((Player*)carriedActor)->currentYaw += rotY;
+            ((Player*)carriedActor)->yaw += rotY;
         }
 
         carriedActor->shape.rot.y += rotY;

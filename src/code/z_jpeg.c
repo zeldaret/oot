@@ -102,7 +102,7 @@ void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y) {
  * unaligned values in JPEG header files.
  */
 u16 Jpeg_GetUnalignedU16(u8* ptr) {
-    if (((u32)ptr & 1) == 0) {
+    if (((uintptr_t)ptr & 1) == 0) {
         // Read the value normally if it's aligned to a 16-bit address.
         return *(u16*)ptr;
     } else {
@@ -135,65 +135,65 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                 }
                 case MARKER_SOI: {
                     // Start of Image
-                    osSyncPrintf("MARKER_SOI\n");
+                    PRINTF("MARKER_SOI\n");
                     break;
                 }
                 case MARKER_APP0: {
                     // Application marker for JFIF
-                    osSyncPrintf("MARKER_APP0 %d\n", Jpeg_GetUnalignedU16(ptr));
+                    PRINTF("MARKER_APP0 %d\n", Jpeg_GetUnalignedU16(ptr));
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_APP1: {
                     // Application marker for EXIF
-                    osSyncPrintf("MARKER_APP1 %d\n", Jpeg_GetUnalignedU16(ptr));
+                    PRINTF("MARKER_APP1 %d\n", Jpeg_GetUnalignedU16(ptr));
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_APP2: {
-                    osSyncPrintf("MARKER_APP2 %d\n", Jpeg_GetUnalignedU16(ptr));
+                    PRINTF("MARKER_APP2 %d\n", Jpeg_GetUnalignedU16(ptr));
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_DQT: {
                     // Define Quantization Table, stored for later processing
-                    osSyncPrintf("MARKER_DQT %d %d %02x\n", ctx->dqtCount, Jpeg_GetUnalignedU16(ptr), ptr[2]);
+                    PRINTF("MARKER_DQT %d %d %02x\n", ctx->dqtCount, Jpeg_GetUnalignedU16(ptr), ptr[2]);
                     ctx->dqtPtr[ctx->dqtCount++] = ptr + 2;
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_DHT: {
                     // Define Huffman Table, stored for later processing
-                    osSyncPrintf("MARKER_DHT %d %d %02x\n", ctx->dhtCount, Jpeg_GetUnalignedU16(ptr), ptr[2]);
+                    PRINTF("MARKER_DHT %d %d %02x\n", ctx->dhtCount, Jpeg_GetUnalignedU16(ptr), ptr[2]);
                     ctx->dhtPtr[ctx->dhtCount++] = ptr + 2;
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_DRI: {
                     // Define Restart Interval
-                    osSyncPrintf("MARKER_DRI %d\n", Jpeg_GetUnalignedU16(ptr));
+                    PRINTF("MARKER_DRI %d\n", Jpeg_GetUnalignedU16(ptr));
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
                 case MARKER_SOF: {
                     // Start of Frame, stores important metadata of the image.
                     // Only used for extracting the sampling factors (ctx->mode).
-                    osSyncPrintf("MARKER_SOF   %d "
-                                 "精度%02x " // "accuracy"
-                                 "垂直%d "   // "vertical"
-                                 "水平%d "   // "horizontal"
-                                 "compo%02x "
-                                 "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (量子化テーブル)%02x "
-                                 "(2:Cb)%d (H1=1,V1=1)%02x (量子化テーブル)%02x "
-                                 "(3:Cr)%d (H2=1,V2=1)%02x (量子化テーブル)%02x\n",
-                                 Jpeg_GetUnalignedU16(ptr),
-                                 ptr[2],                        // precision
-                                 Jpeg_GetUnalignedU16(ptr + 3), // height
-                                 Jpeg_GetUnalignedU16(ptr + 5), // width
-                                 ptr[7],                        // component count (assumed to be 3)
-                                 ptr[8], ptr[9], ptr[10],       // Y component
-                                 ptr[11], ptr[12], ptr[13],     // Cb component
-                                 ptr[14], ptr[15], ptr[16]      // Cr component
+                    PRINTF("MARKER_SOF   %d "
+                           "精度%02x " // "accuracy"
+                           "垂直%d "   // "vertical"
+                           "水平%d "   // "horizontal"
+                           "compo%02x "
+                           "(1:Y)%d (H0=2,V0=1(422) or 2(420))%02x (量子化テーブル)%02x "
+                           "(2:Cb)%d (H1=1,V1=1)%02x (量子化テーブル)%02x "
+                           "(3:Cr)%d (H2=1,V2=1)%02x (量子化テーブル)%02x\n",
+                           Jpeg_GetUnalignedU16(ptr),
+                           ptr[2],                        // precision
+                           Jpeg_GetUnalignedU16(ptr + 3), // height
+                           Jpeg_GetUnalignedU16(ptr + 5), // width
+                           ptr[7],                        // component count (assumed to be 3)
+                           ptr[8], ptr[9], ptr[10],       // Y component
+                           ptr[11], ptr[12], ptr[13],     // Cb component
+                           ptr[14], ptr[15], ptr[16]      // Cr component
                     );
 
                     if (ptr[9] == 0x21) {
@@ -208,19 +208,19 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
                 }
                 case MARKER_SOS: {
                     // Start of Scan marker, indicates the start of the image data.
-                    osSyncPrintf("MARKER_SOS %d\n", Jpeg_GetUnalignedU16(ptr));
+                    PRINTF("MARKER_SOS %d\n", Jpeg_GetUnalignedU16(ptr));
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     ctx->imageData = ptr;
                     break;
                 }
                 case MARKER_EOI: {
                     // End of Image
-                    osSyncPrintf("MARKER_EOI\n");
+                    PRINTF("MARKER_EOI\n");
                     exit = true;
                     break;
                 }
                 default: {
-                    osSyncPrintf("マーカー不明 %02x\n", ptr[-1]); // "Unknown marker"
+                    PRINTF("マーカー不明 %02x\n", ptr[-1]); // "Unknown marker"
                     ptr += Jpeg_GetUnalignedU16(ptr);
                     break;
                 }
@@ -257,7 +257,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     diff = curTime - time;
     time = curTime;
     // "Wait for synchronization of fifo buffer"
-    osSyncPrintf("*** fifoバッファの同期待ち time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF("*** fifoバッファの同期待ち time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     ctx.workBuf = workBuff;
     Jpeg_ParseMarkers(data, &ctx);
@@ -266,7 +266,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     diff = curTime - time;
     time = curTime;
     // "Check markers for each segment"
-    osSyncPrintf("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dqtCount) {
         case 1:
@@ -290,26 +290,26 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     diff = curTime - time;
     time = curTime;
     // "Create quantization table"
-    osSyncPrintf("*** 量子化テーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF("*** 量子化テーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dhtCount) {
         case 1:
             if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes, 4)) {
-                osSyncPrintf("Error : Cant' make huffman table.\n");
+                PRINTF("Error : Cant' make huffman table.\n");
             }
             break;
         case 4:
             if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes, 1)) {
-                osSyncPrintf("Error : Cant' make huffman table.\n");
+                PRINTF("Error : Cant' make huffman table.\n");
             }
             if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[1], &hTables[1], workBuff->codesLengths, workBuff->codes, 1)) {
-                osSyncPrintf("Error : Cant' make huffman table.\n");
+                PRINTF("Error : Cant' make huffman table.\n");
             }
             if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[2], &hTables[2], workBuff->codesLengths, workBuff->codes, 1)) {
-                osSyncPrintf("Error : Cant' make huffman table.\n");
+                PRINTF("Error : Cant' make huffman table.\n");
             }
             if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[3], &hTables[3], workBuff->codesLengths, workBuff->codes, 1)) {
-                osSyncPrintf("Error : Cant' make huffman table.\n");
+                PRINTF("Error : Cant' make huffman table.\n");
             }
             break;
         default:
@@ -320,7 +320,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     diff = curTime - time;
     time = curTime;
     // "Huffman table creation"
-    osSyncPrintf("*** ハフマンテーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF("*** ハフマンテーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     decoder.imageData = ctx.imageData;
     decoder.mode = ctx.mode;
@@ -334,9 +334,9 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     x = y = 0;
     for (i = 0; i < 300; i += 4) {
         if (JpegDecoder_Decode(&decoder, (u16*)workBuff->data, 4, i != 0, &state)) {
-            osSyncPrintf(VT_FGCOL(RED));
-            osSyncPrintf("Error : Can't decode jpeg\n");
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_FGCOL(RED));
+            PRINTF("Error : Can't decode jpeg\n");
+            PRINTF(VT_RST);
         } else {
             Jpeg_ScheduleDecoderTask(&ctx);
             osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));
@@ -357,7 +357,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     diff = curTime - time;
     time = curTime;
     // "Unfold & draw"
-    osSyncPrintf("*** 展開 & 描画 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
+    PRINTF("*** 展開 & 描画 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     return 0;
 }

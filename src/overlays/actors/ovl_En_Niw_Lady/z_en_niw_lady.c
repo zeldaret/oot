@@ -26,15 +26,15 @@ void func_80ABA654(EnNiwLady* this, PlayState* play);
 void func_80ABAD7C(EnNiwLady* this, PlayState* play);
 
 ActorInit En_Niw_Lady_InitVars = {
-    ACTOR_EN_NIW_LADY,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_ANE,
-    sizeof(EnNiwLady),
-    (ActorFunc)EnNiwLady_Init,
-    (ActorFunc)EnNiwLady_Destroy,
-    (ActorFunc)EnNiwLady_Update,
-    NULL,
+    /**/ ACTOR_EN_NIW_LADY,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_ANE,
+    /**/ sizeof(EnNiwLady),
+    /**/ EnNiwLady_Init,
+    /**/ EnNiwLady_Destroy,
+    /**/ EnNiwLady_Update,
+    /**/ NULL,
 };
 
 static s16 sMissingCuccoTextIds[] = {
@@ -70,22 +70,22 @@ void EnNiwLady_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnNiwLady* this = (EnNiwLady*)thisx;
 
-    this->objectAneIndex = Object_GetIndex(&play->objectCtx, OBJECT_ANE);
-    this->objectOsAnimeIndex = Object_GetIndex(&play->objectCtx, OBJECT_OS_ANIME);
-    if ((this->objectOsAnimeIndex < 0) || (this->objectAneIndex < 0)) {
+    this->aneObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_ANE);
+    this->osAnimeObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_OS_ANIME);
+    if ((this->osAnimeObjectSlot < 0) || (this->aneObjectSlot < 0)) {
         Actor_Kill(thisx);
         return;
     }
     this->unk_278 = 0;
-    if (play->sceneId == SCENE_LABO) {
+    if (play->sceneId == SCENE_IMPAS_HOUSE) {
         this->unk_278 = 1;
     }
     if ((this->unk_278 != 0) && IS_DAY) {
         Actor_Kill(thisx);
         return;
     }
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n" VT_RST, this->unk_278);
-    osSyncPrintf("\n\n");
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n" VT_RST, this->unk_278);
+    PRINTF("\n\n");
     this->actionFunc = func_80AB9F24;
     thisx->uncullZoneForward = 600.0f;
 }
@@ -99,7 +99,7 @@ void EnNiwLady_Destroy(Actor* thisx, PlayState* play) {
 void EnNiwLady_ChoseAnimation(EnNiwLady* this, PlayState* play, s32 arg2) {
     f32 frames;
 
-    if (Text_GetFaceReaction(play, 8) != 0) {
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) != 0) {
         arg2 = 8;
     }
     if (arg2 != this->unk_270) {
@@ -153,11 +153,11 @@ void func_80AB9F24(EnNiwLady* this, PlayState* play) {
     f32 frames;
     s32 pad;
 
-    if (Object_IsLoaded(&play->objectCtx, this->objectAneIndex) &&
-        Object_IsLoaded(&play->objectCtx, this->objectOsAnimeIndex)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objectAneIndex].segment);
+    if (Object_IsLoaded(&play->objectCtx, this->aneObjectSlot) &&
+        Object_IsLoaded(&play->objectCtx, this->osAnimeObjectSlot)) {
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->aneObjectSlot].segment);
         SkelAnime_InitFlex(play, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objectOsAnimeIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
         Actor_SetScale(&this->actor, 0.01f);
@@ -208,17 +208,17 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
             if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&
                 (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
-                    gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] |=
+                    gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] |=
                         D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
                         // "GET inside the chicken fence!"
-                        osSyncPrintf(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST,
-                                     D_80ABB3B4[currentCucco->unk_2AA]);
+                        PRINTF(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST, D_80ABB3B4[currentCucco->unk_2AA]);
                     }
                 }
                 this->cuccosInPen++;
             } else if (this->unk_26C == 0) {
-                gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &= ~D_80ABB3B4[currentCucco->unk_2AA];
+                gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &=
+                    ~D_80ABB3B4[currentCucco->unk_2AA];
             }
         }
         currentCucco = (EnNiw*)currentCucco->actor.next;
@@ -240,26 +240,26 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
         phi_s1 = 9;
     }
     this->actor.textId = sMissingCuccoTextIds[phi_s1];
-    if (Text_GetFaceReaction(play, 8) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, 8);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY);
         this->unk_262 = TEXT_STATE_DONE;
     }
     if ((this->unk_26C != 0) && (phi_s1 != 9)) {
         phi_s1 = 10;
         this->unk_26E = 11;
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
-        osSyncPrintf("\n\n");
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n" VT_RST, this->unk_26A);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん今\t ☆☆☆☆ %d\n" VT_RST, this->cuccosInPen);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n" VT_RST, this->actor.textId);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n" VT_RST, this->unk_262);
-        osSyncPrintf("\n\n");
-        if (Text_GetFaceReaction(play, 8) == 0) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
+        PRINTF("\n\n");
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n" VT_RST, this->unk_26A);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん今\t ☆☆☆☆ %d\n" VT_RST, this->cuccosInPen);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n" VT_RST, this->actor.textId);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n" VT_RST, this->unk_262);
+        PRINTF("\n\n");
+        if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) == 0) {
             if (this->actor.textId == 0x503C) {
-                func_80078884(NA_SE_SY_ERROR);
+                Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 this->unk_26C = 2;
                 this->unk_262 = TEXT_STATE_EVENT;
                 this->actionFunc = func_80ABA654;
@@ -267,26 +267,26 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
             }
             this->unk_26E = phi_s1 + 1;
             if (phi_s1 == 7) {
-                func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk_26C = 1;
                 this->unk_262 = TEXT_STATE_EVENT;
                 this->unk_26A = this->cuccosInPen;
-                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST,
-                             gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
-                gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &=
+                PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST,
+                       gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
+                gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &=
                     (u16) ~(INFTABLE_199_MASK | INFTABLE_19A_MASK | INFTABLE_19B_MASK | INFTABLE_19C_MASK |
                             INFTABLE_19D_MASK | INFTABLE_19E_MASK | INFTABLE_19F_MASK);
-                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST,
-                             gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
-                osSyncPrintf("\n\n");
+                PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST,
+                       gSaveContext.save.info.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
+                PRINTF("\n\n");
                 this->actionFunc = func_80ABA654;
                 return;
             }
             if (this->unk_26A != this->cuccosInPen) {
                 if (this->cuccosInPen < this->unk_26A) {
-                    func_80078884(NA_SE_SY_ERROR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_ERROR);
                 } else if (phi_s1 + 1 < 9) {
-                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                    Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
             if (this->unk_26A < this->cuccosInPen) {
@@ -295,27 +295,27 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
             }
         }
     } else {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 }
 
 void func_80ABA654(EnNiwLady* this, PlayState* play) {
     if (this->unk_262 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n" VT_RST, this->unk_26C);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n" VT_RST, this->unk_272);
-        osSyncPrintf("\n\n");
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n" VT_RST, this->unk_26C);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n" VT_RST, this->unk_272);
+        PRINTF("\n\n");
         this->unk_26E = 0xB;
         if (!GET_ITEMGETINF(ITEMGETINF_0C)) {
             this->actor.parent = NULL;
-            this->getItemId = GI_BOTTLE;
-            func_8002F434(&this->actor, play, GI_BOTTLE, 100.0f, 50.0f);
+            this->getItemId = GI_BOTTLE_EMPTY;
+            Actor_OfferGetItem(&this->actor, play, GI_BOTTLE_EMPTY, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
             return;
         }
         if (this->unk_26C == 1) {
             this->getItemId = GI_RUPEE_PURPLE;
-            func_8002F434(&this->actor, play, GI_RUPEE_PURPLE, 100.0f, 50.0f);
+            Actor_OfferGetItem(&this->actor, play, GI_RUPEE_PURPLE, 100.0f, 50.0f);
             this->actionFunc = func_80ABAC00;
         }
         this->actionFunc = func_80ABA244;
@@ -327,7 +327,7 @@ static s16 sTradeItemTextIds[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x504
 
 void func_80ABA778(EnNiwLady* this, PlayState* play) {
     // "☆☆☆☆☆ Adult message check ☆☆☆☆☆"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n" VT_RST);
     this->unk_262 = TEXT_STATE_DONE;
     this->unk_273 = 0;
     if (!GET_ITEMGETINF(ITEMGETINF_2C)) {
@@ -363,10 +363,10 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 11;
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         playerExchangeItemId = func_8002F368(play);
         if ((playerExchangeItemId == EXCH_ITEM_POCKET_CUCCO) && GET_EVENTCHKINF(EVENTCHKINF_TALON_WOKEN_IN_KAKARIKO)) {
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;
             this->unk_262 = TEXT_STATE_CHOICE;
@@ -380,7 +380,7 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
             this->actionFunc = !this->unk_273 ? func_80ABA778 : func_80ABA9B8;
         }
     } else {
-        func_8002F298(&this->actor, play, 50.0f, EXCH_ITEM_POCKET_CUCCO);
+        Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 50.0f, EXCH_ITEM_POCKET_CUCCO);
     }
 }
 
@@ -390,7 +390,7 @@ void func_80ABA9B8(EnNiwLady* this, PlayState* play) {
             case 0:
                 Message_CloseTextbox(play);
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, play, GI_POCKET_EGG, 200.0f, 100.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_POCKET_EGG, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -418,7 +418,7 @@ void func_80ABAB08(EnNiwLady* this, PlayState* play) {
             case 0:
                 Message_CloseTextbox(play);
                 this->actor.parent = NULL;
-                func_8002F434(&this->actor, play, GI_COJIRO, 200.0f, 100.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_COJIRO, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
                 break;
             case 1:
@@ -444,7 +444,7 @@ void func_80ABAC00(EnNiwLady* this, PlayState* play) {
         if (LINK_IS_ADULT) {
             getItemId = !GET_ITEMGETINF(ITEMGETINF_2C) ? GI_POCKET_EGG : GI_COJIRO;
         }
-        func_8002F434(&this->actor, play, getItemId, 200.0f, 100.0f);
+        Actor_OfferGetItem(&this->actor, play, getItemId, 200.0f, 100.0f);
     }
 }
 
@@ -452,7 +452,7 @@ void func_80ABAC84(EnNiwLady* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) != TEXT_STATE_DONE) || !Message_ShouldAdvance(play)) {
         return;
     }
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
     if (LINK_IS_ADULT) {
         if (!GET_ITEMGETINF(ITEMGETINF_2C)) {
             SET_ITEMGETINF(ITEMGETINF_2C);
@@ -468,25 +468,25 @@ void func_80ABAC84(EnNiwLady* this, PlayState* play) {
 }
 
 void func_80ABAD38(EnNiwLady* this, PlayState* play) {
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 通常メッセージチェック ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 通常メッセージチェック ☆☆☆☆☆ \n" VT_RST);
     this->unk_262 = TEXT_STATE_DONE;
     this->actionFunc = func_80ABAD7C;
 }
 
 void func_80ABAD7C(EnNiwLady* this, PlayState* play) {
     this->actor.textId = 0x503D;
-    if (Text_GetFaceReaction(play, 8) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, 8);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CUCCO_LADY);
     }
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 8;
     }
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->unk_274 = 1;
         this->unk_26E = this->unk_27A + 9;
         this->actionFunc = func_80ABAD38;
     } else {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 }
 
@@ -496,18 +496,18 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     Actor_SetFocus(thisx, 60.0f);
-    this->unk_288.unk_18 = player->actor.world.pos;
+    this->interactInfo.trackPos = player->actor.world.pos;
     if (!LINK_IS_ADULT) {
-        this->unk_288.unk_18.y = player->actor.world.pos.y - 10.0f;
+        this->interactInfo.trackPos.y = player->actor.world.pos.y - 10.0f;
     }
-    func_80034A14(thisx, &this->unk_288, 2, 4);
-    this->unk_254 = this->unk_288.unk_08;
-    this->unk_25A = this->unk_288.unk_0E;
+    Npc_TrackPoint(thisx, &this->interactInfo, 2, NPC_TRACKING_FULL_BODY);
+    this->headRot = this->interactInfo.headRot;
+    this->torsoRot = this->interactInfo.torsoRot;
     if (this->unk_276 == 0) {
-        Math_SmoothStepToS(&this->unk_254.y, 0, 5, 3000, 0);
+        Math_SmoothStepToS(&this->headRot.y, 0, 5, 3000, 0);
     }
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objectOsAnimeIndex].segment);
-    if (this->objectOsAnimeIndex >= 0) {
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->osAnimeObjectSlot].segment);
+    if (this->osAnimeObjectSlot >= 0) {
         if (this->unk_27E != 0) {
             if (this->unk_26E != 0) {
                 this->unk_26E--;
@@ -516,37 +516,39 @@ void EnNiwLady_Update(Actor* thisx, PlayState* play) {
             }
             SkelAnime_Update(&this->skelAnime);
         }
-        this->objectAneIndex = Object_GetIndex(&play->objectCtx, OBJECT_ANE);
-        if (this->objectAneIndex >= 0) {
-            this->actionFunc(this, play);
-            if (this->unusedTimer2 != 0) {
-                this->unusedTimer2--;
-            }
-            if (this->unusedRandomTimer != 0) {
-                this->unusedRandomTimer--;
-            }
-            this->unusedTimer++;
-            if (this->unusedRandomTimer == 0) {
-                this->faceState++;
-                if (this->faceState >= 3) {
-                    this->faceState = 0;
-                    this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
-                }
-            }
-            Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 20.0f, 60.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
-                                        UPDBGCHECKINFO_FLAG_4);
-            Collider_UpdateCylinder(thisx, &this->collider);
-            if (1) {}
-            CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
+        this->aneObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_ANE);
+        if (this->aneObjectSlot < 0) {
+            return;
         }
+
+        this->actionFunc(this, play);
+
+        if (this->unusedTimer2 != 0) {
+            this->unusedTimer2--;
+        }
+        if (this->unusedRandomTimer != 0) {
+            this->unusedRandomTimer--;
+        }
+        this->unusedTimer++;
+        if (this->unusedRandomTimer == 0) {
+            this->faceState++;
+            if (this->faceState >= 3) {
+                this->faceState = 0;
+                this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
+            }
+        }
+        Actor_UpdateBgCheckInfo(play, thisx, 20.0f, 20.0f, 60.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
+        Collider_UpdateCylinder(thisx, &this->collider);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
 Gfx* EnNiwLady_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* dList;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gSPEndDisplayList(dList);
     return dList;
 }
@@ -556,11 +558,11 @@ s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
     s32 pad;
 
     if (limbIndex == 15) {
-        rot->x += this->unk_254.y;
-        rot->z += this->unk_254.x;
+        rot->x += this->headRot.y;
+        rot->z += this->headRot.x;
     }
     if (limbIndex == 8) {
-        rot->x += this->unk_25A.y;
+        rot->x += this->torsoRot.y;
     }
     if (this->unk_275 != 0) {
         if ((limbIndex == 8) || (limbIndex == 10) || (limbIndex == 13)) {

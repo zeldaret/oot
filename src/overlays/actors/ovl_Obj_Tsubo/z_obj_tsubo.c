@@ -37,15 +37,15 @@ static s16 D_80BA1B58 = 0;
 static s16 D_80BA1B5C = 0;
 
 ActorInit Obj_Tsubo_InitVars = {
-    ACTOR_OBJ_TSUBO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjTsubo),
-    (ActorFunc)ObjTsubo_Init,
-    (ActorFunc)ObjTsubo_Destroy,
-    (ActorFunc)ObjTsubo_Update,
-    NULL,
+    /**/ ACTOR_OBJ_TSUBO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjTsubo),
+    /**/ ObjTsubo_Init,
+    /**/ ObjTsubo_Destroy,
+    /**/ ObjTsubo_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
@@ -112,7 +112,7 @@ s32 ObjTsubo_SnapToFloor(ObjTsubo* this, PlayState* play) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        osSyncPrintf("地面に付着失敗\n");
+        PRINTF("地面に付着失敗\n");
         return false;
     }
 }
@@ -135,13 +135,13 @@ void ObjTsubo_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->objTsuboBankIndex = Object_GetIndex(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
-    if (this->objTsuboBankIndex < 0) {
-        osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
+    if (this->requiredObjectSlot < 0) {
+        PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
     } else {
         ObjTsubo_SetupWaitForObject(this);
-        osSyncPrintf("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
     }
 }
 
@@ -221,9 +221,9 @@ void ObjTsubo_SetupWaitForObject(ObjTsubo* this) {
 }
 
 void ObjTsubo_WaitForObject(ObjTsubo* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objTsuboBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.draw = ObjTsubo_Draw;
-        this->actor.objBankIndex = this->objTsuboBankIndex;
+        this->actor.objectSlot = this->requiredObjectSlot;
         ObjTsubo_SetupIdle(this);
         this->actor.flags &= ~ACTOR_FLAG_4;
     }
@@ -246,7 +246,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
         ObjTsubo_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->collider.base.acFlags & AC_HIT) &&
-               (this->collider.info.acHitInfo->toucher.dmgFlags &
+               (this->collider.elem.acHitElem->toucher.dmgFlags &
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);
@@ -266,7 +266,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
             phi_v1 = ABS(temp_v0);
             if (phi_v1 >= 0x5556) {
                 // GI_NONE in this case allows the player to lift the actor
-                func_8002F434(&this->actor, play, GI_NONE, 30.0f, 30.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_NONE, 30.0f, 30.0f);
             }
         }
     }
@@ -275,7 +275,8 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
 void ObjTsubo_SetupLiftedUp(ObjTsubo* this) {
     this->actionFunc = ObjTsubo_LiftedUp;
     this->actor.room = -1;
-    func_8002F7DC(&this->actor, NA_SE_PL_PULL_UP_POT);
+    //! @bug: This is an unsafe cast, although the sound effect will still play
+    Player_PlaySfx((Player*)&this->actor, NA_SE_PL_PULL_UP_POT);
     this->actor.flags |= ACTOR_FLAG_4;
 }
 
@@ -284,15 +285,15 @@ void ObjTsubo_LiftedUp(ObjTsubo* this, PlayState* play) {
         this->actor.room = play->roomCtx.curRoom.num;
         ObjTsubo_SetupThrown(this);
         ObjTsubo_ApplyGravity(this);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Actor_UpdateBgCheckInfo(play, &this->actor, 5.0f, 15.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     }
 }
 
 void ObjTsubo_SetupThrown(ObjTsubo* this) {
-    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
-    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speed;
+    this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speed;
     this->actor.colChkInfo.mass = 240;
     D_80BA1B50 = (Rand_ZeroOne() - 0.7f) * 2800.0f;
     D_80BA1B58 = (Rand_ZeroOne() - 0.5f) * 2000.0f;
@@ -317,7 +318,7 @@ void ObjTsubo_Thrown(ObjTsubo* this, PlayState* play) {
         Actor_Kill(&this->actor);
     } else {
         ObjTsubo_ApplyGravity(this);
-        func_8002D7EC(&this->actor);
+        Actor_UpdatePos(&this->actor);
         Math_StepToS(&D_80BA1B54, D_80BA1B50, 0x64);
         Math_StepToS(&D_80BA1B5C, D_80BA1B58, 0x64);
         this->actor.shape.rot.x += D_80BA1B54;

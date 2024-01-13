@@ -12,13 +12,14 @@ typedef enum {
 } LightningBoltState;
 
 typedef struct {
-    /* 0x00 */ s32 mantissa;
-    /* 0x04 */ s32 exponent;
-} ZBufValConversionEntry; // size = 0x8
+    /* 0x00 */ s32 mantissaShift; // shift applied to the mantissa of the z buffer value
+    /* 0x04 */ s32 base;          // 15.3 fixed-point base value for the exponent
+} ZBufValConversionEntry;         // size = 0x8
 
+// This table needs as many values as there are values for the 3-bit exponent
 ZBufValConversionEntry sZBufValConversionTable[1 << 3] = {
-    { 6, 0x00000 }, { 5, 0x20000 }, { 4, 0x30000 }, { 3, 0x38000 },
-    { 2, 0x3C000 }, { 1, 0x3E000 }, { 0, 0x3F000 }, { 0, 0x3F800 },
+    { 6, 0x0000 << 3 }, { 5, 0x4000 << 3 }, { 4, 0x6000 << 3 }, { 3, 0x7000 << 3 },
+    { 2, 0x7800 << 3 }, { 1, 0x7C00 << 3 }, { 0, 0x7E00 << 3 }, { 0, 0x7F00 << 3 },
 };
 
 u8 gWeatherMode = WEATHER_MODE_CLEAR; // "E_wether_flg"
@@ -225,9 +226,9 @@ u16 sSandstormScroll;
  *   4: dz value (unused)
  */
 s32 Environment_ZBufValToFixedPoint(s32 zBufferVal) {
-    // base[exp] + mantissa << shift[exp]
-    s32 ret = (ZBUFVAL_MANTISSA(zBufferVal) << sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].mantissa) +
-              sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].exponent;
+    // base[exp] + (mantissa << shift[exp])
+    s32 ret = (ZBUFVAL_MANTISSA(zBufferVal) << sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].mantissaShift) +
+              sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].base;
 
     return ret;
 }
@@ -251,10 +252,11 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
-    if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(18, 0) || ((void)0, gSaveContext.dayTime) < CLOCK_TIME(6, 30)) {
-        ((void)0, gSaveContext.nightFlag = 1);
+    if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(18, 0) ||
+        ((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(6, 30)) {
+        ((void)0, gSaveContext.save.nightFlag = 1);
     } else {
-        ((void)0, gSaveContext.nightFlag = 0);
+        ((void)0, gSaveContext.save.nightFlag = 0);
     }
 
     play->state.gfxCtx->callback = Environment_GraphCallback;
@@ -321,9 +323,9 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
             envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjZFar = 0;
 
-    envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-    envCtx->sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+    envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    envCtx->sunPos.z = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
     envCtx->windDirection.x = 80;
     envCtx->windDirection.y = 80;
@@ -417,7 +419,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     cREG(12) = 0;
     cREG(13) = 0;
     cREG(14) = 0;
-    D_8015FCC8 = 1;
+    gUseCutsceneCam = true;
 
     for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
         sLightningBolts[i].state = LIGHTNING_BOLT_INACTIVE;
@@ -426,14 +428,14 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     play->roomCtx.unk_74[0] = 0;
     play->roomCtx.unk_74[1] = 0;
 
-    for (i = 0; i < ARRAY_COUNT(play->csCtx.npcActions); i++) {
-        play->csCtx.npcActions[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(play->csCtx.actorCues); i++) {
+        play->csCtx.actorCues[i] = NULL;
     }
 
-    if (Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
+    if (Object_GetSlot(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
         play->envCtx.sunMoonDisabled = true;
         // "Sun setting other than field keep! So forced release!"
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
     }
 
     gCustomLensFlareOn = false;
@@ -552,8 +554,8 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
 
     if ((startFrameF >= endFrameF) || (accelDurationF + decelDurationF > totalFrames)) {
         // "The frame relation between end_frame and start_frame is wrong!!!"
-        osSyncPrintf(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
-        osSyncPrintf(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) "\nend_frameとstart_frameのフレーム関係がおかしい!!!" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) "\nby get_parcent_forAccelBrake!!!!!!!!!" VT_RST);
 
         return 0.0f;
     }
@@ -700,7 +702,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
         if (newSkybox1Index == 0xFF) {
             // "Environment VR data acquisition failed! Report to Sasaki!"
-            osSyncPrintf(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
+            PRINTF(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
         }
 
         if ((envCtx->skybox1Index != newSkybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
@@ -708,9 +710,9 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             size = gNormalSkyFiles[newSkybox1Index].file.vromEnd - gNormalSkyFiles[newSkybox1Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_SendRequest2(&envCtx->dmaRequest, skyboxCtx->staticSegments[0],
-                                gNormalSkyFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                "../z_kankyo.c", 1264);
+            DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->staticSegments[0],
+                              gNormalSkyFiles[newSkybox1Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                              "../z_kankyo.c", 1264);
             envCtx->skybox1Index = newSkybox1Index;
         }
 
@@ -719,9 +721,9 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             size = gNormalSkyFiles[newSkybox2Index].file.vromEnd - gNormalSkyFiles[newSkybox2Index].file.vromStart;
 
             osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-            DmaMgr_SendRequest2(&envCtx->dmaRequest, skyboxCtx->staticSegments[1],
-                                gNormalSkyFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
-                                "../z_kankyo.c", 1281);
+            DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->staticSegments[1],
+                              gNormalSkyFiles[newSkybox2Index].file.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                              "../z_kankyo.c", 1281);
             envCtx->skybox2Index = newSkybox2Index;
         }
 
@@ -733,16 +735,16 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, skyboxCtx->palettes,
-                                    gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1307);
+                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->palettes,
+                                  gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                  "../z_kankyo.c", 1307);
             } else {
                 size = gNormalSkyFiles[newSkybox1Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox1Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
-                                    gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1320);
+                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
+                                  gNormalSkyFiles[newSkybox1Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                  "../z_kankyo.c", 1320);
             }
         }
 
@@ -754,16 +756,16 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
 
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, skyboxCtx->palettes,
-                                    gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1342);
+                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, skyboxCtx->palettes,
+                                  gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                  "../z_kankyo.c", 1342);
             } else {
                 size = gNormalSkyFiles[newSkybox2Index].palette.vromEnd -
                        gNormalSkyFiles[newSkybox2Index].palette.vromStart;
                 osCreateMesgQueue(&envCtx->loadQueue, &envCtx->loadMsg, 1);
-                DmaMgr_SendRequest2(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
-                                    gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue,
-                                    NULL, "../z_kankyo.c", 1355);
+                DMA_REQUEST_ASYNC(&envCtx->dmaRequest, (u8*)skyboxCtx->palettes + size,
+                                  gNormalSkyFiles[newSkybox2Index].palette.vromStart, size, 0, &envCtx->loadQueue, NULL,
+                                  "../z_kankyo.c", 1355);
             }
         }
 
@@ -786,7 +788,7 @@ void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex) {
     if (waterLightsIndex == WATERBOX_LIGHT_INDEX_NONE) {
         waterLightsIndex = 0;
         // "Underwater color is not set in the water poly data!"
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
+        PRINTF(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
     }
 
     if (play->envCtx.lightMode == LIGHT_MODE_TIME) {
@@ -822,23 +824,23 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
 
     GfxPrint_SetPos(&printer, 22, 7);
     GfxPrint_SetColor(&printer, 155, 155, 255, 64);
-    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.totalDays));
-    GfxPrint_Printf(&printer, "E%03d", ((void)0, gSaveContext.bgsDayCount));
+    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.save.totalDays));
+    GfxPrint_Printf(&printer, "E%03d", ((void)0, gSaveContext.save.bgsDayCount));
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
     GfxPrint_SetPos(&printer, 22, 8);
     GfxPrint_Printf(&printer, "%s", "ZELDATIME ");
 
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
-    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.dayTime) / 60.0f));
+    GfxPrint_Printf(&printer, "%02d", (u8)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.save.dayTime) / 60.0f));
 
-    if ((gSaveContext.dayTime & 0x1F) >= 0x10 || gTimeSpeed >= 6) {
+    if ((gSaveContext.save.dayTime & 0x1F) >= 0x10 || gTimeSpeed >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
     } else {
         GfxPrint_Printf(&printer, "%s", " ");
     }
 
-    GfxPrint_Printf(&printer, "%02d", (s16)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.dayTime)) % 60);
+    GfxPrint_Printf(&printer, "%02d", (s16)(24 * 60 / (f32)0x10000 * ((void)0, gSaveContext.save.dayTime)) % 60);
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
     GfxPrint_SetPos(&printer, 22, 9);
@@ -886,8 +888,8 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         Rumble_ClearRequests();
     }
 
-    if (pauseCtx->state == 0) {
-        if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0)) {
+    if (pauseCtx->state == PAUSE_STATE_OFF) {
+        if (!IS_PAUSED(&play->pauseCtx)) {
             if (play->skyboxId == SKYBOX_NORMAL_SKY) {
                 play->skyboxCtx.rot.y -= 0.001f;
             } else if (play->skyboxId == SKYBOX_CUTSCENE_MAP) {
@@ -900,7 +902,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
         if (((void)0, gSaveContext.nextDayTime) >= 0xFF00 && ((void)0, gSaveContext.nextDayTime) != NEXT_TIME_NONE) {
             gSaveContext.nextDayTime -= 0x10;
-            osSyncPrintf("\nnext_zelda_time=[%x]", ((void)0, gSaveContext.nextDayTime));
+            PRINTF("\nnext_zelda_time=[%x]", ((void)0, gSaveContext.nextDayTime));
 
             // nextDayTime is used as both a time of day value and a timer to delay sfx when changing days.
             // When Sun's Song is played, nextDayTime is set to 0x8001 or 0 for day and night respectively.
@@ -910,24 +912,24 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             // delaying the chicken crow or dog howl sfx by 15 frames when loading the new area.
 
             if (((void)0, gSaveContext.nextDayTime) == (NEXT_TIME_DAY_SET - (15 * 0x10))) {
-                func_80078884(NA_SE_EV_CHICKEN_CRY_M);
+                Sfx_PlaySfxCentered(NA_SE_EV_CHICKEN_CRY_M);
                 gSaveContext.nextDayTime = NEXT_TIME_NONE;
             } else if (((void)0, gSaveContext.nextDayTime) == (NEXT_TIME_NIGHT_SET - (15 * 0x10))) {
-                func_800788CC(NA_SE_EV_DOG_CRY_EVENING);
+                Sfx_PlaySfxCentered2(NA_SE_EV_DOG_CRY_EVENING);
                 gSaveContext.nextDayTime = NEXT_TIME_NONE;
             }
         }
 
-        if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
+        if ((pauseCtx->state == PAUSE_STATE_OFF) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == MSGMODE_NONE)) ||
                 (((void)0, gSaveContext.gameMode) == GAMEMODE_END_CREDITS)) {
                 if ((envCtx->changeSkyboxTimer == 0) && !FrameAdvance_IsEnabled(play) &&
                     (play->transitionMode == TRANS_MODE_OFF || ((void)0, gSaveContext.gameMode) != GAMEMODE_NORMAL)) {
 
                     if (IS_DAY || gTimeSpeed >= 400) {
-                        gSaveContext.dayTime += gTimeSpeed;
+                        gSaveContext.save.dayTime += gTimeSpeed;
                     } else {
-                        gSaveContext.dayTime += gTimeSpeed * 2; // time moves twice as fast at night
+                        gSaveContext.save.dayTime += gTimeSpeed * 2; // time moves twice as fast at night
                     }
                 }
             }
@@ -935,18 +937,18 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
         if (((((void)0, gSaveContext.sceneLayer) >= 5 || gTimeSpeed != 0) &&
-             ((void)0, gSaveContext.dayTime) > gSaveContext.skyboxTime) ||
-            (((void)0, gSaveContext.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
+             ((void)0, gSaveContext.save.dayTime) > gSaveContext.skyboxTime) ||
+            (((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
 
-            gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
+            gSaveContext.skyboxTime = ((void)0, gSaveContext.save.dayTime);
         }
 
-        time = gSaveContext.dayTime;
+        time = gSaveContext.save.dayTime;
 
         if (time > CLOCK_TIME(18, 0) || time < CLOCK_TIME(6, 30)) {
-            gSaveContext.nightFlag = 1;
+            gSaveContext.save.nightFlag = 1;
         } else {
-            gSaveContext.nightFlag = 0;
+            gSaveContext.save.nightFlag = 0;
         }
 
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
@@ -1026,11 +1028,11 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                         // set light1 direction for the sun
                         envCtx->lightSettings.light1Dir[0] =
-                            -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f);
+                            -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f);
                         envCtx->lightSettings.light1Dir[1] =
-                            Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f;
+                            Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f;
                         envCtx->lightSettings.light1Dir[2] =
-                            Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f;
+                            Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f;
 
                         // set light2 direction for the moon
                         envCtx->lightSettings.light2Dir[0] = -envCtx->lightSettings.light1Dir[0];
@@ -1125,12 +1127,12 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong!"
-                            osSyncPrintf(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
+                            PRINTF(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
 
                             // "Palette setting = [] Last palette number = []"
-                            osSyncPrintf(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
-                                         sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
-                                         envCtx->numLightSettings - 1);
+                            PRINTF(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
+                                   sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
+                                   envCtx->numLightSettings - 1);
                         }
                         break;
                     }
@@ -1201,11 +1203,11 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                 if (envCtx->lightSetting >= envCtx->numLightSettings) {
                     // "The color palette seems to be wrong!"
-                    osSyncPrintf("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
+                    PRINTF("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
 
                     // "Palette setting = [] Last palette number = []"
-                    osSyncPrintf("\n" VT_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" VT_RST,
-                                 envCtx->lightSetting, envCtx->numLightSettings);
+                    PRINTF("\n" VT_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" VT_RST, envCtx->lightSetting,
+                           envCtx->numLightSettings);
                 }
             }
         }
@@ -1377,24 +1379,24 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 2266);
 
-    if (play->csCtx.state != 0) {
+    if (play->csCtx.state != CS_STATE_IDLE) {
         Math_SmoothStepToF(&play->envCtx.sunPos.x,
-                           -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
-                           0.8f, 0.8f);
+                           -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f,
+                           1.0f, 0.8f, 0.8f);
         Math_SmoothStepToF(&play->envCtx.sunPos.y,
-                           (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
+                           (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f, 1.0f,
                            0.8f, 0.8f);
         //! @bug This should be z.
         Math_SmoothStepToF(&play->envCtx.sunPos.y,
-                           (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f, 1.0f, 0.8f,
-                           0.8f);
+                           (Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f, 1.0f,
+                           0.8f, 0.8f);
     } else {
-        play->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-        play->envCtx.sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
-        play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
+        play->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+        play->envCtx.sunPos.y = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+        play->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
+    if (gSaveContext.save.entranceIndex != ENTR_HYRULE_FIELD_0 || ((void)0, gSaveContext.sceneLayer) != 5) {
         Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 
@@ -1425,7 +1427,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
         scale = (color * 2.0f) + 10.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 2364), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 2364), G_MTX_LOAD);
         Gfx_SetupDL_54Opa(play->state.gfxCtx);
         gSPDisplayList(POLY_OPA_DISP++, gSunDL);
 
@@ -1444,7 +1446,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         alpha = temp * 255.0f;
 
         if (alpha > 0.0f) {
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 2406), G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 2406), G_MTX_LOAD);
             Gfx_SetupDL_51Opa(play->state.gfxCtx);
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 240, 255, 180, alpha);
@@ -1460,7 +1462,8 @@ void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, V
                                   Vec3f pos, s32 unused) {
     if ((play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) && (play->envCtx.skyboxConfig == 0)) {
         Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, 2000, 370,
-                                  Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400, true);
+                                  Math_CosS(((void)0, gSaveContext.save.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400,
+                                  true);
     }
 }
 
@@ -1617,7 +1620,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
             POLY_XLU_DISP = func_800947AC(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, lensFlareColors[i].r, lensFlareColors[i].g, lensFlareColors[i].b,
                             alpha * envCtx->lensFlareAlphaScale);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2662),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2662),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0,
                               0, PRIMITIVE, 0);
@@ -1700,7 +1703,8 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(play);
 
-    if (!(play->cameraPtrs[0]->unk_14C & 0x100) && (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_CAMERA_IN_WATER) &&
+        (play->envCtx.precipitation[PRECIP_SNOW_CUR] == 0)) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
         vec.x = view->at.x - view->eye.x;
@@ -1750,7 +1754,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
             Matrix_RotateY(-rotY, MTXMODE_APPLY);
             Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);
             Matrix_Scale(0.4f, 1.2f, 0.4f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2887),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2887),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gRaindropDL);
         }
@@ -1777,7 +1781,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
                     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
                 }
 
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2940),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_kankyo.c", 2940),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, gEffShockwaveDL);
             }
@@ -2021,7 +2025,7 @@ void Environment_DrawLightning(PlayState* play, s32 unused) {
             Matrix_Scale(22.0f, 100.0f, 22.0f, MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 3333),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 3333),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[sLightningBolts[i].textureIndex]));
             Gfx_SetupDL_61Xlu(play->state.gfxCtx);
@@ -2037,8 +2041,8 @@ void Environment_PlaySceneSequence(PlayState* play) {
     play->envCtx.timeSeqState = TIMESEQ_DISABLED;
 
     // both lost woods exits on the bridge from kokiri to hyrule field
-    if (((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_8 ||
-        ((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_9) {
+    if (((void)0, gSaveContext.save.entranceIndex) == ENTR_LOST_WOODS_8 ||
+        ((void)0, gSaveContext.save.entranceIndex) == ENTR_LOST_WOODS_9) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
@@ -2054,13 +2058,13 @@ void Environment_PlaySceneSequence(PlayState* play) {
         }
     } else if (play->sequenceCtx.natureAmbienceId == NATURE_ID_NONE) {
         // "BGM Configuration"
-        osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sequenceCtx.seqId,
-                     ((void)0, gSaveContext.seqId));
+        PRINTF("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", play->sequenceCtx.seqId,
+               ((void)0, gSaveContext.seqId));
         if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
             Audio_PlaySceneSequence(play->sequenceCtx.seqId);
         }
-    } else if (((void)0, gSaveContext.dayTime) >= CLOCK_TIME(7, 0) &&
-               ((void)0, gSaveContext.dayTime) <= CLOCK_TIME(17, 10)) {
+    } else if (((void)0, gSaveContext.save.dayTime) >= CLOCK_TIME(7, 0) &&
+               ((void)0, gSaveContext.save.dayTime) <= CLOCK_TIME(17, 10)) {
         if (((void)0, gSaveContext.seqId) != play->sequenceCtx.seqId) {
             Audio_PlaySceneSequence(play->sequenceCtx.seqId);
         }
@@ -2071,22 +2075,22 @@ void Environment_PlaySceneSequence(PlayState* play) {
             Audio_PlayNatureAmbienceSequence(play->sequenceCtx.natureAmbienceId);
         }
 
-        if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(17, 10) &&
-            ((void)0, gSaveContext.dayTime) <= CLOCK_TIME(19, 0)) {
+        if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(17, 10) &&
+            ((void)0, gSaveContext.save.dayTime) <= CLOCK_TIME(19, 0)) {
             play->envCtx.timeSeqState = TIMESEQ_EARLY_NIGHT_CRITTERS;
-        } else if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(19, 0) + 1 ||
-                   ((void)0, gSaveContext.dayTime) < CLOCK_TIME(6, 30)) {
+        } else if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(19, 0) + 1 ||
+                   ((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(6, 30)) {
             play->envCtx.timeSeqState = TIMESEQ_NIGHT_CRITTERS;
         } else {
             play->envCtx.timeSeqState = TIMESEQ_MORNING_CRITTERS;
         }
     }
 
-    osSyncPrintf("\n-----------------\n", ((void)0, gSaveContext.forcedSeqId));
-    osSyncPrintf("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.forcedSeqId)); // "Forced BGM"
-    osSyncPrintf("\n     ＢＧＭ=[%d]", play->sequenceCtx.seqId);
-    osSyncPrintf("\n     エンブ=[%d]", play->sequenceCtx.natureAmbienceId);
-    osSyncPrintf("\n     status=[%d]", play->envCtx.timeSeqState);
+    PRINTF("\n-----------------\n", ((void)0, gSaveContext.forcedSeqId));
+    PRINTF("\n 強制ＢＧＭ=[%d]", ((void)0, gSaveContext.forcedSeqId)); // "Forced BGM"
+    PRINTF("\n     ＢＧＭ=[%d]", play->sequenceCtx.seqId);
+    PRINTF("\n     エンブ=[%d]", play->sequenceCtx.natureAmbienceId);
+    PRINTF("\n     status=[%d]", play->envCtx.timeSeqState);
 
     Audio_SetEnvReverb(play->roomCtx.curRoom.echo);
 }
@@ -2098,7 +2102,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
                                              CHANNEL_IO_PORT_1, 0);
 
             if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
-                osSyncPrintf("\n\n\nNa_StartMorinigBgm\n\n");
+                PRINTF("\n\n\nNa_StartMorinigBgm\n\n");
                 Audio_PlayMorningSceneSequence(play->sequenceCtx.seqId);
             }
 
@@ -2106,7 +2110,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_FADE_DAY_BGM:
-            if (gSaveContext.dayTime > CLOCK_TIME(17, 10)) {
+            if (gSaveContext.save.dayTime > CLOCK_TIME(17, 10)) {
                 if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 &&
                     play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
                     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 240);
@@ -2117,8 +2121,8 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_NIGHT_BEGIN_SFX:
-            if (gSaveContext.dayTime > CLOCK_TIME(18, 0)) {
-                func_800788CC(NA_SE_EV_DOG_CRY_EVENING);
+            if (gSaveContext.save.dayTime > CLOCK_TIME(18, 0)) {
+                Sfx_PlaySfxCentered2(NA_SE_EV_DOG_CRY_EVENING);
                 play->envCtx.timeSeqState++;
             }
             break;
@@ -2133,7 +2137,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_NIGHT_DELAY:
-            if (gSaveContext.dayTime > CLOCK_TIME(19, 0)) {
+            if (gSaveContext.save.dayTime > CLOCK_TIME(19, 0)) {
                 play->envCtx.timeSeqState++;
             }
             break;
@@ -2150,11 +2154,11 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_DAY_BEGIN_SFX:
-            if ((gSaveContext.dayTime <= CLOCK_TIME(19, 0)) && (gSaveContext.dayTime > CLOCK_TIME(6, 30))) {
-                gSaveContext.totalDays++;
-                gSaveContext.bgsDayCount++;
+            if ((gSaveContext.save.dayTime <= CLOCK_TIME(19, 0)) && (gSaveContext.save.dayTime > CLOCK_TIME(6, 30))) {
+                gSaveContext.save.totalDays++;
+                gSaveContext.save.bgsDayCount++;
                 gSaveContext.dogIsLost = true;
-                func_80078884(NA_SE_EV_CHICKEN_CRY_M);
+                Sfx_PlaySfxCentered(NA_SE_EV_CHICKEN_CRY_M);
 
                 if ((Inventory_ReplaceItem(play, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(play, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&
@@ -2179,7 +2183,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_DAY_DELAY:
-            if (gSaveContext.dayTime > CLOCK_TIME(7, 0)) {
+            if (gSaveContext.save.dayTime > CLOCK_TIME(7, 0)) {
                 play->envCtx.timeSeqState = 0;
             }
             break;
@@ -2368,7 +2372,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
 
     switch (sandstormState) {
         case SANDSTORM_ACTIVE:
-            if ((play->sceneId == SCENE_SPOT13) && (play->roomCtx.curRoom.num == 0)) {
+            if ((play->sceneId == SCENE_HAUNTED_WASTELAND) && (play->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (play->envCtx.sandstormEnvA > 128) ? 255 : play->envCtx.sandstormEnvA >> 1;
             } else {
@@ -2415,17 +2419,17 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
     if (ABS(primA - primA1) < 9) {
         primA = primA1;
     } else if (primA1 < primA) {
-        primA = primA - 9;
+        primA -= 9;
     } else {
-        primA = primA + 9;
+        primA += 9;
     }
 
     if (ABS(envA - envA1) < 9) {
         envA = envA1;
     } else if (envA1 < envA) {
-        envA = envA - 9;
+        envA -= 9;
     } else {
-        envA = envA + 9;
+        envA += 9;
     }
 
     play->envCtx.sandstormPrimA = primA;
@@ -2537,15 +2541,15 @@ void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32
 }
 
 s32 Environment_GetBgsDayCount(void) {
-    return gSaveContext.bgsDayCount;
+    return gSaveContext.save.bgsDayCount;
 }
 
 void Environment_ClearBgsDayCount(void) {
-    gSaveContext.bgsDayCount = 0;
+    gSaveContext.save.bgsDayCount = 0;
 }
 
 s32 Environment_GetTotalDays(void) {
-    return gSaveContext.totalDays;
+    return gSaveContext.save.totalDays;
 }
 
 void Environment_ForcePlaySequence(u16 seqId) {
@@ -2585,7 +2589,7 @@ void Environment_StopStormNatureAmbience(PlayState* play) {
 
 void Environment_WarpSongLeave(PlayState* play) {
     gWeatherMode = WEATHER_MODE_CLEAR;
-    gSaveContext.cutsceneIndex = 0;
+    gSaveContext.save.cutsceneIndex = 0;
     gSaveContext.respawnFlag = -3;
     play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
     play->transitionTrigger = TRANS_TRIGGER_START;
@@ -2593,27 +2597,27 @@ void Environment_WarpSongLeave(PlayState* play) {
     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 
     switch (play->nextEntranceIndex) {
-        case ENTR_SPOT17_0:
+        case ENTR_DEATH_MOUNTAIN_CRATER_0:
             Flags_SetEventChkInf(EVENTCHKINF_B9);
             break;
 
-        case ENTR_SPOT06_0:
+        case ENTR_LAKE_HYLIA_0:
             Flags_SetEventChkInf(EVENTCHKINF_B1);
             break;
 
-        case ENTR_SPOT11_0:
+        case ENTR_DESERT_COLOSSUS_0:
             Flags_SetEventChkInf(EVENTCHKINF_B8);
             break;
 
-        case ENTR_SPOT02_0:
+        case ENTR_GRAVEYARD_0:
             Flags_SetEventChkInf(EVENTCHKINF_B6);
             break;
 
-        case ENTR_TOKINOMA_0:
+        case ENTR_TEMPLE_OF_TIME_0:
             Flags_SetEventChkInf(EVENTCHKINF_A7);
             break;
 
-        case ENTR_SPOT05_0:
+        case ENTR_SACRED_FOREST_MEADOW_0:
             break;
     }
 }

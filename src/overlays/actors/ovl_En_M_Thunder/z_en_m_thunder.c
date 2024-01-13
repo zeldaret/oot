@@ -13,15 +13,15 @@ void func_80A9F408(EnMThunder* this, PlayState* play);
 void func_80A9F9B4(EnMThunder* this, PlayState* play);
 
 ActorInit En_M_Thunder_InitVars = {
-    ACTOR_EN_M_THUNDER,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnMThunder),
-    (ActorFunc)EnMThunder_Init,
-    (ActorFunc)EnMThunder_Destroy,
-    (ActorFunc)EnMThunder_Update,
-    (ActorFunc)EnMThunder_Draw,
+    /**/ ACTOR_EN_M_THUNDER,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnMThunder),
+    /**/ EnMThunder_Init,
+    /**/ EnMThunder_Destroy,
+    /**/ EnMThunder_Update,
+    /**/ EnMThunder_Draw,
 };
 
 static ColliderCylinderInit D_80AA0420 = {
@@ -84,7 +84,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
     this->unk_1CA = 0;
 
     if (player->stateFlags2 & PLAYER_STATE2_17) {
-        if (!gSaveContext.isMagicAcquired || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
+        if (!gSaveContext.save.info.playerData.isMagicAcquired || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             (((this->actor.params & 0xFF00) >> 8) &&
              !(Magic_RequestChange(play, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_NOW)))) {
             Audio_PlaySfxGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -97,7 +97,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
 
         player->stateFlags2 &= ~PLAYER_STATE2_17;
         this->unk_1CA = 1;
-        this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];
+        this->collider.elem.toucher.dmgFlags = D_80AA044C[this->unk_1C7];
         this->unk_1C6 = 1;
         this->unk_1C9 = ((this->unk_1C7 == 1) ? 2 : 4);
         func_80A9EFE0(this, func_80A9F9B4);
@@ -196,11 +196,11 @@ void func_80A9F408(EnMThunder* this, PlayState* play) {
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
             }
             if (player->unk_858 < 0.85f) {
-                this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];
+                this->collider.elem.toucher.dmgFlags = D_80AA044C[this->unk_1C7];
                 this->unk_1C6 = 1;
                 this->unk_1C9 = ((this->unk_1C7 == 1) ? 2 : 4);
             } else {
-                this->collider.info.toucher.dmgFlags = D_80AA0458[this->unk_1C7];
+                this->collider.elem.toucher.dmgFlags = D_80AA0458[this->unk_1C7];
                 this->unk_1C6 = 0;
                 this->unk_1C9 = ((this->unk_1C7 == 1) ? 4 : 8);
             }
@@ -326,7 +326,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 844);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_m_thunder.c", 853),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_m_thunder.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (this->unk_1C6) {
@@ -384,7 +384,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
         phi_t1 = 0x14;
     }
     Matrix_Scale(1.0f, phi_f14, phi_f14, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_m_thunder.c", 960),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_m_thunder.c", 960),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPSegment(POLY_XLU_DISP++, 0x09,

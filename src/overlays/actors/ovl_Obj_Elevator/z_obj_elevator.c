@@ -20,15 +20,15 @@ void func_80B92D20(ObjElevator* this);
 void func_80B92D44(ObjElevator* this, PlayState* play);
 
 ActorInit Obj_Elevator_InitVars = {
-    ACTOR_OBJ_ELEVATOR,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_D_ELEVATOR,
-    sizeof(ObjElevator),
-    (ActorFunc)ObjElevator_Init,
-    (ActorFunc)ObjElevator_Destroy,
-    (ActorFunc)ObjElevator_Update,
-    (ActorFunc)ObjElevator_Draw,
+    /**/ ACTOR_OBJ_ELEVATOR,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_D_ELEVATOR,
+    /**/ sizeof(ObjElevator),
+    /**/ ObjElevator_Init,
+    /**/ ObjElevator_Destroy,
+    /**/ ObjElevator_Update,
+    /**/ ObjElevator_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -53,8 +53,8 @@ void func_80B92B08(ObjElevator* this, PlayState* play, CollisionHeader* collisio
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
-                     thisx->id, thisx->params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136, thisx->id,
+               thisx->params);
     }
 }
 
@@ -68,7 +68,7 @@ void ObjElevator_Init(Actor* thisx, PlayState* play) {
     temp_f0 = (thisx->params >> 8) & 0xF;
     this->unk_16C = temp_f0 + temp_f0;
     func_80B92C5C(this);
-    osSyncPrintf("(Dungeon Elevator)(arg_data 0x%04x)\n", thisx->params);
+    PRINTF("(Dungeon Elevator)(arg_data 0x%04x)\n", thisx->params);
 }
 
 void ObjElevator_Destroy(Actor* thisx, PlayState* play) {
@@ -104,10 +104,10 @@ void func_80B92D44(ObjElevator* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (fabsf(Math_SmoothStepToF(&thisx->world.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
-        Audio_PlayActorSfx2(thisx, NA_SE_EV_FOOT_SWITCH);
+        Actor_PlaySfx(thisx, NA_SE_EV_FOOT_SWITCH);
         func_80B92C5C(this);
     } else {
-        Audio_PlayActorSfx2(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+        Actor_PlaySfx(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 

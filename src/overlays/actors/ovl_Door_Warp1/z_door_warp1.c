@@ -33,15 +33,15 @@ void DoorWarp1_ChooseInitialAction(DoorWarp1* this, PlayState* play);
 void DoorWarp1_FloatPlayer(DoorWarp1* this, PlayState* play);
 
 ActorInit Door_Warp1_InitVars = {
-    ACTOR_DOOR_WARP1,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_WARP1,
-    sizeof(DoorWarp1),
-    (ActorFunc)DoorWarp1_Init,
-    (ActorFunc)DoorWarp1_Destroy,
-    (ActorFunc)DoorWarp1_Update,
-    (ActorFunc)DoorWarp1_Draw,
+    /**/ ACTOR_DOOR_WARP1,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_WARP1,
+    /**/ sizeof(DoorWarp1),
+    /**/ DoorWarp1_Init,
+    /**/ DoorWarp1_Destroy,
+    /**/ DoorWarp1_Update,
+    /**/ DoorWarp1_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -76,7 +76,7 @@ void DoorWarp1_Init(Actor* thisx, PlayState* play) {
                                   this->actor.world.pos.z, 0, 0, 0, 0);
         this->lowerLight = LightContext_InsertLight(play2, &play2->lightCtx, &this->lowerLightInfo);
     }
-    osSyncPrintf("\nBOSSWARP arg_data=[%d]", this->actor.params);
+    PRINTF("\nBOSSWARP arg_data=[%d]", this->actor.params);
 
     DoorWarp1_ChooseInitialAction(this, play2);
 }
@@ -161,9 +161,11 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
             DoorWarp1_SetupAction(this, DoorWarp1_AwaitClearFlag);
             break;
         case WARP_DESTINATION:
-            if ((!(gSaveContext.entranceIndex == ENTR_SPOT05_3 || gSaveContext.entranceIndex == ENTR_SPOT17_5 ||
-                   gSaveContext.entranceIndex == ENTR_SPOT06_9 || gSaveContext.entranceIndex == ENTR_SPOT11_8 ||
-                   gSaveContext.entranceIndex == ENTR_SPOT02_8) &&
+            if ((!(gSaveContext.save.entranceIndex == ENTR_SACRED_FOREST_MEADOW_3 ||
+                   gSaveContext.save.entranceIndex == ENTR_DEATH_MOUNTAIN_CRATER_5 ||
+                   gSaveContext.save.entranceIndex == ENTR_LAKE_HYLIA_9 ||
+                   gSaveContext.save.entranceIndex == ENTR_DESERT_COLOSSUS_8 ||
+                   gSaveContext.save.entranceIndex == ENTR_GRAVEYARD_8) &&
                  !IS_CUTSCENE_LAYER) ||
                 (GET_PLAYER(play)->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
@@ -184,7 +186,7 @@ void DoorWarp1_SetupWarp(DoorWarp1* this, PlayState* play) {
 
 void DoorWarp1_SetupAdultDungeonWarp(DoorWarp1* this, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
-    Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 40.0f, 1);
+    Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 40.0f, ANIMTAPER_ACCEL);
 
     this->scale = 0;
     this->unk_1AE = -140;
@@ -213,7 +215,7 @@ void DoorWarp1_SetupBlueCrystal(DoorWarp1* this, PlayState* play) {
 
     SkelAnime_Init(play, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
     Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 0, Animation_GetLastFrame(&gWarpCrystalAnim),
-                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, 1);
+                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, ANIMTAPER_ACCEL);
 
     this->skelAnime.curFrame = Animation_GetLastFrame(&gWarpCrystalAnim);
     this->scale = 10;
@@ -242,7 +244,7 @@ void DoorWarp1_SetupBlueCrystal(DoorWarp1* this, PlayState* play) {
 void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, PlayState* play) {
     SkelAnime_Init(play, &this->skelAnime, &gWarpCrystalSkel, &gWarpCrystalAnim, NULL, NULL, 0);
     Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 0, Animation_GetLastFrame(&gWarpCrystalAnim),
-                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, 1);
+                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 0.0f, ANIMTAPER_ACCEL);
 
     this->skelAnime.curFrame = Animation_GetLastFrame(&gWarpCrystalAnim);
     this->unk_1AE = 120;
@@ -259,13 +261,13 @@ void DoorWarp1_SetupPurpleCrystal(DoorWarp1* this, PlayState* play) {
     this->unk_1BC = 1.f;
     this->actor.shape.yOffset = 800.0f;
 
-    if (gSaveContext.entranceIndex != ENTR_TOKINOMA_0) {
+    if (gSaveContext.save.entranceIndex != ENTR_TEMPLE_OF_TIME_0) {
         this->actor.scale.x = 0.0499f;
         this->actor.scale.y = 0.077f;
         this->actor.scale.z = 0.09f;
         this->crystalAlpha = 255.0f;
     } else {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_SHUT_BY_CRYSTAL);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_SHUT_BY_CRYSTAL);
     }
     DoorWarp1_SetupAction(this, DoorWarp1_PurpleCrystal);
 }
@@ -398,7 +400,7 @@ void func_809995D4(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_WarpAppear(DoorWarp1* this, PlayState* play) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     Math_SmoothStepToF(&this->lightRayAlpha, 255.0f, 0.4f, 10.0f, 0.01f);
     Math_SmoothStepToF(&this->warpAlpha, 255.0f, 0.4f, 10.0f, 0.01f);
 
@@ -433,7 +435,7 @@ void DoorWarp1_WarpAppear(DoorWarp1* this, PlayState* play) {
 
 void func_809998A4(DoorWarp1* this, PlayState* play) {
     if (this->lightRayAlpha != 0.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     }
     Math_SmoothStepToF(&this->lightRayAlpha, 0.0f, 0.1f, 2.0f, 0.01f);
     Math_SmoothStepToF(&this->warpAlpha, 0.0f, 0.1f, 2.0f, 0.01f);
@@ -456,7 +458,7 @@ s32 DoorWarp1_PlayerInRange(DoorWarp1* this, PlayState* play) {
 void DoorWarp1_ChildWarpIdle(DoorWarp1* this, PlayState* play) {
     Player* player;
 
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (DoorWarp1_PlayerInRange(this, play)) {
         player = GET_PLAYER(play);
@@ -464,7 +466,7 @@ void DoorWarp1_ChildWarpIdle(DoorWarp1* this, PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         OnePointCutscene_Init(play, 0x25E7, 999, &this->actor, CAM_ID_MAIN);
-        func_8002DF54(play, &this->actor, 10);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_10);
 
         player->unk_450.x = this->actor.world.pos.x;
         player->unk_450.z = this->actor.world.pos.z;
@@ -490,35 +492,34 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
     this->warpTimer++;
 
     if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger,
-                     TRANS_TRIGGER_START);
+        PRINTF("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger, TRANS_TRIGGER_START);
 
-        if (play->sceneId == SCENE_DDAN_BOSS) {
+        if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
                 Flags_SetEventChkInf(EVENTCHKINF_25);
                 Item_Give(play, ITEM_GORON_RUBY);
-                play->nextEntranceIndex = ENTR_SPOT16_0;
+                play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
             } else {
-                play->nextEntranceIndex = ENTR_SPOT16_5;
+                play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_TRAIL_5;
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneId == SCENE_YDAN_BOSS) {
+        } else if (play->sceneId == SCENE_DEKU_TREE_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_07)) {
                 Flags_SetEventChkInf(EVENTCHKINF_07);
                 Flags_SetEventChkInf(EVENTCHKINF_09);
                 Item_Give(play, ITEM_KOKIRI_EMERALD);
-                play->nextEntranceIndex = ENTR_SPOT04_0;
+                play->nextEntranceIndex = ENTR_KOKIRI_FOREST_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
             } else {
-                play->nextEntranceIndex = ENTR_SPOT04_11;
+                play->nextEntranceIndex = ENTR_KOKIRI_FOREST_11;
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneId == SCENE_BDAN_BOSS) {
-            play->nextEntranceIndex = ENTR_SPOT08_0;
+        } else if (play->sceneId == SCENE_JABU_JABU_BOSS) {
+            play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
             gSaveContext.nextCutsceneIndex = 0;
         }
-        osSyncPrintf("\n\n\nおわりおわり");
+        PRINTF("\n\n\nおわりおわり");
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
@@ -536,11 +537,11 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
 }
 
 void DoorWarp1_RutoWarpIdle(DoorWarp1* this, PlayState* play) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (this->rutoWarpState != WARP_BLUE_RUTO_STATE_INITIAL && DoorWarp1_PlayerInRange(this, play)) {
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_ENTERED;
-        func_8002DF54(play, &this->actor, 10);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_10);
         this->unk_1B2 = 1;
         DoorWarp1_SetupAction(this, func_80999EE0);
     }
@@ -565,8 +566,8 @@ void func_80999EE0(DoorWarp1* this, PlayState* play) {
         eye.y = 43.0f;
         eye.z = player->actor.world.pos.z;
 
-        Play_CameraSetAtEye(play, sRutoWarpSubCamId, &at, &eye);
-        Play_CameraSetFov(play, sRutoWarpSubCamId, 90.0f);
+        Play_SetCameraAtEye(play, sRutoWarpSubCamId, &at, &eye);
+        Play_SetCameraFov(play, sRutoWarpSubCamId, 90.0f);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_TALKING;
         Message_StartTextbox(play, 0x4022, NULL);
         DoorWarp1_SetupAction(this, func_80999FE4);
@@ -604,7 +605,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         SET_EVENTCHKINF(EVENTCHKINF_37);
         Item_Give(play, ITEM_ZORA_SAPPHIRE);
-        play->nextEntranceIndex = ENTR_SPOT08_0;
+        play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
@@ -622,7 +623,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, PlayState* play) {
 }
 
 void func_8099A3A4(DoorWarp1* this, PlayState* play) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     Math_SmoothStepToF(&this->lightRayAlpha, 255.0f, 0.2f, 2.0f, 0.1f);
     Math_SmoothStepToF(&this->warpAlpha, 255.0f, 0.2f, 2.0f, 0.1f);
 
@@ -642,13 +643,13 @@ void func_8099A3A4(DoorWarp1* this, PlayState* play) {
 void DoorWarp1_AdultWarpIdle(DoorWarp1* this, PlayState* play) {
     Player* player;
 
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 
     if (DoorWarp1_PlayerInRange(this, play)) {
         player = GET_PLAYER(play);
 
         OnePointCutscene_Init(play, 0x25E8, 999, &this->actor, CAM_ID_MAIN);
-        func_8002DF54(play, &this->actor, 10);
+        Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_10);
         player->unk_450.x = this->actor.world.pos.x;
         player->unk_450.z = this->actor.world.pos.z;
         this->unk_1B2 = 20;
@@ -666,7 +667,7 @@ void func_8099A508(DoorWarp1* this, PlayState* play) {
     Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, Animation_GetLastFrame(&gWarpCrystalAnim),
-                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 40.0f, 1);
+                         Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 40.0f, ANIMTAPER_ACCEL);
 
     this->unk_1B2 = 0x32;
     DoorWarp1_SetupAction(this, DoorWarp1_AdultWarpOut);
@@ -702,75 +703,75 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
     this->warpTimer++;
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        if (play->sceneId == SCENE_MORIBOSSROOM) {
+        if (play->sceneId == SCENE_FOREST_TEMPLE_BOSS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_48)) {
                 SET_EVENTCHKINF(EVENTCHKINF_48);
                 Item_Give(play, ITEM_MEDALLION_FOREST);
-                play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_FOREST;
             } else {
                 if (!LINK_IS_ADULT) {
-                    play->nextEntranceIndex = ENTR_SPOT05_2;
+                    play->nextEntranceIndex = ENTR_SACRED_FOREST_MEADOW_2;
                 } else {
-                    play->nextEntranceIndex = ENTR_SPOT05_3;
+                    play->nextEntranceIndex = ENTR_SACRED_FOREST_MEADOW_3;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneId == SCENE_FIRE_BS) {
+        } else if (play->sceneId == SCENE_FIRE_TEMPLE_BOSS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_49)) {
                 SET_EVENTCHKINF(EVENTCHKINF_49);
                 Item_Give(play, ITEM_MEDALLION_FIRE);
-                play->nextEntranceIndex = ENTR_SPOT01_0;
+                play->nextEntranceIndex = ENTR_KAKARIKO_VILLAGE_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF3;
             } else {
                 if (!LINK_IS_ADULT) {
-                    play->nextEntranceIndex = ENTR_SPOT17_4;
+                    play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_CRATER_4;
                 } else {
-                    play->nextEntranceIndex = ENTR_SPOT17_5;
+                    play->nextEntranceIndex = ENTR_DEATH_MOUNTAIN_CRATER_5;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneId == SCENE_MIZUSIN_BS) {
+        } else if (play->sceneId == SCENE_WATER_TEMPLE_BOSS) {
             if (!GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                 SET_EVENTCHKINF(EVENTCHKINF_4A);
                 Item_Give(play, ITEM_MEDALLION_WATER);
-                play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_WATER;
             } else {
                 if (!LINK_IS_ADULT) {
-                    play->nextEntranceIndex = ENTR_SPOT06_8;
+                    play->nextEntranceIndex = ENTR_LAKE_HYLIA_8;
                 } else {
-                    play->nextEntranceIndex = ENTR_SPOT06_9;
+                    play->nextEntranceIndex = ENTR_LAKE_HYLIA_9;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneId == SCENE_JYASINBOSS) {
+        } else if (play->sceneId == SCENE_SPIRIT_TEMPLE_BOSS) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                 Item_Give(play, ITEM_MEDALLION_SPIRIT);
-                play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_SPIRIT;
             } else {
                 if (!LINK_IS_ADULT) {
-                    play->nextEntranceIndex = ENTR_SPOT11_5;
+                    play->nextEntranceIndex = ENTR_DESERT_COLOSSUS_5;
                 } else {
-                    play->nextEntranceIndex = ENTR_SPOT11_8;
+                    play->nextEntranceIndex = ENTR_DESERT_COLOSSUS_8;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
-        } else if (play->sceneId == SCENE_HAKADAN_BS) {
+        } else if (play->sceneId == SCENE_SHADOW_TEMPLE_BOSS) {
             if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
                 Item_Give(play, ITEM_MEDALLION_SHADOW);
-                play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                play->nextEntranceIndex = ENTR_CHAMBER_OF_THE_SAGES_0;
                 gSaveContext.nextCutsceneIndex = 0;
                 gSaveContext.chamberCutsceneNum = CHAMBER_CS_SHADOW;
             } else {
                 if (!LINK_IS_ADULT) {
-                    play->nextEntranceIndex = ENTR_SPOT02_7;
+                    play->nextEntranceIndex = ENTR_GRAVEYARD_7;
                 } else {
-                    play->nextEntranceIndex = ENTR_SPOT02_8;
+                    play->nextEntranceIndex = ENTR_GRAVEYARD_8;
                 }
                 gSaveContext.nextCutsceneIndex = 0;
             }
@@ -793,7 +794,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
         play->envCtx.screenFillColor[2] = 160;
         play->envCtx.screenFillColor[3] = (u32)(255.0f * screenFillAlpha);
 
-        osSyncPrintf("\nparcent=[%f]", screenFillAlpha);
+        PRINTF("\nparcent=[%f]", screenFillAlpha);
     }
     Lights_PointNoGlowSetInfo(&this->upperLightInfo, (s16)player->actor.world.pos.x + 10.0f,
                               (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f, 235, 255,
@@ -847,7 +848,7 @@ void DoorWarp1_Destination(DoorWarp1* this, PlayState* play) {
         this->warpAlpha = 0.0f;
         DoorWarp1_SetupAction(this, DoorWarp1_DoNothing);
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 }
 
 void DoorWarp1_DoNothing(DoorWarp1* this, PlayState* play) {
@@ -861,7 +862,7 @@ void func_8099B020(DoorWarp1* this, PlayState* play) {
         Math_StepToF(&this->unk_194, 2.0f, 0.01f);
         Math_StepToF(&this->unk_198, 10.0f, 0.02f);
     }
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 }
 
 void DoorWarp1_Update(Actor* thisx, PlayState* play) {
@@ -963,7 +964,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     gDPSetColorDither(POLY_XLU_DISP++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + 1.0f, this->actor.world.pos.z, MTXMODE_NEW);
-    gSPSegment(POLY_XLU_DISP++, 0x0A, Matrix_NewMtx(play->state.gfxCtx, "../z_door_warp1.c", 2247));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2247));
     Matrix_Push();
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -974,7 +975,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
     Matrix_Translate(0.0f, this->unk_194 * 230.0f, 0.0f, MTXMODE_APPLY);
     xzScale = (((f32)this->unk_1AE * spE8) / 100.0f) + 1.0f;
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
-    gSPSegment(POLY_XLU_DISP++, 0x09, Matrix_NewMtx(play->state.gfxCtx, "../z_door_warp1.c", 2267));
+    gSPSegment(POLY_XLU_DISP++, 0x09, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2267));
     gSPDisplayList(POLY_XLU_DISP++, gWarpPortalDL);
     Matrix_Pop();
 
@@ -1012,7 +1013,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
         xzScale = (((f32)this->unk_1B0 * spE4) / 100.0f) + 1.0f;
         Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
 
-        gSPSegment(POLY_XLU_DISP++, 0x09, Matrix_NewMtx(play->state.gfxCtx, "../z_door_warp1.c", 2336));
+        gSPSegment(POLY_XLU_DISP++, 0x09, MATRIX_NEW(play->state.gfxCtx, "../z_door_warp1.c", 2336));
         gSPDisplayList(POLY_XLU_DISP++, gWarpPortalDL);
     }
 

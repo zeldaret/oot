@@ -619,7 +619,7 @@ Mips2c is bad at arrays. We see this in the `(*(&gSaveContext + 0xEDA) & 0x400) 
 3. The entry in `SaveContext` that contains `0xEDA` is `/* 0x0ED4 */ u16 eventChkInf[14];`
 4. Since `0xEDA - 0xED4 = 0x6`, and `u16`s take up 2 bytes each, we conclude that it is `eventChkInf[3]` that is being referenced.
 
-Therefore, the condition should be `(gSaveContext.eventChkInf[3] & 0x400) != 0`. This is a flag comparison, so we can also leave off the `!= 0`.
+Therefore, the condition should be `(gSaveContext.save.info.eventChkInf[3] & 0x400) != 0`. This is a flag comparison, so we can also leave off the `!= 0`.
 
 With all of this implemented, the function should now compile without errors. The parts of the file that we have changed now look like
 
@@ -638,19 +638,19 @@ void func_80A87F44(Actor* thisx, PlayState* play);
 void func_80A87BEC(EnJj* this, PlayState* play);
 void func_80A87C30(EnJj* this, PlayState* play);
 
-/*
+#if 0
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORTYPE_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
-*/
+#endif
 
 extern ColliderCylinderInit D_80A88CB4;
 // static ColliderCylinderInit sCylinderInit = {
@@ -724,7 +724,7 @@ void EnJj_Init(Actor *thisx, PlayState *play) {
         this->unk_30F = 0;
         this->unk_310 = 0;
         this->unk_311 = 0;
-        if ((gSaveContext.eventChkInf[3] & 0x400) != 0) {
+        if ((gSaveContext.save.info.eventChkInf[3] & 0x400) != 0) {
             func_80A87800(this, func_80A87BEC);
         } else {
             func_80A87800(this, func_80A87C30);
@@ -772,7 +772,7 @@ Once preliminary cleanup and struct filling is done, most time spent matching fu
 In order to use `diff.py` with the symbol names, we need a copy of the code to compare against. This is done by copying the `build` directory into a directory called `expected`. Copying in Windows on WSL is very slow, so run
 ```
 $ mkdir expected
-cp -r build/ expected/
+cp -r build expected/
 ```
 from the main directory of the repository. You should end up with the directory structure `expected/build/...`.
 
@@ -848,7 +848,7 @@ void EnJj_Init(Actor* thisx, PlayState* play) {
             this->unk_30F = 0;
             this->unk_310 = 0;
             this->unk_311 = 0;
-            if ((gSaveContext.eventChkInf[3] & 0x400) != 0) {
+            if ((gSaveContext.save.info.eventChkInf[3] & 0x400) != 0) {
                 func_80A87800(this, func_80A87BEC);
             } else {
                 func_80A87800(this, func_80A87C30);
@@ -914,7 +914,7 @@ It turns out that this is enough to completely fix the diff:
 
 Everything *looks* fine, but we only know for sure when we run `make`. Thankfully doing so gives
 ```
-zelda_ocarina_mq_dbg.z64: OK
+oot-gc-eu-mq-dbg.z64: OK
 ```
 
 which is either a sense of triumph or relief depending on how long you've spent on a function.

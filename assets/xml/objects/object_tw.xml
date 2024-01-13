@@ -350,7 +350,7 @@
         <DList Name="gTwinrovaBroomFireTrailDL" Offset="0x2E098"/>
 
         <!-- Twinrova Title Card -->
-        <Texture Name="gTwinrovaTitleCardTex" OutName="twinrova_title_card" Format="i8" Width="128" Height="120" Offset="0x2E170"/>
+        <Texture Name="gTwinrovaTitleCardTex" OutName="twinrova_title_card" Format="ia8" Width="128" Height="120" Offset="0x2E170"/>
 
         <!-- Twinrova Limbs -->
         <Limb Name="gTwinrovaPelvisLimb" LimbType="Standard" Offset="0x31D70"/>

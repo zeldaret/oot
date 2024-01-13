@@ -21,15 +21,15 @@ void EnMs_Sell(EnMs* this, PlayState* play);
 void EnMs_TalkAfterPurchase(EnMs* this, PlayState* play);
 
 ActorInit En_Ms_InitVars = {
-    ACTOR_EN_MS,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MS,
-    sizeof(EnMs),
-    (ActorFunc)EnMs_Init,
-    (ActorFunc)EnMs_Destroy,
-    (ActorFunc)EnMs_Update,
-    (ActorFunc)EnMs_Draw,
+    /**/ ACTOR_EN_MS,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MS,
+    /**/ sizeof(EnMs),
+    /**/ EnMs_Init,
+    /**/ EnMs_Destroy,
+    /**/ EnMs_Update,
+    /**/ EnMs_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -58,7 +58,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnMs_SetOfferText(EnMs* this, PlayState* play) {
-    this->actor.textId = Text_GetFaceReaction(play, 0x1B);
+    this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MAGIC_BEAN_SALESMAN);
     if (this->actor.textId == 0) {
         if (BEANS_BOUGHT >= 10) {
             this->actor.textId = 0x406B;
@@ -85,7 +85,7 @@ void EnMs_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.015f);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->actor.speedXZ = 0.0f;
+    this->actor.speed = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
 
@@ -106,10 +106,10 @@ void EnMs_Wait(EnMs* this, PlayState* play) {
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     EnMs_SetOfferText(this, play);
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) { // if talk is initiated
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnMs_Talk;
     } else if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
-        func_8002F2CC(&this->actor, play, 90.0f);
+        Actor_OfferTalk(&this->actor, play, 90.0f);
     }
 }
 
@@ -124,11 +124,11 @@ void EnMs_Talk(EnMs* this, PlayState* play) {
     } else if (Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0: // yes
-                if (gSaveContext.rupees < sPrices[BEANS_BOUGHT]) {
+                if (gSaveContext.save.info.playerData.rupees < sPrices[BEANS_BOUGHT]) {
                     Message_ContinueTextbox(play, 0x4069); // not enough rupees text
                     return;
                 }
-                func_8002F434(&this->actor, play, GI_BEAN, 90.0f, 10.0f);
+                Actor_OfferGetItem(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
                 this->actionFunc = EnMs_Sell;
                 return;
             case 1: // no
@@ -145,7 +145,7 @@ void EnMs_Sell(EnMs* this, PlayState* play) {
         this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
     } else {
-        func_8002F434(&this->actor, play, GI_BEAN, 90.0f, 10.0f);
+        Actor_OfferGetItem(&this->actor, play, GI_MAGIC_BEAN, 90.0f, 10.0f);
     }
 }
 
@@ -161,16 +161,17 @@ void EnMs_Update(Actor* thisx, PlayState* play) {
     EnMs* this = (EnMs*)thisx;
     s32 pad;
 
-    this->activeTimer += 1;
+    this->activeTimer++;
     Actor_SetFocus(&this->actor, 20.0f);
     this->actor.targetArrowOffset = 500.0f;
     Actor_SetScale(&this->actor, 0.015f);
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, play);
 
-    if (gSaveContext.entranceIndex == ENTR_SPOT20_0 && gSaveContext.sceneLayer == 8) { // ride carpet if in credits
-        Actor_MoveForward(&this->actor);
-        osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
+    if (gSaveContext.save.entranceIndex == ENTR_LON_LON_RANCH_0 &&
+        gSaveContext.sceneLayer == 8) { // ride carpet if in credits
+        Actor_MoveXZGravity(&this->actor);
+        PRINTF("OOOHHHHHH %f\n", this->actor.velocity.y);
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);

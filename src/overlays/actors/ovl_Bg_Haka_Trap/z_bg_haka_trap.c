@@ -30,15 +30,15 @@ void func_80880D68(BgHakaTrap* this);
 static UNK_TYPE D_80880F30 = 0;
 
 ActorInit Bg_Haka_Trap_InitVars = {
-    ACTOR_BG_HAKA_TRAP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaTrap),
-    (ActorFunc)BgHakaTrap_Init,
-    (ActorFunc)BgHakaTrap_Destroy,
-    (ActorFunc)BgHakaTrap_Update,
-    (ActorFunc)BgHakaTrap_Draw,
+    /**/ ACTOR_BG_HAKA_TRAP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaTrap),
+    /**/ BgHakaTrap_Init,
+    /**/ BgHakaTrap_Destroy,
+    /**/ BgHakaTrap_Update,
+    /**/ BgHakaTrap_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -166,8 +166,8 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
 
-                this->colliderCylinder.info.toucherFlags &= ~TOUCH_SFX_NORMAL;
-                this->colliderCylinder.info.toucherFlags |= TOUCH_SFX_WOOD;
+                this->colliderCylinder.elem.toucherFlags &= ~TOUCH_SFX_NORMAL;
+                this->colliderCylinder.elem.toucherFlags |= TOUCH_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;
             }
@@ -301,13 +301,13 @@ void func_80880484(BgHakaTrap* this, PlayState* play) {
     timer = this->timer;
 
     if ((timer == 10 && !this->unk_16A) || (timer == 13 && this->unk_16A)) {
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_BOUND);
     }
 
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.0f;
         this->timer = (this->unk_16A) ? 10 : 40;
-        Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         this->actionFunc = func_808805C0;
     }
 
@@ -333,7 +333,7 @@ void func_808805C0(BgHakaTrap* this, PlayState* play) {
         }
 
         if (this->timer == 20) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_GUILLOTINE_UP);
         }
     }
 
@@ -380,7 +380,7 @@ void func_808806BC(BgHakaTrap* this, PlayState* play) {
 
     if (Math_StepToF(&this->dyna.actor.world.pos.y, floorHeight, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 0.01f) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
         }
         this->dyna.actor.velocity.y = 0.0f;
     }
@@ -544,6 +544,6 @@ void BgHakaTrap_Draw(Actor* thisx, PlayState* play) {
         sp2C.y = this->dyna.actor.world.pos.y + 110.0f;
 
         SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &sp2C, &this->unk_16C);
-        func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+        Sfx_PlaySfxAtPos(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

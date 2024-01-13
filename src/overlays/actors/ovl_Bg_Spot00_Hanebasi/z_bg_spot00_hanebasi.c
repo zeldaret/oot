@@ -26,15 +26,15 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, PlayState* play);
 
 ActorInit Bg_Spot00_Hanebasi_InitVars = {
-    ACTOR_BG_SPOT00_HANEBASI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT00_OBJECTS,
-    sizeof(BgSpot00Hanebasi),
-    (ActorFunc)BgSpot00Hanebasi_Init,
-    (ActorFunc)BgSpot00Hanebasi_Destroy,
-    (ActorFunc)BgSpot00Hanebasi_Update,
-    (ActorFunc)BgSpot00Hanebasi_Draw,
+    /**/ ACTOR_BG_SPOT00_HANEBASI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT00_OBJECTS,
+    /**/ sizeof(BgSpot00Hanebasi),
+    /**/ BgSpot00Hanebasi_Init,
+    /**/ BgSpot00Hanebasi_Destroy,
+    /**/ BgSpot00Hanebasi_Update,
+    /**/ BgSpot00Hanebasi_Draw,
 };
 
 static f32 sTorchFlameScale = 0.0f;
@@ -137,23 +137,19 @@ void BgSpot00Hanebasi_Destroy(Actor* thisx, PlayState* play) {
 void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, PlayState* play) {
     BgSpot00Hanebasi* child = (BgSpot00Hanebasi*)this->dyna.actor.child;
 
-    if (IS_CUTSCENE_LAYER || !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) || !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ||
-        !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) || GET_EVENTCHKINF(EVENTCHKINF_80)) {
-        if (this->dyna.actor.shape.rot.x != 0) {
-            if (Flags_GetEnv(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY)) {
-                this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
-                this->destAngle = 0;
-                child->destAngle = 0;
-                return;
-            }
+    if (!IS_CUTSCENE_LAYER && CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
+        CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        return;
+    }
 
-            if (this) {} // required to match
-        }
-        if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
-            this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
-            this->destAngle = -0x4000;
-            child->destAngle = -0xFE0;
-        }
+    if ((this->dyna.actor.shape.rot.x != 0) && (CutsceneFlags_Get(play, 0) || (!IS_CUTSCENE_LAYER && IS_DAY))) {
+        this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
+        this->destAngle = 0;
+        child->destAngle = 0;
+    } else if ((this->dyna.actor.shape.rot.x == 0) && !IS_CUTSCENE_LAYER && !LINK_IS_ADULT && !IS_DAY) {
+        this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
+        this->destAngle = -0x4000;
+        child->destAngle = -0xFE0;
     }
 }
 
@@ -179,13 +175,13 @@ void BgSpot00Hanebasi_DrawbridgeRiseAndFall(BgSpot00Hanebasi* this, PlayState* p
 
     if (this->destAngle < 0) {
         if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE_STOP);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE_STOP);
         } else {
             func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
         }
     } else {
         if (this->actionFunc == BgSpot00Hanebasi_DrawbridgeWait) {
-            Audio_PlayActorSfx2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
+            Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
         } else {
             func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN - SFX_FLAG);
         }
@@ -207,7 +203,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
-        if (play->sceneId == SCENE_SPOT00) {
+        if (play->sceneId == SCENE_HYRULE_FIELD) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
                 CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
                 Player* player = GET_PLAYER(play);
@@ -218,8 +214,8 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
                     SET_EVENTCHKINF(EVENTCHKINF_80);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
-                    func_8002DF54(play, &player->actor, 8);
-                    play->nextEntranceIndex = ENTR_SPOT00_0;
+                    Player_SetCsActionWithHaltedActors(play, &player->actor, PLAYER_CSACTION_8);
+                    play->nextEntranceIndex = ENTR_HYRULE_FIELD_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
                     play->transitionTrigger = TRANS_TRIGGER_START;
                     play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
@@ -236,14 +232,14 @@ void BgSpot00Hanebasi_Update(Actor* thisx, PlayState* play) {
             if (gTimeSpeed == 50) {
                 tmp = CLOCK_TIME(20, 0) + 1;
 
-                if (gSaveContext.dayTime > CLOCK_TIME(20, 0) + 1) {
+                if (gSaveContext.save.dayTime > CLOCK_TIME(20, 0) + 1) {
                     tmp = CLOCK_TIME(20, 0) + 1 + 0x10000;
                 }
 
-                gTimeSpeed = (tmp - gSaveContext.dayTime) * (1.0f / 350.0f);
+                gTimeSpeed = (tmp - gSaveContext.save.dayTime) * (1.0f / 350.0f);
             }
 
-            dayTime = gSaveContext.dayTime;
+            dayTime = gSaveContext.save.dayTime;
 
             if ((dayTime > CLOCK_TIME(4, 0)) && (dayTime < CLOCK_TIME(4, 30)) && (gSaveContext.sceneLayer == 5)) {
                 gTimeSpeed = 0;
@@ -280,7 +276,7 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, PlayState* play2) {
         Matrix_RotateY(angle, MTXMODE_APPLY);
         Matrix_Scale(sTorchFlameScale, sTorchFlameScale, sTorchFlameScale, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
@@ -296,7 +292,7 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 702),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 702),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (thisx->params == DT_DRAWBRIDGE) {

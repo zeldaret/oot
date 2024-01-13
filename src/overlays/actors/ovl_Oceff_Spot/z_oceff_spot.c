@@ -17,15 +17,15 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play);
 void OceffSpot_GrowCylinder(OceffSpot* this, PlayState* play);
 
 ActorInit Oceff_Spot_InitVars = {
-    ACTOR_OCEFF_SPOT,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(OceffSpot),
-    (ActorFunc)OceffSpot_Init,
-    (ActorFunc)OceffSpot_Destroy,
-    (ActorFunc)OceffSpot_Update,
-    (ActorFunc)OceffSpot_Draw,
+    /**/ ACTOR_OCEFF_SPOT,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(OceffSpot),
+    /**/ OceffSpot_Init,
+    /**/ OceffSpot_Destroy,
+    /**/ OceffSpot_Update,
+    /**/ OceffSpot_Draw,
 };
 
 #include "assets/overlays/ovl_Oceff_Spot/ovl_Oceff_Spot.c"
@@ -80,21 +80,22 @@ void OceffSpot_End(OceffSpot* this, PlayState* play) {
         this->unk_174 -= 0.05f;
     } else {
         Actor_Kill(&this->actor);
-        if (gTimeSpeed != 400 && play->msgCtx.unk_E40E == 0 && GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
+        if (gTimeSpeed != 400 && !play->msgCtx.disableSunsSong &&
+            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
             if (play->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
-                osSyncPrintf(VT_FGCOL(YELLOW));
+                PRINTF(VT_FGCOL(YELLOW));
                 // "Sun's Song Flag"
-                osSyncPrintf("z_oceff_spot  太陽の歌フラグ\n");
-                osSyncPrintf(VT_RST);
+                PRINTF("z_oceff_spot  太陽の歌フラグ\n");
+                PRINTF(VT_RST);
             }
         } else {
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-            osSyncPrintf(VT_FGCOL(YELLOW));
+            PRINTF(VT_FGCOL(YELLOW));
             // "Ocarina End"
-            osSyncPrintf("z_oceff_spot  オカリナ終了\n");
-            osSyncPrintf(VT_RST);
+            PRINTF("z_oceff_spot  オカリナ終了\n");
+            PRINTF(VT_RST);
         }
     }
 }
@@ -153,7 +154,7 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_spot.c", 469),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * (-2), 32,

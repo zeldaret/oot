@@ -41,18 +41,18 @@ extern CutsceneData gChildWarpInToTCS[];
 extern CutsceneData gChildWarpOutToTCS[];
 
 ActorInit Demo_Kankyo_InitVars = {
-    ACTOR_DEMO_KANKYO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DemoKankyo),
-    (ActorFunc)DemoKankyo_Init,
-    (ActorFunc)DemoKankyo_Destroy,
-    (ActorFunc)DemoKankyo_Update,
-    (ActorFunc)DemoKankyo_Draw,
+    /**/ ACTOR_DEMO_KANKYO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DemoKankyo),
+    /**/ DemoKankyo_Init,
+    /**/ DemoKankyo_Destroy,
+    /**/ DemoKankyo_Update,
+    /**/ DemoKankyo_Draw,
 };
 
-static s16 sObjIds[] = {
+static s16 sObjectIds[] = {
     OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD,
     OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_GAMEPLAY_KEEP,  OBJECT_GI_MELODY,      OBJECT_GI_MELODY,
     OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_TOKI_OBJECTS,   OBJECT_TOKI_OBJECTS,
@@ -75,37 +75,37 @@ static Color_RGB8 sWarpSparkleEnvColors[] = {
 };
 
 static CutsceneCameraPoint sWarpOutCameraPoints[] = {
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0x0000, 0x0000 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0017, 0x0024 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x001C, 0x0032, 0xFFFF } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0001, 0x0018, 0xFFD9 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0xFFFA, 0x0003 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0025, 0x0037 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x004F, 0x0066, 0x0029 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x00A6, 0x00AD, 0x0006 } },
-    { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
-    { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0x0000, 0x0000 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0017, 0x0024 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x001C, 0x0032, 0xFFFF } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0001, 0x0018, 0xFFD9 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0xFFFA, 0x0003 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0025, 0x0037 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x004F, 0x0066, 0x0029 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x00A6, 0x00AD, 0x0006 } },
+    { CS_CAM_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
+    { CS_CAM_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
+    { CS_CAM_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
+    { CS_CAM_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
 };
 
 static CutsceneCameraPoint sWarpInCameraPoints[] = {
-    { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
-    { CS_CMD_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x00A6, 0x00AD, 0x0006 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x004F, 0x0066, 0x0029 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0025, 0x0037 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0xFFFA, 0x0003 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0001, 0x0018, 0xFFD9 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x001C, 0x0032, 0xFFFF } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0017, 0x0024 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0x0000, 0x0000 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
-    { CS_CMD_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
-    { CS_CMD_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
+    { CS_CAM_CONTINUE, 0, 5, 45.0f, { 0x019F, 0x0245, 0xFE35 } },
+    { CS_CAM_CONTINUE, 0, 5, 45.0f, { 0x010D, 0x015A, 0xFF4C } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x00A6, 0x00AD, 0x0006 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x004F, 0x0066, 0x0029 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0025, 0x0037 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0xFFFA, 0x0003 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0001, 0x0018, 0xFFD9 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x001C, 0x0032, 0xFFFF } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0017, 0x0024 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0xFFE6, 0x0000, 0x0000 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
+    { CS_CAM_CONTINUE, 0, 8, 45.0f, { 0x0000, 0x0000, 0xFFE5 } },
+    { CS_CAM_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
+    { CS_CAM_STOP, 0, 5, 45.0f, { 0x01CE, 0x036F, 0xFCC2 } },
 };
 
 static Color_RGB8 sSparkleEnvColors[] = {
@@ -114,60 +114,60 @@ static Color_RGB8 sSparkleEnvColors[] = {
 };
 
 static CutsceneCameraPoint sSparklesCameraPoints[] = {
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0000, 0xFFE9 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD3, 0x0000, 0x000A } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE8, 0x0001, 0x0027 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0015, 0x0000, 0x002B } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002F, 0x0005, 0x000E } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0031, 0x0005, 0xFFF5 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0020, 0x0005, 0xFFDA } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF5, 0x0005, 0xFFD1 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0006, 0xFFEA } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD5, 0x0009, 0x000D } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE9, 0x0009, 0x0027 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0014, 0x000B, 0x0029 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002D, 0x000B, 0x000F } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002E, 0x000B, 0xFFF0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x001E, 0x000B, 0xFFDA } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x000E, 0xFFD3 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFDA, 0x000E, 0xFFEB } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0010, 0x0008 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE9, 0x0010, 0x0024 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0011, 0x0010, 0x0028 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002C, 0x0010, 0x000D } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002C, 0x0012, 0xFFF5 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x001F, 0x0011, 0xFFDE } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFFB, 0x0014, 0xFFD5 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFDD, 0x0014, 0xFFEC } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFDA, 0x0017, 0x0008 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE8, 0x0014, 0x001F } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x000C, 0x0018, 0x0026 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0027, 0x0018, 0x000D } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0027, 0x001B, 0xFFF6 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x001C, 0x001A, 0xFFE2 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x000E, 0xFFD4 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD9, 0x001B, 0xFFEF } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x001B, 0x000A } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFE6, 0x001B, 0x0022 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x000F, 0x001F, 0x002C } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0032, 0x0020, 0x0009 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0030, 0x0021, 0xFFF0 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x001C, 0x0025, 0xFFD9 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x0028, 0xFFD4 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD8, 0x002B, 0xFFF5 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x002B, 0x0006 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFDF, 0x002B, 0x0019 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x000E, 0x002E, 0x002C } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x0032, 0x002E, 0x0003 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0x002A, 0x0030, 0xFFE7 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
-    { CS_CMD_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
-    { CS_CMD_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
-    { CS_CMD_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF7, 0x0000, 0xFFD0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0000, 0xFFE9 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD3, 0x0000, 0x000A } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE8, 0x0001, 0x0027 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0015, 0x0000, 0x002B } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002F, 0x0005, 0x000E } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0031, 0x0005, 0xFFF5 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0020, 0x0005, 0xFFDA } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF5, 0x0005, 0xFFD1 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0006, 0xFFEA } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD5, 0x0009, 0x000D } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE9, 0x0009, 0x0027 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0014, 0x000B, 0x0029 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002D, 0x000B, 0x000F } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002E, 0x000B, 0xFFF0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x001E, 0x000B, 0xFFDA } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x000E, 0xFFD3 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFDA, 0x000E, 0xFFEB } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x0010, 0x0008 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE9, 0x0010, 0x0024 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0011, 0x0010, 0x0028 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002C, 0x0010, 0x000D } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002C, 0x0012, 0xFFF5 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x001F, 0x0011, 0xFFDE } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFFB, 0x0014, 0xFFD5 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFDD, 0x0014, 0xFFEC } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFDA, 0x0017, 0x0008 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE8, 0x0014, 0x001F } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x000C, 0x0018, 0x0026 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0027, 0x0018, 0x000D } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0027, 0x001B, 0xFFF6 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x001C, 0x001A, 0xFFE2 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x000E, 0xFFD4 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD9, 0x001B, 0xFFEF } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x001B, 0x000A } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFE6, 0x001B, 0x0022 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x000F, 0x001F, 0x002C } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0032, 0x0020, 0x0009 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0030, 0x0021, 0xFFF0 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x001C, 0x0025, 0xFFD9 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFFA, 0x0028, 0xFFD4 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD8, 0x002B, 0xFFF5 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFD7, 0x002B, 0x0006 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFDF, 0x002B, 0x0019 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x000E, 0x002E, 0x002C } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x0032, 0x002E, 0x0003 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0x002A, 0x0030, 0xFFE7 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
+    { CS_CAM_CONTINUE, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
+    { CS_CAM_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
+    { CS_CAM_STOP, 0, 2, 45.0f, { 0xFFF6, 0x002B, 0xFFD4 } },
 };
 
 static s16 D_8098CF80;
@@ -181,29 +181,29 @@ void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
 void DemoKankyo_Init(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
-    s32 objBankIndex = Object_GetIndex(&play->objectCtx, sObjIds[this->actor.params]);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[this->actor.params]);
 
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
-    if (objBankIndex < 0) {
+    PRINTF("bank_ID = %d\n", objectSlot);
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_kankyo.c", 521);
     } else {
-        this->objBankIndex = objBankIndex;
+        this->requiredObjectSlot = objectSlot;
     }
 
     switch (this->actor.params) {
         case DEMOKANKYO_BLUE_RAIN:
         case DEMOKANKYO_BLUE_RAIN_2:
             switch (play->sceneId) {
-                case SCENE_HIRAL_DEMO:
+                case SCENE_CUTSCENE_MAP:
                     play->roomCtx.curRoom.segment = NULL;
                     D_8098CF80 = 10;
                     sRainScale = 8;
                     break;
-                case SCENE_TOKINOMA:
+                case SCENE_TEMPLE_OF_TIME:
                     D_8098CF80 = 14;
                     sRainScale = 8;
                     break;
-                case SCENE_SPOT00:
+                case SCENE_HYRULE_FIELD:
                     D_8098CF80 = 1;
                     sRainScale = 5;
                     break;
@@ -279,7 +279,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 temp;
 
-    if (this->actor.objBankIndex == this->objBankIndex) {
+    if (this->actor.objectSlot == this->requiredObjectSlot) {
         switch (this->actor.params) {
             case DEMOKANKYO_ROCK_1:
             case DEMOKANKYO_ROCK_2:
@@ -292,7 +292,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                 DemoKankyo_SetupAction(this, DemoKankyo_UpdateClouds);
                 break;
             case DEMOKANKYO_DOOR_OF_TIME:
-                if (Flags_GetEnv(play, 2)) {
+                if (CutsceneFlags_Get(play, 2)) {
                     DemoKankyo_SetupAction(this, DemoKankyo_UpdateDoorOfTime);
                 }
                 break;
@@ -318,19 +318,19 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                     this->warpTimer--;
                 }
                 if (this->warpTimer == 1) {
-                    if (play->sceneId == SCENE_TOKINOMA) {
+                    if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
                         D_8098CF84 = 25;
                         if (!LINK_IS_ADULT) {
-                            play->csCtx.segment = gChildWarpInToTCS;
+                            play->csCtx.script = gChildWarpInToTCS;
                         } else {
-                            play->csCtx.segment = gAdultWarpInToTCS;
+                            play->csCtx.script = gAdultWarpInToTCS;
                         }
                     } else {
                         D_8098CF84 = 32;
                         if (!LINK_IS_ADULT) {
-                            play->csCtx.segment = gChildWarpInCS;
+                            play->csCtx.script = gChildWarpInCS;
                         } else {
-                            play->csCtx.segment = gAdultWarpInCS;
+                            play->csCtx.script = gAdultWarpInCS;
                         }
                     }
                     if (Play_CamIsNotFixed(play)) {
@@ -340,17 +340,17 @@ void DemoKankyo_SetupType(DemoKankyo* this, PlayState* play) {
                 }
                 break;
             case DEMOKANKYO_WARP_IN:
-                if (play->sceneId == SCENE_TOKINOMA) {
+                if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
                     if (!LINK_IS_ADULT) {
-                        play->csCtx.segment = gChildWarpOutToTCS;
+                        play->csCtx.script = gChildWarpOutToTCS;
                     } else {
-                        play->csCtx.segment = gAdultWarpOutToTCS;
+                        play->csCtx.script = gAdultWarpOutToTCS;
                     }
                 } else {
                     if (!LINK_IS_ADULT) {
-                        play->csCtx.segment = gChildWarpOutCS;
+                        play->csCtx.script = gChildWarpOutCS;
                     } else {
-                        play->csCtx.segment = gAdultWarpOutCS;
+                        play->csCtx.script = gAdultWarpOutCS;
                     }
                 }
                 gSaveContext.cutsceneTrigger = 1;
@@ -370,28 +370,32 @@ void DemoKankyo_DoNothing2(DemoKankyo* this, PlayState* play) {
     DemoKankyo_SetupAction(this, DemoKankyo_DoNothing);
 }
 
-void DemoKankyo_SetRockPos(DemoKankyo* this, PlayState* play, s32 npcActionIndex) {
+void DemoKankyo_SetPosFromCue(DemoKankyo* this, PlayState* play, s32 cueChannel) {
     Vec3f startPos;
     Vec3f endPos;
-    CsCmdActorAction* csAction = play->csCtx.npcActions[npcActionIndex];
-    f32 temp_f0;
+    CsCmdActorCue* cue = play->csCtx.actorCues[cueChannel];
+    f32 lerp;
 
-    startPos.x = csAction->startPos.x;
-    startPos.y = csAction->startPos.y;
-    startPos.z = csAction->startPos.z;
-    endPos.x = csAction->endPos.x;
-    endPos.y = csAction->endPos.y;
-    endPos.z = csAction->endPos.z;
-    temp_f0 = Environment_LerpWeight(csAction->endFrame, csAction->startFrame, play->csCtx.frames);
-    this->actor.world.pos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
-    this->actor.world.pos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
-    this->actor.world.pos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
+    startPos.x = cue->startPos.x;
+    startPos.y = cue->startPos.y;
+    startPos.z = cue->startPos.z;
+
+    endPos.x = cue->endPos.x;
+    endPos.y = cue->endPos.y;
+    endPos.z = cue->endPos.z;
+
+    lerp = Environment_LerpWeight(cue->endFrame, cue->startFrame, play->csCtx.curFrame);
+
+    this->actor.world.pos.x = ((endPos.x - startPos.x) * lerp) + startPos.x;
+    this->actor.world.pos.y = ((endPos.y - startPos.y) * lerp) + startPos.y;
+    this->actor.world.pos.z = ((endPos.z - startPos.z) * lerp) + startPos.z;
 }
 
 void DemoKankyo_UpdateRock(DemoKankyo* this, PlayState* play) {
-    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
-        DemoKankyo_SetRockPos(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
+    if (play->csCtx.state != CS_STATE_IDLE && play->csCtx.actorCues[this->actor.params - DEMOKANKYO_ROCK_1] != NULL) {
+        DemoKankyo_SetPosFromCue(this, play, this->actor.params - DEMOKANKYO_ROCK_1);
     }
+
     this->unk_150[0].unk_C.x += this->unk_150[0].unk_0.x;
     this->unk_150[0].unk_C.y += this->unk_150[0].unk_0.y;
     this->unk_150[0].unk_C.z += this->unk_150[0].unk_0.z;
@@ -406,10 +410,10 @@ void DemoKankyo_UpdateClouds(DemoKankyo* this, PlayState* play) {
 }
 
 void DemoKankyo_UpdateDoorOfTime(DemoKankyo* this, PlayState* play) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
+    Actor_PlaySfx(&this->actor, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     this->unk_150[0].unk_18 += 1.0f;
     if (this->unk_150[0].unk_18 >= 102.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EV_STONEDOOR_STOP);
+        Actor_PlaySfx(&this->actor, NA_SE_EV_STONEDOOR_STOP);
         SET_EVENTCHKINF(EVENTCHKINF_4B);
         Actor_Kill(this->actor.child);
         DemoKankyo_SetupAction(this, DemoKankyo_KillDoorOfTimeCollision);
@@ -428,22 +432,22 @@ void DemoKankyo_Update(Actor* thisx, PlayState* play) {
 void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
     DemoKankyo* this = (DemoKankyo*)thisx;
 
-    if (this->actor.objBankIndex == this->objBankIndex) {
+    if (this->actor.objectSlot == this->requiredObjectSlot) {
         switch (this->actor.params) {
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_BLUE_RAIN_2:
-                if (play->sceneId == SCENE_TOKINOMA) {
-                    if (!Flags_GetEnv(play, 1)) {
+                if (play->sceneId == SCENE_TEMPLE_OF_TIME) {
+                    if (!CutsceneFlags_Get(play, 1)) {
                         break;
                     } else if (!Actor_IsFacingAndNearPlayer(&this->actor, 300.0f, 0x7530)) {
                         break;
                     } else {
                         if (!LINK_IS_ADULT) {
-                            if (play->csCtx.frames < 170 || play->csCtx.state == CS_STATE_IDLE) {
+                            if (play->csCtx.curFrame < 170 || play->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
                         } else {
-                            if (play->csCtx.frames < 120 || play->csCtx.state == CS_STATE_IDLE) {
+                            if (play->csCtx.curFrame < 120 || play->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
                         }
@@ -476,8 +480,8 @@ void DemoKankyo_Draw(Actor* thisx, PlayState* play) {
                 break;
         }
     }
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
     }
 }
 
@@ -486,12 +490,12 @@ void func_80989B54(Actor* thisx, PlayState* play, s16 i) {
     DemoKankyo* this = (DemoKankyo*)thisx;
 
     switch (play->sceneId) {
-        case SCENE_HIRAL_DEMO:
+        case SCENE_CUTSCENE_MAP:
             this->unk_150[i].unk_0.x = (Rand_ZeroOne() - 0.5f) * 500.0f;
             this->unk_150[i].unk_0.y = 500.0f;
             this->unk_150[i].unk_0.z = (Rand_ZeroOne() - 0.5f) * 500.0f;
             break;
-        case SCENE_TOKINOMA:
+        case SCENE_TEMPLE_OF_TIME:
             this->unk_150[i].unk_C.x = 0.0f;
             this->unk_150[i].unk_C.y = 0.0f;
             this->unk_150[i].unk_C.z = 0.0f;
@@ -499,7 +503,7 @@ void func_80989B54(Actor* thisx, PlayState* play, s16 i) {
             this->unk_150[i].unk_0.y = 10.0f;
             this->unk_150[i].unk_0.z = (Rand_ZeroOne() - 0.5f) * 180.0f;
             break;
-        case SCENE_SPOT00:
+        case SCENE_HYRULE_FIELD:
             this->unk_150[i].unk_0.x = (Rand_ZeroOne() - 0.5f) * 600.0f;
             this->unk_150[i].unk_0.y = -500.0f;
             this->unk_150[i].unk_0.z = (Rand_ZeroOne() - 0.5f) * 600.0f;
@@ -531,7 +535,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
         dz = play->view.at.z - play->view.eye.z;
         norm = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
-        if (play->sceneId != SCENE_TOKINOMA) {
+        if (play->sceneId != SCENE_TEMPLE_OF_TIME) {
             this->unk_150[i].unk_C.x = play->view.eye.x + (dx / norm) * 350.0f;
             this->unk_150[i].unk_C.y = play->view.eye.y + (dy / norm) * 80.0f;
             this->unk_150[i].unk_C.z = play->view.eye.z + (dz / norm) * 350.0f;
@@ -540,7 +544,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
         switch (this->unk_150[i].unk_22) {
             case 0:
                 func_80989B54(thisx, play, i);
-                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * 500.0f;
                 } else {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * -500.0f;
@@ -549,16 +553,16 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
                 break;
             case 1:
                 temp_f12_2 = play->view.eye.y + (dy / norm) * 150.0f;
-                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
                     this->unk_150[i].unk_0.y -= this->unk_150[i].unk_18;
                 } else {
                     this->unk_150[i].unk_0.y += this->unk_150[i].unk_18;
                 }
-                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
+                if (gSaveContext.save.entranceIndex == ENTR_CUTSCENE_MAP_0) {
                     if (this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y < temp_f12_2 - 300.0f) {
                         this->unk_150[i].unk_22++;
                     }
-                } else if (gSaveContext.entranceIndex == ENTR_SPOT00_0) {
+                } else if (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_0) {
                     if (temp_f12_2 + 300.0f < this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y) {
                         this->unk_150[i].unk_22++;
                     }
@@ -578,13 +582,13 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
                          this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y,
                          this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z, MTXMODE_NEW);
 
-        if (gSaveContext.entranceIndex != ENTR_HIRAL_DEMO_0) {
+        if (gSaveContext.save.entranceIndex != ENTR_CUTSCENE_MAP_0) {
             Matrix_RotateX(M_PI, MTXMODE_APPLY);
         }
 
         gDPPipeSync(POLY_XLU_DISP++);
 
-        if (gSaveContext.entranceIndex == ENTR_SPOT00_0) {
+        if (gSaveContext.save.entranceIndex == ENTR_HYRULE_FIELD_0) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 255);
         } else {
@@ -597,7 +601,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
         for (j = 0; j < 5; j++) {
             s32 pad1;
 
-            if (play->sceneId != SCENE_TOKINOMA) {
+            if (play->sceneId != SCENE_TEMPLE_OF_TIME) {
                 if (this->unk_150[i].unk_0.x >= 0.0f) {
                     translateX = -j * 1500.0f;
                 } else {
@@ -620,7 +624,7 @@ void DemoKankyo_DrawRain(Actor* thisx, PlayState* play) {
             }
 
             Matrix_Translate(translateX, translateY, translateZ, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kankyo.c", 1344),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kankyo.c", 1344),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_star_field_DL_000080);
@@ -643,7 +647,7 @@ void DemoKankyo_DrawRock(Actor* thisx, PlayState* play) {
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
     gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kankyo.c", 1404),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kankyo.c", 1404),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
 
@@ -674,7 +678,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 255);
         gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
         gDPSetColorDither(POLY_XLU_DISP++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kankyo.c", 1461),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kankyo.c", 1461),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust5Tex));
 
@@ -695,11 +699,11 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Translate(-this->unk_150[0].unk_18, 0.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kankyo.c", 1492),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kankyo.c", 1492),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007440);
     Matrix_Translate(this->unk_150[0].unk_18 + this->unk_150[0].unk_18, 0.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kankyo.c", 1497),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kankyo.c", 1497),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_toki_objects_DL_007578);
 
@@ -716,7 +720,7 @@ void DemoKankyo_DrawLightPlane(Actor* thisx, PlayState* play) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TexScroll(play->state.gfxCtx, 0, play->state.frames & 0x7F, 64, 32));
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kankyo.c", 1529),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kankyo.c", 1529),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, object_toki_objects_DL_008390);
     }
@@ -730,19 +734,15 @@ void DemoKankyo_Vec3fCopy(Vec3f* src, Vec3f* dst) {
     dst->z = src->z;
 }
 
-Vec3f* DemoKankyo_AddVecGeoToVec3f(Vec3f* dest, Vec3f* a, VecGeo* geo) {
+Vec3f DemoKankyo_AddVecGeoToVec3f(Vec3f* a, VecGeo* geo) {
     Vec3f sum;
-    Vec3f b;
-
-    OLib_VecGeoToVec3f(&b, geo);
+    Vec3f b = OLib_VecGeoToVec3f(geo);
 
     sum.x = a->x + b.x;
     sum.y = a->y + b.y;
     sum.z = a->z + b.z;
 
-    *dest = sum;
-
-    return dest;
+    return sum;
 }
 
 void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
@@ -750,9 +750,9 @@ void DemoKankyo_Vec3fAddPosRot(PosRot* posRot, Vec3f* vec, Vec3f* dst) {
     Vec3f vecCopy;
 
     DemoKankyo_Vec3fCopy(vec, &vecCopy);
-    OLib_Vec3fToVecGeo(&geo, &vecCopy);
+    geo = OLib_Vec3fToVecGeo(&vecCopy);
     geo.yaw += posRot->rot.y;
-    DemoKankyo_AddVecGeoToVec3f(dst, &posRot->pos, &geo);
+    *dst = DemoKankyo_AddVecGeoToVec3f(&posRot->pos, &geo);
 }
 
 void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
@@ -773,7 +773,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
     f32 translateY;
     f32 translateZ;
     PosRot posRot;
-    u8 linkAge = gSaveContext.linkAge;
+    u8 linkAge = gSaveContext.save.linkAge;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kankyo.c", 1824);
 
@@ -799,7 +799,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
                     }
-                    if (play->sceneId == SCENE_TOKINOMA && play->csCtx.frames == 25) {
+                    if (play->sceneId == SCENE_TEMPLE_OF_TIME && play->csCtx.curFrame == 25) {
                         this->unk_150[i].unk_22++;
                     }
                 } else {
@@ -809,11 +809,11 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
                     }
-                    if (D_8098CF84 < play->csCtx.frames && this->actor.params == DEMOKANKYO_WARP_OUT) {
+                    if (D_8098CF84 < play->csCtx.curFrame && this->actor.params == DEMOKANKYO_WARP_OUT) {
                         this->unk_150[i].unk_22++;
                     }
                 }
-                Actor_GetWorld(&posRot, &player->actor);
+                posRot = Actor_GetWorld(&player->actor);
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CF98);
                 break;
             case 2:
@@ -823,7 +823,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
                         this->unk_150[i].unk_22++;
                     }
                 } else if (i + 1 == this->sparkleCounter && play->csCtx.state == CS_STATE_IDLE) {
-                    func_80088AF0(play);
+                    Interface_SetSubTimerToFinalSecond(play);
                     Actor_Kill(&this->actor);
                 }
                 break;
@@ -884,7 +884,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, PlayState* play) {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(this->unk_150[i].unk_24), MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kankyo.c", 2011),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kankyo.c", 2011),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, disp);
             this->unk_150[i].unk_24 += 0x190;
@@ -937,7 +937,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play) {
                                   &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
                     this->unk_150[i].unk_22++;
                 }
-                Actor_GetWorld(&posRot, &this->actor);
+                posRot = Actor_GetWorld(&this->actor);
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CFB8);
                 break;
             case 2:
@@ -988,7 +988,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, PlayState* play) {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(this->unk_150[i].unk_24), MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_kankyo.c", 2572),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_kankyo.c", 2572),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
             this->unk_150[i].unk_24 += 0x190;

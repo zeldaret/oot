@@ -24,15 +24,15 @@ void EnSt_FinishBouncing(EnSt* this, PlayState* play);
 #include "assets/overlays/ovl_En_St/ovl_En_St.c"
 
 ActorInit En_St_InitVars = {
-    ACTOR_EN_ST,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_ST,
-    sizeof(EnSt),
-    (ActorFunc)EnSt_Init,
-    (ActorFunc)EnSt_Destroy,
-    (ActorFunc)EnSt_Update,
-    (ActorFunc)EnSt_Draw,
+    /**/ ACTOR_EN_ST,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_ST,
+    /**/ sizeof(EnSt),
+    /**/ EnSt_Init,
+    /**/ EnSt_Destroy,
+    /**/ EnSt_Update,
+    /**/ EnSt_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -161,7 +161,7 @@ void EnSt_SpawnBlastEffect(EnSt* this, PlayState* play) {
     blastPos.y = this->actor.floorHeight;
     blastPos.z = this->actor.world.pos.z;
 
-    EffectSsBlast_SpawnWhiteCustomScale(play, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
+    EffectSsBlast_SpawnWhiteShockwaveSetScale(play, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
 void EnSt_SpawnDeadEffect(EnSt* this, PlayState* play) {
@@ -249,7 +249,7 @@ void EnSt_SetWaitingAnimation(EnSt* this) {
 }
 
 void EnSt_SetReturnToCeilingAnimation(EnSt* this) {
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_UP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_UP);
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_2);
 }
 
@@ -285,16 +285,16 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
         Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dmgFlags =
+    this->colCylinder[0].elem.bumper.dmgFlags =
         DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT;
-    this->colCylinder[1].info.bumper.dmgFlags =
+    this->colCylinder[1].elem.bumper.dmgFlags =
         DMG_DEFAULT &
         ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
     this->colCylinder[2].base.colType = COLTYPE_METAL;
-    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
-    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dmgFlags =
+    this->colCylinder[2].elem.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
+    this->colCylinder[2].elem.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].elem.bumper.dmgFlags =
         DMG_DEFAULT &
         ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
@@ -305,17 +305,17 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
 }
 
 void EnSt_CheckBodyStickHit(EnSt* this, PlayState* play) {
-    ColliderInfo* body = &this->colCylinder[0].info;
+    ColliderElement* bodyElem = &this->colCylinder[0].elem;
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        body->bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        bodyElem->bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[1].elem.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].elem.bumper.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        body->bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        bodyElem->bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].elem.bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[2].elem.bumper.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 
@@ -398,12 +398,12 @@ s32 EnSt_CheckHitPlayer(EnSt* this, PlayState* play) {
     }
 
     if (this->swayTimer == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_ROLL);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_ROLL);
     }
 
     this->gaveDamageSpinTimer = 30;
     play->damagePlayer(play, -8);
-    Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
+    Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
     func_8002F71C(play, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
     return true;
 }
@@ -431,14 +431,14 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->info.acHitInfo->toucher.dmgFlags;
+        flags |= cyl->elem.acHitElem->toucher.dmgFlags;
     }
 
     cyl = &this->colCylinder[1];
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->info.acHitInfo->toucher.dmgFlags;
+        flags |= cyl->elem.acHitElem->toucher.dmgFlags;
     }
 
     if (!hit) {
@@ -448,9 +448,10 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     this->invulnerableTimer = 8;
     if (this->actor.colChkInfo.damageEffect == 1) {
         if (this->stunTimer == 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
-            Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, this->stunTimer);
+            Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 200, COLORFILTER_BUFFLAG_OPA,
+                                 this->stunTimer);
         }
         return false;
     }
@@ -459,9 +460,10 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     this->gaveDamageSpinTimer = 1;
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_3);
     this->takeDamageSpinTimer = this->skelAnime.animLength;
-    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->takeDamageSpinTimer);
+    Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA,
+                         this->takeDamageSpinTimer);
     if (Actor_ApplyDamage(&this->actor)) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DAMAGE);
         return false;
     }
     Enemy_StartFinishingBlow(play, &this->actor);
@@ -469,7 +471,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     this->groundBounces = 3;
     this->deathTimer = 20;
     this->actor.gravity = -1.0f;
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALWALL_DEAD);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_STALWALL_DEAD);
 
     if (flags & DMG_ARROW) {
         EnSt_SetupAction(this, EnSt_Die);
@@ -606,14 +608,14 @@ void EnSt_UpdateYaw(EnSt* this, PlayState* play) {
             // turn away from the player
             this->rotAwayTimer--;
             if (this->rotAwayTimer == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_ROLL);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_ROLL);
                 this->rotTowardsTimer = 30;
             }
         } else if (this->rotTowardsTimer != 0) {
             // turn towards the player
             this->rotTowardsTimer--;
             if (this->rotTowardsTimer == 0) {
-                Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_ROLL);
+                Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_ROLL);
                 this->rotAwayTimer = 30;
             }
             yawDir = 0x8000;
@@ -663,7 +665,7 @@ s32 EnSt_IsDoneBouncing(EnSt* this, PlayState* play) {
         return false;
     }
 
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_DODO_M_GND);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
     EnSt_SpawnDust(this, play, 10);
     // creates an elastic bouncing effect, boucing up less for each hit on the ground.
     this->actor.velocity.y = 6.0f / (4 - this->groundBounces);
@@ -755,7 +757,7 @@ void EnSt_Sway(EnSt* this) {
         rotAngle = Math_SinS(this->swayAngle) * (swayAmt * (65536.0f / 360.0f));
 
         if (this->absPrevSwayAngle >= ABS(rotAngle) && this->playSwayFlag == 0) {
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_WAVE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_WAVE);
             this->playSwayFlag = 1;
         }
 
@@ -788,7 +790,7 @@ void EnSt_Init(Actor* thisx, PlayState* play) {
     this->blureIdx = EnSt_CreateBlureEffect(play);
     EnSt_InitColliders(this, play);
     if (thisx->params == 2) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     }
     if (this->actor.params == 1) {
         this->actor.naviEnemyId = NAVI_ENEMY_BIG_SKULLTULA;
@@ -852,7 +854,7 @@ void EnSt_WaitOnGround(EnSt* this, PlayState* play) {
 
     if (DECR(this->sfxTimer) == 0) {
         // play the "laugh" sfx every 64 frames.
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_LAUGH);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_LAUGH);
         this->sfxTimer = 64;
     }
 
@@ -878,7 +880,7 @@ void EnSt_LandOnGround(EnSt* this, PlayState* play) {
     this->sfxTimer++;
     if (this->sfxTimer == 14) {
         // play the sound effect of the Skulltula hitting the ground.
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_DOWN_SET);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DOWN_SET);
     }
 
     if ((this->actor.floorHeight + this->floorHeightOffset) < this->actor.world.pos.y) {
@@ -908,7 +910,7 @@ void EnSt_MoveToGround(EnSt* this, PlayState* play) {
         EnSt_SetLandAnimation(this);
         EnSt_SetupAction(this, EnSt_LandOnGround);
     } else if (DECR(this->sfxTimer) == 0) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_STALTU_DOWN);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_STALTU_DOWN);
         this->sfxTimer = 3;
     }
 }
@@ -939,13 +941,13 @@ void EnSt_ReturnToCeiling(EnSt* this, PlayState* play) {
  */
 void EnSt_BounceAround(EnSt* this, PlayState* play) {
     this->actor.colorFilterTimer = this->deathTimer;
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
     this->actor.world.rot.x += 0x800;
     this->actor.world.rot.z -= 0x800;
     this->actor.shape.rot = this->actor.world.rot;
     if (EnSt_IsDoneBouncing(this, play)) {
         this->actor.shape.yOffset = 400.0f;
-        this->actor.speedXZ = 1.0f;
+        this->actor.speed = 1.0f;
         this->actor.gravity = -2.0f;
         EnSt_SetupAction(this, EnSt_FinishBouncing);
     } else {
@@ -977,7 +979,7 @@ void EnSt_FinishBouncing(EnSt* this, PlayState* play) {
 
     this->actor.shape.rot = this->actor.world.rot;
 
-    func_8002D868(&this->actor);
+    Actor_UpdateVelocityXZGravity(&this->actor);
     this->groundBounces = 2;
     EnSt_IsDoneBouncing(this, play);
 }
@@ -1021,7 +1023,7 @@ void EnSt_Update(Actor* thisx, PlayState* play) {
         }
 
         if (this->swayTimer == 0 && this->stunTimer == 0) {
-            func_8002D7EC(&this->actor);
+            Actor_UpdatePos(&this->actor);
         }
 
         Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

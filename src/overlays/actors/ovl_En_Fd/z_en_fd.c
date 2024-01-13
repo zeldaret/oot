@@ -31,15 +31,15 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play);
 void EnFd_Land(EnFd* this, PlayState* play);
 
 ActorInit En_Fd_InitVars = {
-    ACTOR_EN_FD,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FW,
-    sizeof(EnFd),
-    (ActorFunc)EnFd_Init,
-    (ActorFunc)EnFd_Destroy,
-    (ActorFunc)EnFd_Update,
-    (ActorFunc)EnFd_Draw,
+    /**/ ACTOR_EN_FD,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FW,
+    /**/ sizeof(EnFd),
+    /**/ EnFd_Init,
+    /**/ EnFd_Destroy,
+    /**/ EnFd_Update,
+    /**/ EnFd_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
@@ -275,15 +275,15 @@ s32 EnFd_CheckHammer(EnFd* this, PlayState* play) {
 
 s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    ColliderInfo* info;
+    ColliderElement* elem;
 
     if (this->collider.base.acFlags & AC_HIT || EnFd_CheckHammer(this, play)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
-        info = &this->collider.elements[0].info;
-        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
+        elem = &this->collider.elements[0].base;
+        if (elem->acHitElem != NULL && (elem->acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
             return false;
         }
 
@@ -292,7 +292,7 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
         }
         this->invincibilityTimer = 30;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_DAMAGE);
         Enemy_StartFinishingBlow(play, &this->actor);
         return true;
     } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & AT_HIT) {
@@ -305,8 +305,8 @@ s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
             return false;
         }
         this->attackTimer = 30;
-        Audio_PlayActorSfx2(&player->actor, NA_SE_PL_BODY_HIT);
-        func_8002F71C(play, &this->actor, this->actor.speedXZ + 2.0f, this->actor.yawTowardsPlayer, 6.0f);
+        Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
+        func_8002F71C(play, &this->actor, this->actor.speed + 2.0f, this->actor.yawTowardsPlayer, 6.0f);
     }
     return false;
 }
@@ -442,7 +442,7 @@ void EnFd_Fade(EnFd* this, PlayState* play) {
             this->invincibilityTimer = 0;
             this->spinTimer = 0;
             this->actionFunc = EnFd_WaitForCore;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
         }
     }
 }
@@ -479,7 +479,7 @@ void EnFd_Reappear(EnFd* this, PlayState* play) {
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_0);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLAME_LAUGH);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_LAUGH);
     this->actionFunc = EnFd_SpinAndGrow;
 }
 
@@ -489,7 +489,7 @@ void EnFd_SpinAndGrow(EnFd* this, PlayState* play) {
         this->actor.scale.y = 0.01f;
         this->actor.world.rot.y ^= 0x8000;
         this->actor.flags |= ACTOR_FLAG_0;
-        this->actor.speedXZ = 8.0f;
+        this->actor.speed = 8.0f;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
         this->actionFunc = EnFd_JumpToGround;
     } else {
@@ -502,7 +502,7 @@ void EnFd_SpinAndGrow(EnFd* this, PlayState* play) {
 void EnFd_JumpToGround(EnFd* this, PlayState* play) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(this->actor.velocity.y > 0.0f)) {
         this->actor.velocity.y = 0.0f;
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->actor.world.rot.y = this->actor.shape.rot.y;
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_2);
         this->actionFunc = EnFd_Land;
@@ -587,7 +587,7 @@ void EnFd_Run(EnFd* this, PlayState* play) {
         if (this->invincibilityTimer == 0) {
             this->actor.world.rot.y ^= 0x8000;
             this->actor.velocity.y = 6.0f;
-            this->actor.speedXZ = 0.0f;
+            this->actor.speed = 0.0f;
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
             this->actionFunc = EnFd_JumpToGround;
             return;
@@ -622,9 +622,9 @@ void EnFd_Run(EnFd* this, PlayState* play) {
     this->actor.world.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.curFrame == 6.0f || this->skelAnime.curFrame == 13.0f || this->skelAnime.curFrame == 28.0f) {
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLAME_KICK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_KICK);
     }
-    Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speed, 8.0f, 0.1f, 1.0f, 0.0f);
 }
 
 /**
@@ -665,7 +665,7 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
         if (EnFd_SpawnCore(this, play)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
             this->invincibilityTimer = 30;
-            Audio_PlayActorSfx2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
+            Actor_PlaySfx(&this->actor, NA_SE_EN_FLAME_DAMAGE);
             Enemy_StartFinishingBlow(play, &this->actor);
         } else {
             this->actor.flags &= ~ACTOR_FLAG_13;
@@ -673,7 +673,7 @@ void EnFd_Update(Actor* thisx, PlayState* play) {
     } else if (this->actionFunc != EnFd_WaitForCore) {
         EnFd_ColliderCheck(this, play);
     }
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     EnFd_Fade(this, play);
     this->actionFunc(this, play);
@@ -881,29 +881,34 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
     EnFdEffect* eff = this->effects;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1969);
+
     materialFlag = false;
-    if (1) {}
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+
     for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
-        if (eff->type == FD_EFFECT_FLAME) {
-            if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
-                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
-                gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
-                materialFlag = true;
-            }
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
-            gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd.c", 2006),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            idx = eff->timer * (8.0f / eff->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
-            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
+        if (eff->type != FD_EFFECT_FLAME) {
+            continue;
         }
+
+        if (!materialFlag) {
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
+            materialFlag = true;
+        }
+
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2006),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        idx = eff->timer * (8.0f / eff->initialTimer);
+        gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
+        gSPDisplayList(POLY_XLU_DISP++, gFlareDancerSquareParticleDL);
     }
+
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fd.c", 2020);
 }
 
@@ -918,23 +923,25 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play) {
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
-        if (eff->type == FD_EFFECT_DOT) {
-            if (!materialFlag) {
-                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-                gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_79F8);
-                materialFlag = true;
-            }
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b,
-                            (u8)(eff->color.a * (this->fadeAlpha / 255.0f)));
-            gDPPipeSync(POLY_XLU_DISP++);
-            if (1) {}
-            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            Matrix_ReplaceRotation(&play->billboardMtxF);
-            Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd.c", 2064),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
+        if (eff->type != FD_EFFECT_DOT) {
+            continue;
         }
+
+        if (!materialFlag) {
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
+            gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_79F8);
+            materialFlag = true;
+        }
+
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b,
+                        (u8)(eff->color.a * (this->fadeAlpha / 255.0f)));
+        gDPPipeSync(POLY_XLU_DISP++);
+        Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2064),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_fd.c", 2071);

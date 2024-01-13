@@ -12,8 +12,8 @@ s32 sLetterboxSizeTarget = 0;
 s32 sLetterboxSize = 0;
 
 void Letterbox_SetSizeTarget(s32 target) {
-    if (HREG(80) == 0x13 && HREG(81) == 1) {
-        osSyncPrintf("shrink_window_setval(%d)\n", target);
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
+        PRINTF("shrink_window_setval(%d)\n", target);
     }
 
     sLetterboxSizeTarget = target;
@@ -24,8 +24,8 @@ u32 Letterbox_GetSizeTarget(void) {
 }
 
 void Letterbox_SetSize(s32 size) {
-    if (HREG(80) == 0x13 && HREG(81) == 1) {
-        osSyncPrintf("shrink_window_setnowval(%d)\n", size);
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
+        PRINTF("shrink_window_setnowval(%d)\n", size);
     }
 
     sLetterboxSize = size;
@@ -36,8 +36,8 @@ u32 Letterbox_GetSize(void) {
 }
 
 void Letterbox_Init(void) {
-    if (HREG(80) == 0x13 && HREG(81) == 1) {
-        osSyncPrintf("shrink_window_init()\n");
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
+        PRINTF("shrink_window_init()\n");
     }
 
     sLetterboxState = LETTERBOX_STATE_IDLE;
@@ -46,8 +46,8 @@ void Letterbox_Init(void) {
 }
 
 void Letterbox_Destroy(void) {
-    if (HREG(80) == 0x13 && HREG(81) == 1) {
-        osSyncPrintf("shrink_window_cleanup()\n");
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX && R_LETTERBOX_ENABLE_LOGS == 1) {
+        PRINTF("shrink_window_cleanup()\n");
     }
 
     sLetterboxSize = 0;
@@ -86,23 +86,25 @@ void Letterbox_Update(s32 updateRate) {
         sLetterboxState = LETTERBOX_STATE_IDLE;
     }
 
-    if (HREG(80) == 0x13) {
-        if (HREG(94) != 0x13) {
-            HREG(94) = 0x13;
-            HREG(81) = 0;
-            HREG(82) = 0;
-            HREG(83) = 0;
-            HREG(84) = 0;
-            HREG(85) = 0;
-            HREG(86) = 0;
+    if (R_HREG_MODE == HREG_MODE_LETTERBOX) {
+        if (R_LETTERBOX_INIT != HREG_MODE_LETTERBOX) {
+            R_LETTERBOX_INIT = HREG_MODE_LETTERBOX;
+            R_LETTERBOX_ENABLE_LOGS = 0;
+            HREG(82) = 0; // this reg is not used in this mode
+            R_LETTERBOX_STATE = 0;
+            R_LETTERBOX_SIZE = 0;
+            R_LETTERBOX_TARGET_SIZE = 0;
+            R_LETTERBOX_STEP = 0;
+
+            // these regs are not used in this mode
             HREG(87) = 0;
             HREG(88) = 0;
             HREG(89) = 0;
         }
 
-        HREG(83) = sLetterboxState;
-        HREG(84) = sLetterboxSize;
-        HREG(85) = sLetterboxSizeTarget;
-        HREG(86) = step;
+        R_LETTERBOX_STATE = sLetterboxState;
+        R_LETTERBOX_SIZE = sLetterboxSize;
+        R_LETTERBOX_TARGET_SIZE = sLetterboxSizeTarget;
+        R_LETTERBOX_STEP = step;
     }
 }

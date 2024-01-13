@@ -21,15 +21,15 @@ void BgDodoago_DoNothing(BgDodoago* this, PlayState* play);
 void BgDodoago_LightOneEye(BgDodoago* this, PlayState* play);
 
 ActorInit Bg_Dodoago_InitVars = {
-    ACTOR_BG_DODOAGO,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_DDAN_OBJECTS,
-    sizeof(BgDodoago),
-    (ActorFunc)BgDodoago_Init,
-    (ActorFunc)BgDodoago_Destroy,
-    (ActorFunc)BgDodoago_Update,
-    (ActorFunc)BgDodoago_Draw,
+    /**/ ACTOR_BG_DODOAGO,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_DDAN_OBJECTS,
+    /**/ sizeof(BgDodoago),
+    /**/ BgDodoago_Init,
+    /**/ BgDodoago_Destroy,
+    /**/ BgDodoago_Update,
+    /**/ BgDodoago_Draw,
 };
 
 static ColliderCylinderInit sColCylinderInitMain = {
@@ -290,7 +290,7 @@ void BgDodoago_Update(Actor* thisx, PlayState* play) {
                 // disable the bomb catcher for a few seconds
                 this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;
-                bomb->actor.speedXZ = 0.0f;
+                bomb->actor.speed = 0.0f;
                 sTimer = 0;
             }
         }
@@ -314,7 +314,7 @@ void BgDodoago_Draw(Actor* thisx, PlayState* play) {
 
     if (Flags_GetEventChkInf(EVENTCHKINF_B0)) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_dodoago.c", 677),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDodongoLowerJawDL);
     }

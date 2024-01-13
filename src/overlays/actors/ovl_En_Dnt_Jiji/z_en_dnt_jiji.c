@@ -40,15 +40,15 @@ void EnDntJiji_Hide(EnDntJiji* this, PlayState* play);
 void EnDntJiji_Return(EnDntJiji* this, PlayState* play);
 
 ActorInit En_Dnt_Jiji_InitVars = {
-    ACTOR_EN_DNT_JIJI,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DNS,
-    sizeof(EnDntJiji),
-    (ActorFunc)EnDntJiji_Init,
-    (ActorFunc)EnDntJiji_Destroy,
-    (ActorFunc)EnDntJiji_Update,
-    (ActorFunc)EnDntJiji_Draw,
+    /**/ ACTOR_EN_DNT_JIJI,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DNS,
+    /**/ sizeof(EnDntJiji),
+    /**/ EnDntJiji_Init,
+    /**/ EnDntJiji_Destroy,
+    /**/ EnDntJiji_Update,
+    /**/ EnDntJiji_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -79,9 +79,9 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->stage = (EnDntDemo*)this->actor.parent;
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Deku Scrub mask show elder"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n" VT_RST, this->stage);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.targetMode = 6;
@@ -119,7 +119,7 @@ void EnDntJiji_Wait(EnDntJiji* this, PlayState* play) {
         !(player->stateFlags1 & PLAYER_STATE1_11)) {
         OnePointCutscene_Init(play, 2230, -99, &this->actor, CAM_ID_MAIN);
         this->timer = 0;
-        func_8002DF54(play, NULL, 8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         this->actionFunc = EnDntJiji_SetupUnburrow;
     }
 }
@@ -128,7 +128,7 @@ void EnDntJiji_SetupUp(EnDntJiji* this, PlayState* play) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiUpAnim);
     Animation_Change(&this->skelAnime, &gDntJijiUpAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = EnDntJiji_Up;
 }
 
@@ -144,7 +144,7 @@ void EnDntJiji_SetupUnburrow(EnDntJiji* this, PlayState* play) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiUnburrowAnim);
     Animation_Change(&this->skelAnime, &gDntJijiUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = EnDntJiji_Unburrow;
 }
 
@@ -164,7 +164,7 @@ void EnDntJiji_Unburrow(EnDntJiji* this, PlayState* play) {
 void EnDntJiji_SetupWalk(EnDntJiji* this, PlayState* play) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiWalkAnim);
     Animation_Change(&this->skelAnime, &gDntJijiWalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
-    this->actor.speedXZ = 1.0f;
+    this->actor.speed = 1.0f;
     this->isSolid = true;
     this->unburrow = true;
     this->actionFunc = EnDntJiji_Walk;
@@ -174,24 +174,24 @@ void EnDntJiji_Walk(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 0x3E8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    Math_ApproachF(&this->actor.speedXZ, 1.0f, 0.2f, 0.4f);
+    Math_ApproachF(&this->actor.speed, 1.0f, 0.2f, 0.4f);
     if (this->sfxTimer == 0) {
         this->sfxTimer = 5;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;
-        this->actor.speedXZ = 3.0f;
+        this->actor.speed = 3.0f;
     }
     if (this->actor.xzDistToPlayer < 100.0f) {
-        if (CUR_UPG_VALUE(UPG_STICKS) == 1) {
-            this->getItemId = GI_STICK_UPGRADE_20;
+        if (CUR_UPG_VALUE(UPG_DEKU_STICKS) == 1) {
+            this->getItemId = GI_DEKU_STICK_UPGRADE_20;
         } else {
-            this->getItemId = GI_STICK_UPGRADE_30;
+            this->getItemId = GI_DEKU_STICK_UPGRADE_30;
         }
         this->actor.textId = 0x104D;
         Message_StartTextbox(play, this->actor.textId, NULL);
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->unused = 5;
         this->actionFunc = EnDntJiji_Talk;
     }
@@ -201,8 +201,8 @@ void EnDntJiji_SetupBurrow(EnDntJiji* this, PlayState* play) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiBurrowAnim);
     Animation_Change(&this->skelAnime, &gDntJijiBurrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_DOWN);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_UP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnDntJiji_Burrow;
 }
 
@@ -214,12 +214,12 @@ void EnDntJiji_SetupCower(EnDntJiji* this, PlayState* play) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiCowerAnim);
     Animation_Change(&this->skelAnime, &gDntJijiCowerAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
     EffectSsHahen_SpawnBurst(play, &this->actor.world.pos, 3.0f, 0, 9, 3, 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
-    Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_UP);
+    Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_UP);
 
-    if ((CUR_UPG_VALUE(UPG_NUTS) == 1) || (CUR_UPG_VALUE(UPG_NUTS) == 0)) {
-        this->getItemId = GI_NUT_UPGRADE_30;
+    if ((CUR_UPG_VALUE(UPG_DEKU_NUTS) == 1) || (CUR_UPG_VALUE(UPG_DEKU_NUTS) == 0)) {
+        this->getItemId = GI_DEKU_NUT_UPGRADE_30;
     } else {
-        this->getItemId = GI_NUT_UPGRADE_40;
+        this->getItemId = GI_DEKU_NUT_UPGRADE_40;
     }
     this->actor.flags |= ACTOR_FLAG_0;
     this->actor.textId = 0x10DB;
@@ -233,10 +233,10 @@ void EnDntJiji_Cower(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if (frame >= this->endFrame) {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             this->actionFunc = EnDntJiji_SetupTalk;
         } else {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
 }
@@ -251,11 +251,11 @@ void EnDntJiji_Talk(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x1388, 0);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         Message_CloseTextbox(play);
-        func_8002DF54(play, NULL, 7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actor.parent = NULL;
-        func_8002F434(&this->actor, play, this->getItemId, 400.0f, 200.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 400.0f, 200.0f);
         this->actionFunc = EnDntJiji_SetupGivePrize;
     }
 }
@@ -265,32 +265,32 @@ void EnDntJiji_SetupGivePrize(EnDntJiji* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = EnDntJiji_GivePrize;
     } else {
-        func_8002F434(&this->actor, play, this->getItemId, 400.0f, 200.0f);
+        Actor_OfferGetItem(&this->actor, play, this->getItemId, 400.0f, 200.0f);
     }
 }
 
 void EnDntJiji_GivePrize(EnDntJiji* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        if ((this->getItemId == GI_NUT_UPGRADE_30) || (this->getItemId == GI_NUT_UPGRADE_40)) {
+        if ((this->getItemId == GI_DEKU_NUT_UPGRADE_30) || (this->getItemId == GI_DEKU_NUT_UPGRADE_40)) {
             // "nut"
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
-            osSyncPrintf("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
+            PRINTF("実 \n");
             SET_ITEMGETINF(ITEMGETINF_1F);
         } else {
             // "stick"
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
-            osSyncPrintf("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
+            PRINTF("棒 \n");
             SET_ITEMGETINF(ITEMGETINF_1E);
         }
         this->actor.textId = 0;
@@ -329,7 +329,7 @@ void EnDntJiji_Hide(EnDntJiji* this, PlayState* play) {
 void EnDntJiji_SetupReturn(EnDntJiji* this, PlayState* play) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiWalkAnim);
     Animation_Change(&this->skelAnime, &gDntJijiWalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
-    this->actor.speedXZ = 2.0f;
+    this->actor.speed = 2.0f;
     this->isSolid = this->unburrow = true;
     this->actionFunc = EnDntJiji_Return;
 }
@@ -345,11 +345,11 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;
-        this->actor.speedXZ = 3.0f;
+        this->actor.speed = 3.0f;
     }
     if (this->sfxTimer == 0) {
         this->sfxTimer = 3;
-        Audio_PlayActorSfx2(&this->actor, NA_SE_EN_NUTS_WALK);
+        Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_WALK);
     }
     if ((fabsf(dx) < 5.0f) && (fabsf(dz) < 5.0f)) {
         this->actor.world.pos.x = this->flowerPos.x;
@@ -361,7 +361,7 @@ void EnDntJiji_Return(EnDntJiji* this, PlayState* play) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 8, NA_BGM_ENEMY);
             }
         }
-        this->actor.speedXZ = 0.0f;
+        this->actor.speed = 0.0f;
         this->isSolid = 0;
         this->actionFunc = EnDntJiji_SetupBurrow;
     }
@@ -375,7 +375,7 @@ void EnDntJiji_Update(Actor* thisx, PlayState* play) {
     this->unkTimer++;
     if (BREG(0)) {
         // "time"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n" VT_RST, this->timer);
+        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n" VT_RST, this->timer);
     }
     if ((this->timer > 1) && (this->timer != 0)) {
         this->timer--;
@@ -417,7 +417,7 @@ void EnDntJiji_Update(Actor* thisx, PlayState* play) {
         }
     }
     this->actionFunc(this, play);
-    Actor_MoveForward(&this->actor);
+    Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 60.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                 UPDBGCHECKINFO_FLAG_4);
@@ -439,7 +439,7 @@ void EnDntJiji_Draw(Actor* thisx, PlayState* play) {
     Matrix_Pop();
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1040),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1040),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDntJijiFlowerDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_jiji.c", 1043);

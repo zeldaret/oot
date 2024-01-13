@@ -15,15 +15,15 @@ void EnLightbox_Update(Actor* thisx, PlayState* play);
 void EnLightbox_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Lightbox_InitVars = {
-    ACTOR_EN_LIGHTBOX,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_LIGHTBOX,
-    sizeof(EnLightbox),
-    (ActorFunc)EnLightbox_Init,
-    (ActorFunc)EnLightbox_Destroy,
-    (ActorFunc)EnLightbox_Update,
-    (ActorFunc)EnLightbox_Draw,
+    /**/ ACTOR_EN_LIGHTBOX,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_LIGHTBOX,
+    /**/ sizeof(EnLightbox),
+    /**/ EnLightbox_Init,
+    /**/ EnLightbox_Destroy,
+    /**/ EnLightbox_Update,
+    /**/ EnLightbox_Draw,
 };
 
 void EnLightbox_Init(Actor* thisx, PlayState* play) {
@@ -76,32 +76,32 @@ void EnLightbox_Update(Actor* thisx, PlayState* play) {
         if (Actor_HasParent(thisx, play)) {
             this->dyna.unk_162++;
         } else {
-            if (thisx->speedXZ) {
+            if (thisx->speed) {
                 if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
                     thisx->world.rot.y = (thisx->world.rot.y + thisx->wallYaw) - thisx->world.rot.y;
                     Audio_PlaySfxGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    thisx->speedXZ *= 0.7f;
+                    thisx->speed *= 0.7f;
                     thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
                 }
             }
 
             if (!(thisx->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-                Math_StepToF(&thisx->speedXZ, 0, IREG(57) / 100.0f);
+                Math_StepToF(&thisx->speed, 0, IREG(57) / 100.0f);
             } else {
-                Math_StepToF(&thisx->speedXZ, 0, IREG(58) / 100.0f);
+                Math_StepToF(&thisx->speed, 0, IREG(58) / 100.0f);
                 if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (thisx->velocity.y < IREG(59) / 100.0f)) {
                     Audio_PlaySfxGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     thisx->velocity.y *= IREG(60) / 100.0f;
                     thisx->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 } else {
-                    func_8002F580(thisx, play);
+                    Actor_OfferCarry(thisx, play);
                 }
             }
         }
     }
-    Actor_MoveForward(thisx);
+    Actor_MoveXZGravity(thisx);
     Actor_UpdateBgCheckInfo(
         play, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius, thisx->colChkInfo.cylRadius,
         UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
