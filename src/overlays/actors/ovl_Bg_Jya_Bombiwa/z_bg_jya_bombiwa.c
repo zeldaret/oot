@@ -93,7 +93,7 @@ void BgJyaBombiwa_Init(Actor* thisx, PlayState* play) {
 
         // "Warning: Switch Number changed (%s %d)(SW %d)"
         PRINTF("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
-                     PARAMS_GET(this->dyna.actor.params, 0, 6));
+               PARAMS_GET(this->dyna.actor.params, 0, 6));
         PRINTF(VT_RST);
     }
     BgJyaBombiwa_SetupDynaPoly(this, play, &gBombiwaCol, 0);

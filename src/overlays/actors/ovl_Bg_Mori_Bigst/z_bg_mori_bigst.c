@@ -72,9 +72,9 @@ void BgMoriBigst_Init(Actor* thisx, PlayState* play) {
 
     // "mori (bigST.keyceiling)"
     PRINTF("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
-                 Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6)),
-                 Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
-                 GET_PLAYER(play)->actor.world.pos.y);
+           Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 8, 6)),
+           Flags_GetTempClear(play, this->dyna.actor.room), Flags_GetClear(play, this->dyna.actor.room),
+           GET_PLAYER(play)->actor.world.pos.y);
     BgMoriBigst_InitDynapoly(this, play, &gMoriBigstCol, 0);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);

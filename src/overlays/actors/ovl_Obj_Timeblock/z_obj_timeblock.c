@@ -135,8 +135,8 @@ void ObjTimeblock_Init(Actor* thisx, PlayState* play) {
 
     // "Block of time"
     PRINTF("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n", (u16)this->dyna.actor.params,
-                 this->unk_177, this->dyna.actor.home.rot.z & 7, PARAMS_GET(this->dyna.actor.params, 11, 3),
-                 PARAMS_GET(this->dyna.actor.params, 10, 1));
+           this->unk_177, this->dyna.actor.home.rot.z & 7, PARAMS_GET(this->dyna.actor.params, 11, 3),
+           PARAMS_GET(this->dyna.actor.params, 10, 1));
 }
 
 void ObjTimeblock_Destroy(Actor* thisx, PlayState* play) {
