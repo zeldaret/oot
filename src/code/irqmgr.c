@@ -59,9 +59,9 @@ u32 sIrqMgrRetraceCount = 0;
 void IrqMgr_AddClient(IrqMgr* irqMgr, IrqMgrClient* client, OSMesgQueue* msgQueue) {
     OSIntMask prevInt;
 
-    LogUtils_CheckNullPointer("this", irqMgr, "../irqmgr.c", 96);
-    LogUtils_CheckNullPointer("c", client, "../irqmgr.c", 97);
-    LogUtils_CheckNullPointer("msgQ", msgQueue, "../irqmgr.c", 98);
+    LOG_UTILS_CHECK_NULL_POINTER("this", irqMgr, "../irqmgr.c", 96);
+    LOG_UTILS_CHECK_NULL_POINTER("c", client, "../irqmgr.c", 97);
+    LOG_UTILS_CHECK_NULL_POINTER("msgQ", msgQueue, "../irqmgr.c", 98);
 
     prevInt = osSetIntMask(OS_IM_NONE);
 
@@ -85,8 +85,8 @@ void IrqMgr_RemoveClient(IrqMgr* irqMgr, IrqMgrClient* client) {
     IrqMgrClient* lastClient = NULL;
     OSIntMask prevInt;
 
-    LogUtils_CheckNullPointer("this", irqMgr, "../irqmgr.c", 129);
-    LogUtils_CheckNullPointer("c", client, "../irqmgr.c", 130);
+    LOG_UTILS_CHECK_NULL_POINTER("this", irqMgr, "../irqmgr.c", 129);
+    LOG_UTILS_CHECK_NULL_POINTER("c", client, "../irqmgr.c", 130);
 
     // Disable interrupts to prevent a thread context switch while the linked list is modified
     prevInt = osSetIntMask(OS_IM_NONE);
@@ -290,8 +290,8 @@ void IrqMgr_ThreadEntry(void* arg) {
 }
 
 void IrqMgr_Init(IrqMgr* irqMgr, void* stack, OSPri pri, u8 retraceCount) {
-    LogUtils_CheckNullPointer("this", irqMgr, "../irqmgr.c", 346);
-    LogUtils_CheckNullPointer("stack", stack, "../irqmgr.c", 347);
+    LOG_UTILS_CHECK_NULL_POINTER("this", irqMgr, "../irqmgr.c", 346);
+    LOG_UTILS_CHECK_NULL_POINTER("stack", stack, "../irqmgr.c", 347);
 
     irqMgr->clients = NULL;
     // Messages to send to each client message queue on each interrupt event
