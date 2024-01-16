@@ -32,15 +32,6 @@ INFTABLE_10F - (not on cloud modding)
 
 INFTABLE_11E - Bomb bag upgrade obtained from rolling Goron
 
-EnGo
-pathIndex: PARAMS_GET2(this->actor.params, 0, 4)
-Goron: PARAMS_GET_NOSHIFT(this->actor.params, 4, 4)
-
-EnGo2
-PARAMS_GET2(this->actor.params, 5, 5)
-PARAMS_GET2(this->actor.params, 10, 6) - Gorons in Fire Temple
-PARAMS_GET2(this->actor.params, 0, 5)
-
 Gorons only move when this->interactInfo.talkState == NPC_TALK_STATE_IDLE
 */
 
