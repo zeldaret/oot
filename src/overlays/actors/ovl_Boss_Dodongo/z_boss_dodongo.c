@@ -34,15 +34,15 @@ void BossDodongo_DrawEffects(PlayState* play);
 void BossDodongo_UpdateEffects(PlayState* play);
 
 ActorInit Boss_Dodongo_InitVars = {
-    ACTOR_EN_DODONGO,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_KINGDODONGO,
-    sizeof(BossDodongo),
-    (ActorFunc)BossDodongo_Init,
-    (ActorFunc)BossDodongo_Destroy,
-    (ActorFunc)BossDodongo_Update,
-    (ActorFunc)BossDodongo_Draw,
+    /**/ ACTOR_EN_DODONGO,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_KINGDODONGO,
+    /**/ sizeof(BossDodongo),
+    /**/ BossDodongo_Init,
+    /**/ BossDodongo_Destroy,
+    /**/ BossDodongo_Update,
+    /**/ BossDodongo_Draw,
 };
 
 #include "z_boss_dodongo_data.inc.c"
@@ -269,7 +269,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             break;
         case 1:
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
             Play_ClearAllSubCameras(play);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
@@ -297,11 +297,11 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             }
 
             if (this->unk_198 == 110) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_9);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_9);
             }
 
             if (this->unk_198 == 5) {
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_12);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_12);
             }
 
             if (this->unk_198 < 6) {
@@ -416,7 +416,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
                 Play_ReturnToMainCam(play, this->subCamId, 0);
                 this->subCamId = SUB_CAM_ID_DONE;
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 BossDodongo_SetupWalk(this);
                 this->unk_1DA = 50;
                 this->unk_1BC = 0;
@@ -932,7 +932,6 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
         } else if (this->unk_224 > 1.7f) {
             phi_s0_3 = 3;
             sp90 = 1;
-            if (play) {}
             magma2DrawMode = 0;
         } else if (this->unk_224 > 1.4f) {
             phi_s0_3 = 7;
@@ -949,7 +948,7 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
             magmaScale = ((s16)(Rand_ZeroOne() * 50)) - 50;
         }
 
-        if (player2->csMode >= PLAYER_CSMODE_10) {
+        if (player2->csAction >= PLAYER_CSACTION_10) {
             phi_s0_3 = -1;
         }
 
@@ -1025,9 +1024,10 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
     this->collider.elements[0].dim.scale = (this->actionFunc == BossDodongo_Inhale) ? 0.0f : 1.0f;
 
     for (i = 6; i < 19; i++) {
-        if (i != 12) {
-            this->collider.elements[i].dim.scale = (this->actionFunc == BossDodongo_Roll) ? 0.0f : 1.0f;
+        if (i == 12) {
+            continue;
         }
+        this->collider.elements[i].dim.scale = (this->actionFunc == BossDodongo_Roll) ? 0.0f : 1.0f;
     }
 
     if (this->unk_244 != 0) {
@@ -1085,7 +1085,7 @@ s32 BossDodongo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
             Matrix_RotateX(-(this->unk_25C[limbIndex] * 0.115f), MTXMODE_APPLY);
         }
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_dodongo.c", 3822),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_dodongo.c", 3822),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
@@ -1225,7 +1225,7 @@ void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 params) {
 
 void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     s32 pad;
-    ColliderInfo* item;
+    ColliderElement* acHitElem;
     u8 swordDamage;
     s32 damage;
     s16 i;
@@ -1239,11 +1239,12 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     if (this->unk_1C0 == 0) {
         if (this->actionFunc == BossDodongo_Inhale) {
             for (i = 0; i < 19; i++) {
-                if (this->collider.elements[i].info.bumperFlags & BUMP_HIT) {
-                    item = this->collider.elements[i].info.acHitInfo;
+                if (this->collider.elements[i].base.bumperFlags & BUMP_HIT) {
+                    acHitElem = this->collider.elements[i].base.acHitElem;
 
-                    if ((item->toucher.dmgFlags & DMG_BOOMERANG) || (item->toucher.dmgFlags & DMG_SLINGSHOT)) {
-                        this->collider.elements[i].info.bumperFlags &= ~BUMP_HIT;
+                    if ((acHitElem->toucher.dmgFlags & DMG_BOOMERANG) ||
+                        (acHitElem->toucher.dmgFlags & DMG_SLINGSHOT)) {
+                        this->collider.elements[i].base.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
                         this->unk_1DA = 0x32;
@@ -1253,11 +1254,11 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
             }
         }
 
-        if (this->collider.elements->info.bumperFlags & BUMP_HIT) {
-            this->collider.elements->info.bumperFlags &= ~BUMP_HIT;
-            item = this->collider.elements[0].info.acHitInfo;
+        if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
+            this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
+            acHitElem = this->collider.elements[0].base.acHitElem;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
-                swordDamage = damage = CollisionCheck_GetSwordDamage(item->toucher.dmgFlags);
+                swordDamage = damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags);
 
                 if (damage != 0) {
                     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_DAMAGE);
@@ -1302,7 +1303,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
         case 0:
             this->csState = 5;
             Cutscene_StartManual(play, &play->csCtx);
-            func_8002DF54(play, &this->actor, PLAYER_CSMODE_1);
+            Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_1);
             this->subCamId = Play_CreateSubCamera(play);
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_UNK3);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
@@ -1410,7 +1411,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                     this->actor.velocity.y = 15.0f;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_K_COLI2);
                     if (this->unk_1A2 == 0) {
-                        this->unk_1A0 = this->unk_1A0 + 1;
+                        this->unk_1A0++;
                         if (this->unk_1A0 >= 4) {
                             this->unk_1A0 = 0;
                         }
@@ -1612,7 +1613,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                 this->csState = 100;
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
                 Cutscene_StopManual(play, &play->csCtx);
-                func_8002DF54(play, &this->actor, PLAYER_CSMODE_7);
+                Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_7);
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, -890.0f, -1523.76f, -3304.0f,
                                    0, 0, 0, WARP_DUNGEON_CHILD);
                 this->skelAnime.playSpeed = 0.0f;
@@ -1693,7 +1694,7 @@ void BossDodongo_DrawEffects(PlayState* play) {
             Matrix_Translate(eff->unk_00.x, eff->unk_00.y, eff->unk_00.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(eff->unk_2C, eff->unk_2C, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_dodongo.c", 5253),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_boss_dodongo.c", 5253),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_009DD0);
         }

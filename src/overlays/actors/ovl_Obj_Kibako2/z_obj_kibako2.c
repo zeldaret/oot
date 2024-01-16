@@ -18,15 +18,15 @@ void ObjKibako2_Idle(ObjKibako2* this, PlayState* play);
 void ObjKibako2_Kill(ObjKibako2* this, PlayState* play);
 
 ActorInit Obj_Kibako2_InitVars = {
-    ACTOR_OBJ_KIBAKO2,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_KIBAKO2,
-    sizeof(ObjKibako2),
-    (ActorFunc)ObjKibako2_Init,
-    (ActorFunc)ObjKibako2_Destroy,
-    (ActorFunc)ObjKibako2_Update,
-    (ActorFunc)ObjKibako2_Draw,
+    /**/ ACTOR_OBJ_KIBAKO2,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_KIBAKO2,
+    /**/ sizeof(ObjKibako2),
+    /**/ ObjKibako2_Init,
+    /**/ ObjKibako2_Destroy,
+    /**/ ObjKibako2_Update,
+    /**/ ObjKibako2_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -131,8 +131,8 @@ void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z =
         this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;
     // "Wooden box (stationary)"
-    osSyncPrintf("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->collectibleFlag,
-                 this->dyna.actor.home.rot.x);
+    PRINTF("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->collectibleFlag,
+           this->dyna.actor.home.rot.x);
 }
 
 void ObjKibako2_Destroy(Actor* thisx, PlayState* play) {

@@ -35,5 +35,5 @@ public:
 private:
 	segptr_t listSegmentAddr;
 	uint32_t listSegmentOffset;
-	uint32_t unk4;
+	int16_t scale;
 };

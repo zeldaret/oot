@@ -22,15 +22,15 @@ void BgMoriHashira4_GateWait(BgMoriHashira4* this, PlayState* play);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, PlayState* play);
 
 ActorInit Bg_Mori_Hashira4_InitVars = {
-    ACTOR_BG_MORI_HASHIRA4,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_MORI_OBJECTS,
-    sizeof(BgMoriHashira4),
-    (ActorFunc)BgMoriHashira4_Init,
-    (ActorFunc)BgMoriHashira4_Destroy,
-    (ActorFunc)BgMoriHashira4_Update,
-    NULL,
+    /**/ ACTOR_BG_MORI_HASHIRA4,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_MORI_OBJECTS,
+    /**/ sizeof(BgMoriHashira4),
+    /**/ BgMoriHashira4_Init,
+    /**/ BgMoriHashira4_Destroy,
+    /**/ BgMoriHashira4_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -60,8 +60,8 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, PlayState* play, Collisio
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG login failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -78,12 +78,12 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
         BgMoriHashira4_InitDynaPoly(this, play, &gMoriHashira2Col, 0);
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->moriTexObjIndex = Object_GetIndex(&play->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
+    this->moriTexObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectSlot < 0) {
         Actor_Kill(&this->dyna.actor);
         // "Bank danger!"
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
-                     "../z_bg_mori_hashira4.c", 196);
+        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params, "../z_bg_mori_hashira4.c",
+               196);
         return;
     }
     if ((this->dyna.actor.params != 0) && Flags_GetSwitch(play, this->switchFlag)) {
@@ -93,7 +93,7 @@ void BgMoriHashira4_Init(Actor* thisx, PlayState* play) {
     Actor_SetFocus(&this->dyna.actor, 50.0f);
     BgMoriHashira4_SetupWaitForMoriTex(this);
     // "(4 pillars of the Forest Temple) Bank danger"
-    osSyncPrintf("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);
     sUnkTimer = 0;
 }
 
@@ -109,7 +109,7 @@ void BgMoriHashira4_SetupWaitForMoriTex(BgMoriHashira4* this) {
 }
 
 void BgMoriHashira4_WaitForMoriTex(BgMoriHashira4* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->moriTexObjectSlot)) {
         this->gateTimer = 0;
         if (this->dyna.actor.params == 0) {
             BgMoriHashira4_SetupPillarsRotate(this);
@@ -163,9 +163,9 @@ void BgMoriHashira4_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 339);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.status[this->moriTexObjIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, sDisplayLists[this->dyna.actor.params]);

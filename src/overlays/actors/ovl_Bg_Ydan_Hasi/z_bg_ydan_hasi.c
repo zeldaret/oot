@@ -22,15 +22,15 @@ void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, PlayState* play);
 void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, PlayState* play);
 
 ActorInit Bg_Ydan_Hasi_InitVars = {
-    ACTOR_BG_YDAN_HASI,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_YDAN_OBJECTS,
-    sizeof(BgYdanHasi),
-    (ActorFunc)BgYdanHasi_Init,
-    (ActorFunc)BgYdanHasi_Destroy,
-    (ActorFunc)BgYdanHasi_Update,
-    (ActorFunc)BgYdanHasi_Draw,
+    /**/ ACTOR_BG_YDAN_HASI,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_YDAN_OBJECTS,
+    /**/ sizeof(BgYdanHasi),
+    /**/ BgYdanHasi_Init,
+    /**/ BgYdanHasi_Destroy,
+    /**/ BgYdanHasi_Update,
+    /**/ BgYdanHasi_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -183,7 +183,7 @@ void BgYdanHasi_Draw(Actor* thisx, PlayState* play) {
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, -play->gameplayFrames % 128,
                                     play->gameplayFrames % 128, 0x20, 0x20, 1, play->gameplayFrames % 128,
                                     play->gameplayFrames % 128, 0x20, 0x20));
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gDTWaterPlaneDL);
 

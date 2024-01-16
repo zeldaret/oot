@@ -19,15 +19,15 @@ void ObjBombiwa_Draw(Actor* thisx, PlayState* play);
 void ObjBombiwa_Break(ObjBombiwa* this, PlayState* play);
 
 ActorInit Obj_Bombiwa_InitVars = {
-    ACTOR_OBJ_BOMBIWA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_BOMBIWA,
-    sizeof(ObjBombiwa),
-    (ActorFunc)ObjBombiwa_Init,
-    (ActorFunc)ObjBombiwa_Destroy,
-    (ActorFunc)ObjBombiwa_Update,
-    (ActorFunc)ObjBombiwa_Draw,
+    /**/ ACTOR_OBJ_BOMBIWA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_BOMBIWA,
+    /**/ sizeof(ObjBombiwa),
+    /**/ ObjBombiwa_Init,
+    /**/ ObjBombiwa_Destroy,
+    /**/ ObjBombiwa_Update,
+    /**/ ObjBombiwa_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -125,7 +125,7 @@ void ObjBombiwa_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if ((func_80033684(play, &this->actor) != NULL) ||
-        ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HAMMER))) {
+        ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HAMMER))) {
         ObjBombiwa_Break(this, play);
         Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 0, 6));
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);

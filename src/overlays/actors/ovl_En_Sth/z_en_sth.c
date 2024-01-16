@@ -17,21 +17,21 @@ void EnSth_Update(Actor* thisx, PlayState* play);
 void EnSth_Update2(Actor* thisx, PlayState* play);
 void EnSth_Draw(Actor* thisx, PlayState* play);
 
-void EnSth_WaitForObjectLoaded(EnSth* this, PlayState* play);
+void EnSth_WaitForObject(EnSth* this, PlayState* play);
 void EnSth_ParentRewardObtainedWait(EnSth* this, PlayState* play);
 void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play);
 void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play);
 
 ActorInit En_Sth_InitVars = {
-    ACTOR_EN_STH,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnSth),
-    (ActorFunc)EnSth_Init,
-    (ActorFunc)EnSth_Destroy,
-    (ActorFunc)EnSth_Update,
-    NULL,
+    /**/ ACTOR_EN_STH,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnSth),
+    /**/ EnSth_Init,
+    /**/ EnSth_Destroy,
+    /**/ EnSth_Update,
+    /**/ NULL,
 };
 
 #include "assets/overlays/ovl_En_Sth/ovl_En_Sth.c"
@@ -97,38 +97,38 @@ void EnSth_Init(Actor* thisx, PlayState* play) {
 
     s16 objectId;
     s32 params = this->actor.params;
-    s32 objectBankIdx;
+    s32 objectSlot;
 
-    osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
+    PRINTF(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
         if (gSaveContext.save.info.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
             // "Gold Skulltula Shop I still can't be a human"
-            osSyncPrintf("金スタル屋 まだ 人間に戻れない \n");
+            PRINTF("金スタル屋 まだ 人間に戻れない \n");
             return;
         }
     } else if (gSaveContext.save.info.inventory.gsTokens < (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
         // "Gold Skulltula Shop I still can't be a human"
-        osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
+        PRINTF(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
         return;
     }
 
     objectId = sObjectIds[params];
     if (objectId != 1) {
-        objectBankIdx = Object_GetIndex(&play->objectCtx, objectId);
+        objectSlot = Object_GetSlot(&play->objectCtx, objectId);
     } else {
-        objectBankIdx = 0;
+        objectSlot = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objectBankIdx);
-    if (objectBankIdx < 0) {
+    PRINTF("bank_ID = %d\n", objectSlot);
+    if (objectSlot < 0) {
         ASSERT(0, "0", "../z_en_sth.c", 1564);
     }
-    this->objectBankIdx = objectBankIdx;
+    this->requiredObjectSlot = objectSlot;
     this->drawFunc = EnSth_Draw;
     Actor_SetScale(&this->actor, 0.01f);
-    EnSth_SetupAction(this, EnSth_WaitForObjectLoaded);
+    EnSth_SetupAction(this, EnSth_WaitForObject);
     this->actor.draw = NULL;
     this->unk_2B2 = 0;
     this->actor.targetMode = 6;
@@ -150,7 +150,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
     s16* params;
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, play);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objectBankIdx].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
     SkelAnime_InitFlex(play, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable, this->morphTable,
                        16);
     Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
@@ -170,9 +170,9 @@ void EnSth_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnSth_WaitForObjectLoaded(EnSth* this, PlayState* play) {
-    if (Object_IsLoaded(&play->objectCtx, this->objectBankIdx)) {
-        this->actor.objBankIndex = this->objectBankIdx;
+void EnSth_WaitForObject(EnSth* this, PlayState* play) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->actor.objectSlot = this->requiredObjectSlot;
         this->actionFunc = EnSth_SetupAfterObjectLoaded;
     }
 }
@@ -221,12 +221,12 @@ void EnSth_RewardObtainedTalk(EnSth* this, PlayState* play) {
 }
 
 void EnSth_ParentRewardObtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         this->actor.textId = 0x23;
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);
@@ -274,7 +274,7 @@ void EnSth_RewardUnobtainedTalk(EnSth* this, PlayState* play) {
 }
 
 void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
@@ -283,14 +283,14 @@ void EnSth_RewardUnobtainedWait(EnSth* this, PlayState* play) {
             this->actor.textId = 0x21;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);
 }
 
 void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.save.info.inventory.gsTokens < 50) {
@@ -299,7 +299,7 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, PlayState* play) {
             this->actor.textId = 0x1F;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
         }
     }
     EnSth_LookAtPlayer(this, play);
@@ -376,7 +376,7 @@ void EnSth_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 Gfx* EnSth_AllocColorDList(GraphicsContext* play, u8 envR, u8 envG, u8 envB, u8 envA) {
     Gfx* dList;
 
-    dList = Graph_Alloc(play, 2 * sizeof(Gfx));
+    dList = GRAPH_ALLOC(play, 2 * sizeof(Gfx));
     gDPSetEnvColor(dList, envR, envG, envB, envA);
     gSPEndDisplayList(dList + 1);
 
@@ -389,7 +389,7 @@ void EnSth_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_sth.c", 2133);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objectBankIdx].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[this->requiredObjectSlot].segment);
     Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,

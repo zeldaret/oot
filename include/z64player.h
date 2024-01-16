@@ -71,7 +71,7 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ PLAYER_IA_NONE,
-    /* 0x01 */ PLAYER_IA_LAST_USED,
+    /* 0x01 */ PLAYER_IA_SWORD_CS, // Hold sword without shield in hand. The sword is not useable.
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
     /* 0x03 */ PLAYER_IA_SWORD_MASTER,
     /* 0x04 */ PLAYER_IA_SWORD_KOKIRI,
@@ -229,9 +229,9 @@ typedef enum {
 } PlayerDoorType;
 
 typedef enum {
-    /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except with the `func_80091880` bug)
-    /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD, // kokiri/master sword, shield not in hand
-    /* 0x02 */ PLAYER_MODELGROUP_SWORD, // kokiri/master sword and possibly shield
+    /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
+    /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD,  //hold sword only. used for holding sword only as child link with hylian shield equipped
+    /* 0x02 */ PLAYER_MODELGROUP_SWORD_AND_SHIELD, // hold sword and shield or just sword if no shield is equipped
     /* 0x03 */ PLAYER_MODELGROUP_DEFAULT, // non-specific models, for items that don't have particular link models
     /* 0x04 */ PLAYER_MODELGROUP_4, // unused, same as PLAYER_MODELGROUP_DEFAULT
     /* 0x05 */ PLAYER_MODELGROUP_BGS, // biggoron sword
@@ -244,7 +244,7 @@ typedef enum {
     /* 0x0C */ PLAYER_MODELGROUP_OCARINA, // ocarina
     /* 0x0D */ PLAYER_MODELGROUP_OOT, // ocarina of time
     /* 0x0E */ PLAYER_MODELGROUP_BOTTLE, // bottles (drawn separately)
-    /* 0x0F */ PLAYER_MODELGROUP_15, // "last used"
+    /* 0x0F */ PLAYER_MODELGROUP_SWORD, // hold sword and no shield, even if one is equipped
     /* 0x10 */ PLAYER_MODELGROUP_MAX
 } PlayerModelGroup;
 
@@ -353,114 +353,204 @@ typedef enum {
 #define PLAYER_LIMB_BUF_COUNT LIMB_BUF_COUNT(PLAYER_LIMB_MAX)
 
 typedef enum {
-    /* 0x00 */ PLAYER_CSMODE_NONE,
-    /* 0x01 */ PLAYER_CSMODE_1,
-    /* 0x02 */ PLAYER_CSMODE_2,
-    /* 0x03 */ PLAYER_CSMODE_3,
-    /* 0x04 */ PLAYER_CSMODE_4,
-    /* 0x05 */ PLAYER_CSMODE_5,
-    /* 0x06 */ PLAYER_CSMODE_6,
-    /* 0x07 */ PLAYER_CSMODE_7,
-    /* 0x08 */ PLAYER_CSMODE_8,
-    /* 0x09 */ PLAYER_CSMODE_9,
-    /* 0x0A */ PLAYER_CSMODE_10,
-    /* 0x0B */ PLAYER_CSMODE_11,
-    /* 0x0C */ PLAYER_CSMODE_12,
-    /* 0x0D */ PLAYER_CSMODE_13,
-    /* 0x0E */ PLAYER_CSMODE_14,
-    /* 0x0F */ PLAYER_CSMODE_15,
-    /* 0x10 */ PLAYER_CSMODE_16,
-    /* 0x11 */ PLAYER_CSMODE_17,
-    /* 0x12 */ PLAYER_CSMODE_18,
-    /* 0x13 */ PLAYER_CSMODE_19,
-    /* 0x14 */ PLAYER_CSMODE_20,
-    /* 0x15 */ PLAYER_CSMODE_21,
-    /* 0x16 */ PLAYER_CSMODE_22,
-    /* 0x17 */ PLAYER_CSMODE_23,
-    /* 0x18 */ PLAYER_CSMODE_24,
-    /* 0x19 */ PLAYER_CSMODE_25,
-    /* 0x1A */ PLAYER_CSMODE_26,
-    /* 0x1B */ PLAYER_CSMODE_27,
-    /* 0x1C */ PLAYER_CSMODE_28,
-    /* 0x1D */ PLAYER_CSMODE_29,
-    /* 0x1E */ PLAYER_CSMODE_30,
-    /* 0x1F */ PLAYER_CSMODE_31,
-    /* 0x20 */ PLAYER_CSMODE_32,
-    /* 0x21 */ PLAYER_CSMODE_33,
-    /* 0x22 */ PLAYER_CSMODE_34,
-    /* 0x23 */ PLAYER_CSMODE_35,
-    /* 0x24 */ PLAYER_CSMODE_36,
-    /* 0x25 */ PLAYER_CSMODE_37,
-    /* 0x26 */ PLAYER_CSMODE_38,
-    /* 0x27 */ PLAYER_CSMODE_39,
-    /* 0x28 */ PLAYER_CSMODE_40,
-    /* 0x29 */ PLAYER_CSMODE_41,
-    /* 0x2A */ PLAYER_CSMODE_42,
-    /* 0x2B */ PLAYER_CSMODE_43,
-    /* 0x2C */ PLAYER_CSMODE_44,
-    /* 0x2D */ PLAYER_CSMODE_45,
-    /* 0x2E */ PLAYER_CSMODE_46,
-    /* 0x2F */ PLAYER_CSMODE_47,
-    /* 0x30 */ PLAYER_CSMODE_48,
-    /* 0x31 */ PLAYER_CSMODE_49,
-    /* 0x32 */ PLAYER_CSMODE_50,
-    /* 0x33 */ PLAYER_CSMODE_51,
-    /* 0x34 */ PLAYER_CSMODE_52,
-    /* 0x35 */ PLAYER_CSMODE_53,
-    /* 0x36 */ PLAYER_CSMODE_54,
-    /* 0x37 */ PLAYER_CSMODE_55,
-    /* 0x38 */ PLAYER_CSMODE_56,
-    /* 0x39 */ PLAYER_CSMODE_57,
-    /* 0x3A */ PLAYER_CSMODE_58,
-    /* 0x3B */ PLAYER_CSMODE_59,
-    /* 0x3C */ PLAYER_CSMODE_60,
-    /* 0x3D */ PLAYER_CSMODE_61,
-    /* 0x3E */ PLAYER_CSMODE_62,
-    /* 0x3F */ PLAYER_CSMODE_63,
-    /* 0x40 */ PLAYER_CSMODE_64,
-    /* 0x41 */ PLAYER_CSMODE_65,
-    /* 0x42 */ PLAYER_CSMODE_66,
-    /* 0x43 */ PLAYER_CSMODE_67,
-    /* 0x44 */ PLAYER_CSMODE_68,
-    /* 0x45 */ PLAYER_CSMODE_69,
-    /* 0x46 */ PLAYER_CSMODE_70,
-    /* 0x47 */ PLAYER_CSMODE_71,
-    /* 0x48 */ PLAYER_CSMODE_72,
-    /* 0x49 */ PLAYER_CSMODE_73,
-    /* 0x4A */ PLAYER_CSMODE_74,
-    /* 0x4B */ PLAYER_CSMODE_75,
-    /* 0x4C */ PLAYER_CSMODE_76,
-    /* 0x4D */ PLAYER_CSMODE_77,
-    /* 0x4E */ PLAYER_CSMODE_78,
-    /* 0x4F */ PLAYER_CSMODE_79,
-    /* 0x50 */ PLAYER_CSMODE_80,
-    /* 0x51 */ PLAYER_CSMODE_81,
-    /* 0x52 */ PLAYER_CSMODE_82,
-    /* 0x53 */ PLAYER_CSMODE_83,
-    /* 0x54 */ PLAYER_CSMODE_84,
-    /* 0x55 */ PLAYER_CSMODE_85,
-    /* 0x56 */ PLAYER_CSMODE_86,
-    /* 0x57 */ PLAYER_CSMODE_87,
-    /* 0x58 */ PLAYER_CSMODE_88,
-    /* 0x59 */ PLAYER_CSMODE_89,
-    /* 0x5A */ PLAYER_CSMODE_90,
-    /* 0x5B */ PLAYER_CSMODE_91,
-    /* 0x5C */ PLAYER_CSMODE_92,
-    /* 0x5D */ PLAYER_CSMODE_93,
-    /* 0x5E */ PLAYER_CSMODE_94,
-    /* 0x5F */ PLAYER_CSMODE_95,
-    /* 0x60 */ PLAYER_CSMODE_96,
-    /* 0x61 */ PLAYER_CSMODE_97,
-    /* 0x62 */ PLAYER_CSMODE_98,
-    /* 0x63 */ PLAYER_CSMODE_99,
-    /* 0x64 */ PLAYER_CSMODE_100,
-    /* 0x65 */ PLAYER_CSMODE_101,
-    /* 0x66 */ PLAYER_CSMODE_102,
-    /* 0x67 */ PLAYER_CSMODE_MAX
-} PlayerCutsceneMode;
+    /* 0x00 */ PLAYER_CSACTION_NONE,
+    /* 0x01 */ PLAYER_CSACTION_1,
+    /* 0x02 */ PLAYER_CSACTION_2,
+    /* 0x03 */ PLAYER_CSACTION_3,
+    /* 0x04 */ PLAYER_CSACTION_4,
+    /* 0x05 */ PLAYER_CSACTION_5,
+    /* 0x06 */ PLAYER_CSACTION_6,
+    /* 0x07 */ PLAYER_CSACTION_7,
+    /* 0x08 */ PLAYER_CSACTION_8,
+    /* 0x09 */ PLAYER_CSACTION_9,
+    /* 0x0A */ PLAYER_CSACTION_10,
+    /* 0x0B */ PLAYER_CSACTION_11,
+    /* 0x0C */ PLAYER_CSACTION_12,
+    /* 0x0D */ PLAYER_CSACTION_13,
+    /* 0x0E */ PLAYER_CSACTION_14,
+    /* 0x0F */ PLAYER_CSACTION_15,
+    /* 0x10 */ PLAYER_CSACTION_16,
+    /* 0x11 */ PLAYER_CSACTION_17,
+    /* 0x12 */ PLAYER_CSACTION_18,
+    /* 0x13 */ PLAYER_CSACTION_19,
+    /* 0x14 */ PLAYER_CSACTION_20,
+    /* 0x15 */ PLAYER_CSACTION_21,
+    /* 0x16 */ PLAYER_CSACTION_22,
+    /* 0x17 */ PLAYER_CSACTION_23,
+    /* 0x18 */ PLAYER_CSACTION_24,
+    /* 0x19 */ PLAYER_CSACTION_25,
+    /* 0x1A */ PLAYER_CSACTION_26,
+    /* 0x1B */ PLAYER_CSACTION_27,
+    /* 0x1C */ PLAYER_CSACTION_28,
+    /* 0x1D */ PLAYER_CSACTION_29,
+    /* 0x1E */ PLAYER_CSACTION_30,
+    /* 0x1F */ PLAYER_CSACTION_31,
+    /* 0x20 */ PLAYER_CSACTION_32,
+    /* 0x21 */ PLAYER_CSACTION_33,
+    /* 0x22 */ PLAYER_CSACTION_34,
+    /* 0x23 */ PLAYER_CSACTION_35,
+    /* 0x24 */ PLAYER_CSACTION_36,
+    /* 0x25 */ PLAYER_CSACTION_37,
+    /* 0x26 */ PLAYER_CSACTION_38,
+    /* 0x27 */ PLAYER_CSACTION_39,
+    /* 0x28 */ PLAYER_CSACTION_40,
+    /* 0x29 */ PLAYER_CSACTION_41,
+    /* 0x2A */ PLAYER_CSACTION_42,
+    /* 0x2B */ PLAYER_CSACTION_43,
+    /* 0x2C */ PLAYER_CSACTION_44,
+    /* 0x2D */ PLAYER_CSACTION_45,
+    /* 0x2E */ PLAYER_CSACTION_46,
+    /* 0x2F */ PLAYER_CSACTION_47,
+    /* 0x30 */ PLAYER_CSACTION_48,
+    /* 0x31 */ PLAYER_CSACTION_49,
+    /* 0x32 */ PLAYER_CSACTION_50,
+    /* 0x33 */ PLAYER_CSACTION_51,
+    /* 0x34 */ PLAYER_CSACTION_52,
+    /* 0x35 */ PLAYER_CSACTION_53,
+    /* 0x36 */ PLAYER_CSACTION_54,
+    /* 0x37 */ PLAYER_CSACTION_55,
+    /* 0x38 */ PLAYER_CSACTION_56,
+    /* 0x39 */ PLAYER_CSACTION_57,
+    /* 0x3A */ PLAYER_CSACTION_58,
+    /* 0x3B */ PLAYER_CSACTION_59,
+    /* 0x3C */ PLAYER_CSACTION_60,
+    /* 0x3D */ PLAYER_CSACTION_61,
+    /* 0x3E */ PLAYER_CSACTION_62,
+    /* 0x3F */ PLAYER_CSACTION_63,
+    /* 0x40 */ PLAYER_CSACTION_64,
+    /* 0x41 */ PLAYER_CSACTION_65,
+    /* 0x42 */ PLAYER_CSACTION_66,
+    /* 0x43 */ PLAYER_CSACTION_67,
+    /* 0x44 */ PLAYER_CSACTION_68,
+    /* 0x45 */ PLAYER_CSACTION_69,
+    /* 0x46 */ PLAYER_CSACTION_70,
+    /* 0x47 */ PLAYER_CSACTION_71,
+    /* 0x48 */ PLAYER_CSACTION_72,
+    /* 0x49 */ PLAYER_CSACTION_73,
+    /* 0x4A */ PLAYER_CSACTION_74,
+    /* 0x4B */ PLAYER_CSACTION_75,
+    /* 0x4C */ PLAYER_CSACTION_76,
+    /* 0x4D */ PLAYER_CSACTION_77,
+    /* 0x4E */ PLAYER_CSACTION_78,
+    /* 0x4F */ PLAYER_CSACTION_79,
+    /* 0x50 */ PLAYER_CSACTION_80,
+    /* 0x51 */ PLAYER_CSACTION_81,
+    /* 0x52 */ PLAYER_CSACTION_82,
+    /* 0x53 */ PLAYER_CSACTION_83,
+    /* 0x54 */ PLAYER_CSACTION_84,
+    /* 0x55 */ PLAYER_CSACTION_85,
+    /* 0x56 */ PLAYER_CSACTION_86,
+    /* 0x57 */ PLAYER_CSACTION_87,
+    /* 0x58 */ PLAYER_CSACTION_88,
+    /* 0x59 */ PLAYER_CSACTION_89,
+    /* 0x5A */ PLAYER_CSACTION_90,
+    /* 0x5B */ PLAYER_CSACTION_91,
+    /* 0x5C */ PLAYER_CSACTION_92,
+    /* 0x5D */ PLAYER_CSACTION_93,
+    /* 0x5E */ PLAYER_CSACTION_94,
+    /* 0x5F */ PLAYER_CSACTION_95,
+    /* 0x60 */ PLAYER_CSACTION_96,
+    /* 0x61 */ PLAYER_CSACTION_97,
+    /* 0x62 */ PLAYER_CSACTION_98,
+    /* 0x63 */ PLAYER_CSACTION_99,
+    /* 0x64 */ PLAYER_CSACTION_100,
+    /* 0x65 */ PLAYER_CSACTION_101,
+    /* 0x66 */ PLAYER_CSACTION_102,
+    /* 0x67 */ PLAYER_CSACTION_MAX
+} PlayerCsAction;
+
+typedef enum {
+    /* 0x00 */ PLAYER_CUEID_NONE,
+    /* 0x01 */ PLAYER_CUEID_1,
+    /* 0x02 */ PLAYER_CUEID_2,
+    /* 0x03 */ PLAYER_CUEID_3,
+    /* 0x04 */ PLAYER_CUEID_4,
+    /* 0x05 */ PLAYER_CUEID_5,
+    /* 0x06 */ PLAYER_CUEID_6,
+    /* 0x07 */ PLAYER_CUEID_7,
+    /* 0x08 */ PLAYER_CUEID_8,
+    /* 0x09 */ PLAYER_CUEID_9,
+    /* 0x0A */ PLAYER_CUEID_10,
+    /* 0x0B */ PLAYER_CUEID_11,
+    /* 0x0C */ PLAYER_CUEID_12,
+    /* 0x0D */ PLAYER_CUEID_13,
+    /* 0x0E */ PLAYER_CUEID_14,
+    /* 0x0F */ PLAYER_CUEID_15,
+    /* 0x10 */ PLAYER_CUEID_16,
+    /* 0x11 */ PLAYER_CUEID_17,
+    /* 0x12 */ PLAYER_CUEID_18,
+    /* 0x13 */ PLAYER_CUEID_19,
+    /* 0x14 */ PLAYER_CUEID_20,
+    /* 0x15 */ PLAYER_CUEID_21,
+    /* 0x16 */ PLAYER_CUEID_22,
+    /* 0x17 */ PLAYER_CUEID_23,
+    /* 0x18 */ PLAYER_CUEID_24,
+    /* 0x19 */ PLAYER_CUEID_25,
+    /* 0x1A */ PLAYER_CUEID_26,
+    /* 0x1B */ PLAYER_CUEID_27,
+    /* 0x1C */ PLAYER_CUEID_28,
+    /* 0x1D */ PLAYER_CUEID_29,
+    /* 0x1E */ PLAYER_CUEID_30,
+    /* 0x1F */ PLAYER_CUEID_31,
+    /* 0x20 */ PLAYER_CUEID_32,
+    /* 0x21 */ PLAYER_CUEID_33,
+    /* 0x22 */ PLAYER_CUEID_34,
+    /* 0x23 */ PLAYER_CUEID_35,
+    /* 0x24 */ PLAYER_CUEID_36,
+    /* 0x25 */ PLAYER_CUEID_37,
+    /* 0x26 */ PLAYER_CUEID_38,
+    /* 0x27 */ PLAYER_CUEID_39,
+    /* 0x28 */ PLAYER_CUEID_40,
+    /* 0x29 */ PLAYER_CUEID_41,
+    /* 0x2A */ PLAYER_CUEID_42,
+    /* 0x2B */ PLAYER_CUEID_43,
+    /* 0x2C */ PLAYER_CUEID_44,
+    /* 0x2D */ PLAYER_CUEID_45,
+    /* 0x2E */ PLAYER_CUEID_46,
+    /* 0x2F */ PLAYER_CUEID_47,
+    /* 0x30 */ PLAYER_CUEID_48,
+    /* 0x31 */ PLAYER_CUEID_49,
+    /* 0x32 */ PLAYER_CUEID_50,
+    /* 0x33 */ PLAYER_CUEID_51,
+    /* 0x34 */ PLAYER_CUEID_52,
+    /* 0x35 */ PLAYER_CUEID_53,
+    /* 0x36 */ PLAYER_CUEID_54,
+    /* 0x37 */ PLAYER_CUEID_55,
+    /* 0x38 */ PLAYER_CUEID_56,
+    /* 0x39 */ PLAYER_CUEID_57,
+    /* 0x3A */ PLAYER_CUEID_58,
+    /* 0x3B */ PLAYER_CUEID_59,
+    /* 0x3C */ PLAYER_CUEID_60,
+    /* 0x3D */ PLAYER_CUEID_61,
+    /* 0x3E */ PLAYER_CUEID_62,
+    /* 0x3F */ PLAYER_CUEID_63,
+    /* 0x40 */ PLAYER_CUEID_64,
+    /* 0x41 */ PLAYER_CUEID_65,
+    /* 0x42 */ PLAYER_CUEID_66,
+    /* 0x43 */ PLAYER_CUEID_67,
+    /* 0x44 */ PLAYER_CUEID_68,
+    /* 0x45 */ PLAYER_CUEID_69,
+    /* 0x46 */ PLAYER_CUEID_70,
+    /* 0x47 */ PLAYER_CUEID_71,
+    /* 0x48 */ PLAYER_CUEID_72,
+    /* 0x49 */ PLAYER_CUEID_73,
+    /* 0x4A */ PLAYER_CUEID_74,
+    /* 0x4B */ PLAYER_CUEID_75,
+    /* 0x4C */ PLAYER_CUEID_76,
+    /* 0x4D */ PLAYER_CUEID_77,
+    /* 0x4E */ PLAYER_CUEID_MAX
+} PlayerCueId;
+
+typedef enum {
+    /* 0 */ PLAYER_LEDGE_CLIMB_NONE,
+    /* 1 */ PLAYER_LEDGE_CLIMB_1,
+    /* 2 */ PLAYER_LEDGE_CLIMB_2,
+    /* 3 */ PLAYER_LEDGE_CLIMB_3,
+    /* 4 */ PLAYER_LEDGE_CLIMB_4
+} PlayerLedgeClimbType;
 
 typedef struct {
-    /* 0x00 */ f32 unk_00;
+    /* 0x00 */ f32 ceilingCheckHeight;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
@@ -474,7 +564,7 @@ typedef struct {
     /* 0x2C */ f32 unk_2C;
     /* 0x30 */ f32 unk_30;
     /* 0x34 */ f32 unk_34;
-    /* 0x38 */ f32 unk_38;
+    /* 0x38 */ f32 wallCheckRadius;
     /* 0x3C */ f32 unk_3C;
     /* 0x40 */ f32 unk_40;
     /* 0x44 */ Vec3s unk_44;
@@ -501,6 +591,8 @@ typedef struct {
     /* 0x10 */ Vec3f base;
 } WeaponInfo; // size = 0x1C
 
+#define LEDGE_DIST_MAX 399.96002f
+
 #define PLAYER_STATE1_0 (1 << 0)
 #define PLAYER_STATE1_SWINGING_BOTTLE (1 << 1)
 #define PLAYER_STATE1_2 (1 << 2)
@@ -509,7 +601,7 @@ typedef struct {
 #define PLAYER_STATE1_5 (1 << 5)
 #define PLAYER_STATE1_6 (1 << 6)
 #define PLAYER_STATE1_7 (1 << 7)
-#define PLAYER_STATE1_8 (1 << 8)
+#define PLAYER_STATE1_START_CHANGING_HELD_ITEM (1 << 8)
 #define PLAYER_STATE1_9 (1 << 9)
 #define PLAYER_STATE1_10 (1 << 10)
 #define PLAYER_STATE1_11 (1 << 11)
@@ -543,7 +635,7 @@ typedef struct {
 #define PLAYER_STATE2_6 (1 << 6)
 #define PLAYER_STATE2_7 (1 << 7)
 #define PLAYER_STATE2_8 (1 << 8)
-#define PLAYER_STATE2_9 (1 << 9)
+#define PLAYER_STATE2_FORCE_SAND_FLOOR_SOUND (1 << 9)
 #define PLAYER_STATE2_10 (1 << 10)
 #define PLAYER_STATE2_11 (1 << 11)
 #define PLAYER_STATE2_12 (1 << 12)
@@ -576,185 +668,195 @@ typedef struct {
 #define PLAYER_STATE3_RESTORE_NAYRUS_LOVE (1 << 6) // Set by ocarina effects actors when destroyed to signal Nayru's Love may be restored (see `ACTOROVL_ALLOC_ABSOLUTE`)
 #define PLAYER_STATE3_7 (1 << 7)
 
-typedef void (*PlayerFunc674)(struct Player*, struct PlayState*);
-typedef s32 (*PlayerFunc82C)(struct Player*, struct PlayState*);
+typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
+typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
 typedef struct Player {
-    /* 0x0000 */ Actor      actor;
-    /* 0x014C */ s8         currentTunic; // current tunic from `PlayerTunic`
-    /* 0x014D */ s8         currentSwordItemId;
-    /* 0x014E */ s8         currentShield; // current shield from `PlayerShield`
-    /* 0x014F */ s8         currentBoots; // current boots from `PlayerBoots`
-    /* 0x0150 */ s8         heldItemButton; // Button index for the item currently used
-    /* 0x0151 */ s8         heldItemAction; // Item action for the item currently used
-    /* 0x0152 */ u8         heldItemId; // Item id for the item currently used
-    /* 0x0153 */ s8         prevBoots; // previous boots from `PlayerBoots`
-    /* 0x0154 */ s8         itemAction; // the difference between this and heldItemAction is unclear
-    /* 0x0155 */ char       unk_155[0x003];
-    /* 0x0158 */ u8         modelGroup;
-    /* 0x0159 */ u8         nextModelGroup;
-    /* 0x015A */ s8         unk_15A;
-    /* 0x015B */ u8         modelAnimType;
-    /* 0x015C */ u8         leftHandType;
-    /* 0x015D */ u8         rightHandType;
-    /* 0x015E */ u8         sheathType;
-    /* 0x015F */ u8         currentMask; // current mask equipped from `PlayerMask`
-    /* 0x0160 */ Gfx**      rightHandDLists;
-    /* 0x0164 */ Gfx**      leftHandDLists;
-    /* 0x0168 */ Gfx**      sheathDLists;
-    /* 0x016C */ Gfx**      waistDLists;
-    /* 0x0170 */ u8         giObjectLoading;
+    /* 0x0000 */ Actor actor;
+    /* 0x014C */ s8 currentTunic; // current tunic from `PlayerTunic`
+    /* 0x014D */ s8 currentSwordItemId;
+    /* 0x014E */ s8 currentShield; // current shield from `PlayerShield`
+    /* 0x014F */ s8 currentBoots; // current boots from `PlayerBoots`
+    /* 0x0150 */ s8 heldItemButton; // Button index for the item currently used
+    /* 0x0151 */ s8 heldItemAction; // Item action for the item currently used
+    /* 0x0152 */ u8 heldItemId; // Item id for the item currently used
+    /* 0x0153 */ s8 prevBoots; // previous boots from `PlayerBoots`
+    /* 0x0154 */ s8 itemAction; // the difference between this and heldItemAction is unclear
+    /* 0x0155 */ char unk_155[0x003];
+    /* 0x0158 */ u8 modelGroup;
+    /* 0x0159 */ u8 nextModelGroup;
+    /* 0x015A */ s8 itemChangeType;
+    /* 0x015B */ u8 modelAnimType;
+    /* 0x015C */ u8 leftHandType;
+    /* 0x015D */ u8 rightHandType;
+    /* 0x015E */ u8 sheathType;
+    /* 0x015F */ u8 currentMask; // current mask equipped from `PlayerMask`
+    /* 0x0160 */ Gfx** rightHandDLists;
+    /* 0x0164 */ Gfx** leftHandDLists;
+    /* 0x0168 */ Gfx** sheathDLists;
+    /* 0x016C */ Gfx** waistDLists;
+    /* 0x0170 */ u8 giObjectLoading;
     /* 0x0174 */ DmaRequest giObjectDmaRequest;
     /* 0x0194 */ OSMesgQueue giObjectLoadQueue;
-    /* 0x01AC */ OSMesg     giObjectLoadMsg;
-    /* 0x01B0 */ void*      giObjectSegment; // also used for title card textures
-    /* 0x01B4 */ SkelAnime  skelAnime;
-    /* 0x01F8 */ Vec3s      jointTable[PLAYER_LIMB_BUF_COUNT];
-    /* 0x0288 */ Vec3s      morphTable[PLAYER_LIMB_BUF_COUNT];
-    /* 0x0318 */ Vec3s      blendTable[PLAYER_LIMB_BUF_COUNT];
-    /* 0x03A8 */ s16        unk_3A8[2];
-    /* 0x03AC */ Actor*     heldActor;
-    /* 0x03B0 */ Vec3f      leftHandPos;
-    /* 0x03BC */ Vec3s      unk_3BC;
-    /* 0x03C4 */ Actor*     unk_3C4;
-    /* 0x03C8 */ Vec3f      unk_3C8;
-    /* 0x03D4 */ char       unk_3D4[0x058];
-    /* 0x042C */ s8         doorType;
-    /* 0x042D */ s8         doorDirection;
-    /* 0x042E */ s16        doorTimer;
-    /* 0x0430 */ Actor*     doorActor;
-    /* 0x0434 */ s8         getItemId;
-    /* 0x0436 */ u16        getItemDirection;
-    /* 0x0438 */ Actor*     interactRangeActor;
-    /* 0x043C */ s8         mountSide;
-    /* 0x043D */ char       unk_43D[0x003];
-    /* 0x0440 */ Actor*     rideActor;
-    /* 0x0444 */ u8         csMode;
-    /* 0x0445 */ u8         prevCsMode;
-    /* 0x0446 */ u8         cueId;
-    /* 0x0447 */ u8         unk_447;
-    /* 0x0448 */ Actor*     unk_448;
-    /* 0x044C */ char       unk_44C[0x004];
-    /* 0x0450 */ Vec3f      unk_450;
-    /* 0x045C */ Vec3f      unk_45C;
-    /* 0x0468 */ char       unk_468[0x002];
-    /* 0x046A */ s16        doorBgCamIndex;
-    /* 0x046C */ s16        subCamId;
-    /* 0x046E */ char       unk_46E[0x02A];
+    /* 0x01AC */ OSMesg giObjectLoadMsg;
+    /* 0x01B0 */ void* giObjectSegment; // also used for title card textures
+    /* 0x01B4 */ SkelAnime skelAnime;
+    /* 0x01F8 */ Vec3s jointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x0288 */ Vec3s morphTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x0318 */ Vec3s blendTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x03A8 */ s16 unk_3A8[2];
+    /* 0x03AC */ Actor* heldActor;
+    /* 0x03B0 */ Vec3f leftHandPos;
+    /* 0x03BC */ Vec3s unk_3BC;
+    /* 0x03C4 */ Actor* unk_3C4;
+    /* 0x03C8 */ Vec3f unk_3C8;
+    /* 0x03D4 */ char unk_3D4[0x058];
+    /* 0x042C */ s8 doorType;
+    /* 0x042D */ s8 doorDirection;
+    /* 0x042E */ s16 doorTimer;
+    /* 0x0430 */ Actor* doorActor;
+    /* 0x0434 */ s8 getItemId;
+    /* 0x0436 */ u16 getItemDirection;
+    /* 0x0438 */ Actor* interactRangeActor;
+    /* 0x043C */ s8 mountSide;
+    /* 0x043D */ char unk_43D[0x003];
+    /* 0x0440 */ Actor* rideActor;
+    /* 0x0444 */ u8 csAction;
+    /* 0x0445 */ u8 prevCsAction;
+    /* 0x0446 */ u8 cueId;
+    /* 0x0447 */ u8 unk_447;
+    /* 0x0448 */ Actor* csActor; // Actor involved in a `csAction`. Typically the actor that invoked the cutscene.
+    /* 0x044C */ char unk_44C[0x004];
+    /* 0x0450 */ Vec3f unk_450;
+    /* 0x045C */ Vec3f unk_45C;
+    /* 0x0468 */ char unk_468[0x002];
+    /* 0x046A */ union { 
+        s16 haltActorsDuringCsAction; // If true, halt actors belonging to certain categories during a `csAction`
+        s16 slidingDoorBgCamIndex; // `BgCamIndex` used during a sliding door cutscene
+    } cv; // "Cutscene Variable": context dependent variable that has different meanings depending on what function is called
+    /* 0x046C */ s16 subCamId;
+    /* 0x046E */ char unk_46E[0x02A];
     /* 0x0498 */ ColliderCylinder cylinder;
     /* 0x04E4 */ ColliderQuad meleeWeaponQuads[2];
     /* 0x05E4 */ ColliderQuad shieldQuad;
-    /* 0x0664 */ Actor*     unk_664;
-    /* 0x0668 */ char       unk_668[0x004];
-    /* 0x066C */ s32        unk_66C;
-    /* 0x0670 */ s32        meleeWeaponEffectIndex;
-    /* 0x0674 */ PlayerFunc674 func_674;
+    /* 0x0664 */ Actor* unk_664;
+    /* 0x0668 */ char unk_668[0x004];
+    /* 0x066C */ s32 unk_66C;
+    /* 0x0670 */ s32 meleeWeaponEffectIndex;
+    /* 0x0674 */ PlayerActionFunc actionFunc;
     /* 0x0678 */ PlayerAgeProperties* ageProperties;
-    /* 0x067C */ u32        stateFlags1;
-    /* 0x0680 */ u32        stateFlags2;
-    /* 0x0684 */ Actor*     unk_684;
-    /* 0x0688 */ Actor*     boomerangActor;
-    /* 0x068C */ Actor*     naviActor;
-    /* 0x0690 */ s16        naviTextId;
-    /* 0x0692 */ u8         stateFlags3;
-    /* 0x0693 */ s8         exchangeItemId;
-    /* 0x0694 */ Actor*     targetActor;
-    /* 0x0698 */ f32        targetActorDistance;
-    /* 0x069C */ char       unk_69C[0x004];
-    /* 0x06A0 */ f32        unk_6A0;
-    /* 0x06A4 */ f32        closestSecretDistSq;
-    /* 0x06A8 */ Actor*     unk_6A8;
-    /* 0x06AC */ s8         unk_6AC;
-    /* 0x06AD */ u8         unk_6AD;
-    /* 0x06AE */ u16        unk_6AE;
-    /* 0x06B0 */ s16        unk_6B0;
-    /* 0x06B2 */ char       unk_6B4[0x004];
-    /* 0x06B6 */ s16        unk_6B6;
-    /* 0x06B8 */ s16        unk_6B8;
-    /* 0x06BA */ s16        unk_6BA;
-    /* 0x06BC */ s16        unk_6BC;
-    /* 0x06BE */ s16        unk_6BE;
-    /* 0x06C0 */ s16        unk_6C0;
-    /* 0x06C2 */ s16        unk_6C2;
-    /* 0x06C4 */ f32        unk_6C4;
-    /* 0x06C8 */ SkelAnime  skelAnime2;
-    /* 0x070C */ Vec3s      jointTable2[PLAYER_LIMB_BUF_COUNT];
-    /* 0x079C */ Vec3s      morphTable2[PLAYER_LIMB_BUF_COUNT];
-    /* 0x082C */ PlayerFunc82C func_82C;
-    /* 0x0830 */ f32        unk_830;
-    /* 0x0834 */ s16        unk_834;
-    /* 0x0836 */ s8         unk_836;
-    /* 0x0837 */ u8         unk_837;
-    /* 0x0838 */ f32        speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
-    /* 0x083C */ s16        yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
-    /* 0x083E */ s16        zTargetYaw; // yaw relating to Z targeting/"parallel" mode
-    /* 0x0840 */ u16        underwaterTimer;
-    /* 0x0842 */ s8         meleeWeaponAnimation;
-    /* 0x0843 */ s8         meleeWeaponState;
-    /* 0x0844 */ s8         unk_844;
-    /* 0x0845 */ u8         unk_845;
-    /* 0x0846 */ u8         unk_846;
-    /* 0x0847 */ s8         unk_847[4];
-    /* 0x084B */ s8         unk_84B[4];
-    /* 0x084F */ s8         unk_84F;
-    /* 0x0850 */ s16        unk_850; // multipurpose timer
-    /* 0x0854 */ f32        unk_854;
-    /* 0x0858 */ f32        unk_858;
-    /* 0x085C */ f32        unk_85C; // stick length among other things
-    /* 0x0860 */ s16        unk_860; // stick flame timer among other things
-    /* 0x0862 */ s8         unk_862; // get item draw ID + 1
-    /* 0x0864 */ f32        unk_864;
-    /* 0x0868 */ f32        unk_868;
-    /* 0x086C */ f32        unk_86C;
-    /* 0x0870 */ f32        unk_870;
-    /* 0x0874 */ f32        unk_874;
-    /* 0x0878 */ f32        unk_878;
-    /* 0x087C */ s16        unk_87C;
-    /* 0x087E */ s16        unk_87E;
-    /* 0x0880 */ f32        unk_880;
-    /* 0x0884 */ f32        wallHeight; // height used to determine whether link can climb or grab a ledge at the top
-    /* 0x0888 */ f32        wallDistance; // distance to the colliding wall plane
-    /* 0x088C */ u8         unk_88C;
-    /* 0x088D */ u8         unk_88D;
-    /* 0x088E */ u8         unk_88E;
-    /* 0x088F */ u8         unk_88F;
-    /* 0x0890 */ u8         unk_890;
-    /* 0x0891 */ u8         shockTimer;
-    /* 0x0892 */ u8         unk_892;
-    /* 0x0893 */ u8         hoverBootsTimer;
-    /* 0x0894 */ s16        fallStartHeight; // last truncated Y position before falling
-    /* 0x0896 */ s16        fallDistance; // truncated Y distance the player has fallen so far (positive is down)
-    /* 0x0898 */ s16        unk_898;
-    /* 0x089A */ s16        unk_89A;
-    /* 0x089C */ s16        unk_89C;
-    /* 0x089E */ u16        floorSfxOffset;
-    /* 0x08A0 */ u8         unk_8A0;
-    /* 0x08A1 */ u8         unk_8A1;
-    /* 0x08A2 */ s16        unk_8A2;
-    /* 0x08A4 */ f32        unk_8A4;
-    /* 0x08A8 */ f32        unk_8A8;
-    /* 0x08AC */ f32        pushedSpeed; // Pushing player, examples include water currents, floor conveyors, climbing sloped surfaces
-    /* 0x08B0 */ s16        pushedYaw; // Yaw direction of player being pushed
+    /* 0x067C */ u32 stateFlags1;
+    /* 0x0680 */ u32 stateFlags2;
+    /* 0x0684 */ Actor* unk_684;
+    /* 0x0688 */ Actor* boomerangActor;
+    /* 0x068C */ Actor* naviActor;
+    /* 0x0690 */ s16 naviTextId;
+    /* 0x0692 */ u8 stateFlags3;
+    /* 0x0693 */ s8 exchangeItemId;
+    /* 0x0694 */ Actor* targetActor;
+    /* 0x0698 */ f32 targetActorDistance;
+    /* 0x069C */ char unk_69C[0x004];
+    /* 0x06A0 */ f32 unk_6A0;
+    /* 0x06A4 */ f32 closestSecretDistSq;
+    /* 0x06A8 */ Actor* unk_6A8;
+    /* 0x06AC */ s8 unk_6AC;
+    /* 0x06AD */ u8 unk_6AD;
+    /* 0x06AE */ u16 unk_6AE;
+    /* 0x06B0 */ s16 unk_6B0;
+    /* 0x06B2 */ char unk_6B4[0x004];
+    /* 0x06B6 */ s16 unk_6B6;
+    /* 0x06B8 */ s16 unk_6B8;
+    /* 0x06BA */ s16 unk_6BA;
+    /* 0x06BC */ s16 unk_6BC;
+    /* 0x06BE */ s16 unk_6BE;
+    /* 0x06C0 */ s16 unk_6C0;
+    /* 0x06C2 */ s16 unk_6C2;
+    /* 0x06C4 */ f32 unk_6C4;
+    /* 0x06C8 */ SkelAnime upperSkelAnime;
+    /* 0x070C */ Vec3s upperJointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x082C */ UpperActionFunc upperActionFunc;
+    /* 0x0830 */ f32 upperAnimBlendWeight;
+    /* 0x0834 */ s16 unk_834;
+    /* 0x0836 */ s8 unk_836;
+    /* 0x0837 */ u8 unk_837;
+    /* 0x0838 */ f32 speedXZ; // Controls horizontal speed, used for `actor.speed`. Current or target value depending on context.
+    /* 0x083C */ s16 yaw; // General yaw value, used both for world and shape rotation. Current or target value depending on context.
+    /* 0x083E */ s16 zTargetYaw; // yaw relating to Z targeting/"parallel" mode
+    /* 0x0840 */ u16 underwaterTimer;
+    /* 0x0842 */ s8 meleeWeaponAnimation;
+    /* 0x0843 */ s8 meleeWeaponState;
+    /* 0x0844 */ s8 unk_844;
+    /* 0x0845 */ u8 unk_845;
+    /* 0x0846 */ u8 unk_846;
+    /* 0x0847 */ s8 unk_847[4];
+    /* 0x084B */ s8 unk_84B[4];
+
+    /* 0x084F */ union { 
+        s8 actionVar1;
+    } av1; // "Action Variable 1": context dependent variable that has different meanings depending on what action is currently running
+
+    /* 0x0850 */ union { 
+        s16 actionVar2;
+    } av2; // "Action Variable 2": context dependent variable that has different meanings depending on what action is currently running
+
+    /* 0x0854 */ f32 unk_854;
+    /* 0x0858 */ f32 unk_858;
+    /* 0x085C */ f32 unk_85C; // stick length among other things
+    /* 0x0860 */ s16 unk_860; // stick flame timer among other things
+    /* 0x0862 */ s8 unk_862; // get item draw ID + 1
+    /* 0x0864 */ f32 unk_864;
+    /* 0x0868 */ f32 unk_868;
+    /* 0x086C */ f32 unk_86C;
+    /* 0x0870 */ f32 unk_870;
+    /* 0x0874 */ f32 unk_874;
+    /* 0x0878 */ f32 unk_878;
+    /* 0x087C */ s16 unk_87C;
+    /* 0x087E */ s16 unk_87E;
+    /* 0x0880 */ f32 unk_880;
+    /* 0x0884 */ f32 yDistToLedge; // y distance to ground above an interact wall. LEDGE_DIST_MAX if no ground is found
+    /* 0x0888 */ f32 distToInteractWall; // xyz distance to the interact wall
+    /* 0x088C */ u8 ledgeClimbType;
+    /* 0x088D */ u8 ledgeClimbDelayTimer;
+    /* 0x088E */ u8 unk_88E;
+    /* 0x088F */ u8 unk_88F;
+    /* 0x0890 */ u8 unk_890;
+    /* 0x0891 */ u8 bodyShockTimer;
+    /* 0x0892 */ u8 unk_892;
+    /* 0x0893 */ u8 hoverBootsTimer;
+    /* 0x0894 */ s16 fallStartHeight; // last truncated Y position before falling
+    /* 0x0896 */ s16 fallDistance; // truncated Y distance the player has fallen so far (positive is down)
+    /* 0x0898 */ s16 floorPitch; // angle of the floor slope in the direction of current world yaw (positive for ascending slope)
+    /* 0x089A */ s16 floorPitchAlt; // the calculation for this value is bugged and doesn't represent anything meaningful
+    /* 0x089C */ s16 unk_89C;
+    /* 0x089E */ u16 floorSfxOffset;
+    /* 0x08A0 */ u8 unk_8A0;
+    /* 0x08A1 */ u8 unk_8A1;
+    /* 0x08A2 */ s16 unk_8A2;
+    /* 0x08A4 */ f32 unk_8A4;
+    /* 0x08A8 */ f32 unk_8A8;
+    /* 0x08AC */ f32 pushedSpeed; // Pushing player, examples include water currents, floor conveyors, climbing sloped surfaces
+    /* 0x08B0 */ s16 pushedYaw; // Yaw direction of player being pushed
     /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
-    /* 0x0908 */ Vec3f      bodyPartsPos[PLAYER_BODYPART_MAX];
-    /* 0x09E0 */ MtxF       mf_9E0;
-    /* 0x0A20 */ MtxF       shieldMf;
-    /* 0x0A60 */ u8         isBurning;
-    /* 0x0A61 */ u8         flameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
-    /* 0x0A73 */ u8         unk_A73;
+    /* 0x0908 */ Vec3f bodyPartsPos[PLAYER_BODYPART_MAX];
+    /* 0x09E0 */ MtxF mf_9E0;
+    /* 0x0A20 */ MtxF shieldMf;
+    /* 0x0A60 */ u8 bodyIsBurning;
+    /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
+    /* 0x0A73 */ u8 unk_A73;
     /* 0x0A74 */ PlayerFuncA74 func_A74;
-    /* 0x0A78 */ s8         invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
-    /* 0x0A79 */ u8         unk_A79;
-    /* 0x0A7A */ u8         unk_A7A;
-    /* 0x0A7B */ u8         unk_A7B;
-    /* 0x0A7C */ f32        unk_A7C;
-    /* 0x0A80 */ s16        unk_A80;
-    /* 0x0A82 */ u16        prevFloorSfxOffset;
-    /* 0x0A84 */ s16        unk_A84;
-    /* 0x0A86 */ s8         unk_A86;
-    /* 0x0A87 */ u8         unk_A87;
-    /* 0x0A88 */ Vec3f      unk_A88; // previous body part 0 position
+    /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
+    /* 0x0A79 */ u8 floorTypeTimer; // counts up every frame the current floor type is the same as the last frame
+    /* 0x0A7A */ u8 floorProperty;
+    /* 0x0A7B */ u8 prevFloorType;
+    /* 0x0A7C */ f32 prevControlStickMagnitude;
+    /* 0x0A80 */ s16 prevControlStickAngle;
+    /* 0x0A82 */ u16 prevFloorSfxOffset;
+    /* 0x0A84 */ s16 unk_A84;
+    /* 0x0A86 */ s8 unk_A86;
+    /* 0x0A87 */ u8 unk_A87;
+    /* 0x0A88 */ Vec3f unk_A88; // previous body part 0 position
 } Player; // size = 0xA94
 
 #endif

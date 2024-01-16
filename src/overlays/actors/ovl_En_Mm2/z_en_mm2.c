@@ -36,15 +36,15 @@ s32 EnMm2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnMm2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 ActorInit En_Mm2_InitVars = {
-    ACTOR_EN_MM2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MM,
-    sizeof(EnMm2),
-    (ActorFunc)EnMm2_Init,
-    (ActorFunc)EnMm2_Destroy,
-    (ActorFunc)EnMm2_Update,
-    (ActorFunc)EnMm2_Draw,
+    /**/ ACTOR_EN_MM2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MM,
+    /**/ sizeof(EnMm2),
+    /**/ EnMm2_Init,
+    /**/ EnMm2_Destroy,
+    /**/ EnMm2_Update,
+    /**/ EnMm2_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -150,7 +150,7 @@ void EnMm2_Init(Actor* thisx, PlayState* play2) {
     }
     if (this->actor.params == 1) {
         if (!GET_INFTABLE(INFTABLE_17F) || !GET_EVENTINF(EVENTINF_MARATHON_ACTIVE)) {
-            osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
+            PRINTF(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
             Actor_Kill(&this->actor);
         }
     }
@@ -165,13 +165,13 @@ void EnMm2_Destroy(Actor* thisx, PlayState* play) {
 s32 func_80AAF224(EnMm2* this, PlayState* play, EnMm2ActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         return 1;
     }
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(yawDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
     return 0;
 }
@@ -215,14 +215,15 @@ void func_80AAF3C0(EnMm2* this, PlayState* play) {
                         Message_ContinueTextbox(play, 0x6080);
                         this->actor.textId = 0x6080;
                         break;
-                };
+                }
+
                 if (this->unk_1F4 & 4) {
-                    if (1) {}
                     this->unk_1F4 &= ~4;
                     HIGH_SCORE(HS_MARATHON)++;
                 }
             }
-            return;
+            break;
+
         case 0x6081:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 this->unk_1F4 |= 4;
@@ -230,18 +231,20 @@ void func_80AAF3C0(EnMm2* this, PlayState* play) {
                 Message_ContinueTextbox(play, 0x607E);
                 this->actor.textId = 0x607E;
             }
-            return;
-    }
+            break;
 
-    if (Actor_TextboxIsClosing(&this->actor, play)) {
-        if (this->actor.textId == 0x607F) {
-            Interface_SetSubTimer(0);
-            this->actionFunc = func_80AAF57C;
-        } else {
-            this->actionFunc = func_80AAF57C;
-        }
-        this->actionFunc = func_80AAF57C;
-        func_80AAEF70(this, play);
+        default:
+            if (Actor_TextboxIsClosing(&this->actor, play)) {
+                if (this->actor.textId == 0x607F) {
+                    Interface_SetSubTimer(0);
+                    this->actionFunc = func_80AAF57C;
+                } else {
+                    this->actionFunc = func_80AAF57C;
+                }
+                this->actionFunc = func_80AAF57C;
+                func_80AAEF70(this, play);
+            }
+            break;
     }
 }
 

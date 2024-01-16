@@ -3,6 +3,8 @@
 
 #include "ultra64.h"
 #include "ultra64/gs2dex.h"
+#include "attributes.h"
+#include "audiomgr.h"
 #include "z64save.h"
 #include "z64light.h"
 #include "z64bgcheck.h"
@@ -34,6 +36,7 @@
 #include "z64skybox.h"
 #include "z64sram.h"
 #include "z64view.h"
+#include "z64vis.h"
 #include "alignment.h"
 #include "seqcmd.h"
 #include "sequence.h"
@@ -270,6 +273,8 @@ typedef struct {
     /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
 
+#define SAC_ENABLE (1 << 0)
+
 typedef struct {
     /* 0x000 */ s16 colATCount;
     /* 0x002 */ u16 sacFlags;
@@ -397,10 +402,10 @@ typedef struct PlayState {
     /* 0x11D34 */ TransitionActorContext transiActorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct PlayState* play, Input* input);
-    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct PlayState* play);
+    /* 0x11D44 */ int (*isPlayerDroppingFish)(struct PlayState* play);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
     /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
-    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 csMode);
+    /* 0x11D50 */ s32 (*tryPlayerCsAction)(struct PlayState* play, Actor* actor, s32 csAction);
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct PlayState* play);
     /* 0x11D58 */ s32 (*damagePlayer)(struct PlayState* play, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct PlayState* play, Actor* actor);
@@ -693,20 +698,6 @@ typedef struct {
     /* 0x10 */ u8 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
-typedef struct {
-    /* 0x0000 */ IrqMgr*     irqMgr;
-    /* 0x0004 */ Scheduler*  sched;
-    /* 0x0008 */ OSScTask    audioTask;
-    /* 0x0070 */ AudioTask*  rspTask;
-    /* 0x0074 */ OSMesgQueue interruptQueue;
-    /* 0x008C */ OSMesg      interruptMsgBuf[8];
-    /* 0x00AC */ OSMesgQueue taskQueue;
-    /* 0x00C4 */ OSMesg      taskMsgBuf[1];
-    /* 0x00C8 */ OSMesgQueue lockQueue;
-    /* 0x00E0 */ OSMesg      lockMsgBuf[1];
-    /* 0x00E8 */ OSThread    thread;
-} AudioMgr; // size = 0x298
-
 struct ArenaNode;
 
 typedef struct Arena {
@@ -793,30 +784,5 @@ typedef struct {
     /* 0x80 */ u32 viFeatures;
     /* 0x84 */ u32 unk_84;
 } ViMode; // size = 0x88
-
-// Vis...
-typedef struct {
-    /* 0x00 */ u32 type;
-    /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8_u32 color;
-    /* 0x0C */ Color_RGBA8_u32 envColor;
-} struct_801664F0; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ u32 unk_00;
-    /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8_u32 primColor;
-    /* 0x0C */ Color_RGBA8_u32 envColor;
-    /* 0x10 */ u16* tlut;
-    /* 0x14 */ Gfx* dList;
-} VisMono; // size = 0x18
-
-// Vis...
-typedef struct {
-    /* 0x00 */ u32 useRgba;
-    /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8_u32 primColor;
-    /* 0x08 */ Color_RGBA8_u32 envColor;
-} struct_80166500; // size = 0x10
 
 #endif

@@ -46,15 +46,15 @@ void EnFz_UpdateIceSmoke(EnFz* this, PlayState* play);
 void EnFz_DrawEffects(EnFz* this, PlayState* play);
 
 ActorInit En_Fz_InitVars = {
-    ACTOR_EN_FZ,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FZ,
-    sizeof(EnFz),
-    (ActorFunc)EnFz_Init,
-    (ActorFunc)EnFz_Destroy,
-    (ActorFunc)EnFz_Update,
-    (ActorFunc)EnFz_Draw,
+    /**/ ACTOR_EN_FZ,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FZ,
+    /**/ sizeof(EnFz),
+    /**/ EnFz_Init,
+    /**/ EnFz_Destroy,
+    /**/ EnFz_Update,
+    /**/ EnFz_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
@@ -734,7 +734,7 @@ void EnFz_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, play->state.frames & 0x7F, 32, 32, 1, 0,
                                     (2 * play->state.frames) & 0x7F, 32, 32));
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fz.c", 1183),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fz.c", 1183),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetCombineLERP(POLY_XLU_DISP++, TEXEL1, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIMITIVE, TEXEL0,
                           PRIMITIVE, ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, ENVIRONMENT, 0);
@@ -884,7 +884,7 @@ void EnFz_DrawEffects(EnFz* this, PlayState* play) {
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->xyScale, effect->xyScale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_fz.c", 1424),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamDL));
         }

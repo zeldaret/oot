@@ -31,15 +31,15 @@ typedef enum {
 } MirRayBeamLocations;
 
 ActorInit Mir_Ray_InitVars = {
-    ACTOR_MIR_RAY,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_MIR_RAY,
-    sizeof(MirRay),
-    (ActorFunc)MirRay_Init,
-    (ActorFunc)MirRay_Destroy,
-    (ActorFunc)MirRay_Update,
-    (ActorFunc)MirRay_Draw,
+    /**/ ACTOR_MIR_RAY,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_MIR_RAY,
+    /**/ sizeof(MirRay),
+    /**/ MirRay_Init,
+    /**/ MirRay_Destroy,
+    /**/ MirRay_Update,
+    /**/ MirRay_Draw,
 };
 
 static u8 D_80B8E670 = 0;
@@ -166,7 +166,7 @@ void MirRay_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     // "Generation of reflectable light!"
-    osSyncPrintf("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    PRINTF("反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     LOG_NUM("this->actor.arg_data", this->actor.params, "../z_mir_ray.c", 518);
 
     if (this->actor.params >= 0xA) {
@@ -480,7 +480,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
 
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_mir_ray.c", 972),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->reflectIntensity * 100.0f));
             gSPDisplayList(POLY_XLU_DISP++, gShieldBeamGlowDL);
@@ -503,7 +503,7 @@ void MirRay_Draw(Actor* thisx, PlayState* play) {
                     Matrix_Translate(reflection[i].pos.x, reflection[i].pos.y, reflection[i].pos.z, MTXMODE_NEW);
                     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
                     Matrix_Mult(&reflection[i].mtx, MTXMODE_APPLY);
-                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_mir_ray.c", 1006),
+                    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_mir_ray.c", 1006),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, reflection[0].opacity);

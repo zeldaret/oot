@@ -17,15 +17,15 @@ void BgSpot01Fusya_Draw(Actor* thisx, PlayState* play);
 void func_808AAA50(BgSpot01Fusya* this, PlayState* play);
 
 ActorInit Bg_Spot01_Fusya_InitVars = {
-    ACTOR_BG_SPOT01_FUSYA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT01_OBJECTS,
-    sizeof(BgSpot01Fusya),
-    (ActorFunc)BgSpot01Fusya_Init,
-    (ActorFunc)BgSpot01Fusya_Destroy,
-    (ActorFunc)BgSpot01Fusya_Update,
-    (ActorFunc)BgSpot01Fusya_Draw,
+    /**/ ACTOR_BG_SPOT01_FUSYA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT01_OBJECTS,
+    /**/ sizeof(BgSpot01Fusya),
+    /**/ BgSpot01Fusya_Init,
+    /**/ BgSpot01Fusya_Destroy,
+    /**/ BgSpot01Fusya_Update,
+    /**/ BgSpot01Fusya_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -79,7 +79,7 @@ void BgSpot01Fusya_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoWindmillSailsDL);
 

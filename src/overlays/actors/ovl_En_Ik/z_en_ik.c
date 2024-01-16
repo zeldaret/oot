@@ -731,7 +731,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         sparksPos = this->actor.world.pos;
         sparksPos.y += 50.0f;
 
-        Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
         this->damageEffect = this->actor.colChkInfo.damageEffect;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -861,7 +861,7 @@ Gfx* EnIk_SetPrimEnvColors(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB
     Gfx* displayList;
     Gfx* displayListHead;
 
-    displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    displayList = GRAPH_ALLOC(gfxCtx, 4 * sizeof(Gfx));
     displayListHead = displayList;
 
     gDPPipeSync(displayListHead++);
@@ -928,10 +928,11 @@ void EnIk_PostLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 
     if (this->armorStatusFlag & ARMOR_BROKEN) {
         BodyBreak_SetInfo(&this->bodyBreak, limbIndex, IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT,
-                          IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK, IRON_KNUCKLE_LIMB_TORSO, dList, BODYBREAK_OBJECT_DEFAULT);
+                          IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK, IRON_KNUCKLE_LIMB_TORSO, dList,
+                          BODYBREAK_OBJECT_SLOT_DEFAULT);
     }
     if (limbIndex == IRON_KNUCKLE_LIMB_HELMET_ARMOR) {
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->actor.params != IK_TYPE_NABOORU) {
             gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleHelmetMarkingDL);
@@ -970,20 +971,20 @@ void EnIk_PostLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 
     switch (limbIndex) {
         case IRON_KNUCKLE_LIMB_UPPER_LEFT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1270),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1270),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
 
         case IRON_KNUCKLE_LIMB_UPPER_RIGHT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1275),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1275),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
 
         case IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT:
             if (!(this->drawArmorFlag & ARMOR_BROKEN)) {
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1281),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             }
@@ -991,7 +992,7 @@ void EnIk_PostLimbDrawEnemy(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 
         case IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK:
             if (!(this->drawArmorFlag & ARMOR_BROKEN)) {
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ik_inFight.c", 1288),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ik_inFight.c", 1288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             }
@@ -1260,20 +1261,20 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 267),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 267),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016D88);
             }
         } break;
 
         case IRON_KNUCKLE_DEFEAT_LIMB_UPPER_LEFT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 274),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 274),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
 
         case IRON_KNUCKLE_DEFEAT_LIMB_UPPER_RIGHT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 280),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 280),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
@@ -1282,7 +1283,7 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 288),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             }
@@ -1292,7 +1293,7 @@ void EnIk_PostLimbDrawDefeat(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             EnIk* this = (EnIk*)thisx;
 
             if (EnIk_GetAnimCurFrame(&this->actor) < 30.0f) {
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 297),
+                gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inAwake.c", 297),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             }
@@ -1361,7 +1362,7 @@ void EnIk_HandleCsCues(EnIk* this, PlayState* play) {
                     break;
 
                 default:
-                    osSyncPrintf("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
 
             this->cueId = nextCueId;
@@ -1396,7 +1397,7 @@ void EnIk_UpdateCutscene(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
 
     if (this->csAction < 0 || this->csAction >= ARRAY_COUNT(sCsActionFuncs) || sCsActionFuncs[this->csAction] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1433,31 +1434,31 @@ void EnIk_PostLimbDrawIntro(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 
     switch (limbIndex) {
         case IRON_KNUCKLE_LIMB_HELMET_ARMOR:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 575),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 575),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016D88);
             break;
 
         case IRON_KNUCKLE_LIMB_UPPER_LEFT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 581),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 581),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016F88);
             break;
 
         case IRON_KNUCKLE_LIMB_UPPER_RIGHT_PAULDRON:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 587),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 587),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016EE8);
             break;
 
         case IRON_KNUCKLE_LIMB_CHEST_ARMOR_FRONT:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 593),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 593),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gIronKnuckleArmorRivetAndSymbolDL);
             break;
 
         case IRON_KNUCKLE_LIMB_CHEST_ARMOR_BACK:
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 599),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_ik_inConfrontion.c", 599),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
             break;
@@ -1495,7 +1496,7 @@ void EnIk_DrawCutscene(Actor* thisx, PlayState* play) {
 
     if (this->csDrawMode < 0 || this->csDrawMode >= ARRAY_COUNT(sCsDrawFuncs) ||
         sCsDrawFuncs[this->csDrawMode] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1514,7 +1515,7 @@ void EnIk_CsInit(EnIk* this, PlayState* play) {
         }
     }
 
-    osSyncPrintf("En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n", this->actor.params);
+    PRINTF("En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n", this->actor.params);
 }
 
 void EnIk_ChangeToEnemy(EnIk* this, PlayState* play) {
@@ -1557,13 +1558,13 @@ void EnIk_Init(Actor* thisx, PlayState* play) {
 }
 
 ActorInit En_Ik_InitVars = {
-    ACTOR_EN_IK,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_IK,
-    sizeof(EnIk),
-    (ActorFunc)EnIk_Init,
-    (ActorFunc)EnIk_Destroy,
-    (ActorFunc)EnIk_UpdateCutscene,
-    (ActorFunc)EnIk_DrawCutscene,
+    /**/ ACTOR_EN_IK,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_IK,
+    /**/ sizeof(EnIk),
+    /**/ EnIk_Init,
+    /**/ EnIk_Destroy,
+    /**/ EnIk_UpdateCutscene,
+    /**/ EnIk_DrawCutscene,
 };

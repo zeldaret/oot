@@ -24,15 +24,15 @@ void BgIceShelter_Idle(BgIceShelter* this, PlayState* play);
 void BgIceShelter_Melt(BgIceShelter* this, PlayState* play);
 
 ActorInit Bg_Ice_Shelter_InitVars = {
-    ACTOR_BG_ICE_SHELTER,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_ICE_OBJECTS,
-    sizeof(BgIceShelter),
-    (ActorFunc)BgIceShelter_Init,
-    (ActorFunc)BgIceShelter_Destroy,
-    (ActorFunc)BgIceShelter_Update,
-    (ActorFunc)BgIceShelter_Draw,
+    /**/ ACTOR_BG_ICE_SHELTER,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_ICE_OBJECTS,
+    /**/ sizeof(BgIceShelter),
+    /**/ BgIceShelter_Init,
+    /**/ BgIceShelter_Destroy,
+    /**/ BgIceShelter_Update,
+    /**/ BgIceShelter_Draw,
 };
 
 static f32 sRedIceScales[] = { 0.1f, 0.06f, 0.1f, 0.1f, 0.25f };
@@ -123,8 +123,8 @@ void BgIceShelter_InitDynaPoly(BgIceShelter* this, PlayState* play, CollisionHea
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG registration failed"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 362,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -187,7 +187,7 @@ void BgIceShelter_Init(Actor* thisx, PlayState* play) {
 
     BgIceShelter_SetupIdle(this);
 
-    osSyncPrintf("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgIceShelter_Destroy(Actor* thisx, PlayState* play) {
@@ -454,7 +454,7 @@ void BgIceShelter_Draw(Actor* thisx, PlayState* play2) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ice_shelter.c", 751),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ice_shelter.c", 751),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (BGICESHELTER_GET_TYPE(&this->dyna.actor)) {

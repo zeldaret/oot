@@ -34,12 +34,12 @@ static s16 sSlotItems[] = {
     ITEM_BOOMERANG,  ITEM_LENS_OF_TRUTH, ITEM_MAGIC_BEAN, ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
 };
 
-void KaleidoScope_DrawDebugEditorText(Gfx** gfxp) {
+void KaleidoScope_DrawDebugEditorText(Gfx** gfxP) {
     GfxPrint printer;
     s32 pad[2];
 
     GfxPrint_Init(&printer);
-    GfxPrint_Open(&printer, *gfxp);
+    GfxPrint_Open(&printer, *gfxP);
 
     GfxPrint_SetPos(&printer, 4, 2);
     GfxPrint_SetColor(&printer, 255, 60, 0, 255);
@@ -75,7 +75,7 @@ void KaleidoScope_DrawDebugEditorText(Gfx** gfxp) {
     GfxPrint_SetPos(&printer, 28, 24);
     GfxPrint_Printf(&printer, "%s", "/4");
 
-    *gfxp = GfxPrint_Close(&printer);
+    *gfxP = GfxPrint_Close(&printer);
     GfxPrint_Destroy(&printer);
 }
 
@@ -533,7 +533,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
                             }
                         } else {
                             j = sSlotItems[i];
-                            osSyncPrintf("i=%d  j=%d\n", i, j);
+                            PRINTF("i=%d  j=%d\n", i, j);
                             if (gSaveContext.save.info.inventory.items[i] == ITEM_NONE) {
                                 gSaveContext.save.info.inventory.items[i] = j;
                             } else {

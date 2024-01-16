@@ -7,7 +7,7 @@
 #include "z_en_po_desert.h"
 #include "assets/objects/object_po_field/object_po_field.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_7 | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_REACT_TO_LENS | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoDesert_Init(Actor* thisx, PlayState* play);
 void EnPoDesert_Destroy(Actor* thisx, PlayState* play);
@@ -20,15 +20,15 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, PlayState* play);
 void EnPoDesert_Disappear(EnPoDesert* this, PlayState* play);
 
 ActorInit En_Po_Desert_InitVars = {
-    ACTOR_EN_PO_DESERT,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_PO_FIELD,
-    sizeof(EnPoDesert),
-    (ActorFunc)EnPoDesert_Init,
-    (ActorFunc)EnPoDesert_Destroy,
-    (ActorFunc)EnPoDesert_Update,
-    (ActorFunc)EnPoDesert_Draw,
+    /**/ ACTOR_EN_PO_DESERT,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_PO_FIELD,
+    /**/ sizeof(EnPoDesert),
+    /**/ EnPoDesert_Init,
+    /**/ EnPoDesert_Destroy,
+    /**/ EnPoDesert_Update,
+    /**/ EnPoDesert_Draw,
 };
 
 static ColliderCylinderInit sColliderInit = {
@@ -197,11 +197,11 @@ void EnPoDesert_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     if (play->actorCtx.lensActive) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_REACT_TO_LENS;
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     } else {
         this->actor.shape.shadowDraw = NULL;
-        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_7);
+        this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_REACT_TO_LENS);
     }
 }
 
@@ -214,7 +214,7 @@ s32 EnPoDesert_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
         mtxScale = this->actionTimer / 16.0f;
         Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
     }
-    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         *dList = NULL;
     }
     return false;
@@ -234,10 +234,10 @@ void EnPoDesert_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         color.r = (s16)(rand * 30.0f) + 225;
         color.g = (s16)(rand * 100.0f) + 155;
         color.b = (s16)(rand * 160.0f) + 95;
-        if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+        if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 255);
-            gSPMatrix((*gfxP)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_desert.c", 523),
+            gSPMatrix((*gfxP)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_desert.c", 523),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList((*gfxP)++, gPoeFieldLanternDL);
             gSPDisplayList((*gfxP)++, gPoeFieldLanternTopDL);

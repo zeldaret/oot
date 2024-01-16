@@ -16,15 +16,15 @@ void func_80B9D054(ObjRoomtimer* this, PlayState* play);
 void func_80B9D0B0(ObjRoomtimer* this, PlayState* play);
 
 ActorInit Obj_Roomtimer_InitVars = {
-    ACTOR_OBJ_ROOMTIMER,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjRoomtimer),
-    (ActorFunc)ObjRoomtimer_Init,
-    (ActorFunc)ObjRoomtimer_Destroy,
-    (ActorFunc)ObjRoomtimer_Update,
-    (ActorFunc)NULL,
+    /**/ ACTOR_OBJ_ROOMTIMER,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjRoomtimer),
+    /**/ ObjRoomtimer_Init,
+    /**/ ObjRoomtimer_Destroy,
+    /**/ ObjRoomtimer_Update,
+    /**/ NULL,
 };
 
 void ObjRoomtimer_Init(Actor* thisx, PlayState* play) {

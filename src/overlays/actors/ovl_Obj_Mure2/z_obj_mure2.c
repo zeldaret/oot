@@ -29,15 +29,15 @@ void func_80B9A658(ObjMure2* this);
 void func_80B9A6E8(ObjMure2* this);
 
 ActorInit Obj_Mure2_InitVars = {
-    ACTOR_OBJ_MURE2,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjMure2),
-    (ActorFunc)ObjMure2_Init,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)ObjMure2_Update,
-    NULL,
+    /**/ ACTOR_OBJ_MURE2,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjMure2),
+    /**/ ObjMure2_Init,
+    /**/ Actor_Noop,
+    /**/ ObjMure2_Update,
+    /**/ NULL,
 };
 
 static f32 sDistSquared1[] = { SQ(1600.0f), SQ(1600.0f), SQ(1600.0f) };
@@ -112,8 +112,7 @@ void ObjMure2_SpawnActors(ObjMure2* this, PlayState* play) {
     for (i = 0; i < D_80B9A818[actorNum]; i++) {
         if (this->actorSpawnPtrList[i] != NULL) {
             // "Warning : I already have a child (%s %d)(arg_data 0x%04x)"
-            osSyncPrintf("Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure2.c", 269,
-                         this->actor.params);
+            PRINTF("Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure2.c", 269, this->actor.params);
             continue;
         }
 

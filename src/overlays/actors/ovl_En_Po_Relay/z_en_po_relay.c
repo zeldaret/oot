@@ -34,15 +34,15 @@ static Vec3s D_80AD8C30[] = {
 };
 
 ActorInit En_Po_Relay_InitVars = {
-    ACTOR_EN_PO_RELAY,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_TK,
-    sizeof(EnPoRelay),
-    (ActorFunc)EnPoRelay_Init,
-    (ActorFunc)EnPoRelay_Destroy,
-    (ActorFunc)EnPoRelay_Update,
-    (ActorFunc)EnPoRelay_Draw,
+    /**/ ACTOR_EN_PO_RELAY,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_TK,
+    /**/ sizeof(EnPoRelay),
+    /**/ EnPoRelay_Init,
+    /**/ EnPoRelay_Destroy,
+    /**/ EnPoRelay_Update,
+    /**/ EnPoRelay_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -159,13 +159,13 @@ void EnPoRelay_CorrectY(EnPoRelay* this) {
 
 void EnPoRelay_Idle(EnPoRelay* this, PlayState* play) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0x100);
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnPoRelay_Talk;
     } else if (this->actor.xzDistToPlayer < 250.0f) {
         this->actor.flags |= ACTOR_FLAG_16;
         this->actor.textId = this->textId;
-        func_8002F2CC(&this->actor, play, 250.0f);
+        Actor_OfferTalk(&this->actor, play, 250.0f);
     }
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
@@ -204,7 +204,7 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HONOTRAP,
                         Math_CosS(this->unk_19A) * speedXZ + this->actor.world.pos.x, this->actor.world.pos.y,
                         Math_SinS(this->unk_19A) * speedXZ + this->actor.world.pos.z, 0,
-                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, HONOTRAP_FLAME_DROP);
+                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, HONOTRAP_TYPE_FLAME_DROP);
         }
     }
     Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_19A, 2, 0x1000, 0x100);
@@ -254,14 +254,14 @@ void EnPoRelay_Race(EnPoRelay* this, PlayState* play) {
 
 void EnPoRelay_EndRace(EnPoRelay* this, PlayState* play) {
     Math_ScaledStepToS(&this->actor.shape.rot.y, -0x4000, 0x800);
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnPoRelay_Talk2;
     } else if (play->roomCtx.curRoom.num == 5) {
         Actor_Kill(&this->actor);
         gSaveContext.timerState = TIMER_STATE_OFF;
     } else if (Actor_IsFacingAndNearPlayer(&this->actor, 150.0f, 0x3000)) {
         this->actor.textId = this->textId;
-        func_8002F2CC(&this->actor, play, 250.0f);
+        Actor_OfferTalk(&this->actor, play, 250.0f);
     }
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
@@ -391,7 +391,7 @@ void EnPoRelay_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
                                   this->lightColor.b, 200);
     } else if (limbIndex == 8) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 916);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_po_relay.c", 918),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_relay.c", 918),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDampeHaloDL);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_po_relay.c", 922);

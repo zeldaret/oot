@@ -30,15 +30,15 @@ void func_80880D68(BgHakaTrap* this);
 static UNK_TYPE D_80880F30 = 0;
 
 ActorInit Bg_Haka_Trap_InitVars = {
-    ACTOR_BG_HAKA_TRAP,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA_OBJECTS,
-    sizeof(BgHakaTrap),
-    (ActorFunc)BgHakaTrap_Init,
-    (ActorFunc)BgHakaTrap_Destroy,
-    (ActorFunc)BgHakaTrap_Update,
-    (ActorFunc)BgHakaTrap_Draw,
+    /**/ ACTOR_BG_HAKA_TRAP,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA_OBJECTS,
+    /**/ sizeof(BgHakaTrap),
+    /**/ BgHakaTrap_Init,
+    /**/ BgHakaTrap_Destroy,
+    /**/ BgHakaTrap_Update,
+    /**/ BgHakaTrap_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -166,8 +166,8 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
 
-                this->colliderCylinder.info.toucherFlags &= ~TOUCH_SFX_NORMAL;
-                this->colliderCylinder.info.toucherFlags |= TOUCH_SFX_WOOD;
+                this->colliderCylinder.elem.toucherFlags &= ~TOUCH_SFX_NORMAL;
+                this->colliderCylinder.elem.toucherFlags |= TOUCH_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;
             }

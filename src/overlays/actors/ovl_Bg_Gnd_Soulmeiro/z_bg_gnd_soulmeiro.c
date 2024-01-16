@@ -20,15 +20,15 @@ void func_8087B284(BgGndSoulmeiro* this, PlayState* play);
 void func_8087B350(BgGndSoulmeiro* this, PlayState* play);
 
 ActorInit Bg_Gnd_Soulmeiro_InitVars = {
-    ACTOR_BG_GND_SOULMEIRO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_DEMO_KEKKAI,
-    sizeof(BgGndSoulmeiro),
-    (ActorFunc)BgGndSoulmeiro_Init,
-    (ActorFunc)BgGndSoulmeiro_Destroy,
-    (ActorFunc)BgGndSoulmeiro_Update,
-    (ActorFunc)BgGndSoulmeiro_Draw,
+    /**/ ACTOR_BG_GND_SOULMEIRO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_DEMO_KEKKAI,
+    /**/ sizeof(BgGndSoulmeiro),
+    /**/ BgGndSoulmeiro_Init,
+    /**/ BgGndSoulmeiro_Destroy,
+    /**/ BgGndSoulmeiro_Update,
+    /**/ BgGndSoulmeiro_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -203,7 +203,7 @@ void BgGndSoulmeiro_Draw(Actor* thisx, PlayState* play) {
         case 0:
             OPEN_DISPS(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 398);
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 400),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 400),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, dLists[params]);
             CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 403);

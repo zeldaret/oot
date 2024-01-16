@@ -20,7 +20,7 @@ MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
 
 void Matrix_Init(GameState* gameState) {
-    sCurrentMatrix = GameState_Alloc(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
+    sCurrentMatrix = GAME_STATE_ALLOC(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
     sMatrixStack = sCurrentMatrix;
 }
 
@@ -603,16 +603,30 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     return dest;
 }
 
+#ifdef OOT_DEBUG
+
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line) {
-    return Matrix_MtxFToMtx(Matrix_CheckFloats(sCurrentMatrix, file, line), dest);
+    return Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(sCurrentMatrix, file, line), dest);
 }
 
 Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line) {
-    return Matrix_ToMtx(Graph_Alloc(gfxCtx, sizeof(Mtx)), file, line);
+    return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)), file, line);
 }
 
+#else
+
+Mtx* Matrix_ToMtx(Mtx* dest) {
+    return Matrix_MtxFToMtx(sCurrentMatrix, dest);
+}
+
+Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx) {
+    return Matrix_ToMtx(GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
+}
+
+#endif /* OOT_DEBUG */
+
 Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
-    return Matrix_MtxFToMtx(src, Graph_Alloc(gfxCtx, sizeof(Mtx)));
+    return Matrix_MtxFToMtx(src, GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
 }
 
 void Matrix_MultVec3f(Vec3f* src, Vec3f* dest) {
@@ -961,13 +975,13 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             if (!(-32768.0f <= mf->mf[i][j]) || !(mf->mf[i][j] < 32768.0f)) {
-                osSyncPrintf("%s %d: [%s] =\n"
-                             "/ %12.6f %12.6f %12.6f %12.6f \\\n"
-                             "| %12.6f %12.6f %12.6f %12.6f |\n"
-                             "| %12.6f %12.6f %12.6f %12.6f |\n"
-                             "\\ %12.6f %12.6f %12.6f %12.6f /\n",
-                             file, line, "mf", mf->xx, mf->xy, mf->xz, mf->xw, mf->yx, mf->yy, mf->yz, mf->yw, mf->zx,
-                             mf->zy, mf->zz, mf->zw, mf->wx, mf->wy, mf->wz, mf->ww);
+                PRINTF("%s %d: [%s] =\n"
+                       "/ %12.6f %12.6f %12.6f %12.6f \\\n"
+                       "| %12.6f %12.6f %12.6f %12.6f |\n"
+                       "| %12.6f %12.6f %12.6f %12.6f |\n"
+                       "\\ %12.6f %12.6f %12.6f %12.6f /\n",
+                       file, line, "mf", mf->xx, mf->xy, mf->xz, mf->xw, mf->yx, mf->yy, mf->yz, mf->yw, mf->zx, mf->zy,
+                       mf->zz, mf->zw, mf->wx, mf->wy, mf->wz, mf->ww);
                 Fault_AddHungupAndCrash(file, line);
             }
         }

@@ -24,15 +24,15 @@ void EnBa_Die(EnBa* this, PlayState* play);
 void EnBa_SetupSwingAtPlayer(EnBa* this);
 
 ActorInit En_Ba_InitVars = {
-    ACTOR_EN_BA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BXA,
-    sizeof(EnBa),
-    (ActorFunc)EnBa_Init,
-    (ActorFunc)EnBa_Destroy,
-    (ActorFunc)EnBa_Update,
-    (ActorFunc)EnBa_Draw,
+    /**/ ACTOR_EN_BA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BXA,
+    /**/ sizeof(EnBa),
+    /**/ EnBa_Init,
+    /**/ EnBa_Destroy,
+    /**/ EnBa_Update,
+    /**/ EnBa_Draw,
 };
 
 static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f };
@@ -475,7 +475,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
     EnBa* this = (EnBa*)thisx;
     s32 pad;
     s16 i;
-    Mtx* mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 14);
+    Mtx* mtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Mtx) * 14);
     Vec3f unused = { 0.0f, 0.0f, 448.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ba.c", 933);
@@ -502,10 +502,10 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
                         break;
                 }
             }
-            Matrix_ToMtx(mtx, "../z_en_ba.c", 970);
+            MATRIX_TO_MTX(mtx, "../z_en_ba.c", 970);
         }
         Matrix_Pop();
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ba.c", 973),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ba.c", 973),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_000890);
     } else {
@@ -514,7 +514,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
                                     (play->gameplayFrames * 2) % 128, 32, 32, 1, (play->gameplayFrames * -5) % 128,
                                     (play->gameplayFrames * -5) % 128, 32, 32));
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 125, 100, 255);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ba.c", 991),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ba.c", 991),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, object_bxa_DL_001D80);
     }

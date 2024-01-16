@@ -8,7 +8,7 @@ Input* D_8012D1F8 = NULL;
 
 TransitionTile sTransitionTile;
 s32 gTransitionTileState;
-VisMono D_80161498;
+VisMono sPlayVisMono;
 Color_RGBA8_u32 gVisMonoColor;
 FaultClient D_801614B8;
 s16 sTransitionFillTimer;
@@ -25,8 +25,8 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn);
         }                                         \
     } while (0)
 
-void Play_ChangeViewpointBgCamIndex(PlayState* this) {
-    Camera_ChangeBgCamIndex(GET_ACTIVE_CAM(this), this->viewpoint - 1);
+void Play_RequestViewpointBgCam(PlayState* this) {
+    Camera_RequestBgCam(GET_ACTIVE_CAM(this), this->viewpoint - 1);
 }
 
 void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
@@ -42,7 +42,7 @@ void Play_SetViewpoint(PlayState* this, s16 viewpoint) {
                              &gSfxDefaultReverb);
     }
 
-    Play_ChangeViewpointBgCamIndex(this);
+    Play_RequestViewpointBgCam(this);
 }
 
 /**
@@ -57,7 +57,7 @@ s32 Play_CheckViewpoint(PlayState* this, s16 viewpoint) {
  * to toggle the camera into a "browsing item selection" setting.
  */
 void Play_SetShopBrowsingViewpoint(PlayState* this) {
-    osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
+    PRINTF("Game_play_shop_pr_vr_switch_set()\n");
 
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
         this->viewpoint = VIEWPOINT_PIVOT;
@@ -199,7 +199,7 @@ void Play_Destroy(GameState* thisx) {
 
     Letterbox_Destroy();
     TransitionFade_Destroy(&this->transitionFadeFlash);
-    VisMono_Destroy(&D_80161498);
+    VisMono_Destroy(&sPlayVisMono);
 
     if (gSaveContext.save.linkAge != this->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
@@ -255,8 +255,9 @@ void Play_Init(GameState* thisx) {
     this->cameraPtrs[CAM_ID_MAIN] = &this->mainCamera;
     this->cameraPtrs[CAM_ID_MAIN]->uid = 0;
     this->activeCamId = CAM_ID_MAIN;
-    Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_0 | CAM_STATE_1 | CAM_STATE_2 | CAM_STATE_3 | CAM_STATE_4 |
-                                                      CAM_STATE_5 | CAM_STATE_6 | CAM_STATE_7);
+    Camera_OverwriteStateFlags(&this->mainCamera, CAM_STATE_CHECK_BG_ALT | CAM_STATE_CHECK_WATER | CAM_STATE_CHECK_BG |
+                                                      CAM_STATE_EXTERNAL_FINISHED | CAM_STATE_CAM_FUNC_FINISH |
+                                                      CAM_STATE_LOCK_MODE | CAM_STATE_DISTORTION | CAM_STATE_PLAY_INIT);
     Sram_Init(this, &this->sramCtx);
     Regs_InitData(this);
     Message_Init(this);
@@ -324,15 +325,15 @@ void Play_Init(GameState* thisx) {
         this, gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
         gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
 
-    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.save.entranceIndex), gSaveContext.sceneLayer);
+    PRINTF("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.save.entranceIndex), gSaveContext.sceneLayer);
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
     if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
         gSaveContext.sceneLayer == 6) {
-        osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
+        PRINTF("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
-        osSyncPrintf("出戻り？\n"); // "Return?"
+        PRINTF("出戻り？\n"); // "Return?"
     }
 
     Cutscene_HandleEntranceTriggers(this);
@@ -390,17 +391,17 @@ void Play_Init(GameState* thisx) {
     TransitionFade_SetType(&this->transitionFadeFlash, TRANS_INSTANCE_TYPE_FADE_FLASH);
     TransitionFade_SetColor(&this->transitionFadeFlash, RGBA8(160, 160, 160, 255));
     TransitionFade_Start(&this->transitionFadeFlash);
-    VisMono_Init(&D_80161498);
+    VisMono_Init(&sPlayVisMono);
     gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
 
-    osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
+    PRINTF("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
     zAllocSize = THA_GetRemaining(&this->state.tha);
-    zAlloc = (uintptr_t)GameState_Alloc(&this->state, zAllocSize, "../z_play.c", 2918);
+    zAlloc = (uintptr_t)GAME_STATE_ALLOC(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init((void*)zAllocAligned, zAllocSize - (zAllocAligned - zAlloc));
     // "Zelda Heap"
-    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned, zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
+    PRINTF("ゼルダヒープ %08x-%08x\n", zAllocAligned, (u8*)zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
@@ -411,12 +412,12 @@ void Play_Init(GameState* thisx) {
 
     player = GET_PLAYER(this);
     Camera_InitDataUsingPlayer(&this->mainCamera, player);
-    Camera_ChangeMode(&this->mainCamera, CAM_MODE_NORMAL);
+    Camera_RequestMode(&this->mainCamera, CAM_MODE_NORMAL);
 
     playerStartBgCamIndex = PARAMS_GET(player->actor.params, 0, 8);
     if (playerStartBgCamIndex != 0xFF) {
-        osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
-        Camera_ChangeBgCamIndex(&this->mainCamera, playerStartBgCamIndex);
+        PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
+        Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);
     }
 
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT) {
@@ -437,7 +438,7 @@ void Play_Init(GameState* thisx) {
 
     if (R_USE_DEBUG_CUTSCENE) {
         gDebugCutsceneScript = sDebugCutsceneScriptBuf;
-        osSyncPrintf("\nkawauso_data=[%x]", gDebugCutsceneScript);
+        PRINTF("\nkawauso_data=[%x]", gDebugCutsceneScript);
 
         // This hardcoded ROM address extends past the end of the ROM file.
         // Presumably the ROM was larger at a previous point in development when this debug feature was used.
@@ -447,7 +448,7 @@ void Play_Init(GameState* thisx) {
 
 void Play_Update(PlayState* this) {
     s32 pad1;
-    s32 sp80;
+    s32 isPaused;
     Input* input;
     u32 i;
     s32 pad2;
@@ -461,17 +462,17 @@ void Play_Update(PlayState* this) {
 
     if ((R_HREG_MODE == HREG_MODE_PRINT_OBJECT_TABLE) && (R_PRINT_OBJECT_TABLE_TRIGGER < 0)) {
         R_PRINT_OBJECT_TABLE_TRIGGER = 0;
-        osSyncPrintf("object_exchange_rom_address %u\n", gObjectTableSize);
-        osSyncPrintf("RomStart RomEnd   Size\n");
+        PRINTF("object_exchange_rom_address %u\n", gObjectTableSize);
+        PRINTF("RomStart RomEnd   Size\n");
 
         for (i = 0; i < gObjectTableSize; i++) {
             s32 size = gObjectTable[i].vromEnd - gObjectTable[i].vromStart;
 
-            osSyncPrintf("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
-                         size / 1024.0f);
+            PRINTF("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
+                   size / 1024.0f);
         }
 
-        osSyncPrintf("\n");
+        PRINTF("\n");
     }
 
     // HREG(81) was very likely intended to be HREG(80), which would make more sense given how the
@@ -482,8 +483,8 @@ void Play_Update(PlayState* this) {
         ActorOverlayTable_LogPrint();
     }
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
 
     if (FrameAdvance_Update(&this->frameAdvCtx, &input[1])) {
@@ -495,7 +496,7 @@ void Play_Update(PlayState* this) {
             switch (gTransitionTileState) {
                 case TRANS_TILE_PROCESS:
                     if (TransitionTile_Init(&sTransitionTile, 10, 7) == NULL) {
-                        osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
+                        PRINTF("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         gTransitionTileState = TRANS_TILE_OFF;
                     } else {
                         sTransitionTile.zBuffer = (u16*)gZBuffer;
@@ -529,10 +530,10 @@ void Play_Update(PlayState* this) {
                         if (!(gEntranceTable[this->nextEntranceIndex + sceneLayer].field &
                               ENTRANCE_INFO_CONTINUE_BGM_FLAG)) {
                             // "Sound initialized. 111"
-                            osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
+                            PRINTF("\n\n\nサウンドイニシャル来ました。111");
                             if ((this->transitionType < TRANS_TYPE_MAX) && !Environment_IsForcedSequenceDisabled()) {
                                 // "Sound initialized. 222"
-                                osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
+                                PRINTF("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
                                 gSaveContext.seqId = (u8)NA_BGM_DISABLED;
                                 gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
@@ -849,24 +850,24 @@ void Play_Update(PlayState* this) {
             }
 
             PLAY_LOG(3551);
-            sp80 = (this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0);
+            isPaused = IS_PAUSED(&this->pauseCtx);
 
             PLAY_LOG(3555);
             AnimationContext_Reset(&this->animationCtx);
 
             PLAY_LOG(3561);
-            Object_UpdateBank(&this->objectCtx);
+            Object_UpdateEntries(&this->objectCtx);
 
             PLAY_LOG(3577);
 
-            if ((sp80 == 0) && (IREG(72) == 0)) {
+            if (!isPaused && (IREG(72) == 0)) {
                 PLAY_LOG(3580);
 
                 this->gameplayFrames++;
                 Rumble_SetUpdateEnabled(true);
 
                 if (this->actorCtx.freezeFlashTimer && (this->actorCtx.freezeFlashTimer-- < 5)) {
-                    osSyncPrintf("FINISH=%d\n", this->actorCtx.freezeFlashTimer);
+                    PRINTF("FINISH=%d\n", this->actorCtx.freezeFlashTimer);
 
                     if ((this->actorCtx.freezeFlashTimer > 0) && ((this->actorCtx.freezeFlashTimer % 2) != 0)) {
                         this->envCtx.fillScreen = true;
@@ -926,12 +927,12 @@ void Play_Update(PlayState* this) {
 
             if (this->viewpoint != VIEWPOINT_NONE) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
-                    if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+                    if (IS_PAUSED(&this->pauseCtx)) {
                         // "Changing viewpoint is prohibited due to the kaleidoscope"
-                        osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
+                        PRINTF(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (Player_InCsMode(this)) {
                         // "Changing viewpoint is prohibited during the cutscene"
-                        osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
+                        PRINTF(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
                         Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -942,7 +943,7 @@ void Play_Update(PlayState* this) {
                     }
                 }
 
-                Play_ChangeViewpointBgCamIndex(this);
+                Play_RequestViewpointBgCam(this);
             }
 
             PLAY_LOG(3708);
@@ -950,7 +951,7 @@ void Play_Update(PlayState* this) {
 
             PLAY_LOG(3716);
 
-            if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+            if (IS_PAUSED(&this->pauseCtx)) {
                 PLAY_LOG(3721);
                 KaleidoScopeCall_Update(this);
             } else if (this->gameOverCtx.state != GAMEOVER_INACTIVE) {
@@ -987,7 +988,7 @@ void Play_Update(PlayState* this) {
 skip:
     PLAY_LOG(3801);
 
-    if ((sp80 == 0) || gDebugCamEnabled) {
+    if (!isPaused || gDebugCamEnabled) {
         s32 pad3[5];
         s32 i;
 
@@ -1013,7 +1014,7 @@ skip:
 }
 
 void Play_DrawOverlayElements(PlayState* this) {
-    if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
+    if (IS_PAUSED(&this->pauseCtx)) {
         KaleidoScopeCall_Draw(this);
     }
 
@@ -1035,21 +1036,21 @@ void Play_Draw(PlayState* this) {
 
     OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
+    gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(this->sceneSegment);
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     gSPSegment(POLY_XLU_DISP++, 0x00, NULL);
     gSPSegment(OVERLAY_DISP++, 0x00, NULL);
 
-    gSPSegment(POLY_OPA_DISP++, 0x04, this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x04, this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x04, this->objectCtx.status[this->objectCtx.mainKeepIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x04, this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x04, this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
+    gSPSegment(OVERLAY_DISP++, 0x04, this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
 
-    gSPSegment(POLY_OPA_DISP++, 0x05, this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x05, this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x05, this->objectCtx.status[this->objectCtx.subKeepIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x05, this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x05, this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
+    gSPSegment(OVERLAY_DISP++, 0x05, this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
 
     gSPSegment(POLY_OPA_DISP++, 0x02, this->sceneSegment);
     gSPSegment(POLY_XLU_DISP++, 0x02, this->sceneSegment);
@@ -1075,8 +1076,8 @@ void Play_Draw(PlayState* this) {
             this->billboardMtxF.mf[3][0] = this->billboardMtxF.mf[3][1] = this->billboardMtxF.mf[3][2] = 0.0f;
         // This transpose is where the viewing matrix is properly converted into a billboard matrix
         Matrix_Transpose(&this->billboardMtxF);
-        this->billboardMtx = Matrix_MtxFToMtx(Matrix_CheckFloats(&this->billboardMtxF, "../z_play.c", 4005),
-                                              Graph_Alloc(gfxCtx, sizeof(Mtx)));
+        this->billboardMtx = Matrix_MtxFToMtx(MATRIX_CHECK_FLOATS(&this->billboardMtxF, "../z_play.c", 4005),
+                                              GRAPH_ALLOC(gfxCtx, sizeof(Mtx)));
 
         gSPSegment(POLY_OPA_DISP++, 0x01, this->billboardMtx);
 
@@ -1103,8 +1104,8 @@ void Play_Draw(PlayState* this) {
             TransitionFade_Draw(&this->transitionFadeFlash, &gfxP);
 
             if (gVisMonoColor.a > 0) {
-                D_80161498.primColor.rgba = gVisMonoColor.rgba;
-                VisMono_Draw(&D_80161498, &gfxP);
+                sPlayVisMono.vis.primColor.rgba = gVisMonoColor.rgba;
+                VisMono_Draw(&sPlayVisMono, &gfxP);
             }
 
             gSPEndDisplayList(gfxP++);
@@ -1198,7 +1199,7 @@ void Play_Draw(PlayState* this) {
                 (GET_ACTIVE_CAM(this)->setting != CAM_SET_PREREND_FIXED)) {
                 Vec3f quakeOffset;
 
-                Camera_GetQuakeOffset(&quakeOffset, GET_ACTIVE_CAM(this));
+                quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(this));
                 Skybox_Draw(&this->skyboxCtx, gfxCtx, this->skyboxId, 0, this->view.eye.x + quakeOffset.x,
                             this->view.eye.y + quakeOffset.y, this->view.eye.z + quakeOffset.z);
             }
@@ -1336,7 +1337,7 @@ void Play_Main(GameState* thisx) {
 }
 
 // original name: "Game_play_demo_mode_check"
-s32 Play_InCsMode(PlayState* this) {
+int Play_InCsMode(PlayState* this) {
     return (this->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(this);
 }
 
@@ -1411,8 +1412,8 @@ void* Play_LoadFile(PlayState* this, RomFile* file) {
     void* allocp;
 
     size = file->vromEnd - file->vromStart;
-    allocp = GameState_Alloc(&this->state, size, "../z_play.c", 4692);
-    DmaMgr_RequestSyncDebug(allocp, file->vromStart, size, "../z_play.c", 4694);
+    allocp = GAME_STATE_ALLOC(&this->state, size, "../z_play.c", 4692);
+    DMA_REQUEST_SYNC(allocp, file->vromStart, size, "../z_play.c", 4694);
 
     return allocp;
 }
@@ -1434,7 +1435,7 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
     this->numActorEntries = 0;
 
-    Object_InitBank(this, &this->objectCtx);
+    Object_InitContext(this, &this->objectCtx);
     LightContext_Init(this, &this->lightCtx);
     TransitionActor_InitContext(&this->state, &this->transiActorCtx);
     func_80096FD4(this, &this->roomCtx.curRoom);
@@ -1446,13 +1447,14 @@ void Play_InitScene(PlayState* this, s32 spawn) {
 
 void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     SceneTableEntry* scene = &gSceneTable[sceneId];
+    u32 size;
 
     scene->unk_13 = 0;
     this->loadedScene = scene;
     this->sceneId = sceneId;
     this->sceneDrawConfig = scene->drawConfig;
 
-    osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
+    PRINTF("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 
     this->sceneSegment = Play_LoadFile(this, &scene->sceneFile);
     scene->unk_13 = 0;
@@ -1462,7 +1464,9 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
 
     Play_InitScene(this, spawn);
 
-    osSyncPrintf("ROOM SIZE=%fK\n", func_80096FE8(this, &this->roomCtx) / 1024.0f);
+    size = func_80096FE8(this, &this->roomCtx);
+
+    PRINTF("ROOM SIZE=%fK\n", size / 1024.0f);
 }
 
 void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest) {
@@ -1488,13 +1492,13 @@ s16 Play_CreateSubCamera(PlayState* this) {
     }
 
     if (camId == NUM_CAMS) {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
         return CAM_ID_NONE;
     }
 
-    osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
-                     CYAN) " " VT_RST "\n",
-                 camId);
+    PRINTF("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
+               CYAN) " " VT_RST "\n",
+           camId);
 
     this->cameraPtrs[camId] = &this->subCameras[camId - CAM_ID_SUB_FIRST];
     Camera_Init(this->cameraPtrs[camId], &this->view, &this->colCtx, this);
@@ -1521,17 +1525,17 @@ void Play_ClearCamera(PlayState* this, s16 camId) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     if (camIdx == CAM_ID_MAIN) {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: never clear camera !!\n" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) "camera control: error: never clear camera !!\n" VT_RST);
     }
 
     if (this->cameraPtrs[camIdx] != NULL) {
         Camera_ChangeStatus(this->cameraPtrs[camIdx], CAM_STAT_UNK100);
         this->cameraPtrs[camIdx] = NULL;
-        osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " clear sub camera [%d] " VT_BGCOL(
-                         CYAN) " " VT_RST "\n",
-                     camIdx);
+        PRINTF("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " clear sub camera [%d] " VT_BGCOL(
+                   CYAN) " " VT_RST "\n",
+               camIdx);
     } else {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: camera No.%d already cleared\n" VT_RST, camIdx);
+        PRINTF(VT_COL(RED, WHITE) "camera control: error: camera No.%d already cleared\n" VT_RST, camIdx);
     }
 }
 
@@ -1639,11 +1643,11 @@ s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, Player* player, s
 
     camera = this->cameraPtrs[camIdx];
     Camera_InitDataUsingPlayer(camera, player);
-    return Camera_ChangeSetting(camera, setting);
+    return Camera_RequestSetting(camera, setting);
 }
 
-s32 Play_ChangeCameraSetting(PlayState* this, s16 camId, s16 setting) {
-    return Camera_ChangeSetting(Play_GetCamera(this, camId), setting);
+s32 Play_RequestCameraSetting(PlayState* this, s16 camId, s16 setting) {
+    return Camera_RequestSetting(Play_GetCamera(this, camId), setting);
 }
 
 /**
@@ -1660,9 +1664,8 @@ void Play_ReturnToMainCam(PlayState* this, s16 camId, s16 duration) {
 
     for (subCamId = CAM_ID_SUB_FIRST; subCamId < NUM_CAMS; subCamId++) {
         if (this->cameraPtrs[subCamId] != NULL) {
-            osSyncPrintf(
-                VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,
-                subCamId);
+            PRINTF(VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,
+                   subCamId);
             Play_ClearCamera(this, subCamId);
         }
     }
@@ -1773,7 +1776,7 @@ void Play_TriggerRespawn(PlayState* this) {
     Play_LoadToLastEntrance(this);
 }
 
-s32 Play_CamIsNotFixed(PlayState* this) {
+int Play_CamIsNotFixed(PlayState* this) {
     // SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT was probably intended to be in this condition,
     // but the room shape type check handles all shop cases regardless
     return (this->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE) &&
@@ -1781,7 +1784,7 @@ s32 Play_CamIsNotFixed(PlayState* this) {
            (R_SCENE_CAM_TYPE != SCENE_CAM_TYPE_FIXED_MARKET) && (this->sceneId != SCENE_CASTLE_COURTYARD_GUARDS_DAY);
 }
 
-s32 FrameAdvance_IsEnabled(PlayState* this) {
+int FrameAdvance_IsEnabled(PlayState* this) {
     return !!this->frameAdvCtx.enabled;
 }
 

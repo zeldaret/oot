@@ -66,15 +66,15 @@ typedef enum {
 } EnOwlMessageChoice;
 
 ActorInit En_Owl_InitVars = {
-    ACTOR_EN_OWL,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OWL,
-    sizeof(EnOwl),
-    (ActorFunc)EnOwl_Init,
-    (ActorFunc)EnOwl_Destroy,
-    (ActorFunc)EnOwl_Update,
-    (ActorFunc)EnOwl_Draw,
+    /**/ ACTOR_EN_OWL,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OWL,
+    /**/ sizeof(EnOwl),
+    /**/ EnOwl_Init,
+    /**/ EnOwl_Destroy,
+    /**/ EnOwl_Update,
+    /**/ EnOwl_Draw,
 };
 
 static ColliderCylinderInit sOwlCylinderInit = {
@@ -132,10 +132,10 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         switchFlag = 0x20;
     }
     // "conversation owl %4x no = %d, sv = %d"
-    osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, owlType, switchFlag);
+    PRINTF(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, owlType, switchFlag);
 
     if ((owlType != OWL_DEFAULT) && (switchFlag < 0x20) && Flags_GetSwitch(play, switchFlag)) {
-        osSyncPrintf("savebitでフクロウ退避\n"); // "Save owl with savebit"
+        PRINTF("savebitでフクロウ退避\n"); // "Save owl with savebit"
         Actor_Kill(&this->actor);
         return;
     }
@@ -160,7 +160,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         case OWL_KAKARIKO:
             if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 // has zelda's letter
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -170,7 +170,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         case OWL_HYLIA_GERUDO:
             if (GET_EVENTCHKINF(EVENTCHKINF_43)) {
                 // has ocarina of time
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -182,7 +182,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
         case OWL_ZORA_RIVER:
             if (GET_EVENTCHKINF(EVENTCHKINF_39) || !GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 // opened zora's domain or has zelda's letter
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -204,7 +204,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         case OWL_LOST_WOODS_PRESARIA:
             if (!CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -212,7 +212,7 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         case OWL_LOST_WOODS_POSTSARIA:
             if (!CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
-                osSyncPrintf("フクロウ退避\n"); // "Owl evacuation"
+                PRINTF("フクロウ退避\n"); // "Owl evacuation"
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -220,11 +220,11 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
             break;
         default:
             // Outside kokiri forest
-            osSyncPrintf(VT_FGCOL(CYAN));
-            osSyncPrintf("no = %d  \n", owlType);
+            PRINTF(VT_FGCOL(CYAN));
+            PRINTF("no = %d  \n", owlType);
             // "Unfinished owl unfinished owl unfinished owl"
-            osSyncPrintf("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n");
-            osSyncPrintf(VT_RST);
+            PRINTF("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n");
+            PRINTF(VT_RST);
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
             this->actionFunc = EnOwl_WaitOutsideKokiri;
@@ -257,7 +257,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist
     s32 timer;
     f32 distCheck;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->actor.params == 0xFFF) {
             this->actionFlags |= 0x40;
             timer = -100;
@@ -277,19 +277,19 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, PlayState* play, u16 textId, f32 targetDist
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
         if (this->actor.xzDistToPlayer < targetDist) {
             this->actor.flags |= ACTOR_FLAG_16;
-            func_8002F1C4(&this->actor, play, targetDist, distCheck, EXCH_ITEM_NONE);
+            Actor_OfferTalkExchange(&this->actor, play, targetDist, distCheck, EXCH_ITEM_NONE);
         }
         return false;
     }
 }
 
 s32 func_80ACA558(EnOwl* this, PlayState* play, u16 textId) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         return true;
     } else {
         this->actor.textId = textId;
         if (this->actor.xzDistToPlayer < 120.0f) {
-            func_8002F1C4(&this->actor, play, 350.0f, 1000.0f, EXCH_ITEM_NONE);
+            Actor_OfferTalkExchange(&this->actor, play, 350.0f, 1000.0f, EXCH_ITEM_NONE);
         }
         return false;
     }
@@ -306,7 +306,7 @@ void func_80ACA62C(EnOwl* this, PlayState* play) {
 
     if (switchFlag < 0x20) {
         Flags_SetSwitch(play, switchFlag);
-        osSyncPrintf(VT_FGCOL(CYAN) " Actor_Environment_sw = %d\n" VT_RST, Flags_GetSwitch(play, switchFlag));
+        PRINTF(VT_FGCOL(CYAN) " Actor_Environment_sw = %d\n" VT_RST, Flags_GetSwitch(play, switchFlag));
     }
     func_80ACA5C8(this);
 }
@@ -337,7 +337,7 @@ void func_80ACA71C(EnOwl* this) {
 }
 
 void func_80ACA76C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -347,7 +347,7 @@ void func_80ACA76C(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACA7E0(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -547,7 +547,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, PlayState* play) {
 }
 
 void func_80ACB03C(EnOwl* this, PlayState* play) {
-    func_8002DF54(play, &this->actor, PLAYER_CSMODE_8);
+    Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
 
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 0);
@@ -927,14 +927,14 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
     if (this->actor.xzDistToPlayer < 50.0f) {
         if (!Play_InCsMode(play)) {
             owlType = PARAMS_GET2(this->actor.params, 6, 6);
-            osSyncPrintf(VT_FGCOL(CYAN));
-            osSyncPrintf("%dのフクロウ\n", owlType); // "%d owl"
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_FGCOL(CYAN));
+            PRINTF("%dのフクロウ\n", owlType); // "%d owl"
+            PRINTF(VT_RST);
             switch (owlType) {
                 case 7:
-                    osSyncPrintf(VT_FGCOL(CYAN));
-                    osSyncPrintf("SPOT 06 の デモがはしった\n"); // "Demo of SPOT 06 has been completed"
-                    osSyncPrintf(VT_RST);
+                    PRINTF(VT_FGCOL(CYAN));
+                    PRINTF("SPOT 06 の デモがはしった\n"); // "Demo of SPOT 06 has been completed"
+                    PRINTF(VT_RST);
                     play->csCtx.script = SEGMENTED_TO_VIRTUAL(gLakeHyliaOwlCs);
                     this->actor.draw = NULL;
                     break;
@@ -1085,7 +1085,7 @@ void EnOwl_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
     if (this->actor.update == NULL) {
         // "Owl disappears"
-        osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         return;
     }
 

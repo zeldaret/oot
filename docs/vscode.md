@@ -50,11 +50,12 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
             "includePath": [ // Matches makefile's includes
                 "${workspaceFolder}/**",
                 "src",
-                "build",
+                "build/gc-eu-mq-dbg",
                 "include"
             ],
             "defines": [
-                "_LANGUAGE_C" // For gbi.h
+                "_LANGUAGE_C", // For gbi.h
+                "OOT_DEBUG" // If targeting a debug version
             ],
             "cStandard": "gnu89", // C89 + some GNU extensions from C99 like C++ comments
             "cppStandard": "${default}" // Only ZAPD uses C++, so doesn't really matter

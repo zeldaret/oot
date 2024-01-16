@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os
 import struct
-import sys
 
 SIMPLIFY_OUTPUT = True
 OVL_KALEIDO_SCOPE_RAM = 0x80813820
@@ -88,7 +87,7 @@ for name, numMaps in SCENES:
 
 cstr = ""
 
-cstr += f"PauseMapMarksData gPauseMapMarkDataTable[] = {{\n"
+cstr += "PauseMapMarksData gPauseMapMarkDataTable[] = {\n"
 for scenemap in scenemaps:
     for mapId, map in enumerate(scenemap[1]):
         cstr += IND(1) + f"// {scenemap[0]} map {mapId}\n"

@@ -22,15 +22,15 @@ void EnDog_FaceLink(EnDog* this, PlayState* play);
 void EnDog_Wait(EnDog* this, PlayState* play);
 
 ActorInit En_Dog_InitVars = {
-    ACTOR_EN_DOG,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DOG,
-    sizeof(EnDog),
-    (ActorFunc)EnDog_Init,
-    (ActorFunc)EnDog_Destroy,
-    (ActorFunc)EnDog_Update,
-    (ActorFunc)EnDog_Draw,
+    /**/ ACTOR_EN_DOG,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_DOG,
+    /**/ sizeof(EnDog),
+    /**/ EnDog_Init,
+    /**/ EnDog_Destroy,
+    /**/ EnDog_Update,
+    /**/ EnDog_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {

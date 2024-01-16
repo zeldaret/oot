@@ -8,7 +8,7 @@
 #include "assets/objects/object_hakach_objects/object_hakach_objects.h"
 #include "assets/objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_7)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_REACT_TO_LENS)
 
 void BgHakaMegane_Init(Actor* thisx, PlayState* play);
 void BgHakaMegane_Destroy(Actor* thisx, PlayState* play);
@@ -20,15 +20,15 @@ void func_8087DBF0(BgHakaMegane* this, PlayState* play);
 void BgHakaMegane_DoNothing(BgHakaMegane* this, PlayState* play);
 
 ActorInit Bg_Haka_Megane_InitVars = {
-    ACTOR_BG_HAKA_MEGANE,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgHakaMegane),
-    (ActorFunc)BgHakaMegane_Init,
-    (ActorFunc)BgHakaMegane_Destroy,
-    (ActorFunc)BgHakaMegane_Update,
-    NULL,
+    /**/ ACTOR_BG_HAKA_MEGANE,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgHakaMegane),
+    /**/ BgHakaMegane_Init,
+    /**/ BgHakaMegane_Destroy,
+    /**/ BgHakaMegane_Update,
+    /**/ NULL,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -66,12 +66,12 @@ void BgHakaMegane_Init(Actor* thisx, PlayState* play) {
     DynaPolyActor_Init(&this->dyna, 0);
 
     if (thisx->params < 3) {
-        this->objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_HAKACH_OBJECTS);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_HAKACH_OBJECTS);
     } else {
-        this->objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_HAKA_OBJECTS);
+        this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_HAKA_OBJECTS);
     }
 
-    if (this->objBankIndex < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(thisx);
     } else {
         this->actionFunc = func_8087DB24;
@@ -88,8 +88,8 @@ void func_8087DB24(BgHakaMegane* this, PlayState* play) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
-        this->dyna.actor.objBankIndex = this->objBankIndex;
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
+        this->dyna.actor.objectSlot = this->requiredObjectSlot;
         this->dyna.actor.draw = BgHakaMegane_Draw;
         Actor_SetObjectDependency(play, &this->dyna.actor);
         if (play->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
@@ -109,10 +109,10 @@ void func_8087DBF0(BgHakaMegane* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (play->actorCtx.lensActive) {
-        thisx->flags |= ACTOR_FLAG_7;
+        thisx->flags |= ACTOR_FLAG_REACT_TO_LENS;
         DynaPoly_DisableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     } else {
-        thisx->flags &= ~ACTOR_FLAG_7;
+        thisx->flags &= ~ACTOR_FLAG_REACT_TO_LENS;
         DynaPoly_EnableCollision(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
@@ -129,7 +129,7 @@ void BgHakaMegane_Update(Actor* thisx, PlayState* play) {
 void BgHakaMegane_Draw(Actor* thisx, PlayState* play) {
     BgHakaMegane* this = (BgHakaMegane*)thisx;
 
-    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, sDLists[thisx->params]);
     } else {
         Gfx_DrawDListOpa(play, sDLists[thisx->params]);

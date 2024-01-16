@@ -17,15 +17,15 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play);
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
 ActorInit Bg_Sst_Floor_InitVars = {
-    ACTOR_BG_SST_FLOOR,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SST,
-    sizeof(BgSstFloor),
-    (ActorFunc)BgSstFloor_Init,
-    (ActorFunc)BgSstFloor_Destroy,
-    (ActorFunc)BgSstFloor_Update,
-    (ActorFunc)BgSstFloor_Draw,
+    /**/ ACTOR_BG_SST_FLOOR,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SST,
+    /**/ sizeof(BgSstFloor),
+    /**/ BgSstFloor_Init,
+    /**/ BgSstFloor_Destroy,
+    /**/ BgSstFloor_Update,
+    /**/ BgSstFloor_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -61,9 +61,9 @@ void BgSstFloor_Update(Actor* thisx, PlayState* play) {
     if (1) {}
 
     if (DynaPolyActor_IsPlayerAbove(&this->dyna) && (this->dyna.actor.yDistToPlayer < 1000.0f)) {
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BOSS_BONGO);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BOSS_BONGO);
     } else {
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
 
     if (DynaPolyActor_IsPlayerOnTop(&this->dyna) && (player->fallDistance > 1000.0f)) {
@@ -128,7 +128,7 @@ void BgSstFloor_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Scale(1.0f, this->drumHeight * -0.0025f, 1.0f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_sst_floor.c", 283),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_sst_floor.c", 283),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, gBongoDrumDL);

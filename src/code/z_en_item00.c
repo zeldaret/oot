@@ -21,15 +21,15 @@ void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play);
 void EnItem00_DrawHeartPiece(EnItem00* this, PlayState* play);
 
 ActorInit En_Item00_InitVars = {
-    ACTOR_EN_ITEM00,
-    ACTORCAT_MISC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnItem00),
-    (ActorFunc)EnItem00_Init,
-    (ActorFunc)EnItem00_Destroy,
-    (ActorFunc)EnItem00_Update,
-    (ActorFunc)EnItem00_Draw,
+    /**/ ACTOR_EN_ITEM00,
+    /**/ ACTORCAT_MISC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnItem00),
+    /**/ EnItem00_Init,
+    /**/ EnItem00_Destroy,
+    /**/ EnItem00_Update,
+    /**/ EnItem00_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -236,7 +236,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             this->scale = 0.01f;
             break;
         case ITEM00_SHIELD_DEKU:
-            this->actor.objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GI_SHIELD_1);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_SHIELD_1);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -245,7 +245,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             this->actor.world.rot.x = 0x4000;
             break;
         case ITEM00_SHIELD_HYLIAN:
-            this->actor.objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GI_SHIELD_2);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_SHIELD_2);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -255,7 +255,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
             break;
         case ITEM00_TUNIC_ZORA:
         case ITEM00_TUNIC_GORON:
-            this->actor.objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GI_CLOTHES);
+            this->actor.objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_CLOTHES);
             Actor_SetObjectDependency(play, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -765,10 +765,10 @@ void EnItem00_Draw(Actor* thisx, PlayState* play) {
             case ITEM00_RECOVERY_HEART:
                 if (this->despawnTimer < 0) {
                     if (this->despawnTimer == -1) {
-                        s8 bankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GI_HEART);
+                        s8 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_GI_HEART);
 
-                        if (Object_IsLoaded(&play->objectCtx, bankIndex)) {
-                            this->actor.objBankIndex = bankIndex;
+                        if (Object_IsLoaded(&play->objectCtx, objectSlot)) {
+                            this->actor.objectSlot = objectSlot;
                             Actor_SetObjectDependency(play, &this->actor);
                             this->despawnTimer = -2;
                         }
@@ -831,8 +831,7 @@ void EnItem00_DrawRupee(EnItem00* this, PlayState* play) {
         texIndex = this->actor.params - 0x10;
     }
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_item00.c", 1562),
-              G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_item00.c", 1562), G_MTX_MODELVIEW | G_MTX_LOAD);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[texIndex]));
 
@@ -861,8 +860,7 @@ void EnItem00_DrawCollectible(EnItem00* this, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sItemDropTex[texIndex]));
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_item00.c", 1607),
-              G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_item00.c", 1607), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_item00.c", 1611);
@@ -878,14 +876,12 @@ void EnItem00_DrawHeartContainer(EnItem00* this, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     func_8002EBCC(&this->actor, play, 0);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_item00.c", 1634),
-              G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_item00.c", 1634), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, gHeartPieceExteriorDL);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     func_8002ED80(&this->actor, play, 0);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_item00.c", 1644),
-              G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_item00.c", 1644), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, gHeartContainerInteriorDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_item00.c", 1647);
@@ -901,8 +897,7 @@ void EnItem00_DrawHeartPiece(EnItem00* this, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     func_8002ED80(&this->actor, play, 0);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_item00.c", 1670),
-              G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_item00.c", 1670), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_XLU_DISP++, gHeartPieceInteriorDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_item00.c", 1673);

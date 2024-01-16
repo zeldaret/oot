@@ -15,15 +15,15 @@ void BgJyaBlock_Update(Actor* thisx, PlayState* play);
 void BgJyaBlock_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Jya_Block_InitVars = {
-    ACTOR_BG_JYA_BLOCK,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(BgJyaBlock),
-    (ActorFunc)BgJyaBlock_Init,
-    (ActorFunc)BgJyaBlock_Destroy,
-    (ActorFunc)BgJyaBlock_Update,
-    (ActorFunc)BgJyaBlock_Draw,
+    /**/ ACTOR_BG_JYA_BLOCK,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(BgJyaBlock),
+    /**/ BgJyaBlock_Init,
+    /**/ BgJyaBlock_Destroy,
+    /**/ BgJyaBlock_Update,
+    /**/ BgJyaBlock_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -68,7 +68,7 @@ void BgJyaBlock_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gPushBlockGrayTex));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_block.c", 153),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_block.c", 153),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetEnvColor(POLY_OPA_DISP++, 232, 210, 176, 255);
     gSPDisplayList(POLY_OPA_DISP++, gPushBlockDL);

@@ -34,15 +34,15 @@ typedef enum {
 } WoodDrawType;
 
 ActorInit En_Wood02_InitVars = {
-    ACTOR_EN_WOOD02,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_WOOD02,
-    sizeof(EnWood02),
-    (ActorFunc)EnWood02_Init,
-    (ActorFunc)EnWood02_Destroy,
-    (ActorFunc)EnWood02_Update,
-    (ActorFunc)EnWood02_Draw,
+    /**/ ACTOR_EN_WOOD02,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_WOOD02,
+    /**/ sizeof(EnWood02),
+    /**/ EnWood02_Init,
+    /**/ EnWood02_Destroy,
+    /**/ EnWood02_Update,
+    /**/ EnWood02_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -449,12 +449,12 @@ void EnWood02_Draw(Actor* thisx, PlayState* play) {
     } else if (D_80B3BF70[this->drawType & 0xF] != NULL) {
         Gfx_DrawDListOpa(play, D_80B3BF54[this->drawType & 0xF]);
         gDPSetEnvColor(POLY_XLU_DISP++, red, green, blue, 0);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 808),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 808),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_80B3BF70[this->drawType & 0xF]);
     } else {
         Gfx_SetupDL_25Xlu(gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_wood02.c", 814),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_wood02.c", 814),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_80B3BF54[this->drawType & 0xF]);
     }

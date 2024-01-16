@@ -40,15 +40,15 @@ void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
 ActorInit En_Horse_Normal_InitVars = {
-    ACTOR_EN_HORSE_NORMAL,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HORSE_NORMAL,
-    sizeof(EnHorseNormal),
-    (ActorFunc)EnHorseNormal_Init,
-    (ActorFunc)EnHorseNormal_Destroy,
-    (ActorFunc)EnHorseNormal_Update,
-    (ActorFunc)EnHorseNormal_Draw,
+    /**/ ACTOR_EN_HORSE_NORMAL,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HORSE_NORMAL,
+    /**/ sizeof(EnHorseNormal),
+    /**/ EnHorseNormal_Init,
+    /**/ EnHorseNormal_Destroy,
+    /**/ EnHorseNormal_Update,
+    /**/ EnHorseNormal_Draw,
 };
 
 static AnimationHeader* sAnimations[] = {
@@ -720,7 +720,7 @@ void EnHorseNormal_Draw(Actor* thisx, PlayState* play) {
         temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.shadowScale;
         Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(cloneRotY), MTXMODE_APPLY);
-        mtx2 = Matrix_NewMtx(play->state.gfxCtx, "../z_en_horse_normal.c", 2329);
+        mtx2 = MATRIX_NEW(play->state.gfxCtx, "../z_en_horse_normal.c", 2329);
         if (mtx2 != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx2, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gHorseShadowDL);

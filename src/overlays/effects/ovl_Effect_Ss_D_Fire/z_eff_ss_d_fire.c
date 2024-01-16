@@ -15,7 +15,7 @@
 #define rPrimColorA regs[5]
 #define rFadeDelay regs[6]
 #define rScaleStep regs[9]
-#define rObjBankIdx regs[10]
+#define rObjectSlot regs[10]
 #define rYAccelStep regs[11] // has no effect due to how it's implemented
 
 u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
@@ -29,9 +29,9 @@ EffectSsInit Effect_Ss_D_Fire_InitVars = {
 
 u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDFireInitParams* initParams = (EffectSsDFireInitParams*)initParamsx;
-    s32 objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_DODONGO);
+    s32 objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_DODONGO);
 
-    if (objBankIndex >= 0) {
+    if (objectSlot >= 0) {
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
@@ -45,7 +45,7 @@ u32 EffectSsDFire_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
         this->rScale = initParams->scale;
         this->rScaleStep = initParams->scaleStep;
         this->rYAccelStep = 0;
-        this->rObjBankIdx = objBankIndex;
+        this->rObjectSlot = objectSlot;
         this->draw = EffectSsDFire_Draw;
         this->update = EffectSsDFire_Update;
         this->rTexIndex = ((s16)(play->state.frames % 4) ^ 3);
@@ -70,17 +70,17 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
     MtxF mfResult;
     MtxF mfTransBillboard;
     s32 pad;
-    void* object;
+    void* objectPtr;
     Mtx* mtx;
     f32 scale;
 
-    object = play->objectCtx.status[this->rObjBankIdx].segment;
+    objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 276);
 
-    if (Object_GetIndex(&play->objectCtx, OBJECT_DODONGO) > -1) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-        gSPSegment(POLY_XLU_DISP++, 0x06, object);
+    if (Object_GetSlot(&play->objectCtx, OBJECT_DODONGO) >= 0) {
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+        gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
         scale = this->rScale / 100.0f;
         SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
         SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
@@ -95,7 +95,7 @@ void EffectSsDFire_Draw(PlayState* play, u32 index, EffectSs* this) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                             this->rPrimColorA);
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIndex]));
             gSPDisplayList(POLY_XLU_DISP++, this->gfx);
         }

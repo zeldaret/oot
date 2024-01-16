@@ -38,15 +38,15 @@ static DemoGoDrawFunc D_8097D468[] = {
 };
 
 ActorInit Demo_Go_InitVars = {
-    ACTOR_DEMO_GO,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_OF1D_MAP,
-    sizeof(DemoGo),
-    (ActorFunc)DemoGo_Init,
-    (ActorFunc)DemoGo_Destroy,
-    (ActorFunc)DemoGo_Update,
-    (ActorFunc)DemoGo_Draw,
+    /**/ ACTOR_DEMO_GO,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_OF1D_MAP,
+    /**/ sizeof(DemoGo),
+    /**/ DemoGo_Init,
+    /**/ DemoGo_Destroy,
+    /**/ DemoGo_Update,
+    /**/ DemoGo_Draw,
 };
 
 s32 DemoGo_GetCueChannel(DemoGo* this) {
@@ -317,7 +317,7 @@ void DemoGo_Update(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
 
     if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     D_8097D44C[this->action](this, play);
@@ -358,7 +358,7 @@ void DemoGo_Draw(Actor* thisx, PlayState* play) {
     DemoGo* this = (DemoGo*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     D_8097D468[this->drawConfig](this, play);

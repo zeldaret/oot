@@ -18,15 +18,15 @@ void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play);
 void BgHidanDalm_Shrink(BgHidanDalm* this, PlayState* play);
 
 ActorInit Bg_Hidan_Dalm_InitVars = {
-    ACTOR_BG_HIDAN_DALM,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanDalm),
-    (ActorFunc)BgHidanDalm_Init,
-    (ActorFunc)BgHidanDalm_Destroy,
-    (ActorFunc)BgHidanDalm_Update,
-    (ActorFunc)BgHidanDalm_Draw,
+    /**/ ACTOR_BG_HIDAN_DALM,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanDalm),
+    /**/ BgHidanDalm_Init,
+    /**/ BgHidanDalm_Destroy,
+    /**/ BgHidanDalm_Update,
+    /**/ BgHidanDalm_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementInit[4] = {
@@ -129,8 +129,8 @@ void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play) {
         (player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD ||
          player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_SIDE)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if ((this->collider.elements[0].info.bumperFlags & BUMP_HIT) ||
-            (this->collider.elements[1].info.bumperFlags & BUMP_HIT)) {
+        if ((this->collider.elements[0].base.bumperFlags & BUMP_HIT) ||
+            (this->collider.elements[1].base.bumperFlags & BUMP_HIT)) {
             this->dyna.actor.world.rot.y -= 0x4000;
         } else {
             this->dyna.actor.world.rot.y += 0x4000;
@@ -138,7 +138,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, PlayState* play) {
         this->dyna.actor.world.pos.x += 32.5f * Math_SinS(this->dyna.actor.world.rot.y);
         this->dyna.actor.world.pos.z += 32.5f * Math_CosS(this->dyna.actor.world.rot.y);
 
-        func_8002DF54(play, &this->dyna.actor, PLAYER_CSMODE_8);
+        Player_SetCsActionWithHaltedActors(play, &this->dyna.actor, PLAYER_CSACTION_8);
         this->dyna.actor.flags |= ACTOR_FLAG_4;
         this->actionFunc = BgHidanDalm_Shrink;
         this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
@@ -159,7 +159,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, PlayState* play) {
     Vec3f pos;
 
     if (Math_StepToF(&this->dyna.actor.scale.x, 0.0f, 0.004f)) {
-        func_8002DF54(play, &this->dyna.actor, PLAYER_CSMODE_7);
+        Player_SetCsActionWithHaltedActors(play, &this->dyna.actor, PLAYER_CSACTION_7);
         Actor_Kill(&this->dyna.actor);
     }
 

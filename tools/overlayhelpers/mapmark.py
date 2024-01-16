@@ -43,7 +43,7 @@ def GetMapsPerScene(ptrs):
 
 def GetPoints(data, ptr, numPoints):
     points = []
-    off = RamToOff(ptr);
+    off = RamToOff(ptr)
     for i in range(numPoints):
         points.append(struct.unpack_from(">bBB", data[off:off+3]))
         off = off + 3

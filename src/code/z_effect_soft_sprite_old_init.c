@@ -49,7 +49,7 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     MtxF mfTransBillboard;
     s32 pad1;
     Mtx* mtx;
-    void* object = play->objectCtx.status[this->rgObjBankIdx].segment;
+    void* objectPtr = play->objectCtx.slots[this->rgObjectSlot].segment;
 
     OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
@@ -58,8 +58,8 @@ void EffectSs_DrawGEffect(PlayState* play, EffectSs* this, void* texture) {
     SkinMatrix_SetScale(&mfScale, scale, scale, scale);
     SkinMatrix_MtxFMtxFMult(&mfTrans, &play->billboardMtxF, &mfTransBillboard);
     SkinMatrix_MtxFMtxFMult(&mfTransBillboard, &mfScale, &mfResult);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+    gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 

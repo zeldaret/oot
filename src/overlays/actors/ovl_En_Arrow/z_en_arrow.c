@@ -20,15 +20,15 @@ void func_809B45E0(EnArrow* this, PlayState* play);
 void func_809B4640(EnArrow* this, PlayState* play);
 
 ActorInit En_Arrow_InitVars = {
-    ACTOR_EN_ARROW,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnArrow),
-    (ActorFunc)EnArrow_Init,
-    (ActorFunc)EnArrow_Destroy,
-    (ActorFunc)EnArrow_Update,
-    (ActorFunc)EnArrow_Draw,
+    /**/ ACTOR_EN_ARROW,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnArrow),
+    /**/ EnArrow_Init,
+    /**/ EnArrow_Destroy,
+    /**/ EnArrow_Update,
+    /**/ EnArrow_Draw,
 };
 
 static ColliderQuadInit sColliderInit = {
@@ -121,15 +121,15 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         Collider_SetQuad(play, &this->collider, &this->actor, &sColliderInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
-            this->collider.info.toucherFlags &= ~TOUCH_SFX_MASK;
-            this->collider.info.toucherFlags |= TOUCH_SFX_NORMAL;
+            this->collider.elem.toucherFlags &= ~TOUCH_SFX_MASK;
+            this->collider.elem.toucherFlags |= TOUCH_SFX_NORMAL;
         }
 
         if (this->actor.params < 0) {
             this->collider.base.atFlags = (AT_ON | AT_TYPE_ENEMY);
         } else if (this->actor.params <= ARROW_SEED) {
-            this->collider.info.toucher.dmgFlags = dmgFlags[this->actor.params];
-            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.info.toucher.dmgFlags,
+            this->collider.elem.toucher.dmgFlags = dmgFlags[this->actor.params];
+            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.elem.toucher.dmgFlags,
                     "../z_en_arrow.c", 707);
         }
     }
@@ -284,7 +284,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
         } else {
             EffectSsHitMark_SpawnCustomScale(play, 0, 150, &this->actor.world.pos);
 
-            if (atTouched && (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
+            if (atTouched && (this->collider.elem.atHitElem->elemType != ELEMTYPE_UNK4)) {
                 hitActor = this->collider.base.at;
 
                 if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
@@ -300,10 +300,10 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.info.atHitInfo->bumperFlags & BUMP_HIT) {
-                        this->actor.world.pos.x = this->collider.info.atHitInfo->bumper.hitPos.x;
-                        this->actor.world.pos.y = this->collider.info.atHitInfo->bumper.hitPos.y;
-                        this->actor.world.pos.z = this->collider.info.atHitInfo->bumper.hitPos.z;
+                    if (this->collider.elem.atHitElem->bumperFlags & BUMP_HIT) {
+                        this->actor.world.pos.x = this->collider.elem.atHitElem->bumper.hitPos.x;
+                        this->actor.world.pos.y = this->collider.elem.atHitElem->bumper.hitPos.y;
+                        this->actor.world.pos.z = this->collider.elem.atHitElem->bumper.hitPos.z;
                     }
 
                     func_809B3CEC(play, this);
@@ -481,7 +481,7 @@ void EnArrow_Draw(Actor* thisx, PlayState* play) {
         Matrix_RotateZ((this->actor.speed == 0.0f) ? 0.0f : BINANG_TO_RAD((play->gameplayFrames & 0xFF) * 4000),
                        MTXMODE_APPLY);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_arrow.c", 1374),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_arrow.c", 1374),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
         Matrix_Pop();

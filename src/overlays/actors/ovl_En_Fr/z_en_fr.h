@@ -39,7 +39,7 @@ typedef struct EnFr {
     /* 0x0354 */ EnFrActionFunc actionFunc;
     /* 0x0358 */ LightNode* lightNode; // Frogs light up during the Frog Song, specifically the frog with the next note.
     /* 0x035C */ LightInfo lightInfo;
-    /* 0x036A */ s8 objBankIndex;
+    /* 0x036A */ s8 requiredObjectSlot;
     /* 0x036C */ s32 jumpCounter; // cyclic clock used to time celebratory frog jumps every 4 frames when child song is played.
     /* 0x0370 */ s32 blinkTimer; // blinking timer
     /* 0x0374 */ EnFrBlinkFunc blinkFunc; // unique case of using a function pointer for blinking
@@ -47,7 +47,7 @@ typedef struct EnFr {
     /* 0x0379 */ u8 isJumpingUp; // Conditional for jumping up from the log back onto the log
     /* 0x037A */ u8 isBelowWaterSurfaceCurrent;   // Used for diving effects
     /* 0x037B */ u8 isBelowWaterSurfacePrevious;
-    /* 0x037C */ u8 isDeactivating; // Related to debugging (osSyncPrintf)
+    /* 0x037C */ u8 isDeactivating; // Related to debugging (PRINTF)
     /* 0x037D */ u8 isActive; // Each Frog grows when their specific song is played.
     /* 0x037E */ u8 growingScaleIndex; // Target Scale Level 0-3 while growing (3 highest smooth)
     /* 0x037F */ u8 isGrowing; // While growing, the frog will switch between its larger size and its original size every frame

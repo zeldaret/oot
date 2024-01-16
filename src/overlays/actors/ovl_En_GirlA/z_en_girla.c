@@ -15,7 +15,7 @@ void EnGirlA_Update(Actor* thisx, PlayState* play);
 
 void EnGirlA_SetItemOutOfStock(PlayState* play, EnGirlA* this);
 void EnGirlA_UpdateStockedItem(PlayState* play, EnGirlA* this);
-void EnGirlA_InitializeItemAction(EnGirlA* this, PlayState* play);
+void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play);
 void EnGirlA_Update2(EnGirlA* this, PlayState* play);
 void func_80A3C498(Actor* thisx, PlayState* play, s32 flags);
 void EnGirlA_Draw(Actor* thisx, PlayState* play);
@@ -68,15 +68,15 @@ void EnGirlA_BuyEvent_GoronTunic(PlayState* play, EnGirlA* this);
 void EnGirlA_BuyEvent_ZoraTunic(PlayState* play, EnGirlA* this);
 
 ActorInit En_GirlA_InitVars = {
-    ACTOR_EN_GIRLA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnGirlA),
-    (ActorFunc)EnGirlA_Init,
-    (ActorFunc)EnGirlA_Destroy,
-    (ActorFunc)EnGirlA_Update,
-    NULL,
+    /**/ ACTOR_EN_GIRLA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnGirlA),
+    /**/ EnGirlA_Init,
+    /**/ EnGirlA_Destroy,
+    /**/ EnGirlA_Update,
+    /**/ NULL,
 };
 
 static char* sShopItemDescriptions[] = {
@@ -376,30 +376,30 @@ s32 EnGirlA_TryChangeShopItem(EnGirlA* this) {
 void EnGirlA_InitItem(EnGirlA* this, PlayState* play) {
     s16 params = this->actor.params;
 
-    osSyncPrintf("%s(%2d)初期設定\n", sShopItemDescriptions[params], params);
+    PRINTF("%s(%2d)初期設定\n", sShopItemDescriptions[params], params);
 
     if ((params >= SI_MAX) && (params < 0)) {
         Actor_Kill(&this->actor);
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_COL(RED, WHITE));
+        PRINTF("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
+        PRINTF(VT_RST);
         ASSERT(0, "0", "../z_en_girlA.c", 1421);
         return;
     }
 
-    this->objBankIndex = Object_GetIndex(&play->objectCtx, shopItemEntries[params].objID);
+    this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, shopItemEntries[params].objID);
 
-    if (this->objBankIndex < 0) {
+    if (this->requiredObjectSlot < 0) {
         Actor_Kill(&this->actor);
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_COL(RED, WHITE));
+        PRINTF("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
+        PRINTF(VT_RST);
         ASSERT(0, "0", "../z_en_girlA.c", 1434);
         return;
     }
 
     this->actor.params = params;
-    this->actionFunc2 = EnGirlA_InitializeItemAction;
+    this->actionFunc2 = EnGirlA_WaitForObject;
 }
 
 void EnGirlA_Init(Actor* thisx, PlayState* play) {
@@ -407,7 +407,7 @@ void EnGirlA_Init(Actor* thisx, PlayState* play) {
 
     EnGirlA_TryChangeShopItem(this);
     EnGirlA_InitItem(this, play);
-    osSyncPrintf("%s(%2d)初期設定\n", sShopItemDescriptions[this->actor.params], this->actor.params);
+    PRINTF("%s(%2d)初期設定\n", sShopItemDescriptions[this->actor.params], this->actor.params);
 }
 
 void EnGirlA_Destroy(Actor* thisx, PlayState* play) {
@@ -976,13 +976,13 @@ s32 EnGirlA_TrySetMaskItemDescription(EnGirlA* this, PlayState* play) {
     return false;
 }
 
-void EnGirlA_InitializeItemAction(EnGirlA* this, PlayState* play) {
+void EnGirlA_WaitForObject(EnGirlA* this, PlayState* play) {
     s16 params = this->actor.params;
     ShopItemEntry* itemEntry = &shopItemEntries[params];
 
-    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->requiredObjectSlot)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objBankIndex = this->objBankIndex;
+        this->actor.objectSlot = this->requiredObjectSlot;
         switch (this->actor.params) {
             case SI_KEATON_MASK:
                 if (GET_ITEMGETINF(ITEMGETINF_38)) {
@@ -1056,7 +1056,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, PlayState* play) {
         this->itemCount = itemEntry->count;
         this->hiliteFunc = itemEntry->hiliteFunc;
         this->giDrawId = itemEntry->giDrawId;
-        osSyncPrintf("%s(%2d)\n", sShopItemDescriptions[params], params);
+        PRINTF("%s(%2d)\n", sShopItemDescriptions[params], params);
         this->actor.flags &= ~ACTOR_FLAG_0;
         Actor_SetScale(&this->actor, 0.25f);
         this->actor.shape.yOffset = 24.0f;

@@ -50,15 +50,15 @@ static ColliderJntSphInit sColliderInit = {
 };
 
 ActorInit En_Butte_InitVars = {
-    ACTOR_EN_BUTTE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(EnButte),
-    (ActorFunc)EnButte_Init,
-    (ActorFunc)EnButte_Destroy,
-    (ActorFunc)EnButte_Update,
-    (ActorFunc)EnButte_Draw,
+    /**/ ACTOR_EN_BUTTE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(EnButte),
+    /**/ EnButte_Init,
+    /**/ EnButte_Destroy,
+    /**/ EnButte_Update,
+    /**/ EnButte_Draw,
 };
 
 typedef struct {
@@ -121,7 +121,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
     alpha = Math_SinS(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
 
-    Camera_GetCamDir(&camDir, GET_ACTIVE_CAM(play));
+    camDir = Camera_GetCamDir(GET_ACTIVE_CAM(play));
     Matrix_RotateY(BINANG_TO_RAD(camDir.y), MTXMODE_NEW);
     Matrix_RotateX(BINANG_TO_RAD(camDir.x), MTXMODE_APPLY);
     Matrix_RotateZ(BINANG_TO_RAD(camDir.z), MTXMODE_APPLY);
@@ -129,7 +129,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, PlayState* play) {
     Matrix_SetTranslateRotateYXZ(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y,
                                  this->actor.focus.pos.z + sp5C.z, &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_choo.c", 317),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_choo.c", 317),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
@@ -170,7 +170,7 @@ void EnButte_Init(Actor* thisx, PlayState* play) {
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;
     // "field keep butterfly"
-    osSyncPrintf("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
+    PRINTF("(field keep 蝶)(%x)(arg_data 0x%04x)\n", this, this->actor.params);
 }
 
 void EnButte_Destroy(Actor* thisx, PlayState* play2) {
