@@ -320,7 +320,7 @@ void EnIshi_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, sRockScales[type]);
     EnIshi_InitCollider(&this->actor, play);
     if ((type == ROCK_LARGE) &&
-        Flags_GetSwitch(play, PARAMS_GET_S(this->actor.params, 12, 2, 4) | PARAMS_GET(this->actor.params, 6, 2))) {
+        Flags_GetSwitch(play, ISHI_GET_SWITCH_FLAG(&this->actor))) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -390,7 +390,7 @@ void EnIshi_LiftedUp(EnIshi* this, PlayState* play) {
     if (Actor_HasNoParent(&this->actor, play)) {
         this->actor.room = play->roomCtx.curRoom.num;
         if (PARAMS_GET(this->actor.params, 0, 1) == ROCK_LARGE) {
-            Flags_SetSwitch(play, PARAMS_GET_S(this->actor.params, 12, 2, 4) | PARAMS_GET(this->actor.params, 6, 2));
+            Flags_SetSwitch(play, ISHI_GET_SWITCH_FLAG(&this->actor));
         }
         EnIshi_SetupFly(this);
         EnIshi_Fall(this);
