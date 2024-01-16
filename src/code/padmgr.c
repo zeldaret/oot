@@ -477,7 +477,7 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
         }
 
         osRecvMesg(&padMgr->interruptQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
-        LogUtils_CheckNullPointer("msg", msg, "../padmgr.c", 563);
+        LOG_UTILS_CHECK_NULL_POINTER("msg", msg, "../padmgr.c", 563);
 
         switch (*msg) {
             case OS_SC_RETRACE_MSG:

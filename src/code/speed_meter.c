@@ -92,7 +92,7 @@ typedef struct {
     gDPPipeSync(gfx)
 
 void SpeedMeter_InitImpl(SpeedMeter* this, u32 x, u32 y) {
-    LogUtils_CheckNullPointer("this", this, "../speed_meter.c", 181);
+    LOG_UTILS_CHECK_NULL_POINTER("this", this, "../speed_meter.c", 181);
     this->x = x;
     this->y = y;
 }
