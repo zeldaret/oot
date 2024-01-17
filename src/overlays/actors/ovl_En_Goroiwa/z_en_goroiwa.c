@@ -549,7 +549,8 @@ void EnGoroiwa_Init(Actor* thisx, PlayState* play) {
         return;
     }
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-    ActorShape_Init(&this->actor.shape, yOffsets[PARAMS_GET_U(this->actor.params, 10, 1)], ActorShadow_DrawCircle, 9.4f);
+    ActorShape_Init(&this->actor.shape, yOffsets[PARAMS_GET_U(this->actor.params, 10, 1)], ActorShadow_DrawCircle,
+                    9.4f);
     this->actor.shape.shadowAlpha = 200;
     EnGoroiwa_SetSpeed(this, play);
     EnGoroiwa_InitPath(this, play);

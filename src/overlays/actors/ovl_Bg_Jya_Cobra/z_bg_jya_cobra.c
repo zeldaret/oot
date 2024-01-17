@@ -280,7 +280,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
     rotY = !PARAMS_GET_U(this->dyna.actor.params, 0, 2) ? (this->dyna.actor.shape.rot.y + 0x4000)
-                                                      : (this->dyna.actor.shape.rot.y - 0x4000);
+                                                        : (this->dyna.actor.shape.rot.y - 0x4000);
     Matrix_RotateY(BINANG_TO_RAD(rotY), MTXMODE_APPLY);
     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
 

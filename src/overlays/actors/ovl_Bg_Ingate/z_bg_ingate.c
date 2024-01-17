@@ -51,7 +51,8 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     }
 
     Actor_SetScale(&this->dyna.actor, 0.1f);
-    if ((PARAMS_GET_U(this->dyna.actor.params, 0, 1) != 0) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
+    if ((PARAMS_GET_U(this->dyna.actor.params, 0, 1) != 0) &&
+        (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
         play->csCtx.curFrame = 0;
         BgInGate_SetupAction(this, func_80892890);
     } else {

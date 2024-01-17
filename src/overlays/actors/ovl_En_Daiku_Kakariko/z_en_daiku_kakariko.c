@@ -245,7 +245,8 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, PlayState* play) {
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
             (Actor_OfferTalk(&this->actor, play, 100.0f) == 1)) {
-            this->actor.textId = MaskReaction_GetTextId(play, sMaskReactionSets[PARAMS_GET_U(this->actor.params, 0, 2)]);
+            this->actor.textId =
+                MaskReaction_GetTextId(play, sMaskReactionSets[PARAMS_GET_U(this->actor.params, 0, 2)]);
 
             if (this->actor.textId == 0) {
                 switch (PARAMS_GET_U(this->actor.params, 0, 2)) {

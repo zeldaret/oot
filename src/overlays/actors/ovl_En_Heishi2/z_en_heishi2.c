@@ -155,7 +155,8 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
         // "Identification Completed!"
         PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->type);
         // "Message completed!"
-        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, PARAMS_GET_U(this->actor.params, 8, 4));
+        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST,
+               PARAMS_GET_U(this->actor.params, 8, 4));
     }
 }
 

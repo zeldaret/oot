@@ -214,8 +214,8 @@ void BgMoriElevator_SetPosition(BgMoriElevator* this, PlayState* play) {
                (this->unk_16C == 0)) {
         this->targetY = 73.0f;
         func_808A1C30(this);
-    } else if ((play->roomCtx.curRoom.num == 2) && !Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) &&
-               (this->unk_16C != 0)) {
+    } else if ((play->roomCtx.curRoom.num == 2) &&
+               !Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) && (this->unk_16C != 0)) {
         this->targetY = 233.0f;
         func_808A1CF4(this, play);
     }
