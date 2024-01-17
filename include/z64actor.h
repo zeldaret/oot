@@ -660,11 +660,6 @@ typedef struct {
 #define PARAMS_GET_NOSHIFT(p, s, n) \
     ((p) & (NBITS_TO_MASK(n) << (s)))
 
-// Extracts the `n`-bit value at position `s1` in `p` and shifts it down to position `s2`, masks then shifts
-// Possibility of sign extension
-#define PARAMS_GET2_S(p, s1, s2, n) \
-    (((p) & (NBITS_TO_MASK(n) << (s1))) >> ((s1) - (s2)))
-
 // Generates a bitmask for bit position `s` of length `n`
 #define PARAMS_MAKE_MASK(s, n) PARAMS_GET_NOSHIFT(~0, s, n)
 

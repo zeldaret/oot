@@ -15,8 +15,8 @@
 // Due to the unique form of access to obtain the upper bits of the switch flag, `ISHI_GET_SWITCH_FLAG_UPPER` 
 // cannot use the generic `PARAMS_GET` macros.
 #define ISHI_GET_SWITCH_FLAG_UPPER(thisx)  ((((thisx)->params) >> (12 - 2)) & (NBITS_TO_MASK(4) << 2))
-#define ISHI_GET_SWITCH_FLAG_LOWER(thisx) PARAMS_GET((thisx)->params, 6, 2)
-#define ISHI_GET_SWITCH_FLAG(thisx) (ISHI_GET_SWITCH_FLAG_UPPER(thisx) | ISHI_GET_SWITCH_FLAG_LOWER(thisx) )
+#define ISHI_GET_SWITCH_FLAG_LOWER(thisx)  PARAMS_GET((thisx)->params, 6, 2)
+#define ISHI_GET_SWITCH_FLAG(thisx) (ISHI_GET_SWITCH_FLAG_UPPER(thisx) | ISHI_GET_SWITCH_FLAG_LOWER(thisx))
 
 typedef enum {
     /* 0x00 */ ROCK_SMALL,
