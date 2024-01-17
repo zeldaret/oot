@@ -145,7 +145,7 @@ void EnItem00_Init(Actor* thisx, PlayState* play) {
     s16 spawnParam8000 = PARAMS_GET_NOSHIFT(this->actor.params, 15, 1);
     s32 pad1;
 
-    this->collectibleFlag = PARAMS_GET2(this->actor.params, 8, 6);
+    this->collectibleFlag = PARAMS_GET_S(this->actor.params, 8, 6);
 
     this->actor.params &= 0xFF;
 

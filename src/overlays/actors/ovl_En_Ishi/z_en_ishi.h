@@ -13,9 +13,9 @@
 // After the OR operation, the final switch flag is constructed to form "0bABCDEF"
 //
 // Due to the unique form of access to obtain the upper bits of the switch flag, `ISHI_GET_SWITCH_FLAG_UPPER` 
-// cannot use the generic `PARAMS_GET` macros.
+// cannot use the generic `PARAMS_GET_U` macros.
 #define ISHI_GET_SWITCH_FLAG_UPPER(thisx)  ((((thisx)->params) >> (12 - 2)) & (NBITS_TO_MASK(4) << 2))
-#define ISHI_GET_SWITCH_FLAG_LOWER(thisx)  PARAMS_GET((thisx)->params, 6, 2)
+#define ISHI_GET_SWITCH_FLAG_LOWER(thisx)  PARAMS_GET_U((thisx)->params, 6, 2)
 #define ISHI_GET_SWITCH_FLAG(thisx) (ISHI_GET_SWITCH_FLAG_UPPER(thisx) | ISHI_GET_SWITCH_FLAG_LOWER(thisx))
 
 typedef enum {

@@ -55,7 +55,7 @@ void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, Coll
 
 // Sets params to 0x10 (medium, nonrotating) if not in the cases listed.
 void BgSpot08Iceblock_CheckParams(BgSpot08Iceblock* this) {
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 8)) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case 0xFF:
             this->dyna.actor.params = 0x10;
             break;
@@ -173,7 +173,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, PlayState* play) {
     s32 pad;
     Player* player = GET_PLAYER(play);
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 8)) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 8)) {
         case 0x11: // Medium nonrotating
             rollDataIndex = 0;
             break;
@@ -296,7 +296,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
             break;
     }
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 4)) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
         case 2:
         case 3:
             BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DYNA_TRANSFORM_POS | DYNA_TRANSFORM_ROT_Y);
@@ -330,7 +330,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     this->surfaceNormal.y = 1.0f;
     this->rotationAxis.x = 1.0f;
 
-    switch (PARAMS_GET(this->dyna.actor.params, 0, 4)) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
         case 0:
         case 1:
             BgSpot08Iceblock_SetupFloatNonrotating(this);

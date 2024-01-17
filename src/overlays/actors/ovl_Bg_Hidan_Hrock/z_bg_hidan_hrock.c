@@ -84,8 +84,8 @@ void BgHidanHrock_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* collisionHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->unk_16A = PARAMS_GET(thisx->params, 0, 6);
-    thisx->params = PARAMS_GET(thisx->params, 8, 8);
+    this->unk_16A = PARAMS_GET_U(thisx->params, 0, 6);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
     Collider_InitTris(play, &this->collider);
     Collider_SetTris(play, &this->collider, thisx, &sTrisInit, this->colliderItems);
     DynaPolyActor_Init(&this->dyna, 0);

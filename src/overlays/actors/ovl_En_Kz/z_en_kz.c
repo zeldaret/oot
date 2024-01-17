@@ -285,7 +285,7 @@ s32 EnKz_FollowPath(EnKz* this, PlayState* play) {
         return 0;
     }
 
-    path = &play->pathList[PARAMS_GET2(this->actor.params, 8, 8)];
+    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->waypoint;
 
@@ -311,7 +311,7 @@ s32 EnKz_SetMovedPos(EnKz* this, PlayState* play) {
         return 0;
     }
 
-    path = &play->pathList[PARAMS_GET2(this->actor.params, 8, 8)];
+    path = &play->pathList[PARAMS_GET_S(this->actor.params, 8, 8)];
     lastPointPos = SEGMENTED_TO_VIRTUAL(path->points);
     lastPointPos += path->count - 1;
 

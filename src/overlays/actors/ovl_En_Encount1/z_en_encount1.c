@@ -44,9 +44,9 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
         return;
     }
 
-    this->spawnType = PARAMS_GET(this->actor.params, 11, 5);
-    this->maxCurSpawns = PARAMS_GET(this->actor.params, 6, 5);
-    this->maxTotalSpawns = PARAMS_GET(this->actor.params, 0, 6);
+    this->spawnType = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->maxCurSpawns = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->maxTotalSpawns = PARAMS_GET_U(this->actor.params, 0, 6);
     this->curNumSpawn = this->totalNumSpawn = 0;
     spawnRange = 120.0f + (40.0f * this->actor.world.rot.z);
     this->spawnRange = spawnRange;

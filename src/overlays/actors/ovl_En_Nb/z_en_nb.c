@@ -89,13 +89,13 @@ static s32 D_80AB4318 = 0;
 #include "z_en_nb_cutscene_data.inc.c"
 
 s32 EnNb_GetPath(EnNb* this) {
-    s32 path = PARAMS_GET(this->actor.params, 8, 8);
+    s32 path = PARAMS_GET_U(this->actor.params, 8, 8);
 
     return path;
 }
 
 s32 EnNb_GetType(EnNb* this) {
-    s32 type = PARAMS_GET(this->actor.params, 0, 8);
+    s32 type = PARAMS_GET_U(this->actor.params, 0, 8);
 
     return type;
 }

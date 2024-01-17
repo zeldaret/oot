@@ -74,10 +74,10 @@ void BgHidanRock_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
-    this->type = PARAMS_GET(thisx->params, 0, 8);
+    this->type = PARAMS_GET_U(thisx->params, 0, 8);
     this->unk_169 = 0;
 
-    thisx->params = PARAMS_GET(thisx->params, 8, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 8, 8);
 
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);

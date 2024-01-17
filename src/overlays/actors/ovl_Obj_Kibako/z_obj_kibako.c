@@ -66,9 +66,9 @@ static InitChainEntry sInitChain[] = {
 void ObjKibako_SpawnCollectible(ObjKibako* this, PlayState* play) {
     s16 collectible;
 
-    collectible = PARAMS_GET(this->actor.params, 0, 5);
+    collectible = PARAMS_GET_U(this->actor.params, 0, 5);
     if ((collectible >= 0) && (collectible < ITEM00_MAX)) {
-        Item_DropCollectible(play, &this->actor.world.pos, collectible | (PARAMS_GET(this->actor.params, 8, 6) << 8));
+        Item_DropCollectible(play, &this->actor.world.pos, collectible | (PARAMS_GET_U(this->actor.params, 8, 6) << 8));
     }
 }
 

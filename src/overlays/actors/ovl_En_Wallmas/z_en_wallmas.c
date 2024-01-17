@@ -124,8 +124,8 @@ void EnWallmas_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->switchFlag = PARAMS_GET(thisx->params, 8, 8);
-    thisx->params = PARAMS_GET(thisx->params, 0, 8);
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
+    thisx->params = PARAMS_GET_U(thisx->params, 0, 8);
 
     if (thisx->params == WMT_FLAG) {
         if (Flags_GetSwitch(play, this->switchFlag) != 0) {

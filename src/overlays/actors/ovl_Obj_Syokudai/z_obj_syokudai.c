@@ -100,7 +100,7 @@ void ObjSyokudai_Init(Actor* thisx, PlayState* play) {
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
 
     if (PARAMS_GET_NOSHIFT(this->actor.params, 10, 1) ||
-        ((torchType != 2) && Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 0, 6)))) {
+        ((torchType != 2) && Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6)))) {
         this->litTimer = -1;
     }
 
@@ -121,8 +121,8 @@ void ObjSyokudai_Destroy(Actor* thisx, PlayState* play) {
 void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     ObjSyokudai* this = (ObjSyokudai*)thisx;
-    s32 torchCount = PARAMS_GET(this->actor.params, 6, 4);
-    s32 switchFlag = PARAMS_GET(this->actor.params, 0, 6);
+    s32 torchCount = PARAMS_GET_U(this->actor.params, 6, 4);
+    s32 switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     s32 torchType = PARAMS_GET_NOSHIFT(this->actor.params, 12, 4);
     s32 litTimeScale;
     WaterBox* dummy;
@@ -264,7 +264,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
     ObjSyokudai* this = (ObjSyokudai*)thisx;
     s32 timerMax;
 
-    timerMax = PARAMS_GET(this->actor.params, 6, 4) * 50 + 100;
+    timerMax = PARAMS_GET_U(this->actor.params, 6, 4) * 50 + 100;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_syokudai.c", 707);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);

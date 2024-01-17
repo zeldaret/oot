@@ -130,11 +130,11 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play) {
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
         if ((this->actor.targetMode != 0) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (player->stateFlags1 & PLAYER_STATE1_31) && (player->av1.actionVar1 == 0)) {
-            destinationIdx = PARAMS_GET(this->actor.params, 12, 3) - 1;
+            destinationIdx = PARAMS_GET_U(this->actor.params, 12, 3) - 1;
             Play_SetupRespawnPoint(play, RESPAWN_MODE_RETURN, 0x4FF);
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.world.pos.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].yaw = this->actor.home.rot.y;
-            gSaveContext.respawn[RESPAWN_MODE_RETURN].data = PARAMS_GET(this->actor.params, 0, 16);
+            gSaveContext.respawn[RESPAWN_MODE_RETURN].data = PARAMS_GET_U(this->actor.params, 0, 16);
             if (destinationIdx < 0) {
                 destinationIdx = this->actor.home.rot.z + 1;
             }

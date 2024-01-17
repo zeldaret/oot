@@ -104,10 +104,10 @@ void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, PlayState* play) {
     Actor* thisx = &this->actor; // required
     s32 type;
 
-    if (!Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 8, 6))) {
-        type = PARAMS_GET(this->actor.params, 4, 2);
+    if (!Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
+        type = PARAMS_GET_U(this->actor.params, 4, 2);
 
-        Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 8, 6));
+        Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
 
         if (type == OBJLIGHTSWITCH_TYPE_1) {
             OnePointCutscene_AttentionSetSfx(play, thisx, NA_SE_SY_TRE_BOX_APPEAR);
@@ -120,10 +120,10 @@ void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, PlayState* play) {
 }
 
 void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, PlayState* play) {
-    if (Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 8, 6))) {
-        Flags_UnsetSwitch(play, PARAMS_GET(this->actor.params, 8, 6));
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
+        Flags_UnsetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
 
-        if (PARAMS_GET(this->actor.params, 4, 2) == OBJLIGHTSWITCH_TYPE_1) {
+        if (PARAMS_GET_U(this->actor.params, 4, 2) == OBJLIGHTSWITCH_TYPE_1) {
             OnePointCutscene_AttentionSetSfx(play, &this->actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
@@ -161,13 +161,13 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, PlayState* play)
 
 void ObjLightswitch_Init(Actor* thisx, PlayState* play) {
     ObjLightswitch* this = (ObjLightswitch*)thisx;
-    s32 switchFlagSet = Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 8, 6));
+    s32 switchFlagSet = Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
     s32 removeSelf = false;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetFocus(&this->actor, 0.0f);
     if (switchFlagSet) {
-        if (PARAMS_GET(this->actor.params, 4, 2) == OBJLIGHTSWITCH_TYPE_BURN) {
+        if (PARAMS_GET_U(this->actor.params, 4, 2) == OBJLIGHTSWITCH_TYPE_BURN) {
             removeSelf = true;
         } else {
             ObjLightswitch_SetupOn(this);
@@ -175,7 +175,7 @@ void ObjLightswitch_Init(Actor* thisx, PlayState* play) {
     } else {
         ObjLightswitch_SetupOff(this);
     }
-    if (PARAMS_GET(this->actor.params, 0, 1) == 1) {
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
         if (switchFlagSet) {
             Math_Vec3f_Copy(&this->actor.world.pos, &D_80B97F68);
             Math_Vec3f_Copy(&this->actor.home.pos, &D_80B97F68);
@@ -221,7 +221,7 @@ void ObjLightswitch_SetupOff(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_Off(ObjLightswitch* this, PlayState* play) {
-    switch (PARAMS_GET(this->actor.params, 4, 2)) {
+    switch (PARAMS_GET_U(this->actor.params, 4, 2)) {
         case OBJLIGHTSWITCH_TYPE_STAY_ON:
         case OBJLIGHTSWITCH_TYPE_2:
             if (this->collider.base.acFlags & AC_HIT) {
@@ -288,9 +288,9 @@ void ObjLightswitch_SetupOn(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_On(ObjLightswitch* this, PlayState* play) {
-    switch (PARAMS_GET(this->actor.params, 4, 2)) {
+    switch (PARAMS_GET_U(this->actor.params, 4, 2)) {
         case OBJLIGHTSWITCH_TYPE_STAY_ON:
-            if (!Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 8, 6))) {
+            if (!Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
                 ObjLightswitch_SetupTurnOff(this);
             }
             break;
@@ -324,7 +324,7 @@ void ObjLightswitch_SetupTurnOff(ObjLightswitch* this) {
 }
 
 void ObjLightswitch_TurnOff(ObjLightswitch* this, PlayState* play) {
-    if (PARAMS_GET(this->actor.params, 4, 2) != OBJLIGHTSWITCH_TYPE_1 || func_8005B198() == this->actor.category ||
+    if (PARAMS_GET_U(this->actor.params, 4, 2) != OBJLIGHTSWITCH_TYPE_1 || func_8005B198() == this->actor.category ||
         this->toggleDelay <= 0) {
         this->timer--;
 
@@ -378,7 +378,7 @@ void ObjLightswitch_Update(Actor* thisx, PlayState* play2) {
     this->actionFunc(this, play);
 
     if (this->actor.update != NULL) {
-        if (PARAMS_GET(this->actor.params, 0, 1) == 1) {
+        if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
             this->actor.world.pos.x = this->actor.child->world.pos.x;
             this->actor.world.pos.y = this->actor.child->world.pos.y + 60.0f;
             this->actor.world.pos.z = this->actor.child->world.pos.z;
@@ -404,7 +404,7 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, PlayState* play) {
                    (u8)(this->alpha >> 6));
     gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
-    if (PARAMS_GET(this->actor.params, 0, 1) == 1) {
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
         child = this->actor.child;
         this->actor.world.pos.x = child->world.pos.x;
         this->actor.world.pos.y = child->world.pos.y + 60.0f;
@@ -487,11 +487,11 @@ void ObjLightswitch_Draw(Actor* thisx, PlayState* play) {
     ObjLightswitch* this = (ObjLightswitch*)thisx;
     s32 alpha = this->alpha >> 6 & 0xFF;
 
-    if (PARAMS_GET(this->actor.params, 0, 1) == 1) {
+    if (PARAMS_GET_U(this->actor.params, 0, 1) == 1) {
         Collider_UpdateSpheres(0, &this->collider);
     }
 
-    if (PARAMS_GET(this->actor.params, 4, 2) == OBJLIGHTSWITCH_TYPE_BURN && (alpha > 0 || alpha < 255)) {
+    if (PARAMS_GET_U(this->actor.params, 4, 2) == OBJLIGHTSWITCH_TYPE_BURN && (alpha > 0 || alpha < 255)) {
         ObjLightswitch_DrawXlu(this, play);
     } else {
         ObjLightswitch_DrawOpa(this, play);

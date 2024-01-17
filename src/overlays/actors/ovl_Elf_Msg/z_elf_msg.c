@@ -47,21 +47,21 @@ s32 ElfMsg_KillCheck(ElfMsg* this, PlayState* play) {
     if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
         Flags_GetSwitch(play, this->actor.world.rot.y - 1)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 161); // "Mutual destruction"
-        if (PARAMS_GET(this->actor.params, 8, 6) != 0x3F) {
-            Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 8, 6));
+        if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
     } else if ((this->actor.world.rot.y == -1) && Flags_GetClear(play, this->actor.room)) {
         LOG_STRING("共倒れ", "../z_elf_msg.c", 172); // "Mutual destruction"
-        if (PARAMS_GET(this->actor.params, 8, 6) != 0x3F) {
-            Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 8, 6));
+        if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+            Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if (PARAMS_GET(this->actor.params, 8, 6) == 0x3F) {
+    } else if (PARAMS_GET_U(this->actor.params, 8, 6) == 0x3F) {
         return 0;
-    } else if (Flags_GetSwitch(play, PARAMS_GET(this->actor.params, 8, 6))) {
+    } else if (Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6))) {
         Actor_Kill(&this->actor);
         return 1;
     }
@@ -72,7 +72,7 @@ void ElfMsg_Init(Actor* thisx, PlayState* play) {
     ElfMsg* this = (ElfMsg*)thisx;
 
     // "Conditions for Elf Tag disappearing"
-    PRINTF(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", PARAMS_GET(thisx->params, 8, 6));
+    PRINTF(VT_FGCOL(CYAN) "\nエルフ タグ 消える条件 %d" VT_RST "\n", PARAMS_GET_U(thisx->params, 8, 6));
     PRINTF(VT_FGCOL(CYAN) "\nthisx->shape.angle.sy = %d\n" VT_RST, thisx->shape.rot.y);
     if (thisx->shape.rot.y >= 0x41) {
         // "Conditions for Elf Tag appearing"
@@ -110,9 +110,9 @@ void ElfMsg_Destroy(Actor* thisx, PlayState* play) {
 s32 ElfMsg_GetMessageId(ElfMsg* this) {
     // Negative message ID forces link to talk to Navi
     if (PARAMS_GET_NOSHIFT(this->actor.params, 15, 1)) {
-        return PARAMS_GET(this->actor.params, 0, 8) + 0x100;
+        return PARAMS_GET_U(this->actor.params, 0, 8) + 0x100;
     } else {
-        return -(PARAMS_GET(this->actor.params, 0, 8) + 0x100);
+        return -(PARAMS_GET_U(this->actor.params, 0, 8) + 0x100);
     }
 }
 
@@ -150,8 +150,8 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
 
     if (!ElfMsg_KillCheck(this, play)) {
         if (Actor_TalkOfferAccepted(&this->actor, play)) {
-            if (PARAMS_GET(this->actor.params, 8, 6) != 0x3F) {
-                Flags_SetSwitch(play, PARAMS_GET(this->actor.params, 8, 6));
+            if (PARAMS_GET_U(this->actor.params, 8, 6) != 0x3F) {
+                Flags_SetSwitch(play, PARAMS_GET_U(this->actor.params, 8, 6));
             }
             Actor_Kill(&this->actor);
             return;

@@ -77,7 +77,7 @@ void BgHakaZou_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
 
-    this->switchFlag = PARAMS_GET(thisx->params, 8, 8);
+    this->switchFlag = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
 
     if (thisx->params == STA_UNKNOWN) {

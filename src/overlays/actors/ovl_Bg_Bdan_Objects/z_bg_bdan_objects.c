@@ -123,7 +123,7 @@ void BgBdanObjects_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
-    this->var.switchFlag = PARAMS_GET(thisx->params, 8, 6);
+    this->var.switchFlag = PARAMS_GET_U(thisx->params, 8, 6);
     thisx->params &= 0xFF;
     if (thisx->params == JABU_OBJECTS_TYPE_WATERBOX_HEIGHT_CHANGER) {
         thisx->flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;

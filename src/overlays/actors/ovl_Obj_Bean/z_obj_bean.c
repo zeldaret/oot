@@ -226,13 +226,13 @@ void ObjBean_SetDrawMode(ObjBean* this, u8 drawFlag) {
 }
 
 void ObjBean_SetupPathCount(ObjBean* this, PlayState* play) {
-    this->pathCount = play->pathList[PARAMS_GET(this->dyna.actor.params, 8, 5)].count - 1;
+    this->pathCount = play->pathList[PARAMS_GET_U(this->dyna.actor.params, 8, 5)].count - 1;
     this->currentPointIndex = 0;
     this->nextPointIndex = 1;
 }
 
 void ObjBean_SetupPath(ObjBean* this, PlayState* play) {
-    Path* path = &play->pathList[PARAMS_GET(this->dyna.actor.params, 8, 5)];
+    Path* path = &play->pathList[PARAMS_GET_U(this->dyna.actor.params, 8, 5)];
     Math_Vec3s_ToVec3f(&this->pathPoints, SEGMENTED_TO_VIRTUAL(path->points));
 }
 
@@ -250,7 +250,7 @@ void ObjBean_FollowPath(ObjBean* this, PlayState* play) {
     f32 mag;
 
     Math_StepToF(&this->dyna.actor.speed, sBeanSpeeds[this->unk_1F6].velocity, sBeanSpeeds[this->unk_1F6].accel);
-    path = &play->pathList[PARAMS_GET(this->dyna.actor.params, 8, 5)];
+    path = &play->pathList[PARAMS_GET_U(this->dyna.actor.params, 8, 5)];
     nextPathPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->nextPointIndex];
 
     Math_Vec3s_ToVec3f(&pathPointsFloat, nextPathPoint);
@@ -469,8 +469,8 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        if (Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6)) || (mREG(1) == 1)) {
-            path = PARAMS_GET(this->dyna.actor.params, 8, 5);
+        if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) || (mREG(1) == 1)) {
+            path = PARAMS_GET_U(this->dyna.actor.params, 8, 5);
             if (path == 0x1F) {
                 PRINTF(VT_COL(RED, WHITE));
                 // "No path data?"
@@ -504,7 +504,7 @@ void ObjBean_Init(Actor* thisx, PlayState* play) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
-    } else if ((Flags_GetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6)) != 0) || (mREG(1) == 1)) {
+    } else if ((Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) != 0) || (mREG(1) == 1)) {
         ObjBean_SetupWaitForWater(this);
     } else {
         ObjBean_SetupWaitForBean(this);
@@ -538,7 +538,7 @@ void ObjBean_WaitForBean(ObjBean* this, PlayState* play) {
     if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
         if (func_8002F368(play) == EXCH_ITEM_MAGIC_BEAN) {
             func_80B8FE00(this);
-            Flags_SetSwitch(play, PARAMS_GET(this->dyna.actor.params, 0, 6));
+            Flags_SetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6));
         }
     } else {
         Actor_OfferTalkExchangeEquiCylinder(&this->dyna.actor, play, 40.0f, EXCH_ITEM_MAGIC_BEAN);

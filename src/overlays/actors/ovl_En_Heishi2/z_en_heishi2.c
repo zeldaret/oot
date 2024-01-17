@@ -87,7 +87,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
     EnHeishi2* this = (EnHeishi2*)thisx;
 
     Actor_SetScale(&this->actor, 0.01f);
-    this->type = PARAMS_GET(this->actor.params, 0, 8);
+    this->type = PARAMS_GET_U(this->actor.params, 0, 8);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if ((this->type == 6) || (this->type == 9)) {
@@ -148,14 +148,14 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
                 break;
         }
 
-        this->unk_2F0 = PARAMS_GET(this->actor.params, 8, 8);
+        this->unk_2F0 = PARAMS_GET_U(this->actor.params, 8, 8);
         PRINTF("\n\n");
         // "Soldier Set 2 Completed!"
         PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
         // "Identification Completed!"
         PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->type);
         // "Message completed!"
-        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, PARAMS_GET(this->actor.params, 8, 4));
+        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, PARAMS_GET_U(this->actor.params, 8, 4));
     }
 }
 

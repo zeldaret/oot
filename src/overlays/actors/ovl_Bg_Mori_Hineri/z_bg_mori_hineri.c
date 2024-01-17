@@ -61,13 +61,13 @@ void BgMoriHineri_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DYNA_TRANSFORM_POS);
 
-    switchFlagParam = PARAMS_GET(this->dyna.actor.params, 0, 6);
+    switchFlagParam = PARAMS_GET_U(this->dyna.actor.params, 0, 6);
     t6 = PARAMS_GET_NOSHIFT(this->dyna.actor.params, 14, 1);
 
     if (t6 != 0) {
         this->switchFlag = switchFlagParam;
     } else {
-        this->switchFlag = PARAMS_GET(this->dyna.actor.params, 8, 6);
+        this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 8, 6);
         this->switchFlag = (Flags_GetSwitch(play, this->switchFlag)) ? 1 : 0;
     }
     this->dyna.actor.params = TWISTED_HALLWAY_GET_PARAM_15(&this->dyna.actor);

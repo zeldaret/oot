@@ -43,7 +43,7 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
     PRINTF("\n\n");
     // "Transparent message"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 透明メッセージ君 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->baseMsgId = PARAMS_GET(this->actor.params, 6, 8);
+    this->baseMsgId = PARAMS_GET_U(this->actor.params, 6, 8);
     if (this->actor.world.rot.z > 0) {
         s32 rangeIndex = 0;
         s16 rotZmod10 = this->actor.world.rot.z;
@@ -73,8 +73,8 @@ void EnWonderTalk2_Init(Actor* thisx, PlayState* play) {
     }
 
     this->initPos = this->actor.world.pos;
-    this->switchFlag = PARAMS_GET(this->actor.params, 0, 6);
-    this->talkMode = PARAMS_GET(this->actor.params, 14, 2);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
+    this->talkMode = PARAMS_GET_U(this->actor.params, 14, 2);
 
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;

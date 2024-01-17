@@ -96,7 +96,7 @@ void ItemEtcetera_Init(Actor* thisx, PlayState* play) {
     s32 type;
     s32 objectSlot;
 
-    type = PARAMS_GET(this->actor.params, 0, 8);
+    type = PARAMS_GET_U(this->actor.params, 0, 8);
     PRINTF("no = %d\n", type);
     objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[type]);
     PRINTF("bank_ID = %d\n", objectSlot);
@@ -152,7 +152,7 @@ void ItemEtcetera_WaitForObject(ItemEtcetera* this, PlayState* play) {
 
 void func_80B85824(ItemEtcetera* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
-        if (PARAMS_GET(this->actor.params, 0, 8) == 1) {
+        if (PARAMS_GET_U(this->actor.params, 0, 8) == 1) {
             SET_EVENTCHKINF(EVENTCHKINF_31);
             Flags_SetSwitch(play, 0xB);
         }
@@ -164,7 +164,7 @@ void func_80B85824(ItemEtcetera* this, PlayState* play) {
 
 void func_80B858B4(ItemEtcetera* this, PlayState* play) {
     if (Actor_HasParent(&this->actor, play)) {
-        if (PARAMS_GET(this->actor.params, 0, 8) == 1) {
+        if (PARAMS_GET_U(this->actor.params, 0, 8) == 1) {
             SET_EVENTCHKINF(EVENTCHKINF_31);
             Flags_SetSwitch(play, 0xB);
         }
@@ -206,7 +206,7 @@ void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, PlayState* play) {
 }
 
 void func_80B85B28(ItemEtcetera* this, PlayState* play) {
-    if (Flags_GetTreasure(play, PARAMS_GET(this->actor.params, 8, 5))) {
+    if (Flags_GetTreasure(play, PARAMS_GET_U(this->actor.params, 8, 5))) {
         Actor_Kill(&this->actor);
     }
 }

@@ -643,13 +643,13 @@ typedef struct {
     ((1 << (n)) - 1)
 
 // Extracts the `n`-bit value at position `s` in `p`, shifts then masks
-// No possibility of sign extension
-#define PARAMS_GET(p, s, n) \
+// Unsigned variant, no possibility of sign extension
+#define PARAMS_GET_U(p, s, n) \
     (((p) >> (s)) & NBITS_TO_MASK(n))
 
 // Extracts the `n`-bit value at position `s` in `p`, masks then shifts
-// Possibility of sign extension
-#define PARAMS_GET2(p, s, n) \
+// Signed variant, possibility of sign extension
+#define PARAMS_GET_S(p, s, n) \
     (((p) & (NBITS_TO_MASK(n) << (s))) >> (s))
 
 // Extracts all bits past position `s` in `p`

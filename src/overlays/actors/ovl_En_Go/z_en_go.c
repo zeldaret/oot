@@ -471,11 +471,11 @@ s32 EnGo_FollowPath(EnGo* this, PlayState* play) {
     f32 xDist;
     f32 zDist;
 
-    if (PARAMS_GET(this->actor.params, 0, 4) == 15) {
+    if (PARAMS_GET_U(this->actor.params, 0, 4) == 15) {
         return false;
     }
 
-    path = &play->pathList[PARAMS_GET(this->actor.params, 0, 4)];
+    path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 4)];
     pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
@@ -506,10 +506,10 @@ s32 EnGo_SetMovedPos(EnGo* this, PlayState* play) {
     Path* path;
     Vec3s* pointPos;
 
-    if (PARAMS_GET(this->actor.params, 0, 4) == 0xF) {
+    if (PARAMS_GET_U(this->actor.params, 0, 4) == 0xF) {
         return false;
     } else {
-        path = &play->pathList[PARAMS_GET(this->actor.params, 0, 4)];
+        path = &play->pathList[PARAMS_GET_U(this->actor.params, 0, 4)];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += (path->count - 1);
         this->actor.world.pos.x = pointPos->x;
