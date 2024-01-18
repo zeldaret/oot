@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# SPDX-FileCopyrightText: © 2024 ZeldaRET
+# SPDX-License-Identifier: MIT
+
 from __future__ import annotations
 
 import hashlib, io, struct, sys

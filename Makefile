@@ -17,6 +17,8 @@ COMPILER := ido
 # Target game version. Currently only the following version is supported:
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
 VERSION := gc-eu-mq-dbg
+# Number of threads to extract and compress with
+N_THREADS := $(shell nproc)
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -71,8 +73,6 @@ else
         CPPFLAGS += -xc++
     endif
 endif
-
-N_THREADS := $(shell nproc)
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
@@ -158,11 +158,19 @@ endif
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
 
+# rom compression flags
+COMPFLAGS := --threads $(N_THREADS)
+ifneq ($(NON_MATCHING),1)
+  COMPFLAGS += --matching
+endif
+
 #### Files ####
 
 # ROM image
 ROM := oot-$(VERSION).z64
-ELF := $(ROM:.z64=.elf)
+ROMC := oot-$(VERSION).z64
+ROM := oot_uncompressed-$(VERSION).z64
+ELF := $(ROMC:.z64=.elf)
 # description of ROM segments
 SPEC := spec
 
@@ -258,14 +266,26 @@ endif
 
 #### Main Targets ###
 
-all: $(ROM)
-ifeq ($(COMPARE),1)
-	@md5sum $(ROM)
-	@md5sum -c checksum.md5
-endif
+# all: $(ROM)
+# ifeq ($(COMPARE),1)
+# 	@md5sum $(ROM)
+# 	@md5sum -c checksum.md5
+# endif
+
+uncompressed: $(ROM)
+# ifneq ($(COMPARE),0)
+# 	@md5sum $(ROM)
+# 	@md5sum -c checksum_uncompressed.md5
+# endif
+
+compressed: $(ROMC)
+# ifneq ($(COMPARE),0)
+# 	@md5sum $(ROMC)
+# 	@md5sum -c checksum.md5
+# endif
 
 clean:
-	$(RM) -r $(ROM) $(ELF) $(BUILD_DIR)
+	$(RM) -r $(ROMC) $(ROM) $(ELF) $(BUILD_DIR)
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
@@ -290,12 +310,17 @@ endif
 	$(N64_EMULATOR) $<
 
 
-.PHONY: all clean setup run distclean assetclean
+.PHONY: all uncompressed compressed clean setup run distclean assetclean
+.DEFAULT_GOAL := uncompressed
+all: uncompressed compressed
 
 #### Various Recipes ####
 
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
+
+$(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/$(SPEC)
+	python3 tools/z64compress_wrapper.py $(COMPFLAGS) $(ROM) $@ $(ELF) $(BUILD_DIR)/$(SPEC)
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
 	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@

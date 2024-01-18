@@ -291,6 +291,7 @@ endseg
 
 beginseg
     name "code"
+    compress
     after "dmadata"
     include "$(BUILD_DIR)/src/code/z_en_a_keep.o"
     include "$(BUILD_DIR)/src/code/z_en_item00.o"
@@ -538,6 +539,7 @@ endseg
 
 beginseg
     name "ovl_title"
+    compress
     address 0x80800000
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_title/z_title.o"
     include "$(BUILD_DIR)/src/overlays/gamestates/ovl_title/ovl_title_reloc.o"

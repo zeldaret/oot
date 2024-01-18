@@ -20,11 +20,13 @@ endif
 all: $(PROGRAMS)
 	$(MAKE) -C ZAPD
 	$(MAKE) -C fado
+	$(MAKE) -C z64compress
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
 	$(MAKE) -C ZAPD clean
 	$(MAKE) -C fado clean
+	$(MAKE) -C z64compress clean
 
 distclean: clean
 
