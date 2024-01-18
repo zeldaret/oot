@@ -33,39 +33,11 @@ def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
 
 
 FILE_TABLE_OFFSET = {
-    "ntsc-1.0":         0x07430,
-    "ntsc-1.1":         0x07430,
-    "pal-1.0":          0x07950,
-    "ntsc-1.2":         0x07960,
-    "pal-1.1":          0x07950,
-    "gateway-us":       0x07A40,
-    "gc-jp":            0x07170,
-    "gc-jp-mq":         0x07170,
-    "gc-us":            0x07170,
-    "gc-us-mq":         0x07170,
     "gc-eu-mq-dbg":     0x12F70,
-    "gc-eu":            0x07170,
-    "gc-eu-mq":         0x07170,
-    "ique-cn":          0x0B7A0,
-    "ique-zh":          0x0B240,
 }
 
 VERSIONS_MD5S = {
-    "ntsc-1.0":         "14c4f30a3b266639a8cd5693613e40ae",
-    "ntsc-1.1":         "50128d9baeef7b0783921646fc92b4f0",
-    "pal-1.0":          "f7e8dec14a2fbae90aafa838c801310f",
-    "ntsc-1.2":         "b017a069bea3aac7d697a09b76d92427",
-    "pal-1.1":          "d714580dd74c2c033f5e1b6dc0aeac77",
-    "gateway-us":       "22137a9e4175ec0774f667f16cc5bd8d",
-    "gc-jp":            "83b6bee7217e35f1d72a03f524b41d1d",
-    "gc-jp-mq":         "a950fab530d8415fe25e789090922226",
-    "gc-us":            "903c64d4b9b58df256f3ee4c2714e3b0",
-    "gc-us-mq":         "ef50e687a31c49cdc49b5fce867c3c3c",
     "gc-eu-mq-dbg":     "f0b7f35375f9cc8ca1b2d59d78e35405",
-    "gc-eu":            "71db1704e62966f2949653d4fe41e1c2",
-    "gc-eu-mq":         "1a438f4235f8038856971c14a798122a",
-    "ique-cn":          "17a9f30d722c29e6912bd4b66713d2b0",
-    "ique-zh":          "291d14928fbe5bc90642bd9cd9b2b8cd",
 }
 
 
@@ -214,7 +186,7 @@ def main():
     description = "Convert a rom that uses dmadata to an uncompressed one."
 
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument("version", help="Version of the game to decompress.")
+    parser.add_argument("version", help="Version of the game to decompress.", choices=list(VERSIONS_MD5S.keys()))
 
     args = parser.parse_args()
 
