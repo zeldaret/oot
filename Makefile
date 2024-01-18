@@ -266,23 +266,17 @@ endif
 
 #### Main Targets ###
 
-# all: $(ROM)
-# ifeq ($(COMPARE),1)
-# 	@md5sum $(ROM)
-# 	@md5sum -c checksum.md5
-# endif
-
 uncompressed: $(ROM)
-# ifneq ($(COMPARE),0)
-# 	@md5sum $(ROM)
-# 	@md5sum -c checksum_uncompressed.md5
-# endif
+ifneq ($(COMPARE),0)
+	@md5sum $(ROM)
+	@md5sum -c checksum_uncompressed.$(VERSION).md5
+endif
 
 compressed: $(ROMC)
-# ifneq ($(COMPARE),0)
-# 	@md5sum $(ROMC)
-# 	@md5sum -c checksum.md5
-# endif
+ifneq ($(COMPARE),0)
+	@md5sum $(ROMC)
+	@md5sum -c checksum.$(VERSION).md5
+endif
 
 clean:
 	$(RM) -r $(ROMC) $(ROM) $(ELF) $(BUILD_DIR)
