@@ -25,6 +25,7 @@ docs/doxygen/
 *.map
 *.dump
 out.txt
+*.ram
 
 # Tool artifacts
 tools/mipspro7.2_compiler/
