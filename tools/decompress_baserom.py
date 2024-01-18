@@ -230,6 +230,8 @@ def main():
         file_content = byte_swap(file_content)
         print("Byte swapping done.")
 
+    file_content = per_version_fixes(file_content, version)
+
     dmadata = read_dmadata(file_content, file_table_offset)
     # Decompress
     if any(
