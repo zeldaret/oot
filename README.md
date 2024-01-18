@@ -98,12 +98,36 @@ This will copy the GitHub repository contents into a new folder in the current d
 cd oot
 ```
 
-#### 3. Prepare a base ROM
+#### 3. Install python dependencies
+
+The build process has a few python packages required that are located in `requirements.txt`.
+
+It is recommend to setup a virtual environment for python to localize all dependencies. To create a virtual environment:
+
+```bash
+python3 -m venv .venv
+```
+
+To start using the virtual environment on your current terminal run:
+
+```bash
+source .venv/bin/activate
+```
+
+Take in mind for each new terminal you'll need to **active** the Python virtual environment again. There's no need to create the virtual environment again.
+
+Now you can install the Python dependencies, to do so run:
+
+```bash
+python3 -m pip install -U -r requirements.txt
+```
+
+#### 4. Prepare a base ROM
 
 Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
 Rename the file to "baserom.gc-eu-mq-dbg.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
 
-#### 4. Setup the ROM and build process
+#### 5. Setup the ROM and build process
 
 Setup and extract everything from your ROM with the following command:
 
@@ -114,7 +138,7 @@ make setup
 This will generate a new ROM called "baserom_uncompressed.gc-eu-mq-dbg.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
-#### 5. Build the ROM
+#### 6. Build the ROM
 
 Run make to build the ROM.
 Make sure your path to the project is not too long, otherwise this process may error.
@@ -144,7 +168,6 @@ This means that the built ROM isn't the same as the base one, so something went 
 * pass `-j` to `make setup` and `make`, to use as many threads as possible, but beware that this can use too much memory on lower-end systems.
 
 Both of these have the disadvantage that the ordering of the terminal output is scrambled, so for debugging it is best to stick to one thread (i.e. not pass `-j` or `-jN`).
-
 
 ## Contributing
 
