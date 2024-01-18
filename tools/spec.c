@@ -222,8 +222,8 @@ bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, i
             util_fatal_error("line %i: expected number after 'increment'", lineNum);
         break;
     case STMT_compress:
-            currSeg->compress = true;
-            break;
+        currSeg->compress = true;
+        break;
     case STMT_pad_text:
         currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;
         break;
