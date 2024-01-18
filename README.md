@@ -111,7 +111,7 @@ python3 -m venv .venv
 To start using the virtual environment on your current terminal run:
 
 ```bash
-source .venv/bin/activate
+. .venv/bin/activate
 ```
 
 Take in mind for each new terminal you'll need to **active** the Python virtual environment again. There's no need to create the virtual environment again.

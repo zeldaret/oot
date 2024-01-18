@@ -8,7 +8,7 @@ pipeline {
             steps {
                 echo 'Installing Python dependencies'
                 sh 'python3 -m venv .venv'
-                sh 'source .venv/bin/activate'
+                sh '. .venv/bin/activate'
                 sh 'python3 -m pip install -U -r requirements.txt'
             }
         }
