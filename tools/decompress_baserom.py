@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # SPDX-FileCopyrightText: © 2024 ZeldaRET
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: CC0-1.0
 
 from __future__ import annotations
 
