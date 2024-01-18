@@ -10,5 +10,5 @@
 .balign 16
 
 glabel rspbootTextStart
-    .incbin "baserom_uncompressed.gc-eu-mq-dbg.z64", 0x9F20, 0xD0
+    .incbin "baseroms/gc-eu-mq-dbg/baserom_uncompressed.z64", 0x9F20, 0xD0
 glabel rspbootTextEnd

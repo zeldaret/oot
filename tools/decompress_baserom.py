@@ -174,11 +174,11 @@ def pad_rom(file_content: bytearray, dmadata: list[list[int]]) -> bytearray:
 ROM_FILE_EXTENSIONS = ["z64", "n64", "v64"]
 
 def find_baserom(version: str) -> Path | None:
-    for romFileExtLower in ROM_FILE_EXTENSIONS:
-        for romFileExt in (romFileExtLower, romFileExtLower.upper()):
-            romFileNameCandidate = Path(f"baserom.{version}.{romFileExt}")
-            if romFileNameCandidate.exists():
-                return romFileNameCandidate
+    for rom_file_ext_lower in ROM_FILE_EXTENSIONS:
+        for rom_file_ext in (rom_file_ext_lower, rom_file_ext_lower.upper()):
+            rom_file_name_candidate =  Path(f"baseroms/{version}/baserom.{rom_file_ext}")
+            if rom_file_name_candidate.exists():
+                return rom_file_name_candidate
     return None
 
 
@@ -192,7 +192,7 @@ def main():
 
     version = args.version
 
-    uncompressed_path = Path(f"baserom_uncompressed.{version}.z64")
+    uncompressed_path = Path(f"baseroms/{version}/baserom_uncompressed.z64")
 
     file_table_offset = FILE_TABLE_OFFSET[version]
     correct_str_hash = VERSIONS_MD5S[version]
@@ -201,19 +201,19 @@ def main():
         print("Found valid baserom - exiting early")
         return
 
-    romFileName = find_baserom(version)
+    rom_file_name = find_baserom(version)
 
-    if romFileName is None:
+    if rom_file_name is None:
         path_list = [
-            f"baserom.{version}.{romFileExt}" for romFileExt in ROM_FILE_EXTENSIONS
+            f"baseroms/{version}/baserom.{rom_file_ext}" for rom_file_ext in ROM_FILE_EXTENSIONS
         ]
-        print(f"Error: Could not find {'/'.join(path_list)}.")
+        print(f"Error: Could not find {','.join(path_list)}.")
         exit(1)
 
     # Read in the original ROM
-    print(f"File '{romFileName}' found.")
+    print(f"File '{rom_file_name}' found.")
 
-    file_content = bytearray(romFileName.read_bytes())
+    file_content = bytearray(rom_file_name.read_bytes())
 
     # Check if ROM needs to be byte/word swapped
     # Little-endian

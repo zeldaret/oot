@@ -12,7 +12,7 @@
 # temporary file name, rename to something more appropriate when decompiled
 
 glabel gMojiFontTLUTs
-    .incbin "baserom_uncompressed.gc-eu-mq-dbg.z64", 0xBA18E0, 0x80
+    .incbin "baseroms/gc-eu-mq-dbg/baserom_uncompressed.z64", 0xBA18E0, 0x80
 
 glabel gMojiFontTex
-    .incbin "baserom_uncompressed.gc-eu-mq-dbg.z64", 0xBA1960, 0x400
+    .incbin "baseroms/gc-eu-mq-dbg/baserom_uncompressed.z64", 0xBA1960, 0x400

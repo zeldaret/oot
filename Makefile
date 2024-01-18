@@ -193,7 +193,7 @@ C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(wildcard baserom/*),$(BUILD_DIR)/$f.o)
+                 $(foreach f,$(wildcard baseroms/$(VERSION)/segments/*),$(BUILD_DIR)/$f.o)
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
 
@@ -208,7 +208,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),$(BUILD_DIR)/$
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f) \
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/baserom $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/baseroms/$(VERSION)/segments $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
@@ -268,13 +268,13 @@ endif
 uncompressed: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c checksum_uncompressed.$(VERSION).md5
+	@md5sum -c baseroms/$(VERSION)/checksum_uncompressed.md5
 endif
 
 compressed: $(ROMC)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROMC)
-	@md5sum -c checksum.$(VERSION).md5
+	@md5sum -c baseroms/$(VERSION)/checksum.md5
 endif
 
 clean:
@@ -287,7 +287,7 @@ assetclean:
 	$(RM) -r .extracted-assets.json
 
 distclean: clean assetclean
-	$(RM) -r baserom/
+	$(RM) -r baseroms/$(VERSION)/segments
 	$(MAKE) -C tools distclean
 
 setup:
@@ -339,7 +339,7 @@ $(BUILD_DIR)/ldscript.txt: $(BUILD_DIR)/$(SPEC)
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
 
-$(BUILD_DIR)/baserom/%.o: baserom/%
+$(BUILD_DIR)/baseroms/$(VERSION)/segments%.o: baseroms/$(VERSION)/segments%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
