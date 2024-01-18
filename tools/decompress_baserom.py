@@ -173,7 +173,7 @@ def pad_rom(file_content: bytearray, dmadata: list[list[int]]) -> bytearray:
 # Determine if we have a ROM file
 ROM_FILE_EXTENSIONS = ["z64", "n64", "v64"]
 
-def find_baserom_original(version: str) -> Path | None:
+def find_baserom(version: str) -> Path | None:
     for romFileExtLower in ROM_FILE_EXTENSIONS:
         for romFileExt in (romFileExtLower, romFileExtLower.upper()):
             romFileNameCandidate = Path(f"baserom.{version}.{romFileExt}")
@@ -201,7 +201,7 @@ def main():
         print("Found valid baserom - exiting early")
         return
 
-    romFileName = find_baserom_original(version)
+    romFileName = find_baserom(version)
 
     if romFileName is None:
         path_list = [
