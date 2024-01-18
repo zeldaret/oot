@@ -915,16 +915,25 @@ void Actor_UpdatePosByAnimation(Actor* actor, SkelAnime* skelAnime) {
     actor->world.pos.z += posDiff.z * actor->scale.z;
 }
 
-s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB) {
-    return Math_Vec3f_Yaw(&actorA->world.pos, &actorB->world.pos);
+/**
+ * @return Yaw towards `target` for `origin`, using world positions.
+ */
+s16 Actor_WorldYawTowardActor(Actor* origin, Actor* target) {
+    return Math_Vec3f_Yaw(&origin->world.pos, &target->world.pos);
 }
 
-s16 Actor_FocusYawTowardActor(Actor* actorA, Actor* actorB) {
-    return Math_Vec3f_Yaw(&actorA->focus.pos, &actorB->focus.pos);
+/**
+ * @return Yaw towards `target` for `origin`, using focus positions.
+ */
+s16 Actor_FocusYawTowardActor(Actor* origin, Actor* target) {
+    return Math_Vec3f_Yaw(&origin->focus.pos, &target->focus.pos);
 }
 
-s16 Actor_WorldYawTowardPoint(Actor* actor, Vec3f* refPoint) {
-    return Math_Vec3f_Yaw(&actor->world.pos, refPoint);
+/**
+ * @return Yaw towards `point` for `origin`.
+ */
+s16 Actor_WorldYawTowardPoint(Actor* origin, Vec3f* point) {
+    return Math_Vec3f_Yaw(&origin->world.pos, point);
 }
 
 s16 Actor_WorldPitchTowardActor(Actor* actorA, Actor* actorB) {
