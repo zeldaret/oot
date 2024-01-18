@@ -167,7 +167,6 @@ endif
 #### Files ####
 
 # ROM image
-ROM := oot-$(VERSION).z64
 ROMC := oot-$(VERSION).z64
 ROM := oot_uncompressed-$(VERSION).z64
 ELF := $(ROMC:.z64=.elf)
