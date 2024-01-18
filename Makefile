@@ -119,6 +119,7 @@ MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
+PYTHON     ?= python3
 
 # Command to replace path variables in the spec file. We can't use the C
 # preprocessor for this because it won't substitute inside string literals.
@@ -253,11 +254,11 @@ $(BUILD_DIR)/src/libultra/rmon/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-$(BUILD_DIR)/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/overlays/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/boot/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/code/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/overlays/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
-$(BUILD_DIR)/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/assets/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 else
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/%.o: CC := $(CC) -fexec-charset=euc-jp
@@ -292,9 +293,9 @@ distclean: clean assetclean
 
 setup:
 	$(MAKE) -C tools
-	python3 tools/decompress_baserom.py $(VERSION)
-	python3 extract_baserom.py
-	python3 extract_assets.py -j$(N_THREADS)
+	$(PYTHON) tools/decompress_baserom.py $(VERSION)
+	$(PYTHON) extract_baserom.py
+	$(PYTHON) extract_assets.py -j$(N_THREADS)
 
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
@@ -313,7 +314,7 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/$(SPEC)
-	python3 tools/z64compress_wrapper.py $(COMPFLAGS) $(ROM) $@ $(ELF) $(BUILD_DIR)/$(SPEC)
+	$(PYTHON) tools/z64compress_wrapper.py $(COMPFLAGS) $(ROM) $@ $(ELF) $(BUILD_DIR)/$(SPEC)
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
 	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@
@@ -346,7 +347,7 @@ $(BUILD_DIR)/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 $(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
-	python3 tools/msgenc.py assets/text/charmap.txt $< $@
+	$(PYTHON) tools/msgenc.py assets/text/charmap.txt $< $@
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
@@ -388,13 +389,13 @@ $(BUILD_DIR)/src/%.o: src/%.c
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)
