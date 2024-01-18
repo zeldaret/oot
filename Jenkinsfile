@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Setup') {
             steps {
-                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom.gc-eu-mq-dbg.z64'
+                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
                 sh '''. .venv/bin/activate
                 make -j setup
                 '''
