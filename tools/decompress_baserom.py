@@ -151,13 +151,12 @@ def main():
 
     version   = args.version
 
-    UNCOMPRESSED_PATH = Path(f"baserom_uncompressed.{version}.z64")
+    uncompressed_path = Path(f"baserom_uncompressed.{version}.z64")
 
     file_table_offset = FILE_TABLE_OFFSET[version]
     correct_str_hash = VERSIONS_MD5S[version]
 
-
-    if check_existing_rom(UNCOMPRESSED_PATH, correct_str_hash):
+    if check_existing_rom(uncompressed_path, correct_str_hash):
         print("Found valid baserom - exiting early")
         return
 
@@ -210,13 +209,17 @@ def main():
     # Check to see if the ROM is a "vanilla" ROM
     str_hash = get_str_hash(fileContent)
     if str_hash != correct_str_hash:
-        print("Error: Expected a hash of " + correct_str_hash + " but got " + str_hash + ". " +
-            "The baserom has probably been tampered, find a new one")
+        print(f"Error: Expected a hash of {correct_str_hash} but got {str_hash}. The baserom has probably been tampered, find a new one")
+
+        if version == "gc-eu-mq-dbg":
+            if str_hash == "32fe2770c0f9b1a9cd2a4d449348c1cb":
+                print("The provided baserom is a rom which has been edited with ZeldaEdit and is not suitable for use with decomp. Find a new one.")
+
         sys.exit(1)
 
     # Write out our new ROM
-    print(f"Writing new ROM {UNCOMPRESSED_PATH}.")
-    UNCOMPRESSED_PATH.write_bytes(fileContent)
+    print(f"Writing new ROM {uncompressed_path}.")
+    uncompressed_path.write_bytes(fileContent)
 
     print("Done!")
 
