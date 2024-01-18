@@ -53,6 +53,7 @@ endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
+VENV := venv
 
 MAKE = make
 CFLAGS += -DOOT_DEBUG
@@ -114,6 +115,7 @@ INC := -Iinclude -Iinclude/libc -Isrc -I$(BUILD_DIR) -I.
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces
 
 CPP        := cpp
+PYTHON     := $(VENV)/bin/python3
 MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
@@ -246,11 +248,11 @@ $(BUILD_DIR)/src/libultra/rmon/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-$(BUILD_DIR)/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/overlays/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/boot/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/code/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/overlays/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
-$(BUILD_DIR)/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/assets/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 else
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/%.o: CC := $(CC) -fexec-charset=euc-jp
@@ -279,9 +281,12 @@ distclean: clean assetclean
 
 setup:
 	$(MAKE) -C tools
-	python3 fixbaserom.py
-	python3 extract_baserom.py
-	python3 extract_assets.py -j$(N_THREADS)
+	test -d $(VENV) || python3 -m venv $(VENV)
+	$(PYTHON) -m pip install -U pip
+	$(PYTHON) -m pip install -U -r requirements.txt
+	$(PYTHON) fixbaserom.py
+	$(PYTHON) extract_baserom.py
+	$(PYTHON) extract_assets.py -j$(N_THREADS)
 
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
@@ -328,7 +333,7 @@ $(BUILD_DIR)/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 $(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
-	python3 tools/msgenc.py assets/text/charmap.txt $< $@
+	$(PYTHON) tools/msgenc.py assets/text/charmap.txt $< $@
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
@@ -370,13 +375,13 @@ $(BUILD_DIR)/src/%.o: src/%.c
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)

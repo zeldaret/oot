@@ -1,0 +1,10 @@
+# asm-differ
+argcomplete
+colorama
+cxxfilt
+python-Levenshtein
+watchdog
+
+# decomp-permuter
+pycparser
+toml
