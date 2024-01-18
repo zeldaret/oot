@@ -37,7 +37,7 @@ def get_dmadata_start_len(elf_path: Path) -> tuple[int, int]:
     dmadata_start = -1
     dmadata_end = -1
 
-    with open(elf_path, "rb") as elf_file:
+    with elf_path.open("rb") as elf_file:
         elf = ELFFile(elf_file)
 
         for section in elf.iter_sections():
