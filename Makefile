@@ -279,7 +279,7 @@ distclean: clean assetclean
 
 setup:
 	$(MAKE) -C tools
-	python3 fixbaserom.py
+	python3 tools/decompress_baserom.py $(VERSION)
 	python3 extract_baserom.py
 	python3 extract_assets.py -j$(N_THREADS)
 

@@ -166,7 +166,7 @@ item_ids = {
 
 def disas_elfmsgs(start):
     baserom = None
-    with open("baserom.z64", "rb") as infile:
+    with open("baserom_uncompressed.gc-eu-mq-dbg.z64", "rb") as infile:
         baserom = bytearray(infile.read())
 
     branches = []

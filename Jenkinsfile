@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
+                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom.gc-eu-mq-dbg.z64'
                 sh 'make -j setup'
             }
         }

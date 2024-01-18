@@ -101,7 +101,7 @@ cd oot
 #### 3. Prepare a base ROM
 
 Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
-Rename the file to "baserom_original.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
+Rename the file to "baserom.gc-eu-mq-dbg.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
 
 #### 4. Setup the ROM and build process
 
@@ -111,7 +111,7 @@ Setup and extract everything from your ROM with the following command:
 make setup
 ```
 
-This will generate a new ROM called "baserom.z64" that will have the overdump removed and the header patched.
+This will generate a new ROM called "baserom_uncompressed.gc-eu-mq-dbg.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM
