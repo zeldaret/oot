@@ -29,7 +29,7 @@ def decompress_zlib(data: bytes) -> bytes:
 def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
     if is_zlib_compressed:
         return decompress_zlib(data)
-    return crunch64.yaz0.decompress(bytes(data))
+    return crunch64.yaz0.decompress(data)
 
 
 FILE_TABLE_OFFSET = {
