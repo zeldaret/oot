@@ -192,9 +192,10 @@ UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 # source files
 C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
+BIN_FILES     := $(wildcard baseroms/$(VERSION)/segments/*)
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(wildcard baseroms/$(VERSION)/segments/*),$(BUILD_DIR)/$f.o)
+                 $(foreach f,$(BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o)
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
 
@@ -209,7 +210,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),$(BUILD_DIR)/$
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),$(BUILD_DIR)/$f) \
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/baseroms/$(VERSION)/segments $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/baserom/$(VERSION)/segments $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
 ifeq ($(COMPILER),ido)
 $(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
@@ -340,7 +341,7 @@ $(BUILD_DIR)/ldscript.txt: $(BUILD_DIR)/$(SPEC)
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
 
-$(BUILD_DIR)/baseroms/$(VERSION)/segments%.o: baseroms/$(VERSION)/segments%
+$(BUILD_DIR)/baserom/%.o: baseroms/$(VERSION)/segments/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
@@ -412,3 +413,6 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
 -include $(DEP_FILES)
+
+# Print target for debugging
+print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true

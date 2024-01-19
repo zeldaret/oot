@@ -123,17 +123,17 @@ endseg
 beginseg
     name "Audiobank"
     address 0x10 // fake RAM address to avoid map lookup inaccuracies
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/Audiobank.o"
+    include "$(BUILD_DIR)/baserom/Audiobank.o"
 endseg
 
 beginseg
     name "Audioseq"
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/Audioseq.o"
+    include "$(BUILD_DIR)/baserom/Audioseq.o"
 endseg
 
 beginseg
     name "Audiotable"
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/Audiotable.o"
+    include "$(BUILD_DIR)/baserom/Audiotable.o"
 endseg
 
 beginseg
@@ -3880,7 +3880,7 @@ beginseg
     name "gameplay_object_exchange_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/gameplay_object_exchange_static.o"
+    include "$(BUILD_DIR)/baserom/gameplay_object_exchange_static.o"
 endseg
 
 beginseg
@@ -11840,96 +11840,96 @@ beginseg
     name "bump_texture_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/bump_texture_static.o"
+    include "$(BUILD_DIR)/baserom/bump_texture_static.o"
 endseg
 
 beginseg
     name "anime_model_1_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_model_1_static.o"
+    include "$(BUILD_DIR)/baserom/anime_model_1_static.o"
 endseg
 
 beginseg
     name "anime_model_2_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_model_2_static.o"
+    include "$(BUILD_DIR)/baserom/anime_model_2_static.o"
 endseg
 
 beginseg
     name "anime_model_3_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_model_3_static.o"
+    include "$(BUILD_DIR)/baserom/anime_model_3_static.o"
 endseg
 
 beginseg
     name "anime_model_4_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_model_4_static.o"
+    include "$(BUILD_DIR)/baserom/anime_model_4_static.o"
 endseg
 
 beginseg
     name "anime_model_5_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_model_5_static.o"
+    include "$(BUILD_DIR)/baserom/anime_model_5_static.o"
 endseg
 
 beginseg
     name "anime_model_6_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_model_6_static.o"
+    include "$(BUILD_DIR)/baserom/anime_model_6_static.o"
 endseg
 
 beginseg
     name "anime_texture_1_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_texture_1_static.o"
+    include "$(BUILD_DIR)/baserom/anime_texture_1_static.o"
 endseg
 
 beginseg
     name "anime_texture_2_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_texture_2_static.o"
+    include "$(BUILD_DIR)/baserom/anime_texture_2_static.o"
 endseg
 
 beginseg
     name "anime_texture_3_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_texture_3_static.o"
+    include "$(BUILD_DIR)/baserom/anime_texture_3_static.o"
 endseg
 
 beginseg
     name "anime_texture_4_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_texture_4_static.o"
+    include "$(BUILD_DIR)/baserom/anime_texture_4_static.o"
 endseg
 
 beginseg
     name "anime_texture_5_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_texture_5_static.o"
+    include "$(BUILD_DIR)/baserom/anime_texture_5_static.o"
 endseg
 
 beginseg
     name "anime_texture_6_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/anime_texture_6_static.o"
+    include "$(BUILD_DIR)/baserom/anime_texture_6_static.o"
 endseg
 
 beginseg
     name "softsprite_matrix_static"
     compress
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/softsprite_matrix_static.o"
+    include "$(BUILD_DIR)/baserom/softsprite_matrix_static.o"
 endseg
