@@ -85,17 +85,17 @@ void OceffSpot_End(OceffSpot* this, PlayState* play) {
             if (play->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
-                osSyncPrintf(VT_FGCOL(YELLOW));
+                PRINTF(VT_FGCOL(YELLOW));
                 // "Sun's Song Flag"
-                osSyncPrintf("z_oceff_spot  太陽の歌フラグ\n");
-                osSyncPrintf(VT_RST);
+                PRINTF("z_oceff_spot  太陽の歌フラグ\n");
+                PRINTF(VT_RST);
             }
         } else {
             play->msgCtx.ocarinaMode = OCARINA_MODE_04;
-            osSyncPrintf(VT_FGCOL(YELLOW));
+            PRINTF(VT_FGCOL(YELLOW));
             // "Ocarina End"
-            osSyncPrintf("z_oceff_spot  オカリナ終了\n");
-            osSyncPrintf(VT_RST);
+            PRINTF("z_oceff_spot  オカリナ終了\n");
+            PRINTF(VT_RST);
         }
     }
 }
@@ -154,7 +154,7 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_spot.c", 469),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, scroll * 2, scroll * (-2), 32,

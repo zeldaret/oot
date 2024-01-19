@@ -37,7 +37,7 @@ def get_func_data(funcdata,i):
     funcname = argdata[0].split(' ')[1]
     for x in range(len(argdata)):
         if(argdata[x].count('sfxId')):
-            break;
+            break
     if(x == len(argdata) - 1):
         print('sfxId not found in ', funcname)
         return None,-1

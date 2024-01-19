@@ -120,11 +120,11 @@ void Math3D_LineClosestToPoint(InfiniteLine* line, Vec3f* pos, Vec3f* closestPoi
 
     dirVectorLengthSq = Math3D_Vec3fMagnitudeSq(&line->dir);
     if (IS_ZERO(dirVectorLengthSq)) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Math3D_lineVsPosSuisenCross(): No straight line length"
-        osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
-        osSyncPrintf("cross = pos を返します。\n"); // "Returns cross = pos."
-        osSyncPrintf(VT_RST);
+        PRINTF("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
+        PRINTF("cross = pos を返します。\n"); // "Returns cross = pos."
+        PRINTF(VT_RST);
         Math_Vec3f_Copy(closestPoint, pos);
         //! @bug Missing early return
     }
@@ -924,10 +924,10 @@ f32 Math3D_Plane(Plane* plane, Vec3f* pointOnPlane) {
 f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     if (IS_ZERO(sqrtf(SQ(nx) + SQ(ny) + SQ(nz)))) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f"
-        osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
-        osSyncPrintf(VT_RST);
+        PRINTF("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
+        PRINTF(VT_RST);
         return 0.0f;
     }
     return fabsf(Math3D_DistPlaneToPos(nx, ny, nz, originDist, p));
@@ -942,10 +942,10 @@ f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
     if (IS_ZERO(normMagnitude)) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f"
-        osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
-        osSyncPrintf(VT_RST);
+        PRINTF("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
+        PRINTF(VT_RST);
         return 0.0f;
     }
     return Math3D_Planef(nx, ny, nz, originDist, p) / normMagnitude;

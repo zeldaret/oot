@@ -171,7 +171,7 @@ void func_809BC598(EnBdfire* this, PlayState* play) {
             }
             player->bodyIsBurning = true;
             Actor_SetPlayerKnockbackLarge(play, &this->actor, 20.0f, this->actor.world.rot.y, 0.0f, 8);
-            osSyncPrintf("POWER\n");
+            PRINTF("POWER\n");
         }
     }
 }
@@ -206,7 +206,7 @@ void EnBdfire_DrawFire(EnBdfire* this, PlayState* play) {
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 0, 0, 0);
     gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_809BCB10[texIndex]));
     Matrix_Translate(0.0f, 11.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bdfire.c", 647),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bdfire.c", 647),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_01D950);
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_bdfire.c", 651);

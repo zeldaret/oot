@@ -44,14 +44,14 @@ void EnTakaraMan_Init(Actor* thisx, PlayState* play) {
 
     if (sTakaraIsInitialized) {
         Actor_Kill(&this->actor);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST); // "Already initialized"
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST); // "Already initialized"
         return;
     }
 
     sTakaraIsInitialized = true;
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Bun! %x" (needs a better translation)
-    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, play->actorCtx.flags.chest);
+    PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, play->actorCtx.flags.chest);
     play->actorCtx.flags.chest = 0;
     gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(play, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,

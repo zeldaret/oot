@@ -3,7 +3,7 @@
 import os
 import struct
 import argparse
-from filemap import FileResult, GetFromVRam, GetFromRom
+from filemap import GetFromVRam, GetFromRom
 
 T_DEFAULT = ''
 TType1 = 'Type1'
@@ -244,7 +244,7 @@ def GetColliderStr(data, off, type):
     else:
         cBase[i] = '0x{0:02X}'.format(cBase[i])
 
-    return cf[1].format(*cBase);
+    return cf[1].format(*cBase)
 
 def GetItems(data, off, count, structf, fmt, size):
     result = ''

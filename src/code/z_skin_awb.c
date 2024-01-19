@@ -48,7 +48,7 @@ void Skin_Init(PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, Anim
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     limbCount = skin->skeletonHeader->limbCount;
 
-    skin->vtxTable = ZeldaArena_MallocDebug(limbCount * sizeof(SkinLimbVtx), "../z_skin_awb.c", 212);
+    skin->vtxTable = ZELDA_ARENA_MALLOC(limbCount * sizeof(SkinLimbVtx), "../z_skin_awb.c", 212);
 
     ASSERT(skin->vtxTable != NULL, "pskin_awb->avb_tbl != NULL", "../z_skin_awb.c", 214);
 
@@ -67,11 +67,11 @@ void Skin_Init(PlayState* play, Skin* skin, SkeletonHeader* skeletonHeader, Anim
             vtxEntry->index = 0;
 
             vtxEntry->buf[0] =
-                ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 235);
+                ZELDA_ARENA_MALLOC(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 235);
             ASSERT(vtxEntry->buf[0] != NULL, "psavb->buf[0] != NULL", "../z_skin_awb.c", 237);
 
             vtxEntry->buf[1] =
-                ZeldaArena_MallocDebug(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 240);
+                ZELDA_ARENA_MALLOC(animatedLimbData->totalVtxCount * sizeof(Vtx), "../z_skin_awb.c", 240);
             ASSERT(vtxEntry->buf[1] != NULL, "psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
 
             Skin_InitAnimatedLimb(play, skin, i);
@@ -90,17 +90,17 @@ void Skin_Free(PlayState* play, Skin* skin) {
 
         for (i = 0; i < skin->limbCount; i++) {
             if (skin->vtxTable[i].buf[0] != NULL) {
-                ZeldaArena_FreeDebug(skin->vtxTable[i].buf[0], "../z_skin_awb.c", 276);
+                ZELDA_ARENA_FREE(skin->vtxTable[i].buf[0], "../z_skin_awb.c", 276);
                 skin->vtxTable[i].buf[0] = NULL;
             }
             if (skin->vtxTable[i].buf[1] != NULL) {
-                ZeldaArena_FreeDebug(skin->vtxTable[i].buf[1], "../z_skin_awb.c", 280);
+                ZELDA_ARENA_FREE(skin->vtxTable[i].buf[1], "../z_skin_awb.c", 280);
                 skin->vtxTable[i].buf[1] = NULL;
             }
         }
 
         if (skin->vtxTable != NULL) {
-            ZeldaArena_FreeDebug(skin->vtxTable, "../z_skin_awb.c", 286);
+            ZELDA_ARENA_FREE(skin->vtxTable, "../z_skin_awb.c", 286);
         }
 
         SkelAnime_Free(&skin->skelAnime, play);

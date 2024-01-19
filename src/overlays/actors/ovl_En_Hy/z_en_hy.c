@@ -417,7 +417,7 @@ void func_80A6F7CC(EnHy* this, PlayState* play, s32 getItemId) {
 u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
     Player* player = GET_PLAYER(play);
     EnHy* this = (EnHy*)thisx;
-    u16 textId = Text_GetFaceReaction(play, (this->actor.params & 0x7F) + 37);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_37 + (this->actor.params & 0x7F));
 
     if (textId != 0) {
         if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
@@ -1174,7 +1174,7 @@ void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 Gfx* EnHy_SetEnvColor(GraphicsContext* play, u8 envR, u8 envG, u8 envB, u8 envA) {
     Gfx* dList;
 
-    dList = Graph_Alloc(play, 2 * sizeof(Gfx));
+    dList = GRAPH_ALLOC(play, 2 * sizeof(Gfx));
     gDPSetEnvColor(dList, envR, envG, envB, envA);
     gSPEndDisplayList(dList + 1);
 
