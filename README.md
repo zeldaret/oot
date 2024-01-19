@@ -68,8 +68,8 @@ The build process has the following package requirements:
 * build-essential
 * binutils-mips-linux-gnu
 * python3
-* pip3
-* venv
+* python3-pip
+* python3-venv
 * libpng-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
@@ -126,8 +126,9 @@ python3 -m pip install -U -r requirements.txt
 
 #### 4. Prepare a base ROM
 
-Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
-Rename the file to "baserom.gc-eu-mq-dbg.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
+Copy over your copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg` path of this new project directory.
+
+Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
 
 #### 5. Setup the ROM and build process
 
