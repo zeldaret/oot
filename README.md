@@ -116,7 +116,7 @@ To start using the virtual environment on your current terminal run:
 . .venv/bin/activate
 ```
 
-Take in mind for each new terminal you'll need to **active** the Python virtual environment again. There's no need to create the virtual environment again.
+Keep in mind for each new terminal session you'll need to **activate** the Python virtual environment again. There's no need to create the virtual environment again.
 
 Now you can install the Python dependencies, to do so run:
 
