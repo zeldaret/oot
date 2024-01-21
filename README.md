@@ -29,7 +29,7 @@ The only build currently supported is Master Quest (Debug), but other versions a
 
 It builds the following ROM:
 
-* oot_uncompressed-gc-eu-mq-dbg.z64 `md5: f0b7f35375f9cc8ca1b2d59d78e35405`
+* oot-gc-eu-mq-dbg.z64 `md5: f0b7f35375f9cc8ca1b2d59d78e35405`
 
 **Note: This repository does not include any of the assets necessary to build the ROM. A prior copy of the game is required to extract the needed assets.**
 
@@ -126,7 +126,7 @@ python3 -m pip install -U -r requirements.txt
 
 #### 4. Prepare a base ROM
 
-Copy over your copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg` path of this new project directory.
+Copy over your copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` path of this new project directory.
 
 Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
 
@@ -150,16 +150,16 @@ Make sure your path to the project is not too long, otherwise this process may e
 make
 ```
 
-If all goes well, a new ROM called "oot_uncompressed-gc-eu-mq-dbg.z64" should be built and the following text should be printed:
+If all goes well, a new ROM called "oot-gc-eu-mq-dbg.z64" should be built and the following text should be printed:
 
 ```bash
-oot_uncompressed-gc-eu-mq-dbg.z64: OK
+oot-gc-eu-mq-dbg.z64: OK
 ```
 
 If you instead see the following:
 
 ```bash
-oot_uncompressed-gc-eu-mq-dbg.z64: FAILED
+oot-gc-eu-mq-dbg.z64: FAILED
 md5sum: WARNING: 1 computed checksum did NOT match
 ```
 

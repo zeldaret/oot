@@ -168,9 +168,9 @@ endif
 #### Files ####
 
 # ROM image
-ROMC := oot-$(VERSION).z64
-ROM := oot_uncompressed-$(VERSION).z64
-ELF := $(ROMC:.z64=.elf)
+ROMC := oot-$(VERSION)-compressed.z64
+ROM := oot-$(VERSION).z64
+ELF := $(ROM:.z64=.elf)
 # description of ROM segments
 SPEC := spec
 
@@ -270,13 +270,13 @@ endif
 uncompressed: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c baseroms/$(VERSION)/checksum_uncompressed.md5
+	@md5sum -c baseroms/$(VERSION)/checksum.md5
 endif
 
 compressed: $(ROMC)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROMC)
-	@md5sum -c baseroms/$(VERSION)/checksum.md5
+	@md5sum -c baseroms/$(VERSION)/checksum-compressed.md5
 endif
 
 clean:
