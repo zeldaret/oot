@@ -267,7 +267,7 @@ endif
 
 #### Main Targets ###
 
-uncompressed: $(ROM)
+rom: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
 	@md5sum -c baseroms/$(VERSION)/checksum.md5
@@ -305,9 +305,9 @@ endif
 	$(N64_EMULATOR) $<
 
 
-.PHONY: all uncompressed compressed clean setup run distclean assetclean
-.DEFAULT_GOAL := uncompressed
-all: uncompressed compressed
+.PHONY: all rom compressed clean setup run distclean assetclean
+.DEFAULT_GOAL := rom
+all: rom compressed
 
 #### Various Recipes ####
 
