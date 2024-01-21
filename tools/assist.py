@@ -13,7 +13,7 @@ asm_dir = root_dir + "asm/non_matchings/overlays/actors"
 build_dir = root_dir + "build/gc-eu-mq-dbg/"
 
 def read_rom():
-    with open("baseroms/gc-eu-mq-dbg/baserom_uncompressed.z64", "rb") as f:
+    with open("baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64", "rb") as f:
         return f.read()
 
 

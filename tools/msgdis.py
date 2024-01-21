@@ -282,7 +282,7 @@ def read_tables():
     global staff_message_entry_table
 
     baserom = None
-    with open("baseroms/gc-eu-mq-dbg/baserom_uncompressed.z64","rb") as infile:
+    with open("baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64","rb") as infile:
         baserom = infile.read()
 
     nes_message_entry_table = as_message_table_entry(baserom[nes_message_entry_table_addr:ger_message_entry_table_addr])

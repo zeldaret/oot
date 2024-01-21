@@ -5,7 +5,7 @@ from multiprocessing import Pool, cpu_count
 from pathlib import Path
 
 
-ROM_FILE_NAME = Path('baseroms/gc-eu-mq-dbg/baserom_uncompressed.z64')
+ROM_FILE_NAME = Path('baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64')
 SEGMENTS_PATH = Path('baseroms/gc-eu-mq-dbg/segments/')
 FILE_TABLE_OFFSET = 0x12F70
 
