@@ -126,7 +126,7 @@ python3 -m pip install -U -r requirements.txt
 
 #### 4. Prepare a base ROM
 
-Copy over your copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` path of this new project directory.
+Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
 
 Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
 
