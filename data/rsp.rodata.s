@@ -10,21 +10,21 @@
 .balign 16
 
 glabel aspMainDataStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64", 0xBCCE10, 0x2E0
+    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCCE10, 0x2E0
 glabel aspMainDataEnd
 
 glabel gspF3DZEX2_NoN_PosLight_fifoTextStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64", 0xBCD0F0, 0x1630
+    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCD0F0, 0x1630
 glabel gspF3DZEX2_NoN_PosLight_fifoTextEnd
 
 glabel gspF3DZEX2_NoN_PosLight_fifoDataStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64", 0xBCE720, 0x420
+    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCE720, 0x420
 glabel gspF3DZEX2_NoN_PosLight_fifoDataEnd
 
 glabel gspS2DEX2d_fifoDataStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64", 0xBCEB40, 0x390
+    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCEB40, 0x390
 glabel gspS2DEX2d_fifoDataEnd
 
 glabel njpgdspMainDataStart
-    .incbin "baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64", 0xBCEED0, 0x60
+    .incbin "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", 0xBCEED0, 0x60
 glabel njpgdspMainDataEnd

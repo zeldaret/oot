@@ -192,7 +192,7 @@ def main():
 
     version = args.version
 
-    uncompressed_path = Path(f"baseroms/{version}/baserom-uncompressed.z64")
+    uncompressed_path = Path(f"baseroms/{version}/baserom-decompressed.z64")
 
     file_table_offset = FILE_TABLE_OFFSET[version]
     correct_str_hash = VERSIONS_MD5S[version]
