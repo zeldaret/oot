@@ -5,7 +5,7 @@ from multiprocessing import Pool, cpu_count
 from pathlib import Path
 
 
-ROM_FILE_NAME = Path('baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64')
+ROM_FILE_PATH = Path('baseroms/gc-eu-mq-dbg/baserom-uncompressed.z64')
 SEGMENTS_PATH = Path('baseroms/gc-eu-mq-dbg/segments/')
 FILE_TABLE_OFFSET = 0x12F70
 
@@ -1585,9 +1585,9 @@ def main():
 
     # read baserom data
     try:
-        rom_data = ROM_FILE_NAME.read_bytes()
+        rom_data = ROM_FILE_PATH.read_bytes()
     except IOError:
-        print(f'failed to read file {ROM_FILE_NAME}')
+        print(f'failed to read file {ROM_FILE_PATH}')
         exit(1)
 
     # extract files

@@ -83,7 +83,7 @@ to extract the contents of the object into the new folder, change the spec to us
 beginseg
     name "object_bg"
     romalign 0x1000
-    include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/object_bg.o"
+    include "$(BUILD_DIR)/baserom/object_bg.o"
 endseg
 ```
 

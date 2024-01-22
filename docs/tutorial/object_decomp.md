@@ -113,7 +113,7 @@ If in doubt, look at completed objects in the repo, and if still in doubt, ask.
 Just as when you decomp an actor you have to change the `spec` to tell it to use the new files, you have to do a similar thing for the object. Find the appropriate section for the object you have decompiled, and replace the line
 
 ```c
-include "$(BUILD_DIR)/baseroms/gc-eu-mq-dbg/segments/object_name.o"
+include "$(BUILD_DIR)/baserom/object_name.o"
 ```
 
 by
