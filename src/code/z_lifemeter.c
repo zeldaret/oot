@@ -105,7 +105,7 @@ static s16 sHeartsDDEnvFactors[3][3] = {
     },
 };
 
-// Current colors for the double defense hearts
+// Current colours for the double defense hearts
 s16 sBeatingHeartsDDPrim[3];
 s16 sBeatingHeartsDDEnv[3];
 s16 sHeartsDDPrim[2][3];

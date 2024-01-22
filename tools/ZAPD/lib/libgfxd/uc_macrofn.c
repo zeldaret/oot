@@ -1863,17 +1863,17 @@ UCFUNC int c_SPLightColor(gfxd_macro_t *m, int n_macro)
 		return -1;
 	}
 	uint32_t offset = argvu(&m[0], 1);
-	uint32_t packedcolor = argvu(&m[0], 2);
+	uint32_t packedcolour = argvu(&m[0], 2);
 	if (m[1].id != gfxd_MoveWd
 		|| argvi(&m[1], 0) != G_MW_LIGHTCOL
 		|| argvu(&m[1], 1) != offset + 4
-		|| argvu(&m[1], 2) != packedcolor)
+		|| argvu(&m[1], 2) != packedcolour)
 	{
 		return -1;
 	}
 	m->id = gfxd_SPLightColor;
 	argi(m, 0, "n", offset / 0x18 + 1, gfxd_Lightnum);
-	argu(m, 1, "c", packedcolor, gfxd_Color);
+	argu(m, 1, "c", packedcolour, gfxd_Color);
 	return 0;
 }
 

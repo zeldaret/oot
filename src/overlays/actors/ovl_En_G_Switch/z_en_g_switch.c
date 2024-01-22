@@ -33,7 +33,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, PlayState* play);
 void EnGSwitch_ArcheryPot(EnGSwitch* this, PlayState* play);
 void EnGSwitch_Kill(EnGSwitch* this, PlayState* play);
 
-void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colorIdx);
+void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colourIdx);
 void EnGSwitch_UpdateEffects(EnGSwitch* this, PlayState* play);
 void EnGSwitch_DrawEffects(EnGSwitch* this, PlayState* play);
 
@@ -110,7 +110,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             PRINTF("\n\n");
             // "child switch spawn"
             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-            this->colorIdx = 5;
+            this->colourIdx = 5;
             this->numEffects = 20;
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
@@ -129,7 +129,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             // "Horseback archery destructible pot"
             PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n" VT_RST);
             this->actor.gravity = -3.0f;
-            this->colorIdx = Rand_ZeroFloat(2.99f);
+            this->colourIdx = Rand_ZeroFloat(2.99f);
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
             this->actor.scale.x = 0.25f;
@@ -191,7 +191,7 @@ void EnGSwitch_Break(EnGSwitch* this, PlayState* play) {
     }
     if (this->type == ENGSWITCH_TARGET_RUPEE) {
         for (i = 0; i < this->numEffects; i++) {
-            EnGSwitch_SpawnEffects(this, &randPos, 100, this->colorIdx);
+            EnGSwitch_SpawnEffects(this, &randPos, 100, this->colourIdx);
         }
     }
 }
@@ -479,7 +479,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
         func_8002EBCC(&this->actor, play, 0);
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[this->colorIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[this->colourIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
@@ -488,7 +488,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, PlayState* play) {
     }
 }
 
-void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colorIdx) {
+void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colourIdx) {
     EnGSwitchEffect* effect = this->effects;
     s16 i;
 
@@ -500,7 +500,7 @@ void EnGSwitch_SpawnEffects(EnGSwitch* this, Vec3f* pos, s16 scale, s16 colorIdx
 
             effect->pos = *pos;
             effect->scale = scale;
-            effect->colorIdx = colorIdx;
+            effect->colourIdx = colourIdx;
             effect->timer = 30;
             effect->rot.x = effect->rot.y = effect->rot.z = 0.0f;
             pitch = Rand_CenteredFloat(1000.0f) - 13000.0f;
@@ -563,7 +563,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, PlayState* play) {
             Matrix_RotateZ(effect->rot.z, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_g_switch.c", 1088),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[effect->colorIdx]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTextures[effect->colourIdx]));
             gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         }
     }

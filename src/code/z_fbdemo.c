@@ -11,7 +11,7 @@
  */
 #include "global.h"
 
-// color framebuffer
+// colour framebuffer
 extern u16 D_0F000000[];
 
 // Unused background; a blue rectangle with a grey border that fills the screen

@@ -619,12 +619,12 @@ void EnDntNomal_StageHide(EnDntNomal* this, PlayState* play) {
                                                 this->actor.world.pos.y + 20.0f, this->actor.world.pos.z, 0, 0, 0, 3);
                 if (rupee != NULL) {
                     rupeeColor = this->action - DNT_ACTION_LOW_RUPEES;
-                    rupee->colorIdx = rupeeColor;
+                    rupee->colourIdx = rupeeColor;
                     if (Rand_ZeroFloat(3.99f) < 1.0f) {
-                        rupee->colorIdx = rupeeColor + 1;
+                        rupee->colourIdx = rupeeColor + 1;
                     }
                     rupee->actor.velocity.y = 5.0f;
-                    if (rupee->colorIdx == 2) {
+                    if (rupee->colourIdx == 2) {
                         rupee->actor.velocity.y = 7.0f;
                     }
                     Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);

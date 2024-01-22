@@ -28,9 +28,9 @@ UCFUNC int argfn_x32(const gfxd_value_t *v)
 	return gfxd_printf("0x%08" PRIX32, v->u);
 }
 
-UCFUNC int argfn_color(const gfxd_value_t *v)
+UCFUNC int argfn_colour(const gfxd_value_t *v)
 {
-	if (config.emit_dec_color)
+	if (config.emit_dec_colour)
 		return gfxd_printf("%" PRIu32, v->u);
 	else
 		return gfxd_printf("0x%02" PRIX32, v->u);
@@ -1293,8 +1293,8 @@ UCFUNC int argfn_ccmuxb(const gfxd_value_t *v)
 			return gfxd_puts("SHADE");
 		case G_CCMUX_ENVIRONMENT:
 			return gfxd_puts("ENVIRONMENT");
-		case G_CCMUX_CENTER:
-			return gfxd_puts("CENTER");
+		case G_CCMUX_CENTRE:
+			return gfxd_puts("CENTRE");
 		case G_CCMUX_K4:
 			return gfxd_puts("K4");
 		default:

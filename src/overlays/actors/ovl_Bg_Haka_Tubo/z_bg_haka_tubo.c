@@ -119,7 +119,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, PlayState* play) {
     // Colliding with collider inside the pot
     if (this->potCollider.base.acFlags & AC_HIT) {
         this->potCollider.base.acFlags &= ~AC_HIT;
-        // If the colliding actor is within a 50 unit radius and 50 unit height cylinder centered
+        // If the colliding actor is within a 50 unit radius and 50 unit height cylinder centreed
         // on the actor's position, break the pot
         if (Actor_WorldDistXZToPoint(&this->dyna.actor, &this->potCollider.base.ac->world.pos) < 50.0f &&
             (this->potCollider.base.ac->world.pos.y - this->dyna.actor.world.pos.y) < 50.0f) {

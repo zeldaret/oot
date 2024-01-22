@@ -60,7 +60,7 @@ typedef struct {
     /* 0x00 */ volatile OSTime* time;
     /* 0x04 */ u8 x;
     /* 0x05 */ u8 y;
-    /* 0x06 */ u16 color;
+    /* 0x06 */ u16 colour;
 } SpeedMeterTimeEntry; // size = 0x08
 
 SpeedMeterTimeEntry* sSpeedMeterTimeEntryPtr;
@@ -85,9 +85,9 @@ typedef struct {
     /* 0x18 */ s32 lry;
 } SpeedMeterAllocEntry; // size = 0x1C
 
-#define gDrawRect(gfx, color, ulx, uly, lrx, lry)      \
+#define gDrawRect(gfx, colour, ulx, uly, lrx, lry)      \
     gDPPipeSync(gfx);                                  \
-    gDPSetFillColor(gfx, ((color) << 16) | (color));   \
+    gDPSetFillColor(gfx, ((colour) << 16) | (colour));   \
     gDPFillRectangle(gfx, (ulx), (uly), (lrx), (lry)); \
     gDPPipeSync(gfx)
 
@@ -153,7 +153,7 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
 
     sSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-        gDrawRect(gfx++, sSpeedMeterTimeEntryPtr->color, baseX, lry + sSpeedMeterTimeEntryPtr->y,
+        gDrawRect(gfx++, sSpeedMeterTimeEntryPtr->colour, baseX, lry + sSpeedMeterTimeEntryPtr->y,
                   sSpeedMeterTimeEntryPtr->x, lry + sSpeedMeterTimeEntryPtr->y + 1);
         sSpeedMeterTimeEntryPtr++;
     }

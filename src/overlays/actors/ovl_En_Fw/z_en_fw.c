@@ -246,7 +246,7 @@ void EnFw_Run(EnFw* this, PlayState* play) {
         this->skelAnime.playSpeed = 0.0f;
         Math_SmoothStepToF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
-        if (this->actor.colorFilterTimer == 0) {
+        if (this->actor.colourFilterTimer == 0) {
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA,
                                  this->explosionTimer);
             this->explosionTimer--;

@@ -1088,7 +1088,7 @@ private:
 };
 
 
-/** Any tag that TinyXML-2 doesn't recognize is saved as an
+/** Any tag that TinyXML-2 doesn't recognise is saved as an
 	unknown. It is a tag of text, but should not be modified.
 	It will be written back to the XML, unchanged, when the file
 	is saved.

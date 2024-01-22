@@ -2,9 +2,9 @@
  * @file z_viszbuf.c
  *
  * This file implements a full-screen framebuffer effect for visualizing the z-buffer (AKA depth buffer), using either
- * cycling RGBA or a single fading color.
+ * cycling RGBA or a single fading colour.
  *
- * This is done by reading the z-buffer as if it were a color image, the format of which is specified by the selected
+ * This is done by reading the z-buffer as if it were a colour image, the format of which is specified by the selected
  * vis type:
  *  - VIS_ZBUF_TYPE_IA   : Produces a monotonic fade from primColor to envColor as depth increases.
  *  - VIS_ZBUF_TYPE_RGBA : Produces vibrant almost-periodic-looking bands.
@@ -42,7 +42,7 @@
 extern u16 D_0E000000[];
 
 /**
- * Initialise to IA type with white and black as default colors.
+ * Initialise to IA type with white and black as default colours.
  */
 void VisZBuf_Init(VisZBuf* this) {
     this->vis.type = VIS_ZBUF_TYPE_IA;
@@ -82,7 +82,7 @@ void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP) {
     }
 
     // No palette so can use all of TMEM.
-    // G_RM_OPA_SURF discards all information previously in the pixel, and the current alpha, leaving only the color
+    // G_RM_OPA_SURF discards all information previously in the pixel, and the current alpha, leaving only the colour
     // from this filter.
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
@@ -100,7 +100,7 @@ void VisZBuf_Draw(VisZBuf* this, Gfx** gfxP) {
         gDPLoadTextureBlock(gfx++, zbufFrag, fmt, G_IM_SIZ_16b, SCREEN_WIDTH, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        // Overwrite them with the calculated colors.
+        // Overwrite them with the calculated colours.
         gSPTextureRectangle(gfx++, 0, y << 2, SCREEN_WIDTH << 2, (y + height) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
                             1 << 10);
         zbufFrag += SCREEN_WIDTH * height;

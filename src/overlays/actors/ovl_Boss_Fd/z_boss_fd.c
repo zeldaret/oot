@@ -22,7 +22,7 @@ typedef enum {
 } BossFdIntroFlyState;
 
 typedef enum {
-    /* 0 */ MANE_CENTER,
+    /* 0 */ MANE_CENTRE,
     /* 1 */ MANE_RIGHT,
     /* 2 */ MANE_LEFT
 } BossFdManeIndex;
@@ -198,9 +198,9 @@ void BossFd_Init(Actor* thisx, PlayState* play) {
         this->bodySegsPos[i].y = this->actor.world.pos.y;
         this->bodySegsPos[i].z = this->actor.world.pos.z;
         if (i < 30) {
-            this->centerMane.pos[i].x = this->actor.world.pos.x;
-            this->centerMane.pos[i].y = this->actor.world.pos.y;
-            this->centerMane.pos[i].z = this->actor.world.pos.z;
+            this->centreMane.pos[i].x = this->actor.world.pos.x;
+            this->centreMane.pos[i].y = this->actor.world.pos.y;
+            this->centreMane.pos[i].z = this->actor.world.pos.z;
         }
     }
 
@@ -960,10 +960,10 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
             this->work[BFD_LEAD_MANE_SEG] = 0;
         }
         i4 = this->work[BFD_LEAD_MANE_SEG];
-        this->centerMane.scale[i4] = (Math_SinS(this->work[BFD_MOVE_TIMER] * 5596.0f) * 0.3f) + 1.0f;
+        this->centreMane.scale[i4] = (Math_SinS(this->work[BFD_MOVE_TIMER] * 5596.0f) * 0.3f) + 1.0f;
         this->rightMane.scale[i4] = (Math_SinS(this->work[BFD_MOVE_TIMER] * 5496.0f) * 0.3f) + 1.0f;
         this->leftMane.scale[i4] = (Math_CosS(this->work[BFD_MOVE_TIMER] * 5696.0f) * 0.3f) + 1.0f;
-        this->centerMane.pos[i4] = this->centerMane.head;
+        this->centreMane.pos[i4] = this->centreMane.head;
         this->fireManeRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
         this->fireManeRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
         this->fireManeRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
@@ -1061,8 +1061,8 @@ void BossFd_Wait(BossFd* this, PlayState* play) {
 static Vec3f sFireAudioVec = { 0.0f, 0.0f, 50.0f };
 
 void BossFd_Effects(BossFd* this, PlayState* play) {
-    static Color_RGBA8 colorYellow = { 255, 255, 0, 255 };
-    static Color_RGBA8 colorRed = { 255, 10, 0, 255 };
+    static Color_RGBA8 colourYellow = { 255, 255, 0, 255 };
+    static Color_RGBA8 colourRed = { 255, 10, 0, 255 };
     s16 breathOpacity = 0;
     f32 jawAngle;
     f32 jawSpeed;
@@ -1177,7 +1177,7 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
                 spawnPos1.y = 100.0f;
                 spawnPos1.z = temp_z + this->holePosition.z;
 
-                func_8002836C(play, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed,
+                func_8002836C(play, &spawnPos1, &spawnVel1, &spawnAccel1, &colourYellow, &colourRed,
                               (s16)Rand_ZeroFloat(150.0f) + 800, 10, (s16)Rand_ZeroFloat(5.0f) + 17);
             }
         } else {
@@ -1195,7 +1195,7 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
                 spawnPos1.y = 100.0f;
                 spawnPos1.z = temp_z + this->holePosition.z;
 
-                func_8002836C(play, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed, 500, 10, 20);
+                func_8002836C(play, &spawnPos1, &spawnVel1, &spawnAccel1, &colourYellow, &colourRed, 500, 10, 20);
             }
         }
 
@@ -1351,7 +1351,7 @@ void BossFd_Update(Actor* thisx, PlayState* play) {
     rManeGlow = ((this->work[BFD_VAR_TIMER] + 3) & 8) ? 128.0f : 255.0f;
     lManeGlow = ((this->work[BFD_VAR_TIMER] + 6) & 8) ? 128.0f : 255.0f;
 
-    Math_ApproachF(&this->fwork[BFD_MANE_COLOR_CENTER], headGlow, 1.0f, 16.0f);
+    Math_ApproachF(&this->fwork[BFD_MANE_COLOR_CENTRE], headGlow, 1.0f, 16.0f);
     Math_ApproachF(&this->fwork[BFD_MANE_COLOR_RIGHT], rManeGlow, 1.0f, 16.0f);
     Math_ApproachF(&this->fwork[BFD_MANE_COLOR_LEFT], lManeGlow, 1.0f, 16.0f);
 
@@ -1402,11 +1402,11 @@ void BossFd_Update(Actor* thisx, PlayState* play) {
         if (this->skinSegments != 0) {
             for (i = 0; i < (s16)this->fwork[BFD_MANE_EMBER_RATE]; i++) {
                 temp_rand = Rand_ZeroFloat(29.9f);
-                emberPos.y = this->centerMane.pos[temp_rand].y + Rand_CenteredFloat(20.0f);
+                emberPos.y = this->centreMane.pos[temp_rand].y + Rand_CenteredFloat(20.0f);
 
                 if (emberPos.y >= 90.0f) {
-                    emberPos.x = this->centerMane.pos[temp_rand].x + Rand_CenteredFloat(20.0f);
-                    emberPos.z = this->centerMane.pos[temp_rand].z + Rand_CenteredFloat(20.0f);
+                    emberPos.x = this->centreMane.pos[temp_rand].x + Rand_CenteredFloat(20.0f);
+                    emberPos.z = this->centreMane.pos[temp_rand].z + Rand_CenteredFloat(20.0f);
 
                     emberVel.x = Rand_CenteredFloat(this->fwork[BFD_MANE_EMBER_SPEED]);
                     emberVel.y = Rand_CenteredFloat(this->fwork[BFD_MANE_EMBER_SPEED]);
@@ -1429,7 +1429,7 @@ void BossFd_Update(Actor* thisx, PlayState* play) {
 void BossFd_UpdateEffects(BossFd* this, PlayState* play) {
     BossFdEffect* effect = this->effects;
     Player* player = GET_PLAYER(play);
-    Color_RGB8 colors[4] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
+    Color_RGB8 colours[4] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
     Vec3f diff;
     s16 i1;
     s16 i2;
@@ -1448,9 +1448,9 @@ void BossFd_UpdateEffects(BossFd* this, PlayState* play) {
             if (effect->type == BFD_FX_EMBER) {
                 s16 cInd = effect->timer1 % 4;
 
-                effect->color.r = colors[cInd].r;
-                effect->color.g = colors[cInd].g;
-                effect->color.b = colors[cInd].b;
+                effect->colour.r = colours[cInd].r;
+                effect->colour.g = colours[cInd].g;
+                effect->colour.b = colours[cInd].b;
                 effect->alpha -= 20;
                 if (effect->alpha <= 0) {
                     effect->alpha = 0;
@@ -1528,7 +1528,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, PlayState* play) {
                 materialFlag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->colour.r, effect->colour.g, effect->colour.b, effect->alpha);
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
@@ -1954,10 +1954,10 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
 
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPDisplayList(POLY_XLU_DISP++, gVolvagiaManeMaterialDL);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->fwork[BFD_MANE_COLOR_CENTER], 0, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->fwork[BFD_MANE_COLOR_CENTRE], 0, 255);
         Matrix_Push();
-        Matrix_MultVec3f(&spB0, &this->centerMane.head);
-        BossFd_DrawMane(play, this, this->centerMane.pos, this->fireManeRot, this->centerMane.scale, MANE_CENTER);
+        Matrix_MultVec3f(&spB0, &this->centreMane.head);
+        BossFd_DrawMane(play, this, this->centreMane.pos, this->fireManeRot, this->centreMane.scale, MANE_CENTRE);
         Matrix_Pop();
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->fwork[BFD_MANE_COLOR_RIGHT], 0, 255);
         Matrix_Push();

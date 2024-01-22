@@ -20,9 +20,9 @@
 #define OTHER_HAND(hand) ((BossSst*)hand->actor.child)
 #define HAND_STATE(hand) sHandState[hand->actor.params]
 
-#define ROOM_CENTER_X -50.0f
-#define ROOM_CENTER_Y 0.0f
-#define ROOM_CENTER_Z 0.0f
+#define ROOM_CENTRE_X -50.0f
+#define ROOM_CENTRE_Y 0.0f
+#define ROOM_CENTRE_Z 0.0f
 
 typedef enum {
     /*  0 */ HAND_WAIT,
@@ -192,36 +192,36 @@ static BossSst* sHead;
 static BossSst* sHands[2];
 static BgSstFloor* sFloor;
 
-static Vec3f sRoomCenter = { ROOM_CENTER_X, ROOM_CENTER_Y, ROOM_CENTER_Z };
+static Vec3f sRoomCenter = { ROOM_CENTRE_X, ROOM_CENTRE_Y, ROOM_CENTRE_Z };
 static Vec3f sHandOffsets[2];
 static s16 sHandYawOffsets[2];
 
 static s16 sSubCamId;
-static Vec3f sSubCamAt = { ROOM_CENTER_X + 50.0f, ROOM_CENTER_Y + 0.0f, ROOM_CENTER_Z + 0.0f };
-static Vec3f sSubCamEye = { ROOM_CENTER_X + 150.0f, ROOM_CENTER_Y + 100.0f, ROOM_CENTER_Z + 0.0f };
+static Vec3f sSubCamAt = { ROOM_CENTRE_X + 50.0f, ROOM_CENTRE_Y + 0.0f, ROOM_CENTRE_Z + 0.0f };
+static Vec3f sSubCamEye = { ROOM_CENTRE_X + 150.0f, ROOM_CENTRE_Y + 100.0f, ROOM_CENTRE_Z + 0.0f };
 static Vec3f sSubCamAtVel = { 0.0f, 0.0f, 0.0f };
 static Vec3f sSubCamEyeVel = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f sSubCamAtPoints[] = {
-    { ROOM_CENTER_X - 50.0f, ROOM_CENTER_Y + 300.0f, ROOM_CENTER_Z + 0.0f },
-    { ROOM_CENTER_X + 150.0f, ROOM_CENTER_Y + 300.0f, ROOM_CENTER_Z + 100.0f },
-    { ROOM_CENTER_X + 0.0f, ROOM_CENTER_Y + 600.0f, ROOM_CENTER_Z + 100.0f },
-    { ROOM_CENTER_X + 50.0f, ROOM_CENTER_Y + 400.0f, ROOM_CENTER_Z + 200.0f },
-    { ROOM_CENTER_X + 50.0f, ROOM_CENTER_Y + 200.0f, ROOM_CENTER_Z + 200.0f },
-    { ROOM_CENTER_X - 50.0f, ROOM_CENTER_Y + 0.0f, ROOM_CENTER_Z + 200.0f },
-    { ROOM_CENTER_X - 150.0f, ROOM_CENTER_Y + 0.0f, ROOM_CENTER_Z + 100.0f },
-    { ROOM_CENTER_X - 60.0f, ROOM_CENTER_Y + 180.0f, ROOM_CENTER_Z + 730.0f },
+    { ROOM_CENTRE_X - 50.0f, ROOM_CENTRE_Y + 300.0f, ROOM_CENTRE_Z + 0.0f },
+    { ROOM_CENTRE_X + 150.0f, ROOM_CENTRE_Y + 300.0f, ROOM_CENTRE_Z + 100.0f },
+    { ROOM_CENTRE_X + 0.0f, ROOM_CENTRE_Y + 600.0f, ROOM_CENTRE_Z + 100.0f },
+    { ROOM_CENTRE_X + 50.0f, ROOM_CENTRE_Y + 400.0f, ROOM_CENTRE_Z + 200.0f },
+    { ROOM_CENTRE_X + 50.0f, ROOM_CENTRE_Y + 200.0f, ROOM_CENTRE_Z + 200.0f },
+    { ROOM_CENTRE_X - 50.0f, ROOM_CENTRE_Y + 0.0f, ROOM_CENTRE_Z + 200.0f },
+    { ROOM_CENTRE_X - 150.0f, ROOM_CENTRE_Y + 0.0f, ROOM_CENTRE_Z + 100.0f },
+    { ROOM_CENTRE_X - 60.0f, ROOM_CENTRE_Y + 180.0f, ROOM_CENTRE_Z + 730.0f },
 };
 
 static Vec3f sSubCamEyePoints[] = {
-    { ROOM_CENTER_X + 250.0f, ROOM_CENTER_Y + 800.0f, ROOM_CENTER_Z + 800.0f },
-    { ROOM_CENTER_X - 150.0f, ROOM_CENTER_Y + 700.0f, ROOM_CENTER_Z + 1400.0f },
-    { ROOM_CENTER_X + 250.0f, ROOM_CENTER_Y + 100.0f, ROOM_CENTER_Z + 750.0f },
-    { ROOM_CENTER_X + 50.0f, ROOM_CENTER_Y + 200.0f, ROOM_CENTER_Z + 900.0f },
-    { ROOM_CENTER_X + 50.0f, ROOM_CENTER_Y + 200.0f, ROOM_CENTER_Z + 900.0f },
-    { ROOM_CENTER_X + 350.0f, ROOM_CENTER_Y + 400.0f, ROOM_CENTER_Z + 1200.0f },
-    { ROOM_CENTER_X - 50.0f, ROOM_CENTER_Y + 200.0f, ROOM_CENTER_Z + 800.0f },
-    { ROOM_CENTER_X - 50.0f, ROOM_CENTER_Y + 200.0f, ROOM_CENTER_Z + 800.0f },
+    { ROOM_CENTRE_X + 250.0f, ROOM_CENTRE_Y + 800.0f, ROOM_CENTRE_Z + 800.0f },
+    { ROOM_CENTRE_X - 150.0f, ROOM_CENTRE_Y + 700.0f, ROOM_CENTRE_Z + 1400.0f },
+    { ROOM_CENTRE_X + 250.0f, ROOM_CENTRE_Y + 100.0f, ROOM_CENTRE_Z + 750.0f },
+    { ROOM_CENTRE_X + 50.0f, ROOM_CENTRE_Y + 200.0f, ROOM_CENTRE_Z + 900.0f },
+    { ROOM_CENTRE_X + 50.0f, ROOM_CENTRE_Y + 200.0f, ROOM_CENTRE_Z + 900.0f },
+    { ROOM_CENTRE_X + 350.0f, ROOM_CENTRE_Y + 400.0f, ROOM_CENTRE_Z + 1200.0f },
+    { ROOM_CENTRE_X - 50.0f, ROOM_CENTRE_Y + 200.0f, ROOM_CENTRE_Z + 800.0f },
+    { ROOM_CENTRE_X - 50.0f, ROOM_CENTRE_Y + 200.0f, ROOM_CENTRE_Z + 800.0f },
 };
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
@@ -281,15 +281,15 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
         Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInitHead, this->colliderItems);
         Collider_SetCylinder(play, &this->colliderCyl, &this->actor, &sCylinderInitHead);
         sHead = this;
-        this->actor.world.pos.x = ROOM_CENTER_X + 50.0f;
-        this->actor.world.pos.y = ROOM_CENTER_Y + 0.0f;
-        this->actor.world.pos.z = ROOM_CENTER_Z - 650.0f;
+        this->actor.world.pos.x = ROOM_CENTRE_X + 50.0f;
+        this->actor.world.pos.y = ROOM_CENTRE_Y + 0.0f;
+        this->actor.world.pos.z = ROOM_CENTRE_Z - 650.0f;
         this->actor.home.pos = this->actor.world.pos;
         this->actor.shape.rot.y = 0;
         if (Flags_GetClear(play, play->roomCtx.curRoom.num)) {
-            Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, ROOM_CENTER_X, ROOM_CENTER_Y, ROOM_CENTER_Z + 400.0f,
+            Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, ROOM_CENTRE_X, ROOM_CENTRE_Y, ROOM_CENTRE_Z + 400.0f,
                         0, 0, 0, WARP_DUNGEON_ADULT);
-            Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, ROOM_CENTER_X, ROOM_CENTER_Y, ROOM_CENTER_Z - 200.0f,
+            Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, ROOM_CENTRE_X, ROOM_CENTRE_Y, ROOM_CENTRE_Z - 200.0f,
                         0, 0, 0, 0);
             Actor_Kill(&this->actor);
         } else {
@@ -317,7 +317,7 @@ void BossSst_Init(Actor* thisx, PlayState* play2) {
             SkelAnime_InitFlex(play, &this->skelAnime, &gBongoLeftHandSkel, &gBongoLeftHandIdleAnim, this->jointTable,
                                this->morphTable, 27);
             this->vParity = -1;
-            this->colliderJntSph.elements[0].dim.modelSphere.center.z *= -1;
+            this->colliderJntSph.elements[0].dim.modelSphere.centre.z *= -1;
         } else {
             SkelAnime_InitFlex(play, &this->skelAnime, &gBongoRightHandSkel, &gBongoRightHandIdleAnim, this->jointTable,
                                this->morphTable, 27);
@@ -338,7 +338,7 @@ void BossSst_Destroy(Actor* thisx, PlayState* play) {
 
     Collider_DestroyJntSph(play, &this->colliderJntSph);
     Collider_DestroyCylinder(play, &this->colliderCyl);
-    Audio_StopSfxByPos(&this->center);
+    Audio_StopSfxByPos(&this->centre);
 }
 
 void BossSst_HeadSetupLurk(BossSst* this) {
@@ -361,7 +361,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     this->timer = 611;
     this->ready = false;
     player->actor.world.pos.x = sRoomCenter.x;
-    player->actor.world.pos.y = ROOM_CENTER_Y + 1000.0f;
+    player->actor.world.pos.y = ROOM_CENTRE_Y + 1000.0f;
     player->actor.world.pos.z = sRoomCenter.z;
     player->speedXZ = player->actor.velocity.y = 0.0f;
     player->actor.shape.rot.y = -0x8000;
@@ -377,7 +377,7 @@ void BossSst_HeadSetupIntro(BossSst* this, PlayState* play) {
     Play_ChangeCameraStatus(play, sSubCamId, CAM_STAT_ACTIVE);
     Math_Vec3f_Copy(&sSubCamAt, &player->actor.world.pos);
     if (GET_EVENTCHKINF(EVENTCHKINF_77)) {
-        sSubCamEye.z = ROOM_CENTER_Z - 100.0f;
+        sSubCamEye.z = ROOM_CENTRE_Z - 100.0f;
     }
 
     Play_SetCameraAtEye(play, sSubCamId, &sSubCamAt, &sSubCamEye);
@@ -446,9 +446,9 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
                 sHands[LEFT]->actor.draw = BossSst_DrawHand;
                 this->actor.draw = BossSst_DrawHead;
                 this->timer = 178;
-                sSubCamAt.x = ROOM_CENTER_X - 23.0f;
-                sSubCamAt.y = ROOM_CENTER_Y + 0.0f;
-                sSubCamAt.z = ROOM_CENTER_Z + 0.0f;
+                sSubCamAt.x = ROOM_CENTRE_X - 23.0f;
+                sSubCamAt.y = ROOM_CENTRE_Y + 0.0f;
+                sSubCamAt.z = ROOM_CENTRE_Z + 0.0f;
             } else {
                 this->timer = 546;
             }
@@ -484,9 +484,9 @@ void BossSst_HeadIntro(BossSst* this, PlayState* play) {
             tempo = 6;
             if (this->timer == 447) {
                 sSubCamAt = player->actor.world.pos;
-                sSubCamEye.x = ROOM_CENTER_X - 200.0f;
-                sSubCamEye.y = ROOM_CENTER_Y + 160.0f;
-                sSubCamEye.z = ROOM_CENTER_Z - 190.0f;
+                sSubCamEye.x = ROOM_CENTRE_X - 200.0f;
+                sSubCamEye.y = ROOM_CENTRE_Y + 160.0f;
+                sSubCamEye.z = ROOM_CENTRE_Z - 190.0f;
             } else if (introStateTimer == 11) {
                 sSubCamAt.x = sHands[RIGHT]->actor.home.pos.x + 30.0f;
                 sSubCamAt.y = sHands[RIGHT]->actor.home.pos.y + 0.0f;
@@ -1170,9 +1170,9 @@ void BossSst_HeadSetupFinish(BossSst* this) {
 }
 
 void BossSst_HeadFinish(BossSst* this, PlayState* play) {
-    static Color_RGBA8 colorIndigo = { 80, 80, 150, 255 };
-    static Color_RGBA8 colorDarkIndigo = { 40, 40, 80, 255 };
-    static Color_RGBA8 colorUnused[2] = {
+    static Color_RGBA8 colourIndigo = { 80, 80, 150, 255 };
+    static Color_RGBA8 colourDarkIndigo = { 40, 40, 80, 255 };
+    static Color_RGBA8 colourUnused[2] = {
         { 0, 0, 0, 255 },
         { 100, 100, 100, 0 },
     };
@@ -1195,11 +1195,11 @@ void BossSst_HeadFinish(BossSst* this, PlayState* play) {
             Flags_SetClear(play, play->roomCtx.curRoom.num);
         }
     } else if (this->effects[0].alpha == 0) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, ROOM_CENTER_X, ROOM_CENTER_Y, ROOM_CENTER_Z, 0, 0, 0,
+        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, ROOM_CENTRE_X, ROOM_CENTRE_Y, ROOM_CENTRE_Z, 0, 0, 0,
                     WARP_DUNGEON_ADULT);
         Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART,
-                    (Math_SinS(this->actor.shape.rot.y) * 200.0f) + ROOM_CENTER_X, ROOM_CENTER_Y,
-                    Math_CosS(this->actor.shape.rot.y) * 200.0f + ROOM_CENTER_Z, 0, 0, 0, 0);
+                    (Math_SinS(this->actor.shape.rot.y) * 200.0f) + ROOM_CENTRE_X, ROOM_CENTRE_Y,
+                    Math_CosS(this->actor.shape.rot.y) * 200.0f + ROOM_CENTRE_Z, 0, 0, 0, 0);
         BossSst_SetCameraTargets(1.0f, 7);
         this->effectMode = BONGO_NULL;
     } else if (this->timer == 0) {
@@ -1211,14 +1211,14 @@ void BossSst_HeadFinish(BossSst* this, PlayState* play) {
         BossSst_UpdateDeathCamera(this, play);
     }
 
-    colorIndigo.a = this->effects[0].alpha;
-    colorDarkIndigo.a = this->effects[0].alpha;
+    colourIndigo.a = this->effects[0].alpha;
+    colourDarkIndigo.a = this->effects[0].alpha;
 
     for (i = 0; i < 5; i++) {
         spawnPos.x = sRoomCenter.x + 0.0f + Rand_CenteredFloat(800.0f);
         spawnPos.y = sRoomCenter.y + (-28.0f) + (Rand_ZeroOne() * 5.0f);
         spawnPos.z = sRoomCenter.z + 0.0f + Rand_CenteredFloat(800.0f);
-        EffectSsGSplash_Spawn(play, &spawnPos, &colorIndigo, &colorDarkIndigo, 0, 0x3E8);
+        EffectSsGSplash_Spawn(play, &spawnPos, &colourIndigo, &colourDarkIndigo, 0, 0x3E8);
     }
 }
 
@@ -1275,10 +1275,10 @@ void BossSst_HandDownbeat(BossSst* this, PlayState* play) {
 
         if (this->timer >= 3) {
             this->actor.shape.rot.x -= 0x100;
-            Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 180.0f, 20.0f);
+            Math_StepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 180.0f, 20.0f);
         } else {
             this->actor.shape.rot.x += 0x300;
-            Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 0.0f, 60.0f);
+            Math_StepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 0.0f, 60.0f);
         }
 
         if (this->timer == 0) {
@@ -1309,7 +1309,7 @@ void BossSst_HandDownbeatEnd(BossSst* this, PlayState* play) {
     if (HAND_STATE(OTHER_HAND(this)) == HAND_DAMAGED) {
         BossSst_HandSetupWait(this);
     } else {
-        Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 40.0f, 0.5f, 20.0f, 3.0f);
+        Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 40.0f, 0.5f, 20.0f, 3.0f);
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x800, 0x100);
         Math_StepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f);
         Math_StepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f);
@@ -1338,10 +1338,10 @@ void BossSst_HandOffbeat(BossSst* this, PlayState* play) {
 
         if (this->timer != 0) {
             this->actor.shape.rot.x -= 0x140;
-            Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 60.0f, 15.0f);
+            Math_StepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 60.0f, 15.0f);
         } else {
             this->actor.shape.rot.x += 0x500;
-            Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 0.0f, 60.0f);
+            Math_StepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 0.0f, 60.0f);
         }
 
         if (this->timer == 0) {
@@ -1361,7 +1361,7 @@ void BossSst_HandOffbeatEnd(BossSst* this, PlayState* play) {
     if (HAND_STATE(OTHER_HAND(this)) == HAND_DAMAGED) {
         BossSst_HandSetupWait(this);
     } else {
-        Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 40.0f, 0.5f, 20.0f, 3.0f);
+        Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 40.0f, 0.5f, 20.0f, 3.0f);
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x400, 0xA0);
         Math_StepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f);
         Math_StepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f);
@@ -1429,7 +1429,7 @@ void BossSst_HandRetreat(BossSst* this, PlayState* play) {
         inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0x200);
         inPosition &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x800);
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
-        if ((Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f) &&
+        if ((Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f) &&
             inPosition && (diff < 10.0f)) {
             this->timer = 8;
         }
@@ -1456,7 +1456,7 @@ void BossSst_HandReadySlam(BossSst* this, PlayState* play) {
     } else {
         Player* player = GET_PLAYER(play);
 
-        if (Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 300.0f, 30.0f) &&
+        if (Math_StepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 300.0f, 30.0f) &&
             (this->actor.xzDistToPlayer < 140.0f)) {
             this->timer = 20;
         }
@@ -1538,7 +1538,7 @@ void BossSst_HandReadySweep(BossSst* this, PlayState* play) {
     s32 inPosition;
 
     SkelAnime_Update(&this->skelAnime);
-    inPosition = Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 50.0f, 4.0f);
+    inPosition = Math_StepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 50.0f, 4.0f);
     inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
     inPosition &= Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0x400);
     inPosition &= (Math_SmoothStepToF(&this->radius, sHead->actor.xzDistToPlayer, 0.5f, 60.0f, 1.0f) < 10.0f);
@@ -1622,7 +1622,7 @@ void BossSst_HandSetupPunch(BossSst* this) {
 
 void BossSst_HandPunch(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 80.0f, 20.0f);
+    Math_StepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 80.0f, 20.0f);
     if (Math_ScaledStepToS(&this->actor.shape.rot.z, this->targetRoll, 0x400)) {
         this->targetRoll *= -1;
     }
@@ -1678,7 +1678,7 @@ void BossSst_HandReadyClap(BossSst* this, PlayState* play) {
         this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
         this->ready &= Math_ScaledStepToS(&this->actor.world.rot.y, this->targetYaw, 0x400);
         this->ready &= Math_SmoothStepToF(&this->radius, sHead->actor.xzDistToPlayer, 0.5f, 50.0f, 1.0f) < 10.0f;
-        this->ready &= Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 95.0f, 0.5f, 30.0f, 1.0f) < 1.0f;
+        this->ready &= Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 95.0f, 0.5f, 30.0f, 1.0f) < 1.0f;
 
         this->actor.world.pos.x = Math_SinS(this->actor.world.rot.y) * this->radius + sHead->actor.world.pos.x;
         this->actor.world.pos.z = Math_CosS(this->actor.world.rot.y) * this->radius + sHead->actor.world.pos.z;
@@ -1785,7 +1785,7 @@ void BossSst_HandReadyGrab(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     inPosition = Math_SmoothStepToS(&this->actor.shape.rot.z, this->targetRoll, 4, 0x800, 0x100) == 0;
     inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->targetYaw, 0xA00);
-    Math_ApproachF(&this->actor.world.pos.y, ROOM_CENTER_Y + 95.0f, 0.5f, 20.0f);
+    Math_ApproachF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 95.0f, 0.5f, 20.0f);
     if (inPosition) {
         BossSst_HandSetupGrab(this);
     }
@@ -1899,9 +1899,9 @@ void BossSst_HandEndCrush(BossSst* this, PlayState* play) {
 void BossSst_HandSetupSwing(BossSst* this) {
     this->amplitude = -0x4000;
     this->timer = 1;
-    this->center.x = this->actor.world.pos.x - (Math_SinS(this->actor.shape.rot.y) * 200.0f);
-    this->center.y = this->actor.world.pos.y;
-    this->center.z = this->actor.world.pos.z - (Math_CosS(this->actor.shape.rot.y) * 200.0f);
+    this->centre.x = this->actor.world.pos.x - (Math_SinS(this->actor.shape.rot.y) * 200.0f);
+    this->centre.y = this->actor.world.pos.y;
+    this->centre.z = this->actor.world.pos.z - (Math_CosS(this->actor.shape.rot.y) * 200.0f);
     this->actionFunc = BossSst_HandSwing;
 }
 
@@ -1927,10 +1927,10 @@ void BossSst_HandSwing(BossSst* this, PlayState* play) {
         }
     }
 
-    this->actor.world.pos.y = (Math_CosS(this->actor.shape.rot.x + 0x4000) * 200.0f) + this->center.y;
+    this->actor.world.pos.y = (Math_CosS(this->actor.shape.rot.x + 0x4000) * 200.0f) + this->centre.y;
     offXZ = Math_SinS(this->actor.shape.rot.x + 0x4000) * 200.0f;
-    this->actor.world.pos.x = (Math_SinS(this->actor.shape.rot.y) * offXZ) + this->center.x;
-    this->actor.world.pos.z = (Math_CosS(this->actor.shape.rot.y) * offXZ) + this->center.z;
+    this->actor.world.pos.x = (Math_SinS(this->actor.shape.rot.y) * offXZ) + this->centre.x;
+    this->actor.world.pos.z = (Math_CosS(this->actor.shape.rot.y) * offXZ) + this->centre.z;
     if (this->timer != 4) {
         this->actor.shape.rot.z = (this->actor.shape.rot.x + 0x4000) * this->vParity;
     } else {
@@ -1965,7 +1965,7 @@ void BossSst_HandSetupReel(BossSst* this) {
     HAND_STATE(this) = HAND_DAMAGED;
     Animation_MorphToPlayOnce(&this->skelAnime, sHandFlatPoses[this->actor.params], 4.0f);
     this->timer = 36;
-    Math_Vec3f_Copy(&this->center, &this->actor.world.pos);
+    Math_Vec3f_Copy(&this->centre, &this->actor.world.pos);
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 200);
     this->actionFunc = BossSst_HandReel;
 }
@@ -1984,7 +1984,7 @@ void BossSst_HandReel(BossSst* this, PlayState* play) {
         }
     }
 
-    this->actor.colorFilterTimer = 200;
+    this->actor.colourFilterTimer = 200;
     this->actor.world.pos.x += Rand_CenteredFloat(20.0f);
     this->actor.world.pos.y += Rand_CenteredFloat(20.0f);
     this->actor.world.pos.z += Rand_CenteredFloat(20.0f);
@@ -2015,7 +2015,7 @@ void BossSst_HandReadyShake(BossSst* this, PlayState* play) {
     inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, 0x800);
     inPosition &= Math_StepToS(&this->handZPosMod, -0x5DC, 0x1F4);
     inPosition &= Math_ScaledStepToS(&this->handYRotMod, this->vParity * -0x2000, 0x800);
-    this->actor.colorFilterTimer = 200;
+    this->actor.colourFilterTimer = 200;
     if ((diff < 30.0f) && inPosition) {
         BossSst_HandSetupShake(this);
     } else {
@@ -2070,7 +2070,7 @@ void BossSst_HandReadyCharge(BossSst* this, PlayState* play) {
         this->ready &= Math_ScaledStepToS(&this->actor.shape.rot.z, this->vParity * 0x2800, 0x800);
         this->ready &= Math_StepToS(&this->handZPosMod, -0xDAC, 0x1F4);
         if (this->ready) {
-            this->actor.colorFilterTimer = 0;
+            this->actor.colourFilterTimer = 0;
         }
     } else if (this->colliderJntSph.base.atFlags & AT_HIT) {
         this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
@@ -2202,7 +2202,7 @@ void BossSst_HandSetupDarken(BossSst* this) {
 void BossSst_HandDarken(BossSst* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     Math_ScaledStepToS(&this->actor.shape.rot.x, -0x800, this->handAngSpeed);
-    Math_StepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 90.0f, 5.0f);
+    Math_StepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 90.0f, 5.0f);
     if (sHead->actionFunc == BossSst_HeadFall) {
         BossSst_HandSetupFall(this);
     }
@@ -2237,7 +2237,7 @@ void BossSst_HandMelt(BossSst* this, PlayState* play) {
     this->actor.scale.y -= 0.00025f;
     this->actor.scale.x += 0.000025f;
     this->actor.scale.z += 0.000025f;
-    this->actor.world.pos.y = ROOM_CENTER_Y + 0.0f;
+    this->actor.world.pos.y = ROOM_CENTRE_Y + 0.0f;
     if (this->timer == 0) {
         BossSst_HandSetupFinish(this);
     }
@@ -2267,7 +2267,7 @@ void BossSst_HandSetupRecover(BossSst* this) {
 }
 
 void BossSst_HandRecover(BossSst* this, PlayState* play) {
-    Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTER_Y + 250.0f, 0.5f, 70.0f, 5.0f);
+    Math_SmoothStepToF(&this->actor.world.pos.y, ROOM_CENTRE_Y + 250.0f, 0.5f, 70.0f, 5.0f);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (!this->ready) {
             Animation_MorphToPlayOnce(&this->skelAnime, sHandHangPoses[this->actor.params], 10.0f);
@@ -2281,7 +2281,7 @@ void BossSst_HandSetupFrozen(BossSst* this) {
     s32 i;
 
     HAND_STATE(this) = HAND_FROZEN;
-    Math_Vec3f_Copy(&this->center, &this->actor.world.pos);
+    Math_Vec3f_Copy(&this->centre, &this->actor.world.pos);
     BossSst_HandSetupReadyBreakIce(OTHER_HAND(this));
     this->ready = false;
     this->effectMode = BONGO_ICE;
@@ -2310,7 +2310,7 @@ void BossSst_HandFrozen(BossSst* this, PlayState* play) {
         BossSst_HandSetupRetreat(this);
         sHead->ready = true;
     } else {
-        this->actor.colorFilterTimer = 10;
+        this->actor.colourFilterTimer = 10;
         if (this->handAngSpeed != 0) {
             f32 offY = Math_SinS(OTHER_HAND(this)->actor.shape.rot.x) * 5.0f;
             f32 offXZ = Math_CosS(OTHER_HAND(this)->actor.shape.rot.x) * 5.0f;
@@ -2320,9 +2320,9 @@ void BossSst_HandFrozen(BossSst* this, PlayState* play) {
                 offXZ *= -1.0f;
             }
 
-            this->actor.world.pos.x = this->center.x + (Math_CosS(OTHER_HAND(this)->actor.shape.rot.y) * offXZ);
-            this->actor.world.pos.y = this->center.y + offY;
-            this->actor.world.pos.z = this->center.z + (Math_SinS(OTHER_HAND(this)->actor.shape.rot.y) * offXZ);
+            this->actor.world.pos.x = this->centre.x + (Math_CosS(OTHER_HAND(this)->actor.shape.rot.y) * offXZ);
+            this->actor.world.pos.y = this->centre.y + offY;
+            this->actor.world.pos.z = this->centre.z + (Math_SinS(OTHER_HAND(this)->actor.shape.rot.y) * offXZ);
             this->handAngSpeed--;
         }
     }
@@ -2332,13 +2332,13 @@ void BossSst_HandSetupReadyBreakIce(BossSst* this) {
     HAND_STATE(this) = HAND_BREAK_ICE;
     Animation_MorphToPlayOnce(&this->skelAnime, sHandFistPoses[this->actor.params], 5.0f);
     this->ready = false;
-    this->actor.colorFilterTimer = 0;
+    this->actor.colourFilterTimer = 0;
     if (this->effectMode == BONGO_ICE) {
         this->effectMode = BONGO_NULL;
     }
 
-    this->radius = Actor_WorldDistXZToPoint(&this->actor, &OTHER_HAND(this)->center);
-    this->targetYaw = Actor_WorldYawTowardPoint(&this->actor, &OTHER_HAND(this)->center);
+    this->radius = Actor_WorldDistXZToPoint(&this->actor, &OTHER_HAND(this)->centre);
+    this->targetYaw = Actor_WorldYawTowardPoint(&this->actor, &OTHER_HAND(this)->centre);
     BossSst_HandSetInvulnerable(this, true);
     this->actionFunc = BossSst_HandReadyBreakIce;
 }
@@ -2350,10 +2350,10 @@ void BossSst_HandReadyBreakIce(BossSst* this, PlayState* play) {
     inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.x, 0x1000, 0x400);
     inPosition &= Math_ScaledStepToS(&this->actor.shape.rot.z, 0, 0x800);
     inPosition &= Math_ScaledStepToS(&this->handYRotMod, 0, 0x400);
-    inPosition &= Math_StepToF(&this->actor.world.pos.y, OTHER_HAND(this)->center.y + 200.0f, 50.0f);
+    inPosition &= Math_StepToF(&this->actor.world.pos.y, OTHER_HAND(this)->centre.y + 200.0f, 50.0f);
     inPosition &= Math_StepToF(&this->radius, 400.0f, 60.0f);
-    this->actor.world.pos.x = OTHER_HAND(this)->center.x - (Math_SinS(this->targetYaw) * this->radius);
-    this->actor.world.pos.z = OTHER_HAND(this)->center.z - (Math_CosS(this->targetYaw) * this->radius);
+    this->actor.world.pos.x = OTHER_HAND(this)->centre.x - (Math_SinS(this->targetYaw) * this->radius);
+    this->actor.world.pos.z = OTHER_HAND(this)->centre.z - (Math_CosS(this->targetYaw) * this->radius);
     if (SkelAnime_Update(&this->skelAnime) && inPosition) {
         BossSst_HandSetupBreakIce(this);
     }
@@ -2392,9 +2392,9 @@ void BossSst_HandBreakIce(BossSst* this, PlayState* play) {
         }
     }
 
-    this->actor.world.pos.x = OTHER_HAND(this)->center.x - (Math_SinS(this->targetYaw) * this->radius);
-    this->actor.world.pos.z = OTHER_HAND(this)->center.z - (Math_CosS(this->targetYaw) * this->radius);
-    this->actor.world.pos.y = OTHER_HAND(this)->center.y + (this->radius * 0.4f);
+    this->actor.world.pos.x = OTHER_HAND(this)->centre.x - (Math_SinS(this->targetYaw) * this->radius);
+    this->actor.world.pos.z = OTHER_HAND(this)->centre.z - (Math_CosS(this->targetYaw) * this->radius);
+    this->actor.world.pos.y = OTHER_HAND(this)->centre.y + (this->radius * 0.4f);
     if (this->timer == 0) {
         OTHER_HAND(this)->ready = true;
         BossSst_HandSetupRetreat(this);
@@ -2512,7 +2512,7 @@ void BossSst_HandSetInvulnerable(BossSst* this, s32 isInv) {
 }
 
 void BossSst_HeadSfx(BossSst* this, u16 sfxId) {
-    Sfx_PlaySfxAtPos(&this->center, sfxId);
+    Sfx_PlaySfxAtPos(&this->centre, sfxId);
 }
 
 void BossSst_HandCollisionCheck(BossSst* this, PlayState* play) {
@@ -2645,7 +2645,7 @@ void BossSst_UpdateHead(Actor* thisx, PlayState* play) {
     BossSst_HeadCollisionCheck(this, play);
     this->actionFunc(this, play);
     if (this->vVanish) {
-        if (!play->actorCtx.lensActive || (thisx->colorFilterTimer != 0)) {
+        if (!play->actorCtx.lensActive || (thisx->colourFilterTimer != 0)) {
             this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
         } else {
             this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
@@ -2914,9 +2914,9 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 18, 255);
 
         yOffset = 113 * 8 - this->timer * 8;
-        vanishMaskPos.x = ROOM_CENTER_X + 85.0f;
-        vanishMaskPos.y = ROOM_CENTER_Y - 250.0f + yOffset;
-        vanishMaskPos.z = ROOM_CENTER_Z + 190.0f;
+        vanishMaskPos.x = ROOM_CENTRE_X + 85.0f;
+        vanishMaskPos.y = ROOM_CENTRE_Y - 250.0f + yOffset;
+        vanishMaskPos.z = ROOM_CENTRE_Z + 190.0f;
         if (vanishMaskPos.y > 450.0f) {
             vanishMaskPos.y = 450.0f;
         }
@@ -2933,7 +2933,7 @@ void BossSst_DrawHead(Actor* thisx, PlayState* play) {
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_sst.c", 6941);
 
-    SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &this->actor.focus.pos, &this->center);
+    SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &this->actor.focus.pos, &this->centre);
     BossSst_DrawEffects(&this->actor, play);
 }
 
@@ -3006,9 +3006,9 @@ void BossSst_SpawnIceCrystal(BossSst* this, s32 index) {
     if (index < 11) {
         sphere = &this->colliderJntSph.elements[index].dim.worldSphere;
 
-        ice->pos.x = sphere->center.x;
-        ice->pos.y = sphere->center.y;
-        ice->pos.z = sphere->center.z;
+        ice->pos.x = sphere->centre.x;
+        ice->pos.y = sphere->centre.y;
+        ice->pos.z = sphere->centre.z;
         if (index == 0) {
             ice->pos.x -= 25.0f;
             ice->pos.y -= 25.0f;
@@ -3017,9 +3017,9 @@ void BossSst_SpawnIceCrystal(BossSst* this, s32 index) {
     } else {
         sphere = &this->colliderJntSph.elements[0].dim.worldSphere;
 
-        ice->pos.x = ((((index - 11) & 1) ? 1 : -1) * 25.0f) + sphere->center.x;
-        ice->pos.y = ((((index - 11) & 2) ? 1 : -1) * 25.0f) + sphere->center.y;
-        ice->pos.z = ((((index - 11) & 4) ? 1 : -1) * 25.0f) + sphere->center.z;
+        ice->pos.x = ((((index - 11) & 1) ? 1 : -1) * 25.0f) + sphere->centre.x;
+        ice->pos.y = ((((index - 11) & 2) ? 1 : -1) * 25.0f) + sphere->centre.y;
+        ice->pos.z = ((((index - 11) & 4) ? 1 : -1) * 25.0f) + sphere->centre.z;
     }
 
     ice->pos.x -= this->actor.world.pos.x;
@@ -3137,7 +3137,7 @@ void BossSst_UpdateEffects(Actor* thisx, PlayState* play) {
             effect = &this->effects[0];
 
             if (this->actor.params == BONGO_HEAD) {
-                SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &this->actor.focus.pos, &this->center);
+                SkinMatrix_Vec3fMtxFMultXYZ(&play->viewProjectionMtxF, &this->actor.focus.pos, &this->centre);
                 BossSst_HeadSfx(this, NA_SE_EN_SHADEST_LAST - SFX_FLAG);
             }
             while (effect->status != -1) {

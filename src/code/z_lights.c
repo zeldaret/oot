@@ -28,9 +28,9 @@ void Lights_PointGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u
 }
 
 void Lights_PointSetColorAndRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius) {
-    info->params.point.color[0] = r;
-    info->params.point.color[1] = g;
-    info->params.point.color[2] = b;
+    info->params.point.colour[0] = r;
+    info->params.point.colour[1] = g;
+    info->params.point.colour[2] = b;
     info->params.point.radius = radius;
 }
 
@@ -39,9 +39,9 @@ void Lights_DirectionalSetInfo(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8
     info->params.dir.x = x;
     info->params.dir.y = y;
     info->params.dir.z = z;
-    info->params.dir.color[0] = r;
-    info->params.dir.color[1] = g;
-    info->params.dir.color[2] = b;
+    info->params.dir.colour[0] = r;
+    info->params.dir.colour[1] = g;
+    info->params.dir.colour[2] = b;
 }
 
 // unused
@@ -112,9 +112,9 @@ void Lights_BindPoint(Lights* lights, LightParams* params, Vec3f* vec) {
                 scale = posDiff / scale;
                 scale = 1 - SQ(scale);
 
-                light->l.col[0] = light->l.colc[0] = params->point.color[0] * scale;
-                light->l.col[1] = light->l.colc[1] = params->point.color[1] * scale;
-                light->l.col[2] = light->l.colc[2] = params->point.color[2] * scale;
+                light->l.col[0] = light->l.colc[0] = params->point.colour[0] * scale;
+                light->l.col[1] = light->l.colc[1] = params->point.colour[1] * scale;
+                light->l.col[2] = light->l.colc[2] = params->point.colour[2] * scale;
 
                 scale = (posDiff < 1.0f) ? 120.0f : 120.0f / posDiff;
 
@@ -130,9 +130,9 @@ void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
     Light* light = Lights_FindSlot(lights);
 
     if (light != NULL) {
-        light->l.col[0] = light->l.colc[0] = params->dir.color[0];
-        light->l.col[1] = light->l.colc[1] = params->dir.color[1];
-        light->l.col[2] = light->l.colc[2] = params->dir.color[2];
+        light->l.col[0] = light->l.colc[0] = params->dir.colour[0];
+        light->l.col[1] = light->l.colc[1] = params->dir.colour[1];
+        light->l.col[2] = light->l.colc[2] = params->dir.colour[2];
         light->l.dir[0] = params->dir.x;
         light->l.dir[1] = params->dir.y;
         light->l.dir[2] = params->dir.z;
@@ -141,7 +141,7 @@ void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
 
 /**
  * For every light in a provided list, try to find a free slot in the provided Lights group and bind
- * a light to it. Then apply color and positional/directional info for each light
+ * a light to it. Then apply colour and positional/directional info for each light
  * based on the parameters supplied by the node.
  *
  * Note: Lights in a given list can only be bound to however many free slots are
@@ -214,7 +214,7 @@ void LightContext_SetFog(LightContext* lightCtx, u8 r, u8 g, u8 b, s16 fogNear, 
 }
 
 /**
- * Allocate a new Lights group and initialize the ambient color with that provided by LightContext
+ * Allocate a new Lights group and initialize the ambient colour with that provided by LightContext
  */
 Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx) {
     return Lights_New(gfxCtx, lightCtx->ambientColor[0], lightCtx->ambientColor[1], lightCtx->ambientColor[2]);
@@ -342,7 +342,7 @@ void Lights_GlowCheck(PlayState* play) {
                 // Compute screen z value assuming the viewport scale and translation both have value G_MAXZ / 2
                 // The multiplication by 32 follows from how the RSP microcode computes the screen z value.
                 wZ = (s32)((multDest.z * cappedInvWDest) * ((G_MAXZ / 2) * 32)) + ((G_MAXZ / 2) * 32);
-                // Obtain the z-buffer value for the screen pixel corresponding to the center of the glow.
+                // Obtain the z-buffer value for the screen pixel corresponding to the centre of the glow.
                 zBuf = gZBuffer[(s32)((wY * -(SCREEN_HEIGHT / 2)) + (SCREEN_HEIGHT / 2))]
                                [(s32)((wX * (SCREEN_WIDTH / 2)) + (SCREEN_WIDTH / 2))]
                        << 2;
@@ -385,7 +385,7 @@ void Lights_DrawGlow(PlayState* play) {
         if ((info->type == LIGHT_POINT_GLOW) && (params->drawGlow)) {
             scale = SQ(params->radius) * 0.0000026f;
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, params->color[0], params->color[1], params->color[2], 50);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, params->colour[0], params->colour[1], params->colour[2], 50);
             Matrix_Translate(params->x, params->y, params->z, MTXMODE_NEW);
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_lights.c", 918),

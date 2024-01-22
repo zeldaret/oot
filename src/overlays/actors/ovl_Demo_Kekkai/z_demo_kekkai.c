@@ -271,7 +271,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
         1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
         1, 1, 0, 0, 0, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 1, 0, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 0, 0,
     };
-    s32 colorIndex;
+    s32 colourIndex;
     DemoKekkai* this = (DemoKekkai*)thisx;
     u8 alphas[3];
     Vtx* energyVtx = SEGMENTED_TO_VIRTUAL(gTrialBarrierEnergyVtx);
@@ -289,7 +289,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
         energyVtx[i].v.cn[3] = alphas[alphaIndex[i]];
     }
 
-    colorIndex = (this->actor.params - 1) * 6;
+    colourIndex = (this->actor.params - 1) * 6;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_kekkai.c", 632);
 
@@ -313,10 +313,10 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, PlayState* play2) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, 0, 0x20, 0x20, 1, frames, frames, 0x20, 0x20));
     gSPDisplayList(POLY_XLU_DISP++, gTrialBarrierFloorDL);
     gDPPipeSync(POLY_XLU_DISP++);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, sEnergyColors[colorIndex + 0], sEnergyColors[colorIndex + 1],
-                    sEnergyColors[colorIndex + 2], 255);
-    gDPSetEnvColor(POLY_XLU_DISP++, sEnergyColors[colorIndex + 3], sEnergyColors[colorIndex + 4],
-                   sEnergyColors[colorIndex + 5], 128);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, sEnergyColors[colourIndex + 0], sEnergyColors[colourIndex + 1],
+                    sEnergyColors[colourIndex + 2], 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, sEnergyColors[colourIndex + 3], sEnergyColors[colourIndex + 4],
+                   sEnergyColors[colourIndex + 5], 128);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, frames * 5, frames * -10, 0x20, 0x20, 1,
                                 frames * 5, frames * -10, 0x20, 0x40));

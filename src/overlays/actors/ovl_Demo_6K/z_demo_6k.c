@@ -572,7 +572,7 @@ void func_80967FFC(Actor* thisx, PlayState* play) {
     {
         s32 i;
         s32 pad;
-        Color_RGB8 colors[6][2] = {
+        Color_RGB8 colours[6][2] = {
             { { 255, 170, 255 }, { 255, 0, 100 } }, { { 255, 255, 170 }, { 0, 255, 0 } },
             { { 255, 255, 170 }, { 255, 255, 0 } }, { { 255, 170, 255 }, { 50, 0, 255 } },
             { { 255, 255, 170 }, { 255, 100, 0 } }, { { 170, 255, 255 }, { 0, 100, 255 } },
@@ -585,8 +585,8 @@ void func_80967FFC(Actor* thisx, PlayState* play) {
             gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_demo_6k.c", 1115),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPPipeSync(POLY_XLU_DISP++);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, colors[i][0].r, colors[i][0].g, colors[i][0].b, 255);
-            gDPSetEnvColor(POLY_XLU_DISP++, colors[i][1].r, colors[i][1].g, colors[i][1].b, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, colours[i][0].r, colours[i][0].g, colours[i][0].b, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, colours[i][1].r, colours[i][1].g, colours[i][1].b, 255);
             gSPDisplayList(POLY_XLU_DISP++, object_demo_6k_DL_0022B0);
         }
 

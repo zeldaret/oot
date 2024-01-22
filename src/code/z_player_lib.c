@@ -482,7 +482,7 @@ void Player_SetBootData(PlayState* play, Player* this) {
     IREG(69) = bootRegs[15];
     MREG(95) = bootRegs[16];
 
-    if (play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_2) {
+    if (play->roomCtx.curRoom.behaviourType1 == ROOM_BEHAVIOUR_TYPE1_2) {
         REG(45) = 500;
     }
 }
@@ -785,7 +785,7 @@ s32 Player_GetEnvironmentalHazard(PlayState* play) {
     EnvHazardTextTriggerEntry* triggerEntry;
     s32 envHazard;
 
-    if (play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) { // Room is hot
+    if (play->roomCtx.curRoom.behaviourType2 == ROOM_BEHAVIOUR_TYPE2_3) { // Room is hot
         envHazard = PLAYER_ENV_HAZARD_HOTROOM - 1;
     } else if ((this->underwaterTimer > 80) &&
                ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->underwaterTimer >= 300))) {
@@ -869,7 +869,7 @@ Gfx* sBootDListGroups[][2] = {
 
 void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic, s32 boots,
                      s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* data) {
-    Color_RGB8* color;
+    Color_RGB8* colour;
     s32 eyeIndex = (jointTable[22].x & 0xF) - 1;
     s32 mouthIndex = (jointTable[22].x >> 4) - 1;
 
@@ -895,8 +895,8 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[gSaveContext.save.linkAge][mouthIndex]));
 #endif
 
-    color = &sTunicColors[tunic];
-    gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
+    colour = &sTunicColors[tunic];
+    gDPSetEnvColor(POLY_OPA_DISP++, colour->r, colour->g, colour->b, 0);
 
     sDListsLodOffset = lod * 2;
 
@@ -911,8 +911,8 @@ void Player_DrawImpl(PlayState* play, void** skeleton, Vec3s* jointTable, s32 dL
             if (strengthUpgrade >= 2) { // silver or gold gauntlets
                 gDPPipeSync(POLY_OPA_DISP++);
 
-                color = &sGauntletColors[strengthUpgrade - 2];
-                gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
+                colour = &sGauntletColors[strengthUpgrade - 2];
+                gDPSetEnvColor(POLY_OPA_DISP++, colour->r, colour->g, colour->b, 0);
 
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultLeftGauntletPlate1DL);
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultRightGauntletPlate1DL);
@@ -1718,7 +1718,7 @@ s32 Player_OverrideLimbDrawPause(PlayState* play, s32 limbIndex, Gfx** dList, Ve
 
 void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject, SkelAnime* skelAnime, Vec3f* pos,
                           Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
-                          Vec3f* eye, Vec3f* at, f32 fovy, void* colorFrameBuffer, void* depthFrameBuffer) {
+                          Vec3f* eye, Vec3f* at, f32 fovy, void* colourFrameBuffer, void* depthFrameBuffer) {
     // Note: the viewport x and y values are overwritten below, before usage
     static Vp viewport = { (PAUSE_EQUIP_PLAYER_WIDTH / 2) << 2, (PAUSE_EQUIP_PLAYER_HEIGHT / 2) << 2, G_MAXZ / 2, 0,
                            (PAUSE_EQUIP_PLAYER_WIDTH / 2) << 2, (PAUSE_EQUIP_PLAYER_HEIGHT / 2) << 2, G_MAXZ / 2, 0 };
@@ -1767,7 +1767,7 @@ void Player_DrawPauseImpl(PlayState* play, void* gameplayKeep, void* linkObject,
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, colorFrameBuffer);
+    gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, colourFrameBuffer);
     gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
     gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));

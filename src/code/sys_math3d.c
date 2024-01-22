@@ -7,8 +7,8 @@ s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32
                             Vec3f* linePointB, Vec3f* intersect, s32 fromFront);
 s32 Math3D_PlaneVsPlaneNewLine(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA, f32 planeBB,
                                f32 planeBC, f32 planeBDist, InfiniteLine* intersect);
-s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32 centerX, f32 centerY, f32 radius);
-s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 radius);
+s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32 centreX, f32 centreY, f32 radius);
+s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* centre, f32 radius);
 
 /**
  * Creates an infinite line along the intersection of the plane defined from `planeAA`x + `planeAB`y + `planeAB`z +
@@ -293,11 +293,11 @@ s32 Math3D_PointInSquare2D(f32 upperLeftX, f32 lowerRightX, f32 upperLeftY, f32 
 }
 
 /**
- * Checks if the square formed around the circle with center (`centerX`,`centerY`) with radius `radius`
+ * Checks if the square formed around the circle with centre (`centreX`,`centreY`) with radius `radius`
  * touches any portion of the square formed around the triangle with vertices (`x0`,`y0`), (`x1`,`y1`),
  * and (`x2`,`y2`)
  */
-s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32 centerX, f32 centerY, f32 radius) {
+s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32 centreX, f32 centreY, f32 radius) {
     f32 minX;
     f32 maxX;
     f32 minY;
@@ -330,8 +330,8 @@ s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, 
         maxY = y2;
     }
 
-    if ((minX - radius) <= centerX && (maxX + radius) >= centerX && (minY - radius) <= centerY &&
-        (maxY + radius) >= centerY) {
+    if ((minX - radius) <= centreX && (maxX + radius) >= centreX && (minY - radius) <= centreY &&
+        (maxY + radius) >= centreY) {
         return true;
     }
     return false;
@@ -339,10 +339,10 @@ s32 Math3D_CirSquareVsTriSquare(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, 
 
 /**
  * Checks if the cube formed around the triangle formed from `v0`, `v1`, and `v2`
- * has any portion touching the cube formed around the sphere with center `center`
+ * has any portion touching the cube formed around the sphere with centre `centre`
  * and radius of `radius`
  */
-s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 radius) {
+s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* centre, f32 radius) {
     f32 minX;
     f32 maxX;
     f32 minY;
@@ -390,8 +390,8 @@ s32 Math3D_SphCubeVsTriCube(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 
         maxZ = v2->z;
     }
 
-    if ((center->x >= (minX - radius)) && (center->x <= (maxX + radius)) && (center->y >= (minY - radius)) &&
-        (center->y <= (maxY + radius)) && (center->z >= (minZ - radius)) && (center->z <= (maxZ + radius))) {
+    if ((centre->x >= (minX - radius)) && (centre->x <= (maxX + radius)) && (centre->y >= (minY - radius)) &&
+        (centre->y <= (maxY + radius)) && (centre->z >= (minZ - radius)) && (centre->z <= (maxZ + radius))) {
         return true;
     }
 
@@ -1404,7 +1404,7 @@ void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc) {
  * Determines if point `point` lies within `sphere`
  */
 s32 Math3D_PointInSph(Sphere16* sphere, Vec3f* point) {
-    if (Math3D_DistXYZ16toF(&sphere->center, point) < sphere->radius) {
+    if (Math3D_DistXYZ16toF(&sphere->centre, point) < sphere->radius) {
         return true;
     }
     return false;
@@ -1465,8 +1465,8 @@ s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line) {
         // line length is "0"
         return false;
     }
-    temp_f0_2 = ((((sphere->center.x - line->a.x) * lineDiff.x) + ((sphere->center.y - line->a.y) * lineDiff.y)) +
-                 ((sphere->center.z - line->a.z) * lineDiff.z)) /
+    temp_f0_2 = ((((sphere->centre.x - line->a.x) * lineDiff.x) + ((sphere->centre.y - line->a.y) * lineDiff.y)) +
+                 ((sphere->centre.z - line->a.z) * lineDiff.z)) /
                 lineLenSq;
     if ((temp_f0_2 < 0.0f) || (temp_f0_2 > 1.0f)) {
         return false;
@@ -1476,8 +1476,8 @@ s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line) {
     sphLinePerpendicularPoint.y = (lineDiff.y * temp_f0_2) + line->a.y;
     sphLinePerpendicularPoint.z = (lineDiff.z * temp_f0_2) + line->a.z;
 
-    if (SQ(sphLinePerpendicularPoint.x - sphere->center.x) + SQ(sphLinePerpendicularPoint.y - sphere->center.y) +
-            SQ(sphLinePerpendicularPoint.z - sphere->center.z) <=
+    if (SQ(sphLinePerpendicularPoint.x - sphere->centre.x) + SQ(sphLinePerpendicularPoint.y - sphere->centre.y) +
+            SQ(sphLinePerpendicularPoint.z - sphere->centre.z) <=
         SQ((f32)sphere->radius)) {
         return true;
     }
@@ -1498,11 +1498,11 @@ void Math3D_GetSphVsTriIntersectPoint(Sphere16* sphere, TriNorm* tri, Vec3f* int
     v0v1Center.x = ((tri->vtx[0].x + tri->vtx[1].x) * 0.5f);
     v0v1Center.y = ((tri->vtx[0].y + tri->vtx[1].y) * 0.5f);
     v0v1Center.z = ((tri->vtx[0].z + tri->vtx[1].z) * 0.5f);
-    sphereCenter.x = sphere->center.x;
-    sphereCenter.y = sphere->center.y;
-    sphereCenter.z = sphere->center.z;
+    sphereCenter.x = sphere->centre.x;
+    sphereCenter.y = sphere->centre.y;
+    sphereCenter.z = sphere->centre.z;
     dist = Math3D_Vec3f_DistXYZ(&v0v1Center, &sphereCenter);
-    // Distance from the sphere's center to the center of the line formed from v0->v1
+    // Distance from the sphere's centre to the centre of the line formed from v0->v1
     if (IS_ZERO(dist)) {
         intersectPoint->x = sphereCenter.x;
         intersectPoint->y = sphereCenter.y;
@@ -1527,9 +1527,9 @@ s32 Math3D_TriVsSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoi
     f32 nz;
     f32 planeDist;
 
-    sphereCenter.x = sphere->center.x;
-    sphereCenter.y = sphere->center.y;
-    sphereCenter.z = sphere->center.z;
+    sphereCenter.x = sphere->centre.x;
+    sphereCenter.y = sphere->centre.y;
+    sphereCenter.z = sphere->centre.z;
     radius = sphere->radius;
 
     if (!Math3D_SphCubeVsTriCube(&tri->vtx[0], &tri->vtx[1], &tri->vtx[2], &sphereCenter, radius)) {
@@ -1539,7 +1539,7 @@ s32 Math3D_TriVsSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoi
     planeDist = Math3D_UDistPlaneToPos(tri->plane.normal.x, tri->plane.normal.y, tri->plane.normal.z,
                                        tri->plane.originDist, &sphereCenter);
     if (radius < planeDist) {
-        // the point that lies within the plane of the triangle which is perpendicular to the sphere's center is more
+        // the point that lies within the plane of the triangle which is perpendicular to the sphere's centre is more
         // than the radius of the sphere, the plane never crosses the sphere.
         return false;
     }
@@ -1888,10 +1888,10 @@ s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
         return true;
     }
 
-    topSphere.center.x = bottomSphere.center.x = cyl->pos.x;
-    topSphere.center.z = bottomSphere.center.z = cyl->pos.z;
-    topSphere.center.y = cylTop;
-    bottomSphere.center.y = cylBottom;
+    topSphere.centre.x = bottomSphere.centre.x = cyl->pos.x;
+    topSphere.centre.z = bottomSphere.centre.z = cyl->pos.z;
+    topSphere.centre.y = cylTop;
+    bottomSphere.centre.y = cylBottom;
     topSphere.radius = bottomSphere.radius = cyl->radius;
 
     if ((Math3D_TriVsSphIntersect(&topSphere, tri, intersect)) ||
@@ -1923,25 +1923,25 @@ s32 Math3D_SphVsSph(Sphere16* sphereA, Sphere16* sphereB) {
  * Determines if two spheres are touching.  The amount that they're overlapping is placed in `overlapSize`
  */
 s32 Math3D_SphVsSphOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize) {
-    f32 centerDist;
+    f32 centreDist;
 
-    return Math3D_SphVsSphOverlapCenterDist(sphereA, sphereB, overlapSize, &centerDist);
+    return Math3D_SphVsSphOverlapCenterDist(sphereA, sphereB, overlapSize, &centreDist);
 }
 
 /*
- * Determines if two spheres are touching  The distance from the centers is placed in `centerDist`,
+ * Determines if two spheres are touching  The distance from the centres is placed in `centreDist`,
  * and the amount that they're overlapping is placed in `overlapSize`
  */
-s32 Math3D_SphVsSphOverlapCenterDist(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist) {
+s32 Math3D_SphVsSphOverlapCenterDist(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centreDist) {
     Vec3f diff;
 
-    diff.x = (f32)sphereA->center.x - (f32)sphereB->center.x;
-    diff.y = (f32)sphereA->center.y - (f32)sphereB->center.y;
-    diff.z = (f32)sphereA->center.z - (f32)sphereB->center.z;
+    diff.x = (f32)sphereA->centre.x - (f32)sphereB->centre.x;
+    diff.y = (f32)sphereA->centre.y - (f32)sphereB->centre.y;
+    diff.z = (f32)sphereA->centre.z - (f32)sphereB->centre.z;
 
-    *centerDist = sqrt(SQ(diff.x) + SQ(diff.y) + SQ(diff.z));
+    *centreDist = sqrt(SQ(diff.x) + SQ(diff.y) + SQ(diff.z));
 
-    *overlapSize = (((f32)sphereA->radius + (f32)sphereB->radius) - *centerDist);
+    *overlapSize = (((f32)sphereA->radius + (f32)sphereB->radius) - *centreDist);
     if (*overlapSize > 0.008f) {
         return true;
     }
@@ -1954,16 +1954,16 @@ s32 Math3D_SphVsSphOverlapCenterDist(Sphere16* sphereA, Sphere16* sphereB, f32* 
  * Checks if `sph` and `cyl` are touching, output the amount of xz overlap to `overlapSize`
  */
 s32 Math3D_SphVsCylOverlap(Sphere16* sph, Cylinder16* cyl, f32* overlapSize) {
-    f32 centerDist;
+    f32 centreDist;
 
-    return Math3D_SphVsCylOverlapCenterDist(sph, cyl, overlapSize, &centerDist);
+    return Math3D_SphVsCylOverlapCenterDist(sph, cyl, overlapSize, &centreDist);
 }
 
 /**
- * Checks if `sph` and `cyl` are touching, output the xz distance of the centers to `centerDist`, and the amount of
+ * Checks if `sph` and `cyl` are touching, output the xz distance of the centres to `centreDist`, and the amount of
  * xz overlap to `overlapSize`
  */
-s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centerDist) {
+s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centreDist) {
     static Cylinderf cylf;
     static Spheref sphf;
 
@@ -1979,29 +1979,29 @@ s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overla
         // either radius is 0
         return false;
     }
-    sphf.center.y = sph->center.y;
+    sphf.centre.y = sph->centre.y;
     sphf.radius = sph->radius;
     cylf.pos.y = cyl->pos.y;
     cylf.yShift = cyl->yShift;
     cylf.height = cyl->height;
-    x = (f32)sph->center.x - cyl->pos.x;
-    z = (f32)sph->center.z - cyl->pos.z;
+    x = (f32)sph->centre.x - cyl->pos.x;
+    z = (f32)sph->centre.z - cyl->pos.z;
     combinedRadius = (f32)sph->radius + cyl->radius;
-    *centerDist = sqrtf(SQ(x) + SQ(z));
-    if (combinedRadius < *centerDist) {
-        // if the combined radii is less than the distance to the centers, they cannot be touching.
+    *centreDist = sqrtf(SQ(x) + SQ(z));
+    if (combinedRadius < *centreDist) {
+        // if the combined radii is less than the distance to the centres, they cannot be touching.
         return false;
     }
 
     cylBottom = (cylf.pos.y + cylf.yShift);
     cylTop = cylBottom + cylf.height;
-    sphBottom = sphf.center.y - sphf.radius;
-    sphTop = sphf.center.y + sphf.radius;
+    sphBottom = sphf.centre.y - sphf.radius;
+    sphTop = sphf.centre.y + sphf.radius;
 
     if ((sphTop >= cylBottom) && (sphBottom <= cylTop)) {
         // if the cylinder and sphere are intersecting on the xz plane, check if they're intersecting on
         // the y axis.
-        *overlapSize = combinedRadius - *centerDist;
+        *overlapSize = combinedRadius - *centreDist;
         return true;
     }
     return false;
@@ -2017,10 +2017,10 @@ s32 Math3D_CylVsCylOverlap(Cylinder16* ca, Cylinder16* cb, f32* overlapSize) {
 }
 
 /**
- * Checks if `ca` and `cb` are touching, output the xz distance of the centers to `centerDist`, and the amount of
+ * Checks if `ca` and `cb` are touching, output the xz distance of the centres to `centreDist`, and the amount of
  * xz overlap to `overlapSize`
  */
-s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overlapSize, f32* centerDist) {
+s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overlapSize, f32* centreDist) {
     static Cylinderf caf;
     static Cylinderf cbf;
 
@@ -2034,10 +2034,10 @@ s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overla
     cbf.yShift = cb->yShift;
     cbf.height = cb->height;
 
-    *centerDist = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
+    *centreDist = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
 
     // The combined radii are within the xz distance
-    if ((caf.radius + cbf.radius) < *centerDist) {
+    if ((caf.radius + cbf.radius) < *centreDist) {
         return false;
     }
 
@@ -2047,7 +2047,7 @@ s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overla
         return false;
     }
 
-    *overlapSize = caf.radius + cbf.radius - *centerDist;
+    *overlapSize = caf.radius + cbf.radius - *centreDist;
     return true;
 }
 
@@ -2113,8 +2113,8 @@ s32 Math3D_XZInSphere(Sphere16* sphere, f32 x, f32 z) {
     f32 xDiff;
     f32 zDiff;
 
-    xDiff = sphere->center.x - x;
-    zDiff = sphere->center.z - z;
+    xDiff = sphere->centre.x - x;
+    zDiff = sphere->centre.z - z;
     if ((SQ(xDiff) + SQ(zDiff)) <= SQ(sphere->radius)) {
         return true;
     }
@@ -2125,8 +2125,8 @@ s32 Math3D_XYInSphere(Sphere16* sphere, f32 x, f32 y) {
     f32 xDiff;
     f32 yDiff;
 
-    xDiff = sphere->center.x - x;
-    yDiff = sphere->center.y - y;
+    xDiff = sphere->centre.x - x;
+    yDiff = sphere->centre.y - y;
     if ((SQ(xDiff) + SQ(yDiff)) <= SQ(sphere->radius)) {
         return true;
     }
@@ -2137,8 +2137,8 @@ s32 Math3D_YZInSphere(Sphere16* sphere, f32 y, f32 z) {
     f32 yDiff;
     f32 zDiff;
 
-    yDiff = sphere->center.y - y;
-    zDiff = sphere->center.z - z;
+    yDiff = sphere->centre.y - y;
+    zDiff = sphere->centre.z - z;
     if ((SQ(yDiff) + SQ(zDiff)) <= SQ(sphere->radius)) {
         return true;
     }

@@ -8,7 +8,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculate
 
     if (channel->changes.s.volume || recalculateVolume) {
         channelVolume = channel->volume * channel->volumeScale * channel->seqPlayer->appliedFadeVolume;
-        if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_SOFTEN)) {
+        if (channel->seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOUR_SOFTEN)) {
             channelVolume = channel->seqPlayer->muteVolumeScale * channelVolume;
         }
         channel->appliedVolume = channelVolume * channelVolume;

@@ -53,7 +53,7 @@ typedef struct {
     /* 0x0004 */ Vec3f pos;
     /* 0x0010 */ Vec3f curSpeed;
     /* 0x001C */ Vec3f accel;
-    /* 0x0028 */ Color_RGB8 color;
+    /* 0x0028 */ Color_RGB8 colour;
     /* 0x002C */ s16 alpha;
     /* 0x002E */ s16 work[EFF_WORK_MAX];
     /* 0x0034 */ f32 workf[EFF_FWORK_MAX];
@@ -4563,7 +4563,7 @@ void BossTw_UpdateEffects(PlayState* play) {
     u8 sp113 = 0;
     s16 i;
     s16 j;
-    s16 colorIdx;
+    s16 colourIdx;
     Vec3f off;
     Vec3f spF4;
     Vec3f spE8;
@@ -4588,15 +4588,15 @@ void BossTw_UpdateEffects(PlayState* play) {
             eff->curSpeed.z += eff->accel.z;
 
             if (eff->type == TWEFF_DOT) {
-                colorIdx = eff->frame % 4;
+                colourIdx = eff->frame % 4;
 
                 if (eff->work[EFF_ARGS] == 0) {
-                    colorIdx += 4;
+                    colourIdx += 4;
                 }
 
-                eff->color.r = sDotColors[colorIdx].r;
-                eff->color.g = sDotColors[colorIdx].g;
-                eff->color.b = sDotColors[colorIdx].b;
+                eff->colour.r = sDotColors[colourIdx].r;
+                eff->colour.g = sDotColors[colourIdx].g;
+                eff->colour.b = sDotColors[colourIdx].b;
                 eff->alpha -= 20;
 
                 if (eff->alpha <= 0) {
@@ -4916,8 +4916,8 @@ void BossTw_DrawEffects(PlayState* play) {
                 materialFlag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, currentEffect->color.r, currentEffect->color.g,
-                            currentEffect->color.b, currentEffect->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, currentEffect->colour.r, currentEffect->colour.g,
+                            currentEffect->colour.b, currentEffect->alpha);
             Matrix_Translate(currentEffect->pos.x, currentEffect->pos.y, currentEffect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(currentEffect->workf[EFF_SCALE], currentEffect->workf[EFF_SCALE], 1.0f, MTXMODE_APPLY);

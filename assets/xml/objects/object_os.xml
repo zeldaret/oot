@@ -27,7 +27,7 @@
         <Texture Name="gHappyMaskSalesmanSleeveTex" OutName="sleeve" Format="ci8" Width="16" Height="32" Offset="0x3ED8" TlutOffset="0x2E18"/>
         <Texture Name="gHappyMaskSalesmanShirtTex" OutName="shirt" Format="ci8" Width="32" Height="32" Offset="0x40D8" TlutOffset="0x2E18"/>
         <Texture Name="gHappyMaskSalesmanGoldFabricTex" OutName="gold_fabric" Format="ci8" Width="8" Height="16" Offset="0x44D8" TlutOffset="0x2E18"/>
-        <Texture Name="gHappyMaskSalesmanGoldFabricCenterTex" OutName="gold_fabric_center" Format="ci8" Width="8" Height="16" Offset="0x4558" TlutOffset="0x2E18"/>
+        <Texture Name="gHappyMaskSalesmanGoldFabricCenterTex" OutName="gold_fabric_centre" Format="ci8" Width="8" Height="16" Offset="0x4558" TlutOffset="0x2E18"/>
 
         <!-- Happy Mask Salesman Skeleton -->
         <Limb Name="gHappyMaskSalesmanTorsoLimb" LimbType="Standard" Offset="0x45D8"/>

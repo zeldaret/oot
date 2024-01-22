@@ -92,7 +92,7 @@ extern RomFile gObjectTable[OBJECT_ID_MAX];
 extern EntranceInfo gEntranceTable[ENTR_MAX];
 extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 extern u16 gSramSlotOffsets[];
-// 4 16-colors palettes
+// 4 16-colours palettes
 extern u64 gMojiFontTLUTs[4][4]; // original name: "moji_tlut"
 extern u64 gMojiFontTex[]; // original name: "font_ff"
 extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];

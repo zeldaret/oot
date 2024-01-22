@@ -403,7 +403,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, PlayState* play)
         for (i = 4; i >= 0; --i) {
             Color_RGBA8 primColor = { 190, 150, 110, 255 };
             Color_RGBA8 envColor = { 120, 80, 40, 255 };
-            s32 colorDelta;
+            s32 colourDelta;
             Vec3f position;
 
             if (Animation_OnFrame(&this->skelAnime, 31.0f)) {
@@ -416,14 +416,14 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, PlayState* play)
                 position.z = dustPosOffsets[i + 0].z + pos->z;
             }
 
-            colorDelta = Rand_ZeroOne() * 20.0f - 10.0f;
+            colourDelta = Rand_ZeroOne() * 20.0f - 10.0f;
 
-            primColor.r += colorDelta;
-            primColor.g += colorDelta;
-            primColor.b += colorDelta;
-            envColor.r += colorDelta;
-            envColor.g += colorDelta;
-            envColor.b += colorDelta;
+            primColor.r += colourDelta;
+            primColor.g += colourDelta;
+            primColor.b += colourDelta;
+            envColor.r += colourDelta;
+            envColor.g += colourDelta;
+            envColor.b += colourDelta;
 
             func_8002829C(play, &position, &velocity, &accel, &primColor, &envColor, Rand_ZeroOne() * 40.0f + 200.0f,
                           0);
@@ -793,7 +793,7 @@ void DemoDu_UpdateCs_AG_02(DemoDu* this, PlayState* play) {
     DemoDu_CsAfterGanon_CheckIfShouldReset(this, play);
 }
 
-// Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env color.
+// Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env colour.
 void DemoDu_Draw_02(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     DemoDu* this = (DemoDu*)thisx;
@@ -988,7 +988,7 @@ void DemoDu_Init(Actor* thisx, PlayState* play) {
 void DemoDu_Draw_NoDraw(Actor* thisx, PlayState* play2) {
 }
 
-// Similar to DemoDu_Draw_02, but this uses POLY_OPA_DISP. Sets the env color to 255.
+// Similar to DemoDu_Draw_02, but this uses POLY_OPA_DISP. Sets the env colour to 255.
 void DemoDu_Draw_01(Actor* thisx, PlayState* play2) {
     PlayState* play = play2;
     DemoDu* this = (DemoDu*)thisx;

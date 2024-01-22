@@ -51,7 +51,7 @@
 /* 0x27 */ DEFINE_SCENE(kokiri_home3_scene, none, SCENE_TWINS_HOUSE, SDC_DEFAULT, 0, 0)
 /* 0x28 */ DEFINE_SCENE(kokiri_home4_scene, none, SCENE_MIDOS_HOUSE, SDC_DEFAULT, 0, 0)
 /* 0x29 */ DEFINE_SCENE(kokiri_home5_scene, none, SCENE_SARIAS_HOUSE, SDC_DEFAULT, 0, 0)
-/* 0x2A */ DEFINE_SCENE(kakariko_scene, none, SCENE_KAKARIKO_CENTER_GUEST_HOUSE, SDC_DEFAULT, 0, 0)
+/* 0x2A */ DEFINE_SCENE(kakariko_scene, none, SCENE_KAKARIKO_CENTRE_GUEST_HOUSE, SDC_DEFAULT, 0, 0)
 /* 0x2B */ DEFINE_SCENE(kakariko3_scene, none, SCENE_BACK_ALLEY_HOUSE, SDC_DEFAULT, 0, 0)
 /* 0x2C */ DEFINE_SCENE(shop1_scene, g_pn_23, SCENE_BAZAAR, SDC_DEFAULT, 0, 0)
 /* 0x2D */ DEFINE_SCENE(kokiri_shop_scene, g_pn_19, SCENE_KOKIRI_SHOP, SDC_DEFAULT, 0, 0)

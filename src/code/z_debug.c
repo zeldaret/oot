@@ -3,7 +3,7 @@
 typedef struct {
     /* 0x0 */ u8 x;
     /* 0x1 */ u8 y;
-    /* 0x2 */ u8 colorIndex;
+    /* 0x2 */ u8 colourIndex;
     /* 0x3 */ char text[21];
 } DebugCamTextBufferEntry; // size = 0x18
 
@@ -112,7 +112,7 @@ void Regs_Init(void) {
 void DebugCamera_ScreenText(u8 x, u8 y, const char* text) {
 }
 
-void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) {
+void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colourIndex, const char* text) {
     DebugCamTextBufferEntry* entry = &sDebugCamTextBuffer[sDebugCamTextEntryCount];
     char* textDest;
     s16 charCount;
@@ -120,7 +120,7 @@ void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) 
     if (sDebugCamTextEntryCount < ARRAY_COUNT(sDebugCamTextBuffer)) {
         entry->x = x;
         entry->y = y;
-        entry->colorIndex = colorIndex;
+        entry->colourIndex = colourIndex;
 
         // Copy text into the entry, truncating if needed
         charCount = 0;
@@ -140,14 +140,14 @@ void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text) 
 
 void DebugCamera_DrawScreenText(GfxPrint* printer) {
     s32 i;
-    Color_RGBA8* color;
+    Color_RGBA8* colour;
     DebugCamTextBufferEntry* entry;
 
     for (i = 0; i < sDebugCamTextEntryCount; i++) {
         entry = &sDebugCamTextBuffer[i];
-        color = &sDebugCamTextColors[entry->colorIndex];
+        colour = &sDebugCamTextColors[entry->colourIndex];
 
-        GfxPrint_SetColor(printer, color->r, color->g, color->b, color->a);
+        GfxPrint_SetColor(printer, colour->r, colour->g, colour->b, colour->a);
         GfxPrint_SetPos(printer, entry->x, entry->y);
         GfxPrint_Printf(printer, "%s", entry->text);
     }

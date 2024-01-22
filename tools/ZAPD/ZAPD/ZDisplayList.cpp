@@ -1087,7 +1087,7 @@ void ZDisplayList::Opcode_G_SETCOMBINE(uint64_t data, char* line)
 	                        "1",        "NOISE",  "0",      "9",         "10",    "11",
 	                        "12",       "13",     "14",     "0"};
 	const char* modesB[] = {"COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT",
-	                        "CENTER",   "K4",     "8",      "9",         "10",    "11",
+	                        "CENTRE",   "K4",     "8",      "9",         "10",    "11",
 	                        "12",       "13",     "14",     "0"};
 	const char* modesC[] = {"COMBINED",
 	                        "TEXEL0",
@@ -1969,7 +1969,7 @@ std::string ZDisplayList::ProcessGfxDis([[maybe_unused]] const std::string& pref
 	gfxd_output_callback(
 		outputformatter.StaticWriter());  // convert tabs to 4 spaces and enforce 120 line limit
 
-	gfxd_enable(gfxd_emit_dec_color);  // use decimal for colors
+	gfxd_enable(gfxd_emit_dec_colour);  // use decimal for colours
 
 	// set microcode. see gfxd.h for more options.
 	if (dListType == DListType::F3DZEX)

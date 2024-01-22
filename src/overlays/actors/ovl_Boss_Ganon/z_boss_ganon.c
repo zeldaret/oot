@@ -118,7 +118,7 @@ typedef struct {
     /* 0x04 */ Vec3f pos;
     /* 0x10 */ Vec3f velocity;
     /* 0x1C */ Vec3f accel;
-    /* 0x28 */ Color_RGB8 color;
+    /* 0x28 */ Color_RGB8 colour;
     /* 0x2C */ s16 alpha;
     /* 0x2E */ s16 unk_2E;
     /* 0x30 */ s16 unk_30;
@@ -136,7 +136,7 @@ void BossGanonEff_SpawnWindowShard(PlayState* play, Vec3f* pos, Vec3f* velocity,
     static Color_RGB8 shardColors[] = { { 255, 175, 85 }, { 155, 205, 155 }, { 155, 125, 55 } };
     s16 i;
     GanondorfEffect* eff = play->specialEffects;
-    Color_RGB8* color;
+    Color_RGB8* colour;
 
     for (i = 0; i < 200; i++, eff++) {
         if (eff->type == GDF_EFF_NONE) {
@@ -148,10 +148,10 @@ void BossGanonEff_SpawnWindowShard(PlayState* play, Vec3f* pos, Vec3f* velocity,
             eff->accel.y = -1.5f;
             eff->unk_44 = Rand_ZeroFloat(6.28f);
             eff->unk_48 = Rand_ZeroFloat(6.28f);
-            color = &shardColors[(s16)Rand_ZeroFloat(2.99f)];
-            eff->color.r = color->r;
-            eff->color.g = color->g;
-            eff->color.b = color->b;
+            colour = &shardColors[(s16)Rand_ZeroFloat(2.99f)];
+            eff->colour.r = colour->r;
+            eff->colour.g = colour->g;
+            eff->colour.b = colour->b;
             eff->timer = (s16)Rand_ZeroFloat(20.0f);
             break;
         }
@@ -1834,7 +1834,7 @@ void BossGanon_SetupPoundFloor(BossGanon* this, PlayState* play) {
     this->actionFunc = BossGanon_PoundFloor;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
-    this->fwork[GDF_CENTER_POS] = 100.0f;
+    this->fwork[GDF_CENTRE_POS] = 100.0f;
 }
 
 void BossGanon_PoundFloor(BossGanon* this, PlayState* play) {
@@ -1851,12 +1851,12 @@ void BossGanon_PoundFloor(BossGanon* this, PlayState* play) {
 
     switch (this->unk_1C2) {
         case 0:
-            targetPosX = Math_SinS(this->unk_1A2 * 1280) * this->fwork[GDF_CENTER_POS];
-            targetPosZ = Math_CosS(this->unk_1A2 * 1792) * this->fwork[GDF_CENTER_POS];
+            targetPosX = Math_SinS(this->unk_1A2 * 1280) * this->fwork[GDF_CENTRE_POS];
+            targetPosZ = Math_CosS(this->unk_1A2 * 1792) * this->fwork[GDF_CENTRE_POS];
 
             Math_ApproachF(&this->actor.world.pos.x, targetPosX, 0.05f, this->fwork[GDF_FWORK_0]);
             Math_ApproachF(&this->actor.world.pos.z, targetPosZ, 0.05f, this->fwork[GDF_FWORK_0]);
-            Math_ApproachF(&this->fwork[GDF_CENTER_POS], 0.0f, 1, 1.5f);
+            Math_ApproachF(&this->fwork[GDF_CENTRE_POS], 0.0f, 1, 1.5f);
 
             if (this->timers[0] == 5) {
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_HIT_GND);
@@ -1968,7 +1968,7 @@ void BossGanon_SetupChargeBigMagic(BossGanon* this, PlayState* play) {
     this->timers[0] = 30;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.y = 0.0f;
-    this->fwork[GDF_CENTER_POS] = 100.0f;
+    this->fwork[GDF_CENTRE_POS] = 100.0f;
     this->unk_1AA = Rand_ZeroFloat(20000.0f);
     this->unk_1AC = 0;
     this->actionFunc = BossGanon_ChargeBigMagic;
@@ -1985,13 +1985,13 @@ void BossGanon_ChargeBigMagic(BossGanon* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    targetPosX = Math_SinS(this->unk_1A2 * 1280) * this->fwork[GDF_CENTER_POS];
-    targetPosZ = Math_CosS(this->unk_1A2 * 1792) * this->fwork[GDF_CENTER_POS];
+    targetPosX = Math_SinS(this->unk_1A2 * 1280) * this->fwork[GDF_CENTRE_POS];
+    targetPosZ = Math_CosS(this->unk_1A2 * 1792) * this->fwork[GDF_CENTRE_POS];
 
     Math_ApproachF(&this->actor.world.pos.x, targetPosX, 0.05f, this->fwork[GDF_FWORK_0]);
     Math_ApproachF(&this->actor.world.pos.z, targetPosZ, 0.05, this->fwork[GDF_FWORK_0]);
 
-    Math_ApproachF(&this->fwork[GDF_CENTER_POS], 0.0f, 1.0f, 1.5f);
+    Math_ApproachF(&this->fwork[GDF_CENTRE_POS], 0.0f, 1.0f, 1.5f);
     Math_ApproachF(&this->actor.world.pos.y, 200.0f, 0.05f, this->actor.velocity.y);
     Math_ApproachF(&this->actor.velocity.y, 20.0f, 1.0f, 1.0f);
 
@@ -4819,7 +4819,7 @@ void BossGanon_DrawEffects(PlayState* play) {
                 materialFlag++;
             }
             if ((eff->timer & 7) != 0) {
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, 255);
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, eff->colour.r, eff->colour.g, eff->colour.b, 255);
             } else {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
             }

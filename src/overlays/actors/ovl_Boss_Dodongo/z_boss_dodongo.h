@@ -16,7 +16,7 @@ typedef struct {
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ u8 unk_24;
     /* 0x25 */ u8 unk_25;
-    /* 0x26 */ Color_RGB8 color;
+    /* 0x26 */ Color_RGB8 colour;
     /* 0x2A */ s16 alpha;
     /* 0x2C */ f32 unk_2C;
 } BossDodongoEffect; // Size = 0x30
@@ -71,11 +71,11 @@ typedef struct BossDodongo {
     /* 0x0204 */ f32 unk_204;
     /* 0x0208 */ f32 unk_208;
     /* 0x020C */ f32 unk_20C;
-    /* 0x0210 */ f32 colorFilterR;
-    /* 0x0214 */ f32 colorFilterG;
-    /* 0x0214 */ f32 colorFilterB;
-    /* 0x021C */ f32 colorFilterMin;
-    /* 0x0220 */ f32 colorFilterMax;
+    /* 0x0210 */ f32 colourFilterR;
+    /* 0x0214 */ f32 colourFilterG;
+    /* 0x0214 */ f32 colourFilterB;
+    /* 0x021C */ f32 colourFilterMin;
+    /* 0x0220 */ f32 colourFilterMax;
     /* 0x0224 */ f32 unk_224;
     /* 0x0228 */ f32 unk_228;
     /* 0x022C */ f32 unk_22C;

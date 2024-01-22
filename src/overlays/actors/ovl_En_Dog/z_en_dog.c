@@ -120,7 +120,7 @@ void EnDog_PlayBarkSFX(EnDog* this) {
 s32 EnDog_PlayAnimAndSFX(EnDog* this) {
     s32 animation;
 
-    if (this->behavior != this->nextBehavior) {
+    if (this->behaviour != this->nextBehavior) {
         if (this->nextBehavior == DOG_SIT_2) {
             this->nextBehavior = DOG_SIT;
         }
@@ -128,8 +128,8 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
             this->nextBehavior = DOG_BOW;
         }
 
-        this->behavior = this->nextBehavior;
-        switch (this->behavior) {
+        this->behaviour = this->nextBehavior;
+        switch (this->behaviour) {
             case DOG_WALK:
                 animation = ENDOG_ANIM_1;
                 break;
@@ -149,17 +149,17 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animation);
     }
 
-    switch (this->behavior) {
+    switch (this->behaviour) {
         case DOG_SIT:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_5);
-                this->behavior = this->nextBehavior = DOG_SIT_2;
+                this->behaviour = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_7);
-                this->behavior = this->nextBehavior = DOG_BOW_2;
+                this->behaviour = this->nextBehavior = DOG_BOW_2;
             }
             break;
         case DOG_WALK:
@@ -302,7 +302,7 @@ void EnDog_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void EnDog_FollowPath(EnDog* this, PlayState* play) {
-    s32 behaviors[] = { DOG_SIT, DOG_BOW, DOG_BARK };
+    s32 behaviours[] = { DOG_SIT, DOG_BOW, DOG_BARK };
     s32 unused[] = { 40, 80, 20 };
     f32 speedXZ;
     s32 frame;
@@ -311,7 +311,7 @@ void EnDog_FollowPath(EnDog* this, PlayState* play) {
         this->actionFunc = EnDog_FollowPlayer;
     }
 
-    if (DECR(this->behaviorTimer) != 0) {
+    if (DECR(this->behaviourTimer) != 0) {
         if (this->nextBehavior == DOG_WALK) {
             speedXZ = 1.0f;
         } else {
@@ -332,9 +332,9 @@ void EnDog_FollowPath(EnDog* this, PlayState* play) {
         }
     } else {
         frame = play->state.frames % 3;
-        this->nextBehavior = behaviors[frame];
-        // no clue why they're using the behavior id to calculate timer. possibly meant to use the unused array?
-        this->behaviorTimer = Rand_S16Offset(60, behaviors[frame]);
+        this->nextBehavior = behaviours[frame];
+        // no clue why they're using the behaviour id to calculate timer. possibly meant to use the unused array?
+        this->behaviourTimer = Rand_S16Offset(60, behaviours[frame]);
         this->actionFunc = EnDog_ChooseMovement;
     }
 }
@@ -344,8 +344,8 @@ void EnDog_ChooseMovement(EnDog* this, PlayState* play) {
         this->actionFunc = EnDog_FollowPlayer;
     }
 
-    if (DECR(this->behaviorTimer) == 0) {
-        this->behaviorTimer = Rand_S16Offset(200, 100);
+    if (DECR(this->behaviourTimer) == 0) {
+        this->behaviourTimer = Rand_S16Offset(200, 100);
         if (play->state.frames % 2) {
             this->nextBehavior = DOG_WALK;
         } else {
@@ -353,7 +353,7 @@ void EnDog_ChooseMovement(EnDog* this, PlayState* play) {
         }
 
         if (this->nextBehavior == DOG_RUN) {
-            this->behaviorTimer /= 2;
+            this->behaviourTimer /= 2;
         }
         this->actionFunc = EnDog_FollowPath;
     }
@@ -470,15 +470,15 @@ void EnDog_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
 
 void EnDog_Draw(Actor* thisx, PlayState* play) {
     EnDog* this = (EnDog*)thisx;
-    Color_RGBA8 colors[] = { { 255, 255, 200, 0 }, { 150, 100, 50, 0 } };
+    Color_RGBA8 colours[] = { { 255, 255, 200, 0 }, { 150, 100, 50, 0 } };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dog.c", 972);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetEnvColor(POLY_OPA_DISP++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
-                   colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
+    gDPSetEnvColor(POLY_OPA_DISP++, colours[this->actor.params & 0xF].r, colours[this->actor.params & 0xF].g,
+                   colours[this->actor.params & 0xF].b, colours[this->actor.params & 0xF].a);
 
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, this);

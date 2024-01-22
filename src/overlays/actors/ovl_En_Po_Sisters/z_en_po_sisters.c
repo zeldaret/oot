@@ -1246,7 +1246,7 @@ void func_80ADC55C(EnPoSisters* this) {
         temp_var = this->unk_22E.b + 5;
         this->unk_22E.b = CLAMP_MAX(temp_var, 225);
     } else if (this->skelAnime.animation == &gPoeSistersDamagedAnim) {
-        if (this->actor.colorFilterTimer & 2) {
+        if (this->actor.colourFilterTimer & 2) {
             this->unk_22E.r = 0;
             this->unk_22E.g = 0;
             this->unk_22E.b = 0;
@@ -1271,7 +1271,7 @@ void func_80ADC55C(EnPoSisters* this) {
 s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                                  Gfx** gfxP) {
     EnPoSisters* this = (EnPoSisters*)thisx;
-    Color_RGBA8* color;
+    Color_RGBA8* colour;
 
     if (limbIndex == 1 && (this->unk_199 & 0x40)) {
         if (this->unk_19A >= 284) {
@@ -1289,9 +1289,9 @@ s32 EnPoSisters_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Ve
         gDPPipeSync((*gfxP)++);
         gDPSetEnvColor((*gfxP)++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
     } else if (limbIndex == 11) {
-        color = &D_80ADD7E8[this->unk_194];
+        colour = &D_80ADD7E8[this->unk_194];
         gDPPipeSync((*gfxP)++);
-        gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->unk_22E.a);
+        gDPSetEnvColor((*gfxP)++, colour->r, colour->g, colour->b, this->unk_22E.a);
     }
     return false;
 }
@@ -1316,17 +1316,17 @@ void EnPoSisters_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
             Matrix_MultVec3f(&D_80ADD7F8, &this->actor.home.pos);
         }
         if (this->unk_198 > 0) {
-            Color_RGBA8* color = &D_80ADD6F0[this->unk_194];
+            Color_RGBA8* colour = &D_80ADD6F0[this->unk_194];
             f32 temp_f2 = Rand_ZeroOne() * 0.3f + 0.7f;
 
             if (this->actionFunc == func_80ADB17C || this->actionFunc == func_80ADBD38 ||
                 this->actionFunc == func_80ADBEE8) {
                 Lights_PointNoGlowSetInfo(&this->lightInfo, this->unk_234[0].x, this->unk_234[0].y + 15.0f,
-                                          this->unk_234[0].z, color->r * temp_f2, color->g * temp_f2,
-                                          color->b * temp_f2, 200);
+                                          this->unk_234[0].z, colour->r * temp_f2, colour->g * temp_f2,
+                                          colour->b * temp_f2, 200);
             } else {
                 Lights_PointGlowSetInfo(&this->lightInfo, this->unk_234[0].x, this->unk_234[0].y + 15.0f,
-                                        this->unk_234[0].z, color->r * temp_f2, color->g * temp_f2, color->b * temp_f2,
+                                        this->unk_234[0].z, colour->r * temp_f2, colour->g * temp_f2, colour->b * temp_f2,
                                         200);
             }
         } else {

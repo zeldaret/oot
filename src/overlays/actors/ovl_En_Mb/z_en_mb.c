@@ -8,7 +8,7 @@
 #include "assets/objects/object_mb/object_mb.h"
 
 /*
- * This actor can have three behaviors:
+ * This actor can have three behaviours:
  * - "Spear Guard" (variable -1): uses a spear, walks around home point, charges player if too close
  * - "Club" (variable 0): uses a club, stands still and smashes its club on the ground when the player approaches
  * - "Spear Patrol" (variable 0xPP00 PP=pathId): uses a spear, patrols following a path, charges
@@ -364,7 +364,7 @@ void EnMb_NextWaypoint(EnMb* this, PlayState* play) {
 }
 
 /**
- * Checks if the player is in a 800*74 units XZ area centered on this actor,
+ * Checks if the player is in a 800*74 units XZ area centreed on this actor,
  * the area being directed along its line of sight snapped to a cardinal angle.
  * Note: the longest corridor in Sacred Forest Meadows is 800 units long,
  *       and they all are 100 units wide.
@@ -609,7 +609,7 @@ void EnMb_Stunned(EnMb* this, PlayState* play) {
         this->attack = ENMB_ATTACK_NONE;
     }
 
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         if (this->actor.params == ENMB_TYPE_CLUB) {
             if (this->actor.colChkInfo.health == 0) {
                 EnMb_SetupClubDead(this);
@@ -1543,7 +1543,7 @@ void EnMb_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (this->iceEffectTimer != 0) {
-        thisx->colorFilterTimer++;
+        thisx->colourFilterTimer++;
         if (this->iceEffectTimer >= 0) {
             this->iceEffectTimer--;
         }

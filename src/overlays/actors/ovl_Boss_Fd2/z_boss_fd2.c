@@ -1040,7 +1040,7 @@ s32 BossFd2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
 void BossFd2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f targetMod = { 4500.0f, 0.0f, 0.0f };
     static Vec3f headMod = { 4000.0f, 0.0f, 0.0f };
-    static Vec3f centerManeMod = { 4000.0f, -2900.0, 2000.0f };
+    static Vec3f centreManeMod = { 4000.0f, -2900.0, 2000.0f };
     static Vec3f rightManeMod = { 4000.0f, -1600.0, 0.0f };
     static Vec3f leftManeMod = { 4000.0f, -1600.0, -2000.0f };
     BossFd2* this = (BossFd2*)thisx;
@@ -1048,7 +1048,7 @@ void BossFd2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
     if (limbIndex == 35) {
         Matrix_MultVec3f(&targetMod, &this->actor.focus.pos);
         Matrix_MultVec3f(&headMod, &this->headPos);
-        Matrix_MultVec3f(&centerManeMod, &this->centerMane.head);
+        Matrix_MultVec3f(&centreManeMod, &this->centreMane.head);
         Matrix_MultVec3f(&rightManeMod, &this->rightMane.head);
         Matrix_MultVec3f(&leftManeMod, &this->leftMane.head);
     }
@@ -1161,7 +1161,7 @@ void BossFd2_DrawMane(BossFd2* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_fd2.c", 2515);
     if (1) {}
     for (i = 0; i < 10; i++) {
-        this->centerMane.scale[i] = 1.5f + 0.3f * Math_SinS(5596.0f * this->work[FD2_VAR_TIMER] + i * 0x3200);
+        this->centreMane.scale[i] = 1.5f + 0.3f * Math_SinS(5596.0f * this->work[FD2_VAR_TIMER] + i * 0x3200);
         this->rightMane.scale[i] = 1.5f + 0.3f * Math_SinS(5496.0f * this->work[FD2_VAR_TIMER] + i * 0x3200);
         this->leftMane.scale[i] = 1.5f + 0.3f * Math_CosS(5696.0f * this->work[FD2_VAR_TIMER] + i * 0x3200);
     }
@@ -1170,9 +1170,9 @@ void BossFd2_DrawMane(BossFd2* this, PlayState* play) {
 
     gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeMaterialDL);
 
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, bossFd->fwork[BFD_MANE_COLOR_CENTER], 0, 255);
-    BossFd2_UpdateMane(this, play, &this->centerMane.head, this->centerMane.pos, this->centerMane.rot,
-                       this->centerMane.pull, this->centerMane.scale);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, bossFd->fwork[BFD_MANE_COLOR_CENTRE], 0, 255);
+    BossFd2_UpdateMane(this, play, &this->centreMane.head, this->centreMane.pos, this->centreMane.rot,
+                       this->centreMane.pull, this->centreMane.scale);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, bossFd->fwork[BFD_MANE_COLOR_RIGHT], 0, 255);
     BossFd2_UpdateMane(this, play, &this->rightMane.head, this->rightMane.pos, this->rightMane.rot,

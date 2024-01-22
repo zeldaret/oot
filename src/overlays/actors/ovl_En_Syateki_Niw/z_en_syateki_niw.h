@@ -71,8 +71,8 @@ typedef struct EnSyatekiNiw {
 } EnSyatekiNiw; // size = 0x0460
 
 typedef enum {
-    SYATEKI_MINIGAME_ARCHERY, // unused archery game behavior
-    SYATEKI_MINIGAME_ALLEY // Bombchu Alley behavior
+    SYATEKI_MINIGAME_ARCHERY, // unused archery game behaviour
+    SYATEKI_MINIGAME_ALLEY // Bombchu Alley behaviour
 } EnSyatekiMinigame;
 
 #endif

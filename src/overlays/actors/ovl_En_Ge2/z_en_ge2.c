@@ -556,7 +556,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     } else if (this->collider.base.acFlags & AC_HIT) {
         if ((this->collider.elem.acHitElem != NULL) &&
             (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
-            //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter.
+            //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colourfilter.
             //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
             this->actor.update = EnGe2_UpdateStunned;
@@ -608,7 +608,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
 
     if ((this->collider.base.acFlags & AC_HIT) && ((this->collider.elem.acHitElem == NULL) ||
                                                    !(this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT))) {
-        this->actor.colorFilterTimer = 0;
+        this->actor.colourFilterTimer = 0;
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
@@ -620,8 +620,8 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     if (EnGe2_CheckCarpentersFreed()) {
         this->actor.update = EnGe2_UpdateFriendly;
         this->actor.targetMode = 6;
-        this->actor.colorFilterTimer = 0;
-    } else if (this->actor.colorFilterTimer == 0) {
+        this->actor.colourFilterTimer = 0;
+    } else if (this->actor.colourFilterTimer == 0) {
         this->actor.update = EnGe2_Update;
     }
 }

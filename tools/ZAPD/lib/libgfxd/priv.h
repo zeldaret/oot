@@ -85,7 +85,7 @@ struct gfxd_config
 
 	int			stop_on_invalid;
 	int			stop_on_end;
-	int			emit_dec_color;
+	int			emit_dec_colour;
 	int			emit_q_macro;
 	int			emit_ext_macro;
 

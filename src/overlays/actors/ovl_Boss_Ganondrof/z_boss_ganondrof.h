@@ -11,9 +11,9 @@ typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, PlayState*);
 #define GND_REAL_BOSS 1
 #define GND_FAKE_BOSS 10
 
-#define GND_BOSSROOM_CENTER_X 14.0f
-#define GND_BOSSROOM_CENTER_Y -33.0f
-#define GND_BOSSROOM_CENTER_Z -3315.0f
+#define GND_BOSSROOM_CENTRE_X 14.0f
+#define GND_BOSSROOM_CENTRE_Y -33.0f
+#define GND_BOSSROOM_CENTRE_Z -3315.0f
 
 typedef enum {
     /* 0 */ GND_FLY_PAINTING,

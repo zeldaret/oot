@@ -163,7 +163,7 @@
         <DList Name="gTwinrovaBigFlameDL" Offset="0x19938"/> <!-- Original name is "bt_firewall_modelT" -->
 
         <!-- Texture for both the pool of fire and the effect when the Mirror Shield has absorbed an attack. -->
-        <Texture Name="gTwinrovaFirePoolAndShieldChargeCenterTex" OutName="twinrova_fire_pool_and_shield_charge_center" Format="i4" Width="32" Height="32" Offset="0x19A20"/>
+        <Texture Name="gTwinrovaFirePoolAndShieldChargeCenterTex" OutName="twinrova_fire_pool_and_shield_charge_centre" Format="i4" Width="32" Height="32" Offset="0x19A20"/>
 
         <!-- DisplayList for the pool of fire that forms when Koume's beam or Twinrova's fire attack hits the ground -->
         <DList Name="gTwinrovaFirePoolDL" Offset="0x19D40"/> <!-- Original name is "bt_firefloor_modelT" -->

@@ -582,7 +582,7 @@ class GlobalAsmBlock:
             # section change
             self.cur_section = '.rodata' if line == '.rdata' else line.split(',')[0].split()[-1]
             if self.cur_section not in ['.data', '.text', '.rodata', '.late_rodata', '.bss']:
-                self.fail("unrecognized .section directive", real_line)
+                self.fail("unrecognised .section directive", real_line)
             changed_section = True
         elif line.startswith('.late_rodata_alignment'):
             if self.cur_section != '.late_rodata':

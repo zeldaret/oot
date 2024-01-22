@@ -48,7 +48,7 @@ typedef struct ObjOshihiki {
     /* 0x01C4 */ f32 underDistX;
     /* 0x01C8 */ f32 underDistZ;
     /* 0x01CC */ void* texture;
-    /* 0x01D0 */ Color_RGB8 color;
+    /* 0x01D0 */ Color_RGB8 colour;
 } ObjOshihiki; // size = 0x01D4
 
 #endif

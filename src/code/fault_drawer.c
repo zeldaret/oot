@@ -113,7 +113,7 @@ void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
     sFaultDrawer.osSyncPrintfEnabled = enabled;
 }
 
-void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 color) {
+void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 colour) {
     u16* fb;
     s32 x, y;
     s32 xDiff = sFaultDrawer.w - xStart;
@@ -133,7 +133,7 @@ void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 col
         fb = sFaultDrawer.fb + sFaultDrawer.w * yStart + xStart;
         for (y = 0; y < ySize; y++) {
             for (x = 0; x < xSize; x++) {
-                *fb++ = color;
+                *fb++ = colour;
             }
             fb += sFaultDrawer.w - xSize;
         }
@@ -175,11 +175,11 @@ void FaultDrawer_DrawChar(char c) {
     }
 }
 
-s32 FaultDrawer_ColorToPrintColor(u16 color) {
+s32 FaultDrawer_ColorToPrintColor(u16 colour) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sFaultDrawer.printColors); i++) {
-        if (color == sFaultDrawer.printColors[i]) {
+        if (colour == sFaultDrawer.printColors[i]) {
             return i;
         }
     }
@@ -204,18 +204,18 @@ void FaultDrawer_UpdatePrintColor(void) {
     }
 }
 
-void FaultDrawer_SetForeColor(u16 color) {
-    sFaultDrawer.foreColor = color;
+void FaultDrawer_SetForeColor(u16 colour) {
+    sFaultDrawer.foreColor = colour;
     FaultDrawer_UpdatePrintColor();
 }
 
-void FaultDrawer_SetBackColor(u16 color) {
-    sFaultDrawer.backColor = color;
+void FaultDrawer_SetBackColor(u16 colour) {
+    sFaultDrawer.backColor = colour;
     FaultDrawer_UpdatePrintColor();
 }
 
-void FaultDrawer_SetFontColor(u16 color) {
-    FaultDrawer_SetForeColor(color | 1); // force alpha to be set
+void FaultDrawer_SetFontColor(u16 colour) {
+    FaultDrawer_SetForeColor(colour | 1); // force alpha to be set
 }
 
 void FaultDrawer_SetCharPad(s8 padW, s8 padH) {

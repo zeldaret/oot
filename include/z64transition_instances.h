@@ -2,7 +2,7 @@
 #define Z64TRANSITION_INSTANCES_H
 
 #include "ultra64.h"
-#include "color.h"
+#include "colour.h"
 
 typedef struct {
     /* 0x0 */ f32 x;
@@ -29,7 +29,7 @@ typedef enum {
 } TransitionInstanceType;
 
 typedef struct {
-    /* 0x000 */ Color_RGBA8_u32 color;
+    /* 0x000 */ Color_RGBA8_u32 colour;
     /* 0x004 */ Color_RGBA8_u32 unkColor;
     /* 0x008 */ u8 direction;
     /* 0x009 */ u8 frame;
@@ -48,7 +48,7 @@ typedef struct {
     /* 0x000 */ u8 type;
     /* 0x001 */ u8 isDone;
     /* 0x002 */ u8 direction;
-    /* 0x004 */ Color_RGBA8_u32 color;
+    /* 0x004 */ Color_RGBA8_u32 colour;
     /* 0x008 */ u16 timer;
 } TransitionFade; // size = 0xC
 
@@ -63,7 +63,7 @@ typedef enum {
     /* 0 */ TCC_BLACK,
     /* 1 */ TCC_WHITE,
     /* 2 */ TCC_GRAY,
-    /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused and appears broken
+    /* 3 */ TCC_SPECIAL // colour varies depending on appearance. unused and appears broken
 } TransitionCircleColor;
 
 typedef enum {
@@ -72,13 +72,13 @@ typedef enum {
 } TransitionCircleSpeed;
 
 typedef struct {
-    /* 0x000 */ Color_RGBA8_u32 color;
+    /* 0x000 */ Color_RGBA8_u32 colour;
     /* 0x004 */ Color_RGBA8_u32 unkColor;
     /* 0x008 */ s32 texX;
     /* 0x00C */ s32 texY;
     /* 0x010 */ s32 speed;
     /* 0x014 */ u8 direction;
-    /* 0x015 */ u8 colorType;
+    /* 0x015 */ u8 colourType;
     /* 0x016 */ u8 speedType;
     /* 0x017 */ u8 appearanceType;
     /* 0x018 */ u8 isDone;
@@ -91,7 +91,7 @@ typedef struct {
 } TransitionCircle; // size = 0x228;
 
 typedef struct {
-    /* 0x000 */ Color_RGBA8_u32 color;
+    /* 0x000 */ Color_RGBA8_u32 colour;
     /* 0x004 */ f32 transPos;
     /* 0x008 */ f32 step;
     /* 0x00C */ s32 state;

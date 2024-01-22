@@ -559,14 +559,14 @@ void EffectSsLightning_Spawn(PlayState* play, Vec3f* pos, Color_RGBA8* primColor
 // EffectSsDtBubble Spawn Functions
 
 void EffectSsDtBubble_SpawnColorProfile(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 life,
-                                        s16 colorProfile, s16 randXZ) {
+                                        s16 colourProfile, s16 randXZ) {
     EffectSsDtBubbleInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     Math_Vec3f_Copy(&initParams.velocity, velocity);
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.customColor = false;
-    initParams.colorProfile = colorProfile;
+    initParams.colourProfile = colourProfile;
     initParams.scale = scale;
     initParams.life = life;
     initParams.randXZ = randXZ;
@@ -754,7 +754,7 @@ void EffectSsHitMark_SpawnCustomScale(PlayState* play, s32 type, s16 scale, Vec3
 /**
  * Spawn a light ball effect
  *
- * param changes the color of the ball. Refer to FhgFlashLightBallParam for the options.
+ * param changes the colour of the ball. Refer to FhgFlashLightBallParam for the options.
  * Note: this type requires OBJECT_FHG to be loaded
  */
 void EffectSsFhgFlash_SpawnLightBall(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, u8 param) {
@@ -822,7 +822,7 @@ void EffectSsSolderSrchBall_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, 
 // EffectSsKakera Spawn Functions
 
 void EffectSsKakera_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* arg3, s16 gravity, s16 arg5, s16 arg6,
-                          s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 colorIdx, s16 objId,
+                          s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 colourIdx, s16 objId,
                           Gfx* dList) {
     EffectSsKakeraInitParams initParams;
 
@@ -838,7 +838,7 @@ void EffectSsKakera_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* a
     initParams.unk_30 = arg10;
     initParams.unk_32 = arg11;
     initParams.life = life;
-    initParams.colorIdx = colorIdx;
+    initParams.colourIdx = colourIdx;
     initParams.objId = objId;
     initParams.dList = dList;
 
@@ -983,25 +983,25 @@ void EffectSsFireTail_Spawn(PlayState* play, Actor* actor, Vec3f* pos, f32 scale
 }
 
 void EffectSsFireTail_SpawnFlame(PlayState* play, Actor* actor, Vec3f* pos, f32 arg3, s16 bodyPart,
-                                 f32 colorIntensity) {
+                                 f32 colourIntensity) {
     static Color_RGBA8 primColor = { 255, 255, 0, 255 };
     static Color_RGBA8 envColor = { 255, 0, 0, 255 };
 
-    primColor.g = (s32)(255.0f * colorIntensity);
+    primColor.g = (s32)(255.0f * colourIntensity);
     primColor.b = 0;
 
     envColor.g = 0;
     envColor.b = 0;
-    primColor.r = envColor.r = (s32)(255.0f * colorIntensity);
+    primColor.r = envColor.r = (s32)(255.0f * colourIntensity);
 
     EffectSsFireTail_Spawn(play, actor, pos, arg3, &actor->velocity, 15, &primColor, &envColor,
-                           (colorIntensity == 1.0f) ? 0 : 1, bodyPart, 1);
+                           (colourIntensity == 1.0f) ? 0 : 1, bodyPart, 1);
 }
 
-void EffectSsFireTail_SpawnFlameOnPlayer(PlayState* play, f32 scale, s16 bodyPart, f32 colorIntensity) {
+void EffectSsFireTail_SpawnFlameOnPlayer(PlayState* play, f32 scale, s16 bodyPart, f32 colourIntensity) {
     Player* player = GET_PLAYER(play);
 
-    EffectSsFireTail_SpawnFlame(play, &player->actor, &player->bodyPartsPos[bodyPart], scale, bodyPart, colorIntensity);
+    EffectSsFireTail_SpawnFlame(play, &player->actor, &player->bodyPartsPos[bodyPart], scale, bodyPart, colourIntensity);
 }
 
 // EffectSsEnFire Spawn Functions

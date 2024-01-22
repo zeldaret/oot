@@ -6,7 +6,7 @@ Object decompilation is the process of taking an object file and writing instruc
 
 An object file is generally where most of the information used by overlays is stored. Its contents can include
 
-- Vertices (positional/normal/color data used by displaylists)
+- Vertices (positional/normal/colour data used by displaylists)
 - Textures
 - DisplayLists (instructions to the graphics processor on how to put together textures and vertices)
 - Skeleton (The underlying structure of an actor's shape, that can be manipulated to change its "pose")
@@ -79,7 +79,7 @@ The following is a list of the texture formats the Nintendo 64 supports, with th
 | ----------------------------------------------- | -------------------------------- | --------------- |
 | 4-bit intensity (I)                             | `G_IM_FMT_I, G_IM_SIZ_4b`        | i4              |
 | 4-bit intensity with alpha (I/A) (3/1)          | `G_IM_FMT_IA, G_IM_SIZ_4b`       | ia4             |
-| 4-bit color index (CI)                          | `G_IM_FMT_CI, G_IM_SIZ_4b`       | ci4             |
+| 4-bit colour index (CI)                          | `G_IM_FMT_CI, G_IM_SIZ_4b`       | ci4             |
 | 8-bit I                                         | `G_IM_FMT_I, G_IM_SIZ_8b`        | i8              |
 | 8-bit IA (4/4)                                  | `G_IM_FMT_IA, G_IM_SIZ_8b`       | ia8             |
 | 8-bit CI                                        | `G_IM_FMT_CI, G_IM_SIZ_8b`       | ci8             |
@@ -141,7 +141,7 @@ If you did everything correctly, you should still get OK when running `make`.
 
 Object decompilation is essentially a descriptive process, but it requires that we know what each blob of data in the object file actually is, and sometimes, the actor files that use an object are not sufficient to determine what everything is. Therefore it is useful to have a battery of romhacking and examination tools to bring to bear on the file to read its contents.
 
-- The state-of-the-art is random's [Z64Utils](https://github.com/Random06457/Z64Utils). This can find and analyze the displaylists, textures and vertices in an object file, and even has an skeleton and animation viewer. It is not perfect; the best model viewer remains the debug rom itself.
+- The state-of-the-art is random's [Z64Utils](https://github.com/Random06457/Z64Utils). This can find and analyse the displaylists, textures and vertices in an object file, and even has an skeleton and animation viewer. It is not perfect; the best model viewer remains the debug rom itself.
 - The old solution to look at skeletons and animations is [Hylian Toolbox](http://wiki.maco64.com/Tools/Hylian_Toolbox). This suffers from numerous issues, but is usually suitable for looking at object files that contain one skeleton and a few animations.
 - To look at textures that you know something about, a texture viewer such as [Texture64](https://github.com/queueRAM/Texture64) is often useful. You may have trouble determining things like the palette a texture uses, depending on the format.
 

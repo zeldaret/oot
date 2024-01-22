@@ -282,7 +282,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
         effPos = thisx->world.pos;
         effPos.y += 10.0f;
 
-        // double bomb flash speed and adjust red color at certain times during the countdown
+        // double bomb flash speed and adjust red colour at certain times during the countdown
         if ((this->timer == 3) || (this->timer == 20) || (this->timer == 40)) {
             thisx->shape.rot.z = 0;
             this->flashSpeedScale >>= 1;

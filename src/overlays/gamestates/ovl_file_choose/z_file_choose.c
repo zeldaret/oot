@@ -124,7 +124,7 @@ void FileSelect_SplitNumber(u16 value, s16* hundreds, s16* tens, s16* ones) {
 
 /**
  * Reduce the alpha of the black screen fill to create a fade in effect.
- * Additionally, slide the window from the right to the center of the screen.
+ * Additionally, slide the window from the right to the centre of the screen.
  * Update function for `CM_FADE_IN_START`
  */
 void FileSelect_StartFadeIn(GameState* thisx) {

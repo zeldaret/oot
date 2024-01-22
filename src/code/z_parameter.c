@@ -64,7 +64,7 @@ static RestrictionFlags sRestrictionFlags[] = {
     { SCENE_TEMPLE_OF_TIME_EXTERIOR_NIGHT, 0x00, 0x10, 0x15 },
     { SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS, 0x00, 0x10, 0xD5 },
     { SCENE_LINKS_HOUSE, 0x10, 0x10, 0x15 },
-    { SCENE_KAKARIKO_CENTER_GUEST_HOUSE, 0x10, 0x10, 0x15 },
+    { SCENE_KAKARIKO_CENTRE_GUEST_HOUSE, 0x10, 0x10, 0x15 },
     { SCENE_BACK_ALLEY_HOUSE, 0x10, 0x10, 0x15 },
     { SCENE_KNOW_IT_ALL_BROS_HOUSE, 0x10, 0x10, 0x15 },
     { SCENE_TWINS_HOUSE, 0x10, 0x10, 0x15 },
@@ -631,7 +631,7 @@ void Interface_UpdateHudAlphas(PlayState* play, s16 dimmingAlpha) {
             break;
     }
 
-    if ((play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_1) && (interfaceCtx->minimapAlpha >= 255)) {
+    if ((play->roomCtx.curRoom.behaviourType1 == ROOM_BEHAVIOUR_TYPE1_1) && (interfaceCtx->minimapAlpha >= 255)) {
         interfaceCtx->minimapAlpha = 255;
     }
 }
@@ -2682,7 +2682,7 @@ void Magic_DrawMeter(PlayState* play) {
                                 (R_MAGIC_FILL_X + gSaveContext.save.info.playerData.magic) << 2,
                                 (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
-            // Fill the rest of the meter with the normal magic color
+            // Fill the rest of the meter with the normal magic colour
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
                             interfaceCtx->magicAlpha);
@@ -2691,7 +2691,7 @@ void Magic_DrawMeter(PlayState* play) {
                                 (R_MAGIC_FILL_X + gSaveContext.magicTarget) << 2, (magicMeterY + 10) << 2,
                                 G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         } else {
-            // Fill the whole meter with the normal magic color
+            // Fill the whole meter with the normal magic colour
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
                             interfaceCtx->magicAlpha);
 
@@ -3108,7 +3108,7 @@ void Interface_Draw(PlayState* play) {
     static s16 magicArrowEffectsB[] = { 0, 255, 100 };
     static s16 timerDigitLeftPos[] = { 16, 25, 34, 42, 51 };
     static s16 sDigitWidths[] = { 9, 9, 8, 9, 9 };
-    // unused, most likely colors
+    // unused, most likely colours
     static s16 D_80125B1C[][3] = {
         { 0, 150, 0 }, { 100, 255, 0 }, { 255, 255, 255 }, { 0, 0, 0 }, { 255, 255, 255 },
     };
@@ -4311,7 +4311,7 @@ void Interface_Update(PlayState* play) {
                 gTimeSpeed = sPrevTimeSpeed;
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
-        } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_1) &&
+        } else if ((play->roomCtx.curRoom.behaviourType1 != ROOM_BEHAVIOUR_TYPE1_1) &&
                    (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.save.dayTime >= CLOCK_TIME(6, 30)) &&
                 (gSaveContext.save.dayTime < CLOCK_TIME(18, 0) + 1)) {

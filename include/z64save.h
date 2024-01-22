@@ -39,7 +39,7 @@ typedef enum {
     /* 0x2 */ MAGIC_STATE_CONSUME, // Consume magic until target is reached or no more magic is available
     /* 0x3 */ MAGIC_STATE_METER_FLASH_1, // Flashes border and freezes Dark Link
     /* 0x4 */ MAGIC_STATE_METER_FLASH_2, // Flashes border and draws yellow magic to preview target consumption
-    /* 0x5 */ MAGIC_STATE_RESET, // Reset colors and return to idle
+    /* 0x5 */ MAGIC_STATE_RESET, // Reset colours and return to idle
     /* 0x6 */ MAGIC_STATE_METER_FLASH_3, // Flashes border with no additional behaviour
     /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens.
     /* 0x8 */ MAGIC_STATE_STEP_CAPACITY, // Step `magicCapacity` to full capacity
@@ -131,16 +131,16 @@ typedef struct {
 typedef enum {
     /* 0x0 */ TIMER_STATE_OFF,
     /* 0x1 */ TIMER_STATE_ENV_HAZARD_INIT, // Init env timer that counts down, total time based on health, resets on void-out, kills at 0
-    /* 0x2 */ TIMER_STATE_ENV_HAZARD_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x2 */ TIMER_STATE_ENV_HAZARD_PREVIEW, // Display initial time, keep it fixed at the screen centre
     /* 0x3 */ TIMER_STATE_ENV_HAZARD_MOVE, // Move to top-left corner
     /* 0x4 */ TIMER_STATE_ENV_HAZARD_TICK, // Counting down
     /* 0x5 */ TIMER_STATE_DOWN_INIT, // Init timer that counts down
-    /* 0x6 */ TIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x6 */ TIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen centre
     /* 0x7 */ TIMER_STATE_DOWN_MOVE, // Move to top-left corner
     /* 0x8 */ TIMER_STATE_DOWN_TICK, // Counting down
     /* 0xA */ TIMER_STATE_STOP = 10,
     /* 0xB */ TIMER_STATE_UP_INIT, // Init timer that counts up
-    /* 0xC */ TIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0xC */ TIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen centre
     /* 0xD */ TIMER_STATE_UP_MOVE, // Move to top-left corner
     /* 0xE */ TIMER_STATE_UP_TICK, // Counting up
     /* 0xF */ TIMER_STATE_UP_FREEZE  // Stop counting the timer
@@ -149,13 +149,13 @@ typedef enum {
 typedef enum {
     /* 0x0 */ SUBTIMER_STATE_OFF,
     /* 0x1 */ SUBTIMER_STATE_DOWN_INIT, // Init timer that counts down
-    /* 0x2 */ SUBTIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x2 */ SUBTIMER_STATE_DOWN_PREVIEW, // Display initial time, keep it fixed at the screen centre
     /* 0x3 */ SUBTIMER_STATE_DOWN_MOVE, // Move to top-left corner
     /* 0x4 */ SUBTIMER_STATE_DOWN_TICK, // Counting down
     /* 0x5 */ SUBTIMER_STATE_RESPAWN, // Time is up, trigger a transition, reset button items, spoil trade quest items
     /* 0x6 */ SUBTIMER_STATE_STOP, // Time is up, stop counting
     /* 0x7 */ SUBTIMER_STATE_UP_INIT, // Init timer that counts up
-    /* 0x8 */ SUBTIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen center
+    /* 0x8 */ SUBTIMER_STATE_UP_PREVIEW, // Display initial time, keep it fixed at the screen centre
     /* 0x9 */ SUBTIMER_STATE_UP_MOVE, // Move to top-left corner
     /* 0xA */ SUBTIMER_STATE_UP_TICK // Counting up
 } SubTimerState;
@@ -268,7 +268,7 @@ typedef struct {
     /* 0x13EA */ u16 hudVisibilityMode; // current hud visibility mode
     /* 0x13EC */ u16 hudVisibilityModeTimer; // number of frames in the transition to a new hud visibility mode. Used to step alpha
     /* 0x13EE */ u16 prevHudVisibilityMode; // used to store and recover hud visibility mode for pause menu and text boxes
-    /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
+    /* 0x13F0 */ s16 magicState; // determines magic meter behaviour on each frame
     /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
     /* 0x13F4 */ s16 magicCapacity; // maximum magic available
     /* 0x13F6 */ s16 magicFillTarget; // target used to fill magic. Target can either be full capacity (Magic_Fill, magic upgrades), or the saved magic amount (loading a file, game over)

@@ -62,8 +62,8 @@ void BgDdanJd_Init(Actor* thisx, PlayState* play) {
     this->idleTimer = IDLE_FRAMES;
     this->state = STATE_GO_BOTTOM;
 
-    // Missing check for actor.params < 0x40. This will cause inconsistent behavior if params >= 0x40 and the bound
-    // switch state is turned on while in the same room, as the shortcut behavior won't become enabled until the actor
+    // Missing check for actor.params < 0x40. This will cause inconsistent behaviour if params >= 0x40 and the bound
+    // switch state is turned on while in the same room, as the shortcut behaviour won't become enabled until the actor
     // is reloaded.
     if (Flags_GetSwitch(play, this->dyna.actor.params)) {
         this->ySpeed = SHORTCUT_Y_SPEED;

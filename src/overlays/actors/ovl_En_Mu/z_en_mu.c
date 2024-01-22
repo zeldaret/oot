@@ -203,7 +203,7 @@ Gfx* EnMu_DisplayListSetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 void EnMu_Draw(Actor* thisx, PlayState* play) {
     EnMu* this = (EnMu*)thisx;
-    Color_RGBA8 colors[2][5] = {
+    Color_RGBA8 colours[2][5] = {
         { { 100, 130, 235, 0 }, { 160, 250, 60, 0 }, { 90, 60, 20, 0 }, { 30, 240, 200, 0 }, { 140, 70, 20, 0 } },
         { { 140, 70, 20, 0 }, { 30, 240, 200, 0 }, { 90, 60, 20, 0 }, { 160, 250, 60, 0 }, { 100, 130, 235, 0 } }
     };
@@ -214,9 +214,9 @@ void EnMu_Draw(Actor* thisx, PlayState* play) {
     Matrix_Translate(-1200.0f, 0.0f, -1400.0f, MTXMODE_APPLY);
     for (i = 0; i < 5; i++) {
         gSPSegment(POLY_OPA_DISP++, segmentId[i],
-                   EnMu_DisplayListSetColor(play->state.gfxCtx, colors[this->actor.params][i].r,
-                                            colors[this->actor.params][i].g, colors[this->actor.params][i].b,
-                                            colors[this->actor.params][i].a));
+                   EnMu_DisplayListSetColor(play->state.gfxCtx, colours[this->actor.params][i].r,
+                                            colours[this->actor.params][i].g, colours[this->actor.params][i].b,
+                                            colours[this->actor.params][i].a));
     }
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMu_OverrideLimbDraw, EnMu_PostLimbDraw, this);

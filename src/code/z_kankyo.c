@@ -787,7 +787,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 void Environment_EnableUnderwaterLights(PlayState* play, s32 waterLightsIndex) {
     if (waterLightsIndex == WATERBOX_LIGHT_INDEX_NONE) {
         waterLightsIndex = 0;
-        // "Underwater color is not set in the water poly data!"
+        // "Underwater colour is not set in the water poly data!"
         PRINTF(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
     }
 
@@ -1009,7 +1009,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         }
 
                         for (j = 0; j < 3; j++) {
-                            // blend ambient color
+                            // blend ambient colour
                             blend8[0] =
                                 LERP(lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].lightSetting]
                                          .ambientColor[j],
@@ -1126,7 +1126,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                         if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
-                            // "The color palette setting seems to be wrong!"
+                            // "The colour palette setting seems to be wrong!"
                             PRINTF(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
 
                             // "Palette setting = [] Last palette number = []"
@@ -1202,7 +1202,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                 }
 
                 if (envCtx->lightSetting >= envCtx->numLightSettings) {
-                    // "The color palette seems to be wrong!"
+                    // "The colour palette seems to be wrong!"
                     PRINTF("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
 
                     // "Palette setting = [] Last palette number = []"
@@ -1225,20 +1225,20 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             }
 
             if ((s16)(envCtx->lightSettings.light1Color[i] + envCtx->adjLight1Color[i]) > 255) {
-                envCtx->dirLight1.params.dir.color[i] = 255;
+                envCtx->dirLight1.params.dir.colour[i] = 255;
             } else if ((s16)(envCtx->lightSettings.light1Color[i] + envCtx->adjLight1Color[i]) < 0) {
-                envCtx->dirLight1.params.dir.color[i] = 0;
+                envCtx->dirLight1.params.dir.colour[i] = 0;
             } else {
-                envCtx->dirLight1.params.dir.color[i] =
+                envCtx->dirLight1.params.dir.colour[i] =
                     (s16)(envCtx->lightSettings.light1Color[i] + envCtx->adjLight1Color[i]);
             }
 
             if ((s16)(envCtx->lightSettings.light2Color[i] + envCtx->adjLight1Color[i]) > 255) {
-                envCtx->dirLight2.params.dir.color[i] = 255;
+                envCtx->dirLight2.params.dir.colour[i] = 255;
             } else if ((s16)(envCtx->lightSettings.light2Color[i] + envCtx->adjLight1Color[i]) < 0) {
-                envCtx->dirLight2.params.dir.color[i] = 0;
+                envCtx->dirLight2.params.dir.colour[i] = 0;
             } else {
-                envCtx->dirLight2.params.dir.color[i] =
+                envCtx->dirLight2.params.dir.colour[i] =
                     (s16)(envCtx->lightSettings.light2Color[i] + envCtx->adjLight1Color[i]);
             }
 
@@ -1283,13 +1283,13 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             R_ENV_AMBIENT_COLOR(1) = lightCtx->ambientColor[1];
             R_ENV_AMBIENT_COLOR(2) = lightCtx->ambientColor[2];
 
-            R_ENV_LIGHT1_COLOR(0) = envCtx->dirLight1.params.dir.color[0];
-            R_ENV_LIGHT1_COLOR(1) = envCtx->dirLight1.params.dir.color[1];
-            R_ENV_LIGHT1_COLOR(2) = envCtx->dirLight1.params.dir.color[2];
+            R_ENV_LIGHT1_COLOR(0) = envCtx->dirLight1.params.dir.colour[0];
+            R_ENV_LIGHT1_COLOR(1) = envCtx->dirLight1.params.dir.colour[1];
+            R_ENV_LIGHT1_COLOR(2) = envCtx->dirLight1.params.dir.colour[2];
 
-            R_ENV_LIGHT2_COLOR(0) = envCtx->dirLight2.params.dir.color[0];
-            R_ENV_LIGHT2_COLOR(1) = envCtx->dirLight2.params.dir.color[1];
-            R_ENV_LIGHT2_COLOR(2) = envCtx->dirLight2.params.dir.color[2];
+            R_ENV_LIGHT2_COLOR(0) = envCtx->dirLight2.params.dir.colour[0];
+            R_ENV_LIGHT2_COLOR(1) = envCtx->dirLight2.params.dir.colour[1];
+            R_ENV_LIGHT2_COLOR(2) = envCtx->dirLight2.params.dir.colour[2];
 
             R_ENV_FOG_COLOR(0) = lightCtx->fogColor[0];
             R_ENV_FOG_COLOR(1) = lightCtx->fogColor[1];
@@ -1315,13 +1315,13 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             lightCtx->ambientColor[1] = R_ENV_AMBIENT_COLOR(1);
             lightCtx->ambientColor[2] = R_ENV_AMBIENT_COLOR(2);
 
-            envCtx->dirLight1.params.dir.color[0] = R_ENV_LIGHT1_COLOR(0);
-            envCtx->dirLight1.params.dir.color[1] = R_ENV_LIGHT1_COLOR(1);
-            envCtx->dirLight1.params.dir.color[2] = R_ENV_LIGHT1_COLOR(2);
+            envCtx->dirLight1.params.dir.colour[0] = R_ENV_LIGHT1_COLOR(0);
+            envCtx->dirLight1.params.dir.colour[1] = R_ENV_LIGHT1_COLOR(1);
+            envCtx->dirLight1.params.dir.colour[2] = R_ENV_LIGHT1_COLOR(2);
 
-            envCtx->dirLight2.params.dir.color[0] = R_ENV_LIGHT2_COLOR(0);
-            envCtx->dirLight2.params.dir.color[1] = R_ENV_LIGHT2_COLOR(1);
-            envCtx->dirLight2.params.dir.color[2] = R_ENV_LIGHT2_COLOR(2);
+            envCtx->dirLight2.params.dir.colour[0] = R_ENV_LIGHT2_COLOR(0);
+            envCtx->dirLight2.params.dir.colour[1] = R_ENV_LIGHT2_COLOR(1);
+            envCtx->dirLight2.params.dir.colour[2] = R_ENV_LIGHT2_COLOR(2);
             lightCtx->fogColor[0] = R_ENV_FOG_COLOR(0);
             lightCtx->fogColor[1] = R_ENV_FOG_COLOR(1);
             lightCtx->fogColor[2] = R_ENV_FOG_COLOR(2);
@@ -1372,7 +1372,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
 void Environment_DrawSunAndMoon(PlayState* play) {
     f32 alpha;
-    f32 color;
+    f32 colour;
     f32 y;
     f32 scale;
     f32 temp;
@@ -1413,19 +1413,19 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
         alpha = 255.0f - alpha;
 
-        color = temp;
-        if (color < 0.0f) {
-            color = 0.0f;
+        colour = temp;
+        if (colour < 0.0f) {
+            colour = 0.0f;
         }
 
-        if (color > 1.0f) {
-            color = 1.0f;
+        if (colour > 1.0f) {
+            colour = 1.0f;
         }
 
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, (u8)(color * 75.0f) + 180, (u8)(color * 155.0f) + 100, 255);
-        gDPSetEnvColor(POLY_OPA_DISP++, 255, (u8)(color * 255.0f), (u8)(color * 255.0f), alpha);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, (u8)(colour * 75.0f) + 180, (u8)(colour * 155.0f) + 100, 255);
+        gDPSetEnvColor(POLY_OPA_DISP++, 255, (u8)(colour * 255.0f), (u8)(colour * 255.0f), alpha);
 
-        scale = (color * 2.0f) + 10.0f;
+        scale = (colour * 2.0f) + 10.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kankyo.c", 2364), G_MTX_LOAD);
         Gfx_SetupDL_54Opa(play->state.gfxCtx);
@@ -1434,10 +1434,10 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         Matrix_Translate(play->view.eye.x - play->envCtx.sunPos.x, play->view.eye.y - play->envCtx.sunPos.y,
                          play->view.eye.z - play->envCtx.sunPos.z, MTXMODE_NEW);
 
-        color = -y / 120.0f;
-        color = CLAMP_MIN(color, 0.0f);
+        colour = -y / 120.0f;
+        colour = CLAMP_MIN(colour, 0.0f);
 
-        scale = -15.0f * color + 25.0f;
+        scale = -15.0f * colour + 25.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
         temp = -y / 80.0f;
@@ -1476,7 +1476,7 @@ typedef enum {
 } LensFlareType;
 
 void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
-                               Vec3f pos, s32 unused, s16 scale, f32 colorIntensity, s16 glareStrength, u8 isSun) {
+                               Vec3f pos, s32 unused, s16 scale, f32 colourIntensity, s16 glareStrength, u8 isSun) {
     s16 i;
     f32 tempX;
     f32 tempY;
@@ -1598,7 +1598,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
 
             Matrix_Scale(adjScale, adjScale, adjScale, MTXMODE_APPLY);
 
-            alpha = colorIntensity / 10.0f;
+            alpha = colourIntensity / 10.0f;
             alpha = CLAMP_MAX(alpha, 1.0f);
             alpha = alpha * lensFlareAlphas[i];
             alpha = CLAMP_MIN(alpha, 0.0f);
@@ -1645,7 +1645,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
             if (glareAlphaScale > 0.0f) {
                 POLY_XLU_DISP = Gfx_SetupDL_57(POLY_XLU_DISP);
 
-                alpha = colorIntensity / 10.0f;
+                alpha = colourIntensity / 10.0f;
                 alpha = CLAMP_MAX(alpha, 1.0f);
                 alpha = alpha * glareStrength;
                 alpha = CLAMP_MIN(alpha, 0.0f);
@@ -1665,7 +1665,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
                     Math_SmoothStepToF(&envCtx->glareAlpha, 0.0f, 0.5f, 50.0f, 0.1f);
                 }
 
-                temp = colorIntensity / 120.0f;
+                temp = colourIntensity / 120.0f;
                 temp = CLAMP_MIN(temp, 0.0f);
 
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
@@ -1805,13 +1805,13 @@ void Environment_ChangeLightSetting(PlayState* play, u32 lightSetting) {
 }
 
 /**
- * Draw color filters over the skybox. There are two filters.
- * The first uses the global fog color, and an alpha calculated with `fogNear`.
+ * Draw colour filters over the skybox. There are two filters.
+ * The first uses the global fog colour, and an alpha calculated with `fogNear`.
  * This filter draws unconditionally for skybox 29 at full alpha.
  * (note: skybox 29 is unused in the original game)
  * For the rest of the skyboxes it will draw if fogNear is less than 980.
  *
- * The second filter uses a custom color specified in `skyboxFilterColor`
+ * The second filter uses a custom colour specified in `skyboxFilterColor`
  * and can be enabled with `customSkyboxFilter`.
  *
  * An example usage of a filter is to dim the skybox in cloudy conditions.
@@ -2502,7 +2502,7 @@ void Environment_AdjustLights(PlayState* play, f32 arg1, f32 arg2, f32 arg3, f32
     f32 temp;
     s32 i;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5 && Play_CamIsNotFixed(play)) {
+    if (play->roomCtx.curRoom.behaviourType1 != ROOM_BEHAVIOUR_TYPE1_5 && Play_CamIsNotFixed(play)) {
         arg1 = CLAMP_MIN(arg1, 0.0f);
         arg1 = CLAMP_MAX(arg1, 1.0f);
 

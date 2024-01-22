@@ -95,7 +95,7 @@ void BgHidanKowarerukabe_InitColliderSphere(BgHidanKowarerukabe* this, PlayState
     Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
 
     this->collider.elements[0].dim.modelSphere.radius = sphereRadii[this->dyna.actor.params & 0xFF];
-    this->collider.elements[0].dim.modelSphere.center.y = sphereYPositions[this->dyna.actor.params & 0xFF];
+    this->collider.elements[0].dim.modelSphere.centre.y = sphereYPositions[this->dyna.actor.params & 0xFF];
 }
 
 void BgHidanKowarerukabe_OffsetActorYPos(BgHidanKowarerukabe* this) {

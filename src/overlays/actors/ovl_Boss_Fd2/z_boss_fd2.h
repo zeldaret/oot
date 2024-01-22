@@ -61,7 +61,7 @@ typedef struct BossFd2 {
     /* 0x0222 */ char unk_222;
     /* 0x0223 */ u8 eyeState;
     /* 0x0224 */ char unk_224[0xC90]; // despite its size, seems to be unused.
-    /* 0x0EB4 */ BossFd2Mane centerMane;
+    /* 0x0EB4 */ BossFd2Mane centreMane;
     /* 0x1050 */ BossFd2Mane rightMane;
     /* 0x11EC */ BossFd2Mane leftMane;
     /* 0x1388 */ char unk_1388[4];

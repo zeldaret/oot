@@ -151,7 +151,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 33, ICHAIN_STOP),
 };
 
-// possibly color data
+// possibly colour data
 static u32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play) {
@@ -313,7 +313,7 @@ void func_809BD3F8(EnBigokuta* this) {
 void func_809BD47C(EnBigokuta* this) {
     this->unk_196 = 16;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.colorFilterTimer = 0;
+    this->actor.colourFilterTimer = 0;
     this->actionFunc = func_809BDF34;
 }
 
@@ -694,14 +694,14 @@ void func_809BE568(EnBigokuta* this) {
     f32 sin = Math_SinS(this->actor.shape.rot.y);
     f32 cos = Math_CosS(this->actor.shape.rot.y);
 
-    this->collider.elements->dim.worldSphere.center.x =
-        (this->collider.elements->dim.modelSphere.center.z * sin) +
-        (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.center.x * cos));
-    this->collider.elements->dim.worldSphere.center.z =
-        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.center.z * cos)) -
-        (this->collider.elements->dim.modelSphere.center.x * sin);
-    this->collider.elements->dim.worldSphere.center.y =
-        this->collider.elements->dim.modelSphere.center.y + this->actor.world.pos.y;
+    this->collider.elements->dim.worldSphere.centre.x =
+        (this->collider.elements->dim.modelSphere.centre.z * sin) +
+        (this->actor.world.pos.x + (this->collider.elements->dim.modelSphere.centre.x * cos));
+    this->collider.elements->dim.worldSphere.centre.z =
+        (this->actor.world.pos.z + (this->collider.elements->dim.modelSphere.centre.z * cos)) -
+        (this->collider.elements->dim.modelSphere.centre.x * sin);
+    this->collider.elements->dim.worldSphere.centre.y =
+        this->collider.elements->dim.modelSphere.centre.y + this->actor.world.pos.y;
 
     for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
         this->cylinder[i].dim.pos.x =

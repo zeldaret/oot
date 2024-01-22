@@ -439,7 +439,7 @@ void EnVm_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(play, colChkCtx, &this->colliderCylinder.base);
 
-    if (this->actor.colorFilterTimer == 0 && this->actor.colChkInfo.health != 0) {
+    if (this->actor.colourFilterTimer == 0 && this->actor.colChkInfo.health != 0) {
         CollisionCheck_SetAC(play, colChkCtx, &this->colliderCylinder.base);
     }
 

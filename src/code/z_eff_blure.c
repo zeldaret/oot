@@ -288,7 +288,7 @@ void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
 }
 
 void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3s* vec1, Vec3s* vec2,
-                                   Color_RGBA8* color1, Color_RGBA8* color2) {
+                                   Color_RGBA8* colour1, Color_RGBA8* colour2) {
     Vec3s sp30;
     f32 mode4Param;
     EffectBlureElement* elem = &this->elements[index];
@@ -353,17 +353,17 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
     sp30 = sp30; // Optimized out but seems necessary to match stack usage
 
     if (this->flags & 0x10) {
-        color1->r = color1->g = color1->b = color1->a = 255;
-        color2->r = color2->g = color2->b = color2->a = 255;
+        colour1->r = colour1->g = colour1->b = colour1->a = 255;
+        colour2->r = colour2->g = colour2->b = colour2->a = 255;
     } else {
-        color1->r = EffectSs_LerpU8(this->p1StartColor[0], this->p1EndColor[0], ratio);
-        color1->g = EffectSs_LerpU8(this->p1StartColor[1], this->p1EndColor[1], ratio);
-        color1->b = EffectSs_LerpU8(this->p1StartColor[2], this->p1EndColor[2], ratio);
-        color1->a = EffectSs_LerpU8(this->p1StartColor[3], this->p1EndColor[3], ratio);
-        color2->r = EffectSs_LerpU8(this->p2StartColor[0], this->p2EndColor[0], ratio);
-        color2->g = EffectSs_LerpU8(this->p2StartColor[1], this->p2EndColor[1], ratio);
-        color2->b = EffectSs_LerpU8(this->p2StartColor[2], this->p2EndColor[2], ratio);
-        color2->a = EffectSs_LerpU8(this->p2StartColor[3], this->p2EndColor[3], ratio);
+        colour1->r = EffectSs_LerpU8(this->p1StartColor[0], this->p1EndColor[0], ratio);
+        colour1->g = EffectSs_LerpU8(this->p1StartColor[1], this->p1EndColor[1], ratio);
+        colour1->b = EffectSs_LerpU8(this->p1StartColor[2], this->p1EndColor[2], ratio);
+        colour1->a = EffectSs_LerpU8(this->p1StartColor[3], this->p1EndColor[3], ratio);
+        colour2->r = EffectSs_LerpU8(this->p2StartColor[0], this->p2EndColor[0], ratio);
+        colour2->g = EffectSs_LerpU8(this->p2StartColor[1], this->p2EndColor[1], ratio);
+        colour2->b = EffectSs_LerpU8(this->p2StartColor[2], this->p2EndColor[2], ratio);
+        colour2->a = EffectSs_LerpU8(this->p2StartColor[3], this->p2EndColor[3], ratio);
     }
 }
 

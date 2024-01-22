@@ -145,7 +145,7 @@ void ObjHsblock_Update(Actor* thisx, PlayState* play) {
 }
 
 void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
-    Color_RGB8* color;
+    Color_RGB8* colour;
     Color_RGB8 defaultColor;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_hsblock.c", 365);
@@ -156,15 +156,15 @@ void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (play->sceneId == SCENE_FIRE_TEMPLE) {
-        color = &sFireTempleColor;
+        colour = &sFireTempleColor;
     } else {
         defaultColor.r = mREG(13);
         defaultColor.g = mREG(14);
         defaultColor.b = mREG(15);
-        color = &defaultColor;
+        colour = &defaultColor;
     }
 
-    gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 255);
+    gDPSetEnvColor(POLY_OPA_DISP++, colour->r, colour->g, colour->b, 255);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[thisx->params & 3]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_obj_hsblock.c", 399);

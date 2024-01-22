@@ -1709,7 +1709,7 @@ s32 DebugCamera_ClearCallback(char* c) {
     return Mempak_DeleteFile(DEBUG_CAM_CONTROLLER_PORT, *c);
 }
 
-void DebugCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorIndex) {
+void DebugCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colourIndex) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sDebugCamCuts) - 1; i++) {
@@ -1718,9 +1718,9 @@ void DebugCamera_DrawSlotLetters(char* str, s16 y, s16 x, s32 colorIndex) {
     }
 
     str[0x14] = str[i * 2 + 1] = '\0';
-    DebugCamera_ScreenTextColored(x, y, colorIndex, str);
+    DebugCamera_ScreenTextColored(x, y, colourIndex, str);
     str[0x14] = str[i * 2 + 0] = '-';
-    DebugCamera_ScreenTextColored(20 + x, y, colorIndex, str + 0x14);
+    DebugCamera_ScreenTextColored(20 + x, y, colourIndex, str + 0x14);
 }
 
 void DebugCamera_PrintAllCuts(Camera* cam) {

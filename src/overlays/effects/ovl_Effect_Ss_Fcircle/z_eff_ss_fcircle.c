@@ -81,10 +81,10 @@ void EffectSsFcircle_Update(PlayState* play, u32 index, EffectSs* this) {
             this->pos.z = actor->world.pos.z + this->vec.z;
             this->rYaw = actor->shape.rot.y;
 
-            if (actor->colorFilterTimer > 20) {
+            if (actor->colourFilterTimer > 20) {
                 this->life = 20;
             } else {
-                this->life = actor->colorFilterTimer;
+                this->life = actor->colourFilterTimer;
             }
 
             Math_StepToS(&this->rScale, 100, 20);

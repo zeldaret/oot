@@ -300,8 +300,8 @@ void func_80A0232C(EnElf* this, PlayState* play) {
     }
 }
 
-f32 EnElf_GetColorValue(s32 colorFlag) {
-    switch (colorFlag) {
+f32 EnElf_GetColorValue(s32 colourFlag) {
+    switch (colourFlag) {
         case 1:
             return Rand_ZeroFloat(55.0f) + 200.0f;
         case 2:
@@ -315,7 +315,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
     EnElf* this = (EnElf*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(play);
-    s32 colorConfig;
+    s32 colourConfig;
     s32 i;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -334,7 +334,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
     this->fairyFlags = 0;
     this->disappearTimer = 600;
     this->unk_2A4 = 0.0f;
-    colorConfig = 0;
+    colourConfig = 0;
 
     switch (thisx->params) {
         case FAIRY_NAVI:
@@ -352,7 +352,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             }
             break;
         case FAIRY_REVIVE_BOTTLE:
-            colorConfig = -1;
+            colourConfig = -1;
             EnElf_SetupAction(this, func_80A03610);
             this->unk_2B8 = Math_Vec3f_DistXZ(&thisx->world.pos, &player->actor.world.pos);
             this->unk_2AC = player->actor.shape.rot.y;
@@ -362,7 +362,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             this->unk_2B4 = 0.0f;
             break;
         case FAIRY_REVIVE_DEATH:
-            colorConfig = -1;
+            colourConfig = -1;
             EnElf_SetupAction(this, func_80A03990);
             this->unk_2B8 = 0.0f;
             this->unk_2AC = player->actor.shape.rot.y;
@@ -379,7 +379,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             this->fairyFlags |= FAIRY_FLAG_TIMED;
             FALLTHROUGH;
         case FAIRY_HEAL:
-            colorConfig = -1;
+            colourConfig = -1;
             EnElf_SetupAction(this, func_80A0329C);
             this->unk_2B4 = Rand_ZeroFloat(10.0f) + 10.0f;
             this->unk_2AA = 0;
@@ -392,7 +392,7 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
             this->disappearTimer = 240;
             break;
         case FAIRY_KOKIRI:
-            colorConfig = Rand_ZeroFloat(11.99f) + 1.0f;
+            colourConfig = Rand_ZeroFloat(11.99f) + 1.0f;
             EnElf_SetupAction(this, func_80A0353C);
             func_80A01C38(this, 0);
             break;
@@ -413,14 +413,14 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
     this->unk_2A0 = 3.0f;
     this->innerColor = sInnerColors[0];
 
-    if (colorConfig > 0) {
-        this->outerColor.r = EnElf_GetColorValue(sColorFlags[colorConfig].r);
-        this->outerColor.g = EnElf_GetColorValue(sColorFlags[colorConfig].g);
-        this->outerColor.b = EnElf_GetColorValue(sColorFlags[colorConfig].b);
+    if (colourConfig > 0) {
+        this->outerColor.r = EnElf_GetColorValue(sColorFlags[colourConfig].r);
+        this->outerColor.g = EnElf_GetColorValue(sColorFlags[colourConfig].g);
+        this->outerColor.b = EnElf_GetColorValue(sColorFlags[colourConfig].b);
         this->outerColor.a = 0.0f;
     } else {
-        this->innerColor = sInnerColors[-colorConfig];
-        this->outerColor = sOuterColors[-colorConfig];
+        this->innerColor = sInnerColors[-colourConfig];
+        this->outerColor = sOuterColors[-colourConfig];
     }
 }
 

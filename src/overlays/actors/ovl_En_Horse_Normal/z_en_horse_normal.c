@@ -606,13 +606,13 @@ void EnHorseNormal_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
-        sp4C.x = this->headCollider.elements[i].dim.modelSphere.center.x;
-        sp4C.y = this->headCollider.elements[i].dim.modelSphere.center.y;
-        sp4C.z = this->headCollider.elements[i].dim.modelSphere.center.z;
+        sp4C.x = this->headCollider.elements[i].dim.modelSphere.centre.x;
+        sp4C.y = this->headCollider.elements[i].dim.modelSphere.centre.y;
+        sp4C.z = this->headCollider.elements[i].dim.modelSphere.centre.z;
         Skin_GetLimbPos(skin, this->headCollider.elements[i].dim.limb, &sp4C, &sp40);
-        this->headCollider.elements[i].dim.worldSphere.center.x = sp40.x;
-        this->headCollider.elements[i].dim.worldSphere.center.y = sp40.y;
-        this->headCollider.elements[i].dim.worldSphere.center.z = sp40.z;
+        this->headCollider.elements[i].dim.worldSphere.centre.x = sp40.x;
+        this->headCollider.elements[i].dim.worldSphere.centre.y = sp40.y;
+        this->headCollider.elements[i].dim.worldSphere.centre.z = sp40.z;
         this->headCollider.elements[i].dim.worldSphere.radius =
             this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }

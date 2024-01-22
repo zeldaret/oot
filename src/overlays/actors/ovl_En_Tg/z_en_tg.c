@@ -161,7 +161,7 @@ void EnTg_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     Vec3f targetOffset = { 0.0f, 800.0f, 0.0f };
 
     if (limbIndex == 9) {
-        // Place the target point at the guy's head instead of the center of the actor
+        // Place the target point at the guy's head instead of the centre of the actor
         Matrix_MultVec3f(&targetOffset, &this->actor.focus.pos);
     }
 }

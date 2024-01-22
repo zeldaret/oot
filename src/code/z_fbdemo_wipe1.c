@@ -100,7 +100,7 @@ void TransitionWipe_Draw(void* thisx, Gfx** gfxP) {
     gDPPipeSync(gfx++);
     texScroll = Gfx_BranchTexScroll(&gfx, this->texX, this->texY, 0, 0);
     gSPSegment(gfx++, 8, texScroll);
-    gDPSetPrimColor(gfx++, 0, 0x80, this->color.r, this->color.g, this->color.b, 255);
+    gDPSetPrimColor(gfx++, 0, 0x80, this->colour.r, this->colour.g, this->colour.b, 255);
     gSPMatrix(gfx++, &this->projection, G_MTX_LOAD | G_MTX_PROJECTION);
     gSPPerspNormalize(gfx++, this->normal);
     gSPMatrix(gfx++, &this->lookAt, G_MTX_MUL | G_MTX_PROJECTION);
@@ -134,14 +134,14 @@ void TransitionWipe_SetType(void* thisx, s32 type) {
     }
 }
 
-void TransitionWipe_SetColor(void* thisx, u32 color) {
+void TransitionWipe_SetColor(void* thisx, u32 colour) {
     TransitionWipe* this = (TransitionWipe*)thisx;
 
-    this->color.rgba = color;
+    this->colour.rgba = colour;
 }
 
-void TransitionWipe_SetUnkColor(void* thisx, u32 color) {
+void TransitionWipe_SetUnkColor(void* thisx, u32 colour) {
     TransitionWipe* this = (TransitionWipe*)thisx;
 
-    this->unkColor.rgba = color;
+    this->unkColor.rgba = colour;
 }

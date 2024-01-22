@@ -456,7 +456,7 @@ void EnBili_Burnt(EnBili* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.flags & ACTOR_FLAG_15) {
-        this->actor.colorFilterTimer = 20;
+        this->actor.colourFilterTimer = 20;
     } else {
         if (this->timer != 0) {
             this->timer--;
@@ -537,10 +537,10 @@ void EnBili_Frozen(EnBili* this, PlayState* play) {
     }
 
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
-        this->actor.colorFilterTimer = 0;
+        this->actor.colourFilterTimer = 0;
         EnBili_SetupDie(this);
     } else {
-        this->actor.colorFilterTimer = 10;
+        this->actor.colourFilterTimer = 10;
     }
 }
 

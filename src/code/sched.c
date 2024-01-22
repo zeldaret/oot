@@ -10,7 +10,7 @@
  * Together with irqmgr.c, these systems implement the libultra video and task scheduling model from
  * the libultra "sched" module. Notably, the original sched module supports a wider range of ways to
  * communicate with the RDP, while the Zelda 64 implementation only allows the RSP microcode to send
- * commands to the RDP. The Zelda 64 implementation also has more complex behavior involving the
+ * commands to the RDP. The Zelda 64 implementation also has more complex behaviour involving the
  * framebuffers.
  *
  * There are four task types supported:

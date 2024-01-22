@@ -370,7 +370,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
                     if ((i & sTrailingFairies) == 0) { // leader fairy
                         Math_SmoothStepToF(&this->effects[i].size, 0.25f, 0.1f, 0.001f, 0.00001f);
 
-                        // move the center of the flight path to player's position
+                        // move the centre of the flight path to player's position
                         Math_SmoothStepToF(&this->effects[i].base.x, player->actor.world.pos.x, 0.5f, 1.0f, 0.2f);
                         Math_SmoothStepToF(&this->effects[i].base.y, player->actor.world.pos.y + 50.0f, 0.5f, 1.0f,
                                            0.2f);

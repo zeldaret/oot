@@ -3689,7 +3689,7 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     Vec3f sp58 = { 0.0f, -1.0f, 0.0f };
 
     f32 frame = this->skin.skelAnime.curFrame;
-    Vec3f center;
+    Vec3f centre;
     Vec3f newCenter;
     s32 i;
     Vec3f sp2C;
@@ -3800,14 +3800,14 @@ void EnHorse_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     }
 
     for (i = 0; i < this->jntSph.count; i++) {
-        center.x = this->jntSph.elements[i].dim.modelSphere.center.x;
-        center.y = this->jntSph.elements[i].dim.modelSphere.center.y;
-        center.z = this->jntSph.elements[i].dim.modelSphere.center.z;
+        centre.x = this->jntSph.elements[i].dim.modelSphere.centre.x;
+        centre.y = this->jntSph.elements[i].dim.modelSphere.centre.y;
+        centre.z = this->jntSph.elements[i].dim.modelSphere.centre.z;
 
-        Skin_GetLimbPos(skin, this->jntSph.elements[i].dim.limb, &center, &newCenter);
-        this->jntSph.elements[i].dim.worldSphere.center.x = newCenter.x;
-        this->jntSph.elements[i].dim.worldSphere.center.y = newCenter.y;
-        this->jntSph.elements[i].dim.worldSphere.center.z = newCenter.z;
+        Skin_GetLimbPos(skin, this->jntSph.elements[i].dim.limb, &centre, &newCenter);
+        this->jntSph.elements[i].dim.worldSphere.centre.x = newCenter.x;
+        this->jntSph.elements[i].dim.worldSphere.centre.y = newCenter.y;
+        this->jntSph.elements[i].dim.worldSphere.centre.z = newCenter.z;
         this->jntSph.elements[i].dim.worldSphere.radius =
             this->jntSph.elements[i].dim.modelSphere.radius * this->jntSph.elements[i].dim.scale;
     }

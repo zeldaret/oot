@@ -165,7 +165,7 @@ The following is a list of the texture formats the Nintendo 64 supports, with th
 | ----------------------------------------------- | -------------------------------- | --------------- |
 | 4-bit intensity (I)                             | `G_IM_FMT_I, G_IM_SIZ_4b`        | `i4`            |
 | 4-bit intensity with alpha (I/A) (3/1)          | `G_IM_FMT_IA, G_IM_SIZ_4b`       | `ia4`           |
-| 4-bit color index (CI)                          | `G_IM_FMT_CI, G_IM_SIZ_4b`       | `ci4`           |
+| 4-bit colour index (CI)                          | `G_IM_FMT_CI, G_IM_SIZ_4b`       | `ci4`           |
 | 8-bit I                                         | `G_IM_FMT_I, G_IM_SIZ_8b`        | `i8`            |
 | 8-bit IA (4/4)                                  | `G_IM_FMT_IA, G_IM_SIZ_8b`       | `ia8`           |
 | 8-bit CI                                        | `G_IM_FMT_CI, G_IM_SIZ_8b`       | `ci8`           |
@@ -241,7 +241,7 @@ A.k.a. Display list, or Gfx.
 
 ### TextureAnimation
 
-A data type exclusive to Majora's Mask, that has scrolling, color changing, and texture changing capabilities. Declaring the main array will generate everything else; textures for the TextureCycle type must be declared manually in the XML to use symbols. (If it does reference any undeclared textures, ZAPD will warn and give the their offsets.)
+A data type exclusive to Majora's Mask, that has scrolling, colour changing, and texture changing capabilities. Declaring the main array will generate everything else; textures for the TextureCycle type must be declared manually in the XML to use symbols. (If it does reference any undeclared textures, ZAPD will warn and give the their offsets.)
 
 ```xml
 <TextureAnimation Name="gRosaSistersTexAnim" Offset="0xD768"/>

@@ -6,7 +6,7 @@
  * Any device that can be plugged into one of the four controller ports such as a standard N64 controller is a joybus
  * device. Some joybus devices are also located inside the cartridge such as EEPROM for save data or the Real-Time
  * Clock, however neither of these are used in Zelda64 and so this type of communication is unimplemented. Of the
- * possible devices that can be plugged into the controller ports, the only device that padmgr will recognize and
+ * possible devices that can be plugged into the controller ports, the only device that padmgr will recognise and
  * attempt to communicate with is the standard N64 controller.
  *
  * Communicating with these devices is broken down into various layers:

@@ -40,9 +40,9 @@ ActorInit Bg_Mizu_Movebg_InitVars = {
 static f32 sDragonStatueBossRoomOffsetPosY[] = { -115.200005f, -115.200005f, -115.200005f, 0.0f };
 
 static Gfx* sDLists[] = {
-    gWaterTempleFloatingPlatformOutsideCentralPillarDL, // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR
+    gWaterTempleFloatingPlatformOutsideCentralPillarDL, // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTRE_PILLAR
     gWaterTempleFloatingPlatformWestDL,                 // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST
-    gWaterTempleFloatingPlatformInsideCentralPillarDL,  // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR
+    gWaterTempleFloatingPlatformInsideCentralPillarDL,  // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTRE_PILLAR
     gWaterTempleDragonStatueDL,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM
     gWaterTempleDragonStatueDL,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
     gWaterTempleDragonStatueDL,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
@@ -51,9 +51,9 @@ static Gfx* sDLists[] = {
 };
 
 static CollisionHeader* sColHeaders[] = {
-    &gWaterTempleFloatingPlatformOutsideCentralPillarCol, // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR
+    &gWaterTempleFloatingPlatformOutsideCentralPillarCol, // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTRE_PILLAR
     &gWaterTempleFloatingPlatformWestCol,                 // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_WEST
-    &gWaterTempleFloatingPlatformInsideCentralPillarCol,  // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR
+    &gWaterTempleFloatingPlatformInsideCentralPillarCol,  // MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTRE_PILLAR
     &gWaterTempleDragonStatueCol,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_BOSS_ROOM
     &gWaterTempleDragonStatueCol,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_2
     &gWaterTempleDragonStatueCol,                         // MIZUMOVEBG_TYPE_DRAGON_STATUE_3
@@ -105,7 +105,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
 
     type = MOVEBG_TYPE(thisx->params);
     switch (type) {
-        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTRE_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
@@ -125,7 +125,7 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             ((BgMizuMovebg*)thisx)->actionFunc = BgMizuMovebg_UpdateMain;
             break;
 
-        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTRE_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < ((BgMizuMovebg*)thisx)->homeY - 700.0f) {
                 thisx->world.pos.y = ((BgMizuMovebg*)thisx)->homeY - 700.0f;
@@ -261,8 +261,8 @@ void BgMizuMovebg_UpdateMain(BgMizuMovebg* this, PlayState* play) {
 
     type = MOVEBG_TYPE(this->dyna.actor.params);
     switch (type) {
-        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTER_PILLAR:
-        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTER_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_OUTSIDE_CENTRE_PILLAR:
+        case MIZUMOVEBG_TYPE_FLOATING_PLATFORM_INSIDE_CENTRE_PILLAR:
             targetPosY = waterBoxes[2].ySurface + 15.0f;
             if (targetPosY < this->homeY - 700.0f) {
                 this->dyna.actor.world.pos.y = this->homeY - 700.0f;

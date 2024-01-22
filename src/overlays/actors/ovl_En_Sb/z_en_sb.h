@@ -15,7 +15,7 @@ typedef struct EnSb {
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ BodyBreak bodyBreak;
     /* 0x01F8 */ s16 fire;
-    /* 0x01FA */ s16 behavior;
+    /* 0x01FA */ s16 behaviour;
     /* 0x01FC */ s16 isDead;
     /* 0x01FE */ s16 timer;
     /* 0x0200 */ s16 attackYaw;

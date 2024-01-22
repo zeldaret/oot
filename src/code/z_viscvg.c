@@ -4,7 +4,7 @@
  * This file implements full-screen frame buffer effects involving the visualization of Coverage in various ways.
  *
  * Coverage is roughly how much of a pixel is covered by a primitive; the final coverage for a frame is stored in the
- * color image alpha component where it is used for antialiasing, see PreRender.c and §15 of the programming manual for
+ * colour image alpha component where it is used for antialiasing, see PreRender.c and §15 of the programming manual for
  * details.
  *
  * To understand this file, it is helpful to remember that A_MEM is essentially synonymous with coverage, and that
@@ -16,14 +16,14 @@
  * value, edges of primitives where coverage is lower will show up darker than primitive interiors in all of the
  * available modes.
  *
- * Coverage is abbreviated to "cvg"; "FB RGB" ("framebuffer red/green/blue") is the color the pixel originally had
+ * Coverage is abbreviated to "cvg"; "FB RGB" ("framebuffer red/green/blue") is the colour the pixel originally had
  * before the filter is applied.
  */
 
 #include "global.h"
 
 /**
- * Draws only coverage: does not retain any of the original pixel RGB, primColor is used as background color.
+ * Draws only coverage: does not retain any of the original pixel RGB, primColor is used as background colour.
  */
 Gfx sCoverageOnlyDL[] = {
     gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
@@ -69,7 +69,7 @@ Gfx sCoverageRGBDL[] = {
 /**
  * Two stage filtering:
  *
- * 1. Apply a uniform color filter by transparently blending primColor with original frame. The "cloud surface"
+ * 1. Apply a uniform colour filter by transparently blending primColor with original frame. The "cloud surface"
  * RenderMode is used to preserve the coverage for the second stage.
  * 2. Second half is the same as `sCoverageRGBDL`'s, i.e. (RGB from stage 1) * cvg
  */
@@ -78,7 +78,7 @@ Gfx sCoverageRGBUniformDL[] = {
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_DISABLE | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PRIM | G_RM_CLD_SURF | G_RM_CLD_SURF2),
-    // stage 1 color = (primColor RGB) * (primColor Alpha) + (FB RGB) * (1 - primColor Alpha)
+    // stage 1 colour = (primColor RGB) * (primColor Alpha) + (FB RGB) * (1 - primColor Alpha)
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
 
     gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
@@ -86,7 +86,7 @@ Gfx sCoverageRGBUniformDL[] = {
                      G_AC_NONE | G_ZS_PRIM | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | FORCE_BL |
                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM) |
                          GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM)),
-    // final color = (stage 1 RGB) * (cvg)
+    // final colour = (stage 1 RGB) * (cvg)
     gsDPFillRectangle(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsSPEndDisplayList(),
 };
@@ -119,19 +119,19 @@ void VisCvg_Draw(VisCvg* this, Gfx** gfxP) {
             break;
 
         case FB_FILTER_CVG_RGB_UNIFORM:
-            // Set primitive color for uniform color filter in custom RenderMode
+            // Set primitive colour for uniform colour filter in custom RenderMode
             gDPSetColor(gfx++, G_SETPRIMCOLOR, this->vis.primColor.rgba);
             gSPDisplayList(gfx++, sCoverageRGBUniformDL);
             break;
 
         case FB_FILTER_CVG_ONLY:
-            // Set background color for G_RM_VISCVG
+            // Set background colour for G_RM_VISCVG
             gDPSetColor(gfx++, G_SETBLENDCOLOR, this->vis.primColor.rgba);
             gSPDisplayList(gfx++, sCoverageOnlyDL);
             break;
 
         case FB_FILTER_CVG_RGB_FOG:
-            // Set fog color for custom RenderMode, needs to be close to 0 to not overflow
+            // Set fog colour for custom RenderMode, needs to be close to 0 to not overflow
             gDPSetColor(gfx++, G_SETFOGCOLOR, this->vis.primColor.rgba);
             gSPDisplayList(gfx++, sCoverageRGBFogDL);
             break;

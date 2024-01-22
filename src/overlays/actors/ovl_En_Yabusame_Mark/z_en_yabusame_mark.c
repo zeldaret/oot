@@ -57,7 +57,7 @@ static Vec3f sTargetPos[] = {
     { 3360.0f, 1734.0f, 495.0f },   // small, closest to entrance
     { 4517.0f, 1682.0f, -1779.0f }, // medium, on the right
     { 4517.0f, 1682.0f, -2813.0f }, // medium, on the left
-    { 4522.0f, 1727.0f, -2296.0f }, // large in the center
+    { 4522.0f, 1727.0f, -2296.0f }, // large in the centre
 };
 
 // 0: first ring

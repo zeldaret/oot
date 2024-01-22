@@ -60,7 +60,7 @@ typedef enum {
 
 #define TC_SET_PARAMS (1 << 7)
 
-#define TRANS_TYPE_CIRCLE(appearance, color, speed) ((1 << 5) | ((color & 3) << 3) | ((appearance & 3) << 1) | (speed & 1))
+#define TRANS_TYPE_CIRCLE(appearance, colour, speed) ((1 << 5) | ((colour & 3) << 3) | ((appearance & 3) << 1) | (speed & 1))
 
 typedef struct {
     union {
@@ -76,8 +76,8 @@ typedef struct {
     /* 0x238 */ void  (*draw)(void* transition, Gfx** gfxP);
     /* 0x23C */ void  (*start)(void* transition);
     /* 0x240 */ void  (*setType)(void* transition, s32 type);
-    /* 0x244 */ void  (*setColor)(void* transition, u32 color);
-    /* 0x248 */ void  (*setUnkColor)(void* transition, u32 color);
+    /* 0x244 */ void  (*setColor)(void* transition, u32 colour);
+    /* 0x248 */ void  (*setUnkColor)(void* transition, u32 colour);
     /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
 

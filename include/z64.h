@@ -41,7 +41,7 @@
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"
-#include "color.h"
+#include "colour.h"
 #include "gfxprint.h"
 #include "ichain.h"
 #include "regs.h"
@@ -120,7 +120,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3f    pos;
     /* 0x0C */ f32      unk_0C; // radius?
-    /* 0x10 */ Color_RGB8 color;
+    /* 0x10 */ Color_RGB8 colour;
 } TargetContextEntry; // size = 0x14
 
 typedef struct {
@@ -230,29 +230,29 @@ typedef enum {
 } LensMode;
 
 typedef enum {
-    /* 0 */ ROOM_BEHAVIOR_TYPE1_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE1_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE1_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE1_3, // unused
-    /* 4 */ ROOM_BEHAVIOR_TYPE1_4, // unused
-    /* 5 */ ROOM_BEHAVIOR_TYPE1_5
+    /* 0 */ ROOM_BEHAVIOUR_TYPE1_0,
+    /* 1 */ ROOM_BEHAVIOUR_TYPE1_1,
+    /* 2 */ ROOM_BEHAVIOUR_TYPE1_2,
+    /* 3 */ ROOM_BEHAVIOUR_TYPE1_3, // unused
+    /* 4 */ ROOM_BEHAVIOUR_TYPE1_4, // unused
+    /* 5 */ ROOM_BEHAVIOUR_TYPE1_5
 } RoomBehaviorType1;
 
 typedef enum {
-    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
-    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
-    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
-    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
-    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
-    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
-    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
+    /* 0 */ ROOM_BEHAVIOUR_TYPE2_0,
+    /* 1 */ ROOM_BEHAVIOUR_TYPE2_1,
+    /* 2 */ ROOM_BEHAVIOUR_TYPE2_2,
+    /* 3 */ ROOM_BEHAVIOUR_TYPE2_3,
+    /* 4 */ ROOM_BEHAVIOUR_TYPE2_4,
+    /* 5 */ ROOM_BEHAVIOUR_TYPE2_5,
+    /* 6 */ ROOM_BEHAVIOUR_TYPE2_6
 } RoomBehaviorType2;
 
 typedef struct {
     /* 0x00 */ s8   num;
     /* 0x01 */ u8   unk_01;
-    /* 0x02 */ u8   behaviorType2;
-    /* 0x03 */ u8   behaviorType1;
+    /* 0x02 */ u8   behaviourType2;
+    /* 0x03 */ u8   behaviourType1;
     /* 0x04 */ s8   echo;
     /* 0x05 */ u8   lensMode;
     /* 0x08 */ RoomShape* roomShape; // original name: "ground_shape"
@@ -642,7 +642,7 @@ typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3s rot;
     /* 0x14 */ Vec3f scale;
-    /* 0x20 */ Color_RGBA8 color;
+    /* 0x20 */ Color_RGBA8 colour;
     /* 0x24 */ s16   type;
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C

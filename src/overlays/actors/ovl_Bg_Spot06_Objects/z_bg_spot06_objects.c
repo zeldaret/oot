@@ -134,15 +134,15 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
                 thisx->home.pos.z = thisx->world.pos.z + 16.0f;
                 this->collider.elements[0].dim.worldSphere.radius =
                     this->collider.elements[0].dim.modelSphere.radius * 2;
-                this->collider.elements[0].dim.worldSphere.center.z = thisx->world.pos.z + 16.0f;
+                this->collider.elements[0].dim.worldSphere.centre.z = thisx->world.pos.z + 16.0f;
             } else {
                 this->actionFunc = BgSpot06Objects_LockWait;
                 this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
-                this->collider.elements[0].dim.worldSphere.center.z = thisx->world.pos.z;
+                this->collider.elements[0].dim.worldSphere.centre.z = thisx->world.pos.z;
             }
 
-            this->collider.elements[0].dim.worldSphere.center.x = thisx->world.pos.x;
-            this->collider.elements[0].dim.worldSphere.center.y = thisx->world.pos.y;
+            this->collider.elements[0].dim.worldSphere.centre.x = thisx->world.pos.x;
+            this->collider.elements[0].dim.worldSphere.centre.y = thisx->world.pos.y;
             thisx->colChkInfo.mass = MASS_IMMOVABLE;
             break;
         case LHO_WATER_PLANE:

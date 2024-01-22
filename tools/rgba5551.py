@@ -16,12 +16,12 @@ def decode_rgba5551(short, max=False):
 def u16(x):
     x = int(x, 16)
     if x > 0xFFFF:
-        raise argparse.ArgumentTypeError("expecting a short (u16) representing a single color.")
+        raise argparse.ArgumentTypeError("expecting a short (u16) representing a single colour.")
     return x
 
 def main():
-    parser = argparse.ArgumentParser(description="Decodes a color encoded in rgba5551.")
-    parser.add_argument("short", type=u16, help="u16 raw value of the color to decode")
+    parser = argparse.ArgumentParser(description="Decodes a colour encoded in rgba5551.")
+    parser.add_argument("short", type=u16, help="u16 raw value of the colour to decode")
     args = parser.parse_args()
     print("Min: GPACK_RGBA5551(%d, %d, %d, %d)" % decode_rgba5551(args.short, max=False))
     print("Max: GPACK_RGBA5551(%d, %d, %d, %d)" % decode_rgba5551(args.short, max=True))

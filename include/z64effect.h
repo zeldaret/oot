@@ -1,7 +1,7 @@
 #ifndef Z64EFFECT_H
 #define Z64EFFECT_H
 
-#include "color.h"
+#include "colour.h"
 
 struct GraphicsContext;
 struct PlayState;
@@ -35,8 +35,8 @@ typedef struct {
     /* 0x490 */ f32 gravity;
     /* 0x494 */ u32 uDiv; // "u_div"
     /* 0x498 */ u32 vDiv; // "v_div"
-    /* 0x49C */ Color_RGBA8 colorStart[4];
-    /* 0x4AC */ Color_RGBA8 colorEnd[4];
+    /* 0x49C */ Color_RGBA8 colourStart[4];
+    /* 0x4AC */ Color_RGBA8 colourEnd[4];
     /* 0x4BC */ s32 timer;
     /* 0x4C0 */ s32 duration;
 } EffectSparkInit; // size = 0x4C4
@@ -49,8 +49,8 @@ typedef struct {
     /* 0x490 */ f32 gravity;
     /* 0x494 */ u32 uDiv; // "u_div"
     /* 0x498 */ u32 vDiv; // "v_div"
-    /* 0x49C */ Color_RGBA8 colorStart[4];
-    /* 0x4AC */ Color_RGBA8 colorEnd[4];
+    /* 0x49C */ Color_RGBA8 colourStart[4];
+    /* 0x4AC */ Color_RGBA8 colourEnd[4];
     /* 0x4BC */ s32 timer;
     /* 0x4C0 */ s32 duration;
 } EffectSpark; // size = 0x4C4
@@ -84,7 +84,7 @@ typedef struct {
     /* 0x14 */ u8 p2EndColor[4];
     /* 0x18 */ u8 elemDuration;
     /* 0x19 */ u8 unkFlag;
-    /* 0x1A */ u8 drawMode; // 0: simple; 1: simple with alt colors; 2+: smooth
+    /* 0x1A */ u8 drawMode; // 0: simple; 1: simple with alt colours; 2+: smooth
     /* 0x1B */ u8 mode4Param;
     /* 0x1C */ Color_RGBA8 altPrimColor; // used with drawMode 1
     /* 0x20 */ Color_RGBA8 altEnvColor; // used with drawMode 1
@@ -104,7 +104,7 @@ typedef struct {
     /* 0x19E */ u8 numElements; // "now_edge_num"
     /* 0x19F */ u8 elemDuration;
     /* 0x1A0 */ u8 unkFlag;
-    /* 0x1A1 */ u8 drawMode; // 0: simple; 1: simple with alt colors; 2+: smooth
+    /* 0x1A1 */ u8 drawMode; // 0: simple; 1: simple with alt colours; 2+: smooth
     /* 0x1A2 */ Color_RGBA8 altPrimColor; // used with drawMode 1
     /* 0x1A6 */ Color_RGBA8 altEnvColor; // used with drawMode 1
 } EffectBlure; // size = 0x1AC

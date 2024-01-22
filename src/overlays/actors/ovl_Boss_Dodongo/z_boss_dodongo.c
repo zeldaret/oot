@@ -193,9 +193,9 @@ void BossDodongo_Init(Actor* thisx, PlayState* play) {
     this->unk_1F8 = 1.0f;
     BossDodongo_SetupIntroCutscene(this, play);
     this->health = 12;
-    this->colorFilterMin = 995.0f;
+    this->colourFilterMin = 995.0f;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->colorFilterMax = 1000.0f;
+    this->colourFilterMax = 1000.0f;
     this->unk_224 = 2.0f;
     this->unk_228 = 9200.0f;
     Collider_InitJntSph(play, &this->collider);
@@ -900,23 +900,23 @@ void BossDodongo_Update(Actor* thisx, PlayState* play2) {
 
     if (this->unk_1BE != 0) {
         if (this->unk_1BE >= 1000) {
-            Math_SmoothStepToF(&this->colorFilterR, 30.0f, 1, 20.0f, 0.0);
-            Math_SmoothStepToF(&this->colorFilterG, 10.0f, 1, 20.0f, 0.0);
+            Math_SmoothStepToF(&this->colourFilterR, 30.0f, 1, 20.0f, 0.0);
+            Math_SmoothStepToF(&this->colourFilterG, 10.0f, 1, 20.0f, 0.0);
         } else {
             this->unk_1BE--;
-            Math_SmoothStepToF(&this->colorFilterR, 255.0f, 1, 20.0f, 0.0);
-            Math_SmoothStepToF(&this->colorFilterG, 0.0f, 1, 20.0f, 0.0);
+            Math_SmoothStepToF(&this->colourFilterR, 255.0f, 1, 20.0f, 0.0);
+            Math_SmoothStepToF(&this->colourFilterG, 0.0f, 1, 20.0f, 0.0);
         }
 
-        Math_SmoothStepToF(&this->colorFilterB, 0.0f, 1, 20.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterMin, 900.0f, 1, 10.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterMax, 1099.0f, 1, 10.0f, 0.0);
+        Math_SmoothStepToF(&this->colourFilterB, 0.0f, 1, 20.0f, 0.0);
+        Math_SmoothStepToF(&this->colourFilterMin, 900.0f, 1, 10.0f, 0.0);
+        Math_SmoothStepToF(&this->colourFilterMax, 1099.0f, 1, 10.0f, 0.0);
     } else {
-        Math_SmoothStepToF(&this->colorFilterR, play->lightCtx.fogColor[0], 1, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterG, play->lightCtx.fogColor[1], 1.0f, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterB, play->lightCtx.fogColor[2], 1.0f, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterMin, play->lightCtx.fogNear, 1.0, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->colorFilterMax, 1000.0f, 1, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colourFilterR, play->lightCtx.fogColor[0], 1, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colourFilterG, play->lightCtx.fogColor[1], 1.0f, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colourFilterB, play->lightCtx.fogColor[2], 1.0f, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colourFilterMin, play->lightCtx.fogNear, 1.0, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colourFilterMax, 1000.0f, 1, 5.0f, 0.0);
     }
 
     if (player->actor.world.pos.y < -1000.0f) {
@@ -1127,8 +1127,8 @@ void BossDodongo_Draw(Actor* thisx, PlayState* play) {
     if ((this->unk_1C0 >= 2) && (this->unk_1C0 & 1)) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 900, 1099);
     } else {
-        POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, (u32)this->colorFilterR, (u32)this->colorFilterG,
-                                   (u32)this->colorFilterB, 0, this->colorFilterMin, this->colorFilterMax);
+        POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, (u32)this->colourFilterR, (u32)this->colourFilterG,
+                                   (u32)this->colourFilterB, 0, this->colourFilterMin, this->colourFilterMax);
     }
 
     Matrix_RotateZ(this->unk_23C, MTXMODE_APPLY);
@@ -1500,7 +1500,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                         static Vec3f dustAcell = { 0.0f, 1.0f, 0.0f };
                         static Color_RGBA8 dustPrimColor = { 255, 255, 100, 255 };
                         static Color_RGBA8 dustEnvColor = { 255, 100, 0, 255 };
-                        s16 colorIndex;
+                        s16 colourIndex;
                         Color_RGBA8 magmaPrimColor2[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 100 } };
                         Color_RGBA8 magmaEnvColor2[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
 
@@ -1512,9 +1512,9 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                         effectPos.x = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.x;
                         effectPos.y = -1498.76f;
                         effectPos.z = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.z;
-                        colorIndex = (Rand_ZeroOne() * 1.9f);
-                        EffectSsGMagma2_Spawn(play, &effectPos, &magmaPrimColor2[colorIndex],
-                                              &magmaEnvColor2[colorIndex], 10 - (colorIndex * 5), colorIndex,
+                        colourIndex = (Rand_ZeroOne() * 1.9f);
+                        EffectSsGMagma2_Spawn(play, &effectPos, &magmaPrimColor2[colourIndex],
+                                              &magmaEnvColor2[colourIndex], 10 - (colourIndex * 5), colourIndex,
                                               (s16)(Rand_ZeroOne() * 100.0f) + 100);
                     }
                 }
@@ -1641,7 +1641,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
 void BossDodongo_UpdateEffects(PlayState* play) {
     BossDodongoEffect* eff = (BossDodongoEffect*)play->specialEffects;
     Color_RGB8 effectColors[] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
-    s16 colorIndex;
+    s16 colourIndex;
     s16 i;
 
     for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
@@ -1654,10 +1654,10 @@ void BossDodongo_UpdateEffects(PlayState* play) {
             eff->unk_0C.y += eff->unk_18.y;
             eff->unk_0C.z += eff->unk_18.z;
             if (eff->unk_24 == 1) {
-                colorIndex = eff->unk_25 % 4;
-                eff->color.r = effectColors[colorIndex].r;
-                eff->color.g = effectColors[colorIndex].g;
-                eff->color.b = effectColors[colorIndex].b;
+                colourIndex = eff->unk_25 % 4;
+                eff->colour.r = effectColors[colourIndex].r;
+                eff->colour.g = effectColors[colourIndex].g;
+                eff->colour.b = effectColors[colourIndex].b;
                 eff->alpha -= 20;
                 if (eff->alpha <= 0) {
                     eff->alpha = 0;
@@ -1690,7 +1690,7 @@ void BossDodongo_DrawEffects(PlayState* play) {
                 materialFlag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, eff->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->colour.r, eff->colour.g, eff->colour.b, eff->alpha);
             Matrix_Translate(eff->unk_00.x, eff->unk_00.y, eff->unk_00.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(eff->unk_2C, eff->unk_2C, 1.0f, MTXMODE_APPLY);

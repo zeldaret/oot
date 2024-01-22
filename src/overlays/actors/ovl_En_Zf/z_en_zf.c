@@ -555,7 +555,7 @@ s32 EnZf_CanAttack(PlayState* play, EnZf* this) {
                 }
                 if (targetedActor->id != ACTOR_EN_ZF) {
                     return false;
-                } else if (targetedActor->colorFilterTimer != 0) {
+                } else if (targetedActor->colourFilterTimer != 0) {
                     return true;
                 }
             }
@@ -1323,7 +1323,7 @@ void EnZf_Stunned(EnZf* this, PlayState* play) {
         this->hopAnimIndex = 0;
     }
 
-    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if ((this->actor.colourFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->actor.colChkInfo.health == 0) {
             EnZf_SetupDie(this);
         } else if ((this->actor.params != ENZF_TYPE_DINOLFOS) || !EnZf_ChooseAction(play, this)) {
@@ -2115,7 +2115,7 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
 
         if ((this->actor.params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) /* not miniboss */ ||
             (D_80B4A1B4 != this->actor.params)) {
-            if ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) {
+            if ((this->actor.colourFilterTimer == 0) || !(this->actor.colourFilterParams & 0x4000)) {
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
             }
         }
@@ -2267,7 +2267,7 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
                                        EnZf_OverrideLimbDraw, EnZf_PostLimbDraw, this, POLY_OPA_DISP);
 
         if (this->iceTimer != 0) {
-            thisx->colorFilterTimer++;
+            thisx->colourFilterTimer++;
             this->iceTimer--;
 
             if ((this->iceTimer % 4) == 0) {

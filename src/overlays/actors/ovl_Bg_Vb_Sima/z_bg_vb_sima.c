@@ -67,8 +67,8 @@ void BgVbSima_SpawnEmber(BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
 }
 
 void BgVbSima_Update(Actor* thisx, PlayState* play) {
-    static Color_RGBA8 colorYellow = { 255, 255, 0, 255 };
-    static Color_RGBA8 colorRed = { 255, 10, 0, 255 };
+    static Color_RGBA8 colourYellow = { 255, 255, 0, 255 };
+    static Color_RGBA8 colourRed = { 255, 10, 0, 255 };
     s32 pad;
     BgVbSima* this = (BgVbSima*)thisx;
     BossFd* bossFd = (BossFd*)this->dyna.actor.parent;
@@ -124,7 +124,7 @@ void BgVbSima_Update(Actor* thisx, PlayState* play) {
                 splashPos.y = -80.0f;
                 splashPos.z = this->dyna.actor.world.pos.z + edgeZ;
 
-                func_8002836C(play, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
+                func_8002836C(play, &splashPos, &splashVel, &splashAcc, &colourYellow, &colourRed,
                               (s16)Rand_ZeroFloat(100.0f) + 500, 10, 20);
 
                 for (i2 = 0; i2 < 3; i2++) {

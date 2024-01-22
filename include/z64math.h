@@ -26,12 +26,12 @@ typedef struct {
 } Vec3i; // size = 0x0C
 
 typedef struct {
-    Vec3s center;
+    Vec3s centre;
     s16 radius;
 } Sphere16; // size = 0x08
 
 typedef struct {
-    Vec3f center;
+    Vec3f centre;
     f32 radius;
 } Spheref; // size = 0x10
 
@@ -101,7 +101,7 @@ typedef VecSphGeo VecGeo;
 #define IS_ZERO(f) (fabsf(f) < 0.008f)
 
 // Casting a float to an integer, when the float value is larger than what the integer type can hold,
-// leads to undefined behavior. For example (f32)0x8000 doesn't fit in a s16, so it cannot be cast to s16.
+// leads to undefined behaviour. For example (f32)0x8000 doesn't fit in a s16, so it cannot be cast to s16.
 // This isn't an issue with IDO, but is one with for example GCC.
 // A partial workaround is to cast to s32 then s16, hoping all binang values used will fit a s32.
 #define TRUNCF_BINANG(f) (s16)(s32)(f)

@@ -93,7 +93,7 @@ static const gfxd_arg_type_t arg_tbl[] =
 	[gfxd_Colorpart] =
 	{
 		.fmt = gfxd_argfmt_u,
-		.fn = argfn_color,
+		.fn = argfn_colour,
 	},
 	[gfxd_Color] =
 	{
@@ -193,7 +193,7 @@ static const gfxd_arg_type_t arg_tbl[] =
 	[gfxd_Keyscale] =
 	{
 		.fmt = gfxd_argfmt_u,
-		.fn = argfn_color,
+		.fn = argfn_colour,
 	},
 	[gfxd_Keywidth] =
 	{

@@ -258,7 +258,7 @@ void EnSsh_SetStunned(EnSsh* this) {
     if (this->stunTimer == 0) {
         this->stateFlags |= SSH_STATE_ATTACKED;
         this->stunTimer = 120;
-        this->actor.colorFilterTimer = 0;
+        this->actor.colourFilterTimer = 0;
     }
 }
 

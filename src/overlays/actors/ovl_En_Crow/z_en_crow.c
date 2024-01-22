@@ -186,7 +186,7 @@ void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
 }
 
 void EnCrow_SetupDie(EnCrow* this) {
-    this->actor.colorFilterTimer = 0;
+    this->actor.colourFilterTimer = 0;
     this->actionFunc = EnCrow_Die;
 }
 
@@ -326,10 +326,10 @@ void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
 
 void EnCrow_Damaged(EnCrow* this, PlayState* play) {
     Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
-    this->actor.colorFilterTimer = 40;
+    this->actor.colourFilterTimer = 40;
 
     if (!(this->actor.flags & ACTOR_FLAG_15)) {
-        if (this->actor.colorFilterParams & 0x4000) {
+        if (this->actor.colourFilterParams & 0x4000) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
@@ -451,9 +451,9 @@ void EnCrow_Update(Actor* thisx, PlayState* play) {
         height = 0.0f;
     }
 
-    this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
-    this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y + height;
-    this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
+    this->collider.elements[0].dim.worldSphere.centre.x = this->actor.world.pos.x;
+    this->collider.elements[0].dim.worldSphere.centre.y = this->actor.world.pos.y + height;
+    this->collider.elements[0].dim.worldSphere.centre.z = this->actor.world.pos.z;
 
     if (this->actionFunc == EnCrow_DiveAttack) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

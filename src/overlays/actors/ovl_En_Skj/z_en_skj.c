@@ -330,10 +330,10 @@ void EnSkj_CalculateCenter(EnSkj* this) {
     mult.z = 120.0f;
 
     Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
-    Matrix_MultVec3f(&mult, &this->center);
+    Matrix_MultVec3f(&mult, &this->centre);
 
-    this->center.x += this->actor.world.pos.x;
-    this->center.z += this->actor.world.pos.z;
+    this->centre.x += this->actor.world.pos.x;
+    this->centre.z += this->actor.world.pos.z;
 }
 
 void EnSkj_SetNaviId(EnSkj* this) {
@@ -450,8 +450,8 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
             PRINTF("World_X  : %f\n", this->actor.world.pos.x);
             PRINTF("World_Z  : %f\n", this->actor.world.pos.z);
-            PRINTF("Center_X : %f\n", this->center.x);
-            PRINTF("Center_Z : %f\n\n", this->center.z);
+            PRINTF("Center_X : %f\n", this->centre.x);
+            PRINTF("Center_Z : %f\n\n", this->centre.z);
 
             break;
     }
@@ -524,45 +524,45 @@ void EnSkj_SpawnBlood(PlayState* play, Vec3f* pos) {
     effect.uDiv = 5;
     effect.vDiv = 5;
 
-    effect.colorStart[0].r = 0;
-    effect.colorStart[0].g = 0;
-    effect.colorStart[0].b = 128;
-    effect.colorStart[0].a = 255;
+    effect.colourStart[0].r = 0;
+    effect.colourStart[0].g = 0;
+    effect.colourStart[0].b = 128;
+    effect.colourStart[0].a = 255;
 
-    effect.colorStart[1].r = 0;
-    effect.colorStart[1].g = 0;
-    effect.colorStart[1].b = 128;
-    effect.colorStart[1].a = 255;
+    effect.colourStart[1].r = 0;
+    effect.colourStart[1].g = 0;
+    effect.colourStart[1].b = 128;
+    effect.colourStart[1].a = 255;
 
-    effect.colorStart[2].r = 0;
-    effect.colorStart[2].g = 0;
-    effect.colorStart[2].b = 128;
-    effect.colorStart[2].a = 255;
+    effect.colourStart[2].r = 0;
+    effect.colourStart[2].g = 0;
+    effect.colourStart[2].b = 128;
+    effect.colourStart[2].a = 255;
 
-    effect.colorStart[3].r = 0;
-    effect.colorStart[3].g = 0;
-    effect.colorStart[3].b = 128;
-    effect.colorStart[3].a = 255;
+    effect.colourStart[3].r = 0;
+    effect.colourStart[3].g = 0;
+    effect.colourStart[3].b = 128;
+    effect.colourStart[3].a = 255;
 
-    effect.colorEnd[0].r = 0;
-    effect.colorEnd[0].g = 0;
-    effect.colorEnd[0].b = 32;
-    effect.colorEnd[0].a = 0;
+    effect.colourEnd[0].r = 0;
+    effect.colourEnd[0].g = 0;
+    effect.colourEnd[0].b = 32;
+    effect.colourEnd[0].a = 0;
 
-    effect.colorEnd[1].r = 0;
-    effect.colorEnd[1].g = 0;
-    effect.colorEnd[1].b = 32;
-    effect.colorEnd[1].a = 0;
+    effect.colourEnd[1].r = 0;
+    effect.colourEnd[1].g = 0;
+    effect.colourEnd[1].b = 32;
+    effect.colourEnd[1].a = 0;
 
-    effect.colorEnd[2].r = 0;
-    effect.colorEnd[2].g = 0;
-    effect.colorEnd[2].b = 64;
-    effect.colorEnd[2].a = 0;
+    effect.colourEnd[2].r = 0;
+    effect.colourEnd[2].g = 0;
+    effect.colourEnd[2].b = 64;
+    effect.colourEnd[2].a = 0;
 
-    effect.colorEnd[3].r = 0;
-    effect.colorEnd[3].g = 0;
-    effect.colorEnd[3].b = 64;
-    effect.colorEnd[3].a = 0;
+    effect.colourEnd[3].r = 0;
+    effect.colourEnd[3].g = 0;
+    effect.colourEnd[3].b = 64;
+    effect.colourEnd[3].a = 0;
 
     effect.speed = 8.0f;
     effect.gravity = -1.0f;
@@ -828,8 +828,8 @@ void EnSkj_Fight(EnSkj* this, PlayState* play) {
         prevPosX = this->actor.world.pos.x;
         prevPosZ = this->actor.world.pos.z;
         if (1) {}
-        this->actor.world.pos.x = this->center.x + pos2.x;
-        this->actor.world.pos.z = this->center.z + pos2.z;
+        this->actor.world.pos.x = this->centre.x + pos2.x;
+        this->actor.world.pos.z = this->centre.z + pos2.z;
 
         phi_f14 = sqrtf(SQ(this->actor.world.pos.x - prevPosX) + SQ(this->actor.world.pos.z - prevPosZ));
         phi_f14 = CLAMP_MAX(phi_f14, 10.0f);
@@ -900,7 +900,7 @@ void EnSkj_SetupWaitInRange(EnSkj* this) {
 void EnSkj_WaitInRange(EnSkj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
-    // When link pulls out the Ocarina center him on the stump
+    // When link pulls out the Ocarina centre him on the stump
     // Link was probably supposed to be pointed towards skull kid as well
     if (player->stateFlags2 & PLAYER_STATE2_24) {
         player->stateFlags2 |= PLAYER_STATE2_25;
@@ -1328,7 +1328,7 @@ void EnSkj_Update(Actor* thisx, PlayState* play) {
     if ((this->unk_2D3 != 0) && (D_80B01EA0 == 0)) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
 
-        if (this->actor.colorFilterTimer == 0) {
+        if (this->actor.colourFilterTimer == 0) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
         }
     }

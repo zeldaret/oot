@@ -689,7 +689,7 @@ void EnFz_Update(Actor* thisx, PlayState* play) {
         Collider_UpdateCylinder(&this->actor, &this->collider1);
         Collider_UpdateCylinder(&this->actor, &this->collider2);
         if (this->isFreezing) {
-            if (this->actor.colorFilterTimer == 0) {
+            if (this->actor.colourFilterTimer == 0) {
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider1.base);
                 CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);
             }

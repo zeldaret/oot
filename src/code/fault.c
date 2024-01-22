@@ -46,7 +46,7 @@
 
 void FaultDrawer_Init(void);
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled);
-void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 color);
+void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 colour);
 void FaultDrawer_FillScreen(void);
 void FaultDrawer_SetInputCallback(void (*callback)(void));
 void FaultDrawer_SetDrawerFB(void* fb, u16 w, u16 h);
@@ -373,7 +373,7 @@ void Fault_PadCallback(Input* inputs) {
 #ifndef AVOID_UB
     PadMgr_RequestPadData(inputs, false);
 #else
-    // Guarantee crashing behavior: false -> NULL, previous value in a2 is more often non-zero than zero
+    // Guarantee crashing behaviour: false -> NULL, previous value in a2 is more often non-zero than zero
     PadMgr_RequestPadData((PadMgr*)inputs, NULL, true);
 #endif
 }
@@ -436,8 +436,8 @@ void Fault_WaitForInput(void) {
     sFaultAwaitingInput = false;
 }
 
-void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 color) {
-    FaultDrawer_DrawRecImpl(x, y, x + w - 1, y + h - 1, color);
+void Fault_DrawRec(s32 x, s32 y, s32 w, s32 h, u16 colour) {
+    FaultDrawer_DrawRecImpl(x, y, x + w - 1, y + h - 1, colour);
 }
 
 void Fault_FillScreenBlack(void) {
@@ -454,8 +454,8 @@ void Fault_FillScreenRed(void) {
     FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));
 }
 
-void Fault_DrawCornerRec(u16 color) {
-    Fault_DrawRec(22, 16, 8, 1, color);
+void Fault_DrawCornerRec(u16 colour) {
+    Fault_DrawRec(22, 16, 8, 1, colour);
 }
 
 void Fault_PrintFReg(s32 idx, f32* value) {
@@ -1225,7 +1225,7 @@ void Fault_ThreadEntry(void* arg) {
             Fault_WaitForButtonCombo();
         }
 
-        // Set auto-scrolling and default colors
+        // Set auto-scrolling and default colours
         sFaultInstance->autoScroll = true;
         FaultDrawer_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
         FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));

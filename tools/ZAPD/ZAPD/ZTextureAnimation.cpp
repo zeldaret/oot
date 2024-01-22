@@ -30,7 +30,7 @@
  *     `2`: Color changing: Changes the primColor (with a LOD factor) and envColor
  *         `KKKK LLLL PPPPPPPP QQQQQQQQ RRRRRRRR`
  *         - `K` (u16) is the total length of the animation (and in this case, the total number of
- *             colors)
+ *             colours)
  *         - `L` (u16) is seemingly always 0 for this type, and not used in the code
  *         - `P` segmented pointer to array of augmented primColors
  *         - `Q` segmented pointer to array of envColors, and can be NULL
@@ -43,8 +43,8 @@
  *     `3`: Color changing (LERP): similar to type `2`, but uses linear interpolation. The structure
  *         is similar to `2`, but
  *         - `K` is now just the animation length, while
- *         - `L` is the total number of colors, and
- *         - the frameData is used to determine which colors to interpolate.
+ *         - `L` is the total number of colours, and
+ *         - the frameData is used to determine which colours to interpolate.
  *
  *     `4`: Color changing (Lagrange interpolation): For extraction purposes identical to type 3.
  *         Uses a nonlinear interpolation formula to change the colours more smoothly.
@@ -204,22 +204,22 @@ std::string TextureScrollingParams::GetBodySourceCode() const
 /* TextureColorChangingParams */
 
 /**
- * Also parses the color and frameData arrays
+ * Also parses the colour and frameData arrays
  */
 void TextureColorChangingParams::ParseRawData()
 {
 	const auto& rawData = parent->GetRawData();
 
 	animLength = BitConverter::ToUInt16BE(rawData, rawDataIndex);
-	colorListCount = BitConverter::ToUInt16BE(rawData, rawDataIndex + 2);
+	colourListCount = BitConverter::ToUInt16BE(rawData, rawDataIndex + 2);
 
 	// Handle type 2 separately
 	uint16_t listLength =
-		((type == TextureAnimationParamsType::ColorChange) ? animLength : colorListCount);
+		((type == TextureAnimationParamsType::ColorChange) ? animLength : colourListCount);
 
 	if (listLength == 0)
 		HANDLE_ERROR_RESOURCE(WarningType::Always, parent, this, rawDataIndex,
-		                      "color list length cannot be 0", "");
+		                      "colour list length cannot be 0", "");
 
 	primColorListAddress = BitConverter::ToUInt32BE(rawData, rawDataIndex + 4);
 	envColorListAddress = BitConverter::ToUInt32BE(rawData, rawDataIndex + 8);
@@ -287,10 +287,10 @@ void TextureColorChangingParams::DeclareReferences([[maybe_unused]] const std::s
 	{
 		std::string primColorBodyStr;
 
-		for (const auto& color : primColorList)
+		for (const auto& colour : primColorList)
 		{
-			primColorBodyStr += StringHelper::Sprintf("\t{ %d, %d, %d, %d, %d },\n", color.r,
-			                                          color.g, color.b, color.a, color.lodFrac);
+			primColorBodyStr += StringHelper::Sprintf("\t{ %d, %d, %d, %d, %d },\n", colour.r,
+			                                          colour.g, colour.b, colour.a, colour.lodFrac);
 		}
 
 		primColorBodyStr.pop_back();
@@ -307,10 +307,10 @@ void TextureColorChangingParams::DeclareReferences([[maybe_unused]] const std::s
 	{
 		std::string envColorBodyStr;
 
-		for (const auto& color : envColorList)
+		for (const auto& colour : envColorList)
 		{
-			envColorBodyStr += StringHelper::Sprintf("\t{ %d, %d, %d, %d },\n", color.r, color.g,
-			                                         color.b, color.a);
+			envColorBodyStr += StringHelper::Sprintf("\t{ %d, %d, %d, %d },\n", colour.r, colour.g,
+			                                         colour.b, colour.a);
 		}
 
 		envColorBodyStr.pop_back();
@@ -354,7 +354,7 @@ std::string TextureColorChangingParams::GetBodySourceCode() const
 	Globals::Instance->GetSegmentedPtrName(frameDataListAddress, parent, "", frameDataListName);
 
 	std::string bodyStr = StringHelper::Sprintf(
-		"\n    %d, %d, %s, %s, %s,\n", animLength, colorListCount, primColorListName.c_str(),
+		"\n    %d, %d, %s, %s, %s,\n", animLength, colourListCount, primColorListName.c_str(),
 		envColorListName.c_str(), frameDataListName.c_str());
 
 	return bodyStr;

@@ -722,7 +722,7 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
     }
     // Decide on next action based on health, flip state and player distance
     angleToPlayer = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (((this->actor.colorFilterTimer == 0) && (this->actor.speed == 0.0f)) &&
+    if (((this->actor.colourFilterTimer == 0) && (this->actor.speed == 0.0f)) &&
         ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
          ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER)))) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -747,7 +747,7 @@ void EnTite_Stunned(EnTite* this, PlayState* play) {
 
 void EnTite_SetupDeathCry(EnTite* this) {
     this->action = TEKTITE_DEATH_CRY;
-    this->actor.colorFilterTimer = 0;
+    this->actor.colourFilterTimer = 0;
     this->actor.speed = 0.0f;
     EnTite_SetupAction(this, EnTite_DeathCry);
 }
@@ -862,7 +862,7 @@ void EnTite_CheckDamage(Actor* thisx, PlayState* play) {
                 }
                 // Otherwise apply damage and handle death where necessary
             } else {
-                if ((thisx->colorFilterTimer == 0) || ((thisx->colorFilterParams & 0x4000) == 0)) {
+                if ((thisx->colourFilterTimer == 0) || ((thisx->colourFilterParams & 0x4000) == 0)) {
                     Actor_SetColorFilter(thisx, COLORFILTER_COLORFLAG_RED, 255, COLORFILTER_BUFFLAG_OPA, 8);
                     Actor_ApplyDamage(thisx);
                 }
@@ -1003,7 +1003,7 @@ void EnTite_Draw(Actor* thisx, PlayState* play) {
 
     if (this->spawnIceTimer != 0) {
         // Spawn chunks of ice all over the tektite's body
-        thisx->colorFilterTimer++;
+        thisx->colourFilterTimer++;
         this->spawnIceTimer--;
         if ((this->spawnIceTimer & 3) == 0) {
             Vec3f iceChunk;

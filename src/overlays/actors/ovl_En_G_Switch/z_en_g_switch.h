@@ -30,7 +30,7 @@ typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 scale;
     /* 0x0E */ s16 timer;
-    /* 0x10 */ s16 colorIdx;
+    /* 0x10 */ s16 colourIdx;
     /* 0x12 */ u8 flag;
     /* 0x14 */ Vec3f velocity;
     /* 0x20 */ Vec3f rot;
@@ -43,7 +43,7 @@ typedef struct EnGSwitch {
     /* 0x0152 */ s16 silverCount;
     /* 0x0154 */ s16 switchFlag;
     /* 0x0156 */ s16 killTimer;
-    /* 0x0158 */ s16 colorIdx;
+    /* 0x0158 */ s16 colourIdx;
     /* 0x015A */ s16 broken;
     /* 0x015C */ s16 numEffects;
     /* 0x015E */ s16 objectId;

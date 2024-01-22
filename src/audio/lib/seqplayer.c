@@ -1077,7 +1077,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep3(SequenceLayer* layer, s32 cmd) {
         }
     }
 
-    if ((seqPlayer->muted && (channel->muteBehavior & (MUTE_BEHAVIOR_STOP_NOTES | MUTE_BEHAVIOR_4))) ||
+    if ((seqPlayer->muted && (channel->muteBehavior & (MUTE_BEHAVIOUR_STOP_NOTES | MUTE_BEHAVIOUR_4))) ||
         channel->stopSomething2) {
         layer->stopSomething = true;
         return PROCESS_SCRIPT_END;
@@ -1161,7 +1161,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
     }
 
     seqPlayer = channel->seqPlayer;
-    if (seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOR_STOP_SCRIPT)) {
+    if (seqPlayer->muted && (channel->muteBehavior & MUTE_BEHAVIOUR_STOP_SCRIPT)) {
         return;
     }
 
@@ -1738,7 +1738,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
     AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, LOAD_STATUS_COMPLETE);
     AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, LOAD_STATUS_COMPLETE);
 
-    if (seqPlayer->muted && (seqPlayer->muteBehavior & MUTE_BEHAVIOR_STOP_SCRIPT)) {
+    if (seqPlayer->muted && (seqPlayer->muteBehavior & MUTE_BEHAVIOUR_STOP_SCRIPT)) {
         return;
     }
 
@@ -2126,7 +2126,7 @@ void AudioSeq_InitSequencePlayer(SequencePlayer* seqPlayer) {
         seqPlayer->soundScriptIO[j] = SEQ_IO_VAL_NONE;
     }
 
-    seqPlayer->muteBehavior = MUTE_BEHAVIOR_SOFTEN | MUTE_BEHAVIOR_STOP_NOTES;
+    seqPlayer->muteBehavior = MUTE_BEHAVIOUR_SOFTEN | MUTE_BEHAVIOUR_STOP_NOTES;
     seqPlayer->fadeVolumeScale = 1.0f;
     seqPlayer->bend = 1.0f;
     Audio_InitNoteLists(&seqPlayer->notePool);

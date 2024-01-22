@@ -41,7 +41,7 @@ typedef enum {
 typedef enum {
     /*  0 */ GDF_FWORK_0,
     /*  1 */ GDF_FWORK_1,
-    /*  2 */ GDF_CENTER_POS,
+    /*  2 */ GDF_CENTRE_POS,
     /*  3 */ GDF_TRIFORCE_PRIM_B,
     /*  4 */ GDF_TRIFORCE_PRIM_A,
     /*  5 */ GDF_TRIFORCE_ENV_G,

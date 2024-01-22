@@ -490,9 +490,9 @@ void EnDodongo_SwallowBomb(EnDodongo* this, PlayState* play) {
                     deathFireAccel.x = deathFireVel.x * -0.1f;
                     deathFireAccel.y = deathFireVel.y * -0.1f;
                     deathFireAccel.z = deathFireVel.z * -0.1f;
-                    pos.x = this->sphElements[0].dim.worldSphere.center.x + deathFireVel.x;
-                    pos.y = this->sphElements[0].dim.worldSphere.center.y + deathFireVel.y;
-                    pos.z = this->sphElements[0].dim.worldSphere.center.z + deathFireVel.z;
+                    pos.x = this->sphElements[0].dim.worldSphere.centre.x + deathFireVel.x;
+                    pos.y = this->sphElements[0].dim.worldSphere.centre.y + deathFireVel.y;
+                    pos.z = this->sphElements[0].dim.worldSphere.centre.z + deathFireVel.z;
                     func_8002836C(play, &pos, &deathFireVel, &deathFireAccel, &this->bombSmokePrimColor,
                                   &this->bombSmokeEnvColor, 400, 10, 10);
                 }
@@ -515,8 +515,8 @@ void EnDodongo_SwallowBomb(EnDodongo* this, PlayState* play) {
             func_8002829C(play, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
         }
     }
-    this->bodyScale.y = this->bodyScale.z = (Math_SinS(this->actor.colorFilterTimer * 0x1000) * 0.5f) + 1.0f;
-    this->bodyScale.x = Math_SinS(this->actor.colorFilterTimer * 0x1000) + 1.0f;
+    this->bodyScale.y = this->bodyScale.z = (Math_SinS(this->actor.colourFilterTimer * 0x1000) * 0.5f) + 1.0f;
+    this->bodyScale.x = Math_SinS(this->actor.colourFilterTimer * 0x1000) + 1.0f;
 
     SkelAnime_Update(&this->skelAnime);
     if (this->timer == 0) {
@@ -638,13 +638,13 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
 
         this->timer--;
         this->actor.shape.rot.y = this->actor.world.rot.y += this->tailSwipeSpeed;
-        tailPos.x = this->sphElements[1].dim.worldSphere.center.x;
-        tailPos.y = this->sphElements[1].dim.worldSphere.center.y;
-        tailPos.z = this->sphElements[1].dim.worldSphere.center.z;
+        tailPos.x = this->sphElements[1].dim.worldSphere.centre.x;
+        tailPos.y = this->sphElements[1].dim.worldSphere.centre.y;
+        tailPos.z = this->sphElements[1].dim.worldSphere.centre.z;
         Actor_SpawnFloorDustRing(play, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, false);
-        tailPos.x = this->sphElements[2].dim.worldSphere.center.x;
-        tailPos.y = this->sphElements[2].dim.worldSphere.center.y;
-        tailPos.z = this->sphElements[2].dim.worldSphere.center.z;
+        tailPos.x = this->sphElements[2].dim.worldSphere.centre.x;
+        tailPos.y = this->sphElements[2].dim.worldSphere.centre.y;
+        tailPos.z = this->sphElements[2].dim.worldSphere.centre.z;
         Actor_SpawnFloorDustRing(play, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, false);
 
         if (this->colliderBody.base.atFlags & AT_HIT) {
@@ -675,7 +675,7 @@ void EnDodongo_Death(EnDodongo* this, PlayState* play) {
         if (this->actor.params == EN_DODONGO_SMOKE_DEATH) {
             EnDodongo_SpawnBombSmoke(this, play);
         }
-    } else if (this->actor.colorFilterTimer == 0) {
+    } else if (this->actor.colourFilterTimer == 0) {
         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 120, COLORFILTER_BUFFLAG_OPA, 4);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -701,7 +701,7 @@ void EnDodongo_Death(EnDodongo* this, PlayState* play) {
 
 void EnDodongo_Stunned(EnDodongo* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         if (this->actor.colChkInfo.health == 0) {
             EnDodongo_SetupDeath(this, play);
         } else {
@@ -924,7 +924,7 @@ void EnDodongo_Draw(Actor* thisx, PlayState* play2) {
                       EnDodongo_PostLimbDraw, this);
 
     if (this->iceTimer != 0) {
-        this->actor.colorFilterTimer++;
+        this->actor.colourFilterTimer++;
         if (1) {}
         this->iceTimer--;
         if ((this->iceTimer % 4) == 0) {

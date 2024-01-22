@@ -304,15 +304,15 @@ void EnHorseGanon_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     s32 index;
 
     for (index = 0; index < this->colliderHead.count; index++) {
-        sp4C.x = this->colliderHead.elements[index].dim.modelSphere.center.x;
-        sp4C.y = this->colliderHead.elements[index].dim.modelSphere.center.y;
-        sp4C.z = this->colliderHead.elements[index].dim.modelSphere.center.z;
+        sp4C.x = this->colliderHead.elements[index].dim.modelSphere.centre.x;
+        sp4C.y = this->colliderHead.elements[index].dim.modelSphere.centre.y;
+        sp4C.z = this->colliderHead.elements[index].dim.modelSphere.centre.z;
 
         Skin_GetLimbPos(skin, this->colliderHead.elements[index].dim.limb, &sp4C, &sp40);
 
-        this->colliderHead.elements[index].dim.worldSphere.center.x = sp40.x;
-        this->colliderHead.elements[index].dim.worldSphere.center.y = sp40.y;
-        this->colliderHead.elements[index].dim.worldSphere.center.z = sp40.z;
+        this->colliderHead.elements[index].dim.worldSphere.centre.x = sp40.x;
+        this->colliderHead.elements[index].dim.worldSphere.centre.y = sp40.y;
+        this->colliderHead.elements[index].dim.worldSphere.centre.z = sp40.z;
 
         this->colliderHead.elements[index].dim.worldSphere.radius =
             this->colliderHead.elements[index].dim.modelSphere.radius * this->colliderHead.elements[index].dim.scale;

@@ -315,14 +315,14 @@ void func_809CC774(EnBubble* this) {
     Vec3f dest;
 
     dim = &this->colliderSphere.elements[0].dim;
-    src.x = dim->modelSphere.center.x;
-    src.y = dim->modelSphere.center.y;
-    src.z = dim->modelSphere.center.z;
+    src.x = dim->modelSphere.centre.x;
+    src.y = dim->modelSphere.centre.y;
+    src.z = dim->modelSphere.centre.z;
 
     Matrix_MultVec3f(&src, &dest);
-    dim->worldSphere.center.x = dest.x;
-    dim->worldSphere.center.y = dest.y;
-    dim->worldSphere.center.z = dest.z;
+    dim->worldSphere.centre.x = dest.x;
+    dim->worldSphere.centre.y = dest.y;
+    dim->worldSphere.centre.z = dest.z;
     dim->worldSphere.radius = dim->modelSphere.radius * (1.0f + this->expansionWidth);
     this->colliderSphere.elements[1].dim = *dim;
 }

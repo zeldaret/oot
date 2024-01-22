@@ -888,7 +888,7 @@ void EnWf_Stunned(EnWf* this, PlayState* play) {
         this->unk_300 = false;
     }
 
-    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if ((this->actor.colourFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->actor.colChkInfo.health == 0) {
             EnWf_SetupDie(this);
         } else {
@@ -1321,7 +1321,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderSpheres.base);
 
     if (this->action >= WOLFOS_ACTION_WAIT) {
-        if ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) {
+        if ((this->actor.colourFilterTimer == 0) || !(this->actor.colourFilterParams & 0x4000)) {
             Collider_UpdateCylinder(&this->actor, &this->colliderCylinderBody);
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinderTail.base);
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderCylinderBody.base);
@@ -1344,7 +1344,7 @@ void EnWf_Update(Actor* thisx, PlayState* play) {
     this->actor.focus.pos.y += 25.0f;
 
     if (this->eyeIndex == 0) {
-        if ((Rand_ZeroOne() < 0.2f) && ((play->gameplayFrames % 4) == 0) && (this->actor.colorFilterTimer == 0)) {
+        if ((Rand_ZeroOne() < 0.2f) && ((play->gameplayFrames % 4) == 0) && (this->actor.colourFilterTimer == 0)) {
             this->eyeIndex++;
         }
     } else {
@@ -1380,7 +1380,7 @@ void EnWf_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
         this->colliderCylinderTail.dim.pos.z = colliderPos.z;
     }
 
-    if ((this->fireTimer != 0) || ((this->actor.colorFilterTimer != 0) && (this->actor.colorFilterParams & 0x4000))) {
+    if ((this->fireTimer != 0) || ((this->actor.colourFilterTimer != 0) && (this->actor.colourFilterParams & 0x4000))) {
         switch (limbIndex) {
             case WOLFOS_LIMB_EYES:
                 bodyPartIndex = 0;
@@ -1452,7 +1452,7 @@ void EnWf_Draw(Actor* thisx, PlayState* play) {
                               EnWf_OverrideLimbDraw, EnWf_PostLimbDraw, &this->actor);
 
         if (this->fireTimer != 0) {
-            this->actor.colorFilterTimer++;
+            this->actor.colourFilterTimer++;
             if (1) {}
             this->fireTimer--;
 

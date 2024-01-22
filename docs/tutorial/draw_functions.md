@@ -88,7 +88,7 @@ gfxdis.f3dex2 -x -g "POLY_OPA_DISP++" -d DB06002012345678
 - `-g` is used to specify which graphics pointer macro to use
 - `-d` is for the graphics dword
 
-Our standard now is to use decimal colors. If you have a constant second argument rather than a variable one, you can also use `-dc` to get decimal colors instead of the default hex.
+Our standard now is to use decimal colours. If you have a constant second argument rather than a variable one, you can also use `-dc` to get decimal colours instead of the default hex.
 
 The output looks like
 ```
@@ -283,7 +283,7 @@ Now we need to work out what the last four arguments are. Two things are going o
 glabel D_809F5E4C
  .word 0xFFFFFFFF, 0xFFC3AFFF, 0xD2FF00FF, 0xFFFFFFFF, 0xD2FF00FF, 0xFFC3AFFF, 0xFFFFFFFF, 0xFFC3AFFF, 0xD2FF00FF
 ```
-Worse, this is being accessed with pointer subtraction in the second word. `temp_v1 = (thisx->unk26A * 4) + &D_809F5E4C;` tells us that the array has elements of size 4 bytes, and the graphics macro implies the elements are colors. Colors of size 4 bytes are `Color_RGBA8`. Usually, we write colors in decimal, so `D_809F5E4C` becomes
+Worse, this is being accessed with pointer subtraction in the second word. `temp_v1 = (thisx->unk26A * 4) + &D_809F5E4C;` tells us that the array has elements of size 4 bytes, and the graphics macro implies the elements are colours. Colors of size 4 bytes are `Color_RGBA8`. Usually, we write colours in decimal, so `D_809F5E4C` becomes
 ```C
 static Color_RGBA8 D_809F5E4C[] = {
     { 255, 255, 255, 255 }, { 255, 195, 175, 255 }, { 210, 255, 0, 255 },

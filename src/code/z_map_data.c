@@ -332,7 +332,7 @@ static u8 sFloorID[10][8] = {
     {    0,    0,    0,    0,    0,    0,    0, F_1F },
 }; /* clang-format on */
 
-/* Y coord of big skull icon on map screen, relative to center of screen.
+/* Y coord of big skull icon on map screen, relative to centre of screen.
    -99 if no dungeon map, otherwise (51 - 14 * FloorNumber) */
 static s16 sSkullFloorIconY[10] = { -47, -47, -33, -47, -47, -5, -19, -47, -99, -99 };
 

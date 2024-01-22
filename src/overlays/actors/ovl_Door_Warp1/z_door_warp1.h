@@ -13,7 +13,7 @@ typedef enum {
     /*  1 */ WARP_CLEAR_FLAG,        // Activate on temp clear flag
     /*  2 */ WARP_SAGES,             // Used by sages warping into chamber of sages during their cutscene
     /*  3 */ WARP_PURPLE_CRYSTAL,
-    /*  4 */ WARP_YELLOW,            // The colored variants don't warp, they are cutscene setpieces
+    /*  4 */ WARP_YELLOW,            // The coloured variants don't warp, they are cutscene setpieces
     /*  5 */ WARP_BLUE_RUTO,
     /*  6 */ WARP_DESTINATION,       // Spawning in after having taken a warp
     /*  7 */ WARP_UNK_7,

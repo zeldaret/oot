@@ -122,9 +122,9 @@ void EnNwc_UpdateChicks(EnNwc* this, PlayState* play) {
 
         chickActionFuncs[chick->type](chick, this, play);
 
-        element->dim.worldSphere.center.x = chick->pos.x;
-        element->dim.worldSphere.center.y = chick->pos.y;
-        element->dim.worldSphere.center.z = chick->pos.z;
+        element->dim.worldSphere.centre.x = chick->pos.x;
+        element->dim.worldSphere.centre.y = chick->pos.y;
+        element->dim.worldSphere.centre.z = chick->pos.z;
 
         test = chick->pos.y - prevChickPos.y;
         if (fabsf(test) < 10.0f) {

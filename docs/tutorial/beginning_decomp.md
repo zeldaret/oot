@@ -808,8 +808,8 @@ The colours mean the following:
 - Green is extra lines
 - Blue denotes significant differences in instructions, be they just numerical ones, or whole instructions
 - Yellow/Gold denotes that instructions are correct but register usage is wrong
-- Other colors are used to distinguish incorrectly used registers or stack variables, to make it easy to follow where they are used.
-- The colored arrows denote branching. An arrow of one color on the right leads to the arrow of the same color on the left.
+- Other colours are used to distinguish incorrectly used registers or stack variables, to make it easy to follow where they are used.
+- The coloured arrows denote branching. An arrow of one colour on the right leads to the arrow of the same colour on the left.
 
 Obviously we want to make the whole thing white. This is the tricky bit: you have to have the imagination to try different things until you get the diff to match. You learn these with experience.
 

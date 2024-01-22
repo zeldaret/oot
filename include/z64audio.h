@@ -13,11 +13,11 @@
 
 #define MAX_CHANNELS_PER_BANK 3
 
-#define MUTE_BEHAVIOR_3 (1 << 3)           // prevent further noteSubEus from playing
-#define MUTE_BEHAVIOR_4 (1 << 4)           // stop something in seqLayer scripts
-#define MUTE_BEHAVIOR_SOFTEN (1 << 5)      // lower volume, by default to half
-#define MUTE_BEHAVIOR_STOP_NOTES (1 << 6)  // prevent further notes from playing
-#define MUTE_BEHAVIOR_STOP_SCRIPT (1 << 7) // stop processing sequence/channel scripts
+#define MUTE_BEHAVIOUR_3 (1 << 3)           // prevent further noteSubEus from playing
+#define MUTE_BEHAVIOUR_4 (1 << 4)           // stop something in seqLayer scripts
+#define MUTE_BEHAVIOUR_SOFTEN (1 << 5)      // lower volume, by default to half
+#define MUTE_BEHAVIOUR_STOP_NOTES (1 << 6)  // prevent further notes from playing
+#define MUTE_BEHAVIOUR_STOP_SCRIPT (1 << 7) // stop processing sequence/channel scripts
 
 #define ADSR_DISABLE 0
 #define ADSR_HANG -1

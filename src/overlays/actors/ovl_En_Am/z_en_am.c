@@ -29,14 +29,14 @@ void EnAm_Stunned(EnAm* this, PlayState* play);
 void EnAm_RecoilFromDamage(EnAm* this, PlayState* play);
 
 typedef enum {
-    /* 00 */ AM_BEHAVIOR_NONE,
-    /* 01 */ AM_BEHAVIOR_DAMAGED,
-    /* 03 */ AM_BEHAVIOR_DO_NOTHING = 3,
-    /* 05 */ AM_BEHAVIOR_5 = 5, // checked but never set
-    /* 06 */ AM_BEHAVIOR_STUNNED,
-    /* 07 */ AM_BEHAVIOR_GO_HOME,
-    /* 08 */ AM_BEHAVIOR_RICOCHET,
-    /* 10 */ AM_BEHAVIOR_AGGRO = 10
+    /* 00 */ AM_BEHAVIOUR_NONE,
+    /* 01 */ AM_BEHAVIOUR_DAMAGED,
+    /* 03 */ AM_BEHAVIOUR_DO_NOTHING = 3,
+    /* 05 */ AM_BEHAVIOUR_5 = 5, // checked but never set
+    /* 06 */ AM_BEHAVIOUR_STUNNED,
+    /* 07 */ AM_BEHAVIOUR_GO_HOME,
+    /* 08 */ AM_BEHAVIOUR_RICOCHET,
+    /* 10 */ AM_BEHAVIOUR_AGGRO = 10
 } ArmosBehavior;
 
 ActorInit En_Am_InitVars = {
@@ -274,7 +274,7 @@ void EnAm_SetupSleep(EnAm* this) {
     f32 lastFrame = Animation_GetLastFrame(&gArmosRicochetAnim);
 
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
-    this->behavior = AM_BEHAVIOR_DO_NOTHING;
+    this->behaviour = AM_BEHAVIOUR_DO_NOTHING;
     this->dyna.actor.speed = 0.0f;
     this->unk_258 = (this->textureBlend == 255) ? 0 : 1;
     EnAm_SetupAction(this, EnAm_Sleep);
@@ -285,7 +285,7 @@ void EnAm_SetupStatue(EnAm* this) {
 
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->dyna.actor.flags &= ~ACTOR_FLAG_0;
-    this->behavior = AM_BEHAVIOR_DO_NOTHING;
+    this->behaviour = AM_BEHAVIOUR_DO_NOTHING;
     this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_Statue);
 }
@@ -293,7 +293,7 @@ void EnAm_SetupStatue(EnAm* this) {
 void EnAm_SetupLunge(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->unk_258 = 3;
-    this->behavior = AM_BEHAVIOR_AGGRO;
+    this->behaviour = AM_BEHAVIOUR_AGGRO;
     this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Lunge);
@@ -303,7 +303,7 @@ void EnAm_SetupCooldown(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->unk_258 = 3;
     this->cooldownTimer = 40;
-    this->behavior = AM_BEHAVIOR_AGGRO;
+    this->behaviour = AM_BEHAVIOUR_AGGRO;
     this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Cooldown);
@@ -311,7 +311,7 @@ void EnAm_SetupCooldown(EnAm* this) {
 
 void EnAm_SetupMoveToHome(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
-    this->behavior = AM_BEHAVIOR_GO_HOME;
+    this->behaviour = AM_BEHAVIOUR_GO_HOME;
     this->unk_258 = 1;
     this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_MoveToHome);
@@ -319,7 +319,7 @@ void EnAm_SetupMoveToHome(EnAm* this) {
 
 void EnAm_SetupRotateToInit(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
-    this->behavior = AM_BEHAVIOR_GO_HOME;
+    this->behaviour = AM_BEHAVIOUR_GO_HOME;
     this->unk_258 = 1;
     this->dyna.actor.speed = 0.0f;
     EnAm_SetupAction(this, EnAm_RotateToInit);
@@ -327,7 +327,7 @@ void EnAm_SetupRotateToInit(EnAm* this) {
 
 void EnAm_SetupRotateToHome(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
-    this->behavior = AM_BEHAVIOR_GO_HOME;
+    this->behaviour = AM_BEHAVIOUR_GO_HOME;
     this->dyna.actor.speed = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_RotateToHome);
@@ -336,7 +336,7 @@ void EnAm_SetupRotateToHome(EnAm* this) {
 void EnAm_SetupRecoilFromDamage(EnAm* this, PlayState* play) {
     Animation_Change(&this->skelAnime, &gArmosDamagedAnim, 1.0f, 4.0f,
                      Animation_GetLastFrame(&gArmosDamagedAnim) - 6.0f, ANIMMODE_ONCE, 0.0f);
-    this->behavior = AM_BEHAVIOR_DAMAGED;
+    this->behaviour = AM_BEHAVIOUR_DAMAGED;
     this->dyna.actor.world.rot.y = this->dyna.actor.yawTowardsPlayer;
     Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_AMOS_DAMAGE);
 
@@ -344,7 +344,7 @@ void EnAm_SetupRecoilFromDamage(EnAm* this, PlayState* play) {
         this->dyna.actor.speed = -6.0f;
     }
 
-    this->dyna.actor.colorFilterTimer = 0;
+    this->dyna.actor.colourFilterTimer = 0;
     Enemy_StartFinishingBlow(play, &this->dyna.actor);
     EnAm_SetupAction(this, EnAm_RecoilFromDamage);
 }
@@ -360,7 +360,7 @@ void EnAm_SetupRicochet(EnAm* this, PlayState* play) {
     this->unk_264 = 0;
     this->unk_258 = 0;
     this->cooldownTimer = 5;
-    this->behavior = AM_BEHAVIOR_RICOCHET;
+    this->behaviour = AM_BEHAVIOUR_RICOCHET;
     EnAm_SetupAction(this, EnAm_Ricochet);
 }
 
@@ -723,7 +723,7 @@ void EnAm_SetupStunned(EnAm* this, PlayState* play) {
         this->iceTimer = 48;
     }
 
-    this->behavior = AM_BEHAVIOR_STUNNED;
+    this->behaviour = AM_BEHAVIOUR_STUNNED;
     Actor_PlaySfx(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnAm_SetupAction(this, EnAm_Stunned);
 }
@@ -739,7 +739,7 @@ void EnAm_Stunned(EnAm* this, PlayState* play) {
         this->dyna.actor.speed = 0.0f;
     }
 
-    if (this->dyna.actor.colorFilterTimer == 0) {
+    if (this->dyna.actor.colourFilterTimer == 0) {
         if (this->dyna.actor.colChkInfo.health != 0) {
             EnAm_SetupLunge(this);
         } else {
@@ -789,10 +789,10 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
             this->blockCollider.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
             this->hurtCollider.base.acFlags &= ~AC_HIT;
 
-            if (this->behavior >= AM_BEHAVIOR_5) {
+            if (this->behaviour >= AM_BEHAVIOUR_5) {
                 EnAm_SetupRicochet(this, play);
             }
-        } else if ((this->hurtCollider.base.acFlags & AC_HIT) && (this->behavior >= AM_BEHAVIOR_5)) {
+        } else if ((this->hurtCollider.base.acFlags & AC_HIT) && (this->behaviour >= AM_BEHAVIOUR_5)) {
             this->hurtCollider.base.acFlags &= ~AC_HIT;
 
             if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
@@ -803,7 +803,7 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
                 if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
                     (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
                     (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_ICE)) {
-                    if (this->behavior != AM_BEHAVIOR_STUNNED) {
+                    if (this->behaviour != AM_BEHAVIOUR_STUNNED) {
                         EnAm_SetupStunned(this, play);
 
                         if (this->dyna.actor.colChkInfo.damage != 0) {
@@ -815,7 +815,7 @@ void EnAm_UpdateDamage(EnAm* this, PlayState* play) {
                         CollisionCheck_SpawnShieldParticlesMetal(play, &sparkPos);
                     }
                 } else if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_KILL) ||
-                           (this->behavior == AM_BEHAVIOR_STUNNED)) {
+                           (this->behaviour == AM_BEHAVIOUR_STUNNED)) {
                     this->dyna.actor.colChkInfo.health = 0;
 
                     EnAm_SetupRecoilFromDamage(this, play);
@@ -898,13 +898,13 @@ void EnAm_Update(Actor* thisx, PlayState* play) {
     if (this->dyna.actor.params != ARMOS_STATUE) {
         Actor_SetFocus(&this->dyna.actor, this->dyna.actor.scale.x * 4500.0f);
 
-        if (this->dyna.actor.colorFilterTimer == 0) {
+        if (this->dyna.actor.colourFilterTimer == 0) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->blockCollider.base);
         }
 
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->hurtCollider.base);
 
-        if ((this->behavior >= 4) && (this->unk_264 > 0)) {
+        if ((this->behaviour >= 4) && (this->unk_264 > 0)) {
             if (!(this->hitCollider.base.atFlags & AT_BOUNCED)) {
                 if (this->hitCollider.base.atFlags & AT_HIT) {
                     Player* player = GET_PLAYER(play);
@@ -954,7 +954,7 @@ void EnAm_Draw(Actor* thisx, PlayState* play) {
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnAm_PostLimbDraw, this);
 
     if (this->iceTimer != 0) {
-        this->dyna.actor.colorFilterTimer++;
+        this->dyna.actor.colourFilterTimer++;
         if (1) {};
         this->iceTimer--;
 

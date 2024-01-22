@@ -136,7 +136,7 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
                     this->flags |= initFlags[this->actor.params & 3];
                 }
                 break;
-            case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
+            case SCENE_KAKARIKO_CENTRE_GUEST_HOUSE:
                 if (IS_NIGHT) {
                     this->flags |= 2;
                 }

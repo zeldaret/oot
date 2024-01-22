@@ -171,7 +171,7 @@ void EfcErupc_DrawEffects(EfcErupcEffect* effect, PlayState* play) {
         if (effect->isActive) {
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002760);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->colour.r, effect->colour.g, effect->colour.b, effect->alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 0, 0);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -201,7 +201,7 @@ void EfcErupc_UpdateEffects(EfcErupc* this, PlayState* play) {
         { 0, 0, 0 },
         { 100, 0, 0 },
     };
-    Color_RGB8* color;
+    Color_RGB8* colour;
     EfcErupcEffect* cur = this->effects;
 
     for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, cur++) {
@@ -214,10 +214,10 @@ void EfcErupc_UpdateEffects(EfcErupc* this, PlayState* play) {
             cur->vel.z += cur->accel.z;
             cur->animTimer++;
             index = cur->animTimer % 4;
-            color = &effectColors[index];
-            cur->color.r = color->r;
-            cur->color.g = color->g;
-            cur->color.b = color->b;
+            colour = &effectColors[index];
+            cur->colour.r = colour->r;
+            cur->colour.g = colour->g;
+            cur->colour.b = colour->b;
             cur->alpha -= 20;
             if (cur->alpha <= 0) {
                 cur->alpha = 0;

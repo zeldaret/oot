@@ -754,7 +754,7 @@ void EnRd_Stunned(EnRd* this, PlayState* play) {
         }
     }
 
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         if (this->actor.colChkInfo.health == 0) {
             EnRd_UpdateMourningTarget(play, &this->actor, true);
             EnRd_SetupDead(this);
@@ -902,7 +902,7 @@ void EnRd_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
     s32 idx = -1;
     Vec3f destPos;
 
-    if ((this->fireTimer != 0) || ((this->actor.colorFilterTimer != 0) && (this->actor.colorFilterParams & 0x4000))) {
+    if ((this->fireTimer != 0) || ((this->actor.colourFilterTimer != 0) && (this->actor.colourFilterParams & 0x4000))) {
         switch (limbIndex) {
             case REDEAD_GIBDO_LIMB_HEAD:
                 idx = 0;
@@ -974,7 +974,7 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
         func_80033C30(&thisPos, &sShadowScale, 255, play);
 
         if (this->fireTimer != 0) {
-            thisx->colorFilterTimer++;
+            thisx->colourFilterTimer++;
             this->fireTimer--;
             if (this->fireTimer % 4 == 0) {
                 EffectSsEnFire_SpawnVec3s(play, thisx, &this->firePos[this->fireTimer >> 2], 0x4B, 0, 0,

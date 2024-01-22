@@ -1635,7 +1635,7 @@ void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId) {
 }
 
 /**
- * Initializes camera data centered around Player, and applies the requested setting.
+ * Initializes camera data centreed around Player, and applies the requested setting.
  */
 s32 Play_InitCameraDataUsingPlayer(PlayState* this, s16 camId, Player* player, s16 setting) {
     Camera* camera;

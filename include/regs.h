@@ -219,7 +219,7 @@ typedef enum {
     /* 13 */ HREG_MODE_SCHED, // toggle various vi special features
     /* 14 */ HREG_MODE_UNUSED_14,
     /* 15 */ HREG_MODE_PRERENDER,
-    /* 16 */ HREG_MODE_SETUP_FRAME, // set the base screen color (and by extension, shrink window color too)
+    /* 16 */ HREG_MODE_SETUP_FRAME, // set the base screen colour (and by extension, shrink window colour too)
     /* 17 */ HREG_MODE_SCENE_CONFIG, // toggle drawing the scene config
     /* 18 */ HREG_MODE_PRINT_OBJECT_TABLE,
     /* 19 */ HREG_MODE_LETTERBOX, // toggle logging and view values for the letterbox system

@@ -54,13 +54,13 @@ public:
 protected:
 	uint8_t** pixelMatrix = nullptr;  // height * [width * bytePerPixel]
 
-	void* colorPalette = nullptr;
+	void* colourPalette = nullptr;
 	uint8_t* alphaPalette = nullptr;
 	size_t paletteSize = 16 * 16;
 
 	uint32_t width = 0;
 	uint32_t height = 0;
-	uint8_t colorType = 0;
+	uint8_t colourType = 0;
 	uint8_t bitDepth = 0;
 
 	bool hasImageData = false;

@@ -473,9 +473,9 @@
 #define VI_CURRENT_REG          (VI_BASE_REG + 0x10)
 #define VI_V_CURRENT_LINE_REG   VI_CURRENT_REG
 
-// VI video timing (R/W): [29:20] start of color burst in pixels from h-sync
+// VI video timing (R/W): [29:20] start of colour burst in pixels from h-sync
 //                        [19:16] vertical sync width in half lines,
-//                        [15: 8] color burst width in pixels,
+//                        [15: 8] colour burst width in pixels,
 //                        [ 7: 0] horizontal sync width in pixels,
 #define VI_BURST_REG        (VI_BASE_REG + 0x14)
 #define VI_TIMING_REG       VI_BURST_REG
@@ -502,8 +502,8 @@
 #define VI_V_START_REG      (VI_BASE_REG + 0x28)
 #define VI_V_VIDEO_REG      VI_V_START_REG
 
-// VI vertical burst (R/W): [25:16] start of color burst enable in half-lines
-//                          [ 9: 0] end of color burst enable in half-lines
+// VI vertical burst (R/W): [25:16] start of colour burst enable in half-lines
+//                          [ 9: 0] end of colour burst enable in half-lines
 #define VI_V_BURST_REG      (VI_BASE_REG + 0x2C)
 
 // VI x-scale (R/W): [27:16] horizontal subpixel offset (2.10 format)

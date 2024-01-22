@@ -106,7 +106,7 @@ simpleReplace = {
     "ENTR_GANON_0": "ENTR_GANONS_TOWER_0",
     "ENTR_GANON_1": "ENTR_GANONS_TOWER_1",
     "ENTR_GANON_2": "ENTR_GANONS_TOWER_2",
-    "ENTR_KAKARIKO_0": "ENTR_KAKARIKO_CENTER_GUEST_HOUSE_0",
+    "ENTR_KAKARIKO_0": "ENTR_KAKARIKO_CENTRE_GUEST_HOUSE_0",
     "ENTR_IMPA_0": "ENTR_DOG_LADY_HOUSE_0",
 }
 
@@ -201,8 +201,8 @@ wordReplace = {
     "actor.pos4":"actor.prevPos",
     "actor.unk_10C":"actor.isTargeted",
     "actor.unk_10D":"actor.targetPriority",
-    "actor.dmgEffectTimer":"actor.colorFilterTimer",
-    "actor.dmgEffectParams":"actor.colorFilterParams",
+    "actor.dmgEffectTimer":"actor.colourFilterTimer",
+    "actor.dmgEffectParams":"actor.colourFilterParams",
     "actor.unk_116":"actor.dropFlag",
     "actorCtx.actorList[":"actorCtx.actorLists[",
     "Actor_ChangeType":"Actor_ChangeCategory",
@@ -309,7 +309,7 @@ wordReplace = {
     "SCENE_KOKIRI_HOME3": "SCENE_TWINS_HOUSE",
     "SCENE_KOKIRI_HOME4": "SCENE_MIDOS_HOUSE",
     "SCENE_KOKIRI_HOME5": "SCENE_SARIAS_HOUSE",
-    "SCENE_KAKARIKO": "SCENE_KAKARIKO_CENTER_GUEST_HOUSE",
+    "SCENE_KAKARIKO": "SCENE_KAKARIKO_CENTRE_GUEST_HOUSE",
     "SCENE_KAKARIKO3": "SCENE_BACK_ALLEY_HOUSE",
     "SCENE_SHOP1": "SCENE_BAZAAR",
     "SCENE_GOLON": "SCENE_GORON_SHOP",
@@ -438,19 +438,19 @@ def replace_single(file):
 
     for old, new in wordReplace.items():
         # `new` can be a tuple where the first element is what to replace `old` with,
-        # and the second element is a dict containing "custom behavior" properties.
+        # and the second element is a dict containing "custom behaviour" properties.
         if isinstance(new, tuple):
-            custom_behavior = True
-            new, custom_behavior_data = new
+            custom_behaviour = True
+            new, custom_behaviour_data = new
             # The "ignore" data is a tuple where the first element is an offset relative to
             # where `old` was found, and the string from that index must differ from the
             # tuple's second element for the replacement to be done.
-            custom_behavior_ignore_data = custom_behavior_data.get("ignore")
-            custom_behavior_ignore = custom_behavior_ignore_data is not None
-            if custom_behavior_ignore:
-                custom_behavior_ignore_offset, custom_behavior_ignore_match = custom_behavior_ignore_data
+            custom_behaviour_ignore_data = custom_behaviour_data.get("ignore")
+            custom_behaviour_ignore = custom_behaviour_ignore_data is not None
+            if custom_behaviour_ignore:
+                custom_behaviour_ignore_offset, custom_behaviour_ignore_match = custom_behaviour_ignore_data
         else:
-            custom_behavior = False
+            custom_behaviour = False
         # replace `old` with `new` if the occurence of `old` is the whole word
         oldStartIdx = srcdata.find(old)
         if oldStartIdx >= 0:
@@ -470,8 +470,8 @@ def replace_single(file):
                         pass
                     elif is_word_char(srcdata[oldEndIdx]):
                         replace = False
-                if replace and custom_behavior and custom_behavior_ignore:
-                    if srcdata[oldStartIdx + custom_behavior_ignore_offset:].startswith(custom_behavior_ignore_match):
+                if replace and custom_behaviour and custom_behaviour_ignore:
+                    if srcdata[oldStartIdx + custom_behaviour_ignore_offset:].startswith(custom_behaviour_ignore_match):
                         replace = False
                 if replace:
                     srcdata = srcdata[:oldStartIdx] + new + srcdata[oldEndIdx:]

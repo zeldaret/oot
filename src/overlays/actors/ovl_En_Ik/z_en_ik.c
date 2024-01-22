@@ -843,7 +843,7 @@ void EnIk_UpdateEnemy(Actor* thisx, PlayState* play) {
         Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
 
-        if ((this->actor.colChkInfo.health > 0) && (this->actor.colorFilterTimer == 0) && (this->unk_2F8 >= 2)) {
+        if ((this->actor.colChkInfo.health > 0) && (this->actor.colourFilterTimer == 0) && (this->unk_2F8 >= 2)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
         }
 

@@ -66,9 +66,9 @@ void BgMenkuriEye_Init(Actor* thisx, PlayState* play) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
-    this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
-    this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y;
-    this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
+    this->collider.elements[0].dim.worldSphere.centre.x = this->actor.world.pos.x;
+    this->collider.elements[0].dim.worldSphere.centre.y = this->actor.world.pos.y;
+    this->collider.elements[0].dim.worldSphere.centre.z = this->actor.world.pos.z;
     colliderList = this->collider.elements;
     colliderList->dim.worldSphere.radius = colliderList->dim.modelSphere.radius;
     if (!Flags_GetSwitch(play, this->actor.params)) {

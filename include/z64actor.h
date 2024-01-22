@@ -226,8 +226,8 @@ typedef struct {
 // 
 #define ACTOR_FLAG_28 (1 << 28)
 
-#define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
-#define COLORFILTER_GET_DURATION(colorFilterParams) ((colorFilterParams) & 0xFF)
+#define COLORFILTER_GET_COLORINTENSITY(colourFilterParams) (((colourFilterParams) & 0x1F00) >> 5)
+#define COLORFILTER_GET_DURATION(colourFilterParams) ((colourFilterParams) & 0xFF)
 
 #define COLORFILTER_COLORFLAG_GRAY 0x8000
 #define COLORFILTER_COLORFLAG_RED  0x4000
@@ -291,8 +291,8 @@ typedef struct Actor {
     /* 0x10D */ u8 targetPriority; // Lower values have higher priority. Resets to 0 when player stops targeting
     /* 0x10E */ u16 textId; // Text ID to pass to player/display when interacting with the actor
     /* 0x110 */ u16 freezeTimer; // Actor does not update when set. Timer decrements automatically
-    /* 0x112 */ u16 colorFilterParams; // Set color filter to red, blue, or white. Toggle opa or xlu
-    /* 0x114 */ u8 colorFilterTimer; // A non-zero value enables the color filter. Decrements automatically
+    /* 0x112 */ u16 colourFilterParams; // Set colour filter to red, blue, or white. Toggle opa or xlu
+    /* 0x114 */ u8 colourFilterTimer; // A non-zero value enables the colour filter. Decrements automatically
     /* 0x115 */ u8 isDrawn; // Set to true if the actor is currently being drawn. Always stays false for lens actors
     /* 0x116 */ u8 dropFlag; // Configures what item is dropped by the actor from `Item_DropCollectibleRandom`
     /* 0x117 */ u8 naviEnemyId; // Sets what 0600 dialog to display when talking to navi. Default 0xFF
@@ -316,12 +316,12 @@ typedef enum {
 } ActorFootIndex;
 
 /*
-colorFilterParams WIP documentation
+colourFilterParams WIP documentation
 & 0x8000 : white
 & 0x4000 : red
 if neither of the above are set : blue
 
-(& 0x1F00 >> 5) | 7 : color intensity
+(& 0x1F00 >> 5) | 7 : colour intensity
 0x2000 : translucent, else opaque
 */
 

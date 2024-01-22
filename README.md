@@ -12,7 +12,7 @@
 [contributors-badge]: https://img.shields.io/github/contributors/zeldaret/oot
 
 [discord]: https://discord.zelda64.dev
-[discord-badge]: https://img.shields.io/discord/688807550715560050?color=%237289DA&logo=discord&logoColor=%23FFFFFF
+[discord-badge]: https://img.shields.io/discord/688807550715560050?colour=%237289DA&logo=discord&logoColor=%23FFFFFF
 
 ```diff
 - WARNING! -

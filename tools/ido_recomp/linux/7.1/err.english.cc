@@ -427,7 +427,7 @@ Unexpected End-of-file
 1) Unterminated string or character constant
 2) Missing closing comment marker (*/)
 3) File system problems
-Unrecognized escape sequence in string \%s
+Unrecognised escape sequence in string \%s
 Recognized escape sequences are \a, \b, \f, \n, \r, \t, and \v.
 Character will be treated as un-escaped.
 3.9.2
@@ -968,7 +968,7 @@ in a function '%s', whose return type is void
 A return statement without an expression appears in a
 function '%s', whose return type is not void
 If a return statement without an expression is executed, and the value
-of the function call is used by the caller, the behavior is undefined.
+of the function call is used by the caller, the behaviour is undefined.
 3.6.6.4(33)
 Internal Error: statement stack underflow
 Long double not supported; double assumed.

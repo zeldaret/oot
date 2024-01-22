@@ -16,7 +16,7 @@ typedef struct {
     /* 0x18 */ Vec3f accel;
     /* 0x24 */ u8 isActive;
     /* 0x25 */ u8 animTimer;
-    /* 0x28 */ Color_RGB8 color;
+    /* 0x28 */ Color_RGB8 colour;
     /* 0x2C */ s16 alpha;
     /* 0x30 */ char unk_2C[4];
     /* 0x34 */ f32 scale;

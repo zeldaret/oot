@@ -44,7 +44,7 @@ typedef struct {
     /* 0x18 */ Vec3f accel;
     /* 0x24 */ u8 type;
     /* 0x25 */ u8 timer1;
-    /* 0x26 */ Color_RGB8 color;
+    /* 0x26 */ Color_RGB8 colour;
     /* 0x2A */ s16 alpha;
     /* 0x2C */ s16 timer2;
     /* 0x2E */ s16 kbAngle;
@@ -109,7 +109,7 @@ typedef enum {
     /*  9 */ BFD_TARGET_Y_OFFSET,
     /* 10 */ BFD_CEILING_BOUNCE,
     /* 11 */ BFD_BODY_PULSE,
-    /* 12 */ BFD_MANE_COLOR_CENTER,
+    /* 12 */ BFD_MANE_COLOR_CENTRE,
     /* 13 */ BFD_MANE_COLOR_RIGHT,
     /* 14 */ BFD_MANE_COLOR_LEFT,
     /* 15 */ BFD_MANE_EMBER_SPEED,
@@ -150,7 +150,7 @@ typedef struct BossFd {
     /* 0x0C3C */ Vec3f rightArmRot[4];
     /* 0x0C6C */ Vec3f leftArmRot[4];
     /* 0x0C9C */ Vec3f fireManeRot[30];
-    /* 0x0E04 */ BossFdMane centerMane;
+    /* 0x0E04 */ BossFdMane centreMane;
     /* 0x0FF0 */ BossFdMane rightMane;
     /* 0x11DC */ BossFdMane leftMane;
     /* 0x13C8 */ f32 flattenMane;

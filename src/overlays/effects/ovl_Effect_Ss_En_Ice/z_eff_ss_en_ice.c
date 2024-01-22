@@ -137,7 +137,7 @@ void EffectSsEnIce_UpdateFlying(PlayState* play, u32 index, EffectSs* this) {
     s16 rand;
 
     if ((this->actor != NULL) && (this->actor->update != NULL)) {
-        if ((this->life >= 9) && (this->actor->colorFilterTimer != 0) && !(this->actor->colorFilterParams & 0xC000)) {
+        if ((this->life >= 9) && (this->actor->colourFilterTimer != 0) && !(this->actor->colourFilterParams & 0xC000)) {
             this->pos.x = this->actor->world.pos.x + this->vec.x;
             this->pos.y = this->actor->world.pos.y + this->vec.y;
             this->pos.z = this->actor->world.pos.z + this->vec.z;

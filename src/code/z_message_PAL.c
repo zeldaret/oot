@@ -391,8 +391,8 @@ void Message_FindCreditsMessage(PlayState* play, u16 textId) {
     }
 }
 
-void Message_SetTextColor(MessageContext* msgCtx, u16 colorParameter) {
-    switch (colorParameter) {
+void Message_SetTextColor(MessageContext* msgCtx, u16 colourParameter) {
+    switch (colourParameter) {
         case MSGCOL_RED:
             if (msgCtx->textBoxType == TEXTBOX_TYPE_WOODEN) {
                 msgCtx->textColorR = 255;

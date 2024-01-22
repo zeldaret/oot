@@ -214,9 +214,9 @@ void ObjLightswitch_Destroy(Actor* thisx, PlayState* play2) {
 void ObjLightswitch_SetupOff(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_Off;
     this->faceTextureIndex = FACE_EYES_CLOSED;
-    this->color[0] = 155 << 6;
-    this->color[1] = 125 << 6;
-    this->color[2] = 255 << 6;
+    this->colour[0] = 155 << 6;
+    this->colour[1] = 125 << 6;
+    this->colour[2] = 255 << 6;
     this->alpha = 255 << 6;
 }
 
@@ -262,8 +262,8 @@ void ObjLightswitch_TurnOn(ObjLightswitch* this, PlayState* play) {
         Math_StepToS(&this->flameRingRotSpeed, -0xAA, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
-        this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
-        this->color[1] = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
+        this->colour[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
+        this->colour[1] = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
 
         if (this->timer >= 20) {
             ObjLightswitch_SetupOn(this);
@@ -278,9 +278,9 @@ void ObjLightswitch_SetupOn(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_On;
     this->faceTextureIndex = FACE_EYES_OPEN_SMILING;
 
-    this->color[0] = 255 << 6;
-    this->color[1] = 255 << 6;
-    this->color[2] = 255 << 6;
+    this->colour[0] = 255 << 6;
+    this->colour[1] = 255 << 6;
+    this->colour[2] = 255 << 6;
     this->alpha = 255 << 6;
 
     this->flameRingRotSpeed = -0xAA;
@@ -331,8 +331,8 @@ void ObjLightswitch_TurnOff(ObjLightswitch* this, PlayState* play) {
         Math_StepToS(&this->flameRingRotSpeed, 0, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
-        this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
-        this->color[1] = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
+        this->colour[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
+        this->colour[1] = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
 
         if (this->timer <= 0) {
             ObjLightswitch_SetupOff(this);
@@ -400,7 +400,7 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_lightswitch.c", 809);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
+    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->colour[0] >> 6), (u8)(this->colour[1] >> 6), (u8)(this->colour[2] >> 6),
                    (u8)(this->alpha >> 6));
     gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
@@ -450,7 +450,7 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_lightswitch.c", 890);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->colour[0] >> 6), (u8)(this->colour[1] >> 6), (u8)(this->colour[2] >> 6),
                    (u8)(this->alpha >> 6));
     gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
 

@@ -5,7 +5,7 @@
 #include "attributes.h"
 #include "padmgr.h"
 
-// These are the same as the 3-bit ansi color codes
+// These are the same as the 3-bit ansi colour codes
 #define FAULT_COLOR_BLACK      0
 #define FAULT_COLOR_RED        1
 #define FAULT_COLOR_GREEN      2
@@ -14,7 +14,7 @@
 #define FAULT_COLOR_MAGENTA    5
 #define FAULT_COLOR_CYAN       6
 #define FAULT_COLOR_WHITE      7
-// Additional color codes
+// Additional colour codes
 #define FAULT_COLOR_DARK_GRAY  8
 #define FAULT_COLOR_LIGHT_GRAY 9
 
@@ -60,9 +60,9 @@ void Fault_WaitForInput(void);
 void Fault_FillScreenBlack(void);
 void Fault_SetFrameBuffer(void* fb, u16 w, u16 h);
 
-void FaultDrawer_SetForeColor(u16 color);
-void FaultDrawer_SetBackColor(u16 color);
-void FaultDrawer_SetFontColor(u16 color);
+void FaultDrawer_SetForeColor(u16 colour);
+void FaultDrawer_SetBackColor(u16 colour);
+void FaultDrawer_SetFontColor(u16 colour);
 void FaultDrawer_SetCharPad(s8 padW, s8 padH);
 void FaultDrawer_SetCursor(s32 x, s32 y);
 s32 FaultDrawer_VPrintf(const char* fmt, va_list args);

@@ -251,15 +251,15 @@ void EnHorseZelda_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
     s32 i;
 
     for (i = 0; i < this->colliderSphere.count; i++) {
-        offset.x = this->colliderSphere.elements[i].dim.modelSphere.center.x;
-        offset.y = this->colliderSphere.elements[i].dim.modelSphere.center.y;
-        offset.z = this->colliderSphere.elements[i].dim.modelSphere.center.z;
+        offset.x = this->colliderSphere.elements[i].dim.modelSphere.centre.x;
+        offset.y = this->colliderSphere.elements[i].dim.modelSphere.centre.y;
+        offset.z = this->colliderSphere.elements[i].dim.modelSphere.centre.z;
 
         Skin_GetLimbPos(skin, this->colliderSphere.elements[i].dim.limb, &offset, &dst);
 
-        this->colliderSphere.elements[i].dim.worldSphere.center.x = dst.x;
-        this->colliderSphere.elements[i].dim.worldSphere.center.y = dst.y;
-        this->colliderSphere.elements[i].dim.worldSphere.center.z = dst.z;
+        this->colliderSphere.elements[i].dim.worldSphere.centre.x = dst.x;
+        this->colliderSphere.elements[i].dim.worldSphere.centre.y = dst.y;
+        this->colliderSphere.elements[i].dim.worldSphere.centre.z = dst.z;
 
         this->colliderSphere.elements[i].dim.worldSphere.radius =
             this->colliderSphere.elements[i].dim.modelSphere.radius * this->colliderSphere.elements[i].dim.scale;

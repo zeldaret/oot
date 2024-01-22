@@ -191,9 +191,9 @@ void EnPoh_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->colliderSph);
     Collider_SetJntSph(play, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
     this->colliderSph.elements[0].dim.worldSphere.radius = 0;
-    this->colliderSph.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
-    this->colliderSph.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y;
-    this->colliderSph.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
+    this->colliderSph.elements[0].dim.worldSphere.centre.x = this->actor.world.pos.x;
+    this->colliderSph.elements[0].dim.worldSphere.centre.y = this->actor.world.pos.y;
+    this->colliderSph.elements[0].dim.worldSphere.centre.z = this->actor.world.pos.z;
     Collider_InitCylinder(play, &this->colliderCyl);
     Collider_SetCylinder(play, &this->colliderCyl, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -918,7 +918,7 @@ void EnPoh_Update(Actor* thisx, PlayState* play) {
                                this->morphTable, 12);
             this->actor.draw = EnPoh_DrawComposer;
             this->colliderSph.elements[0].dim.limb = 9;
-            this->colliderSph.elements[0].dim.modelSphere.center.y *= -1;
+            this->colliderSph.elements[0].dim.modelSphere.centre.y *= -1;
             this->actor.shape.rot.y = this->actor.world.rot.y = -0x4000;
             this->colliderCyl.dim.radius = 20;
             this->colliderCyl.dim.height = 55;
@@ -943,7 +943,7 @@ void func_80AE067C(EnPoh* this) {
         temp_var = this->lightColor.b + 5;
         this->lightColor.b = CLAMP_MAX(temp_var, 225);
     } else if (this->actionFunc == func_80ADEECC) {
-        if (this->actor.colorFilterTimer & 2) {
+        if (this->actor.colourFilterTimer & 2) {
             this->lightColor.r = 0;
             this->lightColor.g = 0;
             this->lightColor.b = 0;
@@ -1060,9 +1060,9 @@ void EnPoh_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot,
             this->actor.world.pos.y = this->unk_368.yw;
             this->actor.world.pos.z = this->unk_368.zw;
         }
-        Lights_PointGlowSetInfo(&this->lightInfo, this->colliderSph.elements[0].dim.worldSphere.center.x,
-                                this->colliderSph.elements[0].dim.worldSphere.center.y,
-                                this->colliderSph.elements[0].dim.worldSphere.center.z, this->envColor.r,
+        Lights_PointGlowSetInfo(&this->lightInfo, this->colliderSph.elements[0].dim.worldSphere.centre.x,
+                                this->colliderSph.elements[0].dim.worldSphere.centre.y,
+                                this->colliderSph.elements[0].dim.worldSphere.centre.z, this->envColor.r,
                                 this->envColor.g, this->envColor.b, this->envColor.a * (200.0f / 255));
     }
 }

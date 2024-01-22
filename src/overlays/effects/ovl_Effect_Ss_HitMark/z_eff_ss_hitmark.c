@@ -42,7 +42,7 @@ EffectSsInit Effect_Ss_HitMark_InitVars = {
 };
 
 u32 EffectSsHitMark_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
-    s32 colorIdx;
+    s32 colourIdx;
     EffectSsHitMarkInitParams* initParams = (EffectSsHitMarkInitParams*)initParamsx;
     this->pos = initParams->pos;
     this->gfx = SEGMENTED_TO_VIRTUAL(gEffHitMarkDL);
@@ -55,15 +55,15 @@ u32 EffectSsHitMark_Init(PlayState* play, u32 index, EffectSs* this, void* initP
 
     this->draw = EffectSsHitMark_Draw;
     this->update = EffectSsHitMark_Update;
-    colorIdx = initParams->type * 4;
+    colourIdx = initParams->type * 4;
     this->rTexIndex = 0;
     this->rType = initParams->type;
-    this->rPrimColorR = sColors[colorIdx].r;
-    this->rPrimColorG = sColors[colorIdx].g;
-    this->rPrimColorB = sColors[colorIdx].b;
-    this->rEnvColorR = sColors[colorIdx + 1].r;
-    this->rEnvColorG = sColors[colorIdx + 1].g;
-    this->rEnvColorB = sColors[colorIdx + 1].b;
+    this->rPrimColorR = sColors[colourIdx].r;
+    this->rPrimColorG = sColors[colourIdx].g;
+    this->rPrimColorB = sColors[colourIdx].b;
+    this->rEnvColorR = sColors[colourIdx + 1].r;
+    this->rEnvColorG = sColors[colourIdx + 1].g;
+    this->rEnvColorB = sColors[colourIdx + 1].b;
     this->rScale = initParams->scale;
 
     return 1;
@@ -102,7 +102,7 @@ void EffectSsHitMark_Draw(PlayState* play, u32 index, EffectSs* this) {
 }
 
 void EffectSsHitMark_Update(PlayState* play, u32 index, EffectSs* this) {
-    s32 colorIdx;
+    s32 colourIdx;
 
     if (this->rType == EFFECT_HITMARK_DUST) {
         this->rTexIndex = (15 - this->life) / 2;
@@ -111,12 +111,12 @@ void EffectSsHitMark_Update(PlayState* play, u32 index, EffectSs* this) {
     }
 
     if (this->rTexIndex != 0) {
-        colorIdx = this->rType * 4 + 2;
-        this->rPrimColorR = EffectSs_LerpInv(this->rPrimColorR, sColors[colorIdx].r, this->life + 1);
-        this->rPrimColorG = EffectSs_LerpInv(this->rPrimColorG, sColors[colorIdx].g, this->life + 1);
-        this->rPrimColorB = EffectSs_LerpInv(this->rPrimColorB, sColors[colorIdx].b, this->life + 1);
-        this->rEnvColorR = EffectSs_LerpInv(this->rEnvColorR, sColors[colorIdx + 1].r, this->life + 1);
-        this->rEnvColorG = EffectSs_LerpInv(this->rEnvColorG, sColors[colorIdx + 1].g, this->life + 1);
-        this->rEnvColorB = EffectSs_LerpInv(this->rEnvColorB, sColors[colorIdx + 1].b, this->life + 1);
+        colourIdx = this->rType * 4 + 2;
+        this->rPrimColorR = EffectSs_LerpInv(this->rPrimColorR, sColors[colourIdx].r, this->life + 1);
+        this->rPrimColorG = EffectSs_LerpInv(this->rPrimColorG, sColors[colourIdx].g, this->life + 1);
+        this->rPrimColorB = EffectSs_LerpInv(this->rPrimColorB, sColors[colourIdx].b, this->life + 1);
+        this->rEnvColorR = EffectSs_LerpInv(this->rEnvColorR, sColors[colourIdx + 1].r, this->life + 1);
+        this->rEnvColorG = EffectSs_LerpInv(this->rEnvColorG, sColors[colourIdx + 1].g, this->life + 1);
+        this->rEnvColorB = EffectSs_LerpInv(this->rEnvColorB, sColors[colourIdx + 1].b, this->life + 1);
     }
 }

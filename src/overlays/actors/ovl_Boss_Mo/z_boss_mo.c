@@ -2403,10 +2403,10 @@ void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
     Math_ApproachZeroF(&this->waterLevelMod, 0.1f, 0.2f);
 }
 
-void BossMo_UpdateTentColliders(BossMo* this, s32 item, ColliderJntSph* tentCollider, Vec3f* center) {
-    tentCollider->elements[item].dim.worldSphere.center.x = center->x;
-    tentCollider->elements[item].dim.worldSphere.center.y = center->y;
-    tentCollider->elements[item].dim.worldSphere.center.z = center->z;
+void BossMo_UpdateTentColliders(BossMo* this, s32 item, ColliderJntSph* tentCollider, Vec3f* centre) {
+    tentCollider->elements[item].dim.worldSphere.centre.x = centre->x;
+    tentCollider->elements[item].dim.worldSphere.centre.y = centre->y;
+    tentCollider->elements[item].dim.worldSphere.centre.z = centre->z;
     if (this->work[MO_TENT_ACTION_STATE] <= MO_TENT_SHAKE) {
         tentCollider->elements[item].dim.worldSphere.radius =
             tentCollider->elements[item].dim.modelSphere.radius * tentCollider->elements[item].dim.scale;

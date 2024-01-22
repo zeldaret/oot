@@ -281,9 +281,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--format",
-        choices=("color", "plain", "html", "json"),
-        default="color",
-        help="Output format, default is color. --format=html or json implies --no-pager.",
+        choices=("colour", "plain", "html", "json"),
+        default="colour",
+        help="Output format, default is colour. --format=html or json implies --no-pager.",
     )
     parser.add_argument(
         "-U",
@@ -338,11 +338,11 @@ import traceback
 
 MISSING_PREREQUISITES = (
     "Missing prerequisite python module {}. "
-    "Run `python3 -m pip install --user colorama watchdog python-Levenshtein cxxfilt` to install prerequisites (cxxfilt only needed with --source)."
+    "Run `python3 -m pip install --user colourama watchdog python-Levenshtein cxxfilt` to install prerequisites (cxxfilt only needed with --source)."
 )
 
 try:
-    from colorama import Back, Fore, Style
+    from colourama import Back, Fore, Style
     import watchdog
 except ModuleNotFoundError as e:
     fail(MISSING_PREREQUISITES.format(e.name))
@@ -430,7 +430,7 @@ def create_config(args: argparse.Namespace, project: ProjectSettings) -> Config:
     formatter: Formatter
     if args.format == "plain":
         formatter = PlainFormatter(column_width=args.column_width)
-    elif args.format == "color":
+    elif args.format == "colour":
         formatter = AnsiFormatter(column_width=args.column_width)
     elif args.format == "html":
         formatter = HtmlFormatter()
@@ -515,7 +515,7 @@ def get_arch(arch_str: str) -> "ArchSettings":
 BUFFER_CMD: List[str] = ["tail", "-c", str(10 ** 9)]
 
 # -S truncates long lines instead of wrapping them
-# -R interprets color escape sequences
+# -R interprets colour escape sequences
 # -i ignores case when searching
 # -c something about how the screen gets redrawn; I don't remember the purpose
 # -#6 makes left/right arrow keys scroll by 6 characters
@@ -672,7 +672,7 @@ class PlainFormatter(Formatter):
 
 @dataclass
 class AnsiFormatter(Formatter):
-    # Additional ansi escape codes not in colorama. See:
+    # Additional ansi escape codes not in colourama. See:
     # https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters
     STYLE_UNDERLINE = "\x1b[4m"
     STYLE_NO_UNDERLINE = "\x1b[24m"
@@ -867,8 +867,8 @@ def format_fields(
     pat: Pattern[str],
     out1: Text,
     out2: Text,
-    color1: FormatFunction,
-    color2: Optional[FormatFunction] = None,
+    colour1: FormatFunction,
+    colour2: Optional[FormatFunction] = None,
 ) -> Tuple[Text, Text]:
     diffs = [
         of.group() != nf.group()
@@ -877,12 +877,12 @@ def format_fields(
 
     it = iter(diffs)
 
-    def maybe_color(color: FormatFunction, s: str) -> Text:
-        return Text(s, color(s)) if next(it, False) else Text(s)
+    def maybe_colour(colour: FormatFunction, s: str) -> Text:
+        return Text(s, colour(s)) if next(it, False) else Text(s)
 
-    out1 = out1.sub(pat, lambda m: maybe_color(color1, m.group()))
+    out1 = out1.sub(pat, lambda m: maybe_colour(colour1, m.group()))
     it = iter(diffs)
-    out2 = out2.sub(pat, lambda m: maybe_color(color2 or color1, m.group()))
+    out2 = out2.sub(pat, lambda m: maybe_colour(colour2 or colour1, m.group()))
 
     return out1, out2
 
@@ -992,7 +992,7 @@ def run_objdump(cmd: ObjdumpCommand, config: Config, project: ProjectSettings) -
     except subprocess.CalledProcessError as e:
         print(e.stdout)
         print(e.stderr)
-        if "unrecognized option '--source-comment" in e.stderr:
+        if "unrecognised option '--source-comment" in e.stderr:
             fail("** Try using --source-old-binutils instead of --source **")
         raise e
 
@@ -2068,7 +2068,7 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
             line_num_2to1[line2.line_num] = (line_num_base, line_num_offset)
 
     for (line1, line2) in diffed_lines:
-        line_color1 = line_color2 = sym_color = BasicFormat.NONE
+        line_colour1 = line_colour2 = sym_colour = BasicFormat.NONE
         line_prefix = " "
         is_data_ref = False
         out1 = Text() if not line1 else Text(pad_mnemonic(line1.original))
@@ -2077,15 +2077,15 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
             if line1.diff_row == "<data-ref>":
                 if line1.normalized_original != line2.normalized_original:
                     line_prefix = "i"
-                    sym_color = BasicFormat.DIFF_CHANGE
-                    out1 = out1.reformat(sym_color)
-                    out2 = out2.reformat(sym_color)
+                    sym_colour = BasicFormat.DIFF_CHANGE
+                    out1 = out1.reformat(sym_colour)
+                    out2 = out2.reformat(sym_colour)
                 is_data_ref = True
             elif (
                 line1.normalized_original == line2.normalized_original
                 and line2.branch_target is None
             ):
-                # Fast path: no coloring needed. We don't include branch instructions
+                # Fast path: no colouring needed. We don't include branch instructions
                 # in this case because we need to check that their targets line up in
                 # the diff, and don't just happen to have the are the same address
                 # by accident.
@@ -2138,12 +2138,12 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
                         out1 = out1.reformat(BasicFormat.NONE)
                         out2 = out2.reformat(BasicFormat.NONE)
                     elif line2.branch_target is not None and same_target:
-                        # same-target branch, don't color
+                        # same-target branch, don't colour
                         pass
                     else:
                         # must have an imm difference (or else we would have hit the
                         # fast path)
-                        sym_color = BasicFormat.IMMEDIATE
+                        sym_colour = BasicFormat.IMMEDIATE
                         line_prefix = "i"
                 else:
                     out1, out2 = format_fields(arch.re_sprel, out1, out2, sc3, sc4)
@@ -2153,12 +2153,12 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
                         # only stack differences (luckily stack and imm
                         # differences can't be combined in MIPS, so we
                         # don't have to think about that case)
-                        sym_color = BasicFormat.STACK
+                        sym_colour = BasicFormat.STACK
                         line_prefix = "s"
                     else:
                         # reg differences and maybe imm as well
                         out1, out2 = format_fields(arch.re_reg, out1, out2, sc1, sc2)
-                        line_color1 = line_color2 = sym_color = BasicFormat.REGISTER
+                        line_colour1 = line_colour2 = sym_colour = BasicFormat.REGISTER
                         line_prefix = "r"
 
                 if same_target:
@@ -2169,19 +2169,19 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
                 out2 += Text(address2, address_imm_fmt)
         elif line1 and line2:
             line_prefix = "|"
-            line_color1 = line_color2 = sym_color = BasicFormat.DIFF_CHANGE
-            out1 = out1.reformat(line_color1)
-            out2 = out2.reformat(line_color2)
+            line_colour1 = line_colour2 = sym_colour = BasicFormat.DIFF_CHANGE
+            out1 = out1.reformat(line_colour1)
+            out2 = out2.reformat(line_colour2)
         elif line1:
             line_prefix = "<"
-            line_color1 = sym_color = BasicFormat.DIFF_REMOVE
-            out1 = out1.reformat(line_color1)
+            line_colour1 = sym_colour = BasicFormat.DIFF_REMOVE
+            out1 = out1.reformat(line_colour1)
             out2 = Text()
         elif line2:
             line_prefix = ">"
-            line_color2 = sym_color = BasicFormat.DIFF_ADD
+            line_colour2 = sym_colour = BasicFormat.DIFF_ADD
             out1 = Text()
-            out2 = out2.reformat(line_color2)
+            out2 = out2.reformat(line_colour2)
 
         if config.source and line2 and line2.comment:
             out2 += f" {line2.comment}"
@@ -2189,7 +2189,7 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
         def format_part(
             out: Text,
             line: Optional[Line],
-            line_color: Format,
+            line_colour: Format,
             btset: Set[int],
             sc: FormatFunction,
         ) -> Optional[Text]:
@@ -2204,11 +2204,11 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
                     in_arrow = Text("~>", sc(str(line.line_num)))
                 if line.branch_target is not None:
                     out_arrow = " " + Text("~>", sc(str(line.branch_target)))
-            formatted_line_num = Text(hex(line.line_num)[2:] + ":", line_color)
+            formatted_line_num = Text(hex(line.line_num)[2:] + ":", line_colour)
             return formatted_line_num + " " + in_arrow + " " + out + out_arrow
 
-        part1 = format_part(out1, line1, line_color1, bts1, sc5)
-        part2 = format_part(out2, line2, line_color2, bts2, sc6)
+        part1 = format_part(out1, line1, line_colour1, bts1, sc5)
+        part2 = format_part(out2, line2, line_colour2, bts2, sc6)
 
         if line2:
             for source_line in line2.source_lines:
@@ -2259,18 +2259,18 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
 
         if config.show_line_numbers:
             if line2 and line2.source_line_num is not None:
-                num_color = (
+                num_colour = (
                     BasicFormat.SOURCE_LINE_NUM
-                    if sym_color == BasicFormat.NONE
-                    else sym_color
+                    if sym_colour == BasicFormat.NONE
+                    else sym_colour
                 )
-                num2 = Text(f"{line2.source_line_num:5}", num_color)
+                num2 = Text(f"{line2.source_line_num:5}", num_colour)
             else:
                 num2 = Text(" " * 5)
         else:
             num2 = Text()
 
-        fmt2 = Text(line_prefix, sym_color) + num2 + " " + (part2 or Text())
+        fmt2 = Text(line_prefix, sym_colour) + num2 + " " + (part2 or Text())
 
         output.append(
             OutputLine(
@@ -2391,7 +2391,7 @@ def align_diffs(
                 assert isinstance(new_chunk, OutputLine)
                 # old_chunk.base and new_chunk.base have the same text since
                 # both diffs are based on the same target, but they might
-                # differ in color. Use the new version.
+                # differ in colour. Use the new version.
                 diff_lines.append((new_chunk, new_chunk, old_chunk))
         diff_lines = [
             (base, new, old if old != new else empty) for base, new, old in diff_lines

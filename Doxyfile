@@ -199,12 +199,12 @@ QT_AUTOBRIEF           = NO
 
 # The MULTILINE_CPP_IS_BRIEF tag can be set to YES to make doxygen treat a
 # multi-line C++ special comment block (i.e. a block of //! or /// comments) as
-# a brief description. This used to be the default behavior. The new default is
+# a brief description. This used to be the default behaviour. The new default is
 # to treat a multi-line C++ comment block as a detailed description. Set this
-# tag to YES if you prefer the old behavior instead.
+# tag to YES if you prefer the old behaviour instead.
 #
 # Note that setting this tag to YES also means that rational rose comments are
-# not recognized any more.
+# not recognised any more.
 # The default value is: NO.
 
 MULTILINE_CPP_IS_BRIEF = NO
@@ -1204,9 +1204,9 @@ HTML_EXTRA_STYLESHEET  =
 
 HTML_EXTRA_FILES       =
 
-# The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
-# will adjust the colors in the style sheet and background images according to
-# this color. Hue is specified as an angle on a colorwheel, see
+# The HTML_COLORSTYLE_HUE tag controls the colour of the HTML output. Doxygen
+# will adjust the colours in the style sheet and background images according to
+# this colour. Hue is specified as an angle on a colourwheel, see
 # http://en.wikipedia.org/wiki/Hue for more information. For instance the value
 # 0 represents red, 60 is yellow, 120 is green, 180 is cyan, 240 is blue, 300
 # purple, and 360 is red again.
@@ -1215,16 +1215,16 @@ HTML_EXTRA_FILES       =
 
 HTML_COLORSTYLE_HUE    = 220
 
-# The HTML_COLORSTYLE_SAT tag controls the purity (or saturation) of the colors
+# The HTML_COLORSTYLE_SAT tag controls the purity (or saturation) of the colours
 # in the HTML output. For a value of 0 the output will use grayscales only. A
-# value of 255 will produce the most vivid colors.
+# value of 255 will produce the most vivid colours.
 # Minimum value: 0, maximum value: 255, default value: 100.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_COLORSTYLE_SAT    = 100
 
 # The HTML_COLORSTYLE_GAMMA tag controls the gamma correction applied to the
-# luminance component of the colors in the HTML output. Values below 100
+# luminance component of the colours in the HTML output. Values below 100
 # gradually make the output lighter, whereas values above 100 make the output
 # darker. The value divided by 100 is the actual gamma applied, so 80 represents
 # a gamma of 0.8, The value 220 represents a gamma of 2.2, and 100 does not

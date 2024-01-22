@@ -92,7 +92,7 @@ public:
 	std::string GetBodySourceCode() const override;
 
 	uint16_t animLength;  // size of list for type 2
-	uint16_t colorListCount;
+	uint16_t colourListCount;
 	segptr_t primColorListAddress;
 	segptr_t envColorListAddress;
 	segptr_t frameDataListAddress;

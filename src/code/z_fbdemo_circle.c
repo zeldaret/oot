@@ -68,23 +68,23 @@ void TransitionCircle_Start(void* thisx) {
         this->speed = 10;
     }
 
-    if (this->colorType == TCC_BLACK) {
-        this->color.rgba = RGBA8(0, 0, 0, 255);
-    } else if (this->colorType == TCC_WHITE) {
-        this->color.rgba = RGBA8(160, 160, 160, 255);
-    } else if (this->colorType == TCC_GRAY) {
-        this->color.r = 100;
-        this->color.g = 100;
-        this->color.b = 100;
-        this->color.a = 255;
+    if (this->colourType == TCC_BLACK) {
+        this->colour.rgba = RGBA8(0, 0, 0, 255);
+    } else if (this->colourType == TCC_WHITE) {
+        this->colour.rgba = RGBA8(160, 160, 160, 255);
+    } else if (this->colourType == TCC_GRAY) {
+        this->colour.r = 100;
+        this->colour.g = 100;
+        this->colour.b = 100;
+        this->colour.a = 255;
     } else {
         this->speed = 40;
-        this->color.rgba = (this->appearanceType == TCA_WAVE) ? RGBA8(0, 0, 0, 255) : RGBA8(160, 160, 160, 255);
+        this->colour.rgba = (this->appearanceType == TCA_WAVE) ? RGBA8(0, 0, 0, 255) : RGBA8(160, 160, 160, 255);
     }
 
     if (this->direction != TRANS_CIRCLE_DIR_IN) {
         this->texY = (s32)(0.0f * (1 << 2));
-        if (this->colorType == TCC_SPECIAL) {
+        if (this->colourType == TCC_SPECIAL) {
             this->texY = (s32)(62.5f * (1 << 2));
         }
     } else {
@@ -126,7 +126,7 @@ void TransitionCircle_Update(void* thisx, s32 updateRate) {
         }
     } else {
         this->texY -= this->speed * 3 / updateRate;
-        if (this->colorType != TCC_SPECIAL) {
+        if (this->colourType != TCC_SPECIAL) {
             if (this->texY <= (s32)(0.0f * (1 << 2))) {
                 this->texY = (s32)(0.0f * (1 << 2));
                 this->isDone = true;
@@ -157,8 +157,8 @@ void TransitionCircle_Draw(void* thisx, Gfx** gfxP) {
     texScroll = Gfx_BranchTexScroll(&gfx, this->texX, this->texY, 16, 64);
     gSPSegment(gfx++, 9, texScroll);
     gSPSegment(gfx++, 8, this->texture);
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->color.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, this->color.rgba);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->colour.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->colour.rgba);
     gSPMatrix(gfx++, &this->projection, G_MTX_PROJECTION | G_MTX_LOAD);
     gSPPerspNormalize(gfx++, this->normal);
     gSPMatrix(gfx++, &this->lookAt, G_MTX_PROJECTION | G_MTX_NOPUSH | G_MTX_MUL);
@@ -196,7 +196,7 @@ void TransitionCircle_SetType(void* thisx, s32 type) {
         // The direction set here will be overwritten on that second call.
         this->direction = (type >> 5) & 1;
 
-        this->colorType = (type >> 3) & 3;
+        this->colourType = (type >> 3) & 3;
         this->speedType = type & 1;
         this->appearanceType = (type >> 1) & 3;
     } else if (type == TRANS_INSTANCE_TYPE_FILL_OUT) {
@@ -206,14 +206,14 @@ void TransitionCircle_SetType(void* thisx, s32 type) {
     }
 }
 
-void TransitionCircle_SetColor(void* thisx, u32 color) {
+void TransitionCircle_SetColor(void* thisx, u32 colour) {
     TransitionCircle* this = (TransitionCircle*)thisx;
 
-    this->color.rgba = color;
+    this->colour.rgba = colour;
 }
 
-void TransitionCircle_SetUnkColor(void* thisx, u32 color) {
+void TransitionCircle_SetUnkColor(void* thisx, u32 colour) {
     TransitionCircle* this = (TransitionCircle*)thisx;
 
-    this->unkColor.rgba = color;
+    this->unkColor.rgba = colour;
 }

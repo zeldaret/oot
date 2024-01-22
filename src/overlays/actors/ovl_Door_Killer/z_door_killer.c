@@ -139,9 +139,9 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
             Collider_InitJntSph(play, &this->colliderJntSph);
             Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
             this->colliderJntSph.elements[0].dim.worldSphere.radius = 80;
-            this->colliderJntSph.elements[0].dim.worldSphere.center.x = (s16)this->actor.world.pos.x;
-            this->colliderJntSph.elements[0].dim.worldSphere.center.y = (s16)this->actor.world.pos.y + 50;
-            this->colliderJntSph.elements[0].dim.worldSphere.center.z = (s16)this->actor.world.pos.z;
+            this->colliderJntSph.elements[0].dim.worldSphere.centre.x = (s16)this->actor.world.pos.x;
+            this->colliderJntSph.elements[0].dim.worldSphere.centre.y = (s16)this->actor.world.pos.y + 50;
+            this->colliderJntSph.elements[0].dim.worldSphere.centre.z = (s16)this->actor.world.pos.z;
 
             // If tied to a switch flag and that switch flag is already set, kill the actor.
             if ((((this->actor.params >> 8) & 0x3F) != 0x3F) &&

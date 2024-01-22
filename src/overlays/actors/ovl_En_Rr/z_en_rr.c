@@ -323,7 +323,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, PlayState* play) {
     }
     PRINTF(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);
     func_8002F6D4(play, &this->actor, 4.0f, this->actor.shape.rot.y, 12.0f, 8);
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         this->actionFunc = EnRr_Approach;
         Actor_PlaySfx(&this->actor, NA_SE_EN_LIKE_THROW);
     } else if (this->actor.colChkInfo.health != 0) {
@@ -478,7 +478,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
-                    if (this->actor.colorFilterTimer == 0) {
+                    if (this->actor.colourFilterTimer == 0) {
                         this->effectTimer = 20;
                         Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
                                              80);
@@ -500,7 +500,7 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
                     return;
             }
         }
-        if ((this->ocTimer == 0) && (this->actor.colorFilterTimer == 0) && (player->invincibilityTimer == 0) &&
+        if ((this->ocTimer == 0) && (this->actor.colourFilterTimer == 0) && (player->invincibilityTimer == 0) &&
             !(player->stateFlags2 & PLAYER_STATE2_7) &&
             ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
             this->collider1.base.ocFlags1 &= ~OC1_HIT;
@@ -642,9 +642,9 @@ void EnRr_GrabPlayer(EnRr* this, PlayState* play) {
 void EnRr_Damage(EnRr* this, PlayState* play) {
     s32 i;
 
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         EnRr_SetupApproach(this);
-    } else if ((this->actor.colorFilterTimer & 8) != 0) {
+    } else if ((this->actor.colourFilterTimer & 8) != 0) {
         for (i = 1; i < 5; i++) {
             this->bodySegs[i].rotTarget.z = 5000.0f;
         }
@@ -748,7 +748,7 @@ void EnRr_Retreat(EnRr* this, PlayState* play) {
 }
 
 void EnRr_Stunned(EnRr* this, PlayState* play) {
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         this->stopScroll = false;
         if (this->hasPlayer) {
             EnRr_SetupReleasePlayer(this, play);
@@ -787,7 +787,7 @@ void EnRr_Update(Actor* thisx, PlayState* play) {
 
     Actor_SetFocus(&this->actor, 30.0f);
     EnRr_UpdateBodySegments(this, play);
-    if (!this->isDead && ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
+    if (!this->isDead && ((this->actor.colourFilterTimer == 0) || !(this->actor.colourFilterParams & 0x4000))) {
         EnRr_CollisionCheck(this, play);
     }
 
@@ -898,7 +898,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
         s32 segIndex;
         s32 offIndex;
 
-        this->actor.colorFilterTimer++;
+        this->actor.colourFilterTimer++;
         if ((effectTimer & 1) != 0) {
             return;
         }
@@ -909,7 +909,7 @@ void EnRr_Draw(Actor* thisx, PlayState* play) {
         effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
         effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
         effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
-        if (this->actor.colorFilterParams & 0x4000) {
+        if (this->actor.colourFilterParams & 0x4000) {
             EffectSsEnFire_SpawnVec3f(play, &this->actor, &effectPos, 100, 0, 0, -1);
         } else {
             EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255, 3.0f);

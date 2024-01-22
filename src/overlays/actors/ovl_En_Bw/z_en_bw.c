@@ -140,8 +140,8 @@ void EnBw_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.focus.pos = this->actor.world.pos;
     func_809CE9A8(this);
-    this->color1.a = this->color1.r = 255;
-    this->color1.g = this->color1.b = 0;
+    this->colour1.a = this->colour1.r = 255;
+    this->colour1.g = this->colour1.b = 0;
     this->unk_248 = 0.6f;
     this->unk_221 = 3;
     Collider_InitCylinder(play, &this->collider1);
@@ -219,7 +219,7 @@ void func_809CEA24(EnBw* this, PlayState* play) {
     if (this->unk_221 != 1) {
         sp58 = Math_SinF(this->unk_240);
         sp60 = ABS(sp58) * 85.0f;
-        this->color1.g = sp60;
+        this->colour1.g = sp60;
     }
     if ((((play->gameplayFrames % 4) == (u32)this->actor.params) && (this->actor.speed != 0.0f) &&
          (sp64 =
@@ -377,11 +377,11 @@ void func_809CEA24(EnBw* this, PlayState* play) {
             }
             if (this->unk_224 <= 200) {
                 sp60 = Math_SinS(this->unk_224 * (0x960 - this->unk_224)) * 55.0f;
-                this->color1.r = 255 - ABS(sp60);
+                this->colour1.r = 255 - ABS(sp60);
                 sp60 = Math_SinS(this->unk_224 * (0x960 - this->unk_224)) * 115.0f;
-                this->color1.g = ABS(sp60) + 85;
+                this->colour1.g = ABS(sp60) + 85;
                 sp60 = Math_SinS(0x960 - this->unk_224) * 255.0f;
-                this->color1.b = ABS(sp60);
+                this->colour1.b = ABS(sp60);
                 if (this->unk_224 == 0) {
                     this->unk_221 = 3;
                     this->unk_250 = 0.0f;
@@ -508,18 +508,18 @@ void func_809CFC4C(EnBw* this, PlayState* play) {
             func_809CFF10(this);
         }
     } else {
-        this->color1.r -= 8;
-        this->color1.g += 32;
-        if (this->color1.r < 200) {
-            this->color1.r = 200;
+        this->colour1.r -= 8;
+        this->colour1.g += 32;
+        if (this->colour1.r < 200) {
+            this->colour1.r = 200;
         }
-        if (this->color1.g > 200) {
-            this->color1.g = 200;
+        if (this->colour1.g > 200) {
+            this->colour1.g = 200;
         }
-        if (this->color1.b > 235) {
-            this->color1.b = 255;
+        if (this->colour1.b > 235) {
+            this->colour1.b = 255;
         } else {
-            this->color1.b += 40;
+            this->colour1.b += 40;
         }
         if (this->actor.shape.yOffset < 1000.0f) {
             this->actor.shape.yOffset += 200.0f;
@@ -550,20 +550,20 @@ void func_809CFF98(EnBw* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_M_GND);
         EnBw_SetupAction(this, func_809CE884);
     }
-    if (this->color1.r < 247) {
-        this->color1.r += 8;
+    if (this->colour1.r < 247) {
+        this->colour1.r += 8;
     } else {
-        this->color1.r = 255;
+        this->colour1.r = 255;
     }
-    if (this->color1.g < 32) {
-        this->color1.g = 0;
+    if (this->colour1.g < 32) {
+        this->colour1.g = 0;
     } else {
-        this->color1.g -= 32;
+        this->colour1.g -= 32;
     }
-    if (this->color1.b < 40) {
-        this->color1.b = 0;
+    if (this->colour1.b < 40) {
+        this->colour1.b = 0;
     } else {
-        this->color1.b -= 40;
+        this->colour1.b -= 40;
     }
     if (this->actor.shape.yOffset > 0.0f) {
         this->actor.shape.yOffset -= 200.0f;
@@ -585,7 +585,7 @@ void func_809D014C(EnBw* this, PlayState* play) {
         this->actor.scale.y -= 0.0002f;
         this->actor.scale.z += 0.0002f;
     }
-    this->actor.shape.shadowAlpha = this->color1.a -= 6;
+    this->actor.shape.shadowAlpha = this->colour1.a -= 6;
     this->unk_222--;
     if (this->unk_222 <= 0) {
         Actor_Kill(&this->actor);
@@ -600,24 +600,24 @@ void func_809D01CC(EnBw* this) {
     if (this->damageEffect == 0xE) {
         this->iceTimer = 0x50;
     }
-    this->unk_222 = (this->actor.colorFilterParams & 0x4000) ? 25 : 80;
+    this->unk_222 = (this->actor.colourFilterParams & 0x4000) ? 25 : 80;
     EnBw_SetupAction(this, func_809D0268);
 }
 
 void func_809D0268(EnBw* this, PlayState* play) {
-    this->color1.r -= 1;
-    this->color1.g += 4;
-    this->color1.b += 5;
-    if (this->color1.r < 200) {
-        this->color1.r = 200;
+    this->colour1.r -= 1;
+    this->colour1.g += 4;
+    this->colour1.b += 5;
+    if (this->colour1.r < 200) {
+        this->colour1.r = 200;
     }
-    if (this->color1.g > 200) {
-        this->color1.g = 200;
+    if (this->colour1.g > 200) {
+        this->colour1.g = 200;
     }
-    if (this->color1.b > 230) {
-        this->color1.b = 230;
+    if (this->colour1.b > 230) {
+        this->colour1.b = 230;
     }
-    if (this->actor.colorFilterParams & 0x4000) {
+    if (this->actor.colourFilterParams & 0x4000) {
         if ((play->gameplayFrames % 0x80) == 0) {
             this->unk_25C = 0.5f + Rand_ZeroOne() * 0.25f;
         }
@@ -627,8 +627,8 @@ void func_809D0268(EnBw* this, PlayState* play) {
     this->unk_222--;
     if (this->unk_222 == 0) {
         func_809CE9A8(this);
-        this->color1.r = this->color1.g = 200;
-        this->color1.b = 255;
+        this->colour1.r = this->colour1.g = 200;
+        this->colour1.b = 255;
         this->unk_224 = 0x258;
         this->unk_221 = 1;
         this->unk_250 = 0.7f;
@@ -641,19 +641,19 @@ void func_809D03CC(EnBw* this) {
     if (this->damageEffect == 0xE) {
         this->iceTimer = 32;
     }
-    this->unk_23C = this->actor.colorFilterTimer;
+    this->unk_23C = this->actor.colourFilterTimer;
     Actor_PlaySfx(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnBw_SetupAction(this, func_809D0424);
 }
 
 void func_809D0424(EnBw* this, PlayState* play) {
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         this->unk_23C = 0;
         if (this->actor.colChkInfo.health != 0) {
             if ((this->unk_220 != 5) && (this->unk_220 != 6)) {
                 func_809CE9A8(this);
-                this->color1.r = this->color1.g = 200;
-                this->color1.b = 255;
+                this->colour1.r = this->colour1.g = 200;
+                this->colour1.b = 255;
                 this->unk_224 = 0x258;
                 this->unk_221 = 1;
                 this->unk_250 = 0.7f;
@@ -776,7 +776,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
                 accel.z = velocity.z * -0.1f;
                 Rand_CenteredFloat(4.0f);
                 Rand_CenteredFloat(4.0f);
-                sp48.a = this->color1.a;
+                sp48.a = this->colour1.a;
                 if (sp48.a >= 30) {
                     sp44.a = sp48.a - 30;
                 } else {
@@ -800,7 +800,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
     }
     Collider_UpdateCylinder(thisx, &this->collider2);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider2.base);
-    if ((this->unk_220 != 0) && ((thisx->colorFilterTimer == 0) || !(thisx->colorFilterParams & 0x4000))) {
+    if ((this->unk_220 != 0) && ((thisx->colourFilterTimer == 0) || !(thisx->colourFilterParams & 0x4000))) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider2.base);
     }
     if ((this->unk_221 != 1) && (this->unk_220 < 5) && (this->unk_248 > 0.4f)) {
@@ -852,17 +852,17 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bw.c", 1423);
 
-    if (this->color1.a == 0xFF) {
+    if (this->colour1.a == 0xFF) {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gDPSetEnvColor(POLY_OPA_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
+        gDPSetEnvColor(POLY_OPA_DISP++, this->colour1.r, this->colour1.g, this->colour1.b, this->colour1.a);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         POLY_OPA_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_OPA_DISP);
     } else {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPPipeSync(POLY_XLU_DISP++);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->color1.a);
-        gDPSetEnvColor(POLY_XLU_DISP++, this->color1.r, this->color1.g, this->color1.b, this->color1.a);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->colour1.a);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->colour1.r, this->colour1.g, this->colour1.b, this->colour1.a);
         gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
         POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
@@ -895,7 +895,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     if (this->iceTimer != 0) {
-        thisx->colorFilterTimer++;
+        thisx->colourFilterTimer++;
         this->iceTimer--;
         if ((this->iceTimer & 3) == 0) {
             iceIndex = this->iceTimer >> 2;

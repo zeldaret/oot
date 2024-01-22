@@ -89,7 +89,7 @@ void EnSyatekiItm_Init(Actor* thisx, PlayState* play2) {
             Actor_Kill(&this->actor);
             return;
         }
-        this->markers[i]->colorIdx = sRupeeTypes[i];
+        this->markers[i]->colourIdx = sRupeeTypes[i];
     }
     this->actionFunc = EnSyatekiItm_Idle;
 }
@@ -242,7 +242,7 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, PlayState* play) {
                 return;
             }
             this->targets[i]->index = i;
-            this->targets[i]->colorIdx = sTargetColors[roundIdx];
+            this->targets[i]->colourIdx = sTargetColors[roundIdx];
             Math_Vec3f_Copy(&this->targets[i]->targetPos, &this->targetFinal[i]);
             switch (roundIdx) {
                 case SYATEKI_ROUND_BLUE_SEQUENTIAL:

@@ -152,11 +152,11 @@ void EffectSpark_Init(void* thisx, void* initParamsx);
 void EffectSpark_Destroy(void* thisx);
 s32 EffectSpark_Update(void* thisx);
 void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx);
-void func_80026230(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
-void func_80026400(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
+void func_80026230(PlayState* play, Color_RGBA8* colour, s16 arg2, s16 arg3);
+void func_80026400(PlayState* play, Color_RGBA8* colour, s16 arg2, s16 arg3);
 void func_80026608(PlayState* play);
-void func_80026690(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
-void func_80026860(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
+void func_80026690(PlayState* play, Color_RGBA8* colour, s16 arg2, s16 arg3);
+void func_80026860(PlayState* play, Color_RGBA8* colour, s16 arg2, s16 arg3);
 void func_80026A6C(PlayState* play);
 PlayState* Effect_GetPlayState(void);
 void* Effect_GetByIndex(s32 index);
@@ -250,7 +250,7 @@ void EffectSsGFire_Spawn(PlayState* play, Vec3f* pos);
 void EffectSsLightning_Spawn(PlayState* play, Vec3f* pos, Color_RGBA8* primColor, Color_RGBA8* envColor,
                              s16 scale, s16 yaw, s16 life, s16 numBolts);
 void EffectSsDtBubble_SpawnColorProfile(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale,
-                                        s16 life, s16 colorProfile, s16 randXZ);
+                                        s16 life, s16 colourProfile, s16 randXZ);
 void EffectSsDtBubble_SpawnCustomColor(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
                                        Color_RGBA8* primColor, Color_RGBA8* envColor, s16 scale, s16 life, s16 randXZ);
 void EffectSsHahen_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused, s16 scale,
@@ -275,7 +275,7 @@ void EffectSsKFire_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* ac
 void EffectSsSolderSrchBall_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 unused,
                                   s16* linkDetected);
 void EffectSsKakera_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* arg3, s16 gravity, s16 arg5,
-                          s16 arg6, s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 colorIdx,
+                          s16 arg6, s16 arg7, s16 arg8, s16 scale, s16 arg10, s16 arg11, s32 life, s16 colourIdx,
                           s16 objId, Gfx* dList);
 void EffectSsIcePiece_Spawn(PlayState* play, Vec3f* pos, f32 scale, Vec3f* velocity, Vec3f* accel, s32 life);
 void EffectSsIcePiece_SpawnBurst(PlayState* play, Vec3f* refPos, f32 scale);
@@ -288,8 +288,8 @@ void EffectSsEnIce_Spawn(PlayState* play, Vec3f* pos, f32 scale, Vec3f* velocity
 void EffectSsFireTail_Spawn(PlayState* play, Actor* actor, Vec3f* pos, f32 scale, Vec3f* arg4, s16 arg5,
                             Color_RGBA8* primColor, Color_RGBA8* envColor, s16 type, s16 bodyPart, s32 life);
 void EffectSsFireTail_SpawnFlame(PlayState* play, Actor* actor, Vec3f* pos, f32 arg3, s16 bodyPart,
-                                 f32 colorIntensity);
-void EffectSsFireTail_SpawnFlameOnPlayer(PlayState* play, f32 scale, s16 bodyPart, f32 colorIntensity);
+                                 f32 colourIntensity);
+void EffectSsFireTail_SpawnFlameOnPlayer(PlayState* play, f32 scale, s16 bodyPart, f32 colourIntensity);
 void EffectSsEnFire_SpawnVec3f(PlayState* play, Actor* actor, Vec3f* pos, s16 scale, s16 arg4, s16 flags, s16 bodyPart);
 void EffectSsEnFire_SpawnVec3s(PlayState* play, Actor* actor, Vec3s* pos, s16 scale, s16 arg4, s16 flags, s16 bodyPart);
 void EffectSsExtra_Spawn(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, s16 scale, s16 scoreIdx);
@@ -472,7 +472,7 @@ f32 Rand_ZeroFloat(f32 f);
 f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type);
 void func_8003424C(PlayState* play, Vec3f* arg1);
-void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration);
+void Actor_SetColorFilter(Actor* actor, s16 colourFlag, s16 colourIntensityMax, s16 bufFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, PlayState* play);
 Hilite* func_8003435C(Vec3f* object, PlayState* play);
 s32 Npc_UpdateTalking(PlayState* play, Actor* actor, s16* talkState, f32 interactRange,
@@ -562,7 +562,7 @@ s32 BgCheck_AnyLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec
                          s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace);
 s32 BgCheck_AnyLineTest3(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
                          s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
-s32 BgCheck_SphVsFirstPoly(CollisionContext* colCtx, Vec3f* center, f32 radius);
+s32 BgCheck_SphVsFirstPoly(CollisionContext* colCtx, Vec3f* centre, f32 radius);
 s32 DynaPoly_IsBgIdBgActor(s32 bgId);
 void DynaPoly_DisableCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
 void DynaPoly_EnableCollision(PlayState* play, DynaCollisionContext* dyna, s32 bgId);
@@ -752,7 +752,7 @@ void SaveContext_Init(void);
 s32 func_800635D0(s32);
 void Regs_Init(void);
 void DebugCamera_ScreenText(u8 x, u8 y, const char* text);
-void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
+void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colourIndex, const char* text);
 void Regs_UpdateEditor(Input* input);
 void Debug_DrawText(GraphicsContext* gfxCtx);
 void DebugDisplay_Init(void);
@@ -812,7 +812,7 @@ void Environment_DrawSunAndMoon(PlayState* play);
 void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view,
                                   GraphicsContext* gfxCtx, Vec3f pos, s32 unused);
 void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view,
-                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
+                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colourIntensity,
                                s16 glareStrength, u8 isSun);
 void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx);
 void Environment_ChangeLightSetting(PlayState* play, u32 lightSetting);
@@ -1196,7 +1196,7 @@ void TransitionTriforce_Start(void* thisx);
 void* TransitionTriforce_Init(void* thisx);
 void TransitionTriforce_Destroy(void* thisx);
 void TransitionTriforce_Update(void* thisx, s32 updateRate);
-void TransitionTriforce_SetColor(void* thisx, u32 color);
+void TransitionTriforce_SetColor(void* thisx, u32 colour);
 void TransitionTriforce_SetType(void* thisx, s32 type);
 void TransitionTriforce_Draw(void* thisx, Gfx** gfxP);
 s32 TransitionTriforce_IsDone(void* thisx);
@@ -1207,7 +1207,7 @@ void TransitionWipe_Update(void* thisx, s32 updateRate);
 void TransitionWipe_Draw(void* thisx, Gfx** gfxP);
 s32 TransitionWipe_IsDone(void* thisx);
 void TransitionWipe_SetType(void* thisx, s32 type);
-void TransitionWipe_SetColor(void* thisx, u32 color);
+void TransitionWipe_SetColor(void* thisx, u32 colour);
 void TransitionCircle_Start(void* thisx);
 void* TransitionCircle_Init(void* thisx);
 void TransitionCircle_Destroy(void* thisx);
@@ -1215,15 +1215,15 @@ void TransitionCircle_Update(void* thisx, s32 updateRate);
 void TransitionCircle_Draw(void* thisx, Gfx** gfxP);
 s32 TransitionCircle_IsDone(void* thisx);
 void TransitionCircle_SetType(void* thisx, s32 type);
-void TransitionCircle_SetColor(void* thisx, u32 color);
-void TransitionCircle_SetUnkColor(void* thisx, u32 color);
+void TransitionCircle_SetColor(void* thisx, u32 colour);
+void TransitionCircle_SetUnkColor(void* thisx, u32 colour);
 void TransitionFade_Start(void* thisx);
 void* TransitionFade_Init(void* thisx);
 void TransitionFade_Destroy(void* thisx);
 void TransitionFade_Update(void* thisx, s32 updateRate);
 void TransitionFade_Draw(void* thisx, Gfx** gfxP);
 s32 TransitionFade_IsDone(void* thisx);
-void TransitionFade_SetColor(void* thisx, u32 color);
+void TransitionFade_SetColor(void* thisx, u32 colour);
 void TransitionFade_SetType(void* thisx, s32 type);
 void Letterbox_SetSizeTarget(s32 target);
 u32 Letterbox_GetSizeTarget(void);
@@ -1402,11 +1402,11 @@ s32 Math3D_CylVsTri(Cylinder16* cyl, TriNorm* tri);
 s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect);
 s32 Math3D_SphVsSph(Sphere16* sphereA, Sphere16* sphereB);
 s32 Math3D_SphVsSphOverlap(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize);
-s32 Math3D_SphVsSphOverlapCenterDist(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centerDist);
+s32 Math3D_SphVsSphOverlapCenterDist(Sphere16* sphereA, Sphere16* sphereB, f32* overlapSize, f32* centreDist);
 s32 Math3D_SphVsCylOverlap(Sphere16* sph, Cylinder16* cyl, f32* overlapSize);
-s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centerDist);
+s32 Math3D_SphVsCylOverlapCenterDist(Sphere16* sph, Cylinder16* cyl, f32* overlapSize, f32* centreDist);
 s32 Math3D_CylVsCylOverlap(Cylinder16* ca, Cylinder16* cb, f32* overlapSize);
-s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overlapSize, f32* centerDist);
+s32 Math3D_CylVsCylOverlapCenterDist(Cylinder16* ca, Cylinder16* cb, f32* overlapSize, f32* centreDist);
 s32 Math3D_TriVsTriIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect);
 s32 Math3D_XZInSphere(Sphere16* sphere, f32 x, f32 z);
 s32 Math3D_XYInSphere(Sphere16* sphere, f32 x, f32 y);

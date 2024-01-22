@@ -165,10 +165,10 @@ typedef struct {
 #define C_UP_BUTTON_Y 16
 
 /**
- * These are the colors for the hearts in the interface. The prim color is the red color of the heart
- * for the base hearts, while the prim color for the double defense hearts is the white outline. The
- * env color for the base hearts is the purple-ish outline, while the env color for the double defense
- * hearts is the red color of the hearts.
+ * These are the colours for the hearts in the interface. The prim colour is the red colour of the heart
+ * for the base hearts, while the prim colour for the double defense hearts is the white outline. The
+ * env colour for the base hearts is the purple-ish outline, while the env colour for the double defense
+ * hearts is the red colour of the hearts.
  */
 
 #define HEARTS_PRIM_R 255
@@ -188,9 +188,9 @@ typedef struct {
 #define HEARTS_DD_ENV_B 0
 
 /**
- * The burn and drown colors listed here are unused. Prerelease footage of the game confirms that at one
- * point in development the orange color was to be used while taking damage from hot environments.
- * Based on this, we can assume that the blue heart color was to be used while drowning.
+ * The burn and drown colours listed here are unused. Prerelease footage of the game confirms that at one
+ * point in development the orange colour was to be used while taking damage from hot environments.
+ * Based on this, we can assume that the blue heart colour was to be used while drowning.
  * In the final game these environments only have a timer and do not damage you continuously.
  */
 

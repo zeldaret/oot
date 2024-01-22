@@ -134,11 +134,11 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
     for (i = start; i < end; i++) {
         ColliderJntSphElement* element = &this->collider.elements[i];
 
-        element->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + (sp2C * element->dim.modelSphere.center.x) +
-                                            (sp30 * element->dim.modelSphere.center.z);
-        element->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + element->dim.modelSphere.center.y;
-        element->dim.worldSphere.center.z = this->dyna.actor.home.pos.z - (sp30 * element->dim.modelSphere.center.x) +
-                                            (sp2C * element->dim.modelSphere.center.z);
+        element->dim.worldSphere.centre.x = this->dyna.actor.home.pos.x + (sp2C * element->dim.modelSphere.centre.x) +
+                                            (sp30 * element->dim.modelSphere.centre.z);
+        element->dim.worldSphere.centre.y = (s16)this->dyna.actor.home.pos.y + element->dim.modelSphere.centre.y;
+        element->dim.worldSphere.centre.z = this->dyna.actor.home.pos.z - (sp30 * element->dim.modelSphere.centre.x) +
+                                            (sp2C * element->dim.modelSphere.centre.z);
         element->base.toucherFlags |= TOUCH_ON;
         element->base.ocElemFlags |= OCELEM_ON;
     }

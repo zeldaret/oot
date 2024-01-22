@@ -74,9 +74,9 @@ static InitChainEntry sInitChain[] = {
 void BgJyaGoroiwa_UpdateCollider(BgJyaGoroiwa* this) {
     Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
-    worldSphere->center.x = this->actor.world.pos.x;
-    worldSphere->center.y = this->actor.world.pos.y + 59.5f;
-    worldSphere->center.z = this->actor.world.pos.z;
+    worldSphere->centre.x = this->actor.world.pos.x;
+    worldSphere->centre.y = this->actor.world.pos.y + 59.5f;
+    worldSphere->centre.z = this->actor.world.pos.z;
 }
 
 void BgJyaGoroiwa_InitCollider(BgJyaGoroiwa* this, PlayState* play) {

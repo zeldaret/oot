@@ -21,7 +21,7 @@ s32 BgCheck_CheckLineAgainstDyna(CollisionContext* colCtx, u16 xpFlags, Vec3f* p
                                  CollisionPoly** outPoly, f32* distSq, s32* outBgId, Actor* actor, f32 chkDist,
                                  s32 bccFlags);
 s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, s32* outBgId,
-                               Vec3f* center, f32 radius, Actor* actor, u16 bciFlags);
+                               Vec3f* centre, f32 radius, Actor* actor, u16 bciFlags);
 void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 
 #define SS_NULL 0xFFFF
@@ -461,9 +461,9 @@ s32 CollisionPoly_LineVsPoly(CollisionPoly* poly, Vec3s* vtxList, Vec3f* posA, V
 }
 
 /**
- * Tests if sphere `center` `radius` intersects `poly`
+ * Tests if sphere `centre` `radius` intersects `poly`
  */
-s32 CollisionPoly_SphVsPoly(CollisionPoly* poly, Vec3s* vtxList, Vec3f* center, f32 radius) {
+s32 CollisionPoly_SphVsPoly(CollisionPoly* poly, Vec3s* vtxList, Vec3f* centre, f32 radius) {
     static Sphere16 sphere;
     static TriNorm tri;
     Vec3f intersect;
@@ -471,9 +471,9 @@ s32 CollisionPoly_SphVsPoly(CollisionPoly* poly, Vec3s* vtxList, Vec3f* center, 
     CollisionPoly_GetVertices(poly, vtxList, tri.vtx);
     CollisionPoly_GetNormalF(poly, &tri.plane.normal.x, &tri.plane.normal.y, &tri.plane.normal.z);
     tri.plane.originDist = poly->dist;
-    sphere.center.x = center->x;
-    sphere.center.y = center->y;
-    sphere.center.z = center->z;
+    sphere.centre.x = centre->x;
+    sphere.centre.y = centre->y;
+    sphere.centre.z = centre->z;
     sphere.radius = radius;
     return Math3D_TriVsSphIntersect(&sphere, &tri, &intersect);
 }
@@ -1043,11 +1043,11 @@ s32 BgCheck_CheckLineInSubdivision(StaticLookup* lookup, CollisionContext* colCt
 }
 
 /**
- * Get first static poly intersecting sphere `center` `radius` from list `node`
+ * Get first static poly intersecting sphere `centre` `radius` from list `node`
  * returns true if any poly intersects the sphere, else returns false
  * `outPoly` returns the pointer of the first poly found that intersects
  */
-s32 BgCheck_SphVsFirstStaticPolyList(SSNode* node, u16 xpFlags, CollisionContext* colCtx, Vec3f* center, f32 radius,
+s32 BgCheck_SphVsFirstStaticPolyList(SSNode* node, u16 xpFlags, CollisionContext* colCtx, Vec3f* centre, f32 radius,
                                      CollisionPoly** outPoly) {
     CollisionPoly* polyList = colCtx->colHeader->polyList;
     Vec3s* vtxList = colCtx->colHeader->vtxList;
@@ -1067,13 +1067,13 @@ s32 BgCheck_SphVsFirstStaticPolyList(SSNode* node, u16 xpFlags, CollisionContext
             }
         }
 
-        if (center->y + radius < vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIA)].y &&
-            center->y + radius < vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIB)].y &&
-            center->y + radius < vtxList[curPoly->vIC].y) {
+        if (centre->y + radius < vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIA)].y &&
+            centre->y + radius < vtxList[COLPOLY_VTX_INDEX(curPoly->flags_vIB)].y &&
+            centre->y + radius < vtxList[curPoly->vIC].y) {
             break;
         }
 
-        if (CollisionPoly_SphVsPoly(curPoly, vtxList, center, radius)) {
+        if (CollisionPoly_SphVsPoly(curPoly, vtxList, centre, radius)) {
             *outPoly = curPoly;
             return true;
         }
@@ -1086,26 +1086,26 @@ s32 BgCheck_SphVsFirstStaticPolyList(SSNode* node, u16 xpFlags, CollisionContext
 }
 
 /**
- * Get first static poly intersecting sphere `center` `radius` within `lookup`
+ * Get first static poly intersecting sphere `centre` `radius` within `lookup`
  * returns true if any poly intersects the sphere, else false
  * `outPoly` returns the first poly found that intersects
  */
-s32 BgCheck_SphVsFirstStaticPoly(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, Vec3f* center, f32 radius,
+s32 BgCheck_SphVsFirstStaticPoly(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, Vec3f* centre, f32 radius,
                                  CollisionPoly** outPoly, u16 bciFlags) {
     if (lookup->floor.head != SS_NULL && !(bciFlags & BGCHECK_IGNORE_FLOOR) &&
-        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->floor.head], xpFlags, colCtx, center, radius,
+        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->floor.head], xpFlags, colCtx, centre, radius,
                                          outPoly)) {
         return true;
     }
 
     if (lookup->wall.head != SS_NULL && !(bciFlags & BGCHECK_IGNORE_WALL) &&
-        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->wall.head], xpFlags, colCtx, center, radius,
+        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->wall.head], xpFlags, colCtx, centre, radius,
                                          outPoly)) {
         return true;
     }
 
     if (lookup->ceiling.head != SS_NULL && !(bciFlags & BGCHECK_IGNORE_CEILING) &&
-        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->ceiling.head], xpFlags, colCtx, center, radius,
+        BgCheck_SphVsFirstStaticPolyList(&colCtx->polyNodes.tbl[lookup->ceiling.head], xpFlags, colCtx, centre, radius,
                                          outPoly)) {
         return true;
     }
@@ -2432,52 +2432,52 @@ s32 BgCheck_AnyLineTest3(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec
 }
 
 /**
- * Get first poly intersecting sphere `center` `radius`
+ * Get first poly intersecting sphere `centre` `radius`
  * ignores `actor` dyna poly
  * returns true if any poly intersects the sphere, else false
  * `outPoly` returns the pointer of the first poly found that intersects
  * `outBgId` returns the bgId of the entity that owns `outPoly`
  */
 s32 BgCheck_SphVsFirstPolyImpl(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, s32* outBgId,
-                               Vec3f* center, f32 radius, Actor* actor, u16 bciFlags) {
+                               Vec3f* centre, f32 radius, Actor* actor, u16 bciFlags) {
     StaticLookup* lookup;
 
     *outBgId = BGCHECK_SCENE;
-    if (BgCheck_PosErrorCheck(center, "../z_bgcheck.c", 5852) == true) {
+    if (BgCheck_PosErrorCheck(centre, "../z_bgcheck.c", 5852) == true) {
         if (actor != NULL) {
             PRINTF("こいつ,pself_actor->name %d\n", actor->id);
         }
     }
 
-    lookup = BgCheck_GetStaticLookup(colCtx, colCtx->lookupTbl, center);
+    lookup = BgCheck_GetStaticLookup(colCtx, colCtx->lookupTbl, centre);
     if (lookup == NULL) {
         return false;
-    } else if (BgCheck_SphVsFirstStaticPoly(lookup, xpFlags, colCtx, center, radius, outPoly, bciFlags) ||
-               BgCheck_SphVsFirstDynaPoly(colCtx, xpFlags, outPoly, outBgId, center, radius, actor, bciFlags)) {
+    } else if (BgCheck_SphVsFirstStaticPoly(lookup, xpFlags, colCtx, centre, radius, outPoly, bciFlags) ||
+               BgCheck_SphVsFirstDynaPoly(colCtx, xpFlags, outPoly, outBgId, centre, radius, actor, bciFlags)) {
         return true;
     }
     return false;
 }
 
 /**
- * Public get first poly intersecting sphere `center` `radius`
+ * Public get first poly intersecting sphere `centre` `radius`
  */
-s32 BgCheck_SphVsFirstPoly(CollisionContext* colCtx, Vec3f* center, f32 radius) {
+s32 BgCheck_SphVsFirstPoly(CollisionContext* colCtx, Vec3f* centre, f32 radius) {
     CollisionPoly* poly;
     s32 bgId;
 
-    return BgCheck_SphVsFirstPolyImpl(colCtx, COLPOLY_IGNORE_NONE, &poly, &bgId, center, radius, NULL,
+    return BgCheck_SphVsFirstPolyImpl(colCtx, COLPOLY_IGNORE_NONE, &poly, &bgId, centre, radius, NULL,
                                       BGCHECK_IGNORE_NONE);
 }
 
 /**
- * Public get first wall poly intersecting sphere `center` `radius`
+ * Public get first wall poly intersecting sphere `centre` `radius`
  */
-s32 BgCheck_SphVsFirstWall(CollisionContext* colCtx, Vec3f* center, f32 radius) {
+s32 BgCheck_SphVsFirstWall(CollisionContext* colCtx, Vec3f* centre, f32 radius) {
     CollisionPoly* poly;
     s32 bgId;
 
-    return BgCheck_SphVsFirstPolyImpl(colCtx, COLPOLY_IGNORE_NONE, &poly, &bgId, center, radius, NULL,
+    return BgCheck_SphVsFirstPolyImpl(colCtx, COLPOLY_IGNORE_NONE, &poly, &bgId, centre, radius, NULL,
                                       BGCHECK_IGNORE_FLOOR | BGCHECK_IGNORE_CEILING);
 }
 
@@ -2597,7 +2597,7 @@ void BgActor_Initialize(PlayState* play, BgActor* bgActor) {
     ScaleRotPos_Initialize(&bgActor->curTransform);
     DynaLookup_Reset(&bgActor->dynaLookup);
     DynaLookup_ResetVtxStartIndex(&bgActor->vtxStartIndex);
-    bgActor->boundingSphere.center.x = bgActor->boundingSphere.center.y = bgActor->boundingSphere.center.z = 0;
+    bgActor->boundingSphere.centre.x = bgActor->boundingSphere.centre.y = bgActor->boundingSphere.centre.z = 0;
     bgActor->boundingSphere.radius = 0;
 }
 
@@ -2931,9 +2931,9 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
         newCenterPoint.x *= numVtxInverse;
         newCenterPoint.y *= numVtxInverse;
         newCenterPoint.z *= numVtxInverse;
-        sphere->center.x = newCenterPoint.x;
-        sphere->center.y = newCenterPoint.y;
-        sphere->center.z = newCenterPoint.z;
+        sphere->centre.x = newCenterPoint.x;
+        sphere->centre.y = newCenterPoint.y;
+        sphere->centre.z = newCenterPoint.z;
         newRadiusSq = -SQ(10.0f);
 
         for (i = 0; i < pbgdata->numVertices; i++) {
@@ -3492,8 +3492,8 @@ s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32*
         bgActor->boundingSphere.radius += (s16)radius;
 
         r = bgActor->boundingSphere.radius;
-        dx = bgActor->boundingSphere.center.x - resultPos.x;
-        dz = bgActor->boundingSphere.center.z - resultPos.z;
+        dx = bgActor->boundingSphere.centre.x - resultPos.x;
+        dz = bgActor->boundingSphere.centre.z - resultPos.z;
         if (SQ(r) < (SQ(dx) + SQ(dz)) || (!Math3D_XYInSphere(&bgActor->boundingSphere, resultPos.x, resultPos.y) &&
                                           !Math3D_YZInSphere(&bgActor->boundingSphere, resultPos.y, resultPos.z))) {
             bgActor->boundingSphere.radius -= (s16)radius;
@@ -3755,11 +3755,11 @@ s32 BgCheck_CheckLineAgainstDyna(CollisionContext* colCtx, u16 xpFlags, Vec3f* p
 }
 
 /**
- * Get first dyna poly intersecting sphere `center` `radius` from list `ssList`
+ * Get first dyna poly intersecting sphere `centre` `radius` from list `ssList`
  * returns true if any poly intersects the sphere, else returns false
  * `outPoly` returns the pointer of the first poly found that intersects
  */
-s32 BgCheck_SphVsFirstDynaPolyList(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, Vec3f* center,
+s32 BgCheck_SphVsFirstDynaPolyList(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, Vec3f* centre,
                                    f32 radius, SSList* ssList) {
     CollisionPoly* curPoly;
     DynaCollisionContext* dyna;
@@ -3782,7 +3782,7 @@ s32 BgCheck_SphVsFirstDynaPolyList(CollisionContext* colCtx, u16 xpFlags, Collis
                 continue;
             }
         }
-        if (CollisionPoly_SphVsPoly(curPoly, dyna->vtxList, center, radius)) {
+        if (CollisionPoly_SphVsPoly(curPoly, dyna->vtxList, centre, radius)) {
             *outPoly = curPoly;
             return true;
         }
@@ -3797,26 +3797,26 @@ s32 BgCheck_SphVsFirstDynaPolyList(CollisionContext* colCtx, u16 xpFlags, Collis
 }
 
 /**
- * Get first dyna poly intersecting sphere `center` `radius` from BgActor `bgId`
+ * Get first dyna poly intersecting sphere `centre` `radius` from BgActor `bgId`
  * returns true if any poly intersects the sphere, else false
  * `outPoly` returns the pointer of the first poly found that intersects
  */
-s32 BgCheck_SphVsFirstDynaPolyInBgActor(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, Vec3f* center,
+s32 BgCheck_SphVsFirstDynaPolyInBgActor(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, Vec3f* centre,
                                         f32 radius, s32 bgId, u16 bciFlags) {
     if ((bciFlags & BGCHECK_IGNORE_CEILING) == 0) {
-        if (BgCheck_SphVsFirstDynaPolyList(colCtx, xpFlags, outPoly, center, radius,
+        if (BgCheck_SphVsFirstDynaPolyList(colCtx, xpFlags, outPoly, centre, radius,
                                            &colCtx->dyna.bgActors[bgId].dynaLookup.ceiling)) {
             return true;
         }
     }
     if ((bciFlags & BGCHECK_IGNORE_WALL) == 0) {
-        if (BgCheck_SphVsFirstDynaPolyList(colCtx, xpFlags, outPoly, center, radius,
+        if (BgCheck_SphVsFirstDynaPolyList(colCtx, xpFlags, outPoly, centre, radius,
                                            &colCtx->dyna.bgActors[bgId].dynaLookup.wall)) {
             return true;
         }
     }
     if ((bciFlags & BGCHECK_IGNORE_FLOOR) == 0) {
-        if (BgCheck_SphVsFirstDynaPolyList(colCtx, xpFlags, outPoly, center, radius,
+        if (BgCheck_SphVsFirstDynaPolyList(colCtx, xpFlags, outPoly, centre, radius,
                                            &colCtx->dyna.bgActors[bgId].dynaLookup.floor)) {
             return true;
         }
@@ -3825,12 +3825,12 @@ s32 BgCheck_SphVsFirstDynaPolyInBgActor(CollisionContext* colCtx, u16 xpFlags, C
 }
 
 /**
- * Gets first dyna poly intersecting sphere `center` `radius`
+ * Gets first dyna poly intersecting sphere `centre` `radius`
  * returns true if poly detected, else false
  * `outPoly` returns the first intersecting poly, while `outBgId` returns the BgActor index of that poly
  */
 s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, s32* outBgId,
-                               Vec3f* center, f32 radius, Actor* actor, u16 bciFlags) {
+                               Vec3f* centre, f32 radius, Actor* actor, u16 bciFlags) {
     s32 i = 0;
     Sphere16 testSphere;
 
@@ -3841,14 +3841,14 @@ s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionP
         if (colCtx->dyna.bgActors[i].actor == actor) {
             continue;
         }
-        testSphere.center.x = center->x;
-        testSphere.center.y = center->y;
-        testSphere.center.z = center->z;
+        testSphere.centre.x = centre->x;
+        testSphere.centre.y = centre->y;
+        testSphere.centre.z = centre->z;
         testSphere.radius = radius;
         if (!Math3D_SphVsSph(&testSphere, &colCtx->dyna.bgActors[i].boundingSphere)) {
             continue;
         }
-        if (BgCheck_SphVsFirstDynaPolyInBgActor(colCtx, xpFlags, outPoly, center, radius, i, bciFlags)) {
+        if (BgCheck_SphVsFirstDynaPolyInBgActor(colCtx, xpFlags, outPoly, centre, radius, i, bciFlags)) {
             return true;
         }
     }

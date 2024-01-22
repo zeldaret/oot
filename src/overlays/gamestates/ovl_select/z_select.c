@@ -116,7 +116,7 @@ static SceneSelectEntry sScenes[] = {
     // "44: Link's House"
     { "44:" GFXP_HIRAGANA "ﾘﾝｸﾉｲｴ", MapSelect_LoadGame, ENTR_LINKS_HOUSE_0 },
     // "45: Kakariko Village Row House"
-    { "45:" GFXP_KATAKANA "ｶｶﾘｺ" GFXP_HIRAGANA "ﾑﾗﾉﾅｶﾞﾔ", MapSelect_LoadGame, ENTR_KAKARIKO_CENTER_GUEST_HOUSE_0 },
+    { "45:" GFXP_KATAKANA "ｶｶﾘｺ" GFXP_HIRAGANA "ﾑﾗﾉﾅｶﾞﾔ", MapSelect_LoadGame, ENTR_KAKARIKO_CENTRE_GUEST_HOUSE_0 },
     // "46: Back Alley House"
     { "46:" GFXP_HIRAGANA "ｳﾗﾛｼﾞﾉ ｲｴ", MapSelect_LoadGame, ENTR_BACK_ALLEY_HOUSE_0 },
     // "47: Kokiri Village - Know-It-All Brothers' House"

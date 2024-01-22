@@ -423,9 +423,9 @@ static FishingEffect sEffects[FISHING_EFFECT_COUNT];
 static Vec3f sStreamSfxProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
-    collider->elements[index].dim.worldSphere.center.x = pos->x;
-    collider->elements[index].dim.worldSphere.center.y = pos->y;
-    collider->elements[index].dim.worldSphere.center.z = pos->z;
+    collider->elements[index].dim.worldSphere.centre.x = pos->x;
+    collider->elements[index].dim.worldSphere.centre.y = pos->y;
+    collider->elements[index].dim.worldSphere.centre.z = pos->z;
     collider->elements[index].dim.worldSphere.radius =
         collider->elements[index].dim.modelSphere.radius * collider->elements[index].dim.scale * scale * 1.6f;
 }

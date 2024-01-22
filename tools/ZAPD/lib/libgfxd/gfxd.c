@@ -184,7 +184,7 @@ TLOCAL struct gfxd_config config =
 
 	.stop_on_invalid = 1,
 	.stop_on_end = 1,
-	.emit_dec_color = 0,
+	.emit_dec_colour = 0,
 	.emit_q_macro = 0,
 	.emit_ext_macro = 0,
 
@@ -648,8 +648,8 @@ void gfxd_enable(int cap)
 			config.stop_on_end = 1;
 			break;
 
-		case gfxd_emit_dec_color:
-			config.emit_dec_color = 1;
+		case gfxd_emit_dec_colour:
+			config.emit_dec_colour = 1;
 			break;
 
 		case gfxd_emit_q_macro:
@@ -674,8 +674,8 @@ void gfxd_disable(int cap)
 			config.stop_on_end = 0;
 			return;
 
-		case gfxd_emit_dec_color:
-			config.emit_dec_color = 0;
+		case gfxd_emit_dec_colour:
+			config.emit_dec_colour = 0;
 			break;
 
 		case gfxd_emit_q_macro:

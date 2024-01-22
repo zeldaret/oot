@@ -637,18 +637,18 @@ void BossGoma_SetupEncounterState4(BossGoma* this, PlayState* play) {
                      ANIMMODE_ONCE, 0.0f);
     this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaEyeRollAnim);
 
-    // room center (todo: defines for hardcoded positions relative to room center)
+    // room centre (todo: defines for hardcoded positions relative to room centre)
     this->actor.world.pos.x = -150.0f;
     this->actor.world.pos.z = -350.0f;
 
-    // room entrance, towards center
+    // room entrance, towards centre
     player->actor.world.pos.x = 150.0f;
     player->actor.world.pos.z = 300.0f;
 
     player->actor.world.rot.y = player->actor.shape.rot.y = -0x705C;
     this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) + 0x8000;
 
-    // room entrance, closer to room center
+    // room entrance, closer to room centre
     this->subCamEye.x = 90.0f;
     this->subCamEye.z = 170.0f;
     this->subCamEye.y = mainCam->eye.y + 20.0f;
@@ -699,14 +699,14 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
             this->actionState = 2;
-            // ceiling center
+            // ceiling centre
             this->actor.world.pos.x = -150.0f;
             this->actor.world.pos.y = -320.0f;
             this->actor.world.pos.z = -350.0f;
             // room entrance
             player->actor.world.pos.x = 150.0f;
             player->actor.world.pos.z = 300.0f;
-            // near ceiling center
+            // near ceiling centre
             this->subCamEye.x = -350.0f;
             this->subCamEye.y = -310.0f;
             this->subCamEye.z = -350.0f;
@@ -719,8 +719,8 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             this->frameCount = 0;
             this->actor.flags &= ~ACTOR_FLAG_0;
             FALLTHROUGH;
-        case 2: // zoom on player from room center
-            // room entrance, towards center
+        case 2: // zoom on player from room centre
+            // room entrance, towards centre
             player->actor.shape.rot.y = -0x705C;
             player->actor.world.pos.x = 150.0f;
             player->actor.world.pos.z = 300.0f;
@@ -728,7 +728,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             player->actor.speed = 0.0f;
 
             if (this->framesUntilNextAction == 0) {
-                // (-20, 25, -65) is towards room center
+                // (-20, 25, -65) is towards room centre
                 Math_ApproachF(&this->subCamEye.x, player->actor.world.pos.x - 20.0f, 0.049999997f,
                                this->subCamFollowSpeed * 50.0f);
                 Math_ApproachF(&this->subCamEye.y, player->actor.world.pos.y + 25.0f, 0.099999994f,
@@ -985,8 +985,8 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
     s16 j;
     Vec3f vel1 = { 0.0f, 0.0f, 0.0f };
     Vec3f accel1 = { 0.0f, 1.0f, 0.0f };
-    Color_RGBA8 color1 = { 255, 255, 255, 255 };
-    Color_RGBA8 color2 = { 0, 100, 255, 255 };
+    Color_RGBA8 colour1 = { 255, 255, 255, 255 };
+    Color_RGBA8 colour2 = { 0, 100, 255, 255 };
     Vec3f vel2 = { 0.0f, 0.0f, 0.0f };
     Vec3f accel2 = { 0.0f, -0.5f, 0.0f };
     Vec3f pos;
@@ -1033,7 +1033,7 @@ void BossGoma_Defeated(BossGoma* this, PlayState* play) {
                 pos.x = Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].x;
                 pos.y = Rand_CenteredFloat(10.0f) + this->defeatedLimbPositions[j].y;
                 pos.z = Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].z;
-                func_8002836C(play, &pos, &vel1, &accel1, &color1, &color2, 500, 10, 10);
+                func_8002836C(play, &pos, &vel1, &accel1, &colour1, &colour2, 500, 10, 10);
             }
         }
 
@@ -1382,7 +1382,7 @@ void BossGoma_FloorLandStruckDown(BossGoma* this, PlayState* play) {
 
 /**
  * Gohma is back on the floor after the player has killed its children Gohmas.
- * Plays an animation then goes to usual floor behavior, with refilled patience.
+ * Plays an animation then goes to usual floor behaviour, with refilled patience.
  */
 void BossGoma_FloorLand(BossGoma* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
@@ -1670,7 +1670,7 @@ void BossGoma_WallClimb(BossGoma* this, PlayState* play) {
 }
 
 /**
- * Goes to BossGoma_CeilingIdle after enough time and after being close enough to the center of the ceiling.
+ * Goes to BossGoma_CeilingIdle after enough time and after being close enough to the centre of the ceiling.
  */
 void BossGoma_CeilingMoveToCenter(BossGoma* this, PlayState* play) {
     s16 angle;
@@ -1854,11 +1854,11 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
 }
 
 void BossGoma_UpdateMainEnvColor(BossGoma* this) {
-    static f32 colors1[][3] = {
+    static f32 colours1[][3] = {
         { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
         { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f },
     };
-    static f32 colors2[][3] = {
+    static f32 colours2[][3] = {
         { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
         { 0.0f, 255.0f, 170.0f }, { 0.0f, 0.0f, 255.0f },   { 255.0f, 17.0f, 0.0f },
     };
@@ -1869,18 +1869,18 @@ void BossGoma_UpdateMainEnvColor(BossGoma* this) {
         Math_ApproachF(&this->mainEnvColor[2], 50.0f, 0.5f, 20.0f);
     } else if (this->invincibilityFrames != 0) {
         if (this->invincibilityFrames & 2) {
-            this->mainEnvColor[0] = colors2[this->visualState][0];
-            this->mainEnvColor[1] = colors2[this->visualState][1];
-            this->mainEnvColor[2] = colors2[this->visualState][2];
+            this->mainEnvColor[0] = colours2[this->visualState][0];
+            this->mainEnvColor[1] = colours2[this->visualState][1];
+            this->mainEnvColor[2] = colours2[this->visualState][2];
         } else {
-            this->mainEnvColor[0] = colors1[this->visualState][0];
-            this->mainEnvColor[1] = colors1[this->visualState][1];
-            this->mainEnvColor[2] = colors1[this->visualState][2];
+            this->mainEnvColor[0] = colours1[this->visualState][0];
+            this->mainEnvColor[1] = colours1[this->visualState][1];
+            this->mainEnvColor[2] = colours1[this->visualState][2];
         }
     } else {
-        Math_ApproachF(&this->mainEnvColor[0], colors1[this->visualState][0], 0.5f, 20.0f);
-        Math_ApproachF(&this->mainEnvColor[1], colors1[this->visualState][1], 0.5f, 20.0f);
-        Math_ApproachF(&this->mainEnvColor[2], colors1[this->visualState][2], 0.5f, 20.0f);
+        Math_ApproachF(&this->mainEnvColor[0], colours1[this->visualState][0], 0.5f, 20.0f);
+        Math_ApproachF(&this->mainEnvColor[1], colours1[this->visualState][1], 0.5f, 20.0f);
+        Math_ApproachF(&this->mainEnvColor[2], colours1[this->visualState][2], 0.5f, 20.0f);
     }
 }
 
@@ -2043,7 +2043,7 @@ s32 BossGoma_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
 void BossGoma_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f tailZero = { 0.0f, 0.0f, 0.0f };
     static Vec3f clawBackLocalPos = { 0.0f, 0.0f, 0.0f };
-    static Vec3f focusEyeLocalPos = { 0.0f, 300.0f, 2650.0f }; // in the center of the surface of the lens
+    static Vec3f focusEyeLocalPos = { 0.0f, 300.0f, 2650.0f }; // in the centre of the surface of the lens
     static Vec3f zero = { 0.0f, 0.0f, 0.0f };
     Vec3f childPos;
     Vec3s childRot;

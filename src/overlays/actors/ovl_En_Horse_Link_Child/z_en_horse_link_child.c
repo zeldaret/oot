@@ -581,19 +581,19 @@ void EnHorseLinkChild_Update(Actor* thisx, PlayState* play) {
 }
 
 void EnHorseLinkChild_PostDraw(Actor* thisx, PlayState* play, Skin* skin) {
-    Vec3f center;
+    Vec3f centre;
     Vec3f newCenter;
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
-        center.x = this->headCollider.elements[i].dim.modelSphere.center.x;
-        center.y = this->headCollider.elements[i].dim.modelSphere.center.y;
-        center.z = this->headCollider.elements[i].dim.modelSphere.center.z;
-        Skin_GetLimbPos(skin, this->headCollider.elements[i].dim.limb, &center, &newCenter);
-        this->headCollider.elements[i].dim.worldSphere.center.x = newCenter.x;
-        this->headCollider.elements[i].dim.worldSphere.center.y = newCenter.y;
-        this->headCollider.elements[i].dim.worldSphere.center.z = newCenter.z;
+        centre.x = this->headCollider.elements[i].dim.modelSphere.centre.x;
+        centre.y = this->headCollider.elements[i].dim.modelSphere.centre.y;
+        centre.z = this->headCollider.elements[i].dim.modelSphere.centre.z;
+        Skin_GetLimbPos(skin, this->headCollider.elements[i].dim.limb, &centre, &newCenter);
+        this->headCollider.elements[i].dim.worldSphere.centre.x = newCenter.x;
+        this->headCollider.elements[i].dim.worldSphere.centre.y = newCenter.y;
+        this->headCollider.elements[i].dim.worldSphere.centre.z = newCenter.z;
         this->headCollider.elements[i].dim.worldSphere.radius =
             this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }

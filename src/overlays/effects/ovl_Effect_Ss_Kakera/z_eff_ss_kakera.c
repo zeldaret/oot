@@ -70,7 +70,7 @@ u32 EffectSsKakera_Init(PlayState* play, u32 index, EffectSs* this, void* initPa
     this->rScale = initParams->scale;
     this->rReg8 = initParams->unk_30;
     this->rReg9 = initParams->unk_32;
-    this->rColorIdx = initParams->colorIdx;
+    this->rColorIdx = initParams->colourIdx;
 
     return 1;
 }
@@ -87,14 +87,14 @@ f32 func_809A9818(f32 arg0, f32 arg1) {
 }
 
 void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
-    static Color_RGB8 colors[] = { { 255, 255, 255 }, { 235, 170, 130 } };
+    static Color_RGB8 colours[] = { { 255, 255, 255 }, { 235, 170, 130 } };
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     s32 pad;
     f32 scale;
-    s32 colorIdx;
+    s32 colourIdx;
 
     scale = this->rScale / 256.0f;
-    colorIdx = this->rColorIdx;
+    colourIdx = this->rColorIdx;
 
     OPEN_DISPS(gfxCtx, "../z_eff_kakera.c", 241);
 
@@ -116,8 +116,8 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-        if (colorIdx >= 0) {
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b, 255);
+        if (colourIdx >= 0) {
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, colours[colourIdx].r, colours[colourIdx].g, colours[colourIdx].b, 255);
         }
 
         gSPDisplayList(POLY_XLU_DISP++, this->gfx);
@@ -126,8 +126,8 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-        if (colorIdx >= 0) {
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b, 255);
+        if (colourIdx >= 0) {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, colours[colourIdx].r, colours[colourIdx].g, colours[colourIdx].b, 255);
         }
 
         gSPDisplayList(POLY_OPA_DISP++, this->gfx);

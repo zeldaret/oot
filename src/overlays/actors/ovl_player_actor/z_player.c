@@ -4359,7 +4359,7 @@ s32 func_808382DC(Player* this, PlayState* play) {
             //! @bug The second set of conditions here seems intended as a way for Link to "block" hits by rolling.
             // However, `Collider.atFlags` is a byte so the flag check at the end is incorrect and cannot work.
             // Additionally, `Collider.atHit` can never be set while already colliding as AC, so it's also bugged.
-            // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
+            // This behaviour was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
             if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
                          (this->cylinder.elem.atHit != NULL) && (this->cylinder.elem.atHit->atFlags & 0x20000000))) {
 
@@ -5824,7 +5824,7 @@ s32 Player_ActionChange_10(Player* this, PlayState* play) {
     s32 sp2C;
 
     if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
-        (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (sFloorType != FLOOR_TYPE_7) &&
+        (play->roomCtx.curRoom.behaviourType1 != ROOM_BEHAVIOUR_TYPE1_2) && (sFloorType != FLOOR_TYPE_7) &&
         (SurfaceType_GetFloorEffect(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != FLOOR_EFFECT_1)) {
         sp2C = this->unk_84B[this->unk_846];
 
@@ -6013,7 +6013,7 @@ s32 Player_ActionChange_8(Player* this, PlayState* play) {
 }
 
 s32 func_8083C61C(PlayState* play, Player* this) {
-    if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
+    if ((play->roomCtx.curRoom.behaviourType1 != ROOM_BEHAVIOUR_TYPE1_2) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (AMMO(ITEM_DEKU_NUT) != 0)) {
         Player_SetupAction(play, this, Player_Action_8084E604, 0);
         Player_AnimPlayOnce(play, this, &gPlayerAnim_link_normal_light_bom);
@@ -7583,7 +7583,7 @@ void func_808409CC(PlayState* play, Player* this) {
         if (this->stateFlags1 & PLAYER_STATE1_11) {
             anim = func_80833338(this);
         } else {
-            sp38 = play->roomCtx.curRoom.behaviorType2;
+            sp38 = play->roomCtx.curRoom.behaviourType2;
             if (heathIsCritical) {
                 if (this->unk_6AC >= 0) {
                     sp38 = 7;
@@ -8744,7 +8744,7 @@ static AnimSfxEntry D_808545F0[] = {
 
 void Player_Action_80843CEC(Player* this, PlayState* play) {
     if (this->currentTunic != PLAYER_TUNIC_GORON) {
-        if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) || (sFloorType == FLOOR_TYPE_9) ||
+        if ((play->roomCtx.curRoom.behaviourType2 == ROOM_BEHAVIOUR_TYPE2_3) || (sFloorType == FLOOR_TYPE_9) ||
             ((func_80838144(sFloorType) >= 0) &&
              !func_80042108(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId))) {
             func_8083821C(this);
@@ -10215,10 +10215,10 @@ void func_808473D4(PlayState* play, Player* this) {
                     if ((!(this->stateFlags1 & PLAYER_STATE1_14) && (sp20 <= 0) &&
                          (func_8008E9C4(this) ||
                           ((sFloorType != FLOOR_TYPE_7) &&
-                           (func_80833B2C(this) || ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
+                           (func_80833B2C(this) || ((play->roomCtx.curRoom.behaviourType1 != ROOM_BEHAVIOUR_TYPE1_2) &&
                                                     !(this->stateFlags1 & PLAYER_STATE1_22) && (sp20 == 0))))))) {
                         doAction = DO_ACTION_ATTACK;
-                    } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && func_80833BCC(this) &&
+                    } else if ((play->roomCtx.curRoom.behaviourType1 != ROOM_BEHAVIOUR_TYPE1_2) && func_80833BCC(this) &&
                                (sp20 > 0)) {
                         doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemAction >= PLAYER_IA_SWORD_MASTER) ||

@@ -84,17 +84,17 @@
 #define CAM_INTERFACE_FIELD(letterboxFlag, hudVisibilityMode, funcFlags) \
     (((letterboxFlag) & CAM_LETTERBOX_MASK) | CAM_HUD_VISIBILITY(hudVisibilityMode) | ((funcFlags) & 0xFF))
 
-// Camera behaviorFlags. Flags specifically for settings, modes, and bgCam. Reset every frame.
-// Used to store current state, only CAM_BEHAVIOR_SETTING_CHECK_PRIORITY and CAM_BEHAVIOR_BG_PROCESSED are read from and used in logic
+// Camera behaviourFlags. Flags specifically for settings, modes, and bgCam. Reset every frame.
+// Used to store current state, only CAM_BEHAVIOUR_SETTING_CHECK_PRIORITY and CAM_BEHAVIOUR_BG_PROCESSED are read from and used in logic
 // Setting (0x1, 0x10)
-#define CAM_BEHAVIOR_SETTING_CHECK_PRIORITY (1 << 0)
-#define CAM_BEHAVIOR_SETTING_VALID (1 << 4) // Set when a valid camera setting is requested
+#define CAM_BEHAVIOUR_SETTING_CHECK_PRIORITY (1 << 0)
+#define CAM_BEHAVIOUR_SETTING_VALID (1 << 4) // Set when a valid camera setting is requested
 // Mode (0x2, 0x20)
-#define CAM_BEHAVIOR_MODE_SUCCESS (1 << 1) // Set when the camera mode is the requested mode
-#define CAM_BEHAVIOR_MODE_VALID (1 << 5) // Set when a valid camera mode is requested
+#define CAM_BEHAVIOUR_MODE_SUCCESS (1 << 1) // Set when the camera mode is the requested mode
+#define CAM_BEHAVIOUR_MODE_VALID (1 << 5) // Set when a valid camera mode is requested
 // bgCam (0x4, 0x40)
-#define CAM_BEHAVIOR_BG_SUCCESS (1 << 2)
-#define CAM_BEHAVIOR_BG_PROCESSED (1 << 6)
+#define CAM_BEHAVIOUR_BG_SUCCESS (1 << 2)
+#define CAM_BEHAVIOUR_BG_PROCESSED (1 << 6)
 
 // Camera stateFlags. Variety of generic flags
 #define CAM_STATE_CHECK_BG_ALT (1 << 0) // Must be set for the camera to change settings based on the bg surface
@@ -1601,7 +1601,7 @@ typedef struct Camera {
     /* 0x144 */ s16 mode;
     /* 0x146 */ s16 bgId; // bgId the camera is currently interacting with
     /* 0x148 */ s16 bgCamIndex;
-    /* 0x14A */ s16 behaviorFlags; // includes flags on settings, modes, bgCam. All related to camera update behaviour
+    /* 0x14A */ s16 behaviourFlags; // includes flags on settings, modes, bgCam. All related to camera update behaviour
     /* 0x14C */ s16 stateFlags;
     /* 0x14E */ s16 childCamId;
     /* 0x150 */ s16 waterDistortionTimer;

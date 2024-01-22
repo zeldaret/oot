@@ -17,9 +17,9 @@
 #define VT_COLOR_BACKGROUND  4
 // clang-format on
 
-#define VT_COLOR_EXPAND0(type, color) #type #color
-#define VT_COLOR_EXPAND1(type, color) VT_COLOR_EXPAND0(type, color)
-#define VT_COLOR(type, color) VT_COLOR_EXPAND1(VT_COLOR_##type, VT_COLOR_##color)
+#define VT_COLOR_EXPAND0(type, colour) #type #colour
+#define VT_COLOR_EXPAND1(type, colour) VT_COLOR_EXPAND0(type, colour)
+#define VT_COLOR(type, colour) VT_COLOR_EXPAND1(VT_COLOR_##type, VT_COLOR_##colour)
 
 #define VT_ESC "\x1b"
 #define VT_CSI "["
@@ -29,15 +29,15 @@
 
 // Add more macros if necessary
 #define VT_COL(back, fore) VT_SGR(VT_COLOR(BACKGROUND, back) ";" VT_COLOR(FOREGROUND, fore))
-#define VT_FGCOL(color) VT_SGR(VT_COLOR(FOREGROUND, color))
-#define VT_BGCOL(color) VT_SGR(VT_COLOR(BACKGROUND, color))
+#define VT_FGCOL(colour) VT_SGR(VT_COLOR(FOREGROUND, colour))
+#define VT_BGCOL(colour) VT_SGR(VT_COLOR(BACKGROUND, colour))
 
 // Bold
 #define VT_BOLD "1"
 
-// Bold color support
-#define VT_BOLD_FGCOL(color) VT_SGR(VT_BOLD ";" VT_COLOR(FOREGROUND, color))
-#define VT_BOLD_BGCOL(color) VT_SGR(VT_BOLD ";" VT_COLOR(BACKGROUND, color))
+// Bold colour support
+#define VT_BOLD_FGCOL(colour) VT_SGR(VT_BOLD ";" VT_COLOR(FOREGROUND, colour))
+#define VT_BOLD_BGCOL(colour) VT_SGR(VT_BOLD ";" VT_COLOR(BACKGROUND, colour))
 
 #define VT_RST VT_SGR("")
 #define VT_CLS VT_ED(2)

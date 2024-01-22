@@ -118,9 +118,9 @@ void MirRay_SetupCollider(MirRay* this) {
     colliderOffset.x = (this->poolPt.x - this->sourcePt.x) * dataEntry->unk_10;
     colliderOffset.y = (this->poolPt.y - this->sourcePt.y) * dataEntry->unk_10;
     colliderOffset.z = (this->poolPt.z - this->sourcePt.z) * dataEntry->unk_10;
-    this->colliderSph.elements[0].dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
-    this->colliderSph.elements[0].dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
-    this->colliderSph.elements[0].dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
+    this->colliderSph.elements[0].dim.worldSphere.centre.x = colliderOffset.x + this->sourcePt.x;
+    this->colliderSph.elements[0].dim.worldSphere.centre.y = colliderOffset.y + this->sourcePt.y;
+    this->colliderSph.elements[0].dim.worldSphere.centre.z = colliderOffset.z + this->sourcePt.z;
     this->colliderSph.elements[0].dim.worldSphere.radius = dataEntry->unk_14 * this->colliderSph.elements->dim.scale;
 }
 
@@ -148,12 +148,12 @@ void MirRay_MakeShieldLight(MirRay* this, PlayState* play) {
 
         // Fade up
         Math_StepToS(&this->lightPointRad, dataEntry->lgtPtMaxRad, 6);
-        Lights_PointNoGlowSetInfo(&this->lightInfo, lightPt.x, lightPt.y, lightPt.z, dataEntry->color.r,
-                                  dataEntry->color.g, dataEntry->color.b, this->lightPointRad);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, lightPt.x, lightPt.y, lightPt.z, dataEntry->colour.r,
+                                  dataEntry->colour.g, dataEntry->colour.b, this->lightPointRad);
     } else {
         // Fade down
         Math_StepToS(&this->lightPointRad, 0, 6);
-        Lights_PointSetColorAndRadius(&this->lightInfo, dataEntry->color.r, dataEntry->color.g, dataEntry->color.b,
+        Lights_PointSetColorAndRadius(&this->lightInfo, dataEntry->colour.r, dataEntry->colour.g, dataEntry->colour.b,
                                       this->lightPointRad);
     }
 }

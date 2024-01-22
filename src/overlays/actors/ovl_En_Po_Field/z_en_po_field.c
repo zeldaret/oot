@@ -673,8 +673,8 @@ void func_80AD58D4(EnPoField* this, PlayState* play) {
     this->collider.dim.pos.y = this->actor.world.pos.y - 20.0f;
     Actor_SetFocus(&this->actor, -10.0f);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
-                              this->actor.world.pos.z, this->lightInfo.params.point.color[0],
-                              this->lightInfo.params.point.color[1], this->lightInfo.params.point.color[2],
+                              this->actor.world.pos.z, this->lightInfo.params.point.colour[0],
+                              this->lightInfo.params.point.colour[1], this->lightInfo.params.point.colour[2],
                               this->lightColor.a * (200.0f / 255));
 }
 
@@ -808,7 +808,7 @@ void func_80AD619C(EnPoField* this) {
         temp_var = this->lightColor.b + 5;
         this->lightColor.b = CLAMP_MAX(temp_var, 225);
     } else if (this->actionFunc == EnPoField_Damage) {
-        if (this->actor.colorFilterTimer & 2) {
+        if (this->actor.colourFilterTimer & 2) {
             this->lightColor.r = 0;
             this->lightColor.g = 0;
             this->lightColor.b = 0;

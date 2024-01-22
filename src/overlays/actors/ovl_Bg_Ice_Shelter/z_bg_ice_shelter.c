@@ -222,7 +222,7 @@ static s16 sSteamLinePositions[] = { 0x0000, 0x003C, 0x0018, 0x0054, 0x0030, 0x0
  * Spawns steam particle effects in a circle around the ice block.
  *
  * On each frame the function is called, two particles have a chance to appear, at the same distance and opposite
- * sides from the center.
+ * sides from the centre.
  */
 void BgIceShelter_SpawnSteamAround(BgIceShelter* this, PlayState* play, f32 particleSpawningChance,
                                    f32 steamEffectScale) {

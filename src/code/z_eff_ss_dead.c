@@ -1,6 +1,6 @@
 #include "global.h"
 
-void func_80026230(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
+void func_80026230(PlayState* play, Color_RGBA8* colour, s16 arg2, s16 arg3) {
     f32 cos;
     Gfx* displayListHead;
     f32 absCos;
@@ -13,10 +13,10 @@ void func_80026230(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
 
     gDPPipeSync(displayListHead++);
 
-    if (color == NULL) {
+    if (colour == NULL) {
         gDPSetFogColor(displayListHead++, 255, 0, 0, 0);
     } else {
-        gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
+        gDPSetFogColor(displayListHead++, colour->r, colour->g, colour->b, colour->a);
     }
 
     gSPFogPosition(displayListHead++, 0, (s16)(absCos * 3000.0f) + 1500);
@@ -28,7 +28,7 @@ void func_80026230(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 129);
 }
 
-void func_80026400(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
+void func_80026400(PlayState* play, Color_RGBA8* colour, s16 arg2, s16 arg3) {
     Gfx* displayListHead;
     f32 cos;
 
@@ -39,7 +39,7 @@ void func_80026400(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
         displayListHead = POLY_OPA_DISP;
 
         gDPPipeSync(displayListHead++);
-        gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
+        gDPSetFogColor(displayListHead++, colour->r, colour->g, colour->b, colour->a);
         gSPFogPosition(displayListHead++, 0, (s16)(2800.0f * ABS(cos)) + 1700);
 
         POLY_OPA_DISP = displayListHead;
@@ -61,7 +61,7 @@ void func_80026608(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 164);
 }
 
-void func_80026690(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
+void func_80026690(PlayState* play, Color_RGBA8* colour, s16 arg2, s16 arg3) {
     f32 cos;
     Gfx* displayListHead;
     f32 absCos;
@@ -74,10 +74,10 @@ void func_80026690(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
 
     gDPPipeSync(displayListHead++);
 
-    if (color == NULL) {
+    if (colour == NULL) {
         gDPSetFogColor(displayListHead++, 255, 0, 0, 0);
     } else {
-        gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
+        gDPSetFogColor(displayListHead++, colour->r, colour->g, colour->b, colour->a);
     }
 
     gSPFogPosition(displayListHead++, 0, (s16)(absCos * 3000.0f) + 1500);
@@ -89,7 +89,7 @@ void func_80026690(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_eff_ss_dead.c", 194);
 }
 
-void func_80026860(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
+void func_80026860(PlayState* play, Color_RGBA8* colour, s16 arg2, s16 arg3) {
     f32 cos;
     Gfx* displayListHead;
 
@@ -99,7 +99,7 @@ void func_80026860(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3) {
     cos = Math_CosS((0x4000 / arg3) * arg2);
 
     gDPPipeSync(displayListHead++);
-    gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
+    gDPSetFogColor(displayListHead++, colour->r, colour->g, colour->b, colour->a);
     gSPFogPosition(displayListHead++, 0, (s16)(2800.0f * ABS(cos)) + 1700);
 
     POLY_XLU_DISP = displayListHead;

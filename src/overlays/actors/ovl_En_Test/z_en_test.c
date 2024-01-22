@@ -1318,7 +1318,7 @@ void EnTest_Stunned(EnTest* this, PlayState* play) {
 
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
 
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         if (this->actor.colChkInfo.health == 0) {
             func_80862FA8(this, play);
         } else if (player->meleeWeaponState != 0) {
@@ -1537,7 +1537,7 @@ void func_80862FA8(EnTest* this, PlayState* play) {
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7DE = 0;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actor.colorFilterTimer = 0;
+    this->actor.colourFilterTimer = 0;
     this->actor.speed = 0.0f;
 
     if (this->actor.params <= STALFOS_TYPE_CEILING) {
@@ -1565,7 +1565,7 @@ void func_808630F0(EnTest* this, PlayState* play) {
     Animation_PlayOnce(&this->skelAnime, &gStalfosFallOverForwardsAnim);
     Actor_PlaySfx(&this->actor, NA_SE_EN_STAL_DEAD);
     this->unk_7C8 = 6;
-    this->actor.colorFilterTimer = 0;
+    this->actor.colourFilterTimer = 0;
     this->unk_7DE = 0;
     this->actor.speed = 0.0f;
 
@@ -1772,7 +1772,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
                 break;
         }
 
-        if ((this->actor.colorFilterTimer == 0) && (this->actor.colChkInfo.health != 0)) {
+        if ((this->actor.colourFilterTimer == 0) && (this->actor.colChkInfo.health != 0)) {
             if ((this->unk_7C8 != 0x10) && (this->unk_7C8 != 0x17)) {
                 EnTest_UpdateHeadRot(this, play);
             } else {
@@ -1786,11 +1786,11 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 45.0f;
 
-    if ((this->actor.colChkInfo.health > 0) || (this->actor.colorFilterTimer != 0)) {
+    if ((this->actor.colChkInfo.health > 0) || (this->actor.colourFilterTimer != 0)) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
 
         if ((this->unk_7C8 >= 0xA) &&
-            ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
+            ((this->actor.colourFilterTimer == 0) || !(this->actor.colourFilterParams & 0x4000))) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
         }
 
@@ -1960,7 +1960,7 @@ void EnTest_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (this->iceTimer != 0) {
-        thisx->colorFilterTimer++;
+        thisx->colourFilterTimer++;
         this->iceTimer--;
 
         if ((this->iceTimer % 4) == 0) {

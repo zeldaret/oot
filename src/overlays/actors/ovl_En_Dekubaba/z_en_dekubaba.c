@@ -305,9 +305,9 @@ void EnDekubaba_SetupWait(EnDekubaba* this) {
 
     for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
         element = &this->collider.elements[i];
-        element->dim.worldSphere.center.x = this->actor.world.pos.x;
-        element->dim.worldSphere.center.y = (s16)this->actor.world.pos.y - 7;
-        element->dim.worldSphere.center.z = this->actor.world.pos.z;
+        element->dim.worldSphere.centre.x = this->actor.world.pos.x;
+        element->dim.worldSphere.centre.y = (s16)this->actor.world.pos.y - 7;
+        element->dim.worldSphere.centre.z = this->actor.world.pos.z;
     }
 
     this->actionFunc = EnDekubaba_Wait;
@@ -1187,7 +1187,7 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, PlayState* play) {
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_Get(&mtx);
-    if (this->actor.colorFilterTimer != 0) {
+    if (this->actor.colourFilterTimer != 0) {
         spA4 = this->size * 20.0f;
         this->bodyPartsPos[2].x = this->actor.world.pos.x;
         this->bodyPartsPos[2].y = this->actor.world.pos.y - spA4;
@@ -1222,8 +1222,8 @@ void EnDekubaba_DrawStemExtended(EnDekubaba* this, PlayState* play) {
             }
         }
 
-        if ((i < 2) && (this->actor.colorFilterTimer != 0)) {
-            // checking colorFilterTimer ensures that spA4 has been initialized earlier, so not a bug
+        if ((i < 2) && (this->actor.colourFilterTimer != 0)) {
+            // checking colourFilterTimer ensures that spA4 has been initialized earlier, so not a bug
             this->bodyPartsPos[i].x = mtx.xw;
             this->bodyPartsPos[i].y = mtx.yw - spA4;
             this->bodyPartsPos[i].z = mtx.zw;

@@ -1328,8 +1328,8 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
 }
 
 /**
- * Sets the Jewel color based on the alpha variable.
- * This function if a value of less than 1.0f is supplied will drain the color from the Jewels.
+ * Sets the Jewel colour based on the alpha variable.
+ * This function if a value of less than 1.0f is supplied will drain the colour from the Jewels.
  * This effect can be seen in prerelease screenshots.
  */
 void DemoEffect_SetJewelColor(DemoEffect* this, f32 alpha) {
@@ -1506,7 +1506,7 @@ void DemoEffect_PlayJewelSfx(DemoEffect* this, PlayState* play) {
  * Update Function for the Jewel Actor that is run when Link is an adult.
  * This rotates the Jewel and updates a timer that is used to scroll Jewel textures.
  * There is a call SetJewelColor that does nothing since 1.0f is passed.
- * If a value of less than 1.0f were passed to SetJewelColor, then it would appear to drain the Jewel's color.
+ * If a value of less than 1.0f were passed to SetJewelColor, then it would appear to drain the Jewel's colour.
  * This can be seen in preprelease screenshots.
  */
 void DemoEffect_UpdateJewelAdult(DemoEffect* this, PlayState* play) {
@@ -1748,7 +1748,7 @@ void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play) {
 }
 
 /**
- * This draws either Din, Nayru, or Farore based on the colors set in the DemoEffect struct.
+ * This draws either Din, Nayru, or Farore based on the colours set in the DemoEffect struct.
  */
 void DemoEffect_DrawGodLgt(Actor* thisx, PlayState* play) {
     DemoEffect* this = (DemoEffect*)thisx;

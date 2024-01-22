@@ -15,7 +15,7 @@
 #define rEnvColorG regs[5]
 #define rEnvColorB regs[6]
 #define rEnvColorA regs[7]
-#define rTexIndex regs[8] // this reg is also used to set specific colors in the fire update function
+#define rTexIndex regs[8] // this reg is also used to set specific colours in the fire update function
 #define rScale regs[9]
 #define rScaleStep regs[10]
 #define rDrawFlags regs[11]

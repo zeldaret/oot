@@ -1012,7 +1012,7 @@ void func_80093C80(PlayState* play) {
 
     Gfx_SetupDL_25Opa(gfxCtx);
 
-    if (play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_3) {
+    if (play->roomCtx.curRoom.behaviourType1 == ROOM_BEHAVIOUR_TYPE1_3) {
         OPEN_DISPS(gfxCtx, "../z_rcp.c", 1460);
 
         gDPSetColorDither(POLY_OPA_DISP++, G_CD_DISABLE);
@@ -1442,8 +1442,8 @@ Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a) {
  * Sets up the frame for drawing.
  * Initializes the scissor region to full screen.
  * Set up the framebuffer and z-buffer.
- * The whole screen is filled with the color supplied as arguments.
- * Letterbox is also applied here, and will share the color of the screen base.
+ * The whole screen is filled with the colour supplied as arguments.
+ * Letterbox is also applied here, and will share the colour of the screen base.
  */
 void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2386);
@@ -1524,7 +1524,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
         gDPFillRectangle(POLY_OPA_DISP++, 0, letterboxSize, gScreenWidth - 1, gScreenHeight - letterboxSize - 1);
         gDPPipeSync(POLY_OPA_DISP++);
 
-        // Fill the whole screen with the base color
+        // Fill the whole screen with the base colour
         // Don't bother with pixels that are being covered by the letterbox
         gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
         gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
@@ -1533,7 +1533,7 @@ void Gfx_SetupFrame(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
         gDPFillRectangle(POLY_OPA_DISP++, 0, letterboxSize, gScreenWidth - 1, gScreenHeight - letterboxSize - 1);
         gDPPipeSync(POLY_OPA_DISP++);
 
-        // Draw the letterbox if applicable (uses the same color as the screen base)
+        // Draw the letterbox if applicable (uses the same colour as the screen base)
         if (letterboxSize > 0) {
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCycleType(OVERLAY_DISP++, G_CYC_FILL);

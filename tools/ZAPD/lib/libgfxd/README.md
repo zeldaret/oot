@@ -181,7 +181,7 @@ parameters.
 ##### `typedef int gfxd_tlut_fn_t(uint32_t tlut, int32_t idx, int32_t count)`
 ##### `void gfxd_tlut_callback(gfxd_tlut_fn_t *fn)`
 Set the callback function for palette arguments. The argument type is
-`gfxd_Tlut`. The palette index is in `idx` and the number of colors in `count`.
+`gfxd_Tlut`. The palette index is in `idx` and the number of colours in `count`.
 
 ---
 
@@ -314,7 +314,7 @@ Enable or disable the feature specified by `cap`. Can be one of the following;
 Enabled by default.
 - `gfxd_stop_on_end`: Stop execution when encountering a `SPBranchList` or
 `SPEndDisplayList`. Enabled by default.
-- `gfxd_emit_dec_color`: Print color components as decimal instead of
+- `gfxd_emit_dec_colour`: Print colour components as decimal instead of
 hexadecimal. Disabled by default.
 - `gfxd_emit_q_macro`: Print fixed-point conversion `q` macros for fixed-point
 values. Disabled by default.
@@ -352,7 +352,7 @@ handler is returned. Otherwise zero is returned.
 ## Macro information
 The following functions can be used to obtain information about the current
 macro and its arguments. They should only be used in custom handlers and
-callbacks from within `gfxd_execute`. If used elsewhere, their behavior is
+callbacks from within `gfxd_execute`. If used elsewhere, their behaviour is
 undefined.
 
 ---

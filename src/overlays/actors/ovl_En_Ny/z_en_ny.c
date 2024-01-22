@@ -555,7 +555,7 @@ void EnNy_Draw(Actor* thisx, PlayState* play) {
         s16 temp;
 
         temp = this->unk_1CA - 1;
-        this->actor.colorFilterTimer++;
+        this->actor.colourFilterTimer++;
         if (temp == 0) {
             fireOffset = &sFireOffsets[temp & 3];
             tempVec.x = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.x + fireOffset->x);
@@ -595,7 +595,7 @@ void EnNy_DrawDeathEffect(Actor* thisx, PlayState* play) {
         s16 fireOffsetIndex;
 
         fireOffsetIndex = this->unk_1CA - 1;
-        this->actor.colorFilterTimer++;
+        this->actor.colourFilterTimer++;
         if ((fireOffsetIndex & 1) == 0) {
             fireOffset = &sFireOffsets[fireOffsetIndex & 3];
             tempVec.x = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.x + fireOffset->x);

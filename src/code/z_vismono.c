@@ -3,31 +3,31 @@
  *
  * This file implements a full-screen framebuffer effect for desaturating the contents of the framebuffer image.
  *
- * Broadly, this effect is achieved by reinterpreting the contents of the RGBA16 color image as indices into an IA16
- * color palette that converts each color into the desaturated equivalent. More precise details can be found in inline
+ * Broadly, this effect is achieved by reinterpreting the contents of the RGBA16 colour image as indices into an IA16
+ * colour palette that converts each colour into the desaturated equivalent. More precise details can be found in inline
  * comments.
  */
 
 #include "global.h"
 
-// Height of the fragments the color frame buffer (CFB) is split into.
+// Height of the fragments the colour frame buffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
-// the half of TMEM dedicated to color-indexed data.
+// the half of TMEM dedicated to colour-indexed data.
 #define VISMONO_CFBFRAG_HEIGHT ((TMEM_SIZE / 2) / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
 
 // Maximum size of the dlist written by `VisMono_DesaturateDList`.
 // `VisMono_DesaturateDList` consistently uses `VISMONO_DLSIZE - 2` double words, so this can be 2 less.
 #define VISMONO_DLSIZE (3 + SCREEN_HEIGHT / VISMONO_CFBFRAG_HEIGHT * (7 + 2 + 2 + 3) + 2 + 2)
 
-// How much each color component contributes to the desaturated result.
-// These coefficients are close to what the YUV color space defines Y (luminance) as:
+// How much each colour component contributes to the desaturated result.
+// These coefficients are close to what the YUV colour space defines Y (luminance) as:
 // https://en.wikipedia.org/wiki/YUV#Conversion_to/from_RGB
 #define VISMONO_FAC_RED 2
 #define VISMONO_FAC_GREEN 4
 #define VISMONO_FAC_BLUE 1
 #define VISMONO_FAC_NORM (0x1F * VISMONO_FAC_RED + 0x1F * VISMONO_FAC_GREEN + 0x1F * VISMONO_FAC_BLUE)
 
-// color framebuffer
+// colour framebuffer
 extern u16 D_0F000000[];
 
 void VisMono_Init(VisMono* this) {
@@ -52,8 +52,8 @@ void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
     s32 i;
 
     for (i = 0; i < 256; i++) {
-        // `tlut[i]` is a IA16 color
-        // `i` corresponds to either byte of a RGBA16 color RRRR_RGGG GGBB_BBBA from the color frame buffer
+        // `tlut[i]` is a IA16 colour
+        // `i` corresponds to either byte of a RGBA16 colour RRRR_RGGG GGBB_BBBA from the colour frame buffer
 
         // The high byte I (intensity) corresponds to `i` being interpreted as the high byte RRRR_RGGG
         // I = (RRRRR * FAC_RED + GGG00 * FAC_GREEN) * (255 / FAC_NORM)
@@ -75,19 +75,19 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     u16* cfbFrag = D_0F000000;
 
     gDPPipeSync(gfx++);
-    // `G_TT_IA16`: use color-indexed images, and IA16 palettes
+    // `G_TT_IA16`: use colour-indexed images, and IA16 palettes
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_IA16 | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_1PRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_CLD_SURF2);
-    // First color cycle sums texel 1 alpha and texel 0 color
-    // By using IA16 palettes, this means summing A (from the IA16 color texel 1 maps to)
-    // with I (from the IA16 color texel 0 maps to)
+    // First colour cycle sums texel 1 alpha and texel 0 colour
+    // By using IA16 palettes, this means summing A (from the IA16 colour texel 1 maps to)
+    // with I (from the IA16 colour texel 0 maps to)
     gDPSetCombineLERP(gfx++, 1, 0, TEXEL1_ALPHA, TEXEL0, 0, 0, 0, 1, PRIMITIVE, ENVIRONMENT, COMBINED, ENVIRONMENT, 0,
                       0, 0, PRIMITIVE);
 
     for (y = 0; y <= SCREEN_HEIGHT - height; y += height) {
-        // Load a few lines of the color frame buffer
+        // Load a few lines of the colour frame buffer
         gDPLoadTextureBlock(gfx++, cfbFrag, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2, height, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
@@ -115,17 +115,17 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
         // a pixel at S coordinates s = 2+2*n will look at the 2*n-th byte of texel 0 and the 2*n+1-th byte of texel 1.
         // (in "s = 2+2*n" the first "2" is the starting S coordinate and the second "2" is the dsdx value)
 
-        // The 2*n-th byte of texel 0 is the high byte of the n-th RGBA16 color of the color frame buffer.
-        // The 2*n+1-th byte of texel 1 is the low byte of the n-th RGBA16 color of the color frame buffer.
+        // The 2*n-th byte of texel 0 is the high byte of the n-th RGBA16 colour of the colour frame buffer.
+        // The 2*n+1-th byte of texel 1 is the low byte of the n-th RGBA16 colour of the colour frame buffer.
 
         // With the TLUT computed by `VisMono_DesaturateTLUT`:
-        // The 2*n-th byte of texel 0 maps to a IA16 color where the high byte I (intensity) corresponds to
-        // the high byte of the n-th RGBA16 color of the color frame buffer.
-        // The 2*n+1-th byte of texel 1 maps to a IA16 color where the low byte A (alpha) corresponds to
-        // the low byte of the n-th RGBA16 color of the color frame buffer.
+        // The 2*n-th byte of texel 0 maps to a IA16 colour where the high byte I (intensity) corresponds to
+        // the high byte of the n-th RGBA16 colour of the colour frame buffer.
+        // The 2*n+1-th byte of texel 1 maps to a IA16 colour where the low byte A (alpha) corresponds to
+        // the low byte of the n-th RGBA16 colour of the colour frame buffer.
 
-        // Since the combiner is in part set up to sum texel 0 color (I, intensity) with texel 1 alpha (A, alpha),
-        // the resulting color in the drawn rectangle is a desaturated color as defined by the `VISMONO_FAC_*` values.
+        // Since the combiner is in part set up to sum texel 0 colour (I, intensity) with texel 1 alpha (A, alpha),
+        // the resulting colour in the drawn rectangle is a desaturated colour as defined by the `VISMONO_FAC_*` values.
 
         gSPTextureRectangle(gfx++, 0, y << 2, SCREEN_WIDTH << 2, (y + height) << 2, G_TX_RENDERTILE, 2 << 5, 0, 2 << 10,
                             1 << 10);

@@ -153,9 +153,9 @@ void func_808B4C4C(BgSpot16Bombstone* this, PlayState* play) {
 
     Collider_InitJntSph(play, &this->colliderJntSph);
     Collider_SetJntSph(play, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderElements);
-    this->colliderJntSph.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
-    this->colliderJntSph.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y + 50.0f;
-    this->colliderJntSph.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
+    this->colliderJntSph.elements[0].dim.worldSphere.centre.x = this->actor.world.pos.x;
+    this->colliderJntSph.elements[0].dim.worldSphere.centre.y = this->actor.world.pos.y + 50.0f;
+    this->colliderJntSph.elements[0].dim.worldSphere.centre.z = this->actor.world.pos.z;
     this->colliderJntSph.elements[0].dim.worldSphere.radius = 120;
 }
 

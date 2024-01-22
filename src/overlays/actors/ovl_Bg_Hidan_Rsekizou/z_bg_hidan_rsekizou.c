@@ -170,11 +170,11 @@ void BgHidanRsekizou_Update(Actor* thisx, PlayState* play) {
 
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
         sphere = &this->collider.elements[i];
-        sphere->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.center.x +
-                                           yawSine * sphere->dim.modelSphere.center.z;
-        sphere->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + sphere->dim.modelSphere.center.y;
-        sphere->dim.worldSphere.center.z = (this->dyna.actor.home.pos.z - yawSine * sphere->dim.modelSphere.center.x) +
-                                           yawCosine * sphere->dim.modelSphere.center.z;
+        sphere->dim.worldSphere.centre.x = this->dyna.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.centre.x +
+                                           yawSine * sphere->dim.modelSphere.centre.z;
+        sphere->dim.worldSphere.centre.y = (s16)this->dyna.actor.home.pos.y + sphere->dim.modelSphere.centre.y;
+        sphere->dim.worldSphere.centre.z = (this->dyna.actor.home.pos.z - yawSine * sphere->dim.modelSphere.centre.x) +
+                                           yawCosine * sphere->dim.modelSphere.centre.z;
     }
 
     CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

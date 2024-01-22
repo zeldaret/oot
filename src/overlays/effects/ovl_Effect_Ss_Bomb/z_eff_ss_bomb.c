@@ -78,7 +78,7 @@ void EffectSsBomb_Draw(PlayState* play, u32 index, EffectSs* this) {
         intensity = this->life * ((f32)255 / EFFSSBOMB_LIFESPAN);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, intensity, intensity, intensity, intensity);
         gDPPipeSync(POLY_XLU_DISP++);
-        //! @bug env color is not set but used in gEffBombExplosion1DL
+        //! @bug env colour is not set but used in gEffBombExplosion1DL
         gSPDisplayList(POLY_XLU_DISP++, this->gfx);
         gDPPipeSync(POLY_XLU_DISP++);
     }

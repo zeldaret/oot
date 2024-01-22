@@ -239,11 +239,11 @@ void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f
     Animation_Change(&this->skelAnime, anim, playbackSpeed, startFrame, frameCount, mode, morphFrames);
 }
 
-Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8* color) {
+Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8* colour) {
     Gfx* dList;
 
     dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 2);
-    gDPSetEnvColor(dList, color[0], color[1], color[2], color[3]);
+    gDPSetEnvColor(dList, colour[0], colour[1], colour[2], colour[3]);
     gSPEndDisplayList(dList + 1);
 
     return dList;
@@ -275,7 +275,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 595);
 }
 
-void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gfx* arg3, u8* color1, u8* color2,
+void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gfx* arg3, u8* colour1, u8* colour2,
                                     OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw) {
     s32 pad;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
@@ -293,15 +293,15 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gf
         gSPSegment(POLY_OPA_DISP++, 0x0B, SEGMENTED_TO_VIRTUAL(arg3));
     }
 
-    if (color1 != NULL) {
+    if (colour1 != NULL) {
         //! @bug DemoEc_AllocColorDList is called twice in SEGMENTED_TO_VIRTUAL, allocating two display lists
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(DemoEc_AllocColorDList(gfxCtx, color1)));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(DemoEc_AllocColorDList(gfxCtx, colour1)));
     }
 
-    if (color2 != NULL) {
+    if (colour2 != NULL) {
         //! @bug DemoEc_AllocColorDList is called twice in SEGMENTED_TO_VIRTUAL, allocating two display lists
-        //! @bug meant to pass color2 instead of color1?
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(DemoEc_AllocColorDList(gfxCtx, color1)));
+        //! @bug meant to pass colour2 instead of colour1?
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(DemoEc_AllocColorDList(gfxCtx, colour1)));
     }
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
@@ -448,10 +448,10 @@ void DemoEc_UpdateDancingKokiriBoy(DemoEc* this, PlayState* play) {
 }
 
 void DemoEc_DrawKokiriBoy(DemoEc* this, PlayState* play) {
-    static u8 color1[] = { 0, 130, 70, 255 };
-    static u8 color2[] = { 110, 170, 20, 255 };
+    static u8 colour1[] = { 0, 130, 70, 255 };
+    static u8 colour2[] = { 110, 170, 20, 255 };
 
-    DemoEc_DrawSkeletonCustomColor(this, play, NULL, NULL, color1, color2, NULL, NULL);
+    DemoEc_DrawSkeletonCustomColor(this, play, NULL, NULL, colour1, colour2, NULL, NULL);
 }
 
 void DemoEc_InitKokiriGirl(DemoEc* this, PlayState* play) {
@@ -493,12 +493,12 @@ void DemoEc_DrawKokiriGirl(DemoEc* this, PlayState* play) {
         gKw1EyeHalfTex,
         gKw1EyeClosedTex,
     };
-    static u8 color1[] = { 70, 190, 60, 255 };
-    static u8 color2[] = { 100, 30, 0, 255 };
+    static u8 colour1[] = { 70, 190, 60, 255 };
+    static u8 colour2[] = { 100, 30, 0, 255 };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, color1, color2, NULL, NULL);
+    DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, colour1, colour2, NULL, NULL);
 }
 void DemoEc_InitOldMan(DemoEc* this, PlayState* play) {
     DemoEc_UseDrawObject(this, play);
@@ -524,12 +524,12 @@ void DemoEc_DrawOldMan(DemoEc* this, PlayState* play) {
         object_bji_Tex_0009FC,
         object_bji_Tex_000DFC,
     };
-    static u8 color1[] = { 0, 50, 100, 255 };
-    static u8 color2[] = { 0, 50, 160, 255 };
+    static u8 colour1[] = { 0, 50, 100, 255 };
+    static u8 colour2[] = { 0, 50, 160, 255 };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, color1, color2, NULL, NULL);
+    DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, colour1, colour2, NULL, NULL);
 }
 
 void DemoEc_InitBeardedMan(DemoEc* this, PlayState* play) {
@@ -556,12 +556,12 @@ void DemoEc_DrawBeardedMan(DemoEc* this, PlayState* play) {
         object_ahg_Tex_00067C,
         object_ahg_Tex_00077C,
     };
-    static u8 color1[] = { 255, 255, 255, 255 };
-    static u8 color2[] = { 255, 255, 255, 255 };
+    static u8 colour1[] = { 255, 255, 255, 255 };
+    static u8 colour2[] = { 255, 255, 255, 255 };
     s32 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = eyeTextures[eyeTexIndex];
 
-    DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, color1, color2, NULL, NULL);
+    DemoEc_DrawSkeletonCustomColor(this, play, eyeTexture, NULL, colour1, colour2, NULL, NULL);
 }
 
 void DemoEc_InitWoman(DemoEc* this, PlayState* play) {

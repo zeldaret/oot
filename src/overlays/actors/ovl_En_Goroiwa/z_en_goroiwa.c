@@ -90,9 +90,9 @@ void EnGoroiwa_UpdateCollider(EnGoroiwa* this) {
     static f32 yOffsets[] = { 0.0f, 59.5f };
     Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
-    worldSphere->center.x = this->actor.world.pos.x;
-    worldSphere->center.y = this->actor.world.pos.y + yOffsets[(this->actor.params >> 10) & 1];
-    worldSphere->center.z = this->actor.world.pos.z;
+    worldSphere->centre.x = this->actor.world.pos.x;
+    worldSphere->centre.y = this->actor.world.pos.y + yOffsets[(this->actor.params >> 10) & 1];
+    worldSphere->centre.z = this->actor.world.pos.z;
 }
 
 void EnGoroiwa_InitCollider(EnGoroiwa* this, PlayState* play) {

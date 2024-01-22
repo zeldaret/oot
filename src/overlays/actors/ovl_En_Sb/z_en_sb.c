@@ -145,14 +145,14 @@ void EnSb_SpawnBubbles(PlayState* play, EnSb* this) {
 void EnSb_SetupWaitClosed(EnSb* this) {
     Animation_Change(&this->skelAnime, &object_sb_Anim_00004C, 1.0f, 0, Animation_GetLastFrame(&object_sb_Anim_00004C),
                      ANIMMODE_ONCE, 0.0f);
-    this->behavior = SHELLBLADE_WAIT_CLOSED;
+    this->behaviour = SHELLBLADE_WAIT_CLOSED;
     this->actionFunc = EnSb_WaitClosed;
 }
 
 void EnSb_SetupOpen(EnSb* this) {
     Animation_Change(&this->skelAnime, &object_sb_Anim_000194, 1.0f, 0, Animation_GetLastFrame(&object_sb_Anim_000194),
                      ANIMMODE_ONCE, 0.0f);
-    this->behavior = SHELLBLADE_OPEN;
+    this->behaviour = SHELLBLADE_OPEN;
     this->actionFunc = EnSb_Open;
     Actor_PlaySfx(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
@@ -160,7 +160,7 @@ void EnSb_SetupOpen(EnSb* this) {
 void EnSb_SetupWaitOpen(EnSb* this) {
     Animation_Change(&this->skelAnime, &object_sb_Anim_002C8C, 1.0f, 0, Animation_GetLastFrame(&object_sb_Anim_002C8C),
                      ANIMMODE_LOOP, 0.0f);
-    this->behavior = SHELLBLADE_WAIT_OPEN;
+    this->behaviour = SHELLBLADE_WAIT_OPEN;
     this->actionFunc = EnSb_WaitOpen;
 }
 
@@ -169,7 +169,7 @@ void EnSb_SetupLunge(EnSb* this) {
     f32 playbackSpeed = this->actor.yDistToWater > 0.0f ? 1.0f : 0.0f;
 
     Animation_Change(&this->skelAnime, &object_sb_Anim_000124, playbackSpeed, 0.0f, frameCount, ANIMMODE_ONCE, 0);
-    this->behavior = SHELLBLADE_LUNGE;
+    this->behaviour = SHELLBLADE_LUNGE;
     this->actionFunc = EnSb_Lunge;
     Actor_PlaySfx(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
@@ -177,17 +177,17 @@ void EnSb_SetupLunge(EnSb* this) {
 void EnSb_SetupBounce(EnSb* this) {
     Animation_Change(&this->skelAnime, &object_sb_Anim_0000B4, 1.0f, 0, Animation_GetLastFrame(&object_sb_Anim_0000B4),
                      ANIMMODE_ONCE, 0.0f);
-    this->behavior = SHELLBLADE_BOUNCE;
+    this->behaviour = SHELLBLADE_BOUNCE;
     this->actionFunc = EnSb_Bounce;
 }
 
 void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     f32 frameCount = Animation_GetLastFrame(&object_sb_Anim_00004C);
 
-    if (this->behavior != SHELLBLADE_WAIT_CLOSED) {
+    if (this->behaviour != SHELLBLADE_WAIT_CLOSED) {
         Animation_Change(&this->skelAnime, &object_sb_Anim_00004C, 1.0f, 0, frameCount, ANIMMODE_ONCE, 0.0f);
     }
-    this->behavior = SHELLBLADE_WAIT_CLOSED;
+    this->behaviour = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
         if (this->actor.yDistToWater > 0.0f) {
             this->actor.speed = -5.0f;
@@ -333,7 +333,7 @@ void EnSb_Cooldown(EnSb* this, PlayState* play) {
 }
 
 s32 EnSb_IsVulnerable(EnSb* this) {
-    switch (this->behavior) {
+    switch (this->behaviour) {
         case SHELLBLADE_OPEN:
             if ((this->skelAnime.curFrame >= 2.0f) && (this->skelAnime.curFrame <= 5.0f)) {
                 return true;
@@ -489,7 +489,7 @@ void EnSb_Draw(Actor* thisx, PlayState* play) {
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           EnSb_PostLimbDraw, this);
     if (this->fire != 0) {
-        this->actor.colorFilterTimer++;
+        this->actor.colourFilterTimer++;
         fireDecr = this->fire - 1;
         // this is intended to draw flames after being burned, but the condition is never met to run this code
         // fire gets set to 4 when burned, decrements to 3 and fails the "& 1" check and never stores the decrement

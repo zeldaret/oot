@@ -15,7 +15,7 @@ void Collider_DrawRedPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* 
 }
 
 /**
- * Draws the triangle with vertices vA, vB, and vC and with the specified color.
+ * Draws the triangle with vertices vA, vB, and vC and with the specified colour.
  */
 void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b) {
     Vtx* vtxTbl;
@@ -1409,38 +1409,38 @@ void CollisionCheck_BlueBlood(PlayState* play, Collider* collider, Vec3f* v) {
     sparkInit.position.z = v->z;
     sparkInit.uDiv = 5;
     sparkInit.vDiv = 5;
-    sparkInit.colorStart[0].r = 10;
-    sparkInit.colorStart[0].g = 10;
-    sparkInit.colorStart[0].b = 200;
-    sparkInit.colorStart[0].a = 255;
-    sparkInit.colorStart[1].r = 0;
-    sparkInit.colorStart[1].g = 0;
-    sparkInit.colorStart[1].b = 128;
-    sparkInit.colorStart[1].a = 255;
-    sparkInit.colorStart[2].r = 0;
-    sparkInit.colorStart[2].g = 0;
-    sparkInit.colorStart[2].b = 128;
-    sparkInit.colorStart[2].a = 255;
-    sparkInit.colorStart[3].r = 0;
-    sparkInit.colorStart[3].g = 0;
-    sparkInit.colorStart[3].b = 128;
-    sparkInit.colorStart[3].a = 255;
-    sparkInit.colorEnd[0].r = 0;
-    sparkInit.colorEnd[0].g = 0;
-    sparkInit.colorEnd[0].b = 32;
-    sparkInit.colorEnd[0].a = 0;
-    sparkInit.colorEnd[1].r = 0;
-    sparkInit.colorEnd[1].g = 0;
-    sparkInit.colorEnd[1].b = 32;
-    sparkInit.colorEnd[1].a = 0;
-    sparkInit.colorEnd[2].r = 0;
-    sparkInit.colorEnd[2].g = 0;
-    sparkInit.colorEnd[2].b = 64;
-    sparkInit.colorEnd[2].a = 0;
-    sparkInit.colorEnd[3].r = 0;
-    sparkInit.colorEnd[3].g = 0;
-    sparkInit.colorEnd[3].b = 64;
-    sparkInit.colorEnd[3].a = 0;
+    sparkInit.colourStart[0].r = 10;
+    sparkInit.colourStart[0].g = 10;
+    sparkInit.colourStart[0].b = 200;
+    sparkInit.colourStart[0].a = 255;
+    sparkInit.colourStart[1].r = 0;
+    sparkInit.colourStart[1].g = 0;
+    sparkInit.colourStart[1].b = 128;
+    sparkInit.colourStart[1].a = 255;
+    sparkInit.colourStart[2].r = 0;
+    sparkInit.colourStart[2].g = 0;
+    sparkInit.colourStart[2].b = 128;
+    sparkInit.colourStart[2].a = 255;
+    sparkInit.colourStart[3].r = 0;
+    sparkInit.colourStart[3].g = 0;
+    sparkInit.colourStart[3].b = 128;
+    sparkInit.colourStart[3].a = 255;
+    sparkInit.colourEnd[0].r = 0;
+    sparkInit.colourEnd[0].g = 0;
+    sparkInit.colourEnd[0].b = 32;
+    sparkInit.colourEnd[0].a = 0;
+    sparkInit.colourEnd[1].r = 0;
+    sparkInit.colourEnd[1].g = 0;
+    sparkInit.colourEnd[1].b = 32;
+    sparkInit.colourEnd[1].a = 0;
+    sparkInit.colourEnd[2].r = 0;
+    sparkInit.colourEnd[2].g = 0;
+    sparkInit.colourEnd[2].b = 64;
+    sparkInit.colourEnd[2].a = 0;
+    sparkInit.colourEnd[3].r = 0;
+    sparkInit.colourEnd[3].g = 0;
+    sparkInit.colourEnd[3].b = 64;
+    sparkInit.colourEnd[3].a = 0;
     sparkInit.timer = 0;
     sparkInit.duration = 16;
     sparkInit.speed = 8.0f;
@@ -1462,38 +1462,38 @@ void CollisionCheck_GreenBlood(PlayState* play, Collider* collider, Vec3f* v) {
     sparkInit.position.z = v->z;
     sparkInit.uDiv = 5;
     sparkInit.vDiv = 5;
-    sparkInit.colorStart[0].r = 10;
-    sparkInit.colorStart[0].g = 200;
-    sparkInit.colorStart[0].b = 10;
-    sparkInit.colorStart[0].a = 255;
-    sparkInit.colorStart[1].r = 0;
-    sparkInit.colorStart[1].g = 128;
-    sparkInit.colorStart[1].b = 0;
-    sparkInit.colorStart[1].a = 255;
-    sparkInit.colorStart[2].r = 0;
-    sparkInit.colorStart[2].g = 128;
-    sparkInit.colorStart[2].b = 0;
-    sparkInit.colorStart[2].a = 255;
-    sparkInit.colorStart[3].r = 0;
-    sparkInit.colorStart[3].g = 128;
-    sparkInit.colorStart[3].b = 0;
-    sparkInit.colorStart[3].a = 255;
-    sparkInit.colorEnd[0].r = 0;
-    sparkInit.colorEnd[0].g = 32;
-    sparkInit.colorEnd[0].b = 0;
-    sparkInit.colorEnd[0].a = 0;
-    sparkInit.colorEnd[1].r = 0;
-    sparkInit.colorEnd[1].g = 32;
-    sparkInit.colorEnd[1].b = 0;
-    sparkInit.colorEnd[1].a = 0;
-    sparkInit.colorEnd[2].r = 0;
-    sparkInit.colorEnd[2].g = 64;
-    sparkInit.colorEnd[2].b = 0;
-    sparkInit.colorEnd[2].a = 0;
-    sparkInit.colorEnd[3].r = 0;
-    sparkInit.colorEnd[3].g = 64;
-    sparkInit.colorEnd[3].b = 0;
-    sparkInit.colorEnd[3].a = 0;
+    sparkInit.colourStart[0].r = 10;
+    sparkInit.colourStart[0].g = 200;
+    sparkInit.colourStart[0].b = 10;
+    sparkInit.colourStart[0].a = 255;
+    sparkInit.colourStart[1].r = 0;
+    sparkInit.colourStart[1].g = 128;
+    sparkInit.colourStart[1].b = 0;
+    sparkInit.colourStart[1].a = 255;
+    sparkInit.colourStart[2].r = 0;
+    sparkInit.colourStart[2].g = 128;
+    sparkInit.colourStart[2].b = 0;
+    sparkInit.colourStart[2].a = 255;
+    sparkInit.colourStart[3].r = 0;
+    sparkInit.colourStart[3].g = 128;
+    sparkInit.colourStart[3].b = 0;
+    sparkInit.colourStart[3].a = 255;
+    sparkInit.colourEnd[0].r = 0;
+    sparkInit.colourEnd[0].g = 32;
+    sparkInit.colourEnd[0].b = 0;
+    sparkInit.colourEnd[0].a = 0;
+    sparkInit.colourEnd[1].r = 0;
+    sparkInit.colourEnd[1].g = 32;
+    sparkInit.colourEnd[1].b = 0;
+    sparkInit.colourEnd[1].a = 0;
+    sparkInit.colourEnd[2].r = 0;
+    sparkInit.colourEnd[2].g = 64;
+    sparkInit.colourEnd[2].b = 0;
+    sparkInit.colourEnd[2].a = 0;
+    sparkInit.colourEnd[3].r = 0;
+    sparkInit.colourEnd[3].g = 64;
+    sparkInit.colourEnd[3].b = 0;
+    sparkInit.colourEnd[3].a = 0;
     sparkInit.timer = 0;
     sparkInit.duration = 16;
     sparkInit.speed = 8.0f;
@@ -1740,7 +1740,7 @@ void CollisionCheck_ATJntSphVsACJntSph(PlayState* play, CollisionCheckContext* c
     ColliderJntSph* acJntSph = (ColliderJntSph*)acCol;
     ColliderJntSphElement* acJntSphElem;
     f32 overlapSize;
-    f32 centerDist;
+    f32 centreDist;
 
     if (atJntSph->count > 0 && atJntSph->elements != NULL && acJntSph->count > 0 && acJntSph->elements != NULL) {
         for (atJntSphElem = atJntSph->elements; atJntSphElem < atJntSph->elements + atJntSph->count; atJntSphElem++) {
@@ -1756,20 +1756,20 @@ void CollisionCheck_ATJntSphVsACJntSph(PlayState* play, CollisionCheckContext* c
                     continue;
                 }
                 if (Math3D_SphVsSphOverlapCenterDist(&atJntSphElem->dim.worldSphere, &acJntSphElem->dim.worldSphere,
-                                                     &overlapSize, &centerDist) == true) {
+                                                     &overlapSize, &centreDist) == true) {
                     f32 acToHit;
                     Vec3f hitPos;
                     Vec3f atPos;
                     Vec3f acPos;
 
-                    atPos.x = atJntSphElem->dim.worldSphere.center.x;
-                    atPos.y = atJntSphElem->dim.worldSphere.center.y;
-                    atPos.z = atJntSphElem->dim.worldSphere.center.z;
-                    acPos.x = acJntSphElem->dim.worldSphere.center.x;
-                    acPos.y = acJntSphElem->dim.worldSphere.center.y;
-                    acPos.z = acJntSphElem->dim.worldSphere.center.z;
-                    if (!IS_ZERO(centerDist)) {
-                        acToHit = acJntSphElem->dim.worldSphere.radius / centerDist;
+                    atPos.x = atJntSphElem->dim.worldSphere.centre.x;
+                    atPos.y = atJntSphElem->dim.worldSphere.centre.y;
+                    atPos.z = atJntSphElem->dim.worldSphere.centre.z;
+                    acPos.x = acJntSphElem->dim.worldSphere.centre.x;
+                    acPos.y = acJntSphElem->dim.worldSphere.centre.y;
+                    acPos.z = acJntSphElem->dim.worldSphere.centre.z;
+                    if (!IS_ZERO(centreDist)) {
+                        acToHit = acJntSphElem->dim.worldSphere.radius / centreDist;
                         hitPos.x = (((atPos.x - acPos.x) * acToHit) + acPos.x);
                         hitPos.y = (((atPos.y - acPos.y) * acToHit) + acPos.y);
                         hitPos.z = (((atPos.z - acPos.z) * acToHit) + acPos.z);
@@ -1793,7 +1793,7 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
     ColliderJntSphElement* atJntSphElem;
     ColliderCylinder* acCyl = (ColliderCylinder*)acCol;
     f32 overlapSize;
-    f32 centerDist;
+    f32 centreDist;
 
     if (atJntSph->count > 0 && atJntSph->elements != NULL && acCyl->dim.radius > 0 && acCyl->dim.height > 0) {
         if (CollisionCheck_SkipElementBump(&acCyl->elem) == true) {
@@ -1807,20 +1807,20 @@ void CollisionCheck_ATJntSphVsACCyl(PlayState* play, CollisionCheckContext* colC
                 continue;
             }
             if (Math3D_SphVsCylOverlapCenterDist(&atJntSphElem->dim.worldSphere, &acCyl->dim, &overlapSize,
-                                                 &centerDist)) {
+                                                 &centreDist)) {
                 Vec3f hitPos;
                 Vec3f atPos;
                 Vec3f acPos;
                 f32 acToHit;
 
-                atPos.x = atJntSphElem->dim.worldSphere.center.x;
-                atPos.y = atJntSphElem->dim.worldSphere.center.y;
-                atPos.z = atJntSphElem->dim.worldSphere.center.z;
+                atPos.x = atJntSphElem->dim.worldSphere.centre.x;
+                atPos.y = atJntSphElem->dim.worldSphere.centre.y;
+                atPos.z = atJntSphElem->dim.worldSphere.centre.z;
                 acPos.x = acCyl->dim.pos.x;
                 acPos.y = acCyl->dim.pos.y;
                 acPos.z = acCyl->dim.pos.z;
-                if (!IS_ZERO(centerDist)) {
-                    acToHit = acCyl->dim.radius / centerDist;
+                if (!IS_ZERO(centreDist)) {
+                    acToHit = acCyl->dim.radius / centreDist;
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1844,7 +1844,7 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
     ColliderCylinder* atCyl = (ColliderCylinder*)atCol;
     ColliderJntSph* acJntSph = (ColliderJntSph*)acCol;
     f32 overlapSize;
-    f32 centerDist;
+    f32 centreDist;
     ColliderJntSphElement* acJntSphElem;
 
     if (acJntSph->count > 0 && acJntSph->elements != NULL && atCyl->dim.radius > 0 && atCyl->dim.height > 0) {
@@ -1859,7 +1859,7 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                 continue;
             }
             if (Math3D_SphVsCylOverlapCenterDist(&acJntSphElem->dim.worldSphere, &atCyl->dim, &overlapSize,
-                                                 &centerDist)) {
+                                                 &centreDist)) {
                 Vec3f hitPos;
                 Vec3f atPos;
                 Vec3f acPos;
@@ -1868,11 +1868,11 @@ void CollisionCheck_ATCylVsACJntSph(PlayState* play, CollisionCheckContext* colC
                 atPos.x = atCyl->dim.pos.x;
                 atPos.y = atCyl->dim.pos.y;
                 atPos.z = atCyl->dim.pos.z;
-                acPos.x = acJntSphElem->dim.worldSphere.center.x;
-                acPos.y = acJntSphElem->dim.worldSphere.center.y;
-                acPos.z = acJntSphElem->dim.worldSphere.center.z;
-                if (!IS_ZERO(centerDist)) {
-                    acToHit = acJntSphElem->dim.worldSphere.radius / centerDist;
+                acPos.x = acJntSphElem->dim.worldSphere.centre.x;
+                acPos.y = acJntSphElem->dim.worldSphere.centre.y;
+                acPos.z = acJntSphElem->dim.worldSphere.centre.z;
+                if (!IS_ZERO(centreDist)) {
+                    acToHit = acJntSphElem->dim.worldSphere.radius / centreDist;
                     if (acToHit <= 1.0f) {
                         hitPos.x = ((atPos.x - acPos.x) * acToHit) + acPos.x;
                         hitPos.y = ((atPos.y - acPos.y) * acToHit) + acPos.y;
@@ -1917,9 +1917,9 @@ void CollisionCheck_ATJntSphVsACTris(PlayState* play, CollisionCheckContext* col
                     Vec3f atPos;
                     Vec3f acPos;
 
-                    atPos.x = atJntSphElem->dim.worldSphere.center.x;
-                    atPos.y = atJntSphElem->dim.worldSphere.center.y;
-                    atPos.z = atJntSphElem->dim.worldSphere.center.z;
+                    atPos.x = atJntSphElem->dim.worldSphere.centre.x;
+                    atPos.y = atJntSphElem->dim.worldSphere.centre.y;
+                    atPos.z = atJntSphElem->dim.worldSphere.centre.z;
                     acPos.x =
                         (acTrisElem->dim.vtx[0].x + acTrisElem->dim.vtx[1].x + acTrisElem->dim.vtx[2].x) * (1.0f / 3);
                     acPos.y =
@@ -1959,7 +1959,7 @@ void CollisionCheck_ATTrisVsACJntSph(PlayState* play, CollisionCheckContext* col
                     Vec3f atPos;
                     Vec3f acPos;
 
-                    Math_Vec3s_ToVec3f(&acPos, &acJntSphElem->dim.worldSphere.center);
+                    Math_Vec3s_ToVec3f(&acPos, &acJntSphElem->dim.worldSphere.centre);
                     atPos.x =
                         (atTrisElem->dim.vtx[0].x + atTrisElem->dim.vtx[1].x + atTrisElem->dim.vtx[2].x) * (1.0f / 3);
                     atPos.y =
@@ -2004,7 +2004,7 @@ void CollisionCheck_ATJntSphVsACQuad(PlayState* play, CollisionCheckContext* col
                 Vec3f atPos;
                 Vec3f acPos;
 
-                Math_Vec3s_ToVec3f(&atPos, &atJntSphElem->dim.worldSphere.center);
+                Math_Vec3s_ToVec3f(&atPos, &atJntSphElem->dim.worldSphere.centre);
 
                 acPos.x = (acQuad->dim.quad[0].x +
                            (acQuad->dim.quad[1].x + (acQuad->dim.quad[3].x + acQuad->dim.quad[2].x))) /
@@ -2052,9 +2052,9 @@ void CollisionCheck_ATQuadVsACJntSph(PlayState* play, CollisionCheckContext* col
                     Vec3f atPos;
                     Vec3f acPos;
 
-                    acPos.x = acJntSphElem->dim.worldSphere.center.x;
-                    acPos.y = acJntSphElem->dim.worldSphere.center.y;
-                    acPos.z = acJntSphElem->dim.worldSphere.center.z;
+                    acPos.x = acJntSphElem->dim.worldSphere.centre.x;
+                    acPos.y = acJntSphElem->dim.worldSphere.centre.y;
+                    acPos.z = acJntSphElem->dim.worldSphere.centre.z;
 
                     atPos.x = (atQuad->dim.quad[0].x +
                                (atQuad->dim.quad[1].x + (atQuad->dim.quad[3].x + atQuad->dim.quad[2].x))) /
@@ -2080,7 +2080,7 @@ void CollisionCheck_ATCylVsACCyl(PlayState* play, CollisionCheckContext* colChkC
     ColliderCylinder* atCyl = (ColliderCylinder*)atCol;
     ColliderCylinder* acCyl = (ColliderCylinder*)acCol;
     f32 overlapSize;
-    f32 centerDist;
+    f32 centreDist;
     Vec3f hitPos;
 
     if (atCyl->dim.radius > 0 && atCyl->dim.height > 0 && acCyl->dim.radius > 0 && acCyl->dim.height > 0) {
@@ -2093,15 +2093,15 @@ void CollisionCheck_ATCylVsACCyl(PlayState* play, CollisionCheckContext* colChkC
         if (CollisionCheck_NoSharedFlags(&atCyl->elem, &acCyl->elem) == true) {
             return;
         }
-        if (Math3D_CylVsCylOverlapCenterDist(&atCyl->dim, &acCyl->dim, &overlapSize, &centerDist) == true) {
+        if (Math3D_CylVsCylOverlapCenterDist(&atCyl->dim, &acCyl->dim, &overlapSize, &centreDist) == true) {
             Vec3f atPos;
             Vec3f acPos;
             f32 acToHit;
 
             Math_Vec3s_ToVec3f(&atPos, &atCyl->dim.pos);
             Math_Vec3s_ToVec3f(&acPos, &acCyl->dim.pos);
-            if (!IS_ZERO(centerDist)) {
-                acToHit = acCyl->dim.radius / centerDist;
+            if (!IS_ZERO(centreDist)) {
+                acToHit = acCyl->dim.radius / centreDist;
                 hitPos.y = (f32)acCyl->dim.pos.y + acCyl->dim.yShift + acCyl->dim.height * 0.5f;
                 hitPos.x = ((f32)atCyl->dim.pos.x - acCyl->dim.pos.x) * acToHit + acCyl->dim.pos.x;
                 hitPos.z = ((f32)atCyl->dim.pos.z - acCyl->dim.pos.z) * acToHit + acCyl->dim.pos.z;
@@ -2812,8 +2812,8 @@ void CollisionCheck_OC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* co
                     Vec3f leftPos;
                     Vec3f rightPos;
 
-                    Math_Vec3s_ToVec3f(&leftPos, &leftJntSphElem->dim.worldSphere.center);
-                    Math_Vec3s_ToVec3f(&rightPos, &rightJntSphElem->dim.worldSphere.center);
+                    Math_Vec3s_ToVec3f(&leftPos, &leftJntSphElem->dim.worldSphere.centre);
+                    Math_Vec3s_ToVec3f(&rightPos, &rightJntSphElem->dim.worldSphere.centre);
                     CollisionCheck_SetOCvsOC(&leftJntSph->base, &leftJntSphElem->base, &leftPos, &rightJntSph->base,
                                              &rightJntSphElem->base, &rightPos, overlapSize);
                 }
@@ -2840,7 +2840,7 @@ void CollisionCheck_OC_JntSphVsCyl(PlayState* play, CollisionCheckContext* colCh
                     Vec3f leftPos;
                     Vec3f rightPos;
 
-                    Math_Vec3s_ToVec3f(&leftPos, &leftJntSphElem->dim.worldSphere.center);
+                    Math_Vec3s_ToVec3f(&leftPos, &leftJntSphElem->dim.worldSphere.centre);
                     Math_Vec3s_ToVec3f(&rightPos, &rightCyl->dim.pos);
                     CollisionCheck_SetOCvsOC(&leftJntSph->base, &leftJntSphElem->base, &leftPos, &rightCyl->base,
                                              &rightCyl->elem, &rightPos, overlapSize);
@@ -3307,7 +3307,7 @@ void Collider_SetTrisDim(PlayState* play, ColliderTris* tris, s32 elemIndex, Col
 }
 
 // Due to an unknown reason, bss ordering changed between the 2 static Vec3f variables in the function below.
-// In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
+// In order to reproduce this behaviour, we need a specific number of bss variables in the file before that point.
 // For this, we introduce a certain amount of dummy variables throughout the file, which we fit inside padding added
 // by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
 static s8 sBssDummy11;
@@ -3323,13 +3323,13 @@ void Collider_UpdateSpheres(s32 limb, ColliderJntSph* jntSph) {
 
     for (i = 0; i < jntSph->count; i++) {
         if (limb == jntSph->elements[i].dim.limb) {
-            modelPos.x = jntSph->elements[i].dim.modelSphere.center.x;
-            modelPos.y = jntSph->elements[i].dim.modelSphere.center.y;
-            modelPos.z = jntSph->elements[i].dim.modelSphere.center.z;
+            modelPos.x = jntSph->elements[i].dim.modelSphere.centre.x;
+            modelPos.y = jntSph->elements[i].dim.modelSphere.centre.y;
+            modelPos.z = jntSph->elements[i].dim.modelSphere.centre.z;
             Matrix_MultVec3f(&modelPos, &worldPos);
-            jntSph->elements[i].dim.worldSphere.center.x = worldPos.x;
-            jntSph->elements[i].dim.worldSphere.center.y = worldPos.y;
-            jntSph->elements[i].dim.worldSphere.center.z = worldPos.z;
+            jntSph->elements[i].dim.worldSphere.centre.x = worldPos.x;
+            jntSph->elements[i].dim.worldSphere.centre.y = worldPos.y;
+            jntSph->elements[i].dim.worldSphere.centre.z = worldPos.z;
             jntSph->elements[i].dim.worldSphere.radius =
                 jntSph->elements[i].dim.modelSphere.radius * jntSph->elements[i].dim.scale;
         }
@@ -3349,38 +3349,38 @@ void CollisionCheck_SpawnRedBlood(PlayState* play, Vec3f* v) {
     sparkInit.position.z = v->z;
     sparkInit.uDiv = 5;
     sparkInit.vDiv = 5;
-    sparkInit.colorStart[0].r = 128;
-    sparkInit.colorStart[0].g = 0;
-    sparkInit.colorStart[0].b = 64;
-    sparkInit.colorStart[0].a = 255;
-    sparkInit.colorStart[1].r = 128;
-    sparkInit.colorStart[1].g = 0;
-    sparkInit.colorStart[1].b = 64;
-    sparkInit.colorStart[1].a = 255;
-    sparkInit.colorStart[2].r = 255;
-    sparkInit.colorStart[2].g = 128;
-    sparkInit.colorStart[2].b = 0;
-    sparkInit.colorStart[2].a = 255;
-    sparkInit.colorStart[3].r = 255;
-    sparkInit.colorStart[3].g = 128;
-    sparkInit.colorStart[3].b = 0;
-    sparkInit.colorStart[3].a = 255;
-    sparkInit.colorEnd[0].r = 64;
-    sparkInit.colorEnd[0].g = 0;
-    sparkInit.colorEnd[0].b = 32;
-    sparkInit.colorEnd[0].a = 0;
-    sparkInit.colorEnd[1].r = 64;
-    sparkInit.colorEnd[1].g = 0;
-    sparkInit.colorEnd[1].b = 32;
-    sparkInit.colorEnd[1].a = 0;
-    sparkInit.colorEnd[2].r = 128;
-    sparkInit.colorEnd[2].g = 0;
-    sparkInit.colorEnd[2].b = 64;
-    sparkInit.colorEnd[2].a = 0;
-    sparkInit.colorEnd[3].r = 128;
-    sparkInit.colorEnd[3].g = 0;
-    sparkInit.colorEnd[3].b = 64;
-    sparkInit.colorEnd[3].a = 0;
+    sparkInit.colourStart[0].r = 128;
+    sparkInit.colourStart[0].g = 0;
+    sparkInit.colourStart[0].b = 64;
+    sparkInit.colourStart[0].a = 255;
+    sparkInit.colourStart[1].r = 128;
+    sparkInit.colourStart[1].g = 0;
+    sparkInit.colourStart[1].b = 64;
+    sparkInit.colourStart[1].a = 255;
+    sparkInit.colourStart[2].r = 255;
+    sparkInit.colourStart[2].g = 128;
+    sparkInit.colourStart[2].b = 0;
+    sparkInit.colourStart[2].a = 255;
+    sparkInit.colourStart[3].r = 255;
+    sparkInit.colourStart[3].g = 128;
+    sparkInit.colourStart[3].b = 0;
+    sparkInit.colourStart[3].a = 255;
+    sparkInit.colourEnd[0].r = 64;
+    sparkInit.colourEnd[0].g = 0;
+    sparkInit.colourEnd[0].b = 32;
+    sparkInit.colourEnd[0].a = 0;
+    sparkInit.colourEnd[1].r = 64;
+    sparkInit.colourEnd[1].g = 0;
+    sparkInit.colourEnd[1].b = 32;
+    sparkInit.colourEnd[1].a = 0;
+    sparkInit.colourEnd[2].r = 128;
+    sparkInit.colourEnd[2].g = 0;
+    sparkInit.colourEnd[2].b = 64;
+    sparkInit.colourEnd[2].a = 0;
+    sparkInit.colourEnd[3].r = 128;
+    sparkInit.colourEnd[3].g = 0;
+    sparkInit.colourEnd[3].b = 64;
+    sparkInit.colourEnd[3].a = 0;
     sparkInit.timer = 0;
     sparkInit.duration = 16;
     sparkInit.speed = 8.0f;
@@ -3402,38 +3402,38 @@ void CollisionCheck_SpawnWaterDroplets(PlayState* play, Vec3f* v) {
     sparkInit.position.z = v->z;
     sparkInit.uDiv = 5;
     sparkInit.vDiv = 5;
-    sparkInit.colorStart[0].r = 255;
-    sparkInit.colorStart[0].g = 255;
-    sparkInit.colorStart[0].b = 255;
-    sparkInit.colorStart[0].a = 255;
-    sparkInit.colorStart[1].r = 100;
-    sparkInit.colorStart[1].g = 100;
-    sparkInit.colorStart[1].b = 100;
-    sparkInit.colorStart[1].a = 100;
-    sparkInit.colorStart[2].r = 100;
-    sparkInit.colorStart[2].g = 100;
-    sparkInit.colorStart[2].b = 100;
-    sparkInit.colorStart[2].a = 100;
-    sparkInit.colorStart[3].r = 100;
-    sparkInit.colorStart[3].g = 100;
-    sparkInit.colorStart[3].b = 100;
-    sparkInit.colorStart[3].a = 100;
-    sparkInit.colorEnd[0].r = 50;
-    sparkInit.colorEnd[0].g = 50;
-    sparkInit.colorEnd[0].b = 50;
-    sparkInit.colorEnd[0].a = 50;
-    sparkInit.colorEnd[1].r = 50;
-    sparkInit.colorEnd[1].g = 50;
-    sparkInit.colorEnd[1].b = 50;
-    sparkInit.colorEnd[1].a = 50;
-    sparkInit.colorEnd[2].r = 50;
-    sparkInit.colorEnd[2].g = 50;
-    sparkInit.colorEnd[2].b = 50;
-    sparkInit.colorEnd[2].a = 50;
-    sparkInit.colorEnd[3].r = 0;
-    sparkInit.colorEnd[3].g = 0;
-    sparkInit.colorEnd[3].b = 0;
-    sparkInit.colorEnd[3].a = 0;
+    sparkInit.colourStart[0].r = 255;
+    sparkInit.colourStart[0].g = 255;
+    sparkInit.colourStart[0].b = 255;
+    sparkInit.colourStart[0].a = 255;
+    sparkInit.colourStart[1].r = 100;
+    sparkInit.colourStart[1].g = 100;
+    sparkInit.colourStart[1].b = 100;
+    sparkInit.colourStart[1].a = 100;
+    sparkInit.colourStart[2].r = 100;
+    sparkInit.colourStart[2].g = 100;
+    sparkInit.colourStart[2].b = 100;
+    sparkInit.colourStart[2].a = 100;
+    sparkInit.colourStart[3].r = 100;
+    sparkInit.colourStart[3].g = 100;
+    sparkInit.colourStart[3].b = 100;
+    sparkInit.colourStart[3].a = 100;
+    sparkInit.colourEnd[0].r = 50;
+    sparkInit.colourEnd[0].g = 50;
+    sparkInit.colourEnd[0].b = 50;
+    sparkInit.colourEnd[0].a = 50;
+    sparkInit.colourEnd[1].r = 50;
+    sparkInit.colourEnd[1].g = 50;
+    sparkInit.colourEnd[1].b = 50;
+    sparkInit.colourEnd[1].a = 50;
+    sparkInit.colourEnd[2].r = 50;
+    sparkInit.colourEnd[2].g = 50;
+    sparkInit.colourEnd[2].b = 50;
+    sparkInit.colourEnd[2].a = 50;
+    sparkInit.colourEnd[3].r = 0;
+    sparkInit.colourEnd[3].g = 0;
+    sparkInit.colourEnd[3].b = 0;
+    sparkInit.colourEnd[3].a = 0;
     sparkInit.timer = 0;
     sparkInit.duration = 16;
     sparkInit.speed = 8.0f;

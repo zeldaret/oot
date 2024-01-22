@@ -99,8 +99,8 @@ const char* UCodeDisas_GetCombineColorName(u32 value, u32 arg) {
             ret = "ENVIRONMENT";
             break;
 
-        case 6: // G_CCMUX_CENTER, G_CCMUX_SCALE, G_CCMUX_1
-            ret = (arg == COMBINER_B) ? "CENTER" : (arg == COMBINER_C) ? "SCALE" : "1";
+        case 6: // G_CCMUX_CENTRE, G_CCMUX_SCALE, G_CCMUX_1
+            ret = (arg == COMBINER_B) ? "CENTRE" : (arg == COMBINER_C) ? "SCALE" : "1";
             break;
 
         case 7: // G_CCMUX_NOISE, G_CCMUX_K4, G_CCMUX_COMBINED_ALPHA, G_CCMUX_0
@@ -659,8 +659,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
             } break;
 
             case G_SETENVCOLOR: {
-                DISAS_LOG("gsDPSetEnvColor(%d, %d, %d, %d),", curGfx->setcolor.r, curGfx->setcolor.g,
-                          curGfx->setcolor.b, curGfx->setcolor.a);
+                DISAS_LOG("gsDPSetEnvColor(%d, %d, %d, %d),", curGfx->setcolour.r, curGfx->setcolour.g,
+                          curGfx->setcolour.b, curGfx->setcolour.a);
 
                 if (this->pipeSyncRequired) {
                     DISAS_LOG("### PipeSyncが必要です。\n");
@@ -669,8 +669,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
             } break;
 
             case G_SETBLENDCOLOR: {
-                DISAS_LOG("gsDPSetBlendColor(%d, %d, %d, %d),", curGfx->setcolor.r, curGfx->setcolor.g,
-                          curGfx->setcolor.b, curGfx->setcolor.a);
+                DISAS_LOG("gsDPSetBlendColor(%d, %d, %d, %d),", curGfx->setcolour.r, curGfx->setcolour.g,
+                          curGfx->setcolour.b, curGfx->setcolour.a);
 
                 if (this->pipeSyncRequired) {
                     DISAS_LOG("### PipeSyncが必要です。\n");
@@ -679,8 +679,8 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
             } break;
 
             case G_SETFOGCOLOR: {
-                DISAS_LOG("gsDPSetFogColor(%d, %d, %d, %d),", curGfx->setcolor.r, curGfx->setcolor.g,
-                          curGfx->setcolor.b, curGfx->setcolor.a);
+                DISAS_LOG("gsDPSetFogColor(%d, %d, %d, %d),", curGfx->setcolour.r, curGfx->setcolour.g,
+                          curGfx->setcolour.b, curGfx->setcolour.a);
 
                 if (this->pipeSyncRequired) {
                     DISAS_LOG("### PipeSyncが必要です。\n");
@@ -689,7 +689,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
             } break;
 
             case G_SETFILLCOLOR: {
-                DISAS_LOG("gsDPSetFillColor(0x%08x),", curGfx->setcolor.color);
+                DISAS_LOG("gsDPSetFillColor(0x%08x),", curGfx->setcolour.colour);
 
                 if (this->pipeSyncRequired) {
                     DISAS_LOG("### PipeSyncが必要です。\n");
@@ -707,9 +707,9 @@ void UCodeDisas_Disassemble(UCodeDisas* this, Gfx* ptr) {
             } break;
 
             case G_SETPRIMCOLOR: {
-                DISAS_LOG("gsDPSetPrimColor(%d, %d, %d, %d, %d, %d),", curGfx->setcolor.prim_min_level,
-                          curGfx->setcolor.prim_level, curGfx->setcolor.r, curGfx->setcolor.g, curGfx->setcolor.b,
-                          curGfx->setcolor.a);
+                DISAS_LOG("gsDPSetPrimColor(%d, %d, %d, %d, %d, %d),", curGfx->setcolour.prim_min_level,
+                          curGfx->setcolour.prim_level, curGfx->setcolour.r, curGfx->setcolour.g, curGfx->setcolour.b,
+                          curGfx->setcolour.a);
             } break;
 
             case G_RDPFULLSYNC: {

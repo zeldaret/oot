@@ -63,7 +63,7 @@
         <Texture Name="gJabuJabuCapOuterTex" OutName="jabu_jabu_cap_outer" Format="rgba16" Width="4" Height="8" Offset="0x9298"/>
         <Texture Name="gJabuJabuCapInnerTex" OutName="jabu_jabu_cap_inner" Format="rgba16" Width="8" Height="8" Offset="0x92D8"/>
         <Texture Name="gJabuJabuMouthRoofTex" OutName="jabu_jabu_mouth_roof" Format="rgba16" Width="32" Height="64" Offset="0x9358"/>
-        <Texture Name="gJabuJabuDiademCenterTex" OutName="jabu_jabu_diadem_center" Format="rgba16" Width="16" Height="32" Offset="0xA358"/>
+        <Texture Name="gJabuJabuDiademCenterTex" OutName="jabu_jabu_diadem_centre" Format="rgba16" Width="16" Height="32" Offset="0xA358"/>
         <Texture Name="gJabuJabuFinTex" OutName="jabu_jabu_fin" Format="rgba16" Width="16" Height="8" Offset="0xA758"/>
         <Texture Name="gJabuJabuMouthFloorTex" OutName="jabu_jabu_mouth_floor" Format="rgba16" Width="32" Height="64" Offset="0xA858"/>
 

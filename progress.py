@@ -130,7 +130,7 @@ elif args.format == 'shield-json':
         "schemaVersion": 1,
         "label": "progress",
         "message": f"{srcPct:.3g}%",
-        "color": 'yellow' if srcPct < 100 else 'brightgreen',
+        "colour": 'yellow' if srcPct < 100 else 'brightgreen',
     }))
 elif args.format == 'text':
     adjective = "decompiled" if not args.matching else "matched"

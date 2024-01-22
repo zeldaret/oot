@@ -393,7 +393,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 func_8002829C(play, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
             }
 
-            // double bomb flash speed and adjust red color at certain times during the countdown
+            // double bomb flash speed and adjust red colour at certain times during the countdown
             if ((this->timer == 3) || (this->timer == 30) || (this->timer == 50) || (this->timer == 70)) {
                 this->flashSpeedScale >>= 1;
             }

@@ -161,7 +161,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
         EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
     }
     // If not frozen:
-    if (thisx->colorFilterTimer == 0) {
+    if (thisx->colourFilterTimer == 0) {
         DECR(this->playerDmgTimer);
         // Handles damaging player:
         //! @bug there is no yDistToPlayer check for player being below. Therefore hitbox extends down infinitely
@@ -387,7 +387,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
     }
     Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
-    if (thisx->colorFilterTimer == 0) {
+    if (thisx->colourFilterTimer == 0) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }

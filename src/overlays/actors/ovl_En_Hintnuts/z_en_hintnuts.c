@@ -206,7 +206,7 @@ void EnHintnuts_SetupFreeze(EnHintnuts* this) {
     Animation_PlayLoop(&this->skelAnime, &gHintNutsFreezeAnim);
     this->actor.flags &= ~ACTOR_FLAG_0;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 100);
-    this->actor.colorFilterTimer = 1;
+    this->actor.colourFilterTimer = 1;
     this->animFlagAndTimer = 0;
     Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_FAINT);
     if (sPuzzleCounter == -3) {
@@ -431,7 +431,7 @@ void EnHintnuts_Leave(EnHintnuts* this, PlayState* play) {
 }
 
 void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play) {
-    this->actor.colorFilterTimer = 1;
+    this->actor.colourFilterTimer = 1;
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_NUTS_FAINT);
@@ -452,7 +452,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, PlayState* play) {
             this->actor.flags |= ACTOR_FLAG_0;
             this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
-            this->actor.colorFilterTimer = 0;
+            this->actor.colourFilterTimer = 0;
             EnHintnuts_SetupWait(this);
         }
     }

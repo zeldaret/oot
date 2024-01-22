@@ -5749,7 +5749,7 @@ s32 Camera_Demo1(Camera* camera) {
                    *relativeToPlayer == 0 ? "絶対" : "相対");
 
             if (PREG(93)) {
-                Camera_DebugPrintSplineArray("CENTER", 5, csAtPoints);
+                Camera_DebugPrintSplineArray("CENTRE", 5, csAtPoints);
                 Camera_DebugPrintSplineArray("   EYE", 5, csEyePoints);
             }
             FALLTHROUGH;
@@ -7115,18 +7115,18 @@ void func_80057FC4(Camera* camera) {
         camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->stateFlags &= ~CAM_STATE_CHECK_BG;
     } else if (camera->play->roomCtx.curRoom.roomShape->base.type != ROOM_SHAPE_TYPE_IMAGE) {
-        switch (camera->play->roomCtx.curRoom.behaviorType1) {
-            case ROOM_BEHAVIOR_TYPE1_1:
+        switch (camera->play->roomCtx.curRoom.behaviourType1) {
+            case ROOM_BEHAVIOUR_TYPE1_1:
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_DUNGEON0;
                 break;
-            case ROOM_BEHAVIOR_TYPE1_0:
+            case ROOM_BEHAVIOUR_TYPE1_0:
                 PRINTF("camera: room type: default set field\n");
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 break;
             default:
-                PRINTF("camera: room type: default set etc (%d)\n", camera->play->roomCtx.curRoom.behaviorType1);
+                PRINTF("camera: room type: default set etc (%d)\n", camera->play->roomCtx.curRoom.behaviourType1);
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 camera->stateFlags |= CAM_STATE_CHECK_BG;
@@ -7197,7 +7197,7 @@ void Camera_InitDataUsingPlayer(Camera* camera, Player* player) {
     }
 
     func_80057FC4(camera);
-    camera->behaviorFlags = 0;
+    camera->behaviourFlags = 0;
     camera->viewFlags = 0;
     camera->nextBgCamIndex = -1;
     camera->atLERPStepScale = 1.0f;
@@ -7295,7 +7295,7 @@ void Camera_PrintSettings(Camera* camera) {
 
         //! @bug: this code was clearly meaning to print `abs(camera->bgCamIndex)` as a
         //! one-or-two-digit number, instead of `i`.
-        // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
+        // "sp50[i++] = ..." matches here, but is undefined behaviour due to conflicting
         // reads/writes between sequence points, triggering warnings. Work around by
         // putting i++ afterwards while on the same line.
         // clang-format off
@@ -7446,7 +7446,7 @@ s32 Camera_UpdateWater(Camera* camera) {
 
 s32 Camera_UpdateHotRoom(Camera* camera) {
     camera->distortionFlags &= ~DISTORTION_HOT_ROOM;
-    if (camera->play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) {
+    if (camera->play->roomCtx.curRoom.behaviourType2 == ROOM_BEHAVIOUR_TYPE2_3) {
         camera->distortionFlags |= DISTORTION_HOT_ROOM;
     }
 
@@ -7672,7 +7672,7 @@ Vec3s Camera_Update(Camera* camera) {
         return camera->inputDir;
     }
 
-    camera->behaviorFlags = 0;
+    camera->behaviourFlags = 0;
     camera->stateFlags &= ~(CAM_STATE_BLOCK_BG | CAM_STATE_LOCK_MODE);
     camera->stateFlags |= CAM_STATE_CAM_FUNC_FINISH;
 
@@ -7886,7 +7886,7 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange
     }
 
     if ((camera->stateFlags & CAM_STATE_LOCK_MODE) && !forceModeChange) {
-        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_VALID;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_MODE_VALID;
         return -1;
     }
 
@@ -7905,19 +7905,19 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange
             return 0xC0000000 | requestedMode;
         }
 
-        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_VALID;
-        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_SUCCESS;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_MODE_VALID;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_MODE_SUCCESS;
         return CAM_MODE_NORMAL;
     }
 
     if ((requestedMode == camera->mode) && !forceModeChange) {
-        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_VALID;
-        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_SUCCESS;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_MODE_VALID;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_MODE_SUCCESS;
         return -1;
     }
 
-    camera->behaviorFlags |= CAM_BEHAVIOR_MODE_VALID;
-    camera->behaviorFlags |= CAM_BEHAVIOR_MODE_SUCCESS;
+    camera->behaviourFlags |= CAM_BEHAVIOUR_MODE_VALID;
+    camera->behaviourFlags |= CAM_BEHAVIOUR_MODE_SUCCESS;
 
     Camera_CopyDataToRegs(camera, requestedMode);
 
@@ -8012,7 +8012,7 @@ s32 Camera_RequestModeImpl(Camera* camera, s16 requestedMode, u8 forceModeChange
                 break;
 
             case CAM_REQUEST_MODE_SFX_ATTENTION:
-                if (camera->play->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_1) {
+                if (camera->play->roomCtx.curRoom.behaviourType1 == ROOM_BEHAVIOUR_TYPE1_1) {
                     Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_URGENCY);
                 } else {
                     Sfx_PlaySfxCentered(NA_SE_SY_ATTENTION_ON);
@@ -8056,19 +8056,19 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
 }
 
 s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags) {
-    if (camera->behaviorFlags & CAM_BEHAVIOR_SETTING_CHECK_PRIORITY) {
+    if (camera->behaviourFlags & CAM_BEHAVIOUR_SETTING_CHECK_PRIORITY) {
         // If a second setting is requested this frame, determine if the setting overwrites the
         // current setting through priority
         if (((sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
             ((sCameraSettings[requestedSetting].unk_00 & 0xF000000) >> 0x18)) {
-            camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_VALID;
+            camera->behaviourFlags |= CAM_BEHAVIOUR_SETTING_VALID;
             return -2;
         }
     }
 
     if (((requestedSetting == CAM_SET_MEADOW_BIRDS_EYE) || (requestedSetting == CAM_SET_MEADOW_UNUSED)) &&
         LINK_IS_ADULT && (camera->play->sceneId == SCENE_SACRED_FOREST_MEADOW)) {
-        camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_VALID;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_SETTING_VALID;
         return -5;
     }
 
@@ -8078,17 +8078,17 @@ s16 Camera_RequestSettingImpl(Camera* camera, s16 requestedSetting, s16 flags) {
     }
 
     if ((requestedSetting == camera->setting) && !(flags & CAM_REQUEST_SETTING_FORCE_CHANGE)) {
-        camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_VALID;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_SETTING_VALID;
         if (!(flags & CAM_REQUEST_SETTING_IGNORE_PRIORITY)) {
-            camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_CHECK_PRIORITY;
+            camera->behaviourFlags |= CAM_BEHAVIOUR_SETTING_CHECK_PRIORITY;
         }
         return -1;
     }
 
-    camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_VALID;
+    camera->behaviourFlags |= CAM_BEHAVIOUR_SETTING_VALID;
 
     if (!(flags & CAM_REQUEST_SETTING_IGNORE_PRIORITY)) {
-        camera->behaviorFlags |= CAM_BEHAVIOR_SETTING_CHECK_PRIORITY;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_SETTING_CHECK_PRIORITY;
     }
 
     camera->stateFlags |= (CAM_STATE_CHECK_BG | CAM_STATE_EXTERNAL_FINISHED);
@@ -8130,19 +8130,19 @@ s32 Camera_RequestBgCam(Camera* camera, s32 requestedBgCamIndex) {
     s16 settingChangeSuccessful;
 
     if ((requestedBgCamIndex == -1) || (requestedBgCamIndex == camera->bgCamIndex)) {
-        camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_BG_PROCESSED;
         return -1;
     }
 
-    if (!(camera->behaviorFlags & CAM_BEHAVIOR_BG_PROCESSED)) {
+    if (!(camera->behaviourFlags & CAM_BEHAVIOUR_BG_PROCESSED)) {
         requestedCamSetting = Camera_GetBgCamSetting(camera, requestedBgCamIndex);
-        camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_BG_PROCESSED;
         settingChangeSuccessful = Camera_RequestSettingImpl(camera, requestedCamSetting,
                                                             CAM_REQUEST_SETTING_PRESERVE_BG_CAM_INDEX |
                                                                 CAM_REQUEST_SETTING_FORCE_CHANGE) >= 0;
         if ((settingChangeSuccessful != CAM_SET_NONE) || (sCameraSettings[camera->setting].unk_00 & 0x80000000)) {
             camera->bgCamIndex = requestedBgCamIndex;
-            camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
+            camera->behaviourFlags |= CAM_BEHAVIOUR_BG_SUCCESS;
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
             //! @bug: `settingChangeSuccessful` is a bool and is likely checking the wrong value. This can never pass.
@@ -8333,11 +8333,11 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamIndex, f32 a
     } else {
         s32 setting = Camera_GetBgCamSetting(camera, bgCamIndex);
 
-        camera->behaviorFlags |= CAM_BEHAVIOR_BG_PROCESSED;
+        camera->behaviourFlags |= CAM_BEHAVIOUR_BG_PROCESSED;
 
         if (Camera_RequestSetting(camera, setting) >= 0) {
             camera->bgCamIndex = bgCamIndex;
-            camera->behaviorFlags |= CAM_BEHAVIOR_BG_SUCCESS;
+            camera->behaviourFlags |= CAM_BEHAVIOUR_BG_SUCCESS;
         }
 
         PRINTF("....change door camera ID %d (set %d)\n", camera->bgCamIndex, camera->setting);

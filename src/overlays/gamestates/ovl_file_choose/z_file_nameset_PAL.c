@@ -480,7 +480,7 @@ void FileSelect_DrawNameEntry(GameState* thisx) {
 }
 
 /**
- * Fade in the name entry box and slide it to the center of the screen from the right side.
+ * Fade in the name entry box and slide it to the centre of the screen from the right side.
  * After the name entry box is in place, init the keyboard/cursor and change modes.
  * Update function for `CM_START_NAME_ENTRY`
  */

@@ -37,13 +37,13 @@ from the main directory of the repository. You should end up with the folder str
 
 ![Example of a diff](images/func_80A87B9C_diff1.png)
 
-The colors have the following meanings:
+The colours have the following meanings:
 
 - Red is lines missing
 - Green is extra lines
 - Blue denotes significant differences in instructions, be they just numerical ones, or whole instructions
 - Yellow/Gold denotes that register usage is wrong
-- Other colors are used to distinguish incorrectly used registers or stack variables, to make it easy to follow where they are used.
+- Other colours are used to distinguish incorrectly used registers or stack variables, to make it easy to follow where they are used.
 
 ## decomp-permuter
 

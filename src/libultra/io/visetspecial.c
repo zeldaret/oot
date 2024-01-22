@@ -8,7 +8,7 @@
  * correction, gamma dither, dither filtering, anti-aliasing filtering and divot filtering. Configuring the same
  * setting ON and OFF in the same call will result in OFF taking precedence.
  *
- * Any unrecognized bits will be ignored. Note that this is very intentional as in early revisions of retail N64
+ * Any unrecognised bits will be ignored. Note that this is very intentional as in early revisions of retail N64
  * hardware setting bit 5 in the `features` field of OSViContext may cause physical damage to the console once it is
  * fed to VI_CONTROL_REG on next context swap.
  *

@@ -116,7 +116,7 @@ control_codes = {
     '\x1F': "TIME",
 }
 
-colors = {
+colours = {
     0x40 : "DEFAULT",
     0x41 : "RED",
     0x42 : "ADJUSTABLE",
@@ -140,7 +140,7 @@ def format_char(byte):
     return f"\\x{byte:02X}"
 
 def decode(read_bytes, box_type):
-    next_is_color = False
+    next_is_colour = False
     next_is_highscore = False
 
     next_is_byte_mod = False
@@ -156,17 +156,17 @@ def decode(read_bytes, box_type):
             if next_is_highscore:
                 value = highscores[byte]
                 next_is_highscore = False
-            elif next_is_color:
+            elif next_is_colour:
                 """
                 if box_type == 5:
-                    value = color_type_5[byte]
+                    value = colour_type_5[byte]
                 elif box_type == 1:
-                    value = color_type_1[byte]
+                    value = colour_type_1[byte]
                 else:
-                    value = color_type_default[byte]
+                    value = colour_type_default[byte]
                 """
-                value = colors[byte]
-                next_is_color = False
+                value = colours[byte]
+                next_is_colour = False
             buf.append(value + ") \"") # + ("\n" if next_is_box_break_delayed else "")
             next_is_byte_mod = False
             next_is_box_break_delayed = False
@@ -202,7 +202,7 @@ def decode(read_bytes, box_type):
                         if name == "HIGHSCORE":
                             next_is_highscore = True
                         elif name == "COLOR":
-                            next_is_color = True
+                            next_is_colour = True
                         elif name == "BOX_BREAK_DELAYED":
                             next_is_box_break_delayed = True
                         else:

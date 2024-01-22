@@ -233,13 +233,13 @@ s32 EnFd_SpawnCore(EnFd* this, PlayState* play) {
     return true;
 }
 
-void EnFd_SpawnChildFire(EnFd* this, PlayState* play, s16 fireCnt, s16 color) {
+void EnFd_SpawnChildFire(EnFd* this, PlayState* play, s16 fireCnt, s16 colour) {
     s32 i;
 
     for (i = 0; i < fireCnt; i++) {
         s16 angle = (s16)((((i * 360.0f) / fireCnt) * (0x10000 / 360.0f))) + this->actor.yawTowardsPlayer;
         Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FD_FIRE, this->actor.world.pos.x,
-                           this->actor.world.pos.y, this->actor.world.pos.z, 0, angle, 0, (color << 0xF) | i);
+                           this->actor.world.pos.y, this->actor.world.pos.z, 0, angle, 0, (colour << 0xF) | i);
     }
 }
 
@@ -389,7 +389,7 @@ Actor* EnFd_FindPotentialTheat(EnFd* this, PlayState* play) {
 
 /**
  * Creates a delta in `dst` for the position from `this`'s current position to the next
- * position in a circle formed by `radius` with center at `this`'s initial position.
+ * position in a circle formed by `radius` with centre at `this`'s initial position.
  */
 Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
     s16 angle;
@@ -573,7 +573,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, PlayState* play) {
 }
 
 /**
- * Run around in a circle with the center being the initial position, and
+ * Run around in a circle with the centre being the initial position, and
  * the radius being the distance from the initial position to the nearest
  * threat (bomb or player).
  */
@@ -808,7 +808,7 @@ void EnFd_SpawnEffect(EnFd* this, u8 type, Vec3f* pos, Vec3f* velocity, Vec3f* a
         eff->accel = *accel;
         eff->velocity = *velocity;
         if (eff->type == FD_EFFECT_DOT) {
-            eff->color.a = 255;
+            eff->colour.a = 255;
             eff->timer = (s16)(Rand_ZeroOne() * 10.0f);
         }
         return;
@@ -858,13 +858,13 @@ void EnFd_UpdateEffectsDots(EnFd* this) {
             eff->velocity.y += eff->accel.y;
             eff->velocity.z += eff->accel.z;
 
-            eff->color.r = dotColors[eff->timer % 4].r;
-            eff->color.g = dotColors[eff->timer % 4].g;
-            eff->color.b = dotColors[eff->timer % 4].b;
-            if (eff->color.a > 30) {
-                eff->color.a -= 30;
+            eff->colour.r = dotColors[eff->timer % 4].r;
+            eff->colour.g = dotColors[eff->timer % 4].g;
+            eff->colour.b = dotColors[eff->timer % 4].b;
+            if (eff->colour.a > 30) {
+                eff->colour.a -= 30;
             } else {
-                eff->color.a = 0;
+                eff->colour.a = 0;
                 eff->type = FD_EFFECT_NONE;
             }
         }
@@ -933,8 +933,8 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play) {
             materialFlag = true;
         }
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b,
-                        (u8)(eff->color.a * (this->fadeAlpha / 255.0f)));
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->colour.r, eff->colour.g, eff->colour.b,
+                        (u8)(eff->colour.a * (this->fadeAlpha / 255.0f)));
         gDPPipeSync(POLY_XLU_DISP++);
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);

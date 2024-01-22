@@ -31,7 +31,7 @@ typedef struct EnSkj {
     /* 0x02D7 */ u8 playerInRange;
     /* 0x02D8 */ u8 minigameState; // Upon reaching zero stops and does another action
     /* 0x02DC */ u32 alpha;
-    /* 0x02E0 */ Vec3f center;
+    /* 0x02E0 */ Vec3f centre;
     /* 0x02EC */ f32 unk_2EC;
     /* 0x02F0 */ f32 unk_2F0;
     /* 0x02F4 */ Vec3f posCopy;

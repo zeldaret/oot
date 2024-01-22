@@ -122,7 +122,7 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 
 		default:
 			HANDLE_ERROR_RESOURCE(WarningType::InvalidXML, parent, this, rawDataIndex,
-			                      "'TlutOffset' declared in non color-indexed (ci4 or ci8) texture",
+			                      "'TlutOffset' declared in non colour-indexed (ci4 or ci8) texture",
 			                      "");
 			break;
 		}

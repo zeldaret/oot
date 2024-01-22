@@ -16,7 +16,7 @@ typedef struct {
     /* 0x0002 */ u8 initialTimer;
     /* 0x0004 */ f32 scale;
     /* 0x0008 */ f32 scaleStep;
-    /* 0x000C */ Color_RGBA8 color;
+    /* 0x000C */ Color_RGBA8 colour;
     /* 0x0010 */ char unk_10[4];
     /* 0x0014 */ Vec3f pos;
     /* 0x0020 */ Vec3f velocity;

@@ -44,7 +44,7 @@ typedef struct BossSst {
     /* 0x01A8 */ Vec3s jointTable[45];
     /* 0x02B6 */ Vec3s morphTable[45];
     /* 0x03C4 */ f32 radius;
-    /* 0x03C8 */ Vec3f center;
+    /* 0x03C8 */ Vec3f centre;
     /* 0x03D4 */ ColliderJntSph colliderJntSph;
     /* 0x03F4 */ ColliderJntSphElement colliderItems[11];
     /* 0x06B4 */ ColliderCylinder colliderCyl;

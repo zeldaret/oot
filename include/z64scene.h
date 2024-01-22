@@ -438,10 +438,10 @@ typedef enum {
 
 // R_SCENE_CAM_TYPE values
 #define SCENE_CAM_TYPE_DEFAULT 0
-#define SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT 0x10 // Camera exhibits fixed behaviors and viewpoint changing is handled by shops
-#define SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT 0x20 // Camera exhibits fixed behaviors and viewpoint can be toggled with c-up
-#define SCENE_CAM_TYPE_FIXED 0x30 // Camera exhibits fixed behaviors (see `Play_CamIsNotFixed` usages for examples)
-#define SCENE_CAM_TYPE_FIXED_MARKET 0x40 // Camera exhibits fixed behaviors and delays textboxes by a small amount before they start to appear
+#define SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT 0x10 // Camera exhibits fixed behaviours and viewpoint changing is handled by shops
+#define SCENE_CAM_TYPE_FIXED_TOGGLE_VIEWPOINT 0x20 // Camera exhibits fixed behaviours and viewpoint can be toggled with c-up
+#define SCENE_CAM_TYPE_FIXED 0x30 // Camera exhibits fixed behaviours (see `Play_CamIsNotFixed` usages for examples)
+#define SCENE_CAM_TYPE_FIXED_MARKET 0x40 // Camera exhibits fixed behaviours and delays textboxes by a small amount before they start to appear
 #define SCENE_CAM_TYPE_SHOOTING_GALLERY 0x50 // Unreferenced in code, and used only by the main layer of the shooting gallery scene
 
 // navi hints
@@ -462,7 +462,7 @@ typedef enum {
     /* 0x05 */ SCENE_CMD_ID_WIND_SETTINGS,
     /* 0x06 */ SCENE_CMD_ID_ENTRANCE_LIST,
     /* 0x07 */ SCENE_CMD_ID_SPECIAL_FILES,
-    /* 0x08 */ SCENE_CMD_ID_ROOM_BEHAVIOR,
+    /* 0x08 */ SCENE_CMD_ID_ROOM_BEHAVIOUR,
     /* 0x09 */ SCENE_CMD_ID_UNDEFINED_9,
     /* 0x0A */ SCENE_CMD_ID_ROOM_SHAPE,
     /* 0x0B */ SCENE_CMD_ID_OBJECT_LIST,
@@ -507,8 +507,8 @@ typedef enum {
 #define SCENE_CMD_SPECIAL_FILES(naviQuestHintFileId, keepObjectId) \
     { SCENE_CMD_ID_SPECIAL_FILES, naviQuestHintFileId, CMD_W(keepObjectId) }
 
-#define SCENE_CMD_ROOM_BEHAVIOR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
-    { SCENE_CMD_ID_ROOM_BEHAVIOR, curRoomUnk3, \
+#define SCENE_CMD_ROOM_BEHAVIOUR(curRoomUnk3, curRoomUnk2, showInvisActors, disableWarpSongs) \
+    { SCENE_CMD_ID_ROOM_BEHAVIOUR, curRoomUnk3, \
         curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
 
 #define SCENE_CMD_UNK_09() \

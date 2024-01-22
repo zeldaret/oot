@@ -20,7 +20,7 @@ typedef enum {
     /* 0 */ OBJSWITCH_SUBTYPE_ONCE,             // Switches that can only be turned on (On -> Flag Set)
     /* 1 */ OBJSWITCH_SUBTYPE_TOGGLE,           // Switches that can be turned on and off (On -> Flag Set, Off -> Flag Cleared)
     /* 2 */ OBJSWITCH_SUBTYPE_HOLD,             // Floor Types only, released when not stood on (Down -> Flag Set, Up -> Flag Cleared)
-    /* 3 */ OBJSWITCH_SUBTYPE_HOLD_INVERTED,    // Floor Types only, unused, inverted Switch Flag behavior (Down -> Flag Cleared, Up -> Flag Set)
+    /* 3 */ OBJSWITCH_SUBTYPE_HOLD_INVERTED,    // Floor Types only, unused, inverted Switch Flag behaviour (Down -> Flag Cleared, Up -> Flag Set)
     /* 4 */ OBJSWITCH_SUBTYPE_SYNC              // Crystal Types only, syncs with the Switch Flag (On -> Flag Set, Off -> Flag Cleared)
 } ObjSwitchSubType;
 

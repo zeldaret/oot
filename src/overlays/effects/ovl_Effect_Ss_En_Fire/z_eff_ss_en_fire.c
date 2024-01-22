@@ -118,7 +118,7 @@ void EffectSsEnFire_Update(PlayState* play, u32 index, EffectSs* this) {
     this->rScroll++;
 
     if (this->actor != NULL) {
-        if (this->actor->colorFilterTimer >= 22) {
+        if (this->actor->colourFilterTimer >= 22) {
             this->life++;
         }
         if (this->actor->update != NULL) {

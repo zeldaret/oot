@@ -58,7 +58,7 @@ u32 EffectSsBomb2_Init(PlayState* play, u32 index, EffectSs* this, void* initPar
     return 1;
 }
 
-// unused in the original game. looks like EffectSsBomb but with color
+// unused in the original game. looks like EffectSsBomb but with colour
 void EffectSsBomb2_DrawFade(PlayState* play, u32 index, EffectSs* this) {
     static void* textures[] = {
         gEffBombExplosion1Tex, gEffBombExplosion2Tex, gEffBombExplosion3Tex, gEffBombExplosion4Tex,

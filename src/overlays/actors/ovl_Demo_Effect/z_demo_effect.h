@@ -157,6 +157,6 @@ typedef enum {
 // params info
 // type: (params & 0x00FF)
 // light size: ((params & 0x0F00) >> 8)
-// light color: ((params & 0xF000) >> 12)
+// light colour: ((params & 0xF000) >> 12)
 
 #endif

@@ -91,7 +91,7 @@ void EnFu_Init(Actor* thisx, PlayState* play) {
         this->facialExpression = FU_FACE_MAD;
         this->skelanime.playSpeed = 2.0f;
     }
-    this->behaviorFlags = 0;
+    this->behaviourFlags = 0;
     this->actor.targetMode = 6;
 }
 
@@ -113,14 +113,14 @@ s32 func_80A1D94C(EnFu* this, PlayState* play, u16 textId, EnFuActionFunc action
     if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToPlayer < 100.0f)) {
         Actor_OfferTalk(&this->actor, play, 100.0f);
     } else {
-        this->behaviorFlags |= FU_RESET_LOOK_ANGLE;
+        this->behaviourFlags |= FU_RESET_LOOK_ANGLE;
     }
     return false;
 }
 
 void func_80A1DA04(EnFu* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
-        this->behaviorFlags &= ~FU_WAIT;
+        this->behaviourFlags &= ~FU_WAIT;
         this->actionFunc = EnFu_WaitChild;
 
         if (this->skelanime.animation == &gWindmillManPlayAndMoveHeadAnim) {
@@ -202,7 +202,7 @@ void EnFu_TeachSong(EnFu* this, PlayState* play) {
     player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&play->msgCtx) == TEXT_STATE_CLOSING) {
-        this->behaviorFlags &= ~FU_WAIT;
+        this->behaviourFlags &= ~FU_WAIT;
         // Ocarina is set to harp here but is immediately overwritten to the grind organ in the message system
         AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_HARP);
         Message_StartOcarina(play, OCARINA_ACTION_TEACH_STORMS);
@@ -221,7 +221,7 @@ void EnFu_WaitAdult(EnFu* this, PlayState* play) {
         this->actor.textId = 0x5035;
         Message_StartTextbox(play, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
-        this->behaviorFlags |= FU_WAIT;
+        this->behaviourFlags |= FU_WAIT;
     } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
@@ -241,17 +241,17 @@ void EnFu_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_MoveXZGravity(&this->actor);
     Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    if (!(this->behaviorFlags & FU_WAIT) && SkelAnime_Update(&this->skelanime)) {
+    if (!(this->behaviourFlags & FU_WAIT) && SkelAnime_Update(&this->skelanime)) {
         Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
                          Animation_GetLastFrame(this->skelanime.animation), ANIMMODE_ONCE, 0.0f);
     }
     this->actionFunc(this, play);
-    if (this->behaviorFlags & FU_RESET_LOOK_ANGLE) {
+    if (this->behaviourFlags & FU_RESET_LOOK_ANGLE) {
         Math_SmoothStepToS(&this->lookAngleOffset.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->lookAngleOffset.y, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
-        this->behaviorFlags &= ~FU_RESET_LOOK_ANGLE;
+        this->behaviourFlags &= ~FU_RESET_LOOK_ANGLE;
     } else {
         Actor_TrackPlayer(play, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.focus.pos);
     }
@@ -273,7 +273,7 @@ s32 EnFu_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             break;
     }
 
-    if (!(this->behaviorFlags & FU_WAIT)) {
+    if (!(this->behaviourFlags & FU_WAIT)) {
         return false;
     }
 

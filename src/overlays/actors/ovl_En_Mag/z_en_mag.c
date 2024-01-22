@@ -297,7 +297,7 @@ void EnMag_DrawEffectTextures(Gfx** gfxP, void* maskTex, void* effectTex, s16 ma
     *gfxP = gfx;
 }
 
-void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32 width, u32 height) {
+void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centreX, s16 centreY, u8* source, u32 width, u32 height) {
     Gfx* gfx = *gfxP;
     u8* curTexture;
     s32 textureCount;
@@ -312,8 +312,8 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
     Gfx_SetupDL_56Ptr(&gfx);
 
     curTexture = source;
-    rectLeft = centerX - (width / 2);
-    rectTop = centerY - (height / 2);
+    rectLeft = centreX - (width / 2);
+    rectTop = centreY - (height / 2);
     textureHeight = 4096 / (width << 2);
     remainingSize = (width * height) << 2;
     textureSize = (width * textureHeight) << 2;

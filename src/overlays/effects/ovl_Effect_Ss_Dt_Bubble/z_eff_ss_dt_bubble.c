@@ -44,14 +44,14 @@ u32 EffectSsDtBubble_Init(PlayState* play, u32 index, EffectSs* this, void* init
     this->life = initParams->life;
 
     if (!initParams->customColor) {
-        this->rPrimColorR = sPrimColors[initParams->colorProfile].r;
-        this->rPrimColorG = sPrimColors[initParams->colorProfile].g;
-        this->rPrimColorB = sPrimColors[initParams->colorProfile].b;
-        this->rPrimColorA = sPrimColors[initParams->colorProfile].a;
-        this->rEnvColorR = sEnvColors[initParams->colorProfile].r;
-        this->rEnvColorG = sEnvColors[initParams->colorProfile].g;
-        this->rEnvColorB = sEnvColors[initParams->colorProfile].b;
-        this->rEnvColorA = sEnvColors[initParams->colorProfile].a;
+        this->rPrimColorR = sPrimColors[initParams->colourProfile].r;
+        this->rPrimColorG = sPrimColors[initParams->colourProfile].g;
+        this->rPrimColorB = sPrimColors[initParams->colourProfile].b;
+        this->rPrimColorA = sPrimColors[initParams->colourProfile].a;
+        this->rEnvColorR = sEnvColors[initParams->colourProfile].r;
+        this->rEnvColorG = sEnvColors[initParams->colourProfile].g;
+        this->rEnvColorB = sEnvColors[initParams->colourProfile].b;
+        this->rEnvColorA = sEnvColors[initParams->colourProfile].a;
     } else {
         this->rPrimColorR = initParams->primColor.r;
         this->rPrimColorG = initParams->primColor.g;

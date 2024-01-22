@@ -1,7 +1,7 @@
 /**
  * @file PreRender.c
  *
- * This file implements various routines important to framebuffer effects, such as RDP accelerated color and depth
+ * This file implements various routines important to framebuffer effects, such as RDP accelerated colour and depth
  * buffer copies and coverage drawing. Also contains software implementations of the Video Interface anti-aliasing and
  * divot filters.
  */
@@ -64,7 +64,7 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxP, void* img, void* imgDst) {
                     G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-    // Set the destination buffer as the color image and set the scissoring region to the entire image
+    // Set the destination buffer as the colour image and set the scissoring region to the entire image
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, imgDst);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
@@ -125,7 +125,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
                     G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-    // Set the destination buffer as the color image and set the scissoring region to the destination region
+    // Set the destination buffer as the colour image and set the scissoring region to the destination region
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, this->ulx, this->uly, this->lrx + 1, this->lry + 1);
 
@@ -160,7 +160,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
         curRow += nRows;
     }
 
-    // Reset the color image and scissor
+    // Reset the colour image and scissor
     gDPPipeSync(gfx++);
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
@@ -169,7 +169,7 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
 
 /**
  * Copies `buf` to `bufSave`, discarding the alpha channel and modulating the RGB channel by
- * the color ('r', 'g', 'b', 'a')
+ * the colour ('r', 'g', 'b', 'a')
  */
 void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r, u32 g, u32 b, u32 a) {
     Gfx* gfx;
@@ -183,19 +183,19 @@ void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r,
     LOG_UTILS_CHECK_NULL_POINTER("glistp", gfx, "../PreRender.c", 346);
 
     gDPPipeSync(gfx++);
-    // Set the cycle type to 1-cycle mode to use the color combiner
+    // Set the cycle type to 1-cycle mode to use the colour combiner
     gDPSetOtherMode(gfx++,
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_OPA_SURF | G_RM_OPA_SURF2);
     gDPSetEnvColor(gfx++, r, g, b, a);
 
-    // Redundant setting of color combiner, overwritten immediately
+    // Redundant setting of colour combiner, overwritten immediately
     // Would preserve rgb exactly while replacing the alpha channel with full alpha
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
     // Modulate TEXEL0 by ENVIRONMENT, replace alpha with full alpha
     gDPSetCombineLERP(gfx++, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, 1, TEXEL0, 0, ENVIRONMENT, 0, 0, 0, 0, 1);
-    // Set the destination buffer as the color image and set the scissoring region to the entire image
+    // Set the destination buffer as the colour image and set the scissoring region to the entire image
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, bufSave);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
@@ -269,7 +269,7 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
 
     // Set the combiner to draw the texture as-is, discarding alpha channel
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0);
-    // Set the destination color image to the provided address
+    // Set the destination colour image to the provided address
     gDPSetColorImage(gfx++, G_IM_FMT_I, G_IM_SIZ_8b, this->width, cvgDst);
     // Set up a scissor based on the source image
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
@@ -312,7 +312,7 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
                            G_TX_NOLOD);
 
         // Draw that horizontal strip to the destination image. With the combiner and blender configuration set above,
-        // the intensity (I) channel of the loaded IA16 texture will be written as-is to the I8 color image, each pixel
+        // the intensity (I) channel of the loaded IA16 texture will be written as-is to the I8 colour image, each pixel
         // in the final image is
         //  I = (cvg << 3) | (cvg >> 2)
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
@@ -323,7 +323,7 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
         curRow += nRows;
     }
 
-    // Reset the color image to the current framebuffer
+    // Reset the colour image to the current framebuffer
     gDPPipeSync(gfx++);
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
     *gfxP = gfx;
@@ -354,14 +354,14 @@ void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxP) {
 }
 
 /**
- * Fetches the coverage of the current framebuffer into an image of the same format as the current color image, storing
+ * Fetches the coverage of the current framebuffer into an image of the same format as the current colour image, storing
  * it over the framebuffer in memory.
  */
 void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
 
     gDPPipeSync(gfx++);
-    // Set the blend color to full white and set maximum depth.
+    // Set the blend colour to full white and set maximum depth.
     // It is important that at least dz is set to full here as the blender will shift memory alpha values based on the
     // value of dz even if depth compare is disabled. If per-pixel depth was enabled, fill rectangle always uses 0 z/dz,
     // causing a maximal shift of 4 to be applied to the memory alpha value. Full dz results in no shift, which is
@@ -378,7 +378,7 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxP) {
     //
     // G_BL_A_MEM ("memory alpha") is coverage (shifted into the most significant 3 bits of the 5-bit blender alpha
     // input), therefore this blender configuration emits only the coverage (up to a constant factor determined by
-    // blend color) and discards any pixel colors. For an RGBA16 framebuffer, each of the three color channels r,g,b
+    // blend colour) and discards any pixel colours. For an RGBA16 framebuffer, each of the three colour channels r,g,b
     // will receive the coverage value individually.
     //
     // Also disables other modes such as alpha compare and texture perspective correction
@@ -416,7 +416,7 @@ void PreRender_RestoreZBuffer(PreRender* this, Gfx** gfxP) {
 
 /**
  * Draws a full-screen image to the current framebuffer, that sources the rgb channel from `this->fbufSave` and
- * the alpha channel from `this->cvgSave` modulated by environment color.
+ * the alpha channel from `this->cvgSave` modulated by environment colour.
  */
 void func_800C213C(PreRender* this, Gfx** gfxP) {
     Gfx* gfx;
@@ -442,7 +442,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
                             GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) |
                             GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1));
 
-        // Set up the color combiner: first cycle: TEXEL0, TEXEL1 + ENVIRONMENT; second cycle: G_CC_PASS2
+        // Set up the colour combiner: first cycle: TEXEL0, TEXEL1 + ENVIRONMENT; second cycle: G_CC_PASS2
         gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 1, 0, TEXEL1, ENVIRONMENT, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
         nRows = 4;
@@ -473,7 +473,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
                              G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             // Draw a texture for which the rgb channels come from the framebuffer and the alpha channel comes from
-            // coverage, modulated by env color
+            // coverage, modulated by env colour
             gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                                 ult << 5, 1 << 10, 1 << 10);
 
@@ -504,8 +504,8 @@ void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP) {
 /**
  * Applies the Video Interface anti-aliasing of silhouette edges to an image.
  *
- * This filter performs a linear interpolation on partially covered pixels between the current pixel color (called
- * foreground color) and a "background" pixel color obtained by sampling fully covered pixels at the six highlighted
+ * This filter performs a linear interpolation on partially covered pixels between the current pixel colour (called
+ * foreground colour) and a "background" pixel colour obtained by sampling fully covered pixels at the six highlighted
  * points in the following 5x3 neighborhood:
  *    _ _ _ _ _
  *  |   o   o   |
@@ -515,10 +515,10 @@ void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP) {
  * Whether a pixel is partially covered is determined by reading the coverage values associated with the image.
  * Coverage is a measure of how many subpixels the last drawn primitive covered. A fully covered pixel is one with a
  * full coverage value, the entire pixel was covered by the primitive.
- * The background color is calculated as the average of the "penultimate" minimum and maximum colors in the 5x3
+ * The background colour is calculated as the average of the "penultimate" minimum and maximum colours in the 5x3
  * neighborhood.
  *
- * The final color is calculated by interpolating the foreground and background color weighted by the coverage:
+ * The final colour is calculated by interpolating the foreground and background colour weighted by the coverage:
  *      OutputColor = cvg * ForeGround + (1.0 - cvg) * BackGround
  *
  * This is a software implementation of the same algorithm used in the Video Interface hardware when Anti-Aliasing is
@@ -575,7 +575,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
             yi = this->height - 1;
         }
 
-        // Extract color channels for each pixel, convert 5-bit color channels to 8-bit
+        // Extract colour channels for each pixel, convert 5-bit colour channels to 8-bit
         pxIn.rgba = this->fbufSave[xi + yi * this->width];
         buffR[i] = (pxIn.r << 3) | (pxIn.r >> 2);
         buffG[i] = (pxIn.g << 3) | (pxIn.g >> 2);
@@ -653,8 +653,8 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
         }
     }
 
-    // The background color is determined by averaging the penultimate minimum and maximum pixels, and subtracting the
-    // ForeGround color:
+    // The background colour is determined by averaging the penultimate minimum and maximum pixels, and subtracting the
+    // ForeGround colour:
     //      BackGround = (pMax + pMin) - (ForeGround) * 2
 
     // OutputColor = cvg * ForeGround + (1.0 - cvg) * BackGround
@@ -679,7 +679,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
  *
  * This filter removes "divots" in an anti-aliased image, single-pixel holes created when many boundary edges all
  * occupy a single pixel. The algorithm removes these by sliding a 3-pixel-wide window across each row of pixels and
- * replaces the center pixel color with the median pixel color in the window.
+ * replaces the centre pixel colour with the median pixel colour in the window.
  *
  * This is a software implementation of the same algorithm used in the Video Interface hardware when OS_VI_DIVOT_ON is
  * set in the VI Control Register.
@@ -701,7 +701,7 @@ void PreRender_DivotFilter(PreRender* this) {
     for (y = 0; y < this->height; y++) {
         // The divot filter is applied row-by-row as it only needs to use pixels that are horizontally adjacent
 
-        // Decompose each pixel into color channels
+        // Decompose each pixel into colour channels
         for (x = 0; x < this->width; x++) {
             Color_RGBA16 pxIn;
 
@@ -712,13 +712,13 @@ void PreRender_DivotFilter(PreRender* this) {
         }
 
         // Apply the divot filter itself. For pixels with partial coverage, the filter selects the median value from a
-        // window of 3 pixels in a horizontal row and uses that as the value for the center pixel.
+        // window of 3 pixels in a horizontal row and uses that as the value for the centre pixel.
         for (x = 1; x < this->width - 1; x++) {
             Color_RGBA16 pxOut;
             s32 cvg = this->cvgSave[x + y * this->width];
 
             // Reject pixels with full coverage. The hardware video filter divot circuit checks if all 3 pixels in the
-            // window have partial coverage, here only the center pixel is checked.
+            // window have partial coverage, here only the centre pixel is checked.
             cvg >>= 5;
             if (cvg == 7) {
                 continue;

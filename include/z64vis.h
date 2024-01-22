@@ -2,7 +2,7 @@
 #define Z64_VIS_H
 
 #include "ultra64.h"
-#include "color.h"
+#include "colour.h"
 
 typedef enum {
     /* 0 */ FB_FILTER_NONE,

@@ -64,7 +64,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-// The vertices and center of the bottom face
+// The vertices and centre of the bottom face
 static Vec3f sColCheckPoints[5] = {
     { 29.99f, 1.01f, -29.99f }, { -29.99f, 1.01f, -29.99f }, { -29.99f, 1.01f, 29.99f },
     { 29.99f, 1.01f, 29.99f },  { 0.0f, 1.01f, 0.0f },
@@ -244,7 +244,7 @@ void ObjOshihiki_SetTexture(ObjOshihiki* this, PlayState* play) {
 
 void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
     Color_RGB8* src;
-    Color_RGB8* color = &this->color;
+    Color_RGB8* colour = &this->colour;
     s16 paramsColorIdx;
     s32 i;
 
@@ -259,12 +259,12 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
     if (i >= ARRAY_COUNT(sColors)) {
         // "Error : scene_data_ID cannot be determined"
         PRINTF("Error : scene_data_ID が判別できない。(%s %d)\n", "../z_obj_oshihiki.c", 579);
-        color->r = color->g = color->b = 255;
+        colour->r = colour->g = colour->b = 255;
     } else {
         src = &sColors[i][paramsColorIdx];
-        color->r = src->r;
-        color->g = src->g;
-        color->b = src->b;
+        colour->r = src->r;
+        colour->g = src->g;
+        colour->b = src->b;
     }
 }
 
@@ -658,7 +658,7 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
         case SCENE_SPIRIT_TEMPLE:
         case SCENE_SHADOW_TEMPLE:
         case SCENE_GERUDO_TRAINING_GROUND:
-            gDPSetEnvColor(POLY_OPA_DISP++, this->color.r, this->color.g, this->color.b, 255);
+            gDPSetEnvColor(POLY_OPA_DISP++, this->colour.r, this->colour.g, this->colour.b, 255);
             break;
         default:
             gDPSetEnvColor(POLY_OPA_DISP++, mREG(13), mREG(14), mREG(15), 255);

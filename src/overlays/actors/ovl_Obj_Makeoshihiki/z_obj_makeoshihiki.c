@@ -28,7 +28,7 @@ ActorInit Obj_Makeoshihiki_InitVars = {
 typedef struct {
     /* 0x00 */ Vec3f posVecs[3];
     /* 0x24 */ u8 unk_24[3];
-    /* 0x27 */ u8 color;
+    /* 0x27 */ u8 colour;
     /* 0x28 */ u8 type;
     /* 0x2A */ s16 rotY;
 } BlockConfig; // size = 0x2C
@@ -70,7 +70,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, PlayState* play) {
     spawnPos = &block->posVecs[typeIdx];
 
     if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y, spawnPos->z, 0,
-                           block->rotY, 0, ((block->color << 6) & 0xC0) | (block->type & 0xF) | 0xFF00) == NULL) {
+                           block->rotY, 0, ((block->colour << 6) & 0xC0) | (block->type & 0xF) | 0xFF00) == NULL) {
         // "Push-pull block failure"
         PRINTF(VT_COL(RED, WHITE));
         PRINTF("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);

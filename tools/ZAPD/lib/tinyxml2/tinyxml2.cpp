@@ -237,7 +237,7 @@ char* StrPair::ParseName( char* p )
 
 void StrPair::CollapseWhitespace()
 {
-    // Adjusting _start would cause undefined behavior on delete[]
+    // Adjusting _start would cause undefined behaviour on delete[]
     TIXMLASSERT( ( _flags & NEEDS_DELETE ) == 0 );
     // Trim leading space.
     _start = XMLUtil::SkipWhiteSpace( _start, 0 );

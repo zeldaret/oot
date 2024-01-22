@@ -12,7 +12,7 @@ typedef struct {
     /* 0x28 */ Color_RGBA8 envColor;
     /* 0x2C */ s16 scale;
     /* 0x2E */ s16 life;
-    /* 0x30 */ s16 colorProfile;
+    /* 0x30 */ s16 colourProfile;
     /* 0x32 */ s16 randXZ; // randomly moves in the xz plane if true
     /* 0x34 */ u8 customColor;
 } EffectSsDtBubbleInitParams; // size = 0x3C

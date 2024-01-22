@@ -219,7 +219,7 @@ void ObjWarp2block_Init(Actor* thisx, PlayState* play2) {
         ObjWarp2block_SetInactive(this);
     }
 
-    PRINTF("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
+    PRINTF("時のブロック(ワープ２) (<arg> %04xH <type> colour:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
            this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7);
 }
 

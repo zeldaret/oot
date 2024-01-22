@@ -325,7 +325,7 @@ void EnAnubice_Die(EnAnubice* this, PlayState* play) {
 
     // If near a wall, turn away from it while dying to avoid going through it.
     // The implementation of this is bugged in the sense that the target angle is hardcoded in practice. If the poly
-    // already has an angle of -0x7F00, the expected behavior won't occur.
+    // already has an angle of -0x7F00, the expected behaviour won't occur.
     if (this->isNearWall) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->fallTargetYaw, 1, 10000, 0);
         if (fabsf(this->actor.shape.rot.y - this->fallTargetYaw) < 100.0f) {

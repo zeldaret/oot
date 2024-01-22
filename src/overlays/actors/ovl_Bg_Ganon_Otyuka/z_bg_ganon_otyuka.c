@@ -101,7 +101,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
     f32 dx;
     f32 dy;
     f32 dz;
-    Vec3f center;
+    Vec3f centre;
     s16 i;
 
     if (this->isFalling || ((play->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
@@ -133,10 +133,10 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
         PRINTF("OTC O 2\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
-            center.x = this->dyna.actor.world.pos.x + D_80876A68[i].x;
-            center.y = this->dyna.actor.world.pos.y;
-            center.z = this->dyna.actor.world.pos.z + D_80876A68[i].z;
-            if (BgCheck_SphVsFirstPoly(&play->colCtx, &center, 50.0f)) {
+            centre.x = this->dyna.actor.world.pos.x + D_80876A68[i].x;
+            centre.y = this->dyna.actor.world.pos.y;
+            centre.z = this->dyna.actor.world.pos.z + D_80876A68[i].z;
+            if (BgCheck_SphVsFirstPoly(&play->colCtx, &centre, 50.0f)) {
                 this->unwalledSides |= sSides[i];
             }
         }

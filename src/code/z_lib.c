@@ -596,7 +596,7 @@ void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src) {
 }
 
 /**
- * Play a sound effect at the center of the screen.
+ * Play a sound effect at the centre of the screen.
  */
 void Sfx_PlaySfxCentered(u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -604,7 +604,7 @@ void Sfx_PlaySfxCentered(u16 sfxId) {
 }
 
 /**
- * Play a sound effect at the center of the screen. Identical to `Sfx_PlaySfxCentered`.
+ * Play a sound effect at the centre of the screen. Identical to `Sfx_PlaySfxCentered`.
  */
 void Sfx_PlaySfxCentered2(u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,

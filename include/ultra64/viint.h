@@ -16,8 +16,8 @@
 
 // For use in initializing OSViMode structures
 
-#define BURST(hsync_width, color_width, vsync_width, color_start) \
-    (hsync_width | (color_width << 8) | (vsync_width << 16) | (color_start << 20))
+#define BURST(hsync_width, colour_width, vsync_width, colour_start) \
+    (hsync_width | (colour_width << 8) | (vsync_width << 16) | (colour_start << 20))
 #define WIDTH(v) v
 #define VSYNC(v) v
 #define HSYNC(duration, leap) (duration | (leap << 16))

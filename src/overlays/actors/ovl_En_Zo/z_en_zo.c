@@ -40,7 +40,7 @@ void EnZo_SpawnRipple(EnZo* this, Vec3f* pos, f32 scale, f32 targetScale, u8 alp
             effect->pos = *pos;
             effect->scale = scale;
             effect->targetScale = targetScale;
-            effect->color.a = alpha;
+            effect->colour.a = alpha;
             break;
         }
         effect++;
@@ -87,7 +87,7 @@ void EnZo_SpawnSplash(EnZo* this, Vec3f* pos, Vec3f* vel, f32 scale) {
         effect->pos = *pos;
         effect->vec = accel;
         effect->vel = *vel;
-        effect->color.a = (Rand_ZeroOne() * 100.0f) + 100.0f;
+        effect->colour.a = (Rand_ZeroOne() * 100.0f) + 100.0f;
         effect->scale = scale;
         break;
     }
@@ -100,13 +100,13 @@ void EnZo_UpdateEffectsRipples(EnZo* this) {
     for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_RIPPLE) {
             Math_ApproachF(&effect->scale, effect->targetScale, 0.2f, 0.8f);
-            if (effect->color.a > 20) {
-                effect->color.a -= 20;
+            if (effect->colour.a > 20) {
+                effect->colour.a -= 20;
             } else {
-                effect->color.a = 0;
+                effect->colour.a = 0;
             }
 
-            if (effect->color.a == 0) {
+            if (effect->colour.a == 0) {
                 effect->type = ENZO_EFFECT_NONE;
             }
         }
@@ -191,7 +191,7 @@ void EnZo_DrawEffectsRipples(EnZo* this, PlayState* play) {
             materialFlag = true;
         }
 
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->color.a);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->colour.a);
         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
         Matrix_Scale(effect->scale, 1.0f, effect->scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_zo_eff.c", 242),
@@ -255,7 +255,7 @@ void EnZo_DrawEffectsSplashes(EnZo* this, PlayState* play) {
             gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
             materialFlag = true;
         }
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->color.a);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->colour.a);
 
         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);

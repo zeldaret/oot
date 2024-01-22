@@ -32,11 +32,11 @@ void TransitionFade_Start(void* thisx) {
 
         case TRANS_FADE_TYPE_ONE_WAY:
             this->timer = 0;
-            this->color.a = (this->direction != TRANS_FADE_DIR_IN) ? 255 : 0;
+            this->colour.a = (this->direction != TRANS_FADE_DIR_IN) ? 255 : 0;
             break;
 
         case TRANS_FADE_TYPE_FLASH:
-            this->color.a = 0;
+            this->colour.a = 0;
             break;
     }
     this->isDone = false;
@@ -73,11 +73,11 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
             }
 
             alpha = (255.0f * this->timer) / ((void)0, gSaveContext.transFadeDuration);
-            this->color.a = (this->direction != TRANS_FADE_DIR_IN) ? 255 - alpha : alpha;
+            this->colour.a = (this->direction != TRANS_FADE_DIR_IN) ? 255 - alpha : alpha;
             break;
 
         case TRANS_FADE_TYPE_FLASH:
-            newAlpha = this->color.a;
+            newAlpha = this->colour.a;
             if (R_TRANS_FADE_FLASH_ALPHA_STEP != 0) {
                 if (R_TRANS_FADE_FLASH_ALPHA_STEP < 0) {
                     if (Math_StepToS(&newAlpha, 255, 255)) {
@@ -91,7 +91,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
                     }
                 }
             }
-            this->color.a = newAlpha;
+            this->colour.a = newAlpha;
             break;
     }
 }
@@ -99,12 +99,12 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
 void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
     TransitionFade* this = (TransitionFade*)thisx;
     Gfx* gfx;
-    Color_RGBA8_u32* color = &this->color;
+    Color_RGBA8_u32* colour = &this->colour;
 
-    if (color->a > 0) {
+    if (colour->a > 0) {
         gfx = *gfxP;
         gSPDisplayList(gfx++, sTransFadeSetupDL);
-        gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, color->a);
+        gDPSetPrimColor(gfx++, 0, 0, colour->r, colour->g, colour->b, colour->a);
         gDPFillRectangle(gfx++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
         gDPPipeSync(gfx++);
         *gfxP = gfx;
@@ -117,10 +117,10 @@ s32 TransitionFade_IsDone(void* thisx) {
     return this->isDone;
 }
 
-void TransitionFade_SetColor(void* thisx, u32 color) {
+void TransitionFade_SetColor(void* thisx, u32 colour) {
     TransitionFade* this = (TransitionFade*)thisx;
 
-    this->color.rgba = color;
+    this->colour.rgba = colour;
 }
 
 void TransitionFade_SetType(void* thisx, s32 type) {

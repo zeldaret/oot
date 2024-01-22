@@ -18,7 +18,7 @@ void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw,
     shape->shadowAlpha = 255;
 }
 
-void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist, Color_RGBA8* color) {
+void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist, Color_RGBA8* colour) {
     f32 temp1;
     f32 temp2;
     MtxF sp60;
@@ -37,8 +37,8 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist,
             temp1 = (temp1 < 0.0f) ? 0.0f : ((temp1 > 150.0f) ? 150.0f : temp1);
             temp2 = 1.0f - (temp1 * (1.0f / 350));
 
-            if (color != NULL) {
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, color->r, color->g, color->b,
+            if (colour != NULL) {
+                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, colour->r, colour->g, colour->b,
                                 (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
             } else {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
@@ -261,9 +261,9 @@ void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, PlayState* play)
     entry = &targetCtx->arr_50[0];
     for (i = 0; i < ARRAY_COUNT(targetCtx->arr_50); i++) {
         func_8002BE64(targetCtx, i, 0.0f, 0.0f, 0.0f);
-        entry->color.r = naviColor->inner.r;
-        entry->color.g = naviColor->inner.g;
-        entry->color.b = naviColor->inner.b;
+        entry->colour.r = naviColor->inner.r;
+        entry->colour.g = naviColor->inner.g;
+        entry->colour.b = naviColor->inner.b;
         entry++;
     }
 }
@@ -369,7 +369,7 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
                     Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
                     Matrix_Scale(var2, 0.15f, 1.0f, MTXMODE_APPLY);
 
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b, (u8)spCE);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->colour.r, entry->colour.g, entry->colour.b, (u8)spCE);
 
                     Matrix_RotateZ((targetCtx->unk_4B & 0x7F) * (M_PI / 64), MTXMODE_APPLY);
 
@@ -1046,7 +1046,7 @@ void func_8002DE04(PlayState* play, Actor* actorA, Actor* actorB) {
 }
 
 void func_8002DE74(PlayState* play, Player* player) {
-    if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_4) && Play_CamIsNotFixed(play)) {
+    if ((play->roomCtx.curRoom.behaviourType1 != ROOM_BEHAVIOUR_TYPE1_4) && Play_CamIsNotFixed(play)) {
         Camera_RequestSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
     }
 }
@@ -1658,7 +1658,7 @@ u32 Actor_HasParent(Actor* actor, PlayState* play) {
  * not busy with certain things). The player actor performs the requested action itself.
  *
  * The following description of what the `getItemId` values can do is provided here for completeness, but these
- * behaviors are entirely out of the scope of this function. All behavior is defined by the player actor.
+ * behaviours are entirely out of the scope of this function. All behaviour is defined by the player actor.
  *
  * - Positive values (`GI_NONE < getItemId < GI_MAX`):
  *    Give an item to the player. The player may not get it immediately (for example if diving), but is expected to
@@ -2241,8 +2241,8 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
                     }
 
                     Actor_SetObjectDependency(play, actor);
-                    if (actor->colorFilterTimer != 0) {
-                        actor->colorFilterTimer--;
+                    if (actor->colourFilterTimer != 0) {
+                        actor->colourFilterTimer--;
                     }
                     actor->update(actor, play);
                     DynaPoly_UnsetAllInteractFlags(play, &play->colCtx.dyna, actor);
@@ -2331,28 +2331,28 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[actor->objectSlot].segment);
     gSPSegment(POLY_XLU_DISP++, 0x06, play->objectCtx.slots[actor->objectSlot].segment);
 
-    if (actor->colorFilterTimer != 0) {
-        Color_RGBA8 color = { 0, 0, 0, 255 };
+    if (actor->colourFilterTimer != 0) {
+        Color_RGBA8 colour = { 0, 0, 0, 255 };
 
-        if (actor->colorFilterParams & COLORFILTER_COLORFLAG_GRAY) {
-            color.r = color.g = color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
-        } else if (actor->colorFilterParams & COLORFILTER_COLORFLAG_RED) {
-            color.r = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
+        if (actor->colourFilterParams & COLORFILTER_COLORFLAG_GRAY) {
+            colour.r = colour.g = colour.b = COLORFILTER_GET_COLORINTENSITY(actor->colourFilterParams) | 7;
+        } else if (actor->colourFilterParams & COLORFILTER_COLORFLAG_RED) {
+            colour.r = COLORFILTER_GET_COLORINTENSITY(actor->colourFilterParams) | 7;
         } else {
-            color.b = COLORFILTER_GET_COLORINTENSITY(actor->colorFilterParams) | 7;
+            colour.b = COLORFILTER_GET_COLORINTENSITY(actor->colourFilterParams) | 7;
         }
 
-        if (actor->colorFilterParams & COLORFILTER_BUFFLAG_XLU) {
-            func_80026860(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
+        if (actor->colourFilterParams & COLORFILTER_BUFFLAG_XLU) {
+            func_80026860(play, &colour, actor->colourFilterTimer, COLORFILTER_GET_DURATION(actor->colourFilterParams));
         } else {
-            func_80026400(play, &color, actor->colorFilterTimer, COLORFILTER_GET_DURATION(actor->colorFilterParams));
+            func_80026400(play, &colour, actor->colourFilterTimer, COLORFILTER_GET_DURATION(actor->colourFilterParams));
         }
     }
 
     actor->draw(actor, play);
 
-    if (actor->colorFilterTimer != 0) {
-        if (actor->colorFilterParams & COLORFILTER_BUFFLAG_XLU) {
+    if (actor->colourFilterTimer != 0) {
+        if (actor->colourFilterParams & COLORFILTER_BUFFLAG_XLU) {
             func_80026A6C(play);
         } else {
             func_80026608(play);
@@ -2422,7 +2422,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
     gDPPipeSync(POLY_XLU_DISP++);
 
     if (play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) {
-        // Update both the color frame buffer and the z-buffer
+        // Update both the colour frame buffer and the z-buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -2433,7 +2433,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
 
         // the z-buffer will later only allow drawing inside the lens circle
     } else {
-        // Update the z-buffer but not the color frame buffer
+        // Update the z-buffer but not the colour frame buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -2471,7 +2471,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (play->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
-        // Draw the lens overlay to the color frame buffer
+        // Draw the lens overlay to the colour frame buffer
 
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
 
@@ -3510,7 +3510,7 @@ void Actor_SetTextWithPrefix(PlayState* play, Actor* actor, s16 baseTextId) {
             break;
         case SCENE_SHADOW_TEMPLE:
         case SCENE_SHADOW_TEMPLE_BOSS:
-        case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
+        case SCENE_KAKARIKO_CENTRE_GUEST_HOUSE:
         case SCENE_BACK_ALLEY_HOUSE:
         case SCENE_DOG_LADY_HOUSE:
         case SCENE_GRAVEKEEPERS_HUT:
@@ -3761,13 +3761,13 @@ void func_8003424C(PlayState* play, Vec3f* arg1) {
     CollisionCheck_SpawnShieldParticlesMetal(play, arg1);
 }
 
-void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 bufFlag, s16 duration) {
-    if ((colorFlag == COLORFILTER_COLORFLAG_GRAY) && !(colorIntensityMax & COLORFILTER_INTENSITY_FLAG)) {
+void Actor_SetColorFilter(Actor* actor, s16 colourFlag, s16 colourIntensityMax, s16 bufFlag, s16 duration) {
+    if ((colourFlag == COLORFILTER_COLORFLAG_GRAY) && !(colourIntensityMax & COLORFILTER_INTENSITY_FLAG)) {
         Actor_PlaySfx(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 
-    actor->colorFilterParams = colorFlag | bufFlag | ((colorIntensityMax & 0xF8) << 5) | duration;
-    actor->colorFilterTimer = duration;
+    actor->colourFilterParams = colourFlag | bufFlag | ((colourIntensityMax & 0xF8) << 5) | duration;
+    actor->colourFilterTimer = duration;
 }
 
 Hilite* func_800342EC(Vec3f* object, PlayState* play) {
@@ -4254,19 +4254,19 @@ s32 func_800354B4(PlayState* play, Actor* actor, f32 range, s16 arg3, s16 arg4, 
 }
 
 void func_8003555C(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
-    Color_RGBA8 color1;
-    Color_RGBA8 color2;
+    Color_RGBA8 colour1;
+    Color_RGBA8 colour2;
 
-    color1.r = 200;
-    color1.g = 160;
-    color1.b = 120;
+    colour1.r = 200;
+    colour1.g = 160;
+    colour1.b = 120;
 
-    color2.r = 130;
-    color2.g = 90;
-    color2.b = 50;
+    colour2.r = 130;
+    colour2.g = 90;
+    colour2.b = 50;
 
-    //! @bug color1 and color2 alpha components not set before being passed on
-    EffectSsKiraKira_SpawnSmall(play, pos, velocity, accel, &color1, &color2);
+    //! @bug colour1 and colour2 alpha components not set before being passed on
+    EffectSsKiraKira_SpawnSmall(play, pos, velocity, accel, &colour1, &colour2);
 }
 
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };

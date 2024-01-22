@@ -671,7 +671,7 @@ void EnBb_SetupDown(EnBb* this) {
     Animation_PlayLoop(&this->skelAnime, &object_Bb_Anim_000444);
     this->action = BB_DOWN;
     this->timer = 200;
-    this->actor.colorFilterTimer = 0;
+    this->actor.colourFilterTimer = 0;
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->actor.speed = 3.0f;
     this->flameScaleX = 0.0f;
@@ -1115,7 +1115,7 @@ void EnBb_Stunned(EnBb* this, PlayState* play) {
         }
         Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, 7.0f, 2, 2.0f, 0, 0, false);
     }
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         this->actor.shape.yOffset = 200.0f;
         if (this->actor.colChkInfo.health != 0) {
             if ((this->actor.params == ENBB_GREEN) || (this->actor.params == ENBB_GREEN_BIG)) {
@@ -1200,7 +1200,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                     EnBb_SetupDeath(this, play);
                     //! @bug
                     //! Because Din's Fire kills the bubble in a single hit, Actor_SetColorFilter is never called and
-                    //! colorFilterParams is never set. And because Din's Fire halts updating during its cutscene,
+                    //! colourFilterParams is never set. And because Din's Fire halts updating during its cutscene,
                     //! EnBb_Death doesn't kill the bubble on the next frame like it should. This combines with
                     //! the bug in EnBb_Draw below to crash the game.
                 } else if ((this->actor.params == ENBB_WHITE) &&
@@ -1247,16 +1247,16 @@ void EnBb_Update(Actor* thisx, PlayState* play2) {
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
         this->actor.focus.pos = this->actor.world.pos;
-        this->collider.elements->dim.worldSphere.center.x = this->actor.world.pos.x;
-        this->collider.elements->dim.worldSphere.center.y =
+        this->collider.elements->dim.worldSphere.centre.x = this->actor.world.pos.x;
+        this->collider.elements->dim.worldSphere.centre.y =
             this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y);
-        this->collider.elements->dim.worldSphere.center.z = this->actor.world.pos.z;
+        this->collider.elements->dim.worldSphere.centre.z = this->actor.world.pos.z;
 
         if ((this->action > BB_KILL) && ((this->actor.speed != 0.0f) || (this->action == BB_GREEN))) {
             CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
         if ((this->action > BB_FLAME_TRAIL) &&
-            ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) &&
+            ((this->actor.colourFilterTimer == 0) || !(this->actor.colourFilterParams & 0x4000)) &&
             (this->moveMode != BBMOVE_HIDDEN)) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
@@ -1295,12 +1295,12 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
                               this);
 
             if (this->fireIceTimer != 0) {
-                this->actor.colorFilterTimer++;
+                this->actor.colourFilterTimer++;
                 //! @bug:
-                //! The purpose of this is to counteract Actor_UpdateAll decrementing colorFilterTimer. However,
+                //! The purpose of this is to counteract Actor_UpdateAll decrementing colourFilterTimer. However,
                 //! the above bugs mean unk_2A8 can be nonzero without damage effects ever having been set.
-                //! This routine will then increment colorFilterTimer, and on the next frame Actor_Draw will try
-                //! to draw the unset colorFilterParams. This causes a divide-by-zero error, crashing the game.
+                //! This routine will then increment colourFilterTimer, and on the next frame Actor_Draw will try
+                //! to draw the unset colourFilterParams. This causes a divide-by-zero error, crashing the game.
                 if (1) {}
                 this->fireIceTimer--;
                 if ((this->fireIceTimer % 4) == 0) {

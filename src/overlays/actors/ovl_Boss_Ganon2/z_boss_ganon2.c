@@ -68,9 +68,9 @@ f32 BossGanon2_RandZeroOne(void) {
 }
 
 void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
-    collider->elements[idx].dim.worldSphere.center.x = arg2->x;
-    collider->elements[idx].dim.worldSphere.center.y = arg2->y;
-    collider->elements[idx].dim.worldSphere.center.z = arg2->z;
+    collider->elements[idx].dim.worldSphere.centre.x = arg2->x;
+    collider->elements[idx].dim.worldSphere.centre.y = arg2->y;
+    collider->elements[idx].dim.worldSphere.centre.z = arg2->z;
 
     collider->elements[idx].dim.worldSphere.radius =
         collider->elements[idx].dim.modelSphere.radius * collider->elements[idx].dim.scale;

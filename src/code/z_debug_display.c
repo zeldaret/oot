@@ -45,10 +45,10 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
     sDebugObjectListHead->scale.x = scaleX;
     sDebugObjectListHead->scale.y = scaleY;
     sDebugObjectListHead->scale.z = scaleZ;
-    sDebugObjectListHead->color.r = red;
-    sDebugObjectListHead->color.g = green;
-    sDebugObjectListHead->color.b = blue;
-    sDebugObjectListHead->color.a = alpha;
+    sDebugObjectListHead->colour.r = red;
+    sDebugObjectListHead->colour.g = green;
+    sDebugObjectListHead->colour.b = blue;
+    sDebugObjectListHead->colour.a = alpha;
     sDebugObjectListHead->type = type;
     sDebugObjectListHead->next = prevHead;
 
@@ -71,7 +71,7 @@ void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, void* texture, PlayStat
 
     Gfx_SetupDL_47Xlu(play->state.gfxCtx);
 
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->colour.r, dispObj->colour.g, dispObj->colour.b, dispObj->colour.a);
 
     Matrix_Translate(dispObj->pos.x, dispObj->pos.y, dispObj->pos.z, MTXMODE_NEW);
     Matrix_Scale(dispObj->scale.x, dispObj->scale.y, dispObj->scale.z, MTXMODE_APPLY);
@@ -93,7 +93,7 @@ void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, void* dlist, PlayState* 
 
     Gfx_SetupDL_4Xlu(play->state.gfxCtx);
 
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->colour.r, dispObj->colour.g, dispObj->colour.b, dispObj->colour.a);
 
     gSPSetLights1(POLY_XLU_DISP++, sDebugObjectLights);
 

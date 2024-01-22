@@ -62,7 +62,7 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
             // If you haven't won the diving game before, you will always get 5 rupees
             if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
                 this->rupeeValue = 5;
-                this->colorIdx = 1;
+                this->colourIdx = 1;
             } else {
                 temp1 = 200.99f;
                 if (this->actor.parent != NULL) {
@@ -76,21 +76,21 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
                 temp3 = Rand_ZeroFloat(temp1);
                 if ((temp3 >= 0) && (temp3 < 40)) {
                     this->rupeeValue = 1;
-                    this->colorIdx = 0;
+                    this->colourIdx = 0;
                 } else if ((temp3 >= 40) && (temp3 < 170)) {
                     this->rupeeValue = 5;
-                    this->colorIdx = 1;
+                    this->colourIdx = 1;
                 } else if ((temp3 >= 170) && (temp3 < 190)) {
                     this->rupeeValue = 20;
-                    this->colorIdx = 2;
+                    this->colourIdx = 2;
                 } else if ((temp3 >= 190) && (temp3 < 200)) {
                     this->rupeeValue = 50;
-                    this->colorIdx = 4;
+                    this->colourIdx = 4;
                 } else {
                     this->unk_160 = 0.02f;
                     Actor_SetScale(&this->actor, this->unk_160);
                     this->rupeeValue = 500;
-                    this->colorIdx = 3;
+                    this->colourIdx = 3;
                     if (this->actor.parent != NULL) {
                         divingGame = (EnDivingGame*)this->actor.parent;
                         if (divingGame->actor.update != NULL) {
@@ -113,10 +113,10 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
         case 2: // Giant pink ruppe that explodes when you touch it
             if (this->type == 1) {
                 Actor_SetScale(&this->actor, 0.1f);
-                this->colorIdx = 4;
+                this->colourIdx = 4;
             } else {
                 Actor_SetScale(thisx, 0.02f);
-                this->colorIdx = (s16)Rand_ZeroFloat(3.99f) + 1;
+                this->colourIdx = (s16)Rand_ZeroFloat(3.99f) + 1;
             }
             this->actor.gravity = -3.0f;
             // "Wow Coin"
@@ -129,15 +129,15 @@ void EnExRuppy_Init(Actor* thisx, PlayState* play) {
 
         case 3: // Spawned by the guard in Hyrule courtyard
             Actor_SetScale(&this->actor, 0.02f);
-            this->colorIdx = 0;
+            this->colourIdx = 0;
             switch ((s16)Rand_ZeroFloat(30.99f)) {
                 case 0:
-                    this->colorIdx = 2;
+                    this->colourIdx = 2;
                     break;
                 case 10:
                 case 20:
                 case 30:
-                    this->colorIdx = 1;
+                    this->colourIdx = 1;
                     break;
             }
             this->actor.gravity = -3.0f;
@@ -348,7 +348,7 @@ void EnExRuppy_WaitAsCollectible(EnExRuppy* this, PlayState* play) {
 
     if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
         Sfx_PlaySfxCentered(NA_SE_SY_GET_RUPY);
-        Item_DropCollectible(play, &this->actor.world.pos, (sEnExRuppyCollectibleTypes[this->colorIdx] | 0x8000));
+        Item_DropCollectible(play, &this->actor.world.pos, (sEnExRuppyCollectibleTypes[this->colourIdx] | 0x8000));
         Actor_Kill(&this->actor);
     }
 }
@@ -388,7 +388,7 @@ void EnExRuppy_Draw(Actor* thisx, PlayState* play) {
         func_8002EBCC(thisx, play, 0);
         gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(rupeeTextures[this->colorIdx]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(rupeeTextures[this->colourIdx]));
         gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_ex_ruppy.c", 784);

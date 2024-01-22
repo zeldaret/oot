@@ -780,7 +780,7 @@ void EnPeehat_SetStateBoomerangStunned(EnPeehat* this) {
 void EnPeehat_StateBoomerangStunned(EnPeehat* this, PlayState* play) {
     Math_SmoothStepToF(&this->actor.speed, 0.0f, 1.0f, 1.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight, 1.0f, 8.0f, 0.0f);
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         EnPeehat_Ground_SetStateRise(this);
     }
 }
@@ -807,7 +807,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, PlayState* play) {
             this->actor.velocity.y = 6;
             this->isStateDieFirstUpdate = 0;
             this->actor.shape.rot.z = this->actor.shape.rot.x = 0;
-        } else if (this->actor.colorFilterTimer & 4) {
+        } else if (this->actor.colourFilterTimer & 4) {
             Math_SmoothStepToF(&this->scaleShift, 0.205f, 1.0f, 0.235f, 0);
         } else {
             Math_SmoothStepToF(&this->scaleShift, 0, 1.0f, 0.005f, 0);
@@ -939,9 +939,9 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
     // if PEAHAT_TYPE_GROUNDED
     if (thisx->params < 0) {
         // Set the Z-Target point on the Peahat's weak point
-        thisx->focus.pos.x = this->colJntSph.elements[0].dim.worldSphere.center.x;
-        thisx->focus.pos.y = this->colJntSph.elements[0].dim.worldSphere.center.y;
-        thisx->focus.pos.z = this->colJntSph.elements[0].dim.worldSphere.center.z;
+        thisx->focus.pos.x = this->colJntSph.elements[0].dim.worldSphere.centre.x;
+        thisx->focus.pos.y = this->colJntSph.elements[0].dim.worldSphere.centre.y;
+        thisx->focus.pos.z = this->colJntSph.elements[0].dim.worldSphere.centre.z;
         if (this->state == PEAHAT_STATE_SEEK_PLAYER) {
             Math_SmoothStepToS(&thisx->shape.rot.x, 6000, 1, 300, 0);
         } else {
@@ -956,7 +956,7 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
         if (thisx->params <= 0) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->colCylinder.base);
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->colJntSph.base);
-            if (thisx->colorFilterTimer == 0 || !(thisx->colorFilterParams & 0x4000)) {
+            if (thisx->colourFilterTimer == 0 || !(thisx->colourFilterParams & 0x4000)) {
                 if (this->state != PEAHAT_STATE_EXPLODE) {
                     CollisionCheck_SetAC(play, &play->colChkCtx, &this->colJntSph.base);
                 }
@@ -1045,8 +1045,8 @@ void EnPeehat_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
         Matrix_Translate(-1000.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         Collider_UpdateSpheres(0, &this->colJntSph);
         Matrix_Translate(500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        if (this->actor.colorFilterTimer != 0 && (this->actor.colorFilterParams & 0x4000)) {
-            damageYRot = Math_SinS(this->actor.colorFilterTimer * 0x4E20) * 0.35f;
+        if (this->actor.colourFilterTimer != 0 && (this->actor.colourFilterParams & 0x4000)) {
+            damageYRot = Math_SinS(this->actor.colourFilterTimer * 0x4E20) * 0.35f;
         }
         Matrix_RotateY(3.2f + damageYRot, MTXMODE_APPLY);
         Matrix_Scale(0.3f, 0.2f, 0.2f, MTXMODE_APPLY);

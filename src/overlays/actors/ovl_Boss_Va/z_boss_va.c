@@ -1123,11 +1123,11 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     Vec3f sp48;
 
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         sPhase2Timer++;
-        if ((this->invincibilityTimer != 0) && (this->actor.colorFilterParams & 0x4000)) {
+        if ((this->invincibilityTimer != 0) && (this->actor.colourFilterParams & 0x4000)) {
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_OPA, 160);
-            this->actor.colorFilterTimer = this->invincibilityTimer;
+            this->actor.colourFilterTimer = this->invincibilityTimer;
         } else {
             this->colliderBody.elem.bumper.dmgFlags = DMG_BOOMERANG;
         }
@@ -1142,8 +1142,8 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
             this->colliderBody.elem.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
         } else {
             sKillBari++;
-            if ((this->actor.colorFilterTimer != 0) && !(this->actor.colorFilterParams & 0x4000)) {
-                this->invincibilityTimer = this->actor.colorFilterTimer - 5;
+            if ((this->actor.colourFilterTimer != 0) && !(this->actor.colourFilterParams & 0x4000)) {
+                this->invincibilityTimer = this->actor.colourFilterTimer - 5;
                 if (this->invincibilityTimer > 160) {
                     this->invincibilityTimer = 0;
                 }
@@ -1204,11 +1204,11 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->colliderBody.base);
-    if (this->actor.colorFilterTimer == 0) {
+    if (this->actor.colourFilterTimer == 0) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->colliderBody.base);
     }
 
-    if ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) {
+    if ((this->actor.colourFilterTimer == 0) || !(this->actor.colourFilterParams & 0x4000)) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderBody.base);
     }
 
@@ -1415,7 +1415,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
         if (Math_SmoothStepToS(&this->vaBodySpinRate, (s16)((sFightPhase - PHASE_4 + 1) * 500.0f) + 0xFA0, 1, 0x12C,
                                0) == 0) {
             if (this->actor.speed == 0.0f) {
-                this->actor.colorFilterTimer = 0;
+                this->actor.colourFilterTimer = 0;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 this->timer2 = (s16)(Rand_ZeroOne() * 150.0f) + 300;
             }
@@ -1741,7 +1741,7 @@ void BossVa_SupportAttached(BossVa* this, PlayState* play) {
     if (this->colliderSph.base.acFlags & AC_HIT) {
         BossVa_SetupSupportCut(this, play);
     } else {
-        if (this->actor.colorFilterTimer == 0) {
+        if (this->actor.colourFilterTimer == 0) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->colliderSph.base);
         }
 
@@ -2654,7 +2654,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
         BossVa_Spark(play, this, 1, this->unk_1F0, 25.0f, 20.0f, 2, 2.0f, true);
     }
 
-    if (!(sPhase2Timer & 0x100) && (GET_BODY(this)->actor.colorFilterTimer == 0)) {
+    if (!(sPhase2Timer & 0x100) && (GET_BODY(this)->actor.colourFilterTimer == 0)) {
         sp4C = 200.0f;
         BossVa_Spark(play, this, 1, 125, 15.0f, 7.0f, SPARK_TETHER, 1.0f, true);
         this->actor.flags &= ~ACTOR_FLAG_0;
@@ -2682,13 +2682,13 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
     } else {
         this->actor.flags |= ACTOR_FLAG_0;
         Math_SmoothStepToS(&this->unk_1AC, sp50 + 150, 1, 0x3C, 0);
-        if (GET_BODY(this)->actor.colorFilterTimer == 0) {
+        if (GET_BODY(this)->actor.colourFilterTimer == 0) {
             Math_SmoothStepToF(&this->unk_1A0, 180.0f, 1.0f, 1.5f, 0.0f);
         } else {
             this->unk_1AC = 0;
-            if (this->actor.colorFilterTimer == 0) {
+            if (this->actor.colourFilterTimer == 0) {
                 Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 255, COLORFILTER_BUFFLAG_XLU,
-                                     GET_BODY(this)->actor.colorFilterTimer);
+                                     GET_BODY(this)->actor.colourFilterTimer);
             }
         }
 
@@ -2708,7 +2708,7 @@ void BossVa_BariPhase2Attack(BossVa* this, PlayState* play) {
         Actor_PlaySfx(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
     }
 
-    if (GET_BODY(this)->actor.colorFilterTimer == 0) {
+    if (GET_BODY(this)->actor.colourFilterTimer == 0) {
         if (!(this->timer2 & 0x400)) {
             this->actor.world.rot.y += this->unk_1AC;
         } else {
@@ -3247,14 +3247,14 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
                 Matrix_Pop();
                 spBC = this->actor.world.pos;
                 spBC.y += 9.0f;
-                if (this->actor.colorFilterTimer != 0) {
+                if (this->actor.colourFilterTimer != 0) {
                     func_80026A6C(play);
                 }
                 func_80033C30(&spBC, &spA4, 0xFF, play);
-                if (this->actor.colorFilterTimer != 0) {
+                if (this->actor.colourFilterTimer != 0) {
                     Color_RGBA8 blue = { 0, 0, 255, 255 };
 
-                    func_80026860(play, &blue, this->actor.colorFilterTimer, this->actor.colorFilterParams & 0xFF);
+                    func_80026860(play, &blue, this->actor.colourFilterTimer, this->actor.colourFilterParams & 0xFF);
                 }
             }
             break;
@@ -3271,7 +3271,7 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4673);
 }
 
-static s32 sUnkValue = 0x009B0000; // Unreferenced? Possibly a color
+static s32 sUnkValue = 0x009B0000; // Unreferenced? Possibly a colour
 
 void BossVa_UpdateEffects(PlayState* play) {
     BossVaEffect* effect = sEffects;

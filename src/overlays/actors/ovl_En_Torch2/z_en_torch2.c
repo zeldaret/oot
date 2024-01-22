@@ -616,7 +616,7 @@ void EnTorch2_Update(Actor* thisx, PlayState* play2) {
 
     // Handles being frozen by a deku nut
 
-    if ((this->actor.colorFilterTimer == 0) || (this->actor.colorFilterParams & 0x4000)) {
+    if ((this->actor.colourFilterTimer == 0) || (this->actor.colourFilterParams & 0x4000)) {
         this->stateFlags3 &= ~PLAYER_STATE3_2;
     } else {
         this->stateFlags3 |= PLAYER_STATE3_2;

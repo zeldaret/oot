@@ -1,10 +1,10 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
-// VT_: Helper macros for printing colored text to terminals, using ANSI escape codes
+// VT_: Helper macros for printing coloured text to terminals, using ANSI escape codes
 // VT stands for Virtual Terminal
 
-// 3-bit color codes
+// 3-bit colour codes
 #define VT_COLOR_BLACK      0
 #define VT_COLOR_RED        1
 #define VT_COLOR_GREEN      2
@@ -17,9 +17,9 @@
 #define VT_COLOR_FOREGROUND 3
 #define VT_COLOR_BACKGROUND 4
 
-#define VT_COLOR_EXPAND0(type, color) #type #color
-#define VT_COLOR_EXPAND1(type, color) VT_COLOR_EXPAND0(type, color)
-#define VT_COLOR(type, color) VT_COLOR_EXPAND1(VT_COLOR_##type, VT_COLOR_##color)
+#define VT_COLOR_EXPAND0(type, colour) #type #colour
+#define VT_COLOR_EXPAND1(type, colour) VT_COLOR_EXPAND0(type, colour)
+#define VT_COLOR(type, colour) VT_COLOR_EXPAND1(VT_COLOR_##type, VT_COLOR_##colour)
 
 #define VT_ESC "\x1b"
 #define VT_CSI "["
@@ -29,8 +29,8 @@
 
 // Add more macros if necessary
 #define VT_COL(back, fore) VT_SGR(VT_COLOR(BACKGROUND, back) ";" VT_COLOR(FOREGROUND, fore))
-#define VT_FGCOL(color) VT_SGR(VT_COLOR(FOREGROUND, color))
-#define VT_BGCOL(color) VT_SGR(VT_COLOR(BACKGROUND, color))
+#define VT_FGCOL(colour) VT_SGR(VT_COLOR(FOREGROUND, colour))
+#define VT_BGCOL(colour) VT_SGR(VT_COLOR(BACKGROUND, colour))
 #define VT_RST VT_SGR("")
 #define VT_CLS VT_ED(2)
 

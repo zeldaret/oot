@@ -13,7 +13,7 @@ typedef void (*EnBoxActionFunc)(struct EnBox*, PlayState*);
 
 typedef enum {
     /*
-    only values 1-11 are used explicitly, other values (like 0) default to another separate behavior
+    only values 1-11 are used explicitly, other values (like 0) default to another separate behaviour
     */
     /*  0 */ ENBOX_TYPE_BIG_DEFAULT,
     /*  1 */ ENBOX_TYPE_ROOM_CLEAR_BIG,         // appear on room clear, store temp clear as permanent clear

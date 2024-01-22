@@ -141,10 +141,10 @@ void MagicDark_DiamondUpdate(Actor* thisx, PlayState* play) {
 
 void MagicDark_DimLighting(PlayState* play, f32 intensity) {
     s32 i;
-    f32 colorScale;
+    f32 colourScale;
     f32 fogScale;
 
-    if (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_5) {
+    if (play->roomCtx.curRoom.behaviourType1 != ROOM_BEHAVIOUR_TYPE1_5) {
         intensity = CLAMP_MIN(intensity, 0.0f);
         intensity = CLAMP_MAX(intensity, 1.0f);
         fogScale = intensity - 0.2f;
@@ -160,14 +160,14 @@ void MagicDark_DimLighting(PlayState* play, f32 intensity) {
                 play->envCtx.adjFogColor[i] = 0;
             }
         } else {
-            colorScale = intensity * 5.0f;
+            colourScale = intensity * 5.0f;
 
-            if (colorScale > 1.0f) {
-                colorScale = 1.0f;
+            if (colourScale > 1.0f) {
+                colourScale = 1.0f;
             }
 
             for (i = 0; i < ARRAY_COUNT(play->envCtx.adjFogColor); i++) {
-                play->envCtx.adjFogColor[i] = -(s16)(play->envCtx.lightSettings.fogColor[i] * colorScale);
+                play->envCtx.adjFogColor[i] = -(s16)(play->envCtx.lightSettings.fogColor[i] * colourScale);
             }
         }
     }

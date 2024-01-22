@@ -463,7 +463,7 @@ void EnVali_Frozen(EnVali* this, PlayState* play) {
     }
 
     temp_v1 = this->timer - 20;
-    this->actor.colorFilterTimer = 36;
+    this->actor.colourFilterTimer = 36;
 
     if (temp_v1 > 0) {
         temp_v0 = temp_v1 >> 1;
@@ -480,7 +480,7 @@ void EnVali_Frozen(EnVali* this, PlayState* play) {
         this->actor.velocity.y += 1.0f;
         if (Math_StepToF(&this->actor.world.pos.y, this->actor.floorHeight, this->actor.velocity.y)) {
             EnVali_SetupDivideAndDie(this, play);
-            this->actor.colorFilterTimer = 0;
+            this->actor.colourFilterTimer = 0;
         }
     }
 }

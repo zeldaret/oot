@@ -486,7 +486,7 @@ void EnDodojr_SwallowBomb(EnDodojr* this, PlayState* play) {
 void EnDodojr_SwallowedBombDeathBounce(EnDodojr* this, PlayState* play) {
     // Scale up briefly to expand from the swallowed bomb exploding.
     this->rootScale = 1.2f;
-    this->rootScale *= ((f32)this->actor.colorFilterTimer / 8);
+    this->rootScale *= ((f32)this->actor.colourFilterTimer / 8);
     Actor_UpdateVelocityXZGravity(&this->actor);
 
     if (EnDodojr_UpdateBounces(this, play)) {
@@ -511,7 +511,7 @@ void EnDodojr_StunnedBounce(EnDodojr* this, PlayState* play) {
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
     this->actor.world.rot.x = this->actor.shape.rot.x;
-    this->actor.colorFilterTimer = this->stunTimer;
+    this->actor.colourFilterTimer = this->stunTimer;
 }
 
 void EnDodojr_Stunned(EnDodojr* this, PlayState* play) {
@@ -576,7 +576,7 @@ void EnDodojr_DeathSequence(EnDodojr* this, PlayState* play) {
     EnBom* bomb;
 
     if (this->counter != 0) {
-        if (this->actor.colorFilterTimer == 0) {
+        if (this->actor.colourFilterTimer == 0) {
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_RED, 200, COLORFILTER_BUFFLAG_OPA, this->counter);
             this->counter--;
         }

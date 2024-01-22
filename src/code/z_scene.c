@@ -249,8 +249,8 @@ void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandRoomBehavior(PlayState* play, SceneCmd* cmd) {
-    play->roomCtx.curRoom.behaviorType1 = cmd->roomBehavior.gpFlag1;
-    play->roomCtx.curRoom.behaviorType2 = cmd->roomBehavior.gpFlag2 & 0xFF;
+    play->roomCtx.curRoom.behaviourType1 = cmd->roomBehavior.gpFlag1;
+    play->roomCtx.curRoom.behaviourType2 = cmd->roomBehavior.gpFlag2 & 0xFF;
     play->roomCtx.curRoom.lensMode = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
     play->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
@@ -512,7 +512,7 @@ void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
     Scene_CommandWindSettings,             // SCENE_CMD_ID_WIND_SETTINGS
     Scene_CommandSpawnList,                // SCENE_CMD_ID_ENTRANCE_LIST
     Scene_CommandSpecialFiles,             // SCENE_CMD_ID_SPECIAL_FILES
-    Scene_CommandRoomBehavior,             // SCENE_CMD_ID_ROOM_BEHAVIOR
+    Scene_CommandRoomBehavior,             // SCENE_CMD_ID_ROOM_BEHAVIOUR
     Scene_CommandUndefined9,               // SCENE_CMD_ID_UNDEFINED_9
     Scene_CommandRoomShape,                // SCENE_CMD_ID_ROOM_SHAPE
     Scene_CommandObjectList,               // SCENE_CMD_ID_OBJECT_LIST

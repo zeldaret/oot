@@ -11,7 +11,7 @@ typedef void (*EnAmActionFunc)(struct EnAm*, PlayState*);
 typedef struct EnAm {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ SkelAnime skelAnime;
-    /* 0x01A8 */ s32 behavior;
+    /* 0x01A8 */ s32 behaviour;
     /* 0x01AC */ Vec3s jointTable[14];
     /* 0x0200 */ Vec3s morphTable[14];
     /* 0x0254 */ EnAmActionFunc actionFunc;
@@ -24,7 +24,7 @@ typedef struct EnAm {
     /* 0x0264 */ s16 unk_264;
     /* 0x0266 */ u8 textureBlend; // 0 = statue textures; 255 = enemy textures
     /* 0x0267 */ u8 damageEffect;
-    /* 0x0267 */ Vec3f shakeOrigin; // center point to shake around when waking up
+    /* 0x0267 */ Vec3f shakeOrigin; // centre point to shake around when waking up
     /* 0x0274 */ ColliderCylinder hurtCollider;
     /* 0x02C0 */ ColliderCylinder blockCollider;
     /* 0x030C */ ColliderQuad hitCollider;

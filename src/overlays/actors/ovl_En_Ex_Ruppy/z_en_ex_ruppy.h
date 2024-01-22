@@ -11,7 +11,7 @@ typedef void (*EnExRuppyActionFunc)(struct EnExRuppy*, PlayState*);
 typedef struct EnExRuppy {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnExRuppyActionFunc actionFunc;
-    /* 0x0150 */ s16 colorIdx;
+    /* 0x0150 */ s16 colourIdx;
     /* 0x0152 */ s16 type;
     /* 0x0154 */ s16 invisible;
     /* 0x0156 */ s16 timer;

@@ -419,11 +419,11 @@ void EnFirefly_Fall(EnFirefly* this, PlayState* play) {
     if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
         this->skelAnime.playSpeed = 0.0f;
     }
-    this->actor.colorFilterTimer = 40;
+    this->actor.colourFilterTimer = 40;
     SkelAnime_Update(&this->skelAnime);
     Math_StepToF(&this->actor.speed, 0.0f, 0.5f);
     if (this->actor.flags & ACTOR_FLAG_15) {
-        this->actor.colorFilterTimer = 40;
+        this->actor.colourFilterTimer = 40;
     } else {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x6800, 0x200);
         this->actor.shape.rot.y -= 0x300;
@@ -554,10 +554,10 @@ void EnFirefly_Stunned(EnFirefly* this, PlayState* play) {
 
 void EnFirefly_FrozenFall(EnFirefly* this, PlayState* play) {
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
-        this->actor.colorFilterTimer = 0;
+        this->actor.colourFilterTimer = 0;
         EnFirefly_SetupDie(this);
     } else {
-        this->actor.colorFilterTimer = 255;
+        this->actor.colourFilterTimer = 255;
     }
 }
 
@@ -694,9 +694,9 @@ void EnFirefly_Update(Actor* thisx, PlayState* play2) {
 
     Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 10.0f, 15.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
-    this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
-    this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y + 10.0f;
-    this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
+    this->collider.elements[0].dim.worldSphere.centre.x = this->actor.world.pos.x;
+    this->collider.elements[0].dim.worldSphere.centre.y = this->actor.world.pos.y + 10.0f;
+    this->collider.elements[0].dim.worldSphere.centre.z = this->actor.world.pos.z;
 
     if ((this->actionFunc == EnFirefly_DiveAttack) || (this->actionFunc == EnFirefly_DisturbDiveAttack)) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);

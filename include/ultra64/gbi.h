@@ -144,13 +144,13 @@
 
 /*
  * A TRI_FILL triangle is just the edges. You need to set the DP
- * to use primcolor, in order to see anything. (it is NOT a triangle
+ * to use primcolour, in order to see anything. (it is NOT a triangle
  * that gets rendered in 'fill mode'. Triangles can't be rendered
  * in 'fill mode')
  *
- * A TRI_SHADE is a gouraud triangle that has colors interpolated.
+ * A TRI_SHADE is a gouraud triangle that has colours interpolated.
  * Flat-shaded triangles (from the software) are still gouraud shaded,
- * it's just the colors are all the same and the deltas are 0.
+ * it's just the colours are all the same and the deltas are 0.
  *
  * Other triangle types, and combinations are more obvious.
  */
@@ -259,13 +259,13 @@
  * If it is zero, near clipping will not occur.
  *
  * Further explanation:
- * G_SHADE is necessary in order to see the color that you passed
+ * G_SHADE is necessary in order to see the colour that you passed
  * down with the vertex. If G_SHADE isn't set, you need to set the DP
- * appropriately and use primcolor to see anything.
+ * appropriately and use primcolour to see anything.
  *
- * G_SHADING_SMOOTH enabled means use all 3 colors of the triangle.
- * If it is not set, then do 'flat shading', where only one vertex color
- * is used (and all 3 vertices are set to that same color by the ucode)
+ * G_SHADING_SMOOTH enabled means use all 3 colours of the triangle.
+ * If it is not set, then do 'flat shading', where only one vertex colour
+ * is used (and all 3 vertices are set to that same colour by the ucode)
  * See the man page for gSP1Triangle().
  *
  */
@@ -370,7 +370,7 @@
 #define G_IM_SIZ_32b_INCR 0
 
 /*
- * G_SETCOMBINE: color combine modes
+ * G_SETCOMBINE: colour combine modes
  */
 /* Color combiner constants: */
 #define G_CCMUX_COMBINED        0
@@ -379,7 +379,7 @@
 #define G_CCMUX_PRIMITIVE       3
 #define G_CCMUX_SHADE           4
 #define G_CCMUX_ENVIRONMENT     5
-#define G_CCMUX_CENTER          6
+#define G_CCMUX_CENTRE          6
 #define G_CCMUX_SCALE           6
 #define G_CCMUX_COMBINED_ALPHA  7
 #define G_CCMUX_TEXEL0_ALPHA    8
@@ -444,7 +444,7 @@
 #define _G_CC_BLENDPE               ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, SHADE, 0
 #define _G_CC_BLENDPEDECALA         ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, 0, 0, 0, TEXEL0
 #define _G_CC_TWOCOLORTEX           PRIMITIVE, SHADE, TEXEL0, SHADE, 0, 0, 0, SHADE
-/* used for 1-cycle sparse mip-maps, primitive color has color of lowest LOD */
+/* used for 1-cycle sparse mip-maps, primitive colour has colour of lowest LOD */
 #define _G_CC_SPARSEST              PRIMITIVE, TEXEL0, LOD_FRACTION, TEXEL0, PRIMITIVE, TEXEL0, LOD_FRACTION, TEXEL0
 #define G_CC_TEMPLERP               TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0
 
@@ -453,12 +453,12 @@
 #define G_CC_INTERFERENCE           TEXEL0, 0, TEXEL1, 0, TEXEL0, 0, TEXEL1, 0
 
 /*
- *  One-cycle color convert operation
+ *  One-cycle colour convert operation
  */
 #define G_CC_1CYUV2RGB              TEXEL0, K4, K5, TEXEL0, 0, 0, 0, SHADE
 
 /*
- *  NOTE: YUV2RGB expects TF step1 color conversion to occur in 2nd clock.
+ *  NOTE: YUV2RGB expects TF step1 colour conversion to occur in 2nd clock.
  * Therefore, CC looks for step1 results in TEXEL1
  */
 #define G_CC_YUV2RGB                TEXEL1, K4, K5, TEXEL1, 0, 0, 0, 0
@@ -480,7 +480,7 @@
 */
 #define G_CC_BLENDI2                ENVIRONMENT, SHADE, COMBINED, SHADE, 0, 0, 0, SHADE
 #define G_CC_BLENDIA2               ENVIRONMENT, SHADE, COMBINED, SHADE, COMBINED, 0, SHADE, 0
-#define G_CC_CHROMA_KEY2            TEXEL0, CENTER, SCALE, 0, 0, 0, 0, 0
+#define G_CC_CHROMA_KEY2            TEXEL0, CENTRE, SCALE, 0, 0, 0, 0, 0
 #define G_CC_HILITERGB2             ENVIRONMENT, COMBINED, TEXEL0, COMBINED, 0, 0, 0, SHADE
 #define G_CC_HILITERGBA2            ENVIRONMENT, COMBINED, TEXEL0, COMBINED, ENVIRONMENT, COMBINED, TEXEL0, COMBINED
 #define G_CC_HILITERGBDECALA2       ENVIRONMENT, COMBINED, TEXEL0, COMBINED, 0, 0, 0, TEXEL0
@@ -997,13 +997,13 @@
  */
 
 /*
- * Vertex (set up for use with colors)
+ * Vertex (set up for use with colours)
  */
 typedef struct {
     short          ob[3];   /* x, y, z */
     unsigned short flag;
     short          tc[2];   /* texture coord */
-    unsigned char  cn[4];   /* color & alpha */
+    unsigned char  cn[4];   /* colour & alpha */
 } Vtx_t;
 
 /*
@@ -1018,7 +1018,7 @@ typedef struct {
 } Vtx_tn;
 
 typedef union {
-    Vtx_t  v;   /* Use this one for colors  */
+    Vtx_t  v;   /* Use this one for colours  */
     Vtx_tn n;   /* Use this one for normals */
     long long int force_structure_alignment;
 } Vtx;
@@ -1870,7 +1870,7 @@ typedef struct {
     unsigned char prim_min_level;
     unsigned char prim_level;
     union {
-        unsigned long color;
+        unsigned long colour;
         struct {
             unsigned char r;
             unsigned char g;
@@ -1878,7 +1878,7 @@ typedef struct {
             unsigned char a;
         };
     };
-} Gsetcolor;
+} Gsetcolour;
 
 typedef struct {
     int          cmd    : 8;
@@ -2006,7 +2006,7 @@ typedef union {
     Gperspnorm      perspnorm;
     Gsetimg         setimg;
     Gsetcombine     setcombine;
-    Gsetcolor       setcolor;
+    Gsetcolour       setcolour;
     Gfillrect       fillrect;   /* use for setscissor also */
     Gsettile        settile;
     Gloadtile       loadtile;   /* use for loadblock also, th is dxt */
@@ -2897,7 +2897,7 @@ _DW({                                               \
 #endif  /* F3DEX_GBI_2 */
 
 /*
- * gSPLightColor changes color of light without recalculating light direction
+ * gSPLightColor changes colour of light without recalculating light direction
  * col is a 32 bit word with r,g,b,a (alpha is ignored)
  * n should be one of LIGHT_1, LIGHT_2, ..., LIGHT_8
  */

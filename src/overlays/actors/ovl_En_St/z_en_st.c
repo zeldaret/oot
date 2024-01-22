@@ -940,7 +940,7 @@ void EnSt_ReturnToCeiling(EnSt* this, PlayState* play) {
  * The Skulltula has been killed, bounce around
  */
 void EnSt_BounceAround(EnSt* this, PlayState* play) {
-    this->actor.colorFilterTimer = this->deathTimer;
+    this->actor.colourFilterTimer = this->deathTimer;
     Actor_UpdateVelocityXZGravity(&this->actor);
     this->actor.world.rot.x += 0x800;
     this->actor.world.rot.z -= 0x800;
@@ -1011,7 +1011,7 @@ void EnSt_StartOnCeilingOrGround(EnSt* this, PlayState* play) {
 void EnSt_Update(Actor* thisx, PlayState* play) {
     EnSt* this = (EnSt*)thisx;
     s32 pad;
-    Color_RGBA8 color = { 0, 0, 0, 0 };
+    Color_RGBA8 colour = { 0, 0, 0, 0 };
 
     if (this->actor.flags & ACTOR_FLAG_15) {
         SkelAnime_Update(&this->skelAnime);
@@ -1044,11 +1044,11 @@ void EnSt_Update(Actor* thisx, PlayState* play) {
 
         if (this->actionFunc == EnSt_WaitOnGround) {
             if ((play->state.frames & 0x10) != 0) {
-                color.r = 255;
+                colour.r = 255;
             }
         }
 
-        EnSt_SetTeethColor(this, color.r, color.g, color.b, 8);
+        EnSt_SetTeethColor(this, colour.r, colour.g, colour.b, 8);
         EnSt_UpdateCylinders(this, play);
         Actor_SetFocus(&this->actor, 0.0f);
     }

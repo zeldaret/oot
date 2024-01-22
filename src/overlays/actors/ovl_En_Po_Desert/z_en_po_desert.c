@@ -225,18 +225,18 @@ void EnPoDesert_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
 
     EnPoDesert* this = (EnPoDesert*)thisx;
     f32 rand;
-    Color_RGBA8 color;
+    Color_RGBA8 colour;
     Vec3f lightPos;
 
     if (limbIndex == 7) {
         Matrix_MultVec3f(&baseLightPos, &lightPos);
         rand = Rand_ZeroOne();
-        color.r = (s16)(rand * 30.0f) + 225;
-        color.g = (s16)(rand * 100.0f) + 155;
-        color.b = (s16)(rand * 160.0f) + 95;
+        colour.r = (s16)(rand * 30.0f) + 225;
+        colour.g = (s16)(rand * 100.0f) + 155;
+        colour.b = (s16)(rand * 160.0f) + 95;
         if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
             gDPPipeSync((*gfxP)++);
-            gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 255);
+            gDPSetEnvColor((*gfxP)++, colour.r, colour.g, colour.b, 255);
             gSPMatrix((*gfxP)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_po_desert.c", 523),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList((*gfxP)++, gPoeFieldLanternDL);
@@ -244,7 +244,7 @@ void EnPoDesert_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, this->lightColor.r, this->lightColor.g, this->lightColor.b, this->lightColor.a);
         }
-        Lights_PointNoGlowSetInfo(&this->lightInfo, lightPos.x, lightPos.y, lightPos.z, color.r, color.g, color.b, 200);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, lightPos.x, lightPos.y, lightPos.z, colour.r, colour.g, colour.b, 200);
     }
 }
 

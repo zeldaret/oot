@@ -101,9 +101,9 @@ void EnfHG_Destroy(Actor* thisx, PlayState* play) {
 void EnfHG_SetupIntro(EnfHG* this, PlayState* play) {
     Animation_PlayLoop(&this->skin.skelAnime, &gPhantomHorseIdleAnim);
     this->actionFunc = EnfHG_Intro;
-    this->actor.world.pos.x = GND_BOSSROOM_CENTER_X;
-    this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 267.0f;
-    this->actor.world.pos.z = GND_BOSSROOM_CENTER_Z;
+    this->actor.world.pos.x = GND_BOSSROOM_CENTRE_X;
+    this->actor.world.pos.y = GND_BOSSROOM_CENTRE_Y - 267.0f;
+    this->actor.world.pos.z = GND_BOSSROOM_CENTRE_Z;
 }
 
 void EnfHG_Intro(EnfHG* this, PlayState* play) {
@@ -119,14 +119,14 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
     }
     switch (this->cutsceneState) {
         case INTRO_WAIT:
-            if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTER_X + 0.0f)) < 150.0f) &&
-                (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 0.0f)) < 150.0f)) {
+            if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTRE_X + 0.0f)) < 150.0f) &&
+                (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTRE_Z + 0.0f)) < 150.0f)) {
                 this->cutsceneState = INTRO_READY;
             }
             break;
         case INTRO_READY:
-            if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTER_X + 0.0f)) < 100.0f) &&
-                (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 315.0f)) < 100.0f)) {
+            if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTRE_X + 0.0f)) < 100.0f) &&
+                (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTRE_Z + 315.0f)) < 100.0f)) {
                 this->cutsceneState = INTRO_START;
                 if (GET_EVENTCHKINF(EVENTCHKINF_72)) {
                     this->timers[0] = 57;
@@ -137,8 +137,8 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             if (GET_EVENTCHKINF(EVENTCHKINF_72)) {
                 if (this->timers[0] == 55) {
                     Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER,
-                                       GND_BOSSROOM_CENTER_X + 0.0f, GND_BOSSROOM_CENTER_Y - 97.0f,
-                                       GND_BOSSROOM_CENTER_Z + 308.0f, 0, 0, 0, DOORSHUTTER_PARAMS(SHUTTER_PG_BARS, 0));
+                                       GND_BOSSROOM_CENTRE_X + 0.0f, GND_BOSSROOM_CENTRE_Y - 97.0f,
+                                       GND_BOSSROOM_CENTRE_Z + 308.0f, 0, 0, 0, DOORSHUTTER_PARAMS(SHUTTER_PG_BARS, 0));
                 }
                 if (this->timers[0] == 51) {
                     Actor_PlaySfx(this->actor.child, NA_SE_EV_SPEAR_FENCE);
@@ -157,27 +157,27 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
             this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
-            this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
+            this->actor.world.pos.y = GND_BOSSROOM_CENTRE_Y - 7.0f;
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
             SET_EVENTCHKINF(EVENTCHKINF_72);
             Flags_SetSwitch(play, 0x23);
             FALLTHROUGH;
         case INTRO_FENCE:
-            player->actor.world.pos.x = GND_BOSSROOM_CENTER_X + 0.0f;
-            player->actor.world.pos.y = GND_BOSSROOM_CENTER_Y + 7.0f;
-            player->actor.world.pos.z = GND_BOSSROOM_CENTER_Z + 155.0f;
+            player->actor.world.pos.x = GND_BOSSROOM_CENTRE_X + 0.0f;
+            player->actor.world.pos.y = GND_BOSSROOM_CENTRE_Y + 7.0f;
+            player->actor.world.pos.z = GND_BOSSROOM_CENTRE_Z + 155.0f;
             player->actor.world.rot.y = player->actor.shape.rot.y = 0;
             player->actor.speed = 0.0f;
-            this->subCamEye.x = GND_BOSSROOM_CENTER_X + 0.0f;
-            this->subCamEye.y = GND_BOSSROOM_CENTER_Y + 37.0f;
-            this->subCamEye.z = GND_BOSSROOM_CENTER_Z + 170.0f;
-            this->subCamAt.x = GND_BOSSROOM_CENTER_X + 0.0f;
-            this->subCamAt.y = GND_BOSSROOM_CENTER_Y + 47.0f;
-            this->subCamAt.z = GND_BOSSROOM_CENTER_Z + 315.0f;
+            this->subCamEye.x = GND_BOSSROOM_CENTRE_X + 0.0f;
+            this->subCamEye.y = GND_BOSSROOM_CENTRE_Y + 37.0f;
+            this->subCamEye.z = GND_BOSSROOM_CENTRE_Z + 170.0f;
+            this->subCamAt.x = GND_BOSSROOM_CENTRE_X + 0.0f;
+            this->subCamAt.y = GND_BOSSROOM_CENTRE_Y + 47.0f;
+            this->subCamAt.z = GND_BOSSROOM_CENTRE_Z + 315.0f;
             if (this->timers[0] == 25) {
                 Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_SHUTTER,
-                                   GND_BOSSROOM_CENTER_X + 0.0f, GND_BOSSROOM_CENTER_Y - 97.0f,
-                                   GND_BOSSROOM_CENTER_Z + 308.0f, 0, 0, 0, DOORSHUTTER_PARAMS(SHUTTER_PG_BARS, 0));
+                                   GND_BOSSROOM_CENTRE_X + 0.0f, GND_BOSSROOM_CENTRE_Y - 97.0f,
+                                   GND_BOSSROOM_CENTRE_Z + 308.0f, 0, 0, 0, DOORSHUTTER_PARAMS(SHUTTER_PG_BARS, 0));
             }
             if (this->timers[0] == 21) {
                 Actor_PlaySfx(this->actor.child, NA_SE_EV_SPEAR_FENCE);
@@ -197,12 +197,12 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             if (this->timers[0] == 1) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_OPENING_GANON);
             }
-            Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTER_X + 40.0f, 0.05f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTER_Y + 37.0f, 0.05f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamEye.z, GND_BOSSROOM_CENTER_Z + 80.0f, 0.05f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamAt.x, GND_BOSSROOM_CENTER_X - 100.0f, 0.05f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamAt.y, GND_BOSSROOM_CENTER_Y + 47.0f, 0.05f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamAt.z, GND_BOSSROOM_CENTER_Z + 335.0f, 0.05f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTRE_X + 40.0f, 0.05f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTRE_Y + 37.0f, 0.05f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamEye.z, GND_BOSSROOM_CENTRE_Z + 80.0f, 0.05f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamAt.x, GND_BOSSROOM_CENTRE_X - 100.0f, 0.05f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamAt.y, GND_BOSSROOM_CENTRE_Y + 47.0f, 0.05f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamAt.z, GND_BOSSROOM_CENTRE_Z + 335.0f, 0.05f, this->subCamVelFactor * 20.0f);
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.01f);
             if (this->timers[0] == 0) {
                 this->cutsceneState = INTRO_REVEAL;
@@ -211,12 +211,12 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             }
             break;
         case INTRO_REVEAL:
-            Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTER_X + 70.0f, 0.1f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTER_Y + 7.0f, 0.1f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamEye.z, GND_BOSSROOM_CENTER_Z + 200.0f, 0.1f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamAt.x, GND_BOSSROOM_CENTER_X - 150.0f, 0.1f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamAt.y, GND_BOSSROOM_CENTER_Y + 107.0f, 0.1f, this->subCamVelFactor * 20.0f);
-            Math_ApproachF(&this->subCamAt.z, GND_BOSSROOM_CENTER_Z - 65.0f, 0.1f, this->subCamVelFactor * 40.0f);
+            Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTRE_X + 70.0f, 0.1f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTRE_Y + 7.0f, 0.1f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamEye.z, GND_BOSSROOM_CENTRE_Z + 200.0f, 0.1f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamAt.x, GND_BOSSROOM_CENTRE_X - 150.0f, 0.1f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamAt.y, GND_BOSSROOM_CENTRE_Y + 107.0f, 0.1f, this->subCamVelFactor * 20.0f);
+            Math_ApproachF(&this->subCamAt.z, GND_BOSSROOM_CENTRE_Z - 65.0f, 0.1f, this->subCamVelFactor * 40.0f);
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 5) {
                 Actor_PlaySfx(&this->actor, NA_SE_EV_HORSE_SANDDUST);
@@ -229,32 +229,32 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             break;
         case INTRO_CUT:
             this->cutsceneState = INTRO_LAUGH;
-            this->subCamEye.x = GND_BOSSROOM_CENTER_X + 50.0f;
-            this->subCamEye.y = GND_BOSSROOM_CENTER_Y + 17.0f;
-            this->subCamEye.z = GND_BOSSROOM_CENTER_Z + 110.0f;
-            this->subCamAt.x = GND_BOSSROOM_CENTER_X - 150.0f;
-            this->subCamAt.y = GND_BOSSROOM_CENTER_Y + 207.0f;
-            this->subCamAt.z = GND_BOSSROOM_CENTER_Z - 155.0f;
-            this->subCamEyeVel.x = fabsf(this->subCamEye.x - (GND_BOSSROOM_CENTER_X + 20.0f));
-            this->subCamEyeVel.y = fabsf(this->subCamEye.y - (GND_BOSSROOM_CENTER_Y + 102.0f));
-            this->subCamEyeVel.z = fabsf(this->subCamEye.z - (GND_BOSSROOM_CENTER_Z + 25.0f));
-            this->subCamAtVel.x = fabsf(this->subCamAt.x - (GND_BOSSROOM_CENTER_X - 150.0f));
-            this->subCamAtVel.y = fabsf(this->subCamAt.y - (GND_BOSSROOM_CENTER_Y + 197.0f));
-            this->subCamAtVel.z = fabsf(this->subCamAt.z - (GND_BOSSROOM_CENTER_Z - 65.0f));
+            this->subCamEye.x = GND_BOSSROOM_CENTRE_X + 50.0f;
+            this->subCamEye.y = GND_BOSSROOM_CENTRE_Y + 17.0f;
+            this->subCamEye.z = GND_BOSSROOM_CENTRE_Z + 110.0f;
+            this->subCamAt.x = GND_BOSSROOM_CENTRE_X - 150.0f;
+            this->subCamAt.y = GND_BOSSROOM_CENTRE_Y + 207.0f;
+            this->subCamAt.z = GND_BOSSROOM_CENTRE_Z - 155.0f;
+            this->subCamEyeVel.x = fabsf(this->subCamEye.x - (GND_BOSSROOM_CENTRE_X + 20.0f));
+            this->subCamEyeVel.y = fabsf(this->subCamEye.y - (GND_BOSSROOM_CENTRE_Y + 102.0f));
+            this->subCamEyeVel.z = fabsf(this->subCamEye.z - (GND_BOSSROOM_CENTRE_Z + 25.0f));
+            this->subCamAtVel.x = fabsf(this->subCamAt.x - (GND_BOSSROOM_CENTRE_X - 150.0f));
+            this->subCamAtVel.y = fabsf(this->subCamAt.y - (GND_BOSSROOM_CENTRE_Y + 197.0f));
+            this->subCamAtVel.z = fabsf(this->subCamAt.z - (GND_BOSSROOM_CENTRE_Z - 65.0f));
             this->timers[0] = 250;
             FALLTHROUGH;
         case INTRO_LAUGH:
-            Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTER_X + 20.0f, 0.05f,
+            Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTRE_X + 20.0f, 0.05f,
                            this->subCamVelFactor * this->subCamEyeVel.x);
-            Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTER_Y + 102.0f, 0.05f,
+            Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTRE_Y + 102.0f, 0.05f,
                            this->subCamVelFactor * this->subCamEyeVel.y);
-            Math_ApproachF(&this->subCamEye.z, GND_BOSSROOM_CENTER_Z + 25.0f, 0.05f,
+            Math_ApproachF(&this->subCamEye.z, GND_BOSSROOM_CENTRE_Z + 25.0f, 0.05f,
                            this->subCamVelFactor * this->subCamEyeVel.z);
-            Math_ApproachF(&this->subCamAt.x, GND_BOSSROOM_CENTER_X - 150.0f, 0.05f,
+            Math_ApproachF(&this->subCamAt.x, GND_BOSSROOM_CENTRE_X - 150.0f, 0.05f,
                            this->subCamVelFactor * this->subCamAtVel.x);
-            Math_ApproachF(&this->subCamAt.y, GND_BOSSROOM_CENTER_Y + 197.0f, 0.05f,
+            Math_ApproachF(&this->subCamAt.y, GND_BOSSROOM_CENTRE_Y + 197.0f, 0.05f,
                            this->subCamVelFactor * this->subCamAtVel.y);
-            Math_ApproachF(&this->subCamAt.z, GND_BOSSROOM_CENTER_Z - 65.0f, 0.05f,
+            Math_ApproachF(&this->subCamAt.z, GND_BOSSROOM_CENTRE_Z - 65.0f, 0.05f,
                            this->subCamVelFactor * this->subCamAtVel.z);
             Math_ApproachF(&this->subCamVelFactor, 0.01f, 1.0f, 0.001f);
             if ((this->timers[0] == 245) || (this->timers[0] == 3)) {
@@ -302,9 +302,9 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             if (this->timers[0] == 2) {
                 this->subCamVelFactor = 0.0f;
                 this->cutsceneState = INTRO_TITLE;
-                this->subCamEyeVel.x = fabsf(this->subCamEye.x - (GND_BOSSROOM_CENTER_X + 180.0f));
-                this->subCamEyeVel.y = fabsf(this->subCamEye.y - (GND_BOSSROOM_CENTER_Y + 7.0f));
-                this->subCamEyeVel.z = fabsf(this->subCamEye.z - (GND_BOSSROOM_CENTER_Z + 140.0f));
+                this->subCamEyeVel.x = fabsf(this->subCamEye.x - (GND_BOSSROOM_CENTRE_X + 180.0f));
+                this->subCamEyeVel.y = fabsf(this->subCamEye.y - (GND_BOSSROOM_CENTRE_Y + 7.0f));
+                this->subCamEyeVel.z = fabsf(this->subCamEye.z - (GND_BOSSROOM_CENTRE_Z + 140.0f));
                 this->timers[0] = 100;
                 this->timers[1] = 34;
                 this->subCamAtVel.x = fabsf(this->subCamAt.x - this->actor.world.pos.x);
@@ -317,11 +317,11 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 Animation_Change(&this->skin.skelAnime, &gPhantomHorseIdleAnim, 0.5f, 0.0f,
                                  Animation_GetLastFrame(&gPhantomHorseIdleAnim), ANIMMODE_LOOP_INTERP, -3.0f);
             }
-            Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTER_X + 180.0f, 0.1f,
+            Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTRE_X + 180.0f, 0.1f,
                            this->subCamVelFactor * this->subCamEyeVel.x);
-            Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTER_Y + 7.0f, 0.1f,
+            Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTRE_Y + 7.0f, 0.1f,
                            this->subCamVelFactor * this->subCamEyeVel.y);
-            Math_ApproachF(&this->subCamEye.z, this->subCamPanZ + (GND_BOSSROOM_CENTER_Z + 140.0f), 0.1f,
+            Math_ApproachF(&this->subCamEye.z, this->subCamPanZ + (GND_BOSSROOM_CENTRE_Z + 140.0f), 0.1f,
                            this->subCamVelFactor * this->subCamEyeVel.z);
             Math_ApproachF(&this->subCamPanZ, -100.0f, 0.1f, 1.0f);
             Math_ApproachF(&this->subCamAt.x, this->actor.world.pos.x, 0.1f, this->subCamVelFactor * 10.0f);
@@ -357,24 +357,24 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
                 Player_SetCsActionWithHaltedActors(play, &this->actor, PLAYER_CSACTION_8);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_MASIC2);
             }
-            Math_ApproachF(&this->subCamEye.z, this->subCamPanZ + (GND_BOSSROOM_CENTER_Z + 100.0f), 0.1f,
+            Math_ApproachF(&this->subCamEye.z, this->subCamPanZ + (GND_BOSSROOM_CENTRE_Z + 100.0f), 0.1f,
                            this->subCamVelFactor * 1.5f);
             Math_ApproachF(&this->subCamPanZ, -100.0f, 0.1f, 1.0f);
-            Math_ApproachF(&this->actor.world.pos.z, GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f, 1.0f,
+            Math_ApproachF(&this->actor.world.pos.z, GND_BOSSROOM_CENTRE_Z + 400.0f - 0.5f, 1.0f,
                            this->subCamVelFactor * 10.0f);
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.05f);
-            if ((fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f)) < 300.0f) &&
+            if ((fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTRE_Z + 400.0f - 0.5f)) < 300.0f) &&
                 !this->spawnedWarp) {
                 this->spawnedWarp = true;
-                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE, GND_BOSSROOM_CENTER_X + 0.0f,
-                                   this->actor.world.pos.y + 50.0f, GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f, 0,
+                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE, GND_BOSSROOM_CENTRE_X + 0.0f,
+                                   this->actor.world.pos.y + 50.0f, GND_BOSSROOM_CENTRE_Z + 400.0f - 0.5f, 0,
                                    this->actor.shape.rot.y, 0, FHGFIRE_WARP_RETREAT);
                 this->fhgFireKillWarp = true;
             }
             Math_ApproachF(&this->subCamAt.x, this->actor.world.pos.x, 0.2f, 50.0f);
             Math_ApproachF(&this->subCamAt.z, this->actor.world.pos.z, 0.2f, 50.0f);
             PRINTF("TIME %d-------------------------------------------------\n", this->timers[0]);
-            if (fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f)) < 1.0f) {
+            if (fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTRE_Z + 400.0f - 0.5f)) < 1.0f) {
                 play->envCtx.lightSettingOverride = 0;
                 play->envCtx.lightBlendRateOverride = 20;
                 this->cutsceneState = INTRO_FINISH;
@@ -386,7 +386,7 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             break;
         case INTRO_FINISH:
             EnfHG_Retreat(this, play);
-            Math_ApproachF(&this->subCamEye.z, this->subCamPanZ + (GND_BOSSROOM_CENTER_Z + 100.0f), 0.1f,
+            Math_ApproachF(&this->subCamEye.z, this->subCamPanZ + (GND_BOSSROOM_CENTRE_Z + 100.0f), 0.1f,
                            this->subCamVelFactor * 1.5f);
             Math_ApproachF(&this->subCamPanZ, -100.0f, 0.1f, 1.0f);
             Math_ApproachF(&this->subCamAt.y, (this->actor.world.pos.y + 70.0f) - 20.0f, 0.1f,
@@ -421,17 +421,17 @@ void EnfHG_SetupApproach(EnfHG* this, PlayState* play, s16 paintingIndex) {
     PRINTF("KABE NO 1 = %d\n", this->curPainting);
     PRINTF("KABE NO 2 = %d\n", this->targetPainting);
 
-    this->actor.world.pos.x = (1.3f * sPaintings[this->curPainting].pos.x) + (GND_BOSSROOM_CENTER_X - 4.0f);
-    this->actor.world.pos.y = sPaintings[this->curPainting].pos.y + (GND_BOSSROOM_CENTER_Y + 153.0f);
-    this->actor.world.pos.z = (1.3f * sPaintings[this->curPainting].pos.z) - -(GND_BOSSROOM_CENTER_Z - 10.0f);
+    this->actor.world.pos.x = (1.3f * sPaintings[this->curPainting].pos.x) + (GND_BOSSROOM_CENTRE_X - 4.0f);
+    this->actor.world.pos.y = sPaintings[this->curPainting].pos.y + (GND_BOSSROOM_CENTRE_Y + 153.0f);
+    this->actor.world.pos.z = (1.3f * sPaintings[this->curPainting].pos.z) - -(GND_BOSSROOM_CENTRE_Z - 10.0f);
     this->actor.world.rot.y = sPaintings[this->curPainting].yRot;
 
     PRINTF("XP1  = %f\n", this->actor.world.pos.x);
     PRINTF("ZP1  = %f\n", this->actor.world.pos.z);
 
-    this->inPaintingPos.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + (GND_BOSSROOM_CENTER_X - 4.0f);
-    this->inPaintingPos.y = sPaintings[this->targetPainting].pos.y + (GND_BOSSROOM_CENTER_Y + 33.0f);
-    this->inPaintingPos.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - -(GND_BOSSROOM_CENTER_Z - 10.0f);
+    this->inPaintingPos.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + (GND_BOSSROOM_CENTRE_X - 4.0f);
+    this->inPaintingPos.y = sPaintings[this->targetPainting].pos.y + (GND_BOSSROOM_CENTRE_Y + 33.0f);
+    this->inPaintingPos.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - -(GND_BOSSROOM_CENTRE_Z - 10.0f);
     this->inPaintingVelX = (fabsf(this->inPaintingPos.x - this->actor.world.pos.x) * 2) * 0.01f;
 
     if (this->inPaintingVelX < 1.0f) {
@@ -592,9 +592,9 @@ void EnfHG_Damage(EnfHG* this, PlayState* play) {
         Math_ApproachZeroF(&this->damageSpeedMod, 1.0f, 0.1f);
         if (this->timers[0] == 1) {
             this->targetPainting = this->curPainting;
-            this->inPaintingPos.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + (GND_BOSSROOM_CENTER_X - 4.0f);
+            this->inPaintingPos.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + (GND_BOSSROOM_CENTRE_X - 4.0f);
             this->inPaintingPos.y = sPaintings[this->targetPainting].pos.y;
-            this->inPaintingPos.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - -(GND_BOSSROOM_CENTER_Z - 10.0f);
+            this->inPaintingPos.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - -(GND_BOSSROOM_CENTRE_Z - 10.0f);
         }
     } else {
         Math_ApproachF(&this->damageSpeedMod, 1.0f, 1.0f, 0.1f);

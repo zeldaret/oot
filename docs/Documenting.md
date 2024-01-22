@@ -92,7 +92,7 @@ For inline rendering:
  * \f$ \textrm{Your LaTeX Here} \f$
  */
 ```
-For centered rendering on a separate line:
+For centreed rendering on a separate line:
 ```c
 /**
  * \f[ \textrm{Your LaTeX Here} \f]

@@ -27,22 +27,22 @@ enum
 	gfxd_Dxt,		/* texture dxt */
 	gfxd_Tag,		/* generic tag */
 	gfxd_Pm,		/* pipeline mode */
-	gfxd_Colorpart,		/* color component */
-	gfxd_Color,		/* color */
+	gfxd_Colorpart,		/* colour component */
+	gfxd_Color,		/* colour */
 	gfxd_Lodfrac,		/* lod fraction (q0.8) */
-	gfxd_Cimg,		/* color image pointer */
+	gfxd_Cimg,		/* colour image pointer */
 	gfxd_Zimg,		/* depth image pointer */
 	gfxd_Ac,		/* alpha compare mode */
 	gfxd_Ad,		/* alpha dither mode */
-	gfxd_Cd,		/* color dither mode */
-	gfxd_Ccpre,		/* color combiner preset index */
-	gfxd_Ccmuxa,		/* color mux operand (a) */
-	gfxd_Ccmuxb,		/* color mux operand (b) */
-	gfxd_Ccmuxc,		/* color mux operand (c) */
-	gfxd_Ccmuxd,		/* color mux operand (d) */
+	gfxd_Cd,		/* colour dither mode */
+	gfxd_Ccpre,		/* colour combiner preset index */
+	gfxd_Ccmuxa,		/* colour mux operand (a) */
+	gfxd_Ccmuxb,		/* colour mux operand (b) */
+	gfxd_Ccmuxc,		/* colour mux operand (c) */
+	gfxd_Ccmuxd,		/* colour mux operand (d) */
 	gfxd_Acmuxabd,		/* alpha mux operand (a, b, or d) */
 	gfxd_Acmuxc,		/* alpha mux operand (c) */
-	gfxd_Cv,		/* color convert operand */
+	gfxd_Cv,		/* colour convert operand */
 	gfxd_Tc,		/* texture convert mode */
 	gfxd_Cyc,		/* cycle type */
 	gfxd_Zs,		/* depth source mode */
@@ -100,7 +100,7 @@ enum
 	gfxd_Mw,		/* moveword index */
 	gfxd_Mwo,		/* moveword offset */
 	gfxd_Mwo_clip,		/* clip ratio moveword offset */
-	gfxd_Mwo_lightcol,	/* light color moveword offset */
+	gfxd_Mwo_lightcol,	/* light colour moveword offset */
 	gfxd_Mv,		/* movemem index */
 	gfxd_Mvo,		/* movemem offset */
 	gfxd_Dmem,		/* dmem address */
@@ -254,7 +254,7 @@ enum
 {
 	gfxd_stop_on_invalid,
 	gfxd_stop_on_end,
-	gfxd_emit_dec_color,
+	gfxd_emit_dec_colour,
 	gfxd_emit_q_macro,
 	gfxd_emit_ext_macro,
 };

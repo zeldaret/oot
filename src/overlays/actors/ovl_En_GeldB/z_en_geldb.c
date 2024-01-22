@@ -1027,7 +1027,7 @@ void EnGeldB_Stunned(EnGeldB* this, PlayState* play) {
         }
         this->invisible = false;
     }
-    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if ((this->actor.colourFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->actor.colChkInfo.health == 0) {
             EnGeldB_SetupDefeated(this);
         } else {
@@ -1418,7 +1418,7 @@ void EnGeldB_Update(Actor* thisx, PlayState* play) {
     Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->bodyCollider.base);
     if ((this->action >= GELDB_READY) && (this->spinAttackState < 2) &&
-        ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
+        ((this->actor.colourFilterTimer == 0) || !(this->actor.colourFilterParams & 0x4000))) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->bodyCollider.base);
     }
     if ((this->action == GELDB_BLOCK) && (this->skelAnime.curFrame == 0.0f)) {
@@ -1604,7 +1604,7 @@ void EnGeldB_Draw(Actor* thisx, PlayState* play) {
         }
 
         if (this->iceTimer != 0) {
-            thisx->colorFilterTimer++;
+            thisx->colourFilterTimer++;
             this->iceTimer--;
             if ((this->iceTimer % 4) == 0) {
                 s32 iceIndex = this->iceTimer >> 2;

@@ -336,10 +336,10 @@ void EnWonderItem_Update(Actor* thisx, PlayState* play) {
     static s16 debugArrowColors[] = {
         255, 255, 0,   255, 0,   255, 0,   255, 255, 255, 0,   0, 0, 255, 0,   0, 0, 255, 128, 128,
         128, 128, 128, 0,   128, 0,   128, 0,   128, 0,   128, 0, 0, 0,   128, 0, 0, 0,   128,
-    }; // These seem to be mistyped. Logically they should be s16[13][3] and be indexed as [colorIndex][i]
+    }; // These seem to be mistyped. Logically they should be s16[13][3] and be indexed as [colourIndex][i]
     s32 pad;
     EnWonderItem* this = (EnWonderItem*)thisx;
-    s32 colorIndex;
+    s32 colourIndex;
 
     if (this->timer != 0) {
         this->timer--;
@@ -354,14 +354,14 @@ void EnWonderItem_Update(Actor* thisx, PlayState* play) {
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 
-    colorIndex = this->wonderMode;
+    colourIndex = this->wonderMode;
     if (this->wonderMode > 12) {
-        colorIndex = 0;
+        colourIndex = 0;
     }
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                               1.0f, debugArrowColors[colorIndex], debugArrowColors[colorIndex + 1],
-                               debugArrowColors[colorIndex + 2], 255, 4, play->state.gfxCtx);
+                               1.0f, debugArrowColors[colourIndex], debugArrowColors[colourIndex + 1],
+                               debugArrowColors[colourIndex + 2], 255, 4, play->state.gfxCtx);
     }
 }

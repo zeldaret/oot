@@ -199,9 +199,9 @@ void func_8088E90C(BgHidanSima* this) {
 
     for (i = 0; i < 2; i++) {
         elem = &this->collider.elements[i];
-        elem->dim.worldSphere.center.x = this->dyna.actor.world.pos.x + sin * elem->dim.modelSphere.center.z;
-        elem->dim.worldSphere.center.y = (s16)this->dyna.actor.world.pos.y + elem->dim.modelSphere.center.y;
-        elem->dim.worldSphere.center.z = this->dyna.actor.world.pos.z + cos * elem->dim.modelSphere.center.z;
+        elem->dim.worldSphere.centre.x = this->dyna.actor.world.pos.x + sin * elem->dim.modelSphere.centre.z;
+        elem->dim.worldSphere.centre.y = (s16)this->dyna.actor.world.pos.y + elem->dim.modelSphere.centre.y;
+        elem->dim.worldSphere.centre.z = this->dyna.actor.world.pos.z + cos * elem->dim.modelSphere.centre.z;
     }
 }
 

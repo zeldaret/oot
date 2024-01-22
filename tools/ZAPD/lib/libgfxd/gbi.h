@@ -907,7 +907,7 @@
 #define G_PM_NPRIMITIVE		(gI_(0b0) << G_MDSFT_PIPELINE)
 #define G_PM_1PRIMITIVE		(gI_(0b1) << G_MDSFT_PIPELINE)
 
-/* color conversion constants */
+/* colour conversion constants */
 #define G_CV_K0			(175)
 #define G_CV_K1			(-43)
 #define G_CV_K2			(-89)
@@ -915,7 +915,7 @@
 #define G_CV_K4			(114)
 #define G_CV_K5			(42)
 
-/* color combiner */
+/* colour combiner */
 #define G_CCMUX_COMBINED	0
 #define G_CCMUX_TEXEL0		1
 #define G_CCMUX_TEXEL1		2
@@ -925,7 +925,7 @@
 #define G_CCMUX_1		6
 #define G_CCMUX_NOISE		7
 #define G_CCMUX_0		31
-#define G_CCMUX_CENTER		6
+#define G_CCMUX_CENTRE		6
 #define G_CCMUX_K4		7
 #define G_CCMUX_SCALE		6
 #define G_CCMUX_COMBINED_ALPHA	7
@@ -1105,7 +1105,7 @@
 	ENVIRONMENT,	COMBINED,	TEXEL0,		COMBINED, \
 	0,		0,		0,		COMBINED
 #define G_CC_CHROMA_KEY2 \
-	TEXEL0,		CENTER,		SCALE,		0, \
+	TEXEL0,		CENTRE,		SCALE,		0, \
 	0,		0,		0,		0
 #define G_CC_YUV2RGB \
 	TEXEL1,		K4,		K5,		TEXEL1, \
@@ -1365,7 +1365,7 @@
 #define G_OBJ_FLAG_FLIPS	(gI_(0b1) << 0)
 #define G_OBJ_FLAG_FLIPT	(gI_(0b1) << 4)
 
-/* color macros */
+/* colour macros */
 #define G_MAXZ			0x03FF
 #define G_MAXFBZ		0x3FFF
 #define GPACK_RGBA5551(r, g, b, a) \
@@ -2450,9 +2450,9 @@
 #define gsSPNumLights(n) \
 	gsMoveWd(G_MW_NUMLIGHT, G_MWO_NUMLIGHT, NUML(n))
 
-#define gsSPLightColor(Lightnum, packedcolor) \
-	gsMoveWd(G_MW_LIGHTCOL, G_MWO_a##Lightnum, packedcolor), \
-	gsMoveWd(G_MW_LIGHTCOL, G_MWO_b##Lightnum, packedcolor)
+#define gsSPLightColor(Lightnum, packedcolour) \
+	gsMoveWd(G_MW_LIGHTCOL, G_MWO_a##Lightnum, packedcolour), \
+	gsMoveWd(G_MW_LIGHTCOL, G_MWO_b##Lightnum, packedcolour)
 
 #define gsSPTextureRectangle(ulx, uly, lrx, lry, tile, s, t, dsdx, dtdy) \
 	gsTexRect(ulx, uly, lrx, lry, tile), \

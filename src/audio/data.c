@@ -29,7 +29,7 @@ u8 gSfxChannelLayout = 0;
 
 u16 D_801333D0 = 0;
 
-// The center of the screen in projected coordinates.
+// The centre of the screen in projected coordinates.
 // Gives the impression that the sfx has no specific location
 Vec3f gSfxDefaultPos = { 0.0f, 0.0f, 0.0f };
 
