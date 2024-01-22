@@ -110,7 +110,7 @@ It is recommended to set up a virtual environment for python to contain all depe
 python3 -m venv .venv
 ```
 
-To start using the virtual environment on your current terminal run:
+To start using the virtual environment in your current terminal run:
 
 ```bash
 . .venv/bin/activate
