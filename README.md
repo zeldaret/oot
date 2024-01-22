@@ -104,7 +104,7 @@ cd oot
 
 The build process has a few python packages required that are located in `requirements.txt`.
 
-It is recommend to setup a virtual environment for python to localize all dependencies. To create a virtual environment:
+It is recommended to set up a virtual environment for python to contain all dependencies. To create a virtual environment:
 
 ```bash
 python3 -m venv .venv
