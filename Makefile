@@ -105,6 +105,7 @@ AS      := $(MIPS_BINUTILS_PREFIX)as
 LD      := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
+NM      := $(MIPS_BINUTILS_PREFIX)nm
 
 N64_EMULATOR ?= 
 
@@ -158,12 +159,6 @@ else
 endif
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
-
-# rom compression flags
-COMPFLAGS := --threads $(N_THREADS)
-ifneq ($(NON_MATCHING),1)
-  COMPFLAGS += --matching
-endif
 
 #### Files ####
 
@@ -315,7 +310,8 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/$(SPEC)
-	$(PYTHON) tools/z64compress_wrapper.py $(COMPFLAGS) $(ROM) $@ $(ELF) $(BUILD_DIR)/$(SPEC)
+# note: $(BUILD_DIR)/compress_ranges.txt should only be used for nonmatching builds. it works by chance for matching builds too though
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-range `./tools/dmadata_range.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
 	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@
@@ -366,7 +362,7 @@ $(BUILD_DIR)/src/%.o: src/%.s
 	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
 
 $(BUILD_DIR)/dmadata_table_spec.h: $(BUILD_DIR)/$(SPEC)
-	$(MKDMADATA) $< $@
+	$(MKDMADATA) $< $@ $(BUILD_DIR)/compress_ranges.txt
 
 # Dependencies for files that may include the dmadata header automatically generated from the spec file
 $(BUILD_DIR)/src/boot/z_std_dma.o: $(BUILD_DIR)/dmadata_table_spec.h
