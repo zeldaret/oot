@@ -309,7 +309,7 @@ all: rom compressed
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/$(SPEC)
+$(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 # note: $(BUILD_DIR)/compress_ranges.txt should only be used for nonmatching builds. it works by chance for matching builds too though
 	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-range `./tools/dmadata_range.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
 	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
@@ -362,8 +362,8 @@ $(BUILD_DIR)/assets/%.o: assets/%.c
 $(BUILD_DIR)/src/%.o: src/%.s
 	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
 
-$(BUILD_DIR)/dmadata_table_spec.h: $(BUILD_DIR)/$(SPEC)
-	$(MKDMADATA) $< $@ $(BUILD_DIR)/compress_ranges.txt
+$(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)/$(SPEC)
+	$(MKDMADATA) $< $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt
 
 # Dependencies for files that may include the dmadata header automatically generated from the spec file
 $(BUILD_DIR)/src/boot/z_std_dma.o: $(BUILD_DIR)/dmadata_table_spec.h
