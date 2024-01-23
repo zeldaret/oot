@@ -81,6 +81,14 @@ class RomSegment:
         return self.vromEnd - self.vromStart
 
 
+# Make interrupting the compression with ^C less jank
+# https://stackoverflow.com/questions/72967793/keyboardinterrupt-with-python-multiprocessing-pool
+def set_sigint_ignored():
+    import signal
+
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
+
 def compress_rom(
     rom_data: memoryview,
     dmadata_offset_start: int,
@@ -98,13 +106,6 @@ def compress_rom(
 
     # Segments of the compressed rom (not all are compressed)
     compressed_rom_segments: list[RomSegment] = []
-
-    # Make interrupting the compression with ^C less jank
-    # https://stackoverflow.com/questions/72967793/keyboardinterrupt-with-python-multiprocessing-pool
-    def set_sigint_ignored():
-        import signal
-
-        signal.signal(signal.SIGINT, signal.SIG_IGN)
 
     with multiprocessing.Pool(n_threads, initializer=set_sigint_ignored) as p:
         # Extract each segment from the input rom
