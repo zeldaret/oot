@@ -4,6 +4,9 @@ import argparse
 from pathlib import Path
 import dataclasses
 import struct
+import time
+import multiprocessing
+import multiprocessing.pool
 
 import crunch64
 
@@ -58,7 +61,12 @@ class RomSegment:
     vromStart: int
     vromEnd: int
     is_compressed: bool
-    data: memoryview
+    data: memoryview | None
+    data_async: multiprocessing.pool.AsyncResult | None
+
+    @property
+    def uncompressed_size(self):
+        return self.vromEnd - self.vromStart
 
 
 def compress_rom(
@@ -66,44 +74,105 @@ def compress_rom(
     dmadata_offset_start: int,
     dmadata_offset_end: int,
     compress_entries_indices: set[int],
+    n_threads: int = None,
 ):
     compressed_rom_segments: list[RomSegment] = []
 
-    # Extract each segment from the input rom
-    for entry_index, dmadata_offset in enumerate(
-        range(dmadata_offset_start, dmadata_offset_end, DmaEntry.SIZE_BYTES)
-    ):
-        print(entry_index, end="\r")
+    # Make interrupting the compression with ^C less jank
+    # https://stackoverflow.com/questions/72967793/keyboardinterrupt-with-python-multiprocessing-pool
+    def set_sigint_ignored():
+        import signal
 
-        dma_entry = DmaEntry.from_bin(rom_data[dmadata_offset:])
-        if dma_entry == DMA_ENTRY_ZERO:
-            continue
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
 
-        segment_rom_start = dma_entry.romStart
-        segment_rom_end = dma_entry.romStart + (dma_entry.vromEnd - dma_entry.vromStart)
-        segment_data_uncompressed = rom_data[segment_rom_start:segment_rom_end]
+    with multiprocessing.Pool(n_threads, initializer=set_sigint_ignored) as p:
+        # Extract each segment from the input rom
+        for entry_index, dmadata_offset in enumerate(
+            range(dmadata_offset_start, dmadata_offset_end, DmaEntry.SIZE_BYTES)
+        ):
+            dma_entry = DmaEntry.from_bin(rom_data[dmadata_offset:])
+            if dma_entry == DMA_ENTRY_ZERO:
+                continue
 
-        is_compressed = entry_index in compress_entries_indices
-
-        if is_compressed:
-            segment_data = memoryview(
-                crunch64.yaz0.compress(bytes(segment_data_uncompressed))
+            segment_rom_start = dma_entry.romStart
+            segment_rom_end = dma_entry.romStart + (
+                dma_entry.vromEnd - dma_entry.vromStart
             )
-        else:
-            segment_data = segment_data_uncompressed
+            segment_data_uncompressed = rom_data[segment_rom_start:segment_rom_end]
 
-        compressed_rom_segments.append(
-            RomSegment(
-                dma_entry.vromStart,
-                dma_entry.vromEnd,
-                is_compressed,
-                segment_data,
+            is_compressed = entry_index in compress_entries_indices
+
+            if is_compressed:
+                segment_data = None
+                segment_data_async = p.apply_async(
+                    crunch64.yaz0.compress,
+                    (bytes(segment_data_uncompressed),),
+                )
+            else:
+                segment_data = segment_data_uncompressed
+                segment_data_async = None
+
+            compressed_rom_segments.append(
+                RomSegment(
+                    dma_entry.vromStart,
+                    dma_entry.vromEnd,
+                    is_compressed,
+                    segment_data,
+                    segment_data_async,
+                )
             )
+
+        # Technically optional but required for matching.
+        compressed_rom_segments.sort(key=lambda segment: segment.vromStart)
+
+        # Wait on compression of all compressed segments
+        waiting_on_segments = [
+            segment for segment in compressed_rom_segments if segment.is_compressed
+        ]
+        total_uncompressed_size_of_data_to_compress = sum(
+            segment.uncompressed_size for segment in waiting_on_segments
         )
+        uncompressed_size_of_data_compressed_so_far = 0
+        while waiting_on_segments:
+            # Show progress
+            progress = (
+                uncompressed_size_of_data_compressed_so_far
+                / total_uncompressed_size_of_data_to_compress
+            )
+            print(f"Compressing... {progress * 100:.1f}%", end="\r")
 
-    compressed_rom_segments.sort(key=lambda segment: segment.vromStart)
+            # The segments for which the compression is not finished yet are
+            # added to this list
+            still_waiting_on_segments = []
+            got_some_results = False
+            for segment in waiting_on_segments:
+                assert segment.data is None
+                assert segment.data_async is not None
 
-    # Assemble the compressed rom
+                try:
+                    compressed_data = segment.data_async.get(0)
+                except multiprocessing.TimeoutError:
+                    # Compression not finished yet
+                    still_waiting_on_segments.append(segment)
+                else:
+                    # Compression finished!
+                    assert isinstance(compressed_data, bytes)
+                    segment.data = memoryview(compressed_data)
+                    uncompressed_size_of_data_compressed_so_far += (
+                        segment.uncompressed_size
+                    )
+                    got_some_results = True
+                    segment.data_async = None
+
+            if not got_some_results and still_waiting_on_segments:
+                # Nothing happened this wait iteration, idle a bit
+                time.sleep(0.010)
+
+            waiting_on_segments = still_waiting_on_segments
+
+    print("Putting together the compressed rom...")
+
+    # Put together the compressed rom
     compressed_rom_size = sum(
         align(len(segment.data)) for segment in compressed_rom_segments
     )
@@ -117,6 +186,8 @@ def compress_rom(
     compressed_rom_dma_entries: list[DmaEntry] = []
     rom_offset = 0
     for segment in compressed_rom_segments:
+        assert segment.data is not None
+
         segment_rom_start = rom_offset
         segment_rom_end = align(segment_rom_start + len(segment.data))
 
@@ -136,6 +207,7 @@ def compress_rom(
         rom_offset = segment_rom_end
 
     assert rom_offset == compressed_rom_size
+    # Pad the compressed rom with the pattern matching the baseroms
     for i in range(compressed_rom_size, compressed_rom_size_padded):
         compressed_rom_data[i] = i % 256
 
@@ -193,7 +265,6 @@ def main():
             )
 
     n_threads = args.n_threads
-    print(f"ignoring {n_threads=}")
 
     in_rom_data = in_rom_p.read_bytes()
     out_rom_data = compress_rom(
@@ -201,6 +272,7 @@ def main():
         dmadata_offset_start,
         dmadata_offset_end,
         compress_entries_indices,
+        n_threads,
     )
     out_rom_p.write_bytes(out_rom_data)
 
