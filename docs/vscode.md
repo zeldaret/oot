@@ -74,7 +74,7 @@ Add the following to (or create) the `.vscode/settings.json` file for VSCode to 
     "search.useIgnoreFiles": false,
     "search.exclude": {
         "**/.git": true,
-        "baseroms/gc-eu-mq-dbg/segments/**": true,
+        "baseroms/**": true,
         "build/**": true,
         "expected/**": true,
     },
