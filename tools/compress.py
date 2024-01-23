@@ -16,6 +16,18 @@ STRUCT_IIII = struct.Struct(">IIII")
 
 @dataclasses.dataclass
 class DmaEntry:
+    """
+    A Python counterpart to the dmadata entry struct:
+    ```c
+    typedef struct {
+        /* 0x00 */ uintptr_t vromStart;
+        /* 0x04 */ uintptr_t vromEnd;
+        /* 0x08 */ uintptr_t romStart;
+        /* 0x0C */ uintptr_t romEnd;
+    } DmaEntry;
+    ```
+    """
+
     vromStart: int
     vromEnd: int
     romStart: int
@@ -76,6 +88,15 @@ def compress_rom(
     compress_entries_indices: set[int],
     n_threads: int = None,
 ):
+    """
+    rom_data: the uncompressed rom data
+    dmadata_offset_start: the offset in the rom where the dmadata starts (inclusive)
+    dmadata_offset_end: the offset in the rom where the dmadata ends (exclusive)
+    compress_entries_indices: the indices in the dmadata of the segments that should be compressed
+    n_threads: how many cores to use for compression
+    """
+
+    # Segments of the compressed rom (not all are compressed)
     compressed_rom_segments: list[RomSegment] = []
 
     # Make interrupting the compression with ^C less jank
@@ -176,7 +197,7 @@ def compress_rom(
     compressed_rom_size = sum(
         align(len(segment.data)) for segment in compressed_rom_segments
     )
-    pad_to_multiple_of = 8 * 2**20
+    pad_to_multiple_of = 8 * 2**20  # 8 MiB
     compressed_rom_size_padded = (
         (compressed_rom_size + pad_to_multiple_of - 1)
         // pad_to_multiple_of
@@ -225,15 +246,51 @@ def compress_rom(
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--in", dest="in_rom", required=True)
-    parser.add_argument("--out", dest="out_rom", required=True)
-    parser.add_argument("--dma-range", dest="dma_range", required=True)
-    parser.add_argument("--compress", dest="compress_ranges", required=True)
-    parser.add_argument("--threads", dest="n_threads", type=int, default=1)
+    parser.add_argument(
+        "--in",
+        dest="in_rom",
+        required=True,
+        help="path to an uncompressed rom to be compressed",
+    )
+    parser.add_argument(
+        "--out",
+        dest="out_rom",
+        required=True,
+        help="path of the compressed rom to write out",
+    )
+    parser.add_argument(
+        "--dma-range",
+        dest="dma_range",
+        required=True,
+        help=(
+            "The dmadata location in the rom, in format"
+            " 'start_inclusive-end_exclusive' and using hexadecimal offsets"
+            " (e.g. '0x12f70-0x19030')."
+        ),
+    )
+    parser.add_argument(
+        "--compress",
+        dest="compress_ranges",
+        required=True,
+        help=(
+            "The indices in the dmadata of the entries to be compressed,"
+            " where 0 is the first entry."
+            " It is a comma-separated list of individual indices and inclusive ranges."
+            " e.g. '0-1,3,5,6-9' is all indices from 0 to 9 (included) except 2 and 4."
+        ),
+    )
+    parser.add_argument(
+        "--threads",
+        dest="n_threads",
+        type=int,
+        default=1,
+        help="how many cores to use for parallel compression",
+    )
     args = parser.parse_args()
 
     in_rom_p = Path(args.in_rom)
-    assert in_rom_p.exists()
+    if not in_rom_p.exists():
+        parser.error(f"Input rom file {in_rom_p} doesn't exist.")
 
     out_rom_p = Path(args.out_rom)
 
