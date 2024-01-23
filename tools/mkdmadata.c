@@ -23,15 +23,27 @@ static void write_dmadata_table(FILE *fout)
 static void write_compress_ranges(FILE *fout)
 {
     int i;
-    bool first = true;
+    bool continue_list = false;
+    int stride_first = -1;
 
     for (i = 0; i < g_segmentsCount; i++) {
         if (g_segments[i].compress) {
-            if (first) {
-                first = false;
-                fprintf(fout, "%d", i);
-            } else {
-                fprintf(fout, ",%d", i);
+            if (stride_first == -1)
+                stride_first = i;
+        }
+        if (!g_segments[i].compress || i == g_segmentsCount - 1) {
+            if (stride_first != -1) {
+                int stride_last = i - 1;
+                if (continue_list) {
+                    fprintf(fout, ",");
+                }
+                if (stride_first == stride_last) {
+                    fprintf(fout, "%d", stride_first);
+                } else {
+                    fprintf(fout, "%d-%d", stride_first, stride_last);
+                }
+                continue_list = true;
+                stride_first = -1;
             }
         }
     }

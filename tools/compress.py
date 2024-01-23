@@ -57,6 +57,7 @@ def align(v: int):
 class RomSegment:
     vromStart: int
     vromEnd: int
+    is_compressed: bool
     data: memoryview
 
 
@@ -82,7 +83,9 @@ def compress_rom(
         segment_rom_end = dma_entry.romStart + (dma_entry.vromEnd - dma_entry.vromStart)
         segment_data_uncompressed = rom_data[segment_rom_start:segment_rom_end]
 
-        if entry_index in compress_entries_indices:
+        is_compressed = entry_index in compress_entries_indices
+
+        if is_compressed:
             segment_data = memoryview(
                 crunch64.yaz0.compress(bytes(segment_data_uncompressed))
             )
@@ -90,11 +93,27 @@ def compress_rom(
             segment_data = segment_data_uncompressed
 
         compressed_rom_segments.append(
-            RomSegment(dma_entry.vromStart, dma_entry.vromEnd, segment_data)
+            RomSegment(
+                dma_entry.vromStart,
+                dma_entry.vromEnd,
+                is_compressed,
+                segment_data,
+            )
         )
 
+    compressed_rom_segments.sort(key=lambda segment: segment.vromStart)
+
     # Assemble the compressed rom
-    compressed_rom_data = memoryview(bytearray(64 * 1024 * 1024))  # FIXME
+    compressed_rom_size = sum(
+        align(len(segment.data)) for segment in compressed_rom_segments
+    )
+    pad_to_multiple_of = 8 * 2**20
+    compressed_rom_size_padded = (
+        (compressed_rom_size + pad_to_multiple_of - 1)
+        // pad_to_multiple_of
+        * pad_to_multiple_of
+    )
+    compressed_rom_data = memoryview(bytearray(compressed_rom_size_padded))
     compressed_rom_dma_entries: list[DmaEntry] = []
     rom_offset = 0
     for segment in compressed_rom_segments:
@@ -110,11 +129,15 @@ def compress_rom(
                 segment.vromStart,
                 segment.vromEnd,
                 segment_rom_start,
-                segment_rom_end,
+                segment_rom_end if segment.is_compressed else 0,
             )
         )
 
         rom_offset = segment_rom_end
+
+    assert rom_offset == compressed_rom_size
+    for i in range(compressed_rom_size, compressed_rom_size_padded):
+        compressed_rom_data[i] = i % 256
 
     # Write the new dmadata
     dmadata_offset = dmadata_offset_start
