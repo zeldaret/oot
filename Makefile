@@ -211,7 +211,7 @@ OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | g
 
 DISASM_BASEROM := baseroms/$(VERSION)/baserom-decompressed.z64
 DISASM_DATA_FILES := $(wildcard $(DISASM_DATA_DIR)/*.csv) $(wildcard $(DISASM_DATA_DIR)/*.txt)
-DISASM_S_FILES := $(shell tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
+DISASM_S_FILES := $(shell $(PYTHON) tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
 DISASM_O_FILES := $(DISASM_S_FILES:.s=.o)
 
 # Automatic dependency files
@@ -435,7 +435,7 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
 $(DISASM_S_FILES) &: $(DISASM_DATA_FILES)
-	tools/disasm/disasm.py $(DISASM_FLAGS) $(DISASM_BASEROM) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
+	$(PYTHON) tools/disasm/disasm.py $(DISASM_FLAGS) $(DISASM_BASEROM) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
 
 $(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/%.s
 	$(AS) $(ASFLAGS) $< -o $@
