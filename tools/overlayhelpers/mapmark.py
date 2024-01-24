@@ -97,7 +97,7 @@ repo = scriptDir + os.sep +  ".." + os.sep + ".."
 
 
 map_mark_data = []
-with open(repo + "/baserom/ovl_map_mark_data", "rb") as file:
+with open(repo + "/baseroms/gc-eu-mq-dbg/segments/ovl_map_mark_data", "rb") as file:
     map_mark_data = bytearray(file.read())
 
 scenemaps = []

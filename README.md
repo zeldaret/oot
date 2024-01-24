@@ -68,13 +68,15 @@ The build process has the following package requirements:
 * build-essential
 * binutils-mips-linux-gnu
 * python3
+* python3-pip
+* python3-venv
 * libpng-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
+sudo apt-get install git build-essential binutils-mips-linux-gnu python3 python3-pip python3-venv libpng-dev
 ```
 
 If you are using GCC as the compiler for Ocarina of Time, you will also need:
@@ -98,12 +100,37 @@ This will copy the GitHub repository contents into a new folder in the current d
 cd oot
 ```
 
-#### 3. Prepare a base ROM
+#### 3. Install python dependencies
 
-Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
-Rename the file to "baserom_original.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
+The build process has a few python packages required that are located in `requirements.txt`.
 
-#### 4. Setup the ROM and build process
+It is recommended to set up a virtual environment for python to contain all dependencies. To create a virtual environment:
+
+```bash
+python3 -m venv .venv
+```
+
+To start using the virtual environment in your current terminal run:
+
+```bash
+. .venv/bin/activate
+```
+
+Keep in mind that for each new terminal session, you will need to **activate** the Python virtual environment again. That is, run the above `. .venv/bin/activate` command.
+
+Now you can install the Python dependencies, to do so run:
+
+```bash
+python3 -m pip install -U -r requirements.txt
+```
+
+#### 4. Prepare a base ROM
+
+Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
+
+Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
+
+#### 5. Setup the ROM and build process
 
 Setup and extract everything from your ROM with the following command:
 
@@ -111,10 +138,10 @@ Setup and extract everything from your ROM with the following command:
 make setup
 ```
 
-This will generate a new ROM called "baserom.z64" that will have the overdump removed and the header patched.
+This will generate a new ROM "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
-#### 5. Build the ROM
+#### 6. Build the ROM
 
 Run make to build the ROM.
 Make sure your path to the project is not too long, otherwise this process may error.
@@ -144,7 +171,6 @@ This means that the built ROM isn't the same as the base one, so something went 
 * pass `-j` to `make setup` and `make`, to use as many threads as possible, but beware that this can use too much memory on lower-end systems.
 
 Both of these have the disadvantage that the ordering of the terminal output is scrambled, so for debugging it is best to stick to one thread (i.e. not pass `-j` or `-jN`).
-
 
 ## Contributing
 

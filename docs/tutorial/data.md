@@ -557,7 +557,7 @@ Ignore the first line: `gDmaDataTable` is always different if the ROM is shifted
 
 To fix this, we use a binary diff program. A suitable one is `vbindiff`: run it on the baserom and the zelda_whatever one the compiler generates:
 ```
-vbindiff baserom.z64 oot-gc-eu-mq-dbg.z64
+vbindiff baseroms/gc-eu-mq-dbg/baserom-decompressed.z64 oot-gc-eu-mq-dbg.z64
 ```
 In this, press `g` to open up goto position, and paste in the address `0xE3ED10` from the first important line of the `first_diff` output. This gives us the following:
 
