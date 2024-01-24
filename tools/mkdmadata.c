@@ -54,7 +54,7 @@ static void usage(const char *execname)
     fprintf(stderr, "zelda64 dmadata generation tool v0.01\n"
                     "usage: %s SPEC_FILE DMADATA_TABLE COMPRESS_RANGES\n"
                     "SPEC_FILE      file describing the organization of object files into segments\n"
-                    "DMADATA_TABLE  filename of output dmadata table header\n",
+                    "DMADATA_TABLE  filename of output dmadata table header\n"
                     "COMPRESS_RANGES filename to write which files are compressed (e.g. 0-5,7,10-20)\n",
                     execname);
 }
