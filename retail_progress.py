@@ -114,7 +114,7 @@ def run_objdump(path: Path) -> List[Inst]:
         result.pop()
     return result
 
-def pair_instructions(insts1: List[Inst], insts2: List[Inst]) -> Iterator[Tuple[Inst|None, Inst|None]]:
+def pair_instructions(insts1: List[Inst], insts2: List[Inst]) -> Iterator[Tuple[Optional[Inst], Optional[Inst]]]:
     differ = difflib.SequenceMatcher(
         a=[(inst.func_name, inst.mnemonic) for inst in insts1],
         b=[(inst.func_name, inst.mnemonic) for inst in insts2],
