@@ -290,7 +290,7 @@ distclean: clean assetclean
 
 install-python-deps: $(VENV)/.install-python-deps
 
-setup: venv
+setup: install-python-deps
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) extract_baserom.py
