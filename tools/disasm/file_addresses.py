@@ -1,6 +1,7 @@
 import csv
 from dataclasses import dataclass
 from pathlib import Path
+import typing
 
 @dataclass
 class DmaFile:
@@ -9,8 +10,8 @@ class DmaFile:
     vrom_end: int
     rom_start: int
     rom_end: int
-    overlay_vram_start: int|None
-    overlay_dir: str|None
+    overlay_vram_start: typing.Optional[int]
+    overlay_dir: typing.Optional[str]
 
 def parse_file_addresses(path: Path) -> list[DmaFile]:
     result = []
