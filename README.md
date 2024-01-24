@@ -121,7 +121,7 @@ Keep in mind that for each new terminal session, you will need to **activate** t
 Now you can install the Python dependencies, to do so run:
 
 ```bash
-pip install -r requirements.txt
+pip install -U -r requirements.txt
 ```
 
 #### 4. Prepare a base ROM
