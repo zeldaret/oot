@@ -13,7 +13,7 @@ class DmaFile:
     overlay_vram_start: typing.Optional[int]
     overlay_dir: typing.Optional[str]
 
-def parse_file_addresses(path: Path) -> list[DmaFile]:
+def parse_file_addresses(path: Path) -> typing.List[DmaFile]:
     result = []
     with open(path) as f:
         reader = csv.DictReader(f)
