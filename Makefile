@@ -263,7 +263,7 @@ endif
 
 #### Main Targets ###
 
-all: rom compressed
+all: rom compress
 
 rom: $(ROM)
 ifneq ($(COMPARE),0)
