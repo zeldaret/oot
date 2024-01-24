@@ -1,7 +1,7 @@
 import csv
 from dataclasses import dataclass
 from pathlib import Path
-import typing
+from typing import List, Optional
 
 @dataclass
 class DmaFile:
@@ -10,10 +10,10 @@ class DmaFile:
     vrom_end: int
     rom_start: int
     rom_end: int
-    overlay_vram_start: typing.Optional[int]
-    overlay_dir: typing.Optional[str]
+    overlay_vram_start: Optional[int]
+    overlay_dir: Optional[str]
 
-def parse_file_addresses(path: Path) -> typing.List[DmaFile]:
+def parse_file_addresses(path: Path) -> List[DmaFile]:
     result = []
     with open(path) as f:
         reader = csv.DictReader(f)

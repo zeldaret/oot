@@ -12,15 +12,16 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+from typing import List, Optional, Tuple
 
 @dataclass
 class Inst:
     func_name: str
     mnemonic: str
-    regs: list[str]
-    imm: int|None
-    reloc_type: str|None
-    reloc_symbol: str|None
+    regs: List[str]
+    imm: Optional[int]
+    reloc_type: Optional[str]
+    reloc_symbol: Optional[str]
 
 FUNC_RE = re.compile(r"([0-9a-f]+) <(.*)>:")
 
@@ -59,7 +60,7 @@ def parse_inst(func_name: str, line: str) -> Inst:
                     regs.append(part)
     return Inst(func_name, mnemonic, regs, imm, None, None)
 
-def run_objdump(path: Path) -> list[Inst]:
+def run_objdump(path: Path) -> List[Inst]:
     if not path.exists():
         raise Exception(f"file {path} does not exist")
 
@@ -113,7 +114,7 @@ def run_objdump(path: Path) -> list[Inst]:
         result.pop()
     return result
 
-def pair_instructions(insts1: list[Inst], insts2: list[Inst]) -> Iterator[tuple[Inst|None, Inst|None]]:
+def pair_instructions(insts1: List[Inst], insts2: List[Inst]) -> Iterator[Tuple[Inst|None, Inst|None]]:
     differ = difflib.SequenceMatcher(
         a=[(inst.func_name, inst.mnemonic) for inst in insts1],
         b=[(inst.func_name, inst.mnemonic) for inst in insts2],
