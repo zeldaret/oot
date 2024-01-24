@@ -100,37 +100,13 @@ This will copy the GitHub repository contents into a new folder in the current d
 cd oot
 ```
 
-#### 3. Install python dependencies
-
-The build process has a few python packages required that are located in `requirements.txt`.
-
-It is recommended to set up a virtual environment for python to contain all dependencies. To create a virtual environment:
-
-```bash
-python3 -m venv .venv
-```
-
-To start using the virtual environment in your current terminal run:
-
-```bash
-. .venv/bin/activate
-```
-
-Keep in mind that for each new terminal session, you will need to **activate** the Python virtual environment again. That is, run the above `. .venv/bin/activate` command.
-
-Now you can install the Python dependencies, to do so run:
-
-```bash
-python3 -m pip install -U -r requirements.txt
-```
-
-#### 4. Prepare a base ROM
+#### 3. Prepare a base ROM
 
 Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
 
 Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
 
-#### 5. Setup the ROM and build process
+#### 4. Setup the ROM and build process
 
 Setup and extract everything from your ROM with the following command:
 
@@ -141,7 +117,7 @@ make setup
 This will generate a new ROM "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
-#### 6. Build the ROM
+#### 5. Build the ROM
 
 Run make to build the ROM.
 Make sure your path to the project is not too long, otherwise this process may error.
