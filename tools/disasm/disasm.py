@@ -12,7 +12,7 @@ from file_addresses import DmaFile, parse_file_addresses, get_z_name_for_overlay
 
 def load_file_splits(
     context: spimdisasm.common.Context,
-    config_dir:Path,
+    config_dir: Path,
     dma_file: DmaFile,
     f: BinaryIO,
 ) -> spimdisasm.mips.FileSplits:
