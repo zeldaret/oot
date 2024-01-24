@@ -2,7 +2,6 @@
 
 import argparse
 import collections
-from collections.abc import Iterator
 from dataclasses import dataclass
 import difflib
 from enum import Enum
@@ -12,7 +11,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
-from typing import List, Optional, Tuple
+from typing import Iterator, List, Optional, Tuple
 
 @dataclass
 class Inst:
