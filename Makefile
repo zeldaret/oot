@@ -263,6 +263,8 @@ endif
 
 #### Main Targets ###
 
+all: rom compressed
+
 rom: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
@@ -288,9 +290,12 @@ distclean: clean assetclean
 	$(RM) -r baseroms/$(VERSION)/segments
 	$(MAKE) -C tools distclean
 
-install-python-deps: $(VENV)/.install-python-deps
+venv:
+	test -d $(VENV) || python3 -m venv $(VENV)
+	$(PYTHON) -m pip install -U pip
+	$(PYTHON) -m pip install -U -r requirements.txt
 
-setup: install-python-deps
+setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) extract_baserom.py
@@ -303,9 +308,8 @@ endif
 	$(N64_EMULATOR) $<
 
 
-.PHONY: all rom compressed clean install-python-deps setup run distclean assetclean
+.PHONY: all rom compressed clean assetclean distclean venv setup run
 .DEFAULT_GOAL := rom
-all: rom compressed
 
 #### Various Recipes ####
 
@@ -319,16 +323,6 @@ $(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
 	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@
-
-# Python virtual environment
-
-$(VENV):
-	python3 -m venv $(VENV)
-
-$(VENV)/.install-python-deps: requirements.txt | $(VENV)
-	$(PYTHON) -m pip install -U pip
-	$(PYTHON) -m pip install -U -r requirements.txt
-	touch $@
 
 ## Order-only prerequisites
 # These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
