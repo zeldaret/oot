@@ -1,6 +1,6 @@
-name,vrom_start,vrom_end,rom_start,rom_end,overlay_vram_start,overlay_dir
-boot,1060,7170,1060,0,,
-code,A88000,B8A230,A580D0,AF27E0,,
+name,vrom_start,vrom_end,rom_start,rom_end,vram_start,overlay_dir
+boot,1060,7170,1060,0,80000460,
+code,A88000,B8A230,A580D0,AF27E0,80010F00,
 ovl_title,B8A230,B8AA80,AF27E0,AF2E20,80800000,gamestates
 ovl_select,B8AA80,B8D700,AF2E20,AF4900,80800850,gamestates
 ovl_opening,B8D700,B8D860,AF4900,AF4A30,808034D0,gamestates

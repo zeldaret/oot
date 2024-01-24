@@ -43,9 +43,9 @@ def parse_inst(func_name: str, line: str) -> Inst:
     if len(parts) > 3:
         for part in parts[3].split(","):
             if "(" in part:  # load/store
-                offset, rest = part.split("(")
+                offset_str, rest = part.split("(")
                 regs.append(rest[:-1])
-                imm = int(offset, 10)
+                imm = int(offset_str, 10)
             elif is_branch(mnemonic):
                 try:
                     # convert branch targets to relative offsets

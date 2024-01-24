@@ -10,7 +10,7 @@ class DmaFile:
     vrom_end: int
     rom_start: int
     rom_end: int
-    overlay_vram_start: Optional[int]
+    vram_start: int
     overlay_dir: Optional[str]
 
 def parse_file_addresses(path: Path) -> List[DmaFile]:
@@ -25,7 +25,7 @@ def parse_file_addresses(path: Path) -> List[DmaFile]:
                 vrom_end=int(row["vrom_end"], 16),
                 rom_start=int(row["rom_start"], 16),
                 rom_end=int(row["rom_end"], 16),
-                overlay_vram_start=int(row["overlay_vram_start"], 16) if row["overlay_vram_start"] else None,
+                vram_start=int(row["vram_start"], 16),
                 overlay_dir=row["overlay_dir"] if row["overlay_dir"] else None))
     return result
 
