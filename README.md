@@ -114,7 +114,8 @@ Setup and extract everything from your ROM with the following command:
 make setup
 ```
 
-This will generate a new ROM "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64" that will have the overdump removed and the header patched.
+This downloads some dependencies (from pip), and compiles tools for the build process.
+Then it generates a new ROM "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM
