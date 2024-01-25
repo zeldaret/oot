@@ -55,6 +55,7 @@ endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
+VENV := .venv
 
 MAKE = make
 CFLAGS += -DOOT_DEBUG
@@ -120,7 +121,7 @@ MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
-PYTHON     ?= python3
+PYTHON     ?= $(VENV)/bin/python3
 
 # Command to replace path variables in the spec file. We can't use the C
 # preprocessor for this because it won't substitute inside string literals.
@@ -262,6 +263,8 @@ endif
 
 #### Main Targets ###
 
+all: rom compress
+
 rom: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
@@ -287,7 +290,12 @@ distclean: clean assetclean
 	$(RM) -r baseroms/$(VERSION)/segments
 	$(MAKE) -C tools distclean
 
-setup:
+venv:
+	test -d $(VENV) || python3 -m venv $(VENV)
+	$(PYTHON) -m pip install -U pip
+	$(PYTHON) -m pip install -U -r requirements.txt
+
+setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 	$(PYTHON) extract_baserom.py
@@ -300,9 +308,8 @@ endif
 	$(N64_EMULATOR) $<
 
 
-.PHONY: all rom compress clean setup run distclean assetclean
+.PHONY: all rom compress clean assetclean distclean venv setup run
 .DEFAULT_GOAL := rom
-all: rom compress
 
 #### Various Recipes ####
 
