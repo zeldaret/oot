@@ -72,6 +72,7 @@ def main():
     context.parseArgs(args)
     context.changeGlobalSegmentRanges(0x00000000, 0x01000000, 0x8000000, 0x81000000)
     context.addBannedSymbolRange(0x10000000, 0x80000400)
+    context.addBannedSymbolRange(0xC0000000, 0xFFFFFFFF)
 
     spimdisasm.mips.InstructionConfig.parseArgs(args)
     spimdisasm.common.GlobalConfig.parseArgs(args)
