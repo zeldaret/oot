@@ -8,18 +8,23 @@ different compiler flags. However, once this version is done, future
 retail versions should be much easier, as the changes between retail versions are
 small in comparison.
 
-Instead of comparing against a matching build, the target ROM is disassembled
-and recompiled as relocatable `.o` files directly into `expected/build/gc-eu-mq`
-for diff tools. This allows us to make progress matching code in parallel with
-solving other problems (such as the build system, ROM organization, and BSS
-ordering). The files in `tools/disasm/gc-eu-mq` say how to split the source
-files and where the functions and variables are in the target ROM, and these may
-need to be updated if there are mistakes or if function names change due to
-documentation work.
+Instead of `cp`ing a matching build into `expected/`, the target ROM is
+recompiled as `.o` files directly into `expected/build/gc-eu-mq` for diff tools.
+This allows us to make progress matching code in parallel with solving other
+problems (such as the build system, ROM organization, and BSS ordering). The
+files in `tools/disasm/gc-eu-mq` say how to split the source files and where the
+functions and variables are in the target ROM, and these may need to be updated
+if there are mistakes or if function names change due to documentation work.
 
 Unfortunately, the disassembly is not perfect, so a "correct" decompilation might
 still show diffs with data symbols. We might improve this later, but these data
 diffs are fine to ignore for now.
+
+For register and stack allocation differences, often the code can be tweaked so
+that it matches both the retail ROM while continuing to match the Debug ROM (for
+example, by reordering assignments or moving a local variable declaration inside
+an `if` block). Since retail MM versions use the same compiler flags as retail
+OOT, checking MM decomp for similar code can help.
 
 We can disable code that was removed in retail builds by adding
 `#ifdef OOT_DEBUG` around these parts of the code. In order too keep the code
@@ -114,6 +119,13 @@ void foo() {
     to avoid clobbering the disassembly.
 
 ## Diff Tools
+
+Note that many tools will require activating the Python virtual environment
+in your terminal session. To do this, run:
+
+```sh
+source .venv/bin/activate
+```
 
 ### retail_progress.py
 
