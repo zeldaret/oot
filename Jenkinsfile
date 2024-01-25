@@ -4,21 +4,10 @@ pipeline {
     }
 
     stages {
-        stage('Install Python dependencies') {
-            steps {
-                echo 'Installing Python dependencies'
-                sh 'python3 -m venv .venv'
-                sh '''. .venv/bin/activate
-                python3 -m pip install -U -r requirements.txt
-                '''
-            }
-        }
         stage('Setup') {
             steps {
                 sh 'cp /usr/local/etc/roms/baserom_oot.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
-                sh '''. .venv/bin/activate
-                make -j setup
-                '''
+                sh 'make -j setup'
             }
         }
         stage('Build (qemu-irix)') {
@@ -26,9 +15,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh '''. .venv/bin/activate
-                make -j ORIG_COMPILER=1
-                '''
+                sh 'make -j ORIG_COMPILER=1'
             }
         }
         stage('Build') {
@@ -38,9 +25,7 @@ pipeline {
                 }
             }
             steps {
-                sh '''. .venv/bin/activate
-                make -j
-                '''
+                sh 'make -j'
             }
         }
         stage('Report Progress') {
