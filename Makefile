@@ -441,11 +441,11 @@ $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
-$(DISASM_S_FILES) &: $(DISASM_DATA_FILES)
+$(EXPECTED_DIR)/.disasm: $(DISASM_DATA_FILES)
 	$(PYTHON) tools/disasm/disasm.py $(DISASM_FLAGS) $(DISASM_BASEROM) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
 
-$(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/%.s
-	$(AS) $(ASFLAGS) $< -o $@
+$(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/.disasm
+	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 -include $(DEP_FILES)
 
