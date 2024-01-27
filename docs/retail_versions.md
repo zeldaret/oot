@@ -29,47 +29,7 @@ OOT, checking MM decomp for similar code can help.
 We can disable code that was removed in retail builds by adding
 `#ifdef OOT_DEBUG` around these parts of the code. In order to keep the code
 readable, we should try to minimize the amount of `#ifdef` noise whenever
-possible. For example, instead of writing
-
-```c
-void foo() {
-#ifdef OOT_DEBUG
-    if (condition || SREG(0)) {
-#else
-    if (condition) {
-#endif
-        bar();
-    }
-
-#ifdef OOT_DEBUG
-    if (condition || SREG(0)) {
-#else
-    if (condition) {
-#endif
-        baz();
-    }
-}
-```
-
-consider something like this instead:
-
-```c
-#ifdef OOT_DEBUG
-#define CONDITION (condition || SREG(0))
-#else
-#define CONDITION (condition)
-#endif
-
-void foo() {
-    if (CONDITION) {
-        bar();
-    }
-
-    if (CONDITION) {
-        baz();
-    }
-}
-```
+possible.
 
 ## Setup
 
