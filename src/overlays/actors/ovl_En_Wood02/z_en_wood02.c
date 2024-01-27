@@ -58,7 +58,7 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK5,
         { 0x00000000, 0x00, 0x00 },
         { 0x0FC0074A, 0x00, 0x00 },
-        TOUCH_NONE,
+        ATELEM_NONE,
         BUMP_ON,
         OCELEM_ON,
     },

@@ -78,7 +78,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u32 dmgFlags; // Toucher damage type flags.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
-    /* 0x05 */ u8 damage; // Damage or Stun Timer
+    /* 0x05 */ u8 damage; // Damage
 } ColliderElementTouch; // size = 0x08
 
 typedef struct {
@@ -349,18 +349,18 @@ typedef struct {
 #define OC2_TYPE_2 OC1_TYPE_2 // Has OC type 2
 #define OC2_FIRST_ONLY (1 << 6) // Skips AC checks on elements after the first collision. Only used by Ganon
 
-#define TOUCH_NONE 0 // No flags set. Cannot have AT collisions
-#define TOUCH_ON (1 << 0) // Can have AT collisions
-#define TOUCH_HIT (1 << 1) // Had an AT collision
-#define TOUCH_NEAREST (1 << 2) // If a Quad, only collides with the closest bumper
-#define TOUCH_SFX_MASK (3 << 3)
-#define TOUCH_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
-#define TOUCH_SFX_HARD (1 << 3) // Always uses hard deflection sound
-#define TOUCH_SFX_WOOD (2 << 3) // Always uses wood deflection sound
-#define TOUCH_SFX_NONE (3 << 3) // No hit sound effect
-#define TOUCH_AT_HITMARK (1 << 5) // Draw hitmarks for every AT collision
-#define TOUCH_DREW_HITMARK (1 << 6) // Already drew hitmark for this frame
-#define TOUCH_UNK7 (1 << 7) // Unknown purpose. Used by some enemy quads
+#define ATELEM_NONE 0 // No flags set. Cannot have AT collisions
+#define ATELEM_ON (1 << 0) // Can have AT collisions
+#define ATELEM_HIT (1 << 1) // Had an AT collision
+#define ATELEM_NEAREST (1 << 2) // If a Quad, only collides with the closest bumper
+#define ATELEM_SFX_MASK (3 << 3)
+#define ATELEM_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
+#define ATELEM_SFX_HARD (1 << 3) // Always uses hard deflection sound
+#define ATELEM_SFX_WOOD (2 << 3) // Always uses wood deflection sound
+#define ATELEM_SFX_NONE (3 << 3) // No hit sound effect
+#define ATELEM_AT_HITMARK (1 << 5) // Draw hitmarks for every AT collision
+#define ATELEM_DREW_HITMARK (1 << 6) // Already drew hitmark for this frame
+#define ATELEM_UNK7 (1 << 7) // Unknown purpose. Used by some enemy quads
 
 #define BUMP_NONE 0 // No flags set. Cannot have AC collisions
 #define BUMP_ON (1 << 0) // Can have AC collisions

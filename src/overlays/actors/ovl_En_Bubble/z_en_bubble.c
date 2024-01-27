@@ -30,7 +30,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x04 },
             { 0xFFCFD753, 0x00, 0x00 },
-            TOUCH_NONE,
+            ATELEM_NONE,
             BUMP_ON,
             OCELEM_ON,
         },
@@ -41,7 +41,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00002824, 0x00, 0x00 },
-            TOUCH_NONE,
+            ATELEM_NONE,
             BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
             OCELEM_NONE,
         },
@@ -100,7 +100,7 @@ u32 func_809CBCBC(EnBubble* this) {
     elem->toucher.dmgFlags = DMG_EXPLOSIVE;
     elem->toucher.effect = 0;
     elem->toucher.damage = 4;
-    elem->atElemFlags = TOUCH_ON;
+    elem->atElemFlags = ATELEM_ON;
     this->actor.velocity.y = 0.0f;
     return 6;
 }

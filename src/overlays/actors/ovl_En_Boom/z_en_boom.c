@@ -41,7 +41,7 @@ static ColliderQuadInit sQuadInit = {
         ELEMTYPE_UNK2,
         { 0x00000010, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NORMAL,
+        ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NORMAL,
         BUMP_NONE,
         OCELEM_NONE,
     },

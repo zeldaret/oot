@@ -213,7 +213,7 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_NONE,
+            ATELEM_NONE,
             BUMP_ON,
             OCELEM_ON,
         },
@@ -330,7 +330,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
         this->timer = 0;
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
-        this->collider.elements[0].base.atElemFlags = TOUCH_ON | TOUCH_SFX_HARD;
+        this->collider.elements[0].base.atElemFlags = ATELEM_ON | ATELEM_SFX_HARD;
         this->collider.elements[0].base.toucher.dmgFlags = DMG_DEFAULT;
         this->collider.elements[0].base.toucher.damage = 8;
         this->bobSize = this->actionState * 20.0f;

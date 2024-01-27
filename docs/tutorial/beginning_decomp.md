@@ -666,7 +666,7 @@ extern ColliderCylinderInit D_80A88CB4;
 //         ELEMTYPE_UNK0,
 //         { 0x00000000, 0x00, 0x00 },
 //         { 0x00000004, 0x00, 0x00 },
-//         TOUCH_NONE,
+//         ATELEM_NONE,
 //         BUMP_ON,
 //         OCELEM_ON,
 //     },

@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_SFX_NORMAL,
+        ATELEM_ON | ATELEM_SFX_NORMAL,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -67,7 +67,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00020000, 0x00, 0x00 },
-            TOUCH_NONE,
+            ATELEM_NONE,
             BUMP_ON,
             OCELEM_NONE,
         },
@@ -78,7 +78,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00020000, 0x00, 0x00 },
-            TOUCH_NONE,
+            ATELEM_NONE,
             BUMP_ON,
             OCELEM_NONE,
         },
@@ -166,8 +166,8 @@ void BgHakaTrap_Init(Actor* thisx, PlayState* play) {
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
 
-                this->colliderCylinder.elem.atElemFlags &= ~TOUCH_SFX_NORMAL;
-                this->colliderCylinder.elem.atElemFlags |= TOUCH_SFX_WOOD;
+                this->colliderCylinder.elem.atElemFlags &= ~ATELEM_SFX_NORMAL;
+                this->colliderCylinder.elem.atElemFlags |= ATELEM_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;
             }

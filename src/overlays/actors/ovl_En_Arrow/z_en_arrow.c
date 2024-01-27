@@ -44,7 +44,7 @@ static ColliderQuadInit sColliderInit = {
         ELEMTYPE_UNK2,
         { 0x00000020, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NONE,
+        ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NONE,
         BUMP_NONE,
         OCELEM_NONE,
     },
@@ -121,8 +121,8 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         Collider_SetQuad(play, &this->collider, &this->actor, &sColliderInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
-            this->collider.elem.atElemFlags &= ~TOUCH_SFX_MASK;
-            this->collider.elem.atElemFlags |= TOUCH_SFX_NORMAL;
+            this->collider.elem.atElemFlags &= ~ATELEM_SFX_MASK;
+            this->collider.elem.atElemFlags |= ATELEM_SFX_NORMAL;
         }
 
         if (this->actor.params < 0) {
