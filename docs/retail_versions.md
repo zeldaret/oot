@@ -82,7 +82,7 @@ void foo() {
     make setup -jN
     ```
 
-    if necessary.
+    if necessary, where `N` is the number of cores on your machine.
 
 1.  Build the non-matching test ROM by running
 
