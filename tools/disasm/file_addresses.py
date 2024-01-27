@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: © 2024 ZeldaRET
+# SPDX-License-Identifier: CC0-1.0
+
 import csv
 from dataclasses import dataclass
 from pathlib import Path
