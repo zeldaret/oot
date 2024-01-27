@@ -813,8 +813,8 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
         Player* player = GET_PLAYER(play);
 
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
-            if (this->collider.elements[i].base.toucherFlags & TOUCH_HIT) {
-                this->collider.elements[i].base.toucherFlags &= ~TOUCH_HIT;
+            if (this->collider.elements[i].base.atElemFlags & TOUCH_HIT) {
+                this->collider.elements[i].base.atElemFlags &= ~TOUCH_HIT;
                 Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
@@ -827,8 +827,8 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
         this->collider.base.colType = COLTYPE_HIT3;
     }
 
-    if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
-        this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
+    if (this->collider.elements[0].base.acElemFlags & BUMP_HIT) {
+        this->collider.elements[0].base.acElemFlags &= ~BUMP_HIT;
 
         acHitElem = this->collider.elements[0].base.acHitElem;
         if (!bossFd->faceExposed) {

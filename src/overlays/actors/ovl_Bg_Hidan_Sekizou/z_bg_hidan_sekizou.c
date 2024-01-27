@@ -139,7 +139,7 @@ void func_8088CEC0(BgHidanSekizou* this, s32 arg1, s16 arg2) {
         element->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + element->dim.modelSphere.center.y;
         element->dim.worldSphere.center.z = this->dyna.actor.home.pos.z - (sp30 * element->dim.modelSphere.center.x) +
                                             (sp2C * element->dim.modelSphere.center.z);
-        element->base.toucherFlags |= TOUCH_ON;
+        element->base.atElemFlags |= TOUCH_ON;
         element->base.ocElemFlags |= OCELEM_ON;
     }
 }
@@ -210,7 +210,7 @@ void func_8088D434(BgHidanSekizou* this, PlayState* play) {
         }
     }
     for (i = 3 * phi_s4; i < ARRAY_COUNT(this->elements); i++) {
-        this->collider.elements[i].base.toucherFlags &= ~TOUCH_ON;
+        this->collider.elements[i].base.atElemFlags &= ~TOUCH_ON;
         this->collider.elements[i].base.ocElemFlags &= ~OCELEM_ON;
     }
 }

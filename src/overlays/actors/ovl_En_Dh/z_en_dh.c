@@ -304,7 +304,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
         Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f, this->skelAnime.curFrame, 0.0f, ANIMMODE_ONCE,
                          -4.0f);
         this->actionState = 4;
-        this->collider2.base.atFlags = this->collider2.elements[0].base.toucherFlags = AT_NONE; // also TOUCH_NONE
+        this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags = AT_NONE; // also TOUCH_NONE
         this->collider2.elements[0].base.toucher.dmgFlags = this->collider2.elements[0].base.toucher.damage = 0;
     }
     switch (this->actionState) {
@@ -318,14 +318,14 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
             break;
         case 2:
             if (this->skelAnime.curFrame >= 4.0f) {
-                this->collider2.base.atFlags = this->collider2.elements[0].base.toucherFlags =
+                this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags =
                     AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
                 this->collider2.elements[0].base.toucher.dmgFlags = DMG_DEFAULT;
                 this->collider2.elements[0].base.toucher.damage = 8;
             }
             if (this->collider2.base.atFlags & AT_BOUNCED) {
                 this->collider2.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
-                this->collider2.base.atFlags = this->collider2.elements[0].base.toucherFlags =
+                this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags =
                     AT_NONE; // also TOUCH_NONE
                 this->collider2.elements[0].base.toucher.dmgFlags = this->collider2.elements[0].base.toucher.damage = 0;
                 this->actionState++;
@@ -343,7 +343,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
                 Animation_Change(&this->skelAnime, &object_dh_Anim_004658, -1.0f,
                                  Animation_GetLastFrame(&object_dh_Anim_004658), 0.0f, ANIMMODE_ONCE, -4.0f);
                 this->actionState++;
-                this->collider2.base.atFlags = this->collider2.elements[0].base.toucherFlags =
+                this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags =
                     AT_NONE; // also TOUCH_NONE
                 this->collider2.elements[0].base.toucher.dmgFlags = this->collider2.elements[0].base.toucher.damage = 0;
             }
@@ -374,7 +374,7 @@ void EnDh_Burrow(EnDh* this, PlayState* play) {
         case 0:
             this->actionState++;
             this->drawDirtWave++;
-            this->collider1.base.atFlags = this->collider1.elem.toucherFlags =
+            this->collider1.base.atFlags = this->collider1.elem.atElemFlags =
                 AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
             this->collider1.elem.toucher.dmgFlags = DMG_DEFAULT;
             this->collider1.elem.toucher.damage = 4;
@@ -393,7 +393,7 @@ void EnDh_Burrow(EnDh* this, PlayState* play) {
         case 2:
             this->drawDirtWave = false;
             this->collider1.dim.radius = 35;
-            this->collider1.base.atFlags = this->collider1.elem.toucherFlags = AT_NONE; // Also TOUCH_NONE
+            this->collider1.base.atFlags = this->collider1.elem.atElemFlags = AT_NONE; // Also TOUCH_NONE
             this->collider1.elem.toucher.dmgFlags = this->collider1.elem.toucher.damage = 0;
             EnDh_SetupWait(this);
             break;
@@ -477,7 +477,7 @@ void EnDh_CollisionCheck(EnDh* this, PlayState* play) {
     if ((this->collider2.base.acFlags & AC_HIT) && !this->retreat) {
         this->collider2.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
-            this->collider2.base.atFlags = this->collider2.elements[0].base.toucherFlags = AT_NONE; // also TOUCH_NONE
+            this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags = AT_NONE; // also TOUCH_NONE
             this->collider2.elements[0].base.toucher.dmgFlags = this->collider2.elements[0].base.toucher.damage = 0;
             if (player->unk_844 != 0) {
                 this->unk_258 = player->unk_845;

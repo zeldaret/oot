@@ -100,7 +100,7 @@ u32 func_809CBCBC(EnBubble* this) {
     elem->toucher.dmgFlags = DMG_EXPLOSIVE;
     elem->toucher.effect = 0;
     elem->toucher.damage = 4;
-    elem->toucherFlags = TOUCH_ON;
+    elem->atElemFlags = TOUCH_ON;
     this->actor.velocity.y = 0.0f;
     return 6;
 }
@@ -206,7 +206,7 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
     s32 bgId;
     u8 bounceCount;
 
-    if (this->colliderSphere.elements[1].base.bumperFlags & BUMP_HIT) {
+    if (this->colliderSphere.elements[1].base.acElemFlags & BUMP_HIT) {
         bumpActor = this->colliderSphere.base.ac;
         this->normalizedBumpVelocity = bumpActor->velocity;
         EnBubble_Vec3fNormalize(&this->normalizedBumpVelocity);
@@ -284,7 +284,7 @@ u32 func_809CC648(EnBubble* this) {
         return false;
     }
     this->colliderSphere.base.acFlags &= ~AC_HIT;
-    if (this->colliderSphere.elements[1].base.bumperFlags & BUMP_HIT) {
+    if (this->colliderSphere.elements[1].base.acElemFlags & BUMP_HIT) {
         this->unk_1F0.x = this->colliderSphere.base.ac->velocity.x / 10.0f;
         this->unk_1F0.y = this->colliderSphere.base.ac->velocity.y / 10.0f;
         this->unk_1F0.z = this->colliderSphere.base.ac->velocity.z / 10.0f;

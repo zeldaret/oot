@@ -282,7 +282,7 @@ void EnDekubaba_DisableACColliderElems(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].base.bumperFlags &= ~BUMP_ON;
+        this->collider.elements[i].base.acElemFlags &= ~BUMP_ON;
     }
 }
 
@@ -417,7 +417,7 @@ void EnDekubaba_SetupStunnedVertical(EnDekubaba* this) {
     s32 i;
 
     for (i = 1; i < ARRAY_COUNT(this->colliderElements); i++) {
-        this->collider.elements[i].base.bumperFlags |= BUMP_ON;
+        this->collider.elements[i].base.acElemFlags |= BUMP_ON;
     }
 
     if (this->timer == 1) {

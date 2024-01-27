@@ -538,14 +538,14 @@ void func_80B0D590(EnSw* this, PlayState* play) {
 
     if (((this->actor.params & 0xE000) >> 0xD) == 2) {
         if (this->actor.scale.x < 0.0139999995f) {
-            this->collider.elements[0].base.toucherFlags = TOUCH_NONE;
-            this->collider.elements[0].base.bumperFlags = BUMP_NONE;
+            this->collider.elements[0].base.atElemFlags = TOUCH_NONE;
+            this->collider.elements[0].base.acElemFlags = BUMP_NONE;
             this->collider.elements[0].base.ocElemFlags = OCELEM_NONE;
         }
 
         if (this->actor.scale.x >= 0.0139999995f) {
-            this->collider.elements[0].base.toucherFlags = TOUCH_ON;
-            this->collider.elements[0].base.bumperFlags = BUMP_ON;
+            this->collider.elements[0].base.atElemFlags = TOUCH_ON;
+            this->collider.elements[0].base.acElemFlags = BUMP_ON;
             this->collider.elements[0].base.ocElemFlags = OCELEM_ON;
         }
 

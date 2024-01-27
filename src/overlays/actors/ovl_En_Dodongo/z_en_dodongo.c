@@ -605,8 +605,8 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if ((this->timer != 0) || (ABS(yawDiff1) < 0x4000)) {
-            this->sphElements[2].base.toucherFlags = TOUCH_NONE;
-            this->sphElements[1].base.toucherFlags = TOUCH_NONE;
+            this->sphElements[2].base.atElemFlags = TOUCH_NONE;
+            this->sphElements[1].base.atElemFlags = TOUCH_NONE;
             this->colliderBody.base.atFlags = AT_NONE;
             this->sphElements[2].base.toucher.dmgFlags = 0;
             this->sphElements[1].base.toucher.dmgFlags = 0;
@@ -628,8 +628,8 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             Actor_PlaySfx(&this->actor, NA_SE_EN_DODO_J_TAIL);
             Animation_PlayOnceSetSpeed(&this->skelAnime, animation, 2.0f);
             this->timer = 18;
-            this->colliderBody.base.atFlags = this->sphElements[1].base.toucherFlags =
-                this->sphElements[2].base.toucherFlags = AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
+            this->colliderBody.base.atFlags = this->sphElements[1].base.atElemFlags =
+                this->sphElements[2].base.atElemFlags = AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
             this->sphElements[1].base.toucher.dmgFlags = this->sphElements[2].base.toucher.dmgFlags = DMG_DEFAULT;
             this->sphElements[1].base.toucher.damage = this->sphElements[2].base.toucher.damage = 8;
         }

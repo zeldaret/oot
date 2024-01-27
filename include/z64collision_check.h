@@ -115,8 +115,8 @@ typedef struct ColliderElement {
     /* 0x00 */ ColliderElementTouch toucher; // Damage properties when acting as an AT collider
     /* 0x08 */ ColliderElementBump bumper; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
-    /* 0x15 */ u8 toucherFlags; // Information flags for AT collisions
-    /* 0x16 */ u8 bumperFlags; // Information flags for AC collisions
+    /* 0x15 */ u8 atElemFlags; // Information flags for AT collisions
+    /* 0x16 */ u8 acElemFlags; // Information flags for AC collisions
     /* 0x17 */ u8 ocElemFlags; // Information flags for OC collisions
     /* 0x18 */ Collider* atHit; // object touching this element's AT collider
     /* 0x1C */ Collider* acHit; // object touching this element's AC collider
@@ -128,8 +128,8 @@ typedef struct {
     /* 0x00 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
     /* 0x04 */ ColliderElementTouch toucher; // Damage properties when acting as an AT collider
     /* 0x0C */ ColliderElementBumpInit bumper; // Damage properties when acting as an AC collider
-    /* 0x14 */ u8 toucherFlags; // Information flags for AT collisions
-    /* 0x15 */ u8 bumperFlags;  // Information flags for AC collisions
+    /* 0x14 */ u8 atElemFlags; // Information flags for AT collisions
+    /* 0x15 */ u8 acElemFlags;  // Information flags for AC collisions
     /* 0x16 */ u8 ocElemFlags; // Information flags for OC collisions
 } ColliderElementInit; // size = 0x18
 

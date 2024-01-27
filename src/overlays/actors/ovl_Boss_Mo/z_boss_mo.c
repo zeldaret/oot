@@ -1139,13 +1139,13 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
     s16 i1;
 
     for (i1 = 0; i1 < ARRAY_COUNT(this->tentElements); i1++) {
-        if (this->tentCollider.elements[i1].base.bumperFlags & BUMP_HIT) {
+        if (this->tentCollider.elements[i1].base.acElemFlags & BUMP_HIT) {
             s16 i2;
             ColliderElement* acHitElem;
 
             for (i2 = 0; i2 < 19; i2++) {
-                this->tentCollider.elements[i2].base.bumperFlags &= ~BUMP_HIT;
-                this->tentCollider.elements[i2].base.toucherFlags &= ~TOUCH_HIT;
+                this->tentCollider.elements[i2].base.acElemFlags &= ~BUMP_HIT;
+                this->tentCollider.elements[i2].base.atElemFlags &= ~TOUCH_HIT;
             }
             acHitElem = this->tentCollider.elements[i1].base.acHitElem;
             this->work[MO_TENT_INVINC_TIMER] = 5;
@@ -1175,8 +1175,8 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
                                     Rand_ZeroFloat(0.08f) + 0.13f);
             }
             break;
-        } else if (this->tentCollider.elements[i1].base.toucherFlags & TOUCH_HIT) {
-            this->tentCollider.elements[i1].base.toucherFlags &= ~TOUCH_HIT;
+        } else if (this->tentCollider.elements[i1].base.atElemFlags & TOUCH_HIT) {
+            this->tentCollider.elements[i1].base.atElemFlags &= ~TOUCH_HIT;
             this->playerHitTimer = 5;
             break;
         }

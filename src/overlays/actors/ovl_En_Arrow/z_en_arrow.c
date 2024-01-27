@@ -121,8 +121,8 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         Collider_SetQuad(play, &this->collider, &this->actor, &sColliderInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
-            this->collider.elem.toucherFlags &= ~TOUCH_SFX_MASK;
-            this->collider.elem.toucherFlags |= TOUCH_SFX_NORMAL;
+            this->collider.elem.atElemFlags &= ~TOUCH_SFX_MASK;
+            this->collider.elem.atElemFlags |= TOUCH_SFX_NORMAL;
         }
 
         if (this->actor.params < 0) {
@@ -300,7 +300,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.elem.atHitElem->bumperFlags & BUMP_HIT) {
+                    if (this->collider.elem.atHitElem->acElemFlags & BUMP_HIT) {
                         this->actor.world.pos.x = this->collider.elem.atHitElem->bumper.hitPos.x;
                         this->actor.world.pos.y = this->collider.elem.atHitElem->bumper.hitPos.y;
                         this->actor.world.pos.z = this->collider.elem.atHitElem->bumper.hitPos.z;

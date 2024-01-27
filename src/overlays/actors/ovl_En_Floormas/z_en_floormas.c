@@ -292,7 +292,7 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
                      ANIMMODE_ONCE, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
-    this->collider.elem.bumperFlags &= ~BUMP_HOOKABLE;
+    this->collider.elem.acElemFlags &= ~BUMP_HOOKABLE;
     this->actor.speed = 4.0f;
     this->actor.velocity.y = 7.0f;
     // using div creates a signed check.
@@ -914,7 +914,7 @@ void EnFloormas_Merge(EnFloormas* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
-            this->collider.elem.bumperFlags |= BUMP_HOOKABLE;
+            this->collider.elem.acElemFlags |= BUMP_HOOKABLE;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
             EnFloormas_SetupStand(this);
         } else {

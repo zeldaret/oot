@@ -172,7 +172,7 @@ void ArmsHook_Shoot(ArmsHook* this, PlayState* play) {
         (this->collider.elem.atHitElem->elemType != ELEMTYPE_UNK4)) {
         touchedActor = this->collider.base.at;
         if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
-            if (this->collider.elem.atHitElem->bumperFlags & BUMP_HOOKABLE) {
+            if (this->collider.elem.atHitElem->acElemFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
                 if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
                     func_80865044(this);
