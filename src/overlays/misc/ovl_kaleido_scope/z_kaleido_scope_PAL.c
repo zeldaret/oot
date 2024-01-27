@@ -872,7 +872,7 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
     gSaveContext.buttonStatus[3] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][3];
     gSaveContext.buttonStatus[4] = gPageSwitchNextButtonStatus[pauseCtx->pageIndex + pt][4];
 
-    osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
+    PRINTF("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
     gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
     Interface_ChangeHudVisibilityMode(HUD_VISIBILITY_ALL);
@@ -1745,10 +1745,10 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
 
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
-                osSyncPrintf(VT_FGCOL(YELLOW));
-                osSyncPrintf("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
-                             gAreaGsFlags[YREG(6)], gSaveContext.save.info.gsFlags[YREG(6) >> 2]);
-                osSyncPrintf(VT_RST);
+                PRINTF(VT_FGCOL(YELLOW));
+                PRINTF("キンスタ数(%d) Get_KIN_STA=%x (%x)  (%x)\n", YREG(6), GET_GS_FLAGS(YREG(6)),
+                       gAreaGsFlags[YREG(6)], gSaveContext.save.info.gsFlags[YREG(6) >> 2]);
+                PRINTF(VT_RST);
 
                 YREG(7) = 0;
                 SET_GS_FLAGS(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]],
@@ -1971,7 +1971,7 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
                                  (uintptr_t)_map_name_staticSegmentRomStart + (texIndex * MAP_NAME_TEX1_SIZE),
                                  MAP_NAME_TEX1_SIZE, "../z_kaleido_scope_PAL.c", 2093);
             } else {
-                osSyncPrintf("zoom_name=%d\n", pauseCtx->namedItem);
+                PRINTF("zoom_name=%d\n", pauseCtx->namedItem);
 
                 if (gSaveContext.language) { // != LANGUAGE_ENG
                     texIndex += 123;
@@ -1980,7 +1980,7 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
                     texIndex += 123;
                 }
 
-                osSyncPrintf("J_N=%d  point=%d\n", gSaveContext.language, texIndex);
+                PRINTF("J_N=%d  point=%d\n", gSaveContext.language, texIndex);
 
                 DMA_REQUEST_SYNC(pauseCtx->nameSegment,
                                  (uintptr_t)_item_name_staticSegmentRomStart + (texIndex * ITEM_NAME_TEX_SIZE),
@@ -3432,7 +3432,7 @@ void KaleidoScope_UpdateDungeonMap(PlayState* play) {
     PauseContext* pauseCtx = &play->pauseCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
-    osSyncPrintf("ＭＡＰ ＤＭＡ = %d\n", play->interfaceCtx.mapPaletteIndex);
+    PRINTF("ＭＡＰ ＤＭＡ = %d\n", play->interfaceCtx.mapPaletteIndex);
 
     KaleidoScope_LoadDungeonMap(play);
     Map_SetFloorPalettesData(play, pauseCtx->dungeonMapSlot - 3);
@@ -3526,13 +3526,13 @@ void KaleidoScope_Update(PlayState* play) {
 
             playerSegmentDrawPauseSize =
                 Player_InitPauseDrawData(play, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
-            osSyncPrintf("プレイヤー size1＝%x\n", playerSegmentDrawPauseSize);
+            PRINTF("プレイヤー size1＝%x\n", playerSegmentDrawPauseSize);
 
             pauseCtx->iconItemSegment = (void*)ALIGN16((uintptr_t)pauseCtx->playerSegment + playerSegmentDrawPauseSize);
 
             iconItemStaticSize =
                 (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
-            osSyncPrintf("icon_item size0=%x\n", iconItemStaticSize);
+            PRINTF("icon_item size0=%x\n", iconItemStaticSize);
             DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, iconItemStaticSize,
                              "../z_kaleido_scope_PAL.c", 3662);
 
@@ -3548,7 +3548,7 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->iconItem24Segment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemSegment + iconItemStaticSize);
 
             size = (uintptr_t)_icon_item_24_staticSegmentRomEnd - (uintptr_t)_icon_item_24_staticSegmentRomStart;
-            osSyncPrintf("icon_item24 size=%x\n", size);
+            PRINTF("icon_item24 size=%x\n", size);
             DMA_REQUEST_SYNC(pauseCtx->iconItem24Segment, (uintptr_t)_icon_item_24_staticSegmentRomStart, size,
                              "../z_kaleido_scope_PAL.c", 3675);
 
@@ -3577,7 +3577,7 @@ void KaleidoScope_Update(PlayState* play) {
 
                     size2 = (uintptr_t)_icon_item_dungeon_staticSegmentRomEnd -
                             (uintptr_t)_icon_item_dungeon_staticSegmentRomStart;
-                    osSyncPrintf("icon_item_dungeon dungeon-size2=%x\n", size2);
+                    PRINTF("icon_item_dungeon dungeon-size2=%x\n", size2);
                     DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_dungeon_staticSegmentRomStart,
                                      size2, "../z_kaleido_scope_PAL.c", 3712);
 
@@ -3591,7 +3591,7 @@ void KaleidoScope_Update(PlayState* play) {
 
                     size2 = (uintptr_t)_icon_item_field_staticSegmentRomEnd -
                             (uintptr_t)_icon_item_field_staticSegmentRomStart;
-                    osSyncPrintf("icon_item_field field-size2=%x\n", size2);
+                    PRINTF("icon_item_field field-size2=%x\n", size2);
                     DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_field_staticSegmentRomStart,
                                      size2, "../z_kaleido_scope_PAL.c", 3726);
                     break;
@@ -3601,17 +3601,17 @@ void KaleidoScope_Update(PlayState* play) {
 
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
-                osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
+                PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart, size,
                                  "../z_kaleido_scope_PAL.c", 3739);
             } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (uintptr_t)_icon_item_ger_staticSegmentRomEnd - (uintptr_t)_icon_item_ger_staticSegmentRomStart;
-                osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
+                PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_ger_staticSegmentRomStart, size,
                                  "../z_kaleido_scope_PAL.c", 3746);
             } else {
                 size = (uintptr_t)_icon_item_fra_staticSegmentRomEnd - (uintptr_t)_icon_item_fra_staticSegmentRomStart;
-                osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
+                PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart, size,
                                  "../z_kaleido_scope_PAL.c", 3753);
             }
@@ -3620,10 +3620,10 @@ void KaleidoScope_Update(PlayState* play) {
 
             // This printf may have been used to compute the size used on playerSegment at one point,
             // but is missing the size of icon_item_24_static
-            osSyncPrintf("サイズ＝%x\n", size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size);
-            osSyncPrintf("item_name I_N_PT=%x\n", 0x800);
+            PRINTF("サイズ＝%x\n", size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size);
+            PRINTF("item_name I_N_PT=%x\n", 0x800);
             Interface_SetDoAction(play, DO_ACTION_DECIDE);
-            osSyncPrintf("サイズ＝%x\n", size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size + 0x800);
+            PRINTF("サイズ＝%x\n", size2 + playerSegmentDrawPauseSize + iconItemStaticSize + size + 0x800);
 
             if (((void)0, gSaveContext.worldMapArea) < WORLD_MAP_AREA_MAX) {
                 if (gSaveContext.language == LANGUAGE_ENG) {
@@ -4150,20 +4150,20 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->iconItemSegment = (void*)(((uintptr_t)play->objectCtx.spaceStart + 0x30) & ~0x3F);
             iconItemStaticSize =
                 (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
-            osSyncPrintf("icon_item size0=%x\n", iconItemStaticSize);
+            PRINTF("icon_item size0=%x\n", iconItemStaticSize);
             DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, iconItemStaticSize,
                              "../z_kaleido_scope_PAL.c", 4356);
 
             pauseCtx->iconItem24Segment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemSegment + iconItemStaticSize);
             size = (uintptr_t)_icon_item_24_staticSegmentRomEnd - (uintptr_t)_icon_item_24_staticSegmentRomStart;
-            osSyncPrintf("icon_item24 size=%x\n", size);
+            PRINTF("icon_item24 size=%x\n", size);
             DMA_REQUEST_SYNC(pauseCtx->iconItem24Segment, (uintptr_t)_icon_item_24_staticSegmentRomStart, size,
                              "../z_kaleido_scope_PAL.c", 4363);
 
             pauseCtx->iconItemAltSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItem24Segment + size);
             size2 = (uintptr_t)_icon_item_gameover_staticSegmentRomEnd -
                     (uintptr_t)_icon_item_gameover_staticSegmentRomStart;
-            osSyncPrintf("icon_item_dungeon gameover-size2=%x\n", size2);
+            PRINTF("icon_item_dungeon gameover-size2=%x\n", size2);
             DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_gameover_staticSegmentRomStart, size2,
                              "../z_kaleido_scope_PAL.c", 4370);
 
@@ -4171,17 +4171,17 @@ void KaleidoScope_Update(PlayState* play) {
 
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
-                osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
+                PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart, size,
                                  "../z_kaleido_scope_PAL.c", 4379);
             } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (uintptr_t)_icon_item_ger_staticSegmentRomEnd - (uintptr_t)_icon_item_ger_staticSegmentRomStart;
-                osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
+                PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_ger_staticSegmentRomStart, size,
                                  "../z_kaleido_scope_PAL.c", 4386);
             } else {
                 size = (uintptr_t)_icon_item_fra_staticSegmentRomEnd - (uintptr_t)_icon_item_fra_staticSegmentRomStart;
-                osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
+                PRINTF("icon_item_dungeon dungeon-size=%x\n", size);
                 DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart, size,
                                  "../z_kaleido_scope_PAL.c", 4393);
             }
@@ -4289,7 +4289,7 @@ void KaleidoScope_Update(PlayState* play) {
                     gSaveContext.save.info.playerData.deaths = 999;
                 }
             }
-            osSyncPrintf("kscope->angle_s = %f\n", pauseCtx->rollRotSavePrompt_);
+            PRINTF("kscope->angle_s = %f\n", pauseCtx->rollRotSavePrompt_);
             break;
 
         case PAUSE_STATE_14:
@@ -4415,18 +4415,18 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.healthAccumulator = 0;
                         gSaveContext.magicState = MAGIC_STATE_IDLE;
                         gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
-                        osSyncPrintf(VT_FGCOL(YELLOW));
-                        osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.save.info.playerData.magic);
-                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicFillTarget);
+                        PRINTF(VT_FGCOL(YELLOW));
+                        PRINTF("MAGIC_NOW=%d ", gSaveContext.save.info.playerData.magic);
+                        PRINTF("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicFillTarget);
                         gSaveContext.magicCapacity = 0;
                         // Set the fill target to be the magic amount before game over
                         gSaveContext.magicFillTarget = gSaveContext.save.info.playerData.magic;
                         // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing
                         // to respectively the full capacity and `magicFillTarget`
                         gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.magic = 0;
-                        osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.save.info.playerData.magic);
-                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
-                        osSyncPrintf(VT_RST);
+                        PRINTF("MAGIC_NOW=%d ", gSaveContext.save.info.playerData.magic);
+                        PRINTF("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
+                        PRINTF(VT_RST);
                     } else {
                         play->state.running = false;
                         SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
@@ -4497,15 +4497,15 @@ void KaleidoScope_Update(PlayState* play) {
 
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
 
-            osSyncPrintf(VT_FGCOL(YELLOW));
-            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.prevHudVisibilityMode);
+            PRINTF(VT_FGCOL(YELLOW));
+            PRINTF("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.prevHudVisibilityMode);
             gSaveContext.hudVisibilityMode = HUD_VISIBILITY_NO_CHANGE;
             Interface_ChangeHudVisibilityMode(gSaveContext.prevHudVisibilityMode);
 
             player->targetActor = NULL;
             Player_SetEquipmentData(play, player);
 
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_RST);
             break;
     }
 }

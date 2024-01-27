@@ -584,7 +584,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     }
 
     if (buffCvg[7] == 7) {
-        osSyncPrintf("Error, should not be in here \n");
+        PRINTF("Error, should not be in here \n");
         return;
     }
 
@@ -742,10 +742,10 @@ void PreRender_DivotFilter(PreRender* this) {
 
                     if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
                         PRERENDER_DIVOT_PRINT_COLOR) {
-                        osSyncPrintf("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", windowR[0],
-                                     windowR[1], windowR[2], MEDIAN3(windowR[0], windowR[1], windowR[2]), windowG[0],
-                                     windowG[1], windowG[2], MEDIAN3(windowG[0], windowG[1], windowG[2]), windowB[0],
-                                     windowB[1], windowB[2], MEDIAN3(windowB[0], windowB[1], windowB[2]));
+                        PRINTF("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", windowR[0], windowR[1],
+                               windowR[2], MEDIAN3(windowR[0], windowR[1], windowR[2]), windowG[0], windowG[1],
+                               windowG[2], MEDIAN3(windowG[0], windowG[1], windowG[2]), windowB[0], windowB[1],
+                               windowB[2], MEDIAN3(windowB[0], windowB[1], windowB[2]));
                     }
 
                     // Sample the median value from the 3 pixel wide window

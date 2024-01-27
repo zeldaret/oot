@@ -272,10 +272,10 @@ void EnWf_Destroy(Actor* thisx, PlayState* play) {
                 parent->curNumSpawn--;
             }
 
-            osSyncPrintf("\n\n");
+            PRINTF("\n\n");
             // "☆☆☆☆☆ Number of concurrent events ☆☆☆☆☆"
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, parent->curNumSpawn);
-            osSyncPrintf("\n\n");
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n" VT_RST, parent->curNumSpawn);
+            PRINTF("\n\n");
         }
     }
 }

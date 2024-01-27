@@ -109,8 +109,8 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
         objectSlot = Object_GetSlot(&play->objectCtx, sDoorTextures[i].objectId);
         this->textureEntryIndex = i;
     }
-    osSyncPrintf("bank_ID = %d\n", objectSlot);
-    osSyncPrintf("status = %d\n", this->textureEntryIndex);
+    PRINTF("bank_ID = %d\n", objectSlot);
+    PRINTF("status = %d\n", this->textureEntryIndex);
     this->requiredObjectSlot = objectSlot;
     this->texture = sDoorTextures[this->textureEntryIndex].texture;
 

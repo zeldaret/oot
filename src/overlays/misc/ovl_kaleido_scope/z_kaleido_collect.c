@@ -242,20 +242,19 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                         if (pauseCtx->cursorPoint[PAUSE_QUEST] < QUEST_SONG_MINUET) {
                             cursorItem =
                                 ITEM_MEDALLION_FOREST - QUEST_MEDALLION_FOREST + pauseCtx->cursorPoint[PAUSE_QUEST];
-                            osSyncPrintf("000 ccc=%d\n", cursorItem);
+                            PRINTF("000 ccc=%d\n", cursorItem);
                         } else if (pauseCtx->cursorPoint[PAUSE_QUEST] < QUEST_KOKIRI_EMERALD) {
                             cursorItem = ITEM_SONG_MINUET - QUEST_SONG_MINUET + pauseCtx->cursorPoint[PAUSE_QUEST];
-                            osSyncPrintf("111 ccc=%d\n", cursorItem);
+                            PRINTF("111 ccc=%d\n", cursorItem);
                         } else {
                             cursorItem =
                                 ITEM_KOKIRI_EMERALD - QUEST_KOKIRI_EMERALD + pauseCtx->cursorPoint[PAUSE_QUEST];
-                            osSyncPrintf("222 ccc=%d (%d, %d, %d)\n", cursorItem, pauseCtx->cursorPoint[PAUSE_QUEST],
-                                         QUEST_KOKIRI_EMERALD, ITEM_KOKIRI_EMERALD);
+                            PRINTF("222 ccc=%d (%d, %d, %d)\n", cursorItem, pauseCtx->cursorPoint[PAUSE_QUEST],
+                                   QUEST_KOKIRI_EMERALD, ITEM_KOKIRI_EMERALD);
                         }
                     } else {
                         cursorItem = PAUSE_ITEM_NONE;
-                        osSyncPrintf("999 ccc=%d (%d,  %d)\n", PAUSE_ITEM_NONE, pauseCtx->cursorPoint[PAUSE_QUEST],
-                                     0x18);
+                        PRINTF("999 ccc=%d (%d,  %d)\n", PAUSE_ITEM_NONE, pauseCtx->cursorPoint[PAUSE_QUEST], 0x18);
                     }
                 } else {
                     if ((gSaveContext.save.info.inventory.questItems & 0xF0000000) != 0) {
@@ -263,8 +262,8 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
                     } else {
                         cursorItem = PAUSE_ITEM_NONE;
                     }
-                    osSyncPrintf("888 ccc=%d (%d,  %d,  %x)\n", cursorItem, pauseCtx->cursorPoint[PAUSE_QUEST],
-                                 ITEM_HEART_CONTAINER, gSaveContext.save.info.inventory.questItems & 0xF0000000);
+                    PRINTF("888 ccc=%d (%d,  %d,  %x)\n", cursorItem, pauseCtx->cursorPoint[PAUSE_QUEST],
+                           ITEM_HEART_CONTAINER, gSaveContext.save.info.inventory.questItems & 0xF0000000);
                 }
 
                 cursor = pauseCtx->cursorPoint[PAUSE_QUEST];

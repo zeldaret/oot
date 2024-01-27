@@ -262,25 +262,25 @@ s32 Room_DecodeJpeg(void* data) {
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
-        osSyncPrintf("JPEGデータを展開します\n");        // "Expanding jpeg data"
-        osSyncPrintf("JPEGデータアドレス %08x\n", data); // "Jpeg data address %08x"
+        PRINTF("JPEGデータを展開します\n");        // "Expanding jpeg data"
+        PRINTF("JPEGデータアドレス %08x\n", data); // "Jpeg data address %08x"
         // "Work buffer address (Z buffer) %08x"
-        osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
+        PRINTF("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
         time = osGetTime();
         if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
             // "Success... I think. time = %6.3f ms"
-            osSyncPrintf("成功…だと思う。 time = %6.3f ms \n", OS_CYCLES_TO_USEC(time) / 1000.0f);
+            PRINTF("成功…だと思う。 time = %6.3f ms \n", OS_CYCLES_TO_USEC(time) / 1000.0f);
             // "Writing back to original address from work buffer."
-            osSyncPrintf("ワークバッファから元のアドレスに書き戻します。\n");
+            PRINTF("ワークバッファから元のアドレスに書き戻します。\n");
             // "If the original buffer size isn't at least 150kB, it will be out of control."
-            osSyncPrintf("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
+            PRINTF("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
 
             bcopy(gZBuffer, data, sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
         } else {
-            osSyncPrintf("失敗！なんで〜\n"); // "Failure! Why is it 〜"
+            PRINTF("失敗！なんで〜\n"); // "Failure! Why is it 〜"
         }
     }
 
@@ -438,7 +438,7 @@ RoomShapeImageMultiBgEntry* Room_GetImageMultiBgEntry(RoomShapeImageMulti* roomS
     }
 
     // "z_room.c: Data consistent with camera id does not exist camid=%d"
-    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, bgCamIndex);
+    PRINTF(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, bgCamIndex);
     LogUtils_HungupThread("../z_room.c", 726);
 
     return NULL;
@@ -540,7 +540,7 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
 
     for (i = 0; i < play->numRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
-        osSyncPrintf("ROOM%d size=%d\n", i, roomSize);
+        PRINTF("ROOM%d size=%d\n", i, roomSize);
         if (maxRoomSize < roomSize) {
             maxRoomSize = roomSize;
         }
@@ -559,8 +559,8 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
             backRoomSize = (backRoom < 0) ? 0 : roomList[backRoom].vromEnd - roomList[backRoom].vromStart;
             cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;
 
-            osSyncPrintf("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize,
-                         backRoom, backRoomSize);
+            PRINTF("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize, backRoom,
+                   backRoomSize);
             if (maxRoomSize < cumulRoomSize) {
                 maxRoomSize = cumulRoomSize;
             }
@@ -568,16 +568,16 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
         }
     }
 
-    osSyncPrintf(VT_FGCOL(YELLOW));
+    PRINTF(VT_FGCOL(YELLOW));
     // "Room buffer size=%08x(%5.1fK)"
-    osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
+    PRINTF("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
     roomCtx->bufPtrs[0] = GAME_STATE_ALLOC(&play->state, maxRoomSize, "../z_room.c", 946);
     // "Room buffer initial pointer=%08x"
-    osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
+    PRINTF("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((uintptr_t)roomCtx->bufPtrs[0] + maxRoomSize);
     // "Room buffer end pointer=%08x"
-    osSyncPrintf("部屋バッファ終了ポインタ=%08x\n", roomCtx->bufPtrs[1]);
-    osSyncPrintf(VT_RST);
+    PRINTF("部屋バッファ終了ポインタ=%08x\n", roomCtx->bufPtrs[1]);
+    PRINTF(VT_RST);
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 

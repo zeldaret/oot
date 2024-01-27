@@ -12,12 +12,12 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
 
     if (gOverlayLogSeverity >= 3) {
         // "Start loading dynamic link function"
-        osSyncPrintf("\nダイナミックリンクファンクションのロードを開始します\n");
+        PRINTF("\nダイナミックリンクファンクションのロードを開始します\n");
     }
 
     if (gOverlayLogSeverity >= 3) {
         // "DMA transfer of TEXT, DATA, RODATA + rel (%08x-%08x)"
-        osSyncPrintf("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedRamAddr, end);
+        PRINTF("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedRamAddr, end);
     }
 
     // DMA the overlay, wait until transfer completes
@@ -29,12 +29,12 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
     ovlRelocs = (OverlayRelocationSection*)(end - relocSectionOffset);
 
     if (gOverlayLogSeverity >= 3) {
-        osSyncPrintf("TEXT(%08x), DATA(%08x), RODATA(%08x), BSS(%08x)\n", ovlRelocs->textSize, ovlRelocs->dataSize,
-                     ovlRelocs->rodataSize, ovlRelocs->bssSize);
+        PRINTF("TEXT(%08x), DATA(%08x), RODATA(%08x), BSS(%08x)\n", ovlRelocs->textSize, ovlRelocs->dataSize,
+               ovlRelocs->rodataSize, ovlRelocs->bssSize);
     }
 
     if (gOverlayLogSeverity >= 3) {
-        osSyncPrintf("リロケーションします\n"); // "Relocate"
+        PRINTF("リロケーションします\n"); // "Relocate"
     }
 
     // Relocate pointers in overlay code and data
@@ -44,7 +44,7 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
     if (ovlRelocs->bssSize != 0) {
         if (gOverlayLogSeverity >= 3) {
             // "Clear BSS area (% 08x-% 08x)"
-            osSyncPrintf("BSS領域をクリアします(%08x-%08x)\n", end, end + ovlRelocs->bssSize);
+            PRINTF("BSS領域をクリアします(%08x-%08x)\n", end, end + ovlRelocs->bssSize);
         }
         bzero((void*)end, (s32)ovlRelocs->bssSize);
     }
@@ -53,7 +53,7 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
 
     if (gOverlayLogSeverity >= 3) {
         // "Clear REL area (%08x-%08x)"
-        osSyncPrintf("REL領域をクリアします(%08x-%08x)\n", ovlRelocs, (uintptr_t)ovlRelocs + size);
+        PRINTF("REL領域をクリアします(%08x-%08x)\n", ovlRelocs, (uintptr_t)ovlRelocs + size);
     }
 
     // Clear relocations, this space remains allocated and goes unused
@@ -66,7 +66,7 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
 
     if (gOverlayLogSeverity >= 3) {
         // "Finish loading dynamic link function"
-        osSyncPrintf("ダイナミックリンクファンクションのロードを終了します\n\n");
+        PRINTF("ダイナミックリンクファンクションのロードを終了します\n\n");
     }
     return size;
 }

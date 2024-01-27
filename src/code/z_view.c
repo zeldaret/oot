@@ -56,7 +56,7 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
 
     if (sLogOnNextViewInit) {
         if (sLogOnNextViewInit == false) {}
-        osSyncPrintf("\nview: initialize ---\n");
+        PRINTF("\nview: initialize ---\n");
         sLogOnNextViewInit = false;
     }
 
@@ -329,15 +329,15 @@ s32 View_ApplyPerspective(View* view) {
         s32 i;
         MtxF mf;
 
-        osSyncPrintf("fovy %f near %f far %f scale %f aspect %f normal %08x\n", view->fovy, view->zNear, view->zFar,
-                     view->scale, aspect, view->normal);
+        PRINTF("fovy %f near %f far %f scale %f aspect %f normal %08x\n", view->fovy, view->zNear, view->zFar,
+               view->scale, aspect, view->normal);
 
         Matrix_MtxToMtxF(projection, &mf);
-        osSyncPrintf("projection\n");
+        PRINTF("projection\n");
         for (i = 0; i < 4; i++) {
-            osSyncPrintf("\t%f\t%f\t%f\t%f\n", mf.mf[i][0], mf.mf[i][1], mf.mf[i][2], mf.mf[i][3]);
+            PRINTF("\t%f\t%f\t%f\t%f\n", mf.mf[i][0], mf.mf[i][1], mf.mf[i][2], mf.mf[i][3]);
         }
-        osSyncPrintf("\n");
+        PRINTF("\n");
     }
 
     view->projection = *projection;
@@ -372,11 +372,11 @@ s32 View_ApplyPerspective(View* view) {
         MtxF mf;
 
         Matrix_MtxToMtxF(view->viewingPtr, &mf);
-        osSyncPrintf("viewing\n");
+        PRINTF("viewing\n");
         for (i = 0; i < 4; i++) {
-            osSyncPrintf("\t%f\t%f\t%f\t%f\n", mf.mf[i][0], mf.mf[i][1], mf.mf[i][2], mf.mf[i][3]);
+            PRINTF("\t%f\t%f\t%f\t%f\n", mf.mf[i][0], mf.mf[i][1], mf.mf[i][2], mf.mf[i][3]);
         }
-        osSyncPrintf("\n");
+        PRINTF("\n");
     }
 
     gSPMatrix(POLY_OPA_DISP++, viewing, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
@@ -632,10 +632,10 @@ s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ) {
     }
 
     if (error != 0) {
-        osSyncPrintf(VT_FGCOL(RED));
+        PRINTF(VT_FGCOL(RED));
         // "Is too large"
-        osSyncPrintf("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n", eyeX, eyeY, eyeZ, error);
-        osSyncPrintf(VT_RST);
+        PRINTF("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n", eyeX, eyeY, eyeZ, error);
+        PRINTF(VT_RST);
     }
 
     return error;

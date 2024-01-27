@@ -47,7 +47,7 @@ typedef struct EnFr {
     /* 0x0379 */ u8 isJumpingUp; // Conditional for jumping up from the log back onto the log
     /* 0x037A */ u8 isBelowWaterSurfaceCurrent;   // Used for diving effects
     /* 0x037B */ u8 isBelowWaterSurfacePrevious;
-    /* 0x037C */ u8 isDeactivating; // Related to debugging (osSyncPrintf)
+    /* 0x037C */ u8 isDeactivating; // Related to debugging (PRINTF)
     /* 0x037D */ u8 isActive; // Each Frog grows when their specific song is played.
     /* 0x037E */ u8 growingScaleIndex; // Target Scale Level 0-3 while growing (3 highest smooth)
     /* 0x037F */ u8 isGrowing; // While growing, the frog will switch between its larger size and its original size every frame

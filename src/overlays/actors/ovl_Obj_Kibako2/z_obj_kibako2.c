@@ -131,8 +131,8 @@ void ObjKibako2_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z =
         this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;
     // "Wooden box (stationary)"
-    osSyncPrintf("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->collectibleFlag,
-                 this->dyna.actor.home.rot.x);
+    PRINTF("木箱(据置)(arg %04xH)(item %04xH %d)\n", this->dyna.actor.params, this->collectibleFlag,
+           this->dyna.actor.home.rot.x);
 }
 
 void ObjKibako2_Destroy(Actor* thisx, PlayState* play) {
