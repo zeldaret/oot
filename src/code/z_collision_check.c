@@ -137,18 +137,18 @@ void Collider_ResetOCBase(PlayState* play, Collider* col) {
     col->ocFlags2 &= ~OC2_HIT_PLAYER;
 }
 
-s32 Collider_InitElementTouch(PlayState* play, ColliderElementTouch* touch) {
-    static ColliderElementTouch init = { 0x00000000, 0, 0 };
+s32 Collider_InitElementTouch(PlayState* play, ColliderElementDamageInfoAT* touch) {
+    static ColliderElementDamageInfoAT init = { 0x00000000, 0, 0 };
 
     *touch = init;
     return true;
 }
 
-s32 Collider_DestroyElementTouch(PlayState* play, ColliderElementTouch* touch) {
+s32 Collider_DestroyElementTouch(PlayState* play, ColliderElementDamageInfoAT* touch) {
     return true;
 }
 
-s32 Collider_SetElementTouch(PlayState* play, ColliderElementTouch* dest, ColliderElementTouch* src) {
+s32 Collider_SetElementTouch(PlayState* play, ColliderElementDamageInfoAT* dest, ColliderElementDamageInfoAT* src) {
     dest->dmgFlags = src->dmgFlags;
     dest->effect = src->effect;
     dest->damage = src->damage;
@@ -158,18 +158,18 @@ s32 Collider_SetElementTouch(PlayState* play, ColliderElementTouch* dest, Collid
 void Collider_ResetATElement_Unk(PlayState* play, ColliderElement* elem) {
 }
 
-s32 Collider_InitElementBump(PlayState* play, ColliderElementBump* bump) {
-    static ColliderElementBump init = { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } };
+s32 Collider_InitElementBump(PlayState* play, ColliderElementDamageInfoAC* bump) {
+    static ColliderElementDamageInfoAC init = { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } };
 
     *bump = init;
     return true;
 }
 
-s32 Collider_DestroyElementBump(PlayState* play, ColliderElementBump* bump) {
+s32 Collider_DestroyElementBump(PlayState* play, ColliderElementDamageInfoAC* bump) {
     return true;
 }
 
-s32 Collider_SetElementBump(PlayState* play, ColliderElementBump* bump, ColliderElementBumpInit* init) {
+s32 Collider_SetElementBump(PlayState* play, ColliderElementDamageInfoAC* bump, ColliderElementDamageInfoACInit* init) {
     bump->dmgFlags = init->dmgFlags;
     bump->effect = init->effect;
     bump->defense = init->defense;

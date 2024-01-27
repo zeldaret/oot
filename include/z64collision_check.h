@@ -79,20 +79,20 @@ typedef struct {
     /* 0x00 */ u32 dmgFlags; // Toucher damage type flags.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 damage; // Damage
-} ColliderElementTouch; // size = 0x08
+} ColliderElementDamageInfoAT; // size = 0x08
 
 typedef struct {
     /* 0x00 */ u32 dmgFlags;  // Bumper damage type flags.
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
-} ColliderElementBump; // size = 0x0C
+} ColliderElementDamageInfoAC; // size = 0x0C
 
 typedef struct {
     /* 0x00 */ u32 dmgFlags; // Bumper exclusion mask
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
-} ColliderElementBumpInit; // size = 0x08
+} ColliderElementDamageInfoACInit; // size = 0x08
 
 /**
  * Affects the sound Link's sword makes when hitting it, hookability,
@@ -112,8 +112,8 @@ typedef enum {
 } ElementType;
 
 typedef struct ColliderElement {
-    /* 0x00 */ ColliderElementTouch toucher; // Damage properties when acting as an AT collider
-    /* 0x08 */ ColliderElementBump bumper; // Damage properties when acting as an AC collider
+    /* 0x00 */ ColliderElementDamageInfoAT toucher; // Damage properties when acting as an AT collider
+    /* 0x08 */ ColliderElementDamageInfoAC bumper; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
     /* 0x15 */ u8 atElemFlags; // Information flags for AT collisions
     /* 0x16 */ u8 acElemFlags; // Information flags for AC collisions
@@ -126,8 +126,8 @@ typedef struct ColliderElement {
 
 typedef struct {
     /* 0x00 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
-    /* 0x04 */ ColliderElementTouch toucher; // Damage properties when acting as an AT collider
-    /* 0x0C */ ColliderElementBumpInit bumper; // Damage properties when acting as an AC collider
+    /* 0x04 */ ColliderElementDamageInfoAT toucher; // Damage properties when acting as an AT collider
+    /* 0x0C */ ColliderElementDamageInfoACInit bumper; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 atElemFlags; // Information flags for AT collisions
     /* 0x15 */ u8 acElemFlags;  // Information flags for AC collisions
     /* 0x16 */ u8 ocElemFlags; // Information flags for OC collisions
