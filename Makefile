@@ -198,6 +198,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
+# For now, ROM segments are still taken from the Debug ROM even when building other versions
 BASEROM_SEGMENTS_DIR := baseroms/gc-eu-mq-dbg/segments
 BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
 
