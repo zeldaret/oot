@@ -299,7 +299,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             FALLTHROUGH;
         case SW_TYPE_GOLD_DEFAULT:
             // Gold Skulltulas have double health and damage
-            this->collider.elements[0].info.toucher.damage *= 2;
+            this->collider.elements[0].base.toucher.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
             this->actor.colChkInfo.health *= 2;
             this->actor.flags &= ~ACTOR_FLAG_0;
@@ -566,15 +566,15 @@ void EnSw_Crawl(EnSw* this, PlayState* play) {
     // Outdoor Gold Skulltula shrinks/expands based on time
     if (ENSW_GET_TYPE_EN(this) == SW_TYPE_GOLD_NIGHT) {
         if (this->actor.scale.x < (140.0f * 0.0001f)) {
-            this->collider.elements[0].info.toucherFlags = TOUCH_NONE;
-            this->collider.elements[0].info.bumperFlags = BUMP_NONE;
-            this->collider.elements[0].info.ocElemFlags = OCELEM_NONE;
+            this->collider.elements[0].base.toucherFlags = TOUCH_NONE;
+            this->collider.elements[0].base.bumperFlags = BUMP_NONE;
+            this->collider.elements[0].base.ocElemFlags = OCELEM_NONE;
         }
 
         if (this->actor.scale.x >= (140.0f * 0.0001f)) {
-            this->collider.elements[0].info.toucherFlags = TOUCH_ON;
-            this->collider.elements[0].info.bumperFlags = BUMP_ON;
-            this->collider.elements[0].info.ocElemFlags = OCELEM_ON;
+            this->collider.elements[0].base.toucherFlags = TOUCH_ON;
+            this->collider.elements[0].base.bumperFlags = BUMP_ON;
+            this->collider.elements[0].base.ocElemFlags = OCELEM_ON;
         }
 
         Math_ApproachF(&this->actor.scale.x, !IS_DAY ? 0.02f : 0.0f, 0.2f, 0.01f);
