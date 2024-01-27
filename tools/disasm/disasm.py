@@ -10,6 +10,7 @@ from spimdisasm import frontendCommon as fec
 
 from file_addresses import DmaFile, parse_file_addresses, get_z_name_for_overlay
 
+
 def load_file_splits(
     context: spimdisasm.common.Context,
     config_dir: Path,
@@ -29,7 +30,9 @@ def load_file_splits(
         reloc_section = None
     elif dma_file.overlay_dir is not None:
         z_name = get_z_name_for_overlay(dma_file.name)
-        default_filename = f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{z_name}.s"
+        default_filename = (
+            f"src/overlays/{dma_file.overlay_dir}/{dma_file.name}/{z_name}.s"
+        )
         splits_data = None
         reloc_section = spimdisasm.mips.sections.SectionRelocZ64(
             context,
@@ -39,9 +42,12 @@ def load_file_splits(
             filename=default_filename,
             array_of_bytes=data,
             segmentVromStart=0,
-            overlayCategory=None)
+            overlayCategory=None,
+        )
     else:
-        raise Exception(f"DMA file {dma_file.name} is not an overlay but has no file splits")
+        raise Exception(
+            f"DMA file {dma_file.name} is not an overlay but has no file splits"
+        )
 
     return spimdisasm.mips.FileSplits(
         context,
@@ -53,14 +59,22 @@ def load_file_splits(
         segmentVromStart=0,
         overlayCategory=None,
         splitsData=splits_data,
-        relocSection=reloc_section)
+        relocSection=reloc_section,
+    )
+
 
 def main():
     parser = argparse.ArgumentParser(description="Disassemble a ROM.")
     parser.add_argument("rom", type=Path, help="Input ROM")
-    parser.add_argument("-o", "--output-dir", help="Output directory", type=Path, required=True)
-    parser.add_argument("--config-dir", help="Config directory", type=Path, required=True)
-    parser.add_argument("--split-functions", help="Write functions into separate files", type=Path)
+    parser.add_argument(
+        "-o", "--output-dir", help="Output directory", type=Path, required=True
+    )
+    parser.add_argument(
+        "--config-dir", help="Config directory", type=Path, required=True
+    )
+    parser.add_argument(
+        "--split-functions", help="Write functions into separate files", type=Path
+    )
 
     spimdisasm.common.Context.addParametersToArgParse(parser)
     spimdisasm.common.GlobalConfig.addParametersToArgParse(parser)
@@ -106,7 +120,7 @@ def main():
         output_path = args.output_dir / path
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "w") as f:
-            f.write(".include \"macro.inc\"\n")
+            f.write('.include "macro.inc"\n')
             f.write("\n")
             f.write(".set noat\n")
             f.write(".set noreorder\n")
@@ -130,7 +144,10 @@ def main():
                     continue
                 output_dir = (args.split_functions / section.name).with_suffix("")
                 for func in section.symbolList:
-                    spimdisasm.mips.FilesHandlers.writeSplitedFunction(output_dir, func, rodata_list)
+                    spimdisasm.mips.FilesHandlers.writeSplitedFunction(
+                        output_dir, func, rodata_list
+                    )
+
 
 if __name__ == "__main__":
     main()

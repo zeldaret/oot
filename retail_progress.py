@@ -13,6 +13,7 @@ import subprocess
 import sys
 from typing import Iterator, List, Optional, Tuple
 
+
 @dataclass
 class Inst:
     func_name: str
@@ -22,7 +23,9 @@ class Inst:
     reloc_type: Optional[str]
     reloc_symbol: Optional[str]
 
+
 FUNC_RE = re.compile(r"([0-9a-f]+) <(.*)>:")
+
 
 def parse_func_name(line: str) -> str:
     match = FUNC_RE.match(line)
@@ -30,8 +33,10 @@ def parse_func_name(line: str) -> str:
         raise Exception(f"could not parse function name from '{line}'")
     return match.group(2)
 
+
 def is_branch(mnemonic: str) -> bool:
     return mnemonic.startswith("b") and mnemonic != "break"
+
 
 def parse_inst(func_name: str, line: str) -> Inst:
     parts = line.split()
@@ -59,6 +64,7 @@ def parse_inst(func_name: str, line: str) -> Inst:
                     regs.append(part)
     return Inst(func_name, mnemonic, regs, imm, None, None)
 
+
 def run_objdump(path: Path) -> List[Inst]:
     if not path.exists():
         raise Exception(f"file {path} does not exist")
@@ -66,8 +72,10 @@ def run_objdump(path: Path) -> List[Inst]:
     command = [
         "mips-linux-gnu-objdump",
         "-drz",
-        "-m", "mips:4300",
-        "-j", ".text",
+        "-m",
+        "mips:4300",
+        "-j",
+        ".text",
         str(path),
     ]
     try:
@@ -76,7 +84,7 @@ def run_objdump(path: Path) -> List[Inst]:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
-            encoding="utf-8"
+            encoding="utf-8",
         ).stdout.splitlines()
     except subprocess.CalledProcessError as e:
         return []
@@ -113,14 +121,19 @@ def run_objdump(path: Path) -> List[Inst]:
         result.pop()
     return result
 
-def pair_instructions(insts1: List[Inst], insts2: List[Inst]) -> Iterator[Tuple[Optional[Inst], Optional[Inst]]]:
+
+def pair_instructions(
+    insts1: List[Inst], insts2: List[Inst]
+) -> Iterator[Tuple[Optional[Inst], Optional[Inst]]]:
     differ = difflib.SequenceMatcher(
         a=[(inst.func_name, inst.mnemonic) for inst in insts1],
         b=[(inst.func_name, inst.mnemonic) for inst in insts2],
-        autojunk=False)
-    for (tag, i1, i2, j1, j2) in differ.get_opcodes():
+        autojunk=False,
+    )
+    for tag, i1, i2, j1, j2 in differ.get_opcodes():
         for inst1, inst2 in itertools.zip_longest(insts1[i1:i2], insts2[j1:j2]):
             yield (inst1, inst2)
+
 
 def has_diff(inst1: Inst, inst2: Inst) -> bool:
     if (
@@ -130,14 +143,15 @@ def has_diff(inst1: Inst, inst2: Inst) -> bool:
     ):
         return True
 
-    if (
-        inst1.reloc_type == inst2.reloc_type
-        and inst1.reloc_type in ("R_MIPS_HI16", "R_MIPS_LO16")
+    if inst1.reloc_type == inst2.reloc_type and inst1.reloc_type in (
+        "R_MIPS_HI16",
+        "R_MIPS_LO16",
     ):
         # ignore symbol differences
         return False
 
     return inst1 != inst2
+
 
 def find_functions_with_diffs(version: str, c_path: str):
     object_path = Path(c_path).with_suffix(".o")
@@ -165,6 +179,7 @@ def find_functions_with_diffs(version: str, c_path: str):
     print(f"{c_path} functions with diffs:")
     for func_name in functions_with_diffs:
         print(f"  {func_name}")
+
 
 def print_summary(version: str, csv: bool):
     expected_dir = Path("expected/build") / version
@@ -196,17 +211,28 @@ def print_summary(version: str, csv: bool):
             progress = 1.0
 
         if csv:
-            print(f"{c_path},{len(insts1)},{len(insts2)},{added},{removed},{changed},{progress:.3f}")
+            print(
+                f"{c_path},{len(insts1)},{len(insts2)},{added},{removed},{changed},{progress:.3f}"
+            )
         elif progress == 1.0:
             print(f"   OK {c_path}")
         else:
             print(f"  {math.floor(progress * 100):>2}% {c_path}")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Calculate progress matching .text sections")
-    parser.add_argument("file", metavar="FILE", nargs='?',
-        help="find functions with diffs in the given source file (if omitted, print summary of diffs for all files)")
-    parser.add_argument("-v", "--version", help="version to compare", default="gc-eu-mq")
+    parser = argparse.ArgumentParser(
+        description="Calculate progress matching .text sections"
+    )
+    parser.add_argument(
+        "file",
+        metavar="FILE",
+        nargs="?",
+        help="find functions with diffs in the given source file (if omitted, print summary of diffs for all files)",
+    )
+    parser.add_argument(
+        "-v", "--version", help="version to compare", default="gc-eu-mq"
+    )
     parser.add_argument("--csv", help="print summary CSV", action="store_true")
     args = parser.parse_args()
 
