@@ -291,6 +291,8 @@ distclean: clean assetclean
 	$(MAKE) -C tools distclean
 
 venv:
+# Create the virtual environment if it doesn't exist.
+# Delete the virtual environment directory if creation fails.
 	test -d $(VENV) || python3 -m venv $(VENV) || { rm -rf $(VENV); false; }
 	$(PYTHON) -m pip install -U pip
 	$(PYTHON) -m pip install -U -r requirements.txt
