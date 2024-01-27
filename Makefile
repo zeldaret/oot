@@ -213,7 +213,7 @@ OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | g
 
 DISASM_BASEROM := baseroms/$(VERSION)/baserom-decompressed.z64
 DISASM_DATA_FILES := $(wildcard $(DISASM_DATA_DIR)/*.csv) $(wildcard $(DISASM_DATA_DIR)/*.txt)
-DISASM_S_FILES := $(shell $(PYTHON) tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
+DISASM_S_FILES := $(shell test -e $(PYTHON) && $(PYTHON) tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
 DISASM_O_FILES := $(DISASM_S_FILES:.s=.o)
 
 # Automatic dependency files

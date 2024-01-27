@@ -8,8 +8,8 @@ different compiler flags. However, once this version is done, future
 retail versions should be much easier, as the changes between retail versions are
 small in comparison.
 
-Instead of `cp`ing a matching build into `expected/`, the target ROM is
-recompiled as `.o` files directly into `expected/build/gc-eu-mq` for diff tools.
+Instead of `cp`ing a matching build into `expected/`, the target ROM is disassembled as `.s` files then
+reassembled as `.o` files directly into `expected/build/gc-eu-mq` for diff tools.
 This allows us to make progress matching code in parallel with solving other
 problems (such as the build system, ROM organization, and BSS ordering). The
 files in `tools/disasm/gc-eu-mq` say how to split the source files and where the
@@ -27,7 +27,7 @@ an `if` block). Since retail MM versions use the same compiler flags as retail
 OOT, checking MM decomp for similar code can help.
 
 We can disable code that was removed in retail builds by adding
-`#ifdef OOT_DEBUG` around these parts of the code. In order too keep the code
+`#ifdef OOT_DEBUG` around these parts of the code. In order to keep the code
 readable, we should try to minimize the amount of `#ifdef` noise whenever
 possible. For example, instead of writing
 
@@ -76,7 +76,7 @@ void foo() {
 1.  Copy your target PAL GameCube Master Quest ROM (non-debug) to
     `baseroms/gc-eu-mq/baserom.z64`
 
-1.  Extract assets and ROM files from the Debug ROM by running
+1.  Extract assets and ROM files **from the Debug ROM** by running
 
     ```sh
     make setup -jN
