@@ -129,7 +129,7 @@ source .venv/bin/activate
 
 ### retail_progress.py
 
-Running `./retail_progress.py file.c` will attempt to figure out which functions
+Running `./retail_progress.py path/to/file.c` will attempt to figure out which functions
 in a file still need to match for `gc-eu-mq`. To get an overview of diffs for
 all files, run `./retail_progress.py` with no arguments.
 
