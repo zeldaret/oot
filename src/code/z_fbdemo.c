@@ -133,19 +133,19 @@ void TransitionTile_Destroy(TransitionTile* this) {
     Sleep_Msec(100);
 
     if (this->vtxData != NULL) {
-        SystemArena_FreeDebug(this->vtxData, "../z_fbdemo.c", 180);
+        SYSTEM_ARENA_FREE(this->vtxData, "../z_fbdemo.c", 180);
         this->vtxData = NULL;
     }
     if (this->vtxFrame1 != NULL) {
-        SystemArena_FreeDebug(this->vtxFrame1, "../z_fbdemo.c", 181);
+        SYSTEM_ARENA_FREE(this->vtxFrame1, "../z_fbdemo.c", 181);
         this->vtxFrame1 = NULL;
     }
     if (this->vtxFrame2 != NULL) {
-        SystemArena_FreeDebug(this->vtxFrame2, "../z_fbdemo.c", 182);
+        SYSTEM_ARENA_FREE(this->vtxFrame2, "../z_fbdemo.c", 182);
         this->vtxFrame2 = NULL;
     }
     if (this->gfx != NULL) {
-        SystemArena_FreeDebug(this->gfx, "../z_fbdemo.c", 183);
+        SYSTEM_ARENA_FREE(this->gfx, "../z_fbdemo.c", 183);
         this->gfx = NULL;
     }
 }
@@ -156,28 +156,27 @@ TransitionTile* TransitionTile_Init(TransitionTile* this, s32 cols, s32 rows) {
     this->frame = 0;
     this->cols = cols;
     this->rows = rows;
-    this->vtxData =
-        SystemArena_MallocDebug((cols + 1) * sizeof(TransitionTileVtxData) * (rows + 1), "../z_fbdemo.c", 195);
-    this->vtxFrame1 = SystemArena_MallocDebug((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 196);
-    this->vtxFrame2 = SystemArena_MallocDebug((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 197);
-    this->gfx = SystemArena_MallocDebug((this->rows * (1 + this->cols * 9) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
+    this->vtxData = SYSTEM_ARENA_MALLOC((cols + 1) * sizeof(TransitionTileVtxData) * (rows + 1), "../z_fbdemo.c", 195);
+    this->vtxFrame1 = SYSTEM_ARENA_MALLOC((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 196);
+    this->vtxFrame2 = SYSTEM_ARENA_MALLOC((cols + 1) * sizeof(Vtx) * (rows + 1), "../z_fbdemo.c", 197);
+    this->gfx = SYSTEM_ARENA_MALLOC((this->rows * (1 + this->cols * 9) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
 
     if ((this->vtxData == NULL) || (this->vtxFrame1 == NULL) || (this->vtxFrame2 == NULL) || (this->gfx == NULL)) {
         osSyncPrintf("fbdemo_init allocation error\n");
         if (this->vtxData != NULL) {
-            SystemArena_FreeDebug(this->vtxData, "../z_fbdemo.c", 202);
+            SYSTEM_ARENA_FREE(this->vtxData, "../z_fbdemo.c", 202);
             this->vtxData = NULL;
         }
         if (this->vtxFrame1 != NULL) {
-            SystemArena_FreeDebug(this->vtxFrame1, "../z_fbdemo.c", 203);
+            SYSTEM_ARENA_FREE(this->vtxFrame1, "../z_fbdemo.c", 203);
             this->vtxFrame1 = NULL;
         }
         if (this->vtxFrame2 != NULL) {
-            SystemArena_FreeDebug(this->vtxFrame2, "../z_fbdemo.c", 204);
+            SYSTEM_ARENA_FREE(this->vtxFrame2, "../z_fbdemo.c", 204);
             this->vtxFrame2 = NULL;
         }
         if (this->gfx != NULL) {
-            SystemArena_FreeDebug(this->gfx, "../z_fbdemo.c", 205);
+            SYSTEM_ARENA_FREE(this->gfx, "../z_fbdemo.c", 205);
             this->gfx = NULL;
         }
         return NULL;

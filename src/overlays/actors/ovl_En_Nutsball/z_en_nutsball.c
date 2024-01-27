@@ -120,7 +120,7 @@ void func_80ABBBA8(EnNutsball* this, PlayState* play) {
                 this->collider.base.atFlags &= ~AT_TYPE_ENEMY & ~AT_BOUNCED & ~AT_HIT;
                 this->collider.base.atFlags |= AT_TYPE_PLAYER;
 
-                this->collider.info.toucher.dmgFlags = DMG_DEKU_STICK;
+                this->collider.elem.toucher.dmgFlags = DMG_DEKU_STICK;
                 Matrix_MtxFToYXZRotS(&player->shieldMf, &sp4C, 0);
                 this->actor.world.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;
@@ -172,8 +172,7 @@ void EnNutsball_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
     Matrix_RotateZ(this->actor.home.rot.z * 9.58738e-05f, MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_nutsball.c", 333),
-              G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_nutsball.c", 333), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[NUTSBALL_GET_TYPE(&this->actor)]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_nutsball.c", 337);

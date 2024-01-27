@@ -212,7 +212,7 @@ void func_80A91348(EnKakasi3* this, PlayState* play) {
     func_80A90E28(this);
     SkelAnime_Update(&this->skelAnime);
     this->subCamId = CAM_ID_NONE;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (!this->unk_194) {
             if (this->unk_1A8 == 0) {
                 this->actionFunc = func_80A91284;
@@ -260,7 +260,7 @@ void func_80A91348(EnKakasi3* this, PlayState* play) {
                         player->stateFlags2 |= PLAYER_STATE2_23;
                     }
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }
@@ -286,7 +286,7 @@ void func_80A91620(EnKakasi3* this, PlayState* play) {
             this->subCamId = CAM_ID_NONE;
         }
         if (this->subCamId != CAM_ID_NONE) {
-            func_8005B1A4(play->cameraPtrs[this->subCamId]);
+            Camera_SetFinishedFlag(play->cameraPtrs[this->subCamId]);
         }
         this->actionFunc = func_80A911F0;
         return;
@@ -394,7 +394,7 @@ void func_80A91A90(EnKakasi3* this, PlayState* play) {
             this->subCamId = CAM_ID_NONE;
         }
         if (this->subCamId != CAM_ID_NONE) {
-            func_8005B1A4(play->cameraPtrs[this->subCamId]);
+            Camera_SetFinishedFlag(play->cameraPtrs[this->subCamId]);
         }
         Message_CloseTextbox(play);
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;

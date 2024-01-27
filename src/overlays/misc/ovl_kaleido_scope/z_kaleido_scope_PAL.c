@@ -1145,7 +1145,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
             Matrix_RotateX(-pauseCtx->itemPageRoll / 100.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1173),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1173),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
@@ -1164,7 +1164,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateZ(pauseCtx->equipPageRoll / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(1.57f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1196),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1196),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
@@ -1184,7 +1184,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateX(pauseCtx->questPageRoll / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(3.14f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1220),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1220),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
@@ -1204,7 +1204,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateZ(-pauseCtx->mapPageRoll / 100.0f, MTXMODE_APPLY);
             Matrix_RotateY(-1.57f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1243),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1243),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx,
@@ -1236,7 +1236,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
                 Matrix_RotateX(-pauseCtx->itemPageRoll / 100.0f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1281),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->itemPageVtx,
@@ -1252,7 +1252,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateZ(-pauseCtx->mapPageRoll / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(-1.57f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1303),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1303),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->mapPageVtx,
@@ -1285,7 +1285,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateX(pauseCtx->questPageRoll / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(3.14f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1343),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1343),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->questPageVtx,
@@ -1305,7 +1305,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
                 Matrix_RotateZ(pauseCtx->equipPageRoll / 100.0f, MTXMODE_APPLY);
                 Matrix_RotateY(1.57f, MTXMODE_APPLY);
 
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1367),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1367),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 POLY_OPA_DISP = KaleidoScope_DrawPageSections(POLY_OPA_DISP, pauseCtx->equipPageVtx,
@@ -1362,7 +1362,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
             Matrix_RotateY(1.57f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_kaleido_scope_PAL.c", 1424),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_kaleido_scope_PAL.c", 1424),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         if (IS_PAUSE_STATE_GAMEOVER(pauseCtx)) {
@@ -1658,7 +1658,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
     Matrix_Translate(0.0f, 0.0f, -144.0f, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 1755),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 1755),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 90, 100, 130, 255);
@@ -1967,9 +1967,9 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
                     texIndex += 12;
                 }
 
-                DmaMgr_RequestSyncDebug(pauseCtx->nameSegment,
-                                        (uintptr_t)_map_name_staticSegmentRomStart + (texIndex * MAP_NAME_TEX1_SIZE),
-                                        MAP_NAME_TEX1_SIZE, "../z_kaleido_scope_PAL.c", 2093);
+                DMA_REQUEST_SYNC(pauseCtx->nameSegment,
+                                 (uintptr_t)_map_name_staticSegmentRomStart + (texIndex * MAP_NAME_TEX1_SIZE),
+                                 MAP_NAME_TEX1_SIZE, "../z_kaleido_scope_PAL.c", 2093);
             } else {
                 osSyncPrintf("zoom_name=%d\n", pauseCtx->namedItem);
 
@@ -1982,9 +1982,9 @@ void KaleidoScope_UpdateNamePanel(PlayState* play) {
 
                 osSyncPrintf("J_N=%d  point=%d\n", gSaveContext.language, texIndex);
 
-                DmaMgr_RequestSyncDebug(pauseCtx->nameSegment,
-                                        (uintptr_t)_item_name_staticSegmentRomStart + (texIndex * ITEM_NAME_TEX_SIZE),
-                                        ITEM_NAME_TEX_SIZE, "../z_kaleido_scope_PAL.c", 2120);
+                DMA_REQUEST_SYNC(pauseCtx->nameSegment,
+                                 (uintptr_t)_item_name_staticSegmentRomStart + (texIndex * ITEM_NAME_TEX_SIZE),
+                                 ITEM_NAME_TEX_SIZE, "../z_kaleido_scope_PAL.c", 2120);
             }
 
             pauseCtx->nameDisplayTimer = 0;
@@ -2711,14 +2711,14 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->offsetY = 80;
     }
 
-    pauseCtx->itemPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_ITEM_QUADS) * 4) * sizeof(Vtx));
+    pauseCtx->itemPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_ITEM_QUADS) * 4) * sizeof(Vtx));
     KaleidoScope_SetPageVertices(play, pauseCtx->itemPageVtx, VTX_PAGE_ITEM, VTX_PAGE_ITEM_QUADS);
 
-    pauseCtx->equipPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_EQUIP_QUADS) * 4) * sizeof(Vtx));
+    pauseCtx->equipPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_EQUIP_QUADS) * 4) * sizeof(Vtx));
     KaleidoScope_SetPageVertices(play, pauseCtx->equipPageVtx, VTX_PAGE_EQUIP, VTX_PAGE_EQUIP_QUADS);
 
     if (!sInDungeonScene) {
-        pauseCtx->mapPageVtx = Graph_Alloc(
+        pauseCtx->mapPageVtx = GRAPH_ALLOC(
             gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_WORLD_QUADS + WORLD_MAP_IMAGE_FRAG_NUM) * 4) * sizeof(Vtx));
         j = KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_WORLD, VTX_PAGE_MAP_WORLD_QUADS);
 
@@ -2765,14 +2765,14 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         pauseCtx->mapPageVtx[j - 2].v.tc[1] = pauseCtx->mapPageVtx[j - 1].v.tc[1] =
             (WORLD_MAP_IMAGE_HEIGHT % WORLD_MAP_IMAGE_FRAG_HEIGHT) * (1 << 5);
     } else {
-        pauseCtx->mapPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_DUNGEON_QUADS) * 4) * sizeof(Vtx));
+        pauseCtx->mapPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_MAP_DUNGEON_QUADS) * 4) * sizeof(Vtx));
         KaleidoScope_SetPageVertices(play, pauseCtx->mapPageVtx, VTX_PAGE_MAP_DUNGEON, VTX_PAGE_MAP_DUNGEON_QUADS);
     }
 
-    pauseCtx->questPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_QUEST_QUADS) * 4) * sizeof(Vtx));
+    pauseCtx->questPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_QUEST_QUADS) * 4) * sizeof(Vtx));
     KaleidoScope_SetPageVertices(play, pauseCtx->questPageVtx, VTX_PAGE_QUEST, VTX_PAGE_QUEST_QUADS);
 
-    pauseCtx->cursorVtx = Graph_Alloc(gfxCtx, (PAUSE_QUAD_CURSOR_MAX * 4) * sizeof(Vtx));
+    pauseCtx->cursorVtx = GRAPH_ALLOC(gfxCtx, (PAUSE_QUAD_CURSOR_MAX * 4) * sizeof(Vtx));
 
     for (i = 0; i < (PAUSE_QUAD_CURSOR_MAX * 4); i++) {
         pauseCtx->cursorVtx[i].v.ob[0] = pauseCtx->cursorVtx[i].v.ob[1] = pauseCtx->cursorVtx[i].v.ob[2] = 0;
@@ -2801,7 +2801,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
     pauseCtx->cursorVtx[17].v.tc[0] = pauseCtx->cursorVtx[18].v.tc[1] = pauseCtx->cursorVtx[19].v.tc[0] =
         pauseCtx->cursorVtx[19].v.tc[1] = 32 * (1 << 5);
 
-    pauseCtx->itemVtx = Graph_Alloc(gfxCtx, (QUAD_ITEM_MAX * 4) * sizeof(Vtx));
+    pauseCtx->itemVtx = GRAPH_ALLOC(gfxCtx, (QUAD_ITEM_MAX * 4) * sizeof(Vtx));
 
     // QUAD_ITEM_GRID_FIRST..QUAD_ITEM_GRID_LAST
 
@@ -2955,7 +2955,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    pauseCtx->equipVtx = Graph_Alloc(gfxCtx, (QUAD_EQUIP_MAX * 4) * sizeof(Vtx));
+    pauseCtx->equipVtx = GRAPH_ALLOC(gfxCtx, (QUAD_EQUIP_MAX * 4) * sizeof(Vtx));
 
     // QUAD_EQUIP_UPG_BULLETBAG_QUIVER, QUAD_EQUIP_SWORD_KOKIRI, QUAD_EQUIP_SWORD_MASTER, QUAD_EQUIP_SWORD_BIGGORON,
     // QUAD_EQUIP_UPG_BOMB_BAG, QUAD_EQUIP_SHIELD_DEKU, QUAD_EQUIP_SHIELD_HYLIAN, QUAD_EQUIP_SHIELD_MIRROR,
@@ -3099,7 +3099,7 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
         k += 4;
     }
 
-    pauseCtx->questVtx = Graph_Alloc(gfxCtx, QUAD_QUEST_MAX * 4 * sizeof(Vtx));
+    pauseCtx->questVtx = GRAPH_ALLOC(gfxCtx, QUAD_QUEST_MAX * 4 * sizeof(Vtx));
 
     for (k = 0, j = 0; j < QUAD_QUEST_MAX; j++, k += 4) {
         quadWidth = sQuestQuadsSize[j];
@@ -3166,9 +3166,9 @@ void KaleidoScope_SetVertices(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->questVtx[k + 3].v.cn[3] = pauseCtx->alpha;
     }
 
-    pauseCtx->infoPanelVtx = Graph_Alloc(gfxCtx, 28 * sizeof(Vtx));
+    pauseCtx->infoPanelVtx = GRAPH_ALLOC(gfxCtx, 28 * sizeof(Vtx));
 
-    pauseCtx->promptPageVtx = Graph_Alloc(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_PROMPT_QUADS) * 4) * sizeof(Vtx));
+    pauseCtx->promptPageVtx = GRAPH_ALLOC(gfxCtx, ((PAGE_BG_QUADS + VTX_PAGE_PROMPT_QUADS) * 4) * sizeof(Vtx));
     KaleidoScope_SetPageVertices(play, pauseCtx->promptPageVtx, VTX_PAGE_PROMPT, VTX_PAGE_PROMPT_QUADS);
 }
 
@@ -3419,13 +3419,13 @@ void KaleidoScope_LoadDungeonMap(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     s32 pad;
 
-    DmaMgr_RequestSyncDebug(interfaceCtx->mapSegment,
-                            (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 0) * MAP_48x85_TEX_SIZE),
-                            MAP_48x85_TEX_SIZE, "../z_kaleido_scope_PAL.c", 3467);
+    DMA_REQUEST_SYNC(interfaceCtx->mapSegment,
+                     (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 0) * MAP_48x85_TEX_SIZE),
+                     MAP_48x85_TEX_SIZE, "../z_kaleido_scope_PAL.c", 3467);
 
-    DmaMgr_RequestSyncDebug(interfaceCtx->mapSegment + ALIGN16(MAP_48x85_TEX_SIZE),
-                            (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 1) * MAP_48x85_TEX_SIZE),
-                            MAP_48x85_TEX_SIZE, "../z_kaleido_scope_PAL.c", 3471);
+    DMA_REQUEST_SYNC(interfaceCtx->mapSegment + ALIGN16(MAP_48x85_TEX_SIZE),
+                     (uintptr_t)_map_48x85_staticSegmentRomStart + ((R_MAP_TEX_INDEX + 1) * MAP_48x85_TEX_SIZE),
+                     MAP_48x85_TEX_SIZE, "../z_kaleido_scope_PAL.c", 3471);
 }
 
 void KaleidoScope_UpdateDungeonMap(PlayState* play) {
@@ -3533,8 +3533,8 @@ void KaleidoScope_Update(PlayState* play) {
             iconItemStaticSize =
                 (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
             osSyncPrintf("icon_item size0=%x\n", iconItemStaticSize);
-            DmaMgr_RequestSyncDebug(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart,
-                                    iconItemStaticSize, "../z_kaleido_scope_PAL.c", 3662);
+            DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, iconItemStaticSize,
+                             "../z_kaleido_scope_PAL.c", 3662);
 
             gSegments[8] = VIRTUAL_TO_PHYSICAL(pauseCtx->iconItemSegment);
 
@@ -3549,8 +3549,8 @@ void KaleidoScope_Update(PlayState* play) {
 
             size = (uintptr_t)_icon_item_24_staticSegmentRomEnd - (uintptr_t)_icon_item_24_staticSegmentRomStart;
             osSyncPrintf("icon_item24 size=%x\n", size);
-            DmaMgr_RequestSyncDebug(pauseCtx->iconItem24Segment, (uintptr_t)_icon_item_24_staticSegmentRomStart, size,
-                                    "../z_kaleido_scope_PAL.c", 3675);
+            DMA_REQUEST_SYNC(pauseCtx->iconItem24Segment, (uintptr_t)_icon_item_24_staticSegmentRomStart, size,
+                             "../z_kaleido_scope_PAL.c", 3675);
 
             pauseCtx->iconItemAltSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItem24Segment + size);
 
@@ -3578,9 +3578,8 @@ void KaleidoScope_Update(PlayState* play) {
                     size2 = (uintptr_t)_icon_item_dungeon_staticSegmentRomEnd -
                             (uintptr_t)_icon_item_dungeon_staticSegmentRomStart;
                     osSyncPrintf("icon_item_dungeon dungeon-size2=%x\n", size2);
-                    DmaMgr_RequestSyncDebug(pauseCtx->iconItemAltSegment,
-                                            (uintptr_t)_icon_item_dungeon_staticSegmentRomStart, size2,
-                                            "../z_kaleido_scope_PAL.c", 3712);
+                    DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_dungeon_staticSegmentRomStart,
+                                     size2, "../z_kaleido_scope_PAL.c", 3712);
 
                     interfaceCtx->mapPalette[28] = 6;
                     interfaceCtx->mapPalette[29] = 99;
@@ -3593,9 +3592,8 @@ void KaleidoScope_Update(PlayState* play) {
                     size2 = (uintptr_t)_icon_item_field_staticSegmentRomEnd -
                             (uintptr_t)_icon_item_field_staticSegmentRomStart;
                     osSyncPrintf("icon_item_field field-size2=%x\n", size2);
-                    DmaMgr_RequestSyncDebug(pauseCtx->iconItemAltSegment,
-                                            (uintptr_t)_icon_item_field_staticSegmentRomStart, size2,
-                                            "../z_kaleido_scope_PAL.c", 3726);
+                    DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_field_staticSegmentRomStart,
+                                     size2, "../z_kaleido_scope_PAL.c", 3726);
                     break;
             }
 
@@ -3604,18 +3602,18 @@ void KaleidoScope_Update(PlayState* play) {
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
-                DmaMgr_RequestSyncDebug(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart,
-                                        size, "../z_kaleido_scope_PAL.c", 3739);
+                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart, size,
+                                 "../z_kaleido_scope_PAL.c", 3739);
             } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (uintptr_t)_icon_item_ger_staticSegmentRomEnd - (uintptr_t)_icon_item_ger_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
-                DmaMgr_RequestSyncDebug(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_ger_staticSegmentRomStart,
-                                        size, "../z_kaleido_scope_PAL.c", 3746);
+                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_ger_staticSegmentRomStart, size,
+                                 "../z_kaleido_scope_PAL.c", 3746);
             } else {
                 size = (uintptr_t)_icon_item_fra_staticSegmentRomEnd - (uintptr_t)_icon_item_fra_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
-                DmaMgr_RequestSyncDebug(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart,
-                                        size, "../z_kaleido_scope_PAL.c", 3753);
+                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart, size,
+                                 "../z_kaleido_scope_PAL.c", 3753);
             }
 
             pauseCtx->nameSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemLangSegment + size);
@@ -3629,23 +3627,23 @@ void KaleidoScope_Update(PlayState* play) {
 
             if (((void)0, gSaveContext.worldMapArea) < WORLD_MAP_AREA_MAX) {
                 if (gSaveContext.language == LANGUAGE_ENG) {
-                    DmaMgr_RequestSyncDebug(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
-                                            (uintptr_t)_map_name_staticSegmentRomStart +
-                                                (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
-                                                36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_ENG * MAP_NAME_TEX2_SIZE,
-                                            MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3776);
+                    DMA_REQUEST_SYNC(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
+                                     (uintptr_t)_map_name_staticSegmentRomStart +
+                                         (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
+                                         36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_ENG * MAP_NAME_TEX2_SIZE,
+                                     MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3776);
                 } else if (gSaveContext.language == LANGUAGE_GER) {
-                    DmaMgr_RequestSyncDebug(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
-                                            (uintptr_t)_map_name_staticSegmentRomStart +
-                                                (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
-                                                36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_GER * MAP_NAME_TEX2_SIZE,
-                                            MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3780);
+                    DMA_REQUEST_SYNC(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
+                                     (uintptr_t)_map_name_staticSegmentRomStart +
+                                         (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
+                                         36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_GER * MAP_NAME_TEX2_SIZE,
+                                     MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3780);
                 } else {
-                    DmaMgr_RequestSyncDebug(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
-                                            (uintptr_t)_map_name_staticSegmentRomStart +
-                                                (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
-                                                36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_FRA * MAP_NAME_TEX2_SIZE,
-                                            MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3784);
+                    DMA_REQUEST_SYNC(pauseCtx->nameSegment + MAX(MAP_NAME_TEX1_SIZE, ITEM_NAME_TEX_SIZE),
+                                     (uintptr_t)_map_name_staticSegmentRomStart +
+                                         (((void)0, gSaveContext.worldMapArea) * MAP_NAME_TEX2_SIZE) +
+                                         36 * MAP_NAME_TEX1_SIZE + 22 * LANGUAGE_FRA * MAP_NAME_TEX2_SIZE,
+                                     MAP_NAME_TEX2_SIZE, "../z_kaleido_scope_PAL.c", 3784);
                 }
             }
 
@@ -4153,39 +4151,39 @@ void KaleidoScope_Update(PlayState* play) {
             iconItemStaticSize =
                 (uintptr_t)_icon_item_staticSegmentRomEnd - (uintptr_t)_icon_item_staticSegmentRomStart;
             osSyncPrintf("icon_item size0=%x\n", iconItemStaticSize);
-            DmaMgr_RequestSyncDebug(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart,
-                                    iconItemStaticSize, "../z_kaleido_scope_PAL.c", 4356);
+            DMA_REQUEST_SYNC(pauseCtx->iconItemSegment, (uintptr_t)_icon_item_staticSegmentRomStart, iconItemStaticSize,
+                             "../z_kaleido_scope_PAL.c", 4356);
 
             pauseCtx->iconItem24Segment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemSegment + iconItemStaticSize);
             size = (uintptr_t)_icon_item_24_staticSegmentRomEnd - (uintptr_t)_icon_item_24_staticSegmentRomStart;
             osSyncPrintf("icon_item24 size=%x\n", size);
-            DmaMgr_RequestSyncDebug(pauseCtx->iconItem24Segment, (uintptr_t)_icon_item_24_staticSegmentRomStart, size,
-                                    "../z_kaleido_scope_PAL.c", 4363);
+            DMA_REQUEST_SYNC(pauseCtx->iconItem24Segment, (uintptr_t)_icon_item_24_staticSegmentRomStart, size,
+                             "../z_kaleido_scope_PAL.c", 4363);
 
             pauseCtx->iconItemAltSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItem24Segment + size);
             size2 = (uintptr_t)_icon_item_gameover_staticSegmentRomEnd -
                     (uintptr_t)_icon_item_gameover_staticSegmentRomStart;
             osSyncPrintf("icon_item_dungeon gameover-size2=%x\n", size2);
-            DmaMgr_RequestSyncDebug(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_gameover_staticSegmentRomStart,
-                                    size2, "../z_kaleido_scope_PAL.c", 4370);
+            DMA_REQUEST_SYNC(pauseCtx->iconItemAltSegment, (uintptr_t)_icon_item_gameover_staticSegmentRomStart, size2,
+                             "../z_kaleido_scope_PAL.c", 4370);
 
             pauseCtx->iconItemLangSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemAltSegment + size2);
 
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (uintptr_t)_icon_item_nes_staticSegmentRomEnd - (uintptr_t)_icon_item_nes_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
-                DmaMgr_RequestSyncDebug(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart,
-                                        size, "../z_kaleido_scope_PAL.c", 4379);
+                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_nes_staticSegmentRomStart, size,
+                                 "../z_kaleido_scope_PAL.c", 4379);
             } else if (gSaveContext.language == LANGUAGE_GER) {
                 size = (uintptr_t)_icon_item_ger_staticSegmentRomEnd - (uintptr_t)_icon_item_ger_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
-                DmaMgr_RequestSyncDebug(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_ger_staticSegmentRomStart,
-                                        size, "../z_kaleido_scope_PAL.c", 4386);
+                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_ger_staticSegmentRomStart, size,
+                                 "../z_kaleido_scope_PAL.c", 4386);
             } else {
                 size = (uintptr_t)_icon_item_fra_staticSegmentRomEnd - (uintptr_t)_icon_item_fra_staticSegmentRomStart;
                 osSyncPrintf("icon_item_dungeon dungeon-size=%x\n", size);
-                DmaMgr_RequestSyncDebug(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart,
-                                        size, "../z_kaleido_scope_PAL.c", 4393);
+                DMA_REQUEST_SYNC(pauseCtx->iconItemLangSegment, (uintptr_t)_icon_item_fra_staticSegmentRomStart, size,
+                                 "../z_kaleido_scope_PAL.c", 4393);
             }
 
             sColor82ABRed_D_8082AB8C = 255;

@@ -181,7 +181,7 @@ static AnimationInfo sAnimationInfo[] = {
 void EnZl4_SetActiveCamDir(PlayState* play, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
 
-    Camera_ChangeSetting(activeCam, CAM_SET_FREE0);
+    Camera_RequestSetting(activeCam, CAM_SET_FREE0);
     activeCam->at = sCamDirections[index].at;
     activeCam->eye = activeCam->eyeNext = sCamDirections[index].eye;
     activeCam->roll = sCamDirections[index].roll;
@@ -192,19 +192,19 @@ void EnZl4_SetActiveCamMove(PlayState* play, s16 index) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
     Player* player = GET_PLAYER(play);
 
-    Camera_ChangeSetting(activeCam, CAM_SET_CS_0);
+    Camera_RequestSetting(activeCam, CAM_SET_CS_0);
     Camera_ResetAnim(activeCam);
     Camera_SetCSParams(activeCam, sCamMove[index].atPoints, sCamMove[index].eyePoints, player,
                        sCamMove[index].relativeToPlayer);
 }
 
 u16 EnZl4_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction = Text_GetFaceReaction(play, 22);
+    u16 maskReactionTextId = MaskReaction_GetTextId(play, MASK_REACTION_SET_ZELDA);
     u16 stoneCount;
     s16 textId;
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (maskReactionTextId != 0) {
+        return maskReactionTextId;
     }
 
     stoneCount = 0;
@@ -423,13 +423,13 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, PlayState* play) {
     s16 yawDiff;
     s16 absYawDiff;
 
-    if (!Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         absYawDiff = ABS(yawDiff);
         if ((playerx->world.pos.y != this->actor.world.pos.y) || (absYawDiff >= 0x3FFC)) {
             return false;
         } else {
-            func_8002F2CC(&this->actor, play, this->collider.dim.radius + 60.0f);
+            Actor_OfferTalk(&this->actor, play, this->collider.dim.radius + 60.0f);
             return false;
         }
     }
@@ -1111,7 +1111,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
             if (!((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play))) {
                 break;
             } else {
-                Camera_ChangeSetting(GET_ACTIVE_CAM(play), CAM_SET_NORMAL0);
+                Camera_RequestSetting(GET_ACTIVE_CAM(play), CAM_SET_NORMAL0);
                 this->talkState = 7;
                 play->talkWithPlayer(play, &this->actor);
                 Actor_OfferGetItem(&this->actor, play, GI_ZELDAS_LETTER, fabsf(this->actor.xzDistToPlayer) + 1.0f,

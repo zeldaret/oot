@@ -130,10 +130,10 @@ void Map_InitData(PlayState* play, s16 room) {
             osSyncPrintf("ＫＫＫ＝%d\n", extendedMapIndex);
             osSyncPrintf(VT_RST);
             sEntranceIconMapIndex = extendedMapIndex;
-            DmaMgr_RequestSyncDebug(interfaceCtx->mapSegment,
-                                    (uintptr_t)_map_grand_staticSegmentRomStart +
-                                        gMapData->owMinimapTexOffset[extendedMapIndex],
-                                    gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
+            DMA_REQUEST_SYNC(interfaceCtx->mapSegment,
+                             (uintptr_t)_map_grand_staticSegmentRomStart +
+                                 gMapData->owMinimapTexOffset[extendedMapIndex],
+                             gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
             interfaceCtx->unk_258 = mapIndex;
             break;
         case SCENE_DEKU_TREE:
@@ -159,10 +159,10 @@ void Map_InitData(PlayState* play, s16 room) {
             osSyncPrintf("デクの樹ダンジョンＭＡＰ テクスチャＤＭＡ(%x) scene_id_offset=%d  VREG(30)=%d\n", room,
                          mapIndex, VREG(30));
             osSyncPrintf(VT_RST);
-            DmaMgr_RequestSyncDebug(play->interfaceCtx.mapSegment,
-                                    (uintptr_t)_map_i_staticSegmentRomStart +
-                                        ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
-                                    MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
+            DMA_REQUEST_SYNC(play->interfaceCtx.mapSegment,
+                             (uintptr_t)_map_i_staticSegmentRomStart +
+                                 ((gMapData->dgnMinimapTexIndexOffset[mapIndex] + room) * MAP_I_TEX_SIZE),
+                             MAP_I_TEX_SIZE, "../z_map_exp.c", 346);
             R_COMPASS_OFFSET_X = gMapData->roomCompassOffsetX[mapIndex][room];
             R_COMPASS_OFFSET_Y = gMapData->roomCompassOffsetY[mapIndex][room];
             Map_SetFloorPalettesData(play, VREG(30));
@@ -232,7 +232,7 @@ void Map_Init(PlayState* play) {
     interfaceCtx->unk_258 = -1;
     interfaceCtx->unk_25A = -1;
 
-    interfaceCtx->mapSegment = GameState_Alloc(&play->state, 0x1000, "../z_map_exp.c", 457);
+    interfaceCtx->mapSegment = GAME_STATE_ALLOC(&play->state, 0x1000, "../z_map_exp.c", 457);
     // "ＭＡＰ texture initialization scene_data_ID=%d mapSegment=%x"
     osSyncPrintf("\n\n\nＭＡＰ テクスチャ初期化   scene_data_ID=%d\nmapSegment=%x\n\n", play->sceneId,
                  interfaceCtx->mapSegment, play);
@@ -334,7 +334,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
         Matrix_RotateX(-1.6f, MTXMODE_APPLY);
         tempX = (0x7FFF - player->actor.shape.rot.y) / 0x400;
         Matrix_RotateY(tempX / 10.0f, MTXMODE_APPLY);
-        gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_map_exp.c", 585),
+        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_map_exp.c", 585),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 0, 255);
@@ -348,7 +348,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
         Matrix_Scale(VREG(9) / 100.0f, VREG(9) / 100.0f, VREG(9) / 100.0f, MTXMODE_APPLY);
         Matrix_RotateX(VREG(52) / 10.0f, MTXMODE_APPLY);
         Matrix_RotateY(sPlayerInitialDirection / 10.0f, MTXMODE_APPLY);
-        gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_map_exp.c", 603),
+        gSPMatrix(OVERLAY_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_map_exp.c", 603),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0xFF, 200, 0, 0, 255);

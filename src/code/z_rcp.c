@@ -1380,7 +1380,7 @@ Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {
 }
 
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 3 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 3 * sizeof(Gfx));
 
     x %= 512 << 2;
     y %= 512 << 2;
@@ -1394,7 +1394,7 @@ Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height)
 
 Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
                       u32 y2, s32 width2, s32 height2) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 5 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 5 * sizeof(Gfx));
 
     x1 %= 512 << 2;
     y1 %= 512 << 2;
@@ -1412,7 +1412,7 @@ Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 wi
 
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 6 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 6 * sizeof(Gfx));
 
     x1 %= 512 << 2;
     y1 %= 512 << 2;
@@ -1430,7 +1430,7 @@ Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1
 }
 
 Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a) {
-    Gfx* displayList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    Gfx* displayList = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
 
     gDPSetEnvColor(displayList, r, g, b, a);
     gSPEndDisplayList(displayList + 1);

@@ -389,7 +389,7 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
                 Vec3f quakeOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetQuakeOffset(&quakeOffset, activeCam);
+                quakeOffset = Camera_GetQuakeOffset(activeCam);
                 Room_DrawBackground2D(&gfx, roomShape->source, roomShape->tlut, roomShape->width, roomShape->height,
                                       roomShape->fmt, roomShape->siz, roomShape->tlutMode, roomShape->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
@@ -487,7 +487,7 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
                 Vec3f quakeOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetQuakeOffset(&quakeOffset, activeCam);
+                quakeOffset = Camera_GetQuakeOffset(activeCam);
                 Room_DrawBackground2D(&gfx, bgEntry->source, bgEntry->tlut, bgEntry->width, bgEntry->height,
                                       bgEntry->fmt, bgEntry->siz, bgEntry->tlutMode, bgEntry->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
@@ -571,7 +571,7 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW));
     // "Room buffer size=%08x(%5.1fK)"
     osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
-    roomCtx->bufPtrs[0] = GameState_Alloc(&play->state, maxRoomSize, "../z_room.c", 946);
+    roomCtx->bufPtrs[0] = GAME_STATE_ALLOC(&play->state, maxRoomSize, "../z_room.c", 946);
     // "Room buffer initial pointer=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((uintptr_t)roomCtx->bufPtrs[0] + maxRoomSize);
@@ -604,8 +604,8 @@ s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
             (void*)ALIGN16((uintptr_t)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
-        DmaMgr_RequestAsync(&roomCtx->dmaRequest, roomCtx->unk_34, play->roomList[roomNum].vromStart, size, 0,
-                            &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
+        DMA_REQUEST_ASYNC(&roomCtx->dmaRequest, roomCtx->unk_34, play->roomList[roomNum].vromStart, size, 0,
+                          &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
         roomCtx->unk_30 ^= 1;
 
         return true;

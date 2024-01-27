@@ -126,10 +126,10 @@ void func_80A5046C(EnGuest* this) {
 }
 
 void func_80A50518(EnGuest* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A5057C;
     } else if (this->actor.xzDistToPlayer < 100.0f) {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 }
 
@@ -172,7 +172,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
 Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* dlist;
 
-    dlist = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    dlist = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
     gDPSetEnvColor(dlist, r, g, b, a);
     gSPEndDisplayList(dlist + 1);
 

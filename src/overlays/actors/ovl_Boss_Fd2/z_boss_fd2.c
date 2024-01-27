@@ -806,33 +806,33 @@ void BossFd2_Wait(BossFd2* this, PlayState* play) {
 
 void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
     s16 i;
-    ColliderInfo* hurtbox;
+    ColliderElement* acHitElem;
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
         Player* player = GET_PLAYER(play);
 
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
-            if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
-                this->collider.elements[i].info.toucherFlags &= ~TOUCH_HIT;
+            if (this->collider.elements[i].base.toucherFlags & TOUCH_HIT) {
+                this->collider.elements[i].base.toucherFlags &= ~TOUCH_HIT;
                 Actor_PlaySfx(&player->actor, NA_SE_PL_BODY_HIT);
             }
         }
     }
     if (!bossFd->faceExposed) {
-        this->collider.elements[0].info.elemType = ELEMTYPE_UNK2;
+        this->collider.elements[0].base.elemType = ELEMTYPE_UNK2;
         this->collider.base.colType = COLTYPE_METAL;
     } else {
-        this->collider.elements[0].info.elemType = ELEMTYPE_UNK3;
+        this->collider.elements[0].base.elemType = ELEMTYPE_UNK3;
         this->collider.base.colType = COLTYPE_HIT3;
     }
 
-    if (this->collider.elements[0].info.bumperFlags & BUMP_HIT) {
-        this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
+    if (this->collider.elements[0].base.bumperFlags & BUMP_HIT) {
+        this->collider.elements[0].base.bumperFlags &= ~BUMP_HIT;
 
-        hurtbox = this->collider.elements[0].info.acHitInfo;
+        acHitElem = this->collider.elements[0].base.acHitElem;
         if (!bossFd->faceExposed) {
-            if (hurtbox->toucher.dmgFlags & DMG_HAMMER) {
+            if (acHitElem->toucher.dmgFlags & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
@@ -863,12 +863,12 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             u8 canKill = false;
             u8 damage;
 
-            if ((damage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags)) == 0) {
-                damage = (hurtbox->toucher.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
+            if ((damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags)) == 0) {
+                damage = (acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
             } else {
                 canKill = true;
             }
-            if (hurtbox->toucher.dmgFlags & DMG_HOOKSHOT) {
+            if (acHitElem->toucher.dmgFlags & DMG_HOOKSHOT) {
                 damage = 0;
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
@@ -1145,7 +1145,7 @@ void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos,
         xyScale = (0.01f - (i * 0.0009f)) * spE8[i] * scale[i];
         Matrix_Scale(xyScale, xyScale, 0.01f * spE8[i], MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_boss_fd2.c", 2498),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_boss_fd2.c", 2498),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeModelDL);
     }

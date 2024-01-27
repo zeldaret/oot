@@ -1224,7 +1224,7 @@ void EnNiw_DrawEffects(EnNiw* this, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(effect->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_niw.c", 1913),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_niw.c", 1913),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherModelDL);
         }

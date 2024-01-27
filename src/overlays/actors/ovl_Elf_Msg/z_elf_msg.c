@@ -149,7 +149,7 @@ void ElfMsg_Update(Actor* thisx, PlayState* play) {
     ElfMsg* this = (ElfMsg*)thisx;
 
     if (!ElfMsg_KillCheck(this, play)) {
-        if (Actor_ProcessTalkRequest(&this->actor, play)) {
+        if (Actor_TalkOfferAccepted(&this->actor, play)) {
             if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
                 Flags_SetSwitch(play, (this->actor.params >> 8) & 0x3F);
             }
@@ -179,7 +179,7 @@ void ElfMsg_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
     }
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_elf_msg.c", 448),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_elf_msg.c", 448),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 

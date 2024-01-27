@@ -112,7 +112,7 @@ void EnTkEff_Draw(EnTk* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tk_eff.c", 140),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_tk_eff.c", 140),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustTextures) / eff->timeTotal);
@@ -330,11 +330,10 @@ s32 EnTk_Orient(EnTk* this, PlayState* play) {
 }
 
 u16 EnTk_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction;
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_DAMPE);
 
-    faceReaction = Text_GetFaceReaction(play, 14);
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
 
     if (GET_INFTABLE(INFTABLE_D9)) {
@@ -537,7 +536,7 @@ void EnTk_Rest(EnTk* this, PlayState* play) {
         this->actionCountdown = 0;
         Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 30.0f,
                           EnTk_GetTextId, EnTk_UpdateTalkState);
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;

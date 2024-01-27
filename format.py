@@ -29,7 +29,7 @@ APPLY_OPTS = "--format --style=file"
 
 # Compiler options used with Clang-Tidy
 # Normal warnings are disabled with -Wno-everything to focus only on tidying
-INCLUDES = "-Iinclude -Isrc -Ibuild -I."
+INCLUDES = "-Iinclude -Isrc -Ibuild/gc-eu-mq-dbg -I."
 DEFINES = "-D_LANGUAGE_C -DNON_MATCHING"
 COMPILER_OPTS = f"-fno-builtin -std=gnu90 -m32 -Wno-everything {INCLUDES} {DEFINES}"
 
@@ -108,7 +108,7 @@ def format_files(src_files: List[str], extra_files: List[str], nb_jobs: int):
     if nb_jobs != 1:
         print(f"Formatting files with {nb_jobs} jobs")
     else:
-        print(f"Formatting files with a single job (consider using -j to make this faster)")
+        print("Formatting files with a single job (consider using -j to make this faster)")
 
     # Format files in chunks to improve performance while still utilizing jobs
     file_chunks = list(list_chunks(src_files, (len(src_files) // nb_jobs) + 1))

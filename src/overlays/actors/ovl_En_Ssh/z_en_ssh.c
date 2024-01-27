@@ -200,15 +200,15 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
         Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dmgFlags =
+    this->colCylinder[0].elem.bumper.dmgFlags =
         DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT;
-    this->colCylinder[1].info.bumper.dmgFlags =
+    this->colCylinder[1].elem.bumper.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
     this->colCylinder[2].base.colType = COLTYPE_METAL;
-    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
-    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dmgFlags =
+    this->colCylinder[2].elem.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
+    this->colCylinder[2].elem.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].elem.bumper.dmgFlags =
         DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
@@ -434,17 +434,17 @@ void EnSsh_Sway(EnSsh* this) {
 }
 
 void EnSsh_CheckBodyStickHit(EnSsh* this, PlayState* play) {
-    ColliderInfo* info = &this->colCylinder[0].info;
+    ColliderElement* elem = &this->colCylinder[0].elem;
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        info->bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        elem->bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[1].elem.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].elem.bumper.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        info->bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        elem->bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].elem.bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[2].elem.bumper.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 
@@ -666,7 +666,7 @@ void EnSsh_Talk(EnSsh* this, PlayState* play) {
 
 void EnSsh_Idle(EnSsh* this, PlayState* play) {
     if (1) {}
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnSsh_Talk;
         if (this->actor.params == ENSSH_FATHER) {
             SET_EVENTCHKINF(EVENTCHKINF_96);
@@ -694,7 +694,7 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
             }
             EnSsh_Bob(this, play);
             if ((this->unkTimer == 0) && (this->animTimer == 0)) {
-                this->actor.textId = Text_GetFaceReaction(play, 0xD);
+                this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_CURSED_SKULLTULA_MAN);
                 if (this->actor.textId == 0) {
                     if (this->actor.params == ENSSH_FATHER) {
                         if (gSaveContext.save.info.inventory.gsTokens >= 50) {
@@ -716,7 +716,7 @@ void EnSsh_Idle(EnSsh* this, PlayState* play) {
                         this->actor.textId = 0x22;
                     }
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }

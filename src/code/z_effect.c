@@ -160,24 +160,24 @@ void Effect_DrawAll(GraphicsContext* gfxCtx) {
     s32 i;
 
     for (i = 0; i < SPARK_COUNT; i++) {
-        if (sEffectContext.sparks[i].status.active) {
-            sEffectInfoTable[EFFECT_SPARK].draw(&sEffectContext.sparks[i].effect, gfxCtx);
+        if (!sEffectContext.sparks[i].status.active) {
+            continue;
         }
+        sEffectInfoTable[EFFECT_SPARK].draw(&sEffectContext.sparks[i].effect, gfxCtx);
     }
 
     for (i = 0; i < BLURE_COUNT; i++) {
-        if (sEffectContext.blures[i].status.active) {
-            sEffectInfoTable[EFFECT_BLURE1].draw(&sEffectContext.blures[i].effect, gfxCtx);
+        if (!sEffectContext.blures[i].status.active) {
+            continue;
         }
-        if (1) {} // Necessary to match
-        if (1) {}
+        sEffectInfoTable[EFFECT_BLURE1].draw(&sEffectContext.blures[i].effect, gfxCtx);
     }
 
     for (i = 0; i < SHIELD_PARTICLE_COUNT; i++) {
-        if (sEffectContext.shieldParticles[i].status.active) {
-            if (gfxCtx) {} // Necessary to match
-            sEffectInfoTable[EFFECT_SHIELD_PARTICLE].draw(&sEffectContext.shieldParticles[i].effect, gfxCtx);
+        if (!sEffectContext.shieldParticles[i].status.active) {
+            continue;
         }
+        sEffectInfoTable[EFFECT_SHIELD_PARTICLE].draw(&sEffectContext.shieldParticles[i].effect, gfxCtx);
     }
 }
 

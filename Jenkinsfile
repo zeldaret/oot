@@ -4,11 +4,6 @@ pipeline {
     }
 
     stages {
-        stage('Check for unused asm') {
-            steps {
-                sh './tools/find_unused_asm.sh'
-            }
-        }
         stage('Setup') {
             steps {
                 sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'

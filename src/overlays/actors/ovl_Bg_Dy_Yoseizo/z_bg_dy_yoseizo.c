@@ -501,7 +501,7 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, PlayState* play) {
         Message_CloseTextbox(play);
         this->mouthState = 0;
         this->actionFunc = BgDyYoseizo_SetupSpinShrink;
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     }
 
     BgDyYoseizo_Bob(this, play);
@@ -1029,7 +1029,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, PlayState* play) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(effect->roll, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleModelDL));
         }

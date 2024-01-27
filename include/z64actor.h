@@ -147,7 +147,10 @@ typedef struct {
 #define ACTOR_FLAG_5 (1 << 5)
 #define ACTOR_FLAG_6 (1 << 6)
 #define ACTOR_FLAG_7 (1 << 7)
-#define ACTOR_FLAG_8 (1 << 8)
+// Signals that player has accepted an offer to talk to an actor
+// Player will retain this flag until the player is finished talking
+// Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually turned off by the actor
+#define ACTOR_FLAG_TALK (1 << 8)
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)

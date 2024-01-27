@@ -198,7 +198,7 @@ void func_80A8F75C(EnKakasi* this, PlayState* play) {
     func_80A8F28C(this);
     SkelAnime_Update(&this->skelanime);
     this->subCamId = CAM_ID_NONE;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->unk_196 == TEXT_STATE_EVENT) {
             this->actionFunc = func_80A8F9C8;
         } else {
@@ -226,7 +226,7 @@ void func_80A8F75C(EnKakasi* this, PlayState* play) {
                         player->stateFlags2 |= PLAYER_STATE2_23;
                     }
                 }
-                func_8002F2CC(&this->actor, play, 100.0f);
+                Actor_OfferTalk(&this->actor, play, 100.0f);
             }
         }
     }
@@ -264,7 +264,7 @@ void func_80A8F9C8(EnKakasi* this, PlayState* play) {
     if (this->unk_196 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
 
         if (this->subCamId != CAM_ID_NONE) {
-            func_8005B1A4(play->cameraPtrs[this->subCamId]);
+            Camera_SetFinishedFlag(play->cameraPtrs[this->subCamId]);
         }
         this->subCamId = OnePointCutscene_Init(play, 2270, -99, &this->actor, CAM_ID_MAIN);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -296,7 +296,7 @@ void func_80A8FAA4(EnKakasi* this, PlayState* play) {
         OnePointCutscene_EndCutscene(play, this->subCamId);
         this->subCamId = CAM_ID_NONE;
         this->subCamId = OnePointCutscene_Init(play, 2260, -99, &this->actor, CAM_ID_MAIN);
-        func_8005B1A4(play->cameraPtrs[this->subCamId]);
+        Camera_SetFinishedFlag(play->cameraPtrs[this->subCamId]);
     }
 }
 
@@ -305,7 +305,7 @@ void func_80A8FBB8(EnKakasi* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
 
     if (this->unk_196 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
-        func_8005B1A4(play->cameraPtrs[this->subCamId]);
+        Camera_SetFinishedFlag(play->cameraPtrs[this->subCamId]);
         Message_CloseTextbox(play);
         Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_80A8F660;

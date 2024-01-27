@@ -128,9 +128,9 @@ void func_80B42F74(EnYabusameMark* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
 
-        arrowHitPos.x = this->collider.info.bumper.hitPos.x;
-        arrowHitPos.y = this->collider.info.bumper.hitPos.y;
-        arrowHitPos.z = this->collider.info.bumper.hitPos.z;
+        arrowHitPos.x = this->collider.elem.bumper.hitPos.x;
+        arrowHitPos.y = this->collider.elem.bumper.hitPos.y;
+        arrowHitPos.z = this->collider.elem.bumper.hitPos.z;
 
         effectVelocity.y = 15.0f;
 

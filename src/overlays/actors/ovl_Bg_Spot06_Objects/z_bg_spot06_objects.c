@@ -354,7 +354,7 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, PlayState* play) {
         cos = Math_CosS(this->dyna.actor.shape.rot.x) * 4.3f;
         this->dyna.actor.world.pos.x += (cos * Math_SinS(this->dyna.actor.shape.rot.y));
         this->dyna.actor.world.pos.z += (cos * Math_CosS(this->dyna.actor.shape.rot.y));
-        this->dyna.actor.world.pos.y = this->dyna.actor.world.pos.y - 1.3f;
+        this->dyna.actor.world.pos.y -= 1.3f;
         BgSpot06Objects_LockSpawnWaterRipples(this, play, 0);
 
         if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, 0, 0x260) != 0) {
@@ -431,7 +431,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot06_objects.c", 850),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot06_objects.c", 850),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gameplayFrames = play->state.frames;

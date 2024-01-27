@@ -203,7 +203,7 @@ void BgGndSoulmeiro_Draw(Actor* thisx, PlayState* play) {
         case 0:
             OPEN_DISPS(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 398);
             Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 400),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 400),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, dLists[params]);
             CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 403);

@@ -67,11 +67,11 @@ void EnDs_TalkNoEmptyBottle(EnDs* this, PlayState* play) {
 }
 
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = EnDs_Talk;
     } else {
         this->actor.flags |= ACTOR_FLAG_16;
-        func_8002F2CC(&this->actor, play, 1000.0f);
+        Actor_OfferTalk(&this->actor, play, 1000.0f);
     }
 }
 
@@ -79,7 +79,7 @@ void EnDs_DisplayOddPotionText(EnDs* this, PlayState* play) {
     if (Actor_TextboxIsClosing(&this->actor, play)) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
-        this->actor.flags &= ~ACTOR_FLAG_8;
+        this->actor.flags &= ~ACTOR_FLAG_TALK;
         SET_ITEMGETINF(ITEMGETINF_30);
     }
 }
@@ -205,7 +205,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (func_8002F368(play) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -227,7 +227,7 @@ void EnDs_Wait(EnDs* this, PlayState* play) {
         this->actor.textId = 0x5048;
 
         if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistToPlayer < 200.0f)) {
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
             this->unk_1E8 |= 1;
         }
     }

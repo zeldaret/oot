@@ -776,19 +776,19 @@ void EnFr_CheckOcarinaInputFrogSong(u8 ocarinaNote) {
     s32 frogIndex;
 
     switch (ocarinaNote) {
-        case 0:
+        case OCARINA_BTN_A:
             frogIndexButterfly = FROG_BLUE;
             break;
-        case 1:
+        case OCARINA_BTN_C_DOWN:
             frogIndexButterfly = FROG_YELLOW;
             break;
-        case 2:
+        case OCARINA_BTN_C_RIGHT:
             frogIndexButterfly = FROG_RED;
             break;
-        case 3:
+        case OCARINA_BTN_C_LEFT:
             frogIndexButterfly = FROG_PURPLE;
             break;
-        case 4:
+        case OCARINA_BTN_C_UP:
             frogIndexButterfly = FROG_WHITE;
     }
     // Turn on or off butterfly above frog
@@ -1058,7 +1058,7 @@ void EnFr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1735);
         Matrix_Push();
         Matrix_ReplaceRotation(&play->billboardMtxF);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fr.c", 1738),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fr.c", 1738),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();

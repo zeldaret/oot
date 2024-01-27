@@ -184,8 +184,8 @@ void func_80A531E4(EnHeishi2* this, PlayState* play) {
 void func_80A53278(EnHeishi2* this, PlayState* play) {
     this->unk_30B = 0;
     this->unk_30E = 0;
-    if (Text_GetFaceReaction(play, 5) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, 5);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
         this->unk_30B = 1;
         this->unk_300 = TEXT_STATE_DONE;
         this->actionFunc = func_80A5475C;
@@ -208,7 +208,7 @@ void func_80A53278(EnHeishi2* this, PlayState* play) {
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7099;
         this->actionFunc = func_80A5475C;
-    } else if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
             osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
@@ -372,9 +372,9 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
             this->unk_300 = TEXT_STATE_EVENT;
             this->unk_30E = 0;
         }
-        if (Text_GetFaceReaction(play, 5) != 0) {
+        if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
             if (var == 0) {
-                this->actor.textId = Text_GetFaceReaction(play, 5);
+                this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
                 this->unk_30B = 1;
                 this->unk_300 = TEXT_STATE_DONE;
                 this->unk_30E = 0;
@@ -395,13 +395,13 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Text_GetFaceReaction(play, 5) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, 5);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
     } else {
         this->actor.textId = 0x200E;
     }
     this->unk_300 = TEXT_STATE_DONE;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         exchangeItemId = func_8002F368(play);
         if (exchangeItemId == EXCH_ITEM_ZELDAS_LETTER) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
@@ -415,7 +415,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
         yawDiffTemp = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
         if (!(120.0f < this->actor.xzDistToPlayer) && (yawDiff < 0x4300)) {
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_ZELDAS_LETTER);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_ZELDAS_LETTER);
         }
     }
 }
@@ -683,7 +683,7 @@ void func_80A5475C(EnHeishi2* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (Text_GetFaceReaction(play, 5) != 0) {
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
         if (this->unk_30B == 0) {
             if (this->type == 2) {
                 this->actionFunc = func_80A53278;
@@ -705,7 +705,7 @@ void func_80A5475C(EnHeishi2* this, PlayState* play) {
         }
     }
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->type == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;
@@ -736,7 +736,7 @@ void func_80A5475C(EnHeishi2* this, PlayState* play) {
         ((yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)),
           !(this->actor.xzDistToPlayer > 120.0f)) &&
          (yawDiff < 0x4300))) {
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 }
 
@@ -806,11 +806,11 @@ s32 EnHeishi2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
             break;
         default:
             if (limbIndex == 9) {
-                rot->x = rot->x + this->unk_26C.y;
+                rot->x += this->unk_26C.y;
             }
             if (limbIndex == 16) {
-                rot->x = rot->x + this->unk_260.y;
-                rot->z = rot->z + this->unk_260.z;
+                rot->x += this->unk_260.y;
+                rot->z += this->unk_260.z;
             }
     }
 
@@ -828,7 +828,7 @@ void EnHeishi2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 void EnHeishi2_DrawKingGuard(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_heishi2.c", 1774),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gHeishiKingGuardDL);
 
@@ -852,7 +852,7 @@ void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(70), MTXMODE_APPLY);
-            mtx = Matrix_NewMtx(play->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
+            mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);

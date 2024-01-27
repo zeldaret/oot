@@ -168,7 +168,6 @@ void BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
 
 void BgYdanSp_BurnWeb(BgYdanSp* this, PlayState* play) {
     this->timer = 30;
-    this = this;
     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     Flags_SetSwitch(play, this->isDestroyedSwitchFlag);
     if (this->dyna.actor.params == WEB_FLOOR) {
@@ -312,11 +311,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, PlayState* play) {
             if (this->unk_16C < 0.1f) {
                 this->timer = 14;
             }
-            if (this->unk_16C < 2.0f) {
-                this->unk_16C = 2.0f;
-            } else {
-                this->unk_16C = this->unk_16C;
-            }
+            this->unk_16C = CLAMP_MIN(this->unk_16C, 2.0f);
         }
     }
     if (this->timer != 0) {
@@ -424,7 +419,7 @@ void BgYdanSp_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_sp.c", 781);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (thisx->params == WEB_WALL) {
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ydan_sp.c", 787),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_sp.c", 787),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gDTWebWallDL);
     } else if (this->actionFunc == BgYdanSp_FloorWebBroken) {
@@ -432,7 +427,7 @@ void BgYdanSp_Draw(Actor* thisx, PlayState* play) {
         if (this->timer == 40) {
             Matrix_Translate(0.0f, (thisx->home.pos.y - thisx->world.pos.y) * 10.0f, 0.0f, MTXMODE_APPLY);
             Matrix_Scale(1.0f, ((thisx->home.pos.y - thisx->world.pos.y) + 10.0f) * 0.1f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ydan_sp.c", 808),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_sp.c", 808),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gDTWebFloorDL);
         }
@@ -441,14 +436,14 @@ void BgYdanSp_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateZYX(-0x5A0, i * 0x2000, 0, MTXMODE_APPLY);
             Matrix_Translate(0.0f, 700.0f, -900.0f, MTXMODE_APPLY);
             Matrix_Scale(3.5f, 5.0f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ydan_sp.c", 830),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_sp.c", 830),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gDTUnknownWebDL);
         }
     } else {
         Matrix_Translate(0.0f, (thisx->home.pos.y - thisx->world.pos.y) * 10.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(1.0f, ((thisx->home.pos.y - thisx->world.pos.y) + 10.0f) * 0.1f, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ydan_sp.c", 849),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ydan_sp.c", 849),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gDTWebFloorDL);
     }

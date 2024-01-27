@@ -58,7 +58,7 @@ void EffectSsFcircle_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(xzScale, yScale, xzScale, MTXMODE_APPLY);
     Matrix_RotateY(BINANG_TO_RAD(this->rYaw), MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_fcircle.c", 163),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_fcircle.c", 163),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,

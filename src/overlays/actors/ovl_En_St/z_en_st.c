@@ -285,16 +285,16 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
         Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dmgFlags =
+    this->colCylinder[0].elem.bumper.dmgFlags =
         DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT;
-    this->colCylinder[1].info.bumper.dmgFlags =
+    this->colCylinder[1].elem.bumper.dmgFlags =
         DMG_DEFAULT &
         ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
         ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
     this->colCylinder[2].base.colType = COLTYPE_METAL;
-    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
-    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dmgFlags =
+    this->colCylinder[2].elem.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
+    this->colCylinder[2].elem.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].elem.bumper.dmgFlags =
         DMG_DEFAULT &
         ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
@@ -305,17 +305,17 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
 }
 
 void EnSt_CheckBodyStickHit(EnSt* this, PlayState* play) {
-    ColliderInfo* body = &this->colCylinder[0].info;
+    ColliderElement* bodyElem = &this->colCylinder[0].elem;
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        body->bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        bodyElem->bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[1].elem.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].elem.bumper.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        body->bumper.dmgFlags &= ~DMG_DEKU_STICK;
-        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
-        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        bodyElem->bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].elem.bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[2].elem.bumper.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 
@@ -431,14 +431,14 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->info.acHitInfo->toucher.dmgFlags;
+        flags |= cyl->elem.acHitElem->toucher.dmgFlags;
     }
 
     cyl = &this->colCylinder[1];
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->info.acHitInfo->toucher.dmgFlags;
+        flags |= cyl->elem.acHitElem->toucher.dmgFlags;
     }
 
     if (!hit) {

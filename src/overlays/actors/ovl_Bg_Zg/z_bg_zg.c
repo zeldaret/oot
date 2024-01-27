@@ -107,9 +107,9 @@ void BgZg_Init(Actor* thisx, PlayState* play) {
     CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
-        this->dyna.actor.scale.x = this->dyna.actor.scale.x * 1.3f;
-        this->dyna.actor.scale.z = this->dyna.actor.scale.z * 1.3f;
-        this->dyna.actor.scale.y = this->dyna.actor.scale.y * 1.2f;
+        this->dyna.actor.scale.x *= 1.3f;
+        this->dyna.actor.scale.z *= 1.3f;
+        this->dyna.actor.scale.y *= 1.2f;
     }
 
     this->action = 0;
@@ -125,7 +125,7 @@ void func_808C0EEC(BgZg* this, PlayState* play) {
     OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
     Gfx_SetupDL_25Opa(localGfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseBarsDL);
 

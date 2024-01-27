@@ -210,11 +210,11 @@ void BgMoriRakkatenjo_Update(Actor* thisx, PlayState* play) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = play->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_SetCameraData(play->cameraPtrs[CAM_ID_MAIN], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FOREST_BIRDS_EYE);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FOREST_BIRDS_EYE);
         }
     } else if (sCamSetting != CAM_SET_NONE) {
         osSyncPrintf("camera changed (previous) ... \n");
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
         sCamSetting = CAM_SET_NONE;
     }
 }
@@ -228,7 +228,7 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.slots[this->moriTexObjectSlot].segment);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, gMoriRakkatenjoDL);

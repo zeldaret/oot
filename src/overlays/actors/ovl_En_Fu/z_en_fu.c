@@ -100,18 +100,18 @@ void EnFu_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyCylinder(play, &this->collider);
 }
 
-s32 func_80A1D94C(EnFu* this, PlayState* play, u16 textID, EnFuActionFunc actionFunc) {
+s32 func_80A1D94C(EnFu* this, PlayState* play, u16 textId, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = actionFunc;
         return true;
     }
-    this->actor.textId = textID;
+    this->actor.textId = textId;
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToPlayer < 100.0f)) {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     } else {
         this->behaviorFlags |= FU_RESET_LOOK_ANGLE;
     }
@@ -131,16 +131,16 @@ void func_80A1DA04(EnFu* this, PlayState* play) {
 }
 
 void EnFu_WaitChild(EnFu* this, PlayState* play) {
-    u16 textID = Text_GetFaceReaction(play, 0xB);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_WINDMILL_MAN);
 
-    if (textID == 0) {
-        textID = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
+    if (textId == 0) {
+        textId = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
     }
 
-    // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
+    // if ACTOR_FLAG_TALK is set and textId is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
-    if (func_80A1D94C(this, play, textID, func_80A1DA04)) {
-        if (textID == 0x5033) {
+    if (func_80A1D94C(this, play, textId, func_80A1DA04)) {
+        if (textId == 0x5033) {
             Animation_Change(&this->skelanime, &gWindmillManPlayAndMoveHeadAnim, 1.0f, 0.0f,
                              Animation_GetLastFrame(&gWindmillManPlayAndMoveHeadAnim), ANIMMODE_ONCE, -4.0f);
         }
@@ -222,12 +222,12 @@ void EnFu_WaitAdult(EnFu* this, PlayState* play) {
         Message_StartTextbox(play, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
-    } else if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    } else if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
         if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
-            func_8002F2CC(&this->actor, play, 100.0f);
+            Actor_OfferTalk(&this->actor, play, 100.0f);
             player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
