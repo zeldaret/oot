@@ -58,7 +58,7 @@ OSTime sRDPTimeStart;
 void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
     u16 width;
 
-    LogUtils_CheckValidPointer("cfbinfo->swapbuffer", cfbInfo->swapBuffer, "../sched.c", 340);
+    LOG_UTILS_CHECK_VALID_POINTER("cfbinfo->swapbuffer", cfbInfo->swapBuffer, "../sched.c", 340);
 
     if (cfbInfo->swapBuffer != NULL) {
         // Register the swapbuffer to display on next VI
@@ -330,7 +330,7 @@ void Sched_SetNextFramebufferFromTask(Scheduler* sc, OSScTask* task) {
     if (sc->pendingSwapBuf1 == NULL) {
         sc->pendingSwapBuf1 = task->framebuffer;
 
-        LogUtils_CheckValidPointer("sc->pending_swapbuffer1", sc->pendingSwapBuf1, "../sched.c", 618);
+        LOG_UTILS_CHECK_VALID_POINTER("sc->pending_swapbuffer1", sc->pendingSwapBuf1, "../sched.c", 618);
 
         if (sc->curBuf == NULL || sc->curBuf->updateTimer <= 0) {
             Sched_SwapFrameBuffer(sc, task->framebuffer);

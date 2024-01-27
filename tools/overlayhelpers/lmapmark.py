@@ -72,7 +72,7 @@ repo = scriptDir + os.sep +  ".." + os.sep + ".."
 
 
 kaleido_scope_data = []
-with open(repo + "/baserom/ovl_kaleido_scope", "rb") as file:
+with open(repo + "/baseroms/gc-eu-mq-dbg/segments/ovl_kaleido_scope", "rb") as file:
     kaleido_scope_data = bytearray(file.read())
 
 scenemaps = []

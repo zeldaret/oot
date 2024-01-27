@@ -483,6 +483,26 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     }
 }
 
+void Scene_SetTransitionForNextEntrance(PlayState* play) {
+    s16 entranceIndex;
+
+    if (!IS_DAY) {
+        if (!LINK_IS_ADULT) {
+            entranceIndex = play->nextEntranceIndex + 1;
+        } else {
+            entranceIndex = play->nextEntranceIndex + 3;
+        }
+    } else {
+        if (!LINK_IS_ADULT) {
+            entranceIndex = play->nextEntranceIndex;
+        } else {
+            entranceIndex = play->nextEntranceIndex + 2;
+        }
+    }
+
+    play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
+}
+
 void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
     Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST

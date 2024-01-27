@@ -3,17 +3,8 @@
 import argparse
 from pathlib import Path
 
-try:
-    import rabbitizer
-except ImportError:
-    print("Missing dependency rabbitizer, install it with `python3 -m pip install 'rabbitizer>=1.0.0,<2.0.0'`")
-    exit(1)
-
-try:
-    import mapfile_parser
-except ImportError:
-    print("Missing dependency mapfile_parser, install it with `python3 -m pip install 'mapfile-parser>=1.2.1,<2.0.0'`")
-    exit(1)
+import rabbitizer
+import mapfile_parser
 
 
 def decodeInstruction(bytesDiff: bytes, mapFile: mapfile_parser.MapFile) -> str:
@@ -49,7 +40,7 @@ def firstDiffMain():
     BUILTROM = Path(f"oot-{args.version}.z64")
     BUILTMAP = buildFolder / "z64.map"
 
-    EXPECTEDROM = Path("baserom.z64")
+    EXPECTEDROM = Path(f"baseroms/{args.version}/baserom-decompressed.z64")
     EXPECTEDMAP = "expected" / BUILTMAP
 
     mapfile_parser.frontends.first_diff.doFirstDiff(BUILTMAP, EXPECTEDMAP, BUILTROM, EXPECTEDROM, args.count, mismatchSize=True, addColons=args.add_colons, bytesConverterCallback=decodeInstruction)

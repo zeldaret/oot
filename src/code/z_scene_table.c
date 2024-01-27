@@ -77,26 +77,6 @@ Gfx sDefaultDisplayList[] = {
     gsSPEndDisplayList(),
 };
 
-void Scene_SetTransitionForNextEntrance(PlayState* play) {
-    s16 entranceIndex;
-
-    if (!IS_DAY) {
-        if (!LINK_IS_ADULT) {
-            entranceIndex = play->nextEntranceIndex + 1;
-        } else {
-            entranceIndex = play->nextEntranceIndex + 3;
-        }
-    } else {
-        if (!LINK_IS_ADULT) {
-            entranceIndex = play->nextEntranceIndex;
-        } else {
-            entranceIndex = play->nextEntranceIndex + 2;
-        }
-    }
-
-    play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
-}
-
 void Scene_DrawConfigDefault(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 4725);
 

@@ -140,36 +140,90 @@ typedef struct {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
+// 
 #define ACTOR_FLAG_0 (1 << 0)
+
+// 
 #define ACTOR_FLAG_2 (1 << 2)
+
+// 
 #define ACTOR_FLAG_3 (1 << 3)
+
+// 
 #define ACTOR_FLAG_4 (1 << 4)
+
+// 
 #define ACTOR_FLAG_5 (1 << 5)
+
+// 
 #define ACTOR_FLAG_6 (1 << 6)
-#define ACTOR_FLAG_7 (1 << 7)
+
+// hidden or revealed by Lens of Truth (depending on room lensMode)
+#define ACTOR_FLAG_REACT_TO_LENS (1 << 7)
+
 // Signals that player has accepted an offer to talk to an actor
 // Player will retain this flag until the player is finished talking
 // Actor will retain this flag until `Actor_TalkOfferAccepted` is called or manually turned off by the actor
 #define ACTOR_FLAG_TALK (1 << 8)
+
+// 
 #define ACTOR_FLAG_9 (1 << 9)
+
+// 
 #define ACTOR_FLAG_10 (1 << 10)
+
+// 
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
-#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12) // actor will not shake when a quake occurs
+
+// Actor will not shake when a quake occurs
+#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
+
+// 
 #define ACTOR_FLAG_13 (1 << 13)
+
+// 
 #define ACTOR_FLAG_14 (1 << 14)
+
+// 
 #define ACTOR_FLAG_15 (1 << 15)
+
+// 
 #define ACTOR_FLAG_16 (1 << 16)
+
+// 
 #define ACTOR_FLAG_17 (1 << 17)
+
+// 
 #define ACTOR_FLAG_18 (1 << 18)
+
+// 
 #define ACTOR_FLAG_19 (1 << 19)
+
+// 
 #define ACTOR_FLAG_20 (1 << 20)
+
+// 
 #define ACTOR_FLAG_21 (1 << 21)
-#define ACTOR_FLAG_22 (1 << 22)
+
+// ignores point lights but not directional lights (such as environment lights)
+#define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22)
+
+// 
 #define ACTOR_FLAG_23 (1 << 23)
+
+// 
 #define ACTOR_FLAG_24 (1 << 24)
+
+// 
 #define ACTOR_FLAG_25 (1 << 25)
+
+// 
 #define ACTOR_FLAG_26 (1 << 26)
+
+// 
 #define ACTOR_FLAG_27 (1 << 27)
+
+// 
 #define ACTOR_FLAG_28 (1 << 28)
 
 #define COLORFILTER_GET_COLORINTENSITY(colorFilterParams) (((colorFilterParams) & 0x1F00) >> 5)
@@ -251,7 +305,9 @@ typedef struct Actor {
     /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateAll`
     /* 0x134 */ ActorFunc draw; // Draw Routine. Called by `Actor_Draw`
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
-    /* 0x13C */ char dbgPad[0x10]; // Padding that only exists in the debug rom
+#ifdef OOT_DEBUG
+    /* 0x13C */ char dbgPad[0x10];
+#endif
 } Actor; // size = 0x14C
 
 typedef enum {

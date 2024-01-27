@@ -387,7 +387,7 @@ def GetColliderInit(address, type, num, path):
     else:
         return("ItemInit type must specify number of elements")
 
-    ovlFile = open(path + "/baserom/" + fileResult.name, "rb")
+    ovlFile = open(path + "/baseroms/gc-eu-mq-dbg/segments/" + fileResult.name, "rb")
     ovlData = bytearray(ovlFile.read())
     ovlFile.close()
 
@@ -470,7 +470,7 @@ print(GetColliderInitFull(args.address, args.type, args.num, repo))
 
 # script_dir = os.path.dirname(os.path.realpath(__file__))
 
-# ovlFile = open(script_dir + "/../../baserom/" + fileResult.name, "rb")
+# ovlFile = open(script_dir + "/../../baseroms/" + fileResult.name, "rb")
 # ovlData = bytearray(ovlFile.read())
 # ovlFile.close()
 

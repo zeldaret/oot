@@ -229,7 +229,7 @@ which initialises common properties of actor using an InitChain, which is usuall
 The InitChain script is also in the tools directory, and is called `ichaindis.py`. Simply passing it the ROM address will spit out the entire contents of the InitChain, in this case:
 
 ```
-$ ./tools/ichaindis.py baserom.z64 80A88CE0
+$ ./tools/ichaindis.py baseroms/gc-eu-mq-dbg/baserom-decompressed.z64 80A88CE0
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(unk_50, 87, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 4000, ICHAIN_CONTINUE),
@@ -240,7 +240,7 @@ static InitChainEntry sInitChain[] = {
 
 However, some of these variables have now been given names in the Actor struct. Pass it `--names` to fill these in automatically:
 ```
-$ ./tools/ichaindis.py --names baserom.z64 80A88CE0
+$ ./tools/ichaindis.py --names baseroms/gc-eu-mq-dbg/baserom-decompressed.z64 80A88CE0
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 87, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
