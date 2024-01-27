@@ -138,7 +138,7 @@ all files, run `./retail_progress.py` with no arguments.
 To diff assembly for a single function in `gc-eu-mq`, run e.g.
 
 ```sh
-./diff.py -mwos -v gc-eu-mq Math3D_CylTriVsIntersect
+./diff.py -mwo3 -v gc-eu-mq Math3D_CylTriVsIntersect
 ```
 
 The `-v` flag tells `diff.py` to compare between `build/gc-eu-mq` and
@@ -147,7 +147,7 @@ The `-v` flag tells `diff.py` to compare between `build/gc-eu-mq` and
 You may also want to diff the Debug ROM in another terminal with
 
 ```sh
-./diff.py -mwos Math3D_CylTriVsIntersect
+./diff.py -mwo3 Math3D_CylTriVsIntersect
 ```
 
 to ensure any changes still match there.
