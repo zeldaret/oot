@@ -827,8 +827,8 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
         this->collider.base.colType = COLTYPE_HIT3;
     }
 
-    if (this->collider.elements[0].base.acElemFlags & BUMP_HIT) {
-        this->collider.elements[0].base.acElemFlags &= ~BUMP_HIT;
+    if (this->collider.elements[0].base.acElemFlags & ACELEM_HIT) {
+        this->collider.elements[0].base.acElemFlags &= ~ACELEM_HIT;
 
         acHitElem = this->collider.elements[0].base.acHitElem;
         if (!bossFd->faceExposed) {

@@ -1842,8 +1842,8 @@ void func_80902348(BossGanon2* this, PlayState* play) {
 
     if (this->unk_316 == 0) {
         for (i = 0; i < ARRAY_COUNT(this->unk_864); i++) {
-            if (this->unk_444.elements[i].base.acElemFlags & BUMP_HIT) {
-                this->unk_444.elements[i].base.acElemFlags &= ~BUMP_HIT;
+            if (this->unk_444.elements[i].base.acElemFlags & ACELEM_HIT) {
+                this->unk_444.elements[i].base.acElemFlags &= ~ACELEM_HIT;
             } else if (this->unk_444.elements[i].base.atElemFlags & ATELEM_HIT) {
                 this->unk_444.elements[i].base.atElemFlags &= ~ATELEM_HIT;
 
@@ -1887,15 +1887,15 @@ void BossGanon2_CollisionCheck(BossGanon2* this, PlayState* play) {
     PRINTF("this->no_hit_time %d\n", this->unk_316);
     if (this->unk_316 != 0 || ((this->unk_334 == 0) && (this->actionFunc == func_80900890))) {
         for (i = 0; i < ARRAY_COUNT(this->unk_464); i++) {
-            this->unk_424.elements[i].base.acElemFlags &= ~BUMP_HIT;
+            this->unk_424.elements[i].base.acElemFlags &= ~ACELEM_HIT;
         }
     }
 
     PRINTF("this->look_on %d\n", this->unk_313);
     if (this->unk_313) {
         if (this->actionFunc != func_808FFFE0) {
-            if (this->unk_424.elements[0].base.acElemFlags & BUMP_HIT) {
-                this->unk_424.elements[0].base.acElemFlags &= ~BUMP_HIT;
+            if (this->unk_424.elements[0].base.acElemFlags & ACELEM_HIT) {
+                this->unk_424.elements[0].base.acElemFlags &= ~ACELEM_HIT;
                 acHitElem = this->unk_424.elements[0].base.acHitElem;
                 if ((acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) && (this->actionFunc != func_80900890)) {
                     func_809000A0(this, play);
@@ -1926,8 +1926,8 @@ void BossGanon2_CollisionCheck(BossGanon2* this, PlayState* play) {
             }
         }
     } else {
-        if (this->unk_424.elements[15].base.acElemFlags & BUMP_HIT) {
-            this->unk_424.elements[15].base.acElemFlags &= ~BUMP_HIT;
+        if (this->unk_424.elements[15].base.acElemFlags & ACELEM_HIT) {
+            this->unk_424.elements[15].base.acElemFlags &= ~ACELEM_HIT;
             acHitElem = this->unk_424.elements[15].base.acHitElem;
             this->unk_316 = 60;
             this->unk_344 = 0x32;

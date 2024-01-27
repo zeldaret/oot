@@ -38,7 +38,7 @@ static ColliderCylinderInit D_80AA0420 = {
         { 0x00000001, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
-        BUMP_ON,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 200, 200, 0, { 0, 0, 0 } },

@@ -1281,8 +1281,8 @@ void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
     ColliderJntSphElement* headCollider = &this->collider.elements[0];
     ColliderElement* acHitElem;
 
-    if (headCollider->base.acElemFlags & BUMP_HIT) {
-        headCollider->base.acElemFlags &= ~BUMP_HIT;
+    if (headCollider->base.acElemFlags & ACELEM_HIT) {
+        headCollider->base.acElemFlags &= ~ACELEM_HIT;
         acHitElem = headCollider->base.acHitElem;
         this->actor.colChkInfo.health -= 2;
         if (acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {

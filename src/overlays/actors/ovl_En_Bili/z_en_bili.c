@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
         { 0xFFCFFFFF, 0x03, 0x08 },
         { 0xFFCFFFFF, 0x01, 0x00 },
         ATELEM_ON | ATELEM_SFX_NONE,
-        BUMP_ON,
+        ACELEM_ON,
         OCELEM_ON,
     },
     { 9, 28, -20, { 0, 0, 0 } },

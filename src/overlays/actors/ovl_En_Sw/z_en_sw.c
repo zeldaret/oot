@@ -539,13 +539,13 @@ void func_80B0D590(EnSw* this, PlayState* play) {
     if (((this->actor.params & 0xE000) >> 0xD) == 2) {
         if (this->actor.scale.x < 0.0139999995f) {
             this->collider.elements[0].base.atElemFlags = ATELEM_NONE;
-            this->collider.elements[0].base.acElemFlags = BUMP_NONE;
+            this->collider.elements[0].base.acElemFlags = ACELEM_NONE;
             this->collider.elements[0].base.ocElemFlags = OCELEM_NONE;
         }
 
         if (this->actor.scale.x >= 0.0139999995f) {
             this->collider.elements[0].base.atElemFlags = ATELEM_ON;
-            this->collider.elements[0].base.acElemFlags = BUMP_ON;
+            this->collider.elements[0].base.acElemFlags = ACELEM_ON;
             this->collider.elements[0].base.ocElemFlags = OCELEM_ON;
         }
 

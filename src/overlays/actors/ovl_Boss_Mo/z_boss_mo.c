@@ -1139,12 +1139,12 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
     s16 i1;
 
     for (i1 = 0; i1 < ARRAY_COUNT(this->tentElements); i1++) {
-        if (this->tentCollider.elements[i1].base.acElemFlags & BUMP_HIT) {
+        if (this->tentCollider.elements[i1].base.acElemFlags & ACELEM_HIT) {
             s16 i2;
             ColliderElement* acHitElem;
 
             for (i2 = 0; i2 < 19; i2++) {
-                this->tentCollider.elements[i2].base.acElemFlags &= ~BUMP_HIT;
+                this->tentCollider.elements[i2].base.acElemFlags &= ~ACELEM_HIT;
                 this->tentCollider.elements[i2].base.atElemFlags &= ~ATELEM_HIT;
             }
             acHitElem = this->tentCollider.elements[i1].base.acHitElem;

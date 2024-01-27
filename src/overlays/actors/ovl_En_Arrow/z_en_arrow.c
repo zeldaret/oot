@@ -45,7 +45,7 @@ static ColliderQuadInit sColliderInit = {
         { 0x00000020, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         ATELEM_ON | ATELEM_NEAREST | ATELEM_SFX_NONE,
-        BUMP_NONE,
+        ACELEM_NONE,
         OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -300,7 +300,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.elem.atHitElem->acElemFlags & BUMP_HIT) {
+                    if (this->collider.elem.atHitElem->acElemFlags & ACELEM_HIT) {
                         this->actor.world.pos.x = this->collider.elem.atHitElem->bumper.hitPos.x;
                         this->actor.world.pos.y = this->collider.elem.atHitElem->bumper.hitPos.y;
                         this->actor.world.pos.z = this->collider.elem.atHitElem->bumper.hitPos.z;

@@ -63,7 +63,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
             { 0x00000000, 0x00, 0x00 },
             { 0x00000080, 0x00, 0x00 },
             ATELEM_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
+            ACELEM_ON | ACELEM_HOOKABLE,
             OCELEM_ON,
         },
         { 1, { { 0, 0, -160 }, 18 }, 100 },

@@ -31,7 +31,7 @@ static ColliderCylinderInit D_80AB0BD0 = {
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
         ATELEM_NONE,
-        BUMP_NONE,
+        ACELEM_NONE,
         OCELEM_ON,
     },
     { 100, 70, 0, { 0, 0, 0 } },

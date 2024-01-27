@@ -362,15 +362,15 @@ typedef struct {
 #define ATELEM_DREW_HITMARK (1 << 6) // Already drew hitmark for this frame
 #define ATELEM_UNK7 (1 << 7) // Unknown purpose. Used by some enemy quads
 
-#define BUMP_NONE 0 // No flags set. Cannot have AC collisions
-#define BUMP_ON (1 << 0) // Can have AC collisions
-#define BUMP_HIT (1 << 1) // Had an AC collision
-#define BUMP_HOOKABLE (1 << 2) // Can be hooked if actor has hookability flags set.
-#define BUMP_NO_AT_INFO (1 << 3) // Does not give its info to the AT collider that hit it.
-#define BUMP_NO_DAMAGE (1 << 4) // Does not take damage.
-#define BUMP_NO_SWORD_SFX (1 << 5) // Does not have a sound effect when hit by player-attached AT colliders.
-#define BUMP_NO_HITMARK (1 << 6) // Skips hit effects.
-#define BUMP_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
+#define ACELEM_NONE 0 // No flags set. Cannot have AC collisions
+#define ACELEM_ON (1 << 0) // Can have AC collisions
+#define ACELEM_HIT (1 << 1) // Had an AC collision
+#define ACELEM_HOOKABLE (1 << 2) // Can be hooked if actor has hookability flags set.
+#define ACELEM_NO_AT_INFO (1 << 3) // Does not give its info to the AT collider that hit it.
+#define ACELEM_NO_DAMAGE (1 << 4) // Does not take damage.
+#define ACELEM_NO_SWORD_SFX (1 << 5) // Does not have a sound effect when hit by player-attached AT colliders.
+#define ACELEM_NO_HITMARK (1 << 6) // Skips hit effects.
+#define ACELEM_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
 
 #define OCELEM_NONE 0 // No flags set. Cannot have OC collisions
 #define OCELEM_ON (1 << 0) // Can have OC collisions
