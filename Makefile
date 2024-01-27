@@ -443,6 +443,7 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 
 $(EXPECTED_DIR)/.disasm: $(DISASM_DATA_FILES)
 	$(PYTHON) tools/disasm/disasm.py $(DISASM_FLAGS) $(DISASM_BASEROM) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
+	touch $@
 
 $(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/.disasm
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
