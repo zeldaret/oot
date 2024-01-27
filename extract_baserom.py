@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
-import os
-import sys
 import struct
 from multiprocessing import Pool, cpu_count
+from pathlib import Path
 
 
-ROM_FILE_NAME = 'baserom.z64'
+ROM_FILE_PATH = Path('baseroms/gc-eu-mq-dbg/baserom-decompressed.z64')
+SEGMENTS_PATH = Path('baseroms/gc-eu-mq-dbg/segments/')
 FILE_TABLE_OFFSET = 0x12F70
 
 FILE_NAMES = [
@@ -1562,7 +1562,7 @@ def write_output_file(name, offset, size):
         print('failed to write file ' + name)
 
 def ExtractFunc(i):
-    filename = 'baserom/' + FILE_NAMES[i]
+    filename = SEGMENTS_PATH / FILE_NAMES[i]
     entryOffset = FILE_TABLE_OFFSET + 16 * i
 
     virtStart = read_uint32_be(entryOffset + 0)
@@ -1571,32 +1571,24 @@ def ExtractFunc(i):
     physEnd   = read_uint32_be(entryOffset + 12)
 
     if physEnd == 0:  # uncompressed
-        compressed = False
         size = virtEnd - virtStart
     else:             # compressed
-        compressed = True
         size = physEnd - physStart
 
-    print('extracting ' + filename + " (0x%08X, 0x%08X)" % (virtStart, virtEnd))
+    print(f'extracting {filename} (0x{virtStart:08X}, 0x{virtEnd:08X})')
     write_output_file(filename, physStart, size)
-    if compressed:
-        os.system('tools/yaz0 -d ' + filename + ' ' + filename)
 
 #####################################################################
 
 def main():
-    try:
-        os.mkdir('baserom')
-    except:
-        pass
+    SEGMENTS_PATH.mkdir(parents=True, exist_ok=True)
 
     # read baserom data
     try:
-        with open(ROM_FILE_NAME, 'rb') as f:
-            rom_data = f.read()
+        rom_data = ROM_FILE_PATH.read_bytes()
     except IOError:
-        print('failed to read file' + ROM_FILE_NAME)
-        sys.exit(1)
+        print(f'failed to read file {ROM_FILE_PATH}')
+        exit(1)
 
     # extract files
     num_cores = cpu_count()

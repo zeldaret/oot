@@ -35,7 +35,7 @@ void OceffWipe3_Init(Actor* thisx, PlayState* play) {
     this->counter = 0;
     this->actor.world.pos = GET_ACTIVE_CAM(play)->eye;
     // it's actually WIPE3...
-    osSyncPrintf(VT_FGCOL(CYAN) " WIPE2 arg_data = %d\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(CYAN) " WIPE2 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe3_Destroy(Actor* thisx, PlayState* play) {
@@ -97,7 +97,7 @@ void OceffWipe3_Draw(Actor* thisx, PlayState* play) {
     Matrix_ReplaceRotation(&play->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_wipe3.c", 353),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_oceff_wipe3.c", 353),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);

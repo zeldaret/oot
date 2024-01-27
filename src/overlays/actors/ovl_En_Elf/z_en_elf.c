@@ -1513,7 +1513,7 @@ void EnElf_Draw(Actor* thisx, PlayState* play) {
 
     if ((this->unk_2A8 != 8) && !(this->fairyFlags & 8)) {
         if (!(player->stateFlags1 & PLAYER_STATE1_20) || (kREG(90) < this->actor.projectedPos.z)) {
-            dListHead = Graph_Alloc(play->state.gfxCtx, sizeof(Gfx) * 4);
+            dListHead = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Gfx) * 4);
 
             OPEN_DISPS(play->state.gfxCtx, "../z_en_elf.c", 2730);
 

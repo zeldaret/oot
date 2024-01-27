@@ -137,7 +137,7 @@ void func_809B05F0(EnAni* this, PlayState* play) {
 }
 
 void func_809B064C(EnAni* this, PlayState* play) {
-    u16 textId = Text_GetFaceReaction(play, 0xA);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_KAKARIKO_ROOF_MAN);
     s16 yawDiff;
 
     if (textId == 0) {

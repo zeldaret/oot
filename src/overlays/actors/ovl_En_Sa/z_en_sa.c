@@ -65,9 +65,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0, 0, 0, 0, MASS_IMMOVABLE,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
     /*  0 */ ENSA_ANIM1_0,
@@ -140,10 +138,10 @@ s16 func_80AF5560(EnSa* this, PlayState* play) {
 
 u16 EnSa_GetTextId(PlayState* play, Actor* thisx) {
     EnSa* this = (EnSa*)thisx;
-    u16 reaction = Text_GetFaceReaction(play, 0x10);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_SARIA);
 
-    if (reaction != 0) {
-        return reaction;
+    if (textId != 0) {
+        return textId;
     }
     if (CHECK_QUEST_ITEM(QUEST_SONG_SARIA)) {
         return 0x10AD;

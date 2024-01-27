@@ -64,7 +64,7 @@ void EffectSsStick_Draw(PlayState* play, u32 index, EffectSs* this) {
         Matrix_RotateZYX(0, this->rYaw, play->state.frames * 10000, MTXMODE_APPLY);
     }
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_eff_ss_stick.c", 176),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Gfx_SetupDL_25Opa(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[this->rObjectSlot].segment);

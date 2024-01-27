@@ -9,6 +9,7 @@ typedef enum {
     STMT_after,
     STMT_align,
     STMT_beginseg,
+    STMT_compress,
     STMT_endseg,
     STMT_entry,
     STMT_flags,
@@ -48,6 +49,7 @@ typedef struct Segment {
     uint32_t number;
     struct Include* includes;
     int includesCount;
+    bool compress;
 } Segment;
 
 void parse_rom_spec(char* spec, struct Segment** segments, int* segment_count);

@@ -50,7 +50,7 @@ void DemoTreLgt_Init(Actor* thisx, PlayState* play) {
 
     if (!SkelCurve_Init(play, &this->skelCurve, &gTreasureChestCurveSkel, sAnimations[0])) {
         // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
-        osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
+        PRINTF("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
 
     ASSERT(true, "1", "../z_demo_tre_lgt.c", UNK_LINE);

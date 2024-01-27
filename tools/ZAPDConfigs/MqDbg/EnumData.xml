@@ -1,5 +1,25 @@
 <Root>
+<!-- 
+    Description:
+        This file hosts various enum data from decomp.
+
+    Format:
+        - <Enum>: a list of <Item> with an unique identifier (key), the decomp ID and the index
+            Parameters:
+            * Games: list of OoT versions that shares this data
+            * Key: identifier, the name is the same as the enum from decomp
+        - <Item>: description of an element of an <Enum>
+            Parameters:
+            * Key: identifier that should never be changed
+            * ID: the actual enum name from decomp, this may change hence the need of the Key parameter
+            * Index: the location of the item in the enum (should match decomp)
+
+    Notes:
+        - Player Cue Ids got their own enum but not regular Actor Cues.
+          This is because Actor Cues are among cutscene commands (``csCmd``)
+-->
     <Enum Games="OoTMqDbg" Key="cmd" ID="CutsceneCmd">
+        <!-- https://github.com/zeldaret/oot/blob/7235af2249843fb68740111b70089bad827a4730/include/z64cutscene.h#L35-L165 -->
         <Item Key="cam_eye_spline" ID="CS_CMD_CAM_EYE_SPLINE" Index="1"/>
         <Item Key="cam_at_spline" ID="CS_CMD_CAM_AT_SPLINE" Index="2"/>
         <Item Key="misc" ID="CS_CMD_MISC" Index="3"/>
@@ -131,6 +151,7 @@
         <Item Key="end" ID="CS_CMD_END" Index="65535"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="miscType" ID="CutsceneMiscType">
+        <!-- https://github.com/zeldaret/oot/blob/823e47a0f8e9fb9fab89bc61b57f45488ff6debe/include/z64cutscene.h#L167-L204 -->
         <Item Key="unimplemented_0" ID="CS_MISC_UNIMPLEMENTED_0" Index="0"/>
         <Item Key="rain" ID="CS_MISC_RAIN" Index="1"/>
         <Item Key="lightning" ID="CS_MISC_LIGHTNING" Index="2"/>
@@ -169,6 +190,7 @@
         <Item Key="long_scarecrow_song" ID="CS_MISC_LONG_SCARECROW_SONG" Index="35"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="textType" ID="CutsceneTextType">
+        <!-- https://github.com/zeldaret/oot/blob/823e47a0f8e9fb9fab89bc61b57f45488ff6debe/include/z64cutscene.h#L206-L212 -->
         <Item Key="normal" ID="CS_TEXT_NORMAL" Index="0"/>
         <Item Key="choice" ID="CS_TEXT_CHOICE" Index="1"/>
         <Item Key="ocarina_action" ID="CS_TEXT_OCARINA_ACTION" Index="2"/>
@@ -176,10 +198,12 @@
         <Item Key="zora_sapphire" ID="CS_TEXT_ZORA_SAPPHIRE" Index="4"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="fadeOutSeqPlayer" ID="CutsceneFadeOutSeqPlayer">
+        <!-- https://github.com/zeldaret/oot/blob/7235af2249843fb68740111b70089bad827a4730/include/z64cutscene.h#L214-L217 -->
         <Item Key="fade_out_fanfare" ID="CS_FADE_OUT_FANFARE" Index="3"/>
         <Item Key="fade_out_bgm_main" ID="CS_FADE_OUT_BGM_MAIN" Index="4"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="transitionType" ID="CutsceneTransitionType">
+        <!-- https://github.com/zeldaret/oot/blob/823e47a0f8e9fb9fab89bc61b57f45488ff6debe/include/z64cutscene.h#L219-233 -->
         <Item Key="gray_fill_in" ID="CS_TRANS_GRAY_FILL_IN" Index="1"/>
         <Item Key="blue_fill_in" ID="CS_TRANS_BLUE_FILL_IN" Index="2"/>
         <Item Key="red_fill_out" ID="CS_TRANS_RED_FILL_OUT" Index="3"/>
@@ -195,6 +219,7 @@
         <Item Key="black_fill_in_from_half" ID="CS_TRANS_BLACK_FILL_IN_FROM_HALF" Index="13"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="destination" ID="CutsceneDestination">
+        <!-- https://github.com/zeldaret/oot/blob/823e47a0f8e9fb9fab89bc61b57f45488ff6debe/include/z64cutscene.h#L235-356 -->
         <Item Key="unimplemented_0" ID="CS_DEST_UNIMPLEMENTED_0" Index="0"/>
         <Item Key="cutscene_map_ganon_horse" ID="CS_DEST_CUTSCENE_MAP_GANON_HORSE" Index="1"/>
         <Item Key="cutscene_map_three_goddesses" ID="CS_DEST_CUTSCENE_MAP_THREE_GODDESSES" Index="2"/>
@@ -317,11 +342,13 @@
         <Item Key="zeldas_courtyard_receive_letter" ID="CS_DEST_ZELDAS_COURTYARD_RECEIVE_LETTER" Index="119"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="naviQuestHintType" ID="NaviQuestHintFileId">
+        <!-- https://github.com/zeldaret/oot/blob/107c0288cc46e378c67dc4ae2e39cfd2e5fcbc25/include/z64scene.h#L463-L467 -->
         <Item Key="hints_none" ID="NAVI_QUEST_HINTS_NONE" Index="0"/>
         <Item Key="hints_overworld" ID="NAVI_QUEST_HINTS_OVERWORLD" Index="1"/>
         <Item Key="hints_dungeon" ID="NAVI_QUEST_HINTS_DUNGEON" Index="2"/>
     </Enum>
     <Enum Games="OoTMqDbg" Key="playerCueId" ID="PlayerCueId">
+        <!-- https://github.com/zeldaret/oot/blob/b3486b57ef41a284a366eb40ca07bf82bf4750d6/include/z64player.h#L462-L542 -->
         <Item Key="cueid_none" ID="PLAYER_CUEID_NONE" Index="0"/>
         <Item Key="cueid_1" ID="PLAYER_CUEID_1" Index="1"/>
         <Item Key="cueid_2" ID="PLAYER_CUEID_2" Index="2"/>
@@ -401,16 +428,172 @@
         <Item Key="cueid_76" ID="PLAYER_CUEID_76" Index="76"/>
         <Item Key="cueid_77" ID="PLAYER_CUEID_77" Index="77"/>
     </Enum>
+    <Enum Games="OoTMqDbg" Key="ocarinaSongActionId" ID="OcarinaSongActionId">
+        <!-- https://github.com/zeldaret/oot/blob/b3486b57ef41a284a366eb40ca07bf82bf4750d6/include/z64ocarina.h#L25-L76 -->
+        <Item Key="unk_0" ID="OCARINA_ACTION_UNK_0" Index="0"/>
+        <Item Key="free_play" ID="OCARINA_ACTION_FREE_PLAY" Index="1"/>
+        <Item Key="teach_minuet" ID="OCARINA_ACTION_TEACH_MINUET" Index="2"/>
+        <Item Key="teach_bolero" ID="OCARINA_ACTION_TEACH_BOLERO" Index="3"/>
+        <Item Key="teach_serenade" ID="OCARINA_ACTION_TEACH_SERENADE" Index="4"/>
+        <Item Key="teach_requiem" ID="OCARINA_ACTION_TEACH_REQUIEM" Index="5"/>
+        <Item Key="teach_nocturne" ID="OCARINA_ACTION_TEACH_NOCTURNE" Index="6"/>
+        <Item Key="teach_prelude" ID="OCARINA_ACTION_TEACH_PRELUDE" Index="7"/>
+        <Item Key="teach_saria" ID="OCARINA_ACTION_TEACH_SARIA" Index="8"/>
+        <Item Key="teach_epona" ID="OCARINA_ACTION_TEACH_EPONA" Index="9"/>
+        <Item Key="teach_lullaby" ID="OCARINA_ACTION_TEACH_LULLABY" Index="10"/>
+        <Item Key="teach_suns" ID="OCARINA_ACTION_TEACH_SUNS" Index="11"/>
+        <Item Key="teach_time" ID="OCARINA_ACTION_TEACH_TIME" Index="12"/>
+        <Item Key="teach_storms" ID="OCARINA_ACTION_TEACH_STORMS" Index="13"/>
+        <Item Key="unk_e" ID="OCARINA_ACTION_UNK_E" Index="14"/>
+        <Item Key="playback_minuet" ID="OCARINA_ACTION_PLAYBACK_MINUET" Index="15"/>
+        <Item Key="playback_bolero" ID="OCARINA_ACTION_PLAYBACK_BOLERO" Index="16"/>
+        <Item Key="playback_serenade" ID="OCARINA_ACTION_PLAYBACK_SERENADE" Index="17"/>
+        <Item Key="playback_requiem" ID="OCARINA_ACTION_PLAYBACK_REQUIEM" Index="18"/>
+        <Item Key="playback_nocturne" ID="OCARINA_ACTION_PLAYBACK_NOCTURNE" Index="19"/>
+        <Item Key="playback_prelude" ID="OCARINA_ACTION_PLAYBACK_PRELUDE" Index="20"/>
+        <Item Key="playback_saria" ID="OCARINA_ACTION_PLAYBACK_SARIA" Index="21"/>
+        <Item Key="playback_epona" ID="OCARINA_ACTION_PLAYBACK_EPONA" Index="22"/>
+        <Item Key="playback_lullaby" ID="OCARINA_ACTION_PLAYBACK_LULLABY" Index="23"/>
+        <Item Key="playback_suns" ID="OCARINA_ACTION_PLAYBACK_SUNS" Index="24"/>
+        <Item Key="playback_time" ID="OCARINA_ACTION_PLAYBACK_TIME" Index="25"/>
+        <Item Key="playback_storms" ID="OCARINA_ACTION_PLAYBACK_STORMS" Index="26"/>
+        <Item Key="unk_1b" ID="OCARINA_ACTION_UNK_1B" Index="27"/>
+        <Item Key="check_minuet" ID="OCARINA_ACTION_CHECK_MINUET" Index="28"/>
+        <Item Key="check_bolero" ID="OCARINA_ACTION_CHECK_BOLERO" Index="29"/>
+        <Item Key="check_serenade" ID="OCARINA_ACTION_CHECK_SERENADE" Index="30"/>
+        <Item Key="check_requiem" ID="OCARINA_ACTION_CHECK_REQUIEM" Index="31"/>
+        <Item Key="check_nocturne" ID="OCARINA_ACTION_CHECK_NOCTURNE" Index="32"/>
+        <Item Key="check_prelude" ID="OCARINA_ACTION_CHECK_PRELUDE" Index="33"/>
+        <Item Key="check_saria" ID="OCARINA_ACTION_CHECK_SARIA" Index="34"/>
+        <Item Key="check_epona" ID="OCARINA_ACTION_CHECK_EPONA" Index="35"/>
+        <Item Key="check_lullaby" ID="OCARINA_ACTION_CHECK_LULLABY" Index="36"/>
+        <Item Key="check_suns" ID="OCARINA_ACTION_CHECK_SUNS" Index="37"/>
+        <Item Key="check_time" ID="OCARINA_ACTION_CHECK_TIME" Index="38"/>
+        <Item Key="check_storms" ID="OCARINA_ACTION_CHECK_STORMS" Index="39"/>
+        <Item Key="check_scarecrow_spawn" ID="OCARINA_ACTION_CHECK_SCARECROW_SPAWN" Index="40"/>
+        <Item Key="free_play_done" ID="OCARINA_ACTION_FREE_PLAY_DONE" Index="41"/>
+        <Item Key="scarecrow_long_recording" ID="OCARINA_ACTION_SCARECROW_LONG_RECORDING" Index="42"/>
+        <Item Key="scarecrow_long_playback" ID="OCARINA_ACTION_SCARECROW_LONG_PLAYBACK" Index="43"/>
+        <Item Key="scarecrow_spawn_recording" ID="OCARINA_ACTION_SCARECROW_SPAWN_RECORDING" Index="44"/>
+        <Item Key="scarecrow_spawn_playback" ID="OCARINA_ACTION_SCARECROW_SPAWN_PLAYBACK" Index="45"/>
+        <Item Key="memory_game" ID="OCARINA_ACTION_MEMORY_GAME" Index="46"/>
+        <Item Key="frogs" ID="OCARINA_ACTION_FROGS" Index="47"/>
+        <Item Key="check_nowarp" ID="OCARINA_ACTION_CHECK_NOWARP" Index="48"/>
+        <Item Key="check_nowarp_done" ID="OCARINA_ACTION_CHECK_NOWARP_DONE" Index="49"/>
+    </Enum>
+    <Enum Games="OoTMqDbg" Key="seqId" ID="SeqId">
+        <!-- https://github.com/zeldaret/oot/blob/9f09505d34619883748a7dab05071883281c14fd/include/sequence.h#L4-L118 -->
+        <Item Key="general_sfx" ID="NA_BGM_GENERAL_SFX" Name="General Sound Effects" Index="0"/>
+        <Item Key="nature_ambience" ID="NA_BGM_NATURE_AMBIENCE" Name="Nature Ambiance" Index="1"/>
+        <Item Key="field_logic" ID="NA_BGM_FIELD_LOGIC" Name="Hyrule Field" Index="2"/>
+        <Item Key="field_init" ID="NA_BGM_FIELD_INIT" Name="Hyrule Field (Initial Segment From Loading Area)" Index="3"/>
+        <Item Key="field_default_1" ID="NA_BGM_FIELD_DEFAULT_1" Name="Hyrule Field (Moving Segment 1)" Index="4"/>
+        <Item Key="field_default_2" ID="NA_BGM_FIELD_DEFAULT_2" Name="Hyrule Field (Moving Segment 2)" Index="5"/>
+        <Item Key="field_default_3" ID="NA_BGM_FIELD_DEFAULT_3" Name="Hyrule Field (Moving Segment 3)" Index="6"/>
+        <Item Key="field_default_4" ID="NA_BGM_FIELD_DEFAULT_4" Name="Hyrule Field (Moving Segment 4)" Index="7"/>
+        <Item Key="field_default_5" ID="NA_BGM_FIELD_DEFAULT_5" Name="Hyrule Field (Moving Segment 5)" Index="8"/>
+        <Item Key="field_default_6" ID="NA_BGM_FIELD_DEFAULT_6" Name="Hyrule Field (Moving Segment 6)" Index="9"/>
+        <Item Key="field_default_7" ID="NA_BGM_FIELD_DEFAULT_7" Name="Hyrule Field (Moving Segment 7)" Index="10"/>
+        <Item Key="field_default_8" ID="NA_BGM_FIELD_DEFAULT_8" Name="Hyrule Field (Moving Segment 8)" Index="11"/>
+        <Item Key="field_default_9" ID="NA_BGM_FIELD_DEFAULT_9" Name="Hyrule Field (Moving Segment 9)" Index="12"/>
+        <Item Key="field_default_a" ID="NA_BGM_FIELD_DEFAULT_A" Name="Hyrule Field (Moving Segment 10)" Index="13"/>
+        <Item Key="field_default_b" ID="NA_BGM_FIELD_DEFAULT_B" Name="Hyrule Field (Moving Segment 11)" Index="14"/>
+        <Item Key="field_enemy_init" ID="NA_BGM_FIELD_ENEMY_INIT" Name="Hyrule Field (Enemy Approaches)" Index="15"/>
+        <Item Key="field_enemy_1" ID="NA_BGM_FIELD_ENEMY_1" Name="Hyrule Field (Enemy Near Segment 1)" Index="16"/>
+        <Item Key="field_enemy_2" ID="NA_BGM_FIELD_ENEMY_2" Name="Hyrule Field (Enemy Near Segment 2)" Index="17"/>
+        <Item Key="field_enemy_3" ID="NA_BGM_FIELD_ENEMY_3" Name="Hyrule Field (Enemy Near Segment 3)" Index="18"/>
+        <Item Key="field_enemy_4" ID="NA_BGM_FIELD_ENEMY_4" Name="Hyrule Field (Enemy Near Segment 4)" Index="19"/>
+        <Item Key="field_still_1" ID="NA_BGM_FIELD_STILL_1" Name="Hyrule Field (Standing Still Segment 1)" Index="20"/>
+        <Item Key="field_still_2" ID="NA_BGM_FIELD_STILL_2" Name="Hyrule Field (Standing Still Segment 2)" Index="21"/>
+        <Item Key="field_still_3" ID="NA_BGM_FIELD_STILL_3" Name="Hyrule Field (Standing Still Segment 3)" Index="22"/>
+        <Item Key="field_still_4" ID="NA_BGM_FIELD_STILL_4" Name="Hyrule Field (Standing Still Segment 4)" Index="23"/>
+        <Item Key="dungeon" ID="NA_BGM_DUNGEON" Name="Dodongo's Cavern" Index="24"/>
+        <Item Key="kakariko_adult" ID="NA_BGM_KAKARIKO_ADULT" Name="Kakariko Village (Adult)" Index="25"/>
+        <Item Key="enemy" ID="NA_BGM_ENEMY" Name="Enemy Battle" Index="26"/>
+        <Item Key="boss" ID="NA_BGM_BOSS" Name="Boss Battle 00" Index="27"/>
+        <Item Key="inside_deku_tree" ID="NA_BGM_INSIDE_DEKU_TREE" Name="Inside the Deku Tree" Index="28"/>
+        <Item Key="market" ID="NA_BGM_MARKET" Name="Market" Index="29"/>
+        <Item Key="title" ID="NA_BGM_TITLE" Name="Title Theme" Index="30"/>
+        <Item Key="link_house" ID="NA_BGM_LINK_HOUSE" Name="Link's House" Index="31"/>
+        <Item Key="game_over" ID="NA_BGM_GAME_OVER" Name="Game Over" Index="32"/>
+        <Item Key="boss_clear" ID="NA_BGM_BOSS_CLEAR" Name="Boss Clear" Index="33"/>
+        <Item Key="item_get" ID="NA_BGM_ITEM_GET" Name="Item Get" Index="34"/>
+        <Item Key="opening_ganon" ID="NA_BGM_OPENING_GANON" Name="Opening Ganon" Index="35"/>
+        <Item Key="heart_get" ID="NA_BGM_HEART_GET" Name="Heart Get" Index="36"/>
+        <Item Key="oca_light" ID="NA_BGM_OCA_LIGHT" Name="Prelude Of Light" Index="37"/>
+        <Item Key="jabu_jabu" ID="NA_BGM_JABU_JABU" Name="Inside Jabu-Jabu's Belly" Index="38"/>
+        <Item Key="kakariko_kid" ID="NA_BGM_KAKARIKO_KID" Name="Kakariko Village (Child)" Index="39"/>
+        <Item Key="great_fairy" ID="NA_BGM_GREAT_FAIRY" Name="Great Fairy's Fountain" Index="40"/>
+        <Item Key="zelda_theme" ID="NA_BGM_ZELDA_THEME" Name="Zelda's Theme" Index="41"/>
+        <Item Key="fire_temple" ID="NA_BGM_FIRE_TEMPLE" Name="Fire Temple" Index="42"/>
+        <Item Key="open_tre_box" ID="NA_BGM_OPEN_TRE_BOX" Name="Open Treasure Chest" Index="43"/>
+        <Item Key="forest_temple" ID="NA_BGM_FOREST_TEMPLE" Name="Forest Temple" Index="44"/>
+        <Item Key="courtyard" ID="NA_BGM_COURTYARD" Name="Hyrule Castle Courtyard" Index="45"/>
+        <Item Key="ganon_tower" ID="NA_BGM_GANON_TOWER" Name="Ganondorf's Theme" Index="46"/>
+        <Item Key="lonlon" ID="NA_BGM_LONLON" Name="Lon Lon Ranch" Index="47"/>
+        <Item Key="goron_city" ID="NA_BGM_GORON_CITY" Name="Goron City" Index="48"/>
+        <Item Key="field_morning" ID="NA_BGM_FIELD_MORNING" Name="Hyrule Field Morning Theme" Index="49"/>
+        <Item Key="spiritual_stone" ID="NA_BGM_SPIRITUAL_STONE" Name="Spiritual Stone Get" Index="50"/>
+        <Item Key="oca_bolero" ID="NA_BGM_OCA_BOLERO" Name="Bolero of Fire" Index="51"/>
+        <Item Key="oca_minuet" ID="NA_BGM_OCA_MINUET" Name="Minuet of Woods" Index="52"/>
+        <Item Key="oca_serenade" ID="NA_BGM_OCA_SERENADE" Name="Serenade of Water" Index="53"/>
+        <Item Key="oca_requiem" ID="NA_BGM_OCA_REQUIEM" Name="Requiem of Spirit" Index="54"/>
+        <Item Key="oca_nocturne" ID="NA_BGM_OCA_NOCTURNE" Name="Nocturne of Shadow" Index="55"/>
+        <Item Key="mini_boss" ID="NA_BGM_MINI_BOSS" Name="Mini-Boss Battle" Index="56"/>
+        <Item Key="small_item_get" ID="NA_BGM_SMALL_ITEM_GET" Name="Obtain Small Item" Index="57"/>
+        <Item Key="temple_of_time" ID="NA_BGM_TEMPLE_OF_TIME" Name="Temple of Time" Index="58"/>
+        <Item Key="event_clear" ID="NA_BGM_EVENT_CLEAR" Name="Escape from Lon Lon Ranch" Index="59"/>
+        <Item Key="kokiri" ID="NA_BGM_KOKIRI" Name="Kokiri Forest" Index="60"/>
+        <Item Key="oca_fairy_get" ID="NA_BGM_OCA_FAIRY_GET" Name="Obtain Fairy Ocarina" Index="61"/>
+        <Item Key="saria_theme" ID="NA_BGM_SARIA_THEME" Name="Lost Woods" Index="62"/>
+        <Item Key="spirit_temple" ID="NA_BGM_SPIRIT_TEMPLE" Name="Spirit Temple" Index="63"/>
+        <Item Key="horse" ID="NA_BGM_HORSE" Name="Horse Race" Index="64"/>
+        <Item Key="horse_goal" ID="NA_BGM_HORSE_GOAL" Name="Horse Race Goal" Index="65"/>
+        <Item Key="ingo" ID="NA_BGM_INGO" Name="Ingo's Theme" Index="66"/>
+        <Item Key="medallion_get" ID="NA_BGM_MEDALLION_GET" Name="Obtain Medallion" Index="67"/>
+        <Item Key="oca_saria" ID="NA_BGM_OCA_SARIA" Name="Ocarina Saria's Song" Index="68"/>
+        <Item Key="oca_epona" ID="NA_BGM_OCA_EPONA" Name="Ocarina Epona's Song" Index="69"/>
+        <Item Key="oca_zelda" ID="NA_BGM_OCA_ZELDA" Name="Ocarina Zelda's Lullaby" Index="70"/>
+        <Item Key="oca_suns" ID="NA_BGM_OCA_SUNS" Name="Sun's Song" Index="71"/>
+        <Item Key="oca_time" ID="NA_BGM_OCA_TIME" Name="Song of Time" Index="72"/>
+        <Item Key="oca_storm" ID="NA_BGM_OCA_STORM" Name="Song of Storms" Index="73"/>
+        <Item Key="navi_opening" ID="NA_BGM_NAVI_OPENING" Name="Fairy Flying" Index="74"/>
+        <Item Key="deku_tree_cs" ID="NA_BGM_DEKU_TREE_CS" Name="Deku Tree" Index="75"/>
+        <Item Key="windmill" ID="NA_BGM_WINDMILL" Name="Windmill Hut" Index="76"/>
+        <Item Key="hyrule_cs" ID="NA_BGM_HYRULE_CS" Name="Legend of Hyrule" Index="77"/>
+        <Item Key="mini_game" ID="NA_BGM_MINI_GAME" Name="Shooting Gallery" Index="78"/>
+        <Item Key="sheik" ID="NA_BGM_SHEIK" Name="Sheik's Theme" Index="79"/>
+        <Item Key="zora_domain" ID="NA_BGM_ZORA_DOMAIN" Name="Zora's Domain" Index="80"/>
+        <Item Key="appear" ID="NA_BGM_APPEAR" Name="Enter Zelda" Index="81"/>
+        <Item Key="adult_link" ID="NA_BGM_ADULT_LINK" Name="Goodbye to Zelda" Index="82"/>
+        <Item Key="master_sword" ID="NA_BGM_MASTER_SWORD" Name="Master Sword" Index="83"/>
+        <Item Key="intro_ganon" ID="NA_BGM_INTRO_GANON" Name="Ganon Intro" Index="84"/>
+        <Item Key="shop" ID="NA_BGM_SHOP" Name="Shop" Index="85"/>
+        <Item Key="chamber_of_sages" ID="NA_BGM_CHAMBER_OF_SAGES" Name="Chamber of the Sages" Index="86"/>
+        <Item Key="file_select" ID="NA_BGM_FILE_SELECT" Name="File Select" Index="87"/>
+        <Item Key="ice_cavern" ID="NA_BGM_ICE_CAVERN" Name="Ice Cavern" Index="88"/>
+        <Item Key="door_of_time" ID="NA_BGM_DOOR_OF_TIME" Name="Open Door of Temple of Time" Index="89"/>
+        <Item Key="owl" ID="NA_BGM_OWL" Name="Kaepora Gaebora's Theme" Index="90"/>
+        <Item Key="shadow_temple" ID="NA_BGM_SHADOW_TEMPLE" Name="Shadow Temple" Index="91"/>
+        <Item Key="water_temple" ID="NA_BGM_WATER_TEMPLE" Name="Water Temple" Index="92"/>
+        <Item Key="bridge_to_ganons" ID="NA_BGM_BRIDGE_TO_GANONS" Name="Ganon's Castle Bridge" Index="93"/>
+        <Item Key="ocarina_of_time" ID="NA_BGM_OCARINA_OF_TIME" Name="Ocarina of Time" Index="94"/>
+        <Item Key="gerudo_valley" ID="NA_BGM_GERUDO_VALLEY" Name="Gerudo Valley" Index="95"/>
+        <Item Key="potion_shop" ID="NA_BGM_POTION_SHOP" Name="Potion Shop" Index="96"/>
+        <Item Key="kotake_koume" ID="NA_BGM_KOTAKE_KOUME" Name="Kotake and Koume's Theme" Index="97"/>
+        <Item Key="escape" ID="NA_BGM_ESCAPE" Name="Escape from Ganon's Castle" Index="98"/>
+        <Item Key="underground" ID="NA_BGM_UNDERGROUND" Name="Ganon's Castle Under Ground" Index="99"/>
+        <Item Key="ganondorf_boss" ID="NA_BGM_GANONDORF_BOSS" Name="Ganondorf Battle" Index="100"/>
+        <Item Key="ganon_boss" ID="NA_BGM_GANON_BOSS" Name="Ganon Battle" Index="101"/>
+        <Item Key="end_demo" ID="NA_BGM_END_DEMO" Name="Seal of Six Sages" Index="102"/>
+        <Item Key="staff_1" ID="NA_BGM_STAFF_1" Name="End Credits I" Index="103"/>
+        <Item Key="staff_2" ID="NA_BGM_STAFF_2" Name="End Credits II" Index="104"/>
+        <Item Key="staff_3" ID="NA_BGM_STAFF_3" Name="End Credits III" Index="105"/>
+        <Item Key="staff_4" ID="NA_BGM_STAFF_4" Name="End Credits IV" Index="106"/>
+        <Item Key="fire_boss" ID="NA_BGM_FIRE_BOSS" Name="King Dodongo and Volvagia Boss Battle" Index="107"/>
+        <Item Key="timed_mini_game" ID="NA_BGM_TIMED_MINI_GAME" Name="Mini-Game" Index="108"/>
+        <Item Key="cutscene_effects" ID="NA_BGM_CUTSCENE_EFFECTS" Name="Various Cutscene Sounds" Index="109"/>
+        <Item Key="no_music" ID="NA_BGM_NO_MUSIC" Name="No Music" Index="127"/>
+        <Item Key="nature_sfx_rain" ID="NA_BGM_NATURE_SFX_RAIN" Name="Nature Ambiance: Rain" Index="128"/>
+    </Enum>
 </Root>
-
-<!-- Format Documentation
-- <Enum>: a list of <Item> with a unique identifier (key), the decomp ID and the index
-    Parameters:
-    * Games: list of OoT versions that share this data
-    * Key: identifier, the name is the same as the enum from decomp
-- <Item>: description of an element of an <Enum>
-    Parameters:
-    * Key: identifier that should never be changed
-    * ID: the actual enum name from decomp, this may change hence the need of the Key parameter
-    * Index: the location of the item in the enum (should match decomp)
--->

@@ -99,7 +99,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     this->switchFlag = thisx->params & 0xFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
 
-    osSyncPrintf("spot06 obj nthisx->arg_data=[%d]", thisx->params);
+    PRINTF("spot06 obj nthisx->arg_data=[%d]", thisx->params);
 
     switch (thisx->params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
@@ -431,7 +431,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot06_objects.c", 850),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot06_objects.c", 850),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gameplayFrames = play->state.frames;

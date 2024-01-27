@@ -822,7 +822,7 @@ typedef struct Player {
     /* 0x088E */ u8 unk_88E;
     /* 0x088F */ u8 unk_88F;
     /* 0x0890 */ u8 unk_890;
-    /* 0x0891 */ u8 shockTimer;
+    /* 0x0891 */ u8 bodyShockTimer;
     /* 0x0892 */ u8 unk_892;
     /* 0x0893 */ u8 hoverBootsTimer;
     /* 0x0894 */ s16 fallStartHeight; // last truncated Y position before falling
@@ -842,8 +842,8 @@ typedef struct Player {
     /* 0x0908 */ Vec3f bodyPartsPos[PLAYER_BODYPART_MAX];
     /* 0x09E0 */ MtxF mf_9E0;
     /* 0x0A20 */ MtxF shieldMf;
-    /* 0x0A60 */ u8 isBurning;
-    /* 0x0A61 */ u8 flameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
+    /* 0x0A60 */ u8 bodyIsBurning;
+    /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8 unk_A73;
     /* 0x0A74 */ PlayerFuncA74 func_A74;
     /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)

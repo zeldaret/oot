@@ -66,10 +66,10 @@ static AnimationFrameCountInfo sAnimationInfo[] = {
 };
 
 u16 EnMa2_GetTextId(PlayState* play, Actor* thisx) {
-    u16 faceReaction = Text_GetFaceReaction(play, 23);
+    u16 textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_MALON);
 
-    if (faceReaction != 0) {
-        return faceReaction;
+    if (textId != 0) {
+        return textId;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_EPONA_OBTAINED)) {
         return 0x2056;
