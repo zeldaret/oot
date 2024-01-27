@@ -624,7 +624,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
             this->colCyl2.base.acFlags &= ~AC_HIT;
 
             if (this->gomaType == ENGOMA_NORMAL) {
-                u32 dmgFlags = acHitElem->toucher.dmgFlags;
+                u32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
 
                 if (dmgFlags & DMG_SHIELD) {
                     if (this->actionFunc == EnGoma_Jump) {

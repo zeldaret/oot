@@ -555,7 +555,7 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
         this->actionFunc(this, play);
     } else if (this->collider.base.acFlags & AC_HIT) {
         if ((this->collider.elem.acHitElem != NULL) &&
-            (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
+            (this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
             //! @bug duration parameter is larger than 255 which messes with the internal bitpacking of the colorfilter.
             //! Because of the duration being tracked as an unsigned byte it ends up being truncated to 144
             Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 120, COLORFILTER_BUFFLAG_OPA, 400);
@@ -607,7 +607,7 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if ((this->collider.base.acFlags & AC_HIT) && ((this->collider.elem.acHitElem == NULL) ||
-                                                   !(this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT))) {
+                                                   !(this->collider.elem.acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;

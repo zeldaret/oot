@@ -246,7 +246,7 @@ void ObjTsubo_Idle(ObjTsubo* this, PlayState* play) {
         ObjTsubo_SpawnCollectible(this, play);
         Actor_Kill(&this->actor);
     } else if ((this->collider.base.acFlags & AC_HIT) &&
-               (this->collider.elem.acHitElem->toucher.dmgFlags &
+               (this->collider.elem.acHitElem->atDmgInfo.dmgFlags &
                 (DMG_SWORD | DMG_RANGED | DMG_HAMMER | DMG_BOOMERANG | DMG_EXPLOSIVE))) {
         ObjTsubo_AirBreak(this, play);
         ObjTsubo_SpawnCollectible(this, play);

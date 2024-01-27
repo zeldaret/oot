@@ -305,9 +305,9 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
     } else {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            effectPos.x = this->collider.elements[0].base.bumper.hitPos.x;
-            effectPos.y = this->collider.elements[0].base.bumper.hitPos.y;
-            effectPos.z = this->collider.elements[0].base.bumper.hitPos.z;
+            effectPos.x = this->collider.elements[0].base.acDmgInfo.hitPos.x;
+            effectPos.y = this->collider.elements[0].base.acDmgInfo.hitPos.y;
+            effectPos.z = this->collider.elements[0].base.acDmgInfo.hitPos.z;
             if ((this->unk_1E0 == 0.25f) && (this->unk_1D4 == 0xFF)) {
                 switch (this->actor.colChkInfo.damageEffect) {
                     case 0xE:

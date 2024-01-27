@@ -1239,14 +1239,14 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
             }
             if (this->flyMode != GND_FLY_PAINTING) {
                 if (acHit && (this->actionFunc != BossGanondrof_Stunned) &&
-                    (acHitElem->toucher.dmgFlags & DMG_RANGED)) {
+                    (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED)) {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                     PRINTF("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
                     if (this->returnCount == 0) {
                         u8 dmg;
                         u8 canKill = false;
-                        s32 dmgFlags = acHitElem->toucher.dmgFlags;
+                        s32 dmgFlags = acHitElem->atDmgInfo.dmgFlags;
 
                         if (dmgFlags & DMG_HOOKSHOT) {
                             return;
@@ -1273,7 +1273,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 } else {
                     Actor_PlaySfx(&this->actor, NA_SE_NONE);
                 }
-            } else if (acHit && (acHitElem->toucher.dmgFlags & DMG_RANGED)) {
+            } else if (acHit && (acHitElem->atDmgInfo.dmgFlags & DMG_RANGED)) {
                 this->work[GND_INVINC_TIMER] = 10;
                 this->actor.colChkInfo.health -= 2;
                 horse->hitTimer = 20;

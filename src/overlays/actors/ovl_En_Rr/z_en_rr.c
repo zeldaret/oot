@@ -417,9 +417,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
         this->collider2.base.acFlags &= ~AC_HIT;
         // "Kakin" (not sure what this means)
         PRINTF(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
-        hitPos.x = this->collider2.elem.bumper.hitPos.x;
-        hitPos.y = this->collider2.elem.bumper.hitPos.y;
-        hitPos.z = this->collider2.elem.bumper.hitPos.z;
+        hitPos.x = this->collider2.elem.acDmgInfo.hitPos.x;
+        hitPos.y = this->collider2.elem.acDmgInfo.hitPos.y;
+        hitPos.z = this->collider2.elem.acDmgInfo.hitPos.z;
         CollisionCheck_SpawnShieldParticlesMetal2(play, &hitPos);
     } else {
         if (this->collider1.base.acFlags & AC_HIT) {
@@ -427,9 +427,9 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
 
             this->collider1.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 0) {
-                hitPos.x = this->collider1.elem.bumper.hitPos.x;
-                hitPos.y = this->collider1.elem.bumper.hitPos.y;
-                hitPos.z = this->collider1.elem.bumper.hitPos.z;
+                hitPos.x = this->collider1.elem.acDmgInfo.hitPos.x;
+                hitPos.y = this->collider1.elem.acDmgInfo.hitPos.y;
+                hitPos.z = this->collider1.elem.acDmgInfo.hitPos.z;
                 CollisionCheck_BlueBlood(play, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {

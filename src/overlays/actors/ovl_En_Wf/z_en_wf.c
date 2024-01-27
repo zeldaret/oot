@@ -241,7 +241,7 @@ void EnWf_Init(Actor* thisx, PlayState* play) {
         SkelAnime_InitFlex(play, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
-        this->colliderSpheres.elements[0].base.toucher.damage = this->colliderSpheres.elements[1].base.toucher.damage =
+        this->colliderSpheres.elements[0].base.atDmgInfo.damage = this->colliderSpheres.elements[1].base.atDmgInfo.damage =
             8;
         thisx->naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }

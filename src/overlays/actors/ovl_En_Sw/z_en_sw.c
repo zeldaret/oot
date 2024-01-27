@@ -283,7 +283,7 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.0f;
             FALLTHROUGH;
         case 1:
-            this->collider.elements[0].base.toucher.damage *= 2;
+            this->collider.elements[0].base.atDmgInfo.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
             this->actor.colChkInfo.health *= 2;
             this->actor.flags &= ~ACTOR_FLAG_0;

@@ -112,8 +112,8 @@ typedef enum {
 } ElementType;
 
 typedef struct ColliderElement {
-    /* 0x00 */ ColliderElementDamageInfoAT toucher; // Damage properties when acting as an AT collider
-    /* 0x08 */ ColliderElementDamageInfoAC bumper; // Damage properties when acting as an AC collider
+    /* 0x00 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
+    /* 0x08 */ ColliderElementDamageInfoAC acDmgInfo; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
     /* 0x15 */ u8 atElemFlags; // Information flags for AT collisions
     /* 0x16 */ u8 acElemFlags; // Information flags for AC collisions
@@ -126,8 +126,8 @@ typedef struct ColliderElement {
 
 typedef struct {
     /* 0x00 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
-    /* 0x04 */ ColliderElementDamageInfoAT toucher; // Damage properties when acting as an AT collider
-    /* 0x0C */ ColliderElementDamageInfoACInit bumper; // Damage properties when acting as an AC collider
+    /* 0x04 */ ColliderElementDamageInfoAT atDmgInfo; // Damage properties when acting as an AT collider
+    /* 0x0C */ ColliderElementDamageInfoACInit acDmgInfo; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 atElemFlags; // Information flags for AT collisions
     /* 0x15 */ u8 acElemFlags;  // Information flags for AC collisions
     /* 0x16 */ u8 ocElemFlags; // Information flags for OC collisions

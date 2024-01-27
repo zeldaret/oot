@@ -128,8 +128,8 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         if (this->actor.params < 0) {
             this->collider.base.atFlags = (AT_ON | AT_TYPE_ENEMY);
         } else if (this->actor.params <= ARROW_SEED) {
-            this->collider.elem.toucher.dmgFlags = dmgFlags[this->actor.params];
-            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.elem.toucher.dmgFlags,
+            this->collider.elem.atDmgInfo.dmgFlags = dmgFlags[this->actor.params];
+            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.elem.atDmgInfo.dmgFlags,
                     "../z_en_arrow.c", 707);
         }
     }
@@ -301,9 +301,9 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->hitFlags |= 2;
 
                     if (this->collider.elem.atHitElem->acElemFlags & ACELEM_HIT) {
-                        this->actor.world.pos.x = this->collider.elem.atHitElem->bumper.hitPos.x;
-                        this->actor.world.pos.y = this->collider.elem.atHitElem->bumper.hitPos.y;
-                        this->actor.world.pos.z = this->collider.elem.atHitElem->bumper.hitPos.z;
+                        this->actor.world.pos.x = this->collider.elem.atHitElem->acDmgInfo.hitPos.x;
+                        this->actor.world.pos.y = this->collider.elem.atHitElem->acDmgInfo.hitPos.y;
+                        this->actor.world.pos.z = this->collider.elem.atHitElem->acDmgInfo.hitPos.z;
                     }
 
                     func_809B3CEC(play, this);

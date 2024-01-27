@@ -464,7 +464,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
 
         if (this->actor.params == TW_FIRE_BLAST || this->actor.params == TW_FIRE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastFire;
-            this->collider.elem.toucher.effect = 1;
+            this->collider.elem.atDmgInfo.effect = 1;
         } else if (this->actor.params == TW_ICE_BLAST || this->actor.params == TW_ICE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastIce;
         } else if (this->actor.params >= TW_DEATHBALL_KOTAKE) {
@@ -3096,7 +3096,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
                 ColliderElement* acHitElem = this->collider.elem.acHitElem;
 
                 this->collider.base.acFlags &= ~AC_HIT;
-                if (acHitElem->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_ARROW)) {}
+                if (acHitElem->atDmgInfo.dmgFlags & (DMG_SLINGSHOT | DMG_ARROW)) {}
             }
         } else if (this->collider.base.acFlags & AC_HIT) {
             u8 damage;
@@ -3105,7 +3105,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
 
             this->collider.base.acFlags &= ~AC_HIT;
             swordDamage = false;
-            damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags);
+            damage = CollisionCheck_GetSwordDamage(acHitElem->atDmgInfo.dmgFlags);
 
             if (damage == 0) {
                 damage = 2;
@@ -3113,7 +3113,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
                 swordDamage = true;
             }
 
-            if (!(acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
+            if (!(acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
                 if (((s8)this->actor.colChkInfo.health < 3) && !swordDamage) {
                     damage = 0;
                 }
@@ -4330,7 +4330,7 @@ s32 BossTw_BlastShieldCheck(BossTw* this, PlayState* play) {
             this->collider.base.atFlags &= ~AT_HIT;
             acHitElem = this->collider.elem.acHitElem;
 
-            if (acHitElem->toucher.dmgFlags & DMG_SHIELD) {
+            if (acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD) {
                 this->work[INVINC_TIMER] = 7;
                 play->envCtx.lightBlend = 1.0f;
                 Rumble_Request(0.0f, 100, 5, 4);

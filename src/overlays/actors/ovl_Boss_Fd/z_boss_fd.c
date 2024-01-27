@@ -1285,7 +1285,7 @@ void BossFd_CollisionCheck(BossFd* this, PlayState* play) {
         headCollider->base.acElemFlags &= ~ACELEM_HIT;
         acHitElem = headCollider->base.acHitElem;
         this->actor.colChkInfo.health -= 2;
-        if (acHitElem->toucher.dmgFlags & DMG_ARROW_ICE) {
+        if (acHitElem->atDmgInfo.dmgFlags & DMG_ARROW_ICE) {
             this->actor.colChkInfo.health -= 2;
         }
         if ((s8)this->actor.colChkInfo.health <= 2) {

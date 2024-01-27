@@ -159,7 +159,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
             colTypeIndex = this->actor.world.rot.z & 0xFF;
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.elem.bumper.dmgFlags = damageFlags[colTypeIndex];
+            this->collider.elem.acDmgInfo.dmgFlags = damageFlags[colTypeIndex];
             this->collider.dim.radius = 20;
             this->collider.dim.height = 30;
             this->updateFunc = EnWonderItem_InteractSwitch;
@@ -188,7 +188,7 @@ void EnWonderItem_Init(Actor* thisx, PlayState* play) {
         case WONDERITEM_BOMB_SOLDIER:
             Collider_InitCylinder(play, &this->collider);
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.elem.bumper.dmgFlags = DMG_SLINGSHOT;
+            this->collider.elem.acDmgInfo.dmgFlags = DMG_SLINGSHOT;
             this->unkPos = this->actor.world.pos;
             this->collider.dim.radius = 35;
             this->collider.dim.height = 75;

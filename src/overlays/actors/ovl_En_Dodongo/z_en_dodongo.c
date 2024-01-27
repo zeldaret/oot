@@ -608,10 +608,10 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             this->sphElements[2].base.atElemFlags = ATELEM_NONE;
             this->sphElements[1].base.atElemFlags = ATELEM_NONE;
             this->colliderBody.base.atFlags = AT_NONE;
-            this->sphElements[2].base.toucher.dmgFlags = 0;
-            this->sphElements[1].base.toucher.dmgFlags = 0;
-            this->sphElements[2].base.toucher.damage = 0;
-            this->sphElements[1].base.toucher.damage = 0;
+            this->sphElements[2].base.atDmgInfo.dmgFlags = 0;
+            this->sphElements[1].base.atDmgInfo.dmgFlags = 0;
+            this->sphElements[2].base.atDmgInfo.damage = 0;
+            this->sphElements[1].base.atDmgInfo.damage = 0;
             EnDodongo_SetupBreatheFire(this);
             this->timer = Rand_S16Offset(5, 10);
         } else {
@@ -630,8 +630,8 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             this->timer = 18;
             this->colliderBody.base.atFlags = this->sphElements[1].base.atElemFlags =
                 this->sphElements[2].base.atElemFlags = AT_ON | AT_TYPE_ENEMY; // also ATELEM_ON | ATELEM_SFX_WOOD
-            this->sphElements[1].base.toucher.dmgFlags = this->sphElements[2].base.toucher.dmgFlags = DMG_DEFAULT;
-            this->sphElements[1].base.toucher.damage = this->sphElements[2].base.toucher.damage = 8;
+            this->sphElements[1].base.atDmgInfo.dmgFlags = this->sphElements[2].base.atDmgInfo.dmgFlags = DMG_DEFAULT;
+            this->sphElements[1].base.atDmgInfo.damage = this->sphElements[2].base.atDmgInfo.damage = 8;
         }
     } else if (this->timer > 1) {
         Vec3f tailPos;

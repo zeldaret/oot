@@ -581,9 +581,9 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->actor.colChkInfo.damageEffect) {
             case 0xF:
-                effectPos.x = this->collider.elem.bumper.hitPos.x;
-                effectPos.y = this->collider.elem.bumper.hitPos.y;
-                effectPos.z = this->collider.elem.bumper.hitPos.z;
+                effectPos.x = this->collider.elem.acDmgInfo.hitPos.x;
+                effectPos.y = this->collider.elem.acDmgInfo.hitPos.y;
+                effectPos.z = this->collider.elem.acDmgInfo.hitPos.z;
 
                 EnSkj_SpawnBlood(play, &effectPos);
                 EffectSsHitMark_SpawnFixedScale(play, 1, &effectPos);
