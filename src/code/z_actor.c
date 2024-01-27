@@ -2610,7 +2610,9 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
+#ifdef OOT_DEBUG
         CollisionCheck_DrawCollision(play, &play->colChkCtx);
+#endif
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 6563);
