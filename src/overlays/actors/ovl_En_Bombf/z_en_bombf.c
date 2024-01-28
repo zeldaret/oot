@@ -121,7 +121,7 @@ void EnBombf_Init(Actor* thisx, PlayState* play) {
         EnBombf_SetupAction(this, EnBombf_Move);
     } else {
         thisx->colChkInfo.mass = MASS_IMMOVABLE;
-        this->bumpOn = true;
+        this->colliderSetOC = true;
         this->flowerBombScale = 1.0f;
         EnBombf_SetupGrowBomb(this, thisx->params);
     }
@@ -320,13 +320,13 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
     s32 pad[2];
     EnBombf* this = (EnBombf*)thisx;
 
-    if ((this->isFuseEnabled) && (this->timer != 0)) {
+    if (this->isFuseEnabled && (this->timer != 0)) {
         this->timer--;
     }
 
-    if ((!this->bumpOn) && (!Actor_HasParent(thisx, play)) &&
+    if (!this->colliderSetOC && !Actor_HasParent(thisx, play) &&
         ((thisx->xzDistToPlayer >= 20.0f) || (ABS(thisx->yDistToPlayer) >= 80.0f))) {
-        this->bumpOn = true;
+        this->colliderSetOC = true;
     }
 
     this->actionFunc(this, play);
@@ -444,7 +444,7 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
 
         Collider_UpdateCylinder(thisx, &this->bombCollider);
 
-        if ((this->flowerBombScale >= 1.0f) && (this->bumpOn)) {
+        if ((this->flowerBombScale >= 1.0f) && this->colliderSetOC) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->bombCollider.base);
         }
 

@@ -240,7 +240,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     }
 
     if ((thisx->xzDistToPlayer >= 20.0f) || (ABS(thisx->yDistToPlayer) >= 80.0f)) {
-        this->bumpOn = true;
+        this->colliderSetOC = true;
     }
 
     this->actionFunc(this, play);
@@ -332,8 +332,8 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
     if (thisx->params <= BOMB_BODY) {
         Collider_UpdateCylinder(thisx, &this->bombCollider);
 
-        // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
-        if (!Actor_HasParent(thisx, play) && this->bumpOn) {
+        // if link is not holding the bomb anymore and conditions for OC are met, subscribe to OC
+        if (!Actor_HasParent(thisx, play) && this->colliderSetOC) {
             CollisionCheck_SetOC(play, &play->colChkCtx, &this->bombCollider.base);
         }
 

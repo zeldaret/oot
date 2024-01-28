@@ -154,7 +154,7 @@ void EnDns_Init(Actor* thisx, PlayState* play) {
     Actor_SetScale(&this->actor, 0.01f);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->bumpOn = true;
+    this->isColliderEnabled = true;
     this->standOnGround = true;
     this->dropCollectible = false;
     this->actor.speed = 0.0f;
@@ -432,7 +432,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
         if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
             this->dnsItemEntry->payment(this);
             this->dropCollectible = true;
-            this->bumpOn = false;
+            this->isColliderEnabled = false;
             this->actor.flags &= ~ACTOR_FLAG_0;
             EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
             this->actionFunc = EnDns_Burrow;
@@ -440,7 +440,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
     } else {
         this->dnsItemEntry->payment(this);
         this->dropCollectible = true;
-        this->bumpOn = false;
+        this->isColliderEnabled = false;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->actionFunc = EnDns_Burrow;
@@ -449,7 +449,7 @@ void EnDns_SetupBurrow(EnDns* this, PlayState* play) {
 
 void EnDns_SetupNoSaleBurrow(EnDns* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
-        this->bumpOn = false;
+        this->isColliderEnabled = false;
         this->actor.flags &= ~ACTOR_FLAG_0;
         EnDns_ChangeAnim(this, DNS_ANIM_BURROW);
         this->actionFunc = EnDns_Burrow;
@@ -513,7 +513,7 @@ void EnDns_Update(Actor* thisx, PlayState* play) {
         Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
-    if (this->bumpOn) {
+    if (this->isColliderEnabled) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }

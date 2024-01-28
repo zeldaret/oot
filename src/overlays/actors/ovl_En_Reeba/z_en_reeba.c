@@ -326,7 +326,7 @@ void EnReeba_MoveBig(EnReeba* this, PlayState* play) {
     }
 }
 
-void EnReeba_Bumped(EnReeba* this, PlayState* play) {
+void EnReeba_Recoiled(EnReeba* this, PlayState* play) {
     Math_ApproachZeroF(&this->actor.speed, 1.0f, 0.3f);
 
     if (this->moveTimer == 0) {
@@ -638,7 +638,7 @@ void EnReeba_Update(Actor* thisx, PlayState* play2) {
             this->actor.speed = 8.0f;
             this->actor.world.rot.y *= -1.0f;
             this->moveTimer = 14;
-            this->actionfunc = EnReeba_Bumped;
+            this->actionfunc = EnReeba_Recoiled;
             return;
         }
     }

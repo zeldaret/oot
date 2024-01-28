@@ -196,7 +196,7 @@ void EnBubble_Vec3fNormalize(Vec3f* vec) {
 
 void EnBubble_Fly(EnBubble* this, PlayState* play) {
     CollisionPoly* poly;
-    Actor* bumpActor;
+    Actor* attackerActor;
     Vec3f sp84;
     Vec3f sp78;
     Vec3f sp6C;
@@ -207,20 +207,20 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
     u8 bounceCount;
 
     if (this->colliderSphere.elements[1].base.acElemFlags & ACELEM_HIT) {
-        bumpActor = this->colliderSphere.base.ac;
-        this->normalizedBumpVelocity = bumpActor->velocity;
-        EnBubble_Vec3fNormalize(&this->normalizedBumpVelocity);
-        this->velocityFromBump.x += (this->normalizedBumpVelocity.x * 3.0f);
-        this->velocityFromBump.y += (this->normalizedBumpVelocity.y * 3.0f);
-        this->velocityFromBump.z += (this->normalizedBumpVelocity.z * 3.0f);
+        attackerActor = this->colliderSphere.base.ac;
+        this->normalizedAttackerVelocity = attackerActor->velocity;
+        EnBubble_Vec3fNormalize(&this->normalizedAttackerVelocity);
+        this->velocityFromAttack.x += (this->normalizedAttackerVelocity.x * 3.0f);
+        this->velocityFromAttack.y += (this->normalizedAttackerVelocity.y * 3.0f);
+        this->velocityFromAttack.z += (this->normalizedAttackerVelocity.z * 3.0f);
     }
     this->sinkSpeed -= 0.1f;
     if (this->sinkSpeed < this->actor.minVelocityY) {
         this->sinkSpeed = this->actor.minVelocityY;
     }
-    sp54.x = this->velocityFromBounce.x + this->velocityFromBump.x;
-    sp54.y = this->velocityFromBounce.y + this->velocityFromBump.y + this->sinkSpeed;
-    sp54.z = this->velocityFromBounce.z + this->velocityFromBump.z;
+    sp54.x = this->velocityFromBounce.x + this->velocityFromAttack.x;
+    sp54.y = this->velocityFromBounce.y + this->velocityFromAttack.y + this->sinkSpeed;
+    sp54.z = this->velocityFromBounce.z + this->velocityFromAttack.z;
     EnBubble_Vec3fNormalize(&sp54);
 
     sp78.x = this->actor.world.pos.x;
@@ -243,7 +243,7 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
             this->bounceCount = 0;
         }
         bounceSpeed = (this->bounceCount == 0) ? 3.6000001f : 3.0f;
-        this->velocityFromBump.x = this->velocityFromBump.y = this->velocityFromBump.z = 0.0f;
+        this->velocityFromAttack.x = this->velocityFromAttack.y = this->velocityFromAttack.z = 0.0f;
         this->velocityFromBounce.x = (this->bounceDirection.x * bounceSpeed);
         this->velocityFromBounce.y = (this->bounceDirection.y * bounceSpeed);
         this->velocityFromBounce.z = (this->bounceDirection.z * bounceSpeed);
@@ -262,7 +262,7 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
             this->bounceCount = 0;
         }
         bounceSpeed = (this->bounceCount == 0) ? 3.6000001f : 3.0f;
-        this->velocityFromBump.x = this->velocityFromBump.y = this->velocityFromBump.z = 0.0f;
+        this->velocityFromAttack.x = this->velocityFromAttack.y = this->velocityFromAttack.z = 0.0f;
         this->velocityFromBounce.x = (this->bounceDirection.x * bounceSpeed);
         this->velocityFromBounce.y = (this->bounceDirection.y * bounceSpeed);
         this->velocityFromBounce.z = (this->bounceDirection.z * bounceSpeed);
@@ -271,12 +271,12 @@ void EnBubble_Fly(EnBubble* this, PlayState* play) {
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
     }
-    this->actor.velocity.x = this->velocityFromBounce.x + this->velocityFromBump.x;
-    this->actor.velocity.y = this->velocityFromBounce.y + this->velocityFromBump.y + this->sinkSpeed;
-    this->actor.velocity.z = this->velocityFromBounce.z + this->velocityFromBump.z;
-    Math_ApproachF(&this->velocityFromBump.x, 0.0f, 0.3f, 0.1f);
-    Math_ApproachF(&this->velocityFromBump.y, 0.0f, 0.3f, 0.1f);
-    Math_ApproachF(&this->velocityFromBump.z, 0.0f, 0.3f, 0.1f);
+    this->actor.velocity.x = this->velocityFromBounce.x + this->velocityFromAttack.x;
+    this->actor.velocity.y = this->velocityFromBounce.y + this->velocityFromAttack.y + this->sinkSpeed;
+    this->actor.velocity.z = this->velocityFromBounce.z + this->velocityFromAttack.z;
+    Math_ApproachF(&this->velocityFromAttack.x, 0.0f, 0.3f, 0.1f);
+    Math_ApproachF(&this->velocityFromAttack.y, 0.0f, 0.3f, 0.1f);
+    Math_ApproachF(&this->velocityFromAttack.z, 0.0f, 0.3f, 0.1f);
 }
 
 u32 func_809CC648(EnBubble* this) {
