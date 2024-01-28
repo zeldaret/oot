@@ -192,7 +192,10 @@ void ObjSwitch_RotateY(Vec3f* dest, Vec3f* src, s16 rotY) {
 void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
+
+#ifdef OOT_DEBUG
     s32 pad2;
+#endif
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
