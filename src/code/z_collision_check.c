@@ -2807,8 +2807,7 @@ void CollisionCheck_OC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* co
                     continue;
                 }
                 if (Math3D_SphVsSphOverlap(&leftJntSphElem->dim.worldSphere, &rightJntSphElem->dim.worldSphere,
-                                           &overlapSize) ==
-                    true) {
+                                           &overlapSize) == true) {
                     Vec3f leftPos;
                     Vec3f rightPos;
 
