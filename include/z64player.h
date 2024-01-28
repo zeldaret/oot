@@ -672,15 +672,15 @@ typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
 typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
-#define NOREST_ROT_FOCUS_X (1 << 0)
-#define NOREST_ROT_FOCUS_Y (1 << 1)
-#define NOREST_ROT_FOCUS_Z (1 << 2)
-#define NOREST_ROT_HEAD_X (1 << 3)
-#define NOREST_ROT_HEAD_Y (1 << 4)
-#define NOREST_ROT_HEAD_Z (1 << 5)
-#define NOREST_ROT_UPPER_X (1 << 6)
-#define NOREST_ROT_UPPER_Y (1 << 7)
-#define NOREST_ROT_UPPER_Z (1 << 8)
+#define UNK6AE_ROT_FOCUS_X (1 << 0)
+#define UNK6AE_ROT_FOCUS_Y (1 << 1)
+#define UNK6AE_ROT_FOCUS_Z (1 << 2)
+#define UNK6AE_ROT_HEAD_X (1 << 3)
+#define UNK6AE_ROT_HEAD_Y (1 << 4)
+#define UNK6AE_ROT_HEAD_Z (1 << 5)
+#define UNK6AE_ROT_UPPER_X (1 << 6)
+#define UNK6AE_ROT_UPPER_Y (1 << 7)
+#define UNK6AE_ROT_UPPER_Z (1 << 8)
 
 typedef struct Player {
     /* 0x0000 */ Actor actor;
@@ -772,7 +772,7 @@ typedef struct Player {
     /* 0x06A8 */ Actor* unk_6A8;
     /* 0x06AC */ s8 unk_6AC;
     /* 0x06AD */ u8 unk_6AD;
-    /* 0x06AE */ u16 rotsNoRestFlags; // See `NOREST_ROT_` macros. If its flag isn't set, a rot steps to a rest value.
+    /* 0x06AE */ u16 unk_6AE_rotFlags; // See `UNK6AE_ROT_` macros. If its flag isn't set, a rot steps to 0.
     /* 0x06B0 */ s16 upperLimbYawSecondary;
     /* 0x06B2 */ char unk_6B4[0x004];
     /* 0x06B6 */ Vec3s headLimbRot;

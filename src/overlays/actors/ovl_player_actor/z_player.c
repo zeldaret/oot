@@ -2873,7 +2873,7 @@ s32 func_808351D4(Player* this, PlayState* play) {
     }
 
     Math_ScaledStepToS(&this->upperLimbRot.z, 1200, 400);
-    this->rotsNoRestFlags |= NOREST_ROT_UPPER_Z;
+    this->unk_6AE_rotFlags |= UNK6AE_ROT_UPPER_Z;
 
     if ((this->unk_836 == 0) && (func_80833350(this) == 0) &&
         (this->skelAnime.animation == &gPlayerAnim_link_bow_side_walk)) {
@@ -3368,7 +3368,7 @@ s32 Player_UpdateUpperBody(Player* this, PlayState* play) {
         this->yaw = this->actor.shape.rot.y;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         this->hoverBootsTimer = 0;
-        this->rotsNoRestFlags |= NOREST_ROT_FOCUS_X | NOREST_ROT_FOCUS_Y | NOREST_ROT_UPPER_X;
+        this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_X | UNK6AE_ROT_FOCUS_Y | UNK6AE_ROT_UPPER_X;
         func_80832698(this, NA_SE_VO_LI_LASH);
         return 1;
     }
@@ -3468,7 +3468,7 @@ s32 func_80836AB8(Player* this, s32 arg1) {
     if (arg1) {
         yaw = this->actor.focus.rot.y;
         this->upperLimbRot.x = this->actor.focus.rot.x;
-        this->rotsNoRestFlags |= NOREST_ROT_FOCUS_X | NOREST_ROT_UPPER_X;
+        this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_X | UNK6AE_ROT_UPPER_X;
     } else {
         // Step the head pitch to the focus pitch.
         // If the head cannot be pitched enough, pitch the upper body.
@@ -3486,8 +3486,8 @@ s32 func_80836AB8(Player* this, s32 arg1) {
                                        targetUpperBodyYaw, 8000);
         Player_ScaledStepBinangClamped(&this->upperLimbRot.y, targetUpperBodyYaw, 200, 8000, this->headLimbRot.y, 8000);
 
-        this->rotsNoRestFlags |=
-            NOREST_ROT_FOCUS_X | NOREST_ROT_HEAD_X | NOREST_ROT_HEAD_Y | NOREST_ROT_UPPER_X | NOREST_ROT_UPPER_Y;
+        this->unk_6AE_rotFlags |=
+            UNK6AE_ROT_FOCUS_X | UNK6AE_ROT_HEAD_X | UNK6AE_ROT_HEAD_Y | UNK6AE_ROT_UPPER_X | UNK6AE_ROT_UPPER_Y;
     }
 
     return yaw;
@@ -3858,7 +3858,7 @@ s32 Player_TryActionChangeList(PlayState* play, Player* this, s8* actionChangeLi
         }
 
         if (func_8008F128(this)) {
-            this->rotsNoRestFlags |= NOREST_ROT_FOCUS_X | NOREST_ROT_UPPER_X;
+            this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_X | UNK6AE_ROT_UPPER_X;
             return true;
         }
 
@@ -6519,7 +6519,7 @@ s32 func_8083DB98(Player* this, s32 arg1) {
     Math_SmoothStepToS(&this->actor.focus.rot.y, targetFocusRotY, 4, 10000, 0);
     Math_SmoothStepToS(&this->actor.focus.rot.x, targetFocusRotX, 4, 10000, 0);
 
-    this->rotsNoRestFlags |= NOREST_ROT_FOCUS_Y;
+    this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_Y;
 
     return func_80836AB8(this, arg1);
 }
@@ -6572,7 +6572,7 @@ void func_8083DDC8(Player* this, PlayState* play) {
         Math_ScaledStepToS(&this->headLimbRot.z, targetRoll, 300);
         Math_ScaledStepToS(&this->upperLimbRot.z, targetRoll, 200);
 
-        this->rotsNoRestFlags |= NOREST_ROT_HEAD_X | NOREST_ROT_HEAD_Z | NOREST_ROT_UPPER_X | NOREST_ROT_UPPER_Z;
+        this->unk_6AE_rotFlags |= UNK6AE_ROT_HEAD_X | UNK6AE_ROT_HEAD_Z | UNK6AE_ROT_UPPER_X | UNK6AE_ROT_UPPER_Z;
     } else {
         func_8083DC54(this, play);
     }
@@ -8590,7 +8590,7 @@ void Player_Action_80843188(Player* this, PlayState* play) {
     this->stateFlags1 |= PLAYER_STATE1_22;
     Player_SetModelsForHoldingShield(this);
 
-    this->rotsNoRestFlags |= NOREST_ROT_FOCUS_X | NOREST_ROT_UPPER_X | NOREST_ROT_UPPER_Y;
+    this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_X | UNK6AE_ROT_UPPER_X | UNK6AE_ROT_UPPER_Y;
 }
 
 void Player_Action_808435C4(Player* this, PlayState* play) {
@@ -10108,37 +10108,37 @@ void Player_ApproachZeroBinang(s16* pValue) {
 void func_80847298(Player* this) {
     s16 diff;
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_FOCUS_Y)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_FOCUS_Y)) {
         diff = this->actor.focus.rot.y - this->actor.shape.rot.y;
         Player_ApproachZeroBinang(&diff);
         this->actor.focus.rot.y = this->actor.shape.rot.y + diff;
     }
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_FOCUS_X)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_FOCUS_X)) {
         Player_ApproachZeroBinang(&this->actor.focus.rot.x);
     }
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_HEAD_X)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_HEAD_X)) {
         Player_ApproachZeroBinang(&this->headLimbRot.x);
     }
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_UPPER_X)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_UPPER_X)) {
         Player_ApproachZeroBinang(&this->upperLimbRot.x);
     }
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_FOCUS_Z)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_FOCUS_Z)) {
         Player_ApproachZeroBinang(&this->actor.focus.rot.z);
     }
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_HEAD_Y)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_HEAD_Y)) {
         Player_ApproachZeroBinang(&this->headLimbRot.y);
     }
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_HEAD_Z)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_HEAD_Z)) {
         Player_ApproachZeroBinang(&this->headLimbRot.z);
     }
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_UPPER_Y)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_UPPER_Y)) {
         if (this->upperLimbYawSecondary != 0) {
             Player_ApproachZeroBinang(&this->upperLimbYawSecondary);
         } else {
@@ -10146,11 +10146,11 @@ void func_80847298(Player* this) {
         }
     }
 
-    if (!(this->rotsNoRestFlags & NOREST_ROT_UPPER_Z)) {
+    if (!(this->unk_6AE_rotFlags & UNK6AE_ROT_UPPER_Z)) {
         Player_ApproachZeroBinang(&this->upperLimbRot.z);
     }
 
-    this->rotsNoRestFlags = 0;
+    this->unk_6AE_rotFlags = 0;
 }
 
 static f32 D_80854784[] = { 120.0f, 240.0f, 360.0f };
@@ -11627,7 +11627,7 @@ s16 func_8084ABD8(PlayState* play, Player* this, s32 arg2, s16 arg3) {
         this->actor.focus.rot.y = CLAMP(temp2, -temp1, temp1) + this->actor.shape.rot.y;
     }
 
-    this->rotsNoRestFlags |= NOREST_ROT_FOCUS_Y;
+    this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_Y;
     return func_80836AB8(this, (play->shootingGalleryStatus != 0) || func_8002DD78(this) || func_808334B4(this)) - arg3;
 }
 
@@ -11744,7 +11744,7 @@ void Player_Action_8084B1D8(Player* this, PlayState* play) {
         Sfx_PlaySfxCentered(NA_SE_SY_CAMERA_ZOOM_UP);
     } else if ((DECR(this->av2.actionVar2) == 0) || (this->unk_6AD != 2)) {
         if (func_8008F128(this)) {
-            this->rotsNoRestFlags |= NOREST_ROT_FOCUS_X | NOREST_ROT_FOCUS_Y | NOREST_ROT_UPPER_X;
+            this->unk_6AE_rotFlags |= UNK6AE_ROT_FOCUS_X | UNK6AE_ROT_FOCUS_Y | UNK6AE_ROT_UPPER_X;
         } else {
             this->actor.shape.rot.y = func_8084ABD8(play, this, false, 0);
         }
@@ -12603,7 +12603,7 @@ void Player_Action_8084CC98(Player* this, PlayState* play) {
                     this->upperLimbRot.y = CLAMP(this->upperLimbRot.y, -0x4AAA, 0x4AAA);
                     this->actor.focus.rot.y = this->actor.shape.rot.y + this->upperLimbRot.y;
                     this->upperLimbRot.y += 5000;
-                    this->rotsNoRestFlags |= NOREST_ROT_UPPER_Y;
+                    this->unk_6AE_rotFlags |= UNK6AE_ROT_UPPER_Y;
                 } else {
                     func_8083DB98(this, false);
                 }
@@ -13606,7 +13606,7 @@ void Player_Action_8084FA54(Player* this, PlayState* play) {
     Player_UpdateUpperBody(this, play);
 
     this->upperLimbRot.y = func_8084ABD8(play, this, true, 0) - this->actor.shape.rot.y;
-    this->rotsNoRestFlags |= NOREST_ROT_UPPER_Y;
+    this->unk_6AE_rotFlags |= UNK6AE_ROT_UPPER_Y;
 
     if (play->shootingGalleryStatus < 0) {
         play->shootingGalleryStatus++;
