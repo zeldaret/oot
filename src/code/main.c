@@ -40,11 +40,6 @@ void Main(void* arg) {
     OSMesg irqMgrMsgBuf[60];
     uintptr_t systemHeapStart;
     uintptr_t fb;
-#ifdef OOT_DEBUG
-    void* debugHeapStart;
-    u32 debugHeapSize;
-#endif
-    s16* msg;
 
     PRINTF("mainproc 実行開始\n"); // "Start running"
     gScreenWidth = SCREEN_WIDTH;
@@ -59,18 +54,25 @@ void Main(void* arg) {
     // "System heap initalization"
     PRINTF("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
-
+    
 #ifdef OOT_DEBUG
-    if (osMemSize >= 0x800000) {
-        debugHeapStart = SysCfb_GetFbEnd();
-        debugHeapSize = PHYS_TO_K0(0x600000) - (uintptr_t)debugHeapStart;
-    } else {
-        debugHeapSize = 0x400;
-        debugHeapStart = SYSTEM_ARENA_MALLOC(debugHeapSize, "../main.c", 565);
+    {
+        void* debugHeapStart;
+        u32 debugHeapSize;
+
+        if (osMemSize >= 0x800000) {
+            debugHeapStart = SysCfb_GetFbEnd();
+            debugHeapSize = PHYS_TO_K0(0x600000) - (uintptr_t)debugHeapStart;
+        } else {
+            debugHeapSize = 0x400;
+            debugHeapStart = SYSTEM_ARENA_MALLOC(debugHeapSize, "../main.c", 565);
+        }
+        
+        PRINTF("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
+        DebugArena_Init(debugHeapStart, debugHeapSize);
     }
-    PRINTF("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
-    DebugArena_Init(debugHeapStart, debugHeapSize);
 #endif
+
     Regs_Init();
 
     R_ENABLE_ARENA_DBG = 0;
@@ -106,7 +108,8 @@ void Main(void* arg) {
     osSetThreadPri(NULL, THREAD_PRI_MAIN);
 
     while (true) {
-        msg = NULL;
+        s16* msg = NULL;
+
         osRecvMesg(&irqMgrMsgQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
         if (msg == NULL) {
             break;
