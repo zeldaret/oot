@@ -321,9 +321,8 @@ venv:
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-# TODO: for now, we only extract ROM segments and assets from the Debug ROM
+# TODO: for now, we only extract assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
-	$(PYTHON) extract_baserom.py
 	$(PYTHON) extract_assets.py -j$(N_THREADS)
 endif
 

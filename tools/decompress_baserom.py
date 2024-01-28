@@ -112,6 +112,17 @@ def decompress_rom(
     return bytearray(update_crc(decompressed).getbuffer())
 
 
+def write_segments(
+    file_content: bytearray, dmadata: List[List[int]], segment_names: List[str], segments_dir: Path
+):
+    segments_dir.mkdir(parents=True, exist_ok=True)
+    for segment_name, (v_start, v_end, p_start, p_end) in zip(segment_names, dmadata):
+        if p_start == 0xFFFFFFFF and p_end == 0xFFFFFFFF:
+            continue
+        with open(segments_dir / segment_name, "wb") as f:
+            f.write(file_content[p_start : p_start + v_end - v_start])
+
+
 def get_str_hash(byte_array):
     return str(hashlib.md5(byte_array).hexdigest())
 
@@ -195,6 +206,8 @@ def main():
         file_table_offset = int(f.read(), 16)
     with open(baserom_dir / "checksum.md5", "r") as f:
         correct_str_hash = f.read().split()[0]
+    with open(baserom_dir / "segments.txt", "r") as f:
+        segment_names = f.read().splitlines()
 
     if check_existing_rom(uncompressed_path, correct_str_hash):
         print("Found valid baserom - exiting early")
@@ -232,6 +245,10 @@ def main():
     file_content = per_version_fixes(file_content, version)
 
     dmadata = read_dmadata(file_content, file_table_offset)
+    if len(segment_names) != len(dmadata):
+        print(f"Error: segment names and dmadata length mismatch ({len(segment_names)} != {len(dmadata)})")
+        exit(1)
+
     # Decompress
     if any(
         [
@@ -262,8 +279,13 @@ def main():
         exit(1)
 
     # Write out our new ROM
-    print(f"Writing new ROM {uncompressed_path}.")
+    print(f"Writing new ROM {uncompressed_path}...")
     uncompressed_path.write_bytes(file_content)
+
+    # Write ROM segments
+    segments_dir = baserom_dir / "segments"
+    print(f"Writing ROM segments to {segments_dir}...")
+    write_segments(file_content, dmadata, segment_names, segments_dir)
 
     print("Done!")
 
