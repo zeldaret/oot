@@ -327,7 +327,8 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
                 this->collider2.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
                 this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags =
                     AT_NONE; // also ATELEM_NONE
-                this->collider2.elements[0].base.atDmgInfo.dmgFlags = this->collider2.elements[0].base.atDmgInfo.damage = 0;
+                this->collider2.elements[0].base.atDmgInfo.dmgFlags =
+                    this->collider2.elements[0].base.atDmgInfo.damage = 0;
                 this->actionState++;
             } else if (this->collider2.base.atFlags & AT_HIT) {
                 this->collider2.base.atFlags &= ~AT_HIT;
@@ -345,7 +346,8 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.elements[0].base.atElemFlags =
                     AT_NONE; // also ATELEM_NONE
-                this->collider2.elements[0].base.atDmgInfo.dmgFlags = this->collider2.elements[0].base.atDmgInfo.damage = 0;
+                this->collider2.elements[0].base.atDmgInfo.dmgFlags =
+                    this->collider2.elements[0].base.atDmgInfo.damage = 0;
             }
             break;
         case 5:

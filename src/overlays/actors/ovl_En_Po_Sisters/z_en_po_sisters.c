@@ -757,8 +757,8 @@ void func_80ADAE6C(EnPoSisters* this, PlayState* play) {
         this->unk_22E.a = 255;
         if (this->unk_194 != 0) {
             this->unk_199 |= 1;
-            this->collider.elem.acDmgInfo.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE | DMG_MAGIC_FIRE |
-                                                   DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
+            this->collider.elem.acDmgInfo.dmgFlags = (DMG_SWORD | DMG_ARROW | DMG_HAMMER | DMG_MAGIC_ICE |
+                                                      DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_EXPLOSIVE | DMG_DEKU_STICK);
             if (this->unk_19A != 0) {
                 this->unk_19A--;
             }

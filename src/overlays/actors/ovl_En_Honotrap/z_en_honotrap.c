@@ -534,7 +534,7 @@ void EnHonotrap_Draw(Actor* thisx, PlayState* play) {
         case HONOTRAP_TYPE_EYE:
             EnHonotrap_DrawEye(thisx, play);
             break;
-            
+
         case HONOTRAP_TYPE_FLAME_MOVE:
         case HONOTRAP_TYPE_FLAME_DROP:
             EnHonotrap_DrawFlame(thisx, play);

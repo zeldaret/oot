@@ -1157,7 +1157,7 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
                 this->timers[0] = 40;
                 this->cutScale = 1.0f;
             } else if (acHitElem->atDmgInfo.dmgFlags & (DMG_JUMP_MASTER | DMG_JUMP_GIANT | DMG_SPIN_MASTER |
-                                                      DMG_SPIN_GIANT | DMG_SLASH_GIANT | DMG_SLASH_MASTER)) {
+                                                        DMG_SPIN_GIANT | DMG_SLASH_GIANT | DMG_SLASH_MASTER)) {
                 this->playerHitTimer = 5;
             }
             this->tentRippleSize = 0.2f;
@@ -1793,7 +1793,8 @@ void BossMo_CoreCollisionCheck(BossMo* this, PlayState* play) {
                     }
                 }
                 this->work[MO_TENT_INVINC_TIMER] = 10;
-            } else if (!(acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD) && (acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
+            } else if (!(acHitElem->atDmgInfo.dmgFlags & DMG_SHIELD) &&
+                       (acHitElem->atDmgInfo.dmgFlags & DMG_HOOKSHOT)) {
                 if (this->work[MO_TENT_ACTION_STATE] >= MO_CORE_ATTACK) {
                     Sfx_PlaySfxAtPos(&sMorphaTent1->tentTipPos, NA_SE_EN_MOFER_CUT);
                     sMorphaTent1->cutIndex = this->work[MO_CORE_POS_IN_TENT];

@@ -148,7 +148,8 @@ s32 Collider_DestroyElementDamageInfoAT(PlayState* play, ColliderElementDamageIn
     return true;
 }
 
-s32 Collider_SetElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* dest, ColliderElementDamageInfoAT* src) {
+s32 Collider_SetElementDamageInfoAT(PlayState* play, ColliderElementDamageInfoAT* dest,
+                                    ColliderElementDamageInfoAT* src) {
     dest->dmgFlags = src->dmgFlags;
     dest->effect = src->effect;
     dest->damage = src->damage;
@@ -169,7 +170,8 @@ s32 Collider_DestroyElementDamageInfoAC(PlayState* play, ColliderElementDamageIn
     return true;
 }
 
-s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo, ColliderElementDamageInfoACInit* init) {
+s32 Collider_SetElementDamageInfoAC(PlayState* play, ColliderElementDamageInfoAC* acDmgInfo,
+                                    ColliderElementDamageInfoACInit* init) {
     acDmgInfo->dmgFlags = init->dmgFlags;
     acDmgInfo->effect = init->effect;
     acDmgInfo->defense = init->defense;
@@ -180,7 +182,7 @@ s32 Collider_InitElement(PlayState* play, ColliderElement* elem) {
     static ColliderElement init = {
         { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
         ELEMTYPE_UNK0, ATELEM_NONE,
-        ACELEM_NONE,     OCELEM_NONE,
+        ACELEM_NONE,   OCELEM_NONE,
         NULL,          NULL,
         NULL,          NULL,
     };
@@ -2801,8 +2803,7 @@ void CollisionCheck_OC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* co
                     continue;
                 }
                 if (Math3D_SphVsSphOverlap(&leftJntSphElem->dim.worldSphere, &rightJntSphElem->dim.worldSphere,
-                                           &overlapSize) ==
-                    true) {
+                                           &overlapSize) == true) {
                     Vec3f leftPos;
                     Vec3f rightPos;
 
