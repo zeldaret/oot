@@ -36,7 +36,7 @@ possible.
 1.  Copy your target PAL GameCube Master Quest ROM (non-debug) to
     `baseroms/gc-eu-mq/baserom.z64`
 
-1.  Extract assets and ROM files **from the Debug ROM** by running
+1.  Extract assets **from the Debug ROM** by running
 
     ```sh
     make setup -jN
