@@ -36,10 +36,14 @@ void Locale_ResetRegion(void);
 u32 func_80001F48(void);
 u32 func_80001F8C(void);
 u32 Locale_IsRegionNative(void);
+#if OOT_DEBUG
 void isPrintfInit(void);
+#endif
 void rmonPrintf(const char* fmt, ...);
+#if OOT_DEBUG
 void* is_proutSyncPrintf(void* arg, const char* str, size_t count);
 NORETURN void func_80002384(const char* exp, const char* file, u32 line);
+#endif
 OSPiHandle* osDriveRomInit(void);
 void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
