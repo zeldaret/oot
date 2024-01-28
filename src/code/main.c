@@ -34,7 +34,6 @@ void Main_LogSystemHeap(void) {
 }
 #endif
 
-// Note: retail_progress says ok but diff score is 100
 void Main(void* arg) {
     IrqMgrClient irqClient;
     OSMesgQueue irqMgrMsgQueue;
