@@ -198,7 +198,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
-# For now, ROM segments are still taken from the Debug ROM even when building other versions
+# TODO: for now, ROM segments are still taken from the Debug ROM even when building other versions
 BASEROM_SEGMENTS_DIR := baseroms/gc-eu-mq-dbg/segments
 BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
 
@@ -319,7 +319,7 @@ venv:
 setup: venv
 	$(MAKE) -C tools
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
-# For now, only extract ROM segments and assets from the Debug ROM
+# TODO: for now, we only extract ROM segments and assets from the Debug ROM
 ifeq ($(VERSION),gc-eu-mq-dbg)
 	$(PYTHON) extract_baserom.py
 	$(PYTHON) extract_assets.py -j$(N_THREADS)
