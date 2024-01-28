@@ -7048,12 +7048,16 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, PlayState
             R_CAM_DATA(i) = sCamDataRegsInit[i];
         }
 
+#if OOT_DEBUG
         DebugCamera_Reset(camera, &D_8015BD80);
+#endif
         sInitRegs = false;
         PREG(88) = -1;
     }
     camera->play = D_8015BD7C = play;
+#if OOT_DEBUG
     DebugCamera_Init(&D_8015BD80, camera);
+#endif
     curUID = sNextUID;
     sNextUID++;
     while (curUID != 0) {
@@ -7277,6 +7281,7 @@ void Camera_PrintSettings(Camera* camera) {
         sp48[i] = '\0';
 
         sp48[camera->play->activeCamId] = 'a';
+#if OOT_DEBUG
         DebugCamera_ScreenTextColored(3, 22, DEBUG_CAM_TEXT_WHITE, sp58);
         DebugCamera_ScreenTextColored(3, 22, DEBUG_CAM_TEXT_PEACH, sp48);
         DebugCamera_ScreenTextColored(3, 23, DEBUG_CAM_TEXT_WHITE, "S:");
@@ -7287,6 +7292,7 @@ void Camera_PrintSettings(Camera* camera) {
         DebugCamera_ScreenTextColored(
             5, 25, DEBUG_CAM_TEXT_GOLD,
             sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
+#endif
 
         i = 0;
         if (camera->bgCamIndex < 0) {
@@ -7310,8 +7316,10 @@ void Camera_PrintSettings(Camera* camera) {
         sp50[i++] = ' ';
         sp50[i++] = ' ';
         sp50[i] = '\0';
+#if OOT_DEBUG
         DebugCamera_ScreenTextColored(3, 26, DEBUG_CAM_TEXT_WHITE, "I:");
         DebugCamera_ScreenTextColored(5, 26, DEBUG_CAM_TEXT_GOLD, sp50);
+#endif
     }
 }
 
@@ -7722,7 +7730,9 @@ Vec3s Camera_Update(Camera* camera) {
     if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_START)) {
         gDebugCamEnabled ^= 1;
         if (gDebugCamEnabled) {
+#if OOT_DEBUG
             DebugCamera_Enable(&D_8015BD80, camera);
+#endif
         } else if (camera->play->csCtx.state != CS_STATE_IDLE) {
             Cutscene_StopManual(camera->play, &camera->play->csCtx);
         }
@@ -7731,7 +7741,9 @@ Vec3s Camera_Update(Camera* camera) {
     // Debug cam update
     if (gDebugCamEnabled) {
         camera->play->view.fovy = D_8015BD80.fov;
+#if OOT_DEBUG
         DebugCamera_Update(&D_8015BD80, camera);
+#endif
         View_LookAt(&camera->play->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DEBUG_CAM_UPDATE) {
             PRINTF("camera: debug out\n");
