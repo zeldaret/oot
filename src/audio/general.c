@@ -2306,9 +2306,11 @@ void AudioOcarina_ResetStaffs(void) {
     sOcarinaDropInputTimer = 0;
 }
 
-f32 D_80131C8C = 0.0f;
+#ifdef OOT_DEBUG
 
 // =========== Audio Debugging ===========
+
+f32 D_80131C8C = 0.0f;
 
 u32 sDebugPadHold;
 u32 sDebugPadBtnLast;
@@ -3692,6 +3694,14 @@ void AudioDebug_ProcessInput(void) {
     gAudioDebugPrintSeqCmd = sAudioScrPrtWork[10];
 }
 
+#else
+void AudioDebug_Draw(GfxPrint* printer) {
+}
+
+void AudioDebug_ScrPrt(const char* str, u16 num) {
+}
+#endif
+
 void Audio_UpdateRiverSoundVolumes(void);
 void Audio_UpdateFanfare(void);
 
@@ -3700,8 +3710,11 @@ void Audio_UpdateFanfare(void);
  */
 void func_800F3054(void) {
     if (func_800FAD34() == 0) {
+#ifdef OOT_DEBUG
         sAudioUpdateTaskStart = gAudioCtx.totalTaskCount;
         sAudioUpdateStartTime = osGetTime();
+#endif
+
         AudioOcarina_Update();
         Audio_StepFreqLerp(&sRiverFreqScaleLerp);
         Audio_StepFreqLerp(&sWaterfallFreqScaleLerp);
@@ -3715,11 +3728,18 @@ void func_800F3054(void) {
         Audio_ProcessSeqCmds();
         func_800F8F88();
         Audio_UpdateActiveSequences();
+
+#ifdef OOT_DEBUG
         AudioDebug_SetInput();
         AudioDebug_ProcessInput();
+#endif
+
         Audio_ScheduleProcessCmds();
+
+#ifdef OOT_DEBUG
         sAudioUpdateTaskEnd = gAudioCtx.totalTaskCount;
         sAudioUpdateEndTime = osGetTime();
+#endif
     }
 }
 
@@ -3991,7 +4011,12 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             }
             FALLTHROUGH;
         case BANK_OCARINA:
+#ifdef OOT_DEBUG
             entry->dist = sqrtf(entry->dist);
+#else
+            entry->dist = sqrtf(entry->dist * 10.0f);
+#endif
+
             vol = Audio_ComputeSfxVolume(bankId, entryIdx) * *entry->vol;
             reverb = Audio_ComputeSfxReverb(bankId, entryIdx, channelIdx);
             panSigned = Audio_ComputeSfxPanSigned(*entry->posX, *entry->posZ, entry->token);
@@ -4117,7 +4142,10 @@ void func_800F4010(Vec3f* pos, u16 sfxId, f32 arg2) {
     u8 phi_v0;
     u16 sfxId2;
 
+#ifdef OOT_DEBUG
     D_80131C8C = arg2;
+#endif
+
     sp24 = func_800F3F84(arg2);
     Audio_PlaySfxGeneral(sfxId, pos, 4, &D_8016B7B0, &D_8016B7A8, &gSfxDefaultReverb);
 
@@ -4705,12 +4733,16 @@ s32 Audio_IsSequencePlaying(u16 seqId) {
 void func_800F5ACC(u16 seqId) {
     u16 curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
 
+#ifndef OOT_DEBUG
+    if (1) {}
+#endif
+
     if ((curSeqId & 0xFF) != NA_BGM_GANON_TOWER && (curSeqId & 0xFF) != NA_BGM_ESCAPE && curSeqId != seqId) {
         Audio_SetSequenceMode(SEQ_MODE_IGNORE);
         if (curSeqId != NA_BGM_DISABLED) {
-            sPrevMainBgmSeqId = curSeqId;
+            sPrevMainBgmSeqId = curSeqId & 0xFFFF;
         } else {
-            osSyncPrintf("Middle Boss BGM Start not stack \n");
+            PRINTF("Middle Boss BGM Start not stack \n");
         }
 
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, seqId);
@@ -4825,7 +4857,10 @@ void Audio_SetSequenceMode(u8 seqMode) {
     u16 seqId;
     u8 volumeFadeOutTimer;
 
+#ifdef OOT_DEBUG
     sSeqModeInput = seqMode;
+#endif
+
     if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
         if (sAudioCutsceneFlag) {
             seqMode = SEQ_MODE_IGNORE;
@@ -4928,8 +4963,10 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
     s8 melodyVolume;
     s16 curSeqId;
 
+#ifdef OOT_DEBUG
     sIsMalonSinging = true;
     sMalonSingingDist = dist;
+#endif
 
     if (sMalonSingingDisabled) {
         return;
@@ -5239,7 +5276,11 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) 
 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) &&
         Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28 | NA_BGM_NATURE_AMBIENCE, SEQCMD_OP_MASK | 0xFF)) {
+
+#ifdef OOT_DEBUG
         sAudioNatureFailed = true;
+#endif
+
         return;
     }
 
@@ -5276,10 +5317,13 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, 0x7F, 1);
 
     channelIdx = false;
+
+#ifdef OOT_DEBUG
     if (gStartSeqDisabled) {
         channelIdx = true;
         SEQCMD_DISABLE_PLAY_SEQUENCES(false);
     }
+#endif
 
     SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_NATURE_AMBIENCE);
 
