@@ -5,11 +5,12 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import io
-import struct
 from pathlib import Path
-import argparse
+import struct
+from typing import List
 
 import crunch64
 import ipl3checksum
@@ -48,15 +49,15 @@ def round_up(n, shift):
     return (n + mod - 1) >> shift << shift
 
 
-def as_word_list(b) -> list[int]:
+def as_word_list(b) -> List[int]:
     return [i[0] for i in struct.iter_unpack(">I", b)]
 
 
-def read_dmadata_entry(file_content: bytearray, addr: int) -> list[int]:
+def read_dmadata_entry(file_content: bytearray, addr: int) -> List[int]:
     return as_word_list(file_content[addr : addr + 0x10])
 
 
-def read_dmadata(file_content: bytearray, start) -> list[list[int]]:
+def read_dmadata(file_content: bytearray, start) -> List[List[int]]:
     dmadata = []
     addr = start
     entry = read_dmadata_entry(file_content, addr)
@@ -82,7 +83,7 @@ def update_crc(decompressed: io.BytesIO) -> io.BytesIO:
 
 
 def decompress_rom(
-    file_content: bytearray, dmadata_addr: int, dmadata: list[list[int]], version: str
+    file_content: bytearray, dmadata_addr: int, dmadata: List[List[int]], version: str
 ) -> bytearray:
     rom_segments = {}  # vrom start : data s.t. len(data) == vrom_end - vrom_start
     new_dmadata = bytearray()  # new dmadata: {vrom start , vrom end , vrom start , 0}
@@ -164,7 +165,7 @@ def per_version_fixes(file_content: bytearray, version: str) -> bytearray:
     return file_content
 
 
-def pad_rom(file_content: bytearray, dmadata: list[list[int]]) -> bytearray:
+def pad_rom(file_content: bytearray, dmadata: List[List[int]]) -> bytearray:
     padding_start = round_up(dmadata[-1][1], 12)
     padding_end = round_up(dmadata[-1][1], 14)
     print(f"Padding from {padding_start:X} to {padding_end:X}...")
