@@ -14,15 +14,15 @@ void BgMizuShutter_Move(BgMizuShutter* this, PlayState* play);
 void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, PlayState* play);
 
 ActorInit Bg_Mizu_Shutter_InitVars = {
-    ACTOR_BG_MIZU_SHUTTER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_MIZU_OBJECTS,
-    sizeof(BgMizuShutter),
-    (ActorFunc)BgMizuShutter_Init,
-    (ActorFunc)BgMizuShutter_Destroy,
-    (ActorFunc)BgMizuShutter_Update,
-    (ActorFunc)BgMizuShutter_Draw,
+    /**/ ACTOR_BG_MIZU_SHUTTER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_MIZU_OBJECTS,
+    /**/ sizeof(BgMizuShutter),
+    /**/ BgMizuShutter_Init,
+    /**/ BgMizuShutter_Destroy,
+    /**/ BgMizuShutter_Update,
+    /**/ BgMizuShutter_Draw,
 };
 
 static Gfx* sDisplayLists[] = { gObjectMizuObjectsShutterDL_007130, gObjectMizuObjectsShutterDL_0072D0 };
@@ -160,7 +160,7 @@ void BgMizuShutter_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mizu_shutter.c", 410);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mizu_shutter.c", 415),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_mizu_shutter.c", 415),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->displayList != NULL) {

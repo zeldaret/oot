@@ -19,15 +19,15 @@ void BgSpot16Doughnut_UpdateExpanding(Actor* thisx, PlayState* play);
 void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Spot16_Doughnut_InitVars = {
-    ACTOR_BG_SPOT16_DOUGHNUT,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_EFC_DOUGHNUT,
-    sizeof(BgSpot16Doughnut),
-    (ActorFunc)BgSpot16Doughnut_Init,
-    (ActorFunc)BgSpot16Doughnut_Destroy,
-    (ActorFunc)BgSpot16Doughnut_Update,
-    (ActorFunc)BgSpot16Doughnut_Draw,
+    /**/ ACTOR_BG_SPOT16_DOUGHNUT,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_EFC_DOUGHNUT,
+    /**/ sizeof(BgSpot16Doughnut),
+    /**/ BgSpot16Doughnut_Init,
+    /**/ BgSpot16Doughnut_Destroy,
+    /**/ BgSpot16Doughnut_Update,
+    /**/ BgSpot16Doughnut_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -69,13 +69,13 @@ void BgSpot16Doughnut_Init(Actor* thisx, PlayState* play) {
                 Actor_SetScale(&this->actor, 0.1f);
                 break;
         }
-        osSyncPrintf(VT_FGCOL(CYAN) "%f" VT_RST "\n", this->actor.scale.x);
+        PRINTF(VT_FGCOL(CYAN) "%f" VT_RST "\n", this->actor.scale.x);
         if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_2F)) {
             this->fireFlag &= ~1;
         } else {
             this->fireFlag |= 1;
         }
-        osSyncPrintf("(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n", this->actor.params);
+        PRINTF("(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n", this->actor.params);
     }
 }
 
@@ -127,7 +127,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play) {
 
     if (1) {}
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 213),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->fireFlag & 1) {
         gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -152,7 +152,7 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->envColorAlpha);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);

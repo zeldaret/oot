@@ -51,15 +51,15 @@ void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, PlayState* play);
 
 ActorInit Obj_Switch_InitVars = {
-    ACTOR_OBJ_SWITCH,
-    ACTORCAT_SWITCH,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(ObjSwitch),
-    (ActorFunc)ObjSwitch_Init,
-    (ActorFunc)ObjSwitch_Destroy,
-    (ActorFunc)ObjSwitch_Update,
-    (ActorFunc)ObjSwitch_Draw,
+    /**/ ACTOR_OBJ_SWITCH,
+    /**/ ACTORCAT_SWITCH,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjSwitch),
+    /**/ ObjSwitch_Init,
+    /**/ ObjSwitch_Destroy,
+    /**/ ObjSwitch_Update,
+    /**/ ObjSwitch_Draw,
 };
 
 static f32 sFocusHeights[] = {
@@ -200,8 +200,8 @@ void ObjSwitch_InitDynaPoly(ObjSwitch* this, PlayState* play, CollisionHeader* c
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG registration failure"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_switch.c", 531,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_switch.c", 531,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -321,9 +321,9 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if (OBJSWITCH_FROZEN(&this->dyna.actor) && (ObjSwitch_SpawnIce(this, play) == NULL)) {
-        osSyncPrintf(VT_FGCOL(RED));
-        osSyncPrintf("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_FGCOL(RED));
+        PRINTF("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
+        PRINTF(VT_RST);
         this->dyna.actor.params &= ~OBJSWITCH_FROZEN_FLAG;
     }
 
@@ -351,7 +351,7 @@ void ObjSwitch_Init(Actor* thisx, PlayState* play) {
         }
     }
 
-    osSyncPrintf("(Dungeon switch)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(Dungeon switch)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void ObjSwitch_Destroy(Actor* thisx, PlayState* play) {
@@ -677,7 +677,6 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play) {
             if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->prevColFlags & AC_HIT) &&
                 this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
-                play = play;
                 ObjSwitch_CrystalTurnOffInit(this);
                 ObjSwitch_SetOff(this, play);
             }
@@ -771,7 +770,7 @@ void ObjSwitch_DrawEye(ObjSwitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1459);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1462),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1462),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[subType][this->eyeTexIndex]));
     gSPDisplayList(POLY_OPA_DISP++, eyeSwitchDLs[subType]);
@@ -806,7 +805,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1494);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1497),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1497),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, xluDLists[subType]);
 
@@ -815,7 +814,7 @@ void ObjSwitch_DrawCrystal(ObjSwitch* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_switch.c", 1507);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_switch.c", 1511),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_switch.c", 1511),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (subType == OBJSWITCH_SUBTYPE_TOGGLE) {

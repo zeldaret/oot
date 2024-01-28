@@ -53,10 +53,10 @@ void PreRender_CopyImage(PreRender* this, Gfx** gfxP, void* img, void* imgDst) {
     s32 curRow;
     s32 nRows;
 
-    LogUtils_CheckNullPointer("this", this, "../PreRender.c", 215);
-    LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 216);
+    LOG_UTILS_CHECK_NULL_POINTER("this", this, "../PreRender.c", 215);
+    LOG_UTILS_CHECK_NULL_POINTER("glistpp", gfxP, "../PreRender.c", 216);
     gfx = *gfxP;
-    LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 218);
+    LOG_UTILS_CHECK_NULL_POINTER("glistp", gfx, "../PreRender.c", 218);
 
     gDPPipeSync(gfx++);
     // Configure the cycle type to COPY mode, disable blending
@@ -114,10 +114,10 @@ void PreRender_CopyImageRegionImpl(PreRender* this, Gfx** gfxP) {
     s32 curRow;
     s32 nRows;
 
-    LogUtils_CheckNullPointer("this", this, "../PreRender.c", 278);
-    LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 279);
+    LOG_UTILS_CHECK_NULL_POINTER("this", this, "../PreRender.c", 278);
+    LOG_UTILS_CHECK_NULL_POINTER("glistpp", gfxP, "../PreRender.c", 279);
     gfx = *gfxP;
-    LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 281);
+    LOG_UTILS_CHECK_NULL_POINTER("glistp", gfx, "../PreRender.c", 281);
 
     gDPPipeSync(gfx++);
     // Configure the cycle type to COPY mode, disable blending
@@ -177,10 +177,10 @@ void func_800C170C(PreRender* this, Gfx** gfxP, void* buf, void* bufSave, u32 r,
     s32 curRow;
     s32 nRows;
 
-    LogUtils_CheckNullPointer("this", this, "../PreRender.c", 343);
-    LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 344);
+    LOG_UTILS_CHECK_NULL_POINTER("this", this, "../PreRender.c", 343);
+    LOG_UTILS_CHECK_NULL_POINTER("glistpp", gfxP, "../PreRender.c", 344);
     gfx = *gfxP;
-    LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 346);
+    LOG_UTILS_CHECK_NULL_POINTER("glistp", gfx, "../PreRender.c", 346);
 
     gDPPipeSync(gfx++);
     // Set the cycle type to 1-cycle mode to use the color combiner
@@ -256,10 +256,10 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
     s32 curRow;
     s32 nRows;
 
-    LogUtils_CheckNullPointer("this", this, "../PreRender.c", 422);
-    LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 423);
+    LOG_UTILS_CHECK_NULL_POINTER("this", this, "../PreRender.c", 422);
+    LOG_UTILS_CHECK_NULL_POINTER("glistpp", gfxP, "../PreRender.c", 423);
     gfx = *gfxP;
-    LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 425);
+    LOG_UTILS_CHECK_NULL_POINTER("glistp", gfx, "../PreRender.c", 425);
 
     gDPPipeSync(gfx++);
     gDPSetOtherMode(gfx++,
@@ -333,8 +333,8 @@ void PreRender_CoverageRgba16ToI8(PreRender* this, Gfx** gfxP, void* img, void* 
  * Saves zbuf to zbufSave
  */
 void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxP) {
-    LogUtils_CheckNullPointer("this->zbuf_save", this->zbufSave, "../PreRender.c", 481);
-    LogUtils_CheckNullPointer("this->zbuf", this->zbuf, "../PreRender.c", 482);
+    LOG_UTILS_CHECK_NULL_POINTER("this->zbuf_save", this->zbufSave, "../PreRender.c", 481);
+    LOG_UTILS_CHECK_NULL_POINTER("this->zbuf", this->zbuf, "../PreRender.c", 482);
 
     if ((this->zbufSave != NULL) && (this->zbuf != NULL)) {
         PreRender_CopyImage(this, gfxP, this->zbuf, this->zbufSave);
@@ -345,8 +345,8 @@ void PreRender_SaveZBuffer(PreRender* this, Gfx** gfxP) {
  * Saves fbuf to fbufSave
  */
 void PreRender_SaveFramebuffer(PreRender* this, Gfx** gfxP) {
-    LogUtils_CheckNullPointer("this->fbuf_save", this->fbufSave, "../PreRender.c", 495);
-    LogUtils_CheckNullPointer("this->fbuf", this->fbuf, "../PreRender.c", 496);
+    LOG_UTILS_CHECK_NULL_POINTER("this->fbuf_save", this->fbufSave, "../PreRender.c", 495);
+    LOG_UTILS_CHECK_NULL_POINTER("this->fbuf", this->fbuf, "../PreRender.c", 496);
 
     if ((this->fbufSave != NULL) && (this->fbuf != NULL)) {
         func_800C1AE8(this, gfxP, this->fbuf, this->fbufSave);
@@ -401,7 +401,7 @@ void PreRender_FetchFbufCoverage(PreRender* this, Gfx** gfxP) {
  */
 void PreRender_DrawCoverage(PreRender* this, Gfx** gfxP) {
     PreRender_FetchFbufCoverage(this, gfxP);
-    LogUtils_CheckNullPointer("this->cvg_save", this->cvgSave, "../PreRender.c", 532);
+    LOG_UTILS_CHECK_NULL_POINTER("this->cvg_save", this->cvgSave, "../PreRender.c", 532);
     if (this->cvgSave != NULL) {
         PreRender_CoverageRgba16ToI8(this, gfxP, this->fbuf, this->cvgSave);
     }
@@ -426,10 +426,10 @@ void func_800C213C(PreRender* this, Gfx** gfxP) {
     s32 rtile = 1;
 
     if (this->cvgSave != NULL) {
-        LogUtils_CheckNullPointer("this", this, "../PreRender.c", 563);
-        LogUtils_CheckNullPointer("glistpp", gfxP, "../PreRender.c", 564);
+        LOG_UTILS_CHECK_NULL_POINTER("this", this, "../PreRender.c", 563);
+        LOG_UTILS_CHECK_NULL_POINTER("glistpp", gfxP, "../PreRender.c", 564);
         gfx = *gfxP;
-        LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 566);
+        LOG_UTILS_CHECK_NULL_POINTER("glistp", gfx, "../PreRender.c", 566);
 
         gDPPipeSync(gfx++);
         gDPSetEnvColor(gfx++, 255, 255, 255, 32);
@@ -584,7 +584,7 @@ void PreRender_AntiAliasFilter(PreRender* this, s32 x, s32 y) {
     }
 
     if (buffCvg[7] == 7) {
-        osSyncPrintf("Error, should not be in here \n");
+        PRINTF("Error, should not be in here \n");
         return;
     }
 
@@ -742,10 +742,10 @@ void PreRender_DivotFilter(PreRender* this) {
 
                     if ((R_HREG_MODE == HREG_MODE_PRERENDER ? R_PRERENDER_DIVOT_CONTROL : 0) ==
                         PRERENDER_DIVOT_PRINT_COLOR) {
-                        osSyncPrintf("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", windowR[0],
-                                     windowR[1], windowR[2], MEDIAN3(windowR[0], windowR[1], windowR[2]), windowG[0],
-                                     windowG[1], windowG[2], MEDIAN3(windowG[0], windowG[1], windowG[2]), windowB[0],
-                                     windowB[1], windowB[2], MEDIAN3(windowB[0], windowB[1], windowB[2]));
+                        PRINTF("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", windowR[0], windowR[1],
+                               windowR[2], MEDIAN3(windowR[0], windowR[1], windowR[2]), windowG[0], windowG[1],
+                               windowG[2], MEDIAN3(windowG[0], windowG[1], windowG[2]), windowB[0], windowB[1],
+                               windowB[2], MEDIAN3(windowB[0], windowB[1], windowB[2]));
                     }
 
                     // Sample the median value from the 3 pixel wide window

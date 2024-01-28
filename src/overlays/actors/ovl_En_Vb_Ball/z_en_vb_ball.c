@@ -17,15 +17,15 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2);
 void EnVbBall_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Vb_Ball_InitVars = {
-    0,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_FD,
-    sizeof(EnVbBall),
-    (ActorFunc)EnVbBall_Init,
-    (ActorFunc)EnVbBall_Destroy,
-    (ActorFunc)EnVbBall_Update,
-    (ActorFunc)EnVbBall_Draw,
+    /**/ 0,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_FD,
+    /**/ sizeof(EnVbBall),
+    /**/ EnVbBall_Init,
+    /**/ EnVbBall_Destroy,
+    /**/ EnVbBall_Update,
+    /**/ EnVbBall_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -303,7 +303,7 @@ void EnVbBall_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_vb_ball.c", 604);
     if (1) {} // needed for match
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vb_ball.c", 607),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vb_ball.c", 607),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params >= 200) {
@@ -315,7 +315,7 @@ void EnVbBall_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (s8)this->shadowOpacity);
         Matrix_Translate(this->actor.world.pos.x, 100.0f, this->actor.world.pos.z, MTXMODE_NEW);
         Matrix_Scale(this->shadowSize, 1.0f, this->shadowSize, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_vb_ball.c", 626),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_vb_ball.c", 626),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gCircleShadowDL));
     }

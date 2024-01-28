@@ -455,8 +455,8 @@ void FileSelect_CopyAnim1(GameState* thisx) {
         this->titleAlpha[0] = 0;
         this->actionTimer = 8;
         this->configMode++;
-        osSyncPrintf("connect_alpha=%d  decision_alpha[%d]=%d\n", this->connectorAlpha[this->copyDestFileIndex],
-                     this->copyDestFileIndex, this->fileInfoAlpha[this->copyDestFileIndex]);
+        PRINTF("connect_alpha=%d  decision_alpha[%d]=%d\n", this->connectorAlpha[this->copyDestFileIndex],
+               this->copyDestFileIndex, this->fileInfoAlpha[this->copyDestFileIndex]);
     }
 }
 

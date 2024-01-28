@@ -40,7 +40,7 @@ ZDisplayList::~ZDisplayList()
 }
 
 // EXTRACT MODE
-void ZDisplayList::ExtractFromXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
+void ZDisplayList::ExtractWithXML(tinyxml2::XMLElement* reader, uint32_t nRawDataIndex)
 {
 	rawDataIndex = nRawDataIndex;
 	ParseXML(reader);
@@ -708,7 +708,7 @@ void ZDisplayList::Opcode_G_DL(uint64_t data, const std::string& prefix, char* l
 		if (!Globals::Instance->HasSegment(segNum))
 			sprintf(line, "gsSPBranchList(0x%08" PRIX64 "),", data & 0xFFFFFFFF);
 		else if (dListDecl != nullptr)
-			sprintf(line, "gsSPBranchList(%s),", dListDecl->varName.c_str());
+			sprintf(line, "gsSPBranchList(%s),", dListDecl->declName.c_str());
 		else
 			sprintf(line, "gsSPBranchList(%sDlist0x%06" PRIX64 "),", prefix.c_str(),
 			        GETSEGOFFSET(data));
@@ -718,7 +718,7 @@ void ZDisplayList::Opcode_G_DL(uint64_t data, const std::string& prefix, char* l
 		if (!Globals::Instance->HasSegment(segNum))
 			sprintf(line, "gsSPDisplayList(0x%08" PRIX64 "),", data & 0xFFFFFFFF);
 		else if (dListDecl != nullptr)
-			sprintf(line, "gsSPDisplayList(%s),", dListDecl->varName.c_str());
+			sprintf(line, "gsSPDisplayList(%s),", dListDecl->declName.c_str());
 		else
 			sprintf(line, "gsSPDisplayList(%sDlist0x%06" PRIX64 "),", prefix.c_str(),
 			        GETSEGOFFSET(data));
@@ -958,7 +958,7 @@ void ZDisplayList::Opcode_G_SETTIMG(uint64_t data, const std::string& prefix, ch
 		}
 
 		if (texDecl != nullptr)
-			sprintf(texStr, "%s", texDecl->varName.c_str());
+			sprintf(texStr, "%s", texDecl->declName.c_str());
 		else if (data != 0 && Globals::Instance->HasSegment(segmentNumber))
 			sprintf(texStr, "%sTex_%06X", prefix.c_str(), texAddress);
 		else
@@ -1642,7 +1642,14 @@ static int32_t GfxdCallback_Vtx(uint32_t seg, int32_t count)
 				vtxList.push_back(vtx);
 				currentPtr += 16;
 			}
-			self->vertices[vtxOffset] = vtxList;
+
+			bool keyAlreadyOccupied = self->vertices.find(vtxOffset) != self->vertices.end();
+
+			// In some cases a vtxList already exists at vtxOffset. Only override the existing list
+			// if the new one is bigger.
+			if (!keyAlreadyOccupied ||
+			    (keyAlreadyOccupied && vtxList.size() > self->vertices[vtxOffset].size()))
+				self->vertices[vtxOffset] = vtxList;
 		}
 	}
 
@@ -1708,17 +1715,26 @@ static int32_t GfxdCallback_DisplayList(uint32_t seg)
 	uint32_t dListSegNum = GETSEGNUM(seg);
 
 	std::string dListName = "";
-	bool addressFound = Globals::Instance->GetSegmentedPtrName(seg, self->parent, "Gfx", dListName);
+	bool addressFound =
+		Globals::Instance->GetSegmentedPtrName(seg, self->parent, "Gfx", dListName, false);
 
-	if (!addressFound && self->parent->segment == dListSegNum)
+	if (!addressFound)
 	{
-		ZDisplayList* newDList = new ZDisplayList(self->parent);
-		newDList->ExtractFromBinary(
-			dListOffset,
-			self->GetDListLength(self->parent->GetRawData(), dListOffset, self->dListType));
-		newDList->SetName(newDList->GetDefaultName(self->parent->GetName()));
-		self->otherDLists.push_back(newDList);
-		dListName = newDList->GetName();
+		if (self->parent->segment == dListSegNum)
+		{
+			ZDisplayList* newDList = new ZDisplayList(self->parent);
+			newDList->ExtractFromBinary(
+				dListOffset,
+				self->GetDListLength(self->parent->GetRawData(), dListOffset, self->dListType));
+			newDList->SetName(newDList->GetDefaultName(self->parent->GetName()));
+			self->otherDLists.push_back(newDList);
+			dListName = newDList->GetName();
+		}
+		else
+		{
+			Globals::Instance->WarnHardcodedPointer(seg, self->parent, self,
+			                                        self->GetRawDataIndex());
+		}
 	}
 
 	gfxd_puts(dListName.c_str());
@@ -1731,21 +1747,31 @@ static int32_t GfxdCallback_Matrix(uint32_t seg)
 	std::string mtxName;
 	ZDisplayList* self = static_cast<ZDisplayList*>(gfxd_udata_get());
 
-	bool addressFound = Globals::Instance->GetSegmentedPtrName(seg, self->parent, "Mtx", mtxName);
-	if (!addressFound && GETSEGNUM(seg) == self->parent->segment)
-	{
-		Declaration* decl =
-			self->parent->GetDeclaration(Seg2Filespace(seg, self->parent->baseAddress));
-		if (decl == nullptr)
-		{
-			ZMtx mtx(self->parent);
-			mtx.SetName(mtx.GetDefaultName(self->GetName()));
-			mtx.ExtractFromFile(Seg2Filespace(seg, self->parent->baseAddress));
-			mtx.DeclareVar(self->GetName(), "");
+	bool addressFound =
+		Globals::Instance->GetSegmentedPtrName(seg, self->parent, "Mtx", mtxName, false);
 
-			mtx.GetSourceOutputCode(self->GetName());
-			self->mtxList.push_back(mtx);
-			mtxName = "&" + mtx.GetName();
+	if (!addressFound)
+	{
+		if (GETSEGNUM(seg) == self->parent->segment)
+		{
+			Declaration* decl =
+				self->parent->GetDeclaration(Seg2Filespace(seg, self->parent->baseAddress));
+			if (decl == nullptr)
+			{
+				ZMtx mtx(self->parent);
+				mtx.SetName(mtx.GetDefaultName(self->GetName()));
+				mtx.ExtractFromFile(Seg2Filespace(seg, self->parent->baseAddress));
+				mtx.DeclareVar(self->GetName(), "");
+
+				mtx.GetSourceOutputCode(self->GetName());
+				self->mtxList.push_back(mtx);
+				mtxName = "&" + mtx.GetName();
+			}
+		}
+		else
+		{
+			Globals::Instance->WarnHardcodedPointer(seg, self->parent, self,
+			                                        self->GetRawDataIndex());
 		}
 	}
 
@@ -1870,7 +1896,8 @@ void ZDisplayList::DeclareReferences(const std::string& prefix)
 					vtxName = StringHelper::Sprintf("%sVtx_%06X", prefix.c_str(), vtxKeys[i]);
 
 				auto filepath = Globals::Instance->outputPath / vtxName;
-				std::string incStr = StringHelper::Sprintf("%s.%s.inc", filepath.c_str(), "vtx");
+				std::string incStr =
+					StringHelper::Sprintf("%s.%s.inc", filepath.string().c_str(), "vtx");
 
 				Declaration* vtxDecl = parent->AddDeclarationIncludeArray(
 					vtxKeys[i], incStr, item.size() * 16, "Vtx", vtxName, item.size());
@@ -1954,7 +1981,44 @@ std::string ZDisplayList::ProcessGfxDis([[maybe_unused]] const std::string& pref
 	gfxd_execute();                               // generate display list
 	sourceOutput += outputformatter.GetOutput();  // write formatted display list
 
+	MergeConnectingVertexLists();
+
 	return sourceOutput;
+}
+
+void ZDisplayList::MergeConnectingVertexLists()
+{
+	if (vertices.size() > 0)
+	{
+		std::vector<std::pair<uint32_t, std::vector<ZVtx>>> vertexKeys(vertices.begin(),
+		                                                               vertices.end());
+		std::pair<uint32_t, std::vector<ZVtx>> lastItem = vertexKeys.at(0);
+
+		for (size_t i = 1; i < vertexKeys.size(); i++)
+		{
+			std::pair<uint32_t, std::vector<ZVtx>> curItem = vertexKeys[i];
+
+			size_t lastItemEnd = lastItem.first + (lastItem.second.size() * 16);
+			bool lastItemIntersects = lastItemEnd >= curItem.first;
+
+			if (lastItemIntersects)
+			{
+				int intersectedVtxStart = (lastItemEnd - curItem.first) / 16;
+
+				for (size_t j = intersectedVtxStart; j < curItem.second.size(); j++)
+					vertices[lastItem.first].push_back(curItem.second[j]);
+
+				vertices.erase(curItem.first);
+				vertexKeys.erase(vertexKeys.begin() + i);
+
+				lastItem.second = vertices[lastItem.first];
+
+				i--;
+			}
+			else
+				lastItem = curItem;
+		}
+	}
 }
 
 void ZDisplayList::TextureGenCheck()

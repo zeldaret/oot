@@ -21,15 +21,15 @@ void func_808BF108(BgYdanMaruta* this, PlayState* play);
 void func_808BF1EC(BgYdanMaruta* this, PlayState* play);
 
 ActorInit Bg_Ydan_Maruta_InitVars = {
-    ACTOR_BG_YDAN_MARUTA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_YDAN_OBJECTS,
-    sizeof(BgYdanMaruta),
-    (ActorFunc)BgYdanMaruta_Init,
-    (ActorFunc)BgYdanMaruta_Destroy,
-    (ActorFunc)BgYdanMaruta_Update,
-    (ActorFunc)BgYdanMaruta_Draw,
+    /**/ ACTOR_BG_YDAN_MARUTA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_YDAN_OBJECTS,
+    /**/ sizeof(BgYdanMaruta),
+    /**/ BgYdanMaruta_Init,
+    /**/ BgYdanMaruta_Destroy,
+    /**/ BgYdanMaruta_Update,
+    /**/ BgYdanMaruta_Draw,
 };
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {

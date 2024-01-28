@@ -24,15 +24,15 @@ void func_8089B870(BgJyaZurerukabe* this, PlayState* play);
 static f32 D_8089B9C0[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 ActorInit Bg_Jya_Zurerukabe_InitVars = {
-    ACTOR_BG_JYA_ZURERUKABE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaZurerukabe),
-    (ActorFunc)BgJyaZurerukabe_Init,
-    (ActorFunc)BgJyaZurerukabe_Destroy,
-    (ActorFunc)BgJyaZurerukabe_Update,
-    (ActorFunc)BgJyaZurerukabe_Draw,
+    /**/ ACTOR_BG_JYA_ZURERUKABE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaZurerukabe),
+    /**/ BgJyaZurerukabe_Init,
+    /**/ BgJyaZurerukabe_Destroy,
+    /**/ BgJyaZurerukabe_Update,
+    /**/ BgJyaZurerukabe_Draw,
 };
 
 static s16 D_8089B9F0[4] = { 943, 1043, 1243, 1343 };
@@ -68,8 +68,8 @@ void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, PlayState* play, Collis
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -121,15 +121,15 @@ void BgJyaZurerukabe_Init(Actor* thisx, PlayState* play) {
     }
 
     if (i == ARRAY_COUNT(D_8089B9F0)) {
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
-                     this->dyna.actor.params);
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_COL(RED, WHITE));
+        PRINTF("home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 299,
+               this->dyna.actor.params);
+        PRINTF(VT_RST);
     }
 
     this->unk_16E = D_8089B9F8[this->unk_168];
     func_8089B7B4(this);
-    osSyncPrintf("(jya ずれる壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(jya ずれる壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgJyaZurerukabe_Destroy(Actor* thisx, PlayState* play) {

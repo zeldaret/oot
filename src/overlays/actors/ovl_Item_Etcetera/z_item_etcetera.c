@@ -23,15 +23,15 @@ void func_80B85B28(ItemEtcetera* this, PlayState* play);
 void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, PlayState* play);
 
 ActorInit Item_Etcetera_InitVars = {
-    ACTOR_ITEM_ETCETERA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ItemEtcetera),
-    (ActorFunc)ItemEtcetera_Init,
-    (ActorFunc)ItemEtcetera_Destroy,
-    (ActorFunc)ItemEtcetera_Update,
-    NULL,
+    /**/ ACTOR_ITEM_ETCETERA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ItemEtcetera),
+    /**/ ItemEtcetera_Init,
+    /**/ ItemEtcetera_Destroy,
+    /**/ ItemEtcetera_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = {
@@ -97,9 +97,9 @@ void ItemEtcetera_Init(Actor* thisx, PlayState* play) {
     s32 objectSlot;
 
     type = this->actor.params & 0xFF;
-    osSyncPrintf("no = %d\n", type);
+    PRINTF("no = %d\n", type);
     objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[type]);
-    osSyncPrintf("bank_ID = %d\n", objectSlot);
+    PRINTF("bank_ID = %d\n", objectSlot);
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_item_etcetera.c", 241);
     } else {

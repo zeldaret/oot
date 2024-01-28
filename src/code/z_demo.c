@@ -193,7 +193,7 @@ void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
     }
 
     if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE)) {
-        osSyncPrintf("\nデモ開始要求 発令！"); // "Cutscene start request announcement!"
+        PRINTF("\nデモ開始要求 発令！"); // "Cutscene start request announcement!"
         gSaveContext.save.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
@@ -568,7 +568,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
 
-        osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->destination); // "Future fork designation=No. [%d]"
+        PRINTF("\n分岐先指定！！=[%d]番", cmd->destination); // "Future fork designation=No. [%d]"
 
         // `forceRisingButtonAlphas` has a secondary purpose, which is to signal to the title screen actor
         // that it should display immediately. This occurs when a title screen cutscene that is not the main
@@ -1530,7 +1530,7 @@ s32 CutsceneCmd_UpdateCamEyeSpline(PlayState* play, CutsceneContext* csCtx, u8* 
             csCtx->camEyeSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
@@ -1569,7 +1569,7 @@ s32 CutsceneCmd_UpdateCamAtSpline(PlayState* play, CutsceneContext* csCtx, u8* s
             gCamAtSplinePointsAppliedFrame = cmd->startFrame;
 
             if (gUseCutsceneCam) {
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_CS_0);
                 Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
@@ -1616,7 +1616,7 @@ s32 CutsceneCmd_SetCamEye(PlayState* play, CutsceneContext* csCtx, u8* script, u
 
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
                 roll = csCtx->camAtPoints->cameraRoll * 1.40625f;
                 Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &roll);
@@ -1664,7 +1664,7 @@ s32 CutsceneCmd_SetCamAt(PlayState* play, CutsceneContext* csCtx, u8* script, u8
 
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_ChangeCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
+                Play_RequestCameraSetting(play, csCtx->subCamId, CAM_SET_FREE0);
 
                 at.x = csCtx->camAtPoints->pos.x;
                 at.y = csCtx->camAtPoints->pos.y;
@@ -2238,7 +2238,7 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
             csCtx->actorCues[i] = NULL;
         }
 
-        osSyncPrintf("\n\n\n\n\nやっぱりここかいな"); // "Right here, huh"
+        PRINTF("\n\n\n\n\nやっぱりここかいな"); // "Right here, huh"
 
         gSaveContext.save.cutsceneIndex = 0;
         gSaveContext.gameMode = GAMEMODE_NORMAL;
@@ -2254,7 +2254,7 @@ void CutsceneHandler_StopScript(PlayState* play, CutsceneContext* csCtx) {
 
             Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_ACTIVE);
             Play_ClearCamera(play, csCtx->subCamId);
-            func_8005B1A4(play->cameraPtrs[sReturnToCamId]);
+            Camera_SetFinishedFlag(play->cameraPtrs[sReturnToCamId]);
         }
 
         Audio_SetCutsceneFlag(0);
@@ -2363,7 +2363,7 @@ void Cutscene_HandleEntranceTriggers(PlayState* play) {
 }
 
 void Cutscene_HandleConditionalTriggers(PlayState* play) {
-    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
+    PRINTF("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
 
     if ((gSaveContext.gameMode == GAMEMODE_NORMAL) && (gSaveContext.respawnFlag <= 0) &&
         (gSaveContext.save.cutsceneIndex < 0xFFF0)) {

@@ -84,26 +84,27 @@ typedef struct
  */
 // clang-format off
 static const std::unordered_map<std::string, WarningInfoInit> warningStringToInitMap = {
-    {"deprecated",              {WarningType::Deprecated,
+    {"deprecated",                  {WarningType::Deprecated,
 #ifdef DEPRECATION_ON
     WarningLevel::Warn,
 #else
     WarningLevel::Off,
 #endif
     "Deprecated features"}},
-    {"unaccounted",             {WarningType::Unaccounted,           WarningLevel::Off,  "Large blocks of unaccounted"}},
-    {"missing-offsets",         {WarningType::MissingOffsets,        WarningLevel::Warn, "Offset attribute missing in XML tag"}},
-    {"intersection",            {WarningType::Intersection,          WarningLevel::Warn, "Two assets intersect"}},
-    {"missing-attribute",       {WarningType::MissingAttribute,      WarningLevel::Warn, "Required attribute missing in XML tag"}},
-    {"invalid-attribute-value", {WarningType::InvalidAttributeValue, WarningLevel::Err,  "Attribute declared in XML is wrong"}},
-    {"unknown-attribute",       {WarningType::UnknownAttribute,      WarningLevel::Warn, "Unknown attribute in XML entry tag"}},
-    {"invalid-xml",             {WarningType::InvalidXML,            WarningLevel::Err,  "XML has syntax errors"}},
-    {"invalid-jpeg",            {WarningType::InvalidJPEG,           WarningLevel::Err,  "JPEG file does not conform to the game's format requirements"}},
-    {"invalid-png",             {WarningType::InvalidPNG,            WarningLevel::Err,  "Issues arising when processing PNG data"}},
-    {"invalid-extracted-data",  {WarningType::InvalidExtractedData,  WarningLevel::Err,  "Extracted data does not have correct form"}},
-    {"missing-segment",         {WarningType::MissingSegment,        WarningLevel::Warn, "Segment not given in File tag in XML"}},
-    {"hardcoded-pointer",       {WarningType::HardcodedPointer,      WarningLevel::Warn, "ZAPD lacks the info to make a symbol, so must output a hardcoded pointer"}},
-    {"not-implemented",         {WarningType::NotImplemented,        WarningLevel::Warn, "ZAPD does not currently support this feature"}},
+    {"unaccounted",                 {WarningType::Unaccounted,              WarningLevel::Off,  "Large blocks of unaccounted"}},
+    {"missing-offsets",             {WarningType::MissingOffsets,           WarningLevel::Warn, "Offset attribute missing in XML tag"}},
+    {"intersection",                {WarningType::Intersection,             WarningLevel::Warn, "Two assets intersect"}},
+    {"missing-attribute",           {WarningType::MissingAttribute,         WarningLevel::Warn, "Required attribute missing in XML tag"}},
+    {"invalid-attribute-value",     {WarningType::InvalidAttributeValue,    WarningLevel::Err,  "Attribute declared in XML is wrong"}},
+    {"unknown-attribute",           {WarningType::UnknownAttribute,         WarningLevel::Warn, "Unknown attribute in XML entry tag"}},
+    {"invalid-xml",                 {WarningType::InvalidXML,               WarningLevel::Err,  "XML has syntax errors"}},
+    {"invalid-jpeg",                {WarningType::InvalidJPEG,              WarningLevel::Err,  "JPEG file does not conform to the game's format requirements"}},
+    {"invalid-png",                 {WarningType::InvalidPNG,               WarningLevel::Err,  "Issues arising when processing PNG data"}},
+    {"invalid-extracted-data",      {WarningType::InvalidExtractedData,     WarningLevel::Err,  "Extracted data does not have correct form"}},
+    {"missing-segment",             {WarningType::MissingSegment,           WarningLevel::Warn, "Segment not given in File tag in XML"}},
+    {"hardcoded-generic-pointer",   {WarningType::HardcodedGenericPointer,  WarningLevel::Off,  "A generic segmented pointer must be produced"}},
+    {"hardcoded-pointer",           {WarningType::HardcodedPointer,         WarningLevel::Warn, "ZAPD lacks the info to make a symbol, so must output a hardcoded pointer"}},
+    {"not-implemented",             {WarningType::NotImplemented,           WarningLevel::Warn, "ZAPD does not currently support this feature"}},
 };
 
 /**
@@ -229,7 +230,10 @@ void WarningHandler::ExtractedFilePreamble(const ZFile *parent, const ZResource*
     if (res != nullptr) {
         fprintf(stderr, "resource '%s' at ", res->GetName().c_str());
     }
-    fprintf(stderr, "offset 0x%06X: \n\t", offset); 
+    if (offset != static_cast<uint32_t>(-1)) {
+        fprintf(stderr, "offset 0x%06X:", offset);
+    }
+    fprintf(stderr, "\n\t");
 }
 
 /**

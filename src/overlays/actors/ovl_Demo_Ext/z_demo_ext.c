@@ -110,7 +110,7 @@ void DemoExt_HandleCues(DemoExt* this, PlayState* play) {
                     break;
                 default:
                     // "Demo_Ext_Check_DemoMode: there is no such action!"
-                    osSyncPrintf("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
             this->cueId = nextCueId;
@@ -173,7 +173,7 @@ void DemoExt_Update(Actor* thisx, PlayState* play) {
 
     if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
         // "Main mode is abnormal!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[this->action](this, play);
     }
@@ -191,14 +191,14 @@ void DemoExt_DrawVortex(Actor* thisx, PlayState* play) {
 
     scale = &this->scale;
     gfxCtx = play->state.gfxCtx;
-    mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    mtx = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
     Matrix_Scale(scale->x, scale->y, scale->z, MTXMODE_APPLY);
     Matrix_RotateZYX((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
     Matrix_Translate(kREG(22), kREG(23), kREG(24), MTXMODE_APPLY);
-    Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
+    MATRIX_TO_MTX(mtx, "../z_demo_ext.c", 476);
     Matrix_Pop();
     Gfx_SetupDL_25Xlu(gfxCtx);
 
@@ -228,20 +228,20 @@ void DemoExt_Draw(Actor* thisx, PlayState* play) {
     if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
         sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is abnormal!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, play);
     }
 }
 
 ActorInit Demo_Ext_InitVars = {
-    ACTOR_DEMO_EXT,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_FHG,
-    sizeof(DemoExt),
-    (ActorFunc)DemoExt_Init,
-    (ActorFunc)DemoExt_Destroy,
-    (ActorFunc)DemoExt_Update,
-    (ActorFunc)DemoExt_Draw,
+    /**/ ACTOR_DEMO_EXT,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_FHG,
+    /**/ sizeof(DemoExt),
+    /**/ DemoExt_Init,
+    /**/ DemoExt_Destroy,
+    /**/ DemoExt_Update,
+    /**/ DemoExt_Draw,
 };

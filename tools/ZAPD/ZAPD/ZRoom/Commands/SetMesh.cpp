@@ -24,7 +24,7 @@ void SetMesh::ParseRawData()
 	switch (meshHeaderType)
 	{
 	case 0:
-		polyType = std::make_shared<PolygonType2>(parent, segmentOffset, zRoom);
+		polyType = std::make_shared<RoomShapeCullable>(parent, segmentOffset, zRoom);
 		break;
 
 	case 1:
@@ -32,7 +32,7 @@ void SetMesh::ParseRawData()
 		break;
 
 	case 2:
-		polyType = std::make_shared<PolygonType2>(parent, segmentOffset, zRoom);
+		polyType = std::make_shared<RoomShapeCullable>(parent, segmentOffset, zRoom);
 		break;
 
 	default:
@@ -79,7 +79,7 @@ std::string SetMesh::GetBodySourceCode() const
 {
 	std::string list;
 	Globals::Instance->GetSegmentedPtrName(cmdArg2, parent, "", list);
-	return StringHelper::Sprintf("SCENE_CMD_MESH(%s)", list.c_str());
+	return StringHelper::Sprintf("SCENE_CMD_ROOM_SHAPE(%s)", list.c_str());
 }
 
 std::string SetMesh::GetCommandCName() const
@@ -92,11 +92,11 @@ RoomCommand SetMesh::GetRoomCommand() const
 	return RoomCommand::SetMesh;
 }
 
-PolygonDlist::PolygonDlist(ZFile* nParent) : ZResource(nParent)
+RoomShapeDListsEntry::RoomShapeDListsEntry(ZFile* nParent) : ZResource(nParent)
 {
 }
 
-void PolygonDlist::ParseRawData()
+void RoomShapeDListsEntry::ParseRawData()
 {
 	const auto& rawData = parent->GetRawData();
 	switch (polyType)
@@ -118,13 +118,13 @@ void PolygonDlist::ParseRawData()
 	}
 }
 
-void PolygonDlist::DeclareReferences(const std::string& prefix)
+void RoomShapeDListsEntry::DeclareReferences(const std::string& prefix)
 {
 	opaDList = MakeDlist(opa, prefix);
 	xluDList = MakeDlist(xlu, prefix);
 }
 
-std::string PolygonDlist::GetBodySourceCode() const
+std::string RoomShapeDListsEntry::GetBodySourceCode() const
 {
 	std::string bodyStr;
 	std::string opaStr;
@@ -142,7 +142,7 @@ std::string PolygonDlist::GetBodySourceCode() const
 	return bodyStr;
 }
 
-void PolygonDlist::GetSourceOutputCode(const std::string& prefix)
+void RoomShapeDListsEntry::GetSourceOutputCode(const std::string& prefix)
 {
 	std::string bodyStr = StringHelper::Sprintf("\n\t%s\n", GetBodySourceCode().c_str());
 
@@ -151,28 +151,28 @@ void PolygonDlist::GetSourceOutputCode(const std::string& prefix)
 	if (decl == nullptr)
 		DeclareVar(prefix, bodyStr);
 	else
-		decl->text = bodyStr;
+		decl->declBody = bodyStr;
 }
 
-std::string PolygonDlist::GetSourceTypeName() const
+std::string RoomShapeDListsEntry::GetSourceTypeName() const
 {
 	switch (polyType)
 	{
 	case 2:
-		return "PolygonDlist2";
+		return "RoomShapeCullableEntry";
 
 	default:
-		return "PolygonDlist";
+		return "RoomShapeDListsEntry";
 	}
 }
 
-ZResourceType PolygonDlist::GetResourceType() const
+ZResourceType RoomShapeDListsEntry::GetResourceType() const
 {
 	// TODO
 	return ZResourceType::Error;
 }
 
-size_t PolygonDlist::GetRawDataSize() const
+size_t RoomShapeDListsEntry::GetRawDataSize() const
 {
 	switch (polyType)
 	{
@@ -184,12 +184,13 @@ size_t PolygonDlist::GetRawDataSize() const
 	}
 }
 
-void PolygonDlist::SetPolyType(uint8_t nPolyType)
+void RoomShapeDListsEntry::SetPolyType(uint8_t nPolyType)
 {
 	polyType = nPolyType;
 }
 
-ZDisplayList* PolygonDlist::MakeDlist(segptr_t ptr, [[maybe_unused]] const std::string& prefix)
+ZDisplayList* RoomShapeDListsEntry::MakeDlist(segptr_t ptr,
+                                              [[maybe_unused]] const std::string& prefix)
 {
 	if (ptr == 0)
 	{
@@ -210,15 +211,15 @@ ZDisplayList* PolygonDlist::MakeDlist(segptr_t ptr, [[maybe_unused]] const std::
 	return dlist;
 }
 
-/* BgImage */
+/* RoomShapeImageMultiBgEntry */
 
-BgImage::BgImage(ZFile* nParent) : ZResource(nParent)
+RoomShapeImageMultiBgEntry::RoomShapeImageMultiBgEntry(ZFile* nParent) : ZResource(nParent)
 {
 }
 
-BgImage::BgImage(bool nIsSubStruct, const std::string& prefix, uint32_t nRawDataIndex,
-                 ZFile* nParent)
-	: BgImage(nParent)
+RoomShapeImageMultiBgEntry::RoomShapeImageMultiBgEntry(bool nIsSubStruct, const std::string& prefix,
+                                                       uint32_t nRawDataIndex, ZFile* nParent)
+	: RoomShapeImageMultiBgEntry(nParent)
 {
 	rawDataIndex = nRawDataIndex;
 	parent = nParent;
@@ -230,7 +231,7 @@ BgImage::BgImage(bool nIsSubStruct, const std::string& prefix, uint32_t nRawData
 	sourceBackground = MakeBackground(source, prefix);
 }
 
-void BgImage::ParseRawData()
+void RoomShapeImageMultiBgEntry::ParseRawData()
 {
 	size_t pad = 0x00;
 	const auto& rawData = parent->GetRawData();
@@ -252,7 +253,7 @@ void BgImage::ParseRawData()
 	tlutCount = BitConverter::ToUInt16BE(rawData, rawDataIndex + pad + 0x14);
 }
 
-ZBackground* BgImage::MakeBackground(segptr_t ptr, const std::string& prefix)
+ZBackground* RoomShapeImageMultiBgEntry::MakeBackground(segptr_t ptr, const std::string& prefix)
 {
 	if (ptr == 0)
 		return nullptr;
@@ -272,12 +273,12 @@ ZBackground* BgImage::MakeBackground(segptr_t ptr, const std::string& prefix)
 	return background;
 }
 
-size_t BgImage::GetRawDataSize() const
+size_t RoomShapeImageMultiBgEntry::GetRawDataSize() const
 {
 	return 0x1C;
 }
 
-std::string BgImage::GetBodySourceCode() const
+std::string RoomShapeImageMultiBgEntry::GetBodySourceCode() const
 {
 	std::string bodyStr = "    ";
 	if (!isSubStruct)
@@ -340,12 +341,12 @@ std::string BgImage::GetBodySourceCode() const
 	return bodyStr;
 }
 
-std::string BgImage::GetSourceTypeName() const
+std::string RoomShapeImageMultiBgEntry::GetSourceTypeName() const
 {
-	return "BgImage";
+	return "RoomShapeImageMultiBgEntry";
 }
 
-ZResourceType BgImage::GetResourceType() const
+ZResourceType RoomShapeImageMultiBgEntry::GetResourceType() const
 {
 	// TODO
 	return ZResourceType::Error;
@@ -371,7 +372,7 @@ void PolygonTypeBase::DeclareAndGenerateOutputCode(const std::string& prefix)
 	}
 	else
 	{
-		decl->text = bodyStr;
+		decl->declBody = bodyStr;
 	}
 }
 
@@ -380,13 +381,13 @@ std::string PolygonTypeBase::GetSourceTypeName() const
 	switch (type)
 	{
 	case 2:
-		return "PolygonType2";
+		return "RoomShapeCullable";
 
 	case 1:
 		return "PolygonType1";
 
 	default:
-		return "PolygonType0";
+		return "RoomShapeNormal";
 	}
 }
 
@@ -416,7 +417,7 @@ void PolygonType1::ParseRawData()
 
 	if (dlist != 0)
 	{
-		PolygonDlist polyGfxList(parent);
+		RoomShapeDListsEntry polyGfxList(parent);
 		polyGfxList.zRoom = zRoom;
 		polyGfxList.SetPolyType(type);
 		polyGfxList.ExtractFromFile(Seg2Filespace(dlist, parent->baseAddress));
@@ -434,7 +435,7 @@ void PolygonType1::DeclareReferences(const std::string& prefix)
 	switch (format)
 	{
 	case 1:
-		single = BgImage(true, prefix, rawDataIndex + 0x08, parent);
+		single = RoomShapeImageMultiBgEntry(true, prefix, rawDataIndex + 0x08, parent);
 		break;
 
 	case 2:
@@ -446,7 +447,7 @@ void PolygonType1::DeclareReferences(const std::string& prefix)
 			multiList.reserve(count);
 			for (size_t i = 0; i < count; ++i)
 			{
-				BgImage bg(false, prefix, auxPtr, parent);
+				RoomShapeImageMultiBgEntry bg(false, prefix, auxPtr, parent);
 				multiList.push_back(bg);
 				auxPtr += bg.GetRawDataSize();
 				bgImageArrayBody += bg.GetBodySourceCode();
@@ -507,7 +508,7 @@ std::string PolygonType1::GetBodySourceCode() const
 		bodyStr += single.GetBodySourceCode();
 		break;
 	case 2:
-		Globals::Instance->GetSegmentedPtrName(list, parent, "BgImage", listStr);
+		Globals::Instance->GetSegmentedPtrName(list, parent, "RoomShapeImageMultiBgEntry", listStr);
 		bodyStr += StringHelper::Sprintf("    %i, %s, \n", count, listStr.c_str());
 		break;
 
@@ -523,21 +524,21 @@ std::string PolygonType1::GetSourceTypeName() const
 	switch (format)
 	{
 	case 1:
-		return "MeshHeader1Single";
+		return "RoomShapeImageSingle";
 
 	case 2:
-		return "MeshHeader1Multi";
+		return "RoomShapeImageMulti";
 	}
 	return "ERROR";
 	// return "PolygonType1";
 }
 
-PolygonType2::PolygonType2(ZFile* nParent, uint32_t nRawDataIndex, ZRoom* nRoom)
+RoomShapeCullable::RoomShapeCullable(ZFile* nParent, uint32_t nRawDataIndex, ZRoom* nRoom)
 	: PolygonTypeBase(nParent, nRawDataIndex, nRoom)
 {
 }
 
-void PolygonType2::ParseRawData()
+void RoomShapeCullable::ParseRawData()
 {
 	const auto& rawData = parent->GetRawData();
 
@@ -551,7 +552,7 @@ void PolygonType2::ParseRawData()
 	polyDLists.reserve(num);
 	for (size_t i = 0; i < num; i++)
 	{
-		PolygonDlist entry(parent);
+		RoomShapeDListsEntry entry(parent);
 		entry.zRoom = zRoom;
 		entry.SetPolyType(type);
 		entry.ExtractFromFile(currentPtr);
@@ -561,7 +562,7 @@ void PolygonType2::ParseRawData()
 	}
 }
 
-void PolygonType2::DeclareReferences(const std::string& prefix)
+void RoomShapeCullable::DeclareReferences(const std::string& prefix)
 {
 	if (num > 0)
 	{
@@ -593,7 +594,7 @@ void PolygonType2::DeclareReferences(const std::string& prefix)
 	                       "0x01000000");
 }
 
-std::string PolygonType2::GetBodySourceCode() const
+std::string RoomShapeCullable::GetBodySourceCode() const
 {
 	std::string listName;
 	Globals::Instance->GetSegmentedPtrName(start, parent, "", listName);
@@ -605,12 +606,12 @@ std::string PolygonType2::GetBodySourceCode() const
 	return body;
 }
 
-size_t PolygonType2::GetRawDataSize() const
+size_t RoomShapeCullable::GetRawDataSize() const
 {
 	return 0x0C;
 }
 
-DeclarationAlignment PolygonType2::GetDeclarationAlignment() const
+DeclarationAlignment RoomShapeCullable::GetDeclarationAlignment() const
 {
 	return DeclarationAlignment::Align4;
 }

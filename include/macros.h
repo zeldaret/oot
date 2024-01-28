@@ -101,12 +101,30 @@
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
+#ifdef OOT_DEBUG
+#define PRINTF osSyncPrintf
+#else
+#ifdef __sgi /* IDO compiler */
+// IDO doesn't support variadic macros, but it merely throws a warning for the
+// number of arguments not matching the definition (warning 609) instead of
+// throwing an error. We suppress this warning and rely on GCC to catch macro
+// argument errors instead.
+#define PRINTF(args) (void)0
+#else
+#define PRINTF(format, ...) (void)0
+#endif
+#endif
+
+#ifdef OOT_DEBUG
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
         LogUtils_LogThreadId(file, line);           \
         osSyncPrintf(exp " = " format "\n", value); \
     } while (0)
+#else
+#define LOG(exp, value, format, file, line) (void)0
+#endif
 
 #define LOG_STRING(string, file, line) LOG(#string, string, "%s", file, line)
 #define LOG_ADDRESS(exp, value, file, line) LOG(exp, value, "%08x", file, line)
@@ -142,6 +160,8 @@ extern struct GraphicsContext* __gfxCtx;
 #define POLY_XLU_DISP   __gfxCtx->polyXlu.p
 #define OVERLAY_DISP    __gfxCtx->overlay.p
 
+#ifdef OOT_DEBUG
+
 // __gfxCtx shouldn't be used directly.
 // Use the DISP macros defined above when writing to display buffers.
 #define OPEN_DISPS(gfxCtx, file, line) \
@@ -157,6 +177,52 @@ extern struct GraphicsContext* __gfxCtx;
     }                                                   \
     (void)0
 
+#define GRAPH_ALLOC(gfxCtx, size) Graph_Alloc(gfxCtx, size)
+#define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx, file, line)
+#define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx, file, line)
+#define MATRIX_CHECK_FLOATS(mtx, file, line) Matrix_CheckFloats(mtx, file, line)
+#define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSyncDebug(ram, vrom, size, file, line)
+#define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsyncDebug(req, ram, vrom, size, unk5, queue, msg, file, line)
+#define GAME_STATE_ALLOC(gameState, size, file, line) GameState_Alloc(gameState, size, file, line)
+#define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_MallocDebug(size, file, line)
+#define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocRDebug(size, file, line)
+#define SYSTEM_ARENA_FREE(size, file, line) SystemArena_FreeDebug(size, file, line)
+#define ZELDA_ARENA_MALLOC(size, file, line) ZeldaArena_MallocDebug(size, file, line)
+#define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocRDebug(size, file, line)
+#define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_FreeDebug(size, file, line)
+#define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) LogUtils_CheckNullPointer(exp, ptr, file, line)
+#define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) LogUtils_CheckValidPointer(exp, ptr, file, line)
+
+#else
+
+#define OPEN_DISPS(gfxCtx, file, line)      \
+    {                                       \
+        GraphicsContext* __gfxCtx = gfxCtx; \
+        s32 __dispPad
+
+#define CLOSE_DISPS(gfxCtx, file, line) \
+    (void)0;                            \
+    }                                   \
+    (void)0
+
+#define GRAPH_ALLOC(gfxCtx, size) ((void*)((gfxCtx)->polyOpa.d = (Gfx*)((u8*)(gfxCtx)->polyOpa.d - ALIGN16(size))))
+#define MATRIX_TO_MTX(gfxCtx, file, line) Matrix_ToMtx(gfxCtx)
+#define MATRIX_NEW(gfxCtx, file, line) Matrix_NewMtx(gfxCtx)
+#define MATRIX_CHECK_FLOATS(mtx, file, line) (mtx)
+#define DMA_REQUEST_SYNC(ram, vrom, size, file, line) DmaMgr_RequestSync(ram, vrom, size)
+#define DMA_REQUEST_ASYNC(req, ram, vrom, size, unk5, queue, msg, file, line) DmaMgr_RequestAsync(req, ram, vrom, size, unk5, queue, msg)
+#define GAME_STATE_ALLOC(gameState, size, file, line) THA_AllocTailAlign16(&(gameState)->tha, size)
+#define SYSTEM_ARENA_MALLOC(size, file, line) SystemArena_Malloc(size)
+#define SYSTEM_ARENA_MALLOC_R(size, file, line) SystemArena_MallocR(size)
+#define SYSTEM_ARENA_FREE(size, file, line) SystemArena_Free(size)
+#define ZELDA_ARENA_MALLOC(size, file, line) ZeldaArena_Malloc(size)
+#define ZELDA_ARENA_MALLOC_R(size, file, line) ZeldaArena_MallocR(size)
+#define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
+#define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) (void)0
+#define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) (void)0
+
+#endif /* OOT_DEBUG */
+
 /**
  * `x` vertex x
  * `y` vertex y
@@ -171,14 +237,6 @@ extern struct GraphicsContext* __gfxCtx;
 #define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
-
-#ifdef NDEBUG
-#define ASSERT(cond, msg, file, line) ((void)0)
-#elif defined(REAL_ASSERT_MACRO)
-#define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(#cond, __FILE__, __LINE__))
-#else
-#define ASSERT(cond, msg, file, line) ((cond) ? ((void)0) : __assert(msg, file, line))
-#endif
 
 #define gDPSetTileCustom(pkt, fmt, siz, width, height, pal, cms, cmt, masks, maskt, shifts, shiftt)                    \
     do {                                                                                                               \

@@ -27,15 +27,15 @@ void BgHakaSgami_SetupSpin(BgHakaSgami* this, PlayState* play);
 void BgHakaSgami_Spin(BgHakaSgami* this, PlayState* play);
 
 ActorInit Bg_Haka_Sgami_InitVars = {
-    ACTOR_BG_HAKA_SGAMI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(BgHakaSgami),
-    (ActorFunc)BgHakaSgami_Init,
-    (ActorFunc)BgHakaSgami_Destroy,
-    (ActorFunc)BgHakaSgami_Update,
-    NULL,
+    /**/ ACTOR_BG_HAKA_SGAMI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(BgHakaSgami),
+    /**/ BgHakaSgami_Init,
+    /**/ BgHakaSgami_Destroy,
+    /**/ BgHakaSgami_Update,
+    /**/ NULL,
 };
 
 static ColliderTrisElementInit sTrisElementsInit[4] = {
@@ -142,7 +142,7 @@ void BgHakaSgami_Init(Actor* thisx, PlayState* play) {
     thisx->params = (thisx->params >> 8) & 0xFF;
 
     if (this->unk_151 != 0) {
-        thisx->flags |= ACTOR_FLAG_7;
+        thisx->flags |= ACTOR_FLAG_REACT_TO_LENS;
     }
 
     Collider_InitTris(play, colliderScythe);

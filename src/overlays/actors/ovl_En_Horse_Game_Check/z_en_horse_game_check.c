@@ -49,15 +49,15 @@ void EnHorseGameCheck_Update(Actor* thisx, PlayState* play);
 void EnHorseGameCheck_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Horse_Game_Check_InitVars = {
-    ACTOR_EN_HORSE_GAME_CHECK,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnHorseGameCheck),
-    (ActorFunc)EnHorseGameCheck_Init,
-    (ActorFunc)EnHorseGameCheck_Destroy,
-    (ActorFunc)EnHorseGameCheck_Update,
-    (ActorFunc)EnHorseGameCheck_Draw,
+    /**/ ACTOR_EN_HORSE_GAME_CHECK,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnHorseGameCheck),
+    /**/ EnHorseGameCheck_Init,
+    /**/ EnHorseGameCheck_Destroy,
+    /**/ EnHorseGameCheck_Update,
+    /**/ EnHorseGameCheck_Draw,
 };
 
 static Vec3f sIngoRaceCheckpoints[] = {
@@ -306,7 +306,7 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, PlayState
         play->transitionTrigger = TRANS_TRIGGER_START;
     } else {
         // "not supported"
-        osSyncPrintf("En_HGC_Spot20_Ta_end():対応せず\n");
+        PRINTF("En_HGC_Spot20_Ta_end():対応せず\n");
         gSaveContext.save.cutsceneIndex = 0;
         play->nextEntranceIndex = ENTR_LON_LON_RANCH_0;
         play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);

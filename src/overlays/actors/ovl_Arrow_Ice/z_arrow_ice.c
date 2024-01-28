@@ -22,15 +22,15 @@ void ArrowIce_Hit(ArrowIce* this, PlayState* play);
 #include "assets/overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c"
 
 ActorInit Arrow_Ice_InitVars = {
-    ACTOR_ARROW_ICE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ArrowIce),
-    (ActorFunc)ArrowIce_Init,
-    (ActorFunc)ArrowIce_Destroy,
-    (ActorFunc)ArrowIce_Update,
-    (ActorFunc)ArrowIce_Draw,
+    /**/ ACTOR_ARROW_ICE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ArrowIce),
+    /**/ ArrowIce_Init,
+    /**/ ArrowIce_Destroy,
+    /**/ ArrowIce_Update,
+    /**/ ArrowIce_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -239,7 +239,7 @@ void ArrowIce_Draw(Actor* thisx, PlayState* play) {
     }
     Matrix_Scale(this->radius * 0.2f, this->unk_160 * 3.0f, this->radius * 0.2f, MTXMODE_APPLY);
     Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_arrow_ice.c", 660),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arrow_ice.c", 660),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++,

@@ -45,15 +45,15 @@ void EnFloormas_BigDecideAction(EnFloormas* this, PlayState* play);
 void EnFloormas_Charge(EnFloormas* this, PlayState* play);
 
 ActorInit En_Floormas_InitVars = {
-    ACTOR_EN_FLOORMAS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_WALLMASTER,
-    sizeof(EnFloormas),
-    (ActorFunc)EnFloormas_Init,
-    (ActorFunc)EnFloormas_Destroy,
-    (ActorFunc)EnFloormas_Update,
-    (ActorFunc)EnFloormas_Draw,
+    /**/ ACTOR_EN_FLOORMAS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_WALLMASTER,
+    /**/ sizeof(EnFloormas),
+    /**/ EnFloormas_Init,
+    /**/ EnFloormas_Destroy,
+    /**/ EnFloormas_Update,
+    /**/ EnFloormas_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -138,7 +138,7 @@ void EnFloormas_Init(Actor* thisx, PlayState* play2) {
     // s16 cast needed
     this->actor.params &= (s16) ~(SPAWN_INVISIBLE);
     if (invisble) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
         this->actor.draw = EnFloormas_DrawHighlighted;
     }
 
@@ -242,7 +242,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (this->actor.scale.x > 0.004f) {
         this->actionTarget = (rotDelta * (2.0f / 30.0f));
     } else {
-        this->skelAnime.playSpeed = this->skelAnime.playSpeed + this->skelAnime.playSpeed;
+        this->skelAnime.playSpeed *= 2.0f;
         this->actionTarget = rotDelta * (2.0f / 15.0f);
     }
     this->actionFunc = EnFloormas_Turn;
@@ -280,7 +280,7 @@ void EnFloormas_SetupLand(EnFloormas* this) {
 void EnFloormas_SetupSplit(EnFloormas* this) {
     Actor_SetScale(&this->actor, 0.004f);
     this->actor.flags |= ACTOR_FLAG_4;
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         this->actor.draw = EnFloormas_DrawHighlighted;
     } else {
         this->actor.draw = EnFloormas_Draw;
@@ -292,7 +292,7 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
                      ANIMMODE_ONCE, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
-    this->collider.info.bumperFlags &= ~BUMP_HOOKABLE;
+    this->collider.elem.bumperFlags &= ~BUMP_HOOKABLE;
     this->actor.speed = 4.0f;
     this->actor.velocity.y = 7.0f;
     // using div creates a signed check.
@@ -389,7 +389,7 @@ void EnFloormas_SetupSmallWait(EnFloormas* this) {
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+    if (this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
@@ -914,7 +914,7 @@ void EnFloormas_Merge(EnFloormas* this, PlayState* play) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
-            this->collider.info.bumperFlags |= BUMP_HOOKABLE;
+            this->collider.elem.bumperFlags |= BUMP_HOOKABLE;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
             EnFloormas_SetupStand(this);
         } else {
@@ -978,14 +978,14 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->collider.base.colType != COLTYPE_HARD) {
                 isSmall = false;
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = true;
                 }
-                if (isSmall && this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT) {
+                if (isSmall && this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HOOKSHOT) {
                     this->actor.colChkInfo.damage = 2;
                     this->actor.colChkInfo.damageEffect = 0;
                 }
@@ -1092,7 +1092,7 @@ void EnFloormas_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s*
         Matrix_RotateY(DEG_TO_RAD(60), MTXMODE_APPLY);
         Matrix_RotateZ(DEG_TO_RAD(15), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
-        gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_floormas.c", 2299), G_MTX_LOAD);
+        gSPMatrix((*gfx)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_floormas.c", 2299), G_MTX_LOAD);
         gSPDisplayList((*gfx)++, gWallmasterFingerDL);
         Matrix_Pop();
     }
