@@ -20,15 +20,15 @@ void EnBird_Idle(EnBird* this, PlayState* play);
 void EnBird_SetupIdle(EnBird* this, s16 params);
 
 ActorInit En_Bird_InitVars = {
-    ACTOR_EN_BIRD,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_BIRD,
-    sizeof(EnBird),
-    (ActorFunc)EnBird_Init,
-    (ActorFunc)EnBird_Destroy,
-    (ActorFunc)EnBird_Update,
-    (ActorFunc)EnBird_Draw,
+    /**/ ACTOR_EN_BIRD,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_BIRD,
+    /**/ sizeof(EnBird),
+    /**/ EnBird_Init,
+    /**/ EnBird_Destroy,
+    /**/ EnBird_Update,
+    /**/ EnBird_Draw,
 };
 
 static InitChainEntry sInitChain[] = {

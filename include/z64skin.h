@@ -43,13 +43,6 @@ typedef struct {
     /* 0x08 */ Gfx* dlist;
 } SkinAnimatedLimbData; // size = 0xC
 
-// ZAPD compatibility typedefs
-// TODO: Remove when ZAPD adds support for them
-typedef SkinVertex Struct_800A57C0;
-typedef SkinTransformation Struct_800A598C_2;
-typedef SkinAnimatedLimbData Struct_800A5E28;
-typedef SkinLimbModif Struct_800A598C;
-
 #define SKIN_LIMB_TYPE_ANIMATED 4
 #define SKIN_LIMB_TYPE_NORMAL 11
 

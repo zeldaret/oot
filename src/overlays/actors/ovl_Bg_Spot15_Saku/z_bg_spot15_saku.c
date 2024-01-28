@@ -19,15 +19,15 @@ void func_808B4978(BgSpot15Saku* this, PlayState* play);
 void func_808B4A04(BgSpot15Saku* this, PlayState* play);
 
 ActorInit Bg_Spot15_Saku_InitVars = {
-    ACTOR_BG_SPOT15_SAKU,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_SPOT15_OBJ,
-    sizeof(BgSpot15Saku),
-    (ActorFunc)BgSpot15Saku_Init,
-    (ActorFunc)BgSpot15Saku_Destroy,
-    (ActorFunc)BgSpot15Saku_Update,
-    (ActorFunc)BgSpot15Saku_Draw,
+    /**/ ACTOR_BG_SPOT15_SAKU,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT15_OBJ,
+    /**/ sizeof(BgSpot15Saku),
+    /**/ BgSpot15Saku_Init,
+    /**/ BgSpot15Saku_Destroy,
+    /**/ BgSpot15Saku_Update,
+    /**/ BgSpot15Saku_Draw,
 };
 
 void BgSpot15Saku_Init(Actor* thisx, PlayState* play) {
@@ -98,7 +98,7 @@ void BgSpot15Saku_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gLonLonCorralFenceDL);
 

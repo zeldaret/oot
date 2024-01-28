@@ -229,7 +229,7 @@ which initialises common properties of actor using an InitChain, which is usuall
 The InitChain script is also in the tools directory, and is called `ichaindis.py`. Simply passing it the ROM address will spit out the entire contents of the InitChain, in this case:
 
 ```
-$ ./tools/ichaindis.py baserom.z64 80A88CE0
+$ ./tools/ichaindis.py baseroms/gc-eu-mq-dbg/baserom-decompressed.z64 80A88CE0
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(unk_50, 87, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 4000, ICHAIN_CONTINUE),
@@ -240,7 +240,7 @@ static InitChainEntry sInitChain[] = {
 
 However, some of these variables have now been given names in the Actor struct. Pass it `--names` to fill these in automatically:
 ```
-$ ./tools/ichaindis.py --names baserom.z64 80A88CE0
+$ ./tools/ichaindis.py --names baseroms/gc-eu-mq-dbg/baserom-decompressed.z64 80A88CE0
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 87, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
@@ -638,19 +638,19 @@ void func_80A87F44(Actor* thisx, PlayState* play);
 void func_80A87BEC(EnJj* this, PlayState* play);
 void func_80A87C30(EnJj* this, PlayState* play);
 
-/*
+#if 0
 ActorInit En_Jj_InitVars = {
-    ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
-    FLAGS,
-    OBJECT_JJ,
-    sizeof(EnJj),
-    (ActorFunc)EnJj_Init,
-    (ActorFunc)EnJj_Destroy,
-    (ActorFunc)EnJj_Update,
-    (ActorFunc)EnJj_Draw,
+    /**/ ACTOR_EN_JJ,
+    /**/ ACTORTYPE_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_JJ,
+    /**/ sizeof(EnJj),
+    /**/ EnJj_Init,
+    /**/ EnJj_Destroy,
+    /**/ EnJj_Update,
+    /**/ EnJj_Draw,
 };
-*/
+#endif
 
 extern ColliderCylinderInit D_80A88CB4;
 // static ColliderCylinderInit sCylinderInit = {
@@ -772,7 +772,7 @@ Once preliminary cleanup and struct filling is done, most time spent matching fu
 In order to use `diff.py` with the symbol names, we need a copy of the code to compare against. This is done by copying the `build` directory into a directory called `expected`. Copying in Windows on WSL is very slow, so run
 ```
 $ mkdir expected
-cp -r build/ expected/
+cp -r build expected/
 ```
 from the main directory of the repository. You should end up with the directory structure `expected/build/...`.
 
@@ -914,7 +914,7 @@ It turns out that this is enough to completely fix the diff:
 
 Everything *looks* fine, but we only know for sure when we run `make`. Thankfully doing so gives
 ```
-zelda_ocarina_mq_dbg.z64: OK
+oot-gc-eu-mq-dbg.z64: OK
 ```
 
 which is either a sense of triumph or relief depending on how long you've spent on a function.

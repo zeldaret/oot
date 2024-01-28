@@ -19,15 +19,15 @@ void EnCrow_Damaged(EnCrow* this, PlayState* play);
 static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
 ActorInit En_Crow_InitVars = {
-    ACTOR_EN_CROW,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_CROW,
-    sizeof(EnCrow),
-    (ActorFunc)EnCrow_Init,
-    (ActorFunc)EnCrow_Destroy,
-    (ActorFunc)EnCrow_Update,
-    (ActorFunc)EnCrow_Draw,
+    /**/ ACTOR_EN_CROW,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_CROW,
+    /**/ sizeof(EnCrow),
+    /**/ EnCrow_Init,
+    /**/ EnCrow_Destroy,
+    /**/ EnCrow_Update,
+    /**/ EnCrow_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
@@ -411,7 +411,7 @@ void EnCrow_Respawn(EnCrow* this, PlayState* play) {
 void EnCrow_UpdateDamage(EnCrow* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) { // Deku Nuts
                 EnCrow_SetupTurnAway(this);

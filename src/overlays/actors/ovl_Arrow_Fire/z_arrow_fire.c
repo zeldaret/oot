@@ -21,15 +21,15 @@ void ArrowFire_Hit(ArrowFire* this, PlayState* play);
 #include "assets/overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
 
 ActorInit Arrow_Fire_InitVars = {
-    ACTOR_ARROW_FIRE,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ArrowFire),
-    (ActorFunc)ArrowFire_Init,
-    (ActorFunc)ArrowFire_Destroy,
-    (ActorFunc)ArrowFire_Update,
-    (ActorFunc)ArrowFire_Draw,
+    /**/ ACTOR_ARROW_FIRE,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ArrowFire),
+    /**/ ArrowFire_Init,
+    /**/ ArrowFire_Destroy,
+    /**/ ArrowFire_Update,
+    /**/ ArrowFire_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -241,7 +241,7 @@ void ArrowFire_Draw(Actor* thisx, PlayState* play2) {
     }
     Matrix_Scale(this->radius * 0.2f, this->unk_158 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
     Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_arrow_fire.c", 666),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_arrow_fire.c", 666),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
     gSPDisplayList(POLY_XLU_DISP++,

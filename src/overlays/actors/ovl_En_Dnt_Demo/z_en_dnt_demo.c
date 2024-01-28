@@ -27,15 +27,15 @@ void EnDntDemo_Results(EnDntDemo* this, PlayState* play);
 void EnDntDemo_Prize(EnDntDemo* this, PlayState* play);
 
 ActorInit En_Dnt_Demo_InitVars = {
-    ACTOR_EN_DNT_DEMO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnDntDemo),
-    (ActorFunc)EnDntDemo_Init,
-    (ActorFunc)EnDntDemo_Destroy,
-    (ActorFunc)EnDntDemo_Update,
-    NULL,
+    /**/ ACTOR_EN_DNT_DEMO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnDntDemo),
+    /**/ EnDntDemo_Init,
+    /**/ EnDntDemo_Destroy,
+    /**/ EnDntDemo_Update,
+    /**/ NULL,
 };
 
 //! @bug
@@ -74,9 +74,9 @@ void EnDntDemo_Init(Actor* thisx, PlayState* play2) {
     s32 i;
     s32 pad;
 
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Deku Scrub mask show start"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n" VT_RST);
     for (i = 0; i < 9; i++) {
         this->scrubPos[i] = sScrubPos[i];
         this->scrubs[i] = (EnDntNomal*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DNT_NOMAL,
@@ -84,7 +84,7 @@ void EnDntDemo_Init(Actor* thisx, PlayState* play2) {
                                                           0, 0, 0, i + ENDNTNOMAL_STAGE);
         if (this->scrubs[i] != NULL) {
             // "zako zako" [small fries]
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n" VT_RST, this->scrubs[i]);
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n" VT_RST, this->scrubs[i]);
         }
     }
 
@@ -95,7 +95,7 @@ void EnDntDemo_Init(Actor* thisx, PlayState* play2) {
                                                   this->leaderPos.x, this->leaderPos.y, this->leaderPos.z, 0, 0, 0, 0);
     if (this->leader != NULL) {
         // "jiji jiji jiji jiji jiji" [onomatopoeia for the scrub sound?]
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
     }
     this->subCamId = SUB_CAM_ID_DONE;
     this->actor.flags &= ~ACTOR_FLAG_0;
@@ -145,7 +145,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
         }
         if (this->judgeTimer > 40) {
             // "gera gera" [onomatopoeia for loud giggling]
-            osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ げらげら ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(RED) "☆☆☆☆☆ げらげら ☆☆☆☆☆ \n" VT_RST);
             func_800F436C(&this->actor.projectedPos, NA_SE_EV_CROWD - SFX_FLAG, 2.0f);
         }
         if (this->judgeTimer < 120) {
@@ -192,14 +192,14 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                         delay = 8;
                         reaction = DNT_SIGNAL_HIDE;
                         // "Special!"
-                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n" VT_RST);
+                        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n" VT_RST);
                     } else {
                         if (maskIdx >= PLAYER_MASK_MAX - 1) {
                             // "This is dangerous!"
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             maskIdx = Rand_ZeroFloat(7.99f);
                         }
 
@@ -221,19 +221,19 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_SHOP);
                                 break;
                         }
-                        osSyncPrintf("\n\n");
+                        PRINTF("\n\n");
                         // "Each index 1"
-                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n" VT_RST, rand9);
+                        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n" VT_RST, rand9);
                         // "Each index 2"
-                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n" VT_RST, maskIdx);
+                        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n" VT_RST, maskIdx);
                         // "Each index 3"
-                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n" VT_RST, resultIdx);
-                        osSyncPrintf("\n");
+                        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n" VT_RST, resultIdx);
+                        PRINTF("\n");
                         // "What kind of evaluation?"
-                        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n" VT_RST, reaction);
+                        PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n" VT_RST, reaction);
                         // "What kind of action?"
-                        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->action);
-                        osSyncPrintf("\n\n");
+                        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->action);
+                        PRINTF("\n\n");
                         break;
                     }
             }

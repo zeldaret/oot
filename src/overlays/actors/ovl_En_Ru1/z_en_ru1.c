@@ -134,15 +134,15 @@ static EnRu1DrawFunc sDrawFuncs[] = {
 };
 
 ActorInit En_Ru1_InitVars = {
-    ACTOR_EN_RU1,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_RU1,
-    sizeof(EnRu1),
-    (ActorFunc)EnRu1_Init,
-    (ActorFunc)EnRu1_Destroy,
-    (ActorFunc)EnRu1_Update,
-    (ActorFunc)EnRu1_Draw,
+    /**/ ACTOR_EN_RU1,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_RU1,
+    /**/ sizeof(EnRu1),
+    /**/ EnRu1_Init,
+    /**/ EnRu1_Destroy,
+    /**/ EnRu1_Update,
+    /**/ EnRu1_Draw,
 };
 
 void func_80AEAC10(EnRu1* this, PlayState* play) {
@@ -303,7 +303,7 @@ BgBdanObjects* EnRu1_FindSwitch(PlayState* play) {
         actorIt = actorIt->next;
     }
     // "There is no stand"
-    osSyncPrintf(VT_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    PRINTF(VT_FGCOL(RED) "お立ち台が無い!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     return NULL;
 }
 
@@ -333,7 +333,7 @@ Actor* func_80AEB124(PlayState* play) {
     return NULL;
 }
 
-s32 func_80AEB174(PlayState* play) {
+int func_80AEB174(PlayState* play) {
     return (Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play);
 }
 
@@ -1493,17 +1493,17 @@ void func_80AEE050(EnRu1* this) {
 }
 
 s32 func_80AEE264(EnRu1* this, PlayState* play) {
-    if (!Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
         if (GET_INFTABLE(INFTABLE_143)) {
             this->actor.textId = 0x404E;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         } else if (GET_INFTABLE(INFTABLE_142)) {
             this->actor.textId = 0x404D;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         } else {
             this->actor.textId = 0x404C;
-            func_8002F2F4(&this->actor, play);
+            Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         }
         return false;
     }
@@ -2126,13 +2126,13 @@ void func_80AEFD38(EnRu1* this, PlayState* play) {
 }
 
 s32 func_80AEFDC0(EnRu1* this, PlayState* play) {
-    if (!Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (!Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        this->actor.textId = Text_GetFaceReaction(play, 0x1F);
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_RUTO);
         if (this->actor.textId == 0) {
             this->actor.textId = 0x402C;
         }
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
         return false;
     }
     return true;
@@ -2189,10 +2189,10 @@ void func_80AEFF94(EnRu1* this, PlayState* play) {
         this->roomNum3 = actorRoom;
         this->roomNum2 = actorRoom;
         // "Ruto switch set"
-        osSyncPrintf("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF("スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n");
     } else {
         // "Ruto switch not set"
-        osSyncPrintf("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n");
+        PRINTF("スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n");
         Actor_Kill(&this->actor);
     }
 }
@@ -2210,7 +2210,7 @@ void EnRu1_Update(Actor* thisx, PlayState* play) {
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
         // "Main mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -2252,7 +2252,7 @@ void EnRu1_Init(Actor* thisx, PlayState* play) {
         default:
             Actor_Kill(&this->actor);
             // "Relevant arge_data = %d unacceptable"
-            osSyncPrintf("該当 arge_data = %d 無し\n", func_80AEADF0(this));
+            PRINTF("該当 arge_data = %d 無し\n", func_80AEADF0(this));
             break;
     }
 }
@@ -2279,7 +2279,7 @@ s32 EnRu1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*sPreLimbDrawFuncs[this->unk_290] == NULL)) {
         // "Neck rotation mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sPreLimbDrawFuncs[this->unk_290](this, play, limbIndex, rot);
     }
@@ -2361,7 +2361,7 @@ void EnRu1_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
         // "Draw mode is improper!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sDrawFuncs[this->drawConfig](this, play);

@@ -16,15 +16,15 @@ void EnPart_Update(Actor* thisx, PlayState* play);
 void EnPart_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Part_InitVars = {
-    ACTOR_EN_PART,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnPart),
-    (ActorFunc)EnPart_Init,
-    (ActorFunc)EnPart_Destroy,
-    (ActorFunc)EnPart_Update,
-    (ActorFunc)EnPart_Draw,
+    /**/ ACTOR_EN_PART,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnPart),
+    /**/ EnPart_Init,
+    /**/ EnPart_Destroy,
+    /**/ EnPart_Update,
+    /**/ EnPart_Draw,
 };
 
 void EnPart_Init(Actor* thisx, PlayState* play) {
@@ -267,7 +267,7 @@ Gfx* func_80ACEAC0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
     Gfx* dList;
     Gfx* dListHead;
 
-    dList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    dList = GRAPH_ALLOC(gfxCtx, 4 * sizeof(Gfx));
     dListHead = dList;
 
     gDPPipeSync(dListHead++);
@@ -313,7 +313,7 @@ void EnPart_Draw(Actor* thisx, PlayState* play) {
     }
 
     if (this->displayList != NULL) {
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_part.c", 696),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_part.c", 696),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, this->displayList);
     }

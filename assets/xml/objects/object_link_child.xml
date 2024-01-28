@@ -105,7 +105,7 @@
         <DList Name="gLinkChildBottleDL" Offset="0x18478"/>
         <DList Name="gLinkChildDL_18580" Offset="0x18580"/>
         <DList Name="gLinkChildBottle2DL" Offset="0x18648"/>
-        <DList Name="gLinkChildSlinghotStringDL" Offset="0x221A8"/>
+        <DList Name="gLinkChildSlingshotStringDL" Offset="0x221A8"/>
         <DList Name="gLinkChildDekuShieldDL" Offset="0x224F8"/>
         <Mtx Name="gLinkChildDekuShieldMtx"  Offset="0x22648"/>
         <DList Name="gLinkChildDekuShieldWithMatrixDL" Offset="0x22688"/>

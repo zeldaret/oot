@@ -114,15 +114,15 @@ static DamageTable sDamageTable = {
 };
 
 ActorInit En_Skb_InitVars = {
-    ACTOR_EN_SKB,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SKB,
-    sizeof(EnSkb),
-    (ActorFunc)EnSkb_Init,
-    (ActorFunc)EnSkb_Destroy,
-    (ActorFunc)EnSkb_Update,
-    (ActorFunc)EnSkb_Draw,
+    /**/ ACTOR_EN_SKB,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SKB,
+    /**/ sizeof(EnSkb),
+    /**/ EnSkb_Init,
+    /**/ EnSkb_Destroy,
+    /**/ EnSkb_Update,
+    /**/ EnSkb_Draw,
 };
 
 void EnSkb_SetupAction(EnSkb* this, EnSkbActionFunc actionFunc) {
@@ -459,7 +459,7 @@ void EnSkb_CheckDamage(EnSkb* this, PlayState* play) {
             this->collider.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->lastDamageEffect = this->actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
+                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].base, true);
                 this->setColliderAT = false;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->actionState != SKB_BEHAVIOR_STUNNED) {

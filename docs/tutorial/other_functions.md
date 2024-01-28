@@ -380,7 +380,7 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
     play->csCtx.script = &D_80A88164;
     gSaveContext.cutsceneTrigger = (u8)1U;
     func_8003EBF8(play, &play->colCtx.dyna, (s32) temp_v1->bgId);
-    func_8005B1A4(play->cameraPtrs[play->activeCamId]);
+    Camera_SetFinishedFlag(play->cameraPtrs[play->activeCamId]);
     gSaveContext.unkEDA = (u16) (gSaveContext.unkEDA | 0x400);
     Sfx_PlaySfxCentered((u16)0x4802U);
 }
@@ -396,7 +396,7 @@ Easy things to sort out:
 
 - `play->cameraPtrs[play->activeCamId]` has a macro: it is `GET_ACTIVE_CAM(play)`, so this line can be written as
 ```C
-func_8005B1A4(GET_ACTIVE_CAM(play));
+Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
 ```
 
 - `gSaveContext.unkEDA` we have dealt with before: it is `gSaveContext.save.info.eventChkInf[3]`. This is a flag-setting function; it can be written more compactly as
@@ -418,13 +418,13 @@ void func_80A87CEC(EnJj *this, PlayState *play) {
     play->csCtx.script = &D_80A88164;
     gSaveContext.cutsceneTrigger = 1;
     func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
-    func_8005B1A4(GET_ACTIVE_CAM(play));
+    Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
     gSaveContext.save.info.eventChkInf[3] |= 0x400;
     Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
 }
 ```
 
-matches, but generates a complier warning for `func_8005B1A4`, which it can't find. To fix this, add it to `functions.h`, in as near as possible the correct position in numerical order. Some detective work with VSCode's Search shows that this function lives in `z_camera.c`, and its prototype is `s16 func_8005B1A4(Camera* camera)`, so add this line to `functions.h` at the bottom of the camera functions part.
+matches, but generates a complier warning for `Camera_SetFinishedFlag`, which it can't find. To fix this, add it to `functions.h`, in as near as possible the correct position in numerical order. Some detective work with VSCode's Search shows that this function lives in `z_camera.c`, and its prototype is `s16 Camera_SetFinishedFlag(Camera* camera)`, so add this line to `functions.h` at the bottom of the camera functions part.
 
 Lastly, we prefer to limit use of early `return`s, and use `else`s instead if possible. That applies here: the function can be rewritten as
 ```C
@@ -437,7 +437,7 @@ void func_80A87CEC(EnJj* this, PlayState* play) {
         play->csCtx.script = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         func_8003EBF8(play, &play->colCtx.dyna, child->bgId);
-        func_8005B1A4(GET_ACTIVE_CAM(play));
+        Camera_SetFinishedFlag(GET_ACTIVE_CAM(play));
         gSaveContext.save.info.eventChkInf[3] |= 0x400;
         Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
     }

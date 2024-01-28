@@ -19,15 +19,15 @@ void func_80896ABC(BgJyaCobra* this, PlayState* play);
 #include "assets/overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
 
 ActorInit Bg_Jya_Cobra_InitVars = {
-    ACTOR_BG_JYA_COBRA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_JYA_OBJ,
-    sizeof(BgJyaCobra),
-    (ActorFunc)BgJyaCobra_Init,
-    (ActorFunc)BgJyaCobra_Destroy,
-    (ActorFunc)BgJyaCobra_Update,
-    (ActorFunc)BgJyaCobra_Draw,
+    /**/ ACTOR_BG_JYA_COBRA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_JYA_OBJ,
+    /**/ sizeof(BgJyaCobra),
+    /**/ BgJyaCobra_Init,
+    /**/ BgJyaCobra_Destroy,
+    /**/ BgJyaCobra_Update,
+    /**/ BgJyaCobra_Draw,
 };
 
 static s16 D_80897308[] = { 0, 0, 0, 0 };
@@ -125,8 +125,8 @@ void BgJyaCobra_InitDynapoly(BgJyaCobra* this, PlayState* play, CollisionHeader*
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG Registration Failure"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_cobra.c", 247,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -134,10 +134,10 @@ void BgJyaCobra_SpawnRay(BgJyaCobra* this, PlayState* play) {
     Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_MIR_RAY, this->dyna.actor.world.pos.x,
                        this->dyna.actor.world.pos.y + 57.0f, this->dyna.actor.world.pos.z, 0, 0, 0, 6);
     if (this->dyna.actor.child == NULL) {
-        osSyncPrintf(VT_FGCOL(RED));
+        PRINTF(VT_FGCOL(RED));
         // "Ｅｒｒｏｒ : Mir Ray occurrence failure"
-        osSyncPrintf("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
-        osSyncPrintf(VT_RST);
+        PRINTF("Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_cobra.c", 270);
+        PRINTF(VT_RST);
     }
 }
 
@@ -420,8 +420,8 @@ void BgJyaCobra_Init(Actor* thisx, PlayState* play) {
     }
 
     // "(jya cobra)"
-    osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
-                 &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
+    PRINTF("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
+           &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, PlayState* play) {
@@ -530,7 +530,7 @@ void func_80896CB4(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_jya_cobra.c", 864);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_cobra.c", 867),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_cobra.c", 867),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCobra2DL);
 
@@ -550,7 +550,7 @@ void func_80896D78(BgJyaCobra* this, PlayState* play) {
     Matrix_SetTranslateRotateYXZ(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
 
     Matrix_Scale(0.1f, 0.1f, this->unk_190, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_cobra.c", 939),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_cobra.c", 939),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s32)(this->unk_18C * 140.0f));
     gSPDisplayList(POLY_XLU_DISP++, gCobra3DL);
@@ -589,7 +589,7 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, PlayState* play) {
     Matrix_Translate(0.0f, 0.0f, 40.0f, MTXMODE_APPLY);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 120);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_jya_cobra.c", 994),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_jya_cobra.c", 994),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gDPLoadTextureBlock(POLY_XLU_DISP++, COBRA_SHADOW_TEX_PTR(this), G_IM_FMT_I, G_IM_SIZ_8b, COBRA_SHADOW_TEX_WIDTH,

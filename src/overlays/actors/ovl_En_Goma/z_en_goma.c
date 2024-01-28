@@ -43,15 +43,15 @@ void EnGoma_SetupJump(EnGoma* this);
 void EnGoma_SetupStunned(EnGoma* this, PlayState* play);
 
 ActorInit En_Goma_InitVars = {
-    ACTOR_BOSS_GOMA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_GOL,
-    sizeof(EnGoma),
-    (ActorFunc)EnGoma_Init,
-    (ActorFunc)EnGoma_Destroy,
-    (ActorFunc)EnGoma_Update,
-    (ActorFunc)EnGoma_Draw,
+    /**/ ACTOR_BOSS_GOMA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_GOL,
+    /**/ sizeof(EnGoma),
+    /**/ EnGoma_Init,
+    /**/ EnGoma_Destroy,
+    /**/ EnGoma_Update,
+    /**/ EnGoma_Draw,
 };
 
 static ColliderCylinderInit D_80A4B7A0 = {
@@ -610,7 +610,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
     if (this->hurtTimer != 0) {
         this->hurtTimer--;
     } else {
-        ColliderInfo* acHitInfo;
+        ColliderElement* acHitElem;
         u8 swordDamage;
 
         if ((this->colCyl1.base.atFlags & AT_HIT) && this->actionFunc == EnGoma_Jump) {
@@ -620,11 +620,11 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
         }
 
         if ((this->colCyl2.base.acFlags & AC_HIT) && (s8)this->actor.colChkInfo.health > 0) {
-            acHitInfo = this->colCyl2.info.acHitInfo;
+            acHitElem = this->colCyl2.elem.acHitElem;
             this->colCyl2.base.acFlags &= ~AC_HIT;
 
             if (this->gomaType == ENGOMA_NORMAL) {
-                u32 dmgFlags = acHitInfo->toucher.dmgFlags;
+                u32 dmgFlags = acHitElem->toucher.dmgFlags;
 
                 if (dmgFlags & DMG_SHIELD) {
                     if (this->actionFunc == EnGoma_Jump) {
@@ -710,8 +710,8 @@ void EnGoma_Update(Actor* thisx, PlayState* play) {
 
     this->actionFunc(this, play);
     Actor_MoveXZGravity(&this->actor);
-    this->actor.world.pos.x = this->actor.world.pos.x + this->shieldKnockbackVel.x;
-    this->actor.world.pos.z = this->actor.world.pos.z + this->shieldKnockbackVel.z;
+    this->actor.world.pos.x += this->shieldKnockbackVel.x;
+    this->actor.world.pos.z += this->shieldKnockbackVel.z;
     Math_ApproachZeroF(&this->shieldKnockbackVel.x, 1.0f, 3.0f);
     Math_ApproachZeroF(&this->shieldKnockbackVel.z, 1.0f, 3.0f);
 
@@ -770,7 +770,7 @@ Gfx* EnGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
     Gfx* dList;
 
-    dListHead = dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
+    dListHead = dList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx) * 4);
     gDPPipeSync(dListHead++);
     gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
     gSPClearGeometryMode(dListHead++, G_CULL_BACK);
@@ -818,14 +818,14 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateY(-(this->eggSquishAngle * 0.15f), MTXMODE_APPLY);
             Matrix_Translate(0.0f, this->eggYOffset, 0.0f, MTXMODE_APPLY);
             Matrix_RotateX(this->eggPitch, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_goma.c", 2101),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2101),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gObjectGolEggDL);
             Matrix_Pop();
             break;
 
         case ENGOMA_HATCH_DEBRIS:
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_goma.c", 2107),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2107),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gBrownFragmentDL);
             break;
@@ -833,7 +833,7 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
         case ENGOMA_BOSSLIMB:
             if (this->bossLimbDL != NULL) {
                 gSPSegment(POLY_OPA_DISP++, 0x08, EnGoma_NoBackfaceCullingDlist(play->state.gfxCtx));
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_goma.c", 2114),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_goma.c", 2114),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, this->bossLimbDL);
             }

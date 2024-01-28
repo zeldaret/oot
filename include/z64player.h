@@ -71,7 +71,7 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ PLAYER_IA_NONE,
-    /* 0x01 */ PLAYER_IA_LAST_USED,
+    /* 0x01 */ PLAYER_IA_SWORD_CS, // Hold sword without shield in hand. The sword is not useable.
     /* 0x02 */ PLAYER_IA_FISHING_POLE,
     /* 0x03 */ PLAYER_IA_SWORD_MASTER,
     /* 0x04 */ PLAYER_IA_SWORD_KOKIRI,
@@ -229,9 +229,9 @@ typedef enum {
 } PlayerDoorType;
 
 typedef enum {
-    /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except with the `func_80091880` bug)
-    /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD, // kokiri/master sword, shield not in hand
-    /* 0x02 */ PLAYER_MODELGROUP_SWORD, // kokiri/master sword and possibly shield
+    /* 0x00 */ PLAYER_MODELGROUP_0, // unused (except for a bug in `Player_OverrideLimbDrawPause`)
+    /* 0x01 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD,  //hold sword only. used for holding sword only as child link with hylian shield equipped
+    /* 0x02 */ PLAYER_MODELGROUP_SWORD_AND_SHIELD, // hold sword and shield or just sword if no shield is equipped
     /* 0x03 */ PLAYER_MODELGROUP_DEFAULT, // non-specific models, for items that don't have particular link models
     /* 0x04 */ PLAYER_MODELGROUP_4, // unused, same as PLAYER_MODELGROUP_DEFAULT
     /* 0x05 */ PLAYER_MODELGROUP_BGS, // biggoron sword
@@ -244,7 +244,7 @@ typedef enum {
     /* 0x0C */ PLAYER_MODELGROUP_OCARINA, // ocarina
     /* 0x0D */ PLAYER_MODELGROUP_OOT, // ocarina of time
     /* 0x0E */ PLAYER_MODELGROUP_BOTTLE, // bottles (drawn separately)
-    /* 0x0F */ PLAYER_MODELGROUP_15, // "last used"
+    /* 0x0F */ PLAYER_MODELGROUP_SWORD, // hold sword and no shield, even if one is equipped
     /* 0x10 */ PLAYER_MODELGROUP_MAX
 } PlayerModelGroup;
 
@@ -669,7 +669,7 @@ typedef struct {
 #define PLAYER_STATE3_7 (1 << 7)
 
 typedef void (*PlayerActionFunc)(struct Player*, struct PlayState*);
-typedef s32 (*ItemActionFunc)(struct Player*, struct PlayState*);
+typedef s32 (*UpperActionFunc)(struct Player*, struct PlayState*);
 typedef void (*PlayerFuncA74)(struct PlayState*, struct Player*);
 
 #define NOREST_ROT_FOCUS_X (1 << 0)
@@ -736,7 +736,7 @@ typedef struct Player {
     /* 0x0445 */ u8 prevCsAction;
     /* 0x0446 */ u8 cueId;
     /* 0x0447 */ u8 unk_447;
-    /* 0x0448 */ Actor* unk_448;
+    /* 0x0448 */ Actor* csActor; // Actor involved in a `csAction`. Typically the actor that invoked the cutscene.
     /* 0x044C */ char unk_44C[0x004];
     /* 0x0450 */ Vec3f unk_450;
     /* 0x045C */ Vec3f unk_45C;
@@ -779,11 +779,11 @@ typedef struct Player {
     /* 0x06BC */ Vec3s upperLimbRot;
     /* 0x06C2 */ s16 unk_6C2;
     /* 0x06C4 */ f32 unk_6C4;
-    /* 0x06C8 */ SkelAnime skelAnimeUpper;
-    /* 0x070C */ Vec3s jointTableUpper[PLAYER_LIMB_BUF_COUNT];
-    /* 0x079C */ Vec3s morphTableUpper[PLAYER_LIMB_BUF_COUNT];
-    /* 0x082C */ ItemActionFunc itemActionFunc;
-    /* 0x0830 */ f32 skelAnimeUpperBlendWeight;
+    /* 0x06C8 */ SkelAnime upperSkelAnime;
+    /* 0x070C */ Vec3s upperJointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x079C */ Vec3s upperMorphTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x082C */ UpperActionFunc upperActionFunc;
+    /* 0x0830 */ f32 upperAnimBlendWeight;
     /* 0x0834 */ s16 unk_834;
     /* 0x0836 */ s8 unk_836;
     /* 0x0837 */ u8 unk_837;
@@ -828,7 +828,7 @@ typedef struct Player {
     /* 0x088E */ u8 unk_88E;
     /* 0x088F */ u8 unk_88F;
     /* 0x0890 */ u8 unk_890;
-    /* 0x0891 */ u8 shockTimer;
+    /* 0x0891 */ u8 bodyShockTimer;
     /* 0x0892 */ u8 unk_892;
     /* 0x0893 */ u8 hoverBootsTimer;
     /* 0x0894 */ s16 fallStartHeight; // last truncated Y position before falling
@@ -848,8 +848,8 @@ typedef struct Player {
     /* 0x0908 */ Vec3f bodyPartsPos[PLAYER_BODYPART_MAX];
     /* 0x09E0 */ MtxF mf_9E0;
     /* 0x0A20 */ MtxF shieldMf;
-    /* 0x0A60 */ u8 isBurning;
-    /* 0x0A61 */ u8 flameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
+    /* 0x0A60 */ u8 bodyIsBurning;
+    /* 0x0A61 */ u8 bodyFlameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8 unk_A73;
     /* 0x0A74 */ PlayerFuncA74 func_A74;
     /* 0x0A78 */ s8 invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)

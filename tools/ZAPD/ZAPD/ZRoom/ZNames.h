@@ -48,11 +48,12 @@ public:
 	static std::string GetEntranceName(uint16_t id)
 	{
 		if (ZNames::GetNumEntrances() == 0 || ZNames::GetNumSpecialEntrances() == 0)
-			return StringHelper::Sprintf("0x%04X", id);	
-			
+			return StringHelper::Sprintf("0x%04X", id);
+
 		if (id < ZNames::GetNumEntrances())
 			return Globals::Instance->cfg.entranceList[id];
-		else if ((id >= 0x7FF9 && id <= 0x7FFF) && !((id - 0x7FF9U) > GetNumSpecialEntrances()))  // Special entrances
+		else if ((id >= 0x7FF9 && id <= 0x7FFF) &&
+		         !((id - 0x7FF9U) > GetNumSpecialEntrances()))  // Special entrances
 			return Globals::Instance->cfg.specialEntranceList[id - 0x7FF9];
 		else
 			return StringHelper::Sprintf("0x%04X", id);
@@ -60,5 +61,8 @@ public:
 
 	static size_t GetNumActors() { return Globals::Instance->cfg.actorList.size(); }
 	static size_t GetNumEntrances() { return Globals::Instance->cfg.entranceList.size(); }
-	static size_t GetNumSpecialEntrances() { return Globals::Instance->cfg.specialEntranceList.size(); }
+	static size_t GetNumSpecialEntrances()
+	{
+		return Globals::Instance->cfg.specialEntranceList.size();
+	}
 };

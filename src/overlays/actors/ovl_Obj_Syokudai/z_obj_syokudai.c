@@ -17,15 +17,15 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2);
 void ObjSyokudai_Draw(Actor* thisx, PlayState* play);
 
 ActorInit Obj_Syokudai_InitVars = {
-    ACTOR_OBJ_SYOKUDAI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_SYOKUDAI,
-    sizeof(ObjSyokudai),
-    (ActorFunc)ObjSyokudai_Init,
-    (ActorFunc)ObjSyokudai_Destroy,
-    (ActorFunc)ObjSyokudai_Update,
-    (ActorFunc)ObjSyokudai_Draw,
+    /**/ ACTOR_OBJ_SYOKUDAI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_SYOKUDAI,
+    /**/ sizeof(ObjSyokudai),
+    /**/ ObjSyokudai_Init,
+    /**/ ObjSyokudai_Destroy,
+    /**/ ObjSyokudai_Update,
+    /**/ ObjSyokudai_Draw,
 };
 
 static ColliderCylinderInit sCylInitStand = {
@@ -171,7 +171,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
             }
         }
         if (this->colliderFlame.base.acFlags & AC_HIT) {
-            dmgFlags = this->colliderFlame.info.acHitInfo->toucher.dmgFlags;
+            dmgFlags = this->colliderFlame.elem.acHitElem->toucher.dmgFlags;
             if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }
@@ -197,7 +197,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
-                        arrow->collider.info.toucher.dmgFlags = DMG_ARROW_FIRE;
+                        arrow->collider.elem.toucher.dmgFlags = DMG_ARROW_FIRE;
                     }
                 }
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
@@ -268,7 +268,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_syokudai.c", 707);
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_syokudai.c", 714),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_syokudai.c", 714),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, displayLists[(u16)this->actor.params >> 0xC]);
@@ -299,7 +299,7 @@ void ObjSyokudai_Draw(Actor* thisx, PlayState* play) {
             MTXMODE_APPLY);
         Matrix_Scale(flameScale, flameScale, flameScale, MTXMODE_APPLY);
 
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_syokudai.c", 745),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_syokudai.c", 745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);

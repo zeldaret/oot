@@ -41,15 +41,15 @@ void EnPeehat_SetStateExplode(EnPeehat* this);
 void EnPeehat_StateExplode(EnPeehat* this, PlayState* play);
 
 ActorInit En_Peehat_InitVars = {
-    ACTOR_EN_PEEHAT,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_PEEHAT,
-    sizeof(EnPeehat),
-    (ActorFunc)EnPeehat_Init,
-    (ActorFunc)EnPeehat_Destroy,
-    (ActorFunc)EnPeehat_Update,
-    (ActorFunc)EnPeehat_Draw,
+    /**/ ACTOR_EN_PEEHAT,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_PEEHAT,
+    /**/ sizeof(EnPeehat),
+    /**/ EnPeehat_Init,
+    /**/ EnPeehat_Destroy,
+    /**/ EnPeehat_Update,
+    /**/ EnPeehat_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -231,7 +231,7 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
             this->colCylinder.dim.radius = 25;
             this->colCylinder.dim.height = 15;
             this->colCylinder.dim.yShift = -5;
-            this->colCylinder.info.bumper.dmgFlags = DMG_ARROW | DMG_SLINGSHOT;
+            this->colCylinder.elem.bumper.dmgFlags = DMG_ARROW | DMG_SLINGSHOT;
             this->colQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
             this->colQuad.base.acFlags = AC_ON | AC_TYPE_PLAYER;
             this->actor.naviEnemyId = NAVI_ENEMY_PEAHAT_LARVA;
@@ -556,7 +556,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, PlayState* play) {
     Actor_PlaySfx(&this->actor, NA_SE_EN_PIHAT_SM_FLY - SFX_FLAG);
     if (this->colQuad.base.atFlags & AT_BOUNCED) {
         this->actor.colChkInfo.health = 0;
-        this->colQuad.base.acFlags = this->colQuad.base.acFlags & ~AC_BOUNCED;
+        this->colQuad.base.acFlags &= ~AC_BOUNCED;
         EnPeehat_SetStateAttackRecoil(this);
     } else if ((this->colQuad.base.atFlags & AT_HIT) || (this->colCylinder.base.acFlags & AC_HIT) ||
                (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
@@ -1016,7 +1016,7 @@ s32 EnPeehat_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f
         Matrix_RotateZ(-(this->jiggleRot * 0.1f), MTXMODE_APPLY);
         Matrix_RotateY(-(this->jiggleRot * 0.13f), MTXMODE_APPLY);
         Matrix_RotateX(-(this->jiggleRot * 0.115f), MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_peehat.c", 1959),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_peehat.c", 1959),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
@@ -1050,7 +1050,7 @@ void EnPeehat_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* r
         }
         Matrix_RotateY(3.2f + damageYRot, MTXMODE_APPLY);
         Matrix_Scale(0.3f, 0.2f, 0.2f, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_peehat.c", 1990),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_peehat.c", 1990),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();

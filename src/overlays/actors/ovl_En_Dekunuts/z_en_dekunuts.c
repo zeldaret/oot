@@ -31,15 +31,15 @@ void EnDekunuts_BeStunned(EnDekunuts* this, PlayState* play);
 void EnDekunuts_Die(EnDekunuts* this, PlayState* play);
 
 ActorInit En_Dekunuts_InitVars = {
-    ACTOR_EN_DEKUNUTS,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_DEKUNUTS,
-    sizeof(EnDekunuts),
-    (ActorFunc)EnDekunuts_Init,
-    (ActorFunc)EnDekunuts_Destroy,
-    (ActorFunc)EnDekunuts_Update,
-    (ActorFunc)EnDekunuts_Draw,
+    /**/ ACTOR_EN_DEKUNUTS,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_DEKUNUTS,
+    /**/ sizeof(EnDekunuts),
+    /**/ EnDekunuts_Init,
+    /**/ EnDekunuts_Destroy,
+    /**/ EnDekunuts_Update,
+    /**/ EnDekunuts_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 32, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x01, 0x0012, 0x0020, MASS_IMMOVABLE };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 18, 32, MASS_IMMOVABLE };
 
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
@@ -204,7 +204,7 @@ void EnDekunuts_SetupGasp(EnDekunuts* this) {
 
 void EnDekunuts_SetupBeDamaged(EnDekunuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsDamageAnim, -3.0f);
-    if (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
+    if (this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
@@ -445,7 +445,7 @@ void EnDekunuts_Die(EnDekunuts* this, PlayState* play) {
 void EnDekunuts_ColliderCheck(EnDekunuts* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
         if (this->actor.colChkInfo.mass == 0x32) {
             if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
                 if (this->actor.colChkInfo.damageEffect != 1) {

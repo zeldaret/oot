@@ -31,15 +31,15 @@ static Color_RGBA8 sEffectEnvColor = { 100, 255, 255, 255 };
 static Vec3f sEffectPosAccel = { 0.0f, 0.0f, 0.0f };
 
 ActorInit En_Bigokuta_InitVars = {
-    ACTOR_EN_BIGOKUTA,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BIGOKUTA,
-    sizeof(EnBigokuta),
-    (ActorFunc)EnBigokuta_Init,
-    (ActorFunc)EnBigokuta_Destroy,
-    (ActorFunc)EnBigokuta_Update,
-    (ActorFunc)EnBigokuta_Draw,
+    /**/ ACTOR_EN_BIGOKUTA,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BIGOKUTA,
+    /**/ sizeof(EnBigokuta),
+    /**/ EnBigokuta_Init,
+    /**/ EnBigokuta_Destroy,
+    /**/ EnBigokuta_Update,
+    /**/ EnBigokuta_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementInit[1] = {
@@ -152,7 +152,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // possibly color data
-static s32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
+static u32 sUnused[] = { 0xFFFFFFFF, 0x969696FF };
 
 void EnBigokuta_Init(Actor* thisx, PlayState* play) {
     EnBigokuta* this = (EnBigokuta*)thisx;
@@ -333,7 +333,7 @@ void func_809BD524(EnBigokuta* this) {
     this->unk_19A = 0;
     this->cylinder[0].base.atFlags |= AT_ON;
     Actor_PlaySfx(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
-    if (this->collider.elements->info.acHitInfo->toucher.dmgFlags & DMG_DEKU_NUT) {
+    if (this->collider.elements[0].base.acHitElem->toucher.dmgFlags & DMG_DEKU_NUT) {
         this->unk_195 = true;
         this->unk_196 = 20;
     } else {
@@ -640,8 +640,8 @@ void func_809BE26C(EnBigokuta* this, PlayState* play) {
         }
         if (this->unk_198 == 0 && Math_StepToF(&this->actor.scale.y, 0.0f, 0.001f)) {
             Flags_SetClear(play, this->actor.room);
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
-            Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_2);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+            Camera_SetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
             SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 50, NA_SE_EN_OCTAROCK_BUBLE);
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xB0);
             Actor_Kill(&this->actor);
@@ -777,8 +777,8 @@ void EnBigokuta_Update(Actor* thisx, PlayState* play2) {
     this->actionFunc(this, play);
     func_809BD2E4(this);
     func_809BE568(this);
-    Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BIG_OCTO);
-    Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_2);
+    Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BIG_OCTO);
+    Camera_UnsetStateFlag(play->cameraPtrs[CAM_ID_MAIN], CAM_STATE_CHECK_BG);
 
     if (this->cylinder[0].base.atFlags & AT_ON) {
         if (this->actionFunc != func_809BE058) {

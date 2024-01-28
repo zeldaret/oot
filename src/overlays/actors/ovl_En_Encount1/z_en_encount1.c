@@ -15,15 +15,15 @@ static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
 static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
 ActorInit En_Encount1_InitVars = {
-    ACTOR_EN_ENCOUNT1,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnEncount1),
-    (ActorFunc)EnEncount1_Init,
-    NULL,
-    (ActorFunc)EnEncount1_Update,
-    NULL,
+    /**/ ACTOR_EN_ENCOUNT1,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnEncount1),
+    /**/ EnEncount1_Init,
+    /**/ NULL,
+    /**/ EnEncount1_Update,
+    /**/ NULL,
 };
 
 void EnEncount1_Init(Actor* thisx, PlayState* play) {
@@ -32,14 +32,14 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
     f32 spawnRange;
 
     if (this->actor.params <= 0) {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "Input error death!"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
-        osSyncPrintf("\n\n");
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF("\n\n");
         Actor_Kill(&this->actor);
         return;
     }
@@ -51,18 +51,18 @@ void EnEncount1_Init(Actor* thisx, PlayState* play) {
     spawnRange = 120.0f + (40.0f * this->actor.world.rot.z);
     this->spawnRange = spawnRange;
 
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "It's an enemy spawner!"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     // "Type"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類\t\t   ☆☆☆☆☆ %d\n" VT_RST, this->spawnType);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類\t\t   ☆☆☆☆☆ %d\n" VT_RST, this->spawnType);
     // "Maximum number of simultaneous spawns"
-    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n" VT_RST, this->maxCurSpawns);
+    PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n" VT_RST, this->maxCurSpawns);
     // "Maximum number of spawns"
-    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 最大発生数  \t   ☆☆☆☆☆ %d\n" VT_RST, this->maxTotalSpawns);
+    PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 最大発生数  \t   ☆☆☆☆☆ %d\n" VT_RST, this->maxTotalSpawns);
     // "Spawn check range"
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n" VT_RST, this->spawnRange);
-    osSyncPrintf("\n\n");
+    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n" VT_RST, this->spawnRange);
+    PRINTF("\n\n");
 
     this->actor.flags &= ~ACTOR_FLAG_0;
     switch (this->spawnType) {
@@ -164,9 +164,9 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
                     }
                 } else {
                     // "Cannot spawn!"
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                     break;
                 }
             }
@@ -203,9 +203,9 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
                     this->totalNumSpawn++;
                 } else {
                     // "Cannot spawn!"
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                    PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                 }
             }
         }
@@ -303,9 +303,9 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 }
             } else {
                 // "Cannot spawn!"
-                osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                 break;
             }
         }

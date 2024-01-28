@@ -106,9 +106,35 @@ public:
 		return std::all_of(str.begin(), str.end(), ::isdigit);
 	}
 
-	static bool HasOnlyHexDigits(const std::string& str)
+	static bool IsValidHex(std::string_view str)
 	{
-		return std::all_of(str.begin(), str.end(), ::isxdigit);
+		if (str.length() < 3)
+		{
+			return false;
+		}
+
+		if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+		{
+			return std::all_of(str.begin() + 2, str.end(), ::isxdigit);
+		}
+
+		return false;
+	}
+
+	static bool IsValidOffset(std::string_view str)
+	{
+		if (str.length() == 1)
+		{
+			// 0 is a valid offset
+			return isdigit(str[0]);
+		}
+
+		return IsValidHex(str);
+	}
+
+	static bool IsValidHex(const std::string& str)
+	{
+		return IsValidHex(std::string_view(str.c_str()));
 	}
 
 	static std::string ToUpper(const std::string& str)
@@ -122,5 +148,67 @@ public:
 	{
 		return std::equal(a.begin(), a.end(), b.begin(), b.end(),
 		                  [](char a, char b) { return tolower(a) == tolower(b); });
+	}
+
+	/**
+	 * Converts a std::string formatted in camelCase into one in SCREAMING_SNAKE_CASE. Since this
+	 * will mostly be used on symbols that start with either 'g' or 's', an option is included to
+	 * skip these.
+	 */
+	static std::string camelCaseTo_SCREAMING_SNAKE_CASE(const std::string& in, bool skipSP)
+	{
+		std::string out = "";
+		const char* ptr = in.c_str();
+		char ch = *ptr;
+
+		// Switch checks for 'g'/'s'/'\0', looks at next character if skipSP enabled and string is
+		// nonempty.
+		switch (ch)
+		{
+		case 'g':
+		case 's':
+			if (skipSP)
+			{
+				// Print it anyway if the next character is lowercase, e.g. "gameplay_keep_...".
+				if (!isupper(ptr[1]))
+				{
+					out.push_back(toupper(ch));
+				}
+				if ((ch = *++ptr) == '\0')
+				{
+				case '\0':
+					// This is reached either by the if or the case label, avoiding duplication.
+					return out;
+				}
+			}
+			[[fallthrough]];
+		default:
+			if (islower(ch))
+			{
+				out.push_back(toupper(ch));
+			}
+			else
+			{
+				out.push_back(ch);
+			}
+			break;
+		}
+
+		while ((ch = *++ptr) != '\0')
+		{
+			if (islower(ch))
+			{
+				out.push_back(toupper(ch));
+			}
+			else
+			{
+				if (isupper(ch) && !(isupper(ptr[1]) && isupper(ptr[-1])))
+				{
+					out.push_back('_');
+				}
+				out.push_back(ch);
+			}
+		}
+		return out;
 	}
 };
