@@ -2,9 +2,9 @@
 #include "terminal.h"
 
 #ifdef OOT_DEBUG
-    #define VI_MODE_EDIT_STATE_COND (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE)
+    #define VI_MODE_EDITOR_INACTIVE (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE)
 #else
-    #define VI_MODE_EDIT_STATE_COND true
+    #define VI_MODE_EDITOR_INACTIVE true
 #endif
 
 SpeedMeter D_801664D0;
@@ -351,12 +351,7 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     void* arena;
 
     PRINTF("ハイラル確保 サイズ＝%u バイト\n"); // "Hyrule reserved size = %u bytes"
-
-#ifdef OOT_DEBUG
-    arena = GameAlloc_MallocDebug(&gameState->alloc, size, "../game.c", 992);
-#else
-    arena = GameAlloc_Malloc(&gameState->alloc, size);
-#endif
+    arena = GAME_ALLOC_MALLOC(&gameState->alloc, size, "../game.c", 992);
 
     if (arena != NULL) {
         THA_Init(&gameState->tha, arena, size);
@@ -364,12 +359,7 @@ void GameState_InitArena(GameState* gameState, size_t size) {
     } else {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF("ハイラル確保失敗\n"); // "Failure to secure Hyrule"
-
-#ifdef OOT_DEBUG
-        Fault_AddHungupAndCrash("../game.c", 999);
-#else
-        LogUtils_HungupThread("../game.c", 999);
-#endif
+        HUNGUP_AND_CRASH("../game.c", 999);
     }
 }
 
@@ -470,7 +460,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     VisCvg_Init(&sVisCvg);
     VisZBuf_Init(&sVisZBuf);
     VisMono_Init(&sVisMono);
-    if (VI_MODE_EDIT_STATE_COND) {
+    if (VI_MODE_EDITOR_INACTIVE) {
         ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
@@ -502,7 +492,7 @@ void GameState_Destroy(GameState* gameState) {
     VisCvg_Destroy(&sVisCvg);
     VisZBuf_Destroy(&sVisZBuf);
     VisMono_Destroy(&sVisMono);
-    if (VI_MODE_EDIT_STATE_COND) {
+    if (VI_MODE_EDITOR_INACTIVE) {
         ViMode_Destroy(&sViMode);
     }
     THA_Destroy(&gameState->tha);
