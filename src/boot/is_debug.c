@@ -103,4 +103,4 @@ NORETURN void func_80002384(const char* exp, const char* file, u32 line) {
     }
 }
 
-#endif /* OOT_DEBUG */
+#endif
