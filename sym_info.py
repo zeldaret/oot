@@ -9,11 +9,12 @@ import mapfile_parser
 def symInfoMain():
     parser = argparse.ArgumentParser(description="Display various information about a symbol or address.")
     parser.add_argument("symname", help="symbol name or VROM/VRAM address to lookup")
+    parser.add_argument("-v", "--oot-version", help="Which version should be processed", default="gc-eu-mq-dbg")
     parser.add_argument("-e", "--expected", dest="use_expected", action="store_true", help="use the map file in expected/build/ instead of build/")
 
     args = parser.parse_args()
 
-    BUILTMAP = Path("build") / "gc-eu-mq-dbg" / "z64.map"
+    BUILTMAP = Path("build") / args.oot_version / "z64.map"
 
     mapPath = BUILTMAP
     if args.use_expected:
