@@ -25,21 +25,26 @@ AudioMgr gAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
+#ifdef OOT_DEBUG
 void Main_LogSystemHeap(void) {
     PRINTF(VT_FGCOL(GREEN));
     // "System heap size% 08x (% dKB) Start address% 08x"
     PRINTF("システムヒープサイズ %08x(%dKB) 開始アドレス %08x\n", gSystemHeapSize, gSystemHeapSize / 1024, gSystemHeap);
     PRINTF(VT_RST);
 }
+#endif
 
+// Note: retail_progress says ok but diff score is 100
 void Main(void* arg) {
     IrqMgrClient irqClient;
     OSMesgQueue irqMgrMsgQueue;
     OSMesg irqMgrMsgBuf[60];
     uintptr_t systemHeapStart;
     uintptr_t fb;
+#ifdef OOT_DEBUG
     void* debugHeapStart;
     u32 debugHeapSize;
+#endif
     s16* msg;
 
     PRINTF("mainproc 実行開始\n"); // "Start running"
@@ -55,6 +60,8 @@ void Main(void* arg) {
     // "System heap initalization"
     PRINTF("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
+
+#ifdef OOT_DEBUG
     if (osMemSize >= 0x800000) {
         debugHeapStart = SysCfb_GetFbEnd();
         debugHeapSize = PHYS_TO_K0(0x600000) - (uintptr_t)debugHeapStart;
@@ -64,6 +71,7 @@ void Main(void* arg) {
     }
     PRINTF("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
     DebugArena_Init(debugHeapStart, debugHeapSize);
+#endif
     Regs_Init();
 
     R_ENABLE_ARENA_DBG = 0;
@@ -71,7 +79,9 @@ void Main(void* arg) {
     osCreateMesgQueue(&sSerialEventQueue, sSerialMsgBuf, ARRAY_COUNT(sSerialMsgBuf));
     osSetEventMesg(OS_EVENT_SI, &sSerialEventQueue, NULL);
 
+#ifdef OOT_DEBUG
     Main_LogSystemHeap();
+#endif
 
     osCreateMesgQueue(&irqMgrMsgQueue, irqMgrMsgBuf, ARRAY_COUNT(irqMgrMsgBuf));
     StackCheck_Init(&sIrqMgrStackInfo, sIrqMgrStack, STACK_TOP(sIrqMgrStack), 0, 0x100, "irqmgr");
