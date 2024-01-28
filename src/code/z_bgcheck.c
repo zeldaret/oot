@@ -4559,4 +4559,4 @@ void BgCheck_DrawStaticCollision(PlayState* play, CollisionContext* colCtx) {
     }
 }
 
-#endif /* OOT_DEBUG */
+#endif

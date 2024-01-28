@@ -72,7 +72,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
     CLOSE_DISPS(gfxCtx, "../z_collision_check.c", 757);
 }
 
-#endif /* OOT_DEBUG */
+#endif
 
 s32 Collider_InitBase(PlayState* play, Collider* col) {
     static Collider init = {
@@ -1139,7 +1139,7 @@ void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChk
     }
 }
 
-#endif /* OOT_DEBUG */
+#endif
 
 static ColChkResetFunc sATResetFuncs[] = {
     Collider_ResetJntSphAT,
