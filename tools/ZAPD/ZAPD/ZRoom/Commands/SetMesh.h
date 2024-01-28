@@ -5,7 +5,7 @@
 #include "ZDisplayList.h"
 #include "ZRoom/ZRoomCommand.h"
 
-class PolygonDlist : public ZResource
+class RoomShapeDListsEntry : public ZResource
 {
 public:
 	ZRoom* zRoom;
@@ -21,7 +21,7 @@ public:
 	ZDisplayList* opaDList = nullptr;  // Gfx*
 	ZDisplayList* xluDList = nullptr;  // Gfx*
 
-	PolygonDlist(ZFile* nParent);
+	RoomShapeDListsEntry(ZFile* nParent);
 
 	void ParseRawData() override;
 	void DeclareReferences(const std::string& prefix) override;
@@ -41,7 +41,7 @@ protected:
 	ZDisplayList* MakeDlist(segptr_t ptr, const std::string& prefix);
 };
 
-class BgImage : public ZResource
+class RoomShapeImageMultiBgEntry : public ZResource
 {
 public:
 	uint16_t unk_00;
@@ -60,8 +60,9 @@ public:
 
 	bool isSubStruct;
 
-	BgImage(ZFile* nParent);
-	BgImage(bool nIsSubStruct, const std::string& prefix, uint32_t nRawDataIndex, ZFile* nParent);
+	RoomShapeImageMultiBgEntry(ZFile* nParent);
+	RoomShapeImageMultiBgEntry(bool nIsSubStruct, const std::string& prefix, uint32_t nRawDataIndex,
+	                           ZFile* nParent);
 
 	void ParseRawData() override;
 
@@ -80,7 +81,7 @@ class PolygonTypeBase : public ZResource
 {
 public:
 	uint8_t type;
-	std::vector<PolygonDlist> polyDLists;
+	std::vector<RoomShapeDListsEntry> polyDLists;
 
 	PolygonTypeBase(ZFile* nParent, uint32_t nRawDataIndex, ZRoom* nRoom);
 
@@ -100,12 +101,12 @@ public:
 	segptr_t dlist;
 
 	// single
-	BgImage single;
+	RoomShapeImageMultiBgEntry single;
 
 	// multi
 	uint8_t count;
-	segptr_t list;  // BgImage*
-	std::vector<BgImage> multiList;
+	segptr_t list;  // RoomShapeImageMultiBgEntry*
+	std::vector<RoomShapeImageMultiBgEntry> multiList;
 
 	PolygonType1(ZFile* nParent, uint32_t nRawDataIndex, ZRoom* nRoom);
 
@@ -119,14 +120,14 @@ public:
 	size_t GetRawDataSize() const override;
 };
 
-class PolygonType2 : public PolygonTypeBase
+class RoomShapeCullable : public PolygonTypeBase
 {
 public:
 	uint8_t num;
 	segptr_t start;
 	segptr_t end;
 
-	PolygonType2(ZFile* nParent, uint32_t nRawDataIndex, ZRoom* nRoom);
+	RoomShapeCullable(ZFile* nParent, uint32_t nRawDataIndex, ZRoom* nRoom);
 
 	void ParseRawData() override;
 	void DeclareReferences(const std::string& prefix) override;

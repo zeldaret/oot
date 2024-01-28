@@ -220,14 +220,14 @@ s32 DemoGj_FindGanon(DemoGj* this, PlayState* play) {
                 this->ganon = (BossGanon2*)actor;
 
                 // "Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!"
-                osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
+                PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
                 return true;
             }
             actor = actor->next;
         }
 
         // "Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon"
-        osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
+        PRINTF("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
         return false;
     }
     //! @bug: Missing return value when `this->ganon` is already set.
@@ -270,7 +270,7 @@ void DemoGj_DrawCommon(DemoGj* this, PlayState* play, Gfx* displayList) {
 
         Gfx_SetupDL_25Opa(gfxCtx);
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gj.c", 1165),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(gfxCtx, "../z_demo_gj.c", 1165),
                   G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gSPDisplayList(POLY_OPA_DISP++, displayList);
@@ -290,13 +290,13 @@ void DemoGj_DrawRotated(DemoGj* this, PlayState* play, Gfx* displayList) {
     Mtx* matrix;
 
     gfxCtx = play->state.gfxCtx;
-    matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    matrix = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1187);
 
     Matrix_Push();
     Matrix_RotateZYX(x, y, z, MTXMODE_APPLY);
-    Matrix_ToMtx(matrix, "../z_demo_gj.c", 1193);
+    MATRIX_TO_MTX(matrix, "../z_demo_gj.c", 1193);
     Matrix_Pop();
 
     Gfx_SetupDL_25Opa(gfxCtx);
@@ -384,8 +384,8 @@ void DemoGj_SetupRotation(DemoGj* this, PlayState* play) {
 
         default:
             // "Demo_Gj_common_Reflect : This arg_data is not supported = %d"
-            osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST,
-                         this->dyna.actor.params);
+            PRINTF(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST,
+                   this->dyna.actor.params);
             return;
     }
 
@@ -538,8 +538,8 @@ void DemoGj_SetupMovement(DemoGj* this, PlayState* play) {
 
             default:
                 // "Demo_Gj_Setup_Move_common : This arg_data is not supported = %d"
-                osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" VT_RST,
-                             actor->params);
+                PRINTF(VT_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" VT_RST,
+                       actor->params);
                 break;
         }
 
@@ -1345,7 +1345,7 @@ void DemoGj_Update(Actor* thisx, PlayState* play) {
     if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs) ||
         sUpdateFuncs[this->updateMode] == NULL) {
         // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1402,7 +1402,7 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
 
         default:
             // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
-            osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
+            PRINTF(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
             Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1437,7 +1437,7 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
         // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1445,13 +1445,13 @@ void DemoGj_Draw(Actor* thisx, PlayState* play) {
 }
 
 ActorInit Demo_Gj_InitVars = {
-    ACTOR_DEMO_GJ,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GJ,
-    sizeof(DemoGj),
-    (ActorFunc)DemoGj_Init,
-    (ActorFunc)DemoGj_Destroy,
-    (ActorFunc)DemoGj_Update,
-    (ActorFunc)DemoGj_Draw,
+    /**/ ACTOR_DEMO_GJ,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GJ,
+    /**/ sizeof(DemoGj),
+    /**/ DemoGj_Init,
+    /**/ DemoGj_Destroy,
+    /**/ DemoGj_Update,
+    /**/ DemoGj_Draw,
 };

@@ -33,15 +33,15 @@ static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
 ActorInit En_Ishi_InitVars = {
-    ACTOR_EN_ISHI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(EnIshi),
-    (ActorFunc)EnIshi_Init,
-    (ActorFunc)EnIshi_Destroy,
-    (ActorFunc)EnIshi_Update,
-    (ActorFunc)EnIshi_Draw,
+    /**/ ACTOR_EN_ISHI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(EnIshi),
+    /**/ EnIshi_Init,
+    /**/ EnIshi_Destroy,
+    /**/ EnIshi_Update,
+    /**/ EnIshi_Draw,
 };
 
 static f32 sRockScales[] = { 0.1f, 0.4f };
@@ -125,10 +125,10 @@ s32 EnIshi_SnapToFloor(EnIshi* this, PlayState* play, f32 arg2) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Failure attaching to ground"
-        osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
-        osSyncPrintf(VT_RST);
+        PRINTF("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
+        PRINTF(VT_RST);
         return false;
     }
 }
@@ -356,7 +356,7 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
             EnIshi_SpawnBugs(this, play);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
-               this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
+               this->collider.elem.acHitElem->toucher.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
         EnIshi_DropCollectible(this, play);
         SfxSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSfxDurations[type], sBreakSfxIds[type]);
         sFragmentSpawnFuncs[type](this, play);
@@ -488,7 +488,7 @@ void EnIshi_DrawLarge(EnIshi* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ishi.c", 1055),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ishi.c", 1055),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
     gSPDisplayList(POLY_OPA_DISP++, gSilverRockDL);

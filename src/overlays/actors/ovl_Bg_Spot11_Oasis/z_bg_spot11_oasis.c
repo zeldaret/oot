@@ -21,15 +21,15 @@ void func_808B2AA8(BgSpot11Oasis* this);
 void func_808B2AB8(BgSpot11Oasis* this, PlayState* play);
 
 ActorInit Bg_Spot11_Oasis_InitVars = {
-    ACTOR_BG_SPOT11_OASIS,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT11_OBJ,
-    sizeof(BgSpot11Oasis),
-    (ActorFunc)BgSpot11Oasis_Init,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)BgSpot11Oasis_Update,
-    NULL,
+    /**/ ACTOR_BG_SPOT11_OASIS,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT11_OBJ,
+    /**/ sizeof(BgSpot11Oasis),
+    /**/ BgSpot11Oasis_Init,
+    /**/ Actor_Noop,
+    /**/ BgSpot11Oasis_Update,
+    /**/ NULL,
 };
 
 static s16 D_808B2E10[][2] = {
@@ -152,7 +152,7 @@ void BgSpot11Oasis_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot11_oasis.c", 327);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot11_oasis.c", 331),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_spot11_oasis.c", 331),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - (gameplayFrames % 128),

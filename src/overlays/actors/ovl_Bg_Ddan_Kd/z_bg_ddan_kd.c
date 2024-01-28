@@ -19,15 +19,15 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, PlayState* play);
 void BgDdanKd_DoNothing(BgDdanKd* this, PlayState* play);
 
 ActorInit Bg_Ddan_Kd_InitVars = {
-    ACTOR_BG_DDAN_KD,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_DDAN_OBJECTS,
-    sizeof(BgDdanKd),
-    (ActorFunc)BgDdanKd_Init,
-    (ActorFunc)BgDdanKd_Destroy,
-    (ActorFunc)BgDdanKd_Update,
-    (ActorFunc)BgDdanKd_Draw,
+    /**/ ACTOR_BG_DDAN_KD,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_DDAN_OBJECTS,
+    /**/ sizeof(BgDdanKd),
+    /**/ BgDdanKd_Init,
+    /**/ BgDdanKd_Destroy,
+    /**/ BgDdanKd_Update,
+    /**/ BgDdanKd_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -96,7 +96,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, PlayState* play) {
 
     explosive = Actor_GetCollidedExplosive(play, &this->collider.base);
     if (explosive != NULL) {
-        osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
+        PRINTF("dam    %d\n", this->dyna.actor.colChkInfo.damage);
         explosive->params = 2;
     }
 

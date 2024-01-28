@@ -154,7 +154,7 @@ s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* out
     if (sym) {
         *outCoeff = JpegDecoder_ReadBits(sym);
         if (*outCoeff < (1 << (sym - 1))) {
-            *outCoeff += (-1 << sym) + 1;
+            *outCoeff += (-1U << sym) + 1;
         }
     }
 

@@ -1,18 +1,18 @@
-#include "global.h"
+#include "string.h"
 
-const char* strchr(const char* str, s32 ch) {
-    u8 c = ch;
+char* strchr(const char* str, int c) {
+    char ch = c;
 
-    while (*str != c) {
+    while (*str != ch) {
         if (*str == 0) {
             return NULL;
         }
         str++;
     }
-    return str;
+    return (char*)str;
 }
 
-u32 strlen(const char* str) {
+size_t strlen(const char* str) {
     const char* ptr = str;
 
     while (*ptr) {
@@ -21,13 +21,13 @@ u32 strlen(const char* str) {
     return ptr - str;
 }
 
-void* memcpy(void* dst, const void* src, size_t size) {
-    u8* _dst = dst;
-    const u8* _src = src;
+void* memcpy(void* dst, const void* src, size_t n) {
+    char* _dst = dst;
+    const char* _src = src;
 
-    while (size > 0) {
+    while (n > 0) {
         *_dst++ = *_src++;
-        size--;
+        n--;
     }
     return dst;
 }

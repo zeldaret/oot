@@ -1,16 +1,17 @@
 #ifndef STDLIB_H
 #define STDLIB_H
 
-#include "ultra64.h"
-
 typedef struct lldiv_t {
-    s64 quot;
-    s64 rem;
+    long long quot;
+    long long rem;
 } lldiv_t;
 
 typedef struct ldiv_t {
-    s32 quot;
-    s32 rem;
+    long quot;
+    long rem;
 } ldiv_t;
+
+ldiv_t ldiv(long num, long denom);
+lldiv_t lldiv(long long num, long long denom);
 
 #endif

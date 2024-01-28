@@ -31,15 +31,15 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play);
 void EnFd_Land(EnFd* this, PlayState* play);
 
 ActorInit En_Fd_InitVars = {
-    ACTOR_EN_FD,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_FW,
-    sizeof(EnFd),
-    (ActorFunc)EnFd_Init,
-    (ActorFunc)EnFd_Destroy,
-    (ActorFunc)EnFd_Update,
-    (ActorFunc)EnFd_Draw,
+    /**/ ACTOR_EN_FD,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_FW,
+    /**/ sizeof(EnFd),
+    /**/ EnFd_Init,
+    /**/ EnFd_Destroy,
+    /**/ EnFd_Update,
+    /**/ EnFd_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[12] = {
@@ -275,15 +275,15 @@ s32 EnFd_CheckHammer(EnFd* this, PlayState* play) {
 
 s32 EnFd_ColliderCheck(EnFd* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
-    ColliderInfo* info;
+    ColliderElement* elem;
 
     if (this->collider.base.acFlags & AC_HIT || EnFd_CheckHammer(this, play)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
-        info = &this->collider.elements[0].info;
-        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
+        elem = &this->collider.elements[0].base;
+        if (elem->acHitElem != NULL && (elem->acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
             return false;
         }
 
@@ -902,7 +902,7 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd.c", 2006),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2006),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         idx = eff->timer * (8.0f / eff->initialTimer);
         gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(dustTextures[idx]));
@@ -939,7 +939,7 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play) {
         Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fd.c", 2064),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_fd.c", 2064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gFlareDancerTriangleParticleDL);
     }

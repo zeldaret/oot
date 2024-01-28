@@ -16,30 +16,30 @@ void func_80B98320(ObjMakekinsuta* this, PlayState* play);
 void ObjMakekinsuta_DoNothing(ObjMakekinsuta* this, PlayState* play);
 
 ActorInit Obj_Makekinsuta_InitVars = {
-    ACTOR_OBJ_MAKEKINSUTA,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ObjMakekinsuta),
-    (ActorFunc)ObjMakekinsuta_Init,
-    (ActorFunc)Actor_Noop,
-    (ActorFunc)ObjMakekinsuta_Update,
-    NULL,
+    /**/ ACTOR_OBJ_MAKEKINSUTA,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ObjMakekinsuta),
+    /**/ ObjMakekinsuta_Init,
+    /**/ Actor_Noop,
+    /**/ ObjMakekinsuta_Update,
+    /**/ NULL,
 };
 
 void ObjMakekinsuta_Init(Actor* thisx, PlayState* play) {
     ObjMakekinsuta* this = (ObjMakekinsuta*)thisx;
 
     if ((this->actor.params & 0x6000) == 0x4000) {
-        osSyncPrintf(VT_FGCOL(BLUE));
+        PRINTF(VT_FGCOL(BLUE));
         // "Gold Star Enemy(arg_data %x)"
-        osSyncPrintf("金スタ発生敵(arg_data %x)\n", this->actor.params);
-        osSyncPrintf(VT_RST);
+        PRINTF("金スタ発生敵(arg_data %x)\n", this->actor.params);
+        PRINTF(VT_RST);
     } else {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Invalid Argument (arg_data %x)(%s %d)"
-        osSyncPrintf("引数不正 (arg_data %x)(%s %d)\n", this->actor.params, "../z_obj_makekinsuta.c", 119);
-        osSyncPrintf(VT_RST);
+        PRINTF("引数不正 (arg_data %x)(%s %d)\n", this->actor.params, "../z_obj_makekinsuta.c", 119);
+        PRINTF(VT_RST);
     }
     this->actionFunc = func_80B98320;
 }

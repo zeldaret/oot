@@ -44,15 +44,15 @@ void EnGoroiwa_SetupMoveDown(EnGoroiwa* this);
 void EnGoroiwa_MoveDown(EnGoroiwa* this, PlayState* play);
 
 ActorInit En_Goroiwa_InitVars = {
-    ACTOR_EN_GOROIWA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GOROIWA,
-    sizeof(EnGoroiwa),
-    (ActorFunc)EnGoroiwa_Init,
-    (ActorFunc)EnGoroiwa_Destroy,
-    (ActorFunc)EnGoroiwa_Update,
-    (ActorFunc)EnGoroiwa_Draw,
+    /**/ ACTOR_EN_GOROIWA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GOROIWA,
+    /**/ sizeof(EnGoroiwa),
+    /**/ EnGoroiwa_Init,
+    /**/ EnGoroiwa_Destroy,
+    /**/ EnGoroiwa_Update,
+    /**/ EnGoroiwa_Draw,
 };
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
@@ -244,8 +244,8 @@ s32 EnGoroiwa_GetAscendDirection(EnGoroiwa* this, PlayState* play) {
     if (nextPointPos->x == currentPointPos->x && nextPointPos->z == currentPointPos->z) {
         if (nextPointPos->y == currentPointPos->y) {
             // "Error: Invalid path data (points overlap)"
-            osSyncPrintf("Error : レールデータ不正(点が重なっている)");
-            osSyncPrintf("(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 559, this->actor.params);
+            PRINTF("Error : レールデータ不正(点が重なっている)");
+            PRINTF("(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 559, this->actor.params);
         }
 
         if (nextPointPos->y > currentPointPos->y) {
@@ -538,14 +538,13 @@ void EnGoroiwa_Init(Actor* thisx, PlayState* play) {
     pathIdx = this->actor.params & 0xFF;
     if (pathIdx == 0xFF) {
         // "Error: Invalid arg_data"
-        osSyncPrintf("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 1033,
-                     this->actor.params);
+        PRINTF("Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n", "../z_en_gr.c", 1033, this->actor.params);
         Actor_Kill(&this->actor);
         return;
     }
     if (play->pathList[pathIdx].count < 2) {
         // "Error: Invalid Path Data"
-        osSyncPrintf("Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n", "../z_en_gr.c", 1043);
+        PRINTF("Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n", "../z_en_gr.c", 1043);
         Actor_Kill(&this->actor);
         return;
     }
@@ -559,9 +558,8 @@ void EnGoroiwa_Init(Actor* thisx, PlayState* play) {
     EnGoroiwa_FaceNextWaypoint(this, play);
     EnGoroiwa_SetupRoll(this);
     // "(Goroiwa)"
-    osSyncPrintf("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params,
-                 this->actor.params & 0xFF, (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1,
-                 this->actor.home.rot.z & 1);
+    PRINTF("(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n", this->actor.params, this->actor.params & 0xFF,
+           (this->actor.params >> 8) & 3, (this->actor.params >> 10) & 1, this->actor.home.rot.z & 1);
 }
 
 void EnGoroiwa_Destroy(Actor* thisx, PlayState* play2) {
@@ -597,9 +595,9 @@ void EnGoroiwa_Roll(EnGoroiwa* this, PlayState* play) {
             }
         }
         func_8002F6D4(play, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f, 0);
-        osSyncPrintf(VT_FGCOL(CYAN));
-        osSyncPrintf("Player ぶっ飛ばし\n"); // "Player knocked down"
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_FGCOL(CYAN));
+        PRINTF("Player ぶっ飛ばし\n"); // "Player knocked down"
+        PRINTF(VT_RST);
         onHitSetupFuncs[(this->actor.params >> 10) & 1](this);
         Player_PlaySfx(GET_PLAYER(play), NA_SE_PL_BODY_HIT);
         if ((this->actor.home.rot.z & 1) == 1) {

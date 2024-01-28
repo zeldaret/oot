@@ -42,15 +42,15 @@ static s16 rotSpeedYtarget = 0;
 static s16 rotSpeedY = 0;
 
 ActorInit En_Kusa_InitVars = {
-    ACTOR_EN_KUSA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnKusa),
-    (ActorFunc)EnKusa_Init,
-    (ActorFunc)EnKusa_Destroy,
-    (ActorFunc)EnKusa_Update,
-    NULL,
+    /**/ ACTOR_EN_KUSA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnKusa),
+    /**/ EnKusa_Init,
+    /**/ EnKusa_Destroy,
+    /**/ EnKusa_Update,
+    /**/ NULL,
 };
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
@@ -115,10 +115,10 @@ s32 EnKusa_SnapToFloor(EnKusa* this, PlayState* play, f32 yOffset) {
         Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
-        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        PRINTF(VT_COL(YELLOW, BLACK));
         // "Failure attaching to ground"
-        osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
-        osSyncPrintf(VT_RST);
+        PRINTF("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
+        PRINTF(VT_RST);
         return false;
     }
 }
@@ -257,7 +257,7 @@ void EnKusa_Init(Actor* thisx, PlayState* play) {
 
     if (this->requiredObjectSlot < 0) {
         // "Bank danger!"
-        osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, "../z_en_kusa.c", 561);
+        PRINTF("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, "../z_en_kusa.c", 561);
         Actor_Kill(&this->actor);
         return;
     }

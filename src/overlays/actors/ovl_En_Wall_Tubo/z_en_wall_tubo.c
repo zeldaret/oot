@@ -22,23 +22,23 @@ void EnWallTubo_DetectChu(EnWallTubo* this, PlayState* play);
 void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play);
 
 ActorInit En_Wall_Tubo_InitVars = {
-    ACTOR_EN_WALL_TUBO,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnWallTubo),
-    (ActorFunc)EnWallTubo_Init,
-    (ActorFunc)EnWallTubo_Destroy,
-    (ActorFunc)EnWallTubo_Update,
-    NULL,
+    /**/ ACTOR_EN_WALL_TUBO,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnWallTubo),
+    /**/ EnWallTubo_Init,
+    /**/ EnWallTubo_Destroy,
+    /**/ EnWallTubo_Update,
+    /**/ NULL,
 };
 
 void EnWallTubo_Init(Actor* thisx, PlayState* play) {
     EnWallTubo* this = (EnWallTubo*)thisx;
 
-    osSyncPrintf("\n\n");
+    PRINTF("\n\n");
     // "Wall Target"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
+    PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
     this->unk_164 = this->actor.world.pos;
     this->actionFunc = EnWallTubo_FindGirl;
 }
@@ -127,11 +127,11 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, PlayState* play) {
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
             wall->isHit = true;
             // "You did it field!" (repeated 5 times)
-            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
-            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(BLUE) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
         }
 
         Actor_Kill(&this->actor);

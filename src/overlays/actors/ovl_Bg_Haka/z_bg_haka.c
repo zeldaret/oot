@@ -21,15 +21,15 @@ void func_8087BAAC(BgHaka* this, PlayState* play);
 void func_8087BAE4(BgHaka* this, PlayState* play);
 
 ActorInit Bg_Haka_InitVars = {
-    ACTOR_BG_HAKA,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HAKA,
-    sizeof(BgHaka),
-    (ActorFunc)BgHaka_Init,
-    (ActorFunc)BgHaka_Destroy,
-    (ActorFunc)BgHaka_Update,
-    (ActorFunc)BgHaka_Draw,
+    /**/ ACTOR_BG_HAKA,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKA,
+    /**/ sizeof(BgHaka),
+    /**/ BgHaka_Init,
+    /**/ BgHaka_Destroy,
+    /**/ BgHaka_Update,
+    /**/ BgHaka_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -151,11 +151,11 @@ void BgHaka_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_haka.c", 406),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka.c", 406),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gGravestoneStoneDL);
     Matrix_Translate(0.0f, 0.0f, thisx->minVelocityY * 10.0f, MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_haka.c", 416),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka.c", 416),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gGravestoneEarthDL);
 

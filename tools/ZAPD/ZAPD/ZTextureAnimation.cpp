@@ -569,6 +569,7 @@ void ZTextureAnimation::DeclareReferences(const std::string& prefix)
 						count = 2;
 					}
 					params = new TextureScrollingParams(parent);
+					params->type = entry.type;
 					params->ExtractFromBinary(paramsOffset, count);
 					break;
 
@@ -582,6 +583,7 @@ void ZTextureAnimation::DeclareReferences(const std::string& prefix)
 
 				case TextureAnimationParamsType::TextureCycle:
 					params = new TextureCyclingParams(parent);
+					params->type = entry.type;
 					params->ExtractFromBinary(paramsOffset);
 					break;
 

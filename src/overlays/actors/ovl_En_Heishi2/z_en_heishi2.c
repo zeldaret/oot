@@ -51,15 +51,15 @@ void func_80A541FC(EnHeishi2* this, PlayState* play);
 void func_80A53DF8(EnHeishi2* this, PlayState* play);
 
 ActorInit En_Heishi2_InitVars = {
-    ACTOR_EN_HEISHI2,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_SD,
-    sizeof(EnHeishi2),
-    (ActorFunc)EnHeishi2_Init,
-    (ActorFunc)EnHeishi2_Destroy,
-    (ActorFunc)EnHeishi2_Update,
-    (ActorFunc)EnHeishi2_Draw,
+    /**/ ACTOR_EN_HEISHI2,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_SD,
+    /**/ sizeof(EnHeishi2),
+    /**/ EnHeishi2_Init,
+    /**/ EnHeishi2_Destroy,
+    /**/ EnHeishi2_Update,
+    /**/ EnHeishi2_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -98,9 +98,9 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             this->actionFunc = EnHeishi2_DoNothing1;
 
         } else {
-            osSyncPrintf("\n\n");
+            PRINTF("\n\n");
             // "No, I'm completely disappointed" (message for when shooting guard window in courtyard)
-            osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" VT_RST);
 
             Actor_SetScale(&this->actor, 0.02f);
 
@@ -111,7 +111,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
             this->actor.world.pos.z += 90.0f;
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(play, &this->collider);
-            func_8002DF54(play, NULL, PLAYER_CSACTION_8);
+            Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
             this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
             this->actionFunc = func_80A544AC;
         }
@@ -139,9 +139,9 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
                 this->actor.gravity = -1.0f;
                 break;
             case 6:
-                osSyncPrintf("\n\n");
+                PRINTF("\n\n");
                 // "Peep hole soldier!"
-                osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
+                PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(play, collider);
                 this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
                 this->actionFunc = EnHeishi_DoNothing2;
@@ -149,14 +149,13 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
         }
 
         this->unk_2F0 = (this->actor.params >> 8) & 0xFF;
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "Soldier Set 2 Completed!"
-        osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
+        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
         // "Identification Completed!"
-        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->type);
+        PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->type);
         // "Message completed!"
-        osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST,
-                     (this->actor.params >> 8) & 0xF);
+        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, (this->actor.params >> 8) & 0xF);
     }
 }
 
@@ -184,39 +183,39 @@ void func_80A531E4(EnHeishi2* this, PlayState* play) {
 void func_80A53278(EnHeishi2* this, PlayState* play) {
     this->unk_30B = 0;
     this->unk_30E = 0;
-    if (Text_GetFaceReaction(play, 5) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, 5);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
         this->unk_30B = 1;
         this->unk_300 = TEXT_STATE_DONE;
         this->actionFunc = func_80A5475C;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_09) && GET_EVENTCHKINF(EVENTCHKINF_25) && GET_EVENTCHKINF(EVENTCHKINF_37)) {
         // "Get all spiritual stones!"
-        osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7006;
         this->actionFunc = func_80A5475C;
     } else if (!IS_DAY) {
         // "Sleep early for children!"
-        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7002;
         this->actionFunc = func_80A5475C;
 
     } else if (this->unk_30C != 0) {
         // "Anything passes"
-        osSyncPrintf(VT_FGCOL(BLUE) " ☆☆☆☆☆ なんでも通るよ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(BLUE) " ☆☆☆☆☆ なんでも通るよ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7099;
         this->actionFunc = func_80A5475C;
-    } else if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_RECEIVED_WEIRD_EGG)) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
-            osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
             this->actor.textId = 0x7071;
             this->unk_30E = 1;
         } else {
             // "Start under the second sleeve!"
-            osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
+            PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
             this->actor.textId = 0x7072;
         }
         this->unk_300 = TEXT_STATE_CHOICE;
@@ -224,7 +223,7 @@ void func_80A53278(EnHeishi2* this, PlayState* play) {
 
     } else {
         // "That's okay"
-        osSyncPrintf(VT_FGCOL(CYAN) " ☆☆☆☆☆ それはとおらんよぉ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(CYAN) " ☆☆☆☆☆ それはとおらんよぉ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7029;
         this->actionFunc = func_80A5475C;
@@ -262,7 +261,7 @@ void func_80A5344C(EnHeishi2* this, PlayState* play) {
 void func_80A53538(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_300 == Message_GetState(&play->msgCtx) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_80A535BC;
     }
@@ -298,7 +297,7 @@ void func_80A53638(EnHeishi2* this, PlayState* play) {
             }
         }
         // "I've come!"
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->dyna.actor.next);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->dyna.actor.next);
         this->actionFunc = func_80A5372C;
     }
 }
@@ -334,7 +333,7 @@ void func_80A53850(EnHeishi2* this, PlayState* play) {
         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         Message_CloseTextbox(play);
         this->unk_30C = 1;
-        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_80A531E4;
     }
 }
@@ -372,9 +371,9 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
             this->unk_300 = TEXT_STATE_EVENT;
             this->unk_30E = 0;
         }
-        if (Text_GetFaceReaction(play, 5) != 0) {
+        if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
             if (var == 0) {
-                this->actor.textId = Text_GetFaceReaction(play, 5);
+                this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
                 this->unk_30B = 1;
                 this->unk_300 = TEXT_STATE_DONE;
                 this->unk_30E = 0;
@@ -383,7 +382,7 @@ void func_80A5399C(EnHeishi2* this, PlayState* play) {
         this->actionFunc = func_80A5475C;
     } else {
         // "I don't know"
-        osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n" VT_RST);
         this->actionFunc = func_80A53AD4;
     }
 }
@@ -395,13 +394,13 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
     s16 yawDiff;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Text_GetFaceReaction(play, 5) != 0) {
-        this->actor.textId = Text_GetFaceReaction(play, 5);
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
+        this->actor.textId = MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD);
     } else {
         this->actor.textId = 0x200E;
     }
     this->unk_300 = TEXT_STATE_DONE;
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         exchangeItemId = func_8002F368(play);
         if (exchangeItemId == EXCH_ITEM_ZELDAS_LETTER) {
             Sfx_PlaySfxCentered(NA_SE_SY_CORRECT_CHIME);
@@ -415,7 +414,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
         yawDiffTemp = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
         if (!(120.0f < this->actor.xzDistToPlayer) && (yawDiff < 0x4300)) {
-            func_8002F298(&this->actor, play, 100.0f, EXCH_ITEM_ZELDAS_LETTER);
+            Actor_OfferTalkExchangeEquiCylinder(&this->actor, play, 100.0f, EXCH_ITEM_ZELDAS_LETTER);
         }
     }
 }
@@ -423,7 +422,7 @@ void func_80A53AD4(EnHeishi2* this, PlayState* play) {
 void func_80A53C0C(EnHeishi2* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk_300 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, NULL, PLAYER_CSACTION_8);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_8);
         play->msgCtx.msgMode = MSGMODE_PAUSED;
         this->actionFunc = func_80A53C90;
     }
@@ -462,7 +461,7 @@ void func_80A53D0C(EnHeishi2* this, PlayState* play) {
             }
         }
         // "I've come!"
-        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
+        PRINTF(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
         this->actionFunc = func_80A53DF8;
     }
 }
@@ -507,7 +506,7 @@ void func_80A53F30(EnHeishi2* this, PlayState* play) {
                 this->actionFunc = func_80A54038;
             } else {
                 Message_CloseTextbox(play);
-                func_8002DF54(play, NULL, PLAYER_CSACTION_7);
+                Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
                 this->actionFunc = func_80A53908;
             }
         } else {
@@ -525,7 +524,7 @@ void func_80A54038(EnHeishi2* this, PlayState* play) {
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         SET_INFTABLE(INFTABLE_76);
         Message_CloseTextbox(play);
-        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         this->actionFunc = func_80A53908;
     }
 }
@@ -650,7 +649,7 @@ void func_80A5455C(EnHeishi2* this, PlayState* play) {
     EnBom* bomb;
 
     if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
-        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         Message_CloseTextbox(play);
 
         pos.x = Rand_CenteredFloat(20.0f) + this->unk_274.x;
@@ -664,7 +663,7 @@ void func_80A5455C(EnHeishi2* this, PlayState* play) {
         }
 
         // "This is down!"
-        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" VT_RST);
         this->actionFunc = func_80A546DC;
     }
 }
@@ -683,7 +682,7 @@ void func_80A5475C(EnHeishi2* this, PlayState* play) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (Text_GetFaceReaction(play, 5) != 0) {
+    if (MaskReaction_GetTextId(play, MASK_REACTION_SET_HYRULIAN_GUARD) != 0) {
         if (this->unk_30B == 0) {
             if (this->type == 2) {
                 this->actionFunc = func_80A53278;
@@ -705,7 +704,7 @@ void func_80A5475C(EnHeishi2* this, PlayState* play) {
         }
     }
 
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         if (this->type == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;
@@ -736,7 +735,7 @@ void func_80A5475C(EnHeishi2* this, PlayState* play) {
         ((yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)),
           !(this->actor.xzDistToPlayer > 120.0f)) &&
          (yawDiff < 0x4300))) {
-        func_8002F2F4(&this->actor, play);
+        Actor_OfferTalkNearColChkInfoCylinder(&this->actor, play);
     }
 }
 
@@ -806,11 +805,11 @@ s32 EnHeishi2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3
             break;
         default:
             if (limbIndex == 9) {
-                rot->x = rot->x + this->unk_26C.y;
+                rot->x += this->unk_26C.y;
             }
             if (limbIndex == 16) {
-                rot->x = rot->x + this->unk_260.y;
-                rot->z = rot->z + this->unk_260.z;
+                rot->x += this->unk_260.y;
+                rot->z += this->unk_260.z;
             }
     }
 
@@ -828,7 +827,7 @@ void EnHeishi2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* 
 void EnHeishi2_DrawKingGuard(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_heishi2.c", 1774),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gHeishiKingGuardDL);
 
@@ -852,7 +851,7 @@ void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(70), MTXMODE_APPLY);
-            mtx = Matrix_NewMtx(play->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
+            mtx = MATRIX_NEW(play->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.slots[linkChildObjectSlot].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);

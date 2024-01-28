@@ -26,15 +26,15 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play);
 void BgGanonOtyuka_DoNothing(Actor* thisx, PlayState* play);
 
 ActorInit Bg_Ganon_Otyuka_InitVars = {
-    ACTOR_BG_GANON_OTYUKA,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GANON,
-    sizeof(BgGanonOtyuka),
-    (ActorFunc)BgGanonOtyuka_Init,
-    (ActorFunc)BgGanonOtyuka_Destroy,
-    (ActorFunc)BgGanonOtyuka_Update,
-    (ActorFunc)BgGanonOtyuka_Draw,
+    /**/ ACTOR_BG_GANON_OTYUKA,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GANON,
+    /**/ sizeof(BgGanonOtyuka),
+    /**/ BgGanonOtyuka_Init,
+    /**/ BgGanonOtyuka_Destroy,
+    /**/ BgGanonOtyuka_Update,
+    /**/ BgGanonOtyuka_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -89,9 +89,9 @@ void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2) {
 
     DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 
-    osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("WHY !!!!!!!!!!!!!!!!\n");
-    osSyncPrintf(VT_RST);
+    PRINTF(VT_FGCOL(GREEN));
+    PRINTF("WHY !!!!!!!!!!!!!!!!\n");
+    PRINTF(VT_RST);
 }
 
 void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
@@ -105,7 +105,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
     s16 i;
 
     if (this->isFalling || ((play->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
-        osSyncPrintf("OTC O 1\n");
+        PRINTF("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
             prop = play->actorCtx.actorLists[ACTORCAT_PROP].head;
@@ -130,7 +130,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
             }
         }
 
-        osSyncPrintf("OTC O 2\n");
+        PRINTF("OTC O 2\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
             center.x = this->dyna.actor.world.pos.x + D_80876A68[i].x;
@@ -141,7 +141,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
             }
         }
 
-        osSyncPrintf("OTC O 3\n");
+        PRINTF("OTC O 3\n");
 
         this->actionFunc = BgGanonOtyuka_Fall;
         this->isFalling = true;
@@ -164,7 +164,7 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
     Vec3f velocity;
     Vec3f accel;
 
-    osSyncPrintf("MODE DOWN\n");
+    PRINTF("MODE DOWN\n");
     if (this->flashState == FLASH_GROW) {
         Math_ApproachF(&this->flashPrimColorB, 170.0f, 1.0f, 8.5f);
         Math_ApproachF(&this->flashEnvColorR, 120.0f, 1.0f, 13.5f);
@@ -227,7 +227,7 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, PlayState* play) {
         Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speed);
         Math_ApproachF(&this->dyna.actor.speed, 100.0f, 1.0f, 0.1f);
     }
-    osSyncPrintf("MODE DOWN END\n");
+    PRINTF("MODE DOWN END\n");
 }
 
 void BgGanonOtyuka_DoNothing(Actor* thisx, PlayState* play) {
@@ -299,7 +299,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         phi_s1 = sPlatformTopDL;
                     }
                 }
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, phi_s2);
 
@@ -312,7 +312,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         Matrix_Push();
                         Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
-                        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
+                        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                         gSPDisplayList(POLY_OPA_DISP++, sPlatformSideDL);
                         Matrix_Pop();
@@ -347,7 +347,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, PlayState* play) {
                         Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
                         Matrix_Scale(0.3f, platform->flashYScale * 0.3f, 0.3f, MTXMODE_APPLY);
-                        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
+                        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                         gSPDisplayList(POLY_XLU_DISP++, sFlashDL);
                         Matrix_Pop();

@@ -19,15 +19,15 @@ void ElfMsg2_WaitUntilActivated(ElfMsg2* this, PlayState* play);
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, PlayState* play);
 
 ActorInit Elf_Msg2_InitVars = {
-    ACTOR_ELF_MSG2,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ElfMsg2),
-    (ActorFunc)ElfMsg2_Init,
-    (ActorFunc)ElfMsg2_Destroy,
-    (ActorFunc)ElfMsg2_Update,
-    (ActorFunc)ElfMsg2_Draw,
+    /**/ ACTOR_ELF_MSG2,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(ElfMsg2),
+    /**/ ElfMsg2_Init,
+    /**/ ElfMsg2_Destroy,
+    /**/ ElfMsg2_Update,
+    /**/ ElfMsg2_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -72,7 +72,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, PlayState* play) {
 void ElfMsg2_Init(Actor* thisx, PlayState* play) {
     ElfMsg2* this = (ElfMsg2*)thisx;
 
-    osSyncPrintf(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
+    PRINTF(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, play)) {
         if ((this->actor.world.rot.x > 0) && (this->actor.world.rot.x < 8)) {
             this->actor.targetMode = this->actor.world.rot.x - 1;
@@ -120,7 +120,7 @@ void ElfMsg2_WaitForTextClose(ElfMsg2* this, PlayState* play) {
  * Runs while Navi text is not up.
  */
 void ElfMsg2_WaitForTextRead(ElfMsg2* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextClose);
     }
 }
@@ -158,7 +158,7 @@ void ElfMsg2_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_elf_msg2.c", 362),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_elf_msg2.c", 362),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_809ADC38);
     gSPDisplayList(POLY_XLU_DISP++, sCubeDL);

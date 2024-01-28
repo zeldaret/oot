@@ -21,15 +21,15 @@ void EnMa3_UpdateEyes(EnMa3* this);
 void func_80AA3200(EnMa3* this, PlayState* play);
 
 ActorInit En_Ma3_InitVars = {
-    ACTOR_EN_MA3,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_MA2,
-    sizeof(EnMa3),
-    (ActorFunc)EnMa3_Init,
-    (ActorFunc)EnMa3_Destroy,
-    (ActorFunc)EnMa3_Update,
-    (ActorFunc)EnMa3_Draw,
+    /**/ ACTOR_EN_MA3,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_MA2,
+    /**/ sizeof(EnMa3),
+    /**/ EnMa3_Init,
+    /**/ EnMa3_Destroy,
+    /**/ EnMa3_Update,
+    /**/ EnMa3_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -297,7 +297,7 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA2E54(this, play);
-    Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, (f32)this->collider.dim.radius + 150.0f,
+    Npc_UpdateTalking(play, &this->actor, &this->interactInfo.talkState, this->collider.dim.radius + 150.0f,
                       EnMa3_GetTextId, EnMa3_UpdateTalkState);
     if (this->interactInfo.talkState == NPC_TALK_STATE_IDLE) {
         if (this->isNotSinging) {

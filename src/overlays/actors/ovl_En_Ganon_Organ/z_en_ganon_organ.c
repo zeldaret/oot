@@ -15,15 +15,15 @@ void EnGanonOrgan_Update(Actor* thisx, PlayState* play);
 void EnGanonOrgan_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Ganon_Organ_InitVars = {
-    ACTOR_EN_GANON_ORGAN,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GANON,
-    sizeof(EnGanonOrgan),
-    (ActorFunc)EnGanonOrgan_Init,
-    (ActorFunc)EnGanonOrgan_Destroy,
-    (ActorFunc)EnGanonOrgan_Update,
-    (ActorFunc)EnGanonOrgan_Draw,
+    /**/ ACTOR_EN_GANON_ORGAN,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GANON,
+    /**/ sizeof(EnGanonOrgan),
+    /**/ EnGanonOrgan_Init,
+    /**/ EnGanonOrgan_Destroy,
+    /**/ EnGanonOrgan_Update,
+    /**/ EnGanonOrgan_Draw,
 };
 
 static u64 sForceAlignment = 0;
@@ -40,20 +40,20 @@ void EnGanonOrgan_Destroy(Actor* thisx, PlayState* play) {
 void EnGanonOrgan_Update(Actor* thisx, PlayState* play) {
     BossGanon* dorf;
 
-    osSyncPrintf("ORGAN MOVE 1\n");
+    PRINTF("ORGAN MOVE 1\n");
     if (thisx->params == 1) {
         dorf = (BossGanon*)thisx->parent;
         if (dorf->organAlpha == 0) {
             Actor_Kill(thisx);
         }
     }
-    osSyncPrintf("ORGAN MOVE 2\n");
+    PRINTF("ORGAN MOVE 2\n");
 }
 
 Gfx* EnGanonOrgan_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* displayList;
 
-    displayList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    displayList = GRAPH_ALLOC(gfxCtx, sizeof(Gfx));
     gSPEndDisplayList(displayList);
     return displayList;
 }
@@ -62,7 +62,7 @@ Gfx* func_80A280BC(GraphicsContext* gfxCtx, BossGanon* dorf) {
     Gfx* displayList;
     Gfx* displayListHead;
 
-    displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    displayList = GRAPH_ALLOC(gfxCtx, 4 * sizeof(Gfx));
     displayListHead = displayList;
     gDPPipeSync(displayListHead++);
     if (1) {}
@@ -77,7 +77,7 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
     Gfx* displayList;
     Gfx* displayListHead;
 
-    displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    displayList = GRAPH_ALLOC(gfxCtx, 4 * sizeof(Gfx));
     displayListHead = displayList;
 
     gDPPipeSync(displayListHead++);
@@ -94,7 +94,7 @@ void EnGanonOrgan_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ganon_organ.c", 205);
 
-    osSyncPrintf("ORGAN DRAW  1\n");
+    PRINTF("ORGAN DRAW  1\n");
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if ((thisx->params == 1) && (dorf->organAlpha != 255)) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(play->state.gfxCtx, dorf));
@@ -104,13 +104,13 @@ void EnGanonOrgan_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 0x09, EnGanonOrgan_EmptyDList(play->state.gfxCtx));
     }
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ganon_organ.c", 221),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ganon_organ.c", 221),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, sRoomOrganAndFloorDL);
     gSPDisplayList(POLY_OPA_DISP++, sRoomStatuesDL);
 
-    osSyncPrintf("ORGAN DRAW  2\n");
+    PRINTF("ORGAN DRAW  2\n");
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ganon_organ.c", 230);
 }

@@ -19,15 +19,15 @@ void EnBom_Move(EnBom* this, PlayState* play);
 void EnBom_WaitForRelease(EnBom* this, PlayState* play);
 
 ActorInit En_Bom_InitVars = {
-    ACTOR_EN_BOM,
-    ACTORCAT_EXPLOSIVE,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnBom),
-    (ActorFunc)EnBom_Init,
-    (ActorFunc)EnBom_Destroy,
-    (ActorFunc)EnBom_Update,
-    (ActorFunc)EnBom_Draw,
+    /**/ ACTOR_EN_BOM,
+    /**/ ACTORCAT_EXPLOSIVE,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnBom),
+    /**/ EnBom_Init,
+    /**/ EnBom_Destroy,
+    /**/ EnBom_Update,
+    /**/ EnBom_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -101,7 +101,7 @@ void EnBom_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->explosionCollider);
     Collider_SetCylinder(play, &this->bombCollider, thisx, &sCylinderInit);
     Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
-    this->explosionColliderItems[0].info.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
+    this->explosionColliderItems[0].base.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
 
     thisx->shape.rot.z &= 0xFF;
     if (thisx->shape.rot.z & 0x80) {
@@ -367,11 +367,11 @@ void EnBom_Draw(Actor* thisx, PlayState* play) {
         Matrix_ReplaceRotation(&play->billboardMtxF);
         func_8002EBCC(thisx, play, 0);
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bom.c", 928),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gBombCapDL);
         Matrix_RotateZYX(0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bom.c", 934),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);

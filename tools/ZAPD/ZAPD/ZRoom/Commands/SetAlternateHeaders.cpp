@@ -21,7 +21,7 @@ void SetAlternateHeaders::DeclareReferences([[maybe_unused]] const std::string& 
 
 void SetAlternateHeaders::ParseRawDataLate()
 {
-	size_t numHeaders = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 4;
+	size_t numHeaders = zRoom->parent->GetDeclarationSizeFromNeighbor(segmentOffset) / 4;
 
 	headers.reserve(numHeaders);
 	for (uint32_t i = 0; i < numHeaders; i++)

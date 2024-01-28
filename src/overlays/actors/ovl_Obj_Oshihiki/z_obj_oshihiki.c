@@ -25,15 +25,15 @@ void ObjOshihiki_SetupFall(ObjOshihiki* this, PlayState* play);
 void ObjOshihiki_Fall(ObjOshihiki* this, PlayState* play);
 
 ActorInit Obj_Oshihiki_InitVars = {
-    ACTOR_OBJ_OSHIHIKI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
-    sizeof(ObjOshihiki),
-    (ActorFunc)ObjOshihiki_Init,
-    (ActorFunc)ObjOshihiki_Destroy,
-    (ActorFunc)ObjOshihiki_Update,
-    (ActorFunc)ObjOshihiki_Draw,
+    /**/ ACTOR_OBJ_OSHIHIKI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_DANGEON_KEEP,
+    /**/ sizeof(ObjOshihiki),
+    /**/ ObjOshihiki_Init,
+    /**/ ObjOshihiki_Destroy,
+    /**/ ObjOshihiki_Update,
+    /**/ ObjOshihiki_Draw,
 };
 
 static f32 sScales[] = {
@@ -95,8 +95,8 @@ void ObjOshihiki_InitDynapoly(ObjOshihiki* this, PlayState* play, CollisionHeade
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // "Warning : move BG registration failure"
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 280,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 280,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -213,8 +213,8 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, PlayState* play) {
             break;
         default:
             // "Error : type cannot be determined"
-            osSyncPrintf("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 444,
-                         this->dyna.actor.params);
+            PRINTF("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 444,
+                   this->dyna.actor.params);
             break;
     }
 }
@@ -258,7 +258,7 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
 
     if (i >= ARRAY_COUNT(sColors)) {
         // "Error : scene_data_ID cannot be determined"
-        osSyncPrintf("Error : scene_data_ID が判別できない。(%s %d)\n", "../z_obj_oshihiki.c", 579);
+        PRINTF("Error : scene_data_ID が判別できない。(%s %d)\n", "../z_obj_oshihiki.c", 579);
         color->r = color->g = color->b = 255;
     } else {
         src = &sColors[i][paramsColorIdx];
@@ -304,7 +304,7 @@ void ObjOshihiki_Init(Actor* thisx, PlayState* play2) {
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetupOnActor(this, play);
     // "(dungeon keep push-pull block)"
-    osSyncPrintf("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", this->dyna.actor.params);
+    PRINTF("(dungeon keep 押し引きブロック)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void ObjOshihiki_Destroy(Actor* thisx, PlayState* play) {
@@ -375,8 +375,8 @@ s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, PlayState* play) {
 s32 ObjOshihiki_CheckGround(ObjOshihiki* this, PlayState* play) {
     if (this->dyna.actor.world.pos.y <= BGCHECK_Y_MIN + 10.0f) {
         // "Warning : Push-pull block fell too much"
-        osSyncPrintf("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 809,
-                     this->dyna.actor.params);
+        PRINTF("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 809,
+               this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return 0;
     }
@@ -646,7 +646,7 @@ void ObjOshihiki_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(this->texture));
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (play->sceneId) {

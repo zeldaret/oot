@@ -21,15 +21,15 @@ void func_80A5057C(EnGuest* this, PlayState* play);
 void func_80A505CC(Actor* thisx, PlayState* play);
 
 ActorInit En_Guest_InitVars = {
-    ACTOR_EN_GUEST,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_BOJ,
-    sizeof(EnGuest),
-    (ActorFunc)EnGuest_Init,
-    (ActorFunc)EnGuest_Destroy,
-    (ActorFunc)EnGuest_Update,
-    NULL,
+    /**/ ACTOR_EN_GUEST,
+    /**/ ACTORCAT_NPC,
+    /**/ FLAGS,
+    /**/ OBJECT_BOJ,
+    /**/ sizeof(EnGuest),
+    /**/ EnGuest_Init,
+    /**/ EnGuest_Destroy,
+    /**/ EnGuest_Update,
+    /**/ NULL,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -57,10 +57,10 @@ void EnGuest_Init(Actor* thisx, PlayState* play) {
     } else {
         this->osAnimeObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_OS_ANIME);
         if (this->osAnimeObjectSlot < 0) {
-            osSyncPrintf(VT_COL(RED, WHITE));
+            PRINTF(VT_COL(RED, WHITE));
             // "No such bank!!"
-            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
-            osSyncPrintf(VT_RST);
+            PRINTF("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
+            PRINTF(VT_RST);
             ASSERT(0, "0", "../z_en_guest.c", 132);
         }
     }
@@ -126,10 +126,10 @@ void func_80A5046C(EnGuest* this) {
 }
 
 void func_80A50518(EnGuest* this, PlayState* play) {
-    if (Actor_ProcessTalkRequest(&this->actor, play)) {
+    if (Actor_TalkOfferAccepted(&this->actor, play)) {
         this->actionFunc = func_80A5057C;
     } else if (this->actor.xzDistToPlayer < 100.0f) {
-        func_8002F2CC(&this->actor, play, 100.0f);
+        Actor_OfferTalk(&this->actor, play, 100.0f);
     }
 }
 
@@ -172,7 +172,7 @@ void func_80A505CC(Actor* thisx, PlayState* play) {
 Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* dlist;
 
-    dlist = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    dlist = GRAPH_ALLOC(gfxCtx, 2 * sizeof(Gfx));
     gDPSetEnvColor(dlist, r, g, b, a);
     gSPEndDisplayList(dlist + 1);
 

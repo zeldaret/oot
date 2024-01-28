@@ -25,15 +25,15 @@ void func_808B3274(BgSpot12Gate* this);
 void func_808B3298(BgSpot12Gate* this, PlayState* play);
 
 ActorInit Bg_Spot12_Gate_InitVars = {
-    ACTOR_BG_SPOT12_GATE,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_SPOT12_OBJ,
-    sizeof(BgSpot12Gate),
-    (ActorFunc)BgSpot12Gate_Init,
-    (ActorFunc)BgSpot12Gate_Destroy,
-    (ActorFunc)BgSpot12Gate_Update,
-    (ActorFunc)BgSpot12Gate_Draw,
+    /**/ ACTOR_BG_SPOT12_GATE,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_SPOT12_OBJ,
+    /**/ sizeof(BgSpot12Gate),
+    /**/ BgSpot12Gate_Init,
+    /**/ BgSpot12Gate_Destroy,
+    /**/ BgSpot12Gate_Update,
+    /**/ BgSpot12Gate_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -52,8 +52,8 @@ void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, PlayState* play, CollisionHea
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 

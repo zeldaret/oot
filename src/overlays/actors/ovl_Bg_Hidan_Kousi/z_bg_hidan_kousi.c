@@ -24,15 +24,15 @@ void func_80889D28(BgHidanKousi* this, PlayState* play);
 static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
 ActorInit Bg_Hidan_Kousi_InitVars = {
-    ACTOR_BG_HIDAN_KOUSI,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanKousi),
-    (ActorFunc)BgHidanKousi_Init,
-    (ActorFunc)BgHidanKousi_Destroy,
-    (ActorFunc)BgHidanKousi_Update,
-    (ActorFunc)BgHidanKousi_Draw,
+    /**/ ACTOR_BG_HIDAN_KOUSI,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanKousi),
+    /**/ BgHidanKousi_Init,
+    /**/ BgHidanKousi_Destroy,
+    /**/ BgHidanKousi_Update,
+    /**/ BgHidanKousi_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -69,12 +69,12 @@ void BgHidanKousi_Init(Actor* thisx, PlayState* play) {
 
     DynaPolyActor_Init(&this->dyna, 0);
     Actor_SetFocus(thisx, 50.0f);
-    osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, thisx->params & 0xFF,
-                 ((s32)thisx->params >> 8) & 0xFF);
+    PRINTF("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, thisx->params & 0xFF,
+           ((s32)thisx->params >> 8) & 0xFF);
 
     Actor_ProcessInitChain(thisx, sInitChain);
     if (((thisx->params & 0xFF) < 0) || ((thisx->params & 0xFF) >= 3)) {
-        osSyncPrintf("arg_data おかしい 【格子】\n");
+        PRINTF("arg_data おかしい 【格子】\n");
     }
 
     CollisionHeader_GetVirtual(sMetalFencesCollisions[thisx->params & 0xFF], &colHeader);
@@ -154,7 +154,7 @@ void BgHidanKousi_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sMetalFencesDLs[thisx->params & 0xFF]);
 

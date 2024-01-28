@@ -27,15 +27,15 @@ void EnSyatekiNiw_ExitArchery(EnSyatekiNiw* this, PlayState* play);
 void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 
 ActorInit En_Syateki_Niw_InitVars = {
-    ACTOR_EN_SYATEKI_NIW,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_NIW,
-    sizeof(EnSyatekiNiw),
-    (ActorFunc)EnSyatekiNiw_Init,
-    (ActorFunc)EnSyatekiNiw_Destroy,
-    (ActorFunc)EnSyatekiNiw_Update,
-    (ActorFunc)EnSyatekiNiw_Draw,
+    /**/ ACTOR_EN_SYATEKI_NIW,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_NIW,
+    /**/ sizeof(EnSyatekiNiw),
+    /**/ EnSyatekiNiw_Init,
+    /**/ EnSyatekiNiw_Destroy,
+    /**/ EnSyatekiNiw_Update,
+    /**/ EnSyatekiNiw_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -80,14 +80,14 @@ void EnSyatekiNiw_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     if (this->minigameType == SYATEKI_MINIGAME_ARCHERY) {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "Archery range chicken"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n" VT_RST);
         Actor_SetScale(&this->actor, 0.01f);
     } else {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "Bomb chicken"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         Actor_SetScale(&this->actor, 0.01f);
     }
@@ -780,7 +780,7 @@ void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, PlayState* play) {
             Matrix_RotateZ(effect->rot, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
+            gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(gfxCtx, "../z_en_syateki_niw.c", 1251),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherModelDL);
         }
