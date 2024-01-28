@@ -388,11 +388,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 
     PRINTF("ハイラル再確保 サイズ＝%u バイト\n", size); // "Hyral reallocate size = %u bytes"
 
-#ifdef OOT_DEBUG
-    gameArena = GameAlloc_MallocDebug(alloc, size, "../game.c", 1033);
-#else
-    gameArena = GameAlloc_Malloc(alloc, size);
-#endif
+    gameArena = GAME_ALLOC_MALLOC(alloc, size, "../game.c", 1033);
     if (gameArena != NULL) {
         THA_Init(&gameState->tha, gameArena, size);
         PRINTF("ハイラル再確保成功\n"); // "Successful reacquisition of Hyrule"
@@ -402,10 +398,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
 
 #ifdef OOT_DEBUG
         SystemArena_Display();
-        Fault_AddHungupAndCrash("../game.c", 1044);
-#else
-        LogUtils_HungupThread("../game.c", 1044);
 #endif
+        HUNGUP_AND_CRASH("../game.c", 1044);
     }
 }
 
@@ -430,9 +424,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 #endif
 
     {
-#ifndef OOT_DEBUG
         s32 requiredScopeTemp;
-#endif
         endTime = osGetTime();
 
         // "game_set_next_game_null processing time %d us"
@@ -443,7 +435,6 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
         endTime = osGetTime();
         // "gamealloc_init processing time %d us"
         PRINTF("gamealloc_init 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
-
         startTime = endTime;
     }
 
