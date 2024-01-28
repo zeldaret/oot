@@ -2306,11 +2306,9 @@ void AudioOcarina_ResetStaffs(void) {
     sOcarinaDropInputTimer = 0;
 }
 
-#ifdef OOT_DEBUG
+f32 D_80131C8C = 0.0f;
 
 // =========== Audio Debugging ===========
-
-f32 D_80131C8C = 0.0f;
 
 u32 sDebugPadHold;
 u32 sDebugPadBtnLast;
@@ -2374,6 +2372,8 @@ u8 sAudioBlkChgBgmSel = 0;
 char sBoolStrs[3][5] = { "OFF", "ON", "STBY" };
 u8 sAudioNatureFailed = false;
 u8 sPeakNumNotes = 0;
+
+#ifdef OOT_DEBUG
 
 void AudioDebug_SetInput(void) {
     Input inputs[MAXCONTROLLERS];
