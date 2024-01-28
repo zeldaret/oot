@@ -76,20 +76,20 @@ typedef struct {
 } ColliderInitToActor; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags; // Toucher damage type flags.
+    /* 0x00 */ u32 dmgFlags; // Damage types dealt by this collider element as AT.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 damage; // Damage
 } ColliderElementDamageInfoAT; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags;  // Bumper damage type flags.
+    /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderElementDamageInfoAC; // size = 0x0C
 
 typedef struct {
-    /* 0x00 */ u32 dmgFlags; // Bumper exclusion mask
+    /* 0x00 */ u32 dmgFlags; // Damage types that may affect this collider element as AC.
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
 } ColliderElementDamageInfoACInit; // size = 0x08
@@ -352,7 +352,7 @@ typedef struct {
 #define ATELEM_NONE 0 // No flags set. Cannot have AT collisions
 #define ATELEM_ON (1 << 0) // Can have AT collisions
 #define ATELEM_HIT (1 << 1) // Had an AT collision
-#define ATELEM_NEAREST (1 << 2) // If a Quad, only collides with the closest bumper
+#define ATELEM_NEAREST (1 << 2) // For COLSHAPE_QUAD colliders, only collide with the closest AC element
 #define ATELEM_SFX_MASK (3 << 3)
 #define ATELEM_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
 #define ATELEM_SFX_HARD (1 << 3) // Always uses hard deflection sound
