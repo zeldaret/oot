@@ -69,7 +69,7 @@ void Idle_ThreadEntry(void* arg) {
             gViConfigMode = osViModeMpalLan1;
             break;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         case OS_TV_PAL:
             gViConfigModeType = OS_VI_FPAL_LAN1;
             gViConfigMode = osViModeFpalLan1;

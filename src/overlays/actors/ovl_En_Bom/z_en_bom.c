@@ -359,9 +359,7 @@ void EnBom_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnBom* this = (EnBom*)thisx;
 
-#ifdef OOT_DEBUG
-    if (1) {}
-#endif
+    if (OOT_DEBUG) {}
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom.c", 913);
 
