@@ -130,6 +130,7 @@ s16 sQuakeIndex;
 
 void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx);
 
+#ifdef OOT_DEBUG
 void Cutscene_DrawDebugInfo(PlayState* play, Gfx** dlist, CutsceneContext* csCtx) {
     GfxPrint printer;
     s32 pad[2];
@@ -149,6 +150,7 @@ void Cutscene_DrawDebugInfo(PlayState* play, Gfx** dlist, CutsceneContext* csCtx
     *dlist = GfxPrint_Close(&printer);
     GfxPrint_Destroy(&printer);
 }
+#endif
 
 void Cutscene_InitContext(PlayState* play, CutsceneContext* csCtx) {
     csCtx->state = CS_STATE_IDLE;
@@ -173,20 +175,24 @@ void Cutscene_UpdateManual(PlayState* play, CutsceneContext* csCtx) {
 }
 
 void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
-    Input* input = &play->state.input[0];
+#ifdef OOT_DEBUG
+    {
+        Input* input = &play->state.input[0];
 
-    if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER) {
-        gUseCutsceneCam = false;
-        gSaveContext.save.cutsceneIndex = 0xFFFD;
-        gSaveContext.cutsceneTrigger = 1;
-    }
+        if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER) {
+            gUseCutsceneCam = false;
+            gSaveContext.save.cutsceneIndex = 0xFFFD;
+            gSaveContext.cutsceneTrigger = 1;
+        }
 
-    if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER &&
-        !gDebugCamEnabled) {
-        gUseCutsceneCam = true;
-        gSaveContext.save.cutsceneIndex = 0xFFFD;
-        gSaveContext.cutsceneTrigger = 1;
+        if (CHECK_BTN_ALL(input->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) && IS_CUTSCENE_LAYER &&
+            !gDebugCamEnabled) {
+            gUseCutsceneCam = true;
+            gSaveContext.save.cutsceneIndex = 0xFFFD;
+            gSaveContext.cutsceneTrigger = 1;
+        }
     }
+#endif
 
     if ((gSaveContext.cutsceneTrigger != 0) && (play->transitionTrigger == TRANS_TRIGGER_START)) {
         gSaveContext.cutsceneTrigger = 0;
@@ -546,6 +552,13 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
     }
 }
 
+#ifdef OOT_DEBUG
+// With debug features enabled, the Start Button can be pressed on controller 1 to end a cutscene early and skip it
+#define DEBUG_CS_SKIP ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) && (gSaveContext.fileNum != 0xFEDC))
+#else 
+#define DEBUG_CS_SKIP false
+#endif
+
 void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDestination* cmd) {
     Player* player = GET_PLAYER(play);
     s32 titleDemoSkipped = false;
@@ -561,9 +574,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         titleDemoSkipped = true;
     }
 
-    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped ||
-        ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
-         (gSaveContext.fileNum != 0xFEDC))) {
+    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped || DEBUG_CS_SKIP) {
         csCtx->state = CS_STATE_RUN_UNSTOPPABLE;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
@@ -717,7 +728,10 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION:
-                SET_EVENTCHKINF(EVENTCHKINF_4F);
+#ifdef OOT_DEBUG
+                // In debug builds, skip cutscene with Sheik after warping to temple of time
+                SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
+#endif
                 play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_4;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_BLACK;
@@ -886,7 +900,10 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION_ALT:
-                SET_EVENTCHKINF(EVENTCHKINF_4F);
+#ifdef OOT_DEBUG
+                // In debug builds, skip cutscene with Sheik after warping to temple of time
+                SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
+#endif
                 play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_4;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
@@ -941,8 +958,10 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_GERUDO_VALLEY_CREDITS:
+#ifdef OOT_DEBUG
                 gSaveContext.gameMode = GAMEMODE_END_CREDITS;
                 Audio_SetSfxBanksMute(0x6F);
+#endif
                 play->linkAgeOnLoad = LINK_AGE_CHILD;
                 play->nextEntranceIndex = ENTR_GERUDO_VALLEY_0;
                 gSaveContext.save.cutsceneIndex = 0xFFF2;
@@ -1779,10 +1798,12 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
         return;
     }
 
+#ifdef OOT_DEBUG
     if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_DRIGHT)) {
         csCtx->state = CS_STATE_STOP;
         return;
     }
+#endif
 
     for (i = 0; i < totalEntries; i++) {
         MemCpy(&cmdType, script, sizeof(cmdType));
@@ -2188,16 +2209,17 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
     }
 }
 
+#ifdef OOT_DEBUG
 void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
-    Gfx* displayList;
-    Gfx* prevDisplayList;
-
     if (0) {} // Necessary to match
 
     if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
         if (0) {} // Also necessary to match
 
         if (BREG(0) != 0) {
+            Gfx* displayList;
+            Gfx* prevDisplayList;
+
             OPEN_DISPS(play->state.gfxCtx, "../z_demo.c", 4101);
 
             prevDisplayList = POLY_OPA_DISP;
@@ -2220,6 +2242,14 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
         }
     }
 }
+#else
+void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
+    if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
+        csCtx->curFrame++;
+        Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
+    }
+}
+#endif
 
 void CutsceneHandler_StopManual(PlayState* play, CutsceneContext* csCtx) {
     if (Cutscene_StepTimer(play, csCtx, 0.0f)) {
