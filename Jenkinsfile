@@ -65,11 +65,9 @@ pipeline {
         failure {
             sh 'cat tools/check_format.txt'
         }
-        always {
+        cleanup {
             echo "Finished, deleting directory."
             deleteDir()
-        }
-        cleanup {
             echo "Clean up in post."
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
