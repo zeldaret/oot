@@ -406,6 +406,8 @@ Gfx* KaleidoScope_QuadTextureIA8(Gfx* gfx, void* texture, s16 width, s16 height,
 
 void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s32 newIndex) {
     s32 i;
+    s32 index1;
+    s32 index2;
 
     targetIndex &= 0xF;
     newIndex &= 0xF;
@@ -415,8 +417,6 @@ void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s3
     }
 
     for (i = 0; i < size; i++) {
-        s32 index1;
-        s32 index2;
 
         index1 = index2 = texture[i];
 
@@ -519,7 +519,9 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
 
 void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     if ((pauseCtx->debugState == 0) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
+#ifdef OOT_DEBUG
         pauseCtx->debugState = 1;
+#endif
         return;
     }
 
@@ -556,20 +558,19 @@ void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
 
 void KaleidoScope_DrawCursor(PlayState* play, u16 pageIndex) {
     PauseContext* pauseCtx = &play->pauseCtx;
-    u16 temp;
+    s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 955);
 
-    temp = pauseCtx->mainState;
-
-    if ((((pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) || (temp == PAUSE_MAIN_STATE_8)) &&
+    if (((((u32)pauseCtx->mainState == PAUSE_MAIN_STATE_IDLE) || (pauseCtx->mainState == PAUSE_MAIN_STATE_8)) &&
          (pauseCtx->state == PAUSE_STATE_MAIN)) ||
         ((pauseCtx->pageIndex == PAUSE_QUEST) &&
-         ((temp < PAUSE_MAIN_STATE_3) || (temp == PAUSE_MAIN_STATE_5) || (temp == PAUSE_MAIN_STATE_8)))) {
+         ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) || (pauseCtx->mainState == PAUSE_MAIN_STATE_5) ||
+          (pauseCtx->mainState == PAUSE_MAIN_STATE_8)))) {
+        s16 i;
+        s16 j;
 
         if (pauseCtx->pageIndex == pageIndex) {
-            s16 i;
-            s16 j;
 
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -1279,6 +1280,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                                                         ITEM_NAME_TEX_HEIGHT, 0);
         }
 
+#ifdef OOT_DEBUG
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
                 PRINTF(VT_FGCOL(YELLOW));
@@ -1291,6 +1293,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                              gAreaGsFlags[D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]]);
             }
         }
+#endif
 
         if ((pauseCtx->pageIndex == PAUSE_MAP) && !sInDungeonScene) {
             if (GET_GS_FLAGS(D_8082AE30[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) ==
@@ -1416,7 +1419,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                     pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                         pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
 
-                    if (gSaveContext.language == LANGUAGE_GER) {
+                    if (gSaveContext.language == 1) {
                         pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                             pauseCtx->infoPanelVtx[16].v.ob[0] - 99;
                     }
@@ -1913,7 +1916,6 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
     PauseContext* pauseCtx = &play->pauseCtx;
     s16 phi_t1;
     s16 phi_t2;
-    s16 phi_t2_2;
     s16 phi_t3;
     s16 phi_t4;
     s16 phi_t5;
@@ -2282,7 +2284,7 @@ void KaleidoScope_InitVertices(PlayState* play, GraphicsContext* gfxCtx) {
     pauseCtx->questVtx = GRAPH_ALLOC(gfxCtx, 188 * sizeof(Vtx));
 
     for (phi_t4 = 0, phi_t3 = 0; phi_t3 < 47; phi_t3++, phi_t4 += 4) {
-        phi_t2_2 = D_8082B1F8[phi_t3];
+        s16 phi_t2_2 = D_8082B1F8[phi_t3];
 
         if ((phi_t3 < 6) || (phi_t3 >= 41)) {
             pauseCtx->questVtx[phi_t4 + 0].v.ob[0] = pauseCtx->questVtx[phi_t4 + 2].v.ob[0] = D_8082B138[phi_t3];
@@ -2635,7 +2637,6 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepG;
     s16 stepB;
     s16 stepA;
-    s32 pad;
 
     if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) &&
         (((pauseCtx->state >= PAUSE_STATE_OPENING_1) && (pauseCtx->state <= PAUSE_STATE_SAVE_PROMPT)) ||
@@ -3290,6 +3291,9 @@ void KaleidoScope_Update(PlayState* play) {
                         pauseCtx->unk_204 = -434.0f;
                     }
                     break;
+
+                default:
+                    break;
             }
             break;
 
@@ -3583,7 +3587,7 @@ void KaleidoScope_Update(PlayState* play) {
                         PRINTF(VT_RST);
                     } else {
                         play->state.running = false;
-                        SET_NEXT_GAMESTATE(&play->state, TitleSetup_Init, TitleSetupState);
+                        SET_NEXT_GAMESTATE_ALT(&play->state, TitleSetup_Init, TitleSetupState);
                     }
                 }
             }

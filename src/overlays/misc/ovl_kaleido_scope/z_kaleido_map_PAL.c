@@ -495,7 +495,11 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
+#ifdef OOT_DEBUG
     if (HREG(15) == 0) {
+#else
+    if (1) {
+#endif
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
 
         gDPLoadTLUT_pal256(POLY_OPA_DISP++, gWorldMapImageTLUT);
@@ -540,11 +544,13 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         POLY_OPA_DISP = gfx;
     }
 
+#ifdef OOT_DEBUG
     if (HREG(15) == 2) {
         HREG(15) = 1;
         HREG(14) = 6100;
         HREG(13) = 5300;
     }
+#endif
 
     if (ZREG(38) == 0) {
         gDPPipeSync(POLY_OPA_DISP++);
