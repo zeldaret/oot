@@ -198,6 +198,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
+BASEROM_DECOMPRESSED := baseroms/$(VERSION)/baserom-decompressed.z64
 BASEROM_SEGMENTS_DIR := baseroms/$(VERSION)/segments
 BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
 
@@ -210,7 +211,6 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
 
-DISASM_BASEROM := baseroms/$(VERSION)/baserom-decompressed.z64
 DISASM_DATA_FILES := $(wildcard $(DISASM_DATA_DIR)/*.csv) $(wildcard $(DISASM_DATA_DIR)/*.txt)
 DISASM_S_FILES := $(shell test -e $(PYTHON) && $(PYTHON) tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
 DISASM_O_FILES := $(DISASM_S_FILES:.s=.o)
@@ -307,7 +307,7 @@ assetclean:
 	$(RM) -r .extracted-assets.json
 
 distclean: clean assetclean
-	$(RM) -r $(BASEROM_SEGMENTS_DIR)
+	$(RM) -r $(BASEROM_SEGMENTS_DIR) $(BASEROM_DECOMPRESSED)
 	$(MAKE) -C tools distclean
 
 venv:
@@ -443,7 +443,7 @@ $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
 $(EXPECTED_DIR)/.disasm: $(DISASM_DATA_FILES)
-	$(PYTHON) tools/disasm/disasm.py $(DISASM_FLAGS) $(DISASM_BASEROM) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
+	$(PYTHON) tools/disasm/disasm.py $(DISASM_FLAGS) $(BASEROM_DECOMPRESSED) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
 	touch $@
 
 $(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/.disasm
