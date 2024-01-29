@@ -7,7 +7,7 @@ pipeline {
         stage('Check formatting') {
             steps {
                 echo 'Checking formatting...'
-                sh 'bash -c "tools/check_format.sh 2>&1 >(tee tools/check_format.txt)"'
+                sh 'tools/check_format.sh'
             }
         }
         stage('Setup') {
@@ -62,9 +62,6 @@ pipeline {
         }
     }
     post {
-        failure {
-            sh 'cat tools/check_format.txt'
-        }
         always {
             echo "Finished, deleting directory."
             deleteDir()
