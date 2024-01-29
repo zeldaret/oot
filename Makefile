@@ -51,15 +51,11 @@ endif
 # Version-specific settings
 ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
-  CFLAGS += -DNON_MATCHING -DNDEBUG
-  CPPFLAGS += -DNON_MATCHING -DNDEBUG
-  OPTFLAGS := -O2 -g3
+  CFLAGS += -DNON_MATCHING
+  CPPFLAGS += -DNON_MATCHING
   COMPARE := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
-  CFLAGS += -DOOT_DEBUG
-  CPPFLAGS += -DOOT_DEBUG
-  OPTFLAGS := -O2
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -71,6 +67,16 @@ VENV := .venv
 
 MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
+
+ifeq ($(DEBUG),1)
+  CFLAGS += -DOOT_DEBUG
+  CPPFLAGS += -DOOT_DEBUG
+  OPTFLAGS := -O2
+else
+  CFLAGS += -DNDEBUG
+  CPPFLAGS += -DNDEBUG
+  OPTFLAGS := -O2 -g3
+endif
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
