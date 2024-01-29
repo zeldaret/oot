@@ -414,34 +414,25 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     gameState->destroy = NULL;
     gameState->running = 1;
     startTime = osGetTime();
-
-#ifdef OOT_DEBUG
-    gameState->size = 0;
-    gameState->init = NULL;
-#else
-    gameState->init = NULL;
-    gameState->size = 0;
-#endif
+    gameState->size = gameState->init = 0;
 
     {
         s32 requiredScopeTemp;
         endTime = osGetTime();
-
         // "game_set_next_game_null processing time %d us"
         PRINTF("game_set_next_game_null 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
         startTime = endTime;
         GameAlloc_Init(&gameState->alloc);
-
-        endTime = osGetTime();
-        // "gamealloc_init processing time %d us"
-        PRINTF("gamealloc_init 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
-        startTime = endTime;
     }
 
+    endTime = osGetTime();
+    // "gamealloc_init processing time %d us"
+    PRINTF("gamealloc_init 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
+    startTime = endTime;
     GameState_InitArena(gameState, 0x100000);
+
     R_UPDATE_RATE = 3;
     init(gameState);
-
     endTime = osGetTime();
     // "init processing time %d us"
     PRINTF("init 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
@@ -457,7 +448,6 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     SpeedMeter_Init(&D_801664D0);
     Rumble_Init();
     osSendMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
-
     endTime = osGetTime();
     // "Other initialization processing time %d us"
     PRINTF("その他初期化 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
