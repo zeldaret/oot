@@ -555,7 +555,7 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
 #ifdef OOT_DEBUG
 // With debug features enabled, the Start Button can be pressed on controller 1 to force the Destination command
 // to run early and warp to the next location
-#define DEBUG_CS_FORCE_DEST                                                                         \
+#define DEBUG_CS_FORCE_DEST                                                                   \
     ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) && \
      (gSaveContext.fileNum != 0xFEDC))
 #else
