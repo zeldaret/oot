@@ -123,7 +123,7 @@ def write_segments(
         if p_start == 0xFFFFFFFF and p_end == 0xFFFFFFFF:
             continue
         with open(segments_dir / segment_name, "wb") as f:
-            f.write(file_content[p_start : p_start + v_end - v_start])
+            f.write(file_content[v_start:v_end])
 
 
 def get_str_hash(byte_array):
