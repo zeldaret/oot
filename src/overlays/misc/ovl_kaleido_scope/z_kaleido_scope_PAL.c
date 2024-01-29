@@ -417,7 +417,6 @@ void KaleidoScope_OverridePalIndexCI4(u8* texture, s32 size, s32 targetIndex, s3
     }
 
     for (i = 0; i < size; i++) {
-
         index1 = index2 = texture[i];
 
         index1 = (index1 >> 4) & 0xF;
@@ -1419,7 +1418,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                     pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                         pauseCtx->infoPanelVtx[16].v.ob[0] + WREG(52 + gSaveContext.language);
 
-                    if (gSaveContext.language == 1) {
+                    if (gSaveContext.language == LANGUAGE_GER) {
                         pauseCtx->infoPanelVtx[20].v.ob[0] = pauseCtx->infoPanelVtx[22].v.ob[0] =
                             pauseCtx->infoPanelVtx[16].v.ob[0] - 99;
                     }
