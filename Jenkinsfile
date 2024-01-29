@@ -4,6 +4,12 @@ pipeline {
     }
 
     stages {
+        stage('Check formatting') {
+            steps {
+                echo 'Checking formatting...'
+                sh 'bash -c "tools/check_format.sh 2>&1 >(tee tools/check_format.txt)"'
+            }
+        }
         stage('Setup') {
             steps {
                 sh 'cp /usr/local/etc/roms/baserom_oot.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
@@ -56,6 +62,9 @@ pipeline {
         }
     }
     post {
+        failure {
+            sh 'cat tools/check_format.txt'
+        }
         always {
             echo "Finished, deleting directory."
             deleteDir()
