@@ -56,7 +56,7 @@ void Idle_ThreadEntry(void* arg) {
     gViConfigYScale = 1.0f;
 
     switch (osTvType) {
-#ifndef OOT_DEBUG
+#if !OOT_DEBUG
         case OS_TV_PAL:
 #endif
         case OS_TV_NTSC:
