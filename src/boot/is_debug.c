@@ -49,7 +49,6 @@ void rmonPrintf(const char* fmt, ...) {
 }
 
 #ifdef OOT_DEBUG
-
 void* is_proutSyncPrintf(void* arg, const char* str, size_t count) {
     u32 data;
     s32 pos;
@@ -102,5 +101,4 @@ NORETURN void func_80002384(const char* exp, const char* file, u32 line) {
         ;
     }
 }
-
 #endif
