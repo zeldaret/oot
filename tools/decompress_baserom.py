@@ -286,14 +286,14 @@ def main():
 
         exit(1)
 
-    # Write out our new ROM
-    print(f"Writing new ROM {uncompressed_path}...")
-    uncompressed_path.write_bytes(file_content)
-
     # Write ROM segments
     segments_dir = baserom_dir / "segments"
     print(f"Writing ROM segments to {segments_dir}...")
     write_segments(file_content, dmadata, segment_names, segments_dir)
+
+    # Write out our new ROM
+    print(f"Writing new ROM {uncompressed_path}...")
+    uncompressed_path.write_bytes(file_content)
 
     print("Done!")
 
