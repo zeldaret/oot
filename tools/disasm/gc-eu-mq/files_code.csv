@@ -457,7 +457,6 @@ offset,vram,.bss
 1195F0,8012A4F0,src/libultra/io/motor.s
 1196F0,8012A5F0,src/libultra/io/siacs.s
 119710,8012A610,src/libultra/io/controller.s
-1197A0,8012A6A0,src/libultra/io/pfsreadwritefile.s
-1198A0,8012A7A0,src/libultra/io/pfsgetstatus.s
+1197A0,8012A6A0,src/libultra/io/pfsgetstatus.s
 1198E0,8012A7E0,src/code/z_message_PAL.s
 119900,8012A800,.end
