@@ -29,7 +29,7 @@ void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
-void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
+void Yaz0_DecompressImpl(u8* src, u8* dst);
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
@@ -45,7 +45,7 @@ void* is_proutSyncPrintf(void* arg, const char* str, size_t count);
 NORETURN void func_80002384(const char* exp, const char* file, u32 line);
 #endif
 OSPiHandle* osDriveRomInit(void);
-void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
+void Mio0_Decompress(u8* src, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
