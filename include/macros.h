@@ -191,6 +191,8 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_FreeDebug(size, file, line)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) LogUtils_CheckNullPointer(exp, ptr, file, line)
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) LogUtils_CheckValidPointer(exp, ptr, file, line)
+#define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
+#define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_MallocDebug(alloc, size, file, line)
 
 #else
 
@@ -219,6 +221,8 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) (void)0
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) (void)0
+#define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)
+#define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)
 
 #endif /* OOT_DEBUG */
 
