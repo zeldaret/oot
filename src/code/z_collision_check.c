@@ -70,7 +70,6 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
 
     CLOSE_DISPS(gfxCtx, "../z_collision_check.c", 757);
 }
-
 #endif
 
 s32 Collider_InitBase(PlayState* play, Collider* col) {
@@ -1003,6 +1002,7 @@ s32 Collider_ResetLineOC(PlayState* play, OcLine* line) {
 void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCtx) {
     colChkCtx->sacFlags = 0;
     CollisionCheck_ClearContext(play, colChkCtx);
+
 #ifdef OOT_DEBUG
     AREG(21) = true;
     AREG(22) = true;
@@ -2176,6 +2176,7 @@ void CollisionCheck_ATTrisVsACCyl(PlayState* play, CollisionCheckContext* colChk
             if (Math3D_CylTriVsIntersect(&acCyl->dim, &atTrisElem->dim, &hitPos) == true) {
                 Vec3f atPos;
                 Vec3f acPos;
+
                 atPos.x = (atTrisElem->dim.vtx[0].x + atTrisElem->dim.vtx[1].x + atTrisElem->dim.vtx[2].x) * (1.0f / 3);
                 atPos.y = (atTrisElem->dim.vtx[0].y + atTrisElem->dim.vtx[1].y + atTrisElem->dim.vtx[2].y) * (1.0f / 3);
                 atPos.z = (atTrisElem->dim.vtx[0].z + atTrisElem->dim.vtx[1].z + atTrisElem->dim.vtx[2].z) * (1.0f / 3);
@@ -2524,6 +2525,7 @@ void CollisionCheck_SetJntSphHitFX(PlayState* play, CollisionCheckContext* colCh
         if ((jntSphElem->base.bumperFlags & BUMP_DRAW_HITMARK) && (jntSphElem->base.acHitElem != NULL) &&
             !(jntSphElem->base.acHitElem->toucherFlags & TOUCH_DREW_HITMARK)) {
             Vec3f hitPos;
+
             Math_Vec3s_ToVec3f(&hitPos, &jntSphElem->base.bumper.hitPos);
             CollisionCheck_HitEffects(play, jntSphElem->base.acHit, jntSphElem->base.acHitElem, &jntSph->base,
                                       &jntSphElem->base, &hitPos);
@@ -2539,6 +2541,7 @@ void CollisionCheck_SetCylHitFX(PlayState* play, CollisionCheckContext* colChkCt
     if ((cyl->elem.bumperFlags & BUMP_DRAW_HITMARK) && (cyl->elem.acHitElem != NULL) &&
         !(cyl->elem.acHitElem->toucherFlags & TOUCH_DREW_HITMARK)) {
         Vec3f hitPos;
+
         Math_Vec3s_ToVec3f(&hitPos, &cyl->elem.bumper.hitPos);
         CollisionCheck_HitEffects(play, cyl->elem.acHit, cyl->elem.acHitElem, &cyl->base, &cyl->elem, &hitPos);
         cyl->elem.acHitElem->toucherFlags |= TOUCH_DREW_HITMARK;
@@ -2553,6 +2556,7 @@ void CollisionCheck_SetTrisHitFX(PlayState* play, CollisionCheckContext* colChkC
         if ((trisElem->base.bumperFlags & BUMP_DRAW_HITMARK) && (trisElem->base.acHitElem != NULL) &&
             !(trisElem->base.acHitElem->toucherFlags & TOUCH_DREW_HITMARK)) {
             Vec3f hitPos;
+
             Math_Vec3s_ToVec3f(&hitPos, &trisElem->base.bumper.hitPos);
             CollisionCheck_HitEffects(play, trisElem->base.acHit, trisElem->base.acHitElem, &tris->base,
                                       &trisElem->base, &hitPos);
@@ -3699,5 +3703,6 @@ u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
 #ifdef OOT_DEBUG
     KREG(7) = damage;
 #endif
+
     return damage;
 }
