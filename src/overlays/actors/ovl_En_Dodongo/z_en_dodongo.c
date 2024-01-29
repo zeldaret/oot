@@ -669,8 +669,6 @@ void EnDodongo_SetupDeath(EnDodongo* this, PlayState* play) {
 }
 
 void EnDodongo_Death(EnDodongo* this, PlayState* play) {
-    EnBom* bomb;
-
     if (this->skelAnime.curFrame < 35.0f) {
         if (this->actor.params == EN_DODONGO_SMOKE_DEATH) {
             EnDodongo_SpawnBombSmoke(this, play);
@@ -680,8 +678,8 @@ void EnDodongo_Death(EnDodongo* this, PlayState* play) {
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer == 0) {
-            bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
-                                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 6, BOMB_BODY);
+            EnBom* bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
+                                              this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 6, BOMB_BODY);
             if (bomb != NULL) {
                 bomb->timer = 0;
                 this->timer = 8;

@@ -40,6 +40,7 @@ FC0,80001420,src/libultra/io/driverominit.s
 3660,80003AC0,src/libultra/os/getmemsize.s
 3780,80003BE0,src/libultra/os/seteventmesg.s
 3840,80003CA0,src/libultra/os/unmaptlball.s
+3890,80003CF0,src/libultra/io/epidma.s
 3930,80003D90,src/libultra/os/invalicache.s
 39B0,80003E10,src/libultra/os/createmesgqueue.s
 39E0,80003E40,src/libultra/os/invaldcache.s

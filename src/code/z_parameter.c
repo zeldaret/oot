@@ -1096,17 +1096,22 @@ void func_80083108(PlayState* play) {
 
 void Interface_SetSceneRestrictions(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
-    s16 i;
+    s16 i = 0;
     u8 sceneId;
+    s32 pad[3];
 
-    interfaceCtx->restrictions.hGauge = interfaceCtx->restrictions.bButton = interfaceCtx->restrictions.aButton =
-        interfaceCtx->restrictions.bottles = interfaceCtx->restrictions.tradeItems =
-            interfaceCtx->restrictions.hookshot = interfaceCtx->restrictions.ocarina =
-                interfaceCtx->restrictions.warpSongs = interfaceCtx->restrictions.sunsSong =
-                    interfaceCtx->restrictions.farores = interfaceCtx->restrictions.dinsNayrus =
-                        interfaceCtx->restrictions.all = 0;
-
-    i = 0;
+    interfaceCtx->restrictions.all = 0;
+    interfaceCtx->restrictions.dinsNayrus = 0;
+    interfaceCtx->restrictions.farores = 0;
+    interfaceCtx->restrictions.sunsSong = 0;
+    interfaceCtx->restrictions.warpSongs = 0;
+    interfaceCtx->restrictions.ocarina = 0;
+    interfaceCtx->restrictions.hookshot = 0;
+    interfaceCtx->restrictions.tradeItems = 0;
+    interfaceCtx->restrictions.bottles = 0;
+    interfaceCtx->restrictions.aButton = 0;
+    interfaceCtx->restrictions.bButton = 0;
+    interfaceCtx->restrictions.hGauge = 0;
 
     // "Data settings related to button display scene_data_ID=%d\n"
     PRINTF("ボタン表示関係データ設定 scene_data_ID=%d\n", play->sceneId);
@@ -1271,7 +1276,7 @@ void Inventory_SwapAgeEquipment(void) {
     }
 
     shieldEquipValue = gEquipMasks[EQUIP_TYPE_SHIELD] & gSaveContext.save.info.equips.equipment;
-    if (shieldEquipValue != 0) {
+    if (shieldEquipValue) {
         shieldEquipValue >>= gEquipShifts[EQUIP_TYPE_SHIELD];
         if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, shieldEquipValue - 1)) {
             gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SHIELD];
@@ -1849,7 +1854,7 @@ u8 Item_Give(PlayState* play, u8 item) {
 u8 Item_CheckObtainability(u8 item) {
     s16 i;
     s16 slot = SLOT(item);
-    s32 temp;
+    s16 temp;
 
     if (item >= ITEM_DEKU_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_DEKU_STICKS_5]);
@@ -2014,35 +2019,27 @@ s32 Inventory_ReplaceItem(PlayState* play, u16 oldItem, u16 newItem) {
 }
 
 s32 Inventory_HasEmptyBottle(void) {
-    u8* items = gSaveContext.save.info.inventory.items;
+    s32 slot;
 
-    if (items[SLOT_BOTTLE_1] == ITEM_BOTTLE_EMPTY) {
-        return true;
-    } else if (items[SLOT_BOTTLE_2] == ITEM_BOTTLE_EMPTY) {
-        return true;
-    } else if (items[SLOT_BOTTLE_3] == ITEM_BOTTLE_EMPTY) {
-        return true;
-    } else if (items[SLOT_BOTTLE_4] == ITEM_BOTTLE_EMPTY) {
-        return true;
-    } else {
-        return false;
+    for (slot = SLOT_BOTTLE_1; slot <= SLOT_BOTTLE_4; slot++) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_BOTTLE_EMPTY) {
+            return true;
+        }
     }
+
+    return false;
 }
 
 s32 Inventory_HasSpecificBottle(u8 bottleItem) {
-    u8* items = gSaveContext.save.info.inventory.items;
+    s32 slot;
 
-    if (items[SLOT_BOTTLE_1] == bottleItem) {
-        return true;
-    } else if (items[SLOT_BOTTLE_2] == bottleItem) {
-        return true;
-    } else if (items[SLOT_BOTTLE_3] == bottleItem) {
-        return true;
-    } else if (items[SLOT_BOTTLE_4] == bottleItem) {
-        return true;
-    } else {
-        return false;
+    for (slot = SLOT_BOTTLE_1; slot <= SLOT_BOTTLE_4; slot++) {
+        if (gSaveContext.save.info.inventory.items[slot] == bottleItem) {
+            return true;
+        }
     }
+
+    return false;
 }
 
 void Inventory_UpdateBottleItem(PlayState* play, u8 item, u8 button) {
@@ -3935,9 +3932,11 @@ void Interface_Draw(PlayState* play) {
         }
     }
 
+#ifdef OOT_DEBUG
     if (pauseCtx->debugState == 3) {
         FlagSet_Update(play);
     }
+#endif
 
     if (interfaceCtx->unk_244 != 0) {
         gDPPipeSync(OVERLAY_DISP++);
@@ -3958,18 +3957,23 @@ void Interface_Update(PlayState* play) {
     s16 dimmingAlpha;
     s16 risingAlpha;
     u16 action;
-    Input* debugInput = &play->state.input[2];
 
-    if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
-        gSaveContext.language = LANGUAGE_ENG;
-        PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DUP)) {
-        gSaveContext.language = LANGUAGE_GER;
-        PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DRIGHT)) {
-        gSaveContext.language = LANGUAGE_FRA;
-        PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
+#ifdef OOT_DEBUG
+    {
+        Input* debugInput = &play->state.input[2];
+
+        if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
+            gSaveContext.language = LANGUAGE_ENG;
+            PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
+        } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DUP)) {
+            gSaveContext.language = LANGUAGE_GER;
+            PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
+        } else if (CHECK_BTN_ALL(debugInput->press.button, BTN_DRIGHT)) {
+            gSaveContext.language = LANGUAGE_FRA;
+            PRINTF("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
+        }
     }
+#endif
 
     if (!IS_PAUSED(&play->pauseCtx)) {
         if ((gSaveContext.minigameState == 1) || !IS_CUTSCENE_LAYER ||
