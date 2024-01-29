@@ -1,12 +1,6 @@
 #include "global.h"
 #include "terminal.h"
 
-#if OOT_DEBUG
-#define VI_MODE_EDITOR_INACTIVE (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE)
-#else
-#define VI_MODE_EDITOR_INACTIVE true
-#endif
-
 SpeedMeter D_801664D0;
 VisCvg sVisCvg;
 VisZBuf sVisZBuf;
@@ -442,7 +436,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     VisCvg_Init(&sVisCvg);
     VisZBuf_Init(&sVisZBuf);
     VisMono_Init(&sVisMono);
-    if (VI_MODE_EDITOR_INACTIVE) {
+    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !OOT_DEBUG) {
         ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
@@ -473,7 +467,7 @@ void GameState_Destroy(GameState* gameState) {
     VisCvg_Destroy(&sVisCvg);
     VisZBuf_Destroy(&sVisZBuf);
     VisMono_Destroy(&sVisMono);
-    if (VI_MODE_EDITOR_INACTIVE) {
+    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !OOT_DEBUG) {
         ViMode_Destroy(&sViMode);
     }
     THA_Destroy(&gameState->tha);
