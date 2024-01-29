@@ -1299,9 +1299,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP);
 void PreRender_ApplyFilters(PreRender* this);
-void GameState_FaultPrint(void);
 void GameState_SetFBFilter(Gfx** gfxP);
-void GameState_DrawInputDisplay(u16 input, Gfx** gfxP);
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx);
 void GameState_SetFrameBuffer(GraphicsContext* gfxCtx);
 void GameState_ReqPadData(GameState* gameState);
@@ -1312,7 +1310,9 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 void GameState_Destroy(GameState* gameState);
 GameStateFunc GameState_GetInit(GameState* gameState);
 u32 GameState_IsRunning(GameState* gameState);
+#ifdef OOT_DEBUG
 void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line);
+#endif
 void func_800C55D0(GameAlloc* this);
 void* GameAlloc_MallocDebug(GameAlloc* this, u32 size, const char* file, s32 line);
 void* GameAlloc_Malloc(GameAlloc* this, u32 size);
