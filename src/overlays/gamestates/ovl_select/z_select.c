@@ -13,6 +13,7 @@ void MapSelect_LoadTitle(MapSelectState* this) {
     this->state.running = false;
     {
         GameState* state = &this->state;
+
         SET_NEXT_GAMESTATE(state, ConsoleLogo_Init, ConsoleLogoState);
     }
 }
@@ -46,6 +47,7 @@ void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
     this->state.running = false;
     {
         GameState* state = &this->state;
+
         SET_NEXT_GAMESTATE(state, Play_Init, PlayState);
     }
 }
