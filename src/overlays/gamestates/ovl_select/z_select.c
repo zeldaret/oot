@@ -756,6 +756,7 @@ void MapSelect_Init(GameState* thisx) {
 
     {
         u32 size = (uintptr_t)_z_select_staticSegmentRomEnd - (uintptr_t)_z_select_staticSegmentRomStart;
+
         this->staticSegment = GAME_STATE_ALLOC(&this->state, size, "../z_select.c", 1114);
         DMA_REQUEST_SYNC(this->staticSegment, (uintptr_t)_z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
     }
