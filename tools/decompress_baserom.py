@@ -113,7 +113,10 @@ def decompress_rom(
 
 
 def write_segments(
-    file_content: bytearray, dmadata: List[List[int]], segment_names: List[str], segments_dir: Path
+    file_content: bytearray,
+    dmadata: List[List[int]],
+    segment_names: List[str],
+    segments_dir: Path,
 ):
     segments_dir.mkdir(parents=True, exist_ok=True)
     for segment_name, (v_start, v_end, p_start, p_end) in zip(segment_names, dmadata):
@@ -173,13 +176,15 @@ def pad_rom(file_content: bytearray, dmadata: List[List[int]]) -> bytearray:
         file_content[i] = 0xFF
     return file_content
 
+
 # Determine if we have a ROM file
 ROM_FILE_EXTENSIONS = ["z64", "n64", "v64"]
+
 
 def find_baserom(version: str) -> Path | None:
     for rom_file_ext_lower in ROM_FILE_EXTENSIONS:
         for rom_file_ext in (rom_file_ext_lower, rom_file_ext_lower.upper()):
-            rom_file_name_candidate =  Path(f"baseroms/{version}/baserom.{rom_file_ext}")
+            rom_file_name_candidate = Path(f"baseroms/{version}/baserom.{rom_file_ext}")
             if rom_file_name_candidate.exists():
                 return rom_file_name_candidate
     return None
@@ -217,7 +222,8 @@ def main():
 
     if rom_file_name is None:
         path_list = [
-            f"baseroms/{version}/baserom.{rom_file_ext}" for rom_file_ext in ROM_FILE_EXTENSIONS
+            f"baseroms/{version}/baserom.{rom_file_ext}"
+            for rom_file_ext in ROM_FILE_EXTENSIONS
         ]
         print(f"Error: Could not find {','.join(path_list)}.")
         exit(1)
@@ -246,7 +252,9 @@ def main():
 
     dmadata = read_dmadata(file_content, file_table_offset)
     if len(segment_names) != len(dmadata):
-        print(f"Error: segment names and dmadata length mismatch ({len(segment_names)} != {len(dmadata)})")
+        print(
+            f"Error: segment names and dmadata length mismatch ({len(segment_names)} != {len(dmadata)})"
+        )
         exit(1)
 
     # Decompress
