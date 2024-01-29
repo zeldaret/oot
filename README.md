@@ -127,7 +127,7 @@ Make sure your path to the project is not too long, otherwise this process may e
 make
 ```
 
-If all goes well, a new ROM called "oot-gc-eu-mq-dbg.z64", located in build/gc-eu-mq-dbg/, should be built and the following text printed:
+If all goes well, a new ROM should be built at `build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.z64`, and the following text printed:
 
 ```bash
 build/gc-eu-mq-dbg/oot-gc-eu-mq-dbg.z64: OK

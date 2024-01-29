@@ -14,7 +14,7 @@ def symInfoMain():
 
     args = parser.parse_args()
 
-    BUILTMAP = Path("build") / args.oot_version / "z64.map"
+    BUILTMAP = Path("build") / args.oot_version / "oot-gc-eu-mq-dbg.map"
 
     mapPath = BUILTMAP
     if args.use_expected:
