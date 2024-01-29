@@ -54,7 +54,7 @@ void Main(void* arg) {
     // "System heap initalization"
     PRINTF("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
-    
+
 #ifdef OOT_DEBUG
     {
         void* debugHeapStart;
@@ -67,7 +67,7 @@ void Main(void* arg) {
             debugHeapSize = 0x400;
             debugHeapStart = SYSTEM_ARENA_MALLOC(debugHeapSize, "../main.c", 565);
         }
-        
+
         PRINTF("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
         DebugArena_Init(debugHeapStart, debugHeapSize);
     }

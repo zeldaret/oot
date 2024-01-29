@@ -23,43 +23,44 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist,
     f32 temp2;
     MtxF sp60;
 
-    if (actor->floorPoly != NULL) {
-        temp1 = actor->world.pos.y - actor->floorHeight;
+    if (actor->floorPoly == NULL) {
+        return;
+    }
 
-        if (temp1 >= -50.0f && temp1 < 500.0f) {
-            OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 1553);
+    temp1 = actor->world.pos.y - actor->floorHeight;
 
-            POLY_OPA_DISP = Gfx_SetupDL(POLY_OPA_DISP, SETUPDL_44);
+    if (temp1 >= -50.0f && temp1 < 500.0f) {
+        OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 1553);
 
-            gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
-                              COMBINED);
+        POLY_OPA_DISP = Gfx_SetupDL(POLY_OPA_DISP, SETUPDL_44);
 
-            temp1 = (temp1 < 0.0f) ? 0.0f : ((temp1 > 150.0f) ? 150.0f : temp1);
-            temp2 = 1.0f - (temp1 * (1.0f / 350));
+        gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
+                          COMBINED);
 
-            if (color != NULL) {
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, color->r, color->g, color->b,
-                                (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
-            } else {
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
-            }
+        temp1 = (temp1 < 0.0f) ? 0.0f : ((temp1 > 150.0f) ? 150.0f : temp1);
+        temp2 = 1.0f - (temp1 * (1.0f / 350));
 
-            func_80038A28(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z, &sp60);
-            Matrix_Put(&sp60);
-
-            if (dlist != gCircleShadowDL) {
-                Matrix_RotateY(BINANG_TO_RAD(actor->shape.rot.y), MTXMODE_APPLY);
-            }
-
-            temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
-            Matrix_Scale(actor->scale.x * temp2, 1.0f, actor->scale.z * temp2, MTXMODE_APPLY);
-
-            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 1588),
-                      G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_OPA_DISP++, dlist);
-
-            CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 1594);
+        if (color != NULL) {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, color->r, color->g, color->b,
+                            (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
+        } else {
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (u32)(actor->shape.shadowAlpha * temp2) & 0xFF);
         }
+
+        func_80038A28(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z, &sp60);
+        Matrix_Put(&sp60);
+
+        if (dlist != gCircleShadowDL) {
+            Matrix_RotateY(BINANG_TO_RAD(actor->shape.rot.y), MTXMODE_APPLY);
+        }
+
+        temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
+        Matrix_Scale(actor->scale.x * temp2, 1.0f, actor->scale.z * temp2, MTXMODE_APPLY);
+
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 1588), G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPDisplayList(POLY_OPA_DISP++, dlist);
+
+        CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 1594);
     }
 }
 
@@ -166,8 +167,11 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
                             (lightPtr->l.col[0] + lightPtr->l.col[1] + lightPtr->l.col[2]) * ABS(lightPtr->l.dir[1]);
                         if (lightNum > 0) {
                             lightNumMax += lightNum;
-                            ActorShadow_DrawFoot(play, lightPtr, &floorMtx, lightNum, shadowAlpha, shadowScaleX,
-                                                 shadowScaleZ);
+#ifndef OOT_DEBUG
+                            if (1)
+#endif
+                                ActorShadow_DrawFoot(play, lightPtr, &floorMtx, lightNum, shadowAlpha, shadowScaleX,
+                                                     shadowScaleZ);
                         }
                     }
                     lightPtr++;
@@ -284,13 +288,11 @@ void Actor_SetNaviToActor(TargetContext* targetCtx, Actor* actor, s32 actorCateg
 }
 
 void func_8002C0C0(TargetContext* targetCtx, Actor* actor, PlayState* play) {
-    targetCtx->arrowPointedActor = NULL;
-    targetCtx->targetedActor = NULL;
-    targetCtx->unk_40 = 0.0f;
-    targetCtx->unk_8C = NULL;
-    targetCtx->bgmEnemy = NULL;
+    targetCtx->arrowPointedActor = targetCtx->targetedActor = targetCtx->unk_8C = targetCtx->bgmEnemy = NULL;
+
     targetCtx->unk_4B = 0;
     targetCtx->unk_4C = 0;
+    targetCtx->unk_40 = 0.0f;
     Actor_SetNaviToActor(targetCtx, actor, actor->category, play);
     func_8002BE98(targetCtx, actor->category, play);
 }
@@ -304,13 +306,12 @@ void func_8002C124(TargetContext* targetCtx, PlayState* play) {
         TargetContextEntry* entry;
         Player* player;
         s16 spCE;
-        f32 temp1;
+        f32 var1;
         Vec3f projTargetCenter;
         s32 spB8;
         f32 projTargetCappedInvW;
         s32 spB0;
         s32 spAC;
-        f32 var1;
         f32 var2;
         s32 i;
 
@@ -417,13 +418,6 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
     s32 actorCategory;
     Vec3f projectedFocusPos;
     f32 cappedInvWDest;
-    f32 temp1;
-    f32 temp2;
-    f32 temp3;
-    f32 temp4;
-    f32 temp5;
-    f32 temp6;
-    s32 lockOnSfxId;
 
     unkActor = NULL;
 
@@ -458,10 +452,12 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
     }
 
     if (Math_StepToF(&targetCtx->unk_40, 0.0f, 0.25f) == 0) {
-        temp1 = 0.25f / targetCtx->unk_40;
-        temp2 = unkActor->world.pos.x - targetCtx->naviRefPos.x;
-        temp3 = (unkActor->world.pos.y + (unkActor->targetArrowOffset * unkActor->scale.y)) - targetCtx->naviRefPos.y;
-        temp4 = unkActor->world.pos.z - targetCtx->naviRefPos.z;
+        f32 temp1 = 0.25f / targetCtx->unk_40;
+        f32 temp2 = unkActor->world.pos.x - targetCtx->naviRefPos.x;
+        f32 temp3 =
+            (unkActor->world.pos.y + (unkActor->targetArrowOffset * unkActor->scale.y)) - targetCtx->naviRefPos.y;
+        f32 temp4 = unkActor->world.pos.z - targetCtx->naviRefPos.z;
+
         targetCtx->naviRefPos.x += temp2 * temp1;
         targetCtx->naviRefPos.y += temp3 * temp1;
         targetCtx->naviRefPos.z += temp4 * temp1;
@@ -479,6 +475,8 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
 
     if (actorArg != NULL) {
         if (actorArg != targetCtx->targetedActor) {
+            s32 lockOnSfxId;
+
             func_8002BE98(targetCtx, actorArg->category, play);
             targetCtx->targetedActor = actorArg;
 
@@ -496,8 +494,9 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Pl
         targetCtx->targetCenterPos.z = actorArg->world.pos.z;
 
         if (targetCtx->unk_4B == 0) {
-            temp5 = (500.0f - targetCtx->unk_44) * 3.0f;
-            temp6 = (temp5 < 30.0f) ? 30.0f : ((100.0f < temp5) ? 100.0f : temp5);
+            f32 temp5 = (500.0f - targetCtx->unk_44) * 3.0f;
+            f32 temp6 = (temp5 < 30.0f) ? 30.0f : ((100.0f < temp5) ? 100.0f : temp5);
+
             if (Math_StepToF(&targetCtx->unk_44, 80.0f, temp6) != 0) {
                 targetCtx->unk_4B++;
             }
@@ -715,9 +714,9 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
     if (titleCtx->alpha != 0) {
         width = titleCtx->width;
         height = titleCtx->height;
+        doubleWidth = width * 2;
         titleX = (titleCtx->x * 4) - (width * 2);
         titleY = (titleCtx->y * 4) - (height * 2);
-        doubleWidth = width * 2;
 
         OPEN_DISPS(play->state.gfxCtx, "../z_actor.c", 2824);
 
@@ -832,11 +831,13 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
         actor->destroy(actor, play);
         actor->destroy = NULL;
     } else {
+#ifdef OOT_DEBUG
         overlayEntry = actor->overlayEntry;
         name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
         // "No Actor class destruct [%s]"
         PRINTF("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
+#endif
     }
 }
 
@@ -1291,12 +1292,6 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
     f32 sp74;
     s32 pad;
     Vec3f sp64;
-    s32 bgId;
-    CollisionPoly* wallPoly;
-    f32 sp58;
-    WaterBox* waterBox;
-    f32 waterBoxYSurface;
-    Vec3f ripplePos;
 
     sp74 = actor->world.pos.y - actor->prevPos.y;
 
@@ -1305,12 +1300,16 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
     }
 
     if (flags & UPDBGCHECKINFO_FLAG_0) {
+        s32 bgId;
+
         if ((!(flags & UPDBGCHECKINFO_FLAG_7) &&
              BgCheck_EntitySphVsWall3(&play->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
                                       &actor->wallPoly, &bgId, actor, wallCheckHeight)) ||
             ((flags & UPDBGCHECKINFO_FLAG_7) &&
              BgCheck_EntitySphVsWall4(&play->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
                                       &actor->wallPoly, &bgId, actor, wallCheckHeight))) {
+            CollisionPoly* wallPoly;
+
             wallPoly = actor->wallPoly;
             Math_Vec3f_Copy(&actor->world.pos, &sp64);
             actor->wallYaw = Math_Atan2S(wallPoly->normal.z, wallPoly->normal.x);
@@ -1325,6 +1324,8 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
     sp64.z = actor->world.pos.z;
 
     if (flags & UPDBGCHECKINFO_FLAG_1) {
+        f32 sp58;
+
         sp64.y = actor->prevPos.y + 10.0f;
         if (BgCheck_EntityCheckCeiling(&play->colCtx, &sp58, &sp64, (ceilingCheckHeight + sp74) - 10.0f,
                                        &sCurCeilingPoly, &sCurCeilingBgId, actor)) {
@@ -1336,6 +1337,9 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
     }
 
     if (flags & UPDBGCHECKINFO_FLAG_2) {
+        WaterBox* waterBox;
+        f32 waterBoxYSurface;
+
         sp64.y = actor->prevPos.y;
         func_8002E2AC(play, actor, &sp64, flags);
         waterBoxYSurface = actor->world.pos.y;
@@ -1346,8 +1350,11 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
                 actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
             } else {
                 if (!(actor->bgCheckFlags & BGCHECKFLAG_WATER)) {
+                    Vec3f ripplePos;
+
                     actor->bgCheckFlags |= BGCHECKFLAG_WATER_TOUCH;
                     if (!(flags & UPDBGCHECKINFO_FLAG_6)) {
+
                         ripplePos.x = actor->world.pos.x;
                         ripplePos.y = waterBoxYSurface;
                         ripplePos.z = actor->world.pos.z;
@@ -1377,12 +1384,15 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
 
     *hilite = GRAPH_ALLOC(gfxCtx, sizeof(Hilite));
 
+#ifdef OOT_DEBUG
     if (R_HREG_MODE == HREG_MODE_PRINT_HILITE_INFO) {
         PRINTF("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n", correctedEyeX,
                eye->x, eye->y, eye->z, object->x, object->y, object->z, lightDir->x, lightDir->y, lightDir->z);
     }
 
     View_ErrorCheckEyePosition(correctedEyeX, eye->y, eye->z);
+#endif
+
     guLookAtHilite(&D_8015BBA8, lookAt, *hilite, correctedEyeX, eye->y, eye->z, object->x, object->y, object->z, 0.0f,
                    1.0f, 0.0f, lightDir->x, lightDir->y, lightDir->z, lightDir->x, lightDir->y, lightDir->z, 16, 16);
 
@@ -1773,8 +1783,8 @@ void func_8002F698(PlayState* play, Actor* actor, f32 arg2, s16 arg3, f32 arg4, 
 
     player->unk_8A0 = arg6;
     player->unk_8A1 = arg5;
-    player->unk_8A2 = arg3;
     player->unk_8A4 = arg2;
+    player->unk_8A2 = arg3;
     player->unk_8A8 = arg4;
 }
 
@@ -1903,11 +1913,12 @@ void func_8002FA60(PlayState* play) {
         gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = 0.0f;
     }
 
-    lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-    lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
-    lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
-
+    // clang-format off
+    lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x; \
+    lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f; \
+    lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z; \
     Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
+    // clang-format on
 
     D_8015BC10 = LightContext_InsertLight(play, &play->lightCtx, &D_8015BC00);
     D_8015BC14 = 0;
@@ -2137,7 +2148,7 @@ u32 sCategoryFreezeMasks[ACTORCAT_MAX] = {
 };
 
 void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
-    Actor* refActor;
+    s32 i;
     Actor* actor;
     Player* player;
     u32* categoryFreezeMaskP;
@@ -2145,7 +2156,6 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
     u32 canFreezeCategory;
     Actor* sp74;
     ActorEntry* actorEntry;
-    s32 i;
 
     player = GET_PLAYER(play);
 
@@ -2169,12 +2179,15 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         actorCtx->unk_02--;
     }
 
+#ifdef OOT_DEBUG
     if (KREG(0) == -100) {
-        refActor = &GET_PLAYER(play)->actor;
+        Actor* refActor = &GET_PLAYER(play)->actor;
+
         KREG(0) = 0;
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CLEAR_TAG, refActor->world.pos.x, refActor->world.pos.y + 100.0f,
                     refActor->world.pos.z, 0, 0, 0, 1);
     }
+#endif
 
     categoryFreezeMaskP = &sCategoryFreezeMasks[0];
 
@@ -2288,17 +2301,24 @@ void Actor_FaultPrint(Actor* actor, char* command) {
         FaultDrawer_Printf("ACTOR NAME is NULL");
     }
 
+#ifdef OOT_DEBUG
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
     PRINTF("アクターの名前(%08x:%s)\n", actor, name); // "Actor name (%08x:%s)"
+#endif
 
     if (command != NULL) {
         PRINTF("コメント:%s\n", command); // "Command:%s"
     }
 
     FaultDrawer_SetCursor(48, 24);
+
+#ifdef OOT_DEBUG
     FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, name);
+#else
+    FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, "");
+#endif
 }
 
 void Actor_Draw(PlayState* play, Actor* actor) {
@@ -2537,20 +2557,34 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
             gDPNoOpString(POLY_OPA_DISP++, actorName, i);
             gDPNoOpString(POLY_XLU_DISP++, actorName, i);
 
+#ifdef OOT_DEBUG
             HREG(66) = i;
+#endif
 
+#ifdef OOT_DEBUG
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
+#else
+            if (1) {
+#endif
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &actor->world.pos, &actor->projectedPos,
                                              &actor->projectedW);
             }
 
+#ifdef OOT_DEBUG
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {
+#else
+            if (1) {
+#endif
                 if (actor->sfx != 0) {
                     func_80030ED8(actor);
                 }
             }
 
+#ifdef OOT_DEBUG
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(70) == 0)) {
+#else
+            if (1) {
+#endif
                 if (func_800314B0(play, actor)) {
                     actor->flags |= ACTOR_FLAG_6;
                 } else {
@@ -2560,7 +2594,11 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 
             actor->isDrawn = false;
 
+#ifdef OOT_DEBUG
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
+#else
+            if (1) {
+#endif
                 if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_5 | ACTOR_FLAG_6))) {
                     if ((actor->flags & ACTOR_FLAG_REACT_TO_LENS) &&
                         ((play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) || play->actorCtx.lensActive ||
@@ -2570,7 +2608,11 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
                         invisibleActors[invisibleActorCounter] = actor;
                         invisibleActorCounter++;
                     } else {
+#ifdef OOT_DEBUG
                         if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(72) == 0)) {
+#else
+                        if (1) {
+#endif
                             Actor_Draw(play, actor);
                             actor->isDrawn = true;
                         }
@@ -2582,15 +2624,27 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
         }
     }
 
+#ifdef OOT_DEBUG
     if ((HREG(64) != 1) || (HREG(73) != 0)) {
+#else
+    if (1) {
+#endif
         Effect_DrawAll(play->state.gfxCtx);
     }
 
+#ifdef OOT_DEBUG
     if ((HREG(64) != 1) || (HREG(74) != 0)) {
+#else
+    if (1) {
+#endif
         EffectSs_DrawAll(play);
     }
 
+#ifdef OOT_DEBUG
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
+#else
+    if (1) {
+#endif
         if (play->actorCtx.lensActive) {
             Actor_DrawLensActors(play, invisibleActorCounter, invisibleActors);
             if ((play->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(play)) {
@@ -2605,13 +2659,19 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
         Lights_DrawGlow(play);
     }
 
+#ifdef OOT_DEBUG
     if ((HREG(64) != 1) || (HREG(75) != 0)) {
+#else
+    if (1) {
+#endif
         TitleCard_Draw(play, &actorCtx->titleCtx);
     }
 
+#ifdef OOT_DEBUG
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
         CollisionCheck_DrawCollision(play, &play->colChkCtx);
     }
+#endif
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_actor.c", 6563);
 }
@@ -2765,32 +2825,44 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     PRINTF(VT_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
+#ifdef OOT_DEBUG
         if (HREG(20) != 0) {
             PRINTF("アクタークライアントが０になりました\n"); // "Actor client is now 0"
         }
+#endif
 
         if (actorOverlay->loadedRamAddr != NULL) {
             if (actorOverlay->allocType & ACTOROVL_ALLOC_PERSISTENT) {
+#ifdef OOT_DEBUG
                 if (HREG(20) != 0) {
                     PRINTF("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
                 }
+#endif
             } else if (actorOverlay->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
+#ifdef OOT_DEBUG
                 if (HREG(20) != 0) {
                     // "Absolute magic field reserved, so deallocation will not occur"
                     PRINTF("絶対魔法領域確保なので解放しません\n");
                 }
+#endif
                 actorOverlay->loadedRamAddr = NULL;
             } else {
+#ifdef OOT_DEBUG
                 if (HREG(20) != 0) {
                     PRINTF("オーバーレイ解放します\n"); // "Overlay deallocated"
                 }
+#endif
                 ZELDA_ARENA_FREE(actorOverlay->loadedRamAddr, "../z_actor.c", 6834);
                 actorOverlay->loadedRamAddr = NULL;
             }
         }
-    } else if (HREG(20) != 0) {
-        // "%d of actor client remains"
-        PRINTF("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
+    } else {
+#ifdef OOT_DEBUG
+        if (HREG(20) != 0) {
+            // "%d of actor client remains"
+            PRINTF("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
+        }
+#endif
     }
 
     PRINTF(VT_RST);
@@ -2810,13 +2882,18 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     overlayEntry = &gActorOverlayTable[actorId];
     ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
+#ifdef OOT_DEBUG
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
+#endif
+
     overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
+#ifdef OOT_DEBUG
     if (HREG(20) != 0) {
         // "Actor class addition [%d:%s]"
         PRINTF("アクタークラス追加 [%d:%s]\n", actorId, name);
     }
+#endif
 
     if (actorCtx->total > ACTOR_NUMBER_MAX) {
         // "Ａｃｔｏｒ set number exceeded"
@@ -2825,16 +2902,20 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     }
 
     if (overlayEntry->vramStart == NULL) {
+#ifdef OOT_DEBUG
         if (HREG(20) != 0) {
             PRINTF("オーバーレイではありません\n"); // "Not an overlay"
         }
+#endif
 
         actorInit = overlayEntry->initInfo;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
+#ifdef OOT_DEBUG
             if (HREG(20) != 0) {
                 PRINTF("既にロードされています\n"); // "Already loaded"
             }
+#endif
         } else {
             if (overlayEntry->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
                 ASSERT(overlaySize <= ACTOROVL_ABSOLUTE_SPACE_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c",
@@ -2843,10 +2924,12 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 if (actorCtx->absoluteSpace == NULL) {
                     // "AMF: absolute magic field"
                     actorCtx->absoluteSpace = ZELDA_ARENA_MALLOC_R(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
+#ifdef OOT_DEBUG
                     if (HREG(20) != 0) {
                         // "Absolute magic field reservation - %d bytes reserved"
                         PRINTF("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
                     }
+#endif
                 }
 
                 overlayEntry->loadedRamAddr = actorCtx->absoluteSpace;
@@ -3009,9 +3092,11 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
+#ifdef OOT_DEBUG
     if (HREG(20) != 0) {
         PRINTF("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
     }
+#endif
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
@@ -3038,9 +3123,11 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     ZELDA_ARENA_FREE(actor, "../z_actor.c", 7242);
 
     if (overlayEntry->vramStart == NULL) {
+#ifdef OOT_DEBUG
         if (HREG(20) != 0) {
             PRINTF("オーバーレイではありません\n"); // "Not an overlay"
         }
+#endif
     } else {
         ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
         ASSERT(overlayEntry->numLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
@@ -3715,6 +3802,9 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
     f32 chainsTranslateX;
     f32 chainsTranslateY;
     f32 rotZStep;
+#ifndef OOT_DEBUG
+    s32 pad;
+#endif
 
     entry = &sDoorLocksInfo[type];
     chainRotZ = entry->chainsRotZInit;
@@ -4404,19 +4494,19 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
 }
 
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
-    f32 floorPolyNormalX;
-    f32 floorPolyNormalY;
-    f32 floorPolyNormalZ;
-    f32 sp38;
-    f32 sp34;
-    f32 sp30;
-    f32 sp2C;
-    f32 sp28;
-    f32 sp24;
-    CollisionPoly* floorPoly;
-    s32 pad;
-
     if (actor->floorPoly != NULL) {
+        f32 floorPolyNormalX;
+        f32 floorPolyNormalY;
+        f32 floorPolyNormalZ;
+        f32 sp38;
+        f32 sp34;
+        f32 sp30;
+        f32 sp2C;
+        f32 sp28;
+        f32 sp24;
+        CollisionPoly* floorPoly;
+        s32 pad;
+
         floorPoly = actor->floorPoly;
         floorPolyNormalX = COLPOLY_GET_NORMAL(floorPoly->normal.x);
         floorPolyNormalY = COLPOLY_GET_NORMAL(floorPoly->normal.y);
