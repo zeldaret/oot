@@ -553,12 +553,13 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
 }
 
 #ifdef OOT_DEBUG
-// With debug features enabled, the Start Button can be pressed on controller 1 to end a cutscene early and skip it
-#define DEBUG_CS_SKIP                                                                         \
+// With debug features enabled, the Start Button can be pressed on controller 1 to force the Destination command
+// to run early and warp to the next location
+#define DEBUG_CS_FORCE_DEST                                                                         \
     ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) && \
      (gSaveContext.fileNum != 0xFEDC))
 #else
-#define DEBUG_CS_SKIP false
+#define DEBUG_CS_FORCE_DEST false
 #endif
 
 void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDestination* cmd) {
@@ -576,7 +577,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         titleDemoSkipped = true;
     }
 
-    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped || DEBUG_CS_SKIP) {
+    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped || DEBUG_CS_FORCE_DEST) {
         csCtx->state = CS_STATE_RUN_UNSTOPPABLE;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
@@ -1801,6 +1802,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
     }
 
 #ifdef OOT_DEBUG
+    // With debug features enabled, pressing D-pad Right on controller 1 will stop the cutscene early and skip it
     if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_DRIGHT)) {
         csCtx->state = CS_STATE_STOP;
         return;
