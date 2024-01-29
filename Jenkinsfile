@@ -4,6 +4,12 @@ pipeline {
     }
 
     stages {
+        stage('Check formatting') {
+            steps {
+                echo 'Checking formatting...'
+                sh 'tools/check_format.sh'
+            }
+        }
         stage('Setup') {
             steps {
                 sh 'cp /usr/local/etc/roms/baserom_oot.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
