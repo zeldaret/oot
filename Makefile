@@ -50,11 +50,13 @@ endif
 
 # Version-specific settings
 ifeq ($(VERSION),gc-eu-mq)
+  DEBUG := 0
   CFLAGS += -DNON_MATCHING -DNDEBUG
   CPPFLAGS += -DNON_MATCHING -DNDEBUG
   OPTFLAGS := -O2 -g3
   COMPARE := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
+  DEBUG := 1
   CFLAGS += -DOOT_DEBUG
   CPPFLAGS += -DOOT_DEBUG
   OPTFLAGS := -O2
@@ -230,14 +232,40 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),$(BUILD_DIR)/$
 $(shell mkdir -p $(BUILD_DIR)/baserom $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
 ifeq ($(COMPILER),ido)
+$(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
+
+$(BUILD_DIR)/src/code/__osMalloc.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FCE80.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FD970.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/loadfragment2.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/logutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/printutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
+
 $(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
+
+ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -g
+else
+$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -O2
+endif
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 
@@ -248,8 +276,14 @@ $(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
 $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
+ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
+else
+$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2
+endif
+
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
