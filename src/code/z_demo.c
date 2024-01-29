@@ -554,8 +554,10 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
 
 #ifdef OOT_DEBUG
 // With debug features enabled, the Start Button can be pressed on controller 1 to end a cutscene early and skip it
-#define DEBUG_CS_SKIP ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) && (gSaveContext.fileNum != 0xFEDC))
-#else 
+#define DEBUG_CS_SKIP                                                                         \
+    ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) && \
+     (gSaveContext.fileNum != 0xFEDC))
+#else
 #define DEBUG_CS_SKIP false
 #endif
 
