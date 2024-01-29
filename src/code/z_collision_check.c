@@ -8,7 +8,6 @@ typedef void (*ColChkVsFunc)(PlayState*, CollisionCheckContext*, Collider*, Coll
 typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
 
 #ifdef OOT_DEBUG
-
 /**
  * Draws a red triangle with vertices vA, vB, and vC.
  */
@@ -1059,7 +1058,6 @@ void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx
 }
 
 #ifdef OOT_DEBUG
-
 /**
  * Draws a collider of any shape.
  * Math3D_DrawSphere and Math3D_DrawCylinder are noops, so JntSph and Cylinder are not drawn.
@@ -1138,7 +1136,6 @@ void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChk
         }
     }
 }
-
 #endif
 
 static ColChkResetFunc sATResetFuncs[] = {

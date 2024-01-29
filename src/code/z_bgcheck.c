@@ -4410,7 +4410,6 @@ s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec
 }
 
 #ifdef OOT_DEBUG
-
 /**
  * Draw a list of dyna polys, specified by `ssList`
  */
@@ -4558,5 +4557,4 @@ void BgCheck_DrawStaticCollision(PlayState* play, CollisionContext* colCtx) {
         BgCheck_DrawStaticPolyList(play, colCtx, &lookup->ceiling, 255, 0, 0);
     }
 }
-
 #endif
