@@ -2180,11 +2180,11 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
 
 #if OOT_DEBUG
     if (KREG(0) == -100) {
-        Actor* refActor = &GET_PLAYER(play)->actor;
+        Actor* player = &GET_PLAYER(play)->actor;
 
         KREG(0) = 0;
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CLEAR_TAG, refActor->world.pos.x, refActor->world.pos.y + 100.0f,
-                    refActor->world.pos.z, 0, 0, 0, 1);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_CLEAR_TAG, player->world.pos.x, player->world.pos.y + 100.0f,
+                    player->world.pos.z, 0, 0, 0, 1);
     }
 #endif
 
