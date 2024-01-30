@@ -4011,11 +4011,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             }
             FALLTHROUGH;
         case BANK_OCARINA:
-#if OOT_DEBUG
-            entry->dist = sqrtf(entry->dist);
-#else
-            entry->dist = sqrtf(entry->dist * 10.0f);
-#endif
+            entry->dist = sqrtf(entry->dist * SFX_DIST_SCALING);
 
             vol = Audio_ComputeSfxVolume(bankId, entryIdx) * *entry->vol;
             reverb = Audio_ComputeSfxReverb(bankId, entryIdx, channelIdx);

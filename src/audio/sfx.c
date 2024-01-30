@@ -326,11 +326,7 @@ void Audio_ChooseActiveSfx(u8 bankId) {
                 entry->dist = 0.0f;
             } else {
                 tempf1 = *entry->posY * 1;
-#if OOT_DEBUG
-                entry->dist = (SQ(*entry->posX) + SQ(tempf1) + SQ(*entry->posZ)) * 1;
-#else
-                entry->dist = (SQ(*entry->posX) + SQ(tempf1) + SQ(*entry->posZ)) / 10.0f;
-#endif
+                entry->dist = (SQ(*entry->posX) + SQ(tempf1) + SQ(*entry->posZ)) / SFX_DIST_SCALING;
             }
             sfxImportance = entry->sfxImportance;
             if (entry->sfxParams & SFX_FLAG_4) {
