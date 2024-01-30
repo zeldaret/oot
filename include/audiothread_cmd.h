@@ -139,7 +139,8 @@ typedef enum {
  * @param channelIndex the index of the channel to modify
  * @param panChannelWeight (s8) proportion of pan that comes from the channel.
  *                         Set to 0 for layer-only, and 128 for channel-only.
-*                         As the actual value is set to `u8`, use `(u8)-128` to produce 128
+ *                         As the type used is `s8` and internally cast to u8 later,
+ *                         pass `-128` to produce 128, or just use 127 instead
  */
 #define AUDIOCMD_CHANNEL_SET_PAN_WEIGHT(seqPlayerIndex, channelIndex, panChannelWeight)                       \
     AudioThread_QueueCmdS8(AUDIO_MK_CMD(AUDIOCMD_OP_CHANNEL_SET_PAN_WEIGHT, seqPlayerIndex, channelIndex, 0), \
