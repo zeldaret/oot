@@ -1354,7 +1354,6 @@ void Actor_UpdateBgCheckInfo(PlayState* play, Actor* actor, f32 wallCheckHeight,
 
                     actor->bgCheckFlags |= BGCHECKFLAG_WATER_TOUCH;
                     if (!(flags & UPDBGCHECKINFO_FLAG_6)) {
-
                         ripplePos.x = actor->world.pos.x;
                         ripplePos.y = waterBoxYSurface;
                         ripplePos.z = actor->world.pos.z;
