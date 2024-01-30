@@ -694,7 +694,8 @@ u16 EnHy_GetTextId(PlayState* play, Actor* thisx) {
             }
 
         case ENHY_TYPE_YOUNG_WOMAN_ORANGE_HAIR:
-            return GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
+            return GET_INFTABLE(INFTABLE_MALON_SPAWNED_AT_HYRULE_CASTLE) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4)
+                                                                         : 0x7014;
 
         case ENHY_TYPE_MAN_2_ALT_MUSTACHE:
             if (play->sceneId == SCENE_KAKARIKO_VILLAGE) {
