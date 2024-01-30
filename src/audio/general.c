@@ -2373,7 +2373,7 @@ char sBoolStrs[3][5] = { "OFF", "ON", "STBY" };
 u8 sAudioNatureFailed = false;
 u8 sPeakNumNotes = 0;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
 void AudioDebug_SetInput(void) {
     Input inputs[MAXCONTROLLERS];
@@ -3710,7 +3710,7 @@ void Audio_UpdateFanfare(void);
  */
 void func_800F3054(void) {
     if (func_800FAD34() == 0) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         sAudioUpdateTaskStart = gAudioCtx.totalTaskCount;
         sAudioUpdateStartTime = osGetTime();
 #endif
@@ -3729,14 +3729,14 @@ void func_800F3054(void) {
         func_800F8F88();
         Audio_UpdateActiveSequences();
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         AudioDebug_SetInput();
         AudioDebug_ProcessInput();
 #endif
 
         Audio_ScheduleProcessCmds();
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         sAudioUpdateTaskEnd = gAudioCtx.totalTaskCount;
         sAudioUpdateEndTime = osGetTime();
 #endif
@@ -4011,7 +4011,7 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             }
             FALLTHROUGH;
         case BANK_OCARINA:
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
             entry->dist = sqrtf(entry->dist);
 #else
             entry->dist = sqrtf(entry->dist * 10.0f);
@@ -4142,7 +4142,7 @@ void func_800F4010(Vec3f* pos, u16 sfxId, f32 arg2) {
     u8 phi_v0;
     u16 sfxId2;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     D_80131C8C = arg2;
 #endif
 
@@ -4733,7 +4733,7 @@ s32 Audio_IsSequencePlaying(u16 seqId) {
 void func_800F5ACC(u16 seqId) {
     u16 curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
 
-#ifndef OOT_DEBUG
+#if !OOT_DEBUG
     if (1) {}
 #endif
 
@@ -4857,7 +4857,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
     u16 seqId;
     u8 volumeFadeOutTimer;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     sSeqModeInput = seqMode;
 #endif
 
@@ -4963,7 +4963,7 @@ void Audio_UpdateMalonSinging(f32 dist, u16 seqId) {
     s8 melodyVolume;
     s16 curSeqId;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     sIsMalonSinging = true;
     sMalonSingingDist = dist;
 #endif
@@ -5277,7 +5277,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 ioPort, u8 ioData) 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) &&
         Audio_IsSeqCmdNotQueued(SEQCMD_OP_PLAY_SEQUENCE << 28 | NA_BGM_NATURE_AMBIENCE, SEQCMD_OP_MASK | 0xFF)) {
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         sAudioNatureFailed = true;
 #endif
 
@@ -5318,7 +5318,7 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
 
     channelIdx = false;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (gStartSeqDisabled) {
         channelIdx = true;
         SEQCMD_DISABLE_PLAY_SEQUENCES(false);

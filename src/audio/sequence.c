@@ -43,11 +43,7 @@ void Audio_StartSequence(u8 seqPlayerIndex, u8 seqId, u8 seqArgs, u16 fadeInDura
 
     if (!gStartSeqDisabled || (seqPlayerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
-#ifdef OOT_DEBUG
-        if (seqArgs == 0x7F) {
-#else
-        if (0) {
-#endif
+        if (OOT_DEBUG && (seqArgs == 0x7F)) {
             // `fadeInDuration` is interpreted as skip ticks
             duration = (fadeInDuration >> 3) * 60 * gAudioCtx.audioBufferParameters.updatesPerFrame;
             Audio_QueueCmdS32(0x85000000 | _SHIFTL(seqPlayerIndex, 16, 8) | _SHIFTL(seqId, 8, 8), duration);
@@ -107,7 +103,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     f32 freqScaleTarget;
     s32 pad;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (gAudioDebugPrintSeqCmd && (cmd & SEQCMD_OP_MASK) != (SEQCMD_OP_SET_PLAYER_IO << 28)) {
         AudioDebug_ScrPrt("SEQ H", (cmd >> 16) & 0xFFFF);
         AudioDebug_ScrPrt("    L", cmd & 0xFFFF);
