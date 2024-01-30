@@ -29,19 +29,23 @@ void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
-void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
+void Yaz0_DecompressImpl(u8* src, u8* dst);
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 u32 func_80001F48(void);
 u32 func_80001F8C(void);
 u32 Locale_IsRegionNative(void);
+#if OOT_DEBUG
 void isPrintfInit(void);
+#endif
 void rmonPrintf(const char* fmt, ...);
+#if OOT_DEBUG
 void* is_proutSyncPrintf(void* arg, const char* str, size_t count);
 NORETURN void func_80002384(const char* exp, const char* file, u32 line);
+#endif
 OSPiHandle* osDriveRomInit(void);
-void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
+void Mio0_Decompress(u8* src, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
@@ -615,7 +619,7 @@ u16 WaterBox_GetBgCamSetting(CollisionContext* colCtx, WaterBox* waterBox);
 u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 void BgCheck_DrawDynaCollision(PlayState*, CollisionContext*);
 void BgCheck_DrawStaticCollision(PlayState*, CollisionContext*);
 #endif
@@ -663,7 +667,7 @@ s32 func_8005B198(void);
 s16 Camera_SetFinishedFlag(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
 void DamageTable_Clear(DamageTable* table);
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 void Collider_DrawRedPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
 void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 #endif
@@ -714,7 +718,7 @@ void CollisionCheck_DestroyContext(PlayState* play, CollisionCheckContext* colCh
 void CollisionCheck_ClearContext(PlayState* play, CollisionCheckContext* colChkCtx);
 void CollisionCheck_EnableSAC(PlayState* play, CollisionCheckContext* colChkCtx);
 void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx);
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 void Collider_Draw(PlayState* play, Collider* col);
 void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChkCtx);
 #endif
@@ -1301,9 +1305,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP);
 void PreRender_ApplyFilters(PreRender* this);
-void GameState_FaultPrint(void);
 void GameState_SetFBFilter(Gfx** gfxP);
-void GameState_DrawInputDisplay(u16 input, Gfx** gfxP);
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx);
 void GameState_SetFrameBuffer(GraphicsContext* gfxCtx);
 void GameState_ReqPadData(GameState* gameState);
@@ -1314,7 +1316,9 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 void GameState_Destroy(GameState* gameState);
 GameStateFunc GameState_GetInit(GameState* gameState);
 u32 GameState_IsRunning(GameState* gameState);
+#if OOT_DEBUG
 void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line);
+#endif
 void func_800C55D0(GameAlloc* this);
 void* GameAlloc_MallocDebug(GameAlloc* this, u32 size, const char* file, s32 line);
 void* GameAlloc_Malloc(GameAlloc* this, u32 size);
@@ -1436,7 +1440,7 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
 void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
 void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
 Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line);
 #else

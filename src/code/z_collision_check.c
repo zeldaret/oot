@@ -7,7 +7,7 @@ typedef void (*ColChkApplyFunc)(PlayState*, CollisionCheckContext*, Collider*);
 typedef void (*ColChkVsFunc)(PlayState*, CollisionCheckContext*, Collider*, Collider*);
 typedef s32 (*ColChkLineFunc)(PlayState*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 /**
  * Draws a red triangle with vertices vA, vB, and vC.
  */
@@ -1003,7 +1003,7 @@ void CollisionCheck_InitContext(PlayState* play, CollisionCheckContext* colChkCt
     colChkCtx->sacFlags = 0;
     CollisionCheck_ClearContext(play, colChkCtx);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     AREG(21) = true;
     AREG(22) = true;
     AREG(23) = true;
@@ -1057,7 +1057,7 @@ void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx
     colChkCtx->sacFlags &= ~SAC_ENABLE;
 }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 /**
  * Draws a collider of any shape.
  * Math3D_DrawSphere and Math3D_DrawCylinder are noops, so JntSph and Cylinder are not drawn.
@@ -2818,8 +2818,7 @@ void CollisionCheck_OC_JntSphVsJntSph(PlayState* play, CollisionCheckContext* co
                     continue;
                 }
                 if (Math3D_SphVsSphOverlap(&leftJntSphElem->dim.worldSphere, &rightJntSphElem->dim.worldSphere,
-                                           &overlapSize) ==
-                    true) {
+                                           &overlapSize) == true) {
                     Vec3f leftPos;
                     Vec3f rightPos;
 
@@ -3700,7 +3699,7 @@ u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
         damage = 8;
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     KREG(7) = damage;
 #endif
 

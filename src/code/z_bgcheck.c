@@ -4409,7 +4409,7 @@ s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec
     return result;
 }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 /**
  * Draw a list of dyna polys, specified by `ssList`
  */
