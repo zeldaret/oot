@@ -229,7 +229,7 @@ void DmaMgr_DmaFromDriveRom(void* ram, uintptr_t rom, size_t size) {
  * DMA error encountered, print error messages and bring up the crash screen.
  *
  * @param req DMA Request causing the error.
- * @param file DMA data filename associated with the operation that errored.
+ * @param filename DMA data filename associated with the operation that errored.
  * @param errorName Error name string.
  * @param errorDesc Error description string.
  *
