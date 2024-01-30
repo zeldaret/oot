@@ -830,15 +830,16 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
     if (actor->destroy != NULL) {
         actor->destroy(actor, play);
         actor->destroy = NULL;
-    } else {
-#ifdef OOT_DEBUG
-        overlayEntry = actor->overlayEntry;
-        name = overlayEntry->name != NULL ? overlayEntry->name : "";
-
-        // "No Actor class destruct [%s]"
-        PRINTF("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
-#endif
+        return;
     }
+
+#ifdef OOT_DEBUG
+    overlayEntry = actor->overlayEntry;
+    name = overlayEntry->name != NULL ? overlayEntry->name : "";
+
+    // "No Actor class destruct [%s]"
+    PRINTF("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
+#endif
 }
 
 /**
@@ -2317,6 +2318,7 @@ void Actor_FaultPrint(Actor* actor, char* command) {
 #ifdef OOT_DEBUG
     FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, name);
 #else
+    // TODO: string literal "" may be incorrect
     FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, "");
 #endif
 }
