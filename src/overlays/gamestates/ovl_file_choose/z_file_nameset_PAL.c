@@ -112,9 +112,9 @@ static s16 D_80812604[] = {
 void FileSelect_SetNameEntryVtx(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     Font* font = &this->font;
-    u8 temp;
     s16 phi_s0;
     s16 phi_t1;
+    u8 temp;
     s16 phi_v0;
 
     if (1) {}
