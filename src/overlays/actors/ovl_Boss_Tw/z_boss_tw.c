@@ -464,7 +464,7 @@ void BossTw_Init(Actor* thisx, PlayState* play2) {
 
         if (this->actor.params == TW_FIRE_BLAST || this->actor.params == TW_FIRE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastFire;
-            this->collider.info.toucher.effect = 1;
+            this->collider.elem.toucher.effect = 1;
         } else if (this->actor.params == TW_ICE_BLAST || this->actor.params == TW_ICE_BLAST_GROUND) {
             this->actionFunc = BossTw_BlastIce;
         } else if (this->actor.params >= TW_DEATHBALL_KOTAKE) {
@@ -3093,19 +3093,19 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
                 BossTw_TwinrovaDamage(this, play, 0);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_TWINROBA_YOUNG_DAMAGE);
             } else if (this->collider.base.acFlags & AC_HIT) {
-                ColliderInfo* info = this->collider.info.acHitInfo;
+                ColliderElement* acHitElem = this->collider.elem.acHitElem;
 
                 this->collider.base.acFlags &= ~AC_HIT;
-                if (info->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_ARROW)) {}
+                if (acHitElem->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_ARROW)) {}
             }
         } else if (this->collider.base.acFlags & AC_HIT) {
             u8 damage;
             u8 swordDamage;
-            ColliderInfo* info = this->collider.info.acHitInfo;
+            ColliderElement* acHitElem = this->collider.elem.acHitElem;
 
             this->collider.base.acFlags &= ~AC_HIT;
             swordDamage = false;
-            damage = CollisionCheck_GetSwordDamage(info->toucher.dmgFlags);
+            damage = CollisionCheck_GetSwordDamage(acHitElem->toucher.dmgFlags);
 
             if (damage == 0) {
                 damage = 2;
@@ -3113,7 +3113,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
                 swordDamage = true;
             }
 
-            if (!(info->toucher.dmgFlags & DMG_HOOKSHOT)) {
+            if (!(acHitElem->toucher.dmgFlags & DMG_HOOKSHOT)) {
                 if (((s8)this->actor.colChkInfo.health < 3) && !swordDamage) {
                     damage = 0;
                 }
@@ -3124,7 +3124,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, PlayState* play2) {
     }
 
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
-    osSyncPrintf("OooooooooooooooooooooooooooooooooCC\n");
+    PRINTF("OooooooooooooooooooooooooooooooooCC\n");
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 
     play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
@@ -4320,7 +4320,7 @@ void BossTw_BlastIce(BossTw* this, PlayState* play) {
 s32 BossTw_BlastShieldCheck(BossTw* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s32 ret = false;
-    ColliderInfo* info;
+    ColliderElement* acHitElem;
 
     if (1) {}
 
@@ -4328,9 +4328,9 @@ s32 BossTw_BlastShieldCheck(BossTw* this, PlayState* play) {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
             this->collider.base.atFlags &= ~AT_HIT;
-            info = this->collider.info.acHitInfo;
+            acHitElem = this->collider.elem.acHitElem;
 
-            if (info->toucher.dmgFlags & DMG_SHIELD) {
+            if (acHitElem->toucher.dmgFlags & DMG_SHIELD) {
                 this->work[INVINC_TIMER] = 7;
                 play->envCtx.lightBlend = 1.0f;
                 Rumble_Request(0.0f, 100, 5, 4);

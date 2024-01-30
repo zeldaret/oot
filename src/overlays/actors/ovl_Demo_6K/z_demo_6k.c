@@ -72,7 +72,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
     s32 objectSlot;
     s32 i;
 
-    osSyncPrintf("no = %d\n", params);
+    PRINTF("no = %d\n", params);
 
     if (sObjectIds[params] != OBJECT_GAMEPLAY_KEEP) {
         objectSlot = Object_GetSlot(&play->objectCtx, sObjectIds[params]);
@@ -80,7 +80,7 @@ void Demo6K_Init(Actor* thisx, PlayState* play) {
         objectSlot = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objectSlot);
+    PRINTF("bank_ID = %d\n", objectSlot);
 
     if (objectSlot < 0) {
         ASSERT(0, "0", "../z_demo_6k.c", 334);
@@ -525,7 +525,7 @@ void func_80967DBC(Demo6K* this, PlayState* play) {
             Actor_SetScale(&this->actor, this->actor.scale.x + 0.03f);
 
             if (this->timer2 == 95) {
-                osSyncPrintf(VT_FGCOL(CYAN) "  NA_SE_EN_GANON_FIRE_DEMO\n" VT_RST);
+                PRINTF(VT_FGCOL(CYAN) "  NA_SE_EN_GANON_FIRE_DEMO\n" VT_RST);
                 Actor_PlaySfx(&this->actor, NA_SE_EN_GANON_FIRE_DEMO);
             }
         }

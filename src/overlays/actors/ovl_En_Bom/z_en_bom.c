@@ -101,7 +101,7 @@ void EnBom_Init(Actor* thisx, PlayState* play) {
     Collider_InitJntSph(play, &this->explosionCollider);
     Collider_SetCylinder(play, &this->bombCollider, thisx, &sCylinderInit);
     Collider_SetJntSph(play, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
-    this->explosionColliderItems[0].info.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
+    this->explosionColliderItems[0].base.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
 
     thisx->shape.rot.z &= 0xFF;
     if (thisx->shape.rot.z & 0x80) {
@@ -132,7 +132,8 @@ void EnBom_Move(EnBom* this, PlayState* play) {
 
     // rebound bomb off the wall it hits
     if ((this->actor.speed != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
-        if (ABS((s16)(this->actor.wallYaw - this->actor.world.rot.y)) > 0x4000) {
+        s16 yawDiff = this->actor.wallYaw - this->actor.world.rot.y;
+        if (ABS(yawDiff) > 0x4000) {
             this->actor.world.rot.y = ((this->actor.wallYaw - this->actor.world.rot.y) + this->actor.wallYaw) - 0x8000;
         }
         Actor_PlaySfx(&this->actor, NA_SE_EV_BOMB_BOUND);
@@ -358,7 +359,9 @@ void EnBom_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnBom* this = (EnBom*)thisx;
 
+#ifdef OOT_DEBUG
     if (1) {}
+#endif
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_bom.c", 913);
 

@@ -15,9 +15,9 @@ void MapSelect_LoadTitle(MapSelectState* this) {
 }
 
 void MapSelect_LoadGame(MapSelectState* this, s32 entranceIndex) {
-    osSyncPrintf(VT_FGCOL(BLUE));
-    osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
-    osSyncPrintf(VT_RST);
+    PRINTF(VT_FGCOL(BLUE));
+    PRINTF("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
+    PRINTF(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
         Sram_InitDebugSave();
         // Set the fill target to be the saved magic amount
@@ -704,9 +704,9 @@ void MapSelect_Main(GameState* thisx) {
 }
 
 void MapSelect_Destroy(GameState* thisx) {
-    osSyncPrintf("%c", BEL);
+    PRINTF("%c", BEL);
     // "view_cleanup will hang, so it won't be called"
-    osSyncPrintf("*** view_cleanupはハングアップするので、呼ばない ***\n");
+    PRINTF("*** view_cleanupはハングアップするので、呼ばない ***\n");
 }
 
 void MapSelect_Init(GameState* thisx) {

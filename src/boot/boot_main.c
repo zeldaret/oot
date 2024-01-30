@@ -21,7 +21,9 @@ void bootproc(void) {
 
     gCartHandle = osCartRomInit();
     osDriveRomInit();
+#ifdef OOT_DEBUG
     isPrintfInit();
+#endif
     Locale_Init();
 
     StackCheck_Init(&sIdleThreadInfo, sIdleThreadStack, STACK_TOP(sIdleThreadStack), 0, 256, "idle");

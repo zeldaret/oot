@@ -171,7 +171,7 @@ void func_808B4D04(BgSpot16Bombstone* this, PlayState* play) {
 
 s32 func_808B4D9C(BgSpot16Bombstone* this, PlayState* play) {
     if (Flags_GetSwitch(play, this->switchFlag)) {
-        osSyncPrintf("Spot16 obj 爆弾石 破壊済み\n");
+        PRINTF("Spot16 obj 爆弾石 破壊済み\n");
         return false;
     }
     Actor_ProcessInitChain(&this->actor, sInitChainBoulder);
@@ -221,8 +221,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, PlayState* play) {
     this->requiredObjectSlot = Object_GetSlot(&play->objectCtx, OBJECT_BOMBIWA);
 
     if (this->requiredObjectSlot < 0) {
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params, "../z_bg_spot16_bombstone.c",
-                     589);
+        PRINTF("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", actor->params, "../z_bg_spot16_bombstone.c", 589);
         return false;
     }
 
@@ -251,8 +250,8 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
             shouldLive = func_808B4E58(this, play);
             break;
         default:
-            osSyncPrintf("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot16_bombstone.c", 668,
-                         this->actor.params);
+            PRINTF("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot16_bombstone.c", 668,
+                   this->actor.params);
             shouldLive = false;
             break;
     }
@@ -261,7 +260,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, PlayState* play) {
         Actor_Kill(&this->actor);
         return;
     }
-    osSyncPrintf("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
+    PRINTF("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
 }
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, PlayState* play) {
@@ -384,8 +383,8 @@ void func_808B56BC(BgSpot16Bombstone* this, PlayState* play) {
                 player->actor.world.pos.x += sinValue * this->sinRotation;
                 player->actor.world.pos.z += sinValue * this->cosRotation;
             } else {
-                osSyncPrintf("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
-                             "../z_bg_spot16_bombstone.c", 935, this->actor.params, adjustedYawDiff);
+                PRINTF("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n", "../z_bg_spot16_bombstone.c", 935,
+                       this->actor.params, adjustedYawDiff);
             }
         }
     }

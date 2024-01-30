@@ -582,7 +582,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
 
             start = (uintptr_t)_vr_RUVR_pal_staticSegmentRomStart;
             size = (uintptr_t)_vr_RUVR_pal_staticSegmentRomEnd - start;
-            osSyncPrintf("ＳＩＺＥ = %d\n", size);
+            PRINTF("ＳＩＺＥ = %d\n", size);
 
             skyboxCtx->palettes = GAME_STATE_ALLOC(&play->state, size, "../z_vr_box.c", 1188);
             ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1189);
@@ -664,7 +664,7 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
 
             start = (uintptr_t)_vr_MNVR_pal_staticSegmentRomStart;
             size = (uintptr_t)_vr_MNVR_pal_staticSegmentRomEnd - start;
-            osSyncPrintf("ＳＩＺＥ = %d\n", size);
+            PRINTF("ＳＩＺＥ = %d\n", size);
 
             skyboxCtx->palettes = GAME_STATE_ALLOC(&play->state, size, "../z_vr_box.c", 1277);
             ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1278);
@@ -997,14 +997,14 @@ void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
 
     // DMA required assets based on skybox id
     Skybox_Setup(play, skyboxCtx, skyboxId);
-    osSyncPrintf("\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n"
-                 "ＴＹＰＥ＝%d"
-                 "\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n",
-                 skyboxId);
+    PRINTF("\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n"
+           "ＴＹＰＥ＝%d"
+           "\n\n\n＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊\n\n\n",
+           skyboxId);
 
     // Precompute vertices and display lists for drawing the skybox
     if (skyboxId != SKYBOX_NONE) {
-        osSyncPrintf(VT_FGCOL(GREEN));
+        PRINTF(VT_FGCOL(GREEN));
 
         if (skyboxCtx->drawType != SKYBOX_DRAW_128) {
             skyboxCtx->dListBuf = GAME_STATE_ALLOC(state, 8 * 150 * sizeof(Gfx), "../z_vr_box.c", 1636);
@@ -1030,6 +1030,6 @@ void Skybox_Init(GameState* state, SkyboxContext* skyboxCtx, s16 skyboxId) {
                 Skybox_Calculate128(skyboxCtx, 5); // compute 5 faces, excludes the bottom face
             }
         }
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_RST);
     }
 }

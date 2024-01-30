@@ -16,7 +16,11 @@ ORIG_COMPILER := 0
 COMPILER := ido
 # Target game version. Currently only the following version is supported:
 #   gc-eu-mq-dbg   GameCube Europe/PAL Master Quest Debug (default)
+# The following versions are work-in-progress and not yet matching:
+#   gc-eu-mq       GameCube Europe/PAL Master Quest
 VERSION := gc-eu-mq-dbg
+# Number of threads to extract and compress with
+N_THREADS := $(shell nproc)
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -45,18 +49,34 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 # Version-specific settings
-ifeq ($(VERSION),gc-eu-mq-dbg)
-  OPTFLAGS := -O2
+ifeq ($(VERSION),gc-eu-mq)
+  DEBUG := 0
+  CFLAGS += -DNON_MATCHING
+  CPPFLAGS += -DNON_MATCHING
+  COMPARE := 0
+else ifeq ($(VERSION),gc-eu-mq-dbg)
+  DEBUG := 1
 else
 $(error Unsupported version $(VERSION))
 endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 BUILD_DIR := build/$(VERSION)
+EXPECTED_DIR := expected/$(BUILD_DIR)
+VENV := .venv
 
 MAKE = make
-CFLAGS += -DOOT_DEBUG
-CPPFLAGS += -DOOT_DEBUG -fno-dollars-in-identifiers -P
+CPPFLAGS += -fno-dollars-in-identifiers -P
+
+ifeq ($(DEBUG),1)
+  CFLAGS += -DOOT_DEBUG
+  CPPFLAGS += -DOOT_DEBUG
+  OPTFLAGS := -O2
+else
+  CFLAGS += -DNDEBUG
+  CPPFLAGS += -DNDEBUG
+  OPTFLAGS := -O2 -g3
+endif
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
@@ -71,8 +91,6 @@ else
         CPPFLAGS += -xc++
     endif
 endif
-
-N_THREADS := $(shell nproc)
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
@@ -105,6 +123,7 @@ AS      := $(MIPS_BINUTILS_PREFIX)as
 LD      := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP := $(MIPS_BINUTILS_PREFIX)objdump
+NM      := $(MIPS_BINUTILS_PREFIX)nm
 
 N64_EMULATOR ?= 
 
@@ -119,6 +138,7 @@ MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
+PYTHON     ?= $(VENV)/bin/python3
 
 # Command to replace path variables in the spec file. We can't use the C
 # preprocessor for this because it won't substitute inside string literals.
@@ -134,8 +154,10 @@ ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
   MIPS_VERSION := -mips3
 else
-  # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-  CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,649,838,712
+  # Suppress warnings for wrong number of macro arguments (to fake variadic
+  # macros) and Microsoft extensions such as anonymous structs (which the
+  # compiler does support but warns for their usage).
+  CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(INC) -Wab,-r4300_mul -woff 516,609,649,838,712
   MIPS_VERSION := -mips2
 endif
 
@@ -156,9 +178,14 @@ endif
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
 
+DISASM_DATA_DIR := tools/disasm/$(VERSION)
+DISASM_FLAGS += --custom-suffix _unknown --sequential-label-names --no-use-fpccsr --no-cop0-named-registers
+DISASM_FLAGS += --config-dir $(DISASM_DATA_DIR) --symbol-addrs $(DISASM_DATA_DIR)/functions.txt --symbol-addrs $(DISASM_DATA_DIR)/variables.txt
+
 #### Files ####
 
 # ROM image
+ROMC := oot-$(VERSION)-compressed.z64
 ROM := oot-$(VERSION).z64
 ELF := $(ROM:.z64=.elf)
 # description of ROM segments
@@ -179,14 +206,23 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 
 UNDECOMPILED_DATA_DIRS := $(shell find data -type d)
 
+# TODO: for now, ROM segments are still taken from the Debug ROM even when building other versions
+BASEROM_SEGMENTS_DIR := baseroms/gc-eu-mq-dbg/segments
+BASEROM_BIN_FILES := $(wildcard $(BASEROM_SEGMENTS_DIR)/*)
+
 # source files
 C_FILES       := $(filter-out %.inc.c,$(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c)))
 S_FILES       := $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(wildcard baserom/*),$(BUILD_DIR)/$f.o)
+                 $(foreach f,$(BASEROM_BIN_FILES),$(BUILD_DIR)/baserom/$(notdir $f).o)
 
 OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | $(SPEC_REPLACE_VARS) | grep -o '[^"]*_reloc.o' )
+
+DISASM_BASEROM := baseroms/$(VERSION)/baserom-decompressed.z64
+DISASM_DATA_FILES := $(wildcard $(DISASM_DATA_DIR)/*.csv) $(wildcard $(DISASM_DATA_DIR)/*.txt)
+DISASM_S_FILES := $(shell test -e $(PYTHON) && $(PYTHON) tools/disasm/list_generated_files.py -o $(EXPECTED_DIR) --config-dir $(DISASM_DATA_DIR))
+DISASM_O_FILES := $(DISASM_S_FILES:.s=.o)
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
@@ -202,14 +238,40 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),$(BUILD_DIR)/$
 $(shell mkdir -p $(BUILD_DIR)/baserom $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
 ifeq ($(COMPILER),ido)
+$(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
+
+$(BUILD_DIR)/src/code/__osMalloc.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FCE80.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FD970.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/loadfragment2.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/logutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/printutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
+
 $(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
+
+ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -g
+else
+$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -O2
+endif
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 
@@ -220,8 +282,14 @@ $(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
 $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
+ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
+else
+$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2
+endif
+
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
@@ -244,11 +312,11 @@ $(BUILD_DIR)/src/libultra/rmon/%.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegutils.o: CC := $(CC_OLD)
 $(BUILD_DIR)/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
-$(BUILD_DIR)/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-$(BUILD_DIR)/src/overlays/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/boot/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/code/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/src/overlays/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
-$(BUILD_DIR)/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+$(BUILD_DIR)/assets/%.o: CC := $(PYTHON) tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 else
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/%.o: CC := $(CC) -fexec-charset=euc-jp
@@ -256,14 +324,22 @@ endif
 
 #### Main Targets ###
 
-all: $(ROM)
-ifeq ($(COMPARE),1)
+all: rom compress
+
+rom: $(ROM)
+ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c checksum.md5
+	@md5sum -c baseroms/$(VERSION)/checksum.md5
+endif
+
+compress: $(ROMC)
+ifneq ($(COMPARE),0)
+	@md5sum $(ROMC)
+	@md5sum -c baseroms/$(VERSION)/checksum-compressed.md5
 endif
 
 clean:
-	$(RM) -r $(ROM) $(ELF) $(BUILD_DIR)
+	$(RM) -r $(ROMC) $(ROM) $(ELF) $(BUILD_DIR)
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
@@ -272,14 +348,26 @@ assetclean:
 	$(RM) -r .extracted-assets.json
 
 distclean: clean assetclean
-	$(RM) -r baserom/
+	$(RM) -r $(BASEROM_SEGMENTS_DIR)
 	$(MAKE) -C tools distclean
 
-setup:
+venv:
+# Create the virtual environment if it doesn't exist.
+# Delete the virtual environment directory if creation fails.
+	test -d $(VENV) || python3 -m venv $(VENV) || { rm -rf $(VENV); false; }
+	$(PYTHON) -m pip install -U pip
+	$(PYTHON) -m pip install -U -r requirements.txt
+
+setup: venv
 	$(MAKE) -C tools
-	python3 fixbaserom.py
-	python3 extract_baserom.py
-	python3 extract_assets.py -j$(N_THREADS)
+	$(PYTHON) tools/decompress_baserom.py $(VERSION)
+# TODO: for now, we only extract ROM segments and assets from the Debug ROM
+ifeq ($(VERSION),gc-eu-mq-dbg)
+	$(PYTHON) extract_baserom.py
+	$(PYTHON) extract_assets.py -j$(N_THREADS)
+endif
+
+disasm: $(DISASM_O_FILES)
 
 run: $(ROM)
 ifeq ($(N64_EMULATOR),)
@@ -288,12 +376,18 @@ endif
 	$(N64_EMULATOR) $<
 
 
-.PHONY: all clean setup run distclean assetclean
+.PHONY: all rom compress clean assetclean distclean venv setup disasm run
+.DEFAULT_GOAL := rom
 
 #### Various Recipes ####
 
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
+
+$(ROMC): $(ROM) $(ELF) $(BUILD_DIR)/compress_ranges.txt
+# note: $(BUILD_DIR)/compress_ranges.txt should only be used for nonmatching builds. it works by chance for matching builds too though
+	$(PYTHON) tools/compress.py --in $(ROM) --out $@ --dma-range `./tools/dmadata_range.sh $(NM) $(ELF)` --compress `cat $(BUILD_DIR)/compress_ranges.txt` --threads $(N_THREADS)
+	$(PYTHON) -m ipl3checksum sum --cic 6105 --update $@
 
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) $(BUILD_DIR)/ldscript.txt $(BUILD_DIR)/undefined_syms.txt
 	$(LD) -T $(BUILD_DIR)/undefined_syms.txt -T $(BUILD_DIR)/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map $(BUILD_DIR)/z64.map -o $@
@@ -319,14 +413,14 @@ $(BUILD_DIR)/ldscript.txt: $(BUILD_DIR)/$(SPEC)
 $(BUILD_DIR)/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
 
-$(BUILD_DIR)/baserom/%.o: baserom/%
+$(BUILD_DIR)/baserom/%.o: $(BASEROM_SEGMENTS_DIR)/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 $(BUILD_DIR)/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
-	python3 tools/msgenc.py assets/text/charmap.txt $< $@
+	$(PYTHON) tools/msgenc.py assets/text/charmap.txt $< $@
 
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
@@ -343,8 +437,8 @@ $(BUILD_DIR)/assets/%.o: assets/%.c
 $(BUILD_DIR)/src/%.o: src/%.s
 	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
 
-$(BUILD_DIR)/dmadata_table_spec.h: $(BUILD_DIR)/$(SPEC)
-	$(MKDMADATA) $< $@
+$(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt: $(BUILD_DIR)/$(SPEC)
+	$(MKDMADATA) $< $(BUILD_DIR)/dmadata_table_spec.h $(BUILD_DIR)/compress_ranges.txt
 
 # Dependencies for files that may include the dmadata header automatically generated from the spec file
 $(BUILD_DIR)/src/boot/z_std_dma.o: $(BUILD_DIR)/dmadata_table_spec.h
@@ -368,13 +462,13 @@ $(BUILD_DIR)/src/%.o: src/%.c
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	python3 tools/set_o32abi_bit.py $@
+	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)
@@ -390,4 +484,14 @@ $(BUILD_DIR)/assets/%.bin.inc.c: assets/%.bin
 $(BUILD_DIR)/assets/%.jpg.inc.c: assets/%.jpg
 	$(ZAPD) bren -eh -i $< -o $@
 
+$(EXPECTED_DIR)/.disasm: $(DISASM_DATA_FILES)
+	$(PYTHON) tools/disasm/disasm.py $(DISASM_FLAGS) $(DISASM_BASEROM) -o $(EXPECTED_DIR) --split-functions $(EXPECTED_DIR)/functions
+	touch $@
+
+$(EXPECTED_DIR)/%.o: $(EXPECTED_DIR)/.disasm
+	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+
 -include $(DEP_FILES)
+
+# Print target for debugging
+print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true

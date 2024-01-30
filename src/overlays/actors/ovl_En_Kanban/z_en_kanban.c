@@ -213,7 +213,7 @@ void EnKanban_Init(Actor* thisx, PlayState* play) {
         this->actor.flags |= ACTOR_FLAG_0;
         Collider_InitCylinder(play, &this->collider);
         Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
-        osSyncPrintf("KANBAN ARG    %x\n", this->actor.params);
+        PRINTF("KANBAN ARG    %x\n", this->actor.params);
         if (this->actor.params == ENKANBAN_FISHING) {
             if (LINK_IS_CHILD) {
                 this->actor.textId = 0x409D;
@@ -295,11 +295,11 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                                                       this->actor.world.pos.z, this->actor.shape.rot.x,
                                                       this->actor.shape.rot.y, this->actor.shape.rot.z, ENKANBAN_PIECE);
                 if (piece != NULL) {
-                    ColliderInfo* hitItem = this->collider.info.acHitInfo;
+                    ColliderElement* acHitElem = this->collider.elem.acHitElem;
                     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     u8 i;
 
-                    if (hitItem->toucher.dmgFlags & DMG_SLASH) {
+                    if (acHitElem->toucher.dmgFlags & DMG_SLASH) {
                         this->cutType = sCutTypes[player->meleeWeaponAnimation];
                     } else {
                         this->cutType = CUT_POST;
@@ -459,7 +459,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             this->actor.bgCheckFlags = tempBgFlags;
             this->actor.yDistToWater = tempYDistToWater;
 
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_RST);
             onGround = (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
             if (this->spinXFlag) {
                 this->spinRot.x += this->spinVel.x;
@@ -511,9 +511,9 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                 EffectSsGRipple_Spawn(play, &this->actor.world.pos, 300, 800, 5);
                 this->actor.velocity.y = 0.0f;
                 this->actor.gravity = 0.0f;
-                osSyncPrintf(" WAT  Y  = %f\n", this->actor.yDistToWater);
-                osSyncPrintf(" POS  Y  = %f\n", this->actor.world.pos.y);
-                osSyncPrintf(" GROUND Y  = %f\n", this->actor.floorHeight);
+                PRINTF(" WAT  Y  = %f\n", this->actor.yDistToWater);
+                PRINTF(" POS  Y  = %f\n", this->actor.world.pos.y);
+                PRINTF(" GROUND Y  = %f\n", this->actor.floorHeight);
                 break;
             }
 
@@ -718,9 +718,9 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     bomb = bomb->next;
                 }
             }
-            osSyncPrintf(VT_FGCOL(GREEN));
-            osSyncPrintf("OCARINA_MODE %d\n", play->msgCtx.ocarinaMode);
-            osSyncPrintf(VT_RST);
+            PRINTF(VT_FGCOL(GREEN));
+            PRINTF("OCARINA_MODE %d\n", play->msgCtx.ocarinaMode);
+            PRINTF(VT_RST);
             switch (this->ocarinaFlag) {
                 case 0:
                     if (play->msgCtx.ocarinaMode == OCARINA_MODE_01) {

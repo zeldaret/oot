@@ -57,7 +57,7 @@ s32 Play_CheckViewpoint(PlayState* this, s16 viewpoint) {
  * to toggle the camera into a "browsing item selection" setting.
  */
 void Play_SetShopBrowsingViewpoint(PlayState* this) {
-    osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
+    PRINTF("Game_play_shop_pr_vr_switch_set()\n");
 
     if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
         this->viewpoint = VIEWPOINT_PIVOT;
@@ -325,15 +325,15 @@ void Play_Init(GameState* thisx) {
         this, gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].sceneId,
         gEntranceTable[((void)0, gSaveContext.save.entranceIndex) + ((void)0, gSaveContext.sceneLayer)].spawn);
 
-    osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.save.entranceIndex), gSaveContext.sceneLayer);
+    PRINTF("\nSCENE_NO=%d COUNTER=%d\n", ((void)0, gSaveContext.save.entranceIndex), gSaveContext.sceneLayer);
 
     // When entering Gerudo Valley in the credits, trigger the GC emulator to play the ending movie.
     // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
     if ((gEntranceTable[((void)0, gSaveContext.save.entranceIndex)].sceneId == SCENE_GERUDO_VALLEY) &&
         gSaveContext.sceneLayer == 6) {
-        osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
+        PRINTF("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)(void))0x81000000)();
-        osSyncPrintf("出戻り？\n"); // "Return?"
+        PRINTF("出戻り？\n"); // "Return?"
     }
 
     Cutscene_HandleEntranceTriggers(this);
@@ -395,14 +395,13 @@ void Play_Init(GameState* thisx) {
     gVisMonoColor.a = 0;
     CutsceneFlags_UnsetAll(this);
 
-    osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
+    PRINTF("ZELDA ALLOC SIZE=%x\n", THA_GetRemaining(&this->state.tha));
     zAllocSize = THA_GetRemaining(&this->state.tha);
     zAlloc = (uintptr_t)GAME_STATE_ALLOC(&this->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (zAlloc + 8) & ~0xF;
     ZeldaArena_Init((void*)zAllocAligned, zAllocSize - (zAllocAligned - zAlloc));
     // "Zelda Heap"
-    osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
-                 (u8*)zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
+    PRINTF("ゼルダヒープ %08x-%08x\n", zAllocAligned, (u8*)zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
 
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
@@ -417,7 +416,7 @@ void Play_Init(GameState* thisx) {
 
     playerStartBgCamIndex = player->actor.params & 0xFF;
     if (playerStartBgCamIndex != 0xFF) {
-        osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
+        PRINTF("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamIndex);
         Camera_RequestBgCam(&this->mainCamera, playerStartBgCamIndex);
     }
 
@@ -439,7 +438,7 @@ void Play_Init(GameState* thisx) {
 
     if (R_USE_DEBUG_CUTSCENE) {
         gDebugCutsceneScript = sDebugCutsceneScriptBuf;
-        osSyncPrintf("\nkawauso_data=[%x]", gDebugCutsceneScript);
+        PRINTF("\nkawauso_data=[%x]", gDebugCutsceneScript);
 
         // This hardcoded ROM address extends past the end of the ROM file.
         // Presumably the ROM was larger at a previous point in development when this debug feature was used.
@@ -463,17 +462,17 @@ void Play_Update(PlayState* this) {
 
     if ((R_HREG_MODE == HREG_MODE_PRINT_OBJECT_TABLE) && (R_PRINT_OBJECT_TABLE_TRIGGER < 0)) {
         R_PRINT_OBJECT_TABLE_TRIGGER = 0;
-        osSyncPrintf("object_exchange_rom_address %u\n", gObjectTableSize);
-        osSyncPrintf("RomStart RomEnd   Size\n");
+        PRINTF("object_exchange_rom_address %u\n", gObjectTableSize);
+        PRINTF("RomStart RomEnd   Size\n");
 
         for (i = 0; i < gObjectTableSize; i++) {
             s32 size = gObjectTable[i].vromEnd - gObjectTable[i].vromStart;
 
-            osSyncPrintf("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
-                         size / 1024.0f);
+            PRINTF("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
+                   size / 1024.0f);
         }
 
-        osSyncPrintf("\n");
+        PRINTF("\n");
     }
 
     // HREG(81) was very likely intended to be HREG(80), which would make more sense given how the
@@ -497,7 +496,7 @@ void Play_Update(PlayState* this) {
             switch (gTransitionTileState) {
                 case TRANS_TILE_PROCESS:
                     if (TransitionTile_Init(&sTransitionTile, 10, 7) == NULL) {
-                        osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
+                        PRINTF("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         gTransitionTileState = TRANS_TILE_OFF;
                     } else {
                         sTransitionTile.zBuffer = (u16*)gZBuffer;
@@ -531,10 +530,10 @@ void Play_Update(PlayState* this) {
                         if (!(gEntranceTable[this->nextEntranceIndex + sceneLayer].field &
                               ENTRANCE_INFO_CONTINUE_BGM_FLAG)) {
                             // "Sound initialized. 111"
-                            osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
+                            PRINTF("\n\n\nサウンドイニシャル来ました。111");
                             if ((this->transitionType < TRANS_TYPE_MAX) && !Environment_IsForcedSequenceDisabled()) {
                                 // "Sound initialized. 222"
-                                osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
+                                PRINTF("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
                                 gSaveContext.seqId = (u8)NA_BGM_DISABLED;
                                 gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
@@ -868,7 +867,7 @@ void Play_Update(PlayState* this) {
                 Rumble_SetUpdateEnabled(true);
 
                 if (this->actorCtx.freezeFlashTimer && (this->actorCtx.freezeFlashTimer-- < 5)) {
-                    osSyncPrintf("FINISH=%d\n", this->actorCtx.freezeFlashTimer);
+                    PRINTF("FINISH=%d\n", this->actorCtx.freezeFlashTimer);
 
                     if ((this->actorCtx.freezeFlashTimer > 0) && ((this->actorCtx.freezeFlashTimer % 2) != 0)) {
                         this->envCtx.fillScreen = true;
@@ -930,10 +929,10 @@ void Play_Update(PlayState* this) {
                 if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if (IS_PAUSED(&this->pauseCtx)) {
                         // "Changing viewpoint is prohibited due to the kaleidoscope"
-                        osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
+                        PRINTF(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (Player_InCsMode(this)) {
                         // "Changing viewpoint is prohibited during the cutscene"
-                        osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
+                        PRINTF(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (R_SCENE_CAM_TYPE == SCENE_CAM_TYPE_FIXED_SHOP_VIEWPOINT) {
                         Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1455,7 +1454,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
     this->sceneId = sceneId;
     this->sceneDrawConfig = scene->drawConfig;
 
-    osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
+    PRINTF("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 
     this->sceneSegment = Play_LoadFile(this, &scene->sceneFile);
     scene->unk_13 = 0;
@@ -1467,7 +1466,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneId, s32 spawn) {
 
     size = func_80096FE8(this, &this->roomCtx);
 
-    osSyncPrintf("ROOM SIZE=%fK\n", size / 1024.0f);
+    PRINTF("ROOM SIZE=%fK\n", size / 1024.0f);
 }
 
 void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest) {
@@ -1493,13 +1492,13 @@ s16 Play_CreateSubCamera(PlayState* this) {
     }
 
     if (camId == NUM_CAMS) {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
         return CAM_ID_NONE;
     }
 
-    osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
-                     CYAN) " " VT_RST "\n",
-                 camId);
+    PRINTF("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
+               CYAN) " " VT_RST "\n",
+           camId);
 
     this->cameraPtrs[camId] = &this->subCameras[camId - CAM_ID_SUB_FIRST];
     Camera_Init(this->cameraPtrs[camId], &this->view, &this->colCtx, this);
@@ -1526,17 +1525,17 @@ void Play_ClearCamera(PlayState* this, s16 camId) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     if (camIdx == CAM_ID_MAIN) {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: never clear camera !!\n" VT_RST);
+        PRINTF(VT_COL(RED, WHITE) "camera control: error: never clear camera !!\n" VT_RST);
     }
 
     if (this->cameraPtrs[camIdx] != NULL) {
         Camera_ChangeStatus(this->cameraPtrs[camIdx], CAM_STAT_UNK100);
         this->cameraPtrs[camIdx] = NULL;
-        osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " clear sub camera [%d] " VT_BGCOL(
-                         CYAN) " " VT_RST "\n",
-                     camIdx);
+        PRINTF("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " clear sub camera [%d] " VT_BGCOL(
+                   CYAN) " " VT_RST "\n",
+               camIdx);
     } else {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: camera No.%d already cleared\n" VT_RST, camIdx);
+        PRINTF(VT_COL(RED, WHITE) "camera control: error: camera No.%d already cleared\n" VT_RST, camIdx);
     }
 }
 
@@ -1665,9 +1664,8 @@ void Play_ReturnToMainCam(PlayState* this, s16 camId, s16 duration) {
 
     for (subCamId = CAM_ID_SUB_FIRST; subCamId < NUM_CAMS; subCamId++) {
         if (this->cameraPtrs[subCamId] != NULL) {
-            osSyncPrintf(
-                VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,
-                subCamId);
+            PRINTF(VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,
+                   subCamId);
             Play_ClearCamera(this, subCamId);
         }
     }

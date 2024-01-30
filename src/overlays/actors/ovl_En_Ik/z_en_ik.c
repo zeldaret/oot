@@ -731,7 +731,7 @@ void EnIk_UpdateDamage(EnIk* this, PlayState* play) {
         sparksPos = this->actor.world.pos;
         sparksPos.y += 50.0f;
 
-        Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->bodyCollider.elem, true);
 
         this->damageEffect = this->actor.colChkInfo.damageEffect;
         this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -1362,7 +1362,7 @@ void EnIk_HandleCsCues(EnIk* this, PlayState* play) {
                     break;
 
                 default:
-                    osSyncPrintf("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
             }
 
             this->cueId = nextCueId;
@@ -1397,7 +1397,7 @@ void EnIk_UpdateCutscene(Actor* thisx, PlayState* play) {
     EnIk* this = (EnIk*)thisx;
 
     if (this->csAction < 0 || this->csAction >= ARRAY_COUNT(sCsActionFuncs) || sCsActionFuncs[this->csAction] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1496,7 +1496,7 @@ void EnIk_DrawCutscene(Actor* thisx, PlayState* play) {
 
     if (this->csDrawMode < 0 || this->csDrawMode >= ARRAY_COUNT(sCsDrawFuncs) ||
         sCsDrawFuncs[this->csDrawMode] == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
@@ -1515,7 +1515,7 @@ void EnIk_CsInit(EnIk* this, PlayState* play) {
         }
     }
 
-    osSyncPrintf("En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n", this->actor.params);
+    PRINTF("En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n", this->actor.params);
 }
 
 void EnIk_ChangeToEnemy(EnIk* this, PlayState* play) {

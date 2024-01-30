@@ -68,13 +68,15 @@ The build process has the following package requirements:
 * build-essential
 * binutils-mips-linux-gnu
 * python3
+* python3-pip
+* python3-venv
 * libpng-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
+sudo apt-get install git build-essential binutils-mips-linux-gnu python3 python3-pip python3-venv libpng-dev
 ```
 
 If you are using GCC as the compiler for Ocarina of Time, you will also need:
@@ -100,8 +102,9 @@ cd oot
 
 #### 3. Prepare a base ROM
 
-Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
-Rename the file to "baserom_original.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
+Place a copy of the Master Quest (Debug) ROM inside the `baseroms/gc-eu-mq-dbg/` folder.
+
+Rename the file to `baserom.z64`, `baserom.n64` or `baserom.v64`, depending on the original extension.
 
 #### 4. Setup the ROM and build process
 
@@ -111,7 +114,8 @@ Setup and extract everything from your ROM with the following command:
 make setup
 ```
 
-This will generate a new ROM called "baserom.z64" that will have the overdump removed and the header patched.
+This downloads some dependencies (from pip), and compiles tools for the build process.
+Then it generates a new ROM "baseroms/gc-eu-mq-dbg/baserom-decompressed.z64" that will have the overdump removed and the header patched.
 It will also extract the individual assets from the ROM.
 
 #### 5. Build the ROM
@@ -144,7 +148,6 @@ This means that the built ROM isn't the same as the base one, so something went 
 * pass `-j` to `make setup` and `make`, to use as many threads as possible, but beware that this can use too much memory on lower-end systems.
 
 Both of these have the disadvantage that the ordering of the terminal output is scrambled, so for debugging it is best to stick to one thread (i.e. not pass `-j` or `-jN`).
-
 
 ## Contributing
 

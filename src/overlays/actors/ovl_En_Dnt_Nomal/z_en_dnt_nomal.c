@@ -126,17 +126,17 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
     this->actor.colChkInfo.mass = 0xFF;
     this->objectId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "Deku Scrub target"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n" VT_RST);
         Collider_InitQuad(play, &this->targetQuad);
         Collider_SetQuad(play, &this->targetQuad, &this->actor, &sTargetQuadInit);
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->objectId = OBJECT_HINTNUTS;
     } else {
-        osSyncPrintf("\n\n");
+        PRINTF("\n\n");
         // "Deku Scrub mask show audience"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
+        PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
         Collider_InitCylinder(play, &this->bodyCyl);
         Collider_SetCylinder(play, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
         this->objectId = OBJECT_DNK;
@@ -146,9 +146,9 @@ void EnDntNomal_Init(Actor* thisx, PlayState* play) {
         if (this->requiredObjectSlot < 0) {
             Actor_Kill(&this->actor);
             // "What?"
-            osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
+            PRINTF(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->requiredObjectSlot);
             // "Bank is funny"
-            osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            PRINTF(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
     } else {
@@ -231,9 +231,9 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
     if ((this->targetQuad.base.acFlags & AC_HIT) || BREG(0)) {
         this->targetQuad.base.acFlags &= ~AC_HIT;
 
-        dx = fabsf(targetX - this->targetQuad.info.bumper.hitPos.x);
-        dy = fabsf(targetY - this->targetQuad.info.bumper.hitPos.y);
-        dz = fabsf(targetZ - this->targetQuad.info.bumper.hitPos.z);
+        dx = fabsf(targetX - this->targetQuad.elem.bumper.hitPos.x);
+        dy = fabsf(targetY - this->targetQuad.elem.bumper.hitPos.y);
+        dz = fabsf(targetZ - this->targetQuad.elem.bumper.hitPos.z);
 
         scoreVel.y = 5.0f;
 
@@ -245,7 +245,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, PlayState* play) {
             Audio_StopSfxById(NA_SE_SY_TRE_BOX_APPEAR);
             Sfx_PlaySfxCentered(NA_SE_SY_TRE_BOX_APPEAR);
             // "Big hit"
-            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" VT_RST, this->hitCounter);
+            PRINTF(VT_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" VT_RST, this->hitCounter);
             if (!LINK_IS_ADULT && !GET_ITEMGETINF(ITEMGETINF_1D)) {
                 this->hitCounter++;
                 if (this->hitCounter >= 3) {

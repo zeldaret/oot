@@ -99,7 +99,7 @@ void BgSpot06Objects_Init(Actor* thisx, PlayState* play) {
     this->switchFlag = thisx->params & 0xFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
 
-    osSyncPrintf("spot06 obj nthisx->arg_data=[%d]", thisx->params);
+    PRINTF("spot06 obj nthisx->arg_data=[%d]", thisx->params);
 
     switch (thisx->params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:

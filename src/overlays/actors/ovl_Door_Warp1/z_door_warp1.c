@@ -76,7 +76,7 @@ void DoorWarp1_Init(Actor* thisx, PlayState* play) {
                                   this->actor.world.pos.z, 0, 0, 0, 0);
         this->lowerLight = LightContext_InsertLight(play2, &play2->lightCtx, &this->lowerLightInfo);
     }
-    osSyncPrintf("\nBOSSWARP arg_data=[%d]", this->actor.params);
+    PRINTF("\nBOSSWARP arg_data=[%d]", this->actor.params);
 
     DoorWarp1_ChooseInitialAction(this, play2);
 }
@@ -492,8 +492,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
     this->warpTimer++;
 
     if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger,
-                     TRANS_TRIGGER_START);
+        PRINTF("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", play->transitionTrigger, TRANS_TRIGGER_START);
 
         if (play->sceneId == SCENE_DODONGOS_CAVERN_BOSS) {
             if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
@@ -520,7 +519,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, PlayState* play) {
             play->nextEntranceIndex = ENTR_ZORAS_FOUNTAIN_0;
             gSaveContext.nextCutsceneIndex = 0;
         }
-        osSyncPrintf("\n\n\nおわりおわり");
+        PRINTF("\n\n\nおわりおわり");
         play->transitionTrigger = TRANS_TRIGGER_START;
         play->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
@@ -795,7 +794,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
         play->envCtx.screenFillColor[2] = 160;
         play->envCtx.screenFillColor[3] = (u32)(255.0f * screenFillAlpha);
 
-        osSyncPrintf("\nparcent=[%f]", screenFillAlpha);
+        PRINTF("\nparcent=[%f]", screenFillAlpha);
     }
     Lights_PointNoGlowSetInfo(&this->upperLightInfo, (s16)player->actor.world.pos.x + 10.0f,
                               (s16)player->actor.world.pos.y + 10.0f, (s16)player->actor.world.pos.z + 10.0f, 235, 255,

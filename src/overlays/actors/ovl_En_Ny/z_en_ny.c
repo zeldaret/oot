@@ -127,7 +127,7 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     this->unk_1E0 = 0.25f;
     if (this->actor.params == 0) {
         // "New initials"
-        osSyncPrintf("ニュウ イニシャル[ %d ] ！！\n", this->actor.params);
+        PRINTF("ニュウ イニシャル[ %d ] ！！\n", this->actor.params);
         this->actor.colChkInfo.mass = 0;
         this->unk_1D4 = 0;
         this->unk_1D8 = 0xFF;
@@ -136,8 +136,8 @@ void EnNy_Init(Actor* thisx, PlayState* play) {
     } else {
         // This mode is unused in the final game
         // "Dummy new initials"
-        osSyncPrintf("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
-        osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
+        PRINTF("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
+        PRINTF("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         this->actor.colChkInfo.mass = 0xFF;
         this->collider.base.colType = COLTYPE_METAL;
         this->actor.update = EnNy_UpdateUnused;
@@ -305,9 +305,9 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
     } else {
         if (this->collider.base.acFlags & AC_HIT) {
             this->collider.base.acFlags &= ~AC_HIT;
-            effectPos.x = this->collider.elements[0].info.bumper.hitPos.x;
-            effectPos.y = this->collider.elements[0].info.bumper.hitPos.y;
-            effectPos.z = this->collider.elements[0].info.bumper.hitPos.z;
+            effectPos.x = this->collider.elements[0].base.bumper.hitPos.x;
+            effectPos.y = this->collider.elements[0].base.bumper.hitPos.y;
+            effectPos.z = this->collider.elements[0].base.bumper.hitPos.z;
             if ((this->unk_1E0 == 0.25f) && (this->unk_1D4 == 0xFF)) {
                 switch (this->actor.colChkInfo.damageEffect) {
                     case 0xE:

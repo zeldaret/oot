@@ -133,9 +133,9 @@ void MagicFire_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->action == DF_ACTION_EXPAND_SLOWLY) {
-        this->collider.info.toucher.damage = this->actionTimer + 25;
+        this->collider.elem.toucher.damage = this->actionTimer + 25;
     } else if (this->action == DF_ACTION_STOP_EXPANDING) {
-        this->collider.info.toucher.damage = this->actionTimer;
+        this->collider.elem.toucher.damage = this->actionTimer;
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);
     this->collider.dim.radius = (this->actor.scale.x * 325.0f);

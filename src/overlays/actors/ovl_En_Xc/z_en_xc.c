@@ -340,10 +340,10 @@ void EnXc_SetupSerenadeAction(EnXc* this, PlayState* play) {
     if (!CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
         LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_SERENADE;
-        osSyncPrintf("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
+        PRINTF("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
     } else {
         Actor_Kill(&this->actor);
-        osSyncPrintf("水のセレナーデ シーク消滅!!!!!!!!!!!!!!!!!!\n");
+        PRINTF("水のセレナーデ シーク消滅!!!!!!!!!!!!!!!!!!\n");
     }
 }
 
@@ -358,10 +358,10 @@ s32 EnXc_SerenadeCS(EnXc* this, PlayState* play) {
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
             Item_Give(play, ITEM_SONG_SERENADE);
-            osSyncPrintf("ブーツを取った!!!!!!!!!!!!!!!!!!\n");
+            PRINTF("ブーツを取った!!!!!!!!!!!!!!!!!!\n");
             return true;
         }
-        osSyncPrintf("はやくブーツを取るべし!!!!!!!!!!!!!!!!!!\n");
+        PRINTF("はやくブーツを取るべし!!!!!!!!!!!!!!!!!!\n");
         return false;
     }
     return true;
@@ -473,7 +473,7 @@ void EnXc_SetColossusWindSFX(PlayState* play) {
 
                     sMaxSpeed = CLAMP_MIN(sMaxSpeed, speed);
 
-                    osSyncPrintf("MAX speed = %f\n", sMaxSpeed);
+                    PRINTF("MAX speed = %f\n", sMaxSpeed);
 
                     speed = CLAMP_MAX(speed, 2.0f);
                     func_800F436C(&sPos, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * speed));
@@ -1990,7 +1990,7 @@ s32 EnXc_SetupNocturneState(Actor* thisx, PlayState* play) {
                     Actor_Kill(thisx);
                     break;
                 default:
-                    osSyncPrintf("En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    PRINTF("En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
 
@@ -2297,7 +2297,7 @@ void EnXc_Update(Actor* thisx, PlayState* play) {
     s32 action = this->action;
 
     if ((action < 0) || (action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[action] == NULL)) {
-        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sActionFuncs[action](this, play);
     }
@@ -2343,7 +2343,7 @@ void EnXc_Init(Actor* thisx, PlayState* play) {
             EnXc_DoNothing(this, play);
             break;
         default:
-            osSyncPrintf(VT_FGCOL(RED) " En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+            PRINTF(VT_FGCOL(RED) " En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
             EnXc_DoNothing(this, play);
     }
 }
@@ -2411,7 +2411,7 @@ void EnXc_Draw(Actor* thisx, PlayState* play) {
 
     if (this->drawMode < 0 || this->drawMode > 5 || sDrawFuncs[this->drawMode] == NULL) {
         // "Draw mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+        PRINTF(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         sDrawFuncs[this->drawMode](thisx, play);
     }

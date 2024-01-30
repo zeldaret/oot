@@ -3579,7 +3579,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             this->actor.uncullZoneScale = 200.0f;
 
             sFishFightTime++;
-            osSyncPrintf("HIT FISH %dcm\n", (u8)this->fishLength);
+            PRINTF("HIT FISH %dcm\n", (u8)this->fishLength);
 
             Math_ApproachS(&this->fishLimbDRotZDelta, 0x2AF8, 4, 0xBB8);
             sFishingHookedFish = this;
@@ -5115,11 +5115,11 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
     if (0) {
         // Strings existing only in rodata
-        osSyncPrintf(VT_FGCOL(GREEN));
-        osSyncPrintf(VT_FGCOL(YELLOW));
-        osSyncPrintf("plays %x\n");
-        osSyncPrintf("ys %x\n");
-        osSyncPrintf(VT_RST);
+        PRINTF(VT_FGCOL(GREEN));
+        PRINTF(VT_FGCOL(YELLOW));
+        PRINTF("plays %x\n");
+        PRINTF("ys %x\n");
+        PRINTF(VT_RST);
     }
 
     playerShadowAlpha = player->actor.shape.shadowAlpha;
@@ -5617,9 +5617,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
     sREG(14) = 0;
 
-    osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("zelda_time %x\n", ((void)0, gSaveContext.save.dayTime));
-    osSyncPrintf(VT_RST);
+    PRINTF(VT_FGCOL(GREEN));
+    PRINTF("zelda_time %x\n", ((void)0, gSaveContext.save.dayTime));
+    PRINTF(VT_RST);
 
     if (sStormChanceTimer >= 2) {
         sStormChanceTimer--;
@@ -5711,7 +5711,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         Message_StartTextbox(play, 0x407B + BREG(27), NULL);
     }
 
-    osSyncPrintf("HI_SCORE = %x\n", HIGH_SCORE(HS_FISHING));
+    PRINTF("HI_SCORE = %x\n", HIGH_SCORE(HS_FISHING));
 }
 
 s32 Fishing_OwnerOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

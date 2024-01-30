@@ -895,7 +895,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
     if (this->subCamId != SUB_CAM_ID_DONE) {
         // fake, tricks the compiler into putting some pointers on the stack
         if (zero) {
-            osSyncPrintf(NULL, 0, 0);
+            PRINTF(NULL, 0, 0);
         }
         this->subCamAt.y += this->unk_41C;
         Play_SetCameraAtEyeUp(play, this->subCamId, &this->subCamAt, &this->subCamEye, &this->subCamUp);
@@ -1842,10 +1842,10 @@ void func_80902348(BossGanon2* this, PlayState* play) {
 
     if (this->unk_316 == 0) {
         for (i = 0; i < ARRAY_COUNT(this->unk_864); i++) {
-            if (this->unk_444.elements[i].info.bumperFlags & BUMP_HIT) {
-                this->unk_444.elements[i].info.bumperFlags &= ~BUMP_HIT;
-            } else if (this->unk_444.elements[i].info.toucherFlags & TOUCH_HIT) {
-                this->unk_444.elements[i].info.toucherFlags &= ~TOUCH_HIT;
+            if (this->unk_444.elements[i].base.bumperFlags & BUMP_HIT) {
+                this->unk_444.elements[i].base.bumperFlags &= ~BUMP_HIT;
+            } else if (this->unk_444.elements[i].base.toucherFlags & TOUCH_HIT) {
+                this->unk_444.elements[i].base.toucherFlags &= ~TOUCH_HIT;
 
                 if (this->unk_312 == 1) {
                     phi_v0_2 = 0x1800;
@@ -1878,42 +1878,42 @@ void func_80902348(BossGanon2* this, PlayState* play) {
     }
 }
 
-void func_80902524(BossGanon2* this, PlayState* play) {
-    s8 temp_v0_4;
-    ColliderInfo* acHitInfo;
+void BossGanon2_CollisionCheck(BossGanon2* this, PlayState* play) {
+    s8 health;
+    ColliderElement* acHitElem;
     s16 i;
     u8 phi_v1_2;
 
-    osSyncPrintf("this->no_hit_time %d\n", this->unk_316);
+    PRINTF("this->no_hit_time %d\n", this->unk_316);
     if (this->unk_316 != 0 || ((this->unk_334 == 0) && (this->actionFunc == func_80900890))) {
         for (i = 0; i < ARRAY_COUNT(this->unk_464); i++) {
-            this->unk_424.elements[i].info.bumperFlags &= ~BUMP_HIT;
+            this->unk_424.elements[i].base.bumperFlags &= ~BUMP_HIT;
         }
     }
 
-    osSyncPrintf("this->look_on %d\n", this->unk_313);
+    PRINTF("this->look_on %d\n", this->unk_313);
     if (this->unk_313) {
         if (this->actionFunc != func_808FFFE0) {
-            if (this->unk_424.elements[0].info.bumperFlags & BUMP_HIT) {
-                this->unk_424.elements[0].info.bumperFlags &= ~BUMP_HIT;
-                acHitInfo = this->unk_424.elements[0].info.acHitInfo;
-                if ((acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) && (this->actionFunc != func_80900890)) {
+            if (this->unk_424.elements[0].base.bumperFlags & BUMP_HIT) {
+                this->unk_424.elements[0].base.bumperFlags &= ~BUMP_HIT;
+                acHitElem = this->unk_424.elements[0].base.acHitElem;
+                if ((acHitElem->toucher.dmgFlags & DMG_ARROW_LIGHT) && (this->actionFunc != func_80900890)) {
                     func_809000A0(this, play);
                     Actor_PlaySfx(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
                     Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
                 } else if ((this->actionFunc == func_80900890) &&
-                           (acHitInfo->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER))) {
+                           (acHitElem->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER))) {
                     this->unk_316 = 60;
                     this->unk_342 = 5;
                     Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
                     Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
                     this->actor.colChkInfo.health -= 2;
-                    temp_v0_4 = this->actor.colChkInfo.health;
-                    if (temp_v0_4 < 0x15 && this->unk_334 == 0) {
+                    health = this->actor.colChkInfo.health;
+                    if (health <= 20 && this->unk_334 == 0) {
                         func_80900818(this, play);
                     } else {
-                        if (temp_v0_4 <= 0) {
+                        if (health <= 0) {
                             func_80901020(this, play);
                         } else {
                             func_80900210(this, play);
@@ -1926,30 +1926,30 @@ void func_80902524(BossGanon2* this, PlayState* play) {
             }
         }
     } else {
-        if (this->unk_424.elements[15].info.bumperFlags & BUMP_HIT) {
-            this->unk_424.elements[15].info.bumperFlags &= ~BUMP_HIT;
-            acHitInfo = this->unk_424.elements[15].info.acHitInfo;
+        if (this->unk_424.elements[15].base.bumperFlags & BUMP_HIT) {
+            this->unk_424.elements[15].base.bumperFlags &= ~BUMP_HIT;
+            acHitElem = this->unk_424.elements[15].base.acHitElem;
             this->unk_316 = 60;
             this->unk_344 = 0x32;
             this->unk_342 = 5;
             Actor_PlaySfx(&this->actor, NA_SE_EN_MGANON_DAMAGE);
             Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
             phi_v1_2 = 1;
-            if (acHitInfo->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER)) {
-                if (acHitInfo->toucher.dmgFlags & DMG_JUMP_MASTER) {
+            if (acHitElem->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER)) {
+                if (acHitElem->toucher.dmgFlags & DMG_JUMP_MASTER) {
                     phi_v1_2 = 4;
                 } else {
                     phi_v1_2 = 2;
                 }
             }
             this->actor.colChkInfo.health -= phi_v1_2;
-            temp_v0_4 = this->actor.colChkInfo.health;
-            if ((temp_v0_4 < 0x15) && (this->unk_334 == 0)) {
+            health = this->actor.colChkInfo.health;
+            if ((health <= 20) && (this->unk_334 == 0)) {
                 func_80900818(this, play);
-            } else if ((temp_v0_4 <= 0) && (phi_v1_2 >= 2)) {
+            } else if ((health <= 0) && (phi_v1_2 >= 2)) {
                 func_80901020(this, play);
             } else {
-                if (temp_v0_4 <= 0) {
+                if (health <= 0) {
                     this->actor.colChkInfo.health = 1;
                 }
                 func_80900210(this, play);
@@ -2067,7 +2067,7 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
     func_80902348(this, play);
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk_424.base);
     if (this->actionFunc != func_8090120C) {
-        func_80902524(this, play);
+        BossGanon2_CollisionCheck(this, play);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk_424.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->unk_444.base);
         CollisionCheck_SetAC(play, &play->colChkCtx, &this->unk_444.base);

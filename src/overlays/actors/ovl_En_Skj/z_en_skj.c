@@ -446,12 +446,12 @@ void EnSkj_Init(Actor* thisx, PlayState* play2) {
             EnSkj_CalculateCenter(this);
 
             player = GET_PLAYER(play);
-            osSyncPrintf("Player_X : %f\n", player->actor.world.pos.x);
-            osSyncPrintf("Player_Z : %f\n", player->actor.world.pos.z);
-            osSyncPrintf("World_X  : %f\n", this->actor.world.pos.x);
-            osSyncPrintf("World_Z  : %f\n", this->actor.world.pos.z);
-            osSyncPrintf("Center_X : %f\n", this->center.x);
-            osSyncPrintf("Center_Z : %f\n\n", this->center.z);
+            PRINTF("Player_X : %f\n", player->actor.world.pos.x);
+            PRINTF("Player_Z : %f\n", player->actor.world.pos.z);
+            PRINTF("World_X  : %f\n", this->actor.world.pos.x);
+            PRINTF("World_Z  : %f\n", this->actor.world.pos.z);
+            PRINTF("Center_X : %f\n", this->center.x);
+            PRINTF("Center_Z : %f\n\n", this->center.z);
 
             break;
     }
@@ -581,9 +581,9 @@ s32 EnSkj_CollisionCheck(EnSkj* this, PlayState* play) {
         this->collider.base.acFlags &= ~AC_HIT;
         switch (this->actor.colChkInfo.damageEffect) {
             case 0xF:
-                effectPos.x = this->collider.info.bumper.hitPos.x;
-                effectPos.y = this->collider.info.bumper.hitPos.y;
-                effectPos.z = this->collider.info.bumper.hitPos.z;
+                effectPos.x = this->collider.elem.bumper.hitPos.x;
+                effectPos.y = this->collider.elem.bumper.hitPos.y;
+                effectPos.z = this->collider.elem.bumper.hitPos.z;
 
                 EnSkj_SpawnBlood(play, &effectPos);
                 EffectSsHitMark_SpawnFixedScale(play, 1, &effectPos);

@@ -170,7 +170,7 @@ void ObjHamishi_Update(Actor* thisx, PlayState* play) {
 
     ObjHamishi_Shake(this);
 
-    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HAMMER)) {
+    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_HAMMER)) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->hitCount++;
         if (this->hitCount < 2) {

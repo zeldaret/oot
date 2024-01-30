@@ -330,9 +330,9 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
         this->timer = 0;
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
-        this->collider.elements[0].info.toucherFlags = TOUCH_ON | TOUCH_SFX_HARD;
-        this->collider.elements[0].info.toucher.dmgFlags = DMG_DEFAULT;
-        this->collider.elements[0].info.toucher.damage = 8;
+        this->collider.elements[0].base.toucherFlags = TOUCH_ON | TOUCH_SFX_HARD;
+        this->collider.elements[0].base.toucher.dmgFlags = DMG_DEFAULT;
+        this->collider.elements[0].base.toucher.damage = 8;
         this->bobSize = this->actionState * 20.0f;
         this->flamePrimAlpha = 255;
         this->moveMode = BBMOVE_NORMAL;
@@ -350,7 +350,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
-                this->collider.elements[0].info.toucher.effect = 1;
+                this->collider.elements[0].base.toucher.effect = 1;
                 EnBb_SetupRed(play, this);
                 break;
             case ENBB_WHITE:
@@ -1151,10 +1151,10 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->dmgEffect = this->actor.colChkInfo.damageEffect;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, false);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].base, false);
         switch (this->dmgEffect) {
             case 7:
-                this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->toucher.damage;
                 FALLTHROUGH;
             case 5:
                 this->fireIceTimer = 0x30;
@@ -1164,7 +1164,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
-                this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
+                this->actor.freezeTimer = this->collider.elements[0].base.acHitElem->toucher.damage;
                 break;
             case 8:
             case 9:

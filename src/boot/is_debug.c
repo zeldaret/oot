@@ -5,18 +5,22 @@ OSPiHandle* sISVHandle; // official name : is_Handle
 #define gISVDbgPrnAdrs ((ISVDbg*)0xB3FF0000)
 #define ASCII_TO_U32(a, b, c, d) ((u32)((a << 24) | (b << 16) | (c << 8) | (d << 0)))
 
+#ifdef OOT_DEBUG
 void isPrintfInit(void) {
     sISVHandle = osCartRomInit();
     osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->put, 0);
     osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->get, 0);
     osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->magic, ASCII_TO_U32('I', 'S', '6', '4'));
 }
+#endif
 
 void osSyncPrintfUnused(const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
+#ifdef OOT_DEBUG
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
+#endif
 
     va_end(args);
 }
@@ -25,7 +29,9 @@ void osSyncPrintf(const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
+#ifdef OOT_DEBUG
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
+#endif
 
     va_end(args);
 }
@@ -35,11 +41,14 @@ void rmonPrintf(const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
+#ifdef OOT_DEBUG
     _Printf(is_proutSyncPrintf, NULL, fmt, args);
+#endif
 
     va_end(args);
 }
 
+#ifdef OOT_DEBUG
 void* is_proutSyncPrintf(void* arg, const char* str, size_t count) {
     u32 data;
     s32 pos;
@@ -92,3 +101,4 @@ NORETURN void func_80002384(const char* exp, const char* file, u32 line) {
         ;
     }
 }
+#endif

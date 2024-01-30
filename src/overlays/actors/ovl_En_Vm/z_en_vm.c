@@ -392,7 +392,7 @@ void EnVm_CheckHealth(EnVm* this, PlayState* play) {
 
     if (Actor_GetCollidedExplosive(play, &this->colliderCylinder.base) != NULL) {
         this->actor.colChkInfo.health--;
-        osSyncPrintf("hp down %d\n", this->actor.colChkInfo.health);
+        PRINTF("hp down %d\n", this->actor.colChkInfo.health);
     } else {
         if (!(this->colliderQuad2.base.acFlags & AC_HIT) || this->unk_21C == 2) {
             return;
