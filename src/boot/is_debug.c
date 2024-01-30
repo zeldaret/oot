@@ -1,11 +1,11 @@
 #include "global.h"
 
-OSPiHandle* sISVHandle; // official name : is_Handle
-
 #define gISVDbgPrnAdrs ((ISVDbg*)0xB3FF0000)
 #define ASCII_TO_U32(a, b, c, d) ((u32)((a << 24) | (b << 16) | (c << 8) | (d << 0)))
 
 #if OOT_DEBUG
+OSPiHandle* sISVHandle; // official name : is_Handle
+
 void isPrintfInit(void) {
     sISVHandle = osCartRomInit();
     osEPiWriteIo(sISVHandle, (u32)&gISVDbgPrnAdrs->put, 0);
