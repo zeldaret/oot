@@ -252,7 +252,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
-    if (((void)0, gSaveContext.save.dayTime) > CLOCK_TIME(18, 0) ||
+    if (((void)0, gSaveContext.save.dayTime) > (0, CLOCK_TIME(18, 0)) ||
         ((void)0, gSaveContext.save.dayTime) < CLOCK_TIME(6, 30)) {
         ((void)0, gSaveContext.save.nightFlag = 1);
     } else {
@@ -335,12 +335,17 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     envCtx->lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
     envCtx->lightBlendRateOverride = LIGHT_BLENDRATE_OVERRIDE_NONE;
 
-    R_ENV_TIME_SPEED_OLD = gTimeSpeed = envCtx->sceneTimeSpeed = 0;
+    envCtx->sceneTimeSpeed = 0;
+    gTimeSpeed = envCtx->sceneTimeSpeed;
+
+#ifdef OOT_DEBUG
+    R_ENV_TIME_SPEED_OLD = gTimeSpeed;
     R_ENV_DISABLE_DBG = true;
 
     if (CREG(3) != 0) {
         gSaveContext.chamberCutsceneNum = CREG(3) - 1;
     }
+#endif
 
     play->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
     play->envCtx.precipitation[PRECIP_RAIN_CUR] = 0;
@@ -405,6 +410,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     gSkyboxIsChanging = false;
     gSaveContext.retainWeatherMode = false;
 
+#ifdef OOT_DEBUG
     R_ENV_LIGHT1_DIR(0) = 80;
     R_ENV_LIGHT1_DIR(1) = 80;
     R_ENV_LIGHT1_DIR(2) = 80;
@@ -419,6 +425,8 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     cREG(12) = 0;
     cREG(13) = 0;
     cREG(14) = 0;
+#endif
+
     gUseCutsceneCam = true;
 
     for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
@@ -512,10 +520,9 @@ u8 Environment_SmoothStepToS8(s8* pvalue, s8 target, u8 scale, u8 step, u8 minSt
 
 f32 Environment_LerpWeight(u16 max, u16 min, u16 val) {
     f32 diff = max - min;
-    f32 ret;
 
     if (diff != 0.0f) {
-        ret = 1.0f - (max - val) / diff;
+        f32 ret = 1.0f - (max - val) / diff;
 
         if (!(ret >= 1.0f)) {
             return ret;
@@ -700,10 +707,12 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             }
         }
 
+#ifdef OOT_DEBUG
         if (newSkybox1Index == 0xFF) {
             // "Environment VR data acquisition failed! Report to Sasaki!"
             PRINTF(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
         }
+#endif
 
         if ((envCtx->skybox1Index != newSkybox1Index) && (envCtx->skyboxDmaState == SKYBOX_DMA_INACTIVE)) {
             envCtx->skyboxDmaState = SKYBOX_DMA_TEXTURE1_START;
@@ -815,6 +824,8 @@ void Environment_DisableUnderwaterLights(PlayState* play) {
     }
 }
 
+#ifdef OOT_DEBUG
+
 void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint printer;
     s32 pad[2];
@@ -870,6 +881,8 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint_Destroy(&printer);
 }
 
+#endif
+
 void Environment_PlayTimeBasedSequence(PlayState* play);
 void Environment_UpdateRain(PlayState* play);
 
@@ -882,6 +895,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
     u16 time;
     EnvLightSettings* lightSettingsList = play->envCtx.lightSettingsList;
     s32 adjustment;
+    u8 blendRate;
 
     if ((((void)0, gSaveContext.gameMode) != GAMEMODE_NORMAL) &&
         (((void)0, gSaveContext.gameMode) != GAMEMODE_END_CREDITS)) {
@@ -951,6 +965,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSaveContext.save.nightFlag = 0;
         }
 
+#ifdef OOT_DEBUG
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
@@ -967,6 +982,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             if (1) {}
             CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 1690);
         }
+#endif
 
         if ((envCtx->lightSettingOverride != LIGHT_SETTING_OVERRIDE_NONE) &&
             (envCtx->lightBlendOverride != LIGHT_BLEND_OVERRIDE_FULL_CONTROL) &&
@@ -1124,6 +1140,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                         envCtx->lightSettings.zFar = LERP16(blend16[0], blend16[1], configChangeBlend);
 
+#ifdef OOT_DEBUG
                         if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong!"
@@ -1134,6 +1151,8 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                    sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
                                    envCtx->numLightSettings - 1);
                         }
+#endif
+
                         break;
                     }
                 }
@@ -1153,7 +1172,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                     envCtx->lightSettings.zFar = lightSettingsList[envCtx->lightSetting].zFar;
                     envCtx->lightBlend = 1.0f;
                 } else {
-                    u8 blendRate =
+                    blendRate =
                         ENV_LIGHT_SETTINGS_BLEND_RATE_U8(lightSettingsList[envCtx->lightSetting].blendRateAndFogNear);
 
                     if (blendRate == 0) {
@@ -1201,6 +1220,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                lightSettingsList[envCtx->lightSetting].zFar, envCtx->lightBlend);
                 }
 
+#ifdef OOT_DEBUG
                 if (envCtx->lightSetting >= envCtx->numLightSettings) {
                     // "The color palette seems to be wrong!"
                     PRINTF("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
@@ -1209,6 +1229,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                     PRINTF("\n" VT_FGCOL(YELLOW) "設定パレット＝[%d] パレット数＝[%d]\n" VT_RST, envCtx->lightSetting,
                            envCtx->numLightSettings);
                 }
+#endif
             }
         }
 
@@ -1276,6 +1297,8 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
         } else {
             lightCtx->zFar = ENV_ZFAR_MAX;
         }
+
+#ifdef OOT_DEBUG
 
         // When environment debug is enabled, various environment related variables can be configured via the reg editor
         if (R_ENV_DISABLE_DBG) {
@@ -1357,6 +1380,8 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             envCtx->windDirection.z = R_ENV_WIND_DIR(2);
             envCtx->windSpeed = R_ENV_WIND_SPEED;
         }
+
+#endif
 
         if ((envCtx->dirLight1.params.dir.x == 0) && (envCtx->dirLight1.params.dir.y == 0) &&
             (envCtx->dirLight1.params.dir.z == 0)) {
@@ -2366,9 +2391,6 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
     Color_RGBA8 envColor;
     s32 pad;
     f32 sp98;
-    u16 sp96;
-    u16 sp94;
-    u16 sp92;
 
     switch (sandstormState) {
         case SANDSTORM_ACTIVE:
@@ -2475,25 +2497,27 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
     envColor.g = ((envColor.g * sp98) + ((6.0f - sp98) * primColor.g)) * (1.0f / 6.0f);
     envColor.b = ((envColor.b * sp98) + ((6.0f - sp98) * primColor.b)) * (1.0f / 6.0f);
 
-    sp96 = (s32)(sSandstormScroll * (11.0f / 6.0f));
-    sp94 = (s32)(sSandstormScroll * (9.0f / 6.0f));
-    sp92 = (s32)(sSandstormScroll * (6.0f / 6.0f));
+    {
+        u16 sp96 = (s32)(sSandstormScroll * (11.0f / 6.0f));
+        u16 sp94 = (s32)(sSandstormScroll * (9.0f / 6.0f));
+        u16 sp92 = (s32)(sSandstormScroll * (6.0f / 6.0f));
 
-    OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 4044);
+        OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 4044);
 
-    POLY_XLU_DISP = Gfx_SetupDL_64(POLY_XLU_DISP);
+        POLY_XLU_DISP = Gfx_SetupDL_64(POLY_XLU_DISP);
 
-    gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
-    gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColor.r, primColor.g, primColor.b, play->envCtx.sandstormPrimA);
-    gDPSetEnvColor(POLY_XLU_DISP++, envColor.r, envColor.g, envColor.b, play->envCtx.sandstormEnvA);
-    gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (u32)sp96 % 4096, 0, 512, 32, 1, (u32)sp94 % 4096,
-                                4095 - ((u32)sp92 % 4096), 256, 64));
-    gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);
-    gSPDisplayList(POLY_XLU_DISP++, gFieldSandstormDL);
+        gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
+        gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColor.r, primColor.g, primColor.b, play->envCtx.sandstormPrimA);
+        gDPSetEnvColor(POLY_XLU_DISP++, envColor.r, envColor.g, envColor.b, play->envCtx.sandstormEnvA);
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, (u32)sp96 % 4096, 0, 512, 32, 1,
+                                    (u32)sp94 % 4096, 4095 - ((u32)sp92 % 4096), 256, 64));
+        gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);
+        gSPDisplayList(POLY_XLU_DISP++, gFieldSandstormDL);
 
-    CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 4068);
+        CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 4068);
+    }
 
     sSandstormScroll += (s32)sp98;
 }
