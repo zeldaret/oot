@@ -149,6 +149,8 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
             actor->shape.feetFloorFlag <<= 1;
             distToFloor = feetPosPtr->y - *floorHeightPtr;
 
+            if (OOT_DEBUG) {}
+
             if ((-1.0f <= distToFloor) && (distToFloor < 500.0f)) {
                 if (distToFloor <= 0.0f) {
                     actor->shape.feetFloorFlag++;
@@ -167,11 +169,8 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
                             (lightPtr->l.col[0] + lightPtr->l.col[1] + lightPtr->l.col[2]) * ABS(lightPtr->l.dir[1]);
                         if (lightNum > 0) {
                             lightNumMax += lightNum;
-#ifndef OOT_DEBUG
-                            if (1)
-#endif
-                                ActorShadow_DrawFoot(play, lightPtr, &floorMtx, lightNum, shadowAlpha, shadowScaleX,
-                                                     shadowScaleZ);
+                            ActorShadow_DrawFoot(play, lightPtr, &floorMtx, lightNum, shadowAlpha, shadowScaleX,
+                                                 shadowScaleZ);
                         }
                     }
                     lightPtr++;
@@ -2318,7 +2317,6 @@ void Actor_FaultPrint(Actor* actor, char* command) {
 #if OOT_DEBUG
     FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, name);
 #else
-    // TODO: string literal "" may be incorrect
     FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, "");
 #endif
 }
@@ -2792,11 +2790,9 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     PRINTF(VT_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
-#if OOT_DEBUG
         if (HREG(20) != 0) {
             PRINTF("アクタークライアントが０になりました\n"); // "Actor client is now 0"
         }
-#endif
 
         if (actorOverlay->loadedRamAddr != NULL) {
             if (actorOverlay->allocType & ACTOROVL_ALLOC_PERSISTENT) {
@@ -2855,12 +2851,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
-#if OOT_DEBUG
     if (HREG(20) != 0) {
         // "Actor class addition [%d:%s]"
         PRINTF("アクタークラス追加 [%d:%s]\n", actorId, name);
     }
-#endif
 
     if (actorCtx->total > ACTOR_NUMBER_MAX) {
         // "Ａｃｔｏｒ set number exceeded"
@@ -3059,11 +3053,9 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-#if OOT_DEBUG
     if (HREG(20) != 0) {
         PRINTF("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
     }
-#endif
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
@@ -3768,10 +3760,7 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
     f32 chainRotZ;
     f32 chainsTranslateX;
     f32 chainsTranslateY;
-    f32 rotZStep;
-#ifndef OOT_DEBUG
     s32 pad;
-#endif
 
     entry = &sDoorLocksInfo[type];
     chainRotZ = entry->chainsRotZInit;
@@ -3781,28 +3770,34 @@ void Actor_DrawDoorLock(PlayState* play, s32 frame, s32 type) {
     Matrix_Translate(0.0f, entry->yShift, 500.0f, MTXMODE_APPLY);
     Matrix_Get(&baseMtxF);
 
-    chainsTranslateX = sinf(entry->chainAngle - chainRotZ) * -(10 - frame) * 0.1f * entry->chainLength;
-    chainsTranslateY = cosf(entry->chainAngle - chainRotZ) * (10 - frame) * 0.1f * entry->chainLength;
+    {
+        f32 rotZStep;
 
-    for (i = 0; i < 4; i++) {
-        Matrix_Put(&baseMtxF);
-        Matrix_RotateZ(chainRotZ, MTXMODE_APPLY);
-        Matrix_Translate(chainsTranslateX, chainsTranslateY, 0.0f, MTXMODE_APPLY);
+        chainsTranslateX = sinf(entry->chainAngle - chainRotZ) * -(10 - frame) * 0.1f * entry->chainLength;
+        chainsTranslateY = cosf(entry->chainAngle - chainRotZ) * (10 - frame) * 0.1f * entry->chainLength;
 
-        if (entry->chainsScale != 1.0f) {
-            Matrix_Scale(entry->chainsScale, entry->chainsScale, entry->chainsScale, MTXMODE_APPLY);
+        for (i = 0; i < 4; i++) {
+
+            Matrix_Put(&baseMtxF);
+            Matrix_RotateZ(chainRotZ, MTXMODE_APPLY);
+            Matrix_Translate(chainsTranslateX, chainsTranslateY, 0.0f, MTXMODE_APPLY);
+
+            if (entry->chainsScale != 1.0f) {
+                Matrix_Scale(entry->chainsScale, entry->chainsScale, entry->chainsScale, MTXMODE_APPLY);
+            }
+
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8299),
+                      G_MTX_MODELVIEW | G_MTX_LOAD);
+            gSPDisplayList(POLY_OPA_DISP++, entry->chainDL);
+
+            if (i % 2) {
+                rotZStep = 2.0f * entry->chainAngle;
+            } else {
+                rotZStep = M_PI - (2.0f * entry->chainAngle);
+            }
+
+            chainRotZ += rotZStep;
         }
-
-        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_actor.c", 8299), G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_OPA_DISP++, entry->chainDL);
-
-        if (i % 2) {
-            rotZStep = 2.0f * entry->chainAngle;
-        } else {
-            rotZStep = M_PI - (2.0f * entry->chainAngle);
-        }
-
-        chainRotZ += rotZStep;
     }
 
     Matrix_Put(&baseMtxF);
