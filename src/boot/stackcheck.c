@@ -102,7 +102,7 @@ u32 StackCheck_GetState(StackEntry* entry) {
            entry->name != NULL ? entry->name : "(null)");
     PRINTF(VT_RST);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (ret != STACK_STATUS_OK) {
         LogUtils_LogHexDump(entry->head, (uintptr_t)entry->tail - (uintptr_t)entry->head);
     }

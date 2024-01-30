@@ -26,7 +26,7 @@ void* func_800FC800(u32 size) {
         size = 1;
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     return __osMallocDebug(&gSystemArena, size, sNew, 0);
 #else
     return __osMalloc(&gSystemArena, size);

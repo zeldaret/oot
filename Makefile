@@ -51,15 +51,11 @@ endif
 # Version-specific settings
 ifeq ($(VERSION),gc-eu-mq)
   DEBUG := 0
-  CFLAGS += -DNON_MATCHING -DNDEBUG
-  CPPFLAGS += -DNON_MATCHING -DNDEBUG
-  OPTFLAGS := -O2 -g3
+  CFLAGS += -DNON_MATCHING
+  CPPFLAGS += -DNON_MATCHING
   COMPARE := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
   DEBUG := 1
-  CFLAGS += -DOOT_DEBUG
-  CPPFLAGS += -DOOT_DEBUG
-  OPTFLAGS := -O2
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -71,6 +67,16 @@ VENV := .venv
 
 MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
+
+ifeq ($(DEBUG),1)
+  CFLAGS += -DOOT_DEBUG=1
+  CPPFLAGS += -DOOT_DEBUG=1
+  OPTFLAGS := -O2
+else
+  CFLAGS += -DNDEBUG -DOOT_DEBUG=0
+  CPPFLAGS += -DNDEBUG -DOOT_DEBUG=0
+  OPTFLAGS := -O2 -g3
+endif
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
@@ -158,7 +164,7 @@ endif
 ifeq ($(COMPILER),ido)
   # Have CC_CHECK pretend to be a MIPS compiler
   MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
-  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
+  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING -DOOT_DEBUG=1 $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
   ifeq ($(shell getconf LONG_BIT), 32)
     # Work around memory allocation bug in QEMU
     export QEMU_GUEST_BASE := 1
