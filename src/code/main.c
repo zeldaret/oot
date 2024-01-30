@@ -25,7 +25,7 @@ AudioMgr gAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 void Main_LogSystemHeap(void) {
     PRINTF(VT_FGCOL(GREEN));
     // "System heap size% 08x (% dKB) Start address% 08x"
@@ -55,7 +55,7 @@ void Main(void* arg) {
     PRINTF("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
     SystemHeap_Init((void*)systemHeapStart, gSystemHeapSize); // initializes the system heap
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     {
         void* debugHeapStart;
         u32 debugHeapSize;
@@ -80,7 +80,7 @@ void Main(void* arg) {
     osCreateMesgQueue(&sSerialEventQueue, sSerialMsgBuf, ARRAY_COUNT(sSerialMsgBuf));
     osSetEventMesg(OS_EVENT_SI, &sSerialEventQueue, NULL);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     Main_LogSystemHeap();
 #endif
 

@@ -695,8 +695,7 @@ typedef struct {
     /* 0x04 */ u32 decSize;
     /* 0x08 */ u32 compInfoOffset; // only used in mio0
     /* 0x0C */ u32 uncompDataOffset; // only used in mio0
-    /* 0x10 */ u8 data[1];
-} Yaz0Header; // size = 0x10 ("data" is not part of the header)
+} Yaz0Header; // size = 0x10
 
 struct ArenaNode;
 
