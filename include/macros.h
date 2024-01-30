@@ -100,7 +100,7 @@
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 #define PRINTF osSyncPrintf
 #else
 #ifdef __sgi /* IDO compiler */
@@ -114,7 +114,7 @@
 #endif
 #endif
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
@@ -159,7 +159,7 @@ extern struct GraphicsContext* __gfxCtx;
 #define POLY_XLU_DISP   __gfxCtx->polyXlu.p
 #define OVERLAY_DISP    __gfxCtx->overlay.p
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
 // __gfxCtx shouldn't be used directly.
 // Use the DISP macros defined above when writing to display buffers.
