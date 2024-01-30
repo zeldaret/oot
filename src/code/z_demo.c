@@ -130,7 +130,7 @@ s16 sQuakeIndex;
 
 void Cutscene_SetupScripted(PlayState* play, CutsceneContext* csCtx);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 void Cutscene_DrawDebugInfo(PlayState* play, Gfx** dlist, CutsceneContext* csCtx) {
     GfxPrint printer;
     s32 pad[2];
@@ -175,7 +175,7 @@ void Cutscene_UpdateManual(PlayState* play, CutsceneContext* csCtx) {
 }
 
 void Cutscene_UpdateScripted(PlayState* play, CutsceneContext* csCtx) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     {
         Input* input = &play->state.input[0];
 
@@ -552,7 +552,7 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
     }
 }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 // With debug features enabled, the Start Button can be pressed on controller 1 to force the Destination command
 // to run early and warp to the next location
 #define DEBUG_CS_FORCE_DEST                                                                   \
@@ -731,7 +731,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION:
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                 // In debug builds, skip cutscene with Sheik after warping to temple of time
                 SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
 #endif
@@ -903,7 +903,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION_ALT:
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                 // In debug builds, skip cutscene with Sheik after warping to temple of time
                 SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
 #endif
@@ -961,7 +961,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
                 break;
 
             case CS_DEST_GERUDO_VALLEY_CREDITS:
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                 gSaveContext.gameMode = GAMEMODE_END_CREDITS;
                 Audio_SetSfxBanksMute(0x6F);
 #endif
@@ -1801,7 +1801,7 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
         return;
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     // With debug features enabled, pressing D-pad Right on controller 1 will stop the cutscene early and skip it
     if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_DRIGHT)) {
         csCtx->state = CS_STATE_STOP;
@@ -2213,14 +2213,9 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
     }
 }
 
-#ifdef OOT_DEBUG
 void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
-    if (0) {} // Necessary to match
-
     if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
-        if (0) {} // Also necessary to match
-
-        if (BREG(0) != 0) {
+        if (OOT_DEBUG && BREG(0) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
 
@@ -2236,24 +2231,15 @@ void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
 
             CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }
-
         csCtx->curFrame++;
 
-        if (R_USE_DEBUG_CUTSCENE) {
+        if (OOT_DEBUG && R_USE_DEBUG_CUTSCENE) {
             Cutscene_ProcessScript(play, csCtx, gDebugCutsceneScript);
         } else {
             Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
         }
     }
 }
-#else
-void CutsceneHandler_RunScript(PlayState* play, CutsceneContext* csCtx) {
-    if (gSaveContext.save.cutsceneIndex >= 0xFFF0) {
-        csCtx->curFrame++;
-        Cutscene_ProcessScript(play, csCtx, play->csCtx.script);
-    }
-}
-#endif
 
 void CutsceneHandler_StopManual(PlayState* play, CutsceneContext* csCtx) {
     if (Cutscene_StepTimer(play, csCtx, 0.0f)) {
