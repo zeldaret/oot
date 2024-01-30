@@ -5,8 +5,6 @@
     (((p).ipage >= (pfs).inodeStartPage) && ((p).inode_t.bank < (pfs).banks) && ((p).inode_t.page >= 0x01) && \
      ((p).inode_t.page < 0x80))
 
-__OSInode __osPfsInodeCache;
-
 s32 __osPfsGetNextPage(OSPfs* pfs, u8* bank, __OSInode* inode, __OSInodeUnit* page) {
     s32 ret;
 

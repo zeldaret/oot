@@ -22,15 +22,15 @@ void func_80B93DB0(ObjHsblock* this);
 void func_80B93E38(ObjHsblock* this);
 
 ActorInit Obj_Hsblock_InitVars = {
-    ACTOR_OBJ_HSBLOCK,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_D_HSBLOCK,
-    sizeof(ObjHsblock),
-    (ActorFunc)ObjHsblock_Init,
-    (ActorFunc)ObjHsblock_Destroy,
-    (ActorFunc)ObjHsblock_Update,
-    (ActorFunc)ObjHsblock_Draw,
+    /**/ ACTOR_OBJ_HSBLOCK,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_D_HSBLOCK,
+    /**/ sizeof(ObjHsblock),
+    /**/ ObjHsblock_Init,
+    /**/ ObjHsblock_Destroy,
+    /**/ ObjHsblock_Update,
+    /**/ ObjHsblock_Draw,
 };
 
 static f32 D_80B940C0[] = { 85.0f, 85.0f, 0.0f };
@@ -61,8 +61,8 @@ void func_80B93B68(ObjHsblock* this, PlayState* play, CollisionHeader* collision
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_hsblock.c", 163,
-                     this->dyna.actor.id, this->dyna.actor.params);
+        PRINTF("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_hsblock.c", 163,
+               this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -152,7 +152,7 @@ void ObjHsblock_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_obj_hsblock.c", 369),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_obj_hsblock.c", 369),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (play->sceneId == SCENE_FIRE_TEMPLE) {

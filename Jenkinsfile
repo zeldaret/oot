@@ -4,14 +4,15 @@ pipeline {
     }
 
     stages {
-        stage('Check for unused asm') {
+        stage('Check formatting') {
             steps {
-                sh './tools/find_unused_asm.sh'
+                echo 'Checking formatting...'
+                sh 'tools/check_format.sh'
             }
         }
         stage('Setup') {
             steps {
-                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
+                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baseroms/gc-eu-mq-dbg/baserom.z64'
                 sh 'make -j setup'
             }
         }
@@ -20,7 +21,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'ORIG_COMPILER=1 make -j'
+                sh 'make -j ORIG_COMPILER=1'
             }
         }
         stage('Build') {

@@ -34,15 +34,15 @@ void func_809D03CC(EnBw* this);
 void func_809D0424(EnBw* this, PlayState* play);
 
 ActorInit En_Bw_InitVars = {
-    ACTOR_EN_BW,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BW,
-    sizeof(EnBw),
-    (ActorFunc)EnBw_Init,
-    (ActorFunc)EnBw_Destroy,
-    (ActorFunc)EnBw_Update,
-    (ActorFunc)EnBw_Draw,
+    /**/ ACTOR_EN_BW,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BW,
+    /**/ sizeof(EnBw),
+    /**/ EnBw_Init,
+    /**/ EnBw_Destroy,
+    /**/ EnBw_Update,
+    /**/ EnBw_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
@@ -690,7 +690,7 @@ void func_809D0584(EnBw* this, PlayState* play) {
                 return;
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->collider2.info, false);
+            Actor_SetDropFlag(&this->actor, &this->collider2.elem, false);
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);
@@ -766,7 +766,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
             func_8002836C(play, &thisx->world.pos, &velocity, &accel, &sp50, &sp4C, 0x3C, 0, 0x14);
         }
         if (this->unk_248 <= 0.4f) {
-            this->collider1.info.toucher.effect = 0;
+            this->collider1.elem.toucher.effect = 0;
             if (((play->gameplayFrames & 1) == 0) && (this->unk_220 < 5) && (this->unk_23C == 0)) {
                 accel.y = -0.1f;
                 velocity.x = Rand_CenteredFloat(4.0f);
@@ -786,7 +786,7 @@ void EnBw_Update(Actor* thisx, PlayState* play2) {
                               20.0f - (this->unk_248 * 40.0f));
             }
         } else {
-            this->collider1.info.toucher.effect = 1;
+            this->collider1.elem.toucher.effect = 1;
         }
 
         this->unk_234 = Actor_TestFloorInDirection(thisx, play, 50.0f, thisx->world.rot.y);
@@ -828,7 +828,7 @@ s32 EnBw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* po
             Matrix_RotateZ(-(this->unk_258 * 0.1f), MTXMODE_APPLY);
             Matrix_RotateY(-(this->unk_258 * 0.13f), MTXMODE_APPLY);
             Matrix_RotateX(-(this->unk_258 * 0.115f), MTXMODE_APPLY);
-            gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bw.c", 1388),
+            gSPMatrix((*gfx)++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bw.c", 1388),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList((*gfx)++, *dList);
             Matrix_Pop();
@@ -890,7 +890,7 @@ void EnBw_Draw(Actor* thisx, PlayState* play2) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
     Matrix_Scale(this->unk_248 * 0.01f, this->unk_248 * 0.01f, this->unk_248 * 0.01f, MTXMODE_APPLY);
     Matrix_ReplaceRotation(&play->billboardMtxF);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bw.c", 1500),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_bw.c", 1500),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 

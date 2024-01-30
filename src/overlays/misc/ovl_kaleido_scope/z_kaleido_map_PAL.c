@@ -74,7 +74,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                 } else {
                     pauseCtx->cursorX[PAUSE_MAP] = 0;
                     pauseCtx->cursorPoint[PAUSE_MAP] = pauseCtx->dungeonMapSlot;
-                    osSyncPrintf("kscope->cursor_point=%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
+                    PRINTF("kscope->cursor_point=%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
                     R_MAP_TEX_INDEX =
                         R_MAP_TEX_INDEX_BASE +
                         gMapData->floorTexIndexOffset[gSaveContext.mapIndex][pauseCtx->cursorPoint[PAUSE_MAP] - 3];
@@ -174,7 +174,7 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
                     pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_MAP];
                 }
 
-                osSyncPrintf("kscope->cursor_point====%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
+                PRINTF("kscope->cursor_point====%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
                 j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
                 KaleidoScope_SetCursorVtx(pauseCtx, j, pauseCtx->mapPageVtx);
                 Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,

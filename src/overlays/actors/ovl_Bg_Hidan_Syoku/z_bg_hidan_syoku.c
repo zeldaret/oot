@@ -19,15 +19,15 @@ void func_8088F514(BgHidanSyoku* this, PlayState* play);
 void func_8088F62C(BgHidanSyoku* this, PlayState* play);
 
 ActorInit Bg_Hidan_Syoku_InitVars = {
-    ACTOR_BG_HIDAN_SYOKU,
-    ACTORCAT_BG,
-    FLAGS,
-    OBJECT_HIDAN_OBJECTS,
-    sizeof(BgHidanSyoku),
-    (ActorFunc)BgHidanSyoku_Init,
-    (ActorFunc)BgHidanSyoku_Destroy,
-    (ActorFunc)BgHidanSyoku_Update,
-    (ActorFunc)BgHidanSyoku_Draw,
+    /**/ ACTOR_BG_HIDAN_SYOKU,
+    /**/ ACTORCAT_BG,
+    /**/ FLAGS,
+    /**/ OBJECT_HIDAN_OBJECTS,
+    /**/ sizeof(BgHidanSyoku),
+    /**/ BgHidanSyoku_Init,
+    /**/ BgHidanSyoku_Destroy,
+    /**/ BgHidanSyoku_Update,
+    /**/ BgHidanSyoku_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -112,10 +112,10 @@ void BgHidanSyoku_Update(Actor* thisx, PlayState* play) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
-        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
+        Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_ELEVATOR_PLATFORM);
     } else if (!DynaPolyActor_IsPlayerOnTop(&this->dyna)) {
         if (this->unk_168 != 0) {
-            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+            Camera_RequestSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }
         this->unk_168 = 0;
     }

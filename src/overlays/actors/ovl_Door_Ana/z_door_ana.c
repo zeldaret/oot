@@ -19,15 +19,15 @@ void DoorAna_WaitOpen(DoorAna* this, PlayState* play);
 void DoorAna_GrabPlayer(DoorAna* this, PlayState* play);
 
 ActorInit Door_Ana_InitVars = {
-    ACTOR_DOOR_ANA,
-    ACTORCAT_ITEMACTION,
-    FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
-    sizeof(DoorAna),
-    (ActorFunc)DoorAna_Init,
-    (ActorFunc)DoorAna_Destroy,
-    (ActorFunc)DoorAna_Update,
-    (ActorFunc)DoorAna_Draw,
+    /**/ ACTOR_DOOR_ANA,
+    /**/ ACTORCAT_ITEMACTION,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_FIELD_KEEP,
+    /**/ sizeof(DoorAna),
+    /**/ DoorAna_Init,
+    /**/ DoorAna_Destroy,
+    /**/ DoorAna_Update,
+    /**/ DoorAna_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -177,7 +177,7 @@ void DoorAna_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_door_ana.c", 440);
 
     Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_ana.c", 446),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_door_ana.c", 446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gGrottoDL);
 

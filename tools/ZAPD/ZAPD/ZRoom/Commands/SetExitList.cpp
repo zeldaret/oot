@@ -24,7 +24,7 @@ void SetExitList::DeclareReferences([[maybe_unused]] const std::string& prefix)
 void SetExitList::ParseRawDataLate()
 {
 	// Parse Entrances and Generate Declaration
-	uint32_t numEntrances = zRoom->GetDeclarationSizeFromNeighbor(segmentOffset) / 2;
+	uint32_t numEntrances = zRoom->parent->GetDeclarationSizeFromNeighbor(segmentOffset) / 2;
 	uint32_t currentPtr = segmentOffset;
 
 	exits.reserve(numEntrances);

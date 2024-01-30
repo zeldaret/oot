@@ -29,15 +29,15 @@ void EnBili_Stunned(EnBili* this, PlayState* play);
 void EnBili_Frozen(EnBili* this, PlayState* play);
 
 ActorInit En_Bili_InitVars = {
-    ACTOR_EN_BILI,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_BL,
-    sizeof(EnBili),
-    (ActorFunc)EnBili_Init,
-    (ActorFunc)EnBili_Destroy,
-    (ActorFunc)EnBili_Update,
-    (ActorFunc)EnBili_Draw,
+    /**/ ACTOR_EN_BILI,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_BL,
+    /**/ sizeof(EnBili),
+    /**/ EnBili_Init,
+    /**/ EnBili_Destroy,
+    /**/ EnBili_Update,
+    /**/ EnBili_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -141,7 +141,7 @@ void EnBili_Destroy(Actor* thisx, PlayState* play) {
 
 void EnBili_SetupFloatIdle(EnBili* this) {
     this->actor.speed = 0.7f;
-    this->collider.info.bumper.effect = 1; // Shock?
+    this->collider.elem.bumper.effect = 1; // Shock?
     this->timer = 32;
     this->collider.base.atFlags |= AT_ON;
     this->collider.base.acFlags |= AC_ON;
@@ -237,7 +237,7 @@ void EnBili_SetupDie(EnBili* this) {
  */
 void EnBili_SetupStunned(EnBili* this) {
     this->timer = 80;
-    this->collider.info.bumper.effect = 0;
+    this->collider.elem.bumper.effect = 0;
     this->actor.gravity = -1.0f;
     this->actor.speed = 0.0f;
     Actor_SetColorFilter(&this->actor, COLORFILTER_COLORFLAG_BLUE, 150, COLORFILTER_BUFFLAG_XLU, 80);
@@ -549,7 +549,7 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
 
     if ((this->actor.colChkInfo.health != 0) && (this->collider.base.acFlags & AC_HIT)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
+        Actor_SetDropFlag(&this->actor, &this->collider.elem, true);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
@@ -586,7 +586,7 @@ void EnBili_UpdateDamage(EnBili* this, PlayState* play) {
                 EnBili_SetupBurnt(this);
             }
 
-            if (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_ARROW) {
+            if (this->collider.elem.acHitElem->toucher.dmgFlags & DMG_ARROW) {
                 this->actor.flags |= ACTOR_FLAG_4;
             }
         }

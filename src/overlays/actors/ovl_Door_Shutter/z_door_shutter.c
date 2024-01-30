@@ -49,15 +49,15 @@ void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play);
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play);
 
 ActorInit Door_Shutter_InitVars = {
-    ACTOR_DOOR_SHUTTER,
-    ACTORCAT_DOOR,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(DoorShutter),
-    (ActorFunc)DoorShutter_Init,
-    (ActorFunc)DoorShutter_Destroy,
-    (ActorFunc)DoorShutter_Update,
-    (ActorFunc)DoorShutter_Draw,
+    /**/ ACTOR_DOOR_SHUTTER,
+    /**/ ACTORCAT_DOOR,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(DoorShutter),
+    /**/ DoorShutter_Init,
+    /**/ DoorShutter_Destroy,
+    /**/ DoorShutter_Update,
+    /**/ DoorShutter_Draw,
 };
 
 typedef enum {
@@ -511,7 +511,7 @@ f32 DoorShutter_GetPlayerDistance(PlayState* play, DoorShutter* this, f32 offset
     func_8002DBD0(&this->dyna.actor, &relPlayerPos, &playerPos);
 
     if (fabsf(relPlayerPos.x) > maxDistSides || fabsf(relPlayerPos.y) > maxDistY) {
-        return FLT_MAX;
+        return MAXFLOAT;
     } else {
         return relPlayerPos.z;
     }
@@ -819,7 +819,7 @@ void DoorShutter_SetupClosed(DoorShutter* this, PlayState* play) {
     if (DoorShutter_SetupDoor(this, play) && !(player->stateFlags1 & PLAYER_STATE1_11)) {
         // The door is barred behind the player
         DoorShutter_SetupAction(this, DoorShutter_WaitPlayerSurprised);
-        func_8002DF54(play, NULL, PLAYER_CSACTION_2);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_2);
     }
 }
 
@@ -859,7 +859,7 @@ void DoorShutter_JabuDoorClose(DoorShutter* this, PlayState* play) {
 
 void DoorShutter_WaitPlayerSurprised(DoorShutter* this, PlayState* play) {
     if (this->actionTimer++ > 30) {
-        func_8002DF54(play, NULL, PLAYER_CSACTION_7);
+        Player_SetCsActionWithHaltedActors(play, NULL, PLAYER_CSACTION_7);
         DoorShutter_SetupDoor(this, play);
     }
 }
@@ -895,13 +895,13 @@ void DoorShutter_GohmaBlockBounce(DoorShutter* this, PlayState* play) {
 void DoorShutter_PhantomGanonBarsRaise(DoorShutter* this, PlayState* play) {
     f32 targetOffsetY;
 
-    osSyncPrintf("FHG SAKU START !!\n");
+    PRINTF("FHG SAKU START !!\n");
     if (this->isActive != 0) {
         this->isActive--;
     }
     targetOffsetY = (this->isActive % 2 != 0) ? -3.0f : 0.0f;
     Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -34.0f + targetOffsetY, 1.0f, 20.0f, 0.0f);
-    osSyncPrintf("FHG SAKU END !!\n");
+    PRINTF("FHG SAKU END !!\n");
 }
 
 void DoorShutter_Update(Actor* thisx, PlayState* play) {
@@ -937,7 +937,7 @@ Gfx* DoorShutter_DrawJabuJabuDoor(PlayState* play, DoorShutter* this, Gfx* gfx) 
             Matrix_Scale(1.0f, yScale, 1.0f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(gfx++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_shutter.c", 1991),
+        gSPMatrix(gfx++, MATRIX_NEW(play->state.gfxCtx, "../z_door_shutter.c", 1991),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfx++, sJabuDoorDLists[i]);
 
@@ -1005,7 +1005,7 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255.0f * scale); // no purpose?
                 Matrix_Translate(0, 0, gfxInfo->barsOffsetZ, MTXMODE_APPLY);
                 Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_shutter.c", 2069),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_door_shutter.c", 2069),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, gfxInfo->barsDL);
             }
@@ -1027,13 +1027,13 @@ void DoorShutter_Draw(Actor* thisx, PlayState* play) {
             } else if (this->doorType == SHUTTER_BOSS) {
                 gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBossDoorTextures[this->bossDoorTexIndex]));
             }
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_shutter.c", 2109),
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_door_shutter.c", 2109),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gfxInfo->doorDL);
             if (this->barsClosedAmount != 0.0f && gfxInfo->barsDL != NULL) {
                 Matrix_Translate(0, gfxInfo->barsOpenOffsetY * (1.0f - this->barsClosedAmount), gfxInfo->barsOffsetZ,
                                  MTXMODE_APPLY);
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_door_shutter.c", 2119),
+                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_door_shutter.c", 2119),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_OPA_DISP++, gfxInfo->barsDL);
             }

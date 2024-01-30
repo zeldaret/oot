@@ -17,15 +17,15 @@ void EnBoom_Draw(Actor* thisx, PlayState* play);
 void EnBoom_Fly(EnBoom* this, PlayState* play);
 
 ActorInit En_Boom_InitVars = {
-    ACTOR_EN_BOOM,
-    ACTORCAT_MISC,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnBoom),
-    (ActorFunc)EnBoom_Init,
-    (ActorFunc)EnBoom_Destroy,
-    (ActorFunc)EnBoom_Update,
-    (ActorFunc)EnBoom_Draw,
+    /**/ ACTOR_EN_BOOM,
+    /**/ ACTORCAT_MISC,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnBoom),
+    /**/ EnBoom_Init,
+    /**/ EnBoom_Destroy,
+    /**/ EnBoom_Update,
+    /**/ EnBoom_Draw,
 };
 
 static ColliderQuadInit sQuadInit = {
@@ -242,7 +242,7 @@ void EnBoom_Update(Actor* thisx, PlayState* play) {
     if (!(player->stateFlags1 & PLAYER_STATE1_29)) {
         this->actionFunc(this, play);
         Actor_SetFocus(&this->actor, 0.0f);
-        this->activeTimer = this->activeTimer + 1;
+        this->activeTimer++;
     }
 }
 
@@ -268,7 +268,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_RotateY(BINANG_TO_RAD(this->activeTimer * 12000), MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_boom.c", 601),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_boom.c", 601),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gBoomerangRefDL);
 

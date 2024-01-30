@@ -45,7 +45,7 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
         return 1;
     }
 
-    osSyncPrintf("Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n");
+    PRINTF("Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n");
 
     return 0;
 }
@@ -79,7 +79,7 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
         scale = this->rScale * 0.0001f;
         Matrix_Scale(scale, scale, 1.0f, MTXMODE_APPLY);
 
-        mtx = Matrix_NewMtx(play->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 196);
+        mtx = MATRIX_NEW(play->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 196);
 
         if (mtx != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

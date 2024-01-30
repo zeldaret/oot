@@ -21,15 +21,15 @@ void EnAObj_SetupBoulderFragment(EnAObj* this, s16 type);
 void EnAObj_SetupBlock(EnAObj* this, s16 type);
 
 ActorInit En_A_Obj_InitVars = {
-    ACTOR_EN_A_OBJ,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnAObj),
-    (ActorFunc)EnAObj_Init,
-    (ActorFunc)EnAObj_Destroy,
-    (ActorFunc)EnAObj_Update,
-    (ActorFunc)EnAObj_Draw,
+    /**/ ACTOR_EN_A_OBJ,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnAObj),
+    /**/ EnAObj_Init,
+    /**/ EnAObj_Destroy,
+    /**/ EnAObj_Update,
+    /**/ EnAObj_Draw,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -204,10 +204,10 @@ void EnAObj_WaitTalk(EnAObj* this, PlayState* play) {
         relYawTowardsPlayer = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
         if (ABS(relYawTowardsPlayer) < 0x2800 ||
             (this->dyna.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
-            if (Actor_ProcessTalkRequest(&this->dyna.actor, play)) {
+            if (Actor_TalkOfferAccepted(&this->dyna.actor, play)) {
                 EnAObj_SetupAction(this, EnAObj_WaitFinishedTalking);
             } else {
-                func_8002F2F4(&this->dyna.actor, play);
+                Actor_OfferTalkNearColChkInfoCylinder(&this->dyna.actor, play);
             }
         }
     }
@@ -353,8 +353,7 @@ void EnAObj_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 1, 60, 60, 60, 50);
     }
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_a_keep.c", 712),
-              G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_a_keep.c", 712), G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[type]);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_a_keep.c", 715);

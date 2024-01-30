@@ -17,15 +17,15 @@ void ItemBHeart_Draw(Actor* thisx, PlayState* play);
 void func_80B85264(ItemBHeart* this, PlayState* play);
 
 ActorInit Item_B_Heart_InitVars = {
-    ACTOR_ITEM_B_HEART,
-    ACTORCAT_MISC,
-    FLAGS,
-    OBJECT_GI_HEARTS,
-    sizeof(ItemBHeart),
-    (ActorFunc)ItemBHeart_Init,
-    (ActorFunc)ItemBHeart_Destroy,
-    (ActorFunc)ItemBHeart_Update,
-    (ActorFunc)ItemBHeart_Draw,
+    /**/ ACTOR_ITEM_B_HEART,
+    /**/ ACTORCAT_MISC,
+    /**/ FLAGS,
+    /**/ OBJECT_GI_HEARTS,
+    /**/ sizeof(ItemBHeart),
+    /**/ ItemBHeart_Init,
+    /**/ ItemBHeart_Destroy,
+    /**/ ItemBHeart_Update,
+    /**/ ItemBHeart_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -94,13 +94,13 @@ void ItemBHeart_Draw(Actor* thisx, PlayState* play) {
 
     if (flag) {
         Gfx_SetupDL_25Xlu(play->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_b_heart.c", 551),
+        gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_item_b_heart.c", 551),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartContainerDL);
     } else {
         Gfx_SetupDL_25Opa(play->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_b_heart.c", 557),
+        gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_item_b_heart.c", 557),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartContainerDL);

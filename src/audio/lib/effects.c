@@ -269,7 +269,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
                         adsr->delay = 1;
                     }
                     adsr->target = adsr->envelope[adsr->envIndex].arg / 32767.0f;
-                    adsr->target = adsr->target * adsr->target;
+                    adsr->target = SQ(adsr->target);
                     adsr->velocity = (adsr->target - adsr->current) / adsr->delay;
                     adsr->action.s.state = ADSR_STATE_FADE;
                     adsr->envIndex++;

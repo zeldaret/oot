@@ -15,15 +15,15 @@ void EnGanonMant_Update(Actor* thisx, PlayState* play);
 void EnGanonMant_Draw(Actor* thisx, PlayState* play);
 
 ActorInit En_Ganon_Mant_InitVars = {
-    ACTOR_EN_GANON_MANT,
-    ACTORCAT_BOSS,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnGanonMant),
-    (ActorFunc)EnGanonMant_Init,
-    (ActorFunc)EnGanonMant_Destroy,
-    (ActorFunc)EnGanonMant_Update,
-    (ActorFunc)EnGanonMant_Draw,
+    /**/ ACTOR_EN_GANON_MANT,
+    /**/ ACTORCAT_BOSS,
+    /**/ FLAGS,
+    /**/ OBJECT_GAMEPLAY_KEEP,
+    /**/ sizeof(EnGanonMant),
+    /**/ EnGanonMant_Init,
+    /**/ EnGanonMant_Destroy,
+    /**/ EnGanonMant_Update,
+    /**/ EnGanonMant_Draw,
 };
 
 static s16 sTearSizesMedium[] = {
@@ -361,7 +361,7 @@ void EnGanonMant_DrawCloak(PlayState* play, EnGanonMant* this) {
 
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ganon_mant.c", 572),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_ganon_mant.c", 572),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     // set texture

@@ -159,14 +159,14 @@ item_ids = {
     0x99 : "ITEM_DEKU_STICK_UPGRADE_30",
     0x9A : "ITEM_DEKU_NUT_UPGRADE_30",
     0x9B : "ITEM_DEKU_NUT_UPGRADE_40",
-    0xFC : "ITEM_LAST_USED",
+    0xFC : "ITEM_SWORD_CS",
     0xFE : "ITEM_NONE_FE",
     0xFF : "ITEM_NONE",
 }
 
 def disas_elfmsgs(start):
     baserom = None
-    with open("baserom.z64", "rb") as infile:
+    with open("baseroms/gc-eu-mq-dbg/baserom-decompressed.z64", "rb") as infile:
         baserom = bytearray(infile.read())
 
     branches = []

@@ -19,15 +19,15 @@ void BgHakaWater_Wait(BgHakaWater* this, PlayState* play);
 void BgHakaWater_ChangeWaterLevel(BgHakaWater* this, PlayState* play);
 
 ActorInit Bg_Haka_Water_InitVars = {
-    ACTOR_BG_HAKA_WATER,
-    ACTORCAT_PROP,
-    FLAGS,
-    OBJECT_HAKACH_OBJECTS,
-    sizeof(BgHakaWater),
-    (ActorFunc)BgHakaWater_Init,
-    (ActorFunc)BgHakaWater_Destroy,
-    (ActorFunc)BgHakaWater_Update,
-    (ActorFunc)BgHakaWater_Draw,
+    /**/ ACTOR_BG_HAKA_WATER,
+    /**/ ACTORCAT_PROP,
+    /**/ FLAGS,
+    /**/ OBJECT_HAKACH_OBJECTS,
+    /**/ sizeof(BgHakaWater),
+    /**/ BgHakaWater_Init,
+    /**/ BgHakaWater_Destroy,
+    /**/ BgHakaWater_Update,
+    /**/ BgHakaWater_Draw,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -125,7 +125,7 @@ void BgHakaWater_Draw(Actor* thisx, PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, play->gameplayFrames % 128,
                                 play->gameplayFrames % 128, 32, 32, 1, 0, (0 - play->gameplayFrames) % 128, 32, 32));
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_haka_water.c", 312),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_water.c", 312),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gBotwWaterRingDL);
 
@@ -138,7 +138,7 @@ void BgHakaWater_Draw(Actor* thisx, PlayState* play) {
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)(5.1f * temp));
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_haka_water.c", 328),
+    gSPMatrix(POLY_XLU_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_bg_haka_water.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gBotwWaterFallDL);
 

@@ -17,15 +17,15 @@ void EnSkjneedle_Draw(Actor* thisx, PlayState* play);
 s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);
 
 ActorInit En_Skjneedle_InitVars = {
-    ACTOR_EN_SKJNEEDLE,
-    ACTORCAT_ENEMY,
-    FLAGS,
-    OBJECT_SKJ,
-    sizeof(EnSkjneedle),
-    (ActorFunc)EnSkjneedle_Init,
-    (ActorFunc)EnSkjneedle_Destroy,
-    (ActorFunc)EnSkjneedle_Update,
-    (ActorFunc)EnSkjneedle_Draw,
+    /**/ ACTOR_EN_SKJNEEDLE,
+    /**/ ACTORCAT_ENEMY,
+    /**/ FLAGS,
+    /**/ OBJECT_SKJ,
+    /**/ sizeof(EnSkjneedle),
+    /**/ EnSkjneedle_Init,
+    /**/ EnSkjneedle_Destroy,
+    /**/ EnSkjneedle_Update,
+    /**/ EnSkjneedle_Draw,
 };
 
 static ColliderCylinderInitType1 sCylinderInit = {
@@ -104,7 +104,7 @@ void EnSkjneedle_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_skj_needle.c", 200);
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_skj_needle.c", 205),
+    gSPMatrix(POLY_OPA_DISP++, MATRIX_NEW(play->state.gfxCtx, "../z_en_skj_needle.c", 205),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gSkullKidNeedleDL);
 

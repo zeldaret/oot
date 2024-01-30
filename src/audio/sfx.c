@@ -326,9 +326,9 @@ void Audio_ChooseActiveSfx(u8 bankId) {
             } else {
                 if (entry->dist > 0x7FFFFFD0) {
                     entry->dist = 0x70000008;
-                    osSyncPrintf(VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! "
-                                                    "flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n",
-                                 entry->sfxId, entry->posX, entry->posZ, *entry->posX, *entry->posY, *entry->posZ);
+                    PRINTF(VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! "
+                                              "flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n",
+                           entry->sfxId, entry->posX, entry->posZ, *entry->posX, *entry->posY, *entry->posZ);
                 }
                 temp3 = entry->sfxId; // fake
                 entry->priority = (u32)entry->dist + (SQ(0xFF - sfxImportance) * SQ(76)) + temp3 - temp3;

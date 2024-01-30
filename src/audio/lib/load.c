@@ -789,7 +789,7 @@ AudioTable* AudioLoad_GetLoadTable(s32 tableType) {
  * Also relocate offsets into pointers within this loaded soundFont
  *
  * @param fontId index of font being processed
- * @param fontData ram address of raw soundfont binary loaded into cache
+ * @param fontDataStartAddr ram address of raw soundfont binary loaded into cache
  * @param sampleBankReloc information on the sampleBank containing raw audio samples
  */
 void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, SampleBankRelocInfo* sampleBankReloc) {
@@ -811,7 +811,6 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
 
     // The first u32 in fontData is an offset to a list of offsets to the drums
     soundListOffset = fontData[0];
-    if (1) {}
 
     // If the soundFont has drums
     if ((soundListOffset != 0) && (numDrums != 0)) {
@@ -824,20 +823,24 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
             soundOffset = (u32)((Drum**)fontData[0])[i];
 
             // Some drum data entries are empty, represented by an offset of 0 in the list of drum offsets
-            if (soundOffset != 0) {
-                soundOffset = RELOC_TO_RAM(soundOffset);
-                ((Drum**)fontData[0])[i] = drum = (Drum*)soundOffset;
-
-                // The drum may be in the list multiple times and already relocated
-                if (!drum->isRelocated) {
-                    AudioLoad_RelocateSample(&drum->tunedSample, fontDataStartAddr, sampleBankReloc);
-
-                    soundOffset = (u32)drum->envelope;
-                    drum->envelope = (EnvelopePoint*)RELOC_TO_RAM(soundOffset);
-
-                    drum->isRelocated = true;
-                }
+            if (soundOffset == 0) {
+                continue;
             }
+
+            soundOffset = RELOC_TO_RAM(soundOffset);
+            ((Drum**)fontData[0])[i] = drum = (Drum*)soundOffset;
+
+            // The drum may be in the list multiple times and already relocated
+            if (drum->isRelocated) {
+                continue;
+            }
+
+            AudioLoad_RelocateSample(&drum->tunedSample, fontDataStartAddr, sampleBankReloc);
+
+            soundOffset = (u32)drum->envelope;
+            drum->envelope = (EnvelopePoint*)RELOC_TO_RAM(soundOffset);
+
+            drum->isRelocated = true;
         }
     }
 
@@ -845,7 +848,6 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
 
     // The second u32 in fontData is an offset to the first sound effect entry
     soundListOffset = fontData[1];
-    if (1) {}
 
     // If the soundFont has sound effects
     if ((soundListOffset != 0) && (numSfx != 0)) {
@@ -859,9 +861,11 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontDataStartAddr, Sample
             soundEffect = (SoundEffect*)soundOffset;
 
             // Check for NULL (note: the pointer is guaranteed to be in fontData and can never be NULL)
-            if ((soundEffect != NULL) && ((u32)soundEffect->tunedSample.sample != 0)) {
-                AudioLoad_RelocateSample(&soundEffect->tunedSample, fontDataStartAddr, sampleBankReloc);
+            if ((soundEffect == NULL) || ((u32)soundEffect->tunedSample.sample == 0)) {
+                continue;
             }
+
+            AudioLoad_RelocateSample(&soundEffect->tunedSample, fontDataStartAddr, sampleBankReloc);
         }
     }
 
