@@ -78,6 +78,11 @@ u32 StackCheck_GetState(StackEntry* entry) {
     u32 free;
     u32 ret;
 
+#if !OOT_DEBUG
+    // This string is still in .rodata for retail builds.
+    const char* name = "(null)";
+#endif
+
     for (last = entry->head; last < entry->tail; last++) {
         if (entry->initValue != *last) {
             break;
