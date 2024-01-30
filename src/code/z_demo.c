@@ -553,13 +553,11 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
 }
 
 #if OOT_DEBUG
-// With debug features enabled, the Start Button can be pressed on controller 1 to force the Destination command
-// to run early and warp to the next location
-#define DEBUG_CS_FORCE_DEST                                                                   \
+#define DEBUG_SKIP_CS                                                                   \
     ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) && \
      (gSaveContext.fileNum != 0xFEDC))
 #else
-#define DEBUG_CS_FORCE_DEST false
+#define DEBUG_SKIP_CS false
 #endif
 
 void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDestination* cmd) {
@@ -577,7 +575,7 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         titleDemoSkipped = true;
     }
 
-    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped || DEBUG_CS_FORCE_DEST) {
+    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped || DEBUG_SKIP_CS) {
         csCtx->state = CS_STATE_RUN_UNSTOPPABLE;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
@@ -732,7 +730,6 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
 
             case CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION:
 #if OOT_DEBUG
-                // In debug builds, skip cutscene with Sheik after warping to temple of time
                 SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
 #endif
                 play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_4;
@@ -904,7 +901,6 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
 
             case CS_DEST_TEMPLE_OF_TIME_AFTER_LIGHT_MEDALLION_ALT:
 #if OOT_DEBUG
-                // In debug builds, skip cutscene with Sheik after warping to temple of time
                 SET_EVENTCHKINF(EVENTCHKINF_WATCHED_SHEIK_AFTER_MASTER_SWORD_CS);
 #endif
                 play->nextEntranceIndex = ENTR_TEMPLE_OF_TIME_4;
@@ -1802,7 +1798,6 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
     }
 
 #if OOT_DEBUG
-    // With debug features enabled, pressing D-pad Right on controller 1 will stop the cutscene early and skip it
     if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_DRIGHT)) {
         csCtx->state = CS_STATE_STOP;
         return;
