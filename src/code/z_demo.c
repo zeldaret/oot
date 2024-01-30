@@ -553,7 +553,7 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
 }
 
 #if OOT_DEBUG
-#define DEBUG_SKIP_CS                                                                   \
+#define DEBUG_SKIP_CS                                                                         \
     ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) && \
      (gSaveContext.fileNum != 0xFEDC))
 #else
