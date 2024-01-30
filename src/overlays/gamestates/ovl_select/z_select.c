@@ -272,7 +272,7 @@ static SceneSelectEntry sScenes[] = {
     { "114:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 13", MapSelect_LoadGame, ENTR_GROTTOS_13 },
     // "115: Hyrule Cutscenes"
     { "115:" GFXP_KATAKANA "ﾊｲﾗﾙ ﾃﾞﾓ", MapSelect_LoadGame, ENTR_CUTSCENE_MAP_0 },
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     // "116: Special Room (Treasure Chest Warp)" (Ganondorf Test Room)
     { "116:" GFXP_HIRAGANA "ﾍﾞｯｼﾂ (ﾀｶﾗﾊﾞｺ" GFXP_KATAKANA "ﾜｰﾌﾟ)", MapSelect_LoadGame, ENTR_BESITU_0 },
     // "117: Sasaki Test" (Sasa Test)
