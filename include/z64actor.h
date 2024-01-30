@@ -42,7 +42,7 @@ typedef struct {
 /**
  * @see ACTOROVL_ALLOC_ABSOLUTE
  */
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 #define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x27A0
 #else
 #define ACTOROVL_ABSOLUTE_SPACE_SIZE 0x24E0
@@ -309,7 +309,7 @@ typedef struct Actor {
     /* 0x130 */ ActorFunc update; // Update Routine. Called by `Actor_UpdateAll`
     /* 0x134 */ ActorFunc draw; // Draw Routine. Called by `Actor_Draw`
     /* 0x138 */ ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     /* 0x13C */ char dbgPad[0x10];
 #endif
 } Actor; // size = 0x14C

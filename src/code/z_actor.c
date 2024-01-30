@@ -833,7 +833,7 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
         return;
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
@@ -1385,7 +1385,7 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
 
     *hilite = GRAPH_ALLOC(gfxCtx, sizeof(Hilite));
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (R_HREG_MODE == HREG_MODE_PRINT_HILITE_INFO) {
         PRINTF("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n", correctedEyeX,
                eye->x, eye->y, eye->z, object->x, object->y, object->z, lightDir->x, lightDir->y, lightDir->z);
@@ -2180,7 +2180,7 @@ void Actor_UpdateAll(PlayState* play, ActorContext* actorCtx) {
         actorCtx->unk_02--;
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (KREG(0) == -100) {
         Actor* refActor = &GET_PLAYER(play)->actor;
 
@@ -2302,7 +2302,7 @@ void Actor_FaultPrint(Actor* actor, char* command) {
         FaultDrawer_Printf("ACTOR NAME is NULL");
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
@@ -2315,7 +2315,7 @@ void Actor_FaultPrint(Actor* actor, char* command) {
 
     FaultDrawer_SetCursor(48, 24);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, name);
 #else
     // TODO: string literal "" may be incorrect
@@ -2559,34 +2559,22 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
             gDPNoOpString(POLY_OPA_DISP++, actorName, i);
             gDPNoOpString(POLY_XLU_DISP++, actorName, i);
 
-#ifdef OOT_DEBUG
-            HREG(66) = i;
-#endif
+            if (OOT_DEBUG) {
+                HREG(66) = i;
+            }
 
-#ifdef OOT_DEBUG
-            if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-#else
-            if (1) {
-#endif
+            if (!OOT_DEBUG || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
                 SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &actor->world.pos, &actor->projectedPos,
                                              &actor->projectedW);
             }
 
-#ifdef OOT_DEBUG
-            if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {
-#else
-            if (1) {
-#endif
+            if (!OOT_DEBUG || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {
                 if (actor->sfx != 0) {
                     func_80030ED8(actor);
                 }
             }
 
-#ifdef OOT_DEBUG
-            if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(70) == 0)) {
-#else
-            if (1) {
-#endif
+            if (!OOT_DEBUG || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(70) == 0)) {
                 if (func_800314B0(play, actor)) {
                     actor->flags |= ACTOR_FLAG_6;
                 } else {
@@ -2596,11 +2584,7 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 
             actor->isDrawn = false;
 
-#ifdef OOT_DEBUG
-            if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
-#else
-            if (1) {
-#endif
+            if (!OOT_DEBUG || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_5 | ACTOR_FLAG_6))) {
                     if ((actor->flags & ACTOR_FLAG_REACT_TO_LENS) &&
                         ((play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) || play->actorCtx.lensActive ||
@@ -2610,11 +2594,8 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
                         invisibleActors[invisibleActorCounter] = actor;
                         invisibleActorCounter++;
                     } else {
-#ifdef OOT_DEBUG
-                        if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(72) == 0)) {
-#else
-                        if (1) {
-#endif
+                        if (!OOT_DEBUG || (HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) ||
+                            (HREG(72) == 0)) {
                             Actor_Draw(play, actor);
                             actor->isDrawn = true;
                         }
@@ -2626,27 +2607,15 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
         }
     }
 
-#ifdef OOT_DEBUG
-    if ((HREG(64) != 1) || (HREG(73) != 0)) {
-#else
-    if (1) {
-#endif
+    if (!OOT_DEBUG || (HREG(64) != 1) || (HREG(73) != 0)) {
         Effect_DrawAll(play->state.gfxCtx);
     }
 
-#ifdef OOT_DEBUG
-    if ((HREG(64) != 1) || (HREG(74) != 0)) {
-#else
-    if (1) {
-#endif
+    if (!OOT_DEBUG || (HREG(64) != 1) || (HREG(74) != 0)) {
         EffectSs_DrawAll(play);
     }
 
-#ifdef OOT_DEBUG
-    if ((HREG(64) != 1) || (HREG(72) != 0)) {
-#else
-    if (1) {
-#endif
+    if (!OOT_DEBUG || (HREG(64) != 1) || (HREG(72) != 0)) {
         if (play->actorCtx.lensActive) {
             Actor_DrawLensActors(play, invisibleActorCounter, invisibleActors);
             if ((play->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(play)) {
@@ -2661,15 +2630,11 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
         Lights_DrawGlow(play);
     }
 
-#ifdef OOT_DEBUG
-    if ((HREG(64) != 1) || (HREG(75) != 0)) {
-#else
-    if (1) {
-#endif
+    if (!OOT_DEBUG || (HREG(64) != 1) || (HREG(75) != 0)) {
         TitleCard_Draw(play, &actorCtx->titleCtx);
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
         CollisionCheck_DrawCollision(play, &play->colChkCtx);
     }
@@ -2827,7 +2792,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     PRINTF(VT_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         if (HREG(20) != 0) {
             PRINTF("アクタークライアントが０になりました\n"); // "Actor client is now 0"
         }
@@ -2835,13 +2800,13 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
 
         if (actorOverlay->loadedRamAddr != NULL) {
             if (actorOverlay->allocType & ACTOROVL_ALLOC_PERSISTENT) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                 if (HREG(20) != 0) {
                     PRINTF("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
                 }
 #endif
             } else if (actorOverlay->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                 if (HREG(20) != 0) {
                     // "Absolute magic field reserved, so deallocation will not occur"
                     PRINTF("絶対魔法領域確保なので解放しません\n");
@@ -2849,7 +2814,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
 #endif
                 actorOverlay->loadedRamAddr = NULL;
             } else {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                 if (HREG(20) != 0) {
                     PRINTF("オーバーレイ解放します\n"); // "Overlay deallocated"
                 }
@@ -2859,7 +2824,7 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
             }
         }
     } else {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         if (HREG(20) != 0) {
             // "%d of actor client remains"
             PRINTF("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
@@ -2884,13 +2849,13 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     overlayEntry = &gActorOverlayTable[actorId];
     ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 #endif
 
     overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (HREG(20) != 0) {
         // "Actor class addition [%d:%s]"
         PRINTF("アクタークラス追加 [%d:%s]\n", actorId, name);
@@ -2904,7 +2869,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     }
 
     if (overlayEntry->vramStart == NULL) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         if (HREG(20) != 0) {
             PRINTF("オーバーレイではありません\n"); // "Not an overlay"
         }
@@ -2913,7 +2878,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
         actorInit = overlayEntry->initInfo;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
             if (HREG(20) != 0) {
                 PRINTF("既にロードされています\n"); // "Already loaded"
             }
@@ -2926,7 +2891,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 if (actorCtx->absoluteSpace == NULL) {
                     // "AMF: absolute magic field"
                     actorCtx->absoluteSpace = ZELDA_ARENA_MALLOC_R(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                     if (HREG(20) != 0) {
                         // "Absolute magic field reservation - %d bytes reserved"
                         PRINTF("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
@@ -3094,7 +3059,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (HREG(20) != 0) {
         PRINTF("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
     }
@@ -3125,7 +3090,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     ZELDA_ARENA_FREE(actor, "../z_actor.c", 7242);
 
     if (overlayEntry->vramStart == NULL) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         if (HREG(20) != 0) {
             PRINTF("オーバーレイではありません\n"); // "Not an overlay"
         }
