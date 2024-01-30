@@ -552,14 +552,6 @@ void CutsceneCmd_SetTime(PlayState* play, CutsceneContext* csCtx, CsCmdTime* cmd
     }
 }
 
-#if OOT_DEBUG
-#define DEBUG_SKIP_CS                                                                         \
-    ((csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) && \
-     (gSaveContext.fileNum != 0xFEDC))
-#else
-#define DEBUG_SKIP_CS false
-#endif
-
 void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDestination* cmd) {
     Player* player = GET_PLAYER(play);
     s32 titleDemoSkipped = false;
@@ -575,7 +567,9 @@ void CutsceneCmd_Destination(PlayState* play, CutsceneContext* csCtx, CsCmdDesti
         titleDemoSkipped = true;
     }
 
-    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped || DEBUG_SKIP_CS) {
+    if ((csCtx->curFrame == cmd->startFrame) || titleDemoSkipped ||
+        (OOT_DEBUG && (csCtx->curFrame > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
+         (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_RUN_UNSTOPPABLE;
         Audio_SetCutsceneFlag(0);
         gSaveContext.cutsceneTransitionControl = 1;
