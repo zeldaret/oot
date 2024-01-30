@@ -1,4 +1,3 @@
-#if OOT_DEBUG
 u32 sDebugPadHold;
 u32 sDebugPadBtnLast;
 u32 sDebugPadPress;
@@ -1381,11 +1380,3 @@ void AudioDebug_ProcessInput(void) {
 
     gAudioDebugPrintSeqCmd = sAudioScrPrtWork[10];
 }
-
-#else
-void AudioDebug_Draw(GfxPrint* printer) {
-}
-
-void AudioDebug_ScrPrt(const char* str, u16 num) {
-}
-#endif

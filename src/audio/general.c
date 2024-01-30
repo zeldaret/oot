@@ -2306,7 +2306,15 @@ void AudioOcarina_ResetStaffs(void) {
     sOcarinaDropInputTimer = 0;
 }
 
+#if OOT_DEBUG
 #include "debug.inc.c"
+#else
+void AudioDebug_Draw(GfxPrint* printer) {
+}
+
+void AudioDebug_ScrPrt(const char* str, u16 num) {
+}
+#endif
 
 void Audio_UpdateRiverSoundVolumes(void);
 void Audio_UpdateFanfare(void);
