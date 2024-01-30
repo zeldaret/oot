@@ -247,6 +247,7 @@ $(BUILD_DIR)/src/code/code_800FD970.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/load.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/loadfragment2.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/logutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2

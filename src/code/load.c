@@ -1,13 +1,13 @@
 #include "global.h"
 
-s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
+size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
     s32 pad[3];
     uintptr_t end;
     OverlayRelocationSection* ovlRelocs;
     u32 relocSectionOffset;
-    size_t size;
+    s32 size = vromEnd - vromStart;
 
-    size = vromEnd - vromStart;
+    relocSectionOffset = gOverlayLogSeverity;
     end = (uintptr_t)allocatedRamAddr + size;
 
     if (gOverlayLogSeverity >= 3) {
@@ -46,10 +46,10 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
             // "Clear BSS area (% 08x-% 08x)"
             PRINTF("BSS領域をクリアします(%08x-%08x)\n", end, end + ovlRelocs->bssSize);
         }
-        bzero((void*)end, (s32)ovlRelocs->bssSize);
+        bzero((void*)end, ovlRelocs->bssSize);
     }
 
-    size = (uintptr_t)&ovlRelocs->relocations[ovlRelocs->nRelocations] - (uintptr_t)ovlRelocs;
+    size = (uintptr_t)(ovlRelocs->relocations + ovlRelocs->nRelocations) - (uintptr_t)ovlRelocs;
 
     if (gOverlayLogSeverity >= 3) {
         // "Clear REL area (%08x-%08x)"

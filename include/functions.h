@@ -1718,7 +1718,7 @@ void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vram
 void MtxConv_F2L(Mtx* m1, MtxF* m2);
 void MtxConv_L2F(MtxF* m1, Mtx* m2);
 void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRelocs, void* vramStart);
-s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr);
+size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr);
 // ? func_800FC800(?);
 // ? func_800FC83C(?);
 // ? func_800FCAB4(?);
