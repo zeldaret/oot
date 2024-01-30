@@ -857,7 +857,6 @@ void FileSelect_DrawFileInfo(GameState* thisx, s16 fileIndex, s16 isActive) {
                        sHeartEnvColors[heartType][2], 255);
 
         i = this->healthCapacities[fileIndex] / 0x10;
-        // if ((this->healthCapacities && this->healthCapacities) && this->healthCapacities) {}
 
         // draw hearts
         for (vtxOffset = 0, j = 0; j < i; j++, vtxOffset += 4) {
