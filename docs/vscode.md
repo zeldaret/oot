@@ -41,7 +41,7 @@ You can create a `.vscode/c_cpp_properties.json` file with `C/C++: Edit Configur
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "OoT64 gc-eu-mq-dbg",
             "compilerPath": "${default}", // Needs to not be "" for -m32 to work
             "compilerArgs": [
                 "-m32" // Removes integer truncation warnings with gbi macros
