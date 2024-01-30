@@ -1,3 +1,4 @@
+#if OOT_DEBUG
 u32 sDebugPadHold;
 u32 sDebugPadBtnLast;
 u32 sDebugPadPress;
@@ -62,7 +63,6 @@ char sBoolStrs[3][5] = { "OFF", "ON", "STBY" };
 u8 sAudioNatureFailed = false;
 u8 sPeakNumNotes = 0;
 
-#if OOT_DEBUG
 void AudioDebug_SetInput(void) {
     Input inputs[MAXCONTROLLERS];
     u32 btn;
