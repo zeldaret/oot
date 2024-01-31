@@ -137,27 +137,27 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, void* ram, size_t size) {
 
     if (1) { // Also necessary to match
         s32 pad[2];
+    }
 
-        ioMsg.hdr.pri = OS_MESG_PRI_NORMAL;
-        ioMsg.hdr.retQueue = &queue;
-        ioMsg.devAddr = rom;
-        ioMsg.dramAddr = ram;
-        ioMsg.size = size;
+    ioMsg.hdr.pri = OS_MESG_PRI_NORMAL;
+    ioMsg.hdr.retQueue = &queue;
+    ioMsg.devAddr = rom;
+    ioMsg.dramAddr = ram;
+    ioMsg.size = size;
 
-        if (gDmaMgrVerbose == 10) {
-            PRINTF("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr,
-                   ioMsg.devAddr, ioMsg.size, MQ_GET_COUNT(&gPiMgrCmdQueue));
-        }
+    if (gDmaMgrVerbose == 10) {
+        PRINTF("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr,
+               ioMsg.devAddr, ioMsg.size, MQ_GET_COUNT(&gPiMgrCmdQueue));
+    }
 
-        ret = osEPiStartDma(gCartHandle, &ioMsg, OS_READ);
-        if (ret != 0) {
-            goto end;
-        }
+    ret = osEPiStartDma(gCartHandle, &ioMsg, OS_READ);
+    if (ret != 0) {
+        goto end;
+    }
 
-        osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
-        if (gDmaMgrVerbose == 10) {
-            PRINTF("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), MQ_GET_COUNT(&gPiMgrCmdQueue));
-        }
+    osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
+    if (gDmaMgrVerbose == 10) {
+        PRINTF("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
 end:
