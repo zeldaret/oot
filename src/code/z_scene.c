@@ -499,8 +499,7 @@ void Scene_SetTransitionForNextEntrance(PlayState* play) {
     play->transitionType = ENTRANCE_INFO_START_TRANS_TYPE(gEntranceTable[entranceIndex].field);
 }
 
-BAD_RETURN(s32)
-(*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*) = {
+SceneCmdHandlerFunc gSceneCmdHandlers[SCENE_CMD_ID_MAX] = {
     Scene_CommandPlayerEntryList,          // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandActorEntryList,           // SCENE_CMD_ID_ACTOR_LIST
     Scene_CommandUnused2,                  // SCENE_CMD_ID_UNUSED_2

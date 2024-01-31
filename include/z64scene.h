@@ -344,6 +344,8 @@ typedef union {
     SCmdAltHeaders        altHeaders;
 } SceneCmd; // size = 0x8
 
+typedef BAD_RETURN(s32) (*SceneCmdHandlerFunc)(struct PlayState*, SceneCmd*);
+
 #define DEFINE_SCENE(_0, _1, enum, _3, _4, _5) enum,
 
 typedef enum {
