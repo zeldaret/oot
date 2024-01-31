@@ -4,10 +4,24 @@ pipeline {
     }
 
     stages {
-        stage('Check formatting') {
+        stage('Check formatting (full)') {
+            when {
+                branch 'main'
+            }
             steps {
-                echo 'Checking formatting...'
-                sh 'tools/check_format.sh'
+                echo 'Checking formatting on all files...'
+                sh 'tools/check_format.sh full'
+            }
+        }
+        stage('Check formatting (modified)') {
+            when {
+                not {
+                    branch 'main'
+                }
+            }
+            steps {
+                echo 'Checking formatting on modified files...'
+                sh 'tools/check_format.sh modified'
             }
         }
         stage('Setup') {
