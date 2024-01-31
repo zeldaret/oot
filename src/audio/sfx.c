@@ -70,6 +70,8 @@ void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* 
 
     if (!gSfxBankMuted[SFX_BANK_SHIFT(sfxId)]) {
         req = &sSfxRequests[gSfxRequestWriteIndex];
+
+#if OOT_DEBUG
         if (!gAudioSfxSwapOff) {
             for (i = 0; i < 10; i++) {
                 if (sfxId == gAudioSfxSwapSource[i]) {
@@ -89,6 +91,8 @@ void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* 
                 }
             }
         }
+#endif
+
         req->sfxId = sfxId;
         req->pos = pos;
         req->token = token;
@@ -164,10 +168,14 @@ void Audio_ProcessSfxRequest(void) {
     }
 
     bankId = SFX_BANK(req->sfxId);
+
+#if OOT_DEBUG
     if ((1 << bankId) & D_801333F0) {
         AudioDebug_ScrPrt("SE", req->sfxId);
         bankId = SFX_BANK(req->sfxId);
     }
+#endif
+
     count = 0;
     index = gSfxBanks[bankId][0].next;
     while (index != 0xFF && index != 0) {
@@ -318,7 +326,7 @@ void Audio_ChooseActiveSfx(u8 bankId) {
                 entry->dist = 0.0f;
             } else {
                 tempf1 = *entry->posY * 1;
-                entry->dist = (SQ(*entry->posX) + SQ(tempf1) + SQ(*entry->posZ)) * 1;
+                entry->dist = (SQ(*entry->posX) + SQ(tempf1) + SQ(*entry->posZ)) / SFX_DIST_SCALING;
             }
             sfxImportance = entry->sfxImportance;
             if (entry->sfxParams & SFX_FLAG_4) {
@@ -718,6 +726,8 @@ void Audio_ResetSfx(void) {
         gSfxBanks[bankId][i].prev = i - 1;
         gSfxBanks[bankId][i].next = 0xFF;
     }
+
+#if OOT_DEBUG
     if (D_801333F8 == 0) {
         for (bankId = 0; bankId < 10; bankId++) {
             gAudioSfxSwapSource[bankId] = 0;
@@ -726,4 +736,5 @@ void Audio_ResetSfx(void) {
         }
         D_801333F8++;
     }
+#endif
 }
