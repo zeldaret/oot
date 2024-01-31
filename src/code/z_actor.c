@@ -12,8 +12,8 @@ static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
 
 #if OOT_DEBUG
-#define ACTOR_DEBUG_PRINTF                \
-    if (R_ENABLE_ACTOR_DEBUG_PRINTF != 0) \
+#define ACTOR_DEBUG_PRINTF           \
+    if (R_ENABLE_ACTOR_DEBUG_PRINTF) \
     PRINTF
 #elif defined(__sgi)
 // See comment about PRINTF in macros.h
