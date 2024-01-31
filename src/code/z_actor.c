@@ -2324,7 +2324,6 @@ void Actor_FaultPrint(Actor* actor, char* command) {
     }
 
     FaultDrawer_SetCursor(48, 24);
-
     FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, name);
 }
 
