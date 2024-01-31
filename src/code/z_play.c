@@ -233,7 +233,9 @@ void Play_Init(GameState* thisx) {
         return;
     }
 
+#if OOT_DEBUG
     SystemArena_Display();
+#endif
     GameState_Realloc(&this->state, 0x1D4790);
     KaleidoManager_Init(this);
     View_Init(&this->view, gfxCtx);
@@ -403,7 +405,9 @@ void Play_Init(GameState* thisx) {
     // "Zelda Heap"
     PRINTF("ゼルダヒープ %08x-%08x\n", zAllocAligned, (u8*)zAllocAligned + zAllocSize - (s32)(zAllocAligned - zAlloc));
 
+#if OOT_DEBUG
     Fault_AddClient(&D_801614B8, ZeldaArena_Display, NULL, NULL);
+#endif
     Actor_InitContext(this, &this->actorCtx, this->playerEntry);
 
     while (!func_800973FC(this, &this->roomCtx)) {
@@ -455,6 +459,7 @@ void Play_Update(PlayState* this) {
 
     input = this->state.input;
 
+#if OOT_DEBUG
     if ((SREG(1) < 0) || (DREG(0) != 0)) {
         SREG(1) = 0;
         ZeldaArena_Display();
@@ -482,6 +487,7 @@ void Play_Update(PlayState* this) {
         HREG(82) = 0;
         ActorOverlayTable_LogPrint();
     }
+#endif
 
     gSegments[4] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.mainKeepSlot].segment);
     gSegments[5] = VIRTUAL_TO_PHYSICAL(this->objectCtx.slots[this->objectCtx.subKeepSlot].segment);
