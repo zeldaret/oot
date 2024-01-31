@@ -644,13 +644,4 @@ typedef struct {
     /* 0x24 */ char unk_24[0x4];
 } NpcInteractInfo; // size = 0x28
 
-#if OOT_DEBUG
-    #define ACTOR_PRINTF if (HREG(20) != 0) PRINTF
-#elif defined(__sgi)
-    // See comment about PRINTF in macros.h
-    #define ACTOR_PRINTF(args) (void)0
-#else
-    #define ACTOR_PRINTF(format, ...) (void)0
-#endif
-
 #endif

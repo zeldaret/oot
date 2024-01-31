@@ -11,6 +11,17 @@
 static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
 
+#if OOT_DEBUG
+#define ACTOR_PRINTF   \
+    if (HREG(20) != 0) \
+    PRINTF
+#elif defined(__sgi)
+// See comment about PRINTF in macros.h
+#define ACTOR_PRINTF(args) (void)0
+#else
+#define ACTOR_PRINTF(format, ...) (void)0
+#endif
+
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale) {
     shape->yOffset = yOffset;
     shape->shadowDraw = shadowDraw;
