@@ -368,9 +368,7 @@ s32 View_ApplyPerspective(View* view) {
         view->eye.z += 1.0f;
     }
 
-#if OOT_DEBUG
-    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
-#endif
+    VIEW_ERROR_CHECK_EYE_POS(view->eye.x, view->eye.y, view->eye.z);
 
     guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x, view->up.y,
              view->up.z);
@@ -523,9 +521,7 @@ s32 View_ApplyPerspectiveToOverlay(View* view) {
         view->eye.z += 1.0f;
     }
 
-#if OOT_DEBUG
-    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
-#endif
+    VIEW_ERROR_CHECK_EYE_POS(view->eye.x, view->eye.y, view->eye.z);
 
     guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x, view->up.y,
              view->up.z);
@@ -545,9 +541,7 @@ s32 View_ApplyPerspectiveToOverlay(View* view) {
 s32 View_UpdateViewingMatrix(View* view) {
     OPEN_DISPS(view->gfxCtx, "../z_view.c", 878);
 
-#if OOT_DEBUG
-    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
-#endif
+    VIEW_ERROR_CHECK_EYE_POS(view->eye.x, view->eye.y, view->eye.z);
 
     guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x,
              view->up.y, view->up.z);
@@ -614,9 +608,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP) {
         LOG_UTILS_CHECK_NULL_POINTER("viewing", viewing, "../z_view.c", 948);
         view->viewingPtr = viewing;
 
-#if OOT_DEBUG
-        View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
-#endif
+        VIEW_ERROR_CHECK_EYE_POS(view->eye.x, view->eye.y, view->eye.z);
 
         guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x,
                  view->up.y, view->up.z);
