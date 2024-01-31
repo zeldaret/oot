@@ -1318,16 +1318,14 @@ GameStateFunc GameState_GetInit(GameState* gameState);
 u32 GameState_IsRunning(GameState* gameState);
 #if OOT_DEBUG
 void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line);
-#endif
-void func_800C55D0(GameAlloc* this);
+
 void* GameAlloc_MallocDebug(GameAlloc* this, u32 size, const char* file, s32 line);
+#endif
 void* GameAlloc_Malloc(GameAlloc* this, u32 size);
 void GameAlloc_Free(GameAlloc* this, void* data);
 void GameAlloc_Cleanup(GameAlloc* this);
 void GameAlloc_Init(GameAlloc* this);
-void Graph_FaultClient(void);
-void Graph_DisassembleUCode(Gfx* workBuf);
-void Graph_UCodeFaultClient(Gfx* workBuf);
+
 void Graph_InitTHGA(GraphicsContext* gfxCtx);
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState);
 void Graph_Init(GraphicsContext* gfxCtx);
@@ -1337,8 +1335,11 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
+#if OOT_DEBUG
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
+#endif
+
 Gfx* Graph_GfxPlusOne(Gfx* gfx);
 Gfx* Graph_BranchDlist(Gfx* gfx, Gfx* dst);
 void* Graph_DlistAlloc(Gfx** gfxP, u32 size);
