@@ -2717,9 +2717,7 @@ void func_80031C3C(ActorContext* actorCtx, PlayState* play) {
         }
     }
 
-    if (HREG(20) != 0) {
-        PRINTF("絶対魔法領域解放\n"); // "Absolute magic field deallocation"
-    }
+    ACTOR_PRINTF("絶対魔法領域解放\n"); // "Absolute magic field deallocation"
 
     if (actorCtx->absoluteSpace != NULL) {
         ZELDA_ARENA_FREE(actorCtx->absoluteSpace, "../z_actor.c", 6731);
@@ -2789,42 +2787,24 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     PRINTF(VT_FGCOL(CYAN));
 
     if (actorOverlay->numLoaded == 0) {
-        if (HREG(20) != 0) {
-            PRINTF("アクタークライアントが０になりました\n"); // "Actor client is now 0"
-        }
+        ACTOR_PRINTF("アクタークライアントが０になりました\n"); // "Actor client is now 0"
 
         if (actorOverlay->loadedRamAddr != NULL) {
             if (actorOverlay->allocType & ACTOROVL_ALLOC_PERSISTENT) {
-#if OOT_DEBUG
-                if (HREG(20) != 0) {
-                    PRINTF("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
-                }
-#endif
+                ACTOR_PRINTF("オーバーレイ解放しません\n"); // "Overlay will not be deallocated"
             } else if (actorOverlay->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
-#if OOT_DEBUG
-                if (HREG(20) != 0) {
-                    // "Absolute magic field reserved, so deallocation will not occur"
-                    PRINTF("絶対魔法領域確保なので解放しません\n");
-                }
-#endif
+                // "Absolute magic field reserved, so deallocation will not occur"
+                ACTOR_PRINTF("絶対魔法領域確保なので解放しません\n");
                 actorOverlay->loadedRamAddr = NULL;
             } else {
-#if OOT_DEBUG
-                if (HREG(20) != 0) {
-                    PRINTF("オーバーレイ解放します\n"); // "Overlay deallocated"
-                }
-#endif
+                ACTOR_PRINTF("オーバーレイ解放します\n"); // "Overlay deallocated"
                 ZELDA_ARENA_FREE(actorOverlay->loadedRamAddr, "../z_actor.c", 6834);
                 actorOverlay->loadedRamAddr = NULL;
             }
         }
     } else {
-#if OOT_DEBUG
-        if (HREG(20) != 0) {
-            // "%d of actor client remains"
-            PRINTF("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
-        }
-#endif
+        // "%d of actor client remains"
+        ACTOR_PRINTF("アクタークライアントはあと %d 残っています\n", actorOverlay->numLoaded);
     }
 
     PRINTF(VT_RST);
@@ -2850,10 +2830,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     overlaySize = (uintptr_t)overlayEntry->vramEnd - (uintptr_t)overlayEntry->vramStart;
 
-    if (HREG(20) != 0) {
-        // "Actor class addition [%d:%s]"
-        PRINTF("アクタークラス追加 [%d:%s]\n", actorId, name);
-    }
+    // "Actor class addition [%d:%s]"
+    ACTOR_PRINTF("アクタークラス追加 [%d:%s]\n", actorId, name);
 
     if (actorCtx->total > ACTOR_NUMBER_MAX) {
         // "Ａｃｔｏｒ set number exceeded"
@@ -2862,20 +2840,12 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
     }
 
     if (overlayEntry->vramStart == NULL) {
-#if OOT_DEBUG
-        if (HREG(20) != 0) {
-            PRINTF("オーバーレイではありません\n"); // "Not an overlay"
-        }
-#endif
+        ACTOR_PRINTF("オーバーレイではありません\n"); // "Not an overlay"
 
         actorInit = overlayEntry->initInfo;
     } else {
         if (overlayEntry->loadedRamAddr != NULL) {
-#if OOT_DEBUG
-            if (HREG(20) != 0) {
-                PRINTF("既にロードされています\n"); // "Already loaded"
-            }
-#endif
+            ACTOR_PRINTF("既にロードされています\n"); // "Already loaded"
         } else {
             if (overlayEntry->allocType & ACTOROVL_ALLOC_ABSOLUTE) {
                 ASSERT(overlaySize <= ACTOROVL_ABSOLUTE_SPACE_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c",
@@ -2884,12 +2854,8 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
                 if (actorCtx->absoluteSpace == NULL) {
                     // "AMF: absolute magic field"
                     actorCtx->absoluteSpace = ZELDA_ARENA_MALLOC_R(ACTOROVL_ABSOLUTE_SPACE_SIZE, "AMF:絶対魔法領域", 0);
-#if OOT_DEBUG
-                    if (HREG(20) != 0) {
-                        // "Absolute magic field reservation - %d bytes reserved"
-                        PRINTF("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
-                    }
-#endif
+                    // "Absolute magic field reservation - %d bytes reserved"
+                    ACTOR_PRINTF("絶対魔法領域確保 %d バイト確保\n", ACTOROVL_ABSOLUTE_SPACE_SIZE);
                 }
 
                 overlayEntry->loadedRamAddr = actorCtx->absoluteSpace;
@@ -2951,10 +2917,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 pos
 
     overlayEntry->numLoaded++;
 
-    if (HREG(20) != 0) {
-        // "Actor client No. %d"
-        PRINTF("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
-    }
+    if (1) {}
+
+    // "Actor client No. %d"
+    ACTOR_PRINTF("アクタークライアントは %d 個目です\n", overlayEntry->numLoaded);
 
     Lib_MemSet((u8*)actor, actorInit->instanceSize, 0);
     actor->overlayEntry = overlayEntry;
@@ -3052,9 +3018,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     overlayEntry = actor->overlayEntry;
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-    if (HREG(20) != 0) {
-        PRINTF("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
-    }
+    ACTOR_PRINTF("アクタークラス削除 [%s]\n", name); // "Actor class deleted [%s]"
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
@@ -3081,11 +3045,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, PlayState* play) {
     ZELDA_ARENA_FREE(actor, "../z_actor.c", 7242);
 
     if (overlayEntry->vramStart == NULL) {
-#if OOT_DEBUG
-        if (HREG(20) != 0) {
-            PRINTF("オーバーレイではありません\n"); // "Not an overlay"
-        }
-#endif
+        ACTOR_PRINTF("オーバーレイではありません\n"); // "Not an overlay"
     } else {
         ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
         ASSERT(overlayEntry->numLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
