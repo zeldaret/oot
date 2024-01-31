@@ -646,8 +646,11 @@ typedef struct {
 
 #if OOT_DEBUG
     #define ACTOR_PRINTF if (HREG(20) != 0) PRINTF
-#else
+#elif defined(__sgi)
+    // See comment about PRINTF in macros.h
     #define ACTOR_PRINTF(args) (void)0
+#else
+    #define ACTOR_PRINTF(format, ...) (void)0
 #endif
 
 #endif
