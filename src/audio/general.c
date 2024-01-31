@@ -1,18 +1,16 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define Audio_DisableSeq(seqPlayerIndex, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqPlayerIndex << 16), fadeOut)
-
 #define ABS_ALT(x) ((x) < 0 ? -(x) : (x))
 
 typedef struct {
     /* 0x0 */ f32 vol;
     /* 0x4 */ f32 freqScale;
     /* 0x8 */ s8 reverb;
-    /* 0x9 */ s8 panSigned;
+    /* 0x9 */ s8 pan;
     /* 0xA */ s8 stereoBits;
     /* 0xB */ u8 filter;
-    /* 0xC */ u8 unk_0C;
+    /* 0xC */ u8 combFilterGain;
 } SfxPlayerState;
 
 typedef enum {
@@ -1728,7 +1726,7 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
             // Add vibrato of the ocarina note based on the x control stick
             sCurOcarinaVibrato = ABS_ALT(sOcarinaInputStickAdj.x) >> 2;
             // Sets vibrato to io port 6
-            Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 6, sCurOcarinaVibrato);
+            AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 6, sCurOcarinaVibrato);
         } else {
             // no bending or vibrato for recording state OCARINA_RECORD_SCARECROW_SPAWN
             sCurOcarinaBendIndex = 0;
@@ -1737,11 +1735,11 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
 
         // Processes new and valid notes
         if ((sCurOcarinaPitch != OCARINA_PITCH_NONE) && (sPrevOcarinaPitch != sCurOcarinaPitch)) {
-            // Sets ocarina instrument Id to channelIdx io port 7, which is used
+            // Sets ocarina instrument Id to channelIndex io port 7, which is used
             // as an index in seq 0 to get the true instrument Id
-            Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 7, sOcarinaInstrumentId - 1);
+            AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 7, sOcarinaInstrumentId - 1);
             // Sets pitch to io port 5
-            Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 5, sCurOcarinaPitch);
+            AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 5, sCurOcarinaPitch);
             Audio_PlaySfxGeneral(NA_SE_OC_OCARINA, &gSfxDefaultPos, 4, &sCurOcarinaBendFreq, &sRelativeOcarinaVolume,
                                  &gSfxDefaultReverb);
         } else if ((sPrevOcarinaPitch != OCARINA_PITCH_NONE) && (sCurOcarinaPitch == OCARINA_PITCH_NONE)) {
@@ -1879,7 +1877,7 @@ void AudioOcarina_PlaybackSong(void) {
         if (sNotePlaybackVibrato != sPlaybackSong[sPlaybackNotePos].vibrato) {
             sNotePlaybackVibrato = sPlaybackSong[sPlaybackNotePos].vibrato;
             // Sets vibrato to io port 6
-            Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 6, sNotePlaybackVibrato);
+            AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 6, sNotePlaybackVibrato);
         }
 
         // Update bend
@@ -1908,13 +1906,11 @@ void AudioOcarina_PlaybackSong(void) {
 
             if (sPlaybackPitch != OCARINA_PITCH_NONE) {
                 sPlaybackStaffPos++;
-                // Sets ocarina instrument Id to channelIdx io port 7, which is used
+                // Sets ocarina instrument Id to channelIndex io port 7, which is used
                 // as an index in seq 0 to get the true instrument Id
-                Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 7,
-                                 sOcarinaInstrumentId - 1);
-                // Sets sPlaybackPitch to channelIdx io port 5
-                Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | SFX_CHANNEL_OCARINA << 8 | 5,
-                                 sPlaybackPitch & 0x3F);
+                AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 7, sOcarinaInstrumentId - 1);
+                // Sets sPlaybackPitch to channelIndex io port 5
+                AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, SFX_CHANNEL_OCARINA, 5, sPlaybackPitch & 0x3F);
                 Audio_PlaySfxGeneral(NA_SE_OC_OCARINA, &gSfxDefaultPos, 4, &sRelativeNotePlaybackBend,
                                      &sRelativeNotePlaybackVolume, &gSfxDefaultReverb);
             } else {
@@ -2198,7 +2194,7 @@ s32 AudioOcarina_MemoryGameNextNote(void) {
         return 1;
     }
 
-    randomButtonIndex = Audio_NextRandom();
+    randomButtonIndex = AudioThread_NextRandom();
     randomPitch = sButtonToPitchMap[randomButtonIndex % 5];
 
     if (sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos - 1].pitch == randomPitch) {
@@ -2322,7 +2318,7 @@ void Audio_UpdateFanfare(void);
 /**
  * This is Audio_Update for the graph thread
  */
-void func_800F3054(void) {
+void Audio_Update(void) {
     if (func_800FAD34() == 0) {
 #if OOT_DEBUG
         sAudioUpdateTaskStart = gAudioCtx.totalTaskCount;
@@ -2348,7 +2344,7 @@ void func_800F3054(void) {
         AudioDebug_ProcessInput();
 #endif
 
-        Audio_ScheduleProcessCmds();
+        AudioThread_ScheduleProcessCmds();
 
 #if OOT_DEBUG
         sAudioUpdateTaskEnd = gAudioCtx.totalTaskCount;
@@ -2363,8 +2359,8 @@ void func_800F3138(UNK_TYPE arg0) {
 void func_800F3140(UNK_TYPE arg0, UNK_TYPE arg1) {
 }
 
-void func_800F314C(s8 arg0) {
-    Audio_QueueCmdS32(0x82 << 24 | SEQ_PLAYER_BGM_MAIN << 16 | (((u8)arg0 & 0xFF) << 8), 1);
+void func_800F314C(s8 seqId) {
+    AUDIOCMD_GLOBAL_INIT_SEQPLAYER(SEQ_PLAYER_BGM_MAIN, (u8)seqId, 1);
 }
 
 f32 Audio_ComputeSfxVolume(u8 bankId, u8 entryIdx) {
@@ -2427,8 +2423,8 @@ s8 Audio_ComputeSfxReverb(u8 bankId, u8 entryIdx, u8 channelIdx) {
     }
 
     if (IS_SEQUENCE_CHANNEL_VALID(gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx])) {
-        scriptAdd = gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx]->soundScriptIO[1];
-        if (gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx]->soundScriptIO[1] <= SEQ_IO_VAL_NONE) {
+        scriptAdd = gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx]->seqScriptIO[1];
+        if (gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[channelIdx]->seqScriptIO[1] <= SEQ_IO_VAL_NONE) {
             scriptAdd = 0;
         }
     }
@@ -2588,28 +2584,28 @@ u8 func_800F37B8(f32 behindScreenZ, SfxBankEntry* arg1, s8 arg2) {
     return (phi_v1 * 0x10) + (u8)((phi_f0 * phi_f12) / (10000.0f / 5.2f));
 }
 
-s8 func_800F3990(f32 arg0, u16 sfxParams) {
-    s8 ret = 0;
+s8 func_800F3990(f32 posY, u16 sfxParams) {
+    s8 combFilterGain = 0;
 
-    if (arg0 >= 0.0f) {
-        if (arg0 > 625.0f) {
-            ret = 127;
+    if (posY >= 0.0f) {
+        if (posY > 625.0f) {
+            combFilterGain = 127;
         } else {
-            ret = (arg0 / 625.0f) * 126.0f;
+            combFilterGain = (posY / 625.0f) * 126.0f;
         }
     }
-    return ret | 1;
+    return combFilterGain | 1;
 }
 
-void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
+void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex) {
     f32 vol = 1.0f;
     s8 volS8;
     s8 reverb = 0;
     f32 freqScale = 1.0f;
-    s8 panSigned = 0x40;
+    s8 pan = 0x40;
     u8 stereoBits = 0;
     u8 filter = 0;
-    s8 sp38 = 0;
+    s8 combFilterGain = 0;
     f32 behindScreenZ;
     u8 baseFilter = 0;
     SfxBankEntry* entry = &gSfxBanks[bankId][entryIdx];
@@ -2621,15 +2617,15 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
         case BANK_ENEMY:
         case BANK_VOICE:
             if (sSoundMode == SOUNDMODE_SURROUND) {
-                sp38 = func_800F3990(*entry->posY, entry->sfxParams);
+                combFilterGain = func_800F3990(*entry->posY, entry->sfxParams);
             }
             FALLTHROUGH;
         case BANK_OCARINA:
             entry->dist = sqrtf(entry->dist * SFX_DIST_SCALING);
 
             vol = Audio_ComputeSfxVolume(bankId, entryIdx) * *entry->vol;
-            reverb = Audio_ComputeSfxReverb(bankId, entryIdx, channelIdx);
-            panSigned = Audio_ComputeSfxPanSigned(*entry->posX, *entry->posZ, entry->token);
+            reverb = Audio_ComputeSfxReverb(bankId, entryIdx, channelIndex);
+            pan = Audio_ComputeSfxPanSigned(*entry->posX, *entry->posZ, entry->token);
             freqScale = Audio_ComputeSfxFreqScale(bankId, entryIdx) * *entry->freqScale;
 
             if (sSoundMode == SOUNDMODE_SURROUND) {
@@ -2639,14 +2635,14 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
                         stereoBits = 0x10;
                     }
 
-                    if ((sSfxChannelState[channelIdx].stereoBits ^ stereoBits) & 0x10) {
-                        if (panSigned < 0x40) {
-                            stereoBits = sSfxChannelState[channelIdx].stereoBits ^ 0x14;
+                    if ((sSfxChannelState[channelIndex].stereoBits ^ stereoBits) & 0x10) {
+                        if (pan < 0x40) {
+                            stereoBits = sSfxChannelState[channelIndex].stereoBits ^ 0x14;
                         } else {
-                            stereoBits = sSfxChannelState[channelIdx].stereoBits ^ 0x18;
+                            stereoBits = sSfxChannelState[channelIndex].stereoBits ^ 0x18;
                         }
                     } else {
-                        stereoBits = sSfxChannelState[channelIdx].stereoBits;
+                        stereoBits = sSfxChannelState[channelIndex].stereoBits;
                     }
                 }
             }
@@ -2659,49 +2655,54 @@ void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             if ((baseFilter | sAudioExtraFilter) != 0) {
                 filter = (baseFilter | sAudioExtraFilter);
             } else if ((sSoundMode == SOUNDMODE_SURROUND) && !(entry->sfxParams & SFX_FLAG_13)) {
-                filter = func_800F37B8(behindScreenZ, entry, panSigned);
+                filter = func_800F37B8(behindScreenZ, entry, pan);
             }
             break;
         case BANK_SYSTEM:
             break;
     }
 
-    if (sSfxChannelState[channelIdx].vol != vol) {
+    if (sSfxChannelState[channelIndex].vol != vol) {
         volS8 = (u8)(vol * 127.0f);
-        sSfxChannelState[channelIdx].vol = vol;
+        sSfxChannelState[channelIndex].vol = vol;
     } else {
         volS8 = -1;
     }
 
     // CHAN_UPD_SCRIPT_IO (slot 2, sets volume)
-    Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | (channelIdx << 8) | 2, volS8);
-    if (reverb != sSfxChannelState[channelIdx].reverb) {
-        Audio_QueueCmdS8(0x5 << 24 | SEQ_PLAYER_SFX << 16 | (channelIdx << 8), reverb);
-        sSfxChannelState[channelIdx].reverb = reverb;
+    AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, channelIndex, 2, volS8);
+
+    if (reverb != sSfxChannelState[channelIndex].reverb) {
+        AUDIOCMD_CHANNEL_SET_REVERB_VOLUME(SEQ_PLAYER_SFX, channelIndex, reverb);
+        sSfxChannelState[channelIndex].reverb = reverb;
     }
-    if (freqScale != sSfxChannelState[channelIdx].freqScale) {
-        Audio_QueueCmdF32(0x4 << 24 | SEQ_PLAYER_SFX << 16 | (channelIdx << 8), freqScale);
-        sSfxChannelState[channelIdx].freqScale = freqScale;
+
+    if (freqScale != sSfxChannelState[channelIndex].freqScale) {
+        AUDIOCMD_CHANNEL_SET_FREQ_SCALE(SEQ_PLAYER_SFX, channelIndex, freqScale);
+        sSfxChannelState[channelIndex].freqScale = freqScale;
     }
-    if (stereoBits != sSfxChannelState[channelIdx].stereoBits) {
-        Audio_QueueCmdS8(0xE << 24 | SEQ_PLAYER_SFX << 16 | (channelIdx << 8), stereoBits | 0x10);
-        sSfxChannelState[channelIdx].stereoBits = stereoBits;
+
+    //! @bug: comparing a `u8` to an `s8`. if the most significant bit is set,
+    //! it'll always pass because the s8 value will be <0 and the u8 value is always >=0
+    if (stereoBits != sSfxChannelState[channelIndex].stereoBits) {
+        AUDIOCMD_CHANNEL_SET_STEREO(SEQ_PLAYER_SFX, channelIndex, stereoBits | 0x10);
+        sSfxChannelState[channelIndex].stereoBits = stereoBits;
     }
-    if (filter != sSfxChannelState[channelIdx].filter) {
-        // CHAN_UPD_SCRIPT_IO (slot 3, sets filter)
-        Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | (channelIdx << 8) | 3, filter);
-        sSfxChannelState[channelIdx].filter = filter;
+
+    if (filter != sSfxChannelState[channelIndex].filter) {
+        AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, channelIndex, 3, filter);
+        sSfxChannelState[channelIndex].filter = filter;
     }
-    if (sp38 != sSfxChannelState[channelIdx].unk_0C) {
-        // CHAN_UPD_UNK_0F
-        Audio_QueueCmdS8(0xC << 24 | SEQ_PLAYER_SFX << 16 | (channelIdx << 8), 0x10);
-        // CHAN_UPD_UNK_20
-        Audio_QueueCmdU16(0xD << 24 | SEQ_PLAYER_SFX << 16 | (channelIdx << 8), ((u16)(sp38) << 8) + 0xFF);
-        sSfxChannelState[channelIdx].unk_0C = sp38;
+
+    if (combFilterGain != sSfxChannelState[channelIndex].combFilterGain) {
+        AUDIOCMD_CHANNEL_SET_COMB_FILTER_SIZE(SEQ_PLAYER_SFX, channelIndex, 0x10);
+        AUDIOCMD_CHANNEL_SET_COMB_FILTER_GAIN(SEQ_PLAYER_SFX, channelIndex, ((u16)(combFilterGain) << 8) + 0xFF);
+        sSfxChannelState[channelIndex].combFilterGain = combFilterGain;
     }
-    if (panSigned != sSfxChannelState[channelIdx].panSigned) {
-        Audio_QueueCmdS8(0x3 << 24 | SEQ_PLAYER_SFX << 16 | (channelIdx << 8), panSigned);
-        sSfxChannelState[channelIdx].panSigned = panSigned;
+
+    if (pan != sSfxChannelState[channelIndex].pan) {
+        AUDIOCMD_CHANNEL_SET_PAN(SEQ_PLAYER_SFX, channelIndex, pan);
+        sSfxChannelState[channelIndex].pan = pan;
     }
 }
 
@@ -2714,13 +2715,13 @@ void Audio_ResetSfxChannelState(void) {
         state->vol = 1.0f;
         state->freqScale = 1.0f;
         state->reverb = 0;
-        state->panSigned = 0x40;
+        state->pan = 0x40;
         state->stereoBits = 0;
         state->filter = 0xFF;
-        state->unk_0C = 0xFF;
+        state->combFilterGain = 0xFF;
     }
 
-    sSfxChannelState[SFX_CHANNEL_OCARINA].unk_0C = 0;
+    sSfxChannelState[SFX_CHANNEL_OCARINA].combFilterGain = 0;
     sPrevSeqMode = 0;
     sAudioCodeReverb = 0;
 }
@@ -2788,7 +2789,7 @@ void func_800F4190(Vec3f* pos, u16 sfxId) {
     Audio_PlaySfxGeneral(sfxId, pos, 4, &D_801305B0, &gSfxDefaultFreqAndVolScale, &D_801305B4);
 }
 void Audio_PlaySfxRandom(Vec3f* pos, u16 baseSfxId, u8 randLim) {
-    u8 offset = Audio_NextRandom() % randLim;
+    u8 offset = AudioThread_NextRandom() % randLim;
 
     Audio_PlaySfxGeneral(baseSfxId + offset, pos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                          &gSfxDefaultReverb);
@@ -2916,19 +2917,17 @@ void Audio_SetMainBgmVolume(u8 targetVol, u8 volFadeTimer) {
  * Incrementally increase volume of NA_BGM_GANON_TOWER for each new room during the climb of Ganon's Tower
  */
 void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel) {
-    u8 channelIdx;
-    s8 pan = 0;
+    u8 channelIndex;
+    s8 panChannelWeight = 0; // Pan comes entirely from the SequenceLayer
 
     // Ganondorf's Lair
     if (ganonsTowerLevel == 0) {
-        pan = 0x7F;
+        // Pan comes entirely from the SequenceChannel
+        panChannelWeight = 0x7F;
     }
 
-    for (channelIdx = 0; channelIdx < 16; channelIdx++) {
-        // CHAN_UPD_PAN_UNSIGNED
-        Audio_QueueCmdS8(_SHIFTL(0x7, 24, 8) | _SHIFTL(SEQ_PLAYER_BGM_MAIN, 16, 8) | _SHIFTL(channelIdx, 8, 8) |
-                             _SHIFTL(0, 0, 8),
-                         pan);
+    for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
+        AUDIOCMD_CHANNEL_SET_PAN_WEIGHT(SEQ_PLAYER_BGM_MAIN, (u32)channelIndex, panChannelWeight);
     }
 
     // Lowest room in Ganon's Tower (Entrance Room)
@@ -2947,7 +2946,7 @@ void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel) {
 s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol) {
     u8 lowPassFilterCutoff;
     u16 reverb;
-    u8 channelIdx;
+    u8 channelIndex;
 
     if (sGanonsTowerVol != targetVol) {
         // Sets the volume
@@ -2966,22 +2965,19 @@ s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol) {
         SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_MAIN, 15, 4, lowPassFilterCutoff);
 
         // Sets the reverb
-        for (channelIdx = 0; channelIdx < 16; channelIdx++) {
-            if (gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIdx] != &gAudioCtx.sequenceChannelNone) {
-                // soundScriptIO[5] is set to 0x40 in channels 0, 1, and 4
-                if ((u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIdx]->soundScriptIO[5] !=
+        for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
+            if (gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIndex] != &gAudioCtx.sequenceChannelNone) {
+                // seqScriptIO[5] is set to 0x40 in channels 0, 1, and 4
+                if ((u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIndex]->seqScriptIO[5] !=
                     (u8)SEQ_IO_VAL_NONE) {
                     // Higher volume leads to lower reverb
-                    reverb = ((u16)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIdx]->soundScriptIO[5] -
+                    reverb = ((u16)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].channels[channelIndex]->seqScriptIO[5] -
                               targetVol) +
                              0x7F;
                     if (reverb > 0x7F) {
                         reverb = 0x7F;
                     }
-                    // CHAN_UPD_REVERB
-                    Audio_QueueCmdS8(_SHIFTL(0x5, 24, 8) | _SHIFTL(SEQ_PLAYER_BGM_MAIN, 16, 8) |
-                                         _SHIFTL(channelIdx, 8, 8) | _SHIFTL(0, 0, 8),
-                                     (u8)reverb);
+                    AUDIOCMD_CHANNEL_SET_REVERB_VOLUME(SEQ_PLAYER_BGM_MAIN, (u32)channelIndex, (u8)reverb);
                 }
             }
         }
@@ -3043,31 +3039,30 @@ void Audio_PlaySfxTransposed(Vec3f* pos, u16 sfxId, s8 semitone) {
                          &gSfxDefaultReverb);
 }
 
-void func_800F4C58(Vec3f* pos, u16 sfxId, u8 arg2) {
-    u8 phi_s1 = 0;
+void func_800F4C58(Vec3f* pos, u16 sfxId, u8 ioData) {
+    u8 channelIndex = 0;
     u8 i;
     u8 bankId;
 
     bankId = SFX_BANK_SHIFT(sfxId);
     for (i = 0; i < bankId; i++) {
-        phi_s1 += gChannelsPerBank[gSfxChannelLayout][i];
+        channelIndex += gChannelsPerBank[gSfxChannelLayout][i];
     }
 
     for (i = 0; i < gChannelsPerBank[gSfxChannelLayout][bankId]; i++) {
         if ((gActiveSfx[bankId][i].entryIndex != 0xFF) &&
             (sfxId == gSfxBanks[bankId][gActiveSfx[bankId][i].entryIndex].sfxId)) {
-            Audio_QueueCmdS8(
-                _SHIFTL(0x6, 24, 8) | _SHIFTL(SEQ_PLAYER_SFX, 16, 8) | _SHIFTL(phi_s1, 8, 8) | _SHIFTL(6, 0, 8), arg2);
+            AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_SFX, channelIndex, 6, ioData);
         }
-        phi_s1++;
+        channelIndex++;
     }
     Audio_PlaySfxGeneral(sfxId, pos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 void func_800F4E30(Vec3f* pos, f32 arg1) {
     f32 phi_f22;
-    s8 phi_s4;
-    u8 i;
+    s8 pan;
+    u8 channelIndex;
 
     if (sSariaBgmPtr == NULL) {
         sSariaBgmPtr = pos;
@@ -3082,11 +3077,11 @@ void func_800F4E30(Vec3f* pos, f32 arg1) {
     }
 
     if (sSariaBgmPtr->x > 100.0f) {
-        phi_s4 = 0x7F;
+        pan = 0x7F;
     } else if (sSariaBgmPtr->x < -100.0f) {
-        phi_s4 = 0;
+        pan = 0;
     } else {
-        phi_s4 = ((sSariaBgmPtr->x / 100.0f) * 64.0f) + 64.0f;
+        pan = ((sSariaBgmPtr->x / 100.0f) * 64.0f) + 64.0f;
     }
 
     if (D_80130650 > 400.0f) {
@@ -3097,10 +3092,10 @@ void func_800F4E30(Vec3f* pos, f32 arg1) {
         phi_f22 = ((1.0f - ((D_80130650 - 120.0f) / 280.0f)) * 0.9f) + 0.1f;
     }
 
-    for (i = 0; i < 0x10; i++) {
-        if (i != 9) {
-            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, i, 2, (127.0f * phi_f22));
-            Audio_QueueCmdS8(0x3 << 24 | SEQ_PLAYER_BGM_MAIN << 16 | ((u8)((u32)i) << 8), phi_s4);
+    for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
+        if (channelIndex != 9) {
+            SEQCMD_SET_CHANNEL_VOLUME(SEQ_PLAYER_BGM_MAIN, channelIndex, 2, (127.0f * phi_f22));
+            AUDIOCMD_CHANNEL_SET_PAN(SEQ_PLAYER_BGM_MAIN, (u32)channelIndex, pan);
         }
     }
 }
@@ -3227,8 +3222,7 @@ void Audio_PlaySceneSequence(u16 seqId) {
     if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
         if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == NA_BGM_LONLON) {
             Audio_StopSequence(SEQ_PLAYER_BGM_SUB, 0);
-            // Terminate all internal audio cmds
-            Audio_QueueCmdS32(0xF8000000, 0);
+            AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
         }
 
         if ((sSeqFlags[sPrevSceneSeqId] & SEQ_FLAG_RESUME_PREV) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
@@ -3263,7 +3257,7 @@ void Audio_UpdateSceneSequenceResumePoint(void) {
     if ((seqId != NA_BGM_DISABLED) && (sSeqFlags[seqId & 0xFF & 0xFF] & SEQ_FLAG_RESUME)) {
         if (sSeqResumePoint != SEQ_RESUME_POINT_NONE) {
             // Get the current point to resume from
-            sSeqResumePoint = gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3];
+            sSeqResumePoint = gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[3];
         } else {
             // Initialize the point to resume from to the start of the sequence.
             sSeqResumePoint = 0;
@@ -3285,7 +3279,7 @@ void Audio_SetMainBgmTempoFreqAfterFanfare(f32 scaleTempoAndFreq, u8 duration) {
         SEQCMD_SETUP_SCALE_TEMPO(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
     }
 
-    SEQCMD_SETUP_SET_PLAYER_FREQ(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
+    SEQCMD_SETUP_SET_SEQPLAYER_FREQ(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
 }
 
 /**
@@ -3406,8 +3400,8 @@ void Audio_PlayFanfare(u16 seqId) {
 
     curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
 
-    curFontId = func_800E5E84(curSeqId & 0xFF, &outNumFonts);
-    requestedFontId = func_800E5E84(seqId & 0xFF, &outNumFonts);
+    curFontId = AudioThread_GetFontsForSequence(curSeqId & 0xFF, &outNumFonts);
+    requestedFontId = AudioThread_GetFontsForSequence(seqId & 0xFF, &outNumFonts);
 
     if ((curSeqId == NA_BGM_DISABLED) || (*curFontId == *requestedFontId)) {
         sFanfareStartTimer = 1;
@@ -3428,8 +3422,8 @@ void Audio_UpdateFanfare(void) {
     if (sFanfareStartTimer != 0) {
         sFanfareStartTimer--;
         if (sFanfareStartTimer == 0) {
-            Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
-            Audio_QueueCmdS32(0xE3000000, FONT_TABLE);
+            AUDIOCMD_GLOBAL_POP_PERSISTENT_CACHE(SEQUENCE_TABLE);
+            AUDIOCMD_GLOBAL_POP_PERSISTENT_CACHE(FONT_TABLE);
 
             seqIdBgmMain = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
             seqIdFanfare = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
@@ -3439,10 +3433,10 @@ void Audio_UpdateFanfare(void) {
             if (seqIdFanfare == NA_BGM_DISABLED) {
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0, 5);
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0, 5);
-                SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN,
-                                                                    VOL_SCALE_INDEX_FANFARE, 10);
-                SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB,
-                                                                    VOL_SCALE_INDEX_FANFARE, 10);
+                SEQCMD_SETUP_RESTORE_SEQPLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN,
+                                                                       VOL_SCALE_INDEX_FANFARE, 10);
+                SEQCMD_SETUP_RESTORE_SEQPLAYER_VOLUME_WITH_SCALE_INDEX(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB,
+                                                                       VOL_SCALE_INDEX_FANFARE, 10);
                 SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 0);
                 if (seqIdBgmSub != NA_BGM_LONLON) {
                     SEQCMD_SETUP_SET_CHANNEL_DISABLE_MASK(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 0);
@@ -3458,7 +3452,7 @@ void Audio_UpdateFanfare(void) {
 }
 
 void Audio_PlaySequenceWithSeqPlayerIO(u8 seqPlayerIndex, u16 seqId, u8 fadeInDuration, s8 ioPort, s8 ioData) {
-    SEQCMD_SET_PLAYER_IO(seqPlayerIndex, ioPort, ioData);
+    SEQCMD_SET_SEQPLAYER_IO(seqPlayerIndex, ioPort, ioData);
     SEQCMD_PLAY_SEQUENCE(seqPlayerIndex, fadeInDuration, 0, seqId);
 }
 
@@ -3537,7 +3531,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
             }
 
             sPrevSeqMode = seqMode;
-            SEQCMD_SET_PLAYER_IO(SEQ_PLAYER_BGM_MAIN, 2, seqMode);
+            SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 2, seqMode);
         }
     }
 }
@@ -3641,11 +3635,11 @@ void func_800F64E0(u8 arg0) {
     if (arg0 != 0) {
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        Audio_QueueCmdS32(0xF1000000, 0);
+        AUDIOCMD_GLOBAL_MUTE();
     } else {
         Audio_PlaySfxGeneral(NA_SE_SY_WIN_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        Audio_QueueCmdS32(0xF2000000, 0);
+        AUDIOCMD_GLOBAL_UNMUTE(0);
     }
 }
 
@@ -3754,16 +3748,13 @@ void Audio_SetBaseFilter(u8 filter) {
 }
 
 void Audio_SetExtraFilter(u8 filter) {
-    u32 t;
-    u8 i;
+    u8 channelIndex;
 
     sAudioExtraFilter2 = filter;
     sAudioExtraFilter = filter;
     if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId == NA_BGM_NATURE_AMBIENCE) {
-        for (i = 0; i < 16; i++) {
-            t = i;
-            // CHAN_UPD_SCRIPT_IO (seq player 0, all channels, slot 6)
-            Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_BGM_MAIN << 16 | ((t & 0xFF) << 8) | 6, filter);
+        for (channelIndex = 0; channelIndex < SEQ_NUM_CHANNELS; channelIndex++) {
+            AUDIOCMD_CHANNEL_SET_IO(SEQ_PLAYER_BGM_MAIN, (u32)channelIndex, 6, filter);
         }
     }
 }
@@ -3824,11 +3815,11 @@ void func_800F6B3C(void) {
 }
 
 void Audio_DisableAllSeq(void) {
-    Audio_DisableSeq(SEQ_PLAYER_BGM_MAIN, 0);
-    Audio_DisableSeq(SEQ_PLAYER_FANFARE, 0);
-    Audio_DisableSeq(SEQ_PLAYER_SFX, 0);
-    Audio_DisableSeq(SEQ_PLAYER_BGM_SUB, 0);
-    Audio_ScheduleProcessCmds();
+    AUDIOCMD_GLOBAL_DISABLE_SEQPLAYER(SEQ_PLAYER_BGM_MAIN, 0);
+    AUDIOCMD_GLOBAL_DISABLE_SEQPLAYER(SEQ_PLAYER_FANFARE, 0);
+    AUDIOCMD_GLOBAL_DISABLE_SEQPLAYER(SEQ_PLAYER_SFX, 0);
+    AUDIOCMD_GLOBAL_DISABLE_SEQPLAYER(SEQ_PLAYER_BGM_SUB, 0);
+    AudioThread_ScheduleProcessCmds();
 }
 
 s8 func_800F6BB8(void) {
@@ -3837,7 +3828,7 @@ s8 func_800F6BB8(void) {
 
 void func_800F6BDC(void) {
     Audio_DisableAllSeq();
-    Audio_ScheduleProcessCmds();
+    AudioThread_ScheduleProcessCmds();
     while (true) {
         if (!func_800F6BB8()) {
             return;
@@ -3846,7 +3837,7 @@ void func_800F6BDC(void) {
 }
 
 void Audio_PreNMI(void) {
-    Audio_PreNMIInternal();
+    AudioThread_PreNMIInternal();
 }
 
 void func_800F6C34(void) {
@@ -3872,7 +3863,7 @@ void func_800F6C34(void) {
     sSpecReverb = sSpecReverbs[gAudioSpecId];
     D_80130608 = 0;
     sPrevMainBgmSeqId = NA_BGM_DISABLED;
-    Audio_QueueCmdS8(0x46 << 24 | SEQ_PLAYER_BGM_MAIN << 16, -1);
+    AUDIOCMD_SEQPLAYER_SET_IO(SEQ_PLAYER_BGM_MAIN, 0, SEQ_IO_VAL_NONE);
     sSariaBgmPtr = NULL;
     sFanfareStartTimer = 0;
     D_8016B9F3 = 1;
@@ -3921,9 +3912,9 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
         return;
     }
 
-    SEQCMD_SET_PLAYER_IO(SEQ_PLAYER_BGM_MAIN, 0, 1);
-    SEQCMD_SET_PLAYER_IO(SEQ_PLAYER_BGM_MAIN, 4, playerIO >> 8);
-    SEQCMD_SET_PLAYER_IO(SEQ_PLAYER_BGM_MAIN, 5, playerIO & 0xFF);
+    SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 0, 1);
+    SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 4, playerIO >> 8);
+    SEQCMD_SET_SEQPLAYER_IO(SEQ_PLAYER_BGM_MAIN, 5, playerIO & 0xFF);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, 0x7F, 1);
 
     channelIdx = false;
@@ -3986,9 +3977,9 @@ void Audio_InitSound(void) {
 
 void func_800F7170(void) {
     Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 1);
-    Audio_QueueCmdS32(0xF2000000, 1);
-    Audio_ScheduleProcessCmds();
-    Audio_QueueCmdS32(0xF8000000, 0);
+    AUDIOCMD_GLOBAL_UNMUTE(1);
+    AudioThread_ScheduleProcessCmds();
+    AUDIOCMD_GLOBAL_STOP_AUDIOCMDS();
 }
 
 void func_800F71BC(s32 arg0) {
@@ -4002,7 +3993,7 @@ void func_800F71BC(s32 arg0) {
 
 void func_800F7208(void) {
     Audio_ResetActiveSequences();
-    Audio_QueueCmdS32(0xF2000000, 1);
+    AUDIOCMD_GLOBAL_UNMUTE(1);
     func_800F6C34();
     Audio_ResetSfxChannelState();
     Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0x70, 1);

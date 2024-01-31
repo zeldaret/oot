@@ -157,8 +157,7 @@ extern s32 gSystemArenaLogSeverity;
 extern u8 __osPfsInodeCacheBank;
 extern s32 __osPfsLastChannel;
 
-extern const s16 D_8014A6C0[];
-#define gTatumsPerBeat (D_8014A6C0[1])
+extern const TempoData gTempoData;
 extern const AudioHeapInitSizes gAudioHeapInitSizes;
 extern s16 gOcarinaSongItemMap[];
 extern u8 gSoundFontTable[];
@@ -215,7 +214,7 @@ extern u16 gAudioSfxSwapTarget[10];
 extern u8 gAudioSfxSwapMode[10];
 extern ActiveSequence gActiveSeqs[4];
 extern AudioContext gAudioCtx;
-extern void(*D_801755D0)(void);
+extern AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 
 extern u32 __osMalloc_FreeBlockTest_Enable;
 extern Arena gSystemArena;
