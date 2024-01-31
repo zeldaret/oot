@@ -4,16 +4,16 @@ size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, voi
     s32 pad[3];
     uintptr_t end;
     OverlayRelocationSection* ovlRelocs;
-    u32 relocSectionOffset;
+    u32 relocSectionOffset = 0;
     s32 size = vromEnd - vromStart;
-
-    relocSectionOffset = gOverlayLogSeverity;
-    end = (uintptr_t)allocatedRamAddr + size;
 
     if (gOverlayLogSeverity >= 3) {
         // "Start loading dynamic link function"
         PRINTF("\nダイナミックリンクファンクションのロードを開始します\n");
     }
+
+    size = vromEnd - vromStart;
+    end = (uintptr_t)allocatedRamAddr + size;
 
     if (gOverlayLogSeverity >= 3) {
         // "DMA transfer of TEXT, DATA, RODATA + rel (%08x-%08x)"
@@ -68,5 +68,6 @@ size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, voi
         // "Finish loading dynamic link function"
         PRINTF("ダイナミックリンクファンクションのロードを終了します\n\n");
     }
+
     return size;
 }
