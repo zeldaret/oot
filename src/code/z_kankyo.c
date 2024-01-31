@@ -338,7 +338,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     envCtx->sceneTimeSpeed = 0;
     gTimeSpeed = envCtx->sceneTimeSpeed;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     R_ENV_TIME_SPEED_OLD = gTimeSpeed;
     R_ENV_DISABLE_DBG = true;
 
@@ -410,7 +410,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
     gSkyboxIsChanging = false;
     gSaveContext.retainWeatherMode = false;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     R_ENV_LIGHT1_DIR(0) = 80;
     R_ENV_LIGHT1_DIR(1) = 80;
     R_ENV_LIGHT1_DIR(2) = 80;
@@ -707,7 +707,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             }
         }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         if (newSkybox1Index == 0xFF) {
             // "Environment VR data acquisition failed! Report to Sasaki!"
             PRINTF(VT_COL(RED, WHITE) "\n環境ＶＲデータ取得失敗！ ささきまでご報告を！" VT_RST);
@@ -824,8 +824,7 @@ void Environment_DisableUnderwaterLights(PlayState* play) {
     }
 }
 
-#ifdef OOT_DEBUG
-
+#if OOT_DEBUG
 void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     GfxPrint printer;
     s32 pad[2];
@@ -880,7 +879,6 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
     *gfx = GfxPrint_Close(&printer);
     GfxPrint_Destroy(&printer);
 }
-
 #endif
 
 void Environment_PlayTimeBasedSequence(PlayState* play);
@@ -895,7 +893,6 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
     u16 time;
     EnvLightSettings* lightSettingsList = play->envCtx.lightSettingsList;
     s32 adjustment;
-    u8 blendRate;
 
     if ((((void)0, gSaveContext.gameMode) != GAMEMODE_NORMAL) &&
         (((void)0, gSaveContext.gameMode) != GAMEMODE_END_CREDITS)) {
@@ -965,7 +962,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             gSaveContext.save.nightFlag = 0;
         }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         if (R_ENABLE_ARENA_DBG != 0 || CREG(2) != 0) {
             Gfx* displayList;
             Gfx* prevDisplayList;
@@ -989,9 +986,9 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             (envCtx->lightSetting != envCtx->lightSettingOverride) && (envCtx->lightBlend >= 1.0f) &&
             (envCtx->lightSettingOverride <= LIGHT_SETTING_MAX)) {
 
+            envCtx->lightBlend = 0.0f;
             envCtx->prevLightSetting = envCtx->lightSetting;
             envCtx->lightSetting = envCtx->lightSettingOverride;
-            envCtx->lightBlend = 0.0f;
         }
 
         if (envCtx->lightSettingOverride != LIGHT_SETTING_OVERRIDE_FULL_CONTROL) {
@@ -1140,7 +1137,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 
                         envCtx->lightSettings.zFar = LERP16(blend16[0], blend16[1], configChangeBlend);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                         if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong!"
@@ -1157,6 +1154,8 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                     }
                 }
             } else {
+                u8 blendRate;
+
                 if (!envCtx->lightBlendEnabled) {
                     for (i = 0; i < 3; i++) {
                         envCtx->lightSettings.ambientColor[i] = lightSettingsList[envCtx->lightSetting].ambientColor[i];
@@ -1165,6 +1164,14 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                         envCtx->lightSettings.light2Dir[i] = lightSettingsList[envCtx->lightSetting].light2Dir[i];
                         envCtx->lightSettings.light2Color[i] = lightSettingsList[envCtx->lightSetting].light2Color[i];
                         envCtx->lightSettings.fogColor[i] = lightSettingsList[envCtx->lightSetting].fogColor[i];
+#if !OOT_DEBUG
+                        if (1) {}
+                        if (1) {}
+                        if (1) {}
+                        if (1) {}
+                        if (1) {}
+                        if (1) {}
+#endif
                     }
 
                     envCtx->lightSettings.fogNear =
@@ -1211,6 +1218,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                             LERP(lightSettingsList[envCtx->prevLightSetting].fogColor[i],
                                  lightSettingsList[envCtx->lightSetting].fogColor[i], envCtx->lightBlend);
                     }
+
                     envCtx->lightSettings.fogNear = LERP16(
                         ENV_LIGHT_SETTINGS_FOG_NEAR(lightSettingsList[envCtx->prevLightSetting].blendRateAndFogNear),
                         ENV_LIGHT_SETTINGS_FOG_NEAR(lightSettingsList[envCtx->lightSetting].blendRateAndFogNear),
@@ -1220,7 +1228,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
                                lightSettingsList[envCtx->lightSetting].zFar, envCtx->lightBlend);
                 }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
                 if (envCtx->lightSetting >= envCtx->numLightSettings) {
                     // "The color palette seems to be wrong!"
                     PRINTF("\n" VT_FGCOL(RED) "カラーパレットがおかしいようです！");
@@ -1232,6 +1240,8 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
 #endif
             }
         }
+
+    dummy:;
 
         envCtx->lightBlendEnabled = true;
 
@@ -1298,8 +1308,7 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             lightCtx->zFar = ENV_ZFAR_MAX;
         }
 
-#ifdef OOT_DEBUG
-
+#if OOT_DEBUG
         // When environment debug is enabled, various environment related variables can be configured via the reg editor
         if (R_ENV_DISABLE_DBG) {
             R_ENV_AMBIENT_COLOR(0) = lightCtx->ambientColor[0];
@@ -1380,7 +1389,6 @@ void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContex
             envCtx->windDirection.z = R_ENV_WIND_DIR(2);
             envCtx->windSpeed = R_ENV_WIND_SPEED;
         }
-
 #endif
 
         if ((envCtx->dirLight1.params.dir.x == 0) && (envCtx->dirLight1.params.dir.y == 0) &&
