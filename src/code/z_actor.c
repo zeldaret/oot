@@ -2305,6 +2305,8 @@ void Actor_FaultPrint(Actor* actor, char* command) {
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
     PRINTF("アクターの名前(%08x:%s)\n", actor, name); // "Actor name (%08x:%s)"
+#else
+    name = "";
 #endif
 
     if (command != NULL) {
@@ -2313,11 +2315,7 @@ void Actor_FaultPrint(Actor* actor, char* command) {
 
     FaultDrawer_SetCursor(48, 24);
 
-#if OOT_DEBUG
     FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, name);
-#else
-    FaultDrawer_Printf("ACTOR NAME %08x:%s", actor, "");
-#endif
 }
 
 void Actor_Draw(PlayState* play, Actor* actor) {
