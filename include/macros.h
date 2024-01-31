@@ -102,7 +102,7 @@
 
 #if OOT_DEBUG
 #define PRINTF osSyncPrintf
-#elif defined(__sgi) /* IDO compiler */
+#elif defined(__sgi) && !defined(__GNUC__) && !defined(PERMUTER) && !defined(M2CTX) /* IDO compiler */
 // IDO doesn't support variadic macros, but it merely throws a warning for the
 // number of arguments not matching the definition (warning 609) instead of
 // throwing an error. We suppress this warning and rely on GCC to catch macro

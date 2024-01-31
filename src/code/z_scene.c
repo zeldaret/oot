@@ -47,6 +47,7 @@ s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId) {
 
 void Object_InitContext(PlayState* play, ObjectContext* objectCtx) {
     PlayState* play2 = play;
+    s32 pad;
     u32 spaceSize;
     s32 i;
 
@@ -171,10 +172,9 @@ void* func_800982FC(ObjectContext* objectCtx, s32 slot, s16 objectId) {
 }
 
 s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
-    u32 cmdCode;
-
     while (true) {
-        cmdCode = sceneCmd->base.code;
+        u32 cmdCode = sceneCmd->base.code;
+
         PRINTF("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
                sceneCmd->base.data2);
 
@@ -189,8 +189,10 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
             PRINTF("code の値が異常です\n"); // "code variable is abnormal"
             PRINTF(VT_RST);
         }
+
         sceneCmd++;
     }
+    
     return 0;
 }
 
@@ -420,17 +422,12 @@ void Scene_CommandEchoSettings(PlayState* play, SceneCmd* cmd) {
 }
 
 void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
-    s32 pad;
-    SceneCmd* altHeader;
-
     PRINTF("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.save.linkAge));
     PRINTF("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.save.cutsceneIndex));
     PRINTF("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneLayer));
 
     if (gSaveContext.sceneLayer != 0) {
-        altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
-
-        if (1) {}
+        SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(cmd->altHeaders.data))[gSaveContext.sceneLayer - 1];
 
         if (altHeader != NULL) {
             Scene_ExecuteCommands(play, SEGMENTED_TO_VIRTUAL(altHeader));
@@ -441,7 +438,7 @@ void Scene_CommandAlternateHeaderList(PlayState* play, SceneCmd* cmd) {
 
             if (gSaveContext.sceneLayer == SCENE_LAYER_ADULT_NIGHT) {
                 // Due to the condition above, this is equivalent to accessing altHeaders[SCENE_LAYER_ADULT_DAY - 1]
-                altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
+                SceneCmd* altHeader = ((SceneCmd**)SEGMENTED_TO_VIRTUAL(
                     cmd->altHeaders
                         .data))[(gSaveContext.sceneLayer - SCENE_LAYER_ADULT_NIGHT) + SCENE_LAYER_ADULT_DAY - 1];
 
@@ -462,7 +459,6 @@ void Scene_CommandCutsceneData(PlayState* play, SceneCmd* cmd) {
     play->csCtx.script = SEGMENTED_TO_VIRTUAL(cmd->cutsceneData.data);
 }
 
-// Camera & World Map Area
 void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     R_SCENE_CAM_TYPE = cmd->miscSettings.sceneCamType;
     gSaveContext.worldMapArea = cmd->miscSettings.area;
@@ -476,9 +472,9 @@ void Scene_CommandMiscSettings(PlayState* play, SceneCmd* cmd) {
     if (((play->sceneId >= SCENE_HYRULE_FIELD) && (play->sceneId <= SCENE_OUTSIDE_GANONS_CASTLE)) ||
         ((play->sceneId >= SCENE_MARKET_ENTRANCE_DAY) && (play->sceneId <= SCENE_TEMPLE_OF_TIME_EXTERIOR_RUINS))) {
         if (gSaveContext.save.cutsceneIndex < 0xFFF0) {
-            gSaveContext.save.info.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
+            gSaveContext.save.info.worldMapAreaData |= gBitFlags[((void)0, gSaveContext.worldMapArea)];
             PRINTF("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.save.info.worldMapAreaData,
-                   gSaveContext.worldMapArea);
+                   ((void)0, gSaveContext.worldMapArea));
         }
     }
 }
