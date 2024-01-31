@@ -232,7 +232,7 @@ void Play_Init(GameState* thisx) {
         SET_NEXT_GAMESTATE(&this->state, TitleSetup_Init, TitleSetupState);
         return;
     }
-
+ 
     SystemArena_Display();
     GameState_Realloc(&this->state, 0x1D4790);
     KaleidoManager_Init(this);
