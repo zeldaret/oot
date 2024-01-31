@@ -316,7 +316,7 @@ s32 View_ApplyPerspective(View* view) {
     height = view->viewport.bottomY - view->viewport.topY;
     aspect = (f32)width / (f32)height;
 
-    if (PERSPECTIVE_EDITOR_ACTIVE) {
+    if (OOT_DEBUG && R_HREG_MODE == HREG_MODE_PERSPECTIVE) {
         if (R_PERSPECTIVE_INIT != HREG_MODE_PERSPECTIVE) {
             R_PERSPECTIVE_INIT = HREG_MODE_PERSPECTIVE;
             R_PERSPECTIVE_FOVY = 60;

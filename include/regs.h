@@ -277,12 +277,6 @@ typedef enum {
 #define R_PLAY_UCODE_DISAS_LOG_LEVEL HREG(92) // log level to use when switching to ucode disas
 
 // HREG_MODE_PERSPECTIVE
-#if OOT_DEBUG
-#define PERSPECTIVE_EDITOR_ACTIVE (R_HREG_MODE == HREG_MODE_PERSPECTIVE)
-#else
-#define PERSPECTIVE_EDITOR_ACTIVE false
-#endif
-
 #define R_PERSPECTIVE_INIT    HREG(94) // set to `HREG_MODE_PERSPECTIVE` when init is complete
 #define R_PERSPECTIVE_FOVY    HREG(83) // value to use for `fovy`
 #define R_PERSPECTIVE_ASPECT  HREG(84) // value to use for `aspect`, divided by 10000
