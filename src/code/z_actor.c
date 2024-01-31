@@ -160,7 +160,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
             actor->shape.feetFloorFlag <<= 1;
             distToFloor = feetPosPtr->y - *floorHeightPtr;
 
-            if (OOT_DEBUG) {}
+            if (1) {}
 
             if ((-1.0f <= distToFloor) && (distToFloor < 500.0f)) {
                 if (distToFloor <= 0.0f) {
@@ -840,16 +840,15 @@ void Actor_Destroy(Actor* actor, PlayState* play) {
     if (actor->destroy != NULL) {
         actor->destroy(actor, play);
         actor->destroy = NULL;
-        return;
-    }
-
+    } else {
 #if OOT_DEBUG
-    overlayEntry = actor->overlayEntry;
-    name = overlayEntry->name != NULL ? overlayEntry->name : "";
+        overlayEntry = actor->overlayEntry;
+        name = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-    // "No Actor class destruct [%s]"
-    PRINTF("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
+        // "No Actor class destruct [%s]"
+        PRINTF("Ａｃｔｏｒクラス デストラクトがありません [%s]\n" VT_RST, name);
 #endif
+    }
 }
 
 /**
