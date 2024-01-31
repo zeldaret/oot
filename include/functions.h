@@ -1340,9 +1340,9 @@ void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, 
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
 #endif
 
-Gfx* Graph_GfxPlusOne(Gfx* gfx);
-Gfx* Graph_BranchDlist(Gfx* gfx, Gfx* dst);
-void* Graph_DlistAlloc(Gfx** gfxP, u32 size);
+Gfx* Gfx_Open(Gfx* gfx);
+Gfx* Gfx_Close(Gfx* gfx, Gfx* dst);
+void* Gfx_Alloc(Gfx** gfxP, u32 size);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
 void ListAlloc_Free(ListAlloc* this, void* data);

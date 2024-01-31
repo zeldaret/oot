@@ -400,7 +400,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/game.o"
     include "$(BUILD_DIR)/src/code/gamealloc.o"
     include "$(BUILD_DIR)/src/code/graph.o"
-    include "$(BUILD_DIR)/src/code/graphalloc.o"
+    include "$(BUILD_DIR)/src/code/gfxalloc.o"
     include "$(BUILD_DIR)/src/code/listalloc.o"
     include "$(BUILD_DIR)/src/code/main.o"
     include "$(BUILD_DIR)/src/code/padmgr.o"

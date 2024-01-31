@@ -156,7 +156,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../game.c", 746);
 
-    newDList = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    newDList = Gfx_Open(polyOpaP = POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, newDList);
 
     if (R_ENABLE_FB_FILTER == 1) {
@@ -193,7 +193,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     gSPEndDisplayList(newDList++);
-    Graph_BranchDlist(polyOpaP, newDList);
+    Gfx_Close(polyOpaP, newDList);
     POLY_OPA_DISP = newDList;
 
     if (1) {}
@@ -230,11 +230,11 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../game.c", 846);
 
-    newDlist = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    newDlist = Gfx_Open(polyOpaP = POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, newDlist);
 
     gSPEndDisplayList(newDlist++);
-    Graph_BranchDlist(polyOpaP, newDlist);
+    Gfx_Close(polyOpaP, newDlist);
     POLY_OPA_DISP = newDlist;
 
     if (1) {}
