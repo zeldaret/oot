@@ -10,7 +10,7 @@ pipeline {
             }
             steps {
                 echo 'Checking formatting on all files...'
-                sh 'tools/check_format.sh full'
+                sh 'python3 tools/check_format.py'
             }
         }
         stage('Check formatting (modified)') {
@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 echo 'Checking formatting on modified files...'
-                sh 'tools/check_format.sh modified'
+                sh 'python3 tools/check_format.py --verbose --compare-to origin/main'
             }
         }
         stage('Setup') {
