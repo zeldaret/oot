@@ -390,7 +390,7 @@ beginseg
     include "$(BUILD_DIR)/src/code/mempak.o"
     include "$(BUILD_DIR)/src/code/z_kaleido_manager.o"
     include "$(BUILD_DIR)/src/code/z_kaleido_scope_call.o"
-    include "$(BUILD_DIR)/src/code/z_play.o"
+    include "$(BUILD_DIR)/src/code/z_play_.o"
     include "$(BUILD_DIR)/src/code/PreRender.o"
     include "$(BUILD_DIR)/src/code/TwoHeadGfxArena.o"
     include "$(BUILD_DIR)/src/code/TwoHeadArena.o"
