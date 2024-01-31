@@ -192,7 +192,7 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
 
         sceneCmd++;
     }
-    
+
     return 0;
 }
 
