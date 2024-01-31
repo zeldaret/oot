@@ -199,6 +199,7 @@
 #define R_GAME_OVER_RUMBLE_STRENGTH              VREG(90)
 #define R_GAME_OVER_RUMBLE_DURATION              VREG(91)
 #define R_GAME_OVER_RUMBLE_DECREASE_RATE         VREG(92)
+#define R_ENABLE_ACTOR_DEBUG_PRINTF              HREG(20)
 #define R_DISABLE_INPUT_DISPLAY                  HREG(47)
 #define R_ENABLE_PLAY_LOGS                       HREG(63)
 #define R_EN_GOROIWA_SPEED                       mREG(12)
