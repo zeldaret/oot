@@ -35,8 +35,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                // Do not run CC_CHECK to save time. @ makes Make not print the command and # starts a shell comment.
-                sh '''make -j ORIG_COMPILER=1 CC_CHECK='@#' '''
+                sh 'make -j ORIG_COMPILER=1'
             }
         }
         stage('Build') {
@@ -46,7 +45,8 @@ pipeline {
                 }
             }
             steps {
-                sh 'make -j'
+                // Do not run CC_CHECK to save time. @ makes Make not print the command and # starts a shell comment.
+                sh '''make -j CC_CHECK='@#' '''
             }
         }
         stage('Report Progress') {
