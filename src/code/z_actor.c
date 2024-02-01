@@ -15,8 +15,7 @@ static s32 sCurCeilingBgId;
 #define ACTOR_DEBUG_PRINTF           \
     if (R_ENABLE_ACTOR_DEBUG_PRINTF) \
     PRINTF
-#elif defined(__sgi)
-// See comment about PRINTF in macros.h
+#elif IDO_PRINTF_WORKAROUND
 #define ACTOR_DEBUG_PRINTF(args) (void)0
 #else
 #define ACTOR_DEBUG_PRINTF(format, ...) (void)0
