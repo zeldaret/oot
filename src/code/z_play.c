@@ -160,11 +160,7 @@ void Play_SetupTransition(PlayState* this, s32 transitionType) {
                 break;
 
             default:
-#if OOT_DEBUG
-                Fault_AddHungupAndCrash("../z_play.c", 2290);
-#else
-                LogUtils_HungupThread("../z_play.c", 2290);
-#endif
+                HUNGUP_AND_CRASH("../z_play.c", 2290);
                 break;
         }
     }
