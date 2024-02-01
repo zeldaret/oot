@@ -85,15 +85,16 @@
 #define SET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
 #define CLEAR_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
 
-#define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                     \
-                        ? ITEM_NONE                                                 \
-                        : (gSaveContext.save.info.equips.buttonItems[0] == ITEM_GIANTS_KNIFE) \
-                            ? ITEM_SWORD_BIGGORON                                   \
-                            : gSaveContext.save.info.equips.buttonItems[0])
+#define B_BTN_ITEM                                                                 \
+    ((gSaveContext.buttonStatus[INTERACT_BCA_BTN_B] == ITEM_NONE) ? ITEM_NONE              \
+     : (gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B] == ITEM_GIANTS_KNIFE) \
+         ? ITEM_SWORD_BIGGORON                                                     \
+         : gSaveContext.save.info.equips.buttonItems[INTERACT_BC_BTN_B])
 
-#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[(button) + 1] != BTN_DISABLED) \
-                                ? gSaveContext.save.info.equips.buttonItems[(button) + 1]       \
-                                : ITEM_NONE)
+#define C_BTN_ITEM(button)                                                 \
+    ((gSaveContext.buttonStatus[INTERACT_C_BTN_TO_BCA_BTN(button)] != BTN_DISABLED)    \
+         ? gSaveContext.save.info.equips.buttonItems[INTERACT_C_BTN_TO_BC_BTN(button)] \
+         : ITEM_NONE)
 
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
 #define CHECK_BTN_ANY(state, combo) (((state) & (combo)) != 0)
