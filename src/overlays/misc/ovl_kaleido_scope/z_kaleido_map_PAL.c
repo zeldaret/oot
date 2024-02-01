@@ -495,11 +495,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-#if OOT_DEBUG
-    if (HREG(15) == 0) {
-#else
-    if (1) {
-#endif
+    if (!OOT_DEBUG || (HREG(15) == 0)) {
         gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_POINT);
 
         gDPLoadTLUT_pal256(POLY_OPA_DISP++, gWorldMapImageTLUT);
