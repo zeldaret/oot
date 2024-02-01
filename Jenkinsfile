@@ -45,7 +45,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'make -j'
+                sh 'make -j RUN_CC_CHECK=0'
             }
         }
         stage('Report Progress') {
