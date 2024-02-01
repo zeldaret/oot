@@ -50,14 +50,12 @@ endif
 
 # Version-specific settings
 ifeq ($(VERSION),gc-eu-mq)
-  CFLAGS += -DNON_MATCHING -DNDEBUG
-  CPPFLAGS += -DNON_MATCHING -DNDEBUG
-  OPTFLAGS := -O2 -g3
+  DEBUG := 0
+  CFLAGS += -DNON_MATCHING
+  CPPFLAGS += -DNON_MATCHING
   COMPARE := 0
 else ifeq ($(VERSION),gc-eu-mq-dbg)
-  CFLAGS += -DOOT_DEBUG
-  CPPFLAGS += -DOOT_DEBUG
-  OPTFLAGS := -O2
+  DEBUG := 1
 else
 $(error Unsupported version $(VERSION))
 endif
@@ -69,6 +67,16 @@ VENV := .venv
 
 MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
+
+ifeq ($(DEBUG),1)
+  CFLAGS += -DOOT_DEBUG=1
+  CPPFLAGS += -DOOT_DEBUG=1
+  OPTFLAGS := -O2
+else
+  CFLAGS += -DNDEBUG -DOOT_DEBUG=0
+  CPPFLAGS += -DNDEBUG -DOOT_DEBUG=0
+  OPTFLAGS := -O2 -g3
+endif
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
@@ -156,7 +164,7 @@ endif
 ifeq ($(COMPILER),ido)
   # Have CC_CHECK pretend to be a MIPS compiler
   MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
-  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
+  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING -DOOT_DEBUG=1 $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
   ifeq ($(shell getconf LONG_BIT), 32)
     # Work around memory allocation bug in QEMU
     export QEMU_GUEST_BASE := 1
@@ -230,14 +238,41 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),$(BUILD_DIR)/$
 $(shell mkdir -p $(BUILD_DIR)/baserom $(BUILD_DIR)/assets/text $(foreach dir,$(SRC_DIRS) $(UNDECOMPILED_DATA_DIRS) $(ASSET_BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
 ifeq ($(COMPILER),ido)
+$(BUILD_DIR)/src/boot/stackcheck.o: OPTFLAGS := -O2
+
+$(BUILD_DIR)/src/code/__osMalloc.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FC620.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FCE80.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/code_800FD970.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/load.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/loadfragment2.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/logutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/padsetup.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/padutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/printutils.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/relocation.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/sleep.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/system_malloc.o: OPTFLAGS := -O2
+
 $(BUILD_DIR)/src/code/fault.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/fault_drawer.o: CFLAGS += -trapuv
 $(BUILD_DIR)/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
+
+ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -g
 $(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -g
+else
+$(BUILD_DIR)/src/code/fmodf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMemset.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/__osMemmove.o: OPTFLAGS := -O2
+endif
 
 $(BUILD_DIR)/src/audio/%.o: OPTFLAGS := -O2
 
@@ -248,8 +283,14 @@ $(BUILD_DIR)/src/audio/general.o: CFLAGS += -signed
 $(BUILD_DIR)/src/audio/sfx.o: CFLAGS += -use_readwrite_const
 $(BUILD_DIR)/src/audio/sequence.o: CFLAGS += -use_readwrite_const
 
+ifeq ($(DEBUG),1)
 $(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 $(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
+else
+$(BUILD_DIR)/src/libultra/libc/absf.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/libultra/libc/sqrt.o: OPTFLAGS := -O2
+endif
+
 $(BUILD_DIR)/src/libultra/libc/ll.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: OPTFLAGS := -O1

@@ -29,19 +29,23 @@ void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
 void* Yaz0_FirstDMA(void);
 void* Yaz0_NextDMA(u8* curSrcPos);
-void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst);
+void Yaz0_DecompressImpl(u8* src, u8* dst);
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
 u32 func_80001F48(void);
 u32 func_80001F8C(void);
 u32 Locale_IsRegionNative(void);
+#if OOT_DEBUG
 void isPrintfInit(void);
+#endif
 void rmonPrintf(const char* fmt, ...);
+#if OOT_DEBUG
 void* is_proutSyncPrintf(void* arg, const char* str, size_t count);
 NORETURN void func_80002384(const char* exp, const char* file, u32 line);
+#endif
 OSPiHandle* osDriveRomInit(void);
-void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
+void Mio0_Decompress(u8* src, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackBottom, void* stackTop, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
@@ -615,8 +619,10 @@ u16 WaterBox_GetBgCamSetting(CollisionContext* colCtx, WaterBox* waterBox);
 u32 WaterBox_GetLightIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);
+#if OOT_DEBUG
 void BgCheck_DrawDynaCollision(PlayState*, CollisionContext*);
 void BgCheck_DrawStaticCollision(PlayState*, CollisionContext*);
+#endif
 void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId);
 s32 DynaPolyActor_TransformCarriedActor(CollisionContext* colCtx, s32 bgId, Actor* carriedActor);
 void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 transformFlags);
@@ -661,8 +667,10 @@ s32 func_8005B198(void);
 s16 Camera_SetFinishedFlag(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
 void DamageTable_Clear(DamageTable* table);
+#if OOT_DEBUG
 void Collider_DrawRedPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
 void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
+#endif
 s32 Collider_InitJntSph(PlayState* play, ColliderJntSph* jntSph);
 s32 Collider_FreeJntSph(PlayState* play, ColliderJntSph* jntSph);
 s32 Collider_DestroyJntSph(PlayState* play, ColliderJntSph* jntSph);
@@ -710,8 +718,10 @@ void CollisionCheck_DestroyContext(PlayState* play, CollisionCheckContext* colCh
 void CollisionCheck_ClearContext(PlayState* play, CollisionCheckContext* colChkCtx);
 void CollisionCheck_EnableSAC(PlayState* play, CollisionCheckContext* colChkCtx);
 void CollisionCheck_DisableSAC(PlayState* play, CollisionCheckContext* colChkCtx);
+#if OOT_DEBUG
 void Collider_Draw(PlayState* play, Collider* col);
 void CollisionCheck_DrawCollision(PlayState* play, CollisionCheckContext* colChkCtx);
+#endif
 s32 CollisionCheck_SetAT(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider);
 s32 CollisionCheck_SetAT_SAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
 s32 CollisionCheck_SetAC(PlayState* play, CollisionCheckContext* colChkCtx, Collider* collider);
@@ -1295,9 +1305,7 @@ void func_800C213C(PreRender* this, Gfx** gfxP);
 void PreRender_RestoreFramebuffer(PreRender* this, Gfx** gfxP);
 void PreRender_CopyImageRegion(PreRender* this, Gfx** gfxP);
 void PreRender_ApplyFilters(PreRender* this);
-void GameState_FaultPrint(void);
 void GameState_SetFBFilter(Gfx** gfxP);
-void GameState_DrawInputDisplay(u16 input, Gfx** gfxP);
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx);
 void GameState_SetFrameBuffer(GraphicsContext* gfxCtx);
 void GameState_ReqPadData(GameState* gameState);
@@ -1308,16 +1316,14 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 void GameState_Destroy(GameState* gameState);
 GameStateFunc GameState_GetInit(GameState* gameState);
 u32 GameState_IsRunning(GameState* gameState);
+#if OOT_DEBUG
 void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line);
-void func_800C55D0(GameAlloc* this);
 void* GameAlloc_MallocDebug(GameAlloc* this, u32 size, const char* file, s32 line);
+#endif
 void* GameAlloc_Malloc(GameAlloc* this, u32 size);
 void GameAlloc_Free(GameAlloc* this, void* data);
 void GameAlloc_Cleanup(GameAlloc* this);
 void GameAlloc_Init(GameAlloc* this);
-void Graph_FaultClient(void);
-void Graph_DisassembleUCode(Gfx* workBuf);
-void Graph_UCodeFaultClient(Gfx* workBuf);
 void Graph_InitTHGA(GraphicsContext* gfxCtx);
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState);
 void Graph_Init(GraphicsContext* gfxCtx);
@@ -1327,16 +1333,17 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
 void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
+#if OOT_DEBUG
 void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
 void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
-Gfx* Graph_GfxPlusOne(Gfx* gfx);
-Gfx* Graph_BranchDlist(Gfx* gfx, Gfx* dst);
-void* Graph_DlistAlloc(Gfx** gfxP, u32 size);
+#endif
+Gfx* Gfx_Open(Gfx* gfx);
+Gfx* Gfx_Close(Gfx* gfx, Gfx* dst);
+void* Gfx_Alloc(Gfx** gfxP, u32 size);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
 void ListAlloc_Free(ListAlloc* this, void* data);
 void ListAlloc_FreeAll(ListAlloc* this);
-void Main_LogSystemHeap(void);
 void Main(void* arg);
 void SysCfb_Init(s32 n64dd);
 void* SysCfb_GetFbPtr(s32 idx);
@@ -1430,7 +1437,7 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
 void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
 void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
 Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line);
 #else
@@ -1527,20 +1534,22 @@ void AudioLoad_LoadPermanentSamples(void);
 void AudioLoad_ScriptLoad(s32 tableType, s32 id, s8* status);
 void AudioLoad_ProcessScriptLoads(void);
 void AudioLoad_InitScriptLoads(void);
-AudioTask* func_800E4FE0(void);
-void Audio_QueueCmdF32(u32 opArgs, f32 data);
-void Audio_QueueCmdS32(u32 opArgs, s32 data);
-void Audio_QueueCmdS8(u32 opArgs, s8 data);
-void Audio_QueueCmdU16(u32 opArgs, u16 data);
-s32 Audio_ScheduleProcessCmds(void);
+
+AudioTask* AudioThread_Update(void);
+void AudioThread_QueueCmdF32(u32 opArgs, f32 data);
+void AudioThread_QueueCmdS32(u32 opArgs, s32 data);
+void AudioThread_QueueCmdS8(u32 opArgs, s8 data);
+void AudioThread_QueueCmdU16(u32 opArgs, u16 data);
+s32 AudioThread_ScheduleProcessCmds(void);
 u32 func_800E5E20(u32* out);
-u8* func_800E5E84(s32 arg0, u32* arg1);
+u8* AudioThread_GetFontsForSequence(s32 seqId, u32* outNumFonts);
 s32 func_800E5EDC(void);
-s32 func_800E5F88(s32 resetPreloadID);
-void Audio_PreNMIInternal(void);
+s32 AudioThread_ResetAudioHeap(s32 specId);
+void AudioThread_PreNMIInternal(void);
 s32 func_800E6680(void);
-u32 Audio_NextRandom(void);
-void Audio_InitMesgQueues(void);
+u32 AudioThread_NextRandom(void);
+void AudioThread_InitMesgQueues(void);
+
 void Audio_InvalDCache(void* buf, s32 size);
 void Audio_WritebackDCache(void* buf, s32 size);
 s32 osAiSetNextBuffer(void*, u32);
@@ -1607,8 +1616,8 @@ s32 AudioOcarina_MemoryGameNextNote(void);
 void AudioOcarina_PlayLongScarecrowSong(void);
 void AudioDebug_Draw(GfxPrint* printer);
 void AudioDebug_ScrPrt(const char* str, u16 num);
-void func_800F3054(void);
-void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIdx);
+void Audio_Update(void);
+void Audio_SetSfxProperties(u8 bankId, u8 entryIdx, u8 channelIndex);
 void Audio_PlayCutsceneEffectsSequence(u8 csEffectType);
 void func_800F4010(Vec3f* pos, u16 sfxId, f32);
 void Audio_PlaySfxRandom(Vec3f* pos, u16 baseSfxId, u8 randLim);
@@ -1671,8 +1680,8 @@ void Audio_InitSound(void);
 void func_800F7170(void);
 void func_800F71BC(s32 arg0);
 void Audio_SetSfxBanksMute(u16 muteMask);
-void Audio_QueueSeqCmdMute(u8 channelIdx);
-void Audio_ClearBGMMute(u8 channelIdx);
+void Audio_QueueSeqCmdMute(u8 channelIndex);
+void Audio_ClearBGMMute(u8 channelIndex);
 void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd);
 void Audio_ProcessSfxRequest(void);
 void Audio_ChooseActiveSfx(u8 bankId);
@@ -1713,8 +1722,8 @@ void RcpUtils_Reset(void);
 void* Overlay_AllocateAndLoad(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd);
 void MtxConv_F2L(Mtx* m1, MtxF* m2);
 void MtxConv_L2F(MtxF* m1, Mtx* m2);
-void Overlay_Relocate(void* allocatedRamAddress, OverlayRelocationSection* ovlRelocs, void* vramStart);
-s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr);
+void Overlay_Relocate(void* allocatedRamAddr, OverlayRelocationSection* ovlRelocs, void* vramStart);
+size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr);
 // ? func_800FC800(?);
 // ? func_800FC83C(?);
 // ? func_800FCAB4(?);

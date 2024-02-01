@@ -100,10 +100,9 @@
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 #define PRINTF osSyncPrintf
-#else
-#ifdef __sgi /* IDO compiler */
+#elif defined(__sgi) /* IDO compiler */
 // IDO doesn't support variadic macros, but it merely throws a warning for the
 // number of arguments not matching the definition (warning 609) instead of
 // throwing an error. We suppress this warning and rely on GCC to catch macro
@@ -112,9 +111,8 @@
 #else
 #define PRINTF(format, ...) (void)0
 #endif
-#endif
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
@@ -167,7 +165,7 @@ extern struct GraphicsContext* __gfxCtx;
 #define POLY_XLU_DISP   __gfxCtx->polyXlu.p
 #define OVERLAY_DISP    __gfxCtx->overlay.p
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
 // __gfxCtx shouldn't be used directly.
 // Use the DISP macros defined above when writing to display buffers.
@@ -199,6 +197,8 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_FreeDebug(size, file, line)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) LogUtils_CheckNullPointer(exp, ptr, file, line)
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) LogUtils_CheckValidPointer(exp, ptr, file, line)
+#define HUNGUP_AND_CRASH(file, line) Fault_AddHungupAndCrash(file, line)
+#define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_MallocDebug(alloc, size, file, line)
 
 #else
 
@@ -227,6 +227,8 @@ extern struct GraphicsContext* __gfxCtx;
 #define ZELDA_ARENA_FREE(size, file, line) ZeldaArena_Free(size)
 #define LOG_UTILS_CHECK_NULL_POINTER(exp, ptr, file, line) (void)0
 #define LOG_UTILS_CHECK_VALID_POINTER(exp, ptr, file, line) (void)0
+#define HUNGUP_AND_CRASH(file, line) LogUtils_HungupThread(file, line)
+#define GAME_ALLOC_MALLOC(alloc, size, file, line) GameAlloc_Malloc(alloc, size)
 
 #endif /* OOT_DEBUG */
 

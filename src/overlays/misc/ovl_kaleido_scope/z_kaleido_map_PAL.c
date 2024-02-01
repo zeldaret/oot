@@ -495,7 +495,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (HREG(15) == 0) {
 #else
     if (1) {
@@ -544,7 +544,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         POLY_OPA_DISP = gfx;
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (HREG(15) == 2) {
         HREG(15) = 1;
         HREG(14) = 6100;

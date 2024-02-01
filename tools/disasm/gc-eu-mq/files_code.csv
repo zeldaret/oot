@@ -91,6 +91,7 @@ DB40,8001EA40,src/code/z_actor.s
 8F400,800A0300,src/code/game.s
 8FB80,800A0A80,src/code/gamealloc.s
 8FCC0,800A0BC0,src/code/graph.s
+90660,800A1560,src/code/gfxalloc.s
 906C0,800A15C0,src/code/listalloc.s
 90810,800A1710,src/code/main.s
 90B70,800A1A70,src/code/padmgr.s
@@ -457,7 +458,7 @@ offset,vram,.bss
 1195F0,8012A4F0,src/libultra/io/motor.s
 1196F0,8012A5F0,src/libultra/io/siacs.s
 119710,8012A610,src/libultra/io/controller.s
-1197A0,8012A6A0,src/libultra/io/pfsreadwritefile.s
-1198A0,8012A7A0,src/libultra/io/pfsgetstatus.s
+1197A0,8012A6A0,src/libultra/io/contpfs.s
+1198A0,8012A7A0,src/libultra/io/pfsisplug.s
 1198E0,8012A7E0,src/code/z_message_PAL.s
 119900,8012A800,.end

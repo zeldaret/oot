@@ -366,7 +366,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 496);
 
     gfxRef = POLY_OPA_DISP;
-    gfx = Graph_GfxPlusOne(gfxRef);
+    gfx = Gfx_Open(gfxRef);
     gSPDisplayList(WORK_DISP++, gfx);
 
     PreRender_SetValues(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, fbuf, NULL);
@@ -374,7 +374,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     PreRender_DrawCoverage(&sPlayerPreRender, &gfx);
 
     gSPEndDisplayList(gfx++);
-    Graph_BranchDlist(gfxRef, gfx);
+    Gfx_Close(gfxRef, gfx);
     POLY_OPA_DISP = gfx;
 
     R_GRAPH_TASKSET00_FLAGS |= 1;
@@ -518,7 +518,7 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
 
 void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
     if ((pauseCtx->debugState == 0) && CHECK_BTN_ALL(input->press.button, BTN_L)) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         pauseCtx->debugState = 1;
 #endif
         return;
@@ -1279,7 +1279,7 @@ void KaleidoScope_DrawInfoPanel(PlayState* play) {
                                                         ITEM_NAME_TEX_HEIGHT, 0);
         }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         if (pauseCtx->pageIndex == PAUSE_MAP) {
             if (YREG(7) != 0) {
                 PRINTF(VT_FGCOL(YELLOW));

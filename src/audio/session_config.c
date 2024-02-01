@@ -2,12 +2,12 @@
 
 u8 D_8016F0E0[0xA0]; // unused
 AudioContext gAudioCtx;
-void (*D_801755D0)(void);
+AudioCustomUpdateFunction gAudioCustomUpdateFunction;
 s32 D_801755D8[3]; // unused
 
-const s16 D_8014A6C0[] = {
-    0x1C00, // unused
-    0x0030, // gTatumsPerBeat
+const TempoData gTempoData = {
+    0x1C00,            // unk_00
+    SEQTICKS_PER_BEAT, // seqTicksPerBeat
 };
 
 // TODO: Extract from table?

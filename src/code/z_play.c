@@ -1085,7 +1085,7 @@ void Play_Draw(PlayState* this) {
             Gfx* gfxP;
             Gfx* sp1CC = POLY_OPA_DISP;
 
-            gfxP = Graph_GfxPlusOne(sp1CC);
+            gfxP = Gfx_Open(sp1CC);
             gSPDisplayList(OVERLAY_DISP++, gfxP);
 
             if ((this->transitionMode == TRANS_MODE_INSTANCE_RUNNING) ||
@@ -1109,7 +1109,7 @@ void Play_Draw(PlayState* this) {
             }
 
             gSPEndDisplayList(gfxP++);
-            Graph_BranchDlist(sp1CC, gfxP);
+            Gfx_Close(sp1CC, gfxP);
             POLY_OPA_DISP = gfxP;
         }
 

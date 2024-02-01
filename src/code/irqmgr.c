@@ -253,31 +253,36 @@ void IrqMgr_ThreadEntry(void* arg) {
             case IRQ_RETRACE_MSG:
                 IrqMgr_HandleRetrace(irqMgr);
                 break;
+
             case IRQ_PRENMI_MSG:
                 PRINTF("PRE_NMI_MSG\n");
                 // "Scheduler: Receives PRE_NMI message"
                 PRINTF("スケジューラ：PRE_NMIメッセージを受信\n");
                 IrqMgr_HandlePreNMI(irqMgr);
                 break;
+
             case IRQ_PRENMI450_MSG:
                 PRINTF("PRENMI450_MSG\n");
                 // "Scheduler: Receives PRENMI450 message"
                 PRINTF("スケジューラ：PRENMI450メッセージを受信\n");
                 IrqMgr_HandlePreNMI450(irqMgr);
                 break;
+
             case IRQ_PRENMI480_MSG:
                 PRINTF("PRENMI480_MSG\n");
                 // "Scheduler: Receives PRENMI480 message"
                 PRINTF("スケジューラ：PRENMI480メッセージを受信\n");
                 IrqMgr_HandlePreNMI480(irqMgr);
                 break;
+
             case IRQ_PRENMI500_MSG:
                 PRINTF("PRENMI500_MSG\n");
                 // "Scheduler: Receives PRENMI500 message"
                 PRINTF("スケジューラ：PRENMI500メッセージを受信\n");
-                exit = true;
                 IrqMgr_HandlePreNMI500(irqMgr);
+                exit = true;
                 break;
+
             default:
                 // "Unexpected message received"
                 PRINTF("irqmgr.c:予期しないメッセージを受け取りました(%08x)\n", msg);
