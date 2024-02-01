@@ -1558,6 +1558,7 @@ void Player_PostLimbDrawGameplay(PlayState* play, s32 limbIndex, Gfx** dList, Ve
                 { -4500.0f, 3000.0f, -600.0f },
                 { 1500.0f, 3000.0f, -600.0f },
             };
+
             Matrix_Get(&this->shieldMf);
             Player_UpdateShieldCollider(play, this, &this->shieldQuad, sRightHandLimbModelShieldQuadVertices);
         }
