@@ -283,7 +283,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
 
     GfxPrint_Init(&printer);
     opaStart = POLY_OPA_DISP;
-    gfx = Graph_GfxPlusOne(POLY_OPA_DISP);
+    gfx = Gfx_Open(POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, gfx);
     GfxPrint_Open(&printer, gfx);
 
@@ -299,7 +299,7 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
 
     gfx = GfxPrint_Close(&printer);
     gSPEndDisplayList(gfx++);
-    Graph_BranchDlist(opaStart, gfx);
+    Gfx_Close(opaStart, gfx);
     POLY_OPA_DISP = gfx;
 
     if (1) {}

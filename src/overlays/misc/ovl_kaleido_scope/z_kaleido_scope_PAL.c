@@ -366,7 +366,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_scope_PAL.c", 496);
 
     gfxRef = POLY_OPA_DISP;
-    gfx = Graph_GfxPlusOne(gfxRef);
+    gfx = Gfx_Open(gfxRef);
     gSPDisplayList(WORK_DISP++, gfx);
 
     PreRender_SetValues(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, fbuf, NULL);
@@ -374,7 +374,7 @@ void KaleidoScope_SetupPlayerPreRender(PlayState* play) {
     PreRender_DrawCoverage(&sPlayerPreRender, &gfx);
 
     gSPEndDisplayList(gfx++);
-    Graph_BranchDlist(gfxRef, gfx);
+    Gfx_Close(gfxRef, gfx);
     POLY_OPA_DISP = gfx;
 
     R_GRAPH_TASKSET00_FLAGS |= 1;
