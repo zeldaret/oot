@@ -437,8 +437,8 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
 
         cursorSlot = pauseCtx->cursorPoint[PAUSE_EQUIP];
 
-        pauseCtx->cursorItem[PAUSE_EQUIP] = cursorItem;
         pauseCtx->cursorSlot[PAUSE_EQUIP] = cursorSlot;
+        pauseCtx->cursorItem[PAUSE_EQUIP] = cursorItem;
 
         PRINTF("kscope->select_name[Display_Equipment] = %d\n", pauseCtx->cursorItem[PAUSE_EQUIP]);
 
@@ -551,8 +551,11 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[j], 16, 0);
 
         if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
+            // if (1) {}
             point = CUR_UPG_VALUE(sChildUpgrades[i]);
+#if OOT_DEBUG
             if (1) {}
+#endif
             if ((point != 0) && (CUR_UPG_VALUE(sChildUpgrades[i]) != 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx,
                                                    gItemIcons[sChildUpgradeItemBases[i] + point - 1], ITEM_ICON_WIDTH,
@@ -570,8 +573,9 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             }
         }
 
-        for (k = 0, bit = rowStart, point = 4; k < 3; k++, point += 4, temp++, bit++) {
+    dummy:;
 
+        for (k = 0, bit = rowStart, point = 4; k < 3; k++, point += 4, temp++, bit++) {
             if (((u32)i == 0) && (k == 2) && (gSaveContext.save.info.playerData.bgsFlag != 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIconSwordBiggoronTex, ITEM_ICON_WIDTH,
                                                    ITEM_ICON_HEIGHT, point);
@@ -606,7 +610,9 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
     Gfx_SetupDL_42Opa(play->state.gfxCtx);
     KaleidoScope_DrawEquipmentImage(play, pauseCtx->playerSegment, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT);
 
+#if OOT_DEBUG
     if (gUpgradeMasks[0]) {}
+#endif
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_equipment.c", 609);
 }

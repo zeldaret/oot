@@ -263,6 +263,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
         }
 
     } else {
+        if (1) {}
         if (pauseCtx->mainState == PAUSE_MAIN_STATE_9) {
             pauseCtx->cursorColorSet = 8;
 
@@ -464,10 +465,11 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
     }
 
     if (pauseCtx->state == PAUSE_STATE_MAIN) {
+        sp21A += 4;
+
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-        sp21A += 4;
         if ((pauseCtx->cursorSpecialPos == 0) && (sp216 >= 6) && (sp216 < 0x12)) {
             if ((pauseCtx->mainState < PAUSE_MAIN_STATE_3) || (pauseCtx->mainState == PAUSE_MAIN_STATE_5) ||
                 (pauseCtx->mainState == PAUSE_MAIN_STATE_8)) {
@@ -484,7 +486,7 @@ void KaleidoScope_DrawQuestStatus(PlayState* play, GraphicsContext* gfxCtx) {
             pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
 
             if (pauseCtx->ocarinaStaff->pos != 0) {
-                if (D_8082A11C + 1 == pauseCtx->ocarinaStaff->pos) {
+                if (D_8082A11C == (pauseCtx->ocarinaStaff->pos - 1)) {
                     D_8082A11C++;
                     D_8082A124[pauseCtx->ocarinaStaff->pos - 1] = pauseCtx->ocarinaStaff->buttonIndex;
                 }
