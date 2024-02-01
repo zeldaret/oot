@@ -14,7 +14,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
-from typing import Iterator, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple
 
 
 @dataclass
@@ -68,30 +68,25 @@ def parse_inst(func_name: str, line: str) -> Inst:
     return Inst(func_name, mnemonic, regs, imm, None, None)
 
 
-def run_objdump(path: Path) -> List[Inst]:
+def run_objdump(path: Path, args: List[str]) -> str:
     if not path.exists():
         raise Exception(f"file {path} does not exist")
 
-    command = [
-        "mips-linux-gnu-objdump",
-        "-drz",
-        "-m",
-        "mips:4300",
-        "-j",
-        ".text",
-        str(path),
-    ]
+    command = ["mips-linux-gnu-objdump"] + args + [str(path)]
     try:
-        lines = subprocess.run(
+        return subprocess.run(
             command,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
             encoding="utf-8",
-        ).stdout.splitlines()
+        ).stdout
     except subprocess.CalledProcessError as e:
-        return []
+        return ""
 
+
+def disassemble(path: Path) -> List[Inst]:
+    lines = run_objdump(path, ["-drz", "-m", "mips:4300", "-j", ".text"]).splitlines()
     result = []
 
     func_name = None
@@ -156,14 +151,47 @@ def has_diff(inst1: Inst, inst2: Inst) -> bool:
     return inst1 != inst2
 
 
+def get_section_sizes(path: Path) -> Dict[str, int]:
+    lines = run_objdump(path, ["-h"]).splitlines()
+    if len(lines) < 5:
+        return {}
+
+    result = {}
+    for i in range(5, len(lines), 2):
+        parts = lines[i].split()
+        name = parts[1]
+        size = int(parts[2], 16)
+        # Pad to 0x10-byte alignment
+        result[parts[1]] = (size + 0xF) & ~0xF
+    return result
+
+
+def get_section_hex_dump(path: Path, section: str) -> List[str]:
+    lines = run_objdump(path, ["-s", "-j", section]).splitlines()
+    return lines[4:]
+
+
+def parse_hex_dump(lines: List[str]) -> bytes:
+    result = bytearray()
+    for line in lines:
+        data = line[6:41].replace(" ", "")
+        result.extend(bytes.fromhex(data))
+
+    # pad to 0x10-byte alignment
+    while len(result) % 0x10:
+        result.append(0)
+
+    return result
+
+
 def find_functions_with_diffs(version: str, c_path: str):
     object_path = Path(c_path).with_suffix(".o")
 
     expected_dir = Path("expected/build") / version
     build_dir = Path("build") / version
 
-    insts1 = run_objdump(expected_dir / object_path)
-    insts2 = run_objdump(build_dir / object_path)
+    insts1 = disassemble(expected_dir / object_path)
+    insts2 = disassemble(build_dir / object_path)
 
     functions_with_diffs = collections.OrderedDict()
     for inst1, inst2 in pair_instructions(insts1, insts2):
@@ -184,18 +212,61 @@ def find_functions_with_diffs(version: str, c_path: str):
         print(f"  {func_name}")
 
 
+def find_data_diffs(version: str, c_path: str):
+    object_path = Path(c_path).with_suffix(".o")
+
+    expected_dir = Path("expected/build") / version
+    build_dir = Path("build") / version
+
+    sizes1 = get_section_sizes(expected_dir / object_path)
+    sizes2 = get_section_sizes(build_dir / object_path)
+    rodata_dump1 = get_section_hex_dump(expected_dir / object_path, ".rodata")
+    rodata_dump2 = get_section_hex_dump(build_dir / object_path, ".rodata")
+    rodata1 = parse_hex_dump(rodata_dump1)
+    rodata2 = parse_hex_dump(rodata_dump2)
+
+    rodata_matches = rodata1 == rodata2
+    data_size_matches = sizes1.get(".data", 0) == sizes2.get(".data", 0)
+    bss_size_matches = sizes1.get(".bss", 0) == sizes2.get(".bss", 0)
+
+    if rodata_matches:
+        print(f"{c_path} .rodata OK")
+    else:
+        print(
+            f"{c_path} .rodata differs: expected size 0x{sizes1.get('.rodata', 0):04x} vs build size 0x{sizes2.get('.rodata', 0):04x}"
+        )
+        print(f"  expected:")
+        print("\n".join(rodata_dump1))
+        print(f"  build:")
+        print("\n".join(rodata_dump2))
+
+    if data_size_matches:
+        print(f"{c_path} .data size OK")
+    else:
+        print(
+            f"{c_path} .data size differs: expected size 0x{sizes1.get('.data', 0):04x} vs build size 0x{sizes2.get('.data', 0):04x}"
+        )
+
+    if bss_size_matches:
+        print(f"{c_path} .bss size OK")
+    else:
+        print(
+            f"{c_path} .bss size differs: expected size 0x{sizes1.get('.bss', 0):04x} vs build size 0x{sizes2.get('.bss', 0):04x}"
+        )
+
+
 def print_summary(version: str, csv: bool):
     expected_dir = Path("expected/build") / version
     build_dir = Path("build") / version
 
     if csv:
-        print("path,expected,actual,added,removed,changed,progress")
+        print("path,expected,actual,.text,.rodata,.data size,.bss size")
     for object_file in sorted(expected_dir.glob("src/**/*.o")):
         object_path = object_file.relative_to(expected_dir)
         c_path = object_path.with_suffix(".c")
 
-        insts1 = run_objdump(expected_dir / object_path)
-        insts2 = run_objdump(build_dir / object_path)
+        insts1 = disassemble(expected_dir / object_path)
+        insts2 = disassemble(build_dir / object_path)
 
         added = 0
         removed = 0
@@ -209,24 +280,35 @@ def print_summary(version: str, csv: bool):
                 changed += 1
 
         if insts1:
-            progress = max(1.0 - (added + removed + changed) / len(insts1), 0)
+            text_progress = max(1.0 - (added + removed + changed) / len(insts1), 0)
         else:
-            progress = 1.0
+            text_progress = 1.0
+
+        sizes1 = get_section_sizes(expected_dir / object_path)
+        sizes2 = get_section_sizes(build_dir / object_path)
+        rodata_dump1 = get_section_hex_dump(expected_dir / object_path, ".rodata")
+        rodata_dump2 = get_section_hex_dump(build_dir / object_path, ".rodata")
+        rodata1 = parse_hex_dump(rodata_dump1)
+        rodata2 = parse_hex_dump(rodata_dump2)
+
+        rodata_matches = rodata1 == rodata2
+        data_size_matches = sizes1.get(".data", 0) == sizes2.get(".data", 0)
+        bss_size_matches = sizes1.get(".bss", 0) == sizes2.get(".bss", 0)
 
         if csv:
             print(
-                f"{c_path},{len(insts1)},{len(insts2)},{added},{removed},{changed},{progress:.3f}"
+                f"{c_path},{len(insts1)},{len(insts2)},{text_progress:.3f},{rodata_matches},{data_size_matches},{bss_size_matches}"
             )
-        elif progress == 1.0:
+        elif text_progress == 1.0:
             print(f"   OK {c_path}")
         else:
-            print(f"  {math.floor(progress * 100):>2}% {c_path}")
+            # TODO: show data diffs
+            print(f"  {math.floor(text_progress * 100):>2}% {c_path}")
+        sys.stdout.flush()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Calculate progress matching .text sections"
-    )
+    parser = argparse.ArgumentParser(description="Calculate progress matching retail")
     parser.add_argument(
         "file",
         metavar="FILE",
@@ -236,10 +318,18 @@ if __name__ == "__main__":
     parser.add_argument(
         "-v", "--version", help="version to compare", default="gc-eu-mq"
     )
+    parser.add_argument(
+        "--data",
+        help="diff .data size, .bss size, and .rodata contents instead of text",
+        action="store_true",
+    )
     parser.add_argument("--csv", help="print summary CSV", action="store_true")
     args = parser.parse_args()
 
     if args.file is not None:
-        find_functions_with_diffs(args.version, args.file)
+        if args.data:
+            find_data_diffs(args.version, args.file)
+        else:
+            find_functions_with_diffs(args.version, args.file)
     else:
         print_summary(args.version, args.csv)
