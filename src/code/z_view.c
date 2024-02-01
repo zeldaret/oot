@@ -275,7 +275,7 @@ s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
 /**
  * Apply view to POLY_OPA_DISP, POLY_XLU_DISP (and OVERLAY_DISP if ortho)
  */
-void View_Apply(View* view, s32 mask) {
+BAD_RETURN(s32) View_Apply(View* view, s32 mask) {
     mask = (view->flags & mask) | (mask >> 4);
 
     if (mask & VIEW_PROJECTION_ORTHO) {
