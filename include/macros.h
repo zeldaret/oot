@@ -136,11 +136,11 @@
 #define LOG_FLOAT(exp, value, file, line) LOG(exp, value, "%f", file, line)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-    do {                                                     \
-        GameState* state = curState;                         \
-                                                             \
-        (state)->init = newInit;                             \
-        (state)->size = sizeof(newStruct);                   \
+    do {                                                 \
+        GameState* state = curState;                     \
+                                                         \
+        (state)->init = newInit;                         \
+        (state)->size = sizeof(newStruct);               \
     } while (0)
 
 #define SET_FULLSCREEN_VIEWPORT(view)      \
