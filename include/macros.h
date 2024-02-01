@@ -137,8 +137,10 @@
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
     do {                                                 \
-        (curState)->init = newInit;                      \
-        (curState)->size = sizeof(newStruct);            \
+        GameState* state = curState;                     \
+                                                         \
+        (state)->init = newInit;                         \
+        (state)->size = sizeof(newStruct);               \
     } while (0)
 
 #define SET_FULLSCREEN_VIEWPORT(view)      \

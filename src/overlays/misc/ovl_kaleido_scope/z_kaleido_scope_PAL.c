@@ -2635,7 +2635,6 @@ void KaleidoScope_Update(PlayState* play) {
     s16 stepG;
     s16 stepB;
     s16 stepA;
-    s32 pad;
 
     if ((R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_READY) &&
         (((pauseCtx->state >= PAUSE_STATE_OPENING_1) && (pauseCtx->state <= PAUSE_STATE_SAVE_PROMPT)) ||
