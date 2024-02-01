@@ -45,8 +45,7 @@ pipeline {
                 }
             }
             steps {
-                // Do not run CC_CHECK to save time. @ makes Make not print the command and # starts a shell comment.
-                sh '''make -j CC_CHECK='@#' '''
+                sh 'make -j RUN_CC_CHECK=0'
             }
         }
         stage('Report Progress') {
