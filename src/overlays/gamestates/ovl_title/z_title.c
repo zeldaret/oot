@@ -128,7 +128,7 @@ void ConsoleLogo_Main(GameState* thisx) {
     ConsoleLogo_Calc(this);
     ConsoleLogo_Draw(this);
 
-    if (gIsCtrlr2Valid) {
+    if (OOT_DEBUG && gIsCtrlr2Valid) {
         Gfx* gfx = POLY_OPA_DISP;
         s32 pad;
 
