@@ -65,8 +65,9 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
     gSPNumLights(POLY_XLU_DISP++, lights->numLights);
 
     light = &lights->l.l[0];
+    i = 0;
 
-    for (i = 0; i < lights->numLights;) {
+    while (i < lights->numLights) {
         gSPLight(POLY_OPA_DISP++, light, ++i);
         gSPLight(POLY_XLU_DISP++, light++, i);
     }
