@@ -14,8 +14,13 @@ OSTime sGraphPrevUpdateEndTime;
  */
 OSTime sGraphPrevTaskTimeStart;
 
+#if OOT_DEBUG
 FaultClient sGraphFaultClient;
+#endif
+
 CfbInfo sGraphCfbInfos[3];
+
+#if OOT_DEBUG
 FaultClient sGraphUcodeFaultClient;
 
 UCodeInfo D_8012D230[3] = {
@@ -30,7 +35,6 @@ UCodeInfo D_8012D248[3] = {
     { UCODE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
 
-#if OOT_DEBUG
 void Graph_FaultClient(void) {
     void* nextFb = osViGetNextFramebuffer();
     void* newFb = (SysCfb_GetFbPtr(0) != nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);

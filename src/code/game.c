@@ -6,10 +6,11 @@ VisCvg sVisCvg;
 VisZBuf sVisZBuf;
 VisMono sVisMono;
 ViMode sViMode;
+
+#if OOT_DEBUG
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
 
-#if OOT_DEBUG
 void GameState_FaultPrint(void) {
     static char sBtnChars[] = "ABZSuldr*+LRudlr";
     s32 i;

@@ -102,11 +102,11 @@ FaultDrawer sFaultDrawerDefault = {
 #ifndef NON_MATCHING
 // TODO: match .bss (has reordering issues)
 extern FaultDrawer sFaultDrawer;
-extern char D_8016B6BC[0x24];
+extern char D_8016B6C0[0x20];
 #else
 // Non-matching version for struct shiftability
 FaultDrawer sFaultDrawer;
-char D_8016B6BC[0x24];
+char D_8016B6C0[0x20];
 #endif
 
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
