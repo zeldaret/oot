@@ -33,9 +33,6 @@ void Yaz0_DecompressImpl(u8* src, u8* dst);
 void Yaz0_Decompress(uintptr_t romStart, u8* dst, size_t size);
 void Locale_Init(void);
 void Locale_ResetRegion(void);
-u32 func_80001F48(void);
-u32 func_80001F8C(void);
-u32 Locale_IsRegionNative(void);
 #if OOT_DEBUG
 void isPrintfInit(void);
 #endif
@@ -52,16 +49,12 @@ void StackCheck_Cleanup(StackEntry* entry);
 u32 StackCheck_GetState(StackEntry* entry);
 u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
-f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
-                             const char* maxName, f32 max);
-s32 LogUtils_CheckIntRange(const char* exp, s32 line, const char* valueName, s32 value, const char* minName, s32 min,
-                           const char* maxName, s32 max);
+#if OOT_DEBUG
 void LogUtils_LogHexDump(void* ptr, s32 size0);
-void LogUtils_LogPointer(s32 value, u32 max, void* ptr, const char* name, const char* file, s32 line);
-void LogUtils_CheckBoundary(const char* name, s32 value, s32 unk, const char* file, s32 line);
 void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, s32 line);
 void LogUtils_CheckValidPointer(const char* exp, void* ptr, const char* file, s32 line);
 void LogUtils_LogThreadId(const char* name, s32 line);
+#endif
 void LogUtils_HungupThread(const char* name, s32 line);
 void LogUtils_ResetHungup(void);
 void __osPiCreateAccessQueue(void);
