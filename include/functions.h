@@ -1184,12 +1184,14 @@ void View_InitDistortion(View* view);
 void View_ClearDistortion(View* view);
 void View_SetDistortion(View* view, Vec3f orientation, Vec3f scale, f32 speed);
 s32 View_StepDistortion(View* view, Mtx* projectionMtx);
-void View_Apply(View* view, s32 mask);
+s32 View_Apply(View* view, s32 mask);
 s32 View_ApplyOrthoToOverlay(View* view);
 s32 View_ApplyPerspectiveToOverlay(View* view);
 s32 View_UpdateViewingMatrix(View* view);
 s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxP);
+#if OOT_DEBUG
 s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
+#endif
 void ViMode_LogPrint(OSViMode* osViMode);
 void ViMode_Configure(ViMode* viMode, s32 type, s32 tvType, s32 loRes, s32 antialiasOff, s32 modeN, s32 fb16Bit,
                       s32 width, s32 height, s32 leftAdjust, s32 rightAdjust, s32 upperAdjust, s32 lowerAdjust);
@@ -1455,7 +1457,9 @@ void Matrix_ReplaceRotation(MtxF* mf);
 void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
 void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
 void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode);
+#if OOT_DEBUG
 MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line);
+#endif
 void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
                                   f32 translateZ);
 u64* SysUcode_GetUCodeBoot(void);
