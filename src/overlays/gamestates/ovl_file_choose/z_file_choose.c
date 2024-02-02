@@ -1440,8 +1440,6 @@ void FileSelect_FadeOut(GameState* thisx) {
  */
 void FileSelect_LoadGame(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
-    u16 swordEquipValue;
-    s32 pad;
 
 #ifdef OOT_DEBUG
     if (this->buttonIndex == FS_BTN_SELECT_FILE_1) {
@@ -1520,6 +1518,7 @@ void FileSelect_LoadGame(GameState* thisx) {
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_SWORD_BIGGORON) &&
         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_GIANTS_KNIFE)) {
+        u16 swordEquipValue;
 
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
         swordEquipValue =

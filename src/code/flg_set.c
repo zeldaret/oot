@@ -78,7 +78,7 @@ void FlagSet_Update(PlayState* play) {
         s32 pad;
 
         polyOpa = POLY_OPA_DISP;
-        gfx = Graph_GfxPlusOne(polyOpa);
+        gfx = Gfx_Open(polyOpa);
         gSPDisplayList(OVERLAY_DISP++, gfx);
 
         GfxPrint_Init(&printer);
@@ -171,7 +171,7 @@ void FlagSet_Update(PlayState* play) {
         GfxPrint_Destroy(&printer);
 
         gSPEndDisplayList(gfx++);
-        Graph_BranchDlist(polyOpa, gfx);
+        Gfx_Close(polyOpa, gfx);
         POLY_OPA_DISP = gfx;
     }
 

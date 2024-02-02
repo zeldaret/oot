@@ -385,17 +385,19 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
         if (drawBackground) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
+            gfx = POLY_OPA_DISP;
+
             {
                 Vec3f quakeOffset;
 
-                gfx = POLY_OPA_DISP;
                 quakeOffset = Camera_GetQuakeOffset(activeCam);
                 Room_DrawBackground2D(&gfx, roomShape->source, roomShape->tlut, roomShape->width, roomShape->height,
                                       roomShape->fmt, roomShape->siz, roomShape->tlutMode, roomShape->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
                                       quakeOffset.y * 2.4f + (quakeOffset.x + quakeOffset.z) * 0.3f);
-                POLY_OPA_DISP = gfx;
             }
+
+            POLY_OPA_DISP = gfx;
 
             gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
         }
@@ -483,17 +485,19 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
         if (drawBackground) {
             gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
+            gfx = POLY_OPA_DISP;
+
             {
                 Vec3f quakeOffset;
 
-                gfx = POLY_OPA_DISP;
                 quakeOffset = Camera_GetQuakeOffset(activeCam);
                 Room_DrawBackground2D(&gfx, bgEntry->source, bgEntry->tlut, bgEntry->width, bgEntry->height,
                                       bgEntry->fmt, bgEntry->siz, bgEntry->tlutMode, bgEntry->tlutCount,
                                       (quakeOffset.x + quakeOffset.z) * 1.2f + quakeOffset.y * 0.6f,
                                       quakeOffset.y * 2.4f + (quakeOffset.x + quakeOffset.z) * 0.3f);
-                POLY_OPA_DISP = gfx;
             }
+
+            POLY_OPA_DISP = gfx;
 
             gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
         }
@@ -528,7 +532,6 @@ void func_80096FD4(PlayState* play, Room* room) {
 
 u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     u32 maxRoomSize = 0;
-    RomFile* roomList = play->roomList;
     u32 roomSize;
     s32 i;
     s32 j;
@@ -537,16 +540,21 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     u32 frontRoomSize;
     u32 backRoomSize;
     u32 cumulRoomSize;
+    s32 pad;
 
-    for (i = 0; i < play->numRooms; i++) {
-        roomSize = roomList[i].vromEnd - roomList[i].vromStart;
-        PRINTF("ROOM%d size=%d\n", i, roomSize);
-        if (maxRoomSize < roomSize) {
-            maxRoomSize = roomSize;
+    {
+        RomFile* roomList = play->roomList;
+
+        for (i = 0; i < play->numRooms; i++) {
+            roomSize = roomList[i].vromEnd - roomList[i].vromStart;
+            PRINTF("ROOM%d size=%d\n", i, roomSize);
+            if (maxRoomSize < roomSize) {
+                maxRoomSize = roomSize;
+            }
         }
     }
 
-    if (play->transiActorCtx.numActors != 0) {
+    if ((u32)play->transiActorCtx.numActors != 0) {
         RomFile* roomList = play->roomList;
         TransitionActorEntry* transitionActor = &play->transiActorCtx.list[0];
 
@@ -589,9 +597,9 @@ u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
 }
 
 s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
-    u32 size;
-
     if (roomCtx->status == 0) {
+        u32 size;
+
         roomCtx->prevRoom = roomCtx->curRoom;
         roomCtx->curRoom.num = roomNum;
         roomCtx->curRoom.segment = NULL;
@@ -624,11 +632,9 @@ s32 func_800973FC(PlayState* play, RoomContext* roomCtx) {
             Scene_ExecuteCommands(play, roomCtx->curRoom.segment);
             Player_SetBootData(play, GET_PLAYER(play));
             Actor_SpawnTransitionActors(play, &play->actorCtx);
-
-            return 1;
+        } else {
+            return 0;
         }
-
-        return 0;
     }
 
     return 1;

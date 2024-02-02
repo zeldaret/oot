@@ -1,19 +1,19 @@
 #include "global.h"
 
-s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
+size_t Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* vramEnd, void* allocatedRamAddr) {
     s32 pad[3];
     uintptr_t end;
     OverlayRelocationSection* ovlRelocs;
-    u32 relocSectionOffset;
-    size_t size;
-
-    size = vromEnd - vromStart;
-    end = (uintptr_t)allocatedRamAddr + size;
+    u32 relocSectionOffset = 0;
+    s32 size = vromEnd - vromStart;
 
     if (gOverlayLogSeverity >= 3) {
         // "Start loading dynamic link function"
         PRINTF("\nダイナミックリンクファンクションのロードを開始します\n");
     }
+
+    size = vromEnd - vromStart;
+    end = (uintptr_t)allocatedRamAddr + size;
 
     if (gOverlayLogSeverity >= 3) {
         // "DMA transfer of TEXT, DATA, RODATA + rel (%08x-%08x)"
@@ -46,10 +46,10 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
             // "Clear BSS area (% 08x-% 08x)"
             PRINTF("BSS領域をクリアします(%08x-%08x)\n", end, end + ovlRelocs->bssSize);
         }
-        bzero((void*)end, (s32)ovlRelocs->bssSize);
+        bzero((void*)end, ovlRelocs->bssSize);
     }
 
-    size = (uintptr_t)&ovlRelocs->relocations[ovlRelocs->nRelocations] - (uintptr_t)ovlRelocs;
+    size = (uintptr_t)(ovlRelocs->relocations + ovlRelocs->nRelocations) - (uintptr_t)ovlRelocs;
 
     if (gOverlayLogSeverity >= 3) {
         // "Clear REL area (%08x-%08x)"
@@ -68,5 +68,6 @@ s32 Overlay_Load(uintptr_t vromStart, uintptr_t vromEnd, void* vramStart, void* 
         // "Finish loading dynamic link function"
         PRINTF("ダイナミックリンクファンクションのロードを終了します\n\n");
     }
+
     return size;
 }

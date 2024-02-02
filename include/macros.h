@@ -100,21 +100,23 @@
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
-#ifdef OOT_DEBUG
-#define PRINTF osSyncPrintf
-#else
-#ifdef __sgi /* IDO compiler */
 // IDO doesn't support variadic macros, but it merely throws a warning for the
 // number of arguments not matching the definition (warning 609) instead of
 // throwing an error. We suppress this warning and rely on GCC to catch macro
 // argument errors instead.
+// Note some tools define __sgi but preprocess with a modern cpp implementation,
+// ensure that these do not use the IDO workaround to avoid errors.
+#define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !PERMUTER && !M2CTX)
+
+#if OOT_DEBUG
+#define PRINTF osSyncPrintf
+#elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
 #else
 #define PRINTF(format, ...) (void)0
 #endif
-#endif
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
@@ -135,8 +137,10 @@
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
     do {                                                 \
-        (curState)->init = newInit;                      \
-        (curState)->size = sizeof(newStruct);            \
+        GameState* state = curState;                     \
+                                                         \
+        (state)->init = newInit;                         \
+        (state)->size = sizeof(newStruct);               \
     } while (0)
 
 #define SET_NEXT_GAMESTATE_ALT(curState, newInit, newStruct) \
@@ -167,7 +171,7 @@ extern struct GraphicsContext* __gfxCtx;
 #define POLY_XLU_DISP   __gfxCtx->polyXlu.p
 #define OVERLAY_DISP    __gfxCtx->overlay.p
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 
 // __gfxCtx shouldn't be used directly.
 // Use the DISP macros defined above when writing to display buffers.

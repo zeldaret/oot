@@ -1,12 +1,6 @@
 #include "global.h"
 #include "terminal.h"
 
-#ifdef OOT_DEBUG
-#define VI_MODE_EDITOR_INACTIVE (R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE)
-#else
-#define VI_MODE_EDITOR_INACTIVE true
-#endif
-
 SpeedMeter D_801664D0;
 VisCvg sVisCvg;
 VisZBuf sVisZBuf;
@@ -15,7 +9,7 @@ ViMode sViMode;
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 void GameState_FaultPrint(void) {
     static char sBtnChars[] = "ABZSuldr*+LRudlr";
     s32 i;
@@ -70,7 +64,7 @@ void GameState_SetFBFilter(Gfx** gfxP) {
 }
 
 void func_800C4344(GameState* gameState) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     Input* selectedInput;
     s32 hexDumpSize;
     u16 inputCompareValue;
@@ -123,7 +117,7 @@ void func_800C4344(GameState* gameState) {
 #endif
 }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 void GameState_DrawInputDisplay(u16 input, Gfx** gfxP) {
     static const u16 sInpDispBtnColors[] = {
         GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),   GPACK_RGBA5551(255, 255, 0, 1),
@@ -162,14 +156,14 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../game.c", 746);
 
-    newDList = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    newDList = Gfx_Open(polyOpaP = POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, newDList);
 
     if (R_ENABLE_FB_FILTER == 1) {
         GameState_SetFBFilter(&newDList);
     }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     sLastButtonPressed = gameState->input[0].press.button | gameState->input[0].cur.button;
     if (R_DISABLE_INPUT_DISPLAY == 0) {
         GameState_DrawInputDisplay(sLastButtonPressed, &newDList);
@@ -188,7 +182,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 #endif
 
     if (R_ENABLE_ARENA_DBG < 0) {
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         s32 pad;
         DebugArena_Display();
         SystemArena_Display();
@@ -199,7 +193,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 
     gSPEndDisplayList(newDList++);
-    Graph_BranchDlist(polyOpaP, newDList);
+    Gfx_Close(polyOpaP, newDList);
     POLY_OPA_DISP = newDList;
 
     if (1) {}
@@ -236,11 +230,11 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../game.c", 846);
 
-    newDlist = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    newDlist = Gfx_Open(polyOpaP = POLY_OPA_DISP);
     gSPDisplayList(OVERLAY_DISP++, newDlist);
 
     gSPEndDisplayList(newDlist++);
-    Graph_BranchDlist(polyOpaP, newDlist);
+    Gfx_Close(polyOpaP, newDlist);
     POLY_OPA_DISP = newDlist;
 
     if (1) {}
@@ -263,7 +257,7 @@ void GameState_Update(GameState* gameState) {
 
     func_800C4344(gameState);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (SREG(63) == 1u) {
         if (R_VI_MODE_EDIT_STATE < VI_MODE_EDIT_STATE_INACTIVE) {
             R_VI_MODE_EDIT_STATE = VI_MODE_EDIT_STATE_INACTIVE;
@@ -396,7 +390,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
         THA_Init(&gameState->tha, NULL, 0);
         PRINTF("ハイラル再確保失敗\n"); // "Failure to secure Hyral"
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
         SystemArena_Display();
 #endif
         HUNGUP_AND_CRASH("../game.c", 1044);
@@ -442,7 +436,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     VisCvg_Init(&sVisCvg);
     VisZBuf_Init(&sVisZBuf);
     VisMono_Init(&sVisMono);
-    if (VI_MODE_EDITOR_INACTIVE) {
+    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !OOT_DEBUG) {
         ViMode_Init(&sViMode);
     }
     SpeedMeter_Init(&D_801664D0);
@@ -452,7 +446,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     // "Other initialization processing time %d us"
     PRINTF("その他初期化 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     Fault_AddClient(&sGameFaultClient, GameState_FaultPrint, NULL, NULL);
 #endif
 
@@ -462,7 +456,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
 void GameState_Destroy(GameState* gameState) {
     PRINTF("game デストラクタ開始\n"); // "game destructor start"
     AudioMgr_StopAllSfx();
-    func_800F3054();
+    Audio_Update();
     osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
     LOG_UTILS_CHECK_NULL_POINTER("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {
@@ -473,13 +467,13 @@ void GameState_Destroy(GameState* gameState) {
     VisCvg_Destroy(&sVisCvg);
     VisZBuf_Destroy(&sVisZBuf);
     VisMono_Destroy(&sVisMono);
-    if (VI_MODE_EDITOR_INACTIVE) {
+    if ((R_VI_MODE_EDIT_STATE == VI_MODE_EDIT_STATE_INACTIVE) || !OOT_DEBUG) {
         ViMode_Destroy(&sViMode);
     }
     THA_Destroy(&gameState->tha);
     GameAlloc_Cleanup(&gameState->alloc);
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     SystemArena_Display();
     Fault_RemoveClient(&sGameFaultClient);
 #endif
@@ -499,7 +493,7 @@ u32 GameState_IsRunning(GameState* gameState) {
     return gameState->running;
 }
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
 void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     void* ret;
 

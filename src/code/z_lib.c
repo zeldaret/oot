@@ -407,8 +407,10 @@ void IChain_Apply_Vec3s(u8* ptr, InitChainEntry* ichain) {
  * instead, with a minimum step of minStep. Returns remaining distance to target.
  */
 f32 Math_SmoothStepToF(f32* pValue, f32 target, f32 fraction, f32 step, f32 minStep) {
+    f32 stepSize;
+
     if (*pValue != target) {
-        f32 stepSize = (target - *pValue) * fraction;
+        stepSize = (target - *pValue) * fraction;
 
         if ((stepSize >= minStep) || (stepSize <= -minStep)) {
             if (stepSize > step) {

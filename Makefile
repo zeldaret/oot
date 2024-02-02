@@ -21,6 +21,8 @@ COMPILER := ido
 VERSION := gc-eu-mq-dbg
 # Number of threads to extract and compress with
 N_THREADS := $(shell nproc)
+# Check code syntax with host compiler
+RUN_CC_CHECK := 1
 
 CFLAGS ?=
 CPPFLAGS ?=
@@ -69,12 +71,12 @@ MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
 
 ifeq ($(DEBUG),1)
-  CFLAGS += -DOOT_DEBUG
-  CPPFLAGS += -DOOT_DEBUG
+  CFLAGS += -DOOT_DEBUG=1
+  CPPFLAGS += -DOOT_DEBUG=1
   OPTFLAGS := -O2
 else
-  CFLAGS += -DNDEBUG
-  CPPFLAGS += -DNDEBUG
+  CFLAGS += -DNDEBUG -DOOT_DEBUG=0
+  CPPFLAGS += -DNDEBUG -DOOT_DEBUG=0
   OPTFLAGS := -O2 -g3
 endif
 
@@ -164,7 +166,7 @@ endif
 ifeq ($(COMPILER),ido)
   # Have CC_CHECK pretend to be a MIPS compiler
   MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
-  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
+  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING -DOOT_DEBUG=1 $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
   ifeq ($(shell getconf LONG_BIT), 32)
     # Work around memory allocation bug in QEMU
     export QEMU_GUEST_BASE := 1
@@ -173,7 +175,7 @@ ifeq ($(COMPILER),ido)
     CC_CHECK += -m32
   endif
 else
-  CC_CHECK  = @:
+  RUN_CC_CHECK := 0
 endif
 
 OBJDUMP_FLAGS := -d -r -z -Mreg-names=32
@@ -247,6 +249,7 @@ $(BUILD_DIR)/src/code/code_800FD970.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/gfxprint.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/jpegdecoder.o: OPTFLAGS := -O2
+$(BUILD_DIR)/src/code/load.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/loadfragment2.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/logutils.o: OPTFLAGS := -O2
 $(BUILD_DIR)/src/code/mtxuty-cvt.o: OPTFLAGS := -O2
@@ -455,18 +458,24 @@ $(BUILD_DIR)/src/code/z_game_dlftbls.o: include/tables/gamestate_table.h
 $(BUILD_DIR)/src/code/z_scene_table.o: include/tables/scene_table.h include/tables/entrance_table.h
 
 $(BUILD_DIR)/src/%.o: src/%.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/ll.o: src/libultra/libc/ll.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
 
 $(BUILD_DIR)/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
+ifneq ($(RUN_CC_CHECK),0)
 	$(CC_CHECK) $<
+endif
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(PYTHON) tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
