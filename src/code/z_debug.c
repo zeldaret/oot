@@ -293,9 +293,11 @@ void Debug_DrawText(GraphicsContext* gfxCtx) {
         DebugCamera_DrawScreenText(&printer);
     }
 
-    if (OOT_DEBUG && gRegEditor->regPage != 0) {
+#if OOT_DEBUG
+    if (gRegEditor->regPage != 0) {
         Regs_DrawEditor(&printer);
     }
+#endif
 
     sDebugCamTextEntryCount = 0;
 
