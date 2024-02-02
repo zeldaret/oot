@@ -763,7 +763,9 @@ s32 func_800635D0(s32);
 void Regs_Init(void);
 void DebugCamera_ScreenText(u8 x, u8 y, const char* text);
 void DebugCamera_ScreenTextColored(u8 x, u8 y, u8 colorIndex, const char* text);
+#if OOT_DEBUG
 void Regs_UpdateEditor(Input* input);
+#endif
 void Debug_DrawText(GraphicsContext* gfxCtx);
 void DebugDisplay_Init(void);
 DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, s16 rotY, s16 rotZ, f32 scaleX,
