@@ -103,7 +103,9 @@ extern s32 gScreenWidth;
 extern s32 gScreenHeight;
 extern Mtx gMtxClear;
 extern MtxF gMtxFClear;
+#if OOT_DEBUG
 extern u32 gIsCtrlr2Valid;
+#endif
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
 extern f32 gBendPitchTwoSemitonesFrequencies[256];
