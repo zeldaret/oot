@@ -21,6 +21,14 @@
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
+#define SWAP(type, a, b)    \
+    {                       \
+        type _temp = (a);   \
+        (a) = (b);          \
+        (b) = _temp;        \
+    }                       \
+    (void)0
+
 #define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
 
 #define GET_PLAYER(play) ((Player*)(play)->actorCtx.actorLists[ACTORCAT_PLAYER].head)
