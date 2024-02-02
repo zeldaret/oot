@@ -24,12 +24,12 @@ u32 EffectSsIceSmoke_Init(PlayState* play, u32 index, EffectSs* this, void* init
     EffectSsIceSmokeInitParams* initParams = (EffectSsIceSmokeInitParams*)initParamsx;
     s32 pad;
     s32 objectSlot;
-    uintptr_t prevSeg6;
 
     objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FZ);
 
     if ((objectSlot >= 0) && Object_IsLoaded(&play->objectCtx, objectSlot)) {
-        prevSeg6 = gSegments[6];
+        uintptr_t prevSeg6 = gSegments[6];
+
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.slots[objectSlot].segment);
         Math_Vec3f_Copy(&this->pos, &initParams->pos);
         Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
@@ -60,6 +60,10 @@ void EffectSsIceSmoke_Draw(PlayState* play, u32 index, EffectSs* this) {
     objectPtr = play->objectCtx.slots[this->rObjectSlot].segment;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 155);
+
+#if !OOT_DEBUG
+    if (1) {}
+#endif
 
     objectSlot = Object_GetSlot(&play->objectCtx, OBJECT_FZ);
 
