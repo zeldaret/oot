@@ -38,6 +38,7 @@
 #include "z64view.h"
 #include "z64vis.h"
 #include "alignment.h"
+#include "audiothread_cmd.h"
 #include "seqcmd.h"
 #include "sequence.h"
 #include "sfx.h"

@@ -113,8 +113,8 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
     static f32 D_80130510 = 0.0f;
     static s32 D_80130514 = 0;
     f32 pitchChange;
-    f32 extent;
-    f32 invExtent;
+    f32 depth;
+    f32 invDepth;
     f32 result;
     f32 temp;
     SequenceChannel* channel = vib->channel;
@@ -127,17 +127,17 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
     //! @bug this probably meant to compare with gAudioCtx.sequenceChannelNone.
     //! -1 isn't used as a channel pointer anywhere else.
     if (channel != ((SequenceChannel*)(-1))) {
-        if (vib->extentChangeTimer) {
-            if (vib->extentChangeTimer == 1) {
-                vib->extent = (s32)channel->vibratoExtentTarget;
+        if (vib->depthChangeTimer) {
+            if (vib->depthChangeTimer == 1) {
+                vib->depth = (s32)channel->vibratoDepthTarget;
             } else {
-                vib->extent += ((s32)channel->vibratoExtentTarget - vib->extent) / (s32)vib->extentChangeTimer;
+                vib->depth += ((s32)channel->vibratoDepthTarget - vib->depth) / (s32)vib->depthChangeTimer;
             }
 
-            vib->extentChangeTimer--;
-        } else if (channel->vibratoExtentTarget != (s32)vib->extent) {
-            if ((vib->extentChangeTimer = channel->vibratoExtentChangeDelay) == 0) {
-                vib->extent = (s32)channel->vibratoExtentTarget;
+            vib->depthChangeTimer--;
+        } else if (channel->vibratoDepthTarget != (s32)vib->depth) {
+            if ((vib->depthChangeTimer = channel->vibratoDepthChangeDelay) == 0) {
+                vib->depth = (s32)channel->vibratoDepthTarget;
             }
         }
 
@@ -156,16 +156,16 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
         }
     }
 
-    if (vib->extent == 0.0f) {
+    if (vib->depth == 0.0f) {
         return 1.0f;
     }
 
     pitchChange = Audio_GetVibratoPitchChange(vib) + 32768.0f;
-    temp = vib->extent / 4096.0f;
-    extent = temp + 1.0f;
-    invExtent = 1.0f / extent;
+    temp = vib->depth / 4096.0f;
+    depth = temp + 1.0f;
+    invDepth = 1.0f / depth;
 
-    result = 1.0f / ((extent - invExtent) * pitchChange / 65536.0f + invExtent);
+    result = 1.0f / ((depth - invDepth) * pitchChange / 65536.0f + invDepth);
 
     D_80130510 += result;
     D_80130514++;
@@ -190,16 +190,16 @@ void Audio_NoteVibratoInit(Note* note) {
 
     vib = &note->playbackState.vibratoState;
 
-    vib->active = 1;
+    vib->active = true;
     vib->time = 0;
+    vib->curve = gWaveSamples[2]; // gSineWaveSample[0..63]
 
-    vib->curve = gWaveSamples[2];
     vib->channel = note->playbackState.parentLayer->channel;
     channel = vib->channel;
-    if ((vib->extentChangeTimer = channel->vibratoExtentChangeDelay) == 0) {
-        vib->extent = (s32)channel->vibratoExtentTarget;
+    if ((vib->depthChangeTimer = channel->vibratoDepthChangeDelay) == 0) {
+        vib->depth = (s32)channel->vibratoDepthTarget;
     } else {
-        vib->extent = (s32)channel->vibratoExtentStart;
+        vib->depth = (s32)channel->vibratoDepthStart;
     }
 
     if ((vib->rateChangeTimer = channel->vibratoRateChangeDelay) == 0) {
@@ -264,7 +264,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
                     break;
 
                 default:
-                    adsr->delay *= gAudioCtx.audioBufferParameters.updatesPerFrameScaled;
+                    adsr->delay *= gAudioCtx.audioBufferParameters.ticksPerUpdateScaled;
                     if (adsr->delay == 0) {
                         adsr->delay = 1;
                     }

@@ -32,7 +32,7 @@
 #include "terminal.h"
 
 #define PADMGR_LOG(controllerNum, msg)                              \
-    if (1) {                                                        \
+    if (OOT_DEBUG) {                                                \
         PRINTF(VT_FGCOL(YELLOW));                                   \
         /* padmgr: Controller %d: %s */                             \
         PRINTF("padmgr: %dコン: %s\n", (controllerNum) + 1, (msg)); \
@@ -66,7 +66,11 @@ s32 gPadMgrLogSeverity = LOG_SEVERITY_CRITICAL;
  * @see PadMgr_ReleaseSerialEventQueue
  */
 OSMesgQueue* PadMgr_AcquireSerialEventQueue(PadMgr* padMgr) {
-    OSMesgQueue* serialEventQueue = NULL;
+    OSMesgQueue* serialEventQueue;
+
+#if OOT_DEBUG
+    serialEventQueue = NULL;
+#endif
 
     if (gPadMgrLogSeverity >= LOG_SEVERITY_VERBOSE) {
         // "serialMsgQ Waiting for lock"
@@ -135,13 +139,10 @@ void PadMgr_UnlockPadData(PadMgr* padMgr) {
 void PadMgr_UpdateRumble(PadMgr* padMgr) {
     static u32 sRumbleErrorCount = 0; // original name: "errcnt"
     static u32 sRumbleUpdateCounter;
-    s32 motorStart = MOTOR_START; // required for matching?
-    s32 triedRumbleComm;
-    OSMesgQueue* serialEventQueue = PadMgr_AcquireSerialEventQueue(padMgr);
-    s32 ret;
     s32 i;
-
-    triedRumbleComm = false;
+    s32 ret;
+    OSMesgQueue* serialEventQueue = PadMgr_AcquireSerialEventQueue(padMgr);
+    s32 triedRumbleComm = false;
 
     for (i = 0; i < MAXCONTROLLERS; i++) {
         if (padMgr->ctrlrIsConnected[i]) {
@@ -153,9 +154,7 @@ void PadMgr_UpdateRumble(PadMgr* padMgr) {
                             // "Rumble pack brrr"
                             PADMGR_LOG(i, "振動パック ぶるぶるぶるぶる");
 
-                            // This should be the osMotorStart macro, however the temporary variable motorStart is
-                            // currently required for matching
-                            if (__osMotorAccess(&padMgr->rumblePfs[i], motorStart) != 0) {
+                            if (osMotorStart(&padMgr->rumblePfs[i]) != 0) {
                                 padMgr->pakType[i] = CONT_PAK_NONE;
 
                                 // "A communication error has occurred with the vibration pack"
@@ -186,7 +185,7 @@ void PadMgr_UpdateRumble(PadMgr* padMgr) {
                 }
             } else {
                 if (padMgr->pakType[i] != CONT_PAK_NONE) {
-                    if (padMgr->pakType[i] == CONT_PAK_RUMBLE) {
+                    if (padMgr->pakType[i] == CONT_PAK_RUMBLE || !OOT_DEBUG) {
                         // "It seems that a vibration pack was pulled out"
                         PADMGR_LOG(i, "振動パックが抜かれたようです");
                         padMgr->pakType[i] = CONT_PAK_NONE;
@@ -352,9 +351,9 @@ void PadMgr_UpdateInputs(PadMgr* padMgr) {
 }
 
 void PadMgr_HandleRetrace(PadMgr* padMgr) {
-    s32 i;
     OSMesgQueue* serialEventQueue = PadMgr_AcquireSerialEventQueue(padMgr);
     u32 mask;
+    s32 i;
 
     // Begin reading controller data
     osContStartReadData(serialEventQueue);
@@ -367,6 +366,12 @@ void PadMgr_HandleRetrace(PadMgr* padMgr) {
     // Wait for controller data
     osRecvMesg(serialEventQueue, NULL, OS_MESG_BLOCK);
     osContGetReadData(padMgr->pads);
+
+#if !OOT_DEBUG
+    // Clear controllers 2 and 4
+    bzero(&padMgr->pads[1], sizeof(OSContPad));
+    bzero(&padMgr->pads[3], sizeof(OSContPad));
+#endif
 
     // If resetting, clear all controllers
     if (padMgr->isResetting) {

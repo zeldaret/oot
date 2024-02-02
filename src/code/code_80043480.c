@@ -6,10 +6,10 @@
  */
 void DynaPolyActor_Init(DynaPolyActor* dynaActor, s32 transformFlags) {
     dynaActor->bgId = -1;
-    dynaActor->transformFlags = transformFlags;
-    dynaActor->interactFlags = 0;
     dynaActor->unk_150 = 0.0f;
     dynaActor->unk_154 = 0.0f;
+    dynaActor->transformFlags = transformFlags;
+    dynaActor->interactFlags = 0;
 }
 
 void DynaPolyActor_UnsetAllInteractFlags(DynaPolyActor* dynaActor) {
