@@ -15,6 +15,8 @@ import crunch64
 import ipl3checksum
 import zlib
 
+import dmadata
+
 
 def decompress_zlib(data: bytes) -> bytes:
     decomp = zlib.decompressobj(-zlib.MAX_WBITS)
@@ -33,40 +35,19 @@ def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
 
 
 FILE_TABLE_OFFSET = {
-    "gc-eu-mq":         0x07170,
-    "gc-eu-mq-dbg":     0x12F70,
+    "gc-eu-mq": 0x07170,
+    "gc-eu-mq-dbg": 0x12F70,
 }
 
 VERSIONS_MD5S = {
-    "gc-eu-mq":         "1a438f4235f8038856971c14a798122a",
-    "gc-eu-mq-dbg":     "f0b7f35375f9cc8ca1b2d59d78e35405",
+    "gc-eu-mq": "1a438f4235f8038856971c14a798122a",
+    "gc-eu-mq-dbg": "f0b7f35375f9cc8ca1b2d59d78e35405",
 }
 
 
 def round_up(n, shift):
     mod = 1 << shift
     return (n + mod - 1) >> shift << shift
-
-
-def as_word_list(b) -> list[int]:
-    return [i[0] for i in struct.iter_unpack(">I", b)]
-
-
-def read_dmadata_entry(file_content: bytearray, addr: int) -> list[int]:
-    return as_word_list(file_content[addr : addr + 0x10])
-
-
-def read_dmadata(file_content: bytearray, start) -> list[list[int]]:
-    dmadata = []
-    addr = start
-    entry = read_dmadata_entry(file_content, addr)
-    i = 0
-    while any([e != 0 for e in entry]):
-        dmadata.append(entry)
-        addr += 0x10
-        i += 1
-        entry = read_dmadata_entry(file_content, addr)
-    return dmadata
 
 
 def update_crc(decompressed: io.BytesIO) -> io.BytesIO:
@@ -82,40 +63,46 @@ def update_crc(decompressed: io.BytesIO) -> io.BytesIO:
 
 
 def decompress_rom(
-    file_content: bytearray, dmadata_addr: int, dmadata: list[list[int]], version: str
+    file_content: bytearray,
+    dmadata_offset: int,
+    dma_entries: list[dmadata.DmaEntry],
+    version: str,
 ) -> bytearray:
     rom_segments = {}  # vrom start : data s.t. len(data) == vrom_end - vrom_start
-    new_dmadata = bytearray()  # new dmadata: {vrom start , vrom end , vrom start , 0}
+    new_dmadata = []  # new dmadata: list[dmadata.Entry]
 
     decompressed = io.BytesIO(b"")
 
-    for v_start, v_end, p_start, p_end in dmadata:
+    for dma_entry in dma_entries:
+        v_start = dma_entry.vrom_start
+        v_end = dma_entry.vrom_end
+        p_start = dma_entry.rom_start
+        p_end = dma_entry.rom_end
         if p_start == 0xFFFFFFFF and p_end == 0xFFFFFFFF:
-            new_dmadata.extend(struct.pack(">IIII", v_start, v_end, p_start, p_end))
+            new_dmadata.append(dma_entry)
             continue
-        if p_end == 0:  # uncompressed
+        if dma_entry.is_compressed():
+            is_zlib_compressed = version in {"ique-cn", "ique-zh"}
+            new_contents = decompress(file_content[p_start:p_end], is_zlib_compressed)
+            rom_segments.update({v_start: new_contents})
+        else:
             rom_segments.update(
                 {v_start: file_content[p_start : p_start + v_end - v_start]}
             )
-        else:  # compressed
-            rom_segments.update(
-                {
-                    v_start: decompress(
-                        file_content[p_start:p_end], version in {"ique-cn", "ique-zh"}
-                    )
-                }
-            )
-        new_dmadata.extend(struct.pack(">IIII", v_start, v_end, v_start, 0))
+        new_dmadata.append(dmadata.DmaEntry(v_start, v_end, v_start, 0))
 
     # write rom segments to vaddrs
     for vrom_st, data in rom_segments.items():
         decompressed.seek(vrom_st)
         decompressed.write(data)
     # write new dmadata
-    decompressed.seek(dmadata_addr)
-    decompressed.write(new_dmadata)
+    decompressed.seek(dmadata_offset)
+    for dma_entry in new_dmadata:
+        entry_data = bytearray(dmadata.DmaEntry.SIZE_BYTES)
+        dma_entry.to_bin(entry_data)
+        decompressed.write(entry_data)
     # pad to size
-    padding_end = round_up(dmadata[-1][1], 14)
+    padding_end = round_up(dma_entries[-1].vrom_end, 14)
     decompressed.seek(padding_end - 1)
     decompressed.write(bytearray([0]))
     # re-calculate crc
@@ -164,21 +151,23 @@ def per_version_fixes(file_content: bytearray, version: str) -> bytearray:
     return file_content
 
 
-def pad_rom(file_content: bytearray, dmadata: list[list[int]]) -> bytearray:
-    padding_start = round_up(dmadata[-1][1], 12)
-    padding_end = round_up(dmadata[-1][1], 14)
+def pad_rom(file_content: bytearray, dma_entries: list[dmadata.DmaEntry]) -> bytearray:
+    padding_start = round_up(dma_entries[-1].vrom_end, 12)
+    padding_end = round_up(dma_entries[-1].vrom_end, 14)
     print(f"Padding from {padding_start:X} to {padding_end:X}...")
     for i in range(padding_start, padding_end):
         file_content[i] = 0xFF
     return file_content
 
+
 # Determine if we have a ROM file
 ROM_FILE_EXTENSIONS = ["z64", "n64", "v64"]
+
 
 def find_baserom(version: str) -> Path | None:
     for rom_file_ext_lower in ROM_FILE_EXTENSIONS:
         for rom_file_ext in (rom_file_ext_lower, rom_file_ext_lower.upper()):
-            rom_file_name_candidate =  Path(f"baseroms/{version}/baserom.{rom_file_ext}")
+            rom_file_name_candidate = Path(f"baseroms/{version}/baserom.{rom_file_ext}")
             if rom_file_name_candidate.exists():
                 return rom_file_name_candidate
     return None
@@ -188,7 +177,11 @@ def main():
     description = "Convert a rom that uses dmadata to an uncompressed one."
 
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument("version", help="Version of the game to decompress.", choices=list(VERSIONS_MD5S.keys()))
+    parser.add_argument(
+        "version",
+        help="Version of the game to decompress.",
+        choices=list(VERSIONS_MD5S.keys()),
+    )
 
     args = parser.parse_args()
 
@@ -196,7 +189,7 @@ def main():
 
     uncompressed_path = Path(f"baseroms/{version}/baserom-decompressed.z64")
 
-    file_table_offset = FILE_TABLE_OFFSET[version]
+    dmadata_offset = FILE_TABLE_OFFSET[version]
     correct_str_hash = VERSIONS_MD5S[version]
 
     if check_existing_rom(uncompressed_path, correct_str_hash):
@@ -207,7 +200,8 @@ def main():
 
     if rom_file_name is None:
         path_list = [
-            f"baseroms/{version}/baserom.{rom_file_ext}" for rom_file_ext in ROM_FILE_EXTENSIONS
+            f"baseroms/{version}/baserom.{rom_file_ext}"
+            for rom_file_ext in ROM_FILE_EXTENSIONS
         ]
         print(f"Error: Could not find {','.join(path_list)}.")
         exit(1)
@@ -234,20 +228,15 @@ def main():
 
     file_content = per_version_fixes(file_content, version)
 
-    dmadata = read_dmadata(file_content, file_table_offset)
+    dma_entries = dmadata.read_dmadata(file_content, dmadata_offset)
     # Decompress
-    if any(
-        [
-            b != 0
-            for b in file_content[
-                file_table_offset + 0xAC : file_table_offset + 0xAC + 0x4
-            ]
-        ]
-    ):
+    if any(dma_entry.is_compressed() for dma_entry in dma_entries):
         print("Decompressing rom...")
-        file_content = decompress_rom(file_content, file_table_offset, dmadata, version)
+        file_content = decompress_rom(
+            file_content, dmadata_offset, dma_entries, version
+        )
 
-    file_content = pad_rom(file_content, dmadata)
+    file_content = pad_rom(file_content, dma_entries)
 
     # Check to see if the ROM is a "vanilla" ROM
     str_hash = get_str_hash(file_content)

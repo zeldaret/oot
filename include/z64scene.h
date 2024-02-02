@@ -347,6 +347,7 @@ typedef union {
 typedef BAD_RETURN(s32) (*SceneCmdHandlerFunc)(struct PlayState*, SceneCmd*);
 
 #define DEFINE_SCENE(_0, _1, enum, _3, _4, _5) enum,
+#define DEFINE_DEBUG_SCENE(_0, _1, enum, _3, _4, _5) enum,
 
 typedef enum {
     #include "tables/scene_table.h"
@@ -354,6 +355,7 @@ typedef enum {
 } SceneID;
 
 #undef DEFINE_SCENE
+#undef DEFINE_DEBUG_SCENE
 
 // this define exists to preserve shiftability for an unused scene that is
 // listed in the entrance table
