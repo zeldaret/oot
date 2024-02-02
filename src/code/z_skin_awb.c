@@ -20,13 +20,17 @@ void Skin_InitAnimatedLimb(PlayState* play, Skin* skin, s32 limbIndex) {
              modifEntry++) {
             SkinVertex* skinVertices = SEGMENTED_TO_VIRTUAL(modifEntry->skinVertices);
 
-            for (skinVtxEntry = skinVertices; skinVtxEntry < &skinVertices[modifEntry->vtxCount]; skinVtxEntry++) {
+            for (skinVtxEntry = skinVertices; skinVtxEntry < &skinVertices[modifEntry->vtxCount];) {
                 Vtx* vtx = &vtxBuf[skinVtxEntry->index];
 
                 vtx->n.flag = 0;
-                vtx->n.tc[0] = skinVtxEntry->s;
-                vtx->n.tc[1] = skinVtxEntry->t;
-                vtx->n.a = skinVtxEntry->alpha;
+
+                // clang-format off
+                vtx->n.tc[0] = skinVtxEntry->s; \
+                vtx->n.tc[1] = skinVtxEntry->t; \
+                vtx->n.a = skinVtxEntry->alpha; \
+                skinVtxEntry++;
+                // clang-format on
             }
         }
     }
