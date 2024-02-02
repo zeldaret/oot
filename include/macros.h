@@ -143,14 +143,6 @@
         (state)->size = sizeof(newStruct);               \
     } while (0)
 
-#define SET_NEXT_GAMESTATE_ALT(curState, newInit, newStruct) \
-    do {                                                     \
-        GameState* state = curState;                         \
-                                                             \
-        (state)->init = newInit;                             \
-        (state)->size = sizeof(newStruct);                   \
-    } while (0)
-
 #define SET_FULLSCREEN_VIEWPORT(view)      \
     {                                      \
         Viewport viewport;                 \

@@ -382,7 +382,7 @@ void FileSelect_PulsateCursor(GameState* thisx) {
     SramContext* sramCtx = &this->sramCtx;
     Input* debugInput = &this->state.input[2];
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (CHECK_BTN_ALL(debugInput->press.button, BTN_DLEFT)) {
         sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_ENG;
         *((u8*)0x80000002) = LANGUAGE_ENG;
@@ -1441,7 +1441,7 @@ void FileSelect_FadeOut(GameState* thisx) {
 void FileSelect_LoadGame(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
 
-#ifdef OOT_DEBUG
+#if OOT_DEBUG
     if (this->buttonIndex == FS_BTN_SELECT_FILE_1) {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1450,7 +1450,9 @@ void FileSelect_LoadGame(GameState* thisx) {
         gSaveContext.gameMode = GAMEMODE_NORMAL;
         SET_NEXT_GAMESTATE(&this->state, MapSelect_Init, MapSelectState);
         this->state.running = false;
-    } else {
+    } else
+#endif
+    {
         Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         gSaveContext.fileNum = this->buttonIndex;
@@ -1459,15 +1461,6 @@ void FileSelect_LoadGame(GameState* thisx) {
         SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
         this->state.running = false;
     }
-#else
-    Audio_PlaySfxGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-    gSaveContext.fileNum = this->buttonIndex;
-    Sram_OpenSave(&this->sramCtx);
-    gSaveContext.gameMode = GAMEMODE_NORMAL;
-    SET_NEXT_GAMESTATE_ALT(&this->state, Play_Init, PlayState);
-    this->state.running = false;
-#endif
 
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;
     gSaveContext.respawnFlag = 0;
