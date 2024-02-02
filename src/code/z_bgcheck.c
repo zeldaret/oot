@@ -1540,10 +1540,10 @@ void BgCheck_Allocate(CollisionContext* colCtx, PlayState* play, CollisionHeader
     u32 tblMax;
     u32 memSize;
     u32 lookupTblMemSize;
-    SSNodeList* nodeList;
-    s32 useCustomSubdivisions;
-    u32 customMemSize;
     s32 customNodeListMax;
+    SSNodeList* nodeList;
+    u32 customMemSize;
+    s32 useCustomSubdivisions;
     s32 i;
 
     colCtx->colHeader = colHeader;
@@ -2871,6 +2871,7 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
         return;
     }
 
+#if OOT_DEBUG
     if (!(dyna->polyListMax >= *polyStartIndex + pbgdata->numPolygons)) {
         PRINTF(VT_FGCOL(RED));
         // "do not use if %d exceeds %d"
@@ -2889,6 +2890,7 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
            "pdyna_poly_info->poly_num >= *pstart_poly_index + pbgdata->poly_num", "../z_bgcheck.c", 6687);
     ASSERT(dyna->vtxListMax >= *vtxStartIndex + pbgdata->numVertices,
            "pdyna_poly_info->vert_num >= *pstart_vert_index + pbgdata->vtx_num", "../z_bgcheck.c", 6688);
+#endif
 
     if (!(dyna->bitFlag & DYNAPOLY_INVALIDATE_LOOKUP) &&
         (BgActor_IsTransformUnchanged(&dyna->bgActors[bgId]) == true)) {
@@ -2955,6 +2957,8 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
         sphere->center.z = newCenterPoint.z;
         newRadiusSq = -SQ(10.0f);
 
+    dummy1:;
+
         for (i = 0; i < pbgdata->numVertices; i++) {
             newVtx.x = dyna->vtxList[*vtxStartIndex + i].x;
             newVtx.y = dyna->vtxList[*vtxStartIndex + i].y;
@@ -2966,6 +2970,8 @@ void DynaPoly_AddBgActorToLookup(PlayState* play, DynaCollisionContext* dyna, s3
         }
 
         sphere->radius = sqrtf(newRadiusSq) * 1.1f;
+
+    dummy2:;
 
         for (i = 0; i < pbgdata->numPolygons; i++) {
             CollisionPoly* newPoly = &dyna->polyList[*polyStartIndex + i];
