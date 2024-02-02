@@ -38,7 +38,7 @@ u32 sDmaMgrIsRomCompressed = false;
 
 #if OOT_DEBUG
 const char* sDmaMgrFileNames[] = {
-    #include "tables/dmadata_table.h"
+#include "tables/dmadata_table.h"
 };
 #endif
 
@@ -269,9 +269,9 @@ NORETURN void DmaMgr_Error(DmaRequest* req, const char* filename, const char* er
     Fault_AddHungupAndCrashImpl(buff1, buff2);
 }
 
-    #define DMA_ERROR(req, filename, errorName, errorDesc, file, line) DmaMgr_Error(req, filename, errorName, errorDesc)
+#define DMA_ERROR(req, filename, errorName, errorDesc, file, line) DmaMgr_Error(req, filename, errorName, errorDesc)
 #else
-    #define DMA_ERROR(req, filename, errorName, errorDesc, file, line) Fault_AddHungupAndCrash(file, line)
+#define DMA_ERROR(req, filename, errorName, errorDesc, file, line) Fault_AddHungupAndCrash(file, line)
 #endif
 
 /**
@@ -296,9 +296,9 @@ const char* DmaMgr_FindFileName(uintptr_t vrom) {
     }
     //! @bug Since there is no return, in case the file isn't found, the return value will be a pointer to the end
     // of gDmaDataTable
-    #ifdef AVOID_UB
+#ifdef AVOID_UB
     return "";
-    #endif
+#endif
 #else
     return NULL;
 #endif

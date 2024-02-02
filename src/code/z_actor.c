@@ -12,14 +12,14 @@ static CollisionPoly* sCurCeilingPoly;
 static s32 sCurCeilingBgId;
 
 #if OOT_DEBUG
-    #define ACTOR_DEBUG_PRINTF           \
-        if (R_ENABLE_ACTOR_DEBUG_PRINTF) \
-        PRINTF
+#define ACTOR_DEBUG_PRINTF           \
+    if (R_ENABLE_ACTOR_DEBUG_PRINTF) \
+    PRINTF
 #elif defined(__sgi)
-    // See comment about PRINTF in macros.h
-    #define ACTOR_DEBUG_PRINTF(args) (void)0
+// See comment about PRINTF in macros.h
+#define ACTOR_DEBUG_PRINTF(args) (void)0
 #else
-    #define ACTOR_DEBUG_PRINTF(format, ...) (void)0
+#define ACTOR_DEBUG_PRINTF(format, ...) (void)0
 #endif
 
 void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale) {

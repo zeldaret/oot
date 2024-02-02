@@ -2307,7 +2307,7 @@ void AudioOcarina_ResetStaffs(void) {
 }
 
 #if OOT_DEBUG
-    #include "debug.inc.c"
+#include "debug.inc.c"
 #else
 void AudioDebug_Draw(GfxPrint* printer) {
 }
