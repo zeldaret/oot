@@ -104,6 +104,7 @@ void LogUtils_LogThreadId(const char* name, s32 line) {
 
 void LogUtils_HungupThread(const char* name, s32 line) {
     OSId threadId = osGetThreadId(NULL);
+
     PRINTF("*** HungUp in thread %d, [%s:%d] ***\n", threadId, name, line);
     Fault_AddHungupAndCrash(name, line);
 }
