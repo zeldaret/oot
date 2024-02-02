@@ -1,9 +1,9 @@
 #include "global.h"
 #include "terminal.h"
 
-#define FLAG_FILL_ALLOC_BLOCK (1 << 0)
-#define FLAG_FILL_FREE_BLOCK (1 << 1)
-#define FLAG_CHECK_FREE_BLOCK (1 << 2)
+#define FILL_ALLOC_BLOCK_FLAG (1 << 0)
+#define FILL_FREE_BLOCK_FLAG (1 << 1)
+#define CHECK_FREE_BLOCK_FLAG (1 << 2)
 
 #define NODE_MAGIC (0x7373)
 
@@ -24,19 +24,19 @@
 #define SET_DEBUG_INFO(node, file, line, arena) ArenaImpl_SetDebugInfo(node, file, line, arena)
 
 #define FILL_ALLOC_BLOCK(arena, alloc, size)   \
-    if ((arena)->flag & FLAG_FILL_ALLOC_BLOCK) \
+    if ((arena)->flag & FILL_ALLOC_BLOCK_FLAG) \
     __osMemset(alloc, BLOCK_ALLOC_MAGIC, size)
 
 #define FILL_FREE_BLOCK_HEADER(arena, node)   \
-    if ((arena)->flag & FLAG_FILL_FREE_BLOCK) \
+    if ((arena)->flag & FILL_FREE_BLOCK_FLAG) \
     __osMemset(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode))
 
 #define FILL_FREE_BLOCK_CONTENTS(arena, node) \
-    if ((arena)->flag & FLAG_FILL_FREE_BLOCK) \
+    if ((arena)->flag & FILL_FREE_BLOCK_FLAG) \
     __osMemset((void*)((u32)(node) + sizeof(ArenaNode)), BLOCK_FREE_MAGIC, (node)->size)
 
 #define CHECK_FREE_BLOCK(arena, node)          \
-    if ((arena)->flag & FLAG_CHECK_FREE_BLOCK) \
+    if ((arena)->flag & CHECK_FREE_BLOCK_FLAG) \
     __osMalloc_FreeBlockTest(arena, node)
 
 #define CHECK_ALLOC_FAILURE(arena, ptr) (void)0
@@ -71,33 +71,33 @@ OSMesg sArenaLockMsg;
 u32 __osMalloc_FreeBlockTest_Enable;
 
 u32 ArenaImpl_GetFillAllocBlock(Arena* arena) {
-    return (arena->flag & FLAG_FILL_ALLOC_BLOCK) != 0;
+    return (arena->flag & FILL_ALLOC_BLOCK_FLAG) != 0;
 }
 u32 ArenaImpl_GetFillFreeBlock(Arena* arena) {
-    return (arena->flag & FLAG_FILL_FREE_BLOCK) != 0;
+    return (arena->flag & FILL_FREE_BLOCK_FLAG) != 0;
 }
 u32 ArenaImpl_GetCheckFreeBlock(Arena* arena) {
-    return (arena->flag & FLAG_CHECK_FREE_BLOCK) != 0;
+    return (arena->flag & CHECK_FREE_BLOCK_FLAG) != 0;
 }
 
 void ArenaImpl_SetFillAllocBlock(Arena* arena) {
-    arena->flag |= FLAG_FILL_ALLOC_BLOCK;
+    arena->flag |= FILL_ALLOC_BLOCK_FLAG;
 }
 void ArenaImpl_SetFillFreeBlock(Arena* arena) {
-    arena->flag |= FLAG_FILL_FREE_BLOCK;
+    arena->flag |= FILL_FREE_BLOCK_FLAG;
 }
 void ArenaImpl_SetCheckFreeBlock(Arena* arena) {
-    arena->flag |= FLAG_CHECK_FREE_BLOCK;
+    arena->flag |= CHECK_FREE_BLOCK_FLAG;
 }
 
 void ArenaImpl_UnsetFillAllocBlock(Arena* arena) {
-    arena->flag &= ~FLAG_FILL_ALLOC_BLOCK;
+    arena->flag &= ~FILL_ALLOC_BLOCK_FLAG;
 }
 void ArenaImpl_UnsetFillFreeBlock(Arena* arena) {
-    arena->flag &= ~FLAG_FILL_FREE_BLOCK;
+    arena->flag &= ~FILL_FREE_BLOCK_FLAG;
 }
 void ArenaImpl_UnsetCheckFreeBlock(Arena* arena) {
-    arena->flag &= ~FLAG_CHECK_FREE_BLOCK;
+    arena->flag &= ~CHECK_FREE_BLOCK_FLAG;
 }
 
 void ArenaImpl_SetDebugInfo(ArenaNode* node, const char* file, s32 line, Arena* arena) {
