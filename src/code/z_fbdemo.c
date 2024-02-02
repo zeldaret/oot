@@ -40,6 +40,12 @@ Gfx sTransTileSetupDL[] = {
     gsSPEndDisplayList(),
 };
 
+#if OOT_DEBUG
+#define LOOP_INCREMENT col++
+#else
+#define LOOP_INCREMENT col++, colTex += 0x20
+#endif
+
 void TransitionTile_InitGraphics(TransitionTile* this) {
     s32 frame;
     s32 col;
@@ -57,34 +63,32 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
     for (frame = 0; frame < 2; frame++) {
         this->frame = frame;
         vtx = (this->frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
-        rowTex = 0;
-        for (row = 0; row < this->rows + 1; row++) {
-            colTex = 0;
-            for (col = 0; col < this->cols + 1; col++) {
+        for (rowTex = 0, row = 0; row < (this->rows + 1); row++, rowTex += 0x20) {
+            for (colTex = 0, col = 0; col < (this->cols + 1); LOOP_INCREMENT) {
                 Vtx_tn* vtxn = &vtx->n;
 
-                vtx++;
-                vtxn->tc[0] = colTex << 6;
-                vtxn->ob[0] = col * 0x20;
-                vtxn->ob[1] = row * 0x20;
-                vtxn->ob[2] = -5;
-                vtxn->flag = 0;
-                vtxn->tc[1] = rowTex << 6;
-                vtxn->n[0] = 0;
-                vtxn->n[1] = 0;
-                vtxn->n[2] = 120;
+                // clang-format off
+                vtx++;                      \
+                vtxn->tc[0] = colTex << 6;  \
+                vtxn->ob[0] = col * 0x20;   \
+                vtxn->ob[1] = row * 0x20;   \
+                vtxn->ob[2] = -5;           \
+                vtxn->flag = 0;             \
+                vtxn->tc[1] = rowTex << 6;  \
+                vtxn->n[0] = 0;             \
+                vtxn->n[1] = 0;             \
+                vtxn->n[2] = 120;           \
                 vtxn->a = 255;
-
+                // clang-format on
+#if OOT_DEBUG
                 colTex += 0x20;
+#endif
             }
-
-            rowTex += 0x20;
         }
     }
 
     gfx = this->gfx;
-    rowTex = 0;
-    for (row = 0; row < this->rows; row++) {
+    for (rowTex = 0, row = 0; row < this->rows; row++, rowTex += 0x20) {
         gSPVertex(gfx++, SEGMENT_ADDR(0xA, (u32)row * (this->cols + 1) * sizeof(Vtx)), 2 * (this->cols + 1), 0);
 
         colTex = 0;
@@ -103,8 +107,6 @@ void TransitionTile_InitGraphics(TransitionTile* this) {
             col2++;
             col++;
         }
-
-        rowTex += 0x20;
     }
 
     gDPPipeSync(gfx++);
