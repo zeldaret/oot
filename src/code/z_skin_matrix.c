@@ -193,21 +193,21 @@ void SkinMatrix_GetClear(MtxF** mfp) {
 
 void SkinMatrix_Clear(MtxF* mf) {
     mf->xx = 1.0f;
-    mf->yy = 1.0f;
-    mf->zz = 1.0f;
-    mf->ww = 1.0f;
     mf->yx = 0.0f;
     mf->zx = 0.0f;
     mf->wx = 0.0f;
     mf->xy = 0.0f;
+    mf->yy = 1.0f;
     mf->zy = 0.0f;
     mf->wy = 0.0f;
     mf->xz = 0.0f;
     mf->yz = 0.0f;
+    mf->zz = 1.0f;
     mf->wz = 0.0f;
     mf->xw = 0.0f;
     mf->yw = 0.0f;
     mf->zw = 0.0f;
+    mf->ww = 1.0f;
 }
 
 void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest) {
@@ -237,8 +237,6 @@ void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest) {
 s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
     MtxF mfCopy;
     s32 i;
-    s32 pad;
-    f32 temp2;
     f32 temp1;
     s32 thisCol;
     s32 thisRow;
@@ -264,13 +262,8 @@ s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
             // Diagonal element mf[thisCol][thisCol] is zero.
             // Swap the rows thisCol and thisRow.
             for (i = 0; i < 4; i++) {
-                temp1 = mfCopy.mf[i][thisRow];
-                mfCopy.mf[i][thisRow] = mfCopy.mf[i][thisCol];
-                mfCopy.mf[i][thisCol] = temp1;
-
-                temp2 = dest->mf[i][thisRow];
-                dest->mf[i][thisRow] = dest->mf[i][thisCol];
-                dest->mf[i][thisCol] = temp2;
+                SWAP(f32, mfCopy.mf[i][thisRow], mfCopy.mf[i][thisCol]);
+                SWAP(f32, dest->mf[i][thisRow], dest->mf[i][thisCol]);
             }
         }
 
