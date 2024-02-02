@@ -240,7 +240,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 for (k2 = 0; k2 < gChannelsPerBank[gSfxChannelLayout][k]; k2++) {
 #define entryIndex (gActiveSfx[k][k2].entryIndex)
 #define entry (&gSfxBanks[k][entryIndex])
-#define chan (gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[entry->channelIdx])
+#define chan (gAudioCtx.seqPlayers[SEQ_PLAYER_SFX].channels[entry->channelIndex])
                     GfxPrint_SetPos(printer, 2 + sAudioIntInfoX, 5 + ind + sAudioIntInfoY);
                     if (sAudioIntInfoBankPage[k] == 1) {
                         if ((entryIndex != 0xFF) &&
@@ -265,7 +265,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                             ((entry->state == SFX_STATE_PLAYING_1) || (entry->state == SFX_STATE_PLAYING_2))) {
                             GfxPrint_Printf(printer, "%2X %5d %5d %5d %3d %3d %04X", entryIndex, (s32)*entry->posX,
                                             (s32)*entry->posY, (s32)*entry->posZ, (s32)(chan->freqScale * 100.0f),
-                                            chan->reverb, entry->sfxId);
+                                            chan->targetReverbVol, entry->sfxId);
                         } else {
                             GfxPrint_Printf(printer, "FF ----- ----- ----- --- --- ----");
                         }
@@ -410,7 +410,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 }
 
                 GfxPrint_SetPos(printer, 15 + i, 8);
-                if (gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel].channels[i]->stopSomething2) {
+                if (gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel].channels[i]->muted) {
                     GfxPrint_Printf(printer, "O");
                 } else {
                     GfxPrint_Printf(printer, "X");
@@ -476,7 +476,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_Printf(printer, "%02X ",
                                 (u8)gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                     .channels[sAudioSubTrackInfoChannelSel]
-                                    ->soundScriptIO[i]);
+                                    ->seqScriptIO[i]);
             }
 
             if (gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel].channels[sAudioSubTrackInfoChannelSel]->enabled) {
@@ -526,9 +526,10 @@ void AudioDebug_Draw(GfxPrint* printer) {
                                     ->panChannelWeight);
 
                 GfxPrint_SetPos(printer, 15, 17);
-                GfxPrint_Printf(
-                    printer, "%d",
-                    gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel].channels[sAudioSubTrackInfoChannelSel]->reverb);
+                GfxPrint_Printf(printer, "%d",
+                                gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel]
+                                    .channels[sAudioSubTrackInfoChannelSel]
+                                    ->targetReverbVol);
 
                 GfxPrint_SetPos(printer, 15, 18);
                 GfxPrint_Printf(printer, "%d",
@@ -547,7 +548,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
                 GfxPrint_Printf(printer, "%d",
                                 (u8)(gAudioCtx.seqPlayers[sAudioSubTrackInfoPlayerSel]
                                          .channels[sAudioSubTrackInfoChannelSel]
-                                         ->vibratoExtentTarget /
+                                         ->vibratoDepthTarget /
                                      8));
 
                 GfxPrint_SetPos(printer, 15, 21);
@@ -623,35 +624,33 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             SETCOL(255, 255, 255);
             GfxPrint_SetPos(printer, 3, 7);
-            GfxPrint_Printf(printer, "NEXT SCENE %02X %s",
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[2],
-                            sAudioSceneNames[(u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[2]]);
+            GfxPrint_Printf(printer, "NEXT SCENE %02X %s", (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[2],
+                            sAudioSceneNames[(u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[2]]);
 
             GfxPrint_SetPos(printer, 3, 8);
-            GfxPrint_Printf(printer, "NOW SCENE  %02X %s",
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[4],
-                            sAudioSceneNames[(u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[4]]);
+            GfxPrint_Printf(printer, "NOW SCENE  %02X %s", (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[4],
+                            sAudioSceneNames[(u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[4]]);
 
             GfxPrint_SetPos(printer, 3, 9);
             GfxPrint_Printf(printer, "NOW BLOCK  %02X",
-                            (gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[5] + 1) & 0xFF);
+                            (gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[5] + 1) & 0xFF);
 
             GfxPrint_SetPos(printer, 3, 11);
             GfxPrint_Printf(printer, "PORT");
 
             GfxPrint_SetPos(printer, 3, 12);
             GfxPrint_Printf(printer, "%02X %02X %02X %02X",
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[0],
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[1],
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[2],
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[3]);
+                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[0],
+                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[1],
+                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[2],
+                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[3]);
 
             GfxPrint_SetPos(printer, 3, 13);
             GfxPrint_Printf(printer, "%02X %02X %02X %02X",
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[4],
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[5],
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[6],
-                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].soundScriptIO[7]);
+                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[4],
+                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[5],
+                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[6],
+                            (u8)gAudioCtx.seqPlayers[SEQ_PLAYER_BGM_MAIN].seqScriptIO[7]);
             break;
 
         case PAGE_OCARINA_TEST:
@@ -1174,7 +1173,7 @@ void AudioDebug_ProcessInput_BlkChgBgm(void) {
     }
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
-        Audio_QueueCmdS8(MK_CMD(0x46, SEQ_PLAYER_BGM_MAIN, 0x00, 0x00), sAudioBlkChgBgmWork[1]);
+        AUDIOCMD_SEQPLAYER_SET_IO(SEQ_PLAYER_BGM_MAIN, 0, sAudioBlkChgBgmWork[1]);
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1, 0, sAudioBlkChgBgmWork[0]);
     }
 

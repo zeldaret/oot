@@ -117,6 +117,8 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
     u8 temp;
     s16 phi_v0;
 
+    if (1) {}
+
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 205);
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -230,9 +232,11 @@ void FileSelect_SetNameEntryVtx(GameState* thisx) {
 void FileSelect_DrawKeyboard(GameState* thisx) {
     FileSelectState* this = (FileSelectState*)thisx;
     Font* font = &this->font;
-    s16 i = 0;
+    s16 i;
     s16 tmp;
-    s16 vtx = 0;
+    s16 vtx;
+
+    i = vtx = 0;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 324);
 

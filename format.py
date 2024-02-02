@@ -9,7 +9,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from pathlib import Path
 from functools import partial
 from typing import List
 
@@ -151,15 +150,6 @@ def main():
         action="store_true",
         help="Print the paths to the clang-* binaries used",
     )
-    parser.add_argument(
-        "--files-list",
-        dest="files_list",
-        help="A file listing the files to format",
-    )
-    parser.add_argument(
-        "--verbose",
-        action="store_true",
-    )
     parser.add_argument("files", metavar="file", nargs="*")
     parser.add_argument(
         "-j",
@@ -185,18 +175,10 @@ def main():
                 f"Error: neither clang-apply-replacements nor clang-apply-replacements-{CLANG_VER} found (required to use -j)"
             )
 
-    if args.files or args.files_list:
-        files = []
-        files.extend(args.files)
-        if args.files_list:
-            files.extend(Path(args.files_list).read_text().split())
-        files = list(files)
+    if args.files:
+        files = args.files
         extra_files = []
-        if args.verbose:
-            print("Formatting specific files:", len(files), files)
     else:
-        if args.verbose:
-            print("Formatting all files")
         files = glob.glob("src/**/*.c", recursive=True)
         extra_files = glob.glob("assets/**/*.xml", recursive=True)
 

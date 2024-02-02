@@ -21,6 +21,14 @@
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
+#define SWAP(type, a, b)    \
+    {                       \
+        type _temp = (a);   \
+        (a) = (b);          \
+        (b) = _temp;        \
+    }                       \
+    (void)0
+
 #define RGBA8(r, g, b, a) ((((r) & 0xFF) << 24) | (((g) & 0xFF) << 16) | (((b) & 0xFF) << 8) | (((a) & 0xFF) << 0))
 
 #define GET_PLAYER(play) ((Player*)(play)->actorCtx.actorLists[ACTORCAT_PLAYER].head)
@@ -100,27 +108,30 @@
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
-#if OOT_DEBUG
-#define PRINTF osSyncPrintf
-#elif defined(__sgi) /* IDO compiler */
 // IDO doesn't support variadic macros, but it merely throws a warning for the
 // number of arguments not matching the definition (warning 609) instead of
 // throwing an error. We suppress this warning and rely on GCC to catch macro
 // argument errors instead.
+// Note some tools define __sgi but preprocess with a modern cpp implementation,
+// ensure that these do not use the IDO workaround to avoid errors.
+#define IDO_PRINTF_WORKAROUND (__sgi && !__GNUC__ && !PERMUTER && !M2CTX)
+
+#if OOT_DEBUG
+#define PRINTF osSyncPrintf
+#elif IDO_PRINTF_WORKAROUND
 #define PRINTF(args) (void)0
 #else
 #define PRINTF(format, ...) (void)0
 #endif
 
 #if OOT_DEBUG
-
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
         LogUtils_LogThreadId(file, line);           \
         osSyncPrintf(exp " = " format "\n", value); \
     } while (0)
 #else
-#define LOG(exp, value, format, file, line) (void)0
+#define LOG(exp, value, format, file, line) (void)(value)
 #endif
 
 #define LOG_STRING(string, file, line) LOG(#string, string, "%s", file, line)
@@ -133,8 +144,10 @@
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
     do {                                                 \
-        (curState)->init = newInit;                      \
-        (curState)->size = sizeof(newStruct);            \
+        GameState* state = curState;                     \
+                                                         \
+        (state)->init = newInit;                         \
+        (state)->size = sizeof(newStruct);               \
     } while (0)
 
 #define SET_FULLSCREEN_VIEWPORT(view)      \
