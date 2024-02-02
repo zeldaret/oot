@@ -117,14 +117,13 @@
 #endif
 
 #if OOT_DEBUG
-
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
         LogUtils_LogThreadId(file, line);           \
         osSyncPrintf(exp " = " format "\n", value); \
     } while (0)
 #else
-#define LOG(exp, value, format, file, line) (void)0
+#define LOG(exp, value, format, file, line) (void)(value)
 #endif
 
 #define LOG_STRING(string, file, line) LOG(#string, string, "%s", file, line)
