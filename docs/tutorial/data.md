@@ -601,7 +601,7 @@ Bytes: 27:BD:FF:E8 vs 8F:B0:00:34
 
 Over 1000 differing words, must be a shifted ROM.
 Map appears to have shifted just before D_80A88D40 (build/data/overlays/actors/z_en_jj.reloc.o) -- in unused?
-(Base map file expected/build/oot-gc-eu-mq-dbg.map out of date due to new or renamed symbols, so result may be imprecise.)
+(Base map file expected/build/z64.map out of date due to new or renamed symbols, so result may be imprecise.)
 ```
 We've managed to get rid of one issue, but there's still another one. Looking in vbindiff again,
 
