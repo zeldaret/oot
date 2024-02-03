@@ -34,17 +34,6 @@ def decompress(data: bytes, is_zlib_compressed: bool) -> bytes:
     return crunch64.yaz0.decompress(data)
 
 
-FILE_TABLE_OFFSET = {
-    "gc-eu-mq": 0x07170,
-    "gc-eu-mq-dbg": 0x12F70,
-}
-
-VERSIONS_MD5S = {
-    "gc-eu-mq": "1a438f4235f8038856971c14a798122a",
-    "gc-eu-mq-dbg": "f0b7f35375f9cc8ca1b2d59d78e35405",
-}
-
-
 def round_up(n, shift):
     mod = 1 << shift
     return (n + mod - 1) >> shift << shift
@@ -177,17 +166,21 @@ def main():
     parser.add_argument(
         "version",
         help="Version of the game to decompress.",
-        choices=list(VERSIONS_MD5S.keys()),
     )
 
     args = parser.parse_args()
 
     version = args.version
 
-    uncompressed_path = Path(f"baseroms/{version}/baserom-decompressed.z64")
+    baserom_dir = Path(f"baseroms/{version}")
+    if not baserom_dir.exists():
+        print(f"Error: Unknown version '{version}'.")
+        exit(1)
 
-    dmadata_offset = FILE_TABLE_OFFSET[version]
-    correct_str_hash = VERSIONS_MD5S[version]
+    uncompressed_path = baserom_dir / "baserom-decompressed.z64"
+
+    dmadata_offset = int((baserom_dir / "dma_start.txt").read_text(), 16)
+    correct_str_hash = (baserom_dir / "checksum.md5").read_text().split()[0]
 
     if check_existing_rom(uncompressed_path, correct_str_hash):
         print("Found valid baserom - exiting early")
