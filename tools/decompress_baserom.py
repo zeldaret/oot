@@ -84,11 +84,9 @@ def decompress_rom(
         if dma_entry.is_compressed():
             is_zlib_compressed = version in {"ique-cn", "ique-zh"}
             new_contents = decompress(file_content[p_start:p_end], is_zlib_compressed)
-            rom_segments.update({v_start: new_contents})
+            rom_segments[v_start] = new_contents
         else:
-            rom_segments.update(
-                {v_start: file_content[p_start : p_start + v_end - v_start]}
-            )
+            rom_segments[v_start] = file_content[p_start : p_start + v_end - v_start]
         new_dmadata.append(dmadata.DmaEntry(v_start, v_end, v_start, 0))
 
     # write rom segments to vaddrs

@@ -60,14 +60,13 @@ def compress_rom(
     # Segments of the compressed rom (not all are compressed)
     compressed_rom_segments: list[RomSegment] = []
 
-    with multiprocessing.Pool(n_threads, initializer=set_sigint_ignored) as p:
-        dma_entries = dmadata.read_dmadata(rom_data, dmadata_offset)
-        # We sort the DMA entries by ROM start because
-        # `compress_entries_indices` refers to indices in ROM order, but the
-        # uncompressed dmadata might not be in ROM order (particularly for debug
-        # versions).
-        dma_entries.sort(key=lambda dma_entry: dma_entry.vrom_start)
+    dma_entries = dmadata.read_dmadata(rom_data, dmadata_offset)
+    # We sort the DMA entries by ROM start because `compress_entries_indices`
+    # refers to indices in ROM order, but the uncompressed dmadata might not be
+    # in ROM order.
+    dma_entries.sort(key=lambda dma_entry: dma_entry.vrom_start)
 
+    with multiprocessing.Pool(n_threads, initializer=set_sigint_ignored) as p:
         # Extract each segment from the input rom
         for entry_index, dma_entry in enumerate(dma_entries):
             segment_rom_start = dma_entry.rom_start
