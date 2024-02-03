@@ -97,12 +97,11 @@ void BgGanonOtyuka_Destroy(Actor* thisx, PlayState* play2) {
 void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
     Actor* prop;
-    BgGanonOtyuka* platform;
+    s16 i;
     f32 dx;
     f32 dy;
     f32 dz;
     Vec3f center;
-    s16 i;
 
     if (this->isFalling || ((play->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
         PRINTF("OTC O 1\n");
@@ -113,20 +112,19 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, PlayState* play) {
                 if ((prop == thisx) || (prop->id != ACTOR_BG_GANON_OTYUKA)) {
                     prop = prop->next;
                     continue;
-                }
-
-                platform = (BgGanonOtyuka*)prop;
-
-                dx = platform->dyna.actor.world.pos.x - this->dyna.actor.world.pos.x + D_80876A68[i].x;
-                dy = platform->dyna.actor.world.pos.y - this->dyna.actor.world.pos.y;
-                dz = platform->dyna.actor.world.pos.z - this->dyna.actor.world.pos.z + D_80876A68[i].z;
-
-                if ((fabsf(dx) < 10.0f) && (fabsf(dy) < 10.0f) && (fabsf(dz) < 10.0f)) {
-                    platform->visibleSides |= sSides[i];
-                    break;
                 } else {
-                    prop = prop->next;
+                    BgGanonOtyuka* platform = (BgGanonOtyuka*)prop;
+
+                    dx = platform->dyna.actor.world.pos.x - this->dyna.actor.world.pos.x + D_80876A68[i].x;
+                    dy = platform->dyna.actor.world.pos.y - this->dyna.actor.world.pos.y;
+                    dz = platform->dyna.actor.world.pos.z - this->dyna.actor.world.pos.z + D_80876A68[i].z;
+
+                    if ((fabsf(dx) < 10.0f) && (fabsf(dy) < 10.0f) && (fabsf(dz) < 10.0f)) {
+                        platform->visibleSides |= sSides[i];
+                        break;
+                    }
                 }
+                prop = prop->next;
             }
         }
 
