@@ -66,7 +66,7 @@ def decompress_rom(
     file_content: bytearray,
     dmadata_offset: int,
     dma_entries: list[dmadata.DmaEntry],
-    version: str,
+    is_zlib_compressed: bool,
 ) -> bytearray:
     rom_segments = {}  # vrom start : data s.t. len(data) == vrom_end - vrom_start
     new_dmadata = []  # new dmadata: list[dmadata.Entry]
@@ -82,7 +82,6 @@ def decompress_rom(
             new_dmadata.append(dma_entry)
             continue
         if dma_entry.is_compressed():
-            is_zlib_compressed = version in {"ique-cn", "ique-zh"}
             new_contents = decompress(file_content[p_start:p_end], is_zlib_compressed)
             rom_segments[v_start] = new_contents
         else:
@@ -230,8 +229,9 @@ def main():
     # Decompress
     if any(dma_entry.is_compressed() for dma_entry in dma_entries):
         print("Decompressing rom...")
+        is_zlib_compressed = version in {"ique-cn", "ique-zh"}
         file_content = decompress_rom(
-            file_content, dmadata_offset, dma_entries, version
+            file_content, dmadata_offset, dma_entries, is_zlib_compressed
         )
 
     file_content = pad_rom(file_content, dma_entries)
