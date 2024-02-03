@@ -113,7 +113,7 @@ s32 ObjOshihiki_StrongEnough(ObjOshihiki* this) {
         return 0;
     }
     strength = Player_GetStrength();
-    switch (this->dyna.actor.params & 0xF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
         case PUSHBLOCK_SMALL_START_ON:
         case PUSHBLOCK_MEDIUM_START_ON:
         case PUSHBLOCK_SMALL_START_OFF:
@@ -180,16 +180,16 @@ s32 ObjOshihiki_NoSwitchPress(ObjOshihiki* this, DynaPolyActor* dyna, PlayState*
     if (dyna == NULL) {
         return 1;
     } else if (dyna->actor.id == ACTOR_OBJ_SWITCH) {
-        dynaSwitchFlag = (dyna->actor.params >> 8) & 0x3F;
-        switch (dyna->actor.params & 0x33) {
-            case 0x20: // Normal blue switch
-                if ((dynaSwitchFlag == ((this->dyna.actor.params >> 8) & 0x3F)) &&
+        dynaSwitchFlag = PARAMS_GET_U(dyna->actor.params, 8, 6);
+        switch (dyna->actor.params & 0x33) { // Does not fit any standard params getter macro
+            case 0x20:                       // Normal blue switch
+                if ((dynaSwitchFlag == PARAMS_GET_U(this->dyna.actor.params, 8, 6)) &&
                     Flags_GetSwitch(play, dynaSwitchFlag)) {
                     return 0;
                 }
                 break;
             case 0x30: // Inverse blue switch
-                if ((dynaSwitchFlag == ((this->dyna.actor.params >> 8) & 0x3F)) &&
+                if ((dynaSwitchFlag == PARAMS_GET_U(this->dyna.actor.params, 8, 6)) &&
                     !Flags_GetSwitch(play, dynaSwitchFlag)) {
                     return 0;
                 }
@@ -200,7 +200,7 @@ s32 ObjOshihiki_NoSwitchPress(ObjOshihiki* this, DynaPolyActor* dyna, PlayState*
 }
 
 void ObjOshihiki_CheckType(ObjOshihiki* this, PlayState* play) {
-    switch (this->dyna.actor.params & 0xF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
         case PUSHBLOCK_SMALL_START_ON:
         case PUSHBLOCK_MEDIUM_START_ON:
         case PUSHBLOCK_LARGE_START_ON:
@@ -220,11 +220,11 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, PlayState* play) {
 }
 
 void ObjOshihiki_SetScale(ObjOshihiki* this, PlayState* play) {
-    Actor_SetScale(&this->dyna.actor, sScales[this->dyna.actor.params & 0xF]);
+    Actor_SetScale(&this->dyna.actor, sScales[PARAMS_GET_U(this->dyna.actor.params, 0, 4)]);
 }
 
 void ObjOshihiki_SetTexture(ObjOshihiki* this, PlayState* play) {
-    switch (this->dyna.actor.params & 0xF) {
+    switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
         case PUSHBLOCK_SMALL_START_ON:
         case PUSHBLOCK_MEDIUM_START_ON:
         case PUSHBLOCK_SMALL_START_OFF:
@@ -248,7 +248,7 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, PlayState* play) {
     s16 paramsColorIdx;
     s32 i;
 
-    paramsColorIdx = (this->dyna.actor.params >> 6) & 3;
+    paramsColorIdx = PARAMS_GET_U(this->dyna.actor.params, 6, 2);
 
     for (i = 0; i < ARRAY_COUNT(sSceneIds); i++) {
         if (sSceneIds[i] == play->sceneId) {
@@ -274,9 +274,9 @@ void ObjOshihiki_Init(Actor* thisx, PlayState* play2) {
 
     ObjOshihiki_CheckType(this, play);
 
-    if ((((this->dyna.actor.params >> 8) & 0xFF) >= 0) && (((this->dyna.actor.params >> 8) & 0xFF) <= 0x3F)) {
-        if (Flags_GetSwitch(play, (this->dyna.actor.params >> 8) & 0x3F)) {
-            switch (this->dyna.actor.params & 0xF) {
+    if ((PARAMS_GET_U(this->dyna.actor.params, 8, 8) >= 0) && (PARAMS_GET_U(this->dyna.actor.params, 8, 8) <= 0x3F)) {
+        if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 8, 6))) {
+            switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
                 case PUSHBLOCK_SMALL_START_ON:
                 case PUSHBLOCK_MEDIUM_START_ON:
                 case PUSHBLOCK_LARGE_START_ON:
@@ -285,7 +285,7 @@ void ObjOshihiki_Init(Actor* thisx, PlayState* play2) {
                     return;
             }
         } else {
-            switch (this->dyna.actor.params & 0xF) {
+            switch (PARAMS_GET_U(this->dyna.actor.params, 0, 4)) {
                 case PUSHBLOCK_SMALL_START_OFF:
                 case PUSHBLOCK_MEDIUM_START_OFF:
                 case PUSHBLOCK_LARGE_START_OFF:

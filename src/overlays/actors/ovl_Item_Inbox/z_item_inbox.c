@@ -38,7 +38,7 @@ void ItemInbox_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void ItemInbox_Wait(ItemInbox* this, PlayState* play) {
-    if (Flags_GetTreasure(play, (this->actor.params >> 8) & 0x1F)) {
+    if (Flags_GetTreasure(play, PARAMS_GET_U(this->actor.params, 8, 5))) {
         Actor_Kill(&this->actor);
     }
 }
@@ -54,5 +54,5 @@ void ItemInbox_Draw(Actor* thisx, PlayState* play) {
 
     func_8002EBCC(&this->actor, play, 0);
     func_8002ED80(&this->actor, play, 0);
-    GetItem_Draw(play, this->actor.params & 0xFF);
+    GetItem_Draw(play, PARAMS_GET_U(this->actor.params, 0, 8));
 }

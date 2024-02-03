@@ -47,7 +47,7 @@ void BgSpot03Taki_Init(Actor* thisx, PlayState* play) {
     s16 pad;
     CollisionHeader* colHeader = NULL;
 
-    this->switchFlag = (this->dyna.actor.params & 0x3F);
+    this->switchFlag = PARAMS_GET_U(this->dyna.actor.params, 0, 6);
     DynaPolyActor_Init(&this->dyna, 0);
     CollisionHeader_GetVirtual(&object_spot03_object_Col_000C98, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);

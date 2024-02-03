@@ -51,7 +51,8 @@ void BgInGate_Init(Actor* thisx, PlayState* play) {
     }
 
     Actor_SetScale(&this->dyna.actor, 0.1f);
-    if (((this->dyna.actor.params & 1) != 0) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
+    if ((PARAMS_GET_U(this->dyna.actor.params, 0, 1) != 0) &&
+        (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
         play->csCtx.curFrame = 0;
         BgInGate_SetupAction(this, func_80892890);
     } else {
@@ -72,7 +73,7 @@ void func_80892890(BgInGate* this, PlayState* play) {
 
     if (play->csCtx.curFrame >= 50) {
         phi0 = 0x4000;
-        if ((this->dyna.actor.params & 2) == 0) {
+        if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 1, 1)) {
             phi0 = -0x4000;
         }
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
@@ -86,7 +87,7 @@ void func_80892890(BgInGate* this, PlayState* play) {
         }
         csFrames = (Math_SinS(csFrames) * 16384.0f);
         phi1 = csFrames;
-        if ((this->dyna.actor.params & 2) == 0) {
+        if (!PARAMS_GET_NOSHIFT(this->dyna.actor.params, 1, 1)) {
             phi1 = -phi1;
         }
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi1;

@@ -910,8 +910,8 @@ void func_808FF898(BossGanon2* this, PlayState* play) {
             if (actor->id == ACTOR_DEMO_GJ) {
                 DemoGj* gj = (DemoGj*)actor;
 
-                if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
-                    ((actor->params & 0xFF) == 0x16)) {
+                if ((PARAMS_GET_U(actor->params, 0, 8) == 0x10) || (PARAMS_GET_U(actor->params, 0, 8) == 0x11) ||
+                    (PARAMS_GET_U(actor->params, 0, 8) == 0x16)) {
                     if (SQ(this->unk_218.x - gj->dyna.actor.world.pos.x) +
                             SQ(this->unk_218.z - gj->dyna.actor.world.pos.z) <
                         SQ(100.0f)) {
@@ -951,8 +951,8 @@ s32 func_808FFA24(BossGanon2* this, PlayState* play) {
         if (actor->id == ACTOR_DEMO_GJ) {
             DemoGj* gj = (DemoGj*)actor;
 
-            if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
-                ((actor->params & 0xFF) == 0x16)) {
+            if ((PARAMS_GET_U(actor->params, 0, 8) == 0x10) || (PARAMS_GET_U(actor->params, 0, 8) == 0x11) ||
+                (PARAMS_GET_U(actor->params, 0, 8) == 0x16)) {
                 if (SQ(this->actor.world.pos.x - gj->dyna.actor.world.pos.x) +
                         SQ(this->actor.world.pos.z - gj->dyna.actor.world.pos.z) <
                     SQ(200.0f)) {

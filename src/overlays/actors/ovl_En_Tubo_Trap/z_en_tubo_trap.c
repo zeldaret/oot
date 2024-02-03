@@ -72,10 +72,10 @@ void EnTuboTrap_Destroy(Actor* thisx, PlayState* play) {
 
 void EnTuboTrap_DropCollectible(EnTuboTrap* this, PlayState* play) {
     s16 params = this->actor.params;
-    s16 dropType = (params >> 6) & 0x3FF;
+    s16 dropType = PARAMS_GET_U(params, 6, 10);
 
     if (dropType >= 0 && dropType < ITEM00_MAX) {
-        Item_DropCollectible(play, &this->actor.world.pos, dropType | ((params & 0x3F) << 8));
+        Item_DropCollectible(play, &this->actor.world.pos, dropType | (PARAMS_GET_U(params, 0, 6) << 8));
     }
 }
 

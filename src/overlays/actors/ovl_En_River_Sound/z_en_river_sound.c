@@ -29,8 +29,8 @@ void EnRiverSound_Init(Actor* thisx, PlayState* play) {
     EnRiverSound* this = (EnRiverSound*)thisx;
 
     this->playSfx = false;
-    this->pathIndex = (this->actor.params >> 8) & 0xFF;
-    this->actor.params &= 0xFF;
+    this->pathIndex = PARAMS_GET_U(this->actor.params, 8, 8);
+    this->actor.params = PARAMS_GET_U(this->actor.params, 0, 8);
 
     if (this->actor.params >= RS_GANON_TOWER_0) {
         // Incrementally increase volume of NA_BGM_GANON_TOWER for each new room during the climb of Ganon's Tower

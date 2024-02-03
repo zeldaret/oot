@@ -77,7 +77,7 @@ static Color_RGBA8 sColorGray = { 180, 180, 180, 255 };
 void ObjIcePoly_Init(Actor* thisx, PlayState* play) {
     ObjIcePoly* this = (ObjIcePoly*)thisx;
 
-    this->unk_151 = (thisx->params >> 8) & 0xFF;
+    this->unk_151 = PARAMS_GET_U(thisx->params, 8, 8);
     thisx->params &= 0xFF;
     if (thisx->params < 0 || thisx->params >= 3) {
         Actor_Kill(thisx);

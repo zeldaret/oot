@@ -13,8 +13,8 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-#define ENKO_TYPE (this->actor.params & 0xFF)
-#define ENKO_PATH ((this->actor.params & 0xFF00) >> 8)
+#define ENKO_TYPE PARAMS_GET_S(this->actor.params, 0, 8)
+#define ENKO_PATH PARAMS_GET_S(this->actor.params, 8, 8)
 
 void EnKo_Init(Actor* thisx, PlayState* play);
 void EnKo_Destroy(Actor* thisx, PlayState* play);

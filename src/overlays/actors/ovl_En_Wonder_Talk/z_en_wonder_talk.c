@@ -39,9 +39,9 @@ void EnWonderTalk_Init(Actor* thisx, PlayState* play) {
     // "Special conversation"
     PRINTF(VT_FGCOL(GREEN) "☆☆☆☆☆ 特殊会話くん ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
 
-    this->unk_150 = (this->actor.params >> 0xB) & 0x1F;
-    this->unk_152 = (this->actor.params >> 6) & 0x1F;
-    this->switchFlag = this->actor.params & 0x3F;
+    this->unk_150 = PARAMS_GET_U(this->actor.params, 11, 5);
+    this->unk_152 = PARAMS_GET_U(this->actor.params, 6, 5);
+    this->switchFlag = PARAMS_GET_U(this->actor.params, 0, 6);
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }

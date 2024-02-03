@@ -53,7 +53,7 @@ void BgGndNisekabe_Draw(Actor* thisx, PlayState* play) {
         gGanonsCastleScrubsFakeWallDL,
     };
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
-    u32 index = this->actor.params & 0xFF;
+    u32 index = PARAMS_GET_U(this->actor.params, 0, 8);
 
     if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(play, dLists[index]);

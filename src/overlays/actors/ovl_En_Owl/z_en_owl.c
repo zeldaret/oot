@@ -125,8 +125,8 @@ void EnOwl_Init(Actor* thisx, PlayState* play) {
     this->unk_405 = 4;
     this->unk_404 = this->unk_407 = 0;
     this->unk_408 = 4;
-    owlType = (this->actor.params & 0xFC0) >> 6;
-    switchFlag = (this->actor.params & 0x3F);
+    owlType = PARAMS_GET_S(this->actor.params, 6, 6);
+    switchFlag = PARAMS_GET_S(this->actor.params, 0, 6);
     if (this->actor.params == 0xFFF) {
         owlType = OWL_OUTSIDE_KOKIRI;
         switchFlag = 0x20;
@@ -302,7 +302,7 @@ void func_80ACA5C8(EnOwl* this) {
 }
 
 void func_80ACA62C(EnOwl* this, PlayState* play) {
-    s32 switchFlag = this->actor.params & 0x3F;
+    s32 switchFlag = PARAMS_GET_S(this->actor.params, 0, 6);
 
     if (switchFlag < 0x20) {
         Flags_SetSwitch(play, switchFlag);
@@ -728,7 +728,7 @@ void func_80ACB748(EnOwl* this, PlayState* play) {
     static Vec3f D_80ACD62C = { 0.0f, 0.0f, 0.0f };
     f32 dist;
     f32 weight;
-    s32 owlType = (this->actor.params & 0xFC0) >> 6;
+    s32 owlType = PARAMS_GET_S(this->actor.params, 6, 6);
 
     dist = Math3D_Vec3f_DistXYZ(&this->eye, &play->view.eye) / 45.0f;
     this->eye.x = play->view.eye.x;
@@ -926,7 +926,7 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
 
     if (this->actor.xzDistToPlayer < 50.0f) {
         if (!Play_InCsMode(play)) {
-            owlType = (this->actor.params & 0xFC0) >> 6;
+            owlType = PARAMS_GET_S(this->actor.params, 6, 6);
             PRINTF(VT_FGCOL(CYAN));
             PRINTF("%dのフクロウ\n", owlType); // "%d owl"
             PRINTF(VT_RST);
@@ -1057,7 +1057,7 @@ s32 func_80ACC5CC(EnOwl* this) {
 }
 
 s32 func_80ACC624(EnOwl* this, PlayState* play) {
-    s32 switchFlag = (this->actor.params & 0xFC0) >> 6;
+    s32 switchFlag = PARAMS_GET_S(this->actor.params, 6, 6);
 
     if (play->sceneId != SCENE_DESERT_COLOSSUS) {
         return true;

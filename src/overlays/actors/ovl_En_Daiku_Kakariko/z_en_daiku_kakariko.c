@@ -133,7 +133,7 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
             case SCENE_KAKARIKO_VILLAGE:
                 if (IS_DAY) {
                     this->flags |= 1;
-                    this->flags |= initFlags[this->actor.params & 3];
+                    this->flags |= initFlags[PARAMS_GET_U(this->actor.params, 0, 2)];
                 }
                 break;
             case SCENE_KAKARIKO_CENTER_GUEST_HOUSE:
@@ -184,7 +184,8 @@ void EnDaikuKakariko_Init(Actor* thisx, PlayState* play) {
         this->actionFunc = EnDaikuKakariko_Run;
     } else {
         if (this->flags & 8) {
-            if (((this->actor.params & 3) == CARPENTER_SABOORO) || ((this->actor.params & 3) == CARPENTER_SHIRO)) {
+            if ((PARAMS_GET_U(this->actor.params, 0, 2) == CARPENTER_SABOORO) ||
+                (PARAMS_GET_U(this->actor.params, 0, 2) == CARPENTER_SHIRO)) {
                 EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_5, &this->currentAnimIndex);
                 this->flags |= 0x800;
             } else {
@@ -244,10 +245,11 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, PlayState* play) {
 
         if ((sp26 >= 0) && (sp26 <= 320) && (sp24 >= 0) && (sp24 <= 240) && (this->talkState == 0) &&
             (Actor_OfferTalk(&this->actor, play, 100.0f) == 1)) {
-            this->actor.textId = MaskReaction_GetTextId(play, sMaskReactionSets[this->actor.params & 3]);
+            this->actor.textId =
+                MaskReaction_GetTextId(play, sMaskReactionSets[PARAMS_GET_U(this->actor.params, 0, 2)]);
 
             if (this->actor.textId == 0) {
-                switch (this->actor.params & 3) {
+                switch (PARAMS_GET_U(this->actor.params, 0, 2)) {
                     case 0:
                         if (this->flags & 8) {
                             this->actor.textId = 0x5076;
@@ -364,7 +366,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, PlayState* play) {
     s32 run;
 
     do {
-        path = &play->pathList[(this->actor.params >> 8) & 0xFF];
+        path = &play->pathList[PARAMS_GET_U(this->actor.params, 8, 8)];
         pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
         xDist = pathPos->x - this->actor.world.pos.x;
         zDist = pathPos->z - this->actor.world.pos.z;
@@ -536,7 +538,7 @@ void EnDaikuKakariko_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, V
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&unkVec, &this->actor.focus.pos);
-        gSPDisplayList(POLY_OPA_DISP++, carpenterHeadDLists[this->actor.params & 3]);
+        gSPDisplayList(POLY_OPA_DISP++, carpenterHeadDLists[PARAMS_GET_U(this->actor.params, 0, 2)]);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_daiku_kakariko.c", 1113);
@@ -549,13 +551,13 @@ void EnDaikuKakariko_Draw(Actor* thisx, PlayState* play) {
 
     Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
-    if ((thisx->params & 3) == CARPENTER_ICHIRO) {
+    if (PARAMS_GET_U(thisx->params, 0, 2) == CARPENTER_ICHIRO) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 10, 70, 255);
-    } else if ((thisx->params & 3) == CARPENTER_SABOORO) {
+    } else if (PARAMS_GET_U(thisx->params, 0, 2) == CARPENTER_SABOORO) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 200, 255, 255);
-    } else if ((thisx->params & 3) == CARPENTER_JIRO) {
+    } else if (PARAMS_GET_U(thisx->params, 0, 2) == CARPENTER_JIRO) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 230, 70, 255);
-    } else if ((thisx->params & 3) == CARPENTER_SHIRO) {
+    } else if (PARAMS_GET_U(thisx->params, 0, 2) == CARPENTER_SHIRO) {
         gDPSetEnvColor(POLY_OPA_DISP++, 200, 0, 150, 255);
     }
 

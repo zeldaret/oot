@@ -58,7 +58,7 @@ void BgMoriIdomizu_Init(Actor* thisx, PlayState* play) {
     this->actor.scale.z = 1.0f;
     this->actor.world.pos.x = 119.0f;
     this->actor.world.pos.z = -1820.0f;
-    this->prevSwitchFlagSet = Flags_GetSwitch(play, this->actor.params & 0x3F);
+    this->prevSwitchFlagSet = Flags_GetSwitch(play, PARAMS_GET_U(this->actor.params, 0, 6));
     if (this->prevSwitchFlagSet != 0) {
         this->actor.world.pos.y = -282.0f;
         BgMoriIdomizu_SetWaterLevel(play, -282);
@@ -111,7 +111,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, PlayState* play) {
     s32 switchFlagSet;
 
     roomNum = play->roomCtx.curRoom.num;
-    switchFlagSet = Flags_GetSwitch(play, thisx->params & 0x3F);
+    switchFlagSet = Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6));
     if (switchFlagSet) {
         this->targetWaterLevel = -282.0f;
     } else {

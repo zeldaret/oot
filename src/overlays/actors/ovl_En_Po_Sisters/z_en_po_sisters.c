@@ -191,17 +191,17 @@ void EnPoSisters_Init(Actor* thisx, PlayState* play) {
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    this->unk_194 = (thisx->params >> 8) & 3;
+    this->unk_194 = PARAMS_GET_U(thisx->params, 8, 2);
     this->actor.naviEnemyId = this->unk_194 + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
-    this->unk_195 = (thisx->params >> 0xA) & 3;
+    this->unk_195 = PARAMS_GET_U(thisx->params, 10, 2);
     this->unk_196 = 32;
     this->unk_197 = 20;
     this->unk_198 = 1;
     this->unk_199 = 32;
     this->unk_294 = 110.0f;
     this->actor.flags &= ~ACTOR_FLAG_0;
-    if (this->actor.params & 0x1000) {
+    if (PARAMS_GET_NOSHIFT(this->actor.params, 12, 1)) {
         func_80ADA094(this, play);
     } else if (this->unk_194 == 0) {
         if (this->unk_195 == 0) {

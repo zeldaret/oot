@@ -63,7 +63,7 @@ void BgJyaLift_Init(Actor* thisx, PlayState* play) {
     PRINTF("女神リフト CT\n");
     BgJyaLift_InitDynapoly(this, play, &gLiftCol, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
-    if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(thisx->params, 0, 6))) {
         BgJyaLift_SetFinalPosY(this);
     } else {
         BgJyaLift_SetInitPosY(this);
@@ -92,7 +92,7 @@ void BgJyaLift_SetInitPosY(BgJyaLift* this) {
 }
 
 void BgJyaLift_DelayMove(BgJyaLift* this, PlayState* play) {
-    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
+    if (Flags_GetSwitch(play, PARAMS_GET_U(this->dyna.actor.params, 0, 6)) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) {
             OnePointCutscene_Init(play, 3430, -99, &this->dyna.actor, CAM_ID_MAIN);
