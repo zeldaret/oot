@@ -66,10 +66,10 @@ def read_dmadata(rom_data: memoryview, start_offset: int) -> list[DmaEntry]:
     result = []
 
     offset = start_offset
-    entry = DmaEntry.from_bin(rom_data[offset : offset + DmaEntry.SIZE_BYTES])
-    while entry != DMA_ENTRY_END:
+    while (
+        entry := DmaEntry.from_bin(rom_data[offset : offset + DmaEntry.SIZE_BYTES])
+    ) != DMA_ENTRY_END:
         result.append(entry)
         offset += DmaEntry.SIZE_BYTES
-        entry = DmaEntry.from_bin(rom_data[offset : offset + DmaEntry.SIZE_BYTES])
 
     return result
