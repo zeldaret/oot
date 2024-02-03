@@ -59,7 +59,8 @@ EntranceInfo gEntranceTable[] = {
     { ROM_FILE(name), ROM_FILE(title), unk_10, drawConfig, unk_12, 0 },
 
 #if OOT_DEBUG
-#define DEFINE_DEBUG_SCENE(name, title, _2, drawConfig, unk_10, unk_12) DEFINE_SCENE(name, title, _2, drawConfig, unk_10, unk_12)
+#define DEFINE_DEBUG_SCENE(name, title, _2, drawConfig, unk_10, unk_12) \
+    DEFINE_SCENE(name, title, _2, drawConfig, unk_10, unk_12)
 #else
 #define DEFINE_DEBUG_SCENE(name, title, _2, drawConfig, unk_10, unk_12)
 #endif
