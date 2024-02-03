@@ -36,7 +36,7 @@ static void write_compress_ranges(FILE *fout)
     for (i = 0; i < g_segmentsCount; i++) {
         bool compress = g_segments[i].compress;
 
-        // Don't emit dma entry for segments set with NOLOAD
+        // Don't consider segments set with NOLOAD when calculating indices
         if (g_segments[i].flags & FLAG_NOLOAD) {
             continue;
         }
