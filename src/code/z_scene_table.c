@@ -43,27 +43,13 @@ EntranceInfo gEntranceTable[] = {
     DECLARE_ROM_SEGMENT(name)                     \
     DECLARE_ROM_SEGMENT(title)
 
-#if OOT_DEBUG
-#define DEFINE_DEBUG_SCENE(name, title, _2, _3, _4, _5) DEFINE_SCENE(name, title, _2, _3, _4, _5)
-#else
-#define DEFINE_DEBUG_SCENE(name, title, _2, _3, _4, _5)
-#endif
-
 #include "tables/scene_table.h"
 
 #undef DEFINE_SCENE
-#undef DEFINE_DEBUG_SCENE
 
 // Scene Table definition
 #define DEFINE_SCENE(name, title, _2, drawConfig, unk_10, unk_12) \
     { ROM_FILE(name), ROM_FILE(title), unk_10, drawConfig, unk_12, 0 },
-
-#if OOT_DEBUG
-#define DEFINE_DEBUG_SCENE(name, title, _2, drawConfig, unk_10, unk_12) \
-    DEFINE_SCENE(name, title, _2, drawConfig, unk_10, unk_12)
-#else
-#define DEFINE_DEBUG_SCENE(name, title, _2, drawConfig, unk_10, unk_12)
-#endif
 
 // Handle `none` as a special case for scenes without a title card
 #define _noneSegmentRomStart NULL
@@ -77,7 +63,6 @@ SceneTableEntry gSceneTable[] = {
 #undef _noneSegmentRomEnd
 
 #undef DEFINE_SCENE
-#undef DEFINE_DEBUG_SCENE
 
 Gfx sDefaultDisplayList[] = {
     gsSPSegment(0x08, gEmptyDL),
