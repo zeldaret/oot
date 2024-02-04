@@ -11,6 +11,5 @@ ELF=$2
 dmadata_syms=`$NM $ELF --no-sort --radix=x --format=bsd | grep dmadata`
 
 _dmadataSegmentRomStart=`echo "$dmadata_syms" | grep '\b_dmadataSegmentRomStart\b' | cut -d' ' -f1`
-_dmadataSegmentRomEnd=`  echo "$dmadata_syms" | grep '\b_dmadataSegmentRomEnd\b'   | cut -d' ' -f1`
 
-echo 0x"$_dmadataSegmentRomStart"-0x"$_dmadataSegmentRomEnd"
+echo 0x"$_dmadataSegmentRomStart"

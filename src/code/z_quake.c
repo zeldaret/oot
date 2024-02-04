@@ -411,10 +411,6 @@ s16 Quake_Update(Camera* camera, ShakeInfo* camShake) {
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
 
-    camShake->upPitchOffset = 0;
-    camShake->upYawOffset = 0;
-    camShake->fovOffset = 0;
-
     camShake->atOffset.x = 0.0f;
     camShake->atOffset.y = 0.0f;
     camShake->atOffset.z = 0.0f;
@@ -422,6 +418,10 @@ s16 Quake_Update(Camera* camera, ShakeInfo* camShake) {
     camShake->eyeOffset.x = 0.0f;
     camShake->eyeOffset.y = 0.0f;
     camShake->eyeOffset.z = 0.0f;
+
+    camShake->upPitchOffset = 0;
+    camShake->upYawOffset = 0;
+    camShake->fovOffset = 0;
 
     camShake->maxOffset = 0.0f;
 

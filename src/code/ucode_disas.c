@@ -69,7 +69,12 @@ F3dzexFlag sUCodeDisasMtxFlags[] = {
     F3DZEX_FLAG(G_MTX_PUSH, G_MTX_NOPUSH),
 };
 
-typedef enum { COMBINER_A = 1, COMBINER_B, COMBINER_C, COMBINER_D } CombinerArg;
+typedef enum {
+    COMBINER_A = 1,
+    COMBINER_B,
+    COMBINER_C,
+    COMBINER_D
+} CombinerArg;
 
 const char* UCodeDisas_GetCombineColorName(u32 value, u32 arg) {
     const char* ret = "?";

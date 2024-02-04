@@ -46,9 +46,11 @@ extern size_t gDmaMgrDmaBuffSize;
 s32 DmaMgr_RequestAsync(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
                         OSMesg msg);
 s32 DmaMgr_RequestSync(void* ram, uintptr_t vrom, size_t size);
+#if OOT_DEBUG
 s32 DmaMgr_RequestAsyncDebug(DmaRequest* req, void* ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
                              OSMesg msg, const char* file, s32 line);
 s32 DmaMgr_RequestSyncDebug(void* ram, uintptr_t vrom, size_t size, const char* file, s32 line);
+#endif
 
 // Special-purpose DMA Requests
 

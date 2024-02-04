@@ -1,8 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
 
-OSPifRam __osPfsPifRam;
-
 s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel) {
     s32 ret = 0;
     OSMesg msg;

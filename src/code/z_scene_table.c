@@ -266,6 +266,8 @@ void Scene_DrawConfigGrottos(PlayState* play) {
 void Scene_DrawConfigChamberOfTheSages(PlayState* play) {
     u32 gameplayFrames;
 
+    if (1) {}
+
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 5226);
 
     gameplayFrames = play->gameplayFrames;
@@ -700,6 +702,8 @@ void Scene_DrawConfigLakesideLaboratory(PlayState* play) {
                                 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09, Gfx_TexScroll(play->state.gfxCtx, 0, 255 - (gameplayFrames * 10) % 256, 32, 64));
 
+    if (1) {}
+
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
 
@@ -982,6 +986,9 @@ void Scene_DrawConfigHyruleField(PlayState* play) {
         }
 
         gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, play->roomCtx.unk_74[0]);
+
+        if (1) {}
+
         gSPDisplayList(displayListHead++, spot00_room_0DL_012B20);
         gSPEndDisplayList(displayListHead);
     }
@@ -1027,6 +1034,8 @@ void Scene_DrawConfigZorasRiver(PlayState* play) {
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 128, 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128,
                                 32, 32));
+
+    if (1) {}
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1160,6 +1169,8 @@ void Scene_DrawConfigZorasFountain(PlayState* play) {
     gSPSegment(POLY_XLU_DISP++, 0x0A,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 0, (gameplayFrames * 1) % 128, 32, 32, 1, 0,
                                 (gameplayFrames * 1) % 128, 32, 32));
+
+    if (1) {}
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, 128);
@@ -1321,6 +1332,8 @@ void Scene_DrawConfigDeathMountainTrail(PlayState* play) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, displayListHead);
 
+    if (1) {}
+
     if ((gSaveContext.save.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.save.dayTime <= CLOCK_TIME(18, 0))) {
         gSPEndDisplayList(displayListHead);
     } else {
@@ -1335,6 +1348,9 @@ void Scene_DrawConfigDeathMountainTrail(PlayState* play) {
         }
 
         gDPSetPrimColor(displayListHead++, 0, 0, 255, 255, 255, play->roomCtx.unk_74[0]);
+
+        if (0) {}
+
         gSPDisplayList(displayListHead++, spot16_room_0DL_00AA48);
         gSPEndDisplayList(displayListHead);
     }
@@ -1528,6 +1544,9 @@ void Scene_DrawConfigInsideGanonsCastle(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_scene_table.c", 7825);
 
     gameplayFrames = play->gameplayFrames;
+
+    if (1) {}
+
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, G_TX_RENDERTILE, 127 - gameplayFrames % 128,
                                 (gameplayFrames * 1) % 512, 32, 128, 1, gameplayFrames % 128,
@@ -1633,7 +1652,7 @@ void (*sSceneDrawConfigs[SDC_MAX])(PlayState*) = {
 };
 
 void Scene_Draw(PlayState* play) {
-    if (R_HREG_MODE == HREG_MODE_SCENE_CONFIG) {
+    if ((R_HREG_MODE == HREG_MODE_SCENE_CONFIG) && OOT_DEBUG) {
         if (R_SCENE_CONFIG_INIT != HREG_MODE_SCENE_CONFIG) {
             R_SCENE_CONFIG_INIT = HREG_MODE_SCENE_CONFIG;
             R_SCENE_CONFIG_DRAW_DEFAULT_DLIST = 1;

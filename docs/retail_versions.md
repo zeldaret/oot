@@ -27,9 +27,9 @@ an `if` block). Since retail MM versions use the same compiler flags as retail
 OOT, checking MM decomp for similar code can help.
 
 We can disable code that was removed in retail builds by adding
-`#ifdef OOT_DEBUG` around these parts of the code. In order to keep the code
-readable, we should try to minimize the amount of `#ifdef` noise whenever
-possible.
+`#if OOT_DEBUG ... #endif` or `if (OOT_DEBUG) { ... }` around these parts of the
+code. In order to keep the code readable, we should try to minimize the amount of
+`#if` noise whenever possible.
 
 ## Setup
 
@@ -52,7 +52,7 @@ possible.
     ```
 
     where `N` is the number of cores on your machine. This will build into
-    `build/gc-eu-mq` and produce `oot-gc-eu-mq.z64`.
+    `build/gc-eu-mq` and produce `build/gc-eu-mq/oot-gc-eu-mq.z64`.
 
     If you later want to delete all output files, run
 
