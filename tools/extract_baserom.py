@@ -14,7 +14,7 @@ import dmadata
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Extract DMA segments from an uncompressed ROM."
+        description="Extract segments from an uncompressed ROM, based on its dmadata."
     )
     parser.add_argument(
         "rom", metavar="ROM", type=Path, help="Path to uncompressed ROM"
@@ -38,12 +38,12 @@ def main():
         "--dma-names",
         type=Path,
         required=True,
-        help="Path to file containing names of DMA segments",
+        help="Path to file containing segments names",
     )
 
     args = parser.parse_args()
 
-    rom_data = args.rom.read_bytes()
+    rom_data = memoryview(args.rom.read_bytes())
 
     dma_names = args.dma_names.read_text().splitlines()
     dma_entries = dmadata.read_dmadata(rom_data, args.dma_start)
