@@ -38,7 +38,7 @@ def main():
         "--dma-names",
         type=Path,
         required=True,
-        help="Path to file containing segments names",
+        help="Path to file containing segment names",
     )
 
     args = parser.parse_args()
